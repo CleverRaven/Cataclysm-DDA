@@ -306,161 +306,161 @@ std::string action_name(action_id act)
     switch (act)
     {
         case ACTION_PAUSE:
-            return "Pause";
+            return _("Pause");
         case ACTION_MOVE_N:
-            return "Move North";
+            return _("Move North");
         case ACTION_MOVE_NE:
-            return "Move Northeast";
+            return _("Move Northeast");
         case ACTION_MOVE_E:
-            return "Move East";
+            return _("Move East");
         case ACTION_MOVE_SE:
-            return "Move Southeast";
+            return _("Move Southeast");
         case ACTION_MOVE_S:
-            return "Move South";
+            return _("Move South");
         case ACTION_MOVE_SW:
-            return "Move Southwest";
+            return _("Move Southwest");
         case ACTION_MOVE_W:
-            return "Move West";
+            return _("Move West");
         case ACTION_MOVE_NW:
-            return "Move Northwest";
+            return _("Move Northwest");
         case ACTION_MOVE_DOWN:
-            return "Descend Stairs";
+            return _("Descend Stairs");
         case ACTION_MOVE_UP:
-            return "Ascend Stairs";
+            return _("Ascend Stairs");
         case ACTION_CENTER:
-            return "Center View";
+            return _("Center View");
         case ACTION_SHIFT_N:
-            return "Move View North";
+            return _("Move View North");
         case ACTION_SHIFT_NE:
-            return "Move View Northeast";
+            return _("Move View Northeast");
         case ACTION_SHIFT_E:
-            return "Move View East";
+            return _("Move View East");
         case ACTION_SHIFT_SE:
-            return "Move View Southeast";
+            return _("Move View Southeast");
         case ACTION_SHIFT_S:
-            return "Move View South";
+            return _("Move View South");
         case ACTION_SHIFT_SW:
-            return "Move View Southwest";
+            return _("Move View Southwest");
         case ACTION_SHIFT_W:
-            return "Move View West";
+            return _("Move View West");
         case ACTION_SHIFT_NW:
-            return "Move View Northwest";
+            return _("Move View Northwest");
         case ACTION_OPEN:
-            return "Open Door";
+            return _("Open Door");
         case ACTION_CLOSE:
-            return "Close Door";
+            return _("Close Door");
         case ACTION_SMASH:
-            return "Smash Nearby Terrain";
+            return _("Smash Nearby Terrain");
         case ACTION_EXAMINE:
-            return "Examine Nearby Terrain";
+            return _("Examine Nearby Terrain");
         case ACTION_PICKUP:
-            return "Pick Item(s) Up";
+            return _("Pick Item(s) Up");
         case ACTION_BUTCHER:
-            return "Butcher";
+            return _("Butcher");
         case ACTION_CHAT:
-            return "Chat with NPC";
+            return _("Chat with NPC");
         case ACTION_LOOK:
-            return "Look Around";
+            return _("Look Around");
         case ACTION_PEEK:
-            return "Peek Around Corners";
+            return _("Peek Around Corners");
         case ACTION_LIST_ITEMS:
-            return "List all items around the player";
+            return _("List all items around the player");
         case ACTION_INVENTORY:
-            return "Open Inventory";
+            return _("Open Inventory");
         case ACTION_ADVANCEDINV:
-            return "Advanced Inventory management";
+            return _("Advanced Inventory management");
         case ACTION_COMPARE:
-            return "Compare two Items";
+            return _("Compare two Items");
         case ACTION_ORGANIZE:
-            return "Swap Inventory Letters";
+            return _("Swap Inventory Letters");
         case ACTION_USE:
-            return "Apply or Use Item";
+            return _("Apply or Use Item");
         case ACTION_USE_WIELDED:
-            return "Apply or Use Wielded Item";
+            return _("Apply or Use Wielded Item");
         case ACTION_WEAR:
-            return "Wear Item";
+            return _("Wear Item");
         case ACTION_TAKE_OFF:
-            return "Take Off Worn Item";
+            return _("Take Off Worn Item");
         case ACTION_EAT:
-            return "Eat";
+            return _("Eat");
         case ACTION_READ:
-            return "Read";
+            return _("Read");
         case ACTION_WIELD:
-            return "Wield";
+            return _("Wield");
         case ACTION_PICK_STYLE:
-            return "Select Unarmed Style";
+            return _("Select Unarmed Style");
         case ACTION_RELOAD:
-            return "Reload Wielded Item";
+            return _("Reload Wielded Item");
         case ACTION_UNLOAD:
-            return "Unload or Empty Wielded Item";
+            return _("Unload or Empty Wielded Item");
         case ACTION_THROW:
-            return "Throw Item";
+            return _("Throw Item");
         case ACTION_FIRE:
-            return "Fire Wielded Item";
+            return _("Fire Wielded Item");
         case ACTION_FIRE_BURST:
-            return "Burst-Fire Wielded Item";
+            return _("Burst-Fire Wielded Item");
         case ACTION_SELECT_FIRE_MODE:
-            return "Toggle attack mode of Wielded Item";
+            return _("Toggle attack mode of Wielded Item");
         case ACTION_DROP:
-            return "Drop Item";
+            return _("Drop Item");
         case ACTION_DIR_DROP:
-            return "Drop Item to Adjacent Tile";
+            return _("Drop Item to Adjacent Tile");
         case ACTION_BIONICS:
-            return "View/Activate Bionics";
+            return _("View/Activate Bionics");
         case ACTION_SORT_ARMOR:
-            return "Re-layer armour/clothing";
+            return _("Re-layer armour/clothing");
         case ACTION_WAIT:
-            return "Wait for Several Minutes";
+            return _("Wait for Several Minutes");
         case ACTION_CRAFT:
-            return "Craft Items";
+            return _("Craft Items");
         case ACTION_RECRAFT:
-            return "Recraft last recipe";
+            return _("Recraft last recipe");
         case ACTION_LONGCRAFT:
-            return "Craft as long as possible";
+            return _("Craft as long as possible");
         case ACTION_CONSTRUCT:
-            return "Construct Terrain";
+            return _("Construct Terrain");
         case ACTION_DISASSEMBLE:
-            return "Disassemble items";
+            return _("Disassemble items");
         case ACTION_SLEEP:
-            return "Sleep";
+            return _("Sleep");
         case ACTION_CONTROL_VEHICLE:
-            return "Control Vehicle";
+            return _("Control Vehicle");
         case ACTION_TOGGLE_SAFEMODE:
-            return "Toggle Safemode";
+            return _("Toggle Safemode");
         case ACTION_TOGGLE_AUTOSAFE:
-            return "Toggle Auto-Safemode";
+            return _("Toggle Auto-Safemode");
         case ACTION_IGNORE_ENEMY:
-            return "Ignore Nearby Enemy";
+            return _("Ignore Nearby Enemy");
         case ACTION_SAVE:
-            return "Save and Quit";
+            return _("Save and Quit");
         case ACTION_QUICKSAVE:
-            return "Quicksave";
+            return _("Quicksave");
         case ACTION_QUIT:
-            return "Commit Suicide";
+            return _("Commit Suicide");
         case ACTION_PL_INFO:
-            return "View Player Info";
+            return _("View Player Info");
         case ACTION_MAP:
-            return "View Map";
+            return _("View Map");
         case ACTION_MISSIONS:
-            return "View Missions";
+            return _("View Missions");
         case ACTION_FACTIONS:
-            return "View Factions";
+            return _("View Factions");
         case ACTION_KILLS:
-            return "View Kills";
+            return _("View Kills");
         case ACTION_MORALE:
-            return "View Morale";
+            return _("View Morale");
         case ACTION_MESSAGES:
-            return "View Message Log";
+            return _("View Message Log");
         case ACTION_HELP:
-            return "View Help";
+            return _("View Help");
         case ACTION_DEBUG:
-            return "Debug Menu";
+            return _("Debug Menu");
         case ACTION_DISPLAY_SCENT:
-            return "View Scentmap";
+            return _("View Scentmap");
         case ACTION_TOGGLE_DEBUGMON:
-            return "Toggle Debug Messages";
+            return _("Toggle Debug Messages");
         case ACTION_NULL:
-            return "No Action";
+            return _("No Action");
     }
     return "Someone forgot to name an action.";
 }

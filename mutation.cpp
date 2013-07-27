@@ -398,7 +398,22 @@ void player::remove_mutation(game *g, pl_flag mut)
   g->add_msg("You lose your %s mutation.", traits[mut].name.c_str());
   mutation_loss_effect(g, *this, mut);
  }
-
+// Reduce the strength of the categories the removed mutation is a part of
+ for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
+  std::vector<pl_flag> group = mutations_from_category(mutation_category(i));
+  bool found = false;
+  for (int j = 0; !found && j < group.size(); j++) {
+   if (group[j] == mut)
+    found = true;
+   }
+  if (found) {
+   mutation_category_level[i] -= 8;
+   // If the category strength is below 0, set it to 0. We don't want negative category strength.
+   if (mutation_category_level[i] < 0) {
+    mutation_category_level[i] = 0;
+   }
+  }
+ } 
 }
 
 bool player::has_child_flag(game *g, pl_flag flag)

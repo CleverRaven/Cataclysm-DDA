@@ -179,6 +179,8 @@
       ["tomato", 9],
       ["broccoli", 9],
       ["zucchini", 7],
+      ["onion", 3],
+      ["carrot", 3],
       ["frozen_dinner", 50],
       ["vodka", 20],
       ["apple_cider", 50],
@@ -262,6 +264,7 @@
       ["novel_romance", 30],
       ["novel_drama", 40],
       ["novel_mystery", 25],
+      ["ZSG", 5],
       ["manual_mechanics", 35],
       ["manual_speech", 50],
       ["manual_business", 40],
@@ -592,7 +595,9 @@
       ["strawberries", 2],
       ["tomato", 9],
       ["broccoli", 9],
-      ["zucchini", 7]
+      ["zucchini", 7],
+      ["onion", 3],
+      ["carrot", 3]
     ]
   },
   { "id":"cleaning",
@@ -960,7 +965,8 @@
       ["3006", 4],
       ["3006fmj", 2],
       ["308", 7],
-      ["762_51", 6]
+      ["762_51", 6],
+      ["shot_beanbag", 10]
     ]
   },
   { "id":"pistols",
@@ -1069,6 +1075,7 @@
       ["browning_blr", 8],
       ["remington_700", 14],
       ["sks", 12],
+      ["m14a", 10],
       ["ruger_mini", 12],
       ["savage_111f", 10],
       ["hk_g3", 15],
@@ -1267,7 +1274,8 @@
       ["cookbook_human", 1],
       ["novel_mystery", 25],
       ["novel_fantasy", 20],
-      ["novel_horror", 18]
+      ["novel_horror", 18],
+      ["ZSG", 5]
     ]
   },
   { "id":"manuals",
@@ -1337,7 +1345,8 @@
       ["usp_9mm", 6],
       ["remington_870", 9],
       ["UPS_off", 5],
-      ["tazer", 3]
+      ["tazer", 3],
+      ["shot_beanbag", 15]
     ]
   },
   { "id":"cop_evidence",
@@ -1520,6 +1529,7 @@
       ["novel_mystery", 25],
       ["novel_fantasy", 20],
       ["novel_horror", 18],
+      ["ZSG", 2],
       ["chocolate", 50],
       ["candy", 80],
       ["backpack", 38],
@@ -1886,6 +1896,8 @@
       ["zucchini", 7],
       ["potato_raw", 10],
       ["corn", 7],
+      ["onion", 3],
+      ["carrot", 3],
       ["withered", 70]
     ]
   },
@@ -1980,6 +1992,7 @@
       ["bio_blood_anal", 10],
       ["bio_ads", 10],
       ["bio_ods", 10],
+      ["bio_uncanny_dodge", 10],
       ["bio_resonator", 10],
       ["bio_hydraulics", 10],
       ["bio_time_freeze", 10],
@@ -2025,6 +2038,7 @@
       ["40mm_teargas", 5],
       ["40mm_smoke", 4],
       ["40mm_flashbang", 8],
+	  ["40mm_beanbag", 15],
       ["m79", 5],
       ["m320", 10],
       ["mgl", 6],
@@ -2189,6 +2203,7 @@
       ["bio_blood_anal", 10],
       ["bio_ads", 10],
       ["bio_ods", 10],
+      ["bio_uncanny_dodge", 10],
       ["bio_blaster", 10],
       ["bio_laser", 10],
       ["bio_emp", 10],
@@ -2547,6 +2562,8 @@
       ["tomato", 9],
       ["broccoli", 9],
       ["zucchini", 7],
+      ["onion", 3],
+      ["carrot", 3],
       ["potato_raw", 10],
       ["honeycomb", 10],
       ["royal_jelly", 8],
@@ -2668,6 +2685,7 @@
       ["chain", 20],
       ["power_supply", 16],
       ["antenna", 18],
+      ["m14a", 10],
       ["steel_chunk", 30],
       ["spring", 50],
       ["steel_lump", 30],

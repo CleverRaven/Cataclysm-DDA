@@ -146,6 +146,9 @@ public:
 
  int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc
  int  dodge_roll(game *g);// For comparison to hit_roll()
+ 
+ bool uncanny_dodge(bool is_u = true);      // Move us to an adjacent_tile() if available. Display message if player is dodging.
+ point adjacent_tile();     // Returns an unoccupied, safe adjacent point. If none exists, returns player position.
 
 // ranged.cpp
  int throw_range(signed char invlet); // Range of throwing item; -1:ERR 0:Can't throw
@@ -155,6 +158,7 @@ public:
 
 // Mental skills and stats
  int read_speed		(bool real_life = true);
+ int rust_rate		(bool real_life = true);
  int talk_skill(); // Skill at convincing NPCs of stuff
  int intimidation(); // Physical intimidation
 
@@ -293,6 +297,7 @@ public:
  bool has_watertight_container();
  bool has_matching_liquid(itype_id it);
  bool has_weapon_or_armor(char let) const;	// Has an item with invlet let
+ bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
  bool has_item(char let);		// Has an item with invlet let
  bool has_item(item *it);		// Has a specific item
  bool has_mission_item(int mission_id);	// Has item with mission_id

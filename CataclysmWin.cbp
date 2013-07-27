@@ -13,17 +13,18 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os" />
-					<Add directory="../gettext-tools/include" />
+					<Add option="-O3" />
 					<Add directory="../gettext-runtime/include" />
+					<Add directory="../gettext-tools/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,-stack,12000000,-subsystem,windows" />
 					<Add option="-static -lgdi32 -I -L -MD" />
+					<Add library="..\gettext-tools\lib\gettextpo.lib" />
 					<Add library="..\gettext-runtime\lib\intl.lib" />
 					<Add library="..\gettext-runtime\lib\asprintf.lib" />
-					<Add library="..\gettext-tools\lib\gettextpo.lib" />
-					<Add directory="../gettext-tools/lib" />
 					<Add directory="../gettext-runtime/lib" />
+					<Add directory="../gettext-tools/lib" />
 				</Linker>
 			</Target>
 			<Target title="Debug">
@@ -41,15 +42,14 @@
 					<Add option="-pg -lgmon" />
 					<Add option="-Wl,-stack,12000000,-subsystem,windows" />
 					<Add option="-static -lgdi32 -I -L -MD" />
+					<Add library="..\gettext-tools\lib\gettextpo.lib" />
 					<Add library="..\gettext-runtime\lib\intl.lib" />
 					<Add library="..\gettext-runtime\lib\asprintf.lib" />
-					<Add library="..\gettext-tools\lib\gettextpo.lib" />
 					<Add directory="../gettext-runtime/lib" />
 					<Add directory="../gettext-tools/lib" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="SDLMain.h" />
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
 		<Unit filename="addiction.cpp" />
@@ -70,7 +70,6 @@
 		<Unit filename="calendar.cpp" />
 		<Unit filename="calendar.h" />
 		<Unit filename="catacharset.cpp" />
-		<Unit filename="catacharset.h" />
 		<Unit filename="catacurse.h" />
 		<Unit filename="catajson.cpp" />
 		<Unit filename="catajson.h" />
@@ -93,11 +92,9 @@
 		<Unit filename="enums.h" />
 		<Unit filename="event.cpp" />
 		<Unit filename="event.h" />
-		<Unit filename="facdata.h" />
 		<Unit filename="faction.cpp" />
 		<Unit filename="faction.h" />
 		<Unit filename="field.cpp" />
-		<Unit filename="field.h" />
 		<Unit filename="game.cpp" />
 		<Unit filename="game.h" />
 		<Unit filename="gamemode.cpp" />
@@ -218,7 +215,6 @@
 		<Unit filename="tutorial.h" />
 		<Unit filename="ui.cpp" />
 		<Unit filename="ui.h" />
-		<Unit filename="uistate.h" />
 		<Unit filename="veh_interact.cpp" />
 		<Unit filename="veh_interact.h" />
 		<Unit filename="veh_type.h" />
@@ -227,10 +223,6 @@
 		<Unit filename="vehicle.h" />
 		<Unit filename="version.cpp" />
 		<Unit filename="version.h" />
-		<Unit filename="wcwidth.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="wdirent.h" />
 		<Unit filename="weather.cpp" />
 		<Unit filename="weather.h" />
 		<Unit filename="weather_data.cpp" />

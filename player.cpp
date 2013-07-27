@@ -1063,7 +1063,7 @@ int player::calc_focus_equilibrium()
         // only apply a penalty when we're actually learning something
         if (skillLevel(reading->type) < (int)reading->level)
         {
-            focus_gain_rate -= 100;
+            focus_gain_rate -= 50;
         }
     }
 
@@ -1221,9 +1221,10 @@ void player::update_bodytemp(game *g)
             for (int k = -6 ; k <= 6 ; k++)
             {
                 int heat_intensity = 0;
-                if(g->m.field_at(posx + j, posy + k).findField(fd_fire))
+                field &local_field = g->m.field_at(posx + j, posy + k);
+                if(local_field.findField(fd_fire))
                 {
-                    heat_intensity = g->m.field_at(posx + j, posy + k).findField(fd_fire)->getFieldDensity();
+                    heat_intensity = local_field.findField(fd_fire)->getFieldDensity();
                 }
                 else if (g->m.tr_at(posx + j, posy + k) == tr_lava )
                 {
@@ -1243,7 +1244,8 @@ void player::update_bodytemp(game *g)
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
         if (has_disease("onfire")) { temp_cur[i] += 250; }
-        if ((g->m.field_at(posx, posy).findField(fd_fire) && g->m.field_at(posx, posy).findField(fd_fire)->getFieldDensity() > 2)
+        field &local_field = g->m.field_at(posx, posy);
+        if ((local_field.findField(fd_fire) && local_field.findField(fd_fire)->getFieldDensity() > 2)
             || trap_at_pos == tr_lava)
         {
             temp_cur[i] += 250;
@@ -2494,9 +2496,10 @@ gun for ranged combat, and enhances many actions that require finesse.");
  // display player current INT effects
    mvwprintz(w_stats, 6, 2, c_magenta, "Read times: %d%%%%           ",
              read_speed(false));
-   mvwprintz(w_stats, 7, 2, c_magenta, "Crafting Bonus: %d          ",
+   mvwprintz(w_stats, 7, 2, c_magenta, "Skill rust: %d%%%%           ",
+             rust_rate(false));
+   mvwprintz(w_stats, 8, 2, c_magenta, "Crafting Bonus: %d          ",
              int_cur);
-   mvwprintz(w_stats, 8, 2, c_magenta, "                             ");
 
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Intelligence is less important in most situations, but it is vital for more\n\
@@ -3521,6 +3524,18 @@ int player::read_speed(bool real_life)
  return (real_life ? ret : ret / 10);
 }
 
+int player::rust_rate(bool real_life)
+{
+ if (OPTIONS[OPT_SKILL_RUST] == 4) return 0;
+ int intel = (real_life ? int_cur : int_max);
+ int ret = (OPTIONS[OPT_SKILL_RUST] < 2 ? 500 : 500 - 35 * (intel - 8));
+ if (has_trait(PF_FORGETFUL))
+  ret *= 1.33;
+ if (ret < 0)
+  ret = 0;
+ return (real_life ? ret : ret / 10);
+}
+
 int player::talk_skill()
 {
     int ret = int_cur + per_cur + skillLevel("speech") * 3;
@@ -3869,11 +3884,6 @@ void player::knock_back_from(game *g, int x, int y)
  if (y > posy)
   to.y--;
 
- bool u_see = (!is_npc() || g->u_see(to.x, to.y));
-
- std::string You = (is_npc() ? name : "You");
- std::string s = (is_npc() ? "s" : "");
-
 // First, see if we hit a monster
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
@@ -3889,9 +3899,8 @@ void player::knock_back_from(game *g, int x, int y)
    z->add_effect(ME_STUNNED, 1);
   }
 
-  if (u_see)
-   g->add_msg("%s bounce%s off a %s!",
-              You.c_str(), s.c_str(), z->name().c_str());
+  g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
+                            z->name().c_str() );
 
   return;
  }
@@ -3902,9 +3911,7 @@ void player::knock_back_from(game *g, int x, int y)
   hit(g, bp_torso, 0, 3, 0);
   add_disease("stunned", 1);
   p->hit(g, bp_torso, 0, 3, 0);
-  if (u_see)
-   g->add_msg("%s bounce%s off %s!", You.c_str(), s.c_str(), p->name.c_str());
-
+  g->add_msg_player_or_npc( this, _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
  }
 
@@ -3918,9 +3925,8 @@ void player::knock_back_from(game *g, int x, int y)
   } else { // It's some kind of wall.
    hurt(g, bp_torso, 0, 3);
    add_disease("stunned", 2);
-   if (u_see)
-    g->add_msg("%s bounce%s off a %s.", name.c_str(), s.c_str(),
-                                        g->m.tername(to.x, to.y).c_str());
+   g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
+                             g->m.tername(to.x, to.y).c_str() );
   }
 
  } else { // It's no wall
@@ -4140,9 +4146,7 @@ void player::cauterize(game *g) {
  rem_disease("bleed");
  rem_disease("bite");
  pain += 15;
- if (!is_npc()) {
-  g->add_msg("You cauterize yourself. It hurts like hell!");
- }
+ g->add_msg_if_player(this,"You cauterize yourself. It hurts like hell!");
 }
 
 void player::suffer(game *g)
@@ -4613,7 +4617,6 @@ void player::mend(game *g)
  for(int i = 0; i < num_hp_parts; i++) {
   int broken = (hp_cur[i] <= 0);
   if(broken) {
-   // g->add_msg("Checking if it's time to mend...");
    double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
    double healing_factor = 1.0;
    // Studies have shown that alcohol and tobacco use delay fracture healing time
@@ -4654,8 +4657,6 @@ void player::mend(game *g)
    } else if (has_trait(PF_FASTHEALER)) {
     healing_factor *= 2.0;
    }
-
-   // g->add_msg("Mending odds are %.2f in %.0f, or %f", healing_factor, mending_odds, healing_factor / mending_odds);
 
    bool mended = false;
    int side = 0;
@@ -5644,6 +5645,29 @@ bool player::has_weapon_or_armor(char let) const
  return false;
 }
 
+bool player::has_item_with_flag( std::string flag ) const
+{
+    //check worn items for flag
+    if (worn_with_flag( flag ))
+    {
+        return true;
+    }
+
+    //check weapon for flag
+    if (weapon.has_flag( flag ))
+    {
+        return true;
+    }
+
+    //check inventory items for flag
+    if (inv.has_flag( flag ))
+    {
+        return true;
+    }
+
+    return false;
+}
+
 bool player::has_item(char let)
 {
  return (has_weapon_or_armor(let) || !inv.item_by_letter(let).is_null());
@@ -5730,9 +5754,8 @@ bool player::eat(game *g, signed char ch)
         }
         else
         {
-            if (!is_npc())
-                g->add_msg("You can't eat your %s.", weapon.tname(g).c_str());
-            else
+            g->add_msg_if_player(this,"You can't eat your %s.", weapon.tname(g).c_str());
+            if(is_npc())
                 debugmsg("%s tried to eat a %s", name.c_str(), weapon.tname(g).c_str());
             return false;
         }
@@ -5756,13 +5779,11 @@ bool player::eat(game *g, signed char ch)
         }
         else
         {
-            if (!is_npc())
-                g->add_msg("You can't eat your %s.", it.tname(g).c_str());
-            else
+            g->add_msg_if_player(this,"You can't eat your %s.", it.tname(g).c_str());
+            if(is_npc())
                 debugmsg("%s tried to eat a %s", name.c_str(), it.tname(g).c_str());
             return false;
         }
-    }
     if (eaten == NULL)
         return false;
 
@@ -5770,10 +5791,8 @@ bool player::eat(game *g, signed char ch)
     {
         const int factor = 20;
         int max_change = max_power_level - power_level;
-        if (max_change == 0 && !is_npc())
-        {
-            g->add_msg("Your internal power storage is fully powered.");
-        }
+        if (max_change == 0)
+            g->add_msg_if_player(this,"Your internal power storage is fully powered.");
         charge_power(eaten->charges / factor);
         eaten->charges -= max_change * factor; //negative charges seem to be okay
         eaten->charges++; //there's a flat subtraction later
@@ -5807,10 +5826,9 @@ bool player::eat(game *g, signed char ch)
             if (g->itypes[comest->tool]->count_by_charges())
                 has = has_charges(comest->tool, 1);
             if (!has) {
-                if (!is_npc())
-                    g->add_msg("You need a %s to consume that!",
-                               g->itypes[comest->tool]->name.c_str());
-                return false;
+                g->add_msg_if_player(this,"You need a %s to consume that!",
+                           g->itypes[comest->tool]->name.c_str());
+            return false;
             }
         }
         bool overeating = (!has_trait(PF_GOURMAND) && hunger < 0 &&
@@ -5825,10 +5843,7 @@ bool player::eat(game *g, signed char ch)
 
         if (has_trait(PF_CARNIVORE) && eaten->made_of("veggy") && comest->nutr > 0)
         {
-            if (!is_npc())
-                g->add_msg("You can only eat meat!");
-            else
-                g->add_msg("Carnivore %s tried to eat meat!", name.c_str());
+            g->add_msg_if_player(this, "You can't stand the thought of eating veggies.");
             return false;
         }
         if (!has_trait(PF_CANNIBAL) && eaten->made_of("hflesh")&& !is_npc() &&
@@ -5878,16 +5893,15 @@ bool player::eat(game *g, signed char ch)
         if (eaten->poison > 0)
             add_disease("foodpoison", eaten->poison * 300);
 
-        // Descriptive text
-        if (!is_npc())
-        {
-            if (comest->comesttype == "DRINK")
-                g->add_msg("You drink your %s.", eaten->tname(g).c_str());
-            else if (comest->comesttype == "FOOD")
-                g->add_msg("You eat your %s.", eaten->tname(g).c_str());
+        if (comest->comesttype == "DRINK") {
+            g->add_msg_player_or_npc( this, _("You drink your %s."), _("<npcname> drinks a %s."),
+                                      eaten->tname(g).c_str());
         }
-        else if (g->u_see(posx, posy))
-            g->add_msg("%s eats a %s.", name.c_str(), eaten->tname(g).c_str());
+        else if (comest->comesttype == "FOOD") {
+            g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
+                                      eaten->tname(g).c_str());
+        }
+    }
 
         if (g->itypes[comest->tool]->is_tool())
             use_charges(comest->tool, 1); // Tools like lighters get used
@@ -5928,8 +5942,7 @@ bool player::eat(game *g, signed char ch)
         }
         if (has_trait(PF_VEGETARIAN) && (eaten->made_of("flesh") || eaten->made_of("hflesh")))
         {
-            if (!is_npc())
-                g->add_msg("Almost instantly you feel a familiar pain in your stomach");
+            g->add_msg_if_player(this,"Almost instantly you feel a familiar pain in your stomach");
             add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
         }
         if ((has_trait(PF_HERBIVORE) || has_trait(PF_RUMINANT)) &&
@@ -5950,8 +5963,8 @@ bool player::eat(game *g, signed char ch)
                 add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
             else if (comest->fun > 0)
                 add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, comest);
-            if (!is_npc() && (hunger < -60 || thirst < -60))
-                g->add_msg("You can't finish it all!");
+            if (hunger < -60 || thirst < -60)
+                g->add_msg_if_player(this,"You can't finish it all!");
             if (hunger < -60)
                 hunger = -60;
             if (thirst < -60)
@@ -5963,8 +5976,8 @@ bool player::eat(game *g, signed char ch)
                 add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, comest);
             else if (comest->fun > 0)
                 add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
-            if (!is_npc() && (hunger < -20 || thirst < -20))
-                g->add_msg("You can't finish it all!");
+            if (hunger < -20 || thirst < -20)
+                g->add_msg_if_player(this,"You can't finish it all!");
             if (hunger < -20)
                 hunger = -20;
             if (thirst < -20)
@@ -5980,8 +5993,7 @@ bool player::eat(game *g, signed char ch)
         else if (which == -2)
         {
             weapon.contents.erase(weapon.contents.begin());
-            if (!is_npc())
-                g->add_msg("You are now wielding an empty %s.", weapon.tname(g).c_str());
+            g->add_msg_if_player(this,"You are now wielding an empty %s.", weapon.tname(g).c_str());
         }
         else if (which == 0)
             inv.remove_item_by_letter(ch);
@@ -7855,8 +7867,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                 {
                     if (cut > arm_cut * 2 || dam > arm_bash * 2)
                     {
-                        if (!is_npc())
-                        g->add_msg("Your %s is damaged!", worn[i].tname(g).c_str());
+                        g->add_msg_if_player(this,"Your %s is damaged!", worn[i].tname(g).c_str());
                         worn[i].damage++;
                     }
                 }
@@ -7897,11 +7908,9 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     // now check if armour was completely destroyed and display relevant messages
                     if (worn[i].damage >= 5)
                     {
-                        if (!is_npc())
-                            g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
-                        else if (g->u_see(posx, posy))
-                            g->add_msg("%s's %s is destroyed!", name.c_str(),
-                             worn[i].tname(g).c_str());
+                        g->add_msg_player_or_npc( this, _("Your %s is completely destroyed!"),
+                                                  _("<npcname>'s %s is completely destroyed!"),
+                                                  worn[i].tname(g).c_str() );
                         worn.erase(worn.begin() + i);
                     } else if (armor_damaged) {
                         std::string damage_verb = diff_bash > diff_cut ? tmp->bash_dmg_verb() :
@@ -8310,4 +8319,59 @@ void player::setID (int i)
 int player::getID ()
 {
     return this->id;
+}
+
+bool player::uncanny_dodge(bool is_u)
+{
+    point adjacent = adjacent_tile();
+    power_level -= 3;
+    if (adjacent.x != posx || adjacent.y != posy)
+    {
+        posx = adjacent.x;
+        posy = adjacent.y;
+        if (is_u)
+            g->add_msg("Time seems to slow down and you instinctively dodge!");
+        else
+            g->add_msg("Your target dodges... so fast!");
+        return true;
+    }
+    if (is_u)
+        g->add_msg("You try to dodge but there's no room!");
+    return false;
+}
+// adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
+point player::adjacent_tile()
+{
+    std::vector<point> ret;
+    field_entry *cur = NULL;
+    field tmpfld;
+    trap_id curtrap;
+    int dangerous_fields;
+    for (int i=posx-1; i <= posx+1; i++)
+    {
+        for (int j=posy-1; j <= posy+1; j++)
+        {
+            if (i == posx && j == posy) continue;       // don't consider player position
+            curtrap=g->m.tr_at(i, j);
+            if (g->mon_at(i, j) == -1 && g->npc_at(i, j) == -1 && g->m.move_cost(i, j) > 0 && (curtrap == tr_null || g->traps[curtrap]->is_benign()))        // only consider tile if unoccupied, passable and has no traps
+            {
+                dangerous_fields = 0;
+                tmpfld = g->m.field_at(i, j);
+                for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it)
+                {
+                    cur = (*field_list_it);
+                    if (cur != NULL && cur->is_dangerous())
+                        dangerous_fields++;
+                }
+                if (dangerous_fields == 0)
+                {
+                    ret.push_back(point(i, j));
+                }
+            }
+        }
+    }
+    if (ret.size())
+        return ret[rng(0, ret.size()-1)];   // return a random valid adjacent tile
+    else
+        return point(posx, posy);           // or return player position if no valid adjacent tiles
 }

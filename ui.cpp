@@ -89,7 +89,7 @@ uimenu::operator int() const {
 void uimenu::init() {
     w_x = MENU_AUTOASSIGN;              // starting position
     w_y = MENU_AUTOASSIGN;              // -1 = auto center
-    w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text 
+    w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
     w_height = MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // fixme: scrolling list with offset
     ret = UIMENU_INVALID;  // return this unless a valid selection is made ( -1024 )
     text = "";             // header text, after (maybe) folding, populates:
@@ -325,6 +325,8 @@ void uimenu::query(bool loop) {
             } else if ( return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
             }
+        } else if ( keypress == 27 ) { //break loop with ESCAPE key
+            break;
         } else {
             if ( return_invalid ) {
                 ret = -1;

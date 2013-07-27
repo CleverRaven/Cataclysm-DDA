@@ -2072,9 +2072,9 @@
   },
   
 	{
-	        "id" : "cell_phone",
+	    "id" : "cell_phone",
         "name" : "cell phone",
-        "description" : "A broken cell phone only useful for parts now.",
+        "description" : "A simple cell phone. Nowadays only useful for telling the time or as a alarm-clock. Can also be disasembled into some useful parts.",
         "weight" : 0,
         "to_hit" : -3,
         "color" : "light_gray",
@@ -2084,6 +2084,7 @@
         "bashing" : -8,
         "cutting" : 0,
         "rarity" : 50,
-        "price" : 100
+        "price" : 100,
+        "flags" : ["WATCH", "ALARMCLOCK"]
     }
 ]

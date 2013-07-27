@@ -108,7 +108,7 @@
   "items": ["pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "holster"],
    "skills" : [
     {
-      "name" : "guns",
+      "name" : "gun",
       "level" : 1
     }
 	]
@@ -334,7 +334,7 @@
   "name": "Biker",
   "description":"You spent most of your life on a Harley, and its only natural you spend the rest of it riding one, you start with some biker clothes.",
   "points": 2,
-  "items": ["jeans", "tanktop", "chaps_leather", "boots", "bandana", "jacket_leather"]
+  "items": ["jeans", "tank_top", "chaps_leather", "boots", "bandana", "jacket_leather"]
 },
 
 {
@@ -373,7 +373,7 @@
       "level" : 1
     },
     {
-      "name" : "tailoring",
+      "name" : "tailor",
       "level" : 1
     },
     {
@@ -381,7 +381,7 @@
       "level" : 1
     },
     {
-      "name" : "construction",
+      "name" : "carpentry",
       "level" : 1
     }
   ]
