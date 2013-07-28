@@ -433,14 +433,19 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
         for (int i = 6; i < 15; i++) {
             mvwprintz(w, i, 33, c_black, clear);
         }
-        mvwprintz(w, 6,  2, c_ltgray, _("Strength:     %2d"), u->str_max);
-        mvwprintz(w, 7,  2, c_ltgray, _("Dexterity:    %2d"), u->dex_max);
-        mvwprintz(w, 8,  2, c_ltgray, _("Intelligence: %2d"), u->int_max);
-        mvwprintz(w, 9,  2, c_ltgray, _("Perception:   %2d"), u->per_max);
+        mvwprintz(w, 6,  2, c_ltgray, _("Strength:"));
+        mvwprintz(w, 6,  16, c_ltgray, "%2d", u->str_max);
+        mvwprintz(w, 7,  2, c_ltgray, _("Dexterity:"));
+        mvwprintz(w, 7,  16, c_ltgray, "%2d", u->dex_max);
+        mvwprintz(w, 8,  2, c_ltgray, _("Intelligence:"));
+        mvwprintz(w, 8,  16, c_ltgray, "%2d", u->int_max);
+        mvwprintz(w, 9,  2, c_ltgray, _("Perception:"));
+        mvwprintz(w, 9,  16, c_ltgray, "%2d", u->per_max);
 
         switch (sel) {
         case 1:
-            mvwprintz(w, 6,  2, COL_STAT_ACT, _("Strength:     %2d"), u->str_max);
+            mvwprintz(w, 6,  2, COL_STAT_ACT, _("Strength:"));
+            mvwprintz(w, 6,  16, COL_STAT_ACT, "%2d", u->str_max);
             if (u->str_max >= HIGH_STAT) {
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Str further costs 2 points."));
             }
@@ -454,7 +459,8 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
             break;
 
         case 2:
-            mvwprintz(w, 7,  2, COL_STAT_ACT, _("Dexterity:    %2d"), u->dex_max);
+            mvwprintz(w, 7,  2, COL_STAT_ACT, _("Dexterity:"));
+            mvwprintz(w, 7,  16, COL_STAT_ACT, "%2d", u->dex_max);
             if (u->dex_max >= HIGH_STAT) {
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Dex further costs 2 points."));
             }
@@ -473,7 +479,8 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
             break;
 
         case 3:
-            mvwprintz(w, 8,  2, COL_STAT_ACT, _("Intelligence: %2d"), u->int_max);
+            mvwprintz(w, 8,  2, COL_STAT_ACT, _("Intelligence:"));
+            mvwprintz(w, 8,  16, COL_STAT_ACT, "%2d", u->int_max);
             if (u->int_max >= HIGH_STAT) {
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Int further costs 2 points."));
             }
@@ -485,7 +492,8 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
             break;
 
         case 4:
-            mvwprintz(w, 9,  2, COL_STAT_ACT, _("Perception:   %2d"), u->per_max);
+            mvwprintz(w, 9,  2, COL_STAT_ACT, _("Perception:"));
+            mvwprintz(w, 9,  16, COL_STAT_ACT, "%2d", u->per_max);
             if (u->per_max >= HIGH_STAT) {
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Per further costs 2 points."));
             }
