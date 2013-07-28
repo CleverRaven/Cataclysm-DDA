@@ -1056,7 +1056,7 @@ void complete_vehicle (game *g)
         }
         break;
     case 's':
-        g->u.siphon_gas(g, veh);
+        g->u.siphon( g, veh, "gasoline" );
         break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
@@ -1085,7 +1085,7 @@ void complete_vehicle (game *g)
         }
         break;
     case 'd':
-        g->u.siphon_water(g,veh);
+        g->u.siphon( g, veh, "water" );
         break;
     default:;
     }
