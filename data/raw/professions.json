@@ -460,5 +460,17 @@
       "name":"Bride",
       "points":0,
       "flags": ["female_only"]
+   },
+      {
+      "description":"You were on your way to collect your check, when your pimp tried to kill you, you only wished that it wasn't a common occurence.",
+      "ident":"hooker",
+      "items":[
+         "skirt",
+         "heels",
+         "tank_top"
+      ],
+      "name":"Prostitute",
+      "points":0,
+      "flags": ["female_only"]
    }
 ]
