@@ -1909,9 +1909,9 @@ void parse_tags(std::string &phrase, player *u, npc *me)
     }
    } else if (tag == "<punc>") {
     switch (rng(0, 2)) {
-     case 0: phrase.replace(fa, l, std::string(std::string("<punc>.").substr(3).c_str()).substr(6).c_str());   break;
-     case 1: phrase.replace(fa, l, std::string(std::string("<punc>...").substr(3).c_str()).substr(6).c_str()); break;
-     case 2: phrase.replace(fa, l, std::string(std::string("<punc>!").substr(3).c_str()).substr(6).c_str());   break;
+     case 0: phrase.replace(fa, l, _("<punc>.")+6);   break;
+     case 1: phrase.replace(fa, l, _("<punc>...")+6); break;
+     case 2: phrase.replace(fa, l, _("<punc>!")+6);   break;
     }
    } else if (tag != "") {
     debugmsg("Bad tag. '%s' (%d - %d)", tag.c_str(), fa, fb);
