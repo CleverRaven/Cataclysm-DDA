@@ -9,7 +9,7 @@
 #include <sstream>
 #include <algorithm>
 
-const int iCategorieNum = 11;
+#define iCategorieNum 11
 std::string CATEGORIES[iCategorieNum] =
  {_("GROUND:"), _("FIREARMS:"), _("AMMUNITION:"), _("CLOTHING:"),
   _("FOOD/DRINKS:"), _("TOOLS:"), _("BOOKS:"), _("WEAPONS:"),

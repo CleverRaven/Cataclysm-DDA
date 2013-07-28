@@ -42,7 +42,7 @@ and store them in the file lang/po/cataclysm-dda.pot.
 This needs to be done every time translatable strings are added or modified.
 All of the translations depend on this file.
 
-    xgettext -d cataclysm-dda -s -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp *.h lang/json/*.py
+    xgettext -d cataclysm-dda -F -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp *.h lang/json/*.py
 
 
 Step 2(a): Initialize each language file
@@ -63,7 +63,7 @@ If we just want to update a translation,
 we'll want to keep all the messages that have already been translated.
 In this case we use "msgmerge" in stead of "msginit".
 
-    msgmerge -s -U lang/po/en_NZ.po lang/po/cataclysm-dda.pot
+    msgmerge -F -U lang/po/en_NZ.po lang/po/cataclysm-dda.pot
 
 
 Step 3: Translate
@@ -90,3 +90,26 @@ Now run the "msgfmt" program to compile the translations for use in game.
 
 Hooray, that's it :).
 
+Testing your changes in game
+============================
+
+The game has no menu to change language, so you need to manually set the locale.
+This is a different process depending on your OS.
+
+Note: The locale you set doesn't have to be an exact match. For instance, to use the
+`de_DE.po` translation, setting your locale to `de_DE.UTF8` will work fine.
+
+Arch Linux
+----------
+
+Step 1: Ensure the locale is enabled
+
+Edit `/etc/locale.gen` to include your desired locale(usually a matter of uncommenting),
+then run `locale-gen`
+
+Step 2: Set the locale in your current terminal window and run cataclysm
+
+```bash
+export LANG=mylocale
+./cataclysm
+```

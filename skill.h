@@ -65,7 +65,7 @@ class SkillLevel {
 
   void train(int amount);
   bool isRusting(const calendar& turn) const;
-  bool rust(const calendar& turn, bool forgetful, bool charged_bio_mem);
+  bool rust(const calendar& turn, bool charged_bio_mem);
   void practice(const calendar& turn);
 
   void readBook(int minimumGain, int maximumGain, const calendar& turn, int maximumLevel = 0xFFFFFFFF);

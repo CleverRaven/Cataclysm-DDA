@@ -289,8 +289,8 @@ bool player::create(game *g, character_type type, std::string tempname)
  }
  ret_null = item(g->itypes["null"], 0);
  weapon = get_combat_style();
- 
- 
+
+
  item tmp; //gets used several times
 
  std::vector<std::string> prof_items = g->u.prof->items();
@@ -308,7 +308,7 @@ bool player::create(game *g, character_type type, std::string tempname)
 
  // Grab the skills from the profession, if there are any
  profession::StartingSkillList prof_skills = g->u.prof->skills();
- for (profession::StartingSkillList::const_iterator iter = prof_skills.begin(); 
+ for (profession::StartingSkillList::const_iterator iter = prof_skills.begin();
       iter != prof_skills.end(); ++iter)
  {
      assert(Skill::skill(iter->first));
@@ -351,11 +351,11 @@ bool player::create(game *g, character_type type, std::string tempname)
  for (int i = 0; i < PF_MAX2; i++)
   if (!has_base_trait(i))
 	my_mutations[i] = false;
-	
+
 	// Equip any armor from our inventory. If we are unable to wear some of it due to encumberance, it will silently fail.
     std::vector<item*> tmp_inv;
     inv.dump(tmp_inv);
-    
+
     for(std::vector<item*>::iterator i = tmp_inv.begin(); i != tmp_inv.end(); ++i)
     {
         if( (*i)->is_armor())
@@ -479,7 +479,9 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
             }
             mvwprintz(w, 6, 33, COL_STAT_ACT, _("Read times: %d%%%%"),
                       u->read_speed(false));
-            fold_and_print(w, 8, 33, 45, COL_STAT_ACT, _("Intelligence is also used when crafting, installing bionics, and interacting with NPCs."));
+            mvwprintz(w, 7, 33, COL_STAT_ACT, _("Skill rust: %d%%%%"),
+                      u->rust_rate(false));
+            fold_and_print(w, 9, 33, 45, COL_STAT_ACT, _("Intelligence is also used when crafting, installing bionics, and interacting with NPCs."));
             break;
 
         case 4:
@@ -739,11 +741,20 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
     if (u->has_trait(cur_trait)) {
      if (points + traits[cur_trait].points >= 0) {
       u->toggle_trait(cur_trait);
-      points += traits[cur_trait].points;
-      if (using_adv)
-       num_good -= traits[cur_trait].points;
-      else
-       num_bad += traits[cur_trait].points;
+
+      // If turning off the trait violates a profession condition,
+      // turn it back on.
+      if(u->prof->can_pick(u, 0) != "YES") {
+          u->toggle_trait(cur_trait);
+          popup(_("Your profession of %s prevents you from removing this trait."),
+               u->prof->name().c_str());
+      } else {
+          points += traits[cur_trait].points;
+          if (using_adv)
+           num_good -= traits[cur_trait].points;
+          else
+           num_bad += traits[cur_trait].points;
+      }
      } else
       mvwprintz(w,  3, 2, c_red, _("Points left:%3d"), points);
     } else if (using_adv && num_good + traits[cur_trait].points >
@@ -756,11 +767,20 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
            max_trait_points);
     else if (points >= traits[cur_trait].points) {
      u->toggle_trait(cur_trait);
-     points -= traits[cur_trait].points;
-     if (using_adv)
-      num_good += traits[cur_trait].points;
-     else
-      num_bad -= traits[cur_trait].points;
+
+     // If turning on the trait violates a profession condition,
+     // turn it back off.
+     if(u->prof->can_pick(u, 0) != "YES") {
+      u->toggle_trait(cur_trait);
+      popup(_("Your profession of %s prevents you from taking this trait."),
+           u->prof->name().c_str());
+     } else {
+      points -= traits[cur_trait].points;
+      if (using_adv)
+       num_good += traits[cur_trait].points;
+      else
+       num_bad -= traits[cur_trait].points;
+     }
     }
     break;
    case '<':
@@ -791,19 +811,27 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
     do
     {
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
+        std::string can_pick = sorted_profs[cur_id]->can_pick(u, points);
+
         mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w,  3, 40, c_ltgray, "                                      ");
-        if (points >= netPointCost)
+        if (can_pick == "YES")
         {
             mvwprintz(w,  3, 20, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
                       _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
-        else
+        else if(can_pick == "INSUFFICIENT_POINTS")
         {
             mvwprintz(w,  3, 20, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
+                      _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
+                      netPointCost);
+        }
+        else if(can_pick == "WRONG_GENDER")
+        {
+            mvwprintz(w,  3, 20, c_ltred, _("This profession is not available to your current gender."),
                       _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
@@ -860,7 +888,7 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
             break;
 
             case '\n':
-                if (netPointCost <= points) {
+                if (can_pick == "YES") {
                     u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
                     points -= netPointCost;
                 }
@@ -1087,6 +1115,12 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
     case 2:
      if (ch == ' ')
       u->male = !u->male;
+
+      // If changing the gender broke our profession requirements, undo.
+      if(u->prof->can_pick(u, 0) == "WRONG_GENDER") {
+       u->male = !u->male;
+       popup(_("The profession %s is only available to your current gender."), u->prof->name().c_str());
+      }
      else if (ch == 'k' || ch == '\t') {
       line = 1;
      }

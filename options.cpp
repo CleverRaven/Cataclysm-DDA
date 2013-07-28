@@ -38,28 +38,16 @@ void game::show_options()
     bool needs_refresh = true;
     wborder(w_options_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-    mvwprintz(w_options_border, 0, 36, c_ltred, " OPTIONS ");
+    mvwprintz(w_options_border, 0, 36, c_ltred, _(" OPTIONS "));
     wrefresh(w_options_border);
     do {
 // TODO: change instructions
         if(needs_refresh) {
             werase(w_options);
-            mvwprintz(w_options, 0, 40, c_white, "Use up/down keys to scroll through");
-            mvwprintz(w_options, 1, 40, c_white, "available options.");
-            mvwprintz(w_options, 2, 40, c_white, "Use left/right keys to toggle.");
-            mvwprintz(w_options, 3, 40, c_white, "Press ESC or q to return.             ");
+            // because those texts use their own \n, do not fold so use a large enough width like 999
+            fold_and_print(w_options, 0, 40, 999, c_white, _("Use up/down keys to scroll through\navailable options.\nUse left/right keys to toggle.\nPress ESC or q to return."));
 // highlight options for option descriptions
-            std::string tmp = option_desc(option_key(offset + line));
-            std::string out;
-            size_t pos;
-            int displayline = 5;
-            do {
-                pos = tmp.find_first_of('\n');
-                out = tmp.substr(0, pos);
-                mvwprintz(w_options, displayline, 40, c_white, out.c_str());
-                tmp = tmp.substr(pos + 1);
-                displayline++;
-            } while(pos != std::string::npos && displayline < 12);
+            fold_and_print(w_options, 5, 40, 999, c_white, option_desc(option_key(offset + line)).c_str());
             needs_refresh = false;
         }
 
@@ -78,9 +66,9 @@ void game::show_options()
             if(option_is_bool(option_key(offset + i))) {
                 bool on = OPTIONS[ option_key(offset + i) ];
                 if(i == line) {
-                    mvwprintz(w_options, i, 30, hilite(c_ltcyan), (on ? "True" : "False"));
+                    mvwprintz(w_options, i, 30, hilite(c_ltcyan), (on ? _("True") : _("False")));
                 } else {
-                    mvwprintz(w_options, i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));
+                    mvwprintz(w_options, i, 30, (on ? c_ltgreen : c_ltred), (on ? _("True") : _("False")));
                 }
             } else {
                 char option_val = OPTIONS[ option_key(offset + i) ];
@@ -148,7 +136,7 @@ void game::show_options()
 
     if(changed_options)
     {
-        if(query_yn("Save changes?"))
+        if(query_yn(_("Save changes?")))
         {
             save_options();
             trigdist=(OPTIONS[OPT_CIRCLEDIST] ? true : false);
@@ -339,6 +327,9 @@ option_key lookup_option_key(std::string id)
     if(id == "auto_pickup_safemode") {
         return OPT_AUTO_PICKUP_SAFEMODE;
     }
+    if(id == "sort_crafting") {
+        return OPT_SORT_CRAFTING;
+    }
 
     return OPT_NULL;
 }
@@ -384,6 +375,7 @@ std::string option_string(option_key key)
     case OPT_AUTO_PICKUP:         return "auto_pickup";
     case OPT_AUTO_PICKUP_ZERO:    return "auto_pickup_zero";
     case OPT_AUTO_PICKUP_SAFEMODE:return "auto_pickup_safemode";
+    case OPT_SORT_CRAFTING:       return "sort_crafting";
     default:                      return "unknown_option";
     }
     return "unknown_option";
@@ -392,44 +384,45 @@ std::string option_string(option_key key)
 std::string option_desc(option_key key)
 {
     switch(key) {
-    case OPT_USE_CELSIUS:         return "If true, use Celcius not Fahrenheit.\nDefault is fahrenheit";
-    case OPT_USE_METRIC_SYS:      return "If true, use Km/h not mph.\nDefault is mph";
-    case OPT_FORCE_YN:            return "If true, y/n prompts are case-\nsensitive and y and n\nare not accepted.\nDefault is true";
-    case OPT_NO_CBLINK:           return "If true, bright backgrounds are not\nused--some consoles are not\ncompatible.\nDefault is false";
-    case OPT_24_HOUR:             return "12h/24h Time:\n0 - AM/PM (default)  eg: 7:31 AM\n1 - 24h military     eg: 0731\n2 - 24h normal       eg: 7:31";
-    case OPT_SNAP_TO_TARGET:      return "If true, automatically follow the\ncrosshair when firing/throwing.\nDefault is false";
-    case OPT_SAFEMODE:            return "If true, safemode will be on after\nstarting a new game or loading.\nDefault is true";
-    case OPT_SAFEMODEPROXIMITY:   return "If safemode is enabled,\ndistance to hostiles when safemode\nshould show a warning.\n0=Viewdistance, and the default";
-    case OPT_AUTOSAFEMODE:        return "If true, auto-safemode will be on\nafter starting a new game or loading.\nDefault is false";
-    case OPT_AUTOSAFEMODETURNS:   return "Number of turns after safemode\nis reenabled if no hostiles are\nin safemodeproximity distance.\nDefault is 50";
-    case OPT_AUTOSAVE:            return "If true, game will periodically\nsave the map\nDefault is false";
-    case OPT_AUTOSAVE_TURNS:      return "Number of minutes between autosaves";
-    case OPT_AUTOSAVE_MINUTES:    return "Minimum number of real time minutes\nbetween autosaves";
-    case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\nshould only make a difference\nduring the night.\nDefault is true";
-    case OPT_RAIN_ANIMATION:      return "If true, will display weather\nanimations.\nDefault is true";
-    case OPT_CIRCLEDIST:          return "If true, the game will calculate\nrange in a realistic way:\nlight sources will be circles\ndiagonal movement will\ncover more ground and take\nlonger.\nIf disabled, everything is\nsquare: moving to the northwest\ncorner of a building\ntakes as long as moving\nto the north wall.";
-    case OPT_QUERY_DISASSEMBLE:   return "If true, will query before\ndisassembling items.\nDefault is true";
-    case OPT_DROP_EMPTY:          return "Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers";
-    case OPT_SKILL_RUST:          return "Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - none at all";
-    case OPT_DELETE_WORLD:        return "Delete saves upon player death.\n0 - no (default)\n1 - yes\n2 - query";
-    case OPT_INITIAL_POINTS:      return "Initial points available on character\ngeneration.\nDefault is 6";
-    case OPT_MAX_TRAIT_POINTS:    return "Maximum trait points available for\ncharacter generation.\nDefault is 12";
-    case OPT_INITIAL_TIME:        return "Initial starting time of day on\ncharacter generation.\nDefault is 8:00";
-    case OPT_VIEWPORT_X:          return "WINDOWS ONLY: Set the expansion of the\nviewport along the X axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
-    case OPT_VIEWPORT_Y:          return "WINDOWS ONLY: Set the expansion of the\nviewport along the Y axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
-    case OPT_MOVE_VIEW_OFFSET:    return "Move view by how many squares per\nkeypress.\nDefault is 1";
-    case OPT_SEASON_LENGTH:       return "Season length, in days.\nDefault is 14";
-    case OPT_STATIC_SPAWN:        return "Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is true";
-    case OPT_CLASSIC_ZOMBIES:     return "Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false";
-    case OPT_REVIVE_ZOMBIES:      return "Allow zombies to revive after\na certain amount of time.\nDefault is true";
-    case OPT_STATIC_NPC:          return "If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false";
-    case OPT_RANDOM_NPC:          return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false";
-    case OPT_RAD_MUTATION:        return "If true, radiation causes the player\nto mutate.\nDefault is true";
-    case OPT_SAVESLEEP:           return "If true, game will ask to save the map\nbefore sleeping. Default is false";
-    case OPT_HIDE_CURSOR:         return "If 0, cursor is always shown. If 1,\ncursor is hidden. If 2, cursor is\nhidden on keyboard input and\nunhidden on mouse movement.\nDefault is 0.";
-    case OPT_AUTO_PICKUP:         return "Enable item auto pickup. Change\npickup rules with the Auto Pickup\nManager in the Help Menu ?3";
-    case OPT_AUTO_PICKUP_ZERO:    return "Auto pickup items with\n0 Volume or Weight";
-    case OPT_AUTO_PICKUP_SAFEMODE:return "Auto pickup is disabled\nas long as you can see\nmonsters nearby.\n\nThis is affected by\nSafemode proximity distance.";
+    case OPT_USE_CELSIUS:         return _("If true, use Celcius not Fahrenheit.\nDefault is fahrenheit");
+    case OPT_USE_METRIC_SYS:      return _("If true, use Km/h not mph.\nDefault is mph");
+    case OPT_FORCE_YN:            return _("If true, y/n prompts are case-\nsensitive and y and n\nare not accepted.\nDefault is true");
+    case OPT_NO_CBLINK:           return _("If true, bright backgrounds are not\nused--some consoles are not\ncompatible.\nDefault is false");
+    case OPT_24_HOUR:             return _("12h/24h Time:\n0 - AM/PM (default)  eg: 7:31 AM\n1 - 24h military     eg: 0731\n2 - 24h normal       eg: 7:31");
+    case OPT_SNAP_TO_TARGET:      return _("If true, automatically follow the\ncrosshair when firing/throwing.\nDefault is false");
+    case OPT_SAFEMODE:            return _("If true, safemode will be on after\nstarting a new game or loading.\nDefault is true");
+    case OPT_SAFEMODEPROXIMITY:   return _("If safemode is enabled,\ndistance to hostiles when safemode\nshould show a warning.\n0=Viewdistance, and the default");
+    case OPT_AUTOSAFEMODE:        return _("If true, auto-safemode will be on\nafter starting a new game or loading.\nDefault is false");
+    case OPT_AUTOSAFEMODETURNS:   return _("Number of turns after safemode\nis reenabled if no hostiles are\nin safemodeproximity distance.\nDefault is 50");
+    case OPT_AUTOSAVE:            return _("If true, game will periodically\nsave the map\nDefault is false");
+    case OPT_AUTOSAVE_TURNS:      return _("Number of minutes between autosaves");
+    case OPT_AUTOSAVE_MINUTES:    return _("Minimum number of real time minutes\nbetween autosaves");
+    case OPT_GRADUAL_NIGHT_LIGHT: return _("If true will add nice gradual-lighting\nshould only make a difference\nduring the night.\nDefault is true");
+    case OPT_RAIN_ANIMATION:      return _("If true, will display weather\nanimations.\nDefault is true");
+    case OPT_CIRCLEDIST:          return _("If true, the game will calculate\nrange in a realistic way:\nlight sources will be circles\ndiagonal movement will\ncover more ground and take\nlonger.\nIf disabled, everything is\nsquare: moving to the northwest\ncorner of a building\ntakes as long as moving\nto the north wall.");
+    case OPT_QUERY_DISASSEMBLE:   return _("If true, will query before\ndisassembling items.\nDefault is true");
+    case OPT_DROP_EMPTY:          return _("Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers");
+    case OPT_SKILL_RUST:          return _("Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - intelligence dependent\n3 - intelligence dependent, capped\n4 - none at all");
+    case OPT_DELETE_WORLD:        return _("Delete saves upon player death.\n0 - no (default)\n1 - yes\n2 - query");
+    case OPT_INITIAL_POINTS:      return _("Initial points available on character\ngeneration.\nDefault is 6");
+    case OPT_MAX_TRAIT_POINTS:    return _("Maximum trait points available for\ncharacter generation.\nDefault is 12");
+    case OPT_INITIAL_TIME:        return _("Initial starting time of day on\ncharacter generation.\nDefault is 8:00");
+    case OPT_VIEWPORT_X:          return _("WINDOWS ONLY: Set the expansion of the\nviewport along the X axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.");
+    case OPT_VIEWPORT_Y:          return _("WINDOWS ONLY: Set the expansion of the\nviewport along the Y axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.");
+    case OPT_MOVE_VIEW_OFFSET:    return _("Move view by how many squares per\nkeypress.\nDefault is 1");
+    case OPT_SEASON_LENGTH:       return _("Season length, in days.\nDefault is 14");
+    case OPT_STATIC_SPAWN:        return _("Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is true");
+    case OPT_CLASSIC_ZOMBIES:     return _("Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false");
+    case OPT_REVIVE_ZOMBIES:      return _("Allow zombies to revive after\na certain amount of time.\nDefault is true");
+    case OPT_STATIC_NPC:          return _("If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false");
+    case OPT_RANDOM_NPC:          return _("If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false");
+    case OPT_RAD_MUTATION:        return _("If true, radiation causes the player\nto mutate.\nDefault is true");
+    case OPT_SAVESLEEP:           return _("If true, game will ask to save the map\nbefore sleeping. Default is false");
+    case OPT_HIDE_CURSOR:         return _("If 0, cursor is always shown. If 1,\ncursor is hidden. If 2, cursor is\nhidden on keyboard input and\nunhidden on mouse movement.\nDefault is 0.");
+    case OPT_AUTO_PICKUP:         return _("Enable item auto pickup. Change\npickup rules with the Auto Pickup\nManager in the Help Menu ?3");
+    case OPT_AUTO_PICKUP_ZERO:    return _("Auto pickup items with\n0 Volume or Weight");
+    case OPT_AUTO_PICKUP_SAFEMODE:return _("Auto pickup is disabled\nas long as you can see\nmonsters nearby.\n\nThis is affected by\nSafemode proximity distance.");
+    case OPT_SORT_CRAFTING:       return _("If true, the crafting menus\nwill display recipes that you can\ncraft before other recipes");
     default:                      return " ";
     }
     return "Big ol Bug (options.cpp:option_desc)";
@@ -438,44 +431,45 @@ std::string option_desc(option_key key)
 std::string option_name(option_key key)
 {
     switch(key) {
-    case OPT_USE_CELSIUS:         return "Use Celsius";
-    case OPT_USE_METRIC_SYS:      return "Use Metric System";
-    case OPT_FORCE_YN:            return "Force Y/N in prompts";
-    case OPT_NO_CBLINK:           return "No Bright Backgrounds";
-    case OPT_24_HOUR:             return "24 Hour Time";
-    case OPT_SNAP_TO_TARGET:      return "Snap to Target";
-    case OPT_SAFEMODE:            return "Safemode on by default";
-    case OPT_SAFEMODEPROXIMITY:   return "Safemode proximity distance";
-    case OPT_AUTOSAFEMODE:        return "Auto-Safemode on by default";
-    case OPT_AUTOSAFEMODETURNS:   return "Turns to reenable safemode";
-    case OPT_AUTOSAVE:            return "Periodically Autosave";
-    case OPT_AUTOSAVE_TURNS:      return "Game minutes between autosaves";
-    case OPT_AUTOSAVE_MINUTES:    return "Real minutes between autosaves";
-    case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light";
-    case OPT_RAIN_ANIMATION:      return "Rain animation";
-    case OPT_CIRCLEDIST:          return "Circular distances";
-    case OPT_QUERY_DISASSEMBLE:   return "Query on disassembly";
-    case OPT_DROP_EMPTY:          return "Drop empty containers";
-    case OPT_SKILL_RUST:          return "Skill Rust";
-    case OPT_DELETE_WORLD:        return "Delete World";
-    case OPT_INITIAL_POINTS:      return "Initial points";
-    case OPT_MAX_TRAIT_POINTS:    return "Maximum trait points";
-    case OPT_INITIAL_TIME:        return "Initial time";
-    case OPT_VIEWPORT_X:          return "Viewport width";
-    case OPT_VIEWPORT_Y:          return "Viewport height";
-    case OPT_MOVE_VIEW_OFFSET:    return "Move view offset";
-    case OPT_STATIC_SPAWN:        return "Static spawn";
-    case OPT_CLASSIC_ZOMBIES:     return "Classic zombies";
-    case OPT_REVIVE_ZOMBIES:      return "Revive zombies";
-    case OPT_SEASON_LENGTH:       return "Season length";
-    case OPT_STATIC_NPC:          return "Static npcs";
-    case OPT_RANDOM_NPC:          return "Random npcs";
-    case OPT_RAD_MUTATION:        return "Mutations by radiation";
-    case OPT_SAVESLEEP:           return "Ask to save before sleeping";
-    case OPT_HIDE_CURSOR:         return "Hide Mouse Cursor";
-    case OPT_AUTO_PICKUP:         return "Enable item Auto Pickup";
-    case OPT_AUTO_PICKUP_ZERO:    return "Auto Pickup 0 Vol/Weight";
-    case OPT_AUTO_PICKUP_SAFEMODE:return "Auto Pickup Safemode";
+    case OPT_USE_CELSIUS:         return _("Use Celsius");
+    case OPT_USE_METRIC_SYS:      return _("Use Metric System");
+    case OPT_FORCE_YN:            return _("Force Y/N in prompts");
+    case OPT_NO_CBLINK:           return _("No Bright Backgrounds");
+    case OPT_24_HOUR:             return _("24 Hour Time");
+    case OPT_SNAP_TO_TARGET:      return _("Snap to Target");
+    case OPT_SAFEMODE:            return _("Safemode on by default");
+    case OPT_SAFEMODEPROXIMITY:   return _("Safemode proximity distance");
+    case OPT_AUTOSAFEMODE:        return _("Auto-Safemode on by default");
+    case OPT_AUTOSAFEMODETURNS:   return _("Turns to reenable safemode");
+    case OPT_AUTOSAVE:            return _("Periodically Autosave");
+    case OPT_AUTOSAVE_TURNS:      return _("Game minutes between autosaves");
+    case OPT_AUTOSAVE_MINUTES:    return _("Real minutes between autosaves");
+    case OPT_GRADUAL_NIGHT_LIGHT: return _("Gradual night light");
+    case OPT_RAIN_ANIMATION:      return _("Rain animation");
+    case OPT_CIRCLEDIST:          return _("Circular distances");
+    case OPT_QUERY_DISASSEMBLE:   return _("Query on disassembly");
+    case OPT_DROP_EMPTY:          return _("Drop empty containers");
+    case OPT_SKILL_RUST:          return _("Skill Rust");
+    case OPT_DELETE_WORLD:        return _("Delete World");
+    case OPT_INITIAL_POINTS:      return _("Initial points");
+    case OPT_MAX_TRAIT_POINTS:    return _("Maximum trait points");
+    case OPT_INITIAL_TIME:        return _("Initial time");
+    case OPT_VIEWPORT_X:          return _("Viewport width");
+    case OPT_VIEWPORT_Y:          return _("Viewport height");
+    case OPT_MOVE_VIEW_OFFSET:    return _("Move view offset");
+    case OPT_STATIC_SPAWN:        return _("Static spawn");
+    case OPT_CLASSIC_ZOMBIES:     return _("Classic zombies");
+    case OPT_REVIVE_ZOMBIES:      return _("Revive zombies");
+    case OPT_SEASON_LENGTH:       return _("Season length");
+    case OPT_STATIC_NPC:          return _("Static npcs");
+    case OPT_RANDOM_NPC:          return _("Random npcs");
+    case OPT_RAD_MUTATION:        return _("Mutations by radiation");
+    case OPT_SAVESLEEP:           return _("Ask to save before sleeping");
+    case OPT_HIDE_CURSOR:         return _("Hide Mouse Cursor");
+    case OPT_AUTO_PICKUP:         return _("Enable item Auto Pickup");
+    case OPT_AUTO_PICKUP_ZERO:    return _("Auto Pickup 0 Vol/Weight");
+    case OPT_AUTO_PICKUP_SAFEMODE:return _("Auto Pickup Safemode");
+    case OPT_SORT_CRAFTING:       return _("Sort Crafting menu");
     default:                      return "Unknown Option (options.cpp:option_name)";
     }
     return "Big ol Bug (options.cpp:option_name)";
@@ -535,8 +529,10 @@ char option_max_options(option_key id)
             break;
         case OPT_DELETE_WORLD:
         case OPT_DROP_EMPTY:
-        case OPT_SKILL_RUST:
             ret = 3;
+            break;
+        case OPT_SKILL_RUST:
+            ret = 5;
             break;
         case OPT_VIEWPORT_X:
         case OPT_VIEWPORT_Y:
@@ -636,7 +632,7 @@ drop_empty 0\n\
 # 0 - Cursor always shown, 1 - Cursor always hidden, 2 - Cursor shown on mouse input and hidden on keyboard input\n\
 # \n\
 # GAMEPLAY OPTIONS: CHANGING THESE OPTIONS WILL AFFECT GAMEPLAY DIFFICULTY! \n\
-# Level of skill rust: 0 - vanilla Cataclysm, 1 - capped at skill levels, 2 - none at all\n\
+# Level of skill rust: 0 - vanilla Cataclysm; 1 - vanilla, capped at skill levels; 2 - intelligence dependent; 3 - intelligence dependent, capped; 4 - none at all\n\
 skill_rust 0\n\
 # Delete world after player death: 0 - no, 1 - yes, 2 - query\n\
 delete_world 0\n\
@@ -674,6 +670,8 @@ auto_pickup F\n\
 auto_pickup_zero F\n\
 # Auto pickup is disabled as long as you can see monsters nearby.\n\
 auto_pickup_safemode F\n\
+# Sort the crafting menu so things you can craft are at the front of the menu\n\
+sort_crafting T\n\
 ";
     fout.close();
 }

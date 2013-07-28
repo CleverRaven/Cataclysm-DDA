@@ -9,7 +9,7 @@
 void mdeath::normal(game *g, monster *z)
 {
  if (g->u_see(z))
-  g->add_msg("The %s dies!", z->name().c_str());
+  g->add_msg(_("The %s dies!"), z->name().c_str());
  if (z->made_of("flesh") && z->has_flag(MF_WARM)) {
    g->m.add_field(g, z->posx, z->posy, fd_blood, 1);
  }
@@ -70,7 +70,7 @@ void mdeath::normal(game *g, monster *z)
         item tmp;
         tmp.make_corpse(g->itypes["corpse"], z->type, g->turn);
         tmp.damage = corpse_damage;
-        g->m.add_item(z->posx, z->posy, tmp);
+        g->m.add_item_or_charges(z->posx, z->posy, tmp);
     }
 
     // leave gibs
@@ -94,14 +94,14 @@ void mdeath::normal(game *g, monster *z)
 void mdeath::acid(game *g, monster *z)
 {
  if (g->u_see(z))
-  g->add_msg("The %s's corpse melts into a pool of acid.", z->name().c_str());
+  g->add_msg(_("The %s's corpse melts into a pool of acid."), z->name().c_str());
  g->m.add_field(g, z->posx, z->posy, fd_acid, 3);
 }
 
 void mdeath::boomer(game *g, monster *z)
 {
  std::string tmp;
- g->sound(z->posx, z->posy, 24, "a boomer explodes!");
+ g->sound(z->posx, z->posy, 24, _("a boomer explodes!"));
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
    g->m.bash(z->posx + i, z->posy + j, 10, tmp);
@@ -176,7 +176,7 @@ void mdeath::vine_cut(game *g, monster *z)
 
 void mdeath::triffid_heart(game *g, monster *z)
 {
- g->add_msg("The root walls begin to crumble around you.");
+ g->add_msg(_("The root walls begin to crumble around you."));
  g->add_event(EVENT_ROOTS_DIE, int(g->turn) + 100);
 }
 
@@ -184,7 +184,7 @@ void mdeath::fungus(game *g, monster *z)
 {
  monster spore(g->mtypes[mon_spore]);
  int sporex, sporey;
- g->sound(z->posx, z->posy, 10, "Pouf!");
+ g->sound(z->posx, z->posy, 10, _("Pouf!"));
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
    sporex = z->posx + i;
@@ -192,7 +192,7 @@ void mdeath::fungus(game *g, monster *z)
    if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
     if (g->mon_at(sporex, sporey) >= 0) {	// Spores hit a monster
      if (g->u_see(sporex, sporey))
-      g->add_msg("The %s is covered in tiny spores!",
+      g->add_msg(_("The %s is covered in tiny spores!"),
                  g->z[g->mon_at(sporex, sporey)].name().c_str());
      if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
       g->kill_mon(g->mon_at(sporex, sporey), (z->friendly != 0));
@@ -217,13 +217,13 @@ void mdeath::fungusawake(game *g, monster *z)
 void mdeath::disintegrate(game *g, monster *z)
 {
  if (g->u_see(z))
-  g->add_msg("It disintegrates!");
+  g->add_msg(_("It disintegrates!"));
 }
 
 void mdeath::worm(game *g, monster *z)
 {
  if (g->u_see(z))
-  g->add_msg("The %s splits in two!", z->name().c_str());
+  g->add_msg(_("The %s splits in two!"), z->name().c_str());
 
  std::vector <point> wormspots;
  int wormx, wormy;
@@ -249,7 +249,7 @@ void mdeath::worm(game *g, monster *z)
 
 void mdeath::disappear(game *g, monster *z)
 {
- g->add_msg("The %s disappears!  Was it in your head?", z->name().c_str());
+ g->add_msg(_("The %s disappears!  Was it in your head?"), z->name().c_str());
 }
 
 void mdeath::guilt(game *g, monster *z)
@@ -260,7 +260,7 @@ void mdeath::guilt(game *g, monster *z)
   return;	// Too far away, we can deal with it
  if (z->hp >= 0)
   return;	// It probably didn't die from damage
- g->add_msg("You feel terrible for killing %s!", z->name().c_str());
+ g->add_msg(_("You feel terrible for killing %s!"), z->name().c_str());
  if(z->type->id == mon_hallu_mom)
  {
  g->u.add_morale(MORALE_KILLED_MONSTER, -50, -250, 300, 30);
@@ -279,14 +279,14 @@ void mdeath::blobsplit(game *g, monster *z)
  int speed = z->speed - rng(30, 50);
  if (speed <= 0) {
   if (g->u_see(z))
-   g->add_msg("The %s splatters into tiny, dead pieces.", z->name().c_str());
+   g->add_msg(_("The %s splatters into tiny, dead pieces."), z->name().c_str());
   return;
  }
  monster blob(g->mtypes[(speed < 50 ? mon_blob_small : mon_blob)]);
  blob.speed = speed;
  blob.friendly = z->friendly; // If we're tame, our kids are too
  if (g->u_see(z))
-  g->add_msg("The %s splits!", z->name().c_str());
+  g->add_msg(_("The %s splits!"), z->name().c_str());
  blob.hp = blob.speed;
  std::vector <point> valid;
 
@@ -311,7 +311,7 @@ void mdeath::blobsplit(game *g, monster *z)
 void mdeath::melt(game *g, monster *z)
 {
  if (g->u_see(z))
-  g->add_msg("The %s melts away!", z->name().c_str());
+  g->add_msg(_("The %s melts away!"), z->name().c_str());
 }
 
 void mdeath::amigara(game *g, monster *z)
@@ -324,9 +324,9 @@ void mdeath::amigara(game *g, monster *z)
   }
   if (count <= 1) { // We're the last!
    g->u.rem_disease("amigara");
-   g->add_msg("Your obsession with the fault fades away...");
+   g->add_msg(_("Your obsession with the fault fades away..."));
    item art(g->new_artifact(), g->turn);
-   g->m.add_item(z->posx, z->posy, art);
+   g->m.add_item_or_charges(z->posx, z->posy, art);
   }
  }
  normal(g, z);
@@ -360,7 +360,7 @@ void mdeath::ratking(game *g, monster *z)
 void mdeath::smokeburst(game *g, monster *z)
 {
   std::string tmp;
-  g->sound(z->posx, z->posy, 24, "a smoker explodes!");
+  g->sound(z->posx, z->posy, 24, _("a smoker explodes!"));
   for (int i = -1; i <= 1; i++) {
     for (int j = -1; j <= 1; j++) {
       g->m.add_field(g, z->posx + i, z->posy + j, fd_smoke, 3);
@@ -432,7 +432,7 @@ void mdeath::zombie(game *g, monster *z)
 
 void mdeath::gameover(game *g, monster *z)
 {
- g->add_msg("Your %s is destroyed!  GAME OVER!", z->name().c_str());
+ g->add_msg(_("Your %s is destroyed!  GAME OVER!"), z->name().c_str());
  g->u.hp_cur[hp_torso] = 0;
 }
 
