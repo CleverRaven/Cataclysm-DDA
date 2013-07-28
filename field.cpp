@@ -198,29 +198,30 @@ bool map::process_fields_in_submap(game *g, int gridn)
 	//Loop through all tiles in this submap indicated by gridn
 	for (int locx = 0; locx < SEEX; locx++) {
 		for (int locy = 0; locy < SEEY; locy++) {
-        // This is a translation from local coordinates to submap coords.
-        // All submaps are in one long 1d array.
-			int x = locx + SEEX * (gridn % my_MAPSIZE);
-            int y = locy + SEEY * int(gridn / my_MAPSIZE);
+   // This is a translation from local coordinates to submap coords.
+   // All submaps are in one long 1d array.
+   int x = locx + SEEX * (gridn % my_MAPSIZE);
+   int y = locy + SEEY * int(gridn / my_MAPSIZE);
    // get a copy of the field variable from the submap;
    // contains all the pointers to the real field effects.
-			curfield = grid[gridn]->fld[locx][locy];
-            for(std::map<field_id, field_entry*>::iterator it = curfield.getFieldStart(); it != curfield.getFieldEnd(); ++it ) {
-				//Iterating through all field effects in the submap's field.
-                cur = it->second;
-				if(cur == NULL) continue; //This shouldn't happen ever, but pointer safety is number one.
+   curfield = grid[gridn]->fld[locx][locy];
+   for(std::map<field_id, field_entry*>::iterator it = curfield.getFieldStart();
+       it != curfield.getFieldEnd(); ++it ) {
+    //Iterating through all field effects in the submap's field.
+       cur = it->second;
+    if(cur == NULL) continue; //This shouldn't happen ever, but pointer safety is number one.
 
-				curtype = cur->getFieldType();
+    curtype = cur->getFieldType();
     //Setting our return value. fd_null really doesn't exist anymore, its there for legacy support.
-				if (!found_field && curtype != fd_null)
-					found_field = true;
+    if (!found_field && curtype != fd_null)
+        found_field = true;
     // Again, legacy support in the event someone Mods setFieldDensity to allow more values.
-				if (cur->getFieldDensity() > 3 || cur->getFieldDensity() < 1)
-					debugmsg("Whoooooa density of %d", cur->getFieldDensity());
+    if (cur->getFieldDensity() > 3 || cur->getFieldDensity() < 1)
+        debugmsg("Whoooooa density of %d", cur->getFieldDensity());
 
     // Don't process "newborn" fields. This gives the player time to run if they need to.
-				if (cur->getFieldAge() == 0)
-					curtype = fd_null;
+    if (cur->getFieldAge() == 0)
+        curtype = fd_null;
 
 				int part;
 				vehicle *veh;
@@ -285,7 +286,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						//Stop when we hit the end of the item buffer OR we consumed enough items given our fire size.
 						destroyed = false;
 						item *it = &(i_at(x, y)[i]); //Pointer to the item we are dealing with.
-                                                vol = it->volume(); //Used to feed the fire based on volume of item burnt.
+      vol = it->volume(); //Used to feed the fire based on volume of item burnt.
 						it_ammo *ammo_type = NULL; //Special case if its ammo.
 
 						if (it->is_ammo())
@@ -467,7 +468,6 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									if (tmpfld && tmpfld != cur && cur->getFieldAge() < 0 && tmpfld->getFieldDensity() < 3 &&
 										(in_pit == (ter(fx, fy) == t_pit))) {
 											tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
-											//tmpfld->setFieldAge(0);
 											cur->setFieldAge(cur->getFieldAge() + 150);
 									}
 								}
@@ -485,8 +485,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						for (int j = 0; j < 3; j++) {
 							int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
 							if (INBOUNDS(fx, fy)) {
-                                field &nearby_field = g->m.field_at(fx, fy);
-                                field_entry * nearwebfld=nearby_field.findField(fd_web);
+        field &nearby_field = g->m.field_at(fx, fy);
+        field_entry *nearwebfld = nearby_field.findField(fd_web);
 								int spread_chance = 25 * (cur->getFieldDensity() - 1);
 								if (nearwebfld)
 									spread_chance = 50 + spread_chance / 2;
@@ -519,15 +519,15 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									bool nosmoke = true;
 									for (int ii = -1; ii <= 1; ii++) {
 										for (int jj = -1; jj <= 1; jj++) {
-                                            field &spreading_field = g->m.field_at(x+ii, y+jj);
+           field &spreading_field = g->m.field_at(x+ii, y+jj);
 
-                                            tmpfld = spreading_field.findField(fd_fire);
-                                            int tmpflddens = ( tmpfld ? tmpfld->getFieldDensity() : 0 );
-                                            if ( ( tmpflddens == 3 ) || ( tmpflddens == 2 && one_in(4) ) ) {
-                                                smoke++; //The higher this gets, the more likely for smoke.
-                                            } else if (spreading_field.findField(fd_smoke)) {
-                                                nosmoke = false; //slightly, slightly, less likely to make smoke if there is already smoke
-                                            }
+           tmpfld = spreading_field.findField(fd_fire);
+           int tmpflddens = ( tmpfld ? tmpfld->getFieldDensity() : 0 );
+           if ( ( tmpflddens == 3 ) || ( tmpflddens == 2 && one_in(4) ) ) {
+               smoke++; //The higher this gets, the more likely for smoke.
+           } else if (spreading_field.findField(fd_smoke)) {
+               nosmoke = false; //slightly, slightly, less likely to make smoke if there is already smoke
+           }
 										}
 									}
 									// If we're not spreading, maybe we'll stick out some smoke, huh?
@@ -869,7 +869,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							}
 						}
 					}
-									} break;
+    } break;
 
 				case fd_shock_vent:
 					if (cur->getFieldDensity() > 1) {
@@ -907,30 +907,30 @@ bool map::process_fields_in_submap(game *g, int gridn)
 					}
 					break;
 
-                    case fd_acid_vent:
-                        if (cur->getFieldDensity() > 1) {
-                            if (cur->getFieldAge() >= 10) {
-                                cur->setFieldDensity(cur->getFieldDensity() - 1);
-                                cur->setFieldAge(0);
-                            }
-                        } else {
-                            cur->setFieldDensity(3);
-                            for (int i = x - 5; i <= x + 5; i++) {
-                            for (int j = y - 5; j <= y + 5; j++) {
-                                field &wandering_field = g->m.field_at(i, j);
-                                if (wandering_field.findField(fd_acid)){
-                                    if (wandering_field.findField(fd_acid)->getFieldDensity() == 0){
-                                        int newdens = 3 - (rl_dist(x, y, i, j) / 2) + (one_in(3) ? 1 : 0);
-                                        if (newdens > 3)
-                                            newdens = 3;
-                                        if (newdens > 0)
-                                            add_field(g, i, j, fd_acid, newdens);
-                                    }
-                                }
-                            }
-                            }
-                        }
-                        break;
+    case fd_acid_vent:
+     if (cur->getFieldDensity() > 1) {
+      if (cur->getFieldAge() >= 10) {
+          cur->setFieldDensity(cur->getFieldDensity() - 1);
+          cur->setFieldAge(0);
+      }
+     } else {
+         cur->setFieldDensity(3);
+         for (int i = x - 5; i <= x + 5; i++) {
+             for (int j = y - 5; j <= y + 5; j++) {
+                 field &wandering_field = g->m.field_at(i, j);
+                 if (wandering_field.findField(fd_acid)){
+                     if (wandering_field.findField(fd_acid)->getFieldDensity() == 0){
+                         int newdens = 3 - (rl_dist(x, y, i, j) / 2) + (one_in(3) ? 1 : 0);
+                         if (newdens > 3)
+                             newdens = 3;
+                         if (newdens > 0)
+                             add_field(g, i, j, fd_acid, newdens);
+                     }
+                 }
+             }
+         }
+     }
+     break;
 
 				} // switch (curtype)
 
@@ -981,10 +981,8 @@ void map::step_in_field(int x, int y, game *g)
  }
 
  //Iterate through all field effects on this tile.
-// for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
  for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
 	 cur = field_list_it->second;
-//(*field_list_it);
 	 if(cur == NULL) continue; //shouldn't happen unless you free memory of field entries manually (hint: don't do that)... Pointer safety.
 
  if (cur->getFieldType() == fd_rubble){
@@ -1081,10 +1079,6 @@ void map::step_in_field(int x, int y, game *g)
      g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
      g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
     }
-    /*if (adjusted_intensity == 2)
-     g->u.infect("smoke", bp_mouth, 5, 20, g);
-    else if (adjusted_intensity == 3)
-     g->u.infect("smoke", bp_mouth, 7, 30, g);*/ //Removed from here since smoke now exists on fire tiles as its own effect.
    }
    break;
 
@@ -1202,7 +1196,6 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 	field &curfield = field_at(x, y);
 	field_entry *cur = NULL;
 
-//  for(std::vector<field_entry*>::iterator field_list_
 for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
 	 cur = field_list_it->second;
 	 if(cur == NULL) continue; //shouldn't happen unless you free memory of field entries manually (hint: don't do that)
@@ -1409,7 +1402,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
 	field_entry *cur = NULL;
  field &curfield = field_at(x, y);
  for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-	   cur = field_list_it->second;//(*field_list_it);
+	   cur = field_list_it->second;
 	   if(cur == NULL) continue;
 
  switch (cur->getFieldType()) {                        //Can add independent code for different types of fields to apply different effects
@@ -1560,14 +1553,12 @@ Good for checking for exitence of a field: if(myfield.findField(fd_fire)) would 
 */
 field_entry* field::findField(const field_id field_to_find){
     field_entry* tmp = NULL;
-/* rofl vector */
-//    for(std::vector<field_entry*>::iterator it = field_list.begin(); it != field_list.end(); it++){
     std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_find);
     if(it != field_list.end()) {
         if(it->second == NULL){
             //In the event someone deleted the field_entry memory somewhere else clean up the list.
             field_list.erase(it);
-        } else { // double verify? Nah // if(it->second->getFieldType() == field_to_find){
+        } else {
             return it->second;
         }
     }
@@ -1581,7 +1572,7 @@ const field_entry* field::findFieldc(const field_id field_to_find){
         if(it->second == NULL){
             //In the event someone deleted the field_entry memory somewhere else clean up the list.
             field_list.erase(it);
-        } else { // double verify? Nah // if(it->second->getFieldType() == field_to_find){
+        } else {
             return it->second;
         }
     }
@@ -1599,10 +1590,10 @@ Density defaults to 1, and age to 0 (permanent) if not specified.
 bool field::addField(const field_id field_to_add, const unsigned char new_density, const int new_age){
     std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_add);
     if(it != field_list.end()) {
-	//Already exists, but lets update it. This is tentative.
-	it->second->setFieldDensity(it->second->getFieldDensity() + new_density);
-	draw_symbol = field_to_add;
-	return false;
+        //Already exists, but lets update it. This is tentative.
+        it->second->setFieldDensity(it->second->getFieldDensity() + new_density);
+        draw_symbol = field_to_add;
+        return false;
     };
     field_list[field_to_add]=new field_entry(field_to_add, new_density, new_age);
     draw_symbol = field_to_add;
