@@ -537,7 +537,7 @@ std::string invent_name()
   ret += tmp.substr(10);
  }
 
- return capitalize_first_letter(ret);
+ return capitalize_letter(ret);
 }
 
 std::string invent_adj()

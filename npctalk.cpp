@@ -1936,7 +1936,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  }
 // Parse any tags in challenge
  parse_tags(challenge, alpha, beta);
- capitalize_first_letter(challenge);
+ capitalize_letter(challenge);
 // Prepend "My Name: "
  if (challenge[0] == '&') // No name prepended!
   challenge = challenge.substr(1);
