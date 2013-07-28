@@ -1958,5 +1958,20 @@
     "bashing": -20,
     "cutting": 0,
     "to_hit": 1
-  }
+  },
+    {
+        "id": "fish_bowl",
+        "symbol": "u",
+        "color": "light_cyan",
+        "name": "A fish bowl",
+        "description": "A filled fish bowl, the tag says to Ed and the fish's name Hoss. It appears the fish has tiny antlers",
+        "rarity": 50,
+        "price": 1,
+        "material": "glass",
+        "weight": 2,
+        "volume": 4,
+        "bashing": -8,
+        "cutting": 0,
+        "to_hit": -2
+    }
 ]
