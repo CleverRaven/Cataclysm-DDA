@@ -61,3 +61,36 @@ with open(os.path.join(to_folder,"json_bionics.py"), 'w') as bio_jtl:
     bio_json = os.path.join(raw_folder, "bionics.json")
     convert(bio_json, bio_jtl)
 
+# data/raw/snippets.json
+with open(os.path.join(to_folder,"json_snippets.py"), 'w') as snip_jtl:
+    jsonfile = os.path.join(raw_folder, "snippets.json")
+    jsondata = json.loads(open(jsonfile).read())
+    snip = jsondata["snippets"]
+    texts = [item["text"] for item in snip]
+    for t in zip(texts):
+        snip_jtl.write(gettextify(t))
+
+# data/raw/materials.json
+with open(os.path.join(to_folder,"json_materials.py"), 'w') as mat_jtl:
+    jsonfile = os.path.join(raw_folder, "materials.json")
+    jsondata = json.loads(open(jsonfile).read())
+    names = [item["name"] for item in jsondata]
+    verb1 = [item["bash_dmg_verb"] for item in jsondata]
+    verb2 = [item["cut_dmg_verb"] for item in jsondata]
+    dmgs = [item["dmg_adj"] for item in jsondata]
+    for n,v1,v2,d in zip(names,verb1,verb2,dmgs):
+        mat_jtl.write(gettextify(n))
+        mat_jtl.write(gettextify(v1))
+        mat_jtl.write(gettextify(v2))
+        mat_jtl.write(gettextify(d[0]))
+        mat_jtl.write(gettextify(d[1]))
+        mat_jtl.write(gettextify(d[2]))
+        mat_jtl.write(gettextify(d[3]))
+
+# data/raw/names.json
+with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
+    jsonfile = os.path.join(raw_folder, "names.json")
+    jsondata = json.loads(open(jsonfile).read())
+    names = [item["name"] for item in jsondata]
+    for n in zip(names):
+        name_jtl.write(gettextify('<name>' + n[0]))

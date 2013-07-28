@@ -22,6 +22,8 @@ void snippet_library::load() throw (std::string)
         const std::string text = curr.get("text").as_string();
         const int hash = djb2_hash( (const unsigned char*)text.c_str() );
 
+        text = _(text.c_str())
+
         snippets.insert( std::pair<int, std::string>(hash, text) );
         categories.insert( std::pair<std::string, int>(category, hash) );
     }
