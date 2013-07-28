@@ -1149,7 +1149,10 @@ switch (furn(x, y)) {
    furn_set(x, y, f_null);
    spawn_item(x, y, "scrap",       0, rng(0, 6));
    spawn_item(x, y, "steel_chunk", 0, rng(0, 3));
-   spawn_item(x, y, "element",     0, rng(0, 4));
+   spawn_item(x, y, "element", 0, rng(1, 3));
+   spawn_item(x, y, "sheet_metal", 0, 0, rng(2, 6));
+   spawn_item(x, y, "cable", 0, 0, rng(1,3));
+
    return true;
   } else {
    sound += "clang!";

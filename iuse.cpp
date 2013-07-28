@@ -2206,7 +2206,7 @@ void iuse::siphon(game *g, player *p, item *it, bool t)
         g->add_msg_if_player(p, _("That vehicle has no fuel to siphon."));
         return;
     }
-    p->siphon_gas(g, veh);
+    p->siphon(g, veh, "gasoline");
     p->moves -= 200;
     return;
 }

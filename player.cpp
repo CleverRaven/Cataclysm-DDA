@@ -4202,13 +4202,13 @@ int player::addiction_level(add_type type)
  return 0;
 }
 
-void player::siphon_gas(game *g, vehicle *veh)
+void player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 {
-    int fuel_amount = veh->drain("gasoline", veh->fuel_capacity("gasoline"));
-    item used_item(g->itypes["gasoline"], g->turn);
-    used_item.charges = fuel_amount;
-    g->add_msg(_("Siphoned %d units of gasoline from the vehicle."), fuel_amount);
-    while (!g->handle_liquid(used_item, false, false)) { } // handle the gas until it's all gone
+    int liquid_amount = veh->drain( desired_liquid , veh->fuel_capacity( desired_liquid ));
+    item used_item(g->itypes[ default_ammo(desired_liquid) ], g->turn);
+    used_item.charges = liquid_amount;
+    g->add_msg(_("Siphoned %d units of %s from the vehicle."), liquid_amount, used_item.name.c_str());
+    while (!g->handle_liquid(used_item, false, false)) { } // handle the liquid until it's all gone
 }
 
 void player::cauterize(game *g) {
@@ -7154,6 +7154,8 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
             }
         }
     }
+    if(it->is_book())
+        return HINT_GOOD;
     // no recipe exists, or the item cannot be disassembled
     return HINT_CANT;
 }

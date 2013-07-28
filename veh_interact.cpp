@@ -136,6 +136,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
                 case 'e': do_rename(mval);  break;
                 case 's': do_siphon(mval);  break;
                 case 'c': do_tirechange(mval); break;
+                case 'd': do_drain(mval);  break;
                 default:;
                 }
                 if (sel_cmd != ' ')
@@ -195,6 +196,9 @@ int veh_interact::cant_do (char mode)
         valid_target = wheel >= 0;
         has_tools = has_wrench && has_jack && has_wheel;
         break;
+    case 'd': //drain tank
+        valid_target = veh->fuel_left("water") > 0;
+        has_tools = has_siphon;
     default:
         return -1;
     }
@@ -582,6 +586,25 @@ void veh_interact::do_tirechange(int reason)
     }
 }
 
+void veh_interact::do_drain(int reason)
+{
+    werase (w_msg);
+    switch (reason)
+    {
+    case 1:
+        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no water to siphon.") );
+        wrefresh (w_msg);
+        return;
+    case 2:
+        mvwprintz(w_msg, 0, 1, c_ltgray, _("You need a hose to siphon water.") );
+        mvwprintz(w_msg, 0, 12, c_red, _("hose") );
+        wrefresh (w_msg);
+        return;
+    default:;
+    }
+    sel_cmd = 'd';
+}
+
 void veh_interact::do_rename(int reason)
 {
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
@@ -785,9 +808,10 @@ void veh_interact::display_mode (char mode)
         bool mc = !cant_do('c');
         x += shortcut_print(w_mode, 0, x, mi? c_ltgray : c_dkgray, mi? c_ltgreen : c_green, _("<i>nstall"))+1;
         x += shortcut_print(w_mode, 0, x, mr? c_ltgray : c_dkgray, mr? c_ltgreen : c_green, _("<r>epair"))+1;
-        x += shortcut_print(w_mode, 0, x, mf? c_ltgray : c_dkgray, mf? c_ltgreen : c_green, _("<r>efill"))+1;
+        x += shortcut_print(w_mode, 0, x, mf? c_ltgray : c_dkgray, mf? c_ltgreen : c_green, _("re<f>ill"))+1;
         x += shortcut_print(w_mode, 0, x, mo? c_ltgray : c_dkgray, mo? c_ltgreen : c_green, _("rem<o>ve"))+1;
         x += shortcut_print(w_mode, 0, x, ms? c_ltgray : c_dkgray, ms? c_ltgreen : c_green, _("<s>iphon"))+1;
+        x += shortcut_print(w_mode, 0, x, ms? c_ltgray : c_dkgray, ms? c_ltgreen : c_green, _("<d>rain water"))+1;
         x += shortcut_print(w_mode, 0, x, mc? c_ltgray : c_dkgray, mc? c_ltgreen : c_green, _("<c>hange tire"))+1;
     }
     x += shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, _("r<e>name"))+1;
@@ -1032,7 +1056,7 @@ void complete_vehicle (game *g)
         }
         break;
     case 's':
-        g->u.siphon_gas(g, veh);
+        g->u.siphon( g, veh, "gasoline" );
         break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
@@ -1059,7 +1083,9 @@ void complete_vehicle (game *g)
                 g->m.add_item_or_charges( g->u.posx, g->u.posy, removed_wheel );
             }
         }
-
+        break;
+    case 'd':
+        g->u.siphon( g, veh, "water" );
         break;
     default:;
     }
