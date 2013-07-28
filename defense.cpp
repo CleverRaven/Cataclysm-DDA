@@ -1145,7 +1145,7 @@ void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
 // Clear the window
  for (int i = 1; i <= 10; i++)
   mvwprintz(w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
- mvwprintz(w, 1, 1, c_white, _("Your Cash:%s%6d"),cash);
+ mvwprintz(w, 1, 1, c_white, _("Your Cash:%6d"),cash);
  wprintz(w, c_ltgray, " -> ");
  wprintz(w, (total_price > cash ? c_red : c_green), "%d", cash - total_price);
 
@@ -1180,7 +1180,7 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
   wprintz(w, c_white, " x %s%2d", (*counts)[i]);
   if ((*counts)[i] > 0) {
    int price = caravan_price(g->u, g->itypes[(*items)[i]]->price *(*counts)[i]);
-   wprintz(w, (price > g->u.cash ? c_red : c_green), "($%s%6d)", price);
+   wprintz(w, (price > g->u.cash ? c_red : c_green), "($%6d)", price);
   }
  }
  wrefresh(w);
