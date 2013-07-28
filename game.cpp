@@ -89,6 +89,7 @@ game::game() :
  init_morale();
  init_traits();
  init_skills();
+ init_professions();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	              // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();
