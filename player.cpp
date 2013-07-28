@@ -19,6 +19,7 @@
 #include "translations.h"
 #include "name.h"
 #include "cursesdef.h"
+#include "catacharset.h"
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
@@ -2201,19 +2202,20 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  wrefresh(w_tip);
 
 // First!  Default STATS screen.
- mvwprintz(w_stats, 0, 10, c_ltgray, 13 - utf8_width(_("STATS"))/2);
+ const char* title_STATS = _("STATS");
+ mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
  mvwprintz(w_stats, 2,  2, c_ltgray, "                     ");
  mvwprintz(w_stats, 2,  2, c_ltgray, _("Strength:"));
- mvwprintz(w_stats, 2,  19, c_ltgray, str_max>9?"(%d)":" (%d)", str_max);
+ mvwprintz(w_stats, 2,  20, c_ltgray, str_max>9?"(%d)":" (%d)", str_max);
  mvwprintz(w_stats, 3,  2, c_ltgray, "                     ");
  mvwprintz(w_stats, 3,  2, c_ltgray, _("Dexterity:"));
- mvwprintz(w_stats, 3,  19, c_ltgray, dex_max>9?"(%d)":" (%d)", dex_max);
+ mvwprintz(w_stats, 3,  20, c_ltgray, dex_max>9?"(%d)":" (%d)", dex_max);
  mvwprintz(w_stats, 4,  2, c_ltgray, "                     ");
  mvwprintz(w_stats, 4,  2, c_ltgray, _("Intelligence:"));
- mvwprintz(w_stats, 4,  19, c_ltgray, int_max>9?"(%d)":" (%d)", int_max);
+ mvwprintz(w_stats, 4,  20, c_ltgray, int_max>9?"(%d)":" (%d)", int_max);
  mvwprintz(w_stats, 5,  2, c_ltgray, "                     ");
  mvwprintz(w_stats, 5,  2, c_ltgray, _("Perception:"));
- mvwprintz(w_stats, 5,  19, c_ltgray, per_max>9?"(%d)":" (%d)", per_max);
+ mvwprintz(w_stats, 5,  20, c_ltgray, per_max>9?"(%d)":" (%d)", per_max);
 
  nc_color status = c_white;
 
