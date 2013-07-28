@@ -10115,36 +10115,21 @@
                               ]
                           ]
         },
-                {
-                "result": "welder_crude",
-                "category": "CC_MISC",
-                "skill_pri": "mechanics",
-                "difficulty": 1,
-                "time": 12000,
-                "reversible": true,
-                "autolearn": true,
-                "tools": [
-                                 [
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
-                             ]
-                         ],
-                "components": [
-                                  [
-                                      ["element", 3]
-                                  ],
-                                  [
-                                      ["scrap", 2]
-                                  ],
-                                  [
-                                      ["cable", 8]
-                                  ]
-                              ]
-            },
-            {
+        {
+            "result": "welder_crude",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 1,
+            "time": 12000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+                         ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
+            "components": [ [ ["element", 3] ],
+                            [ ["scrap", 2] ],
+                            [ ["cable", 8] ] ]
+        },
+        {
             "result": "flamethrower_crude",
             "category": "CC_WEAPON",
             "skill_pri": "survival",
@@ -10152,32 +10137,16 @@
             "time": 5000,
             "reversible": false,
             "autolearn": true,
-            "tools": [
-                                                 [
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1],
-                             ["screwdriver", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["spray_can", 1]
-                              ],
-                              [
-                                  ["duct_tape", 25]
-                              ],
-                              [
-                                  ["lighter", 1]
-                              ]
-                          ]
-            },
-            {
+            "tools": [ [ ["knife_steak", -1], ["knife_combat", -1],
+                         ["knife_butcher", -1], ["pockknife", -1],
+                         ["scalpel", -1], ["machete", -1],
+                         ["broadsword", -1], ["toolset", -1],
+                         ["screwdriver", -1] ] ],
+            "components": [ [ ["spray_can", 1] ],
+                            [ ["duct_tape", 25] ],
+                            [ ["lighter", 1] ] ]
+        },
+        {
             "result": "armor_scrapsuit",
             "category": "CC_ARMOR",
             "skill_pri": "mechanics",
@@ -10185,15 +10154,8 @@
             "time": 100000,
             "reversible": false,
             "autolearn": true,
-            "components": [
-                              [
-                                  ["string_36", 2],
-                                  ["string_6", 12]
-                              ],
-                              [
-                                  ["scrap", 15]
-                              ]
-                          ]
+            "components": [ [ ["string_36", 2], ["string_6", 12] ],
+                            [ ["scrap", 15] ] ]
         },
         {
             "result": "shield_wood",
@@ -10203,54 +10165,27 @@
             "time": 50000,
             "reversible": false,
             "autolearn": true,
-            "components": [
-                              [
-                                  ["rag", 10]
-                              ],
-                              [
-                                  ["2x4", 3]
-                              ]
-                          ]
+            "components": [ [ ["rag", 10] ],
+                            [ ["2x4", 3] ] ]
         },
         {
             "result": "still",
             "category": "CC_CHEM",
-                        "skill_pri": "mechanics",
+            "skill_pri": "mechanics",
             "difficulty": 2,
             "time": 200000,
             "reversible": false,
             "autolearn": true,
-            "tools": [
-                         [
-                             ["hatchet", -1],
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1]
-                         ],
-                                                 [
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["pot", 1]
-                              ],
-                              [
-                                  ["hose", 2]
-                              ],
-                              [
-                                  ["metal_tank", 1]
-                              ]
-                          ]
+            "tools": [ [ ["knife_steak", -1], ["knife_combat", -1],
+                         ["knife_butcher", -1], ["pockknife", -1],
+                         ["scalpel", -1], ["machete", -1],
+                         ["broadsword", -1], ["toolset", -1],
+                         ["screwdriver", -1] ] ],
+                       [ ["rock", -1], ["primitive_hammer", -1],
+                         ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
+            "components": [ [ ["pot", 1] ],
+                            [ ["hose", 2] ],
+                            [ ["metal_tank", 1] ] ]
         },
         {
             "result": "drink_strawberry_surprise",
@@ -10260,25 +10195,11 @@
             "time": 7000,
             "reversible": false,
             "autolearn": true,
-                        "tools":[
-                                        [
-                                        ["still", -1]
-                                        ],
-                                        [
-                                        ["fire", -1]
-                                        ]
-                                        ],
-            "components": [
-                              [
-                                  ["strawberries", 2]
-                              ],
-                              [
-                                  ["vodka", 4]
-                              ],
-                                                          [
-                                  ["bottle_glass", 1]
-                              ]
-                          ]
+            "tools":[ [ ["still", -1] ],
+                      [ ["fire", -1] ] ],
+            "components": [ [ ["strawberries", 2] ],
+                            [ ["vodka", 4] ],
+                            [ ["bottle_glass", 1] ] ]
         },
         {
             "result": "drink_boozeberry",
@@ -10288,25 +10209,11 @@
             "time": 7000,
             "reversible": false,
             "autolearn": true,
-                        "tools":[
-                                        [
-                                        ["still", -1]
-                                        ],
-                                        [
-                                        ["fire", -1]
-                                        ]
-                                        ],
-            "components": [
-                              [
-                                  ["blueberries", 2]
-                              ],
-                              [
-                                  ["vodka", 4]
-                              ],
-                                                          [
-                                  ["bottle_glass", 1]
-                              ]
-                          ]
+            "tools":[ [ ["still", -1] ],
+                      [ ["fire", -1] ] ],
+            "components": [ [ ["blueberries", 2] ],
+                            [ ["vodka", 4] ],
+                            [ ["bottle_glass", 1] ] ]
         },
         {
             "result": "cola_meth",
@@ -10316,27 +10223,13 @@
             "time": 7000,
             "reversible": false,
             "autolearn": true,
-                        "tools":[
-                                        [
-                                        ["still", -1]
-                                        ],
-                                        [
-                                        ["fire", -1]
-                                        ]
-                                        ],
-            "components": [
-                              [
-                                  ["meth", 4]
-                              ],
-                              [
-                                  ["cola", 2]
-                              ],
-                                                          [
-                                  ["bottle_glass", 1]
-                              ]
-                          ]
-    },
-    {
+                        "tools":[ [ ["still", -1] ],
+                                  [ ["fire", -1] ] ],
+            "components": [ [ ["meth", 4] ],
+                            [ ["cola", 2] ],
+                            [ ["bottle_glass", 1] ] ]
+        },
+        {
             "result": "bookplate",
             "category": "CC_ARMOR",
             "skill_pri": "survival",
@@ -10344,86 +10237,43 @@
             "time": 10000,
             "reversible": false,
             "autolearn": true,
-            "tools": [
-                                                 [
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1],
-                             ["screwdriver", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["paper", 300]
-                              ],
-                              [
-                                  ["duct_tape", 150]
-                              ]
-                                                          ]
-                                        },
-                                        {
-                "result": "knuckle_steel",
-                "category": "CC_WEAPON",
-                "skill_pri": "mechanics",
-                "skill_sec": "bashing",
-                "difficulty": 2,
-                "time": 20000,
-                "reversible": false,
-                "autolearn": true,
-                "tools": [
-                                                                [
-                                 ["hacksaw", -1],
-                                 ["toolset", -1]
-                                                                ],
-                             [
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
-                                                        ]
-                                                ],
-                "components": [
-                                  [
-                                      ["rag", 4]
-                                  ],
-                                  [
-                                      ["scrap", 4]
-                                  ]
-                              ]
-            },
-                        {
-                "result": "knuckle_katar",
-                "category": "CC_WEAPON",
-                "skill_pri": "mechanics",
-                "skill_sec": "bashing",
-                "difficulty": 4,
-                "time": 30000,
-                "reversible": false,
-                "autolearn": true,
-                "tools": [
-                             [
-                                 ["hacksaw", -1],
-                                 ["toolset", -1]
-                             ],
-                             [
-                                 ["screwdriver", -1],
-                                 ["toolset", -1]
-                             ]
-                         ],
-                "components": [
-                                  [
-                                      ["2x4", 4]
-                                  ],
-                                  [
-                                      ["rebar", 5]
-                                  ]
-                              ]
+            "tools": [ [ ["knife_steak", -1], ["knife_combat", -1],
+                         ["knife_butcher", -1], ["pockknife", -1],
+                         ["scalpel", -1], ["machete", -1],
+                         ["broadsword", -1], ["toolset", -1],
+                         ["screwdriver", -1] ] ],
+            "components": [ [ ["paper", 300] ],
+                            [ ["duct_tape", 150] ] ]
+        },
+        {
+            "result": "knuckle_steel",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "bashing",
+            "difficulty": 2,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
+                       [ ["rock", -1], ["primitive_hammer", -1],
+                         ["hammer", -1], ["hatchet", -1],
+                         ["toolset", -1] ] ],
+            "components": [ [ ["rag", 4] ],
+                            [ ["scrap", 4] ] ]
+        },
+        {
+            "result": "knuckle_katar",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "bashing",
+            "difficulty": 4,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
+                       [ ["screwdriver", -1], ["toolset", -1] ] ],
+            "components": [ [ ["2x4", 4] ],
+                            [ ["rebar", 5] ] ]
         },
         {
             "result": "taint_tornado",
@@ -10433,31 +10283,13 @@
             "time": 7000,
             "reversible": false,
             "autolearn": true,
-                        "tools":[
-                                        [
-                                        ["still", -1]
-                                        ],
-                                        [
-                                        ["fire", -1]
-                                        ]
-                                        ],
-            "components": [
-                              [
-                                  ["meat_tainted", 12]
-                              ],
-                                                          [
-                                  ["vodka", 2]
-                              ],
-                                                          [
-                                  ["whiskey", 2]
-                              ],
-                              [
-                                  ["rum", 2]
-                              ],
-                                                          [
-                                  ["bottle_glass", 1]
-                              ]
-                          ]
+            "tools":[ [ ["still", -1] ],
+                      [ ["fire", -1]  ] ],
+            "components": [ [ ["meat_tainted", 12] ],
+                            [ ["vodka", 2] ],
+                            [ ["whiskey", 2] ],
+                            [ ["rum", 2] ],
+                            [ ["bottle_glass", 1] ] ]
         }
     ]
 }

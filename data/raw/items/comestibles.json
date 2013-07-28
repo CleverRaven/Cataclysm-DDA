@@ -5150,7 +5150,7 @@
         "bashing" : 0,
         "fun" : 5
     },
-	{
+    {
         "type" : "COMESTIBLE",
         "id" : "paper",
         "name" : "paper",
@@ -5210,13 +5210,13 @@
         "bashing" : 0,
         "fun" : 8
     },
-	{
+    {
         "type" : "COMESTIBLE",
         "id" : "drink_boozeberry",
         "name" : "Boozeberry",
         "weight" : 1,
         "color" : "cyan",
-		"symbol": "D",
+        "symbol": "D",
         "addiction_type" : "alcohol",
         "spoils_in" : 0,
         "use_action" : "ALCOHOL",
@@ -5241,7 +5241,7 @@
         "bashing" : 0,
         "fun" : -12
     },
-	{
+    {
         "type" : "COMESTIBLE",
         "id" : "cola_meth",
         "name" : "Methacola",
@@ -5271,8 +5271,8 @@
         "bashing" : 0,
         "fun" : 30
     },
-	{
-	"type" : "COMESTIBLE",
+    {
+        "type" : "COMESTIBLE",
         "id" : "taint_tornado",
         "name" : "Tainted Tornado",
         "weight" : 1,
