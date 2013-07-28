@@ -250,8 +250,7 @@ void defense_game::init_map(game *g)
    int percent = 100 * ((j / 2 + MAPSIZE * (i / 2))) /
                        ((MAPSIZE) * (MAPSIZE + 1));
    if (percent >= old_percent + 1) {
-    popup_nowait(_("Please wait as the map generates [%s%d%]"),
-                 (percent < 10 ? " " : ""), percent);
+    popup_nowait(_("Please wait as the map generates [%2d%]"), percent);
     old_percent = percent;
    }
 // Round down to the nearest even number
@@ -1168,7 +1167,7 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
 // THEN print it--if item_selected is valid
  if (item_selected < items->size()) {
   item tmp(g->itypes[ (*items)[item_selected] ], 0); // Dummy item to get info
-  mvwprintz(w, 12, 0, c_white, tmp.info().c_str());
+  mvwprintz(w, 12, 1, c_white, tmp.info().c_str());
  }
 // Next, clear the item list on the right
  for (int i = 1; i <= FULL_SCREEN_HEIGHT-2; i++)
@@ -1177,7 +1176,7 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
  for (int i = offset; i <= offset + FULL_SCREEN_HEIGHT-2 && i < items->size(); i++) {
   mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
             g->itypes[ (*items)[i] ]->name.c_str());
-  wprintz(w, c_white, " x %s%2d", (*counts)[i]);
+  wprintz(w, c_white, " x %2d", (*counts)[i]);
   if ((*counts)[i] > 0) {
    int price = caravan_price(g->u, g->itypes[(*items)[i]]->price *(*counts)[i]);
    wprintz(w, (price > g->u.cash ? c_red : c_green), "($%6d)", price);
