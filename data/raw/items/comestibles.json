@@ -5205,7 +5205,7 @@
         "volume" : 2,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 1,
+        "charges" : 6,
         "rarity" : 8,
         "bashing" : 0,
         "fun" : 8
@@ -5236,7 +5236,7 @@
         "volume" : 2,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 1,
+        "charges" : 6,
         "rarity" : 8,
         "bashing" : 0,
         "fun" : -12

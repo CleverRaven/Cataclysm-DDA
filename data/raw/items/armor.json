@@ -3877,7 +3877,7 @@
         "encumberance" : 0,
         "bashing" : -8,
         "cut": -2,
-        "coverage" : 95,
+        "coverage" : 90,
         "material_thickness" : 3
     },
     {
@@ -3924,7 +3924,7 @@
         "phase" : "solid",
         "enviromental_protection" : 0,
         "rarity" : 2,
-        "encumberance" : 3,
+        "encumberance" : 4,
         "bashing" : 6,
         "flags" : ["VARSIZE"],
         "volume": 10,
@@ -3943,16 +3943,16 @@
         "symbol" : "O",
         "description" : "A crude form of armor made from stacked paper and rolls of duct tape, this breastplate offers a surprising amount of protection.",
         "price" : 420,
-        "material" : ["wood", "null"],
+        "material" : ["paper", "null"],
         "volume" : 8,
         "cutting" : -10,
-        "warmth" : 0,
+        "warmth" : 10,
         "phase" : "solid",
         "enviromental_protection" : 0,
         "rarity" : 25,
-        "encumberance" : 1,
+        "encumberance" : 2,
         "bashing" : -10,
         "coverage" : 95,
-        "material_thickness" : 1
+        "material_thickness" : 3
     }
 ]
