@@ -487,20 +487,22 @@
       "items":[
          "skirt",
          "heels",
-         "tank_top"
-      ],
+         "tank_top",
+         "crackpipe"
+   	 ],
       "name":"Prostitute",
       "points":-3,
       "flags": ["female_only"]
    },
    {
-      "description":"You spent most of your life working with your father in the woods. Both of you made a decent living off of your catches, and trapping tutorials. You start with a skill in trapping.",
+      "description":"You spent most of your life trapping with your father. Both of you made a decent living off of your catches, and trapping tutorials. You start with a skill in trapping.",
       "ident":"trapper",
       "items":[
          "jeans",
          "boots",
          "hat_hunting",
-         "jacket_flannel"
+         "jacket_flannel",
+         "beartrap"
       ],
       "name":"Trapper",
       "points":1,
