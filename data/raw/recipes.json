@@ -9957,16 +9957,16 @@
                          [
                              ["goggles_welding", -1]
                          ],
-						 [
+                         [
                              ["hacksaw", -1], ["toolset", -1]
                          ],
                          [
                              ["screwdriver", -1], ["toolset", -1]
                          ],
-						 [
+                         [
                              ["wrench", -1], ["toolset", -1]
                          ],
-						 [
+                         [
                              ["welder", 150], ["toolset", 6]
                          ]
                      ],
@@ -9974,20 +9974,20 @@
                               [
                                   ["pipe", 4]
                               ],
-							  [
+                              [
                                   ["duct_tape", 100],
                                   ["superglue", 1]
                               ],
                               [
                                   ["2x4", 1]
                               ],
-							  [
+                              [
                                   ["metal_tank", 1]
                               ],
-							  [
+                              [
                                   ["steel_chunk", 1]
                               ],
-							  [
+                              [
                                   ["scrap", 6]
                               ]
                           ]
@@ -10005,16 +10005,16 @@
                          [
                              ["goggles_welding", -1]
                          ],
-						 [
+                         [
                              ["hacksaw", -1], ["toolset", -1]
                          ],
                          [
                              ["screwdriver", -1], ["toolset", -1]
                          ],
-						 [
+                         [
                              ["wrench", -1], ["toolset", -1]
                          ],
-						 [
+                         [
                              ["welder", 300], ["toolset", 12]
                          ]
                      ],
@@ -10022,20 +10022,20 @@
                               [
                                   ["pipe", 8]
                               ],
-					          [
+                              [
                                   ["duct_tape", 100],
                                   ["superglue", 1]
                               ],
                               [
                                   ["2x4", 1]
                               ],
-							  [
+                              [
                                   ["metal_tank", 1]
                               ],
                               [
                                   ["steel_chunk", 2]
                               ],
-							  [
+                              [
                                   ["scrap", 4]
                               ]
                           ]
@@ -10053,16 +10053,16 @@
                          [
                              ["goggles_welding", -1]
                          ],
-					     [
+                         [
                              ["hacksaw", -1], ["toolset", -1]
                          ],
                          [
                              ["screwdriver", -1], ["toolset", -1]
                          ],
-						 [
+                         [
                              ["wrench", -1], ["toolset", -1]
                          ],
-						 [
+                         [
                              ["welder", 100], ["toolset", 4]
                          ]
                      ],
@@ -10073,7 +10073,7 @@
                               [
                                   ["2x4", 1]
                               ],
-							  [
+                              [
                                   ["scrap", 2]
                               ]
                           ]
@@ -10095,7 +10095,7 @@
                          [
                              ["pan", -1]
                          ],
-						 [
+                         [
                              ["knife_steak", -1],
                              ["knife_combat", -1],
                              ["knife_butcher", -1],
