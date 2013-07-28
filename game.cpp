@@ -7766,7 +7766,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
                     const std::string name = here[i].tname(this);
                     if (temp_items.find(name) == temp_items.end())
                     {
-                        temp_items[name] = map_item_stack(here[i], iCol, iRow);
+                        temp_items[name] = map_item_stack(here[i], p_it->x - u.posx, p_it->y - u.posy);
                     }
                     else
                     {
