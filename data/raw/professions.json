@@ -458,7 +458,7 @@
          "dress_shoes"
       ],
       "name":"Groom",
-      "points":0,
+      "points":0
    },
    {
       "description":"You chose a bad day for your wedding. You just barely escaped with your wedding dress intact.",
@@ -471,7 +471,7 @@
       "points":0,
       "flags": ["female_only"]
    },
-      {
+   {
       "description":"You were on your way to collect your check, when your pimp tried to kill you, you only wished that it wasn't a common occurence.",
       "ident":"hooker",
       "items":[
@@ -482,5 +482,23 @@
       "name":"Prostitute",
       "points":0,
       "flags": ["female_only"]
-   }
+   },
+   {
+      "description":"You spent most of your life working with your father in the woods. Both of you made a decent living off of your catches, and trapping tutorials. You start with a skill in trapping.",
+      "ident":"trapper",
+      "items":[
+         "jeans",
+         "boots",
+         "hat_hunting",
+         "jacket_flannel"
+      ],
+      "name":"Trapper",
+      "points":1,
+      "skills":[
+         {
+            "level":1,
+            "name":"traps"
+         }
+      ]
+    }
 ]
