@@ -4075,6 +4075,33 @@ void map::build_map_cache(game *g)
  generate_lightmap(g);
 }
 
+std::vector<point> get_points(int radius, int center_x, int center_y)
+{
+    std::vector<point> points;
+    int X,Y,x,y,dx,dy;
+    X = radius;
+    Y = radius;
+    x = y = dx =0;
+    dy = -1;
+    int t = std::max(X,Y);
+    int maxI = t*t;
+    for(int i =0; i < maxI; i++)
+    {
+        if ((-X/2 <= x) && (x <= X/2) && (-Y/2 <= y) && (y <= Y/2))
+        {
+            points.push_back(point(x + center_x, y + center_y));
+        }
+        if( (x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
+        {
+            t = dx;
+            dx = -dy;
+            dy = t;
+        }
+        x += dx;
+        y += dy;
+    }
+    return points;
+}
 
 tinymap::tinymap()
 {
