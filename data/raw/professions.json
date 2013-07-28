@@ -460,5 +460,35 @@
       "name":"Bride",
       "points":0,
       "flags": ["female_only"]
-   }
+   },
+
+  {
+          "ident": "junkie",
+          "name": "Junkie",
+          "description":
+          "Before the Apocalypse, you turned to Heroin to soothe your many problems.\nNow, your habit is your only comfort and your only drive.",
+          "points": -1,
+          "items": ["pants", "dress_shirt", "dress_shoes", "heroin","syringe"],
+          "addictions": [
+                  {
+                  "type": "opiate",
+                  "intensity": 10
+                  }
+          ]
+ },
+
+ {
+"ident": "chef",
+"name": "Chef",
+"description":
+"Bork bork! Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
+"points": 2,
+"items": ["knife_butcher", "hat_chef", "jacket_chef", "pants_checkered", "dress_shoes"],
+"skills" : [
+     {
+      "name" : "cooking",
+      "level" : 3
+     }
+         ]
+}
 ]
