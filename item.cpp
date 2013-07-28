@@ -826,13 +826,13 @@ std::string item::tname(game *g)
  std::string damtext = "";
  if (damage != 0 && !is_null()) {
   if (damage == -1) {
-    damtext = _("<dam_adj>reinforced");
+    damtext = _("<dam_adj>reinforced ");
   } else {
    if (type->id == "corpse") {
-    if (damage == 1) damtext = _("<dam_adj>bruised");
-    if (damage == 2) damtext = _("<dam_adj>damaged");
-    if (damage == 3) damtext = _("<dam_adj>mangled");
-    if (damage == 4) damtext = _("<dam_adj>pulped");
+    if (damage == 1) damtext = _("<dam_adj>bruised ");
+    if (damage == 2) damtext = _("<dam_adj>damaged ");
+    if (damage == 3) damtext = _("<dam_adj>mangled ");
+    if (damage == 4) damtext = _("<dam_adj>pulped ");
    } else {
     damtext = string_format("<dam_adj>%s ", type->dmg_adj(damage).c_str());
    }
