@@ -8427,9 +8427,9 @@ point player::adjacent_tile()
             {
                 dangerous_fields = 0;
                 tmpfld = g->m.field_at(i, j);
-                for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it)
+                for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it)
                 {
-                    cur = (*field_list_it);
+                    cur = field_list_it->second;
                     if (cur != NULL && cur->is_dangerous())
                         dangerous_fields++;
                 }

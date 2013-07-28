@@ -945,9 +945,9 @@ bool map::trans(const int x, const int y)
 	 field &curfield = field_at(x,y);
 	 if(curfield.fieldCount() > 0){
 	 field_entry *cur = NULL;
-	  for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart();
+	  for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
        field_list_it != curfield.getFieldEnd(); ++field_list_it){
-			 cur = (*field_list_it);
+			 cur = field_list_it->second;
 			 if(cur == NULL) continue;
 			 //If ANY field blocks vision, the tile does.
 			 if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]){
@@ -4001,8 +4001,8 @@ void map::build_transparency_cache()
    field &curfield = field_at(x,y);
    if(curfield.fieldCount() > 0){
 	   field_entry *cur = NULL;
-	   for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-		   cur = (*field_list_it);
+	   for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+		   cur = field_list_it->second;
 		   if(cur == NULL) continue;
 
 		   if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
