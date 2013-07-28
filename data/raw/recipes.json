@@ -9974,8 +9974,18 @@
                               [
                                   ["pipe", 4]
                               ],
+							  [
+                                  ["duct_tape", 100],
+                                  ["superglue", 1]
+                              ],
                               [
                                   ["2x4", 1]
+                              ],
+							  [
+                                  ["metal_tank", 1]
+                              ],
+							  [
+                                  ["steel_chunk", 1]
                               ],
 							  [
                                   ["scrap", 6]
@@ -10012,8 +10022,18 @@
                               [
                                   ["pipe", 8]
                               ],
+					          [
+                                  ["duct_tape", 100],
+                                  ["superglue", 1]
+                              ],
                               [
                                   ["2x4", 1]
+                              ],
+							  [
+                                  ["metal_tank", 1]
+                              ],
+                              [
+                                  ["steel_chunk", 2]
                               ],
 							  [
                                   ["scrap", 4]
@@ -10033,7 +10053,7 @@
                          [
                              ["goggles_welding", -1]
                          ],
-						 [
+					     [
                              ["hacksaw", -1], ["toolset", -1]
                          ],
                          [
