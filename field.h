@@ -140,7 +140,7 @@ public:
         return is_alive;
     }
 
-// screw this oop madness fire exceeds 1000ms // private:
+private:
     field_id type; //The field identifier.
     signed char density; //The density, or intensity (higher is stronger), of the field entry.
     int age; //The age, or time to live, of the field effect. 0 is permanent.
