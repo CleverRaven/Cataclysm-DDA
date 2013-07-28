@@ -714,7 +714,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     if (is_armor() && type->id == "rad_badge")
     {
         int i;
-        for( i = 0; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ )
+        for( i = 1; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ )
         {
             if( irridation < rad_dosage_thresholds[i] )
             {
