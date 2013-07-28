@@ -1058,7 +1058,7 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
   }
 
   if (!noname) {
-   mvwprintz(w, 6, 8, c_ltgray, u->name.c_str());
+   mvwprintz(w, 6, 8, c_ltgray, "%s", u->name.c_str());
    if (line == 1)
     wprintz(w, h_ltgray, "_");
   }
@@ -1109,14 +1109,21 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
     case 1:
      if (ch == KEY_BACKSPACE || ch == 127) {
       if (u->name.size() > 0) {
-       mvwprintz(w, 6, namebar_pos + u->name.size(), c_ltgray, "_");
-       u->name.erase(u->name.end() - 1);
+       //erease utf8 character TODO: make a function
+       while(u->name.size()>0 && ((unsigned char)u->name[u->name.size()-1])>=128 &&
+                                 ((unsigned char)u->name[(int)u->name.size()-1])<=191) {
+           u->name.erase(u->name.size()-1);
+       }
+       u->name.erase(u->name.size()-1);
+       mvwprintz(w, 6, namebar_pos, c_ltgray, "______________________________");
+       mvwprintz(w, 6, namebar_pos, c_ltgray, "%s", u->name.c_str());
+       wprintz(w, h_ltgray, "_");
       }
      } else if (ch == '\t') {
       line = 2;
-      mvwprintz(w, 6, namebar_pos + u->name.size(), c_ltgray, "_");
+      mvwprintz(w, 6, namebar_pos +  utf8_width(u->name.c_str()), c_ltgray, "_");
      } else if (((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
-                  ch == ' ') && u->name.size() < 30) {
+                  ch == ' ') &&  utf8_width(u->name.c_str()) < 30) {
       u->name.push_back(ch);
      }
      break;
