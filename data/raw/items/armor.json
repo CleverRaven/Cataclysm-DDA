@@ -271,7 +271,7 @@
         "rarity" : 50,
         "encumberance" : 4,
         "bashing" : 6,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
         "coverage" : 30,
         "material_thickness" : 2
     },
@@ -595,7 +595,7 @@
         "rarity" : 75,
         "encumberance" : -1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
         "coverage" : 60,
         "material_thickness" : 1
     },
@@ -669,7 +669,32 @@
         "rarity" : 70,
         "encumberance" : 3,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "coverage" : 80,
+        "material_thickness" : 2
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "dress_wedding",
+        "name" : "wedding dress",
+        "weight" : 6,
+        "color" : "yellow",
+        "covers" : ["LEGS", "TORSO"],
+        "to_hit" : -5,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A beautiful white wedding dress. What good will it be now?",
+        "price" : 1000,
+        "material" : ["cotton", "null"],
+        "volume" : 12,
+        "cutting" : 0,
+        "warmth" : 20,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "rarity" : 70,
+        "encumberance" : 3,
+        "bashing" : -5,
+        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
         "coverage" : 80,
         "material_thickness" : 2
     },
@@ -718,7 +743,7 @@
         "rarity" : 60,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "MALE_TYPICAL"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -743,7 +768,7 @@
         "rarity" : 60,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "MALE_TYPICAL"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -893,7 +918,7 @@
         "rarity" : 60,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "MALE_TYPICAL"],
         "coverage" : 90,
         "material_thickness" : 1
     },
@@ -2801,7 +2826,8 @@
         "encumberance" : 0,
         "bashing" : -5,
         "coverage" : 60,
-        "material_thickness" : 1
+        "material_thickness" : 1,
+        "flags": ["MALE_TYPICAL"]
     },
     {
         "type" : "ARMOR",
@@ -2825,6 +2851,7 @@
         "encumberance" : 0,
         "bashing" : -3,
         "coverage" : 60,
+        "flags": ["MALE_TYPICAL"],
         "material_thickness" : 1
     },
     {
@@ -2921,7 +2948,8 @@
         "encumberance" : 1,
         "bashing" : 2,
         "coverage" : 30,
-        "material_thickness" : 2
+        "material_thickness" : 2,
+        "flags" : ["FEMALE_TYPICAL"]
     },
     {
         "type" : "ARMOR",
@@ -3109,7 +3137,8 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
-        "phase" : "solid"
+        "phase" : "solid",
+        "flags" : ["FEMALE_TYPICAL"]
     },
     {
         "type" : "ARMOR",

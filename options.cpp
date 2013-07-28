@@ -327,6 +327,9 @@ option_key lookup_option_key(std::string id)
     if(id == "auto_pickup_safemode") {
         return OPT_AUTO_PICKUP_SAFEMODE;
     }
+    if(id == "sort_crafting") {
+        return OPT_SORT_CRAFTING;
+    }
 
     return OPT_NULL;
 }
@@ -372,6 +375,7 @@ std::string option_string(option_key key)
     case OPT_AUTO_PICKUP:         return "auto_pickup";
     case OPT_AUTO_PICKUP_ZERO:    return "auto_pickup_zero";
     case OPT_AUTO_PICKUP_SAFEMODE:return "auto_pickup_safemode";
+    case OPT_SORT_CRAFTING:       return "sort_crafting";
     default:                      return "unknown_option";
     }
     return "unknown_option";
@@ -398,7 +402,7 @@ std::string option_desc(option_key key)
     case OPT_CIRCLEDIST:          return _("If true, the game will calculate\nrange in a realistic way:\nlight sources will be circles\ndiagonal movement will\ncover more ground and take\nlonger.\nIf disabled, everything is\nsquare: moving to the northwest\ncorner of a building\ntakes as long as moving\nto the north wall.");
     case OPT_QUERY_DISASSEMBLE:   return _("If true, will query before\ndisassembling items.\nDefault is true");
     case OPT_DROP_EMPTY:          return _("Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers");
-    case OPT_SKILL_RUST:          return _("Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - none at all");
+    case OPT_SKILL_RUST:          return _("Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - intelligence dependent\n3 - intelligence dependent, capped\n4 - none at all");
     case OPT_DELETE_WORLD:        return _("Delete saves upon player death.\n0 - no (default)\n1 - yes\n2 - query");
     case OPT_INITIAL_POINTS:      return _("Initial points available on character\ngeneration.\nDefault is 6");
     case OPT_MAX_TRAIT_POINTS:    return _("Maximum trait points available for\ncharacter generation.\nDefault is 12");
@@ -418,6 +422,7 @@ std::string option_desc(option_key key)
     case OPT_AUTO_PICKUP:         return _("Enable item auto pickup. Change\npickup rules with the Auto Pickup\nManager in the Help Menu ?3");
     case OPT_AUTO_PICKUP_ZERO:    return _("Auto pickup items with\n0 Volume or Weight");
     case OPT_AUTO_PICKUP_SAFEMODE:return _("Auto pickup is disabled\nas long as you can see\nmonsters nearby.\n\nThis is affected by\nSafemode proximity distance.");
+    case OPT_SORT_CRAFTING:       return _("If true, the crafting menus\nwill display recipes that you can\ncraft before other recipes");
     default:                      return " ";
     }
     return "Big ol Bug (options.cpp:option_desc)";
@@ -464,6 +469,7 @@ std::string option_name(option_key key)
     case OPT_AUTO_PICKUP:         return _("Enable item Auto Pickup");
     case OPT_AUTO_PICKUP_ZERO:    return _("Auto Pickup 0 Vol/Weight");
     case OPT_AUTO_PICKUP_SAFEMODE:return _("Auto Pickup Safemode");
+    case OPT_SORT_CRAFTING:       return _("Sort Crafting menu");
     default:                      return "Unknown Option (options.cpp:option_name)";
     }
     return "Big ol Bug (options.cpp:option_name)";
@@ -664,6 +670,8 @@ auto_pickup F\n\
 auto_pickup_zero F\n\
 # Auto pickup is disabled as long as you can see monsters nearby.\n\
 auto_pickup_safemode F\n\
+# Sort the crafting menu so things you can craft are at the front of the menu\n\
+sort_crafting T\n\
 ";
     fout.close();
 }

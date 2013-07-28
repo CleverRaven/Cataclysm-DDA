@@ -1397,7 +1397,7 @@ void npc::drop_items(game *g, int weight, int volume)
    item_name << dropped.tname();
   else if (num_items_dropped == 2)
    item_name << _(" and ") << dropped.tname();
-  g->m.add_item(posx, posy, dropped);
+  g->m.add_item_or_charges(posx, posy, dropped);
  }
 // Finally, describe the action if u can see it
  std::string item_name_str = item_name.str();

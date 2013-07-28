@@ -364,13 +364,13 @@ std::string vehicle::use_controls()
        if( part_flag( p, vpf_cargo ) ) {
            for( std::vector<item>::iterator it = parts[p].items.begin();
                 it != parts[p].items.end(); ++it) {
-               g->m.add_item( g->u.posx, g->u.posy, *it );
+               g->m.add_item_or_charges( g->u.posx, g->u.posy, *it );
            }
        }
    }
    bicycle.item_vars["folding_bicycle_parts"] = part_hps.str();
 
-   g->m.add_item(g->u.posx, g->u.posy, bicycle);
+   g->m.add_item_or_charges(g->u.posx, g->u.posy, bicycle);
    // Remove vehicle
    unboard_all();
    g->m.destroy_vehicle(this);

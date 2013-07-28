@@ -897,29 +897,30 @@ bool map::process_fields_in_submap(game *g, int gridn)
 					}
 					break;
 
-				case fd_acid_vent:
-					if (cur->getFieldDensity() > 1) {
-						if (cur->getFieldAge() >= 10) {
-							cur->setFieldDensity(cur->getFieldDensity() - 1);
-							cur->setFieldAge(0);
-						}
-					} else {
-						cur->setFieldDensity(3);
-						for (int i = x - 5; i <= x + 5; i++) {
-							for (int j = y - 5; j <= y + 5; j++) {
-        field &wandering_field = g->m.field_at(i, j);
-								if (wandering_field.findField(fd_acid) ||
-            wandering_field.findField(fd_acid)->getFieldDensity() == 0) {
-									int newdens = 3 - (rl_dist(x, y, i, j) / 2) + (one_in(3) ? 1 : 0);
-									if (newdens > 3)
-										newdens = 3;
-									if (newdens > 0)
-										add_field(g, i, j, fd_acid, newdens);
-								}
-							}
-						}
-					}
-					break;
+                    case fd_acid_vent:
+                        if (cur->getFieldDensity() > 1) {
+                            if (cur->getFieldAge() >= 10) {
+                                cur->setFieldDensity(cur->getFieldDensity() - 1);
+                                cur->setFieldAge(0);
+                            }
+                        } else {
+                            cur->setFieldDensity(3);
+                            for (int i = x - 5; i <= x + 5; i++) {
+                            for (int j = y - 5; j <= y + 5; j++) {
+                                field &wandering_field = g->m.field_at(i, j);
+                                if (wandering_field.findField(fd_acid)){
+                                    if (wandering_field.findField(fd_acid)->getFieldDensity() == 0){
+                                        int newdens = 3 - (rl_dist(x, y, i, j) / 2) + (one_in(3) ? 1 : 0);
+                                        if (newdens > 3)
+                                            newdens = 3;
+                                        if (newdens > 0)
+                                            add_field(g, i, j, fd_acid, newdens);
+                                    }
+                                }
+                            }
+                            }
+                        }
+                        break;
 
 				} // switch (curtype)
 

@@ -922,6 +922,10 @@ std::string item::tname(game *g)
    int(g->turn) - (int)(food->bday) > food_type->spoils * 600)
    ret << _(" (rotten)");
 
+ if (has_flag("FIT")){
+     ret << " (fits)";
+ }
+
  if (owned > 0)
   ret << _(" (owned)");
 

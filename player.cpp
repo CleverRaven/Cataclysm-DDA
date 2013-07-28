@@ -63,6 +63,7 @@ void game::init_morale()
 
     _("Masochism"),
     _("Hoarder"),
+    _("Cross-Dresser"),
     _("Optimist")
     };
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
@@ -142,6 +143,9 @@ close to you.")},
 {_("Masochist"), 2, 0, 0, _("\
 Although you still suffer the negative effects of pain, it also brings a \
 unique pleasure to you.")},
+{_("Cross-Dresser"), 2, 0, 0, _("\
+Covering your body in clothing typical for the opposite gender makes you feel better. \
+Negates any gender restrictions on professions.")},
 {_("Light Step"), 1, 0, 0, _("\
 You make less noise while walking.  You're also less likely to set off traps.")},
 {_("Android"), 4, 0, 0, _("\
@@ -1034,6 +1038,41 @@ void player::apply_persistent_morale()
             pen = int(pen / 2);
         }
         add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+    }
+
+    // Cross-dressers get a morale bonus for each body part covered in an
+    // item of the opposite gender(MALE_TYPICAL/FEMALE_TYPICAL item flags).
+    if (has_trait(PF_CROSSDRESSER))
+    {
+        int bonus = 0;
+        std::string required_flag = male ? "FEMALE_TYPICAL" : "MALE_TYPICAL";
+
+        unsigned char covered = 0; // body parts covered by stuff with opposite gender flags
+        for(int i=0; i<worn.size(); i++) {
+            if(worn[i].has_flag(required_flag)) {
+                it_armor* item_type = (it_armor*) worn[i].type;
+                covered |= item_type->covers;
+            }
+        }
+        if(covered & mfb(bp_torso)) {
+            bonus += 6;
+        }
+        if(covered & mfb(bp_legs)) {
+            bonus += 4;
+        }
+        if(covered & mfb(bp_feet)) {
+            bonus += 2;
+        }
+        if(covered & mfb(bp_hands)) {
+            bonus += 2;
+        }
+        if(covered & mfb(bp_head)) {
+            bonus += 3;
+        }
+        
+        if(bonus) {
+            add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
+        }
     }
 
     // Masochists get a morale bonus from pain.
@@ -6070,7 +6109,7 @@ bool player::eat(game *g, signed char ch)
                         if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS")))
                         {
                             g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
-                            g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
+                            g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                         }
                         else
                             g->add_msg(_("%c - an empty %s"), it.invlet,
@@ -6079,12 +6118,12 @@ bool player::eat(game *g, signed char ch)
                     else if (it.type->id == "wrapper") // hack because wrappers aren't containers
                     {
                         g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
-                        g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
+                        g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                     }
                     break;
                 case 2:
                     g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
-                    g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
+                    g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                     break;
                 }
             }
@@ -6121,7 +6160,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
     return true;
   } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                       weapon.tname(g).c_str())) {
-   g->m.add_item(posx, posy, remove_weapon());
+   g->m.add_item_or_charges(posx, posy, remove_weapon());
    recoil = 0;
    if (!pickstyle)
     return true;
@@ -6171,7 +6210,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   return true;
  } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                      weapon.tname(g).c_str())) {
-  g->m.add_item(posx, posy, remove_weapon());
+  g->m.add_item_or_charges(posx, posy, remove_weapon());
   weapon = it;
   inv.remove_item_by_letter(weapon.invlet);
   inv.unsort();
@@ -6610,7 +6649,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
          if ((dynamic_cast<it_armor*>(worn[j].type))->is_power_armor() &&
              (worn[j].invlet != let)) {
              if( autodrop ) {
-                 g->m.add_item(posx, posy, worn[j]);
+                 g->m.add_item_or_charges(posx, posy, worn[j]);
                  worn.erase(worn.begin() + j);
                  removed_armor = true;
              } else {
@@ -6633,7 +6672,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
      return true;
     } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
                         worn[i].tname(g).c_str())) {
-     g->m.add_item(posx, posy, worn[i]);
+     g->m.add_item_or_charges(posx, posy, worn[i]);
      worn.erase(worn.begin() + i);
      return true;
     } else

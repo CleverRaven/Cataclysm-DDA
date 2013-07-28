@@ -249,5 +249,23 @@
         "material": "glass",
         "contains": 1,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+    },
+    {
+        "id": "jar_3l_glass",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "3l glass jar",
+        "description": "A three-litre glass jar with a metal screw top lid, used for canning.",
+        "rarity": 50,
+        "price": 3000,
+        "weight": 2,
+        "volume": 3,
+        "bashing": 10,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "glass",
+        "contains": 5,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     }
 ]

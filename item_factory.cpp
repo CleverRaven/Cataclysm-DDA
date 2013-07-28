@@ -82,7 +82,6 @@ void Item_factory::init(){
     iuse_function_list["GLOWSTICK"] = &iuse::glowstick;
     iuse_function_list["GLOWSTICK_ACTIVE"] = &iuse::glowstick_active;
     iuse_function_list["DIRECTIONAL_ANTENNA"] = &iuse::directional_antenna;
-    iuse_function_list["DEVAC"] = &iuse::devac;
     iuse_function_list["CAUTERIZE_ELEC"] = &iuse::cauterize_elec;
     iuse_function_list["SOLDER_WELD"] = &iuse::solder_weld;
     iuse_function_list["WATER_PURIFIER"] = &iuse::water_purifier;
@@ -537,6 +536,8 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
                     WATCH - Shows the current time, instead of sun/moon position
                     ALARMCLOCK - Has an alarmclock feature
+                    MALE_TYPICAL - Typically only worn by men.
+                    FEMALE_TYPICAL - Typically only worn by women.
 
                     Container-only flags:
                     SEALS

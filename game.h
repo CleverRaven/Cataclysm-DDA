@@ -136,7 +136,7 @@ class game
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
 // Sound at (x, y) of intensity (vol), described to the player is (description)
-  bool sound(int x, int y, int vol, std::string description); //returns true if you heard the yound
+  bool sound(int x, int y, int vol, std::string description); //returns true if you heard the sound
 // creates a list of coordinates to draw footsteps
   void add_footstep(int x, int y, int volume, int distance, monster* source);
   std::vector<std::vector<point> > footsteps;
