@@ -433,6 +433,8 @@ private:
  submap* grid[MAPSIZE * MAPSIZE];
 };
 
+std::vector<point> get_points(int,int,int)
+
 class tinymap : public map
 {
 public:
