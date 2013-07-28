@@ -84,7 +84,7 @@ std::string NameGenerator::generateName(bool male) {
 
   return string_format(_("<name>%s %s")+6,
       getName(baseSearchFlags | nameIsGivenName).c_str(),
-      getName(baseSearchFlags | nameIsFamilyName).c_str();
+      getName(baseSearchFlags | nameIsFamilyName).c_str());
 }
 
 NameGenerator& Name::generator() {
