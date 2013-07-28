@@ -390,7 +390,8 @@
         {
             "result": "javelin",
             "category": "CC_WEAPON",
-            "skill_pri": "survival",
+            "skill_pri": "throw",
+            "skill_sec": "survival",
             "difficulty": 3,
             "time": 5000,
             "reversible": false,
