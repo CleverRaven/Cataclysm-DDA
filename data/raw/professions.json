@@ -451,6 +451,16 @@
       "points":1
    },
    {
+      "description":"You were about to marry your bride before the cataclysm, now you spend you days searching for her.",
+      "ident":"groom",
+      "items":[
+         "tux",
+         "dress_shoes"
+      ],
+      "name":"Groom",
+      "points":0,
+   },
+   {
       "description":"You chose a bad day for your wedding. You just barely escaped with your wedding dress intact.",
       "ident":"bride",
       "items":[
