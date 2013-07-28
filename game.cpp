@@ -80,9 +80,12 @@ game::game() :
  if(!json_good())
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
+ init_npctalk();
  init_artifacts();
+ init_overmap();
  init_fields();
  init_faction_data();
+ init_morale();
  init_traits();
  init_skills();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
@@ -1350,21 +1353,19 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
 
         vMenu.push_back(iteminfo("MENU", "", "iOffsetX", iOffsetX));
         vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
-        vMenu.push_back(iteminfo("MENU", "a", std::string(_("<a>ctivate")).substr(3).c_str(), u.rate_action_use(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "R", std::string(_("<R>ead")).substr(3).c_str(), u.rate_action_read(&oThisItem, this)));
-        vMenu.push_back(iteminfo("MENU", "E", std::string(_("<E>at")).substr(3).c_str(), u.rate_action_eat(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "W", std::string(_("<W>ear")).substr(3).c_str(), u.rate_action_wear(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "w", std::string(_("<w>ield")).substr(3).c_str()));
-        vMenu.push_back(iteminfo("MENU", "t", std::string(_("<t>hrow")).substr(3).c_str()));
-        vMenu.push_back(iteminfo("MENU", "T", std::string(_("<T>ake off")).substr(3).c_str(), u.rate_action_takeoff(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "d", std::string(_("<d>rop")).substr(3).c_str()));
-        vMenu.push_back(iteminfo("MENU", "U", std::string(_("<U>nload")).substr(3).c_str(), u.rate_action_unload(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "r", std::string(_("<r>eload")).substr(3).c_str(), u.rate_action_reload(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "D", std::string(_("<D>isassemble")).substr(3).c_str(), u.rate_action_disassemble(&oThisItem, this)));
-        vMenu.push_back(iteminfo("MENU", "=", std::string(_("<=> reassign")).substr(3).c_str()));
-        vMenu.push_back(iteminfo("MENU", (bHPR) ? "-" : "+" ,
-                                 std::string(_("<+-> Autopickup")).substr(4).c_str(),
-                                 (bHPR) ? HINT_IFFY : HINT_GOOD));
+        vMenu.push_back(iteminfo("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem, this)));
+        vMenu.push_back(iteminfo("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "w", _("<w>ield")));
+        vMenu.push_back(iteminfo("MENU", "t", _("<t>hrow")));
+        vMenu.push_back(iteminfo("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "d", _("<d>rop")));
+        vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem, this)));
+        vMenu.push_back(iteminfo("MENU", "=", _("<=> reassign")));
+        vMenu.push_back(iteminfo("MENU", (bHPR) ? "-":"+", (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
         oThisItem.info(true, &vThisItem, this);
         compare_split_screen_popup(iStartX,iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);

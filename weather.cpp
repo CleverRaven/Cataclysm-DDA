@@ -66,9 +66,9 @@ void weather_effect::thunder(game *g)
  very_wet(g);
  if (one_in(THUNDER_CHANCE)) {
   if (g->levz >= 0)
-   g->add_msg("You hear a distant rumble of thunder.");
+   g->add_msg(_("You hear a distant rumble of thunder."));
   else if (!g->u.has_trait(PF_BADHEARING) && one_in(1 - 3 * g->levz))
-   g->add_msg("You hear a rumble of thunder from above.");
+   g->add_msg(_("You hear a rumble of thunder from above."));
  }
 }
 
@@ -170,20 +170,14 @@ void weather_effect::acid(game *g)
 std::string weather_forecast(game *g, radio_tower tower)
 {
     std::stringstream weather_report;
-
-    // Current time
-    weather_report << "The current time is " << g->turn.print_time() << " Eastern Standard Time.  ";
-
     // Local conditions
-    weather_report << "At " << g->turn.print_time(true);
-
     city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
-    if (closest_city)
-    {
-        weather_report << " in " << closest_city->name;
-    }
-    weather_report << ", it was " << weather_data[g->weather].name << ".  ";
-    weather_report << "The temperature was " << print_temperature(g->temperature);
+    // Current time
+    weather_report << string_format(
+        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s"), 
+        g->turn.print_time().c_str(), g->turn.print_time(true).c_str(), closest_city->name.c_str(),
+        weather_data[g->weather].name.c_str(), print_temperature(g->temperature).c_str()
+    );
 
     //weather_report << ", the dewpoint ???, and the relative humidity ???.  ";
     //weather_report << "The wind was <direction> at ? mi/km an hour.  ";
@@ -226,19 +220,23 @@ std::string weather_forecast(game *g, radio_tower tower)
             {
                 if( start_day )
                 {
-                    day = "Today";
+                    day = _("Today");
                 }
                 else
                 {
-                    day = "Tonight";
+                    day = _("Tonight");
                 }
             }
             else
             {
-                day = start_time.day_of_week();
+                std::string dayofweak = start_time.day_of_week();
                 if( !start_day )
                 {
-                    day += " Night";
+                    day = string_format(_("<Mon Night>%s Night"), dayofweak.c_str()).substr(11);
+                }
+                else
+                {
+                    day = dayofweak;
                 }
             }
             for( int i = WEATHER_CLEAR; i < NUM_WEATHER_TYPES; i++)
@@ -250,9 +248,11 @@ std::string weather_forecast(game *g, radio_tower tower)
                 }
             }
             // Print forecast
-            weather_report << day << "..." << weather_data[predominant_weather].name << ".  ";
-            weather_report << "Highs of " << print_temperature(high) << ".  Lows of " << print_temperature(low) << ".  ";
-
+            weather_report << string_format(
+                _("%s...%s. Highs of %s. Lows of %s. "),
+                day.c_str(), weather_data[predominant_weather].name.c_str(), 
+                print_temperature(high).c_str(), print_temperature(low).c_str()
+            );
             low = period_temperature;
             high = period_temperature;
             weather_proportions[period_weather] += end_day ? 6 : 18 - period_start;
@@ -268,19 +268,18 @@ std::string weather_forecast(game *g, radio_tower tower)
 std::string print_temperature(float fahrenheit, int decimals)
 {
     std::stringstream ret;
-
     ret.precision(decimals);
     ret << std::fixed;
 
     if(OPTIONS[OPT_USE_CELSIUS])
     {
-        ret << ((fahrenheit-32) * 5 / 9) << "C";
+        ret << ((fahrenheit-32) * 5 / 9);
+        return string_format("<Celsius>%sC", ret.str().c_str()).substr(9);
     }
     else
     {
-        ret << fahrenheit << "F";
+        ret << fahrenheit;
+        return string_format("<Fahrenheit>%sF", ret.str().c_str()).substr(12);
     }
-
-    return ret.str();
 
 }

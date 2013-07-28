@@ -40,6 +40,148 @@
 #define SWAMPINESS 4	//Affects the size of a swamp
 #define SWAMPCHANCE 8500	// Chance that a swamp will spawn instead of forest
 
+map_extras no_extras(0);
+map_extras road_extras(
+// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
+    50, 40, 50,120,200, 30, 10,  5, 80, 20, 20, 200, 10,  8,  2,  3);
+map_extras field_extras(
+    60, 40, 15, 40, 80, 10, 10,  3, 50, 30, 40, 300, 10,  8,  1,  3);
+map_extras subway_extras(
+// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
+    75,  0,  5, 12,  5,  5,  0,  7,  0,  0, 0, 120,  0, 20,  1,  3);
+map_extras build_extras(
+    90,  0,  5, 12,  0, 10,  0,  5,  5,  0, 0, 0, 60,  8,  1,  3);
+
+//see omdata.h
+std::vector<oter_t> oterlist;
+
+overmap_special overmap_specials[NUM_OMSPECS] = {
+
+// Terrain	 MIN MAX DISTANCE
+{ot_crater,	   0, 10,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_BLOB) | mfb(OMS_FLAG_CLASSIC)},
+
+{ot_hive, 	   0, 50, 10, -1, "GROUP_BEE", 20, 60, 2, 4,
+ &omspec_place::forest, mfb(OMS_FLAG_3X3)},
+
+{ot_house_north,   0,100,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD) | mfb(OMS_FLAG_CLASSIC)},
+
+{ot_s_gas_north,   0,100,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD) | mfb(OMS_FLAG_CLASSIC)},
+
+{ot_cabin,   0, 30, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Woods cabin
+ &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
+ 
+{ot_cabin_strange,   1, 1, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Hidden cabin
+ &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
+
+ {ot_lmoe,   0, 3, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
+
+ {ot_farm,   0, 20, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT) | mfb(OMS_FLAG_CLASSIC)},
+
+{ot_temple_stairs, 0,  3, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::forest, 0},
+
+{ot_lab_stairs,	   0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+
+{ot_fema_entrance,	   2, 5,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
+
+// Terrain	 MIN MAX DISTANCE
+{ot_bunker,	   2, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+
+{ot_outpost,	   0, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, 0},
+
+{ot_silo,	   0,  1, 30, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+
+{ot_radio_tower,   1,  5,  0, 20, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_CLASSIC)},
+
+{ot_mansion_entrance, 0, 8, 0, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
+
+{ot_mansion_entrance, 0, 4, 10, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
+
+{ot_megastore_entrance, 0, 5, 0, 10, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
+
+{ot_hospital_entrance, 1, 5, 3, 15, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
+
+{ot_public_works_entrance,    1, 3,  2, 10, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+
+{ot_apartments_con_tower_1_entrance,    1, 5,  -1, 2, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+
+{ot_apartments_mod_tower_1_entrance,    1, 4,  -1, 2, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+
+{ot_office_tower_1_entrance,    1, 5,  -1, 4, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+
+{ot_cathedral_1_entrance,    1, 2,  -1, 2, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+
+{ot_school_2,    1, 3,  1, 5, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
+ 
+{ot_prison_2,    1, 1,  3, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
+
+{ot_hotel_tower_1_2,    1, 4,  -1, 4, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
+
+{ot_sewage_treatment, 1,  5, 10, 20, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT) | mfb(OMS_FLAG_CLASSIC)},
+
+{ot_mine_entrance,  0,  5,  15, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
+
+// Terrain	 MIN MAX DISTANCE
+{ot_anthill,	   0, 30,  10, -1, "GROUP_ANT", 1000, 2000, 10, 30,
+ &omspec_place::wilderness, 0},
+
+{ot_spider_pit,	   0,500,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::forest, 0},
+
+{ot_slimepit_down,	   0,  4,  0, -1, "GROUP_GOO", 100, 200, 2, 10,
+ &omspec_place::land, 0},
+
+{ot_fungal_bloom,  0,  3,  5, -1, "GROUP_FUNGI", 600, 1200, 30, 50,
+ &omspec_place::wilderness, 0},
+
+{ot_triffid_grove, 0,  4,  0, -1, "GROUP_TRIFFID", 800, 1300, 12, 20,
+ &omspec_place::forest, 0},
+
+{ot_river_center,  0, 10, 10, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::always, mfb(OMS_FLAG_BLOB) | mfb(OMS_FLAG_CLASSIC)},
+
+// Terrain	 MIN MAX DISTANCE
+{ot_shelter,       5, 10,  5, 10, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC)},
+
+{ot_cave,	   0, 30,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, 0},
+
+{ot_toxic_dump,	   0,  5, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
+
+{ot_s_gas_north,   10,  500,  10, 200, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_ROTATE_ROAD)},
+
+{ot_haz_sar_entrance,     1,  2, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)}
+};
+
 
 void settlement_building(settlement &set, int x, int y);
 
@@ -136,6 +278,313 @@ oter_id house(int dir)
   case 3:  return base ? ot_house_base_west  : ot_house_west;
   default: debugmsg("Bad rotation of house."); return ot_null;
  }
+}
+
+void game::init_overmap()
+{
+    oter_t tmp_oterlist[num_ter_types] = {
+    {"nothing",		'%',	c_white,	0, no_extras, false, false, 0},
+    {_("crater"),		'O',	c_red,		2, field_extras, false, false, 0},
+    {_("field"),		'.',	c_brown,	2, field_extras, false, false, 0},
+    {_("forest"),		'F',	c_green,	3, field_extras, false, false, 0},
+    {_("forest"),		'F',	c_green,	4, field_extras, false, false, 0},
+    {_("swamp"),		'F',	c_cyan,		4, field_extras, false, false, 0},
+    {_("highway"),		'H',	c_dkgray,	2, road_extras, false, false, 0},
+    {_("highway"),		'=',	c_dkgray,	2, road_extras, false, false, 0},
+    {"BUG (omdata.h:oterlist)",			'%',	c_magenta,	0, no_extras, false, false, 0},
+    {_("road"),          LINE_XOXO,	c_dkgray,	2, road_extras, false, false, 0},
+    {_("road"),          LINE_OXOX,	c_dkgray,	2, road_extras, false, false, 0},
+    {_("road"),          LINE_XXOO,	c_dkgray,	2, road_extras, false, false, 0},
+    {_("road"),          LINE_OXXO,	c_dkgray,	2, road_extras, false, false, 0},
+    {_("road"),          LINE_OOXX,	c_dkgray,	2, road_extras, false, false, 0},
+    {_("road"),          LINE_XOOX,	c_dkgray,	2, road_extras, false, false, 0},
+    {_("road"),          LINE_XXXO,	c_dkgray,	2, road_extras, false, false, 0},
+    {_("road"),          LINE_XXOX,	c_dkgray,	2, road_extras, false, false, 0},
+    {_("road"),          LINE_XOXX,	c_dkgray,	2, road_extras, false, false, 0},
+    {_("road"),          LINE_OXXX,	c_dkgray,	2, road_extras, false, false, 0},
+    {_("road"),          LINE_XXXX,	c_dkgray,	2, road_extras, false, false, 0},
+    {_("road, manhole"), LINE_XXXX,	c_yellow,	2, road_extras, true, false, 0},
+    {_("bridge"),		'|',	c_dkgray,	2, no_extras, false, false, 0},
+    {_("bridge"),		'-',	c_dkgray,	2, no_extras, false, false, 0},
+    {_("river"),		'R',	c_blue,		1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
+    {_("house"),		'^',	c_ltgreen,	5, build_extras, false, false, 2},
+    {_("house"),		'>',	c_ltgreen,	5, build_extras, false, false, 2},
+    {_("house"),		'v',	c_ltgreen,	5, build_extras, false, false, 2},
+    {_("house"),		'<',	c_ltgreen,	5, build_extras, false, false, 2},
+    {_("house"),		'^',	c_ltgreen,	5, build_extras, false, false, 2},
+    {_("house"),		'>',	c_ltgreen,	5, build_extras, false, false, 2},
+    {_("house"),		'v',	c_ltgreen,	5, build_extras, false, false, 2},
+    {_("house"),		'<',	c_ltgreen,	5, build_extras, false, false, 2},
+    {_("parking lot"),		'O',	c_dkgray,	1, build_extras, false, false, 2},
+    {_("park"),		'O',	c_green,	2, build_extras, false, false, 2},
+    {_("gas station"),		'^',	c_ltblue,	5, build_extras, false, false, 2},
+    {_("gas station"),		'>',	c_ltblue,	5, build_extras, false, false, 2},
+    {_("gas station"),		'v',	c_ltblue,	5, build_extras, false, false, 2},
+    {_("gas station"),		'<',	c_ltblue,	5, build_extras, false, false, 2},
+    {_("pharmacy"),		'^',	c_ltred,	5, build_extras, false, false, 2},
+    {_("pharmacy"),		'>',	c_ltred,	5, build_extras, false, false, 2},
+    {_("pharmacy"),		'v',	c_ltred,	5, build_extras, false, false, 2},
+    {_("pharmacy"),		'<',	c_ltred,	5, build_extras, false, false, 2},
+    {_("doctor's office"), 	'^',	   i_ltred,	5, build_extras, false, false, 2},
+    {_("doctor's office"),  '>',    i_ltred, 5, build_extras, false, false, 2},
+    {_("doctor's office"),  'v',    i_ltred,	5, build_extras, false, false, 2},
+    {_("doctor's office"),  '<',    i_ltred,	5, build_extras, false, false, 2},
+    {_("office"), 	'^',	c_ltgray,	5, build_extras, false, false, 2},
+    {_("office"),		'>',	c_ltgray,	5, build_extras, false, false, 2},
+    {_("office"),		'v',	c_ltgray,	5, build_extras, false, false, 2},
+    {_("office"),		'<',	c_ltgray,	5, build_extras, false, false, 2},
+    {_("apartment tower"), 'A', c_ltgreen,		5, no_extras, false, false, 2},
+    {_("apartment tower"),	'A',	c_ltgreen,		5, no_extras, false, false, 2},
+    {_("apartment tower"), 'A', c_ltgreen, 	5, no_extras, false, false, 2},
+    {_("apartment tower"),	'A',	c_ltgreen,		5, no_extras, false, false, 2},
+    {_("office tower"), 'T', i_ltgray,		5, no_extras, false, false, 2},
+    {_("office tower"),	't',	i_ltgray,		5, no_extras, false, false, 2},
+    {_("tower parking"), 'p',	i_ltgray,		5, no_extras, false, false, 2},
+    {_("tower parking"),	'p',	i_ltgray,		5, no_extras, false, false, 2},
+    {_("church"),		'C',	c_ltred,	5, build_extras, false, false, 2},
+    {_("church"),		'C',	c_ltred,	5, build_extras, false, false, 2},
+    {_("church"),		'C',	c_ltred,	5, build_extras, false, false, 2},
+    {_("church"),		'C',	c_ltred,	5, build_extras, false, false, 2},
+    {_("cathedral"), 'C', i_ltred, 	5, no_extras, false, false, 2},
+    {_("cathedral"),	'C',	i_ltred,		5, no_extras, false, false, 2},
+    {_("cathedral basement"), 'C',	i_ltred,		5, no_extras, false, false, 2},
+    {_("cathedral basement"),	'C',	i_ltred,		5, no_extras, false, false, 2},
+    {_("grocery store"),	'^',	c_green,	5, build_extras, false, false, 2},
+    {_("grocery store"),	'>',	c_green,	5, build_extras, false, false, 2},
+    {_("grocery store"),	'v',	c_green,	5, build_extras, false, false, 2},
+    {_("grocery store"),	'<',	c_green,	5, build_extras, false, false, 2},
+    {_("hardware store"),	'^',	c_cyan,		5, build_extras, false, false, 2},
+    {_("hardware store"),	'>',	c_cyan,		5, build_extras, false, false, 2},
+    {_("hardware store"),	'v',	c_cyan,		5, build_extras, false, false, 2},
+    {_("hardware store"),	'<',	c_cyan,		5, build_extras, false, false, 2},
+    {_("electronics store"),   '^',	c_yellow,	5, build_extras, false, false, 2},
+    {_("electronics store"),   '>',	c_yellow,	5, build_extras, false, false, 2},
+    {_("electronics store"),   'v',	c_yellow,	5, build_extras, false, false, 2},
+    {_("electronics store"),   '<',	c_yellow,	5, build_extras, false, false, 2},
+    {_("sporting goods store"),'^',	c_ltcyan,	5, build_extras, false, false, 2},
+    {_("sporting goods store"),'>',	c_ltcyan,	5, build_extras, false, false, 2},
+    {_("sporting goods store"),'v',	c_ltcyan,	5, build_extras, false, false, 2},
+    {_("sporting goods store"),'<',	c_ltcyan,	5, build_extras, false, false, 2},
+    {_("liquor store"),	'^',	c_magenta,	5, build_extras, false, false, 2},
+    {_("liquor store"),	'>',	c_magenta,	5, build_extras, false, false, 2},
+    {_("liquor store"),	'v',	c_magenta,	5, build_extras, false, false, 2},
+    {_("liquor store"),	'<',	c_magenta,	5, build_extras, false, false, 2},
+    {_("gun store"),		'^',	c_red,		5, build_extras, false, false, 2},
+    {_("gun store"),		'>',	c_red,		5, build_extras, false, false, 2},
+    {_("gun store"),		'v',	c_red,		5, build_extras, false, false, 2},
+    {_("gun store"),		'<',	c_red,		5, build_extras, false, false, 2},
+    {_("clothing store"),	'^',	c_blue,		5, build_extras, false, false, 2},
+    {_("clothing store"),	'>',	c_blue,		5, build_extras, false, false, 2},
+    {_("clothing store"),	'v',	c_blue,		5, build_extras, false, false, 2},
+    {_("clothing store"),	'<',	c_blue,		5, build_extras, false, false, 2},
+    {_("library"),		'^',	c_brown,	5, build_extras, false, false, 2},
+    {_("library"),		'>',	c_brown,	5, build_extras, false, false, 2},
+    {_("library"),		'v',	c_brown,	5, build_extras, false, false, 2},
+    {_("library"),		'<',	c_brown,	5, build_extras, false, false, 2},
+    {_("restaurant"),		'^',	c_pink,		5, build_extras, false, false, 2},
+    {_("restaurant"),		'>',	c_pink,		5, build_extras, false, false, 2},
+    {_("restaurant"),		'v',	c_pink,		5, build_extras, false, false, 2},
+    {_("restaurant"),		'<',	c_pink,		5, build_extras, false, false, 2},
+    {_("fast food restaurant"),    '^', c_pink,		5, build_extras, false, false, 2},
+    {_("fast food restaurant"),    '>',	c_pink,		5, build_extras, false, false, 2},
+    {_("fast food restaurant"),    'v',	c_pink,		5, build_extras, false, false, 2},
+    {_("fast food restaurant"),    '<',	c_pink,		5, build_extras, false, false, 2},
+    {_("coffee shop"),    '^',	c_pink,		5, build_extras, false, false, 2},
+    {_("coffee shop"),    '>',	c_pink,		5, build_extras, false, false, 2},
+    {_("coffee shop"),    'v',	c_pink,		5, build_extras, false, false, 2},
+    {_("coffee shop"),    '<',	c_pink,		5, build_extras, false, false, 2},
+    {_("subway station"),	'S',	c_yellow,	5, build_extras, true, false, 2},
+    {_("subway station"),	'S',	c_yellow,	5, build_extras, true, false, 2},
+    {_("subway station"),	'S',	c_yellow,	5, build_extras, true, false, 2},
+    {_("subway station"),	'S',	c_yellow,	5, build_extras, true, false, 2},
+    {_("garage"),              'O',    c_white,       5, build_extras, false, false, 2},
+    {_("garage"),              'O',    c_white,       5, build_extras, false, false, 2},
+    {_("garage"),              'O',    c_white,       5, build_extras, false, false, 2},
+    {_("garage"),              'O',    c_white,       5, build_extras, false, false, 2},
+    {_("forest"),              'F',	   c_green,	      5, field_extras, false, false, 0}, //lost cabin
+    {_("cabin basement"),      'C',    i_green,       5, build_extras, false, false, 0},
+    {_("cabin"),              'C',    i_green,       5, build_extras, false, false, 2},
+    {_("dirt lot"),		'O',	c_brown,	1, field_extras, false, false, 0},
+    {_("farm"),              '^',    i_brown,       5, build_extras, false, false, 2},
+    {_("farm field"),              '#',    i_brown,       5, field_extras, false, false, 2},
+    {_("police station"),	'^',	h_yellow,	5, build_extras, false, false, 2},
+    {_("police station"),	'>',	h_yellow,	5, build_extras, false, false, 2},
+    {_("police station"),	'v',	h_yellow,	5, build_extras, false, false, 2},
+    {_("police station"),	'<',	h_yellow,	5, build_extras, false, false, 2},
+    {_("bank"),		'$',	c_ltgray,	5, no_extras, false, false, 2},
+    {_("bank"),		'$',	c_ltgray,	5, no_extras, false, false, 2},
+    {_("bank"),		'$',	c_ltgray,	5, no_extras, false, false, 2},
+    {_("bank"),		'$',	c_ltgray,	5, no_extras, false, false, 2},
+    {_("bar"),			'^',	i_magenta,		5, build_extras, false, false, 2},
+    {_("bar"),			'>',	i_magenta,		5, build_extras, false, false, 2},
+    {_("bar"),			'v',	i_magenta,		5, build_extras, false, false, 2},
+    {_("bar"),			'<',	i_magenta,		5, build_extras, false, false, 2},
+    {_("pawn shop"),		'^',	c_white,	5, build_extras, false, false, 2},
+    {_("pawn shop"),		'>',	c_white,	5, build_extras, false, false, 2},
+    {_("pawn shop"),		'v',	c_white,	5, build_extras, false, false, 2},
+    {_("pawn shop"),		'<',	c_white,	5, build_extras, false, false, 2},
+    {_("mil. surplus"),	'^',	i_ltgray,	5, build_extras, false, false, 2},
+    {_("mil. surplus"),	'>',	i_ltgray,	5, build_extras, false, false, 2},
+    {_("mil. surplus"),	'v',	i_ltgray,	5, build_extras, false, false, 2},
+    {_("mil. surplus"),	'<',	i_ltgray,	5, build_extras, false, false, 2},
+    {_("furniture store"),     '^',    i_brown,        5, build_extras, false, false, 2},
+    {_("furniture store"),     '>',    i_brown,        5, build_extras, false, false, 2},
+    {_("furniture store"),     'v',    i_brown,        5, build_extras, false, false, 2},
+    {_("furniture store"),     '<',    i_brown,        5, build_extras, false, false, 2},
+    {_("abandoned storefront"),        '^',    h_dkgray,       5, build_extras, false, false, 2},
+    {_("abandoned storefront"),        '>',    h_dkgray,       5, build_extras, false, false, 2},
+    {_("abandoned storefront"),        'v',    h_dkgray,       5, build_extras, false, false, 2},
+    {_("abandoned storefront"),        '<',    h_dkgray,       5, build_extras, false, false, 2},
+    {_("megastore"),		'+',	c_ltblue,	5, build_extras, false, false, 2},
+    {_("megastore"),		'M',	c_blue,		5, build_extras, false, false, 2},
+    {_("hospital"),		'H',	c_ltred,	5, build_extras, false, false, 2},
+    {_("hospital"),		'H',	c_red,		5, build_extras, false, false, 2},
+    {_("public works"), 'W',	c_ltgray,		5, no_extras, false, false, 2},
+    {_("public works"),	'w',	c_ltgray,		5, no_extras, false, false, 2},
+    {_("regional school"), 's', c_ltblue,		5, no_extras, false, false, 2},
+    {_("regional school"), 'S',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("prison"), 'p', i_ltblue, 	5, no_extras, false, false, 0},
+    {_("prison"), 'P',	i_ltblue,		5, no_extras, false, false, 0},
+    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
+    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
+    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
+    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
+    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
+    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
+    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
+    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
+    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
+    {_("hotel parking"), 'h', c_ltblue,		5, no_extras, false, false, 2},
+    {_("hotel parking"), 'h',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("hotel parking"), 'h',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("hotel parking"), 'h',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("hotel entrance"), 'H',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("hotel parking"), 'h',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("hotel tower"), 'H',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("hotel tower"), 'H',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("hotel tower"), 'H',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("hotel basement"), 'B',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("hotel basement"), 'B',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("hotel basement"), 'B',	c_ltblue,		5, no_extras, false, false, 2},
+    {_("mansion"),		'M',	c_ltgreen,	5, build_extras, false, false, 2},
+    {_("mansion"),		'M',	c_green,	5, build_extras, false, false, 2},
+    {_("fema camp"),		'+',	c_blue,	5, build_extras, false, false, 0},
+    {_("fema camp"),		'F',	i_blue,	5, build_extras, false, false, 0},
+    {_("radio station"),  'X',    i_ltgray, 	5, build_extras, false, false, 0},
+    {_("radio station"),  'X',    i_ltgray,		5, build_extras, false, false, 0},
+    {_("radio station"),  'X',    i_ltgray,		5, build_extras, false, false, 0},
+    {_("radio station"),  'X',    i_ltgray,		5, build_extras, false, false, 0},
+    {_("evac shelter"),	'+',	c_white,	2, no_extras, true, false, 0},
+    {_("evac shelter"),	'+',	c_white,	2, no_extras, false, true, 0},
+    {_("LMOE shelter"),	'+',	c_red,	2, no_extras, true, false, 0},
+    {_("LMOE shelter"),	'+',	c_red,	2, no_extras, false, true, 0},
+    {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0},
+    {_("science lab"),		'L',	c_blue,		5, no_extras, true, false, 0},
+    {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0},
+    {_("science lab"),		'L',	c_cyan,		5, no_extras, false, false, 0},
+    {_("nuclear plant"),	'P',	c_ltgreen,	5, no_extras, false, false, 0},
+    {_("nuclear plant"),	'P',	c_ltgreen,	5, no_extras, false, false, 0},
+    {_("military bunker"),	'B',	c_dkgray,	2, no_extras, true, true, 0},
+    {_("military outpost"),	'M',	c_dkgray,	2, build_extras, false, false, 0},
+    {_("missile silo"),	'0',	c_ltgray,	2, no_extras, false, false, 0},
+    {_("missile silo"),	'0',	c_ltgray,	2, no_extras, false, false, 0},
+    {_("strange temple"),	'T',	c_magenta,	5, no_extras, true, false, 0},
+    {_("strange temple"),	'T',	c_pink,		5, no_extras, true, false, 0},
+    {_("strange temple"),	'T',	c_pink,		5, no_extras, false, false, 0},
+    {_("strange temple"),	'T',	c_yellow,	5, no_extras, false, false, 0},
+    {_("sewage treatment"),	'P',	c_red,		5, no_extras, true, false, 0},
+    {_("sewage treatment"),	'P',	c_green,	5, no_extras, false, true, 0},
+    {_("sewage treatment"),	'P',	c_green,	5, no_extras, false, false, 0},
+    {_("mine entrance"),	'M',	c_ltgray,	5, no_extras, true, false, 0},
+    {_("mine shaft"),		'O',	c_dkgray,	5, no_extras, true, true, 0},
+    {_("mine"),		'M',	c_brown,	2, no_extras, false, false, 0},
+    {_("mine"),		'M',	c_brown,	2, no_extras, false, false, 0},
+    {_("mine"),		'M',	c_brown,	2, no_extras, false, false, 0},
+    {_("spiral cavern"),	'@',	c_pink,		2, no_extras, false, false, 0},
+    {_("spiral cavern"),	'@',	c_pink,		2, no_extras, false, false, 0},
+    {_("radio tower"),         'X',    c_ltgray,       2, no_extras, false, false, 0},
+    {_("toxic waste dump"),	'D',	c_pink,		2, no_extras, false, false, 0},
+    {_("hazardous waste sarcophagus"), 'X', c_ltred,		5, no_extras, false, false, 0},
+    {_("hazardous waste sarcophagus"),	'X',	c_pink,		5, no_extras, false, false, 0},
+    {_("hazardous waste sarcophagus"), 'X',	c_pink,		5, no_extras, false, false, 0},
+    {_("hazardous waste sarcophagus"),	'X',	c_pink,		5, no_extras, false, false, 0},
+    {_("cave"),		'C',	c_brown,	2, field_extras, false, false, 0},
+    {_("rat cave"),		'C',	c_dkgray,	2, no_extras, true, false, 0},
+    {_("bee hive"),		'8',	c_yellow,	3, field_extras, false, false, 0},
+    {_("fungal bloom"),	'T',	c_ltgray,	2, field_extras, false, false, 0},
+    {_("forest"),		'F',	c_green,	3, field_extras, false, false, 0}, // Spider pit
+    {_("cavern"),		'0',	c_ltgray,	5, no_extras, false, false, 0}, // Spider pit
+    {_("anthill"),		'%',	c_brown,	2, no_extras, true, false, 0},
+    {_("slime pit"),		'~',	c_ltgreen,	2, no_extras, false, false, 0},
+    {_("slime pit"),		'~',	c_ltgreen,	2, no_extras, true, false, 0},
+    {_("triffid grove"),	'T',	c_ltred,	5, no_extras, true, false, 0},
+    {_("triffid roots"),	'T',	c_ltred,	5, no_extras, true, true, 0},
+    {_("triffid heart"),	'T',	c_red,		5, no_extras, false, true, 0},
+    {_("basement"),		'O',	c_dkgray,	5, no_extras, false, true, 0},
+    {_("cavern"),		'0',	c_ltgray,	5, no_extras, false, false, 0},
+    {_("solid rock"),		'%',	c_dkgray,	5, no_extras, false, false, 0},
+    {_("rift"),		'^',	c_red,		2, no_extras, false, false, 0},
+    {_("hellmouth"),		'^',	c_ltred,	2, no_extras, true, false, 0},
+    {_("subway station"),	'S',	c_yellow,	5, subway_extras, false, true, 0},
+    {_("subway"),        LINE_XOXO,	c_dkgray,	5, subway_extras, false, false, 0},
+    {_("subway"),        LINE_OXOX,	c_dkgray,	5, subway_extras, false, false, 0},
+    {_("subway"),        LINE_XXOO,	c_dkgray,	5, subway_extras, false, false, 0},
+    {_("subway"),        LINE_OXXO,	c_dkgray,	5, subway_extras, false, false, 0},
+    {_("subway"),        LINE_OOXX,	c_dkgray,	5, subway_extras, false, false, 0},
+    {_("subway"),        LINE_XOOX,	c_dkgray,	5, subway_extras, false, false, 0},
+    {_("subway"),        LINE_XXXO,	c_dkgray,	5, subway_extras, false, false, 0},
+    {_("subway"),        LINE_XXOX,	c_dkgray,	5, subway_extras, false, false, 0},
+    {_("subway"),        LINE_XOXX,	c_dkgray,	5, subway_extras, false, false, 0},
+    {_("subway"),        LINE_OXXX,	c_dkgray,	5, subway_extras, false, false, 0},
+    {_("subway"),        LINE_XXXX,	c_dkgray,	5, subway_extras, false, false, 0},
+    {_("sewer"),         LINE_XOXO,	c_green,	5, no_extras, false, false, 0},
+    {_("sewer"),         LINE_OXOX,	c_green,	5, no_extras, false, false, 0},
+    {_("sewer"),         LINE_XXOO,	c_green,	5, no_extras, false, false, 0},
+    {_("sewer"),         LINE_OXXO,	c_green,	5, no_extras, false, false, 0},
+    {_("sewer"),         LINE_OOXX,	c_green,	5, no_extras, false, false, 0},
+    {_("sewer"),         LINE_XOOX,	c_green,	5, no_extras, false, false, 0},
+    {_("sewer"),         LINE_XXXO,	c_green,	5, no_extras, false, false, 0},
+    {_("sewer"),         LINE_XXOX,	c_green,	5, no_extras, false, false, 0},
+    {_("sewer"),         LINE_XOXX,	c_green,	5, no_extras, false, false, 0},
+    {_("sewer"),         LINE_OXXX,	c_green,	5, no_extras, false, false, 0},
+    {_("sewer"),         LINE_XXXX,	c_green,	5, no_extras, false, false, 0},
+    {_("ant tunnel"),    LINE_XOXO,	c_brown,	5, no_extras, false, false, 0},
+    {_("ant tunnel"),    LINE_OXOX,	c_brown,	5, no_extras, false, false, 0},
+    {_("ant tunnel"),    LINE_XXOO,	c_brown,	5, no_extras, false, false, 0},
+    {_("ant tunnel"),    LINE_OXXO,	c_brown,	5, no_extras, false, false, 0},
+    {_("ant tunnel"),    LINE_OOXX,	c_brown,	5, no_extras, false, false, 0},
+    {_("ant tunnel"),    LINE_XOOX,	c_brown,	5, no_extras, false, false, 0},
+    {_("ant tunnel"),    LINE_XXXO,	c_brown,	5, no_extras, false, false, 0},
+    {_("ant tunnel"),    LINE_XXOX,	c_brown,	5, no_extras, false, false, 0},
+    {_("ant tunnel"),    LINE_XOXX,	c_brown,	5, no_extras, false, false, 0},
+    {_("ant tunnel"),    LINE_OXXX,	c_brown,	5, no_extras, false, false, 0},
+    {_("ant tunnel"),    LINE_XXXX,	c_brown,	5, no_extras, false, false, 0},
+    {_("ant food storage"),	'O',	c_green,	5, no_extras, false, false, 0},
+    {_("ant larva chamber"),	'O',	c_white,	5, no_extras, false, false, 0},
+    {_("ant queen chamber"),	'O',	c_red,		5, no_extras, false, false, 0},
+    {_("tutorial room"),	'O',	c_cyan,		5, no_extras, false, false, 0}
+    };
+
+    for(int i=0; i<num_ter_types; i++) {oterlist.push_back(tmp_oterlist[i]);}
 }
 
 // *** BEGIN overmap FUNCTIONS ***
@@ -389,7 +838,7 @@ point overmap::display_notes(game* g, int const z) const
   return point(-1, -1);
  }
 
- std::string title = "Notes:";
+ std::string title = _("Notes:");
  WINDOW* w_notes = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                           (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                           (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
@@ -433,16 +882,16 @@ point overmap::display_notes(game* g, int const z) const
   if(last_line == -1)
    last_line = 23;
   if (start > 0)
-   mvwprintw(w_notes, maxitems + 4, 1, "< Go Back");
+   mvwprintw(w_notes, maxitems + 4, 1, _("< Go Back"));
   if (cur_it < layer[z + OVERMAP_DEPTH].notes.size())
-   mvwprintw(w_notes, maxitems + 4, 12, "> More notes");
+   mvwprintw(w_notes, maxitems + 4, 12, _("> More notes"));
   if(ch >= 'a' && ch <= 't'){
    int chosen_line = (int)(ch % (int)'a');
    if(chosen_line < last_line)
     return point(layer[z + OVERMAP_DEPTH].notes[start + chosen_line].x, layer[z + OVERMAP_DEPTH].notes[start + chosen_line].y);
   }
-  mvwprintz(w_notes, 1, 40, c_white, "Press letter to center on note");
-  mvwprintz(w_notes, FULL_SCREEN_HEIGHT-2, 40, c_white, "Spacebar - Return to map  ");
+  mvwprintz(w_notes, 1, 40, c_white, _("Press letter to center on note"));
+  mvwprintz(w_notes, FULL_SCREEN_HEIGHT-2, 40, c_white, _("Spacebar - Return to map  "));
   wrefresh(w_notes);
   ch = getch();
  } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
@@ -1344,22 +1793,20 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwprintz(w, 1, om_map_width + 3, oterlist[ccur_ter].color, "%s",
              oterlist[ccur_ter].name.c_str());
   } else
-   mvwprintz(w, 1, om_map_width + 1, c_dkgray, "# Unexplored");
+   mvwprintz(w, 1, om_map_width + 1, c_dkgray, _("# Unexplored"));
 
   if (target.x != -1 && target.y != -1) {
    int distance = rl_dist(origx, origy, target.x, target.y);
-   mvwprintz(w, 3, om_map_width + 1, c_white, "Distance to target: %d", distance);
+   mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
   }
-  mvwprintz(w, 15, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
-  mvwprintz(w, 16, om_map_width + 1, c_magenta, "0 - Center map on character");
-  mvwprintz(w, 17, om_map_width + 1, c_magenta, "/ - Search                 ");
-  mvwprintz(w, 18, om_map_width + 1, c_magenta, "N - Add/Edit a note        ");
-  mvwprintz(w, 19, om_map_width + 1, c_magenta, "D - Delete a note          ");
-  mvwprintz(w, 20, om_map_width + 1, c_magenta, "L - List notes             ");
-  mvwprintz(w, 21, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
-  char level_string[10];
-  sprintf(level_string, "LEVEL %i",z);
-  mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, level_string);
+  mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan.  "));
+  mvwprintz(w, 16, om_map_width + 1, c_magenta, _("0 - Center map on character"));
+  mvwprintz(w, 17, om_map_width + 1, c_magenta, _("/ - Search                 "));
+  mvwprintz(w, 18, om_map_width + 1, c_magenta, _("N - Add/Edit a note        "));
+  mvwprintz(w, 19, om_map_width + 1, c_magenta, _("D - Delete a note          "));
+  mvwprintz(w, 20, om_map_width + 1, c_magenta, _("L - List notes             "));
+  mvwprintz(w, 21, om_map_width + 1, c_magenta, _("Esc or q - Return to game  "));
+  mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, string_format(_("LEVEL %i"),z).c_str());
 // Done with all drawing!
   wrefresh(w);
 }
@@ -1405,12 +1852,12 @@ point overmap::draw_overmap(game *g, int zlevel)
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
-   add_note(cursx, cursy, zlevel, string_input_popup("Note (X:TEXT for custom symbol):", 45, note(cursx, cursy, zlevel))); // 45 char max
+   add_note(cursx, cursy, zlevel, string_input_popup(_("Note (X:TEXT for custom symbol):"), 45, note(cursx, cursy, zlevel))); // 45 char max
    timeout(BLINK_SPEED);
   } else if(ch == 'D'){
    timeout(-1);
    if (has_note(cursx, cursy, zlevel)){
-    bool res = query_yn("Really delete note?");
+    bool res = query_yn(_("Really delete note?"));
     if (res == true)
      delete_note(cursx, cursy, zlevel);
    }
@@ -1427,7 +1874,7 @@ point overmap::draw_overmap(game *g, int zlevel)
   } else if (ch == '/') {
    int tmpx = cursx, tmpy = cursy;
    timeout(-1);
-   std::string term = string_input_popup("Search term:");
+   std::string term = string_input_popup(_("Search term:"));
    timeout(BLINK_SPEED);
    draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
    point found = find_note(cursx, cursy, zlevel, term);
@@ -1441,13 +1888,13 @@ point overmap::draw_overmap(game *g, int zlevel)
       //Draw search box
       wborder(w_search, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-      mvwprintz(w_search, 1, 1, c_red, "Find place:");
+      mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
       mvwprintz(w_search, 2, 1, c_ltblue, "                         ");
       mvwprintz(w_search, 2, 1, c_ltblue, "%s", term.c_str());
       mvwprintz(w_search, 4, 1, c_white,
-       "'<' '>' Cycle targets.");
-      mvwprintz(w_search, 10, 1, c_white, "Enter/Spacebar to select.");
-      mvwprintz(w_search, 11, 1, c_white, "q to return.");
+       _("'<' '>' Cycle targets."));
+      mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
+      mvwprintz(w_search, 11, 1, c_white, _("q to return."));
       ch = input();
       if (ch == ERR)
        blink = !blink;
@@ -2819,13 +3266,13 @@ void overmap::place_radios()
        switch(choice)
        {
        case 0:
-           snprintf( message, sizeof(message), "This is emergency broadcast station %d%d.\
-  Please proceed quickly and calmly to your designated evacuation point.", i, j);
+           snprintf( message, sizeof(message), _("This is emergency broadcast station %d%d.\
+  Please proceed quickly and calmly to your designated evacuation point."), i, j);
            radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), message));
            break;
        case 1:
            radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH),
-               "Head West.  All survivors, head West.  Help is waiting."));
+               _("Head West.  All survivors, head West.  Help is waiting.")));
            break;
        case 2:
            radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), "", WEATHER_RADIO));
@@ -2834,14 +3281,14 @@ void overmap::place_radios()
    }
     break;
    case ot_lmoe:
-    snprintf( message, sizeof(message), "This is automated emergency shelter beacon %d%d.\
-  Supplies, amenities and shelter are stocked.", i, j);
+    snprintf( message, sizeof(message), _("This is automated emergency shelter beacon %d%d.\
+  Supplies, amenities and shelter are stocked."), i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH) / 2, message));
     break;
    case ot_fema_entrance:
-    snprintf( message, sizeof(message), "This is FEMA camp %d%d.\
+    snprintf( message, sizeof(message), _("This is FEMA camp %d%d.\
   Supplies are limited, please bring supplemental food, water, and bedding.\
-  This is FEMA camp %d%d.  A designated long-term emergency shelter.", i, j, i, j);
+  This is FEMA camp %d%d.  A designated long-term emergency shelter."), i, j, i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), message));
      break;
    }
