@@ -89,8 +89,9 @@ void map::generate_lightmap(game* g)
     apply_light_source(sx, sy, 3, false);
 
    field_entry *cur = NULL;
-	for(std::vector<field_entry*>::iterator field_list_it = current_field.getFieldStart(); field_list_it != current_field.getFieldEnd(); ++field_list_it){
-		cur = (*field_list_it);
+   for(std::map<field_id, field_entry*>::iterator field_list_it = current_field.getFieldStart(); field_list_it != current_field.getFieldEnd(); ++field_list_it){
+       cur = field_list_it->second;
+
 		if(cur == NULL) continue;
    // TODO: [lightmap] Attach light brightness to fields
 		switch(cur->getFieldType()) {
