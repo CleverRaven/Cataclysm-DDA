@@ -5149,5 +5149,35 @@
         "rarity" : 9,
         "bashing" : 0,
         "fun" : 5
-    }
+    },
+	{
+        "type" : "COMESTIBLE",
+        "id" : "paper",
+        "name" : "paper",
+        "weight" : 8,
+        "color" : "white",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "use_action" : "NONE",
+        "stim" : 0,
+        "container" : "null",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 0,
+        "heal" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 1,
+        "description" : "A piece of paper. Can be used for fires.",
+        "price" : 25,
+        "material" : "paper",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 50,
+        "rarity" : 9,
+        "bashing" : 0,
+        "fun" : -20
+  }
 ]
