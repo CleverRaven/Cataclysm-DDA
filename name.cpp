@@ -15,11 +15,8 @@ NameGenerator::NameGenerator() {
         std::string usage = name_entry.get("usage").as_string();
         uint32_t flags = 0;
 
-        name = _(name.c_str());
-        if(name.find("<name>")==0)
-        {
-            name = name.substr(6);
-        }
+        name = _(("<name>"+name).c_str());
+        name = name.substr(6);
 
         if (usage == "given") {
             flags |= nameIsGivenName;
