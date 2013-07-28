@@ -577,9 +577,9 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
   mvwprintz(w, 5 + i, 40, c_dkgray, "\
                                      ");
   if (u->has_trait(PF_SPLIT + 1 + i))//highlight disadvantages
-   mvwprintz(w, 5 + i, 40, COL_TR_BAD_ON_PAS, _(traits[PF_SPLIT + 1 + i].name.c_str()));
+   mvwprintz(w, 5 + i, 40, COL_TR_BAD_ON_PAS, traits[PF_SPLIT + 1 + i].name.c_str());
   else
-   mvwprintz(w, 5 + i, 40, COL_TR_BAD_OFF_PAS, _(traits[PF_SPLIT + 1 + i].name.c_str()));
+   mvwprintz(w, 5 + i, 40, COL_TR_BAD_OFF_PAS, traits[PF_SPLIT + 1 + i].name.c_str());
  }
  // TODO: actually display these somewhere? this wasn't working.
  //mvwprintz(w,11,32, c_ltgray, "h   l");
@@ -637,14 +637,14 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
                                       ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_on, _(traits[i].name.c_str()));
+      mvwprintz(w, 5 + i - traitmin, xoff, hi_on, traits[i].name.c_str());
      else
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_off, _(traits[i].name.c_str()));
+      mvwprintz(w, 5 + i - traitmin, xoff, hi_off, traits[i].name.c_str());
     } else {
      if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, col_on_act, _(traits[i].name.c_str()));
+      mvwprintz(w, 5 + i - traitmin, xoff, col_on_act, traits[i].name.c_str());
      else
-      mvwprintz(w, 5 + i - traitmin, xoff, col_off_act, _(traits[i].name.c_str()));
+      mvwprintz(w, 5 + i - traitmin, xoff, col_off_act, traits[i].name.c_str());
     }
    }
   } else if (cur_trait >= traitmax - 9) {
@@ -653,14 +653,14 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
                                       ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_on, _(traits[i].name.c_str()));
+      mvwprintz(w, 21 + i - traitmax, xoff, hi_on, traits[i].name.c_str());
      else
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_off, _(traits[i].name.c_str()));
+      mvwprintz(w, 21 + i - traitmax, xoff, hi_off, traits[i].name.c_str());
     } else {
      if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, col_on_act, _(traits[i].name.c_str()));
+      mvwprintz(w, 21 + i - traitmax, xoff, col_on_act, traits[i].name.c_str());
      else
-      mvwprintz(w, 21 + i - traitmax, xoff, col_off_act, _(traits[i].name.c_str()));
+      mvwprintz(w, 21 + i - traitmax, xoff, col_off_act, traits[i].name.c_str());
     }
    }
   } else {
@@ -669,14 +669,14 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
                                      ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
-      mvwprintz(w, 12 + i - cur_trait, xoff, hi_on, _(traits[i].name.c_str()));
+      mvwprintz(w, 12 + i - cur_trait, xoff, hi_on, traits[i].name.c_str());
      else
-      mvwprintz(w, 12 + i - cur_trait, xoff, hi_off, _(traits[i].name.c_str()));
+      mvwprintz(w, 12 + i - cur_trait, xoff, hi_off, traits[i].name.c_str());
     } else {
      if (u->has_trait(i))
-      mvwprintz(w, 12 + i - cur_trait, xoff, col_on_act, _(traits[i].name.c_str()));
+      mvwprintz(w, 12 + i - cur_trait, xoff, col_on_act, traits[i].name.c_str());
      else
-      mvwprintz(w, 12 + i - cur_trait, xoff, col_off_act, _(traits[i].name.c_str()));
+      mvwprintz(w, 12 + i - cur_trait, xoff, col_off_act, traits[i].name.c_str());
     }
    }
   }
@@ -692,27 +692,27 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
       mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
                                      ");	// Clear the line
       if (u->has_trait(i))
-       mvwprintz(w, 5 + i - traitmin, xoff, col_on_pas, _(traits[i].name.c_str()));
+       mvwprintz(w, 5 + i - traitmin, xoff, col_on_pas, traits[i].name.c_str());
       else
-       mvwprintz(w, 5 + i - traitmin, xoff, col_off_pas, _(traits[i].name.c_str()));
+       mvwprintz(w, 5 + i - traitmin, xoff, col_off_pas, traits[i].name.c_str());
      }
     } else if (cur_trait >= traitmax - 9) {
      for (int i = traitmax - 16; i < traitmax; i++) {
       mvwprintz(w, 21 + i - traitmax, xoff, c_ltgray, "\
                                      ");	// Clear the line
       if (u->has_trait(i))
-       mvwprintz(w, 21 + i - traitmax, xoff, col_on_pas, _(traits[i].name.c_str()));
+       mvwprintz(w, 21 + i - traitmax, xoff, col_on_pas, traits[i].name.c_str());
       else
-       mvwprintz(w, 21 + i - traitmax, xoff, col_off_pas, _(traits[i].name.c_str()));
+       mvwprintz(w, 21 + i - traitmax, xoff, col_off_pas, traits[i].name.c_str());
      }
     } else {
      for (int i = cur_trait - 7; i < cur_trait + 9; i++) {
       mvwprintz(w, 12 + i - cur_trait, xoff, c_ltgray, "\
                                      ");	// Clear the line
       if (u->has_trait(i))
-       mvwprintz(w, 12 + i - cur_trait, xoff, col_on_pas, _(traits[i].name.c_str()));
+       mvwprintz(w, 12 + i - cur_trait, xoff, col_on_pas, traits[i].name.c_str());
       else
-       mvwprintz(w, 12 + i - cur_trait, xoff, col_off_pas, _(traits[i].name.c_str()));
+       mvwprintz(w, 12 + i - cur_trait, xoff, col_off_pas, traits[i].name.c_str());
      }
     }
     using_adv = !using_adv;
@@ -800,16 +800,16 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
         if (points >= netPointCost)
         {
             mvwprintz(w,  3, 20, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
+                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
         else
         {
             mvwprintz(w,  3, 20, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
+                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
-        fold_and_print(w_description, 0, 0, 78, c_green, _(sorted_profs[cur_id]->description().c_str()));
+        fold_and_print(w_description, 0, 0, 78, c_green, sorted_profs[cur_id]->description().c_str());
 
         for (int i = 1; i < 17; ++i)
         {
@@ -837,13 +837,13 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
             if (u->prof != sorted_profs[id])
             {
                 mvwprintz(w, 4 + i, 2, (sorted_profs[id] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
-                          _(sorted_profs[id]->name().c_str()));
+                          sorted_profs[id]->name().c_str());
             }
             else
             {
                 mvwprintz(w, 4 + i, 2,
                           (sorted_profs[id] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                          _(sorted_profs[id]->name().c_str()));
+                          sorted_profs[id]->name().c_str());
             }
         }
 
@@ -898,11 +898,11 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
   mvwprintz(w,  3, 40, c_ltgray, "                                    ");
   if (points >= u->skillLevel(currentSkill) + 1)
    mvwprintz(w,  3, 30, COL_SKILL_USED, _("Upgrading %s costs %d points"),
-             _(currentSkill->name().c_str()), u->skillLevel(currentSkill) + 1);
+             currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
   else
    mvwprintz(w,  3, 30, c_ltred, _("Upgrading %s costs %d points"),
-             _(currentSkill->name().c_str()), u->skillLevel(currentSkill) + 1);
-  fold_and_print(w_description, 0, 0, 78, COL_SKILL_USED, _(currentSkill->description().c_str()));
+             currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
+  fold_and_print(w_description, 0, 0, 78, COL_SKILL_USED, currentSkill->description().c_str());
 
   if (cur_sk <= 7) {
    for (int i = 0; i < 17; i++) {
@@ -912,11 +912,11 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 5 + i, 2, (i == cur_sk ? h_ltgray : c_ltgray),
-               _(thisSkill->name().c_str()));
+               thisSkill->name().c_str());
     } else {
      mvwprintz(w, 5 + i, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-               "%s ", _(thisSkill->name().c_str()));
+               "%s ", thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
@@ -928,11 +928,11 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 21 + i - Skill::skills.size(), 2,
-               (i == cur_sk ? h_ltgray : c_ltgray), _(thisSkill->name().c_str()));
+               (i == cur_sk ? h_ltgray : c_ltgray), thisSkill->name().c_str());
     } else {
      mvwprintz(w, 21 + i - Skill::skills.size(), 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
-               _(thisSkill->name().c_str()));
+               thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
@@ -944,11 +944,11 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 12 + i - cur_sk, 2, (i == cur_sk ? h_ltgray : c_ltgray),
-               _(thisSkill->name().c_str()));
+               thisSkill->name().c_str());
     } else {
      mvwprintz(w, 12 + i - cur_sk, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-               "%s ", _(thisSkill->name().c_str()));
+               "%s ", thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
