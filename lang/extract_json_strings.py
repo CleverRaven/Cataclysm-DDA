@@ -21,6 +21,10 @@ def gettextify(string):
     "Put the string in a fake gettext call, and add a newline."
     return "_(%r)\n" % string
 
+def writestr(fs, string):
+    if string is not None and string != "_('')\n" :
+        fs.write(string)
+
 # create the output directory, if it does not already exist
 if not os.path.exists(to_folder):
     os.mkdir(to_folder)
@@ -32,8 +36,8 @@ def convert(infilename, outfile):
     names = [item["name"] for item in jsondata]
     descriptions = [item["description"] for item in jsondata]
     for n, d in zip(names, descriptions):
-        outfile.write(gettextify(n))
-        outfile.write(gettextify(d))
+        writestr(outfile,gettextify(n))
+        writestr(outfile,gettextify(d))
 
 # data/raw/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
@@ -48,8 +52,8 @@ with open(os.path.join(to_folder, "json_skills.py"), 'w') as skills_jtl:
     names = [item[1] for item in jsondata]
     descriptions = [item[2] for item in jsondata]
     for n, d in zip(names, descriptions):
-        skills_jtl.write(gettextify(n))
-        skills_jtl.write(gettextify(d))
+        writestr(skills_jtl,gettextify(n))
+        writestr(skills_jtl,gettextify(d))
 
 # data/raw/professions.json
 with open(os.path.join(to_folder,"json_professions.py"), 'w') as prof_jtl:
@@ -61,3 +65,36 @@ with open(os.path.join(to_folder,"json_bionics.py"), 'w') as bio_jtl:
     bio_json = os.path.join(raw_folder, "bionics.json")
     convert(bio_json, bio_jtl)
 
+# data/raw/snippets.json
+with open(os.path.join(to_folder,"json_snippets.py"), 'w') as snip_jtl:
+    jsonfile = os.path.join(raw_folder, "snippets.json")
+    jsondata = json.loads(open(jsonfile).read())
+    snip = jsondata["snippets"]
+    texts = [item["text"] for item in snip]
+    for t in zip(texts):
+        writestr(snip_jtl,gettextify(t))
+
+# data/raw/materials.json
+with open(os.path.join(to_folder,"json_materials.py"), 'w') as mat_jtl:
+    jsonfile = os.path.join(raw_folder, "materials.json")
+    jsondata = json.loads(open(jsonfile).read())
+    names = [item["name"] for item in jsondata]
+    verb1 = [item["bash_dmg_verb"] for item in jsondata]
+    verb2 = [item["cut_dmg_verb"] for item in jsondata]
+    dmgs = [item["dmg_adj"] for item in jsondata]
+    for n,v1,v2,d in zip(names,verb1,verb2,dmgs):
+        writestr(mat_jtl,gettextify(n))
+        writestr(mat_jtl,gettextify(v1))
+        writestr(mat_jtl,gettextify(v2))
+        writestr(mat_jtl,gettextify(d[0]))
+        writestr(mat_jtl,gettextify(d[1]))
+        writestr(mat_jtl,gettextify(d[2]))
+        writestr(mat_jtl,gettextify(d[3]))
+
+# data/raw/names.json
+with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
+    jsonfile = os.path.join(raw_folder, "names.json")
+    jsondata = json.loads(open(jsonfile).read())
+    names = [item["name"] for item in jsondata]
+    for n in zip(names):
+        writestr(name_jtl, gettextify('<name>' + n[0]))
