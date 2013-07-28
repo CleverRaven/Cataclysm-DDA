@@ -82,6 +82,7 @@ game::game() :
  // Gee, it sure is init-y around here!
  init_npctalk();
  init_artifacts();
+ init_weather();
  init_overmap();
  init_fields();
  init_faction_data();
@@ -3442,7 +3443,7 @@ void game::draw()
     if (levz < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
     } else {
-        mvwprintz(w_location, 0, 18, weather_data[weather].color, _(weather_data[weather].name.c_str()));
+        mvwprintz(w_location, 0, 18, weather_data[weather].color, weather_data[weather].name.c_str());
     }
 
     nc_color col_temp = c_blue;
@@ -3462,7 +3463,7 @@ void game::draw()
     wrefresh(w_location);
 
     //Safemode coloring
-    mvwprintz(w_status, 0, 41, c_white, _("%s, day %d"), _(season_name[turn.get_season()].c_str()), turn.days() + 1);
+    mvwprintz(w_status, 0, 41, c_white, _("%s, day %d"), season_name[turn.get_season()].c_str(), turn.days() + 1);
     if (run_mode != 0 || autosafemode != 0) {
         int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
         mvwprintz(w_status, 1, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
