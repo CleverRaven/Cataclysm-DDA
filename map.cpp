@@ -4036,6 +4036,8 @@ void map::build_map_cache(game *g)
  generate_lightmap(g);
 }
 
+//this returns points in a spiral pattern starting at center_x/center_y until it hits the radius. clockwise fashion
+//credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
 std::vector<point> get_points(int radius, int center_x, int center_y)
 {
     std::vector<point> points;
