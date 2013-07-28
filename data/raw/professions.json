@@ -472,7 +472,17 @@
       "flags": ["female_only"]
    },
    {
-      "description":"You were on your way to collect your check, when your pimp tried to kill you, you only wished that it wasn't a common occurence.",
+      "addictions":[
+         {
+            "intensity":10,
+            "type":"opiate"
+         },
+         {
+            "intensity":10,
+            "type":"crack"
+         }
+      ],
+      "description":"You were on your way to collect your check, when your pimp tried to kill you, you only wished that it wasn't a common occurence. You start with a skirt, tank top,a pair of high heels, a strong crack and heroin addiction.",
       "ident":"hooker",
       "items":[
          "skirt",
@@ -480,7 +490,7 @@
          "tank_top"
       ],
       "name":"Prostitute",
-      "points":0,
+      "points":-3,
       "flags": ["female_only"]
    },
    {
