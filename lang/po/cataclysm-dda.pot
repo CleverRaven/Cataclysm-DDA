@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-28 13:31+0800\n"
+"POT-Creation-Date: 2013-07-28 15:36+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -249,7 +249,7 @@ msgstr ""
 msgid "Disassemble items"
 msgstr ""
 
-#: action.cpp:425 npcmove.cpp:2049
+#: action.cpp:425 defense.cpp:635 defense.cpp:701 npcmove.cpp:2049
 msgid "Sleep"
 msgstr ""
 
@@ -1834,7 +1834,7 @@ msgstr ""
 msgid "Bohm... Bohm... Bohm..."
 msgstr ""
 
-#: computer.cpp:351 computer.cpp:1256 game.cpp:5591 iuse.cpp:2053
+#: computer.cpp:351 computer.cpp:1256 game.cpp:5592 iuse.cpp:2053
 #: iuse.cpp:2156
 msgid "An alarm sounds!"
 msgstr ""
@@ -2762,13 +2762,13 @@ msgstr ""
 msgid "Disassemble item:"
 msgstr ""
 
-#: crafting.cpp:1395 game.cpp:5632 game.cpp:8569 game.cpp:8772 game.cpp:8961
-#: game.cpp:9037 game.cpp:9089 game.cpp:9542 game.cpp:9562 iuse.cpp:331
+#: crafting.cpp:1395 game.cpp:5633 game.cpp:8570 game.cpp:8773 game.cpp:8962
+#: game.cpp:9038 game.cpp:9090 game.cpp:9543 game.cpp:9563 iuse.cpp:331
 #: npctalk.cpp:835 npctalk.cpp:843 npctalk.cpp:1348 npctalk.cpp:1378
 msgid "Never mind."
 msgstr ""
 
-#: crafting.cpp:1400 game.cpp:9547
+#: crafting.cpp:1400 game.cpp:9548
 #, c-format
 msgid "You don't have item '%c'!"
 msgstr ""
@@ -2815,6 +2815,394 @@ msgstr ""
 
 #: crafting.cpp:1615
 msgid "With some more skill, you might learn a recipe from this."
+msgstr ""
+
+#: defense.cpp:82
+msgid "Please wait as the map generates [ 0%]"
+msgstr ""
+
+#: defense.cpp:101
+msgid "A caravan approaches!  Press spacebar..."
+msgstr ""
+
+#: defense.cpp:111
+msgid "You don't need to sleep!"
+msgstr ""
+
+#: defense.cpp:115
+msgid "You cannot save in defense mode!"
+msgstr ""
+
+#: defense.cpp:144
+#, c-format
+msgid "You cannot leave the %s behind!"
+msgstr ""
+
+#: defense.cpp:156
+#, c-format
+msgid "You managed to survive through wave %d!"
+msgstr ""
+
+#: defense.cpp:253
+msgid "Please wait as the map generates [%2d%]"
+msgstr ""
+
+#: defense.cpp:451
+msgid "You must choose at least one monster group!"
+msgstr ""
+
+#: defense.cpp:468
+msgid "Template Name:"
+msgstr ""
+
+#: defense.cpp:584 defense.cpp:593 defense.cpp:692
+msgid "Special Zombies"
+msgstr ""
+
+#: defense.cpp:592 defense.cpp:691
+msgid "Zombies"
+msgstr ""
+
+#: defense.cpp:599 defense.cpp:693
+msgid "Spiders"
+msgstr ""
+
+#: defense.cpp:605 defense.cpp:694
+msgid "Triffids"
+msgstr ""
+
+#: defense.cpp:611 defense.cpp:695
+msgid "Robots"
+msgstr ""
+
+#: defense.cpp:617 defense.cpp:696
+msgid "Subspace"
+msgstr ""
+
+#: defense.cpp:623 defense.cpp:699
+msgid "Food"
+msgstr ""
+
+#: defense.cpp:629 defense.cpp:700
+msgid "Water"
+msgstr ""
+
+#: defense.cpp:641 defense.cpp:702
+msgid "Mercenaries"
+msgstr ""
+
+#: defense.cpp:653
+msgid "DEFENSE MODE"
+msgstr ""
+
+#: defense.cpp:654
+msgid "Press +/- or >/< to cycle, spacebar to toggle"
+msgstr ""
+
+#: defense.cpp:655
+msgid "Press S to start, ! to save as a template"
+msgstr ""
+
+#: defense.cpp:656
+msgid "Scenario:"
+msgstr ""
+
+#: defense.cpp:659
+msgid "Location:"
+msgstr ""
+
+#: defense.cpp:663
+msgid "Initial Difficulty:"
+msgstr ""
+
+#: defense.cpp:666
+msgid "The difficulty of the first wave."
+msgstr ""
+
+#: defense.cpp:667
+msgid "Wave Difficulty:"
+msgstr ""
+
+#: defense.cpp:669
+msgid "The increase of difficulty with each wave."
+msgstr ""
+
+#: defense.cpp:671
+msgid "Time b/w Waves:"
+msgstr ""
+
+#: defense.cpp:674
+msgid "The time, in minutes, between waves."
+msgstr ""
+
+#: defense.cpp:675
+msgid "Waves b/w Caravans:"
+msgstr ""
+
+#: defense.cpp:678
+msgid "The number of waves in between caravans."
+msgstr ""
+
+#: defense.cpp:680
+msgid "Initial Cash:"
+msgstr ""
+
+#: defense.cpp:682
+msgid "The amount of money the player starts with."
+msgstr ""
+
+#: defense.cpp:683
+msgid "Cash for 1st Wave:"
+msgstr ""
+
+#: defense.cpp:685
+msgid "The cash awarded for the first wave."
+msgstr ""
+
+#: defense.cpp:686
+msgid "Cash Increase:"
+msgstr ""
+
+#: defense.cpp:688
+msgid "The increase in the award each wave."
+msgstr ""
+
+#: defense.cpp:690
+msgid "Enemy Selection:"
+msgstr ""
+
+#: defense.cpp:698
+msgid "Needs:"
+msgstr ""
+
+#: defense.cpp:710
+msgid "Custom"
+msgstr ""
+
+#: defense.cpp:711
+msgid "Easy"
+msgstr ""
+
+#: defense.cpp:712
+msgid "Medium"
+msgstr ""
+
+#: defense.cpp:713
+msgid "Hard"
+msgstr ""
+
+#: defense.cpp:714
+msgid "Shaun of the Dead"
+msgstr ""
+
+#: defense.cpp:715
+msgid "Dawn of the Dead"
+msgstr ""
+
+#: defense.cpp:716
+msgid "Eight-Legged Freaks"
+msgstr ""
+
+#: defense.cpp:717
+msgid "Day of the Triffids"
+msgstr ""
+
+#: defense.cpp:718
+msgid "Skynet"
+msgstr ""
+
+#: defense.cpp:719
+msgid "The Call of Cthulhu"
+msgstr ""
+
+#: defense.cpp:729
+msgid "A custom game."
+msgstr ""
+
+#: defense.cpp:731
+msgid "Easy monsters and lots of money."
+msgstr ""
+
+#: defense.cpp:733
+msgid "Harder monsters.  You have to eat."
+msgstr ""
+
+#: defense.cpp:735
+msgid "All monsters.  You have to eat and drink."
+msgstr ""
+
+#: defense.cpp:737
+msgid "Defend a bar against classic zombies.  Easy and fun."
+msgstr ""
+
+#: defense.cpp:739
+msgid "Classic zombies.  Slower and more realistic."
+msgstr ""
+
+#: defense.cpp:741
+msgid "Fast-paced spider-fighting fun!"
+msgstr ""
+
+#: defense.cpp:743
+msgid "Defend your mansion against the triffids."
+msgstr ""
+
+#: defense.cpp:745
+msgid "The robots have decided that humans are the enemy!"
+msgstr ""
+
+#: defense.cpp:747
+msgid "Ward off legions of eldritch horrors."
+msgstr ""
+
+#: defense.cpp:757
+msgid "Hospital"
+msgstr ""
+
+#: defense.cpp:758
+msgid "Megastore"
+msgstr ""
+
+#: defense.cpp:759
+msgid "Bar"
+msgstr ""
+
+#: defense.cpp:760
+msgid "Mansion"
+msgstr ""
+
+#: defense.cpp:771
+msgid "One entrance and many rooms.  Some medical supplies."
+msgstr ""
+
+#: defense.cpp:773
+msgid "A large building with various supplies."
+msgstr ""
+
+#: defense.cpp:775
+msgid "A small building with plenty of alcohol."
+msgstr ""
+
+#: defense.cpp:777
+msgid "A large house with many rooms and."
+msgstr ""
+
+#: defense.cpp:819
+msgid ""
+"CARAVAN:\n"
+"Start by selecting a category using your favorite up/down keys.\n"
+"Switch between category selection and item selecting by pressing Tab.\n"
+"Pick an item with the up/down keys, press + to buy 1 more, - to buy 1 less.\n"
+"Press Enter to buy everything in your cart, Esc to buy nothing."
+msgstr ""
+
+#: defense.cpp:965 defense.cpp:979
+msgid "Really buy nothing?"
+msgstr ""
+
+#: defense.cpp:978
+msgid "You can't afford those items!"
+msgstr ""
+
+#: defense.cpp:981
+#, c-format
+msgid "Buy %d items, leaving you with $%d?"
+msgstr ""
+
+#: defense.cpp:1013
+msgid "You drop some items."
+msgstr ""
+
+#: defense.cpp:1020
+msgid "Shopping Cart"
+msgstr ""
+
+#: defense.cpp:1021
+msgid "Melee Weapons"
+msgstr ""
+
+#: defense.cpp:1022
+msgid "Firearms & Ammo"
+msgstr ""
+
+#: defense.cpp:1023
+msgid "Crafting & Construction Components"
+msgstr ""
+
+#: defense.cpp:1024
+msgid "Food & Drugs"
+msgstr ""
+
+#: defense.cpp:1025
+msgid "Clothing & Armor"
+msgstr ""
+
+#: defense.cpp:1026
+msgid "Tools, Traps & Grenades"
+msgstr ""
+
+#: defense.cpp:1137
+msgid "Press ? for help."
+msgstr ""
+
+#: defense.cpp:1147
+#, c-format
+msgid "Your Cash:%6d"
+msgstr ""
+
+#: defense.cpp:1211 defense.cpp:1232
+#, c-format
+msgid "Welcome to Wave %d!"
+msgstr ""
+
+#: defense.cpp:1291
+#, c-format
+msgid "Wave %d: "
+msgstr ""
+
+#: defense.cpp:1302
+#, c-format
+msgid "%s Invasion!"
+msgstr ""
+
+#: defense.cpp:1303
+#, c-format
+msgid "Attack of the %ss!"
+msgstr ""
+
+#: defense.cpp:1304
+#, c-format
+msgid "%s Attack!"
+msgstr ""
+
+#: defense.cpp:1305
+#, c-format
+msgid "%s from Hell!"
+msgstr ""
+
+#: defense.cpp:1306
+#, c-format
+msgid "Beware! %s!"
+msgstr ""
+
+#: defense.cpp:1307
+#, c-format
+msgid "The Day of the %s!"
+msgstr ""
+
+#: defense.cpp:1308
+#, c-format
+msgid "%s Party!"
+msgstr ""
+
+#: defense.cpp:1309
+#, c-format
+msgid "Revenge of the %ss!"
+msgstr ""
+
+#: defense.cpp:1310
+#, c-format
+msgid "Rise of the %ss!"
 msgstr ""
 
 #: disease.cpp:270
@@ -4809,7 +5197,7 @@ msgstr ""
 msgid ". Their primary concern is "
 msgstr ""
 
-#: faction.cpp:446 faction.cpp:448 faction.cpp:458 game.cpp:10280
+#: faction.cpp:446 faction.cpp:448 faction.cpp:458 game.cpp:10281
 #: npctalk.cpp:725
 msgid "."
 msgstr ""
@@ -4823,11 +5211,11 @@ msgid " They are known for "
 msgstr ""
 
 #: faction.cpp:453 faction.cpp:456 faction.cpp:458 faction.cpp:459
-#: faction.cpp:461 game.cpp:10276
+#: faction.cpp:461 game.cpp:10277
 msgid ", "
 msgstr ""
 
-#: faction.cpp:461 game.cpp:10278
+#: faction.cpp:461 game.cpp:10279
 msgid ", and "
 msgstr ""
 
@@ -5575,485 +5963,485 @@ msgstr ""
 msgid "You trip as you evade the falling debris!"
 msgstr ""
 
-#: game.cpp:281
+#: game.cpp:282
 msgid "Please wait as we build your world"
 msgstr ""
 
-#: game.cpp:425
+#: game.cpp:426
 msgid "Game over! Press spacebar..."
 msgstr ""
 
-#: game.cpp:431
+#: game.cpp:432
 msgid "Delete saved world?"
 msgstr ""
 
-#: game.cpp:464
+#: game.cpp:465
 msgid "You have a sudden heart attack!"
 msgstr ""
 
-#: game.cpp:467
+#: game.cpp:468
 msgid "Your breathing stops completely."
 msgstr ""
 
-#: game.cpp:474
+#: game.cpp:475
 msgid "You haven't eaten in over a week!"
 msgstr ""
 
-#: game.cpp:476
+#: game.cpp:477
 msgid "You are STARVING!"
 msgstr ""
 
-#: game.cpp:478
+#: game.cpp:479
 msgid "Food..."
 msgstr ""
 
-#: game.cpp:480
+#: game.cpp:481
 msgid "You have starved to death."
 msgstr ""
 
-#: game.cpp:489
+#: game.cpp:490
 msgid "You haven't had anything to drink in 2 days!"
 msgstr ""
 
-#: game.cpp:491
+#: game.cpp:492
 msgid "You are THIRSTY!"
 msgstr ""
 
-#: game.cpp:493
+#: game.cpp:494
 msgid "4 days... no water.."
 msgstr ""
 
-#: game.cpp:495
+#: game.cpp:496
 msgid "You have died of dehydration."
 msgstr ""
 
-#: game.cpp:504
+#: game.cpp:505
 msgid "You haven't slept in 2 days!"
 msgstr ""
 
-#: game.cpp:506
+#: game.cpp:507
 msgid "Anywhere would be a good place to sleep..."
 msgstr ""
 
-#: game.cpp:508
+#: game.cpp:509
 msgid "Surivor sleep now."
 msgstr ""
 
-#: game.cpp:526
+#: game.cpp:527
 #, c-format
 msgid "You're feeling tired.  %s to lie down for sleep."
 msgstr ""
 
-#: game.cpp:529
+#: game.cpp:530
 msgid "You're feeling tired."
 msgstr ""
 
-#: game.cpp:641
+#: game.cpp:642
 #, c-format
 msgid "Your skill in %s has reduced to %d!"
 msgstr ""
 
-#: game.cpp:688
+#: game.cpp:689
 msgid "With a clang and a shudder, the gasoline pump goes silent."
 msgstr ""
 
-#: game.cpp:713
+#: game.cpp:714
 #, c-format
 msgid "You insert a cartridge into your %s."
 msgstr ""
 
-#: game.cpp:720
+#: game.cpp:721
 #, c-format
 msgid "You reload your %s."
 msgstr ""
 
-#: game.cpp:724
+#: game.cpp:725
 #, c-format
 msgid "Can't reload your %s."
 msgstr ""
 
-#: game.cpp:755
+#: game.cpp:756
 msgid "The rest of the book is currently still beyond your understanding."
 msgstr ""
 
-#: game.cpp:786
+#: game.cpp:787
 #, c-format
 msgid "You learn a little about %s! (%d%%%%)"
 msgstr ""
 
-#: game.cpp:789
+#: game.cpp:790
 #, c-format
 msgid "Study %s?"
 msgstr ""
 
-#: game.cpp:805
+#: game.cpp:806
 #, c-format
 msgid "You increase %s to level %d."
 msgstr ""
 
-#: game.cpp:811
+#: game.cpp:812
 #, c-format
 msgid "You can no longer learn from %s."
 msgstr ""
 
-#: game.cpp:813
+#: game.cpp:814
 #, c-format
 msgid "Your skill level won't improve, but %s has more recipes for you."
 msgstr ""
 
-#: game.cpp:821
+#: game.cpp:822
 msgid "You finish waiting."
 msgstr ""
 
-#: game.cpp:847
+#: game.cpp:848
 #, c-format
 msgid "You learn %s."
 msgstr ""
 
-#: game.cpp:853
+#: game.cpp:854
 #, c-format
 msgid "You finish training %s to level %d."
 msgstr ""
 
-#: game.cpp:913 game.cpp:944
+#: game.cpp:914 game.cpp:945
 msgid "whatever"
 msgstr ""
 
-#: game.cpp:914 game.cpp:945
+#: game.cpp:915 game.cpp:946
 msgid "crafting"
 msgstr ""
 
-#: game.cpp:914 game.cpp:945
+#: game.cpp:915 game.cpp:946
 msgid "reading"
 msgstr ""
 
-#: game.cpp:914 game.cpp:945
+#: game.cpp:915 game.cpp:946
 msgid "reloading"
 msgstr ""
 
-#: game.cpp:914 game.cpp:945
+#: game.cpp:915 game.cpp:946
 msgid "waiting"
 msgstr ""
 
-#: game.cpp:915 game.cpp:946
+#: game.cpp:916 game.cpp:947
 msgid "butchering"
 msgstr ""
 
-#: game.cpp:915 game.cpp:946 lang/json/json_skills.py:37
+#: game.cpp:916 game.cpp:947 lang/json/json_skills.py:37
 msgid "construction"
 msgstr ""
 
-#: game.cpp:915 game.cpp:946
+#: game.cpp:916 game.cpp:947
 msgid "disassembly"
 msgstr ""
 
-#: game.cpp:915 game.cpp:946
+#: game.cpp:916 game.cpp:947
 msgid "foraging"
 msgstr ""
 
-#: game.cpp:915 game.cpp:946
+#: game.cpp:916 game.cpp:947
 msgid "pumping gas"
 msgstr ""
 
-#: game.cpp:916 game.cpp:947
+#: game.cpp:917 game.cpp:948
 msgid "training"
 msgstr ""
 
-#: game.cpp:919
+#: game.cpp:920
 #, c-format
 msgid "%s Stop %s? (Y)es, (N)o, (I)gnore further distractions and finish."
 msgstr ""
 
-#: game.cpp:956
+#: game.cpp:957
 #, c-format
 msgid "%s Stop %s?"
 msgstr ""
 
-#: game.cpp:1055
+#: game.cpp:1056
 #, c-format
 msgid "The weather changed to %s!"
 msgstr ""
 
-#: game.cpp:1326
+#: game.cpp:1327
 msgid "Confirm:"
 msgstr ""
 
-#: game.cpp:1357
+#: game.cpp:1358
 msgid "<a>ctivate"
 msgstr ""
 
-#: game.cpp:1358
+#: game.cpp:1359
 msgid "<R>ead"
 msgstr ""
 
-#: game.cpp:1359
+#: game.cpp:1360
 msgid "<E>at"
 msgstr ""
 
-#: game.cpp:1360
+#: game.cpp:1361
 msgid "<W>ear"
 msgstr ""
 
-#: game.cpp:1361
+#: game.cpp:1362
 msgid "<w>ield"
 msgstr ""
 
-#: game.cpp:1362
+#: game.cpp:1363
 msgid "<t>hrow"
 msgstr ""
 
-#: game.cpp:1363
+#: game.cpp:1364
 msgid "<T>ake off"
 msgstr ""
 
-#: game.cpp:1364
+#: game.cpp:1365
 msgid "<d>rop"
 msgstr ""
 
-#: game.cpp:1365
+#: game.cpp:1366
 msgid "<U>nload"
 msgstr ""
 
-#: game.cpp:1366
+#: game.cpp:1367
 msgid "<r>eload"
 msgstr ""
 
-#: game.cpp:1367
+#: game.cpp:1368
 msgid "<D>isassemble"
 msgstr ""
 
-#: game.cpp:1368
+#: game.cpp:1369
 msgid "<=> reassign"
 msgstr ""
 
-#: game.cpp:1369
+#: game.cpp:1370
 msgid "<+> Autopickup"
 msgstr ""
 
-#: game.cpp:1369
+#: game.cpp:1370
 msgid "<-> Autopickup"
 msgstr ""
 
-#: game.cpp:1429
+#: game.cpp:1430
 #, c-format
 msgid "'%s' added to character pickup rules."
 msgstr ""
 
-#: game.cpp:1435
+#: game.cpp:1436
 #, c-format
 msgid "'%s' removed from character pickup rules."
 msgstr ""
 
-#: game.cpp:1554
+#: game.cpp:1555
 #, c-format
 msgid "Unknown command: '%c'"
 msgstr ""
 
-#: game.cpp:1576
+#: game.cpp:1577
 #, c-format
 msgid "Monster spotted--safe mode is on! (%s to turn it off.)"
 msgstr ""
 
-#: game.cpp:1756 game.cpp:11174
+#: game.cpp:1757 game.cpp:11175
 msgid "Inventory:"
 msgstr ""
 
-#: game.cpp:1872
+#: game.cpp:1873
 msgid "You can't disassemble items while in vehicle."
 msgstr ""
 
-#: game.cpp:1879
+#: game.cpp:1880
 msgid "You can't construct while in vehicle."
 msgstr ""
 
-#: game.cpp:1887
+#: game.cpp:1888
 #, c-format
 msgid "Vehicle control has moved, %s"
 msgstr ""
 
-#: game.cpp:1888
+#: game.cpp:1889
 msgid "new binding is "
 msgstr ""
 
-#: game.cpp:1888
+#: game.cpp:1889
 msgid "new default binding is '^'."
 msgstr ""
 
-#: game.cpp:1894
+#: game.cpp:1895
 msgid "Are you sure you want to sleep?"
 msgstr ""
 
-#: game.cpp:1895
+#: game.cpp:1896
 msgid "Yes."
 msgstr ""
 
-#: game.cpp:1902
+#: game.cpp:1903
 msgid "Yes, and save game before sleeping."
 msgstr ""
 
-#: game.cpp:1905
+#: game.cpp:1906
 msgid "No."
 msgstr ""
 
-#: game.cpp:1909
+#: game.cpp:1910
 msgid "Set alarm to wake up in 3 hours."
 msgstr ""
 
-#: game.cpp:1910
+#: game.cpp:1911
 msgid "Set alarm to wake up in 4 hours."
 msgstr ""
 
-#: game.cpp:1911
+#: game.cpp:1912
 msgid "Set alarm to wake up in 5 hours."
 msgstr ""
 
-#: game.cpp:1912
+#: game.cpp:1913
 msgid "Set alarm to wake up in 6 hours."
 msgstr ""
 
-#: game.cpp:1913
+#: game.cpp:1914
 msgid "Set alarm to wake up in 7 hours."
 msgstr ""
 
-#: game.cpp:1914
+#: game.cpp:1915
 msgid "Set alarm to wake up in 8 hours."
 msgstr ""
 
-#: game.cpp:1915
+#: game.cpp:1916
 msgid "Set alarm to wake up in 9 hours."
 msgstr ""
 
-#: game.cpp:1952
+#: game.cpp:1953
 msgid "Safe mode ON!"
 msgstr ""
 
-#: game.cpp:1957
+#: game.cpp:1958
 msgid "Safe mode OFF! (Auto safe mode still enabled!)"
 msgstr ""
 
-#: game.cpp:1959
+#: game.cpp:1960
 msgid "Safe mode OFF!"
 msgstr ""
 
-#: game.cpp:1965
+#: game.cpp:1966
 msgid "Auto safe mode OFF!"
 msgstr ""
 
-#: game.cpp:1968
+#: game.cpp:1969
 msgid "Auto safe mode ON"
 msgstr ""
 
-#: game.cpp:1975
+#: game.cpp:1976
 msgid "Ignoring enemy!"
 msgstr ""
 
-#: game.cpp:1981
+#: game.cpp:1982
 msgid "Save and quit?"
 msgstr ""
 
-#: game.cpp:1994
+#: game.cpp:1995
 msgid "Commit suicide?"
 msgstr ""
 
-#: game.cpp:2019
+#: game.cpp:2020
 msgid "FACTIONS:"
 msgstr ""
 
-#: game.cpp:2046
+#: game.cpp:2047
 #, c-format
 msgid "Debug messages %s!"
 msgstr ""
 
-#: game.cpp:2046
+#: game.cpp:2047
 msgid "OFF"
 msgstr ""
 
-#: game.cpp:2046
+#: game.cpp:2047
 msgid "ON"
 msgstr ""
 
-#: game.cpp:2233
+#: game.cpp:2234
 msgid "GAME OVER - Press Spacebar to Quit"
 msgstr ""
 
-#: game.cpp:2812
+#: game.cpp:2813
 msgid "Debug Functions - Using these is CHEATING!"
 msgstr ""
 
-#: game.cpp:2813
+#: game.cpp:2814
 msgid "Wish for an item"
 msgstr ""
 
-#: game.cpp:2814
+#: game.cpp:2815
 msgid "Teleport - Short Range"
 msgstr ""
 
-#: game.cpp:2815
+#: game.cpp:2816
 msgid "Teleport - Long Range"
 msgstr ""
 
-#: game.cpp:2816
+#: game.cpp:2817
 msgid "Reveal map"
 msgstr ""
 
-#: game.cpp:2817
+#: game.cpp:2818
 msgid "Spawn NPC"
 msgstr ""
 
-#: game.cpp:2818
+#: game.cpp:2819
 msgid "Spawn Monster"
 msgstr ""
 
-#: game.cpp:2819
+#: game.cpp:2820
 msgid "Check game state..."
 msgstr ""
 
-#: game.cpp:2820
+#: game.cpp:2821
 msgid "Kill NPCs"
 msgstr ""
 
-#: game.cpp:2821
+#: game.cpp:2822
 msgid "Mutate"
 msgstr ""
 
-#: game.cpp:2822
+#: game.cpp:2823
 msgid "Spawn a vehicle"
 msgstr ""
 
-#: game.cpp:2823
+#: game.cpp:2824
 msgid "Increase all skills"
 msgstr ""
 
-#: game.cpp:2824
+#: game.cpp:2825
 msgid "Learn all melee styles"
 msgstr ""
 
-#: game.cpp:2825
+#: game.cpp:2826
 msgid "Check NPC"
 msgstr ""
 
-#: game.cpp:2826
+#: game.cpp:2827
 msgid "Spawn Artifact"
 msgstr ""
 
-#: game.cpp:2827
+#: game.cpp:2828
 msgid "Spawn Clarivoyance Artifact"
 msgstr ""
 
-#: game.cpp:2828
+#: game.cpp:2829
 msgid "Map editor"
 msgstr ""
 
-#: game.cpp:2829 game.cpp:2941 game.cpp:9912 iuse.cpp:1442 iuse.cpp:2512
+#: game.cpp:2830 game.cpp:2942 game.cpp:9913 iuse.cpp:1442 iuse.cpp:2512
 #: iuse.cpp:3364 iuse.cpp:4475 iuse.cpp:4592 iuse.cpp:4594 iuse.cpp:4596
 msgid "Cancel"
 msgstr ""
 
-#: game.cpp:2876
+#: game.cpp:2877
 msgid "Current overmap revealed."
 msgstr ""
 
-#: game.cpp:2901
+#: game.cpp:2902
 #, c-format
 msgid ""
 "Location %d:%d in %d:%d, %s\n"
@@ -6064,885 +6452,885 @@ msgid ""
 "%d events planned."
 msgstr ""
 
-#: game.cpp:2909
+#: game.cpp:2910
 msgid "NOT going to"
 msgstr ""
 
-#: game.cpp:2909
+#: game.cpp:2910
 msgid "going to"
 msgstr ""
 
-#: game.cpp:2915
+#: game.cpp:2916
 #, c-format
 msgid "%s: map (%d:%d) pos (%d:%d)"
 msgstr ""
 
-#: game.cpp:2918
+#: game.cpp:2919
 #, c-format
 msgid "(you: %d:%d)"
 msgstr ""
 
-#: game.cpp:2924
+#: game.cpp:2925
 #, c-format
 msgid "%s's head implodes!"
 msgstr ""
 
-#: game.cpp:2942
+#: game.cpp:2943
 msgid "Choose vehicle to spawn"
 msgstr ""
 
-#: game.cpp:2952
+#: game.cpp:2953
 msgid "Skils increased."
 msgstr ""
 
-#: game.cpp:2960
+#: game.cpp:2961
 msgid "Martial arts gained."
 msgstr ""
 
-#: game.cpp:2967
+#: game.cpp:2968
 msgid "No NPC there."
 msgstr ""
 
-#: game.cpp:2971 newcharacter.cpp:1040 newcharacter.cpp:1054
+#: game.cpp:2972 newcharacter.cpp:1040 newcharacter.cpp:1054
 #: newcharacter.cpp:1057 player.cpp:2239
 msgid "Female"
 msgstr ""
 
-#: game.cpp:2971 newcharacter.cpp:1038 newcharacter.cpp:1039
+#: game.cpp:2972 newcharacter.cpp:1038 newcharacter.cpp:1039
 #: newcharacter.cpp:1053 newcharacter.cpp:1056 player.cpp:2239
 msgid "Male"
 msgstr ""
 
-#: game.cpp:2975
+#: game.cpp:2976
 msgid "Destination: "
 msgstr ""
 
-#: game.cpp:2979
+#: game.cpp:2980
 msgid "No destination."
 msgstr ""
 
-#: game.cpp:2980
+#: game.cpp:2981
 msgid " Fear: "
 msgstr ""
 
-#: game.cpp:2980
+#: game.cpp:2981
 msgid "Trust: "
 msgstr ""
 
-#: game.cpp:2981
+#: game.cpp:2982
 msgid " Anger: "
 msgstr ""
 
-#: game.cpp:2981
+#: game.cpp:2982
 msgid " Value: "
 msgstr ""
 
-#: game.cpp:2982
+#: game.cpp:2983
 msgid " Owed: "
 msgstr ""
 
-#: game.cpp:2983
+#: game.cpp:2984
 msgid " Bravery: "
 msgstr ""
 
-#: game.cpp:2983
+#: game.cpp:2984
 msgid "Aggression: "
 msgstr ""
 
-#: game.cpp:2984
+#: game.cpp:2985
 msgid " Collector: "
 msgstr ""
 
-#: game.cpp:2985
+#: game.cpp:2986
 msgid " Altruism: "
 msgstr ""
 
-#: game.cpp:3027
+#: game.cpp:3028
 msgid "The architect's cube."
 msgstr ""
 
-#: game.cpp:3104
+#: game.cpp:3105
 msgid "You haven't killed any monsters yet!"
 msgstr ""
 
-#: game.cpp:3156
+#: game.cpp:3157
 #, c-format
 msgid "Your position: %d:%d"
 msgstr ""
 
-#: game.cpp:3193
+#: game.cpp:3194
 msgid "You don't know of any factions.  Press Spacebar..."
 msgstr ""
 
-#: game.cpp:3220 game.cpp:3254
+#: game.cpp:3221 game.cpp:3255
 #, c-format
 msgid "Ranking: %s"
 msgstr ""
 
-#: game.cpp:3222 game.cpp:3256
+#: game.cpp:3223 game.cpp:3257
 #, c-format
 msgid "Respect: %s"
 msgstr ""
 
-#: game.cpp:3300
+#: game.cpp:3301
 msgid "ACTIVE MISSIONS"
 msgstr ""
 
-#: game.cpp:3301
+#: game.cpp:3302
 msgid "COMPLETED MISSIONS"
 msgstr ""
 
-#: game.cpp:3329
+#: game.cpp:3330
 #, c-format
 msgid "Deadline: %d (%d)"
 msgstr ""
 
-#: game.cpp:3331
+#: game.cpp:3332
 #, c-format
 msgid "Target: (%d, %d)   You: (%d, %d)"
 msgstr ""
 
-#: game.cpp:3337
+#: game.cpp:3338
 msgid "You have no active missions!"
 msgstr ""
 
-#: game.cpp:3338
+#: game.cpp:3339
 msgid "You haven't completed any missions!"
 msgstr ""
 
-#: game.cpp:3339
+#: game.cpp:3340
 msgid "You haven't failed any missions!"
 msgstr ""
 
-#: game.cpp:3444
+#: game.cpp:3445
 msgid "Underground"
 msgstr ""
 
-#: game.cpp:3466
+#: game.cpp:3467
 #, c-format
 msgid "%s, day %d"
 msgstr ""
 
-#: game.cpp:3480
+#: game.cpp:3481
 msgid "Written here: "
 msgstr ""
 
-#: game.cpp:3626
+#: game.cpp:3627
 msgid "HEAD:  "
 msgstr ""
 
-#: game.cpp:3627
+#: game.cpp:3628
 msgid "TORSO: "
 msgstr ""
 
-#: game.cpp:3628
+#: game.cpp:3629
 msgid "L ARM: "
 msgstr ""
 
-#: game.cpp:3629
+#: game.cpp:3630
 msgid "R ARM: "
 msgstr ""
 
-#: game.cpp:3630
+#: game.cpp:3631
 msgid "L LEG: "
 msgstr ""
 
-#: game.cpp:3631
+#: game.cpp:3632
 msgid "R LEG: "
 msgstr ""
 
-#: game.cpp:3632
+#: game.cpp:3633
 msgid "POW:   "
 msgstr ""
 
-#: game.cpp:4127
+#: game.cpp:4128
 msgid "Monster Spotted!"
 msgstr ""
 
-#: game.cpp:4129
+#: game.cpp:4130
 msgid "Monster spotted!"
 msgstr ""
 
-#: game.cpp:4150
+#: game.cpp:4151
 msgid "NW:"
 msgstr ""
 
-#: game.cpp:4152
+#: game.cpp:4153
 msgid "North:"
 msgstr ""
 
-#: game.cpp:4154
+#: game.cpp:4155
 msgid "NE:"
 msgstr ""
 
-#: game.cpp:4156
+#: game.cpp:4157
 msgid "West:"
 msgstr ""
 
-#: game.cpp:4158
+#: game.cpp:4159
 msgid "East:"
 msgstr ""
 
-#: game.cpp:4160
+#: game.cpp:4161
 msgid "SW:"
 msgstr ""
 
-#: game.cpp:4162
+#: game.cpp:4163
 msgid "South:"
 msgstr ""
 
-#: game.cpp:4164
+#: game.cpp:4165
 msgid "SE:"
 msgstr ""
 
-#: game.cpp:4361 game.cpp:4362
+#: game.cpp:4362 game.cpp:4363
 msgid "Your motion alarm goes off!"
 msgstr ""
 
-#: game.cpp:4406
+#: game.cpp:4407
 #, c-format
 msgid "%s's brain explodes!"
 msgstr ""
 
-#: game.cpp:4461
+#: game.cpp:4462
 msgid "You're woken up by a noise."
 msgstr ""
 
-#: game.cpp:4474
+#: game.cpp:4475
 #, c-format
 msgid "Heard %s!"
 msgstr ""
 
-#: game.cpp:4475
+#: game.cpp:4476
 msgid "a noise"
 msgstr ""
 
-#: game.cpp:4494
+#: game.cpp:4495
 #, c-format
 msgid "From the %s you hear %s"
 msgstr ""
 
-#: game.cpp:4577
+#: game.cpp:4578
 msgid "a huge explosion!"
 msgstr ""
 
-#: game.cpp:4579
+#: game.cpp:4580
 msgid "an explosion!"
 msgstr ""
 
-#: game.cpp:4620
+#: game.cpp:4621
 msgid "You're caught in the explosion!"
 msgstr ""
 
-#: game.cpp:4702
+#: game.cpp:4703
 #, c-format
 msgid "Shrapnel hits your %s!"
 msgstr ""
 
-#: game.cpp:4732
+#: game.cpp:4733
 msgid "a huge boom!"
 msgstr ""
 
-#: game.cpp:4766
+#: game.cpp:4767
 msgid "Crack!"
 msgstr ""
 
-#: game.cpp:4771 game.cpp:4779
+#: game.cpp:4772 game.cpp:4780
 #, c-format
 msgid "%s is caught in the shockwave!"
 msgstr ""
 
-#: game.cpp:4785
+#: game.cpp:4786
 msgid "You're caught in the shockwave!"
 msgstr ""
 
-#: game.cpp:4818
+#: game.cpp:4819
 #, c-format
 msgid "Nothing at (%d,%d) to knockback!"
 msgstr ""
 
-#: game.cpp:4830 game.cpp:4850 game.cpp:4879 game.cpp:4917 game.cpp:4970
+#: game.cpp:4831 game.cpp:4851 game.cpp:4880 game.cpp:4918 game.cpp:4971
 #, c-format
 msgid "%s was stunned for %d turn%s!"
 msgstr ""
 
-#: game.cpp:4844 game.cpp:4873 game.cpp:4932 game.cpp:4965
+#: game.cpp:4845 game.cpp:4874 game.cpp:4933 game.cpp:4966
 #, c-format
 msgid "%s was stunned AGAIN for %d turn%s!"
 msgstr ""
 
-#: game.cpp:4845 game.cpp:4851 game.cpp:4874 game.cpp:4880 game.cpp:4917
-#: game.cpp:4933 game.cpp:4940 game.cpp:4966 game.cpp:4971 game.cpp:5519
-#: game.cpp:8984 game.cpp:8988 game.cpp:9053 game.cpp:9058 game.cpp:11296
-#: game.cpp:11302
+#: game.cpp:4846 game.cpp:4852 game.cpp:4875 game.cpp:4881 game.cpp:4918
+#: game.cpp:4934 game.cpp:4941 game.cpp:4967 game.cpp:4972 game.cpp:5520
+#: game.cpp:8985 game.cpp:8989 game.cpp:9054 game.cpp:9059 game.cpp:11297
+#: game.cpp:11303
 msgid "s"
 msgstr ""
 
-#: game.cpp:4853
+#: game.cpp:4854
 #, c-format
 msgid "%s took %d damage!"
 msgstr ""
 
-#: game.cpp:4885 game.cpp:4977
+#: game.cpp:4886 game.cpp:4978
 #, c-format
 msgid "%s collided with someTHING else and sent IT flying!"
 msgstr ""
 
-#: game.cpp:4887 game.cpp:4979
+#: game.cpp:4888 game.cpp:4980
 #, c-format
 msgid "%s collided with someone else and sent %s flying!"
 msgstr ""
 
-#: game.cpp:4888 game.cpp:4980 game.cpp:5049
+#: game.cpp:4889 game.cpp:4981 game.cpp:5050
 msgid "her"
 msgstr ""
 
-#: game.cpp:4888 game.cpp:4980 game.cpp:5049
+#: game.cpp:4889 game.cpp:4981 game.cpp:5050
 msgid "him"
 msgstr ""
 
-#: game.cpp:4890 game.cpp:4982
+#: game.cpp:4891 game.cpp:4983
 #, c-format
 msgid "%s collided with you and sent you flying!"
 msgstr ""
 
-#: game.cpp:4901
+#: game.cpp:4902
 #, c-format
 msgid "The %s drowns!"
 msgstr ""
 
-#: game.cpp:4907
+#: game.cpp:4908
 #, c-format
 msgid "The %s flops around and dies!"
 msgstr ""
 
-#: game.cpp:4939
+#: game.cpp:4940
 #, c-format
 msgid "%s was stunned for %d turns!"
 msgstr ""
 
-#: game.cpp:4942
+#: game.cpp:4943
 #, c-format
 msgid "%s took %d damage! (before armor)"
 msgstr ""
 
-#: game.cpp:4995 game.cpp:5012 game.cpp:5040
+#: game.cpp:4996 game.cpp:5013 game.cpp:5041
 #, c-format
 msgid "You were stunned for %d turns!"
 msgstr ""
 
-#: game.cpp:5008 game.cpp:5036
+#: game.cpp:5009 game.cpp:5037
 #, c-format
 msgid "You were stunned AGAIN for %d turns!"
 msgstr ""
 
-#: game.cpp:5046
+#: game.cpp:5047
 msgid "You collided with someTHING else and sent IT flying!"
 msgstr ""
 
-#: game.cpp:5048
+#: game.cpp:5049
 #, c-format
 msgid "You collided with someone else and sent %s flying!"
 msgstr ""
 
-#: game.cpp:5070
+#: game.cpp:5071
 msgid "You can not read a computer screen!"
 msgstr ""
 
-#: game.cpp:5076
+#: game.cpp:5077
 msgid "You'll need to put on reading glasses before you can see the screen."
 msgstr ""
 
-#: game.cpp:5170
+#: game.cpp:5171
 #, c-format
 msgid "The %s sparks and begins searching for a target!"
 msgstr ""
 
-#: game.cpp:5177
+#: game.cpp:5178
 #, c-format
 msgid "The %s is rendered non-functional!"
 msgstr ""
 
-#: game.cpp:5187
+#: game.cpp:5188
 msgid "The card reader is rendered non-functional."
 msgstr ""
 
-#: game.cpp:5191
+#: game.cpp:5192
 msgid "The nearby doors slide open!"
 msgstr ""
 
-#: game.cpp:5200 game.cpp:5921
+#: game.cpp:5201 game.cpp:5922
 msgid "Nothing happens."
 msgstr ""
 
-#: game.cpp:5206
+#: game.cpp:5207
 #, c-format
 msgid "The EMP blast fries the %s!"
 msgstr ""
 
-#: game.cpp:5213
+#: game.cpp:5214
 #, c-format
 msgid "The %s is unaffected by the EMP blast."
 msgstr ""
 
-#: game.cpp:5217
+#: game.cpp:5218
 msgid "The EMP blast drains your power."
 msgstr ""
 
-#: game.cpp:5416
+#: game.cpp:5417
 msgid "Open"
 msgstr ""
 
-#: game.cpp:5426 game.cpp:5449
+#: game.cpp:5427 game.cpp:5450
 msgid "That door is already open."
 msgstr ""
 
-#: game.cpp:5446
+#: game.cpp:5447
 msgid "The door is locked!"
 msgstr ""
 
-#: game.cpp:5453
+#: game.cpp:5454
 msgid "No door there."
 msgstr ""
 
-#: game.cpp:5462
+#: game.cpp:5463
 msgid "Close"
 msgstr ""
 
-#: game.cpp:5470 game.cpp:5488
+#: game.cpp:5471 game.cpp:5489
 #, c-format
 msgid "There's a %s in the way!"
 msgstr ""
 
-#: game.cpp:5478
+#: game.cpp:5479
 #, c-format
 msgid "There's %s in the way!"
 msgstr ""
 
-#: game.cpp:5479
+#: game.cpp:5480
 msgid "some stuff"
 msgstr ""
 
-#: game.cpp:5481
+#: game.cpp:5482
 msgid "There's some buffoon in the way!"
 msgstr ""
 
-#: game.cpp:5484
+#: game.cpp:5485
 msgid ""
 "You cannot close the curtains from outside. You must be inside the building."
 msgstr ""
 
-#: game.cpp:5504
+#: game.cpp:5505
 msgid "Smash"
 msgstr ""
 
-#: game.cpp:5519
+#: game.cpp:5520
 #, c-format
 msgid "You swing at the corpse%s."
 msgstr ""
 
-#: game.cpp:5554
+#: game.cpp:5555
 #, c-format
 msgid "You %sdamage the %s!"
 msgstr ""
 
-#: game.cpp:5554
+#: game.cpp:5555
 msgid "greatly "
 msgstr ""
 
-#: game.cpp:5558
+#: game.cpp:5559
 msgid "The corpse is now thoroughly pulped."
 msgstr ""
 
-#: game.cpp:5602 melee.cpp:1254
+#: game.cpp:5603 melee.cpp:1254
 #, c-format
 msgid "Your %s shatters!"
 msgstr ""
 
-#: game.cpp:5619
+#: game.cpp:5620
 msgid "There's nothing there!"
 msgstr ""
 
-#: game.cpp:5627
+#: game.cpp:5628
 msgid "Use item:"
 msgstr ""
 
-#: game.cpp:5647
+#: game.cpp:5648
 msgid " where? (Direction button)"
 msgstr ""
 
-#: game.cpp:5658
+#: game.cpp:5659
 msgid "Invalid direction."
 msgstr ""
 
-#: game.cpp:5738
+#: game.cpp:5739
 #, c-format
 msgid "You %s %s's %s%s."
 msgstr ""
 
-#: game.cpp:5738
+#: game.cpp:5739
 msgid "recharge"
 msgstr ""
 
-#: game.cpp:5738
+#: game.cpp:5739
 msgid "refill"
 msgstr ""
 
-#: game.cpp:5739
+#: game.cpp:5740
 msgid "battery"
 msgstr ""
 
-#: game.cpp:5739
+#: game.cpp:5740
 msgid "fuel tank"
 msgstr ""
 
-#: game.cpp:5739
+#: game.cpp:5740
 msgid "reactor"
 msgstr ""
 
-#: game.cpp:5740 game.cpp:8731
+#: game.cpp:5741 game.cpp:8732
 msgid " to its maximum"
 msgstr ""
 
-#: game.cpp:5766
+#: game.cpp:5767
 msgid "You pull a handbrake."
 msgstr ""
 
-#: game.cpp:5770
+#: game.cpp:5771
 #, c-format
 msgid "You lose control of %s."
 msgstr ""
 
-#: game.cpp:5837 game.cpp:5847
+#: game.cpp:5838 game.cpp:5848
 msgid "You turn the handle..."
 msgstr ""
 
-#: game.cpp:5838 game.cpp:5848
+#: game.cpp:5839 game.cpp:5849
 msgid "The gate is opened!"
 msgstr ""
 
-#: game.cpp:5839 game.cpp:5849
+#: game.cpp:5840 game.cpp:5850
 msgid "The gate is closed!"
 msgstr ""
 
-#: game.cpp:5857 game.cpp:5867
+#: game.cpp:5858 game.cpp:5868
 msgid "You pull the rope..."
 msgstr ""
 
-#: game.cpp:5858
+#: game.cpp:5859
 msgid "The barn doors opened!"
 msgstr ""
 
-#: game.cpp:5859
+#: game.cpp:5860
 msgid "The barn doors closed!"
 msgstr ""
 
-#: game.cpp:5868
+#: game.cpp:5869
 msgid "The palisade gate swings open!"
 msgstr ""
 
-#: game.cpp:5869
+#: game.cpp:5870
 msgid "The palisade gate swings closed with a crash!"
 msgstr ""
 
-#: game.cpp:5938
+#: game.cpp:5939
 #, c-format
 msgid "You dive from the %s."
 msgstr ""
 
-#: game.cpp:5965
+#: game.cpp:5966
 #, c-format
 msgid "You take control of the %s."
 msgstr ""
 
-#: game.cpp:5968
+#: game.cpp:5969
 msgid "Control vehicle"
 msgstr ""
 
-#: game.cpp:5972
+#: game.cpp:5973
 msgid "No vehicle there."
 msgstr ""
 
-#: game.cpp:5976
+#: game.cpp:5977
 msgid "No controls there."
 msgstr ""
 
-#: game.cpp:5988
+#: game.cpp:5989
 msgid "Examine"
 msgstr ""
 
-#: game.cpp:5999
+#: game.cpp:6000
 msgid "You can't do that while onboard."
 msgstr ""
 
-#: game.cpp:6001
+#: game.cpp:6002
 msgid "You can't do that on moving vehicle."
 msgstr ""
 
-#: game.cpp:6024
+#: game.cpp:6025
 #, c-format
 msgid "The %s is firmly sealed."
 msgstr ""
 
-#: game.cpp:6028
+#: game.cpp:6029
 msgid "It is empty."
 msgstr ""
 
-#: game.cpp:6187
+#: game.cpp:6188
 msgid "Name (charges)"
 msgstr ""
 
-#: game.cpp:6188
+#: game.cpp:6189
 #, c-format
 msgid "%s weight vol"
 msgstr ""
 
-#: game.cpp:6188
+#: game.cpp:6189
 msgid "amt"
 msgstr ""
 
-#: game.cpp:6188
+#: game.cpp:6189
 msgid "src"
 msgstr ""
 
-#: game.cpp:6364
+#: game.cpp:6365
 msgid "All 9 squares"
 msgstr ""
 
-#: game.cpp:6401
+#: game.cpp:6402
 msgid "category"
 msgstr ""
 
-#: game.cpp:6401
+#: game.cpp:6402
 msgid "charges"
 msgstr ""
 
-#: game.cpp:6401
+#: game.cpp:6402
 msgid "name"
 msgstr ""
 
-#: game.cpp:6401
+#: game.cpp:6402
 msgid "none"
 msgstr ""
 
-#: game.cpp:6401
+#: game.cpp:6402
 msgid "volume"
 msgstr ""
 
-#: game.cpp:6401
+#: game.cpp:6402
 msgid "weight"
 msgstr ""
 
-#: game.cpp:6402
+#: game.cpp:6403
 msgid "ammo"
 msgstr ""
 
-#: game.cpp:6402
+#: game.cpp:6403
 msgid "books"
 msgstr ""
 
-#: game.cpp:6402
+#: game.cpp:6403
 msgid "clothing"
 msgstr ""
 
-#: game.cpp:6402
+#: game.cpp:6403
 msgid "drugs"
 msgstr ""
 
-#: game.cpp:6402
+#: game.cpp:6403
 msgid "food"
 msgstr ""
 
-#: game.cpp:6402
+#: game.cpp:6403
 msgid "guns"
 msgstr ""
 
-#: game.cpp:6402
+#: game.cpp:6403
 msgid "mods"
 msgstr ""
 
-#: game.cpp:6402
+#: game.cpp:6403
 msgid "other"
 msgstr ""
 
-#: game.cpp:6402
+#: game.cpp:6403
 msgid "tools"
 msgstr ""
 
-#: game.cpp:6402
+#: game.cpp:6403
 msgid "weapons"
 msgstr ""
 
-#: game.cpp:6424
+#: game.cpp:6425
 msgid "Inventory"
 msgstr ""
 
-#: game.cpp:6425
+#: game.cpp:6426
 msgid "South West"
 msgstr ""
 
-#: game.cpp:6426
+#: game.cpp:6427
 msgid "South"
 msgstr ""
 
-#: game.cpp:6427
+#: game.cpp:6428
 msgid "South East"
 msgstr ""
 
-#: game.cpp:6428
+#: game.cpp:6429
 msgid "West"
 msgstr ""
 
-#: game.cpp:6429
+#: game.cpp:6430
 msgid "Directly below you"
 msgstr ""
 
-#: game.cpp:6430
+#: game.cpp:6431
 msgid "East"
 msgstr ""
 
-#: game.cpp:6431
+#: game.cpp:6432
 msgid "North West"
 msgstr ""
 
-#: game.cpp:6432
+#: game.cpp:6433
 msgid "North"
 msgstr ""
 
-#: game.cpp:6433
+#: game.cpp:6434
 msgid "North East"
 msgstr ""
 
-#: game.cpp:6434
+#: game.cpp:6435
 msgid "Surrounding area"
 msgstr ""
 
-#: game.cpp:6444 game.cpp:6445
+#: game.cpp:6445 game.cpp:6446
 msgid "Initializing..."
 msgstr ""
 
-#: game.cpp:6653
+#: game.cpp:6654
 msgid "< [?] show log >"
 msgstr ""
 
-#: game.cpp:6654
+#: game.cpp:6655
 msgid "hjkl or arrow keys to move cursor, [m]ove item between panes,"
 msgstr ""
 
-#: game.cpp:6655
+#: game.cpp:6656
 msgid "1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"
 msgstr ""
 
-#: game.cpp:6656
+#: game.cpp:6657
 msgid "[e]xamine item,  [s]ort display, [q]uit/exit this screen."
 msgstr ""
 
-#: game.cpp:6663
+#: game.cpp:6664
 #, c-format
 msgid "[<] page %d of %d [>]"
 msgstr ""
 
-#: game.cpp:6676
+#: game.cpp:6677
 #, c-format
 msgid "< [s]ort: %s >"
 msgstr ""
 
-#: game.cpp:6710
+#: game.cpp:6711
 msgid "same square!"
 msgstr ""
 
-#: game.cpp:6721
+#: game.cpp:6722
 msgid "You can't put items there"
 msgstr ""
 
-#: game.cpp:6738
+#: game.cpp:6739
 msgid "Select destination"
 msgstr ""
 
-#: game.cpp:6744
+#: game.cpp:6745
 msgid " (FULL)"
 msgstr ""
 
-#: game.cpp:6746
+#: game.cpp:6747
 msgid ":-O this shouldn't happen (BUG)"
 msgstr ""
 
-#: game.cpp:6767
+#: game.cpp:6768
 msgid "Can't move stuff to the same place."
 msgstr ""
 
-#: game.cpp:6769
+#: game.cpp:6770
 msgid "Invalid. Like the menu said."
 msgstr ""
 
-#: game.cpp:6807
+#: game.cpp:6808
 msgid "Destination area is full. Remove some items first."
 msgstr ""
 
-#: game.cpp:6819
+#: game.cpp:6820
 msgid "Destination area has too many items. Remove some first."
 msgstr ""
 
-#: game.cpp:6823
+#: game.cpp:6824
 msgid "How many do you want to move? (0 to cancel)"
 msgstr ""
 
-#: game.cpp:6825
+#: game.cpp:6826
 msgid "! Move how many? (0 to cancel) "
 msgstr ""
 
-#: game.cpp:6825
+#: game.cpp:6826
 msgid "Destination can only hold "
 msgstr ""
 
-#: game.cpp:6855 game.cpp:6862
+#: game.cpp:6856 game.cpp:6863
 #, c-format
 msgid ""
 "Destination full. %d / %d moved. Please report a bug if items have vanished."
 msgstr ""
 
-#: game.cpp:6880 game.cpp:6887 game.cpp:6899 game.cpp:6906
+#: game.cpp:6881 game.cpp:6888 game.cpp:6900 game.cpp:6907
 msgid "Destination full. Please report a bug if items have vanished."
 msgstr ""
 
-#: game.cpp:6927
+#: game.cpp:6928
 #, c-format
 msgid "Source area is the same as destination (%s)."
 msgstr ""
 
-#: game.cpp:6936
+#: game.cpp:6937
 msgid "You can't pick up a liquid."
 msgstr ""
 
-#: game.cpp:6945
+#: game.cpp:6946
 msgid "There's no room in your inventory."
 msgstr ""
 
-#: game.cpp:6950
+#: game.cpp:6951
 msgid "This is too heavy!"
 msgstr ""
 
-#: game.cpp:6955
+#: game.cpp:6956
 msgid "Too many itens"
 msgstr ""
 
-#: game.cpp:6971 game.cpp:6976
+#: game.cpp:6972 game.cpp:6977
 msgid "Destination area is full. Remove some items first"
 msgstr ""
 
-#: game.cpp:6995
+#: game.cpp:6996
 msgid "Sort by... "
 msgstr ""
 
-#: game.cpp:6996
+#: game.cpp:6997
 msgid "Unsorted (recently added first)"
 msgstr ""
 
-#: game.cpp:7034 game.cpp:7035 newcharacter.cpp:400
+#: game.cpp:7035 game.cpp:7036 newcharacter.cpp:400
 msgid "DESCRIPTION"
 msgstr ""
 
-#: game.cpp:7035
+#: game.cpp:7036
 msgid ""
 "\n"
 "\n"
@@ -6953,1075 +7341,1075 @@ msgid ""
 " [down / page down] next"
 msgstr ""
 
-#: game.cpp:7149
+#: game.cpp:7150
 msgid "Peek"
 msgstr ""
 
-#: game.cpp:7180 game.cpp:7567
+#: game.cpp:7181 game.cpp:7568
 msgid "Looking Around"
 msgstr ""
 
-#: game.cpp:7231
+#: game.cpp:7232
 #, c-format
 msgid "%d: %s; movecost %d"
 msgstr ""
 
-#: game.cpp:7238
+#: game.cpp:7239
 #, c-format
 msgid "%d: %s; movecost %d movestr %d"
 msgstr ""
 
-#: game.cpp:7245
+#: game.cpp:7246
 #, c-format
 msgid "dist: %d u_see: %d light: %d v_in: %d"
 msgstr ""
 
-#: game.cpp:7249
+#: game.cpp:7250
 msgid " [vehicle]"
 msgstr ""
 
-#: game.cpp:7250
+#: game.cpp:7251
 msgid " [indoors]"
 msgstr ""
 
-#: game.cpp:7251
+#: game.cpp:7252
 msgid " [roof]"
 msgstr ""
 
-#: game.cpp:7262
+#: game.cpp:7263
 #, c-format
 msgid "field: %s (%d) density %d age %d"
 msgstr ""
 
-#: game.cpp:7271
+#: game.cpp:7272
 #, c-format
 msgid "trap: %s (%d)"
 msgstr ""
 
-#: game.cpp:7287 game.cpp:7657 game.cpp:7683
+#: game.cpp:7288 game.cpp:7658 game.cpp:7684
 #, c-format
 msgid "There is a %s there. Parts:"
 msgstr ""
 
-#: game.cpp:7298 game.cpp:7663
+#: game.cpp:7299 game.cpp:7664
 #, c-format
 msgid "There is a %s there."
 msgstr ""
 
-#: game.cpp:7301
+#: game.cpp:7302
 #, c-format
 msgid "There are %d other items there as well."
 msgstr ""
 
-#: game.cpp:7307 game.cpp:7707
+#: game.cpp:7308 game.cpp:7708
 #, c-format
 msgid "Graffiti: %s"
 msgstr ""
 
-#: game.cpp:7309
+#: game.cpp:7310
 msgid "[t] add trap, [f] add field effect"
 msgstr ""
 
-#: game.cpp:7310
+#: game.cpp:7311
 msgid "[g] edit m_ter"
 msgstr ""
 
-#: game.cpp:7382
+#: game.cpp:7383
 #, c-format
 msgid "movecost %d"
 msgstr ""
 
-#: game.cpp:7385
+#: game.cpp:7386
 msgid "[indoors] "
 msgstr ""
 
-#: game.cpp:7386
+#: game.cpp:7387
 msgid "[roof] "
 msgstr ""
 
-#: game.cpp:7503
+#: game.cpp:7504
 msgid "-clear-"
 msgstr ""
 
-#: game.cpp:7568
+#: game.cpp:7569
 msgid "Use directional keys to move the cursor"
 msgstr ""
 
-#: game.cpp:7569
+#: game.cpp:7570
 msgid "to a nearby square."
 msgstr ""
 
-#: game.cpp:7591
+#: game.cpp:7592
 #, c-format
 msgid "%s; Impassable"
 msgstr ""
 
-#: game.cpp:7593
+#: game.cpp:7594
 #, c-format
 msgid "%s; Movement cost %d"
 msgstr ""
 
-#: game.cpp:7627 game.cpp:7645
+#: game.cpp:7628 game.cpp:7646
 msgid "There are several items there."
 msgstr ""
 
-#: game.cpp:7631 game.cpp:7649
+#: game.cpp:7632 game.cpp:7650
 msgid "There is an item there."
 msgstr ""
 
-#: game.cpp:7634 game.cpp:7652 game.cpp:7671
+#: game.cpp:7635 game.cpp:7653 game.cpp:7672
 msgid "You cannot see what is inside of it."
 msgstr ""
 
-#: game.cpp:7667
+#: game.cpp:7668
 msgid "There are other items there as well."
 msgstr ""
 
-#: game.cpp:7681
+#: game.cpp:7682
 #, c-format
 msgid "You (%s)"
 msgstr ""
 
-#: game.cpp:7701
+#: game.cpp:7702
 msgid "Bright light."
 msgstr ""
 
-#: game.cpp:7704
+#: game.cpp:7705
 msgid "Unseen."
 msgstr ""
 
-#: game.cpp:7822
+#: game.cpp:7823
 msgid "How to use the filter:"
 msgstr ""
 
-#: game.cpp:7823
+#: game.cpp:7824
 msgid "Example: pi  will match any itemname with pi in it."
 msgstr ""
 
-#: game.cpp:7824
+#: game.cpp:7825
 msgid "Seperate multiple items with ,"
 msgstr ""
 
-#: game.cpp:7825
+#: game.cpp:7826
 msgid "Example: back,flash,aid, ,band"
 msgstr ""
 
-#: game.cpp:7828
+#: game.cpp:7829
 msgid "To exclude certain items, place a - in front"
 msgstr ""
 
-#: game.cpp:7829
+#: game.cpp:7830
 msgid "Example: -pipe,chunk,steel"
 msgstr ""
 
-#: game.cpp:7885
+#: game.cpp:7886
 msgid "eset "
 msgstr ""
 
-#: game.cpp:7889
+#: game.cpp:7890
 msgid "xamine "
 msgstr ""
 
-#: game.cpp:7892
+#: game.cpp:7893
 msgid "ompare "
 msgstr ""
 
-#: game.cpp:7895
+#: game.cpp:7896
 msgid "ilter "
 msgstr ""
 
-#: game.cpp:7898
+#: game.cpp:7899
 msgid ":Priority "
 msgstr ""
 
-#: game.cpp:8028
+#: game.cpp:8029
 msgid "High Priority:"
 msgstr ""
 
-#: game.cpp:8035
+#: game.cpp:8036
 msgid "Low Priority:"
 msgstr ""
 
-#: game.cpp:8195
+#: game.cpp:8196
 msgid "You dont see any items around you!"
 msgstr ""
 
-#: game.cpp:8223
+#: game.cpp:8224
 msgid "You cannot pick up items with your claws out!"
 msgstr ""
 
-#: game.cpp:8237
+#: game.cpp:8238
 #, c-format
 msgid "Get items from %s?"
 msgstr ""
 
-#: game.cpp:8241
+#: game.cpp:8242
 msgid "Have a drink?"
 msgstr ""
 
-#: game.cpp:8249
+#: game.cpp:8250
 msgid "The water tank is empty."
 msgstr ""
 
-#: game.cpp:8263 game.cpp:8689
+#: game.cpp:8264 game.cpp:8690
 msgid "You can't pick up a liquid!"
 msgstr ""
 
-#: game.cpp:8277 game.cpp:8595
+#: game.cpp:8278 game.cpp:8596
 msgid "You're carrying too many items!"
 msgstr ""
 
-#: game.cpp:8280 game.cpp:8601
+#: game.cpp:8281 game.cpp:8602
 #, c-format
 msgid "The %s is too heavy!"
 msgstr ""
 
-#: game.cpp:8286 game.cpp:8607
+#: game.cpp:8287 game.cpp:8608
 #, c-format
 msgid "Put on the %s?"
 msgstr ""
 
-#: game.cpp:8293 game.cpp:8617
+#: game.cpp:8294 game.cpp:8618
 #, c-format
 msgid "Drop your %s and pick up %s?"
 msgstr ""
 
-#: game.cpp:8302 game.cpp:8317 game.cpp:8328 game.cpp:8628
+#: game.cpp:8303 game.cpp:8318 game.cpp:8329 game.cpp:8629
 #, c-format
 msgid "Wielding %c - %s"
 msgstr ""
 
-#: game.cpp:8306
+#: game.cpp:8307
 #, c-format
 msgid ""
 "There's no room in your inventory for the %s, and you can't unwield your %s."
 msgstr ""
 
-#: game.cpp:8339 game.cpp:8691
+#: game.cpp:8340 game.cpp:8692
 msgid "You're overburdened!"
 msgstr ""
 
-#: game.cpp:8341 game.cpp:8693
+#: game.cpp:8342 game.cpp:8694
 msgid "You struggle to carry such a large volume!"
 msgstr ""
 
-#: game.cpp:8371
+#: game.cpp:8372
 msgid "PICK UP (, = all)"
 msgstr ""
 
-#: game.cpp:8450
+#: game.cpp:8451
 msgid "Enter 2 letters (case sensitive):"
 msgstr ""
 
-#: game.cpp:8536
+#: game.cpp:8537
 msgid "[left] Unmark    [up/dn] Scroll    [right] Mark"
 msgstr ""
 
-#: game.cpp:8538
+#: game.cpp:8539
 msgid "[pgup] Prev"
 msgstr ""
 
-#: game.cpp:8539
+#: game.cpp:8540
 msgid "[,] All"
 msgstr ""
 
-#: game.cpp:8541
+#: game.cpp:8542
 msgid "[pgdn] Next"
 msgstr ""
 
-#: game.cpp:8547
+#: game.cpp:8548
 #, c-format
 msgid "Wgt %d"
 msgstr ""
 
-#: game.cpp:8551
+#: game.cpp:8552
 #, c-format
 msgid "Vol %d"
 msgstr ""
 
-#: game.cpp:8634
+#: game.cpp:8635
 #, c-format
 msgid ""
 "There's no room in your inventory for the %s, and you can't  unwield your %s."
 msgstr ""
 
-#: game.cpp:8684
+#: game.cpp:8685
 msgid "You pick up: "
 msgstr ""
 
-#: game.cpp:8711
+#: game.cpp:8712
 msgid "Refill vehicle?"
 msgstr ""
 
-#: game.cpp:8714
+#: game.cpp:8715
 msgid "Refill vehicle"
 msgstr ""
 
-#: game.cpp:8721
+#: game.cpp:8722
 #, c-format
 msgid "This vehicle doesn't use %s."
 msgstr ""
 
-#: game.cpp:8723
+#: game.cpp:8724
 msgid "Already full."
 msgstr ""
 
-#: game.cpp:8724
+#: game.cpp:8725
 msgid "Pump until full?"
 msgstr ""
 
-#: game.cpp:8729
+#: game.cpp:8730
 #, c-format
 msgid "You refill %s with %s%s."
 msgstr ""
 
-#: game.cpp:8736
+#: game.cpp:8737
 msgid "There isn't any vehicle there."
 msgstr ""
 
-#: game.cpp:8744 game.cpp:8756 game.cpp:8768
+#: game.cpp:8745 game.cpp:8757 game.cpp:8769
 #, c-format
 msgid "Pour %s on the ground?"
 msgstr ""
 
-#: game.cpp:8750
+#: game.cpp:8751
 msgid "Container for "
 msgstr ""
 
-#: game.cpp:8793
+#: game.cpp:8794
 #, c-format
 msgid "Your %s won't hold %s."
 msgstr ""
 
-#: game.cpp:8799 game.cpp:8867
+#: game.cpp:8800 game.cpp:8868
 #, c-format
 msgid "Your %s can't hold any more %s."
 msgstr ""
 
-#: game.cpp:8805 game.cpp:8837
+#: game.cpp:8806 game.cpp:8838
 #, c-format
 msgid "You can't mix loads in your %s."
 msgstr ""
 
-#: game.cpp:8809 game.cpp:8877 game.cpp:8883
+#: game.cpp:8810 game.cpp:8878 game.cpp:8884
 #, c-format
 msgid "You pour %s into your %s."
 msgstr ""
 
-#: game.cpp:8820 game.cpp:8891
+#: game.cpp:8821 game.cpp:8892
 msgid "There's some left over!"
 msgstr ""
 
-#: game.cpp:8827
+#: game.cpp:8828
 #, c-format
 msgid "That %s won't hold %s."
 msgstr ""
 
-#: game.cpp:8902
+#: game.cpp:8903
 #, c-format
 msgid "That %s isn't water-tight."
 msgstr ""
 
-#: game.cpp:8907
+#: game.cpp:8908
 #, c-format
 msgid "You can't seal that %s!"
 msgstr ""
 
-#: game.cpp:8928
+#: game.cpp:8929
 #, c-format
 msgid "You fill your %s with some of the %s."
 msgstr ""
 
-#: game.cpp:8983 game.cpp:9052
+#: game.cpp:8984 game.cpp:9053
 #, c-format
 msgid "You put your %s%s in the %s's %s."
 msgstr ""
 
-#: game.cpp:8991 game.cpp:9062
+#: game.cpp:8992 game.cpp:9063
 #, c-format
 msgid "You put several items in the %s's %s."
 msgstr ""
 
-#: game.cpp:8994
+#: game.cpp:8995
 msgid "You drop several items."
 msgstr ""
 
-#: game.cpp:9005 game.cpp:9076
+#: game.cpp:9006 game.cpp:9077
 msgid "The trunk is full, so some items fall on the ground."
 msgstr ""
 
-#: game.cpp:9015
+#: game.cpp:9016
 msgid "Drop"
 msgstr ""
 
-#: game.cpp:9027
+#: game.cpp:9028
 msgid "You can't place items there!"
 msgstr ""
 
-#: game.cpp:9031
+#: game.cpp:9032
 msgid "drop"
 msgstr ""
 
-#: game.cpp:9031
+#: game.cpp:9032
 msgid "put"
 msgstr ""
 
-#: game.cpp:9032
+#: game.cpp:9033
 msgid "in"
 msgstr ""
 
-#: game.cpp:9032
+#: game.cpp:9033
 msgid "on"
 msgstr ""
 
-#: game.cpp:9056
+#: game.cpp:9057
 #, c-format
 msgid "You %s your %s%s %s the %s."
 msgstr ""
 
-#: game.cpp:9065
+#: game.cpp:9066
 #, c-format
 msgid "You %s several items %s the %s."
 msgstr ""
 
-#: game.cpp:9086
+#: game.cpp:9087
 msgid "Reassign item:"
 msgstr ""
 
-#: game.cpp:9093 player.cpp:5830 player.cpp:7223 player.cpp:7268
+#: game.cpp:9094 player.cpp:5830 player.cpp:7223 player.cpp:7268
 #: player.cpp:7474
 msgid "You do not have that item."
 msgstr ""
 
-#: game.cpp:9096
+#: game.cpp:9097
 #, c-format
 msgid "%c - %s; enter new letter."
 msgstr ""
 
-#: game.cpp:9099
+#: game.cpp:9100
 #, c-format
 msgid "%c is not a valid inventory letter."
 msgstr ""
 
-#: game.cpp:9119
+#: game.cpp:9120
 msgid "Throw item:"
 msgstr ""
 
-#: game.cpp:9124 player.cpp:6179
+#: game.cpp:9125 player.cpp:6179
 msgid "You don't have that item."
 msgstr ""
 
-#: game.cpp:9127
+#: game.cpp:9128
 msgid "That is too heavy to throw."
 msgstr ""
 
-#: game.cpp:9133
+#: game.cpp:9134
 msgid "That's part of your body, you can't throw that!"
 msgstr ""
 
-#: game.cpp:9180
+#: game.cpp:9181
 msgid "You need a free arm to drive!"
 msgstr ""
 
-#: game.cpp:9186
+#: game.cpp:9187
 #, c-format
 msgid "Your %s starts charging."
 msgstr ""
 
-#: game.cpp:9192
+#: game.cpp:9193
 msgid "You need a charged UPS."
 msgstr ""
 
-#: game.cpp:9200
+#: game.cpp:9201
 msgid "You're not strong enough to draw the bow!"
 msgstr ""
 
-#: game.cpp:9207 game.cpp:9646
+#: game.cpp:9208 game.cpp:9647
 msgid "Out of ammo!"
 msgstr ""
 
-#: game.cpp:9217
+#: game.cpp:9218
 msgid "You need to reload!"
 msgstr ""
 
-#: game.cpp:9221
+#: game.cpp:9222
 #, c-format
 msgid "Your %s needs 100 charges to fire!"
 msgstr ""
 
-#: game.cpp:9227
+#: game.cpp:9228
 msgid ""
 "You need a UPS with at least 5 charges or an advanced UPS with at least 3 "
 "charged to fire that!"
 msgstr ""
 
-#: game.cpp:9309
+#: game.cpp:9310
 msgid "You can't butcher while driving!"
 msgstr ""
 
-#: game.cpp:9318
+#: game.cpp:9319
 msgid "There are no corpses here to butcher."
 msgstr ""
 
-#: game.cpp:9323
+#: game.cpp:9324
 msgid "You don't have a sharp item to butcher with."
 msgstr ""
 
-#: game.cpp:9330
+#: game.cpp:9331
 #, c-format
 msgid "Butcher the %s corpse?"
 msgstr ""
 
-#: game.cpp:9354
+#: game.cpp:9355
 msgid "There's no corpse to butcher!"
 msgstr ""
 
-#: game.cpp:9398
+#: game.cpp:9399
 msgid "You harvest some usable bones!"
 msgstr ""
 
-#: game.cpp:9401
+#: game.cpp:9402
 msgid "You harvest some fluid bladders!"
 msgstr ""
 
-#: game.cpp:9408
+#: game.cpp:9409
 msgid "You harvest some usable sinews!"
 msgstr ""
 
-#: game.cpp:9411
+#: game.cpp:9412
 msgid "You harvest some plant fibres!"
 msgstr ""
 
-#: game.cpp:9417
+#: game.cpp:9418
 #, c-format
 msgid "You manage to skin the %s!"
 msgstr ""
 
-#: game.cpp:9437
+#: game.cpp:9438
 msgid "You harvest some feathers!"
 msgstr ""
 
-#: game.cpp:9445
+#: game.cpp:9446
 #, c-format
 msgid "You discover a CBM in the %s!"
 msgstr ""
 
-#: game.cpp:9467
+#: game.cpp:9468
 #, c-format
 msgid "You discover a %s in the %s!"
 msgstr ""
 
-#: game.cpp:9475
+#: game.cpp:9476
 msgid "Your clumsy butchering destroys the meat!"
 msgstr ""
 
-#: game.cpp:9498
+#: game.cpp:9499
 msgid "You butcher the corpse."
 msgstr ""
 
-#: game.cpp:9508
+#: game.cpp:9509
 msgid "You found some wild veggies!"
 msgstr ""
 
-#: game.cpp:9515
+#: game.cpp:9516
 msgid "You didn't find anything."
 msgstr ""
 
-#: game.cpp:9529
+#: game.cpp:9530
 msgid "Eat underbrush?"
 msgstr ""
 
-#: game.cpp:9533
+#: game.cpp:9534
 msgid "You eat the underbrush."
 msgstr ""
 
-#: game.cpp:9537
+#: game.cpp:9538
 msgid "Consume item:"
 msgstr ""
 
-#: game.cpp:9557
+#: game.cpp:9558
 msgid "Wear item:"
 msgstr ""
 
-#: game.cpp:9572
+#: game.cpp:9573
 msgid "Take off item:"
 msgstr ""
 
-#: game.cpp:9579
+#: game.cpp:9580
 msgid "Invalid selection."
 msgstr ""
 
-#: game.cpp:9618
+#: game.cpp:9619
 #, c-format
 msgid ""
 "Your %s does not need to be reloaded; it reloads and fires in a single "
 "action."
 msgstr ""
 
-#: game.cpp:9623
+#: game.cpp:9624
 #, c-format
 msgid "Your %s does not reload normally."
 msgstr ""
 
-#: game.cpp:9640
+#: game.cpp:9641
 #, c-format
 msgid "Your %s is fully loaded!"
 msgstr ""
 
-#: game.cpp:9654 game.cpp:9668
+#: game.cpp:9655 game.cpp:9669
 #, c-format
 msgid "You can't reload a %s!"
 msgstr ""
 
-#: game.cpp:9660
+#: game.cpp:9661
 #, c-format
 msgid "Out of %s!"
 msgstr ""
 
-#: game.cpp:9666
+#: game.cpp:9667
 msgid "You're not wielding anything."
 msgstr ""
 
-#: game.cpp:9710
+#: game.cpp:9711
 #, c-format
 msgid "You can't unload a %s!"
 msgstr ""
 
-#: game.cpp:9731
+#: game.cpp:9732
 #, c-format
 msgid "Your %s isn't loaded, and is not modified."
 msgstr ""
 
-#: game.cpp:9736
+#: game.cpp:9737
 #, c-format
 msgid "Your %s isn't charged."
 msgstr ""
 
-#: game.cpp:9765
+#: game.cpp:9766
 #, c-format
 msgid "You put the %s in your inventory."
 msgstr ""
 
-#: game.cpp:9768
+#: game.cpp:9769
 #, c-format
 msgid "You drop the %s on the ground."
 msgstr ""
 
-#: game.cpp:9810
+#: game.cpp:9811
 msgid "You can't remove partially depleted plutonium!"
 msgstr ""
 
-#: game.cpp:9813
+#: game.cpp:9814
 #, c-format
 msgid "You remove %i plutonium from the advanced UPS"
 msgstr ""
 
-#: game.cpp:9849
+#: game.cpp:9850
 #, c-format
 msgid "You cannot unwield your %s."
 msgstr ""
 
-#: game.cpp:9855
+#: game.cpp:9856
 msgid "Wield item:"
 msgstr ""
 
-#: game.cpp:9857
+#: game.cpp:9858
 msgid "Wield item: Press - to choose a style"
 msgstr ""
 
-#: game.cpp:9873
+#: game.cpp:9874
 msgid "Read:"
 msgstr ""
 
-#: game.cpp:9881
+#: game.cpp:9882
 msgid "You talk to yourself for a moment."
 msgstr ""
 
-#: game.cpp:9897
+#: game.cpp:9898
 msgid "There's no-one close enough to talk to."
 msgstr ""
 
-#: game.cpp:9914
+#: game.cpp:9915
 msgid "Who do you want to talk to?"
 msgstr ""
 
-#: game.cpp:9926
+#: game.cpp:9927
 #, c-format
 msgid ""
 "Monster spotted--run mode is on! (%s to turn it off or %s to ignore monster.)"
 msgstr ""
 
-#: game.cpp:9942
+#: game.cpp:9943
 msgid "You can't drive the vehicle from here. You need controls!"
 msgstr ""
 
-#: game.cpp:9955
+#: game.cpp:9956
 #, c-format
 msgid "You regain control of the %s."
 msgstr ""
 
-#: game.cpp:9971
+#: game.cpp:9972
 #, c-format
 msgid ""
 "Monster spotted--safe mode is on! (%s to turn it off or %s to ignore "
 "monster.)"
 msgstr ""
 
-#: game.cpp:10016
+#: game.cpp:10017
 #, c-format
 msgid "Really attack %s?"
 msgstr ""
 
-#: game.cpp:10018
+#: game.cpp:10019
 #, c-format
 msgid "%s moves out of the way."
 msgstr ""
 
-#: game.cpp:10053
+#: game.cpp:10054
 msgid "You cannot pull yourself away from the faultline..."
 msgstr ""
 
-#: game.cpp:10060
+#: game.cpp:10061
 msgid "You try to escape the pit, but slip back in."
 msgstr ""
 
-#: game.cpp:10064
+#: game.cpp:10065
 msgid "You escape the pit!"
 msgstr ""
 
-#: game.cpp:10070
+#: game.cpp:10071
 msgid "You struggle to stand."
 msgstr ""
 
-#: game.cpp:10074
+#: game.cpp:10075
 msgid "You stand up."
 msgstr ""
 
-#: game.cpp:10092
+#: game.cpp:10093
 msgid "Dive from moving vehicle?"
 msgstr ""
 
-#: game.cpp:10097
+#: game.cpp:10098
 msgid "There is another vehicle in the way."
 msgstr ""
 
-#: game.cpp:10100
+#: game.cpp:10101
 msgid "That part of the vehicle is currently unsafe."
 msgstr ""
 
-#: game.cpp:10118
+#: game.cpp:10119
 #, c-format
 msgid "Really step into that %s?"
 msgstr ""
 
-#: game.cpp:10135
+#: game.cpp:10136
 #, c-format
 msgid "Really step onto that %s?"
 msgstr ""
 
-#: game.cpp:10156 game.cpp:10158
+#: game.cpp:10157 game.cpp:10159
 #, c-format
 msgid "Moving past this %s is slow!"
 msgstr ""
 
-#: game.cpp:10162
+#: game.cpp:10163
 #, c-format
 msgid "You hurt your feet on the %s!"
 msgstr ""
 
-#: game.cpp:10173
+#: game.cpp:10174
 #, c-format
 msgid "You cut your %s on the %s!"
 msgstr ""
 
-#: game.cpp:10183
+#: game.cpp:10184
 msgid "You emit a rattling sound."
 msgstr ""
 
-#: game.cpp:10186 game.cpp:10383
+#: game.cpp:10187 game.cpp:10384
 msgid "The water puts out the flames!"
 msgstr ""
 
-#: game.cpp:10196
+#: game.cpp:10197
 msgid "Deactivate the turret?"
 msgstr ""
 
-#: game.cpp:10203
+#: game.cpp:10204
 #, c-format
 msgid "You can't displace your %s."
 msgstr ""
 
-#: game.cpp:10208
+#: game.cpp:10209
 #, c-format
 msgid "You displace the %s."
 msgstr ""
 
-#: game.cpp:10272
+#: game.cpp:10273
 msgid "You see here "
 msgstr ""
 
-#: game.cpp:10283
+#: game.cpp:10284
 msgid "There are many items here."
 msgstr ""
 
-#: game.cpp:10286
+#: game.cpp:10287
 #, c-format
 msgid "There are vehicle controls here.  %s to drive."
 msgstr ""
 
-#: game.cpp:10305
+#: game.cpp:10306
 msgid ""
 "You try to quantum tunnel through the barrier but are reflected! Try again "
 "with more energy!"
 msgstr ""
 
-#: game.cpp:10311
+#: game.cpp:10312
 msgid "It's too dangerous to tunnel that far!"
 msgstr ""
 
-#: game.cpp:10324
+#: game.cpp:10325
 #, c-format
 msgid "You quantum tunnel through the %d-tile wide barrier!"
 msgstr ""
 
-#: game.cpp:10337
+#: game.cpp:10338
 #, c-format
 msgid "You open the %s's %s."
 msgstr ""
 
-#: game.cpp:10343
+#: game.cpp:10344
 msgid "Dive into the water?"
 msgstr ""
 
-#: game.cpp:10345
+#: game.cpp:10346
 #, c-format
 msgid "You start swimming.  %s to dive underwater."
 msgstr ""
 
-#: game.cpp:10353
+#: game.cpp:10354
 #, c-format
 msgid "You bump into a %s!"
 msgstr ""
 
-#: game.cpp:10359
+#: game.cpp:10360
 msgid "That door is locked!"
 msgstr ""
 
-#: game.cpp:10363
+#: game.cpp:10364
 msgid "You rattle the bars but the door is locked!"
 msgstr ""
 
-#: game.cpp:10390
+#: game.cpp:10391
 msgid " like a rock"
 msgstr ""
 
-#: game.cpp:10390
+#: game.cpp:10391
 #, c-format
 msgid "You sink%s!"
 msgstr ""
 
-#: game.cpp:10397
+#: game.cpp:10398
 #, c-format
 msgid "You need to breathe! (%s to surface.)"
 msgstr ""
 
-#: game.cpp:10400
+#: game.cpp:10401
 msgid "You need to breathe but you can't swim!  Get to dry land, quick!"
 msgstr ""
 
-#: game.cpp:10431
+#: game.cpp:10432
 msgid "You are"
 msgstr ""
 
-#: game.cpp:10433 game.cpp:10436
+#: game.cpp:10434 game.cpp:10437
 msgid " is"
 msgstr ""
 
-#: game.cpp:10475 vehicle.cpp:1514
+#: game.cpp:10476 vehicle.cpp:1514
 #, c-format
 msgid "You hear a %s"
 msgstr ""
 
-#: game.cpp:10483
+#: game.cpp:10484
 #, c-format
 msgid "%s slammed against the %s for %d damage!"
 msgstr ""
 
-#: game.cpp:10532
+#: game.cpp:10533
 #, c-format
 msgid "You fall on the ground for %d damage."
 msgstr ""
 
-#: game.cpp:10534
+#: game.cpp:10535
 msgid "You land on the ground."
 msgstr ""
 
-#: game.cpp:10541
+#: game.cpp:10542
 msgid "You dive into water."
 msgstr ""
 
-#: game.cpp:10543
+#: game.cpp:10544
 msgid "You fall into water."
 msgstr ""
 
-#: game.cpp:10553
+#: game.cpp:10554
 msgid "You are already underwater!"
 msgstr ""
 
-#: game.cpp:10557
+#: game.cpp:10558
 msgid "You can't dive while wearing a flotation device."
 msgstr ""
 
-#: game.cpp:10562
+#: game.cpp:10563
 msgid "You dive underwater!"
 msgstr ""
 
-#: game.cpp:10566
+#: game.cpp:10567
 msgid "You surface."
 msgstr ""
 
-#: game.cpp:10568
+#: game.cpp:10569
 msgid "You can't surface!"
 msgstr ""
 
-#: game.cpp:10577
+#: game.cpp:10578
 #, c-format
 msgid "You can't go %s here!"
 msgstr ""
 
-#: game.cpp:10577 game.cpp:10925 npctalk.cpp:210
+#: game.cpp:10578 game.cpp:10926 npctalk.cpp:210
 msgid "down"
 msgstr ""
 
-#: game.cpp:10577 game.cpp:10925
+#: game.cpp:10578 game.cpp:10926
 msgid "up"
 msgstr ""
 
-#: game.cpp:10608
+#: game.cpp:10609
 msgid "Halfway down, the way down becomes blocked off."
 msgstr ""
 
-#: game.cpp:10611
+#: game.cpp:10612
 msgid "There is a sheer drop halfway down. Climb your rope down?"
 msgstr ""
 
-#: game.cpp:10616
+#: game.cpp:10617
 msgid "There is a sheer drop halfway down.  Jump?"
 msgstr ""
 
-#: game.cpp:10657
+#: game.cpp:10658
 msgid "AUTO: goes down"
 msgstr ""
 
-#: game.cpp:10660
+#: game.cpp:10661
 msgid "AUTO: goes up"
 msgstr ""
 
-#: game.cpp:10684 trapfunc.cpp:503 trapfunc.cpp:538
+#: game.cpp:10685 trapfunc.cpp:503 trapfunc.cpp:538
 msgid "You flap your wings and flutter down gracefully."
 msgstr ""
 
-#: game.cpp:10689
+#: game.cpp:10690
 msgid "You fall expertly and take no damage."
 msgstr ""
 
-#: game.cpp:10691
+#: game.cpp:10692
 #, c-format
 msgid "You fall heavily, taking %d damage."
 msgstr ""
 
-#: game.cpp:10924
+#: game.cpp:10925
 #, c-format
 msgid "A %s comes %s the %s!"
 msgstr ""
 
-#: game.cpp:11128
+#: game.cpp:11129
 msgid "Wait for how long?"
 msgstr ""
 
-#: game.cpp:11129
+#: game.cpp:11130
 msgid "5 Minutes"
 msgstr ""
 
-#: game.cpp:11129
+#: game.cpp:11130
 msgid "Wait 300 heartbeats"
 msgstr ""
 
-#: game.cpp:11130
+#: game.cpp:11131
 msgid "30 Minutes"
 msgstr ""
 
-#: game.cpp:11130
+#: game.cpp:11131
 msgid "Wait 1800 heartbeats"
 msgstr ""
 
-#: game.cpp:11131
+#: game.cpp:11132
 msgid "1 hour"
 msgstr ""
 
-#: game.cpp:11131
+#: game.cpp:11132
 msgid "Wait till dawn"
 msgstr ""
 
-#: game.cpp:11132
+#: game.cpp:11133
 msgid "2 hours"
 msgstr ""
 
-#: game.cpp:11132
+#: game.cpp:11133
 msgid "Wait till noon"
 msgstr ""
 
-#: game.cpp:11133
+#: game.cpp:11134
 msgid "3 hours"
 msgstr ""
 
-#: game.cpp:11133
+#: game.cpp:11134
 msgid "Wait till dusk"
 msgstr ""
 
-#: game.cpp:11134
+#: game.cpp:11135
 msgid "6 hours"
 msgstr ""
 
-#: game.cpp:11134
+#: game.cpp:11135
 msgid "Wait till midnight"
 msgstr ""
 
-#: game.cpp:11135
+#: game.cpp:11136
 msgid "Exit"
 msgstr ""
 
-#: game.cpp:11173
+#: game.cpp:11174
 msgid "GAME OVER"
 msgstr ""
 
-#: game.cpp:11220
+#: game.cpp:11221
 msgid "Press q to return"
 msgstr ""
 
-#: game.cpp:11230
+#: game.cpp:11231
 #, c-format
 msgid "%s ago:"
 msgstr ""
 
-#: game.cpp:11287
+#: game.cpp:11288
 msgid "You"
 msgstr ""
 
-#: game.cpp:11295 game.cpp:11301
+#: game.cpp:11296 game.cpp:11302
 #, c-format
 msgid "%s teleport%s into the middle of a %s!"
 msgstr ""
 
-#: game.cpp:11379
+#: game.cpp:11380
 msgid "Sensitivity"
 msgstr ""
 
-#: game.cpp:11429
+#: game.cpp:11430
 msgid "Saving game, this may take a while"
 msgstr ""
 
-#: game.cpp:11458
+#: game.cpp:11459
 #, c-format
 msgid ""
 "Whoa. Whoa. Hey. This game requires a minimum terminal size of %dx%d. I'm\n"
@@ -8030,39 +8418,39 @@ msgid ""
 "window until you've got it at the right size (or bigger).\n"
 msgstr ""
 
-#: game.cpp:11476
+#: game.cpp:11477
 msgid "Press "
 msgstr ""
 
-#: game.cpp:11476
+#: game.cpp:11477
 msgid "Try"
 msgstr ""
 
-#: game.cpp:11492 game.cpp:11557 help.cpp:599
+#: game.cpp:11493 game.cpp:11558 help.cpp:599
 msgid " or "
 msgstr ""
 
-#: game.cpp:11498
+#: game.cpp:11499
 msgid "' or "
 msgstr ""
 
-#: game.cpp:11501
+#: game.cpp:11502
 msgid "'_' (underscore)"
 msgstr ""
 
-#: game.cpp:11527 game.cpp:11561
+#: game.cpp:11528 game.cpp:11562
 msgid " or '"
 msgstr ""
 
-#: game.cpp:11549
+#: game.cpp:11550
 msgid " (underscore)"
 msgstr ""
 
-#: game.cpp:11559
+#: game.cpp:11560
 msgid "or '_' (underscore)"
 msgstr ""
 
-#: game.cpp:11567
+#: game.cpp:11568
 msgid " ('_' (underscore)"
 msgstr ""
 
@@ -31278,6 +31666,15 @@ msgstr ""
 #: mutation.cpp:560
 #, c-format
 msgid "Your %s is pushed off."
+msgstr ""
+
+#: name.cpp:85
+#, c-format
+msgid "<name>%s %s"
+msgstr ""
+
+#: name.cpp:103
+msgid "Tom"
 msgstr ""
 
 #: newcharacter.cpp:204 newcharacter.cpp:227 newcharacter.cpp:249
