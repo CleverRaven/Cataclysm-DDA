@@ -103,7 +103,8 @@
       ["beer", 60],
       ["cell_phone", 50],
       ["wristwatch", 15],
-      ["umbrella", 50]
+      ["umbrella", 50],
+      ["fish_bowl", 1]
     ]
   },
   { "id":"kitchen",

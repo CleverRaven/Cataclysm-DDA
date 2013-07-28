@@ -33,6 +33,7 @@ struct oter_t {
     known_down = right.known_down;
     known_up = right.known_up;
     mondensity = right.mondensity;
+    return *this;
  }
 };
 

@@ -385,7 +385,7 @@ msgstr "und beschädigen deine Gene, was zu Mutationen führt."
 
 #: bionics.cpp:577
 msgid " and some of your existing bionics are lost."
-msgstr "und einige deiner bestehenden Mutationen gehen verloren."
+msgstr "und einige deiner bestehenden Bioniken gehen verloren."
 
 #: bionics.cpp:572
 msgid " and your body is damaged."
