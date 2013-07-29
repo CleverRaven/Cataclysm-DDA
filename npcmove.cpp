@@ -1676,7 +1676,7 @@ void npc::heal_player(game *g, player &patient)
   else
    g->add_msg(_("Someone heals you."));
 
-  int amount_healed;
+  int amount_healed = 0;
   if (has_amount("1st_aid", 1)) {
    switch (worst) {
     case hp_head:  amount_healed = 10 + 1.6 * skillLevel("firstaid"); break;
@@ -1726,7 +1726,7 @@ void npc::heal_self(game *g)
   }
  }
 
- int amount_healed;
+ int amount_healed = 0;
  if (has_amount("1st_aid", 1)) {
   switch (worst) {
    case hp_head:  amount_healed = 10 + 1.6 * skillLevel("firstaid"); break;
