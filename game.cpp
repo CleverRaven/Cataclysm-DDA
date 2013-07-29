@@ -3687,7 +3687,7 @@ void game::draw_minimap()
    int omx = cursx + i;
    int omy = cursy + j;
    bool seen = false;
-   oter_id cur_ter;
+   oter_id cur_ter = ot_null;
    long note_sym = 0;
    bool note = false;
    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {
@@ -10574,7 +10574,7 @@ void game::vertical_move(int movez, bool force)
 // This happens with sinkholes and the like.
  if (!force && ((movez == -1 && !m.has_flag(goes_down, u.posx, u.posy)) ||
                 (movez ==  1 && !m.has_flag(goes_up,   u.posx, u.posy)) ||
-                !m.ter(u.posx, u.posy) == t_elevator )) {
+                !(m.ter(u.posx, u.posy) == t_elevator))) {
   add_msg(_("You can't go %s here!"), (movez == -1 ? _("down") : _("up")));
   return;
  }

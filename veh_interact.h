@@ -81,7 +81,6 @@ private:
     std::vector<int> parts_here;
     int ptank;
     int wheel;
-    bool obstruct;
     bool has_fuel;
 public:
     veh_interact ();
