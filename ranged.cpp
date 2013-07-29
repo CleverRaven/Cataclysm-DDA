@@ -641,10 +641,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   target = -1;	// No monsters in range, don't use target, reset to -1
 
  int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
- int height = sideStyle ? getmaxy(w_moninfo) : 13;
+ int height = 13;
  int width  = sideStyle ? getmaxx(w_moninfo) : 48;
  int top    = sideStyle ? getbegy(w_moninfo) : (getbegy(w_minimap) + getmaxy(w_minimap));
- int left   = sideStyle ? getbegx(w_moninfo) : (getbegx(w_minimap) + getmaxx(w_minimap));
+ int left   = getbegx(w_moninfo);
  WINDOW* w_target = newwin(height, width, top, left);
  wborder(w_target, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -796,7 +796,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    }
    if (u.posx == x && u.posy == y)
        ret.clear();
-   return ret;
+   break;
   } else if (ch == '0') {
    x = u.posx;
    y = u.posy;
@@ -805,9 +805,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    snap_to_target = !snap_to_target;
   else if (ch == KEY_ESCAPE || ch == 'q') { // return empty vector (cancel)
    ret.clear();
-   return ret;
+   break;
   }
  } while (true);
+
+ draw_minimap();
+ return ret;
 }
 
 // MATERIALS-TODO: use fire resistance

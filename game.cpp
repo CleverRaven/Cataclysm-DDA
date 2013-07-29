@@ -147,6 +147,10 @@ void game::init_skills() throw (std::string)
     }
 }
 
+// Fixed window sizes
+#define MINIMAP_HEIGHT 7
+#define MINIMAP_WIDTH 7
+
 void game::init_ui(){
     clear();	// Clear the screen
     intro();	// Print an intro screen, make sure we're at least 80x25
@@ -158,9 +162,17 @@ void game::init_ui(){
         TERMY = OPTIONS[OPT_VIEWPORT_Y] * 2 + 1;
         VIEWX = (OPTIONS[OPT_VIEWPORT_X] > 60) ? 60 : OPTIONS[OPT_VIEWPORT_X];
         VIEWY = (OPTIONS[OPT_VIEWPORT_Y] > 60) ? 60 : OPTIONS[OPT_VIEWPORT_Y];
+
+        // If we've chosen the narrow sidebar, we might need to make the
+        // viewport wider to fill an 80-column window.
+        while (TERMX < FULL_SCREEN_WIDTH) {
+            TERMX += 2;
+            VIEWX += 1;
+        }
+
         VIEW_OFFSET_X = (OPTIONS[OPT_VIEWPORT_X] > 60) ? OPTIONS[OPT_VIEWPORT_X]-60 : 0;
         VIEW_OFFSET_Y = (OPTIONS[OPT_VIEWPORT_Y] > 60) ? OPTIONS[OPT_VIEWPORT_Y]-60 : 0;
-        TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
+        TERRAIN_WINDOW_WIDTH  = (VIEWX * 2) + 1;
         TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
     #else
         getmaxyx(stdscr, TERMY, TERMX);
@@ -213,17 +225,17 @@ void game::init_ui(){
             moninfoX = MINIMAP_WIDTH;
             moninfoY = 0;
             moninfoW = sidebarWidth - MINIMAP_WIDTH;
-            moninfoH = MONINFO_HEIGHT;
+            moninfoH = 12;
             messX = MINIMAP_WIDTH;
-            messY = MONINFO_HEIGHT;
+            messY = moninfoH;
             messW = sidebarWidth - messX;
-            messH = MESSAGES_HEIGHT;
+            messH = 8;
             hpX = 0;
             hpY = MINIMAP_HEIGHT;
             hpH = 14;
             hpW = 7;
             locX = MINIMAP_WIDTH;
-            locY = messY + MESSAGES_HEIGHT;
+            locY = messY + messH;
             locW = sidebarWidth - locX;
             statX = 0;
             statY = locY + locH;
@@ -231,44 +243,71 @@ void game::init_ui(){
             statW = sidebarWidth;
 
             // The default style only uses one status window.
-            // We'll put the second status window on top of the 'void' window.
+            // The second status window needs to consume the void at the bottom
+            // of the sidebar.
             stat2X = 0;
             stat2Y = statY + statH;
-            stat2H = stat2W = 1;
+            stat2H = TERMY - stat2Y;
+            stat2W = sidebarWidth;
+
             break;
 
+
         case 1: // narrow
+
+            // First, figure out how large each element will be.
+
+            moninfoH    = 6;
+            moninfoW    = sidebarWidth;
+
+            hpH         = 7;
+            hpW         = 14;
+
+            statH       = 7;
+            statW       = sidebarWidth - hpW;
+
+            locW        = sidebarWidth;
+
+            stat2H      = 2;
+            stat2W      = sidebarWidth;
+
+            messH       = 9;
+            messW       = sidebarWidth;
+
+            // Give extra rows to the moninfo window until it's tall enough,
+            // then give any remaining rows to the messages window.
+            int extraRows = TERMY - (moninfoH + statH + locH + stat2H + messH);
+            int newMoninfoRows = 13 - moninfoH;
+            if (extraRows > newMoninfoRows) {
+                int gift = extraRows - newMoninfoRows;
+                extraRows -= gift;
+                messH += gift;
+            }
+            moninfoH += extraRows;
+
+
+            // Now position the elements relative to each other.
+
             moninfoX = 0;
             moninfoY = 0;
-            moninfoW = sidebarWidth;
-            moninfoH = MONINFO_HEIGHT;
 
             minimapX = 0;
-            minimapY = MONINFO_HEIGHT;
+            minimapY = moninfoY + moninfoH;
 
-            hpX = MINIMAP_WIDTH;
+            hpX = minimapX + MINIMAP_WIDTH;
             hpY = moninfoY + moninfoH;
-            hpH = 7;
-            hpW = 14;
 
             locX = 0;
             locY = minimapY + MINIMAP_HEIGHT;
-            locW = sidebarWidth;
 
             statX = hpX + hpW;
             statY = moninfoY + moninfoH;
-            statH = 7;
-            statW = sidebarWidth - statX;
 
             stat2X = 0;
             stat2Y = locY + locH;
-            stat2W = sidebarWidth;
-            stat2H = 2;
 
             messX = 0;
             messY = stat2Y + stat2H;
-            messW = sidebarWidth;
-            messH = TERRAIN_WINDOW_HEIGHT - messY;
 
             break;
     }
@@ -296,10 +335,6 @@ void game::init_ui(){
 
     w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
     werase(w_status2);
-
-    int void_start = MONINFO_HEIGHT + MESSAGES_HEIGHT + locH + statH;
-    w_void = newwin(TERMY - void_start, sidebarWidth, void_start + VIEW_OFFSET_Y, TERMX - sidebarWidth - VIEW_OFFSET_X);
-    werase(w_void);
 }
 
 void game::setup()
@@ -3647,8 +3682,6 @@ void game::refresh_all()
  draw_HP();
  wrefresh(w_moninfo);
  wrefresh(w_messages);
- werase(w_void);
- wrefresh(w_void);
  refresh();
 }
 
@@ -3658,9 +3691,12 @@ void game::draw_HP()
     int current_hp;
     nc_color color;
     std::string health_bar = "";
-    int hpx = OPTIONS[OPT_SIDEBAR_STYLE] ? 7 : 0;
-    int hpy = OPTIONS[OPT_SIDEBAR_STYLE] ? 0 : 1;
-    int dy  = OPTIONS[OPT_SIDEBAR_STYLE] ? 1 : 2;
+
+    // The HP window can be in "tall" mode (7x14) or "wide" mode (14x7).
+    bool wide = (getmaxy(w_HP) == 7);
+    int hpx = wide ? 7 : 0;
+    int hpy = wide ? 0 : 1;
+    int dy  = wide ? 1 : 2;
     for (int i = 0; i < num_hp_parts; i++) {
         current_hp = u.hp_cur[i];
         if (current_hp == u.hp_max[i]){
@@ -3722,22 +3758,22 @@ void game::draw_HP()
         nc_color c = c_ltgray;
         const char *str = _(body_parts[i]);
         wmove(w_HP, i * dy, 0);
-        if (1 == OPTIONS[OPT_SIDEBAR_STYLE])
+        if (wide)
             wprintz(w_HP, c, " ");
         wprintz(w_HP, c, str);
-        if (0 == OPTIONS[OPT_SIDEBAR_STYLE])
+        if (!wide)
             wprintz(w_HP, c, ":");
     }
 
     int powx = hpx;
-    int powy = OPTIONS[OPT_SIDEBAR_STYLE] ? 6 : 13;
+    int powy = wide ? 6 : 13;
     if (u.max_power_level == 0){
         wmove(w_HP, powy, powx);
-        if (0 == OPTIONS[OPT_SIDEBAR_STYLE])
+        if (wide)
+            for (int i = 0; i < 2; i++)
+                wputch(w_HP, c_ltgray, LINE_OXOX);
+        else
             wprintz(w_HP, c_ltgray, " --   ");
-        else {
-            for (int i = 0; i < 2; i++) wputch(w_HP, c_ltgray, LINE_OXOX);
-        }
     } else {
         if (u.power_level == u.max_power_level){
             color = c_blue;
@@ -8443,15 +8479,19 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 
- // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
- #ifdef MAXLISTHEIGHT
-  int maxmaxitems=TERMY-15;
- #else
-  int maxmaxitems=MONINFO_HEIGHT+MESSAGES_HEIGHT - 3;
- #endif
-  if(maxmaxitems > TERMY - 15) maxmaxitems=TERMY - 15;
+ const int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
 
- const int minmaxitems=9;
+ // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
+ int maxmaxitems = TERMY;
+ #ifndef MAXLISTHEIGHT
+  maxmaxitems = sideStyle ? TERMY : getmaxy(w_moninfo) + getmaxy(w_messages) - 3;
+ #endif
+
+ // The pickup list may consume the entire terminal, minus 12 rows for the Items
+ // window, minus 3 rows for the pickup list header (1) and footer (2).
+ if(maxmaxitems > TERMY - 15) maxmaxitems = TERMY - 15;
+
+ const int minmaxitems = getmaxy(w_moninfo) - 3;
 
  std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
  std::vector<bool> getitem;
@@ -8459,11 +8499,25 @@ void game::pickup(int posx, int posy, int min)
 
  int maxitems=here.size();
  maxitems=(maxitems < minmaxitems ? minmaxitems : (maxitems > maxmaxitems ? maxmaxitems : maxitems ));
- // maxitems=9; // old behavior
- int pickupHeight=maxitems+3;
 
- WINDOW* w_pickup = newwin(pickupHeight, 48, VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
- WINDOW* w_item_info = newwin(12, 48, TERMY-12, VIEWX * 2 + 8 + VIEW_OFFSET_X);
+ int itemsHeight = 12;
+ int itemsWidth  = getmaxx(w_messages);
+ int itemsY = TERMY - itemsHeight;
+ int itemsX = getbegx(w_messages);
+
+ // If this is the narrow style, move the Items window to the top of the
+ // messages window, if possible, to leave more recent messages visible.
+ if (sideStyle && getbegy(w_messages) < itemsY) itemsY = getbegy(w_messages);
+
+ // If this is the narrow style, consume as many rows as w_moninfo and the
+ // minimap consume, then shrink as needed to leave room for w_item_info.
+ int pickupHeight = maxitems + 3;
+ int pickupWidth  = sideStyle ? getmaxx(w_moninfo) : 48;
+ int pickupX = TERMX - pickupWidth;
+
+ WINDOW* w_pickup = newwin(pickupHeight, pickupWidth, VIEW_OFFSET_Y, pickupX);
+ WINDOW* w_item_info = newwin(itemsHeight, itemsWidth, itemsY, itemsX);
+
  int ch = ' ';
  int start = 0, cur_it, iter;
  int new_weight = u.weight_carried(), new_volume = u.volume_carried();
@@ -8633,12 +8687,23 @@ void game::pickup(int posx, int posy, int min)
       wprintz(w_pickup, icolor, " (%d)", here[cur_it].charges);
     }
    }
-   mvwprintw(w_pickup, maxitems + 1, 0, _("[left] Unmark    [up/dn] Scroll    [right] Mark"));
+
+   int pw = pickupWidth;
+   const char *unmark = _("[left] Unmark");
+   const char *scroll = _("[up/dn] Scroll");
+   const char *mark   = _("[right] Mark");
+   mvwprintw(w_pickup, maxitems + 1, 0,                         unmark);
+   mvwprintw(w_pickup, maxitems + 1, (pw - strlen(scroll)) / 2, scroll);
+   mvwprintw(w_pickup, maxitems + 1,  pw - strlen(mark),        mark);
+   const char *prev = _("[pgup] Prev");
+   const char *all = _("[,] All");
+   const char *next   = _("[pgdn] Next");
    if (start > 0)
-    mvwprintw(w_pickup, maxitems + 2, 0, _("[pgup] Prev"));
-   mvwprintw(w_pickup, maxitems + 2, 20, _("[,] All"));
+    mvwprintw(w_pickup, maxitems + 2, 0, prev);
+   mvwprintw(w_pickup, maxitems + 2, (pw - strlen(all)) / 2, all);
    if (cur_it < here.size())
-    mvwprintw(w_pickup, maxitems + 2, 36, _("[pgdn] Next"));
+    mvwprintw(w_pickup, maxitems + 2, pw - strlen(next), next);
+
    if (update) {		// Update weight & volume information
     update = false;
     mvwprintw(w_pickup, 0,  7, "                           ");
@@ -11552,7 +11617,7 @@ void intro()
 {
  int maxx, maxy;
  getmaxyx(stdscr, maxy, maxx);
- const int minHeight = OPTIONS[OPT_SIDEBAR_STYLE] ? 35 : FULL_SCREEN_HEIGHT;
+ const int minHeight = FULL_SCREEN_HEIGHT;
  const int minWidth = FULL_SCREEN_WIDTH;
  WINDOW* tmp = newwin(minHeight, minWidth, 0, 0);
  while (maxy < minHeight || maxx < minWidth) {

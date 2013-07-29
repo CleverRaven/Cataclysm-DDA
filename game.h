@@ -29,12 +29,6 @@
 #include <list>
 #include <stdarg.h>
 
-// Fixed window sizes
-#define MINIMAP_HEIGHT 7
-#define MINIMAP_WIDTH 7
-#define MONINFO_HEIGHT 12
-#define MESSAGES_HEIGHT 8
-
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
 #define BULLET_SPEED 10000000
@@ -301,7 +295,6 @@ class game
   WINDOW *w_location;
   WINDOW *w_status;
   WINDOW *w_status2;
-  WINDOW *w_void; //space unter status if viewport Y > 12
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  bool handle_liquid(item &liquid, bool from_ground, bool infinite);

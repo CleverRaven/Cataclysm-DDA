@@ -626,7 +626,9 @@ WINDOW *curses_init(void)
     halfheight=fontheight / 2;
 
     const int SidebarWidth = OPTIONS[OPT_SIDEBAR_STYLE] ? 45 : 55;
-    WindowWidth= (SidebarWidth + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
+    WindowWidth= (SidebarWidth + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1));
+    if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
+    WindowWidth *= fontwidth;
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
 
