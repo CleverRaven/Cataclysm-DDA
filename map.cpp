@@ -2537,14 +2537,14 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 
     bool tryaddcharges = (new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo()));
     std::vector<point> ps = get_points(overflow_radius, x, y);
-
-    for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end();
-            p_it++)
+    for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
     {
-        if (new_item.volume() > this->free_volume(p_it->x, p_it->y))
+        itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
+        if (new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
+                has_flag(destroy_item, p_it->x, p_it->y) || has_flag(noitem, p_it->x, p_it->y))
             continue;
+
         if (tryaddcharges) {
-            itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
             for (int i = 0; i < i_at(p_it->x,p_it->y).size(); i++)
             {
                 if(i_at(x, y)[i].type->id == add_type)
@@ -2570,45 +2570,18 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
 {
 
  if (new_item.is_style())
-  return;
- if (!INBOUNDS(x, y))
-  return;
- if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
-  return;
- if (has_flag(destroy_item, x, y))
      return;
-
- if (has_flag(noitem, x, y) || i_at(x, y).size() >= maxitems) {// Too many items there
-  std::vector<point> okay;
-  for (int i = x - 1; i <= x + 1; i++) {
-   for (int j = y - 1; j <= y + 1; j++) {
-    if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
-        i_at(i, j).size() < maxitems)
-     okay.push_back(point(i, j));
-   }
-  }
-  if (okay.size() == 0) {
-   for (int i = x - 2; i <= x + 2; i++) {
-    for (int j = y - 2; j <= y + 2; j++) {
-     if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
-         i_at(i, j).size() < maxitems)
-      okay.push_back(point(i, j));
-    }
-   }
-  }
-  if (okay.size() == 0) { // STILL?
-   return;
-  }
-  const point choice = okay[rng(0, okay.size() - 1)];
-  add_item(choice.x, choice.y, new_item);
-  return;
+ if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
+     return;
+ if (!INBOUNDS(x, y))
+     return;
+ if (has_flag(destroy_item, x, y) || (i_at(x,y).size() >= maxitems))
+ {
+     //debug?
+     return;
  }
-/*
- int nonant;
- cast_to_nonant(x, y, nonant);
-*/
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
+ const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
  const int lx = x % SEEX;
  const int ly = y % SEEY;
  grid[nonant]->itm[lx][ly].push_back(new_item);
