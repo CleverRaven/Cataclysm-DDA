@@ -288,6 +288,9 @@ option_key lookup_option_key(std::string id)
     if(id == "viewport_y") {
         return OPT_VIEWPORT_Y;
     }
+    if(id == "sidebar_style") {
+        return OPT_SIDEBAR_STYLE;
+    }
     if(id == "move_view_offset") {
         return OPT_MOVE_VIEW_OFFSET;
     }
@@ -362,6 +365,7 @@ std::string option_string(option_key key)
     case OPT_INITIAL_TIME:        return "initial_time";
     case OPT_VIEWPORT_X:          return "viewport_x";
     case OPT_VIEWPORT_Y:          return "viewport_y";
+    case OPT_SIDEBAR_STYLE:       return "sidebar_style";
     case OPT_MOVE_VIEW_OFFSET:    return "move_view_offset";
     case OPT_STATIC_SPAWN:        return "static_spawn";
     case OPT_CLASSIC_ZOMBIES:     return "classic_zombies";
@@ -409,6 +413,7 @@ std::string option_desc(option_key key)
     case OPT_INITIAL_TIME:        return _("Initial starting time of day on\ncharacter generation.\nDefault is 8:00");
     case OPT_VIEWPORT_X:          return _("WINDOWS ONLY: Set the expansion of the\nviewport along the X axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.");
     case OPT_VIEWPORT_Y:          return _("WINDOWS ONLY: Set the expansion of the\nviewport along the Y axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.");
+    case OPT_SIDEBAR_STYLE:       return _("Sidebar style. 0 is standard,\n1 is narrower and taller.");
     case OPT_MOVE_VIEW_OFFSET:    return _("Move view by how many squares per\nkeypress.\nDefault is 1");
     case OPT_SEASON_LENGTH:       return _("Season length, in days.\nDefault is 14");
     case OPT_STATIC_SPAWN:        return _("Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is true");
@@ -456,6 +461,7 @@ std::string option_name(option_key key)
     case OPT_INITIAL_TIME:        return _("Initial time");
     case OPT_VIEWPORT_X:          return _("Viewport width");
     case OPT_VIEWPORT_Y:          return _("Viewport height");
+    case OPT_SIDEBAR_STYLE:       return _("Sidebar style");
     case OPT_MOVE_VIEW_OFFSET:    return _("Move view offset");
     case OPT_STATIC_SPAWN:        return _("Static spawn");
     case OPT_CLASSIC_ZOMBIES:     return _("Classic zombies");
@@ -489,6 +495,7 @@ bool option_is_bool(option_key id)
     case OPT_INITIAL_TIME:
     case OPT_VIEWPORT_X:
     case OPT_VIEWPORT_Y:
+    case OPT_SIDEBAR_STYLE:
     case OPT_SEASON_LENGTH:
     case OPT_MOVE_VIEW_OFFSET:
     case OPT_AUTOSAVE_TURNS:

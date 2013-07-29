@@ -69,6 +69,7 @@ game::game() :
  w_messages(NULL),
  w_location(NULL),
  w_status(NULL),
+ w_status2(NULL),
  om_hori(NULL),
  om_vert(NULL),
  om_diag(NULL),
@@ -131,6 +132,7 @@ game::~game()
  delwin(w_messages);
  delwin(w_location);
  delwin(w_status);
+ delwin(w_status2);
 }
 
 void game::init_skills() throw (std::string)
@@ -149,8 +151,10 @@ void game::init_ui(){
     clear();	// Clear the screen
     intro();	// Print an intro screen, make sure we're at least 80x25
 
+    const int sidebarWidth = OPTIONS[OPT_SIDEBAR_STYLE] ? 45 : 55;
+
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
-        TERMX = 55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1);
+        TERMX = sidebarWidth + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1);
         TERMY = OPTIONS[OPT_VIEWPORT_Y] * 2 + 1;
         VIEWX = (OPTIONS[OPT_VIEWPORT_X] > 60) ? 60 : OPTIONS[OPT_VIEWPORT_X];
         VIEWY = (OPTIONS[OPT_VIEWPORT_Y] > 60) ? 60 : OPTIONS[OPT_VIEWPORT_Y];
@@ -170,10 +174,10 @@ void game::init_ui(){
             TERMY--;
         }
 
-        TERRAIN_WINDOW_WIDTH = (TERMX - STATUS_WIDTH > 121) ? 121 : TERMX - STATUS_WIDTH;
+        TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
         TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
 
-        VIEW_OFFSET_X = (TERMX - STATUS_WIDTH > 121) ? (TERMX - STATUS_WIDTH - 121)/2 : 0;
+        VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
         VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
 
         VIEWX = (TERRAIN_WINDOW_WIDTH - 1) / 2;
@@ -192,26 +196,109 @@ void game::init_ui(){
     w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
     werase(w_terrain);
 
-    w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, VIEW_OFFSET_Y, TERMX - MONINFO_WIDTH - MINIMAP_WIDTH - VIEW_OFFSET_X);
+    int minimapX, minimapY; // always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
+    int hpX, hpY, hpW, hpH;
+    int moninfoX, moninfoY, moninfoW, moninfoH;
+    int messX, messY, messW, messH;
+    int locX, locY, locW, locH;
+    int statX, statY, statW, statH;
+    int stat2X, stat2Y, stat2W, stat2H;
+
+    locH = 1;
+
+    switch (int(OPTIONS[OPT_SIDEBAR_STYLE])) {
+        case 0: // standard
+            minimapX = 0;
+            minimapY = 0;
+            moninfoX = MINIMAP_WIDTH;
+            moninfoY = 0;
+            moninfoW = sidebarWidth - MINIMAP_WIDTH;
+            moninfoH = MONINFO_HEIGHT;
+            messX = MINIMAP_WIDTH;
+            messY = MONINFO_HEIGHT;
+            messW = sidebarWidth - messX;
+            messH = MESSAGES_HEIGHT;
+            hpX = 0;
+            hpY = MINIMAP_HEIGHT;
+            hpH = 14;
+            hpW = 7;
+            locX = MINIMAP_WIDTH;
+            locY = messY + MESSAGES_HEIGHT;
+            locW = sidebarWidth - locX;
+            statX = 0;
+            statY = locY + locH;
+            statH = 4;
+            statW = sidebarWidth;
+
+            // The default style only uses one status window.
+            // We'll put the second status window on top of the 'void' window.
+            stat2X = 0;
+            stat2Y = statY + statH;
+            stat2H = stat2W = 1;
+            break;
+
+        case 1: // narrow
+            moninfoX = 0;
+            moninfoY = 0;
+            moninfoW = sidebarWidth;
+            moninfoH = MONINFO_HEIGHT;
+
+            minimapX = 0;
+            minimapY = MONINFO_HEIGHT;
+
+            hpX = MINIMAP_WIDTH;
+            hpY = moninfoY + moninfoH;
+            hpH = 7;
+            hpW = 14;
+
+            locX = 0;
+            locY = minimapY + MINIMAP_HEIGHT;
+            locW = sidebarWidth;
+
+            statX = hpX + hpW;
+            statY = moninfoY + moninfoH;
+            statH = 7;
+            statW = sidebarWidth - statX;
+
+            stat2X = 0;
+            stat2Y = locY + locH;
+            stat2W = sidebarWidth;
+            stat2H = 2;
+
+            messX = 0;
+            messY = stat2Y + stat2H;
+            messW = sidebarWidth;
+            messH = TERRAIN_WINDOW_HEIGHT - messY;
+
+            break;
+    }
+
+    int _y = VIEW_OFFSET_Y;
+    int _x = TERMX - VIEW_OFFSET_X - sidebarWidth;
+
+    w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX);
     werase(w_minimap);
 
-    w_HP = newwin(HP_HEIGHT, HP_WIDTH, VIEW_OFFSET_Y + MINIMAP_HEIGHT, TERMX - MESSAGES_WIDTH - HP_WIDTH - VIEW_OFFSET_X);
+    w_HP = newwin(hpH, hpW, _y + hpY, _x + hpX);
     werase(w_HP);
 
-    w_moninfo = newwin(MONINFO_HEIGHT, MONINFO_WIDTH, VIEW_OFFSET_Y, TERMX - MONINFO_WIDTH - VIEW_OFFSET_X);
+    w_moninfo = newwin(moninfoH, moninfoW, _y + moninfoY, _x + moninfoX);
     werase(w_moninfo);
 
-    w_messages = newwin(MESSAGES_HEIGHT, MESSAGES_WIDTH, MONINFO_HEIGHT + VIEW_OFFSET_Y, TERMX - MESSAGES_WIDTH - VIEW_OFFSET_X);
+    w_messages = newwin(messH, messW, _y + messY, _x + messX);
     werase(w_messages);
 
-    w_location = newwin(LOCATION_HEIGHT, LOCATION_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT + VIEW_OFFSET_Y, TERMX - LOCATION_WIDTH - VIEW_OFFSET_X);
+    w_location = newwin(locH, locW, _y + locY, _x + locX);
     werase(w_location);
 
-    w_status = newwin(STATUS_HEIGHT, STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT + VIEW_OFFSET_Y, TERMX - STATUS_WIDTH - VIEW_OFFSET_X);
+    w_status = newwin(statH, statW, _y + statY, _x + statX);
     werase(w_status);
 
-    w_void_lines=TERMY-(MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT);
-    w_void = newwin(w_void_lines, STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT + VIEW_OFFSET_Y, TERMX - STATUS_WIDTH - VIEW_OFFSET_X);
+    w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
+    werase(w_status2);
+
+    int void_start = MONINFO_HEIGHT + MESSAGES_HEIGHT + locH + statH;
+    w_void = newwin(TERMY - void_start, sidebarWidth, void_start + VIEW_OFFSET_Y, TERMX - sidebarWidth - VIEW_OFFSET_X);
     werase(w_void);
 }
 
@@ -3389,10 +3476,15 @@ void game::draw()
     // Draw Status
     draw_HP();
     werase(w_status);
-    u.disp_status(w_status, this);
+    werase(w_status2);
+    u.disp_status(w_status, w_status2, this);
 
+    const int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
+
+    WINDOW *time_window = sideStyle ? w_status2 : w_status;
+    wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
     if ( u.has_item_with_flag("WATCH") ) {
-        mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
+        wprintz(time_window, c_white, turn.print_time().c_str());
     } else {
         std::vector<std::pair<char, nc_color> > vGlyphs;
         vGlyphs.push_back(std::make_pair('_', c_red));
@@ -3411,29 +3503,29 @@ void game::draw()
         vGlyphs.push_back(std::make_pair('_', c_cyan));
 
         const int iHour = turn.getHour();
-        mvwprintz(w_status, 1, 41, c_white, "[");
+        wprintz(time_window, c_white, "[");
         bool bAddTrail = false;
 
         for (int i=0; i < 14; i+=2) {
             if (iHour >= 8+i && iHour <= 13+(i/2)) {
-                wputch(w_status, hilite(c_white), ' ');
+                wputch(time_window, hilite(c_white), ' ');
 
             } else if (iHour >= 6+i && iHour <= 7+i) {
-                wputch(w_status, hilite(vGlyphs[i].second), vGlyphs[i].first);
+                wputch(time_window, hilite(vGlyphs[i].second), vGlyphs[i].first);
                 bAddTrail = true;
 
             } else if (iHour >= (18+i)%24 && iHour <= (19+i)%24) {
-                wputch(w_status, vGlyphs[i+1].second, vGlyphs[i+1].first);
+                wputch(time_window, vGlyphs[i+1].second, vGlyphs[i+1].first);
 
             } else if (bAddTrail && iHour >= 6+(i/2)) {
-                wputch(w_status, hilite(c_white), ' ');
+                wputch(time_window, hilite(c_white), ' ');
 
             } else {
-                wputch(w_status, c_white, ' ');
+                wputch(time_window, c_white, ' ');
             }
         }
 
-        wprintz(w_status, c_white, "]");
+        wprintz(time_window, c_white, "]");
     }
 
     oter_id cur_ter = cur_om->ter((levx + int(MAPSIZE / 2)) / 2, (levy + int(MAPSIZE / 2)) / 2, levz);
@@ -3464,27 +3556,27 @@ void game::draw()
     wrefresh(w_location);
 
     //Safemode coloring
-    mvwprintz(w_status, 0, 41, c_white, _("%s, day %d"), season_name[turn.get_season()].c_str(), turn.days() + 1);
+    WINDOW *day_window = sideStyle ? w_status2 : w_status;
+    mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"), _(season_name[turn.get_season()].c_str()), turn.days() + 1);
     if (run_mode != 0 || autosafemode != 0) {
         int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
-        mvwprintz(w_status, 1, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
-        wprintz(w_status, (run_mode == 0) ? ((iPercent >= 50) ? c_green : c_red): c_green, "A");
-        wprintz(w_status, (run_mode == 0) ? ((iPercent >= 75) ? c_green : c_red): c_green, "F");
-        wprintz(w_status, (run_mode == 0) ? ((iPercent == 100) ? c_green : c_red): c_green, "E");
+        wmove(w_status, sideStyle ? 4 : 1, w_status->width - 4);
+        const char *letters[] = {"S", "A", "F", "E"};
+        for (int i = 0; i < 4; i++) {
+            nc_color c = (run_mode == 0 && iPercent < (i + 1) * 25) ? c_red : c_green;
+            wprintz(w_status, c, letters[i]);
+        }
     }
     wrefresh(w_status);
+    wrefresh(w_status2);
+
+    std::string *graffiti = m.graffiti_at(u.posx, u.posy).contents;
+    if (graffiti) {
+        add_msg(_("Written here: %s"), utf8_substr(*graffiti, 0, 40).c_str());
+    }
 
     // Draw messages
     write_msg();
-    if ( w_void_lines > 0 ) {
-        if (m.graffiti_at(u.posx, u.posy).contents) {
-            mvwprintz(w_void, 0, 1, c_white,_("Written here: "));
-            wprintz(w_void, c_magenta,"%s", utf8_substr(*m.graffiti_at(u.posx, u.posy).contents, 0, STATUS_WIDTH-15 ).c_str() );
-        } else {
-            mvwprintw(w_void, 0, 0,"%s", std::string(STATUS_WIDTH, ' ').c_str());
-        }
-        wrefresh(w_void);
-    }
 }
 
 bool game::isBetween(int test, int down, int up)
@@ -3566,6 +3658,9 @@ void game::draw_HP()
     int current_hp;
     nc_color color;
     std::string health_bar = "";
+    int hpx = OPTIONS[OPT_SIDEBAR_STYLE] ? 7 : 0;
+    int hpy = OPTIONS[OPT_SIDEBAR_STYLE] ? 0 : 1;
+    int dy  = OPTIONS[OPT_SIDEBAR_STYLE] ? 1 : 2;
     for (int i = 0; i < num_hp_parts; i++) {
         current_hp = u.hp_cur[i];
         if (current_hp == u.hp_max[i]){
@@ -3605,34 +3700,44 @@ void game::draw_HP()
           color = c_ltgray;
           health_bar = "-----";
         }
+        wmove(w_HP, i * dy + hpy, hpx);
         if (u.has_trait(PF_SELFAWARE)) {
-            if (current_hp >= 100){
-                mvwprintz(w_HP, i * 2 + 1, 0, color, "%d     ", current_hp);
-            } else if (current_hp >= 10) {
-                mvwprintz(w_HP, i * 2 + 1, 0, color, " %d    ", current_hp);
-            } else {
-                mvwprintz(w_HP, i * 2 + 1, 0, color, "  %d    ", current_hp);
-            }
+            wprintz(w_HP, color, "%3d  ", current_hp);
         } else {
-            mvwprintz(w_HP, i * 2 + 1, 0, color, health_bar.c_str());
+            wprintz(w_HP, color, health_bar.c_str());
 
             //Add the trailing symbols for a not-quite-full health bar
             int bar_remainder = 5;
             while(bar_remainder > health_bar.size()){
                 --bar_remainder;
-                mvwprintz(w_HP, i * 2 + 1, bar_remainder, c_white, ".");
+                wprintz(w_HP, c_white, ".");
             }
         }
     }
-    mvwprintz(w_HP,  0, 0, c_ltgray, _("HEAD:  "));
-    mvwprintz(w_HP,  2, 0, c_ltgray, _("TORSO: "));
-    mvwprintz(w_HP,  4, 0, c_ltgray, _("L ARM: "));
-    mvwprintz(w_HP,  6, 0, c_ltgray, _("R ARM: "));
-    mvwprintz(w_HP,  8, 0, c_ltgray, _("L LEG: "));
-    mvwprintz(w_HP, 10, 0, c_ltgray, _("R LEG: "));
-    mvwprintz(w_HP, 12, 0, c_ltgray, _("POW:   "));
+
+    static const char *body_parts[] = {
+        "HEAD", "TORSO", "L ARM", "R ARM", "L LEG", "R LEG", "POWER" };
+    int num_parts = sizeof(body_parts) / sizeof(body_parts[0]);
+    for (int i = 0; i < num_parts; i++) {
+        nc_color c = c_ltgray;
+        const char *str = _(body_parts[i]);
+        wmove(w_HP, i * dy, 0);
+        if (1 == OPTIONS[OPT_SIDEBAR_STYLE])
+            wprintz(w_HP, c, " ");
+        wprintz(w_HP, c, str);
+        if (0 == OPTIONS[OPT_SIDEBAR_STYLE])
+            wprintz(w_HP, c, ":");
+    }
+
+    int powx = hpx;
+    int powy = OPTIONS[OPT_SIDEBAR_STYLE] ? 6 : 13;
     if (u.max_power_level == 0){
-        mvwprintz(w_HP, 13, 0, c_ltgray, " --   ");
+        wmove(w_HP, powy, powx);
+        if (0 == OPTIONS[OPT_SIDEBAR_STYLE])
+            wprintz(w_HP, c_ltgray, " --   ");
+        else {
+            for (int i = 0; i < 2; i++) wputch(w_HP, c_ltgray, LINE_OXOX);
+        }
     } else {
         if (u.power_level == u.max_power_level){
             color = c_blue;
@@ -3643,13 +3748,7 @@ void game::draw_HP()
         } else {
             color = c_red;
         }
-        if (u.power_level >= 100){
-            mvwprintz(w_HP, 13, 0, color, "%d     ", u.power_level);
-        } else if (u.power_level >= 10){
-            mvwprintz(w_HP, 13, 0, color, " %d    ", u.power_level);
-        } else {
-            mvwprintz(w_HP, 13, 0, color, "  %d    ", u.power_level);
-        }
+        mvwprintz(w_HP, powy, powx, color, "%-3d", u.power_level);
     }
     wrefresh(w_HP);
 }
@@ -11183,8 +11282,8 @@ void game::write_msg()
 {
  werase(w_messages);
  int maxlength = FULL_SCREEN_WIDTH - (SEEX * 2 + 10);	// Matches size of w_messages
- int line = 7;
- for (int i = messages.size() - 1; i >= 0 && line < 8; i--) {
+ int line = w_messages->height - 1;
+ for (int i = messages.size() - 1; i >= 0 && line < w_messages->height; i--) {
   std::string mes = messages[i].message;
   if (messages[i].count > 1) {
    std::stringstream mesSS;
@@ -11453,15 +11552,17 @@ void intro()
 {
  int maxx, maxy;
  getmaxyx(stdscr, maxy, maxx);
- WINDOW* tmp = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0);
- while (maxy < FULL_SCREEN_HEIGHT || maxx < FULL_SCREEN_WIDTH) {
+ const int minHeight = OPTIONS[OPT_SIDEBAR_STYLE] ? 35 : FULL_SCREEN_HEIGHT;
+ const int minWidth = FULL_SCREEN_WIDTH;
+ WINDOW* tmp = newwin(minHeight, minWidth, 0, 0);
+ while (maxy < minHeight || maxx < minWidth) {
   werase(tmp);
   wprintw(tmp, _("\
 Whoa. Whoa. Hey. This game requires a minimum terminal size of %dx%d. I'm\n\
 sorry if your graphical terminal emulator went with the woefully-diminutive\n\
 %dx%d as its default size, but that just won't work here.  Now stretch the\n\
 window until you've got it at the right size (or bigger).\n"),
-          FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, maxx, maxy);
+          minWidth, minHeight, maxx, maxy);
   wgetch(tmp);
   getmaxyx(stdscr, maxy, maxx);
  }

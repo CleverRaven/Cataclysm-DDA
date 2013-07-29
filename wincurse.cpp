@@ -325,7 +325,8 @@ fin.open("data\\FONTDATA");
  }
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-    WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
+    const int SidebarWidth = OPTIONS[OPT_SIDEBAR_STYLE] ? 45 : 55;
+    WindowWidth= (SidebarWidth + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     WinCreate();    //Create the actual window, register it, etc
     CheckMessages();    //Let the message queue handle setting up the window
