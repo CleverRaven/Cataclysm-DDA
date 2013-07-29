@@ -1,6 +1,6 @@
 [
    {
-      "description":"They say you don't have any 'useful skills', but at least your clothes fit well.",
+      "description":"They say you don't have any \"useful skills\", but at least your clothes fit well.",
       "ident":"unemployed",
       "items":[
          "jeans",
@@ -55,7 +55,7 @@
       "points":2
    },
    {
-      "description":"Your flexible outlook on law has ensured your survival, but now what? You start with cargo pants, a hoodie, \"sundries\", \nand one additional level of melee.",
+      "description":"Your flexible outlook on law has ensured your survival, but now what? You start with cargo pants, a hoodie, \"sundries\", and one additional level of melee.",
       "ident":"scoundrel",
       "items":[
          "tank_top",
@@ -75,7 +75,7 @@
       ]
    },
    {
-      "description":"You're a High school drop out with one goal in mind: to join the military. Now you finally get in, and it's hell on Earth in cataclysmic proportions. You start out with some military gear, and a level in survival and firearms.",
+      "description":"You're a high school drop-out with one goal in mind: to join the military. You finally got in, and now it's hell on Earth in cataclysmic proportions. You start out with some military gear, and a level in survival and firearms.",
       "ident":"soldier",
       "items":[
          "pants_army",
@@ -98,7 +98,7 @@
       ]
    },
    {
-      "description":"You were a Pre-Med Student just starting out in your medical career, You start with some bandages and a level in first aid.",
+      "description":"You were a pre-med student just starting out in your medical career. You start with some bandages and a level in first aid.",
       "ident":"medic",
       "items":[
          "pants",
@@ -118,7 +118,7 @@
       ]
    },
    {
-      "description":"When it came to getting dirty, the boss knew you could be trusted to get the job done, from performing hits to attitude adjustment you were the best, now at the end of the world, you finally found your place in society.",
+      "description":"When it came to getting dirty, the boss knew you could be trusted to get the job done. From performing hits to \"attitude adjustment\", you were the best. Now, at the end of the world, you've finally found your place in society.",
       "ident":"thug",
       "items":[
          "suit",
@@ -137,7 +137,7 @@
       ]
    },
    {
-      "description":"When you got the call about the disturbances, you came to the rescue you and quickly realized you were in over your head,and needed rescuing yourself. You start with a level in firearms .",
+      "description":"When you got the call about the disturbances, you came to the rescue only to realize you were in over your head, and needed rescuing yourself. You start with a level in firearms.",
       "ident":"sheriff",
       "items":[
          "pants_army",
@@ -175,7 +175,7 @@
       "points":-1
    },
    {
-      "description":"You would have sold your own mother for a dollar, and not feel guilty. in fact you sold her a broken down beater right before the cataclysm. You start with bartering skills.",
+      "description":"You would have sold your own mother for a dollar, and not felt guilty. In fact, you sold her a broken down beater right before the cataclysm. You start with bartering skills.",
       "ident":"salesman",
       "items":[
          "suit",
@@ -197,7 +197,7 @@
             "type":"alcohol"
          }
       ],
-      "description":"You lived on the streets your whole life because you would rather a bottle of whiskey than a roof over your head, you start with a strong alcohol addiction and a pair of pants.",
+      "description":"You lived on the streets your whole life because you would rather have a bottle of whiskey than a roof over your head. You start with a strong alcohol addiction and a pair of pants.",
       "ident":"homeless",
       "items":[
          "pants",
@@ -207,7 +207,7 @@
       "points":-2
    },
    {
-      "description":"Ever since you were a boy you loved hunting,and you loved the challenge of hunting with a bow even more. You start with a level in archery, and survival.",
+      "description":"Ever since you were a child you loved hunting, and you loved the challenge of hunting with a bow even more. You start with a level in archery and survival.",
       "ident":"hunter",
       "items":[
          "army_top",
@@ -228,7 +228,7 @@
       ]
    },
    {
-      "description":"You used to work at the home depot, and you did alot of home renovations yourself. You start with steel toe boots, a tool belt, a hammer, and a level in construction.",
+      "description":"You used to work at the home depot, and you did a lot of home renovations yourself. You start with steel toe boots, a tool belt, a hammer, and a level in construction.",
       "ident":"cworker",
       "items":[
          "tank_top",
@@ -247,7 +247,7 @@
       ]
    },
    {
-      "description":"You worked in the woods your whole life, and start with some woodsman gear.",
+      "description":"You've worked in the woods your whole life, and start with some woodsman gear.",
       "ident":"lumberjack",
       "items":[
          "jeans",
@@ -259,7 +259,7 @@
       "points":1
    },
    {
-      "description":"You've traveled for a living seeing here and there living off your parents trust fund, but now they're all gone and the only thing between you and death, is the open road and your backpack.",
+      "description":"You've traveled for a living, sightseeing here and there, and living off your parents' trust fund. But now they're gone, and the only thing between you and death is the open road and your backpack.",
       "ident":"backpacker",
       "items":[
          "backpack",
@@ -272,7 +272,7 @@
       "points":2
    },
    {
-      "description":"You used to work at a fancy fast food joint a week ago, but now you show the meaning of \"fast\" food by running for your life you start with a level in cooking.",
+      "description":"You used to work at a fancy fast food joint a week ago, but now you show the meaning of \"fast\" food by running for your life. You start with a level in cooking.",
       "ident":"fastfoodcook",
       "items":[
          "pants",
@@ -290,7 +290,7 @@
       ]
    },
    {
-      "description":"You were one of those guys who watched one to many survivalist shows. You start with a backpack, blazer and some survival skills.",
+      "description":"You were one of those guys who watched one too many survivalist shows. You start with a backpack, a blazer, and some survival skills.",
       "ident":"survivalist",
       "items":[
          "shorts_cargo",
@@ -310,7 +310,7 @@
       ]
    },
    {
-      "description":"You used to work for some small time business owner doing minor electrical work you just so happened to be working on an Evac shelter when the cataclysm struck.",
+      "description":"You used to work for some small-time business owner doing minor electrical work, and you just so happened to be working on an evac shelter when the cataclysm struck. You start with a level in electronics, and a tool belt.",
       "ident":"electrician",
       "items":[
          "jumpsuit",
@@ -327,7 +327,7 @@
       ]
    },
    {
-      "description":"Caffeine pills and all nighters in front of a computer screen gave you quite the hacking skills, you start with a level in computers.",
+      "description":"Caffeine pills and all-nighters in front of a computer screen have given you some basic hacking skills. You start with a level in computers.",
       "ident":"hacker",
       "items":[
          "pants",
@@ -357,7 +357,7 @@
       "points":2
    },
    {
-      "description":"You were in the middle of a nice shower when the cataclysm struck, you start buck naked.",
+      "description":"You were in the middle of a nice shower when the cataclysm struck! You start buck naked.",
       "ident":"svictim",
       "items":[
 
@@ -366,7 +366,7 @@
       "points":-1
    },
    {
-      "description":"You spent most of your life on a Harley, and its only natural you spend the rest of it riding one, you start with some biker clothes.",
+      "description":"You spent most of your life on a Harley, and it's only natural you spend the rest of it riding one. You start with some biker clothes.",
       "ident":"biker",
       "items":[
          "jeans",
@@ -380,7 +380,7 @@
       "points":2
    },
    {
-      "description":"You used to be a ballroom dancer before the cataclysm, now you use your skills to save your life. You start with a tuxedo and a level in dodging.",
+      "description":"You used to be a ballroom dancer before the cataclysm, and now you use your skills to save your life. You start with a tuxedo and a level in dodging.",
       "ident":"dancer",
       "items":[
          "tux",
@@ -396,7 +396,7 @@
       ]
    },
    {
-      "description":"You worked for a small time security company guarding local businesses, and you start wi  th a security outfit and a flashlight.",
+      "description":"You worked for a small-time security company guarding local businesses. You start with a security outfit and a flashlight.",
       "ident":"security",
       "items":[
          "pants",
@@ -408,7 +408,7 @@
       "points":1
    },
    {
-      "description":"You've always loved tinkering with stuff. Now this may increase your chances to survive",
+      "description":"You've always loved tinkering with stuff. You start with a tool belt, and know a little bit about mechanics, tailoring, electronics, and carpentry.",
       "ident":"tinkerer",
       "items":[
          "pants",
@@ -437,7 +437,7 @@
       ]
    },
    {
-      "description":"You worked the streets since you were a kid, now you used your street skills to survive.",
+      "description":"You've worked the streets since you were a kid, and now you use your street skills to survive. You start with a Glock 19 and some of your \"goods\", but no bullets.",
       "ident":"ddealer",
       "items":[
          "jeans",
@@ -464,7 +464,7 @@
    {
       "ident": "punkgirl",
       "name": "Punk Rock Girl",
-      "description":"The apocalypse has been your psychotic dream come true. Now that the system is dead it's time to party among the bones of the world!",
+      "description":"The apocalypse has been your psychotic dream come true. Now that the system is dead, it's time to party among the bones of the world!",
       "points": 2,
       "items": ["skirt", "army_top", "jacket_leather", "gloves_fingerless", "boots_steel",
                 "weed", "cig", "mp3", "lighter"]
