@@ -552,11 +552,12 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 message = _("Grazing hit.");
                 dam = rng(0, dam);
             }
-            add_msg_if_player(&p,_("%s You hit the %s for %d damage."),
+            if (u_see(tx, ty)) {
+                add_msg_if_player_or_npc(&p,
+                    _("%s You hit the %s for %d damage."),
+                    _("%s <npcname> hits the %s for %d damage.")
                     message.c_str(), z[mon_at(tx, ty)].name().c_str(), dam);
-            if (u_see(tx, ty))
-                add_msg(_("%s hits the %s for %d damage."), message.c_str(),
-                        z[mon_at(tx, ty)].name().c_str(), dam);
+            }
             if (z[mon_at(tx, ty)].hurt(dam, real_dam))
                 kill_mon(mon_at(tx, ty), !p.is_npc());
             return;
