@@ -360,7 +360,10 @@
       ["lgrifle_primer", 10],
       ["lead", 10],
       ["puller", 5],
-      ["press", 5]
+      ["press", 5],
+      ["rm99_pistol", 1],
+      ["rm103a_pistol", 1],
+      ["laser_sight", 15]
     ]
   },
   { "id":"dresser",
@@ -978,7 +981,11 @@
       ["308", 7],
       ["762_51", 6],
       ["shot_beanbag", 10],
-      ["laser_pack", 5]
+      ["laser_pack", 5],
+      ["8mm_jhp", 2],
+      ["8mm_fmj", 2],
+      ["8mm_caseless", 3],
+      ["8mm_inc", 2]
     ]
   },
   { "id":"pistols",
@@ -999,7 +1006,9 @@
       ["hk_ucp", 2],
       ["raging_bull", 1],
       ["sw_500", 1],
-      ["v29_cheap", 3]
+      ["v29_cheap", 3],
+      ["rm99_pistol", 1],
+      ["rm103a_pistol", 1]
     ]
   },
   { "id":"shotguns",
@@ -1047,7 +1056,8 @@
       ["scar_l", 6],
       ["scar_h", 5],
       ["steyr_aug", 6],
-      ["m249", 1]
+      ["m249", 1],
+      ["rm51_assault_rifle", 1]
     ]
   },
   { "id":"allguns",
@@ -1101,7 +1111,10 @@
       ["scar_h", 5],
       ["steyr_aug", 6],
       ["m249", 1],
-      ["v29_cheap", 8]
+      ["v29_cheap", 8],
+      ["rm51_assault_rifle", 1],
+      ["rm99_pistol", 1],
+      ["rm103a_pistol", 1]
     ]
   },
   { "id":"gunxtras",
@@ -1157,7 +1170,8 @@
       ["lgrifle_primer", 10],
       ["lead", 10],
       ["press", 5],
-      ["puller", 5]
+      ["puller", 5],
+      ["laser_sight", 15]
     ]
   },
   { "id":"shoes",
@@ -2095,7 +2109,9 @@
       ["m203", 2],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
-      ["u_shotgun", 2]
+      ["u_shotgun", 2],
+      ["rm51_assault_rifle", 1],
+      ["laser_sight", 15]
     ]
   },
   { "id":"grenades",
@@ -2821,7 +2837,16 @@
       ["jerrycan", 10],
       ["rucksack", 20],
       ["heatpack", 60],
-      ["LAW_Packed", 30]
+      ["LAW_Packed", 30],
+      ["rm51_assault_rifle", 1],
+      ["8mm_caseless", 3],
+      ["rm99_pistol", 2],
+      ["8mm_jhp", 2],
+      ["8mm_fmj", 2],
+      ["laser_rifle", 1],
+      ["rm103a_pistol", 1],
+      ["laser_sight", 15],
+      ["8mm_inc", 2]
     ]
   },
   { "id":"science",
@@ -2906,7 +2931,8 @@
       ["power_armor_heavy", 3],
       ["power_armor_helmet_heavy", 3],
       ["plasma", 8],
-      ["plasma_rifle", 1]
+      ["plasma_rifle", 1],
+      ["laser_rifle", 1]
     ]
   },
   { "id":"stash_food",
@@ -2946,7 +2972,11 @@
       ["762_51", 6],
       ["arrow_cf", 5],
       ["press", 5],
-      ["puller", 5]
+      ["puller", 5],
+      ["8mm_caseless", 3],
+      ["8mm_jhp", 2],
+      ["8mm_fmj", 2],
+      ["8mm_inc", 2]
     ]
   },
   { "id":"stash_wood",
@@ -3024,7 +3054,8 @@
       ["crack", 8],
       ["crackpipe", 37],
       ["spare_mag", 15],
-      ["bio_blaster", 10]
+      ["bio_blaster", 10],
+      ["laser_sight", 15]
     ]
   },
   { "id":"wreckage",
