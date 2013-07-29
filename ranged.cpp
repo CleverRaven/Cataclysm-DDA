@@ -555,7 +555,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             if (u_see(tx, ty)) {
                 g->add_msg_player_or_npc(&p,
                     _("%s You hit the %s for %d damage."),
-                    _("%s <npcname> hits the %s for %d damage.")
+                    _("%s <npcname> hits the %s for %d damage."),
                     message.c_str(), z[mon_at(tx, ty)].name().c_str(), dam);
             }
             if (z[mon_at(tx, ty)].hurt(dam, real_dam))
