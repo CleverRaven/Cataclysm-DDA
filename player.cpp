@@ -19,6 +19,7 @@
 #include "translations.h"
 #include "name.h"
 #include "cursesdef.h"
+#include "catacharset.h"
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
@@ -2240,11 +2241,20 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  wrefresh(w_tip);
 
 // First!  Default STATS screen.
- mvwprintz(w_stats, 0, 10, c_ltgray, _("STATS"));
- mvwprintz(w_stats, 2,  2, c_ltgray, "%-17s(% 2d)", _("Strength:"), str_max);
- mvwprintz(w_stats, 3,  2, c_ltgray, "%-17s(% 2d)", _("Dexterity:"), dex_max);
- mvwprintz(w_stats, 4,  2, c_ltgray, "%-17s(% 2d)", _("Intelligence:"), int_max);
- mvwprintz(w_stats, 5,  2, c_ltgray, "%-17s(% 2d)", _("Perception:"), per_max);
+ const char* title_STATS = _("STATS");
+ mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
+ mvwprintz(w_stats, 2,  2, c_ltgray, "                     ");
+ mvwprintz(w_stats, 2,  2, c_ltgray, _("Strength:"));
+ mvwprintz(w_stats, 2,  20, c_ltgray, str_max>9?"(%d)":" (%d)", str_max);
+ mvwprintz(w_stats, 3,  2, c_ltgray, "                     ");
+ mvwprintz(w_stats, 3,  2, c_ltgray, _("Dexterity:"));
+ mvwprintz(w_stats, 3,  20, c_ltgray, dex_max>9?"(%d)":" (%d)", dex_max);
+ mvwprintz(w_stats, 4,  2, c_ltgray, "                     ");
+ mvwprintz(w_stats, 4,  2, c_ltgray, _("Intelligence:"));
+ mvwprintz(w_stats, 4,  20, c_ltgray, int_max>9?"(%d)":" (%d)", int_max);
+ mvwprintz(w_stats, 5,  2, c_ltgray, "                     ");
+ mvwprintz(w_stats, 5,  2, c_ltgray, _("Perception:"));
+ mvwprintz(w_stats, 5,  20, c_ltgray, per_max>9?"(%d)":" (%d)", per_max);
 
  nc_color status = c_white;
 
@@ -2310,8 +2320,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
-
- mvwprintz(w_encumb, 0, 1, c_ltgray, _("ENCUMBERANCE AND WARMTH"));
+ 
+ const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
+ mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
   iEnc = iLayers = iArmorEnc = iWarmth = 0;
   iWarmth = warmth(body_part(i));
@@ -2335,7 +2346,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  wrefresh(w_encumb);
 
 // Next, draw traits.
- mvwprintz(w_traits, 0, 10, c_ltgray, _("TRAITS"));
+ const char *title_TRAITS = _("TRAITS");
+ mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
  for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
   if (traits[traitslist[i]].points > 0)
    status = c_ltgreen;
@@ -2349,7 +2361,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  wrefresh(w_traits);
 
 // Next, draw effects.
- mvwprintz(w_effects, 0, 8, c_ltgray, _("EFFECTS"));
+ const char *title_EFFECTS = _("EFFECTS");
+ mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
  for (int i = 0; i < effect_name.size() && i < effect_win_size_y; i++) {
   mvwprintz(w_effects, i+1, 1, c_ltgray, effect_name[i].c_str());
  }
@@ -2358,7 +2371,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 // Next, draw skills.
  line = 1;
  std::vector<Skill*> skillslist;
- mvwprintz(w_skills, 0, 11, c_ltgray, _("SKILLS"));
+ const char *title_SKILLS = _("SKILLS");
+ mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
 
  // sort skills by level
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
@@ -2417,7 +2431,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  wrefresh(w_skills);
 
 // Finally, draw speed.
- mvwprintz(w_speed, 0, 11, c_ltgray, _("SPEED"));
+ const char *title_SPEED = _("SPEED");
+ mvwprintz(w_speed, 0, 13 - utf8_width(title_SPEED)/2, c_ltgray, title_SPEED);
  mvwprintz(w_speed, 1,  1, c_ltgray, _("Base Move Cost:"));
  mvwprintz(w_speed, 2,  1, c_ltgray, _("Current Speed:"));
  int newmoves = current_speed(g);
@@ -2537,7 +2552,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   werase(w_info);
   switch (curtab) {
   case 1:	// Stats tab
-   mvwprintz(w_stats, 0, 0, h_ltgray, _("          STATS           "));
+   mvwprintz(w_stats, 0, 0, h_ltgray, _("                          "));
+   mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, h_ltgray, title_STATS);
    if (line == 0) {
     mvwprintz(w_stats, 2, 2, h_ltgray, _("Strength:"));
 
@@ -2609,7 +2625,8 @@ detecting traps and other things of interest."));
       line = 3;
      break;
     case '\t':
-     mvwprintz(w_stats, 0, 0, c_ltgray, _("          STATS           "));
+     mvwprintz(w_stats, 0, 0, c_ltgray, _("                          "));
+     mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
      wrefresh(w_stats);
      line = 0;
      curtab++;
@@ -2625,7 +2642,8 @@ detecting traps and other things of interest."));
    wrefresh(w_stats);
    break;
   case 2:	// Encumberment tab
-   mvwprintz(w_encumb, 0, 0, h_ltgray, _(" ENCUMBERANCE AND WARMTH  "));
+   mvwprintz(w_encumb, 0, 0, h_ltgray,  _("                          "));
+   mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
    if (line == 0) {
     mvwprintz(w_encumb, 1, 1, h_ltgray, _("Torso"));
     mvwprintz(w_info, 0, 0, c_magenta, _("\
@@ -2684,7 +2702,8 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
       line = 7;
      break;
     case '\t':
-     mvwprintz(w_encumb, 0, 0, c_ltgray, _(" ENCUMBERANCE AND WARMTH  "));
+     mvwprintz(w_encumb, 0, 0, c_ltgray,  _("                          "));
+     mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
      wrefresh(w_encumb);
      line = 0;
      curtab++;
@@ -2704,7 +2723,8 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
    wrefresh(w_encumb);
    break;
   case 4:	// Traits tab
-   mvwprintz(w_traits, 0, 0, h_ltgray, _("          TRAITS          "));
+   mvwprintz(w_traits, 0, 0, h_ltgray,  _("                          "));
+   mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, h_ltgray, title_TRAITS);
    if (line <= (trait_win_size_y-1)/2) {
     min = 0;
     max = trait_win_size_y;
@@ -2754,7 +2774,8 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
       line--;
      break;
     case '\t':
-     mvwprintz(w_traits, 0, 0, c_ltgray, _("          TRAITS          "));
+     mvwprintz(w_traits, 0, 0, c_ltgray,  _("                          "));
+     mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
      for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
       mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
       if (traits[traitslist[i]].points > 0)
@@ -2776,7 +2797,8 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
    break;
 
   case 5:	// Effects tab
-   mvwprintz(w_effects, 0, 0, h_ltgray, _("        EFFECTS           "));
+   mvwprintz(w_effects, 0, 0, h_ltgray,  _("                          "));
+   mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, h_ltgray, title_EFFECTS);
    if (line <= (effect_win_size_y-1)/2) {
     min = 0;
     max = effect_win_size_y;
@@ -2815,7 +2837,8 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
       line--;
      break;
     case '\t':
-     mvwprintz(w_effects, 0, 0, c_ltgray, _("        EFFECTS           "));
+     mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
+     mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
      for (int i = 0; i < effect_name.size() && i < 7; i++)
       mvwprintz(w_effects, i + 1, 1, c_ltgray, effect_name[i].c_str());
      wrefresh(w_effects);
@@ -2829,7 +2852,8 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
    break;
 
   case 3:	// Skills tab
-   mvwprintz(w_skills, 0, 0, h_ltgray, _("           SKILLS         "));
+   mvwprintz(w_skills, 0, 0, h_ltgray,  _("                          "));
+   mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, h_ltgray, title_SKILLS);
    if (line <= (skill_win_size_y-1)/2) {
     min = 0;
     max = skill_win_size_y;
@@ -2893,7 +2917,8 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
      break;
     case '\t':
       werase(w_skills);
-     mvwprintz(w_skills, 0, 0, c_ltgray, _("           SKILLS         "));
+     mvwprintz(w_skills, 0, 0, c_ltgray,  _("                          "));
+     mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
      for (int i = 0; i < skillslist.size() && i < skill_win_size_y; i++) {
       Skill *thisSkill = skillslist[i];
       SkillLevel level = skillLevel(thisSkill);
@@ -4202,13 +4227,13 @@ int player::addiction_level(add_type type)
  return 0;
 }
 
-void player::siphon_gas(game *g, vehicle *veh)
+void player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 {
-    int fuel_amount = veh->drain("gasoline", veh->fuel_capacity("gasoline"));
-    item used_item(g->itypes["gasoline"], g->turn);
-    used_item.charges = fuel_amount;
-    g->add_msg(_("Siphoned %d units of gasoline from the vehicle."), fuel_amount);
-    while (!g->handle_liquid(used_item, false, false)) { } // handle the gas until it's all gone
+    int liquid_amount = veh->drain( desired_liquid , veh->fuel_capacity( desired_liquid ));
+    item used_item(g->itypes[ default_ammo(desired_liquid) ], g->turn);
+    used_item.charges = liquid_amount;
+    g->add_msg(_("Siphoned %d units of %s from the vehicle."), liquid_amount, used_item.name.c_str());
+    while (!g->handle_liquid(used_item, false, false)) { } // handle the liquid until it's all gone
 }
 
 void player::cauterize(game *g) {
@@ -7154,6 +7179,8 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
             }
         }
     }
+    if(it->is_book())
+        return HINT_GOOD;
     // no recipe exists, or the item cannot be disassembled
     return HINT_CANT;
 }
@@ -8425,9 +8452,9 @@ point player::adjacent_tile()
             {
                 dangerous_fields = 0;
                 tmpfld = g->m.field_at(i, j);
-                for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it)
+                for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it)
                 {
-                    cur = (*field_list_it);
+                    cur = field_list_it->second;
                     if (cur != NULL && cur->is_dangerous())
                         dangerous_fields++;
                 }

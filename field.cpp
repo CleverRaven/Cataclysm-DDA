@@ -198,30 +198,30 @@ bool map::process_fields_in_submap(game *g, int gridn)
 	//Loop through all tiles in this submap indicated by gridn
 	for (int locx = 0; locx < SEEX; locx++) {
 		for (int locy = 0; locy < SEEY; locy++) {
+   // This is a translation from local coordinates to submap coords.
+   // All submaps are in one long 1d array.
+   int x = locx + SEEX * (gridn % my_MAPSIZE);
+   int y = locy + SEEY * int(gridn / my_MAPSIZE);
    // get a copy of the field variable from the submap;
    // contains all the pointers to the real field effects.
-			curfield = grid[gridn]->fld[locx][locy];
-			for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart();
-       field_list_it != curfield.getFieldEnd(); ++field_list_it){
-				//Iterating through all field effects in the submap's field.
-				cur = (*field_list_it); //dereferencing the iterator to a field_effect pointer.
-				if(cur == NULL) continue; //This shouldn't happen ever, but pointer safety is number one.
-    // This is a translation from local coordinates to submap coords.
-    // All submaps are in one long 1d array.
-				int x = locx + SEEX * (gridn % my_MAPSIZE);
-    int y = locy + SEEY * int(gridn / my_MAPSIZE);
+   curfield = grid[gridn]->fld[locx][locy];
+   for(std::map<field_id, field_entry*>::iterator it = curfield.getFieldStart();
+       it != curfield.getFieldEnd(); ++it ) {
+    //Iterating through all field effects in the submap's field.
+       cur = it->second;
+    if(cur == NULL) continue; //This shouldn't happen ever, but pointer safety is number one.
 
-				curtype = cur->getFieldType();
+    curtype = cur->getFieldType();
     //Setting our return value. fd_null really doesn't exist anymore, its there for legacy support.
-				if (!found_field && curtype != fd_null)
-					found_field = true;
+    if (!found_field && curtype != fd_null)
+        found_field = true;
     // Again, legacy support in the event someone Mods setFieldDensity to allow more values.
-				if (cur->getFieldDensity() > 3 || cur->getFieldDensity() < 1)
-					debugmsg("Whoooooa density of %d", cur->getFieldDensity());
+    if (cur->getFieldDensity() > 3 || cur->getFieldDensity() < 1)
+        debugmsg("Whoooooa density of %d", cur->getFieldDensity());
 
     // Don't process "newborn" fields. This gives the player time to run if they need to.
-				if (cur->getFieldAge() == 0)
-					curtype = fd_null;
+    if (cur->getFieldAge() == 0)
+        curtype = fd_null;
 
 				int part;
 				vehicle *veh;
@@ -285,8 +285,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
 					for (int i = 0; i < i_at(x, y).size() && consumed < cur->getFieldDensity() * 2; i++) {
 						//Stop when we hit the end of the item buffer OR we consumed enough items given our fire size.
 						destroyed = false;
-						vol = i_at(x, y)[i].volume(); //Used to feed the fire based on volume of item burnt.
 						item *it = &(i_at(x, y)[i]); //Pointer to the item we are dealing with.
+      vol = it->volume(); //Used to feed the fire based on volume of item burnt.
 						it_ammo *ammo_type = NULL; //Special case if its ammo.
 
 						if (it->is_ammo())
@@ -468,7 +468,6 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									if (tmpfld && tmpfld != cur && cur->getFieldAge() < 0 && tmpfld->getFieldDensity() < 3 &&
 										(in_pit == (ter(fx, fy) == t_pit))) {
 											tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
-											//tmpfld->setFieldAge(0);
 											cur->setFieldAge(cur->getFieldAge() + 150);
 									}
 								}
@@ -487,8 +486,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
 							if (INBOUNDS(fx, fy)) {
         field &nearby_field = g->m.field_at(fx, fy);
+        field_entry *nearwebfld = nearby_field.findField(fd_web);
 								int spread_chance = 25 * (cur->getFieldDensity() - 1);
-								if (nearby_field.findField(fd_web))
+								if (nearwebfld)
 									spread_chance = 50 + spread_chance / 2;
 								if (has_flag(explodes, fx, fy) && one_in(8 - cur->getFieldDensity()) &&
 									tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != true ) ) {
@@ -506,28 +506,28 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									(cur->getFieldDensity() == 3  &&
 									(has_flag(l_flammable, fx, fy) && one_in(10))) ||
 									flammable_items_at(fx, fy) ||
-									nearby_field.findField(fd_web))) {
+									nearwebfld )) {
 										add_field(g, fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
 										tmpfld = nearby_field.findField(fd_fire);
 										if(tmpfld){
 											tmpfld->setFieldAge(100);
 											cur->setFieldAge(cur->getFieldAge() + 50);
 										}
-										if(nearby_field.findField(fd_web))
+										if(nearwebfld)
 											g->m.remove_field(fx,fy,fd_web);
 								} else {
 									bool nosmoke = true;
 									for (int ii = -1; ii <= 1; ii++) {
 										for (int jj = -1; jj <= 1; jj++) {
            field &spreading_field = g->m.field_at(x+ii, y+jj);
-											if (spreading_field.findField(fd_fire) &&
-               spreading_field.findField(fd_fire)->getFieldDensity() == 3)
-												smoke++; //The higher this gets, the more likely for smoke.
-											else if (spreading_field.findField(fd_fire) &&
-												spreading_field.findField(fd_fire)->getFieldDensity() == 2 && one_in(4))
-												smoke++;
-											else if (spreading_field.findField(fd_smoke))
-												nosmoke = false; //slightly, slightly, less likely to make smoke if there is already smoke
+
+           tmpfld = spreading_field.findField(fd_fire);
+           int tmpflddens = ( tmpfld ? tmpfld->getFieldDensity() : 0 );
+           if ( ( tmpflddens == 3 ) || ( tmpflddens == 2 && one_in(4) ) ) {
+               smoke++; //The higher this gets, the more likely for smoke.
+           } else if (spreading_field.findField(fd_smoke)) {
+               nosmoke = false; //slightly, slightly, less likely to make smoke if there is already smoke
+           }
 										}
 									}
 									// If we're not spreading, maybe we'll stick out some smoke, huh?
@@ -546,7 +546,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							}
 						}
 					}
-							  } break;
+				} break;
 
 				case fd_smoke:
 					//Smoke likes to spread out, and lingers indoors.
@@ -561,9 +561,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						for (int a = -1; a <= 1; a++) {
 							for (int b = -1; b <= 1; b++) {
         field &wandering_field = g->m.field_at(x + a, y + b);
-								if ((wandering_field.findField(fd_smoke) &&
-             wandering_field.findField(fd_smoke)->getFieldDensity() < 3) ||
-            (move_cost(x+a, y+b) > 0))
+                                tmpfld = wandering_field.findField(fd_smoke);
+								if ((tmpfld && tmpfld->getFieldDensity() < 3) ||
+            (move_cost(x+a, y+b) > 0)) // todo: expensive, cache
             spread.push_back(point(x+a, y+b)); //Locating all available spots.
 							}
 						}
@@ -607,8 +607,10 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						for (int a = -1; a <= 1; a++) {
 							for (int b = -1; b <= 1; b++) {
         field &wandering_field = g->m.field_at(x + a, y + b);
-        if (((wandering_field.findField(fd_tear_gas)) &&
-             wandering_field.findField(fd_tear_gas)->getFieldDensity() < 3) ||
+        tmpfld = NULL;
+        tmpfld = wandering_field.findField(fd_tear_gas);
+        if (( tmpfld &&
+             tmpfld->getFieldDensity() < 3) ||
             (move_cost(x+a, y+b) > 0)) //obviously can never be false, this is just to avoid stupid errors deleting code.
 									spread.push_back(point(x+a, y+b));
 							}
@@ -657,15 +659,17 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							point p = spread[rng(0, spread.size() - 1)];
 							// Nearby toxic gas grows thicker
        field &spreading_field = g->m.field_at(p.x, p.y);
-							if (spreading_field.findField(fd_toxic_gas) &&
-           spreading_field.findField(fd_toxic_gas)->getFieldDensity() < 3) {
-           spreading_field.findField(fd_toxic_gas)->setFieldDensity(spreading_field.findField(fd_toxic_gas)->getFieldDensity() + 1);
+                            tmpfld = NULL;
+                            tmpfld = spreading_field.findField(fd_toxic_gas);
+							if (tmpfld &&
+           tmpfld->getFieldDensity() < 3) {
+           tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
 									cur->setFieldDensity(cur->getFieldDensity() - 1);
 							// Or, just create a new field.
 							} else if (cur->getFieldDensity() > 1 && move_cost(p.x, p.y) > 0 &&
 								add_field(g, p.x, p.y, fd_toxic_gas, 1)) {
 									cur->setFieldDensity(cur->getFieldDensity() - 1);
-									if(spreading_field.findField(fd_toxic_gas)) spreading_field.findField(fd_toxic_gas)->setFieldAge(cur->getFieldAge());
+									if(tmpfld) tmpfld->setFieldAge(cur->getFieldAge());
 							}
 						}
 					}
@@ -688,8 +692,10 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						for (int a = -1; a <= 1; a++) {
 							for (int b = -1; b <= 1; b++) {
         field &wandering_field = g->m.field_at(x + a, y + b);
-								if (((wandering_field.findField(fd_nuke_gas)) &&
-             wandering_field.findField(fd_nuke_gas)->getFieldDensity() < 3 ) ||
+                                tmpfld = NULL;
+                                tmpfld = wandering_field.findField(fd_nuke_gas);
+								if ((tmpfld &&
+             tmpfld->getFieldDensity() < 3 ) ||
             (move_cost(x+a, y+b) > 0))
 									spread.push_back(point(x+a, y+b));
 							}
@@ -699,9 +705,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							point p = spread[rng(0, spread.size() - 1)];
 							// Nearby nukegas grows thicker
        field &enhanced_field = field_at(p.x, p.y);
-							if (enhanced_field.findField(fd_nuke_gas) &&
-								enhanced_field.findField(fd_nuke_gas)->getFieldDensity() < 3) {
-									enhanced_field.findField(fd_nuke_gas)->setFieldDensity(enhanced_field.findField(fd_nuke_gas)->getFieldDensity() + 1);
+                                tmpfld = NULL;
+
+                                tmpfld = enhanced_field.findField(fd_nuke_gas);
+							if (tmpfld &&
+								tmpfld->getFieldDensity() < 3) {
+									tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
 									if(cur->getFieldDensity() > 1){
 										cur->setFieldDensity(cur->getFieldDensity() - 1);
 									} else {
@@ -715,7 +724,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									} else {
 										remove_field(p.x, p.y, fd_nuke_gas);
 									}
-									if(enhanced_field.findField(fd_nuke_gas)) enhanced_field.findField(fd_nuke_gas)->setFieldAge(cur->getFieldAge());
+									if(tmpfld) tmpfld->setFieldAge(cur->getFieldAge());
 							}
 						}
 					}
@@ -725,9 +734,10 @@ bool map::process_fields_in_submap(game *g, int gridn)
 					for (int i = x - 1; i <= x + 1; i++) {
 						for (int j = y - 1; j <= y + 1; j++) {
           field &wandering_field = field_at(i, j);
-
-							if (wandering_field.findField(fd_toxic_gas) && wandering_field.findField(fd_toxic_gas)->getFieldDensity() < 3)
-								wandering_field.findField(fd_toxic_gas)->setFieldDensity(field_at(i,j).findField(fd_toxic_gas)->getFieldDensity() + 1);
+                            tmpfld = NULL;
+                            tmpfld = wandering_field.findField(fd_toxic_gas);
+							if (tmpfld && tmpfld->getFieldDensity() < 3)
+								tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
 							else
 								add_field(g, i, j, fd_toxic_gas, 3);
 						}
@@ -859,7 +869,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							}
 						}
 					}
-									} break;
+    } break;
 
 				case fd_shock_vent:
 					if (cur->getFieldDensity() > 1) {
@@ -897,30 +907,30 @@ bool map::process_fields_in_submap(game *g, int gridn)
 					}
 					break;
 
-                    case fd_acid_vent:
-                        if (cur->getFieldDensity() > 1) {
-                            if (cur->getFieldAge() >= 10) {
-                                cur->setFieldDensity(cur->getFieldDensity() - 1);
-                                cur->setFieldAge(0);
-                            }
-                        } else {
-                            cur->setFieldDensity(3);
-                            for (int i = x - 5; i <= x + 5; i++) {
-                            for (int j = y - 5; j <= y + 5; j++) {
-                                field &wandering_field = g->m.field_at(i, j);
-                                if (wandering_field.findField(fd_acid)){
-                                    if (wandering_field.findField(fd_acid)->getFieldDensity() == 0){
-                                        int newdens = 3 - (rl_dist(x, y, i, j) / 2) + (one_in(3) ? 1 : 0);
-                                        if (newdens > 3)
-                                            newdens = 3;
-                                        if (newdens > 0)
-                                            add_field(g, i, j, fd_acid, newdens);
-                                    }
-                                }
-                            }
-                            }
-                        }
-                        break;
+    case fd_acid_vent:
+     if (cur->getFieldDensity() > 1) {
+      if (cur->getFieldAge() >= 10) {
+          cur->setFieldDensity(cur->getFieldDensity() - 1);
+          cur->setFieldAge(0);
+      }
+     } else {
+         cur->setFieldDensity(3);
+         for (int i = x - 5; i <= x + 5; i++) {
+             for (int j = y - 5; j <= y + 5; j++) {
+                 field &wandering_field = g->m.field_at(i, j);
+                 if (wandering_field.findField(fd_acid)){
+                     if (wandering_field.findField(fd_acid)->getFieldDensity() == 0){
+                         int newdens = 3 - (rl_dist(x, y, i, j) / 2) + (one_in(3) ? 1 : 0);
+                         if (newdens > 3)
+                             newdens = 3;
+                         if (newdens > 0)
+                             add_field(g, i, j, fd_acid, newdens);
+                     }
+                 }
+             }
+         }
+     }
+     break;
 
 				} // switch (curtype)
 
@@ -971,8 +981,8 @@ void map::step_in_field(int x, int y, game *g)
  }
 
  //Iterate through all field effects on this tile.
- for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-	 cur = (*field_list_it);
+ for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+	 cur = field_list_it->second;
 	 if(cur == NULL) continue; //shouldn't happen unless you free memory of field entries manually (hint: don't do that)... Pointer safety.
 
  if (cur->getFieldType() == fd_rubble){
@@ -1069,10 +1079,6 @@ void map::step_in_field(int x, int y, game *g)
      g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
      g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
     }
-    /*if (adjusted_intensity == 2)
-     g->u.infect("smoke", bp_mouth, 5, 20, g);
-    else if (adjusted_intensity == 3)
-     g->u.infect("smoke", bp_mouth, 7, 30, g);*/ //Removed from here since smoke now exists on fire tiles as its own effect.
    }
    break;
 
@@ -1190,8 +1196,8 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 	field &curfield = field_at(x, y);
 	field_entry *cur = NULL;
 
-  for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-	 cur = (*field_list_it);
+for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+	 cur = field_list_it->second;
 	 if(cur == NULL) continue; //shouldn't happen unless you free memory of field entries manually (hint: don't do that)
 
  int dam = 0;
@@ -1395,8 +1401,8 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
 {
 	field_entry *cur = NULL;
  field &curfield = field_at(x, y);
- for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-	   cur = (*field_list_it);
+ for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+	   cur = field_list_it->second;
 	   if(cur == NULL) continue;
 
  switch (cur->getFieldType()) {                        //Can add independent code for different types of fields to apply different effects
@@ -1546,41 +1552,31 @@ Returns a field entry corresponding to the field_id parameter passed in. If no f
 Good for checking for exitence of a field: if(myfield.findField(fd_fire)) would tell you if the field is on fire.
 */
 field_entry* field::findField(const field_id field_to_find){
-
-	field_entry* tmp = NULL;
-
-	for(std::vector<field_entry*>::iterator it = field_list.begin(); it != field_list.end(); it++){
-		if((*it) == NULL){
-			//In the event someone deleted the field_entry memory somewhere else clean up the list.
-			it = field_list.erase(it);
-			continue;
-		}
-		if((*it)->getFieldType() == field_to_find){
-			return (*it);
-		}
-	};
-
-	return tmp;
-
+    field_entry* tmp = NULL;
+    std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_find);
+    if(it != field_list.end()) {
+        if(it->second == NULL){
+            //In the event someone deleted the field_entry memory somewhere else clean up the list.
+            field_list.erase(it);
+        } else {
+            return it->second;
+        }
+    }
+    return tmp;
 };
 
 const field_entry* field::findFieldc(const field_id field_to_find){
-
-	const field_entry* tmp = NULL;
-
-	for(std::vector<field_entry*>::iterator it = field_list.begin(); it != field_list.end(); it++){
-		if((*it) == NULL){
-			//In the event someone deleted the field_entry memory somewhere else clean up the list.
-			it = field_list.erase(it);
-			continue;
-		}
-		if((*it)->getFieldType() == field_to_find){
-			return (*it);
-		}
-	};
-
-	return tmp;
-
+    const field_entry* tmp = NULL;
+    std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_find);
+    if(it != field_list.end()) {
+        if(it->second == NULL){
+            //In the event someone deleted the field_entry memory somewhere else clean up the list.
+            field_list.erase(it);
+        } else {
+            return it->second;
+        }
+    }
+    return tmp;
 };
 
 /*
@@ -1592,20 +1588,16 @@ If you wish to modify an already existing field use findField and modify the res
 Density defaults to 1, and age to 0 (permanent) if not specified.
 */
 bool field::addField(const field_id field_to_add, const unsigned char new_density, const int new_age){
-
-	for(std::vector<field_entry*>::iterator it = field_list.begin(); it != field_list.end(); ++it){
-		if( ((*it)->getFieldType()) == field_to_add){
-			//Already exists, but lets update it. This is tentative.
-			(*it)->setFieldDensity((*it)->getFieldDensity() + new_density);
-			//(*it)->setFieldAge(new_age);
-			draw_symbol = field_to_add;
-			return false;
-		}
-	};
-	field_list.push_back(new field_entry(field_to_add, new_density, new_age));
-	draw_symbol = field_to_add;
-	return true;
-
+    std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_add);
+    if(it != field_list.end()) {
+        //Already exists, but lets update it. This is tentative.
+        it->second->setFieldDensity(it->second->getFieldDensity() + new_density);
+        draw_symbol = field_to_add;
+        return false;
+    };
+    field_list[field_to_add]=new field_entry(field_to_add, new_density, new_age);
+    draw_symbol = field_to_add;
+    return true;
 };
 
 /*
@@ -1613,24 +1605,19 @@ Function: removeField
 Removes the field entry with a type equal to the field_id parameter. Returns true if removed, false otherwise.
 */
 bool field::removeField(const field_id field_to_remove){
-
-	for(std::vector<field_entry*>::iterator it = field_list.begin(); it != field_list.end();it++){
-		if((*it)->getFieldType() == field_to_remove){
-			//Free memory and remove the located field from the list.
-			field_entry* tmp = (*it);
-			delete tmp;
-			it = field_list.erase(it);
-			if(field_list.size() > 0){
-				draw_symbol = (*field_list.begin())->getFieldType();
-			} else {
-				draw_symbol = fd_null;
-			}
-			return true;
-		}
-	};
-
-	return false;
-
+    std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_remove);
+    if(it != field_list.end()) {
+        field_entry* tmp = it->second;
+        delete tmp;
+        field_list.erase(it);
+        if(field_list.size() > 0){
+            draw_symbol = field_list.begin()->second->getFieldType();
+        } else {
+            draw_symbol = fd_null;
+        }
+        return true;
+    };
+    return false;
 };
 
 /*
@@ -1638,19 +1625,20 @@ Function: fieldCount
 Returns the number of fields existing on the current tile.
 */
 unsigned int field::fieldCount() const{
-
 	return field_list.size();
-
 };
 
+std::map<field_id, field_entry*>& field::getEntries() {
+    return field_list;
+}
 
-std::vector<field_entry*>::iterator field::getFieldStart(){
+std::map<field_id, field_entry*>::iterator field::getFieldStart(){
 
 	return field_list.begin();
 
 };
 
-std::vector<field_entry*>::iterator field::getFieldEnd(){
+std::map<field_id, field_entry*>::iterator field::getFieldEnd(){
 
 	return field_list.end();
 
@@ -1669,10 +1657,10 @@ int field::move_cost() const{
         return 0;
     }
     int current_cost = 0;
-    for( std::vector<field_entry*>::const_iterator current_field = field_list.begin();
+    for( std::map<field_id, field_entry*>::const_iterator current_field = field_list.begin();
          current_field != field_list.end();
          ++current_field){
-        current_cost += (*current_field)->move_cost();
+        current_cost += current_field->second->move_cost();
     }
     return current_cost;
 }

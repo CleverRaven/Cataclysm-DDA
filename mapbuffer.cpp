@@ -151,11 +151,11 @@ void mapbuffer::save()
   for (int j = 0; j < SEEY; j++) {
    for (int i = 0; i < SEEX; i++) {
     if (sm->fld[i][j].fieldCount() > 0){
-     for(std::vector<field_entry*>::iterator it = sm->fld[i][j].getFieldStart();
+     for(std::map<field_id, field_entry*>::iterator it = sm->fld[i][j].getFieldStart();
          it != sm->fld[i][j].getFieldEnd(); ++it){
-      if((*it) != NULL){
-       fout << "F " << i << " " << j << " " << int((*it)->getFieldType()) << " " <<
-        int((*it)->getFieldDensity()) << " " << (*it)->getFieldAge() << std::endl;
+      if(it->second != NULL){
+       fout << "F " << i << " " << j << " " << int(it->second->getFieldType()) << " " <<
+        int(it->second->getFieldDensity()) << " " << (it->second->getFieldAge()) << std::endl;
       }
      }
     }

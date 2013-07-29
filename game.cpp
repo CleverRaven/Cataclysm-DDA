@@ -82,12 +82,14 @@ game::game() :
  // Gee, it sure is init-y around here!
  init_npctalk();
  init_artifacts();
+ init_weather();
  init_overmap();
  init_fields();
  init_faction_data();
  init_morale();
  init_traits();
  init_skills();
+ init_professions();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	              // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();
@@ -3442,7 +3444,7 @@ void game::draw()
     if (levz < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
     } else {
-        mvwprintz(w_location, 0, 18, weather_data[weather].color, _(weather_data[weather].name.c_str()));
+        mvwprintz(w_location, 0, 18, weather_data[weather].color, weather_data[weather].name.c_str());
     }
 
     nc_color col_temp = c_blue;
@@ -3462,7 +3464,7 @@ void game::draw()
     wrefresh(w_location);
 
     //Safemode coloring
-    mvwprintz(w_status, 0, 41, c_white, _("%s, day %d"), _(season_name[turn.get_season()].c_str()), turn.days() + 1);
+    mvwprintz(w_status, 0, 41, c_white, _("%s, day %d"), season_name[turn.get_season()].c_str(), turn.days() + 1);
     if (run_mode != 0 || autosafemode != 0) {
         int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
         mvwprintz(w_status, 1, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
@@ -7255,8 +7257,8 @@ point game::look_debug(point coords) {
     field &curfield = m.field_at(lx, ly);
     if (curfield.fieldCount() > 0) {
 		field_entry *cur = NULL;
-		for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-			cur = (*field_list_it);
+		for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+			cur = field_list_it->second;
 			if(cur == NULL) continue;
 			mvwprintz(w_look, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], _("field: %s (%d) density %d age %d"),
 				fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str(), cur->getFieldType(), cur->getFieldDensity(), cur->getFieldAge()
@@ -7597,8 +7599,8 @@ point game::look_around()
 
    if (tmpfield.fieldCount() > 0) {
 		field_entry *cur = NULL;
-		for(std::vector<field_entry*>::iterator field_list_it = tmpfield.getFieldStart(); field_list_it != tmpfield.getFieldEnd(); ++field_list_it){
-			cur = (*field_list_it);
+		for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfield.getFieldStart(); field_list_it != tmpfield.getFieldEnd(); ++field_list_it){
+			cur = field_list_it->second;
 			if(cur == NULL) continue;
 			mvwprintz(w_look, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], "%s",
 				fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str());
@@ -10109,9 +10111,9 @@ void game::plmove(int x, int y)
   //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
   field_entry *cur = NULL;
   field &tmpfld = m.field_at(x, y);
-  for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart();
+  for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfld.getFieldStart();
       field_list_it != tmpfld.getFieldEnd(); ++field_list_it) {
-		cur = (*field_list_it);
+		cur = field_list_it->second;
 		if(cur == NULL) continue;
 		if (cur->is_dangerous() &&
 			!query_yn(_("Really step into that %s?"), cur->name().c_str()))

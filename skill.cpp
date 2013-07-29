@@ -10,6 +10,7 @@
 
 #include "options.h"
 #include "output.h"
+#include "debug.h"
 
 Skill::Skill() {
   _ident = std::string("null");
@@ -57,6 +58,9 @@ std::vector<Skill*> Skill::loadSkills() throw (std::string) {
       ident = aField++->get<std::string>();
       name = aField++->get<std::string>();
       description = aField++->get<std::string>();
+
+      name = _(name.c_str());
+      description = _(description.c_str());
       
       std::set<std::string> tags;
       const picojson::array& rawTags = aField++->get<picojson::array>();

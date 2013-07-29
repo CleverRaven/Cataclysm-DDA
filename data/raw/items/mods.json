@@ -609,5 +609,29 @@
         "bashing" : 2,
         "flags" : ["MODE_AUX", "STR_RELOAD"],
         "ammo_modifier" : "bolt"
+    },
+    {
+        "type" : "GUNMOD",
+        "id" : "laser_sight",
+        "name" : "laser sight",
+        "clip_size_modifier" : 0,
+        "dispersion_modifier" : -4,
+        "damage_modifier" : 0,
+        "ammo_modifier" : "NULL",
+        "description" : "A small visible-light laser that mounts on a firearm to enhance ease and speed of target acquisition. Aside from increased weight, there are no drawbacks.",
+        "weight" : 1,
+        "to_hit" : -1,
+        "color" : "dark_gray",
+        "symbol" : ":",
+        "material" : ["plastic", "steel"],
+        "mod_targets" : ["smg", "rifle", "pistol", "shotgun"],
+        "volume" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "burst_modifier" : 0,
+        "recoil_modifier" : 0,
+        "rarity" : 15,
+        "price" : 680,
+        "loudness_modifier" : 0
     }
 ]
