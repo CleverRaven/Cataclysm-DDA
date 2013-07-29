@@ -3560,7 +3560,7 @@ void game::draw()
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"), _(season_name[turn.get_season()].c_str()), turn.days() + 1);
     if (run_mode != 0 || autosafemode != 0) {
         int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
-        wmove(w_status, sideStyle ? 4 : 1, w_status->width - 4);
+        wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
         const char *letters[] = {"S", "A", "F", "E"};
         for (int i = 0; i < 4; i++) {
             nc_color c = (run_mode == 0 && iPercent < (i + 1) * 25) ? c_red : c_green;
@@ -11282,8 +11282,8 @@ void game::write_msg()
 {
  werase(w_messages);
  int maxlength = FULL_SCREEN_WIDTH - (SEEX * 2 + 10);	// Matches size of w_messages
- int line = w_messages->height - 1;
- for (int i = messages.size() - 1; i >= 0 && line < w_messages->height; i--) {
+ int line = getmaxy(w_messages) - 1;
+ for (int i = messages.size() - 1; i >= 0 && line < getmaxy(w_messages); i--) {
   std::string mes = messages[i].message;
   if (messages[i].count > 1) {
    std::stringstream mesSS;

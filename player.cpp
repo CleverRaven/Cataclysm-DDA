@@ -3073,7 +3073,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
             else if (adj_recoil >= 4)
                 c = c_yellow;
             int y = sideStyle ? 1 : 0;
-            int x = sideStyle ? (weapwin->width - 6) : 34;
+            int x = sideStyle ? (getmaxx(weapwin) - 6) : 34;
             mvwprintz(weapwin, y, x, c, _("Recoil"));
         }
     }
@@ -3090,7 +3090,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
             mode = gunmod->type->name.c_str();
     }
     if (mode) {
-        int x = sideStyle ? (weapwin->width - 13) : 0;
+        int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
         mvwprintz(weapwin, 1, x, c_red, mode);
     }
 
@@ -3222,7 +3222,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 
  vehicle *veh = g->m.veh_at (posx, posy);
  if (in_vehicle && veh) {
-  veh->print_fuel_indicator(w, sideStyle ? 2 : 3, sideStyle ? w->width - 5 : 49);
+  veh->print_fuel_indicator(w, sideStyle ? 2 : 3, sideStyle ? getmaxx(w) - 5 : 49);
   nc_color col_indf1 = c_ltgray;
 
   float strain = veh->strain();
@@ -3273,7 +3273,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   if (veh->velocity != 0) {
    nc_color col_indc = veh->skidding? c_red : c_green;
    int dfm = veh->face.dir() - veh->move.dir();
-   wmove(w, sideStyle ? 5 : 3, w->width - 3);
+   wmove(w, sideStyle ? 5 : 3, getmaxx(w) - 3);
    wprintz(w, col_indc, dfm <  0 ? "L" : ".");
    wprintz(w, col_indc, dfm == 0 ? "0" : ".");
    wprintz(w, col_indc, dfm >  0 ? "R" : ".");

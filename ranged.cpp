@@ -641,10 +641,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   target = -1;	// No monsters in range, don't use target, reset to -1
 
  int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
- int height = sideStyle ? w_moninfo->height : 13;
- int width  = sideStyle ? w_moninfo->width : 48;
- int top    = sideStyle ? w_moninfo->y : (w_minimap->y + w_minimap->height);
- int left   = sideStyle ? w_moninfo->x : (w_minimap->x + w_minimap->width);
+ int height = sideStyle ? getmaxy(w_moninfo) : 13;
+ int width  = sideStyle ? getmaxx(w_moninfo) : 48;
+ int top    = sideStyle ? getbegy(w_moninfo) : (getbegy(w_minimap) + getmaxy(w_minimap));
+ int left   = sideStyle ? getbegx(w_moninfo) : (getbegx(w_minimap) + getmaxx(w_minimap));
  WINDOW* w_target = newwin(height, width, top, left);
  wborder(w_target, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -662,12 +662,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  }
  wprintz(w_target, c_white, " >");
 /* Annoying clutter @ 2 3 4. */
- mvwprintz(w_target, w_target->height - 4, 1, c_white,
+ mvwprintz(w_target, getmaxy(w_target) - 4, 1, c_white,
            _("Move cursor to target with directional keys"));
  if (relevent) {
-  mvwprintz(w_target, w_target->height - 3, 1, c_white,
+  mvwprintz(w_target, getmaxy(w_target) - 3, 1, c_white,
             _("'<' '>' Cycle targets; 'f' or '.' to fire"));
-  mvwprintz(w_target, w_target->height - 2, 1, c_white,
+  mvwprintz(w_target, getmaxy(w_target) - 2, 1, c_white,
             _("'0' target self; '*' toggle snap-to-target"));
  }
 
@@ -697,8 +697,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   else
    center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
   // Clear the target window.
-  for (int i = 1; i < w_target->height - 5; i++) {
-   for (int j = 1; j < w_target->width - 2; j++)
+  for (int i = 1; i < getmaxy(w_target) - 5; i++) {
+   for (int j = 1; j < getmaxx(w_target) - 2; j++)
     mvwputch(w_target, i, j, c_white, ' ');
   }
   m.build_map_cache(this);
