@@ -70,8 +70,8 @@ W32ODIRTILES = objwin/tiles
 DDIR = .deps
 
 OS  = $(shell uname -o)
-CXX = $(CROSS)gcc
-LD  = $(CROSS)gcc
+CXX = $(CROSS)g++
+LD  = $(CROSS)g++
 RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
