@@ -81,6 +81,7 @@ game::game() :
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
  init_npctalk();
+ init_materials();
  init_artifacts();
  init_weather();
  init_overmap();
