@@ -1126,6 +1126,14 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
                   ch == ' ') &&  utf8_width(u->name.c_str()) < 30) {
       u->name.push_back(ch);
      }
+     //experimental unicode input
+     else if(ch>127) {
+         std::string tmp = utf32_to_utf8(ch);
+         int tmplen = utf8_width(tmp.c_str());
+         if(tmplen>0 && tmplen+utf8_width(u->name.c_str())<30) {
+            u->name.append(tmp);
+         }
+     }
      break;
     case 2:
      if (ch == ' ')

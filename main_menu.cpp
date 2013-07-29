@@ -6,6 +6,7 @@
 #include "cursesdef.h"
 #include "overmapbuffer.h"
 #include "translations.h"
+#include "catacharset.h"
 
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -312,7 +313,7 @@ bool game::opening_screen()
                 else {
                     for (int i = 0; i < savegames.size(); i++) {
                         int line = iMenuOffsetY - 2 - i;
-                        mvwprintz(w_open, line, 19 + iMenuOffsetX, (sel2 == i ? h_white : c_white), savegames[i].c_str());
+                        mvwprintz(w_open, line, 19 + iMenuOffsetX, (sel2 == i ? h_white : c_white), base64_decode(savegames[i]).c_str());
                     }
                 }
                 wrefresh(w_open);
