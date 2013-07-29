@@ -2156,7 +2156,7 @@ bool game::is_game_over()
   if (u.hp_cur[i] < 1) {
    place_corpse();
    std::stringstream playerfile;
-   playerfile << "save/" << u.name << ".sav";
+   playerfile << "save/" << base64_encode(u.name) << ".sav";
    unlink(playerfile.str().c_str());
    uquit = QUIT_DIED;
    return true;
@@ -2478,7 +2478,7 @@ void game::load(std::string name)
   return;
  }
  u = player();
- u.name = name;
+ u.name = base64_decode(name);
  u.ret_null = item(itypes["null"], 0);
  u.weapon = item(itypes["null"], 0);
  int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
@@ -2642,7 +2642,7 @@ void game::save()
 {
  std::stringstream playerfile;
  std::ofstream fout;
- playerfile << "save/" << u.name << ".sav";
+ playerfile << "save/" << base64_encode(u.name) << ".sav";
 
  fout.open(playerfile.str().c_str());
  // First, write out basic game state information.
