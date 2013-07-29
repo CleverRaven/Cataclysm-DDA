@@ -7749,7 +7749,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     std::map<std::string, map_item_stack> temp_items;
     std::vector<map_item_stack> ret;
 
-    std::vector<point> points = get_points(iSearchX, u.posx, u.posy);
+    std::vector<point> points = closest_points_first(iSearchX, u.posx, u.posy);
 
     for (std::vector<point>::iterator p_it = points.begin();
         p_it != points.end(); p_it++)

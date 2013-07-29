@@ -2536,7 +2536,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
         return false;
 
     bool tryaddcharges = (new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo()));
-    std::vector<point> ps = get_points(overflow_radius, x, y);
+    std::vector<point> ps = closest_points_first(overflow_radius, x, y);
     for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
     {
         itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
@@ -4011,7 +4011,7 @@ void map::build_map_cache(game *g)
 
 //this returns points in a spiral pattern starting at center_x/center_y until it hits the radius. clockwise fashion
 //credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
-std::vector<point> get_points(int radius, int center_x, int center_y)
+std::vector<point> closest_points_first(int radius, int center_x, int center_y)
 {
     std::vector<point> points;
     int X,Y,x,y,dx,dy;

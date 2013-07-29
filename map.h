@@ -433,7 +433,7 @@ private:
  submap* grid[MAPSIZE * MAPSIZE];
 };
 
-std::vector<point> get_points(int,int,int);
+std::vector<point> closest_points_first(int radius,int x,int y);
 
 class tinymap : public map
 {
