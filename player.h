@@ -150,6 +150,9 @@ public:
  bool uncanny_dodge(bool is_u = true);      // Move us to an adjacent_tile() if available. Display message if player is dodging.
  point adjacent_tile();     // Returns an unoccupied, safe adjacent point. If none exists, returns player position.
 
+ bool uncanny_dodge(bool is_u = true);      // Move us to an adjacent_tile() if available. Display message if player is dodging.
+ point adjacent_tile();     // Returns an unoccupied, safe adjacent point. If none exists, returns player position.
+
 // ranged.cpp
  int throw_range(signed char invlet); // Range of throwing item; -1:ERR 0:Can't throw
  int ranged_dex_mod	(bool real_life = true);
@@ -199,7 +202,7 @@ public:
  bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
- void siphon_gas(game *g, vehicle *veh);
+ void siphon(game *g, vehicle *veh, ammotype desired_liquid);
  void cauterize(game *g);
  void suffer(game *g);
  void mend(game *g);
