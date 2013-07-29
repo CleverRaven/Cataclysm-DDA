@@ -143,7 +143,16 @@ std::string monster::name_with_armor()
  return ret;
 }
 
-void monster::print_info(game *g, WINDOW* w, int vStart) 
+bool find_next_in_width(std::string &str, const char c, size_t width, size_t *pos)
+{
+    size_t p = str.find(c, *pos + 1);
+    bool updated = (p != std::string::npos && p <= width);
+    if (updated)
+        *pos = p;
+    return updated;
+}
+
+void monster::print_info(game *g, WINDOW* w, int vStart)
 {
 // First line of w is the border; the next two are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
@@ -151,6 +160,9 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
 // w is also 48 characters wide - 2 characters for border = 46 characters for us
 // vStart added because 'help' text in targeting win makes helpful info hard to find
 // at a glance.
+
+ const int vEnd = vStart + 5; // TODO: parameterize this
+
  mvwprintz(w, vStart, 1, c_white, "%s ", type->name.c_str());
  switch (attitude(&(g->u))) {
   case MATT_FRIEND:
@@ -201,17 +213,36 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
  }
  mvwprintz(w, vStart+1, 1, col, damage_info.c_str());
 
- std::string tmp = type->description;
- std::string out;
- size_t pos;
- int line = vStart+2;
- do {
-  pos = tmp.find_first_of('\n');
-  out = tmp.substr(0, pos);
-  mvwprintz(w, line, 1, c_white, out.c_str());
-  tmp = tmp.substr(pos + 1);
-  line++;
- } while (pos != std::string::npos && line < vStart+6);
+    std::string tmp = type->description;
+    int line = vStart + 2;
+    int width = getmaxx(w) - 2;
+
+    while (tmp.length() && line <= vEnd) {
+        bool print_remainder = true;
+        std::string out;
+
+        // If tmp is too long for one line, break it at the last possible space
+        // or newline.
+        if (tmp.length() > width) {
+            size_t pos = -1;
+            while (find_next_in_width(tmp, ' ',  width, &pos));
+            while (find_next_in_width(tmp, '\n', width, &pos));
+
+            if (pos > 0) {
+                out = tmp.substr(0, pos);
+                tmp = tmp.substr(pos + 1);
+                print_remainder = false;
+            }
+        }
+
+        if (print_remainder) {
+            out = tmp;
+            tmp = "";
+        }
+
+        mvwprintz(w, line, 1, c_white, out.c_str());
+        line++;
+    }
 }
 
 char monster::symbol()
