@@ -2203,7 +2203,7 @@ void game::death_screen()
     GetCurrentDirectory(MAX_PATH, Buffer);
     SetCurrentDirectory("save");
     std::stringstream playerfile;
-    playerfile << u.name << "*";
+    playerfile << base64_encode(u.name) << "*";
     hFind = FindFirstFile(playerfile.str().c_str(), &FindFileData);
     if(INVALID_HANDLE_VALUE != hFind) {
         do {
@@ -2220,9 +2220,10 @@ void game::death_screen()
         while ((save_dirent = readdir(save_dir)) != NULL)
         {
             std::string name_prefix = save_dirent->d_name;
-            name_prefix = name_prefix.substr(0,u.name.length());
+            std::string tmpname = base64_encode(u.name);
+            name_prefix = name_prefix.substr(0,tmpname.length());
 
-            if (u.name == name_prefix)
+            if (tmpname == name_prefix)
             {
                 (void)unlink(save_dirent->d_name);
             }
