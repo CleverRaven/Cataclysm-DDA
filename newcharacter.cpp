@@ -1,6 +1,7 @@
 #include "player.h"
 #include "profession.h"
 #include "item_factory.h"
+#include "input.h"
 #include "output.h"
 #include "rng.h"
 #include "keypress.h"
@@ -1125,6 +1126,13 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
      } else if (((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
                   ch == ' ') &&  utf8_width(u->name.c_str()) < 30) {
       u->name.push_back(ch);
+     }
+     else if(ch==KEY_F(2)) {
+         std::string tmp = get_input_string_from_file();
+         int tmplen = utf8_width(tmp.c_str());
+         if(tmplen>0 && tmplen+utf8_width(u->name.c_str())<30) {
+            u->name.append(tmp);
+         }
      }
      //experimental unicode input
      else if(ch>127) {
