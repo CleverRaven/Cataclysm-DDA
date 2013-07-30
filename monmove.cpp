@@ -553,7 +553,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     }
     else
     {
-        if (!(g->u.can_uncanny_dodge() && g->u.uncanny_dodge()))
+        if (!g->u.uncanny_dodge())
         {
             //Reduce player's ability to dodge by monster's ability to hit
             int dodge_ii = p.dodge(g) - rng(0, type->melee_skill);
