@@ -2556,7 +2556,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
         }
         if (i_at(p_it->x, p_it->y).size() < MAX_ITEM_IN_SQUARE)
         {
-            add_item(p_it->x, p_it->y, new_item);
+            add_item(p_it->x, p_it->y, new_item, MAX_ITEM_IN_SQUARE);
             return true;
         }
     }
@@ -2577,7 +2577,6 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
      return;
  if (has_flag(destroy_item, x, y) || (i_at(x,y).size() >= maxitems))
  {
-     //debug?
      return;
  }
 

@@ -9002,7 +9002,7 @@ void game::drop(char chInput)
    add_msg (_("The trunk is full, so some items fall on the ground."));
  } else {
   for (int i = 0; i < dropped.size(); i++)
-   m.add_item_or_charges(u.posx, u.posy, dropped[i], 1);
+   m.add_item_or_charges(u.posx, u.posy, dropped[i], 2);
  }
 }
 
