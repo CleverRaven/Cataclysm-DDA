@@ -3009,7 +3009,6 @@
                           ]
         },
 
-
         {
             "result": "223",
             "category": "CC_AMMO",
@@ -3038,6 +3037,9 @@
                               ],
                               [
                                   ["gunpowder", 160]
+                              ],
+                              [
+                                  ["22_casing", 40]
                               ],
                               [
                                   ["lead", 80], ["gold_small", 80]
@@ -3074,13 +3076,15 @@
                               ],
                               [
                                   ["gunpowder", 240]
+                              ],                              
+                              [
+                                  ["22_casing", 40]
                               ],
                               [
                                   ["lead", 80], ["gold_small", 80]
                               ]
                           ]
         },
-
 
         {
             "result": "556_incendiary",
@@ -3110,6 +3114,9 @@
                               ],
                               [
                                   ["gunpowder", 180]
+                              ],
+                              [
+                                  ["22_casing", 30]
                               ],
                               [
                                   ["incendiary", 60]
