@@ -264,7 +264,7 @@ void game::init_ui(){
             hpW         = 14;
 
             statH       = 7;
-            statW       = sidebarWidth - hpW;
+            statW       = sidebarWidth - MINIMAP_WIDTH - hpW;
 
             locW        = sidebarWidth;
 
@@ -7696,8 +7696,12 @@ point game::look_around()
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my;
  InputEvent input;
- const int lookHeight=TERMY-12+VIEW_OFFSET_Y;
- WINDOW* w_look = newwin(lookHeight+1, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
+
+ const int lookHeight = 13;
+ const int lookWidth = getmaxx(w_moninfo);
+ int lookY = TERMY - lookHeight + 1;
+ if (getbegy(w_messages) < lookY) lookY = getbegy(w_messages);
+ WINDOW* w_look = newwin(lookHeight, lookWidth, lookY, getbegx(w_moninfo));
  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_look, 1, 1, c_white, _("Looking Around"));
@@ -7707,8 +7711,8 @@ point game::look_around()
  do {
   werase(w_terrain);
   draw_ter(lx, ly);
-  for (int i = 1; i < 12; i++) {
-   for (int j = 1; j < 47; j++)
+  for (int i = 1; i < lookHeight - 1; i++) {
+   for (int j = 1; j < lookWidth - 1; j++)
     mvwputch(w_look, i, j, c_white, ' ');
   }
 
@@ -7857,6 +7861,7 @@ point game::look_around()
 
  werase(w_look);
  delwin(w_look);
+ draw_minimap();
  if (input == Confirm)
   return point(lx, ly);
  return point(-1, -1);
