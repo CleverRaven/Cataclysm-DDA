@@ -63,7 +63,7 @@ public:
     /**
      * Check if this type of profession has a certain flag set.
      *
-     * Current flags: "female_only"
+     * Current flags: none
      */
     bool has_flag(std::string flag) const;
 
@@ -72,7 +72,6 @@ public:
      * of points.
      *
      * @return "YES", or otherwise the reason for failure, e.g. "INSUFFICIENT_POINTS"
-     *                or "WRONG_GENDER"
      */
     std::string can_pick(player* u, int points) const;
 

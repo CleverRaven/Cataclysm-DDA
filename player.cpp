@@ -144,8 +144,7 @@ close to you.")},
 Although you still suffer the negative effects of pain, it also brings a \
 unique pleasure to you.")},
 {_("Cross-Dresser"), 2, 0, 0, _("\
-Covering your body in clothing typical for the opposite gender makes you feel better. \
-Negates any gender restrictions on professions.")},
+Covering your body in clothing typical for the opposite gender makes you feel better.")},
 {_("Light Step"), 1, 0, 0, _("\
 You make less noise while walking.  You're also less likely to set off traps.")},
 {_("Android"), 4, 0, 0, _("\
