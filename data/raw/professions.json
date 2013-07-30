@@ -466,6 +466,7 @@
       "name": "Punk Rock Girl",
       "description":"The apocalypse has been your psychotic dream come true. Now that the system is dead it's time to party among the bones of the world!",
       "points": 2,
+      "flags": ["female_only"],
       "items": ["skirt", "army_top", "jacket_leather", "gloves_fingerless", "boots_steel",
                 "weed", "cig", "mp3", "lighter"]
    }
