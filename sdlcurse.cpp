@@ -51,7 +51,16 @@ int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 
+static unsigned long lastupdate = 0;
+static unsigned long interval = 25;
+static bool needupdate = false;
+
+
+SDL_mutex  *lock = NULL;
+SDL_Thread *flipThread = NULL;
+
 static bool fontblending = false;
+int try_update(void* data);
 
 //***********************************
 //Non-curses, Window functions      *
@@ -106,13 +115,20 @@ bool WinCreate()
     else
         SDL_ShowCursor(SDL_ENABLE);
 
+    lock = SDL_CreateMutex();
+    flipThread = SDL_CreateThread(try_update, lock);
+
     return true;
 };
 
 void WinDestroy()
 {
+    SDL_mutexP(lock);
 	if(screen) SDL_FreeSurface(screen);
 	screen = NULL;
+    SDL_mutexV(lock);
+    SDL_WaitThread(flipThread, NULL);
+    SDL_DestroyMutex(lock);
 };
 
 //The following 3 methods use mem functions for fast drawing
@@ -123,7 +139,10 @@ inline void VertLineDIB(int x, int y, int y2, int thickness, unsigned char color
 	rect.y = y;
 	rect.w = thickness;
 	rect.h = y2-y;
+    
+    SDL_mutexP(lock);
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
+    SDL_mutexV(lock);
 };
 inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color)
 {
@@ -132,7 +151,9 @@ inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color
 	rect.y = y;
 	rect.w = x2-x;
 	rect.h = thickness;
+    SDL_mutexP(lock);
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
+    SDL_mutexV(lock);
 };
 inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
 {
@@ -141,7 +162,9 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 	rect.y = y;
 	rect.w = width;
 	rect.h = height;
+    SDL_mutexP(lock);
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
+    SDL_mutexV(lock);
 };
 
 
@@ -188,27 +211,51 @@ static void OutputChar(Uint16 t, int x, int y, unsigned char color)
 			dy = TTF_FontAscent(font)-maxy+ttf_height_hack;
 			SDL_Rect rect;
 			rect.x = x+dx; rect.y = y+dy; rect.w = fontwidth; rect.h = fontheight;
+            SDL_mutexP(lock);
 			SDL_BlitSurface(glyph, NULL, screen, &rect);
+            SDL_mutexV(lock);
 		}
 		if(t>=0x80) SDL_FreeSurface(glyph);
     }
 }
 
+int try_update(void* data)
+{
+    bool run = true;
+    //SDL_mutex *lock = (SDL_mutex *)data;
+    while(run)
+    {
+        unsigned long now=SDL_GetTicks();
+        SDL_mutexP(lock);
+        if(NULL==screen)
+        {
+            run = false;
+        }
+        else if(needupdate)
+        {
+            if(now-lastupdate>=interval)
+            {
+                SDL_Flip(screen);
+                needupdate = false;
+                lastupdate = now;
+            }
+        }
+        SDL_mutexV(lock);
+        SDL_Delay(2);
+    }
+    return 0;
+}
+
 void curses_drawwindow(WINDOW *win)
 {
-    int i,j,w,drawx,drawy;
+    int i,j,w,drawx,drawy, lines = 0;
     unsigned tmp;
-
-    int miny = 99999;
-    int maxy = -99999;
 
     for (j=0; j<win->height; j++){
         if (win->line[j].touched)
         {
             win->line[j].touched=false;
-
-            if(j<miny) miny=j;
-            if(j>maxy) maxy=j;
+            lines++;
 
             for (i=0,w=0; w<win->width; i++,w++){
                 drawx=((win->x+w)*fontwidth);
@@ -287,10 +334,10 @@ void curses_drawwindow(WINDOW *win)
         }
     }// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
-
-    if(miny>=0) {
-        SDL_UpdateRect(screen, win->x*fontwidth, (win->y+miny)*fontheight, win->width*fontwidth, (maxy-miny+1)*fontheight);
-    }
+    
+    SDL_mutexP(lock);
+    needupdate = (lines>0);
+    SDL_mutexV(lock);
 }
 
 #define ALT_BUFFER_SIZE 8
@@ -703,7 +750,7 @@ int curses_getch(WINDOW* win)
         {
             CheckMessages();
             if (lastchar!=ERR) break;
-            SDL_Delay(1);
+            SDL_Delay(2);
         }
         while (lastchar==ERR);
 	}
@@ -716,7 +763,7 @@ int curses_getch(WINDOW* win)
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;
-            SDL_Delay(1);
+            SDL_Delay(2);
         }
         while (endtime<(starttime+inputdelay));
 	}
