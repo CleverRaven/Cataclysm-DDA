@@ -372,7 +372,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
      h = &u;
     else
      h = active_npc[npc_at(tx, ty)];
-    if (h->power_level >= 10 && h->has_active_bionic("bio_uncanny_dodge") && h->uncanny_dodge()) {
+    if (h->power_level >= 10 && h->uncanny_dodge()) {
      h->power_level -= 7; // dodging bullets costs extra
     }
     else {
