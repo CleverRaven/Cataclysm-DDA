@@ -394,7 +394,42 @@ void CheckMessages()
 				}
 				else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
 					lc = KEY_NPAGE;
-
+				}
+				else if(ev.key.keysym.sym==SDLK_F1) {
+					lc = KEY_F(1);
+				}
+				else if(ev.key.keysym.sym==SDLK_F2) {
+					lc = KEY_F(2);
+				}
+				else if(ev.key.keysym.sym==SDLK_F3) {
+					lc = KEY_F(3);
+				}
+				else if(ev.key.keysym.sym==SDLK_F4) {
+					lc = KEY_F(4);
+				}
+				else if(ev.key.keysym.sym==SDLK_F5) {
+					lc = KEY_F(5);
+				}
+				else if(ev.key.keysym.sym==SDLK_F6) {
+					lc = KEY_F(6);
+				}
+				else if(ev.key.keysym.sym==SDLK_F7) {
+					lc = KEY_F(7);
+				}
+				else if(ev.key.keysym.sym==SDLK_F8) {
+					lc = KEY_F(8);
+				}
+				else if(ev.key.keysym.sym==SDLK_F9) {
+					lc = KEY_F(9);
+				}
+				else if(ev.key.keysym.sym==SDLK_F10) {
+					lc = KEY_F(10);
+				}
+				else if(ev.key.keysym.sym==SDLK_F11) {
+					lc = KEY_F(11);
+				}
+				else if(ev.key.keysym.sym==SDLK_F12) {
+					lc = KEY_F(12);
 				}
                 if(!lc) break;
                 if(alt_down) {
