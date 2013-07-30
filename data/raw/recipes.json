@@ -10349,7 +10349,7 @@
                          ["knife_butcher", -1], ["pockknife", -1],
                          ["scalpel", -1], ["machete", -1],
                          ["broadsword", -1], ["toolset", -1],
-                         ["screwdriver", -1] ] ],
+                         ["screwdriver", -1] ],
                        [ ["rock", -1], ["primitive_hammer", -1],
                          ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
             "components": [ [ ["pot", 1] ],
