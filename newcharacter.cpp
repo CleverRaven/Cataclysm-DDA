@@ -505,11 +505,11 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
 
   wrefresh(w);
   ch = input();
-  if (ch == 'j' && sel < 4)
+  if ((ch == 'j' || ch == '2') && sel < 4)
    sel++;
-  if (ch == 'k' && sel > 1)
+  if ((ch == 'k' || ch == '8') && sel > 1)
    sel--;
-  if (ch == 'h') {
+  if (ch == 'h' || ch == '4'){
    if (sel == 1 && u->str_max > 4) {
     if (u->str_max > HIGH_STAT)
      points++;
@@ -532,7 +532,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
     points++;
    }
   }
-  if (ch == 'l' && points > 0) {
+  if ((ch == 'l' || ch == '6') && points > 0) {
    if (sel == 1 && u->str_max < 20 && (u->str_max < HIGH_STAT || points > 1)) {
     points--;
     if (u->str_max >= HIGH_STAT)
@@ -694,6 +694,8 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
   switch (input()) {
    case 'h':
    case 'l':
+   case '6':
+   case '4':
    case '\t':
     if (cur_trait <= traitmin + 7) {//draw list
      for (int i = traitmin; i < traitmin + 16; i++) {
@@ -727,6 +729,7 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
     wrefresh(w);
     break;
    case 'k':
+   case '8':
     if (using_adv) {
      if (cur_adv > 1)
       cur_adv--;
@@ -736,6 +739,7 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
     }
     break;
    case 'j':
+   case '2':
    if (using_adv) {
      if (cur_adv < PF_SPLIT - 1)
       cur_adv++;
@@ -746,6 +750,7 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
     break;
    case ' ':
    case '\n':
+   case '5':
     if (u->has_trait(cur_trait)) {
      if (points + traits[cur_trait].points >= 0) {
       u->toggle_trait(cur_trait);
@@ -886,16 +891,19 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
         switch (input())
         {
             case 'j':
+            case '2':
                 if (cur_id < profession::count())
                 cur_id++;
             break;
 
             case 'k':
+            case '8':
                 if (cur_id > 1)
                 cur_id--;
             break;
 
             case '\n':
+            case '5':
                 if (can_pick == "YES") {
                     u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
                     points -= netPointCost;
@@ -992,23 +1000,27 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
   wrefresh(w);
   wrefresh(w_description);
   switch (input()) {
-   case 'j':
+    case 'j':
+    case '2':
      if (cur_sk < Skill::skills.size() - 1)
       cur_sk++;
     currentSkill = Skill::skill(cur_sk);
     break;
-   case 'k':
+    case 'k':
+    case '8':
     if (cur_sk > 0)
      cur_sk--;
     currentSkill = Skill::skill(cur_sk);
     break;
-   case 'h':
+    case 'h':
+    case '4':
      if (u->skillLevel(currentSkill)) {
       u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) - 2);
       points += u->skillLevel(currentSkill) + 1;
     }
     break;
-   case 'l':
+    case 'l':
+    case '6':
      if (points >= u->skillLevel(currentSkill) + 1) {
        points -= u->skillLevel(currentSkill) + 1;
        u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);

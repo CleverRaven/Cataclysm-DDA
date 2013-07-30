@@ -1854,7 +1854,10 @@
             [
                ["feather", 10],
                ["duct_tape", 40],
-               ["bag_plastic", 1]
+               ["bag_plastic", 1],
+               ["bottle_plastic", 1],
+               ["box_small", 1],
+               ["plastic_chunk", 1]
             ]
          ]
         },
@@ -3009,7 +3012,6 @@
                           ]
         },
 
-
         {
             "result": "223",
             "category": "CC_AMMO",
@@ -3038,6 +3040,9 @@
                               ],
                               [
                                   ["gunpowder", 160]
+                              ],
+                              [
+                                  ["22_casing", 40]
                               ],
                               [
                                   ["lead", 80], ["gold_small", 80]
@@ -3074,13 +3079,15 @@
                               ],
                               [
                                   ["gunpowder", 240]
+                              ],                              
+                              [
+                                  ["22_casing", 40]
                               ],
                               [
                                   ["lead", 80], ["gold_small", 80]
                               ]
                           ]
         },
-
 
         {
             "result": "556_incendiary",
@@ -3110,6 +3117,9 @@
                               ],
                               [
                                   ["gunpowder", 180]
+                              ],
+                              [
+                                  ["22_casing", 30]
                               ],
                               [
                                   ["incendiary", 60]
@@ -4026,7 +4036,7 @@
             "components": [
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ],
                               [
                                   ["meat", 1]
@@ -4054,7 +4064,7 @@
             "components": [
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ],
                               [
                                   ["human_flesh", 1]
@@ -4718,7 +4728,7 @@
             "components": [
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ],
                               [
                                   ["oxycodone", 40]
@@ -9784,7 +9794,7 @@
                               ],
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ]
                           ]
         },
@@ -9833,7 +9843,7 @@
                               ],
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ]
                           ]
         },
