@@ -1072,26 +1072,43 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
   }
 
 // Find the zombie at (x, y) and hurt them, MAYBE kill them!
-  if (adjusted_damage > 0) {
-   mon.moves -= adjusted_damage * 5;
-   if (&p == &(g->u) && u_see_mon)
-    g->add_msg(_("%s You hit the %s for %d damage."), message.c_str(), mon.name().c_str(), adjusted_damage);
-   else if (u_see_mon)
-    g->add_msg(_("%s %s shoots the %s."), message.c_str(), p.name.c_str(), mon.name().c_str());
-   bool bMonDead = mon.hurt(adjusted_damage, dam);
-   if( u_see_mon ) {
-       hit_animation(mon.posx - g->u.posx + VIEWX - g->u.view_offset_x,
+    if (adjusted_damage > 0) {
+        switch (mon.type->size) {
+            case MS_TINY:
+                mon.moves -= rng(0, adjusted_damage * 5);
+                break;
+            case MS_SMALL:
+                mon.moves -= rng(0, adjusted_damage * 3);
+                break;
+            case MS_MEDIUM:
+                mon.moves -= rng(0, adjusted_damage);
+                break;
+            case MS_LARGE:
+                mon.moves -= rng(0, adjusted_damage / 3);
+                break;
+            case MS_HUGE:
+                mon.moves -= rng(0, adjusted_damage / 5);
+                break;
+        }
+        if (&p == &(g->u) && u_see_mon) {
+            g->add_msg(_("%s You hit the %s for %d damage."), message.c_str(), mon.name().c_str(), adjusted_damage);
+        } else if (u_see_mon) {
+            g->add_msg(_("%s %s shoots the %s."), message.c_str(), p.name.c_str(), mon.name().c_str());
+        }
+        bool bMonDead = mon.hurt(adjusted_damage, dam);
+        if( u_see_mon ) {
+            hit_animation(mon.posx - g->u.posx + VIEWX - g->u.view_offset_x,
                      mon.posy - g->u.posy + VIEWY - g->u.view_offset_y,
                      red_background(mon.type->color), (bMonDead) ? '%' : mon.symbol());
-   }
+        }
 
-   if (bMonDead)
-    g->kill_mon(g->mon_at(mon.posx, mon.posy), (&p == &(g->u)));
-   else if (!weapon->curammo->ammo_effects.empty())
-    g->hit_monster_with_flags(mon, weapon->curammo->ammo_effects);
-
-   adjusted_damage = 0;
-  }
+        if (bMonDead) {
+            g->kill_mon(g->mon_at(mon.posx, mon.posy), (&p == &(g->u)));
+        } else if (!weapon->curammo->ammo_effects.empty()) {
+            g->hit_monster_with_flags(mon, weapon->curammo->ammo_effects);
+        }
+        adjusted_damage = 0;
+    }
  }
  dam = adjusted_damage;
 }
