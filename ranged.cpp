@@ -372,7 +372,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
      h = &u;
     else
      h = active_npc[npc_at(tx, ty)];
-    if (h->power_level >= 10 && h->uncanny_dodge()) {
+    if (h->power_level >= 10 && h->has_active_bionic("bio_uncanny_dodge") && h->uncanny_dodge()) {
      h->power_level -= 7; // dodging bullets costs extra
     }
     else {
@@ -552,12 +552,11 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 message = _("Grazing hit.");
                 dam = rng(0, dam);
             }
-            if (u_see(tx, ty)) {
-                g->add_msg_player_or_npc(&p,
-                    _("%s You hit the %s for %d damage."),
-                    _("%s <npcname> hits the %s for %d damage."),
+            add_msg_if_player(&p,_("%s You hit the %s for %d damage."),
                     message.c_str(), z[mon_at(tx, ty)].name().c_str(), dam);
-            }
+            if (u_see(tx, ty))
+                add_msg(_("%s hits the %s for %d damage."), message.c_str(),
+                        z[mon_at(tx, ty)].name().c_str(), dam);
             if (z[mon_at(tx, ty)].hurt(dam, real_dam))
                 kill_mon(mon_at(tx, ty), !p.is_npc());
             return;

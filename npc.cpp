@@ -1153,10 +1153,6 @@ bool npc::wear_if_wanted(item it)
  }
  return false;
 }
-//to placate clang++
-bool npc::wield(game *g, signed char invlet, bool autodrop){
-    return this->wield(g,invlet);
-}
 
 bool npc::wield(game *g, signed char invlet)
 {

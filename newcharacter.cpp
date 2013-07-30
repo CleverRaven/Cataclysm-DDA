@@ -433,19 +433,14 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
         for (int i = 6; i < 15; i++) {
             mvwprintz(w, i, 33, c_black, clear);
         }
-        mvwprintz(w, 6,  2, c_ltgray, _("Strength:"));
-        mvwprintz(w, 6,  16, c_ltgray, "%2d", u->str_max);
-        mvwprintz(w, 7,  2, c_ltgray, _("Dexterity:"));
-        mvwprintz(w, 7,  16, c_ltgray, "%2d", u->dex_max);
-        mvwprintz(w, 8,  2, c_ltgray, _("Intelligence:"));
-        mvwprintz(w, 8,  16, c_ltgray, "%2d", u->int_max);
-        mvwprintz(w, 9,  2, c_ltgray, _("Perception:"));
-        mvwprintz(w, 9,  16, c_ltgray, "%2d", u->per_max);
+        mvwprintz(w, 6,  2, c_ltgray, _("Strength:     %2d"), u->str_max);
+        mvwprintz(w, 7,  2, c_ltgray, _("Dexterity:    %2d"), u->dex_max);
+        mvwprintz(w, 8,  2, c_ltgray, _("Intelligence: %2d"), u->int_max);
+        mvwprintz(w, 9,  2, c_ltgray, _("Perception:   %2d"), u->per_max);
 
         switch (sel) {
         case 1:
-            mvwprintz(w, 6,  2, COL_STAT_ACT, _("Strength:"));
-            mvwprintz(w, 6,  16, COL_STAT_ACT, "%2d", u->str_max);
+            mvwprintz(w, 6,  2, COL_STAT_ACT, _("Strength:     %2d"), u->str_max);
             if (u->str_max >= HIGH_STAT) {
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Str further costs 2 points."));
             }
@@ -459,8 +454,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
             break;
 
         case 2:
-            mvwprintz(w, 7,  2, COL_STAT_ACT, _("Dexterity:"));
-            mvwprintz(w, 7,  16, COL_STAT_ACT, "%2d", u->dex_max);
+            mvwprintz(w, 7,  2, COL_STAT_ACT, _("Dexterity:    %2d"), u->dex_max);
             if (u->dex_max >= HIGH_STAT) {
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Dex further costs 2 points."));
             }
@@ -479,8 +473,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
             break;
 
         case 3:
-            mvwprintz(w, 8,  2, COL_STAT_ACT, _("Intelligence:"));
-            mvwprintz(w, 8,  16, COL_STAT_ACT, "%2d", u->int_max);
+            mvwprintz(w, 8,  2, COL_STAT_ACT, _("Intelligence: %2d"), u->int_max);
             if (u->int_max >= HIGH_STAT) {
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Int further costs 2 points."));
             }
@@ -492,8 +485,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
             break;
 
         case 4:
-            mvwprintz(w, 9,  2, COL_STAT_ACT, _("Perception:"));
-            mvwprintz(w, 9,  16, COL_STAT_ACT, "%2d", u->per_max);
+            mvwprintz(w, 9,  2, COL_STAT_ACT, _("Perception:   %2d"), u->per_max);
             if (u->per_max >= HIGH_STAT) {
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Per further costs 2 points."));
             }
@@ -505,11 +497,11 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
 
   wrefresh(w);
   ch = input();
-  if ((ch == 'j' || ch == '2') && sel < 4)
+  if (ch == 'j' && sel < 4)
    sel++;
-  if ((ch == 'k' || ch == '8') && sel > 1)
+  if (ch == 'k' && sel > 1)
    sel--;
-  if (ch == 'h' || ch == '4'){
+  if (ch == 'h') {
    if (sel == 1 && u->str_max > 4) {
     if (u->str_max > HIGH_STAT)
      points++;
@@ -532,7 +524,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
     points++;
    }
   }
-  if ((ch == 'l' || ch == '6') && points > 0) {
+  if (ch == 'l' && points > 0) {
    if (sel == 1 && u->str_max < 20 && (u->str_max < HIGH_STAT || points > 1)) {
     points--;
     if (u->str_max >= HIGH_STAT)
@@ -585,9 +577,9 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
   mvwprintz(w, 5 + i, 40, c_dkgray, "\
                                      ");
   if (u->has_trait(PF_SPLIT + 1 + i))//highlight disadvantages
-   mvwprintz(w, 5 + i, 40, COL_TR_BAD_ON_PAS, traits[PF_SPLIT + 1 + i].name.c_str());
+   mvwprintz(w, 5 + i, 40, COL_TR_BAD_ON_PAS, _(traits[PF_SPLIT + 1 + i].name.c_str()));
   else
-   mvwprintz(w, 5 + i, 40, COL_TR_BAD_OFF_PAS, traits[PF_SPLIT + 1 + i].name.c_str());
+   mvwprintz(w, 5 + i, 40, COL_TR_BAD_OFF_PAS, _(traits[PF_SPLIT + 1 + i].name.c_str()));
  }
  // TODO: actually display these somewhere? this wasn't working.
  //mvwprintz(w,11,32, c_ltgray, "h   l");
@@ -645,14 +637,14 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
                                       ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_on, traits[i].name.c_str());
+      mvwprintz(w, 5 + i - traitmin, xoff, hi_on, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_off, traits[i].name.c_str());
+      mvwprintz(w, 5 + i - traitmin, xoff, hi_off, _(traits[i].name.c_str()));
     } else {
      if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, col_on_act, traits[i].name.c_str());
+      mvwprintz(w, 5 + i - traitmin, xoff, col_on_act, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 5 + i - traitmin, xoff, col_off_act, traits[i].name.c_str());
+      mvwprintz(w, 5 + i - traitmin, xoff, col_off_act, _(traits[i].name.c_str()));
     }
    }
   } else if (cur_trait >= traitmax - 9) {
@@ -661,14 +653,14 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
                                       ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_on, traits[i].name.c_str());
+      mvwprintz(w, 21 + i - traitmax, xoff, hi_on, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_off, traits[i].name.c_str());
+      mvwprintz(w, 21 + i - traitmax, xoff, hi_off, _(traits[i].name.c_str()));
     } else {
      if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, col_on_act, traits[i].name.c_str());
+      mvwprintz(w, 21 + i - traitmax, xoff, col_on_act, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 21 + i - traitmax, xoff, col_off_act, traits[i].name.c_str());
+      mvwprintz(w, 21 + i - traitmax, xoff, col_off_act, _(traits[i].name.c_str()));
     }
    }
   } else {
@@ -677,14 +669,14 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
                                      ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
-      mvwprintz(w, 12 + i - cur_trait, xoff, hi_on, traits[i].name.c_str());
+      mvwprintz(w, 12 + i - cur_trait, xoff, hi_on, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 12 + i - cur_trait, xoff, hi_off, traits[i].name.c_str());
+      mvwprintz(w, 12 + i - cur_trait, xoff, hi_off, _(traits[i].name.c_str()));
     } else {
      if (u->has_trait(i))
-      mvwprintz(w, 12 + i - cur_trait, xoff, col_on_act, traits[i].name.c_str());
+      mvwprintz(w, 12 + i - cur_trait, xoff, col_on_act, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 12 + i - cur_trait, xoff, col_off_act, traits[i].name.c_str());
+      mvwprintz(w, 12 + i - cur_trait, xoff, col_off_act, _(traits[i].name.c_str()));
     }
    }
   }
@@ -694,42 +686,39 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
   switch (input()) {
    case 'h':
    case 'l':
-   case '6':
-   case '4':
    case '\t':
     if (cur_trait <= traitmin + 7) {//draw list
      for (int i = traitmin; i < traitmin + 16; i++) {
       mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
                                      ");	// Clear the line
       if (u->has_trait(i))
-       mvwprintz(w, 5 + i - traitmin, xoff, col_on_pas, traits[i].name.c_str());
+       mvwprintz(w, 5 + i - traitmin, xoff, col_on_pas, _(traits[i].name.c_str()));
       else
-       mvwprintz(w, 5 + i - traitmin, xoff, col_off_pas, traits[i].name.c_str());
+       mvwprintz(w, 5 + i - traitmin, xoff, col_off_pas, _(traits[i].name.c_str()));
      }
     } else if (cur_trait >= traitmax - 9) {
      for (int i = traitmax - 16; i < traitmax; i++) {
       mvwprintz(w, 21 + i - traitmax, xoff, c_ltgray, "\
                                      ");	// Clear the line
       if (u->has_trait(i))
-       mvwprintz(w, 21 + i - traitmax, xoff, col_on_pas, traits[i].name.c_str());
+       mvwprintz(w, 21 + i - traitmax, xoff, col_on_pas, _(traits[i].name.c_str()));
       else
-       mvwprintz(w, 21 + i - traitmax, xoff, col_off_pas, traits[i].name.c_str());
+       mvwprintz(w, 21 + i - traitmax, xoff, col_off_pas, _(traits[i].name.c_str()));
      }
     } else {
      for (int i = cur_trait - 7; i < cur_trait + 9; i++) {
       mvwprintz(w, 12 + i - cur_trait, xoff, c_ltgray, "\
                                      ");	// Clear the line
       if (u->has_trait(i))
-       mvwprintz(w, 12 + i - cur_trait, xoff, col_on_pas, traits[i].name.c_str());
+       mvwprintz(w, 12 + i - cur_trait, xoff, col_on_pas, _(traits[i].name.c_str()));
       else
-       mvwprintz(w, 12 + i - cur_trait, xoff, col_off_pas, traits[i].name.c_str());
+       mvwprintz(w, 12 + i - cur_trait, xoff, col_off_pas, _(traits[i].name.c_str()));
      }
     }
     using_adv = !using_adv;
     wrefresh(w);
     break;
    case 'k':
-   case '8':
     if (using_adv) {
      if (cur_adv > 1)
       cur_adv--;
@@ -739,7 +728,6 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
     }
     break;
    case 'j':
-   case '2':
    if (using_adv) {
      if (cur_adv < PF_SPLIT - 1)
       cur_adv++;
@@ -750,7 +738,6 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
     break;
    case ' ':
    case '\n':
-   case '5':
     if (u->has_trait(cur_trait)) {
      if (points + traits[cur_trait].points >= 0) {
       u->toggle_trait(cur_trait);
@@ -833,22 +820,22 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
         if (can_pick == "YES")
         {
             mvwprintz(w,  3, 20, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
+                      _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
         else if(can_pick == "INSUFFICIENT_POINTS")
         {
             mvwprintz(w,  3, 20, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
+                      _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
         else if(can_pick == "WRONG_GENDER")
         {
             mvwprintz(w,  3, 20, c_ltred, _("This profession is not available to your current gender."),
-                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
+                      _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
-        fold_and_print(w_description, 0, 0, 78, c_green, sorted_profs[cur_id]->description().c_str());
+        fold_and_print(w_description, 0, 0, 78, c_green, _(sorted_profs[cur_id]->description().c_str()));
 
         for (int i = 1; i < 17; ++i)
         {
@@ -876,13 +863,13 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
             if (u->prof != sorted_profs[id])
             {
                 mvwprintz(w, 4 + i, 2, (sorted_profs[id] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
-                          sorted_profs[id]->name().c_str());
+                          _(sorted_profs[id]->name().c_str()));
             }
             else
             {
                 mvwprintz(w, 4 + i, 2,
                           (sorted_profs[id] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                          sorted_profs[id]->name().c_str());
+                          _(sorted_profs[id]->name().c_str()));
             }
         }
 
@@ -891,19 +878,16 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
         switch (input())
         {
             case 'j':
-            case '2':
                 if (cur_id < profession::count())
                 cur_id++;
             break;
 
             case 'k':
-            case '8':
                 if (cur_id > 1)
                 cur_id--;
             break;
 
             case '\n':
-            case '5':
                 if (can_pick == "YES") {
                     u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
                     points -= netPointCost;
@@ -940,11 +924,11 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
   mvwprintz(w,  3, 40, c_ltgray, "                                    ");
   if (points >= u->skillLevel(currentSkill) + 1)
    mvwprintz(w,  3, 30, COL_SKILL_USED, _("Upgrading %s costs %d points"),
-             currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
+             _(currentSkill->name().c_str()), u->skillLevel(currentSkill) + 1);
   else
    mvwprintz(w,  3, 30, c_ltred, _("Upgrading %s costs %d points"),
-             currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
-  fold_and_print(w_description, 0, 0, 78, COL_SKILL_USED, currentSkill->description().c_str());
+             _(currentSkill->name().c_str()), u->skillLevel(currentSkill) + 1);
+  fold_and_print(w_description, 0, 0, 78, COL_SKILL_USED, _(currentSkill->description().c_str()));
 
   if (cur_sk <= 7) {
    for (int i = 0; i < 17; i++) {
@@ -954,11 +938,11 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 5 + i, 2, (i == cur_sk ? h_ltgray : c_ltgray),
-               thisSkill->name().c_str());
+               _(thisSkill->name().c_str()));
     } else {
      mvwprintz(w, 5 + i, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-               "%s ", thisSkill->name().c_str());
+               "%s ", _(thisSkill->name().c_str()));
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
@@ -970,11 +954,11 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 21 + i - Skill::skills.size(), 2,
-               (i == cur_sk ? h_ltgray : c_ltgray), thisSkill->name().c_str());
+               (i == cur_sk ? h_ltgray : c_ltgray), _(thisSkill->name().c_str()));
     } else {
      mvwprintz(w, 21 + i - Skill::skills.size(), 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
-               thisSkill->name().c_str());
+               _(thisSkill->name().c_str()));
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
@@ -986,11 +970,11 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 12 + i - cur_sk, 2, (i == cur_sk ? h_ltgray : c_ltgray),
-               thisSkill->name().c_str());
+               _(thisSkill->name().c_str()));
     } else {
      mvwprintz(w, 12 + i - cur_sk, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-               "%s ", thisSkill->name().c_str());
+               "%s ", _(thisSkill->name().c_str()));
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
@@ -1000,27 +984,23 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
   wrefresh(w);
   wrefresh(w_description);
   switch (input()) {
-    case 'j':
-    case '2':
+   case 'j':
      if (cur_sk < Skill::skills.size() - 1)
       cur_sk++;
     currentSkill = Skill::skill(cur_sk);
     break;
-    case 'k':
-    case '8':
+   case 'k':
     if (cur_sk > 0)
      cur_sk--;
     currentSkill = Skill::skill(cur_sk);
     break;
-    case 'h':
-    case '4':
+   case 'h':
      if (u->skillLevel(currentSkill)) {
       u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) - 2);
       points += u->skillLevel(currentSkill) + 1;
     }
     break;
-    case 'l':
-    case '6':
+   case 'l':
      if (points >= u->skillLevel(currentSkill) + 1) {
        points -= u->skillLevel(currentSkill) + 1;
        u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);
@@ -1070,7 +1050,7 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
   }
 
   if (!noname) {
-   mvwprintz(w, 6, 8, c_ltgray, "%s", u->name.c_str());
+   mvwprintz(w, 6, 8, c_ltgray, u->name.c_str());
    if (line == 1)
     wprintz(w, h_ltgray, "_");
   }
@@ -1121,30 +1101,15 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
     case 1:
      if (ch == KEY_BACKSPACE || ch == 127) {
       if (u->name.size() > 0) {
-       //erease utf8 character TODO: make a function
-       while(u->name.size()>0 && ((unsigned char)u->name[u->name.size()-1])>=128 &&
-                                 ((unsigned char)u->name[(int)u->name.size()-1])<=191) {
-           u->name.erase(u->name.size()-1);
-       }
-       u->name.erase(u->name.size()-1);
-       mvwprintz(w, 6, namebar_pos, c_ltgray, "______________________________");
-       mvwprintz(w, 6, namebar_pos, c_ltgray, "%s", u->name.c_str());
-       wprintz(w, h_ltgray, "_");
+       mvwprintz(w, 6, namebar_pos + u->name.size(), c_ltgray, "_");
+       u->name.erase(u->name.end() - 1);
       }
      } else if (ch == '\t') {
       line = 2;
-      mvwprintz(w, 6, namebar_pos +  utf8_width(u->name.c_str()), c_ltgray, "_");
+      mvwprintz(w, 6, namebar_pos + u->name.size(), c_ltgray, "_");
      } else if (((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
-                  ch == ' ') &&  utf8_width(u->name.c_str()) < 30) {
+                  ch == ' ') && u->name.size() < 30) {
       u->name.push_back(ch);
-     }
-     //experimental unicode input
-     else if(ch>127) {
-         std::string tmp = utf32_to_utf8(ch);
-         int tmplen = utf8_width(tmp.c_str());
-         if(tmplen>0 && tmplen+utf8_width(u->name.c_str())<30) {
-            u->name.append(tmp);
-         }
      }
      break;
     case 2:

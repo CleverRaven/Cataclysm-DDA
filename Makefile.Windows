@@ -5,7 +5,7 @@
 #WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-char-subscripts
 DEBUG = -g
 #PROFILE = -pg
-OTHERS = -O2
+OTHERS = -O3
 
 ODIR = objwin
 DDIR = .deps

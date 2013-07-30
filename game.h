@@ -356,16 +356,13 @@ void load_artifacts(); // Load artifact data
 
 // Data Initialization
   void init_npctalk();
-  void init_materials();
   void init_fields();
-  void init_weather();
   void init_overmap();
   void init_artifacts();
   void init_traits();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
-  void init_professions();
   void init_faction_data();
   void init_bionics() throw (std::string);      // Initializes bionics... for now.
   void init_mtypes();       // Initializes monster types

@@ -523,12 +523,12 @@ int query_int(const char *mes, ...)
 std::string string_input_popup(std::string title, int max_length, std::string input)
 {
  std::string ret = input;
- int titlesize = utf8_width(title.c_str());
- int startx = titlesize + 2;
- int iPopupWidth = (max_length == 0) ? FULL_SCREEN_WIDTH : max_length + titlesize + 4;
+
+ int startx = utf8_width(title.c_str()) + 2;
+ int iPopupWidth = (max_length == 0) ? FULL_SCREEN_WIDTH : max_length + title.size() + 4;
  if (iPopupWidth > FULL_SCREEN_WIDTH) {
      iPopupWidth = FULL_SCREEN_WIDTH;
-     max_length = FULL_SCREEN_WIDTH - titlesize - 4;
+     max_length = FULL_SCREEN_WIDTH - title.size() - 4;
  }
 
  WINDOW *w = newwin(3, iPopupWidth, (TERMY-3)/2,
@@ -564,7 +564,6 @@ std::string string_input_popup(std::string title, int max_length, std::string in
   } else if (ch == KEY_BACKSPACE || ch == 127) {
 // Move the cursor back and re-draw it
    if( posx > startx ) { // but silently drop input if we're at 0, instead of adding '^'
-       //TODO: it is safe now since you only input ascii chars
        ret = ret.substr(0, ret.size() - 1);
        mvwputch(w, 1, posx, c_ltgray, '_');
        posx--;
@@ -589,24 +588,34 @@ char popup_getkey(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
- height += folded.size();
- for(int i=0; i<folded.size(); i++) {
-     int cw = utf8_width(folded[i].c_str());
-     if(cw>width) {
-         width = cw;
-     }
+ size_t pos = tmp.find_first_of('\n');
+ while (pos != std::string::npos) {
+  height++;
+  if (pos > width)
+   width = pos;
+  tmp = tmp.substr(pos + 1);
+  pos = tmp.find_first_of('\n');
  }
+ if (width == 0 || tmp.length() > width)
+  width = tmp.length();
  width += 2;
  if (height > FULL_SCREEN_HEIGHT)
   height = FULL_SCREEN_HEIGHT;
  WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-
- for(int i=0; i<folded.size(); i++) {
-     mvwprintz(w, i+1, 1, c_white, folded[i].c_str());
+ tmp = buff;
+ pos = tmp.find_first_of('\n');
+ int line_num = 0;
+ while (pos != std::string::npos) {
+  std::string line = tmp.substr(0, pos);
+  line_num++;
+  mvwprintz(w, line_num, 1, c_white, line.c_str());
+  tmp = tmp.substr(pos + 1);
+  pos = tmp.find_first_of('\n');
  }
+ line_num++;
+ mvwprintz(w, line_num, 1, c_white, tmp.c_str());
 
  wrefresh(w);
  char ch = getch();;
@@ -643,28 +652,38 @@ void popup_top(const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
- char buff[4096];
+ char buff[1024];
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
- height += folded.size();
- for(int i=0; i<folded.size(); i++) {
-     int cw = utf8_width(folded[i].c_str());
-     if(cw>width) {
-         width = cw;
-     }
+ size_t pos = tmp.find_first_of('\n');
+ while (pos != std::string::npos) {
+  height++;
+  if (pos > width)
+   width = pos;
+  tmp = tmp.substr(pos + 1);
+  pos = tmp.find_first_of('\n');
  }
+ if (width == 0 || tmp.length() > width)
+  width = tmp.length();
  width += 2;
- WINDOW *w = newwin(height, width, 0, (TERMX > width) ? (TERMX-width)/2 : 0);
+ WINDOW *w = newwin(height+1, width, 0, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-
- for(int i=0; i<folded.size(); i++) {
-     mvwprintz(w, i+1, 1, c_white, folded[i].c_str());
+ tmp = buff;
+ pos = tmp.find_first_of('\n');
+ int line_num = 0;
+ while (pos != std::string::npos) {
+  std::string line = tmp.substr(0, pos);
+  line_num++;
+  mvwprintz(w, line_num, 1, c_white, line.c_str());
+  tmp = tmp.substr(pos + 1);
+  pos = tmp.find_first_of('\n');
  }
+ line_num++;
+ mvwprintz(w, line_num, 1, c_white, tmp.c_str());
 
  wrefresh(w);
  char ch;
@@ -681,30 +700,31 @@ void popup(const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
- char buff[4096];
+ char buff[8192];
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
- height += folded.size();
- for(int i=0; i<folded.size(); i++) {
-     int cw = utf8_width(folded[i].c_str());
-     if(cw>width) {
-         width = cw;
-     }
+
+ size_t pos = tmp.find_first_of('\n');
+ while (pos != std::string::npos) {
+  height++;
+  if (pos > width)
+   width = pos;
+  tmp = tmp.substr(pos + 1);
+  pos = tmp.find_first_of('\n');
  }
+ if (width == 0 || tmp.length() > width)
+  width = tmp.length();
  width += 2;
  if (height > FULL_SCREEN_HEIGHT)
   height = FULL_SCREEN_HEIGHT;
- WINDOW *w = newwin(height, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
+ WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- for(int i=0; i<folded.size(); i++) {
-     mvwprintz(w, i+1, 1, c_white, folded[i].c_str());
- }
+ fold_and_print(w,1,1,width,c_white, "%s", buff);
 
  wrefresh(w);
  char ch;
@@ -721,29 +741,40 @@ void popup_nowait(const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
- char buff[4096];
+ char buff[8192];
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
- height += folded.size();
- for(int i=0; i<folded.size(); i++) {
-     int cw = utf8_width(folded[i].c_str());
-     if(cw>width) {
-         width = cw;
-     }
+ size_t pos = tmp.find_first_of('\n');
+ while (pos != std::string::npos) {
+  height++;
+  if (pos > width)
+   width = pos;
+  tmp = tmp.substr(pos + 1);
+  pos = tmp.find_first_of('\n');
  }
+ if (width == 0 || tmp.length() > width)
+  width = tmp.length();
  width += 2;
  if (height > FULL_SCREEN_HEIGHT)
   height = FULL_SCREEN_HEIGHT;
- WINDOW *w = newwin(height, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
+ WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- for(int i=0; i<folded.size(); i++) {
-     mvwprintz(w, i+1, 1, c_white, folded[i].c_str());
+ tmp = buff;
+ pos = tmp.find_first_of('\n');
+ int line_num = 0;
+ while (pos != std::string::npos) {
+  std::string line = tmp.substr(0, pos);
+  line_num++;
+  mvwprintz(w, line_num, 1, c_white, line.c_str());
+  tmp = tmp.substr(pos + 1);
+  pos = tmp.find_first_of('\n');
  }
+ line_num++;
+ mvwprintz(w, line_num, 1, c_white, tmp.c_str());
  wrefresh(w);
  delwin(w);
  refresh();
@@ -757,17 +788,7 @@ void full_screen_popup(const char* mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
- int width = 0;
- int height = 2;
- std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH-3);
- height += folded.size();
- for(int i=0; i<folded.size(); i++) {
-     int cw = utf8_width(folded[i].c_str());
-     if(cw>width) {
-         width = cw;
-     }
- }
- width += 2;
+ std::vector<std::string> textformatted;
 
  WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                     (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
@@ -775,10 +796,7 @@ void full_screen_popup(const char* mes, ...)
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- for(int i=0; i<folded.size(); i++) {
-     mvwprintz(w, i+1, 2, c_white, folded[i].c_str());
- }
-
+ fold_and_print(w,1,2,80-3,c_white,"%s",mes);
  wrefresh(w);
  char ch;
  do
@@ -1074,13 +1092,13 @@ std::string string_format(std::string pattern, ...)
 }
 
 //wrap if for i18n 
-std::string& capitalize_letter(std::string &str, size_t n)
+std::string& capitalize_first_letter(std::string &str)
 {
-    char c= str[n];
+    char c= str[0];
     if(str.length()>0 && c>='a' && c<='z')
     {
        c += 'A'-'a';
-       str[n] = c;
+       str[0] = c;
     }
 
     return str;

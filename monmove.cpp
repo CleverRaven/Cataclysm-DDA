@@ -553,7 +553,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     }
     else
     {
-        if (!g->u.uncanny_dodge())
+        if (!p.power_level >= 3 || !p.has_active_bionic("bio_uncanny_dodge") || !p.uncanny_dodge())
         {
             //Reduce player's ability to dodge by monster's ability to hit
             int dodge_ii = p.dodge(g) - rng(0, type->melee_skill);
@@ -734,7 +734,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
 int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
 {
     int movecost = 0;
-    float diag_mult = (trigdist && x1 != x2 && y1 != y2) ? 1.41 : 1;
+    int diag_mult = (trigdist && x1 != x2 && y1 != y2) ? 1.41 : 1;
 
     // Digging and flying monsters ignore terrain cost
     if (has_flag(MF_DIGS) || has_flag(MF_FLIES)) {

@@ -136,7 +136,6 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
                 case 'e': do_rename(mval);  break;
                 case 's': do_siphon(mval);  break;
                 case 'c': do_tirechange(mval); break;
-                case 'd': do_drain(mval);  break;
                 default:;
                 }
                 if (sel_cmd != ' ')
@@ -196,9 +195,6 @@ int veh_interact::cant_do (char mode)
         valid_target = wheel >= 0;
         has_tools = has_wrench && has_jack && has_wheel;
         break;
-    case 'd': //drain tank
-        valid_target = veh->fuel_left("water") > 0;
-        has_tools = has_siphon;
     default:
         return -1;
     }
@@ -586,25 +582,6 @@ void veh_interact::do_tirechange(int reason)
     }
 }
 
-void veh_interact::do_drain(int reason)
-{
-    werase (w_msg);
-    switch (reason)
-    {
-    case 1:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no water to siphon.") );
-        wrefresh (w_msg);
-        return;
-    case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, _("You need a hose to siphon water.") );
-        mvwprintz(w_msg, 0, 12, c_red, _("hose") );
-        wrefresh (w_msg);
-        return;
-    default:;
-    }
-    sel_cmd = 'd';
-}
-
 void veh_interact::do_rename(int reason)
 {
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
@@ -808,10 +785,9 @@ void veh_interact::display_mode (char mode)
         bool mc = !cant_do('c');
         x += shortcut_print(w_mode, 0, x, mi? c_ltgray : c_dkgray, mi? c_ltgreen : c_green, _("<i>nstall"))+1;
         x += shortcut_print(w_mode, 0, x, mr? c_ltgray : c_dkgray, mr? c_ltgreen : c_green, _("<r>epair"))+1;
-        x += shortcut_print(w_mode, 0, x, mf? c_ltgray : c_dkgray, mf? c_ltgreen : c_green, _("re<f>ill"))+1;
+        x += shortcut_print(w_mode, 0, x, mf? c_ltgray : c_dkgray, mf? c_ltgreen : c_green, _("<r>efill"))+1;
         x += shortcut_print(w_mode, 0, x, mo? c_ltgray : c_dkgray, mo? c_ltgreen : c_green, _("rem<o>ve"))+1;
         x += shortcut_print(w_mode, 0, x, ms? c_ltgray : c_dkgray, ms? c_ltgreen : c_green, _("<s>iphon"))+1;
-        x += shortcut_print(w_mode, 0, x, ms? c_ltgray : c_dkgray, ms? c_ltgreen : c_green, _("<d>rain water"))+1;
         x += shortcut_print(w_mode, 0, x, mc? c_ltgray : c_dkgray, mc? c_ltgreen : c_green, _("<c>hange tire"))+1;
     }
     x += shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, _("r<e>name"))+1;
@@ -966,29 +942,38 @@ void complete_vehicle (game *g)
         g->consume_tools(&g->u, tools, true);
 
         if ( part == vp_head_light ) {
-            // Need map-relative coordinates to compare to output of look_around.
-            int gx, gy;
-            // Need to call coord_translate() directly since it's a new part.
-            veh->coord_translate(dx, dy, gx, gy);
-            // Stash offset and set it to the location of the part so look_around will start there.
-            int px = g->u.view_offset_x;
-            int py = g->u.view_offset_y;
-            g->u.view_offset_x = veh->global_x() + gx - g->u.posx;
-            g->u.view_offset_y = veh->global_y() + gy - g->u.posy;
-            popup("Choose a facing direction for the new headlight.");
-            point headlight_target = g->look_around();
-            // Restore previous view offsets.
-            g->u.view_offset_x = px;
-            g->u.view_offset_y = py;
-
-            int delta_x = headlight_target.x - (veh->global_x() + gx);
-            int delta_y = headlight_target.y - (veh->global_y() + gy);
-
-            const double PI = 3.14159265358979f;
-            int dir = (atan2(delta_y, delta_x) * 180.0 / PI);
-            dir -= veh->face.dir();
-            while(dir < 0) dir += 360;
-            while(dir > 360) dir -= 360;
+            int choice = menu(true, _("Choose facing direction:"), 
+                _("<dir>N")+5, _("<dir>NW")+5, _("<dir>W")+5, _("<dir>SW")+5, _("<dir>S")+5, _("<dir>SE")+5, _("<dir>E")+5, _("<dir>NE")+5, NULL);
+            int dir;
+            switch(choice) { 
+                    case 1:
+                        dir = 0;
+                        break;
+                    case 2:
+                        dir = 45;
+                        break;
+                    case 3:
+                        dir = 90;
+                        break;
+                    case 4:
+                        dir = 135;
+                        break;
+                    case 5:
+                        dir = 180;
+                        break;
+                    case 6:
+                        dir = 225;
+                        break;
+                    case 7:
+                        dir = 270;
+                        break;
+                    case 8:
+                        dir = 315;
+                        break;
+                    default:
+                        dir = 0;
+                        break;
+            }
 
             veh->parts[partnum].direction = dir;
         }
@@ -1047,7 +1032,7 @@ void complete_vehicle (game *g)
         }
         break;
     case 's':
-        g->u.siphon( g, veh, "gasoline" );
+        g->u.siphon_gas(g, veh);
         break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
@@ -1074,9 +1059,7 @@ void complete_vehicle (game *g)
                 g->m.add_item_or_charges( g->u.posx, g->u.posy, removed_wheel );
             }
         }
-        break;
-    case 'd':
-        g->u.siphon( g, veh, "water" );
+
         break;
     default:;
     }

@@ -584,7 +584,6 @@ std::string ammo_name(ammotype t)
     if( t == "12mm" )  return _("12mm slugs");
     if( t == "plasma" )return _("hydrogen");
     if( t == "water"  )return _("clean water");
-    if( t == "8x40mm"  )return _("8x40mm caseless");
     return "XXX";
 }
 
@@ -621,6 +620,5 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "gasoline" )	  return "gasoline";
     if( guntype == "THREAD" )return "thread";
     if( guntype == "water" ) return "water_clean";
-    if( guntype == "8x40mm"  )return "8x40mm caseless";
     return "null";
 }

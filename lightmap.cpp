@@ -89,9 +89,8 @@ void map::generate_lightmap(game* g)
     apply_light_source(sx, sy, 3, false);
 
    field_entry *cur = NULL;
-   for(std::map<field_id, field_entry*>::iterator field_list_it = current_field.getFieldStart(); field_list_it != current_field.getFieldEnd(); ++field_list_it){
-       cur = field_list_it->second;
-
+	for(std::vector<field_entry*>::iterator field_list_it = current_field.getFieldStart(); field_list_it != current_field.getFieldEnd(); ++field_list_it){
+		cur = (*field_list_it);
 		if(cur == NULL) continue;
    // TODO: [lightmap] Attach light brightness to fields
 		switch(cur->getFieldType()) {
@@ -171,7 +170,7 @@ void map::generate_lightmap(game* g)
            int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
 
            if (dpart >= 0) {
-             apply_light_arc(px, py, dir + vehs[v].v->parts[dpart].direction, veh_luminance, 45);
+             apply_light_arc(px, py, dir - vehs[v].v->parts[dpart].direction, veh_luminance, 45);
            }
          }
        }

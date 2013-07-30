@@ -506,8 +506,8 @@ void game::construction_menu()
       mes = furnlist[current_con->stages[n].furniture].name.c_str();
     else
       mes = "";
-    posy++;
     mvwprintz(w_con, posy, 31, color_stage, _("Stage %1$d: %2$s"), n + 1, mes);
+    posy++;
 // Print tools
     construction_stage stage = current_con->stages[n];
     bool has_tool[10] = {stage.tools[0].empty(),
@@ -547,7 +547,7 @@ void game::construction_menu()
        posx += 3;
       }
      }
-     posy ++;
+     posy += 2;
      posx = 33;
     }
 // Print components
@@ -601,8 +601,8 @@ void game::construction_menu()
        posx += 3;
       }
      }
-     posy ++;
      posx = 33;
+     posy += 2;
     }
    }
    wrefresh(w_con);

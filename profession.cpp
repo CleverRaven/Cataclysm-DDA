@@ -21,12 +21,7 @@ profession::profession(unsigned int id, std::string ident, std::string name, std
     _point_cost = points;
 }
 
-profmap profession::_all_profs;
-
-void game::init_professions()
-{
-    profession::_all_profs = profession::load_professions();
-}
+profmap profession::_all_profs(profession::load_professions());
 
 profmap profession::load_professions()
 {
@@ -42,9 +37,6 @@ profmap profession::load_professions()
         std::string name = currProf.get("name").as_string();
         std::string description = currProf.get("description").as_string();
         signed int points = currProf.get("points").as_int();
-
-        name = _(name.c_str());
-        description = _(description.c_str());
 
         profession newProfession(id, ident, name, description, points);
 

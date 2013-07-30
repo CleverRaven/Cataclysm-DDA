@@ -269,8 +269,10 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  }
  moves -= move_cost;
 
- if (p.uncanny_dodge(is_u)) { return; }
-
+ if (p.power_level >= 3 && p.has_active_bionic("bio_uncanny_dodge") && p.uncanny_dodge(is_u)) {
+  return;
+ }
+ 
  body_part bp_hit;
  int side = rng(0, 1);
  hit_value += rng(-10, 10);

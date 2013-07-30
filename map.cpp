@@ -945,9 +945,9 @@ bool map::trans(const int x, const int y)
 	 field &curfield = field_at(x,y);
 	 if(curfield.fieldCount() > 0){
 	 field_entry *cur = NULL;
-	  for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+	  for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart();
        field_list_it != curfield.getFieldEnd(); ++field_list_it){
-			 cur = field_list_it->second;
+			 cur = (*field_list_it);
 			 if(cur == NULL) continue;
 			 //If ANY field blocks vision, the tile does.
 			 if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]){
@@ -1149,10 +1149,7 @@ switch (furn(x, y)) {
    furn_set(x, y, f_null);
    spawn_item(x, y, "scrap",       0, rng(0, 6));
    spawn_item(x, y, "steel_chunk", 0, rng(0, 3));
-   spawn_item(x, y, "element", 0, rng(1, 3));
-   spawn_item(x, y, "sheet_metal", 0, 0, rng(2, 6));
-   spawn_item(x, y, "cable", 0, 0, rng(1,3));
-
+   spawn_item(x, y, "element",     0, rng(0, 4));
    return true;
   } else {
    sound += "clang!";
@@ -4001,8 +3998,8 @@ void map::build_transparency_cache()
    field &curfield = field_at(x,y);
    if(curfield.fieldCount() > 0){
 	   field_entry *cur = NULL;
-	   for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-		   cur = field_list_it->second;
+	   for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+		   cur = (*field_list_it);
 		   if(cur == NULL) continue;
 
 		   if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
