@@ -4026,7 +4026,7 @@
             "components": [
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ],
                               [
                                   ["meat", 1]
@@ -4054,7 +4054,7 @@
             "components": [
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ],
                               [
                                   ["human_flesh", 1]
@@ -4718,7 +4718,7 @@
             "components": [
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ],
                               [
                                   ["oxycodone", 40]
@@ -9784,7 +9784,7 @@
                               ],
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ]
                           ]
         },
@@ -9833,7 +9833,7 @@
                               ],
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ]
                           ]
         },
