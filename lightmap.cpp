@@ -171,7 +171,7 @@ void map::generate_lightmap(game* g)
            int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
 
            if (dpart >= 0) {
-             apply_light_arc(px, py, dir - vehs[v].v->parts[dpart].direction, veh_luminance, 45);
+             apply_light_arc(px, py, dir + vehs[v].v->parts[dpart].direction, veh_luminance, 45);
            }
          }
        }
