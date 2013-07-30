@@ -89,7 +89,6 @@ std::string utf32_to_utf8(unsigned ch) {
     char out[5];
     char* buf = out;
     static const unsigned char utf8FirstByte[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
-    bool result = true;
     int utf8Bytes;
     if (ch < 0x80) {
         utf8Bytes = 1;
@@ -102,7 +101,6 @@ std::string utf32_to_utf8(unsigned ch) {
     } else {
         utf8Bytes = 3;
         ch = UNKNOWN_UNICODE;
-        result = false;
     }
 
     buf += utf8Bytes;
@@ -332,10 +330,10 @@ std::string base64_decode(std::string str) {
 
     for (int i = 0, j = 0; i < input_length;) {
 
-        unsigned sextet_a = data[i] == '=' ? 0 & i++ : base64_decoding_table[data[i++]];
-        unsigned sextet_b = data[i] == '=' ? 0 & i++ : base64_decoding_table[data[i++]];
-        unsigned sextet_c = data[i] == '=' ? 0 & i++ : base64_decoding_table[data[i++]];
-        unsigned sextet_d = data[i] == '=' ? 0 & i++ : base64_decoding_table[data[i++]];
+        unsigned sextet_a = data[i] == '=' ? 0 & i++ : base64_decoding_table[(unsigned char)data[i++]];
+        unsigned sextet_b = data[i] == '=' ? 0 & i++ : base64_decoding_table[(unsigned char)data[i++]];
+        unsigned sextet_c = data[i] == '=' ? 0 & i++ : base64_decoding_table[(unsigned char)data[i++]];
+        unsigned sextet_d = data[i] == '=' ? 0 & i++ : base64_decoding_table[(unsigned char)data[i++]];
 
         unsigned triple = (sextet_a << 3 * 6)
         + (sextet_b << 2 * 6)
