@@ -458,8 +458,7 @@
          "dress_shoes"
       ],
       "name":"Bride",
-      "points":0,
-      "flags": ["female_only"]
+      "points":0
    },
    {
       "ident": "punkgirl",

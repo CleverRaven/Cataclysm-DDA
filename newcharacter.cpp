@@ -842,12 +842,6 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
                       sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
-        else if(can_pick == "WRONG_GENDER")
-        {
-            mvwprintz(w,  3, 20, c_ltred, _("This profession is not available to your current gender."),
-                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
-                      netPointCost);
-        }
         fold_and_print(w_description, 0, 0, 78, c_green, sorted_profs[cur_id]->description().c_str());
 
         for (int i = 1; i < 17; ++i)
@@ -1150,12 +1144,6 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
     case 2:
      if (ch == ' ')
       u->male = !u->male;
-
-      // If changing the gender broke our profession requirements, undo.
-      if(u->prof->can_pick(u, 0) == "WRONG_GENDER") {
-       u->male = !u->male;
-       popup(_("The profession %s is only available to your current gender."), u->prof->name().c_str());
-      }
      else if (ch == 'k' || ch == '\t') {
       line = 1;
      }

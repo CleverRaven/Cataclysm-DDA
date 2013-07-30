@@ -203,7 +203,6 @@ bool profession::has_flag(std::string flag) const {
 std::string profession::can_pick(player* u, int points) const {
     std::string rval = "YES";
     if(point_cost() - u->prof->point_cost() > points) rval = "INSUFFICIENT_POINTS";
-    if(has_flag("female_only") && u->male && !u->has_trait(PF_CROSSDRESSER)) rval = "WRONG_GENDER";
     return rval;
 }
 // vim:ts=4:sw=4:et:tw=0:fdm=marker:fdl=0:
