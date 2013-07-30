@@ -36,7 +36,7 @@ class inventory
   inventory  operator+  (const inventory &rhs);
   inventory  operator+  (const item &rhs);
   inventory  operator+  (const std::list<item> &rhs);
-  
+
   inventory filter_by_category(item_cat cat, const player& u) const;
 
   void unsort(); // flags the inventory as unsorted
@@ -81,6 +81,7 @@ class inventory
 
   bool has_amount (itype_id it, int quantity) const;
   bool has_charges(itype_id it, int quantity) const;
+  bool has_flag(std::string flag) const; //Inventory item has flag
   bool has_item(item *it) const; // Looks for a specific item
   bool has_gun_for_ammo(ammotype type) const;
   bool has_active_item(itype_id) const;

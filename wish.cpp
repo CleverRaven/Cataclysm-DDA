@@ -27,8 +27,8 @@ void game::wish()
   werase(w_search);
   werase(w_info);
   werase(w_list);
-  mvwprintw(w_search, 0, 0, "('/' to search, Esc to stop, <> to switch between results)");
-  mvwprintz(w_search, 1, 0, c_white, "Wish for a: ");
+  mvwprintw(w_search, 0, 0, _("('/' to search, Esc to stop, <> to switch between results)"));
+  mvwprintz(w_search, 1, 0, c_white, _("Wish for a: "));
   if (search) {
    if (ch == '\n') {
     search = false;
@@ -142,11 +142,11 @@ void game::wish()
    mvwprintz(w_search, 1, 12, c_green, "%s", pattern.c_str());
   else if (pattern.length() > 0)
   {
-   mvwprintz(w_search, 1, 12, c_red, "\"%s \" not found!",pattern.c_str());
+   mvwprintz(w_search, 1, 12, c_red, _("\"%s \" not found!"),pattern.c_str());
    search_string_length += 1;
   }
   if (incontainer)
-   mvwprintz(w_search, 0, 70, c_ltblue, "contained");
+   mvwprintz(w_search, 0, 70, c_ltblue, _("contained"));
   if (a < 0) {
    a = 0;
    shift--;
@@ -202,7 +202,7 @@ void game::wish()
 
  // Allow for multiples
  curs_set(1);
- mvprintw(0, 0, "How many do you want? (default is 1): ");
+ mvprintw(0, 0, _("How many do you want? (default is 1): "));
  char str[5];
  int count = 1;
  echo();
@@ -216,7 +216,7 @@ void game::wish()
  curs_set(0);
 
  item granted = item_controller->create(standard_itype_ids[a + shift], turn);
- mvprintw(2, 0, "Wish granted - %d x %s.", count, granted.type->name.c_str());
+ mvprintw(2, 0, _("Wish granted - %d x %s."), count, granted.type->name.c_str());
  tmp.invlet = nextinv;
  for (int i=0; i<count; i++)
  {
@@ -245,7 +245,7 @@ void game::monster_wish()
  do {
   werase(w_info);
   werase(w_list);
-  mvwprintw(w_list, 0, 0, "Spawn a: ");
+  mvwprintw(w_list, 0, 0, _("Spawn a: "));
   if (search) {
    if (ch == '\n') {
     search = false;
@@ -333,7 +333,7 @@ void game::monster_wish()
   if (!search_results.empty())
    mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
   else if (pattern.length() > 0)
-   mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
+   mvwprintz(w_list, 0, 11, c_red, _("%s not found!            "),pattern.c_str());
   if (a < 0) {
    a = 0;
    shift--;
@@ -387,7 +387,7 @@ void game::mutation_wish()
  do {
   werase(w_info);
   werase(w_list);
-  mvwprintw(w_list, 0, 0, "Mutate: ");
+  mvwprintw(w_list, 0, 0, _("Mutate: "));
   if (search) {
    if (ch == '\n') {
     search = false;
@@ -478,7 +478,7 @@ void game::mutation_wish()
   if (!search_results.empty())
    mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
   else if (pattern.length() > 0)
-   mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
+   mvwprintz(w_list, 0, 11, c_red, _("%s not found!            "),pattern.c_str());
   if (a < 0) {
    a = 0;
    shift--;
@@ -497,24 +497,24 @@ void game::mutation_wish()
        break;
    mvwprintz(w_list, i, 0, col, traits[i-1+shift].name.c_str());
   }
-  mvwprintw(w_info, 1, 0, mutation_data[a+shift].valid ? "Valid" : "Nonvalid");
+  mvwprintw(w_info, 1, 0, mutation_data[a+shift].valid ? _("Valid") : _("Nonvalid"));
   int line2 = 2;
-  mvwprintw(w_info, line2, 0, "Prereqs:");
+  mvwprintw(w_info, line2, 0, _("Prereqs:"));
   for (int j = 0; j < mutation_data[a+shift].prereqs.size(); j++) {
    mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].prereqs[j] ].name.c_str());
    line2++;
   }
-  mvwprintw(w_info, line2, 0, "Cancels:");
+  mvwprintw(w_info, line2, 0, _("Cancels:"));
   for (int j = 0; j < mutation_data[a+shift].cancels.size(); j++) {
    mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].cancels[j] ].name.c_str());
    line2++;
   }
-  mvwprintw(w_info, line2, 0, "Becomes:");
+  mvwprintw(w_info, line2, 0, _("Becomes:"));
   for (int j = 0; j < mutation_data[a+shift].replacements.size(); j++) {
    mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].replacements[j] ].name.c_str());
    line2++;
   }
-  mvwprintw(w_info, line2, 0, "Add-ons:");
+  mvwprintw(w_info, line2, 0, _("Add-ons:"));
   for (int j = 0; j < mutation_data[a+shift].additions.size(); j++) {
    mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].additions[j] ].name.c_str());
    line2++;

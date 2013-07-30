@@ -18,18 +18,18 @@ struct iteminfo{
  public:
   std::string sType; //Itemtype
   std::string sName; //Main item text
-  std::string sPre; //Text between main item and value
+  std::string sFmt; //format string
   int iValue; //Set to -999 if no compare value is present
-  std::string sPost; //Text after value
+  std::string sPlus; //number +
   bool bNewLine; //New line at the end
   bool bLowerIsBetter; //Lower values are better (red <-> green)
 
   iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", int iIn0 = -999, std::string sIn3 = "", bool bIn0 = true, bool bIn1 = false) {
    sType = sIn0;
    sName = sIn1;
-   sPre = sIn2;
+   sFmt = sIn2;
+   sPlus = sIn3;
    iValue = iIn0;
-   sPost = sIn3;
    bNewLine = bIn0;
    bLowerIsBetter = bIn1;
   }

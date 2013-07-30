@@ -79,7 +79,7 @@ bool defense_game::init(game *g)
  init_to_style(DEFENSE_EASY);
  setup();
  g->u.cash = initial_cash;
- popup_nowait("Please wait as the map generates [ 0%]");
+ popup_nowait(_("Please wait as the map generates [ 0%]"));
  // TODO: support multiple defence games? clean up old defence game
  g->cur_om = &overmap_buffer.get(g, 0, 0);
  init_map(g);
@@ -98,7 +98,7 @@ void defense_game::per_turn(game *g)
  if (int(g->turn) % (time_between_waves * 10) == 0) {
   current_wave++;
   if (current_wave > 1 && current_wave % waves_between_caravans == 0) {
-   popup("A caravan approaches!  Press spacebar...");
+   popup(_("A caravan approaches!  Press spacebar..."));
    caravan(g);
   }
   spawn_wave(g);
@@ -108,11 +108,11 @@ void defense_game::per_turn(game *g)
 void defense_game::pre_action(game *g, action_id &act)
 {
  if (act == ACTION_SLEEP && !sleep) {
-  g->add_msg("You don't need to sleep!");
+  g->add_msg(_("You don't need to sleep!"));
   act = ACTION_NULL;
  }
  if (act == ACTION_SAVE || act == ACTION_QUICKSAVE) {
-  g->add_msg("You cannot save in defense mode!");
+  g->add_msg(_("You cannot save in defense mode!"));
   act = ACTION_NULL;
  }
 
@@ -141,7 +141,7 @@ void defense_game::pre_action(game *g, action_id &act)
                                  g->levy <=  93) ||
                                 (g->u.posx == SEEX * int(MAPSIZE / 2) &&
                                  g->levx <=  93)))) {
-  g->add_msg("You cannot leave the %s behind!",
+  g->add_msg(_("You cannot leave the %s behind!"),
              defense_location_name(location).c_str());
   act = ACTION_NULL;
  }
@@ -153,7 +153,7 @@ void defense_game::post_action(game *g, action_id act)
 
 void defense_game::game_over(game *g)
 {
- popup("You managed to survive through wave %d!", current_wave);
+ popup(_("You managed to survive through wave %d!"), current_wave);
 }
 
 void defense_game::init_itypes(game *g)
@@ -250,8 +250,7 @@ void defense_game::init_map(game *g)
    int percent = 100 * ((j / 2 + MAPSIZE * (i / 2))) /
                        ((MAPSIZE) * (MAPSIZE + 1));
    if (percent >= old_percent + 1) {
-    popup_nowait("Please wait as the map generates [%s%d%]",
-                 (percent < 10 ? " " : ""), percent);
+    popup_nowait(_("Please wait as the map generates [%2d%]"), percent);
     old_percent = percent;
    }
 // Round down to the nearest even number
@@ -449,7 +448,7 @@ void defense_game::setup()
 
   if (ch == 'S') {
    if (!zombies && !specials && !spiders && !triffids && !robots && !subspace) {
-    popup("You must choose at least one monster group!");
+    popup(_("You must choose at least one monster group!"));
     refresh_setup(w, selection);
    } else
     return;
@@ -466,7 +465,7 @@ void defense_game::setup()
     selection--;
    refresh_setup(w, selection);
   } else if (ch == '!') {
-   std::string name = string_input_popup("Template Name:", 20);
+   std::string name = string_input_popup(_("Template Name:"), 20);
    refresh_setup(w, selection);
   } else if (ch == 'S')
    return;
@@ -582,7 +581,7 @@ void defense_game::setup()
       specials = false;
      }
      mvwprintz(w, 18, 2, (zombies ? c_ltgreen : c_yellow), "Zombies");
-     mvwprintz(w, 18, 14, c_yellow, "Special Zombies");
+     mvwprintz(w, 18, 14, c_yellow, _("Special Zombies"));
      break;
 
     case 11:
@@ -590,56 +589,56 @@ void defense_game::setup()
       specials = !specials;
       zombies = false;
      }
-     mvwprintz(w, 18, 2, c_yellow, "Zombies");
-     mvwprintz(w, 18, 14, (specials ? c_ltgreen : c_yellow), "Special Zombies");
+     mvwprintz(w, 18, 2, c_yellow, _("Zombies"));
+     mvwprintz(w, 18, 14, (specials ? c_ltgreen : c_yellow), _("Special Zombies"));
      break;
 
     case 12:
      if (ch == ' ' || ch == '\n')
       spiders = !spiders;
-     mvwprintz(w, 18, 34, (spiders ? c_ltgreen : c_yellow), "Spiders");
+     mvwprintz(w, 18, 34, (spiders ? c_ltgreen : c_yellow), _("Spiders"));
      break;
 
     case 13:
      if (ch == ' ' || ch == '\n')
       triffids = !triffids;
-     mvwprintz(w, 18, 46, (triffids ? c_ltgreen : c_yellow), "Triffids");
+     mvwprintz(w, 18, 46, (triffids ? c_ltgreen : c_yellow), _("Triffids"));
      break;
 
     case 14:
      if (ch == ' ' || ch == '\n')
       robots = !robots;
-     mvwprintz(w, 18, 59, (robots ? c_ltgreen : c_yellow), "Robots");
+     mvwprintz(w, 18, 59, (robots ? c_ltgreen : c_yellow), _("Robots"));
      break;
 
     case 15:
      if (ch == ' ' || ch == '\n')
       subspace = !subspace;
-     mvwprintz(w, 18, 70, (subspace ? c_ltgreen : c_yellow), "Subspace");
+     mvwprintz(w, 18, 70, (subspace ? c_ltgreen : c_yellow), _("Subspace"));
      break;
 
     case 16:
      if (ch == ' ' || ch == '\n')
       hunger = !hunger;
-     mvwprintz(w, 21, 2, (hunger ? c_ltgreen : c_yellow), "Food");
+     mvwprintz(w, 21, 2, (hunger ? c_ltgreen : c_yellow), _("Food"));
      break;
 
     case 17:
      if (ch == ' ' || ch == '\n')
       thirst = !thirst;
-     mvwprintz(w, 21, 16, (thirst ? c_ltgreen : c_yellow), "Water");
+     mvwprintz(w, 21, 16, (thirst ? c_ltgreen : c_yellow), _("Water"));
      break;
 
     case 18:
      if (ch == ' ' || ch == '\n')
       sleep = !sleep;
-     mvwprintz(w, 21, 31, (sleep ? c_ltgreen : c_yellow), "Sleep");
+     mvwprintz(w, 21, 31, (sleep ? c_ltgreen : c_yellow), _("Sleep"));
      break;
 
     case 19:
      if (ch == ' ' || ch == '\n')
       mercenaries = !mercenaries;
-     mvwprintz(w, 21, 46, (mercenaries ? c_ltgreen : c_yellow), "Mercenaries");
+     mvwprintz(w, 21, 46, (mercenaries ? c_ltgreen : c_yellow), _("Mercenaries"));
      break;
    }
   }
@@ -651,56 +650,56 @@ void defense_game::setup()
 void defense_game::refresh_setup(WINDOW* w, int selection)
 {
  werase(w);
- mvwprintz(w,  0,  1, c_ltred, "DEFENSE MODE");
- mvwprintz(w,  0, 28, c_ltred, "Press +/- or >/< to cycle, spacebar to toggle");
- mvwprintz(w,  1, 28, c_ltred, "Press S to start, ! to save as a template");
- mvwprintz(w,  2,  2, c_ltgray, "Scenario:");
+ mvwprintz(w,  0,  1, c_ltred, _("DEFENSE MODE"));
+ mvwprintz(w,  0, 28, c_ltred, _("Press +/- or >/< to cycle, spacebar to toggle"));
+ mvwprintz(w,  1, 28, c_ltred, _("Press S to start, ! to save as a template"));
+ mvwprintz(w,  2,  2, c_ltgray, _("Scenario:"));
  mvwprintz(w,  3,  2, SELCOL(1), defense_style_name(style).c_str());
  mvwprintz(w,  3, 28, c_ltgray, defense_style_description(style).c_str());
- mvwprintz(w,  4,  2, c_ltgray, "Location:");
+ mvwprintz(w,  4,  2, c_ltgray, _("Location:"));
  mvwprintz(w,  5,  2, SELCOL(2), defense_location_name(location).c_str());
  mvwprintz(w,  5, 28, c_ltgray, defense_location_description(location).c_str());
 
- mvwprintz(w,  7,  2, c_ltgray, "Initial Difficulty:");
+ mvwprintz(w,  7,  2, c_ltgray, _("Initial Difficulty:"));
  mvwprintz(w,  7, NUMALIGN(initial_difficulty), SELCOL(3), "%d",
            initial_difficulty);
- mvwprintz(w,  7, 28, c_ltgray, "The difficulty of the first wave.");
- mvwprintz(w,  8,  2, c_ltgray, "Wave Difficulty:");
+ mvwprintz(w,  7, 28, c_ltgray, _("The difficulty of the first wave."));
+ mvwprintz(w,  8,  2, c_ltgray, _("Wave Difficulty:"));
  mvwprintz(w,  8, NUMALIGN(wave_difficulty), SELCOL(4), "%d", wave_difficulty);
- mvwprintz(w,  8, 28, c_ltgray, "The increase of difficulty with each wave.");
+ mvwprintz(w,  8, 28, c_ltgray, _("The increase of difficulty with each wave."));
 
- mvwprintz(w, 10,  2, c_ltgray, "Time b/w Waves:");
+ mvwprintz(w, 10,  2, c_ltgray, _("Time b/w Waves:"));
  mvwprintz(w, 10, NUMALIGN(time_between_waves), SELCOL(5), "%d",
            time_between_waves);
- mvwprintz(w, 10, 28, c_ltgray, "The time, in minutes, between waves.");
- mvwprintz(w, 11,  2, c_ltgray, "Waves b/w Caravans:");
+ mvwprintz(w, 10, 28, c_ltgray, _("The time, in minutes, between waves."));
+ mvwprintz(w, 11,  2, c_ltgray, _("Waves b/w Caravans:"));
  mvwprintz(w, 11, NUMALIGN(waves_between_caravans), SELCOL(6), "%d",
            waves_between_caravans);
- mvwprintz(w, 11, 28, c_ltgray, "The number of waves in between caravans.");
+ mvwprintz(w, 11, 28, c_ltgray, _("The number of waves in between caravans."));
 
- mvwprintz(w, 13,  2, c_ltgray, "Initial Cash:");
+ mvwprintz(w, 13,  2, c_ltgray, _("Initial Cash:"));
  mvwprintz(w, 13, NUMALIGN(initial_cash), SELCOL(7), "%d", initial_cash);
- mvwprintz(w, 13, 28, c_ltgray, "The amount of money the player starts with.");
- mvwprintz(w, 14,  2, c_ltgray, "Cash for 1st Wave:");
+ mvwprintz(w, 13, 28, c_ltgray, _("The amount of money the player starts with."));
+ mvwprintz(w, 14,  2, c_ltgray, _("Cash for 1st Wave:"));
  mvwprintz(w, 14, NUMALIGN(cash_per_wave), SELCOL(8), "%d", cash_per_wave);
- mvwprintz(w, 14, 28, c_ltgray, "The cash awarded for the first wave.");
- mvwprintz(w, 15,  2, c_ltgray, "Cash Increase:");
+ mvwprintz(w, 14, 28, c_ltgray, _("The cash awarded for the first wave."));
+ mvwprintz(w, 15,  2, c_ltgray, _("Cash Increase:"));
  mvwprintz(w, 15, NUMALIGN(cash_increase), SELCOL(9), "%d", cash_increase);
- mvwprintz(w, 15, 28, c_ltgray, "The increase in the award each wave.");
+ mvwprintz(w, 15, 28, c_ltgray, _("The increase in the award each wave."));
 
- mvwprintz(w, 17,  2, c_ltgray, "Enemy Selection:");
- mvwprintz(w, 18,  2, TOGCOL(10, zombies), "Zombies");
- mvwprintz(w, 18, 14, TOGCOL(11, specials), "Special Zombies");
- mvwprintz(w, 18, 34, TOGCOL(12, spiders), "Spiders");
- mvwprintz(w, 18, 46, TOGCOL(13, triffids), "Triffids");
- mvwprintz(w, 18, 59, TOGCOL(14, robots), "Robots");
- mvwprintz(w, 18, 70, TOGCOL(15, subspace), "Subspace");
+ mvwprintz(w, 17,  2, c_ltgray, _("Enemy Selection:"));
+ mvwprintz(w, 18,  2, TOGCOL(10, zombies), _("Zombies"));
+ mvwprintz(w, 18, 14, TOGCOL(11, specials), _("Special Zombies"));
+ mvwprintz(w, 18, 34, TOGCOL(12, spiders), _("Spiders"));
+ mvwprintz(w, 18, 46, TOGCOL(13, triffids), _("Triffids"));
+ mvwprintz(w, 18, 59, TOGCOL(14, robots), _("Robots"));
+ mvwprintz(w, 18, 70, TOGCOL(15, subspace), _("Subspace"));
 
- mvwprintz(w, 20,  2, c_ltgray, "Needs:");
- mvwprintz(w, 21,  2, TOGCOL(16, hunger), "Food");
- mvwprintz(w, 21, 16, TOGCOL(17, thirst), "Water");
- mvwprintz(w, 21, 31, TOGCOL(18, sleep), "Sleep");
- mvwprintz(w, 21, 46, TOGCOL(19, mercenaries), "Mercenaries");
+ mvwprintz(w, 20,  2, c_ltgray, _("Needs:"));
+ mvwprintz(w, 21,  2, TOGCOL(16, hunger), _("Food"));
+ mvwprintz(w, 21, 16, TOGCOL(17, thirst), _("Water"));
+ mvwprintz(w, 21, 31, TOGCOL(18, sleep), _("Sleep"));
+ mvwprintz(w, 21, 46, TOGCOL(19, mercenaries), _("Mercenaries"));
  wrefresh(w);
 }
 
@@ -708,16 +707,16 @@ std::string defense_style_name(defense_style style)
 {
 // 24 Characters Max!
  switch (style) {
-  case DEFENSE_CUSTOM:		return "Custom";
-  case DEFENSE_EASY:		return "Easy";
-  case DEFENSE_MEDIUM:		return "Medium";
-  case DEFENSE_HARD:		return "Hard";
-  case DEFENSE_SHAUN:		return "Shaun of the Dead";
-  case DEFENSE_DAWN:		return "Dawn of the Dead";
-  case DEFENSE_SPIDERS:		return "Eight-Legged Freaks";
-  case DEFENSE_TRIFFIDS:	return "Day of the Triffids";
-  case DEFENSE_SKYNET:		return "Skynet";
-  case DEFENSE_LOVECRAFT:	return "The Call of Cthulhu";
+  case DEFENSE_CUSTOM:		return _("Custom");
+  case DEFENSE_EASY:		return _("Easy");
+  case DEFENSE_MEDIUM:		return _("Medium");
+  case DEFENSE_HARD:		return _("Hard");
+  case DEFENSE_SHAUN:		return _("Shaun of the Dead");
+  case DEFENSE_DAWN:		return _("Dawn of the Dead");
+  case DEFENSE_SPIDERS:		return _("Eight-Legged Freaks");
+  case DEFENSE_TRIFFIDS:	return _("Day of the Triffids");
+  case DEFENSE_SKYNET:		return _("Skynet");
+  case DEFENSE_LOVECRAFT:	return _("The Call of Cthulhu");
   default:			return "Bug! (bug in defense.cpp:defense_style_name)";
  }
 }
@@ -727,25 +726,25 @@ std::string defense_style_description(defense_style style)
 // 51 Characters Max!
  switch (style) {
   case DEFENSE_CUSTOM:
-   return "A custom game.";
+   return _("A custom game.");
   case DEFENSE_EASY:
-   return "Easy monsters and lots of money.";
+   return _("Easy monsters and lots of money.");
   case DEFENSE_MEDIUM:
-   return "Harder monsters.  You have to eat.";
+   return _("Harder monsters.  You have to eat.");
   case DEFENSE_HARD:
-   return "All monsters.  You have to eat and drink.";
+   return _("All monsters.  You have to eat and drink.");
   case DEFENSE_SHAUN:
-   return "Defend a bar against classic zombies.  Easy and fun.";
+   return _("Defend a bar against classic zombies.  Easy and fun.");
   case DEFENSE_DAWN:
-   return "Classic zombies.  Slower and more realistic.";
+   return _("Classic zombies.  Slower and more realistic.");
   case DEFENSE_SPIDERS:
-   return "Fast-paced spider-fighting fun!";
+   return _("Fast-paced spider-fighting fun!");
   case DEFENSE_TRIFFIDS:
-   return "Defend your mansion against the triffids.";
+   return _("Defend your mansion against the triffids.");
   case DEFENSE_SKYNET:
-   return "The robots have decided that humans are the enemy!";
+   return _("The robots have decided that humans are the enemy!");
   case DEFENSE_LOVECRAFT:
-   return "Ward off legions of eldritch horrors.";
+   return _("Ward off legions of eldritch horrors.");
   default:
    return "What the heck is this I don't even know. (defense.cpp:defense_style_description)";
  }
@@ -755,10 +754,10 @@ std::string defense_location_name(defense_location location)
 {
  switch (location) {
  case DEFLOC_NULL:	return "Nowhere?! (bug in defense.cpp:defense_location_name)";
- case DEFLOC_HOSPITAL:	return "Hospital";
- case DEFLOC_MALL:	return "Megastore";
- case DEFLOC_BAR:	return "Bar";
- case DEFLOC_MANSION:	return "Mansion";
+ case DEFLOC_HOSPITAL:	return _("Hospital");
+ case DEFLOC_MALL:	return _("Megastore");
+ case DEFLOC_BAR:	return _("Bar");
+ case DEFLOC_MANSION:	return _("Mansion");
  default:		return "a ghost's house (bug in defense.cpp:defense_location_name)";
  }
 }
@@ -769,13 +768,13 @@ std::string defense_location_description(defense_location location)
  case DEFLOC_NULL:
   return "NULL Bug. (defense.cpp:defense_location_description)";
  case DEFLOC_HOSPITAL:
-  return                 "One entrance and many rooms.  Some medical supplies.";
+  return                 _("One entrance and many rooms.  Some medical supplies.");
  case DEFLOC_MALL:
-  return                 "A large building with various supplies.";
+  return                 _("A large building with various supplies.");
  case DEFLOC_BAR:
-  return                 "A small building with plenty of alcohol.";
+  return                 _("A small building with plenty of alcohol.");
  case DEFLOC_MANSION:
-  return                 "A large house with many rooms and.";
+  return                 _("A large house with many rooms and.");
  default:
   return "Unknown data bug. (defense.cpp:defense_location_description)";
  }
@@ -817,12 +816,12 @@ void defense_game::caravan(game *g)
   char ch = input();
   switch (ch) {
    case '?':
-    popup_top("\
+    popup_top(_("\
 CARAVAN:\n\
 Start by selecting a category using your favorite up/down keys.\n\
 Switch between category selection and item selecting by pressing Tab.\n\
 Pick an item with the up/down keys, press + to buy 1 more, - to buy 1 less.\n\
-Press Enter to buy everything in your cart, Esc to buy nothing.");
+Press Enter to buy everything in your cart, Esc to buy nothing."));
     draw_caravan_categories(w, category_selected, total_price, g->u.cash);
     draw_caravan_items(w, g, &(items[category_selected]),
                        &(item_count[category_selected]), offset, item_selected);
@@ -963,7 +962,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
     break;
 
    case KEY_ESCAPE:
-    if (query_yn("Really buy nothing?")) {
+    if (query_yn(_("Really buy nothing?"))) {
      cancel = true;
      done = true;
     } else {
@@ -976,10 +975,10 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
 
    case '\n':
     if (total_price > g->u.cash)
-     popup("You can't afford those items!");
-    else if ((items[0].empty() && query_yn("Really buy nothing?")) ||
+     popup(_("You can't afford those items!"));
+    else if ((items[0].empty() && query_yn(_("Really buy nothing?"))) ||
              (!items[0].empty() &&
-              query_yn("Buy %d items, leaving you with $%d?", items[0].size(),
+              query_yn(_("Buy %d items, leaving you with $%d?"), items[0].size(),
                        g->u.cash - total_price)))
      done = true;
     if (!done) { // We canceled, so redraw everything
@@ -1006,25 +1005,25 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
      g->u.i_add(tmp);
     else { // Could fit it in the inventory!
      dropped_some = true;
-     g->m.add_item(g->u.posx, g->u.posy, tmp);
+     g->m.add_item_or_charges(g->u.posx, g->u.posy, tmp);
     }
    }
   }
   if (dropped_some)
-   g->add_msg("You drop some items.");
+   g->add_msg(_("You drop some items."));
  }
 }
 
 std::string caravan_category_name(caravan_category cat)
 {
  switch (cat) {
-  case CARAVAN_CART:		return "Shopping Cart";
-  case CARAVAN_MELEE:		return "Melee Weapons";
-  case CARAVAN_GUNS:		return "Firearms & Ammo";
-  case CARAVAN_COMPONENTS:	return "Crafting & Construction Components";
-  case CARAVAN_FOOD:		return "Food & Drugs";
-  case CARAVAN_CLOTHES:		return "Clothing & Armor";
-  case CARAVAN_TOOLS:		return "Tools, Traps & Grenades";
+  case CARAVAN_CART:		return _("Shopping Cart");
+  case CARAVAN_MELEE:		return _("Melee Weapons");
+  case CARAVAN_GUNS:		return _("Firearms & Ammo");
+  case CARAVAN_COMPONENTS:	return _("Crafting & Construction Components");
+  case CARAVAN_FOOD:		return _("Food & Drugs");
+  case CARAVAN_CLOTHES:		return _("Clothing & Armor");
+  case CARAVAN_TOOLS:		return _("Tools, Traps & Grenades");
  }
  return "BUG (defense.cpp:caravan_category_name)";
 }
@@ -1135,7 +1134,7 @@ void draw_caravan_borders(WINDOW *w, int current_window)
  mvwputch(w, FULL_SCREEN_HEIGHT-1, FULL_SCREEN_WIDTH-1, col, LINE_XOOX);
 
 // Quick reminded about help.
- mvwprintz(w, FULL_SCREEN_HEIGHT-1, 2, c_red, "Press ? for help.");
+ mvwprintz(w, FULL_SCREEN_HEIGHT-1, 2, c_red, _("Press ? for help."));
  wrefresh(w);
 }
 
@@ -1145,9 +1144,7 @@ void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
 // Clear the window
  for (int i = 1; i <= 10; i++)
   mvwprintz(w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
- mvwprintz(w, 1, 1, c_white, "Your Cash:%s%d",
-           (cash >= 10000 ? " " : (cash >= 1000 ? "  " : (cash >= 100 ? "   " :
-            (cash >= 10 ? "    " : "     ")))), cash);
+ mvwprintz(w, 1, 1, c_white, _("Your Cash:%6d"),cash);
  wprintz(w, c_ltgray, " -> ");
  wprintz(w, (total_price > cash ? c_red : c_green), "%d", cash - total_price);
 
@@ -1170,7 +1167,7 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
 // THEN print it--if item_selected is valid
  if (item_selected < items->size()) {
   item tmp(g->itypes[ (*items)[item_selected] ], 0); // Dummy item to get info
-  mvwprintz(w, 12, 0, c_white, tmp.info().c_str());
+  mvwprintz(w, 12, 1, c_white, tmp.info().c_str());
  }
 // Next, clear the item list on the right
  for (int i = 1; i <= FULL_SCREEN_HEIGHT-2; i++)
@@ -1179,13 +1176,10 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
  for (int i = offset; i <= offset + FULL_SCREEN_HEIGHT-2 && i < items->size(); i++) {
   mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
             g->itypes[ (*items)[i] ]->name.c_str());
-  wprintz(w, c_white, " x %s%d", ((*counts)[i] >= 10 ? "" : " "), (*counts)[i]);
+  wprintz(w, c_white, " x %2d", (*counts)[i]);
   if ((*counts)[i] > 0) {
    int price = caravan_price(g->u, g->itypes[(*items)[i]]->price *(*counts)[i]);
-   wprintz(w, (price > g->u.cash ? c_red : c_green),
-              "($%s%d)", (price >= 100000 ? "" : (price >= 10000 ? " " :
-                          (price >= 1000 ? "  " : (price >= 100 ? "   " :
-                           (price >= 10 ? "    " : "     "))))), price);
+   wprintz(w, (price > g->u.cash ? c_red : c_green), "($%6d)", price);
   }
  }
  wrefresh(w);
@@ -1214,7 +1208,7 @@ void defense_game::spawn_wave(game *g)
    }
   }
   if (valid.size() == 0) {
-   g->add_msg("Welcome to Wave %d!", current_wave);
+   g->add_msg(_("Welcome to Wave %d!"), current_wave);
    g->add_msg("********");
    return;
   }
@@ -1235,7 +1229,7 @@ void defense_game::spawn_wave(game *g)
   diff -= type->difficulty;
   spawn_wave_monster(g, type);
  }
- g->add_msg("Welcome to Wave %d!", current_wave);
+ g->add_msg(_("Welcome to Wave %d!"), current_wave);
  g->add_msg("********");
 }
 
@@ -1294,24 +1288,26 @@ void defense_game::spawn_wave_monster(game *g, mtype *type)
 std::string defense_game::special_wave_message(std::string name)
 {
  std::stringstream ret;
- ret << "Wave " << current_wave << ": ";
- name[0] += 'A' - 'a'; // Capitalize
+ ret << string_format(_("Wave %d: "), current_wave);
 
+ // Capitalize
+ capitalize_letter(name);
  for (int i = 2; i < name.size(); i++) {
-  if (name[i - 1] == ' ')
-   name[i] += 'A' - 'a';
+  if (name[i - 1] == ' ') {
+    capitalize_letter(name, i);
+  }
  }
 
  switch (rng(1, 6)) {
-  case 1: ret << name << " Invasion!"; break;
-  case 2: ret << "Attack of the " << name << "s!"; break;
-  case 3: ret << name << " Attack!"; break;
-  case 4: ret << name << "s from Hell!"; break;
-  case 5: ret << "Beware! " << name << "!"; break;
-  case 6: ret << "The Day of the " << name << "!"; break;
-  case 7: ret << name << " Party!"; break;
-  case 8: ret << "Revenge of the " << name << "s!"; break;
-  case 9: ret << "Rise of the " << name << "s!"; break;
+  case 1: ret << string_format(_("%s Invasion!"), name.c_str()); break;
+  case 2: ret << string_format(_("Attack of the %ss!"), name.c_str()); break;
+  case 3: ret << string_format(_("%s Attack!"), name.c_str()); break;
+  case 4: ret << string_format(_("%s from Hell!"), name.c_str()); break;
+  case 5: ret << string_format(_("Beware! %s!"), name.c_str()); break;
+  case 6: ret << string_format(_("The Day of the %s!"), name.c_str()); break;
+  case 7: ret << string_format(_("%s Party!"), name.c_str()); break;
+  case 8: ret << string_format(_("Revenge of the %ss!"), name.c_str()); break;
+  case 9: ret << string_format(_("Rise of the %ss!"), name.c_str()); break;
  }
 
  return ret.str();

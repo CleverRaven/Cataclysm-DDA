@@ -14,9 +14,9 @@ class map;
 class player;
 class game;
 
-const int num_fuel_types = 5;
-const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "PLAS", "water" };
-const int k_mvel = 200;
+#define num_fuel_types 5
+extern const ammotype fuel_types[num_fuel_types];
+#define k_mvel 200
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
 // 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other

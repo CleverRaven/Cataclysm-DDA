@@ -102,7 +102,7 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
   part_num = it->second.second;
   return it->second.first;
  }
- debugmsg ("vehicle part cache cache indicated vehicle not found :/");
+ debugmsg ("vehicle part cache cache indicated vehicle not found: %d %d",x,y);
  return NULL;
 }
 
@@ -945,9 +945,9 @@ bool map::trans(const int x, const int y)
 	 field &curfield = field_at(x,y);
 	 if(curfield.fieldCount() > 0){
 	 field_entry *cur = NULL;
-	  for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart();
+	  for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
        field_list_it != curfield.getFieldEnd(); ++field_list_it){
-			 cur = (*field_list_it);
+			 cur = field_list_it->second;
 			 if(cur == NULL) continue;
 			 //If ANY field blocks vision, the tile does.
 			 if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]){
@@ -1149,7 +1149,10 @@ switch (furn(x, y)) {
    furn_set(x, y, f_null);
    spawn_item(x, y, "scrap",       0, rng(0, 6));
    spawn_item(x, y, "steel_chunk", 0, rng(0, 3));
-   spawn_item(x, y, "element",     0, rng(0, 4));
+   spawn_item(x, y, "element", 0, rng(1, 3));
+   spawn_item(x, y, "sheet_metal", 0, 0, rng(2, 6));
+   spawn_item(x, y, "cable", 0, 0, rng(1,3));
+
    return true;
   } else {
    sound += "clang!";
@@ -3739,7 +3742,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
-  map tmp_map(traps);
+  tinymap tmp_map(traps);
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at
 //  squares divisible by 2.
@@ -3998,8 +4001,8 @@ void map::build_transparency_cache()
    field &curfield = field_at(x,y);
    if(curfield.fieldCount() > 0){
 	   field_entry *cur = NULL;
-	   for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-		   cur = (*field_list_it);
+	   for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+		   cur = field_list_it->second;
 		   if(cur == NULL) continue;
 
 		   if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
@@ -4087,6 +4090,8 @@ tinymap::tinymap(std::vector<trap*> *trptr)
  my_MAPSIZE = 2;
  for (int n = 0; n < 4; n++)
   grid[n] = NULL;
+ veh_in_active_range = true;
+ memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
 
 tinymap::~tinymap()

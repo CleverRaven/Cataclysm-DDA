@@ -1,6 +1,7 @@
 #include "catajson.h"
 #include "rng.h"
 #include "text_snippets.h"
+#include "translations.h"
 
 snippet_library SNIPPET;
 
@@ -16,11 +17,13 @@ void snippet_library::load() throw (std::string)
     catajson snippetList = snippetRaw.get("snippets");
     for( snippetList.set_begin(); snippetList.has_curr(); snippetList.next() )
     {
-        const catajson curr = snippetList.curr();
+        catajson curr = snippetList.curr();
         // required fields
-        const std::string category = curr.get("category").as_string();
-        const std::string text = curr.get("text").as_string();
-        const int hash = djb2_hash( (const unsigned char*)text.c_str() );
+        std::string category = curr.get("category").as_string();
+        std::string text = curr.get("text").as_string();
+        int hash = djb2_hash( (const unsigned char*)text.c_str() );
+
+        text = _(text.c_str());
 
         snippets.insert( std::pair<int, std::string>(hash, text) );
         categories.insert( std::pair<std::string, int>(category, hash) );

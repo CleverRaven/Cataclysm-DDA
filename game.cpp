@@ -80,10 +80,16 @@ game::game() :
  if(!json_good())
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
+ init_npctalk();
+ init_artifacts();
+ init_weather();
+ init_overmap();
  init_fields();
  init_faction_data();
+ init_morale();
  init_traits();
  init_skills();
+ init_professions();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	              // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();
@@ -340,7 +346,8 @@ void game::load_npcs()
 {
     for (int i = 0; i < cur_om->npcs.size(); i++)
     {
-        if (rl_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
+
+        if (square_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
               cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy) <=
               int(MAPSIZE / 2) + 1 && !cur_om->npcs[i]->is_active(this))
         {
@@ -811,6 +818,7 @@ void game::process_activity()
     break;
 
    case ACT_WAIT:
+    u.activity.continuous = false;
     add_msg(_("You finish waiting."));
     break;
 
@@ -1301,41 +1309,34 @@ void game::process_missions()
 }
 
 void game::handle_key_blocking_activity() {
-    if ( u.activity.type != ACT_NULL &&
-        u.activity.moves_left > 0 &&
-        u.activity.continuous == true &&
+    if (u.activity.moves_left > 0 && u.activity.continuous == true &&
         (  // bool activity_is_abortable() ?
             u.activity.type == ACT_READ ||
             u.activity.type == ACT_BUILD ||
             u.activity.type == ACT_LONGCRAFT ||
             u.activity.type == ACT_REFILL_VEHICLE ||
-            u.activity.type == ACT_REFILL_VEHICLE ||
             u.activity.type == ACT_WAIT
         )
     ) {
-        char ch='.';
-        int ich=0;
         timeout(1);
-        if((ich = input()) != ERR) {
+        char ch = input();
+        if(ch != ERR) {
             timeout(-1);
-            ch = input(ich);
-            action_id act = keymap[ch];
-            switch(act) {  // should probably make the switch in handle_action() a function
+            switch(keymap[ch]){  // should probably make the switch in handle_action() a function
                 case ACTION_PAUSE:
                     cancel_activity_query(_("Confirm:"));
-                break;
+                    break;
                 case ACTION_PL_INFO:
                     u.disp_info(this);
                     refresh_all();
-                break;
+                    break;
                 case ACTION_MESSAGES:
                     msg_buffer();
-                break;
-
+                    break;
                 case ACTION_HELP:
                     help();
                     refresh_all();
-                break;
+                    break;
             }
         }
         timeout(-1);
@@ -1343,38 +1344,37 @@ void game::handle_key_blocking_activity() {
 }
 //// item submenu for 'i' and '/'
 int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
-    bool has = false;
-    const std::string sSpaces = "                              ";
     int cMenu = (int)'+';
-    has = u.has_item(chItem);
 
-    if (has) {
+    if (u.has_item(chItem)) {
         item oThisItem = u.i_at(chItem);
         std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
         const int iOffsetX = 2;
+        const bool bHPR = hasPickupRule(oThisItem.tname(this));
 
-        vMenu.push_back(iteminfo("MENU", "", _("iOffsetX"), iOffsetX));
-        vMenu.push_back(iteminfo("MENU", "", _("iOffsetY"), 0));
-        vMenu.push_back(iteminfo("MENU", "a", _("ctivate"), u.rate_action_use(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "R", _("ead"), u.rate_action_read(&oThisItem, this)));
-        vMenu.push_back(iteminfo("MENU", "E", _("at  "), u.rate_action_eat(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "W", _("ear  "), u.rate_action_wear(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "w", _("ield")));
-        vMenu.push_back(iteminfo("MENU", "t", _("hrow")));
-        vMenu.push_back(iteminfo("MENU", "T", _("ake off"), u.rate_action_takeoff(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "d", _("rop")));
-        vMenu.push_back(iteminfo("MENU", "U", _("nload"), u.rate_action_unload(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "r", _("eload"), u.rate_action_reload(&oThisItem)));
-        vMenu.push_back(iteminfo("MENU", "D", _("isassemble"), u.rate_action_disassemble(&oThisItem, this)));
-        vMenu.push_back(iteminfo("MENU", "=", _(" reassign")));
+        vMenu.push_back(iteminfo("MENU", "", "iOffsetX", iOffsetX));
+        vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
+        vMenu.push_back(iteminfo("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem, this)));
+        vMenu.push_back(iteminfo("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "w", _("<w>ield")));
+        vMenu.push_back(iteminfo("MENU", "t", _("<t>hrow")));
+        vMenu.push_back(iteminfo("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "d", _("<d>rop")));
+        vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem, this)));
+        vMenu.push_back(iteminfo("MENU", "=", _("<=> reassign")));
+        vMenu.push_back(iteminfo("MENU", (bHPR) ? "-":"+", (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
         oThisItem.info(true, &vThisItem, this);
         compare_split_screen_popup(iStartX,iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
 
-        const int iMenuStart = iOffsetX;  // lightbar constraints
+        const int iMenuStart = iOffsetX;
         const int iMenuItems = vMenu.size() - 1;
-        int iSelected = 1;         // default 'parked' hidden above 'activate'
+        int iSelected = iOffsetX - 1;
 
         do {
             cMenu = compare_split_screen_popup(iStartX + iWidth, iMenuItems + iOffsetX, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
@@ -1423,6 +1423,18 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
                  break;
                 case KEY_DOWN:
                  iSelected++;
+                 break;
+                case '+':
+                 if (!bHPR) {
+                  addPickupRule(oThisItem.tname(this));
+                  add_msg(_("'%s' added to character pickup rules."), oThisItem.tname(this).c_str());
+                 }
+                 break;
+                case '-':
+                 if (bHPR) {
+                  removePickupRule(oThisItem.tname(this));
+                  add_msg(_("'%s' removed from character pickup rules."), oThisItem.tname(this).c_str());
+                 }
                  break;
                 default:
                  break;
@@ -1871,46 +1883,64 @@ bool game::handle_action()
    break;
 
   case ACTION_SLEEP:
-     if (veh_ctrl) {
-       add_msg(_("Vehicle control has moved, %s"),
-       press_x(ACTION_CONTROL_VEHICLE, _("new binding is "),
-               _("new default binding is '^'.")).c_str());
-     } else {
-       uimenu as_m;
-       as_m.text=_("Are you sure you want to sleep?");
-       as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS[OPT_FORCE_YN]?'Y':'y'),
-           _("Yes.") ));
-       if (OPTIONS[OPT_SAVESLEEP]) {
-         as_m.entries.push_back(uimenu_entry(1,
-             (moves_since_last_save || item_exchanges_since_save),
-             (OPTIONS[OPT_FORCE_YN]?'S':'s'),
-             _("Yes, and save game before sleeping.") ));
-       }
-       as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS[OPT_FORCE_YN]?'N':'n'),
-           _("No.") ));
-       as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
-       switch (as_m.ret) {
-       case 1:  // Yes, I do want to save game before sleeping.
-         {
-           quicksave();
-         }
-       case 0:  // Yes, I do want to sleep.
-         {
-           u.try_to_sleep(this);
-           u.moves = 0;
-           break;
-         }
-       default:  // No, I do not want to sleep.
-         {  /*// Do we tell the player if they could anyways?
-           if (u.can_sleep(this)) {
-             //add_msg("You could sleep now.");
-           } else {
-             add_msg("You can't sleep now.");
-           }*/
-         }
-       }
-     }
-     break;
+    if (veh_ctrl)
+    {
+        add_msg(_("Vehicle control has moved, %s"),
+        press_x(ACTION_CONTROL_VEHICLE, _("new binding is "), _("new default binding is '^'.")).c_str());
+
+    }
+    else
+    {
+        uimenu as_m;
+        as_m.text = _("Are you sure you want to sleep?");
+        as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS[OPT_FORCE_YN]?'Y':'y'), _("Yes.")) );
+
+        if (OPTIONS[OPT_SAVESLEEP])
+        {
+            as_m.entries.push_back(uimenu_entry(1,
+            (moves_since_last_save || item_exchanges_since_save),
+            (OPTIONS[OPT_FORCE_YN]?'S':'s'),
+            _("Yes, and save game before sleeping.") ));
+        }
+
+        as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS[OPT_FORCE_YN]?'N':'n'), _("No.")) );
+
+        if (u.has_item_with_flag("ALARMCLOCK"))
+        {
+            as_m.entries.push_back(uimenu_entry(3, true, '3', _("Set alarm to wake up in 3 hours.") ));
+            as_m.entries.push_back(uimenu_entry(4, true, '4', _("Set alarm to wake up in 4 hours.") ));
+            as_m.entries.push_back(uimenu_entry(5, true, '5', _("Set alarm to wake up in 5 hours.") ));
+            as_m.entries.push_back(uimenu_entry(6, true, '6', _("Set alarm to wake up in 6 hours.") ));
+            as_m.entries.push_back(uimenu_entry(7, true, '7', _("Set alarm to wake up in 7 hours.") ));
+            as_m.entries.push_back(uimenu_entry(8, true, '8', _("Set alarm to wake up in 8 hours.") ));
+            as_m.entries.push_back(uimenu_entry(9, true, '9', _("Set alarm to wake up in 9 hours.") ));
+        }
+
+        as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
+
+        bool bSleep = false;
+        if (as_m.ret == 0)
+        {
+            bSleep = true;
+        }
+        else if (as_m.ret == 1)
+        {
+            quicksave();
+            bSleep = true;
+        }
+        else if (as_m.ret >= 3 && as_m.ret <= 9)
+        {
+            u.add_disease("alarm_clock", 600*as_m.ret);
+            bSleep = true;
+        }
+
+        if (bSleep)
+        {
+            u.moves = 0;
+            u.try_to_sleep(this);
+        }
+    }
+    break;
 
   case ACTION_CONTROL_VEHICLE:
    control_vehicle();
@@ -1987,7 +2017,7 @@ bool game::handle_action()
    break;
 
   case ACTION_FACTIONS:
-   list_factions();
+   list_factions(_("FACTIONS:"));
    break;
 
   case ACTION_MORALE:
@@ -2141,7 +2171,7 @@ void game::place_corpse()
   your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
   your_body.name = u.name;
   for (int i = 0; i < tmp.size(); i++)
-    m.add_item(u.posx, u.posy, *(tmp[i]));
+    m.add_item_or_charges(u.posx, u.posy, *(tmp[i]));
   for (int i = 0; i < u.my_bionics.size(); i++) {
     if (itypes.find(u.my_bionics[i].id) != itypes.end()) {
       your_body.contents.push_back(item(itypes[u.my_bionics[i].id], turn));
@@ -2157,7 +2187,7 @@ void game::place_corpse()
       your_body.contents.push_back(item(itypes["bio_power_storage"], turn));
     }
   }
-  m.add_item(u.posx, u.posy, your_body);
+  m.add_item_or_charges(u.posx, u.posy, your_body);
 }
 
 void game::death_screen()
@@ -3361,7 +3391,7 @@ void game::draw()
     werase(w_status);
     u.disp_status(w_status, this);
 
-    if ( u.worn_with_flag("WATCH") ) {
+    if ( u.has_item_with_flag("WATCH") ) {
         mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
     } else {
         std::vector<std::pair<char, nc_color> > vGlyphs;
@@ -3380,7 +3410,7 @@ void game::draw()
         vGlyphs.push_back(std::make_pair('_', c_red));
         vGlyphs.push_back(std::make_pair('_', c_cyan));
 
-        int iHour = turn.getHour();
+        const int iHour = turn.getHour();
         mvwprintz(w_status, 1, 41, c_white, "[");
         bool bAddTrail = false;
 
@@ -3414,7 +3444,7 @@ void game::draw()
     if (levz < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
     } else {
-        mvwprintz(w_location, 0, 18, weather_data[weather].color, _(weather_data[weather].name.c_str()));
+        mvwprintz(w_location, 0, 18, weather_data[weather].color, weather_data[weather].name.c_str());
     }
 
     nc_color col_temp = c_blue;
@@ -3434,7 +3464,7 @@ void game::draw()
     wrefresh(w_location);
 
     //Safemode coloring
-    mvwprintz(w_status, 0, 41, c_white, _("%s, day %d"), _(season_name[turn.get_season()].c_str()), turn.days() + 1);
+    mvwprintz(w_status, 0, 41, c_white, _("%s, day %d"), season_name[turn.get_season()].c_str(), turn.days() + 1);
     if (run_mode != 0 || autosafemode != 0) {
         int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
         mvwprintz(w_status, 1, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
@@ -4382,7 +4412,7 @@ void game::monmove()
  cleanup_dead();
 }
 
-void game::sound(int x, int y, int vol, std::string description)
+bool game::sound(int x, int y, int vol, std::string description)
 {
  vol *= 1.5; // Scale it a little
 // First, alert all monsters (that can hear) to the sound
@@ -4411,9 +4441,9 @@ void game::sound(int x, int y, int vol, std::string description)
  }
 // Next, display the sound as the player hears it
  if (description == "")
-  return;	// No description (e.g., footsteps)
+  return false;	// No description (e.g., footsteps)
  if (u.has_disease("deaf"))
-  return;	// We're deaf, can't hear it
+  return false;	// We're deaf, can't hear it
 
  if (u.has_bionic("bio_ears"))
   vol *= 3.5;
@@ -4423,13 +4453,16 @@ void game::sound(int x, int y, int vol, std::string description)
   vol *= 1.5;
  int dist = rl_dist(x, y, u.posx, u.posy);
  if (dist > vol)
-  return;	// Too far away, we didn't hear it!
+  return false;	// Too far away, we didn't hear it!
  if (u.has_disease("sleep") &&
      ((!u.has_trait(PF_HEAVYSLEEPER) && dice(2, 20) < vol - dist) ||
       ( u.has_trait(PF_HEAVYSLEEPER) && dice(3, 20) < vol - dist)   )) {
   u.rem_disease("sleep");
-  add_msg(_("You're woken up by a noise."));
-  return;
+  if (description != "alarm_clock")
+   add_msg(_("You're woken up by a noise."));
+  return true;
+ } else if (description == "alarm_clock") {
+  return false;
  }
  if (!u.has_bionic("bio_ears") && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
   int duration = (vol - dist - 130) / 4;
@@ -4456,10 +4489,11 @@ void game::sound(int x, int y, int vol, std::string description)
   if (description[0] >= 'a' && description[0] <= 'z')
    description[0] += 'A' - 'a';	// Capitalize the sound
   add_msg("%s", description.c_str());
-  return;
+  return true;
  }
  std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
  add_msg(_("From the %s you hear %s"), direction.c_str(), description.c_str());
+ return true;
 }
 
 // add_footstep will create a list of locations to draw monster
@@ -5259,7 +5293,7 @@ void game::kill_mon(int index, bool u_did_it)
     kills[z[index].type->id]++;	// Increment our kill counter
   }
   for (int i = 0; i < z[index].inv.size(); i++)
-   m.add_item(z[index].posx, z[index].posy, z[index].inv[i]);
+   m.add_item_or_charges(z[index].posx, z[index].posy, z[index].inv[i]);
   z[index].die(this);
  }
 }
@@ -5569,7 +5603,7 @@ void game::smash()
             add_msg(_("Your %s shatters!"), u.weapon.tname(this).c_str());
             for (int i = 0; i < u.weapon.contents.size(); i++)
             {
-                m.add_item(u.posx, u.posy, u.weapon.contents[i]);
+                m.add_item_or_charges(u.posx, u.posy, u.weapon.contents[i]);
             }
             sound(u.posx, u.posy, 24, "");
             u.hit(this, bp_hands, 1, 0, rng(0, u.weapon.volume()));
@@ -7223,8 +7257,8 @@ point game::look_debug(point coords) {
     field &curfield = m.field_at(lx, ly);
     if (curfield.fieldCount() > 0) {
 		field_entry *cur = NULL;
-		for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-			cur = (*field_list_it);
+		for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+			cur = field_list_it->second;
 			if(cur == NULL) continue;
 			mvwprintz(w_look, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], _("field: %s (%d) density %d age %d"),
 				fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str(), cur->getFieldType(), cur->getFieldDensity(), cur->getFieldAge()
@@ -7565,8 +7599,8 @@ point game::look_around()
 
    if (tmpfield.fieldCount() > 0) {
 		field_entry *cur = NULL;
-		for(std::vector<field_entry*>::iterator field_list_it = tmpfield.getFieldStart(); field_list_it != tmpfield.getFieldEnd(); ++field_list_it){
-			cur = (*field_list_it);
+		for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfield.getFieldStart(); field_list_it != tmpfield.getFieldEnd(); ++field_list_it){
+			cur = field_list_it->second;
 			if(cur == NULL) continue;
 			mvwprintz(w_look, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], "%s",
 				fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str());
@@ -9432,7 +9466,7 @@ void game::complete_butcher(int index)
  for (int i = 0; i < contents.size(); i++) {
    if ((skill_shift + 10) * 5 > rng(0,100)) {
      add_msg(_("You discover a %s in the %s!"), contents[i].tname().c_str(), corpse->name.c_str());
-     m.add_item(u.posx, u.posy, contents[i]);
+     m.add_item_or_charges(u.posx, u.posy, contents[i]);
    } else if (contents[i].is_bionic()){
      m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
    }
@@ -9460,7 +9494,7 @@ void game::complete_butcher(int index)
   tmpitem.corpse=dynamic_cast<mtype*>(corpse);
   while ( pieces > 0 ) {
     pieces--;
-    m.add_item(u.posx, u.posy, tmpitem);
+    m.add_item_or_charges(u.posx, u.posy, tmpitem);
   }
   add_msg(_("You butcher the corpse."));
  }
@@ -10077,9 +10111,9 @@ void game::plmove(int x, int y)
   //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
   field_entry *cur = NULL;
   field &tmpfld = m.field_at(x, y);
-  for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart();
+  for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfld.getFieldStart();
       field_list_it != tmpfld.getFieldEnd(); ++field_list_it) {
-		cur = (*field_list_it);
+		cur = field_list_it->second;
 		if(cur == NULL) continue;
 		if (cur->is_dangerous() &&
 			!query_yn(_("Really step into that %s?"), cur->name().c_str()))
@@ -10136,8 +10170,8 @@ void game::plmove(int x, int y)
    if (!u.has_trait(PF_PARKOUR) || one_in(4)) {
     body_part bp = random_body_part();
     int side = rng(0, 1);
-    add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
-    u.hit(this, bp, side, 0, rng(1, 4));
+    if(u.hit(this, bp, side, 0, rng(1, 4)) > 0)
+     add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
    }
   }
   if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait(PF_LEG_TENTACLES)) {
@@ -10282,11 +10316,15 @@ void game::plmove(int x, int y)
   }
   if(tunneldist) //you tunneled
   {
+    if (u.in_vehicle)
+        m.unboard_vehicle(this, u.posx, u.posy);
     u.power_level -= (tunneldist * 10); //tunneling costs 10 bionic power per impassable tile
     u.moves -= 100; //tunneling costs 100 moves
     u.posx += (tunneldist + 1) * (x - u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
     u.posy += (tunneldist + 1) * (y - u.posy); //ditto for y
     add_msg(_("You quantum tunnel through the %d-tile wide barrier!"), tunneldist);
+    if (m.veh_at(u.posx, u.posy, vpart1) && m.veh_at(u.posx, u.posy, vpart1)->part_with_feature(vpart1, vpf_boardable) >= 0)
+        m.board_vehicle(this, u.posx, u.posy, &u);
   }
   else //or you couldn't tunnel due to lack of energy
   {
@@ -10983,7 +11021,7 @@ void game::spawn_mon(int shiftx, int shifty)
  	if (cur_om->zg[i].posz != levz) { continue; } // skip other levels - hack
   group = 0;
   if(cur_om->zg[i].diffuse)
-   dist = rl_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
+   dist = square_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
   else
    dist = trig_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
   pop = cur_om->zg[i].population;
@@ -11085,22 +11123,48 @@ int game::valid_group(mon_id type, int x, int y, int z_coord)
 
 void game::wait()
 {
- char ch = menu(true, _("Wait for how long?"), _("5 Minutes"), _("30 Minutes"), _("1 hour"),
-                _("2 hours"), _("3 hours"), _("6 hours"), _("Exit"), NULL);
- int time = 0;
- if (ch == 7)
-  return;
- switch (ch) {
-  case 1: time =   5000; break;
-  case 2: time =  30000; break;
-  case 3: time =  60000; break;
-  case 4: time = 120000; break;
-  case 5: time = 180000; break;
-  case 6: time = 360000; break;
-  default: return;
- }
- u.assign_activity(this, ACT_WAIT, time, 0);
- u.moves = 0;
+    const bool bHasWatch = u.has_item_with_flag("WATCH");
+
+    uimenu as_m;
+    as_m.text = _("Wait for how long?");
+    as_m.entries.push_back(uimenu_entry(1, true, '1', (bHasWatch) ? _("5 Minutes") : _("Wait 300 heartbeats") ));
+    as_m.entries.push_back(uimenu_entry(2, true, '2', (bHasWatch) ? _("30 Minutes") : _("Wait 1800 heartbeats") ));
+    as_m.entries.push_back(uimenu_entry(3, true, '3', (bHasWatch) ? _("1 hour") : _("Wait till dawn") ));
+    as_m.entries.push_back(uimenu_entry(4, true, '4', (bHasWatch) ? _("2 hours") : _("Wait till noon") ));
+    as_m.entries.push_back(uimenu_entry(5, true, '5', (bHasWatch) ? _("3 hours") : _("Wait till dusk") ));
+    as_m.entries.push_back(uimenu_entry(6, true, '6', (bHasWatch) ? _("6 hours") : _("Wait till midnight") ));
+    as_m.entries.push_back(uimenu_entry(7, true, '7', _("Exit") ));
+    as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
+
+    const int iHour = turn.getHour();
+
+    int time = 0;
+    switch (as_m.ret) {
+        case 1:
+            time =   5000;
+            break;
+        case 2:
+            time =  30000;
+            break;
+        case 3:
+            time =  (bHasWatch) ? 60000 : (60000 * ((iHour <= 6) ? 6-iHour : 24-iHour+6));
+            break;
+        case 4:
+            time = (bHasWatch) ? 120000 : (60000 * ((iHour <= 12) ? 12-iHour : 12-iHour+6));
+            break;
+        case 5:
+            time = (bHasWatch) ? 180000 : (60000 * ((iHour <= 18) ? 18-iHour : 18-iHour+6));
+            break;
+        case 6:
+            time = (bHasWatch) ? 360000 : (60000 * ((iHour <= 24) ? 24-iHour : 24-iHour+6));
+            break;
+        default:
+            return;
+    }
+
+    u.assign_activity(this, ACT_WAIT, time, 0);
+    u.activity.continuous = true;
+    u.moves = 0;
 }
 
 void game::gameover()
