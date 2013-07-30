@@ -2405,7 +2405,7 @@
     "price": 380,
     "material": "steel",
     "flags": "FIRE_50",
-    "skill": "guns",
+    "skill": "pistol",
     "ammo": "gasoline",
     "weight": 1,
     "volume": 2,
