@@ -300,6 +300,7 @@ class game
   bool debugmon;
 
   std::map<int, std::map<int, bool> > mapRain;
+  std::vector<cSCT> vSCT;
 
   int w_void_lines;
   WINDOW *w_terrain;
