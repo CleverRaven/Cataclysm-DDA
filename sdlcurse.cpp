@@ -3,6 +3,7 @@
 #include "options.h"
 #include "output.h"
 #include "color.h"
+#include "debug.h"
 #include "catacharset.h"
 #include <fstream>
 #include <sys/stat.h>
@@ -297,9 +298,17 @@ void curses_drawwindow(WINDOW *win)
     }// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
 
-    if(miny>=0)
+    if(maxy>=0)
     {
-        SDL_UpdateRect(screen, win->x*fontwidth, (win->y+miny)*fontheight, win->width*fontwidth, (maxy-miny+1)*fontheight);
+        int tx=win->x, ty=win->y+miny, tw=win->width, th=maxy-miny+1;
+        int maxw=WindowWidth/fontwidth, maxh=WindowHeight/fontheight;
+        if(tw+tx>maxw) {
+            tw= maxw-tx;
+        }
+        if(th+ty>maxh) {
+            th= maxh-ty;
+        }
+        SDL_UpdateRect(screen, tx*fontwidth, ty*fontheight, tw*fontwidth, th*fontheight);
     }
 }
 
