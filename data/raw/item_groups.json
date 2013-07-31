@@ -364,6 +364,7 @@
       ["rm99_pistol", 1],
       ["rm103a_pistol", 1],
       ["laser_sight", 15]
+      ["optic_3", 17]
     ]
   },
   { "id":"dresser",
@@ -1172,6 +1173,10 @@
       ["press", 5],
       ["puller", 5],
       ["laser_sight", 15]
+      ["optic_1", 18]
+      ["optic_2", 20]
+      ["optic_3", 16]
+      ["improve_1", 20]
     ]
   },
   { "id":"shoes",
