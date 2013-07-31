@@ -2,7 +2,6 @@
 #include "catacurse.h"
 #include "options.h"
 #include "output.h"
-#include "debug.h"
 #include "color.h"
 #include "catacharset.h"
 #include <fstream>
@@ -51,16 +50,7 @@ int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 
-static unsigned long lastupdate = 0;
-static unsigned long interval = 25;
-static bool needupdate = false;
-
-
-SDL_mutex  *lock = NULL;
-SDL_Thread *flipThread = NULL;
-
 static bool fontblending = false;
-int try_update(void* data);
 
 //***********************************
 //Non-curses, Window functions      *
@@ -103,7 +93,7 @@ bool WinCreate()
 
     char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
     SDL_putenv(center_string);
-	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF|SDL_ASYNCBLIT));
+	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
 	//SDL_SetColors(screen,windowsPalette,0,256);
 
 	if(screen==NULL) return false;
@@ -115,20 +105,13 @@ bool WinCreate()
     else
         SDL_ShowCursor(SDL_ENABLE);
 
-    lock = SDL_CreateMutex();
-    flipThread = SDL_CreateThread(try_update, lock);
-
     return true;
 };
 
 void WinDestroy()
 {
-    SDL_mutexP(lock);
 	if(screen) SDL_FreeSurface(screen);
 	screen = NULL;
-    SDL_mutexV(lock);
-    SDL_WaitThread(flipThread, NULL);
-    SDL_DestroyMutex(lock);
 };
 
 //The following 3 methods use mem functions for fast drawing
@@ -139,10 +122,7 @@ inline void VertLineDIB(int x, int y, int y2, int thickness, unsigned char color
 	rect.y = y;
 	rect.w = thickness;
 	rect.h = y2-y;
-    
-    SDL_mutexP(lock);
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
-    SDL_mutexV(lock);
 };
 inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color)
 {
@@ -151,9 +131,7 @@ inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color
 	rect.y = y;
 	rect.w = x2-x;
 	rect.h = thickness;
-    SDL_mutexP(lock);
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
-    SDL_mutexV(lock);
 };
 inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
 {
@@ -162,9 +140,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 	rect.y = y;
 	rect.w = width;
 	rect.h = height;
-    SDL_mutexP(lock);
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
-    SDL_mutexV(lock);
 };
 
 
@@ -211,133 +187,120 @@ static void OutputChar(Uint16 t, int x, int y, unsigned char color)
 			dy = TTF_FontAscent(font)-maxy+ttf_height_hack;
 			SDL_Rect rect;
 			rect.x = x+dx; rect.y = y+dy; rect.w = fontwidth; rect.h = fontheight;
-            SDL_mutexP(lock);
 			SDL_BlitSurface(glyph, NULL, screen, &rect);
-            SDL_mutexV(lock);
 		}
 		if(t>=0x80) SDL_FreeSurface(glyph);
     }
 }
 
-int try_update(void* data)
-{
-    bool run = true;
-    //SDL_mutex *lock = (SDL_mutex *)data;
-    while(run)
-    {
-        unsigned long now=SDL_GetTicks();
-        SDL_mutexP(lock);
-        if(NULL==screen)
-        {
-            run = false;
-        }
-        else if(needupdate)
-        {
-            if(now-lastupdate>=interval)
-            {
-                SDL_Flip(screen);
-                needupdate = false;
-                lastupdate = now;
-            }
-        }
-        SDL_mutexV(lock);
-        SDL_Delay(2);
-    }
-    return 0;
-}
-
 void curses_drawwindow(WINDOW *win)
 {
-    int i,j,w,drawx,drawy, lines = 0;
+    int i,j,w,drawx,drawy;
     unsigned tmp;
+    
+    int miny = 99999;
+    int maxy = -99999;
 
-    for (j=0; j<win->height; j++){
+    for (j=0; j<win->height; j++)
+    {
         if (win->line[j].touched)
         {
-            win->line[j].touched=false;
-            lines++;
+            if(j<miny) {
+                miny=j;
+            }
+            if(j>maxy) {
+                maxy=j;
+            }
 
-            for (i=0,w=0; w<win->width; i++,w++){
+
+            win->line[j].touched=false;
+
+            for (i=0,w=0; w<win->width; i++,w++)
+            {
                 drawx=((win->x+w)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
-                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
-				const char* utf8str = win->line[j].chars+i;
-				int len = ANY_LENGTH;
-                tmp = UTF8_getch(&utf8str, &len);
-                int FG = win->line[j].FG[w];
-                int BG = win->line[j].BG[w];
-                FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
+                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight))
+                {
+                    const char* utf8str = win->line[j].chars+i;
+                    int len = ANY_LENGTH;
+                    tmp = UTF8_getch(&utf8str, &len);
+                    int FG = win->line[j].FG[w];
+                    int BG = win->line[j].BG[w];
+                    FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
-                if ( tmp != UNKNOWN_UNICODE){
-					int cw = mk_wcwidth((wchar_t)tmp);
-					len = ANY_LENGTH-len;
-					if(cw>1)
-					{
-						FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
-						w+=cw-1;
-					}
-					if(len>1)
-					{
-						i+=len-1;
-					}
-                    if(tmp) OutputChar(tmp, drawx,drawy,FG);
-                } else {
-                    switch ((unsigned char)win->line[j].chars[i]) {
-                    case LINE_OXOX_C://box bottom/top side (horizontal line)
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                        break;
-                    case LINE_XOXO_C://box left/right side (vertical line)
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_OXXO_C://box top left
-                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_OOXX_C://box top right
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_XOOX_C://box bottom right
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
-                        break;
-                    case LINE_XXOO_C://box bottom left
-                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
-                        break;
-                    case LINE_XXOX_C://box bottom north T (left, right, up)
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight,2,FG);
-                        break;
-                    case LINE_XXXO_C://box bottom east T (up, right, down)
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                        break;
-                    case LINE_OXXX_C://box bottom south T (left, right, down)
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_XXXX_C://box X (left down up right)
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_XOXX_C://box bottom east T (left, down, up)
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                        break;
-                    default:
-                        break;
+                    if ( tmp != UNKNOWN_UNICODE){
+                        int cw = mk_wcwidth((wchar_t)tmp);
+                        len = ANY_LENGTH-len;
+                        if(cw>1)
+                        {
+                            FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
+                            w+=cw-1;
+                        }
+                        if(len>1)
+                        {
+                            i+=len-1;
+                        }
+                        if(0!=tmp) {
+                            OutputChar(tmp, drawx,drawy,FG);
+                        }
+                    } else {
+                        switch ((unsigned char)win->line[j].chars[i]) {
+                        case LINE_OXOX_C://box bottom/top side (horizontal line)
+                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                            break;
+                        case LINE_XOXO_C://box left/right side (vertical line)
+                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                            break;
+                        case LINE_OXXO_C://box top left
+                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
+                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+                            break;
+                        case LINE_OOXX_C://box top right
+                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
+                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+                            break;
+                        case LINE_XOOX_C://box bottom right
+                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
+                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
+                            break;
+                        case LINE_XXOO_C://box bottom left
+                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
+                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
+                            break;
+                        case LINE_XXOX_C://box bottom north T (left, right, up)
+                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight,2,FG);
+                            break;
+                        case LINE_XXXO_C://box bottom east T (up, right, down)
+                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
+                            break;
+                        case LINE_OXXX_C://box bottom south T (left, right, down)
+                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+                            break;
+                        case LINE_XXXX_C://box X (left down up right)
+                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                            break;
+                        case LINE_XOXX_C://box bottom east T (left, down, up)
+                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
+                            break;
+                        default:
+                            break;
+                        }//switch (tmp)
                     }
-                    }//switch (tmp)
                 }//(tmp < 0)
             }//for (i=0;i<_windows[w].width;i++)
         }
     }// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
-    
-    SDL_mutexP(lock);
-    needupdate = (lines>0);
-    SDL_mutexV(lock);
+
+    if(miny>=0)
+    {
+        SDL_UpdateRect(screen, win->x*fontwidth, (win->y+miny)*fontheight, win->width*fontwidth, (maxy-miny+1)*fontheight);
+    }
 }
 
 #define ALT_BUFFER_SIZE 8
@@ -429,42 +392,7 @@ void CheckMessages()
 				}
 				else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
 					lc = KEY_NPAGE;
-				}
-				else if(ev.key.keysym.sym==SDLK_F1) {
-					lc = KEY_F(1);
-				}
-				else if(ev.key.keysym.sym==SDLK_F2) {
-					lc = KEY_F(2);
-				}
-				else if(ev.key.keysym.sym==SDLK_F3) {
-					lc = KEY_F(3);
-				}
-				else if(ev.key.keysym.sym==SDLK_F4) {
-					lc = KEY_F(4);
-				}
-				else if(ev.key.keysym.sym==SDLK_F5) {
-					lc = KEY_F(5);
-				}
-				else if(ev.key.keysym.sym==SDLK_F6) {
-					lc = KEY_F(6);
-				}
-				else if(ev.key.keysym.sym==SDLK_F7) {
-					lc = KEY_F(7);
-				}
-				else if(ev.key.keysym.sym==SDLK_F8) {
-					lc = KEY_F(8);
-				}
-				else if(ev.key.keysym.sym==SDLK_F9) {
-					lc = KEY_F(9);
-				}
-				else if(ev.key.keysym.sym==SDLK_F10) {
-					lc = KEY_F(10);
-				}
-				else if(ev.key.keysym.sym==SDLK_F11) {
-					lc = KEY_F(11);
-				}
-				else if(ev.key.keysym.sym==SDLK_F12) {
-					lc = KEY_F(12);
+
 				}
                 if(!lc) break;
                 if(alt_down) {
@@ -750,7 +678,7 @@ int curses_getch(WINDOW* win)
         {
             CheckMessages();
             if (lastchar!=ERR) break;
-            SDL_Delay(2);
+            SDL_Delay(1);
         }
         while (lastchar==ERR);
 	}
@@ -763,7 +691,7 @@ int curses_getch(WINDOW* win)
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;
-            SDL_Delay(2);
+            SDL_Delay(1);
         }
         while (endtime<(starttime+inputdelay));
 	}
