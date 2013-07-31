@@ -297,6 +297,8 @@ void player::activate_bionic(int b, game *g)
    good.push_back(_("Antihistamines"));
   if (has_disease("adrenaline"))
    good.push_back(_("Adrenaline Spike"));
+  if (has_disease("parasite"))
+   good.push_back(_("Food Parasite")); // To indicate you got it from eating something bad.
   if (good.size() == 0 && bad.size() == 0)
    mvwprintz(w, 1, 1, c_white, _("No effects."));
   else {
@@ -329,6 +331,7 @@ void player::activate_bionic(int b, game *g)
   rem_disease("took_flumed");
   rem_disease("adrenaline");
   rem_disease("meth");
+  rem_disease("parasite");
   pkill = 0;
   stim = 0;
  } else if(bio.id == "bio_evap"){

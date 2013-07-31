@@ -90,6 +90,10 @@ public:
  int damage_bash();
  int damage_cut() const;
  bool has_flag(std::string f) const;
+ // Add a new flag to this item.
+ void add_flag(std::string f);
+ // Remove a flag from this item if it exists.
+ void remove_flag(std::string f);
  bool has_technique(technique_id t, player *p = NULL);
  int has_gunmod(itype_id type);
  item* active_gunmod();

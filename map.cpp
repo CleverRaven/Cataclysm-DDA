@@ -1249,7 +1249,7 @@ switch (furn(x, y)) {
    return true;
   }
   break;
-  
+
  case f_skin_wall:
  case f_skin_door:
  case f_skin_door_o:
@@ -2123,7 +2123,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     {
         bool destroyed = false;
         int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);   // volume dependent chance
-  
+
         if (dam > i_at(x, y)[i].bash_resist() && one_in(chance))
         {
             i_at(x, y)[i].damage++;
@@ -2132,7 +2132,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         {
             destroyed = true;
         }
-  
+
         if (destroyed)
         {
             for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
@@ -2450,10 +2450,26 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
     }
     new_item.damage = damlevel;
 
+    // Food spawning in the wild may have parasites.
+    ter_id spawn_on = ter(x, y);
+    if(
+		new_item.is_food() && (
+			spawn_on == t_grass ||
+			spawn_on == t_dirt ||
+			spawn_on == t_shrub ||
+			spawn_on == t_underbrush ||
+			spawn_on == t_shrub_blueberry ||
+			spawn_on == t_shrub_strawberry
+		) && one_in(10)
+	) {
+		new_item.add_flag("PARASITE");
+	}
+
+
     // clothing with variable size flag may sometimes be generated fitted
     if (new_item.is_armor() && new_item.has_flag("VARSIZE") && one_in(3))
     {
-        new_item.item_tags.insert("FIT");
+        new_item.add_flag("FIT");
     }
 
     add_item(x, y, new_item);
@@ -2548,7 +2564,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
         for (int n = 0; n < i_at(x, y).size(); n++) {
             item* curit = &(i_at(x, y)[n]);
             if ( tryaddcharges == true && curit->type->id == add_type ) {
-                if ( skip_checks == true || ( curit->volume() + add_volume <= maxvolume ) ) { 
+                if ( skip_checks == true || ( curit->volume() + add_volume <= maxvolume ) ) {
                   curit->charges += new_item.charges;
                   //mvprintz(5,5,c_ltred,"check2: added charges %d",curit->charges);
                   return true;
