@@ -468,8 +468,7 @@
          "dress_shoes"
       ],
       "name":"Bride",
-      "points":0,
-      "flags": ["female_only"]
+      "points":0
    },
    {
       "addictions":[
@@ -491,8 +490,7 @@
          "crackpipe"
    	 ],
       "name":"Prostitute",
-      "points":-3,
-      "flags": ["female_only"]
+      "points":-3
    },
    {
       "description":"You spent most of your life trapping with your father. Both of you made a decent living off of your catches, and trapping tutorials. You start with a skill in trapping.",
