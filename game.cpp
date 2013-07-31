@@ -5897,6 +5897,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
         u.moves = 0;
     }
     refresh_all();
+    draw_minimap(); // TODO: Figure out why this is necessary.
 }
 
 // A gate handle is adjacent to a wall section, and next to that wall section on one side or
@@ -7917,13 +7918,14 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
         mvwprintz(window, i, 1, c_black, "%s", "\
                                                      ");
     }
-    mvwprintz(window, 2, 2, c_white, "%s", _("How to use the filter:"));
-    mvwprintz(window, 3, 2, c_white, "%s", _("Example: pi  will match any itemname with pi in it."));
+
+    mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to see"));
+    mvwprintz(window, 3, 2, c_white, "%s", _("nearby matching items."));
     mvwprintz(window, 5, 2, c_white, "%s", _("Seperate multiple items with ,"));
     mvwprintz(window, 6, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
     //TODO: fix up the filter code so that "-" applies to each comma-separated bit
     //or, failing that, make the description sound more like what the current behavior does
-    mvwprintz(window, 8, 2, c_white, "%s", _("To exclude certain items, place a - in front"));
+    mvwprintz(window, 8, 2, c_white, "%s", _("To exclude items, place - in front"));
     mvwprintz(window, 9, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
     wrefresh(window);
     return string_input_popup("Filter:", 55, sFilter);
@@ -7954,9 +7956,10 @@ void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state(WINDOW* window, int height)
 {
+    const int width = OPTIONS[OPT_SIDEBAR_STYLE] ? 45 : 55;
     for (int i = 1; i < TERMX; i++)
     {
-        if (i < 55)
+        if (i < width)
         {
             mvwputch(window, 0, i, c_ltgray, LINE_OXOX); // -
             mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
@@ -7965,35 +7968,55 @@ void game::reset_item_list_state(WINDOW* window, int height)
         if (i < TERMY-height-VIEW_OFFSET_Y*2)
         {
             mvwputch(window, i, 0, c_ltgray, LINE_XOXO); // |
-            mvwputch(window, i, 54, c_ltgray, LINE_XOXO); // |
+            mvwputch(window, i, width - 1, c_ltgray, LINE_XOXO); // |
         }
     }
 
-    mvwputch(window, 0,  0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(window, 0, 54, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(window, 0, 0,         c_ltgray, LINE_OXXO); // |^
+    mvwputch(window, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
 
-    mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2,  0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, 54, c_ltgray, LINE_XOXX); // -|
+    mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, 0,         c_ltgray, LINE_XXXO); // |-
+    mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
 
-    int iTempStart = 6;
+
+    std::vector<std::string> tokens;
     if (sFilter != "")
     {
-        iTempStart = 10;
-        mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, 2, c_ltgreen, " %s", "R");
-        wprintz(window, c_white, "%s", _("eset "));
+        tokens.push_back("R");
+        tokens.push_back(_("eset"));
     }
 
-    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart, c_ltgreen, " %s", "E");
-    wprintz(window, c_white, "%s", _("xamine "));
+    tokens.push_back("E");
+    tokens.push_back(_("xamine"));
 
-    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 10, c_ltgreen, " %s", "C");
-    wprintz(window, c_white, "%s", _("ompare "));
+    tokens.push_back("C");
+    tokens.push_back(_("ompare"));
 
-    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 20, c_ltgreen, " %s", "F");
-    wprintz(window, c_white, "%s", _("ilter "));
+    tokens.push_back("F");
+    tokens.push_back(_("ilter"));
 
-    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 29, c_ltgreen, " %s", "+/-");
-    wprintz(window, c_white, "%s", _(":Priority "));
+    tokens.push_back("+/-");
+    tokens.push_back(_("Priority"));
+
+    int gaps = tokens.size() / 2 + 1;
+    int letters = 0;
+    int n = tokens.size();
+    for (int i = 0; i < n; i++)
+        letters += tokens[i].length();
+
+    int usedwidth = letters;
+    const int gap_spaces = (width - usedwidth) / gaps;
+    usedwidth += gap_spaces * gaps;
+    int xpos = gap_spaces + (width - usedwidth) / 2;
+    const int ypos = TERMY - height - 1 - VIEW_OFFSET_Y * 2;
+
+    for (int i = 0; i < n; i++) {
+        nc_color c = (i % 2 == 0 ? c_ltgreen : c_white);
+        mvwprintz(window, ypos, xpos, c, tokens[i].c_str());
+        xpos += tokens[i].length();
+        if (i % 2 == 1)
+            xpos += gap_spaces;
+    }
 
     refresh_all();
 }
@@ -8045,9 +8068,10 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
 void game::list_items()
 {
     int iInfoHeight = 12;
-    WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, 55, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
-    WINDOW* w_item_info = newwin(iInfoHeight-1, 53, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
-    WINDOW* w_item_info_border = newwin(iInfoHeight, 55, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
+    const int width = OPTIONS[OPT_SIDEBAR_STYLE] ? 45 : 55;
+    WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
+    WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
+    WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
 
     //Area to search +- of players position. TODO: Use Perception
     const int iSearchX = 12 + ((VIEWX > 12) ? ((VIEWX-12)/2) : 0);
@@ -8114,7 +8138,7 @@ void game::list_items()
                 std::vector<iteminfo> vThisItem, vDummy;
 
                 oThisItem.info(true, &vThisItem);
-                compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
+                compare_split_screen_popup(0, width - 5, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
 
                 getch(); // wait until the user presses a key to wipe the screen
                 iLastActiveX = -1;
@@ -8123,14 +8147,14 @@ void game::list_items()
             }
             else if(ch == '+')
             {
-                std::string temp = string_input_popup(_("High Priority:"), 55, list_item_upvote);
+                std::string temp = string_input_popup(_("High Priority:"), width, list_item_upvote);
                 list_item_upvote = temp;
                 refilter = true;
                 reset = true;
             }
             else if(ch == '-')
             {
-                std::string temp = string_input_popup(_("Low Priority:"), 55, list_item_downvote);
+                std::string temp = string_input_popup(_("Low Priority:"), width, list_item_downvote);
                 list_item_downvote = temp;
                 refilter = true;
                 reset = true;
@@ -8192,8 +8216,9 @@ void game::list_items()
 
                 for (int i = 0; i < iMaxRows; i++)
                 {
-                    mvwprintz(w_items, 1 + i, 1, c_black, "%s", "\
-                                                     ");
+                    wmove(w_items, i + 1, 1);
+                    for (int i = 1; i < width - 1; i++)
+                        wprintz(w_items, c_black, " ");
                 }
 
                 int iNum = 0;
@@ -8236,21 +8261,22 @@ void game::list_items()
                         mvwprintz(w_items, 1 + iNum - iStartPos, 2,
                                   ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
                                   "%s", (sText.str()).c_str());
-                        mvwprintz(w_items, 1 + iNum - iStartPos, 48,
+                        int numw = iItemNum > 9 ? 2 : 1;
+                        mvwprintz(w_items, 1 + iNum - iStartPos, width - (5 + numw),
                                   ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                  ((iItemNum > 9) ? 2 : 1), trig_dist(0, 0, iter->x, iter->y),
+                                  numw, trig_dist(0, 0, iter->x, iter->y),
                                   direction_name_short(direction_from(0, 0, iter->x, iter->y)).c_str()
                                  );
                      }
                      iNum++;
                 }
 
-                mvwprintz(w_items, 0, 23 + ((iItemNum - iFilter > 9) ? 0 : 1),
+                mvwprintz(w_items, 0, (width - 9) / 2 + ((iItemNum - iFilter > 9) ? 0 : 1),
                           c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
                 wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
 
                 werase(w_item_info);
-                fold_and_print(w_item_info,1,1,53-3, c_white, "%s", activeItem.info().c_str());
+                fold_and_print(w_item_info,1,1,width - 5, c_white, "%s", activeItem.info().c_str());
 
                 for (int j=0; j < iInfoHeight-1; j++)
                 {
@@ -8259,16 +8285,16 @@ void game::list_items()
 
                 for (int j=0; j < iInfoHeight-1; j++)
                 {
-                    mvwputch(w_item_info_border, j, 54, c_ltgray, LINE_XOXO);
+                    mvwputch(w_item_info_border, j, width - 1, c_ltgray, LINE_XOXO);
                 }
 
-                for (int j=0; j < 54; j++)
+                for (int j=0; j < width - 1; j++)
                 {
                     mvwputch(w_item_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
                 }
 
                 mvwputch(w_item_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
-                mvwputch(w_item_info_border, iInfoHeight-1, 54, c_ltgray, LINE_XOOX);
+                mvwputch(w_item_info_border, iInfoHeight-1, width - 1, c_ltgray, LINE_XOOX);
 
                 //Only redraw trail/terrain if x/y position changed
                 if (iActiveX != iLastActiveX || iActiveY != iLastActiveY)
@@ -8474,10 +8500,6 @@ void game::pickup(int posx, int posy, int min)
  int itemsW = pickupW;
  int itemsY = sideStyle ? pickupY + pickupH : TERMY - itemsH;
  int itemsX = pickupX;
-
- // If this is the narrow style, move the Items window to the top of the
- // messages window, if possible, to leave more recent messages visible.
- if (sideStyle && getbegy(w_messages) < itemsY) itemsY = getbegy(w_messages);
 
  WINDOW* w_pickup    = newwin(pickupH, pickupW, pickupY, pickupX);
  WINDOW* w_item_info = newwin(itemsH,  itemsW,  itemsY,  itemsX);
