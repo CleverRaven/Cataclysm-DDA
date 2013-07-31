@@ -10575,8 +10575,8 @@ void game::vertical_move(int movez, bool force)
 // Force means we're going down, even if there's no staircase, etc.
 // This happens with sinkholes and the like.
  if (!force && ((movez == -1 && !m.has_flag(goes_down, u.posx, u.posy)) ||
-                (movez ==  1 && !m.has_flag(goes_up,   u.posx, u.posy)) ||
-                !(m.ter(u.posx, u.posy) == t_elevator))) {
+                (movez ==  1 && !m.has_flag(goes_up,   u.posx, u.posy))) &&
+                !(m.ter(u.posx, u.posy) == t_elevator)) {
   add_msg(_("You can't go %s here!"), (movez == -1 ? _("down") : _("up")));
   return;
  }
