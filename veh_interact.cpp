@@ -1023,7 +1023,7 @@ void complete_vehicle (game *g)
     case 'o':
         // Dump contents of part at player's feet, if any.
         for (int i = 0; i < veh->parts[part].items.size(); i++)
-            g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[part].items[i], 1, false);
+            g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[part].items[i]);
         veh->parts[part].items.clear();
 
         broken = veh->parts[part].hp <= 0;

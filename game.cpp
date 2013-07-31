@@ -7753,25 +7753,24 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     std::map<std::string, map_item_stack> temp_items;
     std::vector<map_item_stack> ret;
 
-    // Go through each nearby square one-by-one and make note of the items
-    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++)
+    std::vector<point> points = closest_points_first(iSearchX, u.posx, u.posy);
+
+    for (std::vector<point>::iterator p_it = points.begin();
+        p_it != points.end(); p_it++)
     {
-        for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++)
-        {
-            if (u_see(u.posx + iCol, u.posy + iRow) &&
-               (!m.has_flag(container, u.posx + iCol, u.posy + iRow) ||
-               (rl_dist(u.posx, u.posy, u.posx + iCol, u.posy + iRow) == 1 && !m.has_flag(sealed, u.posx + iCol, u.posy + iRow))))
+        if (u_see(p_it->x,p_it->y) &&
+           (!m.has_flag(container, p_it->x, p_it->y) ||
+           (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag(sealed, p_it->x, p_it->y))))
             {
                 temp_items.clear();
                 here.clear();
-                here = m.i_at(u.posx + iCol, u.posy + iRow);
-
+                here = m.i_at(p_it->x, p_it->y);
                 for (int i = 0; i < here.size(); i++)
                 {
                     const std::string name = here[i].tname(this);
                     if (temp_items.find(name) == temp_items.end())
                     {
-                        temp_items[name] = map_item_stack(here[i], iCol, iRow);
+                        temp_items[name] = map_item_stack(here[i], p_it->x - u.posx, p_it->y - u.posy);
                     }
                     else
                     {
@@ -7784,12 +7783,11 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
                 {
                     ret.push_back(iter->second);
                 }
+ 
             }
-        }
     }
     return ret;
 }
-
 
 std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack> stack, std::string filter)
 {
@@ -9008,7 +9006,7 @@ void game::drop(char chInput)
    add_msg (_("The trunk is full, so some items fall on the ground."));
  } else {
   for (int i = 0; i < dropped.size(); i++)
-   m.add_item_or_charges(u.posx, u.posy, dropped[i], 1);
+   m.add_item_or_charges(u.posx, u.posy, dropped[i], 2);
  }
 }
 

@@ -2530,76 +2530,37 @@ bool map::is_full(const int x, const int y, const int addvolume, const int addnu
 // user initiated actions, not mapgen!
 // overflow_radius > 0: if x,y is full, attempt to drop item up to overflow_radius squares away, if x,y is full
 // skip_checks == true: cheerfully ignore weight and item count, skip item and inbound checks. Use with caution
-bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius, bool skip_checks ) {
-    int cur_volume=0;
-    const int maxitems = MAX_ITEM_IN_SQUARE;
-    const int maxvolume = this->max_volume(x, y);
-    if ( skip_checks != true && ( new_item.is_style() || !INBOUNDS(x, y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) ) {
+bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius) {
+
+    if (( new_item.is_style() || !INBOUNDS(x, y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) )
         return false;
-    }
 
     bool tryaddcharges = (new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo()));
+    std::vector<point> ps = closest_points_first(overflow_radius, x, y);
+    for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
+    {
+        itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
+        if (new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
+                has_flag(destroy_item, p_it->x, p_it->y) || has_flag(noitem, p_it->x, p_it->y))
+            continue;
 
-    int add_volume = new_item.volume();
-    itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
-
-    bool origin_full=false;
-    if ( skip_checks != true || tryaddcharges == true ) {
-        for (int n = 0; n < i_at(x, y).size(); n++) {
-            item* curit = &(i_at(x, y)[n]);
-            if ( tryaddcharges == true && curit->type->id == add_type ) {
-                if ( skip_checks == true || ( curit->volume() + add_volume <= maxvolume ) ) { 
-                  curit->charges += new_item.charges;
-                  //mvprintz(5,5,c_ltred,"check2: added charges %d",curit->charges);
-                  return true;
-                }
-            }
-            cur_volume += curit->volume();
-        }
-    }
-
-    if ( skip_checks != true && ( i_at(x, y).size() >= maxitems || cur_volume + add_volume > maxvolume ) ) {
-        if ( overflow_radius < 1 ) {
-            return false;
-        } else {
-            origin_full=true;
-        }
-    }
-
-
-    if ( origin_full==false ) {
-        //mvprintz(7,5,c_ltred,"add(%d,%d,%d,%d)",x,y,new_item.volume(),maxitems);
-        add_item(x, y, new_item, maxitems );
-        return true;
-    } else {
-        //debugmsg("full %d,%d: %d <> %",x,y,new_item.volume(),maxitems);
-        int iter=0;
-        for ( int dist = 1 ; dist <= overflow_radius ; dist++ ) {
-
-            //mvprintz(7+dist,5,c_ltred,"%d <= %d",dist,overflow_radius);
-            for ( int tox = 0-dist; tox <= dist; tox++ ) {
-                for ( int toy = 0-dist; toy <= dist ; toy++ ) {
-                    if ( toy == 0-dist || toy == dist || tox == 0-dist || tox == dist ) { // speedup
-                        int tx=x+tox;
-                        int ty=y+toy;
-                        iter++;
-
-                        if( is_full(tx,ty,add_volume)==false ) { // speedup
-                            if(add_item_or_charges(tx,ty,new_item,0, true)) { // for charges, faster to spill into stacks
-                                //mvprintz(9,2,c_ltred,"Try %d / %d (%d %d): %d %d ",iter,dist,tox,toy,tx,ty);
-                                return true;
-                            } else {
-                                return false; // wat.
-                            }
-                        }
-
-                    }
+        if (tryaddcharges) {
+            for (int i = 0; i < i_at(p_it->x,p_it->y).size(); i++)
+            {
+                if(i_at(x, y)[i].type->id == add_type)
+                {
+                    i_at(x, y)[i].charges += new_item.charges;
+                    return true;
                 }
             }
         }
-        return false;
+        if (i_at(p_it->x, p_it->y).size() < MAX_ITEM_IN_SQUARE)
+        {
+            add_item(p_it->x, p_it->y, new_item, MAX_ITEM_IN_SQUARE);
+            return true;
+        }
     }
-
+    return false;
 }
 
 // Place an item on the map, despite the parameter name, this is not necessaraly a new item.
@@ -2609,45 +2570,17 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
 {
 
  if (new_item.is_style())
-  return;
- if (!INBOUNDS(x, y))
-  return;
- if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
-  return;
- if (has_flag(destroy_item, x, y))
      return;
-
- if (has_flag(noitem, x, y) || i_at(x, y).size() >= maxitems) {// Too many items there
-  std::vector<point> okay;
-  for (int i = x - 1; i <= x + 1; i++) {
-   for (int j = y - 1; j <= y + 1; j++) {
-    if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
-        i_at(i, j).size() < maxitems)
-     okay.push_back(point(i, j));
-   }
-  }
-  if (okay.size() == 0) {
-   for (int i = x - 2; i <= x + 2; i++) {
-    for (int j = y - 2; j <= y + 2; j++) {
-     if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
-         i_at(i, j).size() < maxitems)
-      okay.push_back(point(i, j));
-    }
-   }
-  }
-  if (okay.size() == 0) { // STILL?
-   return;
-  }
-  const point choice = okay[rng(0, okay.size() - 1)];
-  add_item(choice.x, choice.y, new_item);
-  return;
+ if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
+     return;
+ if (!INBOUNDS(x, y))
+     return;
+ if (has_flag(destroy_item, x, y) || (i_at(x,y).size() >= maxitems))
+ {
+     return;
  }
-/*
- int nonant;
- cast_to_nonant(x, y, nonant);
-*/
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
+ const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
  const int lx = x % SEEX;
  const int ly = y % SEEY;
  grid[nonant]->itm[lx][ly].push_back(new_item);
@@ -4075,6 +4008,35 @@ void map::build_map_cache(game *g)
  generate_lightmap(g);
 }
 
+//this returns points in a spiral pattern starting at center_x/center_y until it hits the radius. clockwise fashion
+//credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
+std::vector<point> closest_points_first(int radius, int center_x, int center_y)
+{
+    std::vector<point> points;
+    int X,Y,x,y,dx,dy;
+    X = radius;
+    Y = radius;
+    x = y = dx =0;
+    dy = -1;
+    int t = std::max(X,Y);
+    int maxI = t*t;
+    for(int i =0; i < maxI; i++)
+    {
+        if ((-X/2 <= x) && (x <= X/2) && (-Y/2 <= y) && (y <= Y/2))
+        {
+            points.push_back(point(x + center_x, y + center_y));
+        }
+        if( (x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
+        {
+            t = dx;
+            dx = -dy;
+            dy = t;
+        }
+        x += dx;
+        y += dy;
+    }
+    return points;
+}
 
 tinymap::tinymap()
 {
