@@ -3872,6 +3872,120 @@
                               ]
                           ]
         },
+        
+        {
+            "result": "strawberries_cooked",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 0,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1],
+                             ["pan", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["strawberries", 1]
+                              ]
+                          ]
+        },
+        
+        {
+            "result": "blueberries_cooked",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 0,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1],
+                             ["pan", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["blueberries", 1]
+                              ]
+                          ]
+        },
+        
+        {
+            "result": "jam_strawberries",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 2,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1],
+                             ["pan", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["strawberries", 1]
+                              ],
+                              [
+                                  ["sugar", 1]
+                              ]
+                          ]
+        },
+        
+        {
+            "result": "jam_blueberries",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 2,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1],
+                             ["pan", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["blueberries", 1]
+                              ],
+                              [
+                                  ["sugar", 1]
+                              ]
+                          ]
+        },
 
         {
             "result": "coffee",
