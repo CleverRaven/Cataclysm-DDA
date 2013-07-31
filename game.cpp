@@ -4205,6 +4205,7 @@ bool vector_has(std::vector<int> vec, int test)
 void game::mon_info()
 {
  werase(w_moninfo);
+ const int maxheight = 12;
  int buff;
  int newseen = 0;
  const int iProxyDist = (OPTIONS[OPT_SAFEMODEPROXIMITY] <= 0) ? 60 : OPTIONS[OPT_SAFEMODEPROXIMITY];
@@ -4282,38 +4283,32 @@ void game::mon_info()
 // 7 0 1	unique_types uses these indices;
 // 6 8 2	0-7 are provide by direction_from()
 // 5 4 3	8 is used for local monsters (for when we explain them below)
- mvwprintz(w_moninfo,  0,  0, (unique_types[7].empty() ?
-           c_dkgray : (dangerous[7] ? c_ltred : c_ltgray)), _("NW:"));
- mvwprintz(w_moninfo,  0, 15, (unique_types[0].empty() ?
-           c_dkgray : (dangerous[0] ? c_ltred : c_ltgray)), _("North:"));
- mvwprintz(w_moninfo,  0, 33, (unique_types[1].empty() ?
-           c_dkgray : (dangerous[1] ? c_ltred : c_ltgray)), _("NE:"));
- mvwprintz(w_moninfo,  1,  0, (unique_types[6].empty() ?
-           c_dkgray : (dangerous[6] ? c_ltred : c_ltgray)), _("West:"));
- mvwprintz(w_moninfo,  1, 31, (unique_types[2].empty() ?
-           c_dkgray : (dangerous[2] ? c_ltred : c_ltgray)), _("East:"));
- mvwprintz(w_moninfo,  2,  0, (unique_types[5].empty() ?
-           c_dkgray : (dangerous[5] ? c_ltred : c_ltgray)), _("SW:"));
- mvwprintz(w_moninfo,  2, 15, (unique_types[4].empty() ?
-           c_dkgray : (dangerous[4] ? c_ltred : c_ltgray)), _("South:"));
- mvwprintz(w_moninfo,  2, 33, (unique_types[3].empty() ?
-           c_dkgray : (dangerous[3] ? c_ltred : c_ltgray)), _("SE:"));
+
+    const char *dir_labels[] = {
+        _("North:"), _("NE:"), _("East:"), _("SE:"),
+        _("South:"), _("SW:"), _("West:"), _("NW:") };
+    int widths[8];
+    for (int i = 0; i < 8; i++) {
+        widths[i] = strlen(dir_labels[i]);
+    }
+    const int row1spaces = width - (widths[7] + widths[0] + widths[1]);
+    const int row3spaces = width - (widths[5] + widths[4] + widths[3]);
+    int xcoords[8];
+    const int ycoords[] = { 0, 0, 1, 2, 2, 2, 1, 0 };
+    xcoords[0] = widths[7] +  row1spaces / 3;
+    xcoords[1] = widths[7] - (row1spaces / 3) + row1spaces + widths[0];
+    xcoords[4] = widths[5] +  row3spaces / 3;
+    xcoords[3] = widths[5] - (row3spaces / 3) + row3spaces + widths[4];
+    xcoords[2] = (xcoords[1] + xcoords[3]) / 2;
+    xcoords[5] = xcoords[6] = xcoords[7] = 0;
+    for (int i = 0; i < 8; i++) {
+        nc_color c = unique_types[i].empty() ? c_dkgray
+                   : (dangerous[i] ? c_ltred : c_ltgray);
+        mvwprintz(w, ycoords[i], xcoords[i], c, dir_labels[i]);
+    }
 
  for (int i = 0; i < 8; i++) {
-
-  point pr;
-  switch (i) {
-   case 7: pr.y = 0; pr.x =  4; break;
-   case 0: pr.y = 0; pr.x = 22; break;
-   case 1: pr.y = 0; pr.x = 37; break;
-
-   case 6: pr.y = 1; pr.x =  6; break;
-   case 2: pr.y = 1; pr.x = 37; break;
-
-   case 5: pr.y = 2; pr.x =  4; break;
-   case 4: pr.y = 2; pr.x = 22; break;
-   case 3: pr.y = 2; pr.x = 37; break;
-  }
+  point pr(xcoords[i] + strlen(dir_labels[i]) + 1, ycoords[i]);
 
   for (int j = 0; j < unique_types[i].size() && j < 10; j++) {
    buff = unique_types[i][j];
@@ -4325,15 +4320,15 @@ void game::mon_info()
      case NPCATT_DEFEND: tmpcol = c_green;   break;
      default:            tmpcol = c_pink;    break;
     }
-    mvwputch (w_moninfo, pr.y, pr.x, tmpcol, '@');
+    mvwputch (w, pr.y, pr.x, tmpcol, '@');
 
    } else // It's a monster!  easier.
-    mvwputch (w_moninfo, pr.y, pr.x, mtypes[buff]->color, mtypes[buff]->sym);
+    mvwputch (w, pr.y, pr.x, mtypes[buff]->color, mtypes[buff]->sym);
 
    pr.x++;
   }
   if (unique_types[i].size() > 10) // Couldn't print them all!
-   mvwputch (w_moninfo, pr.y, pr.x - 1, c_white, '+');
+   mvwputch (w, pr.y, pr.x - 1, c_white, '+');
  } // for (int i = 0; i < 8; i++)
 
 // Now we print their full names!
@@ -4346,19 +4341,19 @@ void game::mon_info()
 
 // Start with nearby zombies--that's the most important
 // We stop if pr.y hits 10--i.e. we're out of space
- for (int i = 0; i < unique_types[8].size() && pr.y < 12; i++) {
+ for (int i = 0; i < unique_types[8].size() && pr.y < maxheight; i++) {
   buff = unique_types[8][i];
 // buff < 0 means an NPC!  Don't list those.
   if (buff >= 0 && !listed_it[buff]) {
    listed_it[buff] = true;
    std::string name = mtypes[buff]->name;
 // + 2 for the "Z "
-   if (pr.x + 2 + name.length() >= 48) { // We're too long!
+   if (pr.x + 2 + name.length() >= width) { // We're too long!
     pr.y++;
     pr.x = 0;
    }
-   if (pr.y < 12) { // Don't print if we've overflowed
-    mvwputch (w_moninfo, pr.y, pr.x, mtypes[buff]->color, mtypes[buff]->sym);
+   if (pr.y < maxheight) { // Don't print if we've overflowed
+    mvwputch (w, pr.y, pr.x, mtypes[buff]->color, mtypes[buff]->sym);
     nc_color danger = c_dkgray;
     if (mtypes[buff]->difficulty >= 30)
      danger = c_red;
@@ -4368,27 +4363,27 @@ void game::mon_info()
      danger = c_white;
     else if (mtypes[buff]->agro > 0)
      danger = c_ltgray;
-    mvwprintz(w_moninfo, pr.y, pr.x + 2, danger, name.c_str());
+    mvwprintz(w, pr.y, pr.x + 2, danger, name.c_str());
    }
 // +4 for the "Z " and two trailing spaces
    pr.x += 4 + name.length();
   }
  }
 // Now, if there's space, the rest of the monsters!
- for (int j = 0; j < 8 && pr.y < 12; j++) {
-  for (int i = 0; i < unique_types[j].size() && pr.y < 12; i++) {
+ for (int j = 0; j < 8 && pr.y < maxheight; j++) {
+  for (int i = 0; i < unique_types[j].size() && pr.y < maxheight; i++) {
    buff = unique_types[j][i];
 // buff < 0 means an NPC!  Don't list those.
    if (buff >= 0 && !listed_it[buff]) {
     listed_it[buff] = true;
     std::string name = mtypes[buff]->name;
 // + 2 for the "Z "
-    if (pr.x + 2 + name.length() >= 48) { // We're too long!
+    if (pr.x + 2 + name.length() >= width) { // We're too long!
      pr.y++;
      pr.x = 0;
     }
-    if (pr.y < 12) { // Don't print if we've overflowed
-     mvwputch (w_moninfo, pr.y, pr.x, mtypes[buff]->color, mtypes[buff]->sym);
+    if (pr.y < maxheight) { // Don't print if we've overflowed
+     mvwputch (w, pr.y, pr.x, mtypes[buff]->color, mtypes[buff]->sym);
      nc_color danger = c_dkgray;
      if (mtypes[buff]->difficulty >= 30)
       danger = c_red;
@@ -4398,7 +4393,7 @@ void game::mon_info()
       danger = c_white;
      else if (mtypes[buff]->agro > 0)
       danger = c_ltgray;
-     mvwprintz(w_moninfo, pr.y, pr.x + 2, danger, name.c_str());
+     mvwprintz(w, pr.y, pr.x + 2, danger, name.c_str());
     }
 // +3 for the "Z " and a trailing space
     pr.x += 3 + name.length();
