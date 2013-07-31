@@ -5986,6 +5986,10 @@ bool player::eat(game *g, signed char ch)
             add_disease("poison", eaten->poison * 100);
         if (eaten->poison > 0)
             add_disease("foodpoison", eaten->poison * 300);
+        // Does it have parasites? Whoops!
+        if (eaten->has_flag("PARASITE")) {
+            add_disease("parasite", 24000); // If not treated, the parasite will thrive quite long.
+        }
 
         if (comest->comesttype == "DRINK") {
             g->add_msg_player_or_npc( this, _("You drink your %s."), _("<npcname> drinks a %s."),

@@ -1103,6 +1103,14 @@ bool item::has_flag(std::string f) const
  return ret;
 }
 
+void item::add_flag(std::string f) {
+	item_tags.insert(f);
+}
+
+void item::remove_flag(std::string f) {
+	item_tags.erase(f);
+}
+
 bool item::has_technique(technique_id tech, player *p)
 {
  if (is_style()) {

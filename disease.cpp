@@ -26,7 +26,7 @@ enum dis_type_enum {
  DI_BLISTERS_TORSO, DI_BLISTERS_HEAD, DI_BLISTERS_EYES, DI_BLISTERS_MOUTH,
  DI_BLISTERS_ARMS, DI_BLISTERS_HANDS, DI_BLISTERS_LEGS, DI_BLISTERS_FEET,
 // Diseases
- DI_INFECTION,
+ DI_INFECTION, DI_PARASITE,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
 // Fields
  DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
@@ -100,6 +100,7 @@ void game::init_diseases() {
     disease_type_lookup["blisters_legs"] = DI_BLISTERS_LEGS;
     disease_type_lookup["blisters_feet"] = DI_BLISTERS_FEET;
     disease_type_lookup["infection"] = DI_INFECTION;
+    disease_type_lookup["parasite"] = DI_PARASITE;
     disease_type_lookup["common_cold"] = DI_COMMON_COLD;
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
@@ -1025,6 +1026,32 @@ void dis_effect(game *g, player &p, disease &dis)
   p.per_cur--;
   if (p.has_trait(PF_POISRESIST))
    p.str_cur += 2;
+  break;
+
+ case DI_PARASITE:
+   // Nasty parasite in the body that has various side-effects.
+   if (one_in(600)) {
+	// Parasite poisoning the player
+    p.add_disease("poison", 200);
+   }
+   else if(one_in(6000)) {
+	// Parasite badly poisoning the player
+    p.add_disease("badpoison", 600);
+   }
+   else if(one_in(1200)) {
+	// Parasite attacking the player's eyes/eye nerves.
+    g->add_msg_if_player(&p,_("Something is moving inside your eyes."));
+	p.add_disease("blind", rng(10, 100));
+   }
+   else if(one_in(600)) {
+	// Parasite using up nutrition
+    g->add_msg_if_player(&p,_("You feel unnaturally hungry."));
+    p.hunger += rng(50, 200);
+   }
+   else if(one_in(600)) {
+	// Give the player a hint as to what's going on
+    g->add_msg_if_player(&p,_("It feels like something is crawling under your skin."));
+   }
   break;
 
  case DI_SHAKES:
