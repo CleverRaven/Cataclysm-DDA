@@ -65,7 +65,6 @@ game::game() :
  w_terrain(NULL),
  w_minimap(NULL),
  w_HP(NULL),
- w_moninfo(NULL),
  w_messages(NULL),
  w_location(NULL),
  w_status(NULL),
@@ -128,7 +127,6 @@ game::~game()
  delwin(w_terrain);
  delwin(w_minimap);
  delwin(w_HP);
- delwin(w_moninfo);
  delwin(w_messages);
  delwin(w_location);
  delwin(w_status);
@@ -210,32 +208,26 @@ void game::init_ui(){
 
     int minimapX, minimapY; // always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
     int hpX, hpY, hpW, hpH;
-    int moninfoX, moninfoY, moninfoW, moninfoH;
     int messX, messY, messW, messH;
     int locX, locY, locW, locH;
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
 
-    locH = 1;
-
     switch (int(OPTIONS[OPT_SIDEBAR_STYLE])) {
         case 0: // standard
             minimapX = 0;
             minimapY = 0;
-            moninfoX = MINIMAP_WIDTH;
-            moninfoY = 0;
-            moninfoW = sidebarWidth - MINIMAP_WIDTH;
-            moninfoH = 12;
             messX = MINIMAP_WIDTH;
-            messY = moninfoH;
+            messY = 0;
             messW = sidebarWidth - messX;
-            messH = 8;
+            messH = 20;
             hpX = 0;
             hpY = MINIMAP_HEIGHT;
             hpH = 14;
             hpW = 7;
             locX = MINIMAP_WIDTH;
             locY = messY + messH;
+            locH = 1;
             locW = sidebarWidth - locX;
             statX = 0;
             statY = locY + locH;
@@ -257,51 +249,35 @@ void game::init_ui(){
 
             // First, figure out how large each element will be.
 
-            moninfoH    = 6;
-            moninfoW    = sidebarWidth;
-
             hpH         = 7;
             hpW         = 14;
 
             statH       = 7;
             statW       = sidebarWidth - MINIMAP_WIDTH - hpW;
 
+            locH        = 1;
             locW        = sidebarWidth;
 
             stat2H      = 2;
             stat2W      = sidebarWidth;
 
-            messH       = 9;
+            messH       = TERMY - (statH + locH + stat2H);
             messW       = sidebarWidth;
-
-            // Give extra rows to the moninfo window until it's tall enough,
-            // then give any remaining rows to the messages window.
-            int extraRows = TERMY - (moninfoH + statH + locH + stat2H + messH);
-            int newMoninfoRows = 13 - moninfoH;
-            if (extraRows > newMoninfoRows) {
-                int gift = extraRows - newMoninfoRows;
-                extraRows -= gift;
-                messH += gift;
-            }
-            moninfoH += extraRows;
 
 
             // Now position the elements relative to each other.
 
-            moninfoX = 0;
-            moninfoY = 0;
-
             minimapX = 0;
-            minimapY = moninfoY + moninfoH;
+            minimapY = 0;
 
             hpX = minimapX + MINIMAP_WIDTH;
-            hpY = moninfoY + moninfoH;
+            hpY = 0;
 
             locX = 0;
             locY = minimapY + MINIMAP_HEIGHT;
 
             statX = hpX + hpW;
-            statY = moninfoY + moninfoH;
+            statY = 0;
 
             stat2X = 0;
             stat2Y = locY + locH;
@@ -320,9 +296,6 @@ void game::init_ui(){
 
     w_HP = newwin(hpH, hpW, _y + hpY, _x + hpX);
     werase(w_HP);
-
-    w_moninfo = newwin(moninfoH, moninfoW, _y + moninfoY, _x + moninfoX);
-    werase(w_moninfo);
 
     w_messages = newwin(messH, messW, _y + messY, _x + messX);
     werase(w_messages);
@@ -3506,7 +3479,6 @@ void game::draw()
     werase(w_terrain);
     draw_ter();
     draw_footsteps();
-    mon_info();
 
     // Draw Status
     draw_HP();
@@ -3680,7 +3652,6 @@ void game::refresh_all()
  draw();
  draw_minimap();
  draw_HP();
- wrefresh(w_moninfo);
  wrefresh(w_messages);
  refresh();
 }
@@ -4202,87 +4173,90 @@ bool vector_has(std::vector<int> vec, int test)
  return false;
 }
 
-void game::mon_info()
+// Print monster info to the given window, and return the lowest row (0-indexed)
+// to which we printed. This is used to share a window with the message log and
+// make optimal use of space.
+int game::mon_info(WINDOW *w)
 {
- werase(w_moninfo);
- const int maxheight = 12;
- int buff;
- int newseen = 0;
- const int iProxyDist = (OPTIONS[OPT_SAFEMODEPROXIMITY] <= 0) ? 60 : OPTIONS[OPT_SAFEMODEPROXIMITY];
-// 7 0 1	unique_types uses these indices;
-// 6 8 2	0-7 are provide by direction_from()
-// 5 4 3	8 is used for local monsters (for when we explain them below)
- std::vector<int> unique_types[9];
-// dangerous_types tracks whether we should print in red to warn the player
- bool dangerous[8];
- for (int i = 0; i < 8; i++)
-  dangerous[i] = false;
+    const int width = getmaxx(w);
+    const int maxheight = 12;
+    const int startrow = OPTIONS[OPT_SIDEBAR_STYLE] ? 1 : 0;
 
- direction dir_to_mon, dir_to_npc;
- for (int i = 0; i < z.size(); i++) {
-  if (u_see(&(z[i]))) {
-   bool mon_dangerous = false;
-   int j;
-   if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW) {
-    if (sees_u(z[i].posx, z[i].posy, j))
-     mon_dangerous = true;
+    int buff;
+    int newseen = 0;
+    const int iProxyDist = (OPTIONS[OPT_SAFEMODEPROXIMITY] <= 0) ? 60 : OPTIONS[OPT_SAFEMODEPROXIMITY];
+    // 7 0 1	unique_types uses these indices;
+    // 6 8 2	0-7 are provide by direction_from()
+    // 5 4 3	8 is used for local monsters (for when we explain them below)
+    std::vector<int> unique_types[9];
+    // dangerous_types tracks whether we should print in red to warn the player
+    bool dangerous[8];
+    for (int i = 0; i < 8; i++)
+        dangerous[i] = false;
 
-    if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
-     newseen++;
-   }
+    direction dir_to_mon, dir_to_npc;
+    int viewx = u.posx + u.view_offset_x;
+    int viewy = u.posy + u.view_offset_y;
+    for (int i = 0; i < z.size(); i++) {
+        if (u_see(&(z[i]))) {
+            dir_to_mon = direction_from(viewx, viewy, z[i].posx, z[i].posy);
+            int index = (abs(viewx - z[i].posx) <= VIEWX &&
+                         abs(viewy - z[i].posy) <= VIEWY) ?
+                         8 : dir_to_mon;
 
-   dir_to_mon = direction_from(u.posx + u.view_offset_x, u.posy + u.view_offset_y,
-                               z[i].posx, z[i].posy);
-   int index = (abs(u.posx + u.view_offset_x - z[i].posx) <= VIEWX &&
-                abs(u.posy + u.view_offset_y - z[i].posy) <= VIEWY) ?
-                8 : dir_to_mon;
-   if (mon_dangerous && index < 8)
-    dangerous[index] = true;
+            monster_attitude matt = z[i].attitude(&u);
+            if (MATT_ATTACK == matt || MATT_FOLLOW == matt) {
+                int j;
+                if (index < 8 && sees_u(z[i].posx, z[i].posy, j))
+                    dangerous[index] = true;
 
-   if (!vector_has(unique_types[dir_to_mon], z[i].type->id))
-    unique_types[index].push_back(z[i].type->id);
-  }
- }
- for (int i = 0; i < active_npc.size(); i++) {
-  if (u_see(active_npc[i]->posx, active_npc[i]->posy)) { // TODO: NPC invis
-   if (active_npc[i]->attitude == NPCATT_KILL)
-    if (rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= iProxyDist)
-     newseen++;
+                if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
+                    newseen++;
+            }
 
-   point npcp(active_npc[i]->posx, active_npc[i]->posy);
-   dir_to_npc = direction_from ( u.posx + u.view_offset_x, u.posy + u.view_offset_y,
-                                 npcp.x, npcp.y );
-   int index = (abs(u.posx + u.view_offset_x - npcp.x) <= VIEWX &&
-                abs(u.posy + u.view_offset_y - npcp.y) <= VIEWY) ?
-                8 : dir_to_npc;
-   unique_types[index].push_back(-1 - i);
-  }
- }
+            if (!vector_has(unique_types[dir_to_mon], z[i].type->id))
+                unique_types[index].push_back(z[i].type->id);
+        }
+    }
 
- if (newseen > mostseen) {
-  if (u.activity.type == ACT_REFILL_VEHICLE)
-   cancel_activity_query(_("Monster Spotted!"));
+    for (int i = 0; i < active_npc.size(); i++) {
+        point npcp(active_npc[i]->posx, active_npc[i]->posy);
+        if (u_see(npcp.x, npcp.y)) { // TODO: NPC invis
+            if (active_npc[i]->attitude == NPCATT_KILL)
+                if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= iProxyDist)
+                    newseen++;
 
-  cancel_activity_query(_("Monster spotted!"));
-  turnssincelastmon = 0;
-  if (run_mode == 1)
-   run_mode = 2;	// Stop movement!
- } else if (autosafemode && newseen == 0) { // Auto-safemode
-  turnssincelastmon++;
-  if(turnssincelastmon >= OPTIONS[OPT_AUTOSAFEMODETURNS] && run_mode == 0)
-   run_mode = 1;
- }
+            dir_to_npc = direction_from(viewx, viewy, npcp.x, npcp.y);
+            int index = (abs(viewx - npcp.x) <= VIEWX &&
+                         abs(viewy - npcp.y) <= VIEWY) ?
+                         8 : dir_to_npc;
+            unique_types[index].push_back(-1 - i);
+        }
+    }
 
- if (newseen == 0 && run_mode == 2)
-     run_mode = 1;
+    if (newseen > mostseen) {
+        if (u.activity.type == ACT_REFILL_VEHICLE)
+            cancel_activity_query(_("Monster Spotted!"));
+        cancel_activity_query(_("Monster spotted!"));
+        turnssincelastmon = 0;
+        if (run_mode == 1)
+            run_mode = 2;	// Stop movement!
+    } else if (autosafemode && newseen == 0) { // Auto-safemode
+        turnssincelastmon++;
+        if (turnssincelastmon >= OPTIONS[OPT_AUTOSAFEMODETURNS] && run_mode == 0)
+            run_mode = 1;
+    }
 
- mostseen = newseen;
- nc_color tmpcol;
-// Print the direction headings
-// Reminder:
-// 7 0 1	unique_types uses these indices;
-// 6 8 2	0-7 are provide by direction_from()
-// 5 4 3	8 is used for local monsters (for when we explain them below)
+    if (newseen == 0 && run_mode == 2)
+        run_mode = 1;
+
+    mostseen = newseen;
+
+    // Print the direction headings
+    // Reminder:
+    // 7 0 1	unique_types uses these indices;
+    // 6 8 2	0-7 are provide by direction_from()
+    // 5 4 3	8 is used for local monsters (for when we explain them below)
 
     const char *dir_labels[] = {
         _("North:"), _("NE:"), _("East:"), _("SE:"),
@@ -4304,105 +4278,94 @@ void game::mon_info()
     for (int i = 0; i < 8; i++) {
         nc_color c = unique_types[i].empty() ? c_dkgray
                    : (dangerous[i] ? c_ltred : c_ltgray);
-        mvwprintz(w, ycoords[i], xcoords[i], c, dir_labels[i]);
+        mvwprintz(w, ycoords[i] + startrow, xcoords[i], c, dir_labels[i]);
     }
 
- for (int i = 0; i < 8; i++) {
-  point pr(xcoords[i] + strlen(dir_labels[i]) + 1, ycoords[i]);
+    // The list of symbols needs a space on each end.
+    const int symroom = row1spaces / 3 - 2;
 
-  for (int j = 0; j < unique_types[i].size() && j < 10; j++) {
-   buff = unique_types[i][j];
+    // Print the symbols of all monsters in all directions.
+    for (int i = 0; i < 8; i++) {
+        point pr(xcoords[i] + strlen(dir_labels[i]) + 1, ycoords[i] + startrow);
 
-   if (buff < 0) { // It's an NPC!
-    switch (active_npc[(buff + 1) * -1]->attitude) {
-     case NPCATT_KILL:   tmpcol = c_red;     break;
-     case NPCATT_FOLLOW: tmpcol = c_ltgreen; break;
-     case NPCATT_DEFEND: tmpcol = c_green;   break;
-     default:            tmpcol = c_pink;    break;
+        const int typeshere = unique_types[i].size();
+        for (int j = 0; j < typeshere && j < symroom; j++) {
+            buff = unique_types[i][j];
+            nc_color c;
+            char sym;
+
+            if (symroom < typeshere && j == symroom - 1) {
+                // We've run out of room!
+                c = c_white;
+                sym = '+';
+            } else if (buff < 0) { // It's an NPC!
+                switch (active_npc[(buff + 1) * -1]->attitude) {
+                    case NPCATT_KILL:   c = c_red;     break;
+                    case NPCATT_FOLLOW: c = c_ltgreen; break;
+                    case NPCATT_DEFEND: c = c_green;   break;
+                    default:            c = c_pink;    break;
+                }
+                sym = '@';
+            } else { // It's a monster!
+                c   = mtypes[buff]->color;
+                sym = mtypes[buff]->sym;
+            }
+            mvwputch(w, pr.y, pr.x, c, sym);
+
+            pr.x++;
+        }
+    } // for (int i = 0; i < 8; i++)
+
+    // Now we print their full names!
+
+    bool listed_it[num_monsters]; // Don't list any twice!
+    for (int i = 0; i < num_monsters; i++)
+        listed_it[i] = false;
+
+    // Start printing monster names on row 4. Rows 0-2 are for labels, and row 3
+    // is blank.
+    point pr(0, 4 + startrow);
+
+    int lastrowprinted = 2 + startrow;
+
+    // Print monster names, starting with those at location 8 (nearby).
+    for (int j = 8; j >= 0 && pr.y < maxheight; j--) {
+        // Separate names by some number of spaces (more for local monsters).
+        int namesep = (j == 8 ? 2 : 1);
+        for (int i = 0; i < unique_types[j].size() && pr.y < maxheight; i++) {
+            buff = unique_types[j][i];
+            // buff < 0 means an NPC!  Don't list those.
+            if (buff >= 0 && !listed_it[buff]) {
+                listed_it[buff] = true;
+                std::string name = mtypes[buff]->name;
+
+                // Move to the next row if necessary. (The +2 is for the "Z ").
+                if (pr.x + 2 + name.length() >= width) {
+                    pr.y++;
+                    pr.x = 0;
+                }
+
+                if (pr.y < maxheight) { // Don't print if we've overflowed
+                    lastrowprinted = pr.y;
+                    mvwputch(w, pr.y, pr.x, mtypes[buff]->color, mtypes[buff]->sym);
+                    pr.x += 2; // symbol and space
+                    nc_color danger = c_dkgray;
+                    if (mtypes[buff]->difficulty >= 30)
+                        danger = c_red;
+                    else if (mtypes[buff]->difficulty >= 16)
+                        danger = c_ltred;
+                    else if (mtypes[buff]->difficulty >= 8)
+                        danger = c_white;
+                    else if (mtypes[buff]->agro > 0)
+                        danger = c_ltgray;
+                    mvwprintz(w, pr.y, pr.x, danger, name.c_str());
+                    pr.x += name.length() + namesep;
+                }
+            }
+        }
     }
-    mvwputch (w, pr.y, pr.x, tmpcol, '@');
 
-   } else // It's a monster!  easier.
-    mvwputch (w, pr.y, pr.x, mtypes[buff]->color, mtypes[buff]->sym);
-
-   pr.x++;
-  }
-  if (unique_types[i].size() > 10) // Couldn't print them all!
-   mvwputch (w, pr.y, pr.x - 1, c_white, '+');
- } // for (int i = 0; i < 8; i++)
-
-// Now we print their full names!
-
- bool listed_it[num_monsters]; // Don't list any twice!
- for (int i = 0; i < num_monsters; i++)
-  listed_it[i] = false;
-
- point pr(0, 4);
-
-// Start with nearby zombies--that's the most important
-// We stop if pr.y hits 10--i.e. we're out of space
- for (int i = 0; i < unique_types[8].size() && pr.y < maxheight; i++) {
-  buff = unique_types[8][i];
-// buff < 0 means an NPC!  Don't list those.
-  if (buff >= 0 && !listed_it[buff]) {
-   listed_it[buff] = true;
-   std::string name = mtypes[buff]->name;
-// + 2 for the "Z "
-   if (pr.x + 2 + name.length() >= width) { // We're too long!
-    pr.y++;
-    pr.x = 0;
-   }
-   if (pr.y < maxheight) { // Don't print if we've overflowed
-    mvwputch (w, pr.y, pr.x, mtypes[buff]->color, mtypes[buff]->sym);
-    nc_color danger = c_dkgray;
-    if (mtypes[buff]->difficulty >= 30)
-     danger = c_red;
-    else if (mtypes[buff]->difficulty >= 16)
-     danger = c_ltred;
-    else if (mtypes[buff]->difficulty >= 8)
-     danger = c_white;
-    else if (mtypes[buff]->agro > 0)
-     danger = c_ltgray;
-    mvwprintz(w, pr.y, pr.x + 2, danger, name.c_str());
-   }
-// +4 for the "Z " and two trailing spaces
-   pr.x += 4 + name.length();
-  }
- }
-// Now, if there's space, the rest of the monsters!
- for (int j = 0; j < 8 && pr.y < maxheight; j++) {
-  for (int i = 0; i < unique_types[j].size() && pr.y < maxheight; i++) {
-   buff = unique_types[j][i];
-// buff < 0 means an NPC!  Don't list those.
-   if (buff >= 0 && !listed_it[buff]) {
-    listed_it[buff] = true;
-    std::string name = mtypes[buff]->name;
-// + 2 for the "Z "
-    if (pr.x + 2 + name.length() >= width) { // We're too long!
-     pr.y++;
-     pr.x = 0;
-    }
-    if (pr.y < maxheight) { // Don't print if we've overflowed
-     mvwputch (w, pr.y, pr.x, mtypes[buff]->color, mtypes[buff]->sym);
-     nc_color danger = c_dkgray;
-     if (mtypes[buff]->difficulty >= 30)
-      danger = c_red;
-     else if (mtypes[buff]->difficulty >= 15)
-      danger = c_ltred;
-     else if (mtypes[buff]->difficulty >= 8)
-      danger = c_white;
-     else if (mtypes[buff]->agro > 0)
-      danger = c_ltgray;
-     mvwprintz(w, pr.y, pr.x + 2, danger, name.c_str());
-    }
-// +3 for the "Z " and a trailing space
-    pr.x += 3 + name.length();
-   }
-  }
- }
-
- wrefresh(w_moninfo);
- refresh();
+    return lastrowprinted;
 }
 
 void game::cleanup_dead()
@@ -7693,10 +7656,10 @@ point game::look_around()
  InputEvent input;
 
  const int lookHeight = 13;
- const int lookWidth = getmaxx(w_moninfo);
+ const int lookWidth = getmaxx(w_messages);
  int lookY = TERMY - lookHeight + 1;
  if (getbegy(w_messages) < lookY) lookY = getbegy(w_messages);
- WINDOW* w_look = newwin(lookHeight, lookWidth, lookY, getbegx(w_moninfo));
+ WINDOW* w_look = newwin(lookHeight, lookWidth, lookY, getbegx(w_messages));
  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_look, 1, 1, c_white, _("Looking Around"));
@@ -7856,7 +7819,6 @@ point game::look_around()
 
  werase(w_look);
  delwin(w_look);
- draw_minimap();
  if (input == Confirm)
   return point(lx, ly);
  return point(-1, -1);
@@ -8484,14 +8446,18 @@ void game::pickup(int posx, int posy, int min)
  // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
  int maxmaxitems = TERMY;
  #ifndef MAXLISTHEIGHT
-  maxmaxitems = sideStyle ? TERMY : getmaxy(w_moninfo) + getmaxy(w_messages) - 3;
+  maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
  #endif
 
- // The pickup list may consume the entire terminal, minus 12 rows for the Items
- // window, minus 3 rows for the pickup list header (1) and footer (2).
- if(maxmaxitems > TERMY - 15) maxmaxitems = TERMY - 15;
+ int itemsH = 12;
+ int pickupBorderRows = 3;
 
- const int minmaxitems = getmaxy(w_moninfo) - 3;
+ // The pickup list may consume the entire terminal, minus space needed for its
+ // header/footer and the item info window.
+ int minleftover = itemsH + pickupBorderRows;
+ if(maxmaxitems > TERMY - minleftover) maxmaxitems = TERMY - minleftover;
+
+ const int minmaxitems = sideStyle ? 6 : 9;
 
  std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
  std::vector<bool> getitem;
@@ -8500,23 +8466,21 @@ void game::pickup(int posx, int posy, int min)
  int maxitems=here.size();
  maxitems=(maxitems < minmaxitems ? minmaxitems : (maxitems > maxmaxitems ? maxmaxitems : maxitems ));
 
- int itemsHeight = 12;
- int itemsWidth  = getmaxx(w_messages);
- int itemsY = TERMY - itemsHeight;
- int itemsX = getbegx(w_messages);
+ int pickupH = maxitems + pickupBorderRows;
+ int pickupW = getmaxx(w_messages);
+ int pickupY = VIEW_OFFSET_Y;
+ int pickupX = getbegx(w_messages);
+
+ int itemsW = pickupW;
+ int itemsY = sideStyle ? pickupY + pickupH : TERMY - itemsH;
+ int itemsX = pickupX;
 
  // If this is the narrow style, move the Items window to the top of the
  // messages window, if possible, to leave more recent messages visible.
  if (sideStyle && getbegy(w_messages) < itemsY) itemsY = getbegy(w_messages);
 
- // If this is the narrow style, consume as many rows as w_moninfo and the
- // minimap consume, then shrink as needed to leave room for w_item_info.
- int pickupHeight = maxitems + 3;
- int pickupWidth  = sideStyle ? getmaxx(w_moninfo) : 48;
- int pickupX = TERMX - pickupWidth;
-
- WINDOW* w_pickup = newwin(pickupHeight, pickupWidth, VIEW_OFFSET_Y, pickupX);
- WINDOW* w_item_info = newwin(itemsHeight, itemsWidth, itemsY, itemsX);
+ WINDOW* w_pickup    = newwin(pickupH, pickupW, pickupY, pickupX);
+ WINDOW* w_item_info = newwin(itemsH,  itemsW,  itemsY,  itemsX);
 
  int ch = ' ';
  int start = 0, cur_it, iter;
@@ -8567,7 +8531,7 @@ void game::pickup(int posx, int posy, int min)
   do {
    static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;";
    size_t idx=-1;
-   for (int i = 1; i < pickupHeight; i++) {
+   for (int i = 1; i < pickupH; i++) {
      mvwprintw(w_pickup, i, 0, "                                                ");
    }
    if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
@@ -8577,7 +8541,7 @@ void game::pickup(int posx, int posy, int min)
    } else if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
     start += maxitems;
     selected = start;
-    mvwprintw(w_pickup, maxitems + 2, pickupHeight, "            ");
+    mvwprintw(w_pickup, maxitems + 2, pickupH, "            ");
    } else if ( ch == KEY_UP ) {
        selected--;
        if ( selected < 0 ) {
@@ -8688,7 +8652,7 @@ void game::pickup(int posx, int posy, int min)
     }
    }
 
-   int pw = pickupWidth;
+   int pw = pickupW;
    const char *unmark = _("[left] Unmark");
    const char *scroll = _("[up/dn] Scroll");
    const char *mark   = _("[right] Mark");
@@ -8732,6 +8696,7 @@ void game::pickup(int posx, int posy, int min)
    delwin(w_pickup);
    delwin(w_item_info);
    add_msg(_("Never mind."));
+   refresh_all();
    return;
   }
  }
@@ -9282,6 +9247,7 @@ void game::plthrow(char chInput)
   ch = chInput;
  } else {
   ch = inv(_("Throw item:"));
+  refresh_all();
  }
 
  int range = u.throw_range(u.lookup_item(ch));
@@ -11345,29 +11311,34 @@ bool game::game_error() { return (uquit == QUIT_ERROR); }
 
 void game::write_msg()
 {
- werase(w_messages);
- int maxlength = FULL_SCREEN_WIDTH - (SEEX * 2 + 10);	// Matches size of w_messages
- int line = getmaxy(w_messages) - 1;
- for (int i = messages.size() - 1; i >= 0 && line < getmaxy(w_messages); i--) {
-  std::string mes = messages[i].message;
-  if (messages[i].count > 1) {
-   std::stringstream mesSS;
-   mesSS << mes << " x " << messages[i].count;
-   mes = mesSS.str();
-  }
-// Split the message into many if we must!
-  nc_color col = c_dkgray;
-  if (int(messages[i].turn) >= curmes)
-    col = c_ltred;
-  else if (int(messages[i].turn) + 5 >= curmes)
-    col = c_ltgray;
-  std::vector<std::string> folded = foldstring(mes, maxlength);
-  for(int j=folded.size()-1; j>=0 && line>=0; j--, line--) {
-    mvwprintz(w_messages, line, 0, col, folded[j].c_str());
-  }
- }
- curmes = int(turn);
- wrefresh(w_messages);
+    werase(w_messages);
+    int maxlength = getmaxx(w_messages);
+
+    // Print monster info and start our output below it.
+    const int topline = mon_info(w_messages) + 2;
+
+    int line = getmaxy(w_messages) - 1;
+    for (int i = messages.size() - 1; i >= 0 && line >= topline; i--) {
+        game_message &m = messages[i];
+        std::string mstr = m.message;
+        if (m.count > 1) {
+            std::stringstream mesSS;
+            mesSS << mstr << " x " << m.count;
+            mstr = mesSS.str();
+        }
+        // Split the message into many if we must!
+        nc_color col = c_dkgray;
+        if (int(m.turn) >= curmes)
+            col = c_ltred;
+        else if (int(m.turn) + 5 >= curmes)
+            col = c_ltgray;
+        std::vector<std::string> folded = foldstring(mstr, maxlength);
+        for (int j = folded.size() - 1; j >= 0 && line >= topline; j--, line--) {
+            mvwprintz(w_messages, line, 0, col, folded[j].c_str());
+        }
+    }
+    curmes = int(turn);
+    wrefresh(w_messages);
 }
 
 void game::msg_buffer()

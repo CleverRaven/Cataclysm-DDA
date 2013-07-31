@@ -143,15 +143,6 @@ std::string monster::name_with_armor()
  return ret;
 }
 
-bool find_next_in_width(std::string &str, const char c, size_t width, size_t *pos)
-{
-    size_t p = str.find(c, *pos + 1);
-    bool updated = (p != std::string::npos && p <= width);
-    if (updated)
-        *pos = p;
-    return updated;
-}
-
 void monster::print_info(game *g, WINDOW* w, int vStart)
 {
 // First line of w is the border; the next two are terrain info, and after that
@@ -213,36 +204,11 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
  }
  mvwprintz(w, vStart+1, 1, col, damage_info.c_str());
 
-    std::string tmp = type->description;
     int line = vStart + 2;
-    int width = getmaxx(w) - 2;
-
-    while (tmp.length() && line <= vEnd) {
-        bool print_remainder = true;
-        std::string out;
-
-        // If tmp is too long for one line, break it at the last possible space
-        // or newline.
-        if (tmp.length() > width) {
-            size_t pos = -1;
-            while (find_next_in_width(tmp, ' ',  width, &pos));
-            while (find_next_in_width(tmp, '\n', width, &pos));
-
-            if (pos > 0) {
-                out = tmp.substr(0, pos);
-                tmp = tmp.substr(pos + 1);
-                print_remainder = false;
-            }
-        }
-
-        if (print_remainder) {
-            out = tmp;
-            tmp = "";
-        }
-
-        mvwprintz(w, line, 1, c_white, out.c_str());
-        line++;
-    }
+    std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 2);
+    int numlines = lines.size();
+    for (int i = 0; i < numlines && line <= vEnd; i++, line++)
+        mvwprintz(w, line, 1, c_white, lines[i].c_str());
 }
 
 char monster::symbol()

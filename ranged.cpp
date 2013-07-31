@@ -642,9 +642,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
  int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
  int height = 13;
- int width  = sideStyle ? getmaxx(w_moninfo) : 48;
- int top    = sideStyle ? getbegy(w_moninfo) : (getbegy(w_minimap) + getmaxy(w_minimap));
- int left   = getbegx(w_moninfo);
+ int width  = getmaxx(w_messages);
+ int top    = sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap));
+ int left   = getbegx(w_messages);
  WINDOW* w_target = newwin(height, width, top, left);
  wborder(w_target, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -809,7 +809,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   }
  } while (true);
 
- draw_minimap();
  return ret;
 }
 

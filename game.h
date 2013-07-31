@@ -290,7 +290,6 @@ class game
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;
-  WINDOW *w_moninfo;
   WINDOW *w_messages;
   WINDOW *w_location;
   WINDOW *w_status;
@@ -469,7 +468,7 @@ void load_artifacts(); // Load artifact data
   void process_activity(); // Processes and enacts the player's activity
   void update_weather();   // Updates the temperature and weather patten
   void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
-  void mon_info();         // Prints a list of nearby monsters (top right)
+  int  mon_info(WINDOW *); // Prints a list of nearby monsters
   void handle_key_blocking_activity(); // Abort reading etc.
   bool handle_action();
   void update_scent();     // Updates the scent map
