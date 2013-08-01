@@ -2532,7 +2532,7 @@ bool map::is_full(const int x, const int y, const int addvolume, const int addnu
 // skip_checks == true: cheerfully ignore weight and item count, skip item and inbound checks. Use with caution
 bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius) {
 
-    if (( new_item.is_style() || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) ){
+    if (( new_item.is_style() || !INBOUNDS(x,y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) ){
         debugmsg("%i,%i:is_style %i, liquid %i, destroy_item %i",x,y, new_item.is_style() ,(new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ,has_flag(destroy_item, x, y) );
         return false;
     }
@@ -2542,7 +2542,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
     for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
     {
         itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
-        if (new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
+        if (!INBOUNDS(p_it->x, p_it->x) || new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
                 has_flag(destroy_item, p_it->x, p_it->y) || has_flag(noitem, p_it->x, p_it->y)){
             continue;
         }
