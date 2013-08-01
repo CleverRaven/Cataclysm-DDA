@@ -3495,15 +3495,19 @@ int player::unimpaired_range()
 
 int player::overmap_sight_range(int light_level)
 {
- int sight = sight_range(light_level);
- if (sight < SEEX)
-  return 0;
- if (sight <= SEEX * 4)
-  return (sight / (SEEX / 2));
- if (has_amount("binoculars", 1))
-  return 20;
+    int sight = sight_range(light_level);
+    if( sight < SEEX ) {
+        return 0;
+    }
+    if( sight <= SEEX * 4) {
+        return (sight / (SEEX / 2) );
+    }
+    if( has_amount("binoculars", 1) ||
+        weapon.has_gunmod("rifle_scope") ) {
+        return 20;
+    }
 
- return 10;
+    return 10;
 }
 
 int player::clairvoyance()
