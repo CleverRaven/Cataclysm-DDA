@@ -2529,7 +2529,6 @@ bool map::is_full(const int x, const int y, const int addvolume, const int addnu
 // returns false if item exceeds tile's weight limits or item count. This function is expensive, and meant for
 // user initiated actions, not mapgen!
 // overflow_radius > 0: if x,y is full, attempt to drop item up to overflow_radius squares away, if x,y is full
-// skip_checks == true: cheerfully ignore weight and item count, skip item and inbound checks. Use with caution
 bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius) {
 
     if (( new_item.is_style() || !INBOUNDS(x,y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) ){
@@ -2550,9 +2549,9 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
         if (tryaddcharges) {
             for (int i = 0; i < i_at(p_it->x,p_it->y).size(); i++)
             {
-                if(i_at(x, y)[i].type->id == add_type)
+                if(i_at(p_it->x, p_it->y)[i].type->id == add_type)
                 {
-                    i_at(x, y)[i].charges += new_item.charges;
+                    i_at(p_it->x, p_it->y)[i].charges += new_item.charges;
                     return true;
                 }
             }
