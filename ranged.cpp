@@ -291,7 +291,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
    if (!burst) {
        add_msg_player_or_npc( &p, _("You miss!"), _("<npcname> misses!") );
    }
-  } else if (missed_by >= .7 / monster_speed_penalty) {
+  } else if (missed_by >= .8 / monster_speed_penalty) {
 // Hit the space, but not necessarily the monster there
    missed = true;
    if (!burst) {
@@ -1052,22 +1052,27 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
    adjusted_damage = 0;
    goodhit = 1;
   }
-  if (goodhit < .1 && !mon.has_flag(MF_NOHEAD)) {
-   message = _("Headshot!");
-   adjusted_damage = rng(5 * adjusted_damage, 8 * adjusted_damage);
-   p.practice(g->turn, firing->skill_used, 5);
-  } else if (goodhit < .2) {
-   message = _("Critical!");
-   adjusted_damage = rng(adjusted_damage * 2, adjusted_damage * 3);
-   p.practice(g->turn, firing->skill_used, 2);
-  } else if (goodhit < .4) {
-   adjusted_damage = rng(int(adjusted_damage * .9), int(adjusted_damage * 1.5));
-   p.practice(g->turn, firing->skill_used, rng(0, 2));
-  } else if (goodhit <= .7) {
-   message = _("Grazing hit.");
-   adjusted_damage = rng(0, adjusted_damage);
-  } else
-   adjusted_damage = 0;
+  if (goodhit <= .1 && !mon.has_flag(MF_NOHEAD)) {
+      message = _("Headshot!");
+      adjusted_damage = rng(5 * adjusted_damage, 8 * adjusted_damage);
+      p.practice(g->turn, firing->skill_used, 5);
+  } else if (goodhit <= .2) {
+      message = _("Critical!");
+      adjusted_damage = rng(adjusted_damage * 2, adjusted_damage * 3);
+      p.practice(g->turn, firing->skill_used, 3);
+  } else if (goodhit <= .4) {
+      message = _("Good hit!");
+      adjusted_damage = rng(adjusted_damage , adjusted_damage * 2);
+      p.practice(g->turn, firing->skill_used, 2);
+  } else if (goodhit <= .6) {
+      adjusted_damage = rng(adjusted_damage / 2, adjusted_damage);
+      p.practice(g->turn, firing->skill_used, 1);
+  } else if (goodhit <= .8) {
+      message = _("Grazing hit.");
+      adjusted_damage = rng(0, adjusted_damage);
+  } else {
+      adjusted_damage = 0;
+  }
 
   if(item(weapon->curammo, 0).has_flag("NOGIB"))
   {
