@@ -3055,44 +3055,57 @@ void player::disp_morale(game *g)
     delwin(w);
 }
 
-void player::disp_status(WINDOW *w, game *g)
+void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
- mvwprintz(w, 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
- if (weapon.is_gun()) {
-   int adj_recoil = recoil + driving_recoil;
-       if (adj_recoil >= 36)
-   mvwprintz(w, 0, 34, c_red,    _("Recoil"));
-  else if (adj_recoil >= 20)
-   mvwprintz(w, 0, 34, c_ltred,  _("Recoil"));
-  else if (adj_recoil >= 4)
-   mvwprintz(w, 0, 34, c_yellow, _("Recoil"));
-  else if (adj_recoil > 0)
-   mvwprintz(w, 0, 34, c_ltgray, _("Recoil"));
- }
+    int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
 
- // Print the current weapon mode
- if (weapon.mode == "NULL")
-  mvwprintz(w, 1, 0, c_red,    _("Normal"));
- else if (weapon.mode == "MODE_BURST")
-  mvwprintz(w, 1, 0, c_red,    _("Burst"));
- else {
-  item* gunmod = weapon.active_gunmod();
-  if (gunmod != NULL)
-   mvwprintz(w, 1, 0, c_red, gunmod->type->name.c_str());
- }
+    WINDOW *weapwin = sideStyle ? w2 : w;
+    mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
+    if (weapon.is_gun()) {
+        int adj_recoil = recoil + driving_recoil;
+        if (adj_recoil > 0) {
+            nc_color c = c_ltgray;
+            if (adj_recoil >= 36)
+                c = c_red;
+            else if (adj_recoil >= 20)
+                c = c_ltred;
+            else if (adj_recoil >= 4)
+                c = c_yellow;
+            int y = sideStyle ? 1 : 0;
+            int x = sideStyle ? (getmaxx(weapwin) - 6) : 34;
+            mvwprintz(weapwin, y, x, c, _("Recoil"));
+        }
+    }
 
- if (hunger > 2800)
-  mvwprintz(w, 2, 0, c_red,    _("Starving!"));
- else if (hunger > 1400)
-  mvwprintz(w, 2, 0, c_ltred,  _("Near starving"));
- else if (hunger > 300)
-  mvwprintz(w, 2, 0, c_ltred,  _("Famished"));
- else if (hunger > 100)
-  mvwprintz(w, 2, 0, c_yellow, _("Very hungry"));
- else if (hunger > 40)
-  mvwprintz(w, 2, 0, c_yellow, _("Hungry"));
- else if (hunger < 0)
-  mvwprintz(w, 2, 0, c_green,  _("Full"));
+    // Print the current weapon mode
+    const char *mode = NULL;
+    if (weapon.mode == "NULL")
+        mode = _("Normal");
+    else if (weapon.mode == "MODE_BURST")
+        mode = _("Burst");
+    else {
+        item* gunmod = weapon.active_gunmod();
+        if (gunmod != NULL)
+            mode = gunmod->type->name.c_str();
+    }
+    if (mode) {
+        int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
+        mvwprintz(weapwin, 1, x, c_red, mode);
+    }
+
+    wmove(w, sideStyle ? 1 : 2, 0);
+    if (hunger > 2800)
+        wprintz(w, c_red,    _("Starving!"));
+    else if (hunger > 1400)
+        wprintz(w, c_ltred,  _("Near starving"));
+    else if (hunger > 300)
+        wprintz(w, c_ltred,  _("Famished"));
+    else if (hunger > 100)
+        wprintz(w, c_yellow, _("Very hungry"));
+    else if (hunger > 40)
+        wprintz(w, c_yellow, _("Hungry"));
+    else if (hunger < 0)
+        wprintz(w, c_green,  _("Full"));
 
  // Find hottest/coldest bodypart
  int min = 0, max = 0;
@@ -3133,80 +3146,82 @@ void player::disp_status(WINDOW *w, game *g)
  else if (delta == -2) temp_message = _(" (Falling!)");
  else if (delta <  -2) temp_message = _(" (Falling!!)");
  // Print the hottest/coldest bodypart, and if it is rising or falling in temperature
- if      (temp_cur[print] >  BODYTEMP_SCORCHING)
-  mvwprintz(w, 1, 9, c_red,   _("Scorching!%s"), temp_message);
- else if (temp_cur[print] >  BODYTEMP_VERY_HOT)
-  mvwprintz(w, 1, 9, c_ltred, _("Very hot!%s"), temp_message);
- else if (temp_cur[print] >  BODYTEMP_HOT)
-  mvwprintz(w, 1, 9, c_yellow,_("Warm%s"), temp_message);
- else if (temp_cur[print] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
-  mvwprintz(w, 1, 9, c_green, _("Comfortable%s"), temp_message);
- else if (temp_cur[print] >  BODYTEMP_VERY_COLD)
-  mvwprintz(w, 1, 9, c_ltblue,_("Chilly%s"), temp_message);
- else if (temp_cur[print] >  BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_cyan,  _("Very cold!%s"), temp_message);
- else if (temp_cur[print] <= BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_blue,  _("Freezing!%s"), temp_message);
 
- mvwprintz(w, 1, 32, c_yellow, _("Sound:%d"), volume);
- volume = 0;
+    wmove(w, sideStyle ? 6 : 1, sideStyle ? 0 : 9);
+    if      (temp_cur[print] >  BODYTEMP_SCORCHING)
+        wprintz(w, c_red,   _("Scorching!%s"), temp_message);
+    else if (temp_cur[print] >  BODYTEMP_VERY_HOT)
+        wprintz(w, c_ltred, _("Very hot!%s"), temp_message);
+    else if (temp_cur[print] >  BODYTEMP_HOT)
+        wprintz(w, c_yellow,_("Warm%s"), temp_message);
+    else if (temp_cur[print] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
+        wprintz(w, c_green, _("Comfortable%s"), temp_message);
+    else if (temp_cur[print] >  BODYTEMP_VERY_COLD)
+        wprintz(w, c_ltblue,_("Chilly%s"), temp_message);
+    else if (temp_cur[print] >  BODYTEMP_FREEZING)
+        wprintz(w, c_cyan,  _("Very cold!%s"), temp_message);
+    else if (temp_cur[print] <= BODYTEMP_FREEZING)
+        wprintz(w, c_blue,  _("Freezing!%s"), temp_message);
 
-      if (thirst > 520)
-  mvwprintz(w, 2, 15, c_ltred,  _("Parched"));
- else if (thirst > 240)
-  mvwprintz(w, 2, 15, c_ltred,  _("Dehydrated"));
- else if (thirst > 80)
-  mvwprintz(w, 2, 15, c_yellow, _("Very thirsty"));
- else if (thirst > 40)
-  mvwprintz(w, 2, 15, c_yellow, _("Thirsty"));
- else if (thirst < 0)
-  mvwprintz(w, 2, 15, c_green,  _("Slaked"));
+    int x = sideStyle ? 37 : 32;
+    int y = sideStyle ?  0 :  1;
+    mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
+    volume = 0;
 
-      if (fatigue > 575)
-  mvwprintz(w, 2, 30, c_red,    _("Exhausted"));
- else if (fatigue > 383)
-  mvwprintz(w, 2, 30, c_ltred,  _("Dead tired"));
- else if (fatigue > 191)
-  mvwprintz(w, 2, 30, c_yellow, _("Tired"));
+    wmove(w, 2, sideStyle ? 0 : 15);
+    if (thirst > 520)
+        wprintz(w, c_ltred,  _("Parched"));
+    else if (thirst > 240)
+        wprintz(w, c_ltred,  _("Dehydrated"));
+    else if (thirst > 80)
+        wprintz(w, c_yellow, _("Very thirsty"));
+    else if (thirst > 40)
+        wprintz(w, c_yellow, _("Thirsty"));
+    else if (thirst < 0)
+        wprintz(w, c_green,  _("Slaked"));
 
- mvwprintz(w, 2, 41, c_white, _("Focus: "));
- nc_color col_xp = c_dkgray;
- if (focus_pool >= 100)
-  col_xp = c_white;
- else if (focus_pool >  0)
-  col_xp = c_ltgray;
- mvwprintz(w, 2, 48, col_xp, "%d", focus_pool);
+    wmove(w, sideStyle ? 3 : 2, sideStyle ? 0 : 30);
+    if (fatigue > 575)
+        wprintz(w, c_red,    _("Exhausted"));
+    else if (fatigue > 383)
+        wprintz(w, c_ltred,  _("Dead tired"));
+    else if (fatigue > 191)
+        wprintz(w, c_yellow, _("Tired"));
 
- nc_color col_pain = c_yellow;
- if (pain - pkill >= 60)
-  col_pain = c_red;
- else if (pain - pkill >= 40)
-  col_pain = c_ltred;
- if (pain - pkill > 0)
-  mvwprintz(w, 3, 0, col_pain, _("Pain: %d"), pain - pkill);
+    wmove(w, sideStyle ? 4 : 2, sideStyle ? 0 : 41);
+    wprintz(w, c_white, _("Focus"));
+    nc_color col_xp = c_dkgray;
+    if (focus_pool >= 100)
+        col_xp = c_white;
+    else if (focus_pool >  0)
+        col_xp = c_ltgray;
+    wprintz(w, col_xp, " %d", focus_pool);
+
+    nc_color col_pain = c_yellow;
+    if (pain - pkill >= 60)
+        col_pain = c_red;
+    else if (pain - pkill >= 40)
+        col_pain = c_ltred;
+    if (pain - pkill > 0)
+        mvwprintz(w, sideStyle ? 0 : 3, 0, col_pain, _("Pain %d"), pain - pkill);
+
+    int morale_cur = morale_level ();
+        nc_color col_morale = c_white;
+    if (morale_cur >= 10)
+        col_morale = c_green;
+    else if (morale_cur <= -10)
+        col_morale = c_red;
+    const char *morale_str;
+    if      (morale_cur >= 100) morale_str = ":D";
+    else if (morale_cur >= 10)  morale_str = ":)";
+    else if (morale_cur > -10)  morale_str = ":|";
+    else if (morale_cur > -100) morale_str = "):";
+    else                        morale_str = "D:";
+    mvwprintz(w, sideStyle ? 0 : 3, sideStyle ? 11 : 10, col_morale, morale_str);
 
  vehicle *veh = g->m.veh_at (posx, posy);
- int dmor = 0;
-
- int morale_cur = morale_level ();
- nc_color col_morale = c_white;
- if (morale_cur >= 10)
-  col_morale = c_green;
- else if (morale_cur <= -10)
-  col_morale = c_red;
- if (morale_cur >= 100)
-  mvwprintz(w, 3, 10 + dmor, col_morale, ":D");
- else if (morale_cur >= 10)
-  mvwprintz(w, 3, 10 + dmor, col_morale, ":)");
- else if (morale_cur > -10)
-  mvwprintz(w, 3, 10 + dmor, col_morale, ":|");
- else if (morale_cur > -100)
-  mvwprintz(w, 3, 10 + dmor, col_morale, "):");
- else
-  mvwprintz(w, 3, 10 + dmor, col_morale, "D:");
-
  if (in_vehicle && veh) {
-  veh->print_fuel_indicator (w, 3, 49);
+  veh->print_fuel_indicator(w, sideStyle ? 2 : 3, sideStyle ? getmaxx(w) - 5 : 49);
   nc_color col_indf1 = c_ltgray;
 
   float strain = veh->strain();
@@ -3223,39 +3238,44 @@ void player::disp_status(WINDOW *w, game *g)
   }
 
   if (has_turrets) {
-   mvwprintz(w, 3, 25, col_indf1, "Gun:");
-   mvwprintz(w, 3, 29, veh->turret_mode ? c_ltred : c_ltblue,
-                       veh->turret_mode ? "auto" : "off ");
+   mvwprintz(w, 3, sideStyle ? 16 : 25, col_indf1, "Gun:");
+   wprintz(w, veh->turret_mode ? c_ltred : c_ltblue,
+              veh->turret_mode ? "auto" : "off ");
   }
 
-  if (veh->cruise_on) {
-   if(OPTIONS[OPT_USE_METRIC_SYS]) {
-    mvwprintz(w, 3, 33, col_indf1, "{Km/h....>....}");
-    mvwprintz(w, 3, 38, col_vel, "%4d", int(veh->velocity * 0.0161f));
-    mvwprintz(w, 3, 43, c_ltgreen, "%4d", int(veh->cruise_velocity * 0.0161f));
-   }
-   else {
-    mvwprintz(w, 3, 34, col_indf1, "{mph....>....}");
-    mvwprintz(w, 3, 38, col_vel, "%4d", veh->velocity / 100);
-    mvwprintz(w, 3, 43, c_ltgreen, "%4d", veh->cruise_velocity / 100);
-   }
-  } else {
-   if(OPTIONS[OPT_USE_METRIC_SYS]) {
-    mvwprintz(w, 3, 33, col_indf1, "  {Km/h....}  ");
-    mvwprintz(w, 3, 40, col_vel, "%4d", int(veh->velocity * 0.0161f));
-   }
-   else {
-    mvwprintz(w, 3, 34, col_indf1, "  {mph....}  ");
-    mvwprintz(w, 3, 40, col_vel, "%4d", veh->velocity / 100);
-   }
+
+  //
+  // Draw the speedometer.
+  //
+
+  int speedox = sideStyle ? 0 : 33;
+  int speedoy = sideStyle ? 5 :  3;
+
+  bool metric = OPTIONS[OPT_USE_METRIC_SYS];
+  const char *units = metric ? "km/h" : "mph";
+  int velx    = metric ?  5 : 4; // strlen(units) + 1
+  int cruisex = metric ? 10 : 9; // strlen(units) + 6
+  float conv  = metric ? 0.0161f : 0.01f;
+
+  if (0 == sideStyle) {
+    if (!veh->cruise_on) speedox += 2;
+    if (!metric)         speedox++;
   }
+
+  const char *speedo = veh->cruise_on ? "{%s....>....}" : "{%s....}";
+  mvwprintz(w, speedoy, speedox,        col_indf1, speedo, units);
+  mvwprintz(w, speedoy, speedox + velx, col_vel,   "%4d", int(veh->velocity * conv));
+  if (veh->cruise_on)
+    mvwprintz(w, speedoy, speedox + cruisex, c_ltgreen, "%4d", int(veh->cruise_velocity * conv));
+
 
   if (veh->velocity != 0) {
    nc_color col_indc = veh->skidding? c_red : c_green;
    int dfm = veh->face.dir() - veh->move.dir();
-   mvwprintz(w, 3, 21, col_indc, dfm < 0? "L" : ".");
-   mvwprintz(w, 3, 22, col_indc, dfm == 0? "0" : ".");
-   mvwprintz(w, 3, 23, col_indc, dfm > 0? "R" : ".");
+   wmove(w, sideStyle ? 5 : 3, getmaxx(w) - 3);
+   wprintz(w, col_indc, dfm <  0 ? "L" : ".");
+   wprintz(w, col_indc, dfm == 0 ? "0" : ".");
+   wprintz(w, col_indc, dfm >  0 ? "R" : ".");
   }
  } else {  // Not in vehicle
   nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
@@ -3282,12 +3302,21 @@ void player::disp_status(WINDOW *w, game *g)
   if (current_speed() > 100)
    col_spd = c_green;
 
-  mvwprintz(w, 3, 13, col_str, _("Str %s%d"), str_cur >= 10 ? "" : " ", str_cur);
-  mvwprintz(w, 3, 20, col_dex, _("Dex %s%d"), dex_cur >= 10 ? "" : " ", dex_cur);
-  mvwprintz(w, 3, 27, col_int, _("Int %s%d"), int_cur >= 10 ? "" : " ", int_cur);
-  mvwprintz(w, 3, 34, col_per, _("Per %s%d"), per_cur >= 10 ? "" : " ", per_cur);
-  mvwprintz(w, 3, 41, col_spd, _("Spd %s%d"), spd_cur >= 10 ? "" : " ", spd_cur);
-  mvwprintz(w, 3, 50, c_white, "%d", movecounter);
+    int x  = sideStyle ? 18 : 13;
+    int y  = sideStyle ?  0 :  3;
+    int dx = sideStyle ?  0 :  7;
+    int dy = sideStyle ?  1 :  0;
+    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str %2d"), str_cur);
+    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex %2d"), dex_cur);
+    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int %2d"), int_cur);
+    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per %2d"), per_cur);
+
+    int spdx = sideStyle ?  0 : x + dx * 4;
+    int spdy = sideStyle ?  5 : y + dy * 4;
+    int movx = sideStyle ? 12 : x + dx * 5 + 2;
+    int movy = sideStyle ?  5 : y + dy * 5;
+    mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), spd_cur);
+    wprintz(w, c_white, "  %d", movecounter);
  }
 }
 

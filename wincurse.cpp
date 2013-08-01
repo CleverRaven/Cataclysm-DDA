@@ -326,7 +326,7 @@ fin.open("data\\FONTDATA");
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
-    WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
+    WindowHeight = (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     WinCreate();    //Create the actual window, register it, etc
     CheckMessages();    //Let the message queue handle setting up the window
     WindowDC = GetDC(WindowHandle);

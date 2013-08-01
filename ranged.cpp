@@ -641,7 +641,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  } else
   target = -1;	// No monsters in range, don't use target, reset to -1
 
- WINDOW* w_target = newwin(13, 48, VIEW_OFFSET_Y + MINIMAP_HEIGHT, TERRAIN_WINDOW_WIDTH + 7 + VIEW_OFFSET_X);
+ int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
+ int height = 13;
+ int width  = getmaxx(w_messages);
+ int top    = sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap));
+ int left   = getbegx(w_messages);
+ WINDOW* w_target = newwin(height, width, top, left);
  wborder(w_target, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_target, 0, 2, c_white, "< ");
@@ -658,12 +663,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  }
  wprintz(w_target, c_white, " >");
 /* Annoying clutter @ 2 3 4. */
- mvwprintz(w_target, 9, 1, c_white,
-           _("Move cursor to target with directional keys."));
+ mvwprintz(w_target, getmaxy(w_target) - 4, 1, c_white,
+           _("Move cursor to target with directional keys"));
  if (relevent) {
-  mvwprintz(w_target, 10, 1, c_white,
-            _("'<' '>' Cycle targets; 'f' or '.' to fire."));
-  mvwprintz(w_target, 11, 1, c_white,
+  mvwprintz(w_target, getmaxy(w_target) - 3, 1, c_white,
+            _("'<' '>' Cycle targets; 'f' or '.' to fire"));
+  mvwprintz(w_target, getmaxy(w_target) - 2, 1, c_white,
             _("'0' target self; '*' toggle snap-to-target"));
  }
 
@@ -693,8 +698,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   else
    center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
   // Clear the target window.
-  for (int i = 1; i < 8; i++) {
-   for (int j = 1; j < 46; j++)
+  for (int i = 1; i < getmaxy(w_target) - 5; i++) {
+   for (int j = 1; j < getmaxx(w_target) - 2; j++)
     mvwputch(w_target, i, j, c_white, ' ');
   }
   m.build_map_cache(this);
@@ -792,7 +797,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    }
    if (u.posx == x && u.posy == y)
        ret.clear();
-   return ret;
+   break;
   } else if (ch == '0') {
    x = u.posx;
    y = u.posy;
@@ -801,9 +806,11 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    snap_to_target = !snap_to_target;
   else if (ch == KEY_ESCAPE || ch == 'q') { // return empty vector (cancel)
    ret.clear();
-   return ret;
+   break;
   }
  } while (true);
+
+ return ret;
 }
 
 // MATERIALS-TODO: use fire resistance
