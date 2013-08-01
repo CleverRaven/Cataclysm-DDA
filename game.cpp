@@ -81,6 +81,7 @@ game::game() :
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
  init_npctalk();
+ init_materials();
  init_artifacts();
  init_weather();
  init_overmap();
@@ -2250,7 +2251,7 @@ bool game::is_game_over()
   if (u.hp_cur[i] < 1) {
    place_corpse();
    std::stringstream playerfile;
-   playerfile << "save/" << u.name << ".sav";
+   playerfile << "save/" << base64_encode(u.name) << ".sav";
    unlink(playerfile.str().c_str());
    uquit = QUIT_DIED;
    return true;
@@ -2297,7 +2298,7 @@ void game::death_screen()
     GetCurrentDirectory(MAX_PATH, Buffer);
     SetCurrentDirectory("save");
     std::stringstream playerfile;
-    playerfile << u.name << "*";
+    playerfile << base64_encode(u.name) << "*";
     hFind = FindFirstFile(playerfile.str().c_str(), &FindFileData);
     if(INVALID_HANDLE_VALUE != hFind) {
         do {
@@ -2314,9 +2315,10 @@ void game::death_screen()
         while ((save_dirent = readdir(save_dir)) != NULL)
         {
             std::string name_prefix = save_dirent->d_name;
-            name_prefix = name_prefix.substr(0,u.name.length());
+            std::string tmpname = base64_encode(u.name);
+            name_prefix = name_prefix.substr(0,tmpname.length());
 
-            if (u.name == name_prefix)
+            if (tmpname == name_prefix)
             {
                 (void)unlink(save_dirent->d_name);
             }
@@ -2572,7 +2574,7 @@ void game::load(std::string name)
   return;
  }
  u = player();
- u.name = name;
+ u.name = base64_decode(name);
  u.ret_null = item(itypes["null"], 0);
  u.weapon = item(itypes["null"], 0);
  int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
@@ -2736,7 +2738,7 @@ void game::save()
 {
  std::stringstream playerfile;
  std::ofstream fout;
- playerfile << "save/" << u.name << ".sav";
+ playerfile << "save/" << base64_encode(u.name) << ".sav";
 
  fout.open(playerfile.str().c_str());
  // First, write out basic game state information.
@@ -3793,7 +3795,7 @@ void game::draw_minimap()
    int omx = cursx + i;
    int omy = cursy + j;
    bool seen = false;
-   oter_id cur_ter;
+   oter_id cur_ter = ot_null;
    long note_sym = 0;
    bool note = false;
    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {
@@ -7849,25 +7851,24 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     std::map<std::string, map_item_stack> temp_items;
     std::vector<map_item_stack> ret;
 
-    // Go through each nearby square one-by-one and make note of the items
-    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++)
+    std::vector<point> points = closest_points_first(iSearchX, u.posx, u.posy);
+
+    for (std::vector<point>::iterator p_it = points.begin();
+        p_it != points.end(); p_it++)
     {
-        for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++)
-        {
-            if (u_see(u.posx + iCol, u.posy + iRow) &&
-               (!m.has_flag(container, u.posx + iCol, u.posy + iRow) ||
-               (rl_dist(u.posx, u.posy, u.posx + iCol, u.posy + iRow) == 1 && !m.has_flag(sealed, u.posx + iCol, u.posy + iRow))))
+        if (u_see(p_it->x,p_it->y) &&
+           (!m.has_flag(container, p_it->x, p_it->y) ||
+           (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag(sealed, p_it->x, p_it->y))))
             {
                 temp_items.clear();
                 here.clear();
-                here = m.i_at(u.posx + iCol, u.posy + iRow);
-
+                here = m.i_at(p_it->x, p_it->y);
                 for (int i = 0; i < here.size(); i++)
                 {
                     const std::string name = here[i].tname(this);
                     if (temp_items.find(name) == temp_items.end())
                     {
-                        temp_items[name] = map_item_stack(here[i], iCol, iRow);
+                        temp_items[name] = map_item_stack(here[i], p_it->x - u.posx, p_it->y - u.posy);
                     }
                     else
                     {
@@ -7880,12 +7881,11 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
                 {
                     ret.push_back(iter->second);
                 }
+ 
             }
-        }
     }
     return ret;
 }
-
 
 std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack> stack, std::string filter)
 {
@@ -9157,7 +9157,7 @@ void game::drop(char chInput)
    add_msg (_("The trunk is full, so some items fall on the ground."));
  } else {
   for (int i = 0; i < dropped.size(); i++)
-   m.add_item_or_charges(u.posx, u.posy, dropped[i], 1);
+   m.add_item_or_charges(u.posx, u.posy, dropped[i], 2);
  }
 }
 
@@ -10725,8 +10725,8 @@ void game::vertical_move(int movez, bool force)
 // Force means we're going down, even if there's no staircase, etc.
 // This happens with sinkholes and the like.
  if (!force && ((movez == -1 && !m.has_flag(goes_down, u.posx, u.posy)) ||
-                (movez ==  1 && !m.has_flag(goes_up,   u.posx, u.posy)) ||
-                !m.ter(u.posx, u.posy) == t_elevator )) {
+                (movez ==  1 && !m.has_flag(goes_up,   u.posx, u.posy))) &&
+                !(m.ter(u.posx, u.posy) == t_elevator)) {
   add_msg(_("You can't go %s here!"), (movez == -1 ? _("down") : _("up")));
   return;
  }

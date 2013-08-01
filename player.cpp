@@ -144,8 +144,7 @@ close to you.")},
 Although you still suffer the negative effects of pain, it also brings a \
 unique pleasure to you.")},
 {_("Cross-Dresser"), 2, 0, 0, _("\
-Covering your body in clothing typical for the opposite gender makes you feel better. \
-Negates any gender restrictions on professions.")},
+Covering your body in clothing typical for the opposite gender makes you feel better.")},
 {_("Light Step"), 1, 0, 0, _("\
 You make less noise while walking.  You're also less likely to set off traps.")},
 {_("Android"), 4, 0, 0, _("\
@@ -5907,6 +5906,7 @@ bool player::eat(game *g, signed char ch)
                 debugmsg("%s tried to eat a %s", name.c_str(), it.tname(g).c_str());
             return false;
         }
+    }
     if (eaten == NULL)
         return false;
 
@@ -5934,6 +5934,8 @@ bool player::eat(game *g, signed char ch)
         if (eaten->type->m1 == "wood"    || eaten->type->m2 == "wood")
             charge /= 2;
         charge_power(charge);
+        g->add_msg_player_or_npc(this, _("You eat your %s."), _("<npcname> eats a %s."),
+                                 eaten->tname(g).c_str());
     }
     else     // It's real food!  i.e. an it_comest
     {
@@ -6024,7 +6026,6 @@ bool player::eat(game *g, signed char ch)
             g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                       eaten->tname(g).c_str());
         }
-    }
 
         if (g->itypes[comest->tool]->is_tool())
             use_charges(comest->tool, 1); // Tools like lighters get used
@@ -8447,6 +8448,7 @@ int player::getID ()
 
 bool player::uncanny_dodge(bool is_u)
 {
+    if( this->power_level < 3 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
     point adjacent = adjacent_tile();
     power_level -= 3;
     if (adjacent.x != posx || adjacent.y != posy)

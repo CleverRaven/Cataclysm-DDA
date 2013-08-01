@@ -146,7 +146,7 @@ public:
 
  int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc
  int  dodge_roll(game *g);// For comparison to hit_roll()
- 
+
  bool uncanny_dodge(bool is_u = true);      // Move us to an adjacent_tile() if available. Display message if player is dodging.
  point adjacent_tile();     // Returns an unoccupied, safe adjacent point. If none exists, returns player position.
 

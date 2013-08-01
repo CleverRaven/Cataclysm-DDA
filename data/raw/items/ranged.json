@@ -2393,5 +2393,32 @@
     "burst": 5,
     "clip_size": 20,
     "reload": 500
+  },
+  {
+    "id": "flamethrower_crude",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "pink",
+    "name": "spraycan flamethrower",
+    "description": "A favourite of hooligans around the world, this lighter duct-taped to a spray can is probably as dangerous to the user as anyone else. The nozzle has been crudely modified to disperse gasoline, and a small pump attached to the side allows for repressurization, though this process takes takes a few minutes.",
+    "rarity": 1,
+    "price": 380,
+    "material": "steel",
+    "flags": "FIRE_50",
+    "skill": "pistol",
+    "ammo": "gasoline",
+    "weight": 1,
+    "volume": 2,
+    "bashing": 1,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": 0,
+    "range": -2,
+    "dispersion": 0,
+    "recoil": 0,
+    "burst": 1,
+    "durability": 8,
+    "clip_size": 50,
+    "reload": 4000
   }
 ]

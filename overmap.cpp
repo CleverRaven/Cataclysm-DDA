@@ -16,7 +16,7 @@
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
-#include "options.h"
+#include "catacharset.h"
 #include "overmapbuffer.h"
 #include <queue>
 
@@ -3536,7 +3536,7 @@ std::string overmap::player_filename(int const x, int const y) const
 {
  std::stringstream filename;
 
- filename << "save/" << name << ".seen." << x << "." << y;
+ filename << "save/" << base64_encode(name) << ".seen." << x << "." << y;
 
  return filename.str();
 }

@@ -340,6 +340,7 @@ void load_artifacts(); // Load artifact data
 
 // Data Initialization
   void init_npctalk();
+  void init_materials();
   void init_fields();
   void init_weather();
   void init_overmap();

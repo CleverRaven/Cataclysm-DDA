@@ -1,6 +1,7 @@
 #include "player.h"
 #include "profession.h"
 #include "item_factory.h"
+#include "input.h"
 #include "output.h"
 #include "rng.h"
 #include "keypress.h"
@@ -505,11 +506,11 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
 
   wrefresh(w);
   ch = input();
-  if (ch == 'j' && sel < 4)
+  if ((ch == 'j' || ch == '2') && sel < 4)
    sel++;
-  if (ch == 'k' && sel > 1)
+  if ((ch == 'k' || ch == '8') && sel > 1)
    sel--;
-  if (ch == 'h') {
+  if (ch == 'h' || ch == '4'){
    if (sel == 1 && u->str_max > 4) {
     if (u->str_max > HIGH_STAT)
      points++;
@@ -532,7 +533,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
     points++;
    }
   }
-  if (ch == 'l' && points > 0) {
+  if ((ch == 'l' || ch == '6') && points > 0) {
    if (sel == 1 && u->str_max < 20 && (u->str_max < HIGH_STAT || points > 1)) {
     points--;
     if (u->str_max >= HIGH_STAT)
@@ -694,6 +695,8 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
   switch (input()) {
    case 'h':
    case 'l':
+   case '6':
+   case '4':
    case '\t':
     if (cur_trait <= traitmin + 7) {//draw list
      for (int i = traitmin; i < traitmin + 16; i++) {
@@ -727,6 +730,7 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
     wrefresh(w);
     break;
    case 'k':
+   case '8':
     if (using_adv) {
      if (cur_adv > 1)
       cur_adv--;
@@ -736,6 +740,7 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
     }
     break;
    case 'j':
+   case '2':
    if (using_adv) {
      if (cur_adv < PF_SPLIT - 1)
       cur_adv++;
@@ -746,6 +751,7 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
     break;
    case ' ':
    case '\n':
+   case '5':
     if (u->has_trait(cur_trait)) {
      if (points + traits[cur_trait].points >= 0) {
       u->toggle_trait(cur_trait);
@@ -837,12 +843,6 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
                       sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
-        else if(can_pick == "WRONG_GENDER")
-        {
-            mvwprintz(w,  3, 20, c_ltred, _("This profession is not available to your current gender."),
-                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
-                      netPointCost);
-        }
         fold_and_print(w_description, 0, 0, 78, c_green, sorted_profs[cur_id]->description().c_str());
 
         for (int i = 1; i < 17; ++i)
@@ -886,16 +886,19 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
         switch (input())
         {
             case 'j':
+            case '2':
                 if (cur_id < profession::count())
                 cur_id++;
             break;
 
             case 'k':
+            case '8':
                 if (cur_id > 1)
                 cur_id--;
             break;
 
             case '\n':
+            case '5':
                 if (can_pick == "YES") {
                     u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
                     points -= netPointCost;
@@ -992,23 +995,27 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
   wrefresh(w);
   wrefresh(w_description);
   switch (input()) {
-   case 'j':
+    case 'j':
+    case '2':
      if (cur_sk < Skill::skills.size() - 1)
       cur_sk++;
     currentSkill = Skill::skill(cur_sk);
     break;
-   case 'k':
+    case 'k':
+    case '8':
     if (cur_sk > 0)
      cur_sk--;
     currentSkill = Skill::skill(cur_sk);
     break;
-   case 'h':
+    case 'h':
+    case '4':
      if (u->skillLevel(currentSkill)) {
       u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) - 2);
       points += u->skillLevel(currentSkill) + 1;
     }
     break;
-   case 'l':
+    case 'l':
+    case '6':
      if (points >= u->skillLevel(currentSkill) + 1) {
        points -= u->skillLevel(currentSkill) + 1;
        u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);
@@ -1126,16 +1133,25 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
                   ch == ' ') &&  utf8_width(u->name.c_str()) < 30) {
       u->name.push_back(ch);
      }
+     else if(ch==KEY_F(2)) {
+         std::string tmp = get_input_string_from_file();
+         int tmplen = utf8_width(tmp.c_str());
+         if(tmplen>0 && tmplen+utf8_width(u->name.c_str())<30) {
+            u->name.append(tmp);
+         }
+     }
+     //experimental unicode input
+     else if(ch>127) {
+         std::string tmp = utf32_to_utf8(ch);
+         int tmplen = utf8_width(tmp.c_str());
+         if(tmplen>0 && tmplen+utf8_width(u->name.c_str())<30) {
+            u->name.append(tmp);
+         }
+     }
      break;
     case 2:
      if (ch == ' ')
       u->male = !u->male;
-
-      // If changing the gender broke our profession requirements, undo.
-      if(u->prof->can_pick(u, 0) == "WRONG_GENDER") {
-       u->male = !u->male;
-       popup(_("The profession %s is only available to your current gender."), u->prof->name().c_str());
-      }
      else if (ch == 'k' || ch == '\t') {
       line = 1;
      }

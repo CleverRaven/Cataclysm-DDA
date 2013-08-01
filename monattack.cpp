@@ -174,7 +174,7 @@ void mattack::boomer(game *g, monster *z)
    return;
   }
  }
- if (!g->u.power_level >= 3 || !g->u.has_active_bionic("bio_uncanny_dodge") || !g->u.uncanny_dodge()) {
+ if (!g->u.uncanny_dodge()) {
   if (rng(0, 10) > g->u.dodge(g) || one_in(g->u.dodge(g)))
    g->u.infect("boomered", bp_eyes, 3, 12, g);
   else if (u_see)
@@ -262,7 +262,7 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
  valid.push_back(5);	// Flavor text
  switch (valid[rng(0, valid.size() - 1)]) {	// What kind of attack?
  case 1:	// Shock the player
-  if (!g->u.power_level >= 3 || !g->u.has_active_bionic("bio_uncanny_dodge") || !g->u.uncanny_dodge()) {   
+  if (!g->u.uncanny_dodge()) {
    g->add_msg(_("The %s shocks you!"), z->name().c_str());
    z->moves -= 150;
    g->u.hurtall(rng(1, 2));
@@ -276,7 +276,7 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
   g->add_msg(_("The %s opens it's mouth and a beam shoots towards you!"),
              z->name().c_str());
   z->moves -= 400;
-  if (!g->u.power_level >= 3 || !g->u.has_active_bionic("bio_uncanny_dodge") || !g->u.uncanny_dodge()) {
+  if (!g->u.uncanny_dodge()) {
    if (g->u.dodge(g) > rng(0, 16) && !one_in(g->u.dodge(g)))
     g->add_msg(_("You dodge the beam!"));
    else if (one_in(6))
@@ -346,7 +346,7 @@ void mattack::growplants(game *g, monster *z)
        g->kill_mon(mondex, (z->friendly != 0));
      } else if (g->u.posx == z->posx + i && g->u.posy == z->posy + j) {
 // Player is hit by a growing tree
-      if (!g->u.power_level >= 3 || !g->u.has_active_bionic("bio_uncanny_dodge") || !g->u.uncanny_dodge()) {
+  if (!g->u.uncanny_dodge()) {
        body_part hit = bp_legs;
        int side = rng(1, 2);
        if (one_in(4))
@@ -400,7 +400,7 @@ void mattack::growplants(game *g, monster *z)
        if (g->z[mondex].hurt(rn))
         g->kill_mon(mondex, (z->friendly != 0));
       } else if (g->u.posx == z->posx + i && g->u.posy == z->posy + j) {
-       if (!g->u.power_level >= 3 || !g->u.has_active_bionic("bio_uncanny_dodge") || !g->u.uncanny_dodge()) {
+  if (!g->u.uncanny_dodge()) {
         body_part hit = bp_legs;
         int side = rng(1, 2);
         if (one_in(4))
@@ -463,7 +463,7 @@ void mattack::vine(game *g, monster *z)
  for (int x = z->posx - 1; x <= z->posx + 1; x++) {
   for (int y = z->posy - 1; y <= z->posy + 1; y++) {
    if (g->u.posx == x && g->u.posy == y) {
-    if (g->u.power_level >= 3 && g->u.has_active_bionic("bio_uncanny_dodge") && g->u.uncanny_dodge()) {
+    if ( g->u.uncanny_dodge() ) {
        return;
     }
     else {
@@ -553,9 +553,7 @@ void mattack::spit_sap(game *g, monster *z)
  }
  if (dam <= 0)
   return;
- if (g->u.power_level >= 3 && g->u.has_active_bionic("bio_uncanny_dodge") && g->u.uncanny_dodge()) {
-    return;
- }
+ if (g->u.uncanny_dodge() ) { return; }
  g->add_msg(_("A glob of sap hits you!"));
  g->u.hit(g, bp_torso, 0, dam, 0);
  g->u.add_disease("sap", dam);
@@ -745,9 +743,7 @@ void mattack::dermatik(game *g, monster *z)
 
  z->sp_timeout = z->type->sp_freq;	// Reset timer
 
- if (g->u.power_level >= 3 && g->u.has_active_bionic("bio_uncanny_dodge") && g->u.uncanny_dodge()) {
-    return;
- }
+  if (g->u.uncanny_dodge()) { return; }
 // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
  int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
  if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
@@ -901,9 +897,7 @@ void mattack::tentacle(game *g, monster *z)
         g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, no_effects);
     }
 
-    if (g->u.power_level >= 3 && g->u.has_active_bionic("bio_uncanny_dodge") && g->u.uncanny_dodge()) {
-       return;
-    }
+    if (g->u.uncanny_dodge()) { return; }
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
@@ -966,7 +960,7 @@ void mattack::vortex(game *g, monster *z)
        dam = 0;
        i--;
       } else if (traj[i].x == g->u.posx && traj[i].y == g->u.posy) {
-       if (!g->u.power_level >= 3 || !g->u.has_active_bionic("bio_uncanny_dodge") || !g->u.uncanny_dodge()) {
+      if (! g->u.uncanny_dodge()) {
         body_part hit = random_body_part();
         int side = rng(0, 1);
         g->add_msg(_("A %s hits your %s for %d damage!"), thrown.tname().c_str(),
@@ -1046,7 +1040,7 @@ void mattack::vortex(game *g, monster *z)
    } // if (mondex != -1)
 
    if (g->u.posx == x && g->u.posy == y) { // Throw... the player?! D:
-    if (!g->u.power_level >= 3 || !g->u.has_active_bionic("bio_uncanny_dodge") || !g->u.uncanny_dodge()) {
+    if (!g->u.uncanny_dodge()) {
      std::vector<point> traj = continue_line(from_monster, rng(2, 3));
      g->add_msg(_("You're thrown by winds!"));
      bool hit_wall = false;
@@ -1093,9 +1087,7 @@ void mattack::gene_sting(game *g, monster *z)
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 7 ||
      !g->sees_u(z->posx, z->posy, j))
   return;	// Not within range and/or sight
- if (g->u.power_level >= 3 && g->u.has_active_bionic("bio_uncanny_dodge") && g->u.uncanny_dodge()) {
-  return;
- }
+ if (g->u.uncanny_dodge()) { return; }
  z->moves -= 150;
  z->sp_timeout = z->type->sp_freq;
  g->add_msg(_("The %s shoots a dart into you!"), z->name().c_str());
@@ -1160,9 +1152,7 @@ void mattack::tazer(game *g, monster *z)
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 2 ||
      !g->sees_u(z->posx, z->posy, j))
   return;	// Out of range
- if (g->u.power_level >= 3 && g->u.has_active_bionic("bio_uncanny_dodge") && g->u.uncanny_dodge()) {
-  return;
- }
+ if (g->u.uncanny_dodge()) { return; }
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  z->moves = -200;			// It takes a while
  g->add_msg(_("The %s shocks you!"), z->name().c_str());
@@ -1320,9 +1310,7 @@ void mattack::flamethrower(game *g, monster *z)
         }
         g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
     }
-    if (!g->u.power_level >= 3 || !g->u.has_active_bionic("bio_uncanny_dodge") || !g->u.uncanny_dodge())
-     g->u.add_disease("onfire", 8);
-
+    if (!g->u.uncanny_dodge()) { g->u.add_disease("onfire", 8); }
 }
 
 void mattack::copbot(game *g, monster *z)
@@ -1481,11 +1469,8 @@ void mattack::bite(game *g, monster *z) {
   z->sp_timeout = z->type->sp_freq; // Reset timer
   g->add_msg(_("The %s lunges forward attempting to bite you!"), z->name().c_str());
   z->moves -= 100;
-  
-  if (g->u.power_level >= 3 && g->u.has_active_bionic("bio_uncanny_dodge") && g->u.uncanny_dodge())
-  {
-      return;
-  }
+
+  if (g->u.uncanny_dodge()) { return; }
 
   // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
   int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
@@ -1531,9 +1516,8 @@ void mattack::flesh_golem(game *g, monster *z)
     g->add_msg(_("The %s swings a massive claw at you!"), z->name().c_str());
     z->moves -= 100;
 
-    if (g->u.power_level >= 3 && g->u.has_active_bionic("bio_uncanny_dodge") && g->u.uncanny_dodge()) {
-       return;
-    }
+    if (g->u.uncanny_dodge()) { return; }
+
 	// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
  int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
  if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))

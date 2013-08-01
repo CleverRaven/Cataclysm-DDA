@@ -162,6 +162,58 @@ void game::init_fields()
     }
 }
 
+
+/*
+Function: spread_gas
+Helper function that encapsulates the logic involved in gas spread.
+*/
+static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype,
+                        int percent_spread, int outdoor_age_speedup )
+{
+				// Reset nearby scents to zero
+				for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            g->scent( x + i, y + j ) = 0;
+        }
+    }
+    // Dissapate faster outdoors.
+    if (m->is_outside(x, y)) {	cur->setFieldAge( cur->getFieldAge() + outdoor_age_speedup ); }
+
+    // Bail out if we don't meet the spread chance.
+    if( rng(1, 100) > percent_spread ) { return; }
+
+    std::vector <point> spread;
+    // Pick all eligible points to spread to.
+    for( int a = -1; a <= 1; a++ ) {
+        for( int b = -1; b <= 1; b++ ) {
+            // Current field not a candidate.
+            if( !(a || b) ) { continue; }
+            field_entry* tmpfld = m->field_at( x + a, y + b ).findField( curtype );
+            // Candidates are existing non-max-strength fields or navigable tiles with no field.
+            if( ( tmpfld && tmpfld->getFieldDensity() < 3 ) ||
+                ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
+                spread.push_back( point( x + a, y + b ) );
+            }
+        }
+    }
+    // Then, spread to a nearby point.
+    int current_density = cur->getFieldDensity();
+    if (current_density > 1 && cur->getFieldAge() > 0 && spread.size() > 0) {
+        point p = spread[ rng( 0, spread.size() - 1 ) ];
+        field_entry *candidate_field = m->field_at(p.x, p.y).findField( curtype );
+        int candidate_density = candidate_field ? candidate_field->getFieldDensity() : 0;
+        // Nearby gas grows thicker.
+        if ( candidate_field ) {
+            candidate_field->setFieldDensity(candidate_density + 1);
+            cur->setFieldDensity(current_density - 1);
+        // Or, just create a new field.
+        } else if ( m->add_field( g, p.x, p.y, curtype, 1 ) ) {
+            cur->setFieldDensity( current_density - 1 );
+        }
+    }
+}
+
+
 bool map::process_fields(game *g)
 {
  bool found_field = false;
@@ -270,11 +322,11 @@ bool map::process_fields_in_submap(game *g, int gridn)
 					}
 					break;
 
-        case fd_sap:
-            break;
+    case fd_sap:
+        break;
 
-        case fd_sludge:
-            break;
+    case fd_sludge:
+        break;
 
 					// TODO-MATERIALS: use fire resistance
 				case fd_fire: {
@@ -328,7 +380,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						} else if ((it->made_of("wood") || it->made_of("veggy"))) {
 							//Wood or vegy items burn slowly.
 							if (vol <= cur->getFieldDensity() * 10 || cur->getFieldDensity() == 3) {
-								cur->setFieldAge(cur->getFieldAge() - 20);
+								cur->setFieldAge(cur->getFieldAge() - 50);
 								destroyed = it->burn(cur->getFieldDensity());
 								smoke++;
 								consumed++;
@@ -549,186 +601,22 @@ bool map::process_fields_in_submap(game *g, int gridn)
 				} break;
 
 				case fd_smoke:
-					//Smoke likes to spread out, and lingers indoors.
-					for (int i = -1; i <= 1; i++) {
-						for (int j = -1; j <= 1; j++)
-							g->scent(x+i, y+j) = 0; //Smoke removes scent from any adjacent square.
-					}
-					if (is_outside(x, y))
-						cur->setFieldAge(cur->getFieldAge() + 50); //Dissipiate faster outdoors.
-					if (!one_in(5)) { //80% chance to spread around.
-						std::vector <point> spread;
-						for (int a = -1; a <= 1; a++) {
-							for (int b = -1; b <= 1; b++) {
-        field &wandering_field = g->m.field_at(x + a, y + b);
-                                tmpfld = wandering_field.findField(fd_smoke);
-								if ((tmpfld && tmpfld->getFieldDensity() < 3) ||
-            (move_cost(x+a, y+b) > 0)) // todo: expensive, cache
-            spread.push_back(point(x+a, y+b)); //Locating all available spots.
-							}
-						}
-      // Spread if available and large.
-						while(spread.size() > 0 && cur->isAlive()){
-							if (cur->getFieldAge() >= 0 && spread.size() > 0) {
-								int random_point = rng(0, spread.size() - 1);
-								point p = spread[random_point];
-								field_entry *candidate_field = field_at(p.x, p.y).findField(fd_smoke);
-								if (candidate_field && candidate_field->getFieldDensity() < 3) {
-									candidate_field->setFieldDensity(candidate_field->getFieldDensity() + 1);
-									cur->setFieldDensity(cur->getFieldDensity() - 1);
-								} else if (move_cost(p.x, p.y) > 0 &&	add_field(g, p.x, p.y, fd_smoke, 1)) {
-										cur->setFieldDensity(cur->getFieldDensity() - 1);
-
-          // Note: We just potentially modified candidate_field itself, so update
-          //       our pointer.
-          candidate_field = field_at(p.x, p.y).findField(fd_smoke);
-										if(candidate_field) {
-              candidate_field->setFieldAge(cur->getFieldAge());
-          }
-								}
-								spread.erase(spread.begin() + random_point);
-							}
-						}
-					}
-					break;
+        spread_gas( this, cur, x, y, curtype, 80, 50 );
+        break;
 
 				case fd_tear_gas:
-					// Reset nearby scents to zero
-					for (int i = -1; i <= 1; i++) {
-						for (int j = -1; j <= 1; j++)
-							g->scent(x+i, y+j) = 0;
-					}
-					if (is_outside(x, y))
-						cur->setFieldAge(cur->getFieldAge() + 30);
-					// One in three chance that it spreads (less than smoke!)
-					if (one_in(3)) {
-						std::vector <point> spread;
-						// Pick all eligible points to spread to
-						for (int a = -1; a <= 1; a++) {
-							for (int b = -1; b <= 1; b++) {
-        field &wandering_field = g->m.field_at(x + a, y + b);
-        tmpfld = NULL;
-        tmpfld = wandering_field.findField(fd_tear_gas);
-        if (( tmpfld &&
-             tmpfld->getFieldDensity() < 3) ||
-            (move_cost(x+a, y+b) > 0)) //obviously can never be false, this is just to avoid stupid errors deleting code.
-									spread.push_back(point(x+a, y+b));
-							}
-						}
-						// Then, spread to a nearby point
-						if (cur->getFieldDensity() > 1 && cur->getFieldAge() > 0 && spread.size() > 0) {
-							point p = spread[rng(0, spread.size() - 1)];
-							// Nearby teargas grows thicker
-       field_entry *candidate_field = field_at(p.x, p.y).findField(fd_tear_gas);
-							if ( candidate_field && candidate_field->getFieldDensity() < 3) {
-									candidate_field->setFieldDensity(candidate_field->getFieldDensity() + 1);
-									cur->setFieldDensity(cur->getFieldDensity() - 1);
-									// Nearby smoke is converted into teargas
-									// Or, just create a new field.
-							} else if (cur->getFieldDensity() > 1 && move_cost(p.x, p.y) > 0 &&
-								add_field(g, p.x, p.y, fd_tear_gas, 1)) {
-									cur->setFieldDensity(cur->getFieldDensity() - 1);
-									if(candidate_field) { candidate_field->setFieldAge(cur->getFieldAge()); }
-							}
-						}
-					}
-					break;
+        spread_gas( this, cur, x, y, curtype, 33, 30 );
+        break;
 
 				case fd_toxic_gas:
-					// Reset nearby scents to zero
-					for (int i = -1; i <= 1; i++) {
-						for (int j = -1; j <= 1; j++)
-							g->scent(x+i, y+j) = 0;
-					}
-					if (is_outside(x, y))
-						cur->setFieldAge(cur->getFieldAge() + 40);
-					if (one_in(2)) {
-						std::vector <point> spread;
-						// Pick all eligible points to spread to
-						for (int a = -1; a <= 1; a++) {
-							for (int b = -1; b <= 1; b++) {
-           field &wandering_field = g->m.field_at(x + a, y + b);
-           if ((wandering_field.findField(fd_toxic_gas) &&
-                wandering_field.findField(fd_toxic_gas)->getFieldDensity() < 3) ||
-               (move_cost(x+a, y+b) > 0))
-               spread.push_back(point(x+a, y+b));
-							}
-						}
-						// Then, spread to a nearby point
-						if (cur->getFieldDensity() > 1 && cur->getFieldAge() > 0 && spread.size() > 0) {
-							point p = spread[rng(0, spread.size() - 1)];
-							// Nearby toxic gas grows thicker
-       field &spreading_field = g->m.field_at(p.x, p.y);
-                            tmpfld = NULL;
-                            tmpfld = spreading_field.findField(fd_toxic_gas);
-							if (tmpfld &&
-           tmpfld->getFieldDensity() < 3) {
-           tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
-									cur->setFieldDensity(cur->getFieldDensity() - 1);
-							// Or, just create a new field.
-							} else if (cur->getFieldDensity() > 1 && move_cost(p.x, p.y) > 0 &&
-								add_field(g, p.x, p.y, fd_toxic_gas, 1)) {
-									cur->setFieldDensity(cur->getFieldDensity() - 1);
-									if(tmpfld) tmpfld->setFieldAge(cur->getFieldAge());
-							}
-						}
-					}
-					break;
+        spread_gas( this, cur, x, y, curtype, 50, 30 );
+        break;
 
 
 				case fd_nuke_gas:
-					// Reset nearby scents to zero
-					for (int i = -1; i <= 1; i++) {
-						for (int j = -1; j <= 1; j++)
-							g->scent(x+i, y+j) = 0;
-					}
-					if (is_outside(x, y))
-						cur->setFieldAge(cur->getFieldAge() + 10);
-					// Increase long-term radiation in the land underneath
-					radiation(x, y) += rng(0, cur->getFieldDensity());
-					if (one_in(2)) {
-						std::vector <point> spread;
-						// Pick all eligible points to spread to
-						for (int a = -1; a <= 1; a++) {
-							for (int b = -1; b <= 1; b++) {
-        field &wandering_field = g->m.field_at(x + a, y + b);
-                                tmpfld = NULL;
-                                tmpfld = wandering_field.findField(fd_nuke_gas);
-								if ((tmpfld &&
-             tmpfld->getFieldDensity() < 3 ) ||
-            (move_cost(x+a, y+b) > 0))
-									spread.push_back(point(x+a, y+b));
-							}
-						}
-						// Then, spread to a nearby point
-						if (cur->getFieldDensity() > 1 && cur->getFieldAge() > 0 && spread.size() > 0) {
-							point p = spread[rng(0, spread.size() - 1)];
-							// Nearby nukegas grows thicker
-       field &enhanced_field = field_at(p.x, p.y);
-                                tmpfld = NULL;
-
-                                tmpfld = enhanced_field.findField(fd_nuke_gas);
-							if (tmpfld &&
-								tmpfld->getFieldDensity() < 3) {
-									tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
-									if(cur->getFieldDensity() > 1){
-										cur->setFieldDensity(cur->getFieldDensity() - 1);
-									} else {
-										remove_field(p.x, p.y, fd_nuke_gas);
-									}
-							// Or, just create a new field.
-							} else if (cur->getFieldDensity() > 1 && move_cost(p.x, p.y) > 0 &&
-								add_field(g, p.x, p.y, fd_nuke_gas, 1)) {
-									if(cur->getFieldDensity() > 1){
-										cur->setFieldDensity(cur->getFieldDensity() - 1);
-									} else {
-										remove_field(p.x, p.y, fd_nuke_gas);
-									}
-									if(tmpfld) tmpfld->setFieldAge(cur->getFieldAge());
-							}
-						}
-					}
-					break;
+        radiation(x, y) += rng(0, cur->getFieldDensity());
+        spread_gas( this, cur, x, y, curtype, 50, 10 );
+        break;
 
 				case fd_gas_vent:
 					for (int i = x - 1; i <= x + 1; i++) {
