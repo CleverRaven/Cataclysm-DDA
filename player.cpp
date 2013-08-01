@@ -5877,6 +5877,7 @@ bool player::eat(game *g, signed char ch)
                 debugmsg("%s tried to eat a %s", name.c_str(), it.tname(g).c_str());
             return false;
         }
+    }
     if (eaten == NULL)
         return false;
 
@@ -5904,6 +5905,8 @@ bool player::eat(game *g, signed char ch)
         if (eaten->type->m1 == "wood"    || eaten->type->m2 == "wood")
             charge /= 2;
         charge_power(charge);
+        g->add_msg_player_or_npc(this, _("You eat your %s."), _("<npcname> eats a %s."),
+                                 eaten->tname(g).c_str());
     }
     else     // It's real food!  i.e. an it_comest
     {
@@ -5994,7 +5997,6 @@ bool player::eat(game *g, signed char ch)
             g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                       eaten->tname(g).c_str());
         }
-    }
 
         if (g->itypes[comest->tool]->is_tool())
             use_charges(comest->tool, 1); // Tools like lighters get used
