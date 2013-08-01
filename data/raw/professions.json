@@ -451,6 +451,16 @@
       "points":1
    },
    {
+      "description":"You were about to marry your bride before the cataclysm, now you spend you days searching for her.",
+      "ident":"groom",
+      "items":[
+         "tux",
+         "dress_shoes"
+      ],
+      "name":"Groom",
+      "points":0
+   },
+   {
       "description":"You chose a bad day for your wedding. You just barely escaped with your wedding dress intact.",
       "ident":"bride",
       "items":[
@@ -458,8 +468,7 @@
          "dress_shoes"
       ],
       "name":"Bride",
-      "points":0,
-      "flags": ["female_only"]
+      "points":0
    },
    {
       "ident": "punkgirl",
@@ -486,5 +495,46 @@
      "points": 2,
      "items": ["knife_butcher", "hat_chef", "jacket_chef", "pants_checkered", "dress_shoes"],
      "skills" : [ { "name" : "cooking", "level" : 3 } ]
-   }
+   },
+   {
+      "addictions":[
+         {
+            "intensity":10,
+            "type":"opiate"
+         },
+         {
+            "intensity":10,
+            "type":"crack"
+         }
+      ],
+      "description":"You were on your way to collect your check, when your pimp tried to kill you, you only wished that it wasn't a common occurence. You start with a skirt, tank top,a pair of high heels, a strong crack and heroin addiction.",
+      "ident":"hooker",
+      "items":[
+         "skirt",
+         "heels",
+         "tank_top",
+         "crackpipe"
+   	 ],
+      "name":"Prostitute",
+      "points":-3
+   },
+   {
+      "description":"You spent most of your life trapping with your father. Both of you made a decent living off of your catches, and trapping tutorials. You start with a skill in trapping.",
+      "ident":"trapper",
+      "items":[
+         "jeans",
+         "boots",
+         "hat_hunting",
+         "jacket_flannel",
+         "beartrap"
+      ],
+      "name":"Trapper",
+      "points":1,
+      "skills":[
+         {
+            "level":1,
+            "name":"traps"
+         }
+      ]
+    }
 ]

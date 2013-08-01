@@ -136,6 +136,42 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                 case VK_PRIOR:
                     lastchar = KEY_PPAGE;
                     break;
+                case VK_F1:
+                    lastchar = KEY_F(1);
+                    break;
+                case VK_F2:
+                    lastchar = KEY_F(2);
+                    break;
+                case VK_F3:
+                    lastchar = KEY_F(3);
+                    break;
+                case VK_F4:
+                    lastchar = KEY_F(4);
+                    break;
+                case VK_F5:
+                    lastchar = KEY_F(5);
+                    break;
+                case VK_F6:
+                    lastchar = KEY_F(6);
+                    break;
+                case VK_F7:
+                    lastchar = KEY_F(7);
+                    break;
+                case VK_F8:
+                    lastchar = KEY_F(8);
+                    break;
+                case VK_F9:
+                    lastchar = KEY_F(9);
+                    break;
+                case VK_F10:
+                    lastchar = KEY_F(10);
+                    break;
+                case VK_F11:
+                    lastchar = KEY_F(11);
+                    break;
+                case VK_F12:
+                    lastchar = KEY_F(12);
+                    break;
                 default:
                     break;
             };
@@ -326,7 +362,7 @@ fin.open("data\\FONTDATA");
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
-    WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
+    WindowHeight = (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     WinCreate();    //Create the actual window, register it, etc
     CheckMessages();    //Let the message queue handle setting up the window
     WindowDC = GetDC(WindowHandle);
