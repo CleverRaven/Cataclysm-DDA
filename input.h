@@ -1,6 +1,8 @@
 #ifndef _INPUT_H_
 #define _INPUT_H_
 
+#include <string>
+
 enum InputEvent {
 	Confirm,
 	Cancel,
@@ -28,5 +30,5 @@ enum InputEvent {
 
 InputEvent get_input(int ch = '\0');
 void get_direction(int &x, int &y, InputEvent &input);
-
+std::string get_input_string_from_file(std::string fname="input.txt");
 #endif

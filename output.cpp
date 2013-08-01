@@ -7,7 +7,9 @@
 #include <sstream>
 #include <algorithm>
 
+#include "output.h"
 #include "color.h"
+#include "input.h"
 #include "output.h"
 #include "rng.h"
 #include "keypress.h"
@@ -477,7 +479,7 @@ bool query_yn(const char *mes, ...)
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s (%s)", buff, (force_uc ? "Y/N - Case Sensitive" : "y/n"));
+ mvwprintz(w, 1, 1, c_ltred, (force_uc ? _("%s (Y/N - Case Sensitive)") : _("%s (y/n)")), buff);
  wrefresh(w);
  char ch;
  do
@@ -505,7 +507,7 @@ int query_int(const char *mes, ...)
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s (0-9)", buff);
+ mvwprintz(w, 1, 1, c_ltred, _("%s (0-9)"), buff);
  wrefresh(w);
 
  int temp;
@@ -536,11 +538,14 @@ std::string string_input_popup(std::string title, int max_length, std::string in
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- for (int i = startx + 1; i < iPopupWidth-1; i++)
-  mvwputch(w, 1, i, c_ltgray, '_');
+
+ std::string underline = "";
+ for (int i = startx ; i < iPopupWidth-1; i++)
+  underline.push_back('_');
 
  mvwprintz(w, 1, 1, c_ltred, "%s", title.c_str());
 
+ mvwprintz(w, 1, startx, c_ltgray, "%s", underline.c_str());
  if (input != "")
   mvwprintz(w, 1, startx, c_magenta, "%s", input.c_str());
 
@@ -561,21 +566,36 @@ std::string string_input_popup(std::string title, int max_length, std::string in
    delwin(w);
    refresh();
    return ret;
-  } else if (ch == KEY_BACKSPACE || ch == 127) {
-// Move the cursor back and re-draw it
-   if( posx > startx ) { // but silently drop input if we're at 0, instead of adding '^'
-       //TODO: it is safe now since you only input ascii chars
-       ret = ret.substr(0, ret.size() - 1);
-       mvwputch(w, 1, posx, c_ltgray, '_');
-       posx--;
-       mvwputch(w, 1, posx, h_ltgray, '_');
-   }
-  } else if(ret.size() < max_length || max_length == 0) {
-   ret += ch;
-   mvwputch(w, 1, posx, c_magenta, ch);
-   posx++;
-   mvwputch(w, 1, posx, h_ltgray, '_');
+  } 
+  else if (ch == KEY_BACKSPACE || ch == 127) {
+       // Move the cursor back and re-draw it
+      if (ret.size() > 0) {
+       //erease utf8 character TODO: make a function
+       while(ret.size()>0 && ((unsigned char)ret[ret.size()-1])>=128 &&
+                                 ((unsigned char)ret[(int)ret.size()-1])<=191) {
+           ret.erase(ret.size()-1);
+       }
+       ret.erase(ret.size()-1);
+      }
   }
+     else if(ch==KEY_F(2)) {
+         std::string tmp = get_input_string_from_file();
+         int tmplen = utf8_width(tmp.c_str());
+         if(tmplen>0 && (tmplen+utf8_width(ret.c_str())<=max_length||max_length==0)) {
+            ret.append(tmp);
+         }
+     }
+     //experimental unicode input
+     else  {
+         std::string tmp = utf32_to_utf8(ch);
+         int tmplen = utf8_width(tmp.c_str());
+         if(tmplen>0 && (tmplen+utf8_width(ret.c_str())<=max_length||max_length==0)) {
+            ret.append(tmp);
+         }
+     }
+    mvwprintz(w, 1, startx, c_ltgray, "%s", underline.c_str());
+    mvwprintz(w, 1, startx, c_ltgray, "%s", ret.c_str());
+    wprintz(w, h_ltgray, "_");
  } while (true);
 }
 
