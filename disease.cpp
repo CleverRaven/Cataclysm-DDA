@@ -1674,7 +1674,6 @@ std::string dis_description(disease dis)
 {
     int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
-    char buf[1000];
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
 
@@ -1940,16 +1939,13 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         strpen = int(dis.duration / 50);
         stream << _("You feal nauseated and rat-like.\n");
         if (intpen > 0) {
-            sprintf(buf, _("Intelligence - %d;   "), intpen);
-            stream << buf;
+            stream << string_format(_("Intelligence - %d;   "), intpen);
         }
         if (perpen > 0) {
-            sprintf(buf, _("Perception - %d;   "), perpen);
-            stream << buf;
+            stream << string_format(_("Perception - %d;   "), perpen);
         }
         if (strpen > 0) {
-            sprintf(buf, _("Strength - %d;   "), strpen);
-            stream << buf;
+            stream << string_format(_("Strength - %d;   "), strpen);
         }
         return stream.str();
         }
@@ -1961,22 +1957,18 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         intpen = int(dis.duration /  700);
         strpen = int(dis.duration / 1500);
         if (strpen > 0) {
-            sprintf(buf, _("Strength - %d;   "), strpen);
-            stream << buf;
+            stream << string_format(_("Strength - %d;   "), strpen);
         }
         else if (dis.duration <= 600)
             stream << _("Strength + 1;    ");
         if (dexpen > 0) {
-            sprintf(buf, _("Dexterity - %d;   "), dexpen);
-            stream << buf;
+            stream << string_format(_("Dexterity - %d;   "), dexpen);
         }
         if (intpen > 0) {
-            sprintf(buf, _("Intelligence - %d;   "), intpen);
-            stream << buf;
+            stream << string_format(_("Intelligence - %d;   "), intpen);
         }
         if (perpen > 0) {
-            sprintf(buf, _("Perception - %d;   "), perpen);
-            stream << buf;
+            stream << string_format(_("Perception - %d;   "), perpen);
         }
         return stream.str();
         }
@@ -2005,8 +1997,7 @@ Your feet are blistering from the intense heat. It is extremely painful.");
             "Strength - 2;   Dexterity - 1;   Intelligence - 1;   Perception - 1");
 
     case DI_ASTHMA:
-        sprintf(buf, _("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
-        return buf;
+        return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 
     case DI_GRACK: return _("Unleashed the Gracken.");
 
@@ -2022,24 +2013,19 @@ Your feet are blistering from the intense heat. It is extremely painful.");
     case DI_IN_PIT: return _("You're stuck in a pit.  Sight distance is limited and you have to climb out.");
 
     case DI_ATTACK_BOOST:
-        sprintf(buf, _("To-hit bonus + %d"), dis.intensity);
-        return buf;
+        return string_format(_("To-hit bonus + %d"), dis.intensity);
 
     case DI_DAMAGE_BOOST:
-        sprintf(buf, _("Damage bonus + %d"), dis.intensity);
-        return buf;
+        return string_format(_("Damage bonus + %d"), dis.intensity);
 
     case DI_DODGE_BOOST:
-        sprintf(buf, _("Dodge bonus + %d"), dis.intensity);
-        return buf;
+        return string_format(_("Dodge bonus + %d"), dis.intensity);
 
     case DI_ARMOR_BOOST:
-        sprintf(buf, _("Armor bonus + %d"), dis.intensity);
-        return buf;
+        return string_format(_("Armor bonus + %d"), dis.intensity);
 
     case DI_SPEED_BOOST:
-        sprintf(buf, _("Attack speed + %d"), dis.intensity);
-        return buf;
+        return string_format(_("Attack speed + %d"), dis.intensity);
 
     case DI_VIPER_COMBO:
         switch (dis.intensity) {

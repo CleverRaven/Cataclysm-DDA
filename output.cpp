@@ -1087,7 +1087,7 @@ std::string string_format(std::string pattern, ...)
     va_end(ap);
     
     //drop contents behind $, this trick is there to skip certain arguments
-    char* break_pos = strchr(buff, '$');
+    char* break_pos = strchr(buff, '\003');
     if(break_pos) break_pos[0] = '\0';
 
     return buff;

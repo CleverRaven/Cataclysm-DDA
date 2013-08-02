@@ -7928,7 +7928,7 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
     mvwprintz(window, 8, 2, c_white, "%s", _("To exclude items, place - in front"));
     mvwprintz(window, 9, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
     wrefresh(window);
-    return string_input_popup("Filter:", 55, sFilter);
+    return string_input_popup(_("Filter:"), 55, sFilter);
 }
 
 
@@ -7982,27 +7982,20 @@ void game::reset_item_list_state(WINDOW* window, int height)
     std::vector<std::string> tokens;
     if (sFilter != "")
     {
-        tokens.push_back("R");
-        tokens.push_back(_("eset"));
+        tokens.push_back(_("<R>eset"));
     }
 
-    tokens.push_back("E");
-    tokens.push_back(_("xamine"));
+    tokens.push_back(_("<E>xamine"));
+    tokens.push_back(_("<C>ompare"));
+    tokens.push_back(_("<F>ilter"));
+    tokens.push_back(_("<+/->Priority"));
 
-    tokens.push_back("C");
-    tokens.push_back(_("ompare"));
-
-    tokens.push_back("F");
-    tokens.push_back(_("ilter"));
-
-    tokens.push_back("+/-");
-    tokens.push_back(_("Priority"));
-
-    int gaps = tokens.size() / 2 + 1;
+    int gaps = tokens.size()+1;
     int letters = 0;
     int n = tokens.size();
-    for (int i = 0; i < n; i++)
-        letters += tokens[i].length();
+    for (int i = 0; i < n; i++) {
+        letters += utf8_width(tokens[i].c_str())-2; //length ignores < >
+    }
 
     int usedwidth = letters;
     const int gap_spaces = (width - usedwidth) / gaps;
@@ -8011,11 +8004,7 @@ void game::reset_item_list_state(WINDOW* window, int height)
     const int ypos = TERMY - height - 1 - VIEW_OFFSET_Y * 2;
 
     for (int i = 0; i < n; i++) {
-        nc_color c = (i % 2 == 0 ? c_ltgreen : c_white);
-        mvwprintz(window, ypos, xpos, c, tokens[i].c_str());
-        xpos += tokens[i].length();
-        if (i % 2 == 1)
-            xpos += gap_spaces;
+        xpos += shortcut_print(window, ypos, xpos, c_white, c_ltgreen, tokens[i].c_str()) + gap_spaces;
     }
 
     refresh_all();
