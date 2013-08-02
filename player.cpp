@@ -4771,6 +4771,18 @@ int player::volume_capacity()
  return ret;
 }
 
+double player::convert_weight(int weight)
+{
+    double ret;
+    ret = double(weight);
+    if (OPTIONS[OPT_USE_METRIC_WEIGHT]) {
+        ret /= 1000;
+    } else {
+        ret /= 453.6;
+    }
+    return ret;
+}
+
 bool player::can_pickVolume(int volume)
 {
     return (volume_carried() + volume <= volume_capacity());

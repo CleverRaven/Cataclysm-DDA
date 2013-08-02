@@ -9,7 +9,7 @@
         "description" : "A set of universal batteries. Used to charge almost any electronic device.",
         "material" : "iron",
         "volume" : 1,
-        "weight" : 25,
+        "weight" : 1,
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,

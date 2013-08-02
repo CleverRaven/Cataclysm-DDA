@@ -3166,7 +3166,7 @@
         "material_thickness" : 0,
         "storage" : 0,
         "description" : "A plastic badge with an embedded film strip.  The film strip changes color as it it is exposed to radiation.  Wear on your lapel so you can notice if it changes.",
-        "weight" : ATN0,
+        "weight" : 20,
         "to_hit" : 0,
         "color" : "light_blue",
         "encumberance" : 0,

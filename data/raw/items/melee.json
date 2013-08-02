@@ -1567,7 +1567,7 @@
         "id" : "spike",
         "name" : "spike",
         "description" : "A large and slightly misshapen spike, could do some damage mounted on a vehicle.",
-        "weight" : ATN1,
+        "weight" : 550,
         "to_hit" : -2,
         "color" : "cyan",
         "symbol" : ";",

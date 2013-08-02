@@ -4028,17 +4028,6 @@ void game::remove_item(item *it)
  }
 }
 
-double convert_weight(int weight)
-{
-    double(weight);
-    if (OPTIONS[OPT_USE_METRIC_WEIGHT]) {
-        weight /= 1000;
-    } else {
-        weight /= 453.6;
-    }
-    return weight;
-}
-
 bool vector_has(std::vector<int> vec, int test)
 {
  for (int i = 0; i < vec.size(); i++) {
