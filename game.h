@@ -337,7 +337,8 @@ void load_artifacts(); // Load artifact data
   void save_artifacts();
 	 void save_maps();
   std::string save_weather() const;
-
+  void save_uistate();
+  void load_uistate();
 // Data Initialization
   void init_npctalk();
   void init_materials();
