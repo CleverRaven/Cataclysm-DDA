@@ -60,6 +60,7 @@ struct uistatedata {
   }
 
   virtual picojson::value save_data() {
+      const int input_history_save_max = 25;
       std::map<std::string, picojson::value> data;
       
 /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
@@ -73,7 +74,11 @@ struct uistatedata {
       for(std::map<std::string, std::vector<std::string>*>::iterator it = input_history.begin(); it != input_history.end(); ++it ) {
           if(it->second != NULL ) {
               std::vector<picojson::value> hist;
-              for(std::vector<std::string>::iterator hit = it->second->begin(); hit != it->second->end(); ++hit ) {
+              int save_start=0;
+              if  ( it->second->size() > input_history_save_max ) {
+                  save_start = it->second->size() - input_history_save_max;
+              }
+              for(std::vector<std::string>::iterator hit = it->second->begin()+save_start; hit != it->second->end(); ++hit ) {
                   hist.push_back(picojson::value( *hit ));
               }
               histmap[std::string(it->first)] = picojson::value(hist);
