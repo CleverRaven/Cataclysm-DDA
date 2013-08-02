@@ -7870,7 +7870,7 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
     mvwprintz(window, 8, 2, c_white, "%s", _("To exclude certain items, place a - in front"));
     mvwprintz(window, 9, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
     wrefresh(window);
-    return string_input_popup("Filter:", 55, sFilter, "", "item_filter");
+    return string_input_popup("Filter:", 55, sFilter, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "item_filter");
 }
 
 
@@ -8067,14 +8067,14 @@ void game::list_items()
             }
             else if(ch == '+')
             {
-                std::string temp = string_input_popup(_("High Priority:"), 55, list_item_upvote, "", "list_item_priority");
+                std::string temp = string_input_popup(_("High Priority:"), 55, list_item_upvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_priority");
                 list_item_upvote = temp;
                 refilter = true;
                 reset = true;
             }
             else if(ch == '-')
             {
-                std::string temp = string_input_popup(_("Low Priority:"), 55, list_item_downvote, "", "list_item_downvote");
+                std::string temp = string_input_popup(_("Low Priority:"), 55, list_item_downvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_downvote");
                 list_item_downvote = temp;
                 refilter = true;
                 reset = true;
