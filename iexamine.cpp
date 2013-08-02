@@ -372,7 +372,7 @@ void iexamine::remove_fence_wire(game *g, player *p, map *m, int examx, int exam
 }
 
 void iexamine::remove_fence_barbed(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Remove %s?",m->tername(examx, examy).c_str())) {
+ if(!query_yn(_("Remove %s?"),m->tername(examx, examy).c_str())) {
   none(g, p, m, examx, examy);
   return;
  }

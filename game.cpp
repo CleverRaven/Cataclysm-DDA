@@ -10282,7 +10282,7 @@ void game::plmove(int x, int y)
 /*
   if (m.tr_at(x, y) != tr_null &&
       u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility &&
-      !query_yn("Really step onto that %s?",traps[m.tr_at(x, y)]->name.c_str()))
+      !query_yn(_("Really step onto that %s?"),traps[m.tr_at(x, y)]->name.c_str()))
    return;
 */
 
