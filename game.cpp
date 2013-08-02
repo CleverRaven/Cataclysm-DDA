@@ -3724,12 +3724,12 @@ void game::draw_HP()
         }
     }
 
-    static const char *body_parts[] = {
-        "HEAD", "TORSO", "L ARM", "R ARM", "L LEG", "R LEG", "POWER" };
+    static const char *body_parts[] = { _("HEAD"), _("TORSO"), _("L ARM"),
+                           _("R ARM"), _("L LEG"), _("R LEG"), _("POWER") };
     int num_parts = sizeof(body_parts) / sizeof(body_parts[0]);
     for (int i = 0; i < num_parts; i++) {
         nc_color c = c_ltgray;
-        const char *str = _(body_parts[i]);
+        const char *str = body_parts[i];
         wmove(w_HP, i * dy, 0);
         if (wide)
             wprintz(w_HP, c, " ");
