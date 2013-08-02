@@ -654,6 +654,8 @@ std::string string_input_popup(std::string title, int max_length, std::string in
              hmenu.w_y = w_y - hmenu.w_height;
            }
            hmenu.w_x = w_x;
+           hmenu.title = _("d: delete history");
+           hmenu.return_invalid = true;
            for(int h=0; h < hist->size(); h++) {
              hmenu.addentry(h,true,-2,(*hist)[h].c_str());
            }
@@ -663,6 +665,7 @@ std::string string_input_popup(std::string title, int max_length, std::string in
            } else {
              hmenu.selected = hist->size()-1;
            }
+
            hmenu.query();
            if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret ) {
              ret=hmenu.entries[hmenu.ret].txt;
@@ -672,6 +675,8 @@ std::string string_input_popup(std::string title, int max_length, std::string in
              }
              pos=ret.size();
              redraw=true;
+           } else if ( hmenu.keypress == 'd' ) {
+             hist->clear();
            }
         }
       }
