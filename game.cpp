@@ -6158,6 +6158,7 @@ struct advanced_inv_listitem {
     int area;
     item *it;
     std::string name;
+    bool autopickup;
     int stacks;
     int volume;
     int weight;
@@ -6300,8 +6301,8 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
             } else {
                 mvwprintz(window,6+x,1,thiscolor, ">>%s", spaces.c_str());
             }
-        }
 
+        }
         mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->tname(g).c_str() );
 
         if(items[i].it->charges > 0) {
@@ -6333,6 +6334,9 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
             "%3d", items[i].weight );
 
         wprintz(window, (items[i].volume > 0 ? thiscolor : thiscolordark), " %3d", items[i].volume );
+        if(active && items[i].autopickup==true) {
+          mvwprintz(window,6+x,1, magenta_background(items[i].it->color(&g->u)),"%s",(compact?items[i].it->tname(g).substr(0,1):">").c_str());
+        }
       }
     }
 
@@ -6594,6 +6598,7 @@ void game::advanced_inv()
                             int size = u.inv.stack_by_letter(item.invlet).size();
                             if ( size < 1 ) size = 1;
                             it.name=item.tname(this);
+                            it.autopickup=hasPickupRule(it.name);
                             it.stacks=size;
                             it.weight=item.weight() * size;
                             it.volume=item.volume() * size;
@@ -6636,6 +6641,7 @@ void game::advanced_inv()
                                     advanced_inv_listitem it;
                                     it.idx=x;
                                     it.name=items[x].tname(this);
+                                    it.autopickup=hasPickupRule(it.name);
                                     it.stacks=1;
                                     it.weight=items[x].weight();
                                     it.volume=items[x].volume();
@@ -6750,7 +6756,7 @@ void game::advanced_inv()
                   mvwprintz(head,0,w_width-18,c_white,_("< [?] show log >"));
                   mvwprintz(head,1,2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes,"));
                   mvwprintz(head,2,2, c_white, _("1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"));
-                  mvwprintz(head,3,2, c_white, _("[e]xamine item,  [s]ort display, [q]uit/exit this screen."));
+                  mvwprintz(head,3,2, c_white, _("[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."));
                 } else {
                   mvwprintz(head,0,w_width-19,c_white,"< [?] show help >");
                 }
@@ -7107,9 +7113,21 @@ void game::advanced_inv()
                 uistate.adv_inv_rightsort=sm.ret;
             }
             recalc = true;
-        }
-        else if('e' == c)
-        {
+        } else if('p' == c) {
+            if(panes[src].size == 0) {
+                continue;
+            } else if ( item_pos == -8 ) {
+                continue; // category header
+            }
+            if ( panes[src].items[list_pos].autopickup == true ) {
+                removePickupRule(panes[src].items[list_pos].name);
+                panes[src].items[list_pos].autopickup=false;
+            } else {
+                addPickupRule(panes[src].items[list_pos].name);
+                panes[src].items[list_pos].autopickup=true;
+            }
+            redraw = true;
+        } else if('e' == c) {
             if(panes[src].size == 0) {
                 continue;
             } else if ( item_pos == -8 ) {
