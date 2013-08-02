@@ -22,7 +22,13 @@ def gettextify(string):
     return "_(%r)\n" % string
 
 def writestr(fs, string):
-    if string: fs.write(gettextify(string))
+    "Wrap the string and write to the file."
+    # no empty strings
+    if not string: return
+    # none of the strings from json use string formatting.
+    # we must tell xgettext this explicitly
+    if "%" in string: fs.write("# xgettext:no-python-format\n")
+    fs.write(gettextify(string))
 
 # create the output directory, if it does not already exist
 if not os.path.exists(to_folder):
@@ -96,4 +102,4 @@ with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
     jsondata = json.loads(open(jsonfile).read())
     names = [item["name"] for item in jsondata]
     for n in names:
-        writestr(name_jtl, '<name>' + n[0])
+        writestr(name_jtl, '<name>' + n)
