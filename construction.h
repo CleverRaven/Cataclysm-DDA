@@ -25,14 +25,16 @@ struct constructable
  int id;
  std::string name; // Name as displayed
  int difficulty; // Carpentry skill level required
+ bool loopstages;
  std::vector<construction_stage> stages;
  bool (construct::*able)  (game *, point);
  void (construct::*done)  (game *, point);
 
  constructable(int Id, std::string Name, int Diff,
                bool (construct::*Able) (game *, point),
-               void (construct::*Done) (game *, point)) :
-  id (Id), name (Name), difficulty (Diff), able (Able), done (Done) {};
+               void (construct::*Done) (game *, point),
+               bool LoopStages = false) :
+  id (Id), name (Name), difficulty (Diff), able (Able), done (Done), loopstages (LoopStages) {};
 };
 
 struct construct // Construction functions.
