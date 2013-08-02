@@ -3044,11 +3044,70 @@ z.size(), active_npc.size(), events.size());
    }
    break;
 
-  case 11:
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill)
-      u.skillLevel(*aSkill).level(u.skillLevel(*aSkill) + 3);
-    add_msg(_("Skils increased."));
-   break;
+  case 11: {
+      const int skoffset=1;
+      uimenu skmenu;
+      skmenu.text="Select a skill to modify";
+      skmenu.return_invalid=true;
+      skmenu.addentry(0, true, 'a', "Set all skills to...");
+      int origskills[Skill::skills.size()];
+
+      for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+        int skid=(*aSkill)->id();
+        skmenu.addentry(skid+skoffset, true, -1, "@ %d: %s  ",  (int)u.skillLevel(*aSkill),(*aSkill)->ident().c_str());
+        origskills[skid]=(int)u.skillLevel(*aSkill);
+      }
+      do {
+        skmenu.query();
+        int skid=-1; int skset=-1;
+        int sksel=skmenu.selected-skoffset;
+        if ( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
+          if ( sksel >= 0 && sksel < Skill::skills.size() ) {
+            skid=sksel;
+            skset = (int)u.skillLevel(Skill::skills[skid]) + ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
+          }
+        } else if ( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < Skill::skills.size() ) {
+          skid=sksel;
+          uimenu sksetmenu;
+          sksetmenu.w_x=skmenu.w_x+skmenu.w_width+1;
+          sksetmenu.w_y=skmenu.w_y+2;
+          sksetmenu.w_height=skmenu.w_height-4;
+          sksetmenu.return_invalid = true;
+          sksetmenu.settext("Set '%s' to..", Skill::skills[skid]->ident().c_str());
+          int skcur=(int)u.skillLevel(Skill::skills[skid]);
+          sksetmenu.selected=skcur;
+          for ( int i=0;i<21;i++ ) sksetmenu.addentry(i,true,i+48,"%d%s",i,(skcur==i?" (current)":""));
+          sksetmenu.query();
+          skset=sksetmenu.ret;
+        }
+        if ( skset != -1 && skid != -1 ) {
+          u.skillLevel(Skill::skills[skid]).level(skset);
+          skmenu.textformatted[0] = string_format("%s set to %d             ",Skill::skills[skid]->ident().c_str(),(int)u.skillLevel(Skill::skills[skid])).substr(0,skmenu.w_width-4); ;
+          skmenu.entries[skid + skoffset].txt = string_format("@ %d: %s  ",(int)u.skillLevel(Skill::skills[skid]),Skill::skills[skid]->ident().c_str());
+          skmenu.entries[skid + skoffset].text_color = ( (int)u.skillLevel(Skill::skills[skid]) == origskills[skid] ? skmenu.text_color : c_yellow );
+        } else if ( skmenu.ret == 0 && sksel == -1 ) {
+          int ret=menu(true,"Set all skills...","+3","+1","-1","-3","To 0","To 5","To 10","(Reset changes)",NULL);
+          if ( ret > 0 ) {
+              int skmod=0;
+              int skset=-1;
+              if (ret < 5 ) {
+                skmod=( ret < 3 ? ( ret == 1 ? 3 : 1 ) :
+                    ( ret == 3 ? -1 : -3 )
+                );
+              } else if ( ret < 8 ) {
+                skset=( ( ret-5 ) * 5 );
+              }
+              for (int skid=0; skid < Skill::skills.size(); skid++ ) {
+                int changeto = ( skmod != 0 ? u.skillLevel( Skill::skills[skid] ) + skmod : ( skset != -1 ? skset : origskills[skid] ) );
+                u.skillLevel( Skill::skills[skid] ).level( changeto );
+                skmenu.entries[skid + skoffset].txt = string_format    ("@ %d: %s  ", (int)u.skillLevel(Skill::skills[skid]), Skill::skills[skid]->ident().c_str() );
+                skmenu.entries[skid + skoffset].text_color = ( (int)u.skillLevel(Skill::skills[skid]) == origskills[skid] ? skmenu.text_color : c_yellow );
+              }
+          }
+        }
+      } while ( ! ( skmenu.ret == -1 && ( skmenu.keypress == 'q' || skmenu.keypress == ' ' || skmenu.keypress == KEY_ESCAPE ) ) );
+    }
+    break;
 
   case 12:
     for(std::vector<std::string>::iterator it = martial_arts_itype_ids.begin();
