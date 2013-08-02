@@ -1025,10 +1025,9 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
  std::string message;
  bool u_see_mon = g->u_see(&(mon));
  int adjusted_damage = dam;
- if (mon.has_flag(MF_HARDTOSHOOT) &&
-     !one_in(10 - 10 * (.8 - goodhit) ) && // Maxes out at 50% chance with perfect hit
-     weapon->curammo->phase != LIQUID) {
-     // && weapon->curammo->dispersion >= 4) { TODO - Operate on ammo flag Buckshot hits anyway
+ if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - goodhit)) && // Maxes out at 50% chance with perfect hit
+     weapon->curammo->phase != LIQUID && !weapon->curammo->ammo_effects.count("SHOT") &&
+     !weapon->curammo->ammo_effects.count("BOUNCE")) {
   if (u_see_mon)
    g->add_msg(_("The shot passes through the %s without hitting."),
            mon.name().c_str());
@@ -1039,10 +1038,8 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
   zarm -= weapon->curammo->pierce;
   if (weapon->curammo->phase == LIQUID)
    zarm = 0;
-/* TODO - Operate on ammo flag basis
-  else if (weapon->curammo->dispersion < 4) // Shot doesn't penetrate armor well
-   zarm *= rng(2, 4);
-*/
+  else if (weapon->curammo->ammo_effects.count("SHOT")) // Shot doesn't penetrate armor well
+   zarm *= rng(2, 3);
   if (zarm > 0)
    adjusted_damage -= zarm;
   if (adjusted_damage <= 0) {
