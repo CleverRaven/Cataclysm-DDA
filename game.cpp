@@ -4187,6 +4187,8 @@ int game::mon_info(WINDOW *w)
     int buff;
     int newseen = 0;
     const int iProxyDist = (OPTIONS[OPT_SAFEMODEPROXIMITY] <= 0) ? 60 : OPTIONS[OPT_SAFEMODEPROXIMITY];
+    int newdist = 4096;
+    int newtarget = -1;
     // 7 0 1	unique_types uses these indices;
     // 6 8 2	0-7 are provide by direction_from()
     // 5 4 3	8 is used for local monsters (for when we explain them below)
@@ -4212,8 +4214,14 @@ int game::mon_info(WINDOW *w)
                 if (index < 8 && sees_u(z[i].posx, z[i].posy, j))
                     dangerous[index] = true;
 
-                if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
+                int mondist = rl_dist(u.posx, u.posy, z[i].posx, z[i].posy);
+                if (mondist <= iProxyDist) {
                     newseen++;
+                    if ( mondist < newdist ) {
+                        newdist = mondist; // todo: prioritize dist * attack+follow > attack > follow
+                        newtarget = i; // todo: populate alt targeting map
+                    }
+                }
             }
 
             if (!vector_has(unique_types[dir_to_mon], z[i].type->id))
@@ -4241,8 +4249,12 @@ int game::mon_info(WINDOW *w)
             cancel_activity_query(_("Monster Spotted!"));
         cancel_activity_query(_("Monster spotted!"));
         turnssincelastmon = 0;
-        if (run_mode == 1)
+        if (run_mode == 1) {
             run_mode = 2;	// Stop movement!
+            if ( last_target == -1 && newtarget != -1 ) {
+                last_target = newtarget;
+            }
+        }
     } else if (autosafemode && newseen == 0) { // Auto-safemode
         turnssincelastmon++;
         if (turnssincelastmon >= OPTIONS[OPT_AUTOSAFEMODETURNS] && run_mode == 0)
