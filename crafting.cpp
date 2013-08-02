@@ -707,10 +707,7 @@ recipe* game::select_crafting_recipe()
 
                         if (charges > 0)
                         {
-                            char* buf = new char[32];
-                            sprintf(buf, _("(%d charges) "), charges);
-                            toolinfo << buf;
-                            delete buf; buf = NULL;
+                            toolinfo << string_format(_("(%d charges) "), charges);
                         }
                         std::string toolname = toolinfo.str();
                         if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH)

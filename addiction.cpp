@@ -220,14 +220,9 @@ Risk of delirium tremens");
 
  case ADD_PKILLER:
   {
-  std::string dump;
-  char* buf = new char[1000];
-  sprintf(buf, _(
+  return string_format(_(
 "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
 "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."), strpen);
-  dump = buf;
-  delete buf; buf=NULL;
-  return dump;
   }
 
  case ADD_SPEED:

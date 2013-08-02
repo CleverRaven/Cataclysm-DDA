@@ -63,9 +63,7 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
     //Note: this part still strongly relies on English grammar.
     //Although it can be easily worked around in language like Chinese,
     //but might need to be reworked for some European languages that have more verb forms
-    char buf[512];
-    sprintf(buf, _("%s on what?"), verb.c_str());
-    char ch = g->inv(buf);
+    char ch = g->inv(string_format(_("%s on what?"), verb.c_str()));
     item* cut = &(p->i_at(ch));
     if (cut->type->id == "null")
     {
@@ -97,10 +95,8 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
     }
 
     std::map<std::string, std::string>::iterator ent = cut->item_vars.find("item_note");
-    sprintf(buf, _("%1$s on this %2$s is a note saying: "), gerund.c_str(), cut->type->name.c_str());
-    std::string message = buf;
-    sprintf(buf, _("%s what?"), verb.c_str()); 
-    message = string_input_popup(buf, 64, (ent != cut->item_vars.end() ?
+    std::string message = string_format(_("%1$s on this %2$s is a note saying: "), gerund.c_str(), cut->type->name.c_str());
+    message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64, (ent != cut->item_vars.end() ?
                                                        cut->item_vars["item_note"] : message ));
 
     if( message.size() > 0 ) { cut->item_vars["item_note"] = message; }
@@ -2365,10 +2361,7 @@ if(it->type->id == "cot"){
   message << (buried ? _("You bury the beartrap.") : _("You set the beartrap.")) ;
   practice = (buried ? 7 : 4);
  } else if(it->type->id == "board_trap"){
-  char* buf = new char[256];
-  sprintf(buf, "You set the board trap on the %s, nails facing up.", g->m.tername(posx, posy).c_str());
-  message << buf;
-  delete buf; buf=NULL;
+  message << string_format("You set the board trap on the %s, nails facing up.", g->m.tername(posx, posy).c_str());
   type = tr_nailboard;
   practice = 2;
   } else if(it->type->id == "funnel"){
