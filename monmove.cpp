@@ -549,7 +549,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
     if (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill))
     {
-        g->add_msg("The %s misses.", name().c_str());
+        g->add_msg(_("The %s misses."), name().c_str());
     }
     else
     {
@@ -568,7 +568,11 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             // then returns less with each additional point, reaching 99% at 16
             if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
             {
-                g->add_msg("%s dodge the %s.", You.c_str(), name().c_str());
+                if (is_npc) {
+                    g->add_msg(_("%1$s dodges the %2$s."), p.name.c_str(), name().c_str());
+                } else {
+                    g->add_msg(_("You dodge the %s."), name().c_str());
+                }
                 p.practice(g->turn, "dodge", type->melee_skill * 2); //Better monster = more skill gained
             }
 
@@ -578,8 +582,13 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 p.practice(g->turn, "dodge", type->melee_skill);
                 if (u_see && tech != TEC_BLOCK)
                 {
-                    g->add_msg("The %s hits %s %s.", name().c_str(), your.c_str(),
-                            body_part_name(bphit, side).c_str());
+                    if (is_npc) {
+                        g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
+                            p.name.c_str(), body_part_name(bphit, side).c_str());
+                    } else {
+                        g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
+                                   body_part_name(bphit, side).c_str());
+                    }
                 }
 
                 // Attempt defensive moves
@@ -587,24 +596,27 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     if (g->u.activity.type == ACT_RELOAD)
                     {
-                        g->add_msg("You stop reloading.");
+                        g->add_msg(_("You stop reloading."));
                     }
                     else if (g->u.activity.type == ACT_READ)
                     {
-                        g->add_msg("You stop reading.");
+                        g->add_msg(_("You stop reading."));
                     }
                     else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
                     {
-                        g->add_msg("You stop crafting.");
+                        g->add_msg(_("You stop crafting."));
                         g->u.activity.type = ACT_NULL;
                     }
                 }
 
                 if (p.has_active_bionic("bio_ods"))
                 {
-                    if (u_see)
-                    {
-                        g->add_msg("%s offensive defense system shocks it!", Your.c_str());
+                    if (!is_npc) {
+                        g->add_msg(_("Your offensive defense system shocks it!"),
+                                   p.name.c_str());
+                    } else if (u_see) {
+                        g->add_msg(_("%s's offensive defense system shocks it!"),
+                                   p.name.c_str());
                     }
                     if (hurt(rng(10, 40)))
                         die(g);
@@ -612,8 +624,13 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 if (p.encumb(bphit) == 0 &&(p.has_trait(PF_SPINES) || p.has_trait(PF_QUILLS)))
                 {
                     int spine = rng(1, (p.has_trait(PF_QUILLS) ? 20 : 8));
-                    g->add_msg("%s %s puncture it!", Your.c_str(),
-                            (g->u.has_trait(PF_QUILLS) ? "quills" : "spines"));
+                    if (is_npc) {
+                        g->add_msg("%1$s's %2$s puncture it!", p.name.c_str(),
+                                   (g->u.has_trait(PF_QUILLS) ? _("quills") : _("spines")));
+                    } else {
+                        g->add_msg("Your %s puncture it!",
+                                   (g->u.has_trait(PF_QUILLS) ? _("quills") : _("spines")));
+                    }
                     if (hurt(spine))
                         die(g);
                 }
@@ -631,7 +648,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     if (!is_npc)
                     {
-                        g->add_msg("You're poisoned!");
+                        g->add_msg(_("You're poisoned!"));
                     }
                     p.add_disease("poison", 30);
                 }
@@ -639,7 +656,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     if (!is_npc)
                     {
-                        g->add_msg("You feel poison flood your body, wracking you with pain...");
+                        g->add_msg(_("You feel poison flood your body, wracking you with pain..."));
                     }
                     p.add_disease("badpoison", 40);
                 }
@@ -647,7 +664,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     if (!is_npc)
                     {
-                        g->add_msg("You're Bleeding!");
+                        g->add_msg(_("You're Bleeding!"));
                     }
                     p.add_disease("bleed", 60);
                 }
@@ -657,14 +674,14 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     if (!is_npc)
                     {
-                        g->add_msg("The %s grabs you!", name().c_str());
+                        g->add_msg(_("The %s grabs you!"), name().c_str());
                     }
                     if (p.weapon.has_technique(TEC_BREAK, &p) &&
                         dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
                     {
                         if (!is_npc)
                         {
-                            g->add_msg("You break the grab!");
+                            g->add_msg(_("You break the grab!"));
                         }
                     }
                     else
@@ -899,7 +916,7 @@ void monster::knock_back_from(game *g, int x, int y)
   }
 
   if (u_see)
-   g->add_msg("The %s bounces off a %s!", name().c_str(), z->name().c_str());
+   g->add_msg(_("The %s bounces off a %s!"), name().c_str(), z->name().c_str());
 
   return;
  }
@@ -911,7 +928,7 @@ void monster::knock_back_from(game *g, int x, int y)
   add_effect(ME_STUNNED, 1);
   p->hit(g, bp_torso, 0, type->size, 0);
   if (u_see)
-   g->add_msg("The %s bounces off %s!", name().c_str(), p->name.c_str());
+   g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 
   return;
  }
@@ -923,20 +940,20 @@ void monster::knock_back_from(game *g, int x, int y)
    if (!has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)) {
     hurt(9999);
     if (u_see)
-     g->add_msg("The %s drowns!", name().c_str());
+     g->add_msg(_("The %s drowns!"), name().c_str());
    }
 
   } else if (has_flag(MF_AQUATIC)) { // We swim but we're NOT in water
    hurt(9999);
    if (u_see)
-    g->add_msg("The %s flops around and dies!", name().c_str());
+    g->add_msg(_("The %s flops around and dies!"), name().c_str());
 
   } else { // It's some kind of wall.
    hurt(type->size);
    add_effect(ME_STUNNED, 2);
    if (u_see)
-    g->add_msg("The %s bounces off a %s.", name().c_str(),
-                                           g->m.tername(to.x, to.y).c_str());
+    g->add_msg(_("The %s bounces off a %s."), name().c_str(),
+               g->m.tername(to.x, to.y).c_str());
   }
 
  } else { // It's no wall
