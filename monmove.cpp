@@ -625,10 +625,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     int spine = rng(1, (p.has_trait(PF_QUILLS) ? 20 : 8));
                     if (is_npc) {
-                        g->add_msg("%1$s's %2$s puncture it!", p.name.c_str(),
+                        g->add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
                                    (g->u.has_trait(PF_QUILLS) ? _("quills") : _("spines")));
                     } else {
-                        g->add_msg("Your %s puncture it!",
+                        g->add_msg(_("Your %s puncture it!"),
                                    (g->u.has_trait(PF_QUILLS) ? _("quills") : _("spines")));
                     }
                     if (hurt(spine))

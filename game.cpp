@@ -3724,12 +3724,12 @@ void game::draw_HP()
         }
     }
 
-    static const char *body_parts[] = {
-        "HEAD", "TORSO", "L ARM", "R ARM", "L LEG", "R LEG", "POWER" };
+    static const char *body_parts[] = { _("HEAD"), _("TORSO"), _("L ARM"),
+                           _("R ARM"), _("L LEG"), _("R LEG"), _("POWER") };
     int num_parts = sizeof(body_parts) / sizeof(body_parts[0]);
     for (int i = 0; i < num_parts; i++) {
         nc_color c = c_ltgray;
-        const char *str = _(body_parts[i]);
+        const char *str = body_parts[i];
         wmove(w_HP, i * dy, 0);
         if (wide)
             wprintz(w_HP, c, " ");
@@ -4567,9 +4567,14 @@ bool game::sound(int x, int y, int vol, std::string description)
  }
  if (x != u.posx || y != u.posy) {
   if(u.activity.ignore_trivial != true) {
-    if( cancel_activity_or_ignore_query(_("Heard %s!"),
-                        (description == "" ? _("a noise") : description.c_str())) ) {
-      u.activity.ignore_trivial = true;
+    std::string query;
+    if (description == "") {
+        query = string_format(_("Heard %s!"), description.c_str());
+    } else {
+        query = _("Heard a noise!");
+    }
+    if( cancel_activity_or_ignore_query(query.c_str()) ) {
+        u.activity.ignore_trivial = true;
     }
   }
  } else {
@@ -4581,8 +4586,7 @@ bool game::sound(int x, int y, int vol, std::string description)
  int dy = y - u.posy;
 // If it came from us, don't print a direction
  if (dx == 0 && dy == 0) {
-  if (description[0] >= 'a' && description[0] <= 'z')
-   description[0] += 'A' - 'a';	// Capitalize the sound
+  capitalize_letter(description, 0);
   add_msg("%s", description.c_str());
   return true;
  }
@@ -9131,13 +9135,14 @@ void game::drop(char chInput)
   to_veh = veh_part >= 0;
  }
  if (dropped.size() == 1 || same) {
-  if (to_veh)
+  if (to_veh) {
    add_msg(_("You put your %s%s in the %s's %s."), dropped[0].tname(this).c_str(),
           (dropped.size() == 1 ? "" : _("s")), veh->name.c_str(),
           veh->part_info(veh_part).name);
-  else
-   add_msg("You drop your %s%s.", dropped[0].tname(this).c_str(),
-          (dropped.size() == 1 ? "" : _("s")));
+  } else {
+   add_msg(ngettext("You drop your %s.", "You drop your %ss", dropped.size()),
+           dropped[0].tname(this).c_str()); // FIXME: real plurals... someday
+  }
  } else {
   if (to_veh)
    add_msg(_("You put several items in the %s's %s."), veh->name.c_str(),
@@ -10277,7 +10282,7 @@ void game::plmove(int x, int y)
 /*
   if (m.tr_at(x, y) != tr_null &&
       u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility &&
-      !query_yn("Really step onto that %s?",traps[m.tr_at(x, y)]->name.c_str()))
+      !query_yn(_("Really step onto that %s?"),traps[m.tr_at(x, y)]->name.c_str()))
    return;
 */
 

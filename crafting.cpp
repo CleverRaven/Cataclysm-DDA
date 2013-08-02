@@ -1499,7 +1499,7 @@ void game::disassemble(char ch)
     //if we're trying to disassemble a book or magazine
     if(dis_item->is_book())
     {
-       if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Do you want to tear %s into pages?", dis_item->tname(this).c_str())))
+       if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname(this).c_str())))
              return;
         else
         {
