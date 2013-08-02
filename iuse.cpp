@@ -97,13 +97,28 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
     }
 
     std::map<std::string, std::string>::iterator ent = cut->item_vars.find("item_note");
+    std::map<std::string, std::string>::iterator entprefix = cut->item_vars.find("item_note_type");
+    bool hasnote = (ent != cut->item_vars.end()); 
     sprintf(buf, _("%1$s on this %2$s is a note saying: "), gerund.c_str(), cut->type->name.c_str());
-    std::string message = buf;
+    std::string messageprefix = std::string( hasnote ? "(To delete, input one '.')\n" : "" );
+    messageprefix += buf;
+    std::string message = "";
     sprintf(buf, _("%s what?"), verb.c_str()); 
-    message = string_input_popup(buf, 64, (ent != cut->item_vars.end() ?
-                                                       cut->item_vars["item_note"] : message ));
+    message = string_input_popup(buf, 64,
+        (hasnote ? cut->item_vars["item_note"] : message ),
+        messageprefix, "inscribe_item", 128
+    );
 
-    if( message.size() > 0 ) { cut->item_vars["item_note"] = message; }
+    if( message.size() > 0 ) {
+        if ( hasnote && message == "." ) {
+            cut->item_vars.erase("item_note");
+            cut->item_vars.erase("item_note_type");
+            cut->item_vars.erase("item_note_typez");
+        } else {
+            cut->item_vars["item_note"] = message;
+            cut->item_vars["item_note_type"] = gerund;
+        }
+    }
     return true;
 }
 
