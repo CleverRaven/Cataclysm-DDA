@@ -575,7 +575,7 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg(_("You cough noisily."));
     g->sound(p.posx, p.posy, 12, "");
    } else
-    g->sound(p.posx, p.posy, 12, "loud coughing");
+    g->sound(p.posx, p.posy, 12, _("loud coughing."));
   }
   break;
 
@@ -597,7 +597,7 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg(_("You cough noisily."));
     g->sound(p.posx, p.posy, 12, "");
    } else
-    g->sound(p.posx, p.posy, 12, "loud coughing");
+    g->sound(p.posx, p.posy, 12, _("loud coughing."));
   }
   if (one_in(3600) || (p.has_trait(PF_WEAKSTOMACH) && one_in(3000)) ||
       (p.has_trait(PF_NAUSEA) && one_in(2400))) {
@@ -618,12 +618,12 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg(_("You cough heavily."));
     g->sound(p.posx, p.posy, 12, "");
    } else
-    g->sound(p.posx, p.posy, 12, "a hacking cough.");
+    g->sound(p.posx, p.posy, 12, _("a hacking cough."));
    p.moves -= 80;
    p.hurt(g, bp_torso, 0, 1 - (rng(0, 1) * rng(0, 1)));
    if (p.has_disease("sleep")) {
        p.rem_disease("sleep");
-       g->add_msg_if_player(&p,_("Your coughing wakes you up"));
+       g->add_msg_if_player(&p,_("Your coughing wakes you up."));
    }
   }
   break;
@@ -638,7 +638,7 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg(_("You cough heavily."));
     g->sound(p.posx, p.posy, 12, "");
    } else
-    g->sound(p.posx, p.posy, 12, "a hacking cough");
+    g->sound(p.posx, p.posy, 12, _("a hacking cough."));
    p.moves -= 100;
    p.hurt(g, bp_torso, 0, rng(0, 3) * rng(0, 1));
   }
@@ -715,7 +715,7 @@ void dis_effect(game *g, player &p, disease &dis)
      g->add_msg(_("You cough heavily."));
      g->sound(p.posx, p.posy, 12, "");
     } else
-     g->sound(p.posx, p.posy, 12, "a hacking cough");
+     g->sound(p.posx, p.posy, 12, _("a hacking cough."));
     p.pain++;
    }
    if (one_in(100 + bonus)) {
@@ -796,7 +796,7 @@ void dis_effect(game *g, player &p, disease &dis)
         {
             if (dis.duration == 1)
             {
-                if (!g->sound(p.posx, p.posy, 12, "alarm_clock")) {
+                if (!g->sound(p.posx, p.posy, 12, _("beep-beep-beep!"))) {
                     //You didn't hear the alarm
                     dis.duration += 100; //10 minute alarm interval
                     g->add_msg(_("An alarm rings but you don't hear it."));
