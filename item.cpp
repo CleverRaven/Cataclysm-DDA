@@ -737,11 +737,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
         dump->push_back(iteminfo("DESCRIPTION", "\n" ));
         std::string ntext = "";
         if ( item_note_type != item_vars.end() ) {
-            char buf[512];
-            sprintf(buf, _("%1$s on this %2$s is a note saying: "),
+            ntext += string_format(_("%1$s on this %2$s is a note saying: "),
                 item_note_type->second.c_str(), type->name.c_str()
             );
-            ntext += buf;
         } else {
             ntext += "Note: ";
         }
