@@ -887,6 +887,7 @@
                          ],
                          [
                              ["welder", 30],
+                             ["welder_crude", 45],
                              ["toolset", 3]
                          ]
                      ],
@@ -8332,6 +8333,7 @@
                          ],
                          [
                              ["welder", 100],
+                             ["welder_crude", 150],
                              ["toolset", 5]
                          ],
                          [
@@ -8416,6 +8418,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ],
                          [
@@ -8448,6 +8451,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ],
                          [
@@ -8543,6 +8547,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ],
                          [
@@ -8574,7 +8579,7 @@
             "tools": [
                          [ ["wrench", -1], ["toolset", -1] ],
                          [ ["goggles_welding", -1] ],
-                         [ ["welder", 300], ["toolset", 12] ]
+                         [ ["welder", 300], ["welder_crude", 450], ["toolset", 12] ]
                      ],
             "components": [
                               [ ["frame", 2] ],
@@ -8827,6 +8832,7 @@
                          ],
                          [
                              ["welder", 20],
+                             ["welder_crude", 30],
                              ["toolset", 1]
                          ]
                      ],
@@ -8872,6 +8878,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ]
                      ],
@@ -8897,6 +8904,7 @@
                          ],
                          [
                              ["welder", 20],
+                             ["welder_crude", 30],
                              ["toolset", 1]
                          ]
                      ],
@@ -8922,6 +8930,7 @@
                          ],
                          [
                              ["welder", 100],
+                             ["welder_crude", 150],
                              ["toolset", 5]
                          ]
                      ],
@@ -8947,6 +8956,7 @@
                          ],
                          [
                              ["welder", 120],
+                             ["welder_crude", 180],
                              ["toolset", 6]
                          ]
                      ],
@@ -8978,6 +8988,7 @@
                          ],
                          [
                              ["welder", 300],
+                             ["welder_crude", 450],
                              ["toolset", 15]
                          ]
                      ],
@@ -9319,6 +9330,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ]
                      ],
@@ -9973,6 +9985,7 @@
                          ],
                          [
                              ["welder", 20],
+                             ["welder_crude", 30],
                              ["toolset", 1]
                          ]
                      ],
@@ -10149,7 +10162,7 @@
                              ["wrench", -1], ["toolset", -1]
                          ],
                          [
-                             ["welder", 150], ["toolset", 6]
+                             ["welder", 150], ["welder_crude", 225], ["toolset", 6]
                          ]
                      ],
             "components": [
@@ -10197,7 +10210,7 @@
                              ["wrench", -1], ["toolset", -1]
                          ],
                          [
-                             ["welder", 300], ["toolset", 12]
+                             ["welder", 300], ["welder_crude", 450], ["toolset", 12]
                          ]
                      ],
             "components": [
@@ -10245,7 +10258,7 @@
                              ["wrench", -1], ["toolset", -1]
                          ],
                          [
-                             ["welder", 100], ["toolset", 4]
+                             ["welder", 100], ["welder_crude", 150], ["toolset", 4]
                          ]
                      ],
             "components": [
