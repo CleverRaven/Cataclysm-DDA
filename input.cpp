@@ -1,5 +1,6 @@
 #include "cursesdef.h"
 #include "input.h"
+#include <fstream>
 
 /* TODO Replace the hardcoded values with an abstraction layer.
  * Lower redundancy across the methods. */
@@ -114,3 +115,22 @@ void get_direction(int &x, int &y, InputEvent &input)
 			y = -2;
 	}
 }
+
+//helper function for those have problem inputing certain characters.
+std::string get_input_string_from_file(std::string fname)
+{
+    std::string ret = "";
+    std::ifstream fin(fname.c_str());
+    if (fin){
+        getline(fin, ret);
+        //remove utf8 bmm
+        if(ret.size()>0 && (unsigned char)ret[0]==0xef) {
+            ret.erase(0,3);
+        }
+        while(ret.size()>0 && (ret[ret.size()-1]=='\r' ||  ret[ret.size()-1]=='\n')){
+            ret.erase(ret.size()-1,1);
+        }
+    }
+    return ret;
+}
+
