@@ -89,14 +89,17 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     crafting_inv = gm->crafting_inventory(&gm->u);
 
     int charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
+    int charges_crude = ((it_tool *) g->itypes["welder_crude"])->charges_per_use;
     has_wrench = crafting_inv.has_amount("wrench", 1) ||
         crafting_inv.has_amount("toolset", 1);
     has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
         crafting_inv.has_amount("toolset", 1);
     has_welder = (crafting_inv.has_amount("welder", 1) &&
                   crafting_inv.has_charges("welder", charges)) ||
-        (crafting_inv.has_amount("toolset", 1) &&
-         crafting_inv.has_charges("toolset", charges/20));
+                  (crafting_inv.has_amount("welder_crude", 1) &&
+                  crafting_inv.has_charges("welder_crude", charges_crude)) ||
+                (crafting_inv.has_amount("toolset", 1) &&
+                 crafting_inv.has_charges("toolset", charges/20));
     has_jack = crafting_inv.has_amount("jack", 1);
     has_siphon = crafting_inv.has_amount("hose", 1);
 
@@ -946,6 +949,7 @@ void complete_vehicle (game *g)
     int type = g->u.activity.values[7];
     std::vector<component> tools;
     int welder_charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
+    int welder_crude_charges = ((it_tool *) g->itypes["welder_crude"])->charges_per_use;
     itype_id itm;
     int partnum;
     item used_item;
@@ -962,6 +966,7 @@ void complete_vehicle (game *g)
         used_item = consume_vpart_item (g, (vpart_id) part);
         veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
         tools.push_back(component("welder", welder_charges));
+        tools.push_back(component("welder_crude", welder_crude_charges));
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
 
@@ -1008,6 +1013,7 @@ void complete_vehicle (game *g)
             veh->insides_dirty = true;
         }
         tools.push_back(component("welder", welder_charges));
+        tools.push_back(component("welder_crude", welder_crude_charges));
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
         veh->parts[part].hp = veh->part_info(part).durability;
