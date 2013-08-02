@@ -29,20 +29,6 @@
 #include <list>
 #include <stdarg.h>
 
-// Fixed window sizes
-#define HP_HEIGHT 14
-#define HP_WIDTH 7
-#define MINIMAP_HEIGHT 7
-#define MINIMAP_WIDTH 7
-#define MONINFO_HEIGHT 12
-#define MONINFO_WIDTH 48
-#define MESSAGES_HEIGHT 8
-#define MESSAGES_WIDTH 48
-#define LOCATION_HEIGHT 1
-#define LOCATION_WIDTH 48
-#define STATUS_HEIGHT 4
-#define STATUS_WIDTH 55
-
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
 #define BULLET_SPEED 10000000
@@ -136,7 +122,7 @@ class game
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
 // Sound at (x, y) of intensity (vol), described to the player is (description)
-  void sound(int x, int y, int vol, std::string description);
+  bool sound(int x, int y, int vol, std::string description); //returns true if you heard the sound
 // creates a list of coordinates to draw footsteps
   void add_footstep(int x, int y, int volume, int distance, monster* source);
   std::vector<std::vector<point> > footsteps;
@@ -301,15 +287,13 @@ class game
 
   std::map<int, std::map<int, bool> > mapRain;
 
-  int w_void_lines;
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;
-  WINDOW *w_moninfo;
   WINDOW *w_messages;
   WINDOW *w_location;
   WINDOW *w_status;
-  WINDOW *w_void; //space unter status if viewport Y > 12
+  WINDOW *w_status2;
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  bool handle_liquid(item &liquid, bool from_ground, bool infinite);
@@ -355,10 +339,17 @@ void load_artifacts(); // Load artifact data
   std::string save_weather() const;
 
 // Data Initialization
+  void init_npctalk();
+  void init_materials();
   void init_fields();
+  void init_weather();
+  void init_overmap();
+  void init_artifacts();
   void init_traits();
+  void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
+  void init_professions();
   void init_faction_data();
   void init_bionics() throw (std::string);      // Initializes bionics... for now.
   void init_mtypes();       // Initializes monster types
@@ -478,7 +469,7 @@ void load_artifacts(); // Load artifact data
   void process_activity(); // Processes and enacts the player's activity
   void update_weather();   // Updates the temperature and weather patten
   void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
-  void mon_info();         // Prints a list of nearby monsters (top right)
+  int  mon_info(WINDOW *); // Prints a list of nearby monsters
   void handle_key_blocking_activity(); // Abort reading etc.
   bool handle_action();
   void update_scent();     // Updates the scent map

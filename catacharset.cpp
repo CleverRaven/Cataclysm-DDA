@@ -1,5 +1,6 @@
 #include "catacharset.h"
 #include <string.h>
+#include "debug.h"
 #include "wcwidth.c"
 
 //copied from SDL2_ttf code
@@ -82,6 +83,42 @@ unsigned UTF8_getch(const char **src, int *srclen)
         ch = UNKNOWN_UNICODE;
     }
     return ch;
+}
+
+std::string utf32_to_utf8(unsigned ch) {
+    char out[5];
+    char* buf = out;
+    static const unsigned char utf8FirstByte[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
+    int utf8Bytes;
+    if (ch < 0x80) {
+        utf8Bytes = 1;
+    } else if (ch < 0x800) {
+        utf8Bytes = 2;
+    } else if (ch < 0x10000) {
+        utf8Bytes = 3;
+    } else if (ch <= 0x10FFFF) {
+        utf8Bytes = 4;
+    } else {
+        utf8Bytes = 3;
+        ch = UNKNOWN_UNICODE;
+    }
+
+    buf += utf8Bytes;
+    switch (utf8Bytes) {
+        case 4: 
+            *--buf = (ch|0x80)&0xBF;
+            ch >>= 6;
+        case 3:
+            *--buf = (ch|0x80)&0xBF;
+            ch >>= 6;
+        case 2: 
+            *--buf = (ch|0x80)&0xBF;
+            ch >>= 6;
+        case 1: 
+            *--buf = ch|utf8FirstByte[utf8Bytes];
+    }
+    out[utf8Bytes] = '\0';
+    return out;
 }
 
 //Calculate width of a unicode string
@@ -202,6 +239,120 @@ std::string utf8_substr(std::string s, int start, int size)
     }
     
     return std::string(buf+start);
+}
+
+static const char base64_encoding_table[] = 
+{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+'w', 'x', 'y', 'z', '0', '1', '2', '3',
+'4', '5', '6', '7', '8', '9', '+', '-'};
+
+static char base64_decoding_table[256];
+static const  int mod_table[] = {0, 2, 1};
+
+static void build_base64_decoding_table() {
+    static bool built = false;
+    if(!built) {
+        for (int i = 0; i < 64; i++) {
+            base64_decoding_table[(unsigned char) base64_encoding_table[i]] = i;
+        }
+        built = true;
+    }
+}
+
+std::string base64_encode(std::string str) {
+    //assume it is already encoded
+    if(str.length()>0 && str[0]=='#') {
+        return str;
+    }
+
+    int input_length = str.length();
+    int output_length = 4 * ((input_length + 2) / 3);
+
+    char *encoded_data = new char[output_length+1];
+    const unsigned char* data = (const unsigned char*)str.c_str();
+
+    for (int i = 0, j = 0; i < input_length;) {
+
+        unsigned octet_a = i < input_length ? data[i++] : 0;
+        unsigned octet_b = i < input_length ? data[i++] : 0;
+        unsigned octet_c = i < input_length ? data[i++] : 0;
+
+        unsigned triple = (octet_a << 0x10) + (octet_b << 0x08) + octet_c;
+
+        encoded_data[j++] = base64_encoding_table[(triple >> 3 * 6) & 0x3F];
+        encoded_data[j++] = base64_encoding_table[(triple >> 2 * 6) & 0x3F];
+        encoded_data[j++] = base64_encoding_table[(triple >> 1 * 6) & 0x3F];
+        encoded_data[j++] = base64_encoding_table[(triple >> 0 * 6) & 0x3F];
+    }
+
+    for (int i = 0; i < mod_table[input_length % 3]; i++)
+        encoded_data[output_length - 1 - i] = '=';
+
+    encoded_data[output_length] = '\0';
+    std::string ret = "#";
+    ret += encoded_data;
+    delete encoded_data;
+
+    //DebugLog()<<"base64 encoded: \n"<<str<<"\n"<<ret<<"\n";
+
+    return ret;
+}
+
+
+std::string base64_decode(std::string str) {
+    // do not decode if it is not base64
+    if(str.length()==0 || str[0]!='#') {
+        return str;
+    }
+
+    build_base64_decoding_table();
+    
+    std::string instr = str.substr(1);
+
+    int input_length = instr.length();
+
+    if (input_length % 4 != 0) {
+        return str;
+    }
+
+    int output_length = input_length / 4 * 3;
+    const char* data = (const char*)instr.c_str();
+
+    if (data[input_length - 1] == '=') output_length--;
+    if (data[input_length - 2] == '=') output_length--;
+
+    unsigned char *decoded_data = new unsigned char[output_length+1];
+
+    for (int i = 0, j = 0; i < input_length;) {
+
+        unsigned sextet_a = data[i] == '=' ? 0 & i++ : base64_decoding_table[(unsigned char)data[i++]];
+        unsigned sextet_b = data[i] == '=' ? 0 & i++ : base64_decoding_table[(unsigned char)data[i++]];
+        unsigned sextet_c = data[i] == '=' ? 0 & i++ : base64_decoding_table[(unsigned char)data[i++]];
+        unsigned sextet_d = data[i] == '=' ? 0 & i++ : base64_decoding_table[(unsigned char)data[i++]];
+
+        unsigned triple = (sextet_a << 3 * 6)
+        + (sextet_b << 2 * 6)
+        + (sextet_c << 1 * 6)
+        + (sextet_d << 0 * 6);
+
+        if (j < output_length) decoded_data[j++] = (triple >> 2 * 8) & 0xFF;
+        if (j < output_length) decoded_data[j++] = (triple >> 1 * 8) & 0xFF;
+        if (j < output_length) decoded_data[j++] = (triple >> 0 * 8) & 0xFF;
+    }
+
+    decoded_data[output_length] = 0;
+
+    std::string ret = (char*)decoded_data;
+    delete decoded_data;
+
+    //DebugLog()<<"base64 decoded: \n"<<str<<"\n"<<ret<<"\n";
+
+    return ret;
 }
 
 

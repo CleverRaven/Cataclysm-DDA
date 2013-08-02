@@ -226,34 +226,7 @@ struct mtype {
 
 
  // Default constructor
- mtype () {
-  id = 0;
-  name = "human";
-  description = "";
-  species = species_none;
-  sym = ' ';
-  color = c_white;
-  size = MS_MEDIUM;
-  mat = "hflesh";
-  phase = SOLID;
-  difficulty = 0;
-  agro = 0;
-  morale = 0;
-  speed = 0;
-  melee_skill = 0;
-  melee_dice = 0;
-  melee_sides = 0;
-  melee_cut = 0;
-  sk_dodge = 0;
-  armor_bash = 0;
-  armor_cut = 0;
-  hp = 0;
-  sp_freq = 0;
-  item_chance = 0;
-  dies = NULL;
-  sp_attack = NULL;
-  flags.push_back(MF_HUMAN);
- }
+ mtype ();
  // Non-default (messy)
  mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, std::string pmat,
@@ -265,53 +238,10 @@ struct mtype {
         unsigned char psp_freq,
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
-        std::string pdescription ) {
-  id = pid;
-  name = pname;
-  species = pspecies;
-  sym = psym;
-  color = pcolor;
-  size = psize;
-  mat = pmat;
-  difficulty = pdiff;
-  agro = pagro;
-  morale = pmorale;
-  speed = pspeed;
-  melee_skill = pml_skill;
-  melee_dice = pml_dice;
-  melee_sides = pml_sides;
-  melee_cut = pml_cut;
-  sk_dodge = pdodge;
-  armor_bash = parmor_bash;
-  armor_cut = parmor_cut;
-  item_chance = pitem_chance;
-  hp = php;
-  sp_freq = psp_freq;
-  dies = pdies;
-  sp_attack = psp_attack;
-  description = pdescription;
+        std::string pdescription );
 
-  anger = default_anger(species);
-  fear = default_fears(species);
- }
-
- bool has_flag(m_flag flag)
- {
-  for (int i = 0; i < flags.size(); i++) {
-   if (flags[i] == flag)
-    return true;
-  }
-  return false;
- }
-
- bool in_category(m_category category)
- {
-  for (int i = 0; i < categories.size(); i++) {
-   if (categories[i] == category)
-    return true;
-  }
-  return false;
- }
+ bool has_flag(m_flag flag);
+ bool in_category(m_category category);
 };
 
 #endif

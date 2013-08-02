@@ -228,28 +228,18 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   else if( curammo->type == "40mm" ) casing_type = "40mm_casing";
 
   if (casing_type != "null") {
-   int x = p.posx - 1 + rng(0, 2);
-   int y = p.posy - 1 + rng(0, 2);
-   std::vector<item>& items = m.i_at(x, y);
-   int i;
-   for (i = 0; i < items.size(); i++)
-    if (items[i].typeId() == casing_type &&
-        items[i].charges < (dynamic_cast<it_ammo*>(items[i].type))->count) {
-     items[i].charges++;
-     break;
-    }
-   if (i == items.size()) {
-    item casing;
-    casing.make(itypes[casing_type]);
-    // Casing needs a charges of 1 to stack properly with other casings.
-    casing.charges = 1;
+   item casing;
+   casing.make(itypes[casing_type]);
+   // Casing needs a charges of 1 to stack properly with other casings.
+   casing.charges = 1;
     if( weapon->has_gunmod("brass_catcher") != -1 ) {
         p.i_add( casing );
     } else {
-        m.add_item(x, y, casing);
+       int x = p.posx - 1 + rng(0, 2);
+       int y = p.posy - 1 + rng(0, 2);
+       m.add_item_or_charges(x, y, casing);
     }
    }
-  }
 
   // Use up a round (or 100)
   if (weapon->has_flag("FIRE_100"))
@@ -344,7 +334,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
         !(effects->count("EXPLOSIVE")) &&
         ((curammo->m1 == "wood" && !one_in(4)) ||
          (curammo->m1 != "wood" && !one_in(15))))
-     m.add_item(tx, ty, ammotmp);
+     m.add_item_or_charges(tx, ty, ammotmp);
     if (weapon->num_charges() == 0)
      weapon->curammo = NULL;
     return;
@@ -382,7 +372,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
      h = &u;
     else
      h = active_npc[npc_at(tx, ty)];
-    if (h->power_level >= 10 && h->has_active_bionic("bio_uncanny_dodge") && h->uncanny_dodge()) {
+    if (h->power_level >= 10 && h->uncanny_dodge()) {
      h->power_level -= 7; // dodging bullets costs extra
     }
     else {
@@ -424,7 +414,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       !(effects->count("EXPLOSIVE")) &&
       ((curammo->m1 == "wood" && !one_in(5)) ||
        (curammo->m1 != "wood" && !one_in(15))  ))
-    m.add_item(tx, ty, ammotmp);
+    m.add_item_or_charges(tx, ty, ammotmp);
  }
 
  if (weapon->num_charges() == 0)
@@ -533,14 +523,14 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 if (u_see(tx, ty))
                     add_msg(_("The %s shatters!"), thrown.tname().c_str());
                 for (int i = 0; i < thrown.contents.size(); i++)
-                    m.add_item(tx, ty, thrown.contents[i]);
+                    m.add_item_or_charges(tx, ty, thrown.contents[i]);
                     sound(tx, ty, 16, _("glass breaking!"));
                     int glassdam = rng(0, thrown.volume() * 2);
                     if (glassdam > z[mon_at(tx, ty)].armor_cut())
                         dam += (glassdam - z[mon_at(tx, ty)].armor_cut());
             }
             else
-                m.add_item(tx, ty, thrown);
+                m.add_item_or_charges(tx, ty, thrown);
             if (i < trajectory.size() - 1)
                 goodhit = double(double(rand() / RAND_MAX) / 2);
             if (goodhit < .1 && !z[mon_at(tx, ty)].has_flag(MF_NOHEAD))
@@ -562,11 +552,12 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 message = _("Grazing hit.");
                 dam = rng(0, dam);
             }
-            add_msg_if_player(&p,_("%s You hit the %s for %d damage."),
+            if (u_see(tx, ty)) {
+                g->add_msg_player_or_npc(&p,
+                    _("%s You hit the %s for %d damage."),
+                    _("%s <npcname> hits the %s for %d damage."),
                     message.c_str(), z[mon_at(tx, ty)].name().c_str(), dam);
-            if (u_see(tx, ty))
-                add_msg(_("%s hits the %s for %d damage."), message.c_str(),
-                        z[mon_at(tx, ty)].name().c_str(), dam);
+            }
             if (z[mon_at(tx, ty)].hurt(dam, real_dam))
                 kill_mon(mon_at(tx, ty), !p.is_npc());
             return;
@@ -613,13 +604,13 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         if (u_see(tx, ty))
             add_msg(_("The %s shatters!"), thrown.tname().c_str());
         for (int i = 0; i < thrown.contents.size(); i++)
-            m.add_item(tx, ty, thrown.contents[i]);
+            m.add_item_or_charges(tx, ty, thrown.contents[i]);
         sound(tx, ty, 16, _("glass breaking!"));
     }
     else
     {
         sound(tx, ty, 8, _("thud."));
-        m.add_item(tx, ty, thrown);
+        m.add_item_or_charges(tx, ty, thrown);
     }
 }
 
@@ -628,7 +619,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 item *relevent)
 {
  std::vector<point> ret;
- int tarx, tary, junk;
+ int tarx, tary, junk, tart;
  int range=(hix-u.posx);
 // First, decide on a target among the monsters, if there are any in range
  if (t.size() > 0) {
@@ -650,7 +641,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  } else
   target = -1;	// No monsters in range, don't use target, reset to -1
 
- WINDOW* w_target = newwin(13, 48, VIEW_OFFSET_Y + MINIMAP_HEIGHT, TERRAIN_WINDOW_WIDTH + 7 + VIEW_OFFSET_X);
+ int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
+ int height = 13;
+ int width  = getmaxx(w_messages);
+ int top    = sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap));
+ int left   = getbegx(w_messages);
+ WINDOW* w_target = newwin(height, width, top, left);
  wborder(w_target, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_target, 0, 2, c_white, "< ");
@@ -667,12 +663,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  }
  wprintz(w_target, c_white, " >");
 /* Annoying clutter @ 2 3 4. */
- mvwprintz(w_target, 9, 1, c_white,
-           _("Move cursor to target with directional keys."));
+ mvwprintz(w_target, getmaxy(w_target) - 4, 1, c_white,
+           _("Move cursor to target with directional keys"));
  if (relevent) {
-  mvwprintz(w_target, 10, 1, c_white,
-            _("'<' '>' Cycle targets; 'f' or '.' to fire."));
-  mvwprintz(w_target, 11, 1, c_white,
+  mvwprintz(w_target, getmaxy(w_target) - 3, 1, c_white,
+            _("'<' '>' Cycle targets; 'f' or '.' to fire"));
+  mvwprintz(w_target, getmaxy(w_target) - 2, 1, c_white,
             _("'0' target self; '*' toggle snap-to-target"));
  }
 
@@ -680,7 +676,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  char ch;
  bool snap_to_target = OPTIONS[OPT_SNAP_TO_TARGET];
  do {
-  ret = line_to(u.posx, u.posy, x, y,0);
+  if (m.sees(u.posx, u.posy, x, y, -1, tart))
+    ret = line_to(u.posx, u.posy, x, y, tart);
+  else 
+    ret = line_to(u.posx, u.posy, x, y, 0);
 
   if(trigdist && trig_dist(u.posx,u.posy, x,y) > range) {
     bool cont=true;
@@ -702,8 +701,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   else
    center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
   // Clear the target window.
-  for (int i = 1; i < 8; i++) {
-   for (int j = 1; j < 46; j++)
+  for (int i = 1; i < getmaxy(w_target) - 5; i++) {
+   for (int j = 1; j < getmaxx(w_target) - 2; j++)
     mvwputch(w_target, i, j, c_white, ' ');
   }
   m.build_map_cache(this);
@@ -801,7 +800,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    }
    if (u.posx == x && u.posy == y)
        ret.clear();
-   return ret;
+   break;
   } else if (ch == '0') {
    x = u.posx;
    y = u.posy;
@@ -810,9 +809,11 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    snap_to_target = !snap_to_target;
   else if (ch == KEY_ESCAPE || ch == 'q') { // return empty vector (cancel)
    ret.clear();
-   return ret;
+   break;
   }
  } while (true);
+
+ return ret;
 }
 
 // MATERIALS-TODO: use fire resistance

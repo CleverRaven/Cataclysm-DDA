@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os" />
+					<Add option="-O2" />
 				</Compiler>
 			</Target>
 			<Target title="Debug">
@@ -21,12 +22,25 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
 				</Linker>
+			</Target>
+			<Target title="Debug -O3">
+				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/DebugRelease/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O3" />
+					<Add option="-g" />
+				</Compiler>
 			</Target>
 		</Build>
 		<Linker>
@@ -78,7 +92,6 @@
 		<Unit filename="enums.h" />
 		<Unit filename="event.cpp" />
 		<Unit filename="event.h" />
-		<Unit filename="facdata.h" />
 		<Unit filename="faction.cpp" />
 		<Unit filename="faction.h" />
 		<Unit filename="field.cpp" />

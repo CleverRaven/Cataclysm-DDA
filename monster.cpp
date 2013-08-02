@@ -6,6 +6,7 @@
 #include "rng.h"
 #include "item.h"
 #include "item_factory.h"
+#include "translations.h"
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
@@ -129,21 +130,28 @@ std::string monster::name()
 // MATERIALS-TODO: put description in materials.json?
 std::string monster::name_with_armor()
 {
- std::string ret = type->name;
- if (type->species == species_insect)
-  ret += "'s carapace";
+ std::string ret;
+ char buf[256];
+ if (type->species == species_insect) {
+     sprintf(buf, _("%s's carapace"), type->name.c_str());
+     ret = buf;
+ }
  else {
-     if (type->mat == "veggy")
-        ret += "'s thick bark";
-    else if (type->mat == "flesh" || type->mat == "hflesh")
-        ret += "'s thick hide";   
-    else if (type->mat == "iron" || type->mat == "steel")
-        ret += "'s armor plating";    
+     if (type->mat == "veggy") {
+         sprintf(buf, _("%s's thick bark"), type->name.c_str());
+         ret = buf;
+     } else if (type->mat == "flesh" || type->mat == "hflesh") {
+         sprintf(buf, _("%s's thick hide"), type->name.c_str());
+         ret = buf;
+     } else if (type->mat == "iron" || type->mat == "steel") {
+         sprintf(buf, _("%s's armor plating"), type->name.c_str());
+         ret = buf;
+     }
  }
  return ret;
 }
 
-void monster::print_info(game *g, WINDOW* w, int vStart) 
+void monster::print_info(game *g, WINDOW* w, int vStart)
 {
 // First line of w is the border; the next two are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
@@ -151,67 +159,64 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
 // w is also 48 characters wide - 2 characters for border = 46 characters for us
 // vStart added because 'help' text in targeting win makes helpful info hard to find
 // at a glance.
+
+ const int vEnd = vStart + 5; // TODO: parameterize this
+
  mvwprintz(w, vStart, 1, c_white, "%s ", type->name.c_str());
  switch (attitude(&(g->u))) {
   case MATT_FRIEND:
-   wprintz(w, h_white, "Friendly! ");
+   wprintz(w, h_white, _("Friendly! "));
    break;
   case MATT_FLEE:
-   wprintz(w, c_green, "Fleeing! ");
+   wprintz(w, c_green, _("Fleeing! "));
    break;
   case MATT_IGNORE:
-   wprintz(w, c_ltgray, "Ignoring ");
+   wprintz(w, c_ltgray, _("Ignoring "));
    break;
   case MATT_FOLLOW:
-   wprintz(w, c_yellow, "Tracking ");
+   wprintz(w, c_yellow, _("Tracking "));
    break;
   case MATT_ATTACK:
-   wprintz(w, c_red, "Hostile! ");
+   wprintz(w, c_red, _("Hostile! "));
    break;
   default:
    wprintz(w, h_red, "BUG: Behavior unnamed. (monster.cpp:print_info)");
    break;
  }
  if (has_effect(ME_DOWNED))
-  wprintz(w, h_white, "On ground");
+  wprintz(w, h_white, _("On ground"));
  else if (has_effect(ME_STUNNED))
-  wprintz(w, h_white, "Stunned");
+  wprintz(w, h_white, _("Stunned"));
  else if (has_effect(ME_BEARTRAP))
-  wprintz(w, h_white, "Trapped");
+  wprintz(w, h_white, _("Trapped"));
  std::string damage_info;
  nc_color col;
  if (hp == type->hp) {
-  damage_info = "It is uninjured";
+  damage_info = _("It is uninjured");
   col = c_green;
  } else if (hp >= type->hp * .8) {
-  damage_info = "It is lightly injured";
+  damage_info = _("It is lightly injured");
   col = c_ltgreen;
  } else if (hp >= type->hp * .6) {
-  damage_info = "It is moderately injured";
+  damage_info = _("It is moderately injured");
   col = c_yellow;
  } else if (hp >= type->hp * .3) {
-  damage_info = "It is heavily injured";
+  damage_info = _("It is heavily injured");
   col = c_yellow;
  } else if (hp >= type->hp * .1) {
-  damage_info = "It is severly injured";
+  damage_info = _("It is severly injured");
   col = c_ltred;
  } else {
-  damage_info = "it is nearly dead";
+  damage_info = _("it is nearly dead");
   col = c_red;
  }
  mvwprintz(w, vStart+1, 1, col, damage_info.c_str());
 
- std::string tmp = type->description;
- std::string out;
- size_t pos;
- int line = vStart+2;
- do {
-  pos = tmp.find_first_of('\n');
-  out = tmp.substr(0, pos);
-  mvwprintz(w, line, 1, c_white, out.c_str());
-  tmp = tmp.substr(pos + 1);
-  line++;
- } while (pos != std::string::npos && line < vStart+6);
+    int line = vStart + 2;
+    std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 2);
+    int numlines = lines.size();
+    for (int i = 0; i < numlines && line <= vEnd; i++, line++)
+        mvwprintz(w, line, 1, c_white, lines[i].c_str());
 }
 
 char monster::symbol()
@@ -554,11 +559,11 @@ void monster::hit_monster(game *g, int i)
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
   if (g->u_see(this))
-   g->add_msg("The %s misses the %s!", name().c_str(), target->name().c_str());
+   g->add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
   return;
  }
  if (g->u_see(this))
-  g->add_msg("The %s hits the %s!", name().c_str(), target->name().c_str());
+  g->add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  if (target->hurt(damage))
   g->kill_mon(i, (friendly != 0));
