@@ -7894,7 +7894,8 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     for (std::vector<point>::iterator p_it = points.begin();
         p_it != points.end(); p_it++)
     {
-        if (u_see(p_it->x,p_it->y) &&
+        if (p_it->y >= u.posy - iSearchY && p_it->y <= u.posy + iSearchY &&
+           u_see(p_it->x,p_it->y) &&
            (!m.has_flag(container, p_it->x, p_it->y) ||
            (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag(sealed, p_it->x, p_it->y))))
             {
