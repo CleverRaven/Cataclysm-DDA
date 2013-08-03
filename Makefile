@@ -119,9 +119,9 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  OSX_MIN = 10.5
+  OSXMIN ?= 10.5
   DEFINES += -DMACOSX
-  CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  CXXFLAGS += -mmacosx-version-min=$(OSXMIN)
   LDFLAGS += -lintl
   TARGETSYSTEM=LINUX
   ifneq ($(OS), GNU/Linux)
@@ -153,7 +153,15 @@ endif
 
 ifdef TILES
   ifeq ($(NATIVE),osx)
-    ifdef FRAMEWORK
+    CFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
+    ifdef OSXLIBSDL
+      DEFINES += -DOSX_SDL_LIBS
+      # handle #include "SDL/SDL.h" and #include "SDL.h"
+      OSX_INC = -I$(shell dirname $(shell sdl-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/')) \
+		$(shell sdl-config --cflags)
+      CXXFLAGS += $(OSX_INC)
+      LDFLAGS += $(shell sdl-config --libs) -lSDL_ttf
+    else
       DEFINES += -DOSX_SDL_FW
       OSX_INC = -F/Library/Frameworks \
 		-F$(HOME)/Library/Frameworks \
@@ -165,10 +173,6 @@ ifdef TILES
 		 -F$(HOME)/Library/Frameworks \
 		 -framework SDL -framework SDL_ttf -framework Cocoa
       CXXFLAGS += $(OSX_INC)
-    else
-      DEFINES += -DOSX_SDL_LIBS
-      CXXFLAGS += $(shell sdl-config --cflags)
-      LDFLAGS += $(shell sdl-config --libs) -lSDL_ttf
     endif
   else
     LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
@@ -240,7 +244,7 @@ $(ODIR)/%.o: %.rc
 	$(RC) $(RFLAGS) $< -o $@
 
 $(ODIR)/SDLMain.o: SDLMain.m
-	$(CC) -c $(OSX_INC) $< -o $@
+	$(CC) -c $(OSX_INC) $(CFLAGS) $< -o $@
 
 version.cpp: version
 
