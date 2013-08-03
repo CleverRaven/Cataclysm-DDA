@@ -60,6 +60,7 @@ bool player::create(game *g, character_type type, std::string tempname)
  if (type != PLTYPE_CUSTOM) {
   switch (type) {
    case PLTYPE_NOW:
+    g->u.male = (rng(1,100)>50);
     g->u.pick_name();
    case PLTYPE_RANDOM:
    {
