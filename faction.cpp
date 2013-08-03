@@ -528,7 +528,7 @@ std::string invent_name()
    case 24: tmp = _("<fac_name>yen"); break;
    case 25: tmp = _("<fac_name>zu");  break;
   }
-  ret += tmp.substr(10);
+  ret += rm_prefix(tmp);
  }
 
  return capitalize_letter(ret);
@@ -566,7 +566,7 @@ std::string invent_adj()
   case 24: ret = _("<fac_adj>Yend");  break;
   case 25: ret = _("<fac_adj>Zor");   break;
  }
- ret = ret.substr(9);
+ ret = rm_prefix(ret);
  for (int i = 0; i < syllables - 2; i++) {
   switch (rng(0, 17)) {
    case  0: tmp = _("<fac_adj>al");   break;
@@ -588,7 +588,7 @@ std::string invent_adj()
    case 16: tmp = _("<fac_adj>ulv");  break;
    case 17: tmp = _("<fac_adj>urn");  break;
   }
-  ret += tmp.substr(9);
+  ret += rm_prefix(tmp);
  }
  switch (rng(0, 24)) {
   case  0: tmp = "";      break;
@@ -617,7 +617,7 @@ std::string invent_adj()
   case 23: tmp = _("<fac_adj>ule");   break;
   case 24: tmp = _("<fac_adj>y");     break;
  }
- ret += tmp.substr(9);
+ ret += rm_prefix(tmp);
  return ret;
 }
 

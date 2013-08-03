@@ -234,11 +234,11 @@ void veh_interact::do_install(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, _("<veh>You need a ")+5);
+        mvwprintz(w_msg, 0, 1, c_ltgray, rm_prefix(_("<veh>You need a ")).c_str());
         wprintz(w_msg, has_wrench? c_ltgreen : c_red, _("wrench"));
-        wprintz(w_msg, c_ltgray, _("<veh> and a ")+5);
+        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> and a ")).c_str());
         wprintz(w_msg, has_welder? c_ltgreen : c_red, _("powered welder"));
-        wprintz(w_msg, c_ltgray, _("<veh> to install parts.")+5);
+        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> to install parts.")).c_str());
         wrefresh (w_msg);
         return;
     default:;
@@ -265,22 +265,22 @@ void veh_interact::do_install(int reason)
         bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[sel_part].difficulty;
         bool has_tools = has_welder && has_wrench;
         werase (w_msg);
-        mvwprintz(w_msg, 0, 1, c_ltgray, _("<veh>Needs ")+5);
+        mvwprintz(w_msg, 0, 1, c_ltgray, rm_prefix(_("<veh>Needs ")).c_str());
         wprintz(w_msg, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
-        wprintz(w_msg, c_ltgray, _("<veh>, a ")+5);
+        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh>, a ")).c_str());
         wprintz(w_msg, has_wrench? c_ltgreen : c_red, _("wrench"));
-        wprintz(w_msg, c_ltgray, _("<veh>, a ")+5);
+        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh>, a ")).c_str());
         wprintz(w_msg, has_welder? c_ltgreen : c_red, _("powered welder"));
-        wprintz(w_msg, c_ltgray, _("<veh>, and level ")+5);
+        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh>, and level ")).c_str());
         wprintz(w_msg, has_skill? c_ltgreen : c_red, "%d", vpart_list[sel_part].difficulty);
-        wprintz(w_msg, c_ltgray, _("<veh> skill in mechanics.")+5);
+        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> skill in mechanics.")).c_str());
         bool eng = vpart_list[sel_part].flags & mfb (vpf_engine);
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
         if (engines && eng) // already has engine
         {
-            wprintz(w_msg, c_ltgray, _("<veh> You also need level ")+5);
+            wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> You also need level ")).c_str());
             wprintz(w_msg, has_skill2? c_ltgreen : c_red, "%d", dif_eng);
-            wprintz(w_msg, c_ltgray, _("<veh> skill in mechanics to install additional engine.")+5);
+            wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> skill in mechanics to install additional engine.")).c_str());
         }
         wrefresh (w_msg);
         char ch = input(); // See keypress.h
@@ -431,15 +431,15 @@ void veh_interact::do_remove(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, _("<veh>You need a ")+5);
+        mvwprintz(w_msg, 0, 1, c_ltgray, rm_prefix(_("<veh>You need a ")).c_str());
         wprintz(w_msg, has_wrench? c_ltgreen : c_red, _("wrench"));
-        wprintz(w_msg, c_ltgray, _("<veh> and a ")+5);
+        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> and a ")).c_str());
         wprintz(w_msg, has_hacksaw? c_ltgreen : c_red, _("hacksaw"));
-        wprintz(w_msg, c_ltgray, _("<veh> to remove parts.")+5);
+        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> to remove parts.")).c_str());
         if(wheel) {
-            mvwprintz(w_msg, 1, 1, c_ltgray, _("<veh>To change a wheel you need a ")+5);
+            mvwprintz(w_msg, 1, 1, c_ltgray, rm_prefix(_("<veh>To change a wheel you need a ")).c_str());
             wprintz(w_msg, has_wrench? c_ltgreen : c_red, _("wrench"));
-            wprintz(w_msg, c_ltgray, _("<veh> and a ")+5);
+            wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> and a ")).c_str());
             wprintz(w_msg, has_jack? c_ltgreen : c_red, _("jack"));
         }
         wrefresh (w_msg);
@@ -522,9 +522,9 @@ void veh_interact::do_tirechange(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 1, 1, c_ltgray, _("<veh>To change a wheel you need a ")+5);
+        mvwprintz(w_msg, 1, 1, c_ltgray, rm_prefix(_("<veh>To change a wheel you need a ")).c_str());
         wprintz(w_msg, has_wrench? c_ltgreen : c_red, _("wrench"));
-        wprintz(w_msg, c_ltgray, _("<veh> and a ")+5);
+        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> and a ")).c_str());
         wprintz(w_msg, has_jack? c_ltgreen : c_red, _("jack"));
         return;
     default:;
@@ -1041,7 +1041,7 @@ void complete_vehicle (game *g)
         }
         else
         {
-            g->add_msg (_("You remove %s%s from %s."), broken? (_("<veh>broken ")+5) : "",
+            g->add_msg (_("You remove %s%s from %s."), broken? rm_prefix(_("<veh>broken ")).c_str() : "",
                         veh->part_info(part).name, veh->name.c_str());
             veh->remove_part (part);
         }
