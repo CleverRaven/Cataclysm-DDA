@@ -1068,7 +1068,7 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_head)) {
             bonus += 3;
         }
-        
+
         if(bonus) {
             add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
         }
@@ -2319,7 +2319,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
- 
+
  const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
@@ -3500,7 +3500,7 @@ int player::overmap_sight_range(int light_level)
     if( sight <= SEEX * 4) {
         return (sight / (SEEX / 2) );
     }
-    if( has_amount("binoculars", 1) ||
+    if( has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
         -1 != weapon.has_gunmod("rifle_scope") ) {
         return 20;
     }
@@ -5456,6 +5456,8 @@ bool player::has_fire(const int quantity)
         return true;
     } else if (has_charges("welder", quantity)) {
         return true;
+    } else if (has_charges("welder_crude", quantity)) {
+        return true;
     }
     return false;
 }
@@ -5491,10 +5493,13 @@ void player::use_fire(const int quantity)
         use_charges("flamethrower_simple", quantity);
         return;
     } else if (has_charges("hotplate", quantity)) {
-        use_charges("welder", quantity);
+        use_charges("hotplate", quantity);
         return;
     } else if (has_charges("welder", quantity)) {
         use_charges("welder", quantity);
+        return;
+    } else if (has_charges("welder_crude", quantity)) {
+        use_charges("welder_crude", quantity);
         return;
     }
 }
@@ -6642,7 +6647,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             if (armor->covers & mfb(i) && encumb(i) >= 4)
             {
                 g->add_msg(
-                    (i == bp_head || i == bp_torso) ? 
+                    (i == bp_head || i == bp_torso) ?
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
                     body_part_name(body_part(i), 2).c_str(), encumb_text(body_part(i)).c_str());
             }
@@ -7666,8 +7671,8 @@ void player::try_to_sleep(game *g)
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
   g->add_msg(
-             terlist[ter_at_pos].movecost <= 2 ? 
-             _("It's a little hard to get to sleep on this %s.") : 
+             terlist[ter_at_pos].movecost <= 2 ?
+             _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
              terlist[ter_at_pos].name.c_str());
  add_disease("lying_down", 300);

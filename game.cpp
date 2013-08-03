@@ -4187,6 +4187,8 @@ int game::mon_info(WINDOW *w)
     int buff;
     int newseen = 0;
     const int iProxyDist = (OPTIONS[OPT_SAFEMODEPROXIMITY] <= 0) ? 60 : OPTIONS[OPT_SAFEMODEPROXIMITY];
+    int newdist = 4096;
+    int newtarget = -1;
     // 7 0 1	unique_types uses these indices;
     // 6 8 2	0-7 are provide by direction_from()
     // 5 4 3	8 is used for local monsters (for when we explain them below)
@@ -4212,8 +4214,14 @@ int game::mon_info(WINDOW *w)
                 if (index < 8 && sees_u(z[i].posx, z[i].posy, j))
                     dangerous[index] = true;
 
-                if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
+                int mondist = rl_dist(u.posx, u.posy, z[i].posx, z[i].posy);
+                if (mondist <= iProxyDist) {
                     newseen++;
+                    if ( mondist < newdist ) {
+                        newdist = mondist; // todo: prioritize dist * attack+follow > attack > follow
+                        newtarget = i; // todo: populate alt targeting map
+                    }
+                }
             }
 
             if (!vector_has(unique_types[dir_to_mon], z[i].type->id))
@@ -4241,8 +4249,12 @@ int game::mon_info(WINDOW *w)
             cancel_activity_query(_("Monster Spotted!"));
         cancel_activity_query(_("Monster spotted!"));
         turnssincelastmon = 0;
-        if (run_mode == 1)
+        if (run_mode == 1) {
             run_mode = 2;	// Stop movement!
+            if ( last_target == -1 && newtarget != -1 ) {
+                last_target = newtarget;
+            }
+        }
     } else if (autosafemode && newseen == 0) { // Auto-safemode
         turnssincelastmon++;
         if (turnssincelastmon >= OPTIONS[OPT_AUTOSAFEMODETURNS] && run_mode == 0)
@@ -4372,16 +4384,20 @@ int game::mon_info(WINDOW *w)
 
 void game::cleanup_dead()
 {
- for (int i = 0; i < z.size(); i++) {
-  if (z[i].dead || z[i].hp <= 0) {
-   z.erase(z.begin() + i);
-   i--;
-  }
-  if (last_target == i)
-   last_target = -1;
-  else if (last_target > i)
-    last_target--;
- }
+    for( int i = 0; i < z.size(); i++ ) {
+        if( z[i].dead || z[i].hp <= 0 ) {
+            dbg (D_INFO) << string_format( "cleanup_dead: z[%d] %d,%d dead:%c hp:%d %s",
+                                           i, z[i].posx, z[i].posy, (z[i].dead?'1':'0'),
+                                           z[i].hp, z[i].type->name.c_str() );
+            z.erase( z.begin() + i );
+            if( last_target == i ) {
+                last_target = -1;
+            } else if( last_target > i ) {
+                last_target--;
+            }
+            i--;
+        }
+    }
 
     //Cleanup any dead npcs.
     //This will remove the npc object, it is assumed that they have been transformed into
@@ -7878,7 +7894,8 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     for (std::vector<point>::iterator p_it = points.begin();
         p_it != points.end(); p_it++)
     {
-        if (u_see(p_it->x,p_it->y) &&
+        if (p_it->y >= u.posy - iSearchY && p_it->y <= u.posy + iSearchY &&
+           u_see(p_it->x,p_it->y) &&
            (!m.has_flag(container, p_it->x, p_it->y) ||
            (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag(sealed, p_it->x, p_it->y))))
             {

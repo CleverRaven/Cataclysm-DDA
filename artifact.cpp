@@ -642,8 +642,8 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
  art->melee_cut = 0;
  art->m_to_hit = 0;
 
- art->name = string_format(_("<artifact_name>%1$s %2$s"), property_data->name.c_str(), shape_data->name.c_str()).substr(15);
- art->description = string_format(_("<artifact_desc>This %1$s %2$s."), shape_data->desc.c_str(), property_data->desc.c_str()).substr(15);
+ art->name = rmp_format(_("<artifact_name>%1$s %2$s"), property_data->name.c_str(), shape_data->name.c_str());
+ art->description = rmp_format(_("<artifact_desc>This %1$s %2$s."), shape_data->desc.c_str(), property_data->desc.c_str());
 
 // Add line breaks to the description as necessary
 /*
@@ -773,7 +773,7 @@ std::string artifact_name(std::string type)
  std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
  std::string adj = artifact_adj[rng(0, NUM_ART_ADJS - 1)];
  ret = string_format(noun.c_str(), adj.c_str());
- ret = string_format(fmtstr, type.c_str(),ret.c_str()).substr(15);
+ ret = rmp_format(fmtstr, type.c_str(),ret.c_str());
  return ret;
 }
 
