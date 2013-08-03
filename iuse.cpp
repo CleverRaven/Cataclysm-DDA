@@ -4515,7 +4515,7 @@ void iuse::spray_can(game *g, player *p, item *it, bool t)
 
     bool ismarker = (it->type->id=="permanent_marker");
 
-    std::string message = string_input_popup(ismarker?_("Write what?"):_("Spray what?"));
+    std::string message = string_input_popup(ismarker?_("Write what?"):_("Spray what?"),0,"","","graffiti");
 
     if(message.empty())
     {
