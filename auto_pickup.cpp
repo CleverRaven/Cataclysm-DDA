@@ -49,39 +49,18 @@ void game::show_auto_pickup()
 
     mvwprintz(w_auto_pickup_border, 0, 29, c_ltred, _(" AUTO PICKUP MANAGER "));
     wrefresh(w_auto_pickup_border);
-
-    mvwprintz(w_auto_pickup_header, 0, 0, c_ltgreen, " A");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<A>dd  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "R");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<R>emove  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "C");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<C>opy  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "M");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<M>ove  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "E");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<E>nable  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "D");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<D>isable  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "T");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<T>est  ")).substr(3).c_str());
-
-    mvwprintz(w_auto_pickup_header, 1, 0, c_ltgreen, " +");
-    wprintz(w_auto_pickup_header, c_white, "/");
-    wprintz(w_auto_pickup_header, c_ltgreen, "-");
-    wprintz(w_auto_pickup_header, c_white, _(" Move up/down  "));
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "Enter");
-    wprintz(w_auto_pickup_header, c_white, _("-Edit  "));
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "Tab");
-    wprintz(w_auto_pickup_header, c_white, _("-Switch Page  "));
-
+    
+    int tmpx = 0;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<A>dd"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<C>opy"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<M>ove"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<E>nable"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<D>isable"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<T>est"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<+-> Move up/down"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<Enter>-Edit"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<Tab>-Switch Page"))+2;
 
     for (int i = 0; i < 78; i++) {
         if (mapLines[i]) {
@@ -110,13 +89,9 @@ void game::show_auto_pickup()
     std::stringstream sTemp;
 
     do {
-        mvwprintz(w_auto_pickup_header, 2, 17 + 0, c_white, "[");
-        wprintz(w_auto_pickup_header, (iCurrentPage == 1) ? hilite(c_white) : c_white, _("Global"));
-        wprintz(w_auto_pickup_header, c_white, "]");
-
-        mvwprintz(w_auto_pickup_header, 2, 17 + 9, c_white, "[");
-        wprintz(w_auto_pickup_header, (iCurrentPage == 2) ? hilite(c_white) : c_white, _("Character"));
-        wprintz(w_auto_pickup_header, c_white, "]");
+        int locx = 17;
+        locx += shortcut_print(w_auto_pickup_header, 2, locx, c_white, (iCurrentPage == 1) ? hilite(c_white) : c_white, _("[<Global>]"))+1;
+        locx = shortcut_print(w_auto_pickup_header, 2, locx, c_white, (iCurrentPage == 2) ? hilite(c_white) : c_white, _("[<Character>]"))+1;
 
         /*
         mvwprintz(w_auto_pickup_header, 2, 12 + 21, c_white, "[");
@@ -171,7 +146,7 @@ void game::show_auto_pickup()
 
                     wprintz(w_auto_pickup, (iCurrentLine == i && iCurrentCol == 1) ? hilite(cLineColor) : cLineColor, "%s", ((vAutoPickupRules[iCurrentPage][i].sRule == "") ? _("<empty rule>") : vAutoPickupRules[iCurrentPage][i].sRule).c_str());
 
-                    mvwprintz(w_auto_pickup, i - iStartPos, 52, (iCurrentLine == i && iCurrentCol == 2) ? hilite(cLineColor) : cLineColor, "%s", ((vAutoPickupRules[iCurrentPage][i].bExclude) ? std::string(_("<Exclude>E")).substr(9).c_str() : std::string(_("<Include>I")).substr(9).c_str()));
+                    mvwprintz(w_auto_pickup, i - iStartPos, 52, (iCurrentLine == i && iCurrentCol == 2) ? hilite(cLineColor) : cLineColor, "%s", ((vAutoPickupRules[iCurrentPage][i].bExclude) ? rm_prefix(_("<Exclude>E")).c_str() : rm_prefix(_("<Include>I")).c_str()));
                 }
             }
 

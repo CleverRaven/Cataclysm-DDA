@@ -952,12 +952,12 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     if (fix->made_of("leather"))
     {
         repair_items.push_back("leather");
-        plurals.push_back(_("<plural>leather"));
+        plurals.push_back(rm_prefix(_("<plural>leather")));
     }
     if (fix->made_of("fur"))
     {
         repair_items.push_back("fur");
-        plurals.push_back(_("<plural>fur"));
+        plurals.push_back(rm_prefix(_("<plural>fur")));
     }
     if(repair_items.empty())
 	{
@@ -986,7 +986,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     {
         for(unsigned int i = 0; i< repair_items.size(); i++)
         {
-            g->add_msg_if_player(p,_("You don't have enough %s to do that."), plurals[i].substr(8).c_str()); // remove <plural> tag
+            g->add_msg_if_player(p,_("You don't have enough %s to do that."), plurals[i].c_str());
         }
         it->charges++;
         return;
@@ -2016,13 +2016,13 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  std::string door_name;
  ter_id new_type;
  if (type == t_chaingate_l) {
-   door_name = _("<door_name>gate");
+   door_name = rm_prefix(_("<door_name>gate"));
    new_type = t_chaingate_c;
  } else if (type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
-   door_name = _("<door_name>door");
+   door_name = rm_prefix(_("<door_name>door"));
    new_type = t_door_c;
  } else if (type == t_door_bar_locked) {
-   door_name = _("<door_name>door");
+   door_name = rm_prefix(_("<door_name>door"));
    new_type = t_door_bar_o;
    g->add_msg_if_player(p, _("The door swings open..."));
  } else {
@@ -2036,18 +2036,18 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  int door_roll = dice(4, 30);
  if (pick_roll >= door_roll) {
   p->practice(g->turn, "mechanics", 1);
-  g->add_msg_if_player(p,_("With a satisfying click, the lock on the %s opens."), door_name.substr(11).c_str());
+  g->add_msg_if_player(p,_("With a satisfying click, the lock on the %s opens."), door_name.c_str());
   g->m.ter_set(dirx, diry, new_type);
  } else if (door_roll > (1.5 * pick_roll) && it->damage < 100) {
   it->damage++;
 
-  std::string sStatus = _("<door_status>damage");
+  std::string sStatus = rm_prefix(_("<door_status>damage"));
   if (it->damage >= 5) {
-   sStatus = _("<door_status>destroy");
+   sStatus = rm_prefix(_("<door_status>destroy"));
    it->invlet = 0; // no copy to inventory in player.cpp:4472 ->
   }
 
-  g->add_msg_if_player(p,"The lock stumps your efforts to pick it, and you %s your tool.", sStatus.substr(13).c_str());
+  g->add_msg_if_player(p,"The lock stumps your efforts to pick it, and you %s your tool.", sStatus.c_str());
  } else {
   g->add_msg_if_player(p,_("The lock stumps your efforts to pick it."));
  }
@@ -2875,16 +2875,13 @@ void iuse::firecracker_pack(game *g, player *p, item *it, bool t)
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  int mid_x = getmaxx(w) / 2;
+ int tmpx = 5;
  mvwprintz(w, 1, 2, c_white,  _("How many do you want to light? (1-%d)"), it->charges);
  mvwprintz(w, 2, mid_x, c_white, "1");
- mvwprintz(w, 3, 5, c_ltred, "I");
- mvwprintz(w, 3, 6, c_white, std::string(_("<I>ncrease")).substr(3).c_str()); //<I> makes more sense to translators, same below
- mvwprintz(w, 3, 14, c_ltred, "D");
- mvwprintz(w, 3, 15, c_white, std::string(_("<D>ecrease")).substr(3).c_str());
- mvwprintz(w, 3, 23, c_ltred, "A");
- mvwprintz(w, 3, 24, c_white, std::string(_("<A>ccept")).substr(3).c_str());
- mvwprintz(w, 3, 30, c_ltred, "C");
- mvwprintz(w, 3, 31, c_white, std::string(_("<C>ancel")).substr(3).c_str());
+ tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<I>ncrease"))+1;
+ tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<D>ecrease"))+1;
+ tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<A>ccept"))+1;
+ tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<C>ancel"))+1;
  wrefresh(w);
  bool close = false;
  int charges = 1;

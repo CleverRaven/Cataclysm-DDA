@@ -1106,6 +1106,17 @@ std::string& capitalize_letter(std::string &str, size_t n)
     return str;
 }
 
+//remove prefix of a strng, between c1 and c2, ie, "<prefix>remove it"
+std::string rm_prefix(std::string str, char c1, char c2) {
+    if(str.size()>0 && str[0]==c1) {
+        size_t pos = str.find_first_of(c2);
+        if(pos!=std::string::npos) {
+            str = str.substr(pos+1);
+        }
+    }
+    return str;
+}
+
 // draw a menu item like strign with highlighted shortcut character
 // Example: <w>ield, m<o>ve
 // returns: output length (in console cells)
