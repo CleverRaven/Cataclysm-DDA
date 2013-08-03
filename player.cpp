@@ -7807,6 +7807,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
         armor = dynamic_cast<it_armor*>(worn[i].type);
 
         if( armor->covers & mfb(bp) ) {
+            layers++;
             if( armor->is_power_armor() &&
                 (has_active_item("UPS_on") || has_active_item("adv_UPS_on") ||
                  has_active_bionic("bio_power_armor_interface") ||
@@ -7814,38 +7815,26 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
                 armorenc += armor->encumber - 4;
             } else {
                 armorenc += armor->encumber;
-                if (worn[i].has_flag("FIT") && armor->encumber > 0)
-                {
-                    armorenc--;
+                // Fitted clothes will either reduce encumberance or negate layering.
+                if( worn[i].has_flag( "FIT" ) ) {
+                    if( armor->encumber > 0 ) {
+                        armorenc--;
+                    } else {
+                        layers--;
+                    }
                 }
-            }
-            if (armor->encumber >= 0 || bp != bp_torso)
-            {
-                layers++;
             }
         }
     }
 
     ret += armorenc;
 
-    // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
-    switch (bp)
-    {
-        case bp_feet  : if (is_wearing("socks") || is_wearing("socks_wool")) layers--; break;
-        case bp_legs  : if (is_wearing("long_underpants")) layers--; break;
-        case bp_hands : if (is_wearing("gloves_liner")) layers--; break;
-        case bp_torso : if (is_wearing("under_armor")) layers--; break;
-    }
     if (layers > 1) {
         ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso
     }
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
         ret += 3;
     }
-
-    // Fix for negative hand encumbrance
-    if ((bp == bp_hands) && (ret < 0))
-     ret =0;
 
     // Bionics and mutation
     if( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth ) {
