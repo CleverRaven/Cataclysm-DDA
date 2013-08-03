@@ -319,18 +319,15 @@ void faction::randomize()
   size  = dice(6, 6);
  }
   
- char buf[128], buf2[256];
  if (one_in(4)) {
   do{
-   sprintf(buf, _("The %1$s of %2$s"), noun.c_str(), invent_name().c_str());
-   name = buf;
+   name = string_format(_("The %1$s of %2$s"), noun.c_str(), invent_name().c_str());
   }
   while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
  else if (one_in(2)) {
   do{
-   sprintf(buf, _("The %1$s %2$s"), invent_adj().c_str(), noun.c_str());
-   name = buf;
+   name = string_format(_("The %1$s %2$s"), invent_adj().c_str(), noun.c_str());
   }
   while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
@@ -343,12 +340,9 @@ void faction::randomize()
     adj = faction_adj_bad[rng(0, 14)];
    else
     adj = faction_adj_neu[rng(0, 14)];
-   sprintf(buf, _("The %1$s %2$s"), adj.c_str(), noun.c_str());
+   name=string_format(_("The %1$s %2$s"), adj.c_str(), noun.c_str());
    if (one_in(4)){
-    sprintf(buf2, _("%1$s of %2$s"), buf, invent_name().c_str());
-    name=buf2;
-   }else{
-    name=buf;
+    name = string_format(_("%1$s of %2$s"), name.c_str(), invent_name().c_str());
    }
   } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }

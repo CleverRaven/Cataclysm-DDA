@@ -34,7 +34,7 @@ struct constructable
                bool (construct::*Able) (game *, point),
                void (construct::*Done) (game *, point),
                bool LoopStages = false) :
-  id (Id), name (Name), difficulty (Diff), able (Able), done (Done), loopstages (LoopStages) {};
+    id (Id), name (Name), difficulty (Diff), loopstages (LoopStages), able (Able), done (Done) {};
 };
 
 struct construct // Construction functions.

@@ -3503,7 +3503,7 @@ int player::overmap_sight_range(int light_level)
         return (sight / (SEEX / 2) );
     }
     if( has_amount("binoculars", 1) ||
-        weapon.has_gunmod("rifle_scope") ) {
+        -1 != weapon.has_gunmod("rifle_scope") ) {
         return 20;
     }
 

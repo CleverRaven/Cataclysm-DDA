@@ -10,6 +10,7 @@
 #include "output.h"
 #include "line.h"
 #include "item_factory.h"
+#include "translations.h"
 
 std::vector<item> starting_clothes(npc_class type, bool male, game *g);
 std::list<item> starting_inv(npc *me, npc_class type, game *g);
@@ -1174,7 +1175,7 @@ bool npc::wield(game *g, signed char invlet)
   moves -= 15;
   weapon.make( g->itypes[styles[index]] );
   if (g->u_see(posx, posy))
-   g->add_msg("%s assumes a %s stance.", name.c_str(), weapon.tname().c_str());
+   g->add_msg(_("%1$s assumes a %2$s stance."), name.c_str(), weapon.tname().c_str());
   return true;
  }
 
@@ -1187,7 +1188,7 @@ bool npc::wield(game *g, signed char invlet)
  weapon = inv.item_by_letter(invlet);
  i_remn(invlet);
  if (g->u_see(posx, posy))
-  g->add_msg("%s wields a %s.", name.c_str(), weapon.tname().c_str());
+  g->add_msg(_("%1$s wields a %2$s."), name.c_str(), weapon.tname().c_str());
  return true;
 }
 
@@ -1582,10 +1583,10 @@ void npc::say(game *g, std::string line, ...)
  line = buff;
  parse_tags(line, &(g->u), this);
  if (g->u_see(posx, posy)) {
-  g->add_msg("%s says, \"%s\"", name.c_str(), line.c_str());
+  g->add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
   g->sound(posx, posy, 16, "");
  } else {
-  std::string sound = name + " saying, \"" + line + "\"";
+  std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), line.c_str());
   g->sound(posx, posy, 16, sound);
  }
 }
@@ -1846,20 +1847,20 @@ bool npc::is_active(game *g)
 void npc::told_to_help(game *g)
 {
  if (!is_following() && personality.altruism < 0) {
-  say(g, "Screw you!");
+  say(g, _("Screw you!"));
   return;
  }
  if (is_following()) {
   if (personality.altruism + 4 * op_of_u.value + personality.bravery >
       danger_assessment(g)) {
-   say(g, "I've got your back!");
+   say(g, _("I've got your back!"));
    attitude = NPCATT_DEFEND;
   }
   return;
  }
  if (int((personality.altruism + personality.bravery) / 4) >
      danger_assessment(g)) {
-  say(g, "Alright, I got you covered!");
+  say(g, _("Alright, I got you covered!"));
   attitude = NPCATT_DEFEND;
  }
 }
@@ -1872,14 +1873,14 @@ void npc::told_to_wait(game *g)
  }
  if (5 + op_of_u.value + op_of_u.trust + personality.bravery * 2 >
      danger_assessment(g)) {
-  say(g, "Alright, I'll wait here.");
+  say(g, _("Alright, I'll wait here."));
   if (one_in(3))
    op_of_u.trust--;
   attitude = NPCATT_WAIT;
  } else {
   if (one_in(2))
    op_of_u.trust--;
-  say(g, "No way, man!");
+  say(g, _("No way, man!"));
  }
 }
 
@@ -1890,10 +1891,10 @@ void npc::told_to_leave(game *g)
   return;
  }
  if (danger_assessment(g) - personality.bravery > op_of_u.value) {
-  say(g, "No way, I need you!");
+  say(g, _("No way, I need you!"));
   op_of_u.trust -= 2;
  } else {
-  say(g, "Alright, see you later.");
+  say(g, _("Alright, see you later."));
   op_of_u.trust -= 2;
   op_of_u.value -= 1;
  }
@@ -1939,15 +1940,18 @@ void npc::print_info(WINDOW* w)
 // is a blank line. w is 13 characters tall, and we can't use the last one
 // because it's a border as well; so we have lines 6 through 11.
 // w is also 48 characters wide - 2 characters for border = 46 characters for us
- mvwprintz(w, 6, 1, c_white, "NPC: %s", name.c_str());
- mvwprintz(w, 7, 1, c_red, "Wielding %s%s", (weapon.type->id == "null" ? "" : "a "),
-                                     weapon.tname().c_str());
+ mvwprintz(w, 6, 1, c_white, _("NPC: %s"), name.c_str());
+ if (weapon.type->id == "null") {
+  mvwprintz(w, 7, 1, c_red, _("Wielding %s"), weapon.tname().c_str());
+ } else {
+  mvwprintz(w, 7, 1, c_red, _("Wielding a %s"), weapon.tname().c_str());
+ }
  std::string wearing;
  std::stringstream wstr;
- wstr << "Wearing: ";
+ wstr << _("Wearing: ");
  for (int i = 0; i < worn.size(); i++) {
   if (i > 0)
-   wstr << ", ";
+   wstr << _(", ");
   wstr << worn[i].tname();
  }
  wearing = wstr.str();
@@ -1968,10 +1972,10 @@ void npc::print_info(WINDOW* w)
 std::string npc::short_description()
 {
  std::stringstream ret;
- ret << "Wielding " << weapon.tname() << ";   " << "Wearing: ";
+ ret << _("Wielding: ") << weapon.tname() << ";   " << _("Wearing: ");
  for (int i = 0; i < worn.size(); i++) {
   if (i > 0)
-   ret << ", ";
+   ret << _(", ");
   ret << worn[i].tname();
  }
 
@@ -1982,72 +1986,72 @@ std::string npc::opinion_text()
 {
  std::stringstream ret;
  if (op_of_u.trust <= -10)
-  ret << "Completely untrusting";
+  ret << _("Completely untrusting");
  else if (op_of_u.trust <= -6)
-  ret << "Very untrusting";
+  ret << _("Very untrusting");
  else if (op_of_u.trust <= -3)
-  ret << "Untrusting";
+  ret << _("Untrusting");
  else if (op_of_u.trust <= 2)
-  ret << "Uneasy";
+  ret << _("Uneasy");
  else if (op_of_u.trust <= 5)
-  ret << "Trusting";
+  ret << _("Trusting");
  else if (op_of_u.trust < 10)
-  ret << "Very trusting";
+  ret << _("Very trusting");
  else
-  ret << "Completely trusting";
+  ret << _("Completely trusting");
 
- ret << " (Trust " << op_of_u.trust << "); ";
+ ret << " (" << _("Trust: ") << op_of_u.trust << "); ";
 
  if (op_of_u.fear <= -10)
-  ret << "Thinks you're laughably harmless";
+  ret << _("Thinks you're laughably harmless");
  else if (op_of_u.fear <= -6)
-  ret << "Thinks you're harmless";
+  ret << _("Thinks you're harmless");
  else if (op_of_u.fear <= -3)
-  ret << "Unafraid";
+  ret << _("Unafraid");
  else if (op_of_u.fear <= 2)
-  ret << "Wary";
+  ret << _("Wary");
  else if (op_of_u.fear <= 5)
-  ret << "Afraid";
+  ret << _("Afraid");
  else if (op_of_u.fear < 10)
-  ret << "Very afraid";
+  ret << _("Very afraid");
  else
-  ret << "Terrified";
+  ret << _("Terrified");
 
- ret << " (Fear " << op_of_u.fear << "); ";
+ ret << " (" << _("Fear: ") << op_of_u.fear << "); ";
 
  if (op_of_u.value <= -10)
-  ret << "Considers you a major liability";
+  ret << _("Considers you a major liability");
  else if (op_of_u.value <= -6)
-  ret << "Considers you a burden";
+  ret << _("Considers you a burden");
  else if (op_of_u.value <= -3)
-  ret << "Considers you an annoyance";
+  ret << _("Considers you an annoyance");
  else if (op_of_u.value <= 2)
-  ret << "Doesn't care about you";
+  ret << _("Doesn't care about you");
  else if (op_of_u.value <= 5)
-  ret << "Values your presence";
+  ret << _("Values your presence");
  else if (op_of_u.value < 10)
-  ret << "Treasures you";
+  ret << _("Treasures you");
  else
-  ret << "Best Friends Forever!";
+  ret << _("Best Friends Forever!");
 
- ret << " (Value " << op_of_u.value << "); ";
+ ret << " (" << _("Value: ") << op_of_u.value << "); ";
 
  if (op_of_u.anger <= -10)
-  ret << "You can do no wrong!";
+  ret << _("You can do no wrong!");
  else if (op_of_u.anger <= -6)
-  ret << "You're good people";
+  ret << _("You're good people");
  else if (op_of_u.anger <= -3)
-  ret << "Thinks well of you";
+  ret << _("Thinks well of you");
  else if (op_of_u.anger <= 2)
-  ret << "Ambivalent";
+  ret << _("Ambivalent");
  else if (op_of_u.anger <= 5)
-  ret << "Pissed off";
+  ret << _("Pissed off");
  else if (op_of_u.anger < 10)
-  ret << "Angry";
+  ret << _("Angry");
  else
-  ret << "About to kill you";
+  ret << _("About to kill you");
 
- ret << " (Anger " << op_of_u.anger << ")";
+ ret << " (" << _("Anger: ") << op_of_u.anger << ")";
 
  return ret.str();
 }
@@ -2071,7 +2075,7 @@ void npc::die(game *g, bool your_fault)
   return;
  dead = true;
  if (g->u_see(posx, posy))
-  g->add_msg("%s dies!", name.c_str());
+  g->add_msg(_("%s dies!"), name.c_str());
  if (your_fault && !g->u.has_trait(PF_CANNIBAL)) {
   if (is_friend())
   {
@@ -2108,67 +2112,67 @@ std::string npc_attitude_name(npc_attitude att)
 {
  switch (att) {
  case NPCATT_NULL:	// Don't care/ignoring player
-  return "Ignoring";
+  return _("Ignoring");
  case NPCATT_TALK:		// Move to and talk to player
-  return "Wants to talk";
+  return _("Wants to talk");
  case NPCATT_TRADE:		// Move to and trade with player
-  return "Wants to trade";
+  return _("Wants to trade");
  case NPCATT_FOLLOW:		// Follow the player
-  return "Following";
+  return _("Following");
  case NPCATT_FOLLOW_RUN:	// Follow the player, don't shoot monsters
-  return "Following & ignoring monsters";
+  return _("Following & ignoring monsters");
  case NPCATT_LEAD:		// Lead the player, wait for them if they're behind
-  return "Leading";
+  return _("Leading");
  case NPCATT_WAIT:		// Waiting for the player
-  return "Waiting for you";
+  return _("Waiting for you");
  case NPCATT_DEFEND:		// Kill monsters that threaten the player
-  return "Defending you";
+  return _("Defending you");
  case NPCATT_MUG:		// Mug the player
-  return "Mugging you";
+  return _("Mugging you");
  case NPCATT_WAIT_FOR_LEAVE:	// Attack the player if our patience runs out
-  return "Waiting for you to leave";
+  return _("Waiting for you to leave");
  case NPCATT_KILL:		// Kill the player
-  return "Attacking to kill";
+  return _("Attacking to kill");
  case NPCATT_FLEE:		// Get away from the player
-  return "Fleeing";
+  return _("Fleeing");
  case NPCATT_SLAVE:		// Following the player under duress
-  return "Enslaved";
+  return _("Enslaved");
  case NPCATT_HEAL:		// Get to the player and heal them
-  return "Healing you";
+  return _("Healing you");
 
  case NPCATT_MISSING:	// Special; missing NPC as part of mission
-  return "Missing NPC";
+  return _("Missing NPC");
  case NPCATT_KIDNAPPED:	// Special; kidnapped NPC as part of mission
-  return "Kidnapped";
+  return _("Kidnapped");
  default:
-  return "Unknown";
+  return _("Unknown");
  }
- return "Unknown";
+ return _("Unknown");
 }
 
 std::string npc_class_name(npc_class classtype)
 {
- switch(classtype) {
- case NC_NONE:
-  return "No class";
- case NC_SHOPKEEP:	// Found in towns.  Stays in his shop mostly.
-  return "Shopkeep";
- case NC_HACKER:	// Weak in combat but has hacking skills and equipment
-  return "Hacker";
- case NC_DOCTOR:	// Found in towns, or roaming.  Stays in the clinic.
-  return "Doctor";
- case NC_TRADER:	// Roaming trader, journeying between towns.
-  return "Trader";
- case NC_NINJA:	// Specializes in unarmed combat, carries few items
-  return "Ninja";
- case NC_COWBOY:	// Gunslinger and survivalist
-  return "Cowboy";
- case NC_SCIENTIST:	// Uses intelligence-based skills and high-tech items
-  return "Scientist";
- case NC_BOUNTY_HUNTER: // Resourceful and well-armored
-  return "Bounty Hunter";
- }
- return "Unknown class";
+    switch(classtype) {
+    case NC_NONE:
+        return _("No class");
+    case NC_SHOPKEEP: // Found in towns.  Stays in his shop mostly.
+        return _("Shopkeep");
+    case NC_HACKER: // Weak in combat but has hacking skills and equipment
+        return _("Hacker");
+    case NC_DOCTOR: // Found in towns, or roaming.  Stays in the clinic.
+        return _("Doctor");
+    case NC_TRADER: // Roaming trader, journeying between towns.
+        return _("Trader");
+    case NC_NINJA: // Specializes in unarmed combat, carries few items
+        return _("Ninja");
+    case NC_COWBOY: // Gunslinger and survivalist
+        return _("Cowboy");
+    case NC_SCIENTIST: // Uses intelligence-based skills and high-tech items
+        return _("Scientist");
+    case NC_BOUNTY_HUNTER: // Resourceful and well-armored
+        return _("Bounty Hunter");
+    }
+    return _("Unknown class");
 }
 
 void npc::setID (int i)

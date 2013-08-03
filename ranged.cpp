@@ -510,9 +510,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             {
                 if (!p.is_npc())
                 {
-                    char buf[128];
-                    sprintf(buf, _(" You cut the %s!"), z[mon_at(tx, ty)].name().c_str());
-                    message += buf;
+                    message += string_format(_(" You cut the %s!"), z[mon_at(tx, ty)].name().c_str());
                 }
                 if (thrown.type->melee_cut > z[mon_at(tx, ty)].armor_cut())
                     dam += (thrown.type->melee_cut - z[mon_at(tx, ty)].armor_cut());
@@ -619,7 +617,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 item *relevent)
 {
  std::vector<point> ret;
- int tarx, tary, junk;
+ int tarx, tary, junk, tart;
  int range=(hix-u.posx);
 // First, decide on a target among the monsters, if there are any in range
  if (t.size() > 0) {
@@ -676,7 +674,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  char ch;
  bool snap_to_target = OPTIONS[OPT_SNAP_TO_TARGET];
  do {
-  ret = line_to(u.posx, u.posy, x, y,0);
+  if (m.sees(u.posx, u.posy, x, y, -1, tart))
+    ret = line_to(u.posx, u.posy, x, y, tart);
+  else 
+    ret = line_to(u.posx, u.posy, x, y, 0);
 
   if(trigdist && trig_dist(u.posx,u.posy, x,y) > range) {
     bool cont=true;

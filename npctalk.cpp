@@ -1963,7 +1963,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
       string_format(
         responses[i].trial>0?
         _("<talk option>%1$c: [%2$s %3$d%%] %4$s"):
-        (std::string(_("<talk option>%1$c: %4$s"))+"$<%2$c%3$c>").c_str(), 
+        (std::string(_("<talk option>%1$c: %4$s"))+"\003<%2$c%3$c>").c_str(), 
         char('a' + i), talk_trial_text[responses[i].trial], 
         trial_chance(responses[i], alpha, beta), responses[i].text.c_str()
       ).substr(13)

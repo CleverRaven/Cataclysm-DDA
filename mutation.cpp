@@ -1,6 +1,7 @@
 #include "player.h"
 #include "mutation.h"
 #include "game.h"
+#include "translations.h"
 
 // mutation_effect handles things like destruction of armor, etc.
 void mutation_effect(game *g, player &p, pl_flag mut);
@@ -293,7 +294,7 @@ void player::mutate_towards(game *g, pl_flag mut)
  toggle_mutation(mut);
  if (replacing != PF_NULL)
     {
-        g->add_msg("Your %s mutation turns into %s!", traits[replacing].name.c_str(),
+        g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(),
                    traits[mut].name.c_str());
         toggle_mutation(replacing);
         mutation_loss_effect(g, *this, replacing);
@@ -303,7 +304,7 @@ void player::mutate_towards(game *g, pl_flag mut)
  // If this new mutation cancels a base trait, remove it and add the mutation at the same time
    if (canceltrait != PF_NULL)
     {
-        g->add_msg(_("Your innate %s trait turns into %s!"), traits[canceltrait].name.c_str(),
+        g->add_msg(_("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(),
                    traits[mut].name.c_str());
 		toggle_mutation(canceltrait);
 		mutation_loss_effect(g, *this, canceltrait);
@@ -389,7 +390,7 @@ void player::remove_mutation(game *g, pl_flag mut)
 // This should revert back to a removed base trait rather than simply removing the mutation
 	toggle_mutation(mut);
  if (replacing != PF_NULL) {
-  g->add_msg(_("Your %s mutation turns into %s."), traits[mut].name.c_str(),
+  g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
              traits[replacing].name.c_str());
   toggle_mutation(replacing);
   mutation_loss_effect(g, *this, mut);
