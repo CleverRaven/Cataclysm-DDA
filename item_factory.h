@@ -53,7 +53,7 @@ private:
     //json data handlers
     void load_item_templates() throw (std::string);
     void load_item_templates_from(const std::string file_name) throw (std::string);
-    void load_item_groups_from(const std::string file_name) throw (std::string);
+    void load_item_groups_from(game *g, const std::string file_name) throw (std::string);
 
     nc_color color_from_string(std::string color);
     Use_function use_from_string(std::string name);

@@ -232,6 +232,8 @@ void Item_factory::init(game* main_game) throw(std::string){
     for(std::map<Item_tag, itype*>::iterator iter = new_templates.begin(); iter != new_templates.end(); ++iter) {
       standard_itype_ids.push_back(iter->first);
     }
+    load_item_groups_from(main_game, "data/raw/item_groups.json");
+
 }
 
 //Returns the template with the given identification tag
@@ -326,7 +328,6 @@ void Item_factory::load_item_templates() throw(std::string){
     load_item_templates_from("data/raw/items/armor.json");
     load_item_templates_from("data/raw/items/books.json");
     load_item_templates_from("data/raw/items/archery.json");
-    load_item_groups_from("data/raw/item_groups.json");
     }
     catch (std::string &error_message) {
         throw;
@@ -558,7 +559,7 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
 }
 
 // Load values from this data file into m_template_groups
-void Item_factory::load_item_groups_from( const std::string file_name ) throw ( std::string ) {
+void Item_factory::load_item_groups_from( game *g, const std::string file_name ) throw ( std::string ) {
     std::ifstream data_file;
     picojson::value input_value;
 
@@ -635,15 +636,21 @@ void Item_factory::load_item_groups_from( const std::string file_name ) throw ( 
                     continue;
                 }
                 picojson::array item_frequency_array = item_pair->get<picojson::array>();
-                //Finally, insure that the first value is a string, and the second is a number
+                // Insure that the first value is a string, and the second is a number
                 if( !item_frequency_array[0].is<std::string>() ||
                     !item_frequency_array[1].is<double>() ) {
                     debugmsg("Invalid item list for group definition '%s', element is not a valid tag/frequency pair.",
                              group_id.c_str());
-                } else {
-                    current_group->add_entry(item_frequency_array[0].get<std::string>(),
-                                             (int)item_frequency_array[1].get<double>());
+                    continue;
                 }
+                if( m_missing_item == find_template( item_frequency_array[0].get<std::string>() ) &&
+                    0 == g->itypes.count( item_frequency_array[0].get<std::string>() ) ) {
+                    debugmsg( "Item '%s' listed in group '%s' does not exist.",
+                              item_frequency_array[0].get<std::string>().c_str(), group_id.c_str() );
+                    continue;
+                }
+                current_group->add_entry(item_frequency_array[0].get<std::string>(),
+                                         (int)item_frequency_array[1].get<double>());
             }
         }
 
