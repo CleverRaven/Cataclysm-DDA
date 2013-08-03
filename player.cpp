@@ -7807,14 +7807,17 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
 
         if (armor->covers & mfb(bp))
         {
-           if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
+           if (armor->is_power_armor() &&
+               (has_active_item("UPS_on") || has_active_item("adv_UPS_on") ||
+                has_active_bionic("bio_power_armor_interface") ||
+                has_active_bionic("bio_power_armor_interface_mkII")))
             {
                 armorenc += armor->encumber - 4;
             }
             else
             {
                 armorenc += armor->encumber;
-                if (worn[i].has_flag("FIT"))
+                if (worn[i].has_flag("FIT") && armor->encumber > 0)
                 {
                     armorenc--;
                 }
