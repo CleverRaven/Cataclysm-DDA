@@ -415,9 +415,7 @@ itype* game::new_artifact()
     art->name = artifact_name(newname.str());
    }
   }
-  char* buf = new char[2000];
-  sprintf(buf, _("This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; use 'a' to activate them."), art->name.c_str());
-  art->description = buf;
+  art->description = string_format(_("This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; use 'a' to activate them."), art->name.c_str());
 
 // Finally, pick some powers
   art_effect_passive passive_tmp = AEP_NULL;
@@ -534,13 +532,10 @@ itype* game::new_artifact()
   art->warmth = info->warmth;
   art->storage = info->storage;
   std::stringstream description;
-  char* buf = new char[2000];
-  sprintf(buf, info->plural?
+  description << string_format(info->plural?
     _("This is the %s.\nThey are the only ones of their kind.") :
     _("This is the %s.\nIt is the only one of its kind."),
     art->name.c_str());
-  description << buf;
-  delete buf; buf=NULL;
 
 // Modify the armor further
   if (!one_in(4)) {
@@ -581,13 +576,10 @@ itype* game::new_artifact()
     else
      art->storage = 0;
 
-    buf = new char[2000];
-    sprintf(buf, info->plural?
+    description << string_format(info->plural?
         _("\nThey are %s") :
         _("\nIt is %s"),
         modinfo->name.c_str());
-    description << buf;
-    delete buf; buf=NULL;
    }
   }
 
@@ -650,12 +642,8 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
  art->melee_cut = 0;
  art->m_to_hit = 0;
 
- char* buf = new char[2000];
- sprintf(buf, _("<artifact_name>%1$s %2$s"), property_data->name.c_str(), shape_data->name.c_str());
- art->name = std::string(buf).substr(15);
- sprintf(buf, _("<artifact_desc>This %1$s %2$s."), shape_data->desc.c_str(), property_data->desc.c_str());
- art->description = std::string(buf).substr(15);
- delete buf; buf=NULL;
+ art->name = rmp_format(_("<artifact_name>%1$s %2$s"), property_data->name.c_str(), shape_data->name.c_str());
+ art->description = rmp_format(_("<artifact_desc>This %1$s %2$s."), shape_data->desc.c_str(), property_data->desc.c_str());
 
 // Add line breaks to the description as necessary
 /*
@@ -784,13 +772,9 @@ std::string artifact_name(std::string type)
  char* fmtstr = _("<artifact_name>%1$s of %2$s");
  std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
  std::string adj = artifact_adj[rng(0, NUM_ART_ADJS - 1)];
- char* buf = new char[100], *buf2 = new char[200];
- sprintf(buf, noun.c_str(), adj.c_str());
- sprintf(buf2, fmtstr, type.c_str(), buf);
- ret = buf2;
- delete buf; buf=NULL;
- delete buf2; buf2=NULL;
- return ret.substr(15);
+ ret = string_format(noun.c_str(), adj.c_str());
+ ret = rmp_format(fmtstr, type.c_str(),ret.c_str());
+ return ret;
 }
 
 
@@ -1052,22 +1036,17 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
  }
 
  std::string stat_info = "";
- char* buf = new char[128];
  if (net_str != 0) {
-  sprintf(buf, _("Str %s%d! "), (net_str > 0 ? "+" : ""), net_str);
-  stat_info += buf;
+  stat_info += string_format(_("Str %s%d! "), (net_str > 0 ? "+" : ""), net_str);
  }
  if (net_dex != 0) {
-  sprintf(buf, _("Dex %s%d! "), (net_dex > 0 ? "+" : ""), net_dex);
-  stat_info += buf;
+  stat_info += string_format( _("Dex %s%d! "), (net_dex > 0 ? "+" : ""), net_dex);
  }
  if (net_int != 0) {
-  sprintf(buf, _("Int %s%d! "), (net_int > 0 ? "+" : ""), net_int);
-  stat_info += buf;
+  stat_info += string_format(_("Int %s%d! "), (net_int > 0 ? "+" : ""), net_int);
  }
  if (net_per != 0) {
-  sprintf(buf, _("Per %s%d! "), (net_per > 0 ? "+" : ""), net_per);
-  stat_info += buf;
+  stat_info += string_format(_("Per %s%d! "), (net_per > 0 ? "+" : ""), net_per);
  }
 
  if (stat_info.length() > 0)

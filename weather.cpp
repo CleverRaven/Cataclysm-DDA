@@ -232,7 +232,7 @@ std::string weather_forecast(game *g, radio_tower tower)
                 std::string dayofweak = start_time.day_of_week();
                 if( !start_day )
                 {
-                    day = string_format(_("<Mon Night>%s Night"), dayofweak.c_str()).substr(11);
+                    day = rmp_format(_("<Mon Night>%s Night"), dayofweak.c_str());
                 }
                 else
                 {
@@ -274,12 +274,12 @@ std::string print_temperature(float fahrenheit, int decimals)
     if(OPTIONS[OPT_USE_CELSIUS])
     {
         ret << ((fahrenheit-32) * 5 / 9);
-        return string_format("<Celsius>%sC", ret.str().c_str()).substr(9);
+        return rmp_format("<Celsius>%sC", ret.str().c_str());
     }
     else
     {
         ret << fahrenheit;
-        return string_format("<Fahrenheit>%sF", ret.str().c_str()).substr(12);
+        return rmp_format("<Fahrenheit>%sF", ret.str().c_str());
     }
 
 }

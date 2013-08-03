@@ -251,10 +251,8 @@ void mission_start::place_npc_software(game *g, mission *miss)
  } break;
  }
 
- char buf[128];
- sprintf(buf, _("%s's Terminal"), dev->name.c_str());
  compmap.ter_set(comppoint.x, comppoint.y, t_console);
- computer *tmpcomp = compmap.add_computer(comppoint.x, comppoint.y, buf, 0);
+ computer *tmpcomp = compmap.add_computer(comppoint.x, comppoint.y, string_format(_("%s's Terminal"), dev->name.c_str()), 0);
  tmpcomp->mission_id = miss->uid;
  tmpcomp->add_option(_("Download Software"), COMPACT_DOWNLOAD_SOFTWARE, 0);
 

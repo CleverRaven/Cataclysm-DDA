@@ -635,7 +635,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   case ENGAGE_HIT:   status << _("*is engaging enemies you attack."); break;
   case ENGAGE_ALL:   status << _("*is engaging all enemies.");         break;
   }
-  std::string npcstr = std::string(p->male ? _("<npc>He") : _("<npc>She")).substr(5);
+  std::string npcstr = rm_prefix(p->male ? _("<npc>He") : _("<npc>She"));
   if(p->combat_rules.use_guns)
   {
       if(p->combat_rules.use_silent)
@@ -743,7 +743,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   break;
 
  case TALK_WEAPON_DROPPED: {
-  std::string npcstr = std::string(p->male ? _("<npc>his") : _("<npc>her")).substr(5);
+  std::string npcstr = rm_prefix(p->male ? _("<npc>his") : _("<npc>her"));
   return string_format(_("*drops %s weapon."), npcstr.c_str());
  }
 
@@ -1909,9 +1909,9 @@ void parse_tags(std::string &phrase, player *u, npc *me)
     }
    } else if (tag == "<punc>") {
     switch (rng(0, 2)) {
-     case 0: phrase.replace(fa, l, _("<punc>.")+6);   break;
-     case 1: phrase.replace(fa, l, _("<punc>...")+6); break;
-     case 2: phrase.replace(fa, l, _("<punc>!")+6);   break;
+     case 0: phrase.replace(fa, l, rm_prefix(_("<punc>.")));   break;
+     case 1: phrase.replace(fa, l, rm_prefix(_("<punc>..."))); break;
+     case 2: phrase.replace(fa, l, rm_prefix(_("<punc>!")));   break;
     }
    } else if (tag != "") {
     debugmsg("Bad tag. '%s' (%d - %d)", tag.c_str(), fa, fb);
@@ -1941,11 +1941,11 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  if (challenge[0] == '&') // No name prepended!
   challenge = challenge.substr(1);
  else if (challenge[0] == '*')
-  challenge = string_format(_("<npc does something>%s %s"), beta->name.c_str(), 
-     challenge.substr(1).c_str()).substr(20);
+  challenge = rmp_format(_("<npc does something>%s %s"), beta->name.c_str(), 
+     challenge.substr(1).c_str());
  else
-  challenge = string_format(_("<npc says something>%s: %s"), beta->name.c_str(), 
-     challenge.c_str()).substr(20);
+  challenge = rmp_format(_("<npc says something>%s: %s"), beta->name.c_str(), 
+     challenge.c_str());
  history.push_back(""); // Empty line between lines of dialogue
 
 // Number of lines to highlight
@@ -1960,13 +1960,13 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  std::vector<nc_color>    colors;
  for (int i = 0; i < responses.size(); i++) {
   options.push_back(
-      string_format(
+      rmp_format(
         responses[i].trial>0?
         _("<talk option>%1$c: [%2$s %3$d%%] %4$s"):
-        (std::string(_("<talk option>%1$c: %4$s"))+"$<%2$c%3$c>").c_str(), 
+        (std::string(_("<talk option>%1$c: %4$s"))+"\003<%2$c%3$c>").c_str(), 
         char('a' + i), talk_trial_text[responses[i].trial], 
         trial_chance(responses[i], alpha, beta), responses[i].text.c_str()
-      ).substr(13)
+      )
   );
   parse_tags(options.back(), alpha, beta);
   if (responses[i].text[0] == '!')
@@ -2034,7 +2034,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  if (special_talk(ch) != TALK_NONE)
   return special_talk(ch);
 
- std::string response_printed = string_format("<you say something>You: %s", responses[ch].text.c_str()).substr(19);
+ std::string response_printed = rmp_format("<you say something>You: %s", responses[ch].text.c_str());
  folded = foldstring(response_printed, 40);
  for(int i=0; i<folded.size(); i++){
    history.push_back(folded[i]);

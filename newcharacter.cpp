@@ -34,11 +34,11 @@
 
 void draw_tabs(WINDOW* w, std::string sTab);
 
-int set_stats(WINDOW* w, game* g, player *u, int &points);
-int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points);
-int set_profession(WINDOW* w, game* g, player *u, int &points);
-int set_skills(WINDOW* w, game* g, player *u, int &points);
-int set_description(WINDOW* w, game* g, player *u, int &points);
+int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points);
+int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, int max_trait_points);
+int set_profession(WINDOW* w, game* g, player *u, character_type type, int &points);
+int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points);
+int set_description(WINDOW* w, game* g, player *u, character_type type, int &points);
 
 int random_skill();
 
@@ -59,7 +59,11 @@ bool player::create(game *g, character_type type, std::string tempname)
  int tab = 0, points = 38, max_trait_points = 12;
  if (type != PLTYPE_CUSTOM) {
   switch (type) {
-   case PLTYPE_RANDOM: {
+   case PLTYPE_NOW:
+    g->u.male = (rng(1,100)>50);
+    g->u.pick_name();
+   case PLTYPE_RANDOM:
+   {
     str_max = rng(6, 12);
     dex_max = rng(6, 12);
     int_max = rng(6, 12);
@@ -160,11 +164,11 @@ bool player::create(game *g, character_type type, std::string tempname)
   werase(w);
   wrefresh(w);
   switch (tab) {
-   case 0: tab += set_stats      (w, g, this, points); break;
-   case 1: tab += set_traits     (w, g, this, points, max_trait_points); break;
-   case 2: tab += set_profession (w, g, this, points); break;
-   case 3: tab += set_skills     (w, g, this, points); break;
-   case 4: tab += set_description(w, g, this, points); break;
+   case 0: tab += set_stats      (w, g, this, type, points); break;
+   case 1: tab += set_traits     (w, g, this, type, points, max_trait_points); break;
+   case 2: tab += set_profession (w, g, this, type, points); break;
+   case 3: tab += set_skills     (w, g, this, type, points); break;
+   case 4: tab += set_description(w, g, this, type, points); break;
   }
  } while (tab >= 0 && tab <= NEWCHAR_TAB_MAX);
  delwin(w);
@@ -202,7 +206,7 @@ bool player::create(game *g, character_type type, std::string tempname)
  if (has_trait(PF_MARTIAL_ARTS)) {
   itype_id ma_type;
   do {
-   int choice = menu(false, _("Pick your style:"),
+   int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
                      _("Karate"), _("Judo"), _("Aikido"), _("Tai Chi"),
                      _("Taekwondo"), NULL);
    if (choice == 1)
@@ -216,8 +220,10 @@ bool player::create(game *g, character_type type, std::string tempname)
    if (choice == 5)
     ma_type = "style_taekwondo";
    item tmpitem = item(g->itypes[ma_type], 0);
-   full_screen_popup(tmpitem.info(true).c_str());
-  } while (!query_yn(_("Use this style?")));
+   if(PLTYPE_NOW!=type) {
+       full_screen_popup(tmpitem.info(true).c_str());
+   }
+  } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
@@ -225,7 +231,7 @@ bool player::create(game *g, character_type type, std::string tempname)
     if (has_trait(PF_MARTIAL_ARTS2)) {
   itype_id ma_type;
   do {
-   int choice = menu(false, _("Pick your style:"),
+   int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
                      _("Capoeira"), _("Krav Maga"), _("Muay Thai"),
                      _("Ninjutsu"), _("Zui Quan"), NULL);
    if (choice == 1)
@@ -239,15 +245,17 @@ bool player::create(game *g, character_type type, std::string tempname)
    if (choice == 5)
     ma_type = "style_zui_quan";
    item tmpitem = item(g->itypes[ma_type], 0);
-   full_screen_popup(tmpitem.info(true).c_str());
-  } while (!query_yn(_("Use this style?")));
+   if(PLTYPE_NOW!=type) {
+     full_screen_popup(tmpitem.info(true).c_str());
+   }
+  } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
  if (has_trait(PF_MARTIAL_ARTS3)) {
   itype_id ma_type;
   do {
-   int choice = menu(false, _("Pick your style:"),
+   int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
                      _("Tiger"), _("Crane"), _("Leopard"), _("Snake"),
                      _("Dragon"), NULL);
    if (choice == 1)
@@ -261,15 +269,17 @@ bool player::create(game *g, character_type type, std::string tempname)
    if (choice == 5)
     ma_type = "style_dragon";
    item tmpitem = item(g->itypes[ma_type], 0);
-   full_screen_popup(tmpitem.info(true).c_str());
-  } while (!query_yn(_("Use this style?")));
+   if(PLTYPE_NOW!=type) {
+     full_screen_popup(tmpitem.info(true).c_str());
+   }
+  } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
  if (has_trait(PF_MARTIAL_ARTS4)) {
   itype_id ma_type;
   do {
-   int choice = menu(false, _("Pick your style:"),
+   int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
                      _("Centipede"), _("Viper"), _("Scorpion"), _("Lizard"),
                      _("Toad"), NULL);
    if (choice == 1)
@@ -283,8 +293,10 @@ bool player::create(game *g, character_type type, std::string tempname)
    if (choice == 5)
     ma_type = "style_toad";
    item tmpitem = item(g->itypes[ma_type], 0);
-   full_screen_popup(tmpitem.info(true).c_str());
-  } while (!query_yn(_("Use this style?")));
+   if(PLTYPE_NOW!=type) {
+     full_screen_popup(tmpitem.info(true).c_str());
+   }
+  } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
@@ -410,7 +422,7 @@ void draw_tabs(WINDOW* w, std::string sTab)
  mvwputch(w, 24, 79, c_ltgray, LINE_XOOX); // _|
 }
 
-int set_stats(WINDOW* w, game* g, player *u, int &points)
+int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
 {
     unsigned char sel = 1;
     char ch;
@@ -566,7 +578,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
  } while (true);
 }
 
-int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
+int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, int max_trait_points)
 {
  draw_tabs(w, "TRAITS");
 
@@ -805,7 +817,7 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
  } while (true);
 }
 
-int set_profession(WINDOW* w, game* g, player *u, int &points)
+int set_profession(WINDOW* w, game* g, player *u, character_type type, int &points)
 {
     draw_tabs(w, "PROFESSION");
 
@@ -919,7 +931,7 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
     return retval;
 }
 
-int set_skills(WINDOW* w, game* g, player *u, int &points)
+int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
 {
  draw_tabs(w, "SKILLS");
 
@@ -1029,8 +1041,10 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
  } while (true);
 }
 
-int set_description(WINDOW* w, game* g, player *u, int &points)
+int set_description(WINDOW* w, game* g, player *u, character_type type, int &points)
 {
+ if(PLTYPE_NOW==type) return 1;
+
  draw_tabs(w, "DESCRIPTION");
 
  mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
@@ -1082,7 +1096,7 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
   }
 
   if (ch == '>') {
-   if (points > 0 && !query_yn("Remaining points will be discarded, are you sure you want to proceed?")) {
+   if (points > 0 && !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
     continue;
    } else if (u->name.size() == 0) {
     mvwprintz(w, 6, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!!_____"));

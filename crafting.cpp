@@ -707,10 +707,7 @@ recipe* game::select_crafting_recipe()
 
                         if (charges > 0)
                         {
-                            char* buf = new char[32];
-                            sprintf(buf, _("(%d charges) "), charges);
-                            toolinfo << buf;
-                            delete buf; buf = NULL;
+                            toolinfo << string_format(_("(%d charges) "), charges);
                         }
                         std::string toolname = toolinfo.str();
                         if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH)
@@ -1499,7 +1496,7 @@ void game::disassemble(char ch)
     //if we're trying to disassemble a book or magazine
     if(dis_item->is_book())
     {
-       if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Do you want to tear %s into pages?", dis_item->tname(this).c_str())))
+       if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname(this).c_str())))
              return;
         else
         {
