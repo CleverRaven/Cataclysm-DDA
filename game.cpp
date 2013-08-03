@@ -9316,7 +9316,15 @@ void game::plthrow(char chInput)
   return;
  if (passtarget != -1)
   last_target = targetindices[passtarget];
- u.i_rem(ch);
+
+ // Throw a single charge of a stacking object.
+ if( thrown.count_by_charges() && thrown.charges > 1 ) {
+     u.i_at(ch).charges--;
+     thrown.charges = 1;
+ } else {
+     u.i_rem(ch);
+ }
+
  u.moves -= 125;
  u.practice(turn, "throw", 10);
 
