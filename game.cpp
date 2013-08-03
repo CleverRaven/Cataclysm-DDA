@@ -4372,17 +4372,24 @@ int game::mon_info(WINDOW *w)
 
 void game::cleanup_dead()
 {
+int lt=last_target;
  for (int i = 0; i < z.size(); i++) {
   if (z[i].dead || z[i].hp <= 0) {
+   dbg (D_INFO) << string_format("cleanup_dead: z[%d] %d,%d dead:%c hp:%d %s",
+      i,z[i].posx,z[i].posy, (z[i].dead?'1':'0'), z[i].hp, z[i].type->name.c_str() );
    z.erase(z.begin() + i);
+   if (last_target == i) {
+    last_target = -1;
+   } else if (last_target > i) {
+     last_target--;
+   }
    i--;
   }
-  if (last_target == i)
-   last_target = -1;
-  else if (last_target > i)
-    last_target--;
  }
 
+ if(last_target != lt) {
+   dbg (D_INFO) << string_format("cleanup_dead: last_target %d -> %d",lt,last_target);
+ }
     //Cleanup any dead npcs.
     //This will remove the npc object, it is assumed that they have been transformed into
     //dead bodies before this.
