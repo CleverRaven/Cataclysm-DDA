@@ -1137,3 +1137,34 @@ size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, 
     }
     return len;
 }
+
+//same as above, from current position
+size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap,fmt);
+    char buff[3000];    //TODO replace Magic Number
+    vsprintf(buff, fmt, ap);
+    va_end(ap);
+    
+    std::string tmp = buff;
+    size_t pos = tmp.find_first_of('<');
+    size_t pos2 = tmp.find_first_of('>');
+    size_t len = 0;
+    if(pos2!=std::string::npos && pos<pos2)
+    {
+        tmp.erase(pos,1);
+        tmp.erase(pos2-1,1);
+        wprintz(w, color, tmp.substr(0, pos).c_str());
+        wprintz(w, colork, "%s", tmp.substr(pos, pos2-pos-1).c_str());
+        wprintz(w, color, tmp.substr(pos2-1).c_str());
+        len = utf8_width(tmp.c_str());
+    }
+    else
+    {
+        // no shutcut? 
+        wprintz(w, color, buff);
+        len = utf8_width(buff);
+    }
+    return len;
+}

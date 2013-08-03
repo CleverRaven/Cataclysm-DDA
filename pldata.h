@@ -10,6 +10,7 @@ enum character_type {
  PLTYPE_CUSTOM,
  PLTYPE_RANDOM,
  PLTYPE_TEMPLATE,
+ PLTYPE_NOW,
  PLTYPE_MAX
 };
 
