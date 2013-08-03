@@ -1183,7 +1183,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     {
         scrap_text = _("You clumsily cut the %s into useless ribbons.");
         sliced_text = ngettext("You slice the %s into a rag.", "You slice the %1$s into %2$d rags.", count);
-        type = "rag"; 
+        type = "rag";
     }
     else
     {
@@ -1670,7 +1670,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
 //       > Respond to the SOS of an NPC
 //       > Report something to a faction
 //       > Call another player
- fold_and_print(w, 1, 1, 999, c_white, 
+ fold_and_print(w, 1, 1, 999, c_white,
 _(
 "1: Radio a faction for help...\n"
 "2: Call Acquaintance...\n"
@@ -2168,6 +2168,9 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
      g->add_msg_if_player(p,_("You break the glass."));
      g->sound(dirx, diry, 24, _("glass breaking!"));
      g->m.ter_set(dirx, diry, t_window_frame);
+     g->m.spawn_item(dirx, diry, "sheet", 0, 2);
+     g->m.spawn_item(dirx, diry, "stick", 0);
+     g->m.spawn_item(dirx, diry, "string_36", 0);
      return;
     }
    }
@@ -4509,7 +4512,7 @@ void iuse::spray_can(game *g, player *p, item *it, bool t)
             g->add_msg(
                 ismarker?
                 _("You write a message on the ground.") :
-                _("You spray a message on the ground.") 
+                _("You spray a message on the ground.")
             );
         }
         else
@@ -4517,7 +4520,7 @@ void iuse::spray_can(game *g, player *p, item *it, bool t)
             g->add_msg(
                 ismarker?
                 _("You fail to write a message here.") :
-                _("You fail to spray a message here.") 
+                _("You fail to spray a message here.")
             );
 
             // Refuned the charges, because the grafitti failed.
