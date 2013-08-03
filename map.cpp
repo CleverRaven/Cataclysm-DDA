@@ -2539,7 +2539,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
     }
 
     bool tryaddcharges = (new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo()));
-    std::vector<point> ps = closest_points_first(overflow_radius + 1, x, y);
+    std::vector<point> ps = closest_points_first(overflow_radius, x, y);
     for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
     {
         itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
