@@ -3313,8 +3313,6 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
-    int movx = sideStyle ? 12 : x + dx * 5 + 2;
-    int movy = sideStyle ?  5 : y + dy * 5;
     mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), spd_cur);
     wprintz(w, c_white, "  %d", movecounter);
  }
