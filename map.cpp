@@ -1101,9 +1101,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     // the check for active supresses molotovs smashing themselves with their own explosion
     if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
         if (sound == "") {
-            char buf[256];
-            sprintf(buf, _("A %s shatters!  "), i_at(x,y)[i].tname().c_str());
-            sound = buf;
+            sound = string_format(_("A %s shatters!  "), i_at(x,y)[i].tname().c_str());
         } else {
             sound = _("Some items shatter!  ");
         }

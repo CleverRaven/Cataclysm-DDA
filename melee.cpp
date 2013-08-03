@@ -132,7 +132,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  Your = Your.substr(6);
  std::string your = (is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
  your = your.substr(6);
- std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "$<%2$c%3$c>";
+ std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "\003<%2$c%3$c>";
  std::string target = string_format(_("<target>the %s"), z->name().c_str()).substr(8);
 
 // If !allow_grab, then we already grabbed them--meaning their dodge is hampered
@@ -237,7 +237,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  Your = Your.substr(6);
  std::string your = (is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
  your = your.substr(6);
- std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "$<%2$c%3$c>";
+ std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "\003<%2$c%3$c>";
 
 // Divide their dodge roll by 2 if this is a grab
  int target_dodge = (allow_grab ? p.dodge_roll(g) : p.dodge_roll(g) / 2);
@@ -1493,7 +1493,7 @@ std::string melee_verb(technique_id tech, player &p, int bash_dam, int cut_dam, 
 {
  if (tech != TEC_NULL && p.weapon.is_style() &&
      p.weapon.style_data(tech).name != "")
-  return (p.is_npc()?p.weapon.style_data(tech).verb_npc:p.weapon.style_data(tech).verb_you) + "$<%2$c%3$c>";
+  return (p.is_npc()?p.weapon.style_data(tech).verb_npc:p.weapon.style_data(tech).verb_you) + "\003<%2$c%3$c>";
 
  std::stringstream ret;
 
@@ -1556,7 +1556,7 @@ std::string melee_verb(technique_id tech, player &p, int bash_dam, int cut_dam, 
                 ret << (p.is_npc()?_("%1$s whacks %4$s"):_("%1$s whack %4$s"));
             else ret << (p.is_npc()?_("%1$s hits %4$s"):_("%1$s hit %4$s"));
         }
-        ret << "$<%2$c%3$c>";
+        ret << "\003<%2$c%3$c>";
         return ret.str();
  } // switch (tech)
 

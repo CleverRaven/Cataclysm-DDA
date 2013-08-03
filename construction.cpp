@@ -257,6 +257,7 @@ void game::init_construction()
                                  &construct::done_nothing);
   STAGE(t_chainfence_h, 0);
   STAGE(t_chainfence_v, 0);
+  constructions[id]->loopstages = true;
 
  CONSTRUCT(_("Build Wire Gate"), 3, &construct::able_between_walls,
                                  &construct::done_nothing);
@@ -773,6 +774,10 @@ void game::place_construction(constructable *con)
         (m.furn(x, y) == f || f == f_null))
       starting_stage = i + 1;
     }
+
+    if (starting_stage == con->stages.size() && con->loopstages)
+     starting_stage = 0; // Looping stages
+
     for(int i = starting_stage; i < con->stages.size(); i++) {
      if (player_can_build(u, total_inv, con, i, true, true))
        max_stage = i;
@@ -819,6 +824,9 @@ void game::place_construction(constructable *con)
   if (player_can_build(u, total_inv, con, i, true))
    max_stage = i;
  }
+
+ if (starting_stage == con->stages.size() && con->loopstages)
+  starting_stage = 0; // Looping stages
 
  u.assign_activity(this, ACT_BUILD, con->stages[starting_stage].time * 1000, con->id);
 

@@ -376,11 +376,9 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 
     wborder(w_test_rule_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     
-    char* buf = new char[1000];
     int nmatch = vMatchingItems.size();
-    sprintf(buf, ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s", nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());
-    mvwprintz(w_test_rule_border, 0, iContentWidth/2 - utf8_width(buf)/2, hilite(c_white), buf);
-    delete buf; buf=NULL;
+    std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s", nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());
+    mvwprintz(w_test_rule_border, 0, iContentWidth/2 - utf8_width(buf.c_str())/2, hilite(c_white), buf.c_str());
 
     wrefresh(w_test_rule_border);
 
