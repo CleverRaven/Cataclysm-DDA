@@ -3426,6 +3426,7 @@ float player::active_light()
 
     int flashlight = active_item_charges("flashlight_on");
     int torch = active_item_charges("torch_lit");
+	int shishkebab = active_item_charges("shishkebab_on");
     int gasoline_lantern = active_item_charges("gasoline_lantern_on");
     if (flashlight > 0)
     {
@@ -3434,6 +3435,10 @@ float player::active_light()
     else if (torch > 0)
     {
         lumination = std::min(100, torch * 5);
+    }
+	else if (shishkebab > 0)
+    {
+        lumination = std::min(100, shishkebab * 5);
     }
     else if (active_item_charges("pda_flashlight") > 0)
     {

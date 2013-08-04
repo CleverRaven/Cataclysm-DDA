@@ -83,6 +83,8 @@ class iuse
   void siphon	(game *g, player *p, item *it, bool t);
   void chainsaw_off	(game *g, player *p, item *it, bool t);
   void chainsaw_on	(game *g, player *p, item *it, bool t);
+  void shishkebab_off	(game *g, player *p, item *it, bool t);
+  void shishkebab_on	(game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);
   void jacqueshammer	(game *g, player *p, item *it, bool t);
   void pickaxe          (game *g, player *p, item *it, bool t);

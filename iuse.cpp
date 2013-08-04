@@ -2241,6 +2241,70 @@ void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::shishkebab_off(game *g, player *p, item *it, bool t)
+{
+    int choice = menu(true,
+                      _("Using Shishkebab:"), _("Turn on"), _("Use as Knife"), _("Cancel"), NULL);
+    switch (choice)
+    {
+        if (choice == 2)
+            break;
+    case 1:
+    {
+        p->moves -= 10;
+        if (rng(0, 10) - it->damage > 5 && it->charges > 0)
+        {
+            g->sound(p->posx, p->posy, 10,
+                     _("With a hiss, the shishkebab is covered in flames!"));
+            it->make(g->itypes["shishkebab_on"]);
+            it->active = true;
+        }
+        else
+            g->add_msg_if_player(p,_("There is a small spark, but nothing else."));
+    }
+    break;
+    case 2:
+    {
+        iuse::knife(g, p, it, t);
+    }
+    }
+}
+void iuse::shishkebab_on(game *g, player *p, item *it, bool t)
+{
+    if (t)   	// Effects while simply on
+    {
+        if (one_in(15))
+            g->sound(p->posx, p->posy, 5, _("Your shishkebab crackles."));
+    }
+    else
+    {
+        int choice = menu(true,
+                          _("Using Shishkebab:"), _("Turn off"), _("Light something"), _("Cancel"), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            // Toggling
+            g->add_msg_if_player(p,_("Your shishkebab sputters and goes out."));
+            it->make(g->itypes["shishkebab_off"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 15;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
+}
+
 void iuse::jackhammer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
