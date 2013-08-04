@@ -120,9 +120,14 @@ class inventory
 
   item nullitem;
   std::list<item> nullstack;
+
  private:
+  // For each item ID, store a set of "favorite" inventory letters.
+  std::map<std::string, std::vector<char> > invlet_cache;
+  void update_cache_with_item(item& newit);
+
   item remove_item(invstack::iterator iter);
-  void assign_empty_invlet(item &it, player *p = NULL);
+  void assign_empty_invlet(item &it);
   invstack items;
   bool sorted;
 };
