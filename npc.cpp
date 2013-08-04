@@ -1171,7 +1171,7 @@ bool npc::wield(game *g, signed char invlet)
    i_add(remove_weapon());
    moves -= 15; // Extra penalty for putting weapon away
   } else // No room for weapon, so we drop it
-   g->m.add_item_or_charges(posx, posy, remove_weapon());
+   g->m.add_item(posx, posy, remove_weapon());
   moves -= 15;
   weapon.make( g->itypes[styles[index]] );
   if (g->u_see(posx, posy))
@@ -1183,7 +1183,7 @@ bool npc::wield(game *g, signed char invlet)
   i_add(remove_weapon());
   moves -= 15;
  } else // No room for weapon, so we drop it
-  g->m.add_item_or_charges(posx, posy, remove_weapon());
+  g->m.add_item(posx, posy, remove_weapon());
  moves -= 15;
  weapon = inv.item_by_letter(invlet);
  i_remn(invlet);
@@ -2092,15 +2092,15 @@ void npc::die(game *g, bool your_fault)
  item my_body;
  my_body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
  my_body.name = name;
- g->m.add_item_or_charges(posx, posy, my_body);
+ g->m.add_item(posx, posy, my_body);
  std::vector<item *> dump;
  inv.dump(dump);
  for (int i = 0; i < dump.size(); i++)
-     g->m.add_item_or_charges(posx, posy, *(dump[i]));
+     g->m.add_item(posx, posy, *(dump[i]));
  for (int i = 0; i < worn.size(); i++)
-  g->m.add_item_or_charges(posx, posy, worn[i]);
+  g->m.add_item(posx, posy, worn[i]);
  if (weapon.type->id != "null")
-  g->m.add_item_or_charges(posx, posy, weapon);
+  g->m.add_item(posx, posy, weapon);
 
  for (int i = 0; i < g->active_missions.size(); i++) {
   if (g->active_missions[i].npc_id == getID())
