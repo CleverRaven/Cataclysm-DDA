@@ -89,7 +89,6 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  if (burst && weapon->burst_size() < 2)
   burst = false; // Can't burst fire a semi-auto
 
- bool u_see_shooter = u_see(p.posx, p.posy);
 // Use different amounts of time depending on the type of gun and our skill
  if (!effects->count("BOUNCE")) {
      p.moves -= time_to_fire(p, firing);
@@ -229,28 +228,18 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   else if( curammo->type == "40mm" ) casing_type = "40mm_casing";
 
   if (casing_type != "null") {
-   int x = p.posx - 1 + rng(0, 2);
-   int y = p.posy - 1 + rng(0, 2);
-   std::vector<item>& items = m.i_at(x, y);
-   int i;
-   for (i = 0; i < items.size(); i++)
-    if (items[i].typeId() == casing_type &&
-        items[i].charges < (dynamic_cast<it_ammo*>(items[i].type))->count) {
-     items[i].charges++;
-     break;
-    }
-   if (i == items.size()) {
-    item casing;
-    casing.make(itypes[casing_type]);
-    // Casing needs a charges of 1 to stack properly with other casings.
-    casing.charges = 1;
+   item casing;
+   casing.make(itypes[casing_type]);
+   // Casing needs a charges of 1 to stack properly with other casings.
+   casing.charges = 1;
     if( weapon->has_gunmod("brass_catcher") != -1 ) {
         p.i_add( casing );
     } else {
-        m.add_item(x, y, casing);
+       int x = p.posx - 1 + rng(0, 2);
+       int y = p.posy - 1 + rng(0, 2);
+       m.add_item_or_charges(x, y, casing);
     }
    }
-  }
 
   // Use up a round (or 100)
   if (weapon->has_flag("FIRE_100"))
@@ -264,11 +253,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       // Current guns have a durability between 5 and 9.
       // Misfire chance is between 1/64 and 1/1024.
       if (one_in(2 << firing->durability)) {
-          if (p.is_npc()) {
-              add_msg(_("%s's weapon misfired!"), p.name.c_str());
-          } else {
-              add_msg(_("Your weapon misfired!"));
-          }
+          add_msg_player_or_npc( &p, _("Your weapon misfires!"),
+                                 _("<npcname>'s weapon misfires!") );
           return;
       }
   }
@@ -303,19 +289,13 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
     trajectory = line_to(p.posx, p.posy, mtarx, mtary, 0);
    missed = true;
    if (!burst) {
-    if (&p == &u)
-     add_msg(_("You miss!"));
-    else if (u_see_shooter)
-     add_msg(_("%s misses!"), p.name.c_str());
+       add_msg_player_or_npc( &p, _("You miss!"), _("<npcname> misses!") );
    }
   } else if (missed_by >= .7 / monster_speed_penalty) {
 // Hit the space, but not necessarily the monster there
    missed = true;
    if (!burst) {
-    if (&p == &u)
-     add_msg(_("You barely miss!"));
-    else if (u_see_shooter)
-     add_msg(_("%s barely misses!"), p.name.c_str());
+       add_msg_player_or_npc( &p, _("You barely miss!"), _("<npcname> barely misses!") );
    }
   }
 
@@ -354,7 +334,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
         !(effects->count("EXPLOSIVE")) &&
         ((curammo->m1 == "wood" && !one_in(4)) ||
          (curammo->m1 != "wood" && !one_in(15))))
-     m.add_item(tx, ty, ammotmp);
+     m.add_item_or_charges(tx, ty, ammotmp);
     if (weapon->num_charges() == 0)
      weapon->curammo = NULL;
     return;
@@ -392,12 +372,15 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
      h = &u;
     else
      h = active_npc[npc_at(tx, ty)];
-
-    std::vector<point> blood_traj = trajectory;
-    blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
-    splatter(this, blood_traj, dam);
-    shoot_player(this, p, h, dam, goodhit);
-
+    if (h->power_level >= 10 && h->uncanny_dodge()) {
+     h->power_level -= 7; // dodging bullets costs extra
+    }
+    else {
+     std::vector<point> blood_traj = trajectory;
+     blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
+     splatter(this, blood_traj, dam);
+     shoot_player(this, p, h, dam, goodhit);
+    }
    } else
     m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, *effects);
   } // Done with the trajectory!
@@ -431,7 +414,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       !(effects->count("EXPLOSIVE")) &&
       ((curammo->m1 == "wood" && !one_in(5)) ||
        (curammo->m1 != "wood" && !one_in(15))  ))
-    m.add_item(tx, ty, ammotmp);
+    m.add_item_or_charges(tx, ty, ammotmp);
  }
 
  if (weapon->num_charges() == 0)
@@ -489,15 +472,13 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         else
             trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
         missed = true;
-        if (!p.is_npc())
-        add_msg(_("You miss!"));
+        add_msg_if_player(&p,_("You miss!"));
     }
     else if (missed_by >= .6)
     {
         // Hit the space, but not necessarily the monster there
         missed = true;
-        if (!p.is_npc())
-            add_msg(_("You barely miss!"));
+        add_msg_if_player(&p,_("You barely miss!"));
     }
 
     std::string message;
@@ -529,9 +510,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             {
                 if (!p.is_npc())
                 {
-                    char buf[128];
-                    sprintf(buf, _(" You cut the %s!"), z[mon_at(tx, ty)].name().c_str());
-                    message += buf;
+                    message += string_format(_(" You cut the %s!"), z[mon_at(tx, ty)].name().c_str());
                 }
                 if (thrown.type->melee_cut > z[mon_at(tx, ty)].armor_cut())
                     dam += (thrown.type->melee_cut - z[mon_at(tx, ty)].armor_cut());
@@ -542,14 +521,14 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 if (u_see(tx, ty))
                     add_msg(_("The %s shatters!"), thrown.tname().c_str());
                 for (int i = 0; i < thrown.contents.size(); i++)
-                    m.add_item(tx, ty, thrown.contents[i]);
+                    m.add_item_or_charges(tx, ty, thrown.contents[i]);
                     sound(tx, ty, 16, _("glass breaking!"));
                     int glassdam = rng(0, thrown.volume() * 2);
                     if (glassdam > z[mon_at(tx, ty)].armor_cut())
                         dam += (glassdam - z[mon_at(tx, ty)].armor_cut());
             }
             else
-                m.add_item(tx, ty, thrown);
+                m.add_item_or_charges(tx, ty, thrown);
             if (i < trajectory.size() - 1)
                 goodhit = double(double(rand() / RAND_MAX) / 2);
             if (goodhit < .1 && !z[mon_at(tx, ty)].has_flag(MF_NOHEAD))
@@ -571,12 +550,12 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 message = _("Grazing hit.");
                 dam = rng(0, dam);
             }
-            if (!p.is_npc())
-                add_msg(_("%s You hit the %s for %d damage."),
-                        message.c_str(), z[mon_at(tx, ty)].name().c_str(), dam);
-            else if (u_see(tx, ty))
-                add_msg(_("%s hits the %s for %d damage."), message.c_str(),
-                        z[mon_at(tx, ty)].name().c_str(), dam);
+            if (u_see(tx, ty)) {
+                g->add_msg_player_or_npc(&p,
+                    _("%s You hit the %s for %d damage."),
+                    _("%s <npcname> hits the %s for %d damage."),
+                    message.c_str(), z[mon_at(tx, ty)].name().c_str(), dam);
+            }
             if (z[mon_at(tx, ty)].hurt(dam, real_dam))
                 kill_mon(mon_at(tx, ty), !p.is_npc());
             return;
@@ -623,13 +602,13 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         if (u_see(tx, ty))
             add_msg(_("The %s shatters!"), thrown.tname().c_str());
         for (int i = 0; i < thrown.contents.size(); i++)
-            m.add_item(tx, ty, thrown.contents[i]);
+            m.add_item_or_charges(tx, ty, thrown.contents[i]);
         sound(tx, ty, 16, _("glass breaking!"));
     }
     else
     {
         sound(tx, ty, 8, _("thud."));
-        m.add_item(tx, ty, thrown);
+        m.add_item_or_charges(tx, ty, thrown);
     }
 }
 
@@ -638,7 +617,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 item *relevent)
 {
  std::vector<point> ret;
- int tarx, tary, junk;
+ int tarx, tary, junk, tart;
  int range=(hix-u.posx);
 // First, decide on a target among the monsters, if there are any in range
  if (t.size() > 0) {
@@ -660,7 +639,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  } else
   target = -1;	// No monsters in range, don't use target, reset to -1
 
- WINDOW* w_target = newwin(13, 48, VIEW_OFFSET_Y + MINIMAP_HEIGHT, TERRAIN_WINDOW_WIDTH + 7 + VIEW_OFFSET_X);
+ int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
+ int height = 13;
+ int width  = getmaxx(w_messages);
+ int top    = sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap));
+ int left   = getbegx(w_messages);
+ WINDOW* w_target = newwin(height, width, top, left);
  wborder(w_target, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_target, 0, 2, c_white, "< ");
@@ -677,12 +661,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  }
  wprintz(w_target, c_white, " >");
 /* Annoying clutter @ 2 3 4. */
- mvwprintz(w_target, 9, 1, c_white,
-           _("Move cursor to target with directional keys."));
+ mvwprintz(w_target, getmaxy(w_target) - 4, 1, c_white,
+           _("Move cursor to target with directional keys"));
  if (relevent) {
-  mvwprintz(w_target, 10, 1, c_white,
-            _("'<' '>' Cycle targets; 'f' or '.' to fire."));
-  mvwprintz(w_target, 11, 1, c_white,
+  mvwprintz(w_target, getmaxy(w_target) - 3, 1, c_white,
+            _("'<' '>' Cycle targets; 'f' or '.' to fire"));
+  mvwprintz(w_target, getmaxy(w_target) - 2, 1, c_white,
             _("'0' target self; '*' toggle snap-to-target"));
  }
 
@@ -690,7 +674,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  char ch;
  bool snap_to_target = OPTIONS[OPT_SNAP_TO_TARGET];
  do {
-  ret = line_to(u.posx, u.posy, x, y,0);
+  if (m.sees(u.posx, u.posy, x, y, -1, tart))
+    ret = line_to(u.posx, u.posy, x, y, tart);
+  else 
+    ret = line_to(u.posx, u.posy, x, y, 0);
 
   if(trigdist && trig_dist(u.posx,u.posy, x,y) > range) {
     bool cont=true;
@@ -712,8 +699,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   else
    center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
   // Clear the target window.
-  for (int i = 1; i < 8; i++) {
-   for (int j = 1; j < 46; j++)
+  for (int i = 1; i < getmaxy(w_target) - 5; i++) {
+   for (int j = 1; j < getmaxx(w_target) - 2; j++)
     mvwputch(w_target, i, j, c_white, ' ');
   }
   m.build_map_cache(this);
@@ -811,7 +798,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    }
    if (u.posx == x && u.posy == y)
        ret.clear();
-   return ret;
+   break;
   } else if (ch == '0') {
    x = u.posx;
    y = u.posy;
@@ -820,9 +807,11 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    snap_to_target = !snap_to_target;
   else if (ch == KEY_ESCAPE || ch == 'q') { // return empty vector (cancel)
    ret.clear();
-   return ret;
+   break;
   }
  } while (true);
+
+ return ret;
 }
 
 // MATERIALS-TODO: use fire resistance
@@ -852,8 +841,37 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
    z.add_effect(ME_ONFIRE, rng(10, 10));
 
  }
- if (effects.count("BOUNCE"))
-    z.add_effect(ME_BOUNCED, 1);
+ if (effects.count("BOUNCE")) {
+     z.add_effect(ME_BOUNCED, 1);
+ }
+ int stun_strength = 0;
+ if (effects.count("BEANBAG")) {
+     stun_strength = 4;
+ }
+ if (effects.count("LARGE_BEANBAG")) {
+     stun_strength = 16;
+ }
+ if( stun_strength > 0 ) {
+     switch( z.type->size )
+     {
+     case MS_TINY:
+         stun_strength *= 4;
+         break;
+     case MS_SMALL:
+         stun_strength *= 2;
+         break;
+     case MS_MEDIUM:
+     default:
+         break;
+     case MS_LARGE:
+         stun_strength /= 2;
+         break;
+     case MS_HUGE:
+         stun_strength /= 4;
+         break;
+     }
+     z.add_effect( ME_STUNNED, rng(stun_strength / 2, stun_strength) );
+ }
 }
 
 int time_to_fire(player &p, it_gun* firing)
@@ -1144,16 +1162,6 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
                h->name.c_str(), body_part_name(hit, side).c_str());
   }
   h->hit(g, hit, side, 0, dam);
-/*
-  if (h != &(g->u)) {
-   int npcdex = g->npc_at(h->posx, h->posy);
-   if (g->active_npc[npcdex].hp_cur[hp_head]  <= 0 ||
-       g->active_npc[npcdex].hp_cur[hp_torso] <= 0   ) {
-    g->active_npc[npcdex].die(g, !p.is_npc());
-    g->active_npc.erase(g->active_npc.begin() + npcdex);
-   }
-  }
-*/
  }
 }
 
@@ -1179,9 +1187,10 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
 
  for (int i = 0; i < spurt.size(); i++) {
   int tarx = spurt[i].x, tary = spurt[i].y;
-  if (g->m.field_at(tarx, tary).findField(fd_blood) &&
-      g->m.field_at(tarx, tary).findField(fd_blood)->getFieldDensity() < 3)
-	  g->m.field_at(tarx, tary).findField(fd_blood)->setFieldDensity(g->m.field_at(tarx,tary).findField(fd_blood)->getFieldDensity() + 1);
+  field &bloody_field = g->m.field_at(tarx, tary);
+  if (bloody_field.findField(fd_blood) &&
+      bloody_field.findField(fd_blood)->getFieldDensity() < 3)
+      bloody_field.findField(fd_blood)->setFieldDensity(bloody_field.findField(fd_blood)->getFieldDensity() + 1);
   else
    g->m.add_field(g, tarx, tary, blood, 1);
  }

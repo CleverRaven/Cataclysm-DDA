@@ -21,6 +21,21 @@ def gettextify(string):
     "Put the string in a fake gettext call, and add a newline."
     return "_(%r)\n" % string
 
+def writestr(fs, string):
+    "Wrap the string and write to the file."
+    # no empty strings
+    if not string: return
+    # none of the strings from json use string formatting.
+    # we must tell xgettext this explicitly
+    if "%" in string: fs.write("# xgettext:no-python-format\n")
+    fs.write(gettextify(string))
+
+def tlcomment(fs, string):
+    "Write the string to the file as a comment for translators."
+    fs.write("#~ ")
+    fs.write(string)
+    fs.write("\n")
+
 # create the output directory, if it does not already exist
 if not os.path.exists(to_folder):
     os.mkdir(to_folder)
@@ -32,8 +47,8 @@ def convert(infilename, outfile):
     names = [item["name"] for item in jsondata]
     descriptions = [item["description"] for item in jsondata]
     for n, d in zip(names, descriptions):
-        outfile.write(gettextify(n))
-        outfile.write(gettextify(d))
+        writestr(outfile, n)
+        writestr(outfile, d)
 
 # data/raw/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
@@ -48,8 +63,8 @@ with open(os.path.join(to_folder, "json_skills.py"), 'w') as skills_jtl:
     names = [item[1] for item in jsondata]
     descriptions = [item[2] for item in jsondata]
     for n, d in zip(names, descriptions):
-        skills_jtl.write(gettextify(n))
-        skills_jtl.write(gettextify(d))
+        writestr(skills_jtl, n)
+        writestr(skills_jtl, d)
 
 # data/raw/professions.json
 with open(os.path.join(to_folder,"json_professions.py"), 'w') as prof_jtl:
@@ -60,4 +75,45 @@ with open(os.path.join(to_folder,"json_professions.py"), 'w') as prof_jtl:
 with open(os.path.join(to_folder,"json_bionics.py"), 'w') as bio_jtl:
     bio_json = os.path.join(raw_folder, "bionics.json")
     convert(bio_json, bio_jtl)
+
+# data/raw/snippets.json
+with open(os.path.join(to_folder,"json_snippets.py"), 'w') as snip_jtl:
+    jsonfile = os.path.join(raw_folder, "snippets.json")
+    jsondata = json.loads(open(jsonfile).read())
+    snip = jsondata["snippets"]
+    texts = [item["text"] for item in snip]
+    for t in texts:
+        writestr(snip_jtl, t)
+
+# data/raw/materials.json
+with open(os.path.join(to_folder,"json_materials.py"), 'w') as mat_jtl:
+    jsonfile = os.path.join(raw_folder, "materials.json")
+    jsondata = json.loads(open(jsonfile).read())
+    names = [item["name"] for item in jsondata]
+    verb1 = [item["bash_dmg_verb"] for item in jsondata]
+    verb2 = [item["cut_dmg_verb"] for item in jsondata]
+    dmgs = [item["dmg_adj"] for item in jsondata]
+    for n,v1,v2,d in zip(names,verb1,verb2,dmgs):
+        writestr(mat_jtl, n)
+        writestr(mat_jtl, v1)
+        writestr(mat_jtl, v2)
+        writestr(mat_jtl, d[0])
+        writestr(mat_jtl, d[1])
+        writestr(mat_jtl, d[2])
+        writestr(mat_jtl, d[3])
+
+# data/raw/names.json
+with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
+    jsonfile = os.path.join(raw_folder, "names.json")
+    jsondata = json.loads(open(jsonfile).read())
+    for item in jsondata:
+        if not "name" in item: continue # it probably is
+        tlinfo = ["proper name"]
+        if "gender" in item:
+            tlinfo.append("gender=" + item["gender"])
+        if "usage" in item:
+            tlinfo.append("usage=" + item["usage"])
+        if len(tlinfo) > 1: # then add it as a translator comment
+            tlcomment(name_jtl, '; '.join(tlinfo))
+        writestr(name_jtl, "<name>" + item["name"])
 

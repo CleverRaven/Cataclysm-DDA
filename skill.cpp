@@ -10,6 +10,7 @@
 
 #include "options.h"
 #include "output.h"
+#include "debug.h"
 
 Skill::Skill() {
   _ident = std::string("null");
@@ -57,6 +58,9 @@ std::vector<Skill*> Skill::loadSkills() throw (std::string) {
       ident = aField++->get<std::string>();
       name = aField++->get<std::string>();
       description = aField++->get<std::string>();
+
+      name = _(name.c_str());
+      description = _(description.c_str());
       
       std::set<std::string> tags;
       const picojson::array& rawTags = aField++->get<picojson::array>();
@@ -155,35 +159,31 @@ void SkillLevel::train(int amount) {
 static int rustRate(int level)
 {
     int forgetCap = std::min(level, 7);
-    return 16384 / int(pow(2.0, double(forgetCap - 1)));
+    return 32768 / int(pow(2.0, double(forgetCap - 1)));
 }
 
 bool SkillLevel::isRusting(const calendar& turn) const
 {
-    return OPTIONS[OPT_SKILL_RUST] != 2 && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
+    return OPTIONS[OPT_SKILL_RUST] != 4 && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
 }
 
-bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem)
+bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
 {
-    if (OPTIONS[OPT_SKILL_RUST] == 2) return false;
-
     if (_level > 0 && turn > _lastPracticed &&
-        (turn - _lastPracticed) % rustRate(_level) == 0)
+       (turn - _lastPracticed) % rustRate(_level) == 0)
     {
-        if (rng(1,12) % (forgetful ? 3 : 4))
-        {
-            if (charged_bio_mem) return one_in(5);
-            _exercise -= _level;
+        if (charged_bio_mem) return one_in(5);
+        _exercise -= _level;
 
-            if (_exercise < 0)
+        if (_exercise < 0)
+        {
+            if (OPTIONS[OPT_SKILL_RUST] == 0 ||
+                OPTIONS[OPT_SKILL_RUST] == 2)
             {
-                if (OPTIONS[OPT_SKILL_RUST] == 0)
-                {
-                    _exercise = (100 * _level) - 1;
-                    --_level;
-                } else {
-                    _exercise = 0;
-                }
+                _exercise = (100 * _level) - 1;
+                --_level;
+            } else {
+                _exercise = 0;
             }
         }
     }

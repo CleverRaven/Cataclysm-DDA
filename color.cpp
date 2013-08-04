@@ -41,7 +41,54 @@ void init_colors()
  init_pair(28, COLOR_MAGENTA, COLOR_RED);
  init_pair(29, COLOR_YELLOW,  COLOR_RED);
 
- init_pair(30, COLOR_BLACK,   COLOR_BLACK  );
+ init_pair(30, COLOR_BLACK,   COLOR_BLACK);
+ init_pair(31, COLOR_WHITE,   COLOR_BLACK);
+
+ init_pair(32, COLOR_BLACK, COLOR_WHITE);
+ init_pair(33, COLOR_WHITE, COLOR_WHITE);
+ init_pair(34, COLOR_RED, COLOR_WHITE);
+ init_pair(35, COLOR_GREEN, COLOR_WHITE);
+ init_pair(36, COLOR_YELLOW, COLOR_WHITE);
+ init_pair(37, COLOR_BLUE, COLOR_WHITE);
+ init_pair(38, COLOR_MAGENTA, COLOR_WHITE);
+ init_pair(39, COLOR_CYAN, COLOR_WHITE);
+
+ init_pair(40, COLOR_BLACK, COLOR_GREEN);
+ init_pair(41, COLOR_WHITE, COLOR_GREEN);
+ init_pair(42, COLOR_RED, COLOR_GREEN);
+ init_pair(43, COLOR_GREEN, COLOR_GREEN);
+ init_pair(44, COLOR_YELLOW, COLOR_GREEN);
+ init_pair(45, COLOR_BLUE, COLOR_GREEN);
+ init_pair(46, COLOR_MAGENTA, COLOR_GREEN);
+ init_pair(47, COLOR_CYAN, COLOR_GREEN);
+
+ init_pair(48, COLOR_BLACK, COLOR_YELLOW);
+ init_pair(49, COLOR_WHITE, COLOR_YELLOW);
+ init_pair(50, COLOR_RED, COLOR_YELLOW);
+ init_pair(51, COLOR_GREEN, COLOR_YELLOW);
+ init_pair(52, COLOR_YELLOW, COLOR_YELLOW);
+ init_pair(53, COLOR_BLUE, COLOR_YELLOW);
+ init_pair(54, COLOR_MAGENTA, COLOR_YELLOW);
+ init_pair(55, COLOR_CYAN, COLOR_YELLOW);
+
+ init_pair(56, COLOR_BLACK, COLOR_MAGENTA);
+ init_pair(57, COLOR_WHITE, COLOR_MAGENTA);
+ init_pair(58, COLOR_RED, COLOR_MAGENTA);
+ init_pair(59, COLOR_GREEN, COLOR_MAGENTA);
+ init_pair(60, COLOR_YELLOW, COLOR_MAGENTA);
+ init_pair(61, COLOR_BLUE, COLOR_MAGENTA);
+ init_pair(62, COLOR_MAGENTA, COLOR_MAGENTA);
+ init_pair(63, COLOR_CYAN, COLOR_MAGENTA);
+
+ init_pair(64, COLOR_BLACK, COLOR_CYAN);
+ init_pair(65, COLOR_WHITE, COLOR_CYAN);
+ init_pair(66, COLOR_RED, COLOR_CYAN);
+ init_pair(67, COLOR_GREEN, COLOR_CYAN);
+ init_pair(68, COLOR_YELLOW, COLOR_CYAN);
+ init_pair(69, COLOR_BLUE, COLOR_CYAN);
+ init_pair(70, COLOR_MAGENTA, COLOR_CYAN);
+ init_pair(71, COLOR_CYAN, COLOR_CYAN);
+
 }
 
 int color_to_int(nc_color col)
@@ -109,6 +156,93 @@ int color_to_int(nc_color col)
   case c_ltcyan_red : return 60;
   case c_pink_red   : return 61;
   case c_yellow_red : return 62;
+
+  case c_unset      : return 63;
+
+   case c_black_white  : return 64;
+   case c_dkgray_white  : return 65;
+   case c_ltgray_white  : return 66;
+   case c_white_white  : return 67;
+   case c_red_white  : return 68;
+   case c_ltred_white  : return 69;
+   case c_green_white  : return 70;
+   case c_ltgreen_white  : return 71;
+   case c_brown_white  : return 72;
+   case c_yellow_white  : return 73;
+   case c_blue_white  : return 74;
+   case c_ltblue_white  : return 75;
+   case c_magenta_white  : return 76;
+   case c_pink_white  : return 77;
+   case c_cyan_white  : return 78;
+   case c_ltcyan_white  : return 79;
+
+   case c_black_green  : return 80;
+   case c_dkgray_green  : return 81;
+   case c_ltgray_green  : return 82;
+   case c_white_green  : return 83;
+   case c_red_green  : return 84;
+   case c_ltred_green  : return 85;
+   case c_green_green  : return 86;
+   case c_ltgreen_green  : return 87;
+   case c_brown_green  : return 88;
+   case c_yellow_green  : return 89;
+   case c_blue_green  : return 90;
+   case c_ltblue_green  : return 91;
+   case c_magenta_green  : return 92;
+   case c_pink_green  : return 93;
+   case c_cyan_green  : return 94;
+   case c_ltcyan_green  : return 95;
+
+   case c_black_yellow  : return 96;
+   case c_dkgray_yellow  : return 97;
+   case c_ltgray_yellow  : return 98;
+   case c_white_yellow  : return 99;
+   case c_red_yellow  : return 100;
+   case c_ltred_yellow  : return 101;
+   case c_green_yellow  : return 102;
+   case c_ltgreen_yellow  : return 103;
+   case c_brown_yellow  : return 104;
+   case c_yellow_yellow  : return 105;
+   case c_blue_yellow  : return 106;
+   case c_ltblue_yellow  : return 107;
+   case c_magenta_yellow  : return 108;
+   case c_pink_yellow  : return 109;
+   case c_cyan_yellow  : return 110;
+   case c_ltcyan_yellow  : return 111;
+
+   case c_black_magenta  : return 112;
+   case c_dkgray_magenta  : return 113;
+   case c_ltgray_magenta  : return 114;
+   case c_white_magenta  : return 115;
+   case c_red_magenta  : return 116;
+   case c_ltred_magenta  : return 117;
+   case c_green_magenta  : return 118;
+   case c_ltgreen_magenta  : return 119;
+   case c_brown_magenta  : return 120;
+   case c_yellow_magenta  : return 121;
+   case c_blue_magenta  : return 122;
+   case c_ltblue_magenta  : return 123;
+   case c_magenta_magenta  : return 124;
+   case c_pink_magenta  : return 125;
+   case c_cyan_magenta  : return 126;
+   case c_ltcyan_magenta  : return 127;
+
+   case c_black_cyan  : return 128;
+   case c_dkgray_cyan  : return 129;
+   case c_ltgray_cyan  : return 130;
+   case c_white_cyan  : return 131;
+   case c_red_cyan  : return 132;
+   case c_ltred_cyan  : return 133;
+   case c_green_cyan  : return 134;
+   case c_ltgreen_cyan  : return 135;
+   case c_brown_cyan  : return 136;
+   case c_yellow_cyan  : return 137;
+   case c_blue_cyan  : return 138;
+   case c_ltblue_cyan  : return 139;
+   case c_magenta_cyan  : return 140;
+   case c_pink_cyan  : return 141;
+   case c_cyan_cyan  : return 142;
+   case c_ltcyan_cyan  : return 143;
 
  }
  return 0;
@@ -183,6 +317,94 @@ nc_color int_to_color(int key)
   case 60: return c_ltcyan_red ;
   case 61: return c_pink_red   ;
   case 62: return c_yellow_red ;
+
+  case 63: return c_unset;
+
+   case 64: return c_black_white;
+   case 65: return c_dkgray_white;
+   case 66: return c_ltgray_white;
+   case 67: return c_white_white;
+   case 68: return c_red_white;
+   case 69: return c_ltred_white;
+   case 70: return c_green_white;
+   case 71: return c_ltgreen_white;
+   case 72: return c_brown_white;
+   case 73: return c_yellow_white;
+   case 74: return c_blue_white;
+   case 75: return c_ltblue_white;
+   case 76: return c_magenta_white;
+   case 77: return c_pink_white;
+   case 78: return c_cyan_white;
+   case 79: return c_ltcyan_white;
+ 
+   case 80: return c_black_green;
+   case 81: return c_dkgray_green;
+   case 82: return c_ltgray_green;
+   case 83: return c_white_green;
+   case 84: return c_red_green;
+   case 85: return c_ltred_green;
+   case 86: return c_green_green;
+   case 87: return c_ltgreen_green;
+   case 88: return c_brown_green;
+   case 89: return c_yellow_green;
+   case 90: return c_blue_green;
+   case 91: return c_ltblue_green;
+   case 92: return c_magenta_green;
+   case 93: return c_pink_green;
+   case 94: return c_cyan_green;
+   case 95: return c_ltcyan_green;
+ 
+   case 96: return c_black_yellow;
+   case 97: return c_dkgray_yellow;
+   case 98: return c_ltgray_yellow;
+   case 99: return c_white_yellow;
+   case 100: return c_red_yellow;
+   case 101: return c_ltred_yellow;
+   case 102: return c_green_yellow;
+   case 103: return c_ltgreen_yellow;
+   case 104: return c_brown_yellow;
+   case 105: return c_yellow_yellow;
+   case 106: return c_blue_yellow;
+   case 107: return c_ltblue_yellow;
+   case 108: return c_magenta_yellow;
+   case 109: return c_pink_yellow;
+   case 110: return c_cyan_yellow;
+   case 111: return c_ltcyan_yellow;
+ 
+   case 112: return c_black_magenta;
+   case 113: return c_dkgray_magenta;
+   case 114: return c_ltgray_magenta;
+   case 115: return c_white_magenta;
+   case 116: return c_red_magenta;
+   case 117: return c_ltred_magenta;
+   case 118: return c_green_magenta;
+   case 119: return c_ltgreen_magenta;
+   case 120: return c_brown_magenta;
+   case 121: return c_yellow_magenta;
+   case 122: return c_blue_magenta;
+   case 123: return c_ltblue_magenta;
+   case 124: return c_magenta_magenta;
+   case 125: return c_pink_magenta;
+   case 126: return c_cyan_magenta;
+   case 127: return c_ltcyan_magenta;
+ 
+   case 128: return c_black_cyan;
+   case 129: return c_dkgray_cyan;
+   case 130: return c_ltgray_cyan;
+   case 131: return c_white_cyan;
+   case 132: return c_red_cyan;
+   case 133: return c_ltred_cyan;
+   case 134: return c_green_cyan;
+   case 135: return c_ltgreen_cyan;
+   case 136: return c_brown_cyan;
+   case 137: return c_yellow_cyan;
+   case 138: return c_blue_cyan;
+   case 139: return c_ltblue_cyan;
+   case 140: return c_magenta_cyan;
+   case 141: return c_pink_cyan;
+   case 142: return c_cyan_cyan;
+   case 143: return c_ltcyan_cyan;
+
  }
  return c_black;
 }

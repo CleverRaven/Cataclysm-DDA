@@ -147,7 +147,7 @@ struct real_coords {
        in -some- cases (?) this isn't enough and must be
        redone @ pos=-24, -48, -96 ....
     */
-    while( sub_pos.x < 0 ) {
+    while( sub_pos.x < 0 ) { // todo: deprecate for better math used in fromabs
         sub.x--;
         sub_pos.x += 12;
     }
@@ -389,7 +389,7 @@ class map
  int free_volume(const int x, const int y);
  int stored_volume(const int x, const int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
- bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 0, bool skip_checks = false );
+ bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
  void add_item(const int x, const int y, item new_item, int maxitems = 64); // Do we want mapgen and explosions piling up to MAX_ITEM_IN_SQUARE (1024)? NYET!
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);
@@ -516,6 +516,8 @@ private:
  bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
 };
+
+std::vector<point> closest_points_first(int radius,int x,int y);
 
 class tinymap : public map
 {

@@ -3734,6 +3734,30 @@
     "revert_to": "null",
     "use_action": "DEJAR"
   },
+  
+  {
+    "id": "jar_kompot",
+    "type": "TOOL",
+    "symbol": ")",
+    "color": "red",
+    "name": "sealed 3-litre jar of kompot",
+    "description": "A sealed glass jar containing kompot.  Activate to open and enjoy.",
+    "rarity": 0,
+    "price": 80,
+    "material": ["glass", "water"],
+    "weight": 3,
+    "volume": 2,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 3,
+    "max_charges": 5,
+    "initial_charges": 6,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "DEJAR"
+  },
 
   {
     "id": "jar_human_canned",
@@ -3877,7 +3901,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "DEVAC"
+    "use_action": "DEJAR"
   },
 
   {
@@ -3901,7 +3925,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "DEVAC"
+    "use_action": "DEJAR"
   },
   
   {
@@ -3925,7 +3949,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "DEVAC"
+    "use_action": "DEJAR"
   },
   {
     "id": "medical_gauze",
@@ -4018,5 +4042,50 @@
     "ammo": "none",
     "revert_to": "null",
     "use_action": "UNFOLD_BICYCLE"
+  },
+  {
+    "id": "welder_crude",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_red",
+    "name": "makeshift welder",
+    "description": "This crude welder has been fashioned from a bundle of copper wire, scrap metal, and complete disregard for personal safety. Not as efficient as a factory welder, but it will serve in a pinch.",
+    "rarity": 25,
+    "price": 500,
+    "material": "iron",
+    "weight": 18,
+    "volume": 6,
+    "bashing": 7,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 450,
+    "initial_charges": 0,
+    "charges_per_use": 75,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "SOLDER_WELD"
+  },
+  {
+    "id": "still",
+    "type": "TOOL",
+    "symbol": "L",
+    "color": "white",
+    "name": "still",
+    "description": "A still, useful for the distillation of alcohol and other, more curious substances.",
+    "rarity": 50,
+    "price": 3000,
+    "material": "iron",
+    "weight": 30,
+    "volume": 40,
+    "bashing": 20,
+    "cutting": 0,
+    "to_hit": -6,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "none",
+    "revert_to": "null"
   }
 ]

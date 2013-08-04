@@ -7,7 +7,9 @@
 #include <sstream>
 #include <algorithm>
 
+#include "output.h"
 #include "color.h"
+#include "input.h"
 #include "output.h"
 #include "rng.h"
 #include "keypress.h"
@@ -111,7 +113,115 @@ nc_color red_background(nc_color c)
  }
  return c_white_red;
 }
+/// colors need to be totally redone, really..
+nc_color white_background(nc_color c) {
+  switch(c) {
+     case c_black: return c_black_white;
+     case c_dkgray: return c_dkgray_white;
+     case c_ltgray: return c_ltgray_white;
+     case c_white: return c_white_white;
+     case c_red: return c_red_white;
+     case c_ltred: return c_ltred_white;
+     case c_green: return c_green_white;
+     case c_ltgreen: return c_ltgreen_white;
+     case c_brown: return c_brown_white;
+     case c_yellow: return c_yellow_white;
+     case c_blue: return c_blue_white;
+     case c_ltblue: return c_ltblue_white;
+     case c_magenta: return c_magenta_white;
+     case c_pink: return c_pink_white;
+     case c_cyan: return c_cyan_white;
+     case c_ltcyan: return c_ltcyan_white;
+     default: return c_black_white;
+   }
+}
+ nc_color green_background(nc_color c) {
+  switch(c) {
+     case c_black: return c_black_green;
+     case c_dkgray: return c_dkgray_green;
+     case c_ltgray: return c_ltgray_green;
+     case c_white: return c_white_green;
+     case c_red: return c_red_green;
+     case c_ltred: return c_ltred_green;
+     case c_green: return c_green_green;
+     case c_ltgreen: return c_ltgreen_green;
+     case c_brown: return c_brown_green;
+     case c_yellow: return c_yellow_green;
+     case c_blue: return c_blue_green;
+     case c_ltblue: return c_ltblue_green;
+     case c_magenta: return c_magenta_green;
+     case c_pink: return c_pink_green;
+     case c_cyan: return c_cyan_green;
+     case c_ltcyan: return c_ltcyan_green;
+     default: return c_black_green;
+   }
+}
+ nc_color yellow_background(nc_color c) {
+  switch(c) {
+     case c_black: return c_black_yellow;
+     case c_dkgray: return c_dkgray_yellow;
+     case c_ltgray: return c_ltgray_yellow;
+     case c_white: return c_white_yellow;
+     case c_red: return c_red_yellow;
+     case c_ltred: return c_ltred_yellow;
+     case c_green: return c_green_yellow;
+     case c_ltgreen: return c_ltgreen_yellow;
+     case c_brown: return c_brown_yellow;
+     case c_yellow: return c_yellow_yellow;
+     case c_blue: return c_blue_yellow;
+     case c_ltblue: return c_ltblue_yellow;
+     case c_magenta: return c_magenta_yellow;
+     case c_pink: return c_pink_yellow;
+     case c_cyan: return c_cyan_yellow;
+     case c_ltcyan: return c_ltcyan_yellow;
+     default: return c_black_yellow;
+   }
+}
+ nc_color magenta_background(nc_color c) {
+  switch(c) {
+     case c_black: return c_black_magenta;
+     case c_dkgray: return c_dkgray_magenta;
+     case c_ltgray: return c_ltgray_magenta;
+     case c_white: return c_white_magenta;
+     case c_red: return c_red_magenta;
+     case c_ltred: return c_ltred_magenta;
+     case c_green: return c_green_magenta;
+     case c_ltgreen: return c_ltgreen_magenta;
+     case c_brown: return c_brown_magenta;
+     case c_yellow: return c_yellow_magenta;
+     case c_blue: return c_blue_magenta;
+     case c_ltblue: return c_ltblue_magenta;
+     case c_magenta: return c_magenta_magenta;
+     case c_pink: return c_pink_magenta;
+     case c_cyan: return c_cyan_magenta;
+     case c_ltcyan: return c_ltcyan_magenta;
+     default: return c_black_magenta;
+   }
+}
+ nc_color cyan_background(nc_color c) {
+  switch(c) {
+     case c_black: return c_black_cyan;
+     case c_dkgray: return c_dkgray_cyan;
+     case c_ltgray: return c_ltgray_cyan;
+     case c_white: return c_white_cyan;
+     case c_red: return c_red_cyan;
+     case c_ltred: return c_ltred_cyan;
+     case c_green: return c_green_cyan;
+     case c_ltgreen: return c_ltgreen_cyan;
+     case c_brown: return c_brown_cyan;
+     case c_yellow: return c_yellow_cyan;
+     case c_blue: return c_blue_cyan;
+     case c_ltblue: return c_ltblue_cyan;
+     case c_magenta: return c_magenta_cyan;
+     case c_pink: return c_pink_cyan;
+     case c_cyan: return c_cyan_cyan;
+     case c_ltcyan: return c_ltcyan_cyan;
+     default: return c_black_cyan;
+   }
+}
 
+
+///
 nc_color rand_color()
 {
  switch (rng(0, 9)) {
@@ -378,7 +488,7 @@ bool query_yn(const char *mes, ...)
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s (%s)", buff, (force_uc ? "Y/N - Case Sensitive" : "y/n"));
+ mvwprintz(w, 1, 1, c_ltred, (force_uc ? _("%s (Y/N - Case Sensitive)") : _("%s (y/n)")), buff);
  wrefresh(w);
  char ch;
  do
@@ -406,7 +516,7 @@ int query_int(const char *mes, ...)
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s (0-9)", buff);
+ mvwprintz(w, 1, 1, c_ltred, _("%s (0-9)"), buff);
  wrefresh(w);
 
  int temp;
@@ -424,12 +534,12 @@ int query_int(const char *mes, ...)
 std::string string_input_popup(std::string title, int max_length, std::string input)
 {
  std::string ret = input;
-
- int startx = utf8_width(title.c_str()) + 2;
- int iPopupWidth = (max_length == 0) ? FULL_SCREEN_WIDTH : max_length + title.size() + 4;
+ int titlesize = utf8_width(title.c_str());
+ int startx = titlesize + 2;
+ int iPopupWidth = (max_length == 0) ? FULL_SCREEN_WIDTH : max_length + titlesize + 4;
  if (iPopupWidth > FULL_SCREEN_WIDTH) {
      iPopupWidth = FULL_SCREEN_WIDTH;
-     max_length = FULL_SCREEN_WIDTH - title.size() - 4;
+     max_length = FULL_SCREEN_WIDTH - titlesize - 4;
  }
 
  WINDOW *w = newwin(3, iPopupWidth, (TERMY-3)/2,
@@ -437,11 +547,14 @@ std::string string_input_popup(std::string title, int max_length, std::string in
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- for (int i = startx + 1; i < iPopupWidth-1; i++)
-  mvwputch(w, 1, i, c_ltgray, '_');
+
+ std::string underline = "";
+ for (int i = startx ; i < iPopupWidth-1; i++)
+  underline.push_back('_');
 
  mvwprintz(w, 1, 1, c_ltred, "%s", title.c_str());
 
+ mvwprintz(w, 1, startx, c_ltgray, "%s", underline.c_str());
  if (input != "")
   mvwprintz(w, 1, startx, c_magenta, "%s", input.c_str());
 
@@ -462,20 +575,36 @@ std::string string_input_popup(std::string title, int max_length, std::string in
    delwin(w);
    refresh();
    return ret;
-  } else if (ch == KEY_BACKSPACE || ch == 127) {
-// Move the cursor back and re-draw it
-   if( posx > startx ) { // but silently drop input if we're at 0, instead of adding '^'
-       ret = ret.substr(0, ret.size() - 1);
-       mvwputch(w, 1, posx, c_ltgray, '_');
-       posx--;
-       mvwputch(w, 1, posx, h_ltgray, '_');
-   }
-  } else if(ret.size() < max_length || max_length == 0) {
-   ret += ch;
-   mvwputch(w, 1, posx, c_magenta, ch);
-   posx++;
-   mvwputch(w, 1, posx, h_ltgray, '_');
+  } 
+  else if (ch == KEY_BACKSPACE || ch == 127) {
+       // Move the cursor back and re-draw it
+      if (ret.size() > 0) {
+       //erease utf8 character TODO: make a function
+       while(ret.size()>0 && ((unsigned char)ret[ret.size()-1])>=128 &&
+                                 ((unsigned char)ret[(int)ret.size()-1])<=191) {
+           ret.erase(ret.size()-1);
+       }
+       ret.erase(ret.size()-1);
+      }
   }
+     else if(ch==KEY_F(2)) {
+         std::string tmp = get_input_string_from_file();
+         int tmplen = utf8_width(tmp.c_str());
+         if(tmplen>0 && (tmplen+utf8_width(ret.c_str())<=max_length||max_length==0)) {
+            ret.append(tmp);
+         }
+     }
+     //experimental unicode input
+     else  {
+         std::string tmp = utf32_to_utf8(ch);
+         int tmplen = utf8_width(tmp.c_str());
+         if(tmplen>0 && (tmplen+utf8_width(ret.c_str())<=max_length||max_length==0)) {
+            ret.append(tmp);
+         }
+     }
+    mvwprintz(w, 1, startx, c_ltgray, "%s", underline.c_str());
+    mvwprintz(w, 1, startx, c_ltgray, "%s", ret.c_str());
+    wprintz(w, h_ltgray, "_");
  } while (true);
 }
 
@@ -489,34 +618,24 @@ char popup_getkey(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- size_t pos = tmp.find_first_of('\n');
- while (pos != std::string::npos) {
-  height++;
-  if (pos > width)
-   width = pos;
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
+ std::vector<std::string> folded = foldstring(tmp, 99999);
+ height += folded.size();
+ for(int i=0; i<folded.size(); i++) {
+     int cw = utf8_width(folded[i].c_str());
+     if(cw>width) {
+         width = cw;
+     }
  }
- if (width == 0 || tmp.length() > width)
-  width = tmp.length();
  width += 2;
  if (height > FULL_SCREEN_HEIGHT)
   height = FULL_SCREEN_HEIGHT;
  WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- tmp = buff;
- pos = tmp.find_first_of('\n');
- int line_num = 0;
- while (pos != std::string::npos) {
-  std::string line = tmp.substr(0, pos);
-  line_num++;
-  mvwprintz(w, line_num, 1, c_white, line.c_str());
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
+
+ for(int i=0; i<folded.size(); i++) {
+     mvwprintz(w, i+1, 1, c_white, folded[i].c_str());
  }
- line_num++;
- mvwprintz(w, line_num, 1, c_white, tmp.c_str());
 
  wrefresh(w);
  char ch = getch();;
@@ -553,38 +672,28 @@ void popup_top(const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
- char buff[1024];
+ char buff[4096];
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- size_t pos = tmp.find_first_of('\n');
- while (pos != std::string::npos) {
-  height++;
-  if (pos > width)
-   width = pos;
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
+ std::vector<std::string> folded = foldstring(tmp, 99999);
+ height += folded.size();
+ for(int i=0; i<folded.size(); i++) {
+     int cw = utf8_width(folded[i].c_str());
+     if(cw>width) {
+         width = cw;
+     }
  }
- if (width == 0 || tmp.length() > width)
-  width = tmp.length();
  width += 2;
- WINDOW *w = newwin(height+1, width, 0, (TERMX > width) ? (TERMX-width)/2 : 0);
+ WINDOW *w = newwin(height, width, 0, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- tmp = buff;
- pos = tmp.find_first_of('\n');
- int line_num = 0;
- while (pos != std::string::npos) {
-  std::string line = tmp.substr(0, pos);
-  line_num++;
-  mvwprintz(w, line_num, 1, c_white, line.c_str());
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
+
+ for(int i=0; i<folded.size(); i++) {
+     mvwprintz(w, i+1, 1, c_white, folded[i].c_str());
  }
- line_num++;
- mvwprintz(w, line_num, 1, c_white, tmp.c_str());
 
  wrefresh(w);
  char ch;
@@ -601,31 +710,30 @@ void popup(const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
- char buff[8192];
+ char buff[4096];
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
  int width = 0;
  int height = 2;
-
- size_t pos = tmp.find_first_of('\n');
- while (pos != std::string::npos) {
-  height++;
-  if (pos > width)
-   width = pos;
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
+ std::vector<std::string> folded = foldstring(tmp, 99999);
+ height += folded.size();
+ for(int i=0; i<folded.size(); i++) {
+     int cw = utf8_width(folded[i].c_str());
+     if(cw>width) {
+         width = cw;
+     }
  }
- if (width == 0 || tmp.length() > width)
-  width = tmp.length();
  width += 2;
  if (height > FULL_SCREEN_HEIGHT)
   height = FULL_SCREEN_HEIGHT;
- WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
+ WINDOW *w = newwin(height, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- fold_and_print(w,1,1,width,c_white, "%s", buff);
+ for(int i=0; i<folded.size(); i++) {
+     mvwprintz(w, i+1, 1, c_white, folded[i].c_str());
+ }
 
  wrefresh(w);
  char ch;
@@ -642,40 +750,29 @@ void popup_nowait(const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
- char buff[8192];
+ char buff[4096];
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- size_t pos = tmp.find_first_of('\n');
- while (pos != std::string::npos) {
-  height++;
-  if (pos > width)
-   width = pos;
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
+ std::vector<std::string> folded = foldstring(tmp, 99999);
+ height += folded.size();
+ for(int i=0; i<folded.size(); i++) {
+     int cw = utf8_width(folded[i].c_str());
+     if(cw>width) {
+         width = cw;
+     }
  }
- if (width == 0 || tmp.length() > width)
-  width = tmp.length();
  width += 2;
  if (height > FULL_SCREEN_HEIGHT)
   height = FULL_SCREEN_HEIGHT;
- WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
+ WINDOW *w = newwin(height, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- tmp = buff;
- pos = tmp.find_first_of('\n');
- int line_num = 0;
- while (pos != std::string::npos) {
-  std::string line = tmp.substr(0, pos);
-  line_num++;
-  mvwprintz(w, line_num, 1, c_white, line.c_str());
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
+ for(int i=0; i<folded.size(); i++) {
+     mvwprintz(w, i+1, 1, c_white, folded[i].c_str());
  }
- line_num++;
- mvwprintz(w, line_num, 1, c_white, tmp.c_str());
  wrefresh(w);
  delwin(w);
  refresh();
@@ -689,7 +786,17 @@ void full_screen_popup(const char* mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
- std::vector<std::string> textformatted;
+ int width = 0;
+ int height = 2;
+ std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH-3);
+ height += folded.size();
+ for(int i=0; i<folded.size(); i++) {
+     int cw = utf8_width(folded[i].c_str());
+     if(cw>width) {
+         width = cw;
+     }
+ }
+ width += 2;
 
  WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                     (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
@@ -697,7 +804,10 @@ void full_screen_popup(const char* mes, ...)
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- fold_and_print(w,1,2,80-3,c_white,"%s",mes);
+ for(int i=0; i<folded.size(); i++) {
+     mvwprintz(w, i+1, 2, c_white, folded[i].c_str());
+ }
+
  wrefresh(w);
  char ch;
  do
@@ -710,7 +820,7 @@ void full_screen_popup(const char* mes, ...)
 }
 
 //note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things
-//if sType == "MENU", sPre == "iOffsetY" or "iOffsetX" also do special things
+//if sType == "MENU", sFmt == "iOffsetY" or "iOffsetX" also do special things
 //otherwise if sType == "MENU", iValue can be used to control color
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
@@ -721,15 +831,14 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
  mvwprintz(w, 1, 2, c_white, sItemName.c_str());
  int line_num = 3;
  int iStartX = 0;
- std::string sPlus;
  bool bStartNewLine = true;
  int selected_ret='\n';
  std::string spaces(iWidth-2, ' ');
  for (int i = 0; i < vItemDisplay.size(); i++) {
   if (vItemDisplay[i].sType == "MENU") {
-   if (vItemDisplay[i].sPre == "iOffsetY") {
+   if (vItemDisplay[i].sFmt == "iOffsetY") {
     line_num += vItemDisplay[i].iValue;
-   } else if (vItemDisplay[i].sPre == "iOffsetX") {
+   } else if (vItemDisplay[i].sFmt == "iOffsetX") {
     iStartX = vItemDisplay[i].iValue;
    } else {
     nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
@@ -743,8 +852,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
       selected_ret=(int)vItemDisplay[i].sName.c_str()[0]; // fixme: sanity check(?)
     }
     mvwprintz(w, line_num, 1, bgColor, "%s", spaces.c_str() );
-    mvwprintz(w, line_num, iStartX, nameColor, "%s", (vItemDisplay[i].sName).c_str());
-    wprintz(w, bgColor, "%s", (vItemDisplay[i].sPre).c_str());
+    shortcut_print(w, line_num, iStartX, bgColor, nameColor, vItemDisplay[i].sFmt.c_str());
     line_num++;
    }
   } else if (vItemDisplay[i].sType == "DESCRIPTION") {
@@ -763,15 +871,22 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
     wprintz(w, c_white, "%s", (vItemDisplay[i].sName).c_str());
    }
 
-   sPlus = "";
-   std::string sPre = vItemDisplay[i].sPre;
-   if (sPre.size() > 1 && sPre.substr(sPre.size()-1, 1) == "+") {
-     wprintz(w, c_white, "%s", (sPre.substr(0, sPre.size()-1)).c_str());
-     sPlus = "+";
-   } else if (sPre != "+")
-     wprintz(w, c_white, "%s", sPre.c_str());
-   else if (sPre == "+")
-    sPlus = "+";
+   std::string sPlus = vItemDisplay[i].sPlus;
+   std::string sFmt = vItemDisplay[i].sFmt;
+   std::string sNum = " ";
+   std::string sPost = "";
+
+    //A bit tricky, find %d and split the string
+   size_t pos = sFmt.find("<num>");
+   if(pos != std::string::npos)
+   {
+        wprintz(w, c_white, sFmt.substr(0, pos).c_str());
+        sPost = sFmt.substr(pos+5);
+   }
+   else
+   {
+        wprintz(w, c_white, sFmt.c_str());
+   }
 
    if (vItemDisplay[i].iValue != -999) {
     nc_color thisColor = c_white;
@@ -797,12 +912,9 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
       }
      }
     }
-
-    if (sPlus == "+" )
-     wprintz(w, thisColor, "%s", (sPlus).c_str());
-    wprintz(w, thisColor, "%d", vItemDisplay[i].iValue);
+    wprintz(w, thisColor, "%s%d", sPlus.c_str(), vItemDisplay[i].iValue);
    }
-   wprintz(w, c_white, (vItemDisplay[i].sPost).c_str());
+    wprintz(w, c_white, sPost.c_str());
 
    if (vItemDisplay[i].bNewLine) {
     line_num++;
@@ -824,10 +936,10 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
   } else if ( selected == KEY_LEFT ) {
     ch=(int)' ';
   }
-  werase(w);
-  wrefresh(w);
+  //werase(w);
+  //wrefresh(w);
   delwin(w);
-  refresh();
+  //refresh();
  }
 
  return ch;
@@ -868,7 +980,6 @@ long special_symbol (long sym)
 }
 
 // utf-8 version
-// works differently, so keep the two versions in code for quick debug purpose
 std::string word_rewrap (const std::string &ins, int width){
     std::ostringstream o;
 	std::string in = ins;
@@ -974,4 +1085,106 @@ std::string from_sentence_case (const std::string &kingston)
         }
     }
     return "";
+}
+
+std::string string_format(std::string pattern, ...)
+{
+    va_list ap;
+    va_start(ap,pattern);
+    char buff[3000];    //TODO replace Magic Number
+    vsprintf(buff, pattern.c_str(), ap);
+    va_end(ap);
+    
+    //drop contents behind $, this trick is there to skip certain arguments
+    char* break_pos = strchr(buff, '\003');
+    if(break_pos) break_pos[0] = '\0';
+
+    return buff;
+}
+
+//wrap if for i18n 
+std::string& capitalize_letter(std::string &str, size_t n)
+{
+    char c= str[n];
+    if(str.length()>0 && c>='a' && c<='z')
+    {
+       c += 'A'-'a';
+       str[n] = c;
+    }
+
+    return str;
+}
+
+//remove prefix of a strng, between c1 and c2, ie, "<prefix>remove it"
+std::string rm_prefix(std::string str, char c1, char c2) {
+    if(str.size()>0 && str[0]==c1) {
+        size_t pos = str.find_first_of(c2);
+        if(pos!=std::string::npos) {
+            str = str.substr(pos+1);
+        }
+    }
+    return str;
+}
+
+// draw a menu item like strign with highlighted shortcut character
+// Example: <w>ield, m<o>ve
+// returns: output length (in console cells)
+size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap,fmt);
+    char buff[3000];    //TODO replace Magic Number
+    vsprintf(buff, fmt, ap);
+    va_end(ap);
+    
+    std::string tmp = buff;
+    size_t pos = tmp.find_first_of('<');
+    size_t pos2 = tmp.find_first_of('>');
+    size_t len = 0;
+    if(pos2!=std::string::npos && pos<pos2)
+    {
+        tmp.erase(pos,1);
+        tmp.erase(pos2-1,1);
+        mvwprintz(w, y, x, color, tmp.c_str());
+        mvwprintz(w, y, x+pos, colork, "%s", tmp.substr(pos, pos2-pos-1).c_str());
+        len = utf8_width(tmp.c_str());
+    }
+    else
+    {
+        // no shutcut? 
+        mvwprintz(w, y, x, color, buff);
+        len = utf8_width(buff);
+    }
+    return len;
+}
+
+//same as above, from current position
+size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap,fmt);
+    char buff[3000];    //TODO replace Magic Number
+    vsprintf(buff, fmt, ap);
+    va_end(ap);
+    
+    std::string tmp = buff;
+    size_t pos = tmp.find_first_of('<');
+    size_t pos2 = tmp.find_first_of('>');
+    size_t len = 0;
+    if(pos2!=std::string::npos && pos<pos2)
+    {
+        tmp.erase(pos,1);
+        tmp.erase(pos2-1,1);
+        wprintz(w, color, tmp.substr(0, pos).c_str());
+        wprintz(w, colork, "%s", tmp.substr(pos, pos2-pos-1).c_str());
+        wprintz(w, color, tmp.substr(pos2-1).c_str());
+        len = utf8_width(tmp.c_str());
+    }
+    else
+    {
+        // no shutcut? 
+        wprintz(w, color, buff);
+        len = utf8_width(buff);
+    }
+    return len;
 }

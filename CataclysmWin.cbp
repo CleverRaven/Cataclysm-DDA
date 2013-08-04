@@ -13,11 +13,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os" />
+					<Add option="-O2" />
 				</Compiler>
-				<Linker>
-					<Add option="-Wl,-stack,12000000,-subsystem,windows" />
-					<Add option="-static -lgdi32" />
-				</Linker>
 			</Target>
 			<Target title="Debug">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
@@ -25,16 +22,34 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add option="-Wl,-stack,12000000,-subsystem,windows" />
-					<Add option="-static -lgdi32" />
 				</Linker>
 			</Target>
+			<Target title="Debug -O3">
+				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/DebugRelease/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O3" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
 		</Build>
+		<Linker>
+			<Add option="-Wl,-stack,12000000,-subsystem,windows" />
+			<Add option="-static" />
+			<Add library="gdi32" />
+			<Add library="intl" />
+			<Add library="iconv" />
+		</Linker>
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
 		<Unit filename="addiction.cpp" />
@@ -54,6 +69,7 @@
 		<Unit filename="building_generation.h" />
 		<Unit filename="calendar.cpp" />
 		<Unit filename="calendar.h" />
+		<Unit filename="catacharset.cpp" />
 		<Unit filename="catacurse.h" />
 		<Unit filename="catajson.cpp" />
 		<Unit filename="catajson.h" />
@@ -66,6 +82,7 @@
 		<Unit filename="crafting.cpp" />
 		<Unit filename="crafting.h" />
 		<Unit filename="cursesdef.h" />
+		<Unit filename="cursesport.cpp" />
 		<Unit filename="debug.cpp" />
 		<Unit filename="debug.h" />
 		<Unit filename="defense.cpp" />
@@ -75,7 +92,6 @@
 		<Unit filename="enums.h" />
 		<Unit filename="event.cpp" />
 		<Unit filename="event.h" />
-		<Unit filename="facdata.h" />
 		<Unit filename="faction.cpp" />
 		<Unit filename="faction.h" />
 		<Unit filename="field.cpp" />
@@ -123,7 +139,6 @@
 		<Unit filename="mapgenformat.cpp" />
 		<Unit filename="mapgenformat.h" />
 		<Unit filename="mapitems.h" />
-		<Unit filename="mapitemsdef.cpp" />
 		<Unit filename="material.cpp" />
 		<Unit filename="material.h" />
 		<Unit filename="melee.cpp" />
@@ -140,6 +155,7 @@
 		<Unit filename="mondeath.h" />
 		<Unit filename="mongroup.h" />
 		<Unit filename="mongroupdef.cpp" />
+		<Unit filename="monitemsdef.cpp" />
 		<Unit filename="monmove.cpp" />
 		<Unit filename="monster.cpp" />
 		<Unit filename="monster.h" />
@@ -180,6 +196,7 @@
 		</Unit>
 		<Unit filename="rng.cpp" />
 		<Unit filename="rng.h" />
+		<Unit filename="sdlcurse.cpp" />
 		<Unit filename="settlement.cpp" />
 		<Unit filename="settlement.h" />
 		<Unit filename="setvector.cpp" />
