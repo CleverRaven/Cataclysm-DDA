@@ -14,7 +14,6 @@
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>
-#include <clocale>
 #ifndef NONLOCALIZED
 #include <libintl.h>
 #endif
