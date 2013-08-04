@@ -333,6 +333,9 @@ option_key lookup_option_key(std::string id)
     if(id == "sort_crafting") {
         return OPT_SORT_CRAFTING;
     }
+    if(id == "ignore_cravings") {
+        return OPT_IGNORE_CRAVINGS;
+    }
 
     return OPT_NULL;
 }
@@ -380,6 +383,7 @@ std::string option_string(option_key key)
     case OPT_AUTO_PICKUP_ZERO:    return "auto_pickup_zero";
     case OPT_AUTO_PICKUP_SAFEMODE:return "auto_pickup_safemode";
     case OPT_SORT_CRAFTING:       return "sort_crafting";
+    case OPT_IGNORE_CRAVINGS:     return "ignore_cravings";
     default:                      return "unknown_option";
     }
     return "unknown_option";
@@ -428,6 +432,7 @@ std::string option_desc(option_key key)
     case OPT_AUTO_PICKUP_ZERO:    return _("Auto pickup items with\n0 Volume or Weight");
     case OPT_AUTO_PICKUP_SAFEMODE:return _("Auto pickup is disabled\nas long as you can see\nmonsters nearby.\n\nThis is affected by\nSafemode proximity distance.");
     case OPT_SORT_CRAFTING:       return _("If true, the crafting menus\nwill display recipes that you can\ncraft before other recipes");
+    case OPT_IGNORE_CRAVINGS:     return _("Do not interrupt activities\nbecause of cravings");
     default:                      return " ";
     }
     return "Big ol Bug (options.cpp:option_desc)";
@@ -476,6 +481,7 @@ std::string option_name(option_key key)
     case OPT_AUTO_PICKUP_ZERO:    return _("Auto Pickup 0 Vol/Weight");
     case OPT_AUTO_PICKUP_SAFEMODE:return _("Auto Pickup Safemode");
     case OPT_SORT_CRAFTING:       return _("Sort Crafting menu");
+    case OPT_IGNORE_CRAVINGS:     return _("Ignore cravings");
     default:                      return "Unknown Option (options.cpp:option_name)";
     }
     return "Big ol Bug (options.cpp:option_name)";
@@ -679,6 +685,8 @@ auto_pickup_zero F\n\
 auto_pickup_safemode F\n\
 # Sort the crafting menu so things you can craft are at the front of the menu\n\
 sort_crafting T\n\
+# Do not interrupt activities because of cravings\n\
+ignore_cravings T\n\
 ";
     fout.close();
 }
