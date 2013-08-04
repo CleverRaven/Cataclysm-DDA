@@ -205,7 +205,7 @@
         "symbol" : "=",
         "color" : "light_gray",
         "description" : "A box of ball bearings, useful as ammunition for slings.",
-        "material" : "stone",
+        "material" : "steel",
         "volume" : 1,
         "weight" : 2,
         "bashing" : 1,
