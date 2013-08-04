@@ -637,7 +637,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("ARMOR", _("Coverage: "), _("<num> percent"), int(armor->coverage)));
     if (has_flag("FIT"))
     {
-        dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "<num> (fits)", int(armor->encumber) - 1, "", true, true));
+        dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "<num> (fits)",
+                                 std::min(0, int(armor->encumber) - 1), "", true, true));
     }
     else
     {
@@ -834,7 +835,7 @@ std::string item::tname(game *g)
     if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
     if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
    } else {
-    damtext = type->dmg_adj(damage);
+    damtext = rmp_format("%s ", type->dmg_adj(damage).c_str());
    }
   }
  }

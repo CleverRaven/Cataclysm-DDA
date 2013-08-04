@@ -188,7 +188,7 @@ int veh_interact::cant_do (char mode)
     case 'o': // remove mode
         valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
         has_tools = has_wrench && has_hacksaw;
-        part_free = parts_here.size() > 1 || veh->can_unmount(cpart);
+        part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
         has_skill = g->u.skillLevel("mechanics") >= 2;
         break;
     case 's': // siphon mode

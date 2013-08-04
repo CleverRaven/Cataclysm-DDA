@@ -8101,9 +8101,9 @@ void game::list_items()
     WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
     WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
 
-    //Area to search +- of players position. TODO: Use Perception
-    const int iSearchX = 12 + ((VIEWX > 12) ? ((VIEWX-12)/2) : 0);
-    const int iSearchY = 12 + ((VIEWY > 12) ? ((VIEWY-12)/2) : 0);
+    //Area to search +- of players position.
+    const int iSearchX = 12 + (u.per_cur * 2);
+    const int iSearchY = 12 + (u.per_cur * 2);
 
     //this stores the items found, along with the coordinates
     std::vector<map_item_stack> ground_items = find_nearby_items(iSearchX, iSearchY);
@@ -9345,7 +9345,15 @@ void game::plthrow(char chInput)
   return;
  if (passtarget != -1)
   last_target = targetindices[passtarget];
- u.i_rem(ch);
+
+ // Throw a single charge of a stacking object.
+ if( thrown.count_by_charges() && thrown.charges > 1 ) {
+     u.i_at(ch).charges--;
+     thrown.charges = 1;
+ } else {
+     u.i_rem(ch);
+ }
+
  u.moves -= 125;
  u.practice(turn, "throw", 10);
 

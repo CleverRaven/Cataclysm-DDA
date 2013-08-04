@@ -531,7 +531,6 @@
       ["mag_dodge", 20],
       ["mag_comic", 20],
       ["mag_throwing", 20],
-      ["novel_firstaid", 10],
       ["mag_gaming", 20],
       ["mag_swimming", 10],
       ["flyer", 10]
@@ -1446,7 +1445,7 @@
       ["vacutainer", 10],
       ["usb_drive", 5],
       ["disinfectant", 35],
-      ["gauze", 10],
+      ["medical_gauze", 10],
       ["medical_tape", 45],
       ["wrapped_rad_badge", 15],
       ["jar_glass", 20],
@@ -1471,7 +1470,7 @@
       ["vacutainer", 10],
       ["rag_bloody", 1],
       ["disinfectant", 35],
-      ["gauze", 10],
+      ["medical_gauze", 10],
       ["medical_tape", 45],
       ["jar_glass", 20],
       ["jar_3l_glass", 15]
@@ -2505,7 +2504,7 @@
       ["jar_glass", 10],
       ["jar_3l_glass", 8],
       ["flyer", 10],
-      ["gasoline_lanern", 10],
+      ["gasoline_lantern", 10],
       ["umbrella",1]
     ]
   },
