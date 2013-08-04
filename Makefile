@@ -22,7 +22,8 @@
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
 #  make TILES=1
-
+# Disable gettext, on some platforms the dependencies are hard to wrangle.
+#  make NONLOCALIZED=1
 
 # comment these to toggle them as one sees fit.
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
@@ -185,14 +186,18 @@ ifdef TILES
 else
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(TARGETSYSTEM),LINUX)
-    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Darwin)
-      LDFLAGS += -lncurses
+    ifndef NONLOCALIZED
+      ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Darwin)
+        LDFLAGS += -lncurses
+      else
+        LDFLAGS += -lncursesw
+      endif
+      # Work around Cygwin not including gettext support in glibc
+      ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+        LDFLAGS += -lintl -liconv
+      endif
     else
-      LDFLAGS += -lncursesw
-    endif
-    # Work around Cygwin not including gettext support in glibc
-    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-      LDFLAGS += -lintl -liconv
+      LDFLAGS += -lncurses
     endif
   endif
 endif
