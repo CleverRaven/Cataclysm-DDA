@@ -13,11 +13,17 @@ After editing this file,
 if you are running the dev version and want to test your changes,
 perform step 4 from the maintainers section below.
 
-
 If there is no translation yet,
 the .po file will need to be generated.
 You can do this yourself by following the instructions below,
 or ask one of the CleverRaven devs to do it for you.
+
+Specific instructions and notes for translators can be found in
+"lang/translation_notes".
+General notes for all translators are in
+"lang/translation_notes/README_all_translators.txt".
+Notes specific to a language may be stored as "<lang_id>.txt",
+for exmple "lang/translation_notes/de_DE.txt".
 
 When you are done translating,
 submit the changes back to CleverRaven for inclusion in Cataclysm-DDA.
