@@ -10350,17 +10350,6 @@
                             [ ["scrap", 15] ] ]
         },
         {
-            "result": "shield_wood",
-            "category": "CC_ARMOR",
-            "skill_pri": "survival",
-            "difficulty": 1,
-            "time": 50000,
-            "reversible": false,
-            "autolearn": true,
-            "components": [ [ ["rag", 10] ],
-                            [ ["2x4", 3] ] ]
-        },
-        {
             "result": "still",
             "category": "CC_CHEM",
             "skill_pri": "mechanics",
