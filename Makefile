@@ -185,7 +185,11 @@ ifdef TILES
 else
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(TARGETSYSTEM),LINUX)
-    LDFLAGS += -lncursesw
+    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Darwin)
+      LDFLAGS += -lncurses
+    else
+      LDFLAGS += -lncursesw
+    endif
     # Work around Cygwin not including gettext support in glibc
     ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
       LDFLAGS += -lintl -liconv
