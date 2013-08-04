@@ -4,6 +4,7 @@
 #include "output.h"
 #include "color.h"
 #include "catacharset.h"
+#include "version.h"
 #include <cstdlib>
 #include <fstream>
 
@@ -43,7 +44,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,u_int32_t Msg,WPARAM wParam, LPARA
 bool WinCreate()
 {
     WindowINST = GetModuleHandle(0); // Get current process handle
-    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.6git");
+    const WCHAR *szTitle=  getVersionString();
 
     // Register window class
     WNDCLASSEXW WindowClassType;
