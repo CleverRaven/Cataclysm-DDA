@@ -2571,15 +2571,21 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 // Place an item on the map, despite the parameter name, this is not necessaraly a new item.
 // WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
 // map::add_item_or_charges
-void map::add_item(const int x, const int y, item new_item, const int maxitems)
+// allow_oob = true will call add_item_anywhere if x,y are OOB
+void map::add_item(const int x, const int y, item new_item, const int maxitems, bool allow_oob)
 {
 
  if (new_item.is_style())
      return;
  if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
      return;
- if (!INBOUNDS(x, y))
-     return;
+ if (!INBOUNDS(x, y)) {
+     if (allow_oob == true) {
+         return add_item_anywhere( getabs(x, y), world_z, new_item, maxitems );
+     } else {
+         return;
+     }
+ }
  if (has_flag(destroy_item, x, y) || (i_at(x,y).size() >= maxitems))
  {
      return;
@@ -2591,6 +2597,31 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
  grid[nonant]->itm[lx][ly].push_back(new_item);
  if (new_item.active)
   grid[nonant]->active_item_count++;
+}
+
+/*
+ * This is like add_item, but takes absolute coordinates. This will -not- add items to submaps that
+ *   not yet generated, however this serves it's primary purpose; prevention of disappearing corpses.
+ */
+void map::add_item_anywhere(point worldpos, const int z, item new_item, const int maxitems) {
+  real_coords dropto;
+  dropto.fromabs( worldpos );
+  submap *tmpsub = MAPBUFFER.lookup_submap( dropto.abs_sub.x, dropto.abs_sub.y, z);
+  if ( ! tmpsub ) {
+      dbg(D_WARNING) << "add_item_anywhere: trying to drop " << new_item.type->name << " in ungenerated submap " << worldpos.x << ", " << worldpos.y << ", " << z;
+      return;
+  }
+  const int sx = dropto.abs_sub_pos.x, sy = dropto.abs_sub_pos.y;
+  if ( ( terlist[ tmpsub->ter[sx][sy] ].flags & mfb(destroy_item) ) || ( furnlist[ tmpsub->frn[sx][sy] ].flags & mfb(destroy_item) ) ) {
+      return;
+  }
+  if ( tmpsub->itm[sx][sy].size() >= maxitems ) {
+      return;
+  }
+  tmpsub->itm[sx][sy].push_back(new_item);
+  if (new_item.active) {
+      tmpsub->active_item_count++;
+  }
 }
 
 void map::process_active_items(game *g)
@@ -3518,7 +3549,7 @@ if(om==NULL) {
 void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
 {
 set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx, 
-  g->cur_om->pos().y * OMAPY * 2 + wy + sy
+  g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
 );
 // Special case of 0-shift; refresh the map
  if (sx == 0 && sy == 0) {
@@ -3661,7 +3692,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 
  submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, worldz);
  if ( gridx == 0 && gridy == 0 ) {
-     set_abs_sub(absx,absy);
+     set_abs_sub(absx, absy, worldz);
  }
  if (tmpsub) {
   grid[gridn] = tmpsub;
@@ -3755,7 +3786,7 @@ bool map::offloadn(game *g, const int worldx, const int worldy, const int worldz
  submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, worldz);
 
  if ( gridx == 0 && gridy == 0 ) {
-     set_abs_sub(absx,absy);
+     set_abs_sub(absx, absy, worldz);
  }
 
  if (tmpsub) {
@@ -4161,8 +4192,9 @@ void map::build_map_cache(game *g)
  generate_lightmap(g);
 }
 
-void map::set_abs_sub( const int x, const int y ) {
+void map::set_abs_sub( const int x, const int y, const int z ) {
   abs_sub=point(x, y);
+  world_z = z;
   abs_min=point(x*SEEX, y*SEEY);
   abs_max=point(x*SEEX + (SEEX * my_MAPSIZE), y*SEEY + (SEEY * my_MAPSIZE) );
 }
