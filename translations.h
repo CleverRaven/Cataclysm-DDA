@@ -1,7 +1,7 @@
 #ifndef _TRANSLATIONS_H_
 #define _TRANSLATIONS_H_
 
-#ifndef NONLOCALIZED
+#ifdef LOCALIZE
 #include <cstdio>
 #include <libintl.h>
 #include <clocale>

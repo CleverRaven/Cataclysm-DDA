@@ -23,7 +23,7 @@
 # Tiles (uses SDL rather than ncurses)
 #  make TILES=1
 # Disable gettext, on some platforms the dependencies are hard to wrangle.
-#  make NONLOCALIZED=1
+#  make LOCALIZE=0
 
 # comment these to toggle them as one sees fit.
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
@@ -61,6 +61,7 @@ W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
 BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
+LOCALIZE=1
 
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
@@ -186,7 +187,7 @@ ifdef TILES
 else
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(TARGETSYSTEM),LINUX)
-    ifndef NONLOCALIZED
+    ifeq ($(LOCALIZE),1)
       ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Darwin)
         LDFLAGS += -lncurses
       else
@@ -200,6 +201,10 @@ else
       LDFLAGS += -lncurses
     endif
   endif
+endif
+
+ifeq ($(LOCALIZE),1)
+  DEFINES += -DLOCALIZE
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
