@@ -835,7 +835,7 @@ std::string item::tname(game *g)
     if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
     if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
    } else {
-    damtext = type->dmg_adj(damage);
+    damtext = rmp_format("%s ", type->dmg_adj(damage).c_str());
    }
   }
  }
