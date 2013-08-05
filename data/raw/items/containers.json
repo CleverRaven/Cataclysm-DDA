@@ -268,26 +268,27 @@
         "contains": 5,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
-    {
+    	{
+                "flags":[
+			"RIGID",
+			"SEALS",
+			"WATERTIGHT"
+		],
 		"to_hit":1,
 		"cutting":0,
-		"bashing":3,
-		"weight":2,
-		"volume":10,
+        	"bashing":2,
+		"weight":0,
+		"volume":1,
 		"material":"plastic",
-		"color":"light_blue",
-		"symbol":";",
-		"description":"A plastic mold which can be used to craft items made of plastic.",
-		"name":"plastic mold",
-		"price":10,
-		"rarity":60,
-		"id":"mold_plastic",
-		"type":"TOOL",
-		"turns_per_charge":0,
-		"charges_per_use":0,
-		"initial_charges":0,
-		"max_charges":0,
-		"revert_to":"null",
-		"ammo":"NULL"
+		"color":"light_cyan",
+		"symbol":")",
+		"description":"A plastic bowl. Can be used as a container or as a tool. Holds 250 mls of liquid.",
+		"name":"plastic bowl",
+		"price":1,
+		"rarity":50,
+		"id":"bowl_plastic",
+		"type":"CONTAINER",
+		"contains":1
 	}
+
 ]
