@@ -23,6 +23,12 @@ else:
 if not os.path.exists(to_folder):
     os.mkdir(to_folder)
 
+# clean any old extracted strings, it will all be redone
+for filename in os.listdir(to_folder):
+    if not filename.endswith(".py"): continue
+    f = os.path.join(to_folder, filename)
+    os.remove(f)
+
 ## FUNCTIONS
 
 def gettextify(string):
