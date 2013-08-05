@@ -284,7 +284,7 @@
         "dispersion" : 0,
         "recoil" : 18,
         "count" : 25,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
         "id" : "shot_00",
@@ -307,7 +307,7 @@
         "dispersion" : 0,
         "recoil" : 26,
         "count" : 25,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
         "id" : "shot_slug",
@@ -445,7 +445,7 @@
         "dispersion" : 0,
         "recoil" : 4,
         "count" : 100,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
         "id" : "9mm",
