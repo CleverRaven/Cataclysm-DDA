@@ -5408,7 +5408,7 @@ void game::kill_mon(int index, bool u_did_it)
     kills[z[index].type->id]++;	// Increment our kill counter
   }
   for (int i = 0; i < z[index].inv.size(); i++)
-   m.add_item_or_charges(z[index].posx, z[index].posy, z[index].inv[i]);
+   m.add_item(z[index].posx, z[index].posy, z[index].inv[i]);
   z[index].die(this);
  }
 }

@@ -975,10 +975,10 @@ void mattack::vortex(game *g, monster *z)
         if (g->u_see(traj[i].x, traj[i].y))
          g->add_msg(_("The %s shatters!"), thrown.tname().c_str());
         for (int n = 0; n < thrown.contents.size(); n++)
-         g->m.add_item_or_charges(traj[i].x, traj[i].y, thrown.contents[n]);
+         g->m.add_item(traj[i].x, traj[i].y, thrown.contents[n]);
         g->sound(traj[i].x, traj[i].y, 16, _("glass breaking!"));
        } else
-        g->m.add_item_or_charges(traj[i].x, traj[i].y, thrown);
+        g->m.add_item(traj[i].x, traj[i].y, thrown);
       }
      }
     } // Done throwing item

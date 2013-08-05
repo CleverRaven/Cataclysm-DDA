@@ -70,7 +70,7 @@ void mdeath::normal(game *g, monster *z)
         item tmp;
         tmp.make_corpse(g->itypes["corpse"], z->type, g->turn);
         tmp.damage = corpse_damage;
-        g->m.add_item_or_charges(z->posx, z->posy, tmp);
+        g->m.add_item(z->posx, z->posy, tmp);
     }
 
     // leave gibs
@@ -326,7 +326,7 @@ void mdeath::amigara(game *g, monster *z)
    g->u.rem_disease("amigara");
    g->add_msg(_("Your obsession with the fault fades away..."));
    item art(g->new_artifact(), g->turn);
-   g->m.add_item_or_charges(z->posx, z->posy, art);
+   g->m.add_item(z->posx, z->posy, art);
   }
  }
  normal(g, z);
