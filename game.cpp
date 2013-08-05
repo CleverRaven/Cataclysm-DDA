@@ -2638,6 +2638,8 @@ void game::load(std::string name)
  getline(fin, data);
  u.load_info(this, data);
 // And the player's inventory...
+ u.inv.load_invlet_cache( fin );
+
  char item_place;
  std::string itemdata;
 // We need a temporary vector of items.  Otherwise, when we encounter an item

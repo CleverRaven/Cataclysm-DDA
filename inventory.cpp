@@ -1453,9 +1453,38 @@ void inventory::assign_empty_invlet(item &it)
   //debugmsg("Couldn't find empty invlet");
 }
 
+void inventory::load_invlet_cache( std::ifstream &fin ) {
+    if( fin.peek() == 'P' ) {
+        std::string invlet_cache_line;
+        std::string item_type;
+        getline( fin, invlet_cache_line );
+        // Lines are of the format "P itemname abcde".
+        while( invlet_cache_line[0] == 'P' ) {
+            int first_sym = invlet_cache_line.find_first_of(' ', 2);
+            std::string item_type( invlet_cache_line, 2, first_sym - 2 );
+            std::vector<char> symbol_vec( invlet_cache_line.begin() + first_sym + 1,
+                                          invlet_cache_line.end() );
+            invlet_cache[ item_type ] = symbol_vec;
+
+            getline( fin, invlet_cache_line );
+        }
+    }
+}
+
+
 std::string inventory::save_str_no_quant() const
 {
     std::stringstream dump_ss;
+    std::map<std::string, std::vector<char> >::const_iterator invlet_id;
+    for( invlet_id = invlet_cache.begin();
+         invlet_id != invlet_cache.end(); ++invlet_id ) {
+        dump_ss << "P " << invlet_id->first << ' ';
+        for( std::vector<char>::const_iterator sym = invlet_id->second.begin();
+             sym != invlet_id->second.end(); ++sym ) {
+            dump_ss << *sym;
+        }
+        dump_ss << std::endl;
+    }
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
