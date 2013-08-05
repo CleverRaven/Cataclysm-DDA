@@ -7,6 +7,7 @@
 #include "bionics.h"
 #include "line.h"
 #include "catajson.h"
+#include <math.h>
 
 #define BATTERY_AMOUNT 4 // How much batteries increase your power
 
@@ -533,21 +534,24 @@ bool player::install_bionics(game *g, it_bionic* type)
  return true;
 }
 
-void bionics_install_failure(game *g, player *u, int success)
+void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
 {
- success = abs(success) - rng(1, 10);
- int failure_level = 0;
- if (success <= 0) {
+ success = abs(success);
+
+ // it would be better for code reuse just to pass in skill as an argument from install_bionic
+ int pl_skill = int_cur * 4 +
+  skillLevel("electronics") * 4 +
+  skillLevel("firstaid")    * 3 +
+  skillLevel("mechanics")   * 1;
+
+ int failure_level = sqrt(success * 4 * type->difficulty / pl_skill) 
+ int fail_type = (failure_level > 5 ? 5 : failure_level);
+
+ if (fail_type <= 0) {
   g->add_msg(_("The installation fails without incident."));
   return;
  }
 
- while (success > 0) {
-  failure_level++;
-  success -= rng(1, 10);
- }
-
- int fail_type = rng(1, (failure_level > 5 ? 5 : failure_level));
  std::string fail_text;
 
  switch (rng(1, 5)) {
