@@ -10084,6 +10084,78 @@
                               ]
                           ]
         },
+        
+        {
+            "result": "bowl_plastic",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 1,
+            "time": 12000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["plastic_chunk", 4]
+                              ]
+                          ]
+        },
+        
+        {
+            "result": "mold_plastic",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 2,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["bowl_plastic", 2]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "bottle_plastic",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "skill_sec": "cooking",
+            "difficulty": 4,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                                  ["mold_plastic", -1]
+                              ],
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["plastic_chunk", 6]
+                              ]
+                          ]
+        },
+
+
             {
                 "result": "nailrifle",
                 "category": "CC_WEAPON",
