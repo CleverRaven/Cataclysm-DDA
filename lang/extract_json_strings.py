@@ -6,6 +6,8 @@ from __future__ import print_function
 import json
 import os
 
+## PREPARATION
+
 # allow running from main directory, or from script subdirectory
 if os.path.exists("data/raw"):
     raw_folder = "data/raw"
@@ -16,6 +18,18 @@ elif os.path.exists("../data/raw"):
 else:
     print("Error: Couldn't find the 'data/raw' subdirectory.")
     exit(1)
+
+# create the output directory, if it does not already exist
+if not os.path.exists(to_folder):
+    os.mkdir(to_folder)
+
+# clean any old extracted strings, it will all be redone
+for filename in os.listdir(to_folder):
+    if not filename.endswith(".py"): continue
+    f = os.path.join(to_folder, filename)
+    os.remove(f)
+
+## FUNCTIONS
 
 def gettextify(string):
     "Put the string in a fake gettext call, and add a newline."
@@ -36,10 +50,6 @@ def tlcomment(fs, string):
     fs.write(string)
     fs.write("\n")
 
-# create the output directory, if it does not already exist
-if not os.path.exists(to_folder):
-    os.mkdir(to_folder)
-
 # extract "name" and "description" fields from json to fake-python
 def convert(infilename, outfile):
     "open infilename, read data, write names and descriptions to outfile."
@@ -49,6 +59,8 @@ def convert(infilename, outfile):
     for n, d in zip(names, descriptions):
         writestr(outfile, n)
         writestr(outfile, d)
+
+## EXTRACTION
 
 # data/raw/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
