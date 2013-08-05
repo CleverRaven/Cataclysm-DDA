@@ -6129,15 +6129,31 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
     bool compact=(TERMX<=100);
 
     if(isinventory) {
-        mvwprintz( window, 4, rightcol, c_ltgreen, "%3d %3d", g->u.weight_carried(), g->u.volume_carried() );
+        int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
+        if (g->u.convert_weight(g->u.weight_carried()) > 9.9 ) {
+          hrightcol--;
+          if (g->u.convert_weight(g->u.weight_carried()) > 99.9 ) { // not uncommon
+            hrightcol--;
+            if (g->u.convert_weight(g->u.weight_carried()) > 999.9 ) {
+              hrightcol--;
+              if (g->u.convert_weight(g->u.weight_carried()) > 9999.9 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
+                hrightcol--;
+              }
+            }
+          }
+        }
+        mvwprintz( window, 4, hrightcol, c_ltgreen, "%3.1f %3d", g->u.convert_weight(g->u.weight_carried()), g->u.volume_carried() );
     } else {
         int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
-        if ( squares[pane.area].weight > 999 ) { // this is potentially the total of 9 tiles
+        if (g->u.convert_weight(squares[pane.area].weight) > 9.9 ) {
           hrightcol--;
-          if ( squares[pane.area].weight > 9999 ) { // not uncommon
+          if (g->u.convert_weight(squares[pane.area].weight) > 99.9 ) { // not uncommon
             hrightcol--;
-            if ( squares[pane.area].weight > 99999 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
+            if (g->u.convert_weight(squares[pane.area].weight) > 999.9 ) {
               hrightcol--;
+              if (g->u.convert_weight(squares[pane.area].weight) > 9999.9 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
+                hrightcol--;
+              }
             }
           }
         }
@@ -6148,7 +6164,7 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
           }
         }
 
-        mvwprintz( window, 4, hrightcol, norm, "%3d %3d", squares[pane.area].weight, squares[pane.area].volume);
+        mvwprintz( window, 4, hrightcol, norm, "%3.1f %3d", g->u.convert_weight(squares[pane.area].weight), squares[pane.area].volume);
     }
 
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
@@ -6187,10 +6203,13 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
         }
 //mvwprintz(window, 6 + x, amount_column-3, thiscolor, "%d", items[i].cat);
         int xrightcol=rightcol;
-        if ( items[i].weight > 999 ) { // rare. bear = 2000
+        if (g->u.convert_weight(items[i].weight) > 9.9 ) {
           xrightcol--;
-          if ( items[i].weight > 9999 ) { // anything beyond this is excessive. Enjoy your clear plastic bottle of neutronium
+          if (g->u.convert_weight(items[i].weight) > 99.9 ) {
             xrightcol--;
+            if (g->u.convert_weight(items[i].weight) > 999.9 ) { // anything beyond this is excessive. Enjoy your clear plastic bottle of neutronium
+              xrightcol--;
+            }
           }
         }
         if ( items[i].volume > 999 ) { // does not exist, but can fit in 1024 tile limit
@@ -6199,8 +6218,8 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
             xrightcol--;
           }
         }
-        mvwprintz(window, 6 + x, xrightcol, (items[i].weight > 0 ? thiscolor : thiscolordark),
-            "%3d", items[i].weight );
+        mvwprintz(window, 6 + x, xrightcol, (g->u.convert_weight(items[i].weight) > 0 ? thiscolor : thiscolordark),
+            "%3.1f", g->u.convert_weight(items[i].weight) );
 
         wprintz(window, (items[i].volume > 0 ? thiscolor : thiscolordark), " %3d", items[i].volume );
       }
