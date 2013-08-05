@@ -59,7 +59,7 @@ we have to initialize the translation file.
 In this example the translation is into New Zealand English (en_NZ).
 For other languages change "en_NZ" to the relevant language identifier.
 
-    msginit -l en_NZ.utf8 -o lang/po/en_NZ.po -i lang/po/cataclysm-dda.pot
+    msginit -l en_NZ.UTF-8 -o lang/po/en_NZ.po -i lang/po/cataclysm-dda.pot
 
 
 Step 2(b): Update an already existing language file
@@ -92,7 +92,7 @@ For example:
 
 Now run the "msgfmt" program to compile the translations for use in game.
 
-    msgfmt -c -o lang/mo/en_NZ/LC_MESSAGES/cataclysm-dda.mo lang/po/en_NZ.po
+    msgfmt -f -c -o lang/mo/en_NZ/LC_MESSAGES/cataclysm-dda.mo lang/po/en_NZ.po
 
 Hooray, that's it :).
 
