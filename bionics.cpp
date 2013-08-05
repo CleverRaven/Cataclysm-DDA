@@ -507,7 +507,7 @@ bool player::install_bionics(game *g, it_bionic* type)
    skillLevel("mechanics")   * 1;
 
  // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
- float adjusted_skill = pl_skill - min( float (10), float (pl_skill) - float (pl_skill) / 10);
+ float adjusted_skill = pl_skill - std::min( float (10), float (pl_skill) - float (pl_skill) / 10);
 
  // we will base chance_of_success on a ratio of skill and difficulty
  // when skill=difficulty, this gives us 0.  skill < difficulty gives a negative number.
@@ -551,12 +551,12 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
  success = abs(success);
 
  // it would be better for code reuse just to pass in skill as an argument from install_bionic
- int pl_skill = int_cur * 4 +
-  skillLevel("electronics") * 4 +
-  skillLevel("firstaid")    * 3 +
-  skillLevel("mechanics")   * 1;
+ int pl_skill = u->int_cur * 4 +
+  u->skillLevel("electronics") * 4 +
+  u->skillLevel("firstaid")    * 3 +
+  u->skillLevel("mechanics")   * 1;
 
- int failure_level = sqrt(success * 4 * type->difficulty / pl_skill) 
+ int failure_level = sqrt(success * 4 * type->difficulty / pl_skill);
  int fail_type = (failure_level > 5 ? 5 : failure_level);
 
  if (fail_type <= 0) {
