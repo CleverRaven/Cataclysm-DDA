@@ -804,6 +804,8 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,_("This berry makes you feel better all over."));
   p->pkill += 30;
   this->purifier(g, p, it, t);
+	 if (effect == 6)
+	  p->radiation = 0;
  } else if (effect == 7) {
   g->add_msg_if_player(p,_("This berry is delicious, and very filling!"));
   p->hunger = -100;
@@ -814,8 +816,6 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,_("You feel a strange warmth spreading throughout your body..."));
   p->toggle_mutation(PF_MARLOSS);
  }
- if (effect == 6)
-  p->radiation = 0;
 }
 
 void iuse::dogfood(game *g, player *p, item *it, bool t)
