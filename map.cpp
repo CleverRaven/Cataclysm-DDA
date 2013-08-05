@@ -783,16 +783,8 @@ bool map::displace_water (const int x, const int y)
 
 void map::set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture)
 {
- if (!INBOUNDS(x, y)) {
-  return;
- }
-
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- grid[nonant]->ter[lx][ly] = new_terrain;
- grid[nonant]->frn[lx][ly] = new_furniture;
+ furn_set(x, y, new_furniture);
+	ter_set(x, y, new_terrain);
 }
 
 std::string map::name(const int x, const int y)
