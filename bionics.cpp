@@ -7,6 +7,8 @@
 #include "bionics.h"
 #include "line.h"
 #include "catajson.h"
+#include <math.h>    // sqrt
+#include <algorithm> // std::min
 
 #define BATTERY_AMOUNT 4 // How much batteries increase your power
 
@@ -498,13 +500,21 @@ bool player::install_bionics(game *g, it_bionic* type)
  }
 
  std::string bio_name = type->name.substr(5);	// Strip off "CBM: "
- int pl_skill = int_cur +
+ int pl_skill = int_cur * 4 +
    skillLevel("electronics") * 4 +
    skillLevel("firstaid")    * 3 +
-   skillLevel("mechanics")   * 2;
+   skillLevel("mechanics")   * 1;
 
- int chance_of_success = int((100 * pl_skill) /
-                             (pl_skill + 4 * type->difficulty));
+ // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+ float adjusted_skill = pl_skill - min( float (10), float (pl_skill) - float (pl_skill) / 10);
+
+ // we will base chance_of_success on a ratio of skill and difficulty
+ // when skill=difficulty, this gives us 0.  skill < difficulty gives a negative number.
+ float skill_difficulty_parameter = adjusted_skill / type->difficulty - type->difficulty / adjusted_skill;
+ 
+ // when skill == difficulty, chance_of_success is 50%
+ int chance_of_success = int((100 * skill_difficulty_parameter) /
+                             (skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter)));
  if (!query_yn(_("WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?"), 100 - chance_of_success))
      return false;
  int pow_up = 0;
@@ -533,21 +543,24 @@ bool player::install_bionics(game *g, it_bionic* type)
  return true;
 }
 
-void bionics_install_failure(game *g, player *u, int success)
+void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
 {
- success = abs(success) - rng(1, 10);
- int failure_level = 0;
- if (success <= 0) {
+ success = abs(success);
+
+ // it would be better for code reuse just to pass in skill as an argument from install_bionic
+ int pl_skill = int_cur * 4 +
+  skillLevel("electronics") * 4 +
+  skillLevel("firstaid")    * 3 +
+  skillLevel("mechanics")   * 1;
+
+ int failure_level = sqrt(success * 4 * type->difficulty / pl_skill) 
+ int fail_type = (failure_level > 5 ? 5 : failure_level);
+
+ if (fail_type <= 0) {
   g->add_msg(_("The installation fails without incident."));
   return;
  }
 
- while (success > 0) {
-  failure_level++;
-  success -= rng(1, 10);
- }
-
- int fail_type = rng(1, (failure_level > 5 ? 5 : failure_level));
  std::string fail_text;
 
  switch (rng(1, 5)) {
