@@ -783,16 +783,8 @@ bool map::displace_water (const int x, const int y)
 
 void map::set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture)
 {
- if (!INBOUNDS(x, y)) {
-  return;
- }
-
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- grid[nonant]->ter[lx][ly] = new_terrain;
- grid[nonant]->frn[lx][ly] = new_furniture;
+ furn_set(x, y, new_furniture);
+	ter_set(x, y, new_terrain);
 }
 
 std::string map::name(const int x, const int y)
@@ -2899,28 +2891,31 @@ field& map::field_at(const int x, const int y)
  return grid[nonant]->fld[lx][ly];
 }
 
-bool map::add_field(game *g, const int x, const int y,
-					const field_id t, const unsigned char new_density)
+bool map::add_field(game *g, const point p, const field_id t, unsigned int density, const int age)
 {
-	unsigned int density = new_density;
-
-	if (!INBOUNDS(x, y))
+	if (!INBOUNDS(p.x, p.y))
 		return false;
 
 	if (density > 3)
 		density = 3;
 	if (density <= 0)
 		return false;
-	const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+	const int nonant = int(p.x / SEEX) + int(p.y / SEEY) * my_MAPSIZE;
 
-	const int lx = x % SEEX;
-	const int ly = y % SEEY;
+	const int lx = p.x % SEEX;
+	const int ly = p.y % SEEY;
 	if (!grid[nonant]->fld[lx][ly].findField(t)) //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
 		grid[nonant]->field_count++; //Only adding it to the count if it doesn't exist.
-	grid[nonant]->fld[lx][ly].addField(t, density, 0); //This will insert and/or update the field.
-	if(g != NULL && x == g->u.posx && y == g->u.posy)
-		step_in_field(x,y,g); //Hit the player with the field if it spawned on top of them.
+	grid[nonant]->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
+	if(g != NULL && p.x == g->u.posx && p.y == g->u.posy)
+		step_in_field(p.x,p.y,g); //Hit the player with the field if it spawned on top of them.
 	return true;
+}
+
+bool map::add_field(game *g, const int x, const int y,
+					const field_id t, const unsigned char new_density)
+{
+ return this->add_field(g,point(x,y),t,new_density,0);
 }
 
 void map::remove_field(const int x, const int y, const field_id field_to_remove)
