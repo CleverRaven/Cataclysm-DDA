@@ -500,8 +500,8 @@ void game::create_starting_npcs()
 }
 
 void game::cleanup_at_end(){
- write_msg();
- if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE || uquit == QUIT_SAVED)
+    write_msg();
+    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE || uquit == QUIT_SAVED)
 	{
 		// Save the factions's, missions and set the NPC's overmap coords
 		// Npcs are saved in the overmap.
@@ -514,8 +514,8 @@ void game::cleanup_at_end(){
 		save_maps(); //Omap also contains the npcs who need to be saved.
 	}
 
- // Clear the future weather for future projects
- future_weather.clear();
+    // Clear the future weather for future projects
+    future_weather.clear();
 
     if (uquit == QUIT_DIED)
     {
@@ -524,6 +524,11 @@ void game::cleanup_at_end(){
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
     {
         death_screen();
+        if(OPTIONS[OPT_MEMORIAL_FILE == 1]
+         || (OPTIONS[OPT_MEMORIAL_FILE] == 2 && query_yn(_("Create memorial file of this character?"))))
+        {
+            write_memorial_file();
+        }
         if (OPTIONS[OPT_DELETE_WORLD] == 1
          || (OPTIONS[OPT_DELETE_WORLD] == 2 && query_yn(_("Delete saved world?"))))
         {
@@ -2803,6 +2808,16 @@ void game::delete_save()
       (void)closedir(save_dir);
      }
 #endif
+}
+
+void game::write_memorial_file() {
+
+    //Gather player information
+
+    //Write to a morgue file
+
+    //Cleanup
+
 }
 
 void game::advance_nextinv()

@@ -273,6 +273,9 @@ option_key lookup_option_key(std::string id)
     if(id == "delete_world") {
         return OPT_DELETE_WORLD;
     }
+    if(id == "memorial_file") {
+        return OPT_MEMORIAL_FILE;
+    }
     if(id == "initial_points") {
         return OPT_INITIAL_POINTS;
     }
@@ -360,6 +363,7 @@ std::string option_string(option_key key)
     case OPT_DROP_EMPTY:          return "drop_empty";
     case OPT_SKILL_RUST:          return "skill_rust";
     case OPT_DELETE_WORLD:        return "delete_world";
+    case OPT_MEMORIAL_FILE:       return "memorial_file";
     case OPT_INITIAL_POINTS:      return "initial_points";
     case OPT_MAX_TRAIT_POINTS:    return "max_trait_points";
     case OPT_INITIAL_TIME:        return "initial_time";
@@ -408,6 +412,7 @@ std::string option_desc(option_key key)
     case OPT_DROP_EMPTY:          return _("Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers");
     case OPT_SKILL_RUST:          return _("Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - intelligence dependent\n3 - intelligence dependent, capped\n4 - none at all");
     case OPT_DELETE_WORLD:        return _("Delete saves upon player death.\n0 - no (default)\n1 - yes\n2 - query");
+    case OPT_MEMORIAL_FILE:       return _("Create a file of your character's\naccomplishments upon death.\n0 - no (default)\n1 - yes\n2 - query");
     case OPT_INITIAL_POINTS:      return _("Initial points available on character\ngeneration.\nDefault is 6");
     case OPT_MAX_TRAIT_POINTS:    return _("Maximum trait points available for\ncharacter generation.\nDefault is 12");
     case OPT_INITIAL_TIME:        return _("Initial starting time of day on\ncharacter generation.\nDefault is 8:00");
@@ -456,6 +461,7 @@ std::string option_name(option_key key)
     case OPT_DROP_EMPTY:          return _("Drop empty containers");
     case OPT_SKILL_RUST:          return _("Skill Rust");
     case OPT_DELETE_WORLD:        return _("Delete World");
+    case OPT_MEMORIAL_FILE:       return _("Memorial File");
     case OPT_INITIAL_POINTS:      return _("Initial points");
     case OPT_MAX_TRAIT_POINTS:    return _("Maximum trait points");
     case OPT_INITIAL_TIME:        return _("Initial time");
@@ -490,6 +496,7 @@ bool option_is_bool(option_key id)
     case OPT_SKILL_RUST:
     case OPT_DROP_EMPTY:
     case OPT_DELETE_WORLD:
+    case OPT_MEMORIAL_FILE:
     case OPT_INITIAL_POINTS:
     case OPT_MAX_TRAIT_POINTS:
     case OPT_INITIAL_TIME:
@@ -535,6 +542,7 @@ char option_max_options(option_key id)
             ret = 24; // 0h to 23h
             break;
         case OPT_DELETE_WORLD:
+        case OPT_MEMORIAL_FILE:
         case OPT_DROP_EMPTY:
             ret = 3;
             break;
@@ -643,6 +651,8 @@ drop_empty 0\n\
 skill_rust 0\n\
 # Delete world after player death: 0 - no, 1 - yes, 2 - query\n\
 delete_world 0\n\
+# Create memorial file after player death: 0 - no, 1 - yes, 2 - query\n\
+create_memorial 0\n\
 # Initial points available in character generation\n\
 initial_points 6\n\
 # Maximum trait points allowed in character generation\n\
