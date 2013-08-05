@@ -38,6 +38,7 @@
 #include <dirent.h>
 #endif
 #include <sys/stat.h>
+#include <ctime>
 #include "debug.h"
 #include "artifactdata.h"
 
@@ -2814,9 +2815,44 @@ void game::write_memorial_file() {
 
     //Gather player information
 
-    //Write to a morgue file
+    //Write to a memorial file
+    DIR *dir = opendir("memorial");
+    if (!dir) {
+        #if (defined _WIN32 || defined __WIN32__)
+            mkdir("memorial");
+        #else
+            mkdir("memorial", 0777);
+        #endif
+        dir = opendir("memorial");
+    }
+    if (!dir) {
+        dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
+        debugmsg("Could not make './memorial' directory");
+        return;
+    }
+
+    //To ensure unique filenames and to sort files, append a timestamp
+    time_t rawtime;
+    time (&rawtime);
+    std::string timestamp = ctime(&rawtime);
+
+    //Colons are not usable in paths, so get rid of them
+    int index;
+    for(index = 0; index < timestamp.size(); index++) {
+        if(timestamp[index] == ':') {
+            timestamp[index] = '-';
+        }
+    }
+
+    std::string memorial_file_path = string_format("memorial/%s-%s.txt", 
+            u.name.c_str(), timestamp.c_str());
+    
+    std::ofstream memorial_file;
+    memorial_file.open(memorial_file_path.c_str());
+    memorial_file << "Memorial file content goes here";
 
     //Cleanup
+    memorial_file.close();
 
 }
 
