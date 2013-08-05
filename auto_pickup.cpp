@@ -467,7 +467,7 @@ void load_auto_pickup(bool bCharacter)
                 bool bActive = true;
                 bool bExclude = false;
 
-                int iPos = 0;
+                size_t iPos = 0;
                 int iCol = 1;
                 do {
                     iPos = sLine.find(";");
@@ -486,11 +486,11 @@ void load_auto_pickup(bool bCharacter)
 
                     iCol++;
 
-                    if (iPos != std::string::npos) {
+                    if (iPos != -1) {
                         sLine = sLine.substr(iPos+1, sLine.size());
                     }
 
-                } while(iPos != std::string::npos);
+                } while(iPos != -1);
 
                 vAutoPickupRules[(bCharacter) ? 2 : 1].push_back(cPickupRules(sRule, bActive, bExclude));
             }

@@ -2879,7 +2879,7 @@ void game::add_msg_player_or_npc(player *p, const char* player_str, const char* 
         std::string processed_npc_string(buff);
         // These strings contain the substring <npcname>,
         // if present replace it with the actual npc name.
-        int offset = processed_npc_string.find("<npcname>");
+        size_t offset = processed_npc_string.find("<npcname>");
         if( offset != std::string::npos ) {
             processed_npc_string.replace(offset, sizeof("<npcname>"),  p->name);
         }
