@@ -6223,14 +6223,19 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
     }
     else
     {
-        // Only helmets can be worn with power armor, except other power armor components
-        if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & (mfb(bp_head) | mfb(bp_eyes))))
-        {
-            if(interactive)
+        // Only headgear can be worn with power armor, except other power armor components
+        if( armor->covers & ~(mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) ) ) {
+            for (int i = 0; i < worn.size(); i++)
             {
-                g->add_msg(_("You can't wear %s with power armor!"), to_wear->tname().c_str());
+                if( ((it_armor *)worn[i].type)->is_power_armor() )
+                {
+                    if(interactive)
+                    {
+                        g->add_msg(_("You can't wear %s with power armor!"), to_wear->tname().c_str());
+                    }
+                    return false;
+                }
             }
-            return false;
         }
     }
 
