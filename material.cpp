@@ -14,12 +14,12 @@ material_type::material_type()
     _name = "null";
     _bash_resist = 0;
     _cut_resist = 0;
-    _bash_dmg_verb = "damages";
-    _cut_dmg_verb = "damages";
-    _dmg_adj[0] = "lightly damaged";
-    _dmg_adj[1] = "damaged";
-    _dmg_adj[2] = "very damaged";
-    _dmg_adj[3] = "thoroughly damaged";
+    _bash_dmg_verb = _("damages");
+    _cut_dmg_verb = _("damages");
+    _dmg_adj[0] = _("lightly damaged");
+    _dmg_adj[1] = _("damaged");
+    _dmg_adj[2] = _("very damaged");
+    _dmg_adj[3] = _("thoroughly damaged");
     _acid_resist = 0;
     _elec_resist = 0;
     _fire_resist = 0;
@@ -68,7 +68,12 @@ material_type::material_type(std::string ident)
     _density = mat_type->density();
 }
 
-material_map material_type::_all_materials(material_type::load_materials());
+material_map material_type::_all_materials;
+
+void game::init_materials()
+{
+    material_type::_all_materials = material_type::load_materials();
+}
 
 material_map material_type::load_materials()
 {
@@ -98,6 +103,14 @@ material_map material_type::load_materials()
         dmg_adj[1] = adjList.get(1).as_string();
         dmg_adj[2] = adjList.get(2).as_string();
         dmg_adj[3] = adjList.get(3).as_string();
+
+        name = _(name.c_str());
+        bash_dmg_verb = _(bash_dmg_verb.c_str());
+        cut_dmg_verb = _(cut_dmg_verb.c_str());
+        dmg_adj[0] = _(dmg_adj[0].c_str());
+        dmg_adj[1] = _(dmg_adj[1].c_str());
+        dmg_adj[2] = _(dmg_adj[2].c_str());
+        dmg_adj[3] = _(dmg_adj[3].c_str());
 
         material_type newMaterial(id, ident, name, bash_resist, cut_resist, bash_dmg_verb,
                                   cut_dmg_verb, dmg_adj, acid_resist, elec_resist, fire_resist, density);

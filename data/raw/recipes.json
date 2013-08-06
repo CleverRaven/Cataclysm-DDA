@@ -275,7 +275,134 @@
                               ]
                           ]
         },
-      
+		
+		
+		{
+            "result": "sword_wood",
+            "category": "CC_WEAPON",
+            "difficulty": 0,
+            "time": 25000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["2x4", 2]
+                              ]
+                          ]
+        },  
+		
+		
+		{
+            "result": "sword_nail",
+            "category": "CC_WEAPON",
+			"skill_pri": "survival",
+            "difficulty": 0,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ],
+						 [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["sword_wood", 1]
+                              ],
+							  [
+                                  ["nail", 12]
+                              ]
+                          ]
+        },
+		
+		
+		{
+            "result": "sword_crude",
+            "category": "CC_WEAPON",
+			"skill_pri": "survival",
+            "difficulty": 1,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+						 [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["sword_wood", 1]
+                              ],
+							  [
+                                  ["scrap", 4]
+                              ]
+                          ]
+        },
+		
+		
+		{
+            "result": "sword_forged",
+            "category": "CC_WEAPON",
+			"skill_pri": "mechanics",
+            "difficulty": 9,
+            "time": 240000,
+            "reversible": false,
+            "autolearn": false,
+            "tools": [
+						 [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ],
+						  [
+                             ["toolset", 10],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["steel_lump", 6]
+                              ],
+							  [
+                                  ["scrap", 4]
+                              ]
+                          ]
+        },
+		
       
       {
             "result": "sling",
@@ -390,7 +517,8 @@
         {
             "result": "javelin",
             "category": "CC_WEAPON",
-            "skill_pri": "survival",
+            "skill_pri": "throw",
+            "skill_sec": "survival",
             "difficulty": 3,
             "time": 5000,
             "reversible": false,
@@ -759,6 +887,7 @@
                          ],
                          [
                              ["welder", 30],
+                             ["welder_crude", 45],
                              ["toolset", 3]
                          ]
                      ],
@@ -1726,7 +1855,10 @@
             [
                ["feather", 10],
                ["duct_tape", 40],
-               ["bag_plastic", 1]
+               ["bag_plastic", 1],
+               ["bottle_plastic", 1],
+               ["box_small", 1],
+               ["plastic_chunk", 1]
             ]
          ]
         },
@@ -2881,7 +3013,6 @@
                           ]
         },
 
-
         {
             "result": "223",
             "category": "CC_AMMO",
@@ -2910,6 +3041,9 @@
                               ],
                               [
                                   ["gunpowder", 160]
+                              ],
+                              [
+                                  ["22_casing", 40]
                               ],
                               [
                                   ["lead", 80], ["gold_small", 80]
@@ -2946,13 +3080,15 @@
                               ],
                               [
                                   ["gunpowder", 240]
+                              ],                              
+                              [
+                                  ["22_casing", 40]
                               ],
                               [
                                   ["lead", 80], ["gold_small", 80]
                               ]
                           ]
         },
-
 
         {
             "result": "556_incendiary",
@@ -2982,6 +3118,9 @@
                               ],
                               [
                                   ["gunpowder", 180]
+                              ],
+                              [
+                                  ["22_casing", 30]
                               ],
                               [
                                   ["incendiary", 60]
@@ -3898,7 +4037,7 @@
             "components": [
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ],
                               [
                                   ["meat", 1]
@@ -3926,7 +4065,7 @@
             "components": [
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ],
                               [
                                   ["human_flesh", 1]
@@ -4590,7 +4729,7 @@
             "components": [
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ],
                               [
                                   ["oxycodone", 40]
@@ -8214,6 +8353,7 @@
                          ],
                          [
                              ["welder", 100],
+                             ["welder_crude", 150],
                              ["toolset", 5]
                          ],
                          [
@@ -8298,6 +8438,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ],
                          [
@@ -8330,6 +8471,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ],
                          [
@@ -8425,6 +8567,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ],
                          [
@@ -8456,7 +8599,7 @@
             "tools": [
                          [ ["wrench", -1], ["toolset", -1] ],
                          [ ["goggles_welding", -1] ],
-                         [ ["welder", 300], ["toolset", 12] ]
+                         [ ["welder", 300], ["welder_crude", 450], ["toolset", 12] ]
                      ],
             "components": [
                               [ ["frame", 2] ],
@@ -8709,6 +8852,7 @@
                          ],
                          [
                              ["welder", 20],
+                             ["welder_crude", 30],
                              ["toolset", 1]
                          ]
                      ],
@@ -8754,6 +8898,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ]
                      ],
@@ -8779,6 +8924,7 @@
                          ],
                          [
                              ["welder", 20],
+                             ["welder_crude", 30],
                              ["toolset", 1]
                          ]
                      ],
@@ -8804,6 +8950,7 @@
                          ],
                          [
                              ["welder", 100],
+                             ["welder_crude", 150],
                              ["toolset", 5]
                          ]
                      ],
@@ -8829,6 +8976,7 @@
                          ],
                          [
                              ["welder", 120],
+                             ["welder_crude", 180],
                              ["toolset", 6]
                          ]
                      ],
@@ -8860,6 +9008,7 @@
                          ],
                          [
                              ["welder", 300],
+                             ["welder_crude", 450],
                              ["toolset", 15]
                          ]
                      ],
@@ -9201,6 +9350,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ]
                      ],
@@ -9676,7 +9826,7 @@
                               ],
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ]
                           ]
         },
@@ -9725,7 +9875,7 @@
                               ],
                               [
                                   ["salt_water", 1],
-                                  ["salt", 4]
+                                  ["salt", 1]
                               ]
                           ]
         },
@@ -9797,6 +9947,50 @@
                               ]
                           ]
         },
+        
+        {
+            "result": "jar_kompot",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "skill_sec": "mechanics",
+            "difficulty": 3,
+            "time": 30100,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["vac_sealer", 10]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["blueberries", 4],
+                                  ["apple", 4],
+                                  ["apple_canned", 4],
+                                  ["apple_vac", 4],
+                                  ["strawberries", 4],
+                                  ["orange", 4],
+                                  ["lemon", 4]
+                              ],
+                              [
+                                  ["sugar", 1]
+                              ],
+                              [
+                                  ["water", 5],
+                                  ["water_clean", 5]
+                              ]
+                          ]
+        },
+        
         {
             "result": "steel_chunk",
             "category": "CC_MISC",
@@ -9811,6 +10005,7 @@
                          ],
                          [
                              ["welder", 20],
+                             ["welder_crude", 30],
                              ["toolset", 1]
                          ]
                      ],
@@ -9963,6 +10158,339 @@
                                   ["gold_small", 800]
                               ]
                           ]
+        },
+		{
+            "result": "tihar",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 6,
+            "time": 16000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+                         [
+                             ["hacksaw", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["wrench", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["welder", 150], ["welder_crude", 225], ["toolset", 6]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe", 4]
+                              ],
+                              [
+                                  ["duct_tape", 100],
+                                  ["superglue", 1]
+                              ],
+                              [
+                                  ["2x4", 1]
+                              ],
+                              [
+                                  ["metal_tank", 1]
+                              ],
+                              [
+                                  ["steel_chunk", 1]
+                              ],
+                              [
+                                  ["scrap", 6]
+                              ]
+                          ]
+        },
+		{
+            "result": "helsing",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 8,
+            "time": 18000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+                         [
+                             ["hacksaw", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["wrench", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["welder", 300], ["welder_crude", 450], ["toolset", 12]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe", 8]
+                              ],
+                              [
+                                  ["duct_tape", 100],
+                                  ["superglue", 1]
+                              ],
+                              [
+                                  ["2x4", 1]
+                              ],
+                              [
+                                  ["metal_tank", 1]
+                              ],
+                              [
+                                  ["steel_chunk", 2]
+                              ],
+                              [
+                                  ["scrap", 4]
+                              ]
+                          ]
+        },
+		{
+            "result": "ashot",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 3,
+            "time": 18000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+                         [
+                             ["hacksaw", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["wrench", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["welder", 100], ["welder_crude", 150], ["toolset", 4]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe", 1]
+                              ],
+                              [
+                                  ["2x4", 1]
+                              ],
+                              [
+                                  ["scrap", 2]
+                              ]
+                          ]
+        },
+		{
+            "result": "fried_spam",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 1,
+            "time": 2750,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pan", -1]
+                         ],
+                         [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["can_spam", 1]
+                              ]                              
+                          ]
+        },
+        {
+            "result": "welder_crude",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 2,
+            "time": 12000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+                         ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
+            "components": [ [ ["element", 3] ],
+                            [ ["scrap", 2] ],
+                            [ ["cable", 8] ] ]
+        },
+        {
+            "result": "flamethrower_crude",
+            "category": "CC_WEAPON",
+            "skill_pri": "survival",
+            "difficulty": 0,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [ [ ["knife_steak", -1], ["knife_combat", -1],
+                         ["knife_butcher", -1], ["pockknife", -1],
+                         ["scalpel", -1], ["machete", -1],
+                         ["broadsword", -1], ["toolset", -1],
+                         ["screwdriver", -1] ] ],
+            "components": [ [ ["spray_can", 1] ],
+                            [ ["duct_tape", 25] ],
+                            [ ["lighter", 1] ] ]
+        },
+        {
+            "result": "armor_scrapsuit",
+            "category": "CC_ARMOR",
+            "skill_pri": "mechanics",
+            "difficulty": 7,
+            "time": 100000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [ [ ["string_36", 2], ["string_6", 12] ],
+                            [ ["scrap", 15] ] ]
+        },
+        {
+            "result": "still",
+            "category": "CC_CHEM",
+            "skill_pri": "mechanics",
+            "difficulty": 3,
+            "time": 200000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [ [ ["knife_steak", -1], ["knife_combat", -1],
+                         ["knife_butcher", -1], ["pockknife", -1],
+                         ["scalpel", -1], ["machete", -1],
+                         ["broadsword", -1], ["toolset", -1],
+                         ["screwdriver", -1] ],
+                       [ ["rock", -1], ["primitive_hammer", -1],
+                         ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
+            "components": [ [ ["pot", 1] ],
+                            [ ["hose", 2] ],
+                            [ ["metal_tank", 1] ] ]
+        },
+        {
+            "result": "drink_strawberry_surprise",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 7000,
+            "reversible": false,
+            "autolearn": true,
+            "tools":[ [ ["still", -1] ],
+                      [ ["fire", -1] ] ],
+            "components": [ [ ["strawberries", 2] ],
+                            [ ["vodka", 4] ],
+                            [ ["bottle_glass", 1] ] ]
+        },
+        {
+            "result": "drink_boozeberry",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 7000,
+            "reversible": false,
+            "autolearn": true,
+            "tools":[ [ ["still", -1] ],
+                      [ ["fire", -1] ] ],
+            "components": [ [ ["blueberries", 2] ],
+                            [ ["vodka", 4] ],
+                            [ ["bottle_glass", 1] ] ]
+        },
+        {
+            "result": "cola_meth",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 7000,
+            "reversible": false,
+            "autolearn": true,
+                        "tools":[ [ ["still", -1] ],
+                                  [ ["fire", -1] ] ],
+            "components": [ [ ["meth", 4] ],
+                            [ ["cola", 2] ],
+                            [ ["bottle_glass", 1] ] ]
+        },
+        {
+            "result": "bookplate",
+            "category": "CC_ARMOR",
+            "skill_pri": "survival",
+            "difficulty": 3,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [ [ ["knife_steak", -1], ["knife_combat", -1],
+                         ["knife_butcher", -1], ["pockknife", -1],
+                         ["scalpel", -1], ["machete", -1],
+                         ["broadsword", -1], ["toolset", -1],
+                         ["screwdriver", -1] ] ],
+            "components": [ [ ["paper", 300] ],
+                            [ ["duct_tape", 150] ] ]
+        },
+        {
+            "result": "knuckle_steel",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "bashing",
+            "difficulty": 2,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
+                       [ ["rock", -1], ["primitive_hammer", -1],
+                         ["hammer", -1], ["hatchet", -1],
+                         ["toolset", -1] ] ],
+            "components": [ [ ["rag", 4] ],
+                            [ ["scrap", 4] ] ]
+        },
+        {
+            "result": "knuckle_katar",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "bashing",
+            "difficulty": 4,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
+                       [ ["screwdriver", -1], ["toolset", -1] ] ],
+            "components": [ [ ["2x4", 4] ],
+                            [ ["rebar", 5] ] ]
+        },
+        {
+            "result": "taint_tornado",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 5,
+            "time": 7000,
+            "reversible": false,
+            "autolearn": true,
+            "tools":[ [ ["still", -1] ],
+                      [ ["fire", -1]  ] ],
+            "components": [ [ ["meat_tainted", 12] ],
+                            [ ["vodka", 2] ],
+                            [ ["whiskey", 2] ],
+                            [ ["rum", 2] ],
+                            [ ["bottle_glass", 1] ] ]
         }
     ]
 }

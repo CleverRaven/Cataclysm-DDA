@@ -982,6 +982,21 @@ bool inventory::has_charges(itype_id it, int quantity) const
  return (charges_of(it) >= quantity);
 }
 
+bool inventory::has_flag(std::string flag) const
+{
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter)
+        {
+            if (stack_iter->has_flag(flag))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool inventory::has_item(item *it) const
 {
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)

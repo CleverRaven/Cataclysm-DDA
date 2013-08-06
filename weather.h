@@ -80,7 +80,7 @@ struct weather_datum
 };
 
 extern std::string season_name[4];
-extern weather_datum weather_data[];
+extern weather_datum weather_data[NUM_WEATHER_TYPES];
 extern int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES];
 
 std::string weather_forecast(game *g, radio_tower tower);

@@ -32,6 +32,7 @@ OPT_MAX_TRAIT_POINTS,    // Set the number of trait points
 OPT_INITIAL_TIME,        // Sets the starting hour (0-24)
 OPT_VIEWPORT_X,          // Set the width of the terrain window, in characters
 OPT_VIEWPORT_Y,          // Set the height of the terrain window, in characters
+OPT_SIDEBAR_STYLE,       // Sidebar style (0: standard, 1: narrow)
 OPT_MOVE_VIEW_OFFSET,    // Sensitivity of shift+(movement)
 OPT_STATIC_SPAWN,        // Makes zombies spawn using the new static system
 OPT_CLASSIC_ZOMBIES,     // Only spawn the more classic zombies and buildings.
@@ -45,6 +46,7 @@ OPT_AUTO_PICKUP,         // Enable Item Auto Pickup
 OPT_AUTO_PICKUP_ZERO,    // Auto Pickup 0 Volume and Weith items
 OPT_AUTO_PICKUP_SAFEMODE,// Auto Pickup Safemode
 OPT_DANGEROUS_PICKUPS,   // Drop items if they would exceed weight danger limits
+OPT_SORT_CRAFTING,       // Sorts the crafting recipes so avaliable ones come up first
 NUM_OPTION_KEYS
 };
 

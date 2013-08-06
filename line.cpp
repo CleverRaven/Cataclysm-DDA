@@ -65,15 +65,17 @@ int trig_dist(int x1, int y1, int x2, int y2)
    return int( sqrt( double( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) ) ) );
 }
 
+int square_dist(int x1, int y1, int x2, int y2) {
+   int dx = abs(x1 - x2), dy = abs(y1 - y2);
+   return ( dx > dy ? dx : dy );
+}
+
 int rl_dist(int x1, int y1, int x2, int y2)
 {
  if(trigdist) {
      return trig_dist( x1, y1, x2, y2 );
  }
- int dx = abs(x1 - x2), dy = abs(y1 - y2);
- if (dx > dy)
-  return dx;
- return dy;
+ return square_dist( x1, y1, x2, y2 );
 }
 
 int rl_dist(point a, point b)

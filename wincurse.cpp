@@ -136,6 +136,42 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                 case VK_PRIOR:
                     lastchar = KEY_PPAGE;
                     break;
+                case VK_F1:
+                    lastchar = KEY_F(1);
+                    break;
+                case VK_F2:
+                    lastchar = KEY_F(2);
+                    break;
+                case VK_F3:
+                    lastchar = KEY_F(3);
+                    break;
+                case VK_F4:
+                    lastchar = KEY_F(4);
+                    break;
+                case VK_F5:
+                    lastchar = KEY_F(5);
+                    break;
+                case VK_F6:
+                    lastchar = KEY_F(6);
+                    break;
+                case VK_F7:
+                    lastchar = KEY_F(7);
+                    break;
+                case VK_F8:
+                    lastchar = KEY_F(8);
+                    break;
+                case VK_F9:
+                    lastchar = KEY_F(9);
+                    break;
+                case VK_F10:
+                    lastchar = KEY_F(10);
+                    break;
+                case VK_F11:
+                    lastchar = KEY_F(11);
+                    break;
+                case VK_F12:
+                    lastchar = KEY_F(12);
+                    break;
                 default:
                     break;
             };
@@ -326,7 +362,7 @@ fin.open("data\\FONTDATA");
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
-    WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
+    WindowHeight = (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     WinCreate();    //Create the actual window, register it, etc
     CheckMessages();    //Let the message queue handle setting up the window
     WindowDC = GetDC(WindowHandle);
@@ -367,38 +403,39 @@ fin.open("data\\FONTDATA");
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
+
+// A very accurate and responsive timer (NEVER use GetTickCount)
+uint64_t GetPerfCount(){
+    uint64_t Count;
+    QueryPerformanceCounter((PLARGE_INTEGER)&Count);
+    return Count;
+}
+
 //Not terribly sure how this function is suppose to work,
 //but jday helped to figure most of it out
 int curses_getch(WINDOW* win)
 {
- // standards note: getch is sometimes required to call refresh
- // see, e.g., http://linux.die.net/man/3/getch
- // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
- wrefresh(win);
- InvalidateRect(WindowHandle,NULL,true);
- lastchar=ERR;//ERR=-1
+    // standards note: getch is sometimes required to call refresh
+    // see, e.g., http://linux.die.net/man/3/getch
+    // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
+    uint64_t Frequency;
+    QueryPerformanceFrequency((PLARGE_INTEGER)&Frequency);
+    wrefresh(win);
+    InvalidateRect(WindowHandle,NULL,true);
+    lastchar = ERR;
     if (inputdelay < 0)
     {
-        do
-        {
+        for (; lastchar==ERR; Sleep(0))
             CheckMessages();
-            if (lastchar!=ERR) break;
-            MsgWaitForMultipleObjects(0, NULL, FALSE, 50, QS_ALLEVENTS);//low cpu wait!
-        }
-        while (lastchar==ERR);
     }
     else if (inputdelay > 0)
     {
-        unsigned long starttime=GetTickCount();
-        unsigned long endtime;
-        do
+        for (uint64_t t0=GetPerfCount(), t1=0; t1 < (t0 + inputdelay*Frequency/1000); t1=GetPerfCount())
         {
-            CheckMessages();        //MsgWaitForMultipleObjects won't work very good here
-            endtime=GetTickCount(); //it responds to mouse movement, and WM_PAINT, not good
+            CheckMessages();
             if (lastchar!=ERR) break;
-            Sleep(2);
+            Sleep(0);
         }
-        while (endtime<(starttime+inputdelay));
     }
     else
     {
@@ -406,6 +443,7 @@ int curses_getch(WINDOW* win)
     };
     return lastchar;
 }
+
 
 //Ends the terminal, destroy everything
 int curses_destroy(void)
@@ -428,7 +466,7 @@ inline RGBQUAD BGR(int b, int g, int r)
 
 int curses_start_color(void)
 {
- colorpairs=new pairs[50];
+ colorpairs=new pairs[100];
  windowsPalette=new RGBQUAD[16]; //Colors in the struct are BGR!! not RGB!!
  windowsPalette[0]= BGR(0,0,0); // Black
  windowsPalette[1]= BGR(0, 0, 255); // Red
