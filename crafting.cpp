@@ -1127,11 +1127,11 @@ void game::complete_craft()
   handle_liquid(newit, false, false);
  else {
 // We might not have space for the item
-  if (iter == inv_chars.size() || u.volume_carried()+newit.volume() > u.volume_capacity()) {
+  if (iter == inv_chars.size() || !u.can_pickVolume(newit.volume())) {
    add_msg(_("There's no room in your inventory for the %s, so you drop it."),
              newit.tname().c_str());
-   m.add_item_or_charges(u.posx, u.posy, newit);
-  } else if (u.weight_carried() + newit.volume() > u.weight_capacity()) {
+   m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
+  } else if (!u.can_pickWeight(newit.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS])) {
    add_msg(_("The %s is too heavy to carry, so you drop it."),
            newit.tname().c_str());
    m.add_item_or_charges(u.posx, u.posy, newit);

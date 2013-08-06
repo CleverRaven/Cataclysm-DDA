@@ -216,8 +216,11 @@ option_key lookup_option_key(std::string id)
     if(id == "use_celsius") {
         return OPT_USE_CELSIUS;
     }
-    if(id == "use_metric_system") {
-        return OPT_USE_METRIC_SYS;
+    if(id == "use_metric_speeds") {
+        return OPT_USE_METRIC_SPEED;
+    }
+    if(id == "use_metric_weights") {
+        return OPT_USE_METRIC_WEIGHT;
     }
     if(id == "force_capital_yn") {
         return OPT_FORCE_YN;
@@ -330,10 +333,12 @@ option_key lookup_option_key(std::string id)
     if(id == "auto_pickup_safemode") {
         return OPT_AUTO_PICKUP_SAFEMODE;
     }
+    if(id == "dangerous_pickups") {
+        return OPT_DANGEROUS_PICKUPS;
+    }
     if(id == "sort_crafting") {
         return OPT_SORT_CRAFTING;
     }
-
     return OPT_NULL;
 }
 
@@ -341,7 +346,8 @@ std::string option_string(option_key key)
 {
     switch(key) {
     case OPT_USE_CELSIUS:         return "use_celsius";
-    case OPT_USE_METRIC_SYS:      return "use_metric_system";
+    case OPT_USE_METRIC_SPEED:    return "use_metric_speeds";
+    case OPT_USE_METRIC_WEIGHT:   return "use_metric_weights";
     case OPT_FORCE_YN:            return "force_capital_yn";
     case OPT_NO_CBLINK:           return "no_bright_backgrounds";
     case OPT_24_HOUR:             return "24_hour";
@@ -379,6 +385,7 @@ std::string option_string(option_key key)
     case OPT_AUTO_PICKUP:         return "auto_pickup";
     case OPT_AUTO_PICKUP_ZERO:    return "auto_pickup_zero";
     case OPT_AUTO_PICKUP_SAFEMODE:return "auto_pickup_safemode";
+    case OPT_DANGEROUS_PICKUPS:   return "dangerous_pickups";
     case OPT_SORT_CRAFTING:       return "sort_crafting";
     default:                      return "unknown_option";
     }
@@ -389,7 +396,8 @@ std::string option_desc(option_key key)
 {
     switch(key) {
     case OPT_USE_CELSIUS:         return _("If true, use Celcius not Fahrenheit.\nDefault is fahrenheit");
-    case OPT_USE_METRIC_SYS:      return _("If true, use Km/h not mph.\nDefault is mph");
+    case OPT_USE_METRIC_SPEED:    return _("If true, use Km/h not mph.\nDefault is mph");
+    case OPT_USE_METRIC_WEIGHT:   return _("If true, use kg not lbs.\nDefault is lbs");
     case OPT_FORCE_YN:            return _("If true, y/n prompts are case-\nsensitive and y and n\nare not accepted.\nDefault is true");
     case OPT_NO_CBLINK:           return _("If true, bright backgrounds are not\nused--some consoles are not\ncompatible.\nDefault is false");
     case OPT_24_HOUR:             return _("12h/24h Time:\n0 - AM/PM (default)  eg: 7:31 AM\n1 - 24h military     eg: 0731\n2 - 24h normal       eg: 7:31");
@@ -427,6 +435,7 @@ std::string option_desc(option_key key)
     case OPT_AUTO_PICKUP:         return _("Enable item auto pickup. Change\npickup rules with the Auto Pickup\nManager in the Help Menu ?3");
     case OPT_AUTO_PICKUP_ZERO:    return _("Auto pickup items with\n0 Volume or Weight");
     case OPT_AUTO_PICKUP_SAFEMODE:return _("Auto pickup is disabled\nas long as you can see\nmonsters nearby.\n\nThis is affected by\nSafemode proximity distance.");
+    case OPT_DANGEROUS_PICKUPS:   return _("If false will cause player to drop \nnew items that cause them to exceed \nthe weight limit. \nDefault is false.");
     case OPT_SORT_CRAFTING:       return _("If true, the crafting menus\nwill display recipes that you can\ncraft before other recipes");
     default:                      return " ";
     }
@@ -437,7 +446,8 @@ std::string option_name(option_key key)
 {
     switch(key) {
     case OPT_USE_CELSIUS:         return _("Use Celsius");
-    case OPT_USE_METRIC_SYS:      return _("Use Metric System");
+    case OPT_USE_METRIC_SPEED:    return _("Use Metric Speeds");
+    case OPT_USE_METRIC_WEIGHT:   return _("Use Metric Weights");
     case OPT_FORCE_YN:            return _("Force Y/N in prompts");
     case OPT_NO_CBLINK:           return _("No Bright Backgrounds");
     case OPT_24_HOUR:             return _("24 Hour Time");
@@ -475,6 +485,7 @@ std::string option_name(option_key key)
     case OPT_AUTO_PICKUP:         return _("Enable item Auto Pickup");
     case OPT_AUTO_PICKUP_ZERO:    return _("Auto Pickup 0 Vol/Weight");
     case OPT_AUTO_PICKUP_SAFEMODE:return _("Auto Pickup Safemode");
+    case OPT_DANGEROUS_PICKUPS:   return _("Dangerous pickups");
     case OPT_SORT_CRAFTING:       return _("Sort Crafting menu");
     default:                      return "Unknown Option (options.cpp:option_name)";
     }
@@ -601,7 +612,9 @@ void create_default_options()
 # If true, use C not F\n\
 use_celsius F\n\
 # If true, use Km/h not mph\
-use_metric_system F\n\
+use_metric_speeds F\n\
+# If true, use kg not lbs\
+use_metric_weights F\n\
 # If true, y/n prompts are case-sensitive, y and n are not accepted\n\
 force_capital_yn T\n\
 # If true, bright backgrounds are not used--some consoles are not compatible\n\
@@ -637,8 +650,7 @@ query_disassemble T\n\
 drop_empty 0\n\
 # Hide Mouse Cursor\n\
 # 0 - Cursor always shown, 1 - Cursor always hidden, 2 - Cursor shown on mouse input and hidden on keyboard input\n\
-# \n\
-# GAMEPLAY OPTIONS: CHANGING THESE OPTIONS WILL AFFECT GAMEPLAY DIFFICULTY! \n\
+hide_cursor 0\n\
 # Level of skill rust: 0 - vanilla Cataclysm; 1 - vanilla, capped at skill levels; 2 - intelligence dependent; 3 - intelligence dependent, capped; 4 - none at all\n\
 skill_rust 0\n\
 # Delete world after player death: 0 - no, 1 - yes, 2 - query\n\
@@ -677,6 +689,8 @@ auto_pickup F\n\
 auto_pickup_zero F\n\
 # Auto pickup is disabled as long as you can see monsters nearby.\n\
 auto_pickup_safemode F\n\
+# Pickup items that exceed dangerous weight limit 0\n\
+dangerous_pickups F\n\
 # Sort the crafting menu so things you can craft are at the front of the menu\n\
 sort_crafting T\n\
 ";

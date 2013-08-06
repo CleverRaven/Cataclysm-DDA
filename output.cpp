@@ -812,7 +812,7 @@ void full_screen_popup(const char* mes, ...)
 
 //note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things
 //if sType == "MENU", sFmt == "iOffsetY" or "iOffsetX" also do special things
-//otherwise if sType == "MENU", iValue can be used to control color
+//otherwise if sType == "MENU", dValue can be used to control color
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected)
@@ -828,15 +828,19 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
  for (int i = 0; i < vItemDisplay.size(); i++) {
   if (vItemDisplay[i].sType == "MENU") {
    if (vItemDisplay[i].sFmt == "iOffsetY") {
-    line_num += vItemDisplay[i].iValue;
+    line_num += int(vItemDisplay[i].dValue);
    } else if (vItemDisplay[i].sFmt == "iOffsetX") {
-    iStartX = vItemDisplay[i].iValue;
+    iStartX = int(vItemDisplay[i].dValue);
    } else {
     nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
     //patched to allow variable "name" coloring, e.g. for item examining
     nc_color bgColor = c_white;     //yes the name makes no sense
-    if (vItemDisplay[i].iValue >= 0) {
-     nameColor = vItemDisplay[i].iValue == 0 ? c_ltgray : c_ltred;
+    if (vItemDisplay[i].dValue >= 0) {
+        if (vItemDisplay[i].dValue < .1 && vItemDisplay[i].dValue > -.1){
+            nameColor = c_ltgray;
+        } else {
+            nameColor = c_ltred;
+        }
     }
     if ( i == selected && vItemDisplay[i].sName != "" ) {
       bgColor = h_white;
@@ -879,20 +883,21 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
         wprintz(w, c_white, sFmt.c_str());
    }
 
-   if (vItemDisplay[i].iValue != -999) {
+   if (vItemDisplay[i].sValue != "-999") {
     nc_color thisColor = c_white;
     for (int k = 0; k < vItemCompare.size(); k++) {
-     if (vItemCompare[k].iValue != -999) {
+     if (vItemCompare[k].sValue != "-999") {
       if (vItemDisplay[i].sName == vItemCompare[k].sName) {
-       if (vItemDisplay[i].iValue == vItemCompare[k].iValue) {
+       if (vItemDisplay[i].dValue > vItemCompare[k].dValue - .1 &&
+           vItemDisplay[i].dValue < vItemCompare[k].dValue + .1) {
          thisColor = c_white;
-       } else if (vItemDisplay[i].iValue > vItemCompare[k].iValue) {
+       } else if (vItemDisplay[i].dValue > vItemCompare[k].dValue) {
         if (vItemDisplay[i].bLowerIsBetter) {
          thisColor = c_ltred;
         } else {
          thisColor = c_ltgreen;
         }
-       } else if (vItemDisplay[i].iValue < vItemCompare[k].iValue) {
+       } else if (vItemDisplay[i].dValue < vItemCompare[k].dValue) {
         if (vItemDisplay[i].bLowerIsBetter) {
          thisColor = c_ltgreen;
         } else {
@@ -903,7 +908,11 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
       }
      }
     }
-    wprintz(w, thisColor, "%s%d", sPlus.c_str(), vItemDisplay[i].iValue);
+    if (vItemDisplay[i].is_int == true) {
+        wprintz(w, thisColor, "%s%.0f", sPlus.c_str(), vItemDisplay[i].dValue);
+    } else {
+        wprintz(w, thisColor, "%s%.1f", sPlus.c_str(), vItemDisplay[i].dValue);
+    }
    }
     wprintz(w, c_white, sPost.c_str());
 

@@ -7,7 +7,8 @@ enum option_key {
 OPT_NULL = 0,
 OPT_FORCE_YN,            // Y/N versus y/n
 OPT_USE_CELSIUS,         // Display temp as C not F
-OPT_USE_METRIC_SYS,      // Display speed as Km/h not mph
+OPT_USE_METRIC_SPEED,    // Display speed as Km/h not mph
+OPT_USE_METRIC_WEIGHT,   // Display weight in kg instead of lbs
 OPT_NO_CBLINK,           // No bright backgrounds
 OPT_24_HOUR,             // 24 hour time
 OPT_SNAP_TO_TARGET,      // game::firing snaps to target
@@ -44,6 +45,7 @@ OPT_SAVESLEEP,           // Ask to save before sleeping
 OPT_AUTO_PICKUP,         // Enable Item Auto Pickup
 OPT_AUTO_PICKUP_ZERO,    // Auto Pickup 0 Volume and Weith items
 OPT_AUTO_PICKUP_SAFEMODE,// Auto Pickup Safemode
+OPT_DANGEROUS_PICKUPS,   // Drop items if they would exceed weight danger limits
 OPT_SORT_CRAFTING,       // Sorts the crafting recipes so avaliable ones come up first
 NUM_OPTION_KEYS
 };

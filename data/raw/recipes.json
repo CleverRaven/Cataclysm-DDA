@@ -7408,7 +7408,27 @@
                           ]
         },
 
-	  
+
+	    {
+            "result": "armguard_chitin",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 4,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [
+                              [
+                                  ["string_36", 1],
+                                  ["string_6", 4]
+                              ],
+                              [
+                                  ["chitin_piece", 4]
+                              ]
+                          ]
+        },
+
+
 	   {
             "result": "legguard_metal",
             "category": "CC_ARMOR",
@@ -7432,7 +7452,7 @@
                                   ["string_6", 16]
                               ],
                               [
-                                  ["steel_chunk", 6]
+                                  ["steel_chunk", 4]
                               ]
                           ]
         },

@@ -944,9 +944,9 @@ void mattack::vortex(game *g, monster *z)
    while (!g->m.i_at(x, y).empty()) {
     item thrown = g->m.i_at(x, y)[0];
     g->m.i_rem(x, y, 0);
-    int distance = 5 - (thrown.weight() / 15);
+    int distance = 5 - (thrown.weight() / 1700);
     if (distance > 0) {
-     int dam = thrown.weight() / double(3 + double(thrown.volume() / 6));
+     int dam = (thrown.weight() / 113) / double(3 + double(thrown.volume() / 6));
      std::vector<point> traj = continue_line(from_monster, distance);
      for (int i = 0; i < traj.size() && dam > 0; i++) {
       g->m.shoot(g, traj[i].x, traj[i].y, dam, false, no_effects);

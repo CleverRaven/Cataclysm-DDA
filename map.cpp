@@ -604,15 +604,6 @@ bool map::vehproceed(game* g){
       rl_vec2d final1 = ( ( velo_veh1 * ( m1 - m2 ) ) + delta1 ) / ( m1 + m2 );
       rl_vec2d final2 = ( ( velo_veh2 * ( m2 - m1 ) ) + delta2 ) / ( m1 + m2 );
 
-/*    old bouncing pingpong collisions that generate kinetic energy to reach mach 20+
-      rl_vec2d imp1 = collision_axis   *    collision_axis.dot_product (velo_veh1) * m1;
-      rl_vec2d imp2 = (collision_axis) * (-collision_axis).dot_product (velo_veh2) * m2;
-      rl_vec2d delta1 = (imp2 * .7f) / m1;
-      rl_vec2d delta2 = (imp1 * .7f) / m2;
-      rl_vec2d final1 = velo_veh1 + delta1;
-      rl_vec2d final2 = velo_veh2 + delta2;
-*/
-
       veh->move.init (final1.x, final1.y);
       veh->velocity = final1.norm();
       // shrug it off if the change is less than 8mph.
@@ -646,7 +637,7 @@ bool map::vehproceed(game* g){
       if (imp > 100)
          veh->damage_all(imp / 20, imp / 10, 1);// shake veh because of collision
       std::vector<int> ppl = veh->boarded_parts();
-      const int vel2 = imp * k_mvel * 100 / (veh->total_mass() / 8);
+      const int vel2 = imp * k_mvel * 100 / (veh->total_mass() / 2);
       for (int ps = 0; ps < ppl.size(); ps++) {
          player *psg = veh->get_passenger (ppl[ps]);
          if (!psg) {

@@ -875,9 +875,9 @@ int vehicle::total_mass ()
         for (int j = 0; j < parts[i].items.size(); j++)
             m += parts[i].items[j].type->weight;
         if (part_flag(i,vpf_boardable) && parts[i].has_flag(vehicle_part::passenger_flag))
-            m += 520; // TODO: get real weight
+            m += 81500; // TODO: get real weight
     }
-    return m;
+    return m/1000;
 }
 
 int vehicle::fuel_left (ammotype ftype, bool for_engine)
@@ -1131,7 +1131,7 @@ float vehicle::k_mass ()
     float ma0 = 50.0;
 
     // calculate safe speed reduction due to mass
-    float km = ma0 / (ma0 + total_mass() / (8 * (float) wa));
+    float km = ma0 / (ma0 + (total_mass()/8) / (8 * (float) wa));
 
     return km;
 }
@@ -1403,7 +1403,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
         parm = part;
     int dmg_mod = part_info(parm).dmg_mod;
     // let's calculate type of collision & mass of object we hit
-    int mass = total_mass() / 8;
+    int mass = total_mass();
     int mass2;
 
     if (is_body_collision)
@@ -1413,24 +1413,24 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
             switch (z->type->size)
             {
             case MS_TINY:    // Rodent
-                mass2 = 15;
+                mass2 = 1;
                 break;
             case MS_SMALL:   // Half human
-                mass2 = 40;
+                mass2 = 41;
                 break;
             default:
             case MS_MEDIUM:  // Human
-                mass2 = 80;
+                mass2 = 82;
                 break;
             case MS_LARGE:   // Cow
-                mass2 = 200;
+                mass2 = 120;
                 break;
             case MS_HUGE:     // TAAAANK
-                mass2 = 800;
+                mass2 = 200;
                 break;
             }
         else
-            mass2 = 80;// player or NPC
+            mass2 = 82;// player or NPC
     }
     else // if all above fails, go for terrain which might obstruct moving
     if (g->m.has_flag_ter_or_furn (thin_obstacle, x, y))
@@ -1830,7 +1830,8 @@ void vehicle::gain_moves (int mp)
     if (player_in_control(&g->u))
     {
         if (cruise_on)
-        if (abs(cruise_velocity - velocity) >= acceleration()/2 ||
+        if (velocity - cruise_velocity >= 10 * 100 ||
+            cruise_velocity - velocity >= acceleration()/3 ||
             (cruise_velocity != 0 && velocity == 0) ||
             (cruise_velocity == 0 && velocity != 0))
             thrust (cruise_velocity > velocity? 1 : -1);

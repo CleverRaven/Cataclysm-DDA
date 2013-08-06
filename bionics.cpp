@@ -436,12 +436,12 @@ void player::activate_bionic(int b, game *g)
       for (l = 0; l < traj.size(); l++) {
        index = g->mon_at(traj[l].x, traj[l].y);
        if (index != -1) {
-        if (g->z[index].hurt(tmp_item.weight() * 2))
+        if (g->z[index].hurt(tmp_item.weight() / 225))
          g->kill_mon(index, true);
         g->m.add_item_or_charges(traj[l].x, traj[l].y, tmp_item);
         l = traj.size() + 1;
        } else if (l > 0 && g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-        g->m.bash(traj[l].x, traj[l].y, tmp_item.weight() * 2, junk);
+        g->m.bash(traj[l].x, traj[l].y, tmp_item.weight() / 225, junk);
         g->sound(traj[l].x, traj[l].y, 12, junk);
         if (g->m.move_cost(traj[l].x, traj[l].y) == 0) {
          g->m.add_item_or_charges(traj[l - 1].x, traj[l - 1].y, tmp_item);

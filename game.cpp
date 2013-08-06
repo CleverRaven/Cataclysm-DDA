@@ -2416,8 +2416,8 @@ void game::load_artifacts()
 	    int_to_color(artifact.get(std::string("color")).as_int());
 	std::string m1 = artifact.get(std::string("m1")).as_string();
 	std::string m2 = artifact.get(std::string("m2")).as_string();
-	unsigned short volume = artifact.get(std::string("volume")).as_int();
-	unsigned short weight = artifact.get(std::string("weight")).as_int();
+	unsigned int volume = artifact.get(std::string("volume")).as_int();
+	unsigned int weight = artifact.get(std::string("weight")).as_int();
  signed char melee_dam = artifact.get(std::string("melee_dam")).as_int();
  signed char melee_cut = artifact.get(std::string("melee_cut")).as_int();
 	signed char m_to_hit = artifact.get(std::string("m_to_hit")).as_int();
@@ -6280,15 +6280,31 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
     bool compact=(TERMX<=100);
 
     if(isinventory) {
-        mvwprintz( window, 4, rightcol, c_ltgreen, "%3d %3d", g->u.weight_carried(), g->u.volume_carried() );
+        int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
+        if (g->u.convert_weight(g->u.weight_carried()) > 9.9 ) {
+          hrightcol--;
+          if (g->u.convert_weight(g->u.weight_carried()) > 99.9 ) { // not uncommon
+            hrightcol--;
+            if (g->u.convert_weight(g->u.weight_carried()) > 999.9 ) {
+              hrightcol--;
+              if (g->u.convert_weight(g->u.weight_carried()) > 9999.9 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
+                hrightcol--;
+              }
+            }
+          }
+        }
+        mvwprintz( window, 4, hrightcol, c_ltgreen, "%3.1f %3d", g->u.convert_weight(g->u.weight_carried()), g->u.volume_carried() );
     } else {
         int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
-        if ( squares[pane.area].weight > 999 ) { // this is potentially the total of 9 tiles
+        if (g->u.convert_weight(squares[pane.area].weight) > 9.9 ) {
           hrightcol--;
-          if ( squares[pane.area].weight > 9999 ) { // not uncommon
+          if (g->u.convert_weight(squares[pane.area].weight) > 99.9 ) { // not uncommon
             hrightcol--;
-            if ( squares[pane.area].weight > 99999 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
+            if (g->u.convert_weight(squares[pane.area].weight) > 999.9 ) {
               hrightcol--;
+              if (g->u.convert_weight(squares[pane.area].weight) > 9999.9 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
+                hrightcol--;
+              }
             }
           }
         }
@@ -6299,7 +6315,7 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
           }
         }
 
-        mvwprintz( window, 4, hrightcol, norm, "%3d %3d", squares[pane.area].weight, squares[pane.area].volume);
+        mvwprintz( window, 4, hrightcol, norm, "%3.1f %3d", g->u.convert_weight(squares[pane.area].weight), squares[pane.area].volume);
     }
 
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
@@ -6338,10 +6354,13 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
         }
 //mvwprintz(window, 6 + x, amount_column-3, thiscolor, "%d", items[i].cat);
         int xrightcol=rightcol;
-        if ( items[i].weight > 999 ) { // rare. bear = 2000
+        if (g->u.convert_weight(items[i].weight) > 9.9 ) {
           xrightcol--;
-          if ( items[i].weight > 9999 ) { // anything beyond this is excessive. Enjoy your clear plastic bottle of neutronium
+          if (g->u.convert_weight(items[i].weight) > 99.9 ) {
             xrightcol--;
+            if (g->u.convert_weight(items[i].weight) > 999.9 ) { // anything beyond this is excessive. Enjoy your clear plastic bottle of neutronium
+              xrightcol--;
+            }
           }
         }
         if ( items[i].volume > 999 ) { // does not exist, but can fit in 1024 tile limit
@@ -6350,8 +6369,8 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
             xrightcol--;
           }
         }
-        mvwprintz(window, 6 + x, xrightcol, (items[i].weight > 0 ? thiscolor : thiscolordark),
-            "%3d", items[i].weight );
+        mvwprintz(window, 6 + x, xrightcol, (g->u.convert_weight(items[i].weight) > 0 ? thiscolor : thiscolordark),
+            "%3.1f", g->u.convert_weight(items[i].weight) );
 
         wprintz(window, (items[i].volume > 0 ? thiscolor : thiscolordark), " %3d", items[i].volume );
         if(active && items[i].autopickup==true) {
@@ -7068,7 +7087,7 @@ void game::advanced_inv()
                             popup(_("There's no room in your inventory."));
                             continue;
                         }
-                        else if(!u.can_pickWeight(src_items[item_pos].weight()))
+                        else if(!u.can_pickWeight(src_items[item_pos].weight(), false))
                         {
                             popup(_("This is too heavy!"));
                             continue;
@@ -8375,7 +8394,7 @@ void game::pickup(int posx, int posy, int min)
    add_msg(_("You cannot pick up items with your claws out!"));
   return;
  }
- bool weight_is_okay = (u.weight_carried() <= u.weight_capacity() * .25);
+ bool weight_is_okay = (u.weight_carried() <= u.weight_capacity());
  bool volume_is_okay = (u.volume_carried() <= u.volume_capacity() -  2);
  bool from_veh = false;
  int veh_part = 0;
@@ -8428,10 +8447,10 @@ void game::pickup(int posx, int posy, int min)
   if (iter > inv_chars.size()) {
    add_msg(_("You're carrying too many items!"));
    return;
-  } else if (u.weight_carried() + newit.weight() > u.weight_capacity()) {
+  } else if (!u.can_pickWeight(newit.weight(), false)) {
    add_msg(_("The %s is too heavy!"), newit.tname(this).c_str());
    decrease_nextinv();
-  } else if (u.volume_carried() + newit.volume() > u.volume_capacity()) {
+  } else if (!u.can_pickVolume(newit.volume())) {
    if (u.is_armed()) {
     if (!u.weapon.has_flag("NO_UNWIELD")) {
      if (newit.is_armor() && // Armor can be instantly worn
@@ -8487,7 +8506,7 @@ void game::pickup(int posx, int posy, int min)
    u.moves -= 100;
    add_msg("%c - %s", newit.invlet, newit.tname(this).c_str());
   }
-  if (weight_is_okay && u.weight_carried() >= u.weight_capacity() * .25)
+  if (weight_is_okay && u.weight_carried() >= u.weight_capacity())
    add_msg(_("You're overburdened!"));
   if (volume_is_okay && u.volume_carried() > u.volume_capacity() - 2) {
    add_msg(_("You struggle to carry such a large volume!"));
@@ -8722,7 +8741,7 @@ void game::pickup(int posx, int posy, int min)
     update = false;
     mvwprintw(w_pickup, 0,  7, "                           ");
     mvwprintz(w_pickup, 0,  9,
-              (new_weight >= u.weight_capacity() * .25 ? c_red : c_white),
+              (new_weight >= u.weight_capacity() ? c_red : c_white),
               _("Wgt %d"), new_weight);
     wprintz(w_pickup, c_white, "/%d", int(u.weight_capacity() * .25));
     mvwprintz(w_pickup, 0, 22,
@@ -8777,10 +8796,10 @@ void game::pickup(int posx, int posy, int min)
     wrefresh(w_pickup);
     delwin(w_pickup);
     return;
-   } else if (u.weight_carried() + here[i].weight() > u.weight_capacity()) {
+   } else if (!u.can_pickWeight(here[i].weight(), false)) {
     add_msg(_("The %s is too heavy!"), here[i].tname(this).c_str());
     decrease_nextinv();
-   } else if (u.volume_carried() + here[i].volume() > u.volume_capacity()) {
+   } else if (!u.can_pickVolume(here[i].volume())) {
     if (u.is_armed()) {
      if (!u.weapon.has_flag("NO_UNWIELD")) {
       if (here[i].is_armor() && // Armor can be instantly worn
@@ -9948,8 +9967,7 @@ void game::unload(item& it)
                     new_contents.push_back(content);// Put it back in (we canceled)
                 }
             } else {
-                if (u.volume_carried() + content.volume() <= u.volume_capacity() &&
-                    u.weight_carried() + content.weight() <= u.weight_capacity() &&
+                if (u.can_pickVolume(content.volume()) && u.can_pickWeight(content.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS]) &&
                     iter < inv_chars.size())
                 {
                     add_msg(_("You put the %s in your inventory."), content.tname(this).c_str());
@@ -10019,8 +10037,8 @@ void game::unload(item& it)
    advance_nextinv();
    iter++;
   }
-  if (u.weight_carried() + newam.weight() < u.weight_capacity() &&
-      u.volume_carried() + newam.volume() < u.volume_capacity() && iter < inv_chars.size()) {
+  if (u.can_pickWeight(newam.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS]) &&
+      u.can_pickVolume(newam.volume()) && iter < inv_chars.size()) {
    u.i_add(newam, this);
   } else {
    m.add_item_or_charges(u.posx, u.posy, newam, 1);
