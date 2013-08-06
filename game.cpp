@@ -2848,8 +2848,7 @@ void game::write_memorial_file() {
     std::string timestamp = ctime(&rawtime);
 
     //Colons are not usable in paths, so get rid of them
-    int index;
-    for(index = 0; index < timestamp.size(); index++) {
+    for(int index = 0; index < timestamp.size(); index++) {
         if(timestamp[index] == ':') {
             timestamp[index] = '-';
         }
@@ -2866,7 +2865,8 @@ void game::write_memorial_file() {
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << u.name << "\n";
-    memorial_file << _(season_name[turn.get_season()].c_str()) << _(", day ") << (turn.days() + 1) << ".\n";
+    memorial_file << _(season_name[turn.get_season()].c_str()) << _(" of year ") << (turn.years() + 1)
+                  << _(", day ") << (turn.days() + 1) << _(", ") << turn.print_time() << ".\n";
     memorial_file << "\n";
 
     //HP
@@ -2892,17 +2892,52 @@ void game::write_memorial_file() {
     memorial_file << _("Kills:") << "\n";
 
     int total_kills = 0;
-    for (int i = 0; i < num_monsters; i++) {
-      if (kills[i] > 0) {
+    for(int i = 0; i < num_monsters; i++) {
+      if(kills[i] > 0) {
         memorial_file << "  " << (char) mtypes[i]->sym << " - " << mtypes[i]->name << " x" << kills[i] << "\n";
         total_kills += kills[i];
       }
     }
     if(total_kills == 0) {
-      memorial_file << _("  No monsters were killed.") << "\n";
+      memorial_file << indent << _("No monsters were killed.") << "\n";
     } else {
       memorial_file << _("Total kills: ") << total_kills << "\n";
     }
+    memorial_file << "\n";
+
+    //Skills
+    memorial_file << _("Skills:") << "\n";
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+      aSkill != Skill::skills.end(); ++aSkill) {
+      SkillLevel next_skill_level = u.skillLevel(*aSkill);
+      memorial_file << indent << (*aSkill)->name() << ": "
+              << next_skill_level.level() << " (" << next_skill_level.exercise() << "%)\n";
+    }
+    memorial_file << "\n";
+
+    //Traits
+    memorial_file << _("Traits:") << "\n";
+    for(int i = 1; i < PF_MAX2; i++) { //Don't start at i=0 or we get a 'null trait'
+      if(u.has_trait(i)) {
+        memorial_file << indent << traits[i].name << "\n";
+      }
+    }
+    memorial_file << "\n";
+
+    //Bionics
+    memorial_file << _("Bionics:") << "\n";
+    int total_bionics = 0;
+    for(int i = 0; i < u.my_bionics.size(); i++) {
+      bionic_id next_bionic_id = u.my_bionics[i].id;
+      memorial_file << indent << (i+1) << ": " << bionics[next_bionic_id]->name << "\n";
+      total_bionics++;
+    }
+    if(total_bionics == 0) {
+      memorial_file << indent << _("No bionics were installed.") << "\n";
+    } else {
+      memorial_file << _("Total bionics: ") << total_bionics << "\n";
+    }
+    memorial_file << _("Power: ") << u.power_level << "/" << u.max_power_level << "\n";
     memorial_file << "\n";
 
     //Cleanup
@@ -3152,7 +3187,7 @@ z.size(), active_npc.size(), events.size());
   case 11:
     for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill)
       u.skillLevel(*aSkill).level(u.skillLevel(*aSkill) + 3);
-    add_msg(_("Skils increased."));
+    add_msg(_("Skills increased."));
    break;
 
   case 12:
