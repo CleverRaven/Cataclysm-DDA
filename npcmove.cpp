@@ -244,7 +244,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
  case npc_drop_items:
 /*
-  drop_items(g, weight_carried() - weight_capacity() / 4,
+  drop_items(g, weight_carried() - weight_capacity(),
                 volume_carried() - volume_capacity());
 */
   move_pause();
@@ -589,7 +589,7 @@ npc_action npc::address_needs(game *g, int danger)
   return npc_eat;
 
 /*
- if (weight_carried() > weight_capacity() / 4 ||
+ if (weight_carried() > weight_capacity() ||
      volume_carried() > volume_capacity())
   return npc_drop_items;
 */
@@ -817,7 +817,7 @@ int npc::confident_range(char invlet)
   if (thrown->volume() == 0)
    deviation += 3;
 
-  deviation += 1 + abs(str_cur - thrown->weight());
+  deviation += 1 + abs(str_cur - (thrown->weight() / 113));
  }
  //Account for rng's, *.5 for 50%
  deviation /= 2;
@@ -1268,8 +1268,8 @@ void npc::pick_up_item(game *g)
  }
 /*
  if (total_volume + volume_carried() > volume_capacity() ||
-     total_weight + weight_carried() > weight_capacity() / 4) {
-  int wgt_to_drop = weight_carried() + total_weight - weight_capacity() / 4;
+     total_weight + weight_carried() > weight_capacity()) {
+  int wgt_to_drop = weight_carried() + total_weight - weight_capacity();
   int vol_to_drop = volume_carried() + total_volume - volume_capacity();
   drop_items(g, wgt_to_drop, vol_to_drop);
  }
@@ -1321,7 +1321,7 @@ void npc::drop_items(game *g, int weight, int volume)
  if (g->debugmon) {
   debugmsg("%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
            name.c_str(), weight, volume, inv.size(), weight_carried(),
-           weight_capacity() / 4, volume_carried(), volume_capacity());
+           weight_capacity(), volume_carried(), volume_capacity());
  }
 
  int weight_dropped = 0, volume_dropped = 0;

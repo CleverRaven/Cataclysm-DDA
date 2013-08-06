@@ -1526,10 +1526,8 @@ int player::current_speed(game *g)
  int newmoves = 100; // Start with 100 movement points...
 // Minus some for weight...
  int carry_penalty = 0;
- if (weight_carried() > int(weight_capacity() / 4))
-  carry_penalty = 150 * (weight_carried() - weight_capacity() / 4)/
-                              (weight_capacity() * .75);
-
+ if (weight_carried() > weight_capacity())
+  carry_penalty = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
  newmoves -= carry_penalty;
 
  if (pain > pkill) {
@@ -1653,7 +1651,7 @@ int player::run_cost(int base_cost, bool diag)
 
 int player::swim_speed()
 {
-  int ret = 440 + 2 * weight_carried() - 50 * skillLevel("swimming");
+  int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
  if (has_trait(PF_WEBBED))
   ret -= 60 + str_cur * 5;
  if (has_trait(PF_TAIL_FIN))
@@ -2345,9 +2343,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  int newmoves = current_speed(g);
  int pen = 0;
  line = 3;
- if (weight_carried() > int(weight_capacity() / 4)) {
-  pen = 150 * (weight_carried() - weight_capacity() / 4) /
-                    (weight_capacity() * .75);
+ if (weight_carried() > weight_capacity()) {
+  pen = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
   mvwprintz(w_speed, line, 1, c_red, "Overburdened        -%s%d%%%%",
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -2466,8 +2463,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
 // display player current STR effects
     mvwprintz(w_stats, 6, 2, c_magenta, "Base HP: %d              ",
              hp_max[1]);
-    mvwprintz(w_stats, 7, 2, c_magenta, "Carry weight: %d lbs     ",
-             weight_capacity(false) / 4);
+    mvwprintz(w_stats, 7, 2, c_magenta, "Carry weight: %.1f %s     ", convert_weight(weight_capacity(false)),
+                      OPTIONS[OPT_USE_METRIC_WEIGHT]?"kg":"lbs");
     mvwprintz(w_stats, 8, 2, c_magenta, "Melee damage: %d         ",
              base_damage(false));
 
@@ -3464,10 +3461,11 @@ int player::throw_range(signed char ch)
  else
   tmp = inv.item_by_letter(ch);
 
- if (tmp.weight() > int(str_cur * 15))
+ if ((tmp.weight() / 113) > int(str_cur * 15))
   return 0;
- int ret = int((str_cur * 8) / (tmp.weight() > 0 ? tmp.weight() : 10));
- ret -= int(tmp.volume() / 10);
+ // Increases as weight decreases until 150 g, then decreases again
+ int ret = (str_cur * 8) / (tmp.weight() > 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+ ret -= int(tmp.volume() / 4);
  if (has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel")))
     ret *= 2;
  if (ret < 1)
@@ -4185,23 +4183,14 @@ void player::suffer(game *g)
     }
     if (!has_disease("sleep"))
     {
-        if (weight_carried() > weight_capacity() / 2)
+        if (weight_carried() > weight_capacity())
         {
-            // one in 10 with it reducing by 1 for every additional 20%
-            if (one_in(10 - ((weight_carried() - weight_capacity() / 2) / (weight_capacity() / 20))))
+            // one in 11 with it reducing by 1 for every additional 20%, occurs constantly at 300%
+            // " + 1" is so that the shift occurs on the 20% instead of above it
+            if (one_in(10 - ((weight_carried() + 1) / (weight_capacity() / 5) - 7)) )
             {
                 g->add_msg_if_player(this,"Your body strains under the weight!");
-                if (one_in(2)) {
-                    hurt(g, bp_legs, 0, 1);
-                } if (one_in(2)) {
-                    hurt(g, bp_legs, 1, 1);
-                } if (one_in(4)) {
-                    hurt(g, bp_torso, 0, 1);
-                } if (one_in(6)) {
-                    hurt(g, bp_arms, 0, 1);
-                } if (one_in(6)) {
-                    hurt(g, bp_arms, 1, 1);
-                }
+                pain += 1;
             }
         }
         int timer = -3600;
@@ -4796,8 +4785,7 @@ bool player::can_pickWeight(int weight, bool safe)
     }
     else
     {
-        //But only double without harming themselves
-        return (weight_carried() + weight <= weight_capacity() * 2);
+        return (weight_carried() + weight <= weight_capacity());
     }
 }
 

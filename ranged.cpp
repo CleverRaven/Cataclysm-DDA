@@ -460,7 +460,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     if (thrown.volume() == 0)
         deviation += rng(0, 3);
 
-    deviation += rng(0, 1 + abs(p.str_cur - thrown.weight()));
+    deviation += rng(0, 1 + abs(p.str_cur - thrown.weight() / 113));
 
     double missed_by = .01 * deviation * trange;
     bool missed = false;
@@ -489,10 +489,10 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 
     std::string message;
-    int real_dam = (thrown.weight() / 4 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
+    int real_dam = (thrown.weight() / 452 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
                double(2 + double(thrown.volume() / 4));
-    if (real_dam > thrown.weight() * 3)
-        real_dam = thrown.weight() * 3;
+    if (real_dam > thrown.weight() / 40)
+        real_dam = thrown.weight() / 40;
     if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel")))
     {
         real_dam *= 2;

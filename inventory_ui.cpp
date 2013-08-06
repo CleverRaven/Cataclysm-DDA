@@ -58,20 +58,17 @@ std::vector<int> find_firsts(invslice &slice)
 
 void print_inv_weight_vol(game *g, WINDOW* w_inv, int weight_carried, int vol_carried)
 {
-    // Convert weights
-    double car_weight = g->u.convert_weight(weight_carried);
-    double cap_weight = g->u.convert_weight(g->u.weight_capacity());
     // Print weight
     mvwprintw(w_inv, 0, 39, _("Weight: "));
     if (weight_carried >= g->u.weight_capacity())
     {
-        wprintz(w_inv, c_red, "%6.1f", car_weight);
+        wprintz(w_inv, c_red, "%6.1f", g->u.convert_weight(weight_carried));
     }
     else
     {
-        wprintz(w_inv, c_ltgray, "%6.1f", car_weight);
+        wprintz(w_inv, c_ltgray, "%6.1f", g->u.convert_weight(weight_carried));
     }
-    wprintz(w_inv, c_ltgray, "/%-6.1f", cap_weight);
+    wprintz(w_inv, c_ltgray, "/%-6.1f", g->u.convert_weight(g->u.weight_capacity()));
 
     // Print volume
     mvwprintw(w_inv, 0, 61, _("Volume: "));

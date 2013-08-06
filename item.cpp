@@ -1002,7 +1002,7 @@ int item::volume_contained()
 
 int item::attack_time()
 {
- int ret = 65 + 4 * volume() + 2 * weight();
+ int ret = 65 + 4 * volume() + weight() / 60;
  return ret;
 }
 
@@ -1345,7 +1345,7 @@ bool item::is_two_handed(player *u)
     {
         return true;
     }
-    return (weight() > u->str_cur * 4);
+    return ((weight() / 113) > u->str_cur * 4);
 }
 
 bool item::made_of(std::string mat_ident) const
@@ -1699,7 +1699,7 @@ int item::reload_time(player &u)
    skill_bonus = .75;
   ret -= double(ret) * skill_bonus;
  } else if (is_tool())
-  ret = 100 + volume() + weight();
+  ret = 100 + volume() + (weight() / 113);
 
  if (has_flag("STR_RELOAD"))
   ret -= u.str_cur * 20;

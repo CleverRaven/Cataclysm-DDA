@@ -736,8 +736,13 @@ void veh_interact::display_stats ()
         mvwprintz(w_stats, 3, 1, c_ltgray, "Accel.:          mph/t");
         mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", veh->acceleration(false) / 100);
     }
-    mvwprintz(w_stats, 4, 1, c_ltgray, "Mass:            kg");
-    mvwprintz(w_stats, 4, 12, c_ltblue,"%5d", (int) (veh->total_mass() / 4 * 0.45));
+    if (OPTIONS[OPT_USE_METRIC_WEIGHT]){
+        mvwprintz(w_stats, 4, 1, c_ltgray, "Mass:            kg");
+        mvwprintz(w_stats, 4, 12, c_ltblue,"%5d", (int) (veh->total_mass()));
+    } else {
+        mvwprintz(w_stats, 4, 1, c_ltgray, "Mass:            lbs");
+        mvwprintz(w_stats, 4, 12, c_ltblue,"%5d", (int) (veh->total_mass() * 2.2));
+    }
     mvwprintz(w_stats, 5, 26, c_ltgray, "K dynamics:        ");
     mvwprintz(w_stats, 5, 37, c_ltblue, "%3d", (int) (veh->k_dynamics() * 100));
     mvwputch (w_stats, 5, 41, c_ltgray, '%');
