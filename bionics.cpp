@@ -507,7 +507,7 @@ bool player::install_bionics(game *g, it_bionic* type)
    skillLevel("mechanics")   * 1;
 
  // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
- float adjusted_skill = float (pl_skill) - std::min( float (40), float (pl_skill) - float (pl_skill) / 10.0);
+ float adjusted_skill = float (pl_skill) - std::min( float (40), float (pl_skill) - float (pl_skill) / float (10.0));
 
  // we will base chance_of_success on a ratio of skill and difficulty
  // when skill=difficulty, this gives us 0.  skill < difficulty gives a negative number.
