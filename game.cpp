@@ -39,6 +39,7 @@
 #endif
 #include <sys/stat.h>
 #include <ctime>
+#include "version.h"
 #include "debug.h"
 #include "artifactdata.h"
 
@@ -55,6 +56,9 @@
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
+
+//Used in memorial file generation
+const char* getVersionString();
 
 //The one and only game instance
 game *g;
@@ -2824,11 +2828,11 @@ void game::write_memorial_file() {
             mkdir("memorial", 0777);
         #endif
         dir = opendir("memorial");
-    }
-    if (!dir) {
-        dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
-        debugmsg("Could not make './memorial' directory");
-        return;
+        if (!dir) {
+            dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
+            debugmsg("Could not make './memorial' directory");
+            return;
+        }
     }
 
     //To ensure unique filenames and to sort files, append a timestamp
@@ -2849,7 +2853,30 @@ void game::write_memorial_file() {
     
     std::ofstream memorial_file;
     memorial_file.open(memorial_file_path.c_str());
-    memorial_file << "Memorial file content goes here";
+
+    //Header
+    std::string version = string_format("%s", getVersionString());
+    memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
+    memorial_file << "\n";
+    memorial_file << _("In memory of: ") << u.name << "\n";
+    memorial_file << "\n";
+
+    //Kill list
+    memorial_file << _("Kills:") << "\n";
+
+    int total_kills = 0;
+    for (int i = 0; i < num_monsters; i++) {
+      if (kills[i] > 0) {
+        memorial_file << "  " << (char) mtypes[i]->sym << " - " << mtypes[i]->name << " x" << kills[i] << "\n";
+        total_kills += kills[i];
+      }
+    }
+    if(total_kills == 0) {
+      memorial_file << _("  No monsters were killed.") << "\n";
+    } else {
+      memorial_file << _("Total kills: ") << total_kills << "\n";
+    }
+    memorial_file << "\n";
 
     //Cleanup
     memorial_file.close();
