@@ -981,7 +981,11 @@ int item::weight() const
     } else if (type->is_gun() && charges >= 1) {
         ret += curammo->weight * charges;
     } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
-        ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges;
+        if (typeId() == "adv_UPS_off" || typeId() == "adv_UPS_on") {
+            ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges / 500;
+        } else {
+            ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges;
+        }
     }
     for (int i = 0; i < contents.size(); i++) {
         if (contents[i].is_gunmod() && contents[i].charges >= 1) {
