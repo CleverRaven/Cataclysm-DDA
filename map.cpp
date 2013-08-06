@@ -2599,6 +2599,10 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems, 
   grid[nonant]->active_item_count++;
 }
 
+point map::getlocal(const int x, const int y) {
+  return point ( x - ( abs_min.x ), y - ( abs_min.y ) );
+}
+
 /*
  * This is like add_item, but takes absolute coordinates. This will -not- add items to submaps that
  *   not yet generated, however this serves it's primary purpose; prevention of disappearing corpses.
@@ -2606,12 +2610,29 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems, 
 void map::add_item_anywhere(point worldpos, const int z, item new_item, const int maxitems) {
   real_coords dropto;
   dropto.fromabs( worldpos );
+#define overhead
+#ifdef overhead
+  overmap * tmp_om;
+  if ( dropto.abs_om.x == g->cur_om->pos().x && dropto.abs_om.y == g->cur_om->pos().y ) {
+      tmp_om = g->cur_om;
+  } else {
+      tmp_om = &overmap_buffer.get(g, dropto.abs_om.x, dropto.abs_om.y );
+  }
+  tinymap * tmp_map = new tinymap(traps);
+  tmp_map->load(g, dropto.abs_om_pos.x * 2, dropto.abs_om_pos.y * 2, z, false, tmp_om);
+  point rel_pos = tmp_map->getlocal ( dropto.abs_pos.x, dropto.abs_pos.y );
+  tmp_map->add_item( rel_pos.x, rel_pos.y, new_item, maxitems, false );
+  delete tmp_map;
+  tmp_map=NULL;
+  tmp_om=NULL;
+#else
   submap *tmpsub = MAPBUFFER.lookup_submap( dropto.abs_sub.x, dropto.abs_sub.y, z);
   if ( ! tmpsub ) {
       dbg(D_WARNING) << "add_item_anywhere: trying to drop " << new_item.type->name << " in ungenerated submap " << worldpos.x << ", " << worldpos.y << ", " << z;
       return;
   }
   const int sx = dropto.abs_sub_pos.x, sy = dropto.abs_sub_pos.y;
+
   if ( ( terlist[ tmpsub->ter[sx][sy] ].flags & mfb(destroy_item) ) || ( furnlist[ tmpsub->frn[sx][sy] ].flags & mfb(destroy_item) ) ) {
       return;
   }
@@ -2622,6 +2643,7 @@ void map::add_item_anywhere(point worldpos, const int z, item new_item, const in
   if (new_item.active) {
       tmpsub->active_item_count++;
   }
+#endif
 }
 
 void map::process_active_items(game *g)

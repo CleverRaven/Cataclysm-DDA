@@ -462,6 +462,7 @@ class map
    return abs_sub;
  };
  point getabs(const int x=0, const int y=0 );
+ point getlocal(const int x, const int y );
  bool inboundsabs(const int x, const int y);
 protected:
  void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
