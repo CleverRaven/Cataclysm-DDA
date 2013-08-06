@@ -66,7 +66,7 @@ color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax, bigaspect)
 VAR_VEH_PART("wheel", _("wheel"), 10, 100, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
     40, 8845, 12,  0,  -1, 0,       13,         20,  BIGNESS_WHEEL_DIAMETER,  _("\
-A car wheel");
+A car wheel"));
 //           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel_wide", _("wide wheel"), 4, 340, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
