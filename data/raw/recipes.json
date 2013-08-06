@@ -10240,6 +10240,40 @@
          ]
         },
 
+        {
+            "result": "chemistry_set",
+            "category": "CC_CHEM",
+            "skill_pri": "mechanics",
+            "difficulty": 2,
+            "time": 50000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1],
+                             ["screwdriver", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["wire", 5],
+                                  ["cable", 5]
+                              ],
+                              [
+                                  ["glasses_safety", 1]
+                              ],
+                              [
+                                  ["bottle_glass", 4],
+                                  ["flask_glass", 4]
+                              ],
+                              [
+                                  ["backpack", 1],
+                                  ["rucksack", 1],
+                                  ["duffelbag", 1]
+                          ]
+            ]
+        },
 
             {
                 "result": "nailrifle",
