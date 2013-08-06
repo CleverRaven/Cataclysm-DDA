@@ -507,13 +507,15 @@ bool player::install_bionics(game *g, it_bionic* type)
    skillLevel("mechanics")   * 1;
 
  // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
- float adjusted_skill = pl_skill - std::min( float (40), float (pl_skill) - float (pl_skill) / 10);
+ float adjusted_skill = float (pl_skill) - std::min( float (40), float (pl_skill) - float (pl_skill) / 10.0);
 
  // we will base chance_of_success on a ratio of skill and difficulty
  // when skill=difficulty, this gives us 0.  skill < difficulty gives a negative number.
- float skill_difficulty_parameter = adjusted_skill / (4 * type->difficulty) - 4 * type->difficulty / adjusted_skill;
+ float skill_difficulty_parameter = adjusted_skill / (4.0 * type->difficulty) - 4.0 * type->difficulty / adjusted_skill;
  
- // when skill == difficulty, chance_of_success is 50%
+ // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
+ // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
+ // curve flattens out just above 80%
  int chance_of_success = int((100 * skill_difficulty_parameter) /
                              (skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter)));
 
@@ -548,15 +550,22 @@ bool player::install_bionics(game *g, it_bionic* type)
 void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
 {
 
+ // "success" should be passed in as a negative integer representing how far off we
+ // were for a successful install.  We use this to determine consequences for failing.
  success = abs(success);
 
  // it would be better for code reuse just to pass in skill as an argument from install_bionic
+ // pl_skill should be calculated the same as in install_bionics
  int pl_skill = u->int_cur * 4 +
   u->skillLevel("electronics") * 4 +
   u->skillLevel("firstaid")    * 3 +
   u->skillLevel("mechanics")   * 1;
 
- int failure_level = sqrt(success * 4 * type->difficulty / pl_skill);
+ // failure level is decided by how far off the character was from a successful install, and
+ // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low 
+ // difficulties), only minor consequences occur.  At low skill levels, severe consequences
+ // are more likely.
+ int failure_level = sqrt(success * 4.0 * type->difficulty / float (pl_skill));
  int fail_type = (failure_level > 5 ? 5 : failure_level);
 
  if (fail_type <= 0) {
