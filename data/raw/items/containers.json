@@ -286,8 +286,6 @@
 		"contains":1
                 "flags":[
 			"RIGID",
-			"SEALS",
-			"WATERTIGHT"
 		],
 	}
 
