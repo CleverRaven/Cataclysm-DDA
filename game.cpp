@@ -2815,11 +2815,18 @@ void game::delete_save()
 #endif
 }
 
+/**
+ * Writes information about the character out to a text file timestamped with
+ * the time of the file was made. This serves as a record of the character's
+ * state at the time the memorial was made (usually upon death) and
+ * accomplishments in a human-readable format.
+ */
 void game::write_memorial_file() {
 
-    //Gather player information
+    //Size of indents in the memorial file
+    const std::string indent = "  ";
 
-    //Write to a memorial file
+    //Open the file first
     DIR *dir = opendir("memorial");
     if (!dir) {
         #if (defined _WIN32 || defined __WIN32__)
@@ -2859,6 +2866,26 @@ void game::write_memorial_file() {
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << u.name << "\n";
+    memorial_file << _(season_name[turn.get_season()].c_str()) << _(", day ") << (turn.days() + 1) << ".\n";
+    memorial_file << "\n";
+
+    //HP
+    memorial_file << _("Final HP:") << "\n";
+    memorial_file << indent << _(" Head: ") << u.hp_cur[hp_head] << "/" << u.hp_max[hp_head] << "\n";
+    memorial_file << indent << _("Torso: ") << u.hp_cur[hp_torso] << "/" << u.hp_max[hp_torso] << "\n";
+    memorial_file << indent << _("L Arm: ") << u.hp_cur[hp_arm_l] << "/" << u.hp_max[hp_arm_l] << "\n";
+    memorial_file << indent << _("R Arm: ") << u.hp_cur[hp_arm_r] << "/" << u.hp_max[hp_arm_r] << "\n";
+    memorial_file << indent << _("L Leg: ") << u.hp_cur[hp_leg_l] << "/" << u.hp_max[hp_leg_l] << "\n";
+    memorial_file << indent << _("R Leg: ") << u.hp_cur[hp_leg_r] << "/" << u.hp_max[hp_leg_r] << "\n";
+    memorial_file << "\n";
+
+    //Stats
+    memorial_file << _("Final Stats:") << "\n";
+    memorial_file << indent << _("Str ") << u.str_cur << indent << _("Dex ") << u.dex_cur << indent
+                  << _("Int ") << u.int_cur << indent << _("Per ") << u.per_cur << "\n";
+    memorial_file << _("Base Stats:") << "\n";
+    memorial_file << indent << _("Str ") << u.str_max << indent << _("Dex ") << u.dex_max << indent
+                  << _("Int ") << u.int_max << indent << _("Per ") << u.per_max << "\n";
     memorial_file << "\n";
 
     //Kill list
