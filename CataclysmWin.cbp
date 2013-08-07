@@ -49,6 +49,7 @@
 			<Add library="gdi32" />
 			<Add library="intl" />
 			<Add library="iconv" />
+			<Add library="winmm" />
 		</Linker>
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />

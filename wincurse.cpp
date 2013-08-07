@@ -364,6 +364,7 @@ fin.open("data\\FONTDATA");
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
     WindowHeight = (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     WinCreate();    //Create the actual window, register it, etc
+    timeBeginPeriod(1); // Set Sleep resolution to 1ms
     CheckMessages();    //Let the message queue handle setting up the window
     WindowDC = GetDC(WindowHandle);
     backbuffer = CreateCompatibleDC(WindowDC);
@@ -425,7 +426,7 @@ int curses_getch(WINDOW* win)
     lastchar = ERR;
     if (inputdelay < 0)
     {
-        for (; lastchar==ERR; Sleep(0))
+        for (; lastchar==ERR; Sleep(1))
             CheckMessages();
     }
     else if (inputdelay > 0)
@@ -434,7 +435,7 @@ int curses_getch(WINDOW* win)
         {
             CheckMessages();
             if (lastchar!=ERR) break;
-            Sleep(0);
+            Sleep(1);
         }
     }
     else
