@@ -1761,7 +1761,7 @@ void iuse::directional_antenna(game *g, player *p, item *it, bool t)
     item radio = p->i_of_type("radio_on");
     if( radio.typeId() != "radio_on" )
     {
-        g->add_msg( _("Must have an active radio to check for signal sirection.") );
+        g->add_msg( _("Must have an active radio to check for signal direction.") );
         return;
     }
     // Find the radio station its tuned to (if any)
@@ -1821,7 +1821,10 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
         point pos = g->find_item(it);
         g->sound(pos.x, pos.y, 6, message.c_str());
     } else {	// Activated
-        int ch = menu( true, _("Radio:"), _("Scan"), _("Turn off"), NULL );
+        int ch = 2;
+        if (it->charges > 0)
+             ch = menu( true, _("Radio:"), _("Scan"), _("Turn off"), NULL );
+
         switch (ch)
         {
         case 1:
