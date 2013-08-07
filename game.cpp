@@ -39,6 +39,7 @@
 #endif
 #include <sys/stat.h>
 #include <ctime>
+#include "disease.h"
 #include "version.h"
 #include "debug.h"
 #include "artifactdata.h"
@@ -2869,6 +2870,10 @@ void game::write_memorial_file() {
                   << _(", day ") << (turn.days() + 1) << _(", ") << turn.print_time() << ".\n";
     memorial_file << "\n";
 
+    //Misc
+    memorial_file << _("Cash on hand: ") << "$" << u.cash << "\n";
+    memorial_file << "\n";
+
     //HP
     memorial_file << _("Final HP:") << "\n";
     memorial_file << indent << _(" Head: ") << u.hp_cur[hp_head] << "/" << u.hp_max[hp_head] << "\n";
@@ -2924,6 +2929,49 @@ void game::write_memorial_file() {
     }
     memorial_file << "\n";
 
+    //Effects (illnesses)
+    memorial_file << _("Ongoing Effects:") << "\n";
+    bool had_effect = false;
+    for(int i = 0; i < u.illness.size(); i++) {
+      disease next_illness = u.illness[i];
+      if(dis_name(next_illness).size() > 0) {
+        had_effect = true;
+        memorial_file << indent << dis_name(next_illness) << "\n";
+      }
+    }
+    //Various effects not covered by the illness list - from player.cpp
+    if(u.morale_level() >= 100) {
+      had_effect = true;
+      memorial_file << indent << _("Elated") << "\n";
+    }
+    if(u.morale_level() <= -100) {
+      had_effect = true;
+      memorial_file << indent << _("Depressed") << "\n";
+    }
+    if(u.pain - u.pkill > 0) {
+      had_effect = true;
+      memorial_file << indent << _("Pain") << " (" << (u.pain - u.pkill) << ")";
+    }
+    if(u.stim > 0) {
+      had_effect = true;
+      int dexbonus = int(u.stim / 10);
+      if (abs(u.stim) >= 30) {
+        dexbonus -= int(abs(u.stim - 15) /  8);
+      }
+      if(dexbonus < 0) {
+        memorial_file << indent << _("Stimulant Overdose") << "\n";
+      } else {
+        memorial_file << indent << _("Stimulant") << "\n";
+      }
+    } else if(u.stim < 0) {
+      had_effect = true;
+      memorial_file << indent << _("Depressants") << "\n";
+    }
+    if(!had_effect) {
+      memorial_file << indent << _("(None)") << "\n";
+    }
+    memorial_file << "\n";
+
     //Bionics
     memorial_file << _("Bionics:") << "\n";
     int total_bionics = 0;
@@ -2939,6 +2987,41 @@ void game::write_memorial_file() {
     }
     memorial_file << _("Power: ") << u.power_level << "/" << u.max_power_level << "\n";
     memorial_file << "\n";
+
+    //Equipment
+    memorial_file << _("Equipment:") << "\n";
+    for(int i = 0; i < u.worn.size(); i++) {
+      item next_item = u.worn[i];
+      memorial_file << indent << next_item.invlet << " - " << next_item.tname(this);
+      if(next_item.charges > 0) {
+        memorial_file << " (" << next_item.charges << ")";
+      } else if (next_item.contents.size() == 1
+              && next_item.contents[0].charges > 0) {
+        memorial_file << " (" << next_item.contents[0].charges << ")";
+      }
+      memorial_file << "\n";
+    }
+    memorial_file << "\n";
+
+    //Inventory
+    memorial_file << _("Inventory:") << "\n";
+    u.inv.sort();
+    u.inv.restack(&u);
+    for(int i = 0; i < u.inv.size(); i++) {
+      invslice slice = u.inv.slice(i, 1);
+      item& next_item = slice[0]->front();
+      memorial_file << indent << next_item.invlet << " - " << next_item.tname(this);
+      if(slice[0]->size() > 1) {
+        memorial_file << " [" << slice[0]->size() << "]";
+      }
+      if(next_item.charges > 0) {
+        memorial_file << " (" << next_item.charges << ")";
+      } else if (next_item.contents.size() == 1
+              && next_item.contents[0].charges > 0) {
+        memorial_file << " (" << next_item.contents[0].charges << ")";
+      }
+      memorial_file << "\n";
+    }
 
     //Cleanup
     memorial_file.close();
