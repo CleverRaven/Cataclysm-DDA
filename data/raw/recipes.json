@@ -496,6 +496,40 @@
                           ]
         },
 		
+		{
+            "result": "firekatana_off",
+            "category": "CC_WEAPON",
+			"skill_pri": "mechanics",
+            "difficulty": 7,
+            "time": 30000,
+            "reversible": true,
+            "autolearn": true,
+			"tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+                         [
+                             ["welder", 20],
+                             ["welder_crude", 30],
+                             ["toolset", 1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["leather", 5]
+                              ],
+							  [
+							      ["pipe", 1]
+							  ],
+                              [
+                                  ["katana", 1]
+                              ],
+							  [
+							      ["flamethrower_crude", 1]
+							  ]
+                          ]
+        },
+		
       
       {
             "result": "sling",

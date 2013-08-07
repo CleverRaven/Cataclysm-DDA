@@ -107,6 +107,8 @@ void Item_factory::init(){
     iuse_function_list["FIREMACHETE_ON"] = &iuse::firemachete_on;
     iuse_function_list["BROADFIRE_OFF"] = &iuse::broadfire_off;
     iuse_function_list["BROADFIRE_ON"] = &iuse::broadfire_on;
+    iuse_function_list["FIREKATANA_OFF"] = &iuse::firekatana_off;
+    iuse_function_list["FIREKATANA_ON"] = &iuse::firekatana_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
     iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
