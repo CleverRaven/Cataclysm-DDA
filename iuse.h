@@ -87,6 +87,8 @@ class iuse
   void shishkebab_on	(game *g, player *p, item *it, bool t);
   void firemachete_off	(game *g, player *p, item *it, bool t);
   void firemachete_on	(game *g, player *p, item *it, bool t);
+  void broadfire_off	(game *g, player *p, item *it, bool t);
+  void broadfire_on	    (game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);
   void jacqueshammer	(game *g, player *p, item *it, bool t);
   void pickaxe          (game *g, player *p, item *it, bool t);

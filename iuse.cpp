@@ -2382,6 +2382,64 @@ void iuse::firemachete_on(game *g, player *p, item *it, bool t)
     }
 }
 
+void iuse::broadfire_off(game *g, player *p, item *it, bool t)
+{
+    int choice = menu(true,
+                      _("Firebrand"), _("Ready for Battle!"), _("Perform peasant work?"), _("Reconsider thy strategy"), NULL);
+    switch (choice)
+    {
+        if (choice == 2)
+            break;
+    case 1:
+        {
+		p->moves -= 10;
+        g->sound(p->posx, p->posy, 10,
+                     _("Charge!!"));
+            it->make(g->itypes["broadfire_on"]);
+            it->active = true;
+        }
+    break;
+    case 2:
+    {
+        iuse::knife(g, p, it, t);
+    }
+    }
+}
+void iuse::broadfire_on(game *g, player *p, item *it, bool t)
+{
+    if (t)   	// Effects while simply on
+    {
+        if (one_in(35))
+            g->sound(p->posx, p->posy, 5, _("Your Firebrand burns for combat!."));
+    }
+    else
+    {
+        int choice = menu(true,
+                          (p,_("Firebrand"), it->tname().c_str()), _("Retreat!"), _("Burn and Pillage!"), _("Keep Fighting!"), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            g->add_msg_if_player(p,_("Run away!"));
+            it->make(g->itypes["broadfire_off"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 5;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
+}
+
 void iuse::jackhammer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
