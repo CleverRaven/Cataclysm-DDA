@@ -530,11 +530,7 @@ void game::cleanup_at_end(){
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
     {
         death_screen();
-        if(OPTIONS[OPT_MEMORIAL_FILE == 1]
-         || (OPTIONS[OPT_MEMORIAL_FILE] == 2 && query_yn(_("Create memorial file of this character?"))))
-        {
-            write_memorial_file();
-        }
+        write_memorial_file();
         if (OPTIONS[OPT_DELETE_WORLD] == 1
          || (OPTIONS[OPT_DELETE_WORLD] == 2 && query_yn(_("Delete saved world?"))))
         {

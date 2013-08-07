@@ -26,7 +26,6 @@ OPT_DROP_EMPTY,          // auto drop empty containers after use
 OPT_HIDE_CURSOR,         // hide mouse cursor
 OPT_SKILL_RUST,          // level of skill rust
 OPT_DELETE_WORLD,        // Delete world every time character dies
-OPT_MEMORIAL_FILE,       // Create a memorial file upon character death
 OPT_INITIAL_POINTS,      // Set the number of character points
 OPT_MAX_TRAIT_POINTS,    // Set the number of trait points
 OPT_INITIAL_TIME,        // Sets the starting hour (0-24)
