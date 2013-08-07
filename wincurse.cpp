@@ -105,6 +105,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                                  WPARAM wParam, LPARAM lParam)
 {
     switch (Msg){
+        case WM_DEADCHAR:
         case WM_CHAR:               //This handles most key presses
             lastchar=(int)wParam;
             switch (lastchar){
