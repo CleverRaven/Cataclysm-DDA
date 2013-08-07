@@ -660,9 +660,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							while (tries < 10 && cur->getFieldAge() < 50 && cur->getFieldDensity() > 1) {
 								int cx = x + rng(-1, 1), cy = y + rng(-1, 1);
 								if (move_cost(cx, cy) != 0) {
-									add_field(g, cx, cy, fd_electricity, 1);
-									tmpfld = field_at(cx, cy).findField(fd_electricity);
-									if(tmpfld) tmpfld->setFieldAge(cur->getFieldAge() + 1);
+									add_field(g, point(cx, cy), fd_electricity, 1,cur->getFieldAge() + 1);
 									cur->setFieldDensity(cur->getFieldDensity() - 1);
 									tries = 0;
 								} else
@@ -684,17 +682,13 @@ bool map::process_fields_in_submap(game *g, int gridn)
 										cur->setFieldDensity(cur->getFieldDensity() - 1);
 								}
 								else if (move_cost(px, py) > 0){
-									add_field(g, px, py, fd_electricity, 1);
-									tmpfld = field_at(px, py).findField(fd_electricity);
-									if(tmpfld) tmpfld->setFieldAge(cur->getFieldAge() + 1);
+									add_field(g, point(px, py), fd_electricity, 1,cur->getFieldAge() + 1);
 								}
 								cur->setFieldDensity(cur->getFieldDensity() - 1);
 							}
 							while (valid.size() > 0 && cur->getFieldDensity() > 1) {
 								int index = rng(0, valid.size() - 1);
-								add_field(g, valid[index].x, valid[index].y, fd_electricity, 1);
-								tmpfld = field_at(valid[index].x, valid[index].y).findField(fd_electricity);
-								if(tmpfld) tmpfld->setFieldAge(cur->getFieldAge() + 1);
+								add_field(g, valid[index], fd_electricity, 1,cur->getFieldAge() + 1);
 								cur->setFieldDensity(cur->getFieldDensity() - 1);
 								valid.erase(valid.begin() + index);
 							}
