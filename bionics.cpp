@@ -562,7 +562,7 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
   u->skillLevel("mechanics")   * 1;
 
  // for failure_level calculation, shift skill down to a float between ~0.4 - 30
- float adjusted_skill = pl_skill - min( float (10), float (pl_skill) - float (pl_skill) / 10);
+ float adjusted_skill = float (pl_skill) - std::min( float (40), float (pl_skill) - float (pl_skill) / float (10.0));
 
  // failure level is decided by how far off the character was from a successful install, and
  // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low 
