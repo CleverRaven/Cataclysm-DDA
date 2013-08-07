@@ -2244,7 +2244,7 @@ void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
 void iuse::shishkebab_off(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true,
-                      _("Shishkebab:"), _("Turn on"), _("Use as a knife"), _("Cancel"), NULL);
+                      _("Shishkebab"), _("Turn on"), _("Use as a knife"), _("Cancel"), NULL);
     switch (choice)
     {
         if (choice == 2)
@@ -2287,7 +2287,7 @@ void iuse::shishkebab_on(game *g, player *p, item *it, bool t)
     else
     {
         int choice = menu(true,
-                          (p,_("Shishkebab:"), it->tname().c_str()), _("Turn off"), _("Light something"), _("Cancel"), NULL);
+                          _("Shishkebab"), _("Turn off"), _("Light something"), _("Cancel"), NULL);
         switch (choice)
         {
             if (choice == 2)
@@ -2315,7 +2315,7 @@ void iuse::shishkebab_on(game *g, player *p, item *it, bool t)
 void iuse::firemachete_off(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true,
-                      _("No. 9:"), _("Turn on"), _("Use as a knife"), _("Cancel"), NULL);
+                      _("No. 9"), _("Turn on"), _("Use as a knife"), _("Cancel"), NULL);
     switch (choice)
     {
         if (choice == 2)
@@ -2357,7 +2357,7 @@ void iuse::firemachete_on(game *g, player *p, item *it, bool t)
     else
     {
         int choice = menu(true,
-                          (p,_("No. 9:"), it->tname().c_str()), _("Turn off"), _("Light something"), _("Cancel"), NULL);
+                          (p,_("No. 9"), it->tname().c_str()), _("Turn off"), _("Light something"), _("Cancel"), NULL);
         switch (choice)
         {
             if (choice == 2)

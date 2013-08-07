@@ -222,31 +222,6 @@
         },
 		
 		
-		{
-            "result": "shishkebab_off",
-            "category": "CC_WEAPON",
-			"skill_pri": "survival",
-            "difficulty": 0,
-            "time": 10000,
-            "reversible": true,
-            "autolearn": true,
-            "components": [
-                              [
-                                  ["leather", 5]
-                              ],
-							  [
-							      ["pipe", 1]
-							  ],
-                              [
-                                  ["makeshift_machete", 1]
-                              ],
-							  [
-							      ["flamethrower_crude", 1]
-							  ]
-                          ]
-        },
-
-
         {
             "result": "makeshift_halberd",
             "category": "CC_WEAPON",
@@ -427,7 +402,33 @@
                               ]
                           ]
         },
-		
+
+
+		{
+            "result": "shishkebab_off",
+            "category": "CC_WEAPON",
+			"skill_pri": "survival",
+            "difficulty": 0,
+            "time": 10000,
+            "reversible": true,
+            "autolearn": true,
+            "components": [
+                              [
+                                  ["leather", 5]
+                              ],
+							  [
+							      ["pipe", 1]
+							  ],
+                              [
+                                  ["makeshift_machete", 1]
+                              ],
+							  [
+							      ["flamethrower_crude", 1]
+							  ]
+                          ]
+        },
+
+
 		{
             "result": "firemachete_off",
             "category": "CC_WEAPON",
