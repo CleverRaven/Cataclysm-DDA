@@ -322,6 +322,38 @@ void inventory::update_cache_with_item(item& newit) {
     preferred_invlets.push_back(newit.invlet);
 }
 
+char inventory::get_invlet_for_item( std::string item_type ) {
+    char candidate_invlet = 0;
+
+    if( invlet_cache.count( item_type ) ) {
+        std::vector<char>& preferred_invlets = invlet_cache[ item_type ];
+
+        // Some of our preferred letters might already be used.
+        int first_free_invlet = -1;
+        for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
+            bool invlet_is_used = false; // Check if anything is using this invlet.
+            for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+                if( iter->front().invlet == preferred_invlets[ invlets_index ] ) {
+                    invlet_is_used = true;
+                    break;
+                }
+            }
+
+            // If we found one that isn't used, we're done iterating.
+            if( !invlet_is_used ) {
+                first_free_invlet = invlets_index;
+                break;
+            }
+        }
+
+        if( first_free_invlet != -1 ) {
+            candidate_invlet = preferred_invlets[first_free_invlet];
+        }
+    }
+    return candidate_invlet;
+}
+
+
 item& inventory::add_item(item newit, bool keep_invlet)
 {
     if (newit.is_style())
@@ -335,32 +367,10 @@ item& inventory::add_item(item newit, bool keep_invlet)
 
     if(!keep_invlet) {
         // Do we have this item in our inventory favourites cache?
-        if(invlet_cache.count(newit.typeId())) {
-            std::vector<char>& preferred_invlets = invlet_cache[newit.typeId()];
-
-            // Some of our preferred letters might already be used.
-            int first_free_invlet = -1;
-            for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
-                bool invlet_is_used = false; // Check if anything is using this invlet.
-                for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-                {
-                    if(iter->front().invlet == preferred_invlets[invlets_index]) {
-                        invlet_is_used = true;
-                        break;
-                    }
-                }
-
-                // If we found one that isn't used, we're done iterating.
-                if(!invlet_is_used) {
-                    first_free_invlet = invlets_index;
-                    break;
-                }
-            }
-
-            if(first_free_invlet != -1) {
-                newit.invlet = preferred_invlets[first_free_invlet];
-                reuse_cached_letter = true;
-            }
+        char temp_invlet = get_invlet_for_item( newit.typeId() );
+        if( temp_invlet != 0 ) {
+            newit.invlet = temp_invlet;
+            reuse_cached_letter = true;
         }
 
         // If it's not in our cache and not a lowercase letter, try to give it a low letter.
