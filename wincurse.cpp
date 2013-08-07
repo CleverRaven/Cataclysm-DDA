@@ -62,10 +62,6 @@ bool WinCreate()
     if (!RegisterClassExW(&WindowClassType))
         return false;
 
-    // Center window
-    int WindowX = GetSystemMetrics(SM_CXSCREEN)/2 - WindowWidth/2;
-    int WindowY = GetSystemMetrics(SM_CYSCREEN)/2 - WindowHeight/2;
-
     // Adjust window size
     uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_VISIBLE; // Basic window, show on creation
     RECT WndRect;
@@ -73,6 +69,12 @@ bool WinCreate()
     WndRect.right  = WindowWidth;
     WndRect.bottom = WindowHeight;
     AdjustWindowRect(&WndRect, WndStyle, false);
+
+    // Center window
+    RECT WorkArea;
+    SystemParametersInfo(SPI_GETWORKAREA, 0, &WorkArea, 0);
+    int WindowX = WorkArea.right/2 - (WndRect.right - WndRect.left)/2;
+    int WindowY = WorkArea.bottom/2 - (WndRect.bottom - WndRect.top)/2;
 
     // Magic
     WindowHandle = CreateWindowExW(0, szWindowClass , szTitle, WndStyle,
