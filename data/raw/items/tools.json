@@ -2560,7 +2560,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 30,
     "ammo": "gasoline",
-    "revert_to": "null",
+    "revert_to": "firemachete_off",
     "use_action": "FIREMACHETE_ON"
   },
 
@@ -2638,7 +2638,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 30,
     "ammo": "gasoline",
-    "revert_to": "null",
+    "revert_to": "firekatana_off",
     "use_action": "FIREKATANA_ON"
   },
 
@@ -2793,7 +2793,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 30,
     "ammo": "gasoline",
-    "revert_to": "NULL",
+    "revert_to": "broadfire_off",
     "use_action": "BROADFIRE_ON"
   },
 
@@ -2869,7 +2869,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 20,
     "ammo": "gasoline",
-    "revert_to": "null",
+    "revert_to": "shishkebab_off",
     "use_action": "SHISHKEBAB_ON"
   },
   {
