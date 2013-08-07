@@ -355,7 +355,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
 int stumble(player &u)
 {
- int stumble_pen = 2 * u.weapon.volume() + u.weapon.weight();
+ int stumble_pen = 2 * u.weapon.volume() + (u.weapon.weight() / 113);
  if (u.has_trait(PF_DEFT))
   stumble_pen = int(stumble_pen * .3) - 10;
  if (stumble_pen < 0)

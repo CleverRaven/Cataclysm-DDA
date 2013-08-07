@@ -999,8 +999,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
    item tmp(g->itypes[ items[0][i] ], g->turn);
    tmp = tmp.in_its_container(&(g->itypes));
    for (int j = 0; j < item_count[0][i]; j++) {
-    if (g->u.volume_carried() + tmp.volume() <= g->u.volume_capacity() &&
-        g->u.weight_carried() + tmp.weight() <= g->u.weight_capacity() &&
+    if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight()) &&
         g->u.inv.size() < inv_chars.size())
      g->u.i_add(tmp);
     else { // Could fit it in the inventory!

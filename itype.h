@@ -133,8 +133,7 @@ struct itype
  phase_id phase;      //e.g. solid, liquid, gas
 
  unsigned int volume;	// Space taken up by this item
- unsigned int weight;	// Weight in quarter-pounds; is 64 lbs max ok?
- 			// Also assumes positive weight.  No helium, guys!
+ unsigned int weight;	// Weight in grams. Assumes positive weight. No helium, guys!
  bigness_property_aspect bigness_aspect;
 
  signed char melee_dam;	// Bonus for melee damage; may be a penalty
@@ -189,7 +188,7 @@ struct itype
  itype(std::string pid, unsigned char prarity, unsigned int pprice,
        std::string pname, std::string pdes,
        char psym, nc_color pcolor, std::string pm1, std::string pm2, phase_id pphase,
-       unsigned short pvolume, unsigned short pweight,
+       unsigned short pvolume, unsigned int pweight,
        signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
        unsigned ptechniques = 0) {
   id          = pid;
@@ -246,7 +245,7 @@ struct it_comest : public itype
     it_comest(std::string pid, unsigned char prarity, unsigned int pprice,
     std::string pname, std::string pdes,
     char psym, nc_color pcolor, std::string pm1, phase_id pphase,
-    unsigned short pvolume, unsigned short pweight,
+    unsigned short pvolume, unsigned int pweight,
     signed char pmelee_dam, signed char pmelee_cut,
     signed char pm_to_hit,
 
@@ -286,7 +285,7 @@ struct it_var_veh_part: public itype
  it_var_veh_part(std::string pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
         char psym, nc_color pcolor, std::string pm1, std::string pm2,
-        unsigned short pvolume, unsigned short pweight,
+        unsigned short pvolume, unsigned int pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
         unsigned effects,
 
@@ -339,7 +338,7 @@ struct it_ammo : public itype
  it_ammo(std::string pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
         char psym, nc_color pcolor, std::string pm1, phase_id pphase,
-        unsigned short pvolume, unsigned short pweight,
+        unsigned short pvolume, unsigned int pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
          std::set<std::string> effects,
 
@@ -377,7 +376,7 @@ struct it_gun : public itype
  it_gun(std::string pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
         char psym, nc_color pcolor, std::string pm1, std::string pm2,
-        unsigned short pvolume, unsigned short pweight,
+        unsigned short pvolume, unsigned int pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
 	const char *pskill_used, ammotype pammo, signed char pdmg_bonus, signed char prange,
@@ -415,7 +414,7 @@ struct it_gunmod : public itype
  it_gunmod(std::string pid, unsigned char prarity, unsigned int pprice,
            std::string pname, std::string pdes,
            char psym, nc_color pcolor, std::string pm1, std::string pm2,
-           unsigned short pvolume, unsigned short pweight,
+           unsigned short pvolume, unsigned int pweight,
            signed char pmelee_dam, signed char pmelee_cut,
            signed char pm_to_hit,
 
@@ -483,7 +482,7 @@ struct it_armor : public itype
  it_armor(itype_id pid, unsigned char prarity, unsigned int pprice,
           std::string pname, std::string pdes,
           char psym, nc_color pcolor, std::string pm1, std::string pm2,
-          unsigned short pvolume, unsigned short pweight,
+          unsigned short pvolume, unsigned int pweight,
           signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
           unsigned char pcovers, signed char pencumber,
@@ -520,7 +519,7 @@ struct it_book : public itype
  it_book(std::string pid, unsigned char prarity, unsigned int pprice,
          std::string pname, std::string pdes,
          char psym, nc_color pcolor, std::string pm1, std::string pm2,
-         unsigned short pvolume, unsigned short pweight,
+         unsigned short pvolume, unsigned int pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
 	 const char *ptype, unsigned char plevel, unsigned char preq,
@@ -570,7 +569,7 @@ struct it_tool : public itype
  it_tool(std::string pid, unsigned char prarity, unsigned int pprice,
          std::string pname, std::string pdes,
          char psym, nc_color pcolor, std::string pm1, std::string pm2, phase_id pphase,
-         unsigned short pvolume, unsigned short pweight,
+         unsigned short pvolume, unsigned int pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
          unsigned int pmax_charges, unsigned int pdef_charges,
@@ -599,7 +598,7 @@ struct it_bionic : public itype
  it_bionic(std::string pid, unsigned char prarity, unsigned int pprice,
            std::string pname, std::string pdes,
            char psym, nc_color pcolor, std::string pm1, std::string pm2,
-           unsigned short pvolume, unsigned short pweight,
+           unsigned short pvolume, unsigned int pweight,
            signed char pmelee_dam, signed char pmelee_cut,
            signed char pm_to_hit,
 
@@ -620,7 +619,7 @@ struct it_macguffin : public itype
  it_macguffin(std::string pid, unsigned char prarity, unsigned int pprice,
               std::string pname, std::string pdes,
               char psym, nc_color pcolor, std::string pm1, std::string pm2,
-              unsigned short pvolume, unsigned short pweight,
+              unsigned short pvolume, unsigned int pweight,
               signed char pmelee_dam, signed char pmelee_cut,
               signed char pm_to_hit,
 
@@ -643,7 +642,7 @@ struct it_software : public itype
  it_software(std::string pid, unsigned char prarity, unsigned int pprice,
              std::string pname, std::string pdes,
              char psym, nc_color pcolor, std::string pm1, std::string pm2,
-             unsigned short pvolume, unsigned short pweight,
+             unsigned short pvolume, unsigned int pweight,
              signed char pmelee_dam, signed char pmelee_cut,
              signed char pm_to_hit,
 
@@ -787,7 +786,7 @@ struct it_artifact_tool : public it_tool
 
  it_artifact_tool(std::string pid, unsigned int pprice, std::string pname,
                   std::string pdes, char psym, nc_color pcolor, std::string pm1,
-                  std::string pm2, unsigned short pvolume, unsigned short pweight,
+                  std::string pm2, unsigned short pvolume, unsigned int pweight,
                   signed char pmelee_dam, signed char pmelee_cut,
                   signed char pm_to_hit, std::set<std::string> pitem_tags,
 
@@ -874,7 +873,7 @@ struct it_artifact_armor : public it_armor
 
  it_artifact_armor(std::string pid, unsigned int pprice, std::string pname,
                    std::string pdes, char psym, nc_color pcolor, std::string pm1,
-                   std::string pm2, unsigned short pvolume, unsigned short pweight,
+                   std::string pm2, unsigned short pvolume, unsigned int pweight,
                    signed char pmelee_dam, signed char pmelee_cut,
                    signed char pm_to_hit, std::set<std::string> pitem_tags,
 

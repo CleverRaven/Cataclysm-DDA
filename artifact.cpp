@@ -99,31 +99,29 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS];
 artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS];
 std::string artifact_adj[NUM_ART_ADJS];
 std::string artifact_noun[NUM_ART_NOUNS];
-
-
 std::string artifact_name(std::string type);
 
 void game::init_artifacts()
 {
     artifact_shape_datum tmp_artifact_shape_data[ARTSHAPE_MAX] = {
     {"BUG", "BUG", 0, 0, 0, 0},
-    {_("sphere"), _("smooth sphere"), 2, 4, 0, 10},
-    {_("rod"), _("tapered rod"), 1, 7, 1, 7},
-    {_("teardrop"), _("teardrop-shaped stone"), 2, 6, 0, 8},
-    {_("lamp"), _("hollow, transparent cube"), 4, 9, 0, 3},
-    {_("snake"), _("winding, flexible rod"), 0, 8, 0, 8},
-    {_("disc"), _("smooth disc"), 4, 6, 2, 4},
-    {_("beads"), _("string of beads"), 3, 7, 0, 6},
-    {_("napkin"), _("very thin sheet"), 0, 3, 0, 3},
-    {_("urchin"), _("spiked sphere"), 3, 5, 2, 6},
-    {_("jelly"), _("malleable blob"), 2, 8, 2, 4},
-    {_("spiral"), _("spiraling rod"), 5, 6, 2, 3},
-    {_("pin"), _("pointed rod"), 1, 5, 1, 9},
-    {_("tube"), _("hollow tube"), 2, 5, 3, 6},
-    {_("pyramid"), _("regular tetrahedron"), 3, 7, 2, 4},
-    {_("crystal"), _("translucent crystal"), 1, 6, 2, 7},
-    {_("knot"), _("twisted, knotted cord"), 2, 6, 1, 7},
-    {_("crescent"), _("crescent-shaped stone"), 2, 6, 2, 6}
+    {_("sphere"), _("smooth sphere"), 2, 4, 1, 1150},
+    {_("rod"), _("tapered rod"), 1, 7, 1, 800},
+    {_("teardrop"), _("teardrop-shaped stone"), 2, 6, 1, 950},
+    {_("lamp"), _("hollow, transparent cube"), 4, 9, 1, 350},
+    {_("snake"), _("winding, flexible rod"), 0, 8, 1, 950},
+    {_("disc"), _("smooth disc"), 4, 6, 200, 400},
+    {_("beads"), _("string of beads"), 3, 7, 1, 700},
+    {_("napkin"), _("very thin sheet"), 0, 3, 1, 350},
+    {_("urchin"), _("spiked sphere"), 3, 5, 200, 700},
+    {_("jelly"), _("malleable blob"), 2, 8, 200, 450},
+    {_("spiral"), _("spiraling rod"), 5, 6, 200, 350},
+    {_("pin"), _("pointed rod"), 1, 5, 100, 1050},
+    {_("tube"), _("hollow tube"), 2, 5, 350, 700},
+    {_("pyramid"), _("regular tetrahedron"), 3, 7, 200, 450},
+    {_("crystal"), _("translucent crystal"), 1, 6, 200, 800},
+    {_("knot"), _("twisted, knotted cord"), 2, 6, 100, 800},
+    {_("crescent"), _("crescent-shaped stone"), 2, 6, 200, 700}
     };
     for(int i=0;i<ARTSHAPE_MAX;i++) {artifact_shape_data[i]=tmp_artifact_shape_data[i];}
 
@@ -245,19 +243,19 @@ void game::init_artifacts()
     {"", '*', c_white, "null", "null", 0, 0, 0, 0, ARTWEAP_BULK,
      {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}},
 
-    {_("Harp"), ';', c_yellow, "wood", "null", 20, 30, 10, 18, ARTWEAP_BULK,
+    {_("Harp"), ';', c_yellow, "wood", "null", 20, 30, 1150, 2100, ARTWEAP_BULK,
      {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}},
 
-    {_("Staff"), '/', c_brown, "wood", "null", 6, 12, 4, 10, ARTWEAP_CLUB,
+    {_("Staff"), '/', c_brown, "wood", "null", 6, 12, 450, 1150, ARTWEAP_CLUB,
      {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}},
 
-    {_("Sword"), '/', c_ltblue, "steel", "null", 8, 14, 8, 28, ARTWEAP_SWORD,
+    {_("Sword"), '/', c_ltblue, "steel", "null", 8, 14, 900, 3259, ARTWEAP_SWORD,
      {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}},
 
-    {_("Dagger"), ';', c_ltblue, "steel", "null", 1, 4, 1, 6, ARTWEAP_KNIFE,
+    {_("Dagger"), ';', c_ltblue, "steel", "null", 1, 4, 100, 700, ARTWEAP_KNIFE,
      {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}},
 
-    {_("Cube"), '*', c_white, "steel", "null", 1, 3, 1, 20, ARTWEAP_BULK,
+    {_("Cube"), '*', c_white, "steel", "null", 1, 3, 100, 2300, ARTWEAP_BULK,
      {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}}
     };
     for(int i=0;i<NUM_ARTTOOLFORMS;i++) {artifact_tool_form_data[i]=tmp_artifact_tool_form_data[i];}
@@ -265,15 +263,15 @@ void game::init_artifacts()
     artifact_weapon_datum tmp_artifact_weapon_data[NUM_ARTWEAPS] = {
     {"", 0, 0, 0, 0, 0, 0, 0, 0, ""},
     // Adjective	Vol,wgt		Bash		Cut		To-Hit  tags
-    {_("Heavy"),	 0, 12,		10, 20,		 0,  0,		-2,  0,
+    {_("Heavy"),	 0,1400,	10, 20,		 0,  0,		-2,  0,
      ""},
-    {_("Knobbed"),	 1,  2,		14, 30,		 0,  0,		-1,  1,
+    {_("Knobbed"),	 1,250,		14, 30,		 0,  0,		-1,  1,
      ""},
-    {_("Spiked"),	 1,  1,		 0,  0,		20, 40,		-1,  1,
+    {_("Spiked"),	 1,100,		 0,  0,		20, 40,		-1,  1,
      "SPEAR"},
-    {_("Edged"),	 2,  4,		 0,  0,		20, 50,		-1,  2,
+    {_("Edged"),	 2,450,		 0,  0,		20, 50,		-1,  2,
      ""},
-    {_("Bladed"),	 1,  2,		 0,  0,		12, 30,		-1,  1,
+    {_("Bladed"),	 1,2250,	 0,  0,		12, 30,		-1,  1,
      "STAB"}
     };
     for(int i=0;i<NUM_ARTWEAPS;i++) {artifact_weapon_data[i]=tmp_artifact_weapon_data[i];}
@@ -282,40 +280,40 @@ void game::init_artifacts()
     {"", c_white, "null", "null",        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
      0, false,
      {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
-    // Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
-    {_("Robe"),   c_red, "wool", "null",     6,  6,  1,  3,  3,  0,  2,  0, -8,  0, -3,
+    // Name    color  Materials         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+    {_("Robe"),   c_red, "wool", "null", 6, 700,  1,  3,  3,  0,  2,  0, -8,  0, -3,
      mfb(bp_torso)|mfb(bp_legs), false,
      {ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
       ARMORMOD_PADDED}},
 
-    {_("Coat"),   c_brown,"leather","null", 14, 14,  2,  3, 2,  1,  4,  4, -6,  0, -3,
+    {_("Coat"),   c_brown,"leather","null", 14, 1600,  2,  3, 2,  1,  4,  4, -6,  0, -3,
      mfb(bp_torso), false,
      {ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
       ARMORMOD_PLATED}},
 
-    {_("Mask"),   c_white, "wood", "null",   4,  1,  2,  2, 2,  1,  2,  0,  2,  0, -2,
+    {_("Mask"),   c_white, "wood", "null",   4, 100,  2,  2, 2,  1,  2,  0,  2,  0, -2,
      mfb(bp_eyes)|mfb(bp_mouth), false,
      {ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
       ARMORMOD_NULL}},
 
-    // Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
-    {_("Helm"),   c_dkgray, "silver", "null", 6,  6,  2,  3, 3,  0,  1,  0,  8,  0, -2,
+    // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+    {_("Helm"),   c_dkgray, "silver", "null", 6, 700,  2,  3, 3,  0,  1,  0,  8,  0, -2,
      mfb(bp_head), false,
      {ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
       ARMORMOD_NULL}},
 
-    {_("Gloves"), c_ltblue,"leather","null", 2,  1,  1,  3,  3,  1,  2,  0, -4,  0, -2,
+    {_("Gloves"), c_ltblue,"leather","null", 2, 100,  1,  3,  3,  1,  2,  0, -4,  0, -2,
      mfb(bp_hands), true,
      {ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
       ARMORMOD_NULL}},
 
-    // Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
-    {_("Boots"), c_blue, "leather", "null",  6,  2,  1,  3,  3,  1,  3,  0,  4,  0, -1,
+    // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+    {_("Boots"), c_blue, "leather", "null",  6, 250,  1,  3,  3,  1,  3,  0,  4,  0, -1,
      mfb(bp_feet), true,
      {ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
       ARMORMOD_NULL}},
 
-    {_("Ring"), c_ltgreen, "silver", "null",   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    {_("Ring"), c_ltgreen, "silver", "null",   0,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,
      0, true,
      {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
 
@@ -328,29 +326,29 @@ void game::init_artifacts()
      {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
     // Description; "It is ..." or "They are ..."
     {_("very thin and light."), c_white, "null", "null",
-    // Vol Wgt Enc Cov Thk Env Wrm Sto
-        -4, -8, -2, -1, -1, -1, -1,  0, 0, 0, 0, 0,  false,
+    // Vol   Wgt Enc Cov Thk Env Wrm Sto
+        -4, -950, -2, -1, -1, -1, -1,  0, 0, 0, 0, 0,  false,
      {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
     {_("extremely bulky."), c_white, "null", "null",
-         8, 10,  2,  1,  1,  0,  1,  0, 0, 0, 0, 0,  false,
+         8, 1150,  2,  1,  1,  0,  1,  0, 0, 0, 0, 0,  false,
      {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
     {_("covered in pockets."), c_white, "null", "null",
-         1,  1,  1,  0,  0,  0,  0, 16, 0, 0, 0, 0,  false,
+         1, 150,  1,  0,  0,  0,  0, 16, 0, 0, 0, 0,  false,
      {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
     {_("disgustingly furry."), c_white, "wool", "null",
-    // Vol Wgt Enc Dmg Cut Env Wrm Sto
-         4,  2,  1,  1,  1,  1,  3,  0, 0, 0, 0, 0,  false,
+    // Vol  Wgt Enc Dmg Cut Env Wrm Sto
+         4, 250,  1,  1,  1,  1,  3,  0, 0, 0, 0, 0,  false,
      {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
     {_("leather-padded."), c_white, "leather", "null",
-         4,  4,  1, 1,  1,  0,  1, -3, 0, 0, 0, 0,  false,
+         4, 450,  1, 1,  1,  0,  1, -3, 0, 0, 0, 0,  false,
      {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
     {_("plated in iron."), c_white, "iron", "null",
-         4, 12,  3,  2, 2,  0,  1, -4, 0, 0, 0, 0, false,
+         4, 1400,  3,  2, 2,  0,  1, -4, 0, 0, 0, 0, false,
      {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
     };
