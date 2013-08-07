@@ -103,6 +103,8 @@ void Item_factory::init(){
     iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
     iuse_function_list["SHISHKEBAB_OFF"] = &iuse::shishkebab_off;
     iuse_function_list["SHISHKEBAB_ON"] = &iuse::shishkebab_on;
+    iuse_function_list["FIREMACHETE_OFF"] = &iuse::firemachete_off;
+    iuse_function_list["FIREMACHETE_ON"] = &iuse::firemachete_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
     iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
