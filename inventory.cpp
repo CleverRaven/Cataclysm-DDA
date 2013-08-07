@@ -332,6 +332,9 @@ char inventory::get_invlet_for_item( std::string item_type ) {
         int first_free_invlet = -1;
         for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
             bool invlet_is_used = false; // Check if anything is using this invlet.
+            if( g->u.weapon.invlet == preferred_invlets[ invlets_index ] ) {
+                continue;
+            }
             for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
                 if( iter->front().invlet == preferred_invlets[ invlets_index ] ) {
                     invlet_is_used = true;
