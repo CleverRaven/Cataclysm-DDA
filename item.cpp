@@ -994,7 +994,11 @@ int item::weight() const
         } else if (contents[i].charges <= 0) {
             ret += contents[i].weight();
         } else {
-            ret += contents[i].weight() * contents[i].charges;
+            if (contents[i].count_by_charges()) {
+                ret += contents[i].weight();
+            } else {
+                ret += contents[i].weight() * contents[i].charges;
+            }
         }
     }
     return ret;
