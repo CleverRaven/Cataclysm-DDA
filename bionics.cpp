@@ -553,7 +553,10 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
   skillLevel("firstaid")    * 3 +
   skillLevel("mechanics")   * 1;
 
- int failure_level = sqrt(success * 4 * type->difficulty / pl_skill) 
+ // for failure_level calculation, shift skill down to a float between ~0.4 - 30
+ float adjusted_skill = pl_skill - min( float (10), float (pl_skill) - float (pl_skill) / 10);
+
+ int failure_level = sqrt(success * 4 * type->difficulty / adjusted_skill) 
  int fail_type = (failure_level > 5 ? 5 : failure_level);
 
  if (fail_type <= 0) {
