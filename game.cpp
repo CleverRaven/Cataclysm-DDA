@@ -8745,9 +8745,9 @@ void game::pickup(int posx, int posy, int min)
     mvwprintw(w_pickup, 0,  7, "                           ");
     mvwprintz(w_pickup, 0,  9,
               (new_weight >= u.weight_capacity() ? c_red : c_white),
-              _("Wgt %d"), new_weight);
-    wprintz(w_pickup, c_white, "/%d", int(u.weight_capacity() * .25));
-    mvwprintz(w_pickup, 0, 22,
+              _("Wgt %.1f"), u.convert_weight(new_weight));
+    wprintz(w_pickup, c_white, "/%.1f", u.convert_weight(u.weight_capacity()));
+    mvwprintz(w_pickup, 0, 24,
               (new_volume > u.volume_capacity() - 2 ? c_red : c_white),
               _("Vol %d"), new_volume);
     wprintz(w_pickup, c_white, "/%d", u.volume_capacity() - 2);
@@ -8889,7 +8889,7 @@ void game::pickup(int posx, int posy, int min)
 
  if (got_water)
   add_msg(_("You can't pick up a liquid!"));
- if (weight_is_okay && u.weight_carried() >= u.weight_capacity() * .25)
+ if (weight_is_okay && u.weight_carried() >= u.weight_capacity())
   add_msg(_("You're overburdened!"));
  if (volume_is_okay && u.volume_carried() > u.volume_capacity() - 2) {
   add_msg(_("You struggle to carry such a large volume!"));
