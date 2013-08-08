@@ -65,58 +65,58 @@ color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax, bigaspect)
 //           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel", _("wheel"), 10, 100, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    40,  140, 12,  0,  -1, 0,       13,         20,  BIGNESS_WHEEL_DIAMETER,  _("\
+    40, 8845, 12,  0,  -1, 0,       13,         20,  BIGNESS_WHEEL_DIAMETER,  _("\
 A car wheel"));
 //           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel_wide", _("wide wheel"), 4, 340, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
-    70,  260, 17,  0,  -1, 0,       17,         36,  BIGNESS_WHEEL_DIAMETER,  _("\
+    70,22600, 17,  0,  -1, 0,       17,         36,  BIGNESS_WHEEL_DIAMETER,  _("\
 A wide wheel. \\o/ This wide."));
 //           NAME            RAR  PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel_bicycle", _("bicycle wheel"), 18, 40,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
-    28,  45,  8,  0,  -1, 0,       9,         18,  BIGNESS_WHEEL_DIAMETER,  _("\
+    28,1500,  8,  0,  -1, 0,       9,         18,  BIGNESS_WHEEL_DIAMETER,  _("\
 A bicycle wheel"));
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel_motorbike", _("motorbike wheel"), 13, 140,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
-    33,  85,  10,  0,  -1, 0,       9,         14,  BIGNESS_WHEEL_DIAMETER,  _("\
+    33,5443,  10,  0,  -1, 0,       9,         14,  BIGNESS_WHEEL_DIAMETER,  _("\
 A motorbike wheel"));
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel_small", _("small wheel"),    5, 140,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
-    9,  42,  10,  0,  -1, 0,       6,         14,   BIGNESS_WHEEL_DIAMETER,  _("\
+    9, 2722,  10,  0,  -1, 0,       6,         14,   BIGNESS_WHEEL_DIAMETER,  _("\
 A pretty small wheel. Probably from one of those segway things.\
 It is not very menacing."));
 
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("1cyl_combustion", _("1-cylinder engine"),  3, 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS 0BIGNESS_MIN BIGNESS_MAX   ASPECT
-    6,  70,  4,  0,  -1, 0,       28,         75,   BIGNESS_ENGINE_DISPLACEMENT, _("\
+    6, 20000,  4,  0,  -1, 0,       28,         75,   BIGNESS_ENGINE_DISPLACEMENT, _("\
 A single-cylinder 4-stroke combustion engine."));
 
 //                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v2_combustion", _("V-twin engine"),  2, 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
-    6,  70,  4,  0,  -1, 0,       65,        260, BIGNESS_ENGINE_DISPLACEMENT, _("\
+    6, 45000,  4,  0,  -1, 0,       65,        260, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A 2-cylinder 4-stroke combustion engine."));
 
 //                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("i4_combustion", _("Inline-4 engine"),  6, 150, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
-    6,  160,  8,  0,  -2, 0,       220,       350, BIGNESS_ENGINE_DISPLACEMENT, _("\
+    6, 70000,  8,  0,  -2, 0,       220,       350, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A small, yet powerful 4-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v6_combustion", _("V6 engine"),  3, 180, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
-    14,  400,  12,  0,  -3, 0,    250,        520, BIGNESS_ENGINE_DISPLACEMENT, _("\
+    14,100000,  12,  0,  -3, 0,    250,        520, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A powerful 6-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v8_combustion", _("V8 engine"),  2, 250, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
-    25,  600,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, _("\
+    25,144000,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A large and very powerful 8-cylinder combustion engine."));
 
 // GUNS
@@ -157,7 +157,7 @@ def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
 
 TOOL("jack", _("jack"),		30, 86, ';', c_ltgray,	"iron",	"null",
 //	VOL WGT DAM CUT HIT FLAGS
-	 5,  10, 11,  0,  2, 0, 0, 0, 0, "NULL", "null", &iuse::none, _("\
+	 5,11974, 11,  0,  2, 0, 0, 0, 0, "NULL", "null", &iuse::none, _("\
 A common hydraulic jack, used when changing tires."));
 
 // BIONICS
@@ -166,7 +166,7 @@ A common hydraulic jack, used when changing tires."));
 // list of options.
 #define BIO(id, name, rarity, price, color, difficulty, des) \
 itypes[id]=new it_bionic(id, rarity,price,name,des,':',\
-color, "steel", "plastic", 10, 18, 8, 0, 0, difficulty)
+color, "steel", "plastic", 10,2041, 8, 0, 0, difficulty)
 
 #define BIO_SINGLE(id,rarity,price,color,difficulty) \
      BIO(id, std::string("CBM: ")+bionics[id]->name, rarity,price,color,difficulty, \
@@ -297,13 +297,13 @@ A piece of mathematical software."));
 SOFTWARE("software_blood_data", _("infection data"), 200, SW_DATA, 5, _("\
 Medical data on zombie blood."));
 
-MACGUFFIN("note", _("note"), 0, '?', c_white, "paper", "null", 1, 0, 0, 0, 0,
+MACGUFFIN("note", _("note"), 0, '?', c_white, "paper", "null", 1, 3, 0, 0, 0,
 	true, &iuse::mcg_note, _("\
 A hand-written paper note."));
 
 #define STATIONARY(id, name, rarity, price, category, description) \
 itypes[id] = new it_stationary(id, rarity, price, name, description,\
-',', c_white, "paper", "null", 0, 0, 0, 0, 0, category)
+',', c_white, "paper", "null", 0, 3, 0, 0, 0, category)
 
 STATIONARY("flyer", _("flyer"), 5, 1, "flier", _("A scrap of paper."));
 

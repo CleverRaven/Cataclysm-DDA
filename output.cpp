@@ -812,7 +812,7 @@ void full_screen_popup(const char* mes, ...)
 
 //note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things
 //if sType == "MENU", sFmt == "iOffsetY" or "iOffsetX" also do special things
-//otherwise if sType == "MENU", iValue can be used to control color
+//otherwise if sType == "MENU", dValue can be used to control color
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected)
@@ -828,15 +828,19 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
  for (int i = 0; i < vItemDisplay.size(); i++) {
   if (vItemDisplay[i].sType == "MENU") {
    if (vItemDisplay[i].sFmt == "iOffsetY") {
-    line_num += vItemDisplay[i].iValue;
+    line_num += int(vItemDisplay[i].dValue);
    } else if (vItemDisplay[i].sFmt == "iOffsetX") {
-    iStartX = vItemDisplay[i].iValue;
+    iStartX = int(vItemDisplay[i].dValue);
    } else {
     nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
     //patched to allow variable "name" coloring, e.g. for item examining
     nc_color bgColor = c_white;     //yes the name makes no sense
-    if (vItemDisplay[i].iValue >= 0) {
-     nameColor = vItemDisplay[i].iValue == 0 ? c_ltgray : c_ltred;
+    if (vItemDisplay[i].dValue >= 0) {
+        if (vItemDisplay[i].dValue < .1 && vItemDisplay[i].dValue > -.1){
+            nameColor = c_ltgray;
+        } else {
+            nameColor = c_ltred;
+        }
     }
     if ( i == selected && vItemDisplay[i].sName != "" ) {
       bgColor = h_white;
@@ -879,20 +883,21 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
         wprintz(w, c_white, sFmt.c_str());
    }
 
-   if (vItemDisplay[i].iValue != -999) {
+   if (vItemDisplay[i].sValue != "-999") {
     nc_color thisColor = c_white;
     for (int k = 0; k < vItemCompare.size(); k++) {
-     if (vItemCompare[k].iValue != -999) {
+     if (vItemCompare[k].sValue != "-999") {
       if (vItemDisplay[i].sName == vItemCompare[k].sName) {
-       if (vItemDisplay[i].iValue == vItemCompare[k].iValue) {
+       if (vItemDisplay[i].dValue > vItemCompare[k].dValue - .1 &&
+           vItemDisplay[i].dValue < vItemCompare[k].dValue + .1) {
          thisColor = c_white;
-       } else if (vItemDisplay[i].iValue > vItemCompare[k].iValue) {
+       } else if (vItemDisplay[i].dValue > vItemCompare[k].dValue) {
         if (vItemDisplay[i].bLowerIsBetter) {
          thisColor = c_ltred;
         } else {
          thisColor = c_ltgreen;
         }
-       } else if (vItemDisplay[i].iValue < vItemCompare[k].iValue) {
+       } else if (vItemDisplay[i].dValue < vItemCompare[k].dValue) {
         if (vItemDisplay[i].bLowerIsBetter) {
          thisColor = c_ltgreen;
         } else {
@@ -903,7 +908,11 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
       }
      }
     }
-    wprintz(w, thisColor, "%s%d", sPlus.c_str(), vItemDisplay[i].iValue);
+    if (vItemDisplay[i].is_int == true) {
+        wprintz(w, thisColor, "%s%.0f", sPlus.c_str(), vItemDisplay[i].dValue);
+    } else {
+        wprintz(w, thisColor, "%s%.1f", sPlus.c_str(), vItemDisplay[i].dValue);
+    }
    }
     wprintz(w, c_white, sPost.c_str());
 
@@ -1087,7 +1096,7 @@ std::string string_format(std::string pattern, ...)
     va_end(ap);
 
     //drop contents behind $, this trick is there to skip certain arguments
-    char* break_pos = strchr(buff, '$');
+    char* break_pos = strchr(buff, '\003');
     if(break_pos) break_pos[0] = '\0';
 
     return buff;
@@ -1103,6 +1112,17 @@ std::string& capitalize_letter(std::string &str, size_t n)
        str[n] = c;
     }
 
+    return str;
+}
+
+//remove prefix of a strng, between c1 and c2, ie, "<prefix>remove it"
+std::string rm_prefix(std::string str, char c1, char c2) {
+    if(str.size()>0 && str[0]==c1) {
+        size_t pos = str.find_first_of(c2);
+        if(pos!=std::string::npos) {
+            str = str.substr(pos+1);
+        }
+    }
     return str;
 }
 
@@ -1133,6 +1153,37 @@ size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, 
     {
         // no shutcut?
         mvwprintz(w, y, x, color, buff);
+        len = utf8_width(buff);
+    }
+    return len;
+}
+
+//same as above, from current position
+size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap,fmt);
+    char buff[3000];    //TODO replace Magic Number
+    vsprintf(buff, fmt, ap);
+    va_end(ap);
+    
+    std::string tmp = buff;
+    size_t pos = tmp.find_first_of('<');
+    size_t pos2 = tmp.find_first_of('>');
+    size_t len = 0;
+    if(pos2!=std::string::npos && pos<pos2)
+    {
+        tmp.erase(pos,1);
+        tmp.erase(pos2-1,1);
+        wprintz(w, color, tmp.substr(0, pos).c_str());
+        wprintz(w, colork, "%s", tmp.substr(pos, pos2-pos-1).c_str());
+        wprintz(w, color, tmp.substr(pos2-1).c_str());
+        len = utf8_width(tmp.c_str());
+    }
+    else
+    {
+        // no shutcut? 
+        wprintz(w, color, buff);
         len = utf8_width(buff);
     }
     return len;

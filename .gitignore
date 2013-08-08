@@ -2,6 +2,7 @@ cataclysm
 cataclysm-tiles
 data/*.template
 save/
+memorial/
 obj/
 debug.log
 logg.txt

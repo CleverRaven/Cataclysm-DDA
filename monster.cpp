@@ -131,21 +131,16 @@ std::string monster::name()
 std::string monster::name_with_armor()
 {
  std::string ret;
- char buf[256];
  if (type->species == species_insect) {
-     sprintf(buf, _("%s's carapace"), type->name.c_str());
-     ret = buf;
+     ret = string_format(_("%s's carapace"), type->name.c_str());
  }
  else {
      if (type->mat == "veggy") {
-         sprintf(buf, _("%s's thick bark"), type->name.c_str());
-         ret = buf;
+         ret = string_format(_("%s's thick bark"), type->name.c_str());
      } else if (type->mat == "flesh" || type->mat == "hflesh") {
-         sprintf(buf, _("%s's thick hide"), type->name.c_str());
-         ret = buf;
+         ret = string_format(_("%s's thick hide"), type->name.c_str());
      } else if (type->mat == "iron" || type->mat == "steel") {
-         sprintf(buf, _("%s's armor plating"), type->name.c_str());
-         ret = buf;
+         ret = string_format(_("%s's armor plating"), type->name.c_str());
      }
  }
  return ret;

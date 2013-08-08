@@ -887,6 +887,7 @@
                          ],
                          [
                              ["welder", 30],
+                             ["welder_crude", 45],
                              ["toolset", 3]
                          ]
                      ],
@@ -7407,7 +7408,27 @@
                           ]
         },
 
-	  
+
+	    {
+            "result": "armguard_chitin",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 4,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [
+                              [
+                                  ["string_36", 1],
+                                  ["string_6", 4]
+                              ],
+                              [
+                                  ["chitin_piece", 4]
+                              ]
+                          ]
+        },
+
+
 	   {
             "result": "legguard_metal",
             "category": "CC_ARMOR",
@@ -7431,7 +7452,7 @@
                                   ["string_6", 16]
                               ],
                               [
-                                  ["steel_chunk", 6]
+                                  ["steel_chunk", 4]
                               ]
                           ]
         },
@@ -8332,6 +8353,7 @@
                          ],
                          [
                              ["welder", 100],
+                             ["welder_crude", 150],
                              ["toolset", 5]
                          ],
                          [
@@ -8416,6 +8438,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ],
                          [
@@ -8448,6 +8471,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ],
                          [
@@ -8543,6 +8567,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ],
                          [
@@ -8574,7 +8599,7 @@
             "tools": [
                          [ ["wrench", -1], ["toolset", -1] ],
                          [ ["goggles_welding", -1] ],
-                         [ ["welder", 300], ["toolset", 12] ]
+                         [ ["welder", 300], ["welder_crude", 450], ["toolset", 12] ]
                      ],
             "components": [
                               [ ["frame", 2] ],
@@ -8827,6 +8852,7 @@
                          ],
                          [
                              ["welder", 20],
+                             ["welder_crude", 30],
                              ["toolset", 1]
                          ]
                      ],
@@ -8872,6 +8898,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ]
                      ],
@@ -8897,6 +8924,7 @@
                          ],
                          [
                              ["welder", 20],
+                             ["welder_crude", 30],
                              ["toolset", 1]
                          ]
                      ],
@@ -8922,6 +8950,7 @@
                          ],
                          [
                              ["welder", 100],
+                             ["welder_crude", 150],
                              ["toolset", 5]
                          ]
                      ],
@@ -8947,6 +8976,7 @@
                          ],
                          [
                              ["welder", 120],
+                             ["welder_crude", 180],
                              ["toolset", 6]
                          ]
                      ],
@@ -8978,6 +9008,7 @@
                          ],
                          [
                              ["welder", 300],
+                             ["welder_crude", 450],
                              ["toolset", 15]
                          ]
                      ],
@@ -9319,6 +9350,7 @@
                          ],
                          [
                              ["welder", 50],
+                             ["welder_crude", 75],
                              ["toolset", 2]
                          ]
                      ],
@@ -9973,6 +10005,7 @@
                          ],
                          [
                              ["welder", 20],
+                             ["welder_crude", 30],
                              ["toolset", 1]
                          ]
                      ],
@@ -10149,7 +10182,7 @@
                              ["wrench", -1], ["toolset", -1]
                          ],
                          [
-                             ["welder", 150], ["toolset", 6]
+                             ["welder", 150], ["welder_crude", 225], ["toolset", 6]
                          ]
                      ],
             "components": [
@@ -10197,7 +10230,7 @@
                              ["wrench", -1], ["toolset", -1]
                          ],
                          [
-                             ["welder", 300], ["toolset", 12]
+                             ["welder", 300], ["welder_crude", 450], ["toolset", 12]
                          ]
                      ],
             "components": [
@@ -10245,7 +10278,7 @@
                              ["wrench", -1], ["toolset", -1]
                          ],
                          [
-                             ["welder", 100], ["toolset", 4]
+                             ["welder", 100], ["welder_crude", 150], ["toolset", 4]
                          ]
                      ],
             "components": [
@@ -10335,17 +10368,6 @@
             "autolearn": true,
             "components": [ [ ["string_36", 2], ["string_6", 12] ],
                             [ ["scrap", 15] ] ]
-        },
-        {
-            "result": "shield_wood",
-            "category": "CC_ARMOR",
-            "skill_pri": "survival",
-            "difficulty": 1,
-            "time": 50000,
-            "reversible": false,
-            "autolearn": true,
-            "components": [ [ ["rag", 10] ],
-                            [ ["2x4", 3] ] ]
         },
         {
             "result": "still",

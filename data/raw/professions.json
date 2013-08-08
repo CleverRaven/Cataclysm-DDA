@@ -46,7 +46,7 @@
          "tank_top",
          "jeans",
          "boots",
-         "beltrig",
+         "chestrig",
          "wrench",
          "mag_cars",
          "manual_mechanics"
@@ -201,10 +201,10 @@
       "ident":"homeless",
       "items":[
          "pants",
-         "bottle_glass"
+         "whiskey"
       ],
       "name":"Hobo",
-      "points":-2
+      "points":-4
    },
    {
       "description":"Ever since you were a child you loved hunting, and you loved the challenge of hunting with a bow even more. You start with a level in archery and survival.",
@@ -499,24 +499,21 @@
    {
       "addictions":[
          {
-            "intensity":10,
-            "type":"opiate"
-         },
-         {
-            "intensity":10,
+            "intensity":20,
             "type":"crack"
          }
       ],
-      "description":"You were on your way to collect your check, when your pimp tried to kill you, you only wished that it wasn't a common occurence. You start with a skirt, tank top,a pair of high heels, a strong crack and heroin addiction.",
+      "description":"You were on your way to collect your check, when your pimp tried to kill you.  You wish that it wasn't a common occurence. You start with a skirt, tank top, a pair of high heels, your stash, and a strong crack addiction.",
       "ident":"hooker",
       "items":[
          "skirt",
          "heels",
          "tank_top",
-         "crackpipe"
+         "crackpipe",
+	 "crack"
    	 ],
       "name":"Prostitute",
-      "points":-3
+      "points":-4
    },
    {
       "description":"You spent most of your life trapping with your father. Both of you made a decent living off of your catches, and trapping tutorials. You start with a skill in trapping.",

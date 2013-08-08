@@ -32,6 +32,8 @@ RGBQUAD *windowsPalette;  //The coor palette, 16 colors emulates a terminal
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 char szDirectory[MAX_PATH] = "";
 
+bool CursorVisible = true; // Showcursor is a somewhat weird function
+
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
@@ -46,25 +48,17 @@ bool WinCreate()
     const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.6git");
 
     // Register window class
-    WNDCLASSEXW WindowClassType;
+    WNDCLASSEXW WindowClassType = {0};
     WindowClassType.cbSize        = sizeof(WNDCLASSEXW);
-    WindowClassType.style         = 0;//No point in having a custom style, no mouse, etc
     WindowClassType.lpfnWndProc   = ProcessMessages;//the procedure that gets msgs
-    WindowClassType.cbClsExtra    = 0;
-    WindowClassType.cbWndExtra    = 0;
     WindowClassType.hInstance     = WindowINST;// hInstance
     WindowClassType.hIcon         = LoadIcon(WindowINST, MAKEINTRESOURCE(0)); // Get first resource
     WindowClassType.hIconSm       = LoadIcon(WindowINST, MAKEINTRESOURCE(0));
     WindowClassType.hCursor       = LoadCursor(NULL, IDC_ARROW);
     WindowClassType.lpszMenuName  = NULL;
-    WindowClassType.hbrBackground = 0;//Thanks jday! Remove background brush
     WindowClassType.lpszClassName = szWindowClass;
     if (!RegisterClassExW(&WindowClassType))
         return false;
-
-    // Center window
-    int WindowX = GetSystemMetrics(SM_CXSCREEN)/2 - WindowWidth/2;
-    int WindowY = GetSystemMetrics(SM_CYSCREEN)/2 - WindowHeight/2;
 
     // Adjust window size
     uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_VISIBLE; // Basic window, show on creation
@@ -73,6 +67,12 @@ bool WinCreate()
     WndRect.right  = WindowWidth;
     WndRect.bottom = WindowHeight;
     AdjustWindowRect(&WndRect, WndStyle, false);
+
+    // Center window
+    RECT WorkArea;
+    SystemParametersInfo(SPI_GETWORKAREA, 0, &WorkArea, 0);
+    int WindowX = WorkArea.right/2 - (WndRect.right - WndRect.left)/2;
+    int WindowY = WorkArea.bottom/2 - (WndRect.bottom - WndRect.top)/2;
 
     // Magic
     WindowHandle = CreateWindowExW(0, szWindowClass , szTitle, WndStyle,
@@ -104,89 +104,117 @@ void WinDestroy()
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                                  WPARAM wParam, LPARAM lParam)
 {
-    switch (Msg){
-        case WM_CHAR:               //This handles most key presses
-            lastchar=(int)wParam;
-            switch (lastchar){
-                case 13:            //Reroute ENTER key for compatilbity purposes
-                    lastchar=10;
-                    break;
-                case 8:             //Reroute BACKSPACE key for compatilbity purposes
-                    lastchar=127;
-                    break;
-            };
-            break;
-        case WM_KEYDOWN:                //Here we handle non-character input
-            switch (wParam){
-                case VK_LEFT:
-                    lastchar = KEY_LEFT;
-                    break;
-                case VK_RIGHT:
-                    lastchar = KEY_RIGHT;
-                    break;
-                case VK_UP:
-                    lastchar = KEY_UP;
-                    break;
-                case VK_DOWN:
-                    lastchar = KEY_DOWN;
-                    break;
-                case VK_NEXT:
-                    lastchar = KEY_NPAGE;
-                    break;
-                case VK_PRIOR:
-                    lastchar = KEY_PPAGE;
-                    break;
-                case VK_F1:
-                    lastchar = KEY_F(1);
-                    break;
-                case VK_F2:
-                    lastchar = KEY_F(2);
-                    break;
-                case VK_F3:
-                    lastchar = KEY_F(3);
-                    break;
-                case VK_F4:
-                    lastchar = KEY_F(4);
-                    break;
-                case VK_F5:
-                    lastchar = KEY_F(5);
-                    break;
-                case VK_F6:
-                    lastchar = KEY_F(6);
-                    break;
-                case VK_F7:
-                    lastchar = KEY_F(7);
-                    break;
-                case VK_F8:
-                    lastchar = KEY_F(8);
-                    break;
-                case VK_F9:
-                    lastchar = KEY_F(9);
-                    break;
-                case VK_F10:
-                    lastchar = KEY_F(10);
-                    break;
-                case VK_F11:
-                    lastchar = KEY_F(11);
-                    break;
-                case VK_F12:
-                    lastchar = KEY_F(12);
-                    break;
-                default:
-                    break;
-            };
-        case WM_ERASEBKGND:
-            return 1;               //We don't want to erase our background
-        case WM_PAINT:              //Pull from our backbuffer, onto the screen
-            BitBlt(WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0,SRCCOPY);
-            ValidateRect(WindowHandle,NULL);
-            break;
-        case WM_DESTROY:
-            exit(0);//A messy exit, but easy way to escape game loop
-        default://If we didnt process a message, return the default value for it
-            return DefWindowProcW(hWnd, Msg, wParam, lParam);
+    uint16_t MouseOver;
+    switch (Msg)
+    {
+    case WM_CHAR:
+        lastchar=(int)wParam;
+        switch (lastchar){
+            case VK_RETURN: //Reroute ENTER key for compatilbity purposes
+                lastchar=10;
+                break;
+            case VK_BACK: //Reroute BACKSPACE key for compatilbity purposes
+                lastchar=127;
+                break;
+        };
+        return 0;
+
+    case WM_KEYDOWN:                //Here we handle non-character input
+        switch (wParam){
+            case VK_LEFT:
+                lastchar = KEY_LEFT;
+                break;
+            case VK_RIGHT:
+                lastchar = KEY_RIGHT;
+                break;
+            case VK_UP:
+                lastchar = KEY_UP;
+                break;
+            case VK_DOWN:
+                lastchar = KEY_DOWN;
+                break;
+            case VK_NEXT:
+                lastchar = KEY_NPAGE;
+                break;
+            case VK_PRIOR:
+                lastchar = KEY_PPAGE;
+                break;
+            case VK_F1:
+                lastchar = KEY_F(1);
+                break;
+            case VK_F2:
+                lastchar = KEY_F(2);
+                break;
+            case VK_F3:
+                lastchar = KEY_F(3);
+                break;
+            case VK_F4:
+                lastchar = KEY_F(4);
+                break;
+            case VK_F5:
+                lastchar = KEY_F(5);
+                break;
+            case VK_F6:
+                lastchar = KEY_F(6);
+                break;
+            case VK_F7:
+                lastchar = KEY_F(7);
+                break;
+            case VK_F8:
+                lastchar = KEY_F(8);
+                break;
+            case VK_F9:
+                lastchar = KEY_F(9);
+                break;
+            case VK_F10:
+                lastchar = KEY_F(10);
+                break;
+            case VK_F11:
+                lastchar = KEY_F(11);
+                break;
+            case VK_F12:
+                lastchar = KEY_F(12);
+                break;
+            default:
+                break;
+        };
+        return 0;
+
+    case WM_SETCURSOR:
+        MouseOver = LOWORD(lParam);
+        if (OPTIONS[OPT_HIDE_CURSOR] == 1)
+        {
+            if (MouseOver==HTCLIENT && CursorVisible)
+            {
+                CursorVisible = false;
+                ShowCursor(false);
+            }
+            else if (MouseOver!=HTCLIENT && !CursorVisible)
+            {
+                CursorVisible = true;
+                ShowCursor(true);
+            }
+        }
+        else if (!CursorVisible)
+        {
+            CursorVisible = true;
+            ShowCursor(true);
+        }
+        break;
+
+    case WM_ERASEBKGND:
+        return 1; // Don't erase background
+
+    case WM_PAINT:
+        BitBlt(WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0,SRCCOPY);
+        ValidateRect(WindowHandle,NULL);
+        return 0;
+
+    case WM_DESTROY:
+        exit(0); // A messy exit, but easy way to escape game loop
     };
-    return 0;
+
+    return DefWindowProcW(hWnd, Msg, wParam, lParam);
 }
 
 //The following 3 methods use mem functions for fast drawing
@@ -334,65 +362,67 @@ void CheckMessages()
 WINDOW *curses_init(void)
 {
    // _windows = new WINDOW[20];         //initialize all of our variables
-    BITMAPINFO bmi;
     lastchar=-1;
     inputdelay=-1;
+
     std::string typeface;
-char * typeface_c;
-std::ifstream fin;
-fin.open("data\\FONTDATA");
- if (!fin.is_open()){
-     MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.",
-                NULL, 0);
-     fontheight=16;
-     fontwidth=8;
- } else {
-     getline(fin, typeface);
-     typeface_c= new char [typeface.size()+1];
-     strcpy (typeface_c, typeface.c_str());
-     fin >> fontwidth;
-     fin >> fontheight;
-     if ((fontwidth <= 4) || (fontheight <=4)){
-         MessageBox(WindowHandle, "Invalid font size specified!",
-                    NULL, 0);
-        fontheight=16;
-        fontwidth=8;
-     }
- }
+    char * typeface_c;
+    std::ifstream fin;
+    fin.open("data\\FONTDATA");
+    if (!fin.is_open()){
+        MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.", NULL, 0);
+        fontheight = 16;
+        fontwidth  = 8;
+    } else {
+        getline(fin, typeface);
+        typeface_c = new char [typeface.size()+1];
+        strcpy (typeface_c, typeface.c_str());
+        fin >> fontwidth;
+        fin >> fontheight;
+        if ((fontwidth <= 4) || (fontheight <=4)){
+            MessageBox(WindowHandle, "Invalid font size specified!", NULL, 0);
+            fontheight = 16;
+            fontwidth  = 8;
+        }
+    }
+
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
     WindowHeight = (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
+
     WinCreate();    //Create the actual window, register it, etc
+    timeBeginPeriod(1); // Set Sleep resolution to 1ms
     CheckMessages();    //Let the message queue handle setting up the window
-    WindowDC = GetDC(WindowHandle);
+
+    WindowDC   = GetDC(WindowHandle);
     backbuffer = CreateCompatibleDC(WindowDC);
-    ZeroMemory(&bmi, sizeof(BITMAPINFO));
-    bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    bmi.bmiHeader.biWidth = WindowWidth;
-    bmi.bmiHeader.biHeight = -WindowHeight;
-    bmi.bmiHeader.biPlanes = 1;
-    bmi.bmiHeader.biBitCount=8;
-    bmi.bmiHeader.biCompression = BI_RGB;   //store it in uncompressed bytes
-    bmi.bmiHeader.biSizeImage = WindowWidth * WindowHeight * 1;
-    bmi.bmiHeader.biClrUsed=16;         //the number of colors in our palette
-    bmi.bmiHeader.biClrImportant=16;    //the number of colors in our palette
+
+    BITMAPINFO bmi = {0};
+    bmi.bmiHeader.biSize         = sizeof(BITMAPINFOHEADER);
+    bmi.bmiHeader.biWidth        = WindowWidth;
+    bmi.bmiHeader.biHeight       = -WindowHeight;
+    bmi.bmiHeader.biPlanes       = 1;
+    bmi.bmiHeader.biBitCount     = 8;
+    bmi.bmiHeader.biCompression  = BI_RGB; // Raw RGB
+    bmi.bmiHeader.biSizeImage    = WindowWidth * WindowHeight * 1;
+    bmi.bmiHeader.biClrUsed      = 16; // Colors in the palette
+    bmi.bmiHeader.biClrImportant = 16; // Colors in the palette
     backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
     DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
 
- int nResults = AddFontResourceExA("data\\termfont",FR_PRIVATE,NULL);
-   if (nResults>0){
-    font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-                      ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                      PROOF_QUALITY, FF_MODERN, typeface_c);   //Create our font
+    int nResults = AddFontResourceExA("data\\termfont",FR_PRIVATE,NULL);
+    if (nResults>0){
+        font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+                          ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
+                          PROOF_QUALITY, FF_MODERN, typeface_c);   //Create our font
 
-  } else {
-      MessageBox(WindowHandle, "Failed to load default font, using FixedSys.",
-                NULL, 0);
-       font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+    } else {
+        MessageBox(WindowHandle, "Failed to load default font, using FixedSys.", NULL, 0);
+        font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                       ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
                       PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
-   }
+    }
     //FixedSys will be user-changable at some point in time??
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
@@ -425,7 +455,7 @@ int curses_getch(WINDOW* win)
     lastchar = ERR;
     if (inputdelay < 0)
     {
-        for (; lastchar==ERR; Sleep(0))
+        for (; lastchar==ERR; Sleep(1))
             CheckMessages();
     }
     else if (inputdelay > 0)
@@ -434,13 +464,19 @@ int curses_getch(WINDOW* win)
         {
             CheckMessages();
             if (lastchar!=ERR) break;
-            Sleep(0);
+            Sleep(1);
         }
     }
     else
     {
         CheckMessages();
     };
+
+    if (lastchar!=ERR && OPTIONS[OPT_HIDE_CURSOR]==2 && CursorVisible){
+        CursorVisible = false;
+        ShowCursor(false);
+    }
+
     return lastchar;
 }
 
@@ -466,25 +502,25 @@ inline RGBQUAD BGR(int b, int g, int r)
 
 int curses_start_color(void)
 {
- colorpairs=new pairs[100];
- windowsPalette=new RGBQUAD[16]; //Colors in the struct are BGR!! not RGB!!
- windowsPalette[0]= BGR(0,0,0); // Black
- windowsPalette[1]= BGR(0, 0, 255); // Red
- windowsPalette[2]= BGR(0,110,0); // Green
- windowsPalette[3]= BGR(23,51,92); // Brown???
- windowsPalette[4]= BGR(200, 0, 0); // Blue
- windowsPalette[5]= BGR(98, 58, 139); // Purple
- windowsPalette[6]= BGR(180, 150, 0); // Cyan
- windowsPalette[7]= BGR(150, 150, 150);// Gray
- windowsPalette[8]= BGR(99, 99, 99);// Dark Gray
- windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
- windowsPalette[10]= BGR(0, 255, 0); // Bright Green
- windowsPalette[11]= BGR(0, 255, 255); // Yellow
- windowsPalette[12]= BGR(255, 100, 100); // Light Blue
- windowsPalette[13]= BGR(240, 0, 255); // Pink
- windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
- windowsPalette[15]= BGR(255, 255, 255); //White
- return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
+    colorpairs = new pairs[100];
+    windowsPalette = new RGBQUAD[16];
+    windowsPalette[0]  = BGR(0,0,0);         // Black
+    windowsPalette[1]  = BGR(0, 0, 255);     // Red
+    windowsPalette[2]  = BGR(0,110,0);       // Green
+    windowsPalette[3]  = BGR(23,51,92);      // Brown???
+    windowsPalette[4]  = BGR(200, 0, 0);     // Blue
+    windowsPalette[5]  = BGR(98, 58, 139);   // Purple
+    windowsPalette[6]  = BGR(180, 150, 0);   // Cyan
+    windowsPalette[7]  = BGR(150, 150, 150); // Gray
+    windowsPalette[8]  = BGR(99, 99, 99);    // Dark Gray
+    windowsPalette[9]  = BGR(150, 150, 255); // Light Red/Salmon?
+    windowsPalette[10] = BGR(0, 255, 0);     // Bright Green
+    windowsPalette[11] = BGR(0, 255, 255);   // Yellow
+    windowsPalette[12] = BGR(255, 100, 100); // Light Blue
+    windowsPalette[13] = BGR(240, 0, 255);   // Pink
+    windowsPalette[14] = BGR(255, 240, 0);   // Light Cyan?
+    windowsPalette[15] = BGR(255, 255, 255); //White
+    return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
 }
 
 void curses_timeout(int t)

@@ -604,15 +604,6 @@ bool map::vehproceed(game* g){
       rl_vec2d final1 = ( ( velo_veh1 * ( m1 - m2 ) ) + delta1 ) / ( m1 + m2 );
       rl_vec2d final2 = ( ( velo_veh2 * ( m2 - m1 ) ) + delta2 ) / ( m1 + m2 );
 
-/*    old bouncing pingpong collisions that generate kinetic energy to reach mach 20+
-      rl_vec2d imp1 = collision_axis   *    collision_axis.dot_product (velo_veh1) * m1;
-      rl_vec2d imp2 = (collision_axis) * (-collision_axis).dot_product (velo_veh2) * m2;
-      rl_vec2d delta1 = (imp2 * .7f) / m1;
-      rl_vec2d delta2 = (imp1 * .7f) / m2;
-      rl_vec2d final1 = velo_veh1 + delta1;
-      rl_vec2d final2 = velo_veh2 + delta2;
-*/
-
       veh->move.init (final1.x, final1.y);
       veh->velocity = final1.norm();
       // shrug it off if the change is less than 8mph.
@@ -646,7 +637,7 @@ bool map::vehproceed(game* g){
       if (imp > 100)
          veh->damage_all(imp / 20, imp / 10, 1);// shake veh because of collision
       std::vector<int> ppl = veh->boarded_parts();
-      const int vel2 = imp * k_mvel * 100 / (veh->total_mass() / 8);
+      const int vel2 = imp * k_mvel * 100 / (veh->total_mass() / 2);
       for (int ps = 0; ps < ppl.size(); ps++) {
          player *psg = veh->get_passenger (ppl[ps]);
          if (!psg) {
@@ -783,16 +774,8 @@ bool map::displace_water (const int x, const int y)
 
 void map::set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture)
 {
- if (!INBOUNDS(x, y)) {
-  return;
- }
-
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- grid[nonant]->ter[lx][ly] = new_terrain;
- grid[nonant]->frn[lx][ly] = new_furniture;
+ furn_set(x, y, new_furniture);
+	ter_set(x, y, new_terrain);
 }
 
 std::string map::name(const int x, const int y)
@@ -1101,9 +1084,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     // the check for active supresses molotovs smashing themselves with their own explosion
     if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
         if (sound == "") {
-            char buf[256];
-            sprintf(buf, _("A %s shatters!  "), i_at(x,y)[i].tname().c_str());
-            sound = buf;
+            sound = string_format(_("A %s shatters!  "), i_at(x,y)[i].tname().c_str());
         } else {
             sound = _("Some items shatter!  ");
         }
@@ -2541,7 +2522,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
     }
 
     bool tryaddcharges = (new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo()));
-    std::vector<point> ps = closest_points_first(overflow_radius + 1, x, y);
+    std::vector<point> ps = closest_points_first(overflow_radius, x, y);
     for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
     {
         itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
@@ -2901,28 +2882,31 @@ field& map::field_at(const int x, const int y)
  return grid[nonant]->fld[lx][ly];
 }
 
-bool map::add_field(game *g, const int x, const int y,
-					const field_id t, const unsigned char new_density)
+bool map::add_field(game *g, const point p, const field_id t, unsigned int density, const int age)
 {
-	unsigned int density = new_density;
-
-	if (!INBOUNDS(x, y))
+	if (!INBOUNDS(p.x, p.y))
 		return false;
 
 	if (density > 3)
 		density = 3;
 	if (density <= 0)
 		return false;
-	const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+	const int nonant = int(p.x / SEEX) + int(p.y / SEEY) * my_MAPSIZE;
 
-	const int lx = x % SEEX;
-	const int ly = y % SEEY;
+	const int lx = p.x % SEEX;
+	const int ly = p.y % SEEY;
 	if (!grid[nonant]->fld[lx][ly].findField(t)) //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
 		grid[nonant]->field_count++; //Only adding it to the count if it doesn't exist.
-	grid[nonant]->fld[lx][ly].addField(t, density, 0); //This will insert and/or update the field.
-	if(g != NULL && x == g->u.posx && y == g->u.posy)
-		step_in_field(x,y,g); //Hit the player with the field if it spawned on top of them.
+	grid[nonant]->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
+	if(g != NULL && p.x == g->u.posx && p.y == g->u.posy)
+		step_in_field(p.x,p.y,g); //Hit the player with the field if it spawned on top of them.
 	return true;
+}
+
+bool map::add_field(game *g, const int x, const int y,
+					const field_id t, const unsigned char new_density)
+{
+ return this->add_field(g,point(x,y),t,new_density,0);
 }
 
 void map::remove_field(const int x, const int y, const field_id field_to_remove)
@@ -4020,19 +4004,18 @@ std::vector<point> closest_points_first(int radius, int center_x, int center_y)
 {
     std::vector<point> points;
     int X,Y,x,y,dx,dy;
-    X = radius;
-    Y = radius;
-    x = y = dx =0;
+    X = Y = (radius * 2) + 1;
+    x = y = dx = 0;
     dy = -1;
     int t = std::max(X,Y);
-    int maxI = t*t;
-    for(int i =0; i < maxI; i++)
+    int maxI = t * t;
+    for(int i = 0; i < maxI; i++)
     {
         if ((-X/2 <= x) && (x <= X/2) && (-Y/2 <= y) && (y <= Y/2))
         {
             points.push_back(point(x + center_x, y + center_y));
         }
-        if( (x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
+        if( (x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y)))
         {
             t = dx;
             dx = -dy;

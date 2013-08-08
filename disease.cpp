@@ -575,7 +575,7 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg(_("You cough noisily."));
     g->sound(p.posx, p.posy, 12, "");
    } else
-    g->sound(p.posx, p.posy, 12, "loud coughing");
+    g->sound(p.posx, p.posy, 12, _("loud coughing."));
   }
   break;
 
@@ -597,7 +597,7 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg(_("You cough noisily."));
     g->sound(p.posx, p.posy, 12, "");
    } else
-    g->sound(p.posx, p.posy, 12, "loud coughing");
+    g->sound(p.posx, p.posy, 12, _("loud coughing."));
   }
   if (one_in(3600) || (p.has_trait(PF_WEAKSTOMACH) && one_in(3000)) ||
       (p.has_trait(PF_NAUSEA) && one_in(2400))) {
@@ -618,12 +618,12 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg(_("You cough heavily."));
     g->sound(p.posx, p.posy, 12, "");
    } else
-    g->sound(p.posx, p.posy, 12, "a hacking cough.");
+    g->sound(p.posx, p.posy, 12, _("a hacking cough."));
    p.moves -= 80;
    p.hurt(g, bp_torso, 0, 1 - (rng(0, 1) * rng(0, 1)));
    if (p.has_disease("sleep")) {
        p.rem_disease("sleep");
-       g->add_msg_if_player(&p,_("Your coughing wakes you up"));
+       g->add_msg_if_player(&p,_("Your coughing wakes you up."));
    }
   }
   break;
@@ -638,7 +638,7 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg(_("You cough heavily."));
     g->sound(p.posx, p.posy, 12, "");
    } else
-    g->sound(p.posx, p.posy, 12, "a hacking cough");
+    g->sound(p.posx, p.posy, 12, _("a hacking cough."));
    p.moves -= 100;
    p.hurt(g, bp_torso, 0, rng(0, 3) * rng(0, 1));
   }
@@ -715,7 +715,7 @@ void dis_effect(game *g, player &p, disease &dis)
      g->add_msg(_("You cough heavily."));
      g->sound(p.posx, p.posy, 12, "");
     } else
-     g->sound(p.posx, p.posy, 12, "a hacking cough");
+     g->sound(p.posx, p.posy, 12, _("a hacking cough."));
     p.pain++;
    }
    if (one_in(100 + bonus)) {
@@ -796,7 +796,7 @@ void dis_effect(game *g, player &p, disease &dis)
         {
             if (dis.duration == 1)
             {
-                if (!g->sound(p.posx, p.posy, 12, "alarm_clock")) {
+                if (!g->sound(p.posx, p.posy, 12, _("beep-beep-beep!"))) {
                     //You didn't hear the alarm
                     dis.duration += 100; //10 minute alarm interval
                     g->add_msg(_("An alarm rings but you don't hear it."));
@@ -1674,7 +1674,6 @@ std::string dis_description(disease dis)
 {
     int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
-    char buf[1000];
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
 
@@ -1940,16 +1939,13 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         strpen = int(dis.duration / 50);
         stream << _("You feal nauseated and rat-like.\n");
         if (intpen > 0) {
-            sprintf(buf, _("Intelligence - %d;   "), intpen);
-            stream << buf;
+            stream << string_format(_("Intelligence - %d;   "), intpen);
         }
         if (perpen > 0) {
-            sprintf(buf, _("Perception - %d;   "), perpen);
-            stream << buf;
+            stream << string_format(_("Perception - %d;   "), perpen);
         }
         if (strpen > 0) {
-            sprintf(buf, _("Strength - %d;   "), strpen);
-            stream << buf;
+            stream << string_format(_("Strength - %d;   "), strpen);
         }
         return stream.str();
         }
@@ -1961,22 +1957,18 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         intpen = int(dis.duration /  700);
         strpen = int(dis.duration / 1500);
         if (strpen > 0) {
-            sprintf(buf, _("Strength - %d;   "), strpen);
-            stream << buf;
+            stream << string_format(_("Strength - %d;   "), strpen);
         }
         else if (dis.duration <= 600)
             stream << _("Strength + 1;    ");
         if (dexpen > 0) {
-            sprintf(buf, _("Dexterity - %d;   "), dexpen);
-            stream << buf;
+            stream << string_format(_("Dexterity - %d;   "), dexpen);
         }
         if (intpen > 0) {
-            sprintf(buf, _("Intelligence - %d;   "), intpen);
-            stream << buf;
+            stream << string_format(_("Intelligence - %d;   "), intpen);
         }
         if (perpen > 0) {
-            sprintf(buf, _("Perception - %d;   "), perpen);
-            stream << buf;
+            stream << string_format(_("Perception - %d;   "), perpen);
         }
         return stream.str();
         }
@@ -2005,8 +1997,7 @@ Your feet are blistering from the intense heat. It is extremely painful.");
             "Strength - 2;   Dexterity - 1;   Intelligence - 1;   Perception - 1");
 
     case DI_ASTHMA:
-        sprintf(buf, _("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
-        return buf;
+        return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 
     case DI_GRACK: return _("Unleashed the Gracken.");
 
@@ -2022,24 +2013,19 @@ Your feet are blistering from the intense heat. It is extremely painful.");
     case DI_IN_PIT: return _("You're stuck in a pit.  Sight distance is limited and you have to climb out.");
 
     case DI_ATTACK_BOOST:
-        sprintf(buf, _("To-hit bonus + %d"), dis.intensity);
-        return buf;
+        return string_format(_("To-hit bonus + %d"), dis.intensity);
 
     case DI_DAMAGE_BOOST:
-        sprintf(buf, _("Damage bonus + %d"), dis.intensity);
-        return buf;
+        return string_format(_("Damage bonus + %d"), dis.intensity);
 
     case DI_DODGE_BOOST:
-        sprintf(buf, _("Dodge bonus + %d"), dis.intensity);
-        return buf;
+        return string_format(_("Dodge bonus + %d"), dis.intensity);
 
     case DI_ARMOR_BOOST:
-        sprintf(buf, _("Armor bonus + %d"), dis.intensity);
-        return buf;
+        return string_format(_("Armor bonus + %d"), dis.intensity);
 
     case DI_SPEED_BOOST:
-        sprintf(buf, _("Attack speed + %d"), dis.intensity);
-        return buf;
+        return string_format(_("Attack speed + %d"), dis.intensity);
 
     case DI_VIPER_COMBO:
         switch (dis.intensity) {

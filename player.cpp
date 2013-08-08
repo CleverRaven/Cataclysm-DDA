@@ -1608,10 +1608,8 @@ int player::current_speed(game *g)
  int newmoves = 100; // Start with 100 movement points...
 // Minus some for weight...
  int carry_penalty = 0;
- if (weight_carried() > int(weight_capacity() * .25))
-  carry_penalty = 75 * double((weight_carried() - int(weight_capacity() * .25))/
-                              (weight_capacity() * .75));
-
+ if (weight_carried() > weight_capacity())
+  carry_penalty = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
  newmoves -= carry_penalty;
 
  if (pain > pkill) {
@@ -1735,7 +1733,7 @@ int player::run_cost(int base_cost, bool diag)
 
 int player::swim_speed()
 {
-  int ret = 440 + 2 * weight_carried() - 50 * skillLevel("swimming");
+  int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
  if (has_trait(PF_WEBBED))
   ret -= 60 + str_cur * 5;
  if (has_trait(PF_TAIL_FIN))
@@ -2437,9 +2435,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  int newmoves = current_speed(g);
  int pen = 0;
  line = 3;
- if (weight_carried() > int(weight_capacity() * .25)) {
-  pen = 75 * double((weight_carried() - int(weight_capacity() * .25)) /
-                    (weight_capacity() * .75));
+ if (weight_carried() > weight_capacity()) {
+  pen = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
   mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -2559,8 +2556,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 // display player current STR effects
     mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
-    mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %d lbs     "),
-             weight_capacity(false) / 4);
+    mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
+                      OPTIONS[OPT_USE_METRIC_WEIGHT]?"kg":"lbs");
     mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
@@ -3243,7 +3240,6 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
               veh->turret_mode ? "auto" : "off ");
   }
 
-
   //
   // Draw the speedometer.
   //
@@ -3251,7 +3247,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   int speedox = sideStyle ? 0 : 33;
   int speedoy = sideStyle ? 5 :  3;
 
-  bool metric = OPTIONS[OPT_USE_METRIC_SYS];
+  bool metric = OPTIONS[OPT_USE_METRIC_SPEED];
   const char *units = metric ? "km/h" : "mph";
   int velx    = metric ?  5 : 4; // strlen(units) + 1
   int cruisex = metric ? 10 : 9; // strlen(units) + 6
@@ -3313,8 +3309,6 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
-    int movx = sideStyle ? 12 : x + dx * 5 + 2;
-    int movy = sideStyle ?  5 : y + dy * 5;
     mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), spd_cur);
     wprintz(w, c_white, "  %d", movecounter);
  }
@@ -3502,7 +3496,7 @@ int player::overmap_sight_range(int light_level)
     if( sight <= SEEX * 4) {
         return (sight / (SEEX / 2) );
     }
-    if( has_amount("binoculars", 1) ||
+    if( has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
         -1 != weapon.has_gunmod("rifle_scope") ) {
         return 20;
     }
@@ -3599,10 +3593,11 @@ int player::throw_range(signed char ch)
  else
   tmp = inv.item_by_letter(ch);
 
- if (tmp.weight() > int(str_cur * 15))
+ if ((tmp.weight() / 113) > int(str_cur * 15))
   return 0;
- int ret = int((str_cur * 8) / (tmp.weight() > 0 ? tmp.weight() : 10));
- ret -= int(tmp.volume() / 10);
+ // Increases as weight decreases until 150 g, then decreases again
+ int ret = (str_cur * 8) / (tmp.weight() > 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+ ret -= int(tmp.volume() / 4);
  if (has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel")))
     ret *= 2;
  if (ret < 1)
@@ -4322,6 +4317,16 @@ void player::suffer(game *g)
     }
     if (!has_disease("sleep"))
     {
+        if (weight_carried() > weight_capacity())
+        {
+            // one in 11 with it reducing by 1 for every additional 20%, occurs constantly at 300%
+            // " + 1" is so that the shift occurs on the 20% instead of above it
+            if (one_in(10 - ((weight_carried() + 1) / (weight_capacity() / 5) - 7)) )
+            {
+                g->add_msg_if_player(this,"Your body strains under the weight!");
+                pain += 1;
+            }
+        }
         int timer = -3600;
         if (has_trait(PF_ADDICTIVE))
         {
@@ -4860,7 +4865,7 @@ int player::volume_carried()
 int player::weight_capacity(bool real_life)
 {
  int str = (real_life ? str_cur : str_max);
- int ret = 400 + str * 35;
+ int ret = 13000 + str * 4000;
  if (has_trait(PF_BADBACK))
   ret = int(ret * .65);
  if (has_trait(PF_LIGHT_BONES))
@@ -4868,7 +4873,7 @@ int player::weight_capacity(bool real_life)
  if (has_trait(PF_HOLLOW_BONES))
   ret = int(ret * .60);
  if (has_artifact_with(AEP_CARRY_MORE))
-  ret += 200;
+  ret += 22500;
  return ret;
 }
 
@@ -4889,13 +4894,33 @@ int player::volume_capacity()
  return ret;
 }
 
+double player::convert_weight(int weight)
+{
+    double ret;
+    ret = double(weight);
+    if (OPTIONS[OPT_USE_METRIC_WEIGHT]) {
+        ret /= 1000;
+    } else {
+        ret /= 453.6;
+    }
+    return ret;
+}
+
 bool player::can_pickVolume(int volume)
 {
     return (volume_carried() + volume <= volume_capacity());
 }
-bool player::can_pickWeight(int weight)
+bool player::can_pickWeight(int weight, bool safe)
 {
-    return (weight_carried() + weight <= weight_capacity());
+    if (!safe)
+    {
+        //Player can carry up to four times their maximum weight
+        return (weight_carried() + weight <= weight_capacity() * 4);
+    }
+    else
+    {
+        return (weight_carried() + weight <= weight_capacity());
+    }
 }
 
 // --- Library functions ---
@@ -5460,6 +5485,8 @@ bool player::has_fire(const int quantity)
         return true;
     } else if (has_charges("welder", quantity)) {
         return true;
+    } else if (has_charges("welder_crude", quantity)) {
+        return true;
     }
     return false;
 }
@@ -5495,10 +5522,13 @@ void player::use_fire(const int quantity)
         use_charges("flamethrower_simple", quantity);
         return;
     } else if (has_charges("hotplate", quantity)) {
-        use_charges("welder", quantity);
+        use_charges("hotplate", quantity);
         return;
     } else if (has_charges("welder", quantity)) {
         use_charges("welder", quantity);
+        return;
+    } else if (has_charges("welder_crude", quantity)) {
+        use_charges("welder_crude", quantity);
         return;
     }
 }
@@ -5578,7 +5608,7 @@ int player::butcher_factor()
   lowest_factor = inv_factor;
  }
  if (weapon.damage_cut() >= 10 && !weapon.has_flag("SPEAR")) {
-  int factor = weapon.volume() * 5 - weapon.weight() * 1.5 -
+  int factor = weapon.volume() * 5 - weapon.weight() / 75 -
                weapon.damage_cut();
   if (weapon.damage_cut() <= 20)
    factor *= 2;
@@ -5934,7 +5964,7 @@ bool player::eat(game *g, signed char ch)
             if (book->type != NULL && !query_yn(_("Really eat %s?"), book->name.c_str()))
                 return false;
         }
-        int charge = (eaten->volume() + eaten->weight()) / 2;
+        int charge = (eaten->volume() + eaten->weight()) / 225;
         if (eaten->type->m1 == "leather" || eaten->type->m2 == "leather")
             charge /= 4;
         if (eaten->type->m1 == "wood"    || eaten->type->m2 == "wood")
@@ -7296,7 +7326,7 @@ void player::use(game *g, char let)
    g->add_msg(_("You need to be at least level 1 in the firearms skill before you\
  can modify guns."));
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   char gunlet = g->inv(_("Select gun to modify:"));
@@ -7305,56 +7335,56 @@ void player::use(game *g, char let)
   if (gun->is_null()) {
    g->add_msg(_("You do not have that item."));
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (!gun->is_gun()) {
    g->add_msg(_("That %s is not a gun."), gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
   if (guntype->skill_used == Skill::skill("archery") || guntype->skill_used == Skill::skill("launcher")) {
    g->add_msg(_("You cannot mod your %s."), gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {
    g->add_msg(_("That %s cannot be attached to a handgun."),
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (guntype->skill_used == Skill::skill("shotgun") && !mod->used_on_shotgun) {
    g->add_msg(_("That %s cannot be attached to a shotgun."),
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (guntype->skill_used == Skill::skill("smg") && !mod->used_on_smg) {
    g->add_msg(_("That %s cannot be attached to a submachine gun."),
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (guntype->skill_used == Skill::skill("rifle") && !mod->used_on_rifle) {
    g->add_msg(_("That %s cannot be attached to a rifle."),
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if ( mod->acceptible_ammo_types.size() && mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
    g->add_msg(_("That %s cannot be used on a %s gun."), used->tname(g).c_str(),
               ammo_name(guntype->ammo).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (gun->contents.size() >= 4) {
    g->add_msg(_("Your %s already has 4 mods installed!  To remove the mods,\
 press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   if ((mod->id == "clip" || mod->id == "clip2" || mod->id == "spare_mag") &&
@@ -7362,14 +7392,14 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
    g->add_msg(_("You can not extend the ammo capacity of your %s."),
               gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
    g->add_msg(_("You can not use a spare magazine with your %s."),
               gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   for (int i = 0; i < gun->contents.size(); i++) {
@@ -7377,7 +7407,7 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     g->add_msg(_("Your %s already has a %s."), gun->tname(g).c_str(),
                used->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
 	      !gun->contents[i].has_flag("MODE_AUX") &&
@@ -7385,7 +7415,7 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     g->add_msg(_("Your %s's caliber has already been modified."),
                gun->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    } else if ((mod->id == "barrel_big" || mod->id == "barrel_small") &&
               (gun->contents[i].type->id == "barrel_big" ||
@@ -7393,7 +7423,7 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     g->add_msg(_("Your %s already has a barrel replacement."),
                gun->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    } else if ((mod->id == "clip" || mod->id == "clip2") &&
               (gun->contents[i].type->id == "clip" ||
@@ -7401,7 +7431,7 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     g->add_msg(_("Your %s already has its magazine size extended."),
                gun->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    }
   }
@@ -7420,22 +7450,22 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
    if (!replace_item)
     i_rem(let);
   } else if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   return;
 
  } else if (used->is_food() || used->is_food_container()) {
   if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   eat(g, lookup_item(let));
   return;
  } else if (used->is_book()) {
   if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   read(g, let);
   return;
  } else if (used->is_armor()) {
   if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   wear(g, let);
   return;
  } else
@@ -7443,7 +7473,7 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
              used->tname(g).c_str());
 
  if (replace_item)
-  inv.add_item(copy);
+  inv.add_item_keep_invlet(copy);
 }
 
 hint_rating player::rate_action_read(item *it, game *g)
@@ -7804,72 +7834,55 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
     it_armor* armor;
     for (int i = 0; i < worn.size(); i++)
     {
-        if (!worn[i].is_armor())
+        if( !worn[i].is_armor() ) {
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
-            i, worn[i].tname().c_str());
+                     i, worn[i].tname().c_str());
+        }
         armor = dynamic_cast<it_armor*>(worn[i].type);
 
-        if (armor->covers & mfb(bp))
-        {
-           if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
-            {
+        if( armor->covers & mfb(bp) ) {
+            layers++;
+            if( armor->is_power_armor() &&
+                (has_active_item("UPS_on") || has_active_item("adv_UPS_on") ||
+                 has_active_bionic("bio_power_armor_interface") ||
+                 has_active_bionic("bio_power_armor_interface_mkII")) ) {
                 armorenc += armor->encumber - 4;
-            }
-            else
-            {
+            } else {
                 armorenc += armor->encumber;
-                if (worn[i].has_flag("FIT"))
-                {
-                    armorenc--;
+                // Fitted clothes will either reduce encumberance or negate layering.
+                if( worn[i].has_flag( "FIT" ) ) {
+                    if( armor->encumber > 0 ) {
+                        armorenc--;
+                    } else {
+                        layers--;
+                    }
                 }
-            }
-            if (armor->encumber >= 0 || bp != bp_torso)
-            {
-                layers++;
             }
         }
     }
 
     ret += armorenc;
 
-    // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
-    switch (bp)
-    {
-        case bp_feet  : if (is_wearing("socks") || is_wearing("socks_wool")) layers--; break;
-        case bp_legs  : if (is_wearing("long_underpants")) layers--; break;
-        case bp_hands : if (is_wearing("gloves_liner")) layers--; break;
-        case bp_torso : if (is_wearing("under_armor")) layers--; break;
-    }
-    if (layers > 1)
-    {
+    if (layers > 1) {
         ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso
     }
-    if (volume_carried() > volume_capacity() - 2 && bp != bp_head)
-    {
+    if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
         ret += 3;
     }
 
-    // Fix for negative hand encumbrance
-    if ((bp == bp_hands) && (ret < 0))
-     ret =0;
-
     // Bionics and mutation
-    if (has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth)
-    {
+    if( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth ) {
         ret += 1;
     }
-    if (has_trait(PF_CHITIN3) && bp != bp_eyes && bp != bp_mouth)
-    {
+    if( has_trait(PF_CHITIN3) && bp != bp_eyes && bp != bp_mouth ) {
         ret += 1;
     }
-    if (has_trait(PF_SLIT_NOSTRILS) && bp == bp_mouth)
-    {
+    if( has_trait(PF_SLIT_NOSTRILS) && bp == bp_mouth ) {
         ret += 1;
     }
     if (bp == bp_hands &&
-     (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
-     has_trait(PF_ARM_TENTACLES_8)))
-    {
+        (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
+         has_trait(PF_ARM_TENTACLES_8)) ) {
         ret += 3;
     }
     return ret;

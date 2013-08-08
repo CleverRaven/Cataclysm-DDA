@@ -20,7 +20,7 @@ LINKERFLAGS = -Wl,-stack,12000000,-subsystem,windows
 
 CFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
 
-LDFLAGS = -static -lgdi32 -lintl -liconv
+LDFLAGS = -static -lgdi32 -lintl -liconv -lwinmm
 RFLAGS = -J rc -O coff
 
 #ifeq ($(OS), Msys)

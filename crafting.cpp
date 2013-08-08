@@ -707,10 +707,7 @@ recipe* game::select_crafting_recipe()
 
                         if (charges > 0)
                         {
-                            char* buf = new char[32];
-                            sprintf(buf, _("(%d charges) "), charges);
-                            toolinfo << buf;
-                            delete buf; buf = NULL;
+                            toolinfo << string_format(_("(%d charges) "), charges);
                         }
                         std::string toolname = toolinfo.str();
                         if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH)
@@ -1130,11 +1127,11 @@ void game::complete_craft()
   handle_liquid(newit, false, false);
  else {
 // We might not have space for the item
-  if (iter == inv_chars.size() || u.volume_carried()+newit.volume() > u.volume_capacity()) {
+  if (iter == inv_chars.size() || !u.can_pickVolume(newit.volume())) {
    add_msg(_("There's no room in your inventory for the %s, so you drop it."),
              newit.tname().c_str());
-   m.add_item_or_charges(u.posx, u.posy, newit);
-  } else if (u.weight_carried() + newit.volume() > u.weight_capacity()) {
+   m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
+  } else if (!u.can_pickWeight(newit.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS])) {
    add_msg(_("The %s is too heavy to carry, so you drop it."),
            newit.tname().c_str());
    m.add_item_or_charges(u.posx, u.posy, newit);
@@ -1499,7 +1496,7 @@ void game::disassemble(char ch)
     //if we're trying to disassemble a book or magazine
     if(dis_item->is_book())
     {
-       if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Do you want to tear %s into pages?", dis_item->tname(this).c_str())))
+       if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname(this).c_str())))
              return;
         else
         {

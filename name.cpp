@@ -15,8 +15,7 @@ NameGenerator::NameGenerator() {
         std::string usage = name_entry.get("usage").as_string();
         uint32_t flags = 0;
 
-        name = _(("<name>"+name).c_str());
-        name = name.substr(6);
+        name = rm_prefix(_(("<name>"+name).c_str()));
 
         if (usage == "given") {
             flags |= nameIsGivenName;
@@ -79,7 +78,7 @@ std::string NameGenerator::getName(uint32_t searchFlags) {
 std::string NameGenerator::generateName(bool male) {
   uint32_t baseSearchFlags = male ? nameIsMaleName : nameIsFemaleName;
 
-  return string_format(_("<name>%s %s")+6,
+  return rmp_format(_("<name>%s %s"),
       getName(baseSearchFlags | nameIsGivenName).c_str(),
       getName(baseSearchFlags | nameIsFamilyName).c_str());
 }

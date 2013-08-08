@@ -7,6 +7,8 @@
 #include "bionics.h"
 #include "line.h"
 #include "catajson.h"
+#include <math.h>    //sqrt
+#include <algorithm> //std::min
 
 #define BATTERY_AMOUNT 4 // How much batteries increase your power
 
@@ -15,7 +17,7 @@ std::vector<bionic_id> faulty_bionics;
 std::vector<bionic_id> power_source_bionics;
 std::vector<bionic_id> unpowered_bionics;
 
-void bionics_install_failure(game *g, player *u, int success);
+void bionics_install_failure(game *g, player *u, it_bionic* type, int success);
 
 bionic_data::bionic_data(std::string new_name, bool new_power_source, bool new_activated,
                           int new_power_cost, int new_charge_time, std::string new_description, bool new_faulty){
@@ -436,12 +438,12 @@ void player::activate_bionic(int b, game *g)
       for (l = 0; l < traj.size(); l++) {
        index = g->mon_at(traj[l].x, traj[l].y);
        if (index != -1) {
-        if (g->z[index].hurt(tmp_item.weight() * 2))
+        if (g->z[index].hurt(tmp_item.weight() / 225))
          g->kill_mon(index, true);
         g->m.add_item_or_charges(traj[l].x, traj[l].y, tmp_item);
         l = traj.size() + 1;
        } else if (l > 0 && g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-        g->m.bash(traj[l].x, traj[l].y, tmp_item.weight() * 2, junk);
+        g->m.bash(traj[l].x, traj[l].y, tmp_item.weight() / 225, junk);
         g->sound(traj[l].x, traj[l].y, 12, junk);
         if (g->m.move_cost(traj[l].x, traj[l].y) == 0) {
          g->m.add_item_or_charges(traj[l - 1].x, traj[l - 1].y, tmp_item);
@@ -498,13 +500,25 @@ bool player::install_bionics(game *g, it_bionic* type)
  }
 
  std::string bio_name = type->name.substr(5);	// Strip off "CBM: "
- int pl_skill = int_cur +
+ 
+ int pl_skill = int_cur * 4 +
    skillLevel("electronics") * 4 +
    skillLevel("firstaid")    * 3 +
-   skillLevel("mechanics")   * 2;
+   skillLevel("mechanics")   * 1;
 
- int chance_of_success = int((100 * pl_skill) /
-                             (pl_skill + 4 * type->difficulty));
+ // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+ float adjusted_skill = float (pl_skill) - std::min( float (40), float (pl_skill) - float (pl_skill) / float (10.0));
+
+ // we will base chance_of_success on a ratio of skill and difficulty
+ // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
+ float skill_difficulty_parameter = adjusted_skill / (4.0 * type->difficulty);
+ 
+ // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
+ // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
+ // curve flattens out just above 80%
+ int chance_of_success = int((100 * skill_difficulty_parameter) /
+                             (skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter)));
+
  if (!query_yn(_("WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?"), 100 - chance_of_success))
      return false;
  int pow_up = 0;
@@ -528,26 +542,39 @@ bool player::install_bionics(game *g, it_bionic* type)
          add_bionic(type->id);
      }
  } else
-  bionics_install_failure(g, this, success);
+  bionics_install_failure(g, this, type, success);
  g->refresh_all();
  return true;
 }
 
-void bionics_install_failure(game *g, player *u, int success)
+void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
 {
- success = abs(success) - rng(1, 10);
- int failure_level = 0;
- if (success <= 0) {
+
+ // "success" should be passed in as a negative integer representing how far off we
+ // were for a successful install.  We use this to determine consequences for failing.
+ success = abs(success);
+
+ // it would be better for code reuse just to pass in skill as an argument from install_bionic
+ // pl_skill should be calculated the same as in install_bionics
+ int pl_skill = u->int_cur * 4 +
+  u->skillLevel("electronics") * 4 +
+  u->skillLevel("firstaid")    * 3 +
+  u->skillLevel("mechanics")   * 1;
+
+ // for failure_level calculation, shift skill down to a float between ~0.4 - 30
+ float adjusted_skill = float (pl_skill) - std::min( float (40), float (pl_skill) - float (pl_skill) / float (10.0));
+
+ // failure level is decided by how far off the character was from a successful install, and
+ // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low 
+ // difficulties), only minor consequences occur.  At low skill levels, severe consequences
+ // are more likely.
+ int failure_level = sqrt(success * 4.0 * type->difficulty / float (adjusted_skill));
+ int fail_type = (failure_level > 5 ? 5 : failure_level);
+
+ if (fail_type <= 0) {
   g->add_msg(_("The installation fails without incident."));
   return;
  }
-
- while (success > 0) {
-  failure_level++;
-  success -= rng(1, 10);
- }
-
- int fail_type = rng(1, (failure_level > 5 ? 5 : failure_level));
  std::string fail_text;
 
  switch (rng(1, 5)) {
