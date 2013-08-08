@@ -101,6 +101,7 @@ class game
   quit_status uquit;    // used in main.cpp to determine what type of quit
   void save();
   void delete_save();
+  void write_memorial_file();
   void cleanup_at_end();
   bool do_turn();
   void draw();

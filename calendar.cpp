@@ -2,6 +2,7 @@
 #include "calendar.h"
 #include "output.h"
 #include "options.h"
+#include "translations.h"
 
 calendar::calendar()
 {
@@ -356,49 +357,32 @@ int calendar::sunlight() const
 std::string calendar::print_time(bool just_hour) const
 {
     std::stringstream time_string;
+    int hour_param;
 
-    if (OPTIONS[OPT_24_HOUR] == 1)
-    {
-        int hour_param = hour % 24;
-        if (hour_param < 10)
-        {
-            time_string << "0";
+    if (OPTIONS[OPT_24_HOUR] == 1) {
+        hour_param = hour % 24;
+        time_string << string_format("%02d%02d", hour_param, minute);
+    } else if (OPTIONS[OPT_24_HOUR] == 2) {
+        hour_param = hour % 24;
+        if (just_hour) {
+            time_string << hour_param;
+        } else {
+            //~ hour:minute (24hr time display)
+            time_string << string_format(_("%02d:%02d"), hour_param, minute);
         }
-        time_string << hour_param;
-    }
-    else if (OPTIONS[OPT_24_HOUR] == 2)
-    {
-        int hour_param = hour % 24;
-        time_string << hour_param;
-        if (!just_hour) time_string << ":";
-    }
-    else
-    {
-        int hour_param = hour % 12;
-        if (hour_param == 0)
-        {
+    } else {
+        hour_param = hour % 12;
+        if (hour_param == 0) {
             hour_param = 12;
         }
-        time_string << hour_param;
-        if (!just_hour) time_string << ":";
-    }
-    if(!just_hour)
-    {
-        if (minute < 10)
-        {
-            time_string << "0";
-        }
-        time_string << minute;
-    }
-    if (OPTIONS[OPT_24_HOUR] == 0)
-    {
-        if (hour < 12)
-        {
-            time_string << _(" AM");
-        }
-        else
-        {
-            time_string << _(" PM");
+        if (just_hour && hour < 12) {
+            time_string << string_format(_("%d AM"), hour_param);
+        } else if (just_hour) {
+            time_string << string_format(_("%d PM"), hour_param);
+        } else if (hour < 12) {
+            time_string << string_format(_("%d:%02d AM"), hour_param, minute);
+        } else {
+            time_string << string_format(_("%d:%02d PM"), hour_param, minute);
         }
     }
 
