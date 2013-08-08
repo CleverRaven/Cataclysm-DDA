@@ -38,7 +38,7 @@
 #include <dirent.h>
 #endif
 #include <sys/stat.h>
-#include <ctime>
+#include "get_version.h"
 #include "disease.h"
 #include "version.h"
 #include "debug.h"
@@ -57,9 +57,6 @@
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
-
-//Used in memorial file generation
-const char* getVersionString();
 
 //The one and only game instance
 game *g;

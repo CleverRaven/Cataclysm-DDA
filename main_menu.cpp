@@ -7,6 +7,7 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "catacharset.h"
+#include "get_version.h"
 
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -17,8 +18,6 @@
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-const char* getVersionString();
 
 void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA)
 {
