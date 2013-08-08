@@ -2557,7 +2557,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
     mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
     mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
-                      OPTIONS[OPT_USE_METRIC_WEIGHT]?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHT"]?"kg":"lbs");
     mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
@@ -3054,7 +3054,7 @@ void player::disp_morale(game *g)
 
 void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
-    int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
+    int sideStyle = OPTIONS["SIDEBAR_STYLE"];
 
     WINDOW *weapwin = sideStyle ? w2 : w;
     mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
@@ -3247,7 +3247,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   int speedox = sideStyle ? 0 : 33;
   int speedoy = sideStyle ? 5 :  3;
 
-  bool metric = OPTIONS[OPT_USE_METRIC_SPEED];
+  bool metric = OPTIONS["USE_METRIC_SPEED"];
   const char *units = metric ? "km/h" : "mph";
   int velx    = metric ?  5 : 4; // strlen(units) + 1
   int cruisex = metric ? 10 : 9; // strlen(units) + 6
@@ -3656,9 +3656,9 @@ int player::read_speed(bool real_life)
 
 int player::rust_rate(bool real_life)
 {
- if (OPTIONS[OPT_SKILL_RUST] == 4) return 0;
+ if (OPTIONS["SKILL_RUST"] == 4) return 0;
  int intel = (real_life ? int_cur : int_max);
- int ret = (OPTIONS[OPT_SKILL_RUST] < 2 ? 500 : 500 - 35 * (intel - 8));
+ int ret = (OPTIONS["SKILL_RUST"] < 2 ? 500 : 500 - 35 * (intel - 8));
  if (has_trait(PF_FORGETFUL))
   ret *= 1.33;
  if (ret < 0)
@@ -4683,7 +4683,7 @@ void player::suffer(game *g)
  {
      if (radiation < 0) radiation = 0;
      else if (radiation > 2000) radiation = 2000;
-     if (OPTIONS[OPT_RAD_MUTATION] && rng(60, 2500) < radiation)
+     if (OPTIONS["RAD_MUTATION"] && rng(60, 2500) < radiation)
      {
          mutate(g);
          radiation /= 2;
@@ -4898,7 +4898,7 @@ double player::convert_weight(int weight)
 {
     double ret;
     ret = double(weight);
-    if (OPTIONS[OPT_USE_METRIC_WEIGHT]) {
+    if (OPTIONS["USE_METRIC_WEIGHT"]) {
         ret /= 1000;
     } else {
         ret /= 453.6;
@@ -6163,7 +6163,7 @@ bool player::eat(game *g, signed char ch)
             it.contents.erase(it.contents.begin());
             if (!is_npc())
             {
-                switch ((int)OPTIONS[OPT_DROP_EMPTY])
+                switch ((int)OPTIONS["DROP_EMPTY"])
                 {
                 case 0:
                     g->add_msg(_("%c - an empty %s"), it.invlet,

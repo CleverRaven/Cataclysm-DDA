@@ -160,13 +160,13 @@ void game::init_ui(){
     clear();	// Clear the screen
     intro();	// Print an intro screen, make sure we're at least 80x25
 
-    const int sidebarWidth = OPTIONS[OPT_SIDEBAR_STYLE] ? 45 : 55;
+    const int sidebarWidth = OPTIONS["SIDEBAR_STYLE"] ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
-        TERMX = sidebarWidth + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1);
-        TERMY = OPTIONS[OPT_VIEWPORT_Y] * 2 + 1;
-        VIEWX = (OPTIONS[OPT_VIEWPORT_X] > 60) ? 60 : OPTIONS[OPT_VIEWPORT_X];
-        VIEWY = (OPTIONS[OPT_VIEWPORT_Y] > 60) ? 60 : OPTIONS[OPT_VIEWPORT_Y];
+        TERMX = sidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1);
+        TERMY = OPTIONS["VIEWPORT_Y"] * 2 + 1;
+        VIEWX = (OPTIONS["VIEWPORT_X"] > 60) ? 60 : OPTIONS["VIEWPORT_X"];
+        VIEWY = (OPTIONS["VIEWPORT_Y"] > 60) ? 60 : OPTIONS["VIEWPORT_Y"];
 
         // If we've chosen the narrow sidebar, we might need to make the
         // viewport wider to fill an 80-column window.
@@ -175,8 +175,8 @@ void game::init_ui(){
             VIEWX += 1;
         }
 
-        VIEW_OFFSET_X = (OPTIONS[OPT_VIEWPORT_X] > 60) ? OPTIONS[OPT_VIEWPORT_X]-60 : 0;
-        VIEW_OFFSET_Y = (OPTIONS[OPT_VIEWPORT_Y] > 60) ? OPTIONS[OPT_VIEWPORT_Y]-60 : 0;
+        VIEW_OFFSET_X = (OPTIONS["VIEWPORT_X"] > 60) ? OPTIONS["VIEWPORT_X"]-60 : 0;
+        VIEW_OFFSET_Y = (OPTIONS["VIEWPORT_Y"] > 60) ? OPTIONS["VIEWPORT_Y"]-60 : 0;
         TERRAIN_WINDOW_WIDTH  = (VIEWX * 2) + 1;
         TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
     #else
@@ -220,7 +220,7 @@ void game::init_ui(){
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
 
-    switch (int(OPTIONS[OPT_SIDEBAR_STYLE])) {
+    switch (int(OPTIONS["SIDEBAR_STYLE"])) {
         case 0: // standard
             minimapX = 0;
             minimapY = 0;
@@ -339,10 +339,10 @@ void game::setup()
 
  weather = WEATHER_CLEAR; // Start with some nice weather...
  // Weather shift in 30
- nextweather = HOURS(OPTIONS[OPT_INITIAL_TIME]) + MINUTES(30);
+ nextweather = HOURS(OPTIONS["INITIAL_TIME"]) + MINUTES(30);
 
  turnssincelastmon = 0; //Auto safe mode init
- autosafemode = OPTIONS[OPT_AUTOSAFEMODE];
+ autosafemode = OPTIONS["AUTOSAFEMODE"];
 
  footsteps.clear();
  footsteps_source.clear();
@@ -378,8 +378,8 @@ void game::setup()
 // Set up all default values for a new game
 void game::start_game()
 {
- turn = HOURS(OPTIONS[OPT_INITIAL_TIME]);
- run_mode = (OPTIONS[OPT_SAFEMODE] ? 1 : 0);
+ turn = HOURS(OPTIONS["INITIAL_TIME"]);
+ run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
  mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
  popup_nowait(_("Please wait as we build your world"));
@@ -489,7 +489,7 @@ void game::load_npcs()
 
 void game::create_starting_npcs()
 {
- if(!OPTIONS[OPT_STATIC_NPC])
+ if(!OPTIONS["STATIC_NPC"])
  	return; //Do not generate a starting npc.
  npc * tmp = new npc();
  tmp->normalize(this);
@@ -532,8 +532,8 @@ void game::cleanup_at_end(){
     {
         death_screen();
         write_memorial_file();
-        if (OPTIONS[OPT_DELETE_WORLD] == 1
-         || (OPTIONS[OPT_DELETE_WORLD] == 2 && query_yn(_("Delete saved world?"))))
+        if (OPTIONS["DELETE_WORLD"] == 1
+         || (OPTIONS["DELETE_WORLD"] == 2 && query_yn(_("Delete saved world?"))))
         {
             delete_save();
             MAPBUFFER.reset();
@@ -665,8 +665,8 @@ bool game::do_turn()
  }
 
 // Auto-save if autosave is enabled
- if (OPTIONS[OPT_AUTOSAVE] &&
-     turn % ((int)OPTIONS[OPT_AUTOSAVE_TURNS] * 10) == 0)
+ if (OPTIONS["AUTOSAVE"] &&
+     turn % ((int)OPTIONS["AUTOSAVE_TURNS"] * 10) == 0)
      autosave();
 
  update_weather();
@@ -1011,7 +1011,7 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
   va_end(ap);
   std::string s(buff);
 
-  bool force_uc = OPTIONS[OPT_FORCE_YN];
+  bool force_uc = OPTIONS["FORCE_YN"];
   int ch=(int)' ';
 
   std::string verbs[NUM_ACTIVITIES] = {
@@ -1609,7 +1609,7 @@ bool game::handle_action()
             break;
     }
 
-    if (OPTIONS[OPT_RAIN_ANIMATION]) {
+    if (OPTIONS["RAIN_ANIMATION"]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
         int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
@@ -1713,7 +1713,7 @@ bool game::handle_action()
  vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
  bool veh_ctrl = veh && veh->player_in_control (&u);
 
- int soffset = OPTIONS[OPT_MOVE_VIEW_OFFSET];
+ int soffset = OPTIONS["MOVE_VIEW_OFFSET"];
  int soffsetr = 0 - soffset;
 
  int before_action_moves = u.moves;
@@ -2041,17 +2041,17 @@ bool game::handle_action()
     {
         uimenu as_m;
         as_m.text = _("Are you sure you want to sleep?");
-        as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS[OPT_FORCE_YN]?'Y':'y'), _("Yes.")) );
+        as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS["FORCE_YN"]?'Y':'y'), _("Yes.")) );
 
-        if (OPTIONS[OPT_SAVESLEEP])
+        if (OPTIONS["SAVESLEEP"])
         {
             as_m.entries.push_back(uimenu_entry(1,
             (moves_since_last_save || item_exchanges_since_save),
-            (OPTIONS[OPT_FORCE_YN]?'S':'s'),
+            (OPTIONS["FORCE_YN"]?'S':'s'),
             _("Yes, and save game before sleeping.") ));
         }
 
-        as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS[OPT_FORCE_YN]?'N':'n'), _("No.")) );
+        as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_YN"]?'N':'n'), _("No.")) );
 
         if (u.has_item_with_flag("ALARMCLOCK"))
         {
@@ -2644,9 +2644,9 @@ void game::load(std::string name)
  m.load(this, levx, levy, levz);
 
  run_mode = tmprun;
- if (OPTIONS[OPT_SAFEMODE] && run_mode == 0)
+ if (OPTIONS["SAFEMODE"] && run_mode == 0)
   run_mode = 1;
- autosafemode = OPTIONS[OPT_AUTOSAFEMODE];
+ autosafemode = OPTIONS["AUTOSAFEMODE"];
  last_target = tmptar;
 
 // Next, the scent map.
@@ -2905,7 +2905,7 @@ void game::write_memorial_file() {
 
     std::string memorial_file_path = string_format("memorial/%s-%s.txt",
             u.name.c_str(), timestamp.c_str());
-    
+
     std::ofstream memorial_file;
     memorial_file.open(memorial_file_path.c_str());
 
@@ -3280,7 +3280,7 @@ NPCs are %s spawn.\n\
 %d currently active NPC's.\n\
 %d events planned."), u.posx, u.posy, levx, levy,
 oterlist[cur_om->ter(levx / 2, levy / 2, levz)].name.c_str(),
-int(turn), int(nextspawn), (!OPTIONS[OPT_RANDOM_NPC] ? _("NOT going to") : _("going to")),
+int(turn), int(nextspawn), (!OPTIONS["RANDOM_NPC"] ? _("NOT going to") : _("going to")),
 z.size(), active_npc.size(), events.size());
 
 		 if (!active_npc.empty())
@@ -3764,7 +3764,7 @@ void game::draw()
     werase(w_status2);
     u.disp_status(w_status, w_status2, this);
 
-    const int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
+    const int sideStyle = OPTIONS["SIDEBAR_STYLE"];
 
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
@@ -3844,7 +3844,7 @@ void game::draw()
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"), _(season_name[turn.get_season()].c_str()), turn.days() + 1);
     if (run_mode != 0 || autosafemode != 0) {
-        int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
+        int iPercent = ((turnssincelastmon*100)/OPTIONS["AUTOSAFEMODETURNS"]);
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
         const char *letters[] = {"S", "A", "F", "E"};
         for (int i = 0; i < 4; i++) {
@@ -4458,11 +4458,11 @@ int game::mon_info(WINDOW *w)
 {
     const int width = getmaxx(w);
     const int maxheight = 12;
-    const int startrow = OPTIONS[OPT_SIDEBAR_STYLE] ? 1 : 0;
+    const int startrow = OPTIONS["SIDEBAR_STYLE"] ? 1 : 0;
 
     int buff;
     int newseen = 0;
-    const int iProxyDist = (OPTIONS[OPT_SAFEMODEPROXIMITY] <= 0) ? 60 : OPTIONS[OPT_SAFEMODEPROXIMITY];
+    const int iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
     int newdist = 4096;
     int newtarget = -1;
     // 7 0 1	unique_types uses these indices;
@@ -4533,7 +4533,7 @@ int game::mon_info(WINDOW *w)
         }
     } else if (autosafemode && newseen == 0) { // Auto-safemode
         turnssincelastmon++;
-        if (turnssincelastmon >= OPTIONS[OPT_AUTOSAFEMODETURNS] && run_mode == 0)
+        if (turnssincelastmon >= OPTIONS["AUTOSAFEMODETURNS"] && run_mode == 0)
             run_mode = 1;
     }
 
@@ -8215,7 +8215,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
                 {
                     ret.push_back(iter->second);
                 }
- 
+
             }
     }
     return ret;
@@ -8290,7 +8290,7 @@ void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state(WINDOW* window, int height)
 {
-    const int width = OPTIONS[OPT_SIDEBAR_STYLE] ? 45 : 55;
+    const int width = OPTIONS["SIDEBAR_STYLE"] ? 45 : 55;
     for (int i = 1; i < TERMX; i++)
     {
         if (i < width)
@@ -8391,7 +8391,7 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
 void game::list_items()
 {
     int iInfoHeight = 12;
-    const int width = OPTIONS[OPT_SIDEBAR_STYLE] ? 45 : 55;
+    const int width = OPTIONS["SIDEBAR_STYLE"] ? 45 : 55;
     WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
     WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
     WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
@@ -8790,7 +8790,7 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 
- const int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
+ const int sideStyle = OPTIONS["SIDEBAR_STYLE"];
 
  // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
  int maxmaxitems = TERMY;
@@ -8848,7 +8848,7 @@ void game::pickup(int posx, int posy, int min)
                 iNumChecked++;
 
                 //Auto Pickup all items with 0 Volume and Weight
-                if (OPTIONS[OPT_AUTO_PICKUP_ZERO]) {
+                if (OPTIONS["AUTO_PICKUP_ZERO"]) {
                     if (here[i].volume() == 0 && here[i].weight() == 0) {
                         bPickup = true;
                     }
@@ -10243,7 +10243,7 @@ void game::unload(item& it)
                     new_contents.push_back(content);// Put it back in (we canceled)
                 }
             } else {
-                if (u.can_pickVolume(content.volume()) && u.can_pickWeight(content.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS]) &&
+                if (u.can_pickVolume(content.volume()) && u.can_pickWeight(content.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
                     iter < inv_chars.size())
                 {
                     add_msg(_("You put the %s in your inventory."), content.tname(this).c_str());
@@ -10313,7 +10313,7 @@ void game::unload(item& it)
    advance_nextinv();
    iter++;
   }
-  if (u.can_pickWeight(newam.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS]) &&
+  if (u.can_pickWeight(newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
       u.can_pickVolume(newam.volume()) && iter < inv_chars.size()) {
    u.i_add(newam, this);
   } else {
@@ -10705,7 +10705,7 @@ void game::plmove(int x, int y)
   u.posy = y;
 
   //Autopickup
-  if (OPTIONS[OPT_AUTO_PICKUP] && (!OPTIONS[OPT_AUTO_PICKUP_SAFEMODE] || mostseen == 0) && (m.i_at(u.posx, u.posy)).size() > 0) {
+  if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) && (m.i_at(u.posx, u.posy)).size() > 0) {
    pickup(u.posx, u.posy, -1);
   }
 
@@ -11482,7 +11482,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int iter;
  int t;
  // Create a new NPC?
- if (OPTIONS[OPT_RANDOM_NPC] && one_in(100 + 15 * cur_om->npcs.size())) {
+ if (OPTIONS["RANDOM_NPC"] && one_in(100 + 15 * cur_om->npcs.size())) {
   npc * tmp = new npc();
   tmp->normalize(this);
   tmp->randomize(this);
@@ -11889,7 +11889,7 @@ void game::init_autosave()
 /* Currently unused.
 int game::autosave_timeout()
 {
- if (!OPTIONS[OPT_AUTOSAVE])
+ if (!OPTIONS["AUTOSAVE"])
   return -1; // -1 means block instead of timeout
 
  const double upper_limit = 60 * 1000;
@@ -11934,7 +11934,7 @@ void game::quicksave(){
 
 void game::autosave(){
     //Don't autosave if the min-autosave interval has not passed since the last autosave/quicksave.
-    if(time(NULL) < last_save_timestamp + (60 * OPTIONS[OPT_AUTOSAVE_MINUTES])){return;}
+    if(time(NULL) < last_save_timestamp + (60 * OPTIONS["AUTOSAVE_MINUTES"])){return;}
     quicksave();    //Driving checks are handled by quicksave()
 }
 

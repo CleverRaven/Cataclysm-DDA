@@ -2,106 +2,224 @@
 #define _OPTIONS_H_
 
 #include <string>
+#include <map>
+#include <algorithm>
 
-enum option_key {
-OPT_NULL = 0,
-OPT_FORCE_YN,            // Y/N versus y/n
-OPT_USE_CELSIUS,         // Display temp as C not F
-OPT_USE_METRIC_SPEED,    // Display speed as Km/h not mph
-OPT_USE_METRIC_WEIGHT,   // Display weight in kg instead of lbs
-OPT_NO_CBLINK,           // No bright backgrounds
-OPT_24_HOUR,             // 24 hour time
-OPT_SNAP_TO_TARGET,      // game::firing snaps to target
-OPT_SAFEMODE,            // Safemode on by default?
-OPT_SAFEMODEPROXIMITY,   // Range after which safemode kicks in
-OPT_AUTOSAFEMODE,        // Autosafemode on by default?
-OPT_AUTOSAFEMODETURNS,   // Number of turns untill safemode kicks back in
-OPT_AUTOSAVE,            // Automatically save the game on intervals.
-OPT_AUTOSAVE_TURNS,      // Turns between autosaves
-OPT_AUTOSAVE_MINUTES,    // Minimum realtime minutes between autosaves
-OPT_GRADUAL_NIGHT_LIGHT, // be so cool at night :)
-OPT_RAIN_ANIMATION,      // Enable the rain and other weather animation
-OPT_CIRCLEDIST,          // Compute distance with pythagorean theorem
-OPT_QUERY_DISASSEMBLE,   // Query before disassembling items
-OPT_DROP_EMPTY,          // auto drop empty containers after use
-OPT_HIDE_CURSOR,         // hide mouse cursor
-OPT_SKILL_RUST,          // level of skill rust
-OPT_DELETE_WORLD,        // Delete world every time character dies
-OPT_INITIAL_POINTS,      // Set the number of character points
-OPT_MAX_TRAIT_POINTS,    // Set the number of trait points
-OPT_INITIAL_TIME,        // Sets the starting hour (0-24)
-OPT_VIEWPORT_X,          // Set the width of the terrain window, in characters
-OPT_VIEWPORT_Y,          // Set the height of the terrain window, in characters
-OPT_SIDEBAR_STYLE,       // Sidebar style (0: standard, 1: narrow)
-OPT_MOVE_VIEW_OFFSET,    // Sensitivity of shift+(movement)
-OPT_STATIC_SPAWN,        // Makes zombies spawn using the new static system
-OPT_CLASSIC_ZOMBIES,     // Only spawn the more classic zombies and buildings.
-OPT_REVIVE_ZOMBIES,      // Allow Zombies to revive after a certain amount of time.
-OPT_SEASON_LENGTH,       // Season length, in days
-OPT_STATIC_NPC,          // Spawn static npcs
-OPT_RANDOM_NPC,          // Spawn random npcs
-OPT_RAD_MUTATION,        // Radiation mutates
-OPT_SAVESLEEP,           // Ask to save before sleeping
-OPT_AUTO_PICKUP,         // Enable Item Auto Pickup
-OPT_AUTO_PICKUP_ZERO,    // Auto Pickup 0 Volume and Weight items
-OPT_AUTO_PICKUP_SAFEMODE,// Auto Pickup Safemode
-OPT_DANGEROUS_PICKUPS,   // Drop items if they would exceed weight danger limits
-OPT_SORT_CRAFTING,       // Sorts the crafting recipes so avaliable ones come up first
-NUM_OPTION_KEYS
-};
-
-struct option_table
+class cOpt
 {
-    double options[NUM_OPTION_KEYS];
+    public:
+        //Default constructor
+        cOpt() {
+            sType = "VOID";
+            sSet = "";
+            bSet = false;
+            dSet = 0;
+        };
 
-    option_table()
-    {
-        for (int i = 0; i < NUM_OPTION_KEYS; i++)
-        {   //setup default values where needed
-            switch(i)
-            {
-            case OPT_VIEWPORT_X:
-            case OPT_VIEWPORT_Y:
-                options[i] = 12;
-                break;
-            case OPT_INITIAL_TIME:
-                options[i] = 8;
-                break;
-            case OPT_SEASON_LENGTH:
-                options[i] = 14;
-                break;
-            case OPT_MOVE_VIEW_OFFSET:
-                options[i] = 1;
-                break;
-            case OPT_AUTOSAVE_TURNS:
-                options[i] = 30;
-                break;
-            case OPT_AUTOSAVE_MINUTES:
-                options[i] = 5;
-                break;
-            case OPT_MAX_TRAIT_POINTS:
-                options[i] = 12;
-                break;
-            default:
-                options[i] = 0;
+        //string constructor
+        cOpt(std::string sCategory, std::string sMenuTextIn, std::string sTooltipIn, std::string sItemsIn, std::string sDefaultIn) {
+            sMenuText = sMenuTextIn;
+            sTooltip = sTooltipIn;
+            sType = "string";
+
+            std::stringstream ssTemp(sItemsIn);
+            std::string sItem;
+            while (std::getline(ssTemp, sItem, ',')) {
+                mItems[sItem] = true;
             }
-        }
-    };
 
-    double& operator[] (option_key i) { return options[i]; };
-    double& operator[] (int i) { return options[i]; };
+            if (!mItems[sDefaultIn]) {
+                //debugmsg(("Default value '" + sDefaultIn + "' from: " + sMenuTextIn + " is not matching: " + sItemsIn).c_str());
+            }
+
+            sDefault = sDefaultIn;
+            sSet = sDefaultIn;
+        };
+
+        //bool constructor
+        cOpt(std::string sCategory, std::string sMenuTextIn, std::string sTooltipIn, bool bDefaultIn) {
+            sMenuText = sMenuTextIn;
+            sTooltip = sTooltipIn;
+            sType = "bool";
+
+            bDefault = bDefaultIn;
+            bSet = bDefaultIn;
+        };
+
+        //double constructor
+        cOpt(std::string sCategory, std::string sMenuTextIn, std::string sTooltipIn, double dMinIn, double dMaxIn, double dDefaultIn) {
+            sMenuText = sMenuTextIn;
+            sTooltip = sTooltipIn;
+            sType = "double";
+
+            if (dMinIn > dMaxIn) {
+                //debugmsg(("Min value from: " + sMenuTextIn + " has to be higher than its Max value.").c_str());
+            }
+
+            dMin = dMinIn;
+            dMax = dMaxIn;
+
+            if (dDefaultIn < dMinIn || dDefaultIn > dMaxIn) {
+                //debugmsg(("Default value from: " + sMenuTextIn + " has to be in between its Min and Max value.").c_str());
+            }
+
+            dDefault = dDefaultIn;
+            dSet = dDefaultIn;
+        };
+
+        //Default deconstructor
+        ~cOpt() {};
+
+        //set value
+        void set(std::string sSetIn) {
+            if (sType == "string") {
+                if (mItems[sSetIn]) {
+                    sSet = sSetIn;
+                } else {
+                    //debugmsg(("Can't set '" + sSetIn + "' in: " + sMenuText).c_str());
+                }
+
+            } else if (sType == "bool") {
+                bSet = (sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t");
+
+            } else if (sType == "double") {
+                dSet = atoi(sSetIn.c_str());
+            }
+        };
+
+        // if (class == "string")
+        bool operator==(const std::string sCompare) const {
+            //debugmsg("bool operator==(const std::string sCompare) const {");
+            //debugmsg((sSet + " == " + sCompare).c_str());
+            if ( sType == "string" && sSet == sCompare ) {
+                return true;
+            }
+
+            return false;
+        };
+
+        // if (class != "string")
+        bool operator!=(const std::string sCompare) const {
+            return !(*this == sCompare);
+        };
+
+/* //Somehow those two override the string compare operators
+        // if (class == bool)
+        bool operator==(const bool bCompare) const {
+            debugmsg("bool operator==(const bool bCompare) const {");
+            if ( sType == "bool" && bSet == bCompare ) {
+                return true;
+            }
+
+            return false;
+        };
+
+        // if (class != "bool")
+        bool operator!=(const bool bCompare) const {
+            return !(*this == bCompare);
+        };
+*/
+        // if (class == "double")
+        bool operator==(const double dCompare) const {
+            //debugmsg("bool operator==(const double dCompare) const {");
+            if ( sType == "double" && dSet == dCompare ) {
+                return true;
+            }
+
+            return false;
+        };
+
+        // if (class != "double")
+        bool operator!=(const double dCompare) const {
+            return !(*this == dCompare);
+        };
+
+        // if (class == "double")
+        bool operator<=(const double dCompare) const {
+            //debugmsg("bool operator<=(const double dCompare) const {");
+            if ( sType == "double" && dSet <= dCompare ) {
+                return true;
+            }
+
+            return false;
+        };
+
+        // if (class >= "double")
+        bool operator>=(const double dCompare) const {
+            //debugmsg("bool operator>=(const double dCompare) const {");
+            if ( sType == "double" && dSet >= dCompare ) {
+                return true;
+            }
+
+            return false;
+        };
+
+        // handle if (class)    //without explicit this would handle <= >= and probably others as well
+        explicit operator bool() const {
+            //debugmsg("operator bool() const {");
+            if (sType == "string") {
+                return (sSet != "" && sSet == sDefault);
+
+            } else if (sType == "bool") {
+                return bSet;
+
+            } else if (sType == "double") {
+                return dSet;
+            }
+
+            return false;
+        };
+
+        operator int() const {
+            //debugmsg("operator int() const {");
+            if (sType == "string") {
+                return 0;
+
+            } else if (sType == "bool") {
+                return (bSet) ? 1 : 0;
+
+            } else if (sType == "double") {
+                return (int)dSet;
+            }
+
+            return 0;
+        };
+
+    private:
+        std::string sMenuText;
+        std::string sTooltip;
+        std::string sType;
+
+        //sType == "string"
+        std::string sSet;
+        std::map<std::string, bool> mItems;
+        std::string sDefault;
+
+        //sType == "double"
+        double dSet;
+        double dMin;
+        double dMax;
+        double dDefault;
+
+        //sType == "bool"
+        bool bSet;
+        bool bDefault;
 };
 
-extern option_table OPTIONS;
+extern std::map<std::string, cOpt> OPTIONS;
 
-bool option_is_bool(option_key id);
-char option_max_options(option_key id);
-char option_min_options(option_key id);
-void show_options();
 void load_options();
 void save_options();
+
+void initOptions();
+
+/*
+void create_default_options();
+std::string options_header();
+
 std::string option_string(option_key key);
 std::string option_name(option_key key);
 std::string option_desc(option_key key);
+*/
 
 #endif

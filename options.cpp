@@ -9,19 +9,297 @@
 #include <string>
 #include <algorithm>
 
-option_table OPTIONS;
-
 bool trigdist;
 
-option_key lookup_option_key(std::string id);
-bool option_is_bool(option_key id);
-void create_default_options();
-std::string options_header();
+void load_options(){};
+void save_options(){};
+
+std::map<std::string, cOpt> OPTIONS;
+
+void initOptions() {
+    OPTIONS["USE_CELSIUS"] =            cOpt("General", _("Use Celsius"),
+                                         _("If true, use Celcius not Fahrenheit. Default is fahrenheit"),
+                                         false
+                                        );
+
+    OPTIONS["USE_METRIC_SPEEDS"] =      cOpt("General", _("Use Metric Speeds"),
+                                             _("If true, use Km/h not mph. Default is mph"),
+                                             false
+                                            );
+
+    OPTIONS["USE_METRIC_WEIGHTS"] =     cOpt("General", _("Use Metric Weights"),
+                                             _("If true, use kg not lbs. Default is lbs"),
+                                             false
+                                            );
+
+    OPTIONS["FORCE_CAPITAL_YN"] =       cOpt("General", _("Force Y/N in prompts"),
+                                             _("If true, y/n prompts are case- sensitive and y and n are not accepted. Default is true"),
+                                             true
+                                            );
+
+    OPTIONS["NO_BRIGHT_BACKGROUNDS"] =  cOpt("General", _("No Bright Backgrounds"),
+                                            _("If true, bright backgrounds are not used--some consoles are not compatible. Default is false"),
+                                             false
+                                            );
+
+    OPTIONS["24_HOUR"] =                cOpt("General", _("24 Hour Time"),
+                                             _("12h/24h Time: 0 - AM/PM (default)  eg: 7:31 AM 1 - 24h military     eg: 0731 2 - 24h normal       eg: 7:31"),
+                                             0, 2, 0
+                                            );
+
+    OPTIONS["SNAP_TO_TARGET"] =         cOpt("General", _("Snap to Target"),
+                                             _("If true, automatically follow the crosshair when firing/throwing. Default is false"),
+                                             false
+                                            );
+
+    OPTIONS["SAFEMODE"] =               cOpt("General", _("Safemode on by default"),
+                                             _("If true, safemode will be on after starting a new game or loading. Default is true"),
+                                             true
+                                            );
+
+    OPTIONS["SAFEMODEPROXIMITY"] =      cOpt("General", _("Safemode proximity distance"),
+                                             _("If safemode is enabled, distance to hostiles when safemode should show a warning. 0=Viewdistance, and the default"),
+                                             0, 50, 0
+                                            );
+
+    OPTIONS["AUTOSAFEMODE"] =           cOpt("General", _("Auto-Safemode on by default"),
+                                             _("If true, auto-safemode will be on after starting a new game or loading. Default is false"),
+                                             false
+                                            );
+
+    OPTIONS["AUTOSAFEMODETURNS"] =      cOpt("General", _("Turns to reenable safemode"),
+                                             _("Number of turns after safemode is reenabled if no hostiles are in safemodeproximity distance. Default is 50"),
+                                             0, 50, 0
+                                            );
+
+    OPTIONS["AUTOSAVE"] =               cOpt("General", _("Periodically Autosave"),
+                                             _("If true, game will periodically save the map Default is false"),
+                                             false
+                                            );
+
+    OPTIONS["AUTOSAVE_TURNS"] =         cOpt("General", _("Game minutes between autosaves"),
+                                             _("Number of game minutes between autosaves"),
+                                             0, 30, 5
+                                            );
+
+    OPTIONS["AUTOSAVE_MINUTES"] =       cOpt("General", _("Real minutes between autosaves"),
+                                             _("Minimum number of real time minutes between autosaves"),
+                                             0, 127, 5
+                                            );
+
+    OPTIONS["GRADUAL_NIGHT_LIGHT"] =    cOpt("General", _("Gradual night light"),
+                                             _("If true will add nice gradual-lighting should only make a difference during the night. Default is true"),
+                                             true
+                                            );
+
+    OPTIONS["RAIN_ANIMATION"] =         cOpt("General", _("Rain animation"),
+                                             _("If true, will display weather animations. Default is true"),
+                                             true
+                                            );
+
+    OPTIONS["CIRCLEDIST"] =             cOpt("General", _("Circular distances"),
+                                             _("If true, the game will calculate range in a realistic way: light sources will be circles diagonal movement will cover more ground and take longer. If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall."),
+                                             false
+                                            );
+
+    OPTIONS["QUERY_DISASSEMBLE"] =      cOpt("General", _("Query on disassembly"),
+                                             _("If true, will query before disassembling items. Default is true"),
+                                             true
+                                            );
+
+    OPTIONS["DROP_EMPTY"] =             cOpt("General", _("Drop empty containers"),
+                                             _("Set to drop empty containers after use. 0 - don't drop any (default) 1 - all except watertight containers 2 - all containers"),
+                                             0, 2, 0
+                                            );
+
+    OPTIONS["SKILL_RUST"] =             cOpt("General", _("Skill Rust"),
+                                             _("Set the level of skill rust. 0 - vanilla Cataclysm (default) 1 - capped at skill levels 2 - intelligence dependent 3 - intelligence dependent, capped 4 - none at all"),
+                                             0, 4, 0
+                                            );
+
+    OPTIONS["DELETE_WORLD"] =           cOpt("General", _("Delete World"),
+                                             _("Delete saves upon player death. 0 - no (default) 1 - yes 2 - query"),
+                                             0, 2, 0
+                                            );
+
+    OPTIONS["INITIAL_POINTS"] =         cOpt("General", _("Initial points"),
+                                             _("Initial points available on character generation. Default is 6"),
+                                             0, 25, 6
+                                            );
+
+    OPTIONS["MAX_TRAIT_POINTS"] =       cOpt("General", _("Maximum trait points"),
+                                             _("Maximum trait points available for character generation. Default is 12"),
+                                             0, 25, 12
+                                            );
+
+    OPTIONS["INITIAL_TIME"] =           cOpt("General", _("Initial time"),
+                                             _("Initial starting time of day on character generation. Default is 8:00"),
+                                             0, 23, 8
+                                            );
+
+    OPTIONS["VIEWPORT_X"] =             cOpt("General", _("Viewport width"),
+                                             _("WINDOWS ONLY: Set the expansion of the viewport along the X axis. Requires restart. Default is 12. POSIX systems will use terminal size at startup."),
+                                             12, 93, 12
+                                            );
+
+    OPTIONS["VIEWPORT_Y"] =             cOpt("General", _("Viewport height"),
+                                             _("WINDOWS ONLY: Set the expansion of the viewport along the Y axis. Requires restart. Default is 12. POSIX systems will use terminal size at startup."),
+                                             12, 93, 12
+                                            );
+
+    OPTIONS["SIDEBAR_STYLE"] =          cOpt("General", _("Sidebar style"),
+                                             _("Sidebar style. 0 is standard, 1 is narrower and taller."),
+                                             0, 1, 0
+                                            );
+
+    OPTIONS["MOVE_VIEW_OFFSET"] =       cOpt("General", _("Move view offset"),
+                                             _("Move view by how many squares per keypress. Default is 1"),
+                                             1, 50, 1
+                                            );
+
+    OPTIONS["STATIC_SPAWN"] =           cOpt("General", _("Static spawn"),
+                                             _("Season length, in days. Default is 14"),
+                                             14, 127, 14
+                                            );
+
+    OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("General", _("Classic zombies"),
+                                             _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect. Default is true"),
+                                             true
+                                            );
+
+    OPTIONS["REVIVE_ZOMBIES"] =         cOpt("General", _("Revive zombies"),
+                                             _("Only spawn classic zombies and natural wildlife. Requires a reset of save folder to take effect. This disables certain buildings. Default is false"),
+                                             false
+                                            );
+
+    OPTIONS["SEASON_LENGTH"] =          cOpt("General", _("Season length"),
+                                             _("Allow zombies to revive after a certain amount of time. Default is true"),
+                                             true
+                                            );
+
+    OPTIONS["STATIC_NPC"] =             cOpt("General", _("Static npcs"),
+                                             _("If true, the game will spawn static NPC at the start of the game, requires world reset. Default is false"),
+                                             false
+                                            );
+
+    OPTIONS["RANDOM_NPC"] =             cOpt("General", _("Random npcs"),
+                                             _("If true, the game will randomly spawn NPC during gameplay. Default is false"),
+                                             false
+                                            );
+
+    OPTIONS["RAD_MUTATION"] =           cOpt("General", _("Mutations by radiation"),
+                                             _("If true, radiation causes the player to mutate. Default is true"),
+                                             true
+                                            );
+
+    OPTIONS["SAVE_SLEEP"] =             cOpt("General", _("Ask to save before sleeping"),
+                                             _("If true, game will ask to save the map before sleeping. Default is false"),
+                                             false
+                                            );
+
+    OPTIONS["HIDE_CURSOR"] =            cOpt("General", _("Hide Mouse Cursor"),
+                                             _("If 0, cursor is always shown. If 1, cursor is hidden. If 2, cursor is hidden on keyboard input and unhidden on mouse movement. Default is 0."),
+                                             0, 2, 0
+                                            );
+
+    OPTIONS["AUTO_PICKUP"] =            cOpt("General", _("Enable item Auto Pickup"),
+                                             _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
+                                             false
+                                            );
+
+    OPTIONS["AUTO_PICKUP_ZERO"] =       cOpt("General", _("Auto Pickup 0 Vol/Weight"),
+                                             _("Auto pickup items with 0 Volume or Weight"),
+                                             false
+                                            );
+
+    OPTIONS["AUTO_PICKUP_SAFEMODE"] =   cOpt("General", _("Auto Pickup Safemode"),
+                                             _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by Safemode proximity distance."),
+                                             false
+                                            );
+
+    OPTIONS["DANGEROUS_PICKUPS"] =      cOpt("General", _("Dangerous pickups"),
+                                             _("If false will cause player to drop new items that cause them to exceed the weight limit. Default is false."),
+                                             false
+                                            );
+
+    OPTIONS["SORT_CRAFTING"] =          cOpt("General", _("Sort Crafting menu"),
+                                             _("If true, the crafting menus will display recipes that you can craft before other recipes"),
+                                             false
+                                            );
+}
 
 void game::show_options()
 {
+    std::vector<std::string> vCategory;
+    vCategory.push_back("General");
+    vCategory.push_back("UI");
+    vCategory.push_back("Gameplay");
+    vCategory.push_back("Debug");
+
+    /*
+    OPTIONS["use_celsius"] = cOpt("General", "Use Celsius",
+                               "Use Celcius or Fahrenheit. Default is Fahrenheit",
+                               "Celsius,Fahrenheit", "Fahrenheit"
+                              );
+
+    OPTIONS["use_celsius_int"] = cOpt("General", "Use Celsius",
+                                   "Use Celcius or Fahrenheit. Default is Fahrenheit",
+                                   0, 10, 0
+                                  );
+
+    OPTIONS["use_celsius_bool"] = cOpt("General", "Use Celsius",
+                                    "Use Celcius or Fahrenheit. Default is Fahrenheit",
+                                    true
+                                   );
+
+    debugmsg(!OPTIONS["use_celsius_bool"] ? "bTure" : "bFalse");
+
+    if (OPTIONS["use_celsius"] == "Fahrenheit") {
+        debugmsg("if (OPTIONS[\"use_celsius\"] == \"Fahrenheit\") {");
+    }
+
+    if (OPTIONS["use_celsius"] != "Celsius") {
+        debugmsg("if (OPTIONS[\"use_celsius\"] != \"Celsius\") {");
+    }
+
+    OPTIONS["use_celsius"].set("Celsius");
+
+    if (OPTIONS["use_celsius"]) {
+        debugmsg("if (OPTIONS[\"use_celsius\"]) {");
+    }
+
+    if (!OPTIONS["use_celsius"]) {
+        debugmsg("if (!OPTIONS[\"use_celsius\"]) {");
+    }
+
+    if (OPTIONS["use_celsius_bool"]) {
+        debugmsg("if (OPTIONS[\"use_celsius_bool\"]) {");
+    }
+
+    if (!OPTIONS["use_celsius_bool"]) {
+        debugmsg("if (!OPTIONS[\"use_celsius_bool\"]) {");
+    }
+
+    if (OPTIONS["use_celsius_int"] <= 5) {
+        debugmsg("if (OPTIONS[\"use_celsius_int\"] <= 2) {");
+    }
+
+    if (OPTIONS["use_celsius_int"] >= 5) {
+        debugmsg("if (OPTIONS[\"use_celsius_int\"] >= 2) {");
+    }
+
+    if (OPTIONS["use_celsius_bool"] == true) {
+        debugmsg("if (OPTIONS[\"use_celsius_bool\"] == true) {");
+    }
+
+    if (OPTIONS["use_celsius_bool"] != true) {
+        debugmsg("if (OPTIONS[\"use_celsius_bool\"] != true) {");
+    }
+    */
+
+/*
     // Remember what the options were originally so we can restore them if player cancels.
-    option_table OPTIONS_OLD = OPTIONS;
+    std::map<std::string, cOpt> OPTIONS_OLD = OPTIONS;
 
     WINDOW* w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
@@ -131,7 +409,7 @@ void game::show_options()
             changed_options = true;
             break;
         }
-        if(changed_options && OPTIONS[OPT_SEASON_LENGTH] < 1) { OPTIONS[OPT_SEASON_LENGTH]=option_max_options(OPT_SEASON_LENGTH)-1; }
+        if(changed_options && OPTIONS["SEASON_LENGTH"] < 1) { OPTIONS["SEASON_LENGTH"]=option_max_options(OPT_SEASON_LENGTH)-1; }
     } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
     if(changed_options)
@@ -139,7 +417,7 @@ void game::show_options()
         if(query_yn(_("Save changes?")))
         {
             save_options();
-            trigdist=(OPTIONS[OPT_CIRCLEDIST] ? true : false);
+            trigdist=(OPTIONS["CIRCLEDIST"] ? true : false);
         }
         else
         {
@@ -148,8 +426,10 @@ void game::show_options()
         }
     }
     werase(w_options);
+    */
 }
 
+/*
 void load_options()
 {
     std::ifstream fin;
@@ -208,396 +488,7 @@ void load_options()
     }
     fin.close();
     trigdist=false; // cache to global due to heavy usage.
-    if(OPTIONS[OPT_CIRCLEDIST]) { trigdist=true; }
-}
-
-option_key lookup_option_key(std::string id)
-{
-    if(id == "use_celsius") {
-        return OPT_USE_CELSIUS;
-    }
-    if(id == "use_metric_speeds") {
-        return OPT_USE_METRIC_SPEED;
-    }
-    if(id == "use_metric_weights") {
-        return OPT_USE_METRIC_WEIGHT;
-    }
-    if(id == "force_capital_yn") {
-        return OPT_FORCE_YN;
-    }
-    if(id == "no_bright_backgrounds") {
-        return OPT_NO_CBLINK;
-    }
-    if(id == "24_hour") {
-        return OPT_24_HOUR;
-    }
-    if(id == "snap_to_target") {
-        return OPT_SNAP_TO_TARGET;
-    }
-    if(id == "safemode") {
-        return OPT_SAFEMODE;
-    }
-    if(id == "safemodeproximity") {
-        return OPT_SAFEMODEPROXIMITY;
-    }
-    if(id == "autosafemode") {
-        return OPT_AUTOSAFEMODE;
-    }
-    if(id == "autosafemodeturns") {
-        return OPT_AUTOSAFEMODETURNS;
-    }
-    if(id == "autosave") {
-        return OPT_AUTOSAVE;
-    }
-    if(id == "autosave_turns") {
-        return OPT_AUTOSAVE_TURNS;
-    }
-    if(id == "autosave_minutes") {
-        return OPT_AUTOSAVE_MINUTES;
-    }
-    if(id == "gradual_night_light") {
-        return OPT_GRADUAL_NIGHT_LIGHT;
-    }
-    if(id == "rain_animation") {
-        return OPT_RAIN_ANIMATION;
-    }
-    if(id == "circledist") {
-        return OPT_CIRCLEDIST;
-    }
-    if(id == "query_disassemble") {
-        return OPT_QUERY_DISASSEMBLE;
-    }
-    if(id == "drop_empty") {
-        return OPT_DROP_EMPTY;
-    }
-    if(id == "skill_rust") {
-        return OPT_SKILL_RUST;
-    }
-    if(id == "delete_world") {
-        return OPT_DELETE_WORLD;
-    }
-    if(id == "initial_points") {
-        return OPT_INITIAL_POINTS;
-    }
-    if(id == "max_trait_points") {
-        return OPT_MAX_TRAIT_POINTS;
-    }
-    if(id == "initial_time") {
-        return OPT_INITIAL_TIME;
-    }
-    if(id == "viewport_x") {
-        return OPT_VIEWPORT_X;
-    }
-    if(id == "viewport_y") {
-        return OPT_VIEWPORT_Y;
-    }
-    if(id == "sidebar_style") {
-        return OPT_SIDEBAR_STYLE;
-    }
-    if(id == "move_view_offset") {
-        return OPT_MOVE_VIEW_OFFSET;
-    }
-    if(id == "static_spawn") {
-        return OPT_STATIC_SPAWN;
-    }
-    if(id == "classic_zombies") {
-        return OPT_CLASSIC_ZOMBIES;
-    }
-    if(id == "revive_zombies") {
-        return OPT_REVIVE_ZOMBIES;
-    }
-    if(id == "season_length") {
-        return OPT_SEASON_LENGTH;
-    }
-    if(id == "static_npc") {
-        return OPT_STATIC_NPC;
-    }
-    if(id == "random_npc") {
-        return OPT_RANDOM_NPC;
-    }
-    if(id == "rad_mutation") {
-        return OPT_RAD_MUTATION;
-    }
-    if(id == "save_sleep") {
-        return OPT_SAVESLEEP;
-    }
-    if(id == "hide_cursor") {
-        return OPT_HIDE_CURSOR;
-    }
-    if(id == "auto_pickup") {
-        return OPT_AUTO_PICKUP;
-    }
-    if(id == "auto_pickup_zero") {
-        return OPT_AUTO_PICKUP_ZERO;
-    }
-    if(id == "auto_pickup_safemode") {
-        return OPT_AUTO_PICKUP_SAFEMODE;
-    }
-    if(id == "dangerous_pickups") {
-        return OPT_DANGEROUS_PICKUPS;
-    }
-    if(id == "sort_crafting") {
-        return OPT_SORT_CRAFTING;
-    }
-    return OPT_NULL;
-}
-
-std::string option_string(option_key key)
-{
-    switch(key) {
-    case OPT_USE_CELSIUS:         return "use_celsius";
-    case OPT_USE_METRIC_SPEED:    return "use_metric_speeds";
-    case OPT_USE_METRIC_WEIGHT:   return "use_metric_weights";
-    case OPT_FORCE_YN:            return "force_capital_yn";
-    case OPT_NO_CBLINK:           return "no_bright_backgrounds";
-    case OPT_24_HOUR:             return "24_hour";
-    case OPT_SNAP_TO_TARGET:      return "snap_to_target";
-    case OPT_SAFEMODE:            return "safemode";
-    case OPT_SAFEMODEPROXIMITY:   return "safemodeproximity";
-    case OPT_AUTOSAFEMODE:        return "autosafemode";
-    case OPT_AUTOSAFEMODETURNS:   return "autosafemodeturns";
-    case OPT_AUTOSAVE:            return "autosave";
-    case OPT_AUTOSAVE_TURNS:      return "autosave_turns";
-    case OPT_AUTOSAVE_MINUTES:    return "autosave_minutes";
-    case OPT_GRADUAL_NIGHT_LIGHT: return "gradual_night_light";
-    case OPT_RAIN_ANIMATION:      return "rain_animation";
-    case OPT_CIRCLEDIST:          return "circledist";
-    case OPT_QUERY_DISASSEMBLE:   return "query_disassemble";
-    case OPT_DROP_EMPTY:          return "drop_empty";
-    case OPT_SKILL_RUST:          return "skill_rust";
-    case OPT_DELETE_WORLD:        return "delete_world";
-    case OPT_INITIAL_POINTS:      return "initial_points";
-    case OPT_MAX_TRAIT_POINTS:    return "max_trait_points";
-    case OPT_INITIAL_TIME:        return "initial_time";
-    case OPT_VIEWPORT_X:          return "viewport_x";
-    case OPT_VIEWPORT_Y:          return "viewport_y";
-    case OPT_SIDEBAR_STYLE:       return "sidebar_style";
-    case OPT_MOVE_VIEW_OFFSET:    return "move_view_offset";
-    case OPT_STATIC_SPAWN:        return "static_spawn";
-    case OPT_CLASSIC_ZOMBIES:     return "classic_zombies";
-    case OPT_REVIVE_ZOMBIES:      return "revive_zombies";
-    case OPT_SEASON_LENGTH:       return "season_length";
-    case OPT_STATIC_NPC:          return "static_npc";
-    case OPT_RANDOM_NPC:          return "random_npc";
-    case OPT_RAD_MUTATION:        return "rad_mutation";
-    case OPT_SAVESLEEP:           return "save_sleep";
-    case OPT_HIDE_CURSOR:         return "hide_cursor";
-    case OPT_AUTO_PICKUP:         return "auto_pickup";
-    case OPT_AUTO_PICKUP_ZERO:    return "auto_pickup_zero";
-    case OPT_AUTO_PICKUP_SAFEMODE:return "auto_pickup_safemode";
-    case OPT_DANGEROUS_PICKUPS:   return "dangerous_pickups";
-    case OPT_SORT_CRAFTING:       return "sort_crafting";
-    default:                      return "unknown_option";
-    }
-    return "unknown_option";
-}
-
-std::string option_desc(option_key key)
-{
-    switch(key) {
-    case OPT_USE_CELSIUS:         return _("If true, use Celcius not Fahrenheit.\nDefault is fahrenheit");
-    case OPT_USE_METRIC_SPEED:    return _("If true, use Km/h not mph.\nDefault is mph");
-    case OPT_USE_METRIC_WEIGHT:   return _("If true, use kg not lbs.\nDefault is lbs");
-    case OPT_FORCE_YN:            return _("If true, y/n prompts are case-\nsensitive and y and n\nare not accepted.\nDefault is true");
-    case OPT_NO_CBLINK:           return _("If true, bright backgrounds are not\nused--some consoles are not\ncompatible.\nDefault is false");
-    case OPT_24_HOUR:             return _("12h/24h Time:\n0 - AM/PM (default)  eg: 7:31 AM\n1 - 24h military     eg: 0731\n2 - 24h normal       eg: 7:31");
-    case OPT_SNAP_TO_TARGET:      return _("If true, automatically follow the\ncrosshair when firing/throwing.\nDefault is false");
-    case OPT_SAFEMODE:            return _("If true, safemode will be on after\nstarting a new game or loading.\nDefault is true");
-    case OPT_SAFEMODEPROXIMITY:   return _("If safemode is enabled,\ndistance to hostiles when safemode\nshould show a warning.\n0=Viewdistance, and the default");
-    case OPT_AUTOSAFEMODE:        return _("If true, auto-safemode will be on\nafter starting a new game or loading.\nDefault is false");
-    case OPT_AUTOSAFEMODETURNS:   return _("Number of turns after safemode\nis reenabled if no hostiles are\nin safemodeproximity distance.\nDefault is 50");
-    case OPT_AUTOSAVE:            return _("If true, game will periodically\nsave the map\nDefault is false");
-    case OPT_AUTOSAVE_TURNS:      return _("Number of minutes between autosaves");
-    case OPT_AUTOSAVE_MINUTES:    return _("Minimum number of real time minutes\nbetween autosaves");
-    case OPT_GRADUAL_NIGHT_LIGHT: return _("If true will add nice gradual-lighting\nshould only make a difference\nduring the night.\nDefault is true");
-    case OPT_RAIN_ANIMATION:      return _("If true, will display weather\nanimations.\nDefault is true");
-    case OPT_CIRCLEDIST:          return _("If true, the game will calculate\nrange in a realistic way:\nlight sources will be circles\ndiagonal movement will\ncover more ground and take\nlonger.\nIf disabled, everything is\nsquare: moving to the northwest\ncorner of a building\ntakes as long as moving\nto the north wall.");
-    case OPT_QUERY_DISASSEMBLE:   return _("If true, will query before\ndisassembling items.\nDefault is true");
-    case OPT_DROP_EMPTY:          return _("Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers");
-    case OPT_SKILL_RUST:          return _("Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - intelligence dependent\n3 - intelligence dependent, capped\n4 - none at all");
-    case OPT_DELETE_WORLD:        return _("Delete saves upon player death.\n0 - no (default)\n1 - yes\n2 - query");
-    case OPT_INITIAL_POINTS:      return _("Initial points available on character\ngeneration.\nDefault is 6");
-    case OPT_MAX_TRAIT_POINTS:    return _("Maximum trait points available for\ncharacter generation.\nDefault is 12");
-    case OPT_INITIAL_TIME:        return _("Initial starting time of day on\ncharacter generation.\nDefault is 8:00");
-    case OPT_VIEWPORT_X:          return _("WINDOWS ONLY: Set the expansion of the\nviewport along the X axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.");
-    case OPT_VIEWPORT_Y:          return _("WINDOWS ONLY: Set the expansion of the\nviewport along the Y axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.");
-    case OPT_SIDEBAR_STYLE:       return _("Sidebar style. 0 is standard,\n1 is narrower and taller.");
-    case OPT_MOVE_VIEW_OFFSET:    return _("Move view by how many squares per\nkeypress.\nDefault is 1");
-    case OPT_SEASON_LENGTH:       return _("Season length, in days.\nDefault is 14");
-    case OPT_STATIC_SPAWN:        return _("Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is true");
-    case OPT_CLASSIC_ZOMBIES:     return _("Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false");
-    case OPT_REVIVE_ZOMBIES:      return _("Allow zombies to revive after\na certain amount of time.\nDefault is true");
-    case OPT_STATIC_NPC:          return _("If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false");
-    case OPT_RANDOM_NPC:          return _("If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false");
-    case OPT_RAD_MUTATION:        return _("If true, radiation causes the player\nto mutate.\nDefault is true");
-    case OPT_SAVESLEEP:           return _("If true, game will ask to save the map\nbefore sleeping. Default is false");
-    case OPT_HIDE_CURSOR:         return _("If 0, cursor is always shown. If 1,\ncursor is hidden. If 2, cursor is\nhidden on keyboard input and\nunhidden on mouse movement.\nDefault is 0.");
-    case OPT_AUTO_PICKUP:         return _("Enable item auto pickup. Change\npickup rules with the Auto Pickup\nManager in the Help Menu ?3");
-    case OPT_AUTO_PICKUP_ZERO:    return _("Auto pickup items with\n0 Volume or Weight");
-    case OPT_AUTO_PICKUP_SAFEMODE:return _("Auto pickup is disabled\nas long as you can see\nmonsters nearby.\n\nThis is affected by\nSafemode proximity distance.");
-    case OPT_DANGEROUS_PICKUPS:   return _("If false will cause player to drop \nnew items that cause them to exceed \nthe weight limit. \nDefault is false.");
-    case OPT_SORT_CRAFTING:       return _("If true, the crafting menus\nwill display recipes that you can\ncraft before other recipes");
-    default:                      return " ";
-    }
-    return "Big ol Bug (options.cpp:option_desc)";
-}
-
-std::string option_name(option_key key)
-{
-    switch(key) {
-    case OPT_USE_CELSIUS:         return _("Use Celsius");
-    case OPT_USE_METRIC_SPEED:    return _("Use Metric Speeds");
-    case OPT_USE_METRIC_WEIGHT:   return _("Use Metric Weights");
-    case OPT_FORCE_YN:            return _("Force Y/N in prompts");
-    case OPT_NO_CBLINK:           return _("No Bright Backgrounds");
-    case OPT_24_HOUR:             return _("24 Hour Time");
-    case OPT_SNAP_TO_TARGET:      return _("Snap to Target");
-    case OPT_SAFEMODE:            return _("Safemode on by default");
-    case OPT_SAFEMODEPROXIMITY:   return _("Safemode proximity distance");
-    case OPT_AUTOSAFEMODE:        return _("Auto-Safemode on by default");
-    case OPT_AUTOSAFEMODETURNS:   return _("Turns to reenable safemode");
-    case OPT_AUTOSAVE:            return _("Periodically Autosave");
-    case OPT_AUTOSAVE_TURNS:      return _("Game minutes between autosaves");
-    case OPT_AUTOSAVE_MINUTES:    return _("Real minutes between autosaves");
-    case OPT_GRADUAL_NIGHT_LIGHT: return _("Gradual night light");
-    case OPT_RAIN_ANIMATION:      return _("Rain animation");
-    case OPT_CIRCLEDIST:          return _("Circular distances");
-    case OPT_QUERY_DISASSEMBLE:   return _("Query on disassembly");
-    case OPT_DROP_EMPTY:          return _("Drop empty containers");
-    case OPT_SKILL_RUST:          return _("Skill Rust");
-    case OPT_DELETE_WORLD:        return _("Delete World");
-    case OPT_INITIAL_POINTS:      return _("Initial points");
-    case OPT_MAX_TRAIT_POINTS:    return _("Maximum trait points");
-    case OPT_INITIAL_TIME:        return _("Initial time");
-    case OPT_VIEWPORT_X:          return _("Viewport width");
-    case OPT_VIEWPORT_Y:          return _("Viewport height");
-    case OPT_SIDEBAR_STYLE:       return _("Sidebar style");
-    case OPT_MOVE_VIEW_OFFSET:    return _("Move view offset");
-    case OPT_STATIC_SPAWN:        return _("Static spawn");
-    case OPT_CLASSIC_ZOMBIES:     return _("Classic zombies");
-    case OPT_REVIVE_ZOMBIES:      return _("Revive zombies");
-    case OPT_SEASON_LENGTH:       return _("Season length");
-    case OPT_STATIC_NPC:          return _("Static npcs");
-    case OPT_RANDOM_NPC:          return _("Random npcs");
-    case OPT_RAD_MUTATION:        return _("Mutations by radiation");
-    case OPT_SAVESLEEP:           return _("Ask to save before sleeping");
-    case OPT_HIDE_CURSOR:         return _("Hide Mouse Cursor");
-    case OPT_AUTO_PICKUP:         return _("Enable item Auto Pickup");
-    case OPT_AUTO_PICKUP_ZERO:    return _("Auto Pickup 0 Vol/Weight");
-    case OPT_AUTO_PICKUP_SAFEMODE:return _("Auto Pickup Safemode");
-    case OPT_DANGEROUS_PICKUPS:   return _("Dangerous pickups");
-    case OPT_SORT_CRAFTING:       return _("Sort Crafting menu");
-    default:                      return "Unknown Option (options.cpp:option_name)";
-    }
-    return "Big ol Bug (options.cpp:option_name)";
-}
-
-bool option_is_bool(option_key id)
-{
-    switch(id) {
-    case OPT_24_HOUR:
-    case OPT_SAFEMODEPROXIMITY:
-    case OPT_AUTOSAFEMODETURNS:
-    case OPT_SKILL_RUST:
-    case OPT_DROP_EMPTY:
-    case OPT_DELETE_WORLD:
-    case OPT_INITIAL_POINTS:
-    case OPT_MAX_TRAIT_POINTS:
-    case OPT_INITIAL_TIME:
-    case OPT_VIEWPORT_X:
-    case OPT_VIEWPORT_Y:
-    case OPT_SIDEBAR_STYLE:
-    case OPT_SEASON_LENGTH:
-    case OPT_MOVE_VIEW_OFFSET:
-    case OPT_AUTOSAVE_TURNS:
-    case OPT_AUTOSAVE_MINUTES:
-    case OPT_HIDE_CURSOR:
-        return false;
-        break;
-    default:
-        return true;
-    }
-    return true;
-}
-
-char option_max_options(option_key id)
-{
-    char ret;
-    if(option_is_bool(id)) {
-        ret = 2;
-    } else
-        switch(id) {
-        case OPT_24_HOUR:
-            ret = 3;
-            break;
-        case OPT_SAFEMODEPROXIMITY:
-            ret = 61;
-            break;
-        case OPT_AUTOSAFEMODETURNS:
-            ret = 101;
-            break;
-        case OPT_INITIAL_POINTS:
-            ret = 25;
-            break;
-        case OPT_MAX_TRAIT_POINTS:
-            ret = 25;
-            break;
-        case OPT_INITIAL_TIME:
-            ret = 24; // 0h to 23h
-            break;
-        case OPT_DELETE_WORLD:
-        case OPT_DROP_EMPTY:
-            ret = 3;
-            break;
-        case OPT_SKILL_RUST:
-            ret = 5;
-            break;
-        case OPT_VIEWPORT_X:
-        case OPT_VIEWPORT_Y:
-            ret = 93; // TODO Set up min/max values so weird numbers don't have to be used.
-            break;
-        case OPT_SEASON_LENGTH:
-            ret = 127;
-            break;
-        case OPT_MOVE_VIEW_OFFSET:
-            ret = 50; // TODO calculate max for screen size
-            break;
-        case OPT_AUTOSAVE_TURNS:
-        case OPT_AUTOSAVE_MINUTES:
-            ret = 127;
-            break;
-        case OPT_HIDE_CURSOR:
-            ret = 3;
-            break;
-        default:
-            ret = 2;
-            break;
-        }
-    return ret;
-}
-
-char option_min_options(option_key id)
-{
-    char ret;
-    if(option_is_bool(id)) {
-        ret = 0;
-    } else
-        switch(id) {
-        case OPT_MAX_TRAIT_POINTS:
-            ret = 3;
-            break;
-        case OPT_VIEWPORT_X:
-        case OPT_VIEWPORT_Y:
-            ret = 12; // TODO Set up min/max values so weird numbers don't have to be used.
-            break;
-        case OPT_AUTOSAVE_TURNS:
-            ret = 1;
-            break;
-        default:
-            ret = 0;
-            break;
-        }
-    return ret;
+    if(OPTIONS["CIRCLEDIST"]) { trigdist=true; }
 }
 
 void create_default_options()
@@ -734,3 +625,4 @@ void save_options()
         fout << "\n";
     }
 }
+*/

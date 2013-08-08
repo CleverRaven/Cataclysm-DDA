@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
  }
 
 // ncurses stuff
+ initOptions();
  load_options(); // For getting size options
  initscr(); // Initialize ncurses
  noecho();  // Don't echo keypresses

@@ -1234,7 +1234,7 @@ switch (furn(x, y)) {
    return true;
   }
   break;
-  
+
  case f_skin_wall:
  case f_skin_door:
  case f_skin_door_o:
@@ -2108,7 +2108,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     {
         bool destroyed = false;
         int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);   // volume dependent chance
-  
+
         if (dam > i_at(x, y)[i].bash_resist() && one_in(chance))
         {
             i_at(x, y)[i].damage++;
@@ -2117,7 +2117,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         {
             destroyed = true;
         }
-  
+
         if (destroyed)
         {
             for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
@@ -3030,7 +3030,7 @@ void map::draw(game *g, WINDOW* w, const point center)
    // this must stay here...
    int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
    int distance_to_look = real_max_sight_range;
-   if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
+   if (OPTIONS["GRADUAL_NIGHT_LIGHT"] > 0.) {
     // in this case we'll be always looking at maximum distance
     // and light level should do rest of the work....
     distance_to_look = DAYLIGHT_LEVEL;
@@ -3039,7 +3039,7 @@ void map::draw(game *g, WINDOW* w, const point center)
    bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
    lit_level lit = light_at(realx, realy);
 
-   if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
+   if (OPTIONS["GRADUAL_NIGHT_LIGHT"] > 0.) {
     // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
 	// but at the same time changing light-level depending on distance,
 	// to create actual "gradual" stuff

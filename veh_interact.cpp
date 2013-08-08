@@ -746,7 +746,7 @@ void veh_interact::display_stats ()
     bool conf = veh->valid_wheel_config();
     mvwprintz(w_stats, 0, 1, c_ltgray, _("Name: "));
     mvwprintz(w_stats, 0, 7, c_ltgreen, veh->name.c_str());
-    if(OPTIONS[OPT_USE_METRIC_SPEED]) {
+    if(OPTIONS["use_metric_speeds"]) {
         mvwprintz(w_stats, 1, 1, c_ltgray, _("Safe speed:      Km/h"));
         mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", int(veh->safe_velocity(false) * 0.0161f));
         mvwprintz(w_stats, 2, 1, c_ltgray, _("Top speed:       Km/h"));
@@ -762,7 +762,7 @@ void veh_interact::display_stats ()
         mvwprintz(w_stats, 3, 1, c_ltgray, _("Accel.:          mph/t"));
         mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", veh->acceleration(false) / 100);
     }
-    if (OPTIONS[OPT_USE_METRIC_WEIGHT]){
+    if (OPTIONS["use_metric_weights"]){
         mvwprintz(w_stats, 4, 1, c_ltgray, _("Mass:            kg"));
         mvwprintz(w_stats, 4, 12, c_ltblue,"%5d", (int) (veh->total_mass()));
     } else {
