@@ -2847,6 +2847,10 @@ void game::write_memorial_file() {
     time (&rawtime);
     std::string timestamp = ctime(&rawtime);
 
+    //Fun fact: ctime puts a \n at the end of the timestamp. Get rid of it.
+    size_t end = timestamp.find_last_of('\n');
+    timestamp = timestamp.substr(0, end);
+
     //Colons are not usable in paths, so get rid of them
     for(int index = 0; index < timestamp.size(); index++) {
         if(timestamp[index] == ':') {
@@ -2854,11 +2858,16 @@ void game::write_memorial_file() {
         }
     }
 
-    std::string memorial_file_path = string_format("memorial/%s-%s.txt", 
+    std::string memorial_file_path = string_format("memorial/%s-%s.txt",
             u.name.c_str(), timestamp.c_str());
     
     std::ofstream memorial_file;
     memorial_file.open(memorial_file_path.c_str());
+
+    if(!memorial_file.is_open()) {
+      dbg(D_ERROR) << "game:write_memorial_file: Unable to open " << memorial_file_path;
+      debugmsg("Could not open memorial file '%s'", memorial_file_path.c_str());
+    }
 
     //Header
     std::string version = string_format("%s", getVersionString());
