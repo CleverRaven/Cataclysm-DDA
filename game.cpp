@@ -38,9 +38,6 @@
 #include <dirent.h>
 #endif
 #include <sys/stat.h>
-#include "get_version.h"
-#include "disease.h"
-#include "version.h"
 #include "debug.h"
 #include "artifactdata.h"
 
@@ -2820,9 +2817,6 @@ void game::delete_save()
  */
 void game::write_memorial_file() {
 
-    //Size of indents in the memorial file
-    const std::string indent = "  ";
-
     //Open the file first
     DIR *dir = opendir("memorial");
     if (!dir) {
@@ -2857,176 +2851,17 @@ void game::write_memorial_file() {
 
     std::string memorial_file_path = string_format("memorial/%s-%s.txt",
             u.name.c_str(), timestamp.c_str());
-    
+
     std::ofstream memorial_file;
     memorial_file.open(memorial_file_path.c_str());
+
+    u.memorial( memorial_file );
 
     if(!memorial_file.is_open()) {
       dbg(D_ERROR) << "game:write_memorial_file: Unable to open " << memorial_file_path;
       debugmsg("Could not open memorial file '%s'", memorial_file_path.c_str());
     }
 
-    //Header
-    std::string version = string_format("%s", getVersionString());
-    memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
-    memorial_file << "\n";
-    memorial_file << _("In memory of: ") << u.name << "\n";
-    memorial_file << _(season_name[turn.get_season()].c_str()) << _(" of year ") << (turn.years() + 1)
-                  << _(", day ") << (turn.days() + 1) << _(", ") << turn.print_time() << ".\n";
-    memorial_file << "\n";
-
-    //Misc
-    memorial_file << _("Cash on hand: ") << "$" << u.cash << "\n";
-    memorial_file << "\n";
-
-    //HP
-    memorial_file << _("Final HP:") << "\n";
-    memorial_file << indent << _(" Head: ") << u.hp_cur[hp_head] << "/" << u.hp_max[hp_head] << "\n";
-    memorial_file << indent << _("Torso: ") << u.hp_cur[hp_torso] << "/" << u.hp_max[hp_torso] << "\n";
-    memorial_file << indent << _("L Arm: ") << u.hp_cur[hp_arm_l] << "/" << u.hp_max[hp_arm_l] << "\n";
-    memorial_file << indent << _("R Arm: ") << u.hp_cur[hp_arm_r] << "/" << u.hp_max[hp_arm_r] << "\n";
-    memorial_file << indent << _("L Leg: ") << u.hp_cur[hp_leg_l] << "/" << u.hp_max[hp_leg_l] << "\n";
-    memorial_file << indent << _("R Leg: ") << u.hp_cur[hp_leg_r] << "/" << u.hp_max[hp_leg_r] << "\n";
-    memorial_file << "\n";
-
-    //Stats
-    memorial_file << _("Final Stats:") << "\n";
-    memorial_file << indent << _("Str ") << u.str_cur << indent << _("Dex ") << u.dex_cur << indent
-                  << _("Int ") << u.int_cur << indent << _("Per ") << u.per_cur << "\n";
-    memorial_file << _("Base Stats:") << "\n";
-    memorial_file << indent << _("Str ") << u.str_max << indent << _("Dex ") << u.dex_max << indent
-                  << _("Int ") << u.int_max << indent << _("Per ") << u.per_max << "\n";
-    memorial_file << "\n";
-
-    //Kill list
-    memorial_file << _("Kills:") << "\n";
-
-    int total_kills = 0;
-    for(int i = 0; i < num_monsters; i++) {
-      if(kills[i] > 0) {
-        memorial_file << "  " << (char) mtypes[i]->sym << " - " << mtypes[i]->name << " x" << kills[i] << "\n";
-        total_kills += kills[i];
-      }
-    }
-    if(total_kills == 0) {
-      memorial_file << indent << _("No monsters were killed.") << "\n";
-    } else {
-      memorial_file << _("Total kills: ") << total_kills << "\n";
-    }
-    memorial_file << "\n";
-
-    //Skills
-    memorial_file << _("Skills:") << "\n";
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-      aSkill != Skill::skills.end(); ++aSkill) {
-      SkillLevel next_skill_level = u.skillLevel(*aSkill);
-      memorial_file << indent << (*aSkill)->name() << ": "
-              << next_skill_level.level() << " (" << next_skill_level.exercise() << "%)\n";
-    }
-    memorial_file << "\n";
-
-    //Traits
-    memorial_file << _("Traits:") << "\n";
-    for(int i = 1; i < PF_MAX2; i++) { //Don't start at i=0 or we get a 'null trait'
-      if(u.has_trait(i)) {
-        memorial_file << indent << traits[i].name << "\n";
-      }
-    }
-    memorial_file << "\n";
-
-    //Effects (illnesses)
-    memorial_file << _("Ongoing Effects:") << "\n";
-    bool had_effect = false;
-    for(int i = 0; i < u.illness.size(); i++) {
-      disease next_illness = u.illness[i];
-      if(dis_name(next_illness).size() > 0) {
-        had_effect = true;
-        memorial_file << indent << dis_name(next_illness) << "\n";
-      }
-    }
-    //Various effects not covered by the illness list - from player.cpp
-    if(u.morale_level() >= 100) {
-      had_effect = true;
-      memorial_file << indent << _("Elated") << "\n";
-    }
-    if(u.morale_level() <= -100) {
-      had_effect = true;
-      memorial_file << indent << _("Depressed") << "\n";
-    }
-    if(u.pain - u.pkill > 0) {
-      had_effect = true;
-      memorial_file << indent << _("Pain") << " (" << (u.pain - u.pkill) << ")";
-    }
-    if(u.stim > 0) {
-      had_effect = true;
-      int dexbonus = int(u.stim / 10);
-      if (abs(u.stim) >= 30) {
-        dexbonus -= int(abs(u.stim - 15) /  8);
-      }
-      if(dexbonus < 0) {
-        memorial_file << indent << _("Stimulant Overdose") << "\n";
-      } else {
-        memorial_file << indent << _("Stimulant") << "\n";
-      }
-    } else if(u.stim < 0) {
-      had_effect = true;
-      memorial_file << indent << _("Depressants") << "\n";
-    }
-    if(!had_effect) {
-      memorial_file << indent << _("(None)") << "\n";
-    }
-    memorial_file << "\n";
-
-    //Bionics
-    memorial_file << _("Bionics:") << "\n";
-    int total_bionics = 0;
-    for(int i = 0; i < u.my_bionics.size(); i++) {
-      bionic_id next_bionic_id = u.my_bionics[i].id;
-      memorial_file << indent << (i+1) << ": " << bionics[next_bionic_id]->name << "\n";
-      total_bionics++;
-    }
-    if(total_bionics == 0) {
-      memorial_file << indent << _("No bionics were installed.") << "\n";
-    } else {
-      memorial_file << _("Total bionics: ") << total_bionics << "\n";
-    }
-    memorial_file << _("Power: ") << u.power_level << "/" << u.max_power_level << "\n";
-    memorial_file << "\n";
-
-    //Equipment
-    memorial_file << _("Equipment:") << "\n";
-    for(int i = 0; i < u.worn.size(); i++) {
-      item next_item = u.worn[i];
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname(this);
-      if(next_item.charges > 0) {
-        memorial_file << " (" << next_item.charges << ")";
-      } else if (next_item.contents.size() == 1
-              && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
-    }
-    memorial_file << "\n";
-
-    //Inventory
-    memorial_file << _("Inventory:") << "\n";
-    u.inv.sort();
-    u.inv.restack(&u);
-    for(int i = 0; i < u.inv.size(); i++) {
-      invslice slice = u.inv.slice(i, 1);
-      item& next_item = slice[0]->front();
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname(this);
-      if(slice[0]->size() > 1) {
-        memorial_file << " [" << slice[0]->size() << "]";
-      }
-      if(next_item.charges > 0) {
-        memorial_file << " (" << next_item.charges << ")";
-      } else if (next_item.contents.size() == 1
-              && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
-    }
 
     //Cleanup
     memorial_file.close();
