@@ -2645,7 +2645,6 @@ void game::load(std::string name)
  getline(fin, data);
  u.load_info(this, data);
 // And the player's inventory...
- u.inv.load_invlet_cache( fin );
 
  char item_place;
  std::string itemdata;
@@ -2672,6 +2671,8 @@ void game::load(std::string name)
    }
   }
  }
+ u.inv.load_invlet_cache( fin );
+
 // Now dump tmpinv into the player's inventory
  u.inv.add_stack(tmpinv);
  fin.close();
@@ -2860,7 +2861,7 @@ void game::write_memorial_file() {
 
     std::string memorial_file_path = string_format("memorial/%s-%s.txt",
             u.name.c_str(), timestamp.c_str());
-    
+
     std::ofstream memorial_file;
     memorial_file.open(memorial_file_path.c_str());
 
@@ -8170,7 +8171,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
                 {
                     ret.push_back(iter->second);
                 }
- 
+
             }
     }
     return ret;
