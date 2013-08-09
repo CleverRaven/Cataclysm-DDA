@@ -2015,13 +2015,28 @@ void player::memorial( std::ofstream &memorial_file )
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
+    const std::string gender_str = male ? _("male") : _("female");
+    const std::string pronoun = male ? _("He") : _("She");
+
+    //Avoid saying "a male unemployed" or similar
+    std::stringstream profession_name;
+    if(prof == prof->generic()) {
+      profession_name << _("an unemployed ") << gender_str;
+    } else {
+      profession_name << _("a ") << gender_str << " " << prof->name();
+    }
+
     //Header
     std::string version = string_format("%s", getVersionString());
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << name << "\n";
-    memorial_file << _(season_name[g->turn.get_season()].c_str()) << _(" of year ") << (g->turn.years() + 1)
-                  << _(", day ") << (g->turn.days() + 1) << _(", ") << g->turn.print_time() << ".\n";
+    memorial_file << pronoun << _(" was ") << profession_name.str()
+                  << _(" when the apocalypse began.") << "\n";
+    memorial_file << pronoun << _(" died on ") << _(season_name[g->turn.get_season()].c_str())
+                  << _(" of year ") << (g->turn.years() + 1)
+                  << _(", day ") << (g->turn.days() + 1) 
+                  << _(", at ") << g->turn.print_time() << ".\n";
     memorial_file << "\n";
 
     //Misc
@@ -2144,6 +2159,10 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << "\n";
 
     //Equipment
+    memorial_file << _("Weapon:") << "\n";
+    memorial_file << indent << weapon.invlet << " - " << weapon.tname(g) << "\n";
+    memorial_file << "\n";
+
     memorial_file << _("Equipment:") << "\n";
     for(int i = 0; i < worn.size(); i++) {
       item next_item = worn[i];
