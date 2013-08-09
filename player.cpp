@@ -1543,7 +1543,7 @@ void player::update_bodytemp(game *g)
             if (disease_intensity(dis_type(frost_pen)) < 2
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
             {
-                g->add_msg((i == bp_mouth ? _("Your %s harden from the frostbite!")  : _("Your %s hardens from the frostbite!")), body_part_name(body_part(i), -1).c_str());
+                g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->temperature < 32)
             {
@@ -2406,7 +2406,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  effect_win_size_y--;
 
 // Print name and header
- mvwprintw(w_tip, 0, 0, "%s - %s", name.c_str(), (male ? _("Male") : _("Female")));
+ if (male) {
+    mvwprintw(w_tip, 0, 0, "%s - Male", name.c_str());
+ } else {
+    mvwprintw(w_tip, 0, 0, "%s - Female", name.c_str());
+ }
  mvwprintz(w_tip, 0, 39, c_ltred, _("| Press TAB to cycle, ESC or q to return."));
  wrefresh(w_tip);
 
@@ -2747,10 +2751,13 @@ which require brute force."));
     mvwprintz(w_stats, 7, 2, c_magenta, _("Ranged penalty: -%d"),
              abs(ranged_dex_mod(false)));
     mvwprintz(w_stats, 8, 2, c_magenta, "                                            ");
-    mvwprintz(w_stats, 8, 2, c_magenta,
-             (throw_dex_mod(false) <= 0 ? _("Throwing bonus: %s%d") : _("Throwing penalty: %s%d")),
-             (throw_dex_mod(false) <= 0 ? "+" : "-"),
-             abs(throw_dex_mod(false)));
+    if (throw_dex_mod(false) <= 0) {
+        mvwprintz(w_stats, 8, 2, c_magenta, _("Throwing bonus: +%d"),
+                  abs(throw_dex_mod(false)));
+    } else {
+        mvwprintz(w_stats, 8, 2, c_magenta, _("Throwing penalty: -%d"),
+                  abs(throw_dex_mod(false)));
+    }
     mvwprintz(w_info, 0, 0, c_magenta, _("\
 Dexterity affects your chance to hit in melee combat, helps you steady your\n\
 gun for ranged combat, and enhances many actions that require finesse."));
@@ -6803,7 +6810,13 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg(_("You cannot wear a helmet over your %s."), (has_trait(PF_HORNS_POINTED) ? _("horns") : (has_trait(PF_ANTENNAE) ? _("antennae") : _("antlers"))));
+                if (has_trait(PF_HORNS_POINTED)) {
+                    g->add_msg(_("You cannot wear a helmet over your horns."));
+                } else if (has_trait(PF_ANTENNAE)) {
+                    g->add_msg(_("You cannot wear a helmet over your antennae."));
+                } else {
+                    g->add_msg(_("You cannot wear a helmet over your antlers."));
+                }
             }
             return false;
         }

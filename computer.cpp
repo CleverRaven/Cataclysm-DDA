@@ -308,6 +308,7 @@ void computer::activate_function(game *g, computer_action action)
 
         //Toll is required for the church computer/mechanism to function
     case COMPACT_TOLL:
+        //~ the sound of a church bell ringing
         g->sound(g->u.posx, g->u.posy, 120, _("Bohm... Bohm... Bohm..."));
         break;
 

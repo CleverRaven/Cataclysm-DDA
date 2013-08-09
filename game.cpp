@@ -2141,7 +2141,11 @@ bool game::handle_action()
 
   case ACTION_TOGGLE_DEBUGMON:
    debugmon = !debugmon;
-   add_msg(_("Debug messages %s!"), (debugmon ? _("ON") : _("OFF")));
+   if (debugmon) {
+    add_msg(_("Debug messages ON!"));
+   } else {
+    add_msg(_("Debug messages OFF!"));
+   }
    break;
  }
 
@@ -3062,12 +3066,12 @@ void game::debug()
    popup_top(_("\
 Location %d:%d in %d:%d, %s\n\
 Current turn: %d; Next spawn %d.\n\
-NPCs are %s spawn.\n\
+%s\n\
 %d monsters exist.\n\
 %d currently active NPC's.\n\
 %d events planned."), u.posx, u.posy, levx, levy,
 oterlist[cur_om->ter(levx / 2, levy / 2, levz)].name.c_str(),
-int(turn), int(nextspawn), (!OPTIONS[OPT_RANDOM_NPC] ? _("NOT going to") : _("going to")),
+int(turn), int(nextspawn), (OPTIONS[OPT_RANDOM_NPC] ? _("NPCs are going to spawn.") : _("NPCs are NOT going to spawn.")),
 z.size(), active_npc.size(), events.size());
 
 		 if (!active_npc.empty())
@@ -5083,7 +5087,9 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         if (stun > 0)
         {
             targ->add_effect(ME_STUNNED, stun);
-            add_msg(_("%s was stunned for %d turn%s!"), targ->name().c_str(), stun, stun>1?"s":"");
+            add_msg(ngettext("%s was stunned for %d turn!",
+                             "%s was stunned for %d turns!", stun),
+                    targ->name().c_str(), stun);
         }
         for(int i = 1; i < traj.size(); i++)
         {
@@ -5097,14 +5103,18 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     if (targ->has_effect(ME_STUNNED))
                     {
                         targ->add_effect(ME_STUNNED, force_remaining);
-                        add_msg(_("%s was stunned AGAIN for %d turn%s!"),
-                                targ->name().c_str(), force_remaining, force_remaining>1?_("s"):"");
+                        add_msg(ngettext("%s was stunned AGAIN for %d turn!",
+                                         "%s was stunned AGAIN for %d turns!",
+                                         force_remaining),
+                                targ->name().c_str(), force_remaining);
                     }
                     else
                     {
                         targ->add_effect(ME_STUNNED, force_remaining);
-                        add_msg(_("%s was stunned for %d turn%s!"),
-                                targ->name().c_str(), force_remaining, force_remaining>1?_("s"):"");
+                        add_msg(ngettext("%s was stunned for %d turn!",
+                                         "%s was stunned for %d turns!",
+                                         force_remaining),
+                                targ->name().c_str(), force_remaining);
                     }
                     add_msg(_("%s took %d damage!"), targ->name().c_str(), dam_mult*force_remaining);
                     targ->hp -= dam_mult*force_remaining;
@@ -5126,24 +5136,35 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     if (targ->has_effect(ME_STUNNED))
                     {
                         targ->add_effect(ME_STUNNED, force_remaining);
-                        add_msg(_("%s was stunned AGAIN for %d turn%s!"),
-                                targ->name().c_str(), force_remaining, force_remaining>1?_("s"):"");
+                        add_msg(ngettext("%s was stunned AGAIN for %d turn!",
+                                         "%s was stunned AGAIN for %d turns!",
+                                         force_remaining),
+                                targ->name().c_str(), force_remaining);
                     }
                     else
                     {
                         targ->add_effect(ME_STUNNED, force_remaining);
-                        add_msg(_("%s was stunned for %d turn%s!"),
-                                targ->name().c_str(), force_remaining, force_remaining>1?_("s"):"");
+                        add_msg(ngettext("%s was stunned for %d turn!",
+                                         "%s was stunned for %d turns!",
+                                         force_remaining),
+                                targ->name().c_str(), force_remaining);
                     }
                 }
                 traj.erase(traj.begin(), traj.begin()+i);
-                if (mon_at(traj.front().x, traj.front().y) != -1)
-                    add_msg(_("%s collided with someTHING else and sent IT flying!"), targ->name().c_str());
-                else if (npc_at(traj.front().x, traj.front().y) != -1)
-                    add_msg(_("%s collided with someone else and sent %s flying!"), targ->name().c_str(),
-                            active_npc[npc_at(traj.front().x, traj.front().y)]->male?_("him"):_("her"));
-                else if (u.posx == traj.front().x && u.posy == traj.front().y)
+                if (mon_at(traj.front().x, traj.front().y) != -1) {
+                    add_msg(_("%s collided with something else and sent it flying!"),
+                            targ->name().c_str());
+                } else if (npc_at(traj.front().x, traj.front().y) != -1) {
+                    if (active_npc[npc_at(traj.front().x, traj.front().y)]->male) {
+                        add_msg(_("%s collided with someone else and sent him flying!"),
+                                targ->name().c_str());
+                    } else {
+                        add_msg(_("%s collided with someone else and sent her flying!"),
+                                targ->name().c_str());
+                    }
+                } else if (u.posx == traj.front().x && u.posy == traj.front().y) {
                     add_msg(_("%s collided with you and sent you flying!"), targ->name().c_str());
+                }
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
@@ -5170,7 +5191,9 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         if (stun > 0)
         {
             targ->add_disease("stunned", stun);
-            add_msg(_("%s was stunned for %d turn%s!"), targ->name.c_str(), stun, stun>1?_("s"):"");
+            add_msg(ngettext("%s was stunned for %d turn!",
+                             "%s was stunned for %d turns!", stun),
+                    targ->name.c_str(), stun);
         }
         for(int i = 1; i < traj.size(); i++)
         {
@@ -5185,15 +5208,19 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     {
                         targ->add_disease("stunned", force_remaining);
                         if (targ->has_disease("stunned"))
-                            add_msg(_("%s was stunned AGAIN for %d turn%s!"),
-                                     targ->name.c_str(), force_remaining, force_remaining>1?_("s"):"");
+                            add_msg(ngettext("%s was stunned AGAIN for %d turn!",
+                                             "%s was stunned AGAIN for %d turns!",
+                                             force_remaining),
+                                    targ->name.c_str(), force_remaining);
                     }
                     else
                     {
                         targ->add_disease("stunned", force_remaining);
                         if (targ->has_disease("stunned"))
-                            add_msg(_("%s was stunned for %d turns!"),
-                                     targ->name.c_str(), force_remaining, force_remaining>1?_("s"):"");
+                            add_msg(ngettext("%s was stunned for %d turn!",
+                                             "%s was stunned for %d turns!",
+                                             force_remaining),
+                                     targ->name.c_str(), force_remaining);
                     }
                     add_msg(_("%s took %d damage! (before armor)"), targ->name.c_str(), dam_mult*force_remaining);
                     if (one_in(2)) targ->hit(this, bp_arms, 0, force_remaining*dam_mult, 0);
@@ -5218,24 +5245,35 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 {
                     if (targ->has_disease("stunned"))
                     {
-                        add_msg(_("%s was stunned AGAIN for %d turn%s!"),
-                                 targ->name.c_str(), force_remaining, force_remaining>1?_("s"):"");
+                        add_msg(ngettext("%s was stunned AGAIN for %d turn!",
+                                         "%s was stunned AGAIN for %d turns!",
+                                         force_remaining),
+                                 targ->name.c_str(), force_remaining);
                     }
                     else
                     {
-                        add_msg(_("%s was stunned for %d turn%s!"),
-                                 targ->name.c_str(), force_remaining, force_remaining>1?_("s"):"");
+                        add_msg(ngettext("%s was stunned for %d turn!",
+                                         "%s was stunned for %d turns!",
+                                         force_remaining),
+                                 targ->name.c_str(), force_remaining);
                     }
                     targ->add_disease("stunned", force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin()+i);
-                if (mon_at(traj.front().x, traj.front().y) != -1)
-                    add_msg(_("%s collided with someTHING else and sent IT flying!"), targ->name.c_str());
-                else if (npc_at(traj.front().x, traj.front().y) != -1)
-                    add_msg(_("%s collided with someone else and sent %s flying!"), targ->name.c_str(),
-                            active_npc[npc_at(traj.front().x, traj.front().y)]->male?_("him"):_("her"));
-                else if (u.posx == traj.front().x && u.posy == traj.front().y)
+                if (mon_at(traj.front().x, traj.front().y) != -1) {
+                    add_msg(_("%s collided with something else and sent it flying!"),
+                            targ->name.c_str());
+                } else if (npc_at(traj.front().x, traj.front().y) != -1) {
+                    if (active_npc[npc_at(traj.front().x, traj.front().y)]->male) {
+                        add_msg(_("%s collided with someone else and sent him flying!"),
+                                targ->name.c_str());
+                    } else {
+                        add_msg(_("%s collided with someone else and sent her flying!"),
+                                targ->name.c_str());
+                    }
+                } else if (u.posx == traj.front().x && u.posy == traj.front().y) {
                     add_msg(_("%s collided with you and sent you flying!"), targ->name.c_str());
+                }
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
@@ -5298,11 +5336,15 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     u.add_disease("stunned", force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin()+i);
-                if (mon_at(traj.front().x, traj.front().y) != -1)
-                    add_msg(_("You collided with someTHING else and sent IT flying!"));
-                else if (npc_at(traj.front().x, traj.front().y) != -1)
-                    add_msg(_("You collided with someone else and sent %s flying!"),
-                            active_npc[npc_at(traj.front().x, traj.front().y)]->male?_("him"):_("her"));
+                if (mon_at(traj.front().x, traj.front().y) != -1) {
+                    add_msg(_("You collided with something and sent it flying!"));
+                } else if (npc_at(traj.front().x, traj.front().y) != -1) {
+                    if (active_npc[npc_at(traj.front().x, traj.front().y)]->male) {
+                        add_msg(_("You collided with someone and sent him flying!"));
+                    } else {
+                        add_msg(_("You collided with someone and sent her flying!"));
+                    }
+                }
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
@@ -5772,7 +5814,8 @@ void game::smash()
     }
     if (corpses.size() > 0)
     {
-        add_msg(_("You swing at the corpse%s."), corpses.size() > 1 ? _("s") : "");
+        add_msg(ngettext("You swing at the corpse.",
+                         "You swing at the corpses.", corpses.size()));
 
         // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
         // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
@@ -5807,7 +5850,11 @@ void game::smash()
 
             if (damage > 0)
             {
-                add_msg(_("You %sdamage the %s!"), (damage > 1 ? _("greatly ") : ""), it->tname().c_str());
+                if (damage > 1) {
+                    add_msg(_("You greatly damage the %s!"), it->tname().c_str());
+                } else {
+                    add_msg(_("You damage the %s!"), it->tname().c_str());
+                }
                 it->damage += damage;
                 if (it->damage >= 4)
                 {
@@ -5958,14 +6005,10 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
     else
     {
         it = &u.inv.item_or_container(itid);
-        if (!it->is_null())
-        {
-            if (it->type->id == itid)
-            {
+        if (!it->is_null()) {
+            if (it->type->id == itid) {
                 p_itm = it;
-            }
-            else
-            {
+            } else {
                 //ah, must be a container of the thing
                 p_itm = &(it->contents[0]);
                 i_cont = true;
@@ -5973,10 +6016,11 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
             min_charges = p_itm->charges;
         }
     }
-    if (it->is_null())
+    if (it->is_null()) {
         return false;
-    else if (test)
+    } else if (test) {
         return true;
+    }
 
     int fuel_per_charge = 1;
     if( ftype == "plutonium" ) { fuel_per_charge = 1000; }
@@ -5988,26 +6032,34 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
     bool rem_itm = min_charges <= dch;
     int used_charges = rem_itm? min_charges : dch;
     veh.parts[part].amount += used_charges * fuel_per_charge;
-    if (veh.parts[part].amount > max_fuel)
+    if (veh.parts[part].amount > max_fuel) {
         veh.parts[part].amount = max_fuel;
+    }
 
-    add_msg (_("You %s %s's %s%s."), ftype == "battery" ? _("recharge") : _("refill"), veh.name.c_str(),
-             ftype == "battery" ? _("battery") : (ftype == "plutonium" ? _("reactor") : _("fuel tank")),
-             veh.parts[part].amount == max_fuel? _(" to its maximum") : "");
+    if (ftype == "battery") {
+        add_msg(_("You recharge %s's battery."), veh.name.c_str());
+        if (veh.parts[part].amount == max_fuel) {
+            add_msg(_("The battery is fully charged."));
+        }
+    } else if (ftype == "gasoline") {
+        add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
+        if (veh.parts[part].amount == max_fuel) {
+            add_msg(_("The tank is full."));
+        }
+    } else if (ftype == "plutonium") {
+        add_msg(_("You refill %s's reactor."), veh.name.c_str());
+        if (veh.parts[part].amount == max_fuel) {
+            add_msg(_("The reactor is full."));
+        }
+    }
 
     p_itm->charges -= used_charges;
-    if (rem_itm)
-    {
-        if (i_cont)
-        {
+    if (rem_itm) {
+        if (i_cont) {
             it->contents.erase(it->contents.begin());
-        }
-        else if (&u.weapon == it)
-        {
+        } else if (&u.weapon == it) {
             u.remove_weapon();
-        }
-        else
-        {
+        } else {
             u.inv.remove_item_by_letter(it->invlet);
         }
     }
@@ -6459,7 +6511,16 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
     }
 
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
-    mvwprintz( window, 5, rightcol - 7, c_ltgray, _("%s weight vol"), ( isinventory ? _("amt") : ( isall ? _("src") : "   " ) ) );
+    if (isinventory) {
+        //~ advanced inventory; "amount", "weight", "volume"; 14 letters
+        mvwprintz( window, 5, rightcol - 7, c_ltgray, _("amt weight vol") );
+    } else if (isall) {
+        //~ advanced inventory; "source", "weight", "volume"; 14 letters
+        mvwprintz( window, 5, rightcol - 7, c_ltgray, _("src weight vol") );
+    } else {
+        //~ advanced inventory; "weight", "volume"; 14 letters, right-aligned
+        mvwprintz( window, 5, rightcol - 7, c_ltgray, _("    weight vol") );
+    }
 
     for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
       if ( items[i].volume == -8 ) { // I'm a header!
@@ -7019,15 +7080,13 @@ void game::advanced_inv()
                 uimenu m; /* using new uimenu class */
                 m.text=_("Select destination");
                 m.pad_left=9; /* free space for advanced_inv_menu_square */
-                char buf[1024];
 
                 for(int i=1; i < 10; i++) {
-                    buf[0]=0;
-                    int safe=snprintf(buf,128, "%2d/%d%s", squares[i].size, MAX_ITEM_IN_SQUARE, (squares[i].size >= MAX_ITEM_IN_SQUARE ? _(" (FULL)") : "" ) );
-                    if ( safe >= 128 || safe < 0 ) {
-                        popup(_(":-O this shouldn't happen (BUG)")); return;
+                    std::string prefix = string_format("%2d/%d",
+                            squares[i].size, MAX_ITEM_IN_SQUARE);
+                    if (squares[i].size >= MAX_ITEM_IN_SQUARE) {
+                        prefix += _(" (FULL)");
                     }
-                    std::string prefix = buf;
                     m.entries.push_back( uimenu_entry( /* std::vector<uimenu_entry> */
                         i, /* return value */
                         (squares[i].canputitems && i != panes[src].area), /* enabled */
@@ -9065,9 +9124,14 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
      u.activity.placement = point(vx, vy);
     } else { // Not pump
      veh->refill ("gasoline", liquid.charges);
-     add_msg (_("You refill %s with %s%s."), veh->name.c_str(),
-              ammo_name(ftype).c_str(),
-              veh->fuel_left(ftype) >= fuel_cap? _(" to its maximum") : "");
+     if (veh->fuel_left(ftype) < fuel_cap) {
+        add_msg(_("You refill %s with %s."),
+                veh->name.c_str(), ammo_name(ftype).c_str());
+     } else {
+        add_msg(_("You refill %s with %s to its maximum."),
+                veh->name.c_str(), ammo_name(ftype).c_str());
+     }
+
      u.moves -= 100;
      return true;
     }
@@ -9284,140 +9348,166 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
 
 void game::drop(char chInput)
 {
- std::vector<item> dropped;
+    std::vector<item> dropped;
 
- if (chInput == '.')
-  dropped = multidrop();
- else {
-  if (u.inv.item_by_letter(chInput).is_null()) {
-   dropped.push_back(u.i_rem(chInput));
-  } else {
-   dropped.push_back(u.inv.remove_item_by_letter(chInput));
-  }
- }
+    if (chInput == '.') {
+        dropped = multidrop();
+    } else {
+        if (u.inv.item_by_letter(chInput).is_null()) {
+            dropped.push_back(u.i_rem(chInput));
+        } else {
+            dropped.push_back(u.inv.remove_item_by_letter(chInput));
+        }
+    }
 
- if (dropped.size() == 0) {
-  add_msg(_("Never mind."));
-  return;
- }
+    if (dropped.size() == 0) {
+        add_msg(_("Never mind."));
+        return;
+    }
 
- item_exchanges_since_save += dropped.size();
+    item_exchanges_since_save += dropped.size();
 
- itype_id first = itype_id(dropped[0].type->id);
- bool same = true;
- for (int i = 1; i < dropped.size() && same; i++) {
-  if (dropped[i].type->id != first)
-   same = false;
- }
+    itype_id first = itype_id(dropped[0].type->id);
+    bool same = true;
+    for (int i = 1; i < dropped.size() && same; i++) {
+        if (dropped[i].type->id != first) {
+            same = false;
+        }
+    }
 
- int veh_part = 0;
- bool to_veh = false;
- vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
- if (veh) {
-  veh_part = veh->part_with_feature (veh_part, vpf_cargo);
-  to_veh = veh_part >= 0;
- }
- if (dropped.size() == 1 || same) {
-  if (to_veh) {
-   add_msg(_("You put your %s%s in the %s's %s."), dropped[0].tname(this).c_str(),
-          (dropped.size() == 1 ? "" : _("s")), veh->name.c_str(),
-          veh->part_info(veh_part).name);
-  } else {
-   add_msg(ngettext("You drop your %s.", "You drop your %ss", dropped.size()),
-           dropped[0].tname(this).c_str()); // FIXME: real plurals... someday
-  }
- } else {
-  if (to_veh)
-   add_msg(_("You put several items in the %s's %s."), veh->name.c_str(),
-           veh->part_info(veh_part).name);
-  else
-   add_msg(_("You drop several items."));
- }
+    int veh_part = 0;
+    bool to_veh = false;
+    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+    if (veh) {
+        veh_part = veh->part_with_feature (veh_part, vpf_cargo);
+        to_veh = veh_part >= 0;
+    }
+    if (dropped.size() == 1 || same) {
+        if (to_veh) {
+            add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
+                             "You put your %1$ss in the %2$s's %3$s.",
+                             dropped.size()),
+                    dropped[0].tname(this).c_str(),
+                    veh->name.c_str(),
+                    veh->part_info(veh_part).name);
+        } else {
+            add_msg(ngettext("You drop your %s.", "You drop your %ss.",
+                             dropped.size()),
+                    dropped[0].tname(this).c_str());
+        }
+    } else {
+        if (to_veh) {
+            add_msg(_("You put several items in the %s's %s."),
+                    veh->name.c_str(), veh->part_info(veh_part).name);
+        } else {
+            add_msg(_("You drop several items."));
+        }
+    }
 
- if (to_veh) {
-  bool vh_overflow = false;
-  for (int i = 0; i < dropped.size(); i++) {
-   vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
-   if (vh_overflow)
-    m.add_item_or_charges(u.posx, u.posy, dropped[i], 1);
-  }
-  if (vh_overflow)
-   add_msg (_("The trunk is full, so some items fall on the ground."));
- } else {
-  for (int i = 0; i < dropped.size(); i++)
-   m.add_item_or_charges(u.posx, u.posy, dropped[i], 2);
- }
+    if (to_veh) {
+        bool vh_overflow = false;
+        for (int i = 0; i < dropped.size(); i++) {
+            vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
+            if (vh_overflow) {
+                m.add_item_or_charges(u.posx, u.posy, dropped[i], 1);
+            }
+        }
+        if (vh_overflow) {
+            add_msg (_("The trunk is full, so some items fall on the ground."));
+        }
+    } else {
+        for (int i = 0; i < dropped.size(); i++)
+            m.add_item_or_charges(u.posx, u.posy, dropped[i], 2);
+    }
 }
 
 void game::drop_in_direction()
 {
- int dirx, diry;
- if (!choose_adjacent(_("Drop"), dirx, diry))
-  return;
+    int dirx, diry;
+    if (!choose_adjacent(_("Drop"), dirx, diry)) {
+        return;
+    }
 
- int veh_part = 0;
- bool to_veh = false;
- vehicle *veh = m.veh_at(dirx, diry, veh_part);
- if (veh) {
-  veh_part = veh->part_with_feature (veh_part, vpf_cargo);
-  to_veh = veh->type != veh_null && veh_part >= 0;
- }
+    int veh_part = 0;
+    bool to_veh = false;
+    vehicle *veh = m.veh_at(dirx, diry, veh_part);
+    if (veh) {
+        veh_part = veh->part_with_feature (veh_part, vpf_cargo);
+        to_veh = veh->type != veh_null && veh_part >= 0;
+    }
 
- if (m.has_flag(noitem, dirx, diry) || m.has_flag(sealed, dirx, diry)) {
-  add_msg(_("You can't place items there!"));
-  return;
- }
+    if (m.has_flag(noitem, dirx, diry) || m.has_flag(sealed, dirx, diry)) {
+        add_msg(_("You can't place items there!"));
+        return;
+    }
 
- std::string verb = (m.move_cost(dirx, diry) == 0 ? _("put") : _("drop"));
- std::string prep = (m.move_cost(dirx, diry) == 0 ? _("in")  : _("on")  );
+    bool can_move_there = m.move_cost(dirx, diry) != 0;
 
- std::vector<item> dropped = multidrop();
+    std::vector<item> dropped = multidrop();
 
- if (dropped.size() == 0) {
-  add_msg(_("Never mind."));
-  return;
- }
+    if (dropped.size() == 0) {
+        add_msg(_("Never mind."));
+        return;
+    }
 
- item_exchanges_since_save += dropped.size();
+    item_exchanges_since_save += dropped.size();
 
- itype_id first = itype_id(dropped[0].type->id);
- bool same = true;
- for (int i = 1; i < dropped.size() && same; i++) {
-  if (dropped[i].type->id != first)
-   same = false;
- }
- if (dropped.size() == 1 || same)
- {
-  if (to_veh)
-   add_msg(_("You put your %s%s in the %s's %s."), dropped[0].tname(this).c_str(),
-          (dropped.size() == 1 ? "" : _("s")), veh->name.c_str(),
-          veh->part_info(veh_part).name);
-  else
-   add_msg(_("You %s your %s%s %s the %s."), verb.c_str(),
-           dropped[0].tname(this).c_str(),
-           (dropped.size() == 1 ? "" : _("s")), prep.c_str(),
-           m.name(dirx, diry).c_str());
- } else {
-  if (to_veh)
-   add_msg(_("You put several items in the %s's %s."), veh->name.c_str(),
-           veh->part_info(veh_part).name);
-  else
-   add_msg(_("You %s several items %s the %s."), verb.c_str(), prep.c_str(),
-           m.name(dirx, diry).c_str());
- }
- if (to_veh) {
-  bool vh_overflow = false;
-  for (int i = 0; i < dropped.size(); i++) {
-   vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
-   if (vh_overflow)
-    m.add_item_or_charges(dirx, diry, dropped[i], 1);
-  }
-  if (vh_overflow)
-   add_msg (_("The trunk is full, so some items fall on the ground."));
- } else {
-  for (int i = 0; i < dropped.size(); i++)
-   m.add_item_or_charges(dirx, diry, dropped[i], 1);
- }
+    itype_id first = itype_id(dropped[0].type->id);
+    bool same = true;
+    for (int i = 1; i < dropped.size() && same; i++) {
+        if (dropped[i].type->id != first) {
+            same = false;
+        }
+    }
+
+    if (dropped.size() == 1 || same) {
+        if (to_veh) {
+            add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
+                             "You put your %1$ss in the %2$s's %3$s.",
+                             dropped.size()),
+                    dropped[0].tname(this).c_str(),
+                    veh->name.c_str(),
+                    veh->part_info(veh_part).name);
+        } else if (can_move_there) {
+            add_msg(ngettext("You drop your %s on the %s.",
+                             "You drop your %ss on the %s.", dropped.size()),
+                    dropped[0].tname(this).c_str(),
+                    m.name(dirx, diry).c_str());
+        } else {
+            add_msg(ngettext("You put your %s in the %s.",
+                             "You put your %ss in the %s.", dropped.size()),
+                    dropped[0].tname(this).c_str(),
+                    m.name(dirx, diry).c_str());
+        }
+    } else {
+        if (to_veh) {
+            add_msg(_("You put several items in the %s's %s."),
+                    veh->name.c_str(), veh->part_info(veh_part).name);
+        } else if (can_move_there) {
+            add_msg(_("You drop several items on the %s."),
+                    m.name(dirx, diry).c_str());
+        } else {
+            add_msg(_("You put several items in the %s."),
+                    m.name(dirx, diry).c_str());
+        }
+    }
+
+    if (to_veh) {
+        bool vh_overflow = false;
+        for (int i = 0; i < dropped.size(); i++) {
+            vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
+            if (vh_overflow) {
+                m.add_item_or_charges(dirx, diry, dropped[i], 1);
+            }
+        }
+        if (vh_overflow) {
+            add_msg (_("The trunk is full, so some items fall on the ground."));
+        }
+    } else {
+        for (int i = 0; i < dropped.size(); i++) {
+            m.add_item_or_charges(dirx, diry, dropped[i], 1);
+        }
+    }
 }
 
 void game::reassign_item(char ch)
@@ -10718,7 +10808,6 @@ void game::plswim(int x, int y)
  if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
      x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)))
   update_map(x, y);
- bool diagonal=( x != u.posx && y != u.posy );
  u.posx = x;
  u.posy = y;
  if (!m.has_flag(swimmable, x, y)) {
@@ -10735,7 +10824,7 @@ void game::plswim(int x, int y)
  u.practice(turn, "swimming", 1);
  if (movecost >= 500) {
   if (!u.underwater) {
-   add_msg(_("You sink%s!"), (movecost >= 400 ? _(" like a rock") : ""));
+    add_msg(_("You sink like a rock!"));
    u.underwater = true;
    u.oxygen = 30 + 2 * u.str_cur;
   }
@@ -10747,6 +10836,7 @@ void game::plswim(int x, int y)
   else
    popup(_("You need to breathe but you can't swim!  Get to dry land, quick!"));
  }
+ bool diagonal = (x != u.posx && y != u.posy);
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 }
@@ -10922,7 +11012,11 @@ void game::vertical_move(int movez, bool force)
  if (!force && ((movez == -1 && !m.has_flag(goes_down, u.posx, u.posy)) ||
                 (movez ==  1 && !m.has_flag(goes_up,   u.posx, u.posy))) &&
                 !(m.ter(u.posx, u.posy) == t_elevator)) {
-  add_msg(_("You can't go %s here!"), (movez == -1 ? _("down") : _("up")));
+  if (movez == -1) {
+    add_msg(_("You can't go down here!"));
+  } else {
+    add_msg(_("You can't go up here!"));
+  }
   return;
  }
 
@@ -11268,10 +11362,15 @@ void game::update_stair_monsters()
        coming_to_stairs[i].mon.posx = sx;
        coming_to_stairs[i].mon.posy = sy;
        z.push_back( coming_to_stairs[i].mon );
-       if (u_see(sx, sy))
-        add_msg(_("A %s comes %s the %s!"), coming_to_stairs[i].mon.name().c_str(),
-                (m.has_flag(goes_up, sx, sy) ? _("down") : _("up")),
+       if (u_see(sx, sy)) {
+        if (m.has_flag(goes_up, sx, sy)) {
+            add_msg(_("A %s comes down the %s!"), coming_to_stairs[i].mon.name().c_str(),
                 m.tername(sx, sy).c_str());
+        } else {
+            add_msg(_("A %s comes up the %s!"), coming_to_stairs[i].mon.name().c_str(),
+                m.tername(sx, sy).c_str());
+        }
+       }
       }
      }
     }
@@ -11625,39 +11724,53 @@ void game::msg_buffer()
 
 void game::teleport(player *p)
 {
- if (p == NULL)
-  p = &u;
- int newx, newy, tries = 0;
- bool is_u = (p == &u);
+    if (p == NULL) {
+        p = &u;
+    }
+    int newx, newy, tries = 0;
+    bool is_u = (p == &u);
 
- p->add_disease("teleglow", 300);
- do {
-  newx = p->posx + rng(0, SEEX * 2) - SEEX;
-  newy = p->posy + rng(0, SEEY * 2) - SEEY;
-  tries++;
- } while (tries < 15 && !is_empty(newx, newy));
- bool can_see = (is_u || u_see(newx, newy));
- std::string You = (is_u ? _("You") : p->name);
- if (p->in_vehicle)
-   m.unboard_vehicle (this, p->posx, p->posy);
- p->posx = newx;
- p->posy = newy;
- if (tries == 15) {
-  if (m.move_cost(newx, newy) == 0) {	// TODO: If we land in water, swim
-   if (can_see)
-    add_msg(_("%s teleport%s into the middle of a %s!"), You.c_str(),
-            (is_u ? "" : _("s")), m.name(newx, newy).c_str());
-   p->hurt(this, bp_torso, 0, 500);
-  } else if (mon_at(newx, newy) != -1) {
-   int i = mon_at(newx, newy);
-   if (can_see)
-    add_msg(_("%s teleport%s into the middle of a %s!"), You.c_str(),
-            (is_u ? "" : _("s")), z[i].name().c_str());
-   explode_mon(i);
-  }
- }
- if (is_u)
-  update_map(u.posx, u.posy);
+    p->add_disease("teleglow", 300);
+    do {
+        newx = p->posx + rng(0, SEEX * 2) - SEEX;
+        newy = p->posy + rng(0, SEEY * 2) - SEEY;
+        tries++;
+    } while (tries < 15 && !is_empty(newx, newy));
+    bool can_see = (is_u || u_see(newx, newy));
+    if (p->in_vehicle) {
+        m.unboard_vehicle (this, p->posx, p->posy);
+    }
+    p->posx = newx;
+    p->posy = newy;
+    if (tries == 15) {
+        if (m.move_cost(newx, newy) == 0) { // TODO: If we land in water, swim
+            if (can_see) {
+                if (is_u) {
+                    add_msg(_("You teleport into the middle of a %s!"),
+                            m.name(newx, newy).c_str());
+                } else {
+                    add_msg(_("%s teleports into the middle of a %s!"),
+                            p->name.c_str(), m.name(newx, newy).c_str());
+                }
+            }
+            p->hurt(this, bp_torso, 0, 500);
+        } else if (mon_at(newx, newy) != -1) {
+            int i = mon_at(newx, newy);
+            if (can_see) {
+                if (is_u) {
+                    add_msg(_("You teleport into the middle of a %s!"),
+                            z[i].name().c_str());
+                } else {
+                    add_msg(_("%s teleports into the middle of a %s!"),
+                            p->name.c_str(), z[i].name().c_str());
+                }
+                explode_mon(i);
+            }
+        }
+    }
+    if (is_u) {
+        update_map(u.posx, u.posy);
+    }
 }
 
 void game::nuke(int x, int y)
