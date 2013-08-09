@@ -2147,7 +2147,11 @@ bool game::handle_action()
 
   case ACTION_TOGGLE_DEBUGMON:
    debugmon = !debugmon;
-   add_msg(_("Debug messages %s!"), (debugmon ? _("ON") : _("OFF")));
+   if (debugmon) {
+    add_msg(_("Debug messages ON!"));
+   } else {
+    add_msg(_("Debug messages OFF!"));
+   }
    break;
  }
 
@@ -3230,12 +3234,12 @@ void game::debug()
    popup_top(_("\
 Location %d:%d in %d:%d, %s\n\
 Current turn: %d; Next spawn %d.\n\
-NPCs are %s spawn.\n\
+%s\n\
 %d monsters exist.\n\
 %d currently active NPC's.\n\
 %d events planned."), u.posx, u.posy, levx, levy,
 oterlist[cur_om->ter(levx / 2, levy / 2, levz)].name.c_str(),
-int(turn), int(nextspawn), (!OPTIONS[OPT_RANDOM_NPC] ? _("NOT going to") : _("going to")),
+int(turn), int(nextspawn), (OPTIONS[OPT_RANDOM_NPC] ? _("NPCs are going to spawn.") : _("NPCs are NOT going to spawn.")),
 z.size(), active_npc.size(), events.size());
 
 		 if (!active_npc.empty())
@@ -5937,7 +5941,11 @@ void game::smash()
 
             if (damage > 0)
             {
-                add_msg(_("You %sdamage the %s!"), (damage > 1 ? _("greatly ") : ""), it->tname().c_str());
+                if (damage > 1) {
+                    add_msg(_("You greatly damage the %s!"), it->tname().c_str());
+                } else {
+                    add_msg(_("You damage the %s!"), it->tname().c_str());
+                }
                 it->damage += damage;
                 if (it->damage >= 4)
                 {
@@ -7163,15 +7171,13 @@ void game::advanced_inv()
                 uimenu m; /* using new uimenu class */
                 m.text=_("Select destination");
                 m.pad_left=9; /* free space for advanced_inv_menu_square */
-                char buf[1024];
 
                 for(int i=1; i < 10; i++) {
-                    buf[0]=0;
-                    int safe=snprintf(buf,128, "%2d/%d%s", squares[i].size, MAX_ITEM_IN_SQUARE, (squares[i].size >= MAX_ITEM_IN_SQUARE ? _(" (FULL)") : "" ) );
-                    if ( safe >= 128 || safe < 0 ) {
-                        popup(_(":-O this shouldn't happen (BUG)")); return;
+                    std::string prefix = string_format("%2d/%d",
+                            squares[i].size, MAX_ITEM_IN_SQUARE);
+                    if (squares[i].size >= MAX_ITEM_IN_SQUARE) {
+                        prefix += _(" (FULL)");
                     }
-                    std::string prefix = buf;
                     m.entries.push_back( uimenu_entry( /* std::vector<uimenu_entry> */
                         i, /* return value */
                         (squares[i].canputitems && i != panes[src].area), /* enabled */
@@ -10893,7 +10899,6 @@ void game::plswim(int x, int y)
  if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
      x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)))
   update_map(x, y);
- bool diagonal=( x != u.posx && y != u.posy );
  u.posx = x;
  u.posy = y;
  if (!m.has_flag(swimmable, x, y)) {
@@ -10910,7 +10915,7 @@ void game::plswim(int x, int y)
  u.practice(turn, "swimming", 1);
  if (movecost >= 500) {
   if (!u.underwater) {
-   add_msg(_("You sink%s!"), (movecost >= 400 ? _(" like a rock") : ""));
+    add_msg(_("You sink like a rock!"));
    u.underwater = true;
    u.oxygen = 30 + 2 * u.str_cur;
   }
@@ -10922,6 +10927,7 @@ void game::plswim(int x, int y)
   else
    popup(_("You need to breathe but you can't swim!  Get to dry land, quick!"));
  }
+ bool diagonal = (x != u.posx && y != u.posy);
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 }
@@ -11097,7 +11103,11 @@ void game::vertical_move(int movez, bool force)
  if (!force && ((movez == -1 && !m.has_flag(goes_down, u.posx, u.posy)) ||
                 (movez ==  1 && !m.has_flag(goes_up,   u.posx, u.posy))) &&
                 !(m.ter(u.posx, u.posy) == t_elevator)) {
-  add_msg(_("You can't go %s here!"), (movez == -1 ? _("down") : _("up")));
+  if (movez == -1) {
+    add_msg(_("You can't go down here!"));
+  } else {
+    add_msg(_("You can't go up here!"));
+  }
   return;
  }
 
@@ -11443,10 +11453,15 @@ void game::update_stair_monsters()
        coming_to_stairs[i].mon.posx = sx;
        coming_to_stairs[i].mon.posy = sy;
        z.push_back( coming_to_stairs[i].mon );
-       if (u_see(sx, sy))
-        add_msg(_("A %s comes %s the %s!"), coming_to_stairs[i].mon.name().c_str(),
-                (m.has_flag(goes_up, sx, sy) ? _("down") : _("up")),
+       if (u_see(sx, sy)) {
+        if (m.has_flag(goes_up, sx, sy)) {
+            add_msg(_("A %s comes down the %s!"), coming_to_stairs[i].mon.name().c_str(),
                 m.tername(sx, sy).c_str());
+        } else {
+            add_msg(_("A %s comes up the %s!"), coming_to_stairs[i].mon.name().c_str(),
+                m.tername(sx, sy).c_str());
+        }
+       }
       }
      }
     }
