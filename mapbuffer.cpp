@@ -224,6 +224,9 @@ void mapbuffer::load()
   submap* sm = new submap;
   fin >> locx >> locy >> locz >> turn;
   sm->turn_last_touched = turn;
+  sm->x = locx;
+  sm->y = locy;
+  sm->z = locz;
   int turndif = (master_game ? int(master_game->turn) - turn : 0);
   if (turndif < 0)
    turndif = 0;

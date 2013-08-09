@@ -3726,6 +3726,16 @@ void game::draw()
 
     // Draw messages
     write_msg();
+    if (debugmon) {
+        real_coords abc;
+        abc.fromabs( m.getabs( u.posx, u.posy ) );
+        mvprintz(VIEW_OFFSET_Y+3,TERMX - getmaxx(g->w_messages) - VIEW_OFFSET_X,c_cyan,
+          "abs[%d,%d] sub[%d'%d,%d'%d] om[%d'%d,%d'%d]",
+          abc.abs_pos.x,abc.abs_pos.y,
+          abc.abs_sub.x, abc.abs_sub_pos.x, abc.abs_sub.y, abc.abs_sub_pos.y,
+          abc.abs_om.x, abc.abs_om_pos.x, abc.abs_om.y, abc.abs_om_pos.y
+        );
+    }
 }
 
 bool game::isBetween(int test, int down, int up)
