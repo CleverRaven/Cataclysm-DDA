@@ -3960,7 +3960,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     casing.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
-    if (p->can_pickWeight(casing.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS]) &&
+    if (p->can_pickWeight(casing.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
       p->can_pickVolume(casing.volume()) && iter < inv_chars.size()) {
     p->i_add(casing);}
     else
@@ -3972,7 +3972,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     primer.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
-    if (p->can_pickWeight(primer.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS]) &&
+    if (p->can_pickWeight(primer.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
       p->can_pickVolume(primer.volume()) && iter < inv_chars.size()) {
     p->i_add(primer);}
     else
@@ -3982,7 +3982,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     gunpowder.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
-    if (p->can_pickWeight(gunpowder.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS]) &&
+    if (p->can_pickWeight(gunpowder.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
       p->can_pickVolume(gunpowder.volume()) && iter < inv_chars.size()) {
     p->i_add(gunpowder);}
     else
@@ -3992,7 +3992,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     lead.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
-    if (p->can_pickWeight(lead.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS]) &&
+    if (p->can_pickWeight(lead.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
       p->can_pickVolume(lead.volume()) && iter < inv_chars.size()) {
     p->i_add(lead);}
     else

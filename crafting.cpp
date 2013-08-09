@@ -965,7 +965,7 @@ void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, 
         {
             if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
             {
-                if (OPTIONS[OPT_SORT_CRAFTING] && can_make(*iter))
+                if (OPTIONS["SORT_CRAFTING"] && can_make(*iter))
                     can_craft.push_back(*iter);
                 else
                     current.push_back(*iter);
@@ -1131,7 +1131,7 @@ void game::complete_craft()
    add_msg(_("There's no room in your inventory for the %s, so you drop it."),
              newit.tname().c_str());
    m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
-  } else if (!u.can_pickWeight(newit.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS])) {
+  } else if (!u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
    add_msg(_("The %s is too heavy to carry, so you drop it."),
            newit.tname().c_str());
    m.add_item_or_charges(u.posx, u.posy, newit);
@@ -1479,7 +1479,7 @@ void game::disassemble(char ch)
                 if (have_all_tools)
                 {
 
-                  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn(_("Really disassemble your %s?"), dis_item->tname(this).c_str())))
+                  if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Really disassemble your %s?"), dis_item->tname(this).c_str())))
                   {
                    return;
                   }
@@ -1496,7 +1496,7 @@ void game::disassemble(char ch)
     //if we're trying to disassemble a book or magazine
     if(dis_item->is_book())
     {
-       if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname(this).c_str())))
+       if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname(this).c_str())))
              return;
         else
         {
