@@ -9411,17 +9411,21 @@ void game::drop(char chInput)
     }
     if (dropped.size() == 1 || same) {
         if (to_veh) {
-            add_msg(_("You put your %s%s in the %s's %s."), dropped[0].tname(this).c_str(),
-                    (dropped.size() == 1 ? "" : _("s")), veh->name.c_str(),
+            add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
+                             "You put your %1$ss in the %2$s's %3$s.",
+                             dropped.size()),
+                    dropped[0].tname(this).c_str(),
+                    veh->name.c_str(),
                     veh->part_info(veh_part).name);
         } else {
-            add_msg(ngettext("You drop your %s.", "You drop your %ss", dropped.size()),
-                    dropped[0].tname(this).c_str()); // FIXME: real plurals... someday
+            add_msg(ngettext("You drop your %s.", "You drop your %ss.",
+                             dropped.size()),
+                    dropped[0].tname(this).c_str());
         }
     } else {
         if (to_veh) {
-            add_msg(_("You put several items in the %s's %s."), veh->name.c_str(),
-                    veh->part_info(veh_part).name);
+            add_msg(_("You put several items in the %s's %s."),
+                    veh->name.c_str(), veh->part_info(veh_part).name);
         } else {
             add_msg(_("You drop several items."));
         }
