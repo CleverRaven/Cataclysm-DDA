@@ -6080,9 +6080,22 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
         veh.parts[part].amount = max_fuel;
     }
 
-    add_msg (_("You %s %s's %s%s."), ftype == "battery" ? _("recharge") : _("refill"), veh.name.c_str(),
-             ftype == "battery" ? _("battery") : (ftype == "plutonium" ? _("reactor") : _("fuel tank")),
-             veh.parts[part].amount == max_fuel? _(" to its maximum") : "");
+    if (ftype == "battery") {
+        add_msg(_("You recharge %s's battery."), veh.name.c_str());
+        if (veh.parts[part].amount == max_fuel) {
+            add_msg(_("The battery is fully charged."));
+        }
+    } else if (ftype == "gasoline") {
+        add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
+        if (veh.parts[part].amount == max_fuel) {
+            add_msg(_("The tank is full."));
+        }
+    } else if (ftype == "plutonium") {
+        add_msg(_("You refill %s's reactor."), veh.name.c_str());
+        if (veh.parts[part].amount == max_fuel) {
+            add_msg(_("The reactor is full."));
+        }
+    }
 
     p_itm->charges -= used_charges;
     if (rem_itm) {
