@@ -2511,7 +2511,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   else if (temp_conv[i] >  BODYTEMP_VERY_COLD) color = c_ltblue;
   else if (temp_conv[i] >  BODYTEMP_FREEZING)  color = c_cyan;
   else if (temp_conv[i] <= BODYTEMP_FREEZING)  color = c_blue;
-  wprintz(w_encumb, color, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
+  wprintz(w_encumb, color, " (%3d)", iWarmth);
+  //  wprintz(w_encumb, color, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
  }
  wrefresh(w_encumb);
 
