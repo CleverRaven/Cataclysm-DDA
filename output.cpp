@@ -1094,7 +1094,7 @@ std::string string_format(std::string pattern, ...)
     char buff[3000];    //TODO replace Magic Number
     vsprintf(buff, pattern.c_str(), ap);
     va_end(ap);
-
+    
     //drop contents behind $, this trick is there to skip certain arguments
     char* break_pos = strchr(buff, '\003');
     if(break_pos) break_pos[0] = '\0';
@@ -1102,7 +1102,7 @@ std::string string_format(std::string pattern, ...)
     return buff;
 }
 
-//wrap if for i18n
+//wrap if for i18n 
 std::string& capitalize_letter(std::string &str, size_t n)
 {
     char c= str[n];
@@ -1136,7 +1136,7 @@ size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, 
     char buff[3000];    //TODO replace Magic Number
     vsprintf(buff, fmt, ap);
     va_end(ap);
-
+    
     std::string tmp = buff;
     size_t pos = tmp.find_first_of('<');
     size_t pos2 = tmp.find_first_of('>');
@@ -1151,7 +1151,7 @@ size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, 
     }
     else
     {
-        // no shutcut?
+        // no shutcut? 
         mvwprintz(w, y, x, color, buff);
         len = utf8_width(buff);
     }

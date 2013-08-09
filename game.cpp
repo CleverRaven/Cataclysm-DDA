@@ -360,7 +360,6 @@ void game::setup()
  }
 
  load_auto_pickup(false); // Load global auto pickup rules
- vSCT.clear(); //Reset SCT
 
  if (opening_screen()) {// Opening menu
 // Finally, draw the screen!
@@ -1603,13 +1602,11 @@ bool game::handle_action()
             break;
     }
 
-    if (OPTIONS["RAIN_ANIMATION"]) {
+    if (bWeatherEffect && OPTIONS[OPT_RAIN_ANIMATION]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
         int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
         int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
-        int iMaxHalfX = getmaxx(w_terrain)/2;
-        int iMaxHalfY = getmaxy(w_terrain)/2;
 
         //x% of the Viewport, only shown on visible areas
         int dropCount = iEndX * iEndY * fFactor;
@@ -1619,67 +1616,25 @@ bool game::handle_action()
 
         timeout(125);
         do {
-            for(int i=0; i < vSCT.size(); i++) {
-                vSCT[i].iStage++;
-
-                if (vSCT[i].iLastX != 0 && vSCT[i].iLastY != 0) {
-                    for(int j=0; j < vSCT[i].sDmg.size(); j++) {
-                        if (!g->u_see( vSCT[i].iLastX - iMaxHalfX + u.posx + u.view_offset_x + j, vSCT[i].iLastY - iMaxHalfY + u.posy + u.view_offset_y )) {
-                            mvwputch(w_terrain,
-                                     vSCT[i].iLastY,
-                                     vSCT[i].iLastX + j,
-                                     c_black,
-                                     ' '
-                                    );
-                        } else {
-                            m.drawsq(w_terrain, u,
-                                     vSCT[i].iLastX - iMaxHalfX + u.posx + u.view_offset_x + j,
-                                     vSCT[i].iLastY - iMaxHalfY + u.posy + u.view_offset_y,
-                                     false,
-                                     true,
-                                     u.posx + u.view_offset_x,
-                                     u.posy + u.view_offset_y);
-                        }
-                    }
-                }
-
-                if (vSCT[i].iStage > 5) {
-                    vSCT.erase(vSCT.begin() + i);
-                    i--;
-                } else {
-                    vSCT[i].iLastX = iMaxHalfX + ((vSCT[i].bLeft) ? (-5) : 5);
-                    vSCT[i].iLastY = iMaxHalfY + vSCT[i].iStage;
-
-                    mvwprintz(w_terrain,
-                              vSCT[i].iLastY,
-                              vSCT[i].iLastX,
-                              c_ltred,
-                              (vSCT[i].sDmg).c_str()
-                             );
-                }
+            for(int i=0; i < vDrops.size(); i++) {
+                m.drawsq(w_terrain, u,
+                         vDrops[i].first - getmaxx(w_terrain)/2 + u.posx + u.view_offset_x,
+                         vDrops[i].second - getmaxy(w_terrain)/2 + u.posy + u.view_offset_y,
+                         false,
+                         true,
+                         u.posx + u.view_offset_x,
+                         u.posy + u.view_offset_y);
             }
 
-            if (bWeatherEffect) {
-                for(int i=0; i < vDrops.size(); i++) {
-                    m.drawsq(w_terrain, u,
-                             vDrops[i].first - iMaxHalfX + u.posx + u.view_offset_x,
-                             vDrops[i].second - iMaxHalfY + u.posy + u.view_offset_y,
-                             false,
-                             true,
-                             u.posx + u.view_offset_x,
-                             u.posy + u.view_offset_y);
-                }
+            vDrops.clear();
 
-                vDrops.clear();
+            for(int i=0; i < dropCount; i++) {
+                int iRandX = rng(iStartX, iEndX-1);
+                int iRandY = rng(iStartY, iEndY-1);
 
-                for(int i=0; i < dropCount; i++) {
-                    int iRandX = rng(iStartX, iEndX-1);
-                    int iRandY = rng(iStartY, iEndY-1);
-
-                    if (mapRain[iRandY][iRandX]) {
-                        vDrops.push_back(std::make_pair(iRandX, iRandY));
-                        mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
-                    }
+                if (mapRain[iRandY][iRandX]) {
+                    vDrops.push_back(std::make_pair(iRandX, iRandY));
+                    mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
                 }
             }
 
@@ -10397,8 +10352,7 @@ void game::plmove(int x, int y)
     sMonSym = z[mondex].symbol();
    hit_animation(x - u.posx + VIEWX - u.view_offset_x,
                  y - u.posy + VIEWY - u.view_offset_y,
-                 (udam <= 0) ? white_background(cMonColor) : red_background(cMonColor), sMonSym);
-   vSCT.push_back(cSCT(udam, true));
+                 red_background(cMonColor), sMonSym);
    return;
   } else
    displace = true;
