@@ -6049,14 +6049,10 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
     else
     {
         it = &u.inv.item_or_container(itid);
-        if (!it->is_null())
-        {
-            if (it->type->id == itid)
-            {
+        if (!it->is_null()) {
+            if (it->type->id == itid) {
                 p_itm = it;
-            }
-            else
-            {
+            } else {
                 //ah, must be a container of the thing
                 p_itm = &(it->contents[0]);
                 i_cont = true;
@@ -6064,10 +6060,11 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
             min_charges = p_itm->charges;
         }
     }
-    if (it->is_null())
+    if (it->is_null()) {
         return false;
-    else if (test)
+    } else if (test) {
         return true;
+    }
 
     int fuel_per_charge = 1;
     if( ftype == "plutonium" ) { fuel_per_charge = 1000; }
@@ -6079,26 +6076,21 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
     bool rem_itm = min_charges <= dch;
     int used_charges = rem_itm? min_charges : dch;
     veh.parts[part].amount += used_charges * fuel_per_charge;
-    if (veh.parts[part].amount > max_fuel)
+    if (veh.parts[part].amount > max_fuel) {
         veh.parts[part].amount = max_fuel;
+    }
 
     add_msg (_("You %s %s's %s%s."), ftype == "battery" ? _("recharge") : _("refill"), veh.name.c_str(),
              ftype == "battery" ? _("battery") : (ftype == "plutonium" ? _("reactor") : _("fuel tank")),
              veh.parts[part].amount == max_fuel? _(" to its maximum") : "");
 
     p_itm->charges -= used_charges;
-    if (rem_itm)
-    {
-        if (i_cont)
-        {
+    if (rem_itm) {
+        if (i_cont) {
             it->contents.erase(it->contents.begin());
-        }
-        else if (&u.weapon == it)
-        {
+        } else if (&u.weapon == it) {
             u.remove_weapon();
-        }
-        else
-        {
+        } else {
             u.inv.remove_item_by_letter(it->invlet);
         }
     }
