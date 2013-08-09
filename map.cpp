@@ -2572,23 +2572,23 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 // WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
 // map::add_item_or_charges
 // allow_oob = true will call add_item_anywhere if x,y are OOB
-void map::add_item(const int x, const int y, item new_item, const int maxitems, bool allow_oob)
+bool map::add_item(const int x, const int y, item new_item, const int maxitems, bool allow_oob)
 {
 
  if (new_item.is_style())
-     return;
+     return false;
  if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
-     return;
+     return false;
  if (!INBOUNDS(x, y)) {
      if (allow_oob == true) {
          return add_item_anywhere( getabs(x, y), world_z, new_item, maxitems );
      } else {
-         return;
+         return false;
      }
  }
  if (has_flag(destroy_item, x, y) || (i_at(x,y).size() >= maxitems))
  {
-     return;
+     return false;
  }
 
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
@@ -2597,53 +2597,51 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems, 
  grid[nonant]->itm[lx][ly].push_back(new_item);
  if (new_item.active)
   grid[nonant]->active_item_count++;
+ return true;
+}
+
+/*
+ * This is like add_item, but takes absolute coordinates.
+ */
+bool map::add_item_anywhere(point worldpos, const int z, item new_item, const int maxitems, bool generate_sub ) {
+  real_coords dropto;
+  dropto.fromabs( worldpos );
+  const int sx = dropto.abs_sub_pos.x, sy = dropto.abs_sub_pos.y;
+  submap *tmpsub = MAPBUFFER.lookup_submap( dropto.abs_sub.x, dropto.abs_sub.y, z);
+  if ( ! tmpsub ) {
+      dbg(D_WARNING) << "add_item_anywhere: trying to drop " << new_item.type->name << " in ungenerated submap " << worldpos.x << ", " << worldpos.y << ", " << z;
+      if ( ! generate_sub ) return false;
+      overmap * tmp_om;
+      if ( dropto.abs_om.x == g->cur_om->pos().x && dropto.abs_om.y == g->cur_om->pos().y ) {
+          tmp_om = g->cur_om;
+      } else {
+          tmp_om = &overmap_buffer.get(g, dropto.abs_om.x, dropto.abs_om.y );
+      }
+      tinymap * tmp_map = new tinymap(traps);
+      tmp_map->load(g, dropto.abs_om_pos.x * 2, dropto.abs_om_pos.y * 2, z, false, tmp_om);
+      point rel_pos = tmp_map->getlocal ( dropto.abs_pos.x, dropto.abs_pos.y );
+      bool success = tmp_map->add_item( rel_pos.x, rel_pos.y, new_item, maxitems, false );
+      delete tmp_map;
+      tmp_map=NULL;
+      tmp_om=NULL;
+      return success;
+  } else {
+      if ( ( terlist[ tmpsub->ter[sx][sy] ].flags & mfb(destroy_item) ) || ( furnlist[ tmpsub->frn[sx][sy] ].flags & mfb(destroy_item) ) ) {
+          return false;
+      }
+      if ( tmpsub->itm[sx][sy].size() >= maxitems ) {
+          return false;
+      }
+      tmpsub->itm[sx][sy].push_back(new_item);
+      if (new_item.active) {
+          tmpsub->active_item_count++;
+      }
+      return true;
+  }
 }
 
 point map::getlocal(const int x, const int y) {
   return point ( x - ( abs_min.x ), y - ( abs_min.y ) );
-}
-
-/*
- * This is like add_item, but takes absolute coordinates. This will -not- add items to submaps that
- *   not yet generated, however this serves it's primary purpose; prevention of disappearing corpses.
- */
-void map::add_item_anywhere(point worldpos, const int z, item new_item, const int maxitems) {
-  real_coords dropto;
-  dropto.fromabs( worldpos );
-#define overhead
-#ifdef overhead
-  overmap * tmp_om;
-  if ( dropto.abs_om.x == g->cur_om->pos().x && dropto.abs_om.y == g->cur_om->pos().y ) {
-      tmp_om = g->cur_om;
-  } else {
-      tmp_om = &overmap_buffer.get(g, dropto.abs_om.x, dropto.abs_om.y );
-  }
-  tinymap * tmp_map = new tinymap(traps);
-  tmp_map->load(g, dropto.abs_om_pos.x * 2, dropto.abs_om_pos.y * 2, z, false, tmp_om);
-  point rel_pos = tmp_map->getlocal ( dropto.abs_pos.x, dropto.abs_pos.y );
-  tmp_map->add_item( rel_pos.x, rel_pos.y, new_item, maxitems, false );
-  delete tmp_map;
-  tmp_map=NULL;
-  tmp_om=NULL;
-#else
-  submap *tmpsub = MAPBUFFER.lookup_submap( dropto.abs_sub.x, dropto.abs_sub.y, z);
-  if ( ! tmpsub ) {
-      dbg(D_WARNING) << "add_item_anywhere: trying to drop " << new_item.type->name << " in ungenerated submap " << worldpos.x << ", " << worldpos.y << ", " << z;
-      return;
-  }
-  const int sx = dropto.abs_sub_pos.x, sy = dropto.abs_sub_pos.y;
-
-  if ( ( terlist[ tmpsub->ter[sx][sy] ].flags & mfb(destroy_item) ) || ( furnlist[ tmpsub->frn[sx][sy] ].flags & mfb(destroy_item) ) ) {
-      return;
-  }
-  if ( tmpsub->itm[sx][sy].size() >= maxitems ) {
-      return;
-  }
-  tmpsub->itm[sx][sy].push_back(new_item);
-  if (new_item.active) {
-      tmpsub->active_item_count++;
-  }
-#endif
 }
 
 void map::process_active_items(game *g)

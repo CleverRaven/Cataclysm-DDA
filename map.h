@@ -390,8 +390,8 @@ class map
  int stored_volume(const int x, const int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
- void add_item(const int x, const int y, item new_item, int maxitems = 64, bool allow_oob = false); // Do we want mapgen and explosions piling up to MAX_ITEM_IN_SQUARE (1024)? NYET!
- void add_item_anywhere( point worldpos, const int z, item new_item, int maxitems = 64); // technically this doesn't need to be part of map, but only map uses it so far.
+ bool add_item(const int x, const int y, item new_item, int maxitems = 64, bool allow_oob = false); // Do we want mapgen and explosions piling up to MAX_ITEM_IN_SQUARE (1024)? NYET!
+ bool add_item_anywhere( point worldpos, const int z, item new_item, int maxitems = 64, bool generate_sub = true); // technically this doesn't need to be part of map, but only map uses it so far.
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);
  void process_vehicles(game *g);
