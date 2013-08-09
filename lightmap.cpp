@@ -14,6 +14,16 @@ void map::generate_lightmap(game* g)
  memset(lm, 0, sizeof(lm));
  memset(sm, 0, sizeof(sm));
 
+/* Bulk light sources wastefully cast rays into neighbors; a burning hospital can produce
+     significant slowdown, so for stuff like fire and lava:
+ * Step 1: Store the position and luminance in buffer via add_light_source, for efficient
+     checking of neighbors.
+ * Step 2: After everything else, iterate buffer and apply_light_source only in non-redundant
+     directions
+ * Step 3: Profit! 
+ */
+ memset(light_source_buffer, 0, sizeof(light_source_buffer));
+
  const int dir_x[] = { 1, 0 , -1,  0 };
  const int dir_y[] = { 0, 1 ,  0, -1 };
  const int dir_d[] = { 180, 270, 0, 90 };
@@ -45,7 +55,7 @@ void map::generate_lightmap(game* g)
 
  // Apply player light sources
  if (held_luminance > LIGHT_AMBIENT_LOW)
-  apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
+  apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist); // always apply this
   int flood_basalt_check = 0; // does excessive lava need high quality lighting? Nope nope nope nope
   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
@@ -69,26 +79,26 @@ void map::generate_lightmap(game* g)
      }
     }
 
+// add_ to buffer, apply_ later
     for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm )
     {
-        if ( itm->has_flag("LIGHT_20")) { apply_light_source(sx, sy, 20, trigdist); }
-        if ( itm->has_flag("LIGHT_1")) { apply_light_source(sx, sy, 1, trigdist); }
-        if ( itm->has_flag("LIGHT_4")) { apply_light_source(sx, sy, 4, trigdist); }
-        if ( itm->has_flag("LIGHT_8")) { apply_light_source(sx, sy, 8, trigdist); }
+        if ( itm->has_flag("LIGHT_20")) { add_light_source(sx, sy, 20); } else
+        if ( itm->has_flag("LIGHT_1")) { add_light_source(sx, sy, 1); } else
+        if ( itm->has_flag("LIGHT_4")) { add_light_source(sx, sy, 4); } else
+        if ( itm->has_flag("LIGHT_8")) { add_light_source(sx, sy, 8); }
     }
 
    if(terrain == t_lava) {
      flood_basalt_check++;
-     apply_light_source(sx, sy, 50, trigdist && flood_basalt_check < 512 ); // todo: optimize better
+     add_light_source(sx, sy, 50);
+   } else if(terrain == t_console) {
+     add_light_source(sx, sy, 3);
+   } else if(terrain == t_emergency_light) {
+     add_light_source(sx, sy, 3);
    }
 
-   if(terrain == t_console)
-    apply_light_source(sx, sy, 3, false); // 3^2 circle is just silly
-
-   if(terrain == t_emergency_light)
-    apply_light_source(sx, sy, 3, false);
-
-   field_entry *cur = NULL;
+   field_entry *cur = NULL; // TODO: consider making light_source_buffer persist until apply_field and
+                            // skipping this, as it's the third (or more) mapwide field iteration 
    for(std::map<field_id, field_entry*>::iterator field_list_it = current_field.getFieldStart(); field_list_it != current_field.getFieldEnd(); ++field_list_it){
        cur = field_list_it->second;
 
@@ -97,21 +107,21 @@ void map::generate_lightmap(game* g)
 		switch(cur->getFieldType()) {
     case fd_fire:
 		if (3 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 160, trigdist);
+      add_light_source(sx, sy, 160);
      else if (2 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 60, trigdist);
+      add_light_source(sx, sy, 60);
      else
-      apply_light_source(sx, sy, 16, trigdist);
+      add_light_source(sx, sy, 16);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_light_source(sx, sy, 8, trigdist);
+     add_light_source(sx, sy, 8);
      break;
     case fd_electricity:
      if (3 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 8, trigdist);
+      add_light_source(sx, sy, 8);
      else if (2 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 1, trigdist);
+      add_light_source(sx, sy, 1);
      else
       apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL, trigdist);  // kinda a hack as the square will still get marked
      break;
@@ -178,6 +188,18 @@ void map::generate_lightmap(game* g)
      }
    }
  }
+/* Now that we have position and intensity of all bulk light sources, apply_ them
+   This may seem like extra work, but take a 12x12 raging inferno:
+     unbuffered: (12^2)*(160*4) = apply_light_ray x 92160 
+     buffered:   (12*4)*(160)   = apply_light_ray x 7680
+*/
+   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
+      for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
+         if ( light_source_buffer[sx][sy] > 0. ) apply_light_source(sx, sy,
+            light_source_buffer[sx][sy], ( trigdist && light_source_buffer[sx][sy] > 1. ) );
+      }
+   }
+
 if (g->u.has_active_bionic("bio_night") ) {
    for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx)
    {
@@ -282,6 +304,10 @@ void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
    }
 }
 
+void map::add_light_source(int x, int y, float luminance ) {
+  light_source_buffer[x][y] = luminance;
+}
+
 void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc )
 {
  bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
@@ -293,20 +319,43 @@ void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc
   sm[x][y] += luminance;
  }
 
+/* If we're a 5 luminance fire , we skip casting rays into ey && sx if we have
+     neighboring fires to the north and west that were applied via light_source_buffer
+   If there's a 1 luminance candle east in buffer, we still cast rays into ex since it's smaller
+   If there's a 100 luminance magnesium flare south added via apply_light_source instead od
+     add_light_source, it's unbuffered so we'll still cast rays into sy.
+
+      ey
+    nnnNnnn
+    w     e
+    w  5 +e
+ sx W 5*1+E ex
+    w ++++e
+    w+++++e
+    sssSsss
+       sy
+*/
+  const int peer_inbounds = LIGHTMAP_CACHE_X-1;
+  bool north=(y != 0 && light_source_buffer[x][y-1] < luminance );
+  bool south=(y != peer_inbounds && light_source_buffer[x][y+1] < luminance );
+  bool east=(x != peer_inbounds && light_source_buffer[x+1][y] < luminance );
+  bool west=(x != 0 && light_source_buffer[x-1][y] < luminance );
+
  if (luminance > LIGHT_SOURCE_LOCAL) {
   int range = LIGHT_RANGE(luminance);
   int sx = x - range; int ex = x + range;
   int sy = y - range; int ey = y + range;
 
   for(int off = sx; off <= ex; ++off) {
-   apply_light_ray(lit, x, y, off, sy, luminance, trig_brightcalc);
-   apply_light_ray(lit, x, y, off, ey, luminance, trig_brightcalc);
+   if ( south ) apply_light_ray(lit, x, y, off, sy, luminance, trig_brightcalc);
+   if ( north ) apply_light_ray(lit, x, y, off, ey, luminance, trig_brightcalc);
   }
 
   // Skip corners with + 1 and < as they were done
+  // todo: test for gaps and possible do: off = s?; off <= e?; for all directions
   for(int off = sy + 1; off < ey; ++off) {
-   apply_light_ray(lit, x, y, sx, off, luminance, trig_brightcalc);
-   apply_light_ray(lit, x, y, ex, off, luminance, trig_brightcalc);
+   if ( west ) apply_light_ray(lit, x, y, sx, off, luminance, trig_brightcalc);
+   if ( east ) apply_light_ray(lit, x, y, ex, off, luminance, trig_brightcalc);
   }
  }
 }
