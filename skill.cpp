@@ -123,7 +123,7 @@ SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPractic
     _isTraining = isTraining;
     if(lastPracticed == 0)
     {
-        _lastPracticed = HOURS(OPTIONS["initial_time"]);
+        _lastPracticed = HOURS(OPTIONS["INITIAL_TIME"]);
     }
     else
     {
@@ -139,7 +139,7 @@ SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExerc
     _isTraining = isTraining;
     if(lastPracticed == 0)
     {
-        _lastPracticed = HOURS(OPTIONS["initial_time"]);
+        _lastPracticed = HOURS(OPTIONS["INITIAL_TIME"]);
     }
     else
     {
@@ -164,7 +164,7 @@ static int rustRate(int level)
 
 bool SkillLevel::isRusting(const calendar& turn) const
 {
-    return OPTIONS["skill_rust"] != 4 && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
+    return OPTIONS["SKILL_RUST"] != "Off" && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
 }
 
 bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
@@ -177,8 +177,7 @@ bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
 
         if (_exercise < 0)
         {
-            if (OPTIONS["skill_rust"] == 0 ||
-                OPTIONS["skill_rust"] == 2)
+            if (OPTIONS["SKILL_RUST"] == "Vanilla" || OPTIONS["SKILL_RUST"] == "IntCap")
             {
                 _exercise = (100 * _level) - 1;
                 --_level;

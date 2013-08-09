@@ -271,7 +271,7 @@ std::string print_temperature(float fahrenheit, int decimals)
     ret.precision(decimals);
     ret << std::fixed;
 
-    if(OPTIONS["use_celsius"])
+    if(OPTIONS["USE_CELSIUS"])
     {
         ret << ((fahrenheit-32) * 5 / 9);
         return rmp_format("<Celsius>%sC", ret.str().c_str());

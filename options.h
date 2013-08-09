@@ -3,7 +3,7 @@
 
 #include <string>
 #include <map>
-#include <algorithm>
+#include <algorithm> //atoi
 
 class cOpt
 {
@@ -11,13 +11,12 @@ class cOpt
         //Default constructor
         cOpt() {
             sType = "VOID";
-            sSet = "";
-            bSet = false;
-            dSet = 0;
+            iPage = -1;
         };
 
         //string constructor
-        cOpt(std::string sCategory, std::string sMenuTextIn, std::string sTooltipIn, std::string sItemsIn, std::string sDefaultIn) {
+        cOpt(const int iPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const std::string sItemsIn, std::string sDefaultIn) {
+            iPage = iPageIn;
             sMenuText = sMenuTextIn;
             sTooltip = sTooltipIn;
             sType = "string";
@@ -25,11 +24,11 @@ class cOpt
             std::stringstream ssTemp(sItemsIn);
             std::string sItem;
             while (std::getline(ssTemp, sItem, ',')) {
-                mItems[sItem] = true;
+                vItems.push_back(sItem);
             }
 
-            if (!mItems[sDefaultIn]) {
-                //debugmsg(("Default value '" + sDefaultIn + "' from: " + sMenuTextIn + " is not matching: " + sItemsIn).c_str());
+            if (getItemPos(sDefaultIn) != -1) {
+                sDefaultIn = vItems[0];
             }
 
             sDefault = sDefaultIn;
@@ -37,7 +36,8 @@ class cOpt
         };
 
         //bool constructor
-        cOpt(std::string sCategory, std::string sMenuTextIn, std::string sTooltipIn, bool bDefaultIn) {
+        cOpt(const int iPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const bool bDefaultIn) {
+            iPage = iPageIn;
             sMenuText = sMenuTextIn;
             sTooltip = sTooltipIn;
             sType = "bool";
@@ -46,51 +46,173 @@ class cOpt
             bSet = bDefaultIn;
         };
 
-        //double constructor
-        cOpt(std::string sCategory, std::string sMenuTextIn, std::string sTooltipIn, double dMinIn, double dMaxIn, double dDefaultIn) {
+        //int constructor
+        cOpt(const int iPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const int iMinIn, int iMaxIn, int iDefaultIn) {
+            iPage = iPageIn;
             sMenuText = sMenuTextIn;
             sTooltip = sTooltipIn;
-            sType = "double";
+            sType = "int";
 
-            if (dMinIn > dMaxIn) {
-                //debugmsg(("Min value from: " + sMenuTextIn + " has to be higher than its Max value.").c_str());
+            if (iMinIn > iMaxIn) {
+                iMaxIn = iMinIn;
             }
 
-            dMin = dMinIn;
-            dMax = dMaxIn;
+            iMin = iMinIn;
+            iMax = iMaxIn;
 
-            if (dDefaultIn < dMinIn || dDefaultIn > dMaxIn) {
-                //debugmsg(("Default value from: " + sMenuTextIn + " has to be in between its Min and Max value.").c_str());
+            if (iDefaultIn < iMinIn || iDefaultIn > iMaxIn) {
+                iDefaultIn = iMinIn ;
             }
 
-            dDefault = dDefaultIn;
-            dSet = dDefaultIn;
+            iDefault = iDefaultIn;
+            iSet = iDefaultIn;
         };
 
         //Default deconstructor
         ~cOpt() {};
 
-        //set value
-        void set(std::string sSetIn) {
+        //helper functions
+        int getPage() {
+            return iPage;
+        };
+
+        std::string getMenuText() {
+            return sMenuText;
+        };
+
+        std::string getTooltip() {
+            return sTooltip;
+        };
+
+        std::string getType() {
+            return sType;
+        };
+
+        std::string getValue() {
             if (sType == "string") {
-                if (mItems[sSetIn]) {
+                return sSet;
+
+            } else if (sType == "bool") {
+                return (bSet) ? "True" : "False";
+
+            } else if (sType == "int") {
+                std::stringstream ssTemp;
+                ssTemp << iSet;
+                return ssTemp.str();
+            }
+
+            return "";
+        };
+
+        std::string getDefaultText() {
+            if (sType == "string") {
+                std::string sItems = "";
+                for (int i = 0; i < vItems.size(); i++) {
+                    if (sItems != "") {
+                        sItems += ", ";
+                    }
+                    sItems += vItems[i];
+                }
+                return sDefault + " - Valid Items: " + sItems;
+
+            } else if (sType == "bool") {
+                return (bDefault) ? "True" : "False";
+
+            } else if (sType == "int") {
+                std::stringstream ssTemp;
+                ssTemp << iDefault << " - Min: " << iMin << " Max: " << iMax;
+                return ssTemp.str();
+            }
+
+            return "";
+        };
+
+        int getItemPos(const std::string sSearch) {
+            if (sType == "string") {
+                for (int i = 0; i < vItems.size(); i++) {
+                    if (vItems[i] == sSearch) {
+                        return i;
+                    }
+                }
+            }
+
+            return -1;
+        };
+
+        //set to next item
+        void setNext() {
+            if (sType == "string") {
+                int iNext = getItemPos(sSet)+1;
+                if (iNext >= vItems.size()) {
+                    iNext = 0;
+                }
+
+                sSet = vItems[iNext];
+
+            } else if (sType == "bool") {
+                bSet = !bSet;
+
+            } else if (sType == "int") {
+                iSet++;
+                if (iSet > iMax) {
+                    iSet = iMin;
+                }
+            }
+        };
+
+        //set to prev item
+        void setPrev() {
+            if (sType == "string") {
+                int iPrev = getItemPos(sSet)-1;
+                if (iPrev < 0) {
+                    iPrev = vItems.size()-1;
+                }
+
+                sSet = vItems[iPrev];
+
+            } else if (sType == "bool") {
+                bSet = !bSet;
+
+            } else if (sType == "int") {
+                iSet--;
+                if (iSet < iMin) {
+                    iSet = iMax;
+                }
+            }
+        };
+
+        //set value
+        void setValue(std::string sSetIn) {
+            if (sType == "string") {
+                if (getItemPos(sSetIn) != -1) {
                     sSet = sSetIn;
-                } else {
-                    //debugmsg(("Can't set '" + sSetIn + "' in: " + sMenuText).c_str());
                 }
 
             } else if (sType == "bool") {
                 bSet = (sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t");
 
-            } else if (sType == "double") {
-                dSet = atoi(sSetIn.c_str());
+            } else if (sType == "int") {
+                iSet = atoi(sSetIn.c_str());
             }
+        };
+
+        //Set default class behaviour to int
+        operator int() const {
+            if (sType == "string") {
+                return (sSet != "" && sSet == sDefault) ? 1 : 0;
+
+            } else if (sType == "bool") {
+                return (bSet) ? 1 : 0;
+
+            } else if (sType == "int") {
+                return iSet;
+            }
+
+            return 0;
         };
 
         // if (class == "string")
         bool operator==(const std::string sCompare) const {
-            //debugmsg("bool operator==(const std::string sCompare) const {");
-            //debugmsg((sSet + " == " + sCompare).c_str());
             if ( sType == "string" && sSet == sCompare ) {
                 return true;
             }
@@ -103,123 +225,32 @@ class cOpt
             return !(*this == sCompare);
         };
 
-/* //Somehow those two override the string compare operators
-        // if (class == bool)
-        bool operator==(const bool bCompare) const {
-            debugmsg("bool operator==(const bool bCompare) const {");
-            if ( sType == "bool" && bSet == bCompare ) {
-                return true;
-            }
-
-            return false;
-        };
-
-        // if (class != "bool")
-        bool operator!=(const bool bCompare) const {
-            return !(*this == bCompare);
-        };
-*/
-        // if (class == "double")
-        bool operator==(const double dCompare) const {
-            //debugmsg("bool operator==(const double dCompare) const {");
-            if ( sType == "double" && dSet == dCompare ) {
-                return true;
-            }
-
-            return false;
-        };
-
-        // if (class != "double")
-        bool operator!=(const double dCompare) const {
-            return !(*this == dCompare);
-        };
-
-        // if (class == "double")
-        bool operator<=(const double dCompare) const {
-            //debugmsg("bool operator<=(const double dCompare) const {");
-            if ( sType == "double" && dSet <= dCompare ) {
-                return true;
-            }
-
-            return false;
-        };
-
-        // if (class >= "double")
-        bool operator>=(const double dCompare) const {
-            //debugmsg("bool operator>=(const double dCompare) const {");
-            if ( sType == "double" && dSet >= dCompare ) {
-                return true;
-            }
-
-            return false;
-        };
-
-        // handle if (class)    //without explicit this would handle <= >= and probably others as well
-        explicit operator bool() const {
-            //debugmsg("operator bool() const {");
-            if (sType == "string") {
-                return (sSet != "" && sSet == sDefault);
-
-            } else if (sType == "bool") {
-                return bSet;
-
-            } else if (sType == "double") {
-                return dSet;
-            }
-
-            return false;
-        };
-
-        operator int() const {
-            //debugmsg("operator int() const {");
-            if (sType == "string") {
-                return 0;
-
-            } else if (sType == "bool") {
-                return (bSet) ? 1 : 0;
-
-            } else if (sType == "double") {
-                return (int)dSet;
-            }
-
-            return 0;
-        };
-
     private:
+        int iPage;
         std::string sMenuText;
         std::string sTooltip;
         std::string sType;
 
         //sType == "string"
         std::string sSet;
-        std::map<std::string, bool> mItems;
+        std::vector<std::string> vItems;
         std::string sDefault;
-
-        //sType == "double"
-        double dSet;
-        double dMin;
-        double dMax;
-        double dDefault;
 
         //sType == "bool"
         bool bSet;
         bool bDefault;
+
+        //sType == "int"
+        int iSet;
+        int iMin;
+        int iMax;
+        int iDefault;
 };
 
 extern std::map<std::string, cOpt> OPTIONS;
 
+void initOptions();
 void load_options();
 void save_options();
-
-void initOptions();
-
-/*
-void create_default_options();
-std::string options_header();
-
-std::string option_string(option_key key);
-std::string option_name(option_key key);
-std::string option_desc(option_key key);
-*/
 
 #endif

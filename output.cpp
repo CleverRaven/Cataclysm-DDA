@@ -52,7 +52,7 @@ nc_color hilite(nc_color c)
 
 nc_color invert_color(nc_color c)
 {
- if (OPTIONS["NO_CBLINK"]) {
+ if (OPTIONS["NO_BRIGHT_BACKGROUNDS"]) {
   switch (c) {
    case c_white:
    case c_ltgray:
@@ -467,7 +467,7 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
 
 bool query_yn(const char *mes, ...)
 {
- bool force_uc = OPTIONS["FORCE_YN"];
+ bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
  va_list ap;
  va_start(ap, mes);
  char buff[1024];

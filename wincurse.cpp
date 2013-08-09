@@ -182,7 +182,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
 
     case WM_SETCURSOR:
         MouseOver = LOWORD(lParam);
-        if (OPTIONS["hide_cursor"] == 1)
+        if (OPTIONS["HIDE_CURSOR"] == 1)
         {
             if (MouseOver==HTCLIENT && CursorVisible)
             {
@@ -388,8 +388,8 @@ WINDOW *curses_init(void)
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-    WindowWidth= (55 + (OPTIONS["viewport_x"] * 2 + 1)) * fontwidth;
-    WindowHeight = (OPTIONS["viewport_y"] * 2 + 1) *fontheight;
+    WindowWidth= (55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)) * fontwidth;
+    WindowHeight = (OPTIONS["VIEWPORT_Y"] * 2 + 1) *fontheight;
 
     WinCreate();    //Create the actual window, register it, etc
     timeBeginPeriod(1); // Set Sleep resolution to 1ms
@@ -429,7 +429,7 @@ WINDOW *curses_init(void)
 //    WindowCount=0;
 
     delete typeface_c;
-    mainwin = newwin((OPTIONS["viewport_y"] * 2 + 1),(55 + (OPTIONS["viewport_y"] * 2 + 1)),0,0);
+    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
@@ -472,7 +472,7 @@ int curses_getch(WINDOW* win)
         CheckMessages();
     };
 
-    if (lastchar!=ERR && OPTIONS["hide_cursor"]==2 && CursorVisible){
+    if (lastchar!=ERR && OPTIONS["HIDE_CURSOR"]==2 && CursorVisible){
         CursorVisible = false;
         ShowCursor(false);
     }

@@ -160,7 +160,7 @@ void game::init_ui(){
     clear();	// Clear the screen
     intro();	// Print an intro screen, make sure we're at least 80x25
 
-    const int sidebarWidth = OPTIONS["SIDEBAR_STYLE"] ? 45 : 55;
+    const int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "Narrow") ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = sidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1);
@@ -220,7 +220,7 @@ void game::init_ui(){
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
 
-    switch (int(OPTIONS["SIDEBAR_STYLE"])) {
+    switch ((int)(OPTIONS["SIDEBAR_STYLE"] == "Narrow")) {
         case 0: // standard
             minimapX = 0;
             minimapY = 0;
@@ -532,8 +532,8 @@ void game::cleanup_at_end(){
     {
         death_screen();
         write_memorial_file();
-        if (OPTIONS["DELETE_WORLD"] == 1
-         || (OPTIONS["DELETE_WORLD"] == 2 && query_yn(_("Delete saved world?"))))
+        if (OPTIONS["DELETE_WORLD"] == "Yes" ||
+            (OPTIONS["DELETE_WORLD"] == "Query" && query_yn(_("Delete saved world?"))))
         {
             delete_save();
             MAPBUFFER.reset();
@@ -1011,7 +1011,7 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
   va_end(ap);
   std::string s(buff);
 
-  bool force_uc = OPTIONS["FORCE_YN"];
+  bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
   int ch=(int)' ';
 
   std::string verbs[NUM_ACTIVITIES] = {
@@ -2041,17 +2041,17 @@ bool game::handle_action()
     {
         uimenu as_m;
         as_m.text = _("Are you sure you want to sleep?");
-        as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS["FORCE_YN"]?'Y':'y'), _("Yes.")) );
+        as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS["FORCE_CAPITAL_YN"]?'Y':'y'), _("Yes.")) );
 
-        if (OPTIONS["SAVESLEEP"])
+        if (OPTIONS["SAVE_SLEEP"])
         {
             as_m.entries.push_back(uimenu_entry(1,
             (moves_since_last_save || item_exchanges_since_save),
-            (OPTIONS["FORCE_YN"]?'S':'s'),
+            (OPTIONS["FORCE_CAPITAL_YN"]?'S':'s'),
             _("Yes, and save game before sleeping.") ));
         }
 
-        as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_YN"]?'N':'n'), _("No.")) );
+        as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"]?'N':'n'), _("No.")) );
 
         if (u.has_item_with_flag("ALARMCLOCK"))
         {
@@ -3764,7 +3764,7 @@ void game::draw()
     werase(w_status2);
     u.disp_status(w_status, w_status2, this);
 
-    const int sideStyle = OPTIONS["SIDEBAR_STYLE"];
+    const int sideStyle = (int)(OPTIONS["SIDEBAR_STYLE"] == "Narrow");
 
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
@@ -4458,7 +4458,7 @@ int game::mon_info(WINDOW *w)
 {
     const int width = getmaxx(w);
     const int maxheight = 12;
-    const int startrow = OPTIONS["SIDEBAR_STYLE"] ? 1 : 0;
+    const int startrow = (OPTIONS["SIDEBAR_STYLE"] == "Narrow") ? 1 : 0;
 
     int buff;
     int newseen = 0;
@@ -8290,7 +8290,7 @@ void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state(WINDOW* window, int height)
 {
-    const int width = OPTIONS["SIDEBAR_STYLE"] ? 45 : 55;
+    const int width = (OPTIONS["SIDEBAR_STYLE"] == "Narrow") ? 45 : 55;
     for (int i = 1; i < TERMX; i++)
     {
         if (i < width)
@@ -8391,7 +8391,7 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
 void game::list_items()
 {
     int iInfoHeight = 12;
-    const int width = OPTIONS["SIDEBAR_STYLE"] ? 45 : 55;
+    const int width = (OPTIONS["SIDEBAR_STYLE"] == "Narrow") ? 45 : 55;
     WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
     WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
     WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
@@ -8790,7 +8790,7 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 
- const int sideStyle = OPTIONS["SIDEBAR_STYLE"];
+ const int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "Narrow");
 
  // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
  int maxmaxitems = TERMY;

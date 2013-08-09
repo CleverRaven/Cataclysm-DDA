@@ -3054,7 +3054,7 @@ void player::disp_morale(game *g)
 
 void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
-    int sideStyle = OPTIONS["SIDEBAR_STYLE"];
+    int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "Narrow");
 
     WINDOW *weapwin = sideStyle ? w2 : w;
     mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
@@ -3656,14 +3656,22 @@ int player::read_speed(bool real_life)
 
 int player::rust_rate(bool real_life)
 {
- if (OPTIONS["SKILL_RUST"] == 4) return 0;
- int intel = (real_life ? int_cur : int_max);
- int ret = (OPTIONS["SKILL_RUST"] < 2 ? 500 : 500 - 35 * (intel - 8));
- if (has_trait(PF_FORGETFUL))
-  ret *= 1.33;
- if (ret < 0)
-  ret = 0;
- return (real_life ? ret : ret / 10);
+    if (OPTIONS["SKILL_RUST"] == "Off") {
+        return 0;
+    }
+
+    int intel = (real_life ? int_cur : int_max);
+    int ret = ((OPTIONS["SKILL_RUST"] == "Vanilla" || OPTIONS["SKILL_RUST"] == "Capped") ? 500 : 500 - 35 * (intel - 8));
+
+    if (has_trait(PF_FORGETFUL)) {
+        ret *= 1.33;
+    }
+
+    if (ret < 0) {
+        ret = 0;
+    }
+
+    return (real_life ? ret : ret / 10);
 }
 
 int player::talk_skill()
@@ -6163,13 +6171,10 @@ bool player::eat(game *g, signed char ch)
             it.contents.erase(it.contents.begin());
             if (!is_npc())
             {
-                switch ((int)OPTIONS["DROP_EMPTY"])
-                {
-                case 0:
-                    g->add_msg(_("%c - an empty %s"), it.invlet,
-                               it.tname(g).c_str());
-                    break;
-                case 1:
+                if (OPTIONS["DROP_EMPTY"] == "No") {
+                    g->add_msg(_("%c - an empty %s"), it.invlet, it.tname(g).c_str());
+
+                } else if (OPTIONS["DROP_EMPTY"] == "Watertight") {
                     if (it.is_container())
                     {
                         if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS")))
@@ -6178,19 +6183,18 @@ bool player::eat(game *g, signed char ch)
                             g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                         }
                         else
-                            g->add_msg(_("%c - an empty %s"), it.invlet,
-                                       it.tname(g).c_str());
+                        {
+                            g->add_msg(_("%c - an empty %s"), it.invlet,it.tname(g).c_str());
+                        }
                     }
                     else if (it.type->id == "wrapper") // hack because wrappers aren't containers
                     {
                         g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                         g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                     }
-                    break;
-                case 2:
+                } else if (OPTIONS["DROP_EMPTY"] == "All") {
                     g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                     g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
-                    break;
                 }
             }
             if (inv.stack_by_letter(it.invlet).size() > 0)
