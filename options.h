@@ -113,14 +113,14 @@ class cOpt
                     }
                     sItems += vItems[i];
                 }
-                return sDefault + " - Valid Items: " + sItems;
+                return sDefault + " - Values: " + sItems;
 
             } else if (sType == "bool") {
                 return (bDefault) ? "True" : "False";
 
             } else if (sType == "int") {
                 std::stringstream ssTemp;
-                ssTemp << iDefault << " - Min: " << iMin << " Max: " << iMax;
+                ssTemp << iDefault << " - Min: " << iMin << ", Max: " << iMax;
                 return ssTemp.str();
             }
 
