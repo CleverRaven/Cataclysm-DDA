@@ -3429,6 +3429,10 @@ void overmap::open(game *g)
     npc * tmp = new npc();
     tmp->load_info(g, npcdata);
     npcs.push_back(tmp);
+   } else if (datatype == 'P') {
+       // Chomp the invlet_cache, since the npc doesn't use it.
+       std::string itemdata;
+       getline(fin, itemdata);
    } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
               datatype == 'w' || datatype == 'c') {
     std::string itemdata;

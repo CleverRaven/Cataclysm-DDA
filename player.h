@@ -58,6 +58,7 @@ public:
  virtual void load_info(game *g, std::string data);// Load from file 'name.sav'
  virtual std::string save_info();		// Save to file matching name
 
+ void memorial( std::ofstream &memorial_file ); // Write out description of player.
  void disp_info(game *g);	// '@' key; extended character info
  void disp_morale(game *g);		// '%' key; morale info
  void disp_status(WINDOW* w, WINDOW *w2, game *g = NULL);// On-screen data
