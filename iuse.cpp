@@ -1893,6 +1893,7 @@ void iuse::noise_emitter_on(game *g, player *p, item *it, bool t)
     if (t) // Normal use
     {
         point pos = g->find_item(it);
+        //~ the sound of a noise emitter when turned on
         g->sound(pos.x, pos.y, 30, _("KXSHHHHRRCRKLKKK!"));
     }
     else // Turning it off
@@ -2250,6 +2251,7 @@ void iuse::jackhammer(game *g, player *p, item *it, bool t)
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
+  //~ the sound of a jackhammer
   g->sound(dirx, diry, 45, _("TATATATATATATAT!"));
  } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
             g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
@@ -2283,6 +2285,7 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
+  //~ the sound of a "jaqueshammer"
   g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
  } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
             g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
@@ -2591,7 +2594,8 @@ void iuse::pipebomb_act(game *g, player *p, item *it, bool t)
  if (pos.x == -999 || pos.y == -999)
   return;
  if (t) // Simple timer effects
-  g->sound(pos.x, pos.y, 0, _("Ssssss"));	// Vol 0 = only heard if you hold it
+  //~ the sound of a lit fuse
+  g->sound(pos.x, pos.y, 0, _("ssss..."));	// Vol 0 = only heard if you hold it
  else {	// The timer has run down
   if (one_in(10) && g->u_see(pos.x, pos.y))
    g->add_msg(_("The pipe bomb fizzles out."));

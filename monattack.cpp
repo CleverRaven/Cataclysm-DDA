@@ -623,6 +623,7 @@ void mattack::fungus(game *g, monster *z)
  monster spore(g->mtypes[mon_spore]);
  int sporex, sporey;
  int moncount = 0, mondex;
+ //~ the sound of a fungus releasing spores
  g->sound(z->posx, z->posy, 10, _("Pouf!"));
  if (g->u_see(z->posx, z->posy))
   g->add_msg(_("Spores are released from the %s!"), z->name().c_str());
