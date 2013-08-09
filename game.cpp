@@ -9442,73 +9442,81 @@ void game::drop(char chInput)
 
 void game::drop_in_direction()
 {
- int dirx, diry;
- if (!choose_adjacent(_("Drop"), dirx, diry))
-  return;
+    int dirx, diry;
+    if (!choose_adjacent(_("Drop"), dirx, diry)) {
+        return;
+    }
 
- int veh_part = 0;
- bool to_veh = false;
- vehicle *veh = m.veh_at(dirx, diry, veh_part);
- if (veh) {
-  veh_part = veh->part_with_feature (veh_part, vpf_cargo);
-  to_veh = veh->type != veh_null && veh_part >= 0;
- }
+    int veh_part = 0;
+    bool to_veh = false;
+    vehicle *veh = m.veh_at(dirx, diry, veh_part);
+    if (veh) {
+        veh_part = veh->part_with_feature (veh_part, vpf_cargo);
+        to_veh = veh->type != veh_null && veh_part >= 0;
+    }
 
- if (m.has_flag(noitem, dirx, diry) || m.has_flag(sealed, dirx, diry)) {
-  add_msg(_("You can't place items there!"));
-  return;
- }
+    if (m.has_flag(noitem, dirx, diry) || m.has_flag(sealed, dirx, diry)) {
+        add_msg(_("You can't place items there!"));
+        return;
+    }
 
- std::string verb = (m.move_cost(dirx, diry) == 0 ? _("put") : _("drop"));
- std::string prep = (m.move_cost(dirx, diry) == 0 ? _("in")  : _("on")  );
+    std::string verb = (m.move_cost(dirx, diry) == 0 ? _("put") : _("drop"));
+    std::string prep = (m.move_cost(dirx, diry) == 0 ? _("in")  : _("on")  );
 
- std::vector<item> dropped = multidrop();
+    std::vector<item> dropped = multidrop();
 
- if (dropped.size() == 0) {
-  add_msg(_("Never mind."));
-  return;
- }
+    if (dropped.size() == 0) {
+        add_msg(_("Never mind."));
+        return;
+    }
 
- item_exchanges_since_save += dropped.size();
+    item_exchanges_since_save += dropped.size();
 
- itype_id first = itype_id(dropped[0].type->id);
- bool same = true;
- for (int i = 1; i < dropped.size() && same; i++) {
-  if (dropped[i].type->id != first)
-   same = false;
- }
- if (dropped.size() == 1 || same)
- {
-  if (to_veh)
-   add_msg(_("You put your %s%s in the %s's %s."), dropped[0].tname(this).c_str(),
-          (dropped.size() == 1 ? "" : _("s")), veh->name.c_str(),
-          veh->part_info(veh_part).name);
-  else
-   add_msg(_("You %s your %s%s %s the %s."), verb.c_str(),
-           dropped[0].tname(this).c_str(),
-           (dropped.size() == 1 ? "" : _("s")), prep.c_str(),
-           m.name(dirx, diry).c_str());
- } else {
-  if (to_veh)
-   add_msg(_("You put several items in the %s's %s."), veh->name.c_str(),
-           veh->part_info(veh_part).name);
-  else
-   add_msg(_("You %s several items %s the %s."), verb.c_str(), prep.c_str(),
-           m.name(dirx, diry).c_str());
- }
- if (to_veh) {
-  bool vh_overflow = false;
-  for (int i = 0; i < dropped.size(); i++) {
-   vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
-   if (vh_overflow)
-    m.add_item_or_charges(dirx, diry, dropped[i], 1);
-  }
-  if (vh_overflow)
-   add_msg (_("The trunk is full, so some items fall on the ground."));
- } else {
-  for (int i = 0; i < dropped.size(); i++)
-   m.add_item_or_charges(dirx, diry, dropped[i], 1);
- }
+    itype_id first = itype_id(dropped[0].type->id);
+    bool same = true;
+    for (int i = 1; i < dropped.size() && same; i++) {
+        if (dropped[i].type->id != first) {
+            same = false;
+        }
+    }
+
+    if (dropped.size() == 1 || same) {
+        if (to_veh) {
+            add_msg(_("You put your %s%s in the %s's %s."), dropped[0].tname(this).c_str(),
+                (dropped.size() == 1 ? "" : _("s")), veh->name.c_str(),
+                veh->part_info(veh_part).name);
+        } else {
+            add_msg(_("You %s your %s%s %s the %s."), verb.c_str(),
+                dropped[0].tname(this).c_str(),
+                (dropped.size() == 1 ? "" : _("s")), prep.c_str(),
+                m.name(dirx, diry).c_str());
+        }
+    } else {
+        if (to_veh) {
+            add_msg(_("You put several items in the %s's %s."),
+                    veh->name.c_str(), veh->part_info(veh_part).name);
+        } else {
+            add_msg(_("You %s several items %s the %s."),
+                    verb.c_str(), prep.c_str(), m.name(dirx, diry).c_str());
+        }
+    }
+
+    if (to_veh) {
+        bool vh_overflow = false;
+        for (int i = 0; i < dropped.size(); i++) {
+            vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
+            if (vh_overflow) {
+                m.add_item_or_charges(dirx, diry, dropped[i], 1);
+            }
+        }
+        if (vh_overflow) {
+            add_msg (_("The trunk is full, so some items fall on the ground."));
+        }
+    } else {
+        for (int i = 0; i < dropped.size(); i++) {
+            m.add_item_or_charges(dirx, diry, dropped[i], 1);
+        }
+    }
 }
 
 void game::reassign_item(char ch)
