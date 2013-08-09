@@ -9460,8 +9460,9 @@ void game::drop_in_direction()
         return;
     }
 
-    std::string verb = (m.move_cost(dirx, diry) == 0 ? _("put") : _("drop"));
-    std::string prep = (m.move_cost(dirx, diry) == 0 ? _("in")  : _("on")  );
+    //std::string verb = (m.move_cost(dirx, diry) == 0 ? _("put") : _("drop"));
+    //std::string prep = (m.move_cost(dirx, diry) == 0 ? _("in")  : _("on")  );
+    bool can_move_there = m.move_cost(dirx, diry) != 0;
 
     std::vector<item> dropped = multidrop();
 
@@ -9482,22 +9483,33 @@ void game::drop_in_direction()
 
     if (dropped.size() == 1 || same) {
         if (to_veh) {
-            add_msg(_("You put your %s%s in the %s's %s."), dropped[0].tname(this).c_str(),
-                (dropped.size() == 1 ? "" : _("s")), veh->name.c_str(),
-                veh->part_info(veh_part).name);
+            add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
+                             "You put your %1$ss in the %2$s's %3$s.",
+                             dropped.size()),
+                    dropped[0].tname(this).c_str(),
+                    veh->name.c_str(),
+                    veh->part_info(veh_part).name);
+        } else if (can_move_there) {
+            add_msg(ngettext("You drop your %s on the %s.",
+                             "You drop your %ss on the %s.", dropped.size()),
+                    dropped[0].tname(this).c_str(),
+                    m.name(dirx, diry).c_str());
         } else {
-            add_msg(_("You %s your %s%s %s the %s."), verb.c_str(),
-                dropped[0].tname(this).c_str(),
-                (dropped.size() == 1 ? "" : _("s")), prep.c_str(),
-                m.name(dirx, diry).c_str());
+            add_msg(ngettext("You put your %s in the %s.",
+                             "You put your %ss in the %s.", dropped.size()),
+                    dropped[0].tname(this).c_str(),
+                    m.name(dirx, diry).c_str());
         }
     } else {
         if (to_veh) {
             add_msg(_("You put several items in the %s's %s."),
                     veh->name.c_str(), veh->part_info(veh_part).name);
+        } else if (can_move_there) {
+            add_msg(_("You drop several items on the %s."),
+                    m.name(dirx, diry).c_str());
         } else {
-            add_msg(_("You %s several items %s the %s."),
-                    verb.c_str(), prep.c_str(), m.name(dirx, diry).c_str());
+            add_msg(_("You put several items in the %s."),
+                    m.name(dirx, diry).c_str());
         }
     }
 
