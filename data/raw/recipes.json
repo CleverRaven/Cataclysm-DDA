@@ -3043,9 +3043,6 @@
                                   ["gunpowder", 160]
                               ],
                               [
-                                  ["22_casing", 40]
-                              ],
-                              [
                                   ["lead", 80], ["gold_small", 80]
                               ]
                           ]
@@ -3080,9 +3077,6 @@
                               ],
                               [
                                   ["gunpowder", 240]
-                              ],                              
-                              [
-                                  ["22_casing", 40]
                               ],
                               [
                                   ["lead", 80], ["gold_small", 80]
@@ -3118,9 +3112,6 @@
                               ],
                               [
                                   ["gunpowder", 180]
-                              ],
-                              [
-                                  ["22_casing", 30]
                               ],
                               [
                                   ["incendiary", 60]
@@ -7029,6 +7020,138 @@
                               [
                                   ["rag", 10],
                                   ["fur", 6]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bikini_top",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 12],
+                             ["sewing_kit", 12]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 3]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bikini_top_leather",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 12],
+                             ["sewing_kit", 12]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["leather", 3]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bikini_top_fur",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 12],
+                             ["sewing_kit", 12]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["fur", 3]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "hot_pants",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 15],
+                             ["sewing_kit", 15]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 4]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "hot_pants_leather",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 15],
+                             ["sewing_kit", 15]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["leather", 4]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "hot_pants_fur",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 15],
+                             ["sewing_kit", 15]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["fur", 4]
                               ]
                           ]
         },
