@@ -2096,10 +2096,15 @@ void player::memorial( std::ofstream &memorial_file )
 
     //Traits
     memorial_file << _("Traits:") << "\n";
+    bool had_trait = false;
     for(int i = 1; i < PF_MAX2; i++) { //Don't start at i=0 or we get a 'null trait'
       if(has_trait(i)) {
+        had_trait = true;
         memorial_file << indent << traits[i].name << "\n";
       }
+    }
+    if(!had_trait) {
+      memorial_file << indent << _("(None)") << "\n";
     }
     memorial_file << "\n";
 
