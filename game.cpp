@@ -1602,7 +1602,7 @@ bool game::handle_action()
             break;
     }
 
-    if (bWeatherEffect && OPTIONS[OPT_RAIN_ANIMATION]) {
+    if (bWeatherEffect && OPTIONS["RAIN_ANIMATION"]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
         int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
