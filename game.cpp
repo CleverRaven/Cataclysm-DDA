@@ -9170,9 +9170,14 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
      u.activity.placement = point(vx, vy);
     } else { // Not pump
      veh->refill ("gasoline", liquid.charges);
-     add_msg (_("You refill %s with %s%s."), veh->name.c_str(),
-              ammo_name(ftype).c_str(),
-              veh->fuel_left(ftype) >= fuel_cap? _(" to its maximum") : "");
+     if (veh->fuel_left(ftype) < fuel_cap) {
+        add_msg(_("You refill %s with %s."),
+                veh->name.c_str(), ammo_name(ftype).c_str());
+     } else {
+        add_msg(_("You refill %s with %s to its maximum."),
+                veh->name.c_str(), ammo_name(ftype).c_str());
+     }
+
      u.moves -= 100;
      return true;
     }
