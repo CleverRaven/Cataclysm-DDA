@@ -637,7 +637,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("ARMOR", _("Coverage: "), _("<num> percent"), int(armor->coverage)));
     if (has_flag("FIT"))
     {
-        dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "<num> (fits)", int(armor->encumber) - 1, "", true, true));
+        dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "<num> (fits)",
+                                 std::min(0, int(armor->encumber) - 1), "", true, true));
     }
     else
     {
@@ -836,18 +837,17 @@ std::string item::tname(game *g)
  std::string damtext = "";
  if (damage != 0 && !is_null()) {
   if (damage == -1) {
-    damtext = _("<dam_adj>reinforced ");
+    damtext = rm_prefix(_("<dam_adj>reinforced "));
   } else {
    if (type->id == "corpse") {
-    if (damage == 1) damtext = _("<dam_adj>bruised ");
-    if (damage == 2) damtext = _("<dam_adj>damaged ");
-    if (damage == 3) damtext = _("<dam_adj>mangled ");
-    if (damage == 4) damtext = _("<dam_adj>pulped ");
+    if (damage == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
+    if (damage == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
+    if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
+    if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
    } else {
-    damtext = string_format("<dam_adj>%s ", type->dmg_adj(damage).c_str());
+    damtext = rmp_format("%s ", type->dmg_adj(damage).c_str());
    }
   }
-  damtext  = damtext.substr(9);
  }
  
  std::string vehtext = "";
@@ -856,44 +856,38 @@ std::string item::tname(game *g)
    ret.str("");
    ret.precision(4);
    ret << (float)bigness/100;
-   vehtext = string_format(_("<veh_adj>%s-Liter "), ret.str().c_str());
+   vehtext = rmp_format(_("<veh_adj>%s-Liter "), ret.str().c_str());
   }
   else if(type->bigness_aspect == BIGNESS_WHEEL_DIAMETER) { //inches, e.g. "20" wheel"
-   vehtext = string_format(_("<veh_adj>%d\" "), bigness);
+   vehtext = rmp_format(_("<veh_adj>%d\" "), bigness);
   }
- }
- if(vehtext.length()>9){
-     vehtext = vehtext.substr(9);
  }
  
  std::string burntext = "";
  if (volume() >= 4 && burnt >= volume() * 2)
-  burntext = std::string(_("<burnt_adj>badly burnt "));
+  burntext = rm_prefix(_("<burnt_adj>badly burnt "));
  else if (burnt > 0)
-  burntext = std::string(_("<burnt_adj>burnt "));
- if(burntext.length()>11){
-     burntext = burntext.substr(9);
- }
+  burntext = rm_prefix(_("<burnt_adj>burnt "));
 
  std::string maintext = "";
  if (typeId() == "corpse") {
   if (name != "")
-   maintext = string_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
-  else maintext = string_format(_("<item_name>%s corpse"), corpse->name.c_str());
+   maintext = rmp_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
+  else maintext = rmp_format(_("<item_name>%s corpse"), corpse->name.c_str());
  } else if (typeId() == "blood") {
   if (corpse == NULL || corpse->id == mon_null)
-   maintext = _("<item_name>human blood");
+   maintext = rm_prefix(_("<item_name>human blood"));
   else
-   maintext = string_format("<item_name>%s blood", corpse->name.c_str());
+   maintext = rmp_format("<item_name>%s blood", corpse->name.c_str());
  }
  else if (is_gun() && contents.size() > 0 ) {
-  ret.str();
-  ret << "<item_name>" << type->name;
+  ret.str("");
+  ret << type->name;
   for (int i = 0; i < contents.size(); i++)
    ret << "+";
   maintext = ret.str();
  } else if (contents.size() == 1) {
-  maintext = string_format(
+  maintext = rmp_format(
       contents[0].made_of(LIQUID)?
       _("<item_name>%s of %s"):
       _("<item_name>%s with %s"),
@@ -901,12 +895,9 @@ std::string item::tname(game *g)
   );
  }
  else if (contents.size() > 0) {
-  maintext = string_format("<item_name>%s, full", type->name.c_str());
+  maintext = rmp_format("<item_name>%s, full", type->name.c_str());
  } else {
-  maintext = "<item_name>" + type->name;
- }
- if(maintext.length()>11){
-     maintext = maintext.substr(11);
+  maintext = type->name;
  }
 
  item* food = NULL;

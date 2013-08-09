@@ -431,12 +431,7 @@ std::string calendar::textify_period()
   tx = ngettext("%d turn", "%d turns", am);
  }
 
- char* buf = new char[50];
- sprintf(buf, tx, am);
- std::string ret = buf;
- delete buf; buf=NULL;
-
- return ret;
+ return string_format(tx, am);
 }
 
 std::string calendar::day_of_week() const

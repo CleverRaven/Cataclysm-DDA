@@ -1207,7 +1207,7 @@ std::string string_format(std::string pattern, ...)
     va_end(ap);
     
     //drop contents behind $, this trick is there to skip certain arguments
-    char* break_pos = strchr(buff, '$');
+    char* break_pos = strchr(buff, '\003');
     if(break_pos) break_pos[0] = '\0';
 
     return buff;
@@ -1223,6 +1223,17 @@ std::string& capitalize_letter(std::string &str, size_t n)
        str[n] = c;
     }
 
+    return str;
+}
+
+//remove prefix of a strng, between c1 and c2, ie, "<prefix>remove it"
+std::string rm_prefix(std::string str, char c1, char c2) {
+    if(str.size()>0 && str[0]==c1) {
+        size_t pos = str.find_first_of(c2);
+        if(pos!=std::string::npos) {
+            str = str.substr(pos+1);
+        }
+    }
     return str;
 }
 
@@ -1253,6 +1264,37 @@ size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, 
     {
         // no shutcut? 
         mvwprintz(w, y, x, color, buff);
+        len = utf8_width(buff);
+    }
+    return len;
+}
+
+//same as above, from current position
+size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap,fmt);
+    char buff[3000];    //TODO replace Magic Number
+    vsprintf(buff, fmt, ap);
+    va_end(ap);
+    
+    std::string tmp = buff;
+    size_t pos = tmp.find_first_of('<');
+    size_t pos2 = tmp.find_first_of('>');
+    size_t len = 0;
+    if(pos2!=std::string::npos && pos<pos2)
+    {
+        tmp.erase(pos,1);
+        tmp.erase(pos2-1,1);
+        wprintz(w, color, tmp.substr(0, pos).c_str());
+        wprintz(w, colork, "%s", tmp.substr(pos, pos2-pos-1).c_str());
+        wprintz(w, color, tmp.substr(pos2-1).c_str());
+        len = utf8_width(tmp.c_str());
+    }
+    else
+    {
+        // no shutcut? 
+        wprintz(w, color, buff);
         len = utf8_width(buff);
     }
     return len;

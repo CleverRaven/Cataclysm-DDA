@@ -22,7 +22,19 @@ def gettextify(string):
     return "_(%r)\n" % string
 
 def writestr(fs, string):
-    if string: fs.write(gettextify(string))
+    "Wrap the string and write to the file."
+    # no empty strings
+    if not string: return
+    # none of the strings from json use string formatting.
+    # we must tell xgettext this explicitly
+    if "%" in string: fs.write("# xgettext:no-python-format\n")
+    fs.write(gettextify(string))
+
+def tlcomment(fs, string):
+    "Write the string to the file as a comment for translators."
+    fs.write("#~ ")
+    fs.write(string)
+    fs.write("\n")
 
 # create the output directory, if it does not already exist
 if not os.path.exists(to_folder):
@@ -94,6 +106,14 @@ with open(os.path.join(to_folder,"json_materials.py"), 'w') as mat_jtl:
 with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
     jsonfile = os.path.join(raw_folder, "names.json")
     jsondata = json.loads(open(jsonfile).read())
-    names = [item["name"] for item in jsondata]
-    for n in names:
-        writestr(name_jtl, '<name>' + n[0])
+    for item in jsondata:
+        if not "name" in item: continue # it probably is
+        tlinfo = ["proper name"]
+        if "gender" in item:
+            tlinfo.append("gender=" + item["gender"])
+        if "usage" in item:
+            tlinfo.append("usage=" + item["usage"])
+        if len(tlinfo) > 1: # then add it as a translator comment
+            tlcomment(name_jtl, '; '.join(tlinfo))
+        writestr(name_jtl, "<name>" + item["name"])
+

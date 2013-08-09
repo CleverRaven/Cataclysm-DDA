@@ -743,10 +743,10 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
         // part bigness, if that's relevant.
         if (part_flag(pl[i], vpf_variable_size)){
            if (part_flag(pl[i], vpf_engine)){ //bigness == liters
-              nom << string_format(_("<veh_adj>%4.2f-Liter "), (float)(parts[pl[i]].bigness) / 100).substr(9);
+              nom << rmp_format(_("<veh_adj>%4.2f-Liter "), (float)(parts[pl[i]].bigness) / 100);
            }
            else if (part_flag(pl[i], vpf_wheel)){ //bigness == inches
-              nom << string_format(_("<veh_adj>%d\" "), parts[pl[i]].bigness).substr(9);
+              nom << rmp_format(_("<veh_adj>%d\" "), parts[pl[i]].bigness);
            }
         }
         nom << part_info(pl[i]).name;
@@ -2186,7 +2186,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     if (g->u_see(x, y))
         g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name);
     player tmp;
-    tmp.name = string_format(_("<veh_player>The %s"), part_info(p).name).substr(12);
+    tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name);
     tmp.skillLevel(gun.skill_used).level(1);
     tmp.skillLevel("gun").level(0);
     tmp.recoil = abs(velocity) / 100 / 4;

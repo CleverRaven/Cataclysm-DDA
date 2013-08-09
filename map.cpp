@@ -1101,9 +1101,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     // the check for active supresses molotovs smashing themselves with their own explosion
     if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
         if (sound == "") {
-            char buf[256];
-            sprintf(buf, _("A %s shatters!  "), i_at(x,y)[i].tname().c_str());
-            sound = buf;
+            sound = string_format(_("A %s shatters!  "), i_at(x,y)[i].tname().c_str());
         } else {
             sound = _("Some items shatter!  ");
         }
@@ -2541,7 +2539,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
     }
 
     bool tryaddcharges = (new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo()));
-    std::vector<point> ps = closest_points_first(overflow_radius + 1, x, y);
+    std::vector<point> ps = closest_points_first(overflow_radius, x, y);
     for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
     {
         itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
@@ -4020,19 +4018,18 @@ std::vector<point> closest_points_first(int radius, int center_x, int center_y)
 {
     std::vector<point> points;
     int X,Y,x,y,dx,dy;
-    X = radius;
-    Y = radius;
-    x = y = dx =0;
+    X = Y = (radius * 2) + 1;
+    x = y = dx = 0;
     dy = -1;
     int t = std::max(X,Y);
-    int maxI = t*t;
-    for(int i =0; i < maxI; i++)
+    int maxI = t * t;
+    for(int i = 0; i < maxI; i++)
     {
         if ((-X/2 <= x) && (x <= X/2) && (-Y/2 <= y) && (y <= Y/2))
         {
             points.push_back(point(x + center_x, y + center_y));
         }
-        if( (x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
+        if( (x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y)))
         {
             t = dx;
             dx = -dy;

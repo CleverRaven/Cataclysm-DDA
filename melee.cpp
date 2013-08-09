@@ -126,14 +126,11 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  if (is_u)
   z->add_effect(ME_HIT_BY_PLAYER, 100); // Flag as attacked by us
 
- std::string You  = (is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- You = You.substr(5);
- std::string Your = (is_u ? _("<Your>Your") : string_format(_("<Your>%s"), name.c_str()));
- Your = Your.substr(6);
- std::string your = (is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
- your = your.substr(6);
- std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "$<%2$c%3$c>";
- std::string target = string_format(_("<target>the %s"), z->name().c_str()).substr(8);
+ std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
+ std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format(_("<Your>%s"), name.c_str()));
+ std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
+ std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "\003<%2$c%3$c>";
+ std::string target = rmp_format(_("<target>the %s"), z->name().c_str());
 
 // If !allow_grab, then we already grabbed them--meaning their dodge is hampered
  int mondodge = (allow_grab ? z->dodge_roll() : z->dodge_roll() / 3);
@@ -231,13 +228,10 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   npcPtr->make_angry();
  }
 
- std::string You  = (is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- You = You.substr(5);
- std::string Your = (is_u ? _("<Your>Your") : string_format(_("<Your>%s"), name.c_str()));
- Your = Your.substr(6);
- std::string your = (is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
- your = your.substr(6);
- std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "$<%2$c%3$c>";
+ std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
+ std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format(_("<Your>%s"), name.c_str()));
+ std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
+ std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "\003<%2$c%3$c>";
 
 // Divide their dodge roll by 2 if this is a grab
  int target_dodge = (allow_grab ? p.dodge_roll(g) : p.dodge_roll(g) / 2);
@@ -286,8 +280,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   bp_hit = bp_arms;
 
  std::string bodypart = body_part_name(bp_hit, side);
- std::string target = p.is_npc() ? string_format(_("<target>%s's %s"), p.name.c_str(), bodypart.c_str()) : string_format(_("<target>your %s"), bodypart.c_str()) ;
- target = target.substr(8);
+ std::string target = p.is_npc() ? rmp_format(_("<target>%s's %s"), p.name.c_str(), bodypart.c_str()) : rmp_format(_("<target>your %s"), bodypart.c_str()) ;
 
  bool critical_hit = scored_crit(target_dodge);
 
@@ -823,11 +816,9 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
                                int &stab_dam, int &pain)
 {
  bool mon = (z != NULL);
- std::string You = (is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
- You = You.substr(5);
- std::string target = (mon ? string_format("<target>the %s",z->name().c_str()) :
+ std::string You = rm_prefix(is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
+ std::string target = rm_prefix(mon ? string_format("<target>the %s",z->name().c_str()) :
                        (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : "<target>you"));
- target = target.substr(8);
  int tarx = (mon ? z->posx : p->posx), tary = (mon ? z->posy : p->posy);
 
  if (technique == TEC_RAPID) {
@@ -898,7 +889,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
          if (weapon.has_technique(TEC_FLAMING, this))  { // Add to wide attacks
              g->z[mondex].add_effect(ME_ONFIRE, rng(3, 4));
          }
-         std::string temp_target = string_format(_("<target>the %s"), g->z[mondex].name().c_str()).substr(8);
+         std::string temp_target = rmp_format(_("<target>the %s"), g->z[mondex].name().c_str());
          g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
      }
      int npcdex = g->npc_at(x, y);
@@ -911,7 +902,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
          if (weapon.has_technique(TEC_FLAMING, this)) {// Add to wide attacks
              g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
          }
-         std::string temp_target = string_format(_("<target>%s"), g->active_npc[npcdex]->name.c_str()).substr(8);
+         std::string temp_target = rmp_format(_("<target>%s"), g->active_npc[npcdex]->name.c_str());
          g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
 
          g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
@@ -1009,12 +1000,9 @@ void player::perform_defensive_technique(
 
 {
  bool mon = (z != NULL);
- std::string You = (is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
- You = You.substr(5);
- std::string your = (is_npc() ? (male ? _("<your>his") : _("<your>her")) : _("<your>your"));
- your = your.substr(6);
- std::string target = (mon ? string_format(_("<target>the %s"),z->name().c_str()) : string_format(_("<target>%s"),p->name.c_str()));
- target = target.substr(8);
+ std::string You = rm_prefix(is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
+ std::string your = rm_prefix(is_npc() ? (male ? _("<your>his") : _("<your>her")) : _("<your>your"));
+ std::string target = rm_prefix(mon ? string_format(_("<target>the %s"),z->name().c_str()) : string_format(_("<target>%s"),p->name.c_str()));
 
  switch (technique) {
   case TEC_BLOCK:
@@ -1098,10 +1086,9 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
  int cut_armor  = (z == NULL ? 0 : z->armor_cut());
  std::vector<special_attack> special_attacks = mutation_attacks(z, p);
  std::string target;
- if(z!=NULL) target = string_format(_("<target>the %s"),z->name().c_str());
- else if(p!=NULL) target = string_format(_("<target>%s"),p->name.c_str());
- else target = "<target>";
- target = target.substr(8);
+ if(z!=NULL) target = rmp_format(_("<target>the %s"),z->name().c_str());
+ else if(p!=NULL) target = rmp_format(_("<target>%s"),p->name.c_str());
+ else target = "";
 
  for (int i = 0; i < special_attacks.size(); i++) {
   bool did_damage = false;
@@ -1147,18 +1134,13 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   return;
  bool mon = (z != NULL);
  bool is_u = (!is_npc());
- std::string You  = (is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- You = You.substr(5);
- std::string Your = (is_u ? _("<Your>Your") : string_format(_("<Your>%s's"), name.c_str()));
- Your = Your.substr(6);
- std::string your = (is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
- your = your.substr(6);
- std::string target = (mon ? string_format(_("<target>the %s"),z->name().c_str()) :
+ std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
+ std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format(_("<Your>%s's"), name.c_str()));
+ std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
+ std::string target = rm_prefix(mon ? string_format(_("<target>the %s"),z->name().c_str()) :
                        (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : _("<target>you")));
- target = target.substr(8);
- std::string target_possessive = (mon ? string_format(_("<target's>the %s's"), z->name().c_str()) :
+ std::string target_possessive = rm_prefix(mon ? string_format(_("<target's>the %s's"), z->name().c_str()) :
                                   (p->is_npc() ? string_format(_("<target's>%s's"), p->name.c_str()) : "<target's>your"));
- target_possessive = target_possessive.substr(10);
  int tarposx = (mon ? z->posx : p->posx), tarposy = (mon ? z->posy : p->posy);
 
 // Bashing effecs
@@ -1369,14 +1351,10 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  bool mon = (z != NULL);
  bool is_u = (!is_npc());// Affects how we'll display messages
- std::string You  = (is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- You = You.substr(5);
- std::string Your = (is_u ? _("<Your>Your") : string_format("<Your>%s's", name.c_str()));
- Your = Your.substr(6);
- std::string your = (is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
- your = your.substr(6);
- std::string target = (mon ? string_format(_("<target>the %s"), z->name().c_str()) : string_format(_("<target>%s"), p->name.c_str()));
- target = target.substr(8);
+ std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
+ std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format("<Your>%s's", name.c_str()));
+ std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
+ std::string target = rm_prefix(mon ? string_format(_("<target>the %s"), z->name().c_str()) : string_format(_("<target>%s"), p->name.c_str()));
 
  std::stringstream text;
 
@@ -1493,7 +1471,7 @@ std::string melee_verb(technique_id tech, player &p, int bash_dam, int cut_dam, 
 {
  if (tech != TEC_NULL && p.weapon.is_style() &&
      p.weapon.style_data(tech).name != "")
-  return (p.is_npc()?p.weapon.style_data(tech).verb_npc:p.weapon.style_data(tech).verb_you) + "$<%2$c%3$c>";
+  return (p.is_npc()?p.weapon.style_data(tech).verb_npc:p.weapon.style_data(tech).verb_you) + "\003<%2$c%3$c>";
 
  std::stringstream ret;
 
@@ -1556,7 +1534,7 @@ std::string melee_verb(technique_id tech, player &p, int bash_dam, int cut_dam, 
                 ret << (p.is_npc()?_("%1$s whacks %4$s"):_("%1$s whack %4$s"));
             else ret << (p.is_npc()?_("%1$s hits %4$s"):_("%1$s hit %4$s"));
         }
-        ret << "$<%2$c%3$c>";
+        ret << "\003<%2$c%3$c>";
         return ret.str();
  } // switch (tech)
 
