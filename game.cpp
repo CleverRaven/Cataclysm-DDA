@@ -3112,7 +3112,7 @@ z.size(), active_npc.size(), events.size());
       uimenu skmenu;
       skmenu.text = "Select a skill to modify";
       skmenu.return_invalid = true;
-      skmenu.addentry(0, true, 'a', "Set all skills to...");
+      skmenu.addentry(0, true, '1', "Set all skills to...");
       int origskills[ Skill::skills.size()] ;
 
       for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
