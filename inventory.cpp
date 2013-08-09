@@ -1454,20 +1454,15 @@ void inventory::assign_empty_invlet(item &it)
 }
 
 void inventory::load_invlet_cache( std::ifstream &fin ) {
-    if( fin.peek() == 'P' ) {
+    // Lines are of the format "P itemname abcde".
+    while( fin.peek() == 'P' ) {
         std::string invlet_cache_line;
-        std::string item_type;
         getline( fin, invlet_cache_line );
-        // Lines are of the format "P itemname abcde".
-        while( invlet_cache_line[0] == 'P' ) {
-            int first_sym = invlet_cache_line.find_first_of(' ', 2);
-            std::string item_type( invlet_cache_line, 2, first_sym - 2 );
-            std::vector<char> symbol_vec( invlet_cache_line.begin() + first_sym + 1,
-                                          invlet_cache_line.end() );
-            invlet_cache[ item_type ] = symbol_vec;
-
-            getline( fin, invlet_cache_line );
-        }
+        int first_sym = invlet_cache_line.find_first_of(' ', 2);
+        std::string item_type( invlet_cache_line, 2, first_sym - 2 );
+        std::vector<char> symbol_vec( invlet_cache_line.begin() + first_sym + 1,
+                                      invlet_cache_line.end() );
+        invlet_cache[ item_type ] = symbol_vec;
     }
 }
 

@@ -38,9 +38,6 @@
 #include <dirent.h>
 #endif
 #include <sys/stat.h>
-#include <ctime>
-#include "disease.h"
-#include "version.h"
 #include "debug.h"
 #include "artifactdata.h"
 
@@ -57,9 +54,6 @@
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
-
-//Used in memorial file generation
-const char* getVersionString();
 
 //The one and only game instance
 game *g;
@@ -2868,9 +2862,6 @@ void game::delete_save()
  */
 void game::write_memorial_file() {
 
-    //Size of indents in the memorial file
-    const std::string indent = "  ";
-
     //Open the file first
     DIR *dir = opendir("memorial");
     if (!dir) {
@@ -2909,172 +2900,13 @@ void game::write_memorial_file() {
     std::ofstream memorial_file;
     memorial_file.open(memorial_file_path.c_str());
 
+    u.memorial( memorial_file );
+
     if(!memorial_file.is_open()) {
       dbg(D_ERROR) << "game:write_memorial_file: Unable to open " << memorial_file_path;
       debugmsg("Could not open memorial file '%s'", memorial_file_path.c_str());
     }
 
-    //Header
-    std::string version = string_format("%s", getVersionString());
-    memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
-    memorial_file << "\n";
-    memorial_file << _("In memory of: ") << u.name << "\n";
-    memorial_file << _(season_name[turn.get_season()].c_str()) << _(" of year ") << (turn.years() + 1)
-                  << _(", day ") << (turn.days() + 1) << _(", ") << turn.print_time() << ".\n";
-    memorial_file << "\n";
-
-    //Misc
-    memorial_file << _("Cash on hand: ") << "$" << u.cash << "\n";
-    memorial_file << "\n";
-
-    //HP
-    memorial_file << _("Final HP:") << "\n";
-    memorial_file << indent << _(" Head: ") << u.hp_cur[hp_head] << "/" << u.hp_max[hp_head] << "\n";
-    memorial_file << indent << _("Torso: ") << u.hp_cur[hp_torso] << "/" << u.hp_max[hp_torso] << "\n";
-    memorial_file << indent << _("L Arm: ") << u.hp_cur[hp_arm_l] << "/" << u.hp_max[hp_arm_l] << "\n";
-    memorial_file << indent << _("R Arm: ") << u.hp_cur[hp_arm_r] << "/" << u.hp_max[hp_arm_r] << "\n";
-    memorial_file << indent << _("L Leg: ") << u.hp_cur[hp_leg_l] << "/" << u.hp_max[hp_leg_l] << "\n";
-    memorial_file << indent << _("R Leg: ") << u.hp_cur[hp_leg_r] << "/" << u.hp_max[hp_leg_r] << "\n";
-    memorial_file << "\n";
-
-    //Stats
-    memorial_file << _("Final Stats:") << "\n";
-    memorial_file << indent << _("Str ") << u.str_cur << indent << _("Dex ") << u.dex_cur << indent
-                  << _("Int ") << u.int_cur << indent << _("Per ") << u.per_cur << "\n";
-    memorial_file << _("Base Stats:") << "\n";
-    memorial_file << indent << _("Str ") << u.str_max << indent << _("Dex ") << u.dex_max << indent
-                  << _("Int ") << u.int_max << indent << _("Per ") << u.per_max << "\n";
-    memorial_file << "\n";
-
-    //Kill list
-    memorial_file << _("Kills:") << "\n";
-
-    int total_kills = 0;
-    for(int i = 0; i < num_monsters; i++) {
-      if(kills[i] > 0) {
-        memorial_file << "  " << (char) mtypes[i]->sym << " - " << mtypes[i]->name << " x" << kills[i] << "\n";
-        total_kills += kills[i];
-      }
-    }
-    if(total_kills == 0) {
-      memorial_file << indent << _("No monsters were killed.") << "\n";
-    } else {
-      memorial_file << _("Total kills: ") << total_kills << "\n";
-    }
-    memorial_file << "\n";
-
-    //Skills
-    memorial_file << _("Skills:") << "\n";
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-      aSkill != Skill::skills.end(); ++aSkill) {
-      SkillLevel next_skill_level = u.skillLevel(*aSkill);
-      memorial_file << indent << (*aSkill)->name() << ": "
-              << next_skill_level.level() << " (" << next_skill_level.exercise() << "%)\n";
-    }
-    memorial_file << "\n";
-
-    //Traits
-    memorial_file << _("Traits:") << "\n";
-    for(int i = 1; i < PF_MAX2; i++) { //Don't start at i=0 or we get a 'null trait'
-      if(u.has_trait(i)) {
-        memorial_file << indent << traits[i].name << "\n";
-      }
-    }
-    memorial_file << "\n";
-
-    //Effects (illnesses)
-    memorial_file << _("Ongoing Effects:") << "\n";
-    bool had_effect = false;
-    for(int i = 0; i < u.illness.size(); i++) {
-      disease next_illness = u.illness[i];
-      if(dis_name(next_illness).size() > 0) {
-        had_effect = true;
-        memorial_file << indent << dis_name(next_illness) << "\n";
-      }
-    }
-    //Various effects not covered by the illness list - from player.cpp
-    if(u.morale_level() >= 100) {
-      had_effect = true;
-      memorial_file << indent << _("Elated") << "\n";
-    }
-    if(u.morale_level() <= -100) {
-      had_effect = true;
-      memorial_file << indent << _("Depressed") << "\n";
-    }
-    if(u.pain - u.pkill > 0) {
-      had_effect = true;
-      memorial_file << indent << _("Pain") << " (" << (u.pain - u.pkill) << ")";
-    }
-    if(u.stim > 0) {
-      had_effect = true;
-      int dexbonus = int(u.stim / 10);
-      if (abs(u.stim) >= 30) {
-        dexbonus -= int(abs(u.stim - 15) /  8);
-      }
-      if(dexbonus < 0) {
-        memorial_file << indent << _("Stimulant Overdose") << "\n";
-      } else {
-        memorial_file << indent << _("Stimulant") << "\n";
-      }
-    } else if(u.stim < 0) {
-      had_effect = true;
-      memorial_file << indent << _("Depressants") << "\n";
-    }
-    if(!had_effect) {
-      memorial_file << indent << _("(None)") << "\n";
-    }
-    memorial_file << "\n";
-
-    //Bionics
-    memorial_file << _("Bionics:") << "\n";
-    int total_bionics = 0;
-    for(int i = 0; i < u.my_bionics.size(); i++) {
-      bionic_id next_bionic_id = u.my_bionics[i].id;
-      memorial_file << indent << (i+1) << ": " << bionics[next_bionic_id]->name << "\n";
-      total_bionics++;
-    }
-    if(total_bionics == 0) {
-      memorial_file << indent << _("No bionics were installed.") << "\n";
-    } else {
-      memorial_file << _("Total bionics: ") << total_bionics << "\n";
-    }
-    memorial_file << _("Power: ") << u.power_level << "/" << u.max_power_level << "\n";
-    memorial_file << "\n";
-
-    //Equipment
-    memorial_file << _("Equipment:") << "\n";
-    for(int i = 0; i < u.worn.size(); i++) {
-      item next_item = u.worn[i];
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname(this);
-      if(next_item.charges > 0) {
-        memorial_file << " (" << next_item.charges << ")";
-      } else if (next_item.contents.size() == 1
-              && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
-    }
-    memorial_file << "\n";
-
-    //Inventory
-    memorial_file << _("Inventory:") << "\n";
-    u.inv.sort();
-    u.inv.restack(&u);
-    for(int i = 0; i < u.inv.size(); i++) {
-      invslice slice = u.inv.slice(i, 1);
-      item& next_item = slice[0]->front();
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname(this);
-      if(slice[0]->size() > 1) {
-        memorial_file << " [" << slice[0]->size() << "]";
-      }
-      if(next_item.charges > 0) {
-        memorial_file << " (" << next_item.charges << ")";
-      } else if (next_item.contents.size() == 1
-              && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
-    }
 
     //Cleanup
     memorial_file.close();
@@ -3320,11 +3152,88 @@ z.size(), active_npc.size(), events.size());
    }
    break;
 
-  case 11:
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill)
-      u.skillLevel(*aSkill).level(u.skillLevel(*aSkill) + 3);
-    add_msg(_("Skills increased."));
-   break;
+  case 11: {
+      const int skoffset = 1;
+      uimenu skmenu;
+      skmenu.text = "Select a skill to modify";
+      skmenu.return_invalid = true;
+      skmenu.addentry(0, true, '1', "Set all skills to...");
+      int origskills[ Skill::skills.size()] ;
+
+      for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+           aSkill != Skill::skills.end(); ++aSkill) {
+        int skill_id = (*aSkill)->id();
+        skmenu.addentry( skill_id + skoffset, true, -1, "@ %d: %s  ",
+                         (int)u.skillLevel(*aSkill), (*aSkill)->ident().c_str() );
+        origskills[skill_id] = (int)u.skillLevel(*aSkill);
+      }
+      do {
+        skmenu.query();
+        int skill_id = -1;
+        int skset = -1;
+        int sksel = skmenu.selected - skoffset;
+        if ( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
+          if ( sksel >= 0 && sksel < Skill::skills.size() ) {
+            skill_id = sksel;
+            skset = (int)u.skillLevel( Skill::skills[skill_id]) +
+                ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
+          }
+        } else if ( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < Skill::skills.size() ) {
+          skill_id = sksel;
+          uimenu sksetmenu;
+          sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
+          sksetmenu.w_y = skmenu.w_y + 2;
+          sksetmenu.w_height = skmenu.w_height - 4;
+          sksetmenu.return_invalid = true;
+          sksetmenu.settext( "Set '%s' to..", Skill::skills[skill_id]->ident().c_str() );
+          int skcur = (int)u.skillLevel(Skill::skills[skill_id]);
+          sksetmenu.selected = skcur;
+          for ( int i = 0; i < 21; i++ ) {
+              sksetmenu.addentry( i, true, i + 48, "%d%s", i, (skcur == i ? " (current)" : "") );
+          }
+          sksetmenu.query();
+          skset = sksetmenu.ret;
+        }
+        if ( skset != -1 && skill_id != -1 ) {
+          u.skillLevel( Skill::skills[skill_id] ).level(skset);
+          skmenu.textformatted[0] = string_format("%s set to %d             ",
+              Skill::skills[skill_id]->ident().c_str(),
+              (int)u.skillLevel(Skill::skills[skill_id])).substr(0,skmenu.w_width - 4);
+          skmenu.entries[skill_id + skoffset].txt = string_format("@ %d: %s  ",
+              (int)u.skillLevel( Skill::skills[skill_id]), Skill::skills[skill_id]->ident().c_str() );
+          skmenu.entries[skill_id + skoffset].text_color =
+              ( (int)u.skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
+                skmenu.text_color : c_yellow );
+        } else if ( skmenu.ret == 0 && sksel == -1 ) {
+          int ret = menu(true, "Set all skills...",
+                         "+3","+1","-1","-3","To 0","To 5","To 10","(Reset changes)",NULL);
+          if ( ret > 0 ) {
+              int skmod = 0;
+              int skset = -1;
+              if (ret < 5 ) {
+                skmod=( ret < 3 ? ( ret == 1 ? 3 : 1 ) :
+                    ( ret == 3 ? -1 : -3 )
+                );
+              } else if ( ret < 8 ) {
+                skset=( ( ret - 5 ) * 5 );
+              }
+              for (int skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
+                int changeto = ( skmod != 0 ? u.skillLevel( Skill::skills[skill_id] ) + skmod :
+                                 ( skset != -1 ? skset : origskills[skill_id] ) );
+                u.skillLevel( Skill::skills[skill_id] ).level( changeto );
+                skmenu.entries[skill_id + skoffset].txt =
+                    string_format("@ %d: %s  ", (int)u.skillLevel(Skill::skills[skill_id]),
+                                  Skill::skills[skill_id]->ident().c_str() );
+                skmenu.entries[skill_id + skoffset].text_color =
+                    ( (int)u.skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
+                      skmenu.text_color : c_yellow );
+              }
+          }
+        }
+      } while ( ! ( skmenu.ret == -1 && ( skmenu.keypress == 'q' || skmenu.keypress == ' ' ||
+                                          skmenu.keypress == KEY_ESCAPE ) ) );
+    }
+    break;
 
   case 12:
     for(std::vector<std::string>::iterator it = martial_arts_itype_ids.begin();
