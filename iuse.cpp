@@ -2255,7 +2255,7 @@ void iuse::shishkebab_off(game *g, player *p, item *it, bool t)
         if (rng(0, 10) - it->damage > 5 && it->charges > 0)
         {
             g->sound(p->posx, p->posy, 10,
-                     _("With a whoosh, the shishkebab is covered in flames!"));
+                     _("With a hiss, the shishkebab glows cherry-red!"));
             it->make(g->itypes["shishkebab_on"]);
             it->active = true;
         }
@@ -2279,7 +2279,7 @@ void iuse::shishkebab_on(game *g, player *p, item *it, bool t)
 
         if (one_in(75))
         {
-            g->add_msg_if_player(p,_("Your shishkebab flames out!")),
+            g->add_msg_if_player(p,_("Your shishkebab sputters and goes out!")),
               it->make(g->itypes["shishkebab_off"]),
               it->active = false;
         }
@@ -2294,7 +2294,7 @@ void iuse::shishkebab_on(game *g, player *p, item *it, bool t)
                 break;
         case 1:
         {
-            g->add_msg_if_player(p,_("Your shishkebab sputters and goes out."));
+            g->add_msg_if_player(p,_("You switch off your shishkebab."));
             it->make(g->itypes["shishkebab_off"]);
             it->active = false;
         }

@@ -404,40 +404,40 @@
         },
 
 
-		{
+            {
             "result": "shishkebab_off",
             "category": "CC_WEAPON",
-			"skill_pri": "survival",
+            "skill_pri": "survival",
             "difficulty": 0,
             "time": 10000,
             "reversible": true,
             "autolearn": true,
             "components": [
-                              [
-                                  ["leather", 5]
-                              ],
-							  [
-							      ["pipe", 1]
-							  ],
-                              [
-                                  ["makeshift_machete", 1]
-                              ],
-							  [
-							      ["flamethrower_crude", 1]
-							  ]
+                            [
+                                ["leather", 5]
+                            ],
+                            [
+                                ["pipe", 1]
+                            ],
+                            [
+                                ["makeshift_machete", 1]
+                            ],
+                            [
+                                ["flamethrower_crude", 1]
+                            ]
                           ]
         },
 
 
-		{
+        {
             "result": "firemachete_off",
             "category": "CC_WEAPON",
-			"skill_pri": "mechanics",
+            "skill_pri": "mechanics",
             "difficulty": 3,
             "time": 20000,
             "reversible": true,
             "autolearn": true,
-			"tools": [
+            "tools": [
                          [
                              ["goggles_welding", -1]
                          ],
@@ -448,30 +448,30 @@
                          ]
                      ],
             "components": [
-                              [
-                                  ["leather", 5]
-                              ],
-							  [
-							      ["pipe", 1]
-							  ],
-                              [
-                                  ["machete", 1]
-                              ],
-							  [
-							      ["flamethrower_crude", 1]
-							  ]
+                            [
+                                ["leather", 5]
+                            ],
+                            [
+                                ["pipe", 1]
+                            ],
+                            [
+                                ["machete", 1]
+                            ],
+                            [
+                                ["flamethrower_crude", 1]
+                            ]
                           ]
         },
-		
-	    {
+
+        {
             "result": "broadfire_off",
             "category": "CC_WEAPON",
-			"skill_pri": "mechanics",
+            "skill_pri": "mechanics",
             "difficulty": 7,
             "time": 30000,
             "reversible": true,
             "autolearn": true,
-			"tools": [
+            "tools": [
                          [
                              ["goggles_welding", -1]
                          ],
@@ -482,30 +482,30 @@
                          ]
                      ],
             "components": [
-                              [
-                                  ["leather", 5]
-                              ],
-							  [
-							      ["pipe", 1]
-							  ],
-                              [
-                                  ["broadsword", 1]
-                              ],
-							  [
-							      ["flamethrower_crude", 1]
-							  ]
+                            [
+                                ["leather", 5]
+                            ],
+                            [
+                                ["pipe", 1]
+                            ],
+                            [
+                                ["broadsword", 1]
+                            ],
+                            [
+                                ["flamethrower_crude", 1]
+                            ]
                           ]
         },
-		
-		{
+
+        {
             "result": "firekatana_off",
             "category": "CC_WEAPON",
-			"skill_pri": "mechanics",
+            "skill_pri": "mechanics",
             "difficulty": 7,
             "time": 30000,
             "reversible": true,
             "autolearn": true,
-			"tools": [
+            "tools": [
                          [
                              ["goggles_welding", -1]
                          ],
@@ -516,22 +516,22 @@
                          ]
                      ],
             "components": [
-                              [
-                                  ["leather", 5]
-                              ],
-							  [
-							      ["pipe", 1]
-							  ],
-                              [
-                                  ["katana", 1]
-                              ],
-							  [
-							      ["flamethrower_crude", 1]
-							  ]
+                            [
+                                ["leather", 5]
+                            ],
+                            [
+                                ["pipe", 1]
+                            ],
+                            [
+                                ["katana", 1]
+                            ],
+                            [
+                                ["flamethrower_crude", 1]
+                            ]
                           ]
         },
-		
-      
+
+
       {
             "result": "sling",
          "category": "CC_WEAPON",
