@@ -250,6 +250,7 @@ bool item::stacks_with(item rhs)
  bool stacks = (type   == rhs.type   && damage  == rhs.damage  &&
                 active == rhs.active && charges == rhs.charges &&
                 item_tags == rhs.item_tags &&
+                item_vars == rhs.item_vars &&
                 contents.size() == rhs.contents.size() &&
                 (!goes_bad() || bday == rhs.bday));
 
@@ -927,7 +928,11 @@ std::string item::tname(game *g)
 
  ret << damtext << vehtext << burntext << maintext << tagtext;
 
- return ret.str();
+ if (item_vars.size()) {
+  return "*" + ret.str() + "*";
+ } else {
+  return ret.str();
+ }
 }
 
 nc_color item::color() const
