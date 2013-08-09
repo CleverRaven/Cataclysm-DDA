@@ -10159,6 +10159,29 @@
                               ]
                           ]
         },
+        {
+            "result": "candlestick",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "difficulty": 0,
+            "time": 2000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["gold_small", 100]
+                              ]
+                          ]
+        },
 		{
             "result": "tihar",
             "category": "CC_WEAPON",
