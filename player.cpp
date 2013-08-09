@@ -2028,6 +2028,9 @@ void player::memorial( std::ofstream &memorial_file )
 
     //Header
     std::string version = string_format("%s", getVersionString());
+    oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+    std::string tername = oterlist[cur_ter].name;
+
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << name << "\n";
@@ -2037,6 +2040,7 @@ void player::memorial( std::ofstream &memorial_file )
                   << _(" of year ") << (g->turn.years() + 1)
                   << _(", day ") << (g->turn.days() + 1) 
                   << _(", at ") << g->turn.print_time() << ".\n";
+    memorial_file << pronoun << _(" was killed in a ") << tername << ".\n";
     memorial_file << "\n";
 
     //Misc
