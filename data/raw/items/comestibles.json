@@ -5183,7 +5183,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "fried_spam",
-        "name" : "Fried SPAM",
+        "name" : "fried SPAM",
         "weight" : 500,
         "color" : "pink",
         "addiction_type" : "none",
