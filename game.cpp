@@ -10732,7 +10732,7 @@ void game::plswim(int x, int y)
   u.rem_disease("onfire");
  }
  int movecost = u.swim_speed();
- u.practice(turn, "swimming", 1);
+ u.practice(turn, "swimming", u.underwater ? 2 : 1);
  if (movecost >= 500) {
   if (!u.underwater) {
    add_msg(_("You sink%s!"), (movecost >= 400 ? _(" like a rock") : ""));

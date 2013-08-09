@@ -3755,6 +3755,10 @@ void player::pause(game *g)
    arm_max = 20;
   add_disease("armor_boost", 2, arm_amount, arm_max);
  }
+
+// Train swimming if underwater
+ if (underwater)
+   practice(g->turn, "swimming", 1);
 }
 
 int player::throw_range(signed char ch)
