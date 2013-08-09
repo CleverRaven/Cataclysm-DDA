@@ -2716,8 +2716,37 @@
       [ "bee_sting", 1 ]
     ]
   ]
+},{        
+         "type" : "recipe",
+  "result": "bolt_metal",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": ["archery", 3],
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        ["hacksaw", -1],
+        ["toolset", -1]
+    ],
+    [
+      ["rock", -1],
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+      [
+        ["scrap", 6],
+        ["steel_chunk", 2]
+      ]
+  ]
 },{
-        "type" : "recipe",
+         "type" : "recipe",
   "result": "9mm",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
