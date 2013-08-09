@@ -2638,6 +2638,8 @@ void game::load(std::string name)
  getline(fin, data);
  u.load_info(this, data);
 // And the player's inventory...
+ u.inv.load_invlet_cache( fin );
+
  char item_place;
  std::string itemdata;
 // We need a temporary vector of items.  Otherwise, when we encounter an item
@@ -2648,18 +2650,19 @@ void game::load(std::string name)
   fin >> item_place;
   if (!fin.eof()) {
    getline(fin, itemdata);
-   if (item_place == 'I')
-    tmpinv.push_back(item(itemdata, this));
-   else if (item_place == 'C')
-    tmpinv.back().contents.push_back(item(itemdata, this));
-   else if (item_place == 'W')
-    u.worn.push_back(item(itemdata, this));
-   else if (item_place == 'S')
-    u.worn.back().contents.push_back(item(itemdata, this));
-   else if (item_place == 'w')
-    u.weapon = item(itemdata, this);
-   else if (item_place == 'c')
-    u.weapon.contents.push_back(item(itemdata, this));
+   if (item_place == 'I') {
+       tmpinv.push_back(item(itemdata, this));
+   } else if (item_place == 'C') {
+       tmpinv.back().contents.push_back(item(itemdata, this));
+   } else if (item_place == 'W') {
+       u.worn.push_back(item(itemdata, this));
+   } else if (item_place == 'S') {
+       u.worn.back().contents.push_back(item(itemdata, this));
+   } else if (item_place == 'w') {
+       u.weapon = item(itemdata, this);
+   } else if (item_place == 'c') {
+       u.weapon.contents.push_back(item(itemdata, this));
+   }
   }
  }
 // Now dump tmpinv into the player's inventory
