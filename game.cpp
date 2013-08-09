@@ -6555,7 +6555,16 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
     }
 
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
-    mvwprintz( window, 5, rightcol - 7, c_ltgray, _("%s weight vol"), ( isinventory ? _("amt") : ( isall ? _("src") : "   " ) ) );
+    if (isinventory) {
+        //~ advanced inventory; "amount", "weight", "volume"; 14 letters
+        mvwprintz( window, 5, rightcol - 7, c_ltgray, _("amt weight vol") );
+    } else if (isall) {
+        //~ advanced inventory; "source", "weight", "volume"; 14 letters
+        mvwprintz( window, 5, rightcol - 7, c_ltgray, _("src weight vol") );
+    } else {
+        //~ advanced inventory; "weight", "volume"; 14 letters, right-aligned
+        mvwprintz( window, 5, rightcol - 7, c_ltgray, _("    weight vol") );
+    }
 
     for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
       if ( items[i].volume == -8 ) { // I'm a header!
