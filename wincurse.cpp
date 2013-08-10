@@ -182,7 +182,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
 
     case WM_SETCURSOR:
         MouseOver = LOWORD(lParam);
-        if (OPTIONS["HIDE_CURSOR"] == 1)
+        if (OPTIONS["HIDE_CURSOR"] == "Hidden")
         {
             if (MouseOver==HTCLIENT && CursorVisible)
             {
@@ -472,7 +472,7 @@ int curses_getch(WINDOW* win)
         CheckMessages();
     };
 
-    if (lastchar!=ERR && OPTIONS["HIDE_CURSOR"]==2 && CursorVisible){
+    if (lastchar!=ERR && OPTIONS["HIDE_CURSOR"] == "HiddenKB" && CursorVisible) {
         CursorVisible = false;
         ShowCursor(false);
     }
