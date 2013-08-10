@@ -1072,7 +1072,7 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_head)) {
             bonus += 3;
         }
-
+        
         if(bonus) {
             add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
         }
@@ -2494,7 +2494,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
-
+ 
  const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
@@ -2734,7 +2734,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
     mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
     mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
-                      OPTIONS[OPT_USE_METRIC_WEIGHT]?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHT"]?"kg":"lbs");
     mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
@@ -3234,7 +3234,7 @@ void player::disp_morale(game *g)
 
 void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
-    int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
+    int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "Narrow");
 
     WINDOW *weapwin = sideStyle ? w2 : w;
     mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
@@ -3427,7 +3427,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   int speedox = sideStyle ? 0 : 33;
   int speedoy = sideStyle ? 5 :  3;
 
-  bool metric = OPTIONS[OPT_USE_METRIC_SPEED];
+  bool metric = OPTIONS["USE_METRIC_SPEED"];
   const char *units = metric ? "km/h" : "mph";
   int velx    = metric ?  5 : 4; // strlen(units) + 1
   int cruisex = metric ? 10 : 9; // strlen(units) + 6
@@ -3836,14 +3836,22 @@ int player::read_speed(bool real_life)
 
 int player::rust_rate(bool real_life)
 {
- if (OPTIONS[OPT_SKILL_RUST] == 4) return 0;
- int intel = (real_life ? int_cur : int_max);
- int ret = (OPTIONS[OPT_SKILL_RUST] < 2 ? 500 : 500 - 35 * (intel - 8));
- if (has_trait(PF_FORGETFUL))
-  ret *= 1.33;
- if (ret < 0)
-  ret = 0;
- return (real_life ? ret : ret / 10);
+    if (OPTIONS["SKILL_RUST"] == "Off") {
+        return 0;
+    }
+
+    int intel = (real_life ? int_cur : int_max);
+    int ret = ((OPTIONS["SKILL_RUST"] == "Vanilla" || OPTIONS["SKILL_RUST"] == "Capped") ? 500 : 500 - 35 * (intel - 8));
+
+    if (has_trait(PF_FORGETFUL)) {
+        ret *= 1.33;
+    }
+
+    if (ret < 0) {
+        ret = 0;
+    }
+
+    return (real_life ? ret : ret / 10);
 }
 
 int player::talk_skill()
@@ -4861,7 +4869,7 @@ void player::suffer(game *g)
  {
      if (radiation < 0) radiation = 0;
      else if (radiation > 2000) radiation = 2000;
-     if (OPTIONS[OPT_RAD_MUTATION] && rng(60, 2500) < radiation)
+     if (OPTIONS["RAD_MUTATION"] && rng(60, 2500) < radiation)
      {
          mutate(g);
          radiation /= 2;
@@ -5076,7 +5084,7 @@ double player::convert_weight(int weight)
 {
     double ret;
     ret = double(weight);
-    if (OPTIONS[OPT_USE_METRIC_WEIGHT]) {
+    if (OPTIONS["USE_METRIC_WEIGHT"]) {
         ret /= 1000;
     } else {
         ret /= 453.6;
@@ -6341,13 +6349,10 @@ bool player::eat(game *g, signed char ch)
             it.contents.erase(it.contents.begin());
             if (!is_npc())
             {
-                switch ((int)OPTIONS[OPT_DROP_EMPTY])
-                {
-                case 0:
-                    g->add_msg(_("%c - an empty %s"), it.invlet,
-                               it.tname(g).c_str());
-                    break;
-                case 1:
+                if (OPTIONS["DROP_EMPTY"] == "No") {
+                    g->add_msg(_("%c - an empty %s"), it.invlet, it.tname(g).c_str());
+
+                } else if (OPTIONS["DROP_EMPTY"] == "Watertight") {
                     if (it.is_container())
                     {
                         if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS")))
@@ -6356,19 +6361,18 @@ bool player::eat(game *g, signed char ch)
                             g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                         }
                         else
-                            g->add_msg(_("%c - an empty %s"), it.invlet,
-                                       it.tname(g).c_str());
+                        {
+                            g->add_msg(_("%c - an empty %s"), it.invlet,it.tname(g).c_str());
+                        }
                     }
                     else if (it.type->id == "wrapper") // hack because wrappers aren't containers
                     {
                         g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                         g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                     }
-                    break;
-                case 2:
+                } else if (OPTIONS["DROP_EMPTY"] == "All") {
                     g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                     g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
-                    break;
                 }
             }
             if (inv.stack_by_letter(it.invlet).size() > 0)
@@ -6860,7 +6864,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             if (armor->covers & mfb(i) && encumb(i) >= 4)
             {
                 g->add_msg(
-                    (i == bp_head || i == bp_torso) ?
+                    (i == bp_head || i == bp_torso) ? 
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
                     body_part_name(body_part(i), 2).c_str(), encumb_text(body_part(i)).c_str());
             }
@@ -7884,8 +7888,8 @@ void player::try_to_sleep(game *g)
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
   g->add_msg(
-             terlist[ter_at_pos].movecost <= 2 ?
-             _("It's a little hard to get to sleep on this %s.") :
+             terlist[ter_at_pos].movecost <= 2 ? 
+             _("It's a little hard to get to sleep on this %s.") : 
              _("It's hard to get to sleep on this %s."),
              terlist[ter_at_pos].name.c_str());
  add_disease("lying_down", 300);

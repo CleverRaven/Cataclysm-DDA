@@ -840,7 +840,7 @@ std::string item::tname(game *g)
    }
   }
  }
- 
+
  std::string vehtext = "";
  if (is_var_veh_part()){
   if(type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT){ //liters, e.g. "3.21-Liter V8 engine"
@@ -853,7 +853,7 @@ std::string item::tname(game *g)
    vehtext = rmp_format(_("<veh_adj>%d\" "), bigness);
   }
  }
- 
+
  std::string burntext = "";
  if (volume() >= 4 && burnt >= volume() * 2)
   burntext = rm_prefix(_("<burnt_adj>badly burnt "));
@@ -1143,7 +1143,7 @@ bool item::rotten(game *g)
 
 bool item::ready_to_revive(game *g)
 {
-    if (OPTIONS[OPT_REVIVE_ZOMBIES]) {
+    if (OPTIONS["REVIVE_ZOMBIES"]) {
         if (type->id != "corpse" || corpse->species != species_zombie || damage >= 4)
         {
             return false;
