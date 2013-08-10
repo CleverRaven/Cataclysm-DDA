@@ -13,18 +13,17 @@
 
 
 ////////////////////////////////////
-
-
 int getfoldedwidth (std::vector<std::string> foldedstring) {
     int ret=0;
     for ( int i=0; i < foldedstring.size() ; i++ ) {
-		int width = utf8_width(foldedstring[i].c_str());
+        int width = utf8_width(foldedstring[i].c_str());
         if ( width > ret ) {
-			ret=width;
-		}
+	    ret=width;
+        }
     }
     return ret;
 }
+
 ////////////////////////////////////
 uimenu::uimenu() {
     init();
@@ -139,11 +138,11 @@ void uimenu::show() {
         autoassign.clear();
         int pad = pad_left + pad_right + 2;
         for ( int i = 0; i < entries.size(); i++ ) {
-			int txtwidth = utf8_width(entries[ i ].txt.c_str());
+            int txtwidth = utf8_width(entries[ i ].txt.c_str());
             if(entries[ i ].enabled) {
                 if( entries[ i ].hotkey > 0 ) {
                     keymap[ entries[ i ].hotkey ] = i;
-                } else if ( entries[ i ].hotkey == -1 ) {
+                } else if ( entries[ i ].hotkey == -1 && i < 100 ) {
                     autoassign.push_back(i);
                 }
                 if ( entries[ i ].retval == -1 ) {
@@ -157,21 +156,26 @@ void uimenu::show() {
                     w_width = txtwidth + pad + 4;    // todo: or +5 if header
                 }
             }
+            if ( entries[ i ].text_color == C_UNSET_MASK ) {
+                entries[ i ].text_color = text_color;
+            }
         }
         if ( autoassign.size() > 0 ) {
             for ( int a = 0; a < autoassign.size(); a++ ) {
                 int palloc = autoassign[ a ];
+                int setkey=-1;
                 if ( palloc < 9 ) {
-                    entries[ palloc ].hotkey = palloc + 49; // 1-9;
+                    setkey = palloc + 49; // 1-9;
                 } else if ( palloc == 9 ) {
-                    entries[ palloc ].hotkey = palloc + 39; // 0;
+                    setkey = palloc + 39; // 0;
                 } else if ( palloc < 36 ) {
-                    entries[ palloc ].hotkey = palloc + 87; // a-z
+                    setkey = palloc + 87; // a-z
                 } else if ( palloc < 61 ) {
-                    entries[ palloc ].hotkey = palloc + 29; // A-Z
+                    setkey = palloc + 29; // A-Z
                 }
-                if ( palloc < 61 ) {
-                    keymap[ entries[ palloc ].hotkey ] = palloc;
+                if ( setkey != -1 && keymap.find(setkey) == keymap.end() ) {
+                    entries[ palloc ].hotkey = setkey;
+                    keymap[ setkey ] = palloc;
                 }
             }
         }
@@ -181,7 +185,8 @@ void uimenu::show() {
         }
 
         if(text.size() > 0 ) {
-			int twidth = utf8_width(text.c_str());
+            int twidth = utf8_width(text.c_str());
+            bool formattxt=true;
             if ( textwidth == -1 ) {
                 if ( w_autofold || !w_auto ) {
                    realtextwidth = w_width - 4;
@@ -191,13 +196,25 @@ void uimenu::show() {
                        if ( realtextwidth + 4 > TERMX ) {
                            realtextwidth = TERMX - 4;
                        }
-                       w_width = realtextwidth + 4;
+                       textformatted = foldstring(text, realtextwidth);
+                       formattxt=false;
+                       realtextwidth = 10;
+                       for ( int l=0; l < textformatted.size(); l++ ) {
+                           if ( utf8_width(textformatted[l].c_str()) > realtextwidth ) {
+                               realtextwidth = utf8_width(textformatted[l].c_str());
+                           }
+                       }
+                       if ( realtextwidth + 4 > w_width ) {
+                           w_width = realtextwidth + 4;
+                       }
                    }
                 }
             } else if ( textwidth != -1 ) {
                 realtextwidth = textwidth;
             }
-            textformatted = foldstring(text, realtextwidth);
+            if ( formattxt == true ) {
+                textformatted = foldstring(text, realtextwidth);
+            }
         }
 
         if (h_auto) {
@@ -250,7 +267,12 @@ void uimenu::show() {
     }
     for ( int ei = vshift, si=0; si < vmax; ei++,si++ ) {
         if ( ei < entries.size() ) {
-            nc_color co = ( ei == selected ? hilight_color : ( entries[ ei ].enabled ? text_color : disabled_color ) );
+            nc_color co = ( ei == selected ?
+               hilight_color : 
+               ( entries[ ei ].enabled ? 
+                  entries[ ei ].text_color : 
+               disabled_color ) 
+            );
             if ( hilight_full ) {
                mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
             }
@@ -270,10 +292,13 @@ void uimenu::query(bool loop) {
     if ( entries.size() < 1 ) {
         return;
     }
-    //int last_selected = selected;
-    int startret = ret;
+    int last_selected = selected;
+    int startret = UIMENU_INVALID;
+    ret = UIMENU_INVALID;
+    show();
     do {
-        show();
+        //show();
+        last_selected = selected;
         keypress = getch();
         if ( keypress == KEY_UP || keypress == KEY_PPAGE ) {
             if ( keypress == KEY_PPAGE ) {
@@ -325,13 +350,12 @@ void uimenu::query(bool loop) {
             } else if ( return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
             }
-        } else if ( keypress == 27 && return_invalid) { //break loop with ESCAPE key if cancelable
-            break;
         } else {
             if ( return_invalid ) {
                 ret = -1;
             }
         }
+        show();
     } while ( loop & (ret == startret ) );
 }
 
@@ -342,4 +366,53 @@ uimenu::~uimenu() {
     delwin(window);
     window = NULL;
     init();
+}
+
+void uimenu::addentry(std::string str) {
+   entries.push_back(str);
+}
+
+void uimenu::addentry(int r, bool e, int k, std::string str) {
+   entries.push_back(uimenu_entry(r, e, k, str));
+}
+
+void uimenu::addentry(const char *format, ...) {
+   char buf[4096];
+   va_list ap;
+   va_start(ap, format);
+   int safe=vsnprintf(buf, sizeof(buf), format, ap);
+   if ( safe >= 4096 || safe < 0 ) {
+     popup("BUG: Increase buf[4096] in ui.cpp");
+     return;
+   }
+   entries.push_back(std::string(buf));
+}
+
+void uimenu::addentry(int r, bool e, int k, const char *format, ...) {
+   char buf[4096];
+   int rv=r; bool en=e; int ke=k;
+   va_list ap;
+   va_start(ap, format);
+   int safe=vsnprintf(buf, sizeof(buf), format, ap);
+   if ( safe >= 4096 || safe < 0 ) {
+     popup("BUG: Increase buf[4096] in ui.cpp");
+     return;
+   }
+   entries.push_back(uimenu_entry(rv, en, ke, std::string(buf)));
+}
+
+void::uimenu::settext(std::string str) {
+   text = str;
+}
+
+void uimenu::settext(const char *format, ...) {
+   char buf[16384];
+   va_list ap;
+   va_start(ap, format);
+   int safe=vsnprintf(buf, sizeof(buf), format, ap);
+   if ( safe >= 16384 || safe < 0 ) {
+     popup("BUG: Increase buf[16384] in ui.cpp");
+     return;
+   }
+   text = std::string(buf);
 }

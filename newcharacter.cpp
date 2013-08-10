@@ -310,6 +310,7 @@ bool player::create(game *g, character_type type, std::string tempname)
  for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter)
  {
     tmp = item(item_controller->find_template(*iter), 0);
+    tmp = tmp.in_its_container(&(g->itypes));
     inv.push_back(tmp);
  }
 

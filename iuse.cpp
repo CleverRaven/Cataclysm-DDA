@@ -938,7 +938,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     if (fix->made_of("cotton") || fix->made_of("wool"))
     {
         repair_items.push_back("rag");
-        plurals.push_back(_("<plural>rags"));
+        plurals.push_back(rm_prefix(_("<plural>rags")));
     }
     if (fix->made_of("leather"))
     {
