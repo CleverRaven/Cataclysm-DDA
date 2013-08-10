@@ -220,8 +220,8 @@
                               ]
                           ]
         },
-
-
+		
+		
         {
             "result": "makeshift_halberd",
             "category": "CC_WEAPON",
@@ -402,8 +402,136 @@
                               ]
                           ]
         },
-		
-      
+
+
+            {
+            "result": "shishkebab_off",
+            "category": "CC_WEAPON",
+            "skill_pri": "survival",
+            "difficulty": 0,
+            "time": 10000,
+            "reversible": true,
+            "autolearn": true,
+            "components": [
+                            [
+                                ["leather", 5]
+                            ],
+                            [
+                                ["pipe", 1]
+                            ],
+                            [
+                                ["makeshift_machete", 1]
+                            ],
+                            [
+                                ["flamethrower_crude", 1]
+                            ]
+                          ]
+        },
+
+
+        {
+            "result": "firemachete_off",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "difficulty": 3,
+            "time": 20000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+                         [
+                             ["welder", 20],
+                             ["welder_crude", 30],
+                             ["toolset", 1]
+                         ]
+                     ],
+            "components": [
+                            [
+                                ["leather", 5]
+                            ],
+                            [
+                                ["pipe", 1]
+                            ],
+                            [
+                                ["machete", 1]
+                            ],
+                            [
+                                ["flamethrower_crude", 1]
+                            ]
+                          ]
+        },
+
+        {
+            "result": "broadfire_off",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "difficulty": 7,
+            "time": 30000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+                         [
+                             ["welder", 20],
+                             ["welder_crude", 30],
+                             ["toolset", 1]
+                         ]
+                     ],
+            "components": [
+                            [
+                                ["leather", 5]
+                            ],
+                            [
+                                ["pipe", 1]
+                            ],
+                            [
+                                ["broadsword", 1]
+                            ],
+                            [
+                                ["flamethrower_crude", 1]
+                            ]
+                          ]
+        },
+
+        {
+            "result": "firekatana_off",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "difficulty": 7,
+            "time": 30000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+                         [
+                             ["welder", 20],
+                             ["welder_crude", 30],
+                             ["toolset", 1]
+                         ]
+                     ],
+            "components": [
+                            [
+                                ["leather", 5]
+                            ],
+                            [
+                                ["pipe", 1]
+                            ],
+                            [
+                                ["katana", 1]
+                            ],
+                            [
+                                ["flamethrower_crude", 1]
+                            ]
+                          ]
+        },
+
+
       {
             "result": "sling",
          "category": "CC_WEAPON",
@@ -7035,6 +7163,138 @@
 
 
         {
+            "result": "bikini_top",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 12],
+                             ["sewing_kit", 12]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 3]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bikini_top_leather",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 12],
+                             ["sewing_kit", 12]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["leather", 3]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bikini_top_fur",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 12],
+                             ["sewing_kit", 12]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["fur", 3]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "hot_pants",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 15],
+                             ["sewing_kit", 15]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 4]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "hot_pants_leather",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 15],
+                             ["sewing_kit", 15]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["leather", 4]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "hot_pants_fur",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 38000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 15],
+                             ["sewing_kit", 15]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["fur", 4]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "tank_top",
             "category": "CC_ARMOR",
             "skill_pri": "tailor",
@@ -8805,7 +9065,7 @@
             "time": 2000,
             "reversible": false,
             "autolearn": true,
-            "tools": [ [ ["hammer", -1], ["toolset", -1], ["hatchet", -1] ] ],
+            "tools": [ [  ["rock", -1], ["primitive_hammer", -1], ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
             "components": [ [ ["steel_chunk", 2] ],
                             [ ["duct_tape", 30] ] ]
 
@@ -10104,6 +10364,197 @@
                               ]
                           ]
         },
+        
+        {
+            "result": "bowl_plastic",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 1,
+            "time": 12000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["plastic_chunk", 3]
+                              ]
+                          ]
+        },
+        
+        {
+            "result": "mold_plastic",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 2,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["bowl_plastic", 2]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "bottle_plastic",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "skill_sec": "cooking",
+            "difficulty": 4,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                                  ["mold_plastic", -1]
+                              ],
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["plastic_chunk", 3]
+                              ]
+                          ]
+        },
+        {
+         "result" : "shaft_plastic",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 0,
+         "time" : 1000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+                         [
+                                  ["mold_plastic", -1]
+                              ],
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ]
+                     ],
+         "components" : [
+                              [
+                                  ["plastic_chunk", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+         "result" : "arrowhead_plastic",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 5,
+         "time" : 20000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+                              [
+                                  ["mold_plastic", -1]
+                              ],
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ]
+         ],
+         "components" : [
+                             [
+
+                                  ["plastic_chunk", 1]
+                              ]
+         ]
+        },
+        
+            {
+         "result" : "arrow_plastic",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 5,
+         "time" : 30000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+                             [
+                                  ["mold_plastic", -1]
+                              ],
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ]
+         ],
+         "components" : [
+            [
+               ["arrowhead_plastic", 10]
+            ],
+            [
+               ["shaft_plastic", 10]
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
+        },
+
+        {
+            "result": "chemistry_set",
+            "category": "CC_CHEM",
+            "skill_pri": "mechanics",
+            "difficulty": 2,
+            "time": 50000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1],
+                             ["screwdriver", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["wire", 5],
+                                  ["cable", 5]
+                              ],
+                              [
+                                  ["glasses_safety", 1]
+                              ],
+                              [
+                                  ["bottle_glass", 4],
+                                  ["flask_glass", 4]
+                              ],
+                              [
+                                  ["backpack", 1],
+                                  ["rucksack", 1],
+                                  ["duffelbag", 1]
+                          ]
+            ]
+        },
+
             {
                 "result": "nailrifle",
                 "category": "CC_WEAPON",
@@ -10156,6 +10607,29 @@
             "components": [
                               [
                                   ["gold_small", 800]
+                              ]
+                          ]
+        },
+        {
+            "result": "candlestick",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "difficulty": 0,
+            "time": 2000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["gold_small", 100]
                               ]
                           ]
         },

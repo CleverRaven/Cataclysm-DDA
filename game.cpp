@@ -10784,6 +10784,8 @@ void game::plmove(int x, int y)
      add_msg(_("You start swimming.  %s to dive underwater."),
              press_x(ACTION_MOVE_DOWN).c_str());
    plswim(x, y);
+  } else {
+   u.drench(this, 40);
   }
 
  } else { // Invalid move
@@ -10822,7 +10824,7 @@ void game::plswim(int x, int y)
   u.rem_disease("onfire");
  }
  int movecost = u.swim_speed();
- u.practice(turn, "swimming", 1);
+ u.practice(turn, "swimming", u.underwater ? 2 : 1);
  if (movecost >= 500) {
   if (!u.underwater) {
     add_msg(_("You sink like a rock!"));
@@ -10840,6 +10842,8 @@ void game::plswim(int x, int y)
  bool diagonal = (x != u.posx && y != u.posy);
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
+
+ u.drench(this, 100);
 }
 
 void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled)

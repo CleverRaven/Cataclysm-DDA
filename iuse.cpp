@@ -2236,6 +2236,273 @@ void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::shishkebab_off(game *g, player *p, item *it, bool t)
+{
+    int choice = menu(true,
+                      _("Shishkebab"), _("Turn on"), _("Use as a knife"), _("Cancel"), NULL);
+    switch (choice)
+    {
+        if (choice == 2)
+            break;
+    case 1:
+    {
+        p->moves -= 10;
+        if (rng(0, 10) - it->damage > 5 && it->charges > 0)
+        {
+            g->sound(p->posx, p->posy, 10,
+                     _("With a hiss, the shishkebab glows cherry-red!"));
+            it->make(g->itypes["shishkebab_on"]);
+            it->active = true;
+        }
+
+        else
+            g->add_msg_if_player(p,_("There is a small spark, but nothing else."));
+    }
+    break;
+    case 2:
+    {
+        iuse::knife(g, p, it, t);
+    }
+    }
+}
+void iuse::shishkebab_on(game *g, player *p, item *it, bool t)
+{
+    if (t)   	// Effects while simply on
+    {
+        if (one_in(15))
+            g->sound(p->posx, p->posy, 5, _("Your Shishkebab crackles."));
+
+        if (one_in(75))
+        {
+            g->add_msg_if_player(p,_("Your shishkebab sputters and goes out!")),
+              it->make(g->itypes["shishkebab_off"]),
+              it->active = false;
+        }
+    }
+    else
+    {
+        int choice = menu(true,
+                          _("Shishkebab"), _("Turn off"), _("Light something"), _("Cancel"), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            g->add_msg_if_player(p,_("You switch off your shishkebab."));
+            it->make(g->itypes["shishkebab_off"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 5;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
+}
+
+void iuse::firemachete_off(game *g, player *p, item *it, bool t)
+{
+    int choice = menu(true,
+                      _("No. 9"), _("Turn on"), _("Use as a knife"), _("Cancel"), NULL);
+    switch (choice)
+    {
+        if (choice == 2)
+            break;
+    case 1:
+    {
+        p->moves -= 10;
+        if (rng(0, 10) - it->damage > 2 && it->charges > 0)
+        {
+            g->sound(p->posx, p->posy, 10,
+                     _("Heat 'em up!"));
+            it->make(g->itypes["firemachete_on"]);
+            it->active = true;
+        }
+
+        else
+            g->add_msg_if_player(p,_("Click."));
+    }
+    break;
+    case 2:
+    {
+        iuse::knife(g, p, it, t);
+    }
+    }
+}
+void iuse::firemachete_on(game *g, player *p, item *it, bool t)
+{
+    if (t)   	// Effects while simply on
+    {
+        if (one_in(25))
+            g->sound(p->posx, p->posy, 5, _("Your No. 9 hisses."));
+        if (one_in(100))
+        {
+            g->add_msg_if_player(p,_("Your No. 9 cuts out!")),
+              it->make(g->itypes["firemachete_off"]),
+              it->active = false;
+        }
+    }
+    else
+    {
+        int choice = menu(true,
+                          (p,_("No. 9"), it->tname().c_str()), _("Turn off"), _("Light something"), _("Cancel"), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            g->add_msg_if_player(p,_("Your No. 9 goes dark."));
+            it->make(g->itypes["firemachete_off"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 5;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
+}
+
+void iuse::broadfire_off(game *g, player *p, item *it, bool t)
+{
+    int choice = menu(true,
+                      _("What will thou do?"), _("Ready for battle!"), _("Perform peasant work?"), _("Reconsider thy strategy"), NULL);
+    switch (choice)
+    {
+        if (choice == 2)
+            break;
+    case 1:
+    {
+        p->moves -= 10;
+        if (it->charges > 0)
+        {
+            g->sound(p->posx, p->posy, 10,
+                     _("Charge!!"));
+            it->make(g->itypes["broadfire_on"]);
+            it->active = true;
+        }
+        else
+            g->add_msg_if_player(p,_("No strength to fight!"));
+    }
+    break;
+    case 2:
+    {
+        iuse::knife(g, p, it, t);
+    }
+    }
+}
+void iuse::broadfire_on(game *g, player *p, item *it, bool t)
+{
+    if (t)   	// Effects while simply on
+    {
+        if (one_in(35))
+            g->sound(p->posx, p->posy, 5, _("Your Firebrand burns for combat!."));
+    }
+    else
+    {
+        int choice = menu(true,
+                          (p,_("What will thou do?"), it->tname().c_str()), _("Retreat!"), _("Burn and Pillage!"), _("Keep Fighting!"), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            g->add_msg_if_player(p,_("Run away!"));
+            it->make(g->itypes["broadfire_off"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 5;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
+}
+
+void iuse::firekatana_off(game *g, player *p, item *it, bool t)
+{
+    int choice = menu(true,
+                      _("The Dark of Night."), _("Daybreak"), _("The Moonlight's Edge"), _("Eternal Night"), NULL);
+    switch (choice)
+    {
+        if (choice == 2)
+            break;
+    case 1:
+    {
+        p->moves -= 10;
+        if (it->charges > 0)
+        {
+            g->sound(p->posx, p->posy, 10,
+                     _("The Sun rises."));
+            it->make(g->itypes["firekatana_on"]);
+            it->active = true;
+        }
+        else
+            g->add_msg_if_player(p,_("Time stands still."));
+    }
+    break;
+    case 2:
+    {
+        iuse::knife(g, p, it, t);
+    }
+    }
+}
+void iuse::firekatana_on(game *g, player *p, item *it, bool t)
+{
+    if (t)   	// Effects while simply on
+    {
+        if (one_in(35))
+            g->sound(p->posx, p->posy, 5, _("The Sun shines brightly."));
+    }
+    else
+    {
+        int choice = menu(true,
+                          (p,_("The Light of Day."), it->tname().c_str()), _("Nightfall"), _("Blazing Heat"), _("Endless Day"), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            g->add_msg_if_player(p,_("The Sun sets."));
+            it->make(g->itypes["firekatana_off"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 5;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
+}
+
 void iuse::jackhammer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;

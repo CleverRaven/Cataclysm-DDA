@@ -8,7 +8,7 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 
-const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "PLAS", "water" };
+const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
 
 enum vehicle_controls {
  toggle_cruise_control,
