@@ -11,7 +11,7 @@
         "points": 3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "You can run more quickly than most, resulting in a 15% speed bonus on sure footing."
+        "description": "You can run more quickly than most, resulting in a 15%% speed bonus on sure footing."
     },
     {
         "name": "Parkour Expert",
@@ -25,7 +25,7 @@
         "points": 3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "You're just generally quick!  You get a 10% bonus to action points."
+        "description": "You're just generally quick!  You get a 10%% bonus to action points."
     },
     {
         "name": "Optimist",
@@ -81,7 +81,7 @@
         "points": 3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "It takes a lot to bring you down!  You get a 20% bonus to all hit points."
+        "description": "It takes a lot to bring you down!  You get a 20%% bonus to all hit points."
     },
     {
         "name": "Thick-Skinned",
@@ -95,7 +95,7 @@
         "points": 3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "You can manage to find space for anything!  You can carry 40% more volume."
+        "description": "You can manage to find space for anything!  You can carry 40%% more volume."
     },
     {
         "name": "Fast Learner",
@@ -207,7 +207,7 @@
         "points": 3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "For your whole life you've been forbidden from indulging in your peculiar tastes. Now the world's ended, and you'll be damned if anyone is going to tell you you can't eat people."
+        "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you you can't eat people."
     },
     {
         "name": "Martial Arts Training",
@@ -221,7 +221,7 @@
         "points": 3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "You have taken some self-defense classes at a nearby gym. You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan."
+        "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan."
     },
     {
         "name": "Shaolin Adept",
@@ -248,7 +248,7 @@
         "points": 1,
         "visibility": 0,
         "ugliness": -2,
-        "description": "You are a sight to behold. NPCs who care about such thing will react more kindly to you."
+        "description": "You are a sight to behold.  NPCs who care about such thing will react more kindly to you."
     },
 
     {
@@ -292,7 +292,7 @@
         "points": -3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%."
+        "description": "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%%."
     },
     {
         "name": "Illiterate",
@@ -320,14 +320,14 @@
         "points": -3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "You have problems with eating meat. It's possible for you to eat it, but you will suffer morale penalties due to nausea."
+        "description": "You have problems with eating meat.  It's possible for you to eat it, but you will suffer morale penalties due to nausea."
     },
     {
         "name": "Glass Jaw",
         "points": -3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Your head can't take much abuse.  Its maximum HP is 20% lower than usual."
+        "description": "Your head can't take much abuse.  Its maximum HP is 20%% lower than usual."
     },
     {
         "name": "Forgetful",
@@ -439,7 +439,7 @@
         "points": -6,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Your whole body can't take much abuse.  Its maximum HP is 75% points lower than usual.  Stacks with Glass Jaw. Not for casuals."
+        "description": "Your whole body can't take much abuse.  Its maximum HP is 75%% points lower than usual.  Stacks with Glass Jaw.  Not for casuals."
     },
 
     {
@@ -539,7 +539,7 @@
         "points": 2,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Your bones are very light.  This enables you to run and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more."
+        "description": "Your bones are very light.  This enables you to run and attack 10%% faster, but also reduces your carrying weight by 20%% and makes bashing attacks hurt a little more."
     },
     {
         "name": "Feathers",
@@ -707,7 +707,7 @@
         "points": 1,
         "visibility": 1,
         "ugliness": 0,
-        "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot."
+        "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10%% bonus when running barefoot."
     },
     {
         "name": "Hooves",
@@ -763,7 +763,7 @@
         "points": 4,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Your legs are extremely limber and fast-moving.  You run 30% faster on flat surfaces."
+        "description": "Your legs are extremely limber and fast-moving.  You run 30%% faster on flat surfaces."
     },
     {
         "name": "Stubby Tail",
@@ -1120,7 +1120,7 @@
         "points": -6,
         "visibility": 0,
         "ugliness": 0,
-        "description": "You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is very light as a result, enabling you to run and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more."
+        "description": "You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is very light as a result, enabling you to run and attack 20%% faster, but also frail; you can carry 40%% less, and bashing attacks injure you more."
     },
     {
         "name": "Nausea",
@@ -1274,49 +1274,49 @@
         "points": -3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Your muscles are generally slow to move.  You run 10% slower."
+        "description": "Your muscles are generally slow to move.  You run 10%% slower."
     },
     {
         "name": "Very Ponderous",
         "points": -5,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Your muscles are quite slow to move.  You run 20% slower."
+        "description": "Your muscles are quite slow to move.  You run 20%% slower."
     },
     {
         "name": "Extremely Ponderous",
         "points": -8,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Your muscles are very slow to move.  You run 30% slower."
+        "description": "Your muscles are very slow to move.  You run 30%% slower."
     },
     {
         "name": "Sunlight dependent",
         "points": -5,
         "visibility": 0,
         "ugliness": 0,
-        "description": "You feel very sluggish when not in direct sunlight.  You suffer a 5% drop in speed when in shade, and a 10% drop in speed when in the dark."
+        "description": "You feel very sluggish when not in direct sunlight.  You suffer a 5%% drop in speed when in shade, and a 10%% drop in speed when in the dark."
     },
     {
         "name": "Heat dependent",
         "points": -2,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 degrees below 65 F."
+        "description": "Your muscle response is dependent on ambient temperatures.  You lose 1%% of your speed for every 5 degrees below 65 F."
     },
     {
         "name": "Very Heat dependent",
         "points": -3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 degrees below 65 F."
+        "description": "Your muscle response is highly dependent on ambient temperatures.  You lose 1%% of your speed for every 3 degrees below 65 F."
     },
     {
         "name": "Cold Blooded",
         "points": -5,
         "visibility": 0,
         "ugliness": 0,
-        "description": "You are cold-blooded and rely on heat to keep moving.  Your lose 1% of your speed for every 2 degrees below 65 F."
+        "description": "You are cold-blooded and rely on heat to keep moving.  Your lose 1%% of your speed for every 2 degrees below 65 F."
     },
     {
         "name": "Growling Voice",
@@ -1386,6 +1386,6 @@
         "points": -3,
         "visibility": 8,
         "ugliness": 4,
-        "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, but makes your movement silent.  However, they also increase your swimming speed."
+        "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%%, but makes your movement silent.  However, they also increase your swimming speed."
     }
 ]
