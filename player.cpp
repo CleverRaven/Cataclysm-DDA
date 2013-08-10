@@ -3519,6 +3519,44 @@ void player::toggle_mutation(int flag)
  my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
 }
 
+mutation_category player::get_highest_category() // Returns the mutation category with the highest strength
+{
+	int level = 0;
+	mutation_category maxcat = MUTCAT_NULL;
+	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
+	{
+		if (mutation_category_level[i] > level)
+		{
+			maxcat = mutation_category(i);
+			level = mutation_category_level[i];
+		}
+	}
+	return maxcat;
+}
+
+int player::get_category_level(mutation_category cat) // Returns the strength of a given mutation category
+{
+	int level = 0;
+	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
+	{
+		if (mutation_category(i) == cat)
+		{
+			level = mutation_category_level[i];
+		}
+	}
+	return level;
+}
+
+std::string player::get_category_dream(mutation_category cat, int strength) // Returns a randomly selected dream
+{
+	int index = 0;
+	std::string message;
+	std::vector<std::string> dreams = category_dreams(cat, strength); // Selects only dreams from the designated category and strength
+	index = (rng(0, (dreams.size() - 1)));
+	message = dreams[index];
+	return message;	
+}
+
 bool player::in_climate_control(game *g)
 {
     bool regulated_area=false;
