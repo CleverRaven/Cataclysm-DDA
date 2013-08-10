@@ -6237,6 +6237,7 @@ case ot_public_works_entrance:{
   place_items("bigtools",	80,  18, 7, 21,  7, false, 0);
   place_items("office",	80,  18,  11, 20,  11, false, 0);
   place_items("office",	60,  18,  13, 18,  13, false, 0);
+  place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.2);
   if (t_north == ot_public_works && t_west == ot_public_works)
    rotate(3);
   else if (t_north == ot_public_works && t_east == ot_public_works)
@@ -6289,6 +6290,7 @@ case ot_public_works:{
      spawn_item(16, 7, "2x4", 0, rng(1, 20));
      spawn_item(12, 2, "nail", 0);
      spawn_item(13, 2, "nail", 0);
+     place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
      if (t_west == ot_public_works_entrance)
             rotate(1);
      if (t_north == ot_public_works_entrance)
@@ -6332,6 +6334,7 @@ ____sss                 \n",
      place_items("construction_worker",	90,  3, 10, 10,  10, false, 0);
      place_items("office",	80,  15,  19, 17,  19, false, 0);
      place_items("cleaning",	80,  17,  16, 17,  16, false, 0);
+     place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.3);
      if (t_north == ot_public_works_entrance)
             rotate(1);
      if (t_east == ot_public_works_entrance)
@@ -6378,6 +6381,7 @@ __________           f  \n",
      place_items("electronics",	80,  16,  2, 18,  2, false, 0);
      place_items("cleaning",	85,  12,  2, 13,  2, false, 0);
      spawn_item(3, 2, "log", 0, rng(1, 3));
+     place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
      if (t_west == ot_public_works && t_north == ot_public_works){
             rotate(1);
             if (x_in_y(2,3)){add_vehicle (g, veh_truck, 2, 0, 90);}

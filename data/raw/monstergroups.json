@@ -285,5 +285,20 @@
     "monsters" : [
       { "monster" : "mon_zombie_soldier", "freq" : 50, "multiplier" : 0 }
     ]
+  },
+  {
+    "name" : "GROUP_PUBLICWORKERS",
+    "default" : "mon_zombie_electric",
+    "monsters" : [
+      { "monster" : "mon_zombie_grabber", "freq" : 100, "multiplier" : 1 },
+      { "monster" : "mon_zombie_smoker", "freq" : 100, "multiplier" : 5 },
+      { "monster" : "mon_zombie_shrieker", "freq" : 100, "multiplier" : 5 },
+      { "monster" : "mon_zombie_spitter", "freq" : 100, "multiplier" : 5 },
+      { "monster" : "mon_zombie", "freq" : 100, "multiplier" : 5 },
+      { "monster" : "mon_zombie_brute", "freq" : 20, "multiplier" : 15 },
+      { "monster" : "mon_zombie_hulk", "freq" : 1, "multiplier" : 50 },
+      { "monster" : "mon_zombie_master", "freq" : 1, "multiplier" : 25 },
+      { "monster" : "mon_crow", "freq" : 1, "multiplier" : 0 }
+    ]
   }
 ]
