@@ -3043,6 +3043,9 @@
                                   ["gunpowder", 160]
                               ],
                               [
+                                  ["22_casing", 40]
+                              ],
+                              [
                                   ["lead", 80], ["gold_small", 80]
                               ]
                           ]
@@ -3077,6 +3080,9 @@
                               ],
                               [
                                   ["gunpowder", 240]
+                              ],                              
+                              [
+                                  ["22_casing", 40]
                               ],
                               [
                                   ["lead", 80], ["gold_small", 80]
@@ -3112,6 +3118,9 @@
                               ],
                               [
                                   ["gunpowder", 180]
+                              ],
+                              [
+                                  ["22_casing", 30]
                               ],
                               [
                                   ["incendiary", 60]
