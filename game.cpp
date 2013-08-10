@@ -10693,6 +10693,8 @@ void game::plmove(int x, int y)
      add_msg(_("You start swimming.  %s to dive underwater."),
              press_x(ACTION_MOVE_DOWN).c_str());
    plswim(x, y);
+  } else {
+   u.drench(this, 40);
   }
 
  } else { // Invalid move
