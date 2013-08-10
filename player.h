@@ -206,6 +206,8 @@ public:
  void mend(game *g);
  void vomit(game *g);
 
+ void drench(game *g, int saturation); // drenches the player in water; saturation is percent
+
  char lookup_item(char let);
  bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail

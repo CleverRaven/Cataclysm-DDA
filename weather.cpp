@@ -21,7 +21,7 @@ void weather_effect::wet(game *g)
       !g->u.has_trait(PF_FEATHERS) && g->u.warmth(bp_torso) < 20 &&
       PLAYER_OUTSIDE && one_in(2))
     {
-        g->u.add_morale(MORALE_WET, -1, -30);
+      g->u.drench(g, 30 - g->u.warmth(bp_torso));
     }
 
 // Put out fires and reduce scent
@@ -44,7 +44,7 @@ void weather_effect::very_wet(game *g)
       (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) &&
       !g->u.has_trait(PF_FEATHERS) && g->u.warmth(bp_torso) < 50 && PLAYER_OUTSIDE)
     {
-        g->u.add_morale(MORALE_WET, -1, -60);
+      g->u.drench(g, 60 - g->u.warmth(bp_torso));
     }
 
 // Put out fires and reduce scent

@@ -1367,6 +1367,38 @@ t   t\n\
    rotate(3);
   break;
 
+ case ot_pool: {
+   fill_background(this, t_grass);
+   mapf::formatted_set_simple(this, 0, 0,
+"\
+........................\n\
+........................\n\
+..++n++n++n++n++n++n++..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..++n++n++n++n++n++n++..\n\
+........................\n\
+........................\n",
+   mapf::basic_bind( "+ n . w", t_concrete, t_concrete, t_grass, t_water_dp ),
+   mapf::basic_bind( "n", f_dive_block));
+ } break;
+
  case ot_park: {
   if (one_in(3)) { // Playground
    fill_background(this, t_grass);

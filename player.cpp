@@ -5031,6 +5031,15 @@ void player::vomit(game *g)
  rem_disease("sleep");
 }
 
+void player::drench(game *g, int saturation) {
+  int morale_cap = (g->temperature - 60) * saturation / 100;
+
+  if (morale_cap == 0)
+    return;
+
+  add_morale(MORALE_WET, (morale_cap > 0?1:-1), morale_cap);
+}
+
 int player::weight_carried()
 {
     int ret = 0;
