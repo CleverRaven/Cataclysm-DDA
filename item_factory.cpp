@@ -524,6 +524,7 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                 new_item_template->melee_cut = entry.get("cutting").as_int();
                 new_item_template->m_to_hit = entry.get("to_hit").as_int();
 
+                new_item_template->light_emission = 0;
                 if( entry.has("flags") )
                 {
                     new_item_template->item_tags = entry.get("flags").as_tags();
@@ -538,12 +539,19 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     ALARMCLOCK - Has an alarmclock feature
                     MALE_TYPICAL - Typically only worn by men.
                     FEMALE_TYPICAL - Typically only worn by women.
+                    LIGHT_* - light emission, sets cached int light_emission
 
                     Container-only flags:
                     SEALS
                     RIGID
                     WATERTIGHT
                     */
+                    if ( new_item_template->item_tags.size() > 0 ) {
+                        for( std::set<std::string>::const_iterator it = new_item_template->item_tags.begin();
+                        it != new_item_template->item_tags.end(); ++it ) {
+                            set_intvar(std::string(*it), new_item_template->light_emission, 1, 10000);
+                        }
+                    }
                 }
 
                 new_item_template->techniques = (!entry.has("techniques") ? 0 :
@@ -836,3 +844,12 @@ phase_id Item_factory::phase_from_tag(Item_tag name){
         return PNULL;
     }
 };
+
+void Item_factory::set_intvar(std::string tag, unsigned int & var, int min, int max) {
+    if( tag.size() > 6 && tag.substr(0,6) == "LIGHT_" ) {
+        int candidate=atoi(tag.substr(6).c_str());
+        if ( candidate >= min && candidate <= max ) {
+            var=candidate;
+        }
+    }
+}

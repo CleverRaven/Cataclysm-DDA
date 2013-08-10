@@ -63,6 +63,8 @@ private:
     bool is_mod_target(catajson targets, std::string weapon);
     phase_id phase_from_tag(Item_tag name);
 
+    void set_intvar(std::string tag, unsigned int & var, int min, int max);
+
     //two convenience functions that just call into set_bitmask_by_string
     void set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type);
     //sets a bitmask (cur_bitmask) based on the values of flag_map and new_flag

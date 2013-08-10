@@ -80,12 +80,10 @@ void map::generate_lightmap(game* g)
     }
 
 // add_ to buffer, apply_ later
-    for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm )
-    {
-        if ( itm->has_flag("LIGHT_20")) { add_light_source(sx, sy, 20); } else
-        if ( itm->has_flag("LIGHT_1")) { add_light_source(sx, sy, 1); } else
-        if ( itm->has_flag("LIGHT_4")) { add_light_source(sx, sy, 4); } else
-        if ( itm->has_flag("LIGHT_8")) { add_light_source(sx, sy, 8); }
+    for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm ) {
+        if ( itm->type->light_emission > 0 ) {
+            add_light_source(sx, sy, (float)itm->type->light_emission );
+        }
     }
 
    if(terrain == t_lava) {
