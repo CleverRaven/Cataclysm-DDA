@@ -124,7 +124,9 @@ ifeq ($(NATIVE), osx)
   OSX_MIN = 10.5
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  LDFLAGS += -lintl
+  ifeq ($(LOCALIZE), 1)
+    LDFLAGS += -lintl
+  endif
   TARGETSYSTEM=LINUX
   ifneq ($(OS), GNU/Linux)
     BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
@@ -148,7 +150,10 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static -lgdi32 -lintl -liconv
+  LDFLAGS += -static -lgdi32
+  ifeq ($(LOCALIZE), 1)
+    LDFLAGS += -lintl -liconv
+  endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
 endif
