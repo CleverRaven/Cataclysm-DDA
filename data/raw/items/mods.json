@@ -637,7 +637,7 @@
     {
         "type" : "GUNMOD",
         "id" : "improve_sights",
-        "name" : "Improved Ironsights",
+        "name" : "improved iron sights",
         "clip_size_modifier" : 0,
         "dispersion_modifier" : 0,
         "damage_modifier" : 0,
@@ -661,7 +661,7 @@
     {
         "type" : "GUNMOD",
         "id" : "red_dot_sight",
-        "name" : "Red Dot Tactical Optic",
+        "name" : "red dot tac-op",
         "clip_size_modifier" : 0,
         "dispersion_modifier" : -5,
         "damage_modifier" : 0,
@@ -685,7 +685,7 @@
     {
         "type" : "GUNMOD",
         "id" : "holo_sight",
-        "name" : "Holographic Sight",
+        "name" : "holographic sight",
         "clip_size_modifier" : 0,
         "dispersion_modifier" : -6,
         "damage_modifier" : 0,
@@ -709,7 +709,7 @@
     {
         "type" : "GUNMOD",
         "id" : "rifle_scope",
-        "name" : "Rifle Scope",
+        "name" : "rifle scope",
         "clip_size_modifier" : 0,
         "dispersion_modifier" : -8,
         "damage_modifier" : 0,
