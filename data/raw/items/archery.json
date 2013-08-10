@@ -880,7 +880,7 @@
                 "symbol":"=",
 		"color":"green",
                 "name":"plastic arrow",
-		"description":"This plastic arrow has a steel arrow head and some fletchings.",
+		"description":"This plastic arrow has a plastic arrow head and some fletchings.",
                 "rarity":5,
 		"price":20,
 		"material":"plastic",
