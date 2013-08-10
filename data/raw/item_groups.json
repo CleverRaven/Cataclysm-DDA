@@ -310,6 +310,7 @@
       ["sw_22", 5],
       ["glock_19", 7],
       ["usp_9mm", 6],
+      ["cx4", 1],
       ["sw_619", 4],
       ["taurus_38", 4],
       ["sig_40", 4],
@@ -1024,6 +1025,7 @@
     "items":[
       ["marlin_9a", 14],
       ["ruger_1022", 12],
+      ["cx4", 15],
       ["browning_blr", 8],
       ["remington_700", 14],
       ["sks", 12],
@@ -1095,6 +1097,7 @@
       ["hk_mp7", 5],
       ["marlin_9a", 14],
       ["ruger_1022", 12],
+      ["cx4", 15],
       ["browning_blr", 8],
       ["remington_700", 14],
       ["sks", 12],
@@ -2047,7 +2050,8 @@
       ["bio_railgun", 10],
       ["bio_flashbang", 10],
       ["bio_chain_lightning", 10],
-      ["bio_power_armor_interface", 10]
+      ["bio_power_armor_interface", 10],
+      ["bio_power_armor_interface_mkII", 5]
     ]
   },
   { "id":"bionics_common",
@@ -2258,7 +2262,8 @@
       ["bio_time_freeze", 10],
       ["bio_teleport", 10],
       ["bio_probability_travel", 10],
-      ["bio_power_armor_interface", 10]
+      ["bio_power_armor_interface", 10],
+      ["bio_power_armor_interface_mkII", 5]
     ]
   },
   { "id":"weapons",

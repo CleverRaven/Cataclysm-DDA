@@ -1270,6 +1270,33 @@
   },
 
   {
+    "id": "cx4",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "Cx4 Storm",
+    "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the CX4 Storm uses magazines that are interchangeable with  handguns of the same series.",
+    "rarity": 15,
+    "price": 1450,
+    "material": ["steel", "plastic"],
+    "skill": "rifle",
+    "ammo": "9mm",
+    "weight": 2575,
+    "volume": 11,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 4,
+    "ranged_damage": 0,
+    "range": 20,
+    "dispersion": 12,
+    "recoil": -1,
+    "durability": 10,
+    "burst": 0,
+    "clip_size": 15,
+    "reload": 300
+  },
+
+  {
     "id": "browning_blr",
     "type": "GUN",
     "symbol": "(",
