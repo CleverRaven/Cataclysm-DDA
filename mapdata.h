@@ -700,7 +700,7 @@ const furn_t furnlist[num_furniture_types] = { // MUST match enum furn_id above!
     mfb(place_item), &iexamine::none},
 {"safe",               'X', c_ltgray,   -10, 14,
     mfb(transparent)|mfb(bashable)|mfb(container)|mfb(sealed)|
-    mfb(place_item), &iexamine::none}, // actually locked
+    mfb(place_item), &iexamine::safe}, // actually locked
 {"open safe",          'O', c_ltgray,   -10, 14,
     mfb(transparent)|mfb(bashable)|mfb(container)|
     mfb(place_item), &iexamine::none},
