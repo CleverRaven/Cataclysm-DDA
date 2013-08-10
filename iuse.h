@@ -130,6 +130,7 @@ class iuse
   void tazer		(game *g, player *p, item *it, bool t);
   void mp3		(game *g, player *p, item *it, bool t);
   void mp3_on		(game *g, player *p, item *it, bool t);
+  void portable_game    (game *g, player *p, item *it, bool t);
   void vortex		(game *g, player *p, item *it, bool t);
   void dog_whistle	(game *g, player *p, item *it, bool t);
   void vacutainer	(game *g, player *p, item *it, bool t);

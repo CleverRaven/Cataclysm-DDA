@@ -3279,6 +3279,24 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::portable_game(game *g, player *p, item *it, bool t)
+{
+  if(p->has_trait(PF_ILLITERATE)) {
+    g->add_msg(_("You're illiterate!"));
+  } else if(it->charges == 0) {
+    g->add_msg_if_player(p,_("The %s's batteries are dead."), it->name.c_str());
+  } else {
+
+    //Play in 15-minute chunks
+    int time = 15000;
+
+    g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
+    p->assign_activity(g, ACT_GAME, time, -1, it->invlet, "gaming");
+    p->moves = 0;
+
+  }
+}
+
 void iuse::vortex(game *g, player *p, item *it, bool t)
 {
  std::vector<point> spawn;
