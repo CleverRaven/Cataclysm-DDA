@@ -2015,13 +2015,32 @@ void player::memorial( std::ofstream &memorial_file )
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
+    const std::string gender_str = male ? _("male") : _("female");
+    const std::string pronoun = male ? _("He") : _("She");
+
+    //Avoid saying "a male unemployed" or similar
+    std::stringstream profession_name;
+    if(prof == prof->generic()) {
+      profession_name << _("an unemployed ") << gender_str;
+    } else {
+      profession_name << _("a ") << gender_str << " " << prof->name();
+    }
+
     //Header
     std::string version = string_format("%s", getVersionString());
+    oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+    std::string tername = oterlist[cur_ter].name;
+
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << name << "\n";
-    memorial_file << _(season_name[g->turn.get_season()].c_str()) << _(" of year ") << (g->turn.years() + 1)
-                  << _(", day ") << (g->turn.days() + 1) << _(", ") << g->turn.print_time() << ".\n";
+    memorial_file << pronoun << _(" was ") << profession_name.str()
+                  << _(" when the apocalypse began.") << "\n";
+    memorial_file << pronoun << _(" died on ") << _(season_name[g->turn.get_season()].c_str())
+                  << _(" of year ") << (g->turn.years() + 1)
+                  << _(", day ") << (g->turn.days() + 1) 
+                  << _(", at ") << g->turn.print_time() << ".\n";
+    memorial_file << pronoun << _(" was killed in a ") << tername << ".\n";
     memorial_file << "\n";
 
     //Misc
@@ -2077,10 +2096,15 @@ void player::memorial( std::ofstream &memorial_file )
 
     //Traits
     memorial_file << _("Traits:") << "\n";
+    bool had_trait = false;
     for(int i = 1; i < PF_MAX2; i++) { //Don't start at i=0 or we get a 'null trait'
       if(has_trait(i)) {
+        had_trait = true;
         memorial_file << indent << traits[i].name << "\n";
       }
+    }
+    if(!had_trait) {
+      memorial_file << indent << _("(None)") << "\n";
     }
     memorial_file << "\n";
 
@@ -2144,6 +2168,10 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << "\n";
 
     //Equipment
+    memorial_file << _("Weapon:") << "\n";
+    memorial_file << indent << weapon.invlet << " - " << weapon.tname(g) << "\n";
+    memorial_file << "\n";
+
     memorial_file << _("Equipment:") << "\n";
     for(int i = 0; i < worn.size(); i++) {
       item next_item = worn[i];
