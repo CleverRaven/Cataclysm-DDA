@@ -5773,7 +5773,7 @@ void game::close()
         veh->parts[vpart].open = 0;
         veh->insides_dirty = true;
         didit = true;
-    } else if (m.i_at(closex, closey).size() > 0)
+    } else if (m.furn(closex, closey) != f_safe_o && m.i_at(closex, closey).size() > 0)
         add_msg(_("There's %s in the way!"), m.i_at(closex, closey).size() == 1 ?
                 m.i_at(closex, closey)[0].tname(this).c_str() : _("some stuff"));
     else if (closex == u.posx && closey == u.posy)
@@ -5783,7 +5783,8 @@ void game::close()
         add_msg(_("You cannot close the curtains from outside. You must be inside the building."));
     } else if (m.has_furn(closex, closey) &&
                m.furn(closex, closey) != f_canvas_door_o &&
-               m.furn(closex, closey) != f_skin_door_o) {
+               m.furn(closex, closey) != f_skin_door_o &&
+               m.furn(closex, closey) != f_safe_o) {
        add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
     } else
         didit = m.close_door(closex, closey, true);
@@ -10791,7 +10792,7 @@ void game::plmove(int x, int y)
 // Only lose movement if we're blind
    add_msg(_("You bump into a %s!"), m.name(x, y).c_str());
    u.moves -= 100;
-  } else if (m.open_door(x, y, !m.is_outside(u.posx, u.posy)))
+  } else if (m.furn(x, y) != f_safe_c && m.open_door(x, y, !m.is_outside(u.posx, u.posy)))
    u.moves -= 100;
   else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm || m.ter(x, y) == t_door_locked_interior) {
    u.moves -= 100;

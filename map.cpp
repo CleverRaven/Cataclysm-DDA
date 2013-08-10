@@ -2227,6 +2227,9 @@ bool map::open_door(const int x, const int y, const bool inside)
  } else if (furn(x, y) == f_skin_door) {
   furn_set(x, y, f_skin_door_o);
   return true;
+ } else if (furn(x, y) == f_safe_c) {
+  furn_set(x, y, f_safe_o);
+  return true;
  } else if (inside && ter(x, y) == t_curtains) {
   ter_set(x, y, t_window_domestic);
   return true;
@@ -2304,6 +2307,9 @@ bool map::close_door(const int x, const int y, const bool inside)
   return true;
  } else if (furn(x, y) == f_skin_door_o) {
   furn_set(x, y, f_skin_door);
+  return true;
+ } else if (furn(x, y) == f_safe_o) {
+  furn_set(x, y, f_safe_c);
   return true;
  } else if (inside && ter(x, y) == t_window_open) {
   ter_set(x, y, t_window_domestic);
