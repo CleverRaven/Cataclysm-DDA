@@ -10750,9 +10750,7 @@ void game::plswim(int x, int y)
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 
- int morale_cap = temperature;
- morale_cap -= 60;
- u.add_morale(MORALE_WET, (morale_cap >= 0 ? 1 : -1), morale_cap ? morale_cap : 1);
+ u.drench(this, 100);
 }
 
 void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled)
