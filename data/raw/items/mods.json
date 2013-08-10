@@ -661,7 +661,7 @@
     {
         "type" : "GUNMOD",
         "id" : "red_dot_sight",
-        "name" : "red dot tac-op",
+        "name" : "red dot sight",
         "clip_size_modifier" : 0,
         "dispersion_modifier" : -5,
         "damage_modifier" : 0,
