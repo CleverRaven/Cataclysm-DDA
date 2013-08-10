@@ -585,10 +585,10 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									// If we're not spreading, maybe we'll stick out some smoke, huh?
 									if(!(is_outside(fx, fy))){
 										//Lets make more smoke indoors since it doesn't dissipate
-										smoke += 5; //10 is just a magic number. To much smoke indoors? Lower it. To little, raise it.
+										smoke += 10; //10 is just a magic number. To much smoke indoors? Lower it. To little, raise it.
 									}
 									if (move_cost(fx, fy) > 0 &&
-										(!one_in(smoke) || (nosmoke && one_in(40))) &&
+										(rng(0, 40) <= smoke || (nosmoke && one_in(40))) &&
 										rng(3, 35) < cur->getFieldDensity() * 5 && cur->getFieldAge() < 1000 &&
 										(has_flag(suppress_smoke, x, y) != true )) {
 											smoke--;
