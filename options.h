@@ -2,106 +2,257 @@
 #define _OPTIONS_H_
 
 #include <string>
+#include <sstream>
+#include <map>
+#include <vector>
+#include <algorithm> //atoi
 
-enum option_key {
-OPT_NULL = 0,
-OPT_FORCE_YN,            // Y/N versus y/n
-OPT_USE_CELSIUS,         // Display temp as C not F
-OPT_USE_METRIC_SPEED,    // Display speed as Km/h not mph
-OPT_USE_METRIC_WEIGHT,   // Display weight in kg instead of lbs
-OPT_NO_CBLINK,           // No bright backgrounds
-OPT_24_HOUR,             // 24 hour time
-OPT_SNAP_TO_TARGET,      // game::firing snaps to target
-OPT_SAFEMODE,            // Safemode on by default?
-OPT_SAFEMODEPROXIMITY,   // Range after which safemode kicks in
-OPT_AUTOSAFEMODE,        // Autosafemode on by default?
-OPT_AUTOSAFEMODETURNS,   // Number of turns untill safemode kicks back in
-OPT_AUTOSAVE,            // Automatically save the game on intervals.
-OPT_AUTOSAVE_TURNS,      // Turns between autosaves
-OPT_AUTOSAVE_MINUTES,    // Minimum realtime minutes between autosaves
-OPT_GRADUAL_NIGHT_LIGHT, // be so cool at night :)
-OPT_RAIN_ANIMATION,      // Enable the rain and other weather animation
-OPT_CIRCLEDIST,          // Compute distance with pythagorean theorem
-OPT_QUERY_DISASSEMBLE,   // Query before disassembling items
-OPT_DROP_EMPTY,          // auto drop empty containers after use
-OPT_HIDE_CURSOR,         // hide mouse cursor
-OPT_SKILL_RUST,          // level of skill rust
-OPT_DELETE_WORLD,        // Delete world every time character dies
-OPT_INITIAL_POINTS,      // Set the number of character points
-OPT_MAX_TRAIT_POINTS,    // Set the number of trait points
-OPT_INITIAL_TIME,        // Sets the starting hour (0-24)
-OPT_VIEWPORT_X,          // Set the width of the terrain window, in characters
-OPT_VIEWPORT_Y,          // Set the height of the terrain window, in characters
-OPT_SIDEBAR_STYLE,       // Sidebar style (0: standard, 1: narrow)
-OPT_MOVE_VIEW_OFFSET,    // Sensitivity of shift+(movement)
-OPT_STATIC_SPAWN,        // Makes zombies spawn using the new static system
-OPT_CLASSIC_ZOMBIES,     // Only spawn the more classic zombies and buildings.
-OPT_REVIVE_ZOMBIES,      // Allow Zombies to revive after a certain amount of time.
-OPT_SEASON_LENGTH,       // Season length, in days
-OPT_STATIC_NPC,          // Spawn static npcs
-OPT_RANDOM_NPC,          // Spawn random npcs
-OPT_RAD_MUTATION,        // Radiation mutates
-OPT_SAVESLEEP,           // Ask to save before sleeping
-OPT_AUTO_PICKUP,         // Enable Item Auto Pickup
-OPT_AUTO_PICKUP_ZERO,    // Auto Pickup 0 Volume and Weight items
-OPT_AUTO_PICKUP_SAFEMODE,// Auto Pickup Safemode
-OPT_DANGEROUS_PICKUPS,   // Drop items if they would exceed weight danger limits
-OPT_SORT_CRAFTING,       // Sorts the crafting recipes so avaliable ones come up first
-NUM_OPTION_KEYS
-};
-
-struct option_table
+class cOpt
 {
-    double options[NUM_OPTION_KEYS];
+    public:
+        //Default constructor
+        cOpt() {
+            sType = "VOID";
+            iPage = -1;
+        };
 
-    option_table()
-    {
-        for (int i = 0; i < NUM_OPTION_KEYS; i++)
-        {   //setup default values where needed
-            switch(i)
-            {
-            case OPT_VIEWPORT_X:
-            case OPT_VIEWPORT_Y:
-                options[i] = 12;
-                break;
-            case OPT_INITIAL_TIME:
-                options[i] = 8;
-                break;
-            case OPT_SEASON_LENGTH:
-                options[i] = 14;
-                break;
-            case OPT_MOVE_VIEW_OFFSET:
-                options[i] = 1;
-                break;
-            case OPT_AUTOSAVE_TURNS:
-                options[i] = 30;
-                break;
-            case OPT_AUTOSAVE_MINUTES:
-                options[i] = 5;
-                break;
-            case OPT_MAX_TRAIT_POINTS:
-                options[i] = 12;
-                break;
-            default:
-                options[i] = 0;
+        //string constructor
+        cOpt(const int iPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const std::string sItemsIn, std::string sDefaultIn) {
+            iPage = iPageIn;
+            sMenuText = sMenuTextIn;
+            sTooltip = sTooltipIn;
+            sType = "string";
+
+            std::stringstream ssTemp(sItemsIn);
+            std::string sItem;
+            while (std::getline(ssTemp, sItem, ',')) {
+                vItems.push_back(sItem);
             }
-        }
-    };
 
-    double& operator[] (option_key i) { return options[i]; };
-    double& operator[] (int i) { return options[i]; };
+            if (getItemPos(sDefaultIn) != -1) {
+                sDefaultIn = vItems[0];
+            }
+
+            sDefault = sDefaultIn;
+            sSet = sDefaultIn;
+        };
+
+        //bool constructor
+        cOpt(const int iPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const bool bDefaultIn) {
+            iPage = iPageIn;
+            sMenuText = sMenuTextIn;
+            sTooltip = sTooltipIn;
+            sType = "bool";
+
+            bDefault = bDefaultIn;
+            bSet = bDefaultIn;
+        };
+
+        //int constructor
+        cOpt(const int iPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const int iMinIn, int iMaxIn, int iDefaultIn) {
+            iPage = iPageIn;
+            sMenuText = sMenuTextIn;
+            sTooltip = sTooltipIn;
+            sType = "int";
+
+            if (iMinIn > iMaxIn) {
+                iMaxIn = iMinIn;
+            }
+
+            iMin = iMinIn;
+            iMax = iMaxIn;
+
+            if (iDefaultIn < iMinIn || iDefaultIn > iMaxIn) {
+                iDefaultIn = iMinIn ;
+            }
+
+            iDefault = iDefaultIn;
+            iSet = iDefaultIn;
+        };
+
+        //Default deconstructor
+        ~cOpt() {};
+
+        //helper functions
+        int getPage() {
+            return iPage;
+        };
+
+        std::string getMenuText() {
+            return sMenuText;
+        };
+
+        std::string getTooltip() {
+            return sTooltip;
+        };
+
+        std::string getType() {
+            return sType;
+        };
+
+        std::string getValue() {
+            if (sType == "string") {
+                return sSet;
+
+            } else if (sType == "bool") {
+                return (bSet) ? "True" : "False";
+
+            } else if (sType == "int") {
+                std::stringstream ssTemp;
+                ssTemp << iSet;
+                return ssTemp.str();
+            }
+
+            return "";
+        };
+
+        std::string getDefaultText() {
+            if (sType == "string") {
+                std::string sItems = "";
+                for (int i = 0; i < vItems.size(); i++) {
+                    if (sItems != "") {
+                        sItems += ", ";
+                    }
+                    sItems += vItems[i];
+                }
+                return sDefault + " - Values: " + sItems;
+
+            } else if (sType == "bool") {
+                return (bDefault) ? "True" : "False";
+
+            } else if (sType == "int") {
+                std::stringstream ssTemp;
+                ssTemp << iDefault << " - Min: " << iMin << ", Max: " << iMax;
+                return ssTemp.str();
+            }
+
+            return "";
+        };
+
+        int getItemPos(const std::string sSearch) {
+            if (sType == "string") {
+                for (int i = 0; i < vItems.size(); i++) {
+                    if (vItems[i] == sSearch) {
+                        return i;
+                    }
+                }
+            }
+
+            return -1;
+        };
+
+        //set to next item
+        void setNext() {
+            if (sType == "string") {
+                int iNext = getItemPos(sSet)+1;
+                if (iNext >= vItems.size()) {
+                    iNext = 0;
+                }
+
+                sSet = vItems[iNext];
+
+            } else if (sType == "bool") {
+                bSet = !bSet;
+
+            } else if (sType == "int") {
+                iSet++;
+                if (iSet > iMax) {
+                    iSet = iMin;
+                }
+            }
+        };
+
+        //set to prev item
+        void setPrev() {
+            if (sType == "string") {
+                int iPrev = getItemPos(sSet)-1;
+                if (iPrev < 0) {
+                    iPrev = vItems.size()-1;
+                }
+
+                sSet = vItems[iPrev];
+
+            } else if (sType == "bool") {
+                bSet = !bSet;
+
+            } else if (sType == "int") {
+                iSet--;
+                if (iSet < iMin) {
+                    iSet = iMax;
+                }
+            }
+        };
+
+        //set value
+        void setValue(std::string sSetIn) {
+            if (sType == "string") {
+                if (getItemPos(sSetIn) != -1) {
+                    sSet = sSetIn;
+                }
+
+            } else if (sType == "bool") {
+                bSet = (sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t");
+
+            } else if (sType == "int") {
+                iSet = atoi(sSetIn.c_str());
+            }
+        };
+
+        //Set default class behaviour to int
+        operator int() const {
+            if (sType == "string") {
+                return (sSet != "" && sSet == sDefault) ? 1 : 0;
+
+            } else if (sType == "bool") {
+                return (bSet) ? 1 : 0;
+
+            } else if (sType == "int") {
+                return iSet;
+            }
+
+            return 0;
+        };
+
+        // if (class == "string")
+        bool operator==(const std::string sCompare) const {
+            if ( sType == "string" && sSet == sCompare ) {
+                return true;
+            }
+
+            return false;
+        };
+
+        // if (class != "string")
+        bool operator!=(const std::string sCompare) const {
+            return !(*this == sCompare);
+        };
+
+    private:
+        int iPage;
+        std::string sMenuText;
+        std::string sTooltip;
+        std::string sType;
+
+        //sType == "string"
+        std::string sSet;
+        std::vector<std::string> vItems;
+        std::string sDefault;
+
+        //sType == "bool"
+        bool bSet;
+        bool bDefault;
+
+        //sType == "int"
+        int iSet;
+        int iMin;
+        int iMax;
+        int iDefault;
 };
 
-extern option_table OPTIONS;
+extern std::map<std::string, cOpt> OPTIONS;
 
-bool option_is_bool(option_key id);
-char option_max_options(option_key id);
-char option_min_options(option_key id);
-void show_options();
+void initOptions();
 void load_options();
 void save_options();
-std::string option_string(option_key key);
-std::string option_name(option_key key);
-std::string option_desc(option_key key);
 
 #endif

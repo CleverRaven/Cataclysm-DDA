@@ -107,31 +107,6 @@ size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fm
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);
 
-//Scrolling combat text, kindof. (processed within rain animation loop)
-class cSCT
-{
-    public:
-        cSCT(int iDmgIn, bool bLeftIn)
-        {
-            std::stringstream sTemp;
-            sTemp << iDmgIn;
-
-            sDmg = sTemp.str();
-            bLeft = bLeftIn;
-            iStage = 0;
-            iLastX = 0;
-            iLastY = 0;
-        };
-        ~cSCT() {};
-
-        std::string sDmg;
-        bool bLeft;
-        int iStage;
-        int iLastX;
-        int iLastY;
-    private:
-};
-
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void clear_window(WINDOW* w);
 

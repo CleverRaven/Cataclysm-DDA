@@ -287,7 +287,6 @@ class game
   bool debugmon;
 
   std::map<int, std::map<int, bool> > mapRain;
-  std::vector<cSCT> vSCT;
 
   WINDOW *w_terrain;
   WINDOW *w_minimap;

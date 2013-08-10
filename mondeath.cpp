@@ -184,6 +184,7 @@ void mdeath::fungus(game *g, monster *z)
 {
  monster spore(g->mtypes[mon_spore]);
  int sporex, sporey;
+ //~ the sound of a fungus dying
  g->sound(z->posx, z->posy, 10, _("Pouf!"));
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
