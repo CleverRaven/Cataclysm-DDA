@@ -268,25 +268,23 @@
         "contains": 5,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
-    	{
-                 "id":"bowl_plastic",
-		"type":"CONTAINER",
-		"color":"light_cyan",
-		"symbol":")","to_hit":1,
-		"name":"plastic bowl",
-		"description":"A plastic bowl. Can be used as a container or as a tool. Holds 250 mls of liquid.","cutting":0,
-        	"price":1,
-		"rarity":50,
-                "weight":0,
-		"volume":1,
-                "bashing":2,
-		"cutting":0,
-		"to_hit":1,
-		"material":"plastic",
-		"contains":1
-                "flags":[
-			"RIGID",
-		],
-	}
-
+    {
+        "id":"bowl_plastic",
+        "type":"CONTAINER",
+        "color":"light_cyan",
+        "symbol":")","to_hit":1,
+        "name":"plastic bowl",
+        "description":"A plastic bowl. Can be used as a container or as a tool. Holds 250 mls of liquid.",
+        "cutting":0,
+        "price":1,
+        "rarity":50,
+        "weight":0,
+        "volume":1,
+        "bashing":2,
+        "cutting":0,
+        "to_hit":1,
+        "material":"plastic",
+        "contains":1,
+        "flags":[ "RIGID" ]
+    }
 ]

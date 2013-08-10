@@ -410,7 +410,7 @@
     "revert_to": "glowstick_dead",
     "use_action": "GLOWSTICK_ACTIVE"
   },
-  
+
   {
     "id": "glowstick_dead",
     "type": "TOOL",
@@ -433,7 +433,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "NONE"
-  },  
+  },
 
   {
     "id": "hotplate",
@@ -603,7 +603,7 @@
     "revert_to": "null",
     "use_action": "DIRECTIONAL_ANTENNA"
   },
-  
+
   {
     "id": "black_box",
     "type": "TOOL",
@@ -627,7 +627,7 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
-  
+
   {
     "id": "sarcophagus_access_code",
     "type": "TOOL",
@@ -651,7 +651,7 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
-  
+
   {
     "id": "noise_emitter",
     "type": "TOOL",
@@ -2511,7 +2511,7 @@
     "revert_to": "null",
     "use_action": "KNIFE"
   },
-  
+
   {
     "id": "firemachete_off",
     "type": "TOOL",
@@ -2537,7 +2537,7 @@
     "revert_to": "null",
     "use_action": "FIREMACHETE_OFF"
   },
-  
+
   {
     "id": "firemachete_on",
     "type": "TOOL",
@@ -2589,7 +2589,7 @@
     "revert_to": "null",
     "use_action": "KNIFE"
   },
-  
+
   {
     "id": "firekatana_off",
     "type": "TOOL",
@@ -2615,7 +2615,7 @@
     "revert_to": "null",
     "use_action": "FIREKATANA_OFF"
   },
-  
+
   {
     "id": "firekatana_on",
     "type": "TOOL",
@@ -2744,7 +2744,7 @@
     "revert_to": "null",
     "use_action": "KNIFE"
   },
-  
+
   {
     "id": "broadfire_off",
     "type": "TOOL",
@@ -2770,7 +2770,7 @@
     "revert_to": "null",
     "use_action": "BROADFIRE_OFF"
   },
-  
+
   {
     "id": "broadfire_on",
     "type": "TOOL",
@@ -2846,7 +2846,7 @@
     "revert_to": "null",
     "use_action": "SHISHKEBAB_OFF"
   },
-  
+
   {
     "id": "shishkebab_on",
     "type": "TOOL",
@@ -3577,7 +3577,7 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
-  
+
   {
     "id": "kevlar_plate",
     "type": "TOOL",
@@ -3940,7 +3940,7 @@
     "revert_to": "null",
     "use_action": "DEJAR"
   },
-  
+
   {
     "id": "jar_kompot",
     "type": "TOOL",
@@ -4133,7 +4133,7 @@
     "revert_to": "null",
     "use_action": "DEJAR"
   },
-  
+
   {
     "id": "bag_apple_vac",
     "type": "TOOL",
@@ -4295,48 +4295,47 @@
     "revert_to": "null"
   },
   {
-		"id":"mold_plastic",
-                "type":"TOOL",
-                "color":"light_blue",
-		"symbol":";",
-                "name":"plastic mold",
-                "description":"A plastic mold which can be used to craft items made of plastic.",
-		"price":10,
-		"rarity":60,
- 	        "material":"plastic",
-                "weight":2,
-		"volume":10,
-                "to_hit":1,
-		"cutting":0,
-		"bashing":3,
-		"turns_per_charge":0,
-		"charges_per_use":0,
-		"initial_charges":0,
-		"max_charges":0,
-		"revert_to":"null",
-		"ammo":"NULL"
-	},
-	{
-		"id":"chemistry_set",
-                "type":"TOOL",
-                "color":"blue",
-		"symbol":";",
-                "name":"chemistry set",
-		"description":"This chemistry set stored in a bag contains some glass containers, some metal wire and safety glasses. It might be used to craft some chems if you\u0027re so inclined.",
- 	        "price":5000,
-		"rarity":80,
-                "material":"glass",
-                "weight":40,
-		"volume":30,
-                "to_hit":-5,
-		"cutting":0,
-		"bashing":-8,
-		"turns_per_charge":0,
-		"charges_per_use":0,
-		"initial_charges":0,
-		"max_charges":0,
-		"revert_to":"null",
-		"ammo":"NULL"
-	}
-
+    "id":"mold_plastic",
+    "type":"TOOL",
+    "color":"light_blue",
+    "symbol":";",
+    "name":"plastic mold",
+    "description":"A plastic mold which can be used to craft items made of plastic.",
+    "price":10,
+    "rarity":60,
+    "material":"plastic",
+    "weight":2,
+    "volume":10,
+    "to_hit":1,
+    "cutting":0,
+    "bashing":3,
+    "turns_per_charge":0,
+    "charges_per_use":0,
+    "initial_charges":0,
+    "max_charges":0,
+    "revert_to":"null",
+    "ammo":"NULL"
+  },
+  {
+    "id":"chemistry_set",
+    "type":"TOOL",
+    "color":"blue",
+    "symbol":";",
+    "name":"chemistry set",
+    "description":"This chemistry set stored in a bag contains some glass containers, some metal wire and safety glasses. It might be used to craft some chems if you\u0027re so inclined.",
+    "price":5000,
+    "rarity":80,
+    "material":"glass",
+    "weight":40,
+    "volume":30,
+    "to_hit":-5,
+    "cutting":0,
+    "bashing":-8,
+    "turns_per_charge":0,
+    "charges_per_use":0,
+    "initial_charges":0,
+    "max_charges":0,
+    "revert_to":"null",
+    "ammo":"NULL"
+  }
 ]
