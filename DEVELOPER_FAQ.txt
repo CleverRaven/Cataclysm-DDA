@@ -67,7 +67,7 @@
         "type" : "ARMOR", // this must be ARMOR
         "id" : "socks",     // the identifier used by the game.  Must be one continuous word, use underscores if necessary
         "name" : "socks",   // the name appearing in the examine box.  Can be more than one word separated by spaces
-        "weight" : 1,       // weight of armour
+        "weight" : 350,       // weight of armour in grams
         "color" : "blue",   // ascii character colour
         "covers" : ["FEET"],    // where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
         "to_hit" : 0,       // bonus if using it as a melee weapon (whatever for?)

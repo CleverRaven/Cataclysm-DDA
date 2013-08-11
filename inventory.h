@@ -36,7 +36,7 @@ class inventory
   inventory  operator+  (const inventory &rhs);
   inventory  operator+  (const item &rhs);
   inventory  operator+  (const std::list<item> &rhs);
-  
+
   inventory filter_by_category(item_cat cat, const player& u) const;
 
   void unsort(); // flags the inventory as unsorted
@@ -81,6 +81,7 @@ class inventory
 
   bool has_amount (itype_id it, int quantity) const;
   bool has_charges(itype_id it, int quantity) const;
+  bool has_flag(std::string flag) const; //Inventory item has flag
   bool has_item(item *it) const; // Looks for a specific item
   bool has_gun_for_ammo(ammotype type) const;
   bool has_active_item(itype_id) const;
@@ -109,6 +110,8 @@ class inventory
   // vector rather than list because it's NOT an item stack
   std::vector<item*> active_items();
 
+  void load_invlet_cache( std::ifstream &fin );
+
   // hack to account for players saving inventory data (including weapon, etc.)
   std::string save_str_no_quant() const;
 
@@ -119,9 +122,14 @@ class inventory
 
   item nullitem;
   std::list<item> nullstack;
+
  private:
+  // For each item ID, store a set of "favorite" inventory letters.
+  std::map<std::string, std::vector<char> > invlet_cache;
+  void update_cache_with_item(item& newit);
+
   item remove_item(invstack::iterator iter);
-  void assign_empty_invlet(item &it, player *p = NULL);
+  void assign_empty_invlet(item &it);
   invstack items;
   bool sorted;
 };

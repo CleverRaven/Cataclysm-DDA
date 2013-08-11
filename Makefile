@@ -72,6 +72,7 @@ DDIR = .deps
 OS  = $(shell uname -o)
 CXX = $(CROSS)g++
 LD  = $(CROSS)g++
+RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
 ifdef RELEASE
@@ -145,8 +146,9 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static -lgdi32 -lintl -liconv
+  LDFLAGS += -static -lgdi32 -lintl -liconv -lwinmm
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
+  RFLAGS = -J rc -O coff
 endif
 
 ifdef TILES
@@ -198,6 +200,10 @@ endif
 SOURCES = $(wildcard *.cpp)
 HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
+ifeq ($(TARGETSYSTEM),WINDOWS)
+  RSRC = $(wildcard *.rc)
+  _OBJS += $(RSRC:.rc=.o)
+endif
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
 ifdef TILES
@@ -229,6 +235,9 @@ $(DDIR):
 
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+
+$(ODIR)/%.o: %.rc
+	$(RC) $(RFLAGS) $< -o $@
 
 $(ODIR)/SDLMain.o: SDLMain.m
 	$(CC) -c $(OSX_INC) $< -o $@

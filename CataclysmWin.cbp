@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os" />
+					<Add option="-O2" />
 				</Compiler>
 			</Target>
 			<Target title="Debug">
@@ -21,12 +22,25 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
 				</Linker>
+			</Target>
+			<Target title="Debug -O3">
+				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/DebugRelease/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O3" />
+					<Add option="-g" />
+				</Compiler>
 			</Target>
 		</Build>
 		<Linker>
@@ -35,6 +49,7 @@
 			<Add library="gdi32" />
 			<Add library="intl" />
 			<Add library="iconv" />
+			<Add library="winmm" />
 		</Linker>
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
@@ -78,7 +93,6 @@
 		<Unit filename="enums.h" />
 		<Unit filename="event.cpp" />
 		<Unit filename="event.h" />
-		<Unit filename="facdata.h" />
 		<Unit filename="faction.cpp" />
 		<Unit filename="faction.h" />
 		<Unit filename="field.cpp" />
@@ -86,6 +100,7 @@
 		<Unit filename="game.h" />
 		<Unit filename="gamemode.cpp" />
 		<Unit filename="gamemode.h" />
+		<Unit filename="get_version.h" />
 		<Unit filename="graffiti.cpp" />
 		<Unit filename="graffiti.h" />
 		<Unit filename="help.cpp" />

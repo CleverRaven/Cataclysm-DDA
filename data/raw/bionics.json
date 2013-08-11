@@ -495,6 +495,14 @@
     "description":    "Destructive interference eliminates all light within a 15 tile radius."
 },
 {
+    "id"         :    "bio_uncanny_dodge",
+    "name"       :    "Uncanny Dodge",
+    "cost"       :    1,
+    "time"       :    10,
+    "flags"      :    ["ACTIVE"],
+    "description":    "Your nervous system has been augmented with bionic processors, allowing you\nto dodge attacks beyond normal human capability, including bullets."
+},
+{
     "id"         :    "bio_dis_shock",
     "name"       :    "Electrical Discharge",
     "cost"       :    0,

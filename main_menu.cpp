@@ -6,6 +6,8 @@
 #include "cursesdef.h"
 #include "overmapbuffer.h"
 #include "translations.h"
+#include "catacharset.h"
+#include "get_version.h"
 
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -16,8 +18,6 @@
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-const char* getVersionString();
 
 void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA)
 {
@@ -65,15 +65,15 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     }
 
     std::vector<std::string> vMenuItems;
-    vMenuItems.push_back(_("MOTD"));
-    vMenuItems.push_back(_("New Game"));
-    vMenuItems.push_back(_("Load"));
-    vMenuItems.push_back(_("Reset"));
-    vMenuItems.push_back(_("Special"));
-    vMenuItems.push_back(_("Options"));
-    vMenuItems.push_back(_("Help"));
-    vMenuItems.push_back(_("Credits"));
-    vMenuItems.push_back(_("Quit"));
+    vMenuItems.push_back(_("<M>OTD"));
+    vMenuItems.push_back(_("<N>ew Game"));
+    vMenuItems.push_back(_("<L>oad"));
+    vMenuItems.push_back(_("<R>eset"));
+    vMenuItems.push_back(_("<S>pecial"));
+    vMenuItems.push_back(_("<O>ptions"));
+    vMenuItems.push_back(_("<H>elp"));
+    vMenuItems.push_back(_("<C>redits"));
+    vMenuItems.push_back(_("<Q>uit"));
 
     print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX);
 
@@ -89,10 +89,9 @@ void game::print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int i
     for (int i=0; i < vItems.size(); i++) {
         wprintz(w_in, c_ltgray, "[");
         if (iSel == i) {
-            wprintz(w_in, h_white, vItems[i].c_str());
+            shortcut_print(w_in, h_white, h_white, vItems[i].c_str());
         } else {
-            wprintz(w_in, c_white, (vItems[i].substr(0, 1)).c_str());
-            wprintz(w_in, c_ltgray, (vItems[i].substr(1)).c_str());
+            shortcut_print(w_in, c_ltgray, c_white, vItems[i].c_str());
         }
         wprintz(w_in, c_ltgray, "] ");
     }
@@ -112,9 +111,10 @@ bool game::opening_screen()
     int iMenuOffsetY = FULL_SCREEN_HEIGHT-3;
 
     std::vector<std::string> vSubItems;
-    vSubItems.push_back(_("Custom Character"));
-    vSubItems.push_back(_("Preset Character"));
-    vSubItems.push_back(_("Random Character"));
+    vSubItems.push_back(_("<C>ustom Character"));
+    vSubItems.push_back(_("<P>reset Character"));
+    vSubItems.push_back(_("<R>andom Character"));
+    vSubItems.push_back(_("Play <N>ow!"));
 
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
 
@@ -258,7 +258,7 @@ bool game::opening_screen()
             }
         } else if (layer == 2) {
             if (sel1 == 1) {	// New Character
-                print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY-2, iMenuOffsetX+7);
+                print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY-2, iMenuOffsetX);
                 wrefresh(w_open);
                 refresh();
                 chInput = getch();
@@ -272,25 +272,26 @@ bool game::opening_screen()
                 } else if (chInput == 'r' || chInput == 'R') {
                     sel2 = 2;
                     chInput = '\n';
+                } else if (chInput == 'n' || chInput == 'N') {
+                    sel2 = 3;
+                    chInput = '\n';
                 }
 
                 if (chInput == KEY_LEFT || chInput == 'h') {
-                    if (sel2 > 0)
-                        sel2--;
-                    else
-                        sel2 = 2;
+                    sel2--;
+                    if (sel2 < 0)
+                        sel2 = vSubItems.size()-1;
                 } if (chInput == KEY_RIGHT || chInput == 'l') {
-                    if (sel2 < 2)
-                        sel2++;
-                    else
+                    sel2++;
+                    if (sel2 >= vSubItems.size())
                         sel2 = 0;
                 } else if (chInput == KEY_DOWN || chInput == 'j' || chInput == KEY_ESCAPE) {
                     layer = 1;
                     sel1 = 1;
                 }
                 if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
-                    if (sel2 == 0 || sel2 == 2) {
-                        if (!u.create(this, (sel2 == 0) ? PLTYPE_CUSTOM : PLTYPE_RANDOM)) {
+                    if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
+                        if (!u.create(this, (sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2)?PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
                             delwin(w_open);
                             return (opening_screen());
@@ -312,7 +313,7 @@ bool game::opening_screen()
                 else {
                     for (int i = 0; i < savegames.size(); i++) {
                         int line = iMenuOffsetY - 2 - i;
-                        mvwprintz(w_open, line, 19 + iMenuOffsetX, (sel2 == i ? h_white : c_white), savegames[i].c_str());
+                        mvwprintz(w_open, line, 19 + iMenuOffsetX, (sel2 == i ? h_white : c_white), base64_decode(savegames[i]).c_str());
                     }
                 }
                 wrefresh(w_open);

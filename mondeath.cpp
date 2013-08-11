@@ -70,7 +70,7 @@ void mdeath::normal(game *g, monster *z)
         item tmp;
         tmp.make_corpse(g->itypes["corpse"], z->type, g->turn);
         tmp.damage = corpse_damage;
-        g->m.add_item(z->posx, z->posy, tmp);
+        g->m.add_item_or_charges(z->posx, z->posy, tmp);
     }
 
     // leave gibs
@@ -184,6 +184,7 @@ void mdeath::fungus(game *g, monster *z)
 {
  monster spore(g->mtypes[mon_spore]);
  int sporex, sporey;
+ //~ the sound of a fungus dying
  g->sound(z->posx, z->posy, 10, _("Pouf!"));
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
@@ -326,7 +327,7 @@ void mdeath::amigara(game *g, monster *z)
    g->u.rem_disease("amigara");
    g->add_msg(_("Your obsession with the fault fades away..."));
    item art(g->new_artifact(), g->turn);
-   g->m.add_item(z->posx, z->posy, art);
+   g->m.add_item_or_charges(z->posx, z->posy, art);
   }
  }
  normal(g, z);

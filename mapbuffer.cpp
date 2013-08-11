@@ -2,6 +2,7 @@
 #include "game.h"
 #include "output.h"
 #include "debug.h"
+#include "translations.h"
 #include <fstream>
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -94,7 +95,7 @@ void mapbuffer::save()
 
  for (it = submaps.begin(); it != submaps.end(); it++) {
   if (num_saved_submaps % 100 == 0)
-   popup_nowait("Please wait as the map saves [%d/%d]",
+   popup_nowait(_("Please wait as the map saves [%d/%d]"),
                 num_saved_submaps, num_total_submaps);
 
   fout << it->first.x << " " << it->first.y << " " << it->first.z << std::endl;
@@ -151,11 +152,11 @@ void mapbuffer::save()
   for (int j = 0; j < SEEY; j++) {
    for (int i = 0; i < SEEX; i++) {
     if (sm->fld[i][j].fieldCount() > 0){
-     for(std::vector<field_entry*>::iterator it = sm->fld[i][j].getFieldStart();
+     for(std::map<field_id, field_entry*>::iterator it = sm->fld[i][j].getFieldStart();
          it != sm->fld[i][j].getFieldEnd(); ++it){
-      if((*it) != NULL){
-       fout << "F " << i << " " << j << " " << int((*it)->getFieldType()) << " " <<
-        int((*it)->getFieldDensity()) << " " << (*it)->getFieldAge() << std::endl;
+      if(it->second != NULL){
+       fout << "F " << i << " " << j << " " << int(it->second->getFieldType()) << " " <<
+        int(it->second->getFieldDensity()) << " " << (it->second->getFieldAge()) << std::endl;
       }
      }
     }
@@ -217,7 +218,7 @@ void mapbuffer::load()
 
  while (!fin.eof()) {
   if (num_loaded % 100 == 0)
-   popup_nowait("Please wait as the map loads [%d/%d]",
+   popup_nowait(_("Please wait as the map loads [%d/%d]"),
                 num_loaded, num_submaps);
   int locx, locy, locz, turn;
   submap* sm = new submap;

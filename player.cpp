@@ -19,10 +19,59 @@
 #include "translations.h"
 #include "name.h"
 #include "cursesdef.h"
+#include "catacharset.h"
+#include "disease.h"
+#include "get_version.h"
+
+#include <ctime>
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
 trait traits[PF_MAX2];
+
+std::string morale_data[NUM_MORALE_TYPES];
+
+void game::init_morale()
+{
+    std::string tmp_morale_data[NUM_MORALE_TYPES] = {
+    "This is a bug (moraledata.h:moraledata)",
+    _("Enjoyed %i"),
+    _("Enjoyed a hot meal"),
+    _("Music"),
+    _("Marloss Bliss"),
+    _("Good Feeling"),
+
+    _("Nicotine Craving"),
+    _("Caffeine Craving"),
+    _("Alcohol Craving"),
+    _("Opiate Craving"),
+    _("Speed Craving"),
+    _("Cocaine Craving"),
+    _("Crack Cocaine Craving"),
+
+    _("Disliked %i"),
+    _("Ate Human Flesh"),
+    _("Ate Meat"),
+    _("Wet"),
+    _("Dried Off"),
+    _("Cold"),
+    _("Hot"),
+    _("Bad Feeling"),
+    _("Killed Innocent"),
+    _("Killed Friend"),
+    _("Guilty about Killing"),
+
+    _("Moodswing"),
+    _("Read %i"),
+    _("Heard Disturbing Scream"),
+
+    _("Masochism"),
+    _("Hoarder"),
+    _("Cross-Dresser"),
+    _("Optimist")
+    };
+    for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
+}
 
 //TODO: json it, maybe. Hope this huge array doesn't cause stack issue
 void game::init_traits()
@@ -98,6 +147,8 @@ close to you.")},
 {_("Masochist"), 2, 0, 0, _("\
 Although you still suffer the negative effects of pain, it also brings a \
 unique pleasure to you.")},
+{_("Cross-Dresser"), 2, 0, 0, _("\
+Covering your body in clothing typical for the opposite gender makes you feel better.")},
 {_("Light Step"), 1, 0, 0, _("\
 You make less noise while walking.  You're also less likely to set off traps.")},
 {_("Android"), 4, 0, 0, _("\
@@ -992,6 +1043,41 @@ void player::apply_persistent_morale()
         add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
     }
 
+    // Cross-dressers get a morale bonus for each body part covered in an
+    // item of the opposite gender(MALE_TYPICAL/FEMALE_TYPICAL item flags).
+    if (has_trait(PF_CROSSDRESSER))
+    {
+        int bonus = 0;
+        std::string required_flag = male ? "FEMALE_TYPICAL" : "MALE_TYPICAL";
+
+        unsigned char covered = 0; // body parts covered by stuff with opposite gender flags
+        for(int i=0; i<worn.size(); i++) {
+            if(worn[i].has_flag(required_flag)) {
+                it_armor* item_type = (it_armor*) worn[i].type;
+                covered |= item_type->covers;
+            }
+        }
+        if(covered & mfb(bp_torso)) {
+            bonus += 6;
+        }
+        if(covered & mfb(bp_legs)) {
+            bonus += 4;
+        }
+        if(covered & mfb(bp_feet)) {
+            bonus += 2;
+        }
+        if(covered & mfb(bp_hands)) {
+            bonus += 2;
+        }
+        if(covered & mfb(bp_head)) {
+            bonus += 3;
+        }
+        
+        if(bonus) {
+            add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
+        }
+    }
+
     // Masochists get a morale bonus from pain.
     if (has_trait(PF_MASOCHIST))
     {
@@ -1063,7 +1149,7 @@ int player::calc_focus_equilibrium()
         // only apply a penalty when we're actually learning something
         if (skillLevel(reading->type) < (int)reading->level)
         {
-            focus_gain_rate -= 100;
+            focus_gain_rate -= 50;
         }
     }
 
@@ -1457,7 +1543,7 @@ void player::update_bodytemp(game *g)
             if (disease_intensity(dis_type(frost_pen)) < 2
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
             {
-                g->add_msg("Your %s %s from the frostbite!", body_part_name(body_part(i), -1).c_str(), (i == bp_mouth ? "hardens"  : "harden"));
+                g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->temperature < 32)
             {
@@ -1465,7 +1551,7 @@ void player::update_bodytemp(game *g)
                 // Warning message for the player
                 if (!has_disease(dis_type(frost_pen)))
                 {
-                    g->add_msg("You lose sensation in your %s.",
+                    g->add_msg(_("You lose sensation in your %s."),
                         body_part_name(body_part(i), -1).c_str());
                 }
             }
@@ -1473,32 +1559,32 @@ void player::update_bodytemp(game *g)
         // Warn the player if condition worsens
         if  (temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING)
         {
-            g->add_msg("You feel your %s beginning to go numb from the cold!",
+            g->add_msg(_("You feel your %s beginning to go numb from the cold!"),
                 body_part_name(body_part(i), -1).c_str());
         }
         else if (temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD)
         {
-            g->add_msg("You feel your %s getting very cold.",
+            g->add_msg(_("You feel your %s getting very cold."),
                 body_part_name(body_part(i), -1).c_str());
         }
         else if (temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD)
         {
-            g->add_msg("You feel your %s getting chilly.",
+            g->add_msg(_("You feel your %s getting chilly."),
                 body_part_name(body_part(i), -1).c_str());
         }
         else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING)
         {
-            g->add_msg("You feel your %s getting red hot from the heat!",
+            g->add_msg(_("You feel your %s getting red hot from the heat!"),
                 body_part_name(body_part(i), -1).c_str());
         }
         else if (temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT)
         {
-            g->add_msg("You feel your %s getting very hot.",
+            g->add_msg(_("You feel your %s getting very hot."),
                 body_part_name(body_part(i), -1).c_str());
         }
         else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT)
         {
-            g->add_msg("You feel your %s getting warm.",
+            g->add_msg(_("You feel your %s getting warm."),
                 body_part_name(body_part(i), -1).c_str());
         }
     }
@@ -1526,10 +1612,8 @@ int player::current_speed(game *g)
  int newmoves = 100; // Start with 100 movement points...
 // Minus some for weight...
  int carry_penalty = 0;
- if (weight_carried() > int(weight_capacity() * .25))
-  carry_penalty = 75 * double((weight_carried() - int(weight_capacity() * .25))/
-                              (weight_capacity() * .75));
-
+ if (weight_carried() > weight_capacity())
+  carry_penalty = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
  newmoves -= carry_penalty;
 
  if (pain > pkill) {
@@ -1653,7 +1737,7 @@ int player::run_cost(int base_cost, bool diag)
 
 int player::swim_speed()
 {
-  int ret = 440 + 2 * weight_carried() - 50 * skillLevel("swimming");
+  int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
  if (has_trait(PF_WEBBED))
   ret -= 60 + str_cur * 5;
  if (has_trait(PF_TAIL_FIN))
@@ -1926,6 +2010,203 @@ std::string player::save_info()
  return dump.str();
 }
 
+void player::memorial( std::ofstream &memorial_file )
+{
+    //Size of indents in the memorial file
+    const std::string indent = "  ";
+
+    const std::string gender_str = male ? _("male") : _("female");
+    const std::string pronoun = male ? _("He") : _("She");
+
+    //Avoid saying "a male unemployed" or similar
+    std::stringstream profession_name;
+    if(prof == prof->generic()) {
+      profession_name << _("an unemployed ") << gender_str;
+    } else {
+      profession_name << _("a ") << gender_str << " " << prof->name();
+    }
+
+    //Header
+    std::string version = string_format("%s", getVersionString());
+    oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+    std::string tername = oterlist[cur_ter].name;
+
+    memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
+    memorial_file << "\n";
+    memorial_file << _("In memory of: ") << name << "\n";
+    memorial_file << pronoun << _(" was ") << profession_name.str()
+                  << _(" when the apocalypse began.") << "\n";
+    memorial_file << pronoun << _(" died on ") << _(season_name[g->turn.get_season()].c_str())
+                  << _(" of year ") << (g->turn.years() + 1)
+                  << _(", day ") << (g->turn.days() + 1) 
+                  << _(", at ") << g->turn.print_time() << ".\n";
+    memorial_file << pronoun << _(" was killed in a ") << tername << ".\n";
+    memorial_file << "\n";
+
+    //Misc
+    memorial_file << _("Cash on hand: ") << "$" << cash << "\n";
+    memorial_file << "\n";
+
+    //HP
+    memorial_file << _("Final HP:") << "\n";
+    memorial_file << indent << _(" Head: ") << hp_cur[hp_head] << "/" << hp_max[hp_head] << "\n";
+    memorial_file << indent << _("Torso: ") << hp_cur[hp_torso] << "/" << hp_max[hp_torso] << "\n";
+    memorial_file << indent << _("L Arm: ") << hp_cur[hp_arm_l] << "/" << hp_max[hp_arm_l] << "\n";
+    memorial_file << indent << _("R Arm: ") << hp_cur[hp_arm_r] << "/" << hp_max[hp_arm_r] << "\n";
+    memorial_file << indent << _("L Leg: ") << hp_cur[hp_leg_l] << "/" << hp_max[hp_leg_l] << "\n";
+    memorial_file << indent << _("R Leg: ") << hp_cur[hp_leg_r] << "/" << hp_max[hp_leg_r] << "\n";
+    memorial_file << "\n";
+
+    //Stats
+    memorial_file << _("Final Stats:") << "\n";
+    memorial_file << indent << _("Str ") << str_cur << indent << _("Dex ") << dex_cur << indent
+                  << _("Int ") << int_cur << indent << _("Per ") << per_cur << "\n";
+    memorial_file << _("Base Stats:") << "\n";
+    memorial_file << indent << _("Str ") << str_max << indent << _("Dex ") << dex_max << indent
+                  << _("Int ") << int_max << indent << _("Per ") << per_max << "\n";
+    memorial_file << "\n";
+
+    //Kill list
+    memorial_file << _("Kills:") << "\n";
+
+    int total_kills = 0;
+    for(int i = 0; i < num_monsters; i++) {
+        if(g->kill_count( (mon_id)(g->mtypes[i]->id) ) > 0) {
+        memorial_file << "  " << (char) g->mtypes[i]->sym << " - " << g->mtypes[i]->name <<
+            " x" << g->kill_count( (mon_id)(g->mtypes[i]->id) ) << "\n";
+        total_kills += g->kill_count( (mon_id)(g->mtypes[i]->id) );
+      }
+    }
+    if(total_kills == 0) {
+      memorial_file << indent << _("No monsters were killed.") << "\n";
+    } else {
+      memorial_file << _("Total kills: ") << total_kills << "\n";
+    }
+    memorial_file << "\n";
+
+    //Skills
+    memorial_file << _("Skills:") << "\n";
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+      aSkill != Skill::skills.end(); ++aSkill) {
+      SkillLevel next_skill_level = skillLevel(*aSkill);
+      memorial_file << indent << (*aSkill)->name() << ": "
+              << next_skill_level.level() << " (" << next_skill_level.exercise() << "%)\n";
+    }
+    memorial_file << "\n";
+
+    //Traits
+    memorial_file << _("Traits:") << "\n";
+    bool had_trait = false;
+    for(int i = 1; i < PF_MAX2; i++) { //Don't start at i=0 or we get a 'null trait'
+      if(has_trait(i)) {
+        had_trait = true;
+        memorial_file << indent << traits[i].name << "\n";
+      }
+    }
+    if(!had_trait) {
+      memorial_file << indent << _("(None)") << "\n";
+    }
+    memorial_file << "\n";
+
+    //Effects (illnesses)
+    memorial_file << _("Ongoing Effects:") << "\n";
+    bool had_effect = false;
+    for(int i = 0; i < illness.size(); i++) {
+      disease next_illness = illness[i];
+      if(dis_name(next_illness).size() > 0) {
+        had_effect = true;
+        memorial_file << indent << dis_name(next_illness) << "\n";
+      }
+    }
+    //Various effects not covered by the illness list - from player.cpp
+    if(morale_level() >= 100) {
+      had_effect = true;
+      memorial_file << indent << _("Elated") << "\n";
+    }
+    if(morale_level() <= -100) {
+      had_effect = true;
+      memorial_file << indent << _("Depressed") << "\n";
+    }
+    if(pain - pkill > 0) {
+      had_effect = true;
+      memorial_file << indent << _("Pain") << " (" << (pain - pkill) << ")";
+    }
+    if(stim > 0) {
+      had_effect = true;
+      int dexbonus = int(stim / 10);
+      if (abs(stim) >= 30) {
+        dexbonus -= int(abs(stim - 15) /  8);
+      }
+      if(dexbonus < 0) {
+        memorial_file << indent << _("Stimulant Overdose") << "\n";
+      } else {
+        memorial_file << indent << _("Stimulant") << "\n";
+      }
+    } else if(stim < 0) {
+      had_effect = true;
+      memorial_file << indent << _("Depressants") << "\n";
+    }
+    if(!had_effect) {
+      memorial_file << indent << _("(None)") << "\n";
+    }
+    memorial_file << "\n";
+
+    //Bionics
+    memorial_file << _("Bionics:") << "\n";
+    int total_bionics = 0;
+    for(int i = 0; i < my_bionics.size(); i++) {
+      bionic_id next_bionic_id = my_bionics[i].id;
+      memorial_file << indent << (i+1) << ": " << bionics[next_bionic_id]->name << "\n";
+      total_bionics++;
+    }
+    if(total_bionics == 0) {
+      memorial_file << indent << _("No bionics were installed.") << "\n";
+    } else {
+      memorial_file << _("Total bionics: ") << total_bionics << "\n";
+    }
+    memorial_file << _("Power: ") << power_level << "/" << max_power_level << "\n";
+    memorial_file << "\n";
+
+    //Equipment
+    memorial_file << _("Weapon:") << "\n";
+    memorial_file << indent << weapon.invlet << " - " << weapon.tname(g) << "\n";
+    memorial_file << "\n";
+
+    memorial_file << _("Equipment:") << "\n";
+    for(int i = 0; i < worn.size(); i++) {
+      item next_item = worn[i];
+      memorial_file << indent << next_item.invlet << " - " << next_item.tname(g);
+      if(next_item.charges > 0) {
+        memorial_file << " (" << next_item.charges << ")";
+      } else if (next_item.contents.size() == 1
+              && next_item.contents[0].charges > 0) {
+        memorial_file << " (" << next_item.contents[0].charges << ")";
+      }
+      memorial_file << "\n";
+    }
+    memorial_file << "\n";
+
+    //Inventory
+    memorial_file << _("Inventory:") << "\n";
+    inv.sort();
+    inv.restack(this);
+    for(int i = 0; i < inv.size(); i++) {
+      invslice slice = inv.slice(i, 1);
+      item& next_item = slice[0]->front();
+      memorial_file << indent << next_item.invlet << " - " << next_item.tname(g);
+      if(slice[0]->size() > 1) {
+        memorial_file << " [" << slice[0]->size() << "]";
+      }
+      if(next_item.charges > 0) {
+        memorial_file << " (" << next_item.charges << ")";
+      } else if (next_item.contents.size() == 1
+              && next_item.contents[0].charges > 0) {
+        memorial_file << " (" << next_item.contents[0].charges << ")";
+      }
+      memorial_file << "\n";
+    }
+}
+
 void player::disp_info(game *g)
 {
  int line;
@@ -1939,30 +2220,30 @@ void player::disp_info(game *g)
  }
  if (abs(morale_level()) >= 100) {
   bool pos = (morale_level() > 0);
-  effect_name.push_back(pos ? "Elated" : "Depressed");
+  effect_name.push_back(pos ? _("Elated") : _("Depressed"));
   std::stringstream morale_text;
   if (abs(morale_level()) >= 200)
-   morale_text << "Dexterity" << (pos ? " +" : " ") <<
+   morale_text << _("Dexterity") << (pos ? " +" : " ") <<
                    int(morale_level() / 200) << "   ";
   if (abs(morale_level()) >= 180)
-   morale_text << "Strength" << (pos ? " +" : " ") <<
+   morale_text << _("Strength") << (pos ? " +" : " ") <<
                   int(morale_level() / 180) << "   ";
   if (abs(morale_level()) >= 125)
-   morale_text << "Perception" << (pos ? " +" : " ") <<
+   morale_text << _("Perception") << (pos ? " +" : " ") <<
                   int(morale_level() / 125) << "   ";
-  morale_text << "Intelligence" << (pos ? " +" : " ") <<
+  morale_text << _("Intelligence") << (pos ? " +" : " ") <<
                  int(morale_level() / 100) << "   ";
   effect_text.push_back(morale_text.str());
  }
  if (pain - pkill > 0) {
-  effect_name.push_back("Pain");
+  effect_name.push_back(_("Pain"));
   std::stringstream pain_text;
   if (pain - pkill >= 15)
-   pain_text << "Strength -" << int((pain - pkill) / 15) << "   Dexterity -" <<
+   pain_text << "Strength" << " -" << int((pain - pkill) / 15) << "   " << _("Dexterity") << " -" <<
                 int((pain - pkill) / 15) << "   ";
   if (pain - pkill >= 20)
-   pain_text << "Perception -" << int((pain - pkill) / 15) << "   ";
-  pain_text << "Intelligence -" << 1 + int((pain - pkill) / 25);
+   pain_text << _("Perception") << " -" << int((pain - pkill) / 15) << "   ";
+  pain_text << _("Intelligence") << " -" << 1 + int((pain - pkill) / 25);
   effect_text.push_back(pain_text.str());
  }
  if (stim > 0) {
@@ -1976,24 +2257,24 @@ void player::disp_info(game *g)
   }
 
   if (dexbonus < 0)
-   effect_name.push_back("Stimulant Overdose");
+   effect_name.push_back(_("Stimulant Overdose"));
   else
-   effect_name.push_back("Stimulant");
+   effect_name.push_back(_("Stimulant"));
   std::stringstream stim_text;
-  stim_text << "Speed +" << stim << "   Intelligence " <<
-               (intbonus > 0 ? "+ " : "") << intbonus << "   Perception " <<
-               (perbonus > 0 ? "+ " : "") << perbonus << "   Dexterity "  <<
-               (dexbonus > 0 ? "+ " : "") << dexbonus;
+  stim_text << _("Speed") << " +" << stim << "   " << _("Intelligence") <<
+               (intbonus > 0 ? " + " : " ") << intbonus << "   " << _("Perception") <<
+               (perbonus > 0 ? " + " : " ") << perbonus << "   " << _("Dexterity")  <<
+               (dexbonus > 0 ? " + " : " ") << dexbonus;
   effect_text.push_back(stim_text.str());
  } else if (stim < 0) {
-  effect_name.push_back("Depressants");
+  effect_name.push_back(_("Depressants"));
   std::stringstream stim_text;
   int dexpen = int(stim / 10);
   int perpen = int(stim /  7);
   int intpen = int(stim /  6);
 // Since dexpen etc. are always less than 0, no need for + signs
-  stim_text << "Speed " << stim << "   Intelligence " << intpen <<
-               "   Perception " << perpen << "   Dexterity " << dexpen;
+  stim_text << _("Speed") << " " << stim << "   " << _("Intelligence") << " " << intpen <<
+               "   " << _("Perception") << " " << perpen << "   " << "Dexterity" << " " << dexpen;
   effect_text.push_back(stim_text.str());
  }
 
@@ -2001,17 +2282,17 @@ void player::disp_info(game *g)
       g->weather == WEATHER_SUNNY) ||
      (has_trait(PF_TROGLO2) && g->is_in_sunlight(posx, posy) &&
       g->weather != WEATHER_SUNNY)) {
-  effect_name.push_back("In Sunlight");
-  effect_text.push_back("The sunlight irritates you.\n\
-Strength - 1;    Dexterity - 1;    Intelligence - 1;    Dexterity - 1");
+  effect_name.push_back(_("In Sunlight"));
+  effect_text.push_back(_("The sunlight irritates you.\n\
+Strength - 1;    Dexterity - 1;    Intelligence - 1;    Dexterity - 1"));
  } else if (has_trait(PF_TROGLO2) && g->is_in_sunlight(posx, posy)) {
-  effect_name.push_back("In Sunlight");
-  effect_text.push_back("The sunlight irritates you badly.\n\
-Strength - 2;    Dexterity - 2;    Intelligence - 2;    Dexterity - 2");
+  effect_name.push_back(_("In Sunlight"));
+  effect_text.push_back(_("The sunlight irritates you badly.\n\
+Strength - 2;    Dexterity - 2;    Intelligence - 2;    Dexterity - 2"));
  } else if (has_trait(PF_TROGLO3) && g->is_in_sunlight(posx, posy)) {
-  effect_name.push_back("In Sunlight");
-  effect_text.push_back("The sunlight irritates you terribly.\n\
-Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
+  effect_name.push_back(_("In Sunlight"));
+  effect_text.push_back(_("The sunlight irritates you terribly.\n\
+Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  }
 
  for (int i = 0; i < addictions.size(); i++) {
@@ -2153,20 +2434,29 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  effect_win_size_y--;
 
 // Print name and header
- mvwprintw(w_tip, 0, 0, "%s - %s", name.c_str(), (male ? "Male" : "Female"));
- mvwprintz(w_tip, 0, 39, c_ltred, "| Press TAB to cycle, ESC or q to return.");
+ if (male) {
+    mvwprintw(w_tip, 0, 0, "%s - Male", name.c_str());
+ } else {
+    mvwprintw(w_tip, 0, 0, "%s - Female", name.c_str());
+ }
+ mvwprintz(w_tip, 0, 39, c_ltred, _("| Press TAB to cycle, ESC or q to return."));
  wrefresh(w_tip);
 
 // First!  Default STATS screen.
- mvwprintz(w_stats, 0, 10, c_ltgray, "STATS");
- mvwprintz(w_stats, 2,  2, c_ltgray, "Strength:%s(%d)",
-           (str_max < 10 ? "         " : "        "), str_max);
- mvwprintz(w_stats, 3,  2, c_ltgray, "Dexterity:%s(%d)",
-           (dex_max < 10 ? "        "  : "       "),  dex_max);
- mvwprintz(w_stats, 4,  2, c_ltgray, "Intelligence:%s(%d)",
-           (int_max < 10 ? "     "     : "    "),     int_max);
- mvwprintz(w_stats, 5,  2, c_ltgray, "Perception:%s(%d)",
-           (per_max < 10 ? "       "   : "      "),   per_max);
+ const char* title_STATS = _("STATS");
+ mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
+ mvwprintz(w_stats, 2,  2, c_ltgray, "                     ");
+ mvwprintz(w_stats, 2,  2, c_ltgray, _("Strength:"));
+ mvwprintz(w_stats, 2,  20, c_ltgray, str_max>9?"(%d)":" (%d)", str_max);
+ mvwprintz(w_stats, 3,  2, c_ltgray, "                     ");
+ mvwprintz(w_stats, 3,  2, c_ltgray, _("Dexterity:"));
+ mvwprintz(w_stats, 3,  20, c_ltgray, dex_max>9?"(%d)":" (%d)", dex_max);
+ mvwprintz(w_stats, 4,  2, c_ltgray, "                     ");
+ mvwprintz(w_stats, 4,  2, c_ltgray, _("Intelligence:"));
+ mvwprintz(w_stats, 4,  20, c_ltgray, int_max>9?"(%d)":" (%d)", int_max);
+ mvwprintz(w_stats, 5,  2, c_ltgray, "                     ");
+ mvwprintz(w_stats, 5,  2, c_ltgray, _("Perception:"));
+ mvwprintz(w_stats, 5,  20, c_ltgray, per_max>9?"(%d)":" (%d)", per_max);
 
  nc_color status = c_white;
 
@@ -2229,11 +2519,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  wrefresh(w_stats);
 
 // Next, draw encumberment.
- std::string asText[] = {"Torso", "Head", "Eyes", "Mouth", "Arms", "Hands", "Legs", "Feet"};
+ std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
-
- mvwprintz(w_encumb, 0, 1, c_ltgray, "ENCUMBERANCE AND WARMTH");
+ 
+ const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
+ mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
   iEnc = iLayers = iArmorEnc = iWarmth = 0;
   iWarmth = warmth(body_part(i));
@@ -2252,12 +2543,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   else if (temp_conv[i] >  BODYTEMP_VERY_COLD) color = c_ltblue;
   else if (temp_conv[i] >  BODYTEMP_FREEZING)  color = c_cyan;
   else if (temp_conv[i] <= BODYTEMP_FREEZING)  color = c_blue;
-  wprintz(w_encumb, color, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
+  wprintz(w_encumb, color, " (%3d)", iWarmth);
+  //  wprintz(w_encumb, color, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
  }
  wrefresh(w_encumb);
 
 // Next, draw traits.
- mvwprintz(w_traits, 0, 10, c_ltgray, "TRAITS");
+ const char *title_TRAITS = _("TRAITS");
+ mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
  for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
   if (traits[traitslist[i]].points > 0)
    status = c_ltgreen;
@@ -2271,7 +2564,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  wrefresh(w_traits);
 
 // Next, draw effects.
- mvwprintz(w_effects, 0, 8, c_ltgray, "EFFECTS");
+ const char *title_EFFECTS = _("EFFECTS");
+ mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
  for (int i = 0; i < effect_name.size() && i < effect_win_size_y; i++) {
   mvwprintz(w_effects, i+1, 1, c_ltgray, effect_name[i].c_str());
  }
@@ -2280,7 +2574,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
 // Next, draw skills.
  line = 1;
  std::vector<Skill*> skillslist;
- mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
+ const char *title_SKILLS = _("SKILLS");
+ mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
 
  // sort skills by level
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
@@ -2339,16 +2634,16 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  wrefresh(w_skills);
 
 // Finally, draw speed.
- mvwprintz(w_speed, 0, 11, c_ltgray, "SPEED");
- mvwprintz(w_speed, 1,  1, c_ltgray, "Base Move Cost:");
- mvwprintz(w_speed, 2,  1, c_ltgray, "Current Speed:");
+ const char *title_SPEED = _("SPEED");
+ mvwprintz(w_speed, 0, 13 - utf8_width(title_SPEED)/2, c_ltgray, title_SPEED);
+ mvwprintz(w_speed, 1,  1, c_ltgray, _("Base Move Cost:"));
+ mvwprintz(w_speed, 2,  1, c_ltgray, _("Current Speed:"));
  int newmoves = current_speed(g);
  int pen = 0;
  line = 3;
- if (weight_carried() > int(weight_capacity() * .25)) {
-  pen = 75 * double((weight_carried() - int(weight_capacity() * .25)) /
-                    (weight_capacity() * .75));
-  mvwprintz(w_speed, line, 1, c_red, "Overburdened        -%s%d%%%%",
+ if (weight_carried() > weight_capacity()) {
+  pen = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
+  mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2359,10 +2654,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   else if (pen < -10)
    pen = -10;
   if (pen > 0)
-   mvwprintz(w_speed, line, 1, c_green, "Good mood           +%s%d%%%%",
+   mvwprintz(w_speed, line, 1, c_green, _("Good mood           +%s%d%%%%"),
              (pen < 10 ? " " : ""), pen);
   else
-   mvwprintz(w_speed, line, 1, c_red, "Depressed           -%s%d%%%%",
+   mvwprintz(w_speed, line, 1, c_red, _("Depressed           -%s%d%%%%"),
              (abs(pen) < 10 ? " " : ""), abs(pen));
   line++;
  }
@@ -2370,41 +2665,41 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  if (pen > 60)
   pen = 60;
  if (pen >= 1) {
-  mvwprintz(w_speed, line, 1, c_red, "Pain                -%s%d%%%%",
+  mvwprintz(w_speed, line, 1, c_red, _("Pain                -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (pkill >= 10) {
   pen = int(pkill * .1);
-  mvwprintz(w_speed, line, 1, c_red, "Painkillers         -%s%d%%%%",
+  mvwprintz(w_speed, line, 1, c_red, _("Painkillers         -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (stim != 0) {
   pen = stim;
   if (pen > 0)
-   mvwprintz(w_speed, line, 1, c_green, "Stimulants          +%s%d%%%%",
+   mvwprintz(w_speed, line, 1, c_green, _("Stimulants          +%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   else
-   mvwprintz(w_speed, line, 1, c_red, "Depressants         -%s%d%%%%",
+   mvwprintz(w_speed, line, 1, c_red, _("Depressants         -%s%d%%%%"),
             (abs(pen) < 10 ? " " : ""), abs(pen));
   line++;
  }
  if (thirst > 40) {
   pen = int((thirst - 40) / 10);
-  mvwprintz(w_speed, line, 1, c_red, "Thirst              -%s%d%%%%",
+  mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (hunger > 100) {
   pen = int((hunger - 100) / 10);
-  mvwprintz(w_speed, line, 1, c_red, "Hunger              -%s%d%%%%",
+  mvwprintz(w_speed, line, 1, c_red, _("Hunger              -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (has_trait(PF_SUNLIGHT_DEPENDENT) && !g->is_in_sunlight(posx, posy)) {
   pen = (g->light_level() >= 12 ? 5 : 10);
-  mvwprintz(w_speed, line, 1, c_red, "Out of Sunlight     -%s%d%%%%",
+  mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2416,7 +2711,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
    pen = int( (65 - g->temperature) / 3);
   else
    pen = int( (65 - g->temperature) / 2);
-  mvwprintz(w_speed, line, 1, c_red, "Cold-Blooded        -%s%d%%%%",
+  mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2435,7 +2730,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  }
  if (has_trait(PF_QUICK)) {
   pen = int(newmoves * .1);
-  mvwprintz(w_speed, line, 1, c_green, "Quick               +%s%d%%%%",
+  mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
  }
  int runcost = run_cost(100);
@@ -2459,63 +2754,67 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   werase(w_info);
   switch (curtab) {
   case 1:	// Stats tab
-   mvwprintz(w_stats, 0, 0, h_ltgray, "          STATS           ");
+   mvwprintz(w_stats, 0, 0, h_ltgray, _("                          "));
+   mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, h_ltgray, title_STATS);
    if (line == 0) {
-    mvwprintz(w_stats, 2, 2, h_ltgray, "Strength:");
+    mvwprintz(w_stats, 2, 2, h_ltgray, _("Strength:"));
 
 // display player current STR effects
-    mvwprintz(w_stats, 6, 2, c_magenta, "Base HP: %d              ",
+    mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
-    mvwprintz(w_stats, 7, 2, c_magenta, "Carry weight: %d lbs     ",
-             weight_capacity(false) / 4);
-    mvwprintz(w_stats, 8, 2, c_magenta, "Melee damage: %d         ",
+    mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
+                      OPTIONS["USE_METRIC_WEIGHT"]?"kg":"lbs");
+    mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
-    mvwprintz(w_info, 0, 0, c_magenta, "\
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
 Strength affects your melee damage, the amount of weight you can carry, your\n\
 total HP, your resistance to many diseases, and the effectiveness of actions\n\
-which require brute force.");
+which require brute force."));
    } else if (line == 1) {
-    mvwprintz(w_stats, 3, 2, h_ltgray, "Dexterity:");
+    mvwprintz(w_stats, 3, 2, h_ltgray, _("Dexterity:"));
  // display player current DEX effects
-    mvwprintz(w_stats, 6, 2, c_magenta, "Melee to-hit bonus: +%d                      ",
+    mvwprintz(w_stats, 6, 2, c_magenta, _("Melee to-hit bonus: +%d                      "),
              base_to_hit(false));
     mvwprintz(w_stats, 7, 2, c_magenta, "                                            ");
-    mvwprintz(w_stats, 7, 2, c_magenta, "Ranged penalty: -%d",
+    mvwprintz(w_stats, 7, 2, c_magenta, _("Ranged penalty: -%d"),
              abs(ranged_dex_mod(false)));
     mvwprintz(w_stats, 8, 2, c_magenta, "                                            ");
-    mvwprintz(w_stats, 8, 2, c_magenta, "Throwing %s: %s%d",
-             (throw_dex_mod(false) <= 0 ? "bonus" : "penalty"),
-             (throw_dex_mod(false) <= 0 ? "+" : "-"),
-             abs(throw_dex_mod(false)));
-    mvwprintz(w_info, 0, 0, c_magenta, "\
+    if (throw_dex_mod(false) <= 0) {
+        mvwprintz(w_stats, 8, 2, c_magenta, _("Throwing bonus: +%d"),
+                  abs(throw_dex_mod(false)));
+    } else {
+        mvwprintz(w_stats, 8, 2, c_magenta, _("Throwing penalty: -%d"),
+                  abs(throw_dex_mod(false)));
+    }
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
 Dexterity affects your chance to hit in melee combat, helps you steady your\n\
-gun for ranged combat, and enhances many actions that require finesse.");
+gun for ranged combat, and enhances many actions that require finesse."));
    } else if (line == 2) {
-    mvwprintz(w_stats, 4, 2, h_ltgray, "Intelligence:");
+    mvwprintz(w_stats, 4, 2, h_ltgray, _("Intelligence:"));
  // display player current INT effects
-   mvwprintz(w_stats, 6, 2, c_magenta, "Read times: %d%%%%           ",
+   mvwprintz(w_stats, 6, 2, c_magenta, _("Read times: %d%%%%           "),
              read_speed(false));
-   mvwprintz(w_stats, 7, 2, c_magenta, "Skill rust: %d%%%%           ",
+   mvwprintz(w_stats, 7, 2, c_magenta, _("Skill rust: %d%%%%           "),
              rust_rate(false));
-   mvwprintz(w_stats, 8, 2, c_magenta, "Crafting Bonus: %d          ",
+   mvwprintz(w_stats, 8, 2, c_magenta, _("Crafting Bonus: %d          "),
              int_cur);
 
-    mvwprintz(w_info, 0, 0, c_magenta, "\
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
 Intelligence is less important in most situations, but it is vital for more\n\
 complex tasks like electronics crafting. It also affects how much skill you\n\
-can pick up from reading a book.");
+can pick up from reading a book."));
    } else if (line == 3) {
-    mvwprintz(w_stats, 5, 2, h_ltgray, "Perception:");
+    mvwprintz(w_stats, 5, 2, h_ltgray, _("Perception:"));
 
-       mvwprintz(w_stats, 6, 2,  c_magenta, "Ranged penalty: -%d",
+       mvwprintz(w_stats, 6, 2,  c_magenta, _("Ranged penalty: -%d"),
              abs(ranged_per_mod(false)),"          ");
-    mvwprintz(w_stats, 7, 2, c_magenta, "Trap dection level: %d       ",
+    mvwprintz(w_stats, 7, 2, c_magenta, _("Trap dection level: %d       "),
              per_cur);
     mvwprintz(w_stats, 8, 2, c_magenta, "                             ");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
 Perception is the most important stat for ranged combat. It's also used for\n\
-detecting traps and other things of interest.");
+detecting traps and other things of interest."));
    }
    wrefresh(w_stats);
    wrefresh(w_info);
@@ -2531,7 +2830,8 @@ detecting traps and other things of interest.");
       line = 3;
      break;
     case '\t':
-     mvwprintz(w_stats, 0, 0, c_ltgray, "          STATS           ");
+     mvwprintz(w_stats, 0, 0, c_ltgray, _("                          "));
+     mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
      wrefresh(w_stats);
      line = 0;
      curtab++;
@@ -2540,57 +2840,58 @@ detecting traps and other things of interest.");
     case KEY_ESCAPE:
      done = true;
    }
-   mvwprintz(w_stats, 2, 2, c_ltgray, "Strength:");
-   mvwprintz(w_stats, 3, 2, c_ltgray, "Dexterity:");
-   mvwprintz(w_stats, 4, 2, c_ltgray, "Intelligence:");
-   mvwprintz(w_stats, 5, 2, c_ltgray, "Perception:");
+   mvwprintz(w_stats, 2, 2, c_ltgray, _("Strength:"));
+   mvwprintz(w_stats, 3, 2, c_ltgray, _("Dexterity:"));
+   mvwprintz(w_stats, 4, 2, c_ltgray, _("Intelligence:"));
+   mvwprintz(w_stats, 5, 2, c_ltgray, _("Perception:"));
    wrefresh(w_stats);
    break;
   case 2:	// Encumberment tab
-   mvwprintz(w_encumb, 0, 0, h_ltgray, " ENCUMBERANCE AND WARMTH  ");
+   mvwprintz(w_encumb, 0, 0, h_ltgray,  _("                          "));
+   mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
    if (line == 0) {
-    mvwprintz(w_encumb, 1, 1, h_ltgray, "Torso");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
+    mvwprintz(w_encumb, 1, 1, h_ltgray, _("Torso"));
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
 Melee skill %+d;      Dodge skill %+d;\n\
 Swimming costs %+d movement points;\n\
-Melee attacks cost %+d movement points", -encumb(bp_torso), -encumb(bp_torso),
+Melee attacks cost %+d movement points"), -encumb(bp_torso), -encumb(bp_torso),
               encumb(bp_torso) * (80 - skillLevel("swimming") * 3), encumb(bp_torso) * 20);
    } else if (line == 1) {
-    mvwprintz(w_encumb, 2, 1, h_ltgray, "Head");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
-Head encumberance has no effect; it simply limits how much you can put on.");
+    mvwprintz(w_encumb, 2, 1, h_ltgray, _("Head"));
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
+Head encumberance has no effect; it simply limits how much you can put on."));
    } else if (line == 2) {
-    mvwprintz(w_encumb, 3, 1, h_ltgray, "Eyes");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
+    mvwprintz(w_encumb, 3, 1, h_ltgray, _("Eyes"));
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
 Perception %+d when checking traps or firing ranged weapons;\n\
-Perception %+.1f when throwing items", -encumb(bp_eyes),
+Perception %+.1f when throwing items"), -encumb(bp_eyes),
 double(double(-encumb(bp_eyes)) / 2));
    } else if (line == 3) {
-    mvwprintz(w_encumb, 4, 1, h_ltgray, "Mouth");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
-Running costs %+d movement points", encumb(bp_mouth) * 5);
+    mvwprintz(w_encumb, 4, 1, h_ltgray, _("Mouth"));
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
+Running costs %+d movement points"), encumb(bp_mouth) * 5);
    } else if (line == 4)
   {
-    mvwprintz(w_encumb, 5, 1, h_ltgray, "Arms");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
-Arm encumbrance affects your accuracy with ranged weapons.");
+    mvwprintz(w_encumb, 5, 1, h_ltgray, _("Arms"));
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
+Arm encumbrance affects your accuracy with ranged weapons."));
    } else if (line == 5)
    {
-    mvwprintz(w_encumb, 6, 1, h_ltgray, "Hands");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
+    mvwprintz(w_encumb, 6, 1, h_ltgray, _("Hands"));
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
 Reloading costs %+d movement points;\n\
-Dexterity %+d when throwing items", encumb(bp_hands) * 30, -encumb(bp_hands));
+Dexterity %+d when throwing items"), encumb(bp_hands) * 30, -encumb(bp_hands));
    } else if (line == 6) {
-    mvwprintz(w_encumb, 7, 1, h_ltgray, "Legs");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
+    mvwprintz(w_encumb, 7, 1, h_ltgray, _("Legs"));
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
 Running costs %+d movement points;  Swimming costs %+d movement points;\n\
-Dodge skill %+.1f", encumb(bp_legs) * 3,
+Dodge skill %+.1f"), encumb(bp_legs) * 3,
               encumb(bp_legs) *(50 - skillLevel("swimming") * 2),
                      double(double(-encumb(bp_legs)) / 2));
    } else if (line == 7) {
-    mvwprintz(w_encumb, 8, 1, h_ltgray, "Feet");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
-Running costs %+d movement points", encumb(bp_feet) * 5);
+    mvwprintz(w_encumb, 8, 1, h_ltgray, _("Feet"));
+    mvwprintz(w_info, 0, 0, c_magenta, _("\
+Running costs %+d movement points"), encumb(bp_feet) * 5);
    }
    wrefresh(w_encumb);
    wrefresh(w_info);
@@ -2606,7 +2907,8 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
       line = 7;
      break;
     case '\t':
-     mvwprintz(w_encumb, 0, 0, c_ltgray, " ENCUMBERANCE AND WARMTH  ");
+     mvwprintz(w_encumb, 0, 0, c_ltgray,  _("                          "));
+     mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
      wrefresh(w_encumb);
      line = 0;
      curtab++;
@@ -2615,18 +2917,19 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
     case KEY_ESCAPE:
      done = true;
    }
-   mvwprintz(w_encumb, 1, 1, c_ltgray, "Torso");
-   mvwprintz(w_encumb, 2, 1, c_ltgray, "Head");
-   mvwprintz(w_encumb, 3, 1, c_ltgray, "Eyes");
-   mvwprintz(w_encumb, 4, 1, c_ltgray, "Mouth");
-   mvwprintz(w_encumb, 5, 1, c_ltgray, "Arms");
-   mvwprintz(w_encumb, 6, 1, c_ltgray, "Hands");
-   mvwprintz(w_encumb, 7, 1, c_ltgray, "Legs");
-   mvwprintz(w_encumb, 8, 1, c_ltgray, "Feet");
+   mvwprintz(w_encumb, 1, 1, c_ltgray, _("Torso"));
+   mvwprintz(w_encumb, 2, 1, c_ltgray, _("Head"));
+   mvwprintz(w_encumb, 3, 1, c_ltgray, _("Eyes"));
+   mvwprintz(w_encumb, 4, 1, c_ltgray, _("Mouth"));
+   mvwprintz(w_encumb, 5, 1, c_ltgray, _("Arms"));
+   mvwprintz(w_encumb, 6, 1, c_ltgray, _("Hands"));
+   mvwprintz(w_encumb, 7, 1, c_ltgray, _("Legs"));
+   mvwprintz(w_encumb, 8, 1, c_ltgray, _("Feet"));
    wrefresh(w_encumb);
    break;
   case 4:	// Traits tab
-   mvwprintz(w_traits, 0, 0, h_ltgray, "          TRAITS          ");
+   mvwprintz(w_traits, 0, 0, h_ltgray,  _("                          "));
+   mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, h_ltgray, title_TRAITS);
    if (line <= (trait_win_size_y-1)/2) {
     min = 0;
     max = trait_win_size_y;
@@ -2676,7 +2979,8 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
       line--;
      break;
     case '\t':
-     mvwprintz(w_traits, 0, 0, c_ltgray, "          TRAITS          ");
+     mvwprintz(w_traits, 0, 0, c_ltgray,  _("                          "));
+     mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
      for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
       mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
       if (traits[traitslist[i]].points > 0)
@@ -2698,7 +3002,8 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
    break;
 
   case 5:	// Effects tab
-   mvwprintz(w_effects, 0, 0, h_ltgray, "        EFFECTS           ");
+   mvwprintz(w_effects, 0, 0, h_ltgray,  _("                          "));
+   mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, h_ltgray, title_EFFECTS);
    if (line <= (effect_win_size_y-1)/2) {
     min = 0;
     max = effect_win_size_y;
@@ -2737,7 +3042,8 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
       line--;
      break;
     case '\t':
-     mvwprintz(w_effects, 0, 0, c_ltgray, "        EFFECTS           ");
+     mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
+     mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
      for (int i = 0; i < effect_name.size() && i < 7; i++)
       mvwprintz(w_effects, i + 1, 1, c_ltgray, effect_name[i].c_str());
      wrefresh(w_effects);
@@ -2751,7 +3057,8 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
    break;
 
   case 3:	// Skills tab
-   mvwprintz(w_skills, 0, 0, h_ltgray, "           SKILLS         ");
+   mvwprintz(w_skills, 0, 0, h_ltgray,  _("                          "));
+   mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, h_ltgray, title_SKILLS);
    if (line <= (skill_win_size_y-1)/2) {
     min = 0;
     max = skill_win_size_y;
@@ -2815,7 +3122,8 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
      break;
     case '\t':
       werase(w_skills);
-     mvwprintz(w_skills, 0, 0, c_ltgray, "           SKILLS         ");
+     mvwprintz(w_skills, 0, 0, c_ltgray,  _("                          "));
+     mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
      for (int i = 0; i < skillslist.size() && i < skill_win_size_y; i++) {
       Skill *thisSkill = skillslist[i];
       SkillLevel level = skillLevel(thisSkill);
@@ -2908,9 +3216,9 @@ void player::disp_morale(game *g)
     int number_pos = name_column_width + 1;
 
     // Header
-    mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
-    mvwprintz(w, 2,  1, c_ltgray, "Name");
-    mvwprintz(w, 2, name_column_width+2, c_ltgray, "Value");
+    mvwprintz(w, 1,  1, c_white, _("Morale Modifiers:"));
+    mvwprintz(w, 2,  1, c_ltgray, _("Name"));
+    mvwprintz(w, 2, name_column_width+2, c_ltgray, _("Value"));
 
     // Print out the morale entries.
     for (int i = 0; i < morale.size(); i++)
@@ -2934,7 +3242,7 @@ void player::disp_morale(game *g)
 
     // Print out the total morale, right-justified.
     int mor = morale_level();
-    mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), "Total:");
+    mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), _("Total:"));
     mvwprintz(w, 20, number_pos, (mor < 0 ? c_red : c_green), "% 6d", mor);
 
     // Print out the focus gain rate, right-justified.
@@ -2953,44 +3261,57 @@ void player::disp_morale(game *g)
     delwin(w);
 }
 
-void player::disp_status(WINDOW *w, game *g)
+void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
- mvwprintz(w, 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
- if (weapon.is_gun()) {
-   int adj_recoil = recoil + driving_recoil;
-       if (adj_recoil >= 36)
-   mvwprintz(w, 0, 34, c_red,    _("Recoil"));
-  else if (adj_recoil >= 20)
-   mvwprintz(w, 0, 34, c_ltred,  _("Recoil"));
-  else if (adj_recoil >= 4)
-   mvwprintz(w, 0, 34, c_yellow, _("Recoil"));
-  else if (adj_recoil > 0)
-   mvwprintz(w, 0, 34, c_ltgray, _("Recoil"));
- }
+    int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "Narrow");
 
- // Print the current weapon mode
- if (weapon.mode == "NULL")
-  mvwprintz(w, 1, 0, c_red,    _("Normal"));
- else if (weapon.mode == "MODE_BURST")
-  mvwprintz(w, 1, 0, c_red,    _("Burst"));
- else {
-  item* gunmod = weapon.active_gunmod();
-  if (gunmod != NULL)
-   mvwprintz(w, 1, 0, c_red, gunmod->type->name.c_str());
- }
+    WINDOW *weapwin = sideStyle ? w2 : w;
+    mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
+    if (weapon.is_gun()) {
+        int adj_recoil = recoil + driving_recoil;
+        if (adj_recoil > 0) {
+            nc_color c = c_ltgray;
+            if (adj_recoil >= 36)
+                c = c_red;
+            else if (adj_recoil >= 20)
+                c = c_ltred;
+            else if (adj_recoil >= 4)
+                c = c_yellow;
+            int y = sideStyle ? 1 : 0;
+            int x = sideStyle ? (getmaxx(weapwin) - 6) : 34;
+            mvwprintz(weapwin, y, x, c, _("Recoil"));
+        }
+    }
 
- if (hunger > 2800)
-  mvwprintz(w, 2, 0, c_red,    _("Starving!"));
- else if (hunger > 1400)
-  mvwprintz(w, 2, 0, c_ltred,  _("Near starving"));
- else if (hunger > 300)
-  mvwprintz(w, 2, 0, c_ltred,  _("Famished"));
- else if (hunger > 100)
-  mvwprintz(w, 2, 0, c_yellow, _("Very hungry"));
- else if (hunger > 40)
-  mvwprintz(w, 2, 0, c_yellow, _("Hungry"));
- else if (hunger < 0)
-  mvwprintz(w, 2, 0, c_green,  _("Full"));
+    // Print the current weapon mode
+    const char *mode = NULL;
+    if (weapon.mode == "NULL")
+        mode = _("Normal");
+    else if (weapon.mode == "MODE_BURST")
+        mode = _("Burst");
+    else {
+        item* gunmod = weapon.active_gunmod();
+        if (gunmod != NULL)
+            mode = gunmod->type->name.c_str();
+    }
+    if (mode) {
+        int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
+        mvwprintz(weapwin, 1, x, c_red, mode);
+    }
+
+    wmove(w, sideStyle ? 1 : 2, 0);
+    if (hunger > 2800)
+        wprintz(w, c_red,    _("Starving!"));
+    else if (hunger > 1400)
+        wprintz(w, c_ltred,  _("Near starving"));
+    else if (hunger > 300)
+        wprintz(w, c_ltred,  _("Famished"));
+    else if (hunger > 100)
+        wprintz(w, c_yellow, _("Very hungry"));
+    else if (hunger > 40)
+        wprintz(w, c_yellow, _("Hungry"));
+    else if (hunger < 0)
+        wprintz(w, c_green,  _("Full"));
 
  // Find hottest/coldest bodypart
  int min = 0, max = 0;
@@ -3031,80 +3352,82 @@ void player::disp_status(WINDOW *w, game *g)
  else if (delta == -2) temp_message = _(" (Falling!)");
  else if (delta <  -2) temp_message = _(" (Falling!!)");
  // Print the hottest/coldest bodypart, and if it is rising or falling in temperature
- if      (temp_cur[print] >  BODYTEMP_SCORCHING)
-  mvwprintz(w, 1, 9, c_red,   _("Scorching!%s"), temp_message);
- else if (temp_cur[print] >  BODYTEMP_VERY_HOT)
-  mvwprintz(w, 1, 9, c_ltred, _("Very hot!%s"), temp_message);
- else if (temp_cur[print] >  BODYTEMP_HOT)
-  mvwprintz(w, 1, 9, c_yellow,_("Warm%s"), temp_message);
- else if (temp_cur[print] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
-  mvwprintz(w, 1, 9, c_green, _("Comfortable%s"), temp_message);
- else if (temp_cur[print] >  BODYTEMP_VERY_COLD)
-  mvwprintz(w, 1, 9, c_ltblue,_("Chilly%s"), temp_message);
- else if (temp_cur[print] >  BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_cyan,  _("Very cold!%s"), temp_message);
- else if (temp_cur[print] <= BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_blue,  _("Freezing!%s"), temp_message);
 
- mvwprintz(w, 1, 32, c_yellow, _("Sound:%d"), volume);
- volume = 0;
+    wmove(w, sideStyle ? 6 : 1, sideStyle ? 0 : 9);
+    if      (temp_cur[print] >  BODYTEMP_SCORCHING)
+        wprintz(w, c_red,   _("Scorching!%s"), temp_message);
+    else if (temp_cur[print] >  BODYTEMP_VERY_HOT)
+        wprintz(w, c_ltred, _("Very hot!%s"), temp_message);
+    else if (temp_cur[print] >  BODYTEMP_HOT)
+        wprintz(w, c_yellow,_("Warm%s"), temp_message);
+    else if (temp_cur[print] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
+        wprintz(w, c_green, _("Comfortable%s"), temp_message);
+    else if (temp_cur[print] >  BODYTEMP_VERY_COLD)
+        wprintz(w, c_ltblue,_("Chilly%s"), temp_message);
+    else if (temp_cur[print] >  BODYTEMP_FREEZING)
+        wprintz(w, c_cyan,  _("Very cold!%s"), temp_message);
+    else if (temp_cur[print] <= BODYTEMP_FREEZING)
+        wprintz(w, c_blue,  _("Freezing!%s"), temp_message);
 
-      if (thirst > 520)
-  mvwprintz(w, 2, 15, c_ltred,  _("Parched"));
- else if (thirst > 240)
-  mvwprintz(w, 2, 15, c_ltred,  _("Dehydrated"));
- else if (thirst > 80)
-  mvwprintz(w, 2, 15, c_yellow, _("Very thirsty"));
- else if (thirst > 40)
-  mvwprintz(w, 2, 15, c_yellow, _("Thirsty"));
- else if (thirst < 0)
-  mvwprintz(w, 2, 15, c_green,  _("Slaked"));
+    int x = sideStyle ? 37 : 32;
+    int y = sideStyle ?  0 :  1;
+    mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
+    volume = 0;
 
-      if (fatigue > 575)
-  mvwprintz(w, 2, 30, c_red,    _("Exhausted"));
- else if (fatigue > 383)
-  mvwprintz(w, 2, 30, c_ltred,  _("Dead tired"));
- else if (fatigue > 191)
-  mvwprintz(w, 2, 30, c_yellow, _("Tired"));
+    wmove(w, 2, sideStyle ? 0 : 15);
+    if (thirst > 520)
+        wprintz(w, c_ltred,  _("Parched"));
+    else if (thirst > 240)
+        wprintz(w, c_ltred,  _("Dehydrated"));
+    else if (thirst > 80)
+        wprintz(w, c_yellow, _("Very thirsty"));
+    else if (thirst > 40)
+        wprintz(w, c_yellow, _("Thirsty"));
+    else if (thirst < 0)
+        wprintz(w, c_green,  _("Slaked"));
 
- mvwprintz(w, 2, 41, c_white, _("Focus: "));
- nc_color col_xp = c_dkgray;
- if (focus_pool >= 100)
-  col_xp = c_white;
- else if (focus_pool >  0)
-  col_xp = c_ltgray;
- mvwprintz(w, 2, 48, col_xp, "%d", focus_pool);
+    wmove(w, sideStyle ? 3 : 2, sideStyle ? 0 : 30);
+    if (fatigue > 575)
+        wprintz(w, c_red,    _("Exhausted"));
+    else if (fatigue > 383)
+        wprintz(w, c_ltred,  _("Dead tired"));
+    else if (fatigue > 191)
+        wprintz(w, c_yellow, _("Tired"));
 
- nc_color col_pain = c_yellow;
- if (pain - pkill >= 60)
-  col_pain = c_red;
- else if (pain - pkill >= 40)
-  col_pain = c_ltred;
- if (pain - pkill > 0)
-  mvwprintz(w, 3, 0, col_pain, _("Pain: %d"), pain - pkill);
+    wmove(w, sideStyle ? 4 : 2, sideStyle ? 0 : 41);
+    wprintz(w, c_white, _("Focus"));
+    nc_color col_xp = c_dkgray;
+    if (focus_pool >= 100)
+        col_xp = c_white;
+    else if (focus_pool >  0)
+        col_xp = c_ltgray;
+    wprintz(w, col_xp, " %d", focus_pool);
+
+    nc_color col_pain = c_yellow;
+    if (pain - pkill >= 60)
+        col_pain = c_red;
+    else if (pain - pkill >= 40)
+        col_pain = c_ltred;
+    if (pain - pkill > 0)
+        mvwprintz(w, sideStyle ? 0 : 3, 0, col_pain, _("Pain %d"), pain - pkill);
+
+    int morale_cur = morale_level ();
+        nc_color col_morale = c_white;
+    if (morale_cur >= 10)
+        col_morale = c_green;
+    else if (morale_cur <= -10)
+        col_morale = c_red;
+    const char *morale_str;
+    if      (morale_cur >= 100) morale_str = ":D";
+    else if (morale_cur >= 10)  morale_str = ":)";
+    else if (morale_cur > -10)  morale_str = ":|";
+    else if (morale_cur > -100) morale_str = "):";
+    else                        morale_str = "D:";
+    mvwprintz(w, sideStyle ? 0 : 3, sideStyle ? 11 : 10, col_morale, morale_str);
 
  vehicle *veh = g->m.veh_at (posx, posy);
- int dmor = 0;
-
- int morale_cur = morale_level ();
- nc_color col_morale = c_white;
- if (morale_cur >= 10)
-  col_morale = c_green;
- else if (morale_cur <= -10)
-  col_morale = c_red;
- if (morale_cur >= 100)
-  mvwprintz(w, 3, 10 + dmor, col_morale, ":D");
- else if (morale_cur >= 10)
-  mvwprintz(w, 3, 10 + dmor, col_morale, ":)");
- else if (morale_cur > -10)
-  mvwprintz(w, 3, 10 + dmor, col_morale, ":|");
- else if (morale_cur > -100)
-  mvwprintz(w, 3, 10 + dmor, col_morale, "):");
- else
-  mvwprintz(w, 3, 10 + dmor, col_morale, "D:");
-
  if (in_vehicle && veh) {
-  veh->print_fuel_indicator (w, 3, 49);
+  veh->print_fuel_indicator(w, sideStyle ? 2 : 3, sideStyle ? getmaxx(w) - 5 : 49);
   nc_color col_indf1 = c_ltgray;
 
   float strain = veh->strain();
@@ -3121,39 +3444,43 @@ void player::disp_status(WINDOW *w, game *g)
   }
 
   if (has_turrets) {
-   mvwprintz(w, 3, 25, col_indf1, "Gun:");
-   mvwprintz(w, 3, 29, veh->turret_mode ? c_ltred : c_ltblue,
-                       veh->turret_mode ? "auto" : "off ");
+   mvwprintz(w, 3, sideStyle ? 16 : 25, col_indf1, "Gun:");
+   wprintz(w, veh->turret_mode ? c_ltred : c_ltblue,
+              veh->turret_mode ? "auto" : "off ");
   }
 
-  if (veh->cruise_on) {
-   if(OPTIONS[OPT_USE_METRIC_SYS]) {
-    mvwprintz(w, 3, 33, col_indf1, "{Km/h....>....}");
-    mvwprintz(w, 3, 38, col_vel, "%4d", int(veh->velocity * 0.0161f));
-    mvwprintz(w, 3, 43, c_ltgreen, "%4d", int(veh->cruise_velocity * 0.0161f));
-   }
-   else {
-    mvwprintz(w, 3, 34, col_indf1, "{mph....>....}");
-    mvwprintz(w, 3, 38, col_vel, "%4d", veh->velocity / 100);
-    mvwprintz(w, 3, 43, c_ltgreen, "%4d", veh->cruise_velocity / 100);
-   }
-  } else {
-   if(OPTIONS[OPT_USE_METRIC_SYS]) {
-    mvwprintz(w, 3, 33, col_indf1, "  {Km/h....}  ");
-    mvwprintz(w, 3, 40, col_vel, "%4d", int(veh->velocity * 0.0161f));
-   }
-   else {
-    mvwprintz(w, 3, 34, col_indf1, "  {mph....}  ");
-    mvwprintz(w, 3, 40, col_vel, "%4d", veh->velocity / 100);
-   }
+  //
+  // Draw the speedometer.
+  //
+
+  int speedox = sideStyle ? 0 : 33;
+  int speedoy = sideStyle ? 5 :  3;
+
+  bool metric = OPTIONS["USE_METRIC_SPEED"];
+  const char *units = metric ? "km/h" : "mph";
+  int velx    = metric ?  5 : 4; // strlen(units) + 1
+  int cruisex = metric ? 10 : 9; // strlen(units) + 6
+  float conv  = metric ? 0.0161f : 0.01f;
+
+  if (0 == sideStyle) {
+    if (!veh->cruise_on) speedox += 2;
+    if (!metric)         speedox++;
   }
+
+  const char *speedo = veh->cruise_on ? "{%s....>....}" : "{%s....}";
+  mvwprintz(w, speedoy, speedox,        col_indf1, speedo, units);
+  mvwprintz(w, speedoy, speedox + velx, col_vel,   "%4d", int(veh->velocity * conv));
+  if (veh->cruise_on)
+    mvwprintz(w, speedoy, speedox + cruisex, c_ltgreen, "%4d", int(veh->cruise_velocity * conv));
+
 
   if (veh->velocity != 0) {
    nc_color col_indc = veh->skidding? c_red : c_green;
    int dfm = veh->face.dir() - veh->move.dir();
-   mvwprintz(w, 3, 21, col_indc, dfm < 0? "L" : ".");
-   mvwprintz(w, 3, 22, col_indc, dfm == 0? "0" : ".");
-   mvwprintz(w, 3, 23, col_indc, dfm > 0? "R" : ".");
+   wmove(w, sideStyle ? 5 : 3, getmaxx(w) - 3);
+   wprintz(w, col_indc, dfm <  0 ? "L" : ".");
+   wprintz(w, col_indc, dfm == 0 ? "0" : ".");
+   wprintz(w, col_indc, dfm >  0 ? "R" : ".");
   }
  } else {  // Not in vehicle
   nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
@@ -3180,12 +3507,19 @@ void player::disp_status(WINDOW *w, game *g)
   if (current_speed() > 100)
    col_spd = c_green;
 
-  mvwprintz(w, 3, 13, col_str, _("Str %s%d"), str_cur >= 10 ? "" : " ", str_cur);
-  mvwprintz(w, 3, 20, col_dex, _("Dex %s%d"), dex_cur >= 10 ? "" : " ", dex_cur);
-  mvwprintz(w, 3, 27, col_int, _("Int %s%d"), int_cur >= 10 ? "" : " ", int_cur);
-  mvwprintz(w, 3, 34, col_per, _("Per %s%d"), per_cur >= 10 ? "" : " ", per_cur);
-  mvwprintz(w, 3, 41, col_spd, _("Spd %s%d"), spd_cur >= 10 ? "" : " ", spd_cur);
-  mvwprintz(w, 3, 50, c_white, "%d", movecounter);
+    int x  = sideStyle ? 18 : 13;
+    int y  = sideStyle ?  0 :  3;
+    int dx = sideStyle ?  0 :  7;
+    int dy = sideStyle ?  1 :  0;
+    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str %2d"), str_cur);
+    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex %2d"), dex_cur);
+    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int %2d"), int_cur);
+    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per %2d"), per_cur);
+
+    int spdx = sideStyle ?  0 : x + dx * 4;
+    int spdy = sideStyle ?  5 : y + dy * 4;
+    mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), spd_cur);
+    wprintz(w, c_white, "  %d", movecounter);
  }
 }
 
@@ -3297,6 +3631,10 @@ float player::active_light()
 
     int flashlight = active_item_charges("flashlight_on");
     int torch = active_item_charges("torch_lit");
+	int shishkebab = active_item_charges("shishkebab_on");
+	int firemachete = active_item_charges("firemachete_on");
+	int broadfire = active_item_charges("broadfire_on");
+	int firekatana = active_item_charges("firekatana_on");
     int gasoline_lantern = active_item_charges("gasoline_lantern_on");
     if (flashlight > 0)
     {
@@ -3305,6 +3643,22 @@ float player::active_light()
     else if (torch > 0)
     {
         lumination = std::min(100, torch * 5);
+    }
+	else if (shishkebab > 0)
+    {
+        lumination = std::min(100, shishkebab * 5);
+    }
+	else if (firemachete > 0)
+    {
+        lumination = std::min(100, firemachete * 5);
+    }
+	else if (broadfire > 0)
+    {
+        lumination = std::min(100, broadfire * 5);
+    }
+    else if (firekatana > 0)
+    {
+        lumination = std::min(100, firekatana * 5);
     }
     else if (active_item_charges("pda_flashlight") > 0)
     {
@@ -3364,15 +3718,19 @@ int player::unimpaired_range()
 
 int player::overmap_sight_range(int light_level)
 {
- int sight = sight_range(light_level);
- if (sight < SEEX)
-  return 0;
- if (sight <= SEEX * 4)
-  return (sight / (SEEX / 2));
- if (has_amount("binoculars", 1))
-  return 20;
+    int sight = sight_range(light_level);
+    if( sight < SEEX ) {
+        return 0;
+    }
+    if( sight <= SEEX * 4) {
+        return (sight / (SEEX / 2) );
+    }
+    if( has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
+        -1 != weapon.has_gunmod("rifle_scope") ) {
+        return 20;
+    }
 
- return 10;
+    return 10;
 }
 
 int player::clairvoyance()
@@ -3452,6 +3810,10 @@ void player::pause(game *g)
    arm_max = 20;
   add_disease("armor_boost", 2, arm_amount, arm_max);
  }
+
+// Train swimming if underwater
+ if (underwater)
+   practice(g->turn, "swimming", 1);
 }
 
 int player::throw_range(signed char ch)
@@ -3464,10 +3826,11 @@ int player::throw_range(signed char ch)
  else
   tmp = inv.item_by_letter(ch);
 
- if (tmp.weight() > int(str_cur * 15))
+ if ((tmp.weight() / 113) > int(str_cur * 15))
   return 0;
- int ret = int((str_cur * 8) / (tmp.weight() > 0 ? tmp.weight() : 10));
- ret -= int(tmp.volume() / 10);
+ // Increases as weight decreases until 150 g, then decreases again
+ int ret = (str_cur * 8) / (tmp.weight() > 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+ ret -= int(tmp.volume() / 4);
  if (has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel")))
     ret *= 2;
  if (ret < 1)
@@ -3526,14 +3889,22 @@ int player::read_speed(bool real_life)
 
 int player::rust_rate(bool real_life)
 {
- if (OPTIONS[OPT_SKILL_RUST] == 4) return 0;
- int intel = (real_life ? int_cur : int_max);
- int ret = (OPTIONS[OPT_SKILL_RUST] < 2 ? 500 : 500 - 35 * (intel - 8));
- if (has_trait(PF_FORGETFUL))
-  ret *= 1.33;
- if (ret < 0)
-  ret = 0;
- return (real_life ? ret : ret / 10);
+    if (OPTIONS["SKILL_RUST"] == "Off") {
+        return 0;
+    }
+
+    int intel = (real_life ? int_cur : int_max);
+    int ret = ((OPTIONS["SKILL_RUST"] == "Vanilla" || OPTIONS["SKILL_RUST"] == "Capped") ? 500 : 500 - 35 * (intel - 8));
+
+    if (has_trait(PF_FORGETFUL)) {
+        ret *= 1.33;
+    }
+
+    if (ret < 0) {
+        ret = 0;
+    }
+
+    return (real_life ? ret : ret / 10);
 }
 
 int player::talk_skill()
@@ -3585,7 +3956,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 {
  int painadd = 0;
  if (has_disease("sleep")) {
-  g->add_msg("You wake up!");
+  g->add_msg(_("You wake up!"));
   rem_disease("sleep");
  } else if (has_disease("lying_down"))
   rem_disease("lying_down");
@@ -3607,7 +3978,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   rem_disease("armor_boost");
 
  if (!is_npc())
-  g->cancel_activity_query("You were hurt!");
+  g->cancel_activity_query(_("You were hurt!"));
 
  if (has_artifact_with(AEP_SNAKES) && dam >= 6) {
   int snakes = int(dam / 6);
@@ -3621,9 +3992,9 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   if (snakes > valid.size())
    snakes = valid.size();
   if (snakes == 1)
-   g->add_msg("A snake sprouts from your body!");
+   g->add_msg(_("A snake sprouts from your body!"));
   else if (snakes >= 2)
-   g->add_msg("Some snakes sprout from your body!");
+   g->add_msg(_("Some snakes sprout from your body!"));
   monster snake(g->mtypes[mon_shadow_snake]);
   for (int i = 0; i < snakes; i++) {
    int index = rng(0, valid.size() - 1);
@@ -3709,7 +4080,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
 {
  int painadd = 0;
  if (has_disease("sleep") && rng(0, dam) > 2) {
-  g->add_msg("You wake up!");
+  g->add_msg(_("You wake up!"));
   rem_disease("sleep");
  } else if (has_disease("lying_down"))
   rem_disease("lying_down");
@@ -3718,7 +4089,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
   return;
 
  if (!is_npc())
-  g->cancel_activity_query("You were hurt!");
+  g->cancel_activity_query(_("You were hurt!"));
 
  if (has_trait(PF_PAINRESIST))
   painadd = dam / 3;
@@ -3849,7 +4220,7 @@ void player::hurtall(int dam)
 void player::hitall(game *g, int dam, int vary)
 {
  if (has_disease("sleep")) {
-  g->add_msg("You wake up!");
+  g->add_msg(_("You wake up!"));
   rem_disease("sleep");
  } else if (has_disease("lying_down"))
   rem_disease("lying_down");
@@ -4124,20 +4495,20 @@ int player::addiction_level(add_type type)
  return 0;
 }
 
-void player::siphon_gas(game *g, vehicle *veh)
+void player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 {
-    int fuel_amount = veh->drain("gasoline", veh->fuel_capacity("gasoline"));
-    item used_item(g->itypes["gasoline"], g->turn);
-    used_item.charges = fuel_amount;
-    g->add_msg("Siphoned %d units of gasoline from the vehicle.", fuel_amount);
-    while (!g->handle_liquid(used_item, false, false)) { } // handle the gas until it's all gone
+    int liquid_amount = veh->drain( desired_liquid , veh->fuel_capacity( desired_liquid ));
+    item used_item(g->itypes[ default_ammo(desired_liquid) ], g->turn);
+    used_item.charges = liquid_amount;
+    g->add_msg(_("Siphoned %d units of %s from the vehicle."), liquid_amount, used_item.name.c_str());
+    while (!g->handle_liquid(used_item, false, false)) { } // handle the liquid until it's all gone
 }
 
 void player::cauterize(game *g) {
  rem_disease("bleed");
  rem_disease("bite");
  pain += 15;
- g->add_msg_if_player(this,"You cauterize yourself. It hurts like hell!");
+ g->add_msg_if_player(this,_("You cauterize yourself. It hurts like hell!"));
 }
 
 void player::suffer(game *g)
@@ -4164,7 +4535,7 @@ void player::suffer(game *g)
             }
             else
             {
-                g->add_msg("You're drowning!");
+                g->add_msg(_("You're drowning!"));
                 hurt(g, bp_torso, 0, rng(1, 4));
             }
         }
@@ -4185,6 +4556,16 @@ void player::suffer(game *g)
     }
     if (!has_disease("sleep"))
     {
+        if (weight_carried() > weight_capacity())
+        {
+            // one in 11 with it reducing by 1 for every additional 20%, occurs constantly at 300%
+            // " + 1" is so that the shift occurs on the 20% instead of above it
+            if (one_in(10 - ((weight_carried() + 1) / (weight_capacity() / 5) - 7)) )
+            {
+                g->add_msg_if_player(this,"Your body strains under the weight!");
+                pain += 1;
+            }
+        }
         int timer = -3600;
         if (has_trait(PF_ADDICTIVE))
         {
@@ -4221,7 +4602,7 @@ void player::suffer(game *g)
         {
             if (one_in(3600))
             {
-                g->add_msg("You suddenly feel sharp pain for no reason.");
+                g->add_msg(_("You suddenly feel sharp pain for no reason."));
                 pain += 3 * rng(1, 3);
             }
             if (one_in(3600))
@@ -4229,17 +4610,17 @@ void player::suffer(game *g)
                 int pkilladd = 5 * rng(-1, 2);
                 if (pkilladd > 0)
                 {
-                    g->add_msg("You suddenly feel numb.");
+                    g->add_msg(_("You suddenly feel numb."));
                 }
                 else if (pkilladd < 0)
                 {
-                    g->add_msg("You suddenly ache.");
+                    g->add_msg(_("You suddenly ache."));
                 }
                 pkill += pkilladd;
             }
             if (one_in(3600))
             {
-                g->add_msg("You feel dizzy for a moment.");
+                g->add_msg(_("You feel dizzy for a moment."));
                 moves -= rng(10, 30);
             }
             if (one_in(3600))
@@ -4247,22 +4628,22 @@ void player::suffer(game *g)
                 int hungadd = 5 * rng(-1, 3);
                 if (hungadd > 0)
                 {
-                    g->add_msg("You suddenly feel hungry.");
+                    g->add_msg(_("You suddenly feel hungry."));
                 }
                 else
                 {
-                    g->add_msg("You suddenly feel a little full.");
+                    g->add_msg(_("You suddenly feel a little full."));
                 }
                 hunger += hungadd;
             }
             if (one_in(3600))
             {
-                g->add_msg("You suddenly feel thirsty.");
+                g->add_msg(_("You suddenly feel thirsty."));
                 thirst += 5 * rng(1, 3);
             }
             if (one_in(3600))
             {
-                g->add_msg("You feel fatigued all of a sudden.");
+                g->add_msg(_("You feel fatigued all of a sudden."));
                 fatigue += 10 * rng(2, 4);
             }
             if (one_in(4800))
@@ -4280,7 +4661,7 @@ void player::suffer(game *g)
             {
                 if (one_in(3))
                 {
-                    g->add_msg("You suddenly feel very cold.");
+                    g->add_msg(_("You suddenly feel very cold."));
                     for (int i = 0 ; i < num_bp ; i++)
                     {
                         temp_cur[i] = BODYTEMP_VERY_COLD;
@@ -4288,7 +4669,7 @@ void player::suffer(game *g)
                 }
                 else
                 {
-                    g->add_msg("You suddenly feel cold.");
+                    g->add_msg(_("You suddenly feel cold."));
                     for (int i = 0 ; i < num_bp ; i++)
                     {
                         temp_cur[i] = BODYTEMP_COLD;
@@ -4299,7 +4680,7 @@ void player::suffer(game *g)
             {
                 if (one_in(3))
                 {
-                    g->add_msg("You suddenly feel very hot.");
+                    g->add_msg(_("You suddenly feel very hot."));
                     for (int i = 0 ; i < num_bp ; i++)
                     {
                         temp_cur[i] = BODYTEMP_VERY_HOT;
@@ -4307,7 +4688,7 @@ void player::suffer(game *g)
                 }
                 else
                 {
-                    g->add_msg("You suddenly feel hot.");
+                    g->add_msg(_("You suddenly feel hot."));
                     for (int i = 0 ; i < num_bp ; i++)
                     {
                         temp_cur[i] = BODYTEMP_HOT;
@@ -4329,10 +4710,10 @@ void player::suffer(game *g)
                     add_disease("visuals", rng(15, 60));
                     break;
                 case 2:
-                    g->add_msg("From the south you hear glass breaking.");
+                    g->add_msg(_("From the south you hear glass breaking."));
                     break;
                 case 3:
-                    g->add_msg("YOU SHOULD QUIT THE GAME IMMEDIATELY.");
+                    g->add_msg(_("YOU SHOULD QUIT THE GAME IMMEDIATELY."));
                     add_morale(MORALE_FEELING_BAD, -50, -150);
                     break;
                 case 4:
@@ -4341,11 +4722,11 @@ void player::suffer(game *g)
                     }
                     break;
                 case 5:
-                    g->add_msg("You suddenly feel so numb...");
+                    g->add_msg(_("You suddenly feel so numb..."));
                     pkill += 25;
                     break;
                 case 6:
-                    g->add_msg("You start to shake uncontrollably.");
+                    g->add_msg(_("You start to shake uncontrollably."));
                     add_disease("shakes", 10 * rng(2, 5));
                     break;
                 case 7:
@@ -4358,11 +4739,11 @@ void player::suffer(game *g)
                     }
                     break;
                 case 8:
-                    g->add_msg("It's a good time to lie down and sleep.");
+                    g->add_msg(_("It's a good time to lie down and sleep."));
                     add_disease("lying_down", 200);
                     break;
                 case 9:
-                    g->add_msg("You have the sudden urge to SCREAM!");
+                    g->add_msg(_("You have the sudden urge to SCREAM!"));
                     g->sound(posx, posy, 10 + 2 * str_cur, "AHHHHHHH!");
                     break;
                 case 10:
@@ -4393,11 +4774,11 @@ void player::suffer(game *g)
    vomit(g);
 
   if (has_trait(PF_SHOUT1) && one_in(3600))
-   g->sound(posx, posy, 10 + 2 * str_cur, "You shout loudly!");
+   g->sound(posx, posy, 10 + 2 * str_cur, _("You shout loudly!"));
   if (has_trait(PF_SHOUT2) && one_in(2400))
-   g->sound(posx, posy, 15 + 3 * str_cur, "You scream loudly!");
+   g->sound(posx, posy, 15 + 3 * str_cur, _("You scream loudly!"));
   if (has_trait(PF_SHOUT3) && one_in(1800))
-   g->sound(posx, posy, 20 + 4 * str_cur, "You let out a piercing howl!");
+   g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
  }	// Done with while-awake-only effects
 
  if (has_trait(PF_ASTHMA) && one_in(3600 - stim * 50)) {
@@ -4408,7 +4789,7 @@ void player::suffer(game *g)
   }
   if (has_disease("sleep")) {
    rem_disease("sleep");
-   g->add_msg("Your asthma wakes you up!");
+   g->add_msg(_("Your asthma wakes you up!"));
    auto_use = false;
   }
   if (auto_use)
@@ -4416,7 +4797,7 @@ void player::suffer(game *g)
   else {
    add_disease("asthma", 50 * rng(1, 4));
    if (!is_npc())
-    g->cancel_activity_query("You have an asthma attack!");
+    g->cancel_activity_query(_("You have an asthma attack!"));
   }
  }
 
@@ -4433,10 +4814,10 @@ void player::suffer(game *g)
  }
 
  if (has_trait(PF_ALBINO) && g->is_in_sunlight(posx, posy) && one_in(20)) {
-  g->add_msg("The sunlight burns your skin!");
+  g->add_msg(_("The sunlight burns your skin!"));
   if (has_disease("sleep")) {
    rem_disease("sleep");
-   g->add_msg("You wake up!");
+   g->add_msg(_("You wake up!"));
   }
   hurtall(1);
  }
@@ -4528,7 +4909,7 @@ void player::suffer(game *g)
            for( int i = 0; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ ){
                if( before < rad_dosage_thresholds[i] &&
                    (*it)->irridation >= rad_dosage_thresholds[i] ) {
-                   g->add_msg_if_player( this, "Your radiation badge changes from %s to %s!",
+                   g->add_msg_if_player( this, _("Your radiation badge changes from %s to %s!"),
                                          rad_threshold_colors[i - 1].c_str(),
                                          rad_threshold_colors[i].c_str() );
                }
@@ -4541,7 +4922,7 @@ void player::suffer(game *g)
  {
      if (radiation < 0) radiation = 0;
      else if (radiation > 2000) radiation = 2000;
-     if (OPTIONS[OPT_RAD_MUTATION] && rng(60, 2500) < radiation)
+     if (OPTIONS["RAD_MUTATION"] && rng(60, 2500) < radiation)
      {
          mutate(g);
          radiation /= 2;
@@ -4561,20 +4942,20 @@ void player::suffer(game *g)
 
 // Negative bionics effects
  if (has_bionic("bio_dis_shock") && one_in(1200)) {
-  g->add_msg("You suffer a painful electrical discharge!");
+  g->add_msg(_("You suffer a painful electrical discharge!"));
   pain++;
   moves -= 150;
  }
  if (has_bionic("bio_dis_acid") && one_in(1500)) {
-  g->add_msg("You suffer a burning acidic discharge!");
+  g->add_msg(_("You suffer a burning acidic discharge!"));
   hurtall(1);
  }
  if (has_bionic("bio_drain") && power_level > 0 && one_in(600)) {
-  g->add_msg("Your batteries discharge slightly.");
+  g->add_msg(_("Your batteries discharge slightly."));
   power_level--;
  }
  if (has_bionic("bio_noise") && one_in(500)) {
-  g->add_msg("A bionic emits a crackle of noise!");
+  g->add_msg(_("A bionic emits a crackle of noise!"));
   g->sound(posx, posy, 60, "");
  }
  if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
@@ -4673,7 +5054,7 @@ void player::mend(game *g)
    }
    if(mended) {
     hp_cur[i] = 1;
-    g->add_msg("Your %s has started to mend!",
+    g->add_msg(_("Your %s has started to mend!"),
       body_part_name(part, side).c_str());
    }
   }
@@ -4682,7 +5063,7 @@ void player::mend(game *g)
 
 void player::vomit(game *g)
 {
- g->add_msg("You throw up heavily!");
+ g->add_msg(_("You throw up heavily!"));
  hunger += rng(30, 50);
  thirst += rng(30, 50);
  moves -= 100;
@@ -4701,6 +5082,15 @@ void player::vomit(game *g)
  rem_disease("pkill2");
  rem_disease("pkill3");
  rem_disease("sleep");
+}
+
+void player::drench(game *g, int saturation) {
+  int morale_cap = (g->temperature - 60) * saturation / 100;
+
+  if (morale_cap == 0)
+    return;
+
+  add_morale(MORALE_WET, (morale_cap > 0?1:-1), morale_cap);
 }
 
 int player::weight_carried()
@@ -4723,7 +5113,7 @@ int player::volume_carried()
 int player::weight_capacity(bool real_life)
 {
  int str = (real_life ? str_cur : str_max);
- int ret = 400 + str * 35;
+ int ret = 13000 + str * 4000;
  if (has_trait(PF_BADBACK))
   ret = int(ret * .65);
  if (has_trait(PF_LIGHT_BONES))
@@ -4731,7 +5121,7 @@ int player::weight_capacity(bool real_life)
  if (has_trait(PF_HOLLOW_BONES))
   ret = int(ret * .60);
  if (has_artifact_with(AEP_CARRY_MORE))
-  ret += 200;
+  ret += 22500;
  return ret;
 }
 
@@ -4752,13 +5142,33 @@ int player::volume_capacity()
  return ret;
 }
 
+double player::convert_weight(int weight)
+{
+    double ret;
+    ret = double(weight);
+    if (OPTIONS["USE_METRIC_WEIGHT"]) {
+        ret /= 1000;
+    } else {
+        ret /= 453.6;
+    }
+    return ret;
+}
+
 bool player::can_pickVolume(int volume)
 {
     return (volume_carried() + volume <= volume_capacity());
 }
-bool player::can_pickWeight(int weight)
+bool player::can_pickWeight(int weight, bool safe)
 {
-    return (weight_carried() + weight <= weight_capacity());
+    if (!safe)
+    {
+        //Player can carry up to four times their maximum weight
+        return (weight_carried() + weight <= weight_capacity() * 4);
+    }
+    else
+    {
+        return (weight_carried() + weight <= weight_capacity());
+    }
 }
 
 // --- Library functions ---
@@ -5015,12 +5425,12 @@ void player::process_active_items(game *g)
     }
     if (maintain) {
      if (one_in(20)) {
-      g->add_msg("Your %s discharges!", weapon.tname().c_str());
+      g->add_msg(_("Your %s discharges!"), weapon.tname().c_str());
       point target(posx + rng(-12, 12), posy + rng(-12, 12));
       std::vector<point> traj = line_to(posx, posy, target.x, target.y, 0);
       g->fire(*this, target.x, target.y, traj, false);
      } else
-      g->add_msg("Your %s beeps alarmingly.", weapon.tname().c_str());
+      g->add_msg(_("Your %s beeps alarmingly."), weapon.tname().c_str());
     }
    } else {
     if (use_charges_if_avail("adv_UPS_on", (1 + weapon.charges)/2) || use_charges_if_avail("UPS_on", 1 + weapon.charges)) {
@@ -5028,7 +5438,7 @@ void player::process_active_items(game *g)
     } else if (use_charges_if_avail("adv_UPS_off", (1 + weapon.charges)/2) || use_charges_if_avail("UPS_off", 1 + weapon.charges)) {
      weapon.poison++;
     } else {
-     g->add_msg("Your %s spins down.", weapon.tname().c_str());
+     g->add_msg(_("Your %s spins down."), weapon.tname().c_str());
      if (weapon.poison <= 0) {
       weapon.charges--;
       weapon.poison = weapon.charges - 1;
@@ -5127,7 +5537,7 @@ bool player::process_single_active_item(game *g, item *it)
         {
             if (it->ready_to_revive(g))
             {
-                g->add_msg_if_player(this, "Oh dear god, a corpse you're carrying has started moving!");
+                g->add_msg_if_player(this, _("Oh dear god, a corpse you're carrying has started moving!"));
                 g->revive_corpse(posx, posy, it);
                 return false;
             }
@@ -5323,6 +5733,8 @@ bool player::has_fire(const int quantity)
         return true;
     } else if (has_charges("welder", quantity)) {
         return true;
+    } else if (has_charges("welder_crude", quantity)) {
+        return true;
     }
     return false;
 }
@@ -5358,10 +5770,13 @@ void player::use_fire(const int quantity)
         use_charges("flamethrower_simple", quantity);
         return;
     } else if (has_charges("hotplate", quantity)) {
-        use_charges("welder", quantity);
+        use_charges("hotplate", quantity);
         return;
     } else if (has_charges("welder", quantity)) {
         use_charges("welder", quantity);
+        return;
+    } else if (has_charges("welder_crude", quantity)) {
+        use_charges("welder_crude", quantity);
         return;
     }
 }
@@ -5441,7 +5856,7 @@ int player::butcher_factor()
   lowest_factor = inv_factor;
  }
  if (weapon.damage_cut() >= 10 && !weapon.has_flag("SPEAR")) {
-  int factor = weapon.volume() * 5 - weapon.weight() * 1.5 -
+  int factor = weapon.volume() * 5 - weapon.weight() / 75 -
                weapon.damage_cut();
   if (weapon.damage_cut() <= 20)
    factor *= 2;
@@ -5462,7 +5877,7 @@ item* player::pick_usb()
  for (int i = 0; i < drives.size() && i < 9; i++)
   selections.push_back( drives[i]->tname() );
 
- int select = menu_vec(false, "Choose drive:", selections);
+ int select = menu_vec(false, _("Choose drive:"), selections);
 
  return drives[ select - 1 ];
 }
@@ -5636,6 +6051,29 @@ bool player::has_weapon_or_armor(char let) const
  return false;
 }
 
+bool player::has_item_with_flag( std::string flag ) const
+{
+    //check worn items for flag
+    if (worn_with_flag( flag ))
+    {
+        return true;
+    }
+
+    //check weapon for flag
+    if (weapon.has_flag( flag ))
+    {
+        return true;
+    }
+
+    //check inventory items for flag
+    if (inv.has_flag( flag ))
+    {
+        return true;
+    }
+
+    return false;
+}
+
 bool player::has_item(char let)
 {
  return (has_weapon_or_armor(let) || !inv.item_by_letter(let).is_null());
@@ -5701,7 +6139,7 @@ bool player::eat(game *g, signed char ch)
     int which = -3; // Helps us know how to delete the item which got eaten
     if (ch == -2)
     {
-        g->add_msg("You do not have that item.");
+        g->add_msg(_("You do not have that item."));
         return false;
     }
     else if (ch == -1)
@@ -5722,7 +6160,7 @@ bool player::eat(game *g, signed char ch)
         }
         else
         {
-            g->add_msg_if_player(this,"You can't eat your %s.", weapon.tname(g).c_str());
+            g->add_msg_if_player(this,_("You can't eat your %s."), weapon.tname(g).c_str());
             if(is_npc())
                 debugmsg("%s tried to eat a %s", name.c_str(), weapon.tname(g).c_str());
             return false;
@@ -5747,11 +6185,12 @@ bool player::eat(game *g, signed char ch)
         }
         else
         {
-            g->add_msg_if_player(this,"You can't eat your %s.", it.tname(g).c_str());
+            g->add_msg_if_player(this,_("You can't eat your %s."), it.tname(g).c_str());
             if(is_npc())
                 debugmsg("%s tried to eat a %s", name.c_str(), it.tname(g).c_str());
             return false;
         }
+    }
     if (eaten == NULL)
         return false;
 
@@ -5760,7 +6199,7 @@ bool player::eat(game *g, signed char ch)
         const int factor = 20;
         int max_change = max_power_level - power_level;
         if (max_change == 0)
-            g->add_msg_if_player(this,"Your internal power storage is fully powered.");
+            g->add_msg_if_player(this,_("Your internal power storage is fully powered."));
         charge_power(eaten->charges / factor);
         eaten->charges -= max_change * factor; //negative charges seem to be okay
         eaten->charges++; //there's a flat subtraction later
@@ -5770,15 +6209,17 @@ bool player::eat(game *g, signed char ch)
             // For when bionics let you burn organic materials
         if (eaten->type->is_book()) {
             it_book* book = dynamic_cast<it_book*>(eaten->type);
-            if (book->type != NULL && !query_yn("Really eat %s?", book->name.c_str()))
+            if (book->type != NULL && !query_yn(_("Really eat %s?"), book->name.c_str()))
                 return false;
         }
-        int charge = (eaten->volume() + eaten->weight()) / 2;
+        int charge = (eaten->volume() + eaten->weight()) / 225;
         if (eaten->type->m1 == "leather" || eaten->type->m2 == "leather")
             charge /= 4;
         if (eaten->type->m1 == "wood"    || eaten->type->m2 == "wood")
             charge /= 2;
         charge_power(charge);
+        g->add_msg_player_or_npc(this, _("You eat your %s."), _("<npcname> eats a %s."),
+                                 eaten->tname(g).c_str());
     }
     else     // It's real food!  i.e. an it_comest
     {
@@ -5794,7 +6235,7 @@ bool player::eat(game *g, signed char ch)
             if (g->itypes[comest->tool]->count_by_charges())
                 has = has_charges(comest->tool, 1);
             if (!has) {
-                g->add_msg_if_player(this,"You need a %s to consume that!",
+                g->add_msg_if_player(this,_("You need a %s to consume that!"),
                            g->itypes[comest->tool]->name.c_str());
             return false;
             }
@@ -5806,20 +6247,20 @@ bool player::eat(game *g, signed char ch)
         last_item = itype_id(eaten->type->id);
 
         if (overeating && !is_npc() &&
-                !query_yn("You're full.  Force yourself to eat?"))
+                !query_yn(_("You're full.  Force yourself to eat?")))
             return false;
 
         if (has_trait(PF_CARNIVORE) && eaten->made_of("veggy") && comest->nutr > 0)
         {
-            g->add_msg_if_player(this, "You can't stand the thought of eating veggies.");
+            g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
             return false;
         }
         if (!has_trait(PF_CANNIBAL) && eaten->made_of("hflesh")&& !is_npc() &&
-                !query_yn("The thought of eating that makes you feel sick. Really do it?"))
+                !query_yn(_("The thought of eating that makes you feel sick. Really do it?")))
             return false;
 
         if (has_trait(PF_VEGETARIAN) && eaten->made_of("flesh") && !is_npc() &&
-                !query_yn("Really eat that meat? Your stomach won't be happy."))
+                !query_yn(_("Really eat that meat? Your stomach won't be happy.")))
             return false;
 
         if (spoiled)
@@ -5827,9 +6268,9 @@ bool player::eat(game *g, signed char ch)
             if (is_npc())
                 return false;
             if (!has_trait(PF_SAPROVORE) &&
-                    !query_yn("This %s smells awful!  Eat it?", eaten->tname(g).c_str()))
+                    !query_yn(_("This %s smells awful!  Eat it?"), eaten->tname(g).c_str()))
                 return false;
-            g->add_msg("Ick, this %s doesn't taste so good...",eaten->tname(g).c_str());
+            g->add_msg(_("Ick, this %s doesn't taste so good..."),eaten->tname(g).c_str());
             if (!has_trait(PF_SAPROVORE) && (!has_bionic("bio_digestion") || one_in(3)))
                 add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
             hunger -= rng(0, comest->nutr);
@@ -5869,7 +6310,6 @@ bool player::eat(game *g, signed char ch)
             g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                       eaten->tname(g).c_str());
         }
-    }
 
         if (g->itypes[comest->tool]->is_tool())
             use_charges(comest->tool, 1); // Tools like lighters get used
@@ -5901,16 +6341,16 @@ bool player::eat(game *g, signed char ch)
 
         if (eaten->made_of("hflesh")) {
           if (has_trait(PF_CANNIBAL)) {
-              g->add_msg_if_player(this, "You feast upon the human flesh.");
+              g->add_msg_if_player(this, _("You feast upon the human flesh."));
               add_morale(MORALE_CANNIBAL, 15, 100);
           } else {
-              g->add_msg_if_player(this, "You feel horrible for eating a person..");
+              g->add_msg_if_player(this, _("You feel horrible for eating a person.."));
               add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
           }
         }
         if (has_trait(PF_VEGETARIAN) && (eaten->made_of("flesh") || eaten->made_of("hflesh")))
         {
-            g->add_msg_if_player(this,"Almost instantly you feel a familiar pain in your stomach");
+            g->add_msg_if_player(this,_("Almost instantly you feel a familiar pain in your stomach"));
             add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
         }
         if ((has_trait(PF_HERBIVORE) || has_trait(PF_RUMINANT)) &&
@@ -5932,7 +6372,7 @@ bool player::eat(game *g, signed char ch)
             else if (comest->fun > 0)
                 add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, comest);
             if (hunger < -60 || thirst < -60)
-                g->add_msg_if_player(this,"You can't finish it all!");
+                g->add_msg_if_player(this,_("You can't finish it all!"));
             if (hunger < -60)
                 hunger = -60;
             if (thirst < -60)
@@ -5945,7 +6385,7 @@ bool player::eat(game *g, signed char ch)
             else if (comest->fun > 0)
                 add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
             if (hunger < -20 || thirst < -20)
-                g->add_msg_if_player(this,"You can't finish it all!");
+                g->add_msg_if_player(this,_("You can't finish it all!"));
             if (hunger < -20)
                 hunger = -20;
             if (thirst < -20)
@@ -5961,7 +6401,7 @@ bool player::eat(game *g, signed char ch)
         else if (which == -2)
         {
             weapon.contents.erase(weapon.contents.begin());
-            g->add_msg_if_player(this,"You are now wielding an empty %s.", weapon.tname(g).c_str());
+            g->add_msg_if_player(this,_("You are now wielding an empty %s."), weapon.tname(g).c_str());
         }
         else if (which == 0)
             inv.remove_item_by_letter(ch);
@@ -5971,34 +6411,30 @@ bool player::eat(game *g, signed char ch)
             it.contents.erase(it.contents.begin());
             if (!is_npc())
             {
-                switch ((int)OPTIONS[OPT_DROP_EMPTY])
-                {
-                case 0:
-                    g->add_msg("%c - an empty %s", it.invlet,
-                               it.tname(g).c_str());
-                    break;
-                case 1:
+                if (OPTIONS["DROP_EMPTY"] == "No") {
+                    g->add_msg(_("%c - an empty %s"), it.invlet, it.tname(g).c_str());
+
+                } else if (OPTIONS["DROP_EMPTY"] == "Watertight") {
                     if (it.is_container())
                     {
                         if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS")))
                         {
-                            g->add_msg("You drop the empty %s.", it.tname(g).c_str());
-                            g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
+                            g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
+                            g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                         }
                         else
-                            g->add_msg("%c - an empty %s", it.invlet,
-                                       it.tname(g).c_str());
+                        {
+                            g->add_msg(_("%c - an empty %s"), it.invlet,it.tname(g).c_str());
+                        }
                     }
                     else if (it.type->id == "wrapper") // hack because wrappers aren't containers
                     {
-                        g->add_msg("You drop the empty %s.", it.tname(g).c_str());
-                        g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
+                        g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
+                        g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                     }
-                    break;
-                case 2:
-                    g->add_msg("You drop the empty %s.", it.tname(g).c_str());
-                    g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
-                    break;
+                } else if (OPTIONS["DROP_EMPTY"] == "All") {
+                    g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
+                    g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                 }
             }
             if (inv.stack_by_letter(it.invlet).size() > 0)
@@ -6012,7 +6448,7 @@ bool player::eat(game *g, signed char ch)
 bool player::wield(game *g, signed char ch, bool autodrop)
 {
  if (weapon.has_flag("NO_UNWIELD")) {
-  g->add_msg("You cannot unwield your %s!  Withdraw them with 'p'.",
+  g->add_msg(_("You cannot unwield your %s!  Withdraw them with 'p'."),
              weapon.tname().c_str());
   return false;
  }
@@ -6022,7 +6458,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
    remove_weapon();
   else if (!is_armed()) {
    if (!pickstyle) {
-    g->add_msg("You are already wielding nothing.");
+    g->add_msg(_("You are already wielding nothing."));
     return false;
    }
   } else if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
@@ -6032,9 +6468,9 @@ bool player::wield(game *g, signed char ch, bool autodrop)
    recoil = 0;
    if (!pickstyle)
     return true;
-  } else if (query_yn("No space in inventory for your %s.  Drop it?",
+  } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                       weapon.tname(g).c_str())) {
-   g->m.add_item(posx, posy, remove_weapon());
+   g->m.add_item_or_charges(posx, posy, remove_weapon());
    recoil = 0;
    if (!pickstyle)
     return true;
@@ -6047,16 +6483,16 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   }
  }
  if (ch == 0) {
-  g->add_msg("You're already wielding that!");
+  g->add_msg(_("You're already wielding that!"));
   return false;
  } else if (ch == -2) {
-  g->add_msg("You don't have that item.");
+  g->add_msg(_("You don't have that item."));
   return false;
  }
 
  item& it = inv.item_by_letter(ch);
  if (it.is_two_handed(this) && !has_two_arms()) {
-  g->add_msg("You cannot wield a %s with only one arm.",
+  g->add_msg(_("You cannot wield a %s with only one arm."),
              it.tname(g).c_str());
   return false;
  }
@@ -6082,9 +6518,9 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   }
   last_item = itype_id(weapon.type->id);
   return true;
- } else if (query_yn("No space in inventory for your %s.  Drop it?",
+ } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                      weapon.tname(g).c_str())) {
-  g->m.add_item(posx, posy, remove_weapon());
+  g->m.add_item_or_charges(posx, posy, remove_weapon());
   weapon = it;
   inv.remove_item_by_letter(weapon.invlet);
   inv.unsort();
@@ -6104,7 +6540,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
 void player::pick_style(game *g) // Style selection menu
 {
  std::vector<std::string> options;
- options.push_back("No style");
+ options.push_back(_("No style"));
  for (int i = 0; i < styles.size(); i++) {
   if(!g->itypes[styles[i]]) {
     debugmsg ("Bad hand to hand style: %d",i);
@@ -6112,7 +6548,7 @@ void player::pick_style(game *g) // Style selection menu
     options.push_back( g->itypes[styles[i]]->name );
   }
  }
- int selection = menu_vec(false, "Select a style", options);
+ int selection = menu_vec(false, _("Select a style"), options);
  if (selection >= 2)
   style_selected = styles[selection - 2];
  else
@@ -6221,7 +6657,7 @@ bool player::wear(game *g, char let, bool interactive)
     {
         if(interactive)
         {
-            g->add_msg("You don't have item '%c'.", let);
+            g->add_msg(_("You don't have item '%c'."), let);
         }
 
         return false;
@@ -6254,7 +6690,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
     }
     else
     {
-        g->add_msg("Putting on a %s would be tricky.", to_wear->tname(g).c_str());
+        g->add_msg(_("Putting on a %s would be tricky."), to_wear->tname(g).c_str());
         return false;
     }
 
@@ -6267,7 +6703,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             {
                 if(interactive)
                 {
-                    g->add_msg("You can't wear power armor over other gear!");
+                    g->add_msg(_("You can't wear power armor over other gear!"));
                 }
                 return false;
             }
@@ -6293,7 +6729,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             {
                 if(interactive)
                 {
-                    g->add_msg("You can only wear power armor components with power armor!");
+                    g->add_msg(_("You can only wear power armor components with power armor!"));
                 }
                 return false;
             }
@@ -6305,7 +6741,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             {
                 if(interactive)
                 {
-                    g->add_msg("You cannot wear more than one %s!", to_wear->tname().c_str());
+                    g->add_msg(_("You cannot wear more than one %s!"), to_wear->tname().c_str());
                 }
                 return false;
             }
@@ -6318,7 +6754,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You can't wear %s with power armor!", to_wear->tname().c_str());
+                g->add_msg(_("You can't wear %s with power armor!"), to_wear->tname().c_str());
             }
             return false;
         }
@@ -6341,7 +6777,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You can't wear more than two %s at once.", to_wear->tname().c_str());
+                g->add_msg(_("You can't wear more than two %s at once."), to_wear->tname().c_str());
             }
             return false;
         }
@@ -6350,7 +6786,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You can't wear that, it's made of wool!");
+                g->add_msg(_("You can't wear that, it's made of wool!"));
             }
             return false;
         }
@@ -6359,7 +6795,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You can't wear a%s helmet!", wearing_something_on(bp_head) ? "nother" : "");
+                g->add_msg(wearing_something_on(bp_head) ? _("You can't wear another helmet!") : _("You can't wear a helmet!"));
             }
             return false;
         }
@@ -6368,7 +6804,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You cannot put %s over your webbed hands.", armor->name.c_str());
+                g->add_msg(_("You cannot put %s over your webbed hands."), armor->name.c_str());
             }
             return false;
         }
@@ -6377,7 +6813,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You cannot put %s over your tentacles.", armor->name.c_str());
+                g->add_msg(_("You cannot put %s over your tentacles."), armor->name.c_str());
             }
             return false;
         }
@@ -6386,7 +6822,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You cannot put %s over your talons.", armor->name.c_str());
+                g->add_msg(_("You cannot put %s over your talons."), armor->name.c_str());
             }
             return false;
         }
@@ -6395,7 +6831,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You cannot put a %s over your beak.", armor->name.c_str());
+                g->add_msg(_("You cannot put a %s over your beak."), armor->name.c_str());
             }
             return false;
         }
@@ -6404,7 +6840,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You cannot wear footwear on your hooves.");
+                g->add_msg(_("You cannot wear footwear on your hooves."));
             }
             return false;
         }
@@ -6413,7 +6849,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You cannot wear footwear on your tentacles.");
+                g->add_msg(_("You cannot wear footwear on your tentacles."));
             }
             return false;
         }
@@ -6422,7 +6858,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You cannot wear headgear over your horns.");
+                g->add_msg(_("You cannot wear headgear over your horns."));
             }
             return false;
         }
@@ -6431,7 +6867,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You cannot wear anything over your shell.");
+                g->add_msg(_("You cannot wear anything over your shell."));
             }
             return false;
         }
@@ -6440,7 +6876,13 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg("You cannot wear a helmet over your %s.", (has_trait(PF_HORNS_POINTED) ? "horns" : (has_trait(PF_ANTENNAE) ? "antennae" : "antlers")));
+                if (has_trait(PF_HORNS_POINTED)) {
+                    g->add_msg(_("You cannot wear a helmet over your horns."));
+                } else if (has_trait(PF_ANTENNAE)) {
+                    g->add_msg(_("You cannot wear a helmet over your antennae."));
+                } else {
+                    g->add_msg(_("You cannot wear a helmet over your antlers."));
+                }
             }
             return false;
         }
@@ -6457,7 +6899,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
                 {
                     if(interactive)
                     {
-                        g->add_msg("You're already wearing footwear!");
+                        g->add_msg(_("You're already wearing footwear!"));
                     }
                     return false;
                 }
@@ -6470,7 +6912,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
 
     if(interactive)
     {
-        g->add_msg("You put on your %s.", to_wear->tname(g).c_str());
+        g->add_msg(_("You put on your %s."), to_wear->tname(g).c_str());
         moves -= 350; // TODO: Make this variable?
 
         if (to_wear->is_artifact())
@@ -6483,7 +6925,10 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if (armor->covers & mfb(i) && encumb(i) >= 4)
             {
-                g->add_msg("Your %s %s very encumbered! %s", body_part_name(body_part(i), 2).c_str(), (i == bp_head || i == bp_torso ? "is" : "are"), encumb_text(body_part(i)).c_str());
+                g->add_msg(
+                    (i == bp_head || i == bp_torso) ? 
+                    _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
+                    body_part_name(body_part(i), 2).c_str(), encumb_text(body_part(i)).c_str());
             }
         }
     }
@@ -6520,11 +6965,11 @@ bool player::takeoff(game *g, char let, bool autodrop)
          if ((dynamic_cast<it_armor*>(worn[j].type))->is_power_armor() &&
              (worn[j].invlet != let)) {
              if( autodrop ) {
-                 g->m.add_item(posx, posy, worn[j]);
+                 g->m.add_item_or_charges(posx, posy, worn[j]);
                  worn.erase(worn.begin() + j);
                  removed_armor = true;
              } else {
-                 g->add_msg("You can't take off power armor while wearing other power armor components.");
+                 g->add_msg(_("You can't take off power armor while wearing other power armor components."));
                  return false;
              }
          }
@@ -6541,16 +6986,16 @@ bool player::takeoff(game *g, char let, bool autodrop)
      worn.erase(worn.begin() + i);
      inv.unsort();
      return true;
-    } else if (query_yn("No room in inventory for your %s.  Drop it?",
+    } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
                         worn[i].tname(g).c_str())) {
-     g->m.add_item(posx, posy, worn[i]);
+     g->m.add_item_or_charges(posx, posy, worn[i]);
      worn.erase(worn.begin() + i);
      return true;
     } else
      return false;
    }
   }
-  g->add_msg("You are not wearing that item.");
+  g->add_msg(_("You are not wearing that item."));
   return false;
  }
 }
@@ -6559,7 +7004,7 @@ void player::sort_armor(game *g)
 {
     if (worn.size() == 0)
     {
-        g->add_msg("You are not wearing anything!");
+        g->add_msg(_("You are not wearing anything!"));
         return;
     }
 
@@ -6622,17 +7067,17 @@ void player::sort_armor(game *g)
     wborder(w_legs_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXX, LINE_XOXX, LINE_XXXO, LINE_XOXX);
 
     // Print name and header
-    mvwprintz(w_info, 1, 1, c_white, "CLOTHING SORTING        Press jk to move up/down, s to select items to move.");
-    mvwprintz(w_info, 2, 1, c_white, "Press r to assign special inventory letters to clothing, ESC or q to return.");
-    mvwprintz(w_info, 3, 1, c_white, "Color key: ");
-    wprintz(w_info, c_ltgray, "(Reinforced) ");
+    mvwprintz(w_info, 1, 1, c_white, _("CLOTHING SORTING        Press jk to move up/down, s to select items to move."));
+    mvwprintz(w_info, 2, 1, c_white, _("Press r to assign special inventory letters to clothing, ESC or q to return."));
+    mvwprintz(w_info, 3, 1, c_white, _("Color key: "));
+    wprintz(w_info, c_ltgray, _("(Reinforced) "));
     wprintz(w_info, dam_color[0], "# ");
     wprintz(w_info, dam_color[1], "# ");
     wprintz(w_info, dam_color[2], "# ");
     wprintz(w_info, dam_color[3], "# ");
     wprintz(w_info, dam_color[4], "# ");
     wprintz(w_info, dam_color[5], "# ");
-    wprintz(w_info, c_ltgray, "(Thoroughly Damaged)");
+    wprintz(w_info, c_ltgray, _("(Thoroughly Damaged)"));
 
     wrefresh(w_info);
 
@@ -6659,24 +7104,24 @@ void player::sort_armor(game *g)
             it_armor* cur_armor = dynamic_cast<it_armor*>(worn[cursor_y].type);
 
             temp1.str("");
-            temp1 << "Covers: ";
+            temp1 << _("Covers: ");
             if (cur_armor->covers & mfb(bp_head))
-                temp1 << "Head. ";
+                temp1 << _("Head. ");
             if (cur_armor->covers & mfb(bp_eyes))
-                temp1 << "Eyes. ";
+                temp1 << _("Eyes. ");
             if (cur_armor->covers & mfb(bp_mouth))
-                temp1 << "Mouth. ";
+                temp1 << _("Mouth. ");
             if (cur_armor->covers & mfb(bp_torso))
-               temp1 << "Torso. ";
+               temp1 << _("Torso. ");
             if (cur_armor->covers & mfb(bp_arms))
-               temp1 << "Arms. ";
+               temp1 << _("Arms. ");
             if (cur_armor->covers & mfb(bp_hands))
-               temp1 << "Hands. ";
+               temp1 << _("Hands. ");
             if (cur_armor->covers & mfb(bp_legs))
-               temp1 << "Legs. ";
+               temp1 << _("Legs. ");
             if (cur_armor->covers & mfb(bp_feet))
-               temp1 << "Feet. ";
-            temp1 << " Coverage: ";
+               temp1 << _("Feet. ");
+            temp1 << _(" Coverage: ");
             temp1 << int(cur_armor->coverage);
 
             werase(w_arm_info);
@@ -6686,33 +7131,33 @@ void player::sort_armor(game *g)
             wprintz(w_arm_info, c_ltgray, temp1.str().c_str());
 
             temp1.str("");
-            temp1 << "Encumbrance: ";
+            temp1 << _("Encumbrance: ");
             if (worn[cursor_y].has_flag("FIT"))
             {
                 temp1 << (int(cur_armor->encumber) - 1);
-                temp1 << " (fits)";
+                temp1 << _(" (fits)");
             }
             else
             {
                 temp1 << int(cur_armor->encumber);
             }
-            temp1 << " Bash prot: ";
+            temp1 << _(" Bash prot: ");
             temp1 << int(worn[cursor_y].bash_resist());
-            temp1 << " Cut prot: ";
+            temp1 << _(" Cut prot: ");
             temp1 << int(worn[cursor_y].cut_resist());
-            temp1 << " Warmth: ";
+            temp1 << _(" Warmth: ");
             temp1 << int(cur_armor->warmth);
-            temp1 << " Storage: ";
+            temp1 << _(" Storage: ");
             temp1 << int(cur_armor->storage);
 
             mvwprintz(w_arm_info, 2, 1, c_ltgray, temp1.str().c_str());
 
             werase(w_all_worn);
             wborder(w_all_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_OXXX, LINE_XXOO, LINE_XOOX );
-            mvwprintz(w_all_worn, 1, 1, c_white, "WORN CLOTHING");
-            mvwprintz(w_all_worn, 1, iCol1WinX-9, c_ltgray ,"Storage");
+            mvwprintz(w_all_worn, 1, 1, c_white, _("WORN CLOTHING"));
+            mvwprintz(w_all_worn, 1, iCol1WinX-9, c_ltgray ,_("Storage"));
 
-            mvwprintz(w_all_worn, 2, 1, c_ltgray, "(Innermost)");
+            mvwprintz(w_all_worn, 2, 1, c_ltgray, _("(Innermost)"));
             for (int i = 0; i < worn.size(); i++)
             {
                 it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
@@ -6724,7 +7169,7 @@ void player::sort_armor(game *g)
                     mvwprintz(w_all_worn, i+3, 4, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
                 mvwprintz(w_all_worn, i+3, iCol1WinX-4, dam_color[int(worn[i].damage + 1)], "%2d", int(each_armor->storage));
             }
-            mvwprintz(w_all_worn, 3 + worn.size(), 1, c_ltgray, "(Outermost)");
+            mvwprintz(w_all_worn, 3 + worn.size(), 1, c_ltgray, _("(Outermost)"));
 
             werase(w_torso_worn);
             werase(w_eyes_worn);
@@ -6740,19 +7185,19 @@ void player::sort_armor(game *g)
             wborder(w_hands_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_XOXX, LINE_XXOO, LINE_XOOX);
             wborder(w_legs_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXX, LINE_XOXX, LINE_XXXO, LINE_XOXX);
 
-            mvwprintz(w_torso_worn, 1, 1, c_white, "TORSO CLOTHING");
-            mvwprintz(w_eyes_worn, 1, 1, c_white, "EYES CLOTHING");
-            mvwprintz(w_mouth_worn, 1, 1, c_white, "MOUTH CLOTHING");
-            mvwprintz(w_arms_worn, 1, 1, c_white, "ARMS CLOTHING");
-            mvwprintz(w_hands_worn, 1, 1, c_white, "HANDS CLOTHING");
-            mvwprintz(w_legs_worn, 1, 1, c_white, "LEGS CLOTHING");
+            mvwprintz(w_torso_worn, 1, 1, c_white, _("TORSO CLOTHING"));
+            mvwprintz(w_eyes_worn, 1, 1, c_white, _("EYES CLOTHING"));
+            mvwprintz(w_mouth_worn, 1, 1, c_white, _("MOUTH CLOTHING"));
+            mvwprintz(w_arms_worn, 1, 1, c_white, _("ARMS CLOTHING"));
+            mvwprintz(w_hands_worn, 1, 1, c_white, _("HANDS CLOTHING"));
+            mvwprintz(w_legs_worn, 1, 1, c_white, _("LEGS CLOTHING"));
 
-            mvwprintz(w_torso_worn, 1, iCol2WinX-8, c_ltgray ,"Encumb");
-            mvwprintz(w_eyes_worn, 1, iCol2WinX-8, c_ltgray ,"Encumb");
-            mvwprintz(w_mouth_worn, 1, iCol2WinX-8, c_ltgray ,"Encumb");
-            mvwprintz(w_arms_worn, 1, iCol3WinX-8, c_ltgray ,"Encumb");
-            mvwprintz(w_hands_worn, 1, iCol3WinX-8, c_ltgray ,"Encumb");
-            mvwprintz(w_legs_worn, 1, iCol3WinX-8, c_ltgray ,"Encumb");
+            mvwprintz(w_torso_worn, 1, iCol2WinX-8, c_ltgray ,_("Encumb"));
+            mvwprintz(w_eyes_worn, 1, iCol2WinX-8, c_ltgray ,_("Encumb"));
+            mvwprintz(w_mouth_worn, 1, iCol2WinX-8, c_ltgray ,_("Encumb"));
+            mvwprintz(w_arms_worn, 1, iCol3WinX-8, c_ltgray ,_("Encumb"));
+            mvwprintz(w_hands_worn, 1, iCol3WinX-8, c_ltgray ,_("Encumb"));
+            mvwprintz(w_legs_worn, 1, iCol3WinX-8, c_ltgray ,_("Encumb"));
 
             torso_item_count = 0;
             eyes_item_count = 0;
@@ -6864,7 +7309,7 @@ void player::sort_armor(game *g)
                 if (((dynamic_cast<it_armor*>(worn[cursor_y].type))->covers & mfb(bp_head)) ||
                     ((dynamic_cast<it_armor*>(worn[cursor_y].type))->covers & mfb(bp_feet)))
                 {
-                    popup("This piece of clothing cannot be layered.");
+                    popup(_("This piece of clothing cannot be layered."));
                 }
                 else
                 {
@@ -7050,6 +7495,8 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
             }
         }
     }
+    if(it->is_book())
+        return HINT_GOOD;
     // no recipe exists, or the item cannot be disassembled
     return HINT_CANT;
 }
@@ -7091,7 +7538,7 @@ void player::use(game *g, char let)
  }
 
  if (used->is_null()) {
-  g->add_msg("You do not have that item.");
+  g->add_msg(_("You do not have that item."));
   return;
  }
 
@@ -7105,7 +7552,7 @@ void player::use(game *g, char let)
    (use.*tool->use)(g, this, used, false);
    used->charges -= tool->charges_per_use;
   } else
-   g->add_msg("Your %s has %d charges but needs %d.", used->tname(g).c_str(),
+   g->add_msg(_("Your %s has %d charges but needs %d."), used->tname(g).c_str(),
               used->charges, tool->charges_per_use);
 
   if (tool->use == &iuse::dogfood) replace_item = false;
@@ -7126,119 +7573,119 @@ void player::use(game *g, char let)
  } else if (used->is_gunmod()) {
 
    if (skillLevel("gun") == 0) {
-   g->add_msg("You need to be at least level 1 in the firearms skill before you\
- can modify guns.");
+   g->add_msg(_("You need to be at least level 1 in the firearms skill before you\
+ can modify guns."));
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
-  char gunlet = g->inv("Select gun to modify:");
+  char gunlet = g->inv(_("Select gun to modify:"));
   it_gunmod *mod = static_cast<it_gunmod*>(used->type);
   item* gun = &(i_at(gunlet));
   if (gun->is_null()) {
-   g->add_msg("You do not have that item.");
+   g->add_msg(_("You do not have that item."));
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (!gun->is_gun()) {
-   g->add_msg("That %s is not a gun.", gun->tname(g).c_str());
+   g->add_msg(_("That %s is not a gun."), gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
   if (guntype->skill_used == Skill::skill("archery") || guntype->skill_used == Skill::skill("launcher")) {
-   g->add_msg("You cannot mod your %s.", gun->tname(g).c_str());
+   g->add_msg(_("You cannot mod your %s."), gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {
-   g->add_msg("That %s cannot be attached to a handgun.",
+   g->add_msg(_("That %s cannot be attached to a handgun."),
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (guntype->skill_used == Skill::skill("shotgun") && !mod->used_on_shotgun) {
-   g->add_msg("That %s cannot be attached to a shotgun.",
+   g->add_msg(_("That %s cannot be attached to a shotgun."),
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (guntype->skill_used == Skill::skill("smg") && !mod->used_on_smg) {
-   g->add_msg("That %s cannot be attached to a submachine gun.",
+   g->add_msg(_("That %s cannot be attached to a submachine gun."),
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (guntype->skill_used == Skill::skill("rifle") && !mod->used_on_rifle) {
-   g->add_msg("That %s cannot be attached to a rifle.",
+   g->add_msg(_("That %s cannot be attached to a rifle."),
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if ( mod->acceptible_ammo_types.size() && mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
-   g->add_msg("That %s cannot be used on a %s gun.", used->tname(g).c_str(),
+   g->add_msg(_("That %s cannot be used on a %s gun."), used->tname(g).c_str(),
               ammo_name(guntype->ammo).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (gun->contents.size() >= 4) {
-   g->add_msg("Your %s already has 4 mods installed!  To remove the mods,\
-press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
+   g->add_msg(_("Your %s already has 4 mods installed!  To remove the mods,\
+press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   if ((mod->id == "clip" || mod->id == "clip2" || mod->id == "spare_mag") &&
       gun->clip_size() <= 2) {
-   g->add_msg("You can not extend the ammo capacity of your %s.",
+   g->add_msg(_("You can not extend the ammo capacity of your %s."),
               gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
-   g->add_msg("You can not use a spare magazine with your %s.",
+   g->add_msg(_("You can not use a spare magazine with your %s."),
               gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   for (int i = 0; i < gun->contents.size(); i++) {
    if (gun->contents[i].type->id == used->type->id) {
-    g->add_msg("Your %s already has a %s.", gun->tname(g).c_str(),
+    g->add_msg(_("Your %s already has a %s."), gun->tname(g).c_str(),
                used->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
 	      !gun->contents[i].has_flag("MODE_AUX") &&
 	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
-    g->add_msg("Your %s's caliber has already been modified.",
+    g->add_msg(_("Your %s's caliber has already been modified."),
                gun->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    } else if ((mod->id == "barrel_big" || mod->id == "barrel_small") &&
               (gun->contents[i].type->id == "barrel_big" ||
                gun->contents[i].type->id == "barrel_small")) {
-    g->add_msg("Your %s already has a barrel replacement.",
+    g->add_msg(_("Your %s already has a barrel replacement."),
                gun->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    } else if ((mod->id == "clip" || mod->id == "clip2") &&
               (gun->contents[i].type->id == "clip" ||
                gun->contents[i].type->id == "clip2")) {
-    g->add_msg("Your %s already has its magazine size extended.",
+    g->add_msg(_("Your %s already has its magazine size extended."),
                gun->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    }
   }
-  g->add_msg("You attach the %s to your %s.", used->tname(g).c_str(),
+  g->add_msg(_("You attach the %s to your %s."), used->tname(g).c_str(),
              gun->tname(g).c_str());
   if (replace_item)
    gun->contents.push_back(copy);
@@ -7253,30 +7700,30 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
    if (!replace_item)
     i_rem(let);
   } else if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   return;
 
  } else if (used->is_food() || used->is_food_container()) {
   if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   eat(g, lookup_item(let));
   return;
  } else if (used->is_book()) {
   if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   read(g, let);
   return;
  } else if (used->is_armor()) {
   if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   wear(g, let);
   return;
  } else
-  g->add_msg("You can't do anything interesting with your %s.",
+  g->add_msg(_("You can't do anything interesting with your %s."),
              used->tname(g).c_str());
 
  if (replace_item)
-  inv.add_item(copy);
+  inv.add_item_keep_invlet(copy);
 }
 
 hint_rating player::rate_action_read(item *it, game *g)
@@ -7307,7 +7754,7 @@ void player::read(game *g, char ch)
     vehicle *veh = g->m.veh_at (posx, posy);
     if (veh && veh->player_in_control (this))
     {
-        g->add_msg("It's bad idea to read while driving.");
+        g->add_msg(_("It's bad idea to read while driving."));
         return;
     }
 
@@ -7315,7 +7762,7 @@ void player::read(game *g, char ch)
     // check for light level
     if (fine_detail_vision_mod(g) > 2.5)
     {
-        g->add_msg("You can't see to read!");
+        g->add_msg(_("You can't see to read!"));
         return;
     }
 
@@ -7323,7 +7770,7 @@ void player::read(game *g, char ch)
     if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")
         && !is_wearing("glasses_bifocal"))
     {
-        g->add_msg("Your eyes won't focus without reading glasses.");
+        g->add_msg(_("Your eyes won't focus without reading glasses."));
         return;
     }
 
@@ -7342,7 +7789,7 @@ void player::read(game *g, char ch)
 
     if (it == NULL || it->is_null())
     {
-        g->add_msg("You do not have that item.");
+        g->add_msg(_("You do not have that item."));
         return;
     }
 
@@ -7361,7 +7808,7 @@ void player::read(game *g, char ch)
 
     if (!it->is_book())
     {
-        g->add_msg("Your %s is not good reading material.",
+        g->add_msg(_("Your %s is not good reading material."),
         it->tname(g).c_str());
     return;
     }
@@ -7370,7 +7817,7 @@ void player::read(game *g, char ch)
     int time; //Declare this here so that we can change the time depending on whats needed
     if (tmp->intel > 0 && has_trait(PF_ILLITERATE))
     {
-        g->add_msg("You're illiterate!");
+        g->add_msg(_("You're illiterate!"));
         return;
     }
     else if (tmp->type == NULL)
@@ -7379,7 +7826,7 @@ void player::read(game *g, char ch)
     }
     else if (skillLevel(tmp->type) < (int)tmp->req)
     {
-        g->add_msg("The %s-related jargon flies over your head!",
+        g->add_msg(_("The %s-related jargon flies over your head!"),
          tmp->type->name().c_str());
         if (tmp->recipes.size() == 0)
         {
@@ -7387,16 +7834,16 @@ void player::read(game *g, char ch)
         }
         else
         {
-            g->add_msg("But you might be able to learn a recipe or two.");
+            g->add_msg(_("But you might be able to learn a recipe or two."));
         }
     }
     else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) // See morale.h
     {
-        g->add_msg("What's the point of reading?  (Your morale is too low!)");
+        g->add_msg(_("What's the point of reading?  (Your morale is too low!)"));
         return;
     }
     else if (skillLevel(tmp->type) >= (int)tmp->level && tmp->fun <= 0 && !can_study_recipe(tmp) &&
-            !query_yn("Your %s skill won't be improved.  Read anyway?",
+            !query_yn(_("Your %s skill won't be improved.  Read anyway?"),
                       tmp->type->name().c_str()))
     {
         return;
@@ -7406,15 +7853,15 @@ void player::read(game *g, char ch)
     {
         if (can_study_recipe(tmp))
         {
-            g->add_msg("This book has more recipes for you to learn.");
+            g->add_msg(_("This book has more recipes for you to learn."));
         }
         else if (studied_all_recipes(tmp))
         {
-            g->add_msg("You know all the recipes this book has to offer.");
+            g->add_msg(_("You know all the recipes this book has to offer."));
         }
         else
         {
-            g->add_msg("This book has more recipes, but you don't have the skill to learn them yet.");
+            g->add_msg(_("This book has more recipes, but you don't have the skill to learn them yet."));
         }
     }
 
@@ -7422,7 +7869,7 @@ void player::read(game *g, char ch)
     time = tmp->time * read_speed() * fine_detail_vision_mod(g);
     if (tmp->intel > int_cur)
     {
-        g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
+        g->add_msg(_("This book is too complex for you to easily understand. It will take longer to read."));
         time += (tmp->time * (tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
         activity = player_activity(ACT_READ, time, index, ch, "");
         moves = 0;
@@ -7474,18 +7921,18 @@ bool player::try_study_recipe(game *g, it_book *book)
             if (iter->first->skill_used == NULL || rng(0, 4) <= skillLevel(iter->first->skill_used) - iter->second)
             {
                 learn_recipe(iter->first);
-                g->add_msg("Learned a recipe for %s from the %s.",
+                g->add_msg(_("Learned a recipe for %s from the %s."),
                            g->itypes[iter->first->result]->name.c_str(), book->name.c_str());
                 return true;
             }
             else
             {
-                g->add_msg("Failed to learn a recipe from the %s.", book->name.c_str());
+                g->add_msg(_("Failed to learn a recipe from the %s."), book->name.c_str());
                 return false;
             }
         }
     }
-    return true; // "false" seems to mean "attempted and failed"
+    return true; // _("false") seems to mean _("attempted and failed")
 }
 
 void player::try_to_sleep(game *g)
@@ -7500,10 +7947,12 @@ void player::try_to_sleep(game *g)
      furn_at_pos == f_armchair || furn_at_pos == f_sofa ||
      (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
       (veh && veh->part_with_feature (vpart, vpf_bed) >= 0))
-  g->add_msg("This is a comfortable place to sleep.");
+  g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
-  g->add_msg("It's %shard to get to sleep on this %s.",
-             terlist[ter_at_pos].movecost <= 2 ? "a little " : "",
+  g->add_msg(
+             terlist[ter_at_pos].movecost <= 2 ? 
+             _("It's a little hard to get to sleep on this %s.") : 
+             _("It's hard to get to sleep on this %s."),
              terlist[ter_at_pos].name.c_str());
  add_disease("lying_down", 300);
 }
@@ -7635,72 +8084,55 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
     it_armor* armor;
     for (int i = 0; i < worn.size(); i++)
     {
-        if (!worn[i].is_armor())
+        if( !worn[i].is_armor() ) {
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
-            i, worn[i].tname().c_str());
+                     i, worn[i].tname().c_str());
+        }
         armor = dynamic_cast<it_armor*>(worn[i].type);
 
-        if (armor->covers & mfb(bp))
-        {
-           if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
-            {
+        if( armor->covers & mfb(bp) ) {
+            layers++;
+            if( armor->is_power_armor() &&
+                (has_active_item("UPS_on") || has_active_item("adv_UPS_on") ||
+                 has_active_bionic("bio_power_armor_interface") ||
+                 has_active_bionic("bio_power_armor_interface_mkII")) ) {
                 armorenc += armor->encumber - 4;
-            }
-            else
-            {
+            } else {
                 armorenc += armor->encumber;
-                if (worn[i].has_flag("FIT"))
-                {
-                    armorenc--;
+                // Fitted clothes will either reduce encumberance or negate layering.
+                if( worn[i].has_flag( "FIT" ) ) {
+                    if( armor->encumber > 0 ) {
+                        armorenc--;
+                    } else {
+                        layers--;
+                    }
                 }
-            }
-            if (armor->encumber >= 0 || bp != bp_torso)
-            {
-                layers++;
             }
         }
     }
 
     ret += armorenc;
 
-    // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
-    switch (bp)
-    {
-        case bp_feet  : if (is_wearing("socks") || is_wearing("socks_wool")) layers--; break;
-        case bp_legs  : if (is_wearing("long_underpants")) layers--; break;
-        case bp_hands : if (is_wearing("gloves_liner")) layers--; break;
-        case bp_torso : if (is_wearing("under_armor")) layers--; break;
-    }
-    if (layers > 1)
-    {
+    if (layers > 1) {
         ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso
     }
-    if (volume_carried() > volume_capacity() - 2 && bp != bp_head)
-    {
+    if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
         ret += 3;
     }
 
-    // Fix for negative hand encumbrance
-    if ((bp == bp_hands) && (ret < 0))
-     ret =0;
-
     // Bionics and mutation
-    if (has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth)
-    {
+    if( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth ) {
         ret += 1;
     }
-    if (has_trait(PF_CHITIN3) && bp != bp_eyes && bp != bp_mouth)
-    {
+    if( has_trait(PF_CHITIN3) && bp != bp_eyes && bp != bp_mouth ) {
         ret += 1;
     }
-    if (has_trait(PF_SLIT_NOSTRILS) && bp == bp_mouth)
-    {
+    if( has_trait(PF_SLIT_NOSTRILS) && bp == bp_mouth ) {
         ret += 1;
     }
     if (bp == bp_hands &&
-     (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
-     has_trait(PF_ARM_TENTACLES_8)))
-    {
+        (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
+         has_trait(PF_ARM_TENTACLES_8)) ) {
         ret += 3;
     }
     return ret;
@@ -7829,7 +8261,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                 {
                     if (cut > arm_cut * 2 || dam > arm_bash * 2)
                     {
-                        g->add_msg_if_player(this,"Your %s is damaged!", worn[i].tname(g).c_str());
+                        g->add_msg_if_player(this,_("Your %s is damaged!"), worn[i].tname(g).c_str());
                         worn[i].damage++;
                     }
                 }
@@ -7877,7 +8309,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     } else if (armor_damaged) {
                         std::string damage_verb = diff_bash > diff_cut ? tmp->bash_dmg_verb() :
                                                                          tmp->cut_dmg_verb();
-                        g->add_msg_if_player(this, "Your %s is %s!", pre_damage_name.c_str(),
+                        g->add_msg_if_player(this, _("Your %s is %s!"), pre_damage_name.c_str(),
                                              damage_verb.c_str());
                     }
                 } // end of armour damage code
@@ -8116,7 +8548,7 @@ void player::learn_recipe(recipe *rec)
 void player::assign_activity(game* g, activity_type type, int moves, int index, char invlet, std::string name)
 {
  if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
-     backlog.name == name && query_yn("Resume task?")) {
+     backlog.name == name && query_yn(_("Resume task?"))) {
   activity = backlog;
   backlog = player_activity();
  } else
@@ -8152,7 +8584,7 @@ std::string player::weapname(bool charges)
   dump << ")";
   return dump.str();
  } else if (weapon.is_null())
-  return "fists";
+  return _("fists");
 
  else if (weapon.is_style()) { // Styles get bonus-bars!
   std::stringstream dump;
@@ -8160,19 +8592,19 @@ std::string player::weapname(bool charges)
 
   if(weapon.typeId() == "style_capoeira"){
    if (has_disease("dodge_boost"))
-    dump << " +Dodge";
+    dump << _(" +Dodge");
    if (has_disease("attack_boost"))
-    dump << " +Attack";
+    dump << _(" +Attack");
   } else if(weapon.typeId() == "style_ninjutsu"){
   } else if(weapon.typeId() == "style_leopard"){
    if (has_disease("attack_boost"))
-    dump << " +Attack";
+    dump << _(" +Attack");
   } else if(weapon.typeId() == "style_crane"){
    if (has_disease("dodge_boost"))
-    dump << " +Dodge";
+    dump << _(" +Dodge");
   } else if(weapon.typeId() == "style_dragon"){
    if (has_disease("damage_boost"))
-    dump << " +Damage";
+    dump << _(" +Damage");
   } else if(weapon.typeId() == "style_tiger"){
    dump << " [";
    int intensity = disease_intensity("damage_boost");
@@ -8291,4 +8723,60 @@ void player::setID (int i)
 int player::getID ()
 {
     return this->id;
+}
+
+bool player::uncanny_dodge(bool is_u)
+{
+    if( this->power_level < 3 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
+    point adjacent = adjacent_tile();
+    power_level -= 3;
+    if (adjacent.x != posx || adjacent.y != posy)
+    {
+        posx = adjacent.x;
+        posy = adjacent.y;
+        if (is_u)
+            g->add_msg(_("Time seems to slow down and you instinctively dodge!"));
+        else
+            g->add_msg(_("Your target dodges... so fast!"));
+        return true;
+    }
+    if (is_u)
+        g->add_msg(_("You try to dodge but there's no room!"));
+    return false;
+}
+// adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
+point player::adjacent_tile()
+{
+    std::vector<point> ret;
+    field_entry *cur = NULL;
+    field tmpfld;
+    trap_id curtrap;
+    int dangerous_fields;
+    for (int i=posx-1; i <= posx+1; i++)
+    {
+        for (int j=posy-1; j <= posy+1; j++)
+        {
+            if (i == posx && j == posy) continue;       // don't consider player position
+            curtrap=g->m.tr_at(i, j);
+            if (g->mon_at(i, j) == -1 && g->npc_at(i, j) == -1 && g->m.move_cost(i, j) > 0 && (curtrap == tr_null || g->traps[curtrap]->is_benign()))        // only consider tile if unoccupied, passable and has no traps
+            {
+                dangerous_fields = 0;
+                tmpfld = g->m.field_at(i, j);
+                for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it)
+                {
+                    cur = field_list_it->second;
+                    if (cur != NULL && cur->is_dangerous())
+                        dangerous_fields++;
+                }
+                if (dangerous_fields == 0)
+                {
+                    ret.push_back(point(i, j));
+                }
+            }
+        }
+    }
+    if (ret.size())
+        return ret[rng(0, ret.size()-1)];   // return a random valid adjacent tile
+    else
+        return point(posx, posy);           // or return player position if no valid adjacent tiles
 }

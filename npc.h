@@ -479,6 +479,7 @@ public:
  void update_worst_item_value(); // Find the worst value in our inventory
  int  value(const item &it);
  bool wear_if_wanted(item it);
+ virtual bool wield(game *g, signed char invlet, bool);
  virtual bool wield(game *g, signed char invlet);
  bool has_healing_item();
  bool has_painkiller();
