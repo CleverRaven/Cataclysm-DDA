@@ -7444,7 +7444,7 @@ bool player::can_study_recipe(it_book* book)
     for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
     {
         if (!knows_recipe(iter->first) &&
-            (iter->first->trained_skill == NULL || skillLevel(iter->first->trained_skill) >= iter->second))
+            (iter->first->skill_used == NULL || skillLevel(iter->first->skill_used) >= iter->second))
         {
             return true;
         }
@@ -7469,9 +7469,9 @@ bool player::try_study_recipe(game *g, it_book *book)
     for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
     {
         if (!knows_recipe(iter->first) &&
-            (iter->first->trained_skill == NULL || skillLevel(iter->first->trained_skill) >= iter->second))
+            (iter->first->skill_used == NULL || skillLevel(iter->first->skill_used) >= iter->second))
         {
-            if (iter->first->trained_skill == NULL || rng(0, 4) <= skillLevel(iter->first->trained_skill) - iter->second)
+            if (iter->first->skill_used == NULL || rng(0, 4) <= skillLevel(iter->first->skill_used) - iter->second)
             {
                 learn_recipe(iter->first);
                 g->add_msg("Learned a recipe for %s from the %s.",
@@ -8084,7 +8084,7 @@ bool player::knows_recipe(recipe *rec)
     {
         // Can the skill being trained can handle the difficulty of the task
         bool meets_requirements = false;
-        if(rec->trained_skill == NULL || skillLevel(rec->trained_skill) >= rec->difficulty){
+        if(rec->skill_used == NULL || skillLevel(rec->skill_used) >= rec->difficulty){
             meets_requirements = true;
             //If there are required skills, insure their requirements are met, or we can't craft
             if(rec->required_skills.size()){

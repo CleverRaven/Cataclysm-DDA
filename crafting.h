@@ -27,7 +27,7 @@ struct recipe {
   int id;
   itype_id result;
   craft_cat cat;
-  Skill *trained_skill;
+  Skill *skill_used;
   std::map<Skill*,int> required_skills;
   int difficulty;
   int time;
@@ -60,19 +60,19 @@ struct recipe {
   recipe() {
     id = 0;
     result = "null";
-    trained_skill = NULL;
+    skill_used = NULL;
     difficulty = 0;
     time = 0;
     reversible = false;
     autolearn = false;
   }
 
-recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &to_train,
+recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &to_use,
        std::map<std::string,int> &to_require, int pdiff, int ptime, bool preversible, bool pautolearn,
        int plearn_dis) :
   ident (pident), id (pid), result (pres), cat(pcat), difficulty (pdiff), time (ptime),
   reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis) {
-    trained_skill = to_train.size()?Skill::skill(to_train):NULL;
+    skill_used = to_use.size()?Skill::skill(to_use):NULL;
     if(to_require.size()){
         for(std::map<std::string,int>::iterator iter=to_require.begin(); iter!=to_require.end(); ++iter){
             required_skills[Skill::skill(iter->first)] = iter->second;
