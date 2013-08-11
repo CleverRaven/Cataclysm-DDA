@@ -669,14 +669,14 @@ recipe* game::select_crafting_recipe()
         if (current.size() > 0)
         {
             nc_color col = (available[line] ? c_white : c_dkgray);
-            mvwprintz(w_data, 0, 30, col, _("Primary skill: %s"),
-            (current[line]->sk_primary == NULL ? _("N/A") :
-            current[line]->sk_primary->name().c_str()));
-            mvwprintz(w_data, 1, 30, col, _("Secondary skill: %s"),
-            (current[line]->sk_secondary == NULL ? _("N/A") :
-            current[line]->sk_secondary->name().c_str()));
+            mvwprintz(w_data, 0, 30, col, _("Skills used: %s"),
+                (current[line]->skill_used == NULL ? "N/A" :
+                current[line]->skill_used->name().c_str()));
+            
+            mvwprintz(w_data, 1, 30, col, _("Required skills: %s"),
+                (current[line]->required_skills_string().c_str()));
             mvwprintz(w_data, 2, 30, col, _("Difficulty: %d"), current[line]->difficulty);
-            if (current[line]->sk_primary == NULL)
+            if (current[line]->skill_used == NULL)
             {
                 mvwprintz(w_data, 3, 30, col, _("Your skill level: N/A"));
             }
@@ -987,21 +987,19 @@ void game::pick_recipes(std::vector<recipe*> &current,
 
 void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, std::string filter)
 {
-    std::vector<recipe*> can_craft;
     for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
     {
-        if (u.knows_recipe(*iter) && (*iter)->difficulty >= 0)
+        if (u.knows_recipe(*iter))
         {
-            if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
+            if ((*iter)->difficulty >= 0 )
             {
-                if (OPTIONS["SORT_CRAFTING"] && can_make(*iter))
-                    can_craft.push_back(*iter);
-                else
+                if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
+                {
                     current.push_back(*iter);
+                }
             }
         }
     }
-    current.insert(current.begin(),can_craft.begin(),can_craft.end());
 }
 
 void game::make_craft(recipe *making)
@@ -1141,7 +1139,7 @@ void game::complete_craft()
   if (iter == inv_chars.size() || !u.can_pickVolume(newit.volume())) {
    add_msg(_("There's no room in your inventory for the %s, so you drop it."),
              newit.tname().c_str());
-   m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
+   m.add_item_or_charges(u.posx, u.posy, newit);
   } else if (!u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
    add_msg(_("The %s is too heavy to carry, so you drop it."),
            newit.tname().c_str());
@@ -1504,6 +1502,7 @@ void game::disassemble(char ch)
             }
         }
     }
+
     //if we're trying to disassemble a book or magazine
     if(dis_item->is_book())
     {
@@ -1518,6 +1517,7 @@ void game::disassemble(char ch)
         }
         return;
     }
+
     // no recipe exists, or the item cannot be disassembled
     add_msg(_("This item cannot be disassembled!"));
 }
@@ -1602,7 +1602,7 @@ void game::complete_disassemble()
           } else
           {
             if (dis->difficulty == 0 || comp_success)
-              m.add_item_or_charges(u.posx, u.posy, newit);
+              m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
             else
               add_msg(_("You fail to recover a component."));
             compcount--;
