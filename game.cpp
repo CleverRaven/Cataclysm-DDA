@@ -2991,7 +2991,8 @@ void game::debug()
                    _("Spawn Artifact"),         // 14
                    _("Spawn Clarivoyance Artifact"), //15
                    _("Map editor"), // 16
-                   _("Cancel"),                 // 17
+                   _("Function testing"),        // 17
+                   _("Cancel"),                 // 18
                    NULL);
  int veh_num;
  std::vector<std::string> opts;
@@ -3281,6 +3282,41 @@ Current turn: %d; Next spawn %d.\n\
       point coord = look_debug();
   }
   break;
+
+  case 17: {
+
+      uimenu mtest;
+      mtest.text="WARNING: These will do crazy things and possibly destroy your game and/or village.";
+      mtest.entries.push_back(uimenu_entry("test add_item_anywhere: (Cover an 81x81 submap area in pineapples)"));
+      mtest.entries.push_back(uimenu_entry("test add_item_or_charges: (Dump 9000 pineapples on one spot"));
+      mtest.entries.push_back(uimenu_entry(1024,true,'q',"cancel (I hate pineapples)"));
+      mtest.query();
+      if( mtest.ret == 0 ) {
+
+          item it(itypes["can_pineapple"], turn);
+          for (int x=-432; x < 542; x+=6) {
+              for (int y=-432; y < 542; y+=6) {
+                  m.add_item(x,y,it,64,true);
+              }
+          }
+
+      } else if ( mtest.ret == 1 ) {
+
+          for (int r=0; r<36864; r++) {
+              if ( r % 368 == 0 ) {
+                  popup_nowait("Generating catastrophe... %d / %d.",r,36864);
+              }
+              item it(itypes["can_pineapple"], turn);
+              if( m.add_item_or_charges(u.posx, u.posy+5, it,1)==false ) {
+                  popup("Error adding item # %d", r);
+                  break;
+              }
+          }
+
+      }
+ }
+ break;
+
  }
  erase();
  refresh_all();
@@ -3731,6 +3767,16 @@ void game::draw()
 
     // Draw messages
     write_msg();
+    if (debugmon) {
+        real_coords abc;
+        abc.fromabs( m.getabs( u.posx, u.posy ) );
+        mvprintz(VIEW_OFFSET_Y+3,TERMX - getmaxx(g->w_messages) - VIEW_OFFSET_X,c_cyan,
+          "abs[%d,%d] sub[%d'%d,%d'%d] om[%d'%d,%d'%d]",
+          abc.abs_pos.x,abc.abs_pos.y,
+          abc.abs_sub.x, abc.abs_sub_pos.x, abc.abs_sub.y, abc.abs_sub_pos.y,
+          abc.abs_om.x, abc.abs_om_pos.x, abc.abs_om.y, abc.abs_om_pos.y
+        );
+    }
 }
 
 bool game::isBetween(int test, int down, int up)
