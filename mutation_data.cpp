@@ -1,5 +1,6 @@
 #include "game.h"
 #include "setvector.h"
+#include "catajson.h"
 
 #define MUTATION(mut) id = mut //What mutation/trait is it?
 
@@ -17,6 +18,8 @@
 #define LEADS_TO(...) \
   setvector(&(mutation_data[id].additions), __VA_ARGS__, NULL) //What is it a prereq for?
 
+std::vector<dream> dreams;
+  
 void game::init_mutations()
 {
  int id = 0;
@@ -939,186 +942,86 @@ PF_WHISKERS, PF_DEFORMED3, PF_VOMITOUS, PF_HUNGER, PF_TROGLO2, PF_GROWL, NULL);
  return ret;
 }
 
-std::vector<std::string> category_dreams(mutation_category cat, int strength)
+void game::init_dreams()
 {
- std::vector<std::string> message;
- switch (strength)
+	catajson dreams_file("data/raw/dreams.json");
+	
+	if (!json_good())
+	{
+		throw (std::string)"data/raw/dreams.json wasn't found";
+	}
+	
+	for (dreams_file.set_begin(); dreams_file.has_curr(); dreams_file.next())
+	{
+		catajson dreamcurr = dreams_file.curr();
+		
+		dream newdream;
+		
+		newdream.message		= dreamcurr.get("message").as_string();
+		newdream.strength		= dreamcurr.get("strength").as_int();
+		newdream.category		= string_to_mutcat(dreamcurr.get("category").as_string());
+		
+		dreams.push_back(newdream);		
+	}
+	
+	if (!json_good())
+	{
+		exit(1);
+	}
+}
+
+mutation_category string_to_mutcat(std::string input)
 {
+    mutation_category ret;
+	if (input == "MUTCAT_NULL") {
+        ret = MUTCAT_NULL;
+	}
+	else if (input ==  "MUTCAT_LIZARD") {
+        ret = MUTCAT_LIZARD;	
+	}
 
- case 1:
-  switch (cat)
-  {
-   case MUTCAT_LIZARD:
-    setvector(&message, "You have a strange dream about lizards.", "Your dreams give you a strange scaly feeling.", NULL);
-    break;
-  
-   case MUTCAT_BIRD:
-    setvector(&message, "You have a strange dream about birds.", "Your dreams give you a strange feathered feeling.", NULL);
-    break;
-  
-   case MUTCAT_FISH:
-    setvector(&message, "You have a strange dream about fish.", "Your dreams give you a strange scaly feeling.", NULL);
-    break;
-  
-   case MUTCAT_BEAST:
-    setvector(&message, "You have a strange dream about animals.", "Your dreams give you a strange furry feeling.", NULL);
-    break;
-  
-   case MUTCAT_CATTLE:
-    setvector(&message, "You have a strange dream about cattle.", "Your dreams give you a strange furry feeling.", NULL);
-    break;
-  
-   case MUTCAT_INSECT:
-    setvector(&message, "You have a strange dream about insects.", "Your dreams give you a strange chitinous feeling.", NULL);
-    break;
-  
-   case MUTCAT_PLANT:
-    setvector(&message, "You have a strange dream about plants.", "Your dreams give you a strange plantlike feeling.", NULL);
-    break;
-  
-   case MUTCAT_SLIME:
-    setvector(&message, "You have a strange dream about slime.", "Your dreams give you a strange slimy feeling.", NULL);
-    break;
-  
-   case MUTCAT_TROGLO:
-    setvector(&message, "You have a strange dream about living in a cave.", "Your dreams give a strange reclusive feeling.", NULL);
-    break;
-  
-   case MUTCAT_CEPHALOPOD:
-    setvector(&message, "You have a strange dream about sea creatures.", "Your dreams give you a strange wet feeling.", NULL);
-    break;
-  
-   case MUTCAT_SPIDER:
-    setvector(&message, "You have a strange dream about spiders.", "Your dreams give you a strange chitinous feeling.", NULL);
-    break;
-  
-   case MUTCAT_RAT:
-    setvector(&message, "You have a strange dream about rats.", "Your dreams give you a strange furry feeling.", NULL);
-    break;
-	
-   default:
-    setvector(&message, "You have a peaceful dream", NULL);
-  
-  }
-  break;
+	else if (input ==  "MUTCAT_BIRD") {
+        ret = MUTCAT_BIRD;	
+	}
 
- case 2:
-  switch (cat)
-  {
-   case MUTCAT_LIZARD:
-    setvector(&message, "You have a disturbing dream of bathing in the sun.", "While dreaming, you see a distinctively lizard-like reflection of yourself.", NULL);
-    break;
-  
-   case MUTCAT_BIRD:
-    setvector(&message, "You have strange dreams of soaring through the sky.", "In a dream, you see a curiously birdlike reflection of yourself.", NULL);
-    break;
-  
-   case MUTCAT_FISH:
-    setvector(&message, "You dream of swimming in the open ocean", "In your dream, you see a strangely fishlike image of yourself.", NULL);
-    break;
-  
-   case MUTCAT_BEAST:
-    setvector(&message, "You have a vivid dream of hunting in the woods.", "Whilst dreaming, you see a disturbingly bestial version of yourself.", NULL);
-    break;
-  
-   case MUTCAT_CATTLE:
-    setvector(&message, "You dream of grazing in an open field.", "In a dream you catch a glimpse of a strangely cattle-like image of yourself.", NULL);
-    break;
-  
-   case MUTCAT_INSECT:
-    setvector(&message, "You have a dream of working in a hive.", "While dreaming you look into a mirror and see a frighteningly insectoid reflection.", NULL);
-    break;
-  
-   case MUTCAT_PLANT:
-    setvector(&message, "You have a confusing dream of growing in a garden.", "You are confused by a plantlike image of yourself in a dream.", NULL);
-    break;
-  
-   case MUTCAT_SLIME:
-    setvector(&message, "You have a strange dream of living in sludge.", "In your dream you see an odd, slimy reflection of yourself.", NULL);
-    break;
-  
-   case MUTCAT_TROGLO:
-    setvector(&message, "You dream of living deep inside a dark cave.", "You dream of being a primitive cave dweller.", NULL);
-    break;
-  
-   case MUTCAT_CEPHALOPOD:
-    setvector(&message, "You dream of living on the ocean floor.", "While dreaming, a reflection of yourself appears almost like an octopus.", NULL);
-    break;
-  
-   case MUTCAT_SPIDER:
-    setvector(&message, "You have a strange dream of spinning webs", "In your dream you see a very spiderlike version of yourself.", NULL);
-    break;
-  
-   case MUTCAT_RAT:
-    setvector(&message, "You vividly dream of living in the sewers.", "In your dream you see a group of rats that look almost like yourself.", NULL);
-    break;
-	
-   default:
-    setvector(&message, "You have a peaceful dream", NULL);
-  
-  }
-  break;
+	else if (input ==  "MUTCAT_FISH") {
+        ret = MUTCAT_FISH;	
+	}
 
- case 3:
-  switch (cat)
-  {
-   case MUTCAT_LIZARD:
-    setvector(&message, "You are terrified by a dream of becoming a lizard hybrid.", "You have a disturbingly lifelike dream of living as a lizard.", NULL);
-    break;
-  
-   case MUTCAT_BIRD:
-    setvector(&message, "You have a realistic dream of flying south with your flock for the winter.", "You are disturbed when your birdlike dreams are more lifelike than reality.", NULL);
-    break;
-  
-   case MUTCAT_FISH:
-    setvector(&message, "You have a a disturbing dream of swimming with a school of fish.", "When you wake up you panic about drowning from being out of water.", NULL);
-    break;
-  
-   case MUTCAT_BEAST:
-    setvector(&message, "You vividly dream of running with your pack, hunting a wild animal.", "A terrifyingly real dream has you killing game with your bare teeth.", NULL);
-    break;
-  
-   case MUTCAT_CATTLE:
-    setvector(&message, "You terrifyingly dream of being led to a slaughterhouse by a farmer.", "You find it hard to wake from a vivid dream of grazing on a farm.", NULL);
-    break;
-  
-   case MUTCAT_INSECT:
-    setvector(&message, "You are terrified by a dream of serving the hive queen mindlessly.", "Your disturbingly lifelike dream has you pollinating plants.", NULL);
-    break;
-  
-   case MUTCAT_PLANT:
-    setvector(&message, "You have a confusing and scary dream of becoming a plant.", "You are shocked by the transition from your plantlike dreams to reality.", NULL);
-    break;
-  
-   case MUTCAT_SLIME:
-    setvector(&message, "Your vivid dream of living as a slime blob frightens you.", "You find it hard to control your limbs after dreaming of amorphous blob life.", NULL);
-    break;
-  
-   case MUTCAT_TROGLO:
-    setvector(&message, "Your dream of living in the dark for years is almost real.", "You are frightened of the outside after your vivid dream of cave life.", NULL);
-    break;
-  
-   case MUTCAT_CEPHALOPOD:
-    setvector(&message, "Dreaming of living on the ocean floor seems more lifelike than reality.", "You dream of living as a terrifying octopus mutant.", NULL);
-    break;
-  
-   case MUTCAT_SPIDER:
-    setvector(&message, "You vividly dream of living in a web and consuming insects.", "Your dreams of fully turning into a spider frighten you.", NULL);
-    break;
-  
-   case MUTCAT_RAT:
-    setvector(&message, "You scream in fear while you dream of being chased by a cat", "Your lifelike dreams have you scavenging food with a pack of rats.", NULL);
-    break;
-	
-   default:
-    setvector(&message, "You have a peaceful dream", NULL);
-  
-  }
-  break;
-	
- default:
-  setvector(&message, "You have a peaceful dream", NULL);
+	else if (input ==  "MUTCAT_BEAST") {
+        ret = MUTCAT_BEAST;	
+	}
 
- } 
- return message;
+	else if (input ==  "MUTCAT_CATTLE") {
+        ret = MUTCAT_CATTLE;	
+	}
+
+	else if (input ==  "MUTCAT_INSECT") {
+        ret = MUTCAT_INSECT;	
+	}
+
+	else if (input ==  "MUTCAT_PLANT") {
+        ret = MUTCAT_PLANT;	
+	}
+
+	else if (input ==  "MUTCAT_SLIME") {
+        ret = MUTCAT_SLIME;	
+	}
+	
+	else if (input ==  "MUTCAT_TROGLO") {
+        ret = MUTCAT_TROGLO;
+	}
+
+	else if (input ==  "MUTCAT_CEPHALOPOD") {
+        ret = MUTCAT_CEPHALOPOD;	
+	}
+
+	else if (input ==  "MUTCAT_SPIDER") {
+        ret = MUTCAT_SPIDER;	
+	}
+
+	else if (input ==  "MUTCAT_RAT") {
+        ret = MUTCAT_RAT;	
+	}
+    return ret;
 }

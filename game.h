@@ -364,6 +364,7 @@ void load_artifacts(); // Load artifact data
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
+  void init_dreams();		// Initializes dreams
 
   void load_keyboard_settings(); // Load keybindings from disk
 

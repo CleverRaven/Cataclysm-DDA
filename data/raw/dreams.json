@@ -1,0 +1,433 @@
+[
+	{
+		"message"		:	"You have a strange dream about lizards.",
+		"category"		:	"MUTCAT_LIZARD",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give you a strange scaly feeling.",
+		"category"		:	"MUTCAT_LIZARD",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a strange dream about birds.",
+		"category"		:	"MUTCAT_BIRD",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give you a strange feathered feeling.",
+		"category"		:	"MUTCAT_BIRD",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a strange dream about fish.",
+		"category"		:	"MUTCAT_FISH",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give you a strange wet, scaly feeling.",
+		"category"		:	"MUTCAT_FISH",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a strange dream about animals.",
+		"category"		:	"MUTCAT_BEAST",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give you a strange furry feeling.",
+		"category"		:	"MUTCAT_BEAST",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a strange dream about cattle.",
+		"category"		:	"MUTCAT_CATTLE",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give you a strange content, furry feeling.",
+		"category"		:	"MUTCAT_CATTLE",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a strange dream about insects.",
+		"category"		:	"MUTCAT_INSECT",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give you a strange chitinous feeling.",
+		"category"		:	"MUTCAT_INSECT",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a strange dream about plants.",
+		"category"		:	"MUTCAT_PLANT",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give you a strange plantlike feeling.",
+		"category"		:	"MUTCAT_PLANT",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a strange dream about slime.",
+		"category"		:	"MUTCAT_SLIME",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give you a strange slimy feeling.",
+		"category"		:	"MUTCAT_SLIME",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a strange dream about living in a cave.",
+		"category"		:	"MUTCAT_TROGLO",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give a strange reclusive feeling.",
+		"category"		:	"MUTCAT_TROGLO",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a strange dream about sea creatures.",
+		"category"		:	"MUTCAT_CEPHALOPOD",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give you a strange wet feeling.",
+		"category"		:	"MUTCAT_CEPHALOPOD",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a strange dream about spiders.",
+		"category"		:	"MUTCAT_SPIDER",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give you a strange webbed feeling.",
+		"category"		:	"MUTCAT_SPIDER",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a strange dream about rats.",
+		"category"		:	"MUTCAT_RAT",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"Your dreams give you a strange fuzzy feeling.",
+		"category"		:	"MUTCAT_RAT",
+		"strength"		:	1
+	},
+
+	{
+		"message"		:	"You have a disturbing dream of bathing in the sun on a rock.",
+		"category"		:	"MUTCAT_LIZARD",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"While dreaming, you see a distinctively lizard-like reflection of yourself.",
+		"category"		:	"MUTCAT_LIZARD",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You have strange dreams of soaring through the sky.",
+		"category"		:	"MUTCAT_BIRD",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"In a dream, you see a curiously birdlike reflection of yourself.",
+		"category"		:	"MUTCAT_BIRD",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You dream of swimming in the open ocean",
+		"category"		:	"MUTCAT_FISH",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"In your dream, you see a strangely fishlike image of yourself.",
+		"category"		:	"MUTCAT_FISH",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You have a vivid dream of hunting in the woods.",
+		"category"		:	"MUTCAT_BEAST",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"Whilst dreaming, you see a disturbingly bestial version of yourself.",
+		"category"		:	"MUTCAT_BEAST",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You dream of grazing in an open field.",
+		"category"		:	"MUTCAT_CATTLE",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"In a dream you catch a glimpse of a strangely cattle-like image of yourself.",
+		"category"		:	"MUTCAT_CATTLE",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You have a dream of working in a hive.",
+		"category"		:	"MUTCAT_INSECT",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"While dreaming you look into a mirror and see a frighteningly insectoid reflection.",
+		"category"		:	"MUTCAT_INSECT",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You have a confusing dream of growing in a garden.",
+		"category"		:	"MUTCAT_PLANT",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You are confused by a plantlike image of yourself in a dream.",
+		"category"		:	"MUTCAT_PLANT",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You have a strange dream of living in sludge.",
+		"category"		:	"MUTCAT_SLIME",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"In your dream you see an odd, slimy reflection of yourself.",
+		"category"		:	"MUTCAT_SLIME",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You dream of living deep inside a dark cave.",
+		"category"		:	"MUTCAT_TROGLO",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You dream of being a primitive cave dweller.",
+		"category"		:	"MUTCAT_TROGLO",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You dream of living on the ocean floor.",
+		"category"		:	"MUTCAT_CEPHALOPOD",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"While dreaming, a reflection of yourself appears almost like an octopus.",
+		"category"		:	"MUTCAT_CEPHALOPOD",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You have a strange dream of spinning webs",
+		"category"		:	"MUTCAT_SPIDER",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"In your dream you see a very spiderlike version of yourself.",
+		"category"		:	"MUTCAT_SPIDER",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You vividly dream of living in the sewers.",
+		"category"		:	"MUTCAT_RAT",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"In your dream you see a group of rats that look almost like yourself.",
+		"category"		:	"MUTCAT_RAT",
+		"strength"		:	2
+	},
+
+	{
+		"message"		:	"You are terrified by a dream of becoming a lizard hybrid.",
+		"category"		:	"MUTCAT_LIZARD",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You have a disturbingly lifelike dream of living as a lizard.",
+		"category"		:	"MUTCAT_LIZARD",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You have a realistic dream of flying south with your flock for the winter.",
+		"category"		:	"MUTCAT_BIRD",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You are disturbed when your birdlike dreams are more lifelike than reality.",
+		"category"		:	"MUTCAT_BIRD",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You have a a disturbing dream of swimming with a school of fish.",
+		"category"		:	"MUTCAT_FISH",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"When you wake up you panic about drowning from being out of water.",
+		"category"		:	"MUTCAT_FISH",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You vividly dream of running with your pack, hunting a wild animal.",
+		"category"		:	"MUTCAT_BEAST",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"A terrifyingly real dream has you killing game with your bare teeth.",
+		"category"		:	"MUTCAT_BEAST",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You terrifyingly dream of being led to a slaughterhouse by a farmer.",
+		"category"		:	"MUTCAT_CATTLE",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You find it hard to wake from a vivid dream of grazing on a farm.",
+		"category"		:	"MUTCAT_CATTLE",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You are terrified by a dream of serving the hive queen mindlessly.",
+		"category"		:	"MUTCAT_INSECT",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"Your disturbingly lifelike dream has you pollinating plants.",
+		"category"		:	"MUTCAT_INSECT",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You have a confusing and scary dream of becoming a plant.",
+		"category"		:	"MUTCAT_PLANT",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"The transition from your lifelike dreams of living as a plant to reality shocks you.",
+		"category"		:	"MUTCAT_PLANT",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"Your vivid dream of living as a slime blob frightens you.",
+		"category"		:	"MUTCAT_SLIME",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You find it hard to control your limbs after dreaming of amorphous blob life.",
+		"category"		:	"MUTCAT_SLIME",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"Your dream of living in the dark for years is almost real.",
+		"category"		:	"MUTCAT_TROGLO",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You are frightened of the outside after your vivid dream of cave life.",
+		"category"		:	"MUTCAT_TROGLO",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"Your dreams of living on the ocean floor seem more lifelike than reality.",
+		"category"		:	"MUTCAT_CEPHALOPOD",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You dream of living as a terrifying octopus mutant.",
+		"category"		:	"MUTCAT_CEPHALOPOD",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You vividly dream of living in a web and consuming insects.",
+		"category"		:	"MUTCAT_SPIDER",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"Your dreams of fully turning into a spider frighten you.",
+		"category"		:	"MUTCAT_SPIDER",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"You scream in fear while you dream of being chased by a cat",
+		"category"		:	"MUTCAT_RAT",
+		"strength"		:	3
+	},
+
+	{
+		"message"		:	"Your lifelike dreams have you scavenging food with a pack of rats.",
+		"category"		:	"MUTCAT_RAT",
+		"strength"		:	3
+	}
+]

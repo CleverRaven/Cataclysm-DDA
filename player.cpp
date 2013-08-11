@@ -3549,11 +3549,17 @@ int player::get_category_level(mutation_category cat) // Returns the strength of
 
 std::string player::get_category_dream(mutation_category cat, int strength) // Returns a randomly selected dream
 {
-	int index = 0;
 	std::string message;
-	std::vector<std::string> dreams = category_dreams(cat, strength); // Selects only dreams from the designated category and strength
-	index = (rng(0, (dreams.size() - 1)));
-	message = dreams[index];
+	std::vector<dream> valid_dreams;
+	for (int i = 0; i < dreams.size(); i++) // Pull the list of dreams
+	{
+		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) // Pick only the ones matching our desired category and strength
+		{
+			valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
+		}	
+	}
+	int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
+	message = valid_dreams[index].message;
 	return message;	
 }
 
