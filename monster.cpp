@@ -354,15 +354,15 @@ monster_attitude monster::attitude(player *u)
 
  if (u != NULL) {
 
-  if (((type->species == species_mammal && u->has_trait(PF_PHEROMONE_MAMMAL)) ||
-       (type->species == species_insect && u->has_trait(PF_PHEROMONE_INSECT)))&&
+  if (((type->species == species_mammal && u->has_trait("PHEROMONE_MAMMAL")) ||
+       (type->species == species_insect && u->has_trait("PHEROMONE_INSECT")))&&
       effective_anger >= 10)
    effective_anger -= 20;
 
-  if (u->has_trait(PF_TERRIFYING))
+  if (u->has_trait("TERRIFYING"))
    effective_morale -= 10;
 
-  if (u->has_trait(PF_ANIMALEMPATH) && has_flag(MF_ANIMAL)) {
+  if (u->has_trait("ANIMALEMPATH") && has_flag(MF_ANIMAL)) {
    if (effective_anger >= 10)
     effective_anger -= 10;
    if (effective_anger < 10)

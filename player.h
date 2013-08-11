@@ -89,13 +89,13 @@ public:
  void activate_bionic(int b, game *g);
  float active_light();
 
- bool mutation_ok(game *g, pl_flag mutation, bool force_good, bool force_bad);
+ bool mutation_ok(game *g, std::string mutation, bool force_good, bool force_bad);
  void mutate(game *g);
  void mutate_category(game *g, mutation_category);
- void mutate_towards(game *g, pl_flag mut);
- void remove_mutation(game *g, pl_flag mut);
- bool has_child_flag(game *g, pl_flag mut);
- void remove_child_flag(game *g, pl_flag mut);
+ void mutate_towards(game *g, std::string mut);
+ void remove_mutation(game *g, std::string mut);
+ bool has_child_flag(game *g, std::string mut);
+ void remove_child_flag(game *g, std::string mut);
 
  int  sight_range(int light_level);
  int  unimpaired_range();
@@ -328,8 +328,8 @@ public:
  std::string name;
  bool male;
  profession* prof;
- bool my_traits[PF_MAX2];
- bool my_mutations[PF_MAX2];
+ std::map<std:string, bool> my_traits;
+ std::map<std:string, bool> my_mutations;
  int mutation_category_level[NUM_MUTATION_CATEGORIES];
  int next_climate_control_check;
  bool last_climate_control_ret;

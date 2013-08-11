@@ -23,15 +23,15 @@ enum mutation_category
 };
 
 // mutations_from_category() defines the lists; see mutation_data.cpp
-std::vector<pl_flag> mutations_from_category(mutation_category cat);
+std::vector<std::string> mutations_from_category(mutation_category cat);
 
 struct mutation_branch
 {
  bool valid; // True if this is a valid mutation (only used for flags < PF_MAX)
- std::vector<pl_flag> prereqs; // Prerequisites; Only one is required
- std::vector<pl_flag> cancels; // Mutations that conflict with this one
- std::vector<pl_flag> replacements; // Mutations that replace this one
- std::vector<pl_flag> additions; // Mutations that add to this one
+ std::vector<std::string> prereqs; // Prerequisites; Only one is required
+ std::vector<std::string> cancels; // Mutations that conflict with this one
+ std::vector<std::string> replacements; // Mutations that replace this one
+ std::vector<std::string> additions; // Mutations that add to this one
 
  mutation_branch() { valid = false; };
 

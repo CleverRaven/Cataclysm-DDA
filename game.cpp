@@ -611,11 +611,11 @@ bool game::do_turn()
     }
 
  if (turn % 50 == 0) {	// Hunger, thirst, & fatigue up every 5 minutes
-  if ((!u.has_trait(PF_LIGHTEATER) || !one_in(3)) &&
+  if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
       (!u.has_bionic("bio_recycler") || turn % 300 == 0))
    u.hunger++;
   if ((!u.has_bionic("bio_recycler") || turn % 100 == 0) &&
-      (!u.has_trait(PF_PLANTSKIN) || !one_in(5)))
+      (!u.has_trait("PLANTSKIN") || !one_in(5)))
    u.thirst++;
   u.fatigue++;
   if (u.fatigue == 192 && !u.has_disease("lying_down") &&
@@ -643,13 +643,13 @@ bool game::do_turn()
   else if (u.pain < 0)
    u.pain++;
 // Mutation healing effects
-  if (u.has_trait(PF_FASTHEALER2) && one_in(5))
+  if (u.has_trait("FASTHEALER2") && one_in(5))
    u.healall(1);
-  if (u.has_trait(PF_REGEN) && one_in(2))
+  if (u.has_trait("REGEN") && one_in(2))
    u.healall(1);
-  if (u.has_trait(PF_ROT2) && one_in(5))
+  if (u.has_trait("ROT2") && one_in(5))
    u.hurtall(1);
-  if (u.has_trait(PF_ROT3) && one_in(2))
+  if (u.has_trait("ROT3") && one_in(2))
    u.hurtall(1);
 
   if (u.radiation > 1 && one_in(3))
@@ -665,8 +665,8 @@ bool game::do_turn()
  update_weather();
 
 // The following happens when we stay still; 10/40 minutes overdue for spawn
- if ((!u.has_trait(PF_INCONSPICUOUS) && turn > nextspawn +  100) ||
-     ( u.has_trait(PF_INCONSPICUOUS) && turn > nextspawn +  400)   ) {
+ if ((!u.has_trait("INCONSPICUOUS") && turn > nextspawn +  100) ||
+     ( u.has_trait("INCONSPICUOUS") && turn > nextspawn +  400)   ) {
   spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
   nextspawn = turn;
  }
@@ -3754,7 +3754,7 @@ void game::draw_ter(int posx, int posy)
    z[i].draw(w_terrain, posx, posy, false);
    mapRain[VIEWY + z[i].posy - posy][VIEWX + z[i].posx - posx] = false;
   } else if (z[i].has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
-           (u.has_active_bionic("bio_infrared") || u.has_trait(PF_INFRARED)))
+           (u.has_active_bionic("bio_infrared") || u.has_trait("INFRARED")))
    mvwputch(w_terrain, VIEWY + z[i].posy - posy, VIEWX + z[i].posx - posx,
             c_red, '?');
  }
@@ -3850,7 +3850,7 @@ void game::draw_HP()
           health_bar = "-----";
         }
         wmove(w_HP, i * dy + hpy, hpx);
-        if (u.has_trait(PF_SELFAWARE)) {
+        if (u.has_trait("SELFAWARE")) {
             wprintz(w_HP, color, "%3d  ", current_hp);
         } else {
             wprintz(w_HP, color, health_bar.c_str());
@@ -4231,7 +4231,7 @@ bool game::u_see(player *p)
 bool game::u_see(monster *mon)
 {
  int dist = rl_dist(u.posx, u.posy, mon->posx, mon->posy);
- if (u.has_trait(PF_ANTENNAE) && dist <= 3)
+ if (u.has_trait("ANTENNAE") && dist <= 3)
   return true;
  if (mon->has_flag(MF_DIGS) && !u.has_active_bionic("bio_ground_sonar") &&
      dist > 1)
@@ -4698,16 +4698,16 @@ bool game::sound(int x, int y, int vol, std::string description)
 
  if (u.has_bionic("bio_ears"))
   vol *= 3.5;
- if (u.has_trait(PF_BADHEARING))
+ if (u.has_trait("BADHEARING"))
   vol *= .5;
- if (u.has_trait(PF_CANINE_EARS))
+ if (u.has_trait("CANINE_EARS"))
   vol *= 1.5;
  int dist = rl_dist(x, y, u.posx, u.posy);
  if (dist > vol)
   return false;	// Too far away, we didn't hear it!
  if (u.has_disease("sleep") &&
-     ((!u.has_trait(PF_HEAVYSLEEPER) && dice(2, 20) < vol - dist) ||
-      ( u.has_trait(PF_HEAVYSLEEPER) && dice(3, 20) < vol - dist)   )) {
+     ((!u.has_trait("HEAVYSLEEPER") && dice(2, 20) < vol - dist) ||
+      ( u.has_trait("HEAVYSLEEPER") && dice(3, 20) < vol - dist)   )) {
   u.rem_disease("sleep");
   if (description != "alarm_clock")
    add_msg(_("You're woken up by a noise."));
@@ -4769,7 +4769,7 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
   err_offset = 1;
  if (u.has_bionic("bio_ears"))
   err_offset--;
- if (u.has_trait(PF_BADHEARING))
+ if (u.has_trait("BADHEARING"))
   err_offset++;
 
  int origx = x, origy = y;
@@ -5322,12 +5322,12 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
 
 void game::use_computer(int x, int y)
 {
- if (u.has_trait(PF_ILLITERATE)) {
+ if (u.has_trait("ILLITERATE")) {
   add_msg(_("You can not read a computer screen!"));
   return;
  }
 
- if (u.has_trait(PF_HYPEROPIC) && !u.is_wearing("glasses_reading")
+ if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
      && !u.is_wearing("glasses_bifocal")) {
   add_msg(_("You'll need to put on reading glasses before you can see the screen."));
   return;
@@ -8079,7 +8079,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
                 {
                     ret.push_back(iter->second);
                 }
- 
+
             }
     }
     return ret;
@@ -9874,7 +9874,7 @@ void game::forage()
 void game::eat(char chInput)
 {
  char ch;
- if (u.has_trait(PF_RUMINANT) && m.ter(u.posx, u.posy) == t_underbrush &&
+ if (u.has_trait("RUMINANT") && m.ter(u.posx, u.posy) == t_underbrush &&
      query_yn(_("Eat underbrush?"))) {
   u.moves -= 400;
   u.hunger -= 10;
@@ -10497,8 +10497,8 @@ void game::plmove(int x, int y)
     u.recoil = int(u.recoil / 2);
    }
   }
-  if ((!u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 2) ||
-      ( u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 4    ))
+  if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 2) ||
+      ( u.has_trait("PARKOUR") && m.move_cost(x, y) > 4    ))
   {
    if (veh1 && m.move_cost(x,y) != 2)
     add_msg(_("Moving past this %s is slow!"), veh1->part_info(vpart1).name);
@@ -10514,15 +10514,15 @@ void game::plmove(int x, int y)
   }
   if (m.has_flag(sharp, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
       && (!u.in_vehicle)) {
-   if (!u.has_trait(PF_PARKOUR) || one_in(4)) {
+   if (!u.has_trait("PARKOUR") || one_in(4)) {
     body_part bp = random_body_part();
     int side = rng(0, 1);
     if(u.hit(this, bp, side, 0, rng(1, 4)) > 0)
      add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
    }
   }
-  if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait(PF_LEG_TENTACLES)) {
-   if (u.has_trait(PF_LIGHTSTEP))
+  if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES")) {
+   if (u.has_trait("LIGHTSTEP"))
     sound(x, y, 2, "");	// Sound of footsteps may awaken nearby monsters
    else
     sound(x, y, 6, "");	// Sound of footsteps may awaken nearby monsters
@@ -10862,7 +10862,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
         {
             int dex_reduce = p->dex_cur < 4? 4 : p->dex_cur;
             dam1 = dam1 * 8 / dex_reduce;
-            if (p->has_trait(PF_PARKOUR))
+            if (p->has_trait("PARKOUR"))
             {
                 dam1 /= 2;
             }
@@ -11028,7 +11028,7 @@ void game::vertical_move(int movez, bool force)
  m.spawn_monsters(this);
 
  if (force) {	// Basically, we fell.
-  if (u.has_trait(PF_WINGS_BIRD))
+  if (u.has_trait("WINGS_BIRD"))
    add_msg(_("You flap your wings and flutter down gracefully."));
   else {
    int dam = int((u.str_max / 4) + rng(5, 10)) * rng(1, 3);//The bigger they are

@@ -471,7 +471,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   if (corpse != NULL &&
     ( debug == true ||
       ( g != NULL &&
-        ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait(PF_CARNIVORE) || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
+        ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait("CARNIVORE") || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
       )
     )
   ) {
@@ -802,7 +802,7 @@ nc_color item::color(player *u) const
  } else if (is_book()) {
   it_book* tmp = dynamic_cast<it_book*>(type);
   if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
-      (tmp->intel == 0 || !u->has_trait(PF_ILLITERATE)) &&
+      (tmp->intel == 0 || !u->has_trait("ILLITERATE")) &&
       (u->skillLevel(tmp->type) >= (int)tmp->req) &&
       (u->skillLevel(tmp->type) < (int)tmp->level))
    ret = c_ltblue;
@@ -840,7 +840,7 @@ std::string item::tname(game *g)
    }
   }
  }
- 
+
  std::string vehtext = "";
  if (is_var_veh_part()){
   if(type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT){ //liters, e.g. "3.21-Liter V8 engine"
@@ -853,7 +853,7 @@ std::string item::tname(game *g)
    vehtext = rmp_format(_("<veh_adj>%d\" "), bigness);
   }
  }
- 
+
  std::string burntext = "";
  if (volume() >= 4 && burnt >= volume() * 2)
   burntext = rm_prefix(_("<burnt_adj>badly burnt "));

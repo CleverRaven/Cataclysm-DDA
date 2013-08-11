@@ -1003,7 +1003,7 @@ void game::complete_craft()
 
 // farsightedness can impose a penalty on electronics and tailoring success
 // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
- if (u.has_trait(PF_HYPEROPIC) && !u.is_wearing("glasses_reading")
+ if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
      && !u.is_wearing("glasses_bifocal")) {
   int main_rank_penalty = 0;
   if (making->sk_primary == Skill::skill("electronics")) {

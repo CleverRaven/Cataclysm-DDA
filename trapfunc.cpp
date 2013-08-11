@@ -14,7 +14,7 @@ void trapfuncm::bubble(game *g, monster *z, int x, int y)
     // tiny animals don't trigger bubblewrap
     if (z->type->size == MS_TINY)
         return;
-        
+
  g->sound(x, y, 18, _("Pop!"));
  g->m.tr_at(x, y) = tr_null;
 }
@@ -40,7 +40,7 @@ void trapfuncm::beartrap(game *g, monster *z, int x, int y)
     // tiny animals don't trigger bear traps
     if (z->type->size == MS_TINY)
         return;
-            
+
  g->sound(x, y, 8, _("SNAP!"));
  if (z->hurt(35)) {
   g->kill_mon(g->mon_at(x, y));
@@ -66,7 +66,7 @@ void trapfuncm::board(game *g, monster *z, int x, int y)
     // tiny animals don't trigger spiked boards, they can squeeze between the nails
     if (z->type->size == MS_TINY)
         return;
-    
+
  if (g->u_see(z))
   g->add_msg(_("The %s steps on a spiked board!"), z->name().c_str());
  if (z->hurt(rng(6, 10)))
@@ -100,7 +100,7 @@ void trapfuncm::tripwire(game *g, monster *z, int x, int y)
     // tiny animals don't trigger tripwires, they just squeeze under it
     if (z->type->size == MS_TINY)
         return;
-            
+
  if (g->u_see(z))
   g->add_msg(_("The %s trips over a tripwire!"), z->name().c_str());
  z->stumble(g, false);
@@ -145,23 +145,23 @@ void trapfuncm::crossbow(game *g, monster *z, int x, int y)
     bool seen = g->u_see(z);
     int chance;
     // adapted from shotgun code - chance of getting hit depends on size
-    switch (z->type->size) 
+    switch (z->type->size)
     {
         case MS_TINY:   chance = 50; break;
         case MS_SMALL:  chance =  8; break;
         case MS_MEDIUM: chance =  6; break;
         case MS_LARGE:  chance =  4; break;
         case MS_HUGE:   chance =  1; break;
-    } 
- 
-    if (one_in(chance)) 
+    }
+
+    if (one_in(chance))
     {
         if (seen)
             g->add_msg(_("A bolt shoots out and hits the %s!"), z->name().c_str());
         if (z->hurt(rng(20, 30)))
             g->kill_mon(g->mon_at(x, y));
         add_bolt = !one_in(10);
-    } 
+    }
     else if (seen)
         g->add_msg(_("A bolt shoots out, but misses the %s."), z->name().c_str());
     g->m.tr_at(x, y) = tr_null;
@@ -389,7 +389,7 @@ void trapfuncm::landmine(game *g, monster *z, int x, int y)
     // tiny animals are too light to trigger landmines
     if (z->type->size == MS_TINY)
         return;
-            
+
  if (g->u_see(x, y))
   g->add_msg(_("The %s steps on a landmine!"), z->name().c_str());
  g->explosion(x, y, 10, 8, false);
@@ -499,7 +499,7 @@ void trapfuncm::dissector(game *g, monster *z, int x, int y)
 void trapfunc::pit(game *g, int x, int y)
 {
  g->add_msg(_("You fall in a pit!"));
- if (g->u.has_trait(PF_WINGS_BIRD))
+ if (g->u.has_trait("WINGS_BIRD"))
   g->add_msg(_("You flap your wings and flutter down gracefully."));
  else {
   int dodge = g->u.dodge(g);
@@ -520,7 +520,7 @@ void trapfuncm::pit(game *g, monster *z, int x, int y)
     // tiny animals aren't hurt by falling into pits
     if (z->type->size == MS_TINY)
         return;
-    
+
  if (g->u_see(x, y))
   g->add_msg(_("The %s falls in a pit!"), z->name().c_str());
  if (z->hurt(rng(10, 20)))
@@ -534,7 +534,7 @@ void trapfunc::pit_spikes(game *g, int x, int y)
  g->add_msg(_("You fall in a pit!"));
  int dodge = g->u.dodge(g);
  int damage = rng(20, 50);
- if (g->u.has_trait(PF_WINGS_BIRD))
+ if (g->u.has_trait("WINGS_BIRD"))
   g->add_msg(_("You flap your wings and flutter down gracefully."));
  else if (rng(5, 30) < dodge)
   g->add_msg(_("You avoid the spikes within."));
@@ -574,7 +574,7 @@ void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)
     // tiny animals aren't hurt by falling into spiked pits
     if (z->type->size == MS_TINY)
         return;
-    
+
  bool sees = g->u_see(z);
  if (sees)
   g->add_msg(_("The %s falls in a spiked pit!"), z->name().c_str());

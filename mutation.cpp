@@ -4,11 +4,11 @@
 #include "translations.h"
 
 // mutation_effect handles things like destruction of armor, etc.
-void mutation_effect(game *g, player &p, pl_flag mut);
+void mutation_effect(game *g, player &p, std::string mut);
 // mutation_loss_effect handles what happens when you lose a mutation
-void mutation_loss_effect(game *g, player &p, pl_flag mut);
+void mutation_loss_effect(game *g, player &p, std::string mut);
 
-bool player::mutation_ok(game *g, pl_flag mutation, bool force_good, bool force_bad)
+bool player::mutation_ok(game *g, std::string mutation, bool force_good, bool force_bad)
 {
     if (has_trait(mutation) || has_child_flag(g, mutation))
     {
@@ -35,7 +35,7 @@ void player::mutate(game *g)
 {
     bool force_bad = one_in(3);
     bool force_good = false;
-    if (has_trait(PF_ROBUST) && force_bad)
+    if (has_trait("ROBUST") && force_bad)
     {
         // Robust Genetics gives you a 33% chance for a good mutation,
         // instead of the 33% chance of a bad one.
@@ -60,13 +60,13 @@ void player::mutate(game *g)
     }
 
     // See if we should ugrade/extend an existing mutation...
-    std::vector<pl_flag> upgrades;
+    std::vector<std::string> upgrades;
     // ... or remove one that is not in our highest category
-    std::vector<pl_flag> downgrades;
+    std::vector<std::string> downgrades;
     // For each mutation...
     for (int base_mutation_index = 1; base_mutation_index < PF_MAX2; base_mutation_index++)
     {
-        pl_flag base_mutation = (pl_flag) base_mutation_index;
+        std::string base_mutation = (pl_flag) base_mutation_index;
 
         // ...that we have...
         if (has_trait(base_mutation))
@@ -74,7 +74,7 @@ void player::mutate(game *g)
             // ...consider the mutations that replace it.
             for (int i = 0; i < g->mutation_data[base_mutation].replacements.size(); i++)
             {
-                pl_flag mutation = g->mutation_data[base_mutation].replacements[i];
+                std::string mutation = g->mutation_data[base_mutation].replacements[i];
 
                 if (mutation_ok(g, mutation, force_good, force_bad))
                 {
@@ -85,7 +85,7 @@ void player::mutate(game *g)
             // ...consider the mutations that add to it.
             for (int i = 0; i < g->mutation_data[base_mutation].additions.size(); i++)
             {
-                pl_flag mutation = g->mutation_data[base_mutation].additions[i];
+                std::string mutation = g->mutation_data[base_mutation].additions[i];
 
                 if (mutation_ok(g, mutation, force_good, force_bad))
                 {
@@ -95,7 +95,7 @@ void player::mutate(game *g)
 
             // ...consider whether its in our highest category
             if( has_trait(base_mutation) && !has_base_trait(base_mutation) ){ // Starting traits don't count toward categories
-                std::vector<pl_flag> group = mutations_from_category(cat);
+                std::vector<std::string> group = mutations_from_category(cat);
                 bool in_cat = false;
                 for (int j = 0; j < group.size(); j++)
                 {
@@ -138,7 +138,7 @@ void player::mutate(game *g)
       }
     }
 
-    std::vector<pl_flag> valid; // Valid mutations
+    std::vector<std::string> valid; // Valid mutations
     bool first_pass = true;
 
     do
@@ -203,7 +203,7 @@ void player::mutate_category(game *g, mutation_category cat)
 {
     bool force_bad = one_in(3);
     bool force_good = false;
-    if (has_trait(PF_ROBUST) && force_bad)
+    if (has_trait("ROBUST") && force_bad)
     {
         // Robust Genetics gives you a 33% chance for a good mutation,
         // instead of the 33% chance of a bad one.
@@ -212,7 +212,7 @@ void player::mutate_category(game *g, mutation_category cat)
     }
 
     // Pull the category's list for valid mutations
-    std::vector<pl_flag> valid;
+    std::vector<std::string> valid;
     valid = mutations_from_category(cat);
 
     // Remove anything we already have, that we have a child of, or that
@@ -229,22 +229,22 @@ void player::mutate_category(game *g, mutation_category cat)
     // if we can't mutate in the category do nothing
     if (valid.empty()) return;
 
-    pl_flag selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
+    std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
     mutate_towards(g, selection);
 
     return;
 }
 
-void player::mutate_towards(game *g, pl_flag mut)
+void player::mutate_towards(game *g, std::string mut)
 {
  if (has_child_flag(g, mut)) {
   remove_child_flag(g, mut);
   return;
  }
  bool has_prereqs = false;
- pl_flag canceltrait = PF_NULL;
- std::vector<pl_flag> prereq = g->mutation_data[mut].prereqs;
- std::vector<pl_flag> cancel = g->mutation_data[mut].cancels;
+ std::string canceltrait = "";
+ std::vector<std::string> prereq = g->mutation_data[mut].prereqs;
+ std::vector<std::string> cancel = g->mutation_data[mut].cancels;
 
  for (int i = 0; i < cancel.size(); i++) {
   if (!has_trait( cancel[i] )) {
@@ -258,11 +258,11 @@ void player::mutate_towards(game *g, pl_flag mut)
     i--;
    }
   }
-  
+
  }
 
  if (!cancel.empty()) {
-  pl_flag removed = cancel[ rng(0, cancel.size() - 1) ];
+  std::string removed = cancel[ rng(0, cancel.size() - 1) ];
   remove_mutation(g, removed);
   return;
  }
@@ -272,18 +272,18 @@ void player::mutate_towards(game *g, pl_flag mut)
    has_prereqs = true;
  }
  if (!has_prereqs && !prereq.empty()) {
-  pl_flag devel = prereq[ rng(0, prereq.size() - 1) ];
+  std::string devel = prereq[ rng(0, prereq.size() - 1) ];
   mutate_towards(g, devel);
   return;
  }
 
 // Check if one of the prereqs that we have TURNS INTO this one
- pl_flag replacing = PF_NULL;
+ std::string replacing = "";
  prereq = g->mutation_data[mut].prereqs; // Reset it
  for (int i = 0; i < prereq.size(); i++) {
   if (has_trait(prereq[i])) {
-   pl_flag pre = prereq[i];
-   for (int j = 0; replacing == PF_NULL &&
+   std::string pre = prereq[i];
+   for (int j = 0; replacing == "" &&
                    j < g->mutation_data[pre].replacements.size(); j++) {
     if (g->mutation_data[pre].replacements[j] == mut)
      replacing = pre;
@@ -292,7 +292,7 @@ void player::mutate_towards(game *g, pl_flag mut)
  }
 
  toggle_mutation(mut);
- if (replacing != PF_NULL)
+ if (replacing != "")
     {
         g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(),
                    traits[mut].name.c_str());
@@ -302,7 +302,7 @@ void player::mutate_towards(game *g, pl_flag mut)
     }
   else
  // If this new mutation cancels a base trait, remove it and add the mutation at the same time
-   if (canceltrait != PF_NULL)
+   if (canceltrait != "")
     {
         g->add_msg(_("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(),
                    traits[mut].name.c_str());
@@ -318,7 +318,7 @@ void player::mutate_towards(game *g, pl_flag mut)
 
 // Weight us towards any categories that include this mutation
  for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
-  std::vector<pl_flag> group = mutations_from_category(mutation_category(i));
+  std::vector<std::string> group = mutations_from_category(mutation_category(i));
   bool found = false;
   for (int j = 0; !found && j < group.size(); j++) {
    if (group[j] == mut)
@@ -333,13 +333,13 @@ void player::mutate_towards(game *g, pl_flag mut)
 
 }
 
-void player::remove_mutation(game *g, pl_flag mut)
+void player::remove_mutation(game *g, std::string mut)
 {
     // Check for dependant mutations first
-    std::vector<pl_flag> dependant;
+    std::vector<std::string> dependant;
     for (int i = 0; i < PF_MAX2; i++)
     {
-        for (std::vector<pl_flag>::iterator it = g->mutation_data[i].prereqs.begin();
+        for (std::vector<std::string>::iterator it = g->mutation_data[i].prereqs.begin();
              it != g->mutation_data[i].prereqs.end(); it++)
         {
             if (*it == i)
@@ -356,30 +356,30 @@ void player::remove_mutation(game *g, pl_flag mut)
     }
 
 // Check if there's a prereq we should shrink back into
- pl_flag replacing = PF_NULL;
- std::vector<pl_flag> originals = g->mutation_data[mut].prereqs;
- for (int i = 0; replacing == PF_NULL && i < originals.size(); i++) {
-  pl_flag pre = originals[i];
-  for (int j = 0; replacing == PF_NULL &&
+ std::string replacing = "";
+ std::vector<std::string> originals = g->mutation_data[mut].prereqs;
+ for (int i = 0; replacing == "" && i < originals.size(); i++) {
+  std::string pre = originals[i];
+  for (int j = 0; replacing == "" &&
                   j < g->mutation_data[pre].replacements.size(); j++) {
    if (g->mutation_data[pre].replacements[j] == mut)
     replacing = pre;
   }
  }
- 
+
 // See if this mutation is cancelled by a base trait
 //Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
- if (replacing == PF_NULL) { 
- 
+ if (replacing == "") {
+
  //Check each mutation until we reach the end or find a trait to revert to
- for (int i = 1; replacing == PF_NULL && i < PF_MAX2; i++) { 
- 
+ for (int i = 1; replacing == "" && i < PF_MAX2; i++) {
+
    //See if it's in our list of base traits but not active
    if (has_base_trait(i) && !has_trait(i)) {
     //See if that base trait cancels the mutation we are using
-    std::vector<pl_flag> traitcheck = g->mutation_data[i].cancels;
+    std::vector<std::string> traitcheck = g->mutation_data[i].cancels;
 	if (!traitcheck.empty()) {
-	 for (int j = 0; replacing == PF_NULL && j < traitcheck.size(); j++) {
+	 for (int j = 0; replacing == "" && j < traitcheck.size(); j++) {
 	  if (g->mutation_data[i].cancels[j] == mut)
 	   replacing = ((pl_flag)i);
 	 }
@@ -389,7 +389,7 @@ void player::remove_mutation(game *g, pl_flag mut)
  }
 // This should revert back to a removed base trait rather than simply removing the mutation
 	toggle_mutation(mut);
- if (replacing != PF_NULL) {
+ if (replacing != "") {
   g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
              traits[replacing].name.c_str());
   toggle_mutation(replacing);
@@ -401,7 +401,7 @@ void player::remove_mutation(game *g, pl_flag mut)
  }
 // Reduce the strength of the categories the removed mutation is a part of
  for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
-  std::vector<pl_flag> group = mutations_from_category(mutation_category(i));
+  std::vector<std::string> group = mutations_from_category(mutation_category(i));
   bool found = false;
   for (int j = 0; !found && j < group.size(); j++) {
    if (group[j] == mut)
@@ -414,23 +414,23 @@ void player::remove_mutation(game *g, pl_flag mut)
     mutation_category_level[i] = 0;
    }
   }
- } 
+ }
 }
 
-bool player::has_child_flag(game *g, pl_flag flag)
+bool player::has_child_flag(game *g, std::string flag)
 {
  for (int i = 0; i < g->mutation_data[flag].replacements.size(); i++) {
-  pl_flag tmp = g->mutation_data[flag].replacements[i];
+  std::string tmp = g->mutation_data[flag].replacements[i];
   if (has_trait(tmp) || has_child_flag(g, tmp))
    return true;
  }
  return false;
 }
 
-void player::remove_child_flag(game *g, pl_flag flag)
+void player::remove_child_flag(game *g, std::string flag)
 {
  for (int i = 0; i < g->mutation_data[flag].replacements.size(); i++) {
-  pl_flag tmp = g->mutation_data[flag].replacements[i];
+  std::string tmp = g->mutation_data[flag].replacements[i];
   if (has_trait(tmp)) {
    remove_mutation(g, tmp);
    return;
@@ -441,7 +441,7 @@ void player::remove_child_flag(game *g, pl_flag flag)
  }
 }
 
-void mutation_effect(game *g, player &p, pl_flag mut)
+void mutation_effect(game *g, player &p, std::string mut)
 {
  bool is_u = (&p == &(g->u));
  bool destroy = false;
@@ -571,7 +571,7 @@ void mutation_effect(game *g, player &p, pl_flag mut)
  }
 }
 
-void mutation_loss_effect(game *g, player &p, pl_flag mut)
+void mutation_loss_effect(game *g, player &p, std::string mut)
 {
  switch (mut) {
   case PF_TOUGH:

@@ -16,10 +16,10 @@ void weather_effect::glare(game *g)
 
 void weather_effect::wet(game *g)
 {
- if ((!g->u.is_wearing("coat_rain") || one_in(50)) && 
+ if ((!g->u.is_wearing("coat_rain") || one_in(50)) &&
       (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) &&
-      !g->u.has_trait(PF_FEATHERS) && g->u.warmth(bp_torso) < 20 &&
-      PLAYER_OUTSIDE && one_in(2)) 
+      !g->u.has_trait("FEATHERS") && g->u.warmth(bp_torso) < 20 &&
+      PLAYER_OUTSIDE && one_in(2))
     {
         g->u.add_morale(MORALE_WET, -1, -30);
     }
@@ -40,9 +40,9 @@ void weather_effect::wet(game *g)
 
 void weather_effect::very_wet(game *g)
 {
- if ((!g->u.is_wearing("coat_rain") || one_in(25)) && 
+ if ((!g->u.is_wearing("coat_rain") || one_in(25)) &&
       (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) &&
-      !g->u.has_trait(PF_FEATHERS) && g->u.warmth(bp_torso) < 50 && PLAYER_OUTSIDE)
+      !g->u.has_trait("FEATHERS") && g->u.warmth(bp_torso) < 50 && PLAYER_OUTSIDE)
     {
         g->u.add_morale(MORALE_WET, -1, -60);
     }
@@ -67,7 +67,7 @@ void weather_effect::thunder(game *g)
  if (one_in(THUNDER_CHANCE)) {
   if (g->levz >= 0)
    g->add_msg(_("You hear a distant rumble of thunder."));
-  else if (!g->u.has_trait(PF_BADHEARING) && one_in(1 - 3 * g->levz))
+  else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->levz))
    g->add_msg(_("You hear a rumble of thunder from above."));
  }
 }
@@ -174,7 +174,7 @@ std::string weather_forecast(game *g, radio_tower tower)
     city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
     // Current time
     weather_report << string_format(
-        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s"), 
+        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s"),
         g->turn.print_time().c_str(), g->turn.print_time(true).c_str(), closest_city->name.c_str(),
         weather_data[g->weather].name.c_str(), print_temperature(g->temperature).c_str()
     );
@@ -250,7 +250,7 @@ std::string weather_forecast(game *g, radio_tower tower)
             // Print forecast
             weather_report << string_format(
                 _("%s...%s. Highs of %s. Lows of %s. "),
-                day.c_str(), weather_data[predominant_weather].name.c_str(), 
+                day.c_str(), weather_data[predominant_weather].name.c_str(),
                 print_temperature(high).c_str(), print_temperature(low).c_str()
             );
             low = period_temperature;

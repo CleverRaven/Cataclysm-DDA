@@ -599,8 +599,8 @@ void dis_effect(game *g, player &p, disease &dis)
    } else
     g->sound(p.posx, p.posy, 12, _("loud coughing."));
   }
-  if (one_in(3600) || (p.has_trait(PF_WEAKSTOMACH) && one_in(3000)) ||
-      (p.has_trait(PF_NAUSEA) && one_in(2400))) {
+  if (one_in(3600) || (p.has_trait("WEAKSTOMACH") && one_in(3000)) ||
+      (p.has_trait("NAUSEA") && one_in(2400))) {
    if (!p.has_disease("took_flumed") || one_in(2))
     p.vomit(g);
   }
@@ -704,7 +704,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_FUNGUS:
   bonus = 0;
-  if (p.has_trait(PF_POISRESIST))
+  if (p.has_trait("POISRESIST"))
    bonus = 100;
   p.moves -= 10;
   p.str_cur -= 1;
@@ -730,8 +730,8 @@ void dis_effect(game *g, player &p, disease &dis)
     p.moves -= 100;
     p.hurt(g, bp_torso, 0, 5);
    }
-   if ((p.has_trait(PF_WEAKSTOMACH) && one_in(1600 + bonus *  8)) ||
-       (p.has_trait(PF_NAUSEA) && one_in(800 + bonus * 6)) ||
+   if ((p.has_trait("WEAKSTOMACH") && one_in(1600 + bonus *  8)) ||
+       (p.has_trait("NAUSEA") && one_in(800 + bonus * 6)) ||
        one_in(2000 + bonus * 10)) {
        g->add_msg_player_or_npc( &p, _("You vomit a thick, gray goop."),
                                  _("<npcname> vomits a thick, grey goop.") );
@@ -820,11 +820,11 @@ void dis_effect(game *g, player &p, disease &dis)
     if (int(g->turn) % 25 == 0) {
       if (p.fatigue > 0)
         p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
-      if (p.has_trait(PF_FASTHEALER)) {
+      if (p.has_trait("FASTHEALER")) {
         p.healall(rng(0, 1));
-      } else if (p.has_trait(PF_FASTHEALER2)) {
+      } else if (p.has_trait("FASTHEALER2")) {
         p.healall(rng(0, 2));
-      } else if (p.has_trait(PF_REGEN)) {
+      } else if (p.has_trait("REGEN")) {
         p.healall(rng(1, 2));
       } else {
         p.healall(rng(0, 1) * rng(0, 1) * rng(0, 1));
@@ -939,7 +939,7 @@ void dis_effect(game *g, player &p, disease &dis)
   if (dis.duration <= 600)
    p.str_cur += 1;
   if (dis.duration > 2000 + 100 * dice(2, 100) &&
-      (p.has_trait(PF_WEAKSTOMACH) || p.has_trait(PF_NAUSEA) || one_in(20)))
+      (p.has_trait("WEAKSTOMACH") || p.has_trait("NAUSEA") || one_in(20)))
    p.vomit(g);
   if (!p.has_disease("sleep") && dis.duration >= 4500 &&
       one_in(500 - int(dis.duration / 80))) {
@@ -953,8 +953,8 @@ void dis_effect(game *g, player &p, disease &dis)
    p.str_cur--;
    p.dex_cur--;
    if (dis.duration >= 1200 && (one_in(50) ||
-                                (p.has_trait(PF_WEAKSTOMACH) && one_in(30)) ||
-                                (p.has_trait(PF_NAUSEA) && one_in(20))))
+                                (p.has_trait("WEAKSTOMACH") && one_in(30)) ||
+                                (p.has_trait("NAUSEA") && one_in(20))))
     p.vomit(g);
   } else {
    p.dex_cur++;
@@ -969,15 +969,15 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_POISON:
-  if ((!p.has_trait(PF_POISRESIST) && one_in(150)) ||
-      ( p.has_trait(PF_POISRESIST) && one_in(900))   ) {
+  if ((!p.has_trait("POISRESIST") && one_in(150)) ||
+      ( p.has_trait("POISRESIST") && one_in(900))   ) {
    g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
    p.pain++;
    p.hurt(g, bp_torso, 0, rng(0, 2) * rng(0, 1));
   }
   p.per_cur--;
   p.dex_cur--;
-  if (!p.has_trait(PF_POISRESIST))
+  if (!p.has_trait("POISRESIST"))
    p.str_cur -= 2;
   break;
 
@@ -994,15 +994,15 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_BADPOISON:
-  if ((!p.has_trait(PF_POISRESIST) && one_in(100)) ||
-      ( p.has_trait(PF_POISRESIST) && one_in(500))   ) {
+  if ((!p.has_trait("POISRESIST") && one_in(100)) ||
+      ( p.has_trait("POISRESIST") && one_in(500))   ) {
    g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
    p.pain += 2;
    p.hurt(g, bp_torso, 0, rng(0, 2));
   }
   p.per_cur -= 2;
   p.dex_cur -= 2;
-  if (!p.has_trait(PF_POISRESIST))
+  if (!p.has_trait("POISRESIST"))
    p.str_cur -= 3;
   else
    p.str_cur--;
@@ -1010,20 +1010,20 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_FOODPOISON:
   bonus = 0;
-  if (p.has_trait(PF_POISRESIST))
+  if (p.has_trait("POISRESIST"))
    bonus = 600;
   if (one_in(300 + bonus)) {
    g->add_msg_if_player(&p,_("You're suddenly wracked with pain and nausea!"));
    p.hurt(g, bp_torso, 0, 1);
   }
-  if ((p.has_trait(PF_WEAKSTOMACH) && one_in(300 + bonus)) ||
-      (p.has_trait(PF_NAUSEA) && one_in(50 + bonus)) ||
+  if ((p.has_trait("WEAKSTOMACH") && one_in(300 + bonus)) ||
+      (p.has_trait("NAUSEA") && one_in(50 + bonus)) ||
       one_in(600 + bonus))
    p.vomit(g);
   p.str_cur -= 3;
   p.dex_cur--;
   p.per_cur--;
-  if (p.has_trait(PF_POISRESIST))
+  if (p.has_trait("POISRESIST"))
    p.str_cur += 2;
   break;
 
@@ -1129,7 +1129,7 @@ void dis_effect(game *g, player &p, disease &dis)
      g->add_msg_if_player(&p,_("You feel a little strange."));
    }
   } else if (dis.duration > 2400) {	// Coming up
-   if (one_in(100) || (p.has_trait(PF_WEAKSTOMACH) && one_in(100))) {
+   if (one_in(100) || (p.has_trait("WEAKSTOMACH") && one_in(100))) {
     g->add_msg_if_player(&p,_("You feel nauseous."));
     p.hunger -= 5;
    }

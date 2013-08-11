@@ -118,7 +118,7 @@ struct player_activity
  }
 };
 
-enum pl_flag {
+/*enum pl_flag {
  PF_NULL = 0,
  PF_FLEET,	// -15% terrain movement cost
  PF_PARKOUR,	// Terrain movement cost of 3 or 4 are both 2
@@ -325,7 +325,7 @@ enum pl_flag {
  PF_LEG_TENTACLES,
 
  PF_MAX2
-};
+};*/
 
 struct trait {
  std::string name;
@@ -335,7 +335,9 @@ struct trait {
  std::string description;
 };
 
-extern trait traits[PF_MAX2];
+extern std::map<std::string, trait> traits;
+extern std::vector<std::string> vTraitsGood;
+extern std::vector<std::string> vTraitsBad;
 
 enum hp_part {
  hp_head = 0,
