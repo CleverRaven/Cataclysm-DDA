@@ -178,21 +178,21 @@ bool player::create(game *g, character_type type, std::string tempname)
 
  // Character is finalized.  Now just set up HP, &c
  for (int i = 0; i < num_hp_parts; i++) {
-  hp_max[i] = calc_HP(str_max, has_trait(PF_TOUGH));
+  hp_max[i] = calc_HP(str_max, has_trait("TOUGH"));
   hp_cur[i] = hp_max[i];
  }
- if (has_trait(PF_HARDCORE)) {
+ if (has_trait("HARDCORE")) {
   for (int i = 0; i < num_hp_parts; i++) {
    hp_max[i] = int(hp_max[i] * .25);
    hp_cur[i] = hp_max[i];
   }
- } if (has_trait(PF_GLASSJAW)) {
+ } if (has_trait("GLASSJAW")) {
   hp_max[hp_head] = int(hp_max[hp_head] * .80);
   hp_cur[hp_head] = hp_max[hp_head];
  }
- if (has_trait(PF_SMELLY))
+ if (has_trait("SMELLY"))
   scent = 800;
- if (has_trait(PF_ANDROID)) {
+ if (has_trait("ANDROID")) {
   bionic_id first_bio;
   do {
    first_bio = g->random_good_bionic();
@@ -203,7 +203,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   power_level = 10;
  }
 
- if (has_trait(PF_MARTIAL_ARTS)) {
+ if (has_trait("MARTIAL_ARTS")) {
   itype_id ma_type;
   do {
    int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
@@ -228,7 +228,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   style_selected=ma_type;
  }
 
-    if (has_trait(PF_MARTIAL_ARTS2)) {
+    if (has_trait("MARTIAL_ARTS2")) {
   itype_id ma_type;
   do {
    int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
@@ -252,7 +252,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
- if (has_trait(PF_MARTIAL_ARTS3)) {
+ if (has_trait("MARTIAL_ARTS3")) {
   itype_id ma_type;
   do {
    int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
@@ -276,7 +276,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
- if (has_trait(PF_MARTIAL_ARTS4)) {
+ if (has_trait("MARTIAL_ARTS4")) {
   itype_id ma_type;
   do {
    int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
@@ -333,26 +333,26 @@ bool player::create(game *g, character_type type, std::string tempname)
  }
 
  // Those who are both near-sighted and far-sighted start with bifocal glasses.
- if (has_trait(PF_HYPEROPIC) && has_trait(PF_MYOPIC))
+ if (has_trait("HYPEROPIC") && has_trait("MYOPIC"))
  {
     tmp = item(g->itypes["glasses_bifocal"], 0);
     inv.push_back(tmp);
  }
  // The near-sighted start with eyeglasses.
- else if (has_trait(PF_MYOPIC))
+ else if (has_trait("MYOPIC"))
  {
     tmp = item(g->itypes["glasses_eye"], 0);
     inv.push_back(tmp);
  }
  // The far-sighted start with reading glasses.
- else if (has_trait(PF_HYPEROPIC))
+ else if (has_trait("HYPEROPIC"))
  {
     tmp = item(g->itypes["glasses_reading"], 0);
     inv.push_back(tmp);
  }
 
 // Likewise, the asthmatic start with their medication.
- if (has_trait(PF_ASTHMA)) {
+ if (has_trait("ASTHMA")) {
   tmp = item(g->itypes["inhaler"], 0);
   inv.push_back(tmp);
  }
@@ -464,7 +464,7 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Str further costs 2 points."));
             }
             mvwprintz(w, 6, 33, COL_STAT_ACT, _("Base HP: %d"),
-                      calc_HP(u->str_max, u->has_trait(PF_TOUGH)));
+                      calc_HP(u->str_max, u->has_trait("TOUGH")));
             mvwprintz(w, 7, 33, COL_STAT_ACT, _("Carry weight: %.1f %s"), u->convert_weight(u->weight_capacity(false)),
                       OPTIONS["USE_METRIC_WEIGHT"]?"kg":"lbs");
             mvwprintz(w, 8, 33, COL_STAT_ACT, _("Melee damage: %d"),
@@ -598,7 +598,7 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
  for (int i = 0; i < 16; i++) {//preparation: draw disadvantages list
   mvwprintz(w, 5 + i, 40, c_dkgray, "\
                                      ");
-  if (u->has_trait(PF_SPLIT + 1 + i))//highlight disadvantages
+  if (u->has_trait("SPLIT + 1 + i"))//highlight disadvantages
    mvwprintz(w, 5 + i, 40, COL_TR_BAD_ON_PAS, traits[PF_SPLIT + 1 + i].name.c_str());
   else
    mvwprintz(w, 5 + i, 40, COL_TR_BAD_OFF_PAS, traits[PF_SPLIT + 1 + i].name.c_str());

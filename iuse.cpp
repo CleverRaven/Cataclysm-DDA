@@ -264,7 +264,7 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
                         color = c_red;
                         asterisks = "*  ";
                     }
-                    if (p->has_trait(PF_SELFAWARE))
+                    if (p->has_trait("SELFAWARE"))
                     {
                         if (current_hp >= 100)
                         {
@@ -441,7 +441,7 @@ void iuse::caff(game *g, player *p, item *it, bool t)
 void iuse::alcohol(game *g, player *p, item *it, bool t)
 {
  int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks
- if (p->has_trait(PF_LIGHTWEIGHT))
+ if (p->has_trait("LIGHTWEIGHT"))
   duration += 300;
  p->pkill += 8;
  p->add_disease("drunk", duration);
@@ -450,7 +450,7 @@ void iuse::alcohol(game *g, player *p, item *it, bool t)
 void iuse::alcohol_weak(game *g, player *p, item *it, bool t)
 {
  int duration = 340 - (6 * p->str_max);
- if (p->has_trait(PF_LIGHTWEIGHT))
+ if (p->has_trait("LIGHTWEIGHT"))
   duration += 120;
  p->pkill += 4;
  p->add_disease("drunk", duration);
@@ -488,7 +488,7 @@ void iuse::weed(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,_("Good stuff, man!"));
 
  int duration = 60;
- if (p->has_trait(PF_LIGHTWEIGHT))
+ if (p->has_trait("LIGHTWEIGHT"))
   duration = 90;
  p->hunger += 8;
  if (p->pkill < 15)
@@ -501,7 +501,7 @@ void iuse::coke(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,_("You snort a bump."));
 
  int duration = 21 - p->str_cur;
- if (p->has_trait(PF_LIGHTWEIGHT))
+ if (p->has_trait("LIGHTWEIGHT"))
   duration += 20;
  p->hunger -= 8;
  p->add_disease("high", duration);
@@ -513,7 +513,7 @@ void iuse::crack(game *g, player *p, item *it, bool t)
   if (!use_fire(g, p, it)) return;
   g->add_msg_if_player(p,_("You smoke some rocks."));
   int duration = 10;
-  if (p->has_trait(PF_LIGHTWEIGHT))
+  if (p->has_trait("LIGHTWEIGHT"))
   {
     duration += 10;
   }
@@ -527,7 +527,7 @@ void iuse::grack(game *g, player *p, item *it, bool t)
   if (!use_fire(g, p, it)) return;
   g->add_msg_if_player(p,_("You smoke some Grack Cocaine. Time seems to stop."));
   int duration = 1000;
-  if (p->has_trait(PF_LIGHTWEIGHT))
+  if (p->has_trait("LIGHTWEIGHT"))
     duration += 10;
   p->hunger -= 8;
   p->add_disease("grack", duration);
@@ -764,7 +764,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   return;
 // If we have the marloss in our veins, we are a "breeder" and will spread
 // alien lifeforms.
- if (p->has_trait(PF_MARLOSS)) {
+ if (p->has_trait("MARLOSS")) {
   g->add_msg_if_player(p,_("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
   p->add_morale(MORALE_MARLOSS, 100, 1000);
   p->hunger = -100;
@@ -813,7 +813,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
  } else if (effect == 8) {
   g->add_msg_if_player(p,_("You take one bite, and immediately vomit!"));
   p->vomit(g);
- } else if (!p->has_trait(PF_MARLOSS)) {
+ } else if (!p->has_trait("MARLOSS")) {
   g->add_msg_if_player(p,_("You feel a strange warmth spreading throughout your body..."));
   p->toggle_mutation(PF_MARLOSS);
  }

@@ -84,7 +84,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  int x = p.posx, y = p.posy;
  // Have to use the gun, gunmods don't have a type
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
- if (p.has_trait(PF_TRIGGERHAPPY) && one_in(30))
+ if (p.has_trait("TRIGGERHAPPY") && one_in(30))
   burst = true;
  if (burst && weapon->burst_size() < 2)
   burst = false; // Can't burst fire a semi-auto
@@ -191,7 +191,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
        } else if (
           (
-             !p.has_trait(PF_TRIGGERHAPPY) ||   /* double tap. TRIPLE TAP! wait, no... */
+             !p.has_trait("TRIGGERHAPPY") ||   /* double tap. TRIPLE TAP! wait, no... */
              one_in(3)                          /* on second though...everyone double-taps at times. */
           ) && (
              p.skillLevel("gun") >= 7 ||        /* unless trained */
