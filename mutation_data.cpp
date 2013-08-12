@@ -957,7 +957,11 @@ void game::init_dreams()
 		
 		dream newdream;
 		
-		newdream.message		= dreamcurr.get("message").as_string();
+		catajson messages = dreamcurr.get("message");
+		for (messages.set_begin(); messages.has_curr(); messages.next())
+		{
+			newdream.message.push_back(messages.curr().as_string());
+		}
 		newdream.strength		= dreamcurr.get("strength").as_int();
 		newdream.category		= string_to_mutcat(dreamcurr.get("category").as_string());
 		

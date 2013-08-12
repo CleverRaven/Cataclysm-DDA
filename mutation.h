@@ -27,7 +27,7 @@ std::vector<pl_flag> mutations_from_category(mutation_category cat);
 
 struct dream
 {
-  std::string message;			// The message that the dream will give
+  std::vector<std::string> message;			// The messages that the dream will give
   mutation_category category;	// The category that will trigger the dream
   int strength;					// The category strength required for the dream
   
