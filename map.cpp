@@ -1248,7 +1248,7 @@ switch (furn(x, y)) {
   if (str >= result)
   {
    // Special code to collapse the tent if destroyed
-   int tentx, tenty = -1;
+   int tentx = -1, tenty = -1;
    // Find the center of the tent
    for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++)

@@ -488,7 +488,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
 
 int monster::hit(game *g, player &p, body_part &bp_hit) {
  int ret = 0;
- int highest_hit;
+ int highest_hit = 0;
  switch (type->size) {
  case MS_TINY:
   highest_hit = 3;

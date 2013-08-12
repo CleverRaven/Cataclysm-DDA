@@ -977,10 +977,7 @@ void game::init_dreams()
 mutation_category string_to_mutcat(std::string input)
 {
     mutation_category ret;
-	if (input == "MUTCAT_NULL") {
-        ret = MUTCAT_NULL;
-	}
-	else if (input ==  "MUTCAT_LIZARD") {
+        if (input ==  "MUTCAT_LIZARD") {
         ret = MUTCAT_LIZARD;	
 	}
 
@@ -1027,5 +1024,9 @@ mutation_category string_to_mutcat(std::string input)
 	else if (input ==  "MUTCAT_RAT") {
         ret = MUTCAT_RAT;	
 	}
+
+        else {
+        ret = MUTCAT_NULL;
+        }
     return ret;
 }

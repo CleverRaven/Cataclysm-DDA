@@ -1642,7 +1642,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 
 // Now actually draw the map
   bool csee = false;
-  oter_id ccur_ter;
+  oter_id ccur_ter = ot_null;
   for (int i = -(om_map_width / 2); i < (om_map_width / 2); i++) {
     for (int j = -(om_map_height / 2);
          j <= (om_map_height / 2) + (ch == 'j' ? 1 : 0); j++) {

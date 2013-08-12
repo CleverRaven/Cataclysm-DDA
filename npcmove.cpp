@@ -1518,8 +1518,8 @@ void npc::alt_attack(game *g, int target)
    move_to(g, tarx, tary);
  }
 
- char invlet;
- item *used;
+ char invlet = 0;
+ item *used = NULL;
  if (weapon.type->id == which) {
   used = &weapon;
   invlet = 0;
