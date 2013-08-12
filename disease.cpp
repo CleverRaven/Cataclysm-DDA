@@ -1216,6 +1216,7 @@ void dis_effect(game *g, player &p, disease &dis)
 // depending on the source).
 // TODO: Include a chance to teleport to the nether realm.
 // TODO: This this with regards to NPCS
+  if(&p != &(g->u)) return; // NO, no teleporting around the player because an NPC has teleglow!
   if (dis.duration > 6000) {	// 20 teles (no decay; in practice at least 21)
    if (one_in(1000 - ((dis.duration - 6000) / 10))) {
     if (!p.is_npc())
