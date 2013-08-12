@@ -2179,7 +2179,7 @@
      "rarity": 8,
      "price": 3200,
      "material": ["iron", "plastic"],
-     "weight": 400,
+     "weight": 200,
      "volume": 2,
      "bashing": 0,
      "cutting": 0,
