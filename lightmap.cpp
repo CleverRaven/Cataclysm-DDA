@@ -11,185 +11,185 @@
 
 void map::generate_lightmap(game* g)
 {
- memset(lm, 0, sizeof(lm));
- memset(sm, 0, sizeof(sm));
+    memset(lm, 0, sizeof(lm));
+    memset(sm, 0, sizeof(sm));
 
- const int dir_x[] = { 1, 0 , -1,  0 };
- const int dir_y[] = { 0, 1 ,  0, -1 };
- const int dir_d[] = { 180, 270, 0, 90 };
- const float held_luminance = g->u.active_light();
- const float natural_light = g->natural_light_level();
+    const int dir_x[] = { 1, 0 , -1,  0 };
+    const int dir_y[] = { 0, 1 ,  0, -1 };
+    const int dir_d[] = { 180, 270, 0, 90 };
+    const float held_luminance = g->u.active_light();
+    const float natural_light = g->natural_light_level();
 
- // Daylight vision handling returned back to map due to issues it causes here
- if (natural_light > LIGHT_SOURCE_BRIGHT)
- {
-     // Apply sunlight, first light source so just assign
-     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx)
-     {
-         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy)
-         {
-             // In bright light indoor light exists to some degree
-             if (!g->m.is_outside(sx, sy))
-             {
-                 lm[sx][sy] = LIGHT_AMBIENT_LOW;
-             }
-             else if (g->u.posx == sx && g->u.posy == sy )
-             {
-                 //Only apply daylight on square where player is standing to avoid flooding
-                 // the lightmap  when in less than total sunlight.
-                 lm[sx][sy] = natural_light;
-             }
-         }
-     }
- }
-
- // Apply player light sources
- if (held_luminance > LIGHT_AMBIENT_LOW)
-  apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
-  int flood_basalt_check = 0; // does excessive lava need high quality lighting? Nope nope nope nope
-  for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
-   for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
-    const ter_id terrain = g->m.ter(sx, sy);
-    const std::vector<item> &items = g->m.i_at(sx, sy);
-    field &current_field = g->m.field_at(sx, sy);
-    // When underground natural_light is 0, if this changes we need to revisit
-    if (natural_light > LIGHT_AMBIENT_LOW) {
-     if (!g->m.is_outside(sx, sy)) {
-      // Apply light sources for external/internal divide
-      for(int i = 0; i < 4; ++i) {
-       if (INBOUNDS(sx + dir_x[i], sy + dir_y[i]) &&
-           g->m.is_outside(sx + dir_x[i], sy + dir_y[i])) {
-        if (INBOUNDS(sx, sy) && g->m.is_outside(0, 0))
-         lm[sx][sy] = natural_light;
-
-        if (g->m.light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID)
-         apply_light_arc(sx, sy, dir_d[i], natural_light);
-       }
-      }
-     }
+    // Daylight vision handling returned back to map due to issues it causes here
+    if (natural_light > LIGHT_SOURCE_BRIGHT) {
+        // Apply sunlight, first light source so just assign
+        for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
+            for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
+                // In bright light indoor light exists to some degree
+                if ( !g->m.is_outside(sx, sy) ) {
+                    lm[sx][sy] = LIGHT_AMBIENT_LOW;
+                }
+                else if (g->u.posx == sx && g->u.posy == sy ) {
+                    //Only apply daylight on square where player is standing to avoid flooding
+                    // the lightmap  when in less than total sunlight.
+                    lm[sx][sy] = natural_light;
+                }
+            }
+        }
     }
 
-    for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm )
-    {
-        if ( itm->has_flag("LIGHT_20")) { apply_light_source(sx, sy, 20, trigdist); }
-        if ( itm->has_flag("LIGHT_1")) { apply_light_source(sx, sy, 1, trigdist); }
-        if ( itm->has_flag("LIGHT_4")) { apply_light_source(sx, sy, 4, trigdist); }
-        if ( itm->has_flag("LIGHT_8")) { apply_light_source(sx, sy, 8, trigdist); }
+    // Apply player light sources
+    if (held_luminance > LIGHT_AMBIENT_LOW) {
+        apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
+    }
+    int flood_basalt_check = 0; // does excessive lava need high quality lighting? Nope nope nope nope
+    for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
+        for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
+            const ter_id terrain = g->m.ter(sx, sy);
+            const std::vector<item> &items = g->m.i_at(sx, sy);
+            field &current_field = g->m.field_at(sx, sy);
+            // When underground natural_light is 0, if this changes we need to revisit
+            if (natural_light > LIGHT_AMBIENT_LOW) {
+                if (!g->m.is_outside(sx, sy)) {
+                    // Apply light sources for external/internal divide
+                    for(int i = 0; i < 4; ++i) {
+                        if (INBOUNDS(sx + dir_x[i], sy + dir_y[i]) &&
+                            g->m.is_outside(sx + dir_x[i], sy + dir_y[i])) {
+                            if (INBOUNDS(sx, sy) && g->m.is_outside(0, 0)) {
+                                lm[sx][sy] = natural_light;
+                            }
+
+                            if (g->m.light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID) {
+                                apply_light_arc(sx, sy, dir_d[i], natural_light);
+                            }
+                        }
+                    }
+                }
+            }
+
+            for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm ) {
+                if ( itm->has_flag("LIGHT_20")) { apply_light_source(sx, sy, 20, trigdist); }
+                if ( itm->has_flag("LIGHT_1")) { apply_light_source(sx, sy, 1, trigdist); }
+                if ( itm->has_flag("LIGHT_4")) { apply_light_source(sx, sy, 4, trigdist); }
+                if ( itm->has_flag("LIGHT_8")) { apply_light_source(sx, sy, 8, trigdist); }
+            }
+
+            if(terrain == t_lava) {
+                flood_basalt_check++;
+                apply_light_source(sx, sy, 50, trigdist && flood_basalt_check < 512 ); // todo: optimize better
+            }
+
+            if(terrain == t_console) {
+                apply_light_source(sx, sy, 3, false); // 3^2 circle is just silly
+            }
+
+            if(terrain == t_emergency_light) {
+                apply_light_source(sx, sy, 3, false);
+            }
+
+            field_entry *cur = NULL;
+            for( std::map<field_id, field_entry*>::iterator field_list_it = current_field.getFieldStart();
+                 field_list_it != current_field.getFieldEnd(); ++field_list_it ) {
+                cur = field_list_it->second;
+
+                if( cur == NULL ) continue;
+                // TODO: [lightmap] Attach light brightness to fields
+                switch( cur->getFieldType() ) {
+                case fd_fire:
+                    if( 3 == cur->getFieldDensity() ) {
+                        apply_light_source( sx, sy, 160, trigdist );
+                    } else if( 2 == cur->getFieldDensity()) {
+                        apply_light_source( sx, sy, 60, trigdist );
+                    } else {
+                        apply_light_source( sx, sy, 16, trigdist );
+                    }
+                    break;
+                case fd_fire_vent:
+                case fd_flame_burst:
+                    apply_light_source( sx, sy, 8, trigdist );
+                    break;
+                case fd_electricity:
+                    if ( 3 == cur->getFieldDensity() ) {
+                        apply_light_source( sx, sy, 8, trigdist );
+                    } else if( 2 == cur->getFieldDensity() ) {
+                        apply_light_source( sx, sy, 1, trigdist );
+                    } else {
+                        // kinda a hack as the square will still get marked
+                        apply_light_source( sx, sy, LIGHT_SOURCE_LOCAL, trigdist );
+                    }
+                    break;
+                }
+            }
+        }
     }
 
-   if(terrain == t_lava) {
-     flood_basalt_check++;
-     apply_light_source(sx, sy, 50, trigdist && flood_basalt_check < 512 ); // todo: optimize better
-   }
+    for (int i = 0; i < g->z.size(); ++i) {
+        int mx = g->z[i].posx;
+        int my = g->z[i].posy;
+        if (INBOUNDS(mx, my)) {
+            if (g->z[i].has_effect(ME_ONFIRE)) {
+                apply_light_source(mx, my, 3, trigdist);
+            }
+            // TODO: [lightmap] Attach natural light brightness to creatures
+            // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
+            // TODO: [lightmap] Allow creatures to have facing and arc lights
+            switch (g->z[i].type->id) {
+            case mon_zombie_electric:
+                apply_light_source(mx, my, 1, trigdist);
+                break;
+            case mon_turret:
+                apply_light_source(mx, my, 2, trigdist);
+                break;
+            case mon_flaming_eye:
+                apply_light_source(mx, my, LIGHT_SOURCE_BRIGHT, trigdist);
+                break;
+            case mon_manhack:
+                apply_light_source(mx, my, LIGHT_SOURCE_LOCAL, trigdist);
+                break;
+            }
+        }
+    }
 
-   if(terrain == t_console)
-    apply_light_source(sx, sy, 3, false); // 3^2 circle is just silly
-
-   if(terrain == t_emergency_light)
-    apply_light_source(sx, sy, 3, false);
-
-   field_entry *cur = NULL;
-   for(std::map<field_id, field_entry*>::iterator field_list_it = current_field.getFieldStart(); field_list_it != current_field.getFieldEnd(); ++field_list_it){
-       cur = field_list_it->second;
-
-		if(cur == NULL) continue;
-   // TODO: [lightmap] Attach light brightness to fields
-		switch(cur->getFieldType()) {
-    case fd_fire:
-		if (3 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 160, trigdist);
-     else if (2 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 60, trigdist);
-     else
-      apply_light_source(sx, sy, 16, trigdist);
-     break;
-    case fd_fire_vent:
-    case fd_flame_burst:
-     apply_light_source(sx, sy, 8, trigdist);
-     break;
-    case fd_electricity:
-     if (3 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 8, trigdist);
-     else if (2 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 1, trigdist);
-     else
-      apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL, trigdist);  // kinda a hack as the square will still get marked
-     break;
-   }
-	}
-  }
- }
-
- for (int i = 0; i < g->z.size(); ++i) {
-  int mx = g->z[i].posx;
-  int my = g->z[i].posy;
-  if (INBOUNDS(mx, my)) {
-   if (g->z[i].has_effect(ME_ONFIRE)) {
-     apply_light_source(mx, my, 3, trigdist);
-   }
-   // TODO: [lightmap] Attach natural light brightness to creatures
-   // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
-   // TODO: [lightmap] Allow creatures to have facing and arc lights
-   switch (g->z[i].type->id) {
-    case mon_zombie_electric:
-     apply_light_source(mx, my, 1, trigdist);
-     break;
-    case mon_turret:
-     apply_light_source(mx, my, 2, trigdist);
-     break;
-    case mon_flaming_eye:
-     apply_light_source(mx, my, LIGHT_SOURCE_BRIGHT, trigdist);
-     break;
-    case mon_manhack:
-     apply_light_source(mx, my, LIGHT_SOURCE_LOCAL, trigdist);
-     break;
-   }
-  }
- }
-
- // Apply any vehicle light sources
- VehicleList vehs = g->m.get_vehicles();
- for(int v = 0; v < vehs.size(); ++v) {
-   if(vehs[v].v->lights_on) {
-     int dir = vehs[v].v->face.dir();
-     float veh_luminance=0.0;
-     float iteration=1.0;
-     for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
-          part != vehs[v].v->external_parts.end(); ++part) {
-         int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
-         if (dpart >= 0) {
-             veh_luminance += ( vehs[v].v->part_info(dpart).power / iteration );
-             iteration=iteration * 1.1;
-         }
-     }
-     if (veh_luminance > LL_LIT) {
-       for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
-            part != vehs[v].v->external_parts.end(); ++part) {
-         int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
-         int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
-         if(INBOUNDS(px, py)) {
-           int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
-
-           if (dpart >= 0) {
-             apply_light_arc(px, py, dir + vehs[v].v->parts[dpart].direction, veh_luminance, 45);
-           }
-         }
-       }
-     }
-   }
- }
-if (g->u.has_active_bionic("bio_night") ) {
-   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx)
-   {
-      for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy)
-      {
-          if (rl_dist(sx, sy, g->u.posx, g->u.posy) < 15)
-          {
-              lm[sx][sy] = 0;
-          }
-      }
-   }
-  }
+    // Apply any vehicle light sources
+    VehicleList vehs = g->m.get_vehicles();
+    for( int v = 0; v < vehs.size(); ++v ) {
+        if( vehs[v].v->lights_on ) {
+            int dir = vehs[v].v->face.dir();
+            float veh_luminance = 0.0;
+            float iteration = 1.0;
+            for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
+                 part != vehs[v].v->external_parts.end(); ++part) {
+                int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
+                if( dpart >= 0 ) {
+                    veh_luminance += ( vehs[v].v->part_info(dpart).power / iteration );
+                    iteration=iteration * 1.1;
+                }
+            }
+            if (veh_luminance > LL_LIT) {
+                for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
+                     part != vehs[v].v->external_parts.end(); ++part) {
+                    int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
+                    int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
+                    if(INBOUNDS(px, py)) {
+                        int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
+                        if (dpart >= 0) {
+                            apply_light_arc(px, py, dir + vehs[v].v->parts[dpart].direction,
+                                            veh_luminance, 45);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if( g->u.has_active_bionic("bio_night") ) {
+        for( int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx ) {
+            for( int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy ) {
+                if( rl_dist(sx, sy, g->u.posx, g->u.posy) < 15 ) {
+                    lm[sx][sy] = 0;
+                }
+            }
+        }
+    }
 }
 
 lit_level map::light_at(int dx, int dy)
