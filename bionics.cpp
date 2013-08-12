@@ -206,7 +206,7 @@ void player::activate_bionic(int b, game *g)
 // Not-on units, or those with zero charge, have to pay the power cost
   if (bionics[bio.id]->charge_time > 0) {
    my_bionics[b].powered = true;
-   my_bionics[b].charge = bionics[bio.id]->charge_time;
+   my_bionics[b].charge = bionics[bio.id]->charge_time - 1;
   }
   power_level -= power_cost;
  }
