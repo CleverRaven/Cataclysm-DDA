@@ -227,6 +227,9 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
  return seen_cache[tx][ty];
 }
 
+// Iterates across a single bresenham line from the player to the border of the map,
+// populating the seen cache as it goes.  If one ray can see a point, and another cannot,
+// it's marked as seen.
 void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
 {
    if (!INBOUNDS(fx, fy) || !INBOUNDS(tx, ty)) return;
@@ -240,6 +243,9 @@ void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
    int x = fx;
    int y = fy;
    bool seen = true;
+   float cumulative_opacity = LIGHT_TRANSPARENCY_CLEAR;
+   float scaling_factor = (float)rl_dist( fx, fy, tx, ty ) /
+       (float)square_dist( fx, fy, tx, ty );
 
    // TODO: [lightmap] Pull out the common code here rather than duplication
    if (ax > ay)
@@ -257,7 +263,8 @@ void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
          t += ay;
 
          seen_cache[x][y] |= seen;
-         if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID) seen = false;
+         cumulative_opacity *= pow(light_transparency(x, y), scaling_factor);
+         if(cumulative_opacity <= LIGHT_TRANSPARENCY_SOLID + 0.1) seen = false;
 
       } while(!(x == tx && y == ty));
    }
@@ -276,7 +283,8 @@ void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
          t += ax;
 
          seen_cache[x][y] |= seen;
-         if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID) seen = false;
+         cumulative_opacity *= pow(light_transparency(x, y), scaling_factor);
+         if(cumulative_opacity <= LIGHT_TRANSPARENCY_SOLID + 0.1) seen = false;
 
       } while(!(x == tx && y == ty));
    }

@@ -3906,8 +3906,9 @@ void map::build_transparency_cache()
  for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
   for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
 
-   // Default to fully transparent.
-   transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
+   // Default to just barely not transparent.
+   // Calculated to run out at 60 squares.
+   transparency_cache[x][y] = 0.98333;
 
    if (!has_flag_ter_and_furn(transparent, x, y)) {
     transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
