@@ -3892,13 +3892,14 @@ void map::build_transparency_cache()
    field &curfield = field_at(x,y);
    if(curfield.fieldCount() > 0){
 	   field_entry *cur = NULL;
-	   for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+	   for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+        field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
 		   cur = field_list_it->second;
-		   if(cur == NULL) continue;
+		   if( cur == NULL ) { continue; }
 
-		   if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
+		   if( !fieldlist[ cur->getFieldType() ].transparent[ cur->getFieldDensity() - 1 ] ) {
 			   // Fields are either transparent or not, however we want some to be translucent
-			   switch(cur->getFieldType()) {
+			   switch( cur->getFieldType() ) {
 			   case fd_smoke:
 			   case fd_toxic_gas:
 			   case fd_tear_gas:
