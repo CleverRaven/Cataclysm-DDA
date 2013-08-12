@@ -38,6 +38,7 @@ void game::init_morale()
     _("Enjoyed %i"),
     _("Enjoyed a hot meal"),
     _("Music"),
+    _("Played Video Game"),
     _("Marloss Bliss"),
     _("Good Feeling"),
 

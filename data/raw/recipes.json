@@ -5997,6 +5997,52 @@
 
 
         {
+            "result": "portable_game",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "skill_sec": "computer",
+            "difficulty": 8,
+            "time": 60000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 10],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["superglue", 1]
+                              ],
+                              [
+                                  ["processor", 1]
+                              ],
+                              [
+                                  ["RAM", 2]
+                              ],
+                              [
+                                  ["amplifier", 1]
+                              ],
+                              [
+                                  ["cable", 2]
+                              ],
+                              [
+                                  ["plastic_chunk", 2]
+                              ],
+                              [
+                                  ["small_lcd_screen", 1]
+                              ]
+
+                          ]
+        },
+
+
+        {
             "result": "geiger_off",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",

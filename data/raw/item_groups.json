@@ -99,6 +99,7 @@
       ["matches", 60],
       ["extinguisher", 20],
       ["mp3", 18],
+      ["portable_game", 8],
       ["usb_drive", 5],
       ["beer", 60],
       ["cell_phone", 50],
@@ -284,6 +285,7 @@
       ["radio", 20],
       ["syringe", 8],
       ["mp3", 18],
+      ["portable_game", 8],
       ["usb_drive", 5],
       ["firecracker_pack", 5],
       ["firecracker", 5],
@@ -510,6 +512,7 @@
       ["extinguisher", 20],
       ["tazer", 3],
       ["mp3", 18],
+      ["portable_game", 8],
       ["roadmap", 40],
       ["money_bundle", 55]
     ]
@@ -726,6 +729,7 @@
       ["processor", 15],
       ["RAM", 22],
       ["mp3", 18],
+      ["portable_game", 12],
       ["flashlight", 40],
       ["radio", 20],
       ["hotplate", 10],
@@ -1541,6 +1545,7 @@
       ["matches", 60],
       ["extinguisher", 20],
       ["mp3", 18],
+      ["portable_game", 8],
       ["umbrella", 5]
     ]
   },
@@ -1663,6 +1668,7 @@
       ["UPS_off", 5],
       ["tazer", 3],
       ["mp3", 18],
+      ["portable_game", 8],
       ["fur", 0],
       ["leather", 0],
       ["string_36", 40],
