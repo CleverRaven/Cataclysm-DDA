@@ -78,6 +78,9 @@ public:
  bool has_base_trait(int flag) const;
  void toggle_trait(int flag);
  void toggle_mutation(int flag);
+ mutation_category get_highest_category();
+ int get_category_level(mutation_category cat);
+ std::string get_category_dream(mutation_category cat, int strength);
 
  bool in_climate_control(game *g);
 
