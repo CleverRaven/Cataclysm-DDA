@@ -3548,6 +3548,53 @@ void player::toggle_mutation(int flag)
  my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
 }
 
+mutation_category player::get_highest_category() // Returns the mutation category with the highest strength
+{
+	int level = 0;
+	mutation_category maxcat = MUTCAT_NULL;
+	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
+	{
+		if (mutation_category_level[i] > level)
+		{
+			maxcat = mutation_category(i);
+			level = mutation_category_level[i];
+		}
+	}
+	return maxcat;
+}
+
+int player::get_category_level(mutation_category cat) // Returns the strength of a given mutation category
+{
+	int level = 0;
+	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
+	{
+		if (mutation_category(i) == cat)
+		{
+			level = mutation_category_level[i];
+		}
+	}
+	return level;
+}
+
+std::string player::get_category_dream(mutation_category cat, int strength) // Returns a randomly selected dream
+{
+	std::string message;
+	std::vector<dream> valid_dreams;
+	dream selected_dream;
+	for (int i = 0; i < dreams.size(); i++) // Pull the list of dreams
+	{
+		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) // Pick only the ones matching our desired category and strength
+		{
+			valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
+		}	
+	}
+	int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
+	selected_dream = valid_dreams[index];
+	index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream
+	message = selected_dream.message[index];
+	return message;	
+}
+
 bool player::in_climate_control(game *g)
 {
     bool regulated_area=false;
