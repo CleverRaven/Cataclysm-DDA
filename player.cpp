@@ -2930,37 +2930,39 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 
 bool player::has_trait(std::string flag)
 {
- if (flag == "")
-  return true;
- return my_mutations[flag]; //Looks for active mutations and traits
+    if (flag == "") {
+        return true;
+    }
+
+    return my_mutations[flag]; //Looks for active mutations and traits
 }
 
 bool player::has_base_trait(std::string flag)
 {
- if (flag == "")
-  return true;
- return my_traits[flag]; //Looks only at base traits
+    if (flag == "") {
+        return true;
+    }
+
+    return my_traits[flag]; //Looks only at base traits
 }
 
 void player::toggle_trait(std::string flag)
 {
- my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player
- my_mutations[flag] = !my_mutations[flag]; //Toggles corresponding trait in mutations list as well.
+    my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player
+    my_mutations[flag] = !my_mutations[flag]; //Toggles corresponding trait in mutations list as well.
 }
 
 void player::toggle_mutation(std::string flag)
 {
- my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
+    my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
 }
 
 mutation_category player::get_highest_category() // Returns the mutation category with the highest strength
 {
 	int level = 0;
 	mutation_category maxcat = MUTCAT_NULL;
-	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-	{
-		if (mutation_category_level[i] > level)
-		{
+	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
+		if (mutation_category_level[i] > level) {
 			maxcat = mutation_category(i);
 			level = mutation_category_level[i];
 		}
@@ -2971,10 +2973,8 @@ mutation_category player::get_highest_category() // Returns the mutation categor
 int player::get_category_level(mutation_category cat) // Returns the strength of a given mutation category
 {
 	int level = 0;
-	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-	{
-		if (mutation_category(i) == cat)
-		{
+	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
+		if (mutation_category(i) == cat) {
 			level = mutation_category_level[i];
 		}
 	}
@@ -2986,13 +2986,12 @@ std::string player::get_category_dream(mutation_category cat, int strength) // R
 	std::string message;
 	std::vector<dream> valid_dreams;
 	dream selected_dream;
-	for (int i = 0; i < dreams.size(); i++) // Pull the list of dreams
-	{
-		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) // Pick only the ones matching our desired category and strength
-		{
+	for (int i = 0; i < dreams.size(); i++) { //Pull the list of dreams
+		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) { //Pick only the ones matching our desired category and strength
 			valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
 		}
 	}
+
 	int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
 	selected_dream = valid_dreams[index];
 	index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream

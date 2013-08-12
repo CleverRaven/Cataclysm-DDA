@@ -78,8 +78,8 @@ bool player::create(game *g, character_type type, std::string tempname)
     if (per_max > HIGH_STAT)
      points -= (per_max - HIGH_STAT);
 
-    int num_gtraits = 0, num_btraits = 0, tries;
-    std::string rn;
+    int num_gtraits = 0, num_btraits = 0, tries = 0;
+    std::string rn = "";
 
     while (points < 0 || rng(-3, 20) > points) {
      if (num_btraits < max_trait_points && one_in(3)) {
@@ -87,8 +87,8 @@ bool player::create(game *g, character_type type, std::string tempname)
       do {
        rn = random_bad_trait();
        tries++;
-      } while ((has_trait(rn) ||
-              num_btraits - traits[rn].points > max_trait_points) && tries < 5);
+      } while ((has_trait(rn) || num_btraits - traits[rn].points > max_trait_points) && tries < 5);
+
       if (tries < 5) {
        toggle_trait(rn);
        points -= traits[rn].points;
@@ -1182,14 +1182,14 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
  } while (true);
 }
 
-int player::random_good_trait()
+std::string player::random_good_trait()
 {
- return rng(0, vTraitsGood.size() - 1);
+    return vTraitsGood[rng(0, vTraitsGood.size() - 1)];
 }
 
-int player::random_bad_trait()
+std::string player::random_bad_trait()
 {
- return rng(0, vTraitsBad.size() - 1);
+    return vTraitsBad[rng(0, vTraitsBad.size() - 1)];
 }
 
 int random_skill()

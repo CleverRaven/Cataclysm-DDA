@@ -25,10 +25,10 @@ void game::init_traits()
         new_trait.description = curr_trait.get("description").as_string();
 
         if (curr_trait.has("starting_trait")) {
-            if (curr_trait.get("starting_trait").as_string() == "good") {
+            if (curr_trait.get("starting_trait").as_bool()) {
                 vTraitsGood.push_back(curr_trait.get("id").as_string());
 
-            } else if (curr_trait.get("starting_trait").as_string() == "bad") {
+            } else {
                 vTraitsBad.push_back(curr_trait.get("id").as_string());
             }
         }
@@ -87,6 +87,32 @@ void game::init_mutations()
             }
         }
 	}
+}
+
+void game::init_mutations_cat()
+{
+	catajson mutationsRaw("data/raw/mutations_cat.json");
+
+	if (!json_good()) {
+		throw (std::string)"data/raw/mutations_cat.json wasn't found";
+	}
+/*
+    //Category
+    //Items
+	for (mutationsRaw.set_begin(); mutationsRaw.has_curr(); mutationsRaw.next()) {
+		catajson mutationcurr = mutationsRaw.curr();
+
+        std::string sMutation = mutationcurr.get("MUTATION").as_string();
+		mutation_data[sMutation].valid = mutationcurr.get("VALID").as_bool();
+
+        catajson Items = mutationcurr.get("Items");
+        if (Items.is_array()) {
+            for (Items.set_begin(); Items.has_curr(); Items.next()) {
+                mutation_data[sMutation].prereqs.push_back(Items.curr().as_string());
+            }
+        }
+	}
+	*/
 }
 
 void game::init_dreams()

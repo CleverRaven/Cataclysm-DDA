@@ -120,11 +120,11 @@ struct player_activity
 };
 
 struct trait {
- std::string name;
- int points;		// How many points it costs in character creation
- int visiblity;		// How visible it is
- int ugliness;		// How ugly it is
- std::string description;
+    std::string name;
+    int points;		// How many points it costs in character creation
+    int visiblity;		// How visible it is
+    int ugliness;		// How ugly it is
+    std::string description;
 };
 
 extern std::map<std::string, trait> traits;
@@ -132,12 +132,12 @@ extern std::vector<std::string> vTraitsGood;
 extern std::vector<std::string> vTraitsBad;
 
 enum hp_part {
- hp_head = 0,
- hp_torso,
- hp_arm_l,
- hp_arm_r,
- hp_leg_l,
- hp_leg_r,
- num_hp_parts
+    hp_head = 0,
+    hp_torso,
+    hp_arm_l,
+    hp_arm_r,
+    hp_leg_l,
+    hp_leg_r,
+    num_hp_parts
 };
 #endif

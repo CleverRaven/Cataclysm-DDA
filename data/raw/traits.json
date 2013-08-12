@@ -6,7 +6,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You can run more quickly than most, resulting in a 15%% speed bonus on sure footing.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "PARKOUR",
@@ -15,7 +15,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "QUICK",
@@ -24,7 +24,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You're just generally quick!  You get a 10%% bonus to action points.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "OPTIMISTIC",
@@ -33,7 +33,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "FASTHEALER",
@@ -42,7 +42,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You heal a little faster than most; sleeping will heal more lost HP.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "LIGHTEATER",
@@ -51,7 +51,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Your metabolism is a little slower, and you require less food than most.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "PAINRESIST",
@@ -60,7 +60,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You have a high tolerance for pain.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "NIGHTVISION",
@@ -69,7 +69,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You possess natural night vision, and can see two squares instead of one in pitch blackness.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "POISRESIST",
@@ -78,7 +78,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "FASTREADER",
@@ -87,7 +87,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You're a quick reader, and can get through books a lot faster than most.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "TOUGH",
@@ -96,7 +96,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "It takes a lot to bring you down!  You get a 20%% bonus to all hit points.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "THICKSKIN",
@@ -105,7 +105,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Your skin is tough.  Cutting damage is slightly reduced for you.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "PACKMULE",
@@ -114,7 +114,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You can manage to find space for anything!  You can carry 40%% more volume.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "FASTLEARNER",
@@ -123,7 +123,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You have a flexible mind, allowing you to learn skills much faster than others.  Note that this only applies to real-world experience, not to skill gain from other sources like books.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "DEFT",
@@ -132,7 +132,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "DRUNKEN",
@@ -141,7 +141,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "GOURMAND",
@@ -150,7 +150,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind some unsavory meals.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "ANIMALEMPATH",
@@ -159,7 +159,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack.  This only applies to natural animals such as woodland creatures.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "TERRIFYING",
@@ -168,7 +168,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "DISRESISTANT",
@@ -177,7 +177,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "ADRENALINE",
@@ -186,7 +186,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "If you are in a very dangerous situation, you may experience a temporary rush which increases your speed and strength significantly.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "SELFAWARE",
@@ -195,7 +195,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You get to see your exact amount of HP remaining, instead of only having a vague idea of whether you're in good condition or not.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "INCONSPICUOUS",
@@ -204,7 +204,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "MASOCHIST",
@@ -213,7 +213,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "CROSSDRESSER",
@@ -222,7 +222,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Covering your body in clothing typical for the opposite gender makes you feel better.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "LIGHTSTEP",
@@ -231,7 +231,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You make less noise while walking.  You're also less likely to set off traps.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "ANDROID",
@@ -240,7 +240,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "At some point in the past you had a bionic upgrade installed in your body.  You start the game with a power system, and one random bionic enhancement.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "ROBUST",
@@ -249,7 +249,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You have a very strong genetic base.  If you mutate, the odds that the mutation will be beneficial are greatly increased.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "CANNIBAL",
@@ -258,7 +258,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you you can't eat people.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "MARTIAL_ARTS",
@@ -267,7 +267,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You have received some martial arts training at a local dojo.  You start with your choice of karate, judo, aikido, tai chi, or taekwondo.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "MARTIAL_ARTS2",
@@ -276,7 +276,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "MARTIAL_ARTS3",
@@ -285,7 +285,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "MARTIAL_ARTS4",
@@ -294,7 +294,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You are a pupil of the Venom Clan.  You start with one of the five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "LIAR",
@@ -303,7 +303,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You have no qualms about bending the truth, and have practically no tells.  Telling lies and otherwise bluffing will be much easier for you.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "PRETTY",
@@ -312,7 +312,7 @@
         "visibility": 0,
         "ugliness": -2,
         "description": "You are a sight to behold.  NPCs who care about such thing will react more kindly to you.",
-        "starting_trait": "good"
+        "starting_trait": true
     },
     {
         "id": "MYOPIC",
@@ -321,7 +321,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Without your glasses, your seeing radius is severely reduced!  However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "HYPEROPIC",
@@ -330,7 +330,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Without reading glasses, you are unable to read anything, and take penalities on melee accuracy and electronics/tailoring crafting.  However, you are guaranteed to start with a pair of reading glasses.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "HEAVYSLEEPER",
@@ -339,7 +339,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You're quite the heavy sleeper.  Noises are unlikely to wake you up.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "ASTHMA",
@@ -348,7 +348,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You will occasionally need to use an inhaler, or else suffer severe physical limitations.  However, you are guaranteed to start with an inhaler.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "BADBACK",
@@ -357,7 +357,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%%.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "ILLITERATE",
@@ -366,7 +366,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You never learned to read!  Books and computers are off-limits to you.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "BADHEARING",
@@ -375,7 +375,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Your hearing is poor, and you may not hear quiet or far-off noises.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "INSOMNIA",
@@ -384,7 +384,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You have a hard time falling asleep, even under the best circumstances!",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "VEGETARIAN",
@@ -393,7 +393,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You have problems with eating meat.  It's possible for you to eat it, but you will suffer morale penalties due to nausea.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "GLASSJAW",
@@ -402,7 +402,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Your head can't take much abuse.  Its maximum HP is 20%% lower than usual.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "FORGETFUL",
@@ -411,7 +411,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "LIGHTWEIGHT",
@@ -420,7 +420,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Alcohol and drugs go straight to your head.  You suffer the negative effects of these for longer.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "ADDICTIVE",
@@ -429,7 +429,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "TRIGGERHAPPY",
@@ -438,7 +438,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "On rare occasion, you will go full-auto when you intended to fire a single shot.  This has no effect when firing handguns or other semi-automatic firearms.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "SMELLY",
@@ -447,7 +447,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Your scent is particularly strong.  It's not offensive to humans, but animals that track your scent will do so more easily.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "CHEMIMBALANCE",
@@ -456,7 +456,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You suffer from a minor chemical imbalance, whether mental or physical.  Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "SCHIZOPHRENIC",
@@ -465,7 +465,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "JITTERY",
@@ -474,7 +474,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your dexterity.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "HOARDER",
@@ -483,7 +483,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You don't feel right unless you're carrying as much as you can.  You suffer morale penalties for carrying less than maximum volume (weight is ignored).  Xanax can help control this anxiety.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "SAVANT",
@@ -492,7 +492,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You tend to specialize in one skill and be poor at all others.  You advance at half speed in all skills except your best one.  Note that combining this with Fast Learner will come out to a slower rate of learning for all skills.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "MOODSWINGS",
@@ -501,7 +501,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Your morale will shift up and down at random, often dramatically.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "WEAKSTOMACH",
@@ -510,7 +510,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You are more likely to throw up from food poisoning, alcohol, etc.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "WOOLALLERGY",
@@ -519,7 +519,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You are badly allergic to wool, and can not wear any clothing made of the substance.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "TRUTHTELLER",
@@ -528,7 +528,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "UGLY",
@@ -537,7 +537,7 @@
         "visibility": 0,
         "ugliness": 2,
         "description": "You're not much to look at.  NPCs who care about such things will react poorly to you.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "HARDCORE",
@@ -546,7 +546,7 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "Your whole body can't take much abuse.  Its maximum HP is 75%% points lower than usual.  Stacks with Glass Jaw.  Not for casuals.",
-        "starting_trait": "bad"
+        "starting_trait": true
     },
     {
         "id": "SKIN_ROUGH",
