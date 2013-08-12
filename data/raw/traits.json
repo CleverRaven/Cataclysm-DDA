@@ -1,13 +1,5 @@
 [
     {
-        "id": "",
-        "name": "NULL trait!",
-        "points": 0,
-        "visibility": 0,
-        "ugliness": 0,
-        "description": "This is a bug.  Weird. (pldata.cpp:traits)"
-    },
-    {
         "id": "FLEET",
         "name": "Fleet-Footed",
         "points": 3,
@@ -107,7 +99,7 @@
         "starting_trait": "good"
     },
     {
-        "id": ""PF_THICKSKIN,
+        "id": "THICKSKIN",
         "name": "Thick-Skinned",
         "points": 2,
         "visibility": 0,
@@ -310,8 +302,9 @@
         "points": 2,
         "visibility": 0,
         "ugliness": 0,
-        "description": "You have no qualms about bending the truth, and have practically no tells.  Telling lies and otherwise bluffing will be much easier for you."},
+        "description": "You have no qualms about bending the truth, and have practically no tells.  Telling lies and otherwise bluffing will be much easier for you.",
         "starting_trait": "good"
+    },
     {
         "id": "PRETTY",
         "name": "Pretty",
@@ -320,17 +313,7 @@
         "ugliness": -2,
         "description": "You are a sight to behold.  NPCs who care about such thing will react more kindly to you.",
         "starting_trait": "good"
-    }
-
-    {
-        "id": "",
-        "name": "NULL",
-        "points": 0,
-        "visibility": 0,
-        "ugliness": 0,
-        "description": "-------------------------------------------------- "
     },
-
     {
         "id": "MYOPIC",
         "name": "Near-Sighted",
@@ -564,17 +547,7 @@
         "ugliness": 0,
         "description": "Your whole body can't take much abuse.  Its maximum HP is 75%% points lower than usual.  Stacks with Glass Jaw.  Not for casuals.",
         "starting_trait": "bad"
-    }
-
-    {
-        "id": "",
-        "name": "Bug - PF_MAX",
-        "points": 0,
-        "visibility": 0,
-        "ugliness": 0,
-        "description": "This shouldn't be here!  You have the trait PF_MAX toggled.  Weird."
-    }
-
+    },
     {
         "id": "SKIN_ROUGH",
         "name": "Rough Skin",

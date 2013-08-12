@@ -77,35 +77,6 @@ void game::init_morale()
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
 }
 
-void game::init_traits()
-{
-    catajson traitsRaw("data/raw/traits.json",true);
-
-    if(!json_good()) {
-        exit(1);
-    }
-
-    for(traitsRaw.set_begin(); traitsRaw.has_curr() && json_good(); traitsRaw.next()) {
-        catajson curr_trait = traitsRaw.curr();
-
-        trait new_trait;
-        new_trait.name = curr_trait.get("name").as_string();
-        new_trait.points = curr_trait.get("points").as_int();
-        new_trait.visiblity = curr_trait.get("visibility").as_int();
-        new_trait.ugliness = curr_trait.get("ugliness").as_int();
-        new_trait.description = curr_trait.get("description").as_string();
-
-        if (curr_trait.get("starting_trait").as_string() == "good") {
-            vTraitsGood.push_back(curr_trait.get("id").as_string());
-
-        } else if (curr_trait.get("starting_trait").as_string() == "bad") {
-            vTraitsBad.push_back(curr_trait.get("id").as_string());
-        }
-
-        traits[curr_trait.get("id").as_string()] = new_trait;
-    }
-}
-
 player::player()
 {
  id = 0; // Player is 0. NPCs are different.
@@ -150,10 +121,11 @@ player::player()
  style_selected = "null";
  focus_pool = 100;
  last_item = itype_id("null");
- for (int i = 0; i < PF_MAX2; i++)
-  my_traits[i] = false;
- for (int i = 0; i < PF_MAX2; i++)
-  my_mutations[i] = false;
+
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+    my_traits[iter->first] = false;
+    my_mutations[iter->first] = false;
+ }
 
  mutation_category_level[0] = 5; // Weigh us towards no category for a bit
  for (int i = 1; i < NUM_MUTATION_CATEGORIES; i++)
@@ -204,11 +176,8 @@ player& player::operator= (const player & rhs)
  male = rhs.male;
  prof = rhs.prof;
 
- for (int i = 0; i < PF_MAX2; i++)
-  my_traits[i] = rhs.my_traits[i];
-
- for (int i = 0; i < PF_MAX2; i++)
-  my_mutations[i] = rhs.my_mutations[i];
+ my_traits = rhs.my_traits;
+ my_mutations = rhs.my_mutations;
 
  for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
   mutation_category_level[i] = rhs.mutation_category_level[i];
@@ -502,7 +471,7 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_head)) {
             bonus += 3;
         }
-        
+
         if(bonus) {
             add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
         }
@@ -1240,11 +1209,13 @@ void player::load_info(game *g, std::string data)
  controlling_vehicle = vctrl != 0;
  style_selected = styletmp;
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump >> my_traits[i];
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+    dump >> my_traits[iter->first];
+ }
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump >> my_mutations[i];
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+    dump >> my_mutations[iter->first];
+ }
 
  for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
   dump >> mutation_category_level[i];
@@ -1357,10 +1328,14 @@ std::string player::save_info()
          " " << style_selected << " " << activity.save_info() << " " <<
          backlog.save_info() << " ";
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump << my_traits[i] << " ";
- for (int i = 0; i < PF_MAX2; i++)
-  dump << my_mutations[i] << " ";
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+    dump << my_traits[iter->first] << " ";
+ }
+
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+    dump << my_mutations[iter->first] << " ";
+ }
+
  for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
   dump << mutation_category_level[i] << " ";
  for (int i = 0; i < num_hp_parts; i++)
@@ -1468,7 +1443,7 @@ void player::memorial( std::ofstream &memorial_file )
                   << _(" when the apocalypse began.") << "\n";
     memorial_file << pronoun << _(" died on ") << _(season_name[g->turn.get_season()].c_str())
                   << _(" of year ") << (g->turn.years() + 1)
-                  << _(", day ") << (g->turn.days() + 1) 
+                  << _(", day ") << (g->turn.days() + 1)
                   << _(", at ") << g->turn.print_time() << ".\n";
     memorial_file << pronoun << _(" was killed in a ") << tername << ".\n";
     memorial_file << "\n";
@@ -1527,10 +1502,10 @@ void player::memorial( std::ofstream &memorial_file )
     //Traits
     memorial_file << _("Traits:") << "\n";
     bool had_trait = false;
-    for(int i = 1; i < PF_MAX2; i++) { //Don't start at i=0 or we get a 'null trait'
-      if(has_trait(i)) {
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+      if(has_trait(iter->first)) {
         had_trait = true;
-        memorial_file << indent << traits[i].name << "\n";
+        memorial_file << indent << traits[iter->first].name << "\n";
       }
     }
     if(!had_trait) {
@@ -1746,9 +1721,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 
  effect_win_size_y = effect_name.size()+1;
 
- for(int i = 0; i < PF_MAX2; i++) {
-  if(my_mutations[i]) {
-   traitslist.push_back(pl_flag(i));
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+  if(my_mutations[iter->first]) {
+   traitslist.push_back(iter->first);
   }
  }
 
@@ -1952,7 +1927,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
- 
+
  const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
@@ -2379,7 +2354,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
 
    for (int i = min; i < max; i++) {
     mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
-    if (traitslist[i] > PF_MAX2)
+    if (i > traits.size())
      status = c_ltblue;
     else if (traits[traitslist[i]].points > 0)
      status = c_ltgreen;
@@ -2953,27 +2928,27 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
  }
 }
 
-bool player::has_trait(int flag) const
+bool player::has_trait(std::string flag)
 {
- if (flag == PF_NULL)
+ if (flag == "")
   return true;
  return my_mutations[flag]; //Looks for active mutations and traits
 }
 
-bool player::has_base_trait(int flag) const
+bool player::has_base_trait(std::string flag)
 {
- if (flag == PF_NULL)
+ if (flag == "")
   return true;
  return my_traits[flag]; //Looks only at base traits
 }
 
-void player::toggle_trait(int flag)
+void player::toggle_trait(std::string flag)
 {
  my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player
  my_mutations[flag] = !my_mutations[flag]; //Toggles corresponding trait in mutations list as well.
 }
 
-void player::toggle_mutation(int flag)
+void player::toggle_mutation(std::string flag)
 {
  my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
 }
@@ -3016,13 +2991,13 @@ std::string player::get_category_dream(mutation_category cat, int strength) // R
 		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) // Pick only the ones matching our desired category and strength
 		{
 			valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
-		}	
+		}
 	}
 	int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
 	selected_dream = valid_dreams[index];
 	index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream
 	message = selected_dream.message[index];
-	return message;	
+	return message;
 }
 
 bool player::in_climate_control(game *g)
@@ -3373,7 +3348,7 @@ int player::rust_rate(bool real_life)
     int intel = (real_life ? int_cur : int_max);
     int ret = ((OPTIONS["SKILL_RUST"] == "Vanilla" || OPTIONS["SKILL_RUST"] == "Capped") ? 500 : 500 - 35 * (intel - 8));
 
-    if (has_trait(PF_FORGETFUL)) {
+    if (has_trait("FORGETFUL")) {
         ret *= 1.33;
     }
 
@@ -6397,7 +6372,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             if (armor->covers & mfb(i) && encumb(i) >= 4)
             {
                 g->add_msg(
-                    (i == bp_head || i == bp_torso) ? 
+                    (i == bp_head || i == bp_torso) ?
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
                     body_part_name(body_part(i), 2).c_str(), encumb_text(body_part(i)).c_str());
             }
@@ -7421,8 +7396,8 @@ void player::try_to_sleep(game *g)
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
   g->add_msg(
-             terlist[ter_at_pos].movecost <= 2 ? 
-             _("It's a little hard to get to sleep on this %s.") : 
+             terlist[ter_at_pos].movecost <= 2 ?
+             _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
              terlist[ter_at_pos].name.c_str());
  add_disease("lying_down", 300);

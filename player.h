@@ -74,10 +74,10 @@ public:
  int  run_cost(int base_cost, bool diag = false); // Adjust base_cost
  int  swim_speed();	// Our speed when swimming
 
- bool has_trait(int flag) const;
- bool has_base_trait(int flag) const;
- void toggle_trait(int flag);
- void toggle_mutation(int flag);
+ bool has_trait(std::string flag);
+ bool has_base_trait(std::string flag);
+ void toggle_trait(std::string flag);
+ void toggle_mutation(std::string flag);
  mutation_category get_highest_category();
  int get_category_level(mutation_category cat);
  std::string get_category_dream(mutation_category cat, int strength);
@@ -333,8 +333,8 @@ public:
  std::string name;
  bool male;
  profession* prof;
- std::map<std:string, bool> my_traits;
- std::map<std:string, bool> my_mutations;
+ std::map<std::string, bool> my_traits;
+ std::map<std::string, bool> my_mutations;
  int mutation_category_level[NUM_MUTATION_CATEGORIES];
  int next_climate_control_check;
  bool last_climate_control_ret;

@@ -1,999 +1,999 @@
 [
     {
         "MUTATION": "FLEET",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
         "CHANGES_TO": ["FLEET2"]
     },
     {
         "MUTATION": "PARKOUR",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "QUICK",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "OPTIMISTIC",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "FASTHEALER",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["ROT1", "ROT2", "ROT3"],
         "CHANGES_TO": ["FASTHEALER2"]
     },
     {
         "MUTATION": "LIGHTEATER",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "PAINRESIST",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "NIGHTVISION",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["NIGHTVISION2"]
     },
     {
         "MUTATION": "POISRESIST",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "FASTREADER",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "TOUGH",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "THICKSKIN",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "PACKMULE",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "FASTLEARNER",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "DEFT",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "DRUNKEN",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "GOURMAND",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "ANIMALEMPATH",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "TERRIFYING",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "DISRESISTANT",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["DISIMMUNE"]
     },
     {
         "MUTATION": "ADRENALINE",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "SELFAWARE",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "INCONSPICUOUS",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "MASOCHIST",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "LIGHTSTEP",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "ANDROID",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "ROBUST",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "CANNIBAL",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "MARTIAL_ARTS",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "MARTIAL_ARTS2",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "MARTIAL_ARTS3",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "MARTIAL_ARTS4",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "LIAR",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["TRUTHTELLER"]
     },
     {
         "MUTATION": "PRETTY",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
         "CHANGES_TO": ["BEAUTIFUL"]
     },
     {
         "MUTATION": "MYOPIC",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "HYPEROPIC",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "HEAVYSLEEPER",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "ASTHMA",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "BADBACK",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "ILLITERATE",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "BADHEARING",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "INSOMNIA",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "VEGETARIAN",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "GLASSJAW",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "FORGETFUL",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "LIGHTWEIGHT",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "ADDICTIVE",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "TRIGGERHAPPY",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "SMELLY",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["SMELLY2"]
     },
     {
         "MUTATION": "CHEMIMBALANCE",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "SCHIZOPHRENIC",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "JITTERY",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "HOARDER",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "SAVANT",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "MOODSWINGS",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "WEAKSTOMACH",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["NAUSEA"]
     },
     {
         "MUTATION": "WOOLALLERGY",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "TRUTHTELLER",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["LIAR"]
     },
     {
         "MUTATION": "UGLY",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "CHANGES_TO": ["DEFORMED"]
     },
     {
         "MUTATION": "HARDCORE",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "SKIN_ROUGH",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN"]
     },
     {
         "MUTATION": "NIGHTVISION2",
-        "VALID": "true",
-        "PREREQS": "NIGHTVISION",
+        "VALID": true,
+        "PREREQS": ["NIGHTVISION"],
         "CHANGES_TO": ["NIGHTVISION3"]
     },
     {
         "MUTATION": "NIGHTVISION3",
-        "VALID": "true",
-        "PREREQS": "NIGHTVISION2",
+        "VALID": true,
+        "PREREQS": ["NIGHTVISION2"],
         "LEADS_TO": ["INFRARED"]
     },
     {
         "MUTATION": "INFRARED",
-        "VALID": "true",
-        "PREREQS": "NIGHTVISION3"
+        "VALID": true,
+        "PREREQS": ["NIGHTVISION3"]
     },
     {
         "MUTATION": "FASTHEALER2",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["ROT1", "ROT2", "ROT3"],
-        "PREREQS": "FASTHEALER",
+        "PREREQS": ["FASTHEALER"],
         "CHANGES_TO": ["REGEN"]
     },
     {
         "MUTATION": "REGEN",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["ROT1", "ROT2", "ROT3"],
-        "PREREQS": "FASTHEALER2"
+        "PREREQS": ["FASTHEALER2"]
     },
     {
         "MUTATION": "FANGS",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["BEAK"]
     },
     {
         "MUTATION": "MEMBRANE",
-        "VALID": "true",
-        "PREREQS": "EYEBULGE"
+        "VALID": true,
+        "PREREQS": ["EYEBULGE"]
     },
     {
         "MUTATION": "GILLS",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "SCALES",
-        "VALID": "true",
-        "PREREQS": "SKIN_ROUGH",
+        "VALID": true,
+        "PREREQS": ["SKIN_ROUGH"],
         "CHANGES_TO": ["THICK_SCALES", "SLEEK_SCALES"]
     },
     {
         "MUTATION": "THICK_SCALES",
-        "VALID": "true",
-        "PREREQS": "SCALES",
+        "VALID": true,
+        "PREREQS": ["SCALES"],
         "CANCELS": ["SLEEK_SCALES", "FEATHERS"]
     },
     {
         "MUTATION": "SLEEK_SCALES",
-        "VALID": "true",
-        "PREREQS": "SCALES",
+        "VALID": true,
+        "PREREQS": ["SCALES"],
         "CANCELS": ["THICK_SCALES", "FEATHERS"]
     },
     {
         "MUTATION": "LIGHT_BONES",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["HOLLOW_BONES"]
     },
     {
         "MUTATION": "FEATHERS",
-        "VALID": "true",
-        "PREREQS": "SKIN_ROUGH",
+        "VALID": true,
+        "PREREQS": ["SKIN_ROUGH"],
         "CANCELS": ["THICK_SCALES", "SLEEK_SCALES"]
     },
     {
         "MUTATION": "LIGHTFUR",
-        "VALID": "true",
-        "PREREQS": "SKIN_ROUGH",
+        "VALID": true,
+        "PREREQS": ["SKIN_ROUGH"],
         "CANCELS": ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
         "CHANGES_TO": ["FUR"]
     },
     {
         "MUTATION": "FUR",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
-        "PREREQS": "LIGHTFUR"
+        "PREREQS": ["LIGHTFUR"]
     },
     {
         "MUTATION": "CHITIN",
-        "VALID": "true",
-        "PREREQS": "SKIN_ROUGH",
+        "VALID": true,
+        "PREREQS": ["SKIN_ROUGH"],
         "CANCELS": ["SCALES", "FEATHERS", "LIGHTFUR", "PLANTSKIN"],
         "CHANGES_TO": ["CHITIN2"]
     },
     {
         "MUTATION": "CHITIN2",
-        "VALID": "true",
-        "PREREQS": "CHITIN",
+        "VALID": true,
+        "PREREQS": ["CHITIN"],
         "CHANGES_TO": ["CHITIN3"]
     },
     {
         "MUTATION": "CHITIN3",
-        "VALID": "true",
-        "PREREQS": "CHITIN2"
+        "VALID": true,
+        "PREREQS": ["CHITIN2"]
     },
     {
         "MUTATION": "SPINES",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["QUILLS"]
     },
     {
-        "MUTATION ": "QUILLS",
-        "VALID": "true",
-        "PREREQS": "SPINES"
+        "MUTATION": "QUILLS",
+        "VALID": true,
+        "PREREQS": ["SPINES"]
     },
     {
-        "MUTATION ": "PLANTSKIN",
-        "VALID": "true",
+        "MUTATION": "PLANTSKIN",
+        "VALID": true,
         "CANCELS": ["FEATHERS", "LIGHTFUR", "FUR", "CHITIN", "CHITIN2", "CHITIN3", "SCALES"],
         "CHANGES_TO": ["BARK"],
         "LEADS_TO": ["THORNS", "LEAVES"]
     },
     {
         "MUTATION": "BARK",
-        "VALID": "true",
-        "PREREQS": "PLANTSKIN"
+        "VALID": true,
+        "PREREQS": ["PLANTSKIN"]
     },
     {
         "MUTATION": "THORNS",
-        "VALID": "true",
-        "PREREQS": "PLANTSKIN", "BARK"
+        "VALID": true,
+        "PREREQS": ["PLANTSKIN", "BARK"]
     },
     {
         "MUTATION": "LEAVES",
-        "VALID": "true",
-        "PREREQS": "PLANTSKIN", "BARK"
+        "VALID": true,
+        "PREREQS": ["PLANTSKIN", "BARK"]
     },
     {
         "MUTATION": "NAILS",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["CLAWS", "TALONS"]
     },
     {
         "MUTATION": "CLAWS",
-        "VALID": "true",
-        "PREREQS": "NAILS",
+        "VALID": true,
+        "PREREQS": ["NAILS"],
         "CANCELS": ["TALONS"]
     },
     {
         "MUTATION": "TALONS",
-        "VALID": "true",
-        "PREREQS": "NAILS",
+        "VALID": true,
+        "PREREQS": ["NAILS"],
         "CANCELS": ["CLAWS"]
     },
     {
         "MUTATION": "RADIOGENIC",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "MARLOSS",
-        "VALID": "false"
+        "VALID": false
     },
     {
         "MUTATION": "PHEROMONE_INSECT",
-        "VALID": "true",
-        "PREREQS": "SMELLY2",
+        "VALID": true,
+        "PREREQS": ["SMELLY2"],
         "CANCELS": ["PHEROMONE_MAMMAL"]
     },
     {
         "MUTATION": "PHEROMONE_MAMMAL",
-        "VALID": "true",
-        "PREREQS": "SMELLY2",
+        "VALID": true,
+        "PREREQS": ["SMELLY2"],
         "CANCELS": ["PHEROMONE_INSECT"]
     },
     {
         "MUTATION": "DISIMMUNE",
-        "VALID": "true",
-        "PREREQS": "DISRESISTANT"
+        "VALID": true,
+        "PREREQS": ["DISRESISTANT"]
     },
     {
         "MUTATION": "POISONOUS",
-        "VALID": "true",
-        "PREREQS": "POISRESIST"
+        "VALID": true,
+        "PREREQS": ["POISRESIST"]
     },
     {
         "MUTATION": "SLIME_HANDS",
-        "VALID": "true",
-        "PREREQS": "SLIMY"
+        "VALID": true,
+        "PREREQS": ["SLIMY"]
     },
     {
         "MUTATION": "COMPOUND_EYES",
-        "VALID": "true",
-        "PREREQS": "EYEBULGE"
+        "VALID": true,
+        "PREREQS": ["EYEBULGE"]
     },
     {
         "MUTATION": "PADDED_FEET",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["HOOVES", "LEG_TENTACLES"]
     },
     {
         "MUTATION": "HOOVES",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["PADDED_FEET", "LEG_TENTACLES"]
     },
     {
         "MUTATION": "SAPROVORE",
-        "VALID": "true",
-        "PREREQS": "CARNIVORE",
+        "VALID": true,
+        "PREREQS": ["CARNIVORE"],
         "CANCELS": ["HERBIVORE", "RUMINANT"]
     },
     {
         "MUTATION": "RUMINANT",
-        "VALID": "true",
-        "PREREQS": "HERBIVORE",
+        "VALID": true,
+        "PREREQS": ["HERBIVORE"],
         "CANCELS": ["CARNIVORE", "SAPROVORE"]
     },
     {
         "MUTATION": "HORNS",
-        "VALID": "true",
-        "PREREQS": "HEADBUMPS",
+        "VALID": true,
+        "PREREQS": ["HEADBUMPS"],
         "CANCELS": ["ANTENNAE"],
         "CHANGES_TO": ["HORNS_CURLED", "HORNS_POINTED", "ANTLERS"]
     },
     {
         "MUTATION": "HORNS_CURLED",
-        "VALID": "true",
-        "PREREQS": "HORNS",
+        "VALID": true,
+        "PREREQS": ["HORNS"],
         "CANCELS": ["ANTENNAE", "HORNS_POINTED", "ANTLERS"]
     },
     {
         "MUTATION": "HORNS_POINTED",
-        "VALID": "true",
-        "PREREQS": "HORNS",
+        "VALID": true,
+        "PREREQS": ["HORNS"],
         "CANCELS": ["ANTENNAE", "HORNS_CURLED", "ANTLERS"]
     },
     {
         "MUTATION": "ANTLERS",
-        "VALID": "true",
-        "PREREQS": "HORNS",
+        "VALID": true,
+        "PREREQS": ["HORNS"],
         "CANCELS": ["ANTENNAE", "HORNS_CURLED", "HORNS_POINTED"]
     },
     {
         "MUTATION": "ANTENNAE",
-        "VALID": "true",
-        "PREREQS": "HEADBUMPS",
+        "VALID": true,
+        "PREREQS": ["HEADBUMPS"],
         "CANCELS": ["HORNS", "HORNS_CURLED", "HORNS_POINTED", "ANTLERS"]
     },
     {
         "MUTATION": "FLEET2",
-        "VALID": "true",
-        "PREREQS": "FLEET",
+        "VALID": true,
+        "PREREQS": ["FLEET"],
         "CANCELS": ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"]
     },
     {
         "MUTATION": "TAIL_STUB",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["TAIL_LONG", "TAIL_FIN"]
     },
     {
         "MUTATION": "TAIL_FIN",
-        "VALID": "true",
-        "PREREQS": "TAIL_STUB",
+        "VALID": true,
+        "PREREQS": ["TAIL_STUB"],
         "CANCELS": ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"]
     },
     {
         "MUTATION": "TAIL_LONG",
-        "VALID": "true",
-        "PREREQS": "TAIL_STUB",
+        "VALID": true,
+        "PREREQS": ["TAIL_STUB"],
         "CANCELS": ["TAIL_FIN"],
         "CHANGES_TO": ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"]
     },
     {
         "MUTATION": "TAIL_FLUFFY",
-        "VALID": "true",
-        "PREREQS": "TAIL_LONG",
+        "VALID": true,
+        "PREREQS": ["TAIL_LONG"],
         "CANCELS": ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN"]
     },
     {
         "MUTATION": "TAIL_STING",
-        "VALID": "true",
-        "PREREQS": "TAIL_LONG",
+        "VALID": true,
+        "PREREQS": ["TAIL_LONG"],
         "CANCELS": ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN"]
     },
     {
         "MUTATION": "TAIL_CLUB",
-        "VALID": "true",
-        "PREREQS": "TAIL_LONG",
+        "VALID": true,
+        "PREREQS": ["TAIL_LONG"],
         "CANCELS": ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN"]
     },
     {
         "MUTATION": "PAINREC1",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["PAINREC2"]
     },
     {
         "MUTATION": "PAINREC2",
-        "VALID": "true",
-        "PREREQS": "PAINREC1",
+        "VALID": true,
+        "PREREQS": ["PAINREC1"],
         "CHANGES_TO": ["PAINREC3"]
     },
     {
         "MUTATION": "PAINREC3",
-        "VALID": "true",
-        "PREREQS": "PAINREC2"
+        "VALID": true,
+        "PREREQS": ["PAINREC2"]
     },
     {
         "MUTATION": "WINGS_BIRD",
-        "VALID": "true",
-        "PREREQS": "WINGS_STUB",
+        "VALID": true,
+        "PREREQS": ["WINGS_STUB"],
         "CANCELS": ["WINGS_BAT", "WINGS_INSECT"]
     },
     {
         "MUTATION": "WINGS_INSECT",
-        "VALID": "true",
-        "PREREQS": "WINGS_STUB",
+        "VALID": true,
+        "PREREQS": ["WINGS_STUB"],
         "CANCELS": ["WINGS_BIRD", "WINGS_BAT"]
     },
     {
         "MUTATION": "MOUTH_TENTACLES",
-        "VALID": "true",
-        "PREREQS": "MOUTH_FLAPS",
+        "VALID": true,
+        "PREREQS": ["MOUTH_FLAPS"],
         "CANCELS": ["MANDIBLES"]
     },
     {
         "MUTATION": "MANDIBLES",
-        "VALID": "true",
-        "PREREQS": "MOUTH_FLAPS",
+        "VALID": true,
+        "PREREQS": ["MOUTH_FLAPS"],
         "CANCELS": ["BEAK", "FANGS", "MOUTH_TENTACLES"]
     },
     {
         "MUTATION": "CANINE_EARS",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "WEB_WALKER",
-        "VALID": "true",
+        "VALID": true,
         "LEADS_TO": ["WEB_WEAVER"]
     },
     {
         "MUTATION": "WEB_WEAVER",
-        "VALID": "true",
-        "PREREQS": "WEB_WALKER",
+        "VALID": true,
+        "PREREQS": ["WEB_WALKER"],
         "CANCELS": ["SLIMY"]
     },
     {
         "MUTATION": "WHISKERS",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "STR_UP",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["STR_UP_2"]
     },
     {
         "MUTATION": "STR_UP_2",
-        "VALID": "true",
-        "PREREQS": "STR_UP",
+        "VALID": true,
+        "PREREQS": ["STR_UP"],
         "CHANGES_TO": ["STR_UP_3"]
     },
     {
         "MUTATION": "STR_UP_3",
-        "VALID": "true",
-        "PREREQS": "STR_UP_2",
+        "VALID": true,
+        "PREREQS": ["STR_UP_2"],
         "CHANGES_TO": ["STR_UP_4"]
     },
     {
         "MUTATION": "STR_UP_4",
-        "VALID": "true",
-        "PREREQS": "STR_UP_3"
+        "VALID": true,
+        "PREREQS": ["STR_UP_3"]
     },
     {
         "MUTATION": "DEX_UP",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["DEX_UP_2"]
     },
     {
         "MUTATION": "DEX_UP_2",
-        "VALID": "true",
-        "PREREQS": "DEX_UP",
+        "VALID": true,
+        "PREREQS": ["DEX_UP"],
         "CHANGES_TO": ["DEX_UP_3"]
     },
     {
         "MUTATION": "DEX_UP_3",
-        "VALID": "true",
-        "PREREQS": "DEX_UP_2",
+        "VALID": true,
+        "PREREQS": ["DEX_UP_2"],
         "CHANGES_TO": ["DEX_UP_4"]
     },
     {
         "MUTATION": "DEX_UP_4",
-        "VALID": "true",
-        "PREREQS": "DEX_UP_3"
+        "VALID": true,
+        "PREREQS": ["DEX_UP_3"]
     },
     {
         "MUTATION": "INT_UP",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["INT_UP_2"]
     },
     {
         "MUTATION": "INT_UP_2",
-        "VALID": "true",
-        "PREREQS": "INT_UP",
+        "VALID": true,
+        "PREREQS": ["INT_UP"],
         "CHANGES_TO": ["INT_UP_3"]
     },
     {
         "MUTATION": "INT_UP_3",
-        "VALID": "true",
-        "PREREQS": "INT_UP_2",
+        "VALID": true,
+        "PREREQS": ["INT_UP_2"],
         "CHANGES_TO": ["INT_UP_4"]
     },
     {
         "MUTATION": "INT_UP_4",
-        "VALID": "true",
-        "PREREQS": "INT_UP_3"
+        "VALID": true,
+        "PREREQS": ["INT_UP_3"]
     },
     {
         "MUTATION": "PER_UP",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["PER_UP_2"]
     },
     {
         "MUTATION": "PER_UP_2",
-        "VALID": "true",
-        "PREREQS": "PER_UP",
+        "VALID": true,
+        "PREREQS": ["PER_UP"],
         "CHANGES_TO": ["PER_UP_3"]
     },
     {
         "MUTATION": "PER_UP_3",
-        "VALID": "true",
-        "PREREQS": "PER_UP_2",
+        "VALID": true,
+        "PREREQS": ["PER_UP_2"],
         "CHANGES_TO": ["PER_UP_4"]
     },
     {
         "MUTATION": "PER_UP_4",
-        "VALID": "true",
-        "PREREQS": "PER_UP_3"
+        "VALID": true,
+        "PREREQS": ["PER_UP_3"]
     },
     {
         "MUTATION": "BEAUTIFUL",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
-        "PREREQS": "PRETTY",
+        "PREREQS": ["PRETTY"],
         "CHANGES_TO": ["BEAUTIFUL2"]
     },
     {
         "MUTATION": "BEAUTIFUL2",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
-        "PREREQS": "BEAUTIFUL",
+        "PREREQS": ["BEAUTIFUL"],
         "CHANGES_TO": ["BEAUTIFUL3"]
     },
     {
         "MUTATION": "BEAUTIFUL3",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
-        "PREREQS": "BEAUTIFUL2"
+        "PREREQS": ["BEAUTIFUL2"]
     },
     {
         "MUTATION": "HEADBUMPS",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["HORNS", "ANTENNAE"]
     },
     {
         "MUTATION": "SLIT_NOSTRILS",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "FORKED_TONGUE",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "EYEBULGE",
-        "VALID": "true",
+        "VALID": true,
         "LEADS_TO": ["MEMBRANE"],
         "CHANGES_TO": ["COMPOUND_EYES"]
     },
     {
         "MUTATION": "MOUTH_FLAPS",
-        "VALID": "true",
+        "VALID": true,
         "LEADS_TO": ["MOUTH_TENTACLES", "MANDIBLES"]
     },
     {
         "MUTATION": "WINGS_STUB",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT"]
     },
     {
         "MUTATION": "WINGS_BAT",
-        "VALID": "true",
-        "PREREQS": "WINGS_STUB",
+        "VALID": true,
+        "PREREQS": ["WINGS_STUB"],
         "CANCELS": ["WINGS_BIRD", "WINGS_INSECT"]
     },
     {
         "MUTATION": "PALE",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["ALBINO"],
         "LEADS_TO": ["TROGLO"]
     },
     {
         "MUTATION": "SPOTS",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["SORES"]
     },
     {
         "MUTATION": "SMELLY2",
-        "VALID": "true",
-        "PREREQS": "SMELLY",
+        "VALID": true,
+        "PREREQS": ["SMELLY"],
         "LEADS_TO": ["PHEROMONE_INSECT", "PHEROMONE_MAMMAL"]
     },
     {
         "MUTATION": "DEFORMED",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
-        "PREREQS": "UGLY",
+        "PREREQS": ["UGLY"],
         "CHANGES_TO": ["DEFORMED2"]
     },
     {
         "MUTATION": "DEFORMED2",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
-        "PREREQS": "DEFORMED",
+        "PREREQS": ["DEFORMED"],
         "CHANGES_TO": ["DEFORMED3"]
     },
     {
         "MUTATION": "DEFORMED3",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
-        "PREREQS": "DEFORMED2"
+        "PREREQS": ["DEFORMED2"]
     },
     {
         "MUTATION": "HOLLOW_BONES",
-        "VALID": "true",
-        "PREREQS": "LIGHT_BONES"
+        "VALID": true,
+        "PREREQS": ["LIGHT_BONES"]
     },
     {
         "MUTATION": "NAUSEA",
-        "VALID": "true",
-        "PREREQS": "WEAKSTOMACH",
+        "VALID": true,
+        "PREREQS": ["WEAKSTOMACH"],
         "CHANGES_TO": ["VOMITOUS"]
     },
     {
         "MUTATION": "VOMITOUS",
-        "VALID": "true",
-        "PREREQS": "NAUSEA"
+        "VALID": true,
+        "PREREQS": ["NAUSEA"]
     },
     {
         "MUTATION": "HUNGER",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "THIRST",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "ROT1",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "CHANGES_TO": ["ROT2"]
     },
     {
         "MUTATION": "ROT2",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["FASTHEALER", "FASTHEALER2", "REGEN"],
-        "PREREQS": "ROT1",
+        "PREREQS": ["ROT1"],
         "CHANGES_TO": ["ROT3"]
     },
     {
         "MUTATION": "ROT3",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["FASTHEALER", "FASTHEALER2", "REGEN"],
-        "PREREQS": "ROT2"
+        "PREREQS": ["ROT2"]
     },
     {
         "MUTATION": "ALBINO",
-        "VALID": "true",
-        "PREREQS": "PALE"
+        "VALID": true,
+        "PREREQS": ["PALE"]
     },
     {
         "MUTATION": "SORES",
-        "VALID": "true",
-        "PREREQS": "SPOTS"
+        "VALID": true,
+        "PREREQS": ["SPOTS"]
     },
     {
         "MUTATION": "TROGLO",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["SUNLIGHT_DEPENDENT"],
         "CHANGES_TO": ["TROGLO2"]
     },
     {
         "MUTATION": "TROGLO2",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["SUNLIGHT_DEPENDENT"],
-        "PREREQS": "TROGLO",
+        "PREREQS": ["TROGLO"],
         "CHANGES_TO": ["TROGLO3"]
     },
     {
         "MUTATION": "TROGLO3",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["SUNLIGHT_DEPENDENT"],
-        "PREREQS": "TROGLO2"
+        "PREREQS": ["TROGLO2"]
     },
     {
         "MUTATION": "WEBBED",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "BEAK",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["FANGS", "MANDIBLES"]
     },
     {
         "MUTATION": "UNSTABLE",
-        "VALID": "true"
+        "VALID": true
     },
     {
         "MUTATION": "RADIOACTIVE1",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["RADIOACTIVE2"]
     },
     {
         "MUTATION": "RADIOACTIVE2",
-        "VALID": "true",
-        "PREREQS": "RADIOACTIVE1",
+        "VALID": true,
+        "PREREQS": ["RADIOACTIVE1"],
         "CHANGES_TO": ["RADIOACTIVE3"]
     },
     {
         "MUTATION": "RADIOACTIVE3",
-        "VALID": "true",
-        "PREREQS": "RADIOACTIVE2"
+        "VALID": true,
+        "PREREQS": ["RADIOACTIVE2"]
     },
     {
         "MUTATION": "SLIMY",
-        "VALID": "true",
+        "VALID": true,
         "LEADS_TO": ["SLIME_HANDS"]
     },
     {
         "MUTATION": "HERBIVORE",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["CARNIVORE", "SAPROVORE"],
         "LEADS_TO": ["RUMINANT"]
     },
     {
         "MUTATION": "CARNIVORE",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["HERBIVORE", "RUMINANT"],
         "LEADS_TO": ["SAPROVORE"]
     },
     {
         "MUTATION": "PONDEROUS1",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["FLEET", "FLEET2"],
         "CHANGES_TO": ["PONDEROUS2"]
     },
     {
         "MUTATION": "PONDEROUS2",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["FLEET", "FLEET2"],
-        "PREREQS": "PONDEROUS1",
+        "PREREQS": ["PONDEROUS1"],
         "CHANGES_TO": ["PONDEROUS3"]
     },
     {
         "MUTATION": "PONDEROUS3",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["FLEET", "FLEET2"],
-        "PREREQS": "PONDEROUS2"
+        "PREREQS": ["PONDEROUS2"]
     },
     {
         "MUTATION": "SUNLIGHT_DEPENDENT",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["TROGLO", "TROGLO2", "TROGLO3"]
     },
     {
         "MUTATION": "COLDBLOOD",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["COLDBLOOD2"]
     },
     {
         "MUTATION": "COLDBLOOD2",
-        "VALID": "true",
-        "PREREQS": "COLDBLOOD",
+        "VALID": true,
+        "PREREQS": ["COLDBLOOD"],
         "CHANGES_TO": ["COLDBLOOD3"]
     },
     {
         "MUTATION": "COLDBLOOD3",
-        "VALID": "true",
-        "PREREQS": "COLDBLOOD2"
+        "VALID": true,
+        "PREREQS": ["COLDBLOOD2"]
     },
     {
         "MUTATION": "GROWL",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["SNARL"]
     },
     {
         "MUTATION": "SNARL",
-        "VALID": "true",
-        "PREREQS": "GROWL"
+        "VALID": true,
+        "PREREQS": ["GROWL"]
     },
     {
         "MUTATION": "SHOUT1",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["SHOUT2"]
     },
     {
         "MUTATION": "SHOUT2",
-        "VALID": "true",
-        "PREREQS": "SHOUT1",
+        "VALID": true,
+        "PREREQS": ["SHOUT1"],
         "CHANGES_TO": ["SHOUT3"]
     },
     {
         "MUTATION": "SHOUT3",
-        "VALID": "true",
-        "PREREQS": "SHOUT2"
+        "VALID": true,
+        "PREREQS": ["SHOUT2"]
     },
     {
         "MUTATION": "ARM_TENTACLES",
-        "VALID": "true",
+        "VALID": true,
         "CHANGES_TO": ["ARM_TENTACLES_4"]
     },
     {
         "MUTATION": "ARM_TENTACLES_4",
-        "VALID": "true",
-        "PREREQS": "ARM_TENTACLES",
+        "VALID": true,
+        "PREREQS": ["ARM_TENTACLES"],
         "CHANGES_TO": ["ARM_TENTACLES_8"]
     },
     {
         "MUTATION": "ARM_TENTACLES_8",
-        "VALID": "true",
-        "PREREQS": "ARM_TENTACLES_4"
+        "VALID": true,
+        "PREREQS": ["ARM_TENTACLES_4"]
     },
     {
         "MUTATION": "SHELL",
-        "VALID": "true",
-        "PREREQS": "CHITIN",
+        "VALID": true,
+        "PREREQS": ["CHITIN"],
         "CANCELS": ["CHITIN3"]
     },
     {
         "MUTATION": "LEG_TENTACLES",
-        "VALID": "true",
+        "VALID": true,
         "CANCELS": ["PADDED_FEET", "HOOVES"]
     }
 ]

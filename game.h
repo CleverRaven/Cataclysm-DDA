@@ -259,7 +259,7 @@ class game
 
   std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
-  std:map<std:string, mutation_branch> mutation_data; // Mutation data
+  std::map<std::string, mutation_branch> mutation_data; // Mutation data
   std::map<char, action_id> keymap;
   std::map<char, action_id> default_keymap;
 

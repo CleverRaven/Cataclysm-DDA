@@ -1,7 +1,7 @@
 #ifndef _MUTATION_H_
 #define _MUTATION_H_
 
-#include "pldata.h"	// See pldata.h for mutations--they're actually pl_flags
+#include "pldata.h"
 #include <vector>
 
 enum mutation_category
@@ -30,7 +30,7 @@ struct dream
   std::vector<std::string> message;			// The messages that the dream will give
   mutation_category category;	// The category that will trigger the dream
   int strength;					// The category strength required for the dream
-  
+
   dream() {
   category = MUTCAT_NULL;
   strength = 0;
@@ -43,7 +43,7 @@ mutation_category string_to_mutcat(std::string input);
 
 struct mutation_branch
 {
- bool valid; // True if this is a valid mutation (only used for flags < PF_MAX)
+ bool valid; // True if this is a valid mutation (only used for starting traits)
  std::vector<std::string> prereqs; // Prerequisites; Only one is required
  std::vector<std::string> cancels; // Mutations that conflict with this one
  std::vector<std::string> replacements; // Mutations that replace this one

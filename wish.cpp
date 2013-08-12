@@ -376,6 +376,7 @@ void game::monster_wish()
 
 void game::mutation_wish()
 {
+/*
  WINDOW* w_list = newwin(25, 30, 0,  0);
  WINDOW* w_info = newwin(25, 50, 0, 30);
  int a = 0, shift = 0, result_selected = 0;
@@ -533,4 +534,5 @@ void game::mutation_wish()
   u.mutate_towards(this, pl_flag(a + shift));
  delwin(w_info);
  delwin(w_list);
+ */
 }

@@ -739,10 +739,10 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
 
 void iuse::purifier(game *g, player *p, item *it, bool t)
 {
- std::vector<int> valid;	// Which flags the player has
- for (int i = PF_NULL+1; i < PF_MAX2; i++) {
-  if (p->has_trait(pl_flag(i)) && !p->has_base_trait(pl_flag(i)))  //Looks for active mutation
-   valid.push_back(i);
+ std::vector<std::string> valid;	// Which flags the player has
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+  if (p->has_trait(iter->first) && !p->has_base_trait(iter->first))  //Looks for active mutation
+   valid.push_back(iter->first);
  }
  if (valid.size() == 0) {
   g->add_msg_if_player(p,_("You feel cleansed."));
@@ -753,7 +753,7 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
   num_cured = 4;
  for (int i = 0; i < num_cured && valid.size() > 0; i++) {
   int index = rng(0, valid.size() - 1);
-  p->remove_mutation(g, pl_flag(valid[index]) );
+  p->remove_mutation(g, valid[index] );
   valid.erase(valid.begin() + index);
  }
 }
@@ -815,7 +815,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   p->vomit(g);
  } else if (!p->has_trait("MARLOSS")) {
   g->add_msg_if_player(p,_("You feel a strange warmth spreading throughout your body..."));
-  p->toggle_mutation(PF_MARLOSS);
+  p->toggle_mutation("MARLOSS");
  }
 }
 
@@ -2351,8 +2351,7 @@ void iuse::firemachete_on(game *g, player *p, item *it, bool t)
     }
     else
     {
-        int choice = menu(true,
-                          (p,_("No. 9"), it->tname().c_str()), _("Turn off"), _("Light something"), _("Cancel"), NULL);
+        int choice = menu(true, (p,_("No. 9"), it->tname().c_str()), _("Turn off"), _("Light something"), _("Cancel"), NULL);
         switch (choice)
         {
             if (choice == 2)

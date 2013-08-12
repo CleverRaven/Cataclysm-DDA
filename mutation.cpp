@@ -64,9 +64,9 @@ void player::mutate(game *g)
     // ... or remove one that is not in our highest category
     std::vector<std::string> downgrades;
     // For each mutation...
-    for (int base_mutation_index = 1; base_mutation_index < PF_MAX2; base_mutation_index++)
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
     {
-        std::string base_mutation = (pl_flag) base_mutation_index;
+        std::string base_mutation = iter->first;
 
         // ...that we have...
         if (has_trait(base_mutation))
@@ -94,7 +94,7 @@ void player::mutate(game *g)
             }
 
             // ...consider whether its in our highest category
-            if( has_trait(base_mutation) && !has_base_trait(base_mutation) ){ // Starting traits don't count toward categories
+            if( has_trait(base_mutation) && !has_base_trait(base_mutation) ) { // Starting traits don't count toward categories
                 std::vector<std::string> group = mutations_from_category(cat);
                 bool in_cat = false;
                 for (int j = 0; j < group.size(); j++)
@@ -153,11 +153,11 @@ void player::mutate(game *g)
         if (cat == MUTCAT_NULL)
         {
             // Pull the full list
-            for (int i = 1; i < PF_MAX2; i++)
+            for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
             {
-                if (g->mutation_data[i].valid)
+                if (g->mutation_data[iter->first].valid)
                 {
-                    valid.push_back( pl_flag(i) );
+                    valid.push_back( iter->first );
                 }
             }
         }
@@ -194,7 +194,7 @@ void player::mutate(game *g)
         return;
     }
 
-    pl_flag selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
+    std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
 
     mutate_towards(g, selection);
 }
@@ -283,8 +283,7 @@ void player::mutate_towards(game *g, std::string mut)
  for (int i = 0; i < prereq.size(); i++) {
   if (has_trait(prereq[i])) {
    std::string pre = prereq[i];
-   for (int j = 0; replacing == "" &&
-                   j < g->mutation_data[pre].replacements.size(); j++) {
+   for (int j = 0; replacing == "" && j < g->mutation_data[pre].replacements.size(); j++) {
     if (g->mutation_data[pre].replacements[j] == mut)
      replacing = pre;
    }
@@ -337,20 +336,17 @@ void player::remove_mutation(game *g, std::string mut)
 {
     // Check for dependant mutations first
     std::vector<std::string> dependant;
-    for (int i = 0; i < PF_MAX2; i++)
-    {
-        for (std::vector<std::string>::iterator it = g->mutation_data[i].prereqs.begin();
-             it != g->mutation_data[i].prereqs.end(); it++)
-        {
-            if (*it == i)
-            {
-                dependant.push_back((pl_flag)i);
+
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+        for (std::vector<std::string>::iterator it = g->mutation_data[iter->first].prereqs.begin();
+             it != g->mutation_data[iter->first].prereqs.end(); it++) {
+            if (*it == iter->first) {
+                dependant.push_back(iter->first);
                 break;
             }
         }
     }
-    if (dependant.size() != 0)
-    {
+    if (dependant.size() != 0) {
         remove_mutation(g,dependant[rng(0,dependant.size())]);
         return;
     }
@@ -360,8 +356,7 @@ void player::remove_mutation(game *g, std::string mut)
  std::vector<std::string> originals = g->mutation_data[mut].prereqs;
  for (int i = 0; replacing == "" && i < originals.size(); i++) {
   std::string pre = originals[i];
-  for (int j = 0; replacing == "" &&
-                  j < g->mutation_data[pre].replacements.size(); j++) {
+  for (int j = 0; replacing == "" && j < g->mutation_data[pre].replacements.size(); j++) {
    if (g->mutation_data[pre].replacements[j] == mut)
     replacing = pre;
   }
@@ -372,16 +367,15 @@ void player::remove_mutation(game *g, std::string mut)
  if (replacing == "") {
 
  //Check each mutation until we reach the end or find a trait to revert to
- for (int i = 1; replacing == "" && i < PF_MAX2; i++) {
-
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); replacing == "" && iter != traits.end(); ++iter) {
    //See if it's in our list of base traits but not active
-   if (has_base_trait(i) && !has_trait(i)) {
+   if (has_base_trait(iter->first) && !has_trait(iter->first)) {
     //See if that base trait cancels the mutation we are using
-    std::vector<std::string> traitcheck = g->mutation_data[i].cancels;
+    std::vector<std::string> traitcheck = g->mutation_data[iter->first].cancels;
 	if (!traitcheck.empty()) {
 	 for (int j = 0; replacing == "" && j < traitcheck.size(); j++) {
-	  if (g->mutation_data[i].cancels[j] == mut)
-	   replacing = ((pl_flag)i);
+	  if (traitcheck[j] == mut)
+	   replacing = (iter->first);
 	 }
 	}
    }
@@ -443,195 +437,180 @@ void player::remove_child_flag(game *g, std::string flag)
 
 void mutation_effect(game *g, player &p, std::string mut)
 {
- bool is_u = (&p == &(g->u));
- bool destroy = false;
- std::vector<body_part> bps;
+    bool is_u = (&p == &(g->u));
+    bool destroy = false;
+    std::vector<body_part> bps;
 
- switch (mut) {
-  case PF_TOUGH:
-  case PF_GLASSJAW:
-  case PF_HARDCORE:
-      p.recalc_hp();
-// Push off gloves
-  case PF_WEBBED:
-  case PF_ARM_TENTACLES:
-  case PF_ARM_TENTACLES_4:
-  case PF_ARM_TENTACLES_8:
-   bps.push_back(bp_hands);
-   break;
-// Destroy gloves
-  case PF_TALONS:
-   destroy = true;
-   bps.push_back(bp_hands);
-   break;
-// Destroy mouthwear
-  case PF_BEAK:
-  case PF_MANDIBLES:
-   destroy = true;
-   bps.push_back(bp_mouth);
-   break;
-// Destroy footwear
-  case PF_HOOVES:
-   destroy = true;
-   bps.push_back(bp_feet);
-   break;
-// Destroy torsowear
-  case PF_SHELL:
-   destroy = true;
-   bps.push_back(bp_torso);
-   break;
-// Push off all helmets
-  case PF_HORNS_CURLED:
-  case PF_CHITIN3:
-   bps.push_back(bp_head);
-   break;
-// Push off non-cloth helmets
-  case PF_HORNS_POINTED:
-  case PF_ANTENNAE:
-  case PF_ANTLERS:
-   bps.push_back(bp_head);
-   break;
+    if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "HARDCORE") {
+        p.recalc_hp();
 
-  case PF_STR_UP:
-   p.str_max ++;
-   p.recalc_hp();
-   break;
-  case PF_STR_UP_2:
-   p.str_max += 2;
-   p.recalc_hp();
-   break;
-  case PF_STR_UP_3:
-   p.str_max += 4;
-   p.recalc_hp();
-   break;
-  case PF_STR_UP_4:
-   p.str_max += 7;
-   p.recalc_hp();
-   break;
+    } else if (mut == "WEBBED" || mut == "ARM_TENTACLES" || mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
+        // Push off gloves
+        bps.push_back(bp_hands);
 
-  case PF_DEX_UP:
-   p.dex_max ++;
-   break;
-  case PF_DEX_UP_2:
-   p.dex_max += 2;
-   break;
-  case PF_DEX_UP_3:
-   p.dex_max += 4;
-   break;
-  case PF_DEX_UP_4:
-   p.dex_max += 7;
-   break;
+    } else if (mut == "TALONS") {
+        // Destroy gloves
+        destroy = true;
+        bps.push_back(bp_hands);
 
-  case PF_INT_UP:
-   p.int_max ++;
-   break;
-  case PF_INT_UP_2:
-   p.int_max += 2;
-   break;
-  case PF_INT_UP_3:
-   p.int_max += 4;
-   break;
-  case PF_INT_UP_4:
-   p.int_max += 7;
-   break;
+    } else if (mut == "BEAK" || mut == "MANDIBLES") {
+        // Destroy mouthwear
+        destroy = true;
+        bps.push_back(bp_mouth);
 
-  case PF_PER_UP:
-   p.per_max ++;
-   break;
-  case PF_PER_UP_2:
-   p.per_max += 2;
-   break;
-  case PF_PER_UP_3:
-   p.per_max += 4;
-   break;
-  case PF_PER_UP_4:
-   p.per_max += 7;
-   break;
- }
+    } else if (mut == "HOOVES") {
+        // Destroy footwear
+        destroy = true;
+        bps.push_back(bp_feet);
 
- for (int i = 0; i < p.worn.size(); i++) {
-  for (int j = 0; j < bps.size(); j++) {
-   if ((dynamic_cast<it_armor*>(p.worn[i].type))->covers & mfb(bps[j])) {
-    if (destroy) {
-     if (is_u)
-      g->add_msg(_("Your %s is destroyed!"), p.worn[i].tname().c_str());
-     p.worn.erase(p.worn.begin() + i);
-    } else {
-     if (is_u)
-      g->add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
-     char tmp_invlet = p.worn[i].invlet;
-     g->m.add_item(p.posx, p.posy, p.worn[i]);
-     p.takeoff( g, p.worn[i].invlet, true );
-     p.i_rem( tmp_invlet );
+    } else if (mut == "SHELL") {
+        // Destroy torsowear
+        destroy = true;
+        bps.push_back(bp_torso);
+
+    } else if (mut == "HORNS_CURLED" || mut == "CHITIN3") {
+        // Push off all helmets
+        bps.push_back(bp_head);
+
+    } else if (mut == "HORNS_POINTED" || mut == "ANTENNAE" || mut == "ANTLERS") {
+        // Push off non-cloth helmets
+        bps.push_back(bp_head);
+
+    } else if (mut == "STR_UP") {
+        p.str_max ++;
+        p.recalc_hp();
+
+    } else if (mut == "STR_UP_2") {
+        p.str_max += 2;
+        p.recalc_hp();
+
+    } else if (mut == "STR_UP_3") {
+        p.str_max += 4;
+        p.recalc_hp();
+
+    } else if (mut == "STR_UP_4") {
+        p.str_max += 7;
+        p.recalc_hp();
+
+    } else if (mut == "DEX_UP") {
+        p.dex_max ++;
+
+    } else if (mut == "DEX_UP_2") {
+        p.dex_max += 2;
+
+    } else if (mut == "DEX_UP_3") {
+        p.dex_max += 4;
+
+    } else if (mut == "DEX_UP_4") {
+        p.dex_max += 7;
+
+    } else if (mut == "INT_UP") {
+        p.int_max ++;
+
+    } else if (mut == "INT_UP_2") {
+        p.int_max += 2;
+
+    } else if (mut == "INT_UP_3") {
+        p.int_max += 4;
+
+    } else if (mut == "INT_UP_4") {
+        p.int_max += 7;
+
+    } else if (mut == "PER_UP") {
+        p.per_max ++;
+
+    } else if (mut == "PER_UP_2") {
+        p.per_max += 2;
+
+    } else if (mut == "PER_UP_3") {
+        p.per_max += 4;
+
+    } else if (mut == "PER_UP_4") {
+        p.per_max += 7;
     }
-    // Reset to the start of the vector
-    i = 0;
-   }
-  }
- }
+
+    for (int i = 0; i < p.worn.size(); i++) {
+        for (int j = 0; j < bps.size(); j++) {
+            if ((dynamic_cast<it_armor*>(p.worn[i].type))->covers & mfb(bps[j])) {
+                if (destroy) {
+                    if (is_u) {
+                        g->add_msg(_("Your %s is destroyed!"), p.worn[i].tname().c_str());
+                    }
+
+                    p.worn.erase(p.worn.begin() + i);
+
+                } else {
+                    if (is_u) {
+                        g->add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
+                    }
+
+                    char tmp_invlet = p.worn[i].invlet;
+                    g->m.add_item(p.posx, p.posy, p.worn[i]);
+                    p.takeoff( g, p.worn[i].invlet, true );
+                    p.i_rem( tmp_invlet );
+                }
+                // Reset to the start of the vector
+                i = 0;
+            }
+        }
+    }
 }
 
 void mutation_loss_effect(game *g, player &p, std::string mut)
 {
- switch (mut) {
-  case PF_TOUGH:
-  case PF_GLASSJAW:
-  case PF_HARDCORE:
-      p.recalc_hp();
-  case PF_STR_UP:
-   p.str_max--;
-   p.recalc_hp();
-   break;
-  case PF_STR_UP_2:
-   p.str_max -= 2;
-   p.recalc_hp();
-   break;
-  case PF_STR_UP_3:
-   p.str_max -= 4;
-   p.recalc_hp();
-   break;
-  case PF_STR_UP_4:
-   p.str_max -= 7;
-   p.recalc_hp();
-   break;
+    if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "HARDCORE") {
+        p.recalc_hp();
 
-  case PF_DEX_UP:
-   p.dex_max--;
-   break;
-  case PF_DEX_UP_2:
-   p.dex_max -= 2;
-   break;
-  case PF_DEX_UP_3:
-   p.dex_max -= 4;
-   break;
-  case PF_DEX_UP_4:
-   p.dex_max -= 7;
-   break;
+    } else if (mut == "STR_UP") {
+        p.str_max --;
+        p.recalc_hp();
 
-  case PF_INT_UP:
-   p.int_max--;
-   break;
-  case PF_INT_UP_2:
-   p.int_max -= 2;
-   break;
-  case PF_INT_UP_3:
-   p.int_max -= 4;
-   break;
-  case PF_INT_UP_4:
-   p.int_max -= 7;
-   break;
+    } else if (mut == "STR_UP_2") {
+        p.str_max -= 2;
+        p.recalc_hp();
 
-  case PF_PER_UP:
-   p.per_max--;
-   break;
-  case PF_PER_UP_2:
-   p.per_max -= 2;
-   break;
-  case PF_PER_UP_3:
-   p.per_max -= 4;
-   break;
-  case PF_PER_UP_4:
-   p.per_max -= 7;
-   break;
- }
+    } else if (mut == "STR_UP_3") {
+        p.str_max -= 4;
+        p.recalc_hp();
+
+    } else if (mut == "STR_UP_4") {
+        p.str_max -= 7;
+        p.recalc_hp();
+
+    } else if (mut == "DEX_UP") {
+        p.dex_max --;
+
+    } else if (mut == "DEX_UP_2") {
+        p.dex_max -= 2;
+
+    } else if (mut == "DEX_UP_3") {
+        p.dex_max -= 4;
+
+    } else if (mut == "DEX_UP_4") {
+        p.dex_max -= 7;
+
+    } else if (mut == "INT_UP") {
+        p.int_max --;
+
+    } else if (mut == "INT_UP_2") {
+        p.int_max -= 2;
+
+    } else if (mut == "INT_UP_3") {
+        p.int_max -= 4;
+
+    } else if (mut == "INT_UP_4") {
+        p.int_max -= 7;
+
+    } else if (mut == "PER_UP") {
+        p.per_max --;
+
+    } else if (mut == "PER_UP_2") {
+        p.per_max -= 2;
+
+    } else if (mut == "PER_UP_3") {
+        p.per_max -= 4;
+
+    } else if (mut == "PER_UP_4") {
+        p.per_max -= 7;
+    }
 }

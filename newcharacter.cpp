@@ -78,7 +78,9 @@ bool player::create(game *g, character_type type, std::string tempname)
     if (per_max > HIGH_STAT)
      points -= (per_max - HIGH_STAT);
 
-    int num_gtraits = 0, num_btraits = 0, rn, tries;
+    int num_gtraits = 0, num_btraits = 0, tries;
+    std::string rn;
+
     while (points < 0 || rng(-3, 20) > points) {
      if (num_btraits < max_trait_points && one_in(3)) {
       tries = 0;
@@ -362,9 +364,9 @@ bool player::create(game *g, character_type type, std::string tempname)
  tmp = item(g->itypes["matches"], 0);
   inv.push_back(tmp);
 // make sure we have no mutations
- for (int i = 0; i < PF_MAX2; i++)
-  if (!has_base_trait(i))
-	my_mutations[i] = false;
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
+  if (!has_base_trait(iter->first))
+	my_mutations[iter->first] = false;
 
 	// Equip any armor from our inventory. If we are unable to wear some of it due to encumberance, it will silently fail.
     std::vector<item*> tmp_inv;
@@ -582,17 +584,19 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
 int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, int max_trait_points)
 {
  draw_tabs(w, "TRAITS");
-
+/*
  WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
  int num_good = 0, num_bad = 0;
- for (int i = 0; i < PF_SPLIT; i++) {
-  if (u->has_trait(i))
-   num_good += traits[i].points;
+
+ for (int i = 0; i < vTraitsGood.size(); i++) {
+  if (u->has_trait(vTraitsGood[i]))
+   num_good += traits[vTraitsGood[i]].points;
  }
- for (int i = PF_SPLIT + 1; i < PF_MAX; i++) {
-  if (u->has_trait(i))
-   num_bad += abs(traits[i].points);
+
+ for (int i = 0; i < vTraitsBad.size(); i++) {
+  if (u->has_trait(vTraitsGood[i]))
+   num_bad += abs(traits[vTraitsGood[i]].points);
  }
 
  for (int i = 0; i < 16; i++) {//preparation: draw disadvantages list
@@ -645,8 +649,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
    hi_off  = hilite(col_off_act);
    xoff = 40;
    cur_trait = cur_dis;
-   traitmin = PF_SPLIT + 1;
-   traitmax = PF_MAX;
+   traitmin = vTraitsGood.size()+1;
+   traitmax = vTraitsGood.size()+vTraitsBad.size();
    mvwprintz(w,  3, 33, c_ltgray, "                                              ");
    mvwprintz(w,  3, 33, COL_TR_BAD, _("%s earns %d points"),
              _(traits[cur_dis].name.c_str()), traits[cur_dis].points * -1);
@@ -658,15 +662,15 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
     mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
                                       ");	// Clear the line
     if (i == cur_trait) {
-     if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_on, traits[i].name.c_str());
+     if (u->has_trait(vTraitsGood[i]))
+      mvwprintz(w, 5 + i - traitmin, xoff, hi_on, traits[vTraitsGood[i]].name.c_str());
      else
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_off, traits[i].name.c_str());
+      mvwprintz(w, 5 + i - traitmin, xoff, hi_off, traits[vTraitsGood[i]].name.c_str());
     } else {
      if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, col_on_act, traits[i].name.c_str());
+      mvwprintz(w, 5 + i - traitmin, xoff, col_on_act, traits[vTraitsGood[i]].name.c_str());
      else
-      mvwprintz(w, 5 + i - traitmin, xoff, col_off_act, traits[i].name.c_str());
+      mvwprintz(w, 5 + i - traitmin, xoff, col_off_act, traits[vTraitsGood[i]].name.c_str());
     }
    }
   } else if (cur_trait >= traitmax - 9) {
@@ -674,15 +678,15 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
     mvwprintz(w, 21 + i - traitmax, xoff, c_ltgray, "\
                                       ");	// Clear the line
     if (i == cur_trait) {
-     if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_on, traits[i].name.c_str());
+     if (u->has_trait(vTraitsBad[i-vTraitsGood.size()]))
+      mvwprintz(w, 21 + i - traitmax, xoff, hi_on, traits[vTraitsBad[i-vTraitsGood.size()]].name.c_str());
      else
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_off, traits[i].name.c_str());
+      mvwprintz(w, 21 + i - traitmax, xoff, hi_off, traits[vTraitsBad[i-vTraitsGood.size()]].name.c_str());
     } else {
      if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, col_on_act, traits[i].name.c_str());
+      mvwprintz(w, 21 + i - traitmax, xoff, col_on_act, traits[vTraitsBad[i-vTraitsGood.size()]].name.c_str());
      else
-      mvwprintz(w, 21 + i - traitmax, xoff, col_off_act, traits[i].name.c_str());
+      mvwprintz(w, 21 + i - traitmax, xoff, col_off_act, traits[vTraitsBad[i-vTraitsGood.size()]].name.c_str());
     }
    }
   } else {
@@ -702,7 +706,6 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
     }
    }
   }
-
   wrefresh(w);
   wrefresh(w_description);
   switch (input()) {
@@ -816,6 +819,9 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
     return 1;
   }
  } while (true);
+ */
+
+ return 1;
 }
 
 int set_profession(WINDOW* w, game* g, player *u, character_type type, int &points)
@@ -1178,12 +1184,12 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
 
 int player::random_good_trait()
 {
- return rng(1, PF_SPLIT - 1);
+ return rng(0, vTraitsGood.size() - 1);
 }
 
 int player::random_bad_trait()
 {
- return rng(PF_SPLIT + 1, PF_MAX - 1);
+ return rng(0, vTraitsBad.size() - 1);
 }
 
 int random_skill()
