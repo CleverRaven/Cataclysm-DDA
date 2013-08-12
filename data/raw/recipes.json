@@ -220,8 +220,8 @@
                               ]
                           ]
         },
-		
-		
+
+
         {
             "result": "makeshift_halberd",
             "category": "CC_WEAPON",
@@ -275,8 +275,8 @@
                               ]
                           ]
         },
-		
-		
+
+
 		{
             "result": "sword_wood",
             "category": "CC_WEAPON",
@@ -302,9 +302,9 @@
                                   ["2x4", 2]
                               ]
                           ]
-        },  
-		
-		
+        },
+
+
 		{
             "result": "sword_nail",
             "category": "CC_WEAPON",
@@ -342,8 +342,8 @@
                               ]
                           ]
         },
-		
-		
+
+
 		{
             "result": "sword_crude",
             "category": "CC_WEAPON",
@@ -370,8 +370,8 @@
                               ]
                           ]
         },
-		
-		
+
+
 		{
             "result": "sword_forged",
             "category": "CC_WEAPON",
@@ -561,8 +561,8 @@
                               ]
                           ]
         },
-      
-      
+
+
       {
             "result": "slingshot",
          "category": "CC_WEAPON",
@@ -592,8 +592,8 @@
                               ]
                           ]
         },
-      
-      
+
+
         {
             "result": "spear_wood",
             "category": "CC_WEAPON",
@@ -785,7 +785,7 @@
                               ]
                           ]
         },
-      
+
         {
             "result": "shortbow",
             "category": "CC_WEAPON",
@@ -1814,7 +1814,7 @@
                           ]
         },
 
-      
+
       {
             "result": "pebble",
             "category": "CC_AMMO",
@@ -1838,7 +1838,7 @@
                           ]
         },
 
-      
+
         {
          "result" : "shaft_wood",
          "category" : "CC_AMMO",
@@ -2149,7 +2149,7 @@
          ],
          "components" : [
             [
-               ["arrow_field_point", 10]               
+               ["arrow_field_point", 10]
             ],
             [
                ["fletching", 10]
@@ -2202,7 +2202,7 @@
          	]
          ]
         },
-        
+
         {
          "result" : "arrow_wood",
          "category" : "CC_AMMO",
@@ -2265,7 +2265,7 @@
             ]
          ]
         },
-        
+
         {
          "result" : "arrow_heavy_fire_hardened_fletched",
          "category" : "CC_AMMO",
@@ -2324,7 +2324,7 @@
          ],
          "components" : [
             [
-               ["shaft_wood_heavy", 10]               
+               ["shaft_wood_heavy", 10]
             ],
             [
                ["fletching", 10]
@@ -2532,7 +2532,7 @@
                           ]
         },
 
-      
+
         {
             "result": "9mm",
             "category": "CC_AMMO",
@@ -3208,7 +3208,7 @@
                               ],
                               [
                                   ["gunpowder", 240]
-                              ],                              
+                              ],
                               [
                                   ["22_casing", 40]
                               ],
@@ -3962,7 +3962,7 @@
                               ]
                           ]
         },
-        
+
         {
             "result": "kompot",
             "category": "CC_DRINK",
@@ -3998,6 +3998,120 @@
                               [
                                   ["water", 5],
                                   ["water_clean", 5]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "strawberries_cooked",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 0,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1],
+                             ["pan", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["strawberries", 1]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "blueberries_cooked",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 0,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1],
+                             ["pan", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["blueberries", 1]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "jam_strawberries",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 2,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1],
+                             ["pan", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["strawberries", 1]
+                              ],
+                              [
+                                  ["sugar", 1]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "jam_blueberries",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 2,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1],
+                             ["pan", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["blueberries", 1]
+                              ],
+                              [
+                                  ["sugar", 1]
                               ]
                           ]
         },
@@ -4360,7 +4474,7 @@
                               ]
                           ]
         },
-        
+
         {
             "result": "soup_woods",
             "category": "CC_FOOD",
@@ -10042,8 +10156,8 @@
                               ]
                           ]
         },
-        
-        
+
+
         {
             "result": "bag_meat_vac",
             "category": "CC_FOOD",
@@ -10140,7 +10254,7 @@
                           ]
         },
 
-   
+
         {
             "result": "bag_bundle_10",
             "category": "CC_MISC",
@@ -10207,7 +10321,7 @@
                               ]
                           ]
         },
-        
+
         {
             "result": "jar_kompot",
             "category": "CC_DRINK",
@@ -10250,7 +10364,7 @@
                               ]
                           ]
         },
-        
+
         {
             "result": "steel_chunk",
             "category": "CC_MISC",
@@ -10772,7 +10886,7 @@
             "components": [
                               [
                                   ["can_spam", 1]
-                              ]                              
+                              ]
                           ]
         },
         {
