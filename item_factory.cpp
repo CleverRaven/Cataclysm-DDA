@@ -547,6 +547,7 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     ALARMCLOCK - Has an alarmclock feature
                     MALE_TYPICAL - Typically only worn by men.
                     FEMALE_TYPICAL - Typically only worn by women.
+                    USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
 
                     Container-only flags:
                     SEALS

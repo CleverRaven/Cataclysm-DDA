@@ -6302,11 +6302,11 @@ bool player::eat(game *g, signed char ch)
         if (eaten->poison > 0)
             add_disease("foodpoison", eaten->poison * 300);
 
-        if (comest->comesttype == "DRINK") {
+        if (comest->comesttype == "DRINK" && !eaten->has_flag("USE_EAT_VERB")) {
             g->add_msg_player_or_npc( this, _("You drink your %s."), _("<npcname> drinks a %s."),
                                       eaten->tname(g).c_str());
         }
-        else if (comest->comesttype == "FOOD") {
+        else if (comest->comesttype == "FOOD" || eaten->has_flag("USE_EAT_VERB")) {
             g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                       eaten->tname(g).c_str());
         }
