@@ -221,7 +221,7 @@ void mapbuffer::load()
    popup_nowait(_("Please wait as the map loads [%d/%d]"),
                 num_loaded, num_submaps);
   int locx, locy, locz, turn;
-  submap* sm = new submap;
+  submap* sm = new submap();
   fin >> locx >> locy >> locz >> turn;
   if(fin.eof()) {
       break;
