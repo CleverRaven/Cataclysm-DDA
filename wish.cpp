@@ -504,10 +504,6 @@ void game::mutation_wish()
             }
         }
 
-        mvwprintw(w_info, line2, 0, _("Category:"));
-        mvwprintw(w_info, line2, 10, sCat.c_str());
-        line2++;
-
         mvwprintw(w_info, line2, 0, _("Prereqs:"));
         for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].prereqs.size(); j++) {
             mvwprintw(w_info, line2, 9, traits[ mutation_data[vTraits[iCurrentLine]].prereqs[j] ].name.c_str());
@@ -529,6 +525,12 @@ void game::mutation_wish()
         mvwprintw(w_info, line2, 0, _("Add-ons:"));
         for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].additions.size(); j++) {
             mvwprintw(w_info, line2, 9, traits[ mutation_data[vTraits[iCurrentLine]].additions[j] ].name.c_str());
+            line2++;
+        }
+
+        mvwprintw(w_info, line2, 0, _("Category: "));
+        for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].category.size(); j++) {
+            mvwprintw(w_info, line2, 10, mutation_data[vTraits[iCurrentLine]].category[j].c_str());
             line2++;
         }
 

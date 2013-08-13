@@ -3,7 +3,8 @@
         "MUTATION": "FLEET",
         "VALID": true,
         "CANCELS": ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
-        "CHANGES_TO": ["FLEET2"]
+        "CHANGES_TO": ["FLEET2"],
+        "CATEGORY": ["MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "PARKOUR",
@@ -11,7 +12,8 @@
     },
     {
         "MUTATION": "QUICK",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
     },
     {
         "MUTATION": "OPTIMISTIC",
@@ -25,7 +27,8 @@
     },
     {
         "MUTATION": "LIGHTEATER",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
     },
     {
         "MUTATION": "PAINRESIST",
@@ -34,11 +37,13 @@
     {
         "MUTATION": "NIGHTVISION",
         "VALID": true,
-        "CHANGES_TO": ["NIGHTVISION2"]
+        "CHANGES_TO": ["NIGHTVISION2"],
+        "CATEGORY": ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"]
     },
     {
         "MUTATION": "POISRESIST",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "FASTREADER",
@@ -50,7 +55,8 @@
     },
     {
         "MUTATION": "THICKSKIN",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_CATTLE"]
     },
     {
         "MUTATION": "PACKMULE",
@@ -62,7 +68,8 @@
     },
     {
         "MUTATION": "DEFT",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BIRD", "MUTCAT_BEAST"]
     },
     {
         "MUTATION": "DRUNKEN",
@@ -74,20 +81,24 @@
     },
     {
         "MUTATION": "ANIMALEMPATH",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BEAST"]
     },
     {
         "MUTATION": "TERRIFYING",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BEAST", "MUTCAT_INSECT"]
     },
     {
         "MUTATION": "DISRESISTANT",
         "VALID": true,
-        "CHANGES_TO": ["DISIMMUNE"]
+        "CHANGES_TO": ["DISIMMUNE"],
+        "CATEGORY": ["MUTCAT_CATTLE", "MUTCAT_RAT"]
     },
     {
         "MUTATION": "ADRENALINE",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BEAST"]
     },
     {
         "MUTATION": "SELFAWARE",
@@ -103,7 +114,8 @@
     },
     {
         "MUTATION": "LIGHTSTEP",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BIRD"]
     },
     {
         "MUTATION": "ANDROID",
@@ -111,7 +123,8 @@
     },
     {
         "MUTATION": "ROBUST",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_SLIME"]
     },
     {
         "MUTATION": "CANNIBAL",
@@ -146,7 +159,8 @@
     },
     {
         "MUTATION": "MYOPIC",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BEAST", "MUTCAT_TROGLO"]
     },
     {
         "MUTATION": "HYPEROPIC",
@@ -154,7 +168,8 @@
     },
     {
         "MUTATION": "HEAVYSLEEPER",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_INSECT", "MUTCAT_PLANT"]
     },
     {
         "MUTATION": "ASTHMA",
@@ -162,7 +177,8 @@
     },
     {
         "MUTATION": "BADBACK",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BIRD"]
     },
     {
         "MUTATION": "ILLITERATE",
@@ -170,7 +186,8 @@
     },
     {
         "MUTATION": "BADHEARING",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_PLANT"]
     },
     {
         "MUTATION": "INSOMNIA",
@@ -182,11 +199,13 @@
     },
     {
         "MUTATION": "GLASSJAW",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BIRD"]
     },
     {
         "MUTATION": "FORGETFUL",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BEAST", ""]
     },
     {
         "MUTATION": "LIGHTWEIGHT",
@@ -207,7 +226,8 @@
     },
     {
         "MUTATION": "CHEMIMBALANCE",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_SLIME"]
     },
     {
         "MUTATION": "SCHIZOPHRENIC",
@@ -256,51 +276,60 @@
     {
         "MUTATION": "SKIN_ROUGH",
         "VALID": true,
-        "CHANGES_TO": ["SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN"]
+        "CHANGES_TO": ["SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN"],
+        "CATEGORY": ["MUTCAT_LIZARD"]
     },
     {
         "MUTATION": "NIGHTVISION2",
         "VALID": true,
         "PREREQS": ["NIGHTVISION"],
-        "CHANGES_TO": ["NIGHTVISION3"]
+        "CHANGES_TO": ["NIGHTVISION3"],
+        "CATEGORY": ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT"]
     },
     {
         "MUTATION": "NIGHTVISION3",
         "VALID": true,
         "PREREQS": ["NIGHTVISION2"],
-        "LEADS_TO": ["INFRARED"]
+        "LEADS_TO": ["INFRARED"],
+        "CATEGORY": ["MUTCAT_TROGLO", "MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "INFRARED",
         "VALID": true,
-        "PREREQS": ["NIGHTVISION3"]
+        "PREREQS": ["NIGHTVISION3"],
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "FASTHEALER2",
         "VALID": true,
         "CANCELS": ["ROT1", "ROT2", "ROT3"],
         "PREREQS": ["FASTHEALER"],
-        "CHANGES_TO": ["REGEN"]
+        "CHANGES_TO": ["REGEN"],
+        "CATEGORY": ["MUTCAT_PLANT"]
     },
     {
         "MUTATION": "REGEN",
         "VALID": true,
         "CANCELS": ["ROT1", "ROT2", "ROT3"],
-        "PREREQS": ["FASTHEALER2"]
+        "PREREQS": ["FASTHEALER2"],
+        "CATEGORY": ["MUTCAT_SLIME", "MUTCAT_TROGLO"]
     },
     {
         "MUTATION": "FANGS",
         "VALID": true,
-        "CANCELS": ["BEAK"]
+        "CANCELS": ["BEAK"],
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_BEAST"]
     },
     {
         "MUTATION": "MEMBRANE",
         "VALID": true,
-        "PREREQS": ["EYEBULGE"]
+        "PREREQS": ["EYEBULGE"],
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_FISH"]
     },
     {
         "MUTATION": "GILLS",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD"]
     },
     {
         "MUTATION": "SCALES",
@@ -318,7 +347,8 @@
         "MUTATION": "SLEEK_SCALES",
         "VALID": true,
         "PREREQS": ["SCALES"],
-        "CANCELS": ["THICK_SCALES", "FEATHERS"]
+        "CANCELS": ["THICK_SCALES", "FEATHERS"],
+        "CATEGORY": ["MUTCAT_FISH"]
     },
     {
         "MUTATION": "LIGHT_BONES",
@@ -329,7 +359,8 @@
         "MUTATION": "FEATHERS",
         "VALID": true,
         "PREREQS": ["SKIN_ROUGH"],
-        "CANCELS": ["THICK_SCALES", "SLEEK_SCALES"]
+        "CANCELS": ["THICK_SCALES", "SLEEK_SCALES"],
+        "CATEGORY": ["MUTCAT_BIRD"]
     },
     {
         "MUTATION": "LIGHTFUR",
@@ -342,7 +373,8 @@
         "MUTATION": "FUR",
         "VALID": true,
         "CANCELS": ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
-        "PREREQS": ["LIGHTFUR"]
+        "PREREQS": ["LIGHTFUR"],
+        "CATEGORY": ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "CHITIN",
@@ -355,12 +387,14 @@
         "MUTATION": "CHITIN2",
         "VALID": true,
         "PREREQS": ["CHITIN"],
-        "CHANGES_TO": ["CHITIN3"]
+        "CHANGES_TO": ["CHITIN3"],
+        "CATEGORY": ["MUTCAT_INSECT"]
     },
     {
         "MUTATION": "CHITIN3",
         "VALID": true,
-        "PREREQS": ["CHITIN2"]
+        "PREREQS": ["CHITIN2"],
+        "CATEGORY": ["MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "SPINES",
@@ -382,17 +416,20 @@
     {
         "MUTATION": "BARK",
         "VALID": true,
-        "PREREQS": ["PLANTSKIN"]
+        "PREREQS": ["PLANTSKIN"],
+        "CATEGORY": ["MUTCAT_PLANT"]
     },
     {
         "MUTATION": "THORNS",
         "VALID": true,
-        "PREREQS": ["PLANTSKIN", "BARK"]
+        "PREREQS": ["PLANTSKIN", "BARK"],
+        "CATEGORY": ["MUTCAT_PLANT"]
     },
     {
         "MUTATION": "LEAVES",
         "VALID": true,
-        "PREREQS": ["PLANTSKIN", "BARK"]
+        "PREREQS": ["PLANTSKIN", "BARK"],
+        "CATEGORY": ["MUTCAT_PLANT"]
     },
     {
         "MUTATION": "NAILS",
@@ -403,17 +440,20 @@
         "MUTATION": "CLAWS",
         "VALID": true,
         "PREREQS": ["NAILS"],
-        "CANCELS": ["TALONS"]
+        "CANCELS": ["TALONS"],
+        "CATEGORY": ["MUTCAT_BEAST", "MUTCAT_RAT"]
     },
     {
         "MUTATION": "TALONS",
         "VALID": true,
         "PREREQS": ["NAILS"],
-        "CANCELS": ["CLAWS"]
+        "CANCELS": ["CLAWS"],
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_BIRD"]
     },
     {
         "MUTATION": "RADIOGENIC",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_SLIME"]
     },
     {
         "MUTATION": "MARLOSS",
@@ -423,62 +463,73 @@
         "MUTATION": "PHEROMONE_INSECT",
         "VALID": true,
         "PREREQS": ["SMELLY2"],
-        "CANCELS": ["PHEROMONE_MAMMAL"]
+        "CANCELS": ["PHEROMONE_MAMMAL"],
+        "CATEGORY": ["MUTCAT_INSECT"]
     },
     {
         "MUTATION": "PHEROMONE_MAMMAL",
         "VALID": true,
         "PREREQS": ["SMELLY2"],
-        "CANCELS": ["PHEROMONE_INSECT"]
+        "CANCELS": ["PHEROMONE_INSECT"],
+        "CATEGORY": ["MUTCAT_BEAST", "MUTCAT_CATTLE"]
     },
     {
         "MUTATION": "DISIMMUNE",
         "VALID": true,
-        "PREREQS": ["DISRESISTANT"]
+        "PREREQS": ["DISRESISTANT"],
+        "CATEGORY": ["MUTCAT_PLANT", "MUTCAT_SLIME", "MUTCAT_TROGLO"]
     },
     {
         "MUTATION": "POISONOUS",
         "VALID": true,
-        "PREREQS": ["POISRESIST"]
+        "PREREQS": ["POISRESIST"],
+        "CATEGORY": ["MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "SLIME_HANDS",
         "VALID": true,
-        "PREREQS": ["SLIMY"]
+        "PREREQS": ["SLIMY"],
+        "CATEGORY": ["MUTCAT_SLIME"]
     },
     {
         "MUTATION": "COMPOUND_EYES",
         "VALID": true,
-        "PREREQS": ["EYEBULGE"]
+        "PREREQS": ["EYEBULGE"],
+        "CATEGORY": ["MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "PADDED_FEET",
         "VALID": true,
-        "CANCELS": ["HOOVES", "LEG_TENTACLES"]
+        "CANCELS": ["HOOVES", "LEG_TENTACLES"],
+        "CATEGORY": ["MUTCAT_BEAST"]
     },
     {
         "MUTATION": "HOOVES",
         "VALID": true,
-        "CANCELS": ["PADDED_FEET", "LEG_TENTACLES"]
+        "CANCELS": ["PADDED_FEET", "LEG_TENTACLES"],
+        "CATEGORY": ["MUTCAT_CATTLE"]
     },
     {
         "MUTATION": "SAPROVORE",
         "VALID": true,
         "PREREQS": ["CARNIVORE"],
-        "CANCELS": ["HERBIVORE", "RUMINANT"]
+        "CANCELS": ["HERBIVORE", "RUMINANT"],
+        "CATEGORY": ["MUTCAT_TROGLO"]
     },
     {
         "MUTATION": "RUMINANT",
         "VALID": true,
         "PREREQS": ["HERBIVORE"],
-        "CANCELS": ["CARNIVORE", "SAPROVORE"]
+        "CANCELS": ["CARNIVORE", "SAPROVORE"],
+        "CATEGORY": ["MUTCAT_CATTLE"]
     },
     {
         "MUTATION": "HORNS",
         "VALID": true,
         "PREREQS": ["HEADBUMPS"],
         "CANCELS": ["ANTENNAE"],
-        "CHANGES_TO": ["HORNS_CURLED", "HORNS_POINTED", "ANTLERS"]
+        "CHANGES_TO": ["HORNS_CURLED", "HORNS_POINTED", "ANTLERS"],
+        "CATEGORY": ["MUTCAT_CATTLE"]
     },
     {
         "MUTATION": "HORNS_CURLED",
@@ -502,13 +553,15 @@
         "MUTATION": "ANTENNAE",
         "VALID": true,
         "PREREQS": ["HEADBUMPS"],
-        "CANCELS": ["HORNS", "HORNS_CURLED", "HORNS_POINTED", "ANTLERS"]
+        "CANCELS": ["HORNS", "HORNS_CURLED", "HORNS_POINTED", "ANTLERS"],
+        "CATEGORY": ["MUTCAT_INSECT"]
     },
     {
         "MUTATION": "FLEET2",
         "VALID": true,
         "PREREQS": ["FLEET"],
-        "CANCELS": ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"]
+        "CANCELS": ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
+        "CATEGORY": ["MUTCAT_BIRD"]
     },
     {
         "MUTATION": "TAIL_STUB",
@@ -519,26 +572,30 @@
         "MUTATION": "TAIL_FIN",
         "VALID": true,
         "PREREQS": ["TAIL_STUB"],
-        "CANCELS": ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"]
+        "CANCELS": ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"],
+        "CATEGORY": ["MUTCAT_FISH"]
     },
     {
         "MUTATION": "TAIL_LONG",
         "VALID": true,
         "PREREQS": ["TAIL_STUB"],
         "CANCELS": ["TAIL_FIN"],
-        "CHANGES_TO": ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"]
+        "CHANGES_TO": ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"],
+        "CATEGORY": ["MUTCAT_CATTLE", "MUTCAT_RAT"]
     },
     {
         "MUTATION": "TAIL_FLUFFY",
         "VALID": true,
         "PREREQS": ["TAIL_LONG"],
-        "CANCELS": ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN"]
+        "CANCELS": ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN"],
+        "CATEGORY": ["MUTCAT_BEAST"]
     },
     {
         "MUTATION": "TAIL_STING",
         "VALID": true,
         "PREREQS": ["TAIL_LONG"],
-        "CANCELS": ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN"]
+        "CANCELS": ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN"],
+        "CATEGORY": ["MUTCAT_INSECT"]
     },
     {
         "MUTATION": "TAIL_CLUB",
@@ -566,29 +623,34 @@
         "MUTATION": "WINGS_BIRD",
         "VALID": true,
         "PREREQS": ["WINGS_STUB"],
-        "CANCELS": ["WINGS_BAT", "WINGS_INSECT"]
+        "CANCELS": ["WINGS_BAT", "WINGS_INSECT"],
+        "CATEGORY": ["MUTCAT_BIRD"]
     },
     {
         "MUTATION": "WINGS_INSECT",
         "VALID": true,
         "PREREQS": ["WINGS_STUB"],
-        "CANCELS": ["WINGS_BIRD", "WINGS_BAT"]
+        "CANCELS": ["WINGS_BIRD", "WINGS_BAT"],
+        "CATEGORY": ["MUTCAT_INSECT"]
     },
     {
         "MUTATION": "MOUTH_TENTACLES",
         "VALID": true,
         "PREREQS": ["MOUTH_FLAPS"],
-        "CANCELS": ["MANDIBLES"]
+        "CANCELS": ["MANDIBLES"],
+        "CATEGORY": ["MUTCAT_CEPHALOPOD"]
     },
     {
         "MUTATION": "MANDIBLES",
         "VALID": true,
         "PREREQS": ["MOUTH_FLAPS"],
-        "CANCELS": ["BEAK", "FANGS", "MOUTH_TENTACLES"]
+        "CANCELS": ["BEAK", "FANGS", "MOUTH_TENTACLES"],
+        "CATEGORY": ["MUTCAT_INSECT", "MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "CANINE_EARS",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BEAST", "MUTCAT_CATTLE"]
     },
     {
         "MUTATION": "WEB_WALKER",
@@ -599,22 +661,26 @@
         "MUTATION": "WEB_WEAVER",
         "VALID": true,
         "PREREQS": ["WEB_WALKER"],
-        "CANCELS": ["SLIMY"]
+        "CANCELS": ["SLIMY"],
+        "CATEGORY": ["MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "WHISKERS",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_RAT"]
     },
     {
         "MUTATION": "STR_UP",
         "VALID": true,
-        "CHANGES_TO": ["STR_UP_2"]
+        "CHANGES_TO": ["STR_UP_2"],
+        "CATEGORY": ["MUTCAT_INSECT"]
     },
     {
         "MUTATION": "STR_UP_2",
         "VALID": true,
         "PREREQS": ["STR_UP"],
-        "CHANGES_TO": ["STR_UP_3"]
+        "CHANGES_TO": ["STR_UP_3"],
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_PLANT"]
     },
     {
         "MUTATION": "STR_UP_3",
@@ -625,24 +691,28 @@
     {
         "MUTATION": "STR_UP_4",
         "VALID": true,
-        "PREREQS": ["STR_UP_3"]
+        "PREREQS": ["STR_UP_3"],
+        "CATEGORY": ["MUTCAT_BEAST"]
     },
     {
         "MUTATION": "DEX_UP",
         "VALID": true,
-        "CHANGES_TO": ["DEX_UP_2"]
+        "CHANGES_TO": ["DEX_UP_2"],
+        "CATEGORY": ["MUTCAT_INSECT", "MUTCAT_SLIME"]
     },
     {
         "MUTATION": "DEX_UP_2",
         "VALID": true,
         "PREREQS": ["DEX_UP"],
-        "CHANGES_TO": ["DEX_UP_3"]
+        "CHANGES_TO": ["DEX_UP_3"],
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "DEX_UP_3",
         "VALID": true,
         "PREREQS": ["DEX_UP_2"],
-        "CHANGES_TO": ["DEX_UP_4"]
+        "CHANGES_TO": ["DEX_UP_4"],
+        "CATEGORY": ["MUTCAT_BIRD"]
     },
     {
         "MUTATION": "DEX_UP_4",
@@ -652,7 +722,8 @@
     {
         "MUTATION": "INT_UP",
         "VALID": true,
-        "CHANGES_TO": ["INT_UP_2"]
+        "CHANGES_TO": ["INT_UP_2"],
+        "CATEGORY": ["MUTCAT_SLIME"]
     },
     {
         "MUTATION": "INT_UP_2",
@@ -720,11 +791,13 @@
     },
     {
         "MUTATION": "SLIT_NOSTRILS",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD"]
     },
     {
         "MUTATION": "FORKED_TONGUE",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_LIZARD"]
     },
     {
         "MUTATION": "EYEBULGE",
@@ -763,32 +836,37 @@
         "MUTATION": "SMELLY2",
         "VALID": true,
         "PREREQS": ["SMELLY"],
-        "LEADS_TO": ["PHEROMONE_INSECT", "PHEROMONE_MAMMAL"]
+        "LEADS_TO": ["PHEROMONE_INSECT", "PHEROMONE_MAMMAL"],
+        "CATEGORY": ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_SLIME"]
     },
     {
         "MUTATION": "DEFORMED",
         "VALID": true,
         "CANCELS": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "PREREQS": ["UGLY"],
-        "CHANGES_TO": ["DEFORMED2"]
+        "CHANGES_TO": ["DEFORMED2"],
+        "CATEGORY": ["MUTCAT_FISH", "MUTCAT_CATTLE", "MUTCAT_INSECT", "MUTCAT_CEPHALOPOD"]
     },
     {
         "MUTATION": "DEFORMED2",
         "VALID": true,
         "CANCELS": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "PREREQS": ["DEFORMED"],
-        "CHANGES_TO": ["DEFORMED3"]
+        "CHANGES_TO": ["DEFORMED3"],
+        "CATEGORY": ["MUTCAT_BEAST", "MUTCAT_PLANT"]
     },
     {
         "MUTATION": "DEFORMED3",
         "VALID": true,
         "CANCELS": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
-        "PREREQS": ["DEFORMED2"]
+        "PREREQS": ["DEFORMED2"],
+        "CATEGORY": ["MUTCAT_SLIME", "MUTCAT_RAT"]
     },
     {
         "MUTATION": "HOLLOW_BONES",
         "VALID": true,
-        "PREREQS": ["LIGHT_BONES"]
+        "PREREQS": ["LIGHT_BONES"],
+        "CATEGORY": ["MUTCAT_BIRD", "MUTCAT_SLIME"]
     },
     {
         "MUTATION": "NAUSEA",
@@ -799,15 +877,18 @@
     {
         "MUTATION": "VOMITOUS",
         "VALID": true,
-        "PREREQS": ["NAUSEA"]
+        "PREREQS": ["NAUSEA"],
+        "CATEGORY": ["MUTCAT_SLIME", "MUTCAT_RAT"]
     },
     {
         "MUTATION": "HUNGER",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT"]
     },
     {
         "MUTATION": "THIRST",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD"]
     },
     {
         "MUTATION": "ROT1",
@@ -831,49 +912,58 @@
     {
         "MUTATION": "ALBINO",
         "VALID": true,
-        "PREREQS": ["PALE"]
+        "PREREQS": ["PALE"],
+        "CATEGORY": ["MUTCAT_TROGLO"]
     },
     {
         "MUTATION": "SORES",
         "VALID": true,
-        "PREREQS": ["SPOTS"]
+        "PREREQS": ["SPOTS"],
+        "CATEGORY": ["MUTCAT_SLIME"]
     },
     {
         "MUTATION": "TROGLO",
         "VALID": true,
         "CANCELS": ["SUNLIGHT_DEPENDENT"],
-        "CHANGES_TO": ["TROGLO2"]
+        "CHANGES_TO": ["TROGLO2"],
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "TROGLO2",
         "VALID": true,
         "CANCELS": ["SUNLIGHT_DEPENDENT"],
         "PREREQS": ["TROGLO"],
-        "CHANGES_TO": ["TROGLO3"]
+        "CHANGES_TO": ["TROGLO3"],
+        "CATEGORY": ["MUTCAT_RAT"]
     },
     {
         "MUTATION": "TROGLO3",
         "VALID": true,
         "CANCELS": ["SUNLIGHT_DEPENDENT"],
-        "PREREQS": ["TROGLO2"]
+        "PREREQS": ["TROGLO2"],
+        "CATEGORY": ["MUTCAT_TROGLO"]
     },
     {
         "MUTATION": "WEBBED",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_SLIME"]
     },
     {
         "MUTATION": "BEAK",
         "VALID": true,
-        "CANCELS": ["FANGS", "MANDIBLES"]
+        "CANCELS": ["FANGS", "MANDIBLES"],
+        "CATEGORY": ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD"]
     },
     {
         "MUTATION": "UNSTABLE",
-        "VALID": true
+        "VALID": true,
+        "CATEGORY": ["MUTCAT_SLIME"]
     },
     {
         "MUTATION": "RADIOACTIVE1",
         "VALID": true,
-        "CHANGES_TO": ["RADIOACTIVE2"]
+        "CHANGES_TO": ["RADIOACTIVE2"],
+        "CATEGORY": ["MUTCAT_SLIME"]
     },
     {
         "MUTATION": "RADIOACTIVE2",
@@ -889,7 +979,8 @@
     {
         "MUTATION": "SLIMY",
         "VALID": true,
-        "LEADS_TO": ["SLIME_HANDS"]
+        "LEADS_TO": ["SLIME_HANDS"],
+        "CATEGORY": ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD"]
     },
     {
         "MUTATION": "HERBIVORE",
@@ -901,7 +992,8 @@
         "MUTATION": "CARNIVORE",
         "VALID": true,
         "CANCELS": ["HERBIVORE", "RUMINANT"],
-        "LEADS_TO": ["SAPROVORE"]
+        "LEADS_TO": ["SAPROVORE"],
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "PONDEROUS1",
@@ -914,13 +1006,15 @@
         "VALID": true,
         "CANCELS": ["FLEET", "FLEET2"],
         "PREREQS": ["PONDEROUS1"],
-        "CHANGES_TO": ["PONDEROUS3"]
+        "CHANGES_TO": ["PONDEROUS3"],
+        "CATEGORY": ["MUTCAT_CATTLE"]
     },
     {
         "MUTATION": "PONDEROUS3",
         "VALID": true,
         "CANCELS": ["FLEET", "FLEET2"],
-        "PREREQS": ["PONDEROUS2"]
+        "PREREQS": ["PONDEROUS2"],
+        "CATEGORY": ["MUTCAT_PLANT"]
     },
     {
         "MUTATION": "SUNLIGHT_DEPENDENT",
@@ -930,28 +1024,33 @@
     {
         "MUTATION": "COLDBLOOD",
         "VALID": true,
-        "CHANGES_TO": ["COLDBLOOD2"]
+        "CHANGES_TO": ["COLDBLOOD2"],
+        "CATEGORY": ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
     },
     {
         "MUTATION": "COLDBLOOD2",
         "VALID": true,
         "PREREQS": ["COLDBLOOD"],
-        "CHANGES_TO": ["COLDBLOOD3"]
+        "CHANGES_TO": ["COLDBLOOD3"],
+        "CATEGORY": ["MUTCAT_LIZARD", "MUTCAT_FISH"]
     },
     {
         "MUTATION": "COLDBLOOD3",
         "VALID": true,
-        "PREREQS": ["COLDBLOOD2"]
+        "PREREQS": ["COLDBLOOD2"],
+        "CATEGORY": ["MUTCAT_INSECT"]
     },
     {
         "MUTATION": "GROWL",
         "VALID": true,
-        "CHANGES_TO": ["SNARL"]
+        "CHANGES_TO": ["SNARL"],
+        "CATEGORY": ["MUTCAT_RAT"]
     },
     {
         "MUTATION": "SNARL",
         "VALID": true,
-        "PREREQS": ["GROWL"]
+        "PREREQS": ["GROWL"],
+        "CATEGORY": ["MUTCAT_BEAST"]
     },
     {
         "MUTATION": "SHOUT1",
@@ -967,7 +1066,8 @@
     {
         "MUTATION": "SHOUT3",
         "VALID": true,
-        "PREREQS": ["SHOUT2"]
+        "PREREQS": ["SHOUT2"],
+        "CATEGORY": ["MUTCAT_BEAST"]
     },
     {
         "MUTATION": "ARM_TENTACLES",
@@ -983,17 +1083,20 @@
     {
         "MUTATION": "ARM_TENTACLES_8",
         "VALID": true,
-        "PREREQS": ["ARM_TENTACLES_4"]
+        "PREREQS": ["ARM_TENTACLES_4"],
+        "CATEGORY": ["MUTCAT_CEPHALOPOD"]
     },
     {
         "MUTATION": "SHELL",
         "VALID": true,
         "PREREQS": ["CHITIN"],
-        "CANCELS": ["CHITIN3"]
+        "CANCELS": ["CHITIN3"],
+        "CATEGORY": ["MUTCAT_CEPHALOPOD"]
     },
     {
         "MUTATION": "LEG_TENTACLES",
         "VALID": true,
-        "CANCELS": ["PADDED_FEET", "HOOVES"]
+        "CANCELS": ["PADDED_FEET", "HOOVES"],
+        "CATEGORY": ["MUTCAT_CEPHALOPOD"]
     }
 ]

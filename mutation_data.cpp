@@ -48,6 +48,8 @@ void game::init_mutations()
         std::string sMutation = mutationcurr.get("MUTATION").as_string();
 		mutation_data[sMutation].valid = mutationcurr.get("VALID").as_bool();
 
+        mutations_category[""].clear(); //dont delete this!
+
         if (mutationcurr.has("PREREQS")) {
             catajson PREREQS = mutationcurr.get("PREREQS");
             if (PREREQS.is_array()) {
@@ -83,28 +85,14 @@ void game::init_mutations()
                 }
             }
         }
-	}
-}
 
-void game::init_mutations_cat()
-{
-	catajson mutations_catRaw("data/raw/mutations_cat.json");
-
-	if (!json_good()) {
-		throw (std::string)"data/raw/mutations_cat.json wasn't found";
-	}
-
-	mutations_category[""].clear(); //dont delete this!
-
-	for (mutations_catRaw.set_begin(); mutations_catRaw.has_curr(); mutations_catRaw.next()) {
-		catajson mutation_catcurr = mutations_catRaw.curr();
-
-        std::string sMutationCat = mutation_catcurr.get("Category").as_string();
-
-        catajson Items = mutation_catcurr.get("Items");
-        if (Items.is_array()) {
-            for (Items.set_begin(); Items.has_curr(); Items.next()) {
-                mutations_category[sMutationCat].push_back(Items.curr().as_string());
+        if (mutationcurr.has("CATEGORY")) {
+            catajson CATEGORY = mutationcurr.get("CATEGORY");
+            if (CATEGORY.is_array()) {
+                for (CATEGORY.set_begin(); CATEGORY.has_curr(); CATEGORY.next()) {
+                    mutation_data[sMutation].category.push_back(CATEGORY.curr().as_string());
+                    mutations_category[CATEGORY.curr().as_string()].push_back(sMutation);
+                }
             }
         }
 	}
