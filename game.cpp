@@ -3014,7 +3014,8 @@ void game::debug()
                    _("Spawn Artifact"),         // 14
                    _("Spawn Clarivoyance Artifact"), //15
                    _("Map editor"), // 16
-                   _("Cancel"),                 // 17
+                   _("Change weather"),         // 17
+                   _("Cancel"),                 // 18
                    NULL);
  int veh_num;
  std::vector<std::string> opts;
@@ -3302,6 +3303,29 @@ Current turn: %d; Next spawn %d.\n\
 
   case 16: {
       point coord = look_debug();
+  }
+  break;
+
+  case 17: {
+      const int weather_offset = 1;
+      uimenu weather_menu;
+      weather_menu.text = "Select new weather pattern:";
+      weather_menu.return_invalid = true;
+      for(int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
+
+        weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
+
+      }
+      
+      weather_menu.query();
+
+      if(weather_menu.ret > 0) {
+        add_msg("%d", weather_menu.selected);
+
+        int selected_weather = weather_menu.selected + 1;
+        weather = (weather_type) selected_weather;
+
+      }
   }
   break;
  }
