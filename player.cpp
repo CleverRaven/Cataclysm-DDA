@@ -5375,6 +5375,17 @@ bool player::worn_with_flag( std::string flag ) const
     return false;
 }
 
+bool player::is_water_friendly(body_part flags) const {
+  const std::string WATER_FRIENDLY = "WATER_FRIENDLY";
+
+  for (std::vector<item>::iterator armorPiece = worn.begin(); armorPiece != worn.end(); ++armorPiece) {
+    if ((((it_armor *)(armorPiece->type))->covers & flags) && !armorPiece->has_flag(WATER_FRIENDLY))
+      return false;
+  }
+
+  return true;
+}
+
 bool player::has_artifact_with(art_effect_passive effect)
 {
  if (weapon.is_artifact() && weapon.is_tool()) {
