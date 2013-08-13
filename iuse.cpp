@@ -2351,8 +2351,7 @@ void iuse::firemachete_on(game *g, player *p, item *it, bool t)
     }
     else
     {
-        int choice = menu(true,
-                          (p,_("No. 9"), it->tname().c_str()), _("Turn off"), _("Light something"), _("Cancel"), NULL);
+        int choice = menu(true, _("No. 9"), _("Turn off"), _("Light something"), _("Cancel"), NULL);
         switch (choice)
         {
             if (choice == 2)
@@ -2415,7 +2414,7 @@ void iuse::broadfire_on(game *g, player *p, item *it, bool t)
     else
     {
         int choice = menu(true,
-                          (p,_("What will thou do?"), it->tname().c_str()), _("Retreat!"), _("Burn and Pillage!"), _("Keep Fighting!"), NULL);
+                          _("What will thou do?"), _("Retreat!"), _("Burn and Pillage!"), _("Keep Fighting!"), NULL);
         switch (choice)
         {
             if (choice == 2)
@@ -2478,7 +2477,7 @@ void iuse::firekatana_on(game *g, player *p, item *it, bool t)
     else
     {
         int choice = menu(true,
-                          (p,_("The Light of Day."), it->tname().c_str()), _("Nightfall"), _("Blazing Heat"), _("Endless Day"), NULL);
+                          _("The Light of Day."), _("Nightfall"), _("Blazing Heat"), _("Endless Day"), NULL);
         switch (choice)
         {
             if (choice == 2)
