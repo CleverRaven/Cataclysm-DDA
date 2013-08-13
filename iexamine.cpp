@@ -408,6 +408,24 @@ void iexamine::slot_machine(game *g, player *p, map *m, int examx, int examy) {
  }
 }
 
+void iexamine::safe(game *g, player *p, map *m, int examx, int examy) {
+  if (!p->has_amount("stethoscope", 1)) {
+    g->add_msg(_("You need a stethoscope for safecracking."));
+    return;
+  }
+
+  if (query_yn(_("Attempt to crack the safe?"))) {
+    bool success = true;
+
+    if (success) {
+      m->furn_set(examx, examy, f_safe_o);
+      g->add_msg(_("You successfully crack the safe!"));
+    } else {
+      g->add_msg(_("The safe resists your attempt at cracking it."));
+    }
+  }
+}
+
 void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) {
  basecamp *camp = m->camp_at(examx, examy);
  if (camp && camp->board_x() == examx && camp->board_y() == examy) {

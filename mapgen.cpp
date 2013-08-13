@@ -1627,7 +1627,7 @@ case ot_office_cubical_west: {
  |xcc|...^cclc....|cdx| \n\
  |dh................hc| \n\
  |-------......|------| \n\
- |e.....+......|..xdc.| \n\
+ |e.....+......|n.xdc.| \n\
  |S.....|----..|h.ch..| \n\
  |-+|-+-|......+.....^| \n\
  |..|..S|..hc..|------| \n\
@@ -1639,8 +1639,8 @@ case ot_office_cubical_west: {
  |o.h...|$$ss$$|......| \n\
  |-wwww-|  ss  |-wwww-| \n\
            ss           \n",
-   mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s", t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-   mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s", f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
+   mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk, t_null),
+   mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null, f_safe_l));
    place_items("fridge",	50,  2,  12, 2,  13, false, 0);
    place_items("cleaning",	50,  2,  15, 3,  16, false, 0);
    place_items("office",	80, 11,  7, 13,  7, false, 0);

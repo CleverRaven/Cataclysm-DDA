@@ -36,6 +36,7 @@ public:
  void remove_fence_wire (game *g, player *p, map *m, int examx, int examy);
  void remove_fence_barbed (game *g, player *p, map *m, int examx, int examy);
  void slot_machine (game *g, player *p, map *m, int examx, int examy);
+ void safe (game *g, player *p, map *m, int examx, int examy);
  void bulletin_board (game *g, player *p, map *m, int examx, int examy);
  void fault (game *g, player *p, map *m, int examx, int examy);
  void pedestal_wyrm (game *g, player *p, map *m, int examx, int examy);

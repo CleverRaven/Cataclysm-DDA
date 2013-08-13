@@ -364,7 +364,7 @@ void game::show_options()
 
         wrefresh(w_options_header);
 
-        mvwprintz(w_options_tooltip, 0, 0, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #Default: " + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
+        fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #Default: " + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
         wrefresh(w_options_tooltip);
 
         wrefresh(w_options);

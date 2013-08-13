@@ -760,11 +760,33 @@ void game::process_activity()
  it_book* reading;
  bool no_recipes;
  if (u.activity.type != ACT_NULL) {
-  if (int(turn) % 150 == 0)
+  if (int(turn) % 150 == 0) {
    draw();
+  }
   if (u.activity.type == ACT_WAIT) {	// Based on time, not speed
    u.activity.moves_left -= 100;
    u.pause(this);
+  } else if (u.activity.type == ACT_GAME) {
+
+    //Gaming takes time, not speed
+    u.activity.moves_left -= 100;
+
+    if (u.activity.type == ACT_GAME) {
+      item& game_item = u.inv.item_by_letter(u.activity.invlet);
+
+      //Deduct 1 battery charge for every minute spent playing
+      if(int(turn) % 10 == 0) {
+        game_item.charges--;
+        u.add_morale(MORALE_GAME, 2, 100); //2 points/min, almost an hour to fill
+      }
+      if(game_item.charges == 0) {
+        u.activity.moves_left = 0;
+        g->add_msg(_("The %s runs out of batteries."), game_item.name.c_str());
+      }
+
+    }
+    u.pause(this);
+
   } else if (u.activity.type == ACT_REFILL_VEHICLE) {
    vehicle *veh = m.veh_at( u.activity.placement.x, u.activity.placement.y );
    if (!veh) {  // Vehicle must've moved or something!
@@ -2992,7 +3014,8 @@ void game::debug()
                    _("Spawn Artifact"),         // 14
                    _("Spawn Clarivoyance Artifact"), //15
                    _("Map editor"), // 16
-                   _("Cancel"),                 // 17
+                   _("Change weather"),         // 17
+                   _("Cancel"),                 // 18
                    NULL);
  int veh_num;
  std::vector<std::string> opts;
@@ -3280,6 +3303,29 @@ Current turn: %d; Next spawn %d.\n\
 
   case 16: {
       point coord = look_debug();
+  }
+  break;
+
+  case 17: {
+      const int weather_offset = 1;
+      uimenu weather_menu;
+      weather_menu.text = "Select new weather pattern:";
+      weather_menu.return_invalid = true;
+      for(int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
+
+        weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
+
+      }
+      
+      weather_menu.query();
+
+      if(weather_menu.ret > 0) {
+        add_msg("%d", weather_menu.selected);
+
+        int selected_weather = weather_menu.selected + 1;
+        weather = (weather_type) selected_weather;
+
+      }
   }
   break;
  }
@@ -5774,7 +5820,7 @@ void game::close()
         veh->parts[vpart].open = 0;
         veh->insides_dirty = true;
         didit = true;
-    } else if (m.i_at(closex, closey).size() > 0)
+    } else if (m.furn(closex, closey) != f_safe_o && m.i_at(closex, closey).size() > 0)
         add_msg(_("There's %s in the way!"), m.i_at(closex, closey).size() == 1 ?
                 m.i_at(closex, closey)[0].tname(this).c_str() : _("some stuff"));
     else if (closex == u.posx && closey == u.posy)
@@ -5784,7 +5830,8 @@ void game::close()
         add_msg(_("You cannot close the curtains from outside. You must be inside the building."));
     } else if (m.has_furn(closex, closey) &&
                m.furn(closex, closey) != f_canvas_door_o &&
-               m.furn(closex, closey) != f_skin_door_o) {
+               m.furn(closex, closey) != f_skin_door_o &&
+               m.furn(closex, closey) != f_safe_o) {
        add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
     } else
         didit = m.close_door(closex, closey, true);
@@ -10794,7 +10841,7 @@ void game::plmove(int x, int y)
 // Only lose movement if we're blind
    add_msg(_("You bump into a %s!"), m.name(x, y).c_str());
    u.moves -= 100;
-  } else if (m.open_door(x, y, !m.is_outside(u.posx, u.posy)))
+  } else if (m.furn(x, y) != f_safe_c && m.open_door(x, y, !m.is_outside(u.posx, u.posy)))
    u.moves -= 100;
   else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm || m.ter(x, y) == t_door_locked_interior) {
    u.moves -= 100;
