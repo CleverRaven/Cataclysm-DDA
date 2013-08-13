@@ -61,7 +61,7 @@ W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
 BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
-LOCALIZE=1
+LOCALIZE = 1
 
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
