@@ -2190,7 +2190,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
     mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
     mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
-                      OPTIONS["USE_METRIC_WEIGHT"]?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHTS"]?"kg":"lbs");
     mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
@@ -4620,7 +4620,7 @@ double player::convert_weight(int weight)
 {
     double ret;
     ret = double(weight);
-    if (OPTIONS["USE_METRIC_WEIGHT"]) {
+    if (OPTIONS["USE_METRIC_WEIGHTS"]) {
         ret /= 1000;
     } else {
         ret /= 453.6;
