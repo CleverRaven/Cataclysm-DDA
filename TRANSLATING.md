@@ -36,19 +36,16 @@ MAINTAINERS
 Step 1: Extract the translatable strings
 ----------------------------------------
 
-First we have to extract the translatable strings from the .json files.
-The python script lang/extract_json_strings.py will do this for us,
-storing them in an intermediate form in lang/json for "xgettext" to read.
+First all the translatable strings in the source code need to be collated.
 
-    python lang/extract_json_strings.py
+To do this, run the `lang/update_pot.sh` script.
+It requires that you have both Python and the gettext utilities installed.
 
-Now we can use xgettext to collate all the translatable strings,
-and store them in the file lang/po/cataclysm-dda.pot.
+    lang/update_pot.sh
 
 This needs to be done every time translatable strings are added or modified.
+It will create or update the file `lang/po/cataclysm-dda.pot`.
 All of the translations depend on this file.
-
-    xgettext -d cataclysm-dda -F -c~ -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp *.h lang/json/*.py
 
 
 Step 2(a): Initialize each language file
@@ -57,9 +54,9 @@ Step 2(a): Initialize each language file
 If we're starting a new translation from scratch,
 we have to initialize the translation file.
 In this example the translation is into New Zealand English (en_NZ).
-For other languages change "en_NZ" to the relevant language identifier.
+For other languages change `en_NZ` to the relevant language identifier.
 
-    msginit -l en_NZ.utf8 -o lang/po/en_NZ.po -i lang/po/cataclysm-dda.pot
+    msginit -l en_NZ.UTF-8 -o lang/po/en_NZ.po -i lang/po/cataclysm-dda.pot
 
 
 Step 2(b): Update an already existing language file
@@ -67,43 +64,67 @@ Step 2(b): Update an already existing language file
 
 If we just want to update a translation,
 we'll want to keep all the messages that have already been translated.
-In this case we use "msgmerge" in stead of "msginit".
+In this case we use `msgmerge` in stead of `msginit`.
 
     msgmerge -F -U lang/po/en_NZ.po lang/po/cataclysm-dda.pot
+
+
+Step 2(c): Update all the .po files at once
+-------------------------------------------
+
+To update the .po file for every language at once,
+use the `lang/merge_po.sh` script.
+
+    lang/merge_po.sh
+
+This will run the above `msgmerge` command for each file in `lang/po/*.po`.
 
 
 Step 3: Translate
 -----------------
 
 Now open the .po file in your favorite editor and translate!
-The lines beginning with "msgid" must be left in the english form,
-only the lines beginning with "msgstr" should be translated.
+Detailed instructions for translating can be found in
+`lang/translation_notes/README_all_translators.txt`.
 
 
-Step 4: Compile the .po file
-----------------------------
+Step 4(a): Compile a single .po file
+------------------------------------
 
 If it is a new translation,
-you will need to create a subdirectory in lang/mo for it,
-and then a subdirectory called "LC_MESSAGES" inside that.
+you will need to create a subdirectory in `lang/mo` for it,
+and then a subdirectory called `LC_MESSAGES` inside that.
 For example:
 
     mkdir -p lang/mo/en_NZ/LC_MESSAGES
 
-Now run the "msgfmt" program to compile the translations for use in game.
+Now run the `msgfmt` program to compile the translations for use in game.
 
-    msgfmt -c -o lang/mo/en_NZ/LC_MESSAGES/cataclysm-dda.mo lang/po/en_NZ.po
+    msgfmt -f -c -o lang/mo/en_NZ/LC_MESSAGES/cataclysm-dda.mo lang/po/en_NZ.po
 
-Hooray, that's it :).
+
+Step 4(b): Compile all the .po files
+------------------------------------
+
+To compile all the .po files at once,
+use the lang/compile_mo.sh script.
+
+    lang/compile_mo.sh
+
+This runs the above `mkdir` and `msgfmt` commands for all available .po files.
+
+
 
 Testing your changes in game
 ============================
 
-The game has no menu to change language, so you need to manually set the locale.
+The game has no menu to change language,
+so you need to manually set the locale.
 This is a different process depending on your OS.
 
-Note: The locale you set doesn't have to be an exact match. For instance, to use the
-`de_DE.po` translation, setting your locale to `de_DE.UTF8` will work fine.
+Note: The locale you set doesn't have to be an exact match.
+For instance, to use the `de_DE.po` translation,
+setting your locale to `de_DE.UTF8` will work fine.
 
 Arch Linux
 ----------

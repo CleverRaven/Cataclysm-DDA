@@ -20,6 +20,11 @@
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
+#include "catajson.h"
+#include "disease.h"
+#include "get_version.h"
+
+#include <ctime>
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
@@ -34,6 +39,7 @@ void game::init_morale()
     _("Enjoyed %i"),
     _("Enjoyed a hot meal"),
     _("Music"),
+    _("Played Video Game"),
     _("Marloss Bliss"),
     _("Good Feeling"),
 
@@ -69,607 +75,32 @@ void game::init_morale()
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
 }
 
-//TODO: json it, maybe. Hope this huge array doesn't cause stack issue
 void game::init_traits()
 {
-    trait tmp_traits[] = {
-{"NULL trait!", 0, 0, 0, "\
-This is a bug.  Weird. (pldata.cpp:traits)"},
-{_("Fleet-Footed"), 3, 0, 0, _("\
-You can run more quickly than most, resulting in a 15%% speed bonus on sure \
-footing.")},
-{_("Parkour Expert"), 2, 0, 0, _("\
-You're skilled at clearing obstacles; terrain like railings or counters are \
-as easy for you to move on as solid ground.")},
-{_("Quick"), 3, 0, 0, _("\
-You're just generally quick!  You get a 10%% bonus to action points.")},
-{_("Optimist"), 2, 0, 0, _("\
-Nothing gets you down!  You savor the joys of life, ignore its hardships, and \
-are generally happier than most people.")},
-{_("Fast Healer"), 2, 0, 0, _("\
-You heal a little faster than most; sleeping will heal more lost HP.")},
-{_("Light Eater"), 3, 0, 0, _("\
-Your metabolism is a little slower, and you require less food than most.")},
-{_("Pain Resistant"), 2, 0, 0, _("\
-You have a high tolerance for pain.")},
-{_("Night Vision"), 1, 0, 0, _("\
-You possess natural night vision, and can see two squares instead of one in \
-pitch blackness.")},
-{_("Poison Resistant"), 1, 0, 0, _("\
-Your system is rather tolerant of poisons and toxins, and most will affect \
-you less.")},
-{_("Fast Reader"), 1, 0, 0, _("\
-You're a quick reader, and can get through books a lot faster than most.")},
-{_("Tough"), 3, 0, 0, _("\
-It takes a lot to bring you down!  You get a 20%% bonus to all hit points.")},
-{_("Thick-Skinned"), 2, 0, 0, _("\
-Your skin is tough.  Cutting damage is slightly reduced for you.")},
-{_("Packmule"), 3, 0, 0, _("\
-You can manage to find space for anything!  You can carry 40%% more volume.")},
-{_("Fast Learner"), 3, 0, 0, _("\
-You have a flexible mind, allowing you to learn skills much faster than \
-others.  Note that this only applies to real-world experience, not to skill \
-gain from other sources like books.")},
-{_("Deft"), 2, 0, 0, _("\
-While you're not any better at melee combat, you are better at recovering \
-from a miss, and will be able to attempt another strike faster.")},
-{_("Drunken Master"), 2, 0, 0, _("\
-The ancient arts of drunken brawling come naturally to you! While under the \
-influence of alcohol, your melee skill will rise considerably, especially \
-unarmed combat.")},
-{_("Gourmand"), 2, 0, 0, _("\
-You eat faster, and can eat and drink more, than anyone else!  You also enjoy \
-food more; delicious food is better for your morale, and you don't mind some \
-unsavory meals.")},
-{_("Animal Empathy"), 1, 0, 0, _("\
-Peaceful animals will not run away from you, and even aggressive animals are \
-less likely to attack.  This only applies to natural animals such as woodland \
-creatures.")},
-{_("Terrifying"), 2, 0, 0, _("\
-There's something about you that creatures find frightening, and they are \
-more likely to try to flee.")},
-{_("Disease Resistant"), 1, 0, 0, _("\
-It's very unlikely that you will catch ambient diseases like a cold or the \
-flu.")},
-{_("High Adrenaline"), 3, 0, 0, _("\
-If you are in a very dangerous situation, you may experience a temporary rush \
-which increases your speed and strength significantly.")},
-{_("Self-aware"), 1, 0, 0, _("\
-You get to see your exact amount of HP remaining, instead of only having a \
-vague idea of whether you're in good condition or not.")},
-{_("Inconspicuous"), 2, 0, 0, _("\
-While sleeping or staying still, it is less likely that monsters will wander \
-close to you.")},
-{_("Masochist"), 2, 0, 0, _("\
-Although you still suffer the negative effects of pain, it also brings a \
-unique pleasure to you.")},
-{_("Cross-Dresser"), 2, 0, 0, _("\
-Covering your body in clothing typical for the opposite gender makes you feel better.")},
-{_("Light Step"), 1, 0, 0, _("\
-You make less noise while walking.  You're also less likely to set off traps.")},
-{_("Android"), 4, 0, 0, _("\
-At some point in the past you had a bionic upgrade installed in your body. \
-You start the game with a power system, and one random bionic enhancement.")},
-{_("Robust Genetics"), 2, 0, 0, _("\
-You have a very strong genetic base.  If you mutate, the odds that the \
-mutation will be beneficial are greatly increased.")},
-{_("Cannibal"), 3, 0, 0, _("\
-For your whole life you've been forbidden from indulging in your peculiar \
-tastes. Now the world's ended, and you'll be damned if anyone is going to \
-tell you you can't eat people.")},
-{_("Martial Arts Training"), 3, 0, 0, _("\
-You have received some martial arts training at a local dojo. \
-You start with your choice of karate, judo, aikido, tai chi, or taekwondo.")},
-{_("Self-Defense Classes"), 3, 0, 0, _("\
-You have taken some self-defense classes at a nearby gym. You start \
-with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan.")},
-{_("Shaolin Adept"), 3, 0, 0, _("\
-You have studied the arts of the Shaolin monks.  You start with one \
-of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.")},
-{_("Venom Mob Protoge"), 3, 0, 0, _("\
-You are a pupil of the Venom Clan.  You start with one of the \
-five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.")},
-{_("Skilled Liar"), 2, 0, 0, _("\
-You have no qualms about bending the truth, and have practically no tells. \
-Telling lies and otherwise bluffing will be much easier for you.")},
-{_("Pretty"), 1, 0, -2, _("\
-You are a sight to behold. NPCs who care about such thing will react more \
-kindly to you.")},
+  catajson traitsRaw("data/raw/traits.json",true);
 
-{"NULL", 0, 0, 0, " -------------------------------------------------- "},
+  unsigned int index = 0;
+  for(traitsRaw.set_begin(); traitsRaw.has_curr() && json_good(); traitsRaw.next()) {
 
-{_("Near-Sighted"), -2, 0, 0, _("\
-Without your glasses, your seeing radius is severely reduced!  However, while \
-wearing glasses this trait has no effect, and you are guaranteed to start \
-with a pair.")},
-{_("Far-Sighted"), -2, 0, 0, _("\
-Without reading glasses, you are unable to read anything, and take penalities \
-on melee accuracy and electronics/tailoring crafting. However, you are \
-guaranteed to start with a pair of reading glasses.")},
-{_("Heavy Sleeper"), -1, 0, 0, _("\
-You're quite the heavy sleeper.  Noises are unlikely to wake you up.")},
-{_("Asthmatic"), -4, 0, 0, _("\
-You will occasionally need to use an inhaler, or else suffer severe physical \
-limitations.  However, you are guaranteed to start with an inhaler.")},
-{_("Bad Back"), -3, 0, 0, _("\
-You simply can not carry as much as people with a similar strength could. \
-Your maximum weight carried is reduced by 35%%.")},
-{_("Illiterate"), -5, 0, 0, _("\
-You never learned to read!  Books and computers are off-limits to you.")},
-{_("Poor Hearing"), -2, 0, 0, _("\
-Your hearing is poor, and you may not hear quiet or far-off noises.")},
-{_("Insomniac"), -2, 0, 0, _("\
-You have a hard time falling asleep, even under the best circumstances!")},
-{_("Meat Intolerance"), -3, 0, 0, _("\
-You have problems with eating meat, it's possible for you to eat it but \
-you will suffer morale penalties due to nausea.")},
-{_("Glass Jaw"), -3, 0, 0, _("\
-Your head can't take much abuse.  Its maximum HP is 20%% lower than usual.")},
-{_("Forgetful"), -3, 0, 0, _("\
-You have a hard time remembering things.  Your skills will erode slightly \
-faster than usual.")},
-{_("Lightweight"), -1, 0, 0, _("\
-Alcohol and drugs go straight to your head.  You suffer the negative effects \
-of these for longer.")},
-{_("Addictive Personality"), -3, 0, 0, _("\
-It's easier for you to become addicted to substances, and harder to rid \
-yourself of these addictions.")},
-{_("Trigger Happy"), -2, 0, 0, _("\
-On rare occasion, you will go full-auto when you intended to fire a single \
-shot.  This has no effect when firing handguns or other semi-automatic \
-firearms.")},
-{_("Smelly"), -1, 0, 0, _("\
-Your scent is particularly strong.  It's not offensive to humans, but animals \
-that track your scent will do so more easily.")},
-{_("Chemical Imbalance"), -2, 0, 0, _("\
-You suffer from a minor chemical imbalance, whether mental or physical. Minor \
-changes to your internal chemistry will manifest themselves on occasion, \
-such as hunger, sleepiness, narcotic effects, etc.")},
-{_("Schizophrenic"), -5, 0, 0, _("\
-You will periodically suffer from delusions, ranging from minor effects to \
-full visual hallucinations.  Some of these effects may be controlled through \
-the use of Thorazine.")},
-{_("Jittery"), -3, 0, 0, _("\
-During moments of great stress or under the effects of stimulants, you may \
-find your hands shaking uncontrollably, severely reducing your dexterity.")},
-{_("Hoarder"), -4, 0, 0, _("\
-You don't feel right unless you're carrying as much as you can.  You suffer \
-morale penalties for carrying less than maximum volume (weight is ignored). \
-Xanax can help control this anxiety.")},
-{_("Savant"), -4, 0, 0, _("\
-You tend to specialize in one skill and be poor at all others.  You advance \
-at half speed in all skills except your best one. Note that combining this \
-with Fast Learner will come out to a slower rate of learning for all skills.")},
-{_("Mood Swings"), -1, 0, 0, _("\
-Your morale will shift up and down at random, often dramatically.")},
-{_("Weak Stomach"), -1, 0, 0, _("\
-You are more likely to throw up from food poisoning, alcohol, etc.")},
-{_("Wool Allergy"), -1, 0, 0, _("\
-You are badly allergic to wool, and can not wear any clothing made of the \
-substance.")},
-{_("Truth Teller"), -2, 0, 0, _("\
-When you try to tell a lie, you blush, stammer, and get all shifty-eyed. \
-Telling lies and otherwise bluffing will be much more difficult for you.")},
-{_("Ugly"), -1, 0, 2, _("\
-You're not much to look at.  NPCs who care about such things will react \
-poorly to you.")},
-{_("Hardcore"), -6, 0, 0, _("\
-Your whole body can't take much abuse.  Its maximum HP is 75%% points lower \
-than usual. Stacks with Glass Jaw. Not for casuals.")},
+    assert(index < PF_MAX2);
 
-{"Bug - PF_MAX", 0, 0, 0, "\
-This shouldn't be here!  You have the trait PF_MAX toggled.  Weird."},
+    catajson curr_trait = traitsRaw.curr();
 
-/* From here down are mutations.
- * In addition to a points value, mutations have a visibility value and an
- *  ugliness value.
- * Positive visibility means that the mutation is prominent.  This will visibly
- *  identify the player as a mutant, resulting in discrimination from mutant-
- *  haters and trust with mutants/mutant-lovers.
- * Poistive ugliness means that the mutation is grotesque.  This will result in
- *  a negative reaction from NPCs, even those who are themselves mutated, unless
- *  the NPC is a mutant-lover.
- */
+    trait new_trait;
+    new_trait.name = curr_trait.get("name").as_string();
+    new_trait.points = curr_trait.get("points").as_int();
+    new_trait.visiblity = curr_trait.get("visibility").as_int();
+    new_trait.ugliness = curr_trait.get("ugliness").as_int();
+    new_trait.description = curr_trait.get("description").as_string();
 
-{_("Rough Skin"), 0, 2, 1, _("\
-Your skin is slightly rough.  This has no gameplay effect.")},
-{_("High Night Vision"), 3, 0, 0, _("\
-You can see incredibly well in the dark!")},
-{_("Full Night Vision"), 5, 0, 0, _("\
-You can see in pitch blackness as if you were wearing night-vision goggles.")},
-{_("Infrared Vision"), 5, 0, 0, _("\
-Your eyes have mutated to pick up radiation in the infrared spectrum.")},
-{_("Very Fast Healer"), 5, 0, 0, _("\
-Your flesh regenerates slowly, and you will regain HP even when not sleeping.")},
-{_("Regeneration"), 10, 0, 0, _("\
-Your flesh regenerates from wounds incredibly quickly.")},
-{_("Fangs"), 2, 2, 2, _("\
-Your teeth have grown into two-inch-long fangs, allowing you to make an extra \
-attack when conditions favor it.")},
-{_("Nictitating Membrane"), 1, 1, 2, _("\
-You have a second set of clear eyelids which lower while underwater, allowing \
-you to see as though you were wearing goggles.")},
-{_("Gills"), 3, 5, 3, _("\
-You've grown a set of gills in your neck, allowing you to breathe underwater.")},
-{_("Scales"), 6, 10, 3, _("\
-A set of flexible green scales have grown to cover your body, acting as a \
-natural armor.")},
-{_("Thick Scales"), 6, 10, 4, _("\
-A set of heavy green scales have grown to cover your body, acting as a \
-natural armor.  It is very difficult to penetrate, but also limits your \
-flexibility, resulting in a -2 penalty to Dexterity.")},
-{_("Sleek Scales"), 6, 10, 4, _("\
-A set of very flexible and slick scales have grown to cover your body.  These \
-act as a weak set of armor, improve your ability to swim, and make you \
-difficult to grab.")},
-{_("Light Bones"), 2, 0, 0, _("\
-Your bones are very light.  This enables you to run and attack 10%% faster, \
-but also reduces your carrying weight by 20%% and makes bashing attacks hurt \
-a little more.")},
-{_("Feathers"), 2, 10, 3, _("\
-Iridescent feathers have grown to cover your entire body, providing a \
-marginal protection against attacks and minor protection from cold. They \
-also provide a natural waterproofing.")},
-{_("Lightly Furred"), 1, 6, 2, _("\
-Light fur has grown to coveryour entire body, providing slight protection \
-from cold.")},
-{_("Furry"), 2, 10, 3, _("\
-Thick black fur has grown to cover your entire body, providing a marginal \
-protection against attacks, and considerable protection from cold.")},
-{_("Chitinous Skin"), 2, 3, 2, _("\
-Your epidermis has turned into a thin, flexible layer of chitin.  It provides \
-minor protection from cutting wounds.")},
-{_("Chitinous Armor"), 2, 6, 3, _("\
-You've grown a chitin exoskeleton, much like that of an insect.  It provides \
-considerable physical protection, but reduces your dexterity by 1.")},
-{_("Chitinous Plate"), 2, 8, 5, _("\
-You've grown a chitin exoskeleton made of thick, stiff plates, like that of \
-a beetle.  It provides excellent physical protection, but reduces your \
-dexterity by 1 and encumbers all body parts but your eyes and mouth.")},
-{_("Spines"), 1, 0, 0, _("\
-Your skin is covered with fine spines.  Whenever an unarmed opponent strikes \
-a part of your body that is not covered by clothing, they will receive \
-moderate damage.")},
-{_("Quills"), 3, 0, 0, _("\
-Your body is covered with large quills.  Whenever an unarmed opponent strikes \
-a part of your body that is not covered by clothing, they will receive \
-significant damage.")},
-{_("Phelloderm"), 3, 3, 2, _("\
-Your skin is light green and has a slightly woody quality to it.  This \
-provides a weak armor, and helps you retain moisture, resulting in less \
-thirst.")},
-{_("Bark"), 5, 10, 3, _("\
-Your skin is coated in a light bark, like that of a tree.  This provides \
-resistance to bashing and cutting damage and minor protection from fire.")},
-{_("Thorns"), 6, 8, 4, _("\
-Your skin is covered in small, woody thorns.  Whenever an unarmed opponent \
-strikes a part of your body that is not covered by clothing, they will \
-receive minor damage.  Your punches may also deal extra damage.")},
-{_("Leaves"), 6, 8, 3, _("\
-All the hair on your body has turned to long, grass-like leaves.  Apart from \
-being physically striking, these provide you with a minor amount of nutrition \
-while in sunlight.")},
-{_("Long Fingernails"), 1, 1, 0, _("\
-Your fingernails are long and sharp.  If you aren't wearing gloves, your \
-unarmed attacks deal a minor amount of cutting damage.")},
-{_("Claws"), 2, 3, 2, _("\
-You have claws on the ends of your fingers.  If you aren't wearing gloves, \
-your unarmed attacks deal a minor amount of cutting damage.")},
-{_("Large Talons"), 2, 4, 3, _("\
-Your index fingers have grown into huge talons.  After a bit of practice, you \
-find that this does not affect your dexterity, but allows for a deadly \
-unarmed attack.  They also prevent you from wearing gloves.")},
-{_("Radiogenic"), 3, 0, 0, _("\
-Your system has adapted to radiation.  While irradiated, you will actually \
-heal slowly, converting the radiation into hit points.")},
-{_("Marloss Carrier"), 4, 0, 0, _("\
-Ever since you ate that Marloss berry, you can't get its scent out of your \
-nose, and you have a strong desire to eat more.")},
-{_("Insect Pheromones"), 8, 0, 0, _("\
-Your body produces low-level pheromones, identifying you as a friend to many \
-species of insects.  Insects will attack you much less.")},
-{_("Mammal Pheromones"), 8, 0, 0, _("\
-Your body produces low-level pheromones which puts mammals at ease.  They \
-will be less likely to attack or flee from you.")},
-{_("Disease Immune"), 6, 0, 0, _("\
-Your body is simply immune to diseases.  You will never catch an ambient \
-disease.")},
-{_("Poisonous"), 8, 0, 0, _("\
-Your body produces a potent venom.  Any special attacks from mutatations \
-have a chance to poison your target.")},
-{_("Slime Hands"), 4, 5, 4, _("\
-The skin on your hands is a mucous membrane and produces a thick, acrid \
-slime.  Attacks using your hand will cause minor acid damage.")},
-{_("Compound Eyes"), 2, 9, 5, _("\
-Your eyes are compound, like those of an insect.  This increases your \
-perception by 2 so long as you aren't wearing eyewear.")},
-{_("Padded Feet"), 1, 1, 0, _("\
-The bottoms of your feet are strongly padded.  You receive no movement \
-penalty for not wearing shoes, and even receive a 10%% bonus when running \
-barefoot.")},
-{_("Hooves"), -4, 2, 2, _("\
-Your feet have fused into hooves.  This allows kicking attacks to do much \
-more damage, provides natural armor, and removes the need to wear shoes; \
-however, you can not wear shoes of any kind.")},
-{_("Saprovore"), 4, 0, 0, _("\
-Your digestive system is specialized to allow you to consume decaying \
-material.  You can eat rotten food, albeit for less nutrition than \
-usual.")},
-{_("Ruminant"), 5, 0, 0, _("\
-Your digestive system is capable of digesting cellulose and other rough \
-plant material.  You can eat underbrush by standing over it and pressing \
-E.")},
-{_("Horns"), 2, 3, 1, _("\
-You have a pair of small horns on your head.  They allow you to make a weak \
-piercing headbutt attack.")},
-{_("Curled Horns"), 1, 8, 2, _("\
-You have a pair of large curled horns, like those of a ram.  They allow you \
-to make a strong bashing headbutt attack, but prevent you from wearing any \
-headwear.")},
-{_("Pointed Horns"), 2, 8, 2, _("\
-You have a pair of long, pointed horns, like those of an antelope.  They \
-allow you to make a strong piercing headbutt attack, but prevent you from \
-wearing any headwear the is not made of fabric.")},
-{_("Antennae"), 1, 9, 4, _("\
-You have a pair of antennae.  They allow you to detect the presence of \
-monsters up to a few tiles away, even if you can't see or hear them, but \
-prevent you from wearing headwear that is not made of fabric.")},
-{_("Road-Runner"), 4, 0, 0, _("\
-Your legs are extremely limber and fast-moving.  You run 30%% faster on \
-flat surfaces.")},
-{_("Stubby Tail"), 0, 1, 2, _("\
-You have a short, stubby tail, like a rabbit's.  It serves no purpose.")},
-{_("Tail Fin"), 1, 4, 2, _("\
-You have a fin-like tail.  It allows you to swim more quickly.")},
-{_("Long Tail"), 2, 6, 2, _("\
-You have a long, graceful tail, like that of a big cat.  It improves your \
-balance, making your ability to dodge higher.")},
-{_("Fluffy Tail"), 2, 7, 0, _("\
-You have a long, fluffy-furred tail.  It greatly improves your balance, \
-making your ability to dodge much higher.")},
-{_("Spiked Tail"), 2, 6, 3, _("\
-You have a long tail that ends in a vicious stinger, like that of a \
-scorpion.  It does not improve your balance at all, but allows for a \
-powerful piercing attack.")},
-{_("Club Tail"), 2, 7, 2, _("\
-You have a long tail that ends in a heavy, bony club.  It does not improve \
-your balance at all, but alows for a powerful bashing attack.")},
-{_("Pain Recovery"), 3, 0, 0, _("\
-You recover from pain slightly faster than normal.")},
-{_("Quick Pain Recovery"), 5, 0, 0, _("\
-You recover from pain faster than normal.")},
-{_("Very Quick Pain Reovery"), 8, 0, 0, _("\
-You recover from pain much faster than normal.")},
-{_("Bird Wings"), 2, 4, 2, _("\
-You have a pair of large, feathered wings.  Your body is too heavy to be able \
-to fly, but you can use them to slow your descent during a fall, and will not \
-take falling damage under any circumstances.")},
-{_("Insect Wings"), 3, 4, 4, _("\
-You have a pair of large, translucent wings.  You buzz them as you run, \
-enabling you to run faster.")},
-{_("Mouth Tentacles"), 1, 8, 5, _("\
-A set of tentacles surrounds your mouth.  They allow you to eat twice as \
-fast.")},
-{_("Mandibles"), 2, 8, 6, _("\
-A set of insect-like mandibles have grown around your mouth.  They allow you \
-to eat faster and provide a slicing unarmed attack, but prevent you from \
-wearing mouthwear.")},
-{_("Canine Ears"), 2, 4, 1, _("\
-Your ears have extended into long, pointed ones, like those of a canine. \
-They enhance your hearing, allowing you to hear at greater distances.")},
-{_("Web Walker"), 3, 0, 0, _("\
-Your body excretes very fine amounts of a chemcial which prevents you from \
-sticking to webs.  Walking through webs does not affect you at all.")},
-{_("Web Weaver"), 3, 0, 0, _("\
-Your body produces webs.  As you move, there is a chance that you will \
-leave webs in your wake.")},
-{_("Whiskers"), 1, 3, 1, _("\
-You have a set of prominent rodent-like whiskers around your mouth.  These \
-make you more aware of vibrations in the air, and improve your ability to \
-dodge very slightly.")},
-{_("Strong"), 1, 0, 0, _("\
-Your muscles are a little stronger.  Strength + 1")},
-{_("Very Strong"), 2, 0, 0, _("\
-Your muscles are stronger.  Strength + 2")},
-{_("Extremely Strong"), 4, 1, 0, _("\
-Your muscles are much stronger.  Strength + 4")},
-{_("Insanely Strong"), 7, 2, 2, _("\
-Your muscles are noticably bulging.  Strength + 7")},
-{_("Dextrous"), 1, 0, 0, _("\
-You are a little nimbler.  Dexterity + 1")},
-{_("Very Dextrous"), 2, 0, 0, _("\
-You are nimbler.  Dexterity + 2")},
-{_("Extremely Dextrous"), 3, 0, 0, _("\
-You are nimble and quick.  Dexterity + 4")},
-{_("Insanely Dextrous"), 4, 0, 0, _("\
-You are much nimbler than before.  Dexterity + 7")},
-{_("Smart"), 1, 0, 0, _("\
-You are a little smarter.  Intelligence + 1")},
-{_("Very Smart"), 2, 0, 0, _("\
-You are smarter.  Intelligence + 2")},
-{_("Extremely Smart"), 3, 1, 1, _("\
-You are much smarter, and your skull bulges slightly.  Intelligence + 4")},
-{_("Insanely Smart"), 4, 3, 3, _("\
-Your skull bulges noticably with your impressive brain.  Intelligence + 7")},
-{_("Perceptive"), 1, 0, 0, _("\
-Your senses are a little keener.  Perception + 1")},
-{_("Very Perceptive"), 2, 0, 0, _("\
-Your senses are keener.  Perception + 2")},
-{_("Extremely Perceptive"), 3, 0, 0, _("\
-Your senses are much keener.  Perception + 4")},
-{_("Insanely Perceptive"), 4, 0, 0, _("\
-You can sense things you never imagined.  Perception + 7")},
+    traits[index] = new_trait;
+    index++;
 
-{_("Head Bumps"), 0, 3, 3, _("\
-You have a pair of bumps on your skull.")},
-{_("Antlers"), -2, 10, 3, _("\
-You have a huge rack of antlers, like those of a moose.  They prevent you \
-from hearing headwear that is not made of fabric, but provide a weak \
-headbutt attack.")},
-{_("Slit Nostrils"), -2, 7, 4, _("\
-You have a flattened nose and thin slits for nostrils, giving you a lizard- \
-like appearance.  This makes breathing slightly difficult and increases \
-mouth encumbrance by 1.")},
-{_("Forked Tongue"), 0, 1, 3, _("\
-Your tongue is forked, like that of a reptile.  This has no effect.")},
-{_("Bulging Eyes"), 0, 8, 4, _("\
-Your eyes bulge out several inches from your skull.  This does not affect \
-your vision in any way.")},
-{_("Mouth Flaps"), -1, 7, 6, _("\
-Skin tabs and odd flaps of skin surround your mouth.  They don't affect your \
-eating, but are unpleasant to look at.")},
-{_("Wing Stubs"), 0, 2, 2, _("\
-You have a pair of stubby little wings projecting from your shoulderblades. \
-They can be wiggled at will, but are useless.")},
-{_("Bat Wings"), -1, 9, 4, _("\
-You have a pair of large, leathery wings.  You can move them a little, but \
-they are useless, and in fact put you off balance, reducing your ability to \
-dodge slightly.")},
-{_("Pale Skin"), 0, 3, 1, _("\
-Your skin is rather pale.")},
-{_("Spots"), 0, 6, 2, _("\
-Your skin is covered in a pattern of red spots.")},
-{_("Very Smelly"), -4, 4, 5, _("\
-You smell awful.  Monsters that track scent will find you very easily, and \
-humans will react poorly.")},
-{_("Deformed"), -2, 4, 4, _("\
-You're minorly deformed.  Some people will react badly to your appearance.")},
-{_("Badly Deformed"), -4, 7, 7, _("\
-You're hideously deformed.  Some people will have a strong negative reaction \
-to your appearance.")},
-{_("Grotesque"), -7, 10, 10, _("\
-Your visage is disgusting and liable to induce vomiting.  People will not \
-want to interact with you unless they have a very good reason to.")},
-{_("Beautiful"), 2, -4, -4, _("\
-You're a real head-turner. Some people will react well to your appearance, \
-and most people have an easier time trusting you.")},
-{_("Very Beautiful"), 4, -7, -7, _("\
-You are a vision of beauty. Some people will react very well to your looks, \
-and most people will trust you immediately.")},
-{_("Glorious"), 7, -10, -10, _("\
-You are inredibly beautiful. People cannot help themselves for your charms, \
-and will do whatever they can to please you.")},
-{_("Hollow Bones"), -6, 0, 0, _("\
-You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is \
-very light as a result, enabling you to run and attack 20%% faster, but \
-also frail; you can carry 40%% less, and bashing attacks injure you more.")},
-{_("Nausea"), -3, 0, 0, _("\
-You feel nauseous almost constantly, and are more liable to throw up from \
-food poisoning, alcohol, etc.")},
-{_("Vomitous"), -8, 0, 0, _("\
-You have a major digestive disorder, which causes you to vomit frequently.")},
-{_("Fast Metabolism"), -2, 0, 0, _("\
-You require more food than most people.")},
-{_("High Thirst"), -3, 0, 0, _("\
-Your body dries out easily; you need to drink a lot more water.")},
-{_("Weakening"), -6, 0, 0, _("\
-You feel as though you are slowly weakening, but it's so slight a feeling \
-that it does not affect you at all.")},
-{_("Deterioration"), -8, 0, 0, _("\
-Your body is very slowly wasting away.")},
-{_("Disintegration"), -10, 0, 0, _("\
-Your body is slowly wasting away!")},
-{_("Albino"), -2, 0, 0, _("\
-Your skin lacks pigment, and is nearly transparent.  You suffer serious burns \
-in direct sunlight.")},
-{_("Sores"), -2, 5, 6, _("\
-Your body is covered in painful sores.  The pain is worse when they are \
-covered in clothing.")},
-{_("Light Sensitive"), -2, 0, 0, _("\
-Sunlight makes you uncomfortable.  If you are outdoors and the weather is \
-Sunny, you suffer -1 to all stats.")},
-{_("Very Light Sensitive"), -3, 0, 0, _("\
-Sunlight makes you very uncomfortable.  If you are outdoors during the day, \
-you suffer -1 to all stats; -2 if the weather is Sunny.")},
-{_("Troglobite"), -5, 0, 0, _("\
-Sunlight makes you extremely uncomfortable, resulting in large penalties to \
-all stats.")},
-{_("Webbed Hands"), -1, 3, 2, _("\
-Your hands and feet are heavily webbed, reducing your dexterity by 1 and \
-preventing you from wearing gloves.  However, you can swim much faster.")},
-{_("Beak"), -1, 8, 4, _("\
-You have a beak for a mouth.  You can occasionally use it to peck at your \
-enemies, but it is impossible for you to wear mouthgear.")},
-{_("Genetically Unstable"), -4, 0, 0, _("\
-Your DNA has been damaged in a way that causes you to continually develop \
-more mutations.")},
-{_("Minor Radioactivity"), -4, 0, 0, _("\
-Your body has become radioactive!  You continuously emit low levels of \
-radiation, some of which will be absorbed by you, and some of which will \
-contaminate the world around you.")},
-{_("Radioactivity"), -4, 0, 0, _("\
-Your body has become radioactive!  You continuously emit moderate levels of \
-radiation, some of which will be absorbed by you, and some of which will \
-contaminate the world around you.")},
-{_("Severe Radioactivity"), -4, 0, 0, _("\
-Your body has become radioactive!  You continuously emit heavy levels of \
-radiation, some of which will be absorbed by you, and some of which will \
-contaminate the world around you.")},
-{_("Slimy"), -1, 7, 6, _("\
-Your body is coated with a fine slime, which oozes off of you, leaving a \
-trail.")},
-{_("Herbivore"), -3, 0, 0, _("\
-Your body's ability to digest meat is severely hampered.  Eating meat has a \
-good chance of making you vomit it back up; even if you manage to keep it \
-down, its nutritional value is greatly reduced.")},
-{_("Carnivore"), -3, 0, 0, _("\
-Your body's ability to digest fruits, vegetables and grains is severely \
-hampered.  You cannot eat anything besides meat.")},
-{_("Ponderous"), -3, 0, 0, _("\
-Your muscles are generally slow to move.  You run 10%% slower.")},
-{_("Very Ponderous"), -5, 0, 0, _("\
-Your muscles are quite slow to move.  You run 20%% slower.")},
-{_("Extremely Ponderous"), -8, 0, 0, _("\
-Your muscles are very slow to move.  You run 30%% slower.")},
-{_("Sunlight dependent"), -5, 0, 0, _("\
-You feel very sluggish when not in direct sunlight.  You suffer a 5%% drop in \
-speed when in shade, and a 10%% drop in speed when in the dark.")},
-{_("Heat dependent"), -2, 0, 0, _("\
-Your muscle response is dependent on ambient temperatures.  You lose 1%% of \
-your speed for every 5 degrees below 65 F.")},
-{_("Very Heat dependent"), -3, 0, 0, _("\
-Your muscle response is highly dependent on ambient temperatures.  You lose \
-1%% of your speed for every 3 degrees below 65 F.")},
-{_("Cold Blooded"), -5, 0, 0, _("\
-You are cold-blooded and rely on heat to keep moving.  Your lose 1%% of your \
-speed for every 2 degrees below 65 F.")},
-{_("Growling Voice"), -1, 0, 0, _("\
-You have a growling, rough voice.  Persuading NPCs will be more difficult, \
-but threatening them will be easier.")},
-{_("Snarling Voice"), -2, 0, 0, _("\
-You have a threatening snarl in your voice.  Persuading NPCs will be near \
-impossible, but threatening them will be much easier.")},
-{_("Shouter"), -2, 0, 0, _("\
-You occasionally shout uncontrollably.")},
-{_("Screamer"), -3, 0, 0, _("\
-You sometimes scream uncontrollably.")},
-{_("Howler"), -5, 0, 0, _("\
-You frequently let out a piercing howl.")},
-{_("Tentacle Arms"), -5, 7, 4, _("\
-Your arms have transformed into tentacles.  Though they are flexible and \
-increase your dexterity by 1, the lack of fingers results in a permanent \
-hand encumbrance of 3, and prevents the wearing of gloves.")},
-{_("4 Tentacles"), -3, 8, 5, _("\
-Your arms have transformed into four tentacles, resulting in a bonus of 1 to \
-dexterity, permanent hand encumbrance of 3, and preventing you from wearing \
-gloves.  You can make up to 3 extra attacks with them.")},
-{_("8 Tentacles"), -2, 9, 6, _("\
-Your arms have transformed into eight tentacles, resulting in a bonus of 1 to \
-dexterity, permanent hand encumbrance of 3, and preventing you from wearing \
-gloves.  You can make up to 7 extra attacks with them.")},
-{_("Shell"), -6, 8, 3, _("\
-You have grown a thick shell over your torso, providing excellent armor.  You \
-find you can use the empty space as 16 storage space, but cannot wear \
-anything on your torso.")},
-{_("Leg Tentacles"), -3, 8, 4, _("\
-Your legs have transformed into six tentacles.  This decreases your speed on \
-land by 20%, but makes your movement silent.  However, they also increase \
-your swimming speed.")}
-    };
+  }
 
-    for(int i=0; i<PF_MAX2; i++) {
-        traits[i] = tmp_traits[i];
-    }
+  if(!json_good()) {
+        exit(1);
+  }
 }
 
 player::player()
@@ -1068,7 +499,7 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_head)) {
             bonus += 3;
         }
-
+        
         if(bonus) {
             add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
         }
@@ -1539,7 +970,7 @@ void player::update_bodytemp(game *g)
             if (disease_intensity(dis_type(frost_pen)) < 2
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
             {
-                g->add_msg((i == bp_mouth ? _("Your %s harden from the frostbite!")  : _("Your %s hardens from the frostbite!")), body_part_name(body_part(i), -1).c_str());
+                g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->temperature < 32)
             {
@@ -1608,10 +1039,8 @@ int player::current_speed(game *g)
  int newmoves = 100; // Start with 100 movement points...
 // Minus some for weight...
  int carry_penalty = 0;
- if (weight_carried() > int(weight_capacity() * .25))
-  carry_penalty = 75 * double((weight_carried() - int(weight_capacity() * .25))/
-                              (weight_capacity() * .75));
-
+ if (weight_carried() > weight_capacity())
+  carry_penalty = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
  newmoves -= carry_penalty;
 
  if (pain > pkill) {
@@ -1735,7 +1164,7 @@ int player::run_cost(int base_cost, bool diag)
 
 int player::swim_speed()
 {
-  int ret = 440 + 2 * weight_carried() - 50 * skillLevel("swimming");
+  int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
  if (has_trait(PF_WEBBED))
   ret -= 60 + str_cur * 5;
  if (has_trait(PF_TAIL_FIN))
@@ -2008,6 +1437,203 @@ std::string player::save_info()
  return dump.str();
 }
 
+void player::memorial( std::ofstream &memorial_file )
+{
+    //Size of indents in the memorial file
+    const std::string indent = "  ";
+
+    const std::string gender_str = male ? _("male") : _("female");
+    const std::string pronoun = male ? _("He") : _("She");
+
+    //Avoid saying "a male unemployed" or similar
+    std::stringstream profession_name;
+    if(prof == prof->generic()) {
+      profession_name << _("an unemployed ") << gender_str;
+    } else {
+      profession_name << _("a ") << gender_str << " " << prof->name();
+    }
+
+    //Header
+    std::string version = string_format("%s", getVersionString());
+    oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+    std::string tername = oterlist[cur_ter].name;
+
+    memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
+    memorial_file << "\n";
+    memorial_file << _("In memory of: ") << name << "\n";
+    memorial_file << pronoun << _(" was ") << profession_name.str()
+                  << _(" when the apocalypse began.") << "\n";
+    memorial_file << pronoun << _(" died on ") << _(season_name[g->turn.get_season()].c_str())
+                  << _(" of year ") << (g->turn.years() + 1)
+                  << _(", day ") << (g->turn.days() + 1) 
+                  << _(", at ") << g->turn.print_time() << ".\n";
+    memorial_file << pronoun << _(" was killed in a ") << tername << ".\n";
+    memorial_file << "\n";
+
+    //Misc
+    memorial_file << _("Cash on hand: ") << "$" << cash << "\n";
+    memorial_file << "\n";
+
+    //HP
+    memorial_file << _("Final HP:") << "\n";
+    memorial_file << indent << _(" Head: ") << hp_cur[hp_head] << "/" << hp_max[hp_head] << "\n";
+    memorial_file << indent << _("Torso: ") << hp_cur[hp_torso] << "/" << hp_max[hp_torso] << "\n";
+    memorial_file << indent << _("L Arm: ") << hp_cur[hp_arm_l] << "/" << hp_max[hp_arm_l] << "\n";
+    memorial_file << indent << _("R Arm: ") << hp_cur[hp_arm_r] << "/" << hp_max[hp_arm_r] << "\n";
+    memorial_file << indent << _("L Leg: ") << hp_cur[hp_leg_l] << "/" << hp_max[hp_leg_l] << "\n";
+    memorial_file << indent << _("R Leg: ") << hp_cur[hp_leg_r] << "/" << hp_max[hp_leg_r] << "\n";
+    memorial_file << "\n";
+
+    //Stats
+    memorial_file << _("Final Stats:") << "\n";
+    memorial_file << indent << _("Str ") << str_cur << indent << _("Dex ") << dex_cur << indent
+                  << _("Int ") << int_cur << indent << _("Per ") << per_cur << "\n";
+    memorial_file << _("Base Stats:") << "\n";
+    memorial_file << indent << _("Str ") << str_max << indent << _("Dex ") << dex_max << indent
+                  << _("Int ") << int_max << indent << _("Per ") << per_max << "\n";
+    memorial_file << "\n";
+
+    //Kill list
+    memorial_file << _("Kills:") << "\n";
+
+    int total_kills = 0;
+    for(int i = 0; i < num_monsters; i++) {
+        if(g->kill_count( (mon_id)(g->mtypes[i]->id) ) > 0) {
+        memorial_file << "  " << (char) g->mtypes[i]->sym << " - " << g->mtypes[i]->name <<
+            " x" << g->kill_count( (mon_id)(g->mtypes[i]->id) ) << "\n";
+        total_kills += g->kill_count( (mon_id)(g->mtypes[i]->id) );
+      }
+    }
+    if(total_kills == 0) {
+      memorial_file << indent << _("No monsters were killed.") << "\n";
+    } else {
+      memorial_file << _("Total kills: ") << total_kills << "\n";
+    }
+    memorial_file << "\n";
+
+    //Skills
+    memorial_file << _("Skills:") << "\n";
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+      aSkill != Skill::skills.end(); ++aSkill) {
+      SkillLevel next_skill_level = skillLevel(*aSkill);
+      memorial_file << indent << (*aSkill)->name() << ": "
+              << next_skill_level.level() << " (" << next_skill_level.exercise() << "%)\n";
+    }
+    memorial_file << "\n";
+
+    //Traits
+    memorial_file << _("Traits:") << "\n";
+    bool had_trait = false;
+    for(int i = 1; i < PF_MAX2; i++) { //Don't start at i=0 or we get a 'null trait'
+      if(has_trait(i)) {
+        had_trait = true;
+        memorial_file << indent << traits[i].name << "\n";
+      }
+    }
+    if(!had_trait) {
+      memorial_file << indent << _("(None)") << "\n";
+    }
+    memorial_file << "\n";
+
+    //Effects (illnesses)
+    memorial_file << _("Ongoing Effects:") << "\n";
+    bool had_effect = false;
+    for(int i = 0; i < illness.size(); i++) {
+      disease next_illness = illness[i];
+      if(dis_name(next_illness).size() > 0) {
+        had_effect = true;
+        memorial_file << indent << dis_name(next_illness) << "\n";
+      }
+    }
+    //Various effects not covered by the illness list - from player.cpp
+    if(morale_level() >= 100) {
+      had_effect = true;
+      memorial_file << indent << _("Elated") << "\n";
+    }
+    if(morale_level() <= -100) {
+      had_effect = true;
+      memorial_file << indent << _("Depressed") << "\n";
+    }
+    if(pain - pkill > 0) {
+      had_effect = true;
+      memorial_file << indent << _("Pain") << " (" << (pain - pkill) << ")";
+    }
+    if(stim > 0) {
+      had_effect = true;
+      int dexbonus = int(stim / 10);
+      if (abs(stim) >= 30) {
+        dexbonus -= int(abs(stim - 15) /  8);
+      }
+      if(dexbonus < 0) {
+        memorial_file << indent << _("Stimulant Overdose") << "\n";
+      } else {
+        memorial_file << indent << _("Stimulant") << "\n";
+      }
+    } else if(stim < 0) {
+      had_effect = true;
+      memorial_file << indent << _("Depressants") << "\n";
+    }
+    if(!had_effect) {
+      memorial_file << indent << _("(None)") << "\n";
+    }
+    memorial_file << "\n";
+
+    //Bionics
+    memorial_file << _("Bionics:") << "\n";
+    int total_bionics = 0;
+    for(int i = 0; i < my_bionics.size(); i++) {
+      bionic_id next_bionic_id = my_bionics[i].id;
+      memorial_file << indent << (i+1) << ": " << bionics[next_bionic_id]->name << "\n";
+      total_bionics++;
+    }
+    if(total_bionics == 0) {
+      memorial_file << indent << _("No bionics were installed.") << "\n";
+    } else {
+      memorial_file << _("Total bionics: ") << total_bionics << "\n";
+    }
+    memorial_file << _("Power: ") << power_level << "/" << max_power_level << "\n";
+    memorial_file << "\n";
+
+    //Equipment
+    memorial_file << _("Weapon:") << "\n";
+    memorial_file << indent << weapon.invlet << " - " << weapon.tname(g) << "\n";
+    memorial_file << "\n";
+
+    memorial_file << _("Equipment:") << "\n";
+    for(int i = 0; i < worn.size(); i++) {
+      item next_item = worn[i];
+      memorial_file << indent << next_item.invlet << " - " << next_item.tname(g);
+      if(next_item.charges > 0) {
+        memorial_file << " (" << next_item.charges << ")";
+      } else if (next_item.contents.size() == 1
+              && next_item.contents[0].charges > 0) {
+        memorial_file << " (" << next_item.contents[0].charges << ")";
+      }
+      memorial_file << "\n";
+    }
+    memorial_file << "\n";
+
+    //Inventory
+    memorial_file << _("Inventory:") << "\n";
+    inv.sort();
+    inv.restack(this);
+    for(int i = 0; i < inv.size(); i++) {
+      invslice slice = inv.slice(i, 1);
+      item& next_item = slice[0]->front();
+      memorial_file << indent << next_item.invlet << " - " << next_item.tname(g);
+      if(slice[0]->size() > 1) {
+        memorial_file << " [" << slice[0]->size() << "]";
+      }
+      if(next_item.charges > 0) {
+        memorial_file << " (" << next_item.charges << ")";
+      } else if (next_item.contents.size() == 1
+              && next_item.contents[0].charges > 0) {
+        memorial_file << " (" << next_item.contents[0].charges << ")";
+      }
+      memorial_file << "\n";
+    }
+}
+
 void player::disp_info(game *g)
 {
  int line;
@@ -2235,7 +1861,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  effect_win_size_y--;
 
 // Print name and header
- mvwprintw(w_tip, 0, 0, "%s - %s", name.c_str(), (male ? _("Male") : _("Female")));
+ if (male) {
+    mvwprintw(w_tip, 0, 0, "%s - Male", name.c_str());
+ } else {
+    mvwprintw(w_tip, 0, 0, "%s - Female", name.c_str());
+ }
  mvwprintz(w_tip, 0, 39, c_ltred, _("| Press TAB to cycle, ESC or q to return."));
  wrefresh(w_tip);
 
@@ -2319,7 +1949,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
-
+ 
  const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
@@ -2340,7 +1970,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   else if (temp_conv[i] >  BODYTEMP_VERY_COLD) color = c_ltblue;
   else if (temp_conv[i] >  BODYTEMP_FREEZING)  color = c_cyan;
   else if (temp_conv[i] <= BODYTEMP_FREEZING)  color = c_blue;
-  wprintz(w_encumb, color, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
+  wprintz(w_encumb, color, " (%3d)", iWarmth);
+  //  wprintz(w_encumb, color, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
  }
  wrefresh(w_encumb);
 
@@ -2437,9 +2068,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  int newmoves = current_speed(g);
  int pen = 0;
  line = 3;
- if (weight_carried() > int(weight_capacity() * .25)) {
-  pen = 75 * double((weight_carried() - int(weight_capacity() * .25)) /
-                    (weight_capacity() * .75));
+ if (weight_carried() > weight_capacity()) {
+  pen = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
   mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -2559,8 +2189,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 // display player current STR effects
     mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
-    mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %d lbs     "),
-             weight_capacity(false) / 4);
+    mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
+                      OPTIONS["USE_METRIC_WEIGHT"]?"kg":"lbs");
     mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
@@ -2577,10 +2207,13 @@ which require brute force."));
     mvwprintz(w_stats, 7, 2, c_magenta, _("Ranged penalty: -%d"),
              abs(ranged_dex_mod(false)));
     mvwprintz(w_stats, 8, 2, c_magenta, "                                            ");
-    mvwprintz(w_stats, 8, 2, c_magenta,
-             (throw_dex_mod(false) <= 0 ? _("Throwing bonus: %s%d") : _("Throwing penalty: %s%d")),
-             (throw_dex_mod(false) <= 0 ? "+" : "-"),
-             abs(throw_dex_mod(false)));
+    if (throw_dex_mod(false) <= 0) {
+        mvwprintz(w_stats, 8, 2, c_magenta, _("Throwing bonus: +%d"),
+                  abs(throw_dex_mod(false)));
+    } else {
+        mvwprintz(w_stats, 8, 2, c_magenta, _("Throwing penalty: -%d"),
+                  abs(throw_dex_mod(false)));
+    }
     mvwprintz(w_info, 0, 0, c_magenta, _("\
 Dexterity affects your chance to hit in melee combat, helps you steady your\n\
 gun for ranged combat, and enhances many actions that require finesse."));
@@ -2870,7 +2503,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
      min = 0;
    }
 
-   Skill *selectedSkill;
+   Skill *selectedSkill = NULL;
 
    for (int i = min; i < max; i++)
    {
@@ -3057,7 +2690,7 @@ void player::disp_morale(game *g)
 
 void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
-    int sideStyle = OPTIONS[OPT_SIDEBAR_STYLE];
+    int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "Narrow");
 
     WINDOW *weapwin = sideStyle ? w2 : w;
     mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
@@ -3243,7 +2876,6 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
               veh->turret_mode ? "auto" : "off ");
   }
 
-
   //
   // Draw the speedometer.
   //
@@ -3251,7 +2883,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   int speedox = sideStyle ? 0 : 33;
   int speedoy = sideStyle ? 5 :  3;
 
-  bool metric = OPTIONS[OPT_USE_METRIC_SYS];
+  bool metric = OPTIONS["USE_METRIC_SPEED"];
   const char *units = metric ? "km/h" : "mph";
   int velx    = metric ?  5 : 4; // strlen(units) + 1
   int cruisex = metric ? 10 : 9; // strlen(units) + 6
@@ -3343,6 +2975,53 @@ void player::toggle_mutation(int flag)
  my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
 }
 
+mutation_category player::get_highest_category() // Returns the mutation category with the highest strength
+{
+	int level = 0;
+	mutation_category maxcat = MUTCAT_NULL;
+	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
+	{
+		if (mutation_category_level[i] > level)
+		{
+			maxcat = mutation_category(i);
+			level = mutation_category_level[i];
+		}
+	}
+	return maxcat;
+}
+
+int player::get_category_level(mutation_category cat) // Returns the strength of a given mutation category
+{
+	int level = 0;
+	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
+	{
+		if (mutation_category(i) == cat)
+		{
+			level = mutation_category_level[i];
+		}
+	}
+	return level;
+}
+
+std::string player::get_category_dream(mutation_category cat, int strength) // Returns a randomly selected dream
+{
+	std::string message;
+	std::vector<dream> valid_dreams;
+	dream selected_dream;
+	for (int i = 0; i < dreams.size(); i++) // Pull the list of dreams
+	{
+		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) // Pick only the ones matching our desired category and strength
+		{
+			valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
+		}	
+	}
+	int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
+	selected_dream = valid_dreams[index];
+	index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream
+	message = selected_dream.message[index];
+	return message;	
+}
+
 bool player::in_climate_control(game *g)
 {
     bool regulated_area=false;
@@ -3426,6 +3105,10 @@ float player::active_light()
 
     int flashlight = active_item_charges("flashlight_on");
     int torch = active_item_charges("torch_lit");
+	int shishkebab = active_item_charges("shishkebab_on");
+	int firemachete = active_item_charges("firemachete_on");
+	int broadfire = active_item_charges("broadfire_on");
+	int firekatana = active_item_charges("firekatana_on");
     int gasoline_lantern = active_item_charges("gasoline_lantern_on");
     if (flashlight > 0)
     {
@@ -3434,6 +3117,22 @@ float player::active_light()
     else if (torch > 0)
     {
         lumination = std::min(100, torch * 5);
+    }
+	else if (shishkebab > 0)
+    {
+        lumination = std::min(100, shishkebab * 5);
+    }
+	else if (firemachete > 0)
+    {
+        lumination = std::min(100, firemachete * 5);
+    }
+	else if (broadfire > 0)
+    {
+        lumination = std::min(100, broadfire * 5);
+    }
+    else if (firekatana > 0)
+    {
+        lumination = std::min(100, firekatana * 5);
     }
     else if (active_item_charges("pda_flashlight") > 0)
     {
@@ -3585,6 +3284,10 @@ void player::pause(game *g)
    arm_max = 20;
   add_disease("armor_boost", 2, arm_amount, arm_max);
  }
+
+// Train swimming if underwater
+ if (underwater)
+   practice(g->turn, "swimming", 1);
 }
 
 int player::throw_range(signed char ch)
@@ -3597,10 +3300,11 @@ int player::throw_range(signed char ch)
  else
   tmp = inv.item_by_letter(ch);
 
- if (tmp.weight() > int(str_cur * 15))
+ if ((tmp.weight() / 113) > int(str_cur * 15))
   return 0;
- int ret = int((str_cur * 8) / (tmp.weight() > 0 ? tmp.weight() : 10));
- ret -= int(tmp.volume() / 10);
+ // Increases as weight decreases until 150 g, then decreases again
+ int ret = (str_cur * 8) / (tmp.weight() > 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+ ret -= int(tmp.volume() / 4);
  if (has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel")))
     ret *= 2;
  if (ret < 1)
@@ -3659,14 +3363,22 @@ int player::read_speed(bool real_life)
 
 int player::rust_rate(bool real_life)
 {
- if (OPTIONS[OPT_SKILL_RUST] == 4) return 0;
- int intel = (real_life ? int_cur : int_max);
- int ret = (OPTIONS[OPT_SKILL_RUST] < 2 ? 500 : 500 - 35 * (intel - 8));
- if (has_trait(PF_FORGETFUL))
-  ret *= 1.33;
- if (ret < 0)
-  ret = 0;
- return (real_life ? ret : ret / 10);
+    if (OPTIONS["SKILL_RUST"] == "Off") {
+        return 0;
+    }
+
+    int intel = (real_life ? int_cur : int_max);
+    int ret = ((OPTIONS["SKILL_RUST"] == "Vanilla" || OPTIONS["SKILL_RUST"] == "Capped") ? 500 : 500 - 35 * (intel - 8));
+
+    if (has_trait(PF_FORGETFUL)) {
+        ret *= 1.33;
+    }
+
+    if (ret < 0) {
+        ret = 0;
+    }
+
+    return (real_life ? ret : ret / 10);
 }
 
 int player::talk_skill()
@@ -4318,6 +4030,16 @@ void player::suffer(game *g)
     }
     if (!has_disease("sleep"))
     {
+        if (weight_carried() > weight_capacity())
+        {
+            // one in 11 with it reducing by 1 for every additional 20%, occurs constantly at 300%
+            // " + 1" is so that the shift occurs on the 20% instead of above it
+            if (one_in(10 - ((weight_carried() + 1) / (weight_capacity() / 5) - 7)) )
+            {
+                g->add_msg_if_player(this,"Your body strains under the weight!");
+                pain += 1;
+            }
+        }
         int timer = -3600;
         if (has_trait(PF_ADDICTIVE))
         {
@@ -4674,7 +4396,7 @@ void player::suffer(game *g)
  {
      if (radiation < 0) radiation = 0;
      else if (radiation > 2000) radiation = 2000;
-     if (OPTIONS[OPT_RAD_MUTATION] && rng(60, 2500) < radiation)
+     if (OPTIONS["RAD_MUTATION"] && rng(60, 2500) < radiation)
      {
          mutate(g);
          radiation /= 2;
@@ -4836,6 +4558,15 @@ void player::vomit(game *g)
  rem_disease("sleep");
 }
 
+void player::drench(game *g, int saturation) {
+  int morale_cap = (g->temperature - 60) * saturation / 100;
+
+  if (morale_cap == 0)
+    return;
+
+  add_morale(MORALE_WET, (morale_cap > 0?1:-1), morale_cap);
+}
+
 int player::weight_carried()
 {
     int ret = 0;
@@ -4856,7 +4587,7 @@ int player::volume_carried()
 int player::weight_capacity(bool real_life)
 {
  int str = (real_life ? str_cur : str_max);
- int ret = 400 + str * 35;
+ int ret = 13000 + str * 4000;
  if (has_trait(PF_BADBACK))
   ret = int(ret * .65);
  if (has_trait(PF_LIGHT_BONES))
@@ -4864,7 +4595,7 @@ int player::weight_capacity(bool real_life)
  if (has_trait(PF_HOLLOW_BONES))
   ret = int(ret * .60);
  if (has_artifact_with(AEP_CARRY_MORE))
-  ret += 200;
+  ret += 22500;
  return ret;
 }
 
@@ -4885,13 +4616,33 @@ int player::volume_capacity()
  return ret;
 }
 
+double player::convert_weight(int weight)
+{
+    double ret;
+    ret = double(weight);
+    if (OPTIONS["USE_METRIC_WEIGHT"]) {
+        ret /= 1000;
+    } else {
+        ret /= 453.6;
+    }
+    return ret;
+}
+
 bool player::can_pickVolume(int volume)
 {
     return (volume_carried() + volume <= volume_capacity());
 }
-bool player::can_pickWeight(int weight)
+bool player::can_pickWeight(int weight, bool safe)
 {
-    return (weight_carried() + weight <= weight_capacity());
+    if (!safe)
+    {
+        //Player can carry up to four times their maximum weight
+        return (weight_carried() + weight <= weight_capacity() * 4);
+    }
+    else
+    {
+        return (weight_carried() + weight <= weight_capacity());
+    }
 }
 
 // --- Library functions ---
@@ -5579,7 +5330,7 @@ int player::butcher_factor()
   lowest_factor = inv_factor;
  }
  if (weapon.damage_cut() >= 10 && !weapon.has_flag("SPEAR")) {
-  int factor = weapon.volume() * 5 - weapon.weight() * 1.5 -
+  int factor = weapon.volume() * 5 - weapon.weight() / 75 -
                weapon.damage_cut();
   if (weapon.damage_cut() <= 20)
    factor *= 2;
@@ -5935,7 +5686,7 @@ bool player::eat(game *g, signed char ch)
             if (book->type != NULL && !query_yn(_("Really eat %s?"), book->name.c_str()))
                 return false;
         }
-        int charge = (eaten->volume() + eaten->weight()) / 2;
+        int charge = (eaten->volume() + eaten->weight()) / 225;
         if (eaten->type->m1 == "leather" || eaten->type->m2 == "leather")
             charge /= 4;
         if (eaten->type->m1 == "wood"    || eaten->type->m2 == "wood")
@@ -6025,11 +5776,11 @@ bool player::eat(game *g, signed char ch)
         if (eaten->poison > 0)
             add_disease("foodpoison", eaten->poison * 300);
 
-        if (comest->comesttype == "DRINK") {
+        if (comest->comesttype == "DRINK" && !eaten->has_flag("USE_EAT_VERB")) {
             g->add_msg_player_or_npc( this, _("You drink your %s."), _("<npcname> drinks a %s."),
                                       eaten->tname(g).c_str());
         }
-        else if (comest->comesttype == "FOOD") {
+        else if (comest->comesttype == "FOOD" || eaten->has_flag("USE_EAT_VERB")) {
             g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                       eaten->tname(g).c_str());
         }
@@ -6134,13 +5885,10 @@ bool player::eat(game *g, signed char ch)
             it.contents.erase(it.contents.begin());
             if (!is_npc())
             {
-                switch ((int)OPTIONS[OPT_DROP_EMPTY])
-                {
-                case 0:
-                    g->add_msg(_("%c - an empty %s"), it.invlet,
-                               it.tname(g).c_str());
-                    break;
-                case 1:
+                if (OPTIONS["DROP_EMPTY"] == "No") {
+                    g->add_msg(_("%c - an empty %s"), it.invlet, it.tname(g).c_str());
+
+                } else if (OPTIONS["DROP_EMPTY"] == "Watertight") {
                     if (it.is_container())
                     {
                         if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS")))
@@ -6149,19 +5897,18 @@ bool player::eat(game *g, signed char ch)
                             g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                         }
                         else
-                            g->add_msg(_("%c - an empty %s"), it.invlet,
-                                       it.tname(g).c_str());
+                        {
+                            g->add_msg(_("%c - an empty %s"), it.invlet,it.tname(g).c_str());
+                        }
                     }
                     else if (it.type->id == "wrapper") // hack because wrappers aren't containers
                     {
                         g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                         g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                     }
-                    break;
-                case 2:
+                } else if (OPTIONS["DROP_EMPTY"] == "All") {
                     g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                     g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
-                    break;
                 }
             }
             if (inv.stack_by_letter(it.invlet).size() > 0)
@@ -6476,14 +6223,19 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
     }
     else
     {
-        // Only helmets can be worn with power armor, except other power armor components
-        if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & (mfb(bp_head) | mfb(bp_eyes))))
-        {
-            if(interactive)
+        // Only headgear can be worn with power armor, except other power armor components
+        if( armor->covers & ~(mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) ) ) {
+            for (int i = 0; i < worn.size(); i++)
             {
-                g->add_msg(_("You can't wear %s with power armor!"), to_wear->tname().c_str());
+                if( ((it_armor *)worn[i].type)->is_power_armor() )
+                {
+                    if(interactive)
+                    {
+                        g->add_msg(_("You can't wear %s with power armor!"), to_wear->tname().c_str());
+                    }
+                    return false;
+                }
             }
-            return false;
         }
     }
 
@@ -6603,7 +6355,13 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg(_("You cannot wear a helmet over your %s."), (has_trait(PF_HORNS_POINTED) ? _("horns") : (has_trait(PF_ANTENNAE) ? _("antennae") : _("antlers"))));
+                if (has_trait(PF_HORNS_POINTED)) {
+                    g->add_msg(_("You cannot wear a helmet over your horns."));
+                } else if (has_trait(PF_ANTENNAE)) {
+                    g->add_msg(_("You cannot wear a helmet over your antennae."));
+                } else {
+                    g->add_msg(_("You cannot wear a helmet over your antlers."));
+                }
             }
             return false;
         }
@@ -6647,7 +6405,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             if (armor->covers & mfb(i) && encumb(i) >= 4)
             {
                 g->add_msg(
-                    (i == bp_head || i == bp_torso) ?
+                    (i == bp_head || i == bp_torso) ? 
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
                     body_part_name(body_part(i), 2).c_str(), encumb_text(body_part(i)).c_str());
             }
@@ -7612,7 +7370,7 @@ bool player::can_study_recipe(it_book* book)
     for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
     {
         if (!knows_recipe(iter->first) &&
-            (iter->first->sk_primary == NULL || skillLevel(iter->first->sk_primary) >= iter->second))
+            (iter->first->skill_used == NULL || skillLevel(iter->first->skill_used) >= iter->second))
         {
             return true;
         }
@@ -7637,9 +7395,9 @@ bool player::try_study_recipe(game *g, it_book *book)
     for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
     {
         if (!knows_recipe(iter->first) &&
-            (iter->first->sk_primary == NULL || skillLevel(iter->first->sk_primary) >= iter->second))
+            (iter->first->skill_used == NULL || skillLevel(iter->first->skill_used) >= iter->second))
         {
-            if (iter->first->sk_primary == NULL || rng(0, 4) <= skillLevel(iter->first->sk_primary) - iter->second)
+            if (iter->first->skill_used == NULL || rng(0, 4) <= skillLevel(iter->first->skill_used) - iter->second)
             {
                 learn_recipe(iter->first);
                 g->add_msg(_("Learned a recipe for %s from the %s."),
@@ -7671,8 +7429,8 @@ void player::try_to_sleep(game *g)
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
   g->add_msg(
-             terlist[ter_at_pos].movecost <= 2 ?
-             _("It's a little hard to get to sleep on this %s.") :
+             terlist[ter_at_pos].movecost <= 2 ? 
+             _("It's a little hard to get to sleep on this %s.") : 
              _("It's hard to get to sleep on this %s."),
              terlist[ter_at_pos].name.c_str());
  add_disease("lying_down", 300);
@@ -8235,10 +7993,20 @@ bool player::knows_recipe(recipe *rec)
     // do we know the recipe by virtue of it being autolearned?
     if (rec->autolearn)
     {
-        if( (rec->sk_primary == NULL ||
-             skillLevel(rec->sk_primary) >= rec->difficulty) &&
-            (rec->sk_secondary == NULL || skillLevel(rec->sk_secondary) > 0) )
-        {
+        // Can the skill being trained can handle the difficulty of the task
+        bool meets_requirements = false;
+        if(rec->skill_used == NULL || skillLevel(rec->skill_used) >= rec->difficulty){
+            meets_requirements = true;
+            //If there are required skills, insure their requirements are met, or we can't craft
+            if(rec->required_skills.size()){
+                for(std::map<Skill*,int>::iterator iter=rec->required_skills.begin(); iter!=rec->required_skills.end();iter++){
+                    if(skillLevel(iter->first) < iter->second){
+                        meets_requirements = false;
+                    }
+                }
+            }
+        }
+        if(meets_requirements){
             return true;
         }
     }

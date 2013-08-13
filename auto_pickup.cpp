@@ -467,7 +467,7 @@ void load_auto_pickup(bool bCharacter)
                 bool bActive = true;
                 bool bExclude = false;
 
-                int iPos = 0;
+                size_t iPos = 0;
                 int iCol = 1;
                 do {
                     iPos = sLine.find(";");

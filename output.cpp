@@ -53,7 +53,7 @@ nc_color hilite(nc_color c)
 
 nc_color invert_color(nc_color c)
 {
- if (OPTIONS[OPT_NO_CBLINK]) {
+ if (OPTIONS["NO_BRIGHT_BACKGROUNDS"]) {
   switch (c) {
    case c_white:
    case c_ltgray:
@@ -468,7 +468,7 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
 
 bool query_yn(const char *mes, ...)
 {
- bool force_uc = OPTIONS[OPT_FORCE_YN];
+ bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
  va_list ap;
  va_start(ap, mes);
  char buff[1024];
@@ -932,7 +932,7 @@ void full_screen_popup(const char* mes, ...)
 
 //note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things
 //if sType == "MENU", sFmt == "iOffsetY" or "iOffsetX" also do special things
-//otherwise if sType == "MENU", iValue can be used to control color
+//otherwise if sType == "MENU", dValue can be used to control color
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected)
@@ -948,15 +948,19 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
  for (int i = 0; i < vItemDisplay.size(); i++) {
   if (vItemDisplay[i].sType == "MENU") {
    if (vItemDisplay[i].sFmt == "iOffsetY") {
-    line_num += vItemDisplay[i].iValue;
+    line_num += int(vItemDisplay[i].dValue);
    } else if (vItemDisplay[i].sFmt == "iOffsetX") {
-    iStartX = vItemDisplay[i].iValue;
+    iStartX = int(vItemDisplay[i].dValue);
    } else {
     nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
     //patched to allow variable "name" coloring, e.g. for item examining
     nc_color bgColor = c_white;     //yes the name makes no sense
-    if (vItemDisplay[i].iValue >= 0) {
-     nameColor = vItemDisplay[i].iValue == 0 ? c_ltgray : c_ltred;
+    if (vItemDisplay[i].dValue >= 0) {
+        if (vItemDisplay[i].dValue < .1 && vItemDisplay[i].dValue > -.1){
+            nameColor = c_ltgray;
+        } else {
+            nameColor = c_ltred;
+        }
     }
     if ( i == selected && vItemDisplay[i].sName != "" ) {
       bgColor = h_white;
@@ -999,20 +1003,21 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
         wprintz(w, c_white, sFmt.c_str());
    }
 
-   if (vItemDisplay[i].iValue != -999) {
+   if (vItemDisplay[i].sValue != "-999") {
     nc_color thisColor = c_white;
     for (int k = 0; k < vItemCompare.size(); k++) {
-     if (vItemCompare[k].iValue != -999) {
+     if (vItemCompare[k].sValue != "-999") {
       if (vItemDisplay[i].sName == vItemCompare[k].sName) {
-       if (vItemDisplay[i].iValue == vItemCompare[k].iValue) {
+       if (vItemDisplay[i].dValue > vItemCompare[k].dValue - .1 &&
+           vItemDisplay[i].dValue < vItemCompare[k].dValue + .1) {
          thisColor = c_white;
-       } else if (vItemDisplay[i].iValue > vItemCompare[k].iValue) {
+       } else if (vItemDisplay[i].dValue > vItemCompare[k].dValue) {
         if (vItemDisplay[i].bLowerIsBetter) {
          thisColor = c_ltred;
         } else {
          thisColor = c_ltgreen;
         }
-       } else if (vItemDisplay[i].iValue < vItemCompare[k].iValue) {
+       } else if (vItemDisplay[i].dValue < vItemCompare[k].dValue) {
         if (vItemDisplay[i].bLowerIsBetter) {
          thisColor = c_ltgreen;
         } else {
@@ -1023,7 +1028,11 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
       }
      }
     }
-    wprintz(w, thisColor, "%s%d", sPlus.c_str(), vItemDisplay[i].iValue);
+    if (vItemDisplay[i].is_int == true) {
+        wprintz(w, thisColor, "%s%.0f", sPlus.c_str(), vItemDisplay[i].dValue);
+    } else {
+        wprintz(w, thisColor, "%s%.1f", sPlus.c_str(), vItemDisplay[i].dValue);
+    }
    }
     wprintz(w, c_white, sPost.c_str());
 
@@ -1277,7 +1286,7 @@ size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fm
     char buff[3000];    //TODO replace Magic Number
     vsprintf(buff, fmt, ap);
     va_end(ap);
-    
+
     std::string tmp = buff;
     size_t pos = tmp.find_first_of('<');
     size_t pos2 = tmp.find_first_of('>');
@@ -1293,7 +1302,7 @@ size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fm
     }
     else
     {
-        // no shutcut? 
+        // no shutcut?
         wprintz(w, color, buff);
         len = utf8_width(buff);
     }

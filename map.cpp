@@ -604,15 +604,6 @@ bool map::vehproceed(game* g){
       rl_vec2d final1 = ( ( velo_veh1 * ( m1 - m2 ) ) + delta1 ) / ( m1 + m2 );
       rl_vec2d final2 = ( ( velo_veh2 * ( m2 - m1 ) ) + delta2 ) / ( m1 + m2 );
 
-/*    old bouncing pingpong collisions that generate kinetic energy to reach mach 20+
-      rl_vec2d imp1 = collision_axis   *    collision_axis.dot_product (velo_veh1) * m1;
-      rl_vec2d imp2 = (collision_axis) * (-collision_axis).dot_product (velo_veh2) * m2;
-      rl_vec2d delta1 = (imp2 * .7f) / m1;
-      rl_vec2d delta2 = (imp1 * .7f) / m2;
-      rl_vec2d final1 = velo_veh1 + delta1;
-      rl_vec2d final2 = velo_veh2 + delta2;
-*/
-
       veh->move.init (final1.x, final1.y);
       veh->velocity = final1.norm();
       // shrug it off if the change is less than 8mph.
@@ -646,7 +637,7 @@ bool map::vehproceed(game* g){
       if (imp > 100)
          veh->damage_all(imp / 20, imp / 10, 1);// shake veh because of collision
       std::vector<int> ppl = veh->boarded_parts();
-      const int vel2 = imp * k_mvel * 100 / (veh->total_mass() / 8);
+      const int vel2 = imp * k_mvel * 100 / (veh->total_mass() / 2);
       for (int ps = 0; ps < ppl.size(); ps++) {
          player *psg = veh->get_passenger (ppl[ps]);
          if (!psg) {
@@ -783,16 +774,8 @@ bool map::displace_water (const int x, const int y)
 
 void map::set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture)
 {
- if (!INBOUNDS(x, y)) {
-  return;
- }
-
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- grid[nonant]->ter[lx][ly] = new_terrain;
- grid[nonant]->frn[lx][ly] = new_furniture;
+ furn_set(x, y, new_furniture);
+	ter_set(x, y, new_terrain);
 }
 
 std::string map::name(const int x, const int y)
@@ -1251,7 +1234,7 @@ switch (furn(x, y)) {
    return true;
   }
   break;
-  
+
  case f_skin_wall:
  case f_skin_door:
  case f_skin_door_o:
@@ -1265,7 +1248,7 @@ switch (furn(x, y)) {
   if (str >= result)
   {
    // Special code to collapse the tent if destroyed
-   int tentx, tenty = -1;
+   int tentx = -1, tenty = -1;
    // Find the center of the tent
    for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++)
@@ -2125,7 +2108,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     {
         bool destroyed = false;
         int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);   // volume dependent chance
-  
+
         if (dam > i_at(x, y)[i].bash_resist() && one_in(chance))
         {
             i_at(x, y)[i].damage++;
@@ -2134,7 +2117,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         {
             destroyed = true;
         }
-  
+
         if (destroyed)
         {
             for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
@@ -2244,6 +2227,9 @@ bool map::open_door(const int x, const int y, const bool inside)
  } else if (furn(x, y) == f_skin_door) {
   furn_set(x, y, f_skin_door_o);
   return true;
+ } else if (furn(x, y) == f_safe_c) {
+  furn_set(x, y, f_safe_o);
+  return true;
  } else if (inside && ter(x, y) == t_curtains) {
   ter_set(x, y, t_window_domestic);
   return true;
@@ -2321,6 +2307,9 @@ bool map::close_door(const int x, const int y, const bool inside)
   return true;
  } else if (furn(x, y) == f_skin_door_o) {
   furn_set(x, y, f_skin_door);
+  return true;
+ } else if (furn(x, y) == f_safe_o) {
+  furn_set(x, y, f_safe_c);
   return true;
  } else if (inside && ter(x, y) == t_window_open) {
   ter_set(x, y, t_window_domestic);
@@ -2899,28 +2888,31 @@ field& map::field_at(const int x, const int y)
  return grid[nonant]->fld[lx][ly];
 }
 
-bool map::add_field(game *g, const int x, const int y,
-					const field_id t, const unsigned char new_density)
+bool map::add_field(game *g, const point p, const field_id t, unsigned int density, const int age)
 {
-	unsigned int density = new_density;
-
-	if (!INBOUNDS(x, y))
+	if (!INBOUNDS(p.x, p.y))
 		return false;
 
 	if (density > 3)
 		density = 3;
 	if (density <= 0)
 		return false;
-	const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+	const int nonant = int(p.x / SEEX) + int(p.y / SEEY) * my_MAPSIZE;
 
-	const int lx = x % SEEX;
-	const int ly = y % SEEY;
+	const int lx = p.x % SEEX;
+	const int ly = p.y % SEEY;
 	if (!grid[nonant]->fld[lx][ly].findField(t)) //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
 		grid[nonant]->field_count++; //Only adding it to the count if it doesn't exist.
-	grid[nonant]->fld[lx][ly].addField(t, density, 0); //This will insert and/or update the field.
-	if(g != NULL && x == g->u.posx && y == g->u.posy)
-		step_in_field(x,y,g); //Hit the player with the field if it spawned on top of them.
+	grid[nonant]->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
+	if(g != NULL && p.x == g->u.posx && p.y == g->u.posy)
+		step_in_field(p.x,p.y,g); //Hit the player with the field if it spawned on top of them.
 	return true;
+}
+
+bool map::add_field(game *g, const int x, const int y,
+					const field_id t, const unsigned char new_density)
+{
+ return this->add_field(g,point(x,y),t,new_density,0);
 }
 
 void map::remove_field(const int x, const int y, const field_id field_to_remove)
@@ -3044,34 +3036,28 @@ void map::draw(game *g, WINDOW* w, const point center)
    // this must stay here...
    int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
    int distance_to_look = real_max_sight_range;
-   if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
-    // in this case we'll be always looking at maximum distance
-    // and light level should do rest of the work....
-    distance_to_look = DAYLIGHT_LEVEL;
-   }
+   distance_to_look = DAYLIGHT_LEVEL;
 
    bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
    lit_level lit = light_at(realx, realy);
 
-   if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
-    // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
-	// but at the same time changing light-level depending on distance,
-	// to create actual "gradual" stuff
-	// Also we'll try to ALWAYS show LL_BRIGHT stuff independent of where it is...
-    if (lit != LL_BRIGHT) {
-     if (dist > real_max_sight_range) {
-      int intLit = (int)lit - (dist - real_max_sight_range)/2;
-      if (intLit < 0) intLit = LL_DARK;
-      lit = (lit_level)intLit;
-     }
-    }
-	// additional case for real_max_sight_range
-	// if both light_sight_range and max_sight_range were small
-	// it means we really have limited visibility (e.g. inside a pit)
-	// and we shouldn't touch that
-	if (lit > LL_DARK && real_max_sight_range > 1) {
-     real_max_sight_range = distance_to_look;
-    }
+   // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
+   // but at the same time changing light-level depending on distance,
+   // to create actual "gradual" stuff
+   // Also we'll try to ALWAYS show LL_BRIGHT stuff independent of where it is...
+   if (lit != LL_BRIGHT) {
+       if (dist > real_max_sight_range) {
+           int intLit = (int)lit - (dist - real_max_sight_range)/2;
+           if (intLit < 0) intLit = LL_DARK;
+           lit = (lit_level)intLit;
+       }
+   }
+   // additional case for real_max_sight_range
+   // if both light_sight_range and max_sight_range were small
+   // it means we really have limited visibility (e.g. inside a pit)
+   // and we shouldn't touch that
+   if (lit > LL_DARK && real_max_sight_range > 1) {
+       real_max_sight_range = distance_to_look;
    }
 
    if ((g->u.has_active_bionic("bio_night") && dist < 15 && dist > natural_sight_range) || // if bio_night active, blackout 15 tile radius around player

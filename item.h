@@ -18,20 +18,32 @@ struct iteminfo{
  public:
   std::string sType; //Itemtype
   std::string sName; //Main item text
-  std::string sFmt; //format string
-  int iValue; //Set to -999 if no compare value is present
+  std::string sFmt; //Text between main item and value
+  std::string sValue; //Set to "-999" if no compare value is present
+  double dValue; //Stores double value of sValue for value comparisons
+  bool is_int; //Sets if sValue should be treated as int or single decimal double
   std::string sPlus; //number +
   bool bNewLine; //New line at the end
   bool bLowerIsBetter; //Lower values are better (red <-> green)
 
-  iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", int iIn0 = -999, std::string sIn3 = "", bool bIn0 = true, bool bIn1 = false) {
-   sType = sIn0;
-   sName = sIn1;
-   sFmt = sIn2;
-   sPlus = sIn3;
-   iValue = iIn0;
-   bNewLine = bIn0;
-   bLowerIsBetter = bIn1;
+  iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", double dIn0 = -999, bool bIn0 = true, std::string sIn3 = "", bool bIn1 = true, bool bIn2 = false) {
+    sType = sIn0;
+    sName = sIn1;
+    sFmt = sIn2;
+    is_int = bIn0;
+    dValue = dIn0;
+    std::stringstream convert;
+    if (bIn0 == true) {
+    int dIn0i = int(dIn0);
+    convert << dIn0i;
+    } else {
+    convert.precision(1);
+    convert << dIn0;
+    }
+    sValue = convert.str();
+    sPlus = sIn3;
+    bNewLine = bIn1;
+    bLowerIsBetter = bIn2;
   }
 };
 

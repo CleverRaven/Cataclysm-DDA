@@ -49,6 +49,7 @@
 			<Add library="gdi32" />
 			<Add library="intl" />
 			<Add library="iconv" />
+			<Add library="winmm" />
 		</Linker>
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
@@ -99,6 +100,7 @@
 		<Unit filename="game.h" />
 		<Unit filename="gamemode.cpp" />
 		<Unit filename="gamemode.h" />
+		<Unit filename="get_version.h" />
 		<Unit filename="graffiti.cpp" />
 		<Unit filename="graffiti.h" />
 		<Unit filename="help.cpp" />

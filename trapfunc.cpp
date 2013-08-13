@@ -113,7 +113,7 @@ void trapfunc::crossbow(game *g, int x, int y)
  bool add_bolt = true;
  g->add_msg(_("You trigger a crossbow trap!"));
  if (!one_in(4) && rng(8, 20) > g->u.dodge(g)) {
-  body_part hit;
+  body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
    case  2:
@@ -143,7 +143,7 @@ void trapfuncm::crossbow(game *g, monster *z, int x, int y)
 {
     bool add_bolt = true;
     bool seen = g->u_see(z);
-    int chance;
+    int chance = 0;
     // adapted from shotgun code - chance of getting hit depends on size
     switch (z->type->size) 
     {
@@ -178,7 +178,7 @@ void trapfunc::shotgun(game *g, int x, int y)
  if (g->m.tr_at(x, y) == tr_shotgun_1)
   shots = 1;
  if (rng(5, 50) > g->u.dodge(g)) {
-  body_part hit;
+  body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
    case  2:
@@ -207,7 +207,7 @@ void trapfunc::shotgun(game *g, int x, int y)
 void trapfuncm::shotgun(game *g, monster *z, int x, int y)
 {
  bool seen = g->u_see(z);
- int chance;
+ int chance = 0;
  switch (z->type->size) {
   case MS_TINY:   chance = 100; break;
   case MS_SMALL:  chance =  16; break;
@@ -413,9 +413,10 @@ void trapfuncm::boobytrap(game *g, monster *z, int x, int y)
 
 void trapfunc::telepad(game *g, int x, int y)
 {
- g->sound(x, y, 6, _("vvrrrRRMM*POP!*"));
- g->add_msg(_("The air shimmers around you..."));
- g->teleport();
+    //~ the sound of a telepad functioning
+    g->sound(x, y, 6, _("vvrrrRRMM*POP!*"));
+    g->add_msg(_("The air shimmers around you..."));
+    g->teleport();
 }
 
 void trapfuncm::telepad(game *g, monster *z, int x, int y)
@@ -476,6 +477,7 @@ void trapfuncm::goo(game *g, monster *z, int x, int y)
 void trapfunc::dissector(game *g, int x, int y)
 {
  g->add_msg(_("Electrical beams emit from the floor and slice your flesh!"));
+ //~ the sound of a dissector dissecting
  g->sound(x, y, 10, _("BRZZZAP!"));
  g->u.hit(g, bp_head,  0, 0, 15);
  g->u.hit(g, bp_torso, 0, 0, 20);
@@ -539,7 +541,7 @@ void trapfunc::pit_spikes(game *g, int x, int y)
  else if (rng(5, 30) < dodge)
   g->add_msg(_("You avoid the spikes within."));
  else {
-  body_part hit;
+  body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1:
    case  2: hit = bp_legs; break;
@@ -767,18 +769,23 @@ void trapfuncm::glow(game *g, monster *z, int x, int y)
 
 void trapfunc::hum(game *g, int x, int y)
 {
- int volume = rng(1, 200);
- std::string sfx;
- if (volume <= 10)
-  sfx = _("hrm");
- else if (volume <= 50)
-  sfx = _("hrmmm");
- else if (volume <= 100)
-  sfx = _("HRMMM");
- else
-  sfx = _("VRMMMMMM");
+    int volume = rng(1, 200);
+    std::string sfx;
+    if (volume <= 10) {
+        //~ a quiet humming sound
+        sfx = _("hrm");
+    } else if (volume <= 50) {
+        //~ a humming sound
+        sfx = _("hrmmm");
+    } else if (volume <= 100) {
+        //~ a loud humming sound
+        sfx = _("HRMMM");
+    } else {
+        //~ a very loud humming sound
+        sfx = _("VRMMMMMM");
+    }
 
- g->sound(x, y, volume, sfx);
+    g->sound(x, y, volume, sfx);
 }
 
 void trapfuncm::hum(game *g, monster *z, int x, int y)
@@ -859,6 +866,7 @@ void trapfunc::snake(game *g, int x, int y)
    return;
   }
  }
+ //~ the sound a snake makes
  g->sound(x, y, 10, _("ssssssss"));
  if (one_in(6))
   g->m.tr_at(x, y) = tr_null;

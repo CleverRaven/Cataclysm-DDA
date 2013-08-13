@@ -58,6 +58,7 @@ public:
  virtual void load_info(game *g, std::string data);// Load from file 'name.sav'
  virtual std::string save_info();		// Save to file matching name
 
+ void memorial( std::ofstream &memorial_file ); // Write out description of player.
  void disp_info(game *g);	// '@' key; extended character info
  void disp_morale(game *g);		// '%' key; morale info
  void disp_status(WINDOW* w, WINDOW *w2, game *g = NULL);// On-screen data
@@ -77,6 +78,9 @@ public:
  bool has_base_trait(int flag) const;
  void toggle_trait(int flag);
  void toggle_mutation(int flag);
+ mutation_category get_highest_category();
+ int get_category_level(mutation_category cat);
+ std::string get_category_dream(mutation_category cat, int strength);
 
  bool in_climate_control(game *g);
 
@@ -205,6 +209,8 @@ public:
  void mend(game *g);
  void vomit(game *g);
 
+ void drench(game *g, int saturation); // drenches the player in water; saturation is percent
+
  char lookup_item(char let);
  bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
@@ -251,8 +257,9 @@ public:
  int volume_carried();
  int weight_capacity(bool real_life = true);
  int volume_capacity();
+ double convert_weight(int weight);
  bool can_pickVolume(int volume);
- bool can_pickWeight(int weight);
+ bool can_pickWeight(int weight, bool safe = true);
  int net_morale(morale_point effect);
  int morale_level();	// Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,

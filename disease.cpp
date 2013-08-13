@@ -815,6 +815,7 @@ void dis_effect(game *g, player &p, disease &dis)
     }
 
   case DI_SLEEP:
+  {
     p.moves = 0;
 
     if (int(g->turn) % 25 == 0) {
@@ -842,6 +843,36 @@ void dis_effect(game *g, player &p, disease &dis)
       p.hunger--;
       p.thirst--;
     }
+	
+	// Check mutation category strengths to see if we're mutated enough to get a dream
+	mutation_category highcat = p.get_highest_category();
+	int highest = p.get_category_level(highcat);
+	
+	// Determine the strength of effects or dreams based upon category strength
+	int strength = 0;	// Category too weak for any effect or dream
+	if (highest >= 20 && highest < 35)
+	{
+		strength = 1;	// Low strength
+	}
+	else if (highest >= 35 && highest < 50)
+	{
+		strength = 2;	// Medium strength
+	}
+	else if (highest >= 50)
+	{
+		strength = 3;	// High strength
+	}
+	
+	// See if we'll get a dream
+	if ((!strength == 0)) //Only if category strength is high enough to get a dream.
+	{
+		if ((int(g->turn) % (3600 / strength) == 0) && one_in(3)) //Once every 6 / 3 / 2 hours, with a bit of randomness
+		{
+			// Select a dream
+			std::string dream = p.get_category_dream(highcat, strength);
+			g->add_msg(_("%s"),dream.c_str());
+		}
+	}
 
     if (rng(5, 80) + rng(0, 120) + rng(0, abs(p.fatigue)) +
         rng(0, abs(p.fatigue * 5)) < g->light_level() &&
@@ -873,6 +904,7 @@ void dis_effect(game *g, player &p, disease &dis)
             }
         }
     }
+  }
 
     break;
 
@@ -1216,6 +1248,7 @@ void dis_effect(game *g, player &p, disease &dis)
 // depending on the source).
 // TODO: Include a chance to teleport to the nether realm.
 // TODO: This this with regards to NPCS
+  if(&p != &(g->u)) return; // NO, no teleporting around the player because an NPC has teleglow!
   if (dis.duration > 6000) {	// 20 teles (no decay; in practice at least 21)
    if (one_in(1000 - ((dis.duration - 6000) / 10))) {
     if (!p.is_npc())

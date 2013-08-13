@@ -22,6 +22,7 @@
 #endif
 
 #define MONSTER_FOLLOW_DIST 8
+#define MONSTER_SOUND_MULT 10 // How much sound should be prioritized against sight and smell. Higher number means higher priority.
 
 void monster::receive_moves()
 {
@@ -88,6 +89,7 @@ void monster::wander_to(int x, int y, int f)
  wandf = f;
  if (has_flag(MF_GOODHEARING))
   wandf *= 6;
+ wander_priority = std::max(wander_priority, wandf);
 }
 
 void monster::plan(game *g)
@@ -132,6 +134,7 @@ void monster::plan(game *g)
  if (!is_fleeing(g->u) && can_see() && g->sees_u(posx, posy, tc)) {
   dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
   closest = -2;
+  dest_priority = 100; // Set a high priority for moving towards this target.
   stc = tc;
  }
  for (int i = 0; i < g->active_npc.size(); i++) {
@@ -184,17 +187,27 @@ void monster::plan(game *g)
 }
 
 // General movement.
-// Currently, priority goes:
+// Generally, priority goes:
 // 1) Special Attack
 // 2) Sight-based tracking
 // 3) Scent-based tracking
 // 4) Sound-based tracking
+//
+// However, using MONSTER_SOUND_MULT, sound sources may be prioritized.
+// Effectively this means that loud sounds may briefly distract monsters.
 void monster::move(game *g)
 {
 // We decrement wandf no matter what.  We'll save our wander_to plans until
 // after we finish out set_dest plans, UNLESS they time out first.
  if (wandf > 0)
   wandf--;
+  
+// Wander priority decreases much faster, as it represents an accute but
+// mostly irrelevant stimulus(loud noise)
+ wander_priority -= 2;
+ if(wander_priority < 0) wander_priority = 0;
+ 
+ dest_priority--;
 
 // First, use the special attack, if we can!
  if (sp_timeout > 0)
@@ -258,7 +271,9 @@ void monster::move(game *g)
   return;
  }
 
- if (plans.size() > 0 && !is_fleeing(g->u) &&
+ int tmp_dest_priority = dest_priority;
+ if(dest_priority >= 99) tmp_dest_priority = 1000; // If the player is RIGHT IN VIEW, sounds don't override. 
+ if (plans.size() > 0 && !is_fleeing(g->u) && tmp_dest_priority > wander_priority * MONSTER_SOUND_MULT &&
      (mondex == -1 || g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)) &&
      (can_move_to(g, plans[0].x, plans[0].y) ||
       (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
@@ -266,7 +281,7 @@ void monster::move(game *g)
   // CONCRETE PLANS - Most likely based on sight
   next = plans[0];
   moved = true;
- } else if (has_flag(MF_SMELLS)) {
+ } else if (has_flag(MF_SMELLS) && wander_priority * MONSTER_SOUND_MULT < 10) {
 // No sight... or our plans are invalid (e.g. moving through a transparent, but
 //  solid, square of terrain).  Fall back to smell if we have it.
   point tmp = scent_move(g);

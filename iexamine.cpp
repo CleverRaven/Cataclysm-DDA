@@ -408,6 +408,24 @@ void iexamine::slot_machine(game *g, player *p, map *m, int examx, int examy) {
  }
 }
 
+void iexamine::safe(game *g, player *p, map *m, int examx, int examy) {
+  if (!p->has_amount("stethoscope", 1)) {
+    g->add_msg(_("You need a stethoscope for safecracking."));
+    return;
+  }
+
+  if (query_yn(_("Attempt to crack the safe?"))) {
+    bool success = true;
+
+    if (success) {
+      m->furn_set(examx, examy, f_safe_o);
+      g->add_msg(_("You successfully crack the safe!"));
+    } else {
+      g->add_msg(_("The safe resists your attempt at cracking it."));
+    }
+  }
+}
+
 void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) {
  basecamp *camp = m->camp_at(examx, examy);
  if (camp && camp->board_x() == examx && camp->board_y() == examy) {
@@ -640,7 +658,7 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
     double recover_factor = rng(6, 9) / 10.0;
     steel_weight = (int)(steel_weight * recover_factor);
 
-    if (steel_weight == 0)
+    if (steel_weight < 113)
     {
         g->add_msg(_("The recycler chews up all the items in its hopper."));
         g->add_msg(_("The recycler beeps: \"No steel to process!\""));
@@ -656,7 +674,7 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
 
     switch(ch)
     {
-        case 1: // 1 steel lump = weight 80
+        case 1: // 1 steel lump = weight 1360
             num_lumps = steel_weight / (lump_weight);
             steel_weight -= num_lumps * (lump_weight);
             num_sheets = steel_weight / (sheet_weight);
@@ -671,7 +689,7 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             }
             break;
 
-        case 2: // 1 metal sheet = weight 20
+        case 2: // 1 metal sheet = weight 1000
             num_sheets = steel_weight / (sheet_weight);
             steel_weight -= num_sheets * (sheet_weight);
             num_chunks = steel_weight / (chunk_weight);
@@ -684,7 +702,7 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             }
             break;
 
-        case 3: // 1 steel chunk = weight 6
+        case 3: // 1 steel chunk = weight 340
             num_chunks = steel_weight / (chunk_weight);
             steel_weight -= num_chunks * (chunk_weight);
             num_scraps = steel_weight / (scrap_weight);
@@ -695,7 +713,7 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             }
             break;
 
-        case 4: // 1 metal scrap = weight 1
+        case 4: // 1 metal scrap = weight 113
             num_scraps = steel_weight / (scrap_weight);
             break;
     }

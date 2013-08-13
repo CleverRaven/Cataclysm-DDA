@@ -322,6 +322,41 @@ void inventory::update_cache_with_item(item& newit) {
     preferred_invlets.push_back(newit.invlet);
 }
 
+char inventory::get_invlet_for_item( std::string item_type ) {
+    char candidate_invlet = 0;
+
+    if( invlet_cache.count( item_type ) ) {
+        std::vector<char>& preferred_invlets = invlet_cache[ item_type ];
+
+        // Some of our preferred letters might already be used.
+        int first_free_invlet = -1;
+        for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
+            bool invlet_is_used = false; // Check if anything is using this invlet.
+            if( g->u.weapon.invlet == preferred_invlets[ invlets_index ] ) {
+                continue;
+            }
+            for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+                if( iter->front().invlet == preferred_invlets[ invlets_index ] ) {
+                    invlet_is_used = true;
+                    break;
+                }
+            }
+
+            // If we found one that isn't used, we're done iterating.
+            if( !invlet_is_used ) {
+                first_free_invlet = invlets_index;
+                break;
+            }
+        }
+
+        if( first_free_invlet != -1 ) {
+            candidate_invlet = preferred_invlets[first_free_invlet];
+        }
+    }
+    return candidate_invlet;
+}
+
+
 item& inventory::add_item(item newit, bool keep_invlet)
 {
     if (newit.is_style())
@@ -335,32 +370,10 @@ item& inventory::add_item(item newit, bool keep_invlet)
 
     if(!keep_invlet) {
         // Do we have this item in our inventory favourites cache?
-        if(invlet_cache.count(newit.typeId())) {
-            std::vector<char>& preferred_invlets = invlet_cache[newit.typeId()];
-
-            // Some of our preferred letters might already be used.
-            int first_free_invlet = -1;
-            for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
-                bool invlet_is_used = false; // Check if anything is using this invlet.
-                for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-                {
-                    if(iter->front().invlet == preferred_invlets[invlets_index]) {
-                        invlet_is_used = true;
-                        break;
-                    }
-                }
-
-                // If we found one that isn't used, we're done iterating.
-                if(!invlet_is_used) {
-                    first_free_invlet = invlets_index;
-                    break;
-                }
-            }
-
-            if(first_free_invlet != -1) {
-                newit.invlet = preferred_invlets[first_free_invlet];
-                reuse_cached_letter = true;
-            }
+        char temp_invlet = get_invlet_for_item( newit.typeId() );
+        if( temp_invlet != 0 ) {
+            newit.invlet = temp_invlet;
+            reuse_cached_letter = true;
         }
 
         // If it's not in our cache and not a lowercase letter, try to give it a low letter.
@@ -1156,7 +1169,7 @@ int inventory::butcher_factor() const
             const item& cur_item = *stack_iter;
             if (cur_item.damage_cut() >= 10 && !cur_item.has_flag("SPEAR"))
             {
-                int factor = cur_item.volume() * 5 - cur_item.weight() * 1.5 -
+                int factor = cur_item.volume() * 5 - cur_item.weight() / 75 -
                              cur_item.damage_cut();
                 if (cur_item.damage_cut() <= 20)
                 {
@@ -1454,20 +1467,15 @@ void inventory::assign_empty_invlet(item &it)
 }
 
 void inventory::load_invlet_cache( std::ifstream &fin ) {
-    if( fin.peek() == 'P' ) {
+    // Lines are of the format "P itemname abcde".
+    while( fin.peek() == 'P' ) {
         std::string invlet_cache_line;
-        std::string item_type;
         getline( fin, invlet_cache_line );
-        // Lines are of the format "P itemname abcde".
-        while( invlet_cache_line[0] == 'P' ) {
-            int first_sym = invlet_cache_line.find_first_of(' ', 2);
-            std::string item_type( invlet_cache_line, 2, first_sym - 2 );
-            std::vector<char> symbol_vec( invlet_cache_line.begin() + first_sym + 1,
-                                          invlet_cache_line.end() );
-            invlet_cache[ item_type ] = symbol_vec;
-
-            getline( fin, invlet_cache_line );
-        }
+        int first_sym = invlet_cache_line.find_first_of(' ', 2);
+        std::string item_type( invlet_cache_line, 2, first_sym - 2 );
+        std::vector<char> symbol_vec( invlet_cache_line.begin() + first_sym + 1,
+                                      invlet_cache_line.end() );
+        invlet_cache[ item_type ] = symbol_vec;
     }
 }
 

@@ -335,6 +335,7 @@ class map
 
 // Fields
  field& field_at(const int x, const int y);
+ bool add_field(game *g, const point p, const field_id t, unsigned int density, const int age);
  bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
  bool process_fields(game *g);				// See fields.cpp

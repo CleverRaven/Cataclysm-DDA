@@ -1,5 +1,6 @@
 #include "game.h"
 #include "setvector.h"
+#include "catajson.h"
 
 #define MUTATION(mut) id = mut //What mutation/trait is it?
 
@@ -17,6 +18,8 @@
 #define LEADS_TO(...) \
   setvector(&(mutation_data[id].additions), __VA_ARGS__, NULL) //What is it a prereq for?
 
+std::vector<dream> dreams;
+  
 void game::init_mutations()
 {
  int id = 0;
@@ -937,4 +940,93 @@ PF_WHISKERS, PF_DEFORMED3, PF_VOMITOUS, PF_HUNGER, PF_TROGLO2, PF_GROWL, NULL);
  }
 
  return ret;
+}
+
+void game::init_dreams()
+{
+	catajson dreams_file("data/raw/dreams.json");
+	
+	if (!json_good())
+	{
+		throw (std::string)"data/raw/dreams.json wasn't found";
+	}
+	
+	for (dreams_file.set_begin(); dreams_file.has_curr(); dreams_file.next())
+	{
+		catajson dreamcurr = dreams_file.curr();
+		
+		dream newdream;
+		
+		catajson messages = dreamcurr.get("message");
+		for (messages.set_begin(); messages.has_curr(); messages.next())
+		{
+			newdream.message.push_back(messages.curr().as_string());
+		}
+		newdream.strength		= dreamcurr.get("strength").as_int();
+		newdream.category		= string_to_mutcat(dreamcurr.get("category").as_string());
+		
+		dreams.push_back(newdream);		
+	}
+	
+	if (!json_good())
+	{
+		exit(1);
+	}
+}
+
+mutation_category string_to_mutcat(std::string input)
+{
+    mutation_category ret;
+        if (input ==  "MUTCAT_LIZARD") {
+        ret = MUTCAT_LIZARD;	
+	}
+
+	else if (input ==  "MUTCAT_BIRD") {
+        ret = MUTCAT_BIRD;	
+	}
+
+	else if (input ==  "MUTCAT_FISH") {
+        ret = MUTCAT_FISH;	
+	}
+
+	else if (input ==  "MUTCAT_BEAST") {
+        ret = MUTCAT_BEAST;	
+	}
+
+	else if (input ==  "MUTCAT_CATTLE") {
+        ret = MUTCAT_CATTLE;	
+	}
+
+	else if (input ==  "MUTCAT_INSECT") {
+        ret = MUTCAT_INSECT;	
+	}
+
+	else if (input ==  "MUTCAT_PLANT") {
+        ret = MUTCAT_PLANT;	
+	}
+
+	else if (input ==  "MUTCAT_SLIME") {
+        ret = MUTCAT_SLIME;	
+	}
+	
+	else if (input ==  "MUTCAT_TROGLO") {
+        ret = MUTCAT_TROGLO;
+	}
+
+	else if (input ==  "MUTCAT_CEPHALOPOD") {
+        ret = MUTCAT_CEPHALOPOD;	
+	}
+
+	else if (input ==  "MUTCAT_SPIDER") {
+        ret = MUTCAT_SPIDER;	
+	}
+
+	else if (input ==  "MUTCAT_RAT") {
+        ret = MUTCAT_RAT;	
+	}
+
+        else {
+        ret = MUTCAT_NULL;
+        }
+    return ret;
 }
