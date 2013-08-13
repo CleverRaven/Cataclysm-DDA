@@ -42,13 +42,13 @@ void game::init_mutations()
 		throw (std::string)"data/raw/mutations.json wasn't found";
 	}
 
+	mutations_category[""].clear(); //dont delete this!
+
 	for (mutationsRaw.set_begin(); mutationsRaw.has_curr(); mutationsRaw.next()) {
 		catajson mutationcurr = mutationsRaw.curr();
 
         std::string sMutation = mutationcurr.get("MUTATION").as_string();
 		mutation_data[sMutation].valid = mutationcurr.get("VALID").as_bool();
-
-        mutations_category[""].clear(); //dont delete this!
 
         if (mutationcurr.has("PREREQS")) {
             catajson PREREQS = mutationcurr.get("PREREQS");

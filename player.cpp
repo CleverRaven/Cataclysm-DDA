@@ -1209,16 +1209,32 @@ void player::load_info(game *g, std::string data)
  controlling_vehicle = vctrl != 0;
  style_selected = styletmp;
 
- for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-    dump >> my_traits[iter->first];
+ std::string sTemp = "";
+ for (int i = 0; i < traits.size(); i++) {
+    dump >> sTemp;
+    if (sTemp == "TRAITS_END") {
+        break;
+    } else {
+        my_traits[sTemp] = true;
+    }
  }
 
- for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-    dump >> my_mutations[iter->first];
+ for (int i = 0; i < traits.size(); i++) {
+    dump >> sTemp;
+    if (sTemp == "MUTATIONS_END") {
+        break;
+    } else {
+        my_mutations[sTemp] = true;
+    }
  }
 
- for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
-     dump >> mutation_category_level[iter->first];
+ for (int i = 0; i < traits.size(); i++) {
+    dump >> sTemp;
+    if (sTemp == "MUT_CAT_LEVEL_END") {
+        break;
+    } else {
+        dump >> mutation_category_level[sTemp];
+    }
  }
 
  for (int i = 0; i < num_hp_parts; i++)
@@ -1329,17 +1345,29 @@ std::string player::save_info()
          " " << style_selected << " " << activity.save_info() << " " <<
          backlog.save_info() << " ";
 
- for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-    dump << my_traits[iter->first] << " ";
+ for (std::map<std::string, bool>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
+    if (iter->second) {
+        dump << iter->first << " ";
+    }
  }
 
- for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-    dump << my_mutations[iter->first] << " ";
+ dump << "TRAITS_END" << " ";
+
+ for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+    if (iter->second) {
+        dump << iter->first << " ";
+    }
  }
 
- for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
-     dump << mutation_category_level[iter->first] << " ";
+ dump << "MUTATIONS_END" << " ";
+
+ for (std::map<std::string, int>::iterator iter = mutation_category_level.begin(); iter != mutation_category_level.end(); ++iter) {
+     if (iter->first != "") {
+        dump << iter->first << " " << iter->second << " ";
+     }
  }
+
+ dump << "MUT_CAT_LEVEL_END" << " ";
 
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
