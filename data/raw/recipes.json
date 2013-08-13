@@ -141,10 +141,10 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "tailor",
-  "difficulty": 0, 
-  "time": 500, 
-  "reversible": true, 
-  "autolearn": false, 
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
   "components": [
     [
       [ "rag", 5 ]
@@ -179,14 +179,14 @@
   "autolearn": false,
   "tools": [
     [
-      [ "knife_steak", -1 ], 
-      [ "knife_combat", -1 ], 
-      [ "knife_butcher", -1 ], 
-      [ "pockknife", -1 ], 
-      [ "scalpel", -1 ], 
-      [ "machete", -1 ], 
-      [ "broadsword", -1 ], 
-      [ "toolset", -1 ], 
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ],
       [ "screwdriver", -1 ]
         ]
   ],
@@ -245,7 +245,7 @@
   "difficulty": 0,
   "time": 800,
   "reversible": false,
-  "autolearn": true, 
+  "autolearn": true,
   "tools": [
     [
       [ "hatchet", -1 ],
@@ -308,7 +308,7 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": true, 
+  "autolearn": true,
   "tools": [
     [
       [ "hatchet", -1 ],
@@ -336,11 +336,11 @@
   "result": "spear_wood",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "survival", 1 ], 
+  "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 2000,
   "reversible": false,
-  "autolearn": true, 
+  "autolearn": true,
   "tools": [
     [
       [ "hatchet", -1 ],
@@ -782,7 +782,7 @@
 {
   "result": "hand_crossbow",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "archery", 3 ],
   "difficulty": 3,
   "time": 30000,
@@ -835,7 +835,7 @@
 {
   "result": "crossbow",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "archery", 3 ],
   "difficulty": 3,
   "time": 15000,
@@ -865,7 +865,7 @@
 {
   "result": "huge_crossbow",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "archery", 3 ],
   "difficulty": 6,
   "time": 60000,
@@ -928,7 +928,7 @@
 {
   "result": "rep_crossbow",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "archery", 3 ],
   "difficulty": 3,
   "time": 45000,
@@ -978,7 +978,7 @@
 {
   "result": "rifle_22",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 12000,
@@ -1007,7 +1007,7 @@
 {
   "result": "pipe_shotgun",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 2,
   "time": 12000,
@@ -1036,7 +1036,7 @@
 {
   "result": "pipe_shotgunsawn",
   "category": "CC_WEAPON",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 12000,
   "reversible": false,
@@ -1057,7 +1057,7 @@
 {
   "result": "rifle_9mm",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 14000,
@@ -1086,7 +1086,7 @@
 {
   "result": "smg_9mm",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 18000,
@@ -1125,7 +1125,7 @@
 {
   "result": "smg_45",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 20000,
@@ -1164,7 +1164,7 @@
 {
   "result": "flamethrower_simple",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "gun", 3 ],
   "difficulty": 6,
   "time": 12000,
@@ -1200,7 +1200,7 @@
 {
   "result": "launcher_simple",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "launcher", 3 ],
   "difficulty": 6,
   "time": 6000,
@@ -1256,7 +1256,7 @@
 {
   "result": "acidbomb",
   "category": "CC_WEAPON",
-  "skill_used": "cooking", 
+  "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
   "reversible": false,
@@ -1347,7 +1347,7 @@
 {
   "result": "chainsaw_off",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "difficulty": 4,
   "time": 20000,
   "reversible": true,
@@ -1489,7 +1489,7 @@
 {
   "result": "mininuke",
   "category": "CC_WEAPON",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "electronics", 5 ],
   "difficulty": 10,
   "time": 40000,
@@ -2326,7 +2326,7 @@
       [ "gunpowder", 125 ]
     ],
     [
-      [ "lead", 100 ], 
+      [ "lead", 100 ],
       [ "gold_small", 100 ]
     ]
   ]
@@ -2362,7 +2362,7 @@
       [ "gunpowder", 60 ]
     ],
     [
-      [ "lead", 40 ], 
+      [ "lead", 40 ],
       [ "gold_small", 40 ]
     ]
   ]
@@ -2398,7 +2398,7 @@
       [ "gunpowder", 250 ]
     ],
     [
-      [ "lead", 250 ], 
+      [ "lead", 250 ],
       [ "gold_small", 250 ]
     ]
   ]
@@ -2434,7 +2434,7 @@
       [ "gunpowder", 175 ]
     ],
     [
-      [ "lead", 125 ], 
+      [ "lead", 125 ],
       [ "gold_small", 125 ]
     ]
   ]
@@ -2470,7 +2470,7 @@
       [ "gunpowder", 300 ]
     ],
     [
-      [ "lead", 300 ], 
+      [ "lead", 300 ],
       [ "gold_small", 300 ]
     ]
   ]
@@ -2542,7 +2542,7 @@
       [ "gunpowder", 500 ]
     ],
     [
-      [ "lead", 500 ], 
+      [ "lead", 500 ],
       [ "gold_small", 500 ]
     ]
   ]
@@ -2578,7 +2578,7 @@
       [ "gunpowder", 500 ]
     ],
     [
-      [ "lead", 400 ], 
+      [ "lead", 400 ],
       [ "gold_small", 400 ]
     ]
   ]
@@ -2614,7 +2614,7 @@
       [ "gunpowder", 120 ]
     ],
     [
-      [ "lead", 100 ], 
+      [ "lead", 100 ],
       [ "gold_small", 100 ]
     ]
   ]
@@ -2755,7 +2755,7 @@
       [ "gunpowder", 400 ]
     ],
     [
-      [ "lead", 200 ], 
+      [ "lead", 200 ],
       [ "gold_small", 200 ]
     ]
   ]
@@ -2791,7 +2791,7 @@
       [ "gunpowder", 400 ]
     ],
     [
-      [ "lead", 200 ], 
+      [ "lead", 200 ],
       [ "gold_small", 200 ]
     ]
   ]
@@ -2827,7 +2827,7 @@
       [ "gunpowder", 560 ]
     ],
     [
-      [ "lead", 400 ], 
+      [ "lead", 400 ],
       [ "gold_small", 400 ]
     ]
   ]
@@ -2863,7 +2863,7 @@
       [ "gunpowder", 640 ]
     ],
     [
-      [ "lead", 400 ], 
+      [ "lead", 400 ],
       [ "gold_small", 400 ]
     ]
   ]
@@ -2902,7 +2902,7 @@
       ["22_casing", 40 ]
     ],
     [
-      [ "lead", 80 ], 
+      [ "lead", 80 ],
       [ "gold_small", 80 ]
     ]
   ]
@@ -2941,7 +2941,7 @@
       [ "22_casing", 40 ]
     ],
     [
-      [ "lead", 80 ], 
+      [ "lead", 80 ],
       [ "gold_small", 80 ]
     ]
   ]
@@ -3015,7 +3015,7 @@
       [ "gunpowder", 200 ]
     ],
     [
-      [ "lead", 100 ], 
+      [ "lead", 100 ],
       [ "gold_small", 100 ]
     ]
   ]
@@ -3051,7 +3051,7 @@
       [ "gunpowder", 120 ]
     ],
     [
-      [ "lead", 80 ], 
+      [ "lead", 80 ],
       [ "gold_small", 80 ]
     ]
   ]
@@ -3122,7 +3122,7 @@
       [ "gunpowder", 160 ]
     ],
     [
-      [ "lead", 120 ], 
+      [ "lead", 120 ],
       [ "gold_small", 120 ]
     ]
   ]
@@ -3158,7 +3158,7 @@
       [ "gunpowder", 200 ]
     ],
     [
-      [ "lead", 120 ], 
+      [ "lead", 120 ],
       [ "gold_small", 120 ]
     ]
   ]
@@ -3229,7 +3229,7 @@
       [ "gunpowder", 300 ]
     ],
     [
-      [ "lead", 400 ], 
+      [ "lead", 400 ],
       [ "gold_small", 400 ]
     ]
   ]
@@ -3423,7 +3423,7 @@
   "difficulty": 0,
   "time": 5000,
   "reversible": false,
-  "autolearn": false, 
+  "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
   "tools": [
     [
@@ -3714,6 +3714,116 @@
     [
       [ "water", 5 ],
       [ "water_clean", 5 ]
+    ]
+  ]
+},
+{
+  "result": "strawberries_cooked",
+  "category": "CC_FOOD",
+  "skill_pri": "cooking",
+  "difficulty": 0,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 2],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      ["pot", -1],
+      ["rock_pot", -1],
+      ["pan", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["strawberries", 1]
+    ]
+  ]
+},
+{
+  "result": "blueberries_cooked",
+  "category": "CC_FOOD",
+  "skill_pri": "cooking",
+  "difficulty": 0,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 2],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      ["pot", -1],
+      ["rock_pot", -1],
+      ["pan", -1]
+    ]
+  ],
+  "components": [
+    [
+       ["blueberries", 1]
+    ]
+  ]
+},
+{
+  "result": "jam_strawberries",
+  "category": "CC_FOOD",
+  "skill_pri": "cooking",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 2],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      ["pot", -1],
+      ["rock_pot", -1],
+      ["pan", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["strawberries", 1]
+    ],
+    [
+      ["sugar", 1]
+    ]
+  ]
+},
+{
+  "result": "jam_blueberries",
+  "category": "CC_FOOD",
+  "skill_pri": "cooking",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 2],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      ["pot", -1],
+      ["rock_pot", -1],
+      ["pan", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["blueberries", 1]
+    ],
+    [
+      ["sugar", 1]
     ]
   ]
 },
@@ -5163,7 +5273,7 @@
   "skill_used": "electronics",
   "difficulty": 1,
   "time": 10000,
-  "reversible": true, 
+  "reversible": true,
   "decomp_learn": 0,
   "autolearn": true,
   "components": [
@@ -5189,7 +5299,7 @@
   "skill_used": "electronics",
   "difficulty": 1,
   "time": 20000,
-  "reversible": true, 
+  "reversible": true,
   "decomp_learn": 0,
   "autolearn": true,
   "components": [
@@ -5255,7 +5365,7 @@
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
-  "autolearn": false, 
+  "autolearn": false,
   "decomp_learn": 3,
   "book_learn": [[ "manual_electronics", 3 ], [ "textbook_electronics", 3 ]],
   "tools": [
@@ -5417,7 +5527,7 @@
 {
   "result": "water_purifier",
   "category": "CC_ELECTRONIC",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "electronics", 1 ],
   "difficulty": 3,
   "time": 25000,
@@ -5747,7 +5857,7 @@
   "skill_used": "electronics",
   "difficulty": 5,
   "time": 45000,
-  "reversible": true, 
+  "reversible": true,
   "decomp_learn": 4,
   "autolearn": true,
   "tools": [
@@ -7458,7 +7568,7 @@
 {
   "result": "mask_filter",
   "category": "CC_ARMOR",
-  "skill_used": "tailor", 
+  "skill_used": "tailor",
   "difficulty": 1,
   "time": 5000,
   "reversible": true,
@@ -7821,7 +7931,7 @@
 {
   "result": "primitive_hammer",
   "category": "CC_MISC",
-  "skill_used": "survival", 
+  "skill_used": "survival",
   "difficulty": 0,
   "time": 5000,
   "reversible": false,
@@ -7853,7 +7963,7 @@
 {
   "result": "needle_bone",
   "category": "CC_MISC",
-  "skill_used": "survival", 
+  "skill_used": "survival",
   "difficulty": 3,
   "time": 20000,
   "reversible": false,
@@ -7880,7 +7990,7 @@
 {
   "result": "digging_stick",
   "category": "CC_MISC",
-  "skill_used": "survival", 
+  "skill_used": "survival",
   "difficulty": 1,
   "time": 20000,
   "reversible": false,
@@ -7963,7 +8073,7 @@
 {
   "result": "rock_pot",
   "category": "CC_MISC",
-  "skill_used": "survival", 
+  "skill_used": "survival",
   "requires_skills": [ "cooking", 1 ],
   "difficulty": 2,
   "time": 20000,
@@ -7993,7 +8103,7 @@
 {
   "result": "primitive_shovel",
   "category": "CC_MISC",
-  "skill_used": "survival", 
+  "skill_used": "survival",
   "requires_skills": [ "construction", 1 ],
   "difficulty": 2,
   "time": 60000,
@@ -8026,7 +8136,7 @@
 {
   "result": "primitive_axe",
   "category": "CC_MISC",
-  "skill_used": "survival", 
+  "skill_used": "survival",
   "requires_skills": [ "construction", 1 ],
   "difficulty": 3,
   "time": 60000,
@@ -8059,7 +8169,7 @@
 {
   "result": "fire_drill",
   "category": "CC_MISC",
-  "skill_used": "survival", 
+  "skill_used": "survival",
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -8105,7 +8215,7 @@
 {
   "result": "shelter_kit",
   "category": "CC_MISC",
-  "skill_used": "survival", 
+  "skill_used": "survival",
   "requires_skills": [ "construction", 1 ],
   "difficulty": 2,
   "time": 50000,
@@ -8136,7 +8246,7 @@
   "result": "shelter_kit",
   "id_suffix": "repair",
   "category": "CC_MISC",
-  "skill_used": "survival", 
+  "skill_used": "survival",
   "requires_skills": [ "tailoring", 1 ],
   "difficulty": 0,
   "time": 20000,
@@ -8169,7 +8279,7 @@
 {
   "result": "snare_trigger",
   "category": "CC_MISC",
-  "skill_used": "traps", 
+  "skill_used": "traps",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 0,
   "time": 2000,
@@ -8197,7 +8307,7 @@
 {
   "result": "light_snare_kit",
   "category": "CC_MISC",
-  "skill_used": "traps", 
+  "skill_used": "traps",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 1,
   "time": 5000,
@@ -8216,7 +8326,7 @@
 {
   "result": "heavy_snare_kit",
   "category": "CC_MISC",
-  "skill_used": "traps", 
+  "skill_used": "traps",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 3,
   "time": 8000,
@@ -8235,7 +8345,7 @@
 {
   "result": "kitchen_unit",
   "category": "CC_MISC",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "difficulty": 4,
   "time": 60000,
   "reversible": true,
@@ -8288,7 +8398,7 @@
 {
   "result": "foot_crank",
   "category": "CC_MISC",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "difficulty": 1,
   "time": 10000,
   "reversible": true,
@@ -8322,7 +8432,7 @@
 {
   "result": "muffler",
   "category": "CC_MISC",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "difficulty": 1,
   "time": 10000,
   "reversible": true,
@@ -8361,7 +8471,7 @@
 {
   "result": "seat",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 1,
   "time": 10000,
   "reversible": true,
@@ -8443,7 +8553,7 @@
 {
   "result": "vehicle_controls",
   "category": "CC_MISC",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
@@ -8489,30 +8599,30 @@
 {
   "result": "folding_bicycle",
   "category": "CC_MISC",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "difficulty": 5,
   "time": 120000,
   "reversible": true,
   "autolearn": true,
   "tools": [
     [
-      [ "wrench", -1 ], 
+      [ "wrench", -1 ],
       [ "toolset", -1 ]
     ],
     [
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "welder", 300 ], 
+      [ "welder", 300 ],
       [ "welder_crude", 450 ],
       [ "toolset", 12 ]
     ]
   ],
   "components": [
-    [ 
+    [
       [ "frame", 2 ]
     ],
-    [ 
+    [
       [ "saddle", 1 ]
     ],
     [
@@ -8590,26 +8700,26 @@
 {
   "result": "wire_barbed",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "requires_skills": [ "construction", 1 ],
   "difficulty": 2,
   "time": 8000,
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ 
-      [ "boltcutters", -1 ], 
+    [
+      [ "boltcutters", -1 ],
       [ "toolset", -1 ]
     ],
     [
-      [ "hammer", -1 ], 
+      [ "hammer", -1 ],
       [ "hatchet", -1 ]
     ]
   ],
-  "components": [ 
-    [ 
-      [ "wire", 2 ] 
-    ] 
+  "components": [
+    [
+      [ "wire", 2 ]
+    ]
   ]
 },
 
@@ -8722,28 +8832,28 @@
 {
   "result": "screwdriver",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ 
-    [ 
+  "tools": [
+    [
       [ "rock", -1 ],
       [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ], 
-      [ "toolset", -1 ], 
+      [ "hammer", -1 ],
+      [ "toolset", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ]
   ],
-  "components": [ 
-    [ 
+  "components": [
+    [
       [ "steel_chunk", 2 ]
     ],
-    [ 
-      [ "duct_tape", 30 ] 
-    ] 
+    [
+      [ "duct_tape", 30 ]
+    ]
   ]
 },
 {
@@ -8776,7 +8886,7 @@
 {
   "result": "steel_lump",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
@@ -8820,7 +8930,7 @@
 {
   "result": "frame",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 1,
   "time": 8000,
   "reversible": true,
@@ -8845,7 +8955,7 @@
 {
   "result": "sheet_metal",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 2,
   "time": 4000,
   "reversible": true,
@@ -8870,7 +8980,7 @@
 {
   "result": "steel_plate",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 4,
   "time": 12000,
   "reversible": true,
@@ -8951,7 +9061,7 @@
 {
   "result": "crowbar",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -8975,7 +9085,7 @@
 {
   "result": "crude_picklock",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -9062,7 +9172,7 @@
 {
   "result": "beartrap",
   "category": "CC_MISC",
-  "skill_used": "traps", 
+  "skill_used": "traps",
   "requires_skills": [ "mechanics", 3 ],
   "difficulty": 2,
   "time": 3000,
@@ -9087,7 +9197,7 @@
 {
   "result": "crossbow_trap",
   "category": "CC_MISC",
-  "skill_used": "traps", 
+  "skill_used": "traps",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 4500,
@@ -9111,7 +9221,7 @@
 {
   "result": "shotgun_trap",
   "category": "CC_MISC",
-  "skill_used": "traps", 
+  "skill_used": "traps",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 5000,
@@ -9134,7 +9244,7 @@
 {
   "result": "blade_trap",
   "category": "CC_MISC",
-  "skill_used": "traps", 
+  "skill_used": "traps",
   "requires_skills": [ "mechanics", 3 ],
   "difficulty": 4,
   "time": 8000,
@@ -9162,7 +9272,7 @@
 {
   "result": "boobytrap",
   "category": "CC_MISC",
-  "skill_used": "traps", 
+  "skill_used": "traps",
   "difficulty": 3,
   "time": 5000,
   "reversible": false,
@@ -9223,7 +9333,7 @@
 {
   "result": "brazier",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 1,
   "time": 2000,
   "reversible": false,
@@ -9247,7 +9357,7 @@
 {
   "result": "metal_tank",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 1,
   "time": 2000,
   "reversible": false,
@@ -9285,21 +9395,21 @@
   "reversible": false,
   "autolearn": true,
   "components": [
-    [ 
-      [ "rag", 3 ], 
+    [
+      [ "rag", 3 ],
       [ "medical_gauze", 1 ]
     ],
-    [ 
-      [ "superglue", 1 ], 
-      [ "duct_tape", 5 ], 
+    [
+      [ "superglue", 1 ],
+      [ "duct_tape", 5 ],
       [ "medical_tape", 3 ]
     ],
-    [ 
-      [ "vodka", 7 ], 
-      [ "rum", 7 ], 
+    [
+      [ "vodka", 7 ],
+      [ "rum", 7 ],
       [ "whiskey", 7 ],
-      [ "tequila", 7 ], 
-      [ "gin", 7 ], 
+      [ "tequila", 7 ],
+      [ "gin", 7 ],
       [ "triple_sec", 7 ]
     ]
   ]
@@ -9308,15 +9418,15 @@
 {
   "result": "arm_splint",
   "category": "CC_MISC",
-  "skill_used": "firstaid", 
+  "skill_used": "firstaid",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 1000,
   "reversible": false,
   "autolearn": true,
   "components": [
-    [ 
-      [ "rag", 5 ], 
+    [
+      [ "rag", 5 ],
       [ "medical_gauze", 2 ]
     ],
     [
@@ -9338,15 +9448,15 @@
 {
   "result": "leg_splint",
   "category": "CC_MISC",
-  "skill_used": "firstaid", 
+  "skill_used": "firstaid",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 1000,
   "reversible": false,
   "autolearn": true,
   "components": [
-    [ 
-      [ "rag", 10 ], 
+    [
+      [ "rag", 10 ],
       [ "medical_gauze", 4 ]
     ],
     [
@@ -9368,7 +9478,7 @@
 {
   "result": "suppressor",
   "category": "CC_MISC",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 1,
   "time": 650,
@@ -9400,16 +9510,16 @@
   "time": 65000,
   "reversible": true,
   "autolearn": true,
-  "tools": [ 
-    [ 
-      [ "needle_bone", 4 ], 
+  "tools": [
+    [
+      [ "needle_bone", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
-  "components": [ 
+  "components": [
     [
-      [ "rag", 4 ] 
-    ] 
+      [ "rag", 4 ]
+    ]
   ]
 },
 
@@ -9877,7 +9987,7 @@
 {
   "result": "steel_chunk",
   "category": "CC_MISC",
-  "skill_used": "mechanics", 
+  "skill_used": "mechanics",
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
@@ -9928,7 +10038,7 @@
 {
   "result": "jerrycan",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 1,
   "time": 30000,
   "reversible": false,
@@ -9962,7 +10072,7 @@
 {
   "result": "jerrycan_big",
   "category": "CC_MISC",
-  "skill_used": "fabrication", 
+  "skill_used": "fabrication",
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
@@ -9993,7 +10103,7 @@
 {
    "result": "sword_wood",
    "category": "CC_WEAPON",
-   "skill_used": "fabrication", 
+   "skill_used": "fabrication",
    "requires_skills": [ "melee", 1 ],
    "difficulty": 0,
    "time": 25000,
@@ -10017,7 +10127,7 @@
        ["2x4", 2]
      ]
    ]
-},  
+},
 
 
 {
@@ -10377,9 +10487,9 @@
     ]
   ],
   "components" : [
-    [ 
-      [ "plastic_chunk", 2 ] 
-    ] 
+    [
+      [ "plastic_chunk", 2 ]
+    ]
   ]
 },
 
@@ -10422,7 +10532,7 @@
   "components" : [
     [ ["arrowhead_plastic", 10] ],
     [ ["shaft_plastic", 10] ],
-    [ ["fletching", 10] ] 
+    [ ["fletching", 10] ]
   ]
 },
 
@@ -10708,7 +10818,7 @@
   "components": [
     [
       ["can_spam", 1]
-    ]                              
+    ]
   ]
 },
 {
