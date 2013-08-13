@@ -409,9 +409,7 @@ void iexamine::slot_machine(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::safe(game *g, player *p, map *m, int examx, int examy) {
-  item stethoscope(g->itypes["stethoscope"], g->turn);
-
-  if (!p->has_item(&stethoscope)) {
+  if (!p->has_amount("stethoscope", 1)) {
     g->add_msg(_("You need a stethoscope for safecracking."));
     return;
   }
