@@ -2193,6 +2193,30 @@
   },
 
   {
+     "id": "portable_game",
+     "type": "TOOL",
+     "symbol": ";",
+     "color": "light_blue",
+     "name": "handheld game system",
+     "description": "A portable games console in working condition, with a backlit screen allowing you to play in the dark. You can use it to play it for a little while, but this requires batteries.",
+     "rarity": 8,
+     "price": 3200,
+     "material": ["iron", "plastic"],
+     "weight": 200,
+     "volume": 2,
+     "bashing": 0,
+     "cutting": 0,
+     "to_hit": 0,
+     "max_charges": 200,
+     "initial_charges": 100,
+     "charges_per_use": 0,
+     "turns_per_charge": 0,
+     "ammo": "battery",
+     "revert_to": "null",
+     "use_action": "PORTABLE_GAME"
+  },
+
+  {
     "id": "vortex_stone",
     "type": "TOOL",
     "symbol": ";",
