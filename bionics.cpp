@@ -126,8 +126,8 @@ void player::power_bionics(game *g)
  wrefresh(wBio);
  char ch;
  bool activating = true;
- bionic *tmp;
- int b;
+ bionic *tmp = NULL;
+ int b = 0;
  do {
   ch = getch();
   if (ch == '!') {

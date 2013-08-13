@@ -4936,7 +4936,7 @@ ff.......|....|WWWWWWWW|\n\
 // Fill rooms with items!
     for (int i = 2; i <= 15; i += 13) {
      items_location goods;
-     int size;
+     int size = 0;
      switch (rng(1, 14)) {
       case  1:
       case  2: goods = "bots"; size = 85; break;
@@ -5033,7 +5033,7 @@ ff.......|....|WWWWWWWW|\n\
      doorsides.push_back(NORTH);
     if (by2 < 20)
      doorsides.push_back(SOUTH);
-    int doorx, doory;
+    int doorx = 0, doory = 0;
     switch (doorsides[rng(0, doorsides.size() - 1)]) {
      case WEST:
       doorx = bx1;
@@ -9041,7 +9041,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
   } else { // Level 1
    int cavex = SEEX, cavey = SEEY * 2 - 3;
    int stairsx = SEEX - 1, stairsy = 1; // Default stairs location--may change
-   int centerx;
+   int centerx = 0;
    do {
     cavex += rng(-1, 1);
     cavey -= rng(0, 1);
@@ -14079,7 +14079,7 @@ void map::add_extra(map_extra type, game *g)
   if (move_cost(x, y) != 0)
    ter_set(x, y, t_dirt);
 
-  int size;
+  int size = 0;
   items_location stash;
   switch (rng(1, 6)) {	// What kind of stash?
    case 1: stash = "stash_food";	size = 90;	break;
@@ -14098,7 +14098,7 @@ void map::add_extra(map_extra type, game *g)
   for (int i = x - 4; i <= x + 4; i++) {
    for (int j = y - 4; j <= y + 4; j++) {
     if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
-     trap_id placed;
+     trap_id placed = tr_null;
      switch (rng(1, 7)) {
       case 1:
       case 2:
@@ -14123,7 +14123,7 @@ void map::add_extra(map_extra type, game *g)
 
  case mx_drugdeal: {
 // Decide on a drug type
-  int num_drugs;
+  int num_drugs = 0;
   itype_id drugtype;
   switch (rng(1, 10)) {
    case 1: // Weed

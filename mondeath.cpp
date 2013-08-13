@@ -342,7 +342,7 @@ void mdeath::thing(game *g, monster *z)
 
 void mdeath::explode(game *g, monster *z)
 {
- int size;
+ int size = 0;
  switch (z->type->size) {
   case MS_TINY:   size =  4; break;
   case MS_SMALL:  size =  8; break;

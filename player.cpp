@@ -2503,7 +2503,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
      min = 0;
    }
 
-   Skill *selectedSkill;
+   Skill *selectedSkill = NULL;
 
    for (int i = min; i < max; i++)
    {
