@@ -30,8 +30,7 @@ nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
 
 std::map<std::string, trait> traits;
-std::vector<std::string> vTraitsGood;
-std::vector<std::string> vTraitsBad;
+std::vector<std::string> vStartingTraits[2];
 
 std::string morale_data[NUM_MORALE_TYPES];
 
@@ -127,9 +126,10 @@ player::player()
     my_mutations[iter->first] = false;
  }
 
- mutation_category_level[0] = 5; // Weigh us towards no category for a bit
- for (int i = 1; i < NUM_MUTATION_CATEGORIES; i++)
-  mutation_category_level[i] = 0;
+ for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
+    mutation_category_level[iter->first] = 0;
+ }
+ mutation_category_level[""] = 5; // Weigh us towards no category for a bit
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill) {
@@ -179,8 +179,7 @@ player& player::operator= (const player & rhs)
  my_traits = rhs.my_traits;
  my_mutations = rhs.my_mutations;
 
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  mutation_category_level[i] = rhs.mutation_category_level[i];
+ mutation_category_level = rhs.mutation_category_level;
 
  my_bionics = rhs.my_bionics;
 
@@ -1217,8 +1216,9 @@ void player::load_info(game *g, std::string data)
     dump >> my_mutations[iter->first];
  }
 
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  dump >> mutation_category_level[i];
+ for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
+     dump >> mutation_category_level[iter->first];
+ }
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
@@ -1336,8 +1336,10 @@ std::string player::save_info()
     dump << my_mutations[iter->first] << " ";
  }
 
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  dump << mutation_category_level[i] << " ";
+ for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
+     dump << mutation_category_level[iter->first] << " ";
+ }
+
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
  for (int i = 0; i < num_bp; i++)
@@ -2931,7 +2933,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 bool player::has_trait(std::string flag)
 {
     if (flag == "") {
-        return true;
+        return false;
     }
 
     return my_mutations[flag]; //Looks for active mutations and traits
@@ -2940,7 +2942,7 @@ bool player::has_trait(std::string flag)
 bool player::has_base_trait(std::string flag)
 {
     if (flag == "") {
-        return true;
+        return false;
     }
 
     return my_traits[flag]; //Looks only at base traits
@@ -2957,31 +2959,20 @@ void player::toggle_mutation(std::string flag)
     my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
 }
 
-mutation_category player::get_highest_category() // Returns the mutation category with the highest strength
+std::string player::get_highest_category() // Returns the mutation category with the highest strength
 {
 	int level = 0;
-	mutation_category maxcat = MUTCAT_NULL;
-	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
-		if (mutation_category_level[i] > level) {
-			maxcat = mutation_category(i);
-			level = mutation_category_level[i];
+	std::string maxcat = "";
+	for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
+		if (mutation_category_level[iter->first] > level) {
+			maxcat = iter->first;
+			level = mutation_category_level[iter->first];
 		}
 	}
 	return maxcat;
 }
 
-int player::get_category_level(mutation_category cat) // Returns the strength of a given mutation category
-{
-	int level = 0;
-	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
-		if (mutation_category(i) == cat) {
-			level = mutation_category_level[i];
-		}
-	}
-	return level;
-}
-
-std::string player::get_category_dream(mutation_category cat, int strength) // Returns a randomly selected dream
+std::string player::get_category_dream(std::string cat, int strength) // Returns a randomly selected dream
 {
 	std::string message;
 	std::vector<dream> valid_dreams;

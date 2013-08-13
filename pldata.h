@@ -124,12 +124,11 @@ struct trait {
     int points;		// How many points it costs in character creation
     int visiblity;		// How visible it is
     int ugliness;		// How ugly it is
+    bool startingtrait; // Starting Trait True/False
     std::string description;
 };
 
 extern std::map<std::string, trait> traits;
-extern std::vector<std::string> vTraitsGood;
-extern std::vector<std::string> vTraitsBad;
 
 enum hp_part {
     hp_head = 0,

@@ -371,7 +371,7 @@ void game::show_options()
 
         ch = input();
 
-        if (mPageItems[iCurrentPage].size() > 0 || ch == 'a' || ch == '\t') {
+        if (mPageItems[iCurrentPage].size() > 0 || ch == '\t') {
             switch(ch) {
                 case 'j': //move down
                     iCurrentLine++;
@@ -393,6 +393,7 @@ void game::show_options()
                     OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setPrev();
                     bStuffChanged = true;
                     break;
+                case '>':
                 case '\t': //Switch to next Page
                     iCurrentLine = 0;
                     do { //skip empty pages
@@ -402,6 +403,15 @@ void game::show_options()
                         }
                     } while(mPageItems[iCurrentPage].size() == 0);
 
+                    break;
+                case '<':
+                    iCurrentLine = 0;
+                    do { //skip empty pages
+                        iCurrentPage--;
+                        if (iCurrentPage < 0) {
+                            iCurrentPage = vPages.size()-1;
+                        }
+                    } while(mPageItems[iCurrentPage].size() == 0);
                     break;
             }
         }

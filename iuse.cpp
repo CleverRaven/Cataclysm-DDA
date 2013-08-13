@@ -671,62 +671,62 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
     else if( it->has_flag("MUTAGEN_PLANT") )
     {
         g->add_msg_if_player(p, _("You feel much closer to nature."));
-        p->mutate_category(g, MUTCAT_PLANT);
+        p->mutate_category(g, "MUTCAT_PLANT");
     }
     else if( it->has_flag("MUTAGEN_INSECT") )
     {
         g->add_msg_if_player(p, _("You hear buzzing, and feel your body harden."));
-        p->mutate_category(g, MUTCAT_INSECT);
+        p->mutate_category(g, "MUTCAT_INSECT");
     }
     else if( it->has_flag("MUTAGEN_SPIDER") )
     {
         g->add_msg_if_player(p, _("You feel insidious."));
-        p->mutate_category(g, MUTCAT_SPIDER);
+        p->mutate_category(g, "MUTCAT_SPIDER");
     }
     else if( it->has_flag("MUTAGEN_SLIME") )
     {
         g->add_msg_if_player(p, _("Your body loses all rigidity for a moment."));
-        p->mutate_category(g, MUTCAT_SLIME);
+        p->mutate_category(g, "MUTCAT_SLIME");
     }
     else if( it->has_flag("MUTAGEN_FISH") )
     {
         g->add_msg_if_player(p, _("You are overcome by an overwhelming longing for the ocean."));
-        p->mutate_category(g, MUTCAT_FISH);
+        p->mutate_category(g, "MUTCAT_FISH");
     }
     else if( it->has_flag("MUTAGEN_RAT") )
     {
         g->add_msg_if_player(p, _("You feel a momentary nausea."));
-        p->mutate_category(g, MUTCAT_RAT);
+        p->mutate_category(g, "MUTCAT_RAT");
     }
     else if( it->has_flag("MUTAGEN_BEAST") )
     {
         g->add_msg_if_player(p, _("Your heart races and you see blood for a moment."));
-        p->mutate_category(g, MUTCAT_BEAST);
+        p->mutate_category(g, "MUTCAT_BEAST");
     }
     else if( it->has_flag("MUTAGEN_CATTLE") )
     {
         g->add_msg_if_player(p, _("Your mind and body slow down. You feel peaceful."));
-        p->mutate_category(g, MUTCAT_CATTLE);
+        p->mutate_category(g, "MUTCAT_CATTLE");
     }
     else if( it->has_flag("MUTAGEN_CEPHALOPOD") )
     {
         g->add_msg_if_player(p, _("Your mind is overcome by images of eldritch horrors...and then they pass."));
-        p->mutate_category(g, MUTCAT_CEPHALOPOD);
+        p->mutate_category(g, "MUTCAT_CEPHALOPOD");
     }
     else if( it->has_flag("MUTAGEN_BIRD") )
     {
         g->add_msg_if_player(p, _("Your body lightens and you long for the sky."));
-        p->mutate_category(g, MUTCAT_BIRD);
+        p->mutate_category(g, "MUTCAT_BIRD");
     }
     else if( it->has_flag("MUTAGEN_LIZARD") )
     {
         g->add_msg_if_player(p, _("For a heartbeat, your body cools down."));
-        p->mutate_category(g, MUTCAT_LIZARD);
+        p->mutate_category(g, "MUTCAT_LIZARD");
     }
     else if( it->has_flag("MUTAGEN_TROGLOBITE") )
     {
         g->add_msg_if_player(p, _("You yearn for a cool, dark place to hide."));
-        p->mutate_category(g, MUTCAT_TROGLO);
+        p->mutate_category(g, "MUTCAT_TROGLO");
     }
     else
     {

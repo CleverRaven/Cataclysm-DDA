@@ -78,9 +78,9 @@ public:
  bool has_base_trait(std::string flag);
  void toggle_trait(std::string flag);
  void toggle_mutation(std::string flag);
- mutation_category get_highest_category();
- int get_category_level(mutation_category cat);
- std::string get_category_dream(mutation_category cat, int strength);
+ std::string get_highest_category();
+ int get_category_level(std::string cat);
+ std::string get_category_dream(std::string cat, int strength);
 
  bool in_climate_control(game *g);
 
@@ -94,7 +94,7 @@ public:
 
  bool mutation_ok(game *g, std::string mutation, bool force_good, bool force_bad);
  void mutate(game *g);
- void mutate_category(game *g, mutation_category);
+ void mutate_category(game *g, std::string);
  void mutate_towards(game *g, std::string mut);
  void remove_mutation(game *g, std::string mut);
  bool has_child_flag(game *g, std::string mut);
@@ -335,7 +335,9 @@ public:
  profession* prof;
  std::map<std::string, bool> my_traits;
  std::map<std::string, bool> my_mutations;
- int mutation_category_level[NUM_MUTATION_CATEGORIES];
+
+ std::map<std::string, int> mutation_category_level;
+
  int next_climate_control_check;
  bool last_climate_control_ret;
  std::vector<bionic> my_bionics;

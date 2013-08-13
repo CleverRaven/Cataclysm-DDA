@@ -1269,7 +1269,7 @@
         "description": "You're minorly deformed.  Some people will react badly to your appearance."
     },
     {
-        "id": "DEFORMED_2",
+        "id": "DEFORMED2",
         "name": "Badly Deformed",
         "points": -4,
         "visibility": 7,
@@ -1277,7 +1277,7 @@
         "description": "You're hideously deformed.  Some people will have a strong negative reaction to your appearance."
     },
     {
-        "id": "DEFORMED_3",
+        "id": "DEFORMED3",
         "name": "Grotesque",
         "points": -7,
         "visibility": 10,
@@ -1293,7 +1293,7 @@
         "description": "You're a real head-turner. Some people will react well to your appearance, and most people have an easier time trusting you."
     },
     {
-        "id": "BEAUTIFUL_2",
+        "id": "BEAUTIFUL2",
         "name": "Very Beautiful",
         "points": 4,
         "visibility": -7,
@@ -1301,7 +1301,7 @@
         "description": "You are a vision of beauty. Some people will react very well to your looks, and most people will trust you immediately."
     },
     {
-        "id": "BEAUTIFUL_3",
+        "id": "BEAUTIFUL3",
         "name": "Glorious",
         "points": 7,
         "visibility": -10,
@@ -1397,7 +1397,7 @@
         "description": "Sunlight makes you uncomfortable.  If you are outdoors and the weather is Sunny, you suffer -1 to all stats."
     },
     {
-        "id": "TROGLO_2",
+        "id": "TROGLO2",
         "name": "Very Light Sensitive",
         "points": -3,
         "visibility": 0,
@@ -1405,7 +1405,7 @@
         "description": "Sunlight makes you very uncomfortable.  If you are outdoors during the day, you suffer -1 to all stats; -2 if the weather is Sunny."
     },
     {
-        "id": "TROGLO_3",
+        "id": "TROGLO3",
         "name": "Troglobite",
         "points": -5,
         "visibility": 0,

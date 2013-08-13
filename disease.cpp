@@ -843,11 +843,11 @@ void dis_effect(game *g, player &p, disease &dis)
       p.hunger--;
       p.thirst--;
     }
-	
+
 	// Check mutation category strengths to see if we're mutated enough to get a dream
-	mutation_category highcat = p.get_highest_category();
-	int highest = p.get_category_level(highcat);
-	
+	std::string highcat = p.get_highest_category();
+	int highest = p.mutation_category_level[highcat];
+
 	// Determine the strength of effects or dreams based upon category strength
 	int strength = 0;	// Category too weak for any effect or dream
 	if (highest >= 20 && highest < 35)
@@ -862,7 +862,7 @@ void dis_effect(game *g, player &p, disease &dis)
 	{
 		strength = 3;	// High strength
 	}
-	
+
 	// See if we'll get a dream
 	if ((!strength == 0)) //Only if category strength is high enough to get a dream.
 	{
@@ -1131,7 +1131,7 @@ void dis_effect(game *g, player &p, disease &dis)
   if (rng(30, 100) < rng(0, dis.duration) && one_in(3))
    p.vomit(g);
   if (rng(0, 100) < rng(0, dis.duration))
-   p.mutation_category_level[MUTCAT_RAT]++;
+   p.mutation_category_level["MUTCAT_RAT"]++;
   if (rng(50, 500) < rng(0, dis.duration))
    p.mutate(g);
   break;

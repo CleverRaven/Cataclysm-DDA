@@ -40,16 +40,17 @@ void player::mutate(game *g)
     }
 
     // Determine the mutation categorie
-    mutation_category cat = MUTCAT_NULL;
+    std::string cat = "";
 
     // Count up the players number of mutations in categories and find
     // the category with the highest single count.
     int total = 0, highest = 0;
-    for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
-        total += mutation_category_level[i];
-        if (mutation_category_level[i] > highest) {
-            cat = mutation_category(i);
-            highest = mutation_category_level[i];
+
+    for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
+        total += mutation_category_level[iter->first];
+        if (mutation_category_level[iter->first] > highest) {
+            cat = iter->first;
+            highest = mutation_category_level[iter->first];
         }
     }
 
@@ -84,7 +85,7 @@ void player::mutate(game *g)
 
             // ...consider whether its in our highest category
             if( has_trait(base_mutation) && !has_base_trait(base_mutation) ) { // Starting traits don't count toward categories
-                std::vector<std::string> group = mutations_from_category(cat);
+                std::vector<std::string> group = mutations_category[cat];
                 bool in_cat = false;
                 for (int j = 0; j < group.size(); j++) {
                     if (group[j] == base_mutation) {
@@ -114,7 +115,7 @@ void player::mutate(game *g)
         }
     } else {
       // Remove existing mutations that don't fit into our category
-      if (downgrades.size() > 0 && cat != MUTCAT_NULL) {
+      if (downgrades.size() > 0 && cat != "") {
           int roll = rng(0, downgrades.size() + 4);
           if (roll < downgrades.size()) {
               remove_mutation(g, downgrades[roll]);
@@ -130,10 +131,10 @@ void player::mutate(game *g)
         // If we tried once with a non-NULL category, and couldn't find anything valid
         // there, try again with MUTCAT_NULL
         if (!first_pass) {
-            cat = MUTCAT_NULL;
+            cat = "";
         }
 
-        if (cat == MUTCAT_NULL) {
+        if (cat == "") {
             // Pull the full list
             for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
                 if (g->mutation_data[iter->first].valid) {
@@ -142,7 +143,7 @@ void player::mutate(game *g)
             }
         } else {
             // Pull the category's list
-            valid = mutations_from_category(cat);
+            valid = mutations_category[cat];
         }
 
         // Remove anything we already have, that we have a child of, or that
@@ -158,7 +159,7 @@ void player::mutate(game *g)
             // So we won't repeat endlessly
             first_pass = false;
         }
-    } while (valid.empty() && cat != MUTCAT_NULL);
+    } while (valid.empty() && cat != "");
 
     if (valid.empty()) {
         // Couldn't find anything at all!
@@ -170,7 +171,7 @@ void player::mutate(game *g)
     mutate_towards(g, selection);
 }
 
-void player::mutate_category(game *g, mutation_category cat)
+void player::mutate_category(game *g, std::string cat)
 {
     bool force_bad = one_in(3);
     bool force_good = false;
@@ -183,7 +184,7 @@ void player::mutate_category(game *g, mutation_category cat)
 
     // Pull the category's list for valid mutations
     std::vector<std::string> valid;
-    valid = mutations_from_category(cat);
+    valid = mutations_category[cat];
 
     // Remove anything we already have, that we have a child of, or that
     // goes against our intention of a good/bad mutation
@@ -207,8 +208,6 @@ void player::mutate_category(game *g, mutation_category cat)
 
 void player::mutate_towards(game *g, std::string mut)
 {
-    debugmsg(("mutate_towards: " + mut).c_str());
-
     if (has_child_flag(g, mut)) {
         remove_child_flag(g, mut);
         return;
@@ -281,8 +280,8 @@ void player::mutate_towards(game *g, std::string mut)
     }
 
     // Weight us towards any categories that include this mutation
-    for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
-        std::vector<std::string> group = mutations_from_category(mutation_category(i));
+    for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
+        std::vector<std::string> group = mutations_category[iter->first];
         bool found = false;
         for (int j = 0; !found && j < group.size(); j++) {
             if (group[j] == mut) {
@@ -291,9 +290,9 @@ void player::mutate_towards(game *g, std::string mut)
         }
 
         if (found) {
-            mutation_category_level[i] += 8;
-        } else if (mutation_category_level[i] > 0 && !one_in(mutation_category_level[i])) {
-            mutation_category_level[i]--;
+            mutation_category_level[iter->first] += 8;
+        } else if (mutation_category_level[iter->first] > 0 && !one_in(mutation_category_level[iter->first])) {
+            mutation_category_level[iter->first]--;
         }
     }
 }
@@ -363,8 +362,8 @@ void player::remove_mutation(game *g, std::string mut)
     }
 
     // Reduce the strength of the categories the removed mutation is a part of
-    for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
-        std::vector<std::string> group = mutations_from_category(mutation_category(i));
+    for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
+        std::vector<std::string> group = mutations_category[iter->first];
         bool found = false;
 
         for (int j = 0; !found && j < group.size(); j++) {
@@ -374,10 +373,10 @@ void player::remove_mutation(game *g, std::string mut)
         }
 
         if (found) {
-            mutation_category_level[i] -= 8;
+            mutation_category_level[iter->first] -= 8;
             // If the category strength is below 0, set it to 0. We don't want negative category strength.
-            if (mutation_category_level[i] < 0) {
-                mutation_category_level[i] = 0;
+            if (mutation_category_level[iter->first] < 0) {
+                mutation_category_level[iter->first] = 0;
             }
         }
     }
