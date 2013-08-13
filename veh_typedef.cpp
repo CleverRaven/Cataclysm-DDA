@@ -989,19 +989,19 @@ void game::init_vehicles()
     PART (-3, 0,     vp_door);
     PART (-3, 1,     vp_door);
     PART (-3, 2,     vp_wheel);
-    
+
      VEHICLE ("RV");
     // - 0 +
-    // O---O  2
-    // ¦"""¦  1
-    // +#=#+  0
-    // ¦-+-¦ -1
-    // ¦#H=+ -2
-    // ¦OHO¦ -3
-    // ¦OHO¦ -4
-    // ¦#H&¦ -5
+    // O---O 2
+    // |"""| 1
+    // +#=#+ 0
+    // |-+-| -1
+    // |#H=+ -2
+    // |OHO| -3
+    // |OHO| -4
+    // |#H&| -5
     // +---+ -6
-    
+
     // dx, dy, part_id
     PART (0, 0, vp_frame_v2);
     PART (0, 0, vp_aisle_h2);
