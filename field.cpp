@@ -477,7 +477,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							//The fire feeds on the ground itself until max density.
 							cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 40);
 							smoke += 15;
-							if (cur->getFieldDensity() == 3){
+							if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600){
 								ter_set(x, y, t_ash);
 								if(has_furn(x,y))
 									furn_set(x,y,f_null);
@@ -487,25 +487,19 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							//The fire feeds on the ground itself until max density.
 							cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 30);
 							smoke += 10;
-							if (cur->getFieldDensity() == 3)
+							if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600)
 								g->m.destroy(g, x, y, false);
 
 						} else if (terlist[ter(x, y)].flags & mfb(swimmable))
 							cur->setFieldAge(cur->getFieldAge() + 800);	// Flames die quickly on water
 					}
 
-					// If we consumed a lot, the flames grow higher
-					while (cur->getFieldDensity() < 3 && cur->getFieldAge() < 0) {
-						//Fires under 0 age grow in size. Level 3 fires under 0 spread later on.
-						cur->setFieldAge(cur->getFieldAge() + 300);
-						cur->setFieldDensity(cur->getFieldDensity() + 1);
-					}
-
 					// If the flames are in a pit, it can't spread to non-pit
 					bool in_pit = (ter(x, y) == t_pit);
+
 					// If the flames are REALLY big, they contribute to adjacent flames
-					if (cur->getFieldDensity() == 3 && cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y)
-						&& (has_flag(fire_container, x, y) != true  ) ){
+					if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != true  ) ){
+						if(cur->getFieldDensity() == 3) {
 							// Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
 							int starti = rng(0, 2);
 							int startj = rng(0, 2);
@@ -524,7 +518,50 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									}
 								}
 							}
+						} else {
+							// See if we can grow into a stage 2/3 fire, for this
+							// burning neighbours are necessary in addition to
+							// field age < 0, or alternatively, a LOT of fuel.
+
+							// The maximum fire density is 1 for a lone fire, 2 for at least 1 neighbour,
+							// 3 for at least 2 neighbours.
+							int maximum_density =  1;
+
+                            // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
+                            // 1. Calculate maximum field density based on fuel, -500 is 2(raging), -1000 is 3(inferno)
+                            // 2. Calculate maximum field density based on neighbours, 1 neighbours is 2(raging), 2 or more neighbours is 3(inferno)
+                            // 3. Pick the higher maximum between 1. and 2.
+                            // We don't just calculate both maximums and pick the higher because the adjacent field lookup is quite expensive and should be avoided if possible.
+							if(cur->getFieldAge() < -1000) {
+								maximum_density = 3;
+							} else {
+								int adjacent_fires = 0;
+
+								for (int i = 0; i < 3; i++) {
+									for (int j = 0; j < 3; j++) {
+										int fx = x + (i % 3) - 1, fy = y + (j % 3) - 1;
+										tmpfld = field_at(fx,fy).findField(fd_fire);
+										if (tmpfld && tmpfld != cur) {
+											adjacent_fires++;
+										}
+									}
+								}
+								maximum_density = 1 + (adjacent_fires >= 1) + (adjacent_fires >= 2);
+
+                                if(maximum_density < 2 && cur->getFieldAge() < -500) {
+                                    maximum_density = 2;
+                                }
+							}
+
+							// If we consumed a lot, the flames grow higher
+							while (cur->getFieldDensity() < maximum_density && cur->getFieldAge() < 0) {
+								//Fires under 0 age grow in size. Level 3 fires under 0 spread later on.
+								cur->setFieldAge(cur->getFieldAge() + 300);
+								cur->setFieldDensity(cur->getFieldDensity() + 1);
+							}
+						}
 					}
+
 					// Consume adjacent fuel / terrain / webs to spread.
 					// Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
 					//Fires can only spread under 30 age. This is arbitrary but seems to work well.
@@ -588,7 +625,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 										smoke += 10; //10 is just a magic number. To much smoke indoors? Lower it. To little, raise it.
 									}
 									if (move_cost(fx, fy) > 0 &&
-										(rng(0, 40) <= smoke || (nosmoke && one_in(40))) &&
+										(rng(0, 100) <= smoke || (nosmoke && one_in(40))) &&
 										rng(3, 35) < cur->getFieldDensity() * 5 && cur->getFieldAge() < 1000 &&
 										(has_flag(suppress_smoke, x, y) != true )) {
 											smoke--;
