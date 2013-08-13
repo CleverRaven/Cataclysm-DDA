@@ -3547,7 +3547,7 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
 
 void iuse::portable_game(game *g, player *p, item *it, bool t)
 {
-  if(p->has_trait(PF_ILLITERATE)) {
+  if(p->has_trait("ILLITERATE")) {
     g->add_msg(_("You're illiterate!"));
   } else if(it->charges == 0) {
     g->add_msg_if_player(p,_("The %s's batteries are dead."), it->name.c_str());
