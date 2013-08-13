@@ -411,19 +411,27 @@ WINDOW *curses_init(void)
     backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
     DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
 
-    int nResults = AddFontResourceExA("data\\termfont",FR_PRIVATE,NULL);
-    if (nResults>0){
-        font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-                          ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                          PROOF_QUALITY, FF_MODERN, typeface_c);   //Create our font
-
-    } else {
-        MessageBox(WindowHandle, "Failed to load default font, using FixedSys.", NULL, 0);
-        font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-                      ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                      PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
+    // Load private fonts
+    if (SetCurrentDirectory("data\\font")){
+        WIN32_FIND_DATA findData;
+        for (HANDLE findFont = FindFirstFile(".\\*", &findData); findFont != INVALID_HANDLE_VALUE; )
+        {
+            if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)){ // Skip folders
+                AddFontResourceExA(findData.cFileName, FR_PRIVATE,NULL);
+            }
+            if (!FindNextFile(findFont, &findData)){
+                FindClose(findFont);
+                break;
+            }
+        }
+        SetCurrentDirectory("..\\..");
     }
-    //FixedSys will be user-changable at some point in time??
+
+    // Use desired font, if possible
+    font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+                      ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
+                      PROOF_QUALITY, FF_MODERN, typeface_c);
+
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
 //    WindowCount=0;
