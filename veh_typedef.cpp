@@ -989,6 +989,113 @@ void game::init_vehicles()
     PART (-3, 0,     vp_door);
     PART (-3, 1,     vp_door);
     PART (-3, 2,     vp_wheel);
+    
+     VEHICLE ("RV");
+    // - 0 +
+    // O---O  2
+    // ¦"""¦  1
+    // +#=#+  0
+    // ¦-+-¦ -1
+    // ¦#H=+ -2
+    // ¦OHO¦ -3
+    // ¦OHO¦ -4
+    // ¦#H&¦ -5
+    // +---+ -6
+    
+    // dx, dy, part_id
+    PART (0, 0, vp_frame_v2);
+    PART (0, 0, vp_aisle_h2);
+    PART (0, 0, vp_roof);
+    PART (0, 0, vp_engine_gas_v6);
+    PART (0, 1, vp_frame_v2);
+    PART (0, 1, vp_seat);
+    PART (0, 1, vp_roof);
+    PART (0, 1, vp_seatbelt);
+    PART (0, -1, vp_frame_v2);
+    PART (0, -1, vp_seat);
+    PART (0, -1, vp_roof);
+    PART (0, -1, vp_controls);
+    PART (0, -1, vp_seatbelt);
+    PART (0, 2, vp_door);
+    PART (0, -2, vp_door);
+
+    PART (1, 0, vp_frame_v2);
+    PART (1, 0, vp_window);
+    PART (1, 1, vp_frame_v2);
+    PART (1, 1, vp_window);
+    PART (1, -1, vp_frame_v2);
+    PART (1, -1, vp_window);
+    PART (1, 2, vp_frame_v);
+    PART (1, -2, vp_frame_v);
+
+    PART (2, 0, vp_frame_h);
+    PART (2, 0, vp_head_light);
+    PART (2, 1, vp_frame_h);
+    PART (2, 1, vp_head_light);
+    PART (2, -1, vp_frame_h);
+    PART (2, -1, vp_head_light);
+    PART (2, 2, vp_wheel_wide);
+    PART (2, -2, vp_wheel_wide);
+
+    PART (-1, 0, vp_door_i);
+    PART (-1, 1, vp_board_h);
+    PART (-1, -1, vp_board_h);
+    PART (-1, 2, vp_board_v);
+    PART (-1, -2, vp_board_v);
+
+    PART (-2, 0, vp_frame_v2);
+    PART (-2, 0, vp_roof);
+    PART (-2, 0, vp_aisle_v2);
+    PART (-2, 1, vp_frame_v2);
+    PART (-2, 1, vp_roof);
+    PART (-2, 1, vp_floor_trunk);
+    PART (-2, -1, vp_frame_v2);
+    PART (-2, -1, vp_roof);
+    PART (-2, -1, vp_seat);
+    PART (-2, 2, vp_door);
+    PART (-2, -2, vp_board_v);
+
+    PART (-3, 0, vp_frame_v2);
+    PART (-3, 0, vp_roof);
+    PART (-3, 0, vp_floor_trunk);
+    PART (-3, 1, vp_wheel_wide);
+    PART (-3, 1, vp_cargo_trunk);
+    PART (-3, -1, vp_wheel_wide);
+    PART (-3, -1, vp_cargo_trunk);
+    PART (-3, 2, vp_board_v);
+    PART (-3, -2, vp_board_v);
+    PART (-3, -2, vp_fuel_tank_water);
+
+    PART (-4, 0, vp_frame_v2);
+    PART (-4, 0, vp_roof);
+    PART (-4, 0, vp_floor_trunk);
+    PART (-4, 1, vp_wheel_wide);
+    PART (-4, 1, vp_cargo_trunk);
+    PART (-4, -1, vp_wheel_wide);
+    PART (-4, -1, vp_cargo_trunk);
+    PART (-4, 2, vp_board_v);
+    PART (-4, -2, vp_board_v);
+    PART (-4, -2, vp_fuel_tank_batt);
+
+    PART (-5, 0, vp_frame_v2);
+    PART (-5, 0, vp_roof);
+    PART (-5, 0, vp_floor_trunk);
+    PART (-5, 1, vp_frame_v2);
+    PART (-5, 1, vp_roof);
+    PART (-5, 1, vp_bed);
+    PART (-5, -1, vp_frame_v2);
+    PART (-5, -1, vp_kitchen_unit);
+    PART (-5, 2, vp_board_v);
+    PART (-5, -2, vp_board_v);
+    PART (-5, -2, vp_fuel_tank_gas);
+
+    PART (-6, 0, vp_board_h);
+    PART (-6, 1, vp_board_h);
+    PART (-6, -1, vp_board_h);
+    PART (-6, 2, vp_board_n);
+    PART (-6, -2, vp_board_b);
+
+
 
     if (vtypes.size() != num_vehicles)
         debugmsg("%d vehicles, %d types", vtypes.size(), num_vehicles);
