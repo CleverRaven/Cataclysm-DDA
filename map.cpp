@@ -1248,7 +1248,7 @@ switch (furn(x, y)) {
   if (str >= result)
   {
    // Special code to collapse the tent if destroyed
-   int tentx, tenty = -1;
+   int tentx = -1, tenty = -1;
    // Find the center of the tent
    for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++)
@@ -2227,6 +2227,9 @@ bool map::open_door(const int x, const int y, const bool inside)
  } else if (furn(x, y) == f_skin_door) {
   furn_set(x, y, f_skin_door_o);
   return true;
+ } else if (furn(x, y) == f_safe_c) {
+  furn_set(x, y, f_safe_o);
+  return true;
  } else if (inside && ter(x, y) == t_curtains) {
   ter_set(x, y, t_window_domestic);
   return true;
@@ -2304,6 +2307,9 @@ bool map::close_door(const int x, const int y, const bool inside)
   return true;
  } else if (furn(x, y) == f_skin_door_o) {
   furn_set(x, y, f_skin_door);
+  return true;
+ } else if (furn(x, y) == f_safe_o) {
+  furn_set(x, y, f_safe_c);
   return true;
  } else if (inside && ter(x, y) == t_window_open) {
   ter_set(x, y, t_window_domestic);
@@ -3030,34 +3036,28 @@ void map::draw(game *g, WINDOW* w, const point center)
    // this must stay here...
    int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
    int distance_to_look = real_max_sight_range;
-   if (OPTIONS["GRADUAL_NIGHT_LIGHT"] > 0.) {
-    // in this case we'll be always looking at maximum distance
-    // and light level should do rest of the work....
-    distance_to_look = DAYLIGHT_LEVEL;
-   }
+   distance_to_look = DAYLIGHT_LEVEL;
 
    bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
    lit_level lit = light_at(realx, realy);
 
-   if (OPTIONS["GRADUAL_NIGHT_LIGHT"] > 0.) {
-    // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
-	// but at the same time changing light-level depending on distance,
-	// to create actual "gradual" stuff
-	// Also we'll try to ALWAYS show LL_BRIGHT stuff independent of where it is...
-    if (lit != LL_BRIGHT) {
-     if (dist > real_max_sight_range) {
-      int intLit = (int)lit - (dist - real_max_sight_range)/2;
-      if (intLit < 0) intLit = LL_DARK;
-      lit = (lit_level)intLit;
-     }
-    }
-	// additional case for real_max_sight_range
-	// if both light_sight_range and max_sight_range were small
-	// it means we really have limited visibility (e.g. inside a pit)
-	// and we shouldn't touch that
-	if (lit > LL_DARK && real_max_sight_range > 1) {
-     real_max_sight_range = distance_to_look;
-    }
+   // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
+   // but at the same time changing light-level depending on distance,
+   // to create actual "gradual" stuff
+   // Also we'll try to ALWAYS show LL_BRIGHT stuff independent of where it is...
+   if (lit != LL_BRIGHT) {
+       if (dist > real_max_sight_range) {
+           int intLit = (int)lit - (dist - real_max_sight_range)/2;
+           if (intLit < 0) intLit = LL_DARK;
+           lit = (lit_level)intLit;
+       }
+   }
+   // additional case for real_max_sight_range
+   // if both light_sight_range and max_sight_range were small
+   // it means we really have limited visibility (e.g. inside a pit)
+   // and we shouldn't touch that
+   if (lit > LL_DARK && real_max_sight_range > 1) {
+       real_max_sight_range = distance_to_look;
    }
 
    if ((g->u.has_active_bionic("bio_night") && dist < 15 && dist > natural_sight_range) || // if bio_night active, blackout 15 tile radius around player

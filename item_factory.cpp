@@ -156,6 +156,7 @@ void Item_factory::init(){
     iuse_function_list["TAZER"] = &iuse::tazer;
     iuse_function_list["MP3"] = &iuse::mp3;
     iuse_function_list["MP3_ON"] = &iuse::mp3_on;
+    iuse_function_list["PORTABLE_GAME"] = &iuse::portable_game;
     iuse_function_list["VORTEX"] = &iuse::vortex;
     iuse_function_list["DOG_WHISTLE"] = &iuse::dog_whistle;
     iuse_function_list["VACUTAINER"] = &iuse::vacutainer;
@@ -547,6 +548,7 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     ALARMCLOCK - Has an alarmclock feature
                     MALE_TYPICAL - Typically only worn by men.
                     FEMALE_TYPICAL - Typically only worn by women.
+                    USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
 
                     Container-only flags:
                     SEALS

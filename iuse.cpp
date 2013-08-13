@@ -161,7 +161,7 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
                       int torso_power, std::string item_name, std::string special_action)
 {
     int bonus = p->skillLevel("firstaid");
-    hp_part healed;
+    hp_part healed = num_hp_parts;
 
     if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
         int highest_damage = 0;
@@ -2069,7 +2069,7 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
   ter_id type = g->m.ter(dirx, diry);
   const char *succ_action;
   const char *fail_action;
-  ter_id new_type;
+  ter_id new_type = t_null;
   bool noisy;
   int difficulty;
 
@@ -2351,7 +2351,7 @@ void iuse::firemachete_on(game *g, player *p, item *it, bool t)
     }
     else
     {
-        int choice = menu(true, (p,_("No. 9"), it->tname().c_str()), _("Turn off"), _("Light something"), _("Cancel"), NULL);
+        int choice = menu(true, _("No. 9"), _("Turn off"), _("Light something"), _("Cancel"), NULL);
         switch (choice)
         {
             if (choice == 2)
@@ -2414,7 +2414,7 @@ void iuse::broadfire_on(game *g, player *p, item *it, bool t)
     else
     {
         int choice = menu(true,
-                          (p,_("What will thou do?"), it->tname().c_str()), _("Retreat!"), _("Burn and Pillage!"), _("Keep Fighting!"), NULL);
+                          _("What will thou do?"), _("Retreat!"), _("Burn and Pillage!"), _("Keep Fighting!"), NULL);
         switch (choice)
         {
             if (choice == 2)
@@ -2477,7 +2477,7 @@ void iuse::firekatana_on(game *g, player *p, item *it, bool t)
     else
     {
         int choice = menu(true,
-                          (p,_("The Light of Day."), it->tname().c_str()), _("Nightfall"), _("Blazing Heat"), _("Endless Day"), NULL);
+                          _("The Light of Day."), _("Nightfall"), _("Blazing Heat"), _("Endless Day"), NULL);
         switch (choice)
         {
             if (choice == 2)
@@ -2597,7 +2597,7 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  bool buried = false;
  bool set = false;
  std::stringstream message;
- int practice;
+ int practice = 0;
 
 if(it->type->id == "cot"){
   message << _("You unfold the cot and place it on the ground.");
@@ -3543,6 +3543,24 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
   it->make(g->itypes["mp3"]);
   it->active = false;
  }
+}
+
+void iuse::portable_game(game *g, player *p, item *it, bool t)
+{
+  if(p->has_trait(PF_ILLITERATE)) {
+    g->add_msg(_("You're illiterate!"));
+  } else if(it->charges == 0) {
+    g->add_msg_if_player(p,_("The %s's batteries are dead."), it->name.c_str());
+  } else {
+
+    //Play in 15-minute chunks
+    int time = 15000;
+
+    g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
+    p->assign_activity(g, ACT_GAME, time, -1, it->invlet, "gaming");
+    p->moves = 0;
+
+  }
 }
 
 void iuse::vortex(game *g, player *p, item *it, bool t)

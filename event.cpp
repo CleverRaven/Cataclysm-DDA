@@ -69,7 +69,7 @@ void event::actualize(game *g)
   case EVENT_AMIGARA: {
    int num_horrors = rng(3, 5);
    int faultx = -1, faulty = -1;
-   bool horizontal;
+   bool horizontal = false;
    for (int x = 0; x < SEEX * MAPSIZE && faultx == -1; x++) {
     for (int y = 0; y < SEEY * MAPSIZE && faulty == -1; y++) {
      if (g->m.ter(x, y) == t_fault) {
@@ -191,7 +191,7 @@ void event::actualize(game *g)
   } break;
 
   case EVENT_TEMPLE_SPAWN: {
-   mon_id montype;
+   mon_id montype = mon_null;
    switch (rng(1, 4)) {
     case 1: montype = mon_sewer_snake;  break;
     case 2: montype = mon_centipede;    break;

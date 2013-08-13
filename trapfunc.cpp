@@ -113,7 +113,7 @@ void trapfunc::crossbow(game *g, int x, int y)
  bool add_bolt = true;
  g->add_msg(_("You trigger a crossbow trap!"));
  if (!one_in(4) && rng(8, 20) > g->u.dodge(g)) {
-  body_part hit;
+  body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
    case  2:
@@ -143,7 +143,7 @@ void trapfuncm::crossbow(game *g, monster *z, int x, int y)
 {
     bool add_bolt = true;
     bool seen = g->u_see(z);
-    int chance;
+    int chance = 0;
     // adapted from shotgun code - chance of getting hit depends on size
     switch (z->type->size)
     {
@@ -178,7 +178,7 @@ void trapfunc::shotgun(game *g, int x, int y)
  if (g->m.tr_at(x, y) == tr_shotgun_1)
   shots = 1;
  if (rng(5, 50) > g->u.dodge(g)) {
-  body_part hit;
+  body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
    case  2:
@@ -207,7 +207,7 @@ void trapfunc::shotgun(game *g, int x, int y)
 void trapfuncm::shotgun(game *g, monster *z, int x, int y)
 {
  bool seen = g->u_see(z);
- int chance;
+ int chance = 0;
  switch (z->type->size) {
   case MS_TINY:   chance = 100; break;
   case MS_SMALL:  chance =  16; break;
@@ -541,7 +541,7 @@ void trapfunc::pit_spikes(game *g, int x, int y)
  else if (rng(5, 30) < dodge)
   g->add_msg(_("You avoid the spikes within."));
  else {
-  body_part hit;
+  body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1:
    case  2: hit = bp_legs; break;

@@ -272,6 +272,22 @@
   },
 
   {
+    "id": "small_lcd_screen",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "small LCD screen",
+    "description": "A small backlit screen, used for displaying images. Useful in some electronics recipes.",
+    "rarity": 2,
+    "price": 340,
+    "material": "plastic",
+    "weight": 500,
+    "volume": 1,
+    "bashing": -6,
+    "cutting": -2,
+    "to_hit": -4
+  },
+
+  {
     "id": "lens",
     "symbol": ".",
     "color": "light_cyan",

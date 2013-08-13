@@ -214,7 +214,7 @@ std::string weather_forecast(game *g, radio_tower tower)
         {
             weather_proportions[period_weather] += end_day ? 6 : 18 - period_start;
             int weather_duration = 0;
-            int predominant_weather;
+            int predominant_weather = 0;
             std::string day;
             if( g->turn.days() == period->deadline.days() )
             {

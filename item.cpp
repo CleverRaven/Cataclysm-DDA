@@ -959,7 +959,7 @@ int item::price() const
 int item::weight() const
 {
     if (typeId() == "corpse") {
-        int ret;
+        int ret = 0;
         switch (corpse->size) {
             case MS_TINY:   ret =   1000;  break;
             case MS_SMALL:  ret =  40750;  break;

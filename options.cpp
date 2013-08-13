@@ -100,11 +100,6 @@ void initOptions() {
                                              0, 127, 5
                                             );
 
-    OPTIONS["GRADUAL_NIGHT_LIGHT"] =    cOpt(mPage["interface"], _("Gradual night light"),
-                                             _("If true will add nice gradual-lighting should only make a difference during the night."),
-                                             true
-                                            );
-
     OPTIONS["RAIN_ANIMATION"] =         cOpt(mPage["interface"], _("Rain animation"),
                                              _("If true, will display weather animations."),
                                              true
@@ -364,7 +359,7 @@ void game::show_options()
 
         wrefresh(w_options_header);
 
-        mvwprintz(w_options_tooltip, 0, 0, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #Default: " + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
+        fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #Default: " + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
         wrefresh(w_options_tooltip);
 
         wrefresh(w_options);

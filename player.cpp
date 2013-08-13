@@ -41,6 +41,7 @@ void game::init_morale()
     _("Enjoyed %i"),
     _("Enjoyed a hot meal"),
     _("Music"),
+    _("Played Video Game"),
     _("Marloss Bliss"),
     _("Good Feeling"),
 
@@ -2483,7 +2484,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
      min = 0;
    }
 
-   Skill *selectedSkill;
+   Skill *selectedSkill = NULL;
 
    for (int i = min; i < max; i++)
    {
@@ -5744,11 +5745,11 @@ bool player::eat(game *g, signed char ch)
         if (eaten->poison > 0)
             add_disease("foodpoison", eaten->poison * 300);
 
-        if (comest->comesttype == "DRINK") {
+        if (comest->comesttype == "DRINK" && !eaten->has_flag("USE_EAT_VERB")) {
             g->add_msg_player_or_npc( this, _("You drink your %s."), _("<npcname> drinks a %s."),
                                       eaten->tname(g).c_str());
         }
-        else if (comest->comesttype == "FOOD") {
+        else if (comest->comesttype == "FOOD" || eaten->has_flag("USE_EAT_VERB")) {
             g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                       eaten->tname(g).c_str());
         }
@@ -6191,14 +6192,19 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
     }
     else
     {
-        // Only helmets can be worn with power armor, except other power armor components
-        if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & (mfb(bp_head) | mfb(bp_eyes))))
-        {
-            if(interactive)
+        // Only headgear can be worn with power armor, except other power armor components
+        if( armor->covers & ~(mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) ) ) {
+            for (int i = 0; i < worn.size(); i++)
             {
-                g->add_msg(_("You can't wear %s with power armor!"), to_wear->tname().c_str());
+                if( ((it_armor *)worn[i].type)->is_power_armor() )
+                {
+                    if(interactive)
+                    {
+                        g->add_msg(_("You can't wear %s with power armor!"), to_wear->tname().c_str());
+                    }
+                    return false;
+                }
             }
-            return false;
         }
     }
 
