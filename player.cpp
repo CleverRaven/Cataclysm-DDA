@@ -2883,7 +2883,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   int speedox = sideStyle ? 0 : 33;
   int speedoy = sideStyle ? 5 :  3;
 
-  bool metric = OPTIONS["USE_METRIC_SPEED"];
+  bool metric = OPTIONS["USE_METRIC_SPEEDS"];
   const char *units = metric ? "km/h" : "mph";
   int velx    = metric ?  5 : 4; // strlen(units) + 1
   int cruisex = metric ? 10 : 9; // strlen(units) + 6
