@@ -293,13 +293,11 @@ void uimenu::query(bool loop) {
     if ( entries.size() < 1 ) {
         return;
     }
-    int last_selected = selected;
     int startret = UIMENU_INVALID;
     ret = UIMENU_INVALID;
     show();
     do {
         //show();
-        last_selected = selected;
         keypress = getch();
         if ( keypress == KEY_UP || keypress == KEY_PPAGE ) {
             if ( keypress == KEY_PPAGE ) {
