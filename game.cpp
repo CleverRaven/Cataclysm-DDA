@@ -10834,7 +10834,7 @@ void game::plmove(int x, int y)
              press_x(ACTION_MOVE_DOWN).c_str());
    plswim(x, y);
   } else {
-   u.drench(this, 40);
+   u.drench(this, 40, mfb(bp_feet) | mfb(bp_legs));
   }
 
  } else { // Invalid move
@@ -10892,7 +10892,12 @@ void game::plswim(int x, int y)
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 
- u.drench(this, 100);
+ int drenchFlags = mfb(bp_feet)|mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands);
+
+ if (u.underwater)
+   drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth);
+
+ u.drench(this, 100, drenchFlags);
 }
 
 void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled)

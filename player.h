@@ -209,7 +209,7 @@ public:
  void mend(game *g);
  void vomit(game *g);
 
- void drench(game *g, int saturation); // drenches the player in water; saturation is percent
+ void drench(game *g, int saturation, int flags); // drenches the player in water; saturation is percent
 
  char lookup_item(char let);
  bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
@@ -289,7 +289,11 @@ public:
  bool is_wearing(itype_id it);	// Are we wearing a specific itype?
  bool has_artifact_with(art_effect_passive effect);
  bool worn_with_flag( std::string flag ) const;
- bool is_water_friendly( body_part flags = -1 ) const;
+
+ bool covered_with_flag( const std::string flag, int parts ) const;
+ bool covered_with_flag_exclusively( const std::string flag, int parts = -1 ) const;
+ bool is_water_friendly( int flags = -1 ) const;
+ bool is_waterproof( int flags ) const;
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
