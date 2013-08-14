@@ -92,6 +92,16 @@ class monster {
 
  void set_dest(int x, int y, int &t); // Go in a straight line to (x, y)
 				      // t determines WHICH Bresenham line
+
+ /**
+  * Set (x, y) as wander destination.
+  *
+  * This will cause the monster to slowly move towards the destination,
+  * unless there is an overriding smell or plan.
+  *
+  * @param f The priority of the destination, as well as how long we should
+  *          wander towards there.
+  */
  void wander_to(int x, int y, int f); // Try to get to (x, y), we don't know
 				      // the route.  Give up after f steps.
  void plan(game *g);
@@ -100,7 +110,7 @@ class monster {
  void friendly_move(game *g);
 
  point scent_move(game *g);
- point sound_move(game *g);
+ point wander_next(game *g);
  void hit_player(game *g, player &p, bool can_grab = true);
  int calc_movecost(game *g, int x1, int y1, int x2, int y2);
 

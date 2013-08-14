@@ -269,6 +269,7 @@ void monster::move(game *g)
  } else if (has_flag(MF_SMELLS)) {
 // No sight... or our plans are invalid (e.g. moving through a transparent, but
 //  solid, square of terrain).  Fall back to smell if we have it.
+  plans.clear();
   point tmp = scent_move(g);
   if (tmp.x != -1) {
    next = tmp;
@@ -276,7 +277,8 @@ void monster::move(game *g)
   }
  }
  if (wandf > 0 && !moved) { // No LOS, no scent, so as a fall-back follow sound
-  point tmp = sound_move(g);
+  plans.clear();
+  point tmp = wander_next(g);
   if (tmp.x != posx || tmp.y != posy) {
    next = tmp;
    moved = true;
@@ -369,7 +371,6 @@ void monster::friendly_move(game *g)
 
 point monster::scent_move(game *g)
 {
- plans.clear();
  std::vector<point> smoves;
 
  int maxsmell = 2; // Squares with smell 0 are not eligable targets
@@ -412,9 +413,8 @@ point monster::scent_move(game *g)
  return next;
 }
 
-point monster::sound_move(game *g)
+point monster::wander_next(game *g)
 {
- plans.clear();
  point next;
  bool xbest = true;
  if (abs(wandy - posy) > abs(wandx - posx))// which is more important
