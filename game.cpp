@@ -1063,7 +1063,7 @@ void game::cancel_activity_query(const char* message, ...)
  bool doit = false;;
  std::string verbs[NUM_ACTIVITIES] = {
     _("whatever"),
-    _("reloading"), _("reading"), _("waiting"), _("crafting"), _("crafting"),
+    _("reloading"), _("reading"), _("playing"), _("waiting"), _("crafting"), _("crafting"),
     _("disassembly"), _("butchering"), _("foraging"), _("construction"), _("construction"), _("pumping gas"),
     _("training")
  };
@@ -3355,7 +3355,7 @@ Current turn: %d; Next spawn %d.\n\
         weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
 
       }
-      
+
       weather_menu.query();
 
       if(weather_menu.ret > 0) {
