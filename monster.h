@@ -121,9 +121,12 @@ class monster {
   * costs at the target, an existing NPC or monster, this function simply
   * aborts and does nothing.
   *
+  * @param force If this is set to true, the movement will happen even if
+  *              there's currently something blocking the destination.
+  *
   * @return 1 if movement successful, 0 otherwise
   */
- int move_to(game *g, int x, int y);
+ int move_to(game *g, int x, int y, bool force=false);
 
  /**
   * Attack any enemies at the given location.
