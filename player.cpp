@@ -5388,7 +5388,7 @@ bool player::worn_with_flag( std::string flag ) const
 bool player::covered_with_flag(const std::string flag, int parts) const {
   int covered = 0;
 
-  for (std::vector<item>::const_reverse_iterator armorPiece = worn.crbegin(); armorPiece != worn.crend(); ++armorPiece) {
+  for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
     int cover = ((it_armor *)(armorPiece->type))->covers & parts;
 
     if (!cover) continue; // For our purposes, this piece covers nothing.
@@ -5406,7 +5406,7 @@ bool player::covered_with_flag(const std::string flag, int parts) const {
 }
 
 bool player::covered_with_flag_exclusively(const std::string flag, int flags) const {
-  for (std::vector<item>::const_iterator armorPiece = worn.cbegin(); armorPiece != worn.cend(); ++armorPiece) {
+  for (std::vector<item>::const_iterator armorPiece = worn.begin(); armorPiece != worn.end(); ++armorPiece) {
     if ((((it_armor *)(armorPiece->type))->covers & flags) && !armorPiece->has_flag(flag))
       return false;
   }
