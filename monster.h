@@ -133,10 +133,6 @@ class monster {
  int posx, posy;
  int wandx, wandy; // Wander destination - Just try to move in that direction
  int wandf;	   // Urge to wander - Increased by sound, decrements each move
- 
- int dest_priority; // Priority of moving towards the destination, high if the player was just glimpsed.
- int wander_priority; // Priority of reacting to sound.
- 
  std::vector<item> inv; // Inventory
  std::vector<monster_effect> effects; // Active effects, e.g. on fire
 
