@@ -3,7 +3,9 @@
 
 #include <string>
 #include <vector>
+#ifdef LOCALIZE
 #include <locale>
+#endif
 #include <algorithm>
 
 class cPickupRules {
