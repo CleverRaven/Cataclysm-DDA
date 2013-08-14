@@ -796,10 +796,10 @@ int monster::attack_at(int x, int y) {
     return 0;
 }
 
-int monster::move_to(game *g, int x, int y)
+int monster::move_to(game *g, int x, int y, bool force)
 {
-  // Make sure that we can move there.
-  if(!g->is_empty(x, y) || !can_move_to(g, x, y)) {
+  // Make sure that we can move there, unless force is true.
+  if(!force) if(!g->is_empty(x, y) || !can_move_to(g, x, y)) {
       return 0;
   }
 
