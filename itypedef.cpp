@@ -34,87 +34,87 @@ void game::init_itypes ()
 {
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes["null"]=
-  new itype("null", 0, 0, "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
+  new itype("null", 0, "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // Corpse - a special item
  itypes["corpse"]=
-  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
+  new itype("corpse", 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
             0, 0, 1, 0);
  itypes["corpse"]->item_tags.insert("NO_UNLOAD");
 // Fire - only appears in crafting recipes
  itypes["fire"]=
-  new itype("fire", 0, 0, "nearby fire",
+  new itype("fire", 0, "nearby fire",
             "Some fire - if you are reading this it's a bug! (itypdef:fire)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // Integrated toolset - ditto
  itypes["toolset"]=
-  new itype("toolset", 0, 0, "integrated toolset",
+  new itype("toolset", 0, "integrated toolset",
             "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // For smoking crack or meth
  itypes["apparatus"]=
-  new itype("apparatus", 0, 0, "something to smoke that from, and a lighter",
+  new itype("apparatus", 0, "something to smoke that from, and a lighter",
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 
-#define VAR_VEH_PART(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
+#define VAR_VEH_PART(id, name,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, bigmin, bigmax, bigaspect, des)\
-itypes[id]=new it_var_veh_part(id,rarity,price,name,des,sym,\
+itypes[id]=new it_var_veh_part(id,price,name,des,sym,\
 color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax, bigaspect)
 
 //"wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
 //           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel", _("wheel"), 10, 100, ']', c_dkgray,  "steel",   "plastic",
+VAR_VEH_PART("wheel", _("wheel"), 100, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
     40, 8845, 12,  0,  -1, 0,       13,         20,  BIGNESS_WHEEL_DIAMETER,  _("\
 A car wheel"));
 //           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_wide", _("wide wheel"), 4, 340, ']', c_dkgray,  "steel",   "plastic",
+VAR_VEH_PART("wheel_wide", _("wide wheel"), 340, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
     70,22600, 17,  0,  -1, 0,       17,         36,  BIGNESS_WHEEL_DIAMETER,  _("\
 A wide wheel. \\o/ This wide."));
 //           NAME            RAR  PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_bicycle", _("bicycle wheel"), 18, 40,  ']', c_dkgray,  "steel",   "plastic",
+VAR_VEH_PART("wheel_bicycle", _("bicycle wheel"), 40,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     28,1500,  8,  0,  -1, 0,       9,         18,  BIGNESS_WHEEL_DIAMETER,  _("\
 A bicycle wheel"));
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_motorbike", _("motorbike wheel"), 13, 140,  ']', c_dkgray,  "steel",   "plastic",
+VAR_VEH_PART("wheel_motorbike", _("motorbike wheel"), 140,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     33,5443,  10,  0,  -1, 0,       9,         14,  BIGNESS_WHEEL_DIAMETER,  _("\
 A motorbike wheel"));
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_small", _("small wheel"),    5, 140,  ']', c_dkgray,  "steel",   "plastic",
+VAR_VEH_PART("wheel_small", _("small wheel"),140,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     9, 2722,  10,  0,  -1, 0,       6,         14,   BIGNESS_WHEEL_DIAMETER,  _("\
 A pretty small wheel. Probably from one of those segway things.\
 It is not very menacing."));
 
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("1cyl_combustion", _("1-cylinder engine"),  3, 100, ':', c_ltcyan,  "iron",   "null",
+VAR_VEH_PART("1cyl_combustion", _("1-cylinder engine"), 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS 0BIGNESS_MIN BIGNESS_MAX   ASPECT
     6, 20000,  4,  0,  -1, 0,       28,         75,   BIGNESS_ENGINE_DISPLACEMENT, _("\
 A single-cylinder 4-stroke combustion engine."));
 
 //                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v2_combustion", _("V-twin engine"),  2, 100, ':', c_ltcyan,  "iron",   "null",
+VAR_VEH_PART("v2_combustion", _("V-twin engine"), 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     6, 45000,  4,  0,  -1, 0,       65,        260, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A 2-cylinder 4-stroke combustion engine."));
 
 //                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("i4_combustion", _("Inline-4 engine"),  6, 150, ':', c_ltcyan,  "iron",   "null",
+VAR_VEH_PART("i4_combustion", _("Inline-4 engine"), 150, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     6, 70000,  8,  0,  -2, 0,       220,       350, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A small, yet powerful 4-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v6_combustion", _("V6 engine"),  3, 180, ':', c_ltcyan,  "iron",   "null",
+VAR_VEH_PART("v6_combustion", _("V6 engine"), 180, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     14,100000,  12,  0,  -3, 0,    250,        520, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A powerful 6-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v8_combustion", _("V8 engine"),  2, 250, ':', c_ltcyan,  "iron",   "null",
+VAR_VEH_PART("v8_combustion", _("V8 engine"), 250, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     25,144000,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A large and very powerful 8-cylinder combustion engine."));
@@ -127,9 +127,9 @@ A large and very powerful 8-cylinder combustion engine."));
 // Burst is the # of rounds fired, 0 if no burst ability.
 // clip is how many shots we get before reloading.
 
-#define GUN(id,name,rarity,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
+#define GUN(id,name,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
 to_hit,dmg,range,dispersion,recoil,durability,burst,clip,reload_time,des) \
-itypes[id]=new it_gun(id,rarity,price,name,des,'(',\
+itypes[id]=new it_gun(id,price,name,des,'(',\
 color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,range,dispersion,\
 recoil,durability,burst,clip,reload_time)
 
@@ -148,14 +148,14 @@ recoil,durability,burst,clip,reload_time)
  *  turn if the tool is active.  The same function can be used for both.  See
  *  iuse.h and iuse.cpp for functions.
  */
-#define TOOL(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,melee_dam,\
+#define TOOL(id, name,price,sym,color,mat1,mat2,volume,wgt,melee_dam,\
 melee_cut,to_hit,max_charge,def_charge,charge_per_use,charge_per_sec,fuel,\
 revert,func,des) \
-itypes[id]=new it_tool(id,rarity,price,name,des,sym,\
+itypes[id]=new it_tool(id,price,name,des,sym,\
 color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
 
-TOOL("jack", _("jack"),		30, 86, ';', c_ltgray,	"iron",	"null",
+TOOL("jack", _("jack"), 86, ';', c_ltgray,	"iron",	"null",
 //	VOL WGT DAM CUT HIT FLAGS
 	 5,11974, 11,  0,  2, 0, 0, 0, 0, "NULL", "null", &iuse::none, _("\
 A common hydraulic jack, used when changing tires."));
@@ -164,21 +164,21 @@ A common hydraulic jack, used when changing tires."));
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
 // list of options.
-#define BIO(id, name, rarity, price, color, difficulty, des) \
+#define BIO(id, name, price, color, difficulty, des) \
 itypes[id]=new it_bionic(id, rarity,price,name,des,':',\
 color, "steel", "plastic", 10,2041, 8, 0, 0, difficulty)
 
-#define BIO_SINGLE(id,rarity,price,color,difficulty) \
-     BIO(id, std::string("CBM: ")+bionics[id]->name, rarity,price,color,difficulty, \
+#define BIO_SINGLE(id,price,color,difficulty) \
+     BIO(id, std::string("CBM: ")+bionics[id]->name, price,color,difficulty, \
            bionics[id]->description) \
 
 //  Name                     RAR PRICE    COLOR   DIFFICULTY
-BIO("bio_power_storage", _("CBM: Power Storage"),	24, 3800,	c_green,	 1, _("\
+BIO("bio_power_storage", _("CBM: Power Storage"), 3800,	c_green,	 1, _("\
 Compact Bionics Module that upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\
 also need a power supply, found in another CBM.")); // This is a special case, which increases power capacity by 4
 
- BIO("bio_power_storage_mkII", _("CBM: Power Storage Mk. II"), 8, 10000, c_green, 1, _("\
+ BIO("bio_power_storage_mkII", _("CBM: Power Storage Mk. II"), 10000, c_green, 1, _("\
 Compact Bionics Module developed at DoubleTech Industries as a replacement\n\
 for the highly sucessful CBM: Power Storage. Increases you power capacity\n\
 by 10 units.")); // This is another special case, increases power capacity by 10 units
@@ -301,11 +301,11 @@ MACGUFFIN("note", _("note"), 0, '?', c_white, "paper", "null", 1, 3, 0, 0, 0,
 	true, &iuse::mcg_note, _("\
 A hand-written paper note."));
 
-#define STATIONARY(id, name, rarity, price, category, description) \
-itypes[id] = new it_stationary(id, rarity, price, name, description,\
+#define STATIONARY(id, name, price, category, description) \
+itypes[id] = new it_stationary(id, price, name, description,\
 ',', c_white, "paper", "null", 0, 3, 0, 0, 0, category)
 
-STATIONARY("flyer", _("flyer"), 5, 1, "flier", _("A scrap of paper."));
+STATIONARY("flyer", _("flyer"), 1, "flier", _("A scrap of paper."));
 
 // Finally, add all the keys from the map to a vector of all possible items
 for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes.end(); ++iter){
