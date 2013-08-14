@@ -304,7 +304,6 @@ bool game::opening_screen()
                     } else if (sel2 == 1) {
                         layer = 3;
                         sel1 = 0;
-                        print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY-2, iMenuOffsetX+7);
                     }
                 }
             } else if (sel1 == 2) {	// Load Character
@@ -390,11 +389,11 @@ bool game::opening_screen()
             }
         } else if (layer == 3) {	// Character Templates
             if (templates.size() == 0)
-                mvwprintz(w_open, iMenuOffsetY-4, iMenuOffsetX+27, c_red, _("No templates found!"));
+                mvwprintz(w_open, iMenuOffsetY-4, iMenuOffsetX+20, c_red, _("No templates found!"));
             else {
                 for (int i = 0; i < templates.size(); i++) {
                     int line = iMenuOffsetY - 4 - i;
-                    mvwprintz(w_open, line, 27 + iMenuOffsetX, (sel1 == i ? h_white : c_white), templates[i].c_str());
+                    mvwprintz(w_open, line, 20 + iMenuOffsetX, (sel1 == i ? h_white : c_white), templates[i].c_str());
                 }
             }
             wrefresh(w_open);
