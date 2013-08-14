@@ -3663,6 +3663,27 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
       }
   }
 
+  // plantEpoch is half a season; 3 epochs pass from plant to harvest
+  const int plantEpoch = 14400 * (int)OPTIONS["SEASON_LENGTH"] / 2;
+
+  // check plants
+  for (int x = 0; x < 12; x++) {
+    for (int y = 0; y < 12; y++) {
+      furn_id furn = tmpsub->frn[x][y];
+      if (furn && (furnlist[furn].flags & mfb(plant))) {
+        item seed = tmpsub->itm[x][y][0];
+
+        while (g->turn > seed.bday + plantEpoch && furn < f_plant_harvest) {
+          furn = (furn_id((int)furn + 1));
+          seed.bday += plantEpoch;
+        }
+
+        tmpsub->itm[x][y][0].bday = seed.bday;
+        tmpsub->frn[x][y] = furn;
+      }
+    }
+  }
+
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
   tinymap tmp_map(traps);

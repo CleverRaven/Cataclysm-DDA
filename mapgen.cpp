@@ -11617,10 +11617,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
    for (int i = 3; i < SEEX * 2 - 3; i += 5) {
     for (int j = 3; j < 16; j += 5) {
      square(this, t_dirt, i, j, i + 2, j + 2);
-     int num_weed = rng(0, 3) * rng(0, 1);
+     int num_weed = rng(0, 4) * rng(0, 1);
      for (int n = 0; n < num_weed; n++) {
       int x = rng(i, i + 2), y = rng(j, j + 2);
-      spawn_item(x, y, "weed", 0);
+      spawn_item(x, y, one_in(5)?"seed_weed":"weed", 0);
      }
     }
    }
