@@ -1032,7 +1032,7 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
 
   std::string verbs[NUM_ACTIVITIES] = {
     _("whatever"),
-    _("reloading"), _("reading"), _("waiting"), _("crafting"), _("crafting"),
+    _("reloading"), _("reading"), _("playing"), _("waiting"), _("crafting"), _("crafting"),
     _("disassembly"), _("butchering"), _("foraging"), _("construction"), _("construction"), _("pumping gas"),
     _("training")
   };
