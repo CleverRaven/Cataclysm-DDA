@@ -71,6 +71,7 @@ class inventory
 
   std::vector<item*> all_items_by_type(itype_id type);
   std::vector<item*> all_ammo(ammotype type);
+  std::vector<item*> all_items_with_flag( const std::string flag );
 
 // Below, "amount" refers to quantity
 //        "charges" refers to charges

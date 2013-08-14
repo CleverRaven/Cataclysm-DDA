@@ -145,7 +145,7 @@
         "rarity" : 50,
         "encumberance" : 1,
         "bashing" : 4,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE","WATERPROOF"],
         "coverage" : 95,
         "material_thickness" : 4,
         "use_action" : "BOOTS"
@@ -221,7 +221,7 @@
         "rarity" : 35,
         "encumberance" : 3,
         "bashing" : -4,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE","WATER_FRIENDLY"],
         "coverage" : 20,
         "material_thickness" : 2
     },
@@ -298,6 +298,31 @@
         "bashing" : 4,
         "coverage" : 95,
         "material_thickness" : 5
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "trunks",
+        "name" : "swimming trunks",
+        "weight" : 300,
+        "color" : "brown",
+        "covers" : ["LEGS"],
+        "to_hit" : 1,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A pair of swimming trunks, with netting.",
+        "price" : 180,
+        "material" : ["cotton", "null"],
+        "volume" : 3,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "rarity" : 70,
+        "encumberance" : 0,
+        "bashing" : -4,
+        "flags" : ["VARSIZE","WATER_FRIENDLY"],
+        "coverage" : 35,
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
@@ -793,7 +818,7 @@
         "rarity" : 10,
         "encumberance" : 4,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE","WATERPROOF"],
         "coverage" : 100,
         "material_thickness" : 5
     },
@@ -968,7 +993,7 @@
         "rarity" : 50,
         "encumberance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE","WATER_FRIENDLY"],
         "coverage" : 60,
         "material_thickness" : 1
     },
@@ -993,7 +1018,7 @@
         "rarity" : 50,
         "encumberance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE","WATER_FRIENDLY"],
         "coverage" : 60,
         "material_thickness" : 1
     },
@@ -1018,7 +1043,7 @@
         "rarity" : 50,
         "encumberance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE","WATER_FRIENDLY"],
         "coverage" : 5,
         "material_thickness" : 1
     },
@@ -1093,7 +1118,7 @@
         "rarity" : 50,
         "encumberance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE","WATER_FRIENDLY"],
         "coverage" : 10,
         "material_thickness" : 1
     },
@@ -1418,7 +1443,7 @@
         "rarity" : 50,
         "encumberance" : 2,
         "bashing" : -4,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE","WATERPROOF"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -1493,7 +1518,7 @@
         "rarity" : 30,
         "encumberance" : 1,
         "bashing" : 2,
-        "flags" : ["FLOATATION"],
+        "flags" : ["FLOATATION","WATER_FRIENDLY"],
         "coverage" : 40,
         "material_thickness" : 5
     },
@@ -1886,6 +1911,7 @@
         "rarity" : 35,
         "encumberance" : 1,
         "bashing" : -5,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 2
     },
@@ -2054,6 +2080,7 @@
         "rarity" : 20,
         "encumberance" : 3,
         "bashing" : -3,
+        "flags" : ["WATERPROOF"],
         "coverage" : 95,
         "material_thickness" : 2
     },
@@ -2078,6 +2105,7 @@
         "rarity" : 70,
         "encumberance" : 0,
         "bashing" : -5,
+        "flags" : ["WATER_FRIENDLY","WATERPROOF"],
         "coverage" : 75,
         "material_thickness" : 1
     },
@@ -2294,6 +2322,7 @@
         "rarity" : 90,
         "encumberance" : 0,
         "bashing" : -3,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 2
     },
@@ -2318,6 +2347,7 @@
         "rarity" : 90,
         "encumberance" : 0,
         "bashing" : -3,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 2
     },
@@ -2343,6 +2373,7 @@
         "rarity" : 90,
         "encumberance" : 0,
         "bashing" : -3,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 2
     },
@@ -2367,6 +2398,7 @@
         "rarity" : 40,
         "encumberance" : 0,
         "bashing" : -5,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 3
     },
@@ -2391,6 +2423,7 @@
         "rarity" : 50,
         "encumberance" : 2,
         "bashing" : -5,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 85,
         "material_thickness" : 2
     },
@@ -2511,6 +2544,7 @@
         "rarity" : 90,
         "encumberance" : 0,
         "bashing" : -3,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 1
     },
@@ -2704,6 +2738,7 @@
         "rarity" : 50,
         "encumberance" : 1,
         "bashing" : 6,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 70,
         "material_thickness" : 3
     },
@@ -2752,6 +2787,7 @@
         "rarity" : 50,
         "encumberance" : 0,
         "bashing" : -5,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 60,
         "material_thickness" : 2
     },
@@ -2852,6 +2888,7 @@
         "rarity" : 40,
         "encumberance" : 2,
         "bashing" : 10,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 85,
         "material_thickness" : 4
     },
@@ -2877,6 +2914,7 @@
         "rarity" : 25,
         "encumberance" : 2,
         "bashing" : 8,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 95,
         "material_thickness" : 4
     },
@@ -2926,6 +2964,7 @@
         "rarity" : 1,
         "encumberance" : 1,
         "bashing" : 2,
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 95,
         "material_thickness" : 5
     },
@@ -3706,6 +3745,7 @@
         "warmth" : 90,
         "encumberance" : 5,
         "bashing" : 1,
+        "flags" : ["WATERPROOF"],
         "coverage" : 100,
         "material_thickness" : 10
     },
@@ -3733,7 +3773,7 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 10,
-        "flags" : ["WATCH"]
+        "flags" : ["WATCH","WATERPROOF"]
     },
     {
         "type" : "ARMOR",
@@ -3757,6 +3797,7 @@
         "warmth" : 60,
         "encumberance" : 4,
         "bashing" : 1,
+        "flags" : ["WATERPROOF"],
         "coverage" : 100,
         "material_thickness" : 9
     },
@@ -3784,7 +3825,7 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 9,
-        "flags" : ["WATCH"]
+        "flags" : ["WATCH","WATERPROOF"]
     },
     {
         "type" : "ARMOR",
@@ -3808,6 +3849,7 @@
         "warmth" : 60,
         "encumberance" : 5,
         "bashing" : 1,
+        "flags" : ["WATERPROOF"],
         "coverage" : 100,
         "material_thickness" : 13
     },
@@ -3835,7 +3877,7 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 13,
-        "flags" : ["WATCH"]
+        "flags" : ["WATCH","WATERPROOF"]
     },
     {
         "type" : "ARMOR",
@@ -3858,6 +3900,7 @@
         "encumberance" : 4,
         "bashing" : 1,
         "symbol" : "[",
+        "flags" : ["WATERPROOF"],
         "coverage" : 100,
         "material_thickness" : 10
     },
@@ -3882,6 +3925,7 @@
         "encumberance" : 7,
         "bashing" : 0,
         "symbol" : "[",
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 2
     },
@@ -3906,6 +3950,7 @@
         "encumberance" : 7,
         "bashing" : 0,
         "symbol" : "[",
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 2
     },

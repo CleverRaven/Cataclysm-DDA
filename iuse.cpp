@@ -2175,7 +2175,7 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
 
 void iuse::makemound(game *g, player *p, item *it, bool t)
 {
- if (g->m.has_flag(diggable, p->posx, p->posy)) {
+ if (g->m.has_flag(diggable, p->posx, p->posy) && !g->m.has_flag(plant, p->posx, p->posy)) {
   g->add_msg_if_player(p,_("You churn up the earth here."));
   p->moves = -300;
   g->m.ter_set(p->posx, p->posy, t_dirtmound);

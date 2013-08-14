@@ -8635,6 +8635,8 @@ void game::pickup(int posx, int posy, int min)
 {
  //min == -1 is Autopickup
 
+ if (m.has_flag(sealed, posx, posy)) return;
+
  item_exchanges_since_save += 1; // Keeping this simple.
  write_msg();
  if (u.weapon.type->id == "bio_claws_weapon") {
@@ -10754,21 +10756,30 @@ void game::plmove(int x, int y)
      u.rem_disease("attack_boost");
   }
 
-// List items here
-  if (!u.has_disease("blind") && m.i_at(x, y).size() <= 3 &&
-                                  m.i_at(x, y).size() != 0) {
-   std::string buff = _("You see here ");
-   for (int i = 0; i < m.i_at(x, y).size(); i++) {
-    buff += m.i_at(x, y)[i].tname(this);
-    if (i + 2 < m.i_at(x, y).size())
-     buff += _(", ");
-    else if (i + 1 < m.i_at(x, y).size())
-     buff += _(", and ");
-   }
-   buff += _(".");
-   add_msg(buff.c_str());
-  } else if (m.i_at(x, y).size() != 0)
-   add_msg(_("There are many items here."));
+  // List items here
+  if (!m.has_flag(sealed, x, y)) {
+    if (!u.has_disease("blind") && m.i_at(x, y).size() <= 3 && m.i_at(x, y).size() != 0) {
+      // TODO: Rewrite to be localizable
+      std::string buff = _("You see here ");
+
+      for (int i = 0; i < m.i_at(x, y).size(); i++) {
+        buff += m.i_at(x, y)[i].tname(this);
+
+        if (i + 2 < m.i_at(x, y).size())
+          buff += _(", ");
+        else if (i + 1 < m.i_at(x, y).size())
+          buff += _(", and ");
+
+      }
+
+      buff += _(".");
+
+      add_msg(buff.c_str());
+    } else if (m.i_at(x, y).size() != 0) {
+      add_msg(_("There are many items here."));
+    }
+  }
+
   if (veh1 && veh1->part_with_feature(vpart1, vpf_controls) >= 0
            && u.in_vehicle)
       add_msg(_("There are vehicle controls here.  %s to drive."),
@@ -10834,7 +10845,7 @@ void game::plmove(int x, int y)
              press_x(ACTION_MOVE_DOWN).c_str());
    plswim(x, y);
   } else {
-   u.drench(this, 40);
+   u.drench(this, 40, mfb(bp_feet) | mfb(bp_legs));
   }
 
  } else { // Invalid move
@@ -10892,7 +10903,12 @@ void game::plswim(int x, int y)
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 
- u.drench(this, 100);
+ int drenchFlags = mfb(bp_feet)|mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands);
+
+ if (u.underwater)
+   drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth);
+
+ u.drench(this, 100, drenchFlags);
 }
 
 void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled)
