@@ -10405,6 +10405,9 @@
   ],
   "components": [
     [
+      ["jar_3l_glass", 1]
+    ],
+    [
       ["blueberries", 4],
       ["apple", 4],
       ["apple_canned", 4],

@@ -2190,7 +2190,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
     mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
     mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
-                      OPTIONS["USE_METRIC_WEIGHT"]?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHTS"]?"kg":"lbs");
     mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
@@ -2883,7 +2883,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   int speedox = sideStyle ? 0 : 33;
   int speedoy = sideStyle ? 5 :  3;
 
-  bool metric = OPTIONS["USE_METRIC_SPEED"];
+  bool metric = OPTIONS["USE_METRIC_SPEEDS"];
   const char *units = metric ? "km/h" : "mph";
   int velx    = metric ?  5 : 4; // strlen(units) + 1
   int cruisex = metric ? 10 : 9; // strlen(units) + 6
@@ -4620,7 +4620,7 @@ double player::convert_weight(int weight)
 {
     double ret;
     ret = double(weight);
-    if (OPTIONS["USE_METRIC_WEIGHT"]) {
+    if (OPTIONS["USE_METRIC_WEIGHTS"]) {
         ret /= 1000;
     } else {
         ret /= 453.6;
