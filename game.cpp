@@ -10195,8 +10195,7 @@ void game::unload(char chInput)
 
 void game::unload(item& it)
 {
-    if ( it.has_flag("NO_UNLOAD") ||
-         (!it.is_gun() && it.contents.size() == 0 && (!it.is_tool() || it.ammo_type() == "NULL")) )
+    if ( !it.is_gun() && it.contents.size() == 0 && (!it.is_tool() || it.ammo_type() == "NULL") )
     {
         add_msg(_("You can't unload a %s!"), it.tname(this).c_str());
         return;
@@ -10264,6 +10263,12 @@ void game::unload(item& it)
         it.contents = new_contents;
         return;
     }
+
+    if(it.has_flag("NO_UNLOAD")) {
+      add_msg(_("You can't unload a %s!"), it.tname(this).c_str());
+      return;
+    }
+
 // Unloading a gun or tool!
  u.moves -= int(it.reload_time(u) / 2);
 
