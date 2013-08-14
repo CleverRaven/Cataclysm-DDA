@@ -78,7 +78,15 @@ class monster {
  void shift(int sx, int sy); 	// Shifts the monster to the appropriate submap
 			     	// Updates current pos AND our plans
  bool wander(); 		// Returns true if we have no plans
- bool can_move_to(game *g, int x, int y); // Can we move to (x, y)?
+
+ /**
+  * Checks whether we can move to/through (x, y).
+  *
+  * This is used in pathfinding and ONLY checks the terrain. It ignores players
+  * and monsters, which might only block this tile temporarily.
+  */
+ bool can_move_to(game *g, int x, int y);
+
  bool will_reach(game *g, int x, int y); // Do we have plans to get to (x, y)?
  int  turns_to_reach(game *g, int x, int y); // How long will it take?
 
@@ -95,7 +103,35 @@ class monster {
  point sound_move(game *g);
  void hit_player(game *g, player &p, bool can_grab = true);
  int calc_movecost(game *g, int x1, int y1, int x2, int y2);
- void move_to(game *g, int x, int y);
+
+ /**
+  * Attempt to move to (x,y).
+  *
+  * If there's something blocking the movement, such as infinite move
+  * costs at the target, an existing NPC or monster, this function simply
+  * aborts and does nothing.
+  *
+  * @return 1 if movement successful, 0 otherwise
+  */
+ int move_to(game *g, int x, int y);
+
+ /**
+  * Attack any enemies at the given location.
+  *
+  * Attacks only if there is a creature at the given location towards
+  * we are hostile.
+  *
+  * @return 1 if something was attacked, 0 otherwise
+  */
+ int attack_at(int x, int y);
+
+ /**
+  * Try to smash/bash/destroy your way through the terrain at (x, y).
+  *
+  * @return 1 if we destroyed something, 0 otherwise.
+  */
+ int bash_at(int x, int y);
+
  void stumble(game *g, bool moved);
  void knock_back_from(game *g, int posx, int posy);
 
