@@ -1043,12 +1043,12 @@ void game::init_vehicles()
     PART (-1, 2, vp_board_v);
     PART (-1, -2, vp_board_v);
 
-    PART (-2, 0, vp_frame_v2);
-    PART (-2, 0, vp_roof);
-    PART (-2, 0, vp_aisle_v2);
     PART (-2, 1, vp_frame_v2);
     PART (-2, 1, vp_roof);
     PART (-2, 1, vp_floor_trunk);
+    PART (-2, 0, vp_frame_v2);
+    PART (-2, 0, vp_roof);
+    PART (-2, 0, vp_aisle_v2);
     PART (-2, -1, vp_frame_v2);
     PART (-2, -1, vp_roof);
     PART (-2, -1, vp_seat);
