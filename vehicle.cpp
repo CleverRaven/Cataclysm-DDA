@@ -1532,12 +1532,23 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
         }
         if (dam < 0)
             dam = 0;
+        
+        //Damage dealt to vehicle part, maxed at monster's current hp
+        int pdam;
+        if (dam > z->hp)
+            pdam=z->hp;
+        else
+            pdam=dam;
+            
 
         if (part_flag(part, vpf_sharp))
             parts[part].blood += (20 + dam) * 5;
         else
         if (dam > rng (10, 30))
+        {
             parts[part].blood += (10 + dam / 2) * 5;
+            damage (part, pdam);
+        }
 
         int turns_stunned = rng (0, dam) > 10? rng (1, 2) + (dam > 40? rng (1, 2) : 0) : 0;
         if (part_flag(part, vpf_sharp))
