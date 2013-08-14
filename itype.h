@@ -792,7 +792,7 @@ struct it_artifact_tool : public it_tool
                   unsigned char pturns_per_charge,
                   ammotype pammo, itype_id prevert_to)
 
-:it_tool(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
+:it_tool(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
          pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit,
 	 pmax_charges, pdef_charges, pcharges_per_use, pturns_per_charge,
 	 pammo, prevert_to, &iuse::artifact)
@@ -878,7 +878,7 @@ struct it_artifact_armor : public it_armor
                    unsigned char pcoverage, unsigned char pthickness,
                    unsigned char penv_resist, signed char pwarmth,
                    unsigned char pstorage)
-:it_armor(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+:it_armor(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2,
           pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit,
           pcovers, pencumber, pcoverage, pthickness, penv_resist, pwarmth,
           pstorage)
