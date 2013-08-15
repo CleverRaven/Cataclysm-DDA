@@ -2636,7 +2636,7 @@
     "price": 980,
     "material": "steel",
     "flags": "STAB",
-    "techniques": ["RAPID", "WBLOCK_1", "PRECISE"],
+    "techniques": ["RAPID", "WBLOCK_2", "PRECISE"],
     "weight": 1000,
     "volume": 6,
     "bashing": 5,
