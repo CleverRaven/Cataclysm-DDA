@@ -5,7 +5,7 @@
 #include "itype.h"
 
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
 enum vpart_id
