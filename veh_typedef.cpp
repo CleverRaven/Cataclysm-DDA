@@ -1045,7 +1045,7 @@ void game::init_vehicles()
 
     PART (-2, 1, vp_frame_v2);
     PART (-2, 1, vp_roof);
-    PART (-2, 1, vp_floor_trunk);
+    PART (-2, 1, vp_aisle_h2);
     PART (-2, 0, vp_frame_v2);
     PART (-2, 0, vp_roof);
     PART (-2, 0, vp_aisle_v2);
@@ -1057,7 +1057,7 @@ void game::init_vehicles()
 
     PART (-3, 0, vp_frame_v2);
     PART (-3, 0, vp_roof);
-    PART (-3, 0, vp_floor_trunk);
+    PART (-3, 0, vp_aisle_v2);
     PART (-3, 1, vp_wheel_wide_under);
     PART (-3, 1, vp_cargo_trunk);
     PART (-3, 1, vp_roof);
@@ -1070,7 +1070,7 @@ void game::init_vehicles()
 
     PART (-4, 0, vp_frame_v2);
     PART (-4, 0, vp_roof);
-    PART (-4, 0, vp_floor_trunk);
+    PART (-4, 0, vp_aisle_v2);
     PART (-4, 1, vp_wheel_wide_under);
     PART (-4, 1, vp_cargo_trunk);
     PART (-4, 1, vp_roof);
@@ -1083,7 +1083,7 @@ void game::init_vehicles()
 
     PART (-5, 0, vp_frame_v2);
     PART (-5, 0, vp_roof);
-    PART (-5, 0, vp_floor_trunk);
+    PART (-5, 0, vp_aisle_v2);
     PART (-5, 1, vp_frame_v2);
     PART (-5, 1, vp_roof);
     PART (-5, 1, vp_bed);
