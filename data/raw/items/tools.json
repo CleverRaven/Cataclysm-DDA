@@ -2793,12 +2793,12 @@
   },
   
   {
-    "id": "zwiehander",
+    "id": "zweihander",
     "type": "TOOL",
     "symbol": "/",
     "color": "cyan",
-    "name": "zwiehander",
-    "description": "A huge two-handed sword.  Packs a real whallop.",
+    "name": "zweihander",
+    "description": "A huge two-handed sword from Germany.  Packs a real whallop.",
     "rarity": 30,
     "price": 1200,
     "material": "iron",
