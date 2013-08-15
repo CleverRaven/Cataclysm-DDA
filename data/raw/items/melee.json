@@ -1160,6 +1160,19 @@
         ["HAMMER", 1]
     ]
   },
+  { "id":"fertilizer",
+    "symbol": "*",
+    "color": "green",
+    "name":"fertilizer",
+    "description": "A token, representing fertilization of a plant.",
+    "price": 0,
+    "material": "veggy",
+    "weight": 0,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
   { "id": "syringe",
     "symbol": ",",
     "color": "light_cyan",
