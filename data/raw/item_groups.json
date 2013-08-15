@@ -830,6 +830,7 @@
       ["cloak", 5],
       ["sleeping_bag", 10],
       ["floatation_vest", 7],
+      ["fishing_waders", 12],
       ["gasoline_lantern", 5],
       ["folding_bicycle", 1],
       ["coat_rain",10],
@@ -905,6 +906,7 @@
       ["mag_archery", 20],
       ["heatpack", 60],
       ["floatation_vest", 3],
+      ["fishing_waders", 5],
       ["glowstick", 60],
       ["folding_bicycle", 1],
       ["coat_rain", 5]
@@ -1315,6 +1317,7 @@
       ["cloak", 5],
       ["house_coat", 25],
       ["floatation_vest", 1],
+      ["fishing_waders", 5],
       ["jedi_cloak", 1]
     ]
   },
@@ -2341,6 +2344,7 @@
       ["rucksack", 20],
       ["emer_blanket", 20],
       ["floatation_vest", 1],
+      ["fishing_waders", 2],
       ["cloak", 5]
     ]
   },
@@ -2391,6 +2395,7 @@
       ["jumpsuit", 20],
       ["coat_lab", 20],
       ["gloves_rubber", 20],
+      ["fishing_waders", 12],
       ["mask_filter", 30],
       ["glasses_safety", 40],
       ["hat_hard", 50],
