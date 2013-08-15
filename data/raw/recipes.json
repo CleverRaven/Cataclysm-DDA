@@ -10258,7 +10258,7 @@
   "result": "firemachete_off",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "difficulty": 5,
+  "difficulty": 4,
   "time": 20000,
   "reversible": true,
   "autolearn": true,
