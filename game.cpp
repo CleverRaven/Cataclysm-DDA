@@ -1032,7 +1032,7 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
 
   std::string verbs[NUM_ACTIVITIES] = {
     _("whatever"),
-    _("reloading"), _("reading"), _("waiting"), _("crafting"), _("crafting"),
+    _("reloading"), _("reading"), _("playing"), _("waiting"), _("crafting"), _("crafting"),
     _("disassembly"), _("butchering"), _("foraging"), _("construction"), _("construction"), _("pumping gas"),
     _("training")
   };
@@ -1063,7 +1063,7 @@ void game::cancel_activity_query(const char* message, ...)
  bool doit = false;;
  std::string verbs[NUM_ACTIVITIES] = {
     _("whatever"),
-    _("reloading"), _("reading"), _("waiting"), _("crafting"), _("crafting"),
+    _("reloading"), _("reading"), _("playing"), _("waiting"), _("crafting"), _("crafting"),
     _("disassembly"), _("butchering"), _("foraging"), _("construction"), _("construction"), _("pumping gas"),
     _("training")
  };
@@ -2412,6 +2412,32 @@ bool game::load_master()
  return true;
 }
 
+void game::load_uistate() {
+    const std::string savedir="save";
+    std::stringstream savefile;
+    savefile << savedir << "/uistate.json";
+
+    std::ifstream fin;
+    fin.open(savefile.str().c_str());
+    if(!fin.good()) {
+        fin.close();
+        return;
+    }
+    picojson::value wrapped_data;
+    fin >> wrapped_data;
+    fin.close();
+    std::string jsonerr=picojson::get_last_error();
+    if ( ! jsonerr.empty() ) {
+       dbg(D_ERROR) << "load_uistate: " << jsonerr.c_str();
+       return;
+    }
+    bool success=uistate.load(wrapped_data);
+    if ( ! success ) {
+       dbg(D_ERROR) << "load_uistate: " << uistate.errdump;
+    }
+    uistate.errdump="";
+}
+
 void game::load_artifacts()
 {
     std::ifstream file_test("save/artifacts.gsav");
@@ -2697,6 +2723,7 @@ void game::load(std::string name)
  u.inv.add_stack(tmpinv);
  fin.close();
  load_auto_pickup(true); // Load character auto pickup rules
+ load_uistate();
 // Now load up the master game data; factions (and more?)
  load_master();
  update_map(u.posx, u.posy);
@@ -2748,6 +2775,17 @@ void game::save_maps()
     m.save(cur_om, turn, levx, levy, levz);
     overmap_buffer.save();
     MAPBUFFER.save();
+}
+
+void game::save_uistate() {
+    const std::string savedir="save";
+    std::stringstream savefile;
+    savefile << savedir << "/uistate.json";
+    std::ofstream fout;
+    fout.open(savefile.str().c_str());
+    fout << uistate.save();
+    fout.close();
+    uistate.errdump="";
 }
 
 std::string game::save_weather() const
@@ -2804,6 +2842,7 @@ void game::save()
  fout.close();
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
  save_auto_pickup(true); // Save character auto pickup rules
+ save_uistate();
 }
 
 void game::delete_save()
@@ -3316,7 +3355,7 @@ Current turn: %d; Next spawn %d.\n\
         weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
 
       }
-      
+
       weather_menu.query();
 
       if(weather_menu.ret > 0) {
@@ -8234,7 +8273,7 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
     mvwprintz(window, 8, 2, c_white, "%s", _("To exclude items, place - in front"));
     mvwprintz(window, 9, 2, c_white, "%s", _("Example: -pipe,chunk,steel"));
     wrefresh(window);
-    return string_input_popup(_("Filter:"), 55, sFilter);
+    return string_input_popup(_("Filter:"), 55, sFilter, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "item_filter", 256);
 }
 
 
@@ -8442,14 +8481,14 @@ void game::list_items()
             }
             else if(ch == '+')
             {
-                std::string temp = string_input_popup(_("High Priority:"), width, list_item_upvote);
+                std::string temp = string_input_popup(_("High Priority:"), width, list_item_upvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_priority", 256);
                 list_item_upvote = temp;
                 refilter = true;
                 reset = true;
             }
             else if(ch == '-')
             {
-                std::string temp = string_input_popup(_("Low Priority:"), width, list_item_downvote);
+                std::string temp = string_input_popup(_("Low Priority:"), width, list_item_downvote, _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_downvote", 256);
                 list_item_downvote = temp;
                 refilter = true;
                 reset = true;
@@ -8634,6 +8673,8 @@ void game::list_items()
 void game::pickup(int posx, int posy, int min)
 {
  //min == -1 is Autopickup
+
+ if (m.has_flag(sealed, posx, posy)) return;
 
  item_exchanges_since_save += 1; // Keeping this simple.
  write_msg();
@@ -10193,8 +10234,7 @@ void game::unload(char chInput)
 
 void game::unload(item& it)
 {
-    if ( it.has_flag("NO_UNLOAD") ||
-         (!it.is_gun() && it.contents.size() == 0 && (!it.is_tool() || it.ammo_type() == "NULL")) )
+    if ( !it.is_gun() && it.contents.size() == 0 && (!it.is_tool() || it.ammo_type() == "NULL") )
     {
         add_msg(_("You can't unload a %s!"), it.tname(this).c_str());
         return;
@@ -10262,6 +10302,12 @@ void game::unload(item& it)
         it.contents = new_contents;
         return;
     }
+
+    if(it.has_flag("NO_UNLOAD")) {
+      add_msg(_("You can't unload a %s!"), it.tname(this).c_str());
+      return;
+    }
+
 // Unloading a gun or tool!
  u.moves -= int(it.reload_time(u) / 2);
 
@@ -10692,7 +10738,7 @@ void game::plmove(int x, int y)
      return;
     }
    }
-   z[mondex].move_to(this, u.posx, u.posy);
+   z[mondex].move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
    add_msg(_("You displace the %s."), z[mondex].name().c_str());
   }
   if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
@@ -10754,21 +10800,30 @@ void game::plmove(int x, int y)
      u.rem_disease("attack_boost");
   }
 
-// List items here
-  if (!u.has_disease("blind") && m.i_at(x, y).size() <= 3 &&
-                                  m.i_at(x, y).size() != 0) {
-   std::string buff = _("You see here ");
-   for (int i = 0; i < m.i_at(x, y).size(); i++) {
-    buff += m.i_at(x, y)[i].tname(this);
-    if (i + 2 < m.i_at(x, y).size())
-     buff += _(", ");
-    else if (i + 1 < m.i_at(x, y).size())
-     buff += _(", and ");
-   }
-   buff += _(".");
-   add_msg(buff.c_str());
-  } else if (m.i_at(x, y).size() != 0)
-   add_msg(_("There are many items here."));
+  // List items here
+  if (!m.has_flag(sealed, x, y)) {
+    if (!u.has_disease("blind") && m.i_at(x, y).size() <= 3 && m.i_at(x, y).size() != 0) {
+      // TODO: Rewrite to be localizable
+      std::string buff = _("You see here ");
+
+      for (int i = 0; i < m.i_at(x, y).size(); i++) {
+        buff += m.i_at(x, y)[i].tname(this);
+
+        if (i + 2 < m.i_at(x, y).size())
+          buff += _(", ");
+        else if (i + 1 < m.i_at(x, y).size())
+          buff += _(", and ");
+
+      }
+
+      buff += _(".");
+
+      add_msg(buff.c_str());
+    } else if (m.i_at(x, y).size() != 0) {
+      add_msg(_("There are many items here."));
+    }
+  }
+
   if (veh1 && veh1->part_with_feature(vpart1, vpf_controls) >= 0
            && u.in_vehicle)
       add_msg(_("There are vehicle controls here.  %s to drive."),
@@ -10834,7 +10889,7 @@ void game::plmove(int x, int y)
              press_x(ACTION_MOVE_DOWN).c_str());
    plswim(x, y);
   } else {
-   u.drench(this, 40);
+   u.drench(this, 40, mfb(bp_feet) | mfb(bp_legs));
   }
 
  } else { // Invalid move
@@ -10892,7 +10947,12 @@ void game::plswim(int x, int y)
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 
- u.drench(this, 100);
+ int drenchFlags = mfb(bp_feet)|mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands);
+
+ if (u.underwater)
+   drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth);
+
+ u.drench(this, 100, drenchFlags);
 }
 
 void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled)
@@ -11955,7 +12015,7 @@ void game::quicksave(){
     save_factions_missions_npcs();
     save_artifacts();
     save_maps();
-
+    save_uistate();
     //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;

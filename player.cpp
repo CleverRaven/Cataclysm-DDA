@@ -2190,7 +2190,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
     mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
     mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
-                      OPTIONS["USE_METRIC_WEIGHT"]?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHTS"]?"kg":"lbs");
     mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
@@ -2883,7 +2883,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   int speedox = sideStyle ? 0 : 33;
   int speedoy = sideStyle ? 5 :  3;
 
-  bool metric = OPTIONS["USE_METRIC_SPEED"];
+  bool metric = OPTIONS["USE_METRIC_SPEEDS"];
   const char *units = metric ? "km/h" : "mph";
   int velx    = metric ?  5 : 4; // strlen(units) + 1
   int cruisex = metric ? 10 : 9; // strlen(units) + 6
@@ -4558,8 +4558,18 @@ void player::vomit(game *g)
  rem_disease("sleep");
 }
 
-void player::drench(game *g, int saturation) {
-  int morale_cap = (g->temperature - 60) * saturation / 100;
+void player::drench(game *g, int saturation, int flags) {
+  if (is_waterproof(flags))
+    return;
+
+  bool wantsDrench = is_water_friendly(flags);
+  int morale_cap;
+
+  if (wantsDrench) {
+    morale_cap = (g->temperature - 60) * saturation / 100;
+  } else {
+    morale_cap = -(saturation / 2);
+  }
 
   if (morale_cap == 0)
     return;
@@ -4620,7 +4630,7 @@ double player::convert_weight(int weight)
 {
     double ret;
     ret = double(weight);
-    if (OPTIONS["USE_METRIC_WEIGHT"]) {
+    if (OPTIONS["USE_METRIC_WEIGHTS"]) {
         ret /= 1000;
     } else {
         ret /= 453.6;
@@ -5373,6 +5383,43 @@ bool player::worn_with_flag( std::string flag ) const
         }
     }
     return false;
+}
+
+bool player::covered_with_flag(const std::string flag, int parts) const {
+  int covered = 0;
+
+  for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
+    int cover = ((it_armor *)(armorPiece->type))->covers & parts;
+
+    if (!cover) continue; // For our purposes, this piece covers nothing.
+    if (cover & covered) continue; // the body part(s) is already covered.
+
+    bool hasFlag = armorPiece->has_flag(flag);
+
+    if (!hasFlag)
+      return false; // The item is the top layer on a relevant body part, and isn't tagged, so we fail.
+    else
+      covered |= cover; // The item is the top layer on a relevant body part, and is tagged.
+  }
+
+  return (covered == parts);
+}
+
+bool player::covered_with_flag_exclusively(const std::string flag, int flags) const {
+  for (std::vector<item>::const_iterator armorPiece = worn.begin(); armorPiece != worn.end(); ++armorPiece) {
+    if ((((it_armor *)(armorPiece->type))->covers & flags) && !armorPiece->has_flag(flag))
+      return false;
+  }
+
+  return true;
+}
+
+bool player::is_water_friendly(int flags) const {
+  return covered_with_flag_exclusively("WATER_FRIENDLY", flags);
+}
+
+bool player::is_waterproof(int flags) const {
+  return covered_with_flag("WATERPROOF", flags);
 }
 
 bool player::has_artifact_with(art_effect_passive effect)

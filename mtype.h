@@ -123,7 +123,7 @@ std::vector<monster_trigger> default_fears(monster_species spec);
 // And comment them well. ;)
 // mfb(n) converts a flag to its appropriate position in mtype's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 enum m_flag {
 MF_NULL = 0,	// Helps with setvector

@@ -90,9 +90,9 @@ void initOptions() {
                                              false
                                             );
 
-    OPTIONS["AUTOSAVE_TURNS"] =         cOpt(mPage["general"], _("Game minutes between autosaves"),
-                                             _("Number of game minutes between autosaves"),
-                                             0, 30, 5
+    OPTIONS["AUTOSAVE_TURNS"] =         cOpt(mPage["general"], _("Game turns between autosaves"),
+                                             _("Number of game turns between autosaves"),
+                                             1, 30, 5
                                             );
 
     OPTIONS["AUTOSAVE_MINUTES"] =       cOpt(mPage["general"], _("Real minutes between autosaves"),

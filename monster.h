@@ -78,12 +78,30 @@ class monster {
  void shift(int sx, int sy); 	// Shifts the monster to the appropriate submap
 			     	// Updates current pos AND our plans
  bool wander(); 		// Returns true if we have no plans
- bool can_move_to(game *g, int x, int y); // Can we move to (x, y)?
+
+ /**
+  * Checks whether we can move to/through (x, y).
+  *
+  * This is used in pathfinding and ONLY checks the terrain. It ignores players
+  * and monsters, which might only block this tile temporarily.
+  */
+ bool can_move_to(game *g, int x, int y);
+
  bool will_reach(game *g, int x, int y); // Do we have plans to get to (x, y)?
  int  turns_to_reach(game *g, int x, int y); // How long will it take?
 
  void set_dest(int x, int y, int &t); // Go in a straight line to (x, y)
 				      // t determines WHICH Bresenham line
+
+ /**
+  * Set (x, y) as wander destination.
+  *
+  * This will cause the monster to slowly move towards the destination,
+  * unless there is an overriding smell or plan.
+  *
+  * @param f The priority of the destination, as well as how long we should
+  *          wander towards there.
+  */
  void wander_to(int x, int y, int f); // Try to get to (x, y), we don't know
 				      // the route.  Give up after f steps.
  void plan(game *g);
@@ -92,10 +110,41 @@ class monster {
  void friendly_move(game *g);
 
  point scent_move(game *g);
- point sound_move(game *g);
+ point wander_next(game *g);
  void hit_player(game *g, player &p, bool can_grab = true);
  int calc_movecost(game *g, int x1, int y1, int x2, int y2);
- void move_to(game *g, int x, int y);
+
+ /**
+  * Attempt to move to (x,y).
+  *
+  * If there's something blocking the movement, such as infinite move
+  * costs at the target, an existing NPC or monster, this function simply
+  * aborts and does nothing.
+  *
+  * @param force If this is set to true, the movement will happen even if
+  *              there's currently something blocking the destination.
+  *
+  * @return 1 if movement successful, 0 otherwise
+  */
+ int move_to(game *g, int x, int y, bool force=false);
+
+ /**
+  * Attack any enemies at the given location.
+  *
+  * Attacks only if there is a creature at the given location towards
+  * we are hostile.
+  *
+  * @return 1 if something was attacked, 0 otherwise
+  */
+ int attack_at(int x, int y);
+
+ /**
+  * Try to smash/bash/destroy your way through the terrain at (x, y).
+  *
+  * @return 1 if we destroyed something, 0 otherwise.
+  */
+ int bash_at(int x, int y);
+
  void stumble(game *g, bool moved);
  void knock_back_from(game *g, int posx, int posy);
 
@@ -133,10 +182,6 @@ class monster {
  int posx, posy;
  int wandx, wandy; // Wander destination - Just try to move in that direction
  int wandf;	   // Urge to wander - Increased by sound, decrements each move
- 
- int dest_priority; // Priority of moving towards the destination, high if the player was just glimpsed.
- int wander_priority; // Priority of reacting to sound.
- 
  std::vector<item> inv; // Inventory
  std::vector<monster_effect> effects; // Active effects, e.g. on fire
 
