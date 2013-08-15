@@ -10947,7 +10947,10 @@ void game::plswim(int x, int y)
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 
- int drenchFlags = mfb(bp_feet)|mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands);
+ int drenchFlags = mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms);
+
+ if (temperature < 50)
+   drenchflags |= mfb(bp_feet)|mfb(bp_hands);
 
  if (u.underwater)
    drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth);
