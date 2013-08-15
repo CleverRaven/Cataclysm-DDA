@@ -10827,7 +10827,7 @@
 {
   "result": "flour",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 45000,
   "reversible": false,
@@ -10838,8 +10838,7 @@
 {
   "result": "meal_bone",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
-  "skill_sec": "survival",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 60000,
   "reversible": false,
@@ -10850,7 +10849,7 @@
 {
   "result": "spaghetti_raw",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
@@ -10874,9 +10873,9 @@
 {
   "result": "rock_quern",
   "category": "CC_MISC",
-  "skill_pri": "survival",
-  "skill_sec": "mechanics",
-  "difficulty": 1,
+  "skill_used": "fabrication",
+  "requires_skills": [ ["survival", 1], ["mechanics", 2], ["cooking", 2] ],
+  "difficulty": 2,
   "time": 5000,
   "reversible": false,
   "autolearn": true,
