@@ -1361,13 +1361,18 @@ std::string player::save_info()
 
  dump << "MUTATIONS_END" << " ";
 
+ std::stringstream ssTemp;
+
  for (std::map<std::string, int>::iterator iter = mutation_category_level.begin(); iter != mutation_category_level.end(); ++iter) {
      if (iter->first != "") {
+        ssTemp << iter->first << " " << iter->second << "\n";
         dump << iter->first << " " << iter->second << " ";
      }
  }
 
  dump << "MUT_CAT_LEVEL_END" << " ";
+
+ debugmsg(ssTemp.str().c_str());
 
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
