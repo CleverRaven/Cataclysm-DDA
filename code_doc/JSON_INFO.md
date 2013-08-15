@@ -1,39 +1,43 @@
 # JSON file contents
-*raw
-bionics.json       - bionics, does NOT include bionic effects
-dreams.json        - dream text and linked mutation categories
-item_groups.json   - item spawn groups
-materials.json     - material types
-monstergroups.json - monster spawn groups
-names.json         - names used for NPC/player name generation
-professions.json   - profession definitions
-recipes.json       - crafting/disassembly recipes
-skills.json        - skill descriptions and ID's
-snippets.json      - flier/poster descriptions
-traits.json        - traits/mutation visibility, does NOT include mutation effects
-*raw/items
-archery.json       - bows and arrows
-ranged.json        - guns
-tools.json         - tools and items that can be (a)ctivated
-ammo.json          - ammo
-books.json         - books
-comestibles.json   - food/drinks
-containers.json    - containers
-instruments.json   - instruments
-melee.json         - anything that doesn't go in the other item jsons, melee weapons
-mods.json          - gunmods
-===================================================================================================
-raw jsons
 
-#BIONICS
+##raw
+* bionics.json       - bionics, does NOT include bionic effects
+* dreams.json        - dream text and linked mutation categories
+* item_groups.json   - item spawn groups
+* materials.json     - material types
+* monstergroups.json - monster spawn groups
+* names.json         - names used for NPC/player name generation
+* professions.json   - profession definitions
+* recipes.json       - crafting/disassembly recipes
+* skills.json        - skill descriptions and ID's
+* snippets.json      - flier/poster descriptions
+* traits.json        - traits/mutation visibility, does NOT include mutation effects
+
+##raw/items
+* archery.json       - bows and arrows
+* ranged.json        - guns
+* tools.json         - tools and items that can be (a)ctivated
+* ammo.json          - ammo
+* books.json         - books
+* comestibles.json   - food/drinks
+* containers.json    - containers
+* instruments.json   - instruments
+* melee.json         - anything that doesn't go in the other item jsons, melee weapons
+* mods.json          - gunmods
+
+#raw jsons
+
+###BIONICS
+```C++
 "id"         :    "bio_batteries",   // Unique ID. Must be one continuous word, use underscores if necessary
 "name"       :    "Battery System",  // In-game name displayed
 "cost"       :    0,                 // How many PUs it costs to use the bionic.
 "time"       :    0,                 // How long, when activated, between drawing cost. If 0, it draws power once.
 "flags"      :    ["POWER"],         // Used to flag the bionic as a specific type.
 "description":    "You have a battery draining attachment, and thus can make use of the energy\ncontained in normal, everyday batteries.  Use 'E' to consume batteries." // In-game description
-
-#DREAMS
+```
+###DREAMS
+```C++
 "message"		:	[                // List of potential dreams
 	"You have a strange dream about birds.",
 	"Your dreams give you a strange feathered feeling."
@@ -43,8 +47,9 @@ raw jsons
                                           1 = 20 - 34
                                           2 = 35 - 49
                                           3 = 50+
-
-#ITEM GROUPS
+```
+###ITEM GROUPS
+```C++
 "id":"forest",            // Unique ID. Must be one continuous word, use underscores if necessary
 "items":[                 // List of potential item ID's. Chance of an item spawning is x/T, where
   ["rock", 40],           //    X is the value linked to the specific item and T is the total of all
@@ -54,8 +59,9 @@ raw jsons
   ["mushroom_magic", 1],
   ["blueberries", 3]
 ]
-
-#MATERIALS
+```
+###MATERIALS
+```C++
 "ident"         : "hflesh",       // Unique ID. Must be one continuous word, use underscores if necessary
 "name"          : "Human Flesh",  // In-game name displayed
 "bash_resist"   :   1,            // How well a material resists bashing damage
@@ -67,8 +73,9 @@ raw jsons
 "elec_resist"   :   1,            // Ability of a material to resist electricity
 "fire_resist"   :   0,            // Ability of a material to resist fire
 "density"       :   5             // Density of a material
-
-#MONSTER GROUPS
+```
+###MONSTER GROUPS
+```C++
 "name" : "GROUP_ANT",             // Unique ID. Must be one continuous word, use underscores if necessary
 "default" : "mon_ant",            // Default monster, automatically fills in any remaining spawn chances
 "monsters" : [
@@ -76,12 +83,14 @@ raw jsons
   { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 }, // Each monster will have a number of entries equal to it's "freq" and 
   { "monster" : "mon_ant_queen", "freq" : 0, "multiplier" : 0 }     // the default monster will fill in the remaining. "multiplier" increases
 ]                                                                   // how much each monster counts for in a spawn group (i.e. will spawn 5 larva or 1 soldier)
-
-#NAMES
+```
+###NAMES
+```C++
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
-NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
-
-#PROFESSIONS
+// NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
+```
+###PROFESSIONS
+```C++
 "description":"Ever since you were a child you loved hunting, and you loved the challenge of hunting with a bow even more. You start with a level in archery and survival.", // In-game description
 "ident":"hunter",      // Unique ID. Must be one continuous word, use underscores if necessary
 "items":[              // ID's of items player starts with when selecting this profession
@@ -91,6 +100,11 @@ NOTE: Please refrain from adding name PR's in order to maintain kickstarter excl
 ],
 "name":"Bow Hunter",   // In-game name displayed
 "points":2,            // Point cost of profession. Positive values cost points and negative values grant points
+"addictions" : [       // Optional list of starting addictions.
+ {
+	"type": "nicotine", // ID of addiction
+	"intensity" : 10,  // Intensity of starting addiction
+ }
 "skills":[             // Skills that the player starts with when selecting this profession, stacks with purchased skills
  {
 	"level":1,         // Skill level granted
@@ -101,8 +115,9 @@ NOTE: Please refrain from adding name PR's in order to maintain kickstarter excl
 	"name":"survival"
  }
 ]
-
-#RECIPES
+```
+###RECIPES
+```C++
 "result": "javelin",         // ID of resulting item
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
 "skill_used": "fabrication", // Skill trained and used for success checks
@@ -144,28 +159,31 @@ NOTE: Please refrain from adding name PR's in order to maintain kickstarter excl
   [ "duct_tape", 20 ]
 ]
 ]
-
-#SKILLS
+```
+###SKILLS
+```C++
 "smg",              // Unique ID. Must be one continuous word, use underscores if necessary
 "submachine guns",  // In-game name displayed
 "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 ["gun_type"]        // Special flags, most skills will have an empty list "[]"
-
-#SNIPPETS
+```
+###SNIPPETS
+```C++
 "category": "flier", // Category used
 	"text": "This is an advertisement for the Diet Devil brand Metabolic Exchange CBM.  It shows a picture of a tiny obese devil sitting on a woman's shoulder. The woman stares intently at a gigantic wedding cake covered with bacon and candybars. The caption reads: \"Burn calories! Burn!\"" // In-game description
-
-#TRAITS
+```
+###TRAITS
+```C++
 "name": "Optimist",  // In-game name displayed
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction
 "description": "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people." // In-game description
+```
+#raw/items jsons
 
-===================================================================================================
-raw/items jsons
-
-#AMMO
+###AMMO
+```C++
 "type" : "AMMO",      // Defines this as ammo
 "id" : "shot_bird",   // Unique ID. Must be one continuous word, use underscores if necessary
 "price" : 500,        // Used when bartering with NPC's
@@ -187,8 +205,9 @@ raw/items jsons
 "recoil" : 18,        // Recoil caused when firing
 "count" : 25,         // Number of rounds that spawn together
 "effects" : ["COOKOFF", "SHOT"] // Special effects
-
-#ARMOR
+```
+###ARMOR
+```C++
 "type" : "ARMOR",     // Defines this as armor
 "id" : "socks",       // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "socks",     // The name appearing in the examine box.  Can be more than one word separated by spaces
@@ -211,8 +230,9 @@ raw/items jsons
 "flags" : ["VARSIZE"] // Indicates special effects
 "coverage" : 80,      // What percentage of body part
 "material_thickness" : 1  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armour types go up to 10 or more
-
-#BOOKS
+```
+###BOOKS
+```C++
 "type" : "BOOK",      // Defines this as a BOOK
 "id" : "textbook_computers", // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "Computer Science 301", // In-game name displayed
@@ -232,8 +252,9 @@ raw/items jsons
 "skill" : "computer", // Skill raised
 "price" : 500,        // Used when bartering with NPCs
 "required_level" : 2  // Minimum skill level required to learn
-
-#COMESTIBLES
+```
+###COMESTIBLES
+```C++
 "type" : "COMESTIBLE", // Defines this as a COMESTIBLE
 "id" : "crack",       // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "crack",     // In-game name displayed
@@ -261,8 +282,9 @@ raw/items jsons
 "charges" : 4,        // Number of uses when spawned
 "bashing" : 0,        // Bashing damage caused by using it as a melee weapon
 "fun" : 50            // Morale effects when used
-
-#CONTAINERS
+```
+###CONTAINERS
+```C++
 "id": "keg",          // Unique ID. Must be one continuous word, use underscores if necessary
 "type": "CONTAINER",  // Defines this as a CONTAINER
 "symbol": ")",        // ASCII character used in-game
@@ -278,8 +300,9 @@ raw/items jsons
 "material": "steel",  // Material types.  See materials.json for possible options
 "contains": 200,      // How much volume this container can hold
 "flags": ["RIGID", "SEALS", "WATERTIGHT"] // Indicates special effects
-
-#MELEE
+```
+###MELEE
+```C++
 "id": "hatchet",      // Unique ID. Must be one continuous word, use underscores if necessary
 "symbol": ";",        // ASCII character used in-game
 "color": "light_gray", // ASCII character colour
@@ -293,8 +316,9 @@ raw/items jsons
 "cutting": 12,        // Cutting damage caused by using it as a melee weapon
 "flags" : ["CHOP"],   // Indicates special effects
 "to_hit": 1           // To-hit bonus if using it as a melee weapon
-
-#GUN
+```
+###GUN
+```C++
 "id": "nailgun",      // Unique ID. Must be one continuous word, use underscores if necessary
 "type": "GUN",        // Defines this as a GUN
 "symbol": "(",        // ASCII character used in-game
@@ -319,8 +343,9 @@ raw/items jsons
 "burst": 5,           // Number of shots fired in burst mode
 "clip_size": 100,     // Maximum amount of ammo that can be loaded
 "reload": 450         // Amount of time to reload, 100 = 6 seconds = 1 "turn"
-
-#TOOLS
+```
+###TOOLS
+```C++
 "id": "torch_lit",    // Unique ID. Must be one continuous word, use underscores if necessary
 "type": "TOOL",       // Defines this as a TOOL
 "symbol": "/",        // ASCII character used in-game
@@ -343,3 +368,4 @@ raw/items jsons
 "ammo": "NULL",       // Ammo type used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "TORCH_LIT" // Action performed when tool is used
+```
