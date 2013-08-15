@@ -10234,7 +10234,7 @@
   "result": "shishkebab_off",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "difficulty": 3,
+  "difficulty": 1,
   "time": 10000,
   "reversible": true,
   "autolearn": true,
