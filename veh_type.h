@@ -48,6 +48,7 @@ enum vpart_id
 
     vp_wheel,
     vp_wheel_wide,
+    vp_wheel_wide_under,
     vp_wheel_bicycle,
     vp_wheel_motorbike,
     vp_wheel_small,
@@ -234,6 +235,8 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
     { "wide wheel", 'O',     c_dkgray,   'x', c_ltgray,  50,  400, 14, 0, "NULL", "wheel_wide", 5,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
+    { "wide wheel (underbody)", 'H',     c_dkgray,   'x', c_ltgray,  100,  400, 14, 0, "NULL", "wheel_wide", 6,
+        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) | mfb(vpf_mount_inner) },
     { "bicycle wheel",'|',  c_dkgray, 'x', c_ltgray,  50,  40, 2, 0, "NULL", "wheel_bicycle", 1,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
     { "motorbike wheel",'o',c_dkgray, 'x', c_ltgray,  50,  90, 4, 0, "NULL", "wheel_motorbike", 2,
