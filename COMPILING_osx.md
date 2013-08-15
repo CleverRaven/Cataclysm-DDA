@@ -44,7 +44,7 @@ From the Cataclysm-DDA source folder:
 This adds search paths to find shared libraries outside of /usr and /usr/local.
 Multiple `-I/...` or `-L/...` paths can be specified.
 
-    $ make NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 OSX_MIN=10.6
+    $ make NATIVE=osx RELEASE=1 TILES=1 OSXLIBSDL=1 OSXMIN=10.6
 
 ## Run
 
@@ -58,13 +58,13 @@ or
 
 `NATIVE=osx` builds for OS X.
 
-`RELEASE=1` builds an optimized 'release' version.
+`RELEASE=1` builds an optimized 'release' version. Omit for the debug version.
 
 `TILES=1` builds the SDL version; omit to build the ncurses/console version.
 
-`FRAMEWORK=1` uses frameworks; omit for libsdl, libsdl\_ttf.
+`OSXLIBSDL=1` uses libsdl and libsdl\_ttf; Omit to use SDL frameworks.
 
-`OSX_MIN=version` sets `-mmacosx-version-min=` (mine needs to be 10.6); omit for 10.5.
+`OSXMIN=version` sets `-mmacosx-version-min=` (mine needs to be 10.6 to compile); omit for 10.5.
 
 ### Archive
 
