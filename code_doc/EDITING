@@ -1,6 +1,11 @@
 ADDITIONS
 
 1.1 Adding an item
+ 1) Open the appropriate json in data/raw/items and add your item near similar types.
+ 1b) See JSON_INFO for a more in-depth review of each individual item .json file/flags
+ 2) Add the item to item_groups.json to have it spawn in in-game locations
+
+1.1b Adding an item - outdated method, left in until item conversion is complete
  1) Edit itype.h.  Change the enum item_id and insert a unique identifier for
     your new item type. Be sure to put it among similar items.
  2) Edit itypedef.cpp.  Macros are used for all item types, and they are pretty
@@ -49,39 +54,14 @@ ADDITIONS
     when you can learn it from disassembly), "book_learn" (a list of books that
     teach the recipe, and the level they teach it at).
     
-1.4 Adding/editing armour and how armour protection is calculated
- 1) Edit armor.json and add your armor item near similar types.
- 2) The fields are:
-        "type" : "ARMOR", // this must be ARMOR
-        "id" : "socks",     // the identifier used by the game.  Must be one continuous word, use underscores if necessary
-        "name" : "socks",   // the name appearing in the examine box.  Can be more than one word separated by spaces
-        "weight" : 1,       // weight of armour
-        "color" : "blue",   // ascii character colour
-        "covers" : ["FEET"],    // where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
-        "to_hit" : 0,       // to-hit bonus if using it as a melee weapon (whatever for?)
-        "storage" : 0,      // how many volume storage slots it adds
-        "symbol" : "[",     // ascii character
-        "description" : "Socks. Put 'em on your feet.", // description of armour
-        "price" : 100,      // price of armour, used when bartering with NPCs
-        "material" : ["COTTON", "NULL"],    // material types.  See materials.json for possible options
-        "volume" : 1,       // volume occupied
-        "cutting" : 0,      // cutting damage caused by using it as a melee weapon
-        "warmth" : 10,      // how much warmth clothing provides
-        "phase" : "solid",  // what phase it is
-        "enviromental_protection" : 0,  // how much environmental protection it affords
-        "rarity" : 70,      // determines how often it spawns
-        "encumberance" : 0, // base encumbrance (unfitted value)
-        "bashing" : -5,     // bashing damage caused by using it as a melee weapon
-        "flags" : ["VARSIZE"]   // used to indicate clothing type which can be fitted.  Leave out the flags field entirely if clothing cannot be fitted
-        "coverage" : 80,    // what percentage of body part
-        "material_thickness" : 1    // thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armour types go up to 10 or more
- 3) When the player is hit at a specific body part, armour coverage determines whether the armour is hit, or an uncovered part of the player is hit (roll 1d100 against coverage)
- 4) If the above roll fails (ie roll value is above coverage), then the armour does not absorb any damage from the blow, neither does it become damaged
- 5) If the above roll succeeds, the armour is hit, possibly absorbing some damage and possibly getting damaged in the process
- 6) The above steps are repeated for each layer of armour on the body part
- 7) Armour protects against bash and cut damage.  These are determined by multiplying the armour thickness by the material bash/cut resistance factor respectively, given in materials.json
- 8) If the armour is made from 2 materials types, then it takes a weighted average of the primary material (66%) and secondary material (33%).
- 9) Materials resistance factors are given relative to PAPER as a material (this probably needs some fine-tuning for balance).
+1.4 How armour protection is calculated
+ 1) When the player is hit at a specific body part, armour coverage determines whether the armour is hit, or an uncovered part of the player is hit (roll 1d100 against coverage)
+ 2) If the above roll fails (ie roll value is above coverage), then the armour does not absorb any damage from the blow, neither does it become damaged
+ 3) If the above roll succeeds, the armour is hit, possibly absorbing some damage and possibly getting damaged in the process
+ 4) The above steps are repeated for each layer of armour on the body part
+ 5) Armour protects against bash and cut damage.  These are determined by multiplying the armour thickness by the material bash/cut resistance factor respectively, given in materials.json
+ 6) If the armour is made from 2 materials types, then it takes a weighted average of the primary material (66%) and secondary material (33%).
+ 7) Materials resistance factors are given relative to PAPER as a material (this probably needs some fine-tuning for balance).
  
 1.5 Adding a bionic
  1) Edit data/raw/bionics.json and add your bionic near similar types.
@@ -94,7 +74,7 @@ ADDITIONS
     time        :   0                                           // How long, when activated, between drawing cost. If 0, it draws power once.
     description :   "It's a rocket launcher, inside your arm!!" // A brief description of the bionic, as showed to the player.
 
- 3) Add any otional attributes
+ 3) Add any optional attributes
     
     flags       :   ["ACTIVE"]                                  // Used to flag the bionic as a specific type.
     
@@ -106,8 +86,5 @@ ADDITIONS
                         
                     Flags can be combined like so: ["ACTIVE","POWER","FAULTY"] (Don't add all these at once)
     
- 4) If you want the bionic to be available in the gameworld as an item, add it to itypedef.cpp
-    
-    BIO_SINGLE(id, rarity, price, color, difficulty)
-    
+ 4) If you want the bionic to be available in the gameworld as an item, add it to itemgroups.json
     See 1.1 for more information about adding items.

@@ -1,12 +1,12 @@
 Stat system scaling:
-Minimum stat: 1 (should only happen due to penalties)
+Minimum stat: 0 (should only happen due to penalties, instant failure in most scenarios)
 Nominal stat: 8 ("average" person)
 Very high stat: ? (realistic world class human)
 Maximal stat: 20 (higher may be achievable, but we're not worried about balancing at that point.)
 
 Skill system scaling:
 Minimum skill: 0 (no training)
-Maximum skill: 10 (requires regular training to maintain)
+Maximum skill: 10 (requires regular training to maintain, "professional" level)
 
 Monster melee skill scaling:
 Ranges from 8 to 16

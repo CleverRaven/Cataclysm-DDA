@@ -123,6 +123,10 @@ http://www.stack.nl/~dimitri/doxygen/manual/faq.html
 
  * Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
 
+## Pull Request Notes
+* Mark pull requests that are still being worked on with [WIP] at the end of the title
+    * When a pull request is ready to be reviewed remove the [WIP]
+* Mark pull requests that need commenting/testing by others with [CR]
 
 ## Advanced Techniques
 
