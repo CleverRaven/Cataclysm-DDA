@@ -10950,7 +10950,7 @@ void game::plswim(int x, int y)
  int drenchFlags = mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms);
 
  if (temperature < 50)
-   drenchflags |= mfb(bp_feet)|mfb(bp_hands);
+   drenchFlags |= mfb(bp_feet)|mfb(bp_hands);
 
  if (u.underwater)
    drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth);
