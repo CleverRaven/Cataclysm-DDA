@@ -3018,6 +3018,16 @@ void game::add_msg_player_or_npc(player *p, const char* player_str, const char* 
     va_end(ap);
 }
 
+std::vector<game_message> game::recent_messages(int message_count)
+{
+  std::vector<game_message> backlog;
+  for(int i = messages.size() - 1; i > 0 && message_count > 0; i--) {
+    backlog.push_back(messages[i]);
+    message_count--;
+  }
+  return backlog;
+}
+
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
 {
  event tmp(type, on_turn, faction_id, x, y);
