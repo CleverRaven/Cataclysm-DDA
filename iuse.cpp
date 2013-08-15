@@ -4944,3 +4944,15 @@ void iuse::unfold_bicycle(game *g, player *p, item *it, bool t)
         g->add_msg_if_player(p, _("There's no room to unfold the bicycle."));
     }
 }
+
+void iuse::adrenaline_injector(game *g, player *p, item *it, bool t)
+{
+  if(p->has_disease("adrenaline")) {
+    g->add_msg_if_player(p, "Wait until your current adrenaline rush has worn off completely.");
+  } else {
+    p->moves -= 100;
+    g->add_msg_if_player(p, "You inject yourself with adrenaline.");
+    p->add_disease("adrenaline", 200);
+    it->make(g->itypes["syringe"]);
+  }
+}
