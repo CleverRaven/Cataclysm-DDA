@@ -16,7 +16,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
 static void add_or_drop_item(game *g, player *p, item *it)
@@ -95,12 +95,27 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
         return false;
     }
 
-    std::map<std::string, std::string>::iterator ent = cut->item_vars.find("item_note");
-    std::string message = string_format(_("%1$s on this %2$s is a note saying: "), gerund.c_str(), cut->type->name.c_str());
-    message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64, (ent != cut->item_vars.end() ?
-                                                       cut->item_vars["item_note"] : message ));
+    std::map<std::string, std::string>::const_iterator ent = cut->item_vars.find("item_note");
+    std::map<std::string, std::string>::const_iterator entprefix = cut->item_vars.find("item_note_type");
+    bool hasnote = (ent != cut->item_vars.end());
+    std::string message = "";
+    std::string messageprefix = string_format( hasnote ? _("(To delete, input one '.')\n") : "" ) +
+        string_format(_("%1$s on this %2$s is a note saying: "), gerund.c_str(), cut->type->name.c_str() );
+    message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
+        (hasnote ? cut->item_vars["item_note"] : message ),
+        messageprefix, "inscribe_item", 128
+    );
 
-    if( message.size() > 0 ) { cut->item_vars["item_note"] = message; }
+    if( message.size() > 0 ) {
+        if ( hasnote && message == "." ) {
+            cut->item_vars.erase("item_note");
+            cut->item_vars.erase("item_note_type");
+            cut->item_vars.erase("item_note_typez");
+        } else {
+            cut->item_vars["item_note"] = message;
+            cut->item_vars["item_note_type"] = gerund;
+        }
+    }
     return true;
 }
 
@@ -4777,7 +4792,7 @@ void iuse::spray_can(game *g, player *p, item *it, bool t)
 
     bool ismarker = (it->type->id=="permanent_marker");
 
-    std::string message = string_input_popup(ismarker?_("Write what?"):_("Spray what?"));
+    std::string message = string_input_popup(ismarker?_("Write what?"):_("Spray what?"),0,"","","graffiti");
 
     if(message.empty())
     {

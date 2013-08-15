@@ -6,7 +6,6 @@
         "color": "light_cyan",
         "name": "water",
         "description": "Water, the stuff of life, the best thirst-quencher available.",
-        "rarity": 90,
         "price": 50,
         "weight": 250,
         "volume": 2,
@@ -53,7 +52,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 90,
         "bashing" : 0,
         "fun" : 0
     },
@@ -83,7 +81,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 5,
         "bashing" : 0,
         "fun" : -20
     },
@@ -113,7 +110,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 20,
         "bashing" : 0,
         "fun" : -1
     },
@@ -143,7 +139,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "fun" : 3
     },
@@ -173,7 +168,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "fun" : 2
     },
@@ -203,7 +197,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 55,
         "bashing" : 0,
         "fun" : 5
     },
@@ -233,7 +226,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 70,
         "bashing" : 0,
         "fun" : 5
     },
@@ -263,7 +255,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 65,
         "bashing" : 0,
         "fun" : 3
     },
@@ -293,7 +284,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "fun" : 0
     },
@@ -323,7 +313,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 15,
         "bashing" : 0,
         "fun" : 0
     },
@@ -353,7 +342,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 15,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
@@ -384,7 +372,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
@@ -416,7 +403,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 15,
         "bashing" : 0,
         "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
         "fun" : 2
@@ -447,7 +433,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 15,
         "bashing" : 0,
         "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
         "fun" : 2
@@ -478,7 +463,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 15,
         "bashing" : 0,
         "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
         "fun" : 1
@@ -509,7 +493,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 15,
         "bashing" : 0,
         "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
         "fun" : 2
@@ -540,7 +523,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 5,
-        "rarity" : 16,
         "bashing" : 0,
         "fun" : 15
     },
@@ -570,7 +552,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 5,
-        "rarity" : 24,
         "bashing" : 0,
         "fun" : 15
     },
@@ -600,7 +581,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 5,
-        "rarity" : 16,
         "bashing" : 0,
         "fun" : 15
     },
@@ -630,7 +610,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 5,
-        "rarity" : 12,
         "bashing" : 0,
         "fun" : 16
     },
@@ -660,7 +639,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 7,
-        "rarity" : 16,
         "bashing" : 0,
         "fun" : 15
     },
@@ -690,7 +668,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 7,
-        "rarity" : 20,
         "bashing" : 0,
         "fun" : 15
     },
@@ -720,7 +697,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 7,
-        "rarity" : 20,
         "bashing" : 0,
         "fun" : 15
     },
@@ -750,7 +726,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 7,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 15
     },
@@ -780,7 +755,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 7,
-        "rarity" : 12,
         "bashing" : 0,
         "fun" : 18
     },
@@ -810,7 +784,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 7,
-        "rarity" : 12,
         "bashing" : 0,
         "fun" : 10
     },
@@ -840,7 +813,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 6,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : 20
     },
@@ -870,7 +842,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : 20
     },
@@ -900,7 +871,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : 20
     },
@@ -930,7 +900,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 60,
         "bashing" : 0,
         "fun" : 10
     },
@@ -960,7 +929,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 20,
         "bashing" : 0,
         "fun" : -30
     },
@@ -990,7 +958,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 24,
         "bashing" : 0,
         "fun" : -30
     },
@@ -1020,7 +987,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 24,
         "bashing" : 0,
         "fun" : -30
     },
@@ -1050,7 +1016,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 24,
         "bashing" : 0,
         "fun" : -30
     },
@@ -1081,7 +1046,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1112,7 +1076,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1143,7 +1106,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1174,7 +1136,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1205,7 +1166,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1236,7 +1196,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1267,7 +1226,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1298,7 +1256,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1329,7 +1286,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1360,7 +1316,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1391,7 +1346,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1422,7 +1376,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1453,7 +1406,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1483,7 +1435,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 12,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1513,7 +1464,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
@@ -1544,7 +1494,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 5,
-        "rarity" : 1,
         "bashing" : 0,
         "flags" : [],
         "fun" : 8
@@ -1575,7 +1524,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
@@ -1606,7 +1554,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 20,
         "bashing" : 0,
         "fun" : -50
     },
@@ -1636,7 +1583,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1666,7 +1612,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1696,7 +1641,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "fun" : -10
     },
@@ -1726,7 +1670,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 30,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1756,7 +1699,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1786,7 +1728,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 30,
         "bashing" : 0,
         "fun" : -10
     },
@@ -1816,7 +1757,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 60,
         "bashing" : 0,
         "fun" : -10
     },
@@ -1846,7 +1786,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 35,
         "bashing" : 0,
         "fun" : 0
     },
@@ -1876,7 +1815,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 8
@@ -1907,7 +1845,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 8
@@ -1938,7 +1875,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -1969,7 +1905,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -2000,7 +1935,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 70,
         "bashing" : 0,
         "fun" : 3
     },
@@ -2030,7 +1964,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 65,
         "bashing" : 0,
         "fun" : 3
     },
@@ -2060,7 +1993,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "fun" : -4
     },
@@ -2090,7 +2022,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
-        "rarity" : 65,
         "bashing" : 0,
         "fun" : 6
     },
@@ -2120,7 +2051,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
-        "rarity" : 65,
         "bashing" : 0,
         "fun" : 3
     },
@@ -2150,7 +2080,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
-        "rarity" : 65,
         "bashing" : 0,
         "fun" : 12
     },
@@ -2180,7 +2109,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
-        "rarity" : 55,
         "bashing" : 0,
         "fun" : 2
     },
@@ -2210,7 +2138,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "fun" : 8
     },
@@ -2240,7 +2167,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
-        "rarity" : 55,
         "bashing" : 0,
         "fun" : 4
     },
@@ -2270,7 +2196,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
-        "rarity" : 55,
         "bashing" : 0,
         "fun" : 4
     },
@@ -2300,7 +2225,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 30,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
@@ -2331,7 +2255,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
-        "rarity" : 80,
         "bashing" : 0,
         "fun" : 4
     },
@@ -2361,7 +2284,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 4,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -2392,7 +2314,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 3,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -2423,7 +2344,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
@@ -2454,13 +2374,11 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 3,
         "bashing" : 0,
         "fun" : 0
     },
     {   "type" : "AMMO",
         "id" : "seed_blueberries",
-        "rarity" : 50,
         "price" : 120,
         "name" : "blueberry seeds",
         "symbol" : ".",
@@ -2507,13 +2425,11 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 2,
         "bashing" : 0,
         "fun" : 0
     },
     {   "type" : "AMMO",
         "id" : "seed_strawberries",
-        "rarity" : 50,
         "price" : 120,
         "name" : "strawberry seeds",
         "symbol" : ".",
@@ -2560,13 +2476,11 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
-        "rarity" : 9,
         "bashing" : 0,
         "fun" : -10
     },
     {   "type" : "AMMO",
         "id" : "seed_wheat",
-        "rarity" : 50,
         "price" : 120,
         "name" : "wheat seeds",
         "symbol" : ".",
@@ -2613,7 +2527,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 9,
         "bashing" : 0,
         "fun" : 0
     },
@@ -2643,7 +2556,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 9,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -2674,7 +2586,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 7,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -2705,7 +2616,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 3,
         "bashing" : 0,
         "fun" : -1,
         "fun_comment" : "Raw onions probably aren't all that tasty to most people."
@@ -2736,7 +2646,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 3,
         "bashing" : 0,
         "fun" : -1
     },
@@ -2766,7 +2675,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 7,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -2797,7 +2705,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "fun" : -3
     },
@@ -2827,7 +2734,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
@@ -2858,7 +2764,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 40,
         "bashing" : 0,
         "fun" : -8
     },
@@ -2888,7 +2793,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -2919,7 +2823,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 40,
         "bashing" : 0,
         "fun" : -8
     },
@@ -2949,7 +2852,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -2980,7 +2882,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 25,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -3011,7 +2912,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 20,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
@@ -3042,7 +2942,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 15,
         "bashing" : 0,
         "fun" : 4
     },
@@ -3072,7 +2971,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 40,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -3103,7 +3001,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 35,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -2
@@ -3134,7 +3031,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 30,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -8
@@ -3165,7 +3061,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 30,
         "bashing" : 0,
         "fun" : 7
     },
@@ -3195,7 +3090,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 10,
         "bashing" : 0,
         "fun" : 0
     },
@@ -3225,7 +3119,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 14,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -3256,7 +3149,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 35,
         "bashing" : 0,
         "fun" : 0
     },
@@ -3286,7 +3178,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 20,
         "bashing" : 0,
         "fun" : -24
     },
@@ -3316,7 +3207,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 10,
         "bashing" : 0,
         "fun" : 9
     },
@@ -3346,7 +3236,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 10,
         "bashing" : 0,
         "fun" : -5
     },
@@ -3376,7 +3265,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : 7
     },
@@ -3406,7 +3294,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 1,
         "bashing" : 0,
         "fun" : -60
     },
@@ -3436,7 +3323,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 4,
         "bashing" : 0,
         "fun" : -20
     },
@@ -3466,7 +3352,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 4,
         "bashing" : 0,
         "fun" : -20
     },
@@ -3496,7 +3381,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 5,
         "bashing" : 0,
         "fun" : -10
     },
@@ -3526,7 +3410,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 2,
         "bashing" : 0,
         "fun" : 30
     },
@@ -3556,7 +3439,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 8,
-        "rarity" : 20,
         "bashing" : 0,
         "fun" : -5
     },
@@ -3586,7 +3468,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 8,
-        "rarity" : 20,
         "bashing" : 0,
         "fun" : 1
     },
@@ -3616,7 +3497,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 8,
-        "rarity" : 20,
         "bashing" : 0,
         "fun" : -8
     },
@@ -3646,7 +3526,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
-        "rarity" : 20,
         "bashing" : 0,
         "fun" : -10
     },
@@ -3676,7 +3555,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 100,
-        "rarity" : 25,
         "bashing" : 0,
         "fun" : 0
     },
@@ -3706,7 +3584,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 10,
         "bashing" : 0,
         "fun" : -3
     },
@@ -3736,7 +3613,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -3767,7 +3643,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
-        "rarity" : 14,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
@@ -3798,7 +3673,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 6,
-        "rarity" : 20,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -3829,7 +3703,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
-        "rarity" : 8,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
@@ -3860,7 +3733,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
-        "rarity" : 8,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
@@ -3891,7 +3763,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -4
@@ -3922,7 +3793,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 50,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -4
@@ -3953,7 +3823,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 5,
-        "rarity" : 10,
         "bashing" : 0,
         "fun" : -1
     },
@@ -3983,7 +3852,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
-        "rarity" : 15,
         "bashing" : 0,
         "fun" : -5
     },
@@ -4013,7 +3881,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "fun" : 20
     },
@@ -4043,7 +3910,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "fun" : 2
     },
@@ -4073,7 +3939,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4103,7 +3968,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "fun" : 1
     },
@@ -4133,7 +3997,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 0,
         "bashing" : 0,
         "fun" : 2
     },
@@ -4163,7 +4026,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 2,
-        "rarity" : 0,
         "bashing" : 0,
         "fun" : 2
     },
@@ -4193,7 +4055,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 2,
-        "rarity" : 0,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4223,7 +4084,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
-        "rarity" : 0,
         "bashing" : 0,
         "fun" : 3
     },
@@ -4253,7 +4113,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 2,
-        "rarity" : 0,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 15
@@ -4284,7 +4143,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 2,
-        "rarity" : 0,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 15
@@ -4315,7 +4173,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
-        "rarity" : 50,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4345,7 +4202,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 2,
-        "rarity" : 35,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4375,7 +4231,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 20,
-        "rarity" : 75,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4405,7 +4260,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 10,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4436,7 +4290,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 20,
-        "rarity" : 85,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4466,7 +4319,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 25,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4496,7 +4348,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 15,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4526,7 +4377,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 5,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4556,7 +4406,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 70,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4586,7 +4435,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 70,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4616,7 +4464,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 20,
-        "rarity" : 14,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4647,7 +4494,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 15,
         "bashing" : 0,
         "fun" : 10
     },
@@ -4678,7 +4524,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 7,
         "bashing" : 0,
         "fun" : 18
     },
@@ -4709,7 +4554,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 11,
         "bashing" : 0,
         "fun" : 6
     },
@@ -4739,7 +4583,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 10,
         "bashing" : 0,
         "fun" : 20
     },
@@ -4769,7 +4612,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 10,
         "bashing" : 0,
         "fun" : 10
     },
@@ -4799,7 +4641,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 7,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4829,7 +4670,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 15,
-        "rarity" : 10,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4859,7 +4699,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 90,
         "bashing" : 0,
         "fun" : 5
     },
@@ -4889,13 +4728,11 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 5,
-        "rarity" : 20,
         "bashing" : 0,
         "fun" : 18
     },
     {   "type" : "AMMO",
         "id" : "seed_weed",
-        "rarity" : 50,
         "price" : 120,
         "name" : "marijuana seeds",
         "symbol" : ".",
@@ -4942,7 +4779,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 8,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : 25
     },
@@ -4972,7 +4808,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 6,
-        "rarity" : 2,
         "bashing" : 0,
         "fun" : 30
     },
@@ -5003,7 +4838,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
-        "rarity" : 1,
         "bashing" : 0,
         "fun" : 45
     },
@@ -5033,7 +4867,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 5,
         "bashing" : 0,
         "fun" : 15
     },
@@ -5063,7 +4896,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 15,
-        "rarity" : 25,
         "bashing" : 0,
         "fun" : 0
     },
@@ -5093,7 +4925,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 5,
-        "rarity" : 25,
         "bashing" : 0,
         "fun" : 0
     },
@@ -5124,7 +4955,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
-        "rarity" : 25,
         "bashing" : 0,
         "fun" : 0
     },
@@ -5154,7 +4984,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : 50
     },
@@ -5184,7 +5013,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 35,
         "bashing" : 0,
         "fun" : 0
     },
@@ -5195,7 +5023,6 @@
         "color": "white",
         "name": "mayonnaise",
         "description": "Good old mayo, tastes great on sandwiches.",
-        "rarity": 60,
         "price": 50,
         "weight": 164,
         "volume": 2,
@@ -5223,7 +5050,6 @@
         "color": "red",
         "name": "ketchup",
         "description": "Good old ketchup, tastes great on hotdogs.",
-        "rarity": 60,
         "price": 50,
         "weight": 253,
         "volume": 2,
@@ -5251,7 +5077,6 @@
         "color": "yellow",
         "name": "mustard",
         "description": "Good old mustard, tastes great on hamburgers.",
-        "rarity": 60,
         "price": 50,
         "weight": 253,
         "volume": 2,
@@ -5298,7 +5123,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 9,
         "bashing" : 0,
         "fun" : 5
     },
@@ -5328,7 +5152,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 50,
-        "rarity" : 9,
         "bashing" : 0,
         "fun" : -20
     },
@@ -5358,7 +5181,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "rarity" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 8
@@ -5389,7 +5211,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 6,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : 8
     },
@@ -5420,7 +5241,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 6,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : -12
     },
@@ -5450,7 +5270,6 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
-        "rarity" : 25,
         "bashing" : 0,
         "fun" : 30
     },
@@ -5480,7 +5299,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 2,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : -40
     },
@@ -5510,7 +5328,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : -2,
         "flags" : ["USE_EAT_VERB"]
@@ -5541,7 +5358,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : -2,
         "flags" : ["USE_EAT_VERB"]
@@ -5572,7 +5388,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : 10,
         "flags" : ["USE_EAT_VERB"]
@@ -5603,7 +5418,6 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 8,
         "bashing" : 0,
         "fun" : 10,
         "flags" : ["USE_EAT_VERB"]

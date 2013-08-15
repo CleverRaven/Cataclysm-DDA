@@ -13,7 +13,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
 std::string default_technique_name(technique_id tech);
@@ -733,10 +733,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This tool has double the normal maximum charges."));
     }
-    std::map<std::string, std::string>::iterator item_note = item_vars.find("item_note");
+    std::map<std::string, std::string>::const_iterator item_note = item_vars.find("item_note");
+    std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");
+
     if ( item_note != item_vars.end() ) {
         dump->push_back(iteminfo("DESCRIPTION", "\n" ));
-        dump->push_back(iteminfo("DESCRIPTION", item_note->second ));
+        std::string ntext = "";
+        if ( item_note_type != item_vars.end() ) {
+            ntext += string_format(_("%1$s on this %2$s is a note saying: "),
+                item_note_type->second.c_str(), type->name.c_str()
+            );
+        } else {
+            ntext += "Note: ";
+        }
+        dump->push_back(iteminfo("DESCRIPTION", ntext + item_note->second ));
     }
   if (contents.size() > 0) {
    if (is_gun()) {

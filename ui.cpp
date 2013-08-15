@@ -95,7 +95,7 @@ void uimenu::init() {
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
     textalign = MENU_ALIGN_LEFT; // todo
-    title = "";            // Makes use of the top border, no folding or width checking
+    title = "";            // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
     window = NULL;         // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
@@ -127,6 +127,7 @@ void uimenu::show() {
 
         if ( w_auto ) {
             w_width = 4;
+            if ( title.size() > 0 ) w_width = title.size() + 5;
         }
 
         bool h_auto = (w_height == -1);
