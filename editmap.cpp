@@ -82,9 +82,9 @@ bool editmap::eget_direction(int &x, int &y, InputEvent &input, int ch)
     } else if ( ch == 'H' ) {
         x = 0 - (tmaxx / 2);
     } else if ( ch == 'J' ) {
-        y = 0 - (tmaxy / 2);
-    } else if ( ch == 'K' ) {
         y = (tmaxy / 2);
+    } else if ( ch == 'K' ) {
+        y = 0 - (tmaxy / 2);
     } else if ( ch == 'L' ) {
         x = (tmaxx / 2);
     } else {
