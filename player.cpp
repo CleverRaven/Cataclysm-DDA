@@ -6508,7 +6508,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
      }
     if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
         volume_carried() + worn[i].type->volume) {
-     inv.push_back(worn[i]);
+     inv.add_item_keep_invlet(worn[i]);
      worn.erase(worn.begin() + i);
      inv.unsort();
      return true;
