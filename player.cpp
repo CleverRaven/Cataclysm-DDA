@@ -3299,8 +3299,10 @@ void player::pause(game *g)
  }
 
 // Train swimming if underwater
- if (underwater)
+ if (underwater) {
    practice(g->turn, "swimming", 1);
+   drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth));
+ }
 }
 
 int player::throw_range(signed char ch)
