@@ -3676,10 +3676,12 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
         while (g->turn > seed.bday + plantEpoch && furn < f_plant_harvest) {
           furn = (furn_id((int)furn + 1));
           seed.bday += plantEpoch;
-        }
 
-        tmpsub->itm[x][y][0].bday = seed.bday;
-        tmpsub->frn[x][y] = furn;
+          tmpsub->itm[x][y].resize(1);
+
+          tmpsub->itm[x][y][0].bday = seed.bday;
+          tmpsub->frn[x][y] = furn;
+        }
       }
     }
   }
