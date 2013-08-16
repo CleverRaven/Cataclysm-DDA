@@ -5777,8 +5777,8 @@
 {
   "result": "portable_game",
   "category": "CC_ELECTRONIC",
-  "skill_pri": "electronics",
-  "skill_sec": "computer",
+  "skill_used": "electronics",
+  "requires_skills": ["computer",  5],
   "difficulty": 8,
   "time": 60000,
   "reversible": true,
