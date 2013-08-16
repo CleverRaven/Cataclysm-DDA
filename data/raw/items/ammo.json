@@ -91,7 +91,7 @@
         "color" : "light_gray",
         "description" : "A roll of incredibly strong tape. Its uses are innumerable.",
         "material" : "plastic",
-        "volume" : 2,
+        "volume" : 1,
         "weight" : 4,
         "bashing" : 1,
         "cutting" : 0,

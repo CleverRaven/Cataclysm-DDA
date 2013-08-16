@@ -3399,7 +3399,10 @@ void iuse::UPS_off(game *g, player *p, item *it, bool t)
 void iuse::UPS_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-   if (p->worn.size() && p->worn[0].type->is_power_armor()) {
+   if (p->worn.size() && p->worn[0].type->is_power_armor() &&
+       !p->has_active_bionic("bio_power_armor_interface") &&
+       !p->has_active_bionic("bio_power_armor_interface_mkII") &&
+       !p->has_active_item("adv_UPS_on")) { // Use better power sources first
      it->charges -= 4;
 
      if (it->charges < 0) {
@@ -3433,8 +3436,10 @@ void iuse::adv_UPS_off(game *g, player *p, item *it, bool t)
 void iuse::adv_UPS_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-   if (p->worn.size() && p->worn[0].type->is_power_armor()) {
-     it->charges -= 2;
+   if (p->worn.size() && p->worn[0].type->is_power_armor() &&
+       !p->has_active_bionic("bio_power_armor_interface") &&
+       !p->has_active_bionic("bio_power_armor_interface_mkII")) {
+     it->charges -= 2; // Use better power sources first
 
      if (it->charges < 0) {
        it->charges = 0;

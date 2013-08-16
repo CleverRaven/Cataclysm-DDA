@@ -731,9 +731,9 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
 }
 
 int monster::bash_at(int x, int y) {
-    bool cant_move_to = !can_move_to(g, x, y);
-    bool can_bash = one_in(3) && g->m.has_flag(bashable, x, y) && has_flag(MF_BASHES);
-    if(cant_move_to || can_bash) {
+    bool try_bash = !can_move_to(g, x, y) || one_in(3);
+    bool can_bash = g->m.has_flag(bashable, x, y) && has_flag(MF_BASHES);
+    if(try_bash && can_bash) {
         std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
         int bashskill = int(type->melee_dice * type->melee_sides);
         g->m.bash(x, y, bashskill, bashsound);
@@ -761,6 +761,11 @@ int monster::attack_at(int x, int y) {
         // Currently, there are only pro-player and anti-player groups,
         // this makes it easy for us.
         monster& mon = g->z[mondex];
+
+        // Don't attack yourself.
+        if(&mon == this) {
+            return 0;
+        }
 
         // Special case: Target is hallucination
         if(mon.type->species == species_hallu) {

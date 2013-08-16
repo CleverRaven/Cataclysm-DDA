@@ -1691,9 +1691,11 @@ void vehicle::handle_trap (int x, int y, int part)
                 g->m.spawn_item(x, y, "string_6", 0);
             }
             break;
+        case tr_landmine_buried:
         case tr_landmine:
             expl = 10;
             shrap = 8;
+            g->m.tr_at(x, y) = tr_null;
             break;
         case tr_boobytrap:
             expl = 18;
