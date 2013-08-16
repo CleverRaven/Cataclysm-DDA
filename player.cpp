@@ -5983,7 +5983,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
     return false;
    }
   } else if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
-   inv.push_back(remove_weapon());
+   inv.add_item_keep_invlet(remove_weapon());
    inv.unsort();
    moves -= 20;
    recoil = 0;
@@ -6030,7 +6030,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
             volume_capacity()) {
   item tmpweap = remove_weapon();
   weapon = inv.remove_item_by_letter(ch);
-  inv.push_back(tmpweap);
+  inv.add_item_keep_invlet(tmpweap);
   inv.unsort();
   moves -= 45;
   if (weapon.is_artifact() && weapon.is_tool()) {
@@ -6508,7 +6508,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
      }
     if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
         volume_carried() + worn[i].type->volume) {
-     inv.push_back(worn[i]);
+     inv.add_item_keep_invlet(worn[i]);
      worn.erase(worn.begin() + i);
      inv.unsort();
      return true;
