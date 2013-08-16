@@ -466,7 +466,7 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
             mvwprintz(w, 6, 33, COL_STAT_ACT, _("Base HP: %d"),
                       calc_HP(u->str_max, u->has_trait(PF_TOUGH)));
             mvwprintz(w, 7, 33, COL_STAT_ACT, _("Carry weight: %.1f %s"), u->convert_weight(u->weight_capacity(false)),
-                      OPTIONS["USE_METRIC_WEIGHTS"]=="kg"?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?"kg":"lbs");
             mvwprintz(w, 8, 33, COL_STAT_ACT, _("Melee damage: %d"),
                       u->base_damage(false));
             fold_and_print(w, 10, 33, 45, COL_STAT_ACT, _("Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective."));
