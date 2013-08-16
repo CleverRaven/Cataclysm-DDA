@@ -2717,6 +2717,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
 
       if (veh) { // check if a vehicle part is present to provide water/power
         const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
+        const int weldpart = veh->part_with_feature(vpart, vpf_weldrig);
 
         if (kpart >= 0) { // we have a kitchen, now to see what to drain
           ammotype ftype = "NULL";
@@ -2724,6 +2725,23 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (type == "water_clean")
             ftype = "water";
           else if (type == "hotplate")
+            ftype = "battery";
+
+          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+          tmp.charges = veh->drain(ftype, quantity);
+          quantity -= tmp.charges;
+          ret.push_back(tmp);
+
+          if (quantity == 0)
+            return ret;
+        }
+        
+        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
+          ammotype ftype = "NULL";
+
+          if (type == "welder")
+            ftype = "battery";
+          else if (type == "soldering_iron")
             ftype = "battery";
 
           item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg

@@ -75,6 +75,7 @@ enum vpart_id
     vp_seatbelt,
     vp_solar_panel,
     vp_kitchen_unit,
+    vp_weldrig,
     vp_m249,
     vp_flamethrower,
     vp_plasmagun,
@@ -116,6 +117,7 @@ enum vpart_flags
     vpf_aisle,               // is aisle (no extra movement cost)
     vpf_engine,             // is engine
     vpf_kitchen,            // is kitchen
+    vpf_weldrig,             // is welding rig
     vpf_fuel_tank,          // is fuel tank
     vpf_cargo,              // is cargo
     vpf_controls,           // is controls
@@ -286,6 +288,8 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_over)  | mfb(vpf_solar_panel) },
     { "kitchen unit", '&', c_ltcyan, 'x', c_ltcyan, 10, 20, 0, 0, "NULL", "kitchen_unit", 4,
         mfb(vpf_over) | mfb(vpf_cargo) | mfb(vpf_roof) | mfb(vpf_no_reinforce) | mfb(vpf_obstacle) | mfb(vpf_kitchen) },
+    { "welding rig", '&', c_ltred, 'x', c_ltred, 10, 20, 0, 0, "NULL", "weldrig", 4,
+        mfb(vpf_over) | mfb(vpf_cargo) | mfb(vpf_roof) | mfb(vpf_no_reinforce) | mfb(vpf_obstacle) | mfb(vpf_weldrig) },
     { "mounted M249",         't', c_cyan,    '#', c_cyan,    80, 400, 0, 0, "223", "m249", 6,
         mfb(vpf_over)  | mfb(vpf_turret) | mfb(vpf_cargo) },
     { "mounted flamethrower", 't', c_dkgray,  '#', c_dkgray,  80, 400, 0, 0, "gasoline", "flamethrower", 7,
