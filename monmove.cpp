@@ -762,6 +762,11 @@ int monster::attack_at(int x, int y) {
         // this makes it easy for us.
         monster& mon = g->z[mondex];
 
+        // Don't attack yourself.
+        if(&mon == this) {
+            return 0;
+        }
+
         // Special case: Target is hallucination
         if(mon.type->species == species_hallu) {
             g->kill_mon(mondex);
