@@ -1066,7 +1066,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   Drive Golden, Colorado 80403\n\
   \n\
   These samples must be accurate and any attempts to cover\n\
-  incompetencies will resault in charges of Federal Corrution\n\
+  incompetencies will resault in charges of Federal Corrpution\n\
   and potentially Treason.\n"));
         query_any(_("Press any key to continue..."));
         reset_terminal();
