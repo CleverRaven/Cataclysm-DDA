@@ -126,7 +126,7 @@ point editmap::edit(point coords)
         target_list.push_back(target);
         origin = target;
         update_view(true);
-        uphelp("[t] add trap, [f] add field effect", "[g] edit m_ter, edit [i]tem");
+        uphelp("[t]rap, [f]ield, [HJKL] move by 1/2 screen","[g] terrain/furniture, [i]tems, [q]uit");
         ch = (int)getch();
 
         if(ch) {
@@ -517,7 +517,7 @@ int editmap::edit_ter(point coords)
 
         if( ter_frn_mode == 0 ) {
             uphelp("[s]hape select, [<,>,^,v] select, [tab] furniture",
-                   "[enter] edit, [g] edit/close, [q] abort");
+                   "[enter] change, [g] change/quit, [q]uit");
             wrefresh(w_pickter);
 
             subch = (int)getch();
@@ -556,7 +556,7 @@ int editmap::edit_ter(point coords)
             }
         } else { // todo: cleanup
             uphelp("[s]hape select, [<,>,^,v] select, [tab] terrain",
-                   "[enter] edit, [g] edit/close, [q] abort");
+                   "[enter] change, [g] change/quit, [q]uit");
             wrefresh(w_pickter);
 
             subch = (int)getch();
@@ -654,8 +654,8 @@ int editmap::edit_fld(point coords)
     setup_fmenu(&fmenu, cur_field);
 
     do {
-        uphelp("[s]hape select, [<] density-, [>] density+",
-               "[enter] edit, [q] abort");
+        uphelp("[s]hape select, [<,>] density",
+               "[enter] edit, [q]uit");
 
         fmenu.query(false);
         if ( fmenu.selected > 0 && fmenu.selected < num_fields &&
@@ -773,7 +773,7 @@ int editmap::edit_trp(point coords)
     trids[0] = _("-clear-");
     do {
         uphelp("[s]hape select",
-               "[enter] edit, [t] edit/quit, [q] abort");
+               "[enter] change, [t] change/quit, [q]uit");
 
         if( trsel < tshift ) {
             tshift = trsel;
