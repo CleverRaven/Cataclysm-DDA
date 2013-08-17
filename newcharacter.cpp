@@ -625,7 +625,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
   for (int s = 0; s < 2; s++) {
    drawing_selected_column=(using_adv!=s);
    if (s==0) {//Traits costs note and traits description
-
+    col_on      = drawing_selected_column?COL_TR_GOOD_ON_ACT:COL_TR_GOOD_ON_PAS;
+    col_off     = drawing_selected_column?COL_TR_GOOD_OFF_ACT:COL_TR_GOOD_OFF_PAS;
     xoff = 2;
     cur_trait = cur_adv;
     traitmin = 1;
@@ -638,7 +639,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                   _(traits[cur_adv].name.c_str()), traits[cur_adv].points);
     }
    } else {
-
+    col_on      = drawing_selected_column?COL_TR_BAD_ON_PAS:COL_TR_BAD_ON_ACT;
+    col_off     = drawing_selected_column?COL_TR_BAD_OFF_ACT:COL_TR_BAD_OFF_PAS;
     xoff = 40;
     cur_trait = cur_dis;
     traitmin = PF_SPLIT + 1;
@@ -651,8 +653,6 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
     }
    }
 
-   col_on      = drawing_selected_column?COL_TR_GOOD_ON_ACT:COL_TR_GOOD_ON_PAS;
-   col_off     = drawing_selected_column?COL_TR_GOOD_OFF_ACT:COL_TR_GOOD_OFF_PAS;
    col_conf    = drawing_selected_column?COL_TR_BAD_OFF_PAS:c_black;
    hi_on   = hilite(col_on);
    hi_off  = hilite(col_off);
