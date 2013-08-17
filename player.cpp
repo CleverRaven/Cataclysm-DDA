@@ -23,7 +23,6 @@
 #include "catajson.h"
 #include "disease.h"
 #include "get_version.h"
-#include "map.h"
 
 #include <ctime>
 
