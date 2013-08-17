@@ -274,7 +274,7 @@ void map::destroy_vehicle (vehicle *veh)
  debugmsg ("destroy_vehicle can't find it! sm=%d", veh_sm);
 }
 
-bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test=false)
+bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test)
 {
  const int x2 = x + dx;
  const int y2 = y + dy;

@@ -259,7 +259,7 @@ class map
 // Returns true, if there was a submap change.
 // If test is true, function only checks for submap change, no displacement
 // WARNING: not checking collisions!
- bool displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test);
+ bool displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test = false);
  void vehmove(game* g);          // Vehicle movement
  bool vehproceed(game* g);
 // move water under wheels. true if moved
