@@ -420,6 +420,8 @@ void game::start_game()
  create_starting_npcs();
 
  MAPBUFFER.set_dirty();
+
+ u.add_memorial_log(_("%s began their journey into the Cataclysm."), u.name.c_str());
 }
 
 void game::create_factions()
@@ -525,6 +527,8 @@ void game::cleanup_at_end(){
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
     {
         death_screen();
+        u.add_memorial_log("%s %s", u.name.c_str(),
+                uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
         write_memorial_file();
         if (OPTIONS["DELETE_WORLD"] == "Yes" ||
             (OPTIONS["DELETE_WORLD"] == "Query" && query_yn(_("Delete saved world?"))))
@@ -561,9 +565,11 @@ bool game::do_turn()
 // Check if we've overdosed... in any deadly way.
  if (u.stim > 250) {
   add_msg(_("You have a sudden heart attack!"));
+  u.add_memorial_log(_("Died of a drug overdose."));
   u.hp_cur[hp_torso] = 0;
  } else if (u.stim < -200 || u.pkill > 240) {
   add_msg(_("Your breathing stops completely."));
+  u.add_memorial_log(_("Died of a drug overdose."));
   u.hp_cur[hp_torso] = 0;
  }
 // Check if we're starving or have starved
@@ -577,6 +583,7 @@ bool game::do_turn()
           add_msg(_("Food...")); break;
          case 6000:
           add_msg(_("You have starved to death."));
+          u.add_memorial_log(_("Died of starvation."));
           u.hp_cur[hp_torso] = 0;
           break;
      }
@@ -592,6 +599,7 @@ bool game::do_turn()
           add_msg(_("4 days... no water..")); break;
          case 1200:
           add_msg(_("You have died of dehydration."));
+          u.add_memorial_log(_("Died of thirst."));
           u.hp_cur[hp_torso] = 0;
           break;
      }
@@ -922,10 +930,17 @@ void game::process_activity()
 
      u.activity.continuous = false;
 
-     if (u.skillLevel(reading->type) > originalSkillLevel)
+     int new_skill_level = (int)u.skillLevel(reading->type);
+     if (new_skill_level > originalSkillLevel) {
       add_msg(_("You increase %s to level %d."),
               reading->type->name().c_str(),
-              (int)u.skillLevel(reading->type));
+              new_skill_level);
+
+      if(new_skill_level % 4 == 0) {
+       u.add_memorial_log(_("Reached skill level %d in %s."),
+                      new_skill_level, reading->type->name().c_str());
+      }
+     }
 
      if (u.skillLevel(reading->type) == (int)reading->level) {
       if (no_recipes) {
@@ -969,11 +984,16 @@ void game::process_activity()
      u.styles.push_back( martial_arts_itype_ids[0 - u.activity.index] );
     } else {
      Skill* skill = Skill::skill(u.activity.name);
-     int skillLevel = u.skillLevel(skill);
-     u.skillLevel(skill).level(skillLevel + 1);
+     int new_skill_level = u.skillLevel(skill) + 1;
+     u.skillLevel(skill).level(new_skill_level);
      add_msg(_("You finish training %s to level %d."),
              skill->name().c_str(),
-             (int)u.skillLevel(skill));
+             new_skill_level);
+     if(new_skill_level % 4 == 0) {
+       u.add_memorial_log(_("Reached skill level %d in %s."),
+                      new_skill_level, skill->name().c_str());
+     }
+
     }
     break;
 

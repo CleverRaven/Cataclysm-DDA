@@ -296,6 +296,8 @@ void player::mutate_towards(game *g, pl_flag mut)
     {
         g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(),
                    traits[mut].name.c_str());
+        g->u.add_memorial_log(_("'%s' mutation turned into '%s'"), traits[replacing].name.c_str(),
+                   traits[mut].name.c_str());
         toggle_mutation(replacing);
         mutation_loss_effect(g, *this, replacing);
         mutation_effect(g, *this, mut);
@@ -306,13 +308,16 @@ void player::mutate_towards(game *g, pl_flag mut)
     {
         g->add_msg(_("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(),
                    traits[mut].name.c_str());
-		toggle_mutation(canceltrait);
-		mutation_loss_effect(g, *this, canceltrait);
-		mutation_effect(g, *this, mut);
+        g->u.add_memorial_log(_("'%s' trait turned into '%s'"), traits[canceltrait].name.c_str(),
+                   traits[mut].name.c_str());
+	toggle_mutation(canceltrait);
+	mutation_loss_effect(g, *this, canceltrait);
+	mutation_effect(g, *this, mut);
 	}
   else
     {
         g->add_msg(_("You gain a mutation called %s!"), traits[mut].name.c_str());
+        g->u.add_memorial_log(_("Gained the mutation '%s'."), traits[mut].name.c_str());
         mutation_effect(g, *this, mut);
     }
 
