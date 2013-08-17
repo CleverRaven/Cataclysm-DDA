@@ -2699,6 +2699,32 @@
     "revert_to": "null",
     "use_action": "KNIFE"
   },
+  
+  {
+    "id": "zweihander",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "cyan",
+    "name": "zweihänder",
+    "description": "A huge two-handed sword from Germany.  Packs a real whallop.",
+    "rarity": 30,
+    "price": 1200,
+    "material": "iron",
+    "flags": "CHOP",
+    "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
+    "weight": 3176,
+    "volume": 20,
+    "bashing": 15,
+    "cutting": 40,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "KNIFE"
+  },
 
   {
     "id": "broadfire_off",
