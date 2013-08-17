@@ -326,6 +326,7 @@ public:
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  bool controlling_vehicle;  // Is currently in control of a vehicle
+ point grab_point;
  player_activity activity;
  player_activity backlog;
 // _missions vectors are of mission IDs
