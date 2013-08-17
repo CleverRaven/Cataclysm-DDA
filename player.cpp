@@ -681,25 +681,11 @@ void player::update_bodytemp(game *g)
     {
         // Skip eyes
         if (i == bp_eyes) { continue; }
+        // If the player is sleeping, he will use floor items for warmth as well
+        int floor_warmth = 0;
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
         float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
-        // Search the floor for items to wear to keep warm
-        if (has_disease("sleep")) {
-            int floor_warmth = 0;
-            std::vector<item>& floor_item = g->m.i_at(posx, posy);
-            it_armor* floor_armor = NULL;
-
-            for ( std::vector<item>::iterator afloor_item = floor_item.begin() ; afloor_item != floor_item.end() ; ++afloor_item) {
-                if (!dynamic_cast<it_armor*>(afloor_item->type)->is_armor()) {
-                    continue;
-                }
-                floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
-                floor_warmth += floor_armor->warmth;
-            }
-
-            clothing_warmth_adjustement += homeostasis_adjustement * floor_warmth;
-        }
         // Disease name shorthand
         dis_type blister_pen = disease_for_body_part("blisters", i), hot_pen  = disease_for_body_part("hot", i);
         dis_type cold_pen = disease_for_body_part("cold", i), frost_pen = disease_for_body_part("frostbite", i);
@@ -711,6 +697,19 @@ void player::update_bodytemp(game *g)
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
         else
         {
+            // Search the floor for items
+            std::vector<item>& floor_item = g->m.i_at(posx, posy);
+            it_armor* floor_armor = NULL;
+
+            for ( std::vector<item>::iterator afloor_item = floor_item.begin() ; afloor_item != floor_item.end() ; ++afloor_item) {
+                if (!dynamic_cast<it_armor*>(afloor_item->type)->is_armor()) {
+                    continue;
+                }
+                floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
+                floor_warmth += homeostasis_adjustement * floor_armor->warmth;
+            }
+
+            // Search the floor for bedding
             int vpart = -1;
             vehicle *veh = g->m.veh_at (posx, posy, vpart);
             if      (furn_at_pos == f_bed)
@@ -900,6 +899,11 @@ void player::update_bodytemp(game *g)
         // Chemical Imbalance
         // Added linse in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
+        // IRL effect of being too warm while tryping to sleep : take some blankets off
+            // Note that the player will not remove his actual clothing, only the clothing found on the ground
+        if ( temp_conv[i] <= BODYTEMP_NORM ) {
+            temp_conv[i] = (temp_conv[i] + floor_warmth > BODYTEMP_NORM ? BODYTEMP_NORM : temp_conv[i] + floor_warmth);
+        }
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
