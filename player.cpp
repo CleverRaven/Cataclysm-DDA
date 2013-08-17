@@ -499,7 +499,7 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_head)) {
             bonus += 3;
         }
-        
+
         if(bonus) {
             add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
         }
@@ -1465,7 +1465,7 @@ void player::memorial( std::ofstream &memorial_file )
                   << _(" when the apocalypse began.") << "\n";
     memorial_file << pronoun << _(" died on ") << _(season_name[g->turn.get_season()].c_str())
                   << _(" of year ") << (g->turn.years() + 1)
-                  << _(", day ") << (g->turn.days() + 1) 
+                  << _(", day ") << (g->turn.days() + 1)
                   << _(", at ") << g->turn.print_time() << ".\n";
     memorial_file << pronoun << _(" was killed in a ") << tername << ".\n";
     memorial_file << "\n";
@@ -1962,7 +1962,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
- 
+
  const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
@@ -3026,13 +3026,13 @@ std::string player::get_category_dream(mutation_category cat, int strength) // R
 		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) // Pick only the ones matching our desired category and strength
 		{
 			valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
-		}	
+		}
 	}
 	int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
 	selected_dream = valid_dreams[index];
 	index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream
 	message = selected_dream.message[index];
-	return message;	
+	return message;
 }
 
 bool player::in_climate_control(game *g)
@@ -6479,7 +6479,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             if (armor->covers & mfb(i) && encumb(i) >= 4)
             {
                 g->add_msg(
-                    (i == bp_head || i == bp_torso) ? 
+                    (i == bp_head || i == bp_torso) ?
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
                     body_part_name(body_part(i), 2).c_str(), encumb_text(body_part(i)).c_str());
             }
@@ -6573,7 +6573,7 @@ void player::sort_armor(game *g)
     int eyes_win_y = 3;
     int mouth_win_y = 3;
 
-    // color array for damae
+    // color array for damage
     nc_color dam_color[] = {c_green, c_ltgreen, c_yellow, c_magenta, c_ltred, c_red};
 
     for (int i = 0; i < worn.size(); i++)
@@ -6598,6 +6598,16 @@ void player::sort_armor(game *g)
 
     int iCenterOffsetX = TERMX/2 - FULL_SCREEN_WIDTH/2;
     int iCenterOffsetY = TERMY/2 - (info_win_y + arm_info_win_y + worn_win_y)/2;
+
+    // Prevent calling newwin with negative Y offset
+    if (iCenterOffsetY < 0){
+        worn_win_y += iCenterOffsetY;
+        iCenterOffsetY = 0;
+    }
+
+    // Keep track of how many worn items to display
+    int wornDisplayed = (worn_win_y-5 > worn.size()) ? worn.size() : worn_win_y-5;
+    int wornOffset = 0;
 
     WINDOW* w_info       = newwin(info_win_y, FULL_SCREEN_WIDTH, iCenterOffsetY + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X + iCenterOffsetX);
     WINDOW* w_arm_info   = newwin(arm_info_win_y, FULL_SCREEN_WIDTH,  iCenterOffsetY + info_win_y - 1 + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X + iCenterOffsetX);
@@ -6711,18 +6721,20 @@ void player::sort_armor(game *g)
             mvwprintz(w_all_worn, 1, iCol1WinX-9, c_ltgray ,_("Storage"));
 
             mvwprintz(w_all_worn, 2, 1, c_ltgray, _("(Innermost)"));
-            for (int i = 0; i < worn.size(); i++)
+
+            for (int i = 0; i < wornDisplayed; i++)
             {
-                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
-                if (i == cursor_y)
-                    mvwprintz(w_all_worn, 3+cursor_y, 2, c_yellow, ">>");
-                if (selected >= 0 && i == selected)
-                    mvwprintz(w_all_worn, i+3, 5, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
+                int j = i + wornOffset;
+                it_armor* each_armor = dynamic_cast<it_armor*>(worn[j].type);
+                if (j == cursor_y)
+                    mvwprintz(w_all_worn, 3+cursor_y - wornOffset, 2, c_yellow, ">>");
+                if (selected >= 0 && j == selected)
+                    mvwprintz(w_all_worn, i+3, 5, dam_color[int(worn[j].damage + 1)], each_armor->name.c_str());
                 else
-                    mvwprintz(w_all_worn, i+3, 4, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
-                mvwprintz(w_all_worn, i+3, iCol1WinX-4, dam_color[int(worn[i].damage + 1)], "%2d", int(each_armor->storage));
+                    mvwprintz(w_all_worn, i+3, 4, dam_color[int(worn[j].damage + 1)], each_armor->name.c_str());
+                mvwprintz(w_all_worn, i+3, iCol1WinX-4, dam_color[int(worn[j].damage + 1)], "%2d", int(each_armor->storage));
             }
-            mvwprintz(w_all_worn, 3 + worn.size(), 1, c_ltgray, _("(Outermost)"));
+            mvwprintz(w_all_worn, wornDisplayed + 3, 1, c_ltgray, _("(Outermost)"));
 
             werase(w_torso_worn);
             werase(w_eyes_worn);
@@ -6836,6 +6848,11 @@ void player::sort_armor(game *g)
                     cursor_y++;
                     cursor_y = (cursor_y >= worn.size() ? 0 : cursor_y);
                 }
+                // Scrolling logic
+                if (!((cursor_y > wornOffset) && (cursor_y < wornOffset + wornDisplayed))){
+                    wornOffset = cursor_y - wornDisplayed + 1;
+                    wornOffset = (wornOffset > 0) ? wornOffset : 0;
+                }
                 redraw = true;
                 break;
             case 'k':
@@ -6855,6 +6872,12 @@ void player::sort_armor(game *g)
                 {
                     cursor_y--;
                     cursor_y = (cursor_y < 0 ? worn.size() - 1 : cursor_y);
+                }
+                // Scrolling logic
+                wornOffset = (cursor_y < wornOffset) ? cursor_y : wornOffset;
+                if (!((cursor_y >= wornOffset) && (cursor_y < wornOffset + wornDisplayed))){
+                    wornOffset = cursor_y - wornDisplayed + 1;
+                    wornOffset = (wornOffset > 0) ? wornOffset : 0;
                 }
                 redraw = true;
                 break;
@@ -7503,8 +7526,8 @@ void player::try_to_sleep(game *g)
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
   g->add_msg(
-             terlist[ter_at_pos].movecost <= 2 ? 
-             _("It's a little hard to get to sleep on this %s.") : 
+             terlist[ter_at_pos].movecost <= 2 ?
+             _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
              terlist[ter_at_pos].name.c_str());
  add_disease("lying_down", 300);
