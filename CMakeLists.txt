@@ -6,6 +6,7 @@
 #
 # cd cataclysm
 # mkdir build
+# cd build
 # cmake -G "Unix Makefiles" -DLOCALIZE=ON -DSDL=OFF ..
 # make
 #
