@@ -5454,14 +5454,14 @@ bool player::has_amount(itype_id it, int quantity)
 {
     if (it == "toolset")
     {
-        return has_bionic("bio_tools");
+        return ( has_bionic("bio_tools") || ( amount_of("bio_tools") > 0 && skillLevel("mechanics") > 2 ) );
     }
     return (amount_of(it) >= quantity);
 }
 
 int player::amount_of(itype_id it)
 {
-    if (it == "toolset" && has_bionic("bio_tools"))
+    if (it == "toolset" && ( has_bionic("bio_tools") || ( inv.amount_of("bio_tools") > 0 && skillLevel("mechanics") > 2 ) ) )
     {
         return 1;
     }
