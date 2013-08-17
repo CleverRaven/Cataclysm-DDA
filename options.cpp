@@ -197,7 +197,7 @@ void initOptions() {
 
     OPTIONS["RAD_MUTATION"] =           cOpt(mPage["general"], _("Mutations by radiation"),
                                              _("If true, radiation causes the player to mutate."),
-                                             false
+                                             true
                                             );
 
     OPTIONS["SAVE_SLEEP"] =             cOpt(mPage["interface"], _("Ask to save before sleeping"),
@@ -232,7 +232,7 @@ void initOptions() {
 
     OPTIONS["SORT_CRAFTING"] =          cOpt(mPage["interface"], _("Sort Crafting menu"),
                                              _("If true, the crafting menus will display recipes that you can craft before other recipes"),
-                                             false
+                                             true
                                             );
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {

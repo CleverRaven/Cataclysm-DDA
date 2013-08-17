@@ -10821,6 +10821,10 @@ void game::plmove(int x, int y)
      u.rem_disease("attack_boost");
   }
 
+  // Drench the player if swimmable
+  if (m.has_flag(swimmable, x, y))
+    u.drench(this, 40, mfb(bp_feet) | mfb(bp_legs));
+
   // List items here
   if (!m.has_flag(sealed, x, y)) {
     if (!u.has_disease("blind") && m.i_at(x, y).size() <= 3 && m.i_at(x, y).size() != 0) {
@@ -10909,10 +10913,7 @@ void game::plmove(int x, int y)
      add_msg(_("You start swimming.  %s to dive underwater."),
              press_x(ACTION_MOVE_DOWN).c_str());
    plswim(x, y);
-  } else {
-   u.drench(this, 40, mfb(bp_feet) | mfb(bp_legs));
   }
-
  } else { // Invalid move
   if (u.has_disease("blind") || u.has_disease("stunned")) {
 // Only lose movement if we're blind
@@ -10968,7 +10969,10 @@ void game::plswim(int x, int y)
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 
- int drenchFlags = mfb(bp_feet)|mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands);
+ int drenchFlags = mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms);
+
+ if (temperature < 50)
+   drenchFlags |= mfb(bp_feet)|mfb(bp_hands);
 
  if (u.underwater)
    drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth);
