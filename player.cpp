@@ -3098,6 +3098,18 @@ void player::add_bionic(bionic_id b)
  char newinv;
  if (my_bionics.size() == 0)
   newinv = 'a';
+ else if (my_bionics.size() == 26)
+  newinv = 'A';
+ else if (my_bionics.size() == 52)
+  newinv = '0';
+ else if (my_bionics.size() == 62)
+  newinv = '"';
+ else if (my_bionics.size() == 76)
+  newinv = ':';
+ else if (my_bionics.size() == 83)
+  newinv = '[';
+ else if (my_bionics.size() == 89)
+  newinv = '{';
  else
   newinv = my_bionics[my_bionics.size() - 1].invlet + 1;
  my_bionics.push_back(bionic(b, newinv));
