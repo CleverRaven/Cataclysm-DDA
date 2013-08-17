@@ -2254,7 +2254,7 @@ void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
 void iuse::shishkebab_off(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true,
-                      _("Shishkebab"), _("Turn on"), _("Use as a knife"), _("Cancel"), NULL);
+                      _("What's the plan?"), _("Bring the heat!"), _("Cut 'em up!"), _("I'm good."), NULL);
     switch (choice)
     {
         if (choice == 2)
@@ -2265,13 +2265,13 @@ void iuse::shishkebab_off(game *g, player *p, item *it, bool t)
         if (rng(0, 10) - it->damage > 5 && it->charges > 0)
         {
             g->sound(p->posx, p->posy, 10,
-                     _("With a hiss, the shishkebab glows cherry-red!"));
+                     _("Let's dance Zeds!"));
             it->make(g->itypes["shishkebab_on"]);
             it->active = true;
         }
 
         else
-            g->add_msg_if_player(p,_("There is a small spark, but nothing else."));
+            g->add_msg_if_player(p,_("Aw, dangit."));
     }
     break;
     case 2:
@@ -2284,27 +2284,33 @@ void iuse::shishkebab_on(game *g, player *p, item *it, bool t)
 {
     if (t)   	// Effects while simply on
     {
-        if (one_in(15))
-            g->sound(p->posx, p->posy, 5, _("Your Shishkebab crackles."));
+        if (one_in(25))
+            g->sound(p->posx, p->posy, 10, _("Your shishkebab crackles!"));
 
         if (one_in(75))
         {
-            g->add_msg_if_player(p,_("Your shishkebab sputters and goes out!")),
+            g->add_msg_if_player(p,_("Bummer man, wipeout!")),
               it->make(g->itypes["shishkebab_off"]),
               it->active = false;
         }
     }
+    else if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("Uncool, outta gas."));
+        it->make(g->itypes["shishkebab_off"]);
+        it->active = false;
+    }
     else
     {
         int choice = menu(true,
-                          _("Shishkebab"), _("Turn off"), _("Light something"), _("Cancel"), NULL);
+                          _("What's the plan?"), _("Chill out"), _("Torch something!"), _("Keep groovin'"), NULL);
         switch (choice)
         {
             if (choice == 2)
                 break;
         case 1:
         {
-            g->add_msg_if_player(p,_("You switch off your shishkebab."));
+            g->add_msg_if_player(p,_("Peace out."));
             it->make(g->itypes["shishkebab_off"]);
             it->active = false;
         }
@@ -2336,7 +2342,7 @@ void iuse::firemachete_off(game *g, player *p, item *it, bool t)
         if (rng(0, 10) - it->damage > 2 && it->charges > 0)
         {
             g->sound(p->posx, p->posy, 10,
-                     _("Heat 'em up!"));
+                     _("Your No. 9 glows!"));
             it->make(g->itypes["firemachete_on"]);
             it->active = true;
         }
@@ -2363,6 +2369,12 @@ void iuse::firemachete_on(game *g, player *p, item *it, bool t)
               it->make(g->itypes["firemachete_off"]),
               it->active = false;
         }
+    }
+    else if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("Out of ammo!"));
+        it->make(g->itypes["firemachete_off"]);
+        it->active = false;
     }
     else
     {
@@ -2424,7 +2436,13 @@ void iuse::broadfire_on(game *g, player *p, item *it, bool t)
     if (t)   	// Effects while simply on
     {
         if (one_in(35))
-            g->sound(p->posx, p->posy, 5, _("Your Firebrand burns for combat!."));
+            g->add_msg_if_player(p,_("Your blade burns for combat!"));
+    }
+    else if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("Thy strength fades!"));
+        it->make(g->itypes["broadfire_off"]);
+        it->active = false;
     }
     else
     {
@@ -2487,7 +2505,13 @@ void iuse::firekatana_on(game *g, player *p, item *it, bool t)
     if (t)   	// Effects while simply on
     {
         if (one_in(35))
-            g->sound(p->posx, p->posy, 5, _("The Sun shines brightly."));
+            g->add_msg_if_player(p,_("The Sun shines brightly."));
+    }
+    else if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("The Light Fades."));
+        it->make(g->itypes["firekatana_off"]);
+        it->active = false;
     }
     else
     {
