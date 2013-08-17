@@ -76,6 +76,7 @@ public:
 
  bool has_trait(int flag) const;
  bool has_base_trait(int flag) const;
+ bool has_conflicting_trait(int flag);
  void toggle_trait(int flag);
  void toggle_mutation(int flag);
  mutation_category get_highest_category();
