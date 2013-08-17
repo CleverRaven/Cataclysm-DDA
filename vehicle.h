@@ -330,11 +330,11 @@ public:
     void turn (int deg);
 
     bool collision( std::vector<veh_collision> &veh_veh_colls, int dx, int dy,
-                    bool &can_move, int &imp );
+                    bool &can_move, int &imp, bool just_detect = false );
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
 // return collision, which has type, impulse, part, & target.
-    veh_collision part_collision (int part, int x, int y);
+    veh_collision part_collision (int part, int x, int y, bool just_detect);
 
 // Process the trap beneath
     void handle_trap (int x, int y, int part);
