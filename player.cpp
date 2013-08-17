@@ -23,6 +23,7 @@
 #include "catajson.h"
 #include "disease.h"
 #include "get_version.h"
+#include "map.h"
 
 #include <ctime>
 
@@ -683,6 +684,22 @@ void player::update_bodytemp(game *g)
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
         float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
+        // Search the floor for items to wear to keep warm
+        if (has_disease("sleep")) {
+            int floor_warmth = 0;
+            std::vector<item>& floor_item = g->m.i_at(posx, posy);
+            it_armor* floor_armor = NULL;
+
+            for ( std::vector<item>::iterator afloor_item = floor_item.begin() ; afloor_item != floor_item.end() ; ++afloor_item) {
+                if (!dynamic_cast<it_armor*>(afloor_item->type)->is_armor()) {
+                    continue;
+                }
+                floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
+                floor_warmth += floor_armor->warmth;
+            }
+
+            clothing_warmth_adjustement += homeostasis_adjustement * floor_warmth;
+        }
         // Disease name shorthand
         dis_type blister_pen = disease_for_body_part("blisters", i), hot_pen  = disease_for_body_part("hot", i);
         dis_type cold_pen = disease_for_body_part("cold", i), frost_pen = disease_for_body_part("frostbite", i);
