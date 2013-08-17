@@ -630,22 +630,25 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
     cur_trait = cur_adv;
     traitmin = 1;
     traitmax = PF_SPLIT;
-    mvwprintz(w,  3, 33, c_ltgray, "                                              ");
-    mvwprintz(w,  3, 33, COL_TR_GOOD, _("%s costs %d points"),
-              _(traits[cur_adv].name.c_str()), traits[cur_adv].points);
     if(drawing_selected_column)
+    {
         fold_and_print(w_description, 0, 0, 78, COL_TR_GOOD, "%s", _(traits[cur_adv].description.c_str()));
+        mvwprintz(w,  3, 33, c_ltgray, "                                              ");
+        mvwprintz(w,  3, 33, COL_TR_GOOD, _("%s costs %d points"),
+                  _(traits[cur_adv].name.c_str()), traits[cur_adv].points);
+    }
    } else {
 
     xoff = 40;
     cur_trait = cur_dis;
     traitmin = PF_SPLIT + 1;
     traitmax = PF_MAX;
-    mvwprintz(w,  3, 33, c_ltgray, "                                              ");
-    mvwprintz(w,  3, 33, COL_TR_BAD, _("%s earns %d points"),
-              _(traits[cur_dis].name.c_str()), traits[cur_dis].points * -1);
-    if(drawing_selected_column)
+    if(drawing_selected_column) {
+        mvwprintz(w,  3, 33, c_ltgray, "                                              ");
+        mvwprintz(w,  3, 33, COL_TR_BAD, _("%s earns %d points"),
+                  _(traits[cur_dis].name.c_str()), traits[cur_dis].points * -1);
         fold_and_print(w_description, 0, 0, 78, COL_TR_BAD, "%s", _(traits[cur_dis].description.c_str()));
+    }
    }
 
    col_on      = drawing_selected_column?COL_TR_GOOD_ON_ACT:COL_TR_GOOD_ON_PAS;
