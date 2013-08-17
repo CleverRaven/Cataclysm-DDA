@@ -779,6 +779,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   return;
 // If we have the marloss in our veins, we are a "breeder" and will spread
 // alien lifeforms.
+ p->add_memorial_log("Ate a marloss berry.");
  if (p->has_trait(PF_MARLOSS)) {
   g->add_msg_if_player(p,_("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
   p->add_morale(MORALE_MARLOSS, 100, 1000);
