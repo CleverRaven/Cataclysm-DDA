@@ -8367,7 +8367,7 @@
     ],
     [
       [ "welder", 100 ],
-      [ "welder", 150 ],
+      [ "welder_crude", 150 ],
       [ "toolset", 5 ]
     ],
     [
@@ -8391,6 +8391,57 @@
     ],
     [
       [ "pan", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "weldrig",
+  "category": "CC_MISC",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 16 ],
+      [ "steel_plate", 2 ]
+    ],
+    [
+      ["soldering_iron", 1]
+    ],
+    [
+      [ "welder", 1 ],
+      [ "welder_crude", 3 ]
+    ],
+    [
+      ["cable", 5]
     ]
   ]
 },
