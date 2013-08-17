@@ -4415,7 +4415,7 @@
     "color":"pink",
     "symbol":"!",
     "name":"adrenaline injector",
-    "description":"A syringe filled with one shot of adrenaline. You can use it to induce an artificial adrenaline high - as well as the comedown that follows.",
+    "description":"A syringe filled with one shot of adrenaline. It serves as a powerful stimulant when you inject yourself with it.",
     "price":600,
     "rarity": 3,
     "material":"plastic",
