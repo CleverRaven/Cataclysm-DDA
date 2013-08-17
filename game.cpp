@@ -2348,7 +2348,10 @@ void game::death_screen()
 
             if (tmpname == name_prefix)
             {
-                (void)unlink(save_dirent->d_name);
+                std::string graveyard_path( "../graveyard/" );
+                mkdir( graveyard_path.c_str(), 0777 );
+                graveyard_path.append( save_dirent->d_name );
+                (void)rename( save_dirent->d_name, graveyard_path.c_str() );
             }
         }
         (void)chdir("..");
