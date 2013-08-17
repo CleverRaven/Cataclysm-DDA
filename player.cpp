@@ -1453,11 +1453,23 @@ void player::memorial( std::ofstream &memorial_file )
       profession_name << _("a ") << gender_str << " " << prof->name();
     }
 
-    //Header
-    std::string version = string_format("%s", getVersionString());
-    oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+    //Figure out the location
+    point cur_loc = g->om_location();
+    oter_id cur_ter = g->cur_om->ter(cur_loc.x, cur_loc.y, g->levz);
+    if (cur_ter == ot_null)
+    {
+        if (cur_loc.x >= OMAPX && cur_loc.y >= OMAPY) {
+            cur_ter = g->om_diag->ter(cur_loc.x - OMAPX, cur_loc.y - OMAPY, g->levz);
+        } else if (cur_loc.x >= OMAPX) {
+            cur_ter = g->om_hori->ter(cur_loc.x - OMAPX, cur_loc.y, g->levz);
+        } else if (cur_loc.y >= OMAPY) {
+            cur_ter = g->om_vert->ter(cur_loc.x, cur_loc.y - OMAPY, g->levz);
+        }
+    }
     std::string tername = oterlist[cur_ter].name;
 
+    //Header
+    std::string version = string_format("%s", getVersionString());
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << name << "\n";
