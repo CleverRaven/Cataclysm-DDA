@@ -5483,7 +5483,14 @@ bool player::has_amount(itype_id it, int quantity)
     {
         return has_bionic("bio_tools");
     }
-    return (amount_of(it) >= quantity);
+    if ( amount_of(it) >= quantity ) {
+        return true;
+    }
+    if ( quantity == 0 &&
+       ( it == "hammer" || it == "screwdriver" || it == "hatchet" || it == "pockknife" ) ) {
+       return (amount_of("multitool") >= quantity);
+    }
+    return false;
 }
 
 int player::amount_of(itype_id it)
@@ -5513,6 +5520,11 @@ int player::amount_of(itype_id it)
         }
     }
     quantity += inv.amount_of(it);
+    if ( quantity == 0 &&
+       ( it == "hammer" || it == "screwdriver" || it == "hatchet" || it == "pockknife" ) ) {
+       quantity+=inv.amount_of("multitool");
+    }
+       
     return quantity;
 }
 

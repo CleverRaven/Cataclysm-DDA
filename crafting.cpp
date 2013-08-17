@@ -950,6 +950,20 @@ inventory game::crafting_inventory(player *p){
   tools.charges = p->power_level;
   crafting_inv += tools;
  }
+ if (p->inv.has_amount("multitool",1)) {
+  item toolsb(item_controller->find_template("screwdriver"), turn);
+  toolsb.charges = 1;
+  crafting_inv += toolsb;
+  item toolsc(item_controller->find_template("hatchet"), turn);
+  toolsc.charges = 1;
+  crafting_inv += toolsc;
+  item toolsd(item_controller->find_template("hammer"), turn);
+  toolsd.charges = 1;
+  crafting_inv += toolsd;
+  item toolse(item_controller->find_template("pockknife"), turn);
+  toolse.charges = 1;
+  crafting_inv += toolse;
+ } 
  return crafting_inv;
 }
 

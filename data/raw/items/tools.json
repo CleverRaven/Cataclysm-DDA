@@ -4226,5 +4226,27 @@
     "max_charges":0,
     "revert_to":"null",
     "ammo":"NULL"
+   },
+   {
+    "id": "multitool",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "survival multitool",
+    "description": "It hammers, chops, slices, dices, pries, and screws -without- any bodily installation or multilation required!",
+    "price": 1700,
+    "material": ["iron", "plastic"],
+    "weight": 1455,
+    "volume": 8,
+    "bashing": 10,
+    "cutting": 10,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "HAMMER"
   }
 ]
