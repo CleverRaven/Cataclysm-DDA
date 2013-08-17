@@ -554,22 +554,7 @@ bool map::vehproceed(game* g){
    if (veh->velocity == 0)
       can_move = false;
    // find collisions
-   for (int ep = 0; ep < veh->external_parts.size() && can_move; ep++) {
-      const int p = veh->external_parts[ep];
-      // coords of where part will go due to movement (dx/dy)
-      // and turning (precalc_dx/dy [1])
-      const int dsx = x + dx + veh->parts[p].precalc_dx[1];
-      const int dsy = y + dy + veh->parts[p].precalc_dy[1];
-      veh_collision coll = veh->part_collision (x, y, p, dsx, dsy);
-      if(coll.type == veh_coll_veh)
-         veh_veh_colls.push_back(coll);
-      else if (coll.type != veh_coll_nothing){ //run over someone?
-         if (can_move)
-            imp += coll.imp;
-         if (veh->velocity == 0)
-            can_move = false;
-      }
-   }
+   veh->collision( veh_veh_colls, dx, dy, can_move, imp );
 
    if(veh_veh_colls.size()){ // we have dynamic crap!
       // effects of colliding with another vehicle:
