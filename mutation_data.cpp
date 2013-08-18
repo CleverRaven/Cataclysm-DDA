@@ -61,9 +61,11 @@ void game::init_mutations()
   
  MUTATION(PF_FASTREADER);
   VALID(false);
+  CANCELS(PF_ILLITERATE);
   
  MUTATION(PF_TOUGH);
   VALID(false);
+  CANCELS(PF_HARDCORE,PF_GLASSJAW);
 
  MUTATION(PF_THICKSKIN);
   VALID(true);
@@ -79,6 +81,7 @@ void game::init_mutations()
   
  MUTATION(PF_DRUNKEN);
   VALID(false);
+  CANCELS(PF_LIGHTWEIGHT);
   
  MUTATION(PF_GOURMAND);
   VALID(false);
@@ -116,6 +119,7 @@ void game::init_mutations()
   
  MUTATION(PF_CANNIBAL);
   VALID(false);
+  CANCELS(PF_VEGETARIAN);
   
  MUTATION(PF_MARTIAL_ARTS);
   VALID(false);
@@ -159,6 +163,7 @@ void game::init_mutations()
   
  MUTATION(PF_ILLITERATE);
   VALID(false);
+  CANCELS(PF_FASTREADER);
   
  MUTATION(PF_BADHEARING);
   VALID(true);
@@ -168,15 +173,18 @@ void game::init_mutations()
   
  MUTATION(PF_VEGETARIAN);
   VALID(false);
+  CANCELS(PF_CANNIBAL);
   
  MUTATION(PF_GLASSJAW);
   VALID(true);
+  CANCELS(PF_TOUGH);
   
  MUTATION(PF_FORGETFUL);
   VALID(true);
 
  MUTATION(PF_LIGHTWEIGHT);
   VALID(true);
+  CANCELS(PF_DRUNKEN);
   
  MUTATION(PF_ADDICTIVE);
   VALID(false);
@@ -224,6 +232,7 @@ void game::init_mutations()
   
  MUTATION(PF_HARDCORE);
   VALID(false);
+  CANCELS(PF_TOUGH);
 
  MUTATION(PF_MAX); //Null trait
   VALID(false);
