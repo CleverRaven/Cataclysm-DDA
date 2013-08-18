@@ -3032,44 +3032,17 @@ void map::draw(game *g, WINDOW* w, const point center)
     bRainOutside = true;
    }
 
-   // I've moved this part above loops without even thinking that
-   // this must stay here...
-   int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
-   int distance_to_look = real_max_sight_range;
-   distance_to_look = DAYLIGHT_LEVEL;
-
-   bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
+   bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, 60);
    lit_level lit = light_at(realx, realy);
 
-   // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
-   // but at the same time changing light-level depending on distance,
-   // to create actual "gradual" stuff
-   // Also we'll try to ALWAYS show LL_BRIGHT stuff independent of where it is...
-   if (lit != LL_BRIGHT) {
-       if (dist > real_max_sight_range) {
-           int intLit = (int)lit - (dist - real_max_sight_range)/2;
-           if (intLit < 0) intLit = LL_DARK;
-           lit = (lit_level)intLit;
-       }
-   }
-   // additional case for real_max_sight_range
-   // if both light_sight_range and max_sight_range were small
-   // it means we really have limited visibility (e.g. inside a pit)
-   // and we shouldn't touch that
-   if (lit > LL_DARK && real_max_sight_range > 1) {
-       real_max_sight_range = distance_to_look;
-   }
-
    if ((g->u.has_active_bionic("bio_night") && dist < 15 && dist > natural_sight_range) || // if bio_night active, blackout 15 tile radius around player
-       dist > real_max_sight_range ||
-       (dist > light_sight_range &&
-         (lit == LL_DARK ||
-         (u_sight_impaired && lit != LL_BRIGHT) ||
-	  !can_see))) {
-    if (u_is_boomered)
-   	 mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_magenta, '#');
-    else
-         mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_dkgray, '#');
+       dist > max_sight_range ||
+       (dist > light_sight_range && (lit == LL_DARK || (u_sight_impaired && lit != LL_BRIGHT) ||
+         !can_see))) {
+       if (u_is_boomered)
+           mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_magenta, '#');
+       else
+           mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_dkgray, '#');
    } else if (dist > light_sight_range && u_sight_impaired && lit == LL_BRIGHT) {
     if (u_is_boomered)
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_pink, '#');
@@ -3935,8 +3908,9 @@ void map::build_transparency_cache()
  for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
   for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
 
-   // Default to fully transparent.
-   transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
+   // Default to just barely not transparent.
+   // Calculated to run out at 60 squares.
+   transparency_cache[x][y] = 0.98333;
 
    if (!has_flag_ter_and_furn(transparent, x, y)) {
     transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
@@ -3947,13 +3921,14 @@ void map::build_transparency_cache()
    field &curfield = field_at(x,y);
    if(curfield.fieldCount() > 0){
 	   field_entry *cur = NULL;
-	   for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+	   for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+        field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
 		   cur = field_list_it->second;
-		   if(cur == NULL) continue;
+		   if( cur == NULL ) { continue; }
 
-		   if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
+		   if( !fieldlist[ cur->getFieldType() ].transparent[ cur->getFieldDensity() - 1 ] ) {
 			   // Fields are either transparent or not, however we want some to be translucent
-			   switch(cur->getFieldType()) {
+			   switch( cur->getFieldType() ) {
 			   case fd_smoke:
 			   case fd_toxic_gas:
 			   case fd_tear_gas:
