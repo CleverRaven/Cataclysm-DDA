@@ -29,9 +29,11 @@
 #if (defined OSX_SDL_FW)
 #include "SDL.h"
 #include "SDL_ttf/SDL_ttf.h"
+#include "SDL_image/SDL_image.h" // Make sure to add this to the other OS inclusions
 #else
 #include "SDL/SDL.h"
 #include "SDL/SDL_ttf.h"
+#include "SDL/SDL_image.h" // Make sure to add this to the other OS inclusions
 #endif
 #endif
 
