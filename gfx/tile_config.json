@@ -34,7 +34,7 @@
         },
         {
             "id":"lighting_hidden",
-            "fg":01,
+            "fg":02,
             "bg":01,
     		"rotates":0
         },

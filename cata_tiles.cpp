@@ -213,7 +213,7 @@ void cata_tiles::load_tilejson(std::string path)
         tile_type *curr_tile = new tile_type();
         std::string t_id = entry.get("id").as_string();
         int t_fg, t_bg;
-        t_fg = t_bg = 0;
+        t_fg = t_bg = -1;
         bool t_multi, t_rota;
         t_multi = t_rota = false;
 
