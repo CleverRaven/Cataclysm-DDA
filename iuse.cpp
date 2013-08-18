@@ -2798,7 +2798,7 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
   else if (rads > 8)
    g->add_msg(_("The geiger counter clicks slowly."));
   else if (rads > 4)
-   g->add_msg(_("The geiger counter clicks intermittantly."));
+   g->add_msg(_("The geiger counter clicks intermittently."));
   else
    g->add_msg(_("The geiger counter clicks once."));
   return;
