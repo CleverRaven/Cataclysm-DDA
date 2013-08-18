@@ -1,4 +1,4 @@
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if ((defined TILES ^ defined SDLTILES) || defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
 #include "output.h"
 #include "color.h"
@@ -230,7 +230,7 @@ inline int printstring(WINDOW *win, char *fmt)
 	{
 		int j, i, p=win->cursorx;
 		int x = (win->line[win->cursory].width_in_bytes==win->width)?win->cursorx:cursorx_to_position(win->line[win->cursory].chars, win->cursorx, &p);
-		
+
 		if(p!=x)//so we start inside a wide character, erase it for good
 		{
 			const char* ts = win->line[win->cursory].chars+p;
