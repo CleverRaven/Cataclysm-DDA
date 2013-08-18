@@ -3720,7 +3720,7 @@
 {
   "result": "strawberries_cooked",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 30000,
   "reversible": false,
@@ -3746,7 +3746,7 @@
 {
   "result": "blueberries_cooked",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 30000,
   "reversible": false,
@@ -3772,7 +3772,7 @@
 {
   "result": "jam_strawberries",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
@@ -3801,7 +3801,7 @@
 {
   "result": "jam_blueberries",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
