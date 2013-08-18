@@ -133,8 +133,6 @@ void cata_tiles::load_tileset(std::string path)
                 }
 
                 (*tile_values)[tilecount++] = this_tile;
-
-
             }
         }
         DebugLog() << "Tiles Created: " << tilecount << "\n";

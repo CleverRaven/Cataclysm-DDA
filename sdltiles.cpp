@@ -59,7 +59,7 @@ int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 
 static unsigned long lastupdate = 0;
-static unsigned long interval = 25;
+static unsigned long interval = 1;
 static bool needupdate = false;
 
 static bool fontblending = false;
@@ -332,7 +332,7 @@ void curses_drawwindow(WINDOW *win)
         update_rect.y = win->y*fontheight;
 		update_rect.h = win->height*fontheight;
 		//GfxDraw(thegame, win->x*fontwidth, win->y*fontheight, thegame->terrain_view_x, thegame->terrain_view_y, win->width*fontwidth, win->height*fontheight);
-		tilecontext->draw(win->x * fontwidth, win->y * fontheight, g->u.posx, g->u.posy, win->width * fontwidth, win->height * fontheight);
+		tilecontext->draw(win->x * fontwidth, win->y * fontheight, g->ter_view_x, g->ter_view_y, win->width * fontwidth, win->height * fontheight);
     }
 //*/
     if (update_rect.y != 9999)
