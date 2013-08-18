@@ -341,6 +341,7 @@ enum vhtype_id
     veh_schoolbus,  //Standard schoolbus
     veh_car_electric, // electric version of standard car.
     veh_rv, //RV with bed and kitchen unit
+    veh_shopping_cart, // Just a frame and cargo box
 
     num_vehicles
 };

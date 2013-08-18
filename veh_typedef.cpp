@@ -1099,7 +1099,12 @@ void game::init_vehicles()
     PART (-6, 2, vp_board_n);
     PART (-6, -2, vp_board_b);
 
+    VEHICLE (_("Shopping Cart"));
+    //    #
 
+    //   dx, dy,    part_id
+    PART (0, 0, vp_wheel_caster);
+    PART (0, 0, vp_cargo_box);
 
     if (vtypes.size() != num_vehicles)
         debugmsg("%d vehicles, %d types", vtypes.size(), num_vehicles);
