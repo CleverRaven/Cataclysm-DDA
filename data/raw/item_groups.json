@@ -115,6 +115,7 @@
   { "id":"kitchen",
     "items":[
       ["chips", 65],
+      ["kernels", 35],
       ["pot", 25],
       ["pan", 25],
       ["knife_butter", 90],
@@ -441,7 +442,11 @@
       ["coffee_raw", 15],
       ["chips2", 65],
       ["chips3", 65],
-      ["salt", 10]
+      ["salt", 10],
+      ["popcorn", 25],
+      ["popcorn2", 35],
+      ["popcorn3", 35],
+      ["kernels", 25]
     ]
   },
   { "id":"fridgesnacks",
