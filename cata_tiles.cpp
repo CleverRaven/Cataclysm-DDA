@@ -6,7 +6,7 @@
 #if (defined SDLTILES)
     #if (defined _WIN32 || defined WINDOWS)
         #include "SDL_image.h" // Make sure to add this to the other OS inclusions
-    #elseif (defined OSX_SDL_FW)
+    #elif (defined OSX_SDL_FW)
         #include "SDL_image/SDL_image.h" // Make sure to add this to the other OS inclusions
     #else
         #include "SDL/SDL_image.h" // Make sure to add this to the other OS inclusions
@@ -104,8 +104,8 @@ void cata_tiles::load_tileset(std::string path)
         SDL_FreeSurface(tile_atlas);
     }
     /** create the buffer screen */
-    buffer = SDL_AllocSurface(SDL_SWSURFACE, tile_width * WindowWidth, tile_height * WindowHeight, 32, 0xff0000, 0xff00, 0xff, 0);
-
+    buffer = SDL_AllocSurface(SDL_SWSURFACE, WindowWidth, WindowHeight, 32, 0xff0000, 0xff00, 0xff, 0);
+DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->h << "\n";
     /** reinit tile_atlas */
     tile_atlas = IMG_Load(path.c_str());
     if(!tile_atlas) {
