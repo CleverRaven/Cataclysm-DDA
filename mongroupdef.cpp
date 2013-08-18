@@ -10,7 +10,7 @@
 
 // hack for MingW: prevent undefined references to `libintl_printf'
 #if defined _WIN32 || defined __CYGWIN__
-#define libintl_printf printf
+ #undef printf
 #endif
 
 //Adding a group:
