@@ -3650,6 +3650,72 @@
 },
 
 {
+   "result": "chips",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 20000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "potato_raw", 1 ]
+    ],
+    [
+      [ "salt", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "popcorn",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+      [
+        [ "hotplate", 2 ],
+        [ "toolset", 1 ],
+        [ "fire", -1 ]
+      ],
+      [
+        [ "pan", -1 ],
+        [ "pot", -1 ],
+        [ "rock_pot", -1 ]
+      ]
+    ],
+  "components": [
+      [
+        [ "kernels", 1 ]
+      ]
+  ]
+},
+
+{
   "result": "tea",
   "category": "CC_DRINK",
   "skill_used": "cooking",
