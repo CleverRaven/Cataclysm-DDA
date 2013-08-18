@@ -674,14 +674,63 @@ void player::update_bodytemp(game *g)
     const trap_id trap_at_pos = g->m.tr_at(posx, posy);
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     const furn_id furn_at_pos = g->m.furn(posx, posy);
+    // When the player is sleeping, he will use floor items for warmth
+    int floor_item_warmth = 0;
+    // When the player is sleeping, he will use floor bedding for warmth
+    int floor_bedding_warmth = 0;
+    if ( has_disease("sleep") ) {
+        // Search the floor for items
+        std::vector<item>& floor_item = g->m.i_at(posx, posy);
+        it_armor* floor_armor = NULL;
 
+        for ( std::vector<item>::iterator afloor_item = floor_item.begin() ; afloor_item != floor_item.end() ; ++afloor_item) {
+            if (!dynamic_cast<it_armor*>(afloor_item->type)->is_armor()) {
+                continue;
+            }
+            floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
+            // 60 is for the cold player homeostasis adjustement; floor item warmth is not used when the player is warm
+            floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
+        }
+
+        // Search the floor for bedding
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at (posx, posy, vpart);
+        if      (furn_at_pos == f_bed)
+        {
+            floor_bedding_warmth += 1000;
+        }
+        else if (furn_at_pos == f_makeshift_bed ||
+                 furn_at_pos == f_armchair ||
+                 furn_at_pos == f_sofa)
+        {
+            floor_bedding_warmth += 500;
+        }
+        else if (trap_at_pos == tr_cot)
+        {
+            floor_bedding_warmth -= 500;
+        }
+        else if (trap_at_pos == tr_rollmat)
+        {
+            floor_bedding_warmth -= 1000;
+        }
+        else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
+        {
+            floor_bedding_warmth += 200;
+        }
+        else if (veh && veh->part_with_feature (vpart, vpf_bed) >= 0)
+        {
+            floor_bedding_warmth += 300;
+        }
+        else
+        {
+            floor_bedding_warmth -= 2000;
+        }
+    }
     // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
         // Skip eyes
         if (i == bp_eyes) { continue; }
-        // If the player is sleeping, he will use floor items for warmth as well
-        int floor_warmth = 0;
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
         float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
@@ -696,51 +745,8 @@ void player::update_bodytemp(game *g)
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
         else
         {
-            // Search the floor for items
-            std::vector<item>& floor_item = g->m.i_at(posx, posy);
-            it_armor* floor_armor = NULL;
 
-            for ( std::vector<item>::iterator afloor_item = floor_item.begin() ; afloor_item != floor_item.end() ; ++afloor_item) {
-                if (!dynamic_cast<it_armor*>(afloor_item->type)->is_armor()) {
-                    continue;
-                }
-                floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
-                floor_warmth += homeostasis_adjustement * floor_armor->warmth;
-            }
 
-            // Search the floor for bedding
-            int vpart = -1;
-            vehicle *veh = g->m.veh_at (posx, posy, vpart);
-            if      (furn_at_pos == f_bed)
-            {
-                temp_conv[i] += 1000;
-            }
-            else if (furn_at_pos == f_makeshift_bed ||
-                     furn_at_pos == f_armchair ||
-                     furn_at_pos == f_sofa)
-            {
-                temp_conv[i] += 500;
-            }
-            else if (trap_at_pos == tr_cot)
-            {
-                temp_conv[i] -= 500;
-            }
-            else if (trap_at_pos == tr_rollmat)
-            {
-                temp_conv[i] -= 1000;
-            }
-            else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
-            {
-                temp_conv[i] += 200;
-            }
-            else if (veh && veh->part_with_feature (vpart, vpf_bed) >= 0)
-            {
-                temp_conv[i] += 300;
-            }
-            else
-            {
-                temp_conv[i] -= 2000;
-            }
         }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
@@ -900,8 +906,9 @@ void player::update_bodytemp(game *g)
         // FINAL CALCULATION : Increments current body temperature towards convergant.
         // IRL effect of being too warm while tryping to sleep : take some blankets off
             // Note that the player will not remove his actual clothing, only the clothing found on the ground
+        int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
         if ( temp_conv[i] <= BODYTEMP_NORM ) {
-            temp_conv[i] = (temp_conv[i] + floor_warmth > BODYTEMP_NORM ? BODYTEMP_NORM : temp_conv[i] + floor_warmth);
+            temp_conv[i] = (temp_conv[i] + sleep_bonus > BODYTEMP_NORM ? BODYTEMP_NORM : temp_conv[i] + sleep_bonus);
         }
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
