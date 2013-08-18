@@ -635,8 +635,10 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
     {
         fold_and_print(w_description, 0, 0, 78, COL_TR_GOOD, "%s", _(traits[cur_adv].description.c_str()));
         mvwprintz(w,  3, 33, c_ltgray, "                                              ");
-        mvwprintz(w,  3, 33, COL_TR_GOOD, _("%s costs %d points"),
-                  _(traits[cur_adv].name.c_str()), traits[cur_adv].points);
+        mvwprintz(w,  3, 33, COL_TR_GOOD, _("%s costs %d %s"),
+                  _(traits[cur_adv].name.c_str()),
+                  traits[cur_adv].points,
+                  traits[cur_adv].points==1?_("point"):_("points"));
     }
    } else {
     col_on      = drawing_selected_column?COL_TR_BAD_ON_PAS:COL_TR_BAD_ON_ACT;
