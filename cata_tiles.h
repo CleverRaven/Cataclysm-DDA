@@ -6,7 +6,6 @@
 //#include <windows.h>
 #include "SDL.h"
 #include "SDL_ttf.h"
-#include "SDL_image.h"
 #else
 #include <wordexp.h>
 #if (defined OSX_SDL_FW)
