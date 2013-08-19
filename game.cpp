@@ -419,7 +419,7 @@ void game::start_game()
  create_starting_npcs();
 
  //Create mutation_category_level
- set_highest_cat_level();
+ u.set_highest_cat_level();
 
  MAPBUFFER.set_dirty();
 
