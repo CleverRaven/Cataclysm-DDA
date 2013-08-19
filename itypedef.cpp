@@ -90,6 +90,10 @@ VAR_VEH_PART("wheel_small", _("small wheel"),140,  ']', c_dkgray,  "steel",   "p
     9, 2722,  10,  0,  -1, 0,       6,         14,   BIGNESS_WHEEL_DIAMETER,  _("\
 A pretty small wheel. Probably from one of those segway things.\
 It is not very menacing."));
+VAR_VEH_PART("wheel_caster", _("casters"),140,  ']', c_dkgray,  "steel",   "plastic",
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
+    5, 1500,  6,  0,  -1, 0,       4,         6,   BIGNESS_WHEEL_DIAMETER,  _("\
+A set of casters, like on a shopping cart."));
 
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("1cyl_combustion", _("1-cylinder engine"), 100, ':', c_ltcyan,  "iron",   "null",
