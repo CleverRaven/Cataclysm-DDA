@@ -176,7 +176,7 @@ class map
   * 0         | Impassable
   * n > 0     | x*n turns to move past this
   */
- int move_cost(const int x, const int y);
+ int move_cost(const int x, const int y, const vehicle *ignored_vehicle = NULL);
 
 
  /**
@@ -189,7 +189,8 @@ class map
   *
   * @return The cost in turns to move out of `(x1, y1)` and into `(x2, y2)`
   */
- int combined_movecost(const int x1, const int y1, const int x2, const int y2);
+ int combined_movecost(const int x1, const int y1, const int x2, const int y2,
+                       const vehicle *ignored_vehicle = NULL);
 
  /**
   * Returns whether the tile at `(x, y)` is transparent(you can look past it).
