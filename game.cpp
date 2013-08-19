@@ -418,6 +418,9 @@ void game::start_game()
  //Put some NPCs in there!
  create_starting_npcs();
 
+ //Create mutation_category_level
+ set_highest_cat_level();
+
  MAPBUFFER.set_dirty();
 
  u.add_memorial_log(_("%s began their journey into the Cataclysm."), u.name.c_str());
