@@ -4947,12 +4947,17 @@ void iuse::unfold_bicycle(game *g, player *p, item *it, bool t)
 
 void iuse::adrenaline_injector(game *g, player *p, item *it, bool t)
 {
+  p->moves -= 100;
+  g->add_msg_if_player(p, "You inject yourself with adrenaline.");
+  
+  it->make(g->itypes["syringe"]);
   if(p->has_disease("adrenaline")) {
-    g->add_msg_if_player(p, "Wait until your current adrenaline rush has worn off completely.");
+    //Increase current surge by 3 minutes (if not on comedown)
+    p->add_disease("adrenaline", 30);
+    //Also massively boost stimulant level, risking death on an extended chain
+    p->stim += 80;
   } else {
-    p->moves -= 100;
-    g->add_msg_if_player(p, "You inject yourself with adrenaline.");
+    //No current adrenaline surge: Give the full duration
     p->add_disease("adrenaline", 200);
-    it->make(g->itypes["syringe"]);
   }
 }
