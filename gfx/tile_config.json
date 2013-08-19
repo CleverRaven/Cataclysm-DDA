@@ -9,6 +9,10 @@
     "tiles":
     [
         {
+            "id":"cursor",
+            "fg":12
+        },
+        {
             "id":"lighting_boomered_light",
             "fg":01,
             "bg":01,
