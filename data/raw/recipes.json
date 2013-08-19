@@ -3650,6 +3650,72 @@
 },
 
 {
+   "result": "chips",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 20000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "potato_raw", 1 ]
+    ],
+    [
+      [ "salt", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "popcorn",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+      [
+        [ "hotplate", 2 ],
+        [ "toolset", 1 ],
+        [ "fire", -1 ]
+      ],
+      [
+        [ "pan", -1 ],
+        [ "pot", -1 ],
+        [ "rock_pot", -1 ]
+      ]
+    ],
+  "components": [
+      [
+        [ "kernels", 1 ]
+      ]
+  ]
+},
+
+{
   "result": "tea",
   "category": "CC_DRINK",
   "skill_used": "cooking",
@@ -3720,7 +3786,7 @@
 {
   "result": "strawberries_cooked",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 30000,
   "reversible": false,
@@ -3746,7 +3812,7 @@
 {
   "result": "blueberries_cooked",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 30000,
   "reversible": false,
@@ -3772,7 +3838,7 @@
 {
   "result": "jam_strawberries",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
@@ -3801,7 +3867,7 @@
 {
   "result": "jam_blueberries",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
@@ -7140,7 +7206,7 @@
   "category": "CC_ARMOR",
   "skill_used": "tailor",
   "difficulty": 2,
-  "time": 380000,
+  "time": 38000,
   "reversible": true,
   "autolearn": true,
   "tools": [
@@ -8367,7 +8433,7 @@
     ],
     [
       [ "welder", 100 ],
-      [ "welder", 150 ],
+      [ "welder_crude", 150 ],
       [ "toolset", 5 ]
     ],
     [
@@ -8391,6 +8457,57 @@
     ],
     [
       [ "pan", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "weldrig",
+  "category": "CC_MISC",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 16 ],
+      [ "steel_plate", 2 ]
+    ],
+    [
+      ["soldering_iron", 1]
+    ],
+    [
+      [ "welder", 1 ],
+      [ "welder_crude", 3 ]
+    ],
+    [
+      ["cable", 5]
     ]
   ]
 },

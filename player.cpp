@@ -168,6 +168,8 @@ player::player()
  }
  nv_cached = false;
  volume = 0;
+
+ memorial_log.clear();
 }
 
 player::player(const player &rhs)
@@ -1336,6 +1338,14 @@ void player::load_info(game *g, std::string data)
   dump >> mistmp;
   failed_missions.push_back(mistmp);
  }
+
+ //Loading the player log
+ std::string memorialtmp;
+ while(dump.peek() == '|') {
+   dump >> memorialtmp;
+   memorial_log.push_back(memorialtmp);
+ }
+
 }
 
 std::string player::save_info()
@@ -1421,6 +1431,8 @@ std::string player::save_info()
   dump << failed_missions[i] << " ";
 
  dump << std::endl;
+ 
+ dump << dump_memorial();
 
  dump << inv.save_str_no_quant();
 
@@ -1453,11 +1465,23 @@ void player::memorial( std::ofstream &memorial_file )
       profession_name << _("a ") << gender_str << " " << prof->name();
     }
 
-    //Header
-    std::string version = string_format("%s", getVersionString());
-    oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+    //Figure out the location
+    point cur_loc = g->om_location();
+    oter_id cur_ter = g->cur_om->ter(cur_loc.x, cur_loc.y, g->levz);
+    if (cur_ter == ot_null)
+    {
+        if (cur_loc.x >= OMAPX && cur_loc.y >= OMAPY) {
+            cur_ter = g->om_diag->ter(cur_loc.x - OMAPX, cur_loc.y - OMAPY, g->levz);
+        } else if (cur_loc.x >= OMAPX) {
+            cur_ter = g->om_hori->ter(cur_loc.x - OMAPX, cur_loc.y, g->levz);
+        } else if (cur_loc.y >= OMAPY) {
+            cur_ter = g->om_vert->ter(cur_loc.x, cur_loc.y - OMAPY, g->levz);
+        }
+    }
     std::string tername = oterlist[cur_ter].name;
 
+    //Header
+    std::string version = string_format("%s", getVersionString());
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << name << "\n";
@@ -1645,6 +1669,59 @@ void player::memorial( std::ofstream &memorial_file )
       }
       memorial_file << "\n";
     }
+    memorial_file << "\n";
+
+    //History
+    memorial_file << _("Game History") << "\n";
+    memorial_file << dump_memorial();
+
+}
+
+/**
+ * Adds an event to the memorial log, to be written to the memorial file when
+ * the character dies. The message should contain only the informational string,
+ * as the timestamp and location will be automatically prepended.
+ */
+void player::add_memorial_log(const char* message, ...)
+{
+
+  va_list ap;
+  va_start(ap, message);
+  char buff[1024];
+  vsprintf(buff, message, ap);
+  va_end(ap);
+
+  std::stringstream timestamp;
+  timestamp << _("Year") << " " << (g->turn.years() + 1) << ", "
+            << _(season_name[g->turn.get_season()].c_str()) << " "
+            << (g->turn.days() + 1) << ", " << g->turn.print_time();
+
+  oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+  std::string location = oterlist[cur_ter].name;
+
+  std::stringstream log_message;
+  log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << buff;
+
+  memorial_log.push_back(log_message.str());
+
+}
+
+/**
+ * Concatenates all of the memorial log entries, delimiting them with newlines,
+ * and returns the resulting string. Used for saving and for writing out to the
+ * memorial file.
+ */
+std::string player::dump_memorial()
+{
+
+  std::stringstream output;
+
+  for(int i = 0; i < memorial_log.size(); i++) {
+    output << memorial_log[i] << "\n";
+  }
+
+  return output.str();
+
 }
 
 void player::disp_info(game *g)
