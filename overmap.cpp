@@ -222,10 +222,9 @@ bool is_wall_material(oter_id ter)
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- const int type = rng(0, 27);
+ const int type = rng(0, 28);
 
  switch (type) {
-  case  0: ret = ot_s_lot;	         break;
   case  1: ret = ot_s_gas_north;         break;
   case  2: ret = ot_s_pharm_north;       break;
   case  3: ret = ot_s_grocery_north;     break;
@@ -253,6 +252,7 @@ oter_id shop(int dir)
   case 25: ret = ot_furniture_north;     break;
   case 26: ret = ot_abstorefront_north;  break;
   case 27: ret = ot_police_north;        break;
+  default: ret = ot_s_lot;               break;
  }
  if (ret == ot_s_lot)
   return ret;
