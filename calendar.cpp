@@ -393,7 +393,7 @@ std::string calendar::textify_period()
 {
  standardize();
  int am;
- char* tx;
+ const char* tx;
 // Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
  if (year > 0) {
   am = year;

@@ -16,6 +16,21 @@
 					<Add option="-O2" />
 				</Compiler>
 			</Target>
+			<Target title="Release - Localized">
+				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DLOCALIZE" />
+				</Compiler>
+				<Linker>
+					<Add library="intl" />
+					<Add library="iconv" />
+				</Linker>
+			</Target>
 			<Target title="Debug">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
@@ -31,24 +46,29 @@
 					<Add option="-pg -lgmon" />
 				</Linker>
 			</Target>
-			<Target title="Debug -O3">
+			<Target title="Debug - Localized">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/DebugRelease/" />
+				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os" />
-					<Add option="-O3" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-pg" />
 					<Add option="-g" />
+					<Add option="-DLOCALIZE" />
 				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="intl" />
+					<Add library="iconv" />
+				</Linker>
 			</Target>
 		</Build>
 		<Linker>
 			<Add option="-Wl,-stack,12000000,-subsystem,windows" />
 			<Add option="-static" />
 			<Add library="gdi32" />
-			<Add library="intl" />
-			<Add library="iconv" />
 			<Add library="winmm" />
 		</Linker>
 		<Unit filename="action.cpp" />

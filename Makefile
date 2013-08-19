@@ -22,7 +22,8 @@
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
 #  make TILES=1
-
+# Disable gettext, on some platforms the dependencies are hard to wrangle.
+#  make LOCALIZE=0
 
 # comment these to toggle them as one sees fit.
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
@@ -60,6 +61,7 @@ W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
 BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
+LOCALIZE = 1
 
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
@@ -122,7 +124,9 @@ ifeq ($(NATIVE), osx)
   OSX_MIN = 10.5
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  LDFLAGS += -lintl
+  ifeq ($(LOCALIZE), 1)
+    LDFLAGS += -lintl
+  endif
   TARGETSYSTEM=LINUX
   ifneq ($(OS), GNU/Linux)
     BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
@@ -146,7 +150,10 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static -lgdi32 -lintl -liconv -lwinmm
+  LDFLAGS += -static -lgdi32 -lwinmm
+  ifeq ($(LOCALIZE), 1)
+    LDFLAGS += -lintl -liconv
+  endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
 endif
@@ -185,12 +192,24 @@ ifdef TILES
 else
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(TARGETSYSTEM),LINUX)
-    LDFLAGS += -lncursesw
-    # Work around Cygwin not including gettext support in glibc
-    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-      LDFLAGS += -lintl -liconv
+    ifeq ($(LOCALIZE),1)
+      ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Darwin)
+        LDFLAGS += -lncurses
+      else
+        LDFLAGS += -lncursesw
+      endif
+      # Work around Cygwin not including gettext support in glibc
+      ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+        LDFLAGS += -lintl -liconv
+      endif
+    else
+      LDFLAGS += -lncurses
     endif
   endif
+endif
+
+ifeq ($(LOCALIZE),1)
+  DEFINES += -DLOCALIZE
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)

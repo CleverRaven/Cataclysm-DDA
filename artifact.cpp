@@ -767,7 +767,7 @@ std::vector<art_effect_active> fill_bad_active()
 std::string artifact_name(std::string type)
 {
  std::string ret;
- char* fmtstr = _("<artifact_name>%1$s of %2$s");
+ const char *fmtstr = _("<artifact_name>%1$s of %2$s");
  std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
  std::string adj = artifact_adj[rng(0, NUM_ART_ADJS - 1)];
  ret = string_format(noun.c_str(), adj.c_str());
