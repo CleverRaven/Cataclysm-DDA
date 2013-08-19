@@ -298,7 +298,7 @@ class game
   WINDOW *w_status2;
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
- bool handle_liquid(item &liquid, bool from_ground, bool infinite);
+ bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
 
