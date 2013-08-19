@@ -84,8 +84,6 @@
 		<Unit filename="crafting.h" />
 		<Unit filename="cursesdef.h" />
 		<Unit filename="cursesport.cpp" />
-		<Unit filename="data/raw/mutations.json" />
-		<Unit filename="data/raw/traits.json" />
 		<Unit filename="debug.cpp" />
 		<Unit filename="debug.h" />
 		<Unit filename="defense.cpp" />
