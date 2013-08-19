@@ -3788,7 +3788,7 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 0,
-  "time": 30000,
+  "time": 5000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -3814,7 +3814,7 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 0,
-  "time": 30000,
+  "time": 5000,
   "reversible": false,
   "autolearn": true,
   "tools": [
