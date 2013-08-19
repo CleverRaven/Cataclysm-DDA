@@ -60,7 +60,18 @@ struct tile
         wy = y2;
     }
 };
+struct tile_rotation
+{
+    int *dx, *dy;
 
+    tile_rotation(int num_pixels)
+    {
+        dx = new int[num_pixels];
+        dy = new int[num_pixels];
+    }
+};
+
+/* Enums */
 enum LIGHTING
 {
     HIDDEN = -1,
@@ -69,6 +80,16 @@ enum LIGHTING
     LIGHT_DARK = 2,
     BOOMER_NORMAL = 3,
     BOOMER_DARK = 4
+};
+enum MULTITILE_TYPE
+{
+    center,
+    corner,
+    edge,
+    t_connection,
+    end_piece,
+    unconnected,
+    num_multitile_types
 };
 
 /** Typedefs */
@@ -90,17 +111,20 @@ class cata_tiles
         /** Load tileset config file */
         void load_tilejson(std::string path);
         /** Draw to screen */
-        void draw();
+        void draw(); /* Deprecated */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
 
-        bool draw_from_id_string(std::string id, int x, int y, int rota);
+        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /** Surface/Sprite rotation specifics */
         SDL_Surface *rotate_tile(SDL_Surface *src, SDL_Rect *rect, int rota);
         void put_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
         Uint32 get_pixel(SDL_Surface *surface, int x, int y);
-        /** Tile Picking */
+        /* Tile Picking */
+        void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
+        void get_wall_values(const int x, const int y, const long vertical_wall_symbol, const long horizontal_wall_symbol, int &subtile, int &rotation);
+        void get_terrain_orientation(int x, int y, int &rota, int *subtype);
 
         /** Drawing Layers */
         bool draw_lighting(int x, int y, LIGHTING l);
@@ -111,6 +135,8 @@ class cata_tiles
         bool draw_item(int x, int y);
         bool draw_vpart(int x, int y);
         bool draw_entity(int x, int y);
+
+        bool draw_hit(int x, int y);
 
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
@@ -146,6 +172,8 @@ class cata_tiles
             bionight_bionic_active;
         // offset values
         int o_x, o_y;
+
+        tile_rotation *tile_rotations;
 };
 
 #endif // CATA_TILES_H

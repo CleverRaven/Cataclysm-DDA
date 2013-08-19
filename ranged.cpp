@@ -1080,6 +1080,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
     g->add_msg(_("%s %s shoots the %s."), message.c_str(), p.name.c_str(), mon.name().c_str());
    bool bMonDead = mon.hurt(adjusted_damage, dam);
    if( u_see_mon ) {
+// TODO: Pre or post blit hit tile onto "mon"'s location here
        hit_animation(mon.posx - g->u.posx + VIEWX - g->u.view_offset_x,
                      mon.posy - g->u.posy + VIEWY - g->u.view_offset_y,
                      red_background(mon.type->color), (bMonDead) ? '%' : mon.symbol());

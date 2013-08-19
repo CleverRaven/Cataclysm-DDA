@@ -34,20 +34,18 @@
         },
         {
             "id":"lighting_hidden",
-            "fg":02,
-            "bg":01,
+            "fg":00,
+            "bg":00,
             "rotates":0
         },
         {
             "id":"npc_male",
-            "fg":1,
-            "bg":1,
+            "fg":32,
             "rotates":0
         },
         {
             "id":"npc_female",
-            "fg":1,
-            "bg":1,
+            "fg":32,
             "rotates":0
         },
         {
@@ -104,6 +102,7 @@
         },
         {
             "id":"t_rock_floor",
+            "bg":3,
             "rotates":0
         },
         {
@@ -148,6 +147,7 @@
         },
         {
             "id":"t_floor",
+            "bg":11,
             "rotates":0
         },
         {
@@ -226,11 +226,69 @@
         {
             "id":"t_wall_v",
             "fg":17,
+            "bg":2,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 36
+                },
+                {
+                    "id": "corner",
+                    "fg": 37
+                },
+                {
+                    "id": "edge",
+                    "fg": 38
+                },
+                {
+                    "id": "t_connection",
+                    "fg": 39
+                },
+                {
+                    "id": "end_piece",
+                    "fg": 40
+                },
+                {
+                    "id": "unconnected",
+                    "fg": 41
+                }
+            ],
             "rotates":0
         },
         {
             "id":"t_wall_h",
             "fg":18,
+            "bg":2,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 36
+                },
+                {
+                    "id": "corner",
+                    "fg": 37
+                },
+                {
+                    "id": "edge",
+                    "fg": 38
+                },
+                {
+                    "id": "t_connection",
+                    "fg": 39
+                },
+                {
+                    "id": "end_piece",
+                    "fg": 40
+                },
+                {
+                    "id": "unconnected",
+                    "fg": 41
+                }
+            ],
             "rotates":0
         },
         {
@@ -663,10 +721,14 @@
         },
         {
             "id":"t_stairs_down",
+            "bg":2,
+            "fg":43,
             "rotates":0
         },
         {
             "id":"t_stairs_up",
+            "bg":3,
+            "fg":42,
             "rotates":0
         },
         {
@@ -1103,6 +1165,7 @@
         },
         {
             "id":"mon_zombie",
+            "fg": 48,
             "rotates":0
         },
         {

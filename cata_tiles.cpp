@@ -1,4 +1,5 @@
 #if (defined SDLTILES)
+#include <algorithm>
 #include "cata_tiles.h"
 #include "debug.h"
 
@@ -221,14 +222,33 @@ void cata_tiles::load_tilejson(std::string path)
         if (entry.has("bg")) t_bg = entry.get("bg").as_int();
         if (entry.has("multitile") && entry.get("multitile").is_bool())
         {
-            t_multi = entry.get("multitle").as_bool();
+            t_multi = entry.get("multitile").as_bool();
+            //DebugLog() << "Multitile Definition Found: \""<<t_id << "\"\n";
         }
         if (t_multi)
         {
             t_rota = true;
+/*
+catajson compList = curr.get("components");
+for (compList.set_begin(); compList.has_curr(); compList.next())
+{
+    ++cl;
+    std::vector<component> component_choices;
+    catajson comp = compList.curr();
+    // interchangable components
+    for (comp.set_begin(); comp.has_curr(); comp.next())
+    {
+        std::string name = comp.curr().get(0).as_string();
+        int quant = comp.curr().get(1).as_int();
+        component_choices.push_back(component(name, quant));
+    }
+    last_rec->components.push_back(component_choices);
+}
+*/
             // fetch additional tiles
             if (entry.has("additional_tiles"))
             {
+                DebugLog() << "Tile: \"" << t_id << "\" has Subtiles!\n";
                 catajson subentries = entry.get("additional_tiles");
 
                 for (subentries.set_begin(); subentries.has_curr(); subentries.next())
@@ -259,6 +279,7 @@ void cata_tiles::load_tilejson(std::string path)
                     }
                     (*tile_ids)[m_id] = curr_subtile;
                     curr_tile->available_subtiles.push_back(s_id);
+                    DebugLog() << "\tSubtile: \""<<s_id<<"\" written\n";
                 }
             }
         }
@@ -348,6 +369,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
             if (!draw_terrain(x,y))
             {
+                DebugLog() << "Terrain Failed to load at <"<<x<<", "<<y<<">\n";
                 continue;
             }
             draw_furniture(x,y);
@@ -372,7 +394,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     SDL_BlitSurface(buffer, &srcrect, display_screen, &desrect);
 }
 
-bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int rota)
+bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota)
 {
     tile_id_iterator it = tile_ids->find(id);
     // if id is not found, return false
@@ -381,6 +403,28 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int rota)
     tile_type *display_tile = it->second;
     // if found id does not have a valid tile_type then return false
     if (!display_tile) return false;
+
+    // check to see if the display_tile is multitile, and if so if it has the key related to subtile
+    if (subtile != -1 && display_tile->multitile)
+    {
+        std::vector<std::string> display_subtiles = display_tile->available_subtiles;
+        if (std::find(display_subtiles.begin(), display_subtiles.end(), multitile_keys[subtile]) != display_subtiles.end())
+        {
+            //DebugLog() << "Changing tile ID from <" << id << "> to ";
+            // append subtile name to tile and re-find display_tile
+            id += "_" + multitile_keys[subtile];
+            //DebugLog() << "<"<< id << ">\n";
+            return draw_from_id_string(id, x, y, -1, rota);
+        }
+        /*
+        if (display_tile->available_subtiles.find(multitile_keys[subtile]) != display_tile->available_subtiles.end())
+        {
+            // append subtile name to tile and re-find display_tile
+            id += "_" + multitile_keys[subtile];
+            draw_from_id_string(id, x, y, -1, rota);
+        }
+        */
+    }
 
     // translate from player-relative to screen relative tile position
     int screen_x = (x - o_x) * tile_width;
@@ -447,8 +491,8 @@ SDL_Surface *cata_tiles::rotate_tile(SDL_Surface *src, SDL_Rect* rect, int rota)
         return NULL;
     }
     double cx, cy;
-    cx = (double)rect->w / 2;
-    cy = (double)rect->h / 2;
+    cx = (double)(rect->w-1) / 2;
+    cy = (double)(rect->h-1) / 2;
 
     double X, Y;
     double X2, Y2;
@@ -561,7 +605,7 @@ bool cata_tiles::draw_lighting(int x, int y, LIGHTING l)
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
-    draw_from_id_string(light_name, x, y, 0);
+    draw_from_id_string(light_name, x, y, 0, 0);
 }
 
 bool cata_tiles::draw_terrain(int x, int y)
@@ -575,31 +619,19 @@ bool cata_tiles::draw_terrain(int x, int y)
 	bool wallchange = false;
 
 	char alteration = 0;
+	int subtile = 0, rotation = 0;
 // removed any special case things for making stuff rotate for now
 	if (s == LINE_XOXO /*vertical*/ || s == LINE_OXOX /*horizontal*/)
 	{
-		//alteration = determine_wall_corner(g->m, realx, realy, LINE_XOXO, LINE_OXOX);
-	}
-	if (alteration > 0)
-	{
+		get_wall_values(x, y, LINE_XOXO, LINE_OXOX, subtile, rotation);
 		wallchange = true;
 	}
 
 	std::string tname;
 
     tname = terrain_names[t];
-/*
-    if (wallchange)
-    {
-        // change the suffix!
-        unsigned found = tname.find_last_of("_");
-        std::string tsub = tname.substr(0, found);
-        tsub.append(wall_suffix[alteration-1]);
 
-        tname = tsub;
-    }
-*/
-    return draw_from_id_string(tname, x, y, 0);
+    return draw_from_id_string(tname, x, y, subtile, rotation);
 }
 
 bool cata_tiles::draw_furniture(int x, int y)
@@ -612,7 +644,7 @@ bool cata_tiles::draw_furniture(int x, int y)
     // get the name of this furniture piece
     std::string f_name = furn_names[f_id]; // replace with furniture names array access
 
-    return draw_from_id_string(f_name, x, y, 0); // for now just draw it normally, add in rotations later
+    return draw_from_id_string(f_name, x, y, 0, 0); // for now just draw it normally, add in rotations later
     /*
     // get the tile that exists here
     tile_id_iterator it = tile_ids->find(f_name);
@@ -632,7 +664,7 @@ bool cata_tiles::draw_trap(int x, int y)
 
     std::string tr_name = trap_names[tr_id];
 
-    return draw_from_id_string(tr_name, x, y, 0);
+    return draw_from_id_string(tr_name, x, y, 0, 0);
 }
 
 bool cata_tiles::draw_field_or_item(int x, int y)
@@ -646,7 +678,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
     if (!do_item)
     {
         std::string fd_name = field_names[f.fieldSymbol()];
-        return draw_from_id_string(fd_name, x, y, 0);
+        return draw_from_id_string(fd_name, x, y, 0, 0);
     }
     else
     {
@@ -659,7 +691,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         // get the item's name, as that is the key used to find it in the map
         std::string it_name = display_item.type->id;
 
-        return draw_from_id_string(it_name, x, y, 0);
+        return draw_from_id_string(it_name, x, y, 0, 0);
     }
 }
 /** Deprecated: combined with field drawing as they are mutex */
@@ -683,7 +715,7 @@ bool cata_tiles::draw_vpart(int x, int y)
 
     std::string vp_name = veh_part_names[vpid];
 
-    return draw_from_id_string(vp_name, x, y, veh_dir);
+    return draw_from_id_string(vp_name, x, y, 0, veh_dir);
 }
 
 bool cata_tiles::draw_entity(int x, int y)
@@ -692,7 +724,7 @@ bool cata_tiles::draw_entity(int x, int y)
     std::string ent_name;
     bool entity_here = false;
     // check for monster (most common)
-    if (g->mon_at(x,y) >= 0)
+    if (!entity_here && g->mon_at(x,y) >= 0)
     {
         monster m = g->z[g->mon_at(x,y)];
         if (!m.dead)
@@ -702,7 +734,7 @@ bool cata_tiles::draw_entity(int x, int y)
         }
     }
     // check for NPC (next most common)
-    if (g->npc_at(x,y) > 0)
+    if (!entity_here && g->npc_at(x,y) >= 0)
     {
         npc &m = *g->active_npc[g->npc_at(x,y)];
         if (!m.dead)
@@ -712,14 +744,14 @@ bool cata_tiles::draw_entity(int x, int y)
         }
     }
     // check for PC (least common, only ever 1)
-    if (g->u.posx == x && g->u.posy == y)
+    if (!entity_here && g->u.posx == x && g->u.posy == y)
     {
         ent_name = g->u.male? "player_male":"player_female";
         entity_here = true;
     }
     if (entity_here)
     {
-        return draw_from_id_string(ent_name, x, y, 0);
+        return draw_from_id_string(ent_name, x, y, 0, 0);
     }
     return false;
 }
@@ -825,5 +857,141 @@ LIGHTING cata_tiles::light_at(int x, int y)
     }
 
     return HIDDEN;
+}
+
+void cata_tiles::get_terrain_orientation(int x, int y, int& rota, int* subtile)
+{
+    // get terrain at x,y
+    ter_id tid = g->m.ter(x, y);
+    if (tid == t_null)
+    {
+        subtile = 0;
+        rota = 0;
+        return;
+    }
+    std::string tname = terrain_names[tid]; // base name of the terrain
+
+
+    // get terrain neighborhood
+    ter_id *t_neighbors = new ter_id[4];
+
+}
+void cata_tiles::get_wall_values(const int x, const int y, const long vertical_wall_symbol, const long horizontal_wall_symbol, int& subtile, int& rotation)
+{
+    // makes the assumption that x,y is a wall of some sort
+    const long neighborhood[4] = {
+		terlist[g->m.ter(x, y+1)].sym, // south
+		terlist[g->m.ter(x+1, y)].sym, // east
+		terlist[g->m.ter(x-1, y)].sym, // west
+		terlist[g->m.ter(x, y-1)].sym  // north
+	};
+
+	bool connects[4];
+
+	char val = 0;
+	int num_connects = 0;
+
+	// populate connection information
+	for (int i = 0; i < 4; ++i)
+	{
+		connects[i] = (neighborhood[i] == vertical_wall_symbol || neighborhood[i] == horizontal_wall_symbol) || (neighborhood[i] == '"' || neighborhood[i] == '+' || neighborhood[i] == '\'');
+
+		if (connects[i])
+		{
+		    ++num_connects;
+			val += 1 << i;
+		}
+	}
+	switch(num_connects)
+    {
+        case 0: rotation = 0; subtile = unconnected; break;
+        case 4: rotation = 0; subtile = center; break;
+        case 1: // all end pieces
+            subtile = end_piece;
+            switch(val)
+            {
+                case 8: rotation = 0; break;
+                case 4: rotation = 3; break;
+                case 2: rotation = 1; break;
+                case 1: rotation = 2; break;
+            }
+            break;
+        case 2:
+            switch(val)
+            {// edges
+                case 9: subtile = edge; rotation = 0; break;
+                case 6: subtile = edge; rotation = 1; break;
+             // corners
+                case 12: subtile = corner; rotation = 2; break;
+                case 10: subtile = corner; rotation = 1; break;
+                case 3:  subtile = corner; rotation = 0; break;
+                case 5:  subtile = corner; rotation = 3; break;
+            }
+            break;
+        case 3: // all t_connections
+            subtile = t_connection;
+            switch(val)
+            {
+                case 14: rotation = 0; break;
+                case 11: rotation = 1; break;
+                case 7:  rotation = 2; break;
+                case 13: rotation = 3; break;
+            }
+            break;
+    }
+    //DebugLog() << "Expected Wall Tile: <" << multitile_keys[subtile] << "-" << rotation << "> at <" << x << ", " << y << ">\n";
+}
+
+void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &rotation)
+{
+    bool connects[4];
+    int num_connects = 0;
+    char val = 0;
+    for (int i = 0; i < 4; ++i)
+    {
+        connects[i] = (tn[i] == t);
+        if (connects[i])
+        {
+            ++num_connects;
+            val += 1 << i;
+        }
+    }
+    switch(num_connects)
+    {
+        case 0: rotation = 0; subtile = unconnected; break;
+        case 4: rotation = 0; subtile = center; break;
+        case 1: // all end pieces
+            subtile = end_piece;
+            switch(val)
+            {
+                case 8: rotation = 0; break;
+                case 4: rotation = 3; break;
+                case 2: rotation = 1; break;
+                case 1: rotation = 2; break;
+            }
+            break;
+        case 2:
+            switch(val)
+            {// edges
+                case 9: subtile = edge; rotation = 0; break;
+                case 6: subtile = edge; rotation = 1; break;
+             // corners
+                case 12: subtile = corner; rotation = 0; break;
+                case 10: subtile = corner; rotation = 1; break;
+                case 3:  subtile = corner; rotation = 2; break;
+                case 5:  subtile = corner; rotation = 3; break;
+            }
+            break;
+        case 3: // all t_connections
+            subtile = t_connection;
+            switch(val)
+            {
+                case 14: rotation = 0; break;
+                case 11: rotation = 1; break;
+                case 7:  rotation = 2; break;
+                case 13: rotation = 3; break;
+            }
+            break;
+    }
 }
 #endif // SDL_TILES

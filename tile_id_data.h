@@ -568,4 +568,14 @@ const std::string veh_part_names[num_vparts] =
     toString(vp_head_light)
 };
 
+const std::string multitile_keys[] =
+{
+    toString(center),
+    toString(corner),
+    toString(edge),
+    toString(t_connection),
+    toString(end_piece),
+    toString(unconnected)
+};
+
 #endif // TILE_ID_DATA

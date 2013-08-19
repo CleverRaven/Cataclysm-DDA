@@ -61,7 +61,7 @@ int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 
 static unsigned long lastupdate = 0;
-static unsigned long interval = 1;
+static unsigned long interval = 25;
 static bool needupdate = false;
 
 static bool fontblending = false;
