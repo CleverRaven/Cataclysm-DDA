@@ -1346,6 +1346,8 @@ t   t\n\
           } else if (rc <= 75) {	vt = veh_bicycle;
           } else {          					vt = veh_motorcycle;
           }
+      } else {
+          vt = veh_shopping_cart;
       }
 
       add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270, -1, -1);
