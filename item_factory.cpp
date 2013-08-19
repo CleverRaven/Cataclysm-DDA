@@ -450,6 +450,9 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     {
                         it_ammo* ammo_template = new it_ammo();
                         ammo_template->type = entry.get("ammo_type").as_string();
+                        if(entry.has("casing")) {
+                            ammo_template->casing = entry.get("casing").as_string();
+                        }
                         ammo_template->damage = entry.get("damage").as_int();
                         ammo_template->pierce = entry.get("pierce").as_int();
                         ammo_template->range = entry.get("range").as_int();
