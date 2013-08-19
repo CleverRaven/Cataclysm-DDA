@@ -1317,57 +1317,40 @@ t   t\n\
      ter_set(i, j, grass_or_dirt());
    }
   }
-  if (x_in_y(2,3))
   {
       int vx = rng (0, 3) * 4 + 5;
       int vy = 4;
-		vhtype_id vt = veh_null;
-		int r = rng(1, 100);
-		if (r <= 10)//specials
-     		{
-			int ra = rng(1, 100);
-				if (ra <= 3)
-					vt = veh_armytruck;
-				else if (ra <= 10)
-					vt = veh_bubblecar;
-                else if (ra <= 15)
-					vt = veh_rv;
-				else if (ra <= 20)
-					vt = veh_schoolbus;
-				else
-					vt = veh_sandbike;
-			}
-		else if (r <= 30)//commercial
-			{
-			int rb = rng(1, 100);
-				if (rb <= 25)
-					vt = veh_trucktrailer;
-				else if (rb <= 35)
-					vt = veh_semi;
-				else
-					vt = veh_truck;
-			}
-		else//commons
-			{
-			int rc = rng(1, 100);
-				if (rc <= 4)
-					vt = veh_golfcart;
-				else if (rc <= 11)
-					vt = veh_scooter;
-				else if (rc <= 21)
-					vt = veh_bug;
-				else if (rc <= 50)
-					vt = veh_car;
-				else if (rc <= 60)
-					vt = veh_car;
-				else if (rc <= 75)
-					vt = veh_bicycle;
-				else
-					vt = veh_motorcycle;
-			}
+      vhtype_id vt = veh_null;
+      int r = rng(1, 100);
+      if (r <= 5) { //specials
+          int ra = rng(1, 100);
+          if (ra <= 3) {         vt = veh_armytruck;
+          } else if (ra <= 10) { vt = veh_bubblecar;
+          } else if (ra <= 15) { vt = veh_rv;
+          } else if (ra <= 20) { vt = veh_schoolbus;
+          } else {               vt = veh_sandbike;
+          }
+      }	else if (r <= 15) { //commercial
+          int rb = rng(1, 100);
+          if (rb <= 25) {        vt = veh_trucktrailer;
+          } else if (rb <= 35) { vt = veh_semi;
+          } else {               vt = veh_truck;
+          }
+      }		else if (r < 50) { //commons
+          int rc = rng(1, 100);
+          if (rc <= 4) { 				    vt = veh_golfcart;
+          }	else if (rc <= 11) {	vt = veh_scooter;
+          } else if (rc <= 21) {	vt = veh_bug;
+          } else if (rc <= 50) { vt = veh_car;
+          } else if (rc <= 60) {	vt = veh_car;
+          } else if (rc <= 75) {	vt = veh_bicycle;
+          } else {          					vt = veh_motorcycle;
+          }
+      }
 
       add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270, -1, -1);
   }
+
   place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
   if (t_east  >= ot_road_null && t_east  <= ot_road_nesw_manhole)
    rotate(1);
