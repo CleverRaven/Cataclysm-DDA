@@ -308,6 +308,7 @@ struct it_var_veh_part: public itype
 struct it_ammo : public itype
 {
  ammotype type;		// Enum of varieties (e.g. 9mm, shot, etc)
+ itype_id casing;       // Casing produced by the ammo, if any
  unsigned char damage;	// Average damage done
  unsigned char pierce;	// Armor piercing; static reduction in armor
  unsigned char range;	// Maximum range
@@ -324,6 +325,7 @@ struct it_ammo : public itype
  it_ammo() : itype()
  {
      type = "NULL";
+     casing = "NULL";
      damage = 0;
      pierce = 0;
      range = 0;
@@ -339,12 +341,13 @@ struct it_ammo : public itype
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
          std::set<std::string> effects,
 
-        ammotype ptype, unsigned char pdamage, unsigned char ppierce,
+        ammotype ptype, itype_id pcasing, unsigned char pdamage, unsigned char ppierce,
 	signed char pdispersion, unsigned char precoil, unsigned char prange,
         unsigned char pcount)
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
   type = ptype;
+  casing = pcasing;
   damage = pdamage;
   pierce = ppierce;
   range = prange;

@@ -209,25 +209,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   }
 
   // Drop a shell casing if appropriate.
-  itype_id casing_type = "null";
-  if( curammo->type == "shot" ) casing_type = "shot_hull";
-  else if( curammo->type == "9mm" ) casing_type = "9mm_casing";
-  else if( curammo->type == "22" ) casing_type = "22_casing";
-  else if( curammo->type == "38" ) casing_type = "38_casing";
-  else if( curammo->type == "40" ) casing_type = "40_casing";
-  else if( curammo->type == "44" ) casing_type = "44_casing";
-  else if( curammo->type == "45" ) casing_type = "45_casing";
-  else if( curammo->type == "454" ) casing_type = "454_casing";
-  else if( curammo->type == "500" ) casing_type = "500_casing";
-  else if( curammo->type == "57" ) casing_type = "57mm_casing";
-  else if( curammo->type == "46" ) casing_type = "46mm_casing";
-  else if( curammo->type == "762" ) casing_type = "762_casing";
-  else if( curammo->type == "223" ) casing_type = "223_casing";
-  else if( curammo->type == "3006" ) casing_type = "3006_casing";
-  else if( curammo->type == "308" ) casing_type = "308_casing";
-  else if( curammo->type == "40mm" ) casing_type = "40mm_casing";
-
-  if (casing_type != "null") {
+  itype_id casing_type = curammo->casing;
+  if (casing_type != "NULL") {
    item casing;
    casing.make(itypes[casing_type]);
    // Casing needs a charges of 1 to stack properly with other casings.
