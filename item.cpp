@@ -13,7 +13,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
 std::string default_technique_name(technique_id tech);
@@ -250,6 +250,7 @@ bool item::stacks_with(item rhs)
  bool stacks = (type   == rhs.type   && damage  == rhs.damage  &&
                 active == rhs.active && charges == rhs.charges &&
                 item_tags == rhs.item_tags &&
+                item_vars == rhs.item_vars &&
                 contents.size() == rhs.contents.size() &&
                 (!goes_bad() || bday == rhs.bday));
 
@@ -732,10 +733,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This tool has double the normal maximum charges."));
     }
-    std::map<std::string, std::string>::iterator item_note = item_vars.find("item_note");
+    std::map<std::string, std::string>::const_iterator item_note = item_vars.find("item_note");
+    std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");
+
     if ( item_note != item_vars.end() ) {
         dump->push_back(iteminfo("DESCRIPTION", "\n" ));
-        dump->push_back(iteminfo("DESCRIPTION", item_note->second ));
+        std::string ntext = "";
+        if ( item_note_type != item_vars.end() ) {
+            ntext += string_format(_("%1$s on this %2$s is a note saying: "),
+                item_note_type->second.c_str(), type->name.c_str()
+            );
+        } else {
+            ntext += "Note: ";
+        }
+        dump->push_back(iteminfo("DESCRIPTION", ntext + item_note->second ));
     }
   if (contents.size() > 0) {
    if (is_gun()) {
@@ -927,7 +938,11 @@ std::string item::tname(game *g)
 
  ret << damtext << vehtext << burntext << maintext << tagtext;
 
- return ret.str();
+ if (item_vars.size()) {
+  return "*" + ret.str() + "*";
+ } else {
+  return ret.str();
+ }
 }
 
 nc_color item::color() const
@@ -954,7 +969,7 @@ int item::price() const
 int item::weight() const
 {
     if (typeId() == "corpse") {
-        int ret;
+        int ret = 0;
         switch (corpse->size) {
             case MS_TINY:   ret =   1000;  break;
             case MS_SMALL:  ret =  40750;  break;

@@ -25,6 +25,22 @@ enum mutation_category
 // mutations_from_category() defines the lists; see mutation_data.cpp
 std::vector<pl_flag> mutations_from_category(mutation_category cat);
 
+struct dream
+{
+  std::vector<std::string> message;			// The messages that the dream will give
+  mutation_category category;	// The category that will trigger the dream
+  int strength;					// The category strength required for the dream
+  
+  dream() {
+  category = MUTCAT_NULL;
+  strength = 0;
+  }
+};
+
+extern std::vector<dream> dreams;
+
+mutation_category string_to_mutcat(std::string input);
+
 struct mutation_branch
 {
  bool valid; // True if this is a valid mutation (only used for flags < PF_MAX)

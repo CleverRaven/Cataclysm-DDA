@@ -8,7 +8,7 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 
-const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "PLAS", "water" };
+const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
 
 enum vehicle_controls {
  toggle_cruise_control,
@@ -1150,7 +1150,7 @@ float vehicle::strain ()
 
 bool vehicle::valid_wheel_config ()
 {
-    int x1, y1, x2, y2;
+    int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
     for (int i = 0; i < external_parts.size(); i++)
     {
@@ -1691,9 +1691,11 @@ void vehicle::handle_trap (int x, int y, int part)
                 g->m.spawn_item(x, y, "string_6", 0);
             }
             break;
+        case tr_landmine_buried:
         case tr_landmine:
             expl = 10;
             shrap = 8;
+            g->m.tr_at(x, y) = tr_null;
             break;
         case tr_boobytrap:
             expl = 18;

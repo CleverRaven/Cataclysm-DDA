@@ -90,19 +90,14 @@ void initOptions() {
                                              false
                                             );
 
-    OPTIONS["AUTOSAVE_TURNS"] =         cOpt(mPage["general"], _("Game minutes between autosaves"),
-                                             _("Number of game minutes between autosaves"),
-                                             0, 30, 5
+    OPTIONS["AUTOSAVE_TURNS"] =         cOpt(mPage["general"], _("Game turns between autosaves"),
+                                             _("Number of game turns between autosaves"),
+                                             1, 30, 5
                                             );
 
     OPTIONS["AUTOSAVE_MINUTES"] =       cOpt(mPage["general"], _("Real minutes between autosaves"),
                                              _("Number of real time minutes between autosaves"),
                                              0, 127, 5
-                                            );
-
-    OPTIONS["GRADUAL_NIGHT_LIGHT"] =    cOpt(mPage["interface"], _("Gradual night light"),
-                                             _("If true will add nice gradual-lighting should only make a difference during the night."),
-                                             true
                                             );
 
     OPTIONS["RAIN_ANIMATION"] =         cOpt(mPage["interface"], _("Rain animation"),
@@ -202,7 +197,7 @@ void initOptions() {
 
     OPTIONS["RAD_MUTATION"] =           cOpt(mPage["general"], _("Mutations by radiation"),
                                              _("If true, radiation causes the player to mutate."),
-                                             false
+                                             true
                                             );
 
     OPTIONS["SAVE_SLEEP"] =             cOpt(mPage["interface"], _("Ask to save before sleeping"),
@@ -220,9 +215,9 @@ void initOptions() {
                                              false
                                             );
 
-    OPTIONS["AUTO_PICKUP_ZERO"] =       cOpt(mPage["general"], _("Auto Pickup 0 Vol/Weight"),
-                                             _("Auto pickup items with 0 Volume or Weight"),
-                                             false
+    OPTIONS["AUTO_PICKUP_ZERO"] =       cOpt(mPage["general"], _("Auto Pickup 0 Vol light items"),
+                                             _("Auto pickup items with 0 Volume, and weight less than or equal to [option] * 50 grams. '0' disables this option"),
+                                             0, 20, 0
                                             );
 
     OPTIONS["AUTO_PICKUP_SAFEMODE"] =   cOpt(mPage["general"], _("Auto Pickup Safemode"),
@@ -237,7 +232,7 @@ void initOptions() {
 
     OPTIONS["SORT_CRAFTING"] =          cOpt(mPage["interface"], _("Sort Crafting menu"),
                                              _("If true, the crafting menus will display recipes that you can craft before other recipes"),
-                                             false
+                                             true
                                             );
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
@@ -364,7 +359,7 @@ void game::show_options()
 
         wrefresh(w_options_header);
 
-        mvwprintz(w_options_tooltip, 0, 0, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #Default: " + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
+        fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #Default: " + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
         wrefresh(w_options_tooltip);
 
         wrefresh(w_options);

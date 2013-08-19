@@ -1173,7 +1173,7 @@ int coord2angle ( const int x, const int y, const int tgtx, const int tgty ) {
 
 void mattack::smg(game *g, monster *z)
 {
- int t, fire_t;
+ int t, fire_t = 0;
  if (z->friendly != 0) {   // Attacking monsters, not the player!
   monster* target = NULL;
   const int iff_dist=24;   // iff check triggers at this distance

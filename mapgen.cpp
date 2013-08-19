@@ -525,6 +525,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         add_vehicle (g, veh_car_electric, vx, vy, veh_spawn_heading, -1, 1);
     else if (rc <= 90)
         add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, -1, 1);
+    else if (rc <= 95)
+        add_vehicle (g, veh_rv, vx, vy, veh_spawn_heading, -1, 1);
     else
         add_vehicle (g, veh_motorcycle, vx, vy, veh_spawn_heading, -1, 1);
    }
@@ -594,6 +596,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
      add_vehicle (g, veh_car_electric, vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 90)
      add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 95)
+     add_vehicle (g, veh_rv, vx, vy, one_in(2)? 90 : 180, -1, 1);
     else
      add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, 1);
    }
@@ -667,6 +671,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         add_vehicle (g, veh_car_electric, vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 90)
         add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 95)
+        add_vehicle (g, veh_rv, vx, vy, one_in(2)? 90 : 180, -1, 1);
     else
         add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, 1);
    }
@@ -738,6 +744,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         add_vehicle (g, veh_car_electric, vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 90)
         add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, -1);
+    else if (rc <= 95)
+        add_vehicle (g, veh_rv, vx, vy, one_in(2)? 90 : 180, -1, -1);
     else
         add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, -1);
    }
@@ -1322,6 +1330,8 @@ t   t\n\
 					vt = veh_armytruck;
 				else if (ra <= 10)
 					vt = veh_bubblecar;
+                else if (ra <= 15)
+					vt = veh_rv;
 				else if (ra <= 20)
 					vt = veh_schoolbus;
 				else
@@ -1366,6 +1376,38 @@ t   t\n\
   if (t_west  >= ot_road_null && t_west  <= ot_road_nesw_manhole)
    rotate(3);
   break;
+
+ case ot_pool: {
+   fill_background(this, t_grass);
+   mapf::formatted_set_simple(this, 0, 0,
+"\
+........................\n\
+........................\n\
+..++n++n++n++n++n++n++..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..++n++n++n++n++n++n++..\n\
+........................\n\
+........................\n",
+   mapf::basic_bind( "+ n . w", t_concrete, t_concrete, t_grass, t_water_dp ),
+   mapf::basic_bind( "n", f_dive_block));
+ } break;
 
  case ot_park: {
   if (one_in(3)) { // Playground
@@ -1595,7 +1637,7 @@ case ot_office_cubical_west: {
  |xcc|...^cclc....|cdx| \n\
  |dh................hc| \n\
  |-------......|------| \n\
- |e.....+......|..xdc.| \n\
+ |e.....+......|n.xdc.| \n\
  |S.....|----..|h.ch..| \n\
  |-+|-+-|......+.....^| \n\
  |..|..S|..hc..|------| \n\
@@ -1607,8 +1649,8 @@ case ot_office_cubical_west: {
  |o.h...|$$ss$$|......| \n\
  |-wwww-|  ss  |-wwww-| \n\
            ss           \n",
-   mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s", t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-   mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s", f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
+   mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk, t_null),
+   mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null, f_safe_l));
    place_items("fridge",	50,  2,  12, 2,  13, false, 0);
    place_items("cleaning",	50,  2,  15, 3,  16, false, 0);
    place_items("office",	80, 11,  7, 13,  7, false, 0);
@@ -4904,7 +4946,7 @@ ff.......|....|WWWWWWWW|\n\
 // Fill rooms with items!
     for (int i = 2; i <= 15; i += 13) {
      items_location goods;
-     int size;
+     int size = 0;
      switch (rng(1, 14)) {
       case  1:
       case  2: goods = "bots"; size = 85; break;
@@ -5001,7 +5043,7 @@ ff.......|....|WWWWWWWW|\n\
      doorsides.push_back(NORTH);
     if (by2 < 20)
      doorsides.push_back(SOUTH);
-    int doorx, doory;
+    int doorx = 0, doory = 0;
     switch (doorsides[rng(0, doorsides.size() - 1)]) {
      case WEST:
       doorx = bx1;
@@ -6237,6 +6279,7 @@ case ot_public_works_entrance:{
   place_items("bigtools",	80,  18, 7, 21,  7, false, 0);
   place_items("office",	80,  18,  11, 20,  11, false, 0);
   place_items("office",	60,  18,  13, 18,  13, false, 0);
+  place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.2);
   if (t_north == ot_public_works && t_west == ot_public_works)
    rotate(3);
   else if (t_north == ot_public_works && t_east == ot_public_works)
@@ -6289,6 +6332,7 @@ case ot_public_works:{
      spawn_item(16, 7, "2x4", 0, rng(1, 20));
      spawn_item(12, 2, "nail", 0);
      spawn_item(13, 2, "nail", 0);
+     place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
      if (t_west == ot_public_works_entrance)
             rotate(1);
      if (t_north == ot_public_works_entrance)
@@ -6332,6 +6376,7 @@ ____sss                 \n",
      place_items("construction_worker",	90,  3, 10, 10,  10, false, 0);
      place_items("office",	80,  15,  19, 17,  19, false, 0);
      place_items("cleaning",	80,  17,  16, 17,  16, false, 0);
+     place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.3);
      if (t_north == ot_public_works_entrance)
             rotate(1);
      if (t_east == ot_public_works_entrance)
@@ -6378,6 +6423,7 @@ __________           f  \n",
      place_items("electronics",	80,  16,  2, 18,  2, false, 0);
      place_items("cleaning",	85,  12,  2, 13,  2, false, 0);
      spawn_item(3, 2, "log", 0, rng(1, 3));
+     place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
      if (t_west == ot_public_works && t_north == ot_public_works){
             rotate(1);
             if (x_in_y(2,3)){add_vehicle (g, veh_truck, 2, 0, 90);}
@@ -9005,7 +9051,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
   } else { // Level 1
    int cavex = SEEX, cavey = SEEY * 2 - 3;
    int stairsx = SEEX - 1, stairsy = 1; // Default stairs location--may change
-   int centerx;
+   int centerx = 0;
    do {
     cavex += rng(-1, 1);
     cavey -= rng(0, 1);
@@ -11581,10 +11627,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
    for (int i = 3; i < SEEX * 2 - 3; i += 5) {
     for (int j = 3; j < 16; j += 5) {
      square(this, t_dirt, i, j, i + 2, j + 2);
-     int num_weed = rng(0, 3) * rng(0, 1);
+     int num_weed = rng(0, 4) * rng(0, 1);
      for (int n = 0; n < num_weed; n++) {
       int x = rng(i, i + 2), y = rng(j, j + 2);
-      spawn_item(x, y, "weed", 0);
+      spawn_item(x, y, one_in(5)?"seed_weed":"weed", 0);
      }
     }
    }
@@ -14043,7 +14089,7 @@ void map::add_extra(map_extra type, game *g)
   if (move_cost(x, y) != 0)
    ter_set(x, y, t_dirt);
 
-  int size;
+  int size = 0;
   items_location stash;
   switch (rng(1, 6)) {	// What kind of stash?
    case 1: stash = "stash_food";	size = 90;	break;
@@ -14062,7 +14108,7 @@ void map::add_extra(map_extra type, game *g)
   for (int i = x - 4; i <= x + 4; i++) {
    for (int j = y - 4; j <= y + 4; j++) {
     if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
-     trap_id placed;
+     trap_id placed = tr_null;
      switch (rng(1, 7)) {
       case 1:
       case 2:
@@ -14087,7 +14133,7 @@ void map::add_extra(map_extra type, game *g)
 
  case mx_drugdeal: {
 // Decide on a drug type
-  int num_drugs;
+  int num_drugs = 0;
   itype_id drugtype;
   switch (rng(1, 10)) {
    case 1: // Weed

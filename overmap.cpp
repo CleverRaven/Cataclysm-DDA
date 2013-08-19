@@ -329,6 +329,7 @@ void game::init_overmap()
     {_("house"),		'<',	c_ltgreen,	5, build_extras, false, false, 2},
     {_("parking lot"),		'O',	c_dkgray,	1, build_extras, false, false, 2},
     {_("park"),		'O',	c_green,	2, build_extras, false, false, 2},
+    {_("pool"),   'O',  c_ltblue, 2, no_extras, false, false, 2},
     {_("gas station"),		'^',	c_ltblue,	5, build_extras, false, false, 2},
     {_("gas station"),		'>',	c_ltblue,	5, build_extras, false, false, 2},
     {_("gas station"),		'v',	c_ltblue,	5, build_extras, false, false, 2},
@@ -1641,7 +1642,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 
 // Now actually draw the map
   bool csee = false;
-  oter_id ccur_ter;
+  oter_id ccur_ter = ot_null;
   for (int i = -(om_map_width / 2); i < (om_map_width / 2); i++) {
     for (int j = -(om_map_height / 2);
          j <= (om_map_height / 2) + (ch == 'j' ? 1 : 0); j++) {
@@ -2150,7 +2151,7 @@ void overmap::put_buildings(int x, int y, int dir, city town)
     ter(x+i*xchange, y+i*ychange, 0) = shop(((dir%2)-i)%4);
    else {
     if (rng(0, 99) > 130 * dist(x, y, town.x, town.y) / town.s)
-     ter(x+i*xchange, y+i*ychange, 0) = ot_park;
+     ter(x+i*xchange, y+i*ychange, 0) = (one_in(5)?ot_pool:ot_park);
     else
      ter(x+i*xchange, y+i*ychange, 0) = house(((dir%2)-i)%4);
    }

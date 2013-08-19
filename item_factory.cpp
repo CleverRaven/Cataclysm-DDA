@@ -12,7 +12,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
 Item_factory* item_controller = new Item_factory();
@@ -101,6 +101,14 @@ void Item_factory::init(){
     iuse_function_list["SIPHON"] = &iuse::siphon;
     iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
     iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
+    iuse_function_list["SHISHKEBAB_OFF"] = &iuse::shishkebab_off;
+    iuse_function_list["SHISHKEBAB_ON"] = &iuse::shishkebab_on;
+    iuse_function_list["FIREMACHETE_OFF"] = &iuse::firemachete_off;
+    iuse_function_list["FIREMACHETE_ON"] = &iuse::firemachete_on;
+    iuse_function_list["BROADFIRE_OFF"] = &iuse::broadfire_off;
+    iuse_function_list["BROADFIRE_ON"] = &iuse::broadfire_on;
+    iuse_function_list["FIREKATANA_OFF"] = &iuse::firekatana_off;
+    iuse_function_list["FIREKATANA_ON"] = &iuse::firekatana_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
     iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
@@ -148,6 +156,7 @@ void Item_factory::init(){
     iuse_function_list["TAZER"] = &iuse::tazer;
     iuse_function_list["MP3"] = &iuse::mp3;
     iuse_function_list["MP3_ON"] = &iuse::mp3_on;
+    iuse_function_list["PORTABLE_GAME"] = &iuse::portable_game;
     iuse_function_list["VORTEX"] = &iuse::vortex;
     iuse_function_list["DOG_WHISTLE"] = &iuse::dog_whistle;
     iuse_function_list["VACUTAINER"] = &iuse::vacutainer;
@@ -441,6 +450,9 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     {
                         it_ammo* ammo_template = new it_ammo();
                         ammo_template->type = entry.get("ammo_type").as_string();
+                        if(entry.has("casing")) {
+                            ammo_template->casing = entry.get("casing").as_string();
+                        }
                         ammo_template->damage = entry.get("damage").as_int();
                         ammo_template->pierce = entry.get("pierce").as_int();
                         ammo_template->range = entry.get("range").as_int();
@@ -502,7 +514,6 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                 m_templates[new_id] = new_item_template;
 
                 // And then proceed to assign the correct field
-                new_item_template->rarity = entry.get("rarity").as_int();
                 new_item_template->price = entry.get("price").as_int();
                 new_item_template->name = _(entry.get("name").as_string().c_str());
                 new_item_template->sym = entry.get("symbol").as_char();
@@ -539,6 +550,7 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     ALARMCLOCK - Has an alarmclock feature
                     MALE_TYPICAL - Typically only worn by men.
                     FEMALE_TYPICAL - Typically only worn by women.
+                    USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
 
                     Container-only flags:
                     SEALS

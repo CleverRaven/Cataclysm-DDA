@@ -274,12 +274,15 @@ void dis_msg(game *g, dis_type type_string)
         break;
     case DI_COMMON_COLD:
         g->add_msg(_("You feel a cold coming on..."));
+        g->u.add_memorial_log(_("Caught a cold."));
         break;
     case DI_FLU:
         g->add_msg(_("You feel a flu coming on..."));
+        g->u.add_memorial_log(_("Caught the flu."));
         break;
     case DI_ONFIRE:
         g->add_msg(_("You're on fire!"));
+        g->u.add_memorial_log(_("Caught on fire."));
         break;
     case DI_SMOKE:
         g->add_msg(_("You inhale a lungful of thick smoke."));
@@ -301,6 +304,7 @@ void dis_msg(game *g, dis_type type_string)
         break;
     case DI_SPORES:
         g->add_msg(_("You're covered in tiny spores!"));
+        g->u.add_memorial_log(_("Contracted a fungal infection."));
         break;
     case DI_SLIMED:
         g->add_msg(_("You're covered in thick goo!"));
@@ -310,6 +314,7 @@ void dis_msg(game *g, dis_type type_string)
         break;
     case DI_FORMICATION:
         g->add_msg(_("There's bugs crawling under your skin!"));
+        g->u.add_memorial_log(_("Injected with dermatik eggs."));
         break;
     case DI_WEBBED:
         g->add_msg(_("You're covered in webs!"));
@@ -346,9 +351,11 @@ void dis_msg(game *g, dis_type type_string)
         break;
     case DI_BITE:
         g->add_msg(_("The bite wound feels really deep..."));
+        g->u.add_memorial_log(_("Received a deep bite wound."));
         break;
     case DI_INFECTED:
         g->add_msg(_("Your bite wound feels infected"));
+        g->u.add_memorial_log(_("Contracted the infection."));
         break;
     case DI_LIGHTSNARE:
         g->add_msg(_("You are snared."));
@@ -815,6 +822,7 @@ void dis_effect(game *g, player &p, disease &dis)
     }
 
   case DI_SLEEP:
+  {
     p.moves = 0;
 
     if (int(g->turn) % 25 == 0) {
@@ -842,6 +850,36 @@ void dis_effect(game *g, player &p, disease &dis)
       p.hunger--;
       p.thirst--;
     }
+	
+	// Check mutation category strengths to see if we're mutated enough to get a dream
+	mutation_category highcat = p.get_highest_category();
+	int highest = p.get_category_level(highcat);
+	
+	// Determine the strength of effects or dreams based upon category strength
+	int strength = 0;	// Category too weak for any effect or dream
+	if (highest >= 20 && highest < 35)
+	{
+		strength = 1;	// Low strength
+	}
+	else if (highest >= 35 && highest < 50)
+	{
+		strength = 2;	// Medium strength
+	}
+	else if (highest >= 50)
+	{
+		strength = 3;	// High strength
+	}
+	
+	// See if we'll get a dream
+	if ((!strength == 0)) //Only if category strength is high enough to get a dream.
+	{
+		if ((int(g->turn) % (3600 / strength) == 0) && one_in(3)) //Once every 6 / 3 / 2 hours, with a bit of randomness
+		{
+			// Select a dream
+			std::string dream = p.get_category_dream(highcat, strength);
+			g->add_msg(_("%s"),dream.c_str());
+		}
+	}
 
     if (rng(5, 80) + rng(0, 120) + rng(0, abs(p.fatigue)) +
         rng(0, abs(p.fatigue * 5)) < g->light_level() &&
@@ -873,6 +911,7 @@ void dis_effect(game *g, player &p, disease &dis)
             }
         }
     }
+  }
 
     break;
 
@@ -1060,6 +1099,9 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg_player_or_npc( &p,
         _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
         _("Insects begin to emerge from <npcname>'s skin!") );
+    if(!p.is_npc()) {
+        p.add_memorial_log(_("Dermatik eggs hatched."));
+    }
 
     p.moves -= 600;
     monster grub(g->mtypes[mon_dermatik_larva]);
@@ -1176,6 +1218,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_ASTHMA:
   if (dis.duration > 1200) {
    g->add_msg_if_player(&p,_("Your asthma overcomes you.  You stop breathing and die..."));
+   g->u.add_memorial_log(_("Succumbed to an asthma attack."));
    p.hurtall(500);
   }
   p.str_cur -= 2;
@@ -1216,10 +1259,13 @@ void dis_effect(game *g, player &p, disease &dis)
 // depending on the source).
 // TODO: Include a chance to teleport to the nether realm.
 // TODO: This this with regards to NPCS
+  if(&p != &(g->u)) return; // NO, no teleporting around the player because an NPC has teleglow!
   if (dis.duration > 6000) {	// 20 teles (no decay; in practice at least 21)
    if (one_in(1000 - ((dis.duration - 6000) / 10))) {
-    if (!p.is_npc())
+    if (!p.is_npc()) {
      g->add_msg(_("Glowing lights surround you, and you teleport."));
+     g->u.add_memorial_log(_("Spontaneous teleport."));
+    }
     g->teleport();
     if (one_in(10))
      p.rem_disease("teleglow");
@@ -1450,6 +1496,7 @@ void dis_effect(game *g, player &p, disease &dis)
    if (p.has_disease("sleep"))
     p.rem_disease("sleep");
    g->add_msg(_("You succumb to the infection."));
+   g->u.add_memorial_log(_("Succumbed to the infection."));
    p.hurtall(500);
   }
   break;
