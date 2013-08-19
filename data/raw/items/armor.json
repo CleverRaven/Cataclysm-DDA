@@ -1559,8 +1559,8 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "floatation_vest",
-        "name" : "floataion vest",
+        "id" : "flotation_vest",
+        "name" : "flotation vest",
         "weight" : 1451,
         "color" : "cyan",
         "covers" : ["TORSO"],
