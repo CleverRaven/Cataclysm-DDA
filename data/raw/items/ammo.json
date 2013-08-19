@@ -134,7 +134,7 @@
         "description" : "A nuclear-powered battery. Used to charge advanced and rare electronics.",
         "material" : "steel",
         "volume" : 1,
-        "weight" : 800,
+        "weight" : 80,
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
