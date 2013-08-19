@@ -113,6 +113,7 @@ class game
   void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
   void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
+  std::vector<game_message> recent_messages(const int count); //Retrieves the last X messages
   std::string press_x(action_id act);	// (Press X (or Y)|Try) to Z
   std::string press_x(action_id act, std::string key_bound,
                                      std::string key_unbound);
@@ -338,7 +339,8 @@ void load_artifacts(); // Load artifact data
   void save_artifacts();
 	 void save_maps();
   std::string save_weather() const;
-
+  void save_uistate();
+  void load_uistate();
 // Data Initialization
   void init_npctalk();
   void init_materials();

@@ -8,8 +8,12 @@
 
 void mdeath::normal(game *g, monster *z)
 {
- if (g->u_see(z))
+ if (g->u_see(z)) {
   g->add_msg(_("The %s dies!"), z->name().c_str());
+ }
+ if(z->type->difficulty >= 15) {
+   g->u.add_memorial_log(_("Killed a %s."), z->name().c_str());
+ }
  if (z->made_of("flesh") && z->has_flag(MF_WARM)) {
    g->m.add_field(g, z->posx, z->posy, fd_blood, 1);
  }

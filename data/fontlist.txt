@@ -1,0 +1,3433 @@
+Terminus
+data/termfont
+0
+FixedsysTTF
+data/font/fixedsys.ttf
+0
+FixedsysTTF Monospaced
+data/font/fixedsys.ttf
+0
+FixedsysTTF
+data/font/fixedsys.ttf
+0
+FixedsysTTF Monospaced
+data/font/fixedsys.ttf
+0
+TakaoPGothic
+/usr/share/fonts/truetype/fonts-japanese-gothic.ttf
+0
+Ume P Gothic O5
+/usr/share/fonts/truetype/horai-umefont/ume-pgo5.ttf
+0
+Ume P Gothic O5 Medium
+/usr/share/fonts/truetype/horai-umefont/ume-pgo5.ttf
+0
+Ume UI Gothic O5
+/usr/share/fonts/truetype/horai-umefont/ume-ugo5.ttf
+0
+Ume UI Gothic O5 Medium
+/usr/share/fonts/truetype/horai-umefont/ume-ugo5.ttf
+0
+Ume P Gothic C5
+/usr/share/fonts/truetype/horai-umefont/ume-pgc5.ttf
+0
+Ume P Gothic C5 Medium
+/usr/share/fonts/truetype/horai-umefont/ume-pgc5.ttf
+0
+Ume P Mincho S3
+/usr/share/fonts/truetype/horai-umefont/ume-pms3.ttf
+0
+Ume P Gothic C4
+/usr/share/fonts/truetype/horai-umefont/ume-pgc4.ttf
+0
+Ume Gothic
+/usr/share/fonts/truetype/horai-umefont/ume-tgo4.ttf
+0
+Ume Gothic C5
+/usr/share/fonts/truetype/horai-umefont/ume-tgc5.ttf
+0
+Ume Gothic C5 Medium
+/usr/share/fonts/truetype/horai-umefont/ume-tgc5.ttf
+0
+Ume P Mincho
+/usr/share/fonts/truetype/horai-umefont/ume-pmo3.ttf
+0
+Ume Gothic O5
+/usr/share/fonts/truetype/horai-umefont/ume-tgo5.ttf
+0
+Ume Gothic O5 Medium
+/usr/share/fonts/truetype/horai-umefont/ume-tgo5.ttf
+0
+Ume P Gothic S4
+/usr/share/fonts/truetype/horai-umefont/ume-pgs4.ttf
+0
+Ume P Gothic S5
+/usr/share/fonts/truetype/horai-umefont/ume-pgs5.ttf
+0
+Ume P Gothic S5 Medium
+/usr/share/fonts/truetype/horai-umefont/ume-pgs5.ttf
+0
+Ume Mincho
+/usr/share/fonts/truetype/horai-umefont/ume-tmo3.ttf
+0
+Ume P Gothic
+/usr/share/fonts/truetype/horai-umefont/ume-pgo4.ttf
+0
+Ume Gothic S5
+/usr/share/fonts/truetype/horai-umefont/ume-tgs5.ttf
+0
+Ume Gothic S5 Medium
+/usr/share/fonts/truetype/horai-umefont/ume-tgs5.ttf
+0
+Ume UI Gothic
+/usr/share/fonts/truetype/horai-umefont/ume-ugo4.ttf
+0
+Ume Gothic S4
+/usr/share/fonts/truetype/horai-umefont/ume-tgs4.ttf
+0
+Ume Gothic C4
+/usr/share/fonts/truetype/horai-umefont/ume-tgc4.ttf
+0
+Ume Mincho S3
+/usr/share/fonts/truetype/horai-umefont/ume-tms3.ttf
+0
+KacstTitle
+/usr/share/fonts/truetype/kacst/KacstTitle.ttf
+0
+KacstTitle Medium
+/usr/share/fonts/truetype/kacst/KacstTitle.ttf
+0
+KacstBook
+/usr/share/fonts/truetype/kacst/KacstBook.ttf
+0
+KacstBook Medium
+/usr/share/fonts/truetype/kacst/KacstBook.ttf
+0
+KacstOffice
+/usr/share/fonts/truetype/kacst/KacstOffice.ttf
+0
+KacstOffice Medium
+/usr/share/fonts/truetype/kacst/KacstOffice.ttf
+0
+KacstFarsi
+/usr/share/fonts/truetype/kacst/KacstFarsi.ttf
+0
+KacstFarsi Medium
+/usr/share/fonts/truetype/kacst/KacstFarsi.ttf
+0
+KacstArt
+/usr/share/fonts/truetype/kacst/KacstArt.ttf
+0
+KacstArt Medium
+/usr/share/fonts/truetype/kacst/KacstArt.ttf
+0
+KacstPoster
+/usr/share/fonts/truetype/kacst/KacstPoster.ttf
+0
+KacstPoster Medium
+/usr/share/fonts/truetype/kacst/KacstPoster.ttf
+0
+KacstDigital
+/usr/share/fonts/truetype/kacst/KacstDigital.ttf
+0
+KacstDigital Medium
+/usr/share/fonts/truetype/kacst/KacstDigital.ttf
+0
+KacstPen
+/usr/share/fonts/truetype/kacst/KacstPen.ttf
+0
+KacstPen Medium
+/usr/share/fonts/truetype/kacst/KacstPen.ttf
+0
+KacstNaskh
+/usr/share/fonts/truetype/kacst/KacstNaskh.ttf
+0
+KacstNaskh Medium
+/usr/share/fonts/truetype/kacst/KacstNaskh.ttf
+0
+KacstLetter
+/usr/share/fonts/truetype/kacst/KacstLetter.ttf
+0
+KacstLetter Medium
+/usr/share/fonts/truetype/kacst/KacstLetter.ttf
+0
+mry_KacstQurn
+/usr/share/fonts/truetype/kacst/mry_KacstQurn.ttf
+0
+KacstDecorative
+/usr/share/fonts/truetype/kacst/KacstDecorative.ttf
+0
+KacstDecorative Medium
+/usr/share/fonts/truetype/kacst/KacstDecorative.ttf
+0
+KacstTitleL
+/usr/share/fonts/truetype/kacst/KacstTitleL.ttf
+0
+KacstTitleL Medium
+/usr/share/fonts/truetype/kacst/KacstTitleL.ttf
+0
+KacstScreen
+/usr/share/fonts/truetype/kacst/KacstScreen.ttf
+0
+KacstScreen Medium
+/usr/share/fonts/truetype/kacst/KacstScreen.ttf
+0
+KacstQurn
+/usr/share/fonts/truetype/kacst/KacstQurn.ttf
+0
+KacstQurn Medium
+/usr/share/fonts/truetype/kacst/KacstQurn.ttf
+0
+cmr10
+/usr/share/fonts/truetype/lyx/cmr10.ttf
+0
+msbm10
+/usr/share/fonts/truetype/lyx/msbm10.ttf
+0
+wasy10
+/usr/share/fonts/truetype/lyx/wasy10.ttf
+0
+wasy10 Normal
+/usr/share/fonts/truetype/lyx/wasy10.ttf
+0
+msam10
+/usr/share/fonts/truetype/lyx/msam10.ttf
+0
+esint10
+/usr/share/fonts/truetype/lyx/esint10.ttf
+0
+cmsy10
+/usr/share/fonts/truetype/lyx/cmsy10.ttf
+0
+cmmi10
+/usr/share/fonts/truetype/lyx/cmmi10.ttf
+0
+cmex10
+/usr/share/fonts/truetype/lyx/cmex10.ttf
+0
+rsfs10
+/usr/share/fonts/truetype/lyx/rsfs10.ttf
+0
+rsfs10 Roman
+/usr/share/fonts/truetype/lyx/rsfs10.ttf
+0
+eufm10
+/usr/share/fonts/truetype/lyx/eufm10.ttf
+0
+TakaoPGothic
+/usr/share/fonts/truetype/takao-gothic/TakaoPGothic.ttf
+0
+OpenSymbol
+/usr/share/fonts/truetype/openoffice/opens___.ttf
+0
+LKLUG
+/usr/share/fonts/truetype/sinhala/lklug.ttf
+0
+UnPilgi
+/usr/share/fonts/truetype/unfonts-core/UnPilgiBold.ttf
+0
+UnPilgi Bold
+/usr/share/fonts/truetype/unfonts-core/UnPilgiBold.ttf
+0
+UnGraphic
+/usr/share/fonts/truetype/unfonts-core/UnGraphicBold.ttf
+0
+UnGraphic Bold
+/usr/share/fonts/truetype/unfonts-core/UnGraphicBold.ttf
+0
+UnDotum
+/usr/share/fonts/truetype/unfonts-core/UnDotumBold.ttf
+0
+UnDotum Bold
+/usr/share/fonts/truetype/unfonts-core/UnDotumBold.ttf
+0
+UnGraphic
+/usr/share/fonts/truetype/unfonts-core/UnGraphic.ttf
+0
+UnBatang
+/usr/share/fonts/truetype/unfonts-core/UnBatangBold.ttf
+0
+UnBatang Bold
+/usr/share/fonts/truetype/unfonts-core/UnBatangBold.ttf
+0
+UnBatang
+/usr/share/fonts/truetype/unfonts-core/UnBatang.ttf
+0
+UnDinaru
+/usr/share/fonts/truetype/unfonts-core/UnDinaruBold.ttf
+0
+UnDinaru Bold
+/usr/share/fonts/truetype/unfonts-core/UnDinaruBold.ttf
+0
+UnDinaru
+/usr/share/fonts/truetype/unfonts-core/UnDinaru.ttf
+0
+UnPilgi
+/usr/share/fonts/truetype/unfonts-core/UnPilgi.ttf
+0
+UnGungseo
+/usr/share/fonts/truetype/unfonts-core/UnGungseo.ttf
+0
+UnDotum
+/usr/share/fonts/truetype/unfonts-core/UnDotum.ttf
+0
+UnDinaru
+/usr/share/fonts/truetype/unfonts-core/UnDinaruLight.ttf
+0
+UnDinaru Light
+/usr/share/fonts/truetype/unfonts-core/UnDinaruLight.ttf
+0
+Phetsarath OT
+/usr/share/fonts/truetype/lao/Phetsarath_OT.ttf
+0
+Lohit Bengali
+/usr/share/fonts/truetype/ttf-indic-fonts-core/lohit_bn.ttf
+0
+Rachana
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Rachana_04.ttf
+0
+Lohit Tamil
+/usr/share/fonts/truetype/ttf-indic-fonts-core/lohit_ta.ttf
+0
+Mallige
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Malige-b.ttf
+0
+Mallige Bold
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Malige-b.ttf
+0
+ori1Uni
+/usr/share/fonts/truetype/ttf-indic-fonts-core/utkal.ttf
+0
+ori1Uni Medium
+/usr/share/fonts/truetype/ttf-indic-fonts-core/utkal.ttf
+0
+gargi
+/usr/share/fonts/truetype/ttf-indic-fonts-core/gargi.ttf
+0
+gargi Medium
+/usr/share/fonts/truetype/ttf-indic-fonts-core/gargi.ttf
+0
+Meera
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Meera_04.ttf
+0
+Vemana2000
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Vemana.ttf
+0
+Vemana2000 Pothana2000
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Vemana.ttf
+0
+Rekha
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Rekha.ttf
+0
+Rekha Medium
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Rekha.ttf
+0
+Lohit Gujarati
+/usr/share/fonts/truetype/ttf-indic-fonts-core/lohit_gu.ttf
+0
+Pothana2000
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Pothana2000.ttf
+0
+Pothana2000 Pothana2000
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Pothana2000.ttf
+0
+Kedage
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Kedage-b.ttf
+0
+Kedage Bold
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Kedage-b.ttf
+0
+Mallige
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Malige-n.ttf
+0
+Mallige Normal
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Malige-n.ttf
+0
+Mukti Narrow
+/usr/share/fonts/truetype/ttf-indic-fonts-core/MuktiNarrow.ttf
+0
+Lohit Hindi
+/usr/share/fonts/truetype/ttf-indic-fonts-core/lohit_hi.ttf
+0
+Mukti Narrow
+/usr/share/fonts/truetype/ttf-indic-fonts-core/MuktiNarrowBold.ttf
+0
+Kedage
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Kedage-n.ttf
+0
+Kedage Normal
+/usr/share/fonts/truetype/ttf-indic-fonts-core/Kedage-n.ttf
+0
+Arial
+/usr/share/fonts/truetype/msttcorefonts/Arial_Bold.ttf
+0
+Arial Bold
+/usr/share/fonts/truetype/msttcorefonts/Arial_Bold.ttf
+0
+Trebuchet MS
+/usr/share/fonts/truetype/msttcorefonts/trebucit.ttf
+0
+Trebuchet MS Italic
+/usr/share/fonts/truetype/msttcorefonts/trebucit.ttf
+0
+Comic Sans MS
+/usr/share/fonts/truetype/msttcorefonts/comicbd.ttf
+0
+Comic Sans MS Bold
+/usr/share/fonts/truetype/msttcorefonts/comicbd.ttf
+0
+Trebuchet MS
+/usr/share/fonts/truetype/msttcorefonts/trebuc.ttf
+0
+Courier New
+/usr/share/fonts/truetype/msttcorefonts/Courier_New.ttf
+0
+Courier New
+/usr/share/fonts/truetype/msttcorefonts/Courier_New_Bold.ttf
+0
+Courier New Bold
+/usr/share/fonts/truetype/msttcorefonts/Courier_New_Bold.ttf
+0
+Courier New
+/usr/share/fonts/truetype/msttcorefonts/courbi.ttf
+0
+Courier New Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/courbi.ttf
+0
+Comic Sans MS
+/usr/share/fonts/truetype/msttcorefonts/Comic_Sans_MS.ttf
+0
+Trebuchet MS
+/usr/share/fonts/truetype/msttcorefonts/trebucbd.ttf
+0
+Trebuchet MS Bold
+/usr/share/fonts/truetype/msttcorefonts/trebucbd.ttf
+0
+Georgia
+/usr/share/fonts/truetype/msttcorefonts/Georgia_Bold.ttf
+0
+Georgia Bold
+/usr/share/fonts/truetype/msttcorefonts/Georgia_Bold.ttf
+0
+Arial Black
+/usr/share/fonts/truetype/msttcorefonts/ariblk.ttf
+0
+Georgia
+/usr/share/fonts/truetype/msttcorefonts/Georgia_Italic.ttf
+0
+Georgia Italic
+/usr/share/fonts/truetype/msttcorefonts/Georgia_Italic.ttf
+0
+Verdana
+/usr/share/fonts/truetype/msttcorefonts/verdanab.ttf
+0
+Verdana Bold
+/usr/share/fonts/truetype/msttcorefonts/verdanab.ttf
+0
+Times New Roman
+/usr/share/fonts/truetype/msttcorefonts/timesbi.ttf
+0
+Times New Roman Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/timesbi.ttf
+0
+Verdana
+/usr/share/fonts/truetype/msttcorefonts/Verdana.ttf
+0
+Times New Roman
+/usr/share/fonts/truetype/msttcorefonts/Times_New_Roman_Bold_Italic.ttf
+0
+Times New Roman Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/Times_New_Roman_Bold_Italic.ttf
+0
+Trebuchet MS
+/usr/share/fonts/truetype/msttcorefonts/Trebuchet_MS_Italic.ttf
+0
+Trebuchet MS Italic
+/usr/share/fonts/truetype/msttcorefonts/Trebuchet_MS_Italic.ttf
+0
+Georgia
+/usr/share/fonts/truetype/msttcorefonts/georgia.ttf
+0
+Arial
+/usr/share/fonts/truetype/msttcorefonts/Arial.ttf
+0
+Webdings
+/usr/share/fonts/truetype/msttcorefonts/webdings.ttf
+0
+Verdana
+/usr/share/fonts/truetype/msttcorefonts/verdanaz.ttf
+0
+Verdana Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/verdanaz.ttf
+0
+Arial
+/usr/share/fonts/truetype/msttcorefonts/Arial_Bold_Italic.ttf
+0
+Arial Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/Arial_Bold_Italic.ttf
+0
+Arial
+/usr/share/fonts/truetype/msttcorefonts/Arial_Italic.ttf
+0
+Arial Italic
+/usr/share/fonts/truetype/msttcorefonts/Arial_Italic.ttf
+0
+Webdings
+/usr/share/fonts/truetype/msttcorefonts/Webdings.ttf
+0
+Arial Black
+/usr/share/fonts/truetype/msttcorefonts/Arial_Black.ttf
+0
+Verdana
+/usr/share/fonts/truetype/msttcorefonts/Verdana_Bold.ttf
+0
+Verdana Bold
+/usr/share/fonts/truetype/msttcorefonts/Verdana_Bold.ttf
+0
+Verdana
+/usr/share/fonts/truetype/msttcorefonts/Verdana_Italic.ttf
+0
+Verdana Italic
+/usr/share/fonts/truetype/msttcorefonts/Verdana_Italic.ttf
+0
+Arial
+/usr/share/fonts/truetype/msttcorefonts/arialbd.ttf
+0
+Arial Bold
+/usr/share/fonts/truetype/msttcorefonts/arialbd.ttf
+0
+Times New Roman
+/usr/share/fonts/truetype/msttcorefonts/Times_New_Roman_Italic.ttf
+0
+Times New Roman Italic
+/usr/share/fonts/truetype/msttcorefonts/Times_New_Roman_Italic.ttf
+0
+Georgia
+/usr/share/fonts/truetype/msttcorefonts/georgiaz.ttf
+0
+Georgia Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/georgiaz.ttf
+0
+Times New Roman
+/usr/share/fonts/truetype/msttcorefonts/times.ttf
+0
+Times New Roman
+/usr/share/fonts/truetype/msttcorefonts/Times_New_Roman.ttf
+0
+Andale Mono
+/usr/share/fonts/truetype/msttcorefonts/andalemo.ttf
+0
+Courier New
+/usr/share/fonts/truetype/msttcorefonts/couri.ttf
+0
+Courier New Italic
+/usr/share/fonts/truetype/msttcorefonts/couri.ttf
+0
+Times New Roman
+/usr/share/fonts/truetype/msttcorefonts/timesi.ttf
+0
+Times New Roman Italic
+/usr/share/fonts/truetype/msttcorefonts/timesi.ttf
+0
+Times New Roman
+/usr/share/fonts/truetype/msttcorefonts/timesbd.ttf
+0
+Times New Roman Bold
+/usr/share/fonts/truetype/msttcorefonts/timesbd.ttf
+0
+Courier New
+/usr/share/fonts/truetype/msttcorefonts/cour.ttf
+0
+Verdana
+/usr/share/fonts/truetype/msttcorefonts/verdanai.ttf
+0
+Verdana Italic
+/usr/share/fonts/truetype/msttcorefonts/verdanai.ttf
+0
+Courier New
+/usr/share/fonts/truetype/msttcorefonts/Courier_New_Bold_Italic.ttf
+0
+Courier New Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/Courier_New_Bold_Italic.ttf
+0
+Verdana
+/usr/share/fonts/truetype/msttcorefonts/verdana.ttf
+0
+Trebuchet MS
+/usr/share/fonts/truetype/msttcorefonts/Trebuchet_MS.ttf
+0
+Georgia
+/usr/share/fonts/truetype/msttcorefonts/Georgia.ttf
+0
+Courier New
+/usr/share/fonts/truetype/msttcorefonts/courbd.ttf
+0
+Courier New Bold
+/usr/share/fonts/truetype/msttcorefonts/courbd.ttf
+0
+Georgia
+/usr/share/fonts/truetype/msttcorefonts/Georgia_Bold_Italic.ttf
+0
+Georgia Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/Georgia_Bold_Italic.ttf
+0
+Trebuchet MS
+/usr/share/fonts/truetype/msttcorefonts/trebucbi.ttf
+0
+Trebuchet MS Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/trebucbi.ttf
+0
+Verdana
+/usr/share/fonts/truetype/msttcorefonts/Verdana_Bold_Italic.ttf
+0
+Verdana Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/Verdana_Bold_Italic.ttf
+0
+Comic Sans MS
+/usr/share/fonts/truetype/msttcorefonts/comic.ttf
+0
+Trebuchet MS
+/usr/share/fonts/truetype/msttcorefonts/Trebuchet_MS_Bold_Italic.ttf
+0
+Trebuchet MS Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/Trebuchet_MS_Bold_Italic.ttf
+0
+Arial
+/usr/share/fonts/truetype/msttcorefonts/arialbi.ttf
+0
+Arial Bold Italic
+/usr/share/fonts/truetype/msttcorefonts/arialbi.ttf
+0
+Trebuchet MS
+/usr/share/fonts/truetype/msttcorefonts/Trebuchet_MS_Bold.ttf
+0
+Trebuchet MS Bold
+/usr/share/fonts/truetype/msttcorefonts/Trebuchet_MS_Bold.ttf
+0
+Impact
+/usr/share/fonts/truetype/msttcorefonts/Impact.ttf
+0
+Impact
+/usr/share/fonts/truetype/msttcorefonts/impact.ttf
+0
+Times New Roman
+/usr/share/fonts/truetype/msttcorefonts/Times_New_Roman_Bold.ttf
+0
+Times New Roman Bold
+/usr/share/fonts/truetype/msttcorefonts/Times_New_Roman_Bold.ttf
+0
+Courier New
+/usr/share/fonts/truetype/msttcorefonts/Courier_New_Italic.ttf
+0
+Courier New Italic
+/usr/share/fonts/truetype/msttcorefonts/Courier_New_Italic.ttf
+0
+Arial
+/usr/share/fonts/truetype/msttcorefonts/arial.ttf
+0
+Comic Sans MS
+/usr/share/fonts/truetype/msttcorefonts/Comic_Sans_MS_Bold.ttf
+0
+Comic Sans MS Bold
+/usr/share/fonts/truetype/msttcorefonts/Comic_Sans_MS_Bold.ttf
+0
+Arial
+/usr/share/fonts/truetype/msttcorefonts/ariali.ttf
+0
+Arial Italic
+/usr/share/fonts/truetype/msttcorefonts/ariali.ttf
+0
+Andale Mono
+/usr/share/fonts/truetype/msttcorefonts/Andale_Mono.ttf
+0
+Georgia
+/usr/share/fonts/truetype/msttcorefonts/georgiab.ttf
+0
+Georgia Bold
+/usr/share/fonts/truetype/msttcorefonts/georgiab.ttf
+0
+Georgia
+/usr/share/fonts/truetype/msttcorefonts/georgiai.ttf
+0
+Georgia Italic
+/usr/share/fonts/truetype/msttcorefonts/georgiai.ttf
+0
+FreeSerif
+/usr/share/fonts/truetype/freefont/FreeSerifBoldItalic.ttf
+0
+FreeSerif Bold Italic
+/usr/share/fonts/truetype/freefont/FreeSerifBoldItalic.ttf
+0
+FreeSans
+/usr/share/fonts/truetype/freefont/FreeSansBoldOblique.ttf
+0
+FreeSans Bold Oblique
+/usr/share/fonts/truetype/freefont/FreeSansBoldOblique.ttf
+0
+FreeSerif
+/usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf
+0
+FreeSerif Italic
+/usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf
+0
+FreeMono
+/usr/share/fonts/truetype/freefont/FreeMono.ttf
+0
+FreeMono
+/usr/share/fonts/truetype/freefont/FreeMonoBoldOblique.ttf
+0
+FreeMono Bold Oblique
+/usr/share/fonts/truetype/freefont/FreeMonoBoldOblique.ttf
+0
+FreeSans
+/usr/share/fonts/truetype/freefont/FreeSansOblique.ttf
+0
+FreeSans Oblique
+/usr/share/fonts/truetype/freefont/FreeSansOblique.ttf
+0
+FreeSans
+/usr/share/fonts/truetype/freefont/FreeSans.ttf
+0
+FreeSerif
+/usr/share/fonts/truetype/freefont/FreeSerifBold.ttf
+0
+FreeSerif Bold
+/usr/share/fonts/truetype/freefont/FreeSerifBold.ttf
+0
+FreeSans
+/usr/share/fonts/truetype/freefont/FreeSansBold.ttf
+0
+FreeSans Bold
+/usr/share/fonts/truetype/freefont/FreeSansBold.ttf
+0
+FreeSerif
+/usr/share/fonts/truetype/freefont/FreeSerif.ttf
+0
+FreeMono
+/usr/share/fonts/truetype/freefont/FreeMonoOblique.ttf
+0
+FreeMono Oblique
+/usr/share/fonts/truetype/freefont/FreeMonoOblique.ttf
+0
+FreeMono
+/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf
+0
+FreeMono Bold
+/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf
+0
+Droid Serif
+/usr/share/fonts/truetype/droid/DroidSerif-BoldItalic.ttf
+0
+Droid Serif Bold Italic
+/usr/share/fonts/truetype/droid/DroidSerif-BoldItalic.ttf
+0
+Droid Sans Fallback
+/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf
+0
+Droid Sans Armenian
+/usr/share/fonts/truetype/droid/DroidSansArmenian.ttf
+0
+Droid Serif
+/usr/share/fonts/truetype/droid/DroidSerif-Bold.ttf
+0
+Droid Serif Bold
+/usr/share/fonts/truetype/droid/DroidSerif-Bold.ttf
+0
+Droid Sans Hebrew
+/usr/share/fonts/truetype/droid/DroidSansHebrew-Regular.ttf
+0
+Droid Arabic Naskh
+/usr/share/fonts/truetype/droid/DroidNaskh-Bold.ttf
+0
+Droid Arabic Naskh Bold
+/usr/share/fonts/truetype/droid/DroidNaskh-Bold.ttf
+0
+Droid Sans
+/usr/share/fonts/truetype/droid/DroidSans.ttf
+0
+Droid Sans Thai
+/usr/share/fonts/truetype/droid/DroidSansThai.ttf
+0
+Droid Serif
+/usr/share/fonts/truetype/droid/DroidSerif-Regular.ttf
+0
+Droid Sans Ethiopic
+/usr/share/fonts/truetype/droid/DroidSansEthiopic-Regular.ttf
+0
+Droid Sans Hebrew
+/usr/share/fonts/truetype/droid/DroidSansHebrew-Bold.ttf
+0
+Droid Sans Hebrew Bold
+/usr/share/fonts/truetype/droid/DroidSansHebrew-Bold.ttf
+0
+Droid Sans Japanese
+/usr/share/fonts/truetype/droid/DroidSansJapanese.ttf
+0
+Droid Sans
+/usr/share/fonts/truetype/droid/DroidSans-Bold.ttf
+0
+Droid Sans Bold
+/usr/share/fonts/truetype/droid/DroidSans-Bold.ttf
+0
+Droid Serif
+/usr/share/fonts/truetype/droid/DroidSerif-Italic.ttf
+0
+Droid Serif Italic
+/usr/share/fonts/truetype/droid/DroidSerif-Italic.ttf
+0
+Droid Sans Georgian
+/usr/share/fonts/truetype/droid/DroidSansGeorgian.ttf
+0
+Droid Sans Ethiopic
+/usr/share/fonts/truetype/droid/DroidSansEthiopic-Bold.ttf
+0
+Droid Sans Ethiopic Bold
+/usr/share/fonts/truetype/droid/DroidSansEthiopic-Bold.ttf
+0
+Droid Arabic Naskh
+/usr/share/fonts/truetype/droid/DroidNaskh-Regular.ttf
+0
+Droid Sans Mono
+/usr/share/fonts/truetype/droid/DroidSansMono.ttf
+0
+Ubuntu Mono
+/usr/share/fonts/truetype/ubuntu-font-family/UbuntuMono-RI.ttf
+0
+Ubuntu Mono Italic
+/usr/share/fonts/truetype/ubuntu-font-family/UbuntuMono-RI.ttf
+0
+Ubuntu Mono
+/usr/share/fonts/truetype/ubuntu-font-family/UbuntuMono-R.ttf
+0
+Ubuntu
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-R.ttf
+0
+Ubuntu Mono
+/usr/share/fonts/truetype/ubuntu-font-family/UbuntuMono-B.ttf
+0
+Ubuntu Mono Bold
+/usr/share/fonts/truetype/ubuntu-font-family/UbuntuMono-B.ttf
+0
+Ubuntu
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-L.ttf
+0
+Ubuntu Light
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-L.ttf
+0
+Ubuntu
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-M.ttf
+0
+Ubuntu Medium
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-M.ttf
+0
+Ubuntu
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-RI.ttf
+0
+Ubuntu Italic
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-RI.ttf
+0
+Ubuntu Condensed
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-C.ttf
+0
+Ubuntu
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-MI.ttf
+0
+Ubuntu Medium Italic
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-MI.ttf
+0
+Ubuntu
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-BI.ttf
+0
+Ubuntu Bold Italic
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-BI.ttf
+0
+Ubuntu
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-B.ttf
+0
+Ubuntu Bold
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-B.ttf
+0
+Ubuntu Mono
+/usr/share/fonts/truetype/ubuntu-font-family/UbuntuMono-BI.ttf
+0
+Ubuntu Mono Bold Italic
+/usr/share/fonts/truetype/ubuntu-font-family/UbuntuMono-BI.ttf
+0
+Ubuntu
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-LI.ttf
+0
+Ubuntu Light Italic
+/usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-LI.ttf
+0
+DejaVu Sans Mono
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono-Oblique.ttf
+0
+DejaVu Sans Mono Oblique
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono-Oblique.ttf
+0
+DejaVu Serif
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerif.ttf
+0
+DejaVu Serif Book
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerif.ttf
+0
+DejaVu Sans
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-Bold.ttf
+0
+DejaVu Sans Bold
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-Bold.ttf
+0
+DejaVu Sans
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-Oblique.ttf
+0
+DejaVu Sans Oblique
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-Oblique.ttf
+0
+DejaVu Sans Mono
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono.ttf
+0
+DejaVu Sans Mono Book
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono.ttf
+0
+DejaVu Serif
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerifCondensed-BoldItalic.ttf
+0
+DejaVu Serif Condensed Bold Italic
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerifCondensed-BoldItalic.ttf
+0
+DejaVu Sans
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
+0
+DejaVu Sans Book
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
+0
+DejaVu Serif
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerifCondensed-Italic.ttf
+0
+DejaVu Serif Condensed Italic
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerifCondensed-Italic.ttf
+0
+DejaVu Sans
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansCondensed.ttf
+0
+DejaVu Sans Condensed
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansCondensed.ttf
+0
+DejaVu Sans
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-ExtraLight.ttf
+0
+DejaVu Sans ExtraLight
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-ExtraLight.ttf
+0
+DejaVu Serif
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerif-BoldItalic.ttf
+0
+DejaVu Serif Bold Italic
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerif-BoldItalic.ttf
+0
+DejaVu Serif
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerif-Bold.ttf
+0
+DejaVu Serif Bold
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerif-Bold.ttf
+0
+DejaVu Sans
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansCondensed-BoldOblique.ttf
+0
+DejaVu Sans Condensed Bold Oblique
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansCondensed-BoldOblique.ttf
+0
+DejaVu Serif
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerifCondensed-Bold.ttf
+0
+DejaVu Serif Condensed Bold
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerifCondensed-Bold.ttf
+0
+DejaVu Sans
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansCondensed-Oblique.ttf
+0
+DejaVu Sans Condensed Oblique
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansCondensed-Oblique.ttf
+0
+DejaVu Sans
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-BoldOblique.ttf
+0
+DejaVu Sans Bold Oblique
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-BoldOblique.ttf
+0
+DejaVu Sans Mono
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono-Bold.ttf
+0
+DejaVu Sans Mono Bold
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono-Bold.ttf
+0
+DejaVu Sans
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansCondensed-Bold.ttf
+0
+DejaVu Sans Condensed Bold
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansCondensed-Bold.ttf
+0
+DejaVu Sans Mono
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono-BoldOblique.ttf
+0
+DejaVu Sans Mono Bold Oblique
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono-BoldOblique.ttf
+0
+DejaVu Serif
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerifCondensed.ttf
+0
+DejaVu Serif Condensed
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerifCondensed.ttf
+0
+DejaVu Serif
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerif-Italic.ttf
+0
+DejaVu Serif Italic
+/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerif-Italic.ttf
+0
+WenQuanYi Micro Hei
+/usr/share/fonts/truetype/wqy/wqy-microhei.ttc
+0
+WenQuanYi Micro Hei Mono
+/usr/share/fonts/truetype/wqy/wqy-microhei.ttc
+1
+KacstOne
+/usr/share/fonts/truetype/kacst-one/KacstOne-Bold.ttf
+0
+KacstOne Bold
+/usr/share/fonts/truetype/kacst-one/KacstOne-Bold.ttf
+0
+KacstOne
+/usr/share/fonts/truetype/kacst-one/KacstOne.ttf
+0
+Padauk Book
+/usr/share/fonts/truetype/padauk/Padauk-bookbold.ttf
+0
+Padauk Book Bold
+/usr/share/fonts/truetype/padauk/Padauk-bookbold.ttf
+0
+Padauk
+/usr/share/fonts/truetype/padauk/Padauk-bold.ttf
+0
+Padauk Bold
+/usr/share/fonts/truetype/padauk/Padauk-bold.ttf
+0
+Padauk
+/usr/share/fonts/truetype/padauk/Padauk.ttf
+0
+Padauk Book
+/usr/share/fonts/truetype/padauk/Padauk-book.ttf
+0
+Abyssinica SIL
+/usr/share/fonts/truetype/abyssinica/AbyssinicaSIL-R.ttf
+0
+Saab
+/usr/share/fonts/truetype/ttf-punjabi-fonts/Saab.ttf
+0
+Lohit Punjabi
+/usr/share/fonts/truetype/ttf-punjabi-fonts/lohit_pa.ttf
+0
+Tibetan Machine Uni
+/usr/share/fonts/truetype/tibetan-machine/TibetanMachineUni.ttf
+0
+Khmer OS System
+/usr/share/fonts/truetype/ttf-khmeros-core/KhmerOSsys.ttf
+0
+Khmer OS
+/usr/share/fonts/truetype/ttf-khmeros-core/KhmerOS.ttf
+0
+Liberation Sans
+/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf
+0
+Liberation Mono
+/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf
+0
+Liberation Mono
+/usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf
+0
+Liberation Mono Bold Italic
+/usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf
+0
+Liberation Mono
+/usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf
+0
+Liberation Mono Italic
+/usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf
+0
+Liberation Sans Narrow
+/usr/share/fonts/truetype/liberation/LiberationSansNarrow-Bold.ttf
+0
+Liberation Sans Narrow Bold
+/usr/share/fonts/truetype/liberation/LiberationSansNarrow-Bold.ttf
+0
+Liberation Sans
+/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf
+0
+Liberation Sans Bold
+/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf
+0
+Liberation Sans
+/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf
+0
+Liberation Sans Italic
+/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf
+0
+Liberation Serif
+/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf
+0
+Liberation Sans
+/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf
+0
+Liberation Sans Bold Italic
+/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf
+0
+Liberation Serif
+/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf
+0
+Liberation Serif Italic
+/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf
+0
+Liberation Serif
+/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf
+0
+Liberation Serif Bold
+/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf
+0
+Liberation Mono
+/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf
+0
+Liberation Mono Bold
+/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf
+0
+Liberation Sans Narrow
+/usr/share/fonts/truetype/liberation/LiberationSansNarrow-BoldItalic.ttf
+0
+Liberation Sans Narrow Bold Italic
+/usr/share/fonts/truetype/liberation/LiberationSansNarrow-BoldItalic.ttf
+0
+Liberation Serif
+/usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf
+0
+Liberation Serif Bold Italic
+/usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf
+0
+Liberation Sans Narrow
+/usr/share/fonts/truetype/liberation/LiberationSansNarrow-Italic.ttf
+0
+Liberation Sans Narrow Italic
+/usr/share/fonts/truetype/liberation/LiberationSansNarrow-Italic.ttf
+0
+Liberation Sans Narrow
+/usr/share/fonts/truetype/liberation/LiberationSansNarrow-Regular.ttf
+0
+NanumGothic
+/usr/share/fonts/truetype/nanum/NanumGothicBold.ttf
+0
+NanumGothic Bold
+/usr/share/fonts/truetype/nanum/NanumGothicBold.ttf
+0
+NanumMyeongjo
+/usr/share/fonts/truetype/nanum/NanumMyeongjo.ttf
+0
+NanumGothic
+/usr/share/fonts/truetype/nanum/NanumGothic.ttf
+0
+NanumMyeongjo
+/usr/share/fonts/truetype/nanum/NanumMyeongjoBold.ttf
+0
+NanumMyeongjo Bold
+/usr/share/fonts/truetype/nanum/NanumMyeongjoBold.ttf
+0
+Umpush
+/usr/share/fonts/truetype/tlwg/Umpush.ttf
+0
+Umpush Book
+/usr/share/fonts/truetype/tlwg/Umpush.ttf
+0
+Tlwg Typist
+/usr/share/fonts/truetype/tlwg/TlwgTypist-Oblique.ttf
+0
+Tlwg Typist Oblique
+/usr/share/fonts/truetype/tlwg/TlwgTypist-Oblique.ttf
+0
+Umpush
+/usr/share/fonts/truetype/tlwg/Umpush-Bold.ttf
+0
+Umpush Bold
+/usr/share/fonts/truetype/tlwg/Umpush-Bold.ttf
+0
+Purisa
+/usr/share/fonts/truetype/tlwg/Purisa-Oblique.ttf
+0
+Purisa Oblique
+/usr/share/fonts/truetype/tlwg/Purisa-Oblique.ttf
+0
+Sawasdee
+/usr/share/fonts/truetype/tlwg/Sawasdee-Bold.ttf
+0
+Sawasdee Bold
+/usr/share/fonts/truetype/tlwg/Sawasdee-Bold.ttf
+0
+TlwgMono
+/usr/share/fonts/truetype/tlwg/TlwgMono-BoldOblique.ttf
+0
+TlwgMono BoldOblique
+/usr/share/fonts/truetype/tlwg/TlwgMono-BoldOblique.ttf
+0
+Kinnari
+/usr/share/fonts/truetype/tlwg/Kinnari-BoldOblique.ttf
+0
+Kinnari BoldOblique
+/usr/share/fonts/truetype/tlwg/Kinnari-BoldOblique.ttf
+0
+Tlwg Typist
+/usr/share/fonts/truetype/tlwg/TlwgTypist-Bold.ttf
+0
+Tlwg Typist Bold
+/usr/share/fonts/truetype/tlwg/TlwgTypist-Bold.ttf
+0
+Garuda
+/usr/share/fonts/truetype/tlwg/Garuda-BoldOblique.ttf
+0
+Garuda BoldOblique
+/usr/share/fonts/truetype/tlwg/Garuda-BoldOblique.ttf
+0
+Norasi
+/usr/share/fonts/truetype/tlwg/Norasi-BoldItalic.ttf
+0
+Norasi BoldItalic
+/usr/share/fonts/truetype/tlwg/Norasi-BoldItalic.ttf
+0
+Purisa
+/usr/share/fonts/truetype/tlwg/Purisa-BoldOblique.ttf
+0
+Purisa BoldOblique
+/usr/share/fonts/truetype/tlwg/Purisa-BoldOblique.ttf
+0
+TlwgMono
+/usr/share/fonts/truetype/tlwg/TlwgMono-Oblique.ttf
+0
+TlwgMono Oblique
+/usr/share/fonts/truetype/tlwg/TlwgMono-Oblique.ttf
+0
+Sawasdee
+/usr/share/fonts/truetype/tlwg/Sawasdee-Oblique.ttf
+0
+Sawasdee Oblique
+/usr/share/fonts/truetype/tlwg/Sawasdee-Oblique.ttf
+0
+Umpush
+/usr/share/fonts/truetype/tlwg/Umpush-Light.ttf
+0
+Umpush Light
+/usr/share/fonts/truetype/tlwg/Umpush-Light.ttf
+0
+Umpush
+/usr/share/fonts/truetype/tlwg/Umpush-LightOblique.ttf
+0
+Umpush LightOblique
+/usr/share/fonts/truetype/tlwg/Umpush-LightOblique.ttf
+0
+Loma
+/usr/share/fonts/truetype/tlwg/Loma.ttf
+0
+Loma Book
+/usr/share/fonts/truetype/tlwg/Loma.ttf
+0
+Tlwg Typo
+/usr/share/fonts/truetype/tlwg/TlwgTypo.ttf
+0
+Tlwg Typo Medium
+/usr/share/fonts/truetype/tlwg/TlwgTypo.ttf
+0
+Tlwg Typo
+/usr/share/fonts/truetype/tlwg/TlwgTypo-Oblique.ttf
+0
+Tlwg Typo Oblique
+/usr/share/fonts/truetype/tlwg/TlwgTypo-Oblique.ttf
+0
+Sawasdee
+/usr/share/fonts/truetype/tlwg/Sawasdee.ttf
+0
+Norasi
+/usr/share/fonts/truetype/tlwg/Norasi.ttf
+0
+Tlwg Typo
+/usr/share/fonts/truetype/tlwg/TlwgTypo-BoldOblique.ttf
+0
+Tlwg Typo BoldOblique
+/usr/share/fonts/truetype/tlwg/TlwgTypo-BoldOblique.ttf
+0
+Purisa
+/usr/share/fonts/truetype/tlwg/Purisa.ttf
+0
+Purisa Medium
+/usr/share/fonts/truetype/tlwg/Purisa.ttf
+0
+Kinnari
+/usr/share/fonts/truetype/tlwg/Kinnari-Bold.ttf
+0
+Kinnari Bold
+/usr/share/fonts/truetype/tlwg/Kinnari-Bold.ttf
+0
+Norasi
+/usr/share/fonts/truetype/tlwg/Norasi-Oblique.ttf
+0
+Norasi Oblique
+/usr/share/fonts/truetype/tlwg/Norasi-Oblique.ttf
+0
+TlwgMono
+/usr/share/fonts/truetype/tlwg/TlwgMono-Bold.ttf
+0
+TlwgMono Bold
+/usr/share/fonts/truetype/tlwg/TlwgMono-Bold.ttf
+0
+Garuda
+/usr/share/fonts/truetype/tlwg/Garuda.ttf
+0
+Garuda Book
+/usr/share/fonts/truetype/tlwg/Garuda.ttf
+0
+Loma
+/usr/share/fonts/truetype/tlwg/Loma-BoldOblique.ttf
+0
+Loma BoldOblique
+/usr/share/fonts/truetype/tlwg/Loma-BoldOblique.ttf
+0
+TlwgTypewriter
+/usr/share/fonts/truetype/tlwg/TlwgTypewriter-BoldOblique.ttf
+0
+TlwgTypewriter BoldOblique
+/usr/share/fonts/truetype/tlwg/TlwgTypewriter-BoldOblique.ttf
+0
+Garuda
+/usr/share/fonts/truetype/tlwg/Garuda-Oblique.ttf
+0
+Garuda Oblique
+/usr/share/fonts/truetype/tlwg/Garuda-Oblique.ttf
+0
+Kinnari
+/usr/share/fonts/truetype/tlwg/Kinnari-BoldItalic.ttf
+0
+Kinnari BoldItalic
+/usr/share/fonts/truetype/tlwg/Kinnari-BoldItalic.ttf
+0
+Tlwg Typist
+/usr/share/fonts/truetype/tlwg/TlwgTypist-BoldOblique.ttf
+0
+Tlwg Typist BoldOblique
+/usr/share/fonts/truetype/tlwg/TlwgTypist-BoldOblique.ttf
+0
+Waree
+/usr/share/fonts/truetype/tlwg/Waree.ttf
+0
+Waree Book
+/usr/share/fonts/truetype/tlwg/Waree.ttf
+0
+Waree
+/usr/share/fonts/truetype/tlwg/Waree-Oblique.ttf
+0
+Waree Oblique
+/usr/share/fonts/truetype/tlwg/Waree-Oblique.ttf
+0
+Kinnari
+/usr/share/fonts/truetype/tlwg/Kinnari.ttf
+0
+Kinnari Medium
+/usr/share/fonts/truetype/tlwg/Kinnari.ttf
+0
+Loma
+/usr/share/fonts/truetype/tlwg/Loma-Oblique.ttf
+0
+Loma Oblique
+/usr/share/fonts/truetype/tlwg/Loma-Oblique.ttf
+0
+Umpush
+/usr/share/fonts/truetype/tlwg/Umpush-Oblique.ttf
+0
+Umpush Oblique
+/usr/share/fonts/truetype/tlwg/Umpush-Oblique.ttf
+0
+Norasi
+/usr/share/fonts/truetype/tlwg/Norasi-Bold.ttf
+0
+Norasi Bold
+/usr/share/fonts/truetype/tlwg/Norasi-Bold.ttf
+0
+Kinnari
+/usr/share/fonts/truetype/tlwg/Kinnari-Oblique.ttf
+0
+Kinnari Oblique
+/usr/share/fonts/truetype/tlwg/Kinnari-Oblique.ttf
+0
+Garuda
+/usr/share/fonts/truetype/tlwg/Garuda-Bold.ttf
+0
+Garuda Bold
+/usr/share/fonts/truetype/tlwg/Garuda-Bold.ttf
+0
+Waree
+/usr/share/fonts/truetype/tlwg/Waree-Bold.ttf
+0
+Waree Bold
+/usr/share/fonts/truetype/tlwg/Waree-Bold.ttf
+0
+TlwgTypewriter
+/usr/share/fonts/truetype/tlwg/TlwgTypewriter-Bold.ttf
+0
+TlwgTypewriter Bold
+/usr/share/fonts/truetype/tlwg/TlwgTypewriter-Bold.ttf
+0
+Waree
+/usr/share/fonts/truetype/tlwg/Waree-BoldOblique.ttf
+0
+Waree BoldOblique
+/usr/share/fonts/truetype/tlwg/Waree-BoldOblique.ttf
+0
+Umpush
+/usr/share/fonts/truetype/tlwg/Umpush-BoldOblique.ttf
+0
+Umpush BoldOblique
+/usr/share/fonts/truetype/tlwg/Umpush-BoldOblique.ttf
+0
+Purisa
+/usr/share/fonts/truetype/tlwg/Purisa-Bold.ttf
+0
+Purisa Bold
+/usr/share/fonts/truetype/tlwg/Purisa-Bold.ttf
+0
+Kinnari
+/usr/share/fonts/truetype/tlwg/Kinnari-Italic.ttf
+0
+Kinnari Italic
+/usr/share/fonts/truetype/tlwg/Kinnari-Italic.ttf
+0
+TlwgTypewriter
+/usr/share/fonts/truetype/tlwg/TlwgTypewriter-Oblique.ttf
+0
+TlwgTypewriter Oblique
+/usr/share/fonts/truetype/tlwg/TlwgTypewriter-Oblique.ttf
+0
+Tlwg Typist
+/usr/share/fonts/truetype/tlwg/TlwgTypist.ttf
+0
+Tlwg Typist Medium
+/usr/share/fonts/truetype/tlwg/TlwgTypist.ttf
+0
+TlwgTypewriter
+/usr/share/fonts/truetype/tlwg/TlwgTypewriter.ttf
+0
+TlwgTypewriter Medium
+/usr/share/fonts/truetype/tlwg/TlwgTypewriter.ttf
+0
+Norasi
+/usr/share/fonts/truetype/tlwg/Norasi-Italic.ttf
+0
+Norasi Italic
+/usr/share/fonts/truetype/tlwg/Norasi-Italic.ttf
+0
+Tlwg Typo
+/usr/share/fonts/truetype/tlwg/TlwgTypo-Bold.ttf
+0
+Tlwg Typo Bold
+/usr/share/fonts/truetype/tlwg/TlwgTypo-Bold.ttf
+0
+Loma
+/usr/share/fonts/truetype/tlwg/Loma-Bold.ttf
+0
+Loma Bold
+/usr/share/fonts/truetype/tlwg/Loma-Bold.ttf
+0
+Norasi
+/usr/share/fonts/truetype/tlwg/Norasi-BoldOblique.ttf
+0
+Norasi BoldOblique
+/usr/share/fonts/truetype/tlwg/Norasi-BoldOblique.ttf
+0
+Sawasdee
+/usr/share/fonts/truetype/tlwg/Sawasdee-BoldOblique.ttf
+0
+Sawasdee BoldOblique
+/usr/share/fonts/truetype/tlwg/Sawasdee-BoldOblique.ttf
+0
+TlwgMono
+/usr/share/fonts/truetype/tlwg/TlwgMono.ttf
+0
+TlwgMono Medium
+/usr/share/fonts/truetype/tlwg/TlwgMono.ttf
+0
+Bitstream Charter
+/usr/share/fonts/X11/Type1/c0633bt_.pfb
+0
+Bitstream Charter Bold Italic
+/usr/share/fonts/X11/Type1/c0633bt_.pfb
+0
+Bitstream Charter
+/usr/share/fonts/X11/Type1/c0648bt_.pfb
+0
+Courier 10 Pitch
+/usr/share/fonts/X11/Type1/c0582bt_.pfb
+0
+Courier 10 Pitch Italic
+/usr/share/fonts/X11/Type1/c0582bt_.pfb
+0
+Courier 10 Pitch
+/usr/share/fonts/X11/Type1/c0583bt_.pfb
+0
+Courier 10 Pitch Bold
+/usr/share/fonts/X11/Type1/c0583bt_.pfb
+0
+Bitstream Charter
+/usr/share/fonts/X11/Type1/c0632bt_.pfb
+0
+Bitstream Charter Bold
+/usr/share/fonts/X11/Type1/c0632bt_.pfb
+0
+Symbol
+/usr/share/fonts/X11/Type1/Symbol.pfb
+0
+Bitstream Charter
+/usr/share/fonts/X11/Type1/c0649bt_.pfb
+0
+Bitstream Charter Italic
+/usr/share/fonts/X11/Type1/c0649bt_.pfb
+0
+Courier 10 Pitch
+/usr/share/fonts/X11/Type1/c0611bt_.pfb
+0
+Courier 10 Pitch Bold Italic
+/usr/share/fonts/X11/Type1/c0611bt_.pfb
+0
+Courier 10 Pitch
+/usr/share/fonts/X11/Type1/c0419bt_.pfb
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-10.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-14.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-13.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-13.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-1.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-15.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-4.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clI6x12.pcf.gz
+0
+Clean Italic
+/usr/share/fonts/X11/misc/clI6x12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-5.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-5.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-13.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR8x16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-7.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-7.pcf.gz
+0
+ClearlyU Alternate Glyphs
+/usr/share/fonts/X11/misc/cu-alt12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/12x24.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-13.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-11.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-11.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-9.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-9.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-9.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-9.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-8.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-KOI8-R.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-KOI8-R.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-5.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-7.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-4.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR7x8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-JISX0201.1976-0.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-4.pcf.gz
+0
+ClearlyU PUA
+/usr/share/fonts/X11/misc/cu-pua12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-4.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-4.pcf.gz
+0
+Fangsong ti
+/usr/share/fonts/X11/misc/gb16fs.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-16.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR8x10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-4.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-2.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-KOI8-R.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-9.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-11.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-14.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x16.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR8x14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-15.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/jiskan24.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-11.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-13.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-10.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-4.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-5.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-11.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-11.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-5.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-4.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-15.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/18x18ja.pcf.gz
+0
+Fixed ja
+/usr/share/fonts/X11/misc/18x18ja.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-8.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-8.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-4.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-1.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-14.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-14.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR8x13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-4.pcf.gz
+0
+ClearlyU Ligature
+/usr/share/fonts/X11/misc/cu-lig12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-3.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR5x6.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-KOI8-R.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-16.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-8.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-8.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clB6x10.pcf.gz
+0
+Clean Bold
+/usr/share/fonts/X11/misc/clB6x10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-8.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-8.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clB8x8.pcf.gz
+0
+Clean Bold
+/usr/share/fonts/X11/misc/clB8x8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-10.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-7.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-KOI8-R.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-15.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-5.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-5.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clI8x8.pcf.gz
+0
+Clean Italic
+/usr/share/fonts/X11/misc/clI8x8.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR7x14.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR7x12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-9.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-KOI8-R.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-13.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-15.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clB8x13.pcf.gz
+0
+Clean Bold
+/usr/share/fonts/X11/misc/clB8x13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-KOI8-R.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-11.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-11.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-16.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR8x8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-3.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-3.pcf.gz
+0
+ClearlyU Arabic Extra
+/usr/share/fonts/X11/misc/cuarabic12.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clB8x12.pcf.gz
+0
+Clean Bold
+/usr/share/fonts/X11/misc/clB8x12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-14.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-7.pcf.gz
+0
+OPEN LOOK glyph
+/usr/share/fonts/X11/misc/olgl14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-13.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-10.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-8.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-3.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-2.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-2.pcf.gz
+0
+ClearlyU Arabic Extra
+/usr/share/fonts/X11/misc/cu-arabic12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-15.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-1.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-1.pcf.gz
+0
+ClearlyU Devanagari
+/usr/share/fonts/X11/misc/cudevnag12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-14.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-14.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-14.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-7.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-14.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/12x24rk.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-9.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-7.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-1.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-8.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-1.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-13.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-16.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/k14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-16.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-3.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR5x8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-10.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-10.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-14.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-16.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-2.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-2.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-16.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-4.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-2.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR4x6.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-14.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-15.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-3.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-2.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-5.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-5.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-KOI8-R.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-3.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clB8x14.pcf.gz
+0
+Clean Bold
+/usr/share/fonts/X11/misc/clB8x14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-4.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-11.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-11.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-2.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-4.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-13.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-4.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-8.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-KOI8-R.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-1.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-9.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-9.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR5x10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-15.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-15.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-15.pcf.gz
+0
+OPEN LOOK glyph
+/usr/share/fonts/X11/misc/olgl12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-9.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-3.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-3.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clB9x15.pcf.gz
+0
+Clean Bold
+/usr/share/fonts/X11/misc/clB9x15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-4.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-13.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-10.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-10.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-3.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-2.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-7.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-3.pcf.gz
+0
+Song ti
+/usr/share/fonts/X11/misc/gb24st.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-1.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-14.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-KOI8-R.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-3.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-KOI8-R.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-1.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-13.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-13.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-16.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-16.pcf.gz
+0
+OPEN LOOK glyph
+/usr/share/fonts/X11/misc/olgl19.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-2.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-2.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B.pcf.gz
+0
+Mincho
+/usr/share/fonts/X11/misc/hanglm24.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-16.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-16.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-8.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-8.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x13.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-11.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-9.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-2.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-14.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-15.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-15.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-2.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR8x12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-13.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-7.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/12x13ja.pcf.gz
+0
+Fixed ja
+/usr/share/fonts/X11/misc/12x13ja.pcf.gz
+0
+Mincho
+/usr/share/fonts/X11/misc/hanglm16.pcf.gz
+0
+Song ti
+/usr/share/fonts/X11/misc/gb16st.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-11.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-11.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-11.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR7x10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-1.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-7.pcf.gz
+0
+Newspaper
+/usr/share/fonts/X11/misc/arabic24.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-3.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-1.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clB8x10.pcf.gz
+0
+Clean Bold
+/usr/share/fonts/X11/misc/clB8x10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-16.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-16.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x6.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-14.pcf.gz
+0
+Nil
+/usr/share/fonts/X11/misc/nil2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-7.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13O-ISO8859-5.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/8x13O-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-16.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-5.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-4.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-KOI8-R.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-10.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-10.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-KOI8-R.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR6x12-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15B-ISO8859-16.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x15B-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-3.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-3.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-3.pcf.gz
+0
+OPEN LOOK glyph
+/usr/share/fonts/X11/misc/olgl10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x8-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-10.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-5.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-11.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-8.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-8.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-15.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x16rk.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clB8x16.pcf.gz
+0
+Clean Bold
+/usr/share/fonts/X11/misc/clB8x16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-14.pcf.gz
+0
+Gothic
+/usr/share/fonts/X11/misc/hanglg16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-3.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-15.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/jiskan16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/10x20-ISO8859-14.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clB6x12.pcf.gz
+0
+Clean Bold
+/usr/share/fonts/X11/misc/clB6x12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13-ISO8859-1.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x13-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-3.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-3.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-KOI8-R.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-KOI8-R.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/18x18ko.pcf.gz
+0
+Fixed ko
+/usr/share/fonts/X11/misc/18x18ko.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13O-ISO8859-5.pcf.gz
+0
+Fixed Oblique
+/usr/share/fonts/X11/misc/7x13O-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-7.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-7.pcf.gz
+0
+Clean
+/usr/share/fonts/X11/misc/clR9x15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-7.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-13.pcf.gz
+0
+Fixed Oblique SemiCondensed
+/usr/share/fonts/X11/misc/6x13O-ISO8859-13.pcf.gz
+0
+ClearlyU Devangari Extra
+/usr/share/fonts/X11/misc/cu-devnag12.pcf.gz
+0
+OPEN LOOK cursor
+/usr/share/fonts/X11/misc/olcursor.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-1.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-1.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-4.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-10.pcf.gz
+0
+Fixed Bold SemiCondensed
+/usr/share/fonts/X11/misc/6x13B-ISO8859-10.pcf.gz
+0
+ClearlyU
+/usr/share/fonts/X11/misc/cu12.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x10-ISO8859-10.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/5x7-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x13B-ISO8859-9.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x13B-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14B-ISO8859-7.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/7x14B-ISO8859-7.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/4x6-ISO8859-15.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/7x14-ISO8859-16.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/8x13B-ISO8859-9.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/8x13B-ISO8859-9.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x15-ISO8859-5.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x12-ISO8859-2.pcf.gz
+0
+Fixed SemiCondensed
+/usr/share/fonts/X11/misc/6x12-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/9x18B-ISO8859-2.pcf.gz
+0
+Fixed Bold
+/usr/share/fonts/X11/misc/9x18B-ISO8859-2.pcf.gz
+0
+Fixed
+/usr/share/fonts/X11/misc/6x9-KOI8-R.pcf.gz
+0
+Century Schoolbook L
+/usr/share/fonts/type1/gsfonts/c059016l.pfb
+0
+Century Schoolbook L Bold
+/usr/share/fonts/type1/gsfonts/c059016l.pfb
+0
+Nimbus Sans L
+/usr/share/fonts/type1/gsfonts/n019004l.pfb
+0
+Nimbus Sans L Bold
+/usr/share/fonts/type1/gsfonts/n019004l.pfb
+0
+URW Bookman L
+/usr/share/fonts/type1/gsfonts/b018012l.pfb
+0
+URW Bookman L Light
+/usr/share/fonts/type1/gsfonts/b018012l.pfb
+0
+Nimbus Roman No9 L
+/usr/share/fonts/type1/gsfonts/n021024l.pfb
+0
+Nimbus Roman No9 L Medium Italic
+/usr/share/fonts/type1/gsfonts/n021024l.pfb
+0
+Dingbats
+/usr/share/fonts/type1/gsfonts/d050000l.pfb
+0
+Nimbus Roman No9 L
+/usr/share/fonts/type1/gsfonts/n021023l.pfb
+0
+Nimbus Roman No9 L Regular Italic
+/usr/share/fonts/type1/gsfonts/n021023l.pfb
+0
+Century Schoolbook L
+/usr/share/fonts/type1/gsfonts/c059033l.pfb
+0
+Century Schoolbook L Italic
+/usr/share/fonts/type1/gsfonts/c059033l.pfb
+0
+URW Bookman L
+/usr/share/fonts/type1/gsfonts/b018015l.pfb
+0
+URW Bookman L Demi Bold
+/usr/share/fonts/type1/gsfonts/b018015l.pfb
+0
+URW Bookman L
+/usr/share/fonts/type1/gsfonts/b018032l.pfb
+0
+URW Bookman L Light Italic
+/usr/share/fonts/type1/gsfonts/b018032l.pfb
+0
+Nimbus Mono L
+/usr/share/fonts/type1/gsfonts/n022003l.pfb
+0
+URW Gothic L
+/usr/share/fonts/type1/gsfonts/a010015l.pfb
+0
+URW Gothic L Demi
+/usr/share/fonts/type1/gsfonts/a010015l.pfb
+0
+URW Gothic L
+/usr/share/fonts/type1/gsfonts/a010033l.pfb
+0
+URW Gothic L Book Oblique
+/usr/share/fonts/type1/gsfonts/a010033l.pfb
+0
+URW Palladio L
+/usr/share/fonts/type1/gsfonts/p052023l.pfb
+0
+URW Palladio L Italic
+/usr/share/fonts/type1/gsfonts/p052023l.pfb
+0
+Nimbus Roman No9 L
+/usr/share/fonts/type1/gsfonts/n021004l.pfb
+0
+Nimbus Roman No9 L Medium
+/usr/share/fonts/type1/gsfonts/n021004l.pfb
+0
+Century Schoolbook L
+/usr/share/fonts/type1/gsfonts/c059013l.pfb
+0
+Century Schoolbook L Roman
+/usr/share/fonts/type1/gsfonts/c059013l.pfb
+0
+Nimbus Mono L
+/usr/share/fonts/type1/gsfonts/n022024l.pfb
+0
+Nimbus Mono L Bold Oblique
+/usr/share/fonts/type1/gsfonts/n022024l.pfb
+0
+Nimbus Mono L
+/usr/share/fonts/type1/gsfonts/n022004l.pfb
+0
+Nimbus Mono L Bold
+/usr/share/fonts/type1/gsfonts/n022004l.pfb
+0
+Nimbus Sans L
+/usr/share/fonts/type1/gsfonts/n019063l.pfb
+0
+Nimbus Sans L Regular Condensed Italic
+/usr/share/fonts/type1/gsfonts/n019063l.pfb
+0
+Nimbus Roman No9 L
+/usr/share/fonts/type1/gsfonts/n021003l.pfb
+0
+Standard Symbols L
+/usr/share/fonts/type1/gsfonts/s050000l.pfb
+0
+URW Gothic L
+/usr/share/fonts/type1/gsfonts/a010035l.pfb
+0
+URW Gothic L Demi Oblique
+/usr/share/fonts/type1/gsfonts/a010035l.pfb
+0
+URW Palladio L
+/usr/share/fonts/type1/gsfonts/p052003l.pfb
+0
+URW Palladio L Roman
+/usr/share/fonts/type1/gsfonts/p052003l.pfb
+0
+URW Gothic L
+/usr/share/fonts/type1/gsfonts/a010013l.pfb
+0
+URW Gothic L Book
+/usr/share/fonts/type1/gsfonts/a010013l.pfb
+0
+Nimbus Sans L
+/usr/share/fonts/type1/gsfonts/n019043l.pfb
+0
+Nimbus Sans L Regular Condensed
+/usr/share/fonts/type1/gsfonts/n019043l.pfb
+0
+Century Schoolbook L
+/usr/share/fonts/type1/gsfonts/c059036l.pfb
+0
+Century Schoolbook L Bold Italic
+/usr/share/fonts/type1/gsfonts/c059036l.pfb
+0
+Nimbus Sans L
+/usr/share/fonts/type1/gsfonts/n019003l.pfb
+0
+Nimbus Mono L
+/usr/share/fonts/type1/gsfonts/n022023l.pfb
+0
+Nimbus Mono L Regular Oblique
+/usr/share/fonts/type1/gsfonts/n022023l.pfb
+0
+URW Palladio L
+/usr/share/fonts/type1/gsfonts/p052004l.pfb
+0
+URW Palladio L Bold
+/usr/share/fonts/type1/gsfonts/p052004l.pfb
+0
+Nimbus Sans L
+/usr/share/fonts/type1/gsfonts/n019023l.pfb
+0
+Nimbus Sans L Regular Italic
+/usr/share/fonts/type1/gsfonts/n019023l.pfb
+0
+URW Chancery L
+/usr/share/fonts/type1/gsfonts/z003034l.pfb
+0
+URW Chancery L Medium Italic
+/usr/share/fonts/type1/gsfonts/z003034l.pfb
+0
+Nimbus Sans L
+/usr/share/fonts/type1/gsfonts/n019024l.pfb
+0
+Nimbus Sans L Bold Italic
+/usr/share/fonts/type1/gsfonts/n019024l.pfb
+0
+URW Bookman L
+/usr/share/fonts/type1/gsfonts/b018035l.pfb
+0
+URW Bookman L Demi Bold Italic
+/usr/share/fonts/type1/gsfonts/b018035l.pfb
+0
+Nimbus Sans L
+/usr/share/fonts/type1/gsfonts/n019064l.pfb
+0
+Nimbus Sans L Bold Condensed Italic
+/usr/share/fonts/type1/gsfonts/n019064l.pfb
+0
+URW Palladio L
+/usr/share/fonts/type1/gsfonts/p052024l.pfb
+0
+URW Palladio L Bold Italic
+/usr/share/fonts/type1/gsfonts/p052024l.pfb
+0
+Nimbus Sans L
+/usr/share/fonts/type1/gsfonts/n019044l.pfb
+0
+Nimbus Sans L Bold Condensed
+/usr/share/fonts/type1/gsfonts/n019044l.pfb
+0
+Symbol
+/usr/share/fonts/type1/mathml/Symbol.pfb
+0
+end of list

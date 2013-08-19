@@ -539,7 +539,6 @@ void monster::hit_monster(game *g, int i)
  moves -= 100;
 
  if (this == target) {
-  debugmsg("stopped monster from hitting itself");
   return;
  }
 

@@ -296,7 +296,7 @@ std::string base64_encode(std::string str) {
     encoded_data[output_length] = '\0';
     std::string ret = "#";
     ret += encoded_data;
-    delete encoded_data;
+    delete[] encoded_data;
 
     //DebugLog()<<"base64 encoded: \n"<<str<<"\n"<<ret<<"\n";
 
@@ -348,7 +348,7 @@ std::string base64_decode(std::string str) {
     decoded_data[output_length] = 0;
 
     std::string ret = (char*)decoded_data;
-    delete decoded_data;
+    delete[] decoded_data;
 
     //DebugLog()<<"base64 decoded: \n"<<str<<"\n"<<ret<<"\n";
 

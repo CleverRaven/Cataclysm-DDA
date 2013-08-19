@@ -197,36 +197,39 @@ void game::wish()
    curs_set(0);
    ch = input();
   }
- } while (ch != '\n');
+ } while (ch != '\n' && ch!=KEY_ESCAPE);
  clear();
 
- // Allow for multiples
- curs_set(1);
- mvprintw(0, 0, _("How many do you want? (default is 1): "));
- char str[5];
- int count = 1;
- echo();
- getnstr(str, 5);
- noecho();
- count = atoi(str);
- if (count<=0)
+ if(ch=='\n')
  {
-  count = 1;
- }
- curs_set(0);
+  // Allow for multiples
+  curs_set(1);
+  mvprintw(0, 0, _("How many do you want? (default is 1): "));
+  char str[5];
+  int count = 1;
+  echo();
+  getnstr(str, 5);
+  noecho();
+  count = atoi(str);
+  if (count<=0)
+  {
+   count = 1;
+  }
+  curs_set(0);
 
- item granted = item_controller->create(standard_itype_ids[a + shift], turn);
- mvprintw(2, 0, _("Wish granted - %d x %s."), count, granted.type->name.c_str());
- tmp.invlet = nextinv;
- for (int i=0; i<count; i++)
- {
-  if (!incontainer)
-   u.i_add(granted);
-  else
-   u.i_add(granted.in_its_container(&itypes));
+  item granted = item_controller->create(standard_itype_ids[a + shift], turn);
+  mvprintw(2, 0, _("Wish granted - %d x %s."), count, granted.type->name.c_str());
+  tmp.invlet = nextinv;
+  for (int i=0; i<count; i++)
+  {
+   if (!incontainer)
+    u.i_add(granted);
+   else
+    u.i_add(granted.in_its_container(&itypes));
+  }
+  advance_nextinv();
+  getch();
  }
- advance_nextinv();
- getch();
  delwin(w_info);
  delwin(w_list);
 }
