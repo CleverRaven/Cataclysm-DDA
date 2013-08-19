@@ -9234,7 +9234,7 @@ void game::pickup(int posx, int posy, int min)
 }
 
 // Handle_liquid returns false if we didn't handle all the liquid.
-bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
+bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source)
 {
  if (!liquid.made_of(LIQUID)) {
   dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -9309,6 +9309,12 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    }
    add_msg(_("Never mind."));
    return false;
+
+  } else if(cont == source) {
+
+    //Source and destination are the same; abort
+    add_msg(_("That's the same container!"));
+    return false;
 
   } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
 // for filling up chainsaws, jackhammers and flamethrowers
@@ -10326,7 +10332,7 @@ void game::unload(item& it)
             }
             if (content.made_of(LIQUID))
             {
-                if (!handle_liquid(content, false, false))
+                if (!handle_liquid(content, false, false, &it))
                 {
                     new_contents.push_back(content);// Put it back in (we canceled)
                 }
