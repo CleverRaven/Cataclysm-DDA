@@ -76,6 +76,7 @@ public:
 
  bool has_trait(std::string flag);
  bool has_base_trait(std::string flag);
+ bool has_conflicting_trait(std::string flag);
  void toggle_trait(std::string flag);
  void toggle_mutation(std::string flag);
  void set_cat_level_rec(std::string sMut);

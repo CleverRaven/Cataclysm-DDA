@@ -89,7 +89,7 @@ bool player::create(game *g, character_type type, std::string tempname)
        tries++;
       } while ((has_trait(rn) || num_btraits - traits[rn].points > max_trait_points) && tries < 5);
 
-      if (tries < 5) {
+      if (tries < 5 && !has_conflicting_trait(rn)) {
        toggle_trait(rn);
        points -= traits[rn].points;
        num_btraits -= traits[rn].points;
@@ -111,7 +111,7 @@ bool player::create(game *g, character_type type, std::string tempname)
      case 4:
       rn = random_good_trait();
       if (!has_trait(rn) && points >= traits[rn].points &&
-          num_gtraits + traits[rn].points <= max_trait_points) {
+          num_gtraits + traits[rn].points <= max_trait_points && !has_conflicting_trait(rn)) {
        toggle_trait(rn);
        points -= traits[rn].points;
        num_gtraits += traits[rn].points;
@@ -670,16 +670,25 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                         cLine = col_off_act;
                         if (iCurrentLine[iCurrentPage] == i) {
                             cLine = hi_off;
-                            if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+
+                            if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                                cLine = hilite(c_dkgray);
+                            } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
                                 cLine = hi_on;
                             }
                         } else {
-                            if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                             if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                                cLine = c_dkgray;
+
+                            } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
                                 cLine = col_on_act;
                             }
                         }
                     } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
                         cLine = col_on_pas;
+
+                    } else if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                        cLine = c_ltgray;
                     }
 
                     mvwprintz(w, 5 + i - iStartPos, (iCurrentPage == 0) ? 2 : 40, c_ltgray, "\
@@ -745,6 +754,9 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                     } else {
                         mvwprintz(w,  3, 2, c_red, _("Points left:%3d"), points);
                     }
+
+                } else if(u->has_conflicting_trait(cur_trait)) {
+                    popup(_("You already picked a conflicting trait!"));
 
                 } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points > max_trait_points) {
                     popup(_("Sorry, but you can only take %d points of advantages."), max_trait_points);

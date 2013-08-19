@@ -3045,6 +3045,20 @@ bool player::has_base_trait(std::string flag)
     return my_traits[flag]; //Looks only at base traits
 }
 
+bool player::has_conflicting_trait(std::string flag)
+{
+    if(g->mutation_data[flag].cancels.size() > 0) {
+        std::vector<std::string> cancels = g->mutation_data[flag].cancels;
+
+        for (int i = 0; i < cancels.size(); i++) {
+            if ( has_trait(cancels[i]) )
+                return true;
+        }
+    }
+
+    return false;
+}
+
 void player::toggle_trait(std::string flag)
 {
     my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player
@@ -3059,12 +3073,12 @@ void player::toggle_mutation(std::string flag)
 void player::set_cat_level_rec(std::string sMut)
 {
     if (!has_base_trait(sMut)) { //Skip base traits
-        for (int i = 0; i < (g->mutation_data)[sMut].category.size(); i++) {
-            mutation_category_level[(g->mutation_data)[sMut].category[i]] += 8;
+        for (int i = 0; i < g->mutation_data[sMut].category.size(); i++) {
+            mutation_category_level[g->mutation_data[sMut].category[i]] += 8;
         }
 
-        for (int i = 0; i < (g->mutation_data)[sMut].prereqs.size(); i++) {
-            set_cat_level_rec((g->mutation_data)[sMut].prereqs[i]);
+        for (int i = 0; i < g->mutation_data[sMut].prereqs.size(); i++) {
+            set_cat_level_rec(g->mutation_data[sMut].prereqs[i]);
         }
     }
 }
