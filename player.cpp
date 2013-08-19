@@ -3054,6 +3054,21 @@ bool player::has_base_trait(int flag) const
  return my_traits[flag]; //Looks only at base traits
 }
 
+bool player::has_conflicting_trait(int flag)
+{
+    if(g->mutation_data[flag].cancels.size()<1)
+        return false;
+
+    std::vector<pl_flag> cancels=g->mutation_data[flag].cancels;
+
+    for( int i=0; i < cancels.size(); ++i ) {
+        if ( has_trait(cancels[i]) )
+            return true;
+    }
+    
+    return false;
+}
+
 void player::toggle_trait(int flag)
 {
  my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player

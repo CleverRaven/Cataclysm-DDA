@@ -40,6 +40,8 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
 int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points);
 int set_description(WINDOW* w, game* g, player *u, character_type type, int &points);
 
+//bool can_choose_trait(game* g,player* u,int mut);
+
 int random_skill();
 
 int calc_HP(int strength, bool tough);
@@ -581,8 +583,6 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
 
 int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, int max_trait_points)
 {
- draw_tabs(w, "TRAITS");
-
  WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
  int num_good = 0, num_bad = 0;
@@ -611,7 +611,7 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
  //mvwprintz(w,16,31, c_ltgray,"Toggles");
 
  int cur_adv = 1, cur_dis = PF_SPLIT + 1, cur_trait, traitmin, traitmax, xoff;
- nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off;
+ nc_color col_on, col_off, col_conf, hi_on, hi_off, hi_conf;
  bool using_adv = true;	// True if we're selecting advantages, false if we're
 			// selecting disadvantages
 
@@ -621,124 +621,126 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
   mvwprintz(w,  3,25, c_ltred, "%2d/%d", num_bad, max_trait_points);
 // Clear the bottom of the screen.
   werase(w_description);
-  if (using_adv) {//Traits costs note and traits description
-   col_on_act  = COL_TR_GOOD_ON_ACT;
-   col_off_act = COL_TR_GOOD_OFF_ACT;
-   col_on_pas  = COL_TR_GOOD_ON_PAS;
-   col_off_pas = COL_TR_GOOD_OFF_PAS;
-   hi_on   = hilite(col_on_act);
-   hi_off  = hilite(col_off_act);
-   xoff = 2;
-   cur_trait = cur_adv;
-   traitmin = 1;
-   traitmax = PF_SPLIT;
-   mvwprintz(w,  3, 33, c_ltgray, "                                              ");
-   mvwprintz(w,  3, 33, COL_TR_GOOD, _("%s costs %d points"),
-             _(traits[cur_adv].name.c_str()), traits[cur_adv].points);
-   fold_and_print(w_description, 0, 0, 78, COL_TR_GOOD, "%s", _(traits[cur_adv].description.c_str()));
-  } else {
-   col_on_act  = COL_TR_BAD_ON_ACT;
-   col_off_act = COL_TR_BAD_OFF_ACT;
-   col_on_pas  = COL_TR_BAD_ON_PAS;
-   col_off_pas = COL_TR_BAD_OFF_PAS;
-   hi_on   = hilite(col_on_act);
-   hi_off  = hilite(col_off_act);
-   xoff = 40;
-   cur_trait = cur_dis;
-   traitmin = PF_SPLIT + 1;
-   traitmax = PF_MAX;
-   mvwprintz(w,  3, 33, c_ltgray, "                                              ");
-   mvwprintz(w,  3, 33, COL_TR_BAD, _("%s earns %d points"),
-             _(traits[cur_dis].name.c_str()), traits[cur_dis].points * -1);
-   fold_and_print(w_description, 0, 0, 78, COL_TR_BAD, "%s", _(traits[cur_dis].description.c_str()));
-  }
-
-  if (cur_trait <= traitmin + 7) {//draw list
-   for (int i = traitmin; i < traitmin + 16; i++) {
-    mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
-                                      ");	// Clear the line
-    if (i == cur_trait) {
-     if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_on, traits[i].name.c_str());
-     else
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_off, traits[i].name.c_str());
-    } else {
-     if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, col_on_act, traits[i].name.c_str());
-     else
-      mvwprintz(w, 5 + i - traitmin, xoff, col_off_act, traits[i].name.c_str());
+  bool drawing_selected_column;
+  for (int s = 0; s < 2; s++) {
+   drawing_selected_column=(using_adv!=s);
+   if (s==0) {//Traits costs note and traits description
+    col_on      = drawing_selected_column?COL_TR_GOOD_ON_ACT:COL_TR_GOOD_ON_PAS;
+    col_off     = drawing_selected_column?COL_TR_GOOD_OFF_ACT:COL_TR_GOOD_OFF_PAS;
+    xoff = 2;
+    cur_trait = cur_adv;
+    traitmin = 1;
+    traitmax = PF_SPLIT;
+    if(drawing_selected_column)
+    {
+        fold_and_print(w_description, 0, 0, 78, COL_TR_GOOD, "%s", _(traits[cur_adv].description.c_str()));
+        mvwprintz(w,  3, 33, c_ltgray, "                                              ");
+        mvwprintz(w,  3, 33, COL_TR_GOOD, _("%s costs %d %s"),
+                  _(traits[cur_adv].name.c_str()),
+                  traits[cur_adv].points,
+                  traits[cur_adv].points==1?_("point"):_("points"));
+    }
+   } else {
+    col_on      = drawing_selected_column?COL_TR_BAD_ON_PAS:COL_TR_BAD_ON_ACT;
+    col_off     = drawing_selected_column?COL_TR_BAD_OFF_ACT:COL_TR_BAD_OFF_PAS;
+    xoff = 40;
+    cur_trait = cur_dis;
+    traitmin = PF_SPLIT + 1;
+    traitmax = PF_MAX;
+    if(drawing_selected_column) {
+        mvwprintz(w,  3, 33, c_ltgray, "                                              ");
+        mvwprintz(w,  3, 33, COL_TR_BAD, _("%s earns %d points"),
+                  _(traits[cur_dis].name.c_str()), traits[cur_dis].points * -1);
+        fold_and_print(w_description, 0, 0, 78, COL_TR_BAD, "%s", _(traits[cur_dis].description.c_str()));
     }
    }
-  } else if (cur_trait >= traitmax - 9) {
-   for (int i = traitmax - 16; i < traitmax; i++) {
+
+   col_conf    = drawing_selected_column?COL_TR_BAD_OFF_PAS:c_black;
+   hi_on   = hilite(col_on);
+   hi_off  = hilite(col_off);
+   hi_conf  = hilite(col_conf);
+
+   if (cur_trait <= traitmin + 7) {//draw list
+    for (int i = traitmin; i < traitmin + 16; i++) {
+     mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
+                                       ");	// Clear the line
+    if (i == cur_trait && drawing_selected_column) {
+      if (u->has_trait(i))
+       mvwprintz(w, 5 + i - traitmin, xoff, hi_on, traits[i].name.c_str());
+      else
+      if (u->has_conflicting_trait(i))
+       mvwprintz(w, 5 + i - traitmin, xoff, hi_conf, traits[i].name.c_str());
+      else
+       mvwprintz(w, 5 + i - traitmin, xoff, hi_off, traits[i].name.c_str());
+     } else {
+      if (u->has_trait(i))
+       mvwprintz(w, 5 + i - traitmin, xoff, col_on, traits[i].name.c_str());
+      else
+      if (u->has_conflicting_trait(i))
+      mvwprintz(w, 5 + i - traitmin, xoff, col_conf, traits[i].name.c_str());
+      else
+       mvwprintz(w, 5 + i - traitmin, xoff, col_off, traits[i].name.c_str());
+      }
+    }
+   } else if (cur_trait >= traitmax - 9) {
+    for (int i = traitmax - 16; i < traitmax; i++) {
     mvwprintz(w, 21 + i - traitmax, xoff, c_ltgray, "\
+                                       ");	// Clear the line
+     if (i == cur_trait && drawing_selected_column) {
+      if (u->has_trait(i))
+       mvwprintz(w, 21 + i - traitmax, xoff, hi_on, traits[i].name.c_str());
+      else
+      if (u->has_conflicting_trait(i))
+       mvwprintz(w, 21 + i - traitmax, xoff, hi_conf, traits[i].name.c_str());
+      else
+       mvwprintz(w, 21 + i - traitmax, xoff, hi_off, traits[i].name.c_str());
+     } else {
+      if (u->has_trait(i))
+        mvwprintz(w, 21 + i - traitmax, xoff, col_on, traits[i].name.c_str());
+      else
+      if (u->has_conflicting_trait(i))
+       mvwprintz(w, 21 + i - traitmax, xoff, col_conf, traits[i].name.c_str());
+      else
+       mvwprintz(w, 21 + i - traitmax, xoff, col_off, traits[i].name.c_str());
+     }
+    }
+   } else {
+    for (int i = cur_trait - 7; i < cur_trait + 9; i++) {
+     mvwprintz(w, 12 + i - cur_trait, xoff, c_ltgray, "\
                                       ");	// Clear the line
-    if (i == cur_trait) {
-     if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_on, traits[i].name.c_str());
+     if (i == cur_trait && using_adv!=s) {
+      if (u->has_trait(i))
+       mvwprintz(w, 12 + i - cur_trait, xoff, hi_on, traits[i].name.c_str());
+      else
+      if (u->has_conflicting_trait(i))
+       mvwprintz(w, 12 + i - cur_trait, xoff, hi_conf, traits[i].name.c_str());
+      else
+       mvwprintz(w, 12 + i - cur_trait, xoff, hi_off, traits[i].name.c_str());
+     } else {
+      if (u->has_trait(i))
+       mvwprintz(w, 12 + i - cur_trait, xoff, col_on, traits[i].name.c_str());
+      else
+      if (u->has_conflicting_trait(i))
+       mvwprintz(w, 12 + i - cur_trait, xoff, col_conf, traits[i].name.c_str());
      else
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_off, traits[i].name.c_str());
-    } else {
-     if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, col_on_act, traits[i].name.c_str());
-     else
-      mvwprintz(w, 21 + i - traitmax, xoff, col_off_act, traits[i].name.c_str());
-    }
-   }
-  } else {
-   for (int i = cur_trait - 7; i < cur_trait + 9; i++) {
-    mvwprintz(w, 12 + i - cur_trait, xoff, c_ltgray, "\
-                                     ");	// Clear the line
-    if (i == cur_trait) {
-     if (u->has_trait(i))
-      mvwprintz(w, 12 + i - cur_trait, xoff, hi_on, traits[i].name.c_str());
-     else
-      mvwprintz(w, 12 + i - cur_trait, xoff, hi_off, traits[i].name.c_str());
-    } else {
-     if (u->has_trait(i))
-      mvwprintz(w, 12 + i - cur_trait, xoff, col_on_act, traits[i].name.c_str());
-     else
-      mvwprintz(w, 12 + i - cur_trait, xoff, col_off_act, traits[i].name.c_str());
-    }
+       mvwprintz(w, 12 + i - cur_trait, xoff, col_off, traits[i].name.c_str());
+     }
+    } 
    }
   }
-
+  draw_tabs(w, "TRAITS");
+  
   wrefresh(w);
   wrefresh(w_description);
+  
+  cur_trait=using_adv?cur_adv:cur_dis;
+  
   switch (input()) {
    case 'h':
    case 'l':
    case '6':
    case '4':
    case '\t':
-    if (cur_trait <= traitmin + 7) {//draw list
-     for (int i = traitmin; i < traitmin + 16; i++) {
-      mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
-                                     ");	// Clear the line
-      if (u->has_trait(i))
-       mvwprintz(w, 5 + i - traitmin, xoff, col_on_pas, traits[i].name.c_str());
-      else
-       mvwprintz(w, 5 + i - traitmin, xoff, col_off_pas, traits[i].name.c_str());
-     }
-    } else if (cur_trait >= traitmax - 9) {
-     for (int i = traitmax - 16; i < traitmax; i++) {
-      mvwprintz(w, 21 + i - traitmax, xoff, c_ltgray, "\
-                                     ");	// Clear the line
-      if (u->has_trait(i))
-       mvwprintz(w, 21 + i - traitmax, xoff, col_on_pas, traits[i].name.c_str());
-      else
-       mvwprintz(w, 21 + i - traitmax, xoff, col_off_pas, traits[i].name.c_str());
-     }
-    } else {
-     for (int i = cur_trait - 7; i < cur_trait + 9; i++) {
-      mvwprintz(w, 12 + i - cur_trait, xoff, c_ltgray, "\
-                                     ");	// Clear the line
-      if (u->has_trait(i))
-       mvwprintz(w, 12 + i - cur_trait, xoff, col_on_pas, traits[i].name.c_str());
-      else
-       mvwprintz(w, 12 + i - cur_trait, xoff, col_off_pas, traits[i].name.c_str());
-     }
-    }
     using_adv = !using_adv;
     wrefresh(w);
     break;
@@ -784,7 +786,10 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
       }
      } else
       mvwprintz(w,  3, 2, c_red, _("Points left:%3d"), points);
-    } else if (using_adv && num_good + traits[cur_trait].points >
+    }
+    else if(u->has_conflicting_trait(cur_trait))
+          popup(_("You already picked a conflicting trait!"));
+    else if (using_adv && num_good + traits[cur_trait].points >
                             max_trait_points)
      popup(_("Sorry, but you can only take %d points of advantages."),
            max_trait_points);
