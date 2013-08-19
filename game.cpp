@@ -3927,10 +3927,10 @@ void game::refresh_all()
 {
  m.reset_vehicle_cache();
  draw();
- draw_minimap();
  draw_HP();
  wrefresh(w_messages);
  refresh();
+ draw_minimap();
 }
 
 void game::draw_HP()
@@ -6243,7 +6243,6 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
         u.moves = 0;
     }
     refresh_all();
-    draw_minimap(); // TODO: Figure out why this is necessary.
 }
 
 // A gate handle is adjacent to a wall section, and next to that wall section on one side or
