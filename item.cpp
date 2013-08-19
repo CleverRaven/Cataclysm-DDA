@@ -872,7 +872,7 @@ std::string item::tname(game *g)
   burntext = rm_prefix(_("<burnt_adj>burnt "));
 
  std::string maintext = "";
- if (typeId() == "corpse") {
+ if (corpse != NULL) {
   if (name != "")
    maintext = rmp_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
   else maintext = rmp_format(_("<item_name>%s corpse"), corpse->name.c_str());
@@ -947,15 +947,11 @@ std::string item::tname(game *g)
 
 nc_color item::color() const
 {
- if (typeId() == "corpse") {
-  if ( ! corpse ) { // should have done 'if ( corpse != NULL ) { ...
-     debugmsg("Bad corpse %s",typeId());
-     return c_black;
-  }
-  return corpse->color;
- }
  if( is_null() )
   return c_black;
+ if ( corpse != NULL ) {
+    return corpse->color;
+ }
  return type->color;
 }
 
@@ -973,7 +969,7 @@ int item::price() const
 // MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {
-    if (typeId() == "corpse") {
+    if (corpse != NULL) {
         int ret = 0;
         switch (corpse->size) {
             case MS_TINY:   ret =   1000;  break;
@@ -1026,7 +1022,7 @@ int item::weight() const
 
 int item::volume() const
 {
- if (typeId() == "corpse") {
+ if (corpse != NULL) {
   switch (corpse->size) {
    case MS_TINY:   return   2;
    case MS_SMALL:  return  40;
@@ -1164,7 +1160,7 @@ bool item::rotten(game *g)
 bool item::ready_to_revive(game *g)
 {
     if (OPTIONS["REVIVE_ZOMBIES"]) {
-        if (type->id != "corpse" || corpse->species != species_zombie || damage >= 4)
+        if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
         {
             return false;
         }
@@ -1414,7 +1410,7 @@ bool item::made_of(std::string mat_ident) const
  if( is_null() )
   return false;
 
- if (typeId() == "corpse")
+ if (corpse != NULL)
   return (corpse->mat == mat_ident);
 
     return (type->m1 == mat_ident || type->m2 == mat_ident);
@@ -1422,7 +1418,7 @@ bool item::made_of(std::string mat_ident) const
 
 std::string item::get_material(int m) const
 {
-    if (typeId() == "corpse")
+    if (corpse != NULL)
         return corpse->mat;
 
     return (m==2)?type->m2:type->m1;

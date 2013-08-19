@@ -3669,7 +3669,7 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  bool drew_blood = false;
  for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
   item *map_it = &(g->m.i_at(p->posx, p->posy)[i]);
-  if (map_it->type->id == "corpse" &&
+  if (map_it->corpse !=NULL && map_it->type->id == "corpse" &&
       query_yn(_("Draw blood from %s?"), map_it->tname().c_str())) {
    blood.corpse = map_it->corpse;
    drew_blood = true;
