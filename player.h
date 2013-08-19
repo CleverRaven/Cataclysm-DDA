@@ -78,6 +78,8 @@ public:
  bool has_base_trait(std::string flag);
  void toggle_trait(std::string flag);
  void toggle_mutation(std::string flag);
+ void set_cat_level_rec(std::string sMut);
+ void set_highest_cat_level();
  std::string get_highest_category();
  int get_category_level(std::string cat);
  std::string get_category_dream(std::string cat, int strength);

@@ -127,11 +127,6 @@ player::player()
     my_mutations[iter->first] = false;
  }
 
- for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
-    mutation_category_level[iter->first] = 0;
- }
- mutation_category_level[""] = 5; // Weigh us towards no category for a bit
-
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill) {
    skillLevel(*aSkill).level(0);
@@ -179,8 +174,6 @@ player& player::operator= (const player & rhs)
 
  my_traits = rhs.my_traits;
  my_mutations = rhs.my_mutations;
-
- mutation_category_level = rhs.mutation_category_level;
 
  my_bionics = rhs.my_bionics;
 
@@ -1228,14 +1221,7 @@ void player::load_info(game *g, std::string data)
     }
  }
 
- for (int i = 0; i < traits.size(); i++) {
-    dump >> sTemp;
-    if (sTemp == "MUT_CAT_LEVEL_END") {
-        break;
-    } else {
-        dump >> mutation_category_level[sTemp];
-    }
- }
+ set_highest_cat_level();
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
@@ -1360,19 +1346,6 @@ std::string player::save_info()
  }
 
  dump << "MUTATIONS_END" << " ";
-
- std::stringstream ssTemp;
-
- for (std::map<std::string, int>::iterator iter = mutation_category_level.begin(); iter != mutation_category_level.end(); ++iter) {
-     if (iter->first != "") {
-        ssTemp << iter->first << " " << iter->second << "\n";
-        dump << iter->first << " " << iter->second << " ";
-     }
- }
-
- dump << "MUT_CAT_LEVEL_END" << " ";
-
- debugmsg(ssTemp.str().c_str());
 
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
@@ -2993,17 +2966,45 @@ void player::toggle_mutation(std::string flag)
     my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
 }
 
+void player::set_cat_level_rec(std::string sMut)
+{
+    if (!has_base_trait(sMut)) { //Skip base traits
+        for (int i = 0; i < (g->mutation_data)[sMut].category.size(); i++) {
+            mutation_category_level[(g->mutation_data)[sMut].category[i]] += 8;
+            debugmsg((sMut + " " + (g->mutation_data)[sMut].category[i]).c_str());
+        }
+
+        for (int i = 0; i < (g->mutation_data)[sMut].prereqs.size(); i++) {
+            set_cat_level_rec((g->mutation_data)[sMut].prereqs[i]);
+        }
+    }
+}
+
+void player::set_highest_cat_level()
+{
+    mutation_category_level.clear();
+
+	// Loop through our mutations
+    for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        if (has_trait(iter->first)) {
+            set_cat_level_rec(iter->first);
+        }
+    }
+}
+
 std::string player::get_highest_category() // Returns the mutation category with the highest strength
 {
-	int level = 0;
-	std::string maxcat = "";
-	for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
-		if (mutation_category_level[iter->first] > level) {
-			maxcat = iter->first;
-			level = mutation_category_level[iter->first];
+    int iLevel = 0;
+	std::string sMaxCat = "";
+
+	for (std::map<std::string, int>::iterator iter = mutation_category_level.begin(); iter != mutation_category_level.end(); ++iter) {
+		if (mutation_category_level[iter->first] > iLevel) {
+			sMaxCat = iter->first;
+			iLevel = mutation_category_level[iter->first];
 		}
 	}
-	return maxcat;
+
+	return sMaxCat;
 }
 
 std::string player::get_category_dream(std::string cat, int strength) // Returns a randomly selected dream

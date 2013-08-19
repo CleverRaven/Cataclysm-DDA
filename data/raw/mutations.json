@@ -912,7 +912,7 @@
         "ugliness": 4,
         "description": "Your skin is covered in small, woody thorns. Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive minor damage. Your punches may also deal extra damage.",
         "valid": true,
-        "prereqs": ["PLANTSKIN", "BARK"],
+        "prereqs": ["BARK"],
         "category": ["MUTCAT_PLANT"]
     },
     {
@@ -923,7 +923,7 @@
         "ugliness": 3,
         "description": "All the hair on your body has turned to long, grass-like leaves. Apart from being physically striking, these provide you with a minor amount of nutrition while in sunlight.",
         "valid": true,
-        "prereqs": ["PLANTSKIN", "BARK"],
+        "prereqs": ["BARK"],
         "category": ["MUTCAT_PLANT"]
     },
     {

@@ -42,20 +42,9 @@ void player::mutate(game *g)
     // Determine the mutation categorie
     std::string cat = "";
 
-    // Count up the players number of mutations in categories and find
-    // the category with the highest single count.
-    int total = 0, highest = 0;
-
-    for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
-        total += mutation_category_level[iter->first];
-        if (mutation_category_level[iter->first] > highest) {
-            cat = iter->first;
-            highest = mutation_category_level[iter->first];
-        }
-    }
-
     // See if we should ugrade/extend an existing mutation...
     std::vector<std::string> upgrades;
+
     // ... or remove one that is not in our highest category
     std::vector<std::string> downgrades;
 
@@ -168,7 +157,7 @@ void player::mutate(game *g)
 
     std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
 
-    mutate_towards(g, selection);
+    set_highest_cat_level();
 }
 
 void player::mutate_category(game *g, std::string cat)
@@ -241,6 +230,7 @@ void player::mutate_towards(game *g, std::string mut)
             has_prereqs = true;
         }
     }
+
     if (!has_prereqs && !prereq.empty()) {
         std::string devel = prereq[ rng(0, prereq.size() - 1) ];
         mutate_towards(g, devel);
@@ -279,22 +269,7 @@ void player::mutate_towards(game *g, std::string mut)
         mutation_effect(g, *this, mut);
     }
 
-    // Weight us towards any categories that include this mutation
-    for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
-        std::vector<std::string> group = mutations_category[iter->first];
-        bool found = false;
-        for (int j = 0; !found && j < group.size(); j++) {
-            if (group[j] == mut) {
-                found = true;
-            }
-        }
-
-        if (found) {
-            mutation_category_level[iter->first] += 8;
-        } else if (mutation_category_level[iter->first] > 0 && !one_in(mutation_category_level[iter->first])) {
-            mutation_category_level[iter->first]--;
-        }
-    }
+    set_highest_cat_level();
 }
 
 void player::remove_mutation(game *g, std::string mut)
@@ -361,25 +336,7 @@ void player::remove_mutation(game *g, std::string mut)
         mutation_loss_effect(g, *this, mut);
     }
 
-    // Reduce the strength of the categories the removed mutation is a part of
-    for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
-        std::vector<std::string> group = mutations_category[iter->first];
-        bool found = false;
-
-        for (int j = 0; !found && j < group.size(); j++) {
-            if (group[j] == mut) {
-                found = true;
-            }
-        }
-
-        if (found) {
-            mutation_category_level[iter->first] -= 8;
-            // If the category strength is below 0, set it to 0. We don't want negative category strength.
-            if (mutation_category_level[iter->first] < 0) {
-                mutation_category_level[iter->first] = 0;
-            }
-        }
-    }
+    set_highest_cat_level();
 }
 
 bool player::has_child_flag(game *g, std::string flag)

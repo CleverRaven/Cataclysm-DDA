@@ -1130,8 +1130,6 @@ void dis_effect(game *g, player &p, disease &dis)
   p.per_cur -= int(dis.duration / 25);
   if (rng(30, 100) < rng(0, dis.duration) && one_in(3))
    p.vomit(g);
-  if (rng(0, 100) < rng(0, dis.duration))
-   p.mutation_category_level["MUTCAT_RAT"]++;
   if (rng(50, 500) < rng(0, dis.duration))
    p.mutate(g);
   break;
