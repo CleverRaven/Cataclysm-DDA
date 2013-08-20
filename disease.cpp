@@ -785,8 +785,8 @@ void dis_effect(game *g, player &p, disease &dis)
    dis.duration = 1;
    g->add_msg_if_player(&p,_("You fall asleep."));
    // Communicate to the player that he is using items on the floor
-    if ( p.is_snuggling(g) != "nothing") {
-        std::string item_name = p.is_snuggling(g);
+   std::string item_name = p.is_snuggling(g);
+    if ( item_name != "nothing") {
         if ( one_in(15) ) {
             g->add_msg(_("You snuggle your %s to keep warm."), item_name.c_str());
         }
