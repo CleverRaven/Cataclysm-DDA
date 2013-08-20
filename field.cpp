@@ -236,9 +236,6 @@ bool map::process_fields_in_submap(game *g, int gridn)
 {
     // Realistically this is always true, this function only gets called if fields exist.
     bool found_field = false;
-    // Used to hold a copy of the current field.
-    // Do not addField or removeField with this variable (it's just a copy afterall).
-    field curfield;
     // A pointer to the current field effect.
     // Used to modify or otherwise get information on the field effect to update.
     field_entry *cur;
@@ -256,7 +253,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
             int y = locy + SEEY * int(gridn / my_MAPSIZE);
             // get a copy of the field variable from the submap;
             // contains all the pointers to the real field effects.
-            curfield = grid[gridn]->fld[locx][locy];
+            field &curfield = grid[gridn]->fld[locx][locy];
             for(std::map<field_id, field_entry *>::iterator it = curfield.getFieldStart();
                 it != curfield.getFieldEnd(); ++it ) {
                 //Iterating through all field effects in the submap's field.
@@ -691,7 +688,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 cur->setFieldDensity(cur->getFieldDensity() - 1);
                             }
                         } else {
-                            cur->setFieldType(fd_flame_burst);
+                            curfield.replaceField(fd_fire_vent, fd_flame_burst);
                             cur->setFieldDensity(3);
                         }
                         break;
@@ -700,7 +697,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         if (cur->getFieldDensity() > 1) {
                             cur->setFieldDensity(cur->getFieldDensity() - 1);
                         } else {
-                            cur->setFieldType(fd_fire_vent);
+                            curfield.replaceField(fd_flame_burst, fd_fire_vent);
                             cur->setFieldDensity(3);
                         }
                         break;
@@ -1597,6 +1594,19 @@ Returns the last added field from the tile for drawing purposes.
 */
 field_id field::fieldSymbol() const{
 	return draw_symbol;
+}
+
+bool field::replaceField(field_id old_field, field_id new_field)
+{
+    field_entry* field = findField(old_field);
+    if (!field)
+        return false;
+    field->setFieldType(new_field);
+    field_list.erase(old_field);
+    field_list[new_field] = field;
+    if (draw_symbol == old_field)
+        draw_symbol = new_field;
+    return true;
 }
 
 int field::move_cost() const{
