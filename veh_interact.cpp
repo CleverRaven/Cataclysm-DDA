@@ -1075,9 +1075,11 @@ void complete_vehicle (game *g)
                 debugmsg( "no wheel to remove when changing wheels." );
                 return;
             }
-            partnum = veh->install_part( dx, dy, (vpart_id) part );
-            if( partnum < 0 )
-                debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part);
+            partnum = veh->install_part( dx, dy, (vpart_id) part , -1, true );
+            if( partnum < 0 ) {
+                debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d.", dx, dy, part);
+                return; // Do not consume tire if install fails.
+            }
             used_item = consume_vpart_item( g, (vpart_id) part );
             veh->get_part_properties_from_item( g, partnum, used_item ); //transfer damage, etc.
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
