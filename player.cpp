@@ -683,14 +683,18 @@ void player::update_bodytemp(game *g)
         std::vector<item>& floor_item = g->m.i_at(posx, posy);
         it_armor* floor_armor = NULL;
 
-        for ( std::vector<item>::iterator afloor_item = floor_item.begin() ; afloor_item != floor_item.end() ; ++afloor_item) {
+        for ( std::vector<item>::iterator afloor_item = floor_item.begin() ;
+        afloor_item != floor_item.end() ;
+        ++afloor_item) {
             if ( !afloor_item->is_armor() ) {
                 continue;
             }
             floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
             // Items that are big enough and covers the torso are used to keep warm.
             // Smaller items don't do as good a job
-            if ( floor_armor->volume > 1 && ((floor_armor->covers & mfb(bp_torso)) || (floor_armor->covers & mfb(bp_legs))) ) {
+            if ( floor_armor->volume > 1 &&
+            ((floor_armor->covers & mfb(bp_torso)) ||
+             (floor_armor->covers & mfb(bp_legs))) ) {
                 floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
             }
         }
@@ -7619,7 +7623,9 @@ std::string player::is_snuggling(game *g)
         if ( !afloor_item->is_armor() ) {
             continue;
         }
-        else if ( dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_torso) || dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_legs) ){
+        else if ( afloor_item->volume() > 1 &&
+        (dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_torso) ||
+         dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_legs)) ){
             floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
             ticker++;
         }
