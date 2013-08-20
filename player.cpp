@@ -690,7 +690,7 @@ void player::update_bodytemp(game *g)
             floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
             // Items that are big enough and covers the torso are used to keep warm.
             // Smaller items don't do as good a job
-            if ( floor_armor->volume > 1 && floor_armor->covers & mfb(bp_torso) ) {
+            if ( floor_armor->volume > 1 && ((floor_armor->covers & mfb(bp_torso)) || (floor_armor->covers & mfb(bp_legs))) ) {
                 floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
             }
         }
@@ -7607,18 +7607,29 @@ bool player::can_sleep(game *g)
 std::string player::is_snuggling(game *g)
 {
     std::vector<item>& floor_item = g->m.i_at(posx, posy);
-    bool is_not_armor = true;
-    
-    while( is_not_armor ) {
-        int random_index = rand() % floor_item.size();
-        if ( dynamic_cast<it_armor*>(floor_item[random_index].type)->is_armor() ) {
-            is_not_armor = false;
-            std::string floor_item_name = dynamic_cast<it_armor*>(floor_item[random_index].type)->name.c_str();
-            return floor_item_name;
-        }
+    int attempts = 0;
+
+    // If there are no items on the floor, return nothing
+    if ( floor_item.size() == 0 ) {
+        return "nothing";
     }
+
+    while (attempts < 5) {
+        // Pick a random item
+        int random_index = rand() % floor_item.size();
+        it_armor* afloor_item = dynamic_cast<it_armor*>(floor_item[random_index].type);
+
+        // Check to see if the item is armor and that it covers the torso
+        if ( afloor_item->is_armor() && ((afloor_item->covers & mfb(bp_torso)) || (afloor_item->covers & mfb(bp_legs))) ) {
+            return afloor_item->name.c_str();
+        }
+        
+        attempts++;
+    }
+
     return "nothing";
 }
+
 // Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
 // 2.5 is enough light for detail work.
 float player::fine_detail_vision_mod(game *g)

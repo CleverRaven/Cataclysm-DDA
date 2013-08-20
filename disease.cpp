@@ -791,7 +791,7 @@ void dis_effect(game *g, player &p, disease &dis)
             g->add_msg(_("You snuggle your %s to keep warm."), item_name.c_str());
         }
         else {
-            g->add_msg(_("Your %s keeps you warm."), item_name.c_str());
+            g->add_msg(_("You use your %s to keep warm."), item_name.c_str());
         }
     }
    p.add_disease("sleep", 6000);
