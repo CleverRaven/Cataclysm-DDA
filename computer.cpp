@@ -329,10 +329,26 @@ void computer::activate_function(game *g, computer_action action)
                                 for (int i = 0; i < g->m.i_at(x1, y1).size(); i++)
                                 {
                                     item *it = &(g->m.i_at(x1, y1)[i]);
-                                    if (it->is_container() && it->contents.empty())
-                                    {
-                                        it->put_in( item(g->itypes["sewage"], g->turn) );
-                                        found_item = true;
+                                    if (it->is_container()){
+                                        item sewage = item(g->itypes["sewage"], g->turn);
+                                        it_container* container = dynamic_cast<it_container*>(it->type);
+                                        it_comest*    comest    = dynamic_cast<it_comest*>(sewage.type);
+                                        int maxCharges = container->contains * comest->charges;
+
+                                        if (it->contents.empty()) {
+                                            it->put_in(sewage);
+                                            found_item = true;
+                                            break;
+                                        } else {
+                                            if (it->contents[0].type->id == sewage.type->id)
+                                            {
+                                                if (it->contents[0].charges < maxCharges){
+                                                    it->contents[0].charges += comest->charges;
+                                                    found_item = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                                 if (!found_item)
@@ -1066,7 +1082,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   Drive Golden, Colorado 80403\n\
   \n\
   These samples must be accurate and any attempts to cover\n\
-  incompetencies will resault in charges of Federal Corrution\n\
+  incompetencies will result in charges of Federal Corruption\n\
   and potentially Treason.\n"));
         query_any(_("Press any key to continue..."));
         reset_terminal();

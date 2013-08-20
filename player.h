@@ -394,6 +394,14 @@ public:
  std::vector <addiction> addictions;
 
  recipe* lastrecipe;
+
+ //Dumps all memorial events into a single newline-delimited string
+ std::string dump_memorial();
+ //Log an event, to be later written to the memorial file
+ void add_memorial_log(const char* message, ...);
+ //Notable events, to be printed in memorial
+ std::vector <std::string> memorial_log;
+
  int getID ();
 protected:
     void setID (int i);

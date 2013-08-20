@@ -624,6 +624,17 @@ void iexamine::aggie_plant(game *g, player *p, map *m, int examx, int examy) {
     m->spawn_item(examx, examy, seedType, 0, 1, rng(plantCount / 4, plantCount / 2));
 
     p->moves -= 500;
+  } else if (m->furn(examx,examy) != f_plant_harvest && m->i_at(examx, examy).size() == 1 && p->charges_of("fertilizer_liquid") && query_yn(_("Fertilize plant"))) {
+    unsigned int fertilizerEpoch = 14400 * 2;
+
+    if (m->i_at(examx, examy)[0].bday > fertilizerEpoch) {
+      m->i_at(examx, examy)[0].bday -= fertilizerEpoch;
+    } else {
+      m->i_at(examx, examy)[0].bday = 0;
+    }
+
+    p->use_charges("fertilizer_liquid", 1);
+    m->spawn_item(examx, examy, "fertilizer", 0, 1, 1);
   }
 }
 

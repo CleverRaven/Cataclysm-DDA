@@ -197,7 +197,7 @@ void initOptions() {
 
     OPTIONS["RAD_MUTATION"] =           cOpt(mPage["general"], _("Mutations by radiation"),
                                              _("If true, radiation causes the player to mutate."),
-                                             false
+                                             true
                                             );
 
     OPTIONS["SAVE_SLEEP"] =             cOpt(mPage["interface"], _("Ask to save before sleeping"),
@@ -215,9 +215,9 @@ void initOptions() {
                                              false
                                             );
 
-    OPTIONS["AUTO_PICKUP_ZERO"] =       cOpt(mPage["general"], _("Auto Pickup 0 Vol/Weight"),
-                                             _("Auto pickup items with 0 Volume or Weight"),
-                                             false
+    OPTIONS["AUTO_PICKUP_ZERO"] =       cOpt(mPage["general"], _("Auto Pickup 0 Vol light items"),
+                                             _("Auto pickup items with 0 Volume, and weight less than or equal to [option] * 50 grams. '0' disables this option"),
+                                             0, 20, 0
                                             );
 
     OPTIONS["AUTO_PICKUP_SAFEMODE"] =   cOpt(mPage["general"], _("Auto Pickup Safemode"),
@@ -232,7 +232,7 @@ void initOptions() {
 
     OPTIONS["SORT_CRAFTING"] =          cOpt(mPage["interface"], _("Sort Crafting menu"),
                                              _("If true, the crafting menus will display recipes that you can craft before other recipes"),
-                                             false
+                                             true
                                             );
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {

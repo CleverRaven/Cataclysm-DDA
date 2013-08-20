@@ -3650,6 +3650,72 @@
 },
 
 {
+   "result": "chips",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 20000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "potato_raw", 1 ]
+    ],
+    [
+      [ "salt", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "popcorn",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+      [
+        [ "hotplate", 2 ],
+        [ "toolset", 1 ],
+        [ "fire", -1 ]
+      ],
+      [
+        [ "pan", -1 ],
+        [ "pot", -1 ],
+        [ "rock_pot", -1 ]
+      ]
+    ],
+  "components": [
+      [
+        [ "kernels", 1 ]
+      ]
+  ]
+},
+
+{
   "result": "tea",
   "category": "CC_DRINK",
   "skill_used": "cooking",
@@ -3720,9 +3786,9 @@
 {
   "result": "strawberries_cooked",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
-  "time": 30000,
+  "time": 5000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -3746,9 +3812,9 @@
 {
   "result": "blueberries_cooked",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
-  "time": 30000,
+  "time": 5000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -3772,7 +3838,7 @@
 {
   "result": "jam_strawberries",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
@@ -3801,7 +3867,7 @@
 {
   "result": "jam_blueberries",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
@@ -5777,8 +5843,8 @@
 {
   "result": "portable_game",
   "category": "CC_ELECTRONIC",
-  "skill_pri": "electronics",
-  "skill_sec": "computer",
+  "skill_used": "electronics",
+  "requires_skills": ["computer",  5],
   "difficulty": 8,
   "time": 60000,
   "reversible": true,
@@ -7140,7 +7206,7 @@
   "category": "CC_ARMOR",
   "skill_used": "tailor",
   "difficulty": 2,
-  "time": 380000,
+  "time": 38000,
   "reversible": true,
   "autolearn": true,
   "tools": [
@@ -8104,7 +8170,7 @@
   "result": "primitive_shovel",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "construction", 1 ],
+  "requires_skills": [ "carpentry", 1 ],
   "difficulty": 2,
   "time": 60000,
   "reversible": false,
@@ -8137,7 +8203,7 @@
   "result": "primitive_axe",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "construction", 1 ],
+  "requires_skills": [ "carpentry", 1 ],
   "difficulty": 3,
   "time": 60000,
   "reversible": false,
@@ -8216,7 +8282,7 @@
   "result": "shelter_kit",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "construction", 1 ],
+  "requires_skills": [ "carpentry", 1 ],
   "difficulty": 2,
   "time": 50000,
   "reversible": false,
@@ -8247,7 +8313,7 @@
   "id_suffix": "repair",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "tailoring", 1 ],
+  "requires_skills": [ "tailor", 1 ],
   "difficulty": 0,
   "time": 20000,
   "reversible": false,
@@ -8367,7 +8433,7 @@
     ],
     [
       [ "welder", 100 ],
-      [ "welder", 150 ],
+      [ "welder_crude", 150 ],
       [ "toolset", 5 ]
     ],
     [
@@ -8391,6 +8457,57 @@
     ],
     [
       [ "pan", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "weldrig",
+  "category": "CC_MISC",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 16 ],
+      [ "steel_plate", 2 ]
+    ],
+    [
+      ["soldering_iron", 1]
+    ],
+    [
+      [ "welder", 1 ],
+      [ "welder_crude", 3 ]
+    ],
+    [
+      ["cable", 5]
     ]
   ]
 },
@@ -8701,7 +8818,7 @@
   "result": "wire_barbed",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ "construction", 1 ],
+  "requires_skills": [ "carpentry", 1 ],
   "difficulty": 2,
   "time": 8000,
   "reversible": false,
@@ -9410,7 +9527,8 @@
       [ "whiskey", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
-      [ "triple_sec", 7 ]
+      [ "triple_sec", 7 ],
+      [ "disinfectant", 1 ]
     ]
   ]
 },
@@ -10234,7 +10352,7 @@
   "result": "shishkebab_off",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "difficulty": 3,
+  "difficulty": 1,
   "time": 10000,
   "reversible": true,
   "autolearn": true,
@@ -10258,7 +10376,7 @@
   "result": "firemachete_off",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "difficulty": 5,
+  "difficulty": 4,
   "time": 20000,
   "reversible": true,
   "autolearn": true,
@@ -10827,7 +10945,7 @@
 {
   "result": "flour",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 45000,
   "reversible": false,
@@ -10838,8 +10956,7 @@
 {
   "result": "meal_bone",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
-  "skill_sec": "survival",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 60000,
   "reversible": false,
@@ -10848,9 +10965,40 @@
   "components": [ [ ["bone", 1] ] ]
 },
 {
+  "result": "meal_chitin_piece",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["rock_quern", -1] ] ],
+  "components": [ [ ["chitin_piece", 1] ] ]
+},
+{
+  "result": "fertilizer_liquid",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "skills_required": ["surivival", 2],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [ [ "hotplate", 5 ], [ "toolset", 1 ], [ "fire", -1 ] ],
+    [ [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ] ]
+  ],
+  "components": [
+    [ [ "water", 1 ] ],
+    [ [ "meal_bone", 2 ] ],
+    [ [ "meal_chitin_piece", 1 ] ],
+    [ [ "ammonia", 1 ] ]
+  ]
+},
+{
   "result": "spaghetti_raw",
   "category": "CC_FOOD",
-  "skill_pri": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
@@ -10874,9 +11022,9 @@
 {
   "result": "rock_quern",
   "category": "CC_MISC",
-  "skill_pri": "survival",
-  "skill_sec": "mechanics",
-  "difficulty": 1,
+  "skill_used": "fabrication",
+  "requires_skills": [ ["survival", 1], ["mechanics", 2], ["cooking", 2] ],
+  "difficulty": 2,
   "time": 5000,
   "reversible": false,
   "autolearn": true,

@@ -779,6 +779,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   return;
 // If we have the marloss in our veins, we are a "breeder" and will spread
 // alien lifeforms.
+ p->add_memorial_log("Ate a marloss berry.");
  if (p->has_trait(PF_MARLOSS)) {
   g->add_msg_if_player(p,_("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
   p->add_morale(MORALE_MARLOSS, 100, 1000);
@@ -2254,7 +2255,7 @@ void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
 void iuse::shishkebab_off(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true,
-                      _("Shishkebab"), _("Turn on"), _("Use as a knife"), _("Cancel"), NULL);
+                      _("What's the plan?"), _("Bring the heat!"), _("Cut 'em up!"), _("I'm good."), NULL);
     switch (choice)
     {
         if (choice == 2)
@@ -2265,13 +2266,13 @@ void iuse::shishkebab_off(game *g, player *p, item *it, bool t)
         if (rng(0, 10) - it->damage > 5 && it->charges > 0)
         {
             g->sound(p->posx, p->posy, 10,
-                     _("With a hiss, the shishkebab glows cherry-red!"));
+                     _("Let's dance Zeds!"));
             it->make(g->itypes["shishkebab_on"]);
             it->active = true;
         }
 
         else
-            g->add_msg_if_player(p,_("There is a small spark, but nothing else."));
+            g->add_msg_if_player(p,_("Aw, dangit."));
     }
     break;
     case 2:
@@ -2284,27 +2285,33 @@ void iuse::shishkebab_on(game *g, player *p, item *it, bool t)
 {
     if (t)   	// Effects while simply on
     {
-        if (one_in(15))
-            g->sound(p->posx, p->posy, 5, _("Your Shishkebab crackles."));
+        if (one_in(25))
+            g->sound(p->posx, p->posy, 10, _("Your shishkebab crackles!"));
 
         if (one_in(75))
         {
-            g->add_msg_if_player(p,_("Your shishkebab sputters and goes out!")),
+            g->add_msg_if_player(p,_("Bummer man, wipeout!")),
               it->make(g->itypes["shishkebab_off"]),
               it->active = false;
         }
     }
+    else if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("Uncool, outta gas."));
+        it->make(g->itypes["shishkebab_off"]);
+        it->active = false;
+    }
     else
     {
         int choice = menu(true,
-                          _("Shishkebab"), _("Turn off"), _("Light something"), _("Cancel"), NULL);
+                          _("What's the plan?"), _("Chill out"), _("Torch something!"), _("Keep groovin'"), NULL);
         switch (choice)
         {
             if (choice == 2)
                 break;
         case 1:
         {
-            g->add_msg_if_player(p,_("You switch off your shishkebab."));
+            g->add_msg_if_player(p,_("Peace out."));
             it->make(g->itypes["shishkebab_off"]);
             it->active = false;
         }
@@ -2336,7 +2343,7 @@ void iuse::firemachete_off(game *g, player *p, item *it, bool t)
         if (rng(0, 10) - it->damage > 2 && it->charges > 0)
         {
             g->sound(p->posx, p->posy, 10,
-                     _("Heat 'em up!"));
+                     _("Your No. 9 glows!"));
             it->make(g->itypes["firemachete_on"]);
             it->active = true;
         }
@@ -2363,6 +2370,12 @@ void iuse::firemachete_on(game *g, player *p, item *it, bool t)
               it->make(g->itypes["firemachete_off"]),
               it->active = false;
         }
+    }
+    else if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("Out of ammo!"));
+        it->make(g->itypes["firemachete_off"]);
+        it->active = false;
     }
     else
     {
@@ -2424,7 +2437,13 @@ void iuse::broadfire_on(game *g, player *p, item *it, bool t)
     if (t)   	// Effects while simply on
     {
         if (one_in(35))
-            g->sound(p->posx, p->posy, 5, _("Your Firebrand burns for combat!."));
+            g->add_msg_if_player(p,_("Your blade burns for combat!"));
+    }
+    else if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("Thy strength fades!"));
+        it->make(g->itypes["broadfire_off"]);
+        it->active = false;
     }
     else
     {
@@ -2487,7 +2506,13 @@ void iuse::firekatana_on(game *g, player *p, item *it, bool t)
     if (t)   	// Effects while simply on
     {
         if (one_in(35))
-            g->sound(p->posx, p->posy, 5, _("The Sun shines brightly."));
+            g->add_msg_if_player(p,_("The Sun shines brightly."));
+    }
+    else if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("The Light Fades."));
+        it->make(g->itypes["firekatana_off"]);
+        it->active = false;
     }
     else
     {
@@ -2774,7 +2799,7 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
   else if (rads > 8)
    g->add_msg(_("The geiger counter clicks slowly."));
   else if (rads > 4)
-   g->add_msg(_("The geiger counter clicks intermittantly."));
+   g->add_msg(_("The geiger counter clicks intermittently."));
   else
    g->add_msg(_("The geiger counter clicks once."));
   return;
@@ -3399,7 +3424,10 @@ void iuse::UPS_off(game *g, player *p, item *it, bool t)
 void iuse::UPS_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-   if (p->worn.size() && p->worn[0].type->is_power_armor()) {
+   if (p->worn.size() && p->worn[0].type->is_power_armor() &&
+       !p->has_active_bionic("bio_power_armor_interface") &&
+       !p->has_active_bionic("bio_power_armor_interface_mkII") &&
+       !p->has_active_item("adv_UPS_on")) { // Use better power sources first
      it->charges -= 4;
 
      if (it->charges < 0) {
@@ -3433,8 +3461,10 @@ void iuse::adv_UPS_off(game *g, player *p, item *it, bool t)
 void iuse::adv_UPS_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-   if (p->worn.size() && p->worn[0].type->is_power_armor()) {
-     it->charges -= 2;
+   if (p->worn.size() && p->worn[0].type->is_power_armor() &&
+       !p->has_active_bionic("bio_power_armor_interface") &&
+       !p->has_active_bionic("bio_power_armor_interface_mkII")) {
+     it->charges -= 2; // Use better power sources first
 
      if (it->charges < 0) {
        it->charges = 0;
@@ -4301,7 +4331,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     else
    g->m.add_item_or_charges(p->posx, p->posy, lead);
 
-  p->practice(g->turn, "gun", rng(1, multiply / 5 + 1));
+  p->practice(g->turn, "fabrication", rng(1, multiply / 5 + 1));
 }
 
 void iuse::boltcutters(game *g, player *p, item *it, bool t)
