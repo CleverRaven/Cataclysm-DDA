@@ -39,8 +39,8 @@ void player::mutate(game *g)
         force_good = true;
     }
 
-    // Determine the mutation categorie
-    std::string cat = "";
+    // Determine the highest mutation categorie
+    std::string cat = get_highest_category();
 
     // See if we should ugrade/extend an existing mutation...
     std::vector<std::string> upgrades;
@@ -156,8 +156,7 @@ void player::mutate(game *g)
     }
 
     std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
-
-    set_highest_cat_level();
+    mutate_towards(g, selection);
 }
 
 void player::mutate_category(game *g, std::string cat)
