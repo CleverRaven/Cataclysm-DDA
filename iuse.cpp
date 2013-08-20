@@ -96,7 +96,7 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
     }
 
     std::map<std::string, std::string>::const_iterator ent = cut->item_vars.find("item_note");
-    std::map<std::string, std::string>::const_iterator entprefix = cut->item_vars.find("item_note_type");
+
     bool hasnote = (ent != cut->item_vars.end());
     std::string message = "";
     std::string messageprefix = string_format( hasnote ? _("(To delete, input one '.')\n") : "" ) +
