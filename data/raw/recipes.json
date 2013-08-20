@@ -11042,9 +11042,9 @@
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
-  "components": [ [ ["element", 3] ],
-    [ ["scrap", 2] ],
-    [ ["cable", 8] ] ]
+  "components": [ [ ["metal_tank", 1] ],
+    [ ["scrap", 3] ],
+    [ ["lighter", 1] ] ]
 },
 {
   "result": "flamethrower_crude",
