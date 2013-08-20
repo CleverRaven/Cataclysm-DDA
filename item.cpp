@@ -13,7 +13,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
 std::string default_technique_name(technique_id tech);
@@ -54,7 +54,7 @@ item::item(itype* it, unsigned int turn)
  item_counter = 0;
  active = false;
  curammo = NULL;
- corpse = NULL;
+ corpse = ( it->corpse != NULL ? it->corpse : NULL );
  owned = -1;
  mission_id = -1;
  player_id = -1;
@@ -140,7 +140,7 @@ item::item(itype *it, unsigned int turn, char let)
   bigness= rng( engine->min_bigness, engine->max_bigness);
  }
  curammo = NULL;
- corpse = NULL;
+ corpse = ( it->corpse != NULL ? it->corpse : NULL );
  owned = -1;
  invlet = let;
  mission_id = -1;
@@ -733,10 +733,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This tool has double the normal maximum charges."));
     }
-    std::map<std::string, std::string>::iterator item_note = item_vars.find("item_note");
+    std::map<std::string, std::string>::const_iterator item_note = item_vars.find("item_note");
+    std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");
+
     if ( item_note != item_vars.end() ) {
         dump->push_back(iteminfo("DESCRIPTION", "\n" ));
-        dump->push_back(iteminfo("DESCRIPTION", item_note->second ));
+        std::string ntext = "";
+        if ( item_note_type != item_vars.end() ) {
+            ntext += string_format(_("%1$s on this %2$s is a note saying: "),
+                item_note_type->second.c_str(), type->name.c_str()
+            );
+        } else {
+            ntext += "Note: ";
+        }
+        dump->push_back(iteminfo("DESCRIPTION", ntext + item_note->second ));
     }
   if (contents.size() > 0) {
    if (is_gun()) {
@@ -862,7 +872,7 @@ std::string item::tname(game *g)
   burntext = rm_prefix(_("<burnt_adj>burnt "));
 
  std::string maintext = "";
- if (typeId() == "corpse") {
+ if (corpse != NULL) {
   if (name != "")
    maintext = rmp_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
   else maintext = rmp_format(_("<item_name>%s corpse"), corpse->name.c_str());
@@ -937,10 +947,11 @@ std::string item::tname(game *g)
 
 nc_color item::color() const
 {
- if (typeId() == "corpse")
-  return corpse->color;
  if( is_null() )
   return c_black;
+ if ( corpse != NULL ) {
+    return corpse->color;
+ }
  return type->color;
 }
 
@@ -958,7 +969,7 @@ int item::price() const
 // MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {
-    if (typeId() == "corpse") {
+    if (corpse != NULL) {
         int ret = 0;
         switch (corpse->size) {
             case MS_TINY:   ret =   1000;  break;
@@ -1011,7 +1022,7 @@ int item::weight() const
 
 int item::volume() const
 {
- if (typeId() == "corpse") {
+ if (corpse != NULL) {
   switch (corpse->size) {
    case MS_TINY:   return   2;
    case MS_SMALL:  return  40;
@@ -1149,7 +1160,7 @@ bool item::rotten(game *g)
 bool item::ready_to_revive(game *g)
 {
     if (OPTIONS["REVIVE_ZOMBIES"]) {
-        if (type->id != "corpse" || corpse->species != species_zombie || damage >= 4)
+        if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
         {
             return false;
         }
@@ -1399,7 +1410,7 @@ bool item::made_of(std::string mat_ident) const
  if( is_null() )
   return false;
 
- if (typeId() == "corpse")
+ if (corpse != NULL)
   return (corpse->mat == mat_ident);
 
     return (type->m1 == mat_ident || type->m2 == mat_ident);
@@ -1407,7 +1418,7 @@ bool item::made_of(std::string mat_ident) const
 
 std::string item::get_material(int m) const
 {
-    if (typeId() == "corpse")
+    if (corpse != NULL)
         return corpse->mat;
 
     return (m==2)?type->m2:type->m1;

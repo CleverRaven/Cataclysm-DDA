@@ -168,6 +168,8 @@ player::player()
  }
  nv_cached = false;
  volume = 0;
+
+ memorial_log.clear();
 }
 
 player::player(const player &rhs)
@@ -499,7 +501,7 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_head)) {
             bonus += 3;
         }
-        
+
         if(bonus) {
             add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
         }
@@ -1336,6 +1338,14 @@ void player::load_info(game *g, std::string data)
   dump >> mistmp;
   failed_missions.push_back(mistmp);
  }
+
+ //Loading the player log
+ std::string memorialtmp;
+ while(dump.peek() == '|') {
+   dump >> memorialtmp;
+   memorial_log.push_back(memorialtmp);
+ }
+
 }
 
 std::string player::save_info()
@@ -1421,6 +1431,8 @@ std::string player::save_info()
   dump << failed_missions[i] << " ";
 
  dump << std::endl;
+ 
+ dump << dump_memorial();
 
  dump << inv.save_str_no_quant();
 
@@ -1453,11 +1465,23 @@ void player::memorial( std::ofstream &memorial_file )
       profession_name << _("a ") << gender_str << " " << prof->name();
     }
 
-    //Header
-    std::string version = string_format("%s", getVersionString());
-    oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+    //Figure out the location
+    point cur_loc = g->om_location();
+    oter_id cur_ter = g->cur_om->ter(cur_loc.x, cur_loc.y, g->levz);
+    if (cur_ter == ot_null)
+    {
+        if (cur_loc.x >= OMAPX && cur_loc.y >= OMAPY) {
+            cur_ter = g->om_diag->ter(cur_loc.x - OMAPX, cur_loc.y - OMAPY, g->levz);
+        } else if (cur_loc.x >= OMAPX) {
+            cur_ter = g->om_hori->ter(cur_loc.x - OMAPX, cur_loc.y, g->levz);
+        } else if (cur_loc.y >= OMAPY) {
+            cur_ter = g->om_vert->ter(cur_loc.x, cur_loc.y - OMAPY, g->levz);
+        }
+    }
     std::string tername = oterlist[cur_ter].name;
 
+    //Header
+    std::string version = string_format("%s", getVersionString());
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << name << "\n";
@@ -1465,7 +1489,7 @@ void player::memorial( std::ofstream &memorial_file )
                   << _(" when the apocalypse began.") << "\n";
     memorial_file << pronoun << _(" died on ") << _(season_name[g->turn.get_season()].c_str())
                   << _(" of year ") << (g->turn.years() + 1)
-                  << _(", day ") << (g->turn.days() + 1) 
+                  << _(", day ") << (g->turn.days() + 1)
                   << _(", at ") << g->turn.print_time() << ".\n";
     memorial_file << pronoun << _(" was killed in a ") << tername << ".\n";
     memorial_file << "\n";
@@ -1491,6 +1515,19 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Base Stats:") << "\n";
     memorial_file << indent << _("Str ") << str_max << indent << _("Dex ") << dex_max << indent
                   << _("Int ") << int_max << indent << _("Per ") << per_max << "\n";
+    memorial_file << "\n";
+
+    //Last 10 messages
+    memorial_file << _("Final Messages:") << "\n";
+    std::vector<game_message> recent_messages = g->recent_messages(10);
+    for(int i = 0; i < recent_messages.size(); i++) {
+      memorial_file << indent << recent_messages[i].turn.print_time() << " " <<
+              recent_messages[i].message;
+      if(recent_messages[i].count > 1) {
+        memorial_file << " x" << recent_messages[i].count;
+      }
+      memorial_file << "\n";
+    }
     memorial_file << "\n";
 
     //Kill list
@@ -1632,6 +1669,59 @@ void player::memorial( std::ofstream &memorial_file )
       }
       memorial_file << "\n";
     }
+    memorial_file << "\n";
+
+    //History
+    memorial_file << _("Game History") << "\n";
+    memorial_file << dump_memorial();
+
+}
+
+/**
+ * Adds an event to the memorial log, to be written to the memorial file when
+ * the character dies. The message should contain only the informational string,
+ * as the timestamp and location will be automatically prepended.
+ */
+void player::add_memorial_log(const char* message, ...)
+{
+
+  va_list ap;
+  va_start(ap, message);
+  char buff[1024];
+  vsprintf(buff, message, ap);
+  va_end(ap);
+
+  std::stringstream timestamp;
+  timestamp << _("Year") << " " << (g->turn.years() + 1) << ", "
+            << _(season_name[g->turn.get_season()].c_str()) << " "
+            << (g->turn.days() + 1) << ", " << g->turn.print_time();
+
+  oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+  std::string location = oterlist[cur_ter].name;
+
+  std::stringstream log_message;
+  log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << buff;
+
+  memorial_log.push_back(log_message.str());
+
+}
+
+/**
+ * Concatenates all of the memorial log entries, delimiting them with newlines,
+ * and returns the resulting string. Used for saving and for writing out to the
+ * memorial file.
+ */
+std::string player::dump_memorial()
+{
+
+  std::stringstream output;
+
+  for(int i = 0; i < memorial_log.size(); i++) {
+    output << memorial_log[i] << "\n";
+  }
+
+  return output.str();
+
 }
 
 void player::disp_info(game *g)
@@ -1949,7 +2039,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
- 
+
  const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
@@ -2190,7 +2280,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
     mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
     mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
-                      OPTIONS["USE_METRIC_WEIGHT"]?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?"kg":"lbs");
     mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
@@ -2883,7 +2973,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   int speedox = sideStyle ? 0 : 33;
   int speedoy = sideStyle ? 5 :  3;
 
-  bool metric = OPTIONS["USE_METRIC_SPEED"];
+  bool metric = OPTIONS["USE_METRIC_SPEEDS"] == "km/h";
   const char *units = metric ? "km/h" : "mph";
   int velx    = metric ?  5 : 4; // strlen(units) + 1
   int cruisex = metric ? 10 : 9; // strlen(units) + 6
@@ -3013,13 +3103,13 @@ std::string player::get_category_dream(mutation_category cat, int strength) // R
 		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) // Pick only the ones matching our desired category and strength
 		{
 			valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
-		}	
+		}
 	}
 	int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
 	selected_dream = valid_dreams[index];
 	index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream
 	message = selected_dream.message[index];
-	return message;	
+	return message;
 }
 
 bool player::in_climate_control(game *g)
@@ -3085,6 +3175,18 @@ void player::add_bionic(bionic_id b)
  char newinv;
  if (my_bionics.size() == 0)
   newinv = 'a';
+ else if (my_bionics.size() == 26)
+  newinv = 'A';
+ else if (my_bionics.size() == 52)
+  newinv = '0';
+ else if (my_bionics.size() == 62)
+  newinv = '"';
+ else if (my_bionics.size() == 76)
+  newinv = ':';
+ else if (my_bionics.size() == 83)
+  newinv = '[';
+ else if (my_bionics.size() == 89)
+  newinv = '{';
  else
   newinv = my_bionics[my_bionics.size() - 1].invlet + 1;
  my_bionics.push_back(bionic(b, newinv));
@@ -3286,8 +3388,10 @@ void player::pause(game *g)
  }
 
 // Train swimming if underwater
- if (underwater)
+ if (underwater) {
    practice(g->turn, "swimming", 1);
+   drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth));
+ }
 }
 
 int player::throw_range(signed char ch)
@@ -4558,8 +4662,18 @@ void player::vomit(game *g)
  rem_disease("sleep");
 }
 
-void player::drench(game *g, int saturation) {
-  int morale_cap = (g->temperature - 60) * saturation / 100;
+void player::drench(game *g, int saturation, int flags) {
+  if (is_waterproof(flags))
+    return;
+
+  bool wantsDrench = is_water_friendly(flags);
+  int morale_cap;
+
+  if (wantsDrench) {
+    morale_cap = (g->temperature - 60) * saturation / 100;
+  } else {
+    morale_cap = -(saturation / 2);
+  }
 
   if (morale_cap == 0)
     return;
@@ -4620,7 +4734,7 @@ double player::convert_weight(int weight)
 {
     double ret;
     ret = double(weight);
-    if (OPTIONS["USE_METRIC_WEIGHT"]) {
+    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg") {
         ret /= 1000;
     } else {
         ret /= 453.6;
@@ -5375,6 +5489,43 @@ bool player::worn_with_flag( std::string flag ) const
     return false;
 }
 
+bool player::covered_with_flag(const std::string flag, int parts) const {
+  int covered = 0;
+
+  for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
+    int cover = ((it_armor *)(armorPiece->type))->covers & parts;
+
+    if (!cover) continue; // For our purposes, this piece covers nothing.
+    if (cover & covered) continue; // the body part(s) is already covered.
+
+    bool hasFlag = armorPiece->has_flag(flag);
+
+    if (!hasFlag)
+      return false; // The item is the top layer on a relevant body part, and isn't tagged, so we fail.
+    else
+      covered |= cover; // The item is the top layer on a relevant body part, and is tagged.
+  }
+
+  return (covered == parts);
+}
+
+bool player::covered_with_flag_exclusively(const std::string flag, int flags) const {
+  for (std::vector<item>::const_iterator armorPiece = worn.begin(); armorPiece != worn.end(); ++armorPiece) {
+    if ((((it_armor *)(armorPiece->type))->covers & flags) && !armorPiece->has_flag(flag))
+      return false;
+  }
+
+  return true;
+}
+
+bool player::is_water_friendly(int flags) const {
+  return covered_with_flag_exclusively("WATER_FRIENDLY", flags);
+}
+
+bool player::is_waterproof(int flags) const {
+  return covered_with_flag("WATERPROOF", flags);
+}
+
 bool player::has_artifact_with(art_effect_passive effect)
 {
  if (weapon.is_artifact() && weapon.is_tool()) {
@@ -5936,7 +6087,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
     return false;
    }
   } else if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
-   inv.push_back(remove_weapon());
+   inv.add_item_keep_invlet(remove_weapon());
    inv.unsort();
    moves -= 20;
    recoil = 0;
@@ -5983,7 +6134,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
             volume_capacity()) {
   item tmpweap = remove_weapon();
   weapon = inv.remove_item_by_letter(ch);
-  inv.push_back(tmpweap);
+  inv.add_item_keep_invlet(tmpweap);
   inv.unsort();
   moves -= 45;
   if (weapon.is_artifact() && weapon.is_tool()) {
@@ -6405,7 +6556,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             if (armor->covers & mfb(i) && encumb(i) >= 4)
             {
                 g->add_msg(
-                    (i == bp_head || i == bp_torso) ? 
+                    (i == bp_head || i == bp_torso) ?
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
                     body_part_name(body_part(i), 2).c_str(), encumb_text(body_part(i)).c_str());
             }
@@ -6461,7 +6612,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
      }
     if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
         volume_carried() + worn[i].type->volume) {
-     inv.push_back(worn[i]);
+     inv.add_item_keep_invlet(worn[i]);
      worn.erase(worn.begin() + i);
      inv.unsort();
      return true;
@@ -6499,7 +6650,7 @@ void player::sort_armor(game *g)
     int eyes_win_y = 3;
     int mouth_win_y = 3;
 
-    // color array for damae
+    // color array for damage
     nc_color dam_color[] = {c_green, c_ltgreen, c_yellow, c_magenta, c_ltred, c_red};
 
     for (int i = 0; i < worn.size(); i++)
@@ -6524,6 +6675,16 @@ void player::sort_armor(game *g)
 
     int iCenterOffsetX = TERMX/2 - FULL_SCREEN_WIDTH/2;
     int iCenterOffsetY = TERMY/2 - (info_win_y + arm_info_win_y + worn_win_y)/2;
+
+    // Prevent calling newwin with negative Y offset
+    if (iCenterOffsetY < 0){
+        worn_win_y += iCenterOffsetY;
+        iCenterOffsetY = 0;
+    }
+
+    // Keep track of how many worn items to display
+    int wornDisplayed = (worn_win_y-5 > worn.size()) ? worn.size() : worn_win_y-5;
+    int wornOffset = 0;
 
     WINDOW* w_info       = newwin(info_win_y, FULL_SCREEN_WIDTH, iCenterOffsetY + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X + iCenterOffsetX);
     WINDOW* w_arm_info   = newwin(arm_info_win_y, FULL_SCREEN_WIDTH,  iCenterOffsetY + info_win_y - 1 + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X + iCenterOffsetX);
@@ -6637,18 +6798,20 @@ void player::sort_armor(game *g)
             mvwprintz(w_all_worn, 1, iCol1WinX-9, c_ltgray ,_("Storage"));
 
             mvwprintz(w_all_worn, 2, 1, c_ltgray, _("(Innermost)"));
-            for (int i = 0; i < worn.size(); i++)
+
+            for (int i = 0; i < wornDisplayed; i++)
             {
-                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
-                if (i == cursor_y)
-                    mvwprintz(w_all_worn, 3+cursor_y, 2, c_yellow, ">>");
-                if (selected >= 0 && i == selected)
-                    mvwprintz(w_all_worn, i+3, 5, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
+                int j = i + wornOffset;
+                it_armor* each_armor = dynamic_cast<it_armor*>(worn[j].type);
+                if (j == cursor_y)
+                    mvwprintz(w_all_worn, 3+cursor_y - wornOffset, 2, c_yellow, ">>");
+                if (selected >= 0 && j == selected)
+                    mvwprintz(w_all_worn, i+3, 5, dam_color[int(worn[j].damage + 1)], each_armor->name.c_str());
                 else
-                    mvwprintz(w_all_worn, i+3, 4, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
-                mvwprintz(w_all_worn, i+3, iCol1WinX-4, dam_color[int(worn[i].damage + 1)], "%2d", int(each_armor->storage));
+                    mvwprintz(w_all_worn, i+3, 4, dam_color[int(worn[j].damage + 1)], each_armor->name.c_str());
+                mvwprintz(w_all_worn, i+3, iCol1WinX-4, dam_color[int(worn[j].damage + 1)], "%2d", int(each_armor->storage));
             }
-            mvwprintz(w_all_worn, 3 + worn.size(), 1, c_ltgray, _("(Outermost)"));
+            mvwprintz(w_all_worn, wornDisplayed + 3, 1, c_ltgray, _("(Outermost)"));
 
             werase(w_torso_worn);
             werase(w_eyes_worn);
@@ -6762,6 +6925,11 @@ void player::sort_armor(game *g)
                     cursor_y++;
                     cursor_y = (cursor_y >= worn.size() ? 0 : cursor_y);
                 }
+                // Scrolling logic
+                if (!((cursor_y > wornOffset) && (cursor_y < wornOffset + wornDisplayed))){
+                    wornOffset = cursor_y - wornDisplayed + 1;
+                    wornOffset = (wornOffset > 0) ? wornOffset : 0;
+                }
                 redraw = true;
                 break;
             case 'k':
@@ -6781,6 +6949,12 @@ void player::sort_armor(game *g)
                 {
                     cursor_y--;
                     cursor_y = (cursor_y < 0 ? worn.size() - 1 : cursor_y);
+                }
+                // Scrolling logic
+                wornOffset = (cursor_y < wornOffset) ? cursor_y : wornOffset;
+                if (!((cursor_y >= wornOffset) && (cursor_y < wornOffset + wornDisplayed))){
+                    wornOffset = cursor_y - wornDisplayed + 1;
+                    wornOffset = (wornOffset > 0) ? wornOffset : 0;
                 }
                 redraw = true;
                 break;
@@ -7429,8 +7603,8 @@ void player::try_to_sleep(game *g)
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
   g->add_msg(
-             terlist[ter_at_pos].movecost <= 2 ? 
-             _("It's a little hard to get to sleep on this %s.") : 
+             terlist[ter_at_pos].movecost <= 2 ?
+             _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
              terlist[ter_at_pos].name.c_str());
  add_disease("lying_down", 300);

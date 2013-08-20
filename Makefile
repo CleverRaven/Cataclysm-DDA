@@ -84,7 +84,7 @@ endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
-BINDIST_EXTRAS = README data
+BINDIST_EXTRAS = README.md data
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)

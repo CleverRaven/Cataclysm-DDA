@@ -558,6 +558,7 @@ void inventory::form_from_map(game *g, point origin, int range)
 
    if (veh) {
      const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
+     const int weldpart = veh->part_with_feature(vpart, vpf_weldrig);
 
      if (kpart >= 0) {
        item hotplate(g->itypes["hotplate"], 0);
@@ -572,12 +573,22 @@ void inventory::form_from_map(game *g, point origin, int range)
        add_item(pot);
        item pan(g->itypes["pan"], 0);
        add_item(pan);
+       }
+     if (weldpart >= 0) {
+       item welder(g->itypes["welder"], 0);
+       welder.charges = veh->fuel_left("battery", true);
+       add_item(welder);
+
+       item soldering_iron(g->itypes["soldering_iron"], 0);
+       soldering_iron.charges = veh->fuel_left("battery", true);
+       add_item(soldering_iron);
+       }
      }
    }
 
   }
  }
-}
+
 
 std::list<item> inventory::remove_stack_by_letter(char ch)
 {
@@ -816,6 +827,21 @@ std::vector<item*> inventory::all_items_by_type(itype_id type)
     }
     return ret;
 }
+
+std::vector<item*> inventory::all_items_with_flag( const std::string flag ) {
+  std::vector<item*> ret;
+
+  for (invstack::iterator istack = items.begin(); istack != items.end(); ++istack) {
+    for (std::list<item>::iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
+      if (iitem->has_flag(flag)) {
+        ret.push_back(&*iitem);
+      }
+    }
+  }
+
+  return ret;
+}
+
 
 std::vector<item*> inventory::all_ammo(ammotype type)
 {

@@ -38,7 +38,7 @@ struct iteminfo{
     convert << dIn0i;
     } else {
     convert.precision(1);
-    convert << dIn0;
+    convert << std::fixed << dIn0;
     }
     sValue = convert.str();
     sPlus = sIn3;

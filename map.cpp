@@ -2717,6 +2717,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
 
       if (veh) { // check if a vehicle part is present to provide water/power
         const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
+        const int weldpart = veh->part_with_feature(vpart, vpf_weldrig);
 
         if (kpart >= 0) { // we have a kitchen, now to see what to drain
           ammotype ftype = "NULL";
@@ -2724,6 +2725,23 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (type == "water_clean")
             ftype = "water";
           else if (type == "hotplate")
+            ftype = "battery";
+
+          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+          tmp.charges = veh->drain(ftype, quantity);
+          quantity -= tmp.charges;
+          ret.push_back(tmp);
+
+          if (quantity == 0)
+            return ret;
+        }
+        
+        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
+          ammotype ftype = "NULL";
+
+          if (type == "welder")
+            ftype = "battery";
+          else if (type == "soldering_iron")
             ftype = "battery";
 
           item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
@@ -3661,6 +3679,29 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
               } else { ++it; }
           }
       }
+  }
+
+  // plantEpoch is half a season; 3 epochs pass from plant to harvest
+  const int plantEpoch = 14400 * (int)OPTIONS["SEASON_LENGTH"] / 2;
+
+  // check plants
+  for (int x = 0; x < 12; x++) {
+    for (int y = 0; y < 12; y++) {
+      furn_id furn = tmpsub->frn[x][y];
+      if (furn && (furnlist[furn].flags & mfb(plant))) {
+        item seed = tmpsub->itm[x][y][0];
+
+        while (g->turn > seed.bday + plantEpoch && furn < f_plant_harvest) {
+          furn = (furn_id((int)furn + 1));
+          seed.bday += plantEpoch;
+
+          tmpsub->itm[x][y].resize(1);
+
+          tmpsub->itm[x][y][0].bday = seed.bday;
+          tmpsub->frn[x][y] = furn;
+        }
+      }
+    }
   }
 
  } else { // It doesn't exist; we must generate it!

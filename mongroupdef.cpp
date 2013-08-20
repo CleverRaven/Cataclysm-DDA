@@ -8,6 +8,11 @@
 // Default start time, this is the only place it's still used.
 #define STARTING_MINUTES 480
 
+// hack for MingW: prevent undefined references to `libintl_printf'
+#if defined _WIN32 || defined __CYGWIN__
+ #undef printf
+#endif
+
 //Adding a group:
 //  1: Declare it in the MonsterGroupDefs enum in mongroup.h
 //  2: Define it in here with the macro Group(your group, default monster)

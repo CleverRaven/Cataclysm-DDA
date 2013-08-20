@@ -579,7 +579,7 @@ extremities from frostbite and to keep your distance from large fires."));
      mvwprintz(w_help, 7, 50, c_white, _("keybindings from an action."));
 
      mvwprintz(w_help, 9, 50, c_white, _("Press + to add the"));
-     mvwprintz(w_help, 10, 50, c_white, _("keybindingfor an action."));
+     mvwprintz(w_help, 10, 50, c_white, _("keybinding for an action."));
      needs_refresh = false;
     }
 // Clear the lines

@@ -1791,8 +1791,12 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 
   if (csee) {
    mvwputch(w, 1, om_map_width + 1, oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
-   mvwprintz(w, 1, om_map_width + 3, oterlist[ccur_ter].color, "%s",
-             oterlist[ccur_ter].name.c_str());
+   std::vector<std::string> name = foldstring(oterlist[ccur_ter].name,25);
+   for (int i = 1; (i - 1) < name.size(); i++)
+   {
+       mvwprintz(w, i, om_map_width + 3, oterlist[ccur_ter].color, "%s",
+                 name[i-1].c_str());
+   }
   } else
    mvwprintz(w, 1, om_map_width + 1, c_dkgray, _("# Unexplored"));
 

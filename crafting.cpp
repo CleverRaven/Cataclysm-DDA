@@ -987,6 +987,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
 
 void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, std::string filter)
 {
+    std::vector<recipe*> can_craft;
     for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
     {
         if (u.knows_recipe(*iter))
@@ -995,11 +996,19 @@ void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, 
             {
                 if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
                 {
-                    current.push_back(*iter);
+                    if (OPTIONS["SORT_CRAFTING"] && can_make(*iter))
+                    {
+                        can_craft.push_back(*iter);
+                    }
+                    else
+                    {
+                        current.push_back(*iter);
+                    }
                 }
             }
         }
     }
+    current.insert(current.begin(),can_craft.begin(),can_craft.end());
 }
 
 void game::make_craft(recipe *making)
@@ -1149,6 +1158,7 @@ void game::complete_craft()
    add_msg("%c - %s", newit.invlet, newit.tname().c_str());
   }
  }
+ u.inv.restack(&u);
 }
 
 std::list<item> game::consume_items(player *p, std::vector<component> components)

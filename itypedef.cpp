@@ -34,87 +34,89 @@ void game::init_itypes ()
 {
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes["null"]=
-  new itype("null", 0, 0, "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
+  new itype("null", 0, "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // Corpse - a special item
  itypes["corpse"]=
-  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
+  new itype("corpse", 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
             0, 0, 1, 0);
  itypes["corpse"]->item_tags.insert("NO_UNLOAD");
+// This must -always- be set, or bad mojo in map::drawsq and whereever we check 'typeId() == "corpse" instead of 'corpse != NULL' ....
+ itypes["corpse"]->corpse=this->mtypes[mon_null];
 // Fire - only appears in crafting recipes
  itypes["fire"]=
-  new itype("fire", 0, 0, "nearby fire",
+  new itype("fire", 0, "nearby fire",
             "Some fire - if you are reading this it's a bug! (itypdef:fire)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // Integrated toolset - ditto
  itypes["toolset"]=
-  new itype("toolset", 0, 0, "integrated toolset",
+  new itype("toolset", 0, "integrated toolset",
             "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // For smoking crack or meth
  itypes["apparatus"]=
-  new itype("apparatus", 0, 0, "something to smoke that from, and a lighter",
+  new itype("apparatus", 0, "something to smoke that from, and a lighter",
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 
-#define VAR_VEH_PART(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
+#define VAR_VEH_PART(id, name,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, bigmin, bigmax, bigaspect, des)\
-itypes[id]=new it_var_veh_part(id,rarity,price,name,des,sym,\
+itypes[id]=new it_var_veh_part(id,price,name,des,sym,\
 color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax, bigaspect)
 
 //"wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
 //           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel", _("wheel"), 10, 100, ']', c_dkgray,  "steel",   "plastic",
+VAR_VEH_PART("wheel", _("wheel"), 100, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
     40, 8845, 12,  0,  -1, 0,       13,         20,  BIGNESS_WHEEL_DIAMETER,  _("\
 A car wheel"));
 //           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_wide", _("wide wheel"), 4, 340, ']', c_dkgray,  "steel",   "plastic",
+VAR_VEH_PART("wheel_wide", _("wide wheel"), 340, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
     70,22600, 17,  0,  -1, 0,       17,         36,  BIGNESS_WHEEL_DIAMETER,  _("\
 A wide wheel. \\o/ This wide."));
 //           NAME            RAR  PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_bicycle", _("bicycle wheel"), 18, 40,  ']', c_dkgray,  "steel",   "plastic",
+VAR_VEH_PART("wheel_bicycle", _("bicycle wheel"), 40,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     28,1500,  8,  0,  -1, 0,       9,         18,  BIGNESS_WHEEL_DIAMETER,  _("\
 A bicycle wheel"));
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_motorbike", _("motorbike wheel"), 13, 140,  ']', c_dkgray,  "steel",   "plastic",
+VAR_VEH_PART("wheel_motorbike", _("motorbike wheel"), 140,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     33,5443,  10,  0,  -1, 0,       9,         14,  BIGNESS_WHEEL_DIAMETER,  _("\
 A motorbike wheel"));
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_small", _("small wheel"),    5, 140,  ']', c_dkgray,  "steel",   "plastic",
+VAR_VEH_PART("wheel_small", _("small wheel"),140,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     9, 2722,  10,  0,  -1, 0,       6,         14,   BIGNESS_WHEEL_DIAMETER,  _("\
 A pretty small wheel. Probably from one of those segway things.\
 It is not very menacing."));
 
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("1cyl_combustion", _("1-cylinder engine"),  3, 100, ':', c_ltcyan,  "iron",   "null",
+VAR_VEH_PART("1cyl_combustion", _("1-cylinder engine"), 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS 0BIGNESS_MIN BIGNESS_MAX   ASPECT
     6, 20000,  4,  0,  -1, 0,       28,         75,   BIGNESS_ENGINE_DISPLACEMENT, _("\
 A single-cylinder 4-stroke combustion engine."));
 
 //                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v2_combustion", _("V-twin engine"),  2, 100, ':', c_ltcyan,  "iron",   "null",
+VAR_VEH_PART("v2_combustion", _("V-twin engine"), 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     6, 45000,  4,  0,  -1, 0,       65,        260, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A 2-cylinder 4-stroke combustion engine."));
 
 //                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("i4_combustion", _("Inline-4 engine"),  6, 150, ':', c_ltcyan,  "iron",   "null",
+VAR_VEH_PART("i4_combustion", _("Inline-4 engine"), 150, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     6, 70000,  8,  0,  -2, 0,       220,       350, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A small, yet powerful 4-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v6_combustion", _("V6 engine"),  3, 180, ':', c_ltcyan,  "iron",   "null",
+VAR_VEH_PART("v6_combustion", _("V6 engine"), 180, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     14,100000,  12,  0,  -3, 0,    250,        520, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A powerful 6-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v8_combustion", _("V8 engine"),  2, 250, ':', c_ltcyan,  "iron",   "null",
+VAR_VEH_PART("v8_combustion", _("V8 engine"), 250, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     25,144000,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A large and very powerful 8-cylinder combustion engine."));
@@ -127,9 +129,9 @@ A large and very powerful 8-cylinder combustion engine."));
 // Burst is the # of rounds fired, 0 if no burst ability.
 // clip is how many shots we get before reloading.
 
-#define GUN(id,name,rarity,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
+#define GUN(id,name,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
 to_hit,dmg,range,dispersion,recoil,durability,burst,clip,reload_time,des) \
-itypes[id]=new it_gun(id,rarity,price,name,des,'(',\
+itypes[id]=new it_gun(id,price,name,des,'(',\
 color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,range,dispersion,\
 recoil,durability,burst,clip,reload_time)
 
@@ -148,14 +150,14 @@ recoil,durability,burst,clip,reload_time)
  *  turn if the tool is active.  The same function can be used for both.  See
  *  iuse.h and iuse.cpp for functions.
  */
-#define TOOL(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,melee_dam,\
+#define TOOL(id, name,price,sym,color,mat1,mat2,volume,wgt,melee_dam,\
 melee_cut,to_hit,max_charge,def_charge,charge_per_use,charge_per_sec,fuel,\
 revert,func,des) \
-itypes[id]=new it_tool(id,rarity,price,name,des,sym,\
+itypes[id]=new it_tool(id,price,name,des,sym,\
 color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
 
-TOOL("jack", _("jack"),		30, 86, ';', c_ltgray,	"iron",	"null",
+TOOL("jack", _("jack"), 86, ';', c_ltgray,	"iron",	"null",
 //	VOL WGT DAM CUT HIT FLAGS
 	 5,11974, 11,  0,  2, 0, 0, 0, 0, "NULL", "null", &iuse::none, _("\
 A common hydraulic jack, used when changing tires."));
@@ -164,34 +166,34 @@ A common hydraulic jack, used when changing tires."));
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
 // list of options.
-#define BIO(id, name, rarity, price, color, difficulty, des) \
-itypes[id]=new it_bionic(id, rarity,price,name,des,':',\
+#define BIO(id, name, price, color, difficulty, des) \
+itypes[id]=new it_bionic(id, price,name,des,':',\
 color, "steel", "plastic", 10,2041, 8, 0, 0, difficulty)
 
-#define BIO_SINGLE(id,rarity,price,color,difficulty) \
-     BIO(id, std::string("CBM: ")+bionics[id]->name, rarity,price,color,difficulty, \
+#define BIO_SINGLE(id,price,color,difficulty) \
+     BIO(id, std::string("CBM: ")+bionics[id]->name, price,color,difficulty, \
            bionics[id]->description) \
 
 //  Name                     RAR PRICE    COLOR   DIFFICULTY
-BIO("bio_power_storage", _("CBM: Power Storage"),	24, 3800,	c_green,	 1, _("\
+BIO("bio_power_storage", _("CBM: Power Storage"), 3800,	c_green,	 1, _("\
 Compact Bionics Module that upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\
 also need a power supply, found in another CBM.")); // This is a special case, which increases power capacity by 4
 
- BIO("bio_power_storage_mkII", _("CBM: Power Storage Mk. II"), 8, 10000, c_green, 1, _("\
+ BIO("bio_power_storage_mkII", _("CBM: Power Storage Mk. II"), 10000, c_green, 1, _("\
 Compact Bionics Module developed at DoubleTech Industries as a replacement\n\
 for the highly sucessful CBM: Power Storage. Increases you power capacity\n\
 by 10 units.")); // This is another special case, increases power capacity by 10 units
 
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \
-itypes[id]=new it_software(id, 0, price, name, description,\
+itypes[id]=new it_software(id, price, name, description,\
 	' ', c_white, "null", "null", 0, 0, 0, 0, 0, swtype, power)
 
 //Macguffins
 #define MACGUFFIN(id, name, price, sym, color, mat1, mat2, volume, wgt, dam, cut,\
                   to_hit, readable, function, description) \
-itypes[id]=new it_macguffin(id, 0, price, name, description,\
+itypes[id]=new it_macguffin(id, price, name, description,\
 	sym, color, mat1, mat2, volume, wgt, dam, cut, to_hit, readable,\
 	function)
 
@@ -201,86 +203,86 @@ itypes[id]=new it_macguffin(id, 0, price, name, description,\
 // them all here.
 
 // power sources
-BIO_SINGLE("bio_solar", 2, 3500, c_yellow, 4);
-BIO_SINGLE("bio_batteries", 5, 800, c_yellow, 4);
-BIO_SINGLE("bio_metabolics", 4, 700, c_yellow, 4);
-BIO_SINGLE("bio_furnace", 2, 4500, c_yellow, 4);
-BIO_SINGLE("bio_ethanol", 6, 1200, c_yellow, 4);
-BIO_SINGLE("bio_torsionratchet", 2, 3800, c_yellow, 4);
+BIO_SINGLE("bio_solar", 3500, c_yellow, 4);
+BIO_SINGLE("bio_batteries", 800, c_yellow, 4);
+BIO_SINGLE("bio_metabolics", 700, c_yellow, 4);
+BIO_SINGLE("bio_furnace", 4500, c_yellow, 4);
+BIO_SINGLE("bio_ethanol", 1200, c_yellow, 4);
+BIO_SINGLE("bio_torsionratchet", 3800, c_yellow, 4);
 // utilities
-BIO_SINGLE("bio_tools", 3, 8000, c_ltgray, 6);
-BIO_SINGLE("bio_storage", 3, 4000, c_ltgray, 7);
-BIO_SINGLE("bio_flashlight", 8, 200, c_ltgray, 2);
-BIO_SINGLE("bio_lighter", 6, 1300, c_ltgray, 4);
-BIO_SINGLE("bio_magnet", 5, 2000, c_ltgray, 2);
+BIO_SINGLE("bio_tools", 8000, c_ltgray, 6);
+BIO_SINGLE("bio_storage", 4000, c_ltgray, 7);
+BIO_SINGLE("bio_flashlight", 200, c_ltgray, 2);
+BIO_SINGLE("bio_lighter", 1300, c_ltgray, 4);
+BIO_SINGLE("bio_magnet", 2000, c_ltgray, 2);
 // neurological
-BIO_SINGLE("bio_memory", 2, 10000, c_pink, 9);
-BIO_SINGLE("bio_painkiller", 4, 2000, c_pink, 4);
-BIO_SINGLE("bio_alarm", 7, 250, c_pink, 1);
+BIO_SINGLE("bio_memory", 10000, c_pink, 9);
+BIO_SINGLE("bio_painkiller", 2000, c_pink, 4);
+BIO_SINGLE("bio_alarm", 250, c_pink, 1);
 // sensory
-BIO_SINGLE("bio_ears", 2, 5000, c_ltblue, 6);
-BIO_SINGLE("bio_eye_enhancer", 2, 8000, c_ltblue, 11);
-BIO_SINGLE("bio_night_vision", 2, 9000, c_ltblue, 11);
-BIO_SINGLE("bio_infrared", 4, 4500, c_ltblue, 6);
-BIO_SINGLE("bio_scent_vision", 4, 4500, c_ltblue, 8);
+BIO_SINGLE("bio_ears", 5000, c_ltblue, 6);
+BIO_SINGLE("bio_eye_enhancer", 8000, c_ltblue, 11);
+BIO_SINGLE("bio_night_vision", 9000, c_ltblue, 11);
+BIO_SINGLE("bio_infrared", 4500, c_ltblue, 6);
+BIO_SINGLE("bio_scent_vision", 4500, c_ltblue, 8);
 // aquatic
-BIO_SINGLE("bio_membrane", 3, 4500, c_blue, 6);
-BIO_SINGLE("bio_gills", 3, 4500, c_blue, 6);
+BIO_SINGLE("bio_membrane", 4500, c_blue, 6);
+BIO_SINGLE("bio_gills", 4500, c_blue, 6);
 // combat augs
-BIO_SINGLE("bio_targeting", 2, 6500, c_red, 5);
-BIO_SINGLE("bio_ground_sonar", 3, 4500, c_red, 5);
+BIO_SINGLE("bio_targeting", 6500, c_red, 5);
+BIO_SINGLE("bio_ground_sonar", 4500, c_red, 5);
 // hazmat
-BIO_SINGLE("bio_purifier", 3, 4500, c_ltgreen, 4);
-BIO_SINGLE("bio_climate", 4, 3500, c_ltgreen, 3);
-BIO_SINGLE("bio_heatsink", 4, 3500, c_ltgreen, 3);
-BIO_SINGLE("bio_blood_filter", 4, 3500, c_ltgreen, 3);
+BIO_SINGLE("bio_purifier", 4500, c_ltgreen, 4);
+BIO_SINGLE("bio_climate", 3500, c_ltgreen, 3);
+BIO_SINGLE("bio_heatsink", 3500, c_ltgreen, 3);
+BIO_SINGLE("bio_blood_filter", 3500, c_ltgreen, 3);
 // nutritional
-BIO_SINGLE("bio_recycler", 2, 8500, c_green, 6);
-BIO_SINGLE("bio_digestion", 3, 5500, c_green, 6);
-BIO_SINGLE("bio_evap", 3, 5500, c_green, 4);
-BIO_SINGLE("bio_water_extractor", 3, 5500, c_green, 5);
+BIO_SINGLE("bio_recycler", 8500, c_green, 6);
+BIO_SINGLE("bio_digestion", 5500, c_green, 6);
+BIO_SINGLE("bio_evap", 5500, c_green, 4);
+BIO_SINGLE("bio_water_extractor", 5500, c_green, 5);
 // was: desert survival (all dupes)
 // melee:
-BIO_SINGLE("bio_shock", 2, 5500, c_red, 5);
-BIO_SINGLE("bio_heat_absorb", 2, 5500, c_red, 5);
-BIO_SINGLE("bio_claws", 2, 5500, c_red, 5);
-BIO_SINGLE("bio_shockwave", 2, 5500, c_red, 5);
+BIO_SINGLE("bio_shock", 5500, c_red, 5);
+BIO_SINGLE("bio_heat_absorb", 5500, c_red, 5);
+BIO_SINGLE("bio_claws", 5500, c_red, 5);
+BIO_SINGLE("bio_shockwave", 5500, c_red, 5);
 // armor:
-BIO_SINGLE("bio_carbon", 3, 7500, c_cyan, 9);
-BIO_SINGLE("bio_armor_head", 3, 3500, c_cyan, 5);
-BIO_SINGLE("bio_armor_torso", 3, 3500, c_cyan, 4);
-BIO_SINGLE("bio_armor_arms", 3, 3500, c_cyan, 3);
-BIO_SINGLE("bio_armor_legs", 3, 3500, c_cyan, 3);
+BIO_SINGLE("bio_carbon", 7500, c_cyan, 9);
+BIO_SINGLE("bio_armor_head", 3500, c_cyan, 5);
+BIO_SINGLE("bio_armor_torso", 3500, c_cyan, 4);
+BIO_SINGLE("bio_armor_arms", 3500, c_cyan, 3);
+BIO_SINGLE("bio_armor_legs", 3500, c_cyan, 3);
 // espionage
-BIO_SINGLE("bio_face_mask", 1, 8500, c_magenta, 5);
-BIO_SINGLE("bio_scent_mask", 1, 8500, c_magenta, 5);
-BIO_SINGLE("bio_cloak", 1, 8500, c_magenta, 5);
-BIO_SINGLE("bio_fingerhack", 1, 3500, c_magenta, 2);
-BIO_SINGLE("bio_night", 1, 8500, c_magenta, 5);
+BIO_SINGLE("bio_face_mask", 8500, c_magenta, 5);
+BIO_SINGLE("bio_scent_mask", 8500, c_magenta, 5);
+BIO_SINGLE("bio_cloak", 8500, c_magenta, 5);
+BIO_SINGLE("bio_fingerhack", 3500, c_magenta, 2);
+BIO_SINGLE("bio_night", 8500, c_magenta, 5);
 // defensive
-BIO_SINGLE("bio_ads", 1, 9500, c_ltblue, 7);
-BIO_SINGLE("bio_ods", 1, 9500, c_ltblue, 7);
-BIO_SINGLE("bio_uncanny_dodge", 1, 9500, c_ltblue, 11);
+BIO_SINGLE("bio_ads", 9500, c_ltblue, 7);
+BIO_SINGLE("bio_ods", 9500, c_ltblue, 7);
+BIO_SINGLE("bio_uncanny_dodge", 9500, c_ltblue, 11);
 // medical
-BIO_SINGLE("bio_nanobots", 3, 9500, c_ltred, 6);
-BIO_SINGLE("bio_blood_anal", 3, 3200, c_ltred, 2);
+BIO_SINGLE("bio_nanobots", 9500, c_ltred, 6);
+BIO_SINGLE("bio_blood_anal", 3200, c_ltred, 2);
 // construction
-BIO_SINGLE("bio_resonator", 2, 12000, c_dkgray, 11);
-BIO_SINGLE("bio_hydraulics", 3, 4000, c_dkgray, 6);
+BIO_SINGLE("bio_resonator", 12000, c_dkgray, 11);
+BIO_SINGLE("bio_hydraulics", 4000, c_dkgray, 6);
 // super soldier
-BIO_SINGLE("bio_time_freeze", 1, 14000, c_white, 11);
-BIO_SINGLE("bio_teleport", 1, 7000, c_white, 7);
-BIO_SINGLE("bio_probability_travel", 1, 14000, c_white, 11);
+BIO_SINGLE("bio_time_freeze", 14000, c_white, 11);
+BIO_SINGLE("bio_teleport", 7000, c_white, 7);
+BIO_SINGLE("bio_probability_travel", 14000, c_white, 11);
 // ranged combat
-BIO_SINGLE("bio_blaster", 13, 2200, c_red, 3);
-BIO_SINGLE("bio_laser", 2, 7200, c_red, 5);
-BIO_SINGLE("bio_emp", 2, 7200, c_red, 5);
-BIO_SINGLE("bio_flashbang", 2, 7200, c_red, 5);
-BIO_SINGLE("bio_railgun", 5, 2200, c_red, 3);
-BIO_SINGLE("bio_chain_lightning", 5, 2200, c_red, 3);
+BIO_SINGLE("bio_blaster", 2200, c_red, 3);
+BIO_SINGLE("bio_laser", 7200, c_red, 5);
+BIO_SINGLE("bio_emp", 7200, c_red, 5);
+BIO_SINGLE("bio_flashbang", 7200, c_red, 5);
+BIO_SINGLE("bio_railgun", 2200, c_red, 3);
+BIO_SINGLE("bio_chain_lightning", 2200, c_red, 3);
 // power armor
-BIO_SINGLE("bio_power_armor_interface", 20, 1200, c_yellow, 1);
-BIO_SINGLE("bio_power_armor_interface_mkII", 8, 10000, c_yellow, 8);
+BIO_SINGLE("bio_power_armor_interface", 1200, c_yellow, 1);
+BIO_SINGLE("bio_power_armor_interface_mkII", 10000, c_yellow, 8);
 
 SOFTWARE("software_useless", _("misc software"), 300, SW_USELESS, 0, _("\
 A miscellaneous piece of hobby software. Probably useless."));
@@ -301,11 +303,11 @@ MACGUFFIN("note", _("note"), 0, '?', c_white, "paper", "null", 1, 3, 0, 0, 0,
 	true, &iuse::mcg_note, _("\
 A hand-written paper note."));
 
-#define STATIONARY(id, name, rarity, price, category, description) \
-itypes[id] = new it_stationary(id, rarity, price, name, description,\
+#define STATIONARY(id, name, price, category, description) \
+itypes[id] = new it_stationary(id, price, name, description,\
 ',', c_white, "paper", "null", 0, 3, 0, 0, 0, category)
 
-STATIONARY("flyer", _("flyer"), 5, 1, "flier", _("A scrap of paper."));
+STATIONARY("flyer", _("flyer"), 1, "flier", _("A scrap of paper."));
 
 // Finally, add all the keys from the map to a vector of all possible items
 for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes.end(); ++iter){
@@ -317,13 +319,13 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
 }
 
 //  NAME		RARE	COLOR		MAT1	MAT2
-GUN("bio_blaster_gun", _("fusion blaster"),	 0,0,c_magenta,	"steel",	"plastic",
+GUN("bio_blaster_gun", _("fusion blaster"),	 0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	"fusion", 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "");
 
 //  NAME		RARE	COLOR		MAT1	MAT2
-GUN("bio_lightning", _("Chain Lightning"),	 0,0,c_magenta,	"steel",	"plastic",
+GUN("bio_lightning", _("Chain Lightning"),	 0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	"fusion", 12,  0,  0,  0,  0,  0,  4,  0, 10,  1,  10, 500,
 "");
@@ -332,7 +334,7 @@ GUN("bio_lightning", _("Chain Lightning"),	 0,0,c_magenta,	"steel",	"plastic",
 // Unarmed Styles
 // TODO: refactor handling of styles see #1771
 #define STYLE(id, name, dam, description, ...) \
-itypes[id]=new it_style(id, 0, 0, name, description, '$', \
+itypes[id]=new it_style(id, 0, name, description, '$', \
                               c_white, "null", "null", 0, 0, dam, 0, 0); \
  setvector(&((static_cast<it_style*>(itypes[id])))->moves, __VA_ARGS__, NULL); \
 itypes[id]->item_tags.insert("UNARMED_WEAPON"); \
