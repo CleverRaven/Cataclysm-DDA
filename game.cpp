@@ -3890,7 +3890,9 @@ void game::draw_ter(int posx, int posy)
    z[i].draw(w_terrain, posx, posy, false);
    mapRain[VIEWY + z[i].posy - posy][VIEWX + z[i].posx - posx] = false;
   } else if (z[i].has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
-           (u.has_active_bionic("bio_infrared") || u.has_trait(PF_INFRARED)))
+           (u.has_active_bionic("bio_infrared") || u.has_trait(PF_INFRARED)) &&
+             m.pl_sees(u.posx,u.posy,z[i].posx,z[i].posy,
+                       u.sight_range(DAYLIGHT_LEVEL)))
    mvwputch(w_terrain, VIEWY + z[i].posy - posy, VIEWX + z[i].posx - posx,
             c_red, '?');
  }
