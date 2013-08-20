@@ -219,6 +219,7 @@ BIO_SINGLE("bio_magnet", 2000, c_ltgray, 2);
 BIO_SINGLE("bio_memory", 10000, c_pink, 9);
 BIO_SINGLE("bio_painkiller", 2000, c_pink, 4);
 BIO_SINGLE("bio_alarm", 250, c_pink, 1);
+BIO_SINGLE("bio_int_enhancer", 8000, c_ltblue, 11);
 // sensory
 BIO_SINGLE("bio_ears", 5000, c_ltblue, 6);
 BIO_SINGLE("bio_eye_enhancer", 8000, c_ltblue, 11);
@@ -273,6 +274,8 @@ BIO_SINGLE("bio_hydraulics", 4000, c_dkgray, 6);
 BIO_SINGLE("bio_time_freeze", 14000, c_white, 11);
 BIO_SINGLE("bio_teleport", 7000, c_white, 7);
 BIO_SINGLE("bio_probability_travel", 14000, c_white, 11);
+BIO_SINGLE("bio_str_enhancer", 8000, c_ltblue, 11);
+BIO_SINGLE("bio_dex_enhancer", 8000, c_ltblue, 11);
 // ranged combat
 BIO_SINGLE("bio_blaster", 2200, c_red, 3);
 BIO_SINGLE("bio_laser", 7200, c_red, 5);
