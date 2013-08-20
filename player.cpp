@@ -7607,27 +7607,32 @@ bool player::can_sleep(game *g)
 std::string player::is_snuggling(game *g)
 {
     std::vector<item>& floor_item = g->m.i_at(posx, posy);
-    int attempts = 0;
     it_armor* floor_armor = NULL;
+    int ticker = 0;
 
     // If there are no items on the floor, return nothing
     if ( floor_item.size() == 0 ) {
         return "nothing";
     }
 
-    while (attempts < 5) {
-        // Pick a random item
-        int random_index = rand() % floor_item.size();
-        if ( floor_item[random_index].is_armor() ) {
-            floor_armor = dynamic_cast<it_armor*>(floor_item[random_index].type);
-            
-            // Check to see if the item covers the torso or legs
-            if ( (floor_armor->covers & mfb(bp_torso)) || (floor_armor->covers & mfb(bp_legs)) ) {
-                return floor_armor->name.c_str();
-            }
+    for ( std::vector<item>::iterator afloor_item = floor_item.begin() ; afloor_item != floor_item.end() ; ++afloor_item) {
+        if ( !afloor_item->is_armor() ) {
+            continue;
         }
-        
-        attempts++;
+        else if ( dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_torso) || dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_legs) ){
+            floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
+            ticker++;
+        }
+    }
+
+    if ( ticker == 0 ) {
+        return "nothing";
+    }
+    else if ( ticker == 1 ) {
+        return floor_armor->name.c_str();
+    }
+    else if ( ticker > 1 ) {
+        return "many";
     }
 
     return "nothing";
