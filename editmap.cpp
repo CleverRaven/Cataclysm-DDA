@@ -149,7 +149,7 @@ point editmap::edit(point coords)
             origin = target;               // 'editmap.origin' only makes sense if we have a list of target points.
         }
         update_view(true);
-        uphelp("[t]rap, [f]ield, [HJKL] move by 1/2 screen", "[g] terrain/furniture, [i]tems, [q]uit", "Looking around");
+        uphelp("[t]rap, [f]ield, [HJKL] move++, [v] showall", "[g] terrain/furniture, [i]tems, [q]uit", "Looking around");
         ch = (int)getch();
 
         if(ch) {
@@ -167,6 +167,8 @@ point editmap::edit(point coords)
         } else if ( ch == 't' ) {
             edit_trp( target );
             lastop = 't';
+        } else if ( ch == 'v' ) {
+            uberdraw = !uberdraw;
         } else if ( ch == 'o' ) {
             apply_mapgen( target );
             lastop = 'o';
