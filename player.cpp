@@ -4145,6 +4145,13 @@ void player::suffer(game *g)
                 }
             }
         }
+        if (weight_carried() > 4 * weight_capacity()) {
+            if (has_disease("downed")) {
+                add_disease("downed", 1);
+            } else {
+                add_disease("downed", 2);
+            }
+        }
         int timer = -3600;
         if (has_trait(PF_ADDICTIVE))
         {
