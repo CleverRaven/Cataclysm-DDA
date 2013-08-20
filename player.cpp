@@ -1431,7 +1431,7 @@ std::string player::save_info()
   dump << failed_missions[i] << " ";
 
  dump << std::endl;
- 
+
  dump << dump_memorial();
 
  dump << inv.save_str_no_quant();
@@ -6678,7 +6678,7 @@ void player::sort_armor(game *g)
 
     // Prevent calling newwin with negative Y offset
     if (iCenterOffsetY < 0){
-        worn_win_y += iCenterOffsetY;
+        worn_win_y = TERMY - 7;
         iCenterOffsetY = 0;
     }
 
@@ -6812,6 +6812,9 @@ void player::sort_armor(game *g)
                 mvwprintz(w_all_worn, i+3, iCol1WinX-4, dam_color[int(worn[j].damage + 1)], "%2d", int(each_armor->storage));
             }
             mvwprintz(w_all_worn, wornDisplayed + 3, 1, c_ltgray, _("(Outermost)"));
+
+            if (wornDisplayed < worn.size()) // Show flag if list is scollable
+                mvwprintz(w_all_worn, wornDisplayed + 3, iCol1WinX-8, c_yellow, _("<more>"));
 
             werase(w_torso_worn);
             werase(w_eyes_worn);
