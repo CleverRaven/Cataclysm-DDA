@@ -100,6 +100,38 @@ void WinDestroy()
     }
 };
 
+// Copied from sdlcurses.cpp
+#define ALT_BUFFER_SIZE 8
+static char alt_buffer[ALT_BUFFER_SIZE] = {};
+static int alt_buffer_len = 0;
+static bool alt_down = false;
+
+static void begin_alt_code()
+{
+    alt_buffer[0] = '\0';
+    alt_down = true;
+    alt_buffer_len = 0;
+}
+
+static int add_alt_code(char c)
+{
+    // not exactly how it works, but acceptable
+    if(c>='0' && c<='9')
+    {
+        if(alt_buffer_len<ALT_BUFFER_SIZE-1)
+        {
+            alt_buffer[alt_buffer_len] = c;
+            alt_buffer[++alt_buffer_len] = '\0';
+        }
+    }
+}
+
+static int end_alt_code()
+{
+    alt_down = false;
+    return atoi(alt_buffer);
+}
+
 //This function processes any Windows messages we get. Keyboard, OnClose, etc
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                                  WPARAM wParam, LPARAM lParam)
@@ -107,8 +139,9 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
     uint16_t MouseOver;
     switch (Msg)
     {
+    case WM_DEADCHAR:
     case WM_CHAR:
-        lastchar=(int)wParam;
+        lastchar = (int)wParam;
         switch (lastchar){
             case VK_RETURN: //Reroute ENTER key for compatilbity purposes
                 lastchar=10;
@@ -116,7 +149,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
             case VK_BACK: //Reroute BACKSPACE key for compatilbity purposes
                 lastchar=127;
                 break;
-        };
+        }
         return 0;
 
     case WM_KEYDOWN:                //Here we handle non-character input
@@ -179,6 +212,23 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                 break;
         };
         return 0;
+
+    case WM_KEYUP:
+        if (!GetAsyncKeyState(VK_LMENU) && alt_down){ // LeftAlt hack
+            if (int code = end_alt_code())
+                lastchar = code;
+        }
+        return 0;
+
+    case WM_SYSCHAR:
+        add_alt_code((char)wParam);
+        return 0;
+
+    case WM_SYSKEYDOWN:
+        if (GetAsyncKeyState(VK_LMENU) && !alt_down){ // LeftAlt hack
+            begin_alt_code();
+        }
+        break;
 
     case WM_SETCURSOR:
         MouseOver = LOWORD(lParam);
@@ -342,7 +392,6 @@ void curses_drawwindow(WINDOW *win)
         RedrawWindow(WindowHandle, &update, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
     }
 }
-
 
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
