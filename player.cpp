@@ -332,7 +332,13 @@ void player::reset(game *g)
   str_cur += 20;
  if (has_bionic("bio_eye_enhancer"))
   per_cur += 2;
-if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
+ if (has_bionic("bio_dex_enhancer"))
+  dex_cur += 2;
+ if (has_bionic("bio_str_enhancer"))
+  str_cur += 2;
+ if (has_bionic("bio_int_enhancer"))
+  int_cur += 2;
+ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
      hunger < 100 && (int(g->turn) % 5 == 0)) {
   hunger += 2;
   power_level++;
