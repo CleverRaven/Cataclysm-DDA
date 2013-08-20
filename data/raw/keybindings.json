@@ -5,9 +5,19 @@
         "key":"j"
     },
     {
+        "id":"UP",
+        "input_method":"keyboard",
+        "key":"UP"
+    },
+    {
         "id":"DOWN",
         "input_method":"keyboard",
         "key":"k"
+    },
+    {
+        "id":"DOWN",
+        "input_method":"keyboard",
+        "key":"DOWN"
     },
     {
         "id":"LEFT",
@@ -15,9 +25,19 @@
         "key":"h"
     },
     {
+        "id":"LEFT",
+        "input_method":"keyboard",
+        "key":"LEFT"
+    },
+    {
         "id":"RIGHT",
         "input_method":"keyboard",
         "key":"l"
+    },
+    {
+        "id":"RIGHT",
+        "input_method":"keyboard",
+        "key":"RIGHT"
     },
     {
         "id":"UPLEFT",
@@ -70,8 +90,28 @@
         "key":"/"
     },
     {
+        "id":"CREATE_NOTE",
+        "input_method":"keyboard",
+        "key":"n"
+    },
+    {
+        "id":"DELETE_NOTE",
+        "input_method":"keyboard",
+        "key":"d"
+    },
+    {
+        "id":"LIST_NOTES",
+        "input_method":"keyboard",
+        "key":"L"
+    },
+    {
         "id":"OVERMAP_QUIT",
         "input_method":"keyboard",
         "key":"Q"
+    },
+    {
+        "id":"OVERMAP_QUIT",
+        "input_method":"keyboard",
+        "key":"ESC"
     }
 ]

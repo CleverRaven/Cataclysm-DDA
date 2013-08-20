@@ -100,8 +100,26 @@ public:
      */
     void init();
 
+    /**
+     * Get the keycode associated with the given key name.
+     */
+    long get_keycode(std::string name);
+
+    /**
+     * Get the key name associated with the given keycode.
+     */
+    std::string get_keyname(long ch);
+
 private:
     std::map<std::string, std::vector<input_event> > action_to_input;
+
+    std::map<long, std::string> keycode_to_keyname;
+    std::map<std::string, long> keyname_to_keycode;
+
+    // Maps the key names we see in keybindings.json and in-game to
+    // the keycode integers.
+    void init_keycode_mapping();
+    void add_keycode_pair(long ch, const std::string& name);
 };
 
 // Singleton for our input manager.

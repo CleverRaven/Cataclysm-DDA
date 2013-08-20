@@ -2,6 +2,7 @@
 #include "input.h"
 #include "picojson.h"
 #include "output.h"
+#include "keypress.h"
 #include <fstream>
 
 /* TODO Replace the hardcoded values with an abstraction layer.
@@ -139,6 +140,8 @@ std::string get_input_string_from_file(std::string fname)
 input_manager inp_mngr;
 
 void input_manager::init() {
+    init_keycode_mapping();
+
     std::ifstream data_file;
     picojson::value input_value;
 
@@ -177,19 +180,49 @@ void input_manager::init() {
                 const std::string& key = keybinding.get("key").get<std::string>();
 
                 // TODO: process special "keycodes", such as UP, DOWN etc.
-                new_event.sequence.push_back(key[0]);
+                new_event.sequence.push_back(inp_mngr.get_keycode(key));
             } else if(keybinding.get("key").is<picojson::array>()) {
                 picojson::array keys = keybinding.get("key").get<picojson::array>();
                 for(int i=0; i<keys.size(); i++) {
                     const std::string& next_key = keybinding.get("key").get(i).get<std::string>();
 
                     // TODO: process special "keycodes", such as UP, DOWN etc.
-                    new_event.sequence.push_back(next_key[0]);
+                new_event.sequence.push_back(inp_mngr.get_keycode(next_key));
                 }
             }
             action_to_input[action_id].push_back(new_event);
         }
     }
+}
+
+void input_manager::add_keycode_pair(long ch, const std::string& name) {
+    keycode_to_keyname[ch] = name;
+    keyname_to_keycode[name] = ch;
+}
+
+void input_manager::init_keycode_mapping() {
+    // Between space and tilde, all keys more or less map
+    // to themselves(see ASCII table)
+    for(char c=' '; c<='~'; c++) {
+        std::string name(1, c);
+        add_keycode_pair(c, name);
+    }
+
+    add_keycode_pair(KEY_UP,        "UP");
+    add_keycode_pair(KEY_DOWN,      "DOWN");
+    add_keycode_pair(KEY_LEFT,      "LEFT");
+    add_keycode_pair(KEY_RIGHT,     "RIGHT");
+    add_keycode_pair(KEY_NPAGE,     "PGUP");
+    add_keycode_pair(KEY_PPAGE,     "PGDWN");
+    add_keycode_pair(KEY_ESCAPE,    "ESC");
+}
+
+long input_manager::get_keycode(std::string name) {
+    return keyname_to_keycode[name];
+}
+
+std::string input_manager::get_keyname(long ch) {
+    return keycode_to_keyname[ch];
 }
 
 const std::vector<input_event>& input_manager::get_input_for_action(const std::string& action_descriptor) {
@@ -204,7 +237,7 @@ const std::string& input_context::input_to_action(input_event& inp) {
     for(int i=0; i<registered_actions.size(); i++) {
         const std::string& action = registered_actions[i];
         const std::vector<input_event>& check_inp = inp_mngr.get_input_for_action(action);
-        
+
         // Does this action have our queried input event in its keybindings?
         for(int i=0; i<check_inp.size(); i++) {
             if(check_inp[i] == inp) {
@@ -229,16 +262,16 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
     }
 
     const std::vector<input_event>& events = inp_mngr.get_input_for_action(action_descriptor);
-    
+
     if(events.size() == 0) {
         return UNDEFINED;
     }
-    
+
     std::stringstream rval;
     for(int i=0; i < events.size(); i++) {
         if(events[i].type == INPUT_KEYBOARD) {
             for(int j=0; j<events[i].sequence.size(); j++) {
-                rval << std::string(1, events[i].sequence[j]);
+                rval << inp_mngr.get_keyname(events[i].sequence[j]);
             }
         }
         if(i + 1 < events.size()) {
