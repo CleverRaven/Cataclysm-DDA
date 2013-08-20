@@ -4136,12 +4136,13 @@ void player::suffer(game *g)
     {
         if (weight_carried() > weight_capacity())
         {
-            // one in 11 with it reducing by 1 for every additional 20%, occurs constantly at 300%
-            // " + 1" is so that the shift occurs on the 20% instead of above it
-            if (one_in(10 - ((weight_carried() + 1) / (weight_capacity() / 5) - 7)) )
-            {
+            // Starts at 1 in 25, goes down by 5 for every 50% more carried
+            if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))){
                 g->add_msg_if_player(this,"Your body strains under the weight!");
-                pain += 1;
+                // 1 more pain for every 800 grams more (5 per extra STR needed)
+                if ( (weight_carried() - weight_capacity()) / 800 > pain && pain < 100) {
+                    pain += 1;
+                }
             }
         }
         int timer = -3600;
