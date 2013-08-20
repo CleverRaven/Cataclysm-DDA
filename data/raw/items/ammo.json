@@ -113,7 +113,7 @@
         "description" : "Plastic jacketed copper cable of the type used in small electronics.",
         "material" : "plastic",
         "volume" : 2,
-        "weight" : 100,
+        "weight" : 2,
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
