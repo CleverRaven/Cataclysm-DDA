@@ -180,7 +180,7 @@ void input_manager::init() {
     }
 }
 
-const input_instance* input_manager::get_input_for_action(const std::string& action_descriptor) {
+const input_event* input_manager::get_input_for_action(const std::string& action_descriptor) {
     if(action_to_input.count(action_descriptor) == 0) {
         return NULL;
     }
@@ -191,10 +191,10 @@ const std::string ERROR = "ERROR";
 const std::string UNDEFINED = "UNDEFINED";
 const std::string ANY_INPUT = "ANY_INPUT";
 
-const std::string& input_context::input_to_action(input_instance& inp) {
+const std::string& input_context::input_to_action(input_event& inp) {
     for(int i=0; i<registered_actions.size(); i++) {
         const std::string& action = registered_actions[i];
-        const input_instance *check_inp = inp_mngr.get_input_for_action(action);
+        const input_event *check_inp = inp_mngr.get_input_for_action(action);
         if(check_inp != NULL && *check_inp == inp) {
             return action;
         }
@@ -215,7 +215,7 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
         return "(*)"; // * for wildcard
     }
 
-    const input_instance* event = inp_mngr.get_input_for_action(action_descriptor);
+    const input_event* event = inp_mngr.get_input_for_action(action_descriptor);
     if(event && event->type == INPUT_KEYPRESS) {
         std::string rval(1, (char) event->key);
         return rval;
@@ -228,7 +228,7 @@ const std::string& input_context::handle_input() {
     while(1) {
         long ch = getch();
 
-        input_instance next_action;
+        input_event next_action;
         next_action.type = INPUT_KEYPRESS;
         next_action.key = ch;
 

@@ -43,7 +43,7 @@ enum input_t {
 /**
  * An instance of an input, like a keypress etc.
  */
-struct input_instance {
+struct input_event {
     input_t type;
 
     // The following 2 should be a union, but unions with
@@ -51,7 +51,7 @@ struct input_instance {
     long key; // For INPUT_KEYPRESS
     std::vector<long> key_combo; // For INPUT_MULTI_KEYPRESS
 
-    bool operator==(const input_instance& other) const {
+    bool operator==(const input_event& other) const {
         if(type != other.type) return false;
 
         if(type == INPUT_KEYPRESS) {
@@ -85,7 +85,7 @@ struct input_instance {
 class input_manager {
 public:
     // TODO: rewrite this to have several alternative input events for the same action
-    const input_instance* get_input_for_action(const std::string& action_descriptor);
+    const input_event* get_input_for_action(const std::string& action_descriptor);
 
     /**
      * Initializes the input manager, aka loads the input mapping configuration JSON.
@@ -93,7 +93,7 @@ public:
     void init();
 
 private:
-    std::map<std::string, input_instance> action_to_input;
+    std::map<std::string, input_event> action_to_input;
 };
 
 // Singleton for our input manager.
@@ -165,7 +165,7 @@ public:
 
 private:
     std::vector<std::string> registered_actions;
-    const std::string& input_to_action(input_instance& inp);
+    const std::string& input_to_action(input_event& inp);
     bool registered_any_input;
 };
 
