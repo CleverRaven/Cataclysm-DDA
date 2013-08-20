@@ -1024,8 +1024,10 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
     break;
     case 'l':
     case '6':
-       points -= u->skillLevel(currentSkill) + 1;
-       u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);
+     if (u->skillLevel(currentSkill) <= 19) { 
+      points -= u->skillLevel(currentSkill) + 1;
+      u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);
+     }
     break;
    case '<':
     return -1;
@@ -1091,7 +1093,7 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
 
   if (ch == '>') {
    if (points < 0) {
-    popup(_("Costs too many points!"));
+    popup(_("Too many points allocated, change some features and try again."));
 	continue;
    } else if (points > 0 && !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
     continue;
