@@ -6947,6 +6947,7 @@ void game::advanced_inv()
     int src = left; // the active screen , 0 for left , 1 for right.
     int dest = right;
     int max_inv = inv_chars.size() - u.worn.size() - ( u.is_armed() || u.weapon.is_style() ? 1 : 0 );
+    bool examineScroll = false;
 
     while(!exit)
     {
@@ -7167,9 +7168,12 @@ void game::advanced_inv()
             }
         }
 
-        wrefresh(head);
+        if (!examineScroll) {
+            wrefresh(head);
+            wrefresh(panes[right].window);
+        }
         wrefresh(panes[left].window);
-        wrefresh(panes[right].window);
+        examineScroll = false;
 
         int changex = -1;
         int changey = 0;
@@ -7539,6 +7543,7 @@ void game::advanced_inv()
                 changey += -1;
                 lastCh='e';
             }
+            if (changey) { examineScroll = true; }
             redraw = true;
         }
         else if( 'q' == c || KEY_ESCAPE == c || ' ' == c )
