@@ -85,7 +85,7 @@ struct input_instance {
 class input_manager {
 public:
     // TODO: rewrite this to have several alternative input events for the same action
-    const input_instance& get_input_for_action(const std::string& action_descriptor);
+    const input_instance* get_input_for_action(const std::string& action_descriptor);
 
     /**
      * Initializes the input manager, aka loads the input mapping configuration JSON.
@@ -124,7 +124,13 @@ public:
      * unregistered keys, those keys will all be linked to this "ANY_INPUT"
      * action.
      */
-    const std::string register_action(const std::string& action_descriptor);
+    void register_action(const std::string& action_descriptor);
+
+    /**
+     * Get a description text for the key/other input method associated
+     * with the given action.
+     */
+    const std::string get_desc(const std::string& action_descriptor);
 
 	/**
 	 * Handles input and returns the next action in the queue.

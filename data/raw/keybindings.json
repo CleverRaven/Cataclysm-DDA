@@ -58,5 +58,15 @@
         "id":"LEVEL_DOWN",
         "input_method":"keyboard",
         "key":"w"
+    },
+    {
+        "id":"SEARCH",
+        "input_method":"keyboard",
+        "key":"S"
+    },
+    {
+        "id":"OVERMAP_QUIT",
+        "input_method":"keyboard",
+        "key":"Q"
     }
 ]

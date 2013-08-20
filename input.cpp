@@ -180,38 +180,48 @@ void input_manager::init() {
     }
 }
 
-const input_instance& input_manager::get_input_for_action(const std::string& action_descriptor) {
-    return action_to_input[action_descriptor];
+const input_instance* input_manager::get_input_for_action(const std::string& action_descriptor) {
+    if(action_to_input.count(action_descriptor) == 0) {
+        return NULL;
+    }
+    return &action_to_input[action_descriptor];
 }
 
 const std::string ERROR = "ERROR";
+const std::string UNDEFINED = "UNDEFINED";
 const std::string ANY_INPUT = "ANY_INPUT";
 
 const std::string& input_context::input_to_action(input_instance& inp) {
     for(int i=0; i<registered_actions.size(); i++) {
         const std::string& action = registered_actions[i];
-        if(inp_mngr.get_input_for_action(action) == inp) {
+        const input_instance *check_inp = inp_mngr.get_input_for_action(action);
+        if(check_inp != NULL && *check_inp == inp) {
             return action;
         }
     }
     return ERROR;
 }
 
-const std::string input_context::register_action(const std::string& action_descriptor) {
+void input_context::register_action(const std::string& action_descriptor) {
     if(action_descriptor == "ANY_INPUT") {
         registered_any_input = true;
-        return "(*)"; // * for wildcard
     }
 
     registered_actions.push_back(action_descriptor);
+}
 
-    const input_instance& event = inp_mngr.get_input_for_action(action_descriptor);
-    if(event.type == INPUT_KEYPRESS) {
-        std::string rval(1, (char) event.key);
+const std::string input_context::get_desc(const std::string& action_descriptor) {
+    if(action_descriptor == "ANY_INPUT") {
+        return "(*)"; // * for wildcard
+    }
+
+    const input_instance* event = inp_mngr.get_input_for_action(action_descriptor);
+    if(event && event->type == INPUT_KEYPRESS) {
+        std::string rval(1, (char) event->key);
         return rval;
     }
 
-    return "ERROR";
+    return UNDEFINED;
 }
 
 const std::string& input_context::handle_input() {
@@ -286,7 +296,7 @@ void input_context::get_direction(int& dx, int& dy, const std::string& action) {
         dx = 1;
         dy = 1;
     } else {
-        dx = 0;
-        dy = 0;
+        dx = -2;
+        dy = -2;
     }
 }

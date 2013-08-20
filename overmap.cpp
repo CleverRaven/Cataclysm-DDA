@@ -1645,7 +1645,7 @@ int overmap::dist_from_city(point p)
 
 void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
                    int &origx, int &origy, signed char &ch, bool blink,
-                   overmap &hori, overmap &vert, overmap &diag)
+                   overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt)
 {
  bool note_here = false, npc_here = false;
  std::string note_text;
@@ -1864,14 +1864,23 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
   }
   mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan.  "));
-  mvwprintz(w, 16, om_map_width + 1, c_magenta, _("0 - Center map on character"));
-  mvwprintz(w, 17, om_map_width + 1, c_magenta, _("/ - Search                 "));
-  mvwprintz(w, 18, om_map_width + 1, c_magenta, _("N - Add/Edit a note        "));
-  mvwprintz(w, 19, om_map_width + 1, c_magenta, _("D - Delete a note          "));
-  mvwprintz(w, 20, om_map_width + 1, c_magenta, _("L - List notes             "));
-  mvwprintz(w, 21, om_map_width + 1, c_magenta, _("Esc or q - Return to game  "));
+  if(!inp_ctxt) {
+      mvwprintz(w, 16, om_map_width + 1, c_magenta, _("0 - Center map on character"));
+      mvwprintz(w, 17, om_map_width + 1, c_magenta, _("/ - Search                 "));
+      mvwprintz(w, 18, om_map_width + 1, c_magenta, _("N - Add/Edit a note        "));
+      mvwprintz(w, 19, om_map_width + 1, c_magenta, _("D - Delete a note          "));
+      mvwprintz(w, 20, om_map_width + 1, c_magenta, _("L - List notes             "));
+      mvwprintz(w, 21, om_map_width + 1, c_magenta, _("Esc or q - Return to game  "));
+  } else {
+      mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER_ON_CHARACTER")  + _(" - Center map on character")).c_str());
+      mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH")               + _(" - Search                 ")).c_str());
+      mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE")          + _(" - Add/Edit a note        ")).c_str());
+      mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE")          + _(" - Delete a note          ")).c_str());
+      mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES")           + _(" - List notes             ")).c_str());
+      mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("OVERMAP_QUIT")         + _(" - Return to game  ")).c_str());
+  }
   mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, "%s, %d'%d, %d'%d", string_format(_("LEVEL %i"),z).c_str(),
-  rc.abs_om.x, rc.om_pos.x, rc.abs_om.y, rc.om_pos.y );
+    rc.abs_om.x, rc.om_pos.x, rc.abs_om.y, rc.om_pos.y );
 // Done with all drawing!
   wrefresh(w);
 }
@@ -1895,17 +1904,19 @@ point overmap::draw_overmap(game *g, int zlevel)
  ictxt.register_action("ANY_INPUT");
  ictxt.register_directions();
  ictxt.register_action("CONFIRM");
- ictxt.register_action("CENTER_ON_CHARACTER");
  ictxt.register_action("LEVEL_UP");
  ictxt.register_action("LEVEL_DOWN");
+
+ // Actions whose keys we want to display.
+ ictxt.register_action("CENTER_ON_CHARACTER");
  ictxt.register_action("CREATE_NOTE");
  ictxt.register_action("DELETE_NOTE");
  ictxt.register_action("SEARCH");
+ ictxt.register_action("LIST_NOTES");
  ictxt.register_action("OVERMAP_QUIT");
- ictxt.register_action("L"); // Not sure what this one does.
  std::string action;
  do {
-     draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
+     draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
   action = ictxt.handle_input();
   timeout(BLINK_SPEED); // Enable blinking!
 
@@ -1941,7 +1952,7 @@ point overmap::draw_overmap(game *g, int zlevel)
      delete_note(cursx, cursy, zlevel);
    }
    timeout(BLINK_SPEED);
-  } else if (action == "L"){
+  } else if (action == "LIST_NOTES"){
    timeout(-1);
    point p = display_notes(g, zlevel);
    if (p.x != -1){

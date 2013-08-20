@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include "cursesdef.h"
 #include "name.h"
+#include "input.h"
 
 class npc;
 struct settlement;
@@ -169,7 +170,7 @@ class overmap
   //Drawing
   void draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
             int &origx, int &origy, signed char &ch, bool blink,
-            overmap &hori, overmap &vert, overmap &diag);
+            overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt=NULL);
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
