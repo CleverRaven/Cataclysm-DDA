@@ -6856,6 +6856,16 @@ int advanced_inv_getinvcat(item *it) {
     return 9;
 }
 
+std::string center_text(const char *str, int width)
+{
+    std::string spaces;
+    int numSpaces = width - strlen(str);
+    for (int i = 0; i < numSpaces / 2; i++) {
+        spaces += " ";
+    }
+    return spaces + std::string(str);
+}
+
 void game::advanced_inv()
 {
     u.inv.sort();
@@ -7515,10 +7525,12 @@ void game::advanced_inv()
             } else {
                 std::vector<iteminfo> vThisItem, vDummy, vMenu;
                 it->info(true, &vThisItem, this);
-                vThisItem.push_back(iteminfo(_("DESCRIPTION"), "\n----------\n"));
-                vThisItem.push_back(iteminfo(_("DESCRIPTION"), _("\n\n\n\n\n [up / page up] previous\n [down / page down] next")));
+                int rightWidth = w_width / 2 - 2;
+                vThisItem.push_back(iteminfo(_("DESCRIPTION"), "\n"));
+                vThisItem.push_back(iteminfo(_("DESCRIPTION"), center_text(_("[up / page up] previous"), rightWidth - 4)));
+                vThisItem.push_back(iteminfo(_("DESCRIPTION"), center_text(_("[down / page down] next"), rightWidth - 4)));
                 ret=compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ),
-                    (w_width/2)-2, 0, it->tname(this), vThisItem, vDummy );
+                    rightWidth, 0, it->tname(this), vThisItem, vDummy );
             }
             if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 changey += 1;
