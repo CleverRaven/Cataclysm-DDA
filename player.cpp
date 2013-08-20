@@ -1042,7 +1042,7 @@ int player::current_speed(game *g)
 // Minus some for weight...
  int carry_penalty = 0;
  if (weight_carried() > weight_capacity())
-  carry_penalty = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
+  carry_penalty = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
  newmoves -= carry_penalty;
 
  if (pain > pkill) {
@@ -2159,7 +2159,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  int pen = 0;
  line = 3;
  if (weight_carried() > weight_capacity()) {
-  pen = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
+  pen = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
   mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
