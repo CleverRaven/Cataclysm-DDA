@@ -23,9 +23,9 @@
 #define COL_TR_GOOD_ON_PAS		c_green    // A toggled-on good trait
 #define COL_TR_BAD		c_red      // Bad trait descriptive text
 #define COL_TR_BAD_OFF_ACT		c_ltgray    // A toggled-off bad trait
-#define COL_TR_BAD_ON_ACT		c_red      // A toggled-on bad trait
+#define COL_TR_BAD_ON_ACT		c_ltred      // A toggled-on bad trait
 #define COL_TR_BAD_OFF_PAS		c_dkgray    // A toggled-off bad trait
-#define COL_TR_BAD_ON_PAS		c_ltred      // A toggled-on bad trait
+#define COL_TR_BAD_ON_PAS		c_red      // A toggled-on bad trait
 #define COL_SKILL_USED		c_green    // A skill with at least one point
 
 #define HIGH_STAT 14 // The point after which stats cost double
@@ -78,16 +78,18 @@ bool player::create(game *g, character_type type, std::string tempname)
     if (per_max > HIGH_STAT)
      points -= (per_max - HIGH_STAT);
 
-    int num_gtraits = 0, num_btraits = 0, rn, tries;
+    int num_gtraits = 0, num_btraits = 0, tries = 0;
+    std::string rn = "";
+
     while (points < 0 || rng(-3, 20) > points) {
      if (num_btraits < max_trait_points && one_in(3)) {
       tries = 0;
       do {
        rn = random_bad_trait();
        tries++;
-      } while ((has_trait(rn) ||
-              num_btraits - traits[rn].points > max_trait_points) && tries < 5);
-      if (tries < 5) {
+      } while ((has_trait(rn) || num_btraits - traits[rn].points > max_trait_points) && tries < 5);
+
+      if (tries < 5 && !has_conflicting_trait(rn)) {
        toggle_trait(rn);
        points -= traits[rn].points;
        num_btraits -= traits[rn].points;
@@ -109,7 +111,7 @@ bool player::create(game *g, character_type type, std::string tempname)
      case 4:
       rn = random_good_trait();
       if (!has_trait(rn) && points >= traits[rn].points &&
-          num_gtraits + traits[rn].points <= max_trait_points) {
+          num_gtraits + traits[rn].points <= max_trait_points && !has_conflicting_trait(rn)) {
        toggle_trait(rn);
        points -= traits[rn].points;
        num_gtraits += traits[rn].points;
@@ -178,21 +180,21 @@ bool player::create(game *g, character_type type, std::string tempname)
 
  // Character is finalized.  Now just set up HP, &c
  for (int i = 0; i < num_hp_parts; i++) {
-  hp_max[i] = calc_HP(str_max, has_trait(PF_TOUGH));
+  hp_max[i] = calc_HP(str_max, has_trait("TOUGH"));
   hp_cur[i] = hp_max[i];
  }
- if (has_trait(PF_HARDCORE)) {
+ if (has_trait("HARDCORE")) {
   for (int i = 0; i < num_hp_parts; i++) {
    hp_max[i] = int(hp_max[i] * .25);
    hp_cur[i] = hp_max[i];
   }
- } if (has_trait(PF_GLASSJAW)) {
+ } if (has_trait("GLASSJAW")) {
   hp_max[hp_head] = int(hp_max[hp_head] * .80);
   hp_cur[hp_head] = hp_max[hp_head];
  }
- if (has_trait(PF_SMELLY))
+ if (has_trait("SMELLY"))
   scent = 800;
- if (has_trait(PF_ANDROID)) {
+ if (has_trait("ANDROID")) {
   bionic_id first_bio;
   do {
    first_bio = g->random_good_bionic();
@@ -203,7 +205,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   power_level = 10;
  }
 
- if (has_trait(PF_MARTIAL_ARTS)) {
+ if (has_trait("MARTIAL_ARTS")) {
   itype_id ma_type;
   do {
    int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
@@ -228,7 +230,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   style_selected=ma_type;
  }
 
-    if (has_trait(PF_MARTIAL_ARTS2)) {
+    if (has_trait("MARTIAL_ARTS2")) {
   itype_id ma_type;
   do {
    int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
@@ -252,7 +254,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
- if (has_trait(PF_MARTIAL_ARTS3)) {
+ if (has_trait("MARTIAL_ARTS3")) {
   itype_id ma_type;
   do {
    int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
@@ -276,7 +278,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
- if (has_trait(PF_MARTIAL_ARTS4)) {
+ if (has_trait("MARTIAL_ARTS4")) {
   itype_id ma_type;
   do {
    int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
@@ -333,26 +335,26 @@ bool player::create(game *g, character_type type, std::string tempname)
  }
 
  // Those who are both near-sighted and far-sighted start with bifocal glasses.
- if (has_trait(PF_HYPEROPIC) && has_trait(PF_MYOPIC))
+ if (has_trait("HYPEROPIC") && has_trait("MYOPIC"))
  {
     tmp = item(g->itypes["glasses_bifocal"], 0);
     inv.push_back(tmp);
  }
  // The near-sighted start with eyeglasses.
- else if (has_trait(PF_MYOPIC))
+ else if (has_trait("MYOPIC"))
  {
     tmp = item(g->itypes["glasses_eye"], 0);
     inv.push_back(tmp);
  }
  // The far-sighted start with reading glasses.
- else if (has_trait(PF_HYPEROPIC))
+ else if (has_trait("HYPEROPIC"))
  {
     tmp = item(g->itypes["glasses_reading"], 0);
     inv.push_back(tmp);
  }
 
 // Likewise, the asthmatic start with their medication.
- if (has_trait(PF_ASTHMA)) {
+ if (has_trait("ASTHMA")) {
   tmp = item(g->itypes["inhaler"], 0);
   inv.push_back(tmp);
  }
@@ -362,9 +364,9 @@ bool player::create(game *g, character_type type, std::string tempname)
  tmp = item(g->itypes["matches"], 0);
   inv.push_back(tmp);
 // make sure we have no mutations
- for (int i = 0; i < PF_MAX2; i++)
-  if (!has_base_trait(i))
-	my_mutations[i] = false;
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
+  if (!has_base_trait(iter->first))
+	my_mutations[iter->first] = false;
 
 	// Equip any armor from our inventory. If we are unable to wear some of it due to encumberance, it will silently fail.
     std::vector<item*> tmp_inv;
@@ -464,7 +466,7 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Str further costs 2 points."));
             }
             mvwprintz(w, 6, 33, COL_STAT_ACT, _("Base HP: %d"),
-                      calc_HP(u->str_max, u->has_trait(PF_TOUGH)));
+                      calc_HP(u->str_max, u->has_trait("TOUGH")));
             mvwprintz(w, 7, 33, COL_STAT_ACT, _("Carry weight: %.1f %s"), u->convert_weight(u->weight_capacity(false)),
                       OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?"kg":"lbs");
             mvwprintz(w, 8, 33, COL_STAT_ACT, _("Melee damage: %d"),
@@ -581,241 +583,215 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
 
 int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, int max_trait_points)
 {
- draw_tabs(w, "TRAITS");
+    draw_tabs(w, "TRAITS");
 
- WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
-// Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
- int num_good = 0, num_bad = 0;
- for (int i = 0; i < PF_SPLIT; i++) {
-  if (u->has_trait(i))
-   num_good += traits[i].points;
- }
- for (int i = PF_SPLIT + 1; i < PF_MAX; i++) {
-  if (u->has_trait(i))
-   num_bad += abs(traits[i].points);
- }
+    WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
+    // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
+    int num_good = 0, num_bad = 0;
 
- for (int i = 0; i < 16; i++) {//preparation: draw disadvantages list
-  mvwprintz(w, 5 + i, 40, c_dkgray, "\
-                                     ");
-  if (u->has_trait(PF_SPLIT + 1 + i))//highlight disadvantages
-   mvwprintz(w, 5 + i, 40, COL_TR_BAD_ON_PAS, traits[PF_SPLIT + 1 + i].name.c_str());
-  else
-   mvwprintz(w, 5 + i, 40, COL_TR_BAD_OFF_PAS, traits[PF_SPLIT + 1 + i].name.c_str());
- }
- // TODO: actually display these somewhere? this wasn't working.
- //mvwprintz(w,11,32, c_ltgray, "h   l");
- //mvwprintz(w,12,32, c_ltgray, "<   >");
- //mvwprintz(w,13,32, c_ltgray, "4   6");
- //mvwprintz(w,15,32, c_ltgray, "Space");
- //mvwprintz(w,16,31, c_ltgray,"Toggles");
+    std::vector<std::string> vStartingTraits[2];
 
- int cur_adv = 1, cur_dis = PF_SPLIT + 1, cur_trait, traitmin, traitmax, xoff;
- nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off;
- bool using_adv = true;	// True if we're selecting advantages, false if we're
-			// selecting disadvantages
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+        if (iter->second.startingtrait) {
+            if (iter->second.points >= 0) {
+                vStartingTraits[0].push_back(iter->first);
 
- do {
-  mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
-  mvwprintz(w,  3,18, c_ltgreen, "%2d/%d", num_good, max_trait_points);
-  mvwprintz(w,  3,25, c_ltred, "%2d/%d", num_bad, max_trait_points);
-// Clear the bottom of the screen.
-  werase(w_description);
-  if (using_adv) {//Traits costs note and traits description
-   col_on_act  = COL_TR_GOOD_ON_ACT;
-   col_off_act = COL_TR_GOOD_OFF_ACT;
-   col_on_pas  = COL_TR_GOOD_ON_PAS;
-   col_off_pas = COL_TR_GOOD_OFF_PAS;
-   hi_on   = hilite(col_on_act);
-   hi_off  = hilite(col_off_act);
-   xoff = 2;
-   cur_trait = cur_adv;
-   traitmin = 1;
-   traitmax = PF_SPLIT;
-   mvwprintz(w,  3, 33, c_ltgray, "                                              ");
-   mvwprintz(w,  3, 33, COL_TR_GOOD, _("%s costs %d points"),
-             _(traits[cur_adv].name.c_str()), traits[cur_adv].points);
-   fold_and_print(w_description, 0, 0, 78, COL_TR_GOOD, "%s", _(traits[cur_adv].description.c_str()));
-  } else {
-   col_on_act  = COL_TR_BAD_ON_ACT;
-   col_off_act = COL_TR_BAD_OFF_ACT;
-   col_on_pas  = COL_TR_BAD_ON_PAS;
-   col_off_pas = COL_TR_BAD_OFF_PAS;
-   hi_on   = hilite(col_on_act);
-   hi_off  = hilite(col_off_act);
-   xoff = 40;
-   cur_trait = cur_dis;
-   traitmin = PF_SPLIT + 1;
-   traitmax = PF_MAX;
-   mvwprintz(w,  3, 33, c_ltgray, "                                              ");
-   mvwprintz(w,  3, 33, COL_TR_BAD, _("%s earns %d points"),
-             _(traits[cur_dis].name.c_str()), traits[cur_dis].points * -1);
-   fold_and_print(w_description, 0, 0, 78, COL_TR_BAD, "%s", _(traits[cur_dis].description.c_str()));
-  }
+                if (u->has_trait(iter->first)) {
+                    num_good += iter->second.points;
+                }
+            } else {
+                vStartingTraits[1].push_back(iter->first);
 
-  if (cur_trait <= traitmin + 7) {//draw list
-   for (int i = traitmin; i < traitmin + 16; i++) {
-    mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
-                                      ");	// Clear the line
-    if (i == cur_trait) {
-     if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_on, traits[i].name.c_str());
-     else
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_off, traits[i].name.c_str());
-    } else {
-     if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, col_on_act, traits[i].name.c_str());
-     else
-      mvwprintz(w, 5 + i - traitmin, xoff, col_off_act, traits[i].name.c_str());
+                if (u->has_trait(iter->first)) {
+                    num_bad += iter->second.points;
+                }
+            }
+        }
     }
-   }
-  } else if (cur_trait >= traitmax - 9) {
-   for (int i = traitmax - 16; i < traitmax; i++) {
-    mvwprintz(w, 21 + i - traitmax, xoff, c_ltgray, "\
-                                      ");	// Clear the line
-    if (i == cur_trait) {
-     if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_on, traits[i].name.c_str());
-     else
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_off, traits[i].name.c_str());
-    } else {
-     if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, col_on_act, traits[i].name.c_str());
-     else
-      mvwprintz(w, 21 + i - traitmax, xoff, col_off_act, traits[i].name.c_str());
-    }
-   }
-  } else {
-   for (int i = cur_trait - 7; i < cur_trait + 9; i++) {
-    mvwprintz(w, 12 + i - cur_trait, xoff, c_ltgray, "\
-                                     ");	// Clear the line
-    if (i == cur_trait) {
-     if (u->has_trait(i))
-      mvwprintz(w, 12 + i - cur_trait, xoff, hi_on, traits[i].name.c_str());
-     else
-      mvwprintz(w, 12 + i - cur_trait, xoff, hi_off, traits[i].name.c_str());
-    } else {
-     if (u->has_trait(i))
-      mvwprintz(w, 12 + i - cur_trait, xoff, col_on_act, traits[i].name.c_str());
-     else
-      mvwprintz(w, 12 + i - cur_trait, xoff, col_off_act, traits[i].name.c_str());
-    }
-   }
-  }
 
-  wrefresh(w);
-  wrefresh(w_description);
-  switch (input()) {
-   case 'h':
-   case 'l':
-   case '6':
-   case '4':
-   case '\t':
-    if (cur_trait <= traitmin + 7) {//draw list
-     for (int i = traitmin; i < traitmin + 16; i++) {
-      mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
-                                     ");	// Clear the line
-      if (u->has_trait(i))
-       mvwprintz(w, 5 + i - traitmin, xoff, col_on_pas, traits[i].name.c_str());
-      else
-       mvwprintz(w, 5 + i - traitmin, xoff, col_off_pas, traits[i].name.c_str());
-     }
-    } else if (cur_trait >= traitmax - 9) {
-     for (int i = traitmax - 16; i < traitmax; i++) {
-      mvwprintz(w, 21 + i - traitmax, xoff, c_ltgray, "\
-                                     ");	// Clear the line
-      if (u->has_trait(i))
-       mvwprintz(w, 21 + i - traitmax, xoff, col_on_pas, traits[i].name.c_str());
-      else
-       mvwprintz(w, 21 + i - traitmax, xoff, col_off_pas, traits[i].name.c_str());
-     }
-    } else {
-     for (int i = cur_trait - 7; i < cur_trait + 9; i++) {
-      mvwprintz(w, 12 + i - cur_trait, xoff, c_ltgray, "\
-                                     ");	// Clear the line
-      if (u->has_trait(i))
-       mvwprintz(w, 12 + i - cur_trait, xoff, col_on_pas, traits[i].name.c_str());
-      else
-       mvwprintz(w, 12 + i - cur_trait, xoff, col_off_pas, traits[i].name.c_str());
-     }
-    }
-    using_adv = !using_adv;
-    wrefresh(w);
-    break;
-   case 'k':
-   case '8':
-    if (using_adv) {
-     if (cur_adv > 1)
-      cur_adv--;
-    } else {
-     if (cur_dis > PF_SPLIT + 1)
-      cur_dis--;
-    }
-    break;
-   case 'j':
-   case '2':
-   if (using_adv) {
-     if (cur_adv < PF_SPLIT - 1)
-      cur_adv++;
-    } else {
-     if (cur_dis < PF_MAX - 1)
-      cur_dis++;
-    }
-    break;
-   case ' ':
-   case '\n':
-   case '5':
-    if (u->has_trait(cur_trait)) {
-     if (points + traits[cur_trait].points >= 0) {
-      u->toggle_trait(cur_trait);
+    nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
 
-      // If turning off the trait violates a profession condition,
-      // turn it back on.
-      if(u->prof->can_pick(u, 0) != "YES") {
-          u->toggle_trait(cur_trait);
-          popup(_("Your profession of %s prevents you from removing this trait."),
-               u->prof->name().c_str());
-      } else {
-          points += traits[cur_trait].points;
-          if (using_adv)
-           num_good -= traits[cur_trait].points;
-          else
-           num_bad += traits[cur_trait].points;
-      }
-     } else
-      mvwprintz(w,  3, 2, c_red, _("Points left:%3d"), points);
-    } else if (using_adv && num_good + traits[cur_trait].points >
-                            max_trait_points)
-     popup(_("Sorry, but you can only take %d points of advantages."),
-           max_trait_points);
-    else if (!using_adv && num_bad - traits[cur_trait].points >
-                           max_trait_points)
-     popup(_("Sorry, but you can only take %d points of disadvantages."),
-           max_trait_points);
-    else if (points >= traits[cur_trait].points) {
-     u->toggle_trait(cur_trait);
+    int iStartPos = 0;
+    int iContentHeight = 16;
+    int iCurWorkingPage = 0;
 
-     // If turning on the trait violates a profession condition,
-     // turn it back off.
-     if(u->prof->can_pick(u, 0) != "YES") {
-      u->toggle_trait(cur_trait);
-      popup(_("Your profession of %s prevents you from taking this trait."),
-           u->prof->name().c_str());
-     } else {
-      points -= traits[cur_trait].points;
-      if (using_adv)
-       num_good += traits[cur_trait].points;
-      else
-       num_bad -= traits[cur_trait].points;
-     }
-    }
-    break;
-   case '<':
-    return -1;
-   case '>':
+    int iCurrentLine[2];
+    iCurrentLine[0] = 0;
+    iCurrentLine[1] = 0;
+
+    do {
+        mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
+        mvwprintz(w,  3,18, c_ltgreen, "%2d/%d", num_good, max_trait_points);
+        mvwprintz(w,  3,25, c_ltred, "%2d/%d", num_bad, max_trait_points);
+
+        // Clear the bottom of the screen.
+        werase(w_description);
+
+        for (int iCurrentPage = 0; iCurrentPage < 2; iCurrentPage++) { //Good/Bad
+            if (iCurrentPage == 0) {
+                col_on_act  = COL_TR_GOOD_ON_ACT;
+                col_off_act = COL_TR_GOOD_OFF_ACT;
+                col_on_pas  = COL_TR_GOOD_ON_PAS;
+                col_off_pas = COL_TR_GOOD_OFF_PAS;
+                col_tr = COL_TR_GOOD;
+                hi_on   = hilite(col_on_act);
+                hi_off  = hilite(col_off_act);
+            } else {
+                col_on_act  = COL_TR_BAD_ON_ACT;
+                col_off_act = COL_TR_BAD_OFF_ACT;
+                col_on_pas  = COL_TR_BAD_ON_PAS;
+                col_off_pas = COL_TR_BAD_OFF_PAS;
+                col_tr = COL_TR_BAD;
+                hi_on   = hilite(col_on_act);
+                hi_off  = hilite(col_off_act);
+            }
+
+            if (vStartingTraits[iCurrentPage].size() > iContentHeight) {
+                iStartPos = iCurrentLine[iCurrentPage] - (iContentHeight - 1) / 2;
+
+                if (iStartPos < 0) {
+                    iStartPos = 0;
+                } else if (iStartPos + iContentHeight > vStartingTraits[iCurrentPage].size()) {
+                    iStartPos = vStartingTraits[iCurrentPage].size() - iContentHeight;
+                }
+            }
+
+            //Draw Traits
+            for (int i = iStartPos; i < vStartingTraits[iCurrentPage].size(); i++) {
+                if (i >= iStartPos && i < iStartPos + ((iContentHeight > vStartingTraits[iCurrentPage].size()) ? vStartingTraits[iCurrentPage].size() : iContentHeight)) {
+                    if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
+                        mvwprintz(w,  3, 33, c_ltgray, "                                              ");
+                        mvwprintz(w,  3, 33, col_tr, _("%s earns %d points"), _(traits[vStartingTraits[iCurrentPage][i]].name.c_str()), traits[vStartingTraits[iCurrentPage][i]].points * -1);
+                        fold_and_print(w_description, 0, 0, 78, col_tr, "%s", _(traits[vStartingTraits[iCurrentPage][i]].description.c_str()));
+                    }
+
+                    nc_color cLine = col_off_pas;
+                    if (iCurWorkingPage == iCurrentPage) {
+                        cLine = col_off_act;
+                        if (iCurrentLine[iCurrentPage] == i) {
+                            cLine = hi_off;
+
+                            if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                                cLine = hilite(c_dkgray);
+                            } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                                cLine = hi_on;
+                            }
+                        } else {
+                             if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                                cLine = c_dkgray;
+
+                            } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                                cLine = col_on_act;
+                            }
+                        }
+                    } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                        cLine = col_on_pas;
+
+                    } else if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                        cLine = c_ltgray;
+                    }
+
+                    mvwprintz(w, 5 + i - iStartPos, (iCurrentPage == 0) ? 2 : 40, c_ltgray, "\
+                                  ");	// Clear the line
+                    mvwprintz(w, 5 + i - iStartPos, (iCurrentPage == 0) ? 2 : 40, cLine, traits[vStartingTraits[iCurrentPage][i]].name.c_str());
+                }
+            }
+        }
+
+        wrefresh(w);
+        wrefresh(w_description);
+        switch (input()) {
+            case 'h':
+            case '4':
+            case 'l':
+            case '6':
+            case '\t':
+                if (iCurWorkingPage == 0) {
+                    iCurWorkingPage = 1;
+                } else {
+                    iCurWorkingPage = 0;
+                }
+                wrefresh(w);
+                break;
+            case 'k':
+            case '8':
+                iCurrentLine[iCurWorkingPage]--;
+                if (iCurrentLine[iCurWorkingPage] < 0) {
+                    iCurrentLine[iCurWorkingPage] = vStartingTraits[iCurWorkingPage].size() - 1;
+                }
+                break;
+            case 'j':
+            case '2':
+                iCurrentLine[iCurWorkingPage]++;
+                if (iCurrentLine[iCurWorkingPage] >= vStartingTraits[iCurWorkingPage].size()) {
+                    iCurrentLine[iCurWorkingPage] = 0;
+                }
+                break;
+            case ' ':
+            case '\n':
+            case '5':
+            {
+                std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
+                if (u->has_trait(cur_trait)) {
+
+                    if (points + traits[cur_trait].points >= 0) {
+                        u->toggle_trait(cur_trait);
+
+                        // If turning off the trait violates a profession condition,
+                        // turn it back on.
+                        if(u->prof->can_pick(u, 0) != "YES") {
+                            u->toggle_trait(cur_trait);
+                            popup(_("Your profession of %s prevents you from removing this trait."), u->prof->name().c_str());
+
+                        } else {
+                            points += traits[cur_trait].points;
+                            if (iCurWorkingPage == 0) {
+                                num_good -= traits[cur_trait].points;
+                            } else {
+                                num_bad += traits[cur_trait].points;
+                            }
+                        }
+                    } else {
+                        mvwprintz(w,  3, 2, c_red, _("Points left:%3d"), points);
+                    }
+
+                } else if(u->has_conflicting_trait(cur_trait)) {
+                    popup(_("You already picked a conflicting trait!"));
+
+                } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points > max_trait_points) {
+                    popup(_("Sorry, but you can only take %d points of advantages."), max_trait_points);
+
+                } else if (!iCurWorkingPage == 0 && num_bad - traits[cur_trait].points > max_trait_points) {
+                    popup(_("Sorry, but you can only take %d points of disadvantages."), max_trait_points);
+
+                } else if (points >= traits[cur_trait].points) {
+                    u->toggle_trait(cur_trait);
+
+                    // If turning on the trait violates a profession condition,
+                    // turn it back off.
+                    if(u->prof->can_pick(u, 0) != "YES") {
+                        u->toggle_trait(cur_trait);
+                        popup(_("Your profession of %s prevents you from taking this trait."), u->prof->name().c_str());
+
+                    } else {
+                        points -= traits[cur_trait].points;
+                        if (iCurWorkingPage == 0) {
+                            num_good += traits[cur_trait].points;
+                        } else {
+                            num_bad -= traits[cur_trait].points;
+                        }
+                    }
+                }
+                break;
+            }
+            case '<':
+                return -1;
+            case '>':
+                return 1;
+        }
+    } while (true);
+
     return 1;
-  }
- } while (true);
 }
 
 int set_profession(WINDOW* w, game* g, player *u, character_type type, int &points)
@@ -1176,14 +1152,30 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
  } while (true);
 }
 
-int player::random_good_trait()
+std::string player::random_good_trait()
 {
- return rng(1, PF_SPLIT - 1);
+    std::vector<std::string> vTraitsGood;
+
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+        if (iter->second.startingtrait && iter->second.points >= 0) {
+            vTraitsGood.push_back(iter->first);
+        }
+    }
+
+    return vTraitsGood[rng(0, vTraitsGood.size() - 1)];
 }
 
-int player::random_bad_trait()
+std::string player::random_bad_trait()
 {
- return rng(PF_SPLIT + 1, PF_MAX - 1);
+    std::vector<std::string> vTraitsBad;
+
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+        if (iter->second.startingtrait && iter->second.points < 0) {
+            vTraitsBad.push_back(iter->first);
+        }
+    }
+
+    return vTraitsBad[rng(0, vTraitsBad.size() - 1)];
 }
 
 int random_skill()

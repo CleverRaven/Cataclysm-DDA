@@ -279,7 +279,7 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
                         color = c_red;
                         asterisks = "*  ";
                     }
-                    if (p->has_trait(PF_SELFAWARE))
+                    if (p->has_trait("SELFAWARE"))
                     {
                         if (current_hp >= 100)
                         {
@@ -456,7 +456,7 @@ void iuse::caff(game *g, player *p, item *it, bool t)
 void iuse::alcohol(game *g, player *p, item *it, bool t)
 {
  int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks
- if (p->has_trait(PF_LIGHTWEIGHT))
+ if (p->has_trait("LIGHTWEIGHT"))
   duration += 300;
  p->pkill += 8;
  p->add_disease("drunk", duration);
@@ -465,7 +465,7 @@ void iuse::alcohol(game *g, player *p, item *it, bool t)
 void iuse::alcohol_weak(game *g, player *p, item *it, bool t)
 {
  int duration = 340 - (6 * p->str_max);
- if (p->has_trait(PF_LIGHTWEIGHT))
+ if (p->has_trait("LIGHTWEIGHT"))
   duration += 120;
  p->pkill += 4;
  p->add_disease("drunk", duration);
@@ -503,7 +503,7 @@ void iuse::weed(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,_("Good stuff, man!"));
 
  int duration = 60;
- if (p->has_trait(PF_LIGHTWEIGHT))
+ if (p->has_trait("LIGHTWEIGHT"))
   duration = 90;
  p->hunger += 8;
  if (p->pkill < 15)
@@ -516,7 +516,7 @@ void iuse::coke(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,_("You snort a bump."));
 
  int duration = 21 - p->str_cur;
- if (p->has_trait(PF_LIGHTWEIGHT))
+ if (p->has_trait("LIGHTWEIGHT"))
   duration += 20;
  p->hunger -= 8;
  p->add_disease("high", duration);
@@ -528,7 +528,7 @@ void iuse::crack(game *g, player *p, item *it, bool t)
   if (!use_fire(g, p, it)) return;
   g->add_msg_if_player(p,_("You smoke some rocks."));
   int duration = 10;
-  if (p->has_trait(PF_LIGHTWEIGHT))
+  if (p->has_trait("LIGHTWEIGHT"))
   {
     duration += 10;
   }
@@ -542,7 +542,7 @@ void iuse::grack(game *g, player *p, item *it, bool t)
   if (!use_fire(g, p, it)) return;
   g->add_msg_if_player(p,_("You smoke some Grack Cocaine. Time seems to stop."));
   int duration = 1000;
-  if (p->has_trait(PF_LIGHTWEIGHT))
+  if (p->has_trait("LIGHTWEIGHT"))
     duration += 10;
   p->hunger -= 8;
   p->add_disease("grack", duration);
@@ -686,62 +686,62 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
     else if( it->has_flag("MUTAGEN_PLANT") )
     {
         g->add_msg_if_player(p, _("You feel much closer to nature."));
-        p->mutate_category(g, MUTCAT_PLANT);
+        p->mutate_category(g, "MUTCAT_PLANT");
     }
     else if( it->has_flag("MUTAGEN_INSECT") )
     {
         g->add_msg_if_player(p, _("You hear buzzing, and feel your body harden."));
-        p->mutate_category(g, MUTCAT_INSECT);
+        p->mutate_category(g, "MUTCAT_INSECT");
     }
     else if( it->has_flag("MUTAGEN_SPIDER") )
     {
         g->add_msg_if_player(p, _("You feel insidious."));
-        p->mutate_category(g, MUTCAT_SPIDER);
+        p->mutate_category(g, "MUTCAT_SPIDER");
     }
     else if( it->has_flag("MUTAGEN_SLIME") )
     {
         g->add_msg_if_player(p, _("Your body loses all rigidity for a moment."));
-        p->mutate_category(g, MUTCAT_SLIME);
+        p->mutate_category(g, "MUTCAT_SLIME");
     }
     else if( it->has_flag("MUTAGEN_FISH") )
     {
         g->add_msg_if_player(p, _("You are overcome by an overwhelming longing for the ocean."));
-        p->mutate_category(g, MUTCAT_FISH);
+        p->mutate_category(g, "MUTCAT_FISH");
     }
     else if( it->has_flag("MUTAGEN_RAT") )
     {
         g->add_msg_if_player(p, _("You feel a momentary nausea."));
-        p->mutate_category(g, MUTCAT_RAT);
+        p->mutate_category(g, "MUTCAT_RAT");
     }
     else if( it->has_flag("MUTAGEN_BEAST") )
     {
         g->add_msg_if_player(p, _("Your heart races and you see blood for a moment."));
-        p->mutate_category(g, MUTCAT_BEAST);
+        p->mutate_category(g, "MUTCAT_BEAST");
     }
     else if( it->has_flag("MUTAGEN_CATTLE") )
     {
         g->add_msg_if_player(p, _("Your mind and body slow down. You feel peaceful."));
-        p->mutate_category(g, MUTCAT_CATTLE);
+        p->mutate_category(g, "MUTCAT_CATTLE");
     }
     else if( it->has_flag("MUTAGEN_CEPHALOPOD") )
     {
         g->add_msg_if_player(p, _("Your mind is overcome by images of eldritch horrors...and then they pass."));
-        p->mutate_category(g, MUTCAT_CEPHALOPOD);
+        p->mutate_category(g, "MUTCAT_CEPHALOPOD");
     }
     else if( it->has_flag("MUTAGEN_BIRD") )
     {
         g->add_msg_if_player(p, _("Your body lightens and you long for the sky."));
-        p->mutate_category(g, MUTCAT_BIRD);
+        p->mutate_category(g, "MUTCAT_BIRD");
     }
     else if( it->has_flag("MUTAGEN_LIZARD") )
     {
         g->add_msg_if_player(p, _("For a heartbeat, your body cools down."));
-        p->mutate_category(g, MUTCAT_LIZARD);
+        p->mutate_category(g, "MUTCAT_LIZARD");
     }
     else if( it->has_flag("MUTAGEN_TROGLOBITE") )
     {
         g->add_msg_if_player(p, _("You yearn for a cool, dark place to hide."));
-        p->mutate_category(g, MUTCAT_TROGLO);
+        p->mutate_category(g, "MUTCAT_TROGLO");
     }
     else
     {
@@ -754,10 +754,10 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
 
 void iuse::purifier(game *g, player *p, item *it, bool t)
 {
- std::vector<int> valid;	// Which flags the player has
- for (int i = PF_NULL+1; i < PF_MAX2; i++) {
-  if (p->has_trait(pl_flag(i)) && !p->has_base_trait(pl_flag(i)))  //Looks for active mutation
-   valid.push_back(i);
+ std::vector<std::string> valid;	// Which flags the player has
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+  if (p->has_trait(iter->first) && !p->has_base_trait(iter->first))  //Looks for active mutation
+   valid.push_back(iter->first);
  }
  if (valid.size() == 0) {
   g->add_msg_if_player(p,_("You feel cleansed."));
@@ -768,7 +768,7 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
   num_cured = 4;
  for (int i = 0; i < num_cured && valid.size() > 0; i++) {
   int index = rng(0, valid.size() - 1);
-  p->remove_mutation(g, pl_flag(valid[index]) );
+  p->remove_mutation(g, valid[index] );
   valid.erase(valid.begin() + index);
  }
 }
@@ -780,7 +780,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
 // If we have the marloss in our veins, we are a "breeder" and will spread
 // alien lifeforms.
  p->add_memorial_log("Ate a marloss berry.");
- if (p->has_trait(PF_MARLOSS)) {
+ if (p->has_trait("MARLOSS")) {
   g->add_msg_if_player(p,_("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
   p->add_morale(MORALE_MARLOSS, 100, 1000);
   p->hunger = -100;
@@ -829,9 +829,9 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
  } else if (effect == 8) {
   g->add_msg_if_player(p,_("You take one bite, and immediately vomit!"));
   p->vomit(g);
- } else if (!p->has_trait(PF_MARLOSS)) {
+ } else if (!p->has_trait("MARLOSS")) {
   g->add_msg_if_player(p,_("You feel a strange warmth spreading throughout your body..."));
-  p->toggle_mutation(PF_MARLOSS);
+  p->toggle_mutation("MARLOSS");
  }
 }
 
@@ -3597,7 +3597,7 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
 
 void iuse::portable_game(game *g, player *p, item *it, bool t)
 {
-  if(p->has_trait(PF_ILLITERATE)) {
+  if(p->has_trait("ILLITERATE")) {
     g->add_msg(_("You're illiterate!"));
   } else if(it->charges == 0) {
     g->add_msg_if_player(p,_("The %s's batteries are dead."), it->name.c_str());

@@ -18,7 +18,7 @@ void weather_effect::wet(game *g)
 {
  if ((!g->u.is_wearing("coat_rain") || one_in(50)) &&
       (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) &&
-      !g->u.has_trait(PF_FEATHERS) && g->u.warmth(bp_torso) < 20 &&
+      !g->u.has_trait("FEATHERS") && g->u.warmth(bp_torso) < 20 &&
       PLAYER_OUTSIDE && one_in(2))
     {
       g->u.drench(g, 30 - g->u.warmth(bp_torso), mfb(bp_torso)|mfb(bp_arms));
@@ -42,7 +42,7 @@ void weather_effect::very_wet(game *g)
 {
  if ((!g->u.is_wearing("coat_rain") || one_in(25)) &&
       (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) &&
-      !g->u.has_trait(PF_FEATHERS) && g->u.warmth(bp_torso) < 50 && PLAYER_OUTSIDE)
+      !g->u.has_trait("FEATHERS") && g->u.warmth(bp_torso) < 50 && PLAYER_OUTSIDE)
     {
       g->u.drench(g, 60 - g->u.warmth(bp_torso), mfb(bp_torso)|mfb(bp_arms));
     }
@@ -67,7 +67,7 @@ void weather_effect::thunder(game *g)
  if (one_in(THUNDER_CHANCE)) {
   if (g->levz >= 0)
    g->add_msg(_("You hear a distant rumble of thunder."));
-  else if (!g->u.has_trait(PF_BADHEARING) && one_in(1 - 3 * g->levz))
+  else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->levz))
    g->add_msg(_("You hear a rumble of thunder from above."));
  }
 }

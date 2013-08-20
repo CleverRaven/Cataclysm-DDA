@@ -99,7 +99,7 @@ int player::hit_roll()
  numdice += best_bonus; // Use whichever bonus is best.
 
 // Drunken master makes us hit better
- if (has_trait(PF_DRUNKEN)) {
+ if (has_trait("DRUNKEN")) {
   if (unarmed_attack())
    numdice += int(disease_level("drunk") / 300);
   else
@@ -107,7 +107,7 @@ int player::hit_roll()
  }
 
 // Farsightedness makes us hit worse
- if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")
+ if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
      && !is_wearing("glasses_bifocal")) {
   numdice -= 2;
  }
@@ -294,7 +294,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
  if (bash_dam + cut_dam + stab_dam <= 0)
   return; // Defensive technique canceled our attack!
-    
+
  if (critical_hit) // Crits cancel out Toad Style's armor boost
   p.rem_disease("armor_boost");
 
@@ -356,7 +356,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 int stumble(player &u)
 {
  int stumble_pen = 2 * u.weapon.volume() + (u.weapon.weight() / 113);
- if (u.has_trait(PF_DEFT))
+ if (u.has_trait("DEFT"))
   stumble_pen = int(stumble_pen * .3) - 10;
  if (stumble_pen < 0)
   stumble_pen = 0;
@@ -463,10 +463,10 @@ int player::dodge(game *g)
     ret += int(current_speed(g) / 150); //Faster = small dodge advantage
 
     //Mutations
-    if (has_trait(PF_TAIL_LONG)) {ret += 2;}
-    if (has_trait(PF_TAIL_FLUFFY)) {ret += 4;}
-    if (has_trait(PF_WHISKERS)) {ret += 1;}
-    if (has_trait(PF_WINGS_BAT)) {ret -= 3;}
+    if (has_trait("TAIL_LONG")) {ret += 2;}
+    if (has_trait("TAIL_FLUFFY")) {ret += 4;}
+    if (has_trait("WHISKERS")) {ret += 1;}
+    if (has_trait("WINGS_BAT")) {ret -= 3;}
 
     if (str_max >= 16) {ret--;} // Penalty if we're huge
     else if (str_max <= 5) {ret++;} // Bonus if we're small
@@ -525,7 +525,7 @@ int player::roll_bash_damage(monster *z, bool crit)
  ret = base_damage(true, stat);
 
 // Drunken Master damage bonuses
- if (has_trait(PF_DRUNKEN) && has_disease("drunk")) {
+ if (has_trait("DRUNKEN") && has_disease("drunk")) {
 // Remember, a single drink gives 600 levels of "drunk"
   int mindrunk, maxdrunk;
   if (unarmed_attack()) {
@@ -592,11 +592,11 @@ int player::roll_cut_damage(monster *z, bool crit)
  double ret = weapon.damage_cut() - z_armor_cut;
 
  if (unarmed_attack() && !wearing_something_on(bp_hands)) {
-  if (has_trait(PF_CLAWS))
+  if (has_trait("CLAWS"))
    ret += 6;
-  if (has_trait(PF_TALONS))
+  if (has_trait("TALONS"))
    ret += 6 + ((int)skillLevel("unarmed") > 8 ? 8 : (int)skillLevel("unarmed"));
-  if (has_trait(PF_SLIME_HANDS) && (z == NULL || !z->has_flag(MF_ACIDPROOF)))
+  if (has_trait("SLIME_HANDS") && (z == NULL || !z->has_flag(MF_ACIDPROOF)))
    ret += rng(4, 6);
  }
 
@@ -627,11 +627,11 @@ int player::roll_stab_damage(monster *z, bool crit)
 
  if (unarmed_attack() && !wearing_something_on(bp_hands)) {
   ret = 0 - z_armor;
-  if (has_trait(PF_CLAWS))
+  if (has_trait("CLAWS"))
    ret += 6;
-  if (has_trait(PF_NAILS) && z_armor == 0)
+  if (has_trait("NAILS") && z_armor == 0)
    ret++;
-  if (has_trait(PF_THORNS))
+  if (has_trait("THORNS"))
    ret += 4;
  } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
   ret = int((weapon.damage_cut() - z_armor) / 4);
@@ -1114,7 +1114,7 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
    g->add_msg( special_attacks[i].text.c_str() );
  }
 
- if (can_poison && has_trait(PF_POISONOUS)) {
+ if (can_poison && has_trait("POISONOUS")) {
   if (z != NULL) {
    if (!z->has_effect(ME_POISONED))
     g->add_msg_if_player(p,_("You poison %s!"), target.c_str());
@@ -1359,7 +1359,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  std::stringstream text;
 
- if (has_trait(PF_FANGS) && !wearing_something_on(bp_mouth) &&
+ if (has_trait("FANGS") && !wearing_something_on(bp_mouth) &&
      one_in(20 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
   text << string_format((is_u ? _("%s sink %s fangs into %s!") : _("%s sinks %s fangs into %s!")), You.c_str(), your.c_str(), target.c_str());
@@ -1368,7 +1368,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_MANDIBLES) && one_in(22 - dex_cur - skillLevel("unarmed"))) {
+ if (has_trait("MANDIBLES") && one_in(22 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
   text << string_format((is_u ? _("%s slice %s with %s mandibles!") : _("%s slices %s with %s mandibles!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
@@ -1376,7 +1376,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_BEAK) && one_in(15 - dex_cur - skillLevel("unarmed"))) {
+ if (has_trait("BEAK") && one_in(15 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
   text << string_format((is_u ? _("%s peck %s!") : _("%s pecks %s!")), You.c_str(), target.c_str());
   tmp.text = text.str();
@@ -1384,7 +1384,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_HOOVES) && one_in(25 - dex_cur - 2 * skillLevel("unarmed"))) {
+ if (has_trait("HOOVES") && one_in(25 - dex_cur - 2 * skillLevel("unarmed"))) {
   special_attack tmp;
   text << string_format((is_u ? _("%s kick %s with %s hooves!") : _("%s kicks %s with %s hooves!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
@@ -1394,7 +1394,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_HORNS) && one_in(20 - dex_cur - skillLevel("unarmed"))) {
+ if (has_trait("HORNS") && one_in(20 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
   text << string_format((is_u ? _("%s headbutt %s with %s horns!") : _("%s headbutts %s with %s horns!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
@@ -1403,7 +1403,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_HORNS_CURLED) && one_in(20 - dex_cur - skillLevel("unarmed"))) {
+ if (has_trait("HORNS_CURLED") && one_in(20 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
   text << string_format((is_u ? _("%s headbutt %s with %s curled horns!") : _("%s headbutts %s with %s curled horns!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
@@ -1411,7 +1411,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_HORNS_POINTED) && one_in(22 - dex_cur - skillLevel("unarmed"))){
+ if (has_trait("HORNS_POINTED") && one_in(22 - dex_cur - skillLevel("unarmed"))){
   special_attack tmp;
   text << string_format((is_u ? _("%s stab %s with %s pointed horns!") : _("%s stabs %s with %s pointed horns!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
@@ -1419,7 +1419,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_ANTLERS) && one_in(20 - dex_cur - skillLevel("unarmed"))) {
+ if (has_trait("ANTLERS") && one_in(20 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
   text << string_format((is_u ? _("%s butt %s with %s antlers!") : _("%s butts %s with %s antlers!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
@@ -1427,7 +1427,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_TAIL_STING) && one_in(3) && one_in(10 - dex_cur)) {
+ if (has_trait("TAIL_STING") && one_in(3) && one_in(10 - dex_cur)) {
   special_attack tmp;
   text << string_format((is_u ? _("%s sting %s with %s tail!") : _("%s stings %s with %s tail!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
@@ -1435,7 +1435,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_TAIL_CLUB) && one_in(3) && one_in(10 - dex_cur)) {
+ if (has_trait("TAIL_CLUB") && one_in(3) && one_in(10 - dex_cur)) {
   special_attack tmp;
   text << string_format((is_u ? _("%s hit %s with %s tail!") : _("%s hits %s with %s tail!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
@@ -1443,12 +1443,12 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
-     has_trait(PF_ARM_TENTACLES_8)) {
+ if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
+     has_trait("ARM_TENTACLES_8")) {
   int num_attacks = 1;
-  if (has_trait(PF_ARM_TENTACLES_4))
+  if (has_trait("ARM_TENTACLES_4"))
    num_attacks = 3;
-  if (has_trait(PF_ARM_TENTACLES_8))
+  if (has_trait("ARM_TENTACLES_8"))
    num_attacks = 7;
   if (weapon.is_two_handed(this))
    num_attacks--;
@@ -1619,9 +1619,9 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
 int attack_speed(player &u, bool missed)
 {
  int move_cost = u.weapon.attack_time() + 20 * u.encumb(bp_torso);
- if (u.has_trait(PF_LIGHT_BONES))
+ if (u.has_trait("LIGHT_BONES"))
   move_cost *= .9;
- if (u.has_trait(PF_HOLLOW_BONES))
+ if (u.has_trait("HOLLOW_BONES"))
   move_cost *= .8;
 
  move_cost -= u.disease_intensity("speed_boost");

@@ -259,7 +259,7 @@ void mdeath::disappear(game *g, monster *z)
 
 void mdeath::guilt(game *g, monster *z)
 {
- if (g->u.has_trait(PF_CANNIBAL))
+ if (g->u.has_trait("CANNIBAL"))
   return;	// We don't give a shit!
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 5)
   return;	// Too far away, we can deal with it

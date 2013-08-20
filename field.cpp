@@ -946,7 +946,7 @@ void map::step_in_field(int x, int y, game *g)
   case fd_web: {
 	  //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
 	  //Moving through multiple webs stacks the effect.
-   if (!g->u.has_trait(PF_WEB_WALKER) && !g->u.in_vehicle) {
+   if (!g->u.has_trait("WEB_WALKER") && !g->u.in_vehicle) {
     int web = cur->getFieldDensity() * 5 - g->u.disease_level("webbed"); //between 5 and 15 minus your current web level.
     if (web > 0)
      g->u.add_disease("webbed", web);

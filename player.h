@@ -45,8 +45,8 @@ public:
 
 // newcharacter.cpp
  bool create(game *g, character_type type, std::string tempname = "");
- int  random_good_trait();
- int  random_bad_trait ();
+ std::string random_good_trait();
+ std::string random_bad_trait();
  void normalize(game *g);	// Starting set up of HP and inventory
 // </newcharacter.cpp>
 
@@ -74,13 +74,16 @@ public:
  int  run_cost(int base_cost, bool diag = false); // Adjust base_cost
  int  swim_speed();	// Our speed when swimming
 
- bool has_trait(int flag) const;
- bool has_base_trait(int flag) const;
- void toggle_trait(int flag);
- void toggle_mutation(int flag);
- mutation_category get_highest_category();
- int get_category_level(mutation_category cat);
- std::string get_category_dream(mutation_category cat, int strength);
+ bool has_trait(std::string flag);
+ bool has_base_trait(std::string flag);
+ bool has_conflicting_trait(std::string flag);
+ void toggle_trait(std::string flag);
+ void toggle_mutation(std::string flag);
+ void set_cat_level_rec(std::string sMut);
+ void set_highest_cat_level();
+ std::string get_highest_category();
+ int get_category_level(std::string cat);
+ std::string get_category_dream(std::string cat, int strength);
 
  bool in_climate_control(game *g);
 
@@ -92,13 +95,13 @@ public:
  void activate_bionic(int b, game *g);
  float active_light();
 
- bool mutation_ok(game *g, pl_flag mutation, bool force_good, bool force_bad);
+ bool mutation_ok(game *g, std::string mutation, bool force_good, bool force_bad);
  void mutate(game *g);
- void mutate_category(game *g, mutation_category);
- void mutate_towards(game *g, pl_flag mut);
- void remove_mutation(game *g, pl_flag mut);
- bool has_child_flag(game *g, pl_flag mut);
- void remove_child_flag(game *g, pl_flag mut);
+ void mutate_category(game *g, std::string);
+ void mutate_towards(game *g, std::string mut);
+ void remove_mutation(game *g, std::string mut);
+ bool has_child_flag(game *g, std::string mut);
+ void remove_child_flag(game *g, std::string mut);
 
  int  sight_range(int light_level);
  int  unimpaired_range();
@@ -338,9 +341,11 @@ public:
  std::string name;
  bool male;
  profession* prof;
- bool my_traits[PF_MAX2];
- bool my_mutations[PF_MAX2];
- int mutation_category_level[NUM_MUTATION_CATEGORIES];
+ std::map<std::string, bool> my_traits;
+ std::map<std::string, bool> my_mutations;
+
+ std::map<std::string, int> mutation_category_level;
+
  int next_climate_control_check;
  bool last_climate_control_ret;
  std::vector<bionic> my_bionics;

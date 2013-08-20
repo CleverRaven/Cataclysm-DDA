@@ -576,15 +576,15 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     if (hurt(rng(10, 40)))
                         die(g);
                 }
-                if (p.encumb(bphit) == 0 &&(p.has_trait(PF_SPINES) || p.has_trait(PF_QUILLS)))
+                if (p.encumb(bphit) == 0 &&(p.has_trait("SPINES") || p.has_trait("QUILLS")))
                 {
-                    int spine = rng(1, (p.has_trait(PF_QUILLS) ? 20 : 8));
+                    int spine = rng(1, (p.has_trait("QUILLS") ? 20 : 8));
                     if (is_npc) {
                         g->add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
-                                   (g->u.has_trait(PF_QUILLS) ? _("quills") : _("spines")));
+                                   (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
                     } else {
                         g->add_msg(_("Your %s puncture it!"),
-                                   (g->u.has_trait(PF_QUILLS) ? _("quills") : _("spines")));
+                                   (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
                     }
                     if (hurt(spine))
                         die(g);
