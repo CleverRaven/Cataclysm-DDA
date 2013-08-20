@@ -3,6 +3,7 @@
 #include "game.h"
 #include "line.h"
 #include "options.h"
+#include "omdata.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -13,11 +14,12 @@ enum shapetype {
 class editmap
 {
     public:
-        void uphelp(std::string txt1 = "", std::string txt2 = "" );
+        void uphelp(std::string txt1 = "", std::string txt2 = "", std::string title = "" );
         point pos2screen( const int x, const int y );
         point screen2pos( const int i, const int j );
         bool eget_direction ( int &x, int &y, InputEvent &input, int ch );
         point edit(point coords);
+        void uber_draw_ter( WINDOW * w, map * m );
         void update_view(bool update_info = false);
         int edit_ter(point coords);
 
@@ -26,7 +28,11 @@ class editmap
         int edit_itm(point coords);
         int edit_mon(point coords);
         int edit_npc(point coords);
-        int select_shape(shapetype shape);
+        int apply_mapgen(point coords);
+        int mapgen_preview(real_coords &tc, uimenu &gmenu);
+        int select_shape(shapetype shape, int mode = -1 );
+        int mapgen_retarget(WINDOW * preview = NULL, map * mptr = NULL);
+
         void update_fmenu_entry(uimenu *fmenu, field *field, int idx);
         void setup_fmenu(uimenu *fmenu, field *field);
         bool change_fld(std::vector<point> coords, field_id fid, int density);
@@ -42,7 +48,8 @@ class editmap
         int sel_frn;
         int target_frn;
 
-
+        point recalc_target(shapetype shape);
+        bool move_target( InputEvent &input, int ch, int moveorigin = -1 );
         field *cur_field;
 
         trap_id cur_trap;
@@ -75,13 +82,12 @@ class editmap
         bool altblink;
         int tmaxx;
         int tmaxy;
+        int zlevel;
+        bool uberdraw;
+        std::map<oter_id, int> oter_special;
         editmap(game *gptr) {
             g = gptr;
-#ifdef backport
-            width = OPTIONS[OPT_SIDEBAR_STYLE] ? 45 : 55;
-#else
-            width = OPTIONS["SIDEBAR_STYLE"] ? 45 : 55;
-#endif
+            width = TERMX - TERRAIN_WINDOW_WIDTH;
             sel_ter = -1;
             target_ter = -1;
             sel_frn = -1;
@@ -111,7 +117,13 @@ class editmap
             fids[fd_shock_vent] = "shock_vent";
             fids[fd_acid_vent] = "acid_vent";
             target_list.clear();
-
+            oter_special.clear();
+            zlevel = g->levz;
+            uberdraw = true;
+            for ( int i=0; i < NUM_OMSPECS; i++ ) {
+                oter_id key=overmap_specials[i].ter;
+                oter_special[key]=i;
+            }
         };
         ~editmap() {
             delwin(w_info);
