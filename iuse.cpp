@@ -3915,48 +3915,62 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
 
 void iuse::hacksaw(game *g, player *p, item *it, bool t)
 {
- int dirx, diry;
- if(!g->choose_adjacent(_("Cut up metal"), dirx, diry))
-  return;
+    int dirx, diry;
+    if(!g->choose_adjacent(_("Cut up metal"), dirx, diry))
+        return;
 
-if (dirx == p->posx && diry == p->posy) {
-  g->add_msg(_("Why would you do that?"));
-  g->add_msg(_("You're not even chained to a boiler."));
-  return;
- }
- if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h || g->m.ter(dirx, diry) == t_chaingate_c) {
-  p->moves -= 500;
-  g->m.ter_set(dirx, diry, t_dirt);
-  g->sound(dirx, diry, 15,_("grnd grnd grnd"));
-  g->m.spawn_item(dirx, diry, "pipe", 0, 6);
-  g->m.spawn_item(dirx, diry, "wire", 0, 20);
- if (g->m.ter(dirx, diry) == t_chainfence_posts) {
-  p->moves -= 500;
-  g->m.ter_set(dirx, diry, t_dirt);
-  g->sound(dirx, diry, 15,_("grnd grnd grnd"));
-  g->m.spawn_item(dirx, diry, "pipe", 0, 6);
- } else if (g->m.furn(dirx, diry) == f_rack) {
-  p->moves -= 500;
-  g->m.furn_set(dirx, diry, f_null);
-  g->sound(dirx, diry, 15,_("grnd grnd grnd"));
-  g->m.spawn_item(p->posx, p->posy, "pipe", 0, rng(1, 3));
-  g->m.spawn_item(p->posx, p->posy, "steel_chunk", 0);
- } else if (g->m.ter(dirx, diry) == t_bars &&
-            (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
-             g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage)) {
-  g->m.ter_set(dirx, diry, t_sewage);
-  p->moves -= 1000;
-  g->sound(dirx, diry, 15,_("grnd grnd grnd"));
-  g->m.spawn_item(p->posx, p->posy, "pipe", 0, 3);
- } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy)) {
-  g->m.ter_set(dirx, diry, t_floor);
-  p->moves -= 500;
-  g->sound(dirx, diry, 15,_("grnd grnd grnd"));
-  g->m.spawn_item(p->posx, p->posy, "pipe", 0, 3);
- } else {
-  g->add_msg(_("You can't cut that."));
- }
-}
+    if (dirx == p->posx && diry == p->posy) {
+        g->add_msg(_("Why would you do that?"));
+        g->add_msg(_("You're not even chained to a boiler."));
+        return;
+    }
+
+    switch (g->m.ter(dirx, diry))
+    {
+    case t_chainfence_v:
+    case t_chainfence_h:
+    case t_chaingate_c:
+        p->moves -= 500;
+        g->m.ter_set(dirx, diry, t_dirt);
+        g->sound(dirx, diry, 15,_("grnd grnd grnd"));
+        g->m.spawn_item(dirx, diry, "pipe", 0, 6);
+        g->m.spawn_item(dirx, diry, "wire", 0, 20);
+        break;
+
+    case t_chainfence_posts:
+        p->moves -= 500;
+        g->m.ter_set(dirx, diry, t_dirt);
+        g->sound(dirx, diry, 15,_("grnd grnd grnd"));
+        g->m.spawn_item(dirx, diry, "pipe", 0, 6);
+        break;
+
+    case f_rack:
+        p->moves -= 500;
+        g->m.furn_set(dirx, diry, f_null);
+        g->sound(dirx, diry, 15,_("grnd grnd grnd"));
+        g->m.spawn_item(p->posx, p->posy, "pipe", 0, rng(1, 3));
+        g->m.spawn_item(p->posx, p->posy, "steel_chunk", 0);
+        break;
+
+    case t_bars:
+        if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
+            g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage)
+        {
+            g->m.ter_set(dirx, diry, t_sewage);
+            p->moves -= 1000;
+            g->sound(dirx, diry, 15,_("grnd grnd grnd"));
+            g->m.spawn_item(p->posx, p->posy, "pipe", 0, 3);
+        } else if (g->m.ter(p->posx, p->posy)){
+            g->m.ter_set(dirx, diry, t_floor);
+            p->moves -= 500;
+            g->sound(dirx, diry, 15,_("grnd grnd grnd"));
+            g->m.spawn_item(p->posx, p->posy, "pipe", 0, 3);
+        }
+        break;
+
+    default:
+        g->add_msg(_("You can't cut that."));
+    }
 }
 
 void iuse::tent(game *g, player *p, item *it, bool t)
@@ -4999,7 +5013,7 @@ void iuse::adrenaline_injector(game *g, player *p, item *it, bool t)
 {
   p->moves -= 100;
   g->add_msg_if_player(p, "You inject yourself with adrenaline.");
-  
+
   it->make(g->itypes["syringe"]);
   if(p->has_disease("adrenaline")) {
     //Increase current surge by 3 minutes (if not on comedown)
