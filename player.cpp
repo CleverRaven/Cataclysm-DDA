@@ -902,18 +902,20 @@ void player::update_bodytemp(game *g)
         // Chemical Imbalance
         // Added linse in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
-        int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
-        // Too warm, don't need items on the floor
-        if ( temp_conv[i] > BODYTEMP_NORM ) {
-            // Do nothing
-        }
-        // Intelligently use items on the floor; just enough to be comfortable
-        else if ( (temp_conv[i] + sleep_bonus) > BODYTEMP_NORM ) {
-            temp_conv[i] = BODYTEMP_NORM;
-        }
-        // Use all items on the floor -- there are not enough to keep comfortable
-        else {
-            temp_conv[i] += sleep_bonus;
+        if ( has_disease("sleep") ) {
+            int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
+            // Too warm, don't need items on the floor
+            if ( temp_conv[i] > BODYTEMP_NORM ) {
+                // Do nothing
+            }
+            // Intelligently use items on the floor; just enough to be comfortable
+            else if ( (temp_conv[i] + sleep_bonus) > BODYTEMP_NORM ) {
+                temp_conv[i] = BODYTEMP_NORM;
+            }
+            // Use all items on the floor -- there are not enough to keep comfortable
+            else {
+                temp_conv[i] += sleep_bonus;
+            }
         }
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
@@ -7602,6 +7604,21 @@ bool player::can_sleep(game *g)
  return false;
 }
 
+std::string player::is_snuggling(game *g)
+{
+    std::vector<item>& floor_item = g->m.i_at(posx, posy);
+    bool is_not_armor = true;
+    
+    while( is_not_armor ) {
+        int random_index = rand() % floor_item.size();
+        if ( dynamic_cast<it_armor*>(floor_item[random_index].type)->is_armor() ) {
+            is_not_armor = false;
+            std::string floor_item_name = dynamic_cast<it_armor*>(floor_item[random_index].type)->name.c_str();
+            return floor_item_name;
+        }
+    }
+    return "nothing";
+}
 // Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
 // 2.5 is enough light for detail work.
 float player::fine_detail_vision_mod(game *g)
