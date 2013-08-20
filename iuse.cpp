@@ -5010,4 +5010,9 @@ void iuse::adrenaline_injector(game *g, player *p, item *it, bool t)
     //No current adrenaline surge: Give the full duration
     p->add_disease("adrenaline", 200);
   }
+
+  if(p->has_disease("asthma")) {
+    p->rem_disease("asthma");
+    g->add_msg_if_player(p,_("The adrenaline causes your asthma to clear."));
+  }
 }
