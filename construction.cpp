@@ -840,40 +840,38 @@ void game::place_construction(constructable *con)
 
 void game::complete_construction()
 {
- int stage_num = u.activity.values[0];
- constructable *built = constructions[u.activity.index];
- construction_stage stage = built->stages[stage_num];
- std::vector<component> player_use;
- std::vector<component> map_use;
+    int stage_num = u.activity.values[0];
+    constructable *built = constructions[u.activity.index];
+    construction_stage stage = built->stages[stage_num];
+    std::vector<component> player_use;
+    std::vector<component> map_use;
 
- u.practice(turn, "carpentry", built->difficulty * 10);
- if (built->difficulty == 0)
-   u.practice(turn, "carpentry", 10);
- for (int i = 0; i < 10; i++) {
-  if (!stage.components[i].empty())
-   consume_items(&u, stage.components[i]);
- }
+    u.practice(turn, "carpentry", std::min(built->difficulty, 1) * 10);
+    for (int i = 0; i < 10; i++) {
+        if (!stage.components[i].empty()) {
+            consume_items(&u, stage.components[i]);
+        }
+    }
 
-// Make the terrain change
- int terx = u.activity.placement.x, tery = u.activity.placement.y;
- if (stage.terrain != t_null)
-    m.ter_set(terx, tery, stage.terrain);
- if (stage.furniture != f_null)
-    m.furn_set(terx, tery, stage.furniture);
+    // Make the terrain change
+    int terx = u.activity.placement.x, tery = u.activity.placement.y;
+    if (stage.terrain != t_null) { m.ter_set(terx, tery, stage.terrain); }
+    if (stage.furniture != f_null) { m.furn_set(terx, tery, stage.furniture); }
 
-// Strip off the first stage in our list...
- u.activity.values.erase(u.activity.values.begin());
-// ...and start the next one, if it exists
- if (u.activity.values.size() > 0) {
-  construction_stage next = built->stages[u.activity.values[0]];
-  u.activity.moves_left = next.time * 1000;
- } else // We're finished!
-  u.activity.type = ACT_NULL;
+    // Strip off the first stage in our list...
+    u.activity.values.erase(u.activity.values.begin());
+    // ...and start the next one, if it exists
+    if (u.activity.values.size() > 0) {
+        construction_stage next = built->stages[u.activity.values[0]];
+        u.activity.moves_left = next.time * 1000;
+    } else { // We're finished!
+        u.activity.type = ACT_NULL;
+    }
 
-// This comes after clearing the activity, in case the function interrupts
-// activities
- construct effects;
- (effects.*(built->done))(this, point(terx, tery));
+    // This comes after clearing the activity, in case the function interrupts
+    // activities
+    construct effects;
+    (effects.*(built->done))(this, point(terx, tery));
 }
 
 bool construct::able_empty(game *g, point p)
@@ -894,21 +892,15 @@ bool construct::able_trunk(game *g, point p)
 
 bool construct::able_move(game *g, point p)
 {
- furn_t furniture_type = furnlist[g->m.furn(p.x, p.y)];
- int required_str = furniture_type.move_str_req;
+    furn_t furniture_type = furnlist[g->m.furn(p.x, p.y)];
+    int required_str = furniture_type.move_str_req;
 
- // Object can not be moved
- if (required_str < 0)
- {
-  return false;
- }
+    // Object can not be moved
+    if (required_str < 0) { return false; }
 
- if( g->u.str_cur < required_str )
- {
-  return false;
- }
+    if( g->u.str_cur < required_str ) { return false; }
 
- return true;
+    return true;
 }
 
 bool construct::able_window(game *g, point p)
@@ -981,13 +973,18 @@ bool construct::able_pit(game *g, point p)
 
 bool construct::able_between_walls(game *g, point p)
 {
-    return ((g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x +1, p.y)) ||
-            (g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x, p.y +1)) ||
-            (g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x, p.y -1)) ||
-            (g->m.has_flag(supports_roof, p.x +1, p.y) && g->m.has_flag(supports_roof, p.x, p.y +1)) ||
-            (g->m.has_flag(supports_roof, p.x +1, p.y) && g->m.has_flag(supports_roof, p.x, p.y -1)) ||
-            (g->m.has_flag(supports_roof, p.x, p.y -1) && g->m.has_flag(supports_roof, p.x, p.y +1))) &&
-        (g->m.move_cost(p.x, p.y) != 0);
+    int num_supports = 0;
+    if (g->m.move_cost(p.x, p.y) != 0) {
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                if (((dx == 0) ^ (dy == 0))
+                        && g->m.has_flag(supports_roof, p.x + dx, p.y + dy)) {
+                    num_supports++;
+                }
+            }
+        }
+    }
+    return num_supports >= 2;
 }
 
 bool construct::able_deconstruct(game *g, point p)
@@ -1002,50 +999,48 @@ void construct::done_window_pane(game *g, point p)
 
 void construct::done_move(game *g, point p)
 {
- mvprintz(0, 0, c_red, _("Press a direction for the furniture to move (. to cancel):"));
- int x = 0, y = 0;
- //Keep looping until we get a valid direction or a cancel.
- while(true){
-  do
-   get_direction(g, x, y, input());
-  while (x == -2 || y == -2);
-  if(x == 0 && y == 0)
-   return;
-  x += p.x;
-  y += p.y;
-  if(!able_empty(g, point(x, y))) {
-   mvprintz(0, 0, c_red, _("Can't move furniture there! Choose a direction with open floor."));
-   continue;
-  }
-  break;
- }
+    mvprintz(0, 0, c_red, _("Press a direction for the furniture to move (. to cancel):"));
+    int x = 0, y = 0;
+    //Keep looping until we get a valid direction or a cancel.
+    while (true) {
+        do get_direction(g, x, y, input());
+        while (x == -2 || y == -2);
+        if (x == 0 && y == 0) { return; }
+        x += p.x;
+        y += p.y;
+        if (able_empty(g, point(x, y))) {
+            break;
+        } else {
+            mvprintz(0, 0, c_red, _("Can't move furniture there! Choose a direction with open floor."));
+        }
+    }
 
- g->sound(x, y, furnlist[g->m.furn(p.x, p.y)].move_str_req * 2, _("a scraping noise"));
- g->m.furn_set(x, y, g->m.furn(p.x, p.y));
- g->m.furn_set(p.x, p.y, f_null);
+    g->sound(x, y, furnlist[g->m.furn(p.x, p.y)].move_str_req * 2, _("a scraping noise"));
+    g->m.furn_set(x, y, g->m.furn(p.x, p.y));
+    g->m.furn_set(p.x, p.y, f_null);
 
- //Move all Items within a container
- std::vector <item> vItemMove = g->m.i_at(p.x, p.y);
- for (int i=0; i < vItemMove.size(); i++)
-  g->m.add_item(x, y, vItemMove[i]);
+    //Move all Items within a container
+    std::vector <item> vItemMove = g->m.i_at(p.x, p.y);
+    for (int i=0; i < vItemMove.size(); i++) {
+        g->m.add_item(x, y, vItemMove[i]);
+    }
 
- g->m.i_clear(p.x, p.y);
+    g->m.i_clear(p.x, p.y);
 }
 
 void construct::done_tree(game *g, point p)
 {
- mvprintz(0, 0, c_red, _("Press a direction for the tree to fall in:"));
- int x = 0, y = 0;
- do
-  get_direction(g, x, y, input());
- while (x == -2 || y == -2);
- x = p.x + x * 3 + rng(-1, 1);
- y = p.y + y * 3 + rng(-1, 1);
- std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
- for (int i = 0; i < tree.size(); i++) {
-  g->m.destroy(g, tree[i].x, tree[i].y, true);
-  g->m.ter_set(tree[i].x, tree[i].y, t_trunk);
- }
+    mvprintz(0, 0, c_red, _("Press a direction for the tree to fall in:"));
+    int x = 0, y = 0;
+    do get_direction(g, x, y, input());
+    while (x == -2 || y == -2);
+    x = p.x + x * 3 + rng(-1, 1);
+    y = p.y + y * 3 + rng(-1, 1);
+    std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
+    for (int i = 0; i < tree.size(); i++) {
+        g->m.destroy(g, tree[i].x, tree[i].y, true);
+        g->m.ter_set(tree[i].x, tree[i].y, t_trunk);
+    }
 }
 
 void construct::done_trunk_log(game *g, point p)
