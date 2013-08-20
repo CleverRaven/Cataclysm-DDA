@@ -171,11 +171,21 @@ void input_manager::init() {
         const std::string& input_method = keybinding.get("input_method").get<std::string>();
 
         if(input_method == "keyboard") {
-            const std::string& key = keybinding.get("key").get<std::string>();
-            action_to_input[action_id].type = INPUT_KEYPRESS;
+            action_to_input[action_id].type = INPUT_KEYBOARD;
+            if(keybinding.get("key").is<std::string>()) {
+                const std::string& key = keybinding.get("key").get<std::string>();
 
-            // TODO: process special "keycodes", such as UP, DOWN etc.
-            action_to_input[action_id].key = key[0];
+                // TODO: process special "keycodes", such as UP, DOWN etc.
+                action_to_input[action_id].sequence.push_back(key[0]);
+            } else if(keybinding.get("key").is<picojson::array>()) {
+                picojson::array keys = keybinding.get("key").get<picojson::array>();
+                for(int i=0; i<keys.size(); i++) {
+                    const std::string& next_key = keybinding.get("key").get(i).get<std::string>();
+
+                    // TODO: process special "keycodes", such as UP, DOWN etc.
+                    action_to_input[action_id].sequence.push_back(next_key[0]);
+                }
+            }
         }
     }
 }
@@ -216,9 +226,12 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
     }
 
     const input_event* event = inp_mngr.get_input_for_action(action_descriptor);
-    if(event && event->type == INPUT_KEYPRESS) {
-        std::string rval(1, (char) event->key);
-        return rval;
+    if(event && event->type == INPUT_KEYBOARD) {
+        std::stringstream rval;
+        for(int i=0; i<event->sequence.size(); i++) {
+            rval << event->sequence[i];
+        }
+        return rval.str();
     }
 
     return UNDEFINED;
@@ -229,8 +242,8 @@ const std::string& input_context::handle_input() {
         long ch = getch();
 
         input_event next_action;
-        next_action.type = INPUT_KEYPRESS;
-        next_action.key = ch;
+        next_action.type = INPUT_KEYBOARD;
+        next_action.sequence.push_back(ch);
 
         const std::string& action = input_to_action(next_action);
         if(action != ERROR) {

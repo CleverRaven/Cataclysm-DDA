@@ -1864,6 +1864,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
   }
   mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan.  "));
+  // TODO: convert all callers of overmap::draw() to use the input configuration rather than
+  //       harcoded values, then get rid of this nasty branch
   if(!inp_ctxt) {
       mvwprintz(w, 16, om_map_width + 1, c_magenta, _("0 - Center map on character"));
       mvwprintz(w, 17, om_map_width + 1, c_magenta, _("/ - Search                 "));

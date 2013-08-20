@@ -34,43 +34,51 @@ InputEvent get_input(int ch = '\0');
 void get_direction(int &x, int &y, InputEvent &input);
 std::string get_input_string_from_file(std::string fname="input.txt");
 
-enum input_t {
-    INPUT_KEYPRESS,
-    INPUT_MULTI_KEYPRESS,
+enum input_event_t {
+    INPUT_KEYBOARD,
     INPUT_GAMEPAD
 };
 
 /**
  * An instance of an input, like a keypress etc.
+ *
+ * Both gamepad and keyboard keypresses will be represented as `long`.
+ * Whether a gamepad or keyboard was used can be checked using the
+ * `type` member.
+ *
  */
 struct input_event {
-    input_t type;
+    input_event_t type;
 
-    // The following 2 should be a union, but unions with
-    // "non-trivial copy-constructors" appear not to work.
-    long key; // For INPUT_KEYPRESS
-    std::vector<long> key_combo; // For INPUT_MULTI_KEYPRESS
+    std::vector<long> modifiers; // Keys that need to be held down for
+                                 // this event to be activated.
+
+    std::vector<long> sequence; // The sequence of key events that
+                                // triggers this event. For single-key
+                                // events, simply make this of size 1.
 
     bool operator==(const input_event& other) const {
         if(type != other.type) return false;
 
-        if(type == INPUT_KEYPRESS) {
-            return key == other.key;
-        } else if(type == INPUT_MULTI_KEYPRESS) {
-            if(key_combo.size() != other.key_combo.size()) {
+        if(sequence.size() != other.sequence.size()) {
+            return false;
+        }
+        for(int i=0; i<sequence.size(); i++) {
+            if(sequence[i] != other.sequence[i]) {
                 return false;
             }
-            for(int i=0; i<key_combo.size(); i++) {
-                if(key_combo[i] != other.key_combo[i]) {
-                    return false;
-                }
-            }
-            return true;
         }
 
-        // TODO: gamepad key and gamepad key combo
+        if(modifiers.size() != other.modifiers.size()) {
+            return false;
+        }
+        for(int i=0; i<modifiers.size(); i++) {
+            if(modifiers[i] != other.modifiers[i]) {
+                return false;
+            }
+        }
 
-        return false;
+        return true;
     }
 };
 
