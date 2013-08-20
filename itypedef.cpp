@@ -40,6 +40,8 @@ void game::init_itypes ()
   new itype("corpse", 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
             0, 0, 1, 0);
  itypes["corpse"]->item_tags.insert("NO_UNLOAD");
+// This must -always- be set, or bad mojo in map::drawsq and whereever we check 'typeId() == "corpse" instead of 'corpse != NULL' ....
+ itypes["corpse"]->corpse=this->mtypes[mon_null];
 // Fire - only appears in crafting recipes
  itypes["fire"]=
   new itype("fire", 0, "nearby fire",

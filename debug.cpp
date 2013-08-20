@@ -1,5 +1,7 @@
 #include "debug.h"
 #include <time.h>
+#include <cstdlib>
+#include <sys/time.h>
 
 
 #if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
@@ -163,13 +165,12 @@ std::ostream & operator<<(std::ostream & out, DebugClass cl)
 std::ofstream & DebugFile::currentTime()
 {
  struct tm *current;
- time_t now;
-
- time(&now);
- current = localtime(&now);
+ timeval tv;
+ gettimeofday(&tv, NULL);
+ current = localtime(&tv.tv_sec);
 
  file << current->tm_hour << ":" << current->tm_min << ":" <<
-  current->tm_sec;
+  current->tm_sec << "." << int(tv.tv_usec/1000 + 0.5);
  return file;
 }
 

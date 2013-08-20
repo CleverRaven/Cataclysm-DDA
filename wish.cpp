@@ -37,6 +37,7 @@ void game::wish()
    else if (ch == 27) // Escape to stop searching
    {
     search = false;
+    ch = '.';
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
     {
@@ -197,7 +198,7 @@ void game::wish()
    curs_set(0);
    ch = input();
   }
- } while (ch != '\n' && ch!=KEY_ESCAPE);
+ } while (ch != '\n' && !(ch==KEY_ESCAPE && !search));
  clear();
 
  if(ch=='\n')

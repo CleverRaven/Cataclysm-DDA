@@ -1158,6 +1158,7 @@ void game::complete_craft()
    add_msg("%c - %s", newit.invlet, newit.tname().c_str());
   }
  }
+ u.inv.restack(&u);
 }
 
 std::list<item> game::consume_items(player *p, std::vector<component> components)

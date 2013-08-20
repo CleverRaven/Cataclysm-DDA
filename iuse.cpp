@@ -96,7 +96,7 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
     }
 
     std::map<std::string, std::string>::const_iterator ent = cut->item_vars.find("item_note");
-    std::map<std::string, std::string>::const_iterator entprefix = cut->item_vars.find("item_note_type");
+
     bool hasnote = (ent != cut->item_vars.end());
     std::string message = "";
     std::string messageprefix = string_format( hasnote ? _("(To delete, input one '.')\n") : "" ) +
@@ -2160,12 +2160,17 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
   if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
    p->practice(g->turn, "mechanics", 1);
    g->add_msg_if_player(p, succ_action);
-   if (g->m.furn(dirx, diry) == f_crate_c)
+   if (g->m.furn(dirx, diry) == f_crate_c) {
     g->m.furn_set(dirx, diry, f_crate_o);
-   else
+   } else {
     g->m.ter_set(dirx, diry, new_type);
-   if (noisy)
+   }
+   if (noisy) {
     g->sound(dirx, diry, 12, _("crunch!"));
+   }
+   if ( type == t_manhole_cover ) {
+     g->m.spawn_item(dirx, diry, "manhole_cover", 0);
+   }
    if ( type == t_door_locked_alarm ) {
     g->sound(p->posx, p->posy, 40, _("An alarm sounds!"));
     if (!g->event_queued(EVENT_WANTED)) {
@@ -3669,7 +3674,7 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  bool drew_blood = false;
  for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
   item *map_it = &(g->m.i_at(p->posx, p->posy)[i]);
-  if (map_it->type->id == "corpse" &&
+  if (map_it->corpse !=NULL && map_it->type->id == "corpse" &&
       query_yn(_("Draw blood from %s?"), map_it->tname().c_str())) {
    blood.corpse = map_it->corpse;
    drew_blood = true;
@@ -4988,4 +4993,21 @@ void iuse::unfold_bicycle(game *g, player *p, item *it, bool t)
     } else {
         g->add_msg_if_player(p, _("There's no room to unfold the bicycle."));
     }
+}
+
+void iuse::adrenaline_injector(game *g, player *p, item *it, bool t)
+{
+  p->moves -= 100;
+  g->add_msg_if_player(p, "You inject yourself with adrenaline.");
+  
+  it->make(g->itypes["syringe"]);
+  if(p->has_disease("adrenaline")) {
+    //Increase current surge by 3 minutes (if not on comedown)
+    p->add_disease("adrenaline", 30);
+    //Also massively boost stimulant level, risking death on an extended chain
+    p->stim += 80;
+  } else {
+    //No current adrenaline surge: Give the full duration
+    p->add_disease("adrenaline", 200);
+  }
 }

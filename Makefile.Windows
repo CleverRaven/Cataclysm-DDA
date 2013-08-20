@@ -6,6 +6,7 @@
 DEBUG = -g
 #PROFILE = -pg
 OTHERS = -O2
+LOCALIZE = 1
 
 ODIR = objwin
 DDIR = .deps
@@ -20,8 +21,15 @@ LINKERFLAGS = -Wl,-stack,12000000,-subsystem,windows
 
 CFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
 
-LDFLAGS = -static -lgdi32 -lintl -liconv -lwinmm
+LDFLAGS += -static -lgdi32 -lwinmm
+ifeq ($(LOCALIZE), 1)
+  LDFLAGS += -lintl -liconv
+endif
 RFLAGS = -J rc -O coff
+
+ifeq ($(LOCALIZE),1)
+  OTHERS += -DLOCALIZE
+endif
 
 #ifeq ($(OS), Msys)
 #LDFLAGS = -static -lpdcurses

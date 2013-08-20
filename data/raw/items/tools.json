@@ -4252,5 +4252,29 @@
     "max_charges":0,
     "revert_to":"null",
     "ammo":"NULL"
+  },
+  {
+    "id":"adrenaline_injector",
+    "type":"TOOL",
+    "color":"pink",
+    "symbol":"!",
+    "name":"adrenaline injector",
+    "description":"A syringe filled with one shot of adrenaline. It serves as a powerful stimulant when you inject yourself with it.",
+    "price":600,
+    "rarity": 3,
+    "material":"plastic",
+    "weight":10,
+    "volume":1,
+    "to_hit":-2,
+    "bashing": -4,
+    "cutting": 6,
+    "flags": "SPEAR",
+    "turns_per_charge":0,
+    "charges_per_use":0,
+    "initial_charges":0,
+    "max_charges":0,
+    "revert_to":"null",
+    "ammo":"NULL",
+    "use_action":"ADRENALINE_INJECTOR"
   }
 ]

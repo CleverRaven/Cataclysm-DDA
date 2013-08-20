@@ -12,6 +12,7 @@
 #include "picojson.h"
 #include "rng.h"
 #include "material.h"
+#include "mtype.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -135,6 +136,8 @@ struct itype
  unsigned int weight;	// Weight in grams. Assumes positive weight. No helium, guys!
  bigness_property_aspect bigness_aspect;
 
+ mtype*   corpse;
+
  signed char melee_dam;	// Bonus for melee damage; may be a penalty
  signed char melee_cut;	// Cutting damage in melee
  signed char m_to_hit;	// To-hit bonus for melee combat; -5 to 5 is reasonable
@@ -177,6 +180,7 @@ struct itype
   phase = SOLID;
   volume = 0;
   weight = 0;
+  corpse = NULL;
   melee_dam = 0;
   m_to_hit = 0;
   techniques = 0;
@@ -200,6 +204,7 @@ struct itype
   phase       = pphase;
   volume      = pvolume;
   weight      = pweight;
+  corpse      = NULL;
   melee_dam   = pmelee_dam;
   melee_cut   = pmelee_cut;
   m_to_hit    = pm_to_hit;
