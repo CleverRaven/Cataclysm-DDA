@@ -54,7 +54,7 @@ item::item(itype* it, unsigned int turn)
  item_counter = 0;
  active = false;
  curammo = NULL;
- corpse = ( it->corpse != NULL ? it->corpse : NULL );
+ corpse = it->corpse;
  owned = -1;
  mission_id = -1;
  player_id = -1;
@@ -140,7 +140,7 @@ item::item(itype *it, unsigned int turn, char let)
   bigness= rng( engine->min_bigness, engine->max_bigness);
  }
  curammo = NULL;
- corpse = ( it->corpse != NULL ? it->corpse : NULL );
+ corpse = it->corpse;
  owned = -1;
  invlet = let;
  mission_id = -1;
