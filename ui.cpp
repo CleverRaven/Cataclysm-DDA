@@ -119,141 +119,145 @@ void uimenu::init() {
     vmax = 0;                // max entries area rows
 }
 
-void uimenu::show() {
-    if (!started) {
-        bool w_auto = (w_width == -1 || w_width == -2 );
-        bool w_autofold = ( w_width == -2);
-        int realtextwidth = 0;
+void uimenu::setup() {
+    bool w_auto = (w_width == -1 || w_width == -2 );
+    bool w_autofold = ( w_width == -2);
+    int realtextwidth = 0;
 
-        if ( w_auto ) {
-            w_width = 4;
-            if ( title.size() > 0 ) w_width = title.size() + 5;
+    if ( w_auto ) {
+        w_width = 4;
+        if ( title.size() > 0 ) w_width = title.size() + 5;
+    }
+
+    bool h_auto = (w_height == -1);
+    if ( h_auto ) {
+        w_height = 4;
+    }
+
+    std::vector<int> autoassign;
+    autoassign.clear();
+    int pad = pad_left + pad_right + 2;
+    for ( int i = 0; i < entries.size(); i++ ) {
+        int txtwidth = utf8_width(entries[ i ].txt.c_str());
+        if(entries[ i ].enabled) {
+            if( entries[ i ].hotkey > 0 ) {
+                keymap[ entries[ i ].hotkey ] = i;
+            } else if ( entries[ i ].hotkey == -1 && i < 100 ) {
+                autoassign.push_back(i);
+            }
+            if ( entries[ i ].retval == -1 ) {
+                entries[ i ].retval = i;
+            }
+            if ( w_auto && w_width < txtwidth + pad + 4 ) {
+                w_width = txtwidth + pad + 4;
+            }
+        } else {
+            if ( w_auto && w_width < txtwidth + pad + 4 ) {
+                w_width = txtwidth + pad + 4;    // todo: or +5 if header
+            }
         }
-
-        bool h_auto = (w_height == -1);
-        if ( h_auto ) {
-            w_height = 4;
+        if ( entries[ i ].text_color == C_UNSET_MASK ) {
+            entries[ i ].text_color = text_color;
         }
+    }
+    if ( autoassign.size() > 0 ) {
+        for ( int a = 0; a < autoassign.size(); a++ ) {
+            int palloc = autoassign[ a ];
+            int setkey=-1;
+            if ( palloc < 9 ) {
+                setkey = palloc + 49; // 1-9;
+            } else if ( palloc == 9 ) {
+                setkey = palloc + 39; // 0;
+            } else if ( palloc < 36 ) {
+                setkey = palloc + 87; // a-z
+            } else if ( palloc < 61 ) {
+                setkey = palloc + 29; // A-Z
+            }
+            if ( setkey != -1 && keymap.find(setkey) == keymap.end() ) {
+                entries[ palloc ].hotkey = setkey;
+                keymap[ setkey ] = palloc;
+            }
+        }
+    }
 
-        std::vector<int> autoassign;
-        autoassign.clear();
-        int pad = pad_left + pad_right + 2;
-        for ( int i = 0; i < entries.size(); i++ ) {
-            int txtwidth = utf8_width(entries[ i ].txt.c_str());
-            if(entries[ i ].enabled) {
-                if( entries[ i ].hotkey > 0 ) {
-                    keymap[ entries[ i ].hotkey ] = i;
-                } else if ( entries[ i ].hotkey == -1 && i < 100 ) {
-                    autoassign.push_back(i);
-                }
-                if ( entries[ i ].retval == -1 ) {
-                    entries[ i ].retval = i;
-                }
-                if ( w_auto && w_width < txtwidth + pad + 4 ) {
-                    w_width = txtwidth + pad + 4;
-                }
+    if (w_auto && w_width > TERMX) {
+        w_width = TERMX;
+    }
+
+    if(text.size() > 0 ) {
+        int twidth = utf8_width(text.c_str());
+        bool formattxt=true;
+        if ( textwidth == -1 ) {
+            if ( w_autofold || !w_auto ) {
+               realtextwidth = w_width - 4;
             } else {
-                if ( w_auto && w_width < txtwidth + pad + 4 ) {
-                    w_width = txtwidth + pad + 4;    // todo: or +5 if header
-                }
-            }
-            if ( entries[ i ].text_color == C_UNSET_MASK ) {
-                entries[ i ].text_color = text_color;
-            }
-        }
-        if ( autoassign.size() > 0 ) {
-            for ( int a = 0; a < autoassign.size(); a++ ) {
-                int palloc = autoassign[ a ];
-                int setkey=-1;
-                if ( palloc < 9 ) {
-                    setkey = palloc + 49; // 1-9;
-                } else if ( palloc == 9 ) {
-                    setkey = palloc + 39; // 0;
-                } else if ( palloc < 36 ) {
-                    setkey = palloc + 87; // a-z
-                } else if ( palloc < 61 ) {
-                    setkey = palloc + 29; // A-Z
-                }
-                if ( setkey != -1 && keymap.find(setkey) == keymap.end() ) {
-                    entries[ palloc ].hotkey = setkey;
-                    keymap[ setkey ] = palloc;
-                }
-            }
-        }
-
-        if (w_auto && w_width > TERMX) {
-            w_width = TERMX;
-        }
-
-        if(text.size() > 0 ) {
-            int twidth = utf8_width(text.c_str());
-            bool formattxt=true;
-            if ( textwidth == -1 ) {
-                if ( w_autofold || !w_auto ) {
-                   realtextwidth = w_width - 4;
-                } else {
-                   realtextwidth = twidth;
-                   if ( twidth + 4 > w_width ) {
-                       if ( realtextwidth + 4 > TERMX ) {
-                           realtextwidth = TERMX - 4;
-                       }
-                       textformatted = foldstring(text, realtextwidth);
-                       formattxt=false;
-                       realtextwidth = 10;
-                       for ( int l=0; l < textformatted.size(); l++ ) {
-                           if ( utf8_width(textformatted[l].c_str()) > realtextwidth ) {
-                               realtextwidth = utf8_width(textformatted[l].c_str());
-                           }
-                       }
-                       if ( realtextwidth + 4 > w_width ) {
-                           w_width = realtextwidth + 4;
+               realtextwidth = twidth;
+               if ( twidth + 4 > w_width ) {
+                   if ( realtextwidth + 4 > TERMX ) {
+                       realtextwidth = TERMX - 4;
+                   }
+                   textformatted = foldstring(text, realtextwidth);
+                   formattxt=false;
+                   realtextwidth = 10;
+                   for ( int l=0; l < textformatted.size(); l++ ) {
+                       if ( utf8_width(textformatted[l].c_str()) > realtextwidth ) {
+                           realtextwidth = utf8_width(textformatted[l].c_str());
                        }
                    }
-                }
-            } else if ( textwidth != -1 ) {
-                realtextwidth = textwidth;
+                   if ( realtextwidth + 4 > w_width ) {
+                       w_width = realtextwidth + 4;
+                   }
+               }
             }
-            if ( formattxt == true ) {
-                textformatted = foldstring(text, realtextwidth);
-            }
+        } else if ( textwidth != -1 ) {
+            realtextwidth = textwidth;
         }
+        if ( formattxt == true ) {
+            textformatted = foldstring(text, realtextwidth);
+        }
+    }
 
-        if (h_auto) {
-            w_height = 2 + textformatted.size() + entries.size();
-        }
+    if (h_auto) {
+        w_height = 2 + textformatted.size() + entries.size();
+    }
 
-        vmax = entries.size();
-        if ( w_height > TERMY ) {
-            w_height = TERMY;
+    vmax = entries.size();
+    if ( w_height > TERMY ) {
+        w_height = TERMY;
+    }
+    if ( vmax + 2 + textformatted.size() > w_height ) {
+        vmax = w_height - 2 - textformatted.size();
+        if ( vmax < 1 ) {
+            popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
+               textformatted.size(),TERMY,textformatted[0].c_str(),textformatted[textformatted.size()-1].c_str()
+            );
         }
-        if ( vmax + 2 + textformatted.size() > w_height ) {
-            vmax = w_height - 2 - textformatted.size();
-            if ( vmax < 1 ) {
-                popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
-                   textformatted.size(),TERMY,textformatted[0].c_str(),textformatted[textformatted.size()-1].c_str()
-                );
-            }
-        }
+    }
 
-        if (w_x == -1) {
-            w_x = int((TERMX - w_width) / 2);
-        }
-        if (w_y == -1) {
-            w_y = int((TERMY - w_height) / 2);
-        }
+    if (w_x == -1) {
+        w_x = int((TERMX - w_width) / 2);
+    }
+    if (w_y == -1) {
+        w_y = int((TERMY - w_height) / 2);
+    }
 
-        window = newwin(w_height, w_width, w_y, w_x);
-        werase(window);
-        wattron(window, border_color);
-        wborder(window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        wattroff(window, border_color);
-        if( title.size() > 0 ) {
-            mvwprintz(window, 0, 1, border_color, "< ");
-            wprintz(window, title_color, "%s", title.c_str() );
-            wprintz(window, border_color, " >");
-        }
-        started = true;
+    window = newwin(w_height, w_width, w_y, w_x);
+    werase(window);
+    wattron(window, border_color);
+    wborder(window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wattroff(window, border_color);
+    if( title.size() > 0 ) {
+        mvwprintz(window, 0, 1, border_color, "< ");
+        wprintz(window, title_color, "%s", title.c_str() );
+        wprintz(window, border_color, " >");
+    }
+    started = true;
+}
+
+void uimenu::show() {
+    if (!started) {
+        setup();
     }
     std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
     for ( int i = 0; i < textformatted.size(); i++ ) {
@@ -281,6 +285,9 @@ void uimenu::show() {
                mvwprintz(window, estart + si, pad_left + 2, ( ei == selected ? hilight_color : hotkey_color ) , "%c", entries[ ei ].hotkey);
             }
             mvwprintz(window, estart + si, pad_left + 4, co, "%s", entries[ ei ].txt.c_str() );
+            if ( entries[ ei ].extratxt.txt.size() > 0 ) {
+                mvwprintz(window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left, entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
+            }
         } else {
             mvwprintz(window, estart + si, pad_left + 1, c_ltgray , "%s", padspaces.c_str());
         }
