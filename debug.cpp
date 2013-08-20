@@ -165,16 +165,10 @@ std::ostream & operator<<(std::ostream & out, DebugClass cl)
 std::ofstream & DebugFile::currentTime()
 {
  struct tm *current;
-/*
- struct timeval {
-    time_t      tv_sec;
-    suseconds_t tv_usec;
- };
- */
-timeval tv;
+ timeval tv;
  gettimeofday(&tv, NULL);
  current = localtime(&tv.tv_sec);
- 
+
  file << current->tm_hour << ":" << current->tm_min << ":" <<
   current->tm_sec << "." << int(tv.tv_usec/1000 + 0.5);
  return file;
