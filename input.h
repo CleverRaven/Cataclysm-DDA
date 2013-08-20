@@ -93,7 +93,7 @@ struct input_event {
 class input_manager {
 public:
     // TODO: rewrite this to have several alternative input events for the same action
-    const input_event* get_input_for_action(const std::string& action_descriptor);
+    const std::vector<input_event>& get_input_for_action(const std::string& action_descriptor);
 
     /**
      * Initializes the input manager, aka loads the input mapping configuration JSON.
@@ -101,7 +101,7 @@ public:
     void init();
 
 private:
-    std::map<std::string, input_event> action_to_input;
+    std::map<std::string, std::vector<input_event> > action_to_input;
 };
 
 // Singleton for our input manager.

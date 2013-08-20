@@ -65,6 +65,11 @@
         "key":"S"
     },
     {
+        "id":"SEARCH",
+        "input_method":"keyboard",
+        "key":"/"
+    },
+    {
         "id":"OVERMAP_QUIT",
         "input_method":"keyboard",
         "key":"Q"

@@ -171,30 +171,29 @@ void input_manager::init() {
         const std::string& input_method = keybinding.get("input_method").get<std::string>();
 
         if(input_method == "keyboard") {
-            action_to_input[action_id].type = INPUT_KEYBOARD;
+            input_event new_event;
+            new_event.type = INPUT_KEYBOARD;
             if(keybinding.get("key").is<std::string>()) {
                 const std::string& key = keybinding.get("key").get<std::string>();
 
                 // TODO: process special "keycodes", such as UP, DOWN etc.
-                action_to_input[action_id].sequence.push_back(key[0]);
+                new_event.sequence.push_back(key[0]);
             } else if(keybinding.get("key").is<picojson::array>()) {
                 picojson::array keys = keybinding.get("key").get<picojson::array>();
                 for(int i=0; i<keys.size(); i++) {
                     const std::string& next_key = keybinding.get("key").get(i).get<std::string>();
 
                     // TODO: process special "keycodes", such as UP, DOWN etc.
-                    action_to_input[action_id].sequence.push_back(next_key[0]);
+                    new_event.sequence.push_back(next_key[0]);
                 }
             }
+            action_to_input[action_id].push_back(new_event);
         }
     }
 }
 
-const input_event* input_manager::get_input_for_action(const std::string& action_descriptor) {
-    if(action_to_input.count(action_descriptor) == 0) {
-        return NULL;
-    }
-    return &action_to_input[action_descriptor];
+const std::vector<input_event>& input_manager::get_input_for_action(const std::string& action_descriptor) {
+    return action_to_input[action_descriptor];
 }
 
 const std::string ERROR = "ERROR";
@@ -204,9 +203,13 @@ const std::string ANY_INPUT = "ANY_INPUT";
 const std::string& input_context::input_to_action(input_event& inp) {
     for(int i=0; i<registered_actions.size(); i++) {
         const std::string& action = registered_actions[i];
-        const input_event *check_inp = inp_mngr.get_input_for_action(action);
-        if(check_inp != NULL && *check_inp == inp) {
-            return action;
+        const std::vector<input_event>& check_inp = inp_mngr.get_input_for_action(action);
+        
+        // Does this action have our queried input event in its keybindings?
+        for(int i=0; i<check_inp.size(); i++) {
+            if(check_inp[i] == inp) {
+                return action;
+            }
         }
     }
     return ERROR;
@@ -225,17 +228,27 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
         return "(*)"; // * for wildcard
     }
 
-    const input_event* event = inp_mngr.get_input_for_action(action_descriptor);
-    if(event && event->type == INPUT_KEYBOARD) {
-        std::stringstream rval;
-        for(int i=0; i<event->sequence.size(); i++) {
-            rval << event->sequence[i];
-        }
-        return rval.str();
+    const std::vector<input_event>& events = inp_mngr.get_input_for_action(action_descriptor);
+    
+    if(events.size() == 0) {
+        return UNDEFINED;
     }
-
-    return UNDEFINED;
+    
+    std::stringstream rval;
+    for(int i=0; i < events.size(); i++) {
+        if(events[i].type == INPUT_KEYBOARD) {
+            for(int j=0; j<events[i].sequence.size(); j++) {
+                rval << std::string(1, events[i].sequence[j]);
+            }
+        }
+        if(i + 1 < events.size()) {
+            // We're generating a list separated by or
+            rval << " or ";
+        }
+    }
+    return rval.str();
 }
+
 
 const std::string& input_context::handle_input() {
     while(1) {
