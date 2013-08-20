@@ -688,8 +688,11 @@ void player::update_bodytemp(game *g)
                 continue;
             }
             floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
-            // 60 is for the cold player homeostasis adjustement; floor item warmth is not used when the player is warm
-            floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
+            // Items that are big enough and covers the torso are used to keep warm.
+            // Smaller items don't do as good a job
+            if ( floor_armor->volume > 1 && floor_armor->covers & mfb(bp_torso) ) {
+                floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
+            }
         }
 
         // Search the floor for bedding
@@ -743,11 +746,6 @@ void player::update_bodytemp(game *g)
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
-        else
-        {
-
-
-        }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
         for (int j = -6 ; j <= 6 ; j++)
@@ -904,11 +902,18 @@ void player::update_bodytemp(game *g)
         // Chemical Imbalance
         // Added linse in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
-        // IRL effect of being too warm while tryping to sleep : take some blankets off
-            // Note that the player will not remove his actual clothing, only the clothing found on the ground
         int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
-        if ( temp_conv[i] <= BODYTEMP_NORM ) {
-            temp_conv[i] = (temp_conv[i] + sleep_bonus > BODYTEMP_NORM ? BODYTEMP_NORM : temp_conv[i] + sleep_bonus);
+        // Too warm, don't need items on the floor
+        if ( temp_conv[i] > BODYTEMP_NORM ) {
+            // Do nothing
+        }
+        // Intelligently use items on the floor; just enough to be comfortable
+        else if ( (temp_conv[i] + sleep_bonus) > BODYTEMP_NORM ) {
+            temp_conv[i] = BODYTEMP_NORM;
+        }
+        // Use all items on the floor -- there are not enough to keep comfortable
+        else {
+            temp_conv[i] += sleep_bonus;
         }
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
