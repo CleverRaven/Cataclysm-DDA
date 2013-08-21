@@ -2,6 +2,24 @@
 #include "trap.h"
 #include "rng.h"
 
+// A pit becomes less effective as it fills with corpses.
+float pit_effectiveness(game *g, int x, int y)
+{
+    int corpse_volume = 0;
+    for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
+        item &j = g->m.i_at(x, y)[i];
+        if (j.type->id == "corpse") {
+            corpse_volume += j.volume();
+        }
+    }
+
+    int filled_volume = 75 * 10; // 10 zombies; see item::volume
+
+    float eff = 1.0f - float(corpse_volume) / filled_volume;
+    if (eff < 0) eff = 0;
+    return eff;
+}
+
 void trapfunc::bubble(game *g, int x, int y)
 {
  g->add_msg(_("You step on some bubblewrap!"));
@@ -14,7 +32,7 @@ void trapfuncm::bubble(game *g, monster *z, int x, int y)
     // tiny animals don't trigger bubblewrap
     if (z->type->size == MS_TINY)
         return;
-        
+
  g->sound(x, y, 18, _("Pop!"));
  g->m.tr_at(x, y) = tr_null;
 }
@@ -40,7 +58,7 @@ void trapfuncm::beartrap(game *g, monster *z, int x, int y)
     // tiny animals don't trigger bear traps
     if (z->type->size == MS_TINY)
         return;
-            
+
  g->sound(x, y, 8, _("SNAP!"));
  if (z->hurt(35)) {
   g->kill_mon(g->mon_at(x, y));
@@ -66,7 +84,7 @@ void trapfuncm::board(game *g, monster *z, int x, int y)
     // tiny animals don't trigger spiked boards, they can squeeze between the nails
     if (z->type->size == MS_TINY)
         return;
-    
+
  if (g->u_see(z))
   g->add_msg(_("The %s steps on a spiked board!"), z->name().c_str());
  if (z->hurt(rng(6, 10)))
@@ -100,7 +118,7 @@ void trapfuncm::tripwire(game *g, monster *z, int x, int y)
     // tiny animals don't trigger tripwires, they just squeeze under it
     if (z->type->size == MS_TINY)
         return;
-            
+
  if (g->u_see(z))
   g->add_msg(_("The %s trips over a tripwire!"), z->name().c_str());
  z->stumble(g, false);
@@ -113,7 +131,7 @@ void trapfunc::crossbow(game *g, int x, int y)
  bool add_bolt = true;
  g->add_msg(_("You trigger a crossbow trap!"));
  if (!one_in(4) && rng(8, 20) > g->u.dodge(g)) {
-  body_part hit;
+  body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
    case  2:
@@ -143,25 +161,25 @@ void trapfuncm::crossbow(game *g, monster *z, int x, int y)
 {
     bool add_bolt = true;
     bool seen = g->u_see(z);
-    int chance;
+    int chance = 0;
     // adapted from shotgun code - chance of getting hit depends on size
-    switch (z->type->size) 
+    switch (z->type->size)
     {
         case MS_TINY:   chance = 50; break;
         case MS_SMALL:  chance =  8; break;
         case MS_MEDIUM: chance =  6; break;
         case MS_LARGE:  chance =  4; break;
         case MS_HUGE:   chance =  1; break;
-    } 
- 
-    if (one_in(chance)) 
+    }
+
+    if (one_in(chance))
     {
         if (seen)
             g->add_msg(_("A bolt shoots out and hits the %s!"), z->name().c_str());
         if (z->hurt(rng(20, 30)))
             g->kill_mon(g->mon_at(x, y));
         add_bolt = !one_in(10);
-    } 
+    }
     else if (seen)
         g->add_msg(_("A bolt shoots out, but misses the %s."), z->name().c_str());
     g->m.tr_at(x, y) = tr_null;
@@ -178,7 +196,7 @@ void trapfunc::shotgun(game *g, int x, int y)
  if (g->m.tr_at(x, y) == tr_shotgun_1)
   shots = 1;
  if (rng(5, 50) > g->u.dodge(g)) {
-  body_part hit;
+  body_part hit = num_bp;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
    case  2:
@@ -207,7 +225,7 @@ void trapfunc::shotgun(game *g, int x, int y)
 void trapfuncm::shotgun(game *g, monster *z, int x, int y)
 {
  bool seen = g->u_see(z);
- int chance;
+ int chance = 0;
  switch (z->type->size) {
   case MS_TINY:   chance = 100; break;
   case MS_SMALL:  chance =  16; break;
@@ -389,7 +407,7 @@ void trapfuncm::landmine(game *g, monster *z, int x, int y)
     // tiny animals are too light to trigger landmines
     if (z->type->size == MS_TINY)
         return;
-            
+
  if (g->u_see(x, y))
   g->add_msg(_("The %s steps on a landmine!"), z->name().c_str());
  g->explosion(x, y, 10, 8, false);
@@ -413,9 +431,10 @@ void trapfuncm::boobytrap(game *g, monster *z, int x, int y)
 
 void trapfunc::telepad(game *g, int x, int y)
 {
- g->sound(x, y, 6, _("vvrrrRRMM*POP!*"));
- g->add_msg(_("The air shimmers around you..."));
- g->teleport();
+    //~ the sound of a telepad functioning
+    g->sound(x, y, 6, _("vvrrrRRMM*POP!*"));
+    g->add_msg(_("The air shimmers around you..."));
+    g->teleport();
 }
 
 void trapfuncm::telepad(game *g, monster *z, int x, int y)
@@ -476,6 +495,7 @@ void trapfuncm::goo(game *g, monster *z, int x, int y)
 void trapfunc::dissector(game *g, int x, int y)
 {
  g->add_msg(_("Electrical beams emit from the floor and slice your flesh!"));
+ //~ the sound of a dissector dissecting
  g->sound(x, y, 10, _("BRZZZAP!"));
  g->u.hit(g, bp_head,  0, 0, 15);
  g->u.hit(g, bp_torso, 0, 0, 20);
@@ -498,21 +518,23 @@ void trapfuncm::dissector(game *g, monster *z, int x, int y)
 
 void trapfunc::pit(game *g, int x, int y)
 {
- g->add_msg(_("You fall in a pit!"));
- if (g->u.has_trait(PF_WINGS_BIRD))
-  g->add_msg(_("You flap your wings and flutter down gracefully."));
- else {
-  int dodge = g->u.dodge(g);
-  int damage = rng(10, 20) - rng(dodge, dodge * 5);
-  if (damage > 0) {
-   g->add_msg(_("You hurt yourself!"));
-   g->u.hurtall(rng(int(damage / 2), damage));
-   g->u.hit(g, bp_legs, 0, damage, 0);
-   g->u.hit(g, bp_legs, 1, damage, 0);
-  } else
-   g->add_msg(_("You land nimbly."));
- }
- g->u.add_disease("in_pit", -1);
+    g->add_msg(_("You fall in a pit!"));
+    if (g->u.has_trait("WINGS_BIRD")) {
+        g->add_msg(_("You flap your wings and flutter down gracefully."));
+    } else {
+        float eff = pit_effectiveness(g, x, y);
+        int dodge = g->u.dodge(g);
+        int damage = eff * rng(10, 20) - rng(dodge, dodge * 5);
+        if (damage > 0) {
+            g->add_msg(_("You hurt yourself!"));
+            g->u.hurtall(rng(int(damage / 2), damage));
+            g->u.hit(g, bp_legs, 0, damage, 0);
+            g->u.hit(g, bp_legs, 1, damage, 0);
+        } else {
+            g->add_msg(_("You land nimbly."));
+        }
+    }
+    g->u.add_disease("in_pit", -1);
 }
 
 void trapfuncm::pit(game *g, monster *z, int x, int y)
@@ -520,79 +542,86 @@ void trapfuncm::pit(game *g, monster *z, int x, int y)
     // tiny animals aren't hurt by falling into pits
     if (z->type->size == MS_TINY)
         return;
-    
- if (g->u_see(x, y))
-  g->add_msg(_("The %s falls in a pit!"), z->name().c_str());
- if (z->hurt(rng(10, 20)))
-  g->kill_mon(g->mon_at(x, y));
- else
-  z->moves = -1000;
+
+    if (g->u_see(x, y)) {
+        g->add_msg(_("The %s falls in a pit!"), z->name().c_str());
+    }
+
+    if (z->hurt(pit_effectiveness(g, x, y) * rng(10, 20))) {
+        g->kill_mon(g->mon_at(x, y));
+    } else {
+        z->moves = -1000;
+    }
 }
 
 void trapfunc::pit_spikes(game *g, int x, int y)
 {
- g->add_msg(_("You fall in a pit!"));
- int dodge = g->u.dodge(g);
- int damage = rng(20, 50);
- if (g->u.has_trait(PF_WINGS_BIRD))
-  g->add_msg(_("You flap your wings and flutter down gracefully."));
- else if (rng(5, 30) < dodge)
-  g->add_msg(_("You avoid the spikes within."));
- else {
-  body_part hit;
-  switch (rng(1, 10)) {
-   case  1:
-   case  2: hit = bp_legs; break;
-   case  3:
-   case  4: hit = bp_arms; break;
-   case  5:
-   case  6:
-   case  7:
-   case  8:
-   case  9:
-   case 10: hit = bp_torso; break;
-  }
-  int side = rng(0, 1);
-  g->add_msg(_("The spikes impale your %s!"), body_part_name(hit, side).c_str());
-  g->u.hit(g, hit, side, 0, damage);
-  if (one_in(4)) {
-   g->add_msg(_("The spears break!"));
-   g->m.ter_set(x, y, t_pit);
-   g->m.tr_at(x, y) = tr_pit;
-   for (int i = 0; i < 4; i++) { // 4 spears to a pit
-    if (one_in(3))
-     g->m.spawn_item(x, y, "spear_wood", g->turn);
-     g->m.spawn_item(x, y, "spear_wood", g->turn);
-   }
-  }
- }
- g->u.add_disease("in_pit", -1);
+    g->add_msg(_("You fall in a pit!"));
+    int dodge = g->u.dodge(g);
+    int damage = pit_effectiveness(g, x, y) * rng(20, 50);
+    if (g->u.has_trait("WINGS_BIRD")) {
+        g->add_msg(_("You flap your wings and flutter down gracefully."));
+    } else if (0 == damage || rng(5, 30) < dodge) {
+        g->add_msg(_("You avoid the spikes within."));
+    } else {
+        body_part hit = num_bp;
+        switch (rng(1, 10)) {
+            case  1:
+            case  2: hit = bp_legs; break;
+            case  3:
+            case  4: hit = bp_arms; break;
+            case  5:
+            case  6:
+            case  7:
+            case  8:
+            case  9:
+            case 10: hit = bp_torso; break;
+        }
+        int side = rng(0, 1);
+        g->add_msg(_("The spikes impale your %s!"), body_part_name(hit, side).c_str());
+        g->u.hit(g, hit, side, 0, damage);
+        if (one_in(4)) {
+            g->add_msg(_("The spears break!"));
+            g->m.ter_set(x, y, t_pit);
+            g->m.tr_at(x, y) = tr_pit;
+            for (int i = 0; i < 4; i++) { // 4 spears to a pit
+                if (one_in(3)) {
+                    g->m.spawn_item(x, y, "spear_wood", g->turn);
+                }
+            }
+        }
+    }
+    g->u.add_disease("in_pit", -1);
 }
 
 void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)
 {
     // tiny animals aren't hurt by falling into spiked pits
-    if (z->type->size == MS_TINY)
-        return;
-    
- bool sees = g->u_see(z);
- if (sees)
-  g->add_msg(_("The %s falls in a spiked pit!"), z->name().c_str());
- if (z->hurt(rng(20, 50)))
-  g->kill_mon(g->mon_at(x, y));
- else
-  z->moves = -1000;
+    if (z->type->size == MS_TINY) return;
 
- if (one_in(4)) {
-  if (sees)
-   g->add_msg(_("The spears break!"));
-  g->m.ter_set(x, y, t_pit);
-  g->m.tr_at(x, y) = tr_pit;
-  for (int i = 0; i < 4; i++) { // 4 spears to a pit
-   if (one_in(3))
-    g->m.spawn_item(x, y, "spear_wood", g->turn);
-  }
- }
+    bool sees = g->u_see(z);
+    if (sees) {
+        g->add_msg(_("The %s falls in a spiked pit!"), z->name().c_str());
+    }
+
+    if (z->hurt(rng(20, 50))) {
+        g->kill_mon(g->mon_at(x, y));
+    } else {
+        z->moves = -1000;
+    }
+
+    if (one_in(4)) {
+        if (sees) {
+            g->add_msg(_("The spears break!"));
+        }
+        g->m.ter_set(x, y, t_pit);
+        g->m.tr_at(x, y) = tr_pit;
+        for (int i = 0; i < 4; i++) { // 4 spears to a pit
+            if (one_in(3)) {
+                g->m.spawn_item(x, y, "spear_wood", g->turn);
+            }
+        }
+    }
 }
 
 void trapfunc::lava(game *g, int x, int y)
@@ -767,18 +796,23 @@ void trapfuncm::glow(game *g, monster *z, int x, int y)
 
 void trapfunc::hum(game *g, int x, int y)
 {
- int volume = rng(1, 200);
- std::string sfx;
- if (volume <= 10)
-  sfx = _("hrm");
- else if (volume <= 50)
-  sfx = _("hrmmm");
- else if (volume <= 100)
-  sfx = _("HRMMM");
- else
-  sfx = _("VRMMMMMM");
+    int volume = rng(1, 200);
+    std::string sfx;
+    if (volume <= 10) {
+        //~ a quiet humming sound
+        sfx = _("hrm");
+    } else if (volume <= 50) {
+        //~ a humming sound
+        sfx = _("hrmmm");
+    } else if (volume <= 100) {
+        //~ a loud humming sound
+        sfx = _("HRMMM");
+    } else {
+        //~ a very loud humming sound
+        sfx = _("VRMMMMMM");
+    }
 
- g->sound(x, y, volume, sfx);
+    g->sound(x, y, volume, sfx);
 }
 
 void trapfuncm::hum(game *g, monster *z, int x, int y)
@@ -859,6 +893,7 @@ void trapfunc::snake(game *g, int x, int y)
    return;
   }
  }
+ //~ the sound a snake makes
  g->sound(x, y, 10, _("ssssssss"));
  if (one_in(6))
   g->m.tr_at(x, y) = tr_null;

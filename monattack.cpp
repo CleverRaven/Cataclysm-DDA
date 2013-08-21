@@ -623,6 +623,7 @@ void mattack::fungus(game *g, monster *z)
  monster spore(g->mtypes[mon_spore]);
  int sporex, sporey;
  int moncount = 0, mondex;
+ //~ the sound of a fungus releasing spores
  g->sound(z->posx, z->posy, 10, _("Pouf!"));
  if (g->u_see(z->posx, z->posy))
   g->add_msg(_("Spores are released from the %s!"), z->name().c_str());
@@ -944,9 +945,9 @@ void mattack::vortex(game *g, monster *z)
    while (!g->m.i_at(x, y).empty()) {
     item thrown = g->m.i_at(x, y)[0];
     g->m.i_rem(x, y, 0);
-    int distance = 5 - (thrown.weight() / 15);
+    int distance = 5 - (thrown.weight() / 1700);
     if (distance > 0) {
-     int dam = thrown.weight() / double(3 + double(thrown.volume() / 6));
+     int dam = (thrown.weight() / 113) / double(3 + double(thrown.volume() / 6));
      std::vector<point> traj = continue_line(from_monster, distance);
      for (int i = 0; i < traj.size() && dam > 0; i++) {
       g->m.shoot(g, traj[i].x, traj[i].y, dam, false, no_effects);
@@ -1172,7 +1173,7 @@ int coord2angle ( const int x, const int y, const int tgtx, const int tgty ) {
 
 void mattack::smg(game *g, monster *z)
 {
- int t, fire_t;
+ int t, fire_t = 0;
  if (z->friendly != 0) {   // Attacking monsters, not the player!
   monster* target = NULL;
   const int iff_dist=24;   // iff check triggers at this distance

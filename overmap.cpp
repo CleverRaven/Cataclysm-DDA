@@ -72,7 +72,7 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_cabin,   0, 30, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
- 
+
 {ot_cabin_strange,   1, 1, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Hidden cabin
  &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
 
@@ -133,7 +133,7 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_school_2,    1, 3,  1, 5, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
- 
+
 {ot_prison_2,    1, 1,  3, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
 
@@ -329,6 +329,7 @@ void game::init_overmap()
     {_("house"),		'<',	c_ltgreen,	5, build_extras, false, false, 2},
     {_("parking lot"),		'O',	c_dkgray,	1, build_extras, false, false, 2},
     {_("park"),		'O',	c_green,	2, build_extras, false, false, 2},
+    {_("pool"),   'O',  c_ltblue, 2, no_extras, false, false, 2},
     {_("gas station"),		'^',	c_ltblue,	5, build_extras, false, false, 2},
     {_("gas station"),		'>',	c_ltblue,	5, build_extras, false, false, 2},
     {_("gas station"),		'v',	c_ltblue,	5, build_extras, false, false, 2},
@@ -727,7 +728,7 @@ std::vector<mongroup*> overmap::monsters_at(int x, int y, int z)
   return ret;
  for (int i = 0; i < zg.size(); i++) {
   if (zg[i].posz != z) { continue; }
-  if ( 
+  if (
       ( zg[i].diffuse == true ? square_dist(x, y, zg[i].posx, zg[i].posy) : trig_dist(x, y, zg[i].posx, zg[i].posy) )
     <= zg[i].radius) {
       ret.push_back(&(zg[i]));
@@ -1641,7 +1642,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 
 // Now actually draw the map
   bool csee = false;
-  oter_id ccur_ter;
+  oter_id ccur_ter = ot_null;
   for (int i = -(om_map_width / 2); i < (om_map_width / 2); i++) {
     for (int j = -(om_map_height / 2);
          j <= (om_map_height / 2) + (ch == 'j' ? 1 : 0); j++) {
@@ -1790,8 +1791,12 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 
   if (csee) {
    mvwputch(w, 1, om_map_width + 1, oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
-   mvwprintz(w, 1, om_map_width + 3, oterlist[ccur_ter].color, "%s",
-             oterlist[ccur_ter].name.c_str());
+   std::vector<std::string> name = foldstring(oterlist[ccur_ter].name,25);
+   for (int i = 1; (i - 1) < name.size(); i++)
+   {
+       mvwprintz(w, i, om_map_width + 3, oterlist[ccur_ter].color, "%s",
+                 name[i-1].c_str());
+   }
   } else
    mvwprintz(w, 1, om_map_width + 1, c_dkgray, _("# Unexplored"));
 
@@ -2150,7 +2155,7 @@ void overmap::put_buildings(int x, int y, int dir, city town)
     ter(x+i*xchange, y+i*ychange, 0) = shop(((dir%2)-i)%4);
    else {
     if (rng(0, 99) > 130 * dist(x, y, town.x, town.y) / town.s)
-     ter(x+i*xchange, y+i*ychange, 0) = ot_park;
+     ter(x+i*xchange, y+i*ychange, 0) = (one_in(5)?ot_pool:ot_park);
     else
      ter(x+i*xchange, y+i*ychange, 0) = house(((dir%2)-i)%4);
    }
@@ -2911,7 +2916,7 @@ void overmap::place_specials()
     int min = special.min_dist_from_city, max = special.max_dist_from_city;
     point pt(p.x, p.y);
     // Skip non-classic specials if we're in classic mode
-    if (OPTIONS[OPT_CLASSIC_ZOMBIES] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
+    if (OPTIONS["CLASSIC_ZOMBIES"] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
     if ((placed[ omspec_id(i) ] < special.max_appearances || special.max_appearances <= 0) &&
         (min == -1 || dist_from_city(pt) >= min) &&
         (max == -1 || dist_from_city(pt) <= max) &&
@@ -3199,7 +3204,7 @@ void overmap::place_special(overmap_special special, tripoint p)
 
 void overmap::place_mongroups()
 {
- if (!OPTIONS[OPT_STATIC_SPAWN]) {
+ if (!OPTIONS["STATIC_SPAWN"]) {
   // Cities are full of zombies
   for (unsigned int i = 0; i < cities.size(); i++) {
    if (!one_in(16) || cities[i].s > 5)
@@ -3208,7 +3213,7 @@ void overmap::place_mongroups()
   }
  }
 
- if (!OPTIONS[OPT_CLASSIC_ZOMBIES]) {
+ if (!OPTIONS["CLASSIC_ZOMBIES"]) {
   // Figure out where swamps are, and place swamp monsters
   for (int x = 3; x < OMAPX - 3; x += 7) {
    for (int y = 3; y < OMAPY - 3; y += 7) {
@@ -3228,7 +3233,7 @@ void overmap::place_mongroups()
   }
  }
 
- if (!OPTIONS[OPT_CLASSIC_ZOMBIES]) {
+ if (!OPTIONS["CLASSIC_ZOMBIES"]) {
   // Place the "put me anywhere" groups
   int numgroups = rng(0, 3);
   for (int i = 0; i < numgroups; i++) {
@@ -3429,6 +3434,10 @@ void overmap::open(game *g)
     npc * tmp = new npc();
     tmp->load_info(g, npcdata);
     npcs.push_back(tmp);
+   } else if (datatype == 'P') {
+       // Chomp the invlet_cache, since the npc doesn't use it.
+       std::string itemdata;
+       getline(fin, itemdata);
    } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
               datatype == 'w' || datatype == 'c') {
     std::string itemdata;

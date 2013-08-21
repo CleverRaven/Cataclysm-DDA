@@ -30,7 +30,7 @@ bool tutorial_game::init(game *g)
  g->cur_om = &overmap_buffer.get(g, 0, 0);
  g->cur_om->make_tutorial();
  g->cur_om->save();
- g->u.toggle_trait(PF_QUICK);
+ g->u.toggle_trait("QUICK");
  g->u.inv.push_back(item(g->itypes["lighter"], 0, 'e'));
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);

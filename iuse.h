@@ -83,6 +83,14 @@ class iuse
   void siphon	(game *g, player *p, item *it, bool t);
   void chainsaw_off	(game *g, player *p, item *it, bool t);
   void chainsaw_on	(game *g, player *p, item *it, bool t);
+  void shishkebab_off	(game *g, player *p, item *it, bool t);
+  void shishkebab_on	(game *g, player *p, item *it, bool t);
+  void firemachete_off	(game *g, player *p, item *it, bool t);
+  void firemachete_on	(game *g, player *p, item *it, bool t);
+  void broadfire_off	(game *g, player *p, item *it, bool t);
+  void broadfire_on	    (game *g, player *p, item *it, bool t);
+  void firekatana_off	(game *g, player *p, item *it, bool t);
+  void firekatana_on	(game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);
   void jacqueshammer	(game *g, player *p, item *it, bool t);
   void pickaxe          (game *g, player *p, item *it, bool t);
@@ -130,6 +138,7 @@ class iuse
   void tazer		(game *g, player *p, item *it, bool t);
   void mp3		(game *g, player *p, item *it, bool t);
   void mp3_on		(game *g, player *p, item *it, bool t);
+  void portable_game    (game *g, player *p, item *it, bool t);
   void vortex		(game *g, player *p, item *it, bool t);
   void dog_whistle	(game *g, player *p, item *it, bool t);
   void vacutainer	(game *g, player *p, item *it, bool t);
@@ -157,6 +166,7 @@ class iuse
   void boots            (game *g, player *p, item *it, bool t);
   void towel            (game *g, player *p, item *it, bool t);
   void unfold_bicycle        (game *g, player *p, item *it, bool t);
+  void adrenaline_injector (game *g, player *p, item *it, bool t);
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS

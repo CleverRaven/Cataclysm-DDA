@@ -111,6 +111,8 @@ public:
     int getFieldAge() const;
 
     //Allows you to modify the field_id of the current field entry.
+    //This probably shouldn't be called outside of field::replaceField, as it
+    //breaks the field drawing code and field lookup
     field_id setFieldType(const field_id new_field_id);
 
     //Allows you to modify the density of the current field entry.
@@ -175,6 +177,8 @@ public:
     //Returns the last added field from the tile for drawing purposes.
     //This can be changed to return whatever you think the most important field to draw is.
     field_id fieldSymbol() const;
+
+    bool replaceField(field_id old_field, field_id new_field);
 
     //Returns the vector iterator to begin searching through the list.
     //Note: If you are using "field_at" function, set the return to a temporary field variable! If you somehow

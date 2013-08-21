@@ -8,8 +8,12 @@
 
 void mdeath::normal(game *g, monster *z)
 {
- if (g->u_see(z))
+ if (g->u_see(z)) {
   g->add_msg(_("The %s dies!"), z->name().c_str());
+ }
+ if(z->type->difficulty >= 15) {
+   g->u.add_memorial_log(_("Killed a %s."), z->name().c_str());
+ }
  if (z->made_of("flesh") && z->has_flag(MF_WARM)) {
    g->m.add_field(g, z->posx, z->posy, fd_blood, 1);
  }
@@ -184,6 +188,7 @@ void mdeath::fungus(game *g, monster *z)
 {
  monster spore(g->mtypes[mon_spore]);
  int sporex, sporey;
+ //~ the sound of a fungus dying
  g->sound(z->posx, z->posy, 10, _("Pouf!"));
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
@@ -254,7 +259,7 @@ void mdeath::disappear(game *g, monster *z)
 
 void mdeath::guilt(game *g, monster *z)
 {
- if (g->u.has_trait(PF_CANNIBAL))
+ if (g->u.has_trait("CANNIBAL"))
   return;	// We don't give a shit!
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 5)
   return;	// Too far away, we can deal with it
@@ -341,7 +346,7 @@ void mdeath::thing(game *g, monster *z)
 
 void mdeath::explode(game *g, monster *z)
 {
- int size;
+ int size = 0;
  switch (z->type->size) {
   case MS_TINY:   size =  4; break;
   case MS_SMALL:  size =  8; break;

@@ -234,6 +234,7 @@
     <ClInclude Include="..\faction.h" />
     <ClInclude Include="..\game.h" />
     <ClInclude Include="..\gamemode.h" />
+    <ClInclude Include="..\get_version.h" />
     <ClInclude Include="..\graffiti.h" />
     <ClInclude Include="..\helper.h" />
     <ClInclude Include="..\iexamine.h" />

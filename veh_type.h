@@ -5,7 +5,7 @@
 #include "itype.h"
 
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
 enum vpart_id
@@ -48,6 +48,7 @@ enum vpart_id
 
     vp_wheel,
     vp_wheel_wide,
+    vp_wheel_wide_under,
     vp_wheel_bicycle,
     vp_wheel_motorbike,
     vp_wheel_small,
@@ -75,6 +76,7 @@ enum vpart_id
     vp_seatbelt,
     vp_solar_panel,
     vp_kitchen_unit,
+    vp_weldrig,
     vp_m249,
     vp_flamethrower,
     vp_plasmagun,
@@ -116,6 +118,7 @@ enum vpart_flags
     vpf_aisle,               // is aisle (no extra movement cost)
     vpf_engine,             // is engine
     vpf_kitchen,            // is kitchen
+    vpf_weldrig,             // is welding rig
     vpf_fuel_tank,          // is fuel tank
     vpf_cargo,              // is cargo
     vpf_controls,           // is controls
@@ -234,6 +237,8 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
     { "wide wheel", 'O',     c_dkgray,   'x', c_ltgray,  50,  400, 14, 0, "NULL", "wheel_wide", 5,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
+    { "wide wheel (underbody)", 'H',     c_dkgray,   'x', c_ltgray,  50,  400, 14, 0, "NULL", "wheel_wide", 6,
+        mfb(vpf_external) | mfb (vpf_mount_inner) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
     { "bicycle wheel",'|',  c_dkgray, 'x', c_ltgray,  50,  40, 2, 0, "NULL", "wheel_bicycle", 1,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
     { "motorbike wheel",'o',c_dkgray, 'x', c_ltgray,  50,  90, 4, 0, "NULL", "wheel_motorbike", 2,
@@ -285,7 +290,9 @@ const vpart_info vpart_list[num_vparts] =
     { "solar panel", '#', c_yellow,  'x', c_yellow, 10, 20, 30, 0, "NULL", "solar_panel", 6,
         mfb(vpf_over)  | mfb(vpf_solar_panel) },
     { "kitchen unit", '&', c_ltcyan, 'x', c_ltcyan, 10, 20, 0, 0, "NULL", "kitchen_unit", 4,
-        mfb(vpf_over) | mfb(vpf_cargo) | mfb(vpf_roof) | mfb(vpf_no_reinforce) | mfb(vpf_obstacle) | mfb(vpf_kitchen) },
+        mfb(vpf_over) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) | mfb(vpf_obstacle) | mfb(vpf_kitchen) },
+    { "welding rig", '&', c_ltred, 'x', c_ltred, 10, 20, 0, 0, "NULL", "weldrig", 4,
+        mfb(vpf_over) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) | mfb(vpf_obstacle) | mfb(vpf_weldrig) },
     { "mounted M249",         't', c_cyan,    '#', c_cyan,    80, 400, 0, 0, "223", "m249", 6,
         mfb(vpf_over)  | mfb(vpf_turret) | mfb(vpf_cargo) },
     { "mounted flamethrower", 't', c_dkgray,  '#', c_dkgray,  80, 400, 0, 0, "gasoline", "flamethrower", 7,
@@ -330,6 +337,7 @@ enum vhtype_id
     veh_armytruck,  //Army M35A2 6L gas and/or hydrogen engine if commented parts uncommented.
     veh_schoolbus,  //Standard schoolbus
     veh_car_electric, // electric version of standard car.
+    veh_rv, //RV with bed and kitchen unit
 
     num_vehicles
 };

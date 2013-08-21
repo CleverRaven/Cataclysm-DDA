@@ -45,8 +45,8 @@ public:
 
 // newcharacter.cpp
  bool create(game *g, character_type type, std::string tempname = "");
- int  random_good_trait();
- int  random_bad_trait ();
+ std::string random_good_trait();
+ std::string random_bad_trait();
  void normalize(game *g);	// Starting set up of HP and inventory
 // </newcharacter.cpp>
 
@@ -58,9 +58,10 @@ public:
  virtual void load_info(game *g, std::string data);// Load from file 'name.sav'
  virtual std::string save_info();		// Save to file matching name
 
+ void memorial( std::ofstream &memorial_file ); // Write out description of player.
  void disp_info(game *g);	// '@' key; extended character info
  void disp_morale(game *g);		// '%' key; morale info
- void disp_status(WINDOW* w, game *g = NULL);// On-screen data
+ void disp_status(WINDOW* w, WINDOW *w2, game *g = NULL);// On-screen data
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
  void action_taken(); // Called after every action, invalidates player caches.
@@ -73,10 +74,16 @@ public:
  int  run_cost(int base_cost, bool diag = false); // Adjust base_cost
  int  swim_speed();	// Our speed when swimming
 
- bool has_trait(int flag) const;
- bool has_base_trait(int flag) const;
- void toggle_trait(int flag);
- void toggle_mutation(int flag);
+ bool has_trait(std::string flag);
+ bool has_base_trait(std::string flag);
+ bool has_conflicting_trait(std::string flag);
+ void toggle_trait(std::string flag);
+ void toggle_mutation(std::string flag);
+ void set_cat_level_rec(std::string sMut);
+ void set_highest_cat_level();
+ std::string get_highest_category();
+ int get_category_level(std::string cat);
+ std::string get_category_dream(std::string cat, int strength);
 
  bool in_climate_control(game *g);
 
@@ -88,13 +95,13 @@ public:
  void activate_bionic(int b, game *g);
  float active_light();
 
- bool mutation_ok(game *g, pl_flag mutation, bool force_good, bool force_bad);
+ bool mutation_ok(game *g, std::string mutation, bool force_good, bool force_bad);
  void mutate(game *g);
- void mutate_category(game *g, mutation_category);
- void mutate_towards(game *g, pl_flag mut);
- void remove_mutation(game *g, pl_flag mut);
- bool has_child_flag(game *g, pl_flag mut);
- void remove_child_flag(game *g, pl_flag mut);
+ void mutate_category(game *g, std::string);
+ void mutate_towards(game *g, std::string mut);
+ void remove_mutation(game *g, std::string mut);
+ bool has_child_flag(game *g, std::string mut);
+ void remove_child_flag(game *g, std::string mut);
 
  int  sight_range(int light_level);
  int  unimpaired_range();
@@ -205,6 +212,8 @@ public:
  void mend(game *g);
  void vomit(game *g);
 
+ void drench(game *g, int saturation, int flags); // drenches the player in water; saturation is percent
+
  char lookup_item(char let);
  bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
@@ -251,8 +260,9 @@ public:
  int volume_carried();
  int weight_capacity(bool real_life = true);
  int volume_capacity();
+ double convert_weight(int weight);
  bool can_pickVolume(int volume);
- bool can_pickWeight(int weight);
+ bool can_pickWeight(int weight, bool safe = true);
  int net_morale(morale_point effect);
  int morale_level();	// Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
@@ -282,6 +292,11 @@ public:
  bool is_wearing(itype_id it);	// Are we wearing a specific itype?
  bool has_artifact_with(art_effect_passive effect);
  bool worn_with_flag( std::string flag ) const;
+
+ bool covered_with_flag( const std::string flag, int parts ) const;
+ bool covered_with_flag_exclusively( const std::string flag, int parts = -1 ) const;
+ bool is_water_friendly( int flags = -1 ) const;
+ bool is_waterproof( int flags ) const;
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
@@ -326,9 +341,11 @@ public:
  std::string name;
  bool male;
  profession* prof;
- bool my_traits[PF_MAX2];
- bool my_mutations[PF_MAX2];
- int mutation_category_level[NUM_MUTATION_CATEGORIES];
+ std::map<std::string, bool> my_traits;
+ std::map<std::string, bool> my_mutations;
+
+ std::map<std::string, int> mutation_category_level;
+
  int next_climate_control_check;
  bool last_climate_control_ret;
  std::vector<bionic> my_bionics;
@@ -382,6 +399,14 @@ public:
  std::vector <addiction> addictions;
 
  recipe* lastrecipe;
+
+ //Dumps all memorial events into a single newline-delimited string
+ std::string dump_memorial();
+ //Log an event, to be later written to the memorial file
+ void add_memorial_log(const char* message, ...);
+ //Notable events, to be printed in memorial
+ std::vector <std::string> memorial_log;
+
  int getID ();
 protected:
     void setID (int i);

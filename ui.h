@@ -7,20 +7,30 @@
 #include "cursesdef.h"
 
 const int UIMENU_INVALID=-1024;
+const nc_color C_UNSET_MASK=c_red_red;
 const int MENU_ALIGN_LEFT=-1;
 const int MENU_ALIGN_CENTER=0;
 const int MENU_ALIGN_RIGHT=1;
 const int MENU_WIDTH_ENTRIES=-2;
 const int MENU_AUTOASSIGN=-1;
 
+struct mvwzstr {
+    int left;
+    nc_color color;
+    std::string txt;
+};
+
 struct uimenu_entry {
     int retval;           // return this int
     bool enabled;         // darken, and forbid scrolling if hilight_disabled is false
     int hotkey;           // keycode from (int)getch(). -1: automagically pick first free character: 1-9 a-z A-Z
     std::string txt;      // what it says on the tin
-    uimenu_entry(std::string T) { retval = -1; enabled=true; hotkey=-1; txt=T;};
-    uimenu_entry(std::string T, int K) { retval = -1; enabled=true; hotkey=K; txt=T;};
-    uimenu_entry(int R, bool E, int K, std::string T) : retval(R), enabled(E), hotkey(K), txt(T) {};
+    nc_color hotkey_color;
+    nc_color text_color;
+    mvwzstr extratxt;
+    uimenu_entry(std::string T) { retval = -1; enabled=true; hotkey=-1; txt=T;text_color=C_UNSET_MASK;};
+    uimenu_entry(std::string T, int K) { retval = -1; enabled=true; hotkey=K; txt=T; text_color=C_UNSET_MASK; };
+    uimenu_entry(int R, bool E, int K, std::string T) : retval(R), enabled(E), hotkey(K), txt(T) {text_color=C_UNSET_MASK;};
 };
 
 class uimenu {
@@ -62,8 +72,15 @@ class uimenu {
     uimenu (int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents);
 
     void init();
+    void setup();
     void show();
     void query(bool loop=true);
+    void addentry(std::string str);
+    void addentry(const char *format, ...);
+    void addentry(int r, bool e, int k, std::string str);
+    void addentry(int r, bool e, int k, const char *format, ...);
+    void settext(std::string str);
+    void settext(const char *format, ...);
     ~uimenu ();
     operator int() const;
 
