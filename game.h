@@ -289,6 +289,8 @@ class game
 
   std::map<int, std::map<int, bool> > mapRain;
 
+  int w_void_lines;
+  int ter_view_x, ter_view_y;
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;

@@ -594,7 +594,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         m.add_item_or_charges(tx, ty, thrown);
     }
 }
-
+// TODO: Shunt redundant drawing code elsewhere
 std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 int hiy, std::vector <monster> t, int &target,
                                 item *relevent)
@@ -686,6 +686,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    for (int j = 1; j < getmaxx(w_target) - 2; j++)
     mvwputch(w_target, i, j, c_white, ' ');
   }
+  /* Start drawing w_terrain things -- possibly move out to centralized draw_terrain_window function as they all should be roughly similar*/
   m.build_map_cache(this);
   m.draw(this, w_terrain, center);
   // Draw the Monsters
@@ -721,7 +722,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
        m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center.x, center.y);
     }
    }
-
+    /* Print to target window, could maybe be moved up and out of the w_terrain drawing section? */
    if (!relevent) { // currently targetting vehicle to refill with fuel
     vehicle *veh = m.veh_at(x, y);
     if (veh)
@@ -744,6 +745,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   refresh();
   ch = input();
   get_direction(this, tarx, tary, ch);
+  /* More drawing to terrain */
   if (tarx != -2 && tary != -2 && ch != '.') {	// Direction character pressed
    int mondex = mon_at(x, y), npcdex = npc_at(x, y);
    if (mondex != -1 && u_see(&(z[mondex])))

@@ -3560,7 +3560,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  dam += cut;
  if (dam <= 0)
   return dam;
-
+// TODO: Pre or post blit hit tile onto "this"'s location here
  if( g->u_see( this->posx, this->posy ) ) {
      hit_animation(this->posx - g->u.posx + VIEWX - g->u.view_offset_x,
                    this->posy - g->u.posy + VIEWY - g->u.view_offset_y,
