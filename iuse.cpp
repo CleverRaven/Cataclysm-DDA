@@ -3048,12 +3048,15 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             for (int i = 0; i < g->active_npc[npc_hit]->illness.size(); i++) {
                                 g->active_npc[npc_hit]->illness.erase(g->active_npc[npc_hit]->illness.begin() + i);
+                                i--;
                             }
                             for (int i = 0; i < g->active_npc[npc_hit]->addictions.size(); i++) {
                                 g->active_npc[npc_hit]->addictions.erase(g->active_npc[npc_hit]->addictions.begin() + i);
+                                i--;
                             }
                             for (int i = 0; i < g->active_npc[npc_hit]->morale.size(); i++) {
                                 g->active_npc[npc_hit]->morale.erase(g->active_npc[npc_hit]->morale.begin() + i);
+                                i--;
                             }
                             for (int part = 0; part < num_hp_parts; part++) {
                                 g->active_npc[npc_hit]->hp_cur[part] = g->active_npc[npc_hit]->hp_max[part];
@@ -3069,12 +3072,15 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                         } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
                             for (int i = 0; i < g->u.illness.size(); i++) {
                                 g->u.illness.erase(g->u.illness.begin() + i);
+                                i--;
                             }
                             for (int i = 0; i < g->u.addictions.size(); i++) {
                                 g->u.addictions.erase(g->u.addictions.begin() + i);
+                                i--;
                             }
                             for (int i = 0; i < g->u.morale.size(); i++) {
                                 g->u.morale.erase(g->u.morale.begin() + i);
+                                i--;
                             }
                             for (int part = 0; part < num_hp_parts; part++) {
                                 g->u.hp_cur[part] = g->u.hp_max[part];
