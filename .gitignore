@@ -12,6 +12,7 @@ objwin/
 cataclysm.exe
 version.h
 Cataclysm.exe
+CataclysmWin.cscope_file_list
 CataclysmWin.depend
 CataclysmWin.layout
 *.dll
