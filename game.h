@@ -260,7 +260,7 @@ class game
 
   std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
-  mutation_branch mutation_data[PF_MAX2+1]; // Mutation data
+  std::map<std::string, mutation_branch> mutation_data; // Mutation data
   std::map<char, action_id> keymap;
   std::map<char, action_id> default_keymap;
 
@@ -348,7 +348,6 @@ void load_artifacts(); // Load artifact data
   void init_weather();
   void init_overmap();
   void init_artifacts();
-  void init_traits();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
@@ -362,7 +361,7 @@ void load_artifacts(); // Load artifact data
   void init_recipes() throw (std::string);      // Initializes crafting recipes
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
-  void init_mutations();    // Initializes mutation "tech tree"
+  void init_traits_mutations();    // Initializes mutation "tech tree"
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.

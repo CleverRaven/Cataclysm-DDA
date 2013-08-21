@@ -1520,31 +1520,31 @@ int trial_chance(talk_response response, player *u, npc *p)
  switch (trial) {
   case TALK_TRIAL_LIE:
    chance += u->talk_skill() - p->talk_skill() + p->op_of_u.trust * 3;
-   if (u->has_trait(PF_TRUTHTELLER))
+   if (u->has_trait("TRUTHTELLER"))
     chance -= 40;
-   else if (u->has_trait(PF_LIAR))
+   else if (u->has_trait("LIAR"))
     chance += 40;
    break;
 
   case TALK_TRIAL_PERSUADE:
    chance += u->talk_skill() - int(p->talk_skill() / 2) +
            p->op_of_u.trust * 2 + p->op_of_u.value;
-   if (u->has_trait(PF_GROWL))
+   if (u->has_trait("GROWL"))
     chance -= 25;
-   if (u->has_trait(PF_SNARL))
+   if (u->has_trait("SNARL"))
     chance -= 60;
    break;
 
   case TALK_TRIAL_INTIMIDATE:
    chance += u->intimidation() - p->intimidation() + p->op_of_u.fear * 2 -
            p->personality.bravery * 2;
-   if (u->has_trait(PF_TERRIFYING))
+   if (u->has_trait("TERRIFYING"))
     chance += 15;
-   if (p->has_trait(PF_TERRIFYING))
+   if (p->has_trait("TERRIFYING"))
     chance -= 15;
-   if (u->has_trait(PF_GROWL))
+   if (u->has_trait("GROWL"))
     chance += 15;
-   if (u->has_trait(PF_SNARL))
+   if (u->has_trait("SNARL"))
     chance += 30;
    break;
 
@@ -1942,10 +1942,10 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  if (challenge[0] == '&') // No name prepended!
   challenge = challenge.substr(1);
  else if (challenge[0] == '*')
-  challenge = rmp_format(_("<npc does something>%s %s"), beta->name.c_str(), 
+  challenge = rmp_format(_("<npc does something>%s %s"), beta->name.c_str(),
      challenge.substr(1).c_str());
  else
-  challenge = rmp_format(_("<npc says something>%s: %s"), beta->name.c_str(), 
+  challenge = rmp_format(_("<npc says something>%s: %s"), beta->name.c_str(),
      challenge.c_str());
  history.push_back(""); // Empty line between lines of dialogue
 
@@ -1964,8 +1964,8 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
       rmp_format(
         responses[i].trial>0?
         _("<talk option>%1$c: [%2$s %3$d%%] %4$s"):
-        (std::string(_("<talk option>%1$c: %4$s"))+"\003<%2$c%3$c>").c_str(), 
-        char('a' + i), talk_trial_text[responses[i].trial], 
+        (std::string(_("<talk option>%1$c: %4$s"))+"\003<%2$c%3$c>").c_str(),
+        char('a' + i), talk_trial_text[responses[i].trial],
         trial_chance(responses[i], alpha, beta), responses[i].text.c_str()
       )
   );

@@ -28,7 +28,9 @@
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
-trait traits[PF_MAX2];
+
+std::map<std::string, trait> traits;
+std::vector<std::string> vStartingTraits[2];
 
 std::string morale_data[NUM_MORALE_TYPES];
 
@@ -75,34 +77,6 @@ void game::init_morale()
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
 }
 
-void game::init_traits()
-{
-  catajson traitsRaw("data/raw/traits.json",true);
-
-  unsigned int index = 0;
-  for(traitsRaw.set_begin(); traitsRaw.has_curr() && json_good(); traitsRaw.next()) {
-
-    assert(index < PF_MAX2);
-
-    catajson curr_trait = traitsRaw.curr();
-
-    trait new_trait;
-    new_trait.name = curr_trait.get("name").as_string();
-    new_trait.points = curr_trait.get("points").as_int();
-    new_trait.visiblity = curr_trait.get("visibility").as_int();
-    new_trait.ugliness = curr_trait.get("ugliness").as_int();
-    new_trait.description = curr_trait.get("description").as_string();
-
-    traits[index] = new_trait;
-    index++;
-
-  }
-
-  if(!json_good()) {
-        exit(1);
-  }
-}
-
 player::player()
 {
  id = 0; // Player is 0. NPCs are different.
@@ -147,14 +121,11 @@ player::player()
  style_selected = "null";
  focus_pool = 100;
  last_item = itype_id("null");
- for (int i = 0; i < PF_MAX2; i++)
-  my_traits[i] = false;
- for (int i = 0; i < PF_MAX2; i++)
-  my_mutations[i] = false;
 
- mutation_category_level[0] = 5; // Weigh us towards no category for a bit
- for (int i = 1; i < NUM_MUTATION_CATEGORIES; i++)
-  mutation_category_level[i] = 0;
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+    my_traits[iter->first] = false;
+    my_mutations[iter->first] = false;
+ }
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill) {
@@ -203,14 +174,8 @@ player& player::operator= (const player & rhs)
  male = rhs.male;
  prof = rhs.prof;
 
- for (int i = 0; i < PF_MAX2; i++)
-  my_traits[i] = rhs.my_traits[i];
-
- for (int i = 0; i < PF_MAX2; i++)
-  my_mutations[i] = rhs.my_mutations[i];
-
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  mutation_category_level[i] = rhs.mutation_category_level[i];
+ my_traits = rhs.my_traits;
+ my_mutations = rhs.my_mutations;
 
  my_bionics = rhs.my_bionics;
 
@@ -301,7 +266,7 @@ void player::normalize(game *g)
  style_selected = "null";
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
-  if (has_trait(PF_TOUGH))
+  if (has_trait("TOUGH"))
    hp_max[i] = int(hp_max[i] * 1.2);
   hp_cur[i] = hp_max[i];
  }
@@ -339,14 +304,14 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
 }
 
 // Trait / mutation buffs
- if (has_trait(PF_THICK_SCALES))
+ if (has_trait("THICK_SCALES"))
   dex_cur -= 2;
- if (has_trait(PF_CHITIN2) || has_trait(PF_CHITIN3))
+ if (has_trait("CHITIN2") || has_trait("CHITIN3"))
   dex_cur--;
- if (has_trait(PF_COMPOUND_EYES) && !wearing_something_on(bp_eyes))
+ if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes))
   per_cur++;
- if (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
-     has_trait(PF_ARM_TENTACLES_8))
+ if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
+     has_trait("ARM_TENTACLES_8"))
   dex_cur++;
 // Pain
  if (pain > pkill) {
@@ -381,9 +346,9 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
 
 // Set our scent towards the norm
  int norm_scent = 500;
- if (has_trait(PF_SMELLY))
+ if (has_trait("SMELLY"))
   norm_scent = 800;
- if (has_trait(PF_SMELLY2))
+ if (has_trait("SMELLY2"))
   norm_scent = 1200;
 
  // Scent increases fast at first, and slows down as it approaches normal levels.
@@ -450,7 +415,7 @@ void player::update_morale()
 void player::apply_persistent_morale()
 {
     // Hoarders get a morale penalty if they're not carrying a full inventory.
-    if (has_trait(PF_HOARDER))
+    if (has_trait("HOARDER"))
     {
         int pen = int((volume_capacity()-volume_carried()) / 2);
         if (pen > 70)
@@ -474,7 +439,7 @@ void player::apply_persistent_morale()
 
     // Cross-dressers get a morale bonus for each body part covered in an
     // item of the opposite gender(MALE_TYPICAL/FEMALE_TYPICAL item flags).
-    if (has_trait(PF_CROSSDRESSER))
+    if (has_trait("CROSSDRESSER"))
     {
         int bonus = 0;
         std::string required_flag = male ? "FEMALE_TYPICAL" : "MALE_TYPICAL";
@@ -508,7 +473,7 @@ void player::apply_persistent_morale()
     }
 
     // Masochists get a morale bonus from pain.
-    if (has_trait(PF_MASOCHIST))
+    if (has_trait("MASOCHIST"))
     {
         int bonus = pain / 2.5;
         if (bonus > 25)
@@ -527,7 +492,7 @@ void player::apply_persistent_morale()
 
     // Optimist gives a base +4 to morale.
     // The +25% boost from optimist also applies here, for a net of +5.
-    if (has_trait(PF_OPTIMISTIC))
+    if (has_trait("OPTIMISTIC"))
     {
         add_morale(MORALE_PERM_OPTIMIST, 4, 4, 5, 5, true);
     }
@@ -812,7 +777,7 @@ void player::update_bodytemp(game *g)
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F. 500 is picked at random...
         if (has_bionic("bio_heatsink") && blister_count < 500)
         {
-            blister_count = (has_trait(PF_BARK) ? -100 : 0);
+            blister_count = (has_trait("BARK") ? -100 : 0);
         }
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if (blister_count - 10*resist(body_part(i)) > 20)
@@ -865,23 +830,23 @@ void player::update_bodytemp(game *g)
         // MUTATIONS and TRAITS
         // Bark : lowers blister count to -100; harder to get blisters
         // Lightly furred
-        if (has_trait(PF_LIGHTFUR))
+        if (has_trait("LIGHTFUR"))
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
         }
         // Furry
-        if (has_trait(PF_FUR))
+        if (has_trait("FUR"))
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
         }
         // Disintergration
-        if (has_trait(PF_ROT1)) { temp_conv[i] -= 250;}
-        else if (has_trait(PF_ROT2)) { temp_conv[i] -= 750;}
-        else if (has_trait(PF_ROT3)) { temp_conv[i] -= 1500;}
+        if (has_trait("ROT1")) { temp_conv[i] -= 250;}
+        else if (has_trait("ROT2")) { temp_conv[i] -= 750;}
+        else if (has_trait("ROT3")) { temp_conv[i] -= 1500;}
         // Radioactive
-        if (has_trait(PF_RADIOACTIVE1)) { temp_conv[i] += 250; }
-        else if (has_trait(PF_RADIOACTIVE2)) { temp_conv[i] += 750; }
-        else if (has_trait(PF_RADIOACTIVE3)) { temp_conv[i] += 1500; }
+        if (has_trait("RADIOACTIVE1")) { temp_conv[i] += 250; }
+        else if (has_trait("RADIOACTIVE2")) { temp_conv[i] += 750; }
+        else if (has_trait("RADIOACTIVE3")) { temp_conv[i] += 1500; }
         // Chemical Imbalance
         // Added linse in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
@@ -1042,7 +1007,7 @@ int player::current_speed(game *g)
 // Minus some for weight...
  int carry_penalty = 0;
  if (weight_carried() > weight_capacity())
-  carry_penalty = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
+  carry_penalty = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
  newmoves -= carry_penalty;
 
  if (pain > pkill) {
@@ -1084,17 +1049,17 @@ int player::current_speed(game *g)
  for (int i = 0; i < illness.size(); i++)
   newmoves += disease_speed_boost(illness[i]);
 
- if (has_trait(PF_QUICK))
+ if (has_trait("QUICK"))
   newmoves = int(newmoves * 1.10);
 
  if (g != NULL) {
-  if (has_trait(PF_SUNLIGHT_DEPENDENT) && !g->is_in_sunlight(posx, posy))
+  if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy))
    newmoves -= (g->light_level() >= 12 ? 5 : 10);
-  if (has_trait(PF_COLDBLOOD3) && g->temperature < 60)
+  if (has_trait("COLDBLOOD3") && g->temperature < 60)
    newmoves -= int( (65 - g->temperature) / 2);
-  else if (has_trait(PF_COLDBLOOD2) && g->temperature < 60)
+  else if (has_trait("COLDBLOOD2") && g->temperature < 60)
    newmoves -= int( (65 - g->temperature) / 3);
-  else if (has_trait(PF_COLDBLOOD) && g->temperature < 60)
+  else if (has_trait("COLDBLOOD") && g->temperature < 60)
    newmoves -= int( (65 - g->temperature) / 5);
  }
 
@@ -1116,7 +1081,7 @@ int player::run_cost(int base_cost, bool diag)
         movecost *= 0.7071; // because everything here assumes 100 is base
     bool flatground = movecost < 105;
 
-    if (has_trait(PF_PARKOUR) && movecost > 100 ) {
+    if (has_trait("PARKOUR") && movecost > 100 ) {
         movecost *= .5;
         if (movecost < 100)
             movecost = 100;
@@ -1131,31 +1096,31 @@ int player::run_cost(int base_cost, bool diag)
     else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40)
         movecost += 25;
 
-    if (has_trait(PF_FLEET) && flatground)
+    if (has_trait("FLEET") && flatground)
         movecost *= .85;
-    if (has_trait(PF_FLEET2) && flatground)
+    if (has_trait("FLEET2") && flatground)
         movecost *= .7;
-    if (has_trait(PF_PADDED_FEET) && !wearing_something_on(bp_feet))
+    if (has_trait("PADDED_FEET") && !wearing_something_on(bp_feet))
         movecost *= .9;
-    if (has_trait(PF_LIGHT_BONES))
+    if (has_trait("LIGHT_BONES"))
         movecost *= .9;
-    if (has_trait(PF_HOLLOW_BONES))
+    if (has_trait("HOLLOW_BONES"))
         movecost *= .8;
-    if (has_trait(PF_WINGS_INSECT))
+    if (has_trait("WINGS_INSECT"))
         movecost -= 15;
-    if (has_trait(PF_LEG_TENTACLES))
+    if (has_trait("LEG_TENTACLES"))
         movecost += 20;
-    if (has_trait(PF_PONDEROUS1))
+    if (has_trait("PONDEROUS1"))
         movecost *= 1.1;
-    if (has_trait(PF_PONDEROUS2))
+    if (has_trait("PONDEROUS2"))
         movecost *= 1.2;
-    if (has_trait(PF_PONDEROUS3))
+    if (has_trait("PONDEROUS3"))
         movecost *= 1.3;
 
     movecost += encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
-    if (!wearing_something_on(bp_feet) && !has_trait(PF_PADDED_FEET) &&
-            !has_trait(PF_HOOVES))
+    if (!wearing_something_on(bp_feet) && !has_trait("PADDED_FEET") &&
+            !has_trait("HOOVES"))
         movecost += 15;
 
     if (diag)
@@ -1167,13 +1132,13 @@ int player::run_cost(int base_cost, bool diag)
 int player::swim_speed()
 {
   int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
- if (has_trait(PF_WEBBED))
+ if (has_trait("WEBBED"))
   ret -= 60 + str_cur * 5;
- if (has_trait(PF_TAIL_FIN))
+ if (has_trait("TAIL_FIN"))
   ret -= 100 + str_cur * 10;
- if (has_trait(PF_SLEEK_SCALES))
+ if (has_trait("SLEEK_SCALES"))
   ret -= 100;
- if (has_trait(PF_LEG_TENTACLES))
+ if (has_trait("LEG_TENTACLES"))
   ret -= 60;
  ret += (50 - skillLevel("swimming") * 2) * encumb(bp_legs);
  ret += (80 - skillLevel("swimming") * 3) * encumb(bp_torso);
@@ -1239,14 +1204,26 @@ void player::load_info(game *g, std::string data)
  controlling_vehicle = vctrl != 0;
  style_selected = styletmp;
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump >> my_traits[i];
+ std::string sTemp = "";
+ for (int i = 0; i < traits.size(); i++) {
+    dump >> sTemp;
+    if (sTemp == "TRAITS_END") {
+        break;
+    } else {
+        my_traits[sTemp] = true;
+    }
+ }
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump >> my_mutations[i];
+ for (int i = 0; i < traits.size(); i++) {
+    dump >> sTemp;
+    if (sTemp == "MUTATIONS_END") {
+        break;
+    } else {
+        my_mutations[sTemp] = true;
+    }
+ }
 
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  dump >> mutation_category_level[i];
+ set_highest_cat_level();
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
@@ -1364,12 +1341,22 @@ std::string player::save_info()
          " " << style_selected << " " << activity.save_info() << " " <<
          backlog.save_info() << " ";
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump << my_traits[i] << " ";
- for (int i = 0; i < PF_MAX2; i++)
-  dump << my_mutations[i] << " ";
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  dump << mutation_category_level[i] << " ";
+ for (std::map<std::string, bool>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
+    if (iter->second) {
+        dump << iter->first << " ";
+    }
+ }
+
+ dump << "TRAITS_END" << " ";
+
+ for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+    if (iter->second) {
+        dump << iter->first << " ";
+    }
+ }
+
+ dump << "MUTATIONS_END" << " ";
+
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
  for (int i = 0; i < num_bp; i++)
@@ -1431,7 +1418,7 @@ std::string player::save_info()
   dump << failed_missions[i] << " ";
 
  dump << std::endl;
- 
+
  dump << dump_memorial();
 
  dump << inv.save_str_no_quant();
@@ -1561,10 +1548,10 @@ void player::memorial( std::ofstream &memorial_file )
     //Traits
     memorial_file << _("Traits:") << "\n";
     bool had_trait = false;
-    for(int i = 1; i < PF_MAX2; i++) { //Don't start at i=0 or we get a 'null trait'
-      if(has_trait(i)) {
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+      if(has_trait(iter->first)) {
         had_trait = true;
-        memorial_file << indent << traits[i].name << "\n";
+        memorial_file << indent << traits[iter->first].name << "\n";
       }
     }
     if(!had_trait) {
@@ -1795,18 +1782,18 @@ void player::disp_info(game *g)
   effect_text.push_back(stim_text.str());
  }
 
- if ((has_trait(PF_TROGLO) && g->is_in_sunlight(posx, posy) &&
+ if ((has_trait("TROGLO") && g->is_in_sunlight(posx, posy) &&
       g->weather == WEATHER_SUNNY) ||
-     (has_trait(PF_TROGLO2) && g->is_in_sunlight(posx, posy) &&
+     (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy) &&
       g->weather != WEATHER_SUNNY)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you.\n\
 Strength - 1;    Dexterity - 1;    Intelligence - 1;    Dexterity - 1"));
- } else if (has_trait(PF_TROGLO2) && g->is_in_sunlight(posx, posy)) {
+ } else if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you badly.\n\
 Strength - 2;    Dexterity - 2;    Intelligence - 2;    Dexterity - 2"));
- } else if (has_trait(PF_TROGLO3) && g->is_in_sunlight(posx, posy)) {
+ } else if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you terribly.\n\
 Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
@@ -1829,13 +1816,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  int skill_win_size_y = 0;
  int infooffsetytop = 11;
  int infooffsetybottom = 15;
- std::vector<pl_flag> traitslist;
+ std::vector<std::string> traitslist;
 
  effect_win_size_y = effect_name.size()+1;
 
- for(int i = 0; i < PF_MAX2; i++) {
-  if(my_mutations[i]) {
-   traitslist.push_back(pl_flag(i));
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+  if(my_mutations[iter->first]) {
+   traitslist.push_back(iter->first);
   }
  }
 
@@ -2159,7 +2146,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  int pen = 0;
  line = 3;
  if (weight_carried() > weight_capacity()) {
-  pen = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
+  pen = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
   mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -2214,17 +2201,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
             (pen < 10 ? " " : ""), pen);
   line++;
  }
- if (has_trait(PF_SUNLIGHT_DEPENDENT) && !g->is_in_sunlight(posx, posy)) {
+ if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy)) {
   pen = (g->light_level() >= 12 ? 5 : 10);
   mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
- if ((has_trait(PF_COLDBLOOD) || has_trait(PF_COLDBLOOD2) ||
-      has_trait(PF_COLDBLOOD3)) && g->temperature < 65) {
-  if (has_trait(PF_COLDBLOOD3))
+ if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
+      has_trait("COLDBLOOD3")) && g->temperature < 65) {
+  if (has_trait("COLDBLOOD3"))
    pen = int( (65 - g->temperature) / 2);
-  else if (has_trait(PF_COLDBLOOD2))
+  else if (has_trait("COLDBLOOD2"))
    pen = int( (65 - g->temperature) / 3);
   else
    pen = int( (65 - g->temperature) / 2);
@@ -2245,7 +2232,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
    line++;
   }
  }
- if (has_trait(PF_QUICK)) {
+ if (has_trait("QUICK")) {
   pen = int(newmoves * .1);
   mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
@@ -2466,7 +2453,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
 
    for (int i = min; i < max; i++) {
     mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
-    if (traitslist[i] > PF_MAX2)
+    if (i > traits.size())
      status = c_ltblue;
     else if (traits[traitslist[i]].points > 0)
      status = c_ltgreen;
@@ -3040,71 +3027,100 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
  }
 }
 
-bool player::has_trait(int flag) const
+bool player::has_trait(std::string flag)
 {
- if (flag == PF_NULL)
-  return true;
- return my_mutations[flag]; //Looks for active mutations and traits
+    if (flag == "") {
+        return false;
+    }
+
+    return my_mutations[flag]; //Looks for active mutations and traits
 }
 
-bool player::has_base_trait(int flag) const
+bool player::has_base_trait(std::string flag)
 {
- if (flag == PF_NULL)
-  return true;
- return my_traits[flag]; //Looks only at base traits
+    if (flag == "") {
+        return false;
+    }
+
+    return my_traits[flag]; //Looks only at base traits
 }
 
-void player::toggle_trait(int flag)
+bool player::has_conflicting_trait(std::string flag)
 {
- my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player
- my_mutations[flag] = !my_mutations[flag]; //Toggles corresponding trait in mutations list as well.
+    if(g->mutation_data[flag].cancels.size() > 0) {
+        std::vector<std::string> cancels = g->mutation_data[flag].cancels;
+
+        for (int i = 0; i < cancels.size(); i++) {
+            if ( has_trait(cancels[i]) )
+                return true;
+        }
+    }
+
+    return false;
 }
 
-void player::toggle_mutation(int flag)
+void player::toggle_trait(std::string flag)
 {
- my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
+    my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player
+    my_mutations[flag] = !my_mutations[flag]; //Toggles corresponding trait in mutations list as well.
 }
 
-mutation_category player::get_highest_category() // Returns the mutation category with the highest strength
+void player::toggle_mutation(std::string flag)
 {
-	int level = 0;
-	mutation_category maxcat = MUTCAT_NULL;
-	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-	{
-		if (mutation_category_level[i] > level)
-		{
-			maxcat = mutation_category(i);
-			level = mutation_category_level[i];
+    my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
+}
+
+void player::set_cat_level_rec(std::string sMut)
+{
+    if (!has_base_trait(sMut)) { //Skip base traits
+        for (int i = 0; i < g->mutation_data[sMut].category.size(); i++) {
+            mutation_category_level[g->mutation_data[sMut].category[i]] += 8;
+        }
+
+        for (int i = 0; i < g->mutation_data[sMut].prereqs.size(); i++) {
+            set_cat_level_rec(g->mutation_data[sMut].prereqs[i]);
+        }
+    }
+}
+
+void player::set_highest_cat_level()
+{
+    mutation_category_level.clear();
+
+	// Loop through our mutations
+    for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        if (has_trait(iter->first)) {
+            set_cat_level_rec(iter->first);
+        }
+    }
+}
+
+std::string player::get_highest_category() // Returns the mutation category with the highest strength
+{
+    int iLevel = 0;
+	std::string sMaxCat = "";
+
+	for (std::map<std::string, int>::iterator iter = mutation_category_level.begin(); iter != mutation_category_level.end(); ++iter) {
+		if (mutation_category_level[iter->first] > iLevel) {
+			sMaxCat = iter->first;
+			iLevel = mutation_category_level[iter->first];
 		}
 	}
-	return maxcat;
+
+	return sMaxCat;
 }
 
-int player::get_category_level(mutation_category cat) // Returns the strength of a given mutation category
-{
-	int level = 0;
-	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-	{
-		if (mutation_category(i) == cat)
-		{
-			level = mutation_category_level[i];
-		}
-	}
-	return level;
-}
-
-std::string player::get_category_dream(mutation_category cat, int strength) // Returns a randomly selected dream
+std::string player::get_category_dream(std::string cat, int strength) // Returns a randomly selected dream
 {
 	std::string message;
 	std::vector<dream> valid_dreams;
 	dream selected_dream;
-	for (int i = 0; i < dreams.size(); i++) // Pull the list of dreams
-	{
-		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) // Pick only the ones matching our desired category and strength
-		{
+	for (int i = 0; i < dreams.size(); i++) { //Pull the list of dreams
+		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) { //Pick only the ones matching our desired category and strength
 			valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
 		}
 	}
+
 	int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
 	selected_dream = valid_dreams[index];
 	index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream
@@ -3261,13 +3277,13 @@ int player::sight_range(int light_level)
  int ret = light_level;
  if ( has_nv() && ret < 12)
   ret = 12;
- if (has_trait(PF_NIGHTVISION) && ret < 12)
+ if (has_trait("NIGHTVISION") && ret < 12)
   ret += 1;
- if (has_trait(PF_NIGHTVISION2) && ret < 12)
+ if (has_trait("NIGHTVISION2") && ret < 12)
   ret += 4;
- if (has_trait(PF_NIGHTVISION3) && ret < 12)
+ if (has_trait("NIGHTVISION3") && ret < 12)
   ret = 12;
- if (underwater && !has_bionic("bio_membrane") && !has_trait(PF_MEMBRANE) &&
+ if (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE") &&
      !is_wearing("goggles_swim"))
   ret = 1;
  if (has_disease("boomered"))
@@ -3276,7 +3292,7 @@ int player::sight_range(int light_level)
   ret = 1;
  if (has_disease("blind"))
   ret = 0;
- if (ret > 4 && has_trait(PF_MYOPIC) && !is_wearing("glasses_eye") &&
+ if (ret > 4 && has_trait("MYOPIC") && !is_wearing("glasses_eye") &&
      !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal"))
   ret = 4;
  return ret;
@@ -3321,9 +3337,9 @@ int player::clairvoyance()
 bool player::sight_impaired()
 {
  return has_disease("boomered") ||
-  (underwater && !has_bionic("bio_membrane") && !has_trait(PF_MEMBRANE)
+  (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE")
               && !is_wearing("goggles_swim")) ||
-  (has_trait(PF_MYOPIC) && !is_wearing("glasses_eye")
+  (has_trait("MYOPIC") && !is_wearing("glasses_eye")
                         && !is_wearing("glasses_monocle")
                         && !is_wearing("glasses_bifocal"));
 }
@@ -3343,7 +3359,7 @@ bool player::avoid_trap(trap* tr)
   traproll = dice(3, tr->avoidance);
  else
   traproll = dice(6, tr->avoidance);
- if (has_trait(PF_LIGHTSTEP))
+ if (has_trait("LIGHTSTEP"))
   myroll += dice(2, 6);
  if (myroll >= traproll)
   return true;
@@ -3458,7 +3474,7 @@ int player::read_speed(bool real_life)
 {
  int intel = (real_life ? int_cur : int_max);
  int ret = 1000 - 50 * (intel - 8);
- if (has_trait(PF_FASTREADER))
+ if (has_trait("FASTREADER"))
   ret *= .8;
  if (ret < 100)
   ret = 100;
@@ -3474,7 +3490,7 @@ int player::rust_rate(bool real_life)
     int intel = (real_life ? int_cur : int_max);
     int ret = ((OPTIONS["SKILL_RUST"] == "Vanilla" || OPTIONS["SKILL_RUST"] == "Capped") ? 500 : 500 - 35 * (intel - 8));
 
-    if (has_trait(PF_FORGETFUL)) {
+    if (has_trait("FORGETFUL")) {
         ret *= 1.33;
     }
 
@@ -3488,21 +3504,21 @@ int player::rust_rate(bool real_life)
 int player::talk_skill()
 {
     int ret = int_cur + per_cur + skillLevel("speech") * 3;
-    if (has_trait(PF_UGLY))
+    if (has_trait("UGLY"))
         ret -= 3;
-    else if (has_trait(PF_DEFORMED))
+    else if (has_trait("DEFORMED"))
         ret -= 6;
-    else if (has_trait(PF_DEFORMED2))
+    else if (has_trait("DEFORMED2"))
         ret -= 12;
-    else if (has_trait(PF_DEFORMED3))
+    else if (has_trait("DEFORMED3"))
         ret -= 18;
-    else if (has_trait(PF_PRETTY))
+    else if (has_trait("PRETTY"))
         ret += 1;
-    else if (has_trait(PF_BEAUTIFUL))
+    else if (has_trait("BEAUTIFUL"))
         ret += 2;
-    else if (has_trait(PF_BEAUTIFUL2))
+    else if (has_trait("BEAUTIFUL2"))
         ret += 4;
-    else if (has_trait(PF_BEAUTIFUL3))
+    else if (has_trait("BEAUTIFUL3"))
         ret += 6;
     return ret;
 }
@@ -3514,13 +3530,13 @@ int player::intimidation()
   ret += 10;
  if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12)
   ret += 5;
- if (has_trait(PF_DEFORMED2))
+ if (has_trait("DEFORMED2"))
   ret += 3;
- else if (has_trait(PF_DEFORMED3))
+ else if (has_trait("DEFORMED3"))
   ret += 6;
- else if (has_trait(PF_PRETTY))
+ else if (has_trait("PRETTY"))
   ret -= 1;
- else if (has_trait(PF_BEAUTIFUL) || has_trait(PF_BEAUTIFUL2) || has_trait(PF_BEAUTIFUL3))
+ else if (has_trait("BEAUTIFUL") || has_trait("BEAUTIFUL2") || has_trait("BEAUTIFUL3"))
   ret -= 4;
  if (stim > 20)
   ret += 2;
@@ -3584,7 +3600,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   }
  }
 
- if (has_trait(PF_PAINRESIST))
+ if (has_trait("PAINRESIST"))
   painadd = (sqrt(double(cut)) + dam + cut) / (rng(4, 6));
  else
   painadd = (sqrt(double(cut)) + dam + cut) / 4;
@@ -3647,7 +3663,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  default:
   debugmsg("Wacky body part hit!");
  }
- if (has_trait(PF_ADRENALINE) && !has_disease("adrenaline") &&
+ if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease("adrenaline", 200);
 
@@ -3669,7 +3685,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  if (!is_npc())
   g->cancel_activity_query(_("You were hurt!"));
 
- if (has_trait(PF_PAINRESIST))
+ if (has_trait("PAINRESIST"))
   painadd = dam / 3;
  else
   painadd = dam / 2;
@@ -3718,7 +3734,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  default:
   debugmsg("Wacky body part hurt!");
  }
- if (has_trait(PF_ADRENALINE) && !has_disease("adrenaline") &&
+ if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease("adrenaline", 200);
 }
@@ -3787,7 +3803,7 @@ void player::hurtall(int dam)
   hp_cur[i] -= dam;
    if (hp_cur[i] < 0)
      hp_cur[i] = 0;
-  if (has_trait(PF_PAINRESIST))
+  if (has_trait("PAINRESIST"))
    painadd = dam / 3;
   else
    painadd = dam / 2;
@@ -3811,7 +3827,7 @@ void player::hitall(game *g, int dam, int vary)
   hp_cur[i] -= ddam;
    if (hp_cur[i] < 0)
      hp_cur[i] = 0;
-  if (has_trait(PF_PAINRESIST))
+  if (has_trait("PAINRESIST"))
    painadd = dam / 3 / 4;
   else
    painadd = dam / 2 / 4;
@@ -3903,16 +3919,16 @@ void player::recalc_hp()
     for (int i = 0; i < num_hp_parts; i++)
     {
         new_max_hp[i] = 60 + str_max * 3;
-        if (has_trait(PF_TOUGH))
+        if (has_trait("TOUGH"))
         {
             new_max_hp[i] *= 1.2;
         }
-        if (has_trait(PF_HARDCORE))
+        if (has_trait("HARDCORE"))
         {
             new_max_hp[i] *= 0.25;
         }
     }
-    if (has_trait(PF_GLASSJAW))
+    if (has_trait("GLASSJAW"))
     {
         new_max_hp[hp_head] *= 0.8;
     }
@@ -3935,11 +3951,11 @@ void player::get_sick(game *g)
  if (g->debugmon)
   debugmsg("Health: %d", health);
 
- if (has_trait(PF_DISIMMUNE))
+ if (has_trait("DISIMMUNE"))
   return;
 
  if (!has_disease("flu") && !has_disease("common_cold") &&
-     one_in(900 + 10 * health + (has_trait(PF_DISRESISTANT) ? 300 : 0))) {
+     one_in(900 + 10 * health + (has_trait("DISRESISTANT") ? 300 : 0))) {
   if (one_in(6))
    infect("flu", bp_mouth, 3, rng(40000, 80000), g);
   else
@@ -4020,7 +4036,7 @@ void player::add_addiction(add_type type, int strength)
  if (type == ADD_NULL)
   return;
  int timer = 1200;
- if (has_trait(PF_ADDICTIVE)) {
+ if (has_trait("ADDICTIVE")) {
   strength = int(strength * 1.5);
   timer = 800;
  }
@@ -4100,7 +4116,7 @@ void player::suffer(game *g)
     }
     if (underwater)
     {
-        if (!has_trait(PF_GILLS))
+        if (!has_trait("GILLS"))
         {
             oxygen--;
         }
@@ -4136,16 +4152,24 @@ void player::suffer(game *g)
     {
         if (weight_carried() > weight_capacity())
         {
-            // one in 11 with it reducing by 1 for every additional 20%, occurs constantly at 300%
-            // " + 1" is so that the shift occurs on the 20% instead of above it
-            if (one_in(10 - ((weight_carried() + 1) / (weight_capacity() / 5) - 7)) )
-            {
+            // Starts at 1 in 25, goes down by 5 for every 50% more carried
+            if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))){
                 g->add_msg_if_player(this,"Your body strains under the weight!");
-                pain += 1;
+                // 1 more pain for every 800 grams more (5 per extra STR needed)
+                if ( (weight_carried() - weight_capacity()) / 800 > pain && pain < 100) {
+                    pain += 1;
+                }
+            }
+        }
+        if (weight_carried() > 4 * weight_capacity()) {
+            if (has_disease("downed")) {
+                add_disease("downed", 1);
+            } else {
+                add_disease("downed", 2);
             }
         }
         int timer = -3600;
-        if (has_trait(PF_ADDICTIVE))
+        if (has_trait("ADDICTIVE"))
         {
             timer = -4000;
         }
@@ -4176,7 +4200,7 @@ void player::suffer(game *g)
                 }
             }
         }
-        if (has_trait(PF_CHEMIMBALANCE))
+        if (has_trait("CHEMIMBALANCE"))
         {
             if (one_in(3600))
             {
@@ -4274,7 +4298,7 @@ void player::suffer(game *g)
                 }
             }
         }
-        if ((has_trait(PF_SCHIZOPHRENIC) || has_artifact_with(AEP_SCHIZO)) &&
+        if ((has_trait("SCHIZOPHRENIC") || has_artifact_with(AEP_SCHIZO)) &&
             one_in(2400))
         { // Every 4 hours or so
             monster phantasm;
@@ -4334,32 +4358,32 @@ void player::suffer(game *g)
                     break;
             }
         }
-  if (has_trait(PF_JITTERY) && !has_disease("shakes")) {
+  if (has_trait("JITTERY") && !has_disease("shakes")) {
    if (stim > 50 && one_in(300 - stim))
     add_disease("shakes", 300 + stim);
    else if (hunger > 80 && one_in(500 - hunger))
     add_disease("shakes", 400);
   }
 
-  if (has_trait(PF_MOODSWINGS) && one_in(3600)) {
+  if (has_trait("MOODSWINGS") && one_in(3600)) {
    if (rng(1, 20) > 9)	// 55% chance
     add_morale(MORALE_MOODSWING, -100, -500);
    else			// 45% chance
     add_morale(MORALE_MOODSWING, 100, 500);
   }
 
-  if (has_trait(PF_VOMITOUS) && one_in(4200))
+  if (has_trait("VOMITOUS") && one_in(4200))
    vomit(g);
 
-  if (has_trait(PF_SHOUT1) && one_in(3600))
+  if (has_trait("SHOUT1") && one_in(3600))
    g->sound(posx, posy, 10 + 2 * str_cur, _("You shout loudly!"));
-  if (has_trait(PF_SHOUT2) && one_in(2400))
+  if (has_trait("SHOUT2") && one_in(2400))
    g->sound(posx, posy, 15 + 3 * str_cur, _("You scream loudly!"));
-  if (has_trait(PF_SHOUT3) && one_in(1800))
+  if (has_trait("SHOUT3") && one_in(1800))
    g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
  }	// Done with while-awake-only effects
 
- if (has_trait(PF_ASTHMA) && one_in(3600 - stim * 50)) {
+ if (has_trait("ASTHMA") && one_in(3600 - stim * 50)) {
   bool auto_use = has_charges("inhaler", 1);
   if (underwater) {
    oxygen = int(oxygen / 2);
@@ -4379,19 +4403,19 @@ void player::suffer(game *g)
   }
  }
 
- if (has_trait(PF_LEAVES) && g->is_in_sunlight(posx, posy) && one_in(600))
+ if (has_trait("LEAVES") && g->is_in_sunlight(posx, posy) && one_in(600))
   hunger--;
 
  if (pain > 0) {
-  if (has_trait(PF_PAINREC1) && one_in(600))
+  if (has_trait("PAINREC1") && one_in(600))
    pain--;
-  if (has_trait(PF_PAINREC2) && one_in(300))
+  if (has_trait("PAINREC2") && one_in(300))
    pain--;
-  if (has_trait(PF_PAINREC3) && one_in(150))
+  if (has_trait("PAINREC3") && one_in(150))
    pain--;
  }
 
- if (has_trait(PF_ALBINO) && g->is_in_sunlight(posx, posy) && one_in(20)) {
+ if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(20)) {
   g->add_msg(_("The sunlight burns your skin!"));
   if (has_disease("sleep")) {
    rem_disease("sleep");
@@ -4400,60 +4424,60 @@ void player::suffer(game *g)
   hurtall(1);
  }
 
- if ((has_trait(PF_TROGLO) || has_trait(PF_TROGLO2)) &&
+ if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
      g->is_in_sunlight(posx, posy) && g->weather == WEATHER_SUNNY) {
   str_cur--;
   dex_cur--;
   int_cur--;
   per_cur--;
  }
- if (has_trait(PF_TROGLO2) && g->is_in_sunlight(posx, posy)) {
+ if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
   str_cur--;
   dex_cur--;
   int_cur--;
   per_cur--;
  }
- if (has_trait(PF_TROGLO3) && g->is_in_sunlight(posx, posy)) {
+ if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
   str_cur -= 4;
   dex_cur -= 4;
   int_cur -= 4;
   per_cur -= 4;
  }
 
- if (has_trait(PF_SORES)) {
+ if (has_trait("SORES")) {
   for (int i = bp_head; i < num_bp; i++) {
    if (pain < 5 + 4 * abs(encumb(body_part(i))))
     pain = 5 + 4 * abs(encumb(body_part(i)));
   }
  }
 
- if (has_trait(PF_SLIMY) && !in_vehicle) {
+ if (has_trait("SLIMY") && !in_vehicle) {
    g->m.add_field(g, posx, posy, fd_slime, 1);
  }
 
- if (has_trait(PF_WEB_WEAVER) && !in_vehicle && one_in(3)) {
+ if (has_trait("WEB_WEAVER") && !in_vehicle && one_in(3)) {
    g->m.add_field(g, posx, posy, fd_web, 1); //this adds density to if its not already there.
  }
 
- if (has_trait(PF_RADIOGENIC) && int(g->turn) % 50 == 0 && radiation >= 10) {
+ if (has_trait("RADIOGENIC") && int(g->turn) % 50 == 0 && radiation >= 10) {
   radiation -= 10;
   healall(1);
  }
 
- if (has_trait(PF_RADIOACTIVE1)) {
+ if (has_trait("RADIOACTIVE1")) {
   if (g->m.radiation(posx, posy) < 10 && one_in(50))
    g->m.radiation(posx, posy)++;
  }
- if (has_trait(PF_RADIOACTIVE2)) {
+ if (has_trait("RADIOACTIVE2")) {
   if (g->m.radiation(posx, posy) < 20 && one_in(25))
    g->m.radiation(posx, posy)++;
  }
- if (has_trait(PF_RADIOACTIVE3)) {
+ if (has_trait("RADIOACTIVE3")) {
   if (g->m.radiation(posx, posy) < 30 && one_in(10))
    g->m.radiation(posx, posy)++;
  }
 
- if (has_trait(PF_UNSTABLE) && one_in(28800))	// Average once per 2 days
+ if (has_trait("UNSTABLE") && one_in(28800))	// Average once per 2 days
   mutate(g);
  if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800))
   mutate(g);
@@ -4600,11 +4624,11 @@ void player::mend(game *g)
    }
 
    // Mutagenic healing factor!
-   if(has_trait(PF_REGEN)) {
+   if(has_trait("REGEN")) {
     healing_factor *= 16.0;
-   } else if (has_trait(PF_FASTHEALER2)) {
+   } else if (has_trait("FASTHEALER2")) {
     healing_factor *= 4.0;
-   } else if (has_trait(PF_FASTHEALER)) {
+   } else if (has_trait("FASTHEALER")) {
     healing_factor *= 2.0;
    }
 
@@ -4702,11 +4726,11 @@ int player::weight_capacity(bool real_life)
 {
  int str = (real_life ? str_cur : str_max);
  int ret = 13000 + str * 4000;
- if (has_trait(PF_BADBACK))
+ if (has_trait("BADBACK"))
   ret = int(ret * .65);
- if (has_trait(PF_LIGHT_BONES))
+ if (has_trait("LIGHT_BONES"))
   ret = int(ret * .80);
- if (has_trait(PF_HOLLOW_BONES))
+ if (has_trait("HOLLOW_BONES"))
   ret = int(ret * .60);
  if (has_artifact_with(AEP_CARRY_MORE))
   ret += 22500;
@@ -4723,9 +4747,9 @@ int player::volume_capacity()
  }
  if (has_bionic("bio_storage"))
   ret += 6;
- if (has_trait(PF_SHELL))
+ if (has_trait("SHELL"))
   ret += 16;
- if (has_trait(PF_PACKMULE))
+ if (has_trait("PACKMULE"))
   ret = int(ret * 1.4);
  return ret;
 }
@@ -4818,7 +4842,7 @@ int player::net_morale(morale_point effect)
 
     // Optimistic characters focus on the good things in life,
     // and downplay the bad things.
-    if (has_trait(PF_OPTIMISTIC))
+    if (has_trait("OPTIMISTIC"))
     {
         if (bonus >= 0)
         {
@@ -5865,7 +5889,7 @@ bool player::eat(game *g, signed char ch)
             return false;
             }
         }
-        bool overeating = (!has_trait(PF_GOURMAND) && hunger < 0 &&
+        bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                            comest->nutr >= 5);
         bool spoiled = eaten->rotten(g);
 
@@ -5875,16 +5899,16 @@ bool player::eat(game *g, signed char ch)
                 !query_yn(_("You're full.  Force yourself to eat?")))
             return false;
 
-        if (has_trait(PF_CARNIVORE) && eaten->made_of("veggy") && comest->nutr > 0)
+        if (has_trait("CARNIVORE") && eaten->made_of("veggy") && comest->nutr > 0)
         {
             g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
             return false;
         }
-        if (!has_trait(PF_CANNIBAL) && eaten->made_of("hflesh")&& !is_npc() &&
+        if (!has_trait("CANNIBAL") && eaten->made_of("hflesh")&& !is_npc() &&
                 !query_yn(_("The thought of eating that makes you feel sick. Really do it?")))
             return false;
 
-        if (has_trait(PF_VEGETARIAN) && eaten->made_of("flesh") && !is_npc() &&
+        if (has_trait("VEGETARIAN") && eaten->made_of("flesh") && !is_npc() &&
                 !query_yn(_("Really eat that meat? Your stomach won't be happy.")))
             return false;
 
@@ -5892,15 +5916,15 @@ bool player::eat(game *g, signed char ch)
         {
             if (is_npc())
                 return false;
-            if (!has_trait(PF_SAPROVORE) &&
+            if (!has_trait("SAPROVORE") &&
                     !query_yn(_("This %s smells awful!  Eat it?"), eaten->tname(g).c_str()))
                 return false;
             g->add_msg(_("Ick, this %s doesn't taste so good..."),eaten->tname(g).c_str());
-            if (!has_trait(PF_SAPROVORE) && (!has_bionic("bio_digestion") || one_in(3)))
+            if (!has_trait("SAPROVORE") && (!has_bionic("bio_digestion") || one_in(3)))
                 add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
             hunger -= rng(0, comest->nutr);
             thirst -= comest->quench;
-            if (!has_trait(PF_SAPROVORE) && !has_bionic("bio_digestion"))
+            if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion"))
                 health -= 3;
         }
         else
@@ -5909,7 +5933,7 @@ bool player::eat(game *g, signed char ch)
             thirst -= comest->quench;
             if (has_bionic("bio_digestion"))
                 hunger -= rng(0, comest->nutr);
-            else if (!has_trait(PF_GOURMAND))
+            else if (!has_trait("GOURMAND"))
             {
                 if ((overeating && rng(-200, 0) > hunger))
                     vomit(g);
@@ -5917,7 +5941,7 @@ bool player::eat(game *g, signed char ch)
             health += comest->healthy;
         }
         // At this point, we've definitely eaten the item, so use up some turns.
-        if (has_trait(PF_GOURMAND))
+        if (has_trait("GOURMAND"))
             moves -= 150;
         else
             moves -= 250;
@@ -5965,7 +5989,7 @@ bool player::eat(game *g, signed char ch)
             charge_power(rng(1, 4));
 
         if (eaten->made_of("hflesh")) {
-          if (has_trait(PF_CANNIBAL)) {
+          if (has_trait("CANNIBAL")) {
               g->add_msg_if_player(this, _("You feast upon the human flesh."));
               add_morale(MORALE_CANNIBAL, 15, 100);
           } else {
@@ -5973,12 +5997,12 @@ bool player::eat(game *g, signed char ch)
               add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
           }
         }
-        if (has_trait(PF_VEGETARIAN) && (eaten->made_of("flesh") || eaten->made_of("hflesh")))
+        if (has_trait("VEGETARIAN") && (eaten->made_of("flesh") || eaten->made_of("hflesh")))
         {
             g->add_msg_if_player(this,_("Almost instantly you feel a familiar pain in your stomach"));
             add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
         }
-        if ((has_trait(PF_HERBIVORE) || has_trait(PF_RUMINANT)) &&
+        if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
                 eaten->made_of("flesh"))
         {
             if (!one_in(3))
@@ -5990,7 +6014,7 @@ bool player::eat(game *g, signed char ch)
         }
         if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT"))
             add_morale(MORALE_FOOD_HOT, 5, 10);
-        if (has_trait(PF_GOURMAND))
+        if (has_trait("GOURMAND"))
         {
             if (comest->fun < -2)
                 add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
@@ -6214,41 +6238,41 @@ hint_rating player::rate_action_wear(item *it)
  if (count == 2) {
   return HINT_IFFY;
  }
- if (has_trait(PF_WOOLALLERGY) && it->made_of("wool")) {
+ if (has_trait("WOOLALLERGY") && it->made_of("wool")) {
   return HINT_IFFY; //should this be HINT_CANT? I kinda think not, because HINT_CANT is more for things that can NEVER happen
  }
  if (armor->covers & mfb(bp_head) && encumb(bp_head) != 0) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_hands) && has_trait(PF_WEBBED)) {
+ if (armor->covers & mfb(bp_hands) && has_trait("WEBBED")) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_hands) && has_trait(PF_TALONS)) {
+ if (armor->covers & mfb(bp_hands) && has_trait("TALONS")) {
   return HINT_IFFY;
  }
- if ( armor->covers & mfb(bp_hands) && (has_trait(PF_ARM_TENTACLES)
-        || has_trait(PF_ARM_TENTACLES_4) || has_trait(PF_ARM_TENTACLES_8)) ) {
+ if ( armor->covers & mfb(bp_hands) && (has_trait("ARM_TENTACLES")
+        || has_trait("ARM_TENTACLES_4") || has_trait("ARM_TENTACLES_8")) ) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_mouth) && has_trait(PF_BEAK)) {
+ if (armor->covers & mfb(bp_mouth) && has_trait("BEAK")) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_feet) && has_trait(PF_HOOVES)) {
+ if (armor->covers & mfb(bp_feet) && has_trait("HOOVES")) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_feet) && has_trait(PF_LEG_TENTACLES)) {
+ if (armor->covers & mfb(bp_feet) && has_trait("LEG_TENTACLES")) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED)) {
+ if (armor->covers & mfb(bp_head) && has_trait("HORNS_CURLED")) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_torso) && has_trait(PF_SHELL)) {
+ if (armor->covers & mfb(bp_torso) && has_trait("SHELL")) {
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_head) && !it->made_of("wool") &&
      !it->made_of("cotton") && !it->made_of("leather") &&
-     (has_trait(PF_HORNS_POINTED) || has_trait(PF_ANTENNAE) ||
-      has_trait(PF_ANTLERS))) {
+     (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") ||
+      has_trait("ANTLERS"))) {
   return HINT_IFFY;
  }
  // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
@@ -6412,7 +6436,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (has_trait(PF_WOOLALLERGY) && to_wear->made_of("wool"))
+        if (has_trait("WOOLALLERGY") && to_wear->made_of("wool"))
         {
             if(interactive)
             {
@@ -6430,7 +6454,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_hands) && has_trait(PF_WEBBED))
+        if (armor->covers & mfb(bp_hands) && has_trait("WEBBED"))
         {
             if(interactive)
             {
@@ -6439,7 +6463,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if ( armor->covers & mfb(bp_hands) && (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) || has_trait(PF_ARM_TENTACLES_8)) )
+        if ( armor->covers & mfb(bp_hands) && (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") || has_trait("ARM_TENTACLES_8")) )
         {
             if(interactive)
             {
@@ -6448,7 +6472,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_hands) && has_trait(PF_TALONS))
+        if (armor->covers & mfb(bp_hands) && has_trait("TALONS"))
         {
             if(interactive)
             {
@@ -6457,7 +6481,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_mouth) && has_trait(PF_BEAK))
+        if (armor->covers & mfb(bp_mouth) && has_trait("BEAK"))
         {
             if(interactive)
             {
@@ -6466,7 +6490,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_feet) && has_trait(PF_HOOVES))
+        if (armor->covers & mfb(bp_feet) && has_trait("HOOVES"))
         {
             if(interactive)
             {
@@ -6475,7 +6499,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_feet) && has_trait(PF_LEG_TENTACLES))
+        if (armor->covers & mfb(bp_feet) && has_trait("LEG_TENTACLES"))
         {
             if(interactive)
             {
@@ -6484,7 +6508,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED))
+        if (armor->covers & mfb(bp_head) && has_trait("HORNS_CURLED"))
         {
             if(interactive)
             {
@@ -6493,7 +6517,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_torso) && has_trait(PF_SHELL))
+        if (armor->covers & mfb(bp_torso) && has_trait("SHELL"))
         {
             if(interactive)
             {
@@ -6502,17 +6526,11 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_head) && !to_wear->made_of("wool") && !to_wear->made_of("cotton") && !to_wear->made_of("leather") && (has_trait(PF_HORNS_POINTED) || has_trait(PF_ANTENNAE) || has_trait(PF_ANTLERS)))
+        if (armor->covers & mfb(bp_head) && !to_wear->made_of("wool") && !to_wear->made_of("cotton") && !to_wear->made_of("leather") && (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS")))
         {
             if(interactive)
             {
-                if (has_trait(PF_HORNS_POINTED)) {
-                    g->add_msg(_("You cannot wear a helmet over your horns."));
-                } else if (has_trait(PF_ANTENNAE)) {
-                    g->add_msg(_("You cannot wear a helmet over your antennae."));
-                } else {
-                    g->add_msg(_("You cannot wear a helmet over your antlers."));
-                }
+                g->add_msg(_("You cannot wear a helmet over your %s."), (has_trait("HORNS_POINTED") ? _("horns") : (has_trait("ANTENNAE") ? _("antennae") : _("antlers"))));
             }
             return false;
         }
@@ -6678,7 +6696,7 @@ void player::sort_armor(game *g)
 
     // Prevent calling newwin with negative Y offset
     if (iCenterOffsetY < 0){
-        worn_win_y += iCenterOffsetY;
+        worn_win_y = TERMY - 7;
         iCenterOffsetY = 0;
     }
 
@@ -6812,6 +6830,9 @@ void player::sort_armor(game *g)
                 mvwprintz(w_all_worn, i+3, iCol1WinX-4, dam_color[int(worn[j].damage + 1)], "%2d", int(each_armor->storage));
             }
             mvwprintz(w_all_worn, wornDisplayed + 3, 1, c_ltgray, _("(Outermost)"));
+
+            if (wornDisplayed < worn.size()) // Show flag if list is scollable
+                mvwprintz(w_all_worn, wornDisplayed + 3, iCol1WinX-8, c_yellow, _("<more>"));
 
             werase(w_torso_worn);
             werase(w_eyes_worn);
@@ -7392,9 +7413,9 @@ hint_rating player::rate_action_read(item *it, game *g)
   return HINT_IFFY;
  } else if (morale_level() < MIN_MORALE_READ &&  book->fun <= 0) {
   return HINT_IFFY; //won't read non-fun books when sad
- } else if (book->intel > 0 && has_trait(PF_ILLITERATE)) {
+ } else if (book->intel > 0 && has_trait("ILLITERATE")) {
   return HINT_IFFY;
- } else if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")
+ } else if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
             && !is_wearing("glasses_bifocal")) {
   return HINT_IFFY;
  }
@@ -7420,7 +7441,7 @@ void player::read(game *g, char ch)
     }
 
     // check for traits
-    if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")
+    if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
         && !is_wearing("glasses_bifocal"))
     {
         g->add_msg(_("Your eyes won't focus without reading glasses."));
@@ -7468,7 +7489,7 @@ void player::read(game *g, char ch)
 
     it_book* tmp = dynamic_cast<it_book*>(it->type);
     int time; //Declare this here so that we can change the time depending on whats needed
-    if (tmp->intel > 0 && has_trait(PF_ILLITERATE))
+    if (tmp->intel > 0 && has_trait("ILLITERATE"))
     {
         g->add_msg(_("You're illiterate!"));
         return;
@@ -7615,7 +7636,7 @@ bool player::can_sleep(game *g)
  int sleepy = 0;
  if (has_addiction(ADD_SLEEP))
   sleepy -= 3;
- if (has_trait(PF_INSOMNIA))
+ if (has_trait("INSOMNIA"))
   sleepy -= 8;
 
  int vpart = -1;
@@ -7678,9 +7699,9 @@ float player::fine_detail_vision_mod(game *g)
         vision_ii -= 3.5;
     }
 
-    if (has_trait(PF_NIGHTVISION)) { vision_ii -= .5; }
-    else if (has_trait(PF_NIGHTVISION2)) { vision_ii -= 1.5; }
-    else if (has_trait(PF_NIGHTVISION3))	{ vision_ii -= 2.5; }
+    if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
+    else if (has_trait("NIGHTVISION2")) { vision_ii -= 1.5; }
+    else if (has_trait("NIGHTVISION3"))	{ vision_ii -= 2.5; }
 
     if (vision_ii < 1)	{ vision_ii = 1; }
     return vision_ii;
@@ -7777,15 +7798,15 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
     if( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth ) {
         ret += 1;
     }
-    if( has_trait(PF_CHITIN3) && bp != bp_eyes && bp != bp_mouth ) {
+    if( has_trait("CHITIN3") && bp != bp_eyes && bp != bp_mouth ) {
         ret += 1;
     }
-    if( has_trait(PF_SLIT_NOSTRILS) && bp == bp_mouth ) {
+    if( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
         ret += 1;
     }
     if (bp == bp_hands &&
-        (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
-         has_trait(PF_ARM_TENTACLES_8)) ) {
+        (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
+         has_trait("ARM_TENTACLES_8")) ) {
         ret += 3;
     }
     return ret;
@@ -7810,11 +7831,11 @@ int player::armor_bash(body_part bp)
   ret += 3;
  else if (bp == bp_legs && has_bionic("bio_armor_legs"))
   ret += 3;
- if (has_trait(PF_FUR))
+ if (has_trait("FUR"))
   ret++;
- if (has_trait(PF_CHITIN))
+ if (has_trait("CHITIN"))
   ret += 2;
- if (has_trait(PF_SHELL) && bp == bp_torso)
+ if (has_trait("SHELL") && bp == bp_torso)
   ret += 6;
  ret += rng(0, disease_intensity("armor_boost"));
  return ret;
@@ -7839,21 +7860,21 @@ int player::armor_cut(body_part bp)
   ret += 3;
  else if (bp == bp_legs && has_bionic("bio_armor_legs"))
   ret += 3;
- if (has_trait(PF_THICKSKIN))
+ if (has_trait("THICKSKIN"))
   ret++;
- if (has_trait(PF_SCALES))
+ if (has_trait("SCALES"))
   ret += 2;
- if (has_trait(PF_THICK_SCALES))
+ if (has_trait("THICK_SCALES"))
   ret += 4;
- if (has_trait(PF_SLEEK_SCALES))
+ if (has_trait("SLEEK_SCALES"))
   ret += 1;
- if (has_trait(PF_CHITIN))
+ if (has_trait("CHITIN"))
   ret += 2;
- if (has_trait(PF_CHITIN2))
+ if (has_trait("CHITIN2"))
   ret += 4;
- if (has_trait(PF_CHITIN3))
+ if (has_trait("CHITIN3"))
   ret += 8;
- if (has_trait(PF_SHELL) && bp == bp_torso)
+ if (has_trait("SHELL") && bp == bp_torso)
   ret += 14;
  ret += rng(0, disease_intensity("armor_boost"));
  return ret;
@@ -7998,39 +8019,39 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         dam -= 3;
         cut -= 3;
     }
-    if (has_trait(PF_THICKSKIN))
+    if (has_trait("THICKSKIN"))
         cut--;
-    if (has_trait(PF_SCALES))
+    if (has_trait("SCALES"))
         cut -= 2;
-    if (has_trait(PF_THICK_SCALES))
+    if (has_trait("THICK_SCALES"))
         cut -= 4;
-    if (has_trait(PF_SLEEK_SCALES))
+    if (has_trait("SLEEK_SCALES"))
         cut -= 1;
-    if (has_trait(PF_FEATHERS))
+    if (has_trait("FEATHERS"))
         dam--;
-    if (has_trait(PF_FUR))
+    if (has_trait("FUR"))
         dam--;
-    if (has_trait(PF_CHITIN))
+    if (has_trait("CHITIN"))
         cut -= 2;
-    if (has_trait(PF_CHITIN2))
+    if (has_trait("CHITIN2"))
     {
         dam--;
         cut -= 4;
     }
-    if (has_trait(PF_CHITIN3))
+    if (has_trait("CHITIN3"))
     {
         dam -= 2;
         cut -= 8;
     }
-    if (has_trait(PF_PLANTSKIN))
+    if (has_trait("PLANTSKIN"))
         dam--;
-    if (has_trait(PF_BARK))
+    if (has_trait("BARK"))
         dam -= 2;
-    if (bp == bp_feet && has_trait(PF_HOOVES))
+    if (bp == bp_feet && has_trait("HOOVES"))
         cut--;
-    if (has_trait(PF_LIGHT_BONES))
+    if (has_trait("LIGHT_BONES"))
         dam *= 1.4;
-    if (has_trait(PF_HOLLOW_BONES))
+    if (has_trait("HOLLOW_BONES"))
         dam *= 1.8;
     if (dam < 0)
         dam = 0;
@@ -8090,7 +8111,7 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
 int player::adjust_for_focus(int amount)
 {
     int effective_focus = focus_pool;
-    if (has_trait(PF_FASTLEARNER))
+    if (has_trait("FASTLEARNER"))
     {
         effective_focus += 15;
     }
@@ -8117,7 +8138,7 @@ void player::practice (const calendar& turn, Skill *s, int amount)
         }
     }
 
-    bool isSavant = has_trait(PF_SAVANT);
+    bool isSavant = has_trait("SAVANT");
 
     Skill *savantSkill = NULL;
     SkillLevel savantSkillLevel = SkillLevel();

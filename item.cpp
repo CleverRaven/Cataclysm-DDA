@@ -472,7 +472,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   if (corpse != NULL &&
     ( debug == true ||
       ( g != NULL &&
-        ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait(PF_CARNIVORE) || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
+        ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait("CARNIVORE") || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
       )
     )
   ) {
@@ -813,7 +813,7 @@ nc_color item::color(player *u) const
  } else if (is_book()) {
   it_book* tmp = dynamic_cast<it_book*>(type);
   if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
-      (tmp->intel == 0 || !u->has_trait(PF_ILLITERATE)) &&
+      (tmp->intel == 0 || !u->has_trait("ILLITERATE")) &&
       (u->skillLevel(tmp->type) >= (int)tmp->req) &&
       (u->skillLevel(tmp->type) < (int)tmp->level))
    ret = c_ltblue;
@@ -872,7 +872,7 @@ std::string item::tname(game *g)
   burntext = rm_prefix(_("<burnt_adj>burnt "));
 
  std::string maintext = "";
- if (corpse != NULL) {
+ if (corpse != NULL && typeId() == "corpse" ) {
   if (name != "")
    maintext = rmp_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
   else maintext = rmp_format(_("<item_name>%s corpse"), corpse->name.c_str());
@@ -949,7 +949,7 @@ nc_color item::color() const
 {
  if( is_null() )
   return c_black;
- if ( corpse != NULL ) {
+ if ( corpse != NULL && typeId() == "corpse" ) {
     return corpse->color;
  }
  return type->color;
@@ -969,7 +969,7 @@ int item::price() const
 // MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {
-    if (corpse != NULL) {
+    if (corpse != NULL && typeId() == "corpse" ) {
         int ret = 0;
         switch (corpse->size) {
             case MS_TINY:   ret =   1000;  break;
@@ -1022,7 +1022,7 @@ int item::weight() const
 
 int item::volume() const
 {
- if (corpse != NULL) {
+ if (corpse != NULL && typeId() == "corpse" ) {
   switch (corpse->size) {
    case MS_TINY:   return   2;
    case MS_SMALL:  return  40;
@@ -1410,7 +1410,7 @@ bool item::made_of(std::string mat_ident) const
  if( is_null() )
   return false;
 
- if (corpse != NULL)
+ if (corpse != NULL && typeId() == "corpse" )
   return (corpse->mat == mat_ident);
 
     return (type->m1 == mat_ident || type->m2 == mat_ident);
@@ -1418,7 +1418,7 @@ bool item::made_of(std::string mat_ident) const
 
 std::string item::get_material(int m) const
 {
-    if (corpse != NULL)
+    if (corpse != NULL && typeId() == "corpse" )
         return corpse->mat;
 
     return (m==2)?type->m2:type->m1;
