@@ -1774,8 +1774,7 @@ void mattack::parrot(game *g, monster *z) {
         {90, "a klaxon blaring!"},
         {70, "EMERGENCY, EMERGENCY!"},
         {30, "a static hissing sound."},
-        // make sure the last speech text entry is empty
-        {0, ""},
+        {2, "whispering."},
     };
     /* // let it talk when we're out of range, and it'll wake stuff up
     if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 50) {
