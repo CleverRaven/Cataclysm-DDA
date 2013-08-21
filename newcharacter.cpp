@@ -546,26 +546,23 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
     points++;
    }
   }
-  if ((ch == 'l' || ch == '6') && points > 0) {
-   if (sel == 1 && u->str_max < 20 && (u->str_max < HIGH_STAT || points > 1)) {
+  if ((ch == 'l' || ch == '6')) {
+   if (sel == 1 && u->str_max < 20) {
     points--;
     if (u->str_max >= HIGH_STAT)
      points--;
     u->str_max++;
-   } else if (sel == 2 && u->dex_max < 20 &&
-              (u->dex_max < HIGH_STAT || points > 1)) {
+   } else if (sel == 2 && u->dex_max < 20) {
     points--;
     if (u->dex_max >= HIGH_STAT)
      points--;
     u->dex_max++;
-   } else if (sel == 3 && u->int_max < 20 &&
-              (u->int_max < HIGH_STAT || points > 1)) {
+   } else if (sel == 3 && u->int_max < 20) {
     points--;
     if (u->int_max >= HIGH_STAT)
      points--;
     u->int_max++;
-   } else if (sel == 4 && u->per_max < 20 &&
-              (u->per_max < HIGH_STAT || points > 1)) {
+   } else if (sel == 4 && u->per_max < 20) {
     points--;
     if (u->per_max >= HIGH_STAT)
      points--;
@@ -766,7 +763,7 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
    case '\n':
    case '5':
     if (u->has_trait(cur_trait)) {
-     if (points + traits[cur_trait].points >= 0) {
+     if (true) {
       u->toggle_trait(cur_trait);
 
       // If turning off the trait violates a profession condition,
@@ -792,7 +789,7 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                            max_trait_points)
      popup(_("Sorry, but you can only take %d points of disadvantages."),
            max_trait_points);
-    else if (points >= traits[cur_trait].points) {
+    else {
      u->toggle_trait(cur_trait);
 
      // If turning on the trait violates a profession condition,
@@ -912,10 +909,8 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
 
             case '\n':
             case '5':
-                if (can_pick == "YES") {
-                    u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
-                    points -= netPointCost;
-                }
+                u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
+                points -= netPointCost;
             break;
 
             case '<':
@@ -1029,10 +1024,10 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
     break;
     case 'l':
     case '6':
-     if (points >= u->skillLevel(currentSkill) + 1) {
-       points -= u->skillLevel(currentSkill) + 1;
-       u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);
-    }
+     if (u->skillLevel(currentSkill) <= 19) { 
+      points -= u->skillLevel(currentSkill) + 1;
+      u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);
+     }
     break;
    case '<':
     return -1;
@@ -1097,7 +1092,10 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
   }
 
   if (ch == '>') {
-   if (points > 0 && !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
+   if (points < 0) {
+    popup(_("Too many points allocated, change some features and try again."));
+	continue;
+   } else if (points > 0 && !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
     continue;
    } else if (u->name.size() == 0) {
     mvwprintz(w, 6, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
