@@ -1301,8 +1301,7 @@
       ["backpack", 38],
       ["purse", 40],
       ["mbag", 20],
-      ["rucksack", 20],
-      ["alice_pack", 10]
+      ["rucksack", 20]
     ]
   },
   { "id":"allclothes",
@@ -1798,7 +1797,6 @@
       ["makeshift_machete", 0],
       ["picklocks", 10],
       ["rucksack", 20],
-      ["alice_pack", 10],
       ["puller", 5],
       ["press", 5],
       ["vac_sealer", 10],
@@ -1833,7 +1831,6 @@
       ["canteen", 10],
       ["jerrycan", 10],
       ["rucksack", 20],
-      ["alice_pack", 10],
       ["heatpack", 60],
       ["sleeping_bag", 10],
       ["emer_blanket", 20],
@@ -2242,8 +2239,7 @@
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["chestrig", 10],
-      ["beret", 50],
-      ["alice_pack", 5]
+      ["beret", 50]
     ]
   },
   { "id":"mil_accessories",
@@ -2255,8 +2251,7 @@
       ["adv_UPS_off", 3],
       ["armguard_hard", 20],
       ["legguard_hard", 15],
-      ["power_armor_frame", 4],
-      ["alice_pack", 5]
+      ["power_armor_frame", 4]
     ]
   },
   { "id":"mil_armor_torso",
@@ -2404,13 +2399,11 @@
       ["adv_UPS_off", 3],
       ["chestrig", 10],
       ["rucksack", 20],
-      ["alice_pack", 10],
       ["emer_blanket", 20],
       ["flotation_vest", 1],
       ["fishing_waders", 2],
       ["cloak", 5],
-      ["tac_helmet", 5],
-      ["alice_pack", 5]
+      ["tac_helmet", 5]
     ]
   },
   { "id":"survival_tools",
@@ -2695,7 +2688,6 @@
       ["arrow_cf", 5],
       ["spray_can", 50],
       ["bio_blaster", 10],
-      ["alice_pack", 5],
       ["tac_helmet", 5]
     ]
   },
@@ -2863,7 +2855,6 @@
       ["adv_UPS_off", 3],
       ["chestrig", 10],
       ["rucksack", 20],
-      ["alice_pack", 10],
       ["LAW_Packed", 30],
       ["tac_helmet", 5]
     ]
@@ -2949,7 +2940,6 @@
       ["canteen", 10],
       ["jerrycan", 10],
       ["rucksack", 20],
-      ["alice_pack", 10],
       ["heatpack", 60],
       ["LAW_Packed", 30],
       ["rm51_assault_rifle", 1],
