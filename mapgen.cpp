@@ -746,6 +746,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 95)
         add_vehicle (g, veh_rv, vx, vy, one_in(2)? 90 : 180, -1, -1);
+    else if (rc <= 96)
+        add_vehicle (g, veh_shopping_cart, vx, vy, one_in(2)? 90 : 180);
     else
         add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, -1);
    }
@@ -1569,6 +1571,14 @@ t   t\n\
      ter_set(i, j, grass_or_dirt());
    }
   }
+
+  {
+      int num_carts = rng(0, 5);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, veh_shopping_cart, rng(lw, cw), rng(tw, mw), 90);
+      }
+  }
+
   if (one_in(3))
    place_items("snacks",	74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
   else if (one_in(4))
@@ -3206,6 +3216,14 @@ C..C..C...|hhh|#########\n\
      ter_set(i, j, grass_or_dirt());
    }
   }
+
+  {
+      int num_carts = rng(0, 5);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, veh_shopping_cart, rng(3, 21), rng(3, 21), 90);
+      }
+  }
+
   place_items("fridgesnacks",	65,  3, 10,  3, 15, false, 0);
   place_items("fridge",	70,  8, 20, 14, 20, false, 0);
   place_items("fridge",	50, 19, 20, 20, 20, false, 0);
@@ -3513,6 +3531,13 @@ C..C..C...|hhh|#########\n\
   place_items("trash",		30,  5, 14,  7, 14, false, 0);
   place_items("trash",		30, 18, 15, 18, 17, false, 0);
 
+  {
+      int num_carts = rng(0, 3);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, veh_shopping_cart, rng(4, 19), rng(3, 11), 90);
+      }
+  }
+
   if (terrain_type == ot_s_liquor_east)
    rotate(1);
   if (terrain_type == ot_s_liquor_south)
@@ -3618,6 +3643,13 @@ C..C..C...|hhh|#########\n\
     ter_set(i, SEEY * 2 - 4, t_door_c);
    else
     ter_set(i + 1, SEEY * 2 - 4, t_door_c);
+  }
+
+  {
+      int num_carts = rng(0, 5);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, veh_shopping_cart, rng(3, 16), rng(3, 21), 90);
+      }
   }
 
   place_items("shoes",		70,  7, 10, 12, 10, false, 0);
