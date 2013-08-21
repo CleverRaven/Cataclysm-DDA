@@ -310,7 +310,8 @@ bool player::create(game *g, character_type type, std::string tempname)
  item tmp; //gets used several times
 
  std::vector<std::string> prof_items = g->u.prof->items();
- for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter)
+ for (std::vector<std::string>::const_iterator iter = prof_items.begin();
+      iter != prof_items.end(); ++iter)
  {
     tmp = item(item_controller->find_template(*iter), 0);
     tmp = tmp.in_its_container(&(g->itypes));
@@ -318,7 +319,8 @@ bool player::create(game *g, character_type type, std::string tempname)
  }
 
  std::vector<addiction> prof_addictions = g->u.prof->addictions();
- for (std::vector<addiction>::const_iterator iter = prof_addictions.begin(); iter != prof_addictions.end(); ++iter)
+ for (std::vector<addiction>::const_iterator iter = prof_addictions.begin();
+      iter != prof_addictions.end(); ++iter)
  {
      g->u.addictions.push_back(*iter);
  }
@@ -369,7 +371,8 @@ bool player::create(game *g, character_type type, std::string tempname)
   if (!has_base_trait(iter->first))
 	my_mutations[iter->first] = false;
 
-	// Equip any armor from our inventory. If we are unable to wear some of it due to encumberance, it will silently fail.
+	// Equip any armor from our inventory.
+ // If we are unable to wear some of it due to encumberance, it will silently fail.
     std::vector<item*> tmp_inv;
     inv.dump(tmp_inv);
 
@@ -381,7 +384,8 @@ bool player::create(game *g, character_type type, std::string tempname)
             {
                 (*i)->item_tags.insert("FIT");
             }
-            // It might be more elegant to use player::wear_item, but then we have to implement our own inventory removal.
+            // It might be more elegant to use player::wear_item,
+            // but then we have to implement our own inventory removal.
             wear(g, (*i)->invlet, false);
         }
     }
@@ -468,7 +472,8 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
             }
             mvwprintz(w, 6, 33, COL_STAT_ACT, _("Base HP: %d"),
                       calc_HP(u->str_max, u->has_trait("TOUGH")));
-            mvwprintz(w, 7, 33, COL_STAT_ACT, _("Carry weight: %.1f %s"), u->convert_weight(u->weight_capacity(false)),
+            mvwprintz(w, 7, 33, COL_STAT_ACT, _("Carry weight: %.1f %s"),
+                      u->convert_weight(u->weight_capacity(false)),
                       OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?"kg":"lbs");
             mvwprintz(w, 8, 33, COL_STAT_ACT, _("Melee damage: %d"),
                       u->base_damage(false));
@@ -656,11 +661,16 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
 
             //Draw Traits
             for (int i = iStartPos; i < vStartingTraits[iCurrentPage].size(); i++) {
-                if (i >= iStartPos && i < iStartPos + ((iContentHeight > vStartingTraits[iCurrentPage].size()) ? vStartingTraits[iCurrentPage].size() : iContentHeight)) {
+                if (i >= iStartPos && i < iStartPos +
+                    ((iContentHeight > vStartingTraits[iCurrentPage].size()) ?
+                     vStartingTraits[iCurrentPage].size() : iContentHeight)) {
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 33, c_ltgray, "                                              ");
-                        mvwprintz(w,  3, 33, col_tr, _("%s earns %d points"), _(traits[vStartingTraits[iCurrentPage][i]].name.c_str()), traits[vStartingTraits[iCurrentPage][i]].points * -1);
-                        fold_and_print(w_description, 0, 0, 78, col_tr, "%s", _(traits[vStartingTraits[iCurrentPage][i]].description.c_str()));
+                        mvwprintz(w,  3, 33, col_tr, _("%s earns %d points"),
+                                  _(traits[vStartingTraits[iCurrentPage][i]].name.c_str()),
+                                  traits[vStartingTraits[iCurrentPage][i]].points * -1);
+                        fold_and_print(w_description, 0, 0, 78, col_tr, "%s",
+                                       _(traits[vStartingTraits[iCurrentPage][i]].description.c_str()));
                     }
 
                     nc_color cLine = col_off_pas;
@@ -691,7 +701,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
 
                     mvwprintz(w, 5 + i - iStartPos, (iCurrentPage == 0) ? 2 : 40, c_ltgray, "\
                                   ");	// Clear the line
-                    mvwprintz(w, 5 + i - iStartPos, (iCurrentPage == 0) ? 2 : 40, cLine, traits[vStartingTraits[iCurrentPage][i]].name.c_str());
+                    mvwprintz(w, 5 + i - iStartPos, (iCurrentPage == 0) ? 2 : 40, cLine,
+                              traits[vStartingTraits[iCurrentPage][i]].name.c_str());
                 }
             }
         }
@@ -738,7 +749,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                     // turn it back on.
                     if(u->prof->can_pick(u, 0) != "YES") {
                         u->toggle_trait(cur_trait);
-                        popup(_("Your profession of %s prevents you from removing this trait."), u->prof->name().c_str());
+                        popup(_("Your profession of %s prevents you from removing this trait."),
+                              u->prof->name().c_str());
 
                     } else {
                         points += traits[cur_trait].points;
@@ -752,11 +764,15 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                 } else if(u->has_conflicting_trait(cur_trait)) {
                     popup(_("You already picked a conflicting trait!"));
 
-                } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points > max_trait_points) {
-                    popup(_("Sorry, but you can only take %d points of advantages."), max_trait_points);
+                } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
+                           max_trait_points) {
+                    popup(_("Sorry, but you can only take %d points of advantages."),
+                          max_trait_points);
 
-                } else if (!iCurWorkingPage == 0 && num_bad - traits[cur_trait].points > max_trait_points) {
-                    popup(_("Sorry, but you can only take %d points of disadvantages."), max_trait_points);
+                } else if (!iCurWorkingPage == 0 && num_bad - traits[cur_trait].points >
+                           max_trait_points) {
+                    popup(_("Sorry, but you can only take %d points of disadvantages."),
+                          max_trait_points);
 
                 } else {
                     u->toggle_trait(cur_trait);
@@ -765,7 +781,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                     // turn it back off.
                     if(u->prof->can_pick(u, 0) != "YES") {
                         u->toggle_trait(cur_trait);
-                        popup(_("Your profession of %s prevents you from taking this trait."), u->prof->name().c_str());
+                        popup(_("Your profession of %s prevents you from taking this trait."),
+                              u->prof->name().c_str());
 
                     } else {
                         points -= traits[cur_trait].points;
@@ -859,7 +876,8 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             else
             {
                 mvwprintz(w, 4 + i, 2,
-                          (sorted_profs[id] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
+                          (sorted_profs[id] == sorted_profs[cur_id] ?
+                           hilite(COL_SKILL_USED) : COL_SKILL_USED),
                           sorted_profs[id]->name().c_str());
             }
         }
@@ -1029,7 +1047,8 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
  female_pos = 1 + male_pos + utf8_width(_("Male"));
  mvwprintz(w, 8, female_pos, c_ltgray, _("Female"));
  mvwprintz(w, 8, namebar_pos + 31, c_ltgray, _("(Press spacebar to toggle)"));
- fold_and_print(w, 10, 2, 76, c_ltgray, _("When your character is finished and you're ready to start playing, press >"));
+ fold_and_print(w, 10, 2, 76, c_ltgray,
+                _("When your character is finished and you're ready to start playing, press >"));
  fold_and_print(w, 12, 2, 76, c_ltgray, _("To go back and review your character, press <"));
  fold_and_print(w, 14, 2, 76, c_green, _("To pick a random name for your character, press ?."));
  fold_and_print(w, 16, 2, 76, c_green, _("To save this character as a template, press !."));
@@ -1068,7 +1087,8 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
    if (points < 0) {
     popup(_("Too many points allocated, change some features and try again."));
 	continue;
-   } else if (points > 0 && !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
+   } else if (points > 0 &&
+              !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
     continue;
    } else if (u->name.size() == 0) {
     mvwprintz(w, 6, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
