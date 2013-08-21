@@ -4573,7 +4573,7 @@ int game::mon_info(WINDOW *w)
     // Print the symbols of all monsters in all directions.
     for (int i = 0; i < 8; i++) {
         int symroom;
-        point pr(xcoords[i] + strlen(dir_labels[i]) + 1, ycoords[i] + startrow);
+        point pr(xcoords[i] + widths[i] + 1, ycoords[i] + startrow);
 
         // The list of symbols needs a space on each end.
         symroom = (width / 3) - widths[i] - 2;
