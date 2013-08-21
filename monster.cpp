@@ -186,7 +186,7 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
   wprintz(w, h_white, _("Trapped"));
  std::string damage_info;
  nc_color col;
- if (hp == type->hp) {
+ if (hp >= type->hp) {
   damage_info = _("It is uninjured");
   col = c_green;
  } else if (hp >= type->hp * .8) {

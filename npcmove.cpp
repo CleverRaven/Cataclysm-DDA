@@ -20,12 +20,12 @@ itype_id ESCAPE_ITEMS[NUM_ESCAPE_ITEMS] = {
 
 // A list of alternate attack items (e.g. grenades), from least to most valuable
 #ifndef NUM_ALT_ATTACK_ITEMS
-#define NUM_ALT_ATTACK_ITEMS 16
+#define NUM_ALT_ATTACK_ITEMS 18
 itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] = {
  "knife_combat", "spear_wood", "molotov", "pipebomb", "grenade",
- "gasbomb", "bot_manhack", "tazer", "dynamite", "mininuke",
+ "gasbomb", "bot_manhack", "tazer", "dynamite", "granade", "mininuke",
  "molotov_lit", "pipebomb_act", "grenade_act", "gasbomb_act",
- "dynamite_act", "mininuke_act"
+ "dynamite_act", "granade_act", "mininuke_act"
 };
 #endif
 

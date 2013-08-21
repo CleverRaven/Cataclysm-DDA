@@ -338,6 +338,7 @@
       ["clip", 8],
       ["spare_mag", 15],
       ["grenade", 3],
+      ["granade", 1],
       ["EMPbomb", 2],
       ["gasbomb", 3],
       ["tazer", 3],
@@ -2192,6 +2193,7 @@
       ["smokebomb", 5],
       ["dynamite", 5],
       ["mininuke", 1],
+      ["granade", 1],
       ["c4", 5]
     ]
   },
@@ -3188,6 +3190,7 @@
       ["chainsaw_on", 0],
       ["pipebomb_act", 0],
       ["grenade_act", 0],
+      ["granade_act", 0],
       ["flashbang_act", 0],
       ["EMPbomb_act", 0],
       ["gasbomb_act", 0],
