@@ -4559,15 +4559,10 @@ int game::mon_info(WINDOW *w)
     for (int i = 0; i < 8; i++) {
         widths[i] = strlen(dir_labels[i]);
     }
-    const int row1spaces = width - (widths[7] + widths[0] + widths[1]);
-    const int row3spaces = width - (widths[5] + widths[4] + widths[3]);
     int xcoords[8];
     const int ycoords[] = { 0, 0, 1, 2, 2, 2, 1, 0 };
-    xcoords[0] = widths[7] +  row1spaces / 3;
-    xcoords[1] = widths[7] - (row1spaces / 3) + row1spaces + widths[0];
-    xcoords[4] = widths[5] +  row3spaces / 3;
-    xcoords[3] = widths[5] - (row3spaces / 3) + row3spaces + widths[4];
-    xcoords[2] = (xcoords[1] + xcoords[3]) / 2;
+    xcoords[0] = xcoords[4] = width / 3;
+    xcoords[1] = xcoords[3] = xcoords[2] = (width / 3) * 2;
     xcoords[5] = xcoords[6] = xcoords[7] = 0;
     for (int i = 0; i < 8; i++) {
         nc_color c = unique_types[i].empty() ? c_dkgray
@@ -4575,13 +4570,13 @@ int game::mon_info(WINDOW *w)
         mvwprintz(w, ycoords[i] + startrow, xcoords[i], c, dir_labels[i]);
     }
 
-    // The list of symbols needs a space on each end.
-    const int symroom = row1spaces / 3 - 2;
-
     // Print the symbols of all monsters in all directions.
     for (int i = 0; i < 8; i++) {
+        int symroom;
         point pr(xcoords[i] + strlen(dir_labels[i]) + 1, ycoords[i] + startrow);
 
+        // The list of symbols needs a space on each end.
+        symroom = (width / 3) - widths[i] - 2;
         const int typeshere = unique_types[i].size();
         for (int j = 0; j < typeshere && j < symroom; j++) {
             buff = unique_types[i][j];
