@@ -9707,7 +9707,7 @@ void game::complete_butcher(int index)
     meat = "veggy";
   }
   item tmpitem=item_controller->create(meat, age);
-  tmpitem.corpse=dynamic_cast<mtype*>(corpse);
+  //tmpitem.corpse=dynamic_cast<mtype*>(corpse);
   while ( pieces > 0 ) {
     pieces--;
     m.add_item_or_charges(u.posx, u.posy, tmpitem);
