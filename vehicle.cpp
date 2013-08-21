@@ -1522,6 +1522,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     if (collision_type == veh_coll_body)
     {
         int dam = imp1 * dmg_mod / 100;
+        int pdam=0;
         if (z)
         {
             int z_armor = part_flag(part, vpf_sharp)? z->type->armor_cut : z->type->armor_bash;
@@ -1529,15 +1530,27 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
                 z_armor = 0;
             if (z)
                 dam -= z_armor;
+            
+            //Damage dealt to vehicle part, maxed at monster's current hp
+            if (dam > z->hp)
+                pdam=z->hp;
+            else
+                pdam=dam;
         }
         if (dam < 0)
             dam = 0;
+        if (pdam < 0)
+            pdam=0;
+            
 
         if (part_flag(part, vpf_sharp))
             parts[part].blood += (20 + dam) * 5;
         else
         if (dam > rng (10, 30))
+        {
             parts[part].blood += (10 + dam / 2) * 5;
+            pdam-=damage (part, pdam);
+        }
 
         int turns_stunned = rng (0, dam) > 10? rng (1, 2) + (dam > 40? rng (1, 2) : 0) : 0;
         if (part_flag(part, vpf_sharp))
@@ -1553,9 +1566,13 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
         else
             dname = ph->name;
         if (pl_ctrl)
+        {
             g->add_msg (_("Your %s's %s rams into %s, inflicting %d damage%s!"),
                     name.c_str(), part_info(part).name, dname.c_str(), dam,
                     turns_stunned > 0 && z? _(" and stunning it") : "");
+            g->add_msg(_("Your %s's %s takes %d damage!"),
+                    name.c_str(),part_info(part).name,pdam);
+        }
 
         int angle = (100 - degree) * 2 * (one_in(2)? 1 : -1);
         if (z)
