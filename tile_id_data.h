@@ -2,14 +2,18 @@
 #define TILE_ID_DATA
 
 #define toString(x) #x
-
+/*
+*********************************************************************************
+* Whenever the ter_id, trap_id, field_id, mon_id, furn_id, and/or vpart_id enum *
+* values are changed a corresponding change MUST be made in here or the tileset *
+* support will become offset (screws up later tiles), or if the id is added to  *
+* the end it will just not be shown                                             *
+*********************************************************************************
+*/
 const std::string terrain_names[num_terrain_types] =
 {
-    // t_null just because we need a value here to occupy index 0
     toString(t_null),
-    // Real nothingness; makes you fall a z-level
     toString(t_hole),
-    // Ground
     toString(t_dirt),
     toString(t_sand),
     toString(t_dirtmound),
@@ -29,16 +33,15 @@ const std::string terrain_names[num_terrain_types] =
     toString(t_pavement),
     toString(t_pavement_y),
     toString(t_sidewalk),
+    toString(t_concrete),
     toString(t_floor),
-    toString(t_dirtfloor),//Dirt floor(Has roof)
+    toString(t_dirtfloor),
     toString(t_grate),
     toString(t_slime),
     toString(t_bridge),
-    // Lighting related
     toString(t_skylight),
     toString(t_emergency_light_flicker),
     toString(t_emergency_light),
-    // Walls
     toString(t_wall_log_half),
     toString(t_wall_log),
     toString(t_wall_log_chipped),
@@ -103,7 +106,6 @@ const std::string terrain_names[num_terrain_types] =
     toString(t_rock),
     toString(t_fault),
     toString(t_paper),
-    // Tree
     toString(t_tree),
     toString(t_tree_young),
     toString(t_tree_apple),
@@ -126,17 +128,14 @@ const std::string terrain_names[num_terrain_types] =
     toString(t_fence_rope),
     toString(t_railing_v),
     toString(t_railing_h),
-    // Nether
     toString(t_marloss),
     toString(t_fungus),
     toString(t_tree_fungal),
-    // Water, lava, etc.
     toString(t_water_sh),
     toString(t_water_dp),
     toString(t_water_pool),
     toString(t_sewage),
     toString(t_lava),
-    // More embellishments than you can shake a stick at.
     toString(t_sandbox),
     toString(t_slide),
     toString(t_monkey_bars),
@@ -159,34 +158,31 @@ const std::string terrain_names[num_terrain_types] =
     toString(t_centrifuge),
     toString(t_column),
     toString(t_vat),
-    // Staircases etc.
     toString(t_stairs_down),
     toString(t_stairs_up),
     toString(t_manhole),
     toString(t_ladder_up),
     toString(t_ladder_down),
     toString(t_slope_down),
-     toString(t_slope_up),
+    toString(t_slope_up),
     toString(t_rope_up),
     toString(t_manhole_cover),
-    // Special
     toString(t_card_science),
     toString(t_card_military),
     toString(t_card_reader_broken),
     toString(t_slot_machine),
-     toString(t_elevator_control),
+    toString(t_elevator_control),
     toString(t_elevator_control_off),
     toString(t_elevator),
     toString(t_pedestal_wyrm),
-     toString(t_pedestal_temple),
-    // Temple tiles
+    toString(t_pedestal_temple),
     toString(t_rock_red),
     toString(t_rock_green),
     toString(t_rock_blue),
     toString(t_floor_red),
     toString(t_floor_green),
     toString(t_floor_blue),
-     toString(t_switch_rg),
+    toString(t_switch_rg),
     toString(t_switch_gb),
     toString(t_switch_rb),
     toString(t_switch_even)

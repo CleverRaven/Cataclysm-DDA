@@ -248,7 +248,7 @@ for (compList.set_begin(); compList.has_curr(); compList.next())
             // fetch additional tiles
             if (entry.has("additional_tiles"))
             {
-                DebugLog() << "Tile: \"" << t_id << "\" has Subtiles!\n";
+                //DebugLog() << "Tile: \"" << t_id << "\" has Subtiles!\n";
                 catajson subentries = entry.get("additional_tiles");
 
                 for (subentries.set_begin(); subentries.has_curr(); subentries.next())
@@ -279,7 +279,7 @@ for (compList.set_begin(); compList.has_curr(); compList.next())
                     }
                     (*tile_ids)[m_id] = curr_subtile;
                     curr_tile->available_subtiles.push_back(s_id);
-                    DebugLog() << "\tSubtile: \""<<s_id<<"\" written\n";
+                    //DebugLog() << "\tSubtile: \""<<s_id<<"\" written\n";
                 }
             }
         }
@@ -836,7 +836,8 @@ LIGHTING cata_tiles::light_at(int x, int y)
     int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
     int distance_to_look = real_max_sight_range;
 
-    if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0)
+    if (true)
+    //if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0)
     {
         distance_to_look = DAYLIGHT_LEVEL;
     }
@@ -844,7 +845,8 @@ LIGHTING cata_tiles::light_at(int x, int y)
     bool can_see = g->m.pl_sees(g->u.posx, g->u.posy, x, y, distance_to_look);
     lit_level lit = g->m.light_at(x, y);
 
-    if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0)
+    if (true)
+    //if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0)
     {
         if (lit != LL_BRIGHT && dist > real_max_sight_range)
         {

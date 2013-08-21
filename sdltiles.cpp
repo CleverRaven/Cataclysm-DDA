@@ -114,7 +114,7 @@ bool WinCreate()
 
 	ClearScreen();
 
-	if(OPTIONS[OPT_HIDE_CURSOR] > 0 && SDL_ShowCursor(-1))
+	if(OPTIONS["HIDE_CURSOR"] > 0 && SDL_ShowCursor(-1))
         SDL_ShowCursor(SDL_DISABLE);
     else
         SDL_ShowCursor(SDL_ENABLE);
@@ -387,7 +387,7 @@ void CheckMessages()
 			case SDL_KEYDOWN:
 			{
                 int lc = 0;
-			    if(OPTIONS[OPT_HIDE_CURSOR] > 0 && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
+			    if(OPTIONS["HIDE_CURSOR"] > 0 && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
 				Uint8 *keystate = SDL_GetKeyState(NULL);
 				// manually handle Alt+F4 for older SDL lib, no big deal
 				if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
@@ -452,7 +452,7 @@ void CheckMessages()
             }
             break;
 			case SDL_MOUSEMOTION:
-                if((OPTIONS[OPT_HIDE_CURSOR] == 0 || OPTIONS[OPT_HIDE_CURSOR] == 2) &&
+                if(((int)OPTIONS["HIDE_CURSOR"] == 0 || (int)OPTIONS["HIDE_CURSOR"] == 2) &&
                     !SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_ENABLE);
                 break;
 			case SDL_QUIT:
@@ -663,8 +663,8 @@ WINDOW *curses_init(void)
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-    WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
-    WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
+    WindowWidth= (55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)) * fontwidth;
+    WindowHeight= (OPTIONS["VIEWPORT_Y"] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
 
     std::string sysfnt = find_system_font(typeface, faceIndex);
@@ -702,7 +702,7 @@ WINDOW *curses_init(void)
 
 // Should NOT be doing this for every damned window I think... keeping too much in memory is wasteful of the tiles.
 // Most definitely should not be doing this multiple times...
-    mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
+    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
     DebugLog() << "Initializing SDL Tiles context\n";
     IMG_Init(IMG_INIT_PNG);
     tilecontext = new cata_tiles;
