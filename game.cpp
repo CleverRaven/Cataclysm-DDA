@@ -4956,9 +4956,6 @@ void game::draw_footsteps()
 
 void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
 {
- timespec ts;	// Timespec for the animation of the explosion
- ts.tv_sec = 0;
- ts.tv_nsec = EXPLOSION_SPEED;
  int radius = sqrt(double(power / 4));
  int dam;
  std::string junk;
@@ -5022,34 +5019,14 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
   }
  }
 // Draw the explosion
- for (int i = 1; i <= radius; i++) {
-  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                      x - i + VIEWX - u.posx - u.view_offset_x, c_red, '/');
-  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                      x + i + VIEWX - u.posx - u.view_offset_x, c_red,'\\');
-  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                      x - i + VIEWX - u.posx - u.view_offset_x, c_red,'\\');
-  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                      x + i + VIEWX - u.posx - u.view_offset_x, c_red, '/');
-  for (int j = 1 - i; j < 0 + i; j++) {
-   mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                       x + j + VIEWX - u.posx - u.view_offset_x, c_red,'-');
-   mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                       x + j + VIEWX - u.posx - u.view_offset_x, c_red,'-');
-   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
-                       x - i + VIEWX - u.posx - u.view_offset_x, c_red,'|');
-   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
-                       x + i + VIEWX - u.posx - u.view_offset_x, c_red,'|');
-  }
-  wrefresh(w_terrain);
-  nanosleep(&ts, NULL);
- }
+ draw_explosion(x, y, radius, c_red);
 
 // The rest of the function is shrapnel
  if (shrapnel <= 0)
   return;
  int sx, sy, t, tx, ty;
  std::vector<point> traj;
+ timespec ts;
  ts.tv_sec = 0;
  ts.tv_nsec = BULLET_SPEED;	// Reset for animation of bullets
  for (int i = 0; i < shrapnel; i++) {
@@ -5097,6 +5074,35 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
        m.shoot(this, tx, ty, dam, j == traj.size() - 1, shrapnel_effects );
    }
   }
+ }
+}
+
+void game::draw_explosion(int x, int y, int radius, nc_color col)
+{
+    timespec ts;    // Timespec for the animation of the explosion
+    ts.tv_sec = 0;
+    ts.tv_nsec = EXPLOSION_SPEED;
+    for (int i = 1; i <= radius; i++) {
+        mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, col, '/');
+        mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, col,'\\');
+        mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, col,'\\');
+        mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, col, '/');
+        for (int j = 1 - i; j < 0 + i; j++) {
+            mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, col,'-');
+            mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, col,'-');
+            mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x - i + VIEWX - u.posx - u.view_offset_x, col,'|');
+            mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x + i + VIEWX - u.posx - u.view_offset_x, col,'|');
+  }
+  wrefresh(w_terrain);
+  nanosleep(&ts, NULL);
  }
 }
 
