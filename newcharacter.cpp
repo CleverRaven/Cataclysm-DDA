@@ -757,7 +757,7 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                         if (iCurWorkingPage == 0) {
                             num_good -= traits[cur_trait].points;
                         } else {
-                            num_bad += traits[cur_trait].points;
+                            num_bad -= traits[cur_trait].points;
                         }
                     }
 
@@ -789,7 +789,7 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                         if (iCurWorkingPage == 0) {
                             num_good += traits[cur_trait].points;
                         } else {
-                            num_bad -= traits[cur_trait].points;
+                            num_bad += traits[cur_trait].points;
                         }
                     }
                 }
