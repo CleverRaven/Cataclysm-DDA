@@ -132,12 +132,12 @@
   },
 
   {
-    "id": "blowpipe",
+    "id": "blowgun",
     "type": "GUN",
     "symbol": "|",
     "color": "yellow",
-    "name": "blowpipe",
-    "description": "A wooden blowpipe, it isn't hard to use, and is very accurate. Darts are used as ammunition.",
+    "name": "blowgun",
+    "description": "A wooden blowgun, it isn't hard to use, and is very accurate. Darts are used as ammunition.",
     "price": 100,
     "material": "wood",
     "flags": "RELOAD_AND_SHOOT",
