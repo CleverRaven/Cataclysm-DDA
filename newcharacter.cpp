@@ -769,8 +769,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                     popup(_("Sorry, but you can only take %d points of advantages."),
                           max_trait_points);
 
-                } else if (!iCurWorkingPage == 0 && num_bad - traits[cur_trait].points >
-                           max_trait_points) {
+                } else if (iCurWorkingPage != 0 && num_bad + traits[cur_trait].points <
+                           -max_trait_points) {
                     popup(_("Sorry, but you can only take %d points of disadvantages."),
                           max_trait_points);
 
