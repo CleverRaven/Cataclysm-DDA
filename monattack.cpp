@@ -1561,7 +1561,7 @@ void mattack::parrot(game *g, monster *z) {
         {20, "'The cell structure is unlike any we've ever seen.'"},
         {20, "'It does seem to have some form of higher level brain functioning.'"},
         {20, "'Problem solving, memory retention, that sort of thing.'"},
-        {20, "'There appears to be some anomalous aspects to its mimicry.'"},
+        {20, "'There appear to be some anomalous aspects to the mimicry.'"},
         {20, "'Members of the species have some kind of neurocognitive link.'"},
         {20, "'This one's repeating phrases that the previous specimen was exposed to.'"},
         {60, "a child shrieking!"},
