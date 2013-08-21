@@ -4,6 +4,7 @@
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
+#include "dialogue.h"  // for mattack::parrot
 #include "material.h"
 
 //Used for e^(x) functions
@@ -681,14 +682,14 @@ void mattack::leap(game *g, monster *z)
     int best = 0;
     bool fleeing = z->is_fleeing(g->u);
 
-    for (int x = z->posx - 3; x <= z->posx + 3; x++) 
+    for (int x = z->posx - 3; x <= z->posx + 3; x++)
     {
-        for (int y = z->posy - 3; y <= z->posy + 3; y++) 
+        for (int y = z->posy - 3; y <= z->posy + 3; y++)
         {
             bool blocked_path = false;
             // check if monster has a clear path to the proposed point
             std::vector<point> line = line_to(z->posx, z->posy, x, y, linet);
-            for (int i = 0; i < line.size(); i++) 
+            for (int i = 0; i < line.size(); i++)
             {
                 if (g->m.move_cost(line[i].x, line[i].y) == 0)
                 {
@@ -1002,7 +1003,7 @@ void mattack::vortex(game *g, monster *z)
     material_type* mon_mat = material_type::find_material(thrown->type->mat);
     distance -= mon_mat->density() / 10;
     damage -= mon_mat->density() / 5;
-    
+
     if (distance > 0) {
      if (g->u_see(thrown))
       g->add_msg(_("The %s is thrown by winds!"), thrown->name().c_str());
@@ -1184,10 +1185,10 @@ void mattack::smg(game *g, monster *z)
   int boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
   bool iff_trig = false;   // player seen and within range of stray shots
   int pldist=rl_dist(z->posx, z->posy, g->u.posx, g->u.posy);
-  if ( pldist < iff_dist && 
+  if ( pldist < iff_dist &&
       g->sees_u(z->posx, z->posy, t) ) {
       iff_trig = true;
-      if ( pldist < 3 ) iff_hangle=( pldist == 2 ? 30 : 60 ); // granularity increases with proximity 
+      if ( pldist < 3 ) iff_hangle=( pldist == 2 ? 30 : 60 ); // granularity increases with proximity
       u_angle = coord2angle (z->posx, z->posy, g->u.posx, g->u.posy );
   }
   for (int i = 0; i < g->z.size(); i++) {
@@ -1208,7 +1209,7 @@ void mattack::smg(game *g, monster *z)
           target = &(g->z[i]);
           closest = dist;
           fire_t = t;
-        } 
+        }
       } // else if ( advanced_software_upgrade ) {
         // todo; make friendly && unfriendly lists, then select closest non-friendly fire target
     }
@@ -1299,10 +1300,10 @@ void mattack::flamethrower(game *g, monster *z)
     z->moves = -500;			// It takes a while
     std::vector<point> traj = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
 
-    for (int i = 0; i < traj.size(); i++) 
+    for (int i = 0; i < traj.size(); i++)
     {
         // break out of attack if flame hits a wall
-        if (g->m.hit_with_fire(g, traj[i].x, traj[i].y)) 
+        if (g->m.hit_with_fire(g, traj[i].x, traj[i].y))
         {
             if (g->u_see(traj[i].x, traj[i].y))
                 g->add_msg(_("The tongue of flame hits the %s!"),
@@ -1537,33 +1538,223 @@ void mattack::flesh_golem(game *g, monster *z)
     }
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
-void mattack::parrot(game *g, monster *z)
-{
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 50)
-  return;	// Out of range
- if (one_in(20)){
-  z->moves = -100;			// It takes a while
-  z->sp_timeout = z->type->sp_freq;	// Reset timer
-  switch (rng(1,18)) {
-    case 1:      g->sound(z->posx, z->posy, 60, _("a woman cry out!"));       break;
-    case 2:      g->sound(z->posx, z->posy, 40, _("a small girl crying..."));       break;
-    case 3:      g->sound(z->posx, z->posy, 20, _("'This creature has some form of higher level brain function.'"));       break;
-    case 4:      g->sound(z->posx, z->posy, 40, _("'Shall we terminate the specimen if power is lost?'"));       break;
-    case 5:      g->sound(z->posx, z->posy, 40, _("a small girl pleading, 'Mommy, help!'"));       break;
-    case 6:      g->sound(z->posx, z->posy, 40, _("a child, 'Oh God, my leg!  Give it back!'"));       break;
-    case 7:      g->sound(z->posx, z->posy, 40, _("'Destroy the specimen if it begins to interact with the lock.'"));       break;
-    case 8:      g->sound(z->posx, z->posy, 40, _("a woman yell, 'I hope you rot in hell for this!'"));       break;
-    case 9:      g->sound(z->posx, z->posy, 40, _("'Kill them all and let God sort them out!'"));       break;
-    case 10:     g->sound(z->posx, z->posy, 40, _("'I'm gonna cut your damned limbs off and let you blead out!'"));       break;
-    case 11:     g->sound(z->posx, z->posy, 40, _("'I wonder if you understand what I'm saying.'"));       break;
-    case 12:     g->sound(z->posx, z->posy, 40, _("'I believe that it is trying to learn our language.'"));       break;
-    case 13:     g->sound(z->posx, z->posy, 40, _("'It seems to want to experiment on us... give it a prisoner.'"));       break;
-    case 14:     g->sound(z->posx, z->posy, 40, _("'It is interested in observing the brain of a living human.'"));       break;
-    case 15:     g->sound(z->posx, z->posy, 40, _("'Would it react differently with a child?'"));       break;
-    case 16:     g->sound(z->posx, z->posy, 40, _("'It seems to want to experiment on us... give it a prisoner.'"));       break;
-    case 17:     g->sound(z->posx, z->posy, 40, _("'Although advanced, its ethics are not our own.'"));       break;
-    case 18:     g->sound(z->posx, z->posy, 40, _("'It shows no empathy towards the prisoners we... 'gave' it.'"));       break;
-   }
- }
+void mattack::parrot(game *g, monster *z) {
+    static const parroted_speech parrotArray[] = {
+        // should probably get moved to a raw file
+        {40, "Hello?"},
+        {40, "Who's there?"},
+        {30, "Can you help me?"},
+        {40, "Over here!"},
+        {30, "Can you repeat that?"},
+        {30, "You're just copying me, aren't you?"},
+        {40, "I'm not afraid of you!"},
+        {40, "Come here!"},
+        {40, "'Please, don't!'"},
+        {60, "a woman screaming in horror!"},
+        {50, "a little girl wailing!"},
+        {20, "'So, what is this thing supposed to be?'"},
+        {20, "'Uncategorized object seven-seven-three-four.'"},
+        {20, "'It came from the other side of one of the apertures.'"},
+        {40, "'Mommy, help!'"},
+        {20, "'We're still trying to figure out what makes it tick.'"},
+        {20, "'We're not even sure what it is.'"},
+        {20, "'The cell structure is unlike any we've seen.'"},
+        {20, "'It does seem to have some form of higher level brain functioning.'"},
+        {20, "'Problem solving, memory retention, that sort of thing.'"},
+        {20, "'There also appears to be an anomalous aspect to its mimicry.'"},
+        {20, "'Members of the species have some kind of neurocognitive link.'"},
+        {20, "'It's repeating phrases that the previous specimen was exposed to.'"},
+        {60, "a child shrieking!"},
+        {60, "'Oh God, my leg, Oh God!'"},
+        {60, "a long cry of agony!"},
+        {20, "'You mean it's not just parroting us?'"},
+        {20, "'It's parroting us, but we're uncertain as to how or why.'"},
+        {20, "'It may be a mechanism for attracting prey.'"},
+        {20, "'It could even be a way of trying to scare us off.'"},
+        {20, "'We just don't know.'"},
+        {60, "a woman cry out in anguish!"},
+        {60, "'You're gonna rot in hell for this!'"},
+        {50, "'You hear me!?'"},
+        {60, "'You're gonna rot in hell, you pieces of shit!'"},
+        {20, "'Like we said, we have no idea what it's thinking.'"},
+        {20, "'Is that glass electrified?'"},
+        {20, "'Why don't you touch it and find out?'"},
+        {20, "'Of course it is.'"},
+        {20, "'What'll happen if the power goes out?'"},
+        {20, "'Don't worry about it.'"},
+        {20, "'Don't worry.'"},
+        {20, "'There are seven backup generators.'"},
+        {20, "'And what if all the backups fail?"},
+        {20, "'We'd have to terminate the specimen."},
+        {20, "'The glass alone won't keep us safe for very long."},
+        {20, "'That fuckin' thing is horrible, man, it gives me the creeps.'"},
+        {20, "'It's probably more scared of us than we are of it."},
+        {20, "'Somehow, I doubt it.'"},
+        {20, "'Somehow, I really doubt that.'"},
+        {20, "'Hey, we got other specimens can withstand a grenade."},
+        {20, "'And that's supposed to comfort me?"},
+        {20, "'For all we know, it's got something better."},
+        {20, "'U-O-Seven-Seven-Three-Four.'"},
+        {20, "'Individual instances of U-O-Seven-Seven-Three-Four."},
+        {20, "'To be kept in a standard biohazardous containment chamber.'"},
+        {20, "'Until such time as more permanent arrangements are made.'"},
+        {20, "'Shows a noted preference for human brain tissue.'"},
+        {20, "'Destroy the specimen if it begins to interact with the lock.'"},
+        {40, "'Kill them all and let God sort them out!'"},
+        {30, "'I'ma cut those fuckin' tentacles off, bitch!'"},
+        {40, "'Watch you bleed out!'"},
+        {20, "'I wonder if it understands us.'"},
+        {30, "'Do you understand what I'm saying?'"},
+        {40, "'Look, it's responding!"},
+        {20, "'That's the first time it stopped moving all morning."},
+        {20, "'I'm convinced it's trying to understand us.'"},
+        {20, "'I'm not convinced it can learn any language.'"},
+        {20, "'It's just repeating us.'"},
+        {20, "'Just because it's an alien doesn't mean it's intelligent.'"},
+        {30, "'Please open the door and enter the cell.'"},
+        {40, "'Would it react differently with a child?'"},
+        {20, "'Experiments to determine extent of cognitive abilities still underway.'"},
+        {20, "'Subject has so far displayed a total lack of empathy toward human suffering.'"},
+        {20, "'I got a round trip ticket.'"},
+        {20, "'How's your mom doing?'"},
+        {20, "'How's your dad doing?'"},
+        {20, "'Do you love her?'"},
+        {20, "'Do you love him?'"},
+        {20, "'Only a little.'"},
+        {20, "'Just a few.'"},
+        {20, "'Do you smoke?'"},
+        {20, "'You're new here, aren't you?"},
+        {20, "'How do you like it here?"},
+        {20, "'It won't hurt a bit.'"},
+        {20, "'That was a long time ago.'"},
+        {20, "'Three hundred and fifty-seven centimeters.'"},
+        {20, "'Are you afraid?'"},
+        {20, "'Anything else?'"},
+        {20, "'You think they're the same sex?'"},
+        {20, "'Do they even have sex?'"},
+        {20, "'Can I see your phone?'"},
+        {20, "'You got a dollar I can borrow?'"},
+        {20, "'Are you busy at the moment?'"},
+        {20, "'Are you busy later?'"},
+        {20, "'Are you busy tonight?'"},
+        {20, "'Are you free tonight?'"},
+        {20, "'Are you going to the party tonight?'"},
+        {20, "'Are you going to help them?'"},
+        {20, "'Are you alone?'"},
+        {20, "'Are you hungry?'"},
+        {20, "'I'm hungry.'"},
+        {20, "'Go ahead.'"},
+        {20, "'Have a good time.'"},
+        {20, "'Have you eaten yet?'"},
+        {20, "'Is it supposed to rain tomorrow?'"},
+        {20, "'Okay.'"},
+        {20, "'Good.'"},
+        {20, "'Great.'"},
+        {20, "'Splendid.'"},
+        {20, "'Excellent.'"},
+        {20, "'Excuse me.'"},
+        {20, "'Go ahead.'"},
+        {20, "'Good morning.'"},
+        {20, "'Good afternoon.'"},
+        {20, "'Good evening.'"},
+        {20, "'Good night.'"},
+        {20, "'Good luck.'"},
+        {20, "'Can I help you?'"},
+        {20, "'Are you seeing anyone?'"},
+        {20, "'Forget it.'"},
+        {20, "'How long were you two together?'"},
+        {20, "'Give me a call later.'"},
+        {20, "'Call me.'"},
+        {20, "'From time to time.'"},
+        {20, "'Call the police.'"},
+        {20, "'Call an ambulance.'"},
+        {20, "'Get me the White House.'"},
+        {20, "'Are you feeling all right?'"},
+        {20, "'I think I need to see a doctor.'"},
+        {20, "'Is everything all right?'"},
+        {20, "'I'm okay."},
+        {20, "'Are you sure?'"},
+        {20, "'Positive.'"},
+        {20, "'It's just a headache.'"},
+        {20, "'Affirmative.'"},
+        {20, "'Negative.'"},
+        {20, "'Sorry."},
+        {40, "'Happy Birthday!'"},
+        {20, "'Have you ever been to California?'"},
+        {20, "'What time do you get off?'"},
+        {20, "'We should hit up the shooting range later.'"},
+        {20, "'I'm heading to the pool after work.'"},
+        {20, "'Have a good trip.'"},
+        {20, "'Where did you come from?'"},
+        {20, "'Have you been waiting long?'"},
+        {20, "'Have you done this before?'"},
+        {20, "'Hello.'"},
+        {40, "'Help!'"},
+        {20, "'Here it is.'"},
+        {20, "'I've got family coming tomorrow.'"},
+        {20, "'How do I use this?'"},
+        {20, "'How do you know?'"},
+        {20, "'How long have you been here?'"},
+        {20, "'How many languages do you speak?'"},
+        {20, "'How many people?'"},
+        {20, "'How much were these earrings?'"},
+        {20, "'How much do I owe you?'"},
+        {20, "'How much will it cost?'"},
+        {20, "'How much would you like?'"},
+        {20, "'How old are you?'"},
+        {20, "'How tall are you?'"},
+        {20, "'How was the movie?'"},
+        {20, "'How was your trip?'"},
+        {20, "'How's it going?'"},
+        {20, "'See you later.'"},
+        {20, "'See you tonight.'"},
+        {20, "'I got this weird rash a few days ago.'"},
+        {20, "'Show me.'"},
+        {20, "'When did you find out?'"},
+        {20, "'Seven o'clock.'"},
+        {20, "'Nobody is helping us."},
+        {20, "'We're on our own."},
+        {20, "'We're all alone."},
+        {20, "'We should split into groups of two each.'"},
+        {20, "'It can't follow all of us.'"},
+        {20, "'Be careful.'"},
+        {20, "'There you are.'"},
+        {20, "'It's looking for us.'"},
+        {20, "'It's faster than us.'"},
+        {20, "'It's looking right at us.'"},
+        {40, "'It's heading right for us!'"},
+        {20, "'Can you swim?'"},
+        {20, "'Don't do that."},
+        {10, "'You hear that?"},
+        {10, "'Be quiet.'"},
+        {40, "'Look out!'"},
+        {40, "'Run!'"},
+        {20, "'Hurry!'"},
+        {10, "'Mom.'"},
+        {10, "'Mom, I miss you.'"},
+        {5, "'Please, god.'"},
+        {10, "a gurgling sound.'"},
+        {10, "a choking sound.'"},
+        {20, "a snapping sound.'"},
+        // make sure the last speech text entry is empty
+        {0, ""},
+    };
+    /* // let it talk when we're out of range, and it'll wake stuff up
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 50) {
+        return;	// Out of range
+    }
+    */
+    if (one_in(20)) {
+        z->moves = -100;			        // It takes a while
+        z->sp_timeout = z->type->sp_freq;	// Reset timer
+        int volume, index;
+        std::string text;
+        size_t arrSize = (sizeof(parrotArray)/sizeof(*parrotArray));
+        index = rng(0, arrSize-1);
+        parroted_speech speech = parrotArray[index];
+        volume = parrotArray[index].volume;
+        text = speech.text;
+        g->sound(z->posx, z->posy, volume, _(text.c_str()));
+    }
 
 }
