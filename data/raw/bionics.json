@@ -76,6 +76,27 @@
     "description":    "Your vision is greatly enhanced, giving you a +2 bonus to perception."
 },
 {
+    "id"         :    "bio_dex_enhancer",
+    "name"       :    "Wired Reflexes",
+    "cost"       :    0,
+    "time"       :    0,
+    "description":    "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity."
+},
+{
+    "id"         :    "bio_str_enhancer",
+    "name"       :    "Muscle Augmentation",
+    "cost"       :    0,
+    "time"       :    0,
+    "description":    "Your muscular system has been enhanced with myomer fibers, giving you a +2 bonus to strength."
+},
+{
+    "id"         :    "bio_int_enhancer",
+    "name"       :    "Cerebral Booster",
+    "cost"       :    0,
+    "time"       :    0,
+    "description":    "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence."
+},
+{
     "id"         :    "bio_membrane",
     "name"       :    "Nictating Membrane",
     "cost"       :    0,
