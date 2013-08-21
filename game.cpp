@@ -41,7 +41,6 @@
 #include <sys/stat.h>
 #include "debug.h"
 #include "artifactdata.h"
-#include "editmap.h"
 
 #if (defined _WIN32 || defined __WIN32__)
 #include <windows.h>
