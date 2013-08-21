@@ -3062,6 +3062,10 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                             g->active_npc[npc_hit]->thirst = 0;
                             g->active_npc[npc_hit]->fatigue = 0;
                             g->active_npc[npc_hit]->health = 0;
+                            g->active_npc[npc_hit]->stim = 0;
+                            g->active_npc[npc_hit]->pain = 0;
+                            g->active_npc[npc_hit]->pkill = 0;
+                            g->active_npc[npc_hit]->radiation = 0;
                         } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
                             for (int i = 0; i < g->u.illness.size(); i++) {
                                 g->u.illness.erase(g->u.illness.begin() + i);
@@ -3079,6 +3083,10 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                             g->u.thirst = 0;
                             g->u.fatigue = 0;
                             g->u.health = 0;
+                            g->u.stim = 0;
+                            g->u.pain = 0;
+                            g->u.pkill = 0;
+                            g->u.radiation = 0;
                         }
                     }
                 }
