@@ -3,6 +3,7 @@
 #include "game.h"
 #include "rng.h"
 #include "options.h"
+#include "translations.h"
 
 void event::actualize(game *g)
 {
@@ -68,7 +69,7 @@ void event::actualize(game *g)
   case EVENT_AMIGARA: {
    int num_horrors = rng(3, 5);
    int faultx = -1, faulty = -1;
-   bool horizontal;
+   bool horizontal = false;
    for (int x = 0; x < SEEX * MAPSIZE && faultx == -1; x++) {
     for (int y = 0; y < SEEY * MAPSIZE && faulty == -1; y++) {
      if (g->m.ter(x, y) == t_fault) {
@@ -130,7 +131,7 @@ void event::actualize(game *g)
     }
    }
    if (saw_grate)
-    g->add_msg("The nearby grates open to reveal a staircase!");
+    g->add_msg(_("The nearby grates open to reveal a staircase!"));
   } break;
 
   case EVENT_TEMPLE_FLOOD: {
@@ -175,9 +176,9 @@ void event::actualize(game *g)
 // Check if we should print a message
    if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy)) {
     if (flood_buf[g->u.posx][g->u.posy] == t_water_sh)
-     g->add_msg("Water quickly floods up to your knees.");
+     g->add_msg(_("Water quickly floods up to your knees."));
     else { // Must be deep water!
-     g->add_msg("Water fills nearly to the ceiling!");
+     g->add_msg(_("Water fills nearly to the ceiling!"));
      g->plswim(g->u.posx, g->u.posy);
     }
    }
@@ -190,7 +191,7 @@ void event::actualize(game *g)
   } break;
 
   case EVENT_TEMPLE_SPAWN: {
-   mon_id montype;
+   mon_id montype = mon_null;
    switch (rng(1, 4)) {
     case 1: montype = mon_sewer_snake;  break;
     case 2: montype = mon_centipede;    break;
@@ -221,7 +222,7 @@ void event::per_turn(game *g)
  switch (type) {
   case EVENT_WANTED: {
    // About once every 10 minutes. Suppress in classic zombie mode.
-   if (g->levz >= 0 && one_in(100) && !OPTIONS[OPT_CLASSIC_ZOMBIES]) {
+   if (g->levz >= 0 && one_in(100) && !OPTIONS["CLASSIC_ZOMBIES"]) {
     monster eyebot(g->mtypes[mon_eyebot]);
     eyebot.faction_id = faction_id;
     point place = g->m.random_outdoor_tile();
@@ -230,7 +231,7 @@ void event::per_turn(game *g)
     eyebot.spawn(place.x, place.y);
     g->z.push_back(eyebot);
     if (g->u_see(place.x, place.y))
-     g->add_msg("An eyebot swoops down nearby!");
+     g->add_msg(_("An eyebot swoops down nearby!"));
    }
   } break;
 
@@ -240,15 +241,15 @@ void event::per_turn(game *g)
     return;
    }
    if (int(g->turn) % 3 == 0)
-    g->add_msg("You hear screeches from the rock above and around you!");
+    g->add_msg(_("You hear screeches from the rock above and around you!"));
    break;
 
   case EVENT_AMIGARA:
-   g->add_msg("The entire cavern shakes!");
+   g->add_msg(_("The entire cavern shakes!"));
    break;
 
   case EVENT_TEMPLE_OPEN:
-   g->add_msg("The earth rumbles.");
+   g->add_msg(_("The earth rumbles."));
    break;
 
 

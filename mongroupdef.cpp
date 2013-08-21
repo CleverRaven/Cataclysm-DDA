@@ -8,6 +8,11 @@
 // Default start time, this is the only place it's still used.
 #define STARTING_MINUTES 480
 
+// hack for MingW: prevent undefined references to `libintl_printf'
+#if defined _WIN32 || defined __CYGWIN__
+ #undef printf
+#endif
+
 //Adding a group:
 //  1: Declare it in the MonsterGroupDefs enum in mongroup.h
 //  2: Define it in here with the macro Group(your group, default monster)
@@ -43,7 +48,7 @@ mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector 
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
         if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[it->first]->difficulty))) &&
-           (!OPTIONS[OPT_CLASSIC_ZOMBIES] ||
+           (!OPTIONS["CLASSIC_ZOMBIES"] ||
             (*mtypes)[it->first]->in_category(MC_CLASSIC) ||
             (*mtypes)[it->first]->in_category(MC_WILDLIFE)))
         {   //Not too hard for us (or we dont care)
@@ -56,7 +61,7 @@ mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector 
         }
     }
     if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[g.defaultMonster]->difficulty))
-        && (!OPTIONS[OPT_STATIC_SPAWN]))
+        && (!OPTIONS["STATIC_SPAWN"]))
     {
         return mon_null;
     }

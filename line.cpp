@@ -7,6 +7,8 @@
 std::vector <point> line_to(int x1, int y1, int x2, int y2, int t)
 {
  std::vector<point> ret;
+ // Preallocate the number of cells we need instead of allocating them piecewise.
+ ret.reserve( square_dist( x1, y1, x2, y2 ) );
  int dx = x2 - x1;
  int dy = y2 - y1;
  int ax = abs(dx)<<1;

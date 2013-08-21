@@ -319,18 +319,15 @@ void faction::randomize()
   size  = dice(6, 6);
  }
   
- char buf[128], buf2[256];
  if (one_in(4)) {
   do{
-   sprintf(buf, _("The %1$s of %2$s"), noun.c_str(), invent_name().c_str());
-   name = buf;
+   name = string_format(_("The %1$s of %2$s"), noun.c_str(), invent_name().c_str());
   }
   while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
  else if (one_in(2)) {
   do{
-   sprintf(buf, _("The %1$s %2$s"), invent_adj().c_str(), noun.c_str());
-   name = buf;
+   name = string_format(_("The %1$s %2$s"), invent_adj().c_str(), noun.c_str());
   }
   while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
@@ -343,12 +340,9 @@ void faction::randomize()
     adj = faction_adj_bad[rng(0, 14)];
    else
     adj = faction_adj_neu[rng(0, 14)];
-   sprintf(buf, _("The %1$s %2$s"), adj.c_str(), noun.c_str());
+   name=string_format(_("The %1$s %2$s"), adj.c_str(), noun.c_str());
    if (one_in(4)){
-    sprintf(buf2, _("%1$s of %2$s"), buf, invent_name().c_str());
-    name=buf2;
-   }else{
-    name=buf;
+    name = string_format(_("%1$s of %2$s"), name.c_str(), invent_name().c_str());
    }
   } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
@@ -534,7 +528,7 @@ std::string invent_name()
    case 24: tmp = _("<fac_name>yen"); break;
    case 25: tmp = _("<fac_name>zu");  break;
   }
-  ret += tmp.substr(10);
+  ret += rm_prefix(tmp);
  }
 
  return capitalize_letter(ret);
@@ -572,7 +566,7 @@ std::string invent_adj()
   case 24: ret = _("<fac_adj>Yend");  break;
   case 25: ret = _("<fac_adj>Zor");   break;
  }
- ret = ret.substr(9);
+ ret = rm_prefix(ret);
  for (int i = 0; i < syllables - 2; i++) {
   switch (rng(0, 17)) {
    case  0: tmp = _("<fac_adj>al");   break;
@@ -594,7 +588,7 @@ std::string invent_adj()
    case 16: tmp = _("<fac_adj>ulv");  break;
    case 17: tmp = _("<fac_adj>urn");  break;
   }
-  ret += tmp.substr(9);
+  ret += rm_prefix(tmp);
  }
  switch (rng(0, 24)) {
   case  0: tmp = "";      break;
@@ -623,7 +617,7 @@ std::string invent_adj()
   case 23: tmp = _("<fac_adj>ule");   break;
   case 24: tmp = _("<fac_adj>y");     break;
  }
- ret += tmp.substr(9);
+ ret += rm_prefix(tmp);
  return ret;
 }
 

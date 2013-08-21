@@ -2,6 +2,7 @@ cataclysm
 cataclysm-tiles
 data/*.template
 save/
+memorial/
 obj/
 debug.log
 logg.txt
@@ -11,6 +12,7 @@ objwin/
 cataclysm.exe
 version.h
 Cataclysm.exe
+CataclysmWin.cscope_file_list
 CataclysmWin.depend
 CataclysmWin.layout
 *.dll

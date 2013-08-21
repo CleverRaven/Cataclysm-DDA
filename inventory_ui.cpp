@@ -59,16 +59,16 @@ std::vector<int> find_firsts(invslice &slice)
 void print_inv_weight_vol(game *g, WINDOW* w_inv, int weight_carried, int vol_carried)
 {
     // Print weight
-    mvwprintw(w_inv, 0, 43, _("Weight: "));
-    if (weight_carried >= g->u.weight_capacity() * .25)
+    mvwprintw(w_inv, 0, 39, _("Weight: "));
+    if (weight_carried >= g->u.weight_capacity())
     {
-        wprintz(w_inv, c_red, "%4d", weight_carried);
+        wprintz(w_inv, c_red, "%6.1f", g->u.convert_weight(weight_carried));
     }
     else
     {
-        wprintz(w_inv, c_ltgray, "%4d", weight_carried);
+        wprintz(w_inv, c_ltgray, "%6.1f", g->u.convert_weight(weight_carried));
     }
-    wprintz(w_inv, c_ltgray, "/%-4d", int(g->u.weight_capacity() * .25));//, g->u.weight_capacity());
+    wprintz(w_inv, c_ltgray, "/%-6.1f", g->u.convert_weight(g->u.weight_capacity()));
 
     // Print volume
     mvwprintw(w_inv, 0, 61, _("Volume: "));
@@ -145,7 +145,7 @@ char game::inv(std::string title)
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? FULL_SCREEN_WIDTH : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int ch = (int)'.';
- int start = 0, cur_it, max_it;
+ int start = 0, cur_it = 0, max_it;
  u.inv.sort();
  u.inv.restack(&u);
  invslice slice = u.inv.slice(0, u.inv.size());
@@ -263,7 +263,7 @@ char game::inv_type(std::string title, item_cat inv_item_type)
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? FULL_SCREEN_WIDTH : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int ch = (int)'.';
- int start = 0, cur_it, max_it;
+ int start = 0, cur_it = 0, max_it;
  u.inv.sort();
  u.inv.restack(&u);
  std::vector<char> null_vector;
@@ -391,7 +391,7 @@ std::vector<item> game::multidrop()
  int base_volume = u.volume_carried();
 
  int ch = (int)'.';
- int start = 0, cur_it, max_it;
+ int start = 0, cur_it = 0, max_it;
  invslice stacks = u.inv.slice(0, u.inv.size());
  std::vector<int> firsts = find_firsts(stacks);
  int selected=-1;
@@ -690,7 +690,7 @@ void game::compare(int iCompareX, int iCompareY)
  std::vector<int> compare_list; // Count of how many we'll drop from each stack
  bool bFirst = false; // First Item selected
  bool bShowCompare = false;
- char cLastCh;
+ char cLastCh = 0;
  compare_list.resize(u.inv.size() + groundsize, 0);
  std::vector<char> weapon_and_armor; // Always single, not counted
  print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
@@ -704,7 +704,7 @@ void game::compare(int iCompareX, int iCompareY)
   firsts.push_back((first[i] >= 0) ? first[i]+groundsize : -1);
  }
  ch = '.';
- int start = 0, cur_it;
+ int start = 0, cur_it = 0;
  do {
   if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) {
    for (int i = 1; i < maxitems+4; i++)

@@ -8,7 +8,7 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 
-const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "PLAS", "water" };
+const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
 
 enum vehicle_controls {
  toggle_cruise_control,
@@ -743,10 +743,10 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
         // part bigness, if that's relevant.
         if (part_flag(pl[i], vpf_variable_size)){
            if (part_flag(pl[i], vpf_engine)){ //bigness == liters
-              nom << string_format(_("<veh_adj>%4.2f-Liter "), (float)(parts[pl[i]].bigness) / 100).substr(9);
+              nom << rmp_format(_("<veh_adj>%4.2f-Liter "), (float)(parts[pl[i]].bigness) / 100);
            }
            else if (part_flag(pl[i], vpf_wheel)){ //bigness == inches
-              nom << string_format(_("<veh_adj>%d\" "), parts[pl[i]].bigness).substr(9);
+              nom << rmp_format(_("<veh_adj>%d\" "), parts[pl[i]].bigness);
            }
         }
         nom << part_info(pl[i]).name;
@@ -875,9 +875,9 @@ int vehicle::total_mass ()
         for (int j = 0; j < parts[i].items.size(); j++)
             m += parts[i].items[j].type->weight;
         if (part_flag(i,vpf_boardable) && parts[i].has_flag(vehicle_part::passenger_flag))
-            m += 520; // TODO: get real weight
+            m += 81500; // TODO: get real weight
     }
-    return m;
+    return m/1000;
 }
 
 int vehicle::fuel_left (ammotype ftype, bool for_engine)
@@ -1131,7 +1131,7 @@ float vehicle::k_mass ()
     float ma0 = 50.0;
 
     // calculate safe speed reduction due to mass
-    float km = ma0 / (ma0 + total_mass() / (8 * (float) wa));
+    float km = ma0 / (ma0 + (total_mass()/8) / (8 * (float) wa));
 
     return km;
 }
@@ -1150,7 +1150,7 @@ float vehicle::strain ()
 
 bool vehicle::valid_wheel_config ()
 {
-    int x1, y1, x2, y2;
+    int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
     for (int i = 0; i < external_parts.size(); i++)
     {
@@ -1403,7 +1403,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
         parm = part;
     int dmg_mod = part_info(parm).dmg_mod;
     // let's calculate type of collision & mass of object we hit
-    int mass = total_mass() / 8;
+    int mass = total_mass();
     int mass2;
 
     if (is_body_collision)
@@ -1413,24 +1413,24 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
             switch (z->type->size)
             {
             case MS_TINY:    // Rodent
-                mass2 = 15;
+                mass2 = 1;
                 break;
             case MS_SMALL:   // Half human
-                mass2 = 40;
+                mass2 = 41;
                 break;
             default:
             case MS_MEDIUM:  // Human
-                mass2 = 80;
+                mass2 = 82;
                 break;
             case MS_LARGE:   // Cow
-                mass2 = 200;
+                mass2 = 120;
                 break;
             case MS_HUGE:     // TAAAANK
-                mass2 = 800;
+                mass2 = 200;
                 break;
             }
         else
-            mass2 = 80;// player or NPC
+            mass2 = 82;// player or NPC
     }
     else // if all above fails, go for terrain which might obstruct moving
     if (g->m.has_flag_ter_or_furn (thin_obstacle, x, y))
@@ -1691,9 +1691,11 @@ void vehicle::handle_trap (int x, int y, int part)
                 g->m.spawn_item(x, y, "string_6", 0);
             }
             break;
+        case tr_landmine_buried:
         case tr_landmine:
             expl = 10;
             shrap = 8;
+            g->m.tr_at(x, y) = tr_null;
             break;
         case tr_boobytrap:
             expl = 18;
@@ -1830,7 +1832,8 @@ void vehicle::gain_moves (int mp)
     if (player_in_control(&g->u))
     {
         if (cruise_on)
-        if (abs(cruise_velocity - velocity) >= acceleration()/2 ||
+        if (velocity - cruise_velocity >= 10 * 100 ||
+            cruise_velocity - velocity >= acceleration()/3 ||
             (cruise_velocity != 0 && velocity == 0) ||
             (cruise_velocity == 0 && velocity != 0))
             thrust (cruise_velocity > velocity? 1 : -1);
@@ -2186,7 +2189,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     if (g->u_see(x, y))
         g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name);
     player tmp;
-    tmp.name = string_format(_("<veh_player>The %s"), part_info(p).name).substr(12);
+    tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name);
     tmp.skillLevel(gun.skill_used).level(1);
     tmp.skillLevel("gun").level(0);
     tmp.recoil = abs(velocity) / 100 / 4;

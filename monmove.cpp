@@ -269,6 +269,7 @@ void monster::move(game *g)
  } else if (has_flag(MF_SMELLS)) {
 // No sight... or our plans are invalid (e.g. moving through a transparent, but
 //  solid, square of terrain).  Fall back to smell if we have it.
+  plans.clear();
   point tmp = scent_move(g);
   if (tmp.x != -1) {
    next = tmp;
@@ -276,7 +277,8 @@ void monster::move(game *g)
   }
  }
  if (wandf > 0 && !moved) { // No LOS, no scent, so as a fall-back follow sound
-  point tmp = sound_move(g);
+  plans.clear();
+  point tmp = wander_next(g);
   if (tmp.x != posx || tmp.y != posy) {
    next = tmp;
    moved = true;
@@ -286,34 +288,15 @@ void monster::move(game *g)
 // Finished logic section.  By this point, we should have chosen a square to
 //  move to (moved = true).
  if (moved) {	// Actual effects of moving to the square we've chosen
-  mondex = g->mon_at(next.x, next.y);
-  int npcdex = g->npc_at(next.x, next.y);
-  if (next.x == g->u.posx && next.y == g->u.posy && type->melee_dice > 0)
-   hit_player(g, g->u);
-  else if (mondex != -1 && g->z[mondex].type->species == species_hallu) {
-   g->kill_mon(mondex);
-   moves -= 100;
-  } else if (mondex != -1 && type->melee_dice > 0 && this != &(g->z[mondex]) &&
-             (g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)))
-   hit_monster(g, mondex);
-  else if (npcdex != -1 && type->melee_dice > 0)
-   hit_player(g, *g->active_npc[npcdex]);
-  else if ((!can_move_to(g, next.x, next.y) || one_in(3)) &&
-             g->m.has_flag(bashable, next.x, next.y) && has_flag(MF_BASHES)) {
-   std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
-   int bashskill = int(type->melee_dice * type->melee_sides);
-   g->m.bash(next.x, next.y, bashskill, bashsound);
-   g->sound(next.x, next.y, 18, bashsound);
-   moves -= 100;
-  } else if (g->m.move_cost(next.x, next.y) == 0 && has_flag(MF_DESTROYS)) {
-   g->m.destroy(g, next.x, next.y, true);
-   moves -= 250;
-  } else if (can_move_to(g, next.x, next.y) && g->is_empty(next.x, next.y))
-   move_to(g, next.x, next.y);
-  else
-   moves -= 100;
- } else
+  // Note: The below works because C++ in A() || B() won't call B() if A() is true
+  int& x = next.x; int& y = next.y; // Define alias for x and y
+  bool did_something = attack_at(x, y) || bash_at(x, y) || move_to(g, x, y);
+  if(!did_something) {
+   moves -= 100; // If we don't do this, we'll get infinite loops.
+  }
+ } else {
   moves -= 100;
+ }
 
 // If we're close to our target, we get focused and don't stumble
  if ((has_flag(MF_STUMBLES) && (plans.size() > 3 || plans.size() == 0)) ||
@@ -375,37 +358,11 @@ void monster::friendly_move(game *g)
 		stumble(g, moved);
 	}
 	if (moved) {
-		//We have a plan.
-		int mondex = g->mon_at(next.x, next.y);
-		int npcdex = g->npc_at(next.x, next.y);
-		//If there is an unfriendly mosnter in the target square we want to move into, hit them if we have a melee attack.
-		if (mondex != -1 && g->z[mondex].friendly == 0 && type->melee_dice > 0){
-			hit_monster(g, mondex);
-		}
-		//If there is an npc (any npc?) we hit them assuming we have a melee attack.
-		else if (npcdex != -1 && type->melee_dice > 0){
-			hit_player(g, *g->active_npc[g->npc_at(next.x, next.y)]);
-		}
-		//If no one is there and its a walkable square, walk there.
-		else if (mondex == -1 && npcdex == -1 && can_move_to(g, next.x, next.y)){
-			move_to(g, next.x, next.y);
-		}
-		//If there is a bashable object in our way, bash it down.
-		else if ((!can_move_to(g, next.x, next.y) || one_in(3)) &&
-			g->m.has_flag(bashable, next.x, next.y) && has_flag(MF_BASHES)) {
-				std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
-				int bashskill = int(type->melee_dice * type->melee_sides);
-				g->m.bash(next.x, next.y, bashskill, bashsound);
-				g->sound(next.x, next.y, 18, bashsound);
-				moves -= 100;
-		}
-		//If there is a destroyable object in our way, destroy it.
-		else if (g->m.move_cost(next.x, next.y) == 0 && has_flag(MF_DESTROYS)) {
-			g->m.destroy(g, next.x, next.y, true);
-			moves -= 250;
-		}
+        int& x = next.x; int& y = next.y; // Define alias for x and y
+        bool did_something = attack_at(x, y) || bash_at(x, y) || move_to(g, x, y);
+
 		//If all else fails in our plan (an issue with pathfinding maybe) stumble around instead.
-		else {
+		if(!did_something) {
 			stumble(g, moved);
 			moves -= 100;
 		}
@@ -414,7 +371,6 @@ void monster::friendly_move(game *g)
 
 point monster::scent_move(game *g)
 {
- plans.clear();
  std::vector<point> smoves;
 
  int maxsmell = 2; // Squares with smell 0 are not eligable targets
@@ -457,9 +413,8 @@ point monster::scent_move(game *g)
  return next;
 }
 
-point monster::sound_move(game *g)
+point monster::wander_next(game *g)
 {
- plans.clear();
  point next;
  bool xbest = true;
  if (abs(wandy - posy) > abs(wandx - posx))// which is more important
@@ -549,7 +504,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
     if (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill))
     {
-        g->add_msg("The %s misses.", name().c_str());
+        g->add_msg(_("The %s misses."), name().c_str());
     }
     else
     {
@@ -568,7 +523,11 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             // then returns less with each additional point, reaching 99% at 16
             if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
             {
-                g->add_msg("%s dodge the %s.", You.c_str(), name().c_str());
+                if (is_npc) {
+                    g->add_msg(_("%1$s dodges the %2$s."), p.name.c_str(), name().c_str());
+                } else {
+                    g->add_msg(_("You dodge the %s."), name().c_str());
+                }
                 p.practice(g->turn, "dodge", type->melee_skill * 2); //Better monster = more skill gained
             }
 
@@ -578,8 +537,13 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 p.practice(g->turn, "dodge", type->melee_skill);
                 if (u_see && tech != TEC_BLOCK)
                 {
-                    g->add_msg("The %s hits %s %s.", name().c_str(), your.c_str(),
-                            body_part_name(bphit, side).c_str());
+                    if (is_npc) {
+                        g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
+                            p.name.c_str(), body_part_name(bphit, side).c_str());
+                    } else {
+                        g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
+                                   body_part_name(bphit, side).c_str());
+                    }
                 }
 
                 // Attempt defensive moves
@@ -587,33 +551,41 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     if (g->u.activity.type == ACT_RELOAD)
                     {
-                        g->add_msg("You stop reloading.");
+                        g->add_msg(_("You stop reloading."));
                     }
                     else if (g->u.activity.type == ACT_READ)
                     {
-                        g->add_msg("You stop reading.");
+                        g->add_msg(_("You stop reading."));
                     }
                     else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
                     {
-                        g->add_msg("You stop crafting.");
+                        g->add_msg(_("You stop crafting."));
                         g->u.activity.type = ACT_NULL;
                     }
                 }
 
                 if (p.has_active_bionic("bio_ods"))
                 {
-                    if (u_see)
-                    {
-                        g->add_msg("%s offensive defense system shocks it!", Your.c_str());
+                    if (!is_npc) {
+                        g->add_msg(_("Your offensive defense system shocks it!"),
+                                   p.name.c_str());
+                    } else if (u_see) {
+                        g->add_msg(_("%s's offensive defense system shocks it!"),
+                                   p.name.c_str());
                     }
                     if (hurt(rng(10, 40)))
                         die(g);
                 }
-                if (p.encumb(bphit) == 0 &&(p.has_trait(PF_SPINES) || p.has_trait(PF_QUILLS)))
+                if (p.encumb(bphit) == 0 &&(p.has_trait("SPINES") || p.has_trait("QUILLS")))
                 {
-                    int spine = rng(1, (p.has_trait(PF_QUILLS) ? 20 : 8));
-                    g->add_msg("%s %s puncture it!", Your.c_str(),
-                            (g->u.has_trait(PF_QUILLS) ? "quills" : "spines"));
+                    int spine = rng(1, (p.has_trait("QUILLS") ? 20 : 8));
+                    if (is_npc) {
+                        g->add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
+                                   (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
+                    } else {
+                        g->add_msg(_("Your %s puncture it!"),
+                                   (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
+                    }
                     if (hurt(spine))
                         die(g);
                 }
@@ -631,7 +603,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     if (!is_npc)
                     {
-                        g->add_msg("You're poisoned!");
+                        g->add_msg(_("You're poisoned!"));
                     }
                     p.add_disease("poison", 30);
                 }
@@ -639,7 +611,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     if (!is_npc)
                     {
-                        g->add_msg("You feel poison flood your body, wracking you with pain...");
+                        g->add_msg(_("You feel poison flood your body, wracking you with pain..."));
                     }
                     p.add_disease("badpoison", 40);
                 }
@@ -647,7 +619,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     if (!is_npc)
                     {
-                        g->add_msg("You're Bleeding!");
+                        g->add_msg(_("You're Bleeding!"));
                     }
                     p.add_disease("bleed", 60);
                 }
@@ -657,14 +629,14 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     if (!is_npc)
                     {
-                        g->add_msg("The %s grabs you!", name().c_str());
+                        g->add_msg(_("The %s grabs you!"), name().c_str());
                     }
                     if (p.weapon.has_technique(TEC_BREAK, &p) &&
                         dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
                     {
                         if (!is_npc)
                         {
-                            g->add_msg("You break the grab!");
+                            g->add_msg(_("You break the grab!"));
                         }
                     }
                     else
@@ -758,15 +730,89 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
     return movecost;
 }
 
-void monster::move_to(game *g, int x, int y)
+int monster::bash_at(int x, int y) {
+    bool try_bash = !can_move_to(g, x, y) || one_in(3);
+    bool can_bash = g->m.has_flag(bashable, x, y) && has_flag(MF_BASHES);
+    if(try_bash && can_bash) {
+        std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
+        int bashskill = int(type->melee_dice * type->melee_sides);
+        g->m.bash(x, y, bashskill, bashsound);
+        g->sound(x, y, 18, bashsound);
+        moves -= 100;
+        return 1;
+    } else if (g->m.move_cost(x, y) == 0 && has_flag(MF_DESTROYS)) {
+        g->m.destroy(g, x, y, true);
+        moves -= 250;
+        return 1;
+    }
+    return 0;
+}
+
+int monster::attack_at(int x, int y) {
+    int mondex = g->mon_at(x, y);
+    int npcdex = g->npc_at(x, y);
+
+    if(x == g->u.posx && y == g->u.posy) {
+        hit_player(g, g->u);
+        return 1;
+    }
+
+    if(mondex != -1) {
+        // Currently, there are only pro-player and anti-player groups,
+        // this makes it easy for us.
+        monster& mon = g->z[mondex];
+
+        // Don't attack yourself.
+        if(&mon == this) {
+            return 0;
+        }
+
+        // Special case: Target is hallucination
+        if(mon.type->species == species_hallu) {
+            g->kill_mon(mondex);
+
+            // We haven't actually attacked anything, i.e. we can still do things.
+            // Hallucinations(obviously) shouldn't affect the way real monsters act.
+            return 0;
+        }
+
+        // With no melee dice, we can't attack, but we had to process until here
+        // because hallucinations require no melee dice to destroy.
+        if(type->melee_dice <= 0) {
+            return 0;
+        }
+
+        bool is_enemy = mon.friendly != friendly;
+        is_enemy = is_enemy || has_flag(MF_ATTACKMON); // I guess the flag means all monsters are enemies?
+
+        if(is_enemy) {
+            hit_monster(g, mondex);
+            return 1;
+        }
+    } else if(npcdex != -1  && type->melee_dice > 0) {
+        // For now we're always attacking NPCs that are getting into our
+        // way. This is consistent with how it worked previously, but
+        // later on not hitting allied NPCs would be cool.
+        hit_player(g, *g->active_npc[npcdex]);
+        return 1;
+    }
+
+    // Nothing to attack.
+    return 0;
+}
+
+int monster::move_to(game *g, int x, int y, bool force)
 {
- int mondex = g->mon_at(x, y);
- if (mondex == -1) { //...assuming there's no monster there
+  // Make sure that we can move there, unless force is true.
+  if(!force) if(!g->is_empty(x, y) || !can_move_to(g, x, y)) {
+      return 0;
+  }
+
   if (has_effect(ME_BEARTRAP)) {
    moves = 0;
-   return;
+   return 0;
   }
-  
+
   if (plans.size() > 0)
    plans.erase(plans.begin());
 
@@ -810,9 +856,7 @@ void monster::move_to(game *g, int x, int y)
    g->m.add_field(g, posx, posy, fd_acid, 1);
   }
 
- } else if (has_flag(MF_ATTACKMON) || g->z[mondex].friendly != 0)
-// If there IS a monster there, and we fight monsters, fight it!
-  hit_monster(g, mondex);
+  return 1;
 }
 
 /* Random walking even when we've moved
@@ -899,7 +943,7 @@ void monster::knock_back_from(game *g, int x, int y)
   }
 
   if (u_see)
-   g->add_msg("The %s bounces off a %s!", name().c_str(), z->name().c_str());
+   g->add_msg(_("The %s bounces off a %s!"), name().c_str(), z->name().c_str());
 
   return;
  }
@@ -911,7 +955,7 @@ void monster::knock_back_from(game *g, int x, int y)
   add_effect(ME_STUNNED, 1);
   p->hit(g, bp_torso, 0, type->size, 0);
   if (u_see)
-   g->add_msg("The %s bounces off %s!", name().c_str(), p->name.c_str());
+   g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 
   return;
  }
@@ -923,20 +967,20 @@ void monster::knock_back_from(game *g, int x, int y)
    if (!has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)) {
     hurt(9999);
     if (u_see)
-     g->add_msg("The %s drowns!", name().c_str());
+     g->add_msg(_("The %s drowns!"), name().c_str());
    }
 
   } else if (has_flag(MF_AQUATIC)) { // We swim but we're NOT in water
    hurt(9999);
    if (u_see)
-    g->add_msg("The %s flops around and dies!", name().c_str());
+    g->add_msg(_("The %s flops around and dies!"), name().c_str());
 
   } else { // It's some kind of wall.
    hurt(type->size);
    add_effect(ME_STUNNED, 2);
    if (u_see)
-    g->add_msg("The %s bounces off a %s.", name().c_str(),
-                                           g->m.tername(to.x, to.y).c_str());
+    g->add_msg(_("The %s bounces off a %s."), name().c_str(),
+               g->m.tername(to.x, to.y).c_str());
   }
 
  } else { // It's no wall

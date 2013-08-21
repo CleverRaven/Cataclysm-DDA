@@ -48,8 +48,37 @@ void game::init_recipes() throw (std::string)
         bool autolearn = curr.get("autolearn").as_bool();
         // optional fields
         bool reversible = curr.has("reversible") ? curr.get("reversible").as_bool() : false;
-        std::string skill1 = curr.has("skill_pri") ? curr.get("skill_pri").as_string() : "";
-        std::string skill2 = curr.has("skill_sec") ? curr.get("skill_sec").as_string() : "";
+        std::string skill_used = curr.has("skill_used") ? curr.get("skill_used").as_string() : "";
+        std::map<std::string, int> requires_skills;
+        //Find skill requirements, if any exist
+        if(curr.has("requires_skills")){
+          catajson skill_list = curr.get("requires_skills");
+          // The json could contain the data for a single requirement, or multiple, but either way its an array
+          if(skill_list.is_array()){
+              skill_list.set_begin();
+              if(skill_list.curr().is_array()){
+                  // If the first element is an array, we have a list of requirements
+                  for(skill_list.set_begin(); skill_list.has_curr(); skill_list.next()){
+                    catajson sub_list = skill_list.curr();
+                    sub_list.set_begin();
+                    std::string skill_name = sub_list.curr().as_string();
+                    sub_list.next();
+                    int skill_level = sub_list.curr().as_int();
+                    requires_skills[skill_name]=skill_level;
+                  }
+              } else {
+                  // If the first element is not an array, we just have a single requirement
+                  std::string skill_name = skill_list.curr().as_string();
+                  skill_list.next();
+                  int skill_level = skill_list.curr().as_int();
+                  requires_skills[skill_name]=skill_level;
+              }
+          }
+          else {
+              debugmsg("Invalid skill requirements: %s", result.c_str());
+          }
+          
+        }
         std::string id_suffix = curr.has("id_suffix") ? curr.get("id_suffix").as_string() : "";
         int learn_by_disassembly = curr.has("decomp_learn") ? curr.get("decomp_learn").as_int() : -1;
 
@@ -59,7 +88,7 @@ void game::init_recipes() throw (std::string)
 
         std::string rec_name = result + id_suffix;
 
-        last_rec = new recipe(rec_name, id, result, category, skill1, skill2,
+        last_rec = new recipe(rec_name, id, result, category, skill_used, requires_skills,
                               difficulty, time, reversible, autolearn,
                               learn_by_disassembly);
 
@@ -640,14 +669,14 @@ recipe* game::select_crafting_recipe()
         if (current.size() > 0)
         {
             nc_color col = (available[line] ? c_white : c_dkgray);
-            mvwprintz(w_data, 0, 30, col, _("Primary skill: %s"),
-            (current[line]->sk_primary == NULL ? _("N/A") :
-            current[line]->sk_primary->name().c_str()));
-            mvwprintz(w_data, 1, 30, col, _("Secondary skill: %s"),
-            (current[line]->sk_secondary == NULL ? _("N/A") :
-            current[line]->sk_secondary->name().c_str()));
+            mvwprintz(w_data, 0, 30, col, _("Skills used: %s"),
+                (current[line]->skill_used == NULL ? "N/A" :
+                current[line]->skill_used->name().c_str()));
+            
+            mvwprintz(w_data, 1, 30, col, _("Required skills: %s"),
+                (current[line]->required_skills_string().c_str()));
             mvwprintz(w_data, 2, 30, col, _("Difficulty: %d"), current[line]->difficulty);
-            if (current[line]->sk_primary == NULL)
+            if (current[line]->skill_used == NULL)
             {
                 mvwprintz(w_data, 3, 30, col, _("Your skill level: N/A"));
             }
@@ -655,7 +684,7 @@ recipe* game::select_crafting_recipe()
             {
                 mvwprintz(w_data, 3, 30, col, _("Your skill level: %d"),
                 // Macs don't seem to like passing this as a class, so force it to int
-                (int)u.skillLevel(current[line]->sk_primary));
+                (int)u.skillLevel(current[line]->skill_used));
             }
             if (current[line]->time >= 1000)
             {
@@ -707,10 +736,7 @@ recipe* game::select_crafting_recipe()
 
                         if (charges > 0)
                         {
-                            char* buf = new char[32];
-                            sprintf(buf, _("(%d charges) "), charges);
-                            toolinfo << buf;
-                            delete buf; buf = NULL;
+                            toolinfo << string_format(_("(%d charges) "), charges);
                         }
                         std::string toolname = toolinfo.str();
                         if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH)
@@ -964,14 +990,21 @@ void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, 
     std::vector<recipe*> can_craft;
     for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
     {
-        if (u.knows_recipe(*iter) && (*iter)->difficulty >= 0)
+        if (u.knows_recipe(*iter))
         {
-            if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
+            if ((*iter)->difficulty >= 0 )
             {
-                if (OPTIONS[OPT_SORT_CRAFTING] && can_make(*iter))
-                    can_craft.push_back(*iter);
-                else
-                    current.push_back(*iter);
+                if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
+                {
+                    if (OPTIONS["SORT_CRAFTING"] && can_make(*iter))
+                    {
+                        can_craft.push_back(*iter);
+                    }
+                    else
+                    {
+                        current.push_back(*iter);
+                    }
+                }
             }
         }
     }
@@ -998,35 +1031,19 @@ void game::complete_craft()
  recipe* making = recipe_by_index(u.activity.index); // Which recipe is it?
 
 // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
- int skill_dice = u.skillLevel(making->sk_primary) * 3;
- if (making->sk_secondary == NULL)
-   skill_dice += u.skillLevel(making->sk_primary);
- else
-   skill_dice += u.skillLevel(making->sk_secondary);
+ int skill_dice = u.skillLevel(making->skill_used) * 4;
 
 // farsightedness can impose a penalty on electronics and tailoring success
 // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
- if (u.has_trait(PF_HYPEROPIC) && !u.is_wearing("glasses_reading")
+ if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
      && !u.is_wearing("glasses_bifocal")) {
   int main_rank_penalty = 0;
-  if (making->sk_primary == Skill::skill("electronics")) {
+  if (making->skill_used == Skill::skill("electronics")) {
    main_rank_penalty = 2;
-  } else if (making->sk_primary == Skill::skill("tailoring")) {
+  } else if (making->skill_used == Skill::skill("tailoring")) {
    main_rank_penalty = 1;
   }
-  skill_dice -= main_rank_penalty * 3;
-
-  if (making->sk_secondary == NULL) {
-   skill_dice -= main_rank_penalty;
-  } else {
-   int second_rank_penalty = 0;
-   if (making->sk_secondary == Skill::skill("electronics")) {
-    second_rank_penalty = 2;
-   } else if (making->sk_secondary == Skill::skill("tailoring")) {
-    second_rank_penalty = 1;
-   }
-   skill_dice -= second_rank_penalty;
-  }
+  skill_dice -= main_rank_penalty * 4;
  }
 
 // Sides on dice is 16 plus your current intelligence
@@ -1038,10 +1055,8 @@ void game::complete_craft()
  int skill_roll = dice(skill_dice, skill_sides);
  int diff_roll  = dice(diff_dice,  diff_sides);
 
- if (making->sk_primary)
-  u.practice(turn, making->sk_primary, making->difficulty * 5 + 20);
- if (making->sk_secondary)
-  u.practice(turn, making->sk_secondary, 5);
+ if (making->skill_used)
+  u.practice(turn, making->skill_used, making->difficulty * 5 + 20);
 
 // Messed up badly; waste some components.
  if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
@@ -1130,11 +1145,11 @@ void game::complete_craft()
   handle_liquid(newit, false, false);
  else {
 // We might not have space for the item
-  if (iter == inv_chars.size() || u.volume_carried()+newit.volume() > u.volume_capacity()) {
+  if (iter == inv_chars.size() || !u.can_pickVolume(newit.volume())) {
    add_msg(_("There's no room in your inventory for the %s, so you drop it."),
              newit.tname().c_str());
    m.add_item_or_charges(u.posx, u.posy, newit);
-  } else if (u.weight_carried() + newit.volume() > u.weight_capacity()) {
+  } else if (!u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
    add_msg(_("The %s is too heavy to carry, so you drop it."),
            newit.tname().c_str());
    m.add_item_or_charges(u.posx, u.posy, newit);
@@ -1143,6 +1158,7 @@ void game::complete_craft()
    add_msg("%c - %s", newit.invlet, newit.tname().c_str());
   }
  }
+ u.inv.restack(&u);
 }
 
 std::list<item> game::consume_items(player *p, std::vector<component> components)
@@ -1482,7 +1498,7 @@ void game::disassemble(char ch)
                 if (have_all_tools)
                 {
 
-                  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn(_("Really disassemble your %s?"), dis_item->tname(this).c_str())))
+                  if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Really disassemble your %s?"), dis_item->tname(this).c_str())))
                   {
                    return;
                   }
@@ -1496,10 +1512,11 @@ void game::disassemble(char ch)
             }
         }
     }
+
     //if we're trying to disassemble a book or magazine
     if(dis_item->is_book())
     {
-       if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Do you want to tear %s into pages?", dis_item->tname(this).c_str())))
+       if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname(this).c_str())))
              return;
         else
         {
@@ -1510,6 +1527,7 @@ void game::disassemble(char ch)
         }
         return;
     }
+
     // no recipe exists, or the item cannot be disassembled
     add_msg(_("This item cannot be disassembled!"));
 }
@@ -1557,13 +1575,9 @@ void game::complete_disassemble()
   // add the components to the map
   // Player skills should determine how many components are returned
 
-  // adapting original crafting formula to check if disassembly was successful
-  // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
-  int skill_dice = 2 + u.skillLevel(dis->sk_primary) * 3;
-   if (dis->sk_secondary == NULL)
-     skill_dice += u.skillLevel(dis->sk_primary);
-   else
-     skill_dice += u.skillLevel(dis->sk_secondary);
+  int skill_dice = 2 + u.skillLevel(dis->skill_used) * 3;
+   skill_dice += u.skillLevel(dis->skill_used);
+
   // Sides on dice is 16 plus your current intelligence
    int skill_sides = 16 + u.int_cur;
 
@@ -1571,10 +1585,8 @@ void game::complete_disassemble()
    int diff_sides = 24;	// 16 + 8 (default intelligence)
 
    // disassembly only nets a bit of practice
-   if (dis->sk_primary)
-    u.practice(turn, dis->sk_primary, (dis->difficulty) * 2);
-   if (dis->sk_secondary)
-    u.practice(turn, dis->sk_secondary, 2);
+   if (dis->skill_used)
+    u.practice(turn, dis->skill_used, (dis->difficulty) * 2);
 
   for (int j = 0; j < dis->components.size(); j++)
   {
@@ -1600,7 +1612,7 @@ void game::complete_disassemble()
           } else
           {
             if (dis->difficulty == 0 || comp_success)
-              m.add_item_or_charges(u.posx, u.posy, newit);
+              m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
             else
               add_msg(_("You fail to recover a component."));
             compcount--;
@@ -1612,7 +1624,7 @@ void game::complete_disassemble()
 
   if (dis->learn_by_disassembly >= 0 && !u.knows_recipe(dis))
   {
-    if (dis->sk_primary == NULL || dis->learn_by_disassembly <= u.skillLevel(dis->sk_primary))
+    if (dis->skill_used == NULL || dis->learn_by_disassembly <= u.skillLevel(dis->skill_used))
     {
       if (rng(0,3) == 0)
       {

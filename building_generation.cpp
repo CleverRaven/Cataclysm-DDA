@@ -129,19 +129,28 @@ void mapgen_crater(map *m, mapgendata dat)
 
 void mapgen_field(map *m, int turn)
 {
+    // There's a chance this field will be thick with strawberry
+    // and blueberry bushes.
+    int berry_bush_factor = 200;
+    int bush_factor = 120;
+    if(one_in(120)) {
+        berry_bush_factor = 2;
+        bush_factor = 40;
+    }
+
     for (int i = 0; i < SEEX * 2; i++)
     {
         for (int j = 0; j < SEEY * 2; j++)
         {
             m->ter_set(i, j, grass_or_dirt());
-            if (one_in(120))
+            if (one_in(bush_factor))
             {
-                if (one_in(30))
+                if (one_in(berry_bush_factor))
                 {
                     m->ter_set(i, j, t_shrub_blueberry);
                 }
                 else
-                if (one_in(30))
+                if (one_in(berry_bush_factor))
                 {
                     m->ter_set(i, j, t_shrub_strawberry);
                 }
