@@ -1128,7 +1128,7 @@
         "bashing" : 4,
         "cutting" : 0,
         "time" : 30,
-        "fun" : 1,
+        "fun" : 0,
         "skill" : "fabrication",
         "price" : 550,
         "required_level" : 3
