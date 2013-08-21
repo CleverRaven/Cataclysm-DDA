@@ -2,6 +2,8 @@
 
 #include "catajson.h"
 #include "name.h"
+#include "output.h"
+#include "translations.h"
 
 NameGenerator::NameGenerator() {
     catajson name_records("data/raw/names.json");
@@ -12,6 +14,8 @@ NameGenerator::NameGenerator() {
         std::string name = name_entry.get("name").as_string();
         std::string usage = name_entry.get("usage").as_string();
         uint32_t flags = 0;
+
+        name = rm_prefix(_(("<name>"+name).c_str()));
 
         if (usage == "given") {
             flags |= nameIsGivenName;
@@ -74,8 +78,9 @@ std::string NameGenerator::getName(uint32_t searchFlags) {
 std::string NameGenerator::generateName(bool male) {
   uint32_t baseSearchFlags = male ? nameIsMaleName : nameIsFemaleName;
 
-  return getName(baseSearchFlags | nameIsGivenName) + " " +
-      getName(baseSearchFlags | nameIsFamilyName);
+  return rmp_format(_("<name>%s %s"),
+      getName(baseSearchFlags | nameIsGivenName).c_str(),
+      getName(baseSearchFlags | nameIsFamilyName).c_str());
 }
 
 NameGenerator& Name::generator() {
@@ -91,7 +96,7 @@ std::string Name::get(uint32_t searchFlags) {
 }
 
 Name::Name() {
-  _value = "Tom";
+  _value = _("Tom");
   _flags = 15;
 }
 

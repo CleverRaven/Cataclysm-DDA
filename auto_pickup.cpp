@@ -49,39 +49,19 @@ void game::show_auto_pickup()
 
     mvwprintz(w_auto_pickup_border, 0, 29, c_ltred, _(" AUTO PICKUP MANAGER "));
     wrefresh(w_auto_pickup_border);
-
-    mvwprintz(w_auto_pickup_header, 0, 0, c_ltgreen, " A");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<A>dd  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "R");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<R>emove  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "C");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<C>opy  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "M");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<M>ove  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "E");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<E>nable  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "D");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<D>isable  ")).substr(3).c_str());
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "T");
-    wprintz(w_auto_pickup_header, c_white, std::string(_("<T>est  ")).substr(3).c_str());
-
-    mvwprintz(w_auto_pickup_header, 1, 0, c_ltgreen, " +");
-    wprintz(w_auto_pickup_header, c_white, "/");
-    wprintz(w_auto_pickup_header, c_ltgreen, "-");
-    wprintz(w_auto_pickup_header, c_white, _(" Move up/down  "));
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "Enter");
-    wprintz(w_auto_pickup_header, c_white, _("-Edit  "));
-
-    wprintz(w_auto_pickup_header, c_ltgreen, "Tab");
-    wprintz(w_auto_pickup_header, c_white, _("-Switch Page  "));
-
+    
+    int tmpx = 0;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<A>dd"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<C>opy"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<M>ove"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<E>nable"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<D>isable"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<T>est"))+2;
+    tmpx = 0;
+    tmpx += shortcut_print(w_auto_pickup_header, 1, tmpx, c_white, c_ltgreen, _("<+-> Move up/down"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 1, tmpx, c_white, c_ltgreen, _("<Enter>-Edit"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 1, tmpx, c_white, c_ltgreen, _("<Tab>-Switch Page"))+2;
 
     for (int i = 0; i < 78; i++) {
         if (mapLines[i]) {
@@ -110,13 +90,9 @@ void game::show_auto_pickup()
     std::stringstream sTemp;
 
     do {
-        mvwprintz(w_auto_pickup_header, 2, 17 + 0, c_white, "[");
-        wprintz(w_auto_pickup_header, (iCurrentPage == 1) ? hilite(c_white) : c_white, _("Global"));
-        wprintz(w_auto_pickup_header, c_white, "]");
-
-        mvwprintz(w_auto_pickup_header, 2, 17 + 9, c_white, "[");
-        wprintz(w_auto_pickup_header, (iCurrentPage == 2) ? hilite(c_white) : c_white, _("Character"));
-        wprintz(w_auto_pickup_header, c_white, "]");
+        int locx = 17;
+        locx += shortcut_print(w_auto_pickup_header, 2, locx, c_white, (iCurrentPage == 1) ? hilite(c_white) : c_white, _("[<Global>]"))+1;
+        locx = shortcut_print(w_auto_pickup_header, 2, locx, c_white, (iCurrentPage == 2) ? hilite(c_white) : c_white, _("[<Character>]"))+1;
 
         /*
         mvwprintz(w_auto_pickup_header, 2, 12 + 21, c_white, "[");
@@ -171,7 +147,7 @@ void game::show_auto_pickup()
 
                     wprintz(w_auto_pickup, (iCurrentLine == i && iCurrentCol == 1) ? hilite(cLineColor) : cLineColor, "%s", ((vAutoPickupRules[iCurrentPage][i].sRule == "") ? _("<empty rule>") : vAutoPickupRules[iCurrentPage][i].sRule).c_str());
 
-                    mvwprintz(w_auto_pickup, i - iStartPos, 52, (iCurrentLine == i && iCurrentCol == 2) ? hilite(cLineColor) : cLineColor, "%s", ((vAutoPickupRules[iCurrentPage][i].bExclude) ? std::string(_("<Exclude>E")).substr(9).c_str() : std::string(_("<Include>I")).substr(9).c_str()));
+                    mvwprintz(w_auto_pickup, i - iStartPos, 52, (iCurrentLine == i && iCurrentCol == 2) ? hilite(cLineColor) : cLineColor, "%s", ((vAutoPickupRules[iCurrentPage][i].bExclude) ? rm_prefix(_("<Exclude>E")).c_str() : rm_prefix(_("<Include>I")).c_str()));
                 }
             }
 
@@ -376,11 +352,9 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 
     wborder(w_test_rule_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
     
-    char* buf = new char[1000];
     int nmatch = vMatchingItems.size();
-    sprintf(buf, ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s", nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());
-    mvwprintz(w_test_rule_border, 0, iContentWidth/2 - utf8_width(buf)/2, hilite(c_white), buf);
-    delete buf; buf=NULL;
+    std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s", nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());
+    mvwprintz(w_test_rule_border, 0, iContentWidth/2 - utf8_width(buf.c_str())/2, hilite(c_white), buf.c_str());
 
     wrefresh(w_test_rule_border);
 
@@ -454,7 +428,7 @@ void load_auto_pickup(bool bCharacter)
     std::string sFile = "data/auto_pickup.txt";
 
     if (bCharacter) {
-        sFile = "save/" + g->u.name + ".apu.txt";
+        sFile = "save/" + base64_encode(g->u.name) + ".apu.txt";
     }
 
     fin.open(sFile.c_str());
@@ -493,7 +467,7 @@ void load_auto_pickup(bool bCharacter)
                 bool bActive = true;
                 bool bExclude = false;
 
-                int iPos = 0;
+                size_t iPos = 0;
                 int iCol = 1;
                 do {
                     iPos = sLine.find(";");
@@ -638,10 +612,10 @@ void save_auto_pickup(bool bCharacter)
     std::string sFile = "data/auto_pickup.txt";
 
     if (bCharacter) {
-        sFile = "save/" + g->u.name + ".apu.txt";
+        sFile = "save/" + base64_encode(g->u.name) + ".apu.txt";
         std::ifstream fin;
 
-        fin.open(("save/" + g->u.name + ".sav").c_str());
+        fin.open(("save/" + base64_encode(g->u.name) + ".sav").c_str());
         if(!fin.is_open()) {
             return;
         }
@@ -674,7 +648,7 @@ void create_default_auto_pickup(bool bCharacter)
     std::string sFile = "data/auto_pickup.txt";
 
     if (bCharacter) {
-        sFile = "save/" + g->u.name + ".apu.txt";
+        sFile = "save/" + base64_encode(g->u.name) + ".apu.txt";
     }
 
     fout.open(sFile.c_str());

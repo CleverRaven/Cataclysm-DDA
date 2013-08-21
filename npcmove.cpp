@@ -244,7 +244,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
  case npc_drop_items:
 /*
-  drop_items(g, weight_carried() - weight_capacity() / 4,
+  drop_items(g, weight_carried() - weight_capacity(),
                 volume_carried() - volume_capacity());
 */
   move_pause();
@@ -521,6 +521,8 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
       return npc_pause; // wait for clear shot
     else
      return npc_avoid_friendly_fire;
+   else if (rl_dist(posx,posy,tarx,tary) > weapon.range())
+       return npc_melee; // If out of range, move closer to the target
    else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
             gun->burst > 1 &&
             ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) || emergency(danger * 2)))
@@ -589,7 +591,7 @@ npc_action npc::address_needs(game *g, int danger)
   return npc_eat;
 
 /*
- if (weight_carried() > weight_capacity() / 4 ||
+ if (weight_carried() > weight_capacity() ||
      volume_carried() > volume_capacity())
   return npc_drop_items;
 */
@@ -817,7 +819,7 @@ int npc::confident_range(char invlet)
   if (thrown->volume() == 0)
    deviation += 3;
 
-  deviation += 1 + abs(str_cur - thrown->weight());
+  deviation += 1 + abs(str_cur - (thrown->weight() / 113));
  }
  //Account for rng's, *.5 for 50%
  deviation /= 2;
@@ -1217,8 +1219,7 @@ void npc::find_item(game *g)
      int wgt = g->m.i_at(x, y)[i].weight(), vol = g->m.i_at(x, y)[i].volume();
      if (itval > best_value &&
          //(itval > worst_item_value ||
-          (weight_carried() + wgt <= weight_capacity() / 4 &&
-           volume_carried() + vol <= volume_capacity()       )) {
+          (can_pickWeight(wgt) && can_pickVolume(vol))) {
       itx = x;
       ity = y;
       index = i;
@@ -1260,8 +1261,8 @@ void npc::pick_up_item(game *g)
   int itval = value((*items)[i]), vol = (*items)[i].volume(),
       wgt = (*items)[i].weight();
   if (itval >= minimum_item_value() &&// (itval >= worst_item_value ||
-      (volume_carried() + total_volume + vol <= volume_capacity() &&
-       weight_carried() + total_weight + wgt <= weight_capacity() / 4)) {
+      (can_pickVolume(total_volume + vol) &&
+       can_pickWeight(total_weight + wgt))) {
    pickup.push_back(i);
    total_volume += vol;
    total_weight += wgt;
@@ -1269,8 +1270,8 @@ void npc::pick_up_item(game *g)
  }
 /*
  if (total_volume + volume_carried() > volume_capacity() ||
-     total_weight + weight_carried() > weight_capacity() / 4) {
-  int wgt_to_drop = weight_carried() + total_weight - weight_capacity() / 4;
+     total_weight + weight_carried() > weight_capacity()) {
+  int wgt_to_drop = weight_carried() + total_weight - weight_capacity();
   int vol_to_drop = volume_carried() + total_volume - volume_capacity();
   drop_items(g, wgt_to_drop, vol_to_drop);
  }
@@ -1322,7 +1323,7 @@ void npc::drop_items(game *g, int weight, int volume)
  if (g->debugmon) {
   debugmsg("%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
            name.c_str(), weight, volume, inv.size(), weight_carried(),
-           weight_capacity() / 4, volume_carried(), volume_capacity());
+           weight_capacity(), volume_carried(), volume_capacity());
  }
 
  int weight_dropped = 0, volume_dropped = 0;
@@ -1519,8 +1520,8 @@ void npc::alt_attack(game *g, int target)
    move_to(g, tarx, tary);
  }
 
- char invlet;
- item *used;
+ char invlet = 0;
+ item *used = NULL;
  if (weapon.type->id == which) {
   used = &weapon;
   invlet = 0;
@@ -1551,9 +1552,19 @@ void npc::alt_attack(game *g, int target)
    moves -= 125;
    if (g->u_see(posx, posy))
     g->add_msg(_("%s throws a %s."), name.c_str(), used->tname().c_str());
-   g->throw_item(*this, tarx, tary, *used, trajectory);
-   i_remn(invlet);
 
+   int stack_size = -1;
+   if( used->count_by_charges() ) {
+       stack_size = used->charges;
+       used->charges = 1;
+   }
+   g->throw_item(*this, tarx, tary, *used, trajectory);
+   // Throw a single charge of a stacking object.
+   if( stack_size == -1 || stack_size == 1 ) {
+       i_remn(invlet);
+   } else {
+       used->charges = stack_size - 1;
+   }
   } else if (!wont_hit_friend(g, tarx, tary, invlet)) {// Danger of friendly fire
 
    if (!used->active || used->charges > 2) // Safe to hold on to, for now
@@ -1603,7 +1614,21 @@ void npc::alt_attack(game *g, int target)
     moves -= 125;
     if (g->u_see(posx, posy))
      g->add_msg(_("%s throws a %s."), name.c_str(), used->tname().c_str());
+
+    int stack_size = -1;
+    if( used->count_by_charges() ) {
+        stack_size = used->charges;
+        used->charges = 1;
+    }
     g->throw_item(*this, tarx, tary, *used, trajectory);
+
+    // Throw a single charge of a stacking object.
+    if( stack_size == -1 || stack_size == 1 ) {
+        i_remn(invlet);
+    } else {
+        used->charges = stack_size - 1;
+    }
+
     i_remn(invlet);
    }
 
@@ -1676,7 +1701,7 @@ void npc::heal_player(game *g, player &patient)
   else
    g->add_msg(_("Someone heals you."));
 
-  int amount_healed;
+  int amount_healed = 0;
   if (has_amount("1st_aid", 1)) {
    switch (worst) {
     case hp_head:  amount_healed = 10 + 1.6 * skillLevel("firstaid"); break;
@@ -1726,7 +1751,7 @@ void npc::heal_self(game *g)
   }
  }
 
- int amount_healed;
+ int amount_healed = 0;
  if (has_amount("1st_aid", 1)) {
   switch (worst) {
    case hp_head:  amount_healed = 10 + 1.6 * skillLevel("firstaid"); break;
@@ -1848,8 +1873,8 @@ void npc::mug_player(game *g, player &mark)
    invslice slice = mark.inv.slice(0, mark.inv.size());
    for (int i = 0; i < slice.size(); i++) {
     if (value(slice[i]->front()) >= best_value &&
-        volume_carried() + slice[i]->front().volume() <= volume_capacity() &&
-        weight_carried() + slice[i]->front().weight() <= weight_capacity()   ) {
+        can_pickVolume(slice[i]->front().volume()) &&
+        can_pickWeight(slice[i]->front().weight())) {
      best_value = value(slice[i]->front());
      invlet = slice[i]->front().invlet;
     }

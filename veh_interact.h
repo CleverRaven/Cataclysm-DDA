@@ -68,6 +68,7 @@ private:
     void do_rename(int reason);
     void do_siphon(int reason);
     void do_tirechange(int reason);
+    void do_drain(int reason);
 
     void display_veh ();
     void display_stats ();
@@ -80,7 +81,6 @@ private:
     std::vector<int> parts_here;
     int ptank;
     int wheel;
-    bool obstruct;
     bool has_fuel;
 public:
     veh_interact ();

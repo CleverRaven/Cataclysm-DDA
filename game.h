@@ -29,20 +29,6 @@
 #include <list>
 #include <stdarg.h>
 
-// Fixed window sizes
-#define HP_HEIGHT 14
-#define HP_WIDTH 7
-#define MINIMAP_HEIGHT 7
-#define MINIMAP_WIDTH 7
-#define MONINFO_HEIGHT 12
-#define MONINFO_WIDTH 48
-#define MESSAGES_HEIGHT 8
-#define MESSAGES_WIDTH 48
-#define LOCATION_HEIGHT 1
-#define LOCATION_WIDTH 48
-#define STATUS_HEIGHT 4
-#define STATUS_WIDTH 55
-
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
 #define BULLET_SPEED 10000000
@@ -115,6 +101,7 @@ class game
   quit_status uquit;    // used in main.cpp to determine what type of quit
   void save();
   void delete_save();
+  void write_memorial_file();
   void cleanup_at_end();
   bool do_turn();
   void draw();
@@ -126,6 +113,7 @@ class game
   void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
   void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
+  std::vector<game_message> recent_messages(const int count); //Retrieves the last X messages
   std::string press_x(action_id act);	// (Press X (or Y)|Try) to Z
   std::string press_x(action_id act, std::string key_bound,
                                      std::string key_unbound);
@@ -272,7 +260,7 @@ class game
 
   std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
-  mutation_branch mutation_data[PF_MAX2]; // Mutation data
+  std::map<std::string, mutation_branch> mutation_data; // Mutation data
   std::map<char, action_id> keymap;
   std::map<char, action_id> default_keymap;
 
@@ -301,18 +289,16 @@ class game
 
   std::map<int, std::map<int, bool> > mapRain;
 
-  int w_void_lines;
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;
-  WINDOW *w_moninfo;
   WINDOW *w_messages;
   WINDOW *w_location;
   WINDOW *w_status;
-  WINDOW *w_void; //space unter status if viewport Y > 12
+  WINDOW *w_status2;
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
- bool handle_liquid(item &liquid, bool from_ground, bool infinite);
+ bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
 
@@ -353,16 +339,19 @@ void load_artifacts(); // Load artifact data
   void save_artifacts();
 	 void save_maps();
   std::string save_weather() const;
-
+  void save_uistate();
+  void load_uistate();
 // Data Initialization
   void init_npctalk();
+  void init_materials();
   void init_fields();
+  void init_weather();
   void init_overmap();
   void init_artifacts();
-  void init_traits();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
+  void init_professions();
   void init_faction_data();
   void init_bionics() throw (std::string);      // Initializes bionics... for now.
   void init_mtypes();       // Initializes monster types
@@ -372,10 +361,11 @@ void load_artifacts(); // Load artifact data
   void init_recipes() throw (std::string);      // Initializes crafting recipes
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
-  void init_mutations();    // Initializes mutation "tech tree"
+  void init_traits_mutations();    // Initializes mutation "tech tree"
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
+  void init_dreams();		// Initializes dreams
 
   void load_keyboard_settings(); // Load keybindings from disk
 
@@ -482,7 +472,7 @@ void load_artifacts(); // Load artifact data
   void process_activity(); // Processes and enacts the player's activity
   void update_weather();   // Updates the temperature and weather patten
   void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
-  void mon_info();         // Prints a list of nearby monsters (top right)
+  int  mon_info(WINDOW *); // Prints a list of nearby monsters
   void handle_key_blocking_activity(); // Abort reading etc.
   bool handle_action();
   void update_scent();     // Updates the scent map
