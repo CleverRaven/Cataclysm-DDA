@@ -920,6 +920,7 @@ void map::step_in_field(int x, int y, game *g)
  bool inside = false; //Are we inside?
  bool no_rubble = true; //For use in determining if we are in a rubble square or not, for the disease effect
  int adjusted_intensity; //to modify power of a field based on... whatever is relevant for the effect.
+ bool iterHack = true; // true if iterator was preincremented to prevent invalidation (or at init)
 
  //If we are in a vehicle figure out if we are inside (reduces effects usually) and what part of the vehicle we need to deal with.
  if (g->u.in_vehicle) {
@@ -927,10 +928,17 @@ void map::step_in_field(int x, int y, game *g)
   inside = (veh && veh->is_inside(veh_part));
  }
 
- //Iterate through all field effects on this tile.
- for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-	 cur = field_list_it->second;
-	 if(cur == NULL) continue; //shouldn't happen unless you free memory of field entries manually (hint: don't do that)... Pointer safety.
+    //Iterate through all field effects on this tile.
+    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); true;)
+    {
+    if (!iterHack)
+        field_list_it++;
+    iterHack = false;
+    if (field_list_it == curfield.getFieldEnd())
+        break;
+
+    cur = field_list_it->second;
+    if(cur == NULL) continue; //shouldn't happen unless you free memory of field entries manually (hint: don't do that)... Pointer safety.
 
  if (cur->getFieldType() == fd_rubble){
 	 no_rubble = false; //We found rubble, don't remove the players rubble disease at the end of function.
@@ -949,9 +957,13 @@ void map::step_in_field(int x, int y, game *g)
    if (!g->u.has_trait(PF_WEB_WALKER) && !g->u.in_vehicle) {
     int web = cur->getFieldDensity() * 5 - g->u.disease_level("webbed"); //between 5 and 15 minus your current web level.
     if (web > 0)
-     g->u.add_disease("webbed", web);
+        g->u.add_disease("webbed", web);
+    field_list_it++; // must be incremented to prevent invalidation
+    iterHack = true;
     remove_field(x, y, fd_web); //Its spent.
    } else if (g->u.in_vehicle){ //If you are in a vehicle destroy the web. It should of been destroyed when you ran over it anyway.
+	   field_list_it++; // must be incremented to prevent invalidation
+	   iterHack = true;
 	   remove_field(x, y, fd_web);
 	}
   } break;
@@ -983,9 +995,11 @@ void map::step_in_field(int x, int y, game *g)
   if( g->u.in_vehicle ) break; //sap does nothing to cars.
   g->add_msg(_("The sap sticks to you!"));
   g->u.add_disease("sap", cur->getFieldDensity() * 2);
-  if (cur->getFieldDensity() == 1)
+  if (cur->getFieldDensity() == 1){
+   field_list_it++; // must be incremented to prevent invalidation
+   iterHack = true;
    remove_field(x, y, fd_sap);
-  else
+  } else
 	  cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
   break;
 
@@ -1119,11 +1133,15 @@ void map::step_in_field(int x, int y, game *g)
    //Why do these get removed???
   case fd_shock_vent:
 	  //Stepping on a shock vent shuts it down.
+	  field_list_it++; // must be incremented to prevent invalidation
+      iterHack = true;
 	  remove_field(x, y, fd_shock_vent);
 	  break;
 
   case fd_acid_vent:
 	  //Stepping on an acid vent shuts it down.
+   field_list_it++; // must be incremented to prevent invalidation
+   iterHack = true;
    remove_field(x, y, fd_acid_vent);
    break;
  }
@@ -1138,12 +1156,21 @@ void map::step_in_field(int x, int y, game *g)
 
 void map::mon_in_field(int x, int y, game *g, monster *z)
 {
- if (z->has_flag(MF_DIGS))
-  return;	// Digging monsters are immune to fields
+    if (z->has_flag(MF_DIGS))
+        return;	// Digging monsters are immune to fields
+
 	field &curfield = field_at(x, y);
 	field_entry *cur = NULL;
+	bool iterHack = true; // true if iterator was preincremented to prevent invalidation (true at init)
 
-for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); true;)
+    {
+        if (!iterHack)
+             field_list_it++;
+        iterHack = false;
+        if (field_list_it == curfield.getFieldEnd())
+            break;
+
 	 cur = field_list_it->second;
 	 if(cur == NULL) continue; //shouldn't happen unless you free memory of field entries manually (hint: don't do that)
 
@@ -1157,6 +1184,8 @@ for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getField
   case fd_web:
    if (!z->has_flag(MF_WEBWALK)) {
     z->moves *= .8;
+    field_list_it++; // must be incremented to prevent invalidation
+    iterHack = true;
     remove_field(x, y,fd_web);
    }
    break;
@@ -1174,9 +1203,11 @@ for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getField
 
   case fd_sap:
    z->moves -= cur->getFieldDensity() * 5;
-   if (cur->getFieldDensity() == 1)
+   if (cur->getFieldDensity() == 1){
+    field_list_it++; // must be incremented to prevent invalidation
+    iterHack = true;
     remove_field(x, y, fd_sap);
-   else
+   } else
     cur->setFieldDensity(cur->getFieldDensity() - 1);
    break;
 
