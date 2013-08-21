@@ -111,6 +111,8 @@
 		<Unit filename="disease.cpp" />
 		<Unit filename="disease.h" />
 		<Unit filename="enums.h" />
+		<Unit filename="editmap.cpp" />
+		<Unit filename="editmap.h" />
 		<Unit filename="event.cpp" />
 		<Unit filename="event.h" />
 		<Unit filename="faction.cpp" />
