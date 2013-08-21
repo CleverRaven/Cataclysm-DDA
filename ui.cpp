@@ -356,8 +356,6 @@ void uimenu::query(bool loop) {
             } else if ( return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
             }
-        } else if ( keypress == 27 ) { //break loop with ESCAPE key
-            break;
         } else {
             if ( return_invalid ) {
                 ret = -1;
