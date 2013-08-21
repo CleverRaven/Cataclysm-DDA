@@ -80,6 +80,7 @@ enum vpart_id
     vp_m249,
     vp_flamethrower,
     vp_plasmagun,
+    vp_fusiongun,
 
 // plating -- special case. mounted as internal, work as first line
 // of defence and gives color to external part
