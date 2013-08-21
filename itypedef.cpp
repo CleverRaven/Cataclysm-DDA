@@ -410,7 +410,7 @@ moves. Popular among police and armed forces everywhere."),
 );
 
 STYLE("style_muay_thai", _("muay thai"), 4, _("\
-Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting\n\
+Also referred to as the \"Art of 8 Limbs\", Muay Thai is a popular fighting\n\
 technique from Thailand that uses powerful strikes. It does extra damage\n\
 against large or strong opponents."),
 
