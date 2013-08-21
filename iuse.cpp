@@ -3146,6 +3146,7 @@ void iuse::EMPbomb_act(game *g, player *p, item *it, bool t)
  if (t)	// Simple timer effects
   g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
  else {	// When that timer runs down...
+  g->draw_explosion(pos.x, pos.y, 4, c_ltblue);
   for (int x = pos.x - 4; x <= pos.x + 4; x++) {
    for (int y = pos.y - 4; y <= pos.y + 4; y++)
     g->emp_blast(x, y);
@@ -3169,6 +3170,7 @@ void iuse::scrambler_act(game *g, player *p, item *it, bool t)
  if (t)	// Simple timer effects
   g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
  else {	// When that timer runs down...
+  g->draw_explosion(pos.x, pos.y, 4, c_cyan);
   for (int x = pos.x - 4; x <= pos.x + 4; x++) {
    for (int y = pos.y - 4; y <= pos.y + 4; y++)
     g->scrambler_blast(x, y);
