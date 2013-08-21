@@ -299,6 +299,8 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_over)  | mfb(vpf_turret) },
     { "mounted plasma gun", 't', c_ltblue,    '#', c_ltblue,    80, 400, 0, 0, "plasma", "plasma_rifle", 7,
         mfb(vpf_over)  | mfb(vpf_turret) },
+    { "mounted fusion gun", 't', c_magenta,    '#', c_magenta,    80, 400, 0, 0, "battery", "ftk93", 7,
+        mfb(vpf_over)  | mfb(vpf_turret) },
 
     { "steel plating",     ')', c_ltcyan, ')', c_ltcyan, 100, 1000, 0, 0, "NULL", "steel_plate", 3,
         mfb(vpf_internal) | mfb(vpf_armor) },
