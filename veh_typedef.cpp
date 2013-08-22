@@ -1100,7 +1100,116 @@ void game::init_vehicles()
     PART (-6, 2, vp_board_n);
     PART (-6, -2, vp_board_b);
 
-
+//        name
+    VEHICLE (_("Armored Car"));
+    //   --0++
+    
+    //   |^^^| 3
+    //   O-t-O 2
+    //   |"""| 1
+    //   +###+ 0
+    //   +###+ -1
+    //   |H#H| -2
+    //   O-t-O -3
+    
+    //   dx, dy,    part_id
+    PART (0, 0,     vp_frame_v2);
+    PART (0, 0, vp_engine_gas_v6);
+    PART (0, 0,     vp_seat);
+    PART (0, 0,     vp_seatbelt);
+    PART (0, 0,     vp_roof);
+    PART (0, 1,     vp_frame_v2);
+    PART (0, 1, vp_fuel_tank_gas);
+    PART (0, 1,     vp_seat);
+    PART (0, 1,     vp_seatbelt);
+    PART (0, 1,     vp_roof);
+    PART (0, -1,     vp_frame_v2);
+    PART (0, -1, vp_fuel_tank_gas);
+    PART (0, -1,     vp_seat);
+    PART (0, -1,     vp_controls);
+    PART (0, -1,     vp_seatbelt);
+    PART (0, -1,     vp_roof);
+    PART (0, -2,     vp_door);
+    PART (0, -2, vp_steel_plate);
+    PART (0, 2,       vp_door);
+    PART (0, 2, vp_steel_plate);
+    PART (1, -2,       vp_board_v);
+    PART (1, -2, vp_steel_plate);
+    PART (1, -1, vp_frame_h);
+    PART (1, -1, vp_head_light);
+    PART (1, -1, vp_reinforced_windshield);
+    PART (1, 0, vp_frame_h);
+    PART (1, 0, vp_head_light);
+    PART (1, 0, vp_reinforced_windshield);
+    PART (1, 1, vp_frame_h);
+    PART (1, 1, vp_head_light);
+    PART (1, 1, vp_reinforced_windshield);
+    PART (1, 2, vp_board_v);
+    PART (1, 2, vp_steel_plate);
+    PART (2, -2, vp_wheel_wide);
+    PART (2, -2, vp_steel_plate);
+    PART (2, -1, vp_frame_h);
+    PART (2, -1, vp_steel_plate);
+    PART (2, 0, vp_frame_h);
+    PART (2, 0, vp_steel_plate);
+    PART (2, 0, vp_m249);
+    PART (2, 1, vp_frame_h);
+    PART (2, 1, vp_steel_plate);
+    PART (2, 2, vp_wheel_wide);
+    PART (2, 2, vp_steel_plate);
+    PART (3, -2, vp_frame_v);
+    PART (3, -2, vp_steel_plate);
+    PART (3, -1, vp_frame_cover);
+    PART (3, -1, vp_steel_plate);
+    PART (3, 0, vp_frame_cover);
+    PART (3, 0, vp_steel_plate);
+    PART (3, 1, vp_frame_cover);
+    PART (3, 1, vp_steel_plate);
+    PART (3, 2, vp_frame_v);
+    PART (3, 2, vp_steel_plate);
+    PART (-1, 0,     vp_frame_v2);
+    PART (-1, 0,     vp_seat);
+    PART (-1, 0,     vp_seatbelt);
+    PART (-1, 0,     vp_roof);
+    PART (-1, 1,     vp_frame_v2);
+    PART (-1, 1,     vp_seat);
+    PART (-1, 1,     vp_seatbelt);
+    PART (-1, 1,     vp_roof);
+    PART (-1, -1,     vp_frame_v2);
+    PART (-1, -1,     vp_seat);
+    PART (-1, -1,     vp_seatbelt);
+    PART (-1, -1,     vp_roof);
+    PART (-1, -2,     vp_door);
+    PART (-1, -2, vp_steel_plate);
+    PART (-1, 2,       vp_door);
+    PART (-1, 2, vp_steel_plate);
+    PART (-2, -2, vp_board_v);
+    PART (-2, -2, vp_steel_plate);
+    PART (-2, -1, vp_frame_v2);
+    PART (-2, -1, vp_steel_plate);
+    PART (-2, -1, vp_cargo_trunk);
+    PART (-2, -1, vp_roof);
+    PART (-2, 0, vp_frame_v2);
+    PART (-2, 0,     vp_seat);
+    PART (-2, 0,     vp_seatbelt);
+    PART (-2, 0,     vp_roof);
+    PART (-2, 1, vp_frame_v2);
+    PART (-2, 1, vp_steel_plate);
+    PART (-2, 1, vp_cargo_trunk);
+    PART (-2, 1, vp_roof);
+    PART (-2, 2, vp_board_v);
+    PART (-2, 2, vp_steel_plate);
+    PART (-3, -2, vp_wheel_wide);
+    PART (-3, -2, vp_steel_plate);
+    PART (-3, -1, vp_board_h);
+    PART (-3, -1, vp_steel_plate);
+    PART (-3, 0, vp_frame_v2);
+    PART (-3, 0, vp_steel_plate);
+    PART (-3, 0, vp_m249);
+    PART (-3, 1, vp_board_v);
+    PART (-3, 1, vp_steel_plate);
+    PART (-3, 2, vp_wheel_wide);
+    PART (-3, 2, vp_steel_plate);
 
     if (vtypes.size() != num_vehicles)
         debugmsg("%d vehicles, %d types", vtypes.size(), num_vehicles);
