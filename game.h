@@ -422,6 +422,8 @@ void load_artifacts(); // Load artifact data
   // open vehicle interaction screen
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
+  // Establish a grab on something.
+  void grab();
 // Pick where to put liquid; false if it's left where it was
 
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'

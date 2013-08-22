@@ -52,6 +52,7 @@ enum vpart_id
     vp_wheel_bicycle,
     vp_wheel_motorbike,
     vp_wheel_small,
+    vp_wheel_caster,
 
     vp_engine_gas_1cyl,
     vp_engine_gas_v2,
@@ -245,6 +246,8 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
     { "small wheel",    'o',c_dkgray, 'x', c_ltgray,  50,  70, 6, 0, "NULL", "wheel_small", 2,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
+    { "casters",        'o',c_dkgray, 'x', c_ltgray,  50,  70, 6, 0, "NULL", "wheel_caster", 1,
+      mfb(vpf_external) | mfb(vpf_mount_point) | mfb(vpf_mount_inner) | mfb(vpf_wheel) | mfb(vpf_variable_size) },
 //
     { "1-cylinder engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, 0, "gasoline", "1cyl_combustion", 2,
         mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
@@ -338,6 +341,7 @@ enum vhtype_id
     veh_schoolbus,  //Standard schoolbus
     veh_car_electric, // electric version of standard car.
     veh_rv, //RV with bed and kitchen unit
+    veh_shopping_cart, // Just a frame and cargo box
 
     num_vehicles
 };

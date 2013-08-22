@@ -118,6 +118,8 @@ player::player()
  active_mission = -1;
  in_vehicle = false;
  controlling_vehicle = false;
+ grab_point.x = 0;
+ grab_point.y = 0;
  style_selected = "null";
  focus_pool = 100;
  last_item = itype_id("null");
@@ -162,6 +164,7 @@ player& player::operator= (const player & rhs)
 
  in_vehicle = rhs.in_vehicle;
  controlling_vehicle = rhs.controlling_vehicle;
+ grab_point = rhs.grab_point;
  activity = rhs.activity;
  backlog = rhs.backlog;
 
@@ -1186,9 +1189,9 @@ void player::load_info(game *g, std::string data)
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
-         inveh >> vctrl >> scent >> moves >> underwater >> dodges_left >>
-         blocks_left >> oxygen >> active_mission >> focus_pool >> male >>
-         prof_ident >> health >> styletmp;
+         inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
+         underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
+         focus_pool >> male >> prof_ident >> health >> styletmp;
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1335,6 +1338,7 @@ std::string player::save_info()
          " " << stim << " " << pain << " " << pkill << " " << radiation <<
          " " << cash << " " << recoil << " " << driving_recoil << " " <<
          (in_vehicle? 1 : 0) << " " << (controlling_vehicle? 1 : 0) << " " <<
+         grab_point.x << " " << grab_point.y << " " <<
          scent << " " << moves << " " << underwater << " " << dodges_left <<
          " " << blocks_left << " " << oxygen << " " << active_mission << " " <<
          focus_pool << " " << male << " " << prof->ident() << " " << health <<

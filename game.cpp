@@ -1869,6 +1869,10 @@ bool game::handle_action()
    pickup(u.posx, u.posy, 1);
    break;
 
+  case ACTION_GRAB:
+   grab();
+   break;
+
   case ACTION_BUTCHER:
    butcher();
    break;
@@ -8861,6 +8865,32 @@ void game::pickup(int posx, int posy, int min)
  delwin(w_item_info);
 }
 
+// Establish or release a grab on a vehicle
+void game::grab()
+{
+    int grabx = 0;
+    int graby = 0;
+    if( 0 != u.grab_point.x || 0 != u.grab_point.y ) {
+        vehicle *veh = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
+        if( veh ) { add_msg(_("You release %s."), veh->name.c_str() ); }
+        u.grab_point.x = 0;
+        u.grab_point.y = 0;
+        return;
+    }
+    if( choose_adjacent( _("Grab"), grabx, graby ) ) {
+        vehicle *veh = m.veh_at(grabx, graby);
+        if( veh != NULL ) {
+            u.grab_point.x = grabx - u.posx;
+            u.grab_point.y = graby - u.posy;
+            add_msg(_("You grab the %s."), veh->name.c_str());
+        } else {
+            add_msg(_("There's no vehicle to grab there!"));
+        }
+    } else {
+        add_msg(_("Never Mind."));
+    }
+}
+
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source)
 {
@@ -10177,7 +10207,7 @@ void game::pldrive(int x, int y) {
      u.practice(turn, "driving", 1);
 }
 
-void game::plmove(int x, int y)
+void game::plmove(int dx, int dy)
 {
  if (run_mode == 2) { // Monsters around and we don't wanna run
    add_msg(_("Monster spotted--safe mode is on! \
@@ -10186,12 +10216,14 @@ void game::plmove(int x, int y)
            from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
   return;
  }
+ int x = 0;
+ int y = 0;
  if (u.has_disease("stunned")) {
   x = rng(u.posx - 1, u.posx + 1);
   y = rng(u.posy - 1, u.posy + 1);
  } else {
-  x += u.posx;
-  y += u.posy;
+  x = u.posx + dx;
+  y = u.posy + dy;
 
   if (moveCount % 60 == 0) {
    if (u.has_bionic("bio_torsionratchet")) {
@@ -10293,6 +10325,16 @@ void game::plmove(int x, int y)
  int vpart0 = -1, vpart1 = -1, dpart = -1;
  vehicle *veh0 = m.veh_at(u.posx, u.posy, vpart0);
  vehicle *veh1 = m.veh_at(x, y, vpart1);
+ if( u.grab_point.x != 0 || u.grab_point.y ) {
+     vehicle *grabbed_vehicle = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
+     // If we're pushing a vehicle, the vehicle tile we'd be "stepping onto" is
+     // actually the current tile.
+     // If there's a vehicle there, it will actually result in failed movement.
+     if( grabbed_vehicle == veh1 ) {
+         veh1 = veh0;
+         vpart1 = vpart0;
+     }
+ }
  bool veh_closed_door = false;
  if (veh1) {
   dpart = veh1->part_with_feature (vpart1, vpf_openable);
@@ -10348,9 +10390,63 @@ void game::plmove(int x, int y)
              return;
       }
 
+  float drag_multiplier = 1.0;
+  vehicle *grabbed_vehicle = NULL;
+  if( u.grab_point.x != 0 || u.grab_point.y != 0 ) {
+      grabbed_vehicle = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
+      if( NULL != grabbed_vehicle ) {
+          if( grabbed_vehicle == veh0 ) {
+              add_msg(_("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
+              return;
+          }
+          drag_multiplier += (float)(grabbed_vehicle->total_mass() * 1000) /
+              (float)(u.weight_capacity() * 5);
+          if( drag_multiplier > 2.0 ) {
+              add_msg(_("The %s is too heavy for you to budge!"), grabbed_vehicle->name.c_str());
+              return;
+          }
+          tileray mdir;
+          mdir.init( dx, dy );
+          mdir.advance( 1 );
+          grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
+          int imp = 0;
+          std::vector<veh_collision> veh_veh_colls;
+          bool can_move = true;
+          // Set player location to illegal value so it can't collide with vehicle.
+          int player_prev_x = u.posx;
+          int player_prev_y = u.posy;
+          u.posx = 0;
+          u.posy = 0;
+          if( grabbed_vehicle->collision( veh_veh_colls, dx, dy, can_move, imp, true ) ) {
+              // TODO: figure out what we collided with.
+              add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
+              u.moves -= 10;
+              u.posx = player_prev_x;
+              u.posy = player_prev_y;
+              return;
+          }
+          u.posx = player_prev_x;
+          u.posy = player_prev_y;
+          int gx = grabbed_vehicle->global_x();
+          int gy = grabbed_vehicle->global_y();
+          for( int ep = 0; ep < grabbed_vehicle->external_parts.size(); ep++ ) {
+              const int p = grabbed_vehicle->external_parts[ ep ];
+              if( grabbed_vehicle->part_flag( p, vpf_wheel ) && one_in(2) )
+                  grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dx,
+                                                gy + grabbed_vehicle->parts[p].precalc_dy[0] + dy, p );
+          }
+          m.displace_vehicle( this, gx, gy, dx, dy );
+      } else {
+          add_msg( _("No vehicle at grabbed point.") );
+          u.grab_point.x = 0;
+          u.grab_point.y = 0;
+      }
+  }
+
 // Calculate cost of moving
   bool diag = trigdist && u.posx != x && u.posy != y;
-  u.moves -= u.run_cost(m.combined_movecost(u.posx, u.posy, x, y), diag);
+  u.moves -= u.run_cost(m.combined_movecost(u.posx, u.posy, x, y, grabbed_vehicle), diag) *
+      drag_multiplier;
 
 // Adjust recoil down
   if (u.recoil > 0) {
@@ -10419,6 +10515,7 @@ void game::plmove(int x, int y)
    z[mondex].move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
    add_msg(_("You displace the %s."), z[mondex].name().c_str());
   }
+
   if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
       x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)))
    update_map(x, y);
@@ -10814,6 +10911,16 @@ void game::vertical_move(int movez, bool force)
     add_msg(_("You can't go up here!"));
   }
   return;
+ }
+
+ if( force ) {
+     // Let go of a grabbed cart.
+     u.grab_point.x = 0;
+     u.grab_point.y = 0;
+ } else {
+     // TODO: Warp the cart along with you if you're on an elevator
+     add_msg(_("You can't drag things up and down stairs."));
+     return;
  }
 
  map tmpmap(&traps);

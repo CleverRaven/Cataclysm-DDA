@@ -1365,7 +1365,33 @@ void vehicle::stop ()
     of_turn_carry = 0;
 }
 
-veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
+bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls, int dx, int dy,
+                         bool &can_move, int &imp, bool just_detect )
+{
+    for( int ep = 0; ep < external_parts.size() && can_move; ep++ ) {
+        const int p = external_parts[ep];
+        // coords of where part will go due to movement (dx/dy)
+        // and turning (precalc_dx/dy [1])
+        const int dsx = global_x() + dx + parts[p].precalc_dx[1];
+        const int dsy = global_y() + dy + parts[p].precalc_dy[1];
+        veh_collision coll = part_collision( p, dsx, dsy, just_detect );
+        if( coll.type != veh_coll_nothing && just_detect ) {
+            return true;
+        } else if( coll.type == veh_coll_veh ) {
+            veh_veh_colls.push_back( coll );
+        } else if( coll.type != veh_coll_nothing ) { //run over someone?
+            if( can_move ) {
+                imp += coll.imp;
+            }
+            if( velocity == 0 ) {
+                can_move = false;
+            }
+        }
+    }
+    return false;
+}
+
+veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 {
     bool pl_ctrl = player_in_control (&g->u);
     int mondex = g->mon_at(x, y);
@@ -1460,6 +1486,10 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     if (collision_type == veh_coll_nothing){  // hit nothing
        veh_collision ret;
        ret.type = veh_coll_nothing;
+       return ret;
+    } else if( just_detect ) {
+       veh_collision ret;
+       ret.type = collision_type;
        return ret;
     }
 
