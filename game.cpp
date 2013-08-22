@@ -4557,7 +4557,7 @@ int game::mon_info(WINDOW *w)
         _("South:"), _("SW:"), _("West:"), _("NW:") };
     int widths[8];
     for (int i = 0; i < 8; i++) {
-        widths[i] = strlen(dir_labels[i]);
+        widths[i] = utf8_width(dir_labels[i]);
     }
     int xcoords[8];
     const int ycoords[] = { 0, 0, 1, 2, 2, 2, 1, 0 };
