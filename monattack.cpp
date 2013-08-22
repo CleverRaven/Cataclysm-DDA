@@ -4,7 +4,6 @@
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
-#include "dialogue.h"  // for mattack::parrot
 #include "material.h"
 
 //Used for e^(x) functions
@@ -15,7 +14,7 @@
 #include <iostream>
 #include <fstream>
 
-#include <limits>
+#include <limits>  // std::numeric_limits
 #define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
 
 bool mattack::initialized = false;
