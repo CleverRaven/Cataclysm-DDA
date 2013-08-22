@@ -10701,15 +10701,21 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
    item body;
    body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
    int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
-   if (furn(zx, zy) == f_bed || one_in(3))
-    add_item(zx, zy, body);
-   else if (move_cost(zx, zy) > 0) {
-    mon_id zom = mon_zombie;
-    if (one_in(6))
-     zom = mon_zombie_spitter;
-    else if (!one_in(3))
-     zom = mon_boomer;
-    add_spawn(zom, 1, zx, zy);
+   if (move_cost(zx, zy) > 0) {
+     if (furn(zx, zy) == f_bed || one_in(3)) {
+      add_item(zx, zy, body);
+     } else {
+      mon_id zom = mon_zombie;
+      if (one_in(6)) {
+       zom = mon_zombie_spitter;
+      } else if (!one_in(3)) {
+       zom = mon_boomer;
+      }
+      add_spawn(zom, 1, zx, zy);
+     }
+   } else {
+     //This is a wall: try again
+     i--;
    }
   }
   break;
