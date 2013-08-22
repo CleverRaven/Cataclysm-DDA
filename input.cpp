@@ -168,32 +168,53 @@ void input_manager::init() {
             debugmsg("Invalid keybinding setting, entry not a JSON object");
             continue;
         }
-        const picojson::value& keybinding = *entry;
 
-        const std::string& action_id = keybinding.get("id").get<std::string>();
-        const std::string& input_method = keybinding.get("input_method").get<std::string>();
+        // JSON object representing the action
+        const picojson::value& action_object = *entry;
 
-        if(input_method == "keyboard") {
-            input_event new_event;
-            new_event.type = INPUT_KEYBOARD;
-            if(keybinding.get("key").is<std::string>()) {
-                const std::string& key = keybinding.get("key").get<std::string>();
+        const std::string& action_id = action_object.get("id").get<std::string>();
 
-                new_event.sequence.push_back(inp_mngr.get_keycode(key));
-            } else if(keybinding.get("key").is<picojson::array>()) {
-                picojson::array keys = keybinding.get("key").get<picojson::array>();
-                for(int i=0; i<keys.size(); i++) {
-                    const std::string& next_key = keybinding.get("key").get(i).get<std::string>();
+        std::string context = "default";
+        if(action_object.contains("category")) {
+            context = action_object.get("category").get<std::string>();
+        }
 
-                    new_event.sequence.push_back(inp_mngr.get_keycode(next_key));
+        // Iterate over the bindings JSON array
+        const picojson::array& keybindings = action_object.get("bindings").get<picojson::array>();
+        for (picojson::array::const_iterator subentry = keybindings.begin();
+             subentry != keybindings.end(); ++subentry) {
+
+            const picojson::value& keybinding = *subentry;
+            const std::string& input_method = keybinding.get("input_method").get<std::string>();
+            if(input_method == "keyboard") {
+                input_event new_event;
+                new_event.type = INPUT_KEYBOARD;
+                if(keybinding.get("key").is<std::string>()) {
+                    const std::string& key = keybinding.get("key").get<std::string>();
+
+                    new_event.sequence.push_back(inp_mngr.get_keycode(key));
+                } else if(keybinding.get("key").is<picojson::array>()) {
+                    picojson::array keys = keybinding.get("key").get<picojson::array>();
+                    for(int i=0; i<keys.size(); i++) {
+                        const std::string& next_key = keybinding.get("key").get(i).get<std::string>();
+
+                        new_event.sequence.push_back(inp_mngr.get_keycode(next_key));
+                    }
+                }
+
+
+                if(context == "default") {
+                    action_to_input[action_id].push_back(new_event);
+                } else {
+                    action_contexts[context][action_id].push_back(new_event);
                 }
             }
-            if(!keybinding.contains("name")) {
-                actionID_to_name[action_id] = action_id;
-            } else {
-                actionID_to_name[action_id] = keybinding.get("name").get<std::string>();
-            }
-            action_to_input[action_id].push_back(new_event);
+        }
+
+        if(!action_object.contains("name")) {
+            actionID_to_name[action_id] = action_id;
+        } else {
+            actionID_to_name[action_id] = action_object.get("name").get<std::string>();
         }
     }
 }
@@ -218,6 +239,7 @@ void input_manager::init_keycode_mapping() {
     add_keycode_pair(KEY_NPAGE,     "PGUP");
     add_keycode_pair(KEY_PPAGE,     "PGDWN");
     add_keycode_pair(KEY_ESCAPE,    "ESC");
+    add_keycode_pair('\n',          "RETURN");
 }
 
 long input_manager::get_keycode(std::string name) {
@@ -228,7 +250,15 @@ std::string input_manager::get_keyname(long ch) {
     return keycode_to_keyname[ch];
 }
 
-const std::vector<input_event>& input_manager::get_input_for_action(const std::string& action_descriptor) {
+const std::vector<input_event>& input_manager::get_input_for_action(const std::string& action_descriptor, const std::string context, bool *overwrites_default) {
+    // First we check if we have a special override in this particular context.
+    if(context != "default" && action_contexts[context].count(action_descriptor)) {
+        if(overwrites_default) *overwrites_default = true;
+        return action_contexts[context][action_descriptor];
+    }
+
+    // If not, we use the default binding.
+    if(overwrites_default) *overwrites_default = false;
     return action_to_input[action_descriptor];
 }
 
@@ -243,7 +273,7 @@ const std::string ANY_INPUT = "ANY_INPUT";
 const std::string& input_context::input_to_action(input_event& inp) {
     for(int i=0; i<registered_actions.size(); i++) {
         const std::string& action = registered_actions[i];
-        const std::vector<input_event>& check_inp = inp_mngr.get_input_for_action(action);
+        const std::vector<input_event>& check_inp = inp_mngr.get_input_for_action(action, category);
 
         // Does this action have our queried input event in its keybindings?
         for(int i=0; i<check_inp.size(); i++) {
@@ -268,7 +298,7 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
         return "(*)"; // * for wildcard
     }
 
-    const std::vector<input_event>& events = inp_mngr.get_input_for_action(action_descriptor);
+    const std::vector<input_event>& events = inp_mngr.get_input_for_action(action_descriptor, category);
 
     if(events.size() == 0) {
         return UNDEFINED;
@@ -382,6 +412,11 @@ void input_context::display_help() {
 
     werase(w_help);
 
+    mvwprintz(w_help, 1, 51, c_ltred, _("Unbound keys"));
+    mvwprintz(w_help, 2, 51, c_ltgreen, _("Keybinding active only"));
+    mvwprintz(w_help, 3, 51, c_ltgreen, _("on this screen"));
+    mvwprintz(w_help, 4, 51, c_ltgray, _("Keybinding active globally"));
+
     // Clear the lines
     for (int i = 0; i < FULL_SCREEN_HEIGHT-2; i++)
     mvwprintz(w_help, i, 0, c_black, "                                                ");
@@ -390,7 +425,8 @@ void input_context::display_help() {
         const std::string& action_id = registered_actions[i];
         if(action_id == "ANY_INPUT") continue;
 
-        const std::vector<input_event>& input_events = inp_mngr.get_input_for_action(action_id);
+        bool overwrite_default;
+        const std::vector<input_event>& input_events = inp_mngr.get_input_for_action(action_id, category, &overwrite_default);
 
         nc_color col = input_events.size() ? c_white : c_ltred;
         mvwprintz(w_help, i, 3, col, "%s: ", inp_mngr.get_action_name(action_id).c_str());
@@ -398,14 +434,18 @@ void input_context::display_help() {
         if (!input_events.size()) {
             mvwprintz(w_help, i, 30, c_ltred, _("Unbound!"));
         } else {
-            mvwprintz(w_help, i, 30, c_ltgreen, "%s", get_desc(action_id).c_str());
+            // The color depends on whether this input draws from context-local or from
+            // default settings. Default will be ltgray, overwrite will be ltgreen.
+            col = overwrite_default ? c_ltgreen : c_ltgray;
+
+            mvwprintz(w_help, i, 30, col, "%s", get_desc(action_id).c_str());
         }
     }
     wrefresh(w_help);
     refresh();
 
     long ch = getch();
-    while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE) {};
+    while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE) { ch = getch(); };
 
     werase(w_help);
 }

@@ -1,122 +1,221 @@
 [
     {
         "id":"UP",
-        "input_method":"keyboard",
-        "key":"j"
-    },
-    {
-        "id":"UP",
-        "input_method":"keyboard",
-        "key":"UP"
+        "name":"Pan up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"j"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            }
+        ]
     },
     {
         "id":"DOWN",
-        "input_method":"keyboard",
-        "key":"k"
-    },
-    {
-        "id":"DOWN",
-        "input_method":"keyboard",
-        "key":"DOWN"
+        "name":"Pan down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"k"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            }
+        ]
     },
     {
         "id":"LEFT",
-        "input_method":"keyboard",
-        "key":"h"
-    },
-    {
-        "id":"LEFT",
-        "input_method":"keyboard",
-        "key":"LEFT"
+        "name":"Pan left",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"h"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"LEFT"
+            }
+        ]
     },
     {
         "id":"RIGHT",
-        "input_method":"keyboard",
-        "key":"l"
-    },
-    {
-        "id":"RIGHT",
-        "input_method":"keyboard",
-        "key":"RIGHT"
+        "name":"Pan right",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"k"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RIGHT"
+            }
+        ]
     },
     {
         "id":"UPLEFT",
-        "input_method":"keyboard",
-        "key":"u"
+        "name":"Pan up-left",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"u"
+            }
+        ]
     },
     {
         "id":"UPRIGHT",
-        "input_method":"keyboard",
-        "key":"i"
+        "name":"Pan up-right",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"i"
+            }
+        ]
     },
     {
         "id":"DOWNLEFT",
-        "input_method":"keyboard",
-        "key":"n"
+        "name":"Pan down-left",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"n"
+            }
+        ]
     },
     {
         "id":"DOWNRIGHT",
-        "input_method":"keyboard",
-        "key":"m"
-    },
-    {
-        "id":"CONFIRM",
-        "input_method":"keyboard",
-        "key":"a"
-    },
-    {
-        "id":"CENTER_ON_CHARACTER",
-        "input_method":"keyboard",
-        "key":"0"
-    },
-    {
-        "id":"LEVEL_UP",
-        "input_method":"keyboard",
-        "key":"q"
-    },
-    {
-        "id":"LEVEL_DOWN",
-        "input_method":"keyboard",
-        "key":"w"
-    },
-    {
-        "id":"SEARCH",
-        "input_method":"keyboard",
-        "key":"S"
-    },
-    {
-        "id":"SEARCH",
-        "input_method":"keyboard",
-        "key":"/"
-    },
-    {
-        "id":"CREATE_NOTE",
-        "input_method":"keyboard",
-        "key":"n"
-    },
-    {
-        "id":"DELETE_NOTE",
-        "input_method":"keyboard",
-        "key":"d"
-    },
-    {
-        "id":"LIST_NOTES",
-        "input_method":"keyboard",
-        "key":"L"
-    },
-    {
-        "id":"OVERMAP_QUIT",
-        "input_method":"keyboard",
-        "key":"Q"
-    },
-    {
-        "id":"OVERMAP_QUIT",
-        "input_method":"keyboard",
-        "key":"ESC"
+        "name":"Pan down-right",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
+            }
+        ]
     },
     {
         "id":"HELP_KEYBINDINGS",
-        "input_method":"keyboard",
-        "key":"?"
+        "name":"Display Help",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
+            }
+        ]
+    },
+    {
+        "id":"CENTER",
+        "category":"OVERMAP",
+        "name":"Center On Character",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"0"
+            }
+        ]
+    },
+    {
+        "id":"LEVEL_UP",
+        "name":"Go Up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"<"
+            }
+        ]
+    },
+    {
+        "id":"LEVEL_DOWN",
+        "name":"Go Down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":">"
+            }
+        ]
+    },
+    {
+        "id":"CONFIRM",
+        "name":"Confirm Choice",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            }
+        ]
+    },
+    {
+        "id":"DELETE_NOTE",
+        "category":"OVERMAP",
+        "name":"Delete Note",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"D"
+            }
+        ]
+    },
+    {
+        "id":"CREATE_NOTE",
+        "category":"OVERMAP",
+        "name":"Create/Edit Note",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"N"
+            }
+        ]
+    },
+    {
+        "id":"LIST_NOTES",
+        "category":"OVERMAP",
+        "name":"List Notes",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"L"
+            }
+        ]
+    },
+    {
+        "id":"SEARCH",
+        "name":"Search",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"/"
+            }
+        ]
+    },
+    {
+        "id":"QUIT",
+        "name":"Exit Screen",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            }
+        ]
+    },
+    {
+        "id":"QUIT",
+        "category":"OVERMAP",
+        "name":"Exit Screen",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"q"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"Q"
+            }
+        ]
     }
 ]

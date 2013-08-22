@@ -1874,12 +1874,12 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
       mvwprintz(w, 20, om_map_width + 1, c_magenta, _("L - List notes             "));
       mvwprintz(w, 21, om_map_width + 1, c_magenta, _("Esc or q - Return to game  "));
   } else {
-      mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER_ON_CHARACTER")  + _(" - Center map on character")).c_str());
+      mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER")  + _(" - Center map on character")).c_str());
       mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH")               + _(" - Search                 ")).c_str());
       mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE")          + _(" - Add/Edit a note        ")).c_str());
       mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE")          + _(" - Delete a note          ")).c_str());
       mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES")           + _(" - List notes             ")).c_str());
-      mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("OVERMAP_QUIT")         + _(" - Return to game  ")).c_str());
+      mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("QUIT")         + _(" - Return to game  ")).c_str());
   }
   mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, "%s, %d'%d, %d'%d", string_format(_("LEVEL %i"),z).c_str(),
     rc.abs_om.x, rc.om_pos.x, rc.abs_om.y, rc.om_pos.y );
@@ -1902,7 +1902,7 @@ point overmap::draw_overmap(game *g, int zlevel)
  overmap hori, vert, diag; // Adjacent maps
 
  // Configure input context for navigating the map.
- input_context ictxt;
+ input_context ictxt("OVERMAP");
  ictxt.register_action("ANY_INPUT");
  ictxt.register_directions();
  ictxt.register_action("CONFIRM");
@@ -1911,12 +1911,12 @@ point overmap::draw_overmap(game *g, int zlevel)
  ictxt.register_action("HELP_KEYBINDINGS");
 
  // Actions whose keys we want to display.
- ictxt.register_action("CENTER_ON_CHARACTER");
+ ictxt.register_action("CENTER");
  ictxt.register_action("CREATE_NOTE");
  ictxt.register_action("DELETE_NOTE");
  ictxt.register_action("SEARCH");
  ictxt.register_action("LIST_NOTES");
- ictxt.register_action("OVERMAP_QUIT");
+ ictxt.register_action("QUIT");
  std::string action;
  do {
      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
@@ -1930,18 +1930,18 @@ point overmap::draw_overmap(game *g, int zlevel)
   if (dirx != -2 && diry != -2) {
    cursx += dirx;
    cursy += diry;
-  } else if (action == "CENTER_ON_CHARACTER") {
+  } else if (action == "CENTER") {
    cursx = origx;
    cursy = origy;
    zlevel = origz;
-  } else if (action == "LEVEL_UP" && zlevel > -OVERMAP_DEPTH) {
+  } else if (action == "LEVEL_DOWN" && zlevel > -OVERMAP_DEPTH) {
       zlevel -= 1;
-  } else if (action == "LEVEL_DOWN" && zlevel < OVERMAP_HEIGHT) {
+  } else if (action == "LEVEL_UP" && zlevel < OVERMAP_HEIGHT) {
       zlevel += 1;
   }
   else if (action == "CONFIRM")
    ret = point(cursx, cursy);
-  else if (action == "OVERMAP_QUIT")
+  else if (action == "QUIT")
    ret = point(-1, -1);
   else if (action == "CREATE_NOTE") {
    timeout(-1);
@@ -2021,7 +2021,7 @@ point overmap::draw_overmap(game *g, int zlevel)
   }
   else if (action == "ERROR") // Hit timeout on input, so make characters blink
    blink = !blink;
- } while (action != "OVERMAP_QUIT");
+ } while (action != "QUIT");
  timeout(-1);
  werase(w_map);
  wrefresh(w_map);

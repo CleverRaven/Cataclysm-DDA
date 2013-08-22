@@ -93,7 +93,18 @@ struct input_event {
 class input_manager {
 public:
     // TODO: rewrite this to have several alternative input events for the same action
-    const std::vector<input_event>& get_input_for_action(const std::string& action_descriptor);
+
+    /**
+     * Get the input events associated with an action ID in a given context.
+     *
+     * Note that if context is something other than "default", the default bindings will not be returned.
+     *
+     * @param action_descriptor The action ID to get the input events for.
+     * @param context The context in which to get the input events. Defaults to "default".
+     * @param overwrites_default If this is non-NULL, this will be used as return parameter and will be set to true if the default
+     *                           keybinding is overriden by something else in the given context.
+     */
+    const std::vector<input_event>& get_input_for_action(const std::string& action_descriptor, const std::string context="default", bool *overwrites_default=NULL);
 
     /**
      * Initializes the input manager, aka loads the input mapping configuration JSON.
@@ -117,6 +128,7 @@ public:
 
 private:
     std::map<std::string, std::vector<input_event> > action_to_input;
+    std::map<std::string, std::map<std::string,std::vector<input_event> > > action_contexts;
     std::map<std::string, std::string> actionID_to_name;
 
     std::map<long, std::string> keycode_to_keyname;
@@ -138,12 +150,13 @@ extern input_manager inp_mngr;
  * (traditionally keypresses), handling input, and yielding the correct
  * action string descriptors for given input.
  *
- * This turns InputContext into an abstraction method between actual
+ * This turns this class into an abstraction method between actual
  * input(keyboard, gamepad etc.) and game.
  */
 class input_context {
 public:
-    input_context() : registered_any_input(false) {};
+    input_context() : registered_any_input(false), category("default") {};
+    input_context(std::string category) : registered_any_input(false), category(category) {};
 
     /**
      * Register an action with this input context.
@@ -205,6 +218,7 @@ private:
     std::vector<std::string> registered_actions;
     const std::string& input_to_action(input_event& inp);
     bool registered_any_input;
+    std::string category; // The input category this context uses.
 };
 
 #endif
