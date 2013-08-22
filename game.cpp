@@ -8377,47 +8377,37 @@ void game::pickup(int posx, int posy, int min)
              veh->parts[veh_part].items.size() > 0 &&
              query_yn(_("Get items from %s?"), veh->part_info(veh_part).name);
 
-  if (!from_veh && k_part >= 0) {
-    if (veh->fuel_left("water")) {
-      if (query_yn(_("Fill a container?")))
-      {
+  if (!from_veh && k_part >= 0)  {
+    if (veh->fuel_left("water"))  {
+      if (query_yn(_("Fill a container?")))  {
          std::stringstream text;
          text <<_("Container for clean water");
          char ch = inv_type(text.str().c_str(), IC_CONTAINER);
-         if (u.has_item(ch))
-         {
+         if (u.has_item(ch))  {
          item *cont = &(u.i_at(ch));
-            if (!(cont == NULL || cont->is_null()))
-            {
-               if (cont->is_container())
-               {
+            if (!(cont == NULL || cont->is_null()))  {
+               if (cont->is_container())  {
                   it_container* container = dynamic_cast<it_container*>(cont->type);
                   int holding_container_charges = container->contains;
-                  if(!cont->contents.empty())
-                  {
+                  if(!cont->contents.empty())  {
                      if (cont->contents[0].type->id != "water_clean")
                        add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
-                     else
-                     {
+                     else  {
                        if (cont->contents[0].charges == holding_container_charges)
                           add_msg(_("Your %s can't hold any more water."), cont->tname(this).c_str());
-                       else
-                       {
+                       else  {
                           add_msg(_("You pour water into your %s."), cont->tname(this).c_str());
                           int add = holding_container_charges - cont->contents[0].charges;
                           veh->drain("water", add);
                           cont->contents[0].charges = holding_container_charges;
                        }
                      }
-                  }
-                  else
-                  {
+                  }  else  {
                     if (!cont->has_flag("WATERTIGHT"))  // invalid container types
                        add_msg(_("That %s isn't water-tight."), cont->tname(this).c_str());
                     else if (!(cont->has_flag("SEALS")))
                        add_msg(_("You can't seal that %s!"), cont->tname(this).c_str());
-                    else
-                    {
+                    else  {
                        veh->drain("water", holding_container_charges);
                        cont->contents[0].charges = holding_container_charges;
                     }
@@ -8425,10 +8415,8 @@ void game::pickup(int posx, int posy, int min)
                }
             }
          }
-      }
-      else if (query_yn(_("Have a drink?"))) {
+      } else if (query_yn(_("Have a drink?"))) {
         veh->drain("water", 1);
-
         item water(itypes["water_clean"], 0);
         u.eat(this, u.inv.add_item(water).invlet);
         u.moves -= 250;
@@ -8437,6 +8425,7 @@ void game::pickup(int posx, int posy, int min)
       add_msg(_("The water tank is empty."));
     }
   }
+
  }
  if ((!from_veh) && m.i_at(posx, posy).size() == 0)
  {
