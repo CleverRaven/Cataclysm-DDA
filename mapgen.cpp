@@ -10102,7 +10102,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 |BBBB  D              \n\
 |------|              \n",
      mapf::basic_bind("g - | + D", t_wall_glass_h, t_wall_h, t_wall_v, t_door_c, t_door_locked),
-     mapf::basic_bind("# c & B C O b H h o d e m E", f_table, f_counter, f_fridge, f_rack, f_cupboard, f_oven, f_bed, f_armchair, f_chair, f_toilet, f_dresser, f_desk, f_sofa, f_bookcase));
+     mapf::basic_bind("# c & B C O b H h o d e m E", f_table, f_counter, f_fridge, f_rack, f_cupboard, f_oven, f_bed, f_armchair, f_chair, f_toilet, f_dresser, f_desk, f_sofa, f_bookcase),
+     true // empty toilets
+     );
      place_items("tools", 50, 21, 5, 21, 8, false, 0);
      //Upper Right Shelf
      place_items("hardware", 50, 21, 10, 21, 13, false, 0);
