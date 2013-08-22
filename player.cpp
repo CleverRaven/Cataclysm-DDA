@@ -4687,22 +4687,32 @@ void player::vomit(game *g)
 }
 
 void player::drench(game *g, int saturation, int flags) {
-  if (is_waterproof(flags))
-    return;
+    if (is_waterproof(flags)) {
+        return;
+    }
+    bool wantsDrench = is_water_friendly(flags);
+    int morale_cap;
 
-  bool wantsDrench = is_water_friendly(flags);
-  int morale_cap;
+    if (wantsDrench) {
+        morale_cap = (g->temperature - 65) * saturation / 100;
+    } else {
+        morale_cap = -(saturation / 2);
+    }
 
-  if (wantsDrench) {
-    morale_cap = (g->temperature - 60) * saturation / 100;
-  } else {
-    morale_cap = -(saturation / 2);
-  }
+    if (morale_cap == 0) {
+        return;
+    }
 
-  if (morale_cap == 0)
-    return;
+    int morale_effect = morale_cap / 8;
+    if (morale_effect == 0) {
+        if (morale_cap > 0) {
+            morale_effect = 1;
+        } else {
+            morale_effect = -1;
+        }
+    }
 
-  add_morale(MORALE_WET, (morale_cap > 0?1:-1), morale_cap);
+    add_morale(MORALE_WET, morale_effect, morale_cap);
 }
 
 int player::weight_carried()
