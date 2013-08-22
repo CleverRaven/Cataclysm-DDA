@@ -181,6 +181,8 @@ std::string action_ident(action_id act)
             return "advinv";
         case ACTION_PICKUP:
             return "pickup";
+        case ACTION_GRAB:
+            return "grab";
         case ACTION_BUTCHER:
             return "butcher";
         case ACTION_CHAT:
@@ -355,6 +357,8 @@ std::string action_name(action_id act)
             return _("Examine Nearby Terrain");
         case ACTION_PICKUP:
             return _("Pick Item(s) Up");
+        case ACTION_GRAB:
+            return _("Grab a nearby vehicle");
         case ACTION_BUTCHER:
             return _("Butcher");
         case ACTION_CHAT:

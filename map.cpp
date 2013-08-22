@@ -274,7 +274,7 @@ void map::destroy_vehicle (vehicle *veh)
  debugmsg ("destroy_vehicle can't find it! sm=%d", veh_sm);
 }
 
-bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test=false)
+bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test)
 {
  const int x2 = x + dx;
  const int y2 = y + dy;
@@ -554,22 +554,7 @@ bool map::vehproceed(game* g){
    if (veh->velocity == 0)
       can_move = false;
    // find collisions
-   for (int ep = 0; ep < veh->external_parts.size() && can_move; ep++) {
-      const int p = veh->external_parts[ep];
-      // coords of where part will go due to movement (dx/dy)
-      // and turning (precalc_dx/dy [1])
-      const int dsx = x + dx + veh->parts[p].precalc_dx[1];
-      const int dsy = y + dy + veh->parts[p].precalc_dy[1];
-      veh_collision coll = veh->part_collision (x, y, p, dsx, dsy);
-      if(coll.type == veh_coll_veh)
-         veh_veh_colls.push_back(coll);
-      else if (coll.type != veh_coll_nothing){ //run over someone?
-         if (can_move)
-            imp += coll.imp;
-         if (veh->velocity == 0)
-            can_move = false;
-      }
-   }
+   veh->collision( veh_veh_colls, dx, dy, can_move, imp );
 
    if(veh_veh_colls.size()){ // we have dynamic crap!
       // effects of colliding with another vehicle:
@@ -870,11 +855,11 @@ std::string map::features(const int x, const int y)
  return ret;
 }
 
-int map::move_cost(const int x, const int y)
+int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle)
 {
  int vpart = -1;
  vehicle *veh = veh_at(x, y, vpart);
- if (veh) {  // moving past vehicle cost
+ if (veh && veh != ignored_vehicle) {  // moving past vehicle cost
   const int dpart = veh->part_with_feature(vpart, vpf_obstacle);
   if (dpart >= 0 && (!veh->part_flag(dpart, vpf_openable) || !veh->parts[dpart].open)) {
    return 0;
@@ -897,10 +882,11 @@ int map::move_cost_ter_furn(const int x, const int y)
 }
 
 int map::combined_movecost(const int x1, const int y1,
-                           const int x2, const int y2)
+                           const int x2, const int y2,
+                           const vehicle *ignored_vehicle)
 {
-    int cost1 = move_cost(x1, y1);
-    int cost2 = move_cost(x2, y2);
+    int cost1 = move_cost(x1, y1, ignored_vehicle);
+    int cost2 = move_cost(x2, y2, ignored_vehicle);
     // 50 moves taken per move_cost (70.71.. diagonally)
     int mult = (trigdist && x1 != x2 && y1 != y2 ? 71 : 50);
     return (cost1 + cost2) * mult / 2;

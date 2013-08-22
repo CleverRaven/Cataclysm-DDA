@@ -180,7 +180,7 @@ move_down >\n\
 move_up   <\n\
 \n\
 # MOVEMENT:\n\
-center     G\n\
+center     :\n\
 shift_n    K\n\
 shift_e    L\n\
 shift_s    J\n\
@@ -193,6 +193,7 @@ smash s\n\
 examine e\n\
 advinv /\n\
 pickup , g\n\
+grab G\n\
 butcher B\n\
 chat C\n\
 look ; x\n\
@@ -238,7 +239,7 @@ quit Q\n\
 \n\
 # INFO SCREENS\n\
 player_data @\n\
-map m :\n\
+map m\n\
 missions M\n\
 factions #\n\
 kills )\n\
