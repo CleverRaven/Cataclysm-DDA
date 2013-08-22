@@ -21,11 +21,7 @@ bool mattack::initialized = false;
 std::vector<SpeechBubble> mattack::parrotVector;
 
 mattack::mattack() {
-    /*
-    Had this without the initialize variable, but a new mattack object is instantiated
-    whenever a monster needs to call one of the member functions.
-    Could be neater if there were a single object referenced for each call.
-    */
+    // this should only need to be done once:
     if (!initialized) {
         initialized = true;
         load_parrot_speech();
@@ -1568,7 +1564,9 @@ void mattack::parrot(game *g, monster *z) {
     if (one_in(20)) {
         z->moves = -100;  // It takes a while
         z->sp_timeout = z->type->sp_freq;  // Reset timer
-        signed int index = rng(0, parrotVector.size() - 1);
+        // parrotVector should never have size < 1, but just in case:
+        if (parrotVector.size() == 0) { return; }
+        int index = rng(0, parrotVector.size() - 1);
         SpeechBubble speech = parrotVector[index];
         g->sound(z->posx, z->posy, speech.volume, _(speech.text.c_str()));
     }
@@ -1579,7 +1577,7 @@ bool mattack::load_parrot_speech() {
     std::string buffer;
     char delimiter = ':';
     SpeechBubble speech;
-    // load monster parrot dialogue data file
+    // load parrot dialogue data file
     std::ifstream f(FILEPATH);
     if (f.is_open()) {
         while (f.good()) {
