@@ -2296,19 +2296,21 @@ void game::update_scent()
 
 bool game::is_game_over()
 {
- if (uquit != QUIT_NO)
-  return true;
- for (int i = 0; i <= hp_torso; i++) {
-  if (u.hp_cur[i] < 1) {
-   place_corpse();
-   std::stringstream playerfile;
-   playerfile << "save/" << base64_encode(u.name) << ".sav";
-   unlink(playerfile.str().c_str());
-   uquit = QUIT_DIED;
-   return true;
-  }
- }
- return false;
+    if (uquit != QUIT_NO)
+        return true;
+    for (int i = 0; i <= hp_torso; i++){
+        if (u.hp_cur[i] < 1) {
+            if (u.in_vehicle)
+                g->m.unboard_vehicle(this, u.posx, u.posy);
+            place_corpse();
+            std::stringstream playerfile;
+            playerfile << "save/" << base64_encode(u.name) << ".sav";
+            unlink(playerfile.str().c_str());
+            uquit = QUIT_DIED;
+            return true;
+        }
+    }
+    return false;
 }
 
 void game::place_corpse()
