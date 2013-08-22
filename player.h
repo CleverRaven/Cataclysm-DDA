@@ -324,6 +324,11 @@ public:
  bool studied_all_recipes(it_book *book);
  bool try_study_recipe(game *g, it_book *book);
 
+// Library functions
+ double logistic(double t);
+ double logistic_range(int min, int max, int pos);
+ void calculate_portions(int &x, int &y, int &z, int maximum);
+
 // ---------------VALUES-----------------
  int posx, posy;
  int view_offset_x, view_offset_y;

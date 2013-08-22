@@ -3382,32 +3382,40 @@ bool player::has_nv()
 
 void player::pause(game *g)
 {
- moves = 0;
- if (recoil > 0) {
-   if (str_cur + 2 * skillLevel("gun") >= recoil)
-   recoil = 0;
-  else {
-    recoil -= str_cur + 2 * skillLevel("gun");
-   recoil = int(recoil / 2);
-  }
- }
+    moves = 0;
+    if (recoil > 0) {
+        if (str_cur + 2 * skillLevel("gun") >= recoil) {
+            recoil = 0;
+        } else {
+            recoil -= str_cur + 2 * skillLevel("gun");
+            recoil = int(recoil / 2);
+        }
+    }
 
-// Meditation boost for Toad Style
- if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
-  int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
-  int arm_max = (int_cur + per_cur) / 2;
-  if (arm_amount > 3)
-   arm_amount = 3;
-  if (arm_max > 20)
-   arm_max = 20;
-  add_disease("armor_boost", 2, arm_amount, arm_max);
- }
+    // Meditation boost for Toad Style
+    if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
+        int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
+        int arm_max = (int_cur + per_cur) / 2;
+        if (arm_amount > 3) {
+            arm_amount = 3;
+        }
+        if (arm_max > 20) {
+            arm_max = 20;
+        }
+        add_disease("armor_boost", 2, arm_amount, arm_max);
+    }
 
-// Train swimming if underwater
- if (underwater) {
-   practice(g->turn, "swimming", 1);
-   drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth));
- }
+    // Train swimming if underwater
+    if (underwater) {
+        practice(g->turn, "swimming", 1);
+        if (g->temperature <= 50) {
+            drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
+                           mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_feet)|mfb(bp_hands));
+        } else {
+            drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
+                           mfb(bp_eyes)|mfb(bp_mouth));
+        }
+    }
 }
 
 int player::throw_range(signed char ch)
@@ -4690,13 +4698,288 @@ void player::drench(game *g, int saturation, int flags) {
     if (is_waterproof(flags)) {
         return;
     }
-    bool wantsDrench = is_water_friendly(flags);
-    int morale_cap;
 
-    if (wantsDrench) {
-        morale_cap = (g->temperature - 65) * saturation / 100;
+    int effected = 0;
+    int tot_good = 0; //Increase good wet bonus
+    int tot_neut = 0; //Ignored for good wet bonus
+    int tot_ignored = 0; //Always ignored
+    int good = 0;
+    int neut = 0;
+    int ignored = 0;
+
+    if (mfb(bp_eyes) & flags) {
+        effected += 1;
+        if (has_trait("MEMBRANE")) {
+            neut += 1;
+        }
+        calculate_portions(good, neut, ignored, 1);
+        tot_good += good;
+        good = 0;
+        tot_neut += neut;
+        neut = 0;
+        tot_ignored += ignored;
+        ignored = 0;
+    }
+    if (mfb(bp_mouth) & flags) {
+        effected += 1;
+        if (has_trait("MOUTH_TENTACLES")) {
+            neut += 1;
+        } else if (has_trait("MANDIBLES") || has_trait("BEAK")) {
+            ignored += 1;
+        }
+        calculate_portions(good, neut, ignored, 1);
+        tot_good += good;
+        good = 0;
+        tot_neut += neut;
+        neut = 0;
+        tot_ignored += ignored;
+        ignored = 0;
+    }
+    if (mfb(bp_head) & flags) {
+        effected += 7;
+        if (has_trait("GILLS")) {
+            good += 1;
+        }
+        if (has_trait("SCALES")) {
+            ignored += 3;
+        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
+            ignored += 5;
+        } else if (has_trait("SLEEK_SCALES")) {
+            ignored += 7;
+        } else if (has_trait("CHITIN")) {
+            ignored += 1;
+        } else if (has_trait("CHITIN2")) {
+            ignored += 2;
+        } else if (has_trait("CHITIN3")) {
+            ignored += 4;
+        } else if (has_trait("PLANTSKIN")) {
+            neut += 4;
+        }
+        if (has_trait("LEAVES")) {
+            ignored += 1;
+        }
+        if (has_trait("SLIMY")) {
+            good += 4;
+            neut += 3;
+        }
+        calculate_portions(good, neut, ignored, 7);
+        tot_good += good;
+        good = 0;
+        tot_neut += neut;
+        neut = 0;
+        tot_ignored += ignored;
+        ignored = 0;
+    }
+    if (mfb(bp_legs) & flags) {
+        effected += 21;
+        if (has_trait("THICKSKIN")) {
+            neut += 1;
+        }
+        if (has_trait("SCALES")) {
+            ignored += 10;
+        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
+            ignored += 16;
+        } else if (has_trait("SLEEK_SCALES")) {
+            ignored += 21;
+        } else if (has_trait("CHITIN")) {
+            ignored += 5;
+        } else if (has_trait("CHITIN2")) {
+            ignored += 9;
+        } else if (has_trait("CHITIN3")) {
+            ignored += 14;
+        } else if (has_trait("PLANTSKIN")) {
+            neut += 5;
+        }
+        if (has_trait("TAIL_FIN")) {
+            good += 3;
+        }
+        if (has_trait("SLIMY")) {
+            good += 14;
+            neut += 7;
+        }
+        if (has_trait("LEG_TENTACLES")) {
+            neut += 21;
+        }
+        calculate_portions(good, neut, ignored, 21);
+        tot_good += good;
+        good = 0;
+        tot_neut += neut;
+        neut = 0;
+        tot_ignored += ignored;
+        ignored = 0;
+    }
+    if (mfb(bp_feet) & flags) {
+        effected += 6;
+        if (has_trait("SCALES")) {
+            ignored += 3;
+        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
+            ignored += 5;
+        } else if (has_trait("SLEEK_SCALES")) {
+            ignored += 6;
+        } else if (has_trait("CHITIN")) {
+            ignored += 1;
+        } else if (has_trait("CHITIN2")) {
+            ignored += 2;
+        } else if (has_trait("CHITIN3")) {
+            ignored += 4;
+        } else if (has_trait("PLANTSKIN")) {
+            neut += 1;
+        }
+        if (has_trait("PADDED_FEET")) {
+            neut += 1;
+        } else if (has_trait("HOOVES")) {
+            ignored += 6;
+        }
+        if (has_trait("SLIMY")) {
+            good += 4;
+            neut += 2;
+        }
+        if (has_trait("LEG_TENTACLES")) {
+            neut += 6;
+        }
+        calculate_portions(good, neut, ignored, 6);
+        tot_good += good;
+        good = 0;
+        tot_neut += neut;
+        neut = 0;
+        tot_ignored += ignored;
+        ignored = 0;
+    }
+    if (mfb(bp_arms) & flags) {
+        effected += 19;
+        if (has_trait("THICKSKIN")) {
+            neut += 1;
+        }
+        if (has_trait("SCALES")) {
+            ignored += 9;
+        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
+            ignored += 14;
+        } else if (has_trait("SLEEK_SCALES")) {
+            ignored += 19;
+        } else if (has_trait("CHITIN")) {
+            ignored += 4;
+        } else if (has_trait("CHITIN2")) {
+            ignored += 8;
+        } else if (has_trait("CHITIN3")) {
+            ignored += 12;
+        } else if (has_trait("PLANTSKIN")) {
+            neut += 4;
+        }
+        if (has_trait("SLIMY")) {
+            good += 12;
+            neut += 7;
+        }
+        if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
+            has_trait("ARM_TENTACLES_8")) {
+            neut += 19;
+        }
+        calculate_portions(good, neut, ignored, 19);
+        tot_good += good;
+        good = 0;
+        tot_neut += neut;
+        neut = 0;
+        tot_ignored += ignored;
+        ignored = 0;
+    }
+    if (mfb(bp_hands) & flags) {
+        effected += 5;
+        if (has_trait("SCALES")) {
+            ignored += 2;
+        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
+            ignored += 4;
+        } else if (has_trait("SLEEK_SCALES")) {
+            ignored += 5;
+        } else if (has_trait("CHITIN")) {
+            ignored += 1;
+        } else if (has_trait("CHITIN2")) {
+            ignored += 2;
+        } else if (has_trait("CHITIN3")) {
+            ignored += 3;
+        } else if (has_trait("PLANTSKIN")) {
+            neut += 1;
+        }
+        if (has_trait("SLIME_HANDS")) {
+            good += 5;
+        }
+        if (has_trait("WEBBED")) {
+            good += 3;
+        }
+        if (has_trait("SLIMY")) {
+            good += 3;
+            neut += 2;
+        }
+        if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
+            has_trait("ARM_TENTACLES_8")) {
+            neut += 5;
+        }
+        calculate_portions(good, neut, ignored, 5);
+        tot_good += good;
+        good = 0;
+        tot_neut += neut;
+        neut = 0;
+        tot_ignored += ignored;
+        ignored = 0;
+    }
+    if (mfb(bp_torso) & flags) {
+        effected += 40;
+        if (has_trait("THICKSKIN")) {
+            neut += 2;
+        }
+        if (has_trait("SCALES")) {
+            ignored += 20;
+        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
+            ignored += 30;
+        } else if (has_trait("SLEEK_SCALES")) {
+            ignored += 40;
+        } else if (has_trait("CHITIN")) {
+            ignored += 10;
+        } else if (has_trait("CHITIN2")) {
+            ignored += 18;
+        } else if (has_trait("CHITIN3")) {
+            ignored += 26;
+        } else if (has_trait("PLANTSKIN")) {
+            neut += 10;
+        }
+        if (has_trait("SLIMY")) {
+            good += 26;
+            neut += 14;
+        }
+        if (has_trait("SHELL")) {
+            ignored += 26;
+        }
+        calculate_portions(good, neut, ignored, 40);
+        tot_good += good;
+        good = 0;
+        tot_neut += neut;
+        neut = 0;
+        tot_ignored += ignored;
+        ignored = 0;
+    }
+
+    if (effected == 0) {
+        return;
+    }
+
+    bool wants_drench = false;
+    // If not protected by mutations then check clothing
+    if (tot_good + tot_neut + tot_ignored < effected) {
+        wants_drench = is_water_friendly(flags);
+    } else {
+        wants_drench = true;
+    }
+
+    int morale_cap;
+    if (wants_drench) {
+        morale_cap = g->temperature - std::min(65, 65 + (tot_ignored - tot_good)) * saturation / 100;
     } else {
         morale_cap = -(saturation / 2);
+    }
+
+    // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
+    if (morale_cap > 0) {
+        morale_cap = morale_cap * (effected - tot_ignored + tot_good) / effected;
+    } else if (morale_cap < 0) {
+        morale_cap = morale_cap * (effected - tot_ignored - tot_neut - tot_good) / effected;
     }
 
     if (morale_cap == 0) {
@@ -4712,7 +4995,20 @@ void player::drench(game *g, int saturation, int flags) {
         }
     }
 
-    add_morale(MORALE_WET, morale_effect, morale_cap);
+    int dur = 60;
+    int d_start = 30;
+    if (morale_cap < 0) {
+        if (has_trait("LIGHTFUR") || has_trait("FUR")) {
+            dur /= 5;
+            d_start /= 5;
+        }
+    } else {
+        if (has_trait("SLIMY")) {
+            dur *= 1.2;
+            d_start *= 1.2;
+        }
+    }
+    add_morale(MORALE_WET, morale_effect, morale_cap, dur, d_start);
 }
 
 int player::weight_carried()
@@ -4793,51 +5089,6 @@ bool player::can_pickWeight(int weight, bool safe)
     }
 }
 
-// --- Library functions ---
-// This stuff could be moved elsewhere, but there
-// doesn't seem to be a good place to put it right now.
-
-// Basic logistic function.
-double logistic(double t)
-{
-    return 1 / (1 + exp(-t));
-}
-
-const double LOGI_CUTOFF = 4;
-const double LOGI_MIN = logistic(-LOGI_CUTOFF);
-const double LOGI_MAX = logistic(+LOGI_CUTOFF);
-const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
-
-// Logistic curve [-6,6], flipped and scaled to
-// range from 1 to 0 as pos goes from min to max.
-double logistic_range(int min, int max, int pos)
-{
-    // Anything beyond [min,max] gets clamped.
-    if (pos < min)
-    {
-        return 1.0;
-    }
-    else if (pos > max)
-    {
-        return 0.0;
-    }
-
-    // Normalize the pos to [0,1]
-    double range = max - min;
-    double unit_pos = (pos - min) / range;
-
-    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
-    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
-
-    // Get the raw logistic value.
-    double raw_logistic = logistic(scaled_pos);
-
-    // Scale the output to [0,1]
-    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
-}
-// --- End ---
-
-
 int player::net_morale(morale_point effect)
 {
     double bonus = effect.bonus;
@@ -4917,7 +5168,9 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
             {
                 // Otherwise, we need to figure out whether the existing effect had
                 // more remaining duration and decay-resistance than the new one does.
-                if (morale[i].duration - morale[i].age <= duration)
+                // Only takes the new duration if new bonus and old are the same sign.
+                if (morale[i].duration - morale[i].age <= duration &&
+                   ((morale[i].bonus > 0) == (max_bonus > 0)) )
                 {
                     morale[i].duration = duration;
                 }
@@ -4927,7 +5180,8 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
                     morale[i].duration -= morale[i].age;
                 }
 
-                if (morale[i].decay_start - morale[i].age <= decay_start)
+                if (morale[i].decay_start - morale[i].age <= decay_start &&
+                   ((morale[i].bonus > 0) == (max_bonus > 0)) )
                 {
                     morale[i].decay_start = decay_start;
                 }
@@ -8464,3 +8718,54 @@ point player::adjacent_tile()
     else
         return point(posx, posy);           // or return player position if no valid adjacent tiles
 }
+
+// --- Library functions ---
+// This stuff could be moved elsewhere, but there
+// doesn't seem to be a good place to put it right now.
+
+// Basic logistic function.
+double player::logistic(double t)
+{
+    return 1 / (1 + exp(-t));
+}
+
+// Logistic curve [-6,6], flipped and scaled to
+// range from 1 to 0 as pos goes from min to max.
+double player::logistic_range(int min, int max, int pos)
+{
+    const double LOGI_CUTOFF = 4;
+    const double LOGI_MIN = logistic(-LOGI_CUTOFF);
+    const double LOGI_MAX = logistic(+LOGI_CUTOFF);
+    const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
+    // Anything beyond [min,max] gets clamped.
+    if (pos < min)
+    {
+        return 1.0;
+    }
+    else if (pos > max)
+    {
+        return 0.0;
+    }
+
+    // Normalize the pos to [0,1]
+    double range = max - min;
+    double unit_pos = (pos - min) / range;
+
+    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
+    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
+
+    // Get the raw logistic value.
+    double raw_logistic = logistic(scaled_pos);
+
+    // Scale the output to [0,1]
+    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
+}
+
+// Calculates portions favoring x, then y, then z
+void player::calculate_portions(int &x, int &y, int &z, int maximum)
+{
+    z = std::min(z, std::max(maximum - x - y, 0));
+    y = std::min(y, std::max(maximum - x , 0));
+    x = std::min(x, std::max(maximum, 0));
+}
+// --- End ---
