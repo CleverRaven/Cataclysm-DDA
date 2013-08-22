@@ -1183,7 +1183,7 @@ void game::init_vehicles()
     PART (-1, -2, vp_steel_plate);
     PART (-1, 2,       vp_door);
     PART (-1, 2, vp_steel_plate);
-    PART (-2, -2 vp_board_v);
+    PART (-2, -2, vp_board_v);
     PART (-2, -2, vp_steel_plate);
     PART (-2, -1, vp_frame_v2);
     PART (-2, -1, vp_steel_plate);
