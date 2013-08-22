@@ -605,7 +605,7 @@ const furn_t furnlist[num_furniture_types] = { // MUST match enum furn_id above!
     mfb(transparent)|mfb(container)|mfb(flammable2)|
     mfb(deconstruct)|mfb(place_item), &iexamine::none},
 {"toilet",              '&', c_white,   2, 18,
-    mfb(transparent)|mfb(bashable)|mfb(l_flammable), &iexamine::water_source},
+    mfb(transparent)|mfb(bashable)|mfb(l_flammable), &iexamine::toilet},
 {"makeshift bed",       '#', c_magenta, 3, 12,
     mfb(transparent)|mfb(bashable)|mfb(flammable2)|
     mfb(deconstruct), &iexamine::none},

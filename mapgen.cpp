@@ -1521,7 +1521,8 @@ t   t\n\
   }
   ter_set(cw, rng(mw + 1, bw - 1), t_door_c);
   ter_set(rw - 1, mw, t_door_c);
-  set(rw - 1, bw - 1, t_floor, f_toilet);
+  ter_set(rw - 1, bw - 1, t_floor);
+  place_toilet(rw - 1, bw - 1);
   ter_set(rng(10, 13), tw, t_door_c);
   if (one_in(5))
    ter_set(rng(lw + 1, cw - 1), bw, (one_in(4) ? t_door_c : t_door_locked));
@@ -4067,7 +4068,7 @@ case ot_lmoe: {
   furn_set(20, 7, f_desk);
   line(this, t_rubble, 15, 10, 16, 10);
   furn_set(19, 10, f_sink);
-  furn_set(20, 11, f_toilet);
+  place_toilet(20, 11);
   place_items("allguns", 80, 3, 3, 6, 3, false, 0);
   place_items("ammo", 80, 3, 3, 6, 3, false, 0);
   place_items("cannedfood", 90, 3, 9, 7, 9, false, 0);
@@ -9262,7 +9263,7 @@ case ot_s_garage_north:
 	furn_set(16, 4, f_dresser);
 	furn_set(19, 4, f_dresser);
 	ter_set(13, 6, t_door_c);
-	furn_set(9, 4, f_toilet);
+	place_toilet(9, 4);
 	line(this, f_bathtub, 8, 7, 9, 7);
 	furn_set(8, 5, f_sink);
 	place_items("fridge", 65, 4, 15, 4, 15, false, 0);
@@ -12361,6 +12362,14 @@ void map::place_gas_pump(int x, int y, int charges)
  ter_set(x, y, t_gas_pump);
 }
 
+void map::place_toilet(int x, int y, int charges)
+{
+    item water(g->itypes["water"], 0);
+    water.charges = charges;
+    add_item(x, y, water);
+    furn_set(x, y, f_toilet);
+}
+
 int map::place_items(items_location loc, int chance, int x1, int y1,
                       int x2, int y2, bool ongrass, int turn)
 {
@@ -12972,7 +12981,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   }
   break;
  case room_bathroom:
-  m->furn_set(x2 - 1, y2 - 1, f_toilet);
+  m->place_toilet(x2 - 1, y2 - 1);
   m->place_items("harddrugs", 18, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
   m->place_items("cleaning",  48, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
   placed = "softdrugs";
@@ -13956,7 +13965,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   break;
 
  case room_mansion_bathroom:
-    m->furn_set( rng(x1 + 1, cx_hi - 1), rng(y1 + 1, cy_hi - 1) , f_toilet);
+    m->place_toilet(rng(x1 + 1, cx_hi - 1), rng(y1 + 1, cy_hi - 1));
     m->furn_set( rng(cx_hi + 1, x2 - 1), rng(y1 + 1, cy_hi - 1) , f_bathtub);
     m->furn_set( rng(x1 + 1, cx_hi - 1), rng(cy_hi + 1, y2 - 1) , f_sink);
 

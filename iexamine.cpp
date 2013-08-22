@@ -54,6 +54,55 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
  g->add_msg(_("Out of order."));
 }
 
+void iexamine::toilet(game *g, player *p, map *m, int examx, int examy) {
+    std::vector<item>& items = m->i_at(examx, examy);
+    int waterIndex = -1;
+    for (int i = 0; i < items.size(); i++) {
+        if (items[i].typeId() == "water") {
+            waterIndex = i;
+            break;
+        }
+    }
+
+    if (waterIndex < 0) {
+        g->add_msg(_("This toilet is empty."));
+    } else {
+        bool drained = false;
+
+        item& water = items[waterIndex];
+        // Use a different poison value each time water is drawn from the toilet.
+        water.poison = one_in(3) ? 0 : rng(1, 3);
+
+        // First try handling/bottling, then try drinking.
+        if (g->handle_liquid(water, true, false))
+        {
+            p->moves -= 100;
+            drained = true;
+        }
+        else if (query_yn(_("Drink from your hands?")))
+        {
+            // Create a dose of water no greater than the amount of water remaining.
+            item water_temp(item_controller->find_template("water"), 0);
+            water_temp.poison = water.poison;
+            water_temp.charges = std::min(water_temp.charges, water.charges);
+
+            p->inv.push_back(water_temp);
+            water_temp = p->inv.item_by_type(water_temp.typeId());
+            p->eat(g, water_temp.invlet);
+            p->moves -= 350;
+
+            water.charges -= water_temp.charges;
+            if (water.charges <= 0) {
+                drained = true;
+            }
+        }
+
+        if (drained) {
+            items.erase(items.begin() + waterIndex);
+        }
+    }
+}
+
 void iexamine::elevator(game *g, player *p, map *m, int examx, int examy){
  if (!query_yn(_("Use the %s?"),m->tername(examx, examy).c_str())) return;
  int movez = (g->levz < 0 ? 2 : -2);
