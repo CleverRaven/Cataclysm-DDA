@@ -846,7 +846,7 @@ void game::complete_construction()
     std::vector<component> player_use;
     std::vector<component> map_use;
 
-    u.practice(turn, "carpentry", std::min(built->difficulty, 1) * 10);
+    u.practice(turn, "carpentry", std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < 10; i++) {
         if (!stage.components[i].empty()) {
             consume_items(&u, stage.components[i]);
