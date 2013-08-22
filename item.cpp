@@ -2270,7 +2270,7 @@ bool item::flammable() const
     material_type* cur_mat1 = material_type::find_material(type->m1);
     material_type* cur_mat2 = material_type::find_material(type->m2);
 
-    return ((cur_mat1->fire_resist() + cur_mat2->elec_resist()) <= 0);
+    return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
 }
 
 std::string default_technique_name(technique_id tech)
