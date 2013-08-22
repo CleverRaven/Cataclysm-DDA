@@ -169,7 +169,7 @@ public:
     bool addField(const field_id field_to_add,const unsigned char new_density=1, const int new_age=0);
 
     //Removes the field entry with a type equal to the field_id parameter. Returns true if removed, false otherwise.
-    bool removeField(const field_id field_to_remove);
+    std::map<field_id, field_entry*>::iterator removeField(const field_id field_to_remove);
 
     //Returns the number of fields existing on the current tile.
     unsigned int fieldCount() const;
