@@ -37,13 +37,15 @@ bool monster::can_move_to(game *g, int x, int y)
 {
     if (g->m.move_cost(x, y) == 0 &&
      (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y)) &&
-     ((!has_flag(MF_AQUATIC) && !has_flag(MF_SWIMS)) ||
-      !g->m.has_flag(swimmable, x, y)))
+     (!can_submerge() || !g->m.has_flag(swimmable, x, y))) {
         return false;
-    if (has_flag(MF_DIGS) && !g->m.has_flag(diggable, x, y))
+    }
+    if (has_flag(MF_DIGS) && !g->m.has_flag(diggable, x, y)) {
         return false;
-    if (has_flag(MF_AQUATIC) && !g->m.has_flag(swimmable, x, y))
-    return false;
+    }
+    if (has_flag(MF_AQUATIC) && !g->m.has_flag(swimmable, x, y)) {
+        return false;
+    }
 
     // various animal behaviours
     if (has_flag(MF_ANIMAL))
@@ -722,6 +724,17 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
         else
             movecost += 50 * g->m.move_cost(x2, y2);
         movecost *= diag_mult;
+    // No-breathe monsters have to walk underwater slowly
+    } else if (can_submerge()) {
+       if (g->m.has_flag(swimmable, x1, y1))
+            movecost += 150;
+        else
+            movecost += 50 * g->m.move_cost(x1, y1);
+        if (g->m.has_flag(swimmable, x2, y2))
+            movecost += 150;
+        else
+            movecost += 50 * g->m.move_cost(x2, y2);
+        movecost *= diag_mult;
     // All others use the same calculation as the player
     } else {
         movecost = (g->m.combined_movecost(x1, y1, x2, y2));
@@ -877,6 +890,12 @@ void monster::stumble(game *g, bool moved)
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
    if (can_move_to(g, posx + i, posy + j) &&
+       //Stop zombies and other non-breathing monsters wandering INTO water
+       //(Unless they can swim/are aquatic)
+       //But let them wander OUT of water if they are there.
+       !(has_flag(MF_NO_BREATHE) && !has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)
+           && g->m.has_flag(swimmable, posx + i, posy + j)
+           && !g->m.has_flag(swimmable, posx, posy)) &&
        (g->u.posx != posx + i || g->u.posy != posy + j) &&
        (g->mon_at(posx + i, posy + j) == -1 || (i == 0 && j == 0))) {
     point tmp(posx + i, posy + j);
@@ -963,11 +982,10 @@ void monster::knock_back_from(game *g, int x, int y)
 // If we're still in the function at this point, we're actually moving a tile!
  if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
 
-  if (g->m.has_flag(liquid, to.x, to.y)) {
-   if (!has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)) {
-    hurt(9999);
-    if (u_see)
-     g->add_msg(_("The %s drowns!"), name().c_str());
+  if (g->m.has_flag(liquid, to.x, to.y) && can_drown()) {
+   hurt(9999);
+   if (u_see) {
+    g->add_msg(_("The %s drowns!"), name().c_str());
    }
 
   } else if (has_flag(MF_AQUATIC)) { // We swim but we're NOT in water

@@ -175,7 +175,7 @@ MF_FRIENDLY_SPECIAL, // Use our special attack, even if friendly
 MF_HIT_AND_RUN,	// Flee for several turns after a melee attack
 MF_GUILT,	// You feel guilty for killing it
 MF_HUMAN,	// It's a live human
-MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and poison
+MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and poison, and can't drown
 MF_REGENERATES_50, // Monster regenerates very quickly over time
 MF_FLAMMABLE, // Monster catches fire, burns, and passes the fire on to nearby objects
 MF_MAX		// Sets the length of the flags - obviously MUST be last

@@ -263,6 +263,18 @@ bool monster::can_hear()
  return has_flag(MF_HEARS) && !has_effect(ME_DEAF);
 }
 
+bool monster::can_submerge()
+{
+  return (has_flag(MF_NO_BREATHE) || has_flag(MF_SWIMS) || has_flag(MF_AQUATIC))
+          && !has_flag(MF_ELECTRONIC);
+}
+
+bool monster::can_drown()
+{
+ return !has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)
+         && !has_flag(MF_NO_BREATHE) && !has_flag(MF_FLIES);
+}
+
 bool monster::made_of(std::string m)
 {
  if (type->mat == m)
