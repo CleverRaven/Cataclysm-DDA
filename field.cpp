@@ -1146,201 +1146,224 @@ void map::step_in_field(int x, int y, game *g)
 
 void map::mon_in_field(int x, int y, game *g, monster *z)
 {
- if (z->has_flag(MF_DIGS))
-  return;	// Digging monsters are immune to fields
-	field &curfield = field_at(x, y);
-	field_entry *cur = NULL;
-
-for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-	 cur = field_list_it->second;
-	 if(cur == NULL) continue; //shouldn't happen unless you free memory of field entries manually (hint: don't do that)
-
- int dam = 0;
- switch (cur->getFieldType()) {
-  case fd_null:
-  case fd_blood:	// It doesn't actually do anything
-  case fd_bile:		// Ditto
-   break;
-
-  case fd_web:
-   if (!z->has_flag(MF_WEBWALK)) {
-    z->moves *= .8;
-    remove_field(x, y,fd_web);
-   }
-   break;
-
-// TODO: Use acid resistance
-  case fd_acid:
-   if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
-       !z->has_flag(MF_ACIDPROOF)) {
-    if (cur->getFieldDensity() == 3)
-     dam = rng(4, 10) + rng(2, 8);
-    else
-     dam = rng(cur->getFieldDensity(), cur->getFieldDensity() * 4);
-   }
-   break;
-
-  case fd_sap:
-   z->moves -= cur->getFieldDensity() * 5;
-   if (cur->getFieldDensity() == 1)
-    remove_field(x, y, fd_sap);
-   else
-    cur->setFieldDensity(cur->getFieldDensity() - 1);
-   break;
-
-  case fd_sludge:
-      break;
-
-
-// MATERIALS-TODO: Use fire resistance
-  case fd_fire:
-   if ( z->made_of("flesh") || z->made_of("hflesh") )
-    dam = 3;
-   if (z->made_of("veggy"))
-    dam = 12;
-   if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
-       z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool"))
-    dam = 20;
-   if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel"))
-    dam = -20;
-   if (z->has_flag(MF_FLIES))
-    dam -= 15;
-
-   if (cur->getFieldDensity() == 1)
-    dam += rng(2, 6);
-   else if (cur->getFieldDensity() == 2) {
-    dam += rng(6, 12);
-    if (!z->has_flag(MF_FLIES)) {
-     z->moves -= 20;
-     if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
-         !z->made_of("steel") && !z->has_flag(MF_FIREY))
-      z->add_effect(ME_ONFIRE, rng(3, 8));
+    if (z->has_flag(MF_DIGS)) {
+        return;	// Digging monsters are immune to fields
     }
-   } else if (cur->getFieldDensity() == 3) {
-    dam += rng(10, 20);
-    if (!z->has_flag(MF_FLIES) || one_in(3)) {
-     z->moves -= 40;
-     if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
-         !z->made_of("steel") && !z->has_flag(MF_FIREY))
-      z->add_effect(ME_ONFIRE, rng(8, 12));
+    field &curfield = field_at(x, y);
+    field_entry *cur = NULL;
+
+    for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+         field_list_it != curfield.getFieldEnd(); field_list_it++ ) {
+        cur = field_list_it->second;
+        //shouldn't happen unless you free memory of field entries manually (hint: don't do that)
+        if(cur == NULL) continue;
+
+        int dam = 0;
+        switch (cur->getFieldType()) {
+        case fd_null:
+        case fd_blood:	// It doesn't actually do anything
+        case fd_bile:		// Ditto
+            break;
+
+        case fd_web:
+            if (!z->has_flag(MF_WEBWALK)) {
+                z->moves *= .8;
+                remove_field(x, y,fd_web);
+            }
+            break;
+
+ // TODO: Use acid resistance
+        case fd_acid:
+            if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
+                !z->has_flag(MF_ACIDPROOF)) {
+                if (cur->getFieldDensity() == 3) {
+                    dam = rng(4, 10) + rng(2, 8);
+                } else {
+                    dam = rng(cur->getFieldDensity(), cur->getFieldDensity() * 4);
+                }
+            }
+            break;
+
+        case fd_sap:
+            z->moves -= cur->getFieldDensity() * 5;
+            if (cur->getFieldDensity() == 1) {
+                remove_field(x, y, fd_sap);
+            } else {
+                cur->setFieldDensity(cur->getFieldDensity() - 1);
+            }
+            break;
+
+        case fd_sludge:
+            break;
+
+
+            // MATERIALS-TODO: Use fire resistance
+        case fd_fire:
+            if ( z->made_of("flesh") || z->made_of("hflesh") ) {
+                dam = 3;
+            }
+            if (z->made_of("veggy")) {
+                dam = 12;
+            }
+            if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
+                z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool")) {
+                dam = 20;
+            }
+            if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel")) {
+                dam = -20;
+            }
+            if (z->has_flag(MF_FLIES)) {
+                dam -= 15;
+            }
+
+            if (cur->getFieldDensity() == 1) {
+                dam += rng(2, 6);
+            } else if (cur->getFieldDensity() == 2) {
+                dam += rng(6, 12);
+                if (!z->has_flag(MF_FLIES)) {
+                    z->moves -= 20;
+                    if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
+                        !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
+                        z->add_effect(ME_ONFIRE, rng(3, 8));
+                    }
+                }
+            } else if (cur->getFieldDensity() == 3) {
+                dam += rng(10, 20);
+                if (!z->has_flag(MF_FLIES) || one_in(3)) {
+                    z->moves -= 40;
+                    if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
+                        !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
+                        z->add_effect(ME_ONFIRE, rng(8, 12));
+                    }
+                }
+            }
+            // Drop through to smoke no longer needed as smoke will exist in the same square now,
+            // this would double apply otherwise.
+            break;
+
+        case fd_rubble:
+            if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_AQUATIC)) {
+                z->add_effect(ME_BOULDERING, 1);
+            }
+            break;
+
+        case fd_smoke:
+            if (!z->has_flag(MF_NO_BREATHE)) {
+                if (cur->getFieldDensity() == 3) {
+                    z->moves -= rng(10, 20);
+                }
+                if (z->made_of("veggy")) {	// Plants suffer from smoke even worse
+                    z->moves -= rng(1, cur->getFieldDensity() * 12);
+                }
+            }
+            break;
+
+        case fd_tear_gas:
+            if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy")) &&
+                !z->has_flag(MF_NO_BREATHE)) {
+                z->add_effect(ME_BLIND, cur->getFieldDensity() * 8);
+                if (cur->getFieldDensity() == 3) {
+                    z->add_effect(ME_STUNNED, rng(10, 20));
+                    dam = rng(4, 10);
+                } else if (cur->getFieldDensity() == 2) {
+                    z->add_effect(ME_STUNNED, rng(5, 10));
+                    dam = rng(2, 5);
+                } else {
+                    z->add_effect(ME_STUNNED, rng(1, 5));
+                }
+                if (z->made_of("veggy")) {
+                    z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
+                    dam += cur->getFieldDensity() * rng(8, 14);
+                }
+            }
+            break;
+
+        case fd_toxic_gas:
+            if(!z->has_flag(MF_NO_BREATHE)) {
+                dam = cur->getFieldDensity();
+                z->moves -= cur->getFieldDensity();
+            }
+            break;
+
+        case fd_nuke_gas:
+            if(!z->has_flag(MF_NO_BREATHE)) {
+                if (cur->getFieldDensity() == 3) {
+                    z->moves -= rng(60, 120);
+                    dam = rng(30, 50);
+                } else if (cur->getFieldDensity() == 2) {
+                    z->moves -= rng(20, 50);
+                    dam = rng(10, 25);
+                } else {
+                    z->moves -= rng(0, 15);
+                    dam = rng(0, 12);
+                }
+                if (z->made_of("veggy")) {
+                    z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
+                    dam *= cur->getFieldDensity();
+                }
+            }
+            break;
+
+            // MATERIALS-TODO: Use fire resistance
+        case fd_flame_burst:
+            if (z->made_of("flesh") || z->made_of("hflesh")) {
+                dam = 3;
+            }
+            if (z->made_of("veggy")) {
+                dam = 12;
+            }
+            if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
+                z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool")) {
+                dam = 50;
+            }
+            if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel")) {
+                dam = -25;
+            }
+            dam += rng(0, 8);
+            z->moves -= 20;
+            break;
+
+        case fd_electricity:
+            dam = rng(1, cur->getFieldDensity());
+            if (one_in(8 - cur->getFieldDensity())) {
+                z->moves -= cur->getFieldDensity() * 150;
+            }
+            break;
+
+        case fd_fatigue:
+            if (rng(0, 2) < cur->getFieldDensity()) {
+                dam = cur->getFieldDensity();
+                int tries = 0;
+                int newposx, newposy;
+                do {
+                    newposx = rng(z->posx - SEEX, z->posx + SEEX);
+                    newposy = rng(z->posy - SEEY, z->posy + SEEY);
+                    tries++;
+                } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
+
+                if (tries == 10) {
+                    g->explode_mon(g->mon_at(z->posx, z->posy));
+                } else {
+                    int mon_hit = g->mon_at(newposx, newposy);
+                    if (mon_hit != -1) {
+                        if (g->u_see(z)) {
+                            g->add_msg(_("The %s teleports into a %s, killing them both!"),
+                                       z->name().c_str(), g->z[mon_hit].name().c_str());
+                        }
+                        g->explode_mon(mon_hit);
+                    } else {
+                        z->posx = newposx;
+                        z->posy = newposy;
+                    }
+                }
+            }
+            break;
+
+        }
+        if (dam > 0) {
+            z->hurt(dam);
+        }
     }
-   }
-// Drop through to smoke no longer needed as smoke will exist in the same square now, this would double apply otherwise.
-   break;
-
-  case fd_rubble:
-    if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_AQUATIC))
-     z->add_effect(ME_BOULDERING, 1);
-    break;
-
-  case fd_smoke:
-   if (!z->has_flag(MF_NO_BREATHE)){
-    if (cur->getFieldDensity() == 3)
-     z->moves -= rng(10, 20);
-    if (z->made_of("veggy"))	// Plants suffer from smoke even worse
-     z->moves -= rng(1, cur->getFieldDensity() * 12);
-   }
-   break;
-
-  case fd_tear_gas:
-      if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy")) &&
-          !z->has_flag(MF_NO_BREATHE)) {
-    z->add_effect(ME_BLIND, cur->getFieldDensity() * 8);
-    if (cur->getFieldDensity() == 3) {
-     z->add_effect(ME_STUNNED, rng(10, 20));
-     dam = rng(4, 10);
-    } else if (cur->getFieldDensity() == 2) {
-     z->add_effect(ME_STUNNED, rng(5, 10));
-     dam = rng(2, 5);
-    } else
-     z->add_effect(ME_STUNNED, rng(1, 5));
-    if (z->made_of("veggy")) {
-     z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
-     dam += cur->getFieldDensity() * rng(8, 14);
-    }
-   }
-   break;
-
-  case fd_toxic_gas:
-   if(!z->has_flag(MF_NO_BREATHE)){
-     dam = cur->getFieldDensity();
-     z->moves -= cur->getFieldDensity();
-   }
-   break;
-
-  case fd_nuke_gas:
-   if(!z->has_flag(MF_NO_BREATHE)){
-    if (cur->getFieldDensity() == 3) {
-     z->moves -= rng(60, 120);
-     dam = rng(30, 50);
-    } else if (cur->getFieldDensity() == 2) {
-     z->moves -= rng(20, 50);
-     dam = rng(10, 25);
-    } else {
-     z->moves -= rng(0, 15);
-     dam = rng(0, 12);
-    }
-    if (z->made_of("veggy")) {
-     z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
-     dam *= cur->getFieldDensity();
-    }
-   }
-   break;
-
-// MATERIALS-TODO: Use fire resistance
-  case fd_flame_burst:
-   if (z->made_of("flesh") || z->made_of("hflesh"))
-    dam = 3;
-   if (z->made_of("veggy"))
-    dam = 12;
-   if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
-       z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool"))
-    dam = 50;
-   if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel"))
-    dam = -25;
-   dam += rng(0, 8);
-   z->moves -= 20;
-   break;
-
-  case fd_electricity:
-   dam = rng(1, cur->getFieldDensity());
-   if (one_in(8 - cur->getFieldDensity()))
-    z->moves -= cur->getFieldDensity() * 150;
-   break;
-
-  case fd_fatigue:
-   if (rng(0, 2) < cur->getFieldDensity()) {
-    dam = cur->getFieldDensity();
-    int tries = 0;
-    int newposx, newposy;
-    do {
-     newposx = rng(z->posx - SEEX, z->posx + SEEX);
-     newposy = rng(z->posy - SEEY, z->posy + SEEY);
-     tries++;
-    } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
-
-    if (tries == 10)
-     g->explode_mon(g->mon_at(z->posx, z->posy));
-    else {
-     int mon_hit = g->mon_at(newposx, newposy);
-     if (mon_hit != -1) {
-      if (g->u_see(z))
-       g->add_msg(_("The %s teleports into a %s, killing them both!"),
-                  z->name().c_str(), g->z[mon_hit].name().c_str());
-      g->explode_mon(mon_hit);
-     } else {
-      z->posx = newposx;
-      z->posy = newposy;
-     }
-    }
-   }
-   break;
-
- }
- if (dam > 0)
-  z->hurt(dam);
- }
-
 }
 
 bool vector_has(std::vector <item> vec, itype_id type)
