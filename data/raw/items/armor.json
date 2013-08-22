@@ -668,7 +668,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "WATER_FRIENDLY"],
         "coverage" : 100,
-        "material_thickness" : 10
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -740,7 +740,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "FEMALE_TYPICAL"],
         "coverage" : 90,
-        "material_thickness" : 10
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
