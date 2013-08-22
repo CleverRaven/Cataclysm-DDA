@@ -1134,15 +1134,29 @@ void dis_effect(game *g, player &p, disease &dis)
   p.dex_cur -= 4;
   break;
 
- case DI_RAT:
-  p.int_cur -= int(dis.duration / 20);
-  p.str_cur -= int(dis.duration / 50);
-  p.per_cur -= int(dis.duration / 25);
-  if (rng(30, 100) < rng(0, dis.duration) && one_in(3))
-   p.vomit(g);
-  if (rng(50, 500) < rng(0, dis.duration))
-   p.mutate(g);
-  break;
+    case DI_RAT:
+        p.int_cur -= int(dis.duration / 20);
+        p.str_cur -= int(dis.duration / 50);
+        p.per_cur -= int(dis.duration / 25);
+        if (rng(0, 100) < dis.duration / 10) {
+            if (!one_in(5)) {
+                p.mutate_category(g, "MUTCAT_RAT");
+                dis.duration /= 5;
+            } else {
+                p.mutate_category(g, "MUTCAT_TROGLO");
+                dis.duration /= 3;
+            }
+        } else if (rng(0, 100) < dis.duration / 8) {
+            if (one_in(3)) {
+                p.vomit(g);
+                dis.duration -= 10;
+            } else {
+                g->add_msg(_("You feel nauseous!"));
+                dis.duration += 3;
+            }
+        }
+
+    break;
 
  case DI_FORMICATION:
   p.int_cur -= 2;

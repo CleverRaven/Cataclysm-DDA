@@ -359,7 +359,31 @@ void mdeath::explode(game *g, monster *z)
 
 void mdeath::ratking(game *g, monster *z)
 {
- g->u.rem_disease("rat");
+    g->u.rem_disease("rat");
+    if (g->u_see(z)) {
+        g->add_msg(_("Rats swarm from nowhere to avenge the %s."), z->name().c_str());
+    }
+
+    std::vector <point> ratspots;
+    int ratx, raty;
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            ratx = z->posx + i;
+            raty = z->posy + i;
+            if (g->m.move_cost(ratx, raty) > 0 && g->mon_at(ratx, raty) == -1 &&
+                  !(g->u.posx == ratx && g->u.posy == raty)) {
+                ratspots.push_back(point(ratx, raty));
+            }
+        }
+    }
+    int rn;
+    monster rat(g->mtypes[mon_sewer_rat]);
+    for (int rats = 0; rats < 7 && ratspots.size() > 0; rats++) {
+        rn = rng(0, ratspots.size() - 1);
+        rat.spawn(ratspots[rn].x, ratspots[rn].y);
+        g->z.push_back(rat);
+        ratspots.erase(ratspots.begin() + rn);
+ }
 }
 
 void mdeath::smokeburst(game *g, monster *z)
