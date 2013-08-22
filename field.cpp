@@ -910,227 +910,238 @@ If you wish for a field effect to do something over time (propagate, interact wi
 */
 void map::step_in_field(int x, int y, game *g)
 {
-	field &curfield = field_at(x, y); //A copy of the current field for reference. Do not add fields to it, use map::add_field
- field_entry *cur = NULL; //The current field effect.
- int veh_part; //vehicle part existing on this tile.
- vehicle *veh = NULL; //Vehicle reference if there is one.
- bool inside = false; //Are we inside?
- bool no_rubble = true; //For use in determining if we are in a rubble square or not, for the disease effect
- int adjusted_intensity; //to modify power of a field based on... whatever is relevant for the effect.
+    // A copy of the current field for reference. Do not add fields to it, use map::add_field
+    field &curfield = field_at(x, y);
+    field_entry *cur = NULL; // The current field effect.
+    int veh_part; // vehicle part existing on this tile.
+    vehicle *veh = NULL; // Vehicle reference if there is one.
+    bool inside = false; // Are we inside?
+    // For use in determining if we are in a rubble square or not, for the disease effect
+    bool no_rubble = true;
+    //to modify power of a field based on... whatever is relevant for the effect.
+    int adjusted_intensity;
 
- //If we are in a vehicle figure out if we are inside (reduces effects usually) and what part of the vehicle we need to deal with.
- if (g->u.in_vehicle) {
-  veh = g->m.veh_at(x, y, veh_part);
-  inside = (veh && veh->is_inside(veh_part));
- }
-
- //Iterate through all field effects on this tile.
- for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-	 cur = field_list_it->second;
-	 if(cur == NULL) continue; //shouldn't happen unless you free memory of field entries manually (hint: don't do that)... Pointer safety.
-
- if (cur->getFieldType() == fd_rubble){
-	 no_rubble = false; //We found rubble, don't remove the players rubble disease at the end of function.
- }
-
- //Do things based on what field effect we are currently in.
- switch (cur->getFieldType()) {
-  case fd_null:
-  case fd_blood:	// It doesn't actually do anything
-  case fd_bile:		// Ditto
-   break; //break instead of return in the event of post-processing in the future; also we're in a loop now!
-
-  case fd_web: {
-	  //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
-	  //Moving through multiple webs stacks the effect.
-   if (!g->u.has_trait("WEB_WALKER") && !g->u.in_vehicle) {
-    int web = cur->getFieldDensity() * 5 - g->u.disease_level("webbed"); //between 5 and 15 minus your current web level.
-    if (web > 0)
-     g->u.add_disease("webbed", web);
-    remove_field(x, y, fd_web); //Its spent.
-   } else if (g->u.in_vehicle){ //If you are in a vehicle destroy the web. It should of been destroyed when you ran over it anyway.
-	   remove_field(x, y, fd_web);
-	}
-  } break;
-
-  case fd_acid:
-	  //Acid deals damage at all levels now; the inside refers to inside a vehicle.
-	  //TODO: Add resistance to this with rubber shoes or something?
-   if (cur->getFieldDensity() == 3 && !inside) {
-    g->add_msg(_("The acid burns your legs and feet!"));
-    g->u.hit(g, bp_feet, 0, 0, rng(4, 10));
-    g->u.hit(g, bp_feet, 1, 0, rng(4, 10));
-    g->u.hit(g, bp_legs, 0, 0, rng(2,  8));
-    g->u.hit(g, bp_legs, 1, 0, rng(2,  8));
-   } else if (cur->getFieldDensity() == 2 && !inside) {
-	g->u.hit(g, bp_feet, 0, 0, rng(2, 5));
-    g->u.hit(g, bp_feet, 1, 0, rng(2, 5));
-    g->u.hit(g, bp_legs, 0, 0, rng(1,  4));
-    g->u.hit(g, bp_legs, 1, 0, rng(1,  4));
-   } else if (!inside) {
-	g->u.hit(g, bp_feet, 0, 0, rng(1, 3));
-    g->u.hit(g, bp_feet, 1, 0, rng(1, 3));
-    g->u.hit(g, bp_legs, 0, 0, rng(0,  2));
-    g->u.hit(g, bp_legs, 1, 0, rng(0,  2));
-   }
-   break;
-
- case fd_sap:
-	 //Sap causes the player to get sap disease, slowing them down.
-  if( g->u.in_vehicle ) break; //sap does nothing to cars.
-  g->add_msg(_("The sap sticks to you!"));
-  g->u.add_disease("sap", cur->getFieldDensity() * 2);
-  if (cur->getFieldDensity() == 1)
-   remove_field(x, y, fd_sap);
-  else
-	  cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
-  break;
-
-  case fd_sludge:
-      g->add_msg(_("The sludge is thick and sticky."));
-      break;
-
-  case fd_fire:
-	  //Burn the player. Less so if you are in a car or ON a car.
-   adjusted_intensity = cur->getFieldDensity();
-   if( g->u.in_vehicle )
-   {
-       if( inside )
-       {
-           adjusted_intensity -= 2;
-       }
-       else
-       {
-           adjusted_intensity -= 1;
-       }
-   }
-   if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink prevents ALL fire damage.
-    if (adjusted_intensity == 1) {
-     g->add_msg(_("You burn your legs and feet!"));
-     g->u.hit(g, bp_feet, 0, 0, rng(2, 6));
-     g->u.hit(g, bp_feet, 1, 0, rng(2, 6));
-     g->u.hit(g, bp_legs, 0, 0, rng(1, 4));
-     g->u.hit(g, bp_legs, 1, 0, rng(1, 4));
-    } else if (adjusted_intensity == 2) {
-     g->add_msg(_("You're burning up!"));
-     g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
-     g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
-     g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
-    } else if (adjusted_intensity == 3) {
-     g->add_msg(_("You're set ablaze!"));
-     g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
-     g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
-     g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
-     g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
+    //If we are in a vehicle figure out if we are inside (reduces effects usually)
+    // and what part of the vehicle we need to deal with.
+    if (g->u.in_vehicle) {
+        veh = g->m.veh_at(x, y, veh_part);
+        inside = (veh && veh->is_inside(veh_part));
     }
-   }
-   break;
 
-  case fd_rubble:
-	  //You are walking on rubble. Slow down.
-   g->u.add_disease("bouldering", 0, cur->getFieldDensity(), 3);
-   break;
+    //Iterate through all field effects on this tile.
+    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+        field_list_it != curfield.getFieldEnd(); ++field_list_it){
+        cur = field_list_it->second;
+        // Shouldn't happen unless you free memory of field entries manually
+        // (hint: don't do that)... Pointer safety.
+        if(cur == NULL) continue;
 
-  case fd_smoke:
-	  //Get smoke disease from standing in smoke.
-      if (cur->getFieldDensity() == 3 && !inside)
-      {
-          g->u.infect("smoke", bp_mouth, 4, 15, g);
-      } else if (cur->getFieldDensity() == 2 && !inside){
-		  g->u.infect("smoke", bp_mouth, 2, 7, g);
-	  } else if (cur->getFieldDensity() == 1 && !inside){
-		  g->u.infect("smoke", bp_mouth, 1, 3, g);
-	  }
-      break;
+        if (cur->getFieldType() == fd_rubble) {
+             //We found rubble, don't remove the players rubble disease at the end of function.
+            no_rubble = false;
+        }
 
-  case fd_tear_gas:
-	  //Tear gas will both give you teargas disease and/or blind you.
-      if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
-      {
-          g->u.infect("teargas", bp_mouth, 5, 20, g);
-      }
-      if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
-      {
-          g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10, g);
-      }
-      break;
+        //Do things based on what field effect we are currently in.
+        switch (cur->getFieldType()) {
+        case fd_null:
+        case fd_blood:	// It doesn't actually do anything
+        case fd_bile:		// Ditto
+            //break instead of return in the event of post-processing in the future;
+            // also we're in a loop now!
+            break;
 
-  case fd_toxic_gas:
-	  //Toxic gas at low levels poisons you, toxic gas at high levels will cause very nasty poison.
-      if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside)))
-      {
-          g->u.infect("poison", bp_mouth, 5, 30, g);
-      }
-      else if (cur->getFieldDensity() == 3 && !inside)
-      {
-          g->u.infect("badpoison", bp_mouth, 5, 30, g);
-      } else if (cur->getFieldDensity() == 1 && (!inside))
-      {
-          g->u.infect("poison", bp_mouth, 2, 10, g);
-      }
-      break;
+        case fd_web: {
+            //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
+            //Moving through multiple webs stacks the effect.
+            if (!g->u.has_trait("WEB_WALKER") && !g->u.in_vehicle) {
+                //between 5 and 15 minus your current web level.
+                int web = cur->getFieldDensity() * 5 - g->u.disease_level("webbed");
+                if (web > 0) { g->u.add_disease("webbed", web); }
+                remove_field(x, y, fd_web); //Its spent.
+                //If you are in a vehicle destroy the web.
+                //It should of been destroyed when you ran over it anyway.
+            } else if (g->u.in_vehicle) {
+                remove_field(x, y, fd_web);
+            }
+        } break;
 
-  case fd_nuke_gas:
-	  //Get irradiated by the nuclear fallout.
-   g->u.radiation += rng(cur->getFieldDensity(), cur->getFieldDensity() * (cur->getFieldDensity() + 1)); //changed to min of density, not 0.
-   if (cur->getFieldDensity() == 3) {
-    g->add_msg(_("This radioactive gas burns!"));
-    g->u.hurtall(rng(1, 3));
-   }
-   break;
+        case fd_acid:
+            //Acid deals damage at all levels now; the inside refers to inside a vehicle.
+            //TODO: Add resistance to this with rubber shoes or something?
+            if (cur->getFieldDensity() == 3 && !inside) {
+                g->add_msg(_("The acid burns your legs and feet!"));
+                g->u.hit(g, bp_feet, 0, 0, rng(4, 10));
+                g->u.hit(g, bp_feet, 1, 0, rng(4, 10));
+                g->u.hit(g, bp_legs, 0, 0, rng(2,  8));
+                g->u.hit(g, bp_legs, 1, 0, rng(2,  8));
+            } else if (cur->getFieldDensity() == 2 && !inside) {
+                g->u.hit(g, bp_feet, 0, 0, rng(2, 5));
+                g->u.hit(g, bp_feet, 1, 0, rng(2, 5));
+                g->u.hit(g, bp_legs, 0, 0, rng(1,  4));
+                g->u.hit(g, bp_legs, 1, 0, rng(1,  4));
+            } else if (!inside) {
+                g->u.hit(g, bp_feet, 0, 0, rng(1, 3));
+                g->u.hit(g, bp_feet, 1, 0, rng(1, 3));
+                g->u.hit(g, bp_legs, 0, 0, rng(0,  2));
+                g->u.hit(g, bp_legs, 1, 0, rng(0,  2));
+            }
+            break;
 
-  case fd_flame_burst:
-	  //A burst of flame? Only hits the legs and torso.
-   if (inside) break; //fireballs can't touch you inside a car.
-   if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink stops fire.
-    g->add_msg(_("You're torched by flames!"));
-    g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
-    g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
-    g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
-   } else
-    g->add_msg(_("These flames do not burn you."));
-   break;
+        case fd_sap:
+            //Sap causes the player to get sap disease, slowing them down.
+            if( g->u.in_vehicle ) break; //sap does nothing to cars.
+            g->add_msg(_("The sap sticks to you!"));
+            g->u.add_disease("sap", cur->getFieldDensity() * 2);
+            if (cur->getFieldDensity() == 1)
+                remove_field(x, y, fd_sap);
+            else
+                cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
+            break;
 
-  case fd_electricity:
-   if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) //Artifact stops electricity.
-    g->add_msg(_("The electricity flows around you."));
-   else {
-    g->add_msg(_("You're electrocuted!"));
-    g->u.hurtall(rng(1, cur->getFieldDensity())); //small universal damage based on density.
-    if (one_in(8 - cur->getFieldDensity()) && !one_in(30 - g->u.str_cur)) { //str of 30 stops this from happening.
-     g->add_msg(_("You're paralyzed!"));
-     g->u.moves -= rng(cur->getFieldDensity() * 150, cur->getFieldDensity() * 200); //roughly doubled duration.
+        case fd_sludge:
+            g->add_msg(_("The sludge is thick and sticky."));
+            break;
+
+        case fd_fire:
+            //Burn the player. Less so if you are in a car or ON a car.
+            adjusted_intensity = cur->getFieldDensity();
+            if( g->u.in_vehicle ) {
+                if( inside ) {
+                    adjusted_intensity -= 2;
+                } else {
+                    adjusted_intensity -= 1;
+                }
+            }
+            if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink prevents ALL fire damage.
+                if (adjusted_intensity == 1) {
+                    g->add_msg(_("You burn your legs and feet!"));
+                    g->u.hit(g, bp_feet, 0, 0, rng(2, 6));
+                    g->u.hit(g, bp_feet, 1, 0, rng(2, 6));
+                    g->u.hit(g, bp_legs, 0, 0, rng(1, 4));
+                    g->u.hit(g, bp_legs, 1, 0, rng(1, 4));
+                } else if (adjusted_intensity == 2) {
+                    g->add_msg(_("You're burning up!"));
+                    g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
+                    g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
+                    g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+                } else if (adjusted_intensity == 3) {
+                    g->add_msg(_("You're set ablaze!"));
+                    g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
+                    g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
+                    g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+                    g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
+                }
+            }
+            break;
+
+        case fd_rubble:
+            //You are walking on rubble. Slow down.
+            g->u.add_disease("bouldering", 0, cur->getFieldDensity(), 3);
+            break;
+
+        case fd_smoke:
+            //Get smoke disease from standing in smoke.
+            if (cur->getFieldDensity() == 3 && !inside)
+            {
+                g->u.infect("smoke", bp_mouth, 4, 15, g);
+            } else if (cur->getFieldDensity() == 2 && !inside){
+                g->u.infect("smoke", bp_mouth, 2, 7, g);
+            } else if (cur->getFieldDensity() == 1 && !inside){
+                g->u.infect("smoke", bp_mouth, 1, 3, g);
+            }
+            break;
+
+        case fd_tear_gas:
+            //Tear gas will both give you teargas disease and/or blind you.
+            if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+            {
+                g->u.infect("teargas", bp_mouth, 5, 20, g);
+            }
+            if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
+            {
+                g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10, g);
+            }
+            break;
+
+        case fd_toxic_gas:
+            // Toxic gas at low levels poisons you.
+            // Toxic gas at high levels will cause very nasty poison.
+            if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside))) {
+                g->u.infect("poison", bp_mouth, 5, 30, g);
+            }
+            else if (cur->getFieldDensity() == 3 && !inside)
+            {
+                g->u.infect("badpoison", bp_mouth, 5, 30, g);
+            } else if (cur->getFieldDensity() == 1 && (!inside)) {
+                g->u.infect("poison", bp_mouth, 2, 10, g);
+            }
+            break;
+
+        case fd_nuke_gas:
+            // Get irradiated by the nuclear fallout.
+            // Changed to min of density, not 0.
+            g->u.radiation += rng(cur->getFieldDensity(),
+                                  cur->getFieldDensity() * (cur->getFieldDensity() + 1));
+            if (cur->getFieldDensity() == 3) {
+                g->add_msg(_("This radioactive gas burns!"));
+                g->u.hurtall(rng(1, 3));
+            }
+            break;
+
+        case fd_flame_burst:
+            //A burst of flame? Only hits the legs and torso.
+            if (inside) break; //fireballs can't touch you inside a car.
+            if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink stops fire.
+                g->add_msg(_("You're torched by flames!"));
+                g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
+                g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
+                g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+            } else
+                g->add_msg(_("These flames do not burn you."));
+            break;
+
+        case fd_electricity:
+            if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) //Artifact stops electricity.
+                g->add_msg(_("The electricity flows around you."));
+            else {
+                g->add_msg(_("You're electrocuted!"));
+                //small universal damage based on density.
+                g->u.hurtall(rng(1, cur->getFieldDensity()));
+                if (one_in(8 - cur->getFieldDensity()) && !one_in(30 - g->u.str_cur)) {
+                    //str of 30 stops this from happening.
+                    g->add_msg(_("You're paralyzed!"));
+                    g->u.moves -= rng(cur->getFieldDensity() * 150, cur->getFieldDensity() * 200);
+                }
+            }
+            break;
+
+        case fd_fatigue:
+            //Teleports you... somewhere.
+            if (rng(0, 2) < cur->getFieldDensity()) {
+                g->add_msg(_("You're violently teleported!"));
+                g->u.hurtall(cur->getFieldDensity());
+                g->teleport();
+            }
+            break;
+
+            //Why do these get removed???
+        case fd_shock_vent:
+            //Stepping on a shock vent shuts it down.
+            remove_field(x, y, fd_shock_vent);
+            break;
+
+        case fd_acid_vent:
+            //Stepping on an acid vent shuts it down.
+            remove_field(x, y, fd_acid_vent);
+            break;
+        }
+
     }
-   }
-   break;
 
-  case fd_fatigue:
-	  //Teleports you... somewhere.
-   if (rng(0, 2) < cur->getFieldDensity()) {
-    g->add_msg(_("You're violently teleported!"));
-    g->u.hurtall(cur->getFieldDensity());
-    g->teleport();
-   }
-   break;
-
-   //Why do these get removed???
-  case fd_shock_vent:
-	  //Stepping on a shock vent shuts it down.
-	  remove_field(x, y, fd_shock_vent);
-	  break;
-
-  case fd_acid_vent:
-	  //Stepping on an acid vent shuts it down.
-   remove_field(x, y, fd_acid_vent);
-   break;
- }
-
- }
-
- if(no_rubble){
-	 //After iterating through all fields, if we found no rubble, remove the rubble disease.
-	 g->u.rem_disease("bouldering");
- }
+    if(no_rubble) {
+        //After iterating through all fields, if we found no rubble, remove the rubble disease.
+        g->u.rem_disease("bouldering");
+    }
 }
 
 void map::mon_in_field(int x, int y, game *g, monster *z)
