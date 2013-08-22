@@ -231,9 +231,9 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                     int mon_idx = g->mon_at(x, y);
                     int npc_idx = g->npc_at(x, y);
                     if ( mon_idx >= 0 ) {
-                        g->z[mon_idx].draw(w, x, y, true);
+                        g->z[mon_idx].draw(w, center.x, center.y, false);
                     } else if ( npc_idx >= 0 ) {
-                        g->active_npc[npc_idx]->draw(w, x, y, true);
+                        g->active_npc[npc_idx]->draw(w, center.x, center.y, false);
                     } else {
                         m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
                     }
