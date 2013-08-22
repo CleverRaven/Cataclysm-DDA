@@ -4902,7 +4902,7 @@ void player::drench(game *g, int saturation, int flags) {
             good += 5;
         }
         if (has_trait("WEBBED")) {
-            good += 3;
+            neut += 3;
         }
         if (has_trait("SLIMY")) {
             good += 3;
