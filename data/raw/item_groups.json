@@ -142,6 +142,8 @@
       ["chips3", 65],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
+      ["cheeseburger", 8],
+      ["hamburger", 8],
       ["heatpack", 60],
       ["can_beans", 40],
       ["can_corn", 35],
@@ -163,7 +165,9 @@
       ["ketchup", 35],
       ["mustard", 35],
       ["jar_glass", 50],
-      ["jar_3l_glass", 40]
+      ["jar_3l_glass", 40],
+      ["cheese", 40],
+      ["can_cheese", 8],
     ]
   },
   { "id":"knifeblock",
@@ -199,6 +203,9 @@
       ["beer", 60],
       ["pizza_meat", 8],
       ["pizza_veggy", 8],
+      ["cheeseburger", 8],
+      ["hamburger", 8],
+      ["cheese", 10],
       ["orange", 65],
       ["lemon", 50],
       ["potato_raw", 10],
@@ -463,6 +470,8 @@
       ["frozen_dinner", 50],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
+      ["cheeseburger", 8],
+      ["hamburger", 8],
       ["pie", 20]
     ]
   },
@@ -483,7 +492,10 @@
       ["ketchup", 60],
       ["mustard", 60],
       ["pickle", 40],
-      ["salt", 20]
+      ["salt", 20],
+      ["cheeseburger", 35],
+      ["hamburger", 30],
+      ["cheese", 30]
     ]
   },
   { "id":"coffee_shop",
@@ -494,6 +506,8 @@
       ["sandwich_t", 30],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
+      ["hamburger", 40],
+      ["cheeseburger", 40],
       ["pretzels", 55],
       ["chocolate", 50],
       ["jerky", 55],
@@ -596,6 +610,7 @@
       ["soup_meat", 15],
       ["flour", 20],
       ["sugar", 20],
+      ["can_cheese", 40]
       ["salt", 20]
     ]
   },
