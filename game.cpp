@@ -8400,7 +8400,7 @@ void game::pickup(int posx, int posy, int min)
                      else
                      {
                        if (cont->contents[0].charges == holding_container_charges)
-                          add_msg(_("Your %s can't hold any more water."), cont->tname(this).c_str();
+                          add_msg(_("Your %s can't hold any more water."), cont->tname(this).c_str());
                        else
                        {
                           add_msg(_("You pour water into your %s."), cont->tname(this).c_str());
