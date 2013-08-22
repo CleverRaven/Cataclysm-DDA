@@ -1154,7 +1154,7 @@ void game::init_vehicles()
     PART (2, 0, vp_steel_plate)
     PART (2, 0, vp_m249);
     PART (2, 1, vp_frame_h);
-    PART (2, `, vp_steel_plate)
+    PART (2, 1, vp_steel_plate)
     PART (2, 2, vp_wheel_wide);
     PART (2, 2, vp_steel_plate)
     PART (3, -2, vp_frame_v);
