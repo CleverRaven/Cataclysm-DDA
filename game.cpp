@@ -8379,7 +8379,7 @@ void game::pickup(int posx, int posy, int min)
 
   if (!from_veh && k_part >= 0) {
     if (veh->fuel_left("water")) {
-      if (query_yn(_("Fill a container?")
+      if (query_yn(_("Fill a container?")))
       {
          std::stringstream text;
          text <<_("Container for clean water");
