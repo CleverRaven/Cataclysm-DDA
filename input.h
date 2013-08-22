@@ -110,8 +110,14 @@ public:
      */
     std::string get_keyname(long ch);
 
+    /**
+     * Get the human-readable name for an action.
+     */
+    const std::string& get_action_name(const std::string& action);
+
 private:
     std::map<std::string, std::vector<input_event> > action_to_input;
+    std::map<std::string, std::string> actionID_to_name;
 
     std::map<long, std::string> keycode_to_keyname;
     std::map<std::string, long> keyname_to_keycode;
@@ -183,6 +189,12 @@ public:
     void register_updown();
     void register_leftright();
     void register_cardinal();
+
+    /**
+     * Displays the possible actions in the current context and their
+     * keybindings.
+     */
+    void display_help();
 
     /* For the future, something like this might be nice:
      * const std::string register_action(const std::string& action_descriptor, x, y, width, height);

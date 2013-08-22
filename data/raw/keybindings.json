@@ -113,5 +113,10 @@
         "id":"OVERMAP_QUIT",
         "input_method":"keyboard",
         "key":"ESC"
+    },
+    {
+        "id":"HELP_KEYBINDINGS",
+        "input_method":"keyboard",
+        "key":"?"
     }
 ]

@@ -1908,6 +1908,7 @@ point overmap::draw_overmap(game *g, int zlevel)
  ictxt.register_action("CONFIRM");
  ictxt.register_action("LEVEL_UP");
  ictxt.register_action("LEVEL_DOWN");
+ ictxt.register_action("HELP_KEYBINDINGS");
 
  // Actions whose keys we want to display.
  ictxt.register_action("CENTER_ON_CHARACTER");

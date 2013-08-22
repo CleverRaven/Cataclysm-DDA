@@ -179,16 +179,19 @@ void input_manager::init() {
             if(keybinding.get("key").is<std::string>()) {
                 const std::string& key = keybinding.get("key").get<std::string>();
 
-                // TODO: process special "keycodes", such as UP, DOWN etc.
                 new_event.sequence.push_back(inp_mngr.get_keycode(key));
             } else if(keybinding.get("key").is<picojson::array>()) {
                 picojson::array keys = keybinding.get("key").get<picojson::array>();
                 for(int i=0; i<keys.size(); i++) {
                     const std::string& next_key = keybinding.get("key").get(i).get<std::string>();
 
-                    // TODO: process special "keycodes", such as UP, DOWN etc.
-                new_event.sequence.push_back(inp_mngr.get_keycode(next_key));
+                    new_event.sequence.push_back(inp_mngr.get_keycode(next_key));
                 }
+            }
+            if(!keybinding.contains("name")) {
+                actionID_to_name[action_id] = action_id;
+            } else {
+                actionID_to_name[action_id] = keybinding.get("name").get<std::string>();
             }
             action_to_input[action_id].push_back(new_event);
         }
@@ -227,6 +230,10 @@ std::string input_manager::get_keyname(long ch) {
 
 const std::vector<input_event>& input_manager::get_input_for_action(const std::string& action_descriptor) {
     return action_to_input[action_descriptor];
+}
+
+const std::string& input_manager::get_action_name(const std::string& action) {
+    return actionID_to_name[action];
 }
 
 const std::string ERROR = "ERROR";
@@ -292,6 +299,13 @@ const std::string& input_context::handle_input() {
         next_action.sequence.push_back(ch);
 
         const std::string& action = input_to_action(next_action);
+
+        // Special help action
+        if(action == "HELP_KEYBINDINGS") {
+            display_help();
+            continue;
+        }
+
         if(action != ERROR) {
             return action;
         }
@@ -358,4 +372,40 @@ void input_context::get_direction(int& dx, int& dy, const std::string& action) {
         dx = -2;
         dy = -2;
     }
+}
+
+void input_context::display_help() {
+    // Shamelessly stolen from help.cpp
+    WINDOW* w_help = newwin(FULL_SCREEN_HEIGHT-2, FULL_SCREEN_WIDTH-2,
+        1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
+        1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
+
+    werase(w_help);
+
+    // Clear the lines
+    for (int i = 0; i < FULL_SCREEN_HEIGHT-2; i++)
+    mvwprintz(w_help, i, 0, c_black, "                                                ");
+
+    for (int i=0; i<registered_actions.size(); i++) {
+        const std::string& action_id = registered_actions[i];
+        if(action_id == "ANY_INPUT") continue;
+
+        const std::vector<input_event>& input_events = inp_mngr.get_input_for_action(action_id);
+
+        nc_color col = input_events.size() ? c_white : c_ltred;
+        mvwprintz(w_help, i, 3, col, "%s: ", inp_mngr.get_action_name(action_id).c_str());
+
+        if (!input_events.size()) {
+            mvwprintz(w_help, i, 30, c_ltred, _("Unbound!"));
+        } else {
+            mvwprintz(w_help, i, 30, c_ltgreen, "%s", get_desc(action_id).c_str());
+        }
+    }
+    wrefresh(w_help);
+    refresh();
+
+    long ch = getch();
+    while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE) {};
+
+    werase(w_help);
 }
