@@ -147,9 +147,4 @@ struct tag_data
  std::string (*replacement)[10];
 };
 
-struct parroted_speech {
-    int volume;
-    std::string text;
-};
-
 #endif  // _DIALOGUE_H_
