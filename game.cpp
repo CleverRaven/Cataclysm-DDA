@@ -575,51 +575,47 @@ bool game::do_turn()
   u.add_memorial_log(_("Died of a drug overdose."));
   u.hp_cur[hp_torso] = 0;
  }
-// Check if we're starving or have starved
-    if (u.hunger > 2999) {
-     switch (u.hunger) {
-         case 3000: if (turn % 10 == 0)
-          add_msg(_("You haven't eaten in over a week!")); break;
-         case 4000: if (turn % 10 == 0)
-          add_msg(_("You are STARVING!")); break;
-         case 5000: if (turn % 10 == 0)
-          add_msg(_("Food...")); break;
-         case 6000:
-          add_msg(_("You have starved to death."));
-          u.add_memorial_log(_("Died of starvation."));
-          u.hp_cur[hp_torso] = 0;
-          break;
-     }
+    // Check if we're starving or have starved
+    if (u.hunger >= 3000){
+        if (u.hunger >= 6000){
+            add_msg(_("You have starved to death."));
+            u.add_memorial_log(_("Died of starvation."));
+            u.hp_cur[hp_torso] = 0;
+        } else if (u.hunger >= 5000 && turn % 10 == 0){
+            add_msg(_("Food..."));
+        } else if (u.hunger >= 4000 && turn % 10 == 0){
+            add_msg(_("You are STARVING!"));
+        } else if (turn % 10 == 0){
+            add_msg(_("You haven't eaten in over a week!"));
+        }
     }
-// Check if we're dying of thirst
-    if (u.thirst > 599) {
-     switch (u.thirst) {
-         case  600: if (turn % 10 == 0)
-          add_msg(_("You haven't had anything to drink in 2 days!")); break;
-         case  800: if (turn % 10 == 0)
-          add_msg(_("You are THIRSTY!")); break;
-         case 1000: if (turn % 10 == 0)
-          add_msg(_("4 days... no water..")); break;
-         case 1200:
-          add_msg(_("You have died of dehydration."));
-          u.add_memorial_log(_("Died of thirst."));
-          u.hp_cur[hp_torso] = 0;
-          break;
-     }
+
+    // Check if we're dying of thirst
+    if (u.thirst >= 600){
+        if (u.thirst >= 1200){
+            add_msg(_("You have died of dehydration."));
+            u.add_memorial_log(_("Died of thirst."));
+            u.hp_cur[hp_torso] = 0;
+        } else if (u.thirst >= 1000 && turn % 10 == 0){
+            add_msg(_("4 days... no water.."));
+        } else if (u.thirst >= 800 && turn % 10 == 0){
+            add_msg(_("You are THIRSTY!"));
+        } else if (turn % 10 == 0){
+            add_msg(_("You haven't had anything to drink in 2 days!"));
+        }
     }
-// Check if we're falling asleep
-    if (u.fatigue > 599) {
-     switch (u.fatigue) {
-         case  600: if (turn % 10 == 0)
-          add_msg(_("You haven't slept in 2 days!")); break;
-         case  800: if (turn % 10 == 0)
-          add_msg(_("Anywhere would be a good place to sleep...")); break;
-         case 1000:
-          add_msg(_("Surivor sleep now."));
-          u.fatigue -= 10;
-          u.try_to_sleep(this);
-          break;
-     }
+
+    // Check if we're falling asleep, unless we're sleeping
+    if (u.fatigue >= 600 && !u.has_disease("sleep")){
+        if (u.fatigue >= 1000){
+            add_msg(_("Surivor sleep now."));
+            u.fatigue -= 10;
+            u.try_to_sleep(this);
+        } else if (u.fatigue >= 800 && turn % 10 == 0){
+            add_msg(_("Anywhere would be a good place to sleep..."));
+        } else if (turn % 10 == 0) {
+            add_msg(_("You haven't slept in 2 days!"));
+        }
     }
 
  if (turn % 50 == 0) {	// Hunger, thirst, & fatigue up every 5 minutes
