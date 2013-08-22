@@ -910,426 +910,469 @@ If you wish for a field effect to do something over time (propagate, interact wi
 */
 void map::step_in_field(int x, int y, game *g)
 {
-	field &curfield = field_at(x, y); //A copy of the current field for reference. Do not add fields to it, use map::add_field
- field_entry *cur = NULL; //The current field effect.
- int veh_part; //vehicle part existing on this tile.
- vehicle *veh = NULL; //Vehicle reference if there is one.
- bool inside = false; //Are we inside?
- bool no_rubble = true; //For use in determining if we are in a rubble square or not, for the disease effect
- int adjusted_intensity; //to modify power of a field based on... whatever is relevant for the effect.
+    // A copy of the current field for reference. Do not add fields to it, use map::add_field
+    field &curfield = field_at(x, y);
+    field_entry *cur = NULL; // The current field effect.
+    int veh_part; // vehicle part existing on this tile.
+    vehicle *veh = NULL; // Vehicle reference if there is one.
+    bool inside = false; // Are we inside?
+    // For use in determining if we are in a rubble square or not, for the disease effect
+    bool no_rubble = true;
+    //to modify power of a field based on... whatever is relevant for the effect.
+    int adjusted_intensity;
 
- //If we are in a vehicle figure out if we are inside (reduces effects usually) and what part of the vehicle we need to deal with.
- if (g->u.in_vehicle) {
-  veh = g->m.veh_at(x, y, veh_part);
-  inside = (veh && veh->is_inside(veh_part));
- }
-
- //Iterate through all field effects on this tile.
- for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-	 cur = field_list_it->second;
-	 if(cur == NULL) continue; //shouldn't happen unless you free memory of field entries manually (hint: don't do that)... Pointer safety.
-
- if (cur->getFieldType() == fd_rubble){
-	 no_rubble = false; //We found rubble, don't remove the players rubble disease at the end of function.
- }
-
- //Do things based on what field effect we are currently in.
- switch (cur->getFieldType()) {
-  case fd_null:
-  case fd_blood:	// It doesn't actually do anything
-  case fd_bile:		// Ditto
-   break; //break instead of return in the event of post-processing in the future; also we're in a loop now!
-
-  case fd_web: {
-	  //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
-	  //Moving through multiple webs stacks the effect.
-   if (!g->u.has_trait("WEB_WALKER") && !g->u.in_vehicle) {
-    int web = cur->getFieldDensity() * 5 - g->u.disease_level("webbed"); //between 5 and 15 minus your current web level.
-    if (web > 0)
-     g->u.add_disease("webbed", web);
-    remove_field(x, y, fd_web); //Its spent.
-   } else if (g->u.in_vehicle){ //If you are in a vehicle destroy the web. It should of been destroyed when you ran over it anyway.
-	   remove_field(x, y, fd_web);
-	}
-  } break;
-
-  case fd_acid:
-	  //Acid deals damage at all levels now; the inside refers to inside a vehicle.
-	  //TODO: Add resistance to this with rubber shoes or something?
-   if (cur->getFieldDensity() == 3 && !inside) {
-    g->add_msg(_("The acid burns your legs and feet!"));
-    g->u.hit(g, bp_feet, 0, 0, rng(4, 10));
-    g->u.hit(g, bp_feet, 1, 0, rng(4, 10));
-    g->u.hit(g, bp_legs, 0, 0, rng(2,  8));
-    g->u.hit(g, bp_legs, 1, 0, rng(2,  8));
-   } else if (cur->getFieldDensity() == 2 && !inside) {
-	g->u.hit(g, bp_feet, 0, 0, rng(2, 5));
-    g->u.hit(g, bp_feet, 1, 0, rng(2, 5));
-    g->u.hit(g, bp_legs, 0, 0, rng(1,  4));
-    g->u.hit(g, bp_legs, 1, 0, rng(1,  4));
-   } else if (!inside) {
-	g->u.hit(g, bp_feet, 0, 0, rng(1, 3));
-    g->u.hit(g, bp_feet, 1, 0, rng(1, 3));
-    g->u.hit(g, bp_legs, 0, 0, rng(0,  2));
-    g->u.hit(g, bp_legs, 1, 0, rng(0,  2));
-   }
-   break;
-
- case fd_sap:
-	 //Sap causes the player to get sap disease, slowing them down.
-  if( g->u.in_vehicle ) break; //sap does nothing to cars.
-  g->add_msg(_("The sap sticks to you!"));
-  g->u.add_disease("sap", cur->getFieldDensity() * 2);
-  if (cur->getFieldDensity() == 1)
-   remove_field(x, y, fd_sap);
-  else
-	  cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
-  break;
-
-  case fd_sludge:
-      g->add_msg(_("The sludge is thick and sticky."));
-      break;
-
-  case fd_fire:
-	  //Burn the player. Less so if you are in a car or ON a car.
-   adjusted_intensity = cur->getFieldDensity();
-   if( g->u.in_vehicle )
-   {
-       if( inside )
-       {
-           adjusted_intensity -= 2;
-       }
-       else
-       {
-           adjusted_intensity -= 1;
-       }
-   }
-   if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink prevents ALL fire damage.
-    if (adjusted_intensity == 1) {
-     g->add_msg(_("You burn your legs and feet!"));
-     g->u.hit(g, bp_feet, 0, 0, rng(2, 6));
-     g->u.hit(g, bp_feet, 1, 0, rng(2, 6));
-     g->u.hit(g, bp_legs, 0, 0, rng(1, 4));
-     g->u.hit(g, bp_legs, 1, 0, rng(1, 4));
-    } else if (adjusted_intensity == 2) {
-     g->add_msg(_("You're burning up!"));
-     g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
-     g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
-     g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
-    } else if (adjusted_intensity == 3) {
-     g->add_msg(_("You're set ablaze!"));
-     g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
-     g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
-     g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
-     g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
+    //If we are in a vehicle figure out if we are inside (reduces effects usually)
+    // and what part of the vehicle we need to deal with.
+    if (g->u.in_vehicle) {
+        veh = g->m.veh_at(x, y, veh_part);
+        inside = (veh && veh->is_inside(veh_part));
     }
-   }
-   break;
 
-  case fd_rubble:
-	  //You are walking on rubble. Slow down.
-   g->u.add_disease("bouldering", 0, cur->getFieldDensity(), 3);
-   break;
+    // Iterate through all field effects on this tile.
+    // When removing a field, do field_list_it = curfield.removeField(type) and continue
+    // This ensures proper iteration through the fields.
+    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+        field_list_it != curfield.getFieldEnd();){
+        cur = field_list_it->second;
+        // Shouldn't happen unless you free memory of field entries manually
+        // (hint: don't do that)... Pointer safety.
+        if(cur == NULL) continue;
 
-  case fd_smoke:
-	  //Get smoke disease from standing in smoke.
-      if (cur->getFieldDensity() == 3 && !inside)
-      {
-          g->u.infect("smoke", bp_mouth, 4, 15, g);
-      } else if (cur->getFieldDensity() == 2 && !inside){
-		  g->u.infect("smoke", bp_mouth, 2, 7, g);
-	  } else if (cur->getFieldDensity() == 1 && !inside){
-		  g->u.infect("smoke", bp_mouth, 1, 3, g);
-	  }
-      break;
+        if (cur->getFieldType() == fd_rubble) {
+             //We found rubble, don't remove the players rubble disease at the end of function.
+            no_rubble = false;
+        }
 
-  case fd_tear_gas:
-	  //Tear gas will both give you teargas disease and/or blind you.
-      if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
-      {
-          g->u.infect("teargas", bp_mouth, 5, 20, g);
-      }
-      if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
-      {
-          g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10, g);
-      }
-      break;
+        //Do things based on what field effect we are currently in.
+        switch (cur->getFieldType()) {
+        case fd_null:
+        case fd_blood:	// It doesn't actually do anything
+        case fd_bile:		// Ditto
+            //break instead of return in the event of post-processing in the future;
+            // also we're in a loop now!
+            break;
 
-  case fd_toxic_gas:
-	  //Toxic gas at low levels poisons you, toxic gas at high levels will cause very nasty poison.
-      if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside)))
-      {
-          g->u.infect("poison", bp_mouth, 5, 30, g);
-      }
-      else if (cur->getFieldDensity() == 3 && !inside)
-      {
-          g->u.infect("badpoison", bp_mouth, 5, 30, g);
-      } else if (cur->getFieldDensity() == 1 && (!inside))
-      {
-          g->u.infect("poison", bp_mouth, 2, 10, g);
-      }
-      break;
+        case fd_web: {
+            //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
+            //Moving through multiple webs stacks the effect.
+            if (!g->u.has_trait("WEB_WALKER") && !g->u.in_vehicle) {
+                //between 5 and 15 minus your current web level.
+                int web = cur->getFieldDensity() * 5 - g->u.disease_level("webbed");
+                if (web > 0) { g->u.add_disease("webbed", web); }
+                field_list_it = curfield.removeField( fd_web ); //Its spent.
+                continue;
+                //If you are in a vehicle destroy the web.
+                //It should of been destroyed when you ran over it anyway.
+            } else if (g->u.in_vehicle) {
+                field_list_it = curfield.removeField( fd_web );
+                continue;
+            }
+        } break;
 
-  case fd_nuke_gas:
-	  //Get irradiated by the nuclear fallout.
-   g->u.radiation += rng(cur->getFieldDensity(), cur->getFieldDensity() * (cur->getFieldDensity() + 1)); //changed to min of density, not 0.
-   if (cur->getFieldDensity() == 3) {
-    g->add_msg(_("This radioactive gas burns!"));
-    g->u.hurtall(rng(1, 3));
-   }
-   break;
+        case fd_acid:
+            //Acid deals damage at all levels now; the inside refers to inside a vehicle.
+            //TODO: Add resistance to this with rubber shoes or something?
+            if (cur->getFieldDensity() == 3 && !inside) {
+                g->add_msg(_("The acid burns your legs and feet!"));
+                g->u.hit(g, bp_feet, 0, 0, rng(4, 10));
+                g->u.hit(g, bp_feet, 1, 0, rng(4, 10));
+                g->u.hit(g, bp_legs, 0, 0, rng(2,  8));
+                g->u.hit(g, bp_legs, 1, 0, rng(2,  8));
+            } else if (cur->getFieldDensity() == 2 && !inside) {
+                g->u.hit(g, bp_feet, 0, 0, rng(2, 5));
+                g->u.hit(g, bp_feet, 1, 0, rng(2, 5));
+                g->u.hit(g, bp_legs, 0, 0, rng(1,  4));
+                g->u.hit(g, bp_legs, 1, 0, rng(1,  4));
+            } else if (!inside) {
+                g->u.hit(g, bp_feet, 0, 0, rng(1, 3));
+                g->u.hit(g, bp_feet, 1, 0, rng(1, 3));
+                g->u.hit(g, bp_legs, 0, 0, rng(0,  2));
+                g->u.hit(g, bp_legs, 1, 0, rng(0,  2));
+            }
+            break;
 
-  case fd_flame_burst:
-	  //A burst of flame? Only hits the legs and torso.
-   if (inside) break; //fireballs can't touch you inside a car.
-   if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink stops fire.
-    g->add_msg(_("You're torched by flames!"));
-    g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
-    g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
-    g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
-   } else
-    g->add_msg(_("These flames do not burn you."));
-   break;
+        case fd_sap:
+            //Sap causes the player to get sap disease, slowing them down.
+            if( g->u.in_vehicle ) break; //sap does nothing to cars.
+            g->add_msg(_("The sap sticks to you!"));
+            g->u.add_disease("sap", cur->getFieldDensity() * 2);
+            if (cur->getFieldDensity() == 1) {
+                field_list_it = curfield.removeField( fd_sap );
+                continue;
+            } else {
+                cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
+            }
+            break;
 
-  case fd_electricity:
-   if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) //Artifact stops electricity.
-    g->add_msg(_("The electricity flows around you."));
-   else {
-    g->add_msg(_("You're electrocuted!"));
-    g->u.hurtall(rng(1, cur->getFieldDensity())); //small universal damage based on density.
-    if (one_in(8 - cur->getFieldDensity()) && !one_in(30 - g->u.str_cur)) { //str of 30 stops this from happening.
-     g->add_msg(_("You're paralyzed!"));
-     g->u.moves -= rng(cur->getFieldDensity() * 150, cur->getFieldDensity() * 200); //roughly doubled duration.
+        case fd_sludge:
+            g->add_msg(_("The sludge is thick and sticky."));
+            break;
+
+        case fd_fire:
+            //Burn the player. Less so if you are in a car or ON a car.
+            adjusted_intensity = cur->getFieldDensity();
+            if( g->u.in_vehicle ) {
+                if( inside ) {
+                    adjusted_intensity -= 2;
+                } else {
+                    adjusted_intensity -= 1;
+                }
+            }
+            if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink prevents ALL fire damage.
+                if (adjusted_intensity == 1) {
+                    g->add_msg(_("You burn your legs and feet!"));
+                    g->u.hit(g, bp_feet, 0, 0, rng(2, 6));
+                    g->u.hit(g, bp_feet, 1, 0, rng(2, 6));
+                    g->u.hit(g, bp_legs, 0, 0, rng(1, 4));
+                    g->u.hit(g, bp_legs, 1, 0, rng(1, 4));
+                } else if (adjusted_intensity == 2) {
+                    g->add_msg(_("You're burning up!"));
+                    g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
+                    g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
+                    g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+                } else if (adjusted_intensity == 3) {
+                    g->add_msg(_("You're set ablaze!"));
+                    g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
+                    g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
+                    g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+                    g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
+                }
+            }
+            break;
+
+        case fd_rubble:
+            //You are walking on rubble. Slow down.
+            g->u.add_disease("bouldering", 0, cur->getFieldDensity(), 3);
+            break;
+
+        case fd_smoke:
+            //Get smoke disease from standing in smoke.
+            if (cur->getFieldDensity() == 3 && !inside)
+            {
+                g->u.infect("smoke", bp_mouth, 4, 15, g);
+            } else if (cur->getFieldDensity() == 2 && !inside){
+                g->u.infect("smoke", bp_mouth, 2, 7, g);
+            } else if (cur->getFieldDensity() == 1 && !inside){
+                g->u.infect("smoke", bp_mouth, 1, 3, g);
+            }
+            break;
+
+        case fd_tear_gas:
+            //Tear gas will both give you teargas disease and/or blind you.
+            if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+            {
+                g->u.infect("teargas", bp_mouth, 5, 20, g);
+            }
+            if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
+            {
+                g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10, g);
+            }
+            break;
+
+        case fd_toxic_gas:
+            // Toxic gas at low levels poisons you.
+            // Toxic gas at high levels will cause very nasty poison.
+            if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside))) {
+                g->u.infect("poison", bp_mouth, 5, 30, g);
+            }
+            else if (cur->getFieldDensity() == 3 && !inside)
+            {
+                g->u.infect("badpoison", bp_mouth, 5, 30, g);
+            } else if (cur->getFieldDensity() == 1 && (!inside)) {
+                g->u.infect("poison", bp_mouth, 2, 10, g);
+            }
+            break;
+
+        case fd_nuke_gas:
+            // Get irradiated by the nuclear fallout.
+            // Changed to min of density, not 0.
+            g->u.radiation += rng(cur->getFieldDensity(),
+                                  cur->getFieldDensity() * (cur->getFieldDensity() + 1));
+            if (cur->getFieldDensity() == 3) {
+                g->add_msg(_("This radioactive gas burns!"));
+                g->u.hurtall(rng(1, 3));
+            }
+            break;
+
+        case fd_flame_burst:
+            //A burst of flame? Only hits the legs and torso.
+            if (inside) break; //fireballs can't touch you inside a car.
+            if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink stops fire.
+                g->add_msg(_("You're torched by flames!"));
+                g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
+                g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
+                g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+            } else
+                g->add_msg(_("These flames do not burn you."));
+            break;
+
+        case fd_electricity:
+            if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) //Artifact stops electricity.
+                g->add_msg(_("The electricity flows around you."));
+            else {
+                g->add_msg(_("You're electrocuted!"));
+                //small universal damage based on density.
+                g->u.hurtall(rng(1, cur->getFieldDensity()));
+                if (one_in(8 - cur->getFieldDensity()) && !one_in(30 - g->u.str_cur)) {
+                    //str of 30 stops this from happening.
+                    g->add_msg(_("You're paralyzed!"));
+                    g->u.moves -= rng(cur->getFieldDensity() * 150, cur->getFieldDensity() * 200);
+                }
+            }
+            break;
+
+        case fd_fatigue:
+            //Teleports you... somewhere.
+            if (rng(0, 2) < cur->getFieldDensity()) {
+                g->add_msg(_("You're violently teleported!"));
+                g->u.hurtall(cur->getFieldDensity());
+                g->teleport();
+            }
+            break;
+
+            //Why do these get removed???
+        case fd_shock_vent:
+            //Stepping on a shock vent shuts it down.
+            field_list_it = curfield.removeField( fd_shock_vent );
+            continue;
+
+        case fd_acid_vent:
+            //Stepping on an acid vent shuts it down.
+            field_list_it = curfield.removeField( fd_acid_vent );
+            continue;
+        }
+        field_list_it++;
     }
-   }
-   break;
 
-  case fd_fatigue:
-	  //Teleports you... somewhere.
-   if (rng(0, 2) < cur->getFieldDensity()) {
-    g->add_msg(_("You're violently teleported!"));
-    g->u.hurtall(cur->getFieldDensity());
-    g->teleport();
-   }
-   break;
-
-   //Why do these get removed???
-  case fd_shock_vent:
-	  //Stepping on a shock vent shuts it down.
-	  remove_field(x, y, fd_shock_vent);
-	  break;
-
-  case fd_acid_vent:
-	  //Stepping on an acid vent shuts it down.
-   remove_field(x, y, fd_acid_vent);
-   break;
- }
-
- }
-
- if(no_rubble){
-	 //After iterating through all fields, if we found no rubble, remove the rubble disease.
-	 g->u.rem_disease("bouldering");
- }
+    if(no_rubble) {
+        //After iterating through all fields, if we found no rubble, remove the rubble disease.
+        g->u.rem_disease("bouldering");
+    }
 }
 
 void map::mon_in_field(int x, int y, game *g, monster *z)
 {
- if (z->has_flag(MF_DIGS))
-  return;	// Digging monsters are immune to fields
-	field &curfield = field_at(x, y);
-	field_entry *cur = NULL;
-
-for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-	 cur = field_list_it->second;
-	 if(cur == NULL) continue; //shouldn't happen unless you free memory of field entries manually (hint: don't do that)
-
- int dam = 0;
- switch (cur->getFieldType()) {
-  case fd_null:
-  case fd_blood:	// It doesn't actually do anything
-  case fd_bile:		// Ditto
-   break;
-
-  case fd_web:
-   if (!z->has_flag(MF_WEBWALK)) {
-    z->moves *= .8;
-    remove_field(x, y,fd_web);
-   }
-   break;
-
-// TODO: Use acid resistance
-  case fd_acid:
-   if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
-       !z->has_flag(MF_ACIDPROOF)) {
-    if (cur->getFieldDensity() == 3)
-     dam = rng(4, 10) + rng(2, 8);
-    else
-     dam = rng(cur->getFieldDensity(), cur->getFieldDensity() * 4);
-   }
-   break;
-
-  case fd_sap:
-   z->moves -= cur->getFieldDensity() * 5;
-   if (cur->getFieldDensity() == 1)
-    remove_field(x, y, fd_sap);
-   else
-    cur->setFieldDensity(cur->getFieldDensity() - 1);
-   break;
-
-  case fd_sludge:
-      break;
-
-
-// MATERIALS-TODO: Use fire resistance
-  case fd_fire:
-   if ( z->made_of("flesh") || z->made_of("hflesh") )
-    dam = 3;
-   if (z->made_of("veggy"))
-    dam = 12;
-   if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
-       z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool"))
-    dam = 20;
-   if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel"))
-    dam = -20;
-   if (z->has_flag(MF_FLIES))
-    dam -= 15;
-
-   if (cur->getFieldDensity() == 1)
-    dam += rng(2, 6);
-   else if (cur->getFieldDensity() == 2) {
-    dam += rng(6, 12);
-    if (!z->has_flag(MF_FLIES)) {
-     z->moves -= 20;
-     if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
-         !z->made_of("steel") && !z->has_flag(MF_FIREY))
-      z->add_effect(ME_ONFIRE, rng(3, 8));
+    if (z->has_flag(MF_DIGS)) {
+        return;	// Digging monsters are immune to fields
     }
-   } else if (cur->getFieldDensity() == 3) {
-    dam += rng(10, 20);
-    if (!z->has_flag(MF_FLIES) || one_in(3)) {
-     z->moves -= 40;
-     if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
-         !z->made_of("steel") && !z->has_flag(MF_FIREY))
-      z->add_effect(ME_ONFIRE, rng(8, 12));
+    field &curfield = field_at(x, y);
+    field_entry *cur = NULL;
+
+    int dam = 0;
+    for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+         field_list_it != curfield.getFieldEnd(); ) {
+        cur = field_list_it->second;
+        //shouldn't happen unless you free memory of field entries manually (hint: don't do that)
+        if(cur == NULL) continue;
+
+        switch (cur->getFieldType()) {
+        case fd_null:
+        case fd_blood:	// It doesn't actually do anything
+        case fd_bile:		// Ditto
+            break;
+
+        case fd_web:
+            if (!z->has_flag(MF_WEBWALK)) {
+                z->moves *= .8;
+                field_list_it = curfield.removeField( fd_web );
+                continue;
+            }
+            break;
+
+ // TODO: Use acid resistance
+        case fd_acid:
+            if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
+                !z->has_flag(MF_ACIDPROOF)) {
+                if (cur->getFieldDensity() == 3) {
+                    dam += rng(4, 10) + rng(2, 8);
+                } else {
+                    dam += rng(cur->getFieldDensity(), cur->getFieldDensity() * 4);
+                }
+            }
+            break;
+
+        case fd_sap:
+            z->moves -= cur->getFieldDensity() * 5;
+            if (cur->getFieldDensity() == 1) {
+                field_list_it = curfield.removeField( fd_sap );
+                continue;
+            } else {
+                cur->setFieldDensity(cur->getFieldDensity() - 1);
+            }
+            break;
+
+        case fd_sludge:
+            break;
+
+
+            // MATERIALS-TODO: Use fire resistance
+        case fd_fire:
+            if ( z->made_of("flesh") || z->made_of("hflesh") ) {
+                dam += 3;
+            }
+            if (z->made_of("veggy")) {
+                dam += 12;
+            }
+            if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
+                z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool")) {
+                dam += 20;
+            }
+            if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel")) {
+                dam += -20;
+            }
+            if (z->has_flag(MF_FLIES)) {
+                dam -= 15;
+            }
+
+            if (cur->getFieldDensity() == 1) {
+                dam += rng(2, 6);
+            } else if (cur->getFieldDensity() == 2) {
+                dam += rng(6, 12);
+                if (!z->has_flag(MF_FLIES)) {
+                    z->moves -= 20;
+                    if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
+                        !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
+                        z->add_effect(ME_ONFIRE, rng(3, 8));
+                    }
+                }
+            } else if (cur->getFieldDensity() == 3) {
+                dam += rng(10, 20);
+                if (!z->has_flag(MF_FLIES) || one_in(3)) {
+                    z->moves -= 40;
+                    if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
+                        !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
+                        z->add_effect(ME_ONFIRE, rng(8, 12));
+                    }
+                }
+            }
+            // Drop through to smoke no longer needed as smoke will exist in the same square now,
+            // this would double apply otherwise.
+            break;
+
+        case fd_rubble:
+            if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_AQUATIC)) {
+                z->add_effect(ME_BOULDERING, 1);
+            }
+            break;
+
+        case fd_smoke:
+            if (!z->has_flag(MF_NO_BREATHE)) {
+                if (cur->getFieldDensity() == 3) {
+                    z->moves -= rng(10, 20);
+                }
+                if (z->made_of("veggy")) {	// Plants suffer from smoke even worse
+                    z->moves -= rng(1, cur->getFieldDensity() * 12);
+                }
+            }
+            break;
+
+        case fd_tear_gas:
+            if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy")) &&
+                !z->has_flag(MF_NO_BREATHE)) {
+                z->add_effect(ME_BLIND, cur->getFieldDensity() * 8);
+                if (cur->getFieldDensity() == 3) {
+                    z->add_effect(ME_STUNNED, rng(10, 20));
+                    dam += rng(4, 10);
+                } else if (cur->getFieldDensity() == 2) {
+                    z->add_effect(ME_STUNNED, rng(5, 10));
+                    dam += rng(2, 5);
+                } else {
+                    z->add_effect(ME_STUNNED, rng(1, 5));
+                }
+                if (z->made_of("veggy")) {
+                    z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
+                    dam += cur->getFieldDensity() * rng(8, 14);
+                }
+            }
+            break;
+
+        case fd_toxic_gas:
+            if(!z->has_flag(MF_NO_BREATHE)) {
+                dam += cur->getFieldDensity();
+                z->moves -= cur->getFieldDensity();
+            }
+            break;
+
+        case fd_nuke_gas:
+            if(!z->has_flag(MF_NO_BREATHE)) {
+                if (cur->getFieldDensity() == 3) {
+                    z->moves -= rng(60, 120);
+                    dam += rng(30, 50);
+                } else if (cur->getFieldDensity() == 2) {
+                    z->moves -= rng(20, 50);
+                    dam += rng(10, 25);
+                } else {
+                    z->moves -= rng(0, 15);
+                    dam += rng(0, 12);
+                }
+                if (z->made_of("veggy")) {
+                    z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
+                    dam *= cur->getFieldDensity();
+                }
+            }
+            break;
+
+            // MATERIALS-TODO: Use fire resistance
+        case fd_flame_burst:
+            if (z->made_of("flesh") || z->made_of("hflesh")) {
+                dam += 3;
+            }
+            if (z->made_of("veggy")) {
+                dam += 12;
+            }
+            if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
+                z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool")) {
+                dam += 50;
+            }
+            if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel")) {
+                dam += -25;
+            }
+            dam += rng(0, 8);
+            z->moves -= 20;
+            break;
+
+        case fd_electricity:
+            dam += rng(1, cur->getFieldDensity());
+            if (one_in(8 - cur->getFieldDensity())) {
+                z->moves -= cur->getFieldDensity() * 150;
+            }
+            break;
+
+        case fd_fatigue:
+            if (rng(0, 2) < cur->getFieldDensity()) {
+                dam += cur->getFieldDensity();
+                int tries = 0;
+                int newposx, newposy;
+                do {
+                    newposx = rng(z->posx - SEEX, z->posx + SEEX);
+                    newposy = rng(z->posy - SEEY, z->posy + SEEY);
+                    tries++;
+                } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
+
+                if (tries == 10) {
+                    g->explode_mon(g->mon_at(z->posx, z->posy));
+                } else {
+                    int mon_hit = g->mon_at(newposx, newposy);
+                    if (mon_hit != -1) {
+                        if (g->u_see(z)) {
+                            g->add_msg(_("The %s teleports into a %s, killing them both!"),
+                                       z->name().c_str(), g->z[mon_hit].name().c_str());
+                        }
+                        g->explode_mon(mon_hit);
+                    } else {
+                        z->posx = newposx;
+                        z->posy = newposy;
+                    }
+                }
+            }
+            break;
+
+        }
+        field_list_it++;
     }
-   }
-// Drop through to smoke no longer needed as smoke will exist in the same square now, this would double apply otherwise.
-   break;
-
-  case fd_rubble:
-    if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_AQUATIC))
-     z->add_effect(ME_BOULDERING, 1);
-    break;
-
-  case fd_smoke:
-   if (!z->has_flag(MF_NO_BREATHE)){
-    if (cur->getFieldDensity() == 3)
-     z->moves -= rng(10, 20);
-    if (z->made_of("veggy"))	// Plants suffer from smoke even worse
-     z->moves -= rng(1, cur->getFieldDensity() * 12);
-   }
-   break;
-
-  case fd_tear_gas:
-      if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy")) &&
-          !z->has_flag(MF_NO_BREATHE)) {
-    z->add_effect(ME_BLIND, cur->getFieldDensity() * 8);
-    if (cur->getFieldDensity() == 3) {
-     z->add_effect(ME_STUNNED, rng(10, 20));
-     dam = rng(4, 10);
-    } else if (cur->getFieldDensity() == 2) {
-     z->add_effect(ME_STUNNED, rng(5, 10));
-     dam = rng(2, 5);
-    } else
-     z->add_effect(ME_STUNNED, rng(1, 5));
-    if (z->made_of("veggy")) {
-     z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
-     dam += cur->getFieldDensity() * rng(8, 14);
+    if (dam > 0) {
+        z->hurt(dam);
     }
-   }
-   break;
-
-  case fd_toxic_gas:
-   if(!z->has_flag(MF_NO_BREATHE)){
-     dam = cur->getFieldDensity();
-     z->moves -= cur->getFieldDensity();
-   }
-   break;
-
-  case fd_nuke_gas:
-   if(!z->has_flag(MF_NO_BREATHE)){
-    if (cur->getFieldDensity() == 3) {
-     z->moves -= rng(60, 120);
-     dam = rng(30, 50);
-    } else if (cur->getFieldDensity() == 2) {
-     z->moves -= rng(20, 50);
-     dam = rng(10, 25);
-    } else {
-     z->moves -= rng(0, 15);
-     dam = rng(0, 12);
-    }
-    if (z->made_of("veggy")) {
-     z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
-     dam *= cur->getFieldDensity();
-    }
-   }
-   break;
-
-// MATERIALS-TODO: Use fire resistance
-  case fd_flame_burst:
-   if (z->made_of("flesh") || z->made_of("hflesh"))
-    dam = 3;
-   if (z->made_of("veggy"))
-    dam = 12;
-   if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
-       z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool"))
-    dam = 50;
-   if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel"))
-    dam = -25;
-   dam += rng(0, 8);
-   z->moves -= 20;
-   break;
-
-  case fd_electricity:
-   dam = rng(1, cur->getFieldDensity());
-   if (one_in(8 - cur->getFieldDensity()))
-    z->moves -= cur->getFieldDensity() * 150;
-   break;
-
-  case fd_fatigue:
-   if (rng(0, 2) < cur->getFieldDensity()) {
-    dam = cur->getFieldDensity();
-    int tries = 0;
-    int newposx, newposy;
-    do {
-     newposx = rng(z->posx - SEEX, z->posx + SEEX);
-     newposy = rng(z->posy - SEEY, z->posy + SEEY);
-     tries++;
-    } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
-
-    if (tries == 10)
-     g->explode_mon(g->mon_at(z->posx, z->posy));
-    else {
-     int mon_hit = g->mon_at(newposx, newposy);
-     if (mon_hit != -1) {
-      if (g->u_see(z))
-       g->add_msg(_("The %s teleports into a %s, killing them both!"),
-                  z->name().c_str(), g->z[mon_hit].name().c_str());
-      g->explode_mon(mon_hit);
-     } else {
-      z->posx = newposx;
-      z->posy = newposy;
-     }
-    }
-   }
-   break;
-
- }
- if (dam > 0)
-  z->hurt(dam);
- }
-
 }
 
 bool vector_has(std::vector <item> vec, itype_id type)
@@ -1546,22 +1589,25 @@ bool field::addField(const field_id field_to_add, const unsigned char new_densit
 
 /*
 Function: removeField
-Removes the field entry with a type equal to the field_id parameter. Returns true if removed, false otherwise.
+Removes the field entry with a type equal to the field_id parameter.
+Returns the next iterator or field_list.end().
 */
-bool field::removeField(const field_id field_to_remove){
+std::map<field_id, field_entry*>::iterator field::removeField(const field_id field_to_remove){
     std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_remove);
+    std::map<field_id, field_entry*>::iterator next = it;
+    next++;
     if(it != field_list.end()) {
         field_entry* tmp = it->second;
         delete tmp;
         field_list.erase(it);
+        it = next;
         if(field_list.size() > 0){
             draw_symbol = field_list.begin()->second->getFieldType();
         } else {
             draw_symbol = fd_null;
         }
-        return true;
     };
-    return false;
+    return it;
 };
 
 /*

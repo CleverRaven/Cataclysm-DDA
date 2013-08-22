@@ -3925,6 +3925,16 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
         return;
     }
 
+
+    if (g->m.furn(dirx, diry) == f_rack){
+        p->moves -= 500;
+        g->m.furn_set(dirx, diry, f_null);
+        g->sound(dirx, diry, 15,_("grnd grnd grnd"));
+        g->m.spawn_item(p->posx, p->posy, "pipe", 0, rng(1, 3));
+        g->m.spawn_item(p->posx, p->posy, "steel_chunk", 0);
+        return;
+    }
+
     switch (g->m.ter(dirx, diry))
     {
     case t_chainfence_v:
@@ -3942,14 +3952,6 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
         g->m.ter_set(dirx, diry, t_dirt);
         g->sound(dirx, diry, 15,_("grnd grnd grnd"));
         g->m.spawn_item(dirx, diry, "pipe", 0, 6);
-        break;
-
-    case f_rack:
-        p->moves -= 500;
-        g->m.furn_set(dirx, diry, f_null);
-        g->sound(dirx, diry, 15,_("grnd grnd grnd"));
-        g->m.spawn_item(p->posx, p->posy, "pipe", 0, rng(1, 3));
-        g->m.spawn_item(p->posx, p->posy, "steel_chunk", 0);
         break;
 
     case t_bars:
