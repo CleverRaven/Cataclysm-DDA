@@ -928,9 +928,11 @@ void map::step_in_field(int x, int y, game *g)
         inside = (veh && veh->is_inside(veh_part));
     }
 
-    //Iterate through all field effects on this tile.
+    // Iterate through all field effects on this tile.
+    // When removing a field, do field_list_it = curfield.removeField(type) and continue
+    // This ensures proper iteration through the fields.
     for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
-        field_list_it != curfield.getFieldEnd(); ++field_list_it){
+        field_list_it != curfield.getFieldEnd();){
         cur = field_list_it->second;
         // Shouldn't happen unless you free memory of field entries manually
         // (hint: don't do that)... Pointer safety.
@@ -957,11 +959,13 @@ void map::step_in_field(int x, int y, game *g)
                 //between 5 and 15 minus your current web level.
                 int web = cur->getFieldDensity() * 5 - g->u.disease_level("webbed");
                 if (web > 0) { g->u.add_disease("webbed", web); }
-                remove_field(x, y, fd_web); //Its spent.
+                field_list_it = curfield.removeField( fd_web ); //Its spent.
+                continue;
                 //If you are in a vehicle destroy the web.
                 //It should of been destroyed when you ran over it anyway.
             } else if (g->u.in_vehicle) {
-                remove_field(x, y, fd_web);
+                field_list_it = curfield.removeField( fd_web );
+                continue;
             }
         } break;
 
@@ -992,10 +996,12 @@ void map::step_in_field(int x, int y, game *g)
             if( g->u.in_vehicle ) break; //sap does nothing to cars.
             g->add_msg(_("The sap sticks to you!"));
             g->u.add_disease("sap", cur->getFieldDensity() * 2);
-            if (cur->getFieldDensity() == 1)
-                remove_field(x, y, fd_sap);
-            else
+            if (cur->getFieldDensity() == 1) {
+                field_list_it = curfield.removeField( fd_sap );
+                continue;
+            } else {
                 cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
+            }
             break;
 
         case fd_sludge:
@@ -1127,15 +1133,15 @@ void map::step_in_field(int x, int y, game *g)
             //Why do these get removed???
         case fd_shock_vent:
             //Stepping on a shock vent shuts it down.
-            remove_field(x, y, fd_shock_vent);
-            break;
+            field_list_it = curfield.removeField( fd_shock_vent );
+            continue;
 
         case fd_acid_vent:
             //Stepping on an acid vent shuts it down.
-            remove_field(x, y, fd_acid_vent);
-            break;
+            field_list_it = curfield.removeField( fd_acid_vent );
+            continue;
         }
-
+        field_list_it++;
     }
 
     if(no_rubble) {
@@ -1152,13 +1158,13 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     field &curfield = field_at(x, y);
     field_entry *cur = NULL;
 
+    int dam = 0;
     for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
-         field_list_it != curfield.getFieldEnd(); field_list_it++ ) {
+         field_list_it != curfield.getFieldEnd(); ) {
         cur = field_list_it->second;
         //shouldn't happen unless you free memory of field entries manually (hint: don't do that)
         if(cur == NULL) continue;
 
-        int dam = 0;
         switch (cur->getFieldType()) {
         case fd_null:
         case fd_blood:	// It doesn't actually do anything
@@ -1168,7 +1174,8 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
         case fd_web:
             if (!z->has_flag(MF_WEBWALK)) {
                 z->moves *= .8;
-                remove_field(x, y,fd_web);
+                field_list_it = curfield.removeField( fd_web );
+                continue;
             }
             break;
 
@@ -1177,9 +1184,9 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
                 !z->has_flag(MF_ACIDPROOF)) {
                 if (cur->getFieldDensity() == 3) {
-                    dam = rng(4, 10) + rng(2, 8);
+                    dam += rng(4, 10) + rng(2, 8);
                 } else {
-                    dam = rng(cur->getFieldDensity(), cur->getFieldDensity() * 4);
+                    dam += rng(cur->getFieldDensity(), cur->getFieldDensity() * 4);
                 }
             }
             break;
@@ -1187,7 +1194,8 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
         case fd_sap:
             z->moves -= cur->getFieldDensity() * 5;
             if (cur->getFieldDensity() == 1) {
-                remove_field(x, y, fd_sap);
+                field_list_it = curfield.removeField( fd_sap );
+                continue;
             } else {
                 cur->setFieldDensity(cur->getFieldDensity() - 1);
             }
@@ -1200,17 +1208,17 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             // MATERIALS-TODO: Use fire resistance
         case fd_fire:
             if ( z->made_of("flesh") || z->made_of("hflesh") ) {
-                dam = 3;
+                dam += 3;
             }
             if (z->made_of("veggy")) {
-                dam = 12;
+                dam += 12;
             }
             if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
                 z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool")) {
-                dam = 20;
+                dam += 20;
             }
             if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel")) {
-                dam = -20;
+                dam += -20;
             }
             if (z->has_flag(MF_FLIES)) {
                 dam -= 15;
@@ -1264,10 +1272,10 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                 z->add_effect(ME_BLIND, cur->getFieldDensity() * 8);
                 if (cur->getFieldDensity() == 3) {
                     z->add_effect(ME_STUNNED, rng(10, 20));
-                    dam = rng(4, 10);
+                    dam += rng(4, 10);
                 } else if (cur->getFieldDensity() == 2) {
                     z->add_effect(ME_STUNNED, rng(5, 10));
-                    dam = rng(2, 5);
+                    dam += rng(2, 5);
                 } else {
                     z->add_effect(ME_STUNNED, rng(1, 5));
                 }
@@ -1280,7 +1288,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 
         case fd_toxic_gas:
             if(!z->has_flag(MF_NO_BREATHE)) {
-                dam = cur->getFieldDensity();
+                dam += cur->getFieldDensity();
                 z->moves -= cur->getFieldDensity();
             }
             break;
@@ -1289,13 +1297,13 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             if(!z->has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
                     z->moves -= rng(60, 120);
-                    dam = rng(30, 50);
+                    dam += rng(30, 50);
                 } else if (cur->getFieldDensity() == 2) {
                     z->moves -= rng(20, 50);
-                    dam = rng(10, 25);
+                    dam += rng(10, 25);
                 } else {
                     z->moves -= rng(0, 15);
-                    dam = rng(0, 12);
+                    dam += rng(0, 12);
                 }
                 if (z->made_of("veggy")) {
                     z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
@@ -1307,24 +1315,24 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             // MATERIALS-TODO: Use fire resistance
         case fd_flame_burst:
             if (z->made_of("flesh") || z->made_of("hflesh")) {
-                dam = 3;
+                dam += 3;
             }
             if (z->made_of("veggy")) {
-                dam = 12;
+                dam += 12;
             }
             if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
                 z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool")) {
-                dam = 50;
+                dam += 50;
             }
             if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel")) {
-                dam = -25;
+                dam += -25;
             }
             dam += rng(0, 8);
             z->moves -= 20;
             break;
 
         case fd_electricity:
-            dam = rng(1, cur->getFieldDensity());
+            dam += rng(1, cur->getFieldDensity());
             if (one_in(8 - cur->getFieldDensity())) {
                 z->moves -= cur->getFieldDensity() * 150;
             }
@@ -1332,7 +1340,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 
         case fd_fatigue:
             if (rng(0, 2) < cur->getFieldDensity()) {
-                dam = cur->getFieldDensity();
+                dam += cur->getFieldDensity();
                 int tries = 0;
                 int newposx, newposy;
                 do {
@@ -1360,9 +1368,10 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             break;
 
         }
-        if (dam > 0) {
-            z->hurt(dam);
-        }
+        field_list_it++;
+    }
+    if (dam > 0) {
+        z->hurt(dam);
     }
 }
 
@@ -1580,22 +1589,25 @@ bool field::addField(const field_id field_to_add, const unsigned char new_densit
 
 /*
 Function: removeField
-Removes the field entry with a type equal to the field_id parameter. Returns true if removed, false otherwise.
+Removes the field entry with a type equal to the field_id parameter.
+Returns the next iterator or field_list.end().
 */
-bool field::removeField(const field_id field_to_remove){
+std::map<field_id, field_entry*>::iterator field::removeField(const field_id field_to_remove){
     std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_remove);
+    std::map<field_id, field_entry*>::iterator next = it;
+    next++;
     if(it != field_list.end()) {
         field_entry* tmp = it->second;
         delete tmp;
         field_list.erase(it);
+        it = next;
         if(field_list.size() > 0){
             draw_symbol = field_list.begin()->second->getFieldType();
         } else {
             draw_symbol = fd_null;
         }
-        return true;
     };
-    return false;
+    return it;
 };
 
 /*
