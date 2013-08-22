@@ -1137,13 +1137,13 @@ void game::init_vehicles()
     PART (1, -2, vp_steel_plate);
     PART (1, -1, vp_frame_h);
     PART (1, -1, vp_head_light);
-    PART (1, -1, vp_window);
+    PART (1, -1, vp_reinforced_windshield);
     PART (1, 0, vp_frame_h);
     PART (1, 0, vp_head_light);
-    PART (1, 0, vp_window);
+    PART (1, 0, vp_reinforced_windshield);
     PART (1, 1, vp_frame_h);
     PART (1, 1, vp_head_light);
-    PART (1, 1, vp_window);
+    PART (1, 1, vp_reinforced_windshield);
     PART (1, 2, vp_board_v);
     PART (1, 2, vp_steel_plate);
     PART (2, -2, vp_wheel_wide);
