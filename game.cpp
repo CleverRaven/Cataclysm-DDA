@@ -8396,7 +8396,7 @@ void game::pickup(int posx, int posy, int min)
                   if(!cont->contents.empty())
                   {
                      if (cont->contents[0].type->id != "water_clean")
-                       add_msg(_("You can't mix loads in your %s."), cont->name(this).c_str());
+                       add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
                      else
                      {
                        if (cont->contents[0].charges == holding_container_charges)
