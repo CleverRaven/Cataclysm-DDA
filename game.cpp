@@ -8872,7 +8872,7 @@ void game::grab()
     int graby = 0;
     if( 0 != u.grab_point.x || 0 != u.grab_point.y ) {
         vehicle *veh = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
-        if( veh ) { add_msg(_("You release %s."), veh->name.c_str() ); }
+        if( veh ) { add_msg(_("You release the %s."), veh->name.c_str() ); }
         u.grab_point.x = 0;
         u.grab_point.y = 0;
         return;
