@@ -1004,5 +1004,6 @@ A: Ask the helpful people on the forum at smf.cataclysmdda.com or email\n\
             break;
         }
     } while (ch != 'q' && ch != KEY_ESCAPE);
-    werase(w_help);
+    delwin(w_help);
+    delwin(w_help_border);
 }
