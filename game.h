@@ -300,6 +300,8 @@ class game
 
  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
  
+ //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
+ //otherwise returns sentinel -1, signifies transaction fail.
  int move_liquid(item &liquid);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
