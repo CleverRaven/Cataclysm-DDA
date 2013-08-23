@@ -1179,6 +1179,7 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,12));
         g->m.ter_set(p.x, p.y, t_door_frame);
       break;
+      case t_curtains:
       case t_window_domestic:
         g->m.spawn_item(p.x, p.y, "stick", 0);
         g->m.spawn_item(p.x, p.y, "sheet", 0, 2);
