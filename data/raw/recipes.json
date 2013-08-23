@@ -3415,7 +3415,8 @@
   ],
   "components": [
     [
-      [ "water_acid", 1 ]
+      [ "water_acid", 1 ],
+      [ "water_acid_weak", 2 ]
     ]
   ]
 },
