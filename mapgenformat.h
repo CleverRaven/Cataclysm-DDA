@@ -20,7 +20,8 @@ namespace mapf
  */
 void formatted_set_terrain(map* m, const int startx, const int starty, const char* cstr, ...);
 void formatted_set_simple(map* m, const int startx, const int starty, const char* cstr,
-                       internal::format_effect* ter_b, internal::format_effect* furn_b);
+                       internal::format_effect* ter_b, internal::format_effect* furn_b,
+                       const bool empty_toilets = false);
 
 internal::format_effect* basic_bind(std::string characters, ...);
 internal::format_effect* simple_method_bind(std::string characters, ...);
