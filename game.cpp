@@ -8388,10 +8388,24 @@ void game::pickup(int posx, int posy, int min)
     }
   }
  }
- if ((!from_veh) && m.i_at(posx, posy).size() == 0)
- {
-     return;
- }
+
+    if (!from_veh) {
+        bool isEmpty = (m.i_at(posx, posy).size() == 0);
+
+        // Hide the pickup window if this is a toilet and there's nothing here
+        // but water.
+        if ((!isEmpty) && m.furn(posx, posy) == f_toilet) {
+            isEmpty = true;
+            for (int i = 0; isEmpty && i < m.i_at(posx, posy).size(); i++) {
+                if (m.i_at(posx, posy)[i].typeId() != "water") {
+                    isEmpty = false;
+                }
+            }
+        }
+
+        if (isEmpty) { return; }
+    }
+
  // Not many items, just grab them
  if ((from_veh ? veh->parts[veh_part].items.size() : m.i_at(posx, posy).size() ) <= min && min != -1)
  {

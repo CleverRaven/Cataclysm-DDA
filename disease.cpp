@@ -791,6 +791,25 @@ void dis_effect(game *g, player &p, disease &dis)
   if (p.can_sleep(g)) {
    dis.duration = 1;
    g->add_msg_if_player(&p,_("You fall asleep."));
+   // Communicate to the player that he is using items on the floor
+   std::string item_name = p.is_snuggling(g);
+    if ( item_name == "many") {
+        if ( one_in(15) ) {
+            g->add_msg(_("You nestle your pile of clothes for warmth."));
+        }
+        else {
+            g->add_msg(_("You use your pile of clothes for warmth."));
+        }
+    }
+    else if ( item_name != "nothing") {
+        if ( one_in(15) ) {
+            g->add_msg(_("You snuggle your %s to keep warm."), item_name.c_str());
+        }
+        else {
+            g->add_msg(_("You use your %s to keep warm."), item_name.c_str());
+        }
+    }
+
    p.add_disease("sleep", 6000);
   }
   if (dis.duration == 1 && !p.has_disease("sleep"))
@@ -1134,15 +1153,29 @@ void dis_effect(game *g, player &p, disease &dis)
   p.dex_cur -= 4;
   break;
 
- case DI_RAT:
-  p.int_cur -= int(dis.duration / 20);
-  p.str_cur -= int(dis.duration / 50);
-  p.per_cur -= int(dis.duration / 25);
-  if (rng(30, 100) < rng(0, dis.duration) && one_in(3))
-   p.vomit(g);
-  if (rng(50, 500) < rng(0, dis.duration))
-   p.mutate(g);
-  break;
+    case DI_RAT:
+        p.int_cur -= int(dis.duration / 20);
+        p.str_cur -= int(dis.duration / 50);
+        p.per_cur -= int(dis.duration / 25);
+        if (rng(0, 100) < dis.duration / 10) {
+            if (!one_in(5)) {
+                p.mutate_category(g, "MUTCAT_RAT");
+                dis.duration /= 5;
+            } else {
+                p.mutate_category(g, "MUTCAT_TROGLO");
+                dis.duration /= 3;
+            }
+        } else if (rng(0, 100) < dis.duration / 8) {
+            if (one_in(3)) {
+                p.vomit(g);
+                dis.duration -= 10;
+            } else {
+                g->add_msg(_("You feel nauseous!"));
+                dis.duration += 3;
+            }
+        }
+
+    break;
 
  case DI_FORMICATION:
   p.int_cur -= 2;
