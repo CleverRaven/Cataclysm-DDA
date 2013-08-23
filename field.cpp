@@ -244,6 +244,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
     field_entry *tmpfld = NULL;
     field_id curtype; //Holds cur->getFieldType() as thats what the old system used before rewrite.
 
+    bool skipIterIncr = false; // keep track on when not to increment it[erator]
+
     //Loop through all tiles in this submap indicated by gridn
     for (int locx = 0; locx < SEEX; locx++) {
         for (int locy = 0; locy < SEEY; locy++) {
@@ -255,7 +257,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
             // contains all the pointers to the real field effects.
             field &curfield = grid[gridn]->fld[locx][locy];
             for(std::map<field_id, field_entry *>::iterator it = curfield.getFieldStart();
-                it != curfield.getFieldEnd(); ++it ) {
+                it != curfield.getFieldEnd();) {
                 //Iterating through all field effects in the submap's field.
                 cur = it->second;
                 if(cur == NULL) {
@@ -613,7 +615,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                             cur->setFieldAge(cur->getFieldAge() + 50);
                                         }
                                         if(nearwebfld) {
-                                            g->m.remove_field(fx, fy, fd_web);
+                                            if (fx == x && fy == y){
+                                                it = nearby_field.removeField(fd_web);
+                                                skipIterIncr = true;
+                                            } else {
+                                                nearby_field.removeField(fd_web);
+                                            }
                                         }
                                     } else {
                                         bool nosmoke = true;
@@ -894,6 +901,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         grid[gridn]->fld[locx][locy].removeField(cur->getFieldType());
                     }
                 }
+                if (!skipIterIncr)
+                    it++;
+                skipIterIncr = false;
             }
         }
     }
