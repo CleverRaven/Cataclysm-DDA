@@ -3186,7 +3186,7 @@
     "color": "yellow",
     "name": "makeshift funnel",
     "description": "A small, makeshift funnel used to collect rainwater. (a)ctivate it outside and place a container beneath it to collect water when it rains.",
-    "price": 900,
+    "price": 8,
     "material": "plastic",
     "weight": 7,
     "volume": 1,

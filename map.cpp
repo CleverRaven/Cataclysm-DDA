@@ -2824,7 +2824,6 @@ void map::add_trap(const int x, const int y, const trap_id t)
     grid[nonant]->trp[lx][ly] = t;
     if (t != tr_null) {
         traplocs[t].insert(point(x, y));
-        g->add_msg("There are %d traps of type %d.", traplocs[t].size(), t);
     }
 }
 
