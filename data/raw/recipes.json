@@ -11198,6 +11198,114 @@
     [ ["whiskey", 2] ],
     [ ["rum", 2] ],
     [ ["bottle_glass", 1] ] ]
+},
+{
+   "result": "cheeseburger",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 3,
+   "time": 9000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ],
+    [
+      [ "knife_steak", -1 ],[ "knife_combat", -1 ],[ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],[ "scalpel", -1 ],[ "machete", -1 ],[ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 1 ]
+    ],
+    [
+      [ "bread", 2 ]
+    ],
+    [
+      [ "cheese", 2 ], [ "can_cheese", 1]
+    ],
+    [
+      [ "pickle", 1]
+    ],
+    [
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1]
+    ]
+  ]
+},
+{
+   "result": "hamburger",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 3,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ],
+    [
+      [ "knife_steak", -1 ],[ "knife_combat", -1 ],[ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],[ "scalpel", -1 ],[ "machete", -1 ],[ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 1 ]
+    ],
+    [
+      [ "bread", 2 ]
+    ],
+    [
+      [ "pickle", 1]
+    ],
+    [
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1]
+    ]
+  ]
+},
+{
+   "result": "ketchup",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 4,
+   "time": 18000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ],
+    [
+      [ "knife_steak", -1 ],[ "knife_combat", -1 ],[ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],[ "scalpel", -1 ],[ "machete", -1 ],[ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "tomato", 1 ]
+    ],
+    [
+      [ "salt", 1 ], [ "salt_water", 1 ]
+    ]
+  ]
 }
 
 ]
