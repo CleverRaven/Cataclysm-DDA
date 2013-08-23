@@ -375,6 +375,37 @@
   },
 
   {
+    "id": "reinforced_glass_sheet",
+    "symbol": "]",
+    "color": "light_cyan",
+    "name": "sheet of reinforced glass",
+    "description": "A large sheet of glass strengthened with steel wiring.",
+    "price": 1135,
+    "material": [ "GLASS", "STEEL" ],
+    "weight": 40123,
+    "volume": 50,
+    "bashing": 18,
+    "cutting": 0,
+    "to_hit": -6
+  },
+
+  {
+    "id": "reinforced_glass_sheet",
+    "symbol": "]",
+    "color": "light_cyan",
+    "name": "sheet of reinforced glass",
+    "description": "A large sheet of glass strengthened with steel wiring.",
+    "rarity": 1,
+    "price": 1135,
+    "material": [ "GLASS", "STEEL" ],
+    "weight": 40,
+    "volume": 50,
+    "bashing": 18,
+    "cutting": 0,
+    "to_hit": -6
+  },
+
+  {
     "id": "manhole_cover",
     "symbol": "]",
     "color": "dark_gray",
