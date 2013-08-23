@@ -233,7 +233,7 @@ void init_translation()
     monStr2monId["mon_fly"] = mon_fly; monStr2monId["mon_bee"] = mon_bee; monStr2monId["mon_wasp"] = mon_wasp;
     monStr2monId["mon_graboid"] = mon_graboid; monStr2monId["mon_worm"] = mon_worm; monStr2monId["mon_halfworm"] = mon_halfworm;
     monStr2monId["mon_zombie"] = mon_zombie; monStr2monId["mon_zombie_cop"] = mon_zombie_cop; monStr2monId["mon_zombie_shrieker"] = mon_zombie_shrieker; monStr2monId["mon_zombie_spitter"] = mon_zombie_spitter; monStr2monId["mon_zombie_electric"] = mon_zombie_electric;
-    monStr2monId["mon_zombie_smoker"] = mon_zombie_smoker;
+    monStr2monId["mon_zombie_smoker"] = mon_zombie_smoker;monStr2monId["mon_zombie_swimmer"] = mon_zombie_swimmer;
     monStr2monId["mon_zombie_fast"] = mon_zombie_fast; monStr2monId["mon_zombie_brute"] = mon_zombie_brute; monStr2monId["mon_zombie_hulk"] = mon_zombie_hulk; monStr2monId["mon_zombie_fungus"] = mon_zombie_fungus;
     monStr2monId["mon_boomer"] = mon_boomer; monStr2monId["mon_boomer_fungus"] = mon_boomer_fungus; monStr2monId["mon_skeleton"] = mon_skeleton; monStr2monId["mon_zombie_necro"] = mon_zombie_necro;
     monStr2monId["mon_zombie_scientist"] = mon_zombie_scientist; monStr2monId["mon_zombie_soldier"] = mon_zombie_soldier; monStr2monId["mon_zombie_grabber"] = mon_zombie_grabber;

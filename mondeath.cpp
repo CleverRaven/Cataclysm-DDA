@@ -399,6 +399,24 @@ void mdeath::zombie(game *g, monster *z)
             g->m.put_items_from("cop_pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
         break;
 
+        case mon_zombie_swimmer:
+            if (one_in(10)) {
+              //Wetsuit zombie
+              g->m.put_items_from("swimmer_wetsuit", 1, z->posx, z->posy, g->turn, 0, 0, rng(1, 4));
+            } else {
+              if (!one_in(4)) {
+                  g->m.put_items_from("swimmer_head", 1, z->posx, z->posy, g->turn, 0, 0, rng(1, 4));
+              }
+              if (one_in(3)) {
+                  g->m.put_items_from("swimmer_torso", 1, z->posx, z->posy, g->turn, 0, 0, rng(1, 4));
+              }
+              g->m.put_items_from("swimmer_pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1, 4));
+              if (one_in(4)) {
+                  g->m.put_items_from("swimmer_shoes", 1, z->posx, z->posy, g->turn, 0, 0, rng(1, 4));
+              }
+            }
+        break;
+
         case mon_zombie_scientist:
             g->m.put_items_from("lab_shoes", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             g->m.put_items_from("lab_torso", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
