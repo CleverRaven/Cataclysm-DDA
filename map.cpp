@@ -550,6 +550,8 @@ bool map::vehproceed(game* g){
    int imp = 0;
 
    std::vector<veh_collision> veh_veh_colls;
+   int vel1_a = 0; //velocity of car after collision  
+   int vel1 = veh->velocity/100; //velocity of car before collision
 
    if (veh->velocity == 0)
       can_move = false;
@@ -559,8 +561,9 @@ bool map::vehproceed(game* g){
       // coords of where part will go due to movement (dx/dy)
       // and turning (precalc_dx/dy [1])
       const int dsx = x + dx + veh->parts[p].precalc_dx[1];
-      const int dsy = y + dy + veh->parts[p].precalc_dy[1];
+      const int dsy = y + dy + veh->parts[p].precalc_dy[1];	
       veh_collision coll = veh->part_collision (x, y, p, dsx, dsy);
+
       if(coll.type == veh_coll_veh)
          veh_veh_colls.push_back(coll);
       else if (coll.type != veh_coll_nothing){ //run over someone?
@@ -634,20 +637,34 @@ bool map::vehproceed(game* g){
    int coll_turn = 0;
    if (imp > 0) { // imp == impulse from collisions
       // debugmsg ("collision imp=%d dam=%d-%d", imp, imp/10, imp/6);
+	   vel1_a = veh->velocity/100; //velocity after collision
+	   int d_vel = abs(vel1 - vel1_a);
+
       if (imp > 100)
          veh->damage_all(imp / 20, imp / 10, 1);// shake veh because of collision
-      std::vector<int> ppl = veh->boarded_parts();
-      const int vel2 = imp * k_mvel * 100 / (veh->total_mass() / 2);
+      std::vector<int> ppl = veh->boarded_parts();     	  
+
       for (int ps = 0; ps < ppl.size(); ps++) {
          player *psg = veh->get_passenger (ppl[ps]);
          if (!psg) {
             debugmsg ("throw passenger: empty passenger at part %d", ppl[ps]);
             continue;
          }
-         const int throw_roll = rng (vel2/100, vel2/100 * 2);
+
+         const int throw_roll = rng (0, d_vel);
          const int psblt = veh->part_with_feature (ppl[ps], vpf_seatbelt);
-         const int sb_bonus = psblt >= 0? veh->part_info(psblt).bonus : 0;
-         bool throw_from_seat = throw_roll > (psg->str_cur + sb_bonus) * 3;
+         const int sb_bonus = psblt >= 0? veh->part_info(psblt).bonus : 0; 
+         bool throw_from_seat = throw_roll > (psg->str_cur + sb_bonus); 
+
+		  //damage passengers if d_vel is too high
+		 if(d_vel > 40* rng(50,100)/100 && !throw_from_seat) { 
+			int dmg = d_vel/4*rng(70,100)/100;
+			psg->hurtall(dmg);
+			if (psg == &g->u) 
+                g->add_msg(_("You take %d damage by the power of the impact!"), dmg);
+            else if (psg->name.length()) 
+                g->add_msg(_("%s takes %d damage by the power of the impact!"), psg->name.c_str(), dmg);            
+		 }		
 
          if (throw_from_seat) {
             if (psg == &g->u) {
@@ -658,8 +675,8 @@ bool map::vehproceed(game* g){
             g->m.unboard_vehicle(g, x + veh->parts[ppl[ps]].precalc_dx[0],
                   y + veh->parts[ppl[ps]].precalc_dy[0]);
             g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
-                  (vel2/100 - sb_bonus < 10 ? 10 :
-                   vel2/100 - sb_bonus));
+                  (vel1 - sb_bonus < 10 ? 10 : 
+                   vel1 - sb_bonus));
          } else if (veh->part_with_feature (ppl[ps], vpf_controls) >= 0) {
             // FIXME: should actually check if passenger is in control,
             // not just if there are controls there.
@@ -670,7 +687,7 @@ bool map::vehproceed(game* g){
                } else if (psg->name.length()) {
                    g->add_msg(_("%s loses control of the %s."), psg->name.c_str());
                }
-               int turn_amount = (rng (1, 3) * sqrt((double)vel2) / 2) / 15;
+               int turn_amount = (rng (1, 3) * sqrt((double)vel1_a) / 2) / 15;
                if (turn_amount < 1)
                   turn_amount = 1;
                turn_amount *= 15;
