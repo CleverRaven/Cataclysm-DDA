@@ -81,6 +81,7 @@ enum vpart_id
     vp_m249,
     vp_flamethrower,
     vp_plasmagun,
+    vp_fusiongun,
 
 // plating -- special case. mounted as internal, work as first line
 // of defence and gives color to external part
@@ -301,6 +302,8 @@ const vpart_info vpart_list[num_vparts] =
     { "mounted flamethrower", 't', c_dkgray,  '#', c_dkgray,  80, 400, 0, 0, "gasoline", "flamethrower", 7,
         mfb(vpf_over)  | mfb(vpf_turret) },
     { "mounted plasma gun", 't', c_ltblue,    '#', c_ltblue,    80, 400, 0, 0, "plasma", "plasma_rifle", 7,
+        mfb(vpf_over)  | mfb(vpf_turret) },
+    { "mounted fusion gun", 't', c_magenta,    '#', c_magenta,    80, 400, 0, 0, "battery", "ftk93", 7,
         mfb(vpf_over)  | mfb(vpf_turret) },
 
     { "steel plating",     ')', c_ltcyan, ')', c_ltcyan, 100, 1000, 0, 0, "NULL", "steel_plate", 3,
