@@ -1097,9 +1097,15 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
         }
         bool bMonDead = mon.hurt(adjusted_damage, dam);
         if( u_see_mon ) {
+            g->draw_hit_mon(mon.posx,
+                            mon.posy,
+                            mon,
+                            bMonDead);
+        /*
             hit_animation(mon.posx - g->u.posx + VIEWX - g->u.view_offset_x,
                      mon.posy - g->u.posy + VIEWY - g->u.view_offset_y,
                      red_background(mon.type->color), (bMonDead) ? '%' : mon.symbol());
+        */
         }
 
         if (bMonDead) {

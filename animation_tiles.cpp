@@ -68,4 +68,69 @@ void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> traj
         tilecontext->void_bullet();
    }
 }
+/* Monster hit animation */
+void game::draw_hit_mon(int x, int y, monster m, bool dead)
+{
+    int iTimeout = 0;
+    tilecontext->init_draw_hit(x, y, monster_names[m.type->id]);
+    wrefresh(w_terrain);
+
+    timespec tspec;
+    tspec.tv_sec = 0;
+    tspec.tv_nsec = BULLET_SPEED;
+
+    nanosleep(&tspec, NULL);
+    /*
+    nc_color cMonColor = m.type->color;
+    char sMonSym = m.symbol();
+    hit_animation(x,
+                  y,
+                  red_background(cMonColor), dead?'%':sMonSym);
+    */
+    /*
+    x + VIEWX - u.posx - u.view_offset_x,
+                  y + VIEWY - u.posy - u.view_offset_y,
+    */
+    mvwputch(w_terrain,
+             x + VIEWX - u.posx - u.view_offset_x,
+             y + VIEWY - u.posy - u.view_offset_y,
+             c_white, ' ');
+    wrefresh(w_terrain);
+}
+/* Player hit animation */
+void game::draw_hit_player(player *p, bool dead)
+{
+    // get base name of player id
+    std::string pname = (p->is_npc()?"npc_":"player_");
+    // get sex of player
+    pname += (p->male?"male":"female");
+
+    tilecontext->init_draw_hit(p->posx, p->posy, pname);
+    wrefresh(w_terrain);
+
+    timespec tspec;
+    tspec.tv_sec = 0;
+    tspec.tv_nsec = BULLET_SPEED;
+
+    nanosleep(&tspec, NULL);
+    /*
+    hit_animation(p->posx - g->u.posx + VIEWX - g->u.view_offset_x,
+                  p->posy - g->u.posy + VIEWY - g->u.view_offset_y,
+                  red_background(p->color()), '@');
+    */
+    /*
+    if (iTimeout <= 0 || iTimeout > 999) {
+        iTimeout = 70;
+    }
+
+    timeout(iTimeout);
+    getch(); //useing this, because holding down a key with nanosleep can get yourself killed
+    timeout(-1);
+    */
+    mvwputch(w_terrain,
+             p->posx + VIEWX - u.posx - u.view_offset_x,
+             p->posy + VIEWY - u.posy - u.view_offset_y,
+             c_white, ' ');
+    wrefresh(w_terrain);
+}
 #endif

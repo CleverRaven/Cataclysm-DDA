@@ -9,6 +9,10 @@
     "tiles":
     [
         {
+            "id":"animation_hit",
+            "bg":49
+        },
+        {
             "id":"explosion",
             "bg": 5,
             "fg": 0,
@@ -44,26 +48,22 @@
         },
         {
             "id":"lighting_boomered_light",
-            "fg":01,
-            "bg":01,
+            "fg":50,
             "rotates":false
         },
         {
             "id":"lighting_boomered_dark",
-            "fg":01,
-            "bg":01,
+            "fg":51,
             "rotates":false
         },
         {
             "id":"lighting_lowlight_light",
-            "fg":01,
-            "bg":01,
+            "fg":52,
             "rotates":false
         },
         {
             "id":"lighting_lowlight_dark",
-            "fg":01,
-            "bg":01,
+            "fg":53,
             "rotates":false
         },
         {

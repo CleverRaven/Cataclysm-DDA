@@ -51,4 +51,26 @@ void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> traj
          nanosleep(&ts, NULL);
    }
 }
+/* Monster hit animation */
+void game::draw_hit_mon(int x, int y, monster m, bool dead)
+{
+    /*
+    x - u.posx + VIEWX - u.view_offset_x,
+                y - u.posy + VIEWY - u.view_offset_y,
+    */
+    nc_color cMonColor = m.type->color;
+    char sMonSym = m.symbol();
+
+    hit_animation(x + VIEWX - u.posx - u.view_offset_x,
+                  y + VIEWY - u.posy - u.view_offset_y,
+                  red_background(cMonColor), dead?'%':sMonSym);
+}
+/* Player hit animation */
+void game::draw_hit_player(player *p, bool dead)
+{
+    hit_animation(p->posx + VIEWX - u.posx - u.view_offset_x,
+                  p->posy + VIEWY - u.posy - u.view_offset_y,
+                  red_background(p->color()), '@');
+}
+
 #endif

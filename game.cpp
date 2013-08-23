@@ -10233,14 +10233,17 @@ void game::plmove(int x, int y)
   if (z[mondex].friendly == 0) {
    int udam = u.hit_mon(this, &z[mondex]);
    char sMonSym = '%';
-   nc_color cMonColor = z[mondex].type->color;
+   //nc_color cMonColor = z[mondex].type->color;
    if (z[mondex].hurt(udam))
     kill_mon(mondex, true);
    else
-    sMonSym = z[mondex].symbol();
-   hit_animation(x - u.posx + VIEWX - u.view_offset_x,
-                 y - u.posy + VIEWY - u.view_offset_y,
-                 red_background(cMonColor), sMonSym);
+    //sMonSym = z[mondex].symbol();
+   //hit_animation(x - u.posx + VIEWX - u.view_offset_x,
+   //              y - u.posy + VIEWY - u.view_offset_y,
+   //              red_background(cMonColor), sMonSym);
+   draw_hit_mon(x,
+                y,
+                z[mondex]);
    return;
   } else
    displace = true;

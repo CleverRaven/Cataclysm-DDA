@@ -324,6 +324,13 @@ void load_artifacts(); // Load artifact data
  // ignore_player determines if player is affected, useful for bionic, etc.
  void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
 
+
+// Animation related functions
+  void draw_explosion(int x, int y, int radius, nc_color col);
+  void draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
+  void draw_hit_mon(int x, int y, monster m, bool dead = false);
+  void draw_hit_player(player *p, bool dead = false);
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -500,10 +507,6 @@ void load_artifacts(); // Load artifact data
   void display_scent();   // Displays the scent map
   void mondebug();        // Debug monster behavior directly
   void groupdebug();      // Get into on monster groups
-
-// Animation related functions
-  void draw_explosion(int x, int y, int radius, nc_color col);
-  void draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
 
 
 // ########################## DATA ################################

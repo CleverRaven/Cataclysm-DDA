@@ -3562,9 +3562,12 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   return dam;
 // TODO: Pre or post blit hit tile onto "this"'s location here
  if( g->u_see( this->posx, this->posy ) ) {
+    g->draw_hit_player(this);
+    /*
      hit_animation(this->posx - g->u.posx + VIEWX - g->u.view_offset_x,
                    this->posy - g->u.posy + VIEWY - g->u.view_offset_y,
                    red_background(this->color()), '@');
+    */
  }
 
  rem_disease("speed_boost");

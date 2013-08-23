@@ -150,6 +150,10 @@ class cata_tiles
         void draw_bullet_frame(int destx, int desty, int centerx, int centery, int width, int height);
         void void_bullet();
 
+        void init_draw_hit(int x, int y, std::string name);
+        void draw_hit_frame(int destx, int desty, int centerx, int centery, int width, int height);
+        void void_hit();
+
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
@@ -172,10 +176,13 @@ class cata_tiles
 
         bool do_draw_explosion;
         bool do_draw_bullet;
+        bool do_draw_hit;
 
         int exp_pos_x, exp_pos_y, exp_rad;
         int bul_pos_x, bul_pos_y;
         std::string bul_id;
+        int hit_pos_x, hit_pos_y;
+        std::string hit_entity_id;
 
         // offset values
         int o_x, o_y;

@@ -394,7 +394,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_entity(x,y);
         }
     }
-    in_animation = do_draw_explosion || do_draw_bullet;
+    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit;
     if (in_animation)
     {
         if (do_draw_explosion)
@@ -404,6 +404,11 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         if (do_draw_bullet)
         {
             draw_bullet_frame(destx, desty, centerx, centery, width, height);
+        }
+        if (do_draw_hit)
+        {
+            draw_hit_frame(destx, desty, centerx, centery, width, height);
+            void_hit();
         }
     }
     // check to see if player is located at ter
@@ -858,6 +863,13 @@ void cata_tiles::init_draw_bullet(int x, int y, std::string name)
     bul_pos_y = y;
     bul_id = name;
 }
+void cata_tiles::init_draw_hit(int x, int y, std::string name)
+{
+    do_draw_hit = true;
+    hit_pos_x = x;
+    hit_pos_y = y;
+    hit_entity_id = name;
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -873,7 +885,13 @@ void cata_tiles::void_bullet()
     bul_pos_y = -1;
     bul_id = "";
 }
-
+void cata_tiles::void_hit()
+{
+    do_draw_hit = false;
+    hit_pos_x = -1;
+    hit_pos_y = -1;
+    hit_entity_id = "";
+}
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame(int destx, int desty, int centerx, int centery, int width, int height)
 {
@@ -913,6 +931,16 @@ void cata_tiles::draw_bullet_frame(int destx, int desty, int centerx, int center
 
     draw_from_id_string(bul_id, mx, my, 0, 0);
 }
+void cata_tiles::draw_hit_frame(int destx, int desty, int centerx, int centery, int width, int height)
+{
+    const int mx = hit_pos_x, my = hit_pos_y;
+    std::string hit_overlay = "animation_hit";
+
+    draw_from_id_string(hit_entity_id, mx, my, 0, 0);
+    draw_from_id_string(hit_overlay, mx, my, 0, 0);
+}
+
+/* END OF ANIMATION FUNCTIONS */
 
 void cata_tiles::init_light()
 {
