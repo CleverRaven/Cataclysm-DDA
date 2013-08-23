@@ -16,7 +16,7 @@ class game;
 
 #define num_fuel_types 5
 extern const ammotype fuel_types[num_fuel_types];
-#define k_mvel 200
+#define k_mvel 125 //adjust to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
 // 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
@@ -330,7 +330,7 @@ public:
     void turn (int deg);
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
-// return collision, which has type, impulse, part, & target.
+// return collision, which has type, impulse, part, & target
     veh_collision part_collision (int vx, int vy, int part, int x, int y);
 
 // Process the trap beneath
