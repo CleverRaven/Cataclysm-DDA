@@ -313,7 +313,7 @@ const vpart_info vpart_list[num_vparts] =
     { "head light",        '*', c_white,  '*', c_white,  10, 20, 480, 0, "NULL", "flashlight", 1,
        mfb(vpf_internal) | mfb(vpf_light) },
     { "reinforced windshield", '=', c_ltcyan,  '0', c_ltgray,  80,  300, 0, 0, "NULL", "reinforced_glass_sheet", 6,
-        mfb(vpf_over) | mfb(vpf_obstacle) }
+        mfb(vpf_over) | mfb(vpf_obstacle) | mfb(vpf_no_reinforce) }
 };
 
 
