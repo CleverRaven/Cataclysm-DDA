@@ -282,6 +282,7 @@ class map
  bool has_flag_ter_and_furn(const t_flag flag, const int x, const int y); // checks terrain and furniture
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
+ bool is_divable(const int x, const int y);
  bool is_outside(const int x, const int y);
  bool flammable_items_at(const int x, const int y);
  bool moppable_items_at(const int x, const int y);

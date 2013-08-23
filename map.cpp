@@ -980,6 +980,18 @@ bool map::is_destructable_ter_furn(const int x, const int y)
          (move_cost_ter_furn(x, y) == 0 && !has_flag(liquid, x, y)));
 }
 
+/**
+ * Returns whether or not the terrain at the given location can be dived into
+ * (by monsters that can swim or are aquatic or nonbreathing).
+ * @param x The x coordinate to look at.
+ * @param y The y coordinate to look at.
+ * @return true if the terrain can be dived into; false if not.
+ */
+bool map::is_divable(const int x, const int y)
+{
+  return has_flag(swimmable, x, y) && move_cost(x, y) == 0;
+}
+
 bool map::is_outside(const int x, const int y)
 {
  if(!INBOUNDS(x, y))

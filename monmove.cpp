@@ -753,7 +753,9 @@ int monster::bash_at(int x, int y) {
         g->sound(x, y, 18, bashsound);
         moves -= 100;
         return 1;
-    } else if (g->m.move_cost(x, y) == 0 && has_flag(MF_DESTROYS)) {
+    } else if (g->m.move_cost(x, y) == 0 &&
+            !g->m.is_divable(x, y) && //No smashing water into rubble!
+            has_flag(MF_DESTROYS)) {
         g->m.destroy(g, x, y, true);
         moves -= 250;
         return 1;
@@ -837,6 +839,21 @@ int monster::move_to(game *g, int x, int y, bool force)
    g->m.add_field(g, posx, posy+1, fd_sludge, 2);
    g->m.add_field(g, posx-1, posy, fd_sludge, 2);
    g->m.add_field(g, posx, posy-1, fd_sludge, 2);
+  }
+
+  //Check for moving into/out of water
+  bool was_water = g->m.is_divable(posx, posy);
+  bool will_be_water = g->m.is_divable(x, y);
+
+  if(was_water && !will_be_water && g->u_see(x, y)) {
+    //Use more dramatic messages for swimming monsters
+    g->add_msg(_("A %s %s from the %s!"), name().c_str(),
+            has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
+            g->m.tername(posx, posy).c_str());
+  } else if(!was_water && will_be_water && g->u_see(x, y)) {
+    g->add_msg(_("A %s %s into the %s!"), name().c_str(),
+            has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
+            g->m.tername(x, y).c_str());
   }
 
   posx = x;

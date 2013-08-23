@@ -4371,11 +4371,18 @@ bool game::u_see(player *p)
 bool game::u_see(monster *mon)
 {
  int dist = rl_dist(u.posx, u.posy, mon->posx, mon->posy);
- if (u.has_trait("ANTENNAE") && dist <= 3)
+ if (u.has_trait("ANTENNAE") && dist <= 3) {
   return true;
+ }
  if (mon->has_flag(MF_DIGS) && !u.has_active_bionic("bio_ground_sonar") &&
-     dist > 1)
+     dist > 1) {
   return false;	// Can't see digging monsters until we're right next to them
+ }
+ if (m.is_divable(mon->posx, mon->posy) && mon->can_submerge()
+         && !m.is_divable(u.posx, u.posy)) {
+   //Monster is in the water and submerged, and we're out of/above the water
+   return false;
+ }
 
  return u_see(mon->posx, mon->posy);
 }
