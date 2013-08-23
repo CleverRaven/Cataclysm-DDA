@@ -1684,7 +1684,7 @@ void vehicle::handle_trap (int x, int y, int part)
             noise = 8;
             snd = _("SNAP!");
             wreckit = true;
-            g->m.tr_at(x, y) = tr_null;
+            g->m.remove_trap(x, y);
             g->m.spawn_item(x, y, "beartrap", 0);
             break;
         case tr_nailboard:
@@ -1700,7 +1700,7 @@ void vehicle::handle_trap (int x, int y, int part)
             noise = 1;
             snd = _("Clank!");
             wreckit = true;
-            g->m.tr_at(x, y) = tr_null;
+            g->m.remove_trap(x, y);
             g->m.spawn_item(x, y, "crossbow", 0);
             g->m.spawn_item(x, y, "string_6", 0);
             if (!one_in(10))
@@ -1713,10 +1713,10 @@ void vehicle::handle_trap (int x, int y, int part)
             chance = 70;
             wreckit = true;
             if (t == tr_shotgun_2)
-                g->m.tr_at(x, y) = tr_shotgun_1;
+                g->m.add_trap(x, y, tr_shotgun_1);
             else
             {
-                g->m.tr_at(x, y) = tr_null;
+                g->m.remove_trap(x, y);
                 g->m.spawn_item(x, y, "shotgun_sawn", 0);
                 g->m.spawn_item(x, y, "string_6", 0);
             }
@@ -1725,7 +1725,7 @@ void vehicle::handle_trap (int x, int y, int part)
         case tr_landmine:
             expl = 10;
             shrap = 8;
-            g->m.tr_at(x, y) = tr_null;
+            g->m.remove_trap(x, y);
             break;
         case tr_boobytrap:
             expl = 18;

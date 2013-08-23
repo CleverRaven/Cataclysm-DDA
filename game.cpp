@@ -5566,11 +5566,11 @@ void game::resonance_cascade(int x, int y)
    case  8:
    case  9:
    case 10:
-    m.tr_at(i, j) = tr_portal;
+    m.add_trap(i, j, tr_portal);
     break;
    case 11:
    case 12:
-    m.tr_at(i, j) = tr_goo;
+    m.add_trap(i, j, tr_goo);
     break;
    case 13:
    case 14:

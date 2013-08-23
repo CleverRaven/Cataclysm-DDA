@@ -26,20 +26,19 @@ enum astar_list {
 
 map::map()
 {
- nulter = t_null;
- nultrap = tr_null;
- if (is_tiny())
-  my_MAPSIZE = 2;
- else
-  my_MAPSIZE = MAPSIZE;
- dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
- veh_in_active_range = true;
+    nulter = t_null;
+    my_MAPSIZE = is_tiny() ? 2 : MAPSIZE;
+    dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
+    veh_in_active_range = true;
+
+    for (int t = 0; t < num_trap_types; t++) {
+        traplocs[(trap_id) t] = std::set<point>();
+    }
 }
 
 map::map(std::vector<trap*> *trptr)
 {
  nulter = t_null;
- nultrap = tr_null;
  traps = trptr;
  if (is_tiny())
   my_MAPSIZE = 2;
@@ -2361,8 +2360,6 @@ item map::water_from(const int x, const int y)
         ret.poison = rng(1, 4);
     else if (ter(x, y) == t_sewage)
         ret.poison = rng(1, 7);
-    else if (tr_at(x, y) == tr_funnel)
-        ret.poison = (one_in(10) == true) ? 1 : 0;
     return ret;
 }
 
@@ -2719,7 +2716,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (quantity == 0)
             return ret;
         }
-        
+
         if (weldpart >= 0) { // we have a weldrig, now to see what to drain
           ammotype ftype = "NULL";
 
@@ -2786,11 +2783,10 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
  return ret;
 }
 
-trap_id& map::tr_at(const int x, const int y)
+trap_id map::tr_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
-  nultrap = tr_null;
-  return nultrap;	// Out-of-bounds, return our null trap
+  return tr_null;
  }
 /*
  int nonant;
@@ -2802,13 +2798,11 @@ trap_id& map::tr_at(const int x, const int y)
  const int ly = y % SEEY;
  if (lx < 0 || lx >= SEEX || ly < 0 || ly >= SEEY) {
   debugmsg("tr_at contained bad x:y %d:%d", lx, ly);
-  nultrap = tr_null;
-  return nultrap;	// Out-of-bounds, return our null trap
+  return tr_null;	// Out-of-bounds, return our null trap
  }
 
  if (terlist[ grid[nonant]->ter[lx][ly] ].trap != tr_null) {
-  nultrap = terlist[ grid[nonant]->ter[lx][ly] ].trap;
-  return nultrap;
+  return terlist[ grid[nonant]->ter[lx][ly] ].trap;
  }
 
  return grid[nonant]->trp[lx][ly];
@@ -2816,13 +2810,21 @@ trap_id& map::tr_at(const int x, const int y)
 
 void map::add_trap(const int x, const int y, const trap_id t)
 {
- if (!INBOUNDS(x, y))
-  return;
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    if (!INBOUNDS(x, y)) { return; }
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- grid[nonant]->trp[lx][ly] = t;
+    const int lx = x % SEEX;
+    const int ly = y % SEEY;
+
+    // If there was already a trap here, remove it.
+    if (grid[nonant]->trp[lx][ly] != tr_null) {
+        remove_trap(x, y);
+    }
+
+    grid[nonant]->trp[lx][ly] = t;
+    if (t != tr_null) {
+        traplocs[t].insert(point(x, y));
+    }
 }
 
 void map::disarm_trap(game *g, const int x, const int y)
@@ -2847,16 +2849,16 @@ void map::disarm_trap(game *g, const int x, const int y)
    if (comp[i] != "null")
     spawn_item(x, y, comp[i], 0, 0, 1);
   }
-  if( tr_at(x, y) == tr_engine ) {
+  if (tr_at(x, y) == tr_engine) {
       for (int i = -1; i <= 1; i++) {
           for (int j = -1; j <= 1; j++) {
               if (i != 0 || j != 0) {
-                  tr_at(x + i, y + j) = tr_null;
+                  remove_trap(x + i, y + j);
               }
           }
       }
   }
-  tr_at(x, y) = tr_null;
+  remove_trap(x, y);
   if(diff > 1.25 * skillLevel) // failure might have set off trap
     g->u.practice(g->turn, "traps", 1.5*(diff - skillLevel));
  } else if (roll >= diff * .8) {
@@ -2874,6 +2876,20 @@ void map::disarm_trap(game *g, const int x, const int y)
    // case the trap may not be disarmable).
    g->u.practice(g->turn, "traps", 2*diff);
  }
+}
+
+void map::remove_trap(const int x, const int y)
+{
+    if (!INBOUNDS(x, y)) { return; }
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+
+    const int lx = x % SEEX;
+    const int ly = y % SEEY;
+    trap_id t = grid[nonant]->trp[lx][ly];
+    if (t != tr_null) {
+        grid[nonant]->trp[lx][ly] = tr_null;
+        traplocs[t].erase(point(x, y));
+    }
 }
 
 field& map::field_at(const int x, const int y)
@@ -3492,6 +3508,21 @@ void map::load(game *g, const int wx, const int wy, const int wz, const bool upd
  }
 }
 
+void map::forget_traps(int gridx, int gridy)
+{
+    const int n = gridx + gridy * my_MAPSIZE;
+    for (int x = 0; x < SEEX; x++) {
+        for (int y = 0; y < SEEY; y++) {
+            trap_id t = grid[n]->trp[x][y];
+            if (t != tr_null) {
+                const int fx = x + gridx * SEEX;
+                const int fy = y + gridy * SEEY;
+                traplocs[t].erase(point(fx, fy));
+            }
+        }
+    }
+}
+
 void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
 {
 // Special case of 0-shift; refresh the map
@@ -3511,6 +3542,20 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
   g->u.posx -= sx * SEEX;
   g->u.posy -= sy * SEEY;
  }
+
+    // Forget about traps in submaps that are being unloaded.
+    if (sx != 0) {
+        const int gridx = (sx > 0) ? (my_MAPSIZE - 1) : 0;
+        for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+            forget_traps(gridx, gridy);
+        }
+    }
+    if (sy != 0) {
+        const int gridy = (sy > 0) ? (my_MAPSIZE - 1) : 0;
+        for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
+            forget_traps(gridx, gridy);
+        }
+    }
 
  // Clear vehicle list and rebuild after shift
  clear_vehicle_cache();
@@ -3649,9 +3694,21 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
    }
   }
 
+    // check traps
+    for (int x = 0; x < SEEX; x++) {
+        for (int y = 0; y < SEEY; y++) {
+            const trap_id t = tmpsub->trp[x][y];
+            if (t != tr_null) {
+                const int fx = x + gridx * SEEX;
+                const int fy = y + gridy * SEEY;
+                traplocs[t].insert(point(fx, fy));
+            }
+        }
+    }
+
   // check spoiled stuff
-  for(int x = 0; x < 12; x++) {
-      for(int y = 0; y < 12; y++) {
+  for (int x = 0; x < SEEX; x++) {
+      for (int y = 0; y < SEEY; y++) {
           for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
               it != tmpsub->itm[x][y].end();) {
               if(it->goes_bad()) {
@@ -3669,8 +3726,8 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
   const int plantEpoch = 14400 * (int)OPTIONS["SEASON_LENGTH"] / 2;
 
   // check plants
-  for (int x = 0; x < 12; x++) {
-    for (int y = 0; y < 12; y++) {
+  for (int x = 0; x < SEEX; x++) {
+    for (int y = 0; y < SEEY; y++) {
       furn_id furn = tmpsub->frn[x][y];
       if (furn && (furnlist[furn].flags & mfb(plant))) {
         item seed = tmpsub->itm[x][y][0];
@@ -3786,14 +3843,25 @@ void map::clear_spawns()
 
 void map::clear_traps()
 {
- for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
-  for (int x = 0; x < SEEX; x++) {
-   for (int y = 0; y < SEEY; y++)
-    grid[i]->trp[x][y] = tr_null;
-  }
- }
+    for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+        for (int x = 0; x < SEEX; x++) {
+            for (int y = 0; y < SEEY; y++) {
+                grid[i]->trp[x][y] = tr_null;
+            }
+        }
+    }
+
+    // Forget about all trap locations.
+    std::map<trap_id, std::set<point> >::iterator i;
+    for(i = traplocs.begin(); i != traplocs.end(); ++i) {
+        i->second.clear();
+    }
 }
 
+std::set<point> map::trap_locations(trap_id t)
+{
+    return traplocs[t];
+}
 
 bool map::inbounds(const int x, const int y)
 {
@@ -4055,13 +4123,11 @@ std::vector<point> closest_points_first(int radius, int center_x, int center_y)
 tinymap::tinymap()
 {
  nulter = t_null;
- nultrap = tr_null;
 }
 
 tinymap::tinymap(std::vector<trap*> *trptr)
 {
  nulter = t_null;
- nultrap = tr_null;
  traps = trptr;
  my_MAPSIZE = 2;
  for (int n = 0; n < 4; n++)
