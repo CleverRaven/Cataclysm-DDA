@@ -142,6 +142,8 @@
       ["chips3", 65],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
+      ["cheeseburger", 8],
+      ["hamburger", 8],
       ["heatpack", 60],
       ["can_beans", 40],
       ["can_corn", 35],
@@ -163,7 +165,9 @@
       ["ketchup", 35],
       ["mustard", 35],
       ["jar_glass", 50],
-      ["jar_3l_glass", 40]
+      ["jar_3l_glass", 40],
+      ["cheese", 40],
+      ["can_cheese", 8],
     ]
   },
   { "id":"knifeblock",
@@ -199,6 +203,9 @@
       ["beer", 60],
       ["pizza_meat", 8],
       ["pizza_veggy", 8],
+      ["cheeseburger", 8],
+      ["hamburger", 8],
+      ["cheese", 10],
       ["orange", 65],
       ["lemon", 50],
       ["potato_raw", 10],
@@ -228,6 +235,7 @@
       ["nailgun", 12],
       ["solar_cell", 5],
       ["manual_mechanics", 35],
+      ["manual_fabrication", 20],
       ["hammer", 35],
       ["flashlight", 40],
       ["soldering_iron", 30],
@@ -280,6 +288,7 @@
       ["novel_mystery", 25],
       ["ZSG", 5],
       ["manual_mechanics", 35],
+      ["manual_fabrication", 12],
       ["manual_speech", 50],
       ["manual_business", 40],
       ["manual_computers", 20],
@@ -310,6 +319,8 @@
   },
   { "id":"homeguns",
     "items":[
+      ["blowgun", 5],
+      ["dart", 5],
       ["22_lr", 9],
       ["22_fmj", 1],
       ["9mm", 8],
@@ -463,6 +474,8 @@
       ["frozen_dinner", 50],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
+      ["cheeseburger", 8],
+      ["hamburger", 8],
       ["pie", 20]
     ]
   },
@@ -483,7 +496,10 @@
       ["ketchup", 60],
       ["mustard", 60],
       ["pickle", 40],
-      ["salt", 20]
+      ["salt", 20],
+      ["cheeseburger", 35],
+      ["hamburger", 30],
+      ["cheese", 30]
     ]
   },
   { "id":"coffee_shop",
@@ -494,6 +510,8 @@
       ["sandwich_t", 30],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
+      ["hamburger", 40],
+      ["cheeseburger", 40],
       ["pretzels", 55],
       ["chocolate", 50],
       ["jerky", 55],
@@ -549,7 +567,8 @@
       ["mag_throwing", 20],
       ["mag_gaming", 20],
       ["mag_swimming", 10],
-      ["flyer", 10]
+      ["flyer", 10],
+      ["mag_fabrication", 30]
     ]
   },
   { "id":"softdrugs",
@@ -596,6 +615,7 @@
       ["soup_meat", 15],
       ["flour", 20],
       ["sugar", 20],
+      ["can_cheese", 40]
       ["salt", 20]
     ]
   },
@@ -722,13 +742,16 @@
       ["nailgun", 12],
       ["manual_mechanics", 35],
       ["manual_carpentry", 10],
+      ["manual_fabrication", 20],
       ["mag_carpentry", 30],
+      ["mag_fabrication", 12],
       ["duct_tape", 60],
       ["lawnmower", 25],
       ["boltcutters", 5],
       ["foot_crank", 10],
       ["cable", 60],
       ["textbook_mechanics", 12],
+      ["textbook_fabrication", 12],
       ["vac_sealer", 10]
     ]
   },
@@ -851,7 +874,9 @@
       ["gasoline_lantern", 5],
       ["folding_bicycle", 1],
       ["coat_rain",10],
-      ["umbrella",12]
+      ["umbrella",12],
+      ["blowgun", 5],
+      ["dart", 5]
     ]
   },
   { "id":"allsporting",
@@ -930,7 +955,9 @@
       ["wetsuit_booties", 20],
       ["glowstick", 60],
       ["folding_bicycle", 1],
-      ["coat_rain", 5]
+      ["coat_rain", 5],
+      ["blowgun", 5],
+      ["dart", 5]
     ]
   },
   { "id":"alcohol",
@@ -1158,6 +1185,7 @@
       ["rm51_assault_rifle", 1],
       ["rm99_pistol", 1],
       ["rm103a_pistol", 1]
+      ["blowgun", 5],
     ]
   },
   { "id":"gunxtras",
@@ -1374,6 +1402,7 @@
       ["manual_tailor", 15],
       ["manual_traps", 12],
       ["manual_carpentry", 10],
+      ["manual_fabrication", 20],
       ["manual_survival", 20]
     ]
   },
@@ -1386,7 +1415,8 @@
       ["textbook_carpentry", 6],
       ["SICP", 3],
       ["textbook_robots", 1],
-      ["textbook_mechanics", 12]
+      ["textbook_mechanics", 12],
+      ["textbook_fabrication", 12]
     ]
   },
   { "id":"cop_shoes",
@@ -1572,6 +1602,7 @@
       ["manual_business", 40],
       ["textbook_business", 12],
       ["manual_computers", 20],
+      ["mag_fabrication", 12],
       ["textbook_computers", 8],
       ["lighter", 60],
       ["matches", 60],
@@ -1603,6 +1634,7 @@
       ["battery", 50],
       ["mag_news", 35],
       ["manual_computers", 20],
+      ["manual_fabrication", 30],
       ["usb_drive", 5],
       ["mag_tv", 40],
       ["manual_mechanics", 35],
@@ -1804,6 +1836,7 @@
       ["mag_guns", 20],
       ["manual_brawl", 30],
       ["manual_knives", 12],
+      ["manual_fabrication", 12],
       ["cot", 40],
       ["manual_mechanics", 35],
       ["manual_first_aid", 40],
