@@ -515,7 +515,7 @@
    	 ],
       "name":"Prostitute",
       "points":-4
-   },
+   }
    {
       "description":"You spent most of your life trapping with your father. Both of you made a decent living off of your catches, and trapping tutorials. You start with a skill in trapping.",
       "ident":"trapper",
@@ -525,7 +525,7 @@
          "hat_hunting",
          "jacket_flannel",
          "beartrap"
-      ],
+      ]
       "name":"Trapper",
       "points":1,
       "skills":[
@@ -533,6 +533,78 @@
             "level":1,
             "name":"traps"
          }
-      ]
+         
+         {
+  "ident": "computer",
+  "name": "Computer technician",
+  "description":
+"You've been working with computers for so long that you decided to bring some electronic components with you.",
+  "points": 1,
+  "items": ["jeans", "tshirt", "sneakers", "backpack", "software_useless", "usb_drive", "usb_drive", "power_supply", "processor", "RAM", "manual_electronics", "screwdriver", "textbook_computers", "manual_computers"]
+ }
+
+{
+  "ident": "survivalist",
+  "name": "Survivalist",
+  "description":
+"You've been preparing for the great cataclysm. You carry precious survival and hunting tools, but suffer from night insomnia",
+  "points": 1,
+  "items": ["pants_army", "vest", "boots", "can_beans", "can_beans", "beartrap", "manual_survival", "heatpack", "lighter", "tank_top", "ax"]
+ }
+
+{
+  "ident": "mma",
+  "name": "MMA Fighter",
+  "description":
+"MMA matches are very much rare in post-apocalytpic New-England. And I don't think your boxing manager can save you. But your skills in self-defense and your resitant stance still can. Beware, because you're addicted to painkillers !",
+  "points": 1,
+  "items": ["shorts", "bandages", "bandages", "bandana", "rapier", "fanny"]
+},
+
+{
+  "ident": "naturalist",
+  "name": "Naturalist",
+  "description":
+"You're a naturalist. You start with no clothes, but your moral is increased when in a forest biome",
+  "points": -1,
+  "items": ["mag_porn", "baton", "manual_speech", "backpack"]
+ },
+
+{
+  "ident": "cook",
+  "name": "Cook masterchief",
+  "description":
+"You have been preparing meals to the most prestidgious persons to eat. Ironically, now they are trying to eat you. You better find something to do with your cooking equipement, or you'll be the next diner.",
+  "points": 1,
+  "items": ["pan", "knife_butcher", "hotplate", "suit", "cookbook", "cookbook_italian", "tophat", "ravioli", "seasoning_italian", "whiskey", "fanny", "sneakers", "cookbook_human"]
+ },
+
+{
+  "ident": "racer",
+  "name": "Formula One pilot",
+  "description":
+"You raced all over the world just for that stupid throphy. Now the championship is over, but the race is not. Time to crush some zombies! You start with usefull vehicle parts, advanced driving skills and medium mechanical skills",
+  "points": 3,
+  "items": ["pants_cargo", "jacket_leather", "helmet_bike", "v8_combustion", "frame", "frame", "frame", "frame", "mag_cars"]
+ },
+
+{
+  "ident": "buisnessman",
+  "name": "Buisnessman",
+  "description":
+"Zombies aren't the kind of client you like, but you still can exploit something out of these other survivors. You start with advanced speech and barter skills",
+  "points": 1,
+  "items": ["pants", "suit", "sneakers", "manual_business", "manual_speech"]
+ }
+
+{
+  "ident": "builder",
+  "name": "Construction worker",
+  "description":
+"They destroyed earth with thier stupid bombs. Now it's your turn to rebuild it all, brick by brick. You have basic bashing weapons skills, some good building skills and some public worker equipement",
+  "points": 2,
+  "items": ["glasses_safety", "tank_top", "jumpsuit", "boots", "manual_carpentry", "textbook_carpentry", "hammer_sledge", "gloves_rubber", "hat_hard"]
+ }
+      
     }
 ]
