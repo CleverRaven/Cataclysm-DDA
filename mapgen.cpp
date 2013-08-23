@@ -12354,9 +12354,13 @@ void map::place_spawns(game *g, std::string group, const int chance,
  if (!OPTIONS["STATIC_SPAWN"])
   return;
 
- if (one_in(chance))
+ float multiplier = OPTIONS["SPAWN_DENSITY"];
+
+ if( multiplier == 0.0 ) return;
+
+ if (one_in(chance / multiplier))
  {
-  int num = density * (float)rng(10, 50);
+  int num = density * (float)rng(10, 50) * multiplier;
 
   for (int i = 0; i < num; i++)
   {
