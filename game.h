@@ -289,7 +289,6 @@ class game
 
   std::map<int, std::map<int, bool> > mapRain;
 
-  int w_void_lines;
   int ter_view_x, ter_view_y;
   WINDOW *w_terrain;
   WINDOW *w_minimap;
@@ -502,6 +501,9 @@ void load_artifacts(); // Load artifact data
   void mondebug();        // Debug monster behavior directly
   void groupdebug();      // Get into on monster groups
 
+// Animation related functions
+  void draw_explosion(int x, int y, int radius, nc_color col);
+  void draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
 
 
 // ########################## DATA ################################

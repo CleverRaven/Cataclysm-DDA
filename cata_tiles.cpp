@@ -17,6 +17,7 @@
 extern game *g;
 //extern SDL_Surface *screen;
 extern int WindowHeight, WindowWidth;
+extern int fontwidth, fontheight;
 
 cata_tiles::cata_tiles()
 {
@@ -106,6 +107,8 @@ void cata_tiles::load_tileset(std::string path)
     }
     /** create the buffer screen */
     buffer = SDL_AllocSurface(SDL_SWSURFACE, WindowWidth, WindowHeight, 32, 0xff0000, 0xff00, 0xff, 0);
+    // overlay has an alpha mask attached
+
 DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->h << "\n";
     /** reinit tile_atlas */
     tile_atlas = IMG_Load(path.c_str());
@@ -213,6 +216,10 @@ void cata_tiles::load_tilejson(std::string path)
 
         tile_type *curr_tile = new tile_type();
         std::string t_id = entry.get("id").as_string();
+        if (t_id == "explosion")
+        {
+            DebugLog() << "Explosion tile id found\n";
+        }
         int t_fg, t_bg;
         t_fg = t_bg = -1;
         bool t_multi, t_rota;
@@ -228,6 +235,10 @@ void cata_tiles::load_tilejson(std::string path)
         if (t_multi)
         {
             t_rota = true;
+            if (t_id == "explosion")
+            {
+                DebugLog() << "--Explosion is Multitile\n";
+            }
 /*
 catajson compList = curr.get("components");
 for (compList.set_begin(); compList.has_curr(); compList.next())
@@ -279,6 +290,10 @@ for (compList.set_begin(); compList.has_curr(); compList.next())
                     }
                     (*tile_ids)[m_id] = curr_subtile;
                     curr_tile->available_subtiles.push_back(s_id);
+                    if (t_id == "explosion")
+                    {
+                        DebugLog() << "--Explosion subtile ID Added: ["<< s_id << "] with value: [" << m_id << "]\n";
+                    }
                     //DebugLog() << "\tSubtile: \""<<s_id<<"\" written\n";
                 }
             }
@@ -379,12 +394,27 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_entity(x,y);
         }
     }
-
+    in_animation = do_draw_explosion || do_draw_bullet;
+    if (in_animation)
+    {
+        if (do_draw_explosion)
+        {
+            draw_explosion_frame(destx, desty, centerx, centery, width, height);
+        }
+        if (do_draw_bullet)
+        {
+            draw_bullet_frame(destx, desty, centerx, centery, width, height);
+        }
+    }
     // check to see if player is located at ter
-    if (g->u.posx != g->ter_view_x || g->u.posy != g->ter_view_y)
+    else if (g->u.posx != g->ter_view_x || g->u.posy != g->ter_view_y)
     {
         draw_from_id_string("cursor", g->ter_view_x, g->ter_view_y, 0, 0);
+        //draw_explosion_frame(1, 1, 1, 0, 0);
+        //draw_from_id_string("explosion", posx - 1, posy - 1, corner, 0);
     }
+
+
 
     //extern SDL_Surface *screen;
     SDL_Rect srcrect = {0,0,width, height};
@@ -393,7 +423,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     SDL_BlitSurface(buffer, &srcrect, display_screen, &desrect);
 }
 
-bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota)
+bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position)
 {
     tile_id_iterator it = tile_ids->find(id);
     // if id is not found, return false
@@ -432,12 +462,23 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, 
     }
 
     // translate from player-relative to screen relative tile position
-    int screen_x = (x - o_x) * tile_width;
-    int screen_y = (y - o_y) * tile_height;
+    int screen_x;// = (x - o_x) * tile_width;
+    int screen_y;// = (y - o_y) * tile_height;
+    if (!is_at_screen_position)
+    {
+        screen_x = (x - o_x) * tile_width;
+        screen_y = (y - o_y) * tile_height;
+    }
+    else
+    {
+        screen_x = x * tile_width;
+        screen_y = y * tile_width;
+    }
 //DebugLog() << "Drawing Tile: [" << id << "] at <" << x << ", " << y << "> FG: "<< display_tile->fg << " BG: " << display_tile->bg << "\n";
     // call to draw_tile
     return draw_tile_at(display_tile, screen_x, screen_y, rota);
 }
+
 bool cata_tiles::draw_tile_at(tile_type* tile, int x, int y, int rota)
 {
     // don't need to check for tile existance, should always exist if it gets this far
@@ -480,6 +521,7 @@ bool cata_tiles::draw_tile_at(tile_type* tile, int x, int y, int rota)
 
     return true;
 }
+
 
 /**
     may be able to cache results for each rotation using a double dx,dy pair. Would certainly increase speed at the expense of:
@@ -786,6 +828,7 @@ bool cata_tiles::draw_entity(int x, int y)
             entity_here = true;
         }
     }
+    int subtile = corner;
     // check for PC (least common, only ever 1)
     if (!entity_here && g->u.posx == x && g->u.posy == y)
     {
@@ -794,11 +837,82 @@ bool cata_tiles::draw_entity(int x, int y)
     }
     if (entity_here)
     {
-        return draw_from_id_string(ent_name, x, y, 0, 0);
+        return draw_from_id_string(ent_name, x, y, subtile, 0);
     }
     return false;
 }
 
+/* Animation Functions */
+/* -- Inits */
+void cata_tiles::init_explosion(int x, int y, int radius)
+{
+    do_draw_explosion = true;
+    exp_pos_x = x;
+    exp_pos_y = y;
+    exp_rad = radius;
+}
+void cata_tiles::init_draw_bullet(int x, int y, std::string name)
+{
+    do_draw_bullet = true;
+    bul_pos_x = x;
+    bul_pos_y = y;
+    bul_id = name;
+}
+/* -- Void Animators */
+void cata_tiles::void_explosion()
+{
+    do_draw_explosion = false;
+    exp_pos_x = -1;
+    exp_pos_y = -1;
+    exp_rad = -1;
+}
+void cata_tiles::void_bullet()
+{
+    do_draw_bullet = false;
+    bul_pos_x = -1;
+    bul_pos_y = -1;
+    bul_id = "";
+}
+
+/* -- Animation Renders */
+void cata_tiles::draw_explosion_frame(int destx, int desty, int centerx, int centery, int width, int height)
+{
+    std::string exp_name = "explosion";
+    int subtile, rotation;
+    const int mx = exp_pos_x, my = exp_pos_y;
+
+    //mx = exp_pos_x;// + offset_x;
+    //my = exp_pos_y;// + offset_y;
+
+    for (int i = 1; i < exp_rad; ++i)
+    {
+        subtile = corner;
+        rotation = 0;
+
+        draw_from_id_string(exp_name, mx - i, my - i, subtile, rotation++);
+        draw_from_id_string(exp_name, mx - i, my + i, subtile, rotation++);
+        draw_from_id_string(exp_name, mx + i, my + i, subtile, rotation++);
+        draw_from_id_string(exp_name, mx + i, my - i, subtile, rotation++);
+
+        subtile = edge;
+        for (int j = 1 - i; j < 0 + i; j++)
+        {
+            rotation = 0;
+            draw_from_id_string(exp_name, mx + j, my - i, subtile, rotation);
+            draw_from_id_string(exp_name, mx + j, my + i, subtile, rotation);
+
+            rotation = 1;
+            draw_from_id_string(exp_name, mx - i, my + j, subtile, rotation);
+            draw_from_id_string(exp_name, mx + i, my + j, subtile, rotation);
+        }
+    }
+}
+void cata_tiles::draw_bullet_frame(int destx, int desty, int centerx, int centery, int width, int height)
+{
+    const int mx = bul_pos_x, my = bul_pos_y;
+
+    draw_from_id_string(bul_id, mx, my, 0, 0);
+}
 
 void cata_tiles::init_light()
 {

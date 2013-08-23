@@ -295,6 +295,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       ty = trajectory[i].y;
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
+   draw_bullet(p, tx, ty, i, trajectory, effects->count("FLAME")? '#':'*', ts);
+   /*
    if (u_see(tx, ty)) {
     if (i > 0)
     {
@@ -310,7 +312,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
     if (&p == &u)
      nanosleep(&ts, NULL);
    }
-
+   */
    if (dam <= 0 && !(effects->count("FLAME"))) { // Ran out of momentum.
     ammo_effects(this, tx, ty, *effects);
     if (is_bolt && !(effects->count("IGNITE")) &&
@@ -687,8 +689,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     mvwputch(w_target, i, j, c_white, ' ');
   }
   /* Start drawing w_terrain things -- possibly move out to centralized draw_terrain_window function as they all should be roughly similar*/
-  m.build_map_cache(this);
-  m.draw(this, w_terrain, center);
+  m.build_map_cache(this); // part of the SDLTILES drawing code
+  m.draw(this, w_terrain, center); // embedded in SDL drawing code
   // Draw the Monsters
   for (int i = 0; i < z.size(); i++) {
    if (u_see(&(z[i]))) {

@@ -114,7 +114,7 @@ class cata_tiles
         void draw(); /* Deprecated */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
 
-        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
+        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /** Surface/Sprite rotation specifics */
@@ -139,7 +139,16 @@ class cata_tiles
         bool draw_vpart(int x, int y);
         bool draw_entity(int x, int y);
 
+        // Animation layers
         bool draw_hit(int x, int y);
+
+        void init_explosion(int x, int y, int radius);
+        void draw_explosion_frame(int destx, int desty, int centerx, int centery, int width, int height);
+        void void_explosion();
+
+        void init_draw_bullet(int x, int y, std::string name);
+        void draw_bullet_frame(int destx, int desty, int centerx, int centery, int width, int height);
+        void void_bullet();
 
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
@@ -159,6 +168,18 @@ class cata_tiles
         tile *screen_tiles;
         int num_tiles;
 
+        bool in_animation;
+
+        bool do_draw_explosion;
+        bool do_draw_bullet;
+
+        int exp_pos_x, exp_pos_y, exp_rad;
+        int bul_pos_x, bul_pos_y;
+        std::string bul_id;
+
+        // offset values
+        int o_x, o_y;
+
     protected:
     private:
         int
@@ -173,8 +194,7 @@ class cata_tiles
             boomered,
             sight_impaired,
             bionight_bionic_active;
-        // offset values
-        int o_x, o_y;
+
 
         tile_rotation *tile_rotations;
 };

@@ -42,7 +42,7 @@
 //Globals                           *
 //***********************************
 
-static cata_tiles *tilecontext;
+cata_tiles *tilecontext;
 
 static SDL_Color windowsPalette[256];
 static SDL_Surface *screen = NULL;
