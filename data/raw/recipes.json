@@ -11234,6 +11234,9 @@
       [ "rag", 30 ]
       ],
       [
+      [ "coat_rain", 1 ]
+      ],
+      [
       [ "chestrig", 1 ],
       [ "vest", 1 ],
       [ "tool_belt", 1 ],
@@ -11287,6 +11290,9 @@
       ],
       [
       [ "leather", 20 ]
+      ],
+      [
+      [ "coat_rain", 1 ]
       ],
       [
       [ "chestrig", 1 ],
@@ -11347,6 +11353,9 @@
       [
       [ "steel_chunk", 4 ],
       [ "scrap", 8 ]
+      ],
+      [
+      [ "coat_rain", 1 ]
       ],
       [
       [ "chestrig", 1 ],
