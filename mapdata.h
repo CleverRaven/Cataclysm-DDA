@@ -363,7 +363,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"open window",         '\'', c_ltcyan, 4, tr_null,
     mfb(transparent)|mfb(flammable)|mfb(noitem)| mfb(supports_roof), &iexamine::none},
 {"closed curtains",     '"', c_dkgray,  0, tr_null,
-    mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof), &iexamine::none},
+    mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)|mfb(deconstruct),
+    &iexamine::none},
 {"window",	            '"', c_ltcyan,  0, tr_null, // Actually alarmed
     mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
     mfb(supports_roof), &iexamine::none},
@@ -650,7 +651,7 @@ const furn_t furnlist[num_furniture_types] = { // MUST match enum furn_id above!
 {"counter",	            '#', c_blue,    2, 10,
     mfb(transparent)|mfb(flammable)|mfb(deconstruct), &iexamine::none},
 {"refrigerator",        '{', c_ltcyan,  -10, 10,
-    mfb(container)|mfb(bashable)|mfb(deconstruct)|mfb(place_item), 
+    mfb(container)|mfb(bashable)|mfb(deconstruct)|mfb(place_item),
     &iexamine::none},
 {"glass door fridge",   '{', c_ltcyan,  -10, 10,
     mfb(bashable)|mfb(deconstruct)|mfb(place_item), &iexamine::none},

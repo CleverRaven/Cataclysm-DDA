@@ -4131,13 +4131,23 @@ int player::addiction_level(add_type type)
  return 0;
 }
 
-void player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
+bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 {
     int liquid_amount = veh->drain( desired_liquid , veh->fuel_capacity( desired_liquid ));
     item used_item(g->itypes[ default_ammo(desired_liquid) ], g->turn);
     used_item.charges = liquid_amount;
-    g->add_msg(_("Siphoned %d units of %s from the vehicle."), liquid_amount, used_item.name.c_str());
-    while (!g->handle_liquid(used_item, false, false)) { } // handle the liquid until it's all gone
+    if (!g->handle_liquid(used_item, false, false)) { 
+      //Didn't handle all of it, put the remainder (in used_item.charges) back
+      veh->refill(desired_liquid, used_item.charges);
+    }
+    int siphoned = liquid_amount - veh->fuel_left(desired_liquid);
+    if(siphoned > 0) {
+        g->add_msg(_("Siphoned %d units of %s from the %s."),
+                          siphoned, used_item.name.c_str(), veh->name.c_str());
+    }
+
+    //Don't consume turns if we decided not to siphon
+    return siphoned > 0;
 }
 
 void player::cauterize(game *g) {
