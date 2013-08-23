@@ -2431,7 +2431,7 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
         new_item.item_tags.insert("FIT");
     }
 
-    add_item(x, y, new_item);
+    add_item_or_charges(x, y, new_item);
 }
 
 void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
