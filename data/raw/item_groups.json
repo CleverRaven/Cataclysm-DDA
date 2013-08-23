@@ -1476,6 +1476,40 @@
       ["spray_can", 50]
     ]
   },
+  {
+    "id":"swimmer_head",
+    "items":[
+      ["goggles_swim", 90],
+      ["sunglasses", 10]
+    ]
+  },
+  {
+    "id":"swimmer_torso",
+    "items":[
+      ["bikini_top", 50],
+      ["flotation_vest", 10]
+    ]
+  },
+  {
+    "id":"swimmer_pants",
+    "items":[
+      ["trunks", 80],
+      ["hot_pants", 30]
+    ]
+  },
+  {
+    "id":"swimmer_shoes",
+    "items":[
+      ["flip_flops", 80]
+    ]
+  },
+  {
+    "id":"swimmer_wetsuit",
+    "items":[
+        ["wetsuit", 90],
+        ["wetsuit_spring", 10]
+    ]
+  },
   { "id":"lab_shoes",
     "items":[
       ["sneakers", 80],

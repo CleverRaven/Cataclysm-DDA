@@ -1394,6 +1394,7 @@ t   t\n\
 ........................\n",
    mapf::basic_bind( "+ n . w", t_concrete, t_concrete, t_grass, t_water_dp ),
    mapf::basic_bind( "n", f_dive_block));
+   add_spawn(mon_zombie_swimmer, rng(1, 6), SEEX, SEEY);
  } break;
 
  case ot_park: {
