@@ -206,7 +206,7 @@ public:
  bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
- void siphon(game *g, vehicle *veh, ammotype desired_liquid);
+ bool siphon(game *g, vehicle *veh, ammotype desired_liquid);
  void cauterize(game *g);
  void suffer(game *g);
  void mend(game *g);
