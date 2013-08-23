@@ -667,10 +667,10 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 33, c_ltgray, "                                              ");
                         mvwprintz(w,  3, 33, col_tr, _("%s earns %d points"),
-                                  _(traits[vStartingTraits[iCurrentPage][i]].name.c_str()),
+                                  traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
                                   traits[vStartingTraits[iCurrentPage][i]].points * -1);
                         fold_and_print(w_description, 0, 0, 78, col_tr, "%s",
-                                       _(traits[vStartingTraits[iCurrentPage][i]].description.c_str()));
+                                       traits[vStartingTraits[iCurrentPage][i]].description.c_str());
                     }
 
                     nc_color cLine = col_off_pas;

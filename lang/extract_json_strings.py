@@ -129,3 +129,19 @@ with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
             tlcomment(name_jtl, '; '.join(tlinfo))
         writestr(name_jtl, "<name>" + item["name"])
 
+# data/raw/mutations.json
+with open(os.path.join(to_folder,"json_mutations.py"), 'w') as mut_jtl:
+    jsonfile = os.path.join(raw_folder, "mutations.json")
+    jsondata = json.loads(open(jsonfile).read())
+    for item in jsondata:
+        writestr(mut_jtl, item["name"])
+        writestr(mut_jtl, item["description"])
+
+# data/raw/dreams.json
+with open(os.path.join(to_folder,"json_dreams.py"), 'w') as dream_jtl:
+    jsonfile = os.path.join(raw_folder, "dreams.json")
+    jsondata = json.loads(open(jsonfile).read())
+    for item in jsondata:
+        for message in item["message"]:
+            writestr(dream_jtl, message)
+

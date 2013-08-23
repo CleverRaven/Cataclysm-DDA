@@ -896,7 +896,7 @@ void dis_effect(game *g, player &p, disease &dis)
 		{
 			// Select a dream
 			std::string dream = p.get_category_dream(highcat, strength);
-			g->add_msg(_("%s"),dream.c_str());
+			g->add_msg("%s",dream.c_str());
 		}
 	}
 

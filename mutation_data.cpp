@@ -23,11 +23,11 @@ void game::init_traits_mutations()
         std::string sMutation = cjMutation.get("id").as_string();
 
         trait new_trait;
-        new_trait.name = cjMutation.get("name").as_string();
+        new_trait.name = _(cjMutation.get("name").as_string().c_str());
         new_trait.points = cjMutation.get("points").as_int();
         new_trait.visiblity = cjMutation.get("visibility").as_int();
         new_trait.ugliness = cjMutation.get("ugliness").as_int();
-        new_trait.description = cjMutation.get("description").as_string();
+        new_trait.description = _(cjMutation.get("description").as_string().c_str());
         new_trait.startingtrait = false;
 
         if (cjMutation.has("starting_trait")) {
@@ -104,7 +104,7 @@ void game::init_dreams()
 		catajson messages = dreamcurr.get("message");
 		for (messages.set_begin(); messages.has_curr(); messages.next())
 		{
-			newdream.message.push_back(messages.curr().as_string());
+			newdream.message.push_back(_(messages.curr().as_string().c_str()));
 		}
 		newdream.strength		= dreamcurr.get("strength").as_int();
 		newdream.category		= dreamcurr.get("category").as_string();
