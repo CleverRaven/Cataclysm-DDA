@@ -1362,19 +1362,21 @@ void mattack::multi_robot(game *g, monster *z)
 
 void mattack::ratking(game *g, monster *z)
 {
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 10)
-  return;
- z->sp_timeout = z->type->sp_freq;	// Reset timer
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 50) {
+        return;
+    }
+    z->sp_timeout = z->type->sp_freq;    // Reset timer
 
- switch (rng(1, 5)) { // What do we say?
-  case 1: g->add_msg(_("\"YOU... ARE FILTH...\"")); break;
-  case 2: g->add_msg(_("\"VERMIN... YOU ARE VERMIN...\"")); break;
-  case 3: g->add_msg(_("\"LEAVE NOW...\"")); break;
-  case 4: g->add_msg(_("\"WE... WILL FEAST... UPON YOU...\"")); break;
-  case 5: g->add_msg(_("\"FOUL INTERLOPER...\"")); break;
- }
-
- g->u.add_disease("rat", 20);
+    switch (rng(1, 5)) { // What do we say?
+        case 1: g->add_msg(_("\"YOU... ARE FILTH...\"")); break;
+        case 2: g->add_msg(_("\"VERMIN... YOU ARE VERMIN...\"")); break;
+        case 3: g->add_msg(_("\"LEAVE NOW...\"")); break;
+        case 4: g->add_msg(_("\"WE... WILL FEAST... UPON YOU...\"")); break;
+        case 5: g->add_msg(_("\"FOUL INTERLOPER...\"")); break;
+    }
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) <= 10) {
+        g->u.add_disease("rat", 30);
+    }
 }
 
 void mattack::generator(game *g, monster *z)
