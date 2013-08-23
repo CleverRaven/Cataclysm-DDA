@@ -10933,7 +10933,7 @@ void game::vertical_move(int movez, bool force)
      // Let go of a grabbed cart.
      u.grab_point.x = 0;
      u.grab_point.y = 0;
- } else {
+ } else if( u.grab_point.x != 0 || u.grab_point.y != 0 ) {
      // TODO: Warp the cart along with you if you're on an elevator
      add_msg(_("You can't drag things up and down stairs."));
      return;
