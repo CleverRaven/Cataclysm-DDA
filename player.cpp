@@ -644,7 +644,65 @@ void player::update_bodytemp(game *g)
     const trap_id trap_at_pos = g->m.tr_at(posx, posy);
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     const furn_id furn_at_pos = g->m.furn(posx, posy);
+    // When the player is sleeping, he will use floor items for warmth
+    int floor_item_warmth = 0;
+    // When the player is sleeping, he will use floor bedding for warmth
+    int floor_bedding_warmth = 0;
+    if ( has_disease("sleep") ) {
+        // Search the floor for items
+        std::vector<item>& floor_item = g->m.i_at(posx, posy);
+        it_armor* floor_armor = NULL;
 
+        for ( std::vector<item>::iterator afloor_item = floor_item.begin() ;
+        afloor_item != floor_item.end() ;
+        ++afloor_item) {
+            if ( !afloor_item->is_armor() ) {
+                continue;
+            }
+            floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
+            // Items that are big enough and covers the torso are used to keep warm.
+            // Smaller items don't do as good a job
+            if ( floor_armor->volume > 1 &&
+            ((floor_armor->covers & mfb(bp_torso)) ||
+             (floor_armor->covers & mfb(bp_legs))) ) {
+                floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
+            }
+        }
+
+        // Search the floor for bedding
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at (posx, posy, vpart);
+        if      (furn_at_pos == f_bed)
+        {
+            floor_bedding_warmth += 1000;
+        }
+        else if (furn_at_pos == f_makeshift_bed ||
+                 furn_at_pos == f_armchair ||
+                 furn_at_pos == f_sofa)
+        {
+            floor_bedding_warmth += 500;
+        }
+        else if (trap_at_pos == tr_cot)
+        {
+            floor_bedding_warmth -= 500;
+        }
+        else if (trap_at_pos == tr_rollmat)
+        {
+            floor_bedding_warmth -= 1000;
+        }
+        else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
+        {
+            floor_bedding_warmth += 200;
+        }
+        else if (veh && veh->part_with_feature (vpart, vpf_bed) >= 0)
+        {
+            floor_bedding_warmth += 300;
+        }
+        else
+        {
+            floor_bedding_warmth -= 2000;
+        }
+    }
     // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
@@ -662,41 +720,6 @@ void player::update_bodytemp(game *g)
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
-        else
-        {
-            int vpart = -1;
-            vehicle *veh = g->m.veh_at (posx, posy, vpart);
-            if      (furn_at_pos == f_bed)
-            {
-                temp_conv[i] += 1000;
-            }
-            else if (furn_at_pos == f_makeshift_bed ||
-                     furn_at_pos == f_armchair ||
-                     furn_at_pos == f_sofa)
-            {
-                temp_conv[i] += 500;
-            }
-            else if (trap_at_pos == tr_cot)
-            {
-                temp_conv[i] -= 500;
-            }
-            else if (trap_at_pos == tr_rollmat)
-            {
-                temp_conv[i] -= 1000;
-            }
-            else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
-            {
-                temp_conv[i] += 200;
-            }
-            else if (veh && veh->part_with_feature (vpart, vpf_bed) >= 0)
-            {
-                temp_conv[i] += 300;
-            }
-            else
-            {
-                temp_conv[i] -= 2000;
-            }
-        }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
         for (int j = -6 ; j <= 6 ; j++)
@@ -853,6 +876,21 @@ void player::update_bodytemp(game *g)
         // Chemical Imbalance
         // Added linse in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
+        if ( has_disease("sleep") ) {
+            int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
+            // Too warm, don't need items on the floor
+            if ( temp_conv[i] > BODYTEMP_NORM ) {
+                // Do nothing
+            }
+            // Intelligently use items on the floor; just enough to be comfortable
+            else if ( (temp_conv[i] + sleep_bonus) > BODYTEMP_NORM ) {
+                temp_conv[i] = BODYTEMP_NORM;
+            }
+            // Use all items on the floor -- there are not enough to keep comfortable
+            else {
+                temp_conv[i] += sleep_bonus;
+            }
+        }
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
@@ -7670,6 +7708,42 @@ bool player::can_sleep(game *g)
  if (sleepy > 0)
   return true;
  return false;
+}
+
+std::string player::is_snuggling(game *g)
+{
+    std::vector<item>& floor_item = g->m.i_at(posx, posy);
+    it_armor* floor_armor = NULL;
+    int ticker = 0;
+
+    // If there are no items on the floor, return nothing
+    if ( floor_item.size() == 0 ) {
+        return "nothing";
+    }
+
+    for ( std::vector<item>::iterator afloor_item = floor_item.begin() ; afloor_item != floor_item.end() ; ++afloor_item) {
+        if ( !afloor_item->is_armor() ) {
+            continue;
+        }
+        else if ( afloor_item->volume() > 1 &&
+        (dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_torso) ||
+         dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_legs)) ){
+            floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
+            ticker++;
+        }
+    }
+
+    if ( ticker == 0 ) {
+        return "nothing";
+    }
+    else if ( ticker == 1 ) {
+        return floor_armor->name.c_str();
+    }
+    else if ( ticker > 1 ) {
+        return "many";
+    }
+
+    return "nothing";
 }
 
 // Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
