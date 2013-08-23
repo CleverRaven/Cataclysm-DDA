@@ -2679,6 +2679,10 @@ if(it->type->id == "cot"){
   message << _("You place the funnel, waiting to collect rain.");
   type = tr_funnel;
   practice = 0;
+  } else if(it->type->id == "makeshift_funnel"){
+  message << _("You place the makeshift funnel, waiting to collect rain.");
+  type = tr_makeshift_funnel;
+  practice = 0;
  } else if(it->type->id == "tripwire"){
 // Must have a connection between solid squares.
   if ((g->m.move_cost(posx    , posy - 1) != 2 &&

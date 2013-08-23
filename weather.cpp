@@ -20,9 +20,7 @@ void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
     int funnel_radius_mm = 0;
     switch (t) {
         case tr_funnel:             funnel_radius_mm = 380; break;
-        // TODO: Add a recipe for creating a makeshift funnel (from a plastic
-        // bottle) with a radius of just 1.5 inches (38 mm).
-        //case tr_makeshift_funnel:   funnel_radius_mm = 38; break;
+        case tr_makeshift_funnel:   funnel_radius_mm =  38; break;
         default: return;
     }
 
@@ -125,6 +123,7 @@ void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
 void fill_water_collectors(game *g, int mmPerHour, bool acid)
 {
     fill_funnels(g, mmPerHour, acid, tr_funnel);
+    fill_funnels(g, mmPerHour, acid, tr_makeshift_funnel);
 }
 
 void decay_fire_and_scent(game *g, int fire_amount)
