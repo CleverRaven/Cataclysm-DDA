@@ -228,6 +228,7 @@
       ["nailgun", 12],
       ["solar_cell", 5],
       ["manual_mechanics", 35],
+      ["manual_fabrication", 20],
       ["hammer", 35],
       ["flashlight", 40],
       ["soldering_iron", 30],
@@ -280,6 +281,7 @@
       ["novel_mystery", 25],
       ["ZSG", 5],
       ["manual_mechanics", 35],
+      ["manual_fabrication", 12],
       ["manual_speech", 50],
       ["manual_business", 40],
       ["manual_computers", 20],
@@ -549,7 +551,8 @@
       ["mag_throwing", 20],
       ["mag_gaming", 20],
       ["mag_swimming", 10],
-      ["flyer", 10]
+      ["flyer", 10],
+      ["mag_fabrication", 30]
     ]
   },
   { "id":"softdrugs",
@@ -722,13 +725,16 @@
       ["nailgun", 12],
       ["manual_mechanics", 35],
       ["manual_carpentry", 10],
+      ["manual_fabrication", 20],
       ["mag_carpentry", 30],
+      ["mag_fabrication", 12],
       ["duct_tape", 60],
       ["lawnmower", 25],
       ["boltcutters", 5],
       ["foot_crank", 10],
       ["cable", 60],
       ["textbook_mechanics", 12],
+      ["textbook_fabrication", 12],
       ["vac_sealer", 10]
     ]
   },
@@ -1374,6 +1380,7 @@
       ["manual_tailor", 15],
       ["manual_traps", 12],
       ["manual_carpentry", 10],
+      ["manual_fabrication", 20],
       ["manual_survival", 20]
     ]
   },
@@ -1386,7 +1393,8 @@
       ["textbook_carpentry", 6],
       ["SICP", 3],
       ["textbook_robots", 1],
-      ["textbook_mechanics", 12]
+      ["textbook_mechanics", 12],
+      ["textbook_fabrication", 12]
     ]
   },
   { "id":"cop_shoes",
@@ -1572,6 +1580,7 @@
       ["manual_business", 40],
       ["textbook_business", 12],
       ["manual_computers", 20],
+      ["mag_fabrication", 12],
       ["textbook_computers", 8],
       ["lighter", 60],
       ["matches", 60],
@@ -1603,6 +1612,7 @@
       ["battery", 50],
       ["mag_news", 35],
       ["manual_computers", 20],
+      ["manual_fabrication", 30],
       ["usb_drive", 5],
       ["mag_tv", 40],
       ["manual_mechanics", 35],
@@ -1804,6 +1814,7 @@
       ["mag_guns", 20],
       ["manual_brawl", 30],
       ["manual_knives", 12],
+      ["manual_fabrication", 12],
       ["cot", 40],
       ["manual_mechanics", 35],
       ["manual_first_aid", 40],
