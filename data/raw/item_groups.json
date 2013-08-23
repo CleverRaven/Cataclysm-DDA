@@ -167,7 +167,7 @@
       ["jar_glass", 50],
       ["jar_3l_glass", 40],
       ["cheese", 40],
-      ["can_cheese", 8],
+      ["can_cheese", 8]
     ]
   },
   { "id":"knifeblock",
@@ -615,7 +615,7 @@
       ["soup_meat", 15],
       ["flour", 20],
       ["sugar", 20],
-      ["can_cheese", 40]
+      ["can_cheese", 40],
       ["salt", 20]
     ]
   },
@@ -1184,8 +1184,8 @@
       ["v29_cheap", 8],
       ["rm51_assault_rifle", 1],
       ["rm99_pistol", 1],
-      ["rm103a_pistol", 1]
-      ["blowgun", 5],
+      ["rm103a_pistol", 1],
+      ["blowgun", 5]
     ]
   },
   { "id":"gunxtras",
