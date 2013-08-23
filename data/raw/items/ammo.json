@@ -202,7 +202,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "dart",
-        "damage" : 10,
+        "damage" : 1,
         "pierce" : 0,
         "range" : 30,
         "dispersion" : 5,

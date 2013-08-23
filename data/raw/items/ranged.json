@@ -148,7 +148,7 @@
     "bashing": 8,
     "cutting": 0,
     "to_hit": 3,
-    "ranged_damage": 2,
+    "ranged_damage": 0,
     "range": 0,
     "dispersion": 5,
     "recoil": 0,
