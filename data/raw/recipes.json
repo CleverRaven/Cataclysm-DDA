@@ -333,6 +333,37 @@
 },
 
 {
+  "result": "blowgun",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hatchet", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ]
+    ],
+    [
+      [ "superglue", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "spear_wood",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
@@ -1525,6 +1556,34 @@
     ],
     [
       [ "power_supply", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "dart",
+  "category": "CC_AMMO",
+
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hatchet", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ]
     ]
   ]
 },
