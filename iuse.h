@@ -102,6 +102,8 @@ class iuse
   void pipebomb_act	(game *g, player *p, item *it, bool t);
   void grenade		(game *g, player *p, item *it, bool t);
   void grenade_act	(game *g, player *p, item *it, bool t);
+  void granade		(game *g, player *p, item *it, bool t);
+  void granade_act	(game *g, player *p, item *it, bool t);
   void flashbang	(game *g, player *p, item *it, bool t);
   void flashbang_act	(game *g, player *p, item *it, bool t);
   void c4    		(game *g, player *p, item *it, bool t);
