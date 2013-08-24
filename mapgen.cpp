@@ -831,7 +831,6 @@ t   t\n\
    if (one_in(2)) {
     int vx = rng (10, 12);
     int vy = rng (10, 12);
-    int rc = rng(1, 10);
     int rc = rng(1, 11);
     if (rc <= 4)
         add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
