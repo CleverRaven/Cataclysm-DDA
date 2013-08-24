@@ -1130,9 +1130,7 @@ void game::init_vehicles()
     PART (0, -1,     vp_seatbelt);
     PART (0, -1,     vp_roof);
     PART (0, -2,     vp_door);
-    PART (0, -2, vp_steel_plate);
     PART (0, 2,       vp_door);
-    PART (0, 2, vp_steel_plate);
     PART (1, -1, vp_frame_h);
     PART (1, -1, vp_head_light);
     PART (1, -1, vp_reinforced_windshield);
@@ -1180,9 +1178,7 @@ void game::init_vehicles()
     PART (-1, -1,     vp_seatbelt);
     PART (-1, -1,     vp_roof);
     PART (-1, -2,     vp_door);
-    PART (-1, -2, vp_steel_plate);
     PART (-1, 2,       vp_door);
-    PART (-1, 2, vp_steel_plate);
     PART (-2, -1, vp_frame_v2);
     PART (-2, -1, vp_steel_plate);
     PART (-2, -1, vp_cargo_trunk);
