@@ -2679,6 +2679,10 @@ if(it->type->id == "cot"){
   message << _("You place the funnel, waiting to collect rain.");
   type = tr_funnel;
   practice = 0;
+  } else if(it->type->id == "makeshift_funnel"){
+  message << _("You place the makeshift funnel, waiting to collect rain.");
+  type = tr_makeshift_funnel;
+  practice = 0;
  } else if(it->type->id == "tripwire"){
 // Must have a connection between solid squares.
   if ((g->m.move_cost(posx    , posy - 1) != 2 &&
@@ -2881,7 +2885,7 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
   if (tries < 10) {
    if (g->u_see(goox, gooy))
     g->add_msg(_("A nearby splatter of goo forms into a goo pit."));
-   g->m.tr_at(goox, gooy) = tr_goo;
+   g->m.add_trap(goox, gooy, tr_goo);
   }
  }
 }

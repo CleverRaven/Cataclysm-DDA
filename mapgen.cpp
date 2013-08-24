@@ -1394,6 +1394,7 @@ t   t\n\
 ........................\n",
    mapf::basic_bind( "+ n . w", t_concrete, t_concrete, t_grass, t_water_dp ),
    mapf::basic_bind( "n", f_dive_block));
+   add_spawn(mon_zombie_swimmer, rng(1, 6), SEEX, SEEY);
  } break;
 
  case ot_park: {
@@ -12685,7 +12686,7 @@ void map::rotate(int turns)
    ter_set(i, j, rotated[i][j]);
    furn_set(i, j, furnrot[i][j]);
    i_at (i, j) = itrot  [i][j];
-   tr_at(i, j) = traprot[i][j];
+   add_trap(i, j, traprot[i][j]);
    if (turns % 2 == 1) { 	// Rotate things like walls 90 degrees
     if (ter(i, j) == t_wall_v)
      ter_set(i, j, t_wall_h);
@@ -13129,19 +13130,19 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     trapy = rng(y1 + 1, y2 - 1);
    } while(!one_in(5));
    if (rotate == 0) {
-    m->tr_at(x1, y2) = tr_null;
+    m->remove_trap(x1, y2);
     m->furn_set(x1, y2, f_fridge);
     m->place_items("goo", 60, x1, y2, x1, y2, false, 0);
    } else if (rotate == 1) {
-    m->tr_at(x1, y1) = tr_null;
+    m->remove_trap(x1, y1);
     m->furn_set(x1, y1, f_fridge);
     m->place_items("goo", 60, x1, y1, x1, y1, false, 0);
    } else if (rotate == 2) {
-    m->tr_at(x2, y1) = tr_null;
+    m->remove_trap(x2, y1);
     m->furn_set(x2, y1, f_fridge);
     m->place_items("goo", 60, x2, y1, x2, y1, false, 0);
    } else {
-    m->tr_at(x2, y2) = tr_null;
+    m->remove_trap(x2, y2);
     m->furn_set(x2, y2, f_fridge);
     m->place_items("goo", 60, x2, y2, x2, y2, false, 0);
    }

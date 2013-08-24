@@ -3415,7 +3415,8 @@
   ],
   "components": [
     [
-      [ "water_acid", 1 ]
+      [ "water_acid", 1 ],
+      [ "water_acid_weak", 2 ]
     ]
   ]
 },
@@ -8333,6 +8334,34 @@
     [
       [ "leather", 6 ],
       [ "fur", 6 ]
+    ]
+  ]
+},
+
+{
+  "result": "makeshift_funnel",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bottle_plastic", 1 ]
     ]
   ]
 },
