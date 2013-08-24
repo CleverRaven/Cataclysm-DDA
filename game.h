@@ -144,11 +144,11 @@ class game
   void resonance_cascade(int x, int y);
   void scrambler_blast(int x, int y);
   void emp_blast(int x, int y);
-  int  npc_at(int x, int y);	// Index of the npc at (x, y); -1 for none
-  int  npc_by_id(int id);	// Index of the npc at (x, y); -1 for none
+  int  npc_at(const int x, const int y) const;	// Index of the npc at (x, y); -1 for none
+  int  npc_by_id(const int id) const;	// Index of the npc at (x, y); -1 for none
  // void build_monmap();		// Caches data for mon_at()
-  int  mon_at(int x, int y);	// Index of the monster at (x, y); -1 for none
-  bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
+  int  mon_at(const int x, const int y) const;	// Index of the monster at (x, y); -1 for none
+  bool is_empty(const int x, const int y);	// True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
   bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
 // Kill that monster; fixes any pointers etc

@@ -70,6 +70,30 @@ class cOpt
             iSet = iDefaultIn;
         };
 
+        //float constructor
+        cOpt(const int iPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+             const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn) {
+            iPage = iPageIn;
+            sMenuText = sMenuTextIn;
+            sTooltip = sTooltipIn;
+            sType = "float";
+
+            if (fMinIn > fMaxIn) {
+                fMaxIn = fMinIn;
+            }
+
+            fMin = fMinIn;
+            fMax = fMaxIn;
+            fStep = fStepIn;
+
+            if (fDefaultIn < fMinIn || fDefaultIn > fMaxIn) {
+                fDefaultIn = fMinIn ;
+            }
+
+            fDefault = fDefaultIn;
+            fSet = fDefaultIn;
+        };
+
         //Default deconstructor
         ~cOpt() {};
 
@@ -101,6 +125,12 @@ class cOpt
                 std::stringstream ssTemp;
                 ssTemp << iSet;
                 return ssTemp.str();
+
+            } else if (sType == "float") {
+                std::stringstream ssTemp;
+                ssTemp.precision(2);
+                ssTemp << std::fixed << fSet;
+                return ssTemp.str();
             }
 
             return "";
@@ -123,6 +153,11 @@ class cOpt
             } else if (sType == "int") {
                 std::stringstream ssTemp;
                 ssTemp << iDefault << " - Min: " << iMin << ", Max: " << iMax;
+                return ssTemp.str();
+
+            } else if (sType == "float") {
+                std::stringstream ssTemp;
+                ssTemp << fDefault << " - Min: " << fMin << ", Max: " << fMax;
                 return ssTemp.str();
             }
 
@@ -159,6 +194,12 @@ class cOpt
                 if (iSet > iMax) {
                     iSet = iMin;
                 }
+
+            } else if (sType == "float") {
+                fSet += fStep;
+                if (fSet > fMax) {
+                    fSet = fMin;
+                }
             }
         };
 
@@ -180,6 +221,12 @@ class cOpt
                 if (iSet < iMin) {
                     iSet = iMax;
                 }
+
+            } else if (sType == "float") {
+                fSet -= fStep;
+                if (fSet < fMin) {
+                    fSet = fMax;
+                }
             }
         };
 
@@ -195,22 +242,28 @@ class cOpt
 
             } else if (sType == "int") {
                 iSet = atoi(sSetIn.c_str());
+
+            } else if (sType == "float") {
+                fSet = atof(sSetIn.c_str());
             }
         };
 
-        //Set default class behaviour to int
-        operator int() const {
+        //Set default class behaviour to float
+        operator float() const {
             if (sType == "string") {
-                return (sSet != "" && sSet == sDefault) ? 1 : 0;
+                return (sSet != "" && sSet == sDefault) ? 1.0 : 0.0;
 
             } else if (sType == "bool") {
-                return (bSet) ? 1 : 0;
+                return (bSet) ? 1.0 : 0.0;
 
             } else if (sType == "int") {
-                return iSet;
+                return (float)iSet;
+
+            } else if (sType == "float") {
+                return fSet;
             }
 
-            return 0;
+            return 0.0;
         };
 
         // if (class == "string")
@@ -247,6 +300,13 @@ class cOpt
         int iMin;
         int iMax;
         int iDefault;
+
+        //sType == "float"
+        float fSet;
+        float fMin;
+        float fMax;
+        float fDefault;
+        float fStep;
 };
 
 extern std::map<std::string, cOpt> OPTIONS;
