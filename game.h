@@ -151,6 +151,7 @@ class game
   bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
   bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
+  bool is_in_ice_lab
 // Kill that monster; fixes any pointers etc
   void kill_mon(int index, bool player_did_it = false);
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier

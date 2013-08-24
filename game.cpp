@@ -5716,6 +5716,21 @@ bool game::is_in_sunlight(int x, int y)
          (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
 }
 
+bool game::is_in_ice_lab()
+{
+    point cur_loc = om_location();
+    oter_id cur_ter = cur_om->ter(cur_loc.x, cur_loc.y, levz);
+    std::string tername = oterlist[cur_ter];
+    bool is_in_ice_lab = false;
+
+    if (tername == ot_ice_lab      || tername == ot_ice_lab_stairs ||
+        tername == ot_ice_lab_core || tername == ot_ice_lab_finale) {
+        is_in_ice_lab = true;
+    }
+
+    return is_in_ice_lab;
+}
+
 void game::kill_mon(int index, bool u_did_it)
 {
  if (index < 0 || index >= z.size()) {
