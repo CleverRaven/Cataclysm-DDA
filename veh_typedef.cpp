@@ -1,5 +1,7 @@
 #include "vehicle.h"
 #include "game.h"
+#include "item_factory.h"
+#include "catajson.h"
 
 // GENERAL GUIDELINES
 // When adding a new vehicle, you MUST REMEMBER to insert it in the vhtype_id enum
@@ -26,6 +28,54 @@
 //  vpart_id enum in veh_type.h file
 // If you use wrong config, installation of part will fail
 
+vpart_info vpart_list[num_vparts];
+
+// Note on the 'symbol' flag in vehicle parts -
+// the following symbols will be translated:
+// y, u, n, b to NW, NE, SE, SW lines correspondingly
+// h, j, c to horizontal, vertical, cross correspondingly
+/**
+ * Reads in the vehicle parts from a json file.
+ */
+void game::init_vehicle_parts()
+{
+  catajson vehicle_parts_json("data/raw/vehicle_parts.json", true);
+
+  if (!json_good()) {
+    throw (std::string)"data/raw/vehicle_parts.json wasn't found";
+  }
+
+  unsigned int index = 0;
+  for (vehicle_parts_json.set_begin(); vehicle_parts_json.has_curr() && json_good(); vehicle_parts_json.next())
+  {
+    catajson next_json = vehicle_parts_json.curr();
+    vpart_info next_part;
+
+    next_part.name = next_json.get("name").as_string();
+    next_part.sym = next_json.get("symbol").as_char();
+    next_part.color = color_from_string(next_json.get("color").as_string());
+    next_part.sym_broken = next_json.get("broken_symbol").as_char();
+    next_part.color_broken = color_from_string(next_json.get("broken_color").as_string());
+    next_part.dmg_mod = next_json.get("damage_modifier").as_int();
+    next_part.durability = next_json.get("durability").as_int();
+    next_part.par1 = next_json.get("par1").as_int();
+    next_part.par2 = next_json.get("par2").as_int();
+    next_part.fuel_type = next_json.get("fuel_type").as_string();
+    next_part.item = next_json.get("item").as_string();
+    next_part.difficulty = next_json.get("difficulty").as_int();
+    next_part.flags = next_json.get("flags").as_tags();
+
+    vpart_list[index] = next_part;
+
+    index++;
+  }
+
+  if(!json_good()) {
+    exit(1);
+  }
+
+}
+
 void game::init_vehicles()
 {
     vehicle *veh;
@@ -36,7 +86,7 @@ void game::init_vehicles()
 
 #define VEHICLE(nm) { veh = new vehicle(this, (vhtype_id)index++); veh->name = nm; vtypes.push_back(veh); }
 #define PART(mdx, mdy, id) { pi = veh->install_part(mdx, mdy, id); \
-    if (pi < 0) debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d", veh->name.c_str(), vpart_list[id].name, veh->parts.size(), mdx, mdy); }
+    if (pi < 0) debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d", veh->name.c_str(), vpart_list[id].name.c_str(), veh->parts.size(), mdx, mdy); }
 
     //        name
     VEHICLE (_("Bicycle"));
