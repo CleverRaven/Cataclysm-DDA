@@ -151,7 +151,7 @@ class game
   bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
   bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
-  bool is_in_ice_lab(int x, int y);
+  bool is_in_ice_lab(point location);
 // Kill that monster; fixes any pointers etc
   void kill_mon(int index, bool player_did_it = false);
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
@@ -269,7 +269,7 @@ class game
 
   calendar turn;
   signed char temperature;              // The air temperature
-  int get_temperature(int x, int y);    // Returns outdoor or indoor temperature
+  int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;			// Weather pattern--SEE weather.h
 
   std::list<weather_segment> future_weather;

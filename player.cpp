@@ -639,7 +639,7 @@ void player::update_bodytemp(game *g)
 {
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
-    int Ctemperature = 100*(g->get_temperature(u.posx, u.posy) - 32) * 5/9;
+    int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
@@ -977,7 +977,7 @@ void player::update_bodytemp(game *g)
         {
             frostbite_timer[i]--;
         }
-        if      (frostbite_timer[i] >= 240 && g->get_temperature(u.posx, u.posy) < 32)
+        if      (frostbite_timer[i] >= 240 && g->get_temperature() < 32)
         {
             add_disease(dis_type(frost_pen), 1, 2, 2);
             // Warning message for the player
@@ -986,7 +986,7 @@ void player::update_bodytemp(game *g)
             {
                 g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
-            else if (frostbite_timer[i] >= 120 && g->get_temperature(u.posx, u.posy) < 32)
+            else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
             {
                 add_disease(dis_type(frost_pen), 1, 1, 2);
                 // Warning message for the player
@@ -1102,12 +1102,12 @@ int player::current_speed(game *g)
  if (g != NULL) {
   if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy))
    newmoves -= (g->light_level() >= 12 ? 5 : 10);
-  if (has_trait("COLDBLOOD3") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 2);
-  else if (has_trait("COLDBLOOD2") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 3);
-  else if (has_trait("COLDBLOOD") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 5);
+  if (has_trait("COLDBLOOD3") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 2);
+  else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 3);
+  else if (has_trait("COLDBLOOD") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 5);
  }
 
  if (has_artifact_with(AEP_SPEED_UP))
@@ -2256,13 +2256,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   line++;
  }
  if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
-      has_trait("COLDBLOOD3")) && g->temperature < 65) {
+      has_trait("COLDBLOOD3")) && g->get_temperature() < 65) {
   if (has_trait("COLDBLOOD3"))
-   pen = int( (65 - g->temperature) / 2);
+   pen = int( (65 - g->get_temperature()) / 2);
   else if (has_trait("COLDBLOOD2"))
-   pen = int( (65 - g->temperature) / 3);
+   pen = int( (65 - g->get_temperature()) / 3);
   else
-   pen = int( (65 - g->temperature) / 2);
+   pen = int( (65 - g->get_temperature()) / 2);
   mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -4752,7 +4752,7 @@ void player::drench(game *g, int saturation, int flags) {
   int morale_cap;
 
   if (wantsDrench) {
-    morale_cap = (g->temperature - 60) * saturation / 100;
+    morale_cap = (g->get_temperature() - 60) * saturation / 100;
   } else {
     morale_cap = -(saturation / 2);
   }

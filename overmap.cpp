@@ -505,10 +505,10 @@ void game::init_overmap()
     {_("science lab"),		'L',	c_blue,		5, no_extras, true, false, 0},
     {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0},
     {_("science lab"),		'L',	c_cyan,		5, no_extras, false, false, 0},
-    {_("science lab"),		'L',	c_cyan,	    5, no_extras, false, false, 0}, // Ice lab start
-    {_("science lab"),		'L',	c_ltblue,	5, no_extras, true, false, 0},
-    {_("science lab"),		'L',	c_cyan,	    5, no_extras, false, false, 0},
-    {_("science lab"),		'L',	c_blue,		5, no_extras, false, false, 0},
+    {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0}, // Ice lab start
+    {_("science lab"),		'L',	c_blue,		5, no_extras, true, false, 0},
+    {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0},
+    {_("science lab"),		'L',	c_cyan,		5, no_extras, false, false, 0},
     {_("nuclear plant"),	'P',	c_ltgreen,	5, no_extras, false, false, 0},
     {_("nuclear plant"),	'P',	c_ltgreen,	5, no_extras, false, false, 0},
     {_("military bunker"),	'B',	c_dkgray,	2, no_extras, true, true, 0},
