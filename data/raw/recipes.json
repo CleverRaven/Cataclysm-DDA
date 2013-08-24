@@ -11394,7 +11394,179 @@
       [ "salt", 1 ], [ "salt_water", 1 ]
     ]
   ]
+},
+{
+  "result": "lsurvivor_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 5,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "soldering_iron", 28 ],
+      [ "toolset", 2 ]
+      ],
+	  [
+      [ "needle_bone", 100 ],
+      [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rag", 30 ]
+      ],
+      [
+      [ "coat_rain", 1 ]
+      ],
+      [
+      [ "chestrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 6 ],
+      [ "leather_pouch", 4 ],
+      [ "fanny", 2 ]
+      ],
+      [
+      [ "duct_tape", 200 ]
+      ],
+      [
+      [ "kevlar", 1 ],
+      [ "swat_armor", 1 ]
+      ]
+  ]
+},
+{
+  "result": "survivor_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
+  "difficulty": 6,
+  "time": 240000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "soldering_iron", 28 ],
+      [ "toolset", 2 ]
+      ],
+	  [
+      [ "needle_bone", 150 ],
+      [ "sewing_kit", 150 ]
+      ]
+  ],
+  "components": [
+      [
+      [ "rag", 20 ]
+      ],
+      [
+      [ "leather", 20 ]
+      ],
+      [
+      [ "coat_rain", 1 ]
+      ],
+      [
+      [ "chestrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 6 ],
+      [ "leather_pouch", 4 ],
+      [ "fanny", 2 ]
+      ],
+      [
+      [ "duct_tape", 300 ]
+      ],
+      [
+      [ "kevlar", 1 ],
+      [ "swat_armor", 1 ]
+      ]
+  ]
+},
+{
+  "result": "hsurvivor_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 7,
+  "time": 360000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4
+	  ]
+    ],
+	[
+      [ "needle_bone", 200 ],
+      [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rag", 20 ]
+      ],
+      [
+      [ "leather", 20 ]
+      ],
+      [
+      [ "steel_chunk", 4 ],
+      [ "scrap", 8 ]
+      ],
+      [
+      [ "coat_rain", 1 ]
+      ],
+      [
+      [ "chestrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 6 ],
+      [ "leather_pouch", 4 ],
+      [ "fanny", 2 ]
+      ],
+      [
+      [ "duct_tape", 300 ]
+      ],
+      [
+      [ "kevlar", 1 ],
+      [ "swat_armor", 1 ]
+      ]
+  ]
 }
-
 ]
 }
