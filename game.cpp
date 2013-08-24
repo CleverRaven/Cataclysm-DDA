@@ -1197,12 +1197,13 @@ void game::update_weather()
     }
 }
 
-int game::get_temperature(int x, int y)
+int game::get_temperature()
 {
+    point location = om_location();
     int tmp_temperature = temperature;
 
-    if ( is_in_ice_lab(x, y) ) {
-        tmp_temperature = 20 + 40*levz
+    if ( is_in_ice_lab(location) && levz < 0) {
+        tmp_temperature = 20 + 40*levz;
     }
 
     return tmp_temperature;
@@ -3840,7 +3841,7 @@ void game::draw()
     }
 
     nc_color col_temp = c_blue;
-    int display_temp = get_temperature(u.posx, u.posy);
+    int display_temp = get_temperature();
     if (display_temp >= 90) {
         col_temp = c_red;
     } else if (display_temp >= 75) {
@@ -5728,15 +5729,13 @@ bool game::is_in_sunlight(int x, int y)
          (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
 }
 
-bool game::is_in_ice_lab()
+bool game::is_in_ice_lab(point location)
 {
-    point cur_loc = om_location();
-    oter_id cur_ter = cur_om->ter(cur_loc.x, cur_loc.y, levz);
-    std::string tername = oterlist[cur_ter];
+    oter_id cur_ter = cur_om->ter(location.x, location.y, levz);
     bool is_in_ice_lab = false;
 
-    if (tername == ot_ice_lab      || tername == ot_ice_lab_stairs ||
-        tername == ot_ice_lab_core || tername == ot_ice_lab_finale) {
+    if (cur_ter == ot_ice_lab      || cur_ter == ot_ice_lab_stairs ||
+        cur_ter == ot_ice_lab_core || cur_ter == ot_ice_lab_finale) {
         is_in_ice_lab = true;
     }
 
