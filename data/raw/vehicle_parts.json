@@ -6,7 +6,6 @@
         "broken_symbol": "?",
         "broken_color": "red",
         "durability": 100,
-        "par1": 0,
         "item": "NULL",
         "difficulty": 0,
         "flags": []
@@ -19,7 +18,6 @@
         "broken_color": "red",
         "damage_modifier": 60,
         "durability": 300,
-        "par1": 0,
         "item": "seat",
         "difficulty": 1,
         "flags": [
@@ -34,7 +32,6 @@
         "broken_color": "red",
         "damage_modifier": 20,
         "durability": 200,
-        "par1": 0,
         "item": "saddle",
         "difficulty": 1,
         "flags": [
@@ -49,7 +46,6 @@
         "broken_color": "magenta",
         "damage_modifier": 60,
         "durability": 300,
-        "par1": 0,
         "item": "seat",
         "difficulty": 1,
         "flags": [
@@ -63,7 +59,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -77,7 +72,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -91,7 +85,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -105,7 +98,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -119,7 +111,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -133,7 +124,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -147,7 +137,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -161,7 +150,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -175,7 +163,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -189,7 +176,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -203,7 +189,6 @@
         "broken_symbol": "#",
         "broken_color": "light_cyan",
         "durability": 300,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -217,7 +202,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 1000,
-        "par1": 0,
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -231,7 +215,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 1000,
-        "par1": 0,
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -245,7 +228,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 1000,
-        "par1": 0,
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -259,7 +241,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 1000,
-        "par1": 0,
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -273,7 +254,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 1000,
-        "par1": 0,
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -287,7 +267,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 1000,
-        "par1": 0,
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -301,7 +280,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -315,7 +293,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -329,7 +306,6 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
-        "par1": 0,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -343,7 +319,6 @@
         "broken_symbol": "#",
         "broken_color": "dark_gray",
         "durability": 1000,
-        "par1": 0,
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -358,7 +333,6 @@
         "broken_color": "cyan",
         "damage_modifier": 80,
         "durability": 200,
-        "par1": 0,
         "item": "frame",
         "difficulty": 2,
         "flags": [
@@ -373,7 +347,6 @@
         "broken_color": "cyan",
         "damage_modifier": 80,
         "durability": 200,
-        "par1": 0,
         "item": "frame",
         "difficulty": 2,
         "flags": [
@@ -388,7 +361,6 @@
         "broken_color": "cyan",
         "damage_modifier": 75,
         "durability": 75,
-        "par1": 0,
         "item": "frame",
         "difficulty": 2,
         "flags": [
@@ -403,7 +375,6 @@
         "broken_color": "light_gray",
         "damage_modifier": 70,
         "durability": 50,
-        "par1": 0,
         "item": "glass_sheet",
         "difficulty": 1,
         "flags": [
@@ -418,7 +389,6 @@
         "broken_color": "white",
         "damage_modifier": 250,
         "durability": 100,
-        "par1": 0,
         "item": "blade",
         "difficulty": 2,
         "flags": [
@@ -433,7 +403,6 @@
         "broken_color": "white",
         "damage_modifier": 350,
         "durability": 100,
-        "par1": 0,
         "item": "blade",
         "difficulty": 2,
         "flags": [
@@ -448,7 +417,6 @@
         "broken_color": "white",
         "damage_modifier": 300,
         "durability": 100,
-        "par1": 0,
         "item": "spike",
         "difficulty": 2,
         "flags": [
@@ -463,7 +431,7 @@
         "broken_color": "light_gray",
         "damage_modifier": 50,
         "durability": 200,
-        "par1": 9,
+        "wheel_width": 9,
         "item": "wheel",
         "difficulty": 4,
         "flags": [
@@ -478,7 +446,7 @@
         "broken_color": "light_gray",
         "damage_modifier": 50,
         "durability": 400,
-        "par1": 14,
+        "wheel_width": 14,
         "item": "wheel_wide",
         "difficulty": 5,
         "flags": [
@@ -493,7 +461,7 @@
         "broken_color": "light_gray",
         "damage_modifier": 50,
         "durability": 400,
-        "par1": 14,
+        "wheel_width": 14,
         "item": "wheel_wide",
         "difficulty": 6,
         "flags": [
@@ -508,7 +476,7 @@
         "broken_color": "light_gray",
         "damage_modifier": 50,
         "durability": 40,
-        "par1": 2,
+        "wheel_width": 2,
         "item": "wheel_bicycle",
         "difficulty": 1,
         "flags": [
@@ -523,7 +491,7 @@
         "broken_color": "light_gray",
         "damage_modifier": 50,
         "durability": 90,
-        "par1": 4,
+        "wheel_width": 4,
         "item": "wheel_motorbike",
         "difficulty": 2,
         "flags": [
@@ -538,7 +506,7 @@
         "broken_color": "light_gray",
         "damage_modifier": 50,
         "durability": 70,
-        "par1": 6,
+        "wheel_width": 6,
         "item": "wheel_small",
         "difficulty": 2,
         "flags": [
@@ -553,7 +521,7 @@
         "broken_color": "light_gray",
         "damage_modifier": 50,
         "durability": 70,
-        "par1": 6,
+        "wheel_width": 6,
         "item": "wheel_caster",
         "difficulty": 1,
         "flags": [
@@ -568,7 +536,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 150,
-        "par1": 40,
+        "power": 40,
         "fuel_type": "gasoline",
         "item": "1cyl_combustion",
         "difficulty": 2,
@@ -584,7 +552,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 200,
-        "par1": 120,
+        "power": 120,
         "fuel_type": "gasoline",
         "item": "v2_combustion",
         "difficulty": 2,
@@ -599,7 +567,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 300,
-        "par1": 300,
+        "power": 300,
         "fuel_type": "gasoline",
         "item": "i4_combustion",
         "difficulty": 3,
@@ -615,7 +583,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 400,
-        "par1": 800,
+        "power": 800,
         "fuel_type": "gasoline",
         "item": "v6_combustion",
         "difficulty": 4,
@@ -631,7 +599,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 400,
-        "par1": 800,
+        "power": 800,
         "fuel_type": "gasoline",
         "item": "v8_combustion",
         "difficulty": 4,
@@ -647,7 +615,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 200,
-        "par1": 70,
+        "power": 70,
         "fuel_type": "battery",
         "item": "motor",
         "difficulty": 3,
@@ -663,7 +631,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 400,
-        "par1": 350,
+        "power": 350,
         "fuel_type": "battery",
         "item": "motor_large",
         "difficulty": 4,
@@ -679,7 +647,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 250,
-        "par1": 400,
+        "power": 400,
         "fuel_type": "plasma",
         "item": "plasma_engine",
         "difficulty": 6,
@@ -695,7 +663,7 @@
         "broken_color": "red",
         "damage_modifier": 50,
         "durability": 50,
-        "par1": 70,
+        "power": 70,
         "fuel_type": "muscle",
         "item": "foot_crank",
         "difficulty": 1,
@@ -711,7 +679,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 150,
-        "par1": 3000,
+        "size": 3000,
         "fuel_type": "gasoline",
         "item": "metal_tank",
         "difficulty": 1,
@@ -727,7 +695,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 300,
-        "par1": 100000,
+        "size": 100000,
         "fuel_type": "battery",
         "item": "storage_battery",
         "difficulty": 2,
@@ -743,7 +711,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 700,
-        "par1": 10000,
+        "size": 10000,
         "fuel_type": "plutonium",
         "item": "minireactor",
         "difficulty": 7,
@@ -759,7 +727,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 150,
-        "par1": 3000,
+        "size": 3000,
         "fuel_type": "plasma",
         "item": "metal_tank",
         "difficulty": 1,
@@ -775,7 +743,7 @@
         "broken_color": "red",
         "damage_modifier": 80,
         "durability": 150,
-        "par1": 400,
+        "size": 400,
         "fuel_type": "water",
         "item": "metal_tank",
         "difficulty": 1,
@@ -791,7 +759,7 @@
         "broken_color": "brown",
         "damage_modifier": 80,
         "durability": 300,
-        "par1": 400,
+        "size": 400,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -806,7 +774,7 @@
         "broken_color": "brown",
         "damage_modifier": 60,
         "durability": 100,
-        "par1": 400,
+        "size": 400,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -821,7 +789,6 @@
         "broken_color": "red",
         "damage_modifier": 10,
         "durability": 250,
-        "par1": 0,
         "item": "vehicle_controls",
         "difficulty": 3,
         "flags": [
@@ -836,7 +803,7 @@
         "broken_color": "light_gray",
         "damage_modifier": 10,
         "durability": 150,
-        "par1": 40,
+        "bonus": 40,
         "item": "muffler",
         "difficulty": 2,
         "flags": [
@@ -851,7 +818,7 @@
         "broken_color": "red",
         "damage_modifier": 10,
         "durability": 200,
-        "par1": 25,
+        "bonus": 25,
         "item": "rope_6",
         "difficulty": 1,
         "flags": [
@@ -866,7 +833,7 @@
         "broken_color": "yellow",
         "damage_modifier": 10,
         "durability": 20,
-        "par1": 30,
+        "power": 30,
         "item": "solar_panel",
         "difficulty": 6,
         "flags": [
@@ -881,7 +848,6 @@
         "broken_color": "light_cyan",
         "damage_modifier": 10,
         "durability": 20,
-        "par1": 0,
         "item": "kitchen_unit",
         "difficulty": 4,
         "flags": [
@@ -896,7 +862,6 @@
         "broken_color": "light_red",
         "damage_modifier": 10,
         "durability": 20,
-        "par1": 0,
         "item": "weldrig",
         "difficulty": 4,
         "flags": [
@@ -911,7 +876,6 @@
         "broken_color": "cyan",
         "damage_modifier": 80,
         "durability": 400,
-        "par1": 0,
         "fuel_type": "223",
         "item": "m249",
         "difficulty": 6,
@@ -927,7 +891,6 @@
         "broken_color": "dark_gray",
         "damage_modifier": 80,
         "durability": 400,
-        "par1": 0,
         "fuel_type": "gasoline",
         "item": "flamethrower",
         "difficulty": 7,
@@ -943,7 +906,6 @@
         "broken_color": "light_blue",
         "damage_modifier": 80,
         "durability": 400,
-        "par1": 0,
         "fuel_type": "plasma",
         "item": "plasma_rifle",
         "difficulty": 7,
@@ -959,7 +921,6 @@
         "broken_color": "magenta",
         "damage_modifier": 80,
         "durability": 400,
-        "par1": 0,
         "fuel_type": "battery",
         "item": "ftk93",
         "difficulty": 7,
@@ -974,7 +935,6 @@
         "broken_symbol": ")",
         "broken_color": "light_cyan",
         "durability": 1000,
-        "par1": 0,
         "item": "steel_plate",
         "difficulty": 3,
         "flags": [
@@ -988,7 +948,6 @@
         "broken_symbol": ")",
         "broken_color": "dark_gray",
         "durability": 900,
-        "par1": 0,
         "item": "alloy_plate",
         "difficulty": 4,
         "flags": [
@@ -1003,7 +962,6 @@
         "broken_color": "red",
         "damage_modifier": 150,
         "durability": 900,
-        "par1": 0,
         "item": "spiked_plate",
         "difficulty": 3,
         "flags": [
@@ -1017,7 +975,6 @@
         "broken_symbol": ")",
         "broken_color": "cyan",
         "durability": 2300,
-        "par1": 0,
         "item": "hard_plate",
         "difficulty": 4,
         "flags": [

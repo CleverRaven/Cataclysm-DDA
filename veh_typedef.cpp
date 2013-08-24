@@ -58,7 +58,35 @@ void game::init_vehicle_parts()
     next_part.color_broken = color_from_string(next_json.get("broken_color").as_string());
     next_part.dmg_mod = next_json.has("damage_modifier") ? next_json.get("damage_modifier").as_int() : 100;
     next_part.durability = next_json.get("durability").as_int();
-    next_part.par1 = next_json.get("par1").as_int();
+    //Handle the par1 union as best we can by accepting any ONE of its elements
+    int element_count = next_json.has("par1") ? 1 : 0
+                      + next_json.has("power") ? 1 : 0
+                      + next_json.has("size") ? 1 : 0
+                      + next_json.has("wheel_width") ? 1 : 0
+                      + next_json.has("bonus") ? 1 : 0;
+    if(element_count == 0) {
+      //If not specified, assume 0
+      next_part.par1 = 0;
+    } else if(element_count == 1) {
+      if(next_json.has("par1")) {
+        next_part.par1 = next_json.get("par1").as_int();
+      } else if(next_json.has("power")) {
+        next_part.par1 = next_json.get("power").as_int();
+      } else if(next_json.has("size")) {
+        next_part.par1 = next_json.get("size").as_int();
+      } else if(next_json.has("wheel_width")) {
+        next_part.par1 = next_json.get("wheel_width").as_int();
+      } else { //bonus
+        next_part.par1 = next_json.get("bonus").as_int();
+      }
+    } else {
+      //Too many
+      debugmsg("Error parsing vehicle part '%s': \
+               Use AT MOST one of: par1, power, size, wheel_width, bonus",
+               next_part.name.c_str());
+      //Keep going to produce more messages if other parts are wrong
+      next_part.par1 = 0;
+    }
     next_part.fuel_type = next_json.has("fuel_type") ? next_json.get("fuel_type").as_string() : "NULL";
     next_part.item = next_json.get("item").as_string();
     next_part.difficulty = next_json.get("difficulty").as_int();
