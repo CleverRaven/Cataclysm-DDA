@@ -8,7 +8,6 @@
         "damage_modifier": 100,
         "durability": 100,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "NULL",
         "difficulty": 0,
         "flags": []
@@ -22,7 +21,6 @@
         "damage_modifier": 60,
         "durability": 300,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "seat",
         "difficulty": 1,
         "flags": [
@@ -38,7 +36,6 @@
         "damage_modifier": 20,
         "durability": 200,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "saddle",
         "difficulty": 1,
         "flags": [
@@ -54,7 +51,6 @@
         "damage_modifier": 60,
         "durability": 300,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "seat",
         "difficulty": 1,
         "flags": [
@@ -70,7 +66,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -86,7 +81,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -102,7 +96,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -118,7 +111,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -134,7 +126,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -150,7 +141,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -166,7 +156,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -182,7 +171,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -198,7 +186,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -214,7 +201,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -230,7 +216,6 @@
         "damage_modifier": 100,
         "durability": 300,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -246,7 +231,6 @@
         "damage_modifier": 100,
         "durability": 1000,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -262,7 +246,6 @@
         "damage_modifier": 100,
         "durability": 1000,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -278,7 +261,6 @@
         "damage_modifier": 100,
         "durability": 1000,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -294,7 +276,6 @@
         "damage_modifier": 100,
         "durability": 1000,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -310,7 +291,6 @@
         "damage_modifier": 100,
         "durability": 1000,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -326,7 +306,6 @@
         "damage_modifier": 100,
         "durability": 1000,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -342,7 +321,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -358,7 +336,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -374,7 +351,6 @@
         "damage_modifier": 100,
         "durability": 400,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -390,7 +366,6 @@
         "damage_modifier": 100,
         "durability": 1000,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "steel_plate",
         "difficulty": 1,
         "flags": [
@@ -406,7 +381,6 @@
         "damage_modifier": 80,
         "durability": 200,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 2,
         "flags": [
@@ -422,7 +396,6 @@
         "damage_modifier": 80,
         "durability": 200,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 2,
         "flags": [
@@ -438,7 +411,6 @@
         "damage_modifier": 75,
         "durability": 75,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 2,
         "flags": [
@@ -454,7 +426,6 @@
         "damage_modifier": 70,
         "durability": 50,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "glass_sheet",
         "difficulty": 1,
         "flags": [
@@ -470,7 +441,6 @@
         "damage_modifier": 250,
         "durability": 100,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "blade",
         "difficulty": 2,
         "flags": [
@@ -486,7 +456,6 @@
         "damage_modifier": 350,
         "durability": 100,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "blade",
         "difficulty": 2,
         "flags": [
@@ -502,7 +471,6 @@
         "damage_modifier": 300,
         "durability": 100,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "spike",
         "difficulty": 2,
         "flags": [
@@ -518,7 +486,6 @@
         "damage_modifier": 50,
         "durability": 200,
         "par1": 9,
-        "fuel_type": "NULL",
         "item": "wheel",
         "difficulty": 4,
         "flags": [
@@ -534,7 +501,6 @@
         "damage_modifier": 50,
         "durability": 400,
         "par1": 14,
-        "fuel_type": "NULL",
         "item": "wheel_wide",
         "difficulty": 5,
         "flags": [
@@ -550,7 +516,6 @@
         "damage_modifier": 50,
         "durability": 400,
         "par1": 14,
-        "fuel_type": "NULL",
         "item": "wheel_wide",
         "difficulty": 6,
         "flags": [
@@ -566,7 +531,6 @@
         "damage_modifier": 50,
         "durability": 40,
         "par1": 2,
-        "fuel_type": "NULL",
         "item": "wheel_bicycle",
         "difficulty": 1,
         "flags": [
@@ -582,7 +546,6 @@
         "damage_modifier": 50,
         "durability": 90,
         "par1": 4,
-        "fuel_type": "NULL",
         "item": "wheel_motorbike",
         "difficulty": 2,
         "flags": [
@@ -598,7 +561,6 @@
         "damage_modifier": 50,
         "durability": 70,
         "par1": 6,
-        "fuel_type": "NULL",
         "item": "wheel_small",
         "difficulty": 2,
         "flags": [
@@ -614,7 +576,6 @@
         "damage_modifier": 50,
         "durability": 70,
         "par1": 6,
-        "fuel_type": "NULL",
         "item": "wheel_caster",
         "difficulty": 1,
         "flags": [
@@ -853,7 +814,6 @@
         "damage_modifier": 80,
         "durability": 300,
         "par1": 400,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -869,7 +829,6 @@
         "damage_modifier": 60,
         "durability": 100,
         "par1": 400,
-        "fuel_type": "NULL",
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -885,7 +844,6 @@
         "damage_modifier": 10,
         "durability": 250,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "vehicle_controls",
         "difficulty": 3,
         "flags": [
@@ -901,7 +859,6 @@
         "damage_modifier": 10,
         "durability": 150,
         "par1": 40,
-        "fuel_type": "NULL",
         "item": "muffler",
         "difficulty": 2,
         "flags": [
@@ -917,7 +874,6 @@
         "damage_modifier": 10,
         "durability": 200,
         "par1": 25,
-        "fuel_type": "NULL",
         "item": "rope_6",
         "difficulty": 1,
         "flags": [
@@ -933,7 +889,6 @@
         "damage_modifier": 10,
         "durability": 20,
         "par1": 30,
-        "fuel_type": "NULL",
         "item": "solar_panel",
         "difficulty": 6,
         "flags": [
@@ -949,7 +904,6 @@
         "damage_modifier": 10,
         "durability": 20,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "kitchen_unit",
         "difficulty": 4,
         "flags": [
@@ -965,7 +919,6 @@
         "damage_modifier": 10,
         "durability": 20,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "weldrig",
         "difficulty": 4,
         "flags": [
@@ -1045,7 +998,6 @@
         "damage_modifier": 100,
         "durability": 1000,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "steel_plate",
         "difficulty": 3,
         "flags": [
@@ -1061,7 +1013,6 @@
         "damage_modifier": 100,
         "durability": 900,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "alloy_plate",
         "difficulty": 4,
         "flags": [
@@ -1077,7 +1028,6 @@
         "damage_modifier": 150,
         "durability": 900,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "spiked_plate",
         "difficulty": 3,
         "flags": [
@@ -1093,7 +1043,6 @@
         "damage_modifier": 100,
         "durability": 2300,
         "par1": 0,
-        "fuel_type": "NULL",
         "item": "hard_plate",
         "difficulty": 4,
         "flags": [
@@ -1109,7 +1058,6 @@
         "damage_modifier": 10,
         "durability": 20,
         "par1": 480,
-        "fuel_type": "NULL",
         "item": "flashlight",
         "difficulty": 1,
         "flags": [
