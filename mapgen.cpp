@@ -537,13 +537,15 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    if (one_in(40)) {
     int vx = rng (8, 16);
     int vy = rng (8, 16);
-    int rc = rng(1, 10);
-    if (rc <= 5)
+    int rc = rng(1, 11);
+    if (rc <= 4)
         add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
     else if (rc <= 9)
         add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, 0, -1);
-    else
+    else if (rc <= 10)
         add_vehicle (g, veh_semi, vx, vy, veh_spawn_heading, 0, -1);
+    else
+        add_vehicle (g, veh_armor, vx, vy, veh_spawn_heading, 0, -1);
    }
   }
 
@@ -607,13 +609,15 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    if (one_in(40)) {
     int vx = rng (10, 12);
     int vy = rng (10, 12);
-    int rc = rng(1, 10);
-	if (rc <= 5)
-     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    int rc = rng(1, 11);
+    if (rc <= 4)
+        add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
     else if (rc <= 9)
-     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, 0, -1);
+    else if (rc <= 10)
+        add_vehicle (g, veh_semi, vx, vy, veh_spawn_heading, 0, -1);
     else
-     add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, veh_armor, vx, vy, veh_spawn_heading, 0, -1);
    }
   }
 
@@ -682,13 +686,15 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    if (one_in(20)) {
     int vx = rng (10, 12);
     int vy = rng (10, 12);
-    int rc = rng(0, 10);
-    if (rc <= 5)
-        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    int rc = rng(1, 11);
+    if (rc <= 4)
+        add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
     else if (rc <= 9)
-        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, 0, -1);
+    else if (rc <= 10)
+        add_vehicle (g, veh_semi, vx, vy, veh_spawn_heading, 0, -1);
     else
-        add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, veh_armor, vx, vy, veh_spawn_heading, 0, -1);
    }
   }
 
@@ -826,12 +832,15 @@ t   t\n\
     int vx = rng (10, 12);
     int vy = rng (10, 12);
     int rc = rng(1, 10);
-    if (rc <= 5)
-        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    int rc = rng(1, 11);
+    if (rc <= 4)
+        add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
     else if (rc <= 9)
-        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, 0, -1);
+    else if (rc <= 10)
+        add_vehicle (g, veh_semi, vx, vy, veh_spawn_heading, 0, -1);
     else
-        add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, veh_armor, vx, vy, veh_spawn_heading, 0, -1);
    }
 
   if (terrain_type == ot_bridge_ew)
@@ -863,13 +872,15 @@ t   t\n\
    if (one_in(2)) {
     int vx = rng (10, 12);
     int vy = rng (10, 12);
-    int rc = rng(1, 10);
-    if (rc <= 5)
-        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    int rc = rng(1, 11);
+    if (rc <= 4)
+        add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
     else if (rc <= 9)
-        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, 0, -1);
+    else if (rc <= 10)
+        add_vehicle (g, veh_semi, vx, vy, veh_spawn_heading, 0, -1);
     else
-        add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, veh_armor, vx, vy, veh_spawn_heading, 0, -1);
    }
   break;
 
