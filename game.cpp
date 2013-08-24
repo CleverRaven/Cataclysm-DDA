@@ -1197,6 +1197,17 @@ void game::update_weather()
     }
 }
 
+int game::get_temperature(int x, int y)
+{
+    int tmp_temperature = temperature;
+
+    if ( is_in_ice_lab(x, y) ) {
+        tmp_temperature = 20 + 40*levz
+    }
+
+    return tmp_temperature;
+}
+
 int game::assign_mission_id()
 {
  int ret = next_mission_id;
