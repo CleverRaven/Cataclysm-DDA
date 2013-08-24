@@ -11204,7 +11204,7 @@
   "category": "CC_MISC",
   "skill_used": "fabrication",
   "difficulty": 1,
-  "time": 6000,
+  "time": 120000,
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["hatchet", -1], ["toolset", -1]  ],
@@ -11224,7 +11224,7 @@
   "category": "CC_MISC",
   "skill_used": "mechanics",
   "difficulty": 4,
-  "time": 24000,
+  "time": 180000,
   "reversible": true,
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
@@ -11258,7 +11258,7 @@
   "category": "CC_MISC",
   "skill_used": "fabrication",
   "difficulty": 3,
-  "time": 24000,
+  "time": 240000,
   "reversible": true,
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
@@ -11271,6 +11271,55 @@
   "components": 
     [ 
      [[ "steel_lump", 40 ]]
+	]
+},
+{
+  "result": "tongs",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+      [
+      [ "welder", 30 ],
+      [ "welder_crude", 45 ],
+      [ "toolset", 3 ]
+      ] ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 1 ],
+	 [ "steel_chunk", 4 ],
+     [ "scrap", 12 ],
+	 [ "pipe", 3 ]
+	 ]
+	]
+},
+{
+  "result": "chisel",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 45000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+      [
+      [ "welder", 30 ],
+      [ "welder_crude", 45 ],
+      [ "toolset", 3 ]
+      ] ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 1 ],
+	 [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
 	]
 }
 
