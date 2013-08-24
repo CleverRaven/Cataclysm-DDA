@@ -5660,7 +5660,7 @@ void game::emp_blast(int x, int y)
 // TODO: Drain NPC energy reserves
 }
 
-int game::npc_at(int x, int y)
+int game::npc_at(const int x, const int y) const
 {
  for (int i = 0; i < active_npc.size(); i++) {
   if (active_npc[i]->posx == x && active_npc[i]->posy == y && !active_npc[i]->dead)
@@ -5669,7 +5669,7 @@ int game::npc_at(int x, int y)
  return -1;
 }
 
-int game::npc_by_id(int id)
+int game::npc_by_id(const int id) const
 {
  for (int i = 0; i < active_npc.size(); i++) {
   if (active_npc[i]->getID() == id)
@@ -5678,7 +5678,7 @@ int game::npc_by_id(int id)
  return -1;
 }
 
-int game::mon_at(int x, int y)
+int game::mon_at(const int x, const int y) const
 {
  for (int i = 0; i < z.size(); i++) {
   if (z[i].posx == x && z[i].posy == y) {
@@ -5691,7 +5691,7 @@ int game::mon_at(int x, int y)
  return -1;
 }
 
-bool game::is_empty(int x, int y)
+bool game::is_empty(const int x, const int y)
 {
  return ((m.move_cost(x, y) > 0 || m.has_flag(liquid, x, y)) &&
          npc_at(x, y) == -1 && mon_at(x, y) == -1 &&
