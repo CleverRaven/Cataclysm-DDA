@@ -56,7 +56,7 @@ void game::init_vehicle_parts()
     next_part.color = color_from_string(next_json.get("color").as_string());
     next_part.sym_broken = next_json.get("broken_symbol").as_char();
     next_part.color_broken = color_from_string(next_json.get("broken_color").as_string());
-    next_part.dmg_mod = next_json.get("damage_modifier").as_int();
+    next_part.dmg_mod = next_json.has("damage_modifier") ? next_json.get("damage_modifier").as_int() : 100;
     next_part.durability = next_json.get("durability").as_int();
     next_part.par1 = next_json.get("par1").as_int();
     next_part.fuel_type = next_json.has("fuel_type") ? next_json.get("fuel_type").as_string() : "NULL";
