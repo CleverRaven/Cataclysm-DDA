@@ -639,7 +639,7 @@ void player::update_bodytemp(game *g)
 {
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
-    int Ctemperature = 100*(g->temperature - 32) * 5/9;
+    int Ctemperature = 100*(g->get_temperature(u.posx, u.posy) - 32) * 5/9;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
@@ -977,7 +977,7 @@ void player::update_bodytemp(game *g)
         {
             frostbite_timer[i]--;
         }
-        if      (frostbite_timer[i] >= 240 && g->temperature < 32)
+        if      (frostbite_timer[i] >= 240 && g->get_temperature(u.posx, u.posy) < 32)
         {
             add_disease(dis_type(frost_pen), 1, 2, 2);
             // Warning message for the player
@@ -986,7 +986,7 @@ void player::update_bodytemp(game *g)
             {
                 g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
-            else if (frostbite_timer[i] >= 120 && g->temperature < 32)
+            else if (frostbite_timer[i] >= 120 && g->get_temperature(u.posx, u.posy) < 32)
             {
                 add_disease(dis_type(frost_pen), 1, 1, 2);
                 // Warning message for the player

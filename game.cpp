@@ -3840,19 +3840,20 @@ void game::draw()
     }
 
     nc_color col_temp = c_blue;
-    if (temperature >= 90) {
+    int display_temp = get_temperature(u.posx, u.posy);
+    if (display_temp >= 90) {
         col_temp = c_red;
-    } else if (temperature >= 75) {
+    } else if (display_temp >= 75) {
         col_temp = c_yellow;
-    } else if (temperature >= 60) {
+    } else if (display_temp >= 60) {
         col_temp = c_ltgreen;
-    } else if (temperature >= 50) {
+    } else if (display_temp >= 50) {
         col_temp = c_cyan;
-    } else if (temperature >  32) {
+    } else if (display_temp >  32) {
         col_temp = c_ltblue;
     }
 
-    wprintz(w_location, col_temp, (std::string(" ") + print_temperature(temperature)).c_str());
+    wprintz(w_location, col_temp, (std::string(" ") + print_temperature(display_temp)).c_str());
     wrefresh(w_location);
 
     //Safemode coloring
@@ -10779,7 +10780,7 @@ void game::plswim(int x, int y)
 
  int drenchFlags = mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms);
 
- if (temperature < 50)
+ if (get_temperature(u.posx, u.posy) < 50)
    drenchFlags |= mfb(bp_feet)|mfb(bp_hands);
 
  if (u.underwater)
