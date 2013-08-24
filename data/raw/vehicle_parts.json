@@ -597,7 +597,7 @@
         "symbol": "|",
         "color": "dark_gray",
         "broken_symbol": "x",
-        "color": "light_gray",
+        "broken_color": "light_gray",
         "damage_modifier": 50,
         "durability": 40,
         "par1": 2,
