@@ -11198,6 +11198,80 @@
     [ ["whiskey", 2] ],
     [ ["rum", 2] ],
     [ ["bottle_glass", 1] ] ]
+},
+{
+  "result": "nail",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["hatchet", -1], ["toolset", -1]  ],
+    [ ["tongs", -1]  ],
+    [ ["chisel", -1] ],
+    [ ["swage", -1]  ],
+    [ ["forge", 25]  ] ],
+  "components": [
+    [
+      [ "steel_chunk", 1 ],
+      [ "scrap", 3 ]
+    ]
+  ]
+},
+{
+  "result": "forge",
+  "category": "CC_MISC",
+  "skill_used": "mechanics",
+  "difficulty": 4,
+  "time": 24000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+      [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 5 ]
+      ] ],
+  "components": 
+    [ 
+     [ ["element", 8] ],
+     [
+     [ "steel_lump", 1 ],
+	 [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ],
+     [ ["cable", 4] ] 
+	]
+},
+{
+  "result": "anvil",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 24000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+            [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 10 ]
+      ] ],
+  "components": 
+    [ 
+     [[ "steel_lump", 40 ]]
+	]
 }
 
 ]
