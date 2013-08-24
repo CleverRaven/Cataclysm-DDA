@@ -2436,5 +2436,31 @@
     "durability": 8,
     "clip_size": 50,
     "reload": 4000
+  },
+  {
+    "id": "RPG",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "RPG-7",
+    "description": "The famous RPG-7 rocket launcher. This polyvalent rocket launcher was manufactured at low costs and was easy to handle. Oftenly used by terrorists, it's not as precise as other weapons.",
+    "price": 6000,
+    "material": "wood",
+    "flags": ["BACKBLAST", "RELOAD_ONE"],
+    "skill": "launcher",
+    "ammo": "RPG-7 ammo",
+    "weight": 2000,
+    "volume": 10,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 0,
+    "ranged_damage": 0,
+    "range": 0,
+    "dispersion": 4,
+    "recoil": 4,
+    "durability": 10,
+    "burst": 0,
+    "clip_size": 1,
+    "reload": 150
   }
 ]
