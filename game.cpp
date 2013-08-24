@@ -8381,8 +8381,8 @@ void game::pickup(int posx, int posy, int min)
     if (veh->fuel_left("water")) {
       if (query_yn(_("Fill a container?"))) {
       int amt = veh->drain("water", veh->fuel_left("water"));
-      int return = g->move_liquid(amt);
-      veh->refill("water", amt);
+      int back = g->move_liquid(amt);
+      veh->refill("water", back);
       }
       if (query_yn(_("Have a drink?"))) {
         veh->drain("water", 1);
