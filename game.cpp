@@ -1209,6 +1209,12 @@ void game::update_weather()
 int game::get_temperature()
 {
     point location = om_location();
+
+    return get_temperature(location);
+}
+
+int game::get_temperature(point location)
+{
     int tmp_temperature = temperature;
 
     tmp_temperature += m.temperature(u.posx, u.posy);
