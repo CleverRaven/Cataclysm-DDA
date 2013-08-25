@@ -88,6 +88,9 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_lab_stairs,	   0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
+ {ot_ice_lab_stairs,	   0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+
 {ot_fema_entrance,	   2, 5,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
@@ -498,7 +501,11 @@ void game::init_overmap()
     {_("evac shelter"),	'+',	c_white,	2, no_extras, false, true, 0},
     {_("LMOE shelter"),	'+',	c_red,	2, no_extras, true, false, 0},
     {_("LMOE shelter"),	'+',	c_red,	2, no_extras, false, true, 0},
+    {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0}, // Regular lab start
+    {_("science lab"),		'L',	c_blue,		5, no_extras, true, false, 0},
     {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0},
+    {_("science lab"),		'L',	c_cyan,		5, no_extras, false, false, 0},
+    {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0}, // Ice lab start
     {_("science lab"),		'L',	c_blue,		5, no_extras, true, false, 0},
     {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0},
     {_("science lab"),		'L',	c_cyan,		5, no_extras, false, false, 0},
@@ -1199,6 +1206,7 @@ bool overmap::generate_sub(int const z)
  std::vector<city> ant_points;
  std::vector<city> goo_points;
  std::vector<city> lab_points;
+ std::vector<city> ice_lab_points;
  std::vector<point> shaft_points;
  std::vector<city> mine_points;
  std::vector<point> bunker_points;
@@ -1278,6 +1286,13 @@ bool overmap::generate_sub(int const z)
    else if (ter(i, j, z + 1) == ot_lab_stairs)
     ter(i, j, z) = ot_lab;
 
+   else if (ter(i, j, z + 1) == ot_ice_lab_core ||
+            (z == -1 && ter(i, j, z + 1) == ot_ice_lab_stairs))
+    ice_lab_points.push_back(city(i, j, rng(1, 5 + z)));
+
+   else if (ter(i, j, z + 1) == ot_ice_lab_stairs)
+    ter(i, j, z) = ot_ice_lab;
+
    else if (ter(i, j, z + 1) == ot_bunker && z == -1)
     bunker_points.push_back( point(i, j) );
 
@@ -1355,6 +1370,13 @@ bool overmap::generate_sub(int const z)
      requires_sub |= lab;
      if (!lab && ter(lab_points[i].x, lab_points[i].y, z) == ot_lab_core)
          ter(lab_points[i].x, lab_points[i].y, z) = ot_lab;
+ }
+ for (int i = 0; i < ice_lab_points.size(); i++)
+ {
+     bool ice_lab = build_ice_lab(ice_lab_points[i].x, ice_lab_points[i].y, z, ice_lab_points[i].s);
+     requires_sub |= ice_lab;
+     if (!ice_lab && ter(ice_lab_points[i].x, ice_lab_points[i].y, z) == ot_ice_lab_core)
+         ter(ice_lab_points[i].x, ice_lab_points[i].y, z) = ot_ice_lab;
  }
  for (int i = 0; i < ant_points.size(); i++)
   build_anthill(ant_points[i].x, ant_points[i].y, z, ant_points[i].s);
@@ -2347,6 +2369,72 @@ bool overmap::build_lab(int x, int y, int z, int s)
  return numstairs > 0;
 }
 
+bool overmap::build_ice_lab(int x, int y, int z, int s)
+{
+ std::vector<point> generated_ice_lab;
+ ter(x, y, z) = ot_ice_lab;
+ for (int n = 0; n <= 1; n++) {	// Do it in two passes to allow diagonals
+  for (int i = 1; i <= s; i++) {
+   for (int lx = x - i; lx <= x + i; lx++) {
+    for (int ly = y - i; ly <= y + i; ly++) {
+     if ((ter(lx - 1, ly, z) == ot_ice_lab || ter(lx + 1, ly, z) == ot_ice_lab ||
+         ter(lx, ly - 1, z) == ot_ice_lab || ter(lx, ly + 1, z) == ot_ice_lab) &&
+         one_in(i))
+     {
+         ter(lx, ly, z) = ot_ice_lab;
+         generated_ice_lab.push_back(point(lx,ly));
+     }
+    }
+   }
+  }
+ }
+ bool generate_stairs = true;
+ for (std::vector<point>::iterator it=generated_ice_lab.begin();
+      it != generated_ice_lab.end(); it++)
+ {
+     if (ter(it->x, it->y, z+1) == ot_ice_lab_stairs)
+         generate_stairs = false;
+ }
+ if (generate_stairs && generated_ice_lab.size() > 0)
+ {
+     int v = rng(0,generated_ice_lab.size()-1);
+     point p = generated_ice_lab[v];
+     ter(p.x, p.y, z+1) = ot_ice_lab_stairs;
+ }
+
+ ter(x, y, z) = ot_ice_lab_core;
+ int numstairs = 0;
+ if (s > 0) {	// Build stairs going down
+  while (!one_in(6)) {
+   int stairx, stairy;
+   int tries = 0;
+   do {
+    stairx = rng(x - s, x + s);
+    stairy = rng(y - s, y + s);
+    tries++;
+   } while (ter(stairx, stairy, z) != ot_ice_lab && tries < 15);
+   if (tries < 15) {
+    ter(stairx, stairy, z) = ot_ice_lab_stairs;
+    numstairs++;
+   }
+  }
+ }
+ if (numstairs == 0) {	// This is the bottom of the ice_lab;  We need a finale
+  int finalex, finaley;
+  int tries = 0;
+  do {
+   finalex = rng(x - s, x + s);
+   finaley = rng(y - s, y + s);
+   tries++;
+  } while (tries < 15 && ter(finalex, finaley, z) != ot_ice_lab &&
+                         ter(finalex, finaley, z) != ot_ice_lab_core);
+  ter(finalex, finaley, z) = ot_ice_lab_finale;
+ }
+ zg.push_back(mongroup("GROUP_ice_lab", (x * 2), (y * 2), z, s, 400));
+
+ return numstairs > 0;
+}
+
 void overmap::build_anthill(int x, int y, int z, int s)
 {
  build_tunnel(x, y, z, s - rng(0, 3), 0);
@@ -2587,21 +2675,25 @@ void overmap::building_on_hiway(int x, int y, int dir)
  else if (xdif ==  1)
   rot = 3;
 
- switch (rng(1, 3)) {
+ switch (rng(1, 4)) {
  case 1:
   if (!is_river(ter(x + xdif, y + ydif, 0)))
    ter(x + xdif, y + ydif, 0) = ot_lab_stairs;
   break;
  case 2:
   if (!is_river(ter(x + xdif, y + ydif, 0)))
-   ter(x + xdif, y + ydif, 0) = house(rot);
+   ter(x + xdif, y + ydif, 0) = ot_ice_lab_stairs;
   break;
  case 3:
+  if (!is_river(ter(x + xdif, y + ydif, 0)))
+   ter(x + xdif, y + ydif, 0) = house(rot);
+  break;
+ case 4:
   if (!is_river(ter(x + xdif, y + ydif, 0)))
    ter(x + xdif, y + ydif, 0) = ot_radio_tower;
   break;
 /*
- case 4:
+ case 5:
   if (!is_river(ter(x + xdif, y + ydif)))
    ter(x + xdir, y + ydif) = ot_sewage_treatment;
   break;

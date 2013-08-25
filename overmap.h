@@ -172,6 +172,7 @@ class overmap
   void put_buildings(int x, int y, int dir, city town);
   void make_road(int cx, int cy, int cs, int dir, city town);
   bool build_lab(int x, int y, int z, int s);
+  bool build_ice_lab(int x, int y, int z, int s);
   void build_anthill(int x, int y, int z, int s);
   void build_tunnel(int x, int y, int z, int s, int dir);
   bool build_slimepit(int x, int y, int z, int s);

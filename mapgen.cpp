@@ -258,6 +258,10 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  int x = 0;
  int y = 0;
 
+ // To distinguish between types of labs
+ bool ice_lab = true;
+ bool ice_lab_finale = true;
+
  oter_id t_nesw[] = {t_north, t_east, t_south, t_west};
  int nesw_fac[] = {0, 0, 0, 0};
  int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
@@ -4110,6 +4114,10 @@ case ot_lmoe: {
  case ot_lab:
  case ot_lab_stairs:
  case ot_lab_core:
+    ice_lab = false;
+ case ot_ice_lab:
+ case ot_ice_lab_stairs:
+ case ot_ice_lab_core:
 // Check for adjacent sewers; used below
   tw = 0;
   rw = 0;
@@ -4165,6 +4173,7 @@ case ot_lmoe: {
          ((j < tw || j > SEEY * 2 - 1 - bw) && i > SEEX - 3 && i < SEEX + 2))
       ter_set(i, j, t_sewage);
      if ((i == 0 && t_east >= ot_lab && t_east <= ot_lab_core) ||
+         (i == 0 && t_east >= ot_ice_lab && t_east <= ot_ice_lab_core) ||
          i == SEEX * 2 - 1) {
       if (ter(i, j) == t_sewage)
        ter_set(i, j, t_bars);
@@ -4173,6 +4182,7 @@ case ot_lmoe: {
       else
        ter_set(i, j, t_concrete_v);
      } else if ((j == 0 && t_north >= ot_lab && t_north <= ot_lab_core) ||
+                (j == 0 && t_north >= ot_ice_lab && t_north <= ot_ice_lab_core) ||
                 j == SEEY * 2 - 1) {
       if (ter(i, j) == t_sewage)
        ter_set(i, j, t_bars);
@@ -4185,10 +4195,19 @@ case ot_lmoe: {
    }
   } else { // We're below ground, and no sewers
 // Set up the boudaries of walls (connect to adjacent lab squares)
-   tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;
-   rw = (t_east  >= ot_lab && t_east  <= ot_lab_finale) ? 1 : 2;
-   bw = (t_south >= ot_lab && t_south <= ot_lab_finale) ? 1 : 2;
-   lw = (t_west  >= ot_lab && t_west  <= ot_lab_finale) ? 0 : 2;
+// Are we in an ice lab?
+   if ( ice_lab ) {
+        tw = (t_north >= ot_ice_lab && t_north <= ot_ice_lab_finale) ? 0 : 2;
+        rw = (t_east  >= ot_ice_lab && t_east  <= ot_ice_lab_finale) ? 1 : 2;
+        bw = (t_south >= ot_ice_lab && t_south <= ot_ice_lab_finale) ? 1 : 2;
+        lw = (t_west  >= ot_ice_lab && t_west  <= ot_ice_lab_finale) ? 0 : 2;
+   }
+   else {
+       tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;
+       rw = (t_east  >= ot_lab && t_east  <= ot_lab_finale) ? 1 : 2;
+       bw = (t_south >= ot_lab && t_south <= ot_lab_finale) ? 1 : 2;
+       lw = (t_west  >= ot_lab && t_west  <= ot_lab_finale) ? 0 : 2;
+   }
    int boarders = 0;
    if (tw == 0 ) boarders++;
    if (rw == 1 ) boarders++;
@@ -4318,7 +4337,7 @@ case ot_lmoe: {
     rotate(3);}
    if (lw == 2){
     rotate(1);}
-   if (t_above == ot_lab_stairs) {
+   if (t_above == ot_lab_stairs || t_above == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4327,7 +4346,7 @@ case ot_lmoe: {
      ter_set(sx, sy, t_stairs_up);
     }
 
-   if (terrain_type == ot_lab_stairs) {
+   if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4350,7 +4369,7 @@ case ot_lmoe: {
        ter_set(i, j, t_rock_floor);
      }
     }
-    if (t_above == ot_lab_stairs)
+    if (t_above == ot_lab_stairs || t_above == ot_ice_lab_stairs)
      ter_set(rng(SEEX - 1, SEEX), rng(SEEY - 1, SEEY), t_stairs_up);
 // Top left
     if (one_in(2)) {
@@ -4392,7 +4411,7 @@ case ot_lmoe: {
      ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
      ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
     }
-    if (terrain_type == ot_lab_stairs) {	// Stairs going down
+    if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs) {	// Stairs going down
      std::vector<point> stair_points;
      if (tw != 0) {
       stair_points.push_back(point(SEEX - 1, 2));
@@ -4443,7 +4462,7 @@ case ot_lmoe: {
        ter_set(i, j, t_rock_floor);
      }
     }
-    if (t_above == ot_lab_stairs) {
+    if (t_above == ot_lab_stairs || t_above == ot_ice_lab_stairs) {
      ter_set(SEEX - 1, SEEY - 1, t_stairs_up);
      ter_set(SEEX    , SEEY - 1, t_stairs_up);
      ter_set(SEEX - 1, SEEY    , t_stairs_up);
@@ -4477,7 +4496,7 @@ case ot_lmoe: {
      ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
      ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
     }
-    if (terrain_type == ot_lab_stairs)
+    if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs)
      ter_set(SEEX - 3 + 5 * rng(0, 1), SEEY - 3 + 5 * rng(0, 1), t_stairs_down);
     break;
 
@@ -4493,7 +4512,7 @@ case ot_lmoe: {
      }
     }
     science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, rng(0, 3));
-    if (t_above == ot_lab_stairs) {
+    if (t_above == ot_lab_stairs || t_above == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4509,7 +4528,7 @@ case ot_lmoe: {
      ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
      ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
     }
-    if (terrain_type == ot_lab_stairs) {
+    if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4724,7 +4743,7 @@ ff.......|....|WWWWWWWW|\n\
        ter_set(i, j, t_concrete_h);
      }
     }
-    if (t_above == ot_lab_stairs) {
+    if (t_above == ot_lab_stairs || t_above == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4732,7 +4751,7 @@ ff.......|....|WWWWWWWW|\n\
      } while (ter(sx, sy) != t_rock_floor);
      ter_set(sx, sy, t_stairs_up);
     }
-    if (terrain_type == ot_lab_stairs) {
+    if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4795,10 +4814,21 @@ ff.......|....|WWWWWWWW|\n\
  break;
 
  case ot_lab_finale:
-  tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;
-  rw = (t_east  >= ot_lab && t_east  <= ot_lab_finale) ? 1 : 2;
-  bw = (t_south >= ot_lab && t_south <= ot_lab_finale) ? 1 : 2;
-  lw = (t_west  >= ot_lab && t_west  <= ot_lab_finale) ? 0 : 2;
+ ice_lab_finale = false;
+ case ot_ice_lab_finale:
+  if ( ice_lab_finale ) {
+      tw = (t_north >= ot_ice_lab && t_north <= ot_ice_lab_finale) ? 0 : 2;
+      rw = (t_east  >= ot_ice_lab && t_east  <= ot_ice_lab_finale) ? 1 : 2;
+      bw = (t_south >= ot_ice_lab && t_south <= ot_ice_lab_finale) ? 1 : 2;
+      lw = (t_west  >= ot_ice_lab && t_west  <= ot_ice_lab_finale) ? 0 : 2;
+  }
+  else {
+      tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;
+      rw = (t_east  >= ot_lab && t_east  <= ot_lab_finale) ? 1 : 2;
+      bw = (t_south >= ot_lab && t_south <= ot_lab_finale) ? 1 : 2;
+      lw = (t_west  >= ot_lab && t_west  <= ot_lab_finale) ? 0 : 2;
+  }
+
 // Start by setting up a large, empty room.
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
