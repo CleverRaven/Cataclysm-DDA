@@ -204,10 +204,10 @@ void map::board_vehicle(game *g, int x, int y, player *p)
   return;
  }
 
- const int seat_part = veh->part_with_feature (part, vpf_boardable);
+ const int seat_part = veh->part_with_feature (part, "BOARDABLE");
  if (part < 0) {
   debugmsg ("map::board_vehicle: boarding %s (not boardable)",
-            veh->part_info(part).name);
+            veh->part_info(part).name.c_str());
   return;
  }
  if (veh->parts[seat_part].has_flag(vehicle_part::passenger_flag)) {
@@ -237,10 +237,10 @@ void map::unboard_vehicle(game *g, const int x, const int y)
   debugmsg ("map::unboard_vehicle: vehicle not found");
   return;
  }
- const int seat_part = veh->part_with_feature (part, vpf_boardable, false);
+ const int seat_part = veh->part_with_feature (part, "BOARDABLE", false);
  if (part < 0) {
   debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
-            veh->part_info(part).name);
+            veh->part_info(part).name.c_str());
   return;
  }
  player *psg = veh->get_passenger(seat_part);
@@ -474,7 +474,7 @@ bool map::vehproceed(game* g){
       int num_wheels = 0, submerged_wheels = 0;
       for (int ep = 0; ep < veh->external_parts.size(); ep++) {
          const int p = veh->external_parts[ep];
-         if (veh->part_flag(p, vpf_wheel)){
+         if (veh->part_flag(p, "WHEEL")){
             num_wheels++;
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
@@ -563,8 +563,8 @@ bool map::vehproceed(game* g){
       veh_collision c = veh_veh_colls[0];
       vehicle* veh2 = (vehicle*) c.target;
       g->add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
-                 veh->name.c_str(),  veh->part_info(c.part).name,
-                veh2->name.c_str(), veh2->part_info(c.target_part).name);
+                 veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
+                veh2->name.c_str(), veh2->part_info(c.target_part).name.c_str());
 
       // for reference, a cargo truck weighs ~25300, a bicycle 690,
       //  and 38mph is 3800 'velocity'
@@ -629,7 +629,7 @@ bool map::vehproceed(game* g){
             continue;
          }
          const int throw_roll = rng (vel2/100, vel2/100 * 2);
-         const int psblt = veh->part_with_feature (ppl[ps], vpf_seatbelt);
+         const int psblt = veh->part_with_feature (ppl[ps], "SEATBELT");
          const int sb_bonus = psblt >= 0? veh->part_info(psblt).bonus : 0;
          bool throw_from_seat = throw_roll > (psg->str_cur + sb_bonus) * 3;
 
@@ -644,7 +644,7 @@ bool map::vehproceed(game* g){
             g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
                   (vel2/100 - sb_bonus < 10 ? 10 :
                    vel2/100 - sb_bonus));
-         } else if (veh->part_with_feature (ppl[ps], vpf_controls) >= 0) {
+         } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {
             // FIXME: should actually check if passenger is in control,
             // not just if there are controls there.
             const int lose_ctrl_roll = rng (0, imp);
@@ -674,7 +674,7 @@ bool map::vehproceed(game* g){
    if (can_move) {
       for (int ep = 0; ep < veh->external_parts.size(); ep++) {
          const int p = veh->external_parts[ep];
-         if (veh->part_flag(p, vpf_wheel) && one_in(2))
+         if (veh->part_flag(p, "WHEEL") && one_in(2))
             if (displace_water (x + veh->parts[p].precalc_dx[0], y + veh->parts[p].precalc_dy[0]) && pl_ctrl)
                g->add_msg(_("You hear a splash!"));
          veh->handle_trap(x + veh->parts[p].precalc_dx[0],
@@ -859,11 +859,11 @@ int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle)
  int vpart = -1;
  vehicle *veh = veh_at(x, y, vpart);
  if (veh && veh != ignored_vehicle) {  // moving past vehicle cost
-  const int dpart = veh->part_with_feature(vpart, vpf_obstacle);
-  if (dpart >= 0 && (!veh->part_flag(dpart, vpf_openable) || !veh->parts[dpart].open)) {
+  const int dpart = veh->part_with_feature(vpart, "OBSTACLE");
+  if (dpart >= 0 && (!veh->part_flag(dpart, "OPENABLE") || !veh->parts[dpart].open)) {
    return 0;
   } else {
-    const int ipart = veh->part_with_feature(vpart, vpf_aisle);
+    const int ipart = veh->part_with_feature(vpart, "AISLE");
     if (ipart >= 0)
       return 2;
    return 8;
@@ -900,9 +900,9 @@ bool map::trans(const int x, const int y)
  vehicle *veh = veh_at(x, y, vpart);
  bool tertr;
  if (veh) {
-  tertr = !veh->part_flag(vpart, vpf_opaque) || veh->parts[vpart].hp <= 0;
+  tertr = !veh->part_flag(vpart, "OPAQUE") || veh->parts[vpart].hp <= 0;
   if (!tertr) {
-   const int dpart = veh->part_with_feature(vpart, vpf_openable);
+   const int dpart = veh->part_with_feature(vpart, "OPENABLE");
    if (dpart >= 0 && veh->parts[dpart].open)
     tertr = true; // open opaque door
   }
@@ -934,8 +934,8 @@ bool map::has_flag(const t_flag flag, const int x, const int y)
   int vpart;
   vehicle *veh = veh_at(x, y, vpart);
   if (veh && veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
-      veh->part_with_feature (vpart, vpf_obstacle) >= 0) {// & it is obstacle...
-   const int p = veh->part_with_feature (vpart, vpf_openable);
+      veh->part_with_feature (vpart, "OBSTACLE") >= 0) {// & it is obstacle...
+   const int p = veh->part_with_feature (vpart, "OPENABLE");
    if (p < 0 || !veh->parts[p].open) // and not open door
     return true;
   }
@@ -2709,8 +2709,8 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
       vehicle *veh = veh_at(x, y, vpart);
 
       if (veh) { // check if a vehicle part is present to provide water/power
-        const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
-        const int weldpart = veh->part_with_feature(vpart, vpf_weldrig);
+        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
 
         if (kpart >= 0) { // we have a kitchen, now to see what to drain
           ammotype ftype = "NULL";
@@ -4089,8 +4089,8 @@ void map::build_map_cache(game *g)
     if (vehs[v].v->is_inside(*part)) {
      outside_cache[px][py] = false;
     }
-    if (vehs[v].v->part_flag(*part, vpf_opaque) && vehs[v].v->parts[*part].hp > 0) {
-     int dpart = vehs[v].v->part_with_feature(*part , vpf_openable);
+    if (vehs[v].v->part_flag(*part, "OPAQUE") && vehs[v].v->parts[*part].hp > 0) {
+     int dpart = vehs[v].v->part_with_feature(*part , "OPENABLE");
      if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
       transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
      }
