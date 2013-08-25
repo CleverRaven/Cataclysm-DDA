@@ -128,7 +128,7 @@ class cOpt
 
             } else if (sType == "float") {
                 std::stringstream ssTemp;
-                ssTemp.precision(2);
+                ssTemp.precision(1);
                 ssTemp << std::fixed << fSet;
                 return ssTemp.str();
             }
