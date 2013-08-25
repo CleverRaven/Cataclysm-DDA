@@ -11198,6 +11198,41 @@
     [ ["whiskey", 2] ],
     [ ["rum", 2] ],
     [ ["bottle_glass", 1] ] ]
+},
+
+{
+  "result": "jackhammer",
+  "category": "CC_MISC",
+  "skill_used": "mechanics",
+  "difficulty": 5,
+  "time": 25000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "1cyl_combustion", 1 ]
+    ],
+    [
+      [ "rebar", 2 ]
+    ]
+  ]
 }
 
 ]
