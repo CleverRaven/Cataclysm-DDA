@@ -10,6 +10,10 @@
             {
                 "input_method":"keyboard",
                 "key":"UP"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_UP"
             }
         ]
     },
@@ -24,6 +28,10 @@
             {
                 "input_method":"keyboard",
                 "key":"DOWN"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_DOWN"
             }
         ]
     },
@@ -38,6 +46,10 @@
             {
                 "input_method":"keyboard",
                 "key":"LEFT"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_LEFT"
             }
         ]
     },
@@ -52,6 +64,10 @@
             {
                 "input_method":"keyboard",
                 "key":"RIGHT"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_RIGHT"
             }
         ]
     },
@@ -215,6 +231,10 @@
             {
                 "input_method":"keyboard",
                 "key":"Q"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_3"
             }
         ]
     }

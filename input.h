@@ -4,6 +4,12 @@
 #include <string>
 #include <map>
 #include <vector>
+#include "cursesdef.h"
+
+// Compiling with SDL enables gamepad support.
+#ifdef TILES
+    #define GAMEPAD_ENABLED
+#endif
 
 enum InputEvent {
     Confirm,
@@ -34,7 +40,29 @@ InputEvent get_input(int ch = '\0');
 void get_direction(int &x, int &y, InputEvent &input);
 std::string get_input_string_from_file(std::string fname="input.txt");
 
+// Definitions for joystick/gamepad.
+
+
+
+// On the joystick there's a maximum of 256 key states.
+// So for joy axis events, we simply use a number larger
+// than that.
+#define JOY_0        0
+#define JOY_1        1
+#define JOY_2        2
+#define JOY_3        3
+#define JOY_4        4
+#define JOY_5        5
+#define JOY_6        6
+#define JOY_7        7
+
+#define JOY_LEFT     256 + 1
+#define JOY_RIGHT    256 + 2
+#define JOY_UP       256 + 3
+#define JOY_DOWN     256 + 4
+
 enum input_event_t {
+    INPUT_ERROR,
     INPUT_KEYBOARD,
     INPUT_GAMEPAD
 };
@@ -125,6 +153,13 @@ public:
      * Get the human-readable name for an action.
      */
     const std::string& get_action_name(const std::string& action);
+
+    /**
+     * curses getch() replacement.
+     *
+     * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
+     */
+    input_event get_input_event(WINDOW* win);
 
 private:
     std::map<std::string, std::vector<input_event> > action_to_input;

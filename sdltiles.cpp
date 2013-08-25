@@ -2,6 +2,7 @@
 #include "catacurse.h"
 #include "options.h"
 #include "output.h"
+#include "input.h"
 #include "color.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -67,6 +68,7 @@ static int ttf_height_hack = 0;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
+bool lastchar_isbutton; // Whether lastchar was a gamepad button press rather than a keypress.
 int inputdelay;         //How long getch will wait for a character to be typed
 //WINDOW *_windows;  //Probably need to change this to dynamic at some point
 //int WindowCount;        //The number of curses windows currently in use
@@ -74,6 +76,8 @@ int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
+
+static SDL_Joystick *joystick; // Only one joystick for now.
 
 static bool fontblending = false;
 
@@ -106,6 +110,8 @@ bool WinCreate()
         return false;
     }
 
+    SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+
     SDL_EnableUNICODE(1);
     SDL_EnableKeyRepeat(500, 60);
 
@@ -128,12 +134,30 @@ bool WinCreate()
     else
         SDL_ShowCursor(SDL_ENABLE);
 
+    // Initialize joysticks.
+    int numjoy = SDL_NumJoysticks();
+
+    if(numjoy > 1) {
+        DebugLog() << "You have more than one gamepads/joysticks plugged in, only the first will be used.\n";
+    }
+
+    if(numjoy >= 1) {
+        joystick = SDL_JoystickOpen(0);
+    }
+
+    SDL_JoystickEventState(SDL_ENABLE);
+
     return true;
 };
 
 void WinDestroy()
 {
-    if (screen) SDL_FreeSurface(screen);
+    if(joystick) {
+        SDL_JoystickClose(joystick);
+        joystick = 0;
+    }
+
+    if(screen) SDL_FreeSurface(screen);
     screen = NULL;
 };
 
@@ -492,7 +516,6 @@ static int add_alt_code(char c)
             alt_buffer[++alt_buffer_len] = '\0';
         }
     }
-    
     return 0;
 }
 
@@ -509,6 +532,8 @@ void CheckMessages()
     bool quit = false;
     while(SDL_PollEvent(&ev))
     {
+        SDL_JoyAxisEvent *jaxis;
+        SDL_JoyHatEvent *jhat;
         switch(ev.type)
         {
             case SDL_KEYDOWN:
@@ -568,6 +593,7 @@ void CheckMessages()
                 }else {
                     lastchar = lc;
                 }
+                lastchar_isbutton = false;
             }
             break;
             case SDL_KEYUP:
@@ -575,6 +601,40 @@ void CheckMessages()
                 if(ev.key.keysym.sym==SDLK_LALT) {
                     int code = end_alt_code();
                     if(code) lastchar = code;
+                }
+            }
+            break;
+            case SDL_JOYBUTTONDOWN:
+                lastchar = ev.jbutton.button;
+                lastchar_isbutton = true;
+            break;
+            case SDL_JOYAXISMOTION: // on gamepads, the axes are the analog sticks
+                // TODO: somehow get the "digipad" values from the axes
+                jaxis = &ev.jaxis;
+                //DebugLog() << "AXIS: " << (int) jaxis->axis << " " << jaxis->value << "\n";
+            break;
+            case SDL_JOYHATMOTION: { // on gamepads the joyhat is the d-pad
+                // TODO: detect if two directions are pressed at once, and if so, generate
+                // a diagonal press instead(so you can move diagonally with dpad).
+                jhat = &ev.jhat;
+                //DebugLog() << "BALL: " << (int) jhat->hat << " " << (int) jhat->value << "\n";
+
+                // TODO: when holding down the d-pad, keep generating button events.
+
+                int lc = ERR;
+                if(jhat->value == 8) {
+                    lc = JOY_LEFT;
+                } else if(jhat->value == 4) {
+                    lc = JOY_DOWN;
+                } else if(jhat->value == 2) {
+                    lc = JOY_RIGHT;
+                } else if(jhat->value == 1) {
+                    lc = JOY_UP;
+                }
+
+                if(lc != ERR) {
+                    lastchar_isbutton = true;
+                    lastchar = lc;
                 }
             }
             break;
@@ -853,31 +913,12 @@ WINDOW *curses_init(void)
 //but jday helped to figure most of it out
 int curses_getch(WINDOW* win)
 {
-    // standards note: getch is sometimes required to call refresh
-    // see, e.g., http://linux.die.net/man/3/getch
-    // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
-    wrefresh(win);
-    lastchar=ERR;//ERR=-1
-    if (inputdelay < 0) {
-        do {
-            CheckMessages();
-            if (lastchar!=ERR) break;
-            SDL_Delay(1);
-        } while (lastchar==ERR);
-    } else if (inputdelay > 0) {
-        unsigned long starttime=SDL_GetTicks();
-        unsigned long endtime;
-        do {
-            CheckMessages();
-            endtime=SDL_GetTicks();
-            if (lastchar!=ERR) break;
-            SDL_Delay(1);
-        }
-        while (endtime<(starttime+inputdelay));
+    input_event evt = inp_mngr.get_input_event(win);
+    if(evt.type != INPUT_KEYBOARD) {
+        return ERR;
     } else {
-        CheckMessages();
+        return evt.sequence[0];
     }
-    return lastchar;
 }
 
 
@@ -934,6 +975,62 @@ int curses_start_color(void)
 void curses_timeout(int t)
 {
     inputdelay = t;
+}
+
+extern WINDOW *mainwin;
+
+// This is how we're actually going to handle input events, SDL getch
+// is simply a wrapper around this.
+input_event input_manager::get_input_event(WINDOW *win) {
+    // standards note: getch is sometimes required to call refresh
+    // see, e.g., http://linux.die.net/man/3/getch
+    // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
+
+    if(win == NULL) win = mainwin;
+
+    wrefresh(win);
+    lastchar=ERR;//ERR=-1
+    if (inputdelay < 0)
+    {
+        do
+        {
+            CheckMessages();
+            if (lastchar!=ERR) break;
+            SDL_Delay(1);
+        }
+        while (lastchar==ERR);
+    }
+    else if (inputdelay > 0)
+    {
+        unsigned long starttime=SDL_GetTicks();
+        unsigned long endtime;
+        do
+        {
+            CheckMessages();
+            endtime=SDL_GetTicks();
+            if (lastchar!=ERR) break;
+            SDL_Delay(1);
+        }
+        while (endtime<(starttime+inputdelay));
+    }
+    else
+    {
+        CheckMessages();
+    }
+
+    input_event rval;
+
+    if(lastchar == ERR) {
+        rval.type = INPUT_ERROR;
+    } else if(!lastchar_isbutton) {
+        rval.type = INPUT_KEYBOARD;
+        rval.sequence.push_back(lastchar);
+    } else {
+        rval.type = INPUT_GAMEPAD;
+        rval.sequence.push_back(lastchar);
+    }
+
+    return rval;
 }
 
 #endif // TILES

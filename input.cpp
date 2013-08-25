@@ -186,28 +186,30 @@ void input_manager::init() {
 
             const picojson::value& keybinding = *subentry;
             const std::string& input_method = keybinding.get("input_method").get<std::string>();
+            input_event new_event;
             if(input_method == "keyboard") {
-                input_event new_event;
                 new_event.type = INPUT_KEYBOARD;
-                if(keybinding.get("key").is<std::string>()) {
-                    const std::string& key = keybinding.get("key").get<std::string>();
+            } else if(input_method == "gamepad") {
+                new_event.type = INPUT_GAMEPAD;
+            }
 
-                    new_event.sequence.push_back(inp_mngr.get_keycode(key));
-                } else if(keybinding.get("key").is<picojson::array>()) {
-                    picojson::array keys = keybinding.get("key").get<picojson::array>();
-                    for(int i=0; i<keys.size(); i++) {
-                        const std::string& next_key = keybinding.get("key").get(i).get<std::string>();
+            if(keybinding.get("key").is<std::string>()) {
+                const std::string& key = keybinding.get("key").get<std::string>();
 
-                        new_event.sequence.push_back(inp_mngr.get_keycode(next_key));
-                    }
+                new_event.sequence.push_back(inp_mngr.get_keycode(key));
+            } else if(keybinding.get("key").is<picojson::array>()) {
+                picojson::array keys = keybinding.get("key").get<picojson::array>();
+                for(int i=0; i<keys.size(); i++) {
+                    const std::string& next_key = keybinding.get("key").get(i).get<std::string>();
+
+                    new_event.sequence.push_back(inp_mngr.get_keycode(next_key));
                 }
+            }
 
-
-                if(context == "default") {
-                    action_to_input[action_id].push_back(new_event);
-                } else {
-                    action_contexts[context][action_id].push_back(new_event);
-                }
+            if(context == "default") {
+                action_to_input[action_id].push_back(new_event);
+            } else {
+                action_contexts[context][action_id].push_back(new_event);
             }
         }
 
@@ -239,7 +241,20 @@ void input_manager::init_keycode_mapping() {
     add_keycode_pair(KEY_NPAGE,     "PGUP");
     add_keycode_pair(KEY_PPAGE,     "PGDWN");
     add_keycode_pair(KEY_ESCAPE,    "ESC");
-    add_keycode_pair('\n',          "RETURN");
+
+    add_keycode_pair(JOY_LEFT,      "JOY_LEFT");
+    add_keycode_pair(JOY_RIGHT,     "JOY_RIGHT");
+    add_keycode_pair(JOY_UP,        "JOY_UP");
+    add_keycode_pair(JOY_DOWN,      "JOY_DOWN");
+
+    add_keycode_pair(JOY_0,         "JOY_0");
+    add_keycode_pair(JOY_1,         "JOY_1");
+    add_keycode_pair(JOY_2,         "JOY_2");
+    add_keycode_pair(JOY_3,         "JOY_3");
+    add_keycode_pair(JOY_4,         "JOY_4");
+    add_keycode_pair(JOY_5,         "JOY_5");
+    add_keycode_pair(JOY_6,         "JOY_6");
+    add_keycode_pair(JOY_7,         "JOY_7");
 }
 
 long input_manager::get_keycode(std::string name) {
@@ -319,14 +334,9 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
     return rval.str();
 }
 
-
 const std::string& input_context::handle_input() {
     while(1) {
-        long ch = getch();
-
-        input_event next_action;
-        next_action.type = INPUT_KEYBOARD;
-        next_action.sequence.push_back(ch);
+        input_event next_action = inp_mngr.get_input_event(NULL);
 
         const std::string& action = input_to_action(next_action);
 
@@ -449,3 +459,20 @@ void input_context::display_help() {
 
     werase(w_help);
 }
+
+#ifndef TILES
+    // If we're using curses, we need to provide get_input_event() here.
+    input_event input_manager::get_input_event(WINDOW* win) {
+        int key = getch();
+        input_event rval;
+
+        if(key == ERR) {
+            rval.type = INPUT_ERROR;
+        } else {
+            rval.type = INPUT_KEYBOARD;
+            rval.sequence.push_back(key);
+        }
+
+        return rval;
+    }
+#endif
