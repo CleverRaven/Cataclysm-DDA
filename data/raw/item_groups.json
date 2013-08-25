@@ -207,6 +207,7 @@
       ["hamburger", 8],
       ["cheese", 10],
       ["orange", 65],
+      ["banana", 40],
       ["lemon", 50],
       ["potato_raw", 10],
 	  ["pickle", 40]
@@ -638,6 +639,7 @@
     "items":[
       ["apple", 70],
       ["orange", 65],
+      ["banana", 40],
       ["lemon", 50],
       ["mushroom", 4],
       ["potato_raw", 10],
@@ -2768,6 +2770,7 @@
       ["veggy_tainted", 35],
       ["apple", 70],
       ["orange", 65],
+      ["banana", 40],
       ["mushroom", 4],
       ["blueberries", 3],
       ["strawberries", 2],
