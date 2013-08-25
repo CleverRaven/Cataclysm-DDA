@@ -1069,5 +1069,26 @@
         "skill" : "none",
         "price" : 900,
         "required_level" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "textbook_smithing",
+        "name" : "The Historic Weaponsmith",
+        "max_level" : 8,
+        "description" : "This in-depth and technical text details various forms of ancient weaponsmithing, and is well illustrated with step by step photo instructions.",
+        "weight" : 654,
+        "to_hit" : 0,
+        "color" : "dark_gray",
+        "intelligence" : 8,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 5,
+        "bashing" : -2,
+        "cutting" : 0,
+        "time" : 10,
+        "fun" : -1,
+        "skill" : "fabrication",
+        "price" : 300,
+        "required_level" : 3
     }
 ]
