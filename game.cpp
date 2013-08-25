@@ -1203,7 +1203,7 @@ int game::get_temperature()
     int tmp_temperature = temperature;
 
     if ( is_in_ice_lab(location) && levz < 0) {
-        tmp_temperature = 20 + 40*levz;
+        tmp_temperature = 20 + 30*levz;
     }
 
     return tmp_temperature;
