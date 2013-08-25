@@ -7983,6 +7983,8 @@ void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
 
     //Draw new trail
     vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
+    draw_line(x, y, vPoint);
+    /*
     for (int i = 1; i < vPoint.size(); i++)
     {
         m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
@@ -7990,7 +7992,7 @@ void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
 
     mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
                         vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
-
+    */
     wrefresh(w_terrain);
 }
 

@@ -711,6 +711,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
    // Only draw a highlighted trajectory if we can see the endpoint.
    // Provides feedback to the player, and avoids leaking information about tiles they can't see.
+   draw_line(x, y, center, ret);
+/*
    if (u_see( x, y)) {
     for (int i = 0; i < ret.size(); i++) {
       int mondex = mon_at(ret[i].x, ret[i].y),
@@ -724,6 +726,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
        m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center.x, center.y);
     }
    }
+//*/
     /* Print to target window, could maybe be moved up and out of the w_terrain drawing section? */
    if (!relevent) { // currently targetting vehicle to refill with fuel
     vehicle *veh = m.veh_at(x, y);

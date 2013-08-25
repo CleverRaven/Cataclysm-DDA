@@ -330,6 +330,8 @@ void load_artifacts(); // Load artifact data
   void draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
   void draw_hit_mon(int x, int y, monster m, bool dead = false);
   void draw_hit_player(player *p, bool dead = false);
+  void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
+  void draw_line(const int x, const int y, std::vector<point> ret);
 
  private:
 // Game-start procedures

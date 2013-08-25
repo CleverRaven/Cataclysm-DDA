@@ -22,6 +22,7 @@
 #include "catajson.h"
 #include "mapdata.h"
 #include "tile_id_data.h"
+#include "enums.h"
 
 
 
@@ -154,11 +155,19 @@ class cata_tiles
         void draw_hit_frame(int destx, int desty, int centerx, int centery, int width, int height);
         void void_hit();
 
+        // pseudo-animated layer, not really though.
+        void init_draw_line(int x, int y, std::vector<point> trajectory, std::string line_end_name, bool target_line);
+        void draw_line(int destx, int desty, int centerx, int centery, int width, int height);
+        void void_line();
+
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
         /** Used to properly initialize everything for display */
         void init(SDL_Surface *screen, std::string json_path, std::string tileset_path);
+        /* initialize from an outside file */
+        void init(SDL_Surface *screen, std::string load_file_path);
+        void get_tile_information(std::string file_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();
         LIGHTING light_at(int x, int y);
@@ -177,12 +186,20 @@ class cata_tiles
         bool do_draw_explosion;
         bool do_draw_bullet;
         bool do_draw_hit;
+        bool do_draw_line;
 
         int exp_pos_x, exp_pos_y, exp_rad;
+
         int bul_pos_x, bul_pos_y;
         std::string bul_id;
+
         int hit_pos_x, hit_pos_y;
         std::string hit_entity_id;
+
+        int line_pos_x, line_pos_y;
+        bool is_target_line;
+        std::vector<point> line_trajectory;
+        std::string line_endpoint_id;
 
         // offset values
         int o_x, o_y;

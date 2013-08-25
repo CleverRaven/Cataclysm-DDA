@@ -79,6 +79,8 @@ void cata_tiles::init(SDL_Surface *screen, std::string json_path, std::string ti
     DebugLog() << "Attempting to Load Tileset file\n";
     load_tileset(tileset_path);
 // may be useless, figure out and remove if necessary
+// removed for now since it's not used currently
+/*
     // getting to here assumes that everything went okay, so figure out how many tiles we need to fill the screen
     num_tiles = WindowWidth * WindowHeight;
     screen_tiles = new tile[num_tiles];
@@ -90,6 +92,80 @@ void cata_tiles::init(SDL_Surface *screen, std::string json_path, std::string ti
             tile t(x, y, 0, 0);
             screen_tiles[x + y * WindowWidth] = t;
         }
+    }
+*/
+}
+void cata_tiles::init(SDL_Surface *screen, std::string load_file_path)
+{
+    std::string json_path, tileset_path;
+    // get path information from load_file_path
+    get_tile_information(load_file_path, json_path, tileset_path);
+    // send this information to old init to avoid redundant code
+    init(screen, json_path, tileset_path);
+}
+void cata_tiles::get_tile_information(std::string file_path, std::string &json_path, std::string &tileset_path)
+{
+    DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << file_path << "]\n";
+    const std::string default_json = "gfx/tile_config.json";
+    const std::string default_tileset = "gfx/tinytile.png";
+
+    std::ifstream fin;
+    fin.open(file_path.c_str());
+    if(!fin.is_open()) {
+        fin.close();
+        DebugLog() << "\tCould not read ."<<file_path<<" -- Setting to default values!\n";
+        json_path = default_json;
+        tileset_path = default_tileset;
+        return;
+    }
+// should only have 2 values inside it, otherwise is going to only load the last 2 values
+    while(!fin.eof()) {
+        std::string sOption;
+        fin >> sOption;
+
+        //DebugLog() << "\tCurrent: " << sOption << " -- ";
+
+        if(sOption == "") {
+            getline(fin, sOption);    // Empty line, chomp it
+            //DebugLog() << "Empty line, skipping\n";
+        } else if(sOption[0] == '#') { // # indicates a comment
+            getline(fin, sOption);
+            //DebugLog() << "Comment line, skipping\n";
+        } else {
+            //std::string sValue;
+
+
+            //DebugLog() << "Value [" << sValue << "]\n";
+/*
+std::size_t found = str.find(str2);
+  if (found!=std::string::npos)
+    std::cout << "first 'needle' found at: " << found << '\n';
+
+*/          if (sOption.find("JSON") != std::string::npos)
+            {
+                fin >> json_path;
+                //json_path = sValue;
+                DebugLog() << "\tJSON path set to [" << json_path <<"].\n";
+            }
+            else if (sOption.find("TILESET") != std::string::npos)
+            {
+                fin >> tileset_path;
+                //tileset_path = sValue;
+                DebugLog() << "\tTILESET path set to [" << tileset_path <<"].\n";
+            }
+        }
+    }
+
+    fin.close();
+    if (json_path == "")
+    {
+        json_path = default_json;
+        DebugLog() << "\tJSON set to default [" << json_path << "].\n";
+    }
+    if (tileset_path == "")
+    {
+        tileset_path = default_tileset;
+        DebugLog() << "\tTILESET set to default [" << tileset_path << "].\n";
     }
 }
 
@@ -394,7 +470,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_entity(x,y);
         }
     }
-    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit;
+    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit || do_draw_line;
     if (in_animation)
     {
         if (do_draw_explosion)
@@ -409,6 +485,11 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         {
             draw_hit_frame(destx, desty, centerx, centery, width, height);
             void_hit();
+        }
+        if (do_draw_line)
+        {
+            draw_line(destx, desty, centerx, centery, width, height);
+            void_line();
         }
     }
     // check to see if player is located at ter
@@ -870,6 +951,15 @@ void cata_tiles::init_draw_hit(int x, int y, std::string name)
     hit_pos_y = y;
     hit_entity_id = name;
 }
+void cata_tiles::init_draw_line(int x, int y, std::vector<point> trajectory, std::string name, bool target_line)
+{
+    do_draw_line = true;
+    is_target_line = target_line;
+    line_pos_x = x;
+    line_pos_y = y;
+    line_endpoint_id = name;
+    line_trajectory = trajectory;
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -891,6 +981,15 @@ void cata_tiles::void_hit()
     hit_pos_x = -1;
     hit_pos_y = -1;
     hit_entity_id = "";
+}
+void cata_tiles::void_line()
+{
+    do_draw_line = false;
+    is_target_line = false;
+    line_pos_x = -1;
+    line_pos_y = -1;
+    line_endpoint_id = "";
+    line_trajectory.clear();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame(int destx, int desty, int centerx, int centery, int width, int height)
@@ -939,7 +1038,25 @@ void cata_tiles::draw_hit_frame(int destx, int desty, int centerx, int centery, 
     draw_from_id_string(hit_entity_id, mx, my, 0, 0);
     draw_from_id_string(hit_overlay, mx, my, 0, 0);
 }
+void cata_tiles::draw_line(int destx, int desty, int centerx, int centery, int width, int height)
+{
+    int mx = line_pos_x, my = line_pos_y;
+    std::string line_overlay = "animation_line";
+    if (!is_target_line || g->u_see(mx,my))
+    {
+        for (int i = 0; i < line_trajectory.size()-1; i++)
+        {
+            mx = line_trajectory[i].x;
+            my = line_trajectory[i].y;
 
+            draw_from_id_string(line_overlay, mx, my, 0, 0);
+        }
+    }
+    mx = line_trajectory[line_trajectory.size()-1].x;
+    my = line_trajectory[line_trajectory.size()-1].y;
+
+    draw_from_id_string(line_endpoint_id, mx, my, 0, 0);
+}
 /* END OF ANIMATION FUNCTIONS */
 
 void cata_tiles::init_light()
@@ -1096,10 +1213,10 @@ void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects
             subtile = end_piece;
             switch(val)
             {
-                case 8: rotation = 0; break;
+                case 8: rotation = 2; break;
                 case 4: rotation = 3; break;
                 case 2: rotation = 1; break;
-                case 1: rotation = 2; break;
+                case 1: rotation = 0; break;
             }
             break;
         case 2:

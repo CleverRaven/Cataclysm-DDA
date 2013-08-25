@@ -133,4 +133,47 @@ void game::draw_hit_player(player *p, bool dead)
              c_white, ' ');
     wrefresh(w_terrain);
 }
+
+/* Line drawing code, not really an animation but should be separated anyway */
+
+void game::draw_line(const int x, const int y, const point center_point, std::vector<point> ret)
+{
+    if (u_see( x, y))
+    {
+        for (int i = 0; i < ret.size(); i++)
+        {
+            int mondex = mon_at(ret[i].x, ret[i].y),
+            npcdex = npc_at(ret[i].x, ret[i].y);
+
+            // NPCs and monsters get drawn with inverted colors
+            if (mondex != -1 && u_see(&(z[mondex])))
+            {
+                z[mondex].draw(w_terrain, center_point.x, center_point.y, true);
+            }
+            else if (npcdex != -1)
+            {
+                active_npc[npcdex]->draw(w_terrain, center_point.x, center_point.y, true);
+            }
+            else
+            {
+                m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center_point.x, center_point.y);
+            }
+        }
+    }
+    tilecontext->init_draw_line(x,y,ret,"line_target", true);
+}
+
+void game::draw_line(const int x, const int y, std::vector<point> vPoint)
+{
+    for (int i = 1; i < vPoint.size(); i++)
+    {
+        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
+    }
+
+    mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
+                        vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
+
+    tilecontext->init_draw_line(x,y,vPoint,"line_trail", false);
+}
+//*/
 #endif
