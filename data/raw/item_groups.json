@@ -2147,7 +2147,9 @@
       ["bio_metabolics", 10],
       ["bio_ethanol", 10],
       ["bio_furnace", 10],
-      ["bio_torsionratchet", 10]
+      ["bio_torsionratchet", 10],
+      ["bio_str_enhancer", 5],
+      ["bio_dex_enhancer", 5]
     ]
   },
   { "id":"bots",
