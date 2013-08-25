@@ -23,9 +23,34 @@
 
 #define MONSTER_FOLLOW_DIST 8
 
-void monster::receive_moves()
+void monster::receive_moves(game *g, map *m)
 {
- moves += speed;
+    int absolute_zero_F = -460;
+    // Fetching the monster's om_location is tricky, so for now
+    // we just use the player's temperature. This works for now, because
+    // ice labs are the only exception and it's underground so yeah.
+    temperature = g->get_temperature() + abs(absolute_zero_F);
+    int preferred_temperature = 65 + abs(absolute_zero_F);
+    int temperature_modifier = 1;
+    int monster_resistance = 1;
+
+    // Effects of the overmap location (ie, inside an ice lab?)
+    if (has_flag(MF_WARM) {
+        monster_sensitivity = 2; 
+    } else if (has_flag(MF_COLD) {
+        monster_sensitivity = 0.5;
+    } else if (has_flag(MF_ICE) {
+        preferred_temperature = 0;
+    } else if (has_flag(MF_FIRE) {
+        preferred_temperature = 100;
+    }
+    // Effects of map tiles, such as ice mist
+    // (nothing at the moment)
+
+    // Take the relative difference between the preferred monster temp and actual temp, to the power of the monster's resistance
+    temperature_modifier = pow((abs(preferred_temperature - temperature) / preferred_temperature),monster_resistance);
+
+    moves += speed*temperature_modifier;
 }
 
 bool monster::wander()

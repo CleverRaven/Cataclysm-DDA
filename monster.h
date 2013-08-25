@@ -80,7 +80,7 @@ class monster {
  void debug(player &u);      // Gives debug info
 
 // Movement
- void receive_moves();       // Gives us movement points
+ void receive_moves(game *g, map *m);   // Gives us movement points
  void shift(int sx, int sy); // Shifts the monster to the appropriate submap
                              // Updates current pos AND our plans
  bool wander(); // Returns true if we have no plans
