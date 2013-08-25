@@ -26,10 +26,13 @@
 void monster::receive_moves(game *g, map m)
 {
     int absolute_zero_F = -460;
+    // At the moment, this points to the PLAYER and NOT the monster
+    // Fetching a Z's om location is difficult, I am told
+    point location = g->om_location();
     // Fetching the monster's om_location is tricky, so for now
     // we just use the player's temperature. This works for now, because
     // ice labs are the only exception and it's underground so yeah.
-    int temperature = g->get_temperature() + abs(absolute_zero_F);
+    int temperature = g->get_temperature(location) + abs(absolute_zero_F);
     int preferred_temperature = 65 + abs(absolute_zero_F);
     float temperature_modifier = 1.0;
     float monster_resistance = 0.7;
