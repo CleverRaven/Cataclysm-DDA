@@ -900,7 +900,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
                     }
                     if (should_dissipate == true || !cur->isAlive()) { // Totally dissapated.
                         grid[gridn]->field_count--;
-                        grid[gridn]->fld[locx][locy].removeField(cur->getFieldType());
+                        it = grid[gridn]->fld[locx][locy].removeField(cur->getFieldType());
+                        continue;
                     }
                 }
                 if (!skipIterIncr)
