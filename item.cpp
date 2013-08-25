@@ -639,7 +639,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     if (has_flag("FIT"))
     {
         dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "<num> (fits)",
-                                 std::min(0, armor->encumber - 1), true, "", true, true));
+                                 std::max(0, armor->encumber - 1), true, "", true, true));
     }
     else
     {
