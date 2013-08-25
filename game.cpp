@@ -533,6 +533,7 @@ void game::cleanup_at_end(){
         u.add_memorial_log("%s %s", u.name.c_str(),
                 uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
         write_memorial_file();
+        u.memorial_log.clear();
         if (OPTIONS["DELETE_WORLD"] == "Yes" ||
             (OPTIONS["DELETE_WORLD"] == "Query" && query_yn(_("Delete saved world?"))))
         {
