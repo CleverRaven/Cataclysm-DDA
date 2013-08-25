@@ -117,31 +117,116 @@ ncurses does not do this, and this prevents: wattron(win, c_customBordercolor); 
     int i, j;
     int oldx=win->cursorx;//methods below move the cursor, save the value!
     int oldy=win->cursory;//methods below move the cursor, save the value!
-    if (ls>0)
+
+    if (ls) {
+        for (j=1; j<win->height-1; j++)
+            mvwaddch(win, j, 0, ls);
+    } else {
         for (j=1; j<win->height-1; j++)
             mvwaddch(win, j, 0, LINE_XOXO);
-    if (rs>0)
+    }
+
+    if (rs) {
+        for (j=1; j<win->height-1; j++)
+            mvwaddch(win, j, win->width-1, rs);
+    } else {
         for (j=1; j<win->height-1; j++)
             mvwaddch(win, j, win->width-1, LINE_XOXO);
-    if (ts>0)
+    }
+
+    if (ts) {
+        for (i=1; i<win->width-1; i++)
+            mvwaddch(win, 0, i, ts);
+    } else {
         for (i=1; i<win->width-1; i++)
             mvwaddch(win, 0, i, LINE_OXOX);
-    if (bs>0)
+    }
+
+    if (bs) {
+        for (i=1; i<win->width-1; i++)
+            mvwaddch(win, win->height-1, i, bs);
+    } else {
         for (i=1; i<win->width-1; i++)
             mvwaddch(win, win->height-1, i, LINE_OXOX);
-    if (tl>0)
-        mvwaddch(win,0, 0, LINE_OXXO);
-    if (tr>0)
-        mvwaddch(win,0, win->width-1, LINE_OOXX);
-    if (bl>0)
-        mvwaddch(win,win->height-1, 0, LINE_XXOO);
-    if (br>0)
-        mvwaddch(win,win->height-1, win->width-1, LINE_XOOX);
+    }
+
+    if (tl)
+        mvwaddch(win, 0, 0, tl);
+    else
+        mvwaddch(win, 0, 0, LINE_OXXO);
+
+    if (tr)
+        mvwaddch(win, 0, win->width-1, tr);
+    else
+        mvwaddch(win, 0, win->width-1, LINE_OOXX);
+
+    if (bl)
+        mvwaddch(win, win->height-1, 0, bl);
+    else
+        mvwaddch(win, win->height-1, 0, LINE_XXOO);
+
+    if (br)
+        mvwaddch(win, win->height-1, win->width-1, br);
+    else
+        mvwaddch(win, win->height-1, win->width-1, LINE_XOOX);
+
     //_windows[w].cursorx=oldx;//methods above move the cursor, put it back
     //_windows[w].cursory=oldy;//methods above move the cursor, put it back
     wmove(win,oldy,oldx);
     wattroff(win, c_white);
     return 1;
+}
+
+int hline(chtype ch, int n)
+{
+    whline(mainwin, ch, n);
+}
+
+int vline(chtype ch, int n)
+{
+    wvline(mainwin, ch, n);
+}
+
+int whline(WINDOW *win, chtype ch, int n)
+{
+    mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
+}
+
+int wvline(WINDOW *win, chtype ch, int n)
+{
+    mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
+}
+
+int mvhline(int y, int x, chtype ch, int n)
+{
+    mvwhline(mainwin, y, x, ch, n);
+}
+
+int mvvline(int y, int x, chtype ch, int n)
+{
+    mvwvline(mainwin, y, x, ch, n);
+}
+
+int mvwhline(WINDOW *win, int y, int x, chtype ch, int n)
+{
+    if (ch){
+        for (int i=0; i<n; i++)
+            mvwaddch(win, y, x + i, ch);
+    } else {
+        for (int i=0; i<n; i++)
+            mvwaddch(win, y, x + i, LINE_OXOX);
+    }
+}
+
+int mvwvline(WINDOW *win, int y, int x, chtype ch, int n)
+{
+    if (ch){
+        for (int j=0; j<n; j++)
+            mvwaddch(win, y + j, x, ch);
+    } else {
+        for (int j=0; j<n; j++)
+            mvwaddch(win, y + j, x, LINE_XOXO);
+    }
 }
 
 //Refreshes a window, causing it to redraw on top.
@@ -230,7 +315,7 @@ inline int printstring(WINDOW *win, char *fmt)
 	{
 		int j, i, p=win->cursorx;
 		int x = (win->line[win->cursory].width_in_bytes==win->width)?win->cursorx:cursorx_to_position(win->line[win->cursory].chars, win->cursorx, &p);
-		
+
 		if(p!=x)//so we start inside a wide character, erase it for good
 		{
 			const char* ts = win->line[win->cursory].chars+p;
