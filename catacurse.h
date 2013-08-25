@@ -119,6 +119,16 @@ typedef struct {
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 int delwin(WINDOW *win);
 int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br);
+
+int hline(chtype ch, int n);
+int vline(chtype ch, int n);
+int whline(WINDOW *win, chtype ch, int n);
+int wvline(WINDOW *win, chtype ch, int n);
+int mvhline(int y, int x, chtype ch, int n);
+int mvvline(int y, int x, chtype ch, int n);
+int mvwhline(WINDOW *win, int y, int x, chtype ch, int n);
+int mvwvline(WINDOW *win, int y, int x, chtype ch, int n);
+
 int wrefresh(WINDOW *win);
 int refresh(void);
 int getch(void);

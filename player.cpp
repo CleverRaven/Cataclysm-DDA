@@ -4142,7 +4142,7 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     int liquid_amount = veh->drain( desired_liquid , veh->fuel_capacity( desired_liquid ));
     item used_item(g->itypes[ default_ammo(desired_liquid) ], g->turn);
     used_item.charges = liquid_amount;
-    if (!g->handle_liquid(used_item, false, false)) { 
+    if (!g->handle_liquid(used_item, false, false)) {
       //Didn't handle all of it, put the remainder (in used_item.charges) back
       veh->refill(desired_liquid, used_item.charges);
     }
@@ -6706,400 +6706,286 @@ bool player::takeoff(game *g, char let, bool autodrop)
  }
 }
 
+#include <string>
+
 void player::sort_armor(game *g)
 {
-    if (worn.size() == 0)
-    {
-        g->add_msg(_("You are not wearing anything!"));
-        return;
-    }
+    int32_t win_w = FULL_SCREEN_WIDTH;
+    int32_t win_h = FULL_SCREEN_HEIGHT;
+    int32_t win_x = TERMX/2 - win_w/2;
+    int32_t win_y = TERMY/2 - win_h/2;
 
-    // work out required window sizes
-    int info_win_y = 5;
-    int arm_info_win_y = 4;
-    int worn_win_y = worn.size() + 5;
+    int32_t list_w = win_w / 3;
+    int32_t cont_h = win_h - 4;
+    int32_t data_w = win_w - list_w - 3;
 
-    int torso_win_y = 3;
-    int arms_win_y = 3;
-    int hands_win_y = 3;
-    int legs_win_y = 3;
-    int eyes_win_y = 3;
-    int mouth_win_y = 3;
+    int32_t tabindex = 0;
+    int32_t tabcount = 9;
 
-    // color array for damage
+    int32_t listsize;
+    int32_t listindex = 0;
+    int32_t listoffset = 0;
+    int32_t selected = -1;
+    item tmp_item;
+    std::vector<item*> tmp_worn;
+    std::string tmpstr;
+
+    std::string  armor_cat[] = {_("All"), _("Torso"), _("Arms"), _("Hands"), _("Legs"),
+                                _("Feet"), _("Head"), _("Eyes"), _("Mouth")};
+
+    // Layout window
+    WINDOW *w_sort_armor = newwin(win_h, win_w, win_y, win_x);
+    wborder(w_sort_armor, 0, 0, 0, 0, 0, 0, 0, 0);
+    mvwhline(w_sort_armor, 2, 1, 0, win_w-2);
+    mvwvline(w_sort_armor, 3, list_w+1, 0, win_h-4);
+    // intersections
+    mvwhline(w_sort_armor, 2, 0, LINE_XXXO, 1);
+    mvwhline(w_sort_armor, 2, win_w-1, LINE_XOXX, 1);
+    mvwvline(w_sort_armor, 2, list_w+1, LINE_OXXX, 1);
+    mvwvline(w_sort_armor, win_h-1, list_w+1, LINE_XXOX, 1);
+    // display now
+    wrefresh(w_sort_armor);
+
+    // Subwindows (between lines)
+    WINDOW *w_sort_cat  = newwin(1, win_w-3, win_y+1, win_x+2);
+    WINDOW *w_sort_list = newwin(cont_h, list_w, win_y+3, win_x+1);
+    WINDOW *w_sort_data = newwin(cont_h, data_w, win_y+3, win_x+list_w+2);
+
     nc_color dam_color[] = {c_green, c_ltgreen, c_yellow, c_magenta, c_ltred, c_red};
 
-    for (int i = 0; i < worn.size(); i++)
-    {
-        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso))
-            torso_win_y++;
-        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_arms))
-            arms_win_y++;
-        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_hands))
-            hands_win_y++;
-        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_legs))
-            legs_win_y++;
-        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_eyes))
-            eyes_win_y++;
-        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_mouth))
-            mouth_win_y++;
-    }
+    for (bool sorting = true; sorting; ){
+        // top bar
+        werase(w_sort_cat);
+        wprintz(w_sort_cat, c_white, _("Sort Armor"));
+        tmpstr = "  << " + armor_cat[tabindex] + " >>";
+        wprintz(w_sort_cat, c_yellow, tmpstr.c_str());
+        tmpstr = _("Navigate: directional keys; Select: 's'");
+        mvwprintz(w_sort_cat, 0, win_w - utf8_width(tmpstr.c_str()) - 3, c_white, tmpstr.c_str());
 
-    int iCol1WinX = 28;
-    int iCol2WinX = 26;
-    int iCol3WinX = 26;
-
-    int iCenterOffsetX = TERMX/2 - FULL_SCREEN_WIDTH/2;
-    int iCenterOffsetY = TERMY/2 - (info_win_y + arm_info_win_y + worn_win_y)/2;
-
-    // Prevent calling newwin with negative Y offset
-    if (iCenterOffsetY < 0){
-        worn_win_y = TERMY - 7;
-        iCenterOffsetY = 0;
-    }
-
-    // Keep track of how many worn items to display
-    int wornDisplayed = (worn_win_y-5 > worn.size()) ? worn.size() : worn_win_y-5;
-    int wornOffset = 0;
-
-    WINDOW* w_info       = newwin(info_win_y, FULL_SCREEN_WIDTH, iCenterOffsetY + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X + iCenterOffsetX);
-    WINDOW* w_arm_info   = newwin(arm_info_win_y, FULL_SCREEN_WIDTH,  iCenterOffsetY + info_win_y - 1 + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X + iCenterOffsetX);
-    WINDOW* w_all_worn   = newwin(worn_win_y, iCol1WinX, iCenterOffsetY + arm_info_win_y + info_win_y - 2 + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X + iCenterOffsetX);
-    WINDOW* w_torso_worn = newwin(torso_win_y, iCol2WinX, iCenterOffsetY + arm_info_win_y + info_win_y - 2 + VIEW_OFFSET_Y, iCol1WinX + VIEW_OFFSET_X + iCenterOffsetX);
-    WINDOW* w_arms_worn  = newwin(arms_win_y, iCol2WinX, iCenterOffsetY + arm_info_win_y + info_win_y - 3 + torso_win_y + VIEW_OFFSET_Y, iCol1WinX + VIEW_OFFSET_X + iCenterOffsetX);
-    WINDOW* w_hands_worn = newwin(hands_win_y, iCol2WinX, iCenterOffsetY + arm_info_win_y + info_win_y - 4 + torso_win_y + arms_win_y  + VIEW_OFFSET_Y, iCol1WinX + VIEW_OFFSET_X + iCenterOffsetX);
-    WINDOW* w_legs_worn  = newwin(legs_win_y, iCol3WinX, iCenterOffsetY + arm_info_win_y + info_win_y - 2 + VIEW_OFFSET_Y, iCol1WinX + iCol2WinX + VIEW_OFFSET_X + iCenterOffsetX);
-    WINDOW* w_eyes_worn  = newwin(eyes_win_y, iCol3WinX, iCenterOffsetY + arm_info_win_y + info_win_y - 3 + legs_win_y + VIEW_OFFSET_Y, iCol1WinX + iCol2WinX + VIEW_OFFSET_X + iCenterOffsetX);
-    WINDOW* w_mouth_worn = newwin(mouth_win_y, iCol3WinX, iCenterOffsetY + arm_info_win_y + info_win_y - 4 + legs_win_y + eyes_win_y  + VIEW_OFFSET_Y, iCol1WinX + iCol2WinX + VIEW_OFFSET_X + iCenterOffsetX);
-
-    wborder(w_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    wborder(w_arm_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_XOXX, LINE_XXXO, LINE_XOXX );
-    wborder(w_all_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_OXXX, LINE_XXOO, LINE_XOOX );
-    wborder(w_torso_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXX, LINE_OXXX, LINE_XXXO, LINE_XOXX);
-    wborder(w_eyes_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_XOXX, LINE_XXXO, LINE_XOXX);
-    wborder(w_mouth_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_XOXX, LINE_XXOO, LINE_XOOX);
-    wborder(w_arms_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_XOXX, LINE_XXXO, LINE_XOXX);
-    wborder(w_hands_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_XOXX, LINE_XXOO, LINE_XOOX);
-    wborder(w_legs_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXX, LINE_XOXX, LINE_XXXO, LINE_XOXX);
-
-    // Print name and header
-    mvwprintz(w_info, 1, 1, c_white, _("CLOTHING SORTING        Press jk to move up/down, s to select items to move."));
-    mvwprintz(w_info, 2, 1, c_white, _("Press r to assign special inventory letters to clothing, ESC or q to return."));
-    mvwprintz(w_info, 3, 1, c_white, _("Color key: "));
-    wprintz(w_info, c_ltgray, _("(Reinforced) "));
-    wprintz(w_info, dam_color[0], "# ");
-    wprintz(w_info, dam_color[1], "# ");
-    wprintz(w_info, dam_color[2], "# ");
-    wprintz(w_info, dam_color[3], "# ");
-    wprintz(w_info, dam_color[4], "# ");
-    wprintz(w_info, dam_color[5], "# ");
-    wprintz(w_info, c_ltgray, _("(Thoroughly Damaged)"));
-
-    wrefresh(w_info);
-
-    bool done = false;
-    bool redraw = true;
-    int cursor_y = 0;
-    int selected = -1;
-
-    int torso_item_count;
-    int eyes_item_count;
-    int mouth_item_count;
-    int arms_item_count;
-    int hands_item_count;
-    int legs_item_count;
-
-    item tmp_item;
-    std::stringstream temp1;
-
-    do
-    {
-        if (redraw)
+        switch (tabindex)
         {
-            // detailed armor info window
-            it_armor* cur_armor = dynamic_cast<it_armor*>(worn[cursor_y].type);
-
-            temp1.str("");
-            temp1 << _("Covers: ");
-            if (cur_armor->covers & mfb(bp_head))
-                temp1 << _("Head. ");
-            if (cur_armor->covers & mfb(bp_eyes))
-                temp1 << _("Eyes. ");
-            if (cur_armor->covers & mfb(bp_mouth))
-                temp1 << _("Mouth. ");
-            if (cur_armor->covers & mfb(bp_torso))
-               temp1 << _("Torso. ");
-            if (cur_armor->covers & mfb(bp_arms))
-               temp1 << _("Arms. ");
-            if (cur_armor->covers & mfb(bp_hands))
-               temp1 << _("Hands. ");
-            if (cur_armor->covers & mfb(bp_legs))
-               temp1 << _("Legs. ");
-            if (cur_armor->covers & mfb(bp_feet))
-               temp1 << _("Feet. ");
-            temp1 << _(" Coverage: ");
-            temp1 << int(cur_armor->coverage);
-
-            werase(w_arm_info);
-            wborder(w_arm_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_XOXX, LINE_XXXO, LINE_XOXX );
-            mvwprintz(w_arm_info, 1, 1, dam_color[int(worn[cursor_y].damage + 1)], worn[cursor_y].tname(g).c_str());
-            wprintz(w_arm_info, c_ltgray, " - ");
-            wprintz(w_arm_info, c_ltgray, temp1.str().c_str());
-
-            temp1.str("");
-            temp1 << _("Encumbrance: ");
-            if (worn[cursor_y].has_flag("FIT"))
-            {
-                temp1 << (int(cur_armor->encumber) - 1);
-                temp1 << _(" (fits)");
+        case 0: // All
+            tmp_worn.clear();
+            for (int i = 0; i < worn.size(); i++){
+                tmp_worn.push_back(&worn[i]);
             }
-            else
-            {
-                temp1 << int(cur_armor->encumber);
-            }
-            temp1 << _(" Bash prot: ");
-            temp1 << int(worn[cursor_y].bash_resist());
-            temp1 << _(" Cut prot: ");
-            temp1 << int(worn[cursor_y].cut_resist());
-            temp1 << _(" Warmth: ");
-            temp1 << int(cur_armor->warmth);
-            temp1 << _(" Storage: ");
-            temp1 << int(cur_armor->storage);
+            break;
 
-            mvwprintz(w_arm_info, 2, 1, c_ltgray, temp1.str().c_str());
-
-            werase(w_all_worn);
-            wborder(w_all_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_OXXX, LINE_XXOO, LINE_XOOX );
-            mvwprintz(w_all_worn, 1, 1, c_white, _("WORN CLOTHING"));
-            mvwprintz(w_all_worn, 1, iCol1WinX-9, c_ltgray ,_("Storage"));
-
-            mvwprintz(w_all_worn, 2, 1, c_ltgray, _("(Innermost)"));
-
-            for (int i = 0; i < wornDisplayed; i++)
-            {
-                int j = i + wornOffset;
-                it_armor* each_armor = dynamic_cast<it_armor*>(worn[j].type);
-                if (j == cursor_y)
-                    mvwprintz(w_all_worn, 3+cursor_y - wornOffset, 2, c_yellow, ">>");
-                if (selected >= 0 && j == selected)
-                    mvwprintz(w_all_worn, i+3, 5, dam_color[int(worn[j].damage + 1)], each_armor->name.c_str());
-                else
-                    mvwprintz(w_all_worn, i+3, 4, dam_color[int(worn[j].damage + 1)], each_armor->name.c_str());
-                mvwprintz(w_all_worn, i+3, iCol1WinX-4, dam_color[int(worn[j].damage + 1)], "%2d", int(each_armor->storage));
-            }
-            mvwprintz(w_all_worn, wornDisplayed + 3, 1, c_ltgray, _("(Outermost)"));
-
-            if (wornDisplayed < worn.size()) // Show flag if list is scollable
-                mvwprintz(w_all_worn, wornDisplayed + 3, iCol1WinX-8, c_yellow, _("<more>"));
-
-            werase(w_torso_worn);
-            werase(w_eyes_worn);
-            werase(w_mouth_worn);
-            werase(w_hands_worn);
-            werase(w_arms_worn);
-            werase(w_legs_worn);
-
-            wborder(w_torso_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXX, LINE_OXXX, LINE_XXXO, LINE_XOXX);
-            wborder(w_eyes_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_XOXX, LINE_XXXO, LINE_XOXX);
-            wborder(w_mouth_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_XOXX, LINE_XXOO, LINE_XOOX);
-            wborder(w_arms_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_XOXX, LINE_XXXO, LINE_XOXX);
-            wborder(w_hands_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_XXXO, LINE_XOXX, LINE_XXOO, LINE_XOOX);
-            wborder(w_legs_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXX, LINE_XOXX, LINE_XXXO, LINE_XOXX);
-
-            mvwprintz(w_torso_worn, 1, 1, c_white, _("TORSO CLOTHING"));
-            mvwprintz(w_eyes_worn, 1, 1, c_white, _("EYES CLOTHING"));
-            mvwprintz(w_mouth_worn, 1, 1, c_white, _("MOUTH CLOTHING"));
-            mvwprintz(w_arms_worn, 1, 1, c_white, _("ARMS CLOTHING"));
-            mvwprintz(w_hands_worn, 1, 1, c_white, _("HANDS CLOTHING"));
-            mvwprintz(w_legs_worn, 1, 1, c_white, _("LEGS CLOTHING"));
-
-            mvwprintz(w_torso_worn, 1, iCol2WinX-8, c_ltgray ,_("Encumb"));
-            mvwprintz(w_eyes_worn, 1, iCol2WinX-8, c_ltgray ,_("Encumb"));
-            mvwprintz(w_mouth_worn, 1, iCol2WinX-8, c_ltgray ,_("Encumb"));
-            mvwprintz(w_arms_worn, 1, iCol3WinX-8, c_ltgray ,_("Encumb"));
-            mvwprintz(w_hands_worn, 1, iCol3WinX-8, c_ltgray ,_("Encumb"));
-            mvwprintz(w_legs_worn, 1, iCol3WinX-8, c_ltgray ,_("Encumb"));
-
-            torso_item_count = 0;
-            eyes_item_count = 0;
-            mouth_item_count = 0;
-            arms_item_count = 0;
-            hands_item_count = 0;
-            legs_item_count = 0;
-
-            for (int i = 0; i < worn.size(); i++)
-            {
+        case 1: // Torso
+            tmp_worn.clear();
+            for (int i = 0; i < worn.size(); i++){
                 it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
-
-                nc_color fitc=(worn[i].has_flag("FIT") ? c_green : c_ltgray );
-
                 if (each_armor->covers & mfb(bp_torso))
-                {
-                    mvwprintz(w_torso_worn, torso_item_count + 2, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
-                    mvwprintz(w_torso_worn, torso_item_count + 2, iCol2WinX-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
-                    torso_item_count++;
-                }
-                if (each_armor->covers & mfb(bp_eyes))
-                {
-                    mvwprintz(w_eyes_worn, eyes_item_count + 2, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
-                    mvwprintz(w_eyes_worn, eyes_item_count + 2, iCol3WinX-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
-                    eyes_item_count++;
-                }
-                if (each_armor->covers & mfb(bp_mouth))
-                {
-                    mvwprintz(w_mouth_worn, mouth_item_count + 2, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
-                    mvwprintz(w_mouth_worn, mouth_item_count + 2, iCol3WinX-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
-                    mouth_item_count++;
-                }
-                if (each_armor->covers & mfb(bp_arms))
-                {
-                    mvwprintz(w_arms_worn, arms_item_count + 2, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
-                    mvwprintz(w_arms_worn, arms_item_count + 2, iCol2WinX-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
-                    arms_item_count++;
-                }
-                if (each_armor->covers & mfb(bp_hands))
-                {
-                    mvwprintz(w_hands_worn, hands_item_count + 2, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
-                    mvwprintz(w_hands_worn, hands_item_count + 2, iCol2WinX-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
-                    hands_item_count++;
-                }
-                if (each_armor->covers & mfb(bp_legs))
-                {
-                    mvwprintz(w_legs_worn, legs_item_count + 2, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
-                    mvwprintz(w_legs_worn, legs_item_count + 2, iCol3WinX-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
-                    legs_item_count++;
-                }
+                    tmp_worn.push_back(&worn[i]);
             }
+            break;
+
+        case 2: // Arms
+            tmp_worn.clear();
+            for (int i = 0; i < worn.size(); i++){
+                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
+                if (each_armor->covers & mfb(bp_arms))
+                    tmp_worn.push_back(&worn[i]);
+            }
+            break;
+
+        case 3: // Hands
+            tmp_worn.clear();
+            for (int i = 0; i < worn.size(); i++){
+                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
+                if (each_armor->covers & mfb(bp_hands))
+                    tmp_worn.push_back(&worn[i]);
+            }
+            break;
+
+
+        case 4: // Legs
+            tmp_worn.clear();
+            for (int i = 0; i < worn.size(); i++){
+                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
+                if (each_armor->covers & mfb(bp_legs))
+                    tmp_worn.push_back(&worn[i]);
+            }
+            break;
+
+
+        case 5: // Feet
+            tmp_worn.clear();
+            for (int i = 0; i < worn.size(); i++){
+                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
+                if (each_armor->covers & mfb(bp_feet))
+                    tmp_worn.push_back(&worn[i]);
+            }
+            break;
+
+
+        case 6: // Head
+            tmp_worn.clear();
+            for (int i = 0; i < worn.size(); i++){
+                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
+                if (each_armor->covers & mfb(bp_head))
+                    tmp_worn.push_back(&worn[i]);
+            }
+            break;
+
+
+        case 7: // Eyes
+            tmp_worn.clear();
+            for (int i = 0; i < worn.size(); i++){
+                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
+                if (each_armor->covers & mfb(bp_eyes))
+                    tmp_worn.push_back(&worn[i]);
+            }
+            break;
+
+
+        case 8: // Mouth
+            tmp_worn.clear();
+            for (int i = 0; i < worn.size(); i++){
+                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
+                if (each_armor->covers & mfb(bp_mouth))
+                    tmp_worn.push_back(&worn[i]);
+            }
+            break;
         }
 
-        wrefresh(w_info);
-        wrefresh(w_arm_info);
-        wrefresh(w_all_worn);
-        wrefresh(w_torso_worn);
-        wrefresh(w_eyes_worn);
-        wrefresh(w_mouth_worn);
-        wrefresh(w_hands_worn);
-        wrefresh(w_arms_worn);
-        wrefresh(w_legs_worn);
+        listsize = (tmp_worn.size() < cont_h-2) ? tmp_worn.size() : cont_h-2;
 
-        redraw = false;
+        // Draw list
+        werase(w_sort_list);
+        mvwprintz(w_sort_list, 0, 0, c_ltgray, _("(Innermost)"));
+        mvwprintz(w_sort_list, 0, list_w - utf8_width(_("Storage")), c_ltgray, _("Storage"));
+
+        for (int drawindex = 0; drawindex < listsize; drawindex++) {
+            int itemindex = listoffset + drawindex;
+            it_armor* each_armor = dynamic_cast<it_armor*>(tmp_worn[itemindex]->type);
+
+            if (itemindex == listindex)
+                mvwprintz(w_sort_list, drawindex + 1, 1, c_yellow, ">>");
+
+            if (itemindex == selected)
+                mvwprintz(w_sort_list, drawindex+1, 4, dam_color[int(tmp_worn[itemindex]->damage + 1)], each_armor->name.c_str());
+            else
+                mvwprintz(w_sort_list, drawindex+1, 3, dam_color[int(tmp_worn[itemindex]->damage + 1)], each_armor->name.c_str());
+
+            mvwprintz(w_sort_list, drawindex+1, list_w-3, dam_color[int(tmp_worn[itemindex]->damage + 1)], "%2d", int(each_armor->storage));
+        }
+
+        mvwprintz(w_sort_list, cont_h-1, 0, c_ltgray, _("(Outermost)"));
+        if (listsize > tmp_worn.size())
+            mvwprintz(w_sort_list, cont_h-1, list_w - utf8_width(_("<more>")), c_yellow, _("<more>"));
+        if (listsize == 0)
+            mvwprintz(w_sort_list, cont_h-1, list_w - utf8_width(_("<empty>")), c_yellow, _("<empty>"));
+
+        // Draw data/info
+        werase(w_sort_data);
+        wprintz(w_sort_data, c_ltgray, _("(Reinforced)"));
+        wprintz(w_sort_data, dam_color[0], " # ");
+        wprintz(w_sort_data, dam_color[1], "# ");
+        wprintz(w_sort_data, dam_color[2], "# ");
+        wprintz(w_sort_data, dam_color[3], "# ");
+        wprintz(w_sort_data, dam_color[4], "# ");
+        wprintz(w_sort_data, dam_color[5], "# ");
+        wprintz(w_sort_data, c_ltgray, _("(Thoroughly Damaged)"));
+
+        // F5
+        wrefresh(w_sort_cat);
+        wrefresh(w_sort_list);
+        wrefresh(w_sort_data);
 
         switch (input())
         {
-            case 'j':
-            case KEY_DOWN:
-                if (selected >= 0)
-                {
-                    if (selected < (worn.size() - 1))
-                    {
-                        tmp_item = worn[cursor_y + 1];
-                        worn[cursor_y + 1] = worn[cursor_y];
-                        worn[cursor_y] = tmp_item;
-                        selected++;
-                        cursor_y++;
-                    }
-                }
-                else
-                {
-                    cursor_y++;
-                    cursor_y = (cursor_y >= worn.size() ? 0 : cursor_y);
-                }
-                // Scrolling logic
-                if (!((cursor_y > wornOffset) && (cursor_y < wornOffset + wornDisplayed))){
-                    wornOffset = cursor_y - wornDisplayed + 1;
-                    wornOffset = (wornOffset > 0) ? wornOffset : 0;
-                }
-                redraw = true;
-                break;
-            case 'k':
-            case KEY_UP:
-                if (selected >= 0)
-                {
-                    if (selected > 0)
-                    {
-                        tmp_item = worn[cursor_y - 1];
-                        worn[cursor_y - 1] = worn[cursor_y];
-                        worn[cursor_y] = tmp_item;
-                        selected--;
-                        cursor_y--;
-                    }
-                }
-                else
-                {
-                    cursor_y--;
-                    cursor_y = (cursor_y < 0 ? worn.size() - 1 : cursor_y);
-                }
-                // Scrolling logic
-                wornOffset = (cursor_y < wornOffset) ? cursor_y : wornOffset;
-                if (!((cursor_y >= wornOffset) && (cursor_y < wornOffset + wornDisplayed))){
-                    wornOffset = cursor_y - wornDisplayed + 1;
-                    wornOffset = (wornOffset > 0) ? wornOffset : 0;
-                }
-                redraw = true;
-                break;
-            case 's':
-                if (((dynamic_cast<it_armor*>(worn[cursor_y].type))->covers & mfb(bp_head)) ||
-                    ((dynamic_cast<it_armor*>(worn[cursor_y].type))->covers & mfb(bp_feet)))
-                {
-                    popup(_("This piece of clothing cannot be layered."));
-                }
-                else
-                {
-                    if (selected >= 0)
-                        selected = -1;
-                    else
-                        selected = cursor_y;
-                }
-                redraw = true;
-                break;
-            case 'r':   // uses special characters for worn inventory
-                {
-                    int invlet = 0;
-                    for (int i = 0; i < worn.size(); i++)
-                    {
-                        if (invlet < 76)
-                        {
-                            if (has_item(inv_chars[52 + invlet]))
-                            {
-                                item change_to = i_at(inv_chars[52 + invlet]);
-                                change_to.invlet = worn[i].invlet;
-                                worn[i].invlet = inv_chars[52 + invlet];
-                            }
-                            else
-                            {
-                                worn[i].invlet = inv_chars[52 + invlet];
-                            }
-                            invlet++;
-                        };
-                    };
-                };
-                break;
-            case 'q':
-            case KEY_ESCAPE:
-                done = true;
-                break;
+        case '8':
+        case 'k':
+            listindex--;
+            if (listindex < 0)
+                listindex = tmp_worn.size()-1;
+
+            // Scrolling logic
+            listoffset = (listindex < listoffset) ? listindex : listoffset;
+            if (!((listindex >= listoffset) && (listindex < listoffset + listsize))){
+                listoffset = listindex - listsize + 1;
+                listoffset = (listoffset > 0) ? listoffset : 0;
+            }
+
+            // move selected item
+            if (selected >= 0){
+                tmp_item = *tmp_worn[listindex];
+                for (int i=0; i < worn.size(); i++)
+                    if (&worn[i] == tmp_worn[listindex])
+                        worn[i] = *tmp_worn[selected];
+
+                for (int i=0; i < worn.size(); i++)
+                    if (&worn[i] == tmp_worn[selected])
+                        worn[i] = tmp_item;
+
+                selected = listindex;
+            }
+            break;
+
+        case '2':
+        case 'j':
+            listindex = (listindex+1) % tmp_worn.size();
+
+            // Scrolling logic
+            if (!((listindex >= listoffset) && (listindex < listoffset + listsize))){
+                listoffset = listindex - listsize + 1;
+                listoffset = (listoffset > 0) ? listoffset : 0;
+            }
+
+            // move selected item
+            if (selected >= 0){
+                tmp_item = *tmp_worn[listindex];
+                for (int i=0; i < worn.size(); i++)
+                    if (&worn[i] == tmp_worn[listindex])
+                        worn[i] = *tmp_worn[selected];
+
+                for (int i=0; i < worn.size(); i++)
+                    if (&worn[i] == tmp_worn[selected])
+                        worn[i] = tmp_item;
+
+                selected = listindex;
+            }
+            break;
+
+        case '4':
+        case '<':
+        case 'h':
+            tabindex--;
+            if (tabindex < 0)
+                tabindex = tabcount - 1;
+            listindex = listoffset = 0;
+            selected = -1;
+            break;
+
+        case '\t':
+        case '6':
+        case '>':
+        case 'l':
+            tabindex = (tabindex+1) % tabcount;
+            listindex = listoffset = 0;
+            selected = -1;
+            break;
+
+        case 's':
+            if (selected >= 0)
+                selected = -1;
+            else
+                selected = listindex;
+            break;
+
+        case KEY_ESCAPE:
+        case 'q':
+            sorting = false;
+            break;
         }
-    } while (!done);
+    }
 
-    werase(w_info);
-    werase(w_all_worn);
-    werase(w_arm_info);
-    werase(w_torso_worn);
-    werase(w_eyes_worn);
-    werase(w_mouth_worn);
-    werase(w_hands_worn);
-    werase(w_arms_worn);
-    werase(w_legs_worn);
-
-    delwin(w_info);
-    delwin(w_arm_info);
-    delwin(w_all_worn);
-    delwin(w_torso_worn);
-    delwin(w_eyes_worn);
-    delwin(w_mouth_worn);
-    delwin(w_hands_worn);
-    delwin(w_arms_worn);
-    delwin(w_legs_worn);
+    delwin(w_sort_cat);
+    delwin(w_sort_list);
+    delwin(w_sort_data);
+    delwin(w_sort_armor);
+    return;
 }
 
 void player::use_wielded(game *g) {
