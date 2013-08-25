@@ -1429,13 +1429,18 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         parm = part;
     int dmg_mod = part_info(parm).dmg_mod;
     // let's calculate type of collision & mass of object we hit
-    int mass = total_mass();
-    int mass2;
+    float mass = total_mass();
+    float mass2=0;
+	float e= 0.3; // e = 0 -> plastic collision
+	// e = 1 -> inelastic collision	
+	int part_dens = 0; //part density	
 
     if (is_body_collision)
     { // then, check any monster/NPC/player on the way
         collision_type = veh_coll_body; // body
-        if (z)
+		e=0.30;
+		part_dens = 15;
+        if (z)			
             switch (z->type->size)
             {
             case MS_TINY:    // Rodent
@@ -1463,6 +1468,8 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     {
         collision_type = veh_coll_thin_obstacle; // some fence
         mass2 = 20;
+		e=0.30;
+		part_dens = 20;
     }
     else
     if (g->m.has_flag_ter_or_furn(bashable, x, y))
@@ -1470,18 +1477,24 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         collision_type = veh_coll_bashable; // (door, window)
         mass2 = 50;    // special case: instead of calculating absorb based on mass of obstacle later, we let
                        // map::bash function deside, how much absorb is
+		e=0.30;
+		part_dens = 20;
     }
     else
     if (g->m.move_cost_ter_furn(x, y) == 0 && g->m.is_destructable_ter_furn(x, y))
     {
         collision_type = veh_coll_destructable; // destructible (wall)
         mass2 = 200;
+		e=0.30;
+		part_dens = 60;
     }
     else
     if (g->m.move_cost_ter_furn(x, y) == 0 && !g->m.has_flag_ter_or_furn(swimmable, x, y))
     {
         collision_type = veh_coll_other; // not destructible
         mass2 = 1000;
+		e=0.10;
+		part_dens = 80;
     }
     if (collision_type == veh_coll_nothing){  // hit nothing
        veh_collision ret;
@@ -1493,23 +1506,68 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
        return ret;
     }
 
-    int degree = rng (70, 100);
-    int imp = abs(velocity) * mass / k_mvel / 100 ;
-    int imp2 = imp * mass2 / (mass + mass2) * degree / 100;
+	int degree = rng (70, 100);
+	
+	//Calculate Impulse of car
+	const float vel1 = velocity/100; //Velocity of car
+	const float imp1 = vel1 * mass;  // [miles * kg / h]	
+
+	//Impulse of object
+	const float vel2 = 0; //Assumption: velocitiy of hit object = 0 mph 
+	//TODO: real vel2 for body collisions
+	const float imp2= vel2 * mass2;  //Impulse of object	
+
+	const float d_E = ((mass*mass2)*(1-e)*(1-e)*(vel1-vel2)*(vel1-vel2)) / (2*mass + 2*mass2); //lost energy at collision -> deformation energy -> damage
+	const float vel1_a = (mass2*vel2*(1+e) + vel1*(mass - e*mass2)) / (mass + mass2);      //velocity of car after collision
+	const float vel2_a = (mass*vel1*(1+e) + vel2*(mass2 - e*mass)) / (mass + mass2);     //velocity of object after collision
+	const float imp1_a = vel1_a*mass; //impulse after collision
+	const float imp2_a = vel2_a*mass2; //impulse after collision
+	
+	//Calculate damage resulting from d_E		
+	material_type* vpart_item_mat1 = material_type::find_material(g->itypes[part_info(parm).item]->m1);
+	material_type* vpart_item_mat2 = material_type::find_material(g->itypes[part_info(parm).item]->m2);  
+	int vpart_dens;
+	if(vpart_item_mat2->ident() == "null")
+		vpart_dens = vpart_item_mat1->density();
+	else
+		vpart_dens = (vpart_item_mat1->density() + vpart_item_mat2->density())/2; //average
+
+	//k=100 -> 100% damage on part
+	//k=0 -> 100% damage on obj
+	float k = 50 +  part_dens - vpart_dens; 
+	if(k > 80) k = 80;  //saturation
+	if(k < 20) k = 20;   
+	
+	//Damage calculation
+	const float dmg = abs(d_E / k_mvel); //damage dealt overall
+	const float part_dmg = dmg * k / 100;     //damage for vehicle-part
+	const float obj_dmg  = dmg * (100-k)/100;  //damage for oject
+
+	//Debugging
+	/*
+	g->add_msg (_("---DebugINFO---"));
+	g->add_msg (_("Part: %s"), part_info(parm).name);
+	g->add_msg (_("Veh_part_dmg: %d"), int(part_dmg));
+	g->add_msg (_("Obj_dmg: %d"), int(obj_dmg));
+	g->add_msg (_("Dmg: %d"),int(dmg));
+	g->add_msg (_("k: %d"), int(k));
+	g->add_msg (_("v_dens: %d"), vpart_dens);
+	g->add_msg (_("p_dens: %d"), part_dens);
+	g->add_msg (_("---------------"));
+	*/
+
     bool smashed = true;
     std::string snd;
     if (collision_type == veh_coll_bashable)
-    { // something bashable -- use map::bash to determine outcome
+    { // something bashable -- use map::bash to determine outcome	
         int absorb = -1;
-        g->m.bash(x, y, imp * dmg_mod / 100, snd, &absorb);
-        if (absorb != -1)
-            imp2 = absorb;
-        smashed = imp * dmg_mod / 100 > absorb;
+        g->m.bash(x, y, obj_dmg, snd, &absorb);   
+        smashed = obj_dmg > absorb;
     }
     else
     if (collision_type >= veh_coll_thin_obstacle) // some other terrain
     {
-        smashed = imp * rng (80, 120) / 100 > mass2;
+        smashed = obj_dmg > mass2;
         if (smashed)
             switch (collision_type) // destroy obstacle
             {
@@ -1543,15 +1601,10 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         if (snd.length() > 0)
             g->add_msg (_("You hear a %s"), snd.c_str());
     }
-    if (part_flag(part, vpf_sharp) && smashed)
-        imp2 /= 2;
-    int imp1 = imp - imp2;
-    int vel1 = imp1 * k_mvel * 100 / mass;
-    int vel2 = imp2 * k_mvel * 100 / mass2;
 
-    if (collision_type == veh_coll_body)
+	if (collision_type == veh_coll_body)
     {
-        int dam = imp1 * dmg_mod / 100;
+        int dam = obj_dmg*dmg_mod/100;
         if (z)
         {
             int z_armor = part_flag(part, vpf_sharp)? z->type->armor_cut : z->type->armor_bash;
@@ -1591,16 +1644,17 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         if (z)
         {
             z->hurt(dam);
-            if (vel2 / 100 > rng (5, 30))
-                g->fling_player_or_monster (0, z, move.dir() + angle, vel2 / 100);
+
+            if (vel2_a > rng (10, 20))
+                g->fling_player_or_monster (0, z, move.dir() + angle, vel2_a);
             if (z->hp < 1)
                 g->kill_mon (mondex, pl_ctrl);
         }
         else
         {
             ph->hitall (g, dam, 40);
-            if (vel2 / 100 > rng (5, 30))
-                g->fling_player_or_monster (ph, 0, move.dir() + angle, vel2 / 100);
+            if (vel2_a > rng (10, 20))
+                g->fling_player_or_monster (ph, 0, move.dir() + angle, vel2_a);
         }
 
         if (part_flag(part, vpf_sharp))
@@ -1616,45 +1670,37 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             g->sound (x, y, 20, "");
     }
 
+	velocity = vel1_a*100;
+
     if (!smashed) // tree, wall, or bear sometimes wins
     {
         cruise_on = false;
-        stop();
-        imp2 = imp;
+        stop();   
     }
     else
     {
-        if (vel1 < 500)
-            stop();
-        else
-        {
-            if (velocity < 0)
-                velocity = -vel1;
-            else
-                velocity = vel1;
-        }
-
-        int turn_roll = rng (0, 100);
-        int turn_amount = rng (1, 3) * sqrt ((double)imp2);
+        int turn_amount = rng (1, 3) * sqrt ((double)dmg);
         turn_amount /= 15;
         if (turn_amount < 1)
             turn_amount = 1;
         turn_amount *= 15;
         if (turn_amount > 120)
-            turn_amount = 120;
-        bool turn_veh = turn_roll < (abs(velocity) - vel1) / 100;
-        if (turn_veh)
+            turn_amount = 120;    
+		int turn_roll = rng (0, 100);
+        if (turn_roll < abs(vel1 - vel1_a)*2 ) //probability of skidding increases with higher delta_v
+			//delta_v = vel1 - vel1_a
+			//delta_v = 50 mph -> 100% probability of skidding
+			//delta_v = 25 mph -> 50% probability of skidding
         {
             skidding = true;
             turn (one_in (2)? turn_amount : -turn_amount);
         }
-
     }
-    damage (parm, imp2, 1);
+    damage (parm, part_dmg, 1);
 
     veh_collision ret;
     ret.type = collision_type;
-    ret.imp = imp2;
+    ret.imp = part_dmg;
     return ret;
 }
 
