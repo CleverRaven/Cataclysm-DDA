@@ -4717,7 +4717,7 @@ void game::monmove()
     }
     z.dead = true;
    } else
-    z.receive_moves();
+    z[i].receive_moves(g, m);
   }
  }
 
