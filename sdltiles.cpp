@@ -702,7 +702,7 @@ WINDOW *curses_init(void)
 
 // Should NOT be doing this for every damned window I think... keeping too much in memory is wasteful of the tiles.
 // Most definitely should not be doing this multiple times...
-    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
+    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)),0,0);
     DebugLog() << "Initializing SDL Tiles context\n";
     IMG_Init(IMG_INIT_PNG);
     tilecontext = new cata_tiles;
