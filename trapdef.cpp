@@ -38,6 +38,12 @@ traps.push_back(new trap(id, "FUNNEL", _("funnel"), c_yellow, 'V',  0, 0,
 
 keys.clear();
 id++;
+keys.push_back("makeshift_funnel");
+traps.push_back(new trap(id, "MAKESHIFT_FUNNEL", _("makeshift funnel"), c_yellow, 'v',  0, 0,
+    0, &trapfunc::none, &trapfuncm::none, keys));;
+
+keys.clear();
+id++;
 keys.push_back("rollmat");
 traps.push_back(new trap(id, "ROLLMAT", _("roll mat"), c_blue, '#',  0, 0,
     0, &trapfunc::none, &trapfuncm::none, keys));;

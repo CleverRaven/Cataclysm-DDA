@@ -133,6 +133,8 @@ class game
   void draw_footsteps();
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
   void explosion(int x, int y, int power, int shrapnel, bool fire);
+// Draws an explosion with set radius and color at the given location
+  void draw_explosion(int x, int y, int radius, nc_color col);
 // Flashback at (x, y)
   void flashbang(int x, int y, bool player_immune = false);
 // Move the player vertically, if (force) then they fell
@@ -142,13 +144,14 @@ class game
   void resonance_cascade(int x, int y);
   void scrambler_blast(int x, int y);
   void emp_blast(int x, int y);
-  int  npc_at(int x, int y);	// Index of the npc at (x, y); -1 for none
-  int  npc_by_id(int id);	// Index of the npc at (x, y); -1 for none
+  int  npc_at(const int x, const int y) const;	// Index of the npc at (x, y); -1 for none
+  int  npc_by_id(const int id) const;	// Index of the npc at (x, y); -1 for none
  // void build_monmap();		// Caches data for mon_at()
-  int  mon_at(int x, int y);	// Index of the monster at (x, y); -1 for none
-  bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
+  int  mon_at(const int x, const int y) const;	// Index of the monster at (x, y); -1 for none
+  bool is_empty(const int x, const int y);	// True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
   bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
+  bool is_in_ice_lab(point location);
 // Kill that monster; fixes any pointers etc
   void kill_mon(int index, bool player_did_it = false);
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
@@ -266,6 +269,7 @@ class game
 
   calendar turn;
   signed char temperature;              // The air temperature
+  int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;			// Weather pattern--SEE weather.h
 
   std::list<weather_segment> future_weather;
@@ -299,6 +303,10 @@ class game
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
+ 
+ //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
+ //otherwise returns sentinel -1, signifies transaction fail.
+ int move_liquid(item &liquid);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
 
@@ -363,6 +371,7 @@ void load_artifacts(); // Load artifact data
   void init_missions();     // Initializes mission templates
   void init_traits_mutations();    // Initializes mutation "tech tree"
   void init_mutation_parts(); // Initializes mutation body part data
+  void init_vehicle_parts();       // Initializes vehicle part types
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
@@ -423,6 +432,8 @@ void load_artifacts(); // Load artifact data
   // open vehicle interaction screen
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
+  // Establish a grab on something.
+  void grab();
 // Pick where to put liquid; false if it's left where it was
 
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'

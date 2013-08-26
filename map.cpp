@@ -26,20 +26,19 @@ enum astar_list {
 
 map::map()
 {
- nulter = t_null;
- nultrap = tr_null;
- if (is_tiny())
-  my_MAPSIZE = 2;
- else
-  my_MAPSIZE = MAPSIZE;
- dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
- veh_in_active_range = true;
+    nulter = t_null;
+    my_MAPSIZE = is_tiny() ? 2 : MAPSIZE;
+    dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
+    veh_in_active_range = true;
+
+    for (int t = 0; t < num_trap_types; t++) {
+        traplocs[(trap_id) t] = std::set<point>();
+    }
 }
 
 map::map(std::vector<trap*> *trptr)
 {
  nulter = t_null;
- nultrap = tr_null;
  traps = trptr;
  if (is_tiny())
   my_MAPSIZE = 2;
@@ -205,10 +204,10 @@ void map::board_vehicle(game *g, int x, int y, player *p)
   return;
  }
 
- const int seat_part = veh->part_with_feature (part, vpf_boardable);
+ const int seat_part = veh->part_with_feature (part, "BOARDABLE");
  if (part < 0) {
   debugmsg ("map::board_vehicle: boarding %s (not boardable)",
-            veh->part_info(part).name);
+            veh->part_info(part).name.c_str());
   return;
  }
  if (veh->parts[seat_part].has_flag(vehicle_part::passenger_flag)) {
@@ -238,10 +237,10 @@ void map::unboard_vehicle(game *g, const int x, const int y)
   debugmsg ("map::unboard_vehicle: vehicle not found");
   return;
  }
- const int seat_part = veh->part_with_feature (part, vpf_boardable, false);
+ const int seat_part = veh->part_with_feature (part, "BOARDABLE", false);
  if (part < 0) {
   debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
-            veh->part_info(part).name);
+            veh->part_info(part).name.c_str());
   return;
  }
  player *psg = veh->get_passenger(seat_part);
@@ -274,7 +273,7 @@ void map::destroy_vehicle (vehicle *veh)
  debugmsg ("destroy_vehicle can't find it! sm=%d", veh_sm);
 }
 
-bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test=false)
+bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test)
 {
  const int x2 = x + dx;
  const int y2 = y + dy;
@@ -475,7 +474,7 @@ bool map::vehproceed(game* g){
       int num_wheels = 0, submerged_wheels = 0;
       for (int ep = 0; ep < veh->external_parts.size(); ep++) {
          const int p = veh->external_parts[ep];
-         if (veh->part_flag(p, vpf_wheel)){
+         if (veh->part_flag(p, "WHEEL")){
             num_wheels++;
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
@@ -554,22 +553,7 @@ bool map::vehproceed(game* g){
    if (veh->velocity == 0)
       can_move = false;
    // find collisions
-   for (int ep = 0; ep < veh->external_parts.size() && can_move; ep++) {
-      const int p = veh->external_parts[ep];
-      // coords of where part will go due to movement (dx/dy)
-      // and turning (precalc_dx/dy [1])
-      const int dsx = x + dx + veh->parts[p].precalc_dx[1];
-      const int dsy = y + dy + veh->parts[p].precalc_dy[1];
-      veh_collision coll = veh->part_collision (x, y, p, dsx, dsy);
-      if(coll.type == veh_coll_veh)
-         veh_veh_colls.push_back(coll);
-      else if (coll.type != veh_coll_nothing){ //run over someone?
-         if (can_move)
-            imp += coll.imp;
-         if (veh->velocity == 0)
-            can_move = false;
-      }
-   }
+   veh->collision( veh_veh_colls, dx, dy, can_move, imp );
 
    if(veh_veh_colls.size()){ // we have dynamic crap!
       // effects of colliding with another vehicle:
@@ -579,8 +563,8 @@ bool map::vehproceed(game* g){
       veh_collision c = veh_veh_colls[0];
       vehicle* veh2 = (vehicle*) c.target;
       g->add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
-                 veh->name.c_str(),  veh->part_info(c.part).name,
-                veh2->name.c_str(), veh2->part_info(c.target_part).name);
+                 veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
+                veh2->name.c_str(), veh2->part_info(c.target_part).name.c_str());
 
       // for reference, a cargo truck weighs ~25300, a bicycle 690,
       //  and 38mph is 3800 'velocity'
@@ -645,7 +629,7 @@ bool map::vehproceed(game* g){
             continue;
          }
          const int throw_roll = rng (vel2/100, vel2/100 * 2);
-         const int psblt = veh->part_with_feature (ppl[ps], vpf_seatbelt);
+         const int psblt = veh->part_with_feature (ppl[ps], "SEATBELT");
          const int sb_bonus = psblt >= 0? veh->part_info(psblt).bonus : 0;
          bool throw_from_seat = throw_roll > (psg->str_cur + sb_bonus) * 3;
 
@@ -660,7 +644,7 @@ bool map::vehproceed(game* g){
             g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
                   (vel2/100 - sb_bonus < 10 ? 10 :
                    vel2/100 - sb_bonus));
-         } else if (veh->part_with_feature (ppl[ps], vpf_controls) >= 0) {
+         } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {
             // FIXME: should actually check if passenger is in control,
             // not just if there are controls there.
             const int lose_ctrl_roll = rng (0, imp);
@@ -690,7 +674,7 @@ bool map::vehproceed(game* g){
    if (can_move) {
       for (int ep = 0; ep < veh->external_parts.size(); ep++) {
          const int p = veh->external_parts[ep];
-         if (veh->part_flag(p, vpf_wheel) && one_in(2))
+         if (veh->part_flag(p, "WHEEL") && one_in(2))
             if (displace_water (x + veh->parts[p].precalc_dx[0], y + veh->parts[p].precalc_dy[0]) && pl_ctrl)
                g->add_msg(_("You hear a splash!"));
          veh->handle_trap(x + veh->parts[p].precalc_dx[0],
@@ -870,16 +854,16 @@ std::string map::features(const int x, const int y)
  return ret;
 }
 
-int map::move_cost(const int x, const int y)
+int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle)
 {
  int vpart = -1;
  vehicle *veh = veh_at(x, y, vpart);
- if (veh) {  // moving past vehicle cost
-  const int dpart = veh->part_with_feature(vpart, vpf_obstacle);
-  if (dpart >= 0 && (!veh->part_flag(dpart, vpf_openable) || !veh->parts[dpart].open)) {
+ if (veh && veh != ignored_vehicle) {  // moving past vehicle cost
+  const int dpart = veh->part_with_feature(vpart, "OBSTACLE");
+  if (dpart >= 0 && (!veh->part_flag(dpart, "OPENABLE") || !veh->parts[dpart].open)) {
    return 0;
   } else {
-    const int ipart = veh->part_with_feature(vpart, vpf_aisle);
+    const int ipart = veh->part_with_feature(vpart, "AISLE");
     if (ipart >= 0)
       return 2;
    return 8;
@@ -897,10 +881,11 @@ int map::move_cost_ter_furn(const int x, const int y)
 }
 
 int map::combined_movecost(const int x1, const int y1,
-                           const int x2, const int y2)
+                           const int x2, const int y2,
+                           const vehicle *ignored_vehicle)
 {
-    int cost1 = move_cost(x1, y1);
-    int cost2 = move_cost(x2, y2);
+    int cost1 = move_cost(x1, y1, ignored_vehicle);
+    int cost2 = move_cost(x2, y2, ignored_vehicle);
     // 50 moves taken per move_cost (70.71.. diagonally)
     int mult = (trigdist && x1 != x2 && y1 != y2 ? 71 : 50);
     return (cost1 + cost2) * mult / 2;
@@ -915,9 +900,9 @@ bool map::trans(const int x, const int y)
  vehicle *veh = veh_at(x, y, vpart);
  bool tertr;
  if (veh) {
-  tertr = !veh->part_flag(vpart, vpf_opaque) || veh->parts[vpart].hp <= 0;
+  tertr = !veh->part_flag(vpart, "OPAQUE") || veh->parts[vpart].hp <= 0;
   if (!tertr) {
-   const int dpart = veh->part_with_feature(vpart, vpf_openable);
+   const int dpart = veh->part_with_feature(vpart, "OPENABLE");
    if (dpart >= 0 && veh->parts[dpart].open)
     tertr = true; // open opaque door
   }
@@ -949,8 +934,8 @@ bool map::has_flag(const t_flag flag, const int x, const int y)
   int vpart;
   vehicle *veh = veh_at(x, y, vpart);
   if (veh && veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
-      veh->part_with_feature (vpart, vpf_obstacle) >= 0) {// & it is obstacle...
-   const int p = veh->part_with_feature (vpart, vpf_openable);
+      veh->part_with_feature (vpart, "OBSTACLE") >= 0) {// & it is obstacle...
+   const int p = veh->part_with_feature (vpart, "OPENABLE");
    if (p < 0 || !veh->parts[p].open) // and not open door
     return true;
   }
@@ -978,6 +963,18 @@ bool map::is_destructable_ter_furn(const int x, const int y)
 {
  return (has_flag_ter_or_furn(bashable, x, y) ||
          (move_cost_ter_furn(x, y) == 0 && !has_flag(liquid, x, y)));
+}
+
+/**
+ * Returns whether or not the terrain at the given location can be dived into
+ * (by monsters that can swim or are aquatic or nonbreathing).
+ * @param x The x coordinate to look at.
+ * @param y The y coordinate to look at.
+ * @return true if the terrain can be dived into; false if not.
+ */
+bool map::is_divable(const int x, const int y)
+{
+  return has_flag(swimmable, x, y) && move_cost(x, y) == 0;
 }
 
 bool map::is_outside(const int x, const int y)
@@ -2375,10 +2372,6 @@ item map::water_from(const int x, const int y)
         ret.poison = rng(1, 4);
     else if (ter(x, y) == t_sewage)
         ret.poison = rng(1, 7);
-    else if (furn(x, y) == f_toilet && !one_in(3))
-        ret.poison = rng(1, 3);
-    else if (tr_at(x, y) == tr_funnel)
-        ret.poison = (one_in(10) == true) ? 1 : 0;
     return ret;
 }
 
@@ -2447,7 +2440,7 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
         new_item.item_tags.insert("FIT");
     }
 
-    add_item(x, y, new_item);
+    add_item_or_charges(x, y, new_item);
 }
 
 void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
@@ -2716,8 +2709,8 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
       vehicle *veh = veh_at(x, y, vpart);
 
       if (veh) { // check if a vehicle part is present to provide water/power
-        const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
-        const int weldpart = veh->part_with_feature(vpart, vpf_weldrig);
+        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
 
         if (kpart >= 0) { // we have a kitchen, now to see what to drain
           ammotype ftype = "NULL";
@@ -2735,7 +2728,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (quantity == 0)
             return ret;
         }
-        
+
         if (weldpart >= 0) { // we have a weldrig, now to see what to drain
           ammotype ftype = "NULL";
 
@@ -2802,11 +2795,10 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
  return ret;
 }
 
-trap_id& map::tr_at(const int x, const int y)
+trap_id map::tr_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
-  nultrap = tr_null;
-  return nultrap;	// Out-of-bounds, return our null trap
+  return tr_null;
  }
 /*
  int nonant;
@@ -2818,13 +2810,11 @@ trap_id& map::tr_at(const int x, const int y)
  const int ly = y % SEEY;
  if (lx < 0 || lx >= SEEX || ly < 0 || ly >= SEEY) {
   debugmsg("tr_at contained bad x:y %d:%d", lx, ly);
-  nultrap = tr_null;
-  return nultrap;	// Out-of-bounds, return our null trap
+  return tr_null;	// Out-of-bounds, return our null trap
  }
 
  if (terlist[ grid[nonant]->ter[lx][ly] ].trap != tr_null) {
-  nultrap = terlist[ grid[nonant]->ter[lx][ly] ].trap;
-  return nultrap;
+  return terlist[ grid[nonant]->ter[lx][ly] ].trap;
  }
 
  return grid[nonant]->trp[lx][ly];
@@ -2832,13 +2822,21 @@ trap_id& map::tr_at(const int x, const int y)
 
 void map::add_trap(const int x, const int y, const trap_id t)
 {
- if (!INBOUNDS(x, y))
-  return;
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    if (!INBOUNDS(x, y)) { return; }
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- grid[nonant]->trp[lx][ly] = t;
+    const int lx = x % SEEX;
+    const int ly = y % SEEY;
+
+    // If there was already a trap here, remove it.
+    if (grid[nonant]->trp[lx][ly] != tr_null) {
+        remove_trap(x, y);
+    }
+
+    grid[nonant]->trp[lx][ly] = t;
+    if (t != tr_null) {
+        traplocs[t].insert(point(x, y));
+    }
 }
 
 void map::disarm_trap(game *g, const int x, const int y)
@@ -2863,16 +2861,16 @@ void map::disarm_trap(game *g, const int x, const int y)
    if (comp[i] != "null")
     spawn_item(x, y, comp[i], 0, 0, 1);
   }
-  if( tr_at(x, y) == tr_engine ) {
+  if (tr_at(x, y) == tr_engine) {
       for (int i = -1; i <= 1; i++) {
           for (int j = -1; j <= 1; j++) {
               if (i != 0 || j != 0) {
-                  tr_at(x + i, y + j) = tr_null;
+                  remove_trap(x + i, y + j);
               }
           }
       }
   }
-  tr_at(x, y) = tr_null;
+  remove_trap(x, y);
   if(diff > 1.25 * skillLevel) // failure might have set off trap
     g->u.practice(g->turn, "traps", 1.5*(diff - skillLevel));
  } else if (roll >= diff * .8) {
@@ -2890,6 +2888,20 @@ void map::disarm_trap(game *g, const int x, const int y)
    // case the trap may not be disarmable).
    g->u.practice(g->turn, "traps", 2*diff);
  }
+}
+
+void map::remove_trap(const int x, const int y)
+{
+    if (!INBOUNDS(x, y)) { return; }
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+
+    const int lx = x % SEEX;
+    const int ly = y % SEEY;
+    trap_id t = grid[nonant]->trp[lx][ly];
+    if (t != tr_null) {
+        grid[nonant]->trp[lx][ly] = tr_null;
+        traplocs[t].erase(point(x, y));
+    }
 }
 
 field& map::field_at(const int x, const int y)
@@ -3508,6 +3520,21 @@ void map::load(game *g, const int wx, const int wy, const int wz, const bool upd
  }
 }
 
+void map::forget_traps(int gridx, int gridy)
+{
+    const int n = gridx + gridy * my_MAPSIZE;
+    for (int x = 0; x < SEEX; x++) {
+        for (int y = 0; y < SEEY; y++) {
+            trap_id t = grid[n]->trp[x][y];
+            if (t != tr_null) {
+                const int fx = x + gridx * SEEX;
+                const int fy = y + gridy * SEEY;
+                traplocs[t].erase(point(fx, fy));
+            }
+        }
+    }
+}
+
 void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
 {
 // Special case of 0-shift; refresh the map
@@ -3527,6 +3554,20 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
   g->u.posx -= sx * SEEX;
   g->u.posy -= sy * SEEY;
  }
+
+    // Forget about traps in submaps that are being unloaded.
+    if (sx != 0) {
+        const int gridx = (sx > 0) ? (my_MAPSIZE - 1) : 0;
+        for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+            forget_traps(gridx, gridy);
+        }
+    }
+    if (sy != 0) {
+        const int gridy = (sy > 0) ? (my_MAPSIZE - 1) : 0;
+        for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
+            forget_traps(gridx, gridy);
+        }
+    }
 
  // Clear vehicle list and rebuild after shift
  clear_vehicle_cache();
@@ -3665,9 +3706,21 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
    }
   }
 
+    // check traps
+    for (int x = 0; x < SEEX; x++) {
+        for (int y = 0; y < SEEY; y++) {
+            const trap_id t = tmpsub->trp[x][y];
+            if (t != tr_null) {
+                const int fx = x + gridx * SEEX;
+                const int fy = y + gridy * SEEY;
+                traplocs[t].insert(point(fx, fy));
+            }
+        }
+    }
+
   // check spoiled stuff
-  for(int x = 0; x < 12; x++) {
-      for(int y = 0; y < 12; y++) {
+  for (int x = 0; x < SEEX; x++) {
+      for (int y = 0; y < SEEY; y++) {
           for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
               it != tmpsub->itm[x][y].end();) {
               if(it->goes_bad()) {
@@ -3685,8 +3738,8 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
   const int plantEpoch = 14400 * (int)OPTIONS["SEASON_LENGTH"] / 2;
 
   // check plants
-  for (int x = 0; x < 12; x++) {
-    for (int y = 0; y < 12; y++) {
+  for (int x = 0; x < SEEX; x++) {
+    for (int y = 0; y < SEEY; y++) {
       furn_id furn = tmpsub->frn[x][y];
       if (furn && (furnlist[furn].flags & mfb(plant))) {
         item seed = tmpsub->itm[x][y][0];
@@ -3802,14 +3855,25 @@ void map::clear_spawns()
 
 void map::clear_traps()
 {
- for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
-  for (int x = 0; x < SEEX; x++) {
-   for (int y = 0; y < SEEY; y++)
-    grid[i]->trp[x][y] = tr_null;
-  }
- }
+    for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+        for (int x = 0; x < SEEX; x++) {
+            for (int y = 0; y < SEEY; y++) {
+                grid[i]->trp[x][y] = tr_null;
+            }
+        }
+    }
+
+    // Forget about all trap locations.
+    std::map<trap_id, std::set<point> >::iterator i;
+    for(i = traplocs.begin(); i != traplocs.end(); ++i) {
+        i->second.clear();
+    }
 }
 
+std::set<point> map::trap_locations(trap_id t)
+{
+    return traplocs[t];
+}
 
 bool map::inbounds(const int x, const int y)
 {
@@ -4025,8 +4089,8 @@ void map::build_map_cache(game *g)
     if (vehs[v].v->is_inside(*part)) {
      outside_cache[px][py] = false;
     }
-    if (vehs[v].v->part_flag(*part, vpf_opaque) && vehs[v].v->parts[*part].hp > 0) {
-     int dpart = vehs[v].v->part_with_feature(*part , vpf_openable);
+    if (vehs[v].v->part_flag(*part, "OPAQUE") && vehs[v].v->parts[*part].hp > 0) {
+     int dpart = vehs[v].v->part_with_feature(*part , "OPENABLE");
      if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
       transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
      }
@@ -4071,13 +4135,11 @@ std::vector<point> closest_points_first(int radius, int center_x, int center_y)
 tinymap::tinymap()
 {
  nulter = t_null;
- nultrap = tr_null;
 }
 
 tinymap::tinymap(std::vector<trap*> *trptr)
 {
  nulter = t_null;
- nultrap = tr_null;
  traps = trptr;
  my_MAPSIZE = 2;
  for (int n = 0; n < 4; n++)

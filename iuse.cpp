@@ -2228,9 +2228,9 @@ void iuse::siphon(game *g, player *p, item *it, bool t)
         g->add_msg_if_player(p, _("That vehicle has no fuel to siphon."));
         return;
     }
-    p->siphon(g, veh, "gasoline");
-    p->moves -= 200;
-    return;
+    if (p->siphon(g, veh, "gasoline")) {
+        p->moves -= 200;
+    }
 }
 
 void iuse::chainsaw_off(game *g, player *p, item *it, bool t)
@@ -2679,6 +2679,10 @@ if(it->type->id == "cot"){
   message << _("You place the funnel, waiting to collect rain.");
   type = tr_funnel;
   practice = 0;
+  } else if(it->type->id == "makeshift_funnel"){
+  message << _("You place the makeshift funnel, waiting to collect rain.");
+  type = tr_makeshift_funnel;
+  practice = 0;
  } else if(it->type->id == "tripwire"){
 // Must have a connection between solid squares.
   if ((g->m.move_cost(posx    , posy - 1) != 2 &&
@@ -2881,7 +2885,7 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
   if (tries < 10) {
    if (g->u_see(goox, gooy))
     g->add_msg(_("A nearby splatter of goo forms into a goo pit."));
-   g->m.tr_at(goox, gooy) = tr_goo;
+   g->m.add_trap(goox, gooy, tr_goo);
   }
  }
 }
@@ -2932,6 +2936,173 @@ void iuse::grenade_act(game *g, player *p, item *it, bool t)
   g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
  else	// When that timer runs down...
   g->explosion(pos.x, pos.y, 12, 28, false);
+}
+
+void iuse::granade(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p,_("You pull the pin on the Granade."));
+ it->make(g->itypes["granade_act"]);
+ it->charges = 5;
+ it->active = true;
+}
+
+void iuse::granade_act(game *g, player *p, item *it, bool t)
+{
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return;
+    }
+    if (t) { // Simple timer effects
+        g->sound(pos.x, pos.y, 0, _("Merged!"));  // Vol 0 = only heard if you hold it
+    } else {  // When that timer runs down...
+        int effect_roll = rng(1,4);
+        switch (effect_roll)
+        {
+            case 1:
+                g->sound(pos.x, pos.y, 100, _("BUGFIXES!!"));
+                g->draw_explosion(pos.x, pos.y, 10, c_ltcyan);
+                for (int i = -10; i <= 10; i++) {
+                    for (int j = -10; j <= 10; j++) {
+                        if (g->mon_at(pos.x + i, pos.y + j) != -1 &&
+                              (g->z[g->mon_at(pos.x + i, pos.y + j)].type->species == species_insect ||
+                               g->z[g->mon_at(pos.x + i, pos.y + j)].type->species == species_hallu) ) {
+                            g->explode_mon(g->mon_at(pos.x + i, pos.y + j));
+                        }
+                    }
+                }
+                break;
+
+            case 2:
+                g->sound(pos.x, pos.y, 100, _("BUFFS!!"));
+                g->draw_explosion(pos.x, pos.y, 10, c_green);
+                for (int i = -10; i <= 10; i++) {
+                    for (int j = -10; j <= 10; j++) {
+                        if (g->mon_at(pos.x + i, pos.y + j) != -1) {
+                            int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                            g->z[mon_hit].speed *= 1 + rng(0, 20) * .1;
+                            g->z[mon_hit].hp *= 1 + rng(0, 20) * .1;
+                        } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
+                            int npc_hit = g->npc_at(pos.x + i, pos.y + j);
+                            g->active_npc[npc_hit]->str_max += rng(0, g->active_npc[npc_hit]->str_max/2);
+                            g->active_npc[npc_hit]->dex_max += rng(0, g->active_npc[npc_hit]->dex_max/2);
+                            g->active_npc[npc_hit]->int_max += rng(0, g->active_npc[npc_hit]->int_max/2);
+                            g->active_npc[npc_hit]->per_max += rng(0, g->active_npc[npc_hit]->per_max/2);
+                        } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
+                            g->u.str_max += rng(0, g->u.str_max/2);
+                            g->u.dex_max += rng(0, g->u.dex_max/2);
+                            g->u.int_max += rng(0, g->u.int_max/2);
+                            g->u.per_max += rng(0, g->u.per_max/2);
+                            g->u.recalc_hp();
+                            for (int part = 0; part < num_hp_parts; part++) {
+                                g->u.hp_cur[part] *= 1 + rng(0, 20) * .1;
+                                if (g->u.hp_cur[part] > g->u.hp_max[part]) {
+                                    g->u.hp_cur[part] = g->u.hp_max[part];
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case 3:
+                g->sound(pos.x, pos.y, 100, _("NERFS!!"));
+                g->draw_explosion(pos.x, pos.y, 10, c_red);
+                for (int i = -10; i <= 10; i++) {
+                    for (int j = -10; j <= 10; j++) {
+                        if (g->mon_at(pos.x + i, pos.y + j) != -1) {
+                            int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                            g->z[mon_hit].speed = rng(1, g->z[mon_hit].speed);
+                            g->z[mon_hit].hp = rng(1, g->z[mon_hit].hp);
+                        } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
+                            int npc_hit = g->npc_at(pos.x + i, pos.y + j);
+                            g->active_npc[npc_hit]->str_max -= rng(0, g->active_npc[npc_hit]->str_max/2);
+                            g->active_npc[npc_hit]->dex_max -= rng(0, g->active_npc[npc_hit]->dex_max/2);
+                            g->active_npc[npc_hit]->int_max -= rng(0, g->active_npc[npc_hit]->int_max/2);
+                            g->active_npc[npc_hit]->per_max -= rng(0, g->active_npc[npc_hit]->per_max/2);
+                        } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
+                            g->u.str_max -= rng(0, g->u.str_max/2);
+                            g->u.dex_max -= rng(0, g->u.dex_max/2);
+                            g->u.int_max -= rng(0, g->u.int_max/2);
+                            g->u.per_max -= rng(0, g->u.per_max/2);
+                            g->u.recalc_hp();
+                            for (int part = 0; part < num_hp_parts; part++) {
+                                if (g->u.hp_cur[part] > 0) {
+                                    g->u.hp_cur[part] = rng(1, g->u.hp_cur[part]);
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case 4:
+                g->sound(pos.x, pos.y, 100, _("REVERTS!!"));
+                g->draw_explosion(pos.x, pos.y, 10, c_pink);
+                for (int i = -10; i <= 10; i++) {
+                    for (int j = -10; j <= 10; j++) {
+                        if (g->mon_at(pos.x + i, pos.y + j) != -1) {
+                            int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                            g->z[mon_hit].speed = g->z[mon_hit].type->speed;
+                            g->z[mon_hit].hp = g->z[mon_hit].type->hp;
+                            for (int i = 0; i < g->z[mon_hit].effects.size(); i++) {
+                                g->z[mon_hit].effects.erase(g->z[mon_hit].effects.begin() + i);
+                                i--;
+                            }
+                        } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
+                            int npc_hit = g->npc_at(pos.x + i, pos.y + j);
+                            for (int i = 0; i < g->active_npc[npc_hit]->illness.size(); i++) {
+                                g->active_npc[npc_hit]->illness.erase(g->active_npc[npc_hit]->illness.begin() + i);
+                                i--;
+                            }
+                            for (int i = 0; i < g->active_npc[npc_hit]->addictions.size(); i++) {
+                                g->active_npc[npc_hit]->addictions.erase(g->active_npc[npc_hit]->addictions.begin() + i);
+                                i--;
+                            }
+                            for (int i = 0; i < g->active_npc[npc_hit]->morale.size(); i++) {
+                                g->active_npc[npc_hit]->morale.erase(g->active_npc[npc_hit]->morale.begin() + i);
+                                i--;
+                            }
+                            for (int part = 0; part < num_hp_parts; part++) {
+                                g->active_npc[npc_hit]->hp_cur[part] = g->active_npc[npc_hit]->hp_max[part];
+                            }
+                            g->active_npc[npc_hit]->hunger = 0;
+                            g->active_npc[npc_hit]->thirst = 0;
+                            g->active_npc[npc_hit]->fatigue = 0;
+                            g->active_npc[npc_hit]->health = 0;
+                            g->active_npc[npc_hit]->stim = 0;
+                            g->active_npc[npc_hit]->pain = 0;
+                            g->active_npc[npc_hit]->pkill = 0;
+                            g->active_npc[npc_hit]->radiation = 0;
+                        } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
+                            for (int i = 0; i < g->u.illness.size(); i++) {
+                                g->u.illness.erase(g->u.illness.begin() + i);
+                                i--;
+                            }
+                            for (int i = 0; i < g->u.addictions.size(); i++) {
+                                g->u.addictions.erase(g->u.addictions.begin() + i);
+                                i--;
+                            }
+                            for (int i = 0; i < g->u.morale.size(); i++) {
+                                g->u.morale.erase(g->u.morale.begin() + i);
+                                i--;
+                            }
+                            for (int part = 0; part < num_hp_parts; part++) {
+                                g->u.hp_cur[part] = g->u.hp_max[part];
+                            }
+                            g->u.hunger = 0;
+                            g->u.thirst = 0;
+                            g->u.fatigue = 0;
+                            g->u.health = 0;
+                            g->u.stim = 0;
+                            g->u.pain = 0;
+                            g->u.pkill = 0;
+                            g->u.radiation = 0;
+                        }
+                    }
+                }
+                break;
+        }
+    }
 }
 
 void iuse::flashbang(game *g, player *p, item *it, bool t)
@@ -2993,6 +3164,7 @@ void iuse::EMPbomb_act(game *g, player *p, item *it, bool t)
  if (t)	// Simple timer effects
   g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
  else {	// When that timer runs down...
+  g->draw_explosion(pos.x, pos.y, 4, c_ltblue);
   for (int x = pos.x - 4; x <= pos.x + 4; x++) {
    for (int y = pos.y - 4; y <= pos.y + 4; y++)
     g->emp_blast(x, y);
@@ -3016,6 +3188,7 @@ void iuse::scrambler_act(game *g, player *p, item *it, bool t)
  if (t)	// Simple timer effects
   g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
  else {	// When that timer runs down...
+  g->draw_explosion(pos.x, pos.y, 4, c_cyan);
   for (int x = pos.x - 4; x <= pos.x + 4; x++) {
    for (int y = pos.y - 4; y <= pos.y + 4; y++)
     g->scrambler_blast(x, y);
@@ -3925,6 +4098,16 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
         return;
     }
 
+
+    if (g->m.furn(dirx, diry) == f_rack){
+        p->moves -= 500;
+        g->m.furn_set(dirx, diry, f_null);
+        g->sound(dirx, diry, 15,_("grnd grnd grnd"));
+        g->m.spawn_item(p->posx, p->posy, "pipe", 0, rng(1, 3));
+        g->m.spawn_item(p->posx, p->posy, "steel_chunk", 0);
+        return;
+    }
+
     switch (g->m.ter(dirx, diry))
     {
     case t_chainfence_v:
@@ -3942,14 +4125,6 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
         g->m.ter_set(dirx, diry, t_dirt);
         g->sound(dirx, diry, 15,_("grnd grnd grnd"));
         g->m.spawn_item(dirx, diry, "pipe", 0, 6);
-        break;
-
-    case f_rack:
-        p->moves -= 500;
-        g->m.furn_set(dirx, diry, f_null);
-        g->sound(dirx, diry, 15,_("grnd grnd grnd"));
-        g->m.spawn_item(p->posx, p->posy, "pipe", 0, rng(1, 3));
-        g->m.spawn_item(p->posx, p->posy, "steel_chunk", 0);
         break;
 
     case t_bars:

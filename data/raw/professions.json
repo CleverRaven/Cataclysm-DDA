@@ -413,7 +413,8 @@
       "items":[
          "pants",
          "tshirt",
-         "tool_belt"
+         "tool_belt",
+         "sneakers"
       ],
       "name":"Tinkerer",
       "points":3,

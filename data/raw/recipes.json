@@ -333,6 +333,37 @@
 },
 
 {
+  "result": "blowgun",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hatchet", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ]
+    ],
+    [
+      [ "superglue", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "spear_wood",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
@@ -1367,14 +1398,25 @@
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ],
+    [
+      ["welder", 100],
+      ["welder_crude", 150],
+      ["toolset", 4]
+    ]
   ],
   "components": [
     [
       [ "1cyl_combustion", 1 ]
     ],
     [
+      [ "metal_tank", 1 ]
+    ],
+    [
       [ "chain", 1 ]
+    ],
+    [
+      [ "scrap", 3 ]
     ]
   ]
 },
@@ -1525,6 +1567,34 @@
     ],
     [
       [ "power_supply", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "dart",
+  "category": "CC_AMMO",
+
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hatchet", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ]
     ]
   ]
 },
@@ -3356,7 +3426,8 @@
   ],
   "components": [
     [
-      [ "water_acid", 1 ]
+      [ "water_acid", 1 ],
+      [ "water_acid_weak", 2 ]
     ]
   ]
 },
@@ -3711,6 +3782,25 @@
   "components": [
       [
         [ "kernels", 1 ]
+      ]
+  ]
+},
+
+{
+  "result": "popcorn2",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 300,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [],
+  "components": [
+      [
+          [ "popcorn", 1 ]
+      ],
+      [
+          [ "salt", 1 ]
       ]
   ]
 },
@@ -8279,6 +8369,34 @@
 },
 
 {
+  "result": "makeshift_funnel",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bottle_plastic", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "shelter_kit",
   "category": "CC_MISC",
   "skill_used": "survival",
@@ -11198,7 +11316,332 @@
     [ ["whiskey", 2] ],
     [ ["rum", 2] ],
     [ ["bottle_glass", 1] ] ]
+},
+{
+   "result": "cheeseburger",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 3,
+   "time": 9000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ],
+    [
+      [ "knife_steak", -1 ],[ "knife_combat", -1 ],[ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],[ "scalpel", -1 ],[ "machete", -1 ],[ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 1 ]
+    ],
+    [
+      [ "bread", 2 ]
+    ],
+    [
+      [ "cheese", 2 ], [ "can_cheese", 1]
+    ],
+    [
+      [ "pickle", 1]
+    ],
+    [
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1]
+    ]
+  ]
+},
+{
+   "result": "hamburger",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 3,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ],
+    [
+      [ "knife_steak", -1 ],[ "knife_combat", -1 ],[ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],[ "scalpel", -1 ],[ "machete", -1 ],[ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 1 ]
+    ],
+    [
+      [ "bread", 2 ]
+    ],
+    [
+      [ "pickle", 1]
+    ],
+    [
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1]
+    ]
+  ]
+},
+{
+   "result": "ketchup",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 4,
+   "time": 18000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ],
+    [
+      [ "knife_steak", -1 ],[ "knife_combat", -1 ],[ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],[ "scalpel", -1 ],[ "machete", -1 ],[ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "tomato", 1 ]
+    ],
+    [
+      [ "salt", 1 ], [ "salt_water", 1 ]
+    ]
+  ]
+},
+{
+  "result": "lsurvivor_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 5,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "soldering_iron", 28 ],
+      [ "toolset", 2 ]
+      ],
+	  [
+      [ "needle_bone", 100 ],
+      [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rag", 30 ]
+      ],
+      [
+      [ "coat_rain", 1 ]
+      ],
+      [
+      [ "chestrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 6 ],
+      [ "leather_pouch", 4 ],
+      [ "fanny", 2 ]
+      ],
+      [
+      [ "duct_tape", 200 ]
+      ],
+      [
+      [ "kevlar", 1 ],
+      [ "swat_armor", 1 ]
+      ]
+  ]
+},
+{
+  "result": "survivor_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
+  "difficulty": 6,
+  "time": 240000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "soldering_iron", 28 ],
+      [ "toolset", 2 ]
+      ],
+	  [
+      [ "needle_bone", 150 ],
+      [ "sewing_kit", 150 ]
+      ]
+  ],
+  "components": [
+      [
+      [ "rag", 20 ]
+      ],
+      [
+      [ "leather", 20 ]
+      ],
+      [
+      [ "coat_rain", 1 ]
+      ],
+      [
+      [ "chestrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 6 ],
+      [ "leather_pouch", 4 ],
+      [ "fanny", 2 ]
+      ],
+      [
+      [ "duct_tape", 300 ]
+      ],
+      [
+      [ "kevlar", 1 ],
+      [ "swat_armor", 1 ]
+      ]
+  ]
+},
+{
+  "result": "hsurvivor_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 7,
+  "time": 360000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4
+	  ]
+    ],
+	[
+      [ "needle_bone", 200 ],
+      [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rag", 20 ]
+      ],
+      [
+      [ "leather", 20 ]
+      ],
+      [
+      [ "steel_chunk", 4 ],
+      [ "scrap", 8 ]
+      ],
+      [
+      [ "coat_rain", 1 ]
+      ],
+      [
+      [ "chestrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 6 ],
+      [ "leather_pouch", 4 ],
+      [ "fanny", 2 ]
+      ],
+      [
+      [ "duct_tape", 300 ]
+      ],
+      [
+      [ "kevlar", 1 ],
+      [ "swat_armor", 1 ]
+      ]
+  ]
+},
+{
+  "result": "jackhammer",
+  "category": "CC_MISC",
+  "skill_used": "mechanics",
+  "difficulty": 5,
+  "time": 25000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      ["welder", 100],
+      ["welder_crude", 150],
+      ["toolset", 4]
+    ]
+  ],
+  "components": [
+    [
+      [ "1cyl_combustion", 1 ]
+    ],
+    [
+      [ "metal_tank", 1 ]
+    ],
+    [
+      [ "rebar", 2 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ]
+  ]
 }
-
 ]
 }

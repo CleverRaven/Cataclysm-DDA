@@ -206,7 +206,7 @@ public:
  bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
- void siphon(game *g, vehicle *veh, ammotype desired_liquid);
+ bool siphon(game *g, vehicle *veh, ammotype desired_liquid);
  void cauterize(game *g);
  void suffer(game *g);
  void mend(game *g);
@@ -229,6 +229,7 @@ public:
  void read(game *g, char let);	// Read a book
  void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN
+ std::string is_snuggling(game *g);    // Check to see if the player is using floor items to keep warm. If so, return one such item
  float fine_detail_vision_mod(game *g); // Used for things like reading and sewing, checks light level
 
  // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
@@ -335,6 +336,8 @@ public:
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  bool controlling_vehicle;  // Is currently in control of a vehicle
+ // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
+ point grab_point;
  player_activity activity;
  player_activity backlog;
 // _missions vectors are of mission IDs

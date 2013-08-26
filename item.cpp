@@ -639,7 +639,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     if (has_flag("FIT"))
     {
         dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "<num> (fits)",
-                                 std::min(0, armor->encumber - 1), true, "", true, true));
+                                 std::max(0, armor->encumber - 1), true, "", true, true));
     }
     else
     {
@@ -2270,7 +2270,7 @@ bool item::flammable() const
     material_type* cur_mat1 = material_type::find_material(type->m1);
     material_type* cur_mat2 = material_type::find_material(type->m2);
 
-    return ((cur_mat1->fire_resist() + cur_mat2->elec_resist()) <= 0);
+    return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
 }
 
 std::string default_technique_name(technique_id tech)

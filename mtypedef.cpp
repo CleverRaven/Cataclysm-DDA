@@ -438,6 +438,16 @@ thick, obfuscating smoke.")
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
       MF_HARDTOSHOOT, MF_FRIENDLY_SPECIAL, MF_NO_BREATHE, MF_VIS40);
 
+mon(_("swimmer zombie"),species_zombie,'Z',c_ltblue,	MS_MEDIUM,	"flesh",
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	10,100,100,110,  8,  1,  6,  0,  4,  0,  0, 0, 65, 5,
+	&mdeath::zombie,	&mattack::bite, _("\
+This zombie's hands and feet are\n\
+webbed, and it is clad in swimwear.")
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
+      MF_NO_BREATHE, MF_VIS40, MF_BLEED, MF_SWIMS);
+
 mon(_("zombie dog"),species_zombie, 'd',	c_ltgreen,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	12,100,100,150, 10,  1,  4,  3,  4,  0,  0, 0, 40,  5,
