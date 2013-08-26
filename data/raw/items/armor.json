@@ -4226,7 +4226,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_kabuto",
-        "name" : "kabuto helm",
+        "name" : "kabuto",
         "weight" : 1625,
         "color" : "cyan",
         "covers" : ["HEAD", "EYES", "MOUTH"],
