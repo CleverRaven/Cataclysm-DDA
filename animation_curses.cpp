@@ -110,4 +110,15 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
                         vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
 }
 //*/
+void game::draw_weather(weather_printable wPrint)
+{
+    for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
+         weather_iterator != wPrint.vdrops.end();
+         ++weather_iterator)
+    {
+        mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
+    }
+
+    //mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
+}
 #endif

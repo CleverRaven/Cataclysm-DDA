@@ -1656,33 +1656,59 @@ bool game::handle_action()
 
         //x% of the Viewport, only shown on visible areas
         int dropCount = iEndX * iEndY * fFactor;
-        std::vector<std::pair<int, int> > vDrops;
+        //std::vector<std::pair<int, int> > vDrops;
+
+        weather_printable wPrint;
+        wPrint.colGlyph = colGlyph;
+        wPrint.cGlyph = cGlyph;
+        wPrint.wtype = weather;
+        wPrint.vdrops.clear();
+        wPrint.startx = iStartX;
+        wPrint.starty = iStartY;
+        wPrint.endx = iEndX;
+        wPrint.endy = iEndY;
 
         int iCh;
 
         timeout(125);
+        /*
+        Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
+        Get tile information from above's weather information:
+            WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
+            WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+            WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
+        */
+        int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
+        int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
+
         do {
-            for(int i=0; i < vDrops.size(); i++) {
+            for(int i=0; i < wPrint.vdrops.size(); i++) {
                 m.drawsq(w_terrain, u,
-                         vDrops[i].first - getmaxx(w_terrain)/2 + u.posx + u.view_offset_x,
-                         vDrops[i].second - getmaxy(w_terrain)/2 + u.posy + u.view_offset_y,
+                         //vDrops[i].first - getmaxx(w_terrain)/2 + u.posx + u.view_offset_x,
+                         wPrint.vdrops[i].first + offset_x,
+                         //vDrops[i].second - getmaxy(w_terrain)/2 + u.posy + u.view_offset_y,
+                         wPrint.vdrops[i].second + offset_y,
                          false,
                          true,
                          u.posx + u.view_offset_x,
                          u.posy + u.view_offset_y);
             }
 
-            vDrops.clear();
+            //vDrops.clear();
+            wPrint.vdrops.clear();
 
             for(int i=0; i < dropCount; i++) {
                 int iRandX = rng(iStartX, iEndX-1);
                 int iRandY = rng(iStartY, iEndY-1);
 
                 if (mapRain[iRandY][iRandX]) {
-                    vDrops.push_back(std::make_pair(iRandX, iRandY));
-                    mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
+                    //vDrops.push_back(std::make_pair(iRandX, iRandY));
+                    wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
+
+                    //mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
                 }
             }
+            draw_weather(wPrint);
 
             wrefresh(w_terrain);
         } while ((iCh = getch()) == ERR);

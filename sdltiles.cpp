@@ -707,10 +707,15 @@ WINDOW *curses_init(void)
     IMG_Init(IMG_INIT_PNG);
     tilecontext = new cata_tiles;
 /*
+// Deprecated: handled by an initializer.
     tilecontext->load_tilejson("gfx/tile_config.json");
     tilecontext->load_tileset("gfx/tile.png");
 */
-    //tilecontext->init(screen, "gfx/tile_config.json", "gfx/tinytile.png");
+/*
+// Deprecated: now handled by init(SDL_Surface *screen, std::string file_path) which will pull the json path and tileset path from an outside
+// text file
+    tilecontext->init(screen, "gfx/tile_config.json", "gfx/tinytile.png");
+*/
     tilecontext->init(screen, "data/gfx.txt");
     return mainwin;   //create the 'stdscr' window and return its ref
 }

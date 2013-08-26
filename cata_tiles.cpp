@@ -470,7 +470,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_entity(x,y);
         }
     }
-    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit || do_draw_line;
+    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit || do_draw_line || do_draw_weather;
     if (in_animation)
     {
         if (do_draw_explosion)
@@ -490,6 +490,11 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         {
             draw_line(destx, desty, centerx, centery, width, height);
             void_line();
+        }
+        if (do_draw_weather)
+        {
+            draw_weather_frame(destx, desty, centerx, centery, width, height);
+            void_weather();
         }
     }
     // check to see if player is located at ter
@@ -960,6 +965,12 @@ void cata_tiles::init_draw_line(int x, int y, std::vector<point> trajectory, std
     line_endpoint_id = name;
     line_trajectory = trajectory;
 }
+void cata_tiles::init_draw_weather(weather_printable weather, std::string name)
+{
+    do_draw_weather = true;
+    weather_name = name;
+    anim_weather = weather;
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -990,6 +1001,12 @@ void cata_tiles::void_line()
     line_pos_y = -1;
     line_endpoint_id = "";
     line_trajectory.clear();
+}
+void cata_tiles::void_weather()
+{
+    do_draw_weather = false;
+    weather_name = "";
+    anim_weather.vdrops.clear();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame(int destx, int desty, int centerx, int centery, int width, int height)
@@ -1056,6 +1073,22 @@ void cata_tiles::draw_line(int destx, int desty, int centerx, int centery, int w
     my = line_trajectory[line_trajectory.size()-1].y;
 
     draw_from_id_string(line_endpoint_id, mx, my, 0, 0);
+}
+void cata_tiles::draw_weather_frame(int destx, int desty, int centerx, int centery, int width, int height)
+{
+    for (std::vector<std::pair<int, int> >::iterator weather_iterator = anim_weather.vdrops.begin();
+         weather_iterator != anim_weather.vdrops.end();
+         ++weather_iterator)
+    {
+        // currently in ascii screen coordinates
+        int x = weather_iterator->first;
+        int y = weather_iterator->second;
+
+        x = x + g->ter_view_x - getmaxx(g->w_terrain)/2;
+        y = y + g->ter_view_y - getmaxy(g->w_terrain)/2;
+
+        draw_from_id_string(weather_name, x, y,0, 0, false);
+    }
 }
 /* END OF ANIMATION FUNCTIONS */
 

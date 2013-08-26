@@ -9,6 +9,18 @@
     "tiles":
     [
         {
+            "id":"weather_acid_drop",
+            "bg":14
+        },
+        {
+            "id":"weather_rain_drop",
+            "bg":13
+        },
+        {
+            "id":"weather_snowflake",
+            "bg":15
+        },
+        {
             "id":"animation_hit",
             "bg":49
         },

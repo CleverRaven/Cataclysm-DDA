@@ -160,6 +160,10 @@ class cata_tiles
         void draw_line(int destx, int desty, int centerx, int centery, int width, int height);
         void void_line();
 
+        void init_draw_weather(weather_printable weather, std::string name);
+        void draw_weather_frame(int destx, int desty, int centerx, int centery, int width, int height);
+        void void_weather();
+
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
@@ -187,6 +191,7 @@ class cata_tiles
         bool do_draw_bullet;
         bool do_draw_hit;
         bool do_draw_line;
+        bool do_draw_weather;
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
@@ -200,6 +205,9 @@ class cata_tiles
         bool is_target_line;
         std::vector<point> line_trajectory;
         std::string line_endpoint_id;
+
+        weather_printable anim_weather;
+        std::string weather_name;
 
         // offset values
         int o_x, o_y;

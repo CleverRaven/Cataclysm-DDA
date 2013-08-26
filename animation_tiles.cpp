@@ -176,4 +176,35 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
     tilecontext->init_draw_line(x,y,vPoint,"line_trail", false);
 }
 //*/
+void game::draw_weather(weather_printable wPrint)
+{
+    std::string weather_name;
+    /*
+    WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
+    WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+    WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
+    */
+    switch(wPrint.wtype)
+    {
+        // Acid weathers, uses acid droplet tile, fallthrough intended
+        case WEATHER_ACID_DRIZZLE:
+        case WEATHER_ACID_RAIN: weather_name = "weather_acid_drop"; break;
+        // Normal rainy weathers, uses normal raindrop tile, fallthrough intended
+        case WEATHER_DRIZZLE:
+        case WEATHER_RAINY:
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING: weather_name = "weather_rain_drop"; break;
+        // Snowy weathers, uses snowflake tile, fallthrough intended
+        case WEATHER_SNOW:
+        case WEATHER_SNOWSTORM: weather_name = "weather_snowflake"; break;
+    }
+    for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
+         weather_iterator != wPrint.vdrops.end();
+         ++weather_iterator)
+    {
+        mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
+
+    }
+    tilecontext->init_draw_weather(wPrint, weather_name);
+}
 #endif
