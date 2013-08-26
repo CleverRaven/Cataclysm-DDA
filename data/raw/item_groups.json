@@ -173,7 +173,8 @@
       ["can_cheese", 8],
       ["vinegar", 15],
       ["veggy_pickled", 8],
-      ["meat_pickled", 4]
+      ["meat_pickled", 4],
+      ["tongs", 25]
     ]
   },
   { "id":"knifeblock",
@@ -181,7 +182,8 @@
       ["knife_steak", 85],
       ["knife_butcher", 10],
       ["knife_combat", 14],
-      ["pockknife", 14]
+      ["pockknife", 14],
+      ["tongs", 28]
     ]
   },
   { "id":"fridge",
@@ -716,7 +718,14 @@
       ["funnel", 50],
       ["bearing", 1],
       ["jack", 10],
-      ["permanent_marker", 50]
+      ["permanent_marker", 50],
+      ["forge", 1],
+      ["crucible", 1],
+      ["tongs", 1],
+      ["chisel", 2],
+      ["swage", 1],
+      ["anvil", 2],
+      ["apron_leather", 10]
     ]
   },
   { "id":"tools",
@@ -734,7 +743,10 @@
       ["press", 5],
       ["puller", 5],
       ["boltcutters", 5],
-      ["ax", 8]
+      ["ax", 8],
+      ["tongs", 3],
+      ["chisel", 2],
+      ["swage", 1]
     ]
   },
   { "id":"bigtools",
@@ -748,7 +760,11 @@
       ["jackhammer", 2],
       ["jacqueshammer", 2],
       ["welder", 25],
-      ["ax", 8]
+      ["ax", 8],
+      ["forge", 2],
+      ["crucible", 2],
+      ["anvil", 4],
+      ["apron_leather", 10]
     ]
   },
   { "id":"mischw",
@@ -1325,7 +1341,8 @@
       ["blazer", 35],
       ["jacket_leather", 30],
       ["coat_rain", 50],
-      ["trenchcoat", 25]
+      ["trenchcoat", 25],
+      ["apron_leather", 1]
     ]
   },
   { "id":"winter",
@@ -1405,7 +1422,8 @@
       ["wetsuit_spring", 5],
       ["wetsuit_gloves", 10],
       ["wetsuit_booties", 10],
-      ["jedi_cloak", 1]
+      ["jedi_cloak", 1],
+      ["apron_leather", 1]
     ]
   },
   { "id":"novels",
@@ -1451,7 +1469,11 @@
       ["textbook_robots", 1],
       ["textbook_mechanics", 12],
       ["textbook_fabrication", 12],
-      ["textbook_tailor", 12]
+      ["textbook_tailor", 12],
+      ["textbook_weapwest", 3],
+      ["textbook_weapeast", 3],
+      ["textbook_armwest", 3],
+      ["textbook_armeast", 3]
     ]
   },
   { "id":"cop_shoes",
@@ -1788,7 +1810,19 @@
       ["pike", 5],
       ["helmet_plate", 1],
       ["armor_plate", 2],
-      ["huge_crossbow", 2]
+      ["huge_crossbow", 2],
+      ["nodachi", 1],
+      ["armor_lightplate", 1],
+      ["armor_samurai", 1],
+      ["helmet_kabuto", 1],
+      ["gloves_plate", 1],
+      ["boots_plate", 1],
+      ["helmet_barbute", 1],
+      ["textbook_weapwest", 5],
+      ["textbook_weapeast", 5],
+      ["textbook_armwest", 5],
+      ["textbook_armeast", 5],
+      ["apron_leather", 1]
     ]
   },
   { "id":"art",
@@ -1802,7 +1836,8 @@
       ["candlestick", 20],
       ["heels", 50],
       ["ring", 12],
-      ["necklace", 14]
+      ["necklace", 14],
+      ["nodachi", 1]
     ]
   },
   { "id":"pawn",
@@ -1905,7 +1940,17 @@
       ["wristwatch", 15],
       ["umbrella", 5],
       ["tac_helmet", 5],
-      ["textbook_tailor", 12]
+      ["textbook_tailor", 12],
+      ["nodachi", 1],
+      ["swage", 2],
+      ["forge", 5],
+      ["armor_lightplate", 1],
+      ["armor_samurai", 1],
+      ["helmet_kabuto", 1],
+      ["gloves_plate", 1],
+      ["boots_plate", 1],
+      ["helmet_barbute", 1],
+      ["apron_leather", 5]
     ]
   },
   { "id":"mil_surplus",
@@ -1998,7 +2043,8 @@
       ["flotation_vest", 1],
       ["vaccine_shot", 10],
       ["coat_rain", 5],
-      ["umbrella", 7]
+      ["umbrella", 7],
+      ["apron_leather", 5]
     ]
   },
   { "id":"mechanics",
@@ -2031,7 +2077,10 @@
       ["jerrycan", 10],
       ["jerrycan_big", 10],
       ["metal_tank", 10],
-      ["jack", 10]
+      ["jack", 10],
+      ["anvil", 5],
+      ["chisel", 10],
+      ["apron_leather", 5]
     ]
   },
   { "id":"chemistry",
@@ -2053,7 +2102,8 @@
       ["software_medical", 10],
       ["funnel", 50],
       ["jar_glass", 20],
-      ["jar_3l_glass", 15]
+      ["jar_3l_glass", 15],
+      ["apron_leather", 2]
     ]
   },
   { "id":"teleport",
@@ -2468,7 +2518,8 @@
       ["baton", 8],
       ["tazer", 3],
       ["rapier", 3],
-      ["bat_metal", 60]
+      ["bat_metal", 60],
+      ["nodachi", 1]
     ]
   },
   { "id":"survival_armor",
@@ -2504,7 +2555,8 @@
       ["flotation_vest", 1],
       ["fishing_waders", 2],
       ["cloak", 5],
-      ["tac_helmet", 5]
+      ["tac_helmet", 5],
+      ["apron_leather", 2]
     ]
   },
   { "id":"survival_tools",
@@ -2539,7 +2591,8 @@
       ["bio_tools", 10],
       ["bio_ethanol", 10],
       ["heatpack", 60],
-      ["glowstick", 60]
+      ["glowstick", 60],
+      ["tongs", 5]
     ]
   },
   { "id":"sewage_plant",
@@ -2570,7 +2623,9 @@
       ["bio_purifier", 10],
       ["bio_climate", 10],
       ["bio_heatsink", 10],
-      ["bio_blood_filter", 10]
+      ["bio_blood_filter", 10],
+      ["tongs", 10],
+      ["apron_leather", 10]
     ]
   },
   { "id":"construction_worker",
@@ -2584,7 +2639,8 @@
       ["glasses_safety", 40],
       ["hat_hard", 50],
       ["battery", 50],
-      ["flashlight", 40]
+      ["flashlight", 40],
+      ["apron_leather", 10]
     ]
   },
   { "id":"mine_storage",
@@ -2623,7 +2679,8 @@
       ["bio_hydraulics", 10],
       ["jerrycan", 10],
       ["jerrycan_big", 10],
-      ["gasoline_lantern", 5]
+      ["gasoline_lantern", 5],
+      ["apron_leather", 10]
     ]
   },
   { "id":"spiral",
@@ -2678,7 +2735,8 @@
       ["bio_purifier", 10],
       ["bio_climate", 10],
       ["bio_heatsink", 10],
-      ["bio_blood_filter", 10]
+      ["bio_blood_filter", 10],
+      ["apron_leather", 10]
     ]
   },
   { "id":"subway",
@@ -2724,7 +2782,8 @@
       ["jacqueshammer", 2],
       ["flashlight", 40],
       ["dynamite", 5],
-      ["matches", 60]
+      ["matches", 60],
+      ["apron_leather", 5]
     ]
   },
   { "id":"spider",
@@ -3195,7 +3254,7 @@
       ["arrow_cf", 5],
       ["press", 5],
       ["puller", 5],
-      ["8mm_caseless", 4],
+      ["8mm_caseless", 6],
       ["8mm_jhp", 2],
       ["8mm_fmj", 2],
       ["8mm_inc", 2]
@@ -3308,7 +3367,11 @@
       ["textbook_computers", 8],
       ["solar_cell", 5],
       ["SICP", 3],
-      ["soldering_iron", 70]
+      ["soldering_iron", 70],
+      ["textbook_weapwest", 2],
+      ["textbook_weapeast", 2],
+      ["textbook_armwest", 2],
+      ["textbook_armeast", 2]
     ]
   },
   { "id":"trader_avoid",
