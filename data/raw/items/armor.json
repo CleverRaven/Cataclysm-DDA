@@ -4246,5 +4246,29 @@
         "bashing" : 6,
         "coverage" : 95,
         "material_thickness" : 3
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "apron_leather",
+        "name" : "leather apron",
+        "weight" : 2450,
+        "color" : "light_red",
+        "covers" : ["TORSO", "LEGS"],
+        "to_hit" : 1,
+        "storage" : 8,
+        "symbol" : "[",
+        "description" : "An apron made of thick leather. Cumbersome, but offers excellent protection from cuts.",
+        "price" : 150,
+        "material" : ["leather", "null"],
+        "volume" : 18,
+        "cutting" : 0,
+        "warmth" : 20,
+        "phase" : "solid",
+        "enviromental_protection" : 1,
+        "encumberance" : 2,
+        "bashing" : -2,
+        "flags" : ["VARSIZE", "POCKETS"],
+        "coverage" : 50,
+        "material_thickness" : 6
     }
 ]

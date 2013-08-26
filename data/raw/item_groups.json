@@ -678,7 +678,8 @@
       ["tongs", 1],
       ["chisel", 2],
       ["swage", 1],
-      ["anvil", 2]
+      ["anvil", 2],
+      ["apron_leather", 10]
     ]
   },
   { "id":"tools",
@@ -716,7 +717,8 @@
       ["ax", 8],
       ["forge", 2],
       ["crucible", 2],
-      ["anvil", 4]
+      ["anvil", 4],
+      ["apron_leather", 10]
     ]
   },
   { "id":"mischw",
@@ -1277,7 +1279,8 @@
       ["blazer", 35],
       ["jacket_leather", 30],
       ["coat_rain", 50],
-      ["trenchcoat", 25]
+      ["trenchcoat", 25],
+      ["apron_leather", 1]
     ]
   },
   { "id":"winter",
@@ -1357,7 +1360,8 @@
       ["wetsuit_spring", 5],
       ["wetsuit_gloves", 10],
       ["wetsuit_booties", 10],
-      ["jedi_cloak", 1]
+      ["jedi_cloak", 1],
+      ["apron_leather", 1]
     ]
   },
   { "id":"novels",
@@ -1707,7 +1711,8 @@
       ["textbook_weapwest", 5],
       ["textbook_weapeast", 5],
       ["textbook_armwest", 5],
-      ["textbook_armeast", 5]
+      ["textbook_armeast", 5],
+      ["apron_leather", 1]
     ]
   },
   { "id":"art",
@@ -1824,12 +1829,15 @@
       ["wristwatch", 15],
       ["umbrella", 5],
       ["nodachi", 1],
+      ["swage", 2],
+      ["forge", 5],
       ["armor_lightplate", 1],
       ["armor_samurai", 1],
       ["helmet_kabuto", 1],
       ["gloves_plate", 1],
       ["boots_plate", 1],
-      ["helmet_barbute", 1]
+      ["helmet_barbute", 1],
+      ["apron_leather", 5]
     ]
   },
   { "id":"mil_surplus",
@@ -1920,7 +1928,8 @@
       ["flotation_vest", 1],
       ["vaccine_shot", 10],
       ["coat_rain", 5],
-      ["umbrella", 7]
+      ["umbrella", 7],
+      ["apron_leather", 5]
     ]
   },
   { "id":"mechanics",
@@ -1955,7 +1964,8 @@
       ["metal_tank", 10],
       ["jack", 10],
       ["anvil", 5],
-      ["chisel", 10]
+      ["chisel", 10],
+      ["apron_leather", 5]
     ]
   },
   { "id":"chemistry",
@@ -1977,7 +1987,8 @@
       ["software_medical", 10],
       ["funnel", 50],
       ["jar_glass", 20],
-      ["jar_3l_glass", 15]
+      ["jar_3l_glass", 15],
+      ["apron_leather", 2]
     ]
   },
   { "id":"teleport",
@@ -2417,7 +2428,8 @@
       ["emer_blanket", 20],
       ["flotation_vest", 1],
       ["fishing_waders", 2],
-      ["cloak", 5]
+      ["cloak", 5],
+      ["apron_leather", 2]
     ]
   },
   { "id":"survival_tools",
@@ -2485,7 +2497,8 @@
       ["bio_climate", 10],
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
-      ["tongs", 10]
+      ["tongs", 10],
+      ["apron_leather", 10]
     ]
   },
   { "id":"construction_worker",
@@ -2499,7 +2512,8 @@
       ["glasses_safety", 40],
       ["hat_hard", 50],
       ["battery", 50],
-      ["flashlight", 40]
+      ["flashlight", 40],
+      ["apron_leather", 10]
     ]
   },
   { "id":"mine_storage",
@@ -2538,7 +2552,8 @@
       ["bio_hydraulics", 10],
       ["jerrycan", 10],
       ["jerrycan_big", 10],
-      ["gasoline_lantern", 5]
+      ["gasoline_lantern", 5],
+      ["apron_leather", 10]
     ]
   },
   { "id":"spiral",
@@ -2590,7 +2605,8 @@
       ["bio_purifier", 10],
       ["bio_climate", 10],
       ["bio_heatsink", 10],
-      ["bio_blood_filter", 10]
+      ["bio_blood_filter", 10],
+      ["apron_leather", 10]
     ]
   },
   { "id":"subway",
@@ -2635,7 +2651,8 @@
       ["jacqueshammer", 2],
       ["flashlight", 40],
       ["dynamite", 5],
-      ["matches", 60]
+      ["matches", 60],
+      ["apron_leather", 5]
     ]
   },
   { "id":"spider",
@@ -3090,7 +3107,7 @@
       ["arrow_cf", 5],
       ["press", 5],
       ["puller", 5],
-      ["8mm_caseless", 3],
+      ["8mm_caseless", 6],
       ["8mm_jhp", 2],
       ["8mm_fmj", 2],
       ["8mm_inc", 2]
