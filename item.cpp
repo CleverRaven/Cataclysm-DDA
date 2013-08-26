@@ -1993,6 +1993,10 @@ int item::range(player *p)
 
  int ret = (curammo ? dynamic_cast<it_gun*>(type)->range + curammo->range : 0);
 
+ if (has_flag("CHARGE")) {
+   ret = dynamic_cast<it_gun*>(type)->range + 5 + charges * 5; 
+ }
+
  if (has_flag("STR8_DRAW") && p) {
   if (p->str_cur < 4)
    return 0;
