@@ -2197,6 +2197,7 @@
         "charges" : 3,
         "bashing" : 0,
         "cutting" : 0,
+        "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
     {
@@ -2226,6 +2227,7 @@
         "charges" : 3,
         "bashing" : 0,
         "cutting" : 0,
+        "flags" : ["EATEN_HOT"],
         "fun" : 8
     },
     {
@@ -2255,6 +2257,7 @@
         "charges" : 3,
         "bashing" : 0,
         "cutting" : 0,
+        "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
     {
