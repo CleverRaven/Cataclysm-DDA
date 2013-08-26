@@ -170,7 +170,10 @@
       ["jar_glass", 50],
       ["jar_3l_glass", 40],
       ["cheese", 40],
-      ["can_cheese", 8]
+      ["can_cheese", 8],
+      ["vinegar", 15],
+      ["veggy_pickled", 8],
+      ["meat_pickled", 4]
     ]
   },
   { "id":"knifeblock",
@@ -213,7 +216,10 @@
       ["banana", 40],
       ["lemon", 50],
       ["potato_raw", 10],
-	  ["pickle", 40]
+	  ["pickle", 40],
+      ["vinegar", 15],
+      ["veggy_pickled", 8],
+      ["meat_pickled", 2]
     ]
   },
   { "id":"oven",
@@ -631,7 +637,10 @@
       ["flour", 20],
       ["sugar", 20],
       ["can_cheese", 40],
-      ["salt", 20]
+      ["salt", 20],
+      ["vinegar", 15],
+      ["veggy_pickled", 8],
+      ["meat_pickled", 6]
     ]
   },
   { "id":"pasta",
@@ -678,7 +687,8 @@
       ["thread", 40],
       ["rag", 1],
       ["scissors", 50],
-      ["string_36", 40]
+      ["string_36", 40],
+      ["vinegar", 10]
     ]
   },
   { "id":"hardware",
@@ -3153,7 +3163,10 @@
       ["can_beans", 40],
       ["can_corn", 35],
       ["can_spam", 30],
-      ["salt", 10]
+      ["salt", 10],
+      ["vinegar", 10],
+      ["veggy_pickled", 30],
+      ["meat_pickled", 20]
     ]
   },
   { "id":"stash_ammo",
