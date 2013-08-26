@@ -7,6 +7,20 @@
     "description":    "If you're seeing this, it's a bug. (game::init_bionics)"
 },
 {
+    "id"         :    "bio_power_storage",
+    "name"       :    "Power Storage",
+    "cost"       :    0,
+    "time"       :    0,
+    "description":    "Compact Bionics Module that upgrades your power capacity by 4 units.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in another CBM."
+},
+{
+    "id"         :    "bio_power_storage_mkII",
+    "name"       :    "Power Storage Mk. II",
+    "cost"       :    0,
+    "time"       :    0,
+    "description":    "Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly sucessful CBM: Power Storage.  Increases you power capacity by 10 units."
+},
+{
     "id"         :    "bio_batteries",
     "name"       :    "Battery System",
     "cost"       :    0,
