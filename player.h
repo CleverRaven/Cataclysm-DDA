@@ -376,6 +376,33 @@ public:
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
  bool nv_cached;
 
+// Drench cache values
+ bool drench_cached;
+ int eyes_ignored;
+ int eyes_neutral;
+ int eyes_good;
+ int mouth_ignored;
+ int mouth_neutral;
+ int mouth_good;
+ int head_ignored;
+ int head_neutral;
+ int head_good;
+ int legs_ignored;
+ int legs_neutral;
+ int legs_good;
+ int feet_ignored;
+ int feet_neutral;
+ int feet_good;
+ int arms_ignored;
+ int arms_neutral;
+ int arms_good;
+ int hands_ignored;
+ int hands_neutral;
+ int hands_good;
+ int torso_ignored;
+ int torso_neutral;
+ int torso_good;
+
  std::vector<morale_point> morale;
 
  int focus_pool;

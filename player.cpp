@@ -138,6 +138,7 @@ player::player()
   temp_conv[i] = BODYTEMP_NORM;
  }
  nv_cached = false;
+ drench_cached = false;
  volume = 0;
 
  memorial_log.clear();
@@ -255,6 +256,7 @@ player& player::operator= (const player & rhs)
  addictions = rhs.addictions;
 
  nv_cached = false;
+ drench_cached = false;
 
  return (*this);
 }
@@ -4699,77 +4701,114 @@ void player::drench(game *g, int saturation, int flags) {
         return;
     }
 
+    if (!drench_cached) {
+        int ignored = 0;
+        int neutral = 0;
+        int good = 0;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_eyes));
+        calculate_portions(good, neutral, ignored, 1);
+        eyes_ignored = ignored;
+        eyes_neutral = neutral;
+        eyes_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_mouth));
+        calculate_portions(good, neutral, ignored, 1);
+        mouth_ignored = ignored;
+        mouth_neutral = neutral;
+        mouth_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_head));
+        calculate_portions(good, neutral, ignored, 7);
+        head_ignored = ignored;
+        head_neutral = neutral;
+        head_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_legs));
+        calculate_portions(good, neutral, ignored, 21);
+        legs_ignored = ignored;
+        legs_neutral = neutral;
+        legs_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_feet));
+        calculate_portions(good, neutral, ignored, 6);
+        feet_ignored = ignored;
+        feet_neutral = neutral;
+        feet_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_arms));
+        calculate_portions(good, neutral, ignored, 19);
+        arms_ignored = ignored;
+        arms_neutral = neutral;
+        arms_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_hands));
+        calculate_portions(good, neutral, ignored, 5);
+        hands_ignored = ignored;
+        hands_neutral = neutral;
+        hands_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_torso));
+        calculate_portions(good, neutral, ignored, 40);
+        torso_ignored = ignored;
+        torso_neutral = neutral;
+        torso_good = good;
+
+        drench_cached = true;
+    }
+
     int effected = 0;
     int tot_ignored = 0; //Always ignored
     int tot_neut = 0; //Ignored for good wet bonus
     int tot_good = 0; //Increase good wet bonus
-    int ignored = 0;
-    int neut = 0;
-    int good = 0;
 
     if (mfb(bp_eyes) & flags) {
         effected += 1;
-        drench_mut_check(ignored, neut, good, mfb(bp_eyes));
-        calculate_portions(good, neut, ignored, 1);
-        tot_good += good;
-        tot_neut += neut;
-        tot_ignored += ignored;
+        tot_good += eyes_good;
+        tot_neut += eyes_neutral;
+        tot_ignored += eyes_ignored;
     }
     if (mfb(bp_mouth) & flags) {
         effected += 1;
-        drench_mut_check(ignored, neut, good, mfb(bp_mouth));
-        calculate_portions(good, neut, ignored, 1);
-        tot_good += good;
-        tot_neut += neut;
-        tot_ignored += ignored;
+        tot_good += mouth_good;
+        tot_neut += mouth_neutral;
+        tot_ignored += mouth_ignored;
     }
     if (mfb(bp_head) & flags) {
         effected += 7;
-        drench_mut_check(ignored, neut, good, mfb(bp_head));
-        calculate_portions(good, neut, ignored, 7);
-        tot_good += good;
-        tot_neut += neut;
-        tot_ignored += ignored;
+        tot_good += head_good;
+        tot_neut += head_neutral;
+        tot_ignored += head_ignored;
     }
     if (mfb(bp_legs) & flags) {
         effected += 21;
-        drench_mut_check(ignored, neut, good, mfb(bp_legs));
-        calculate_portions(good, neut, ignored, 21);
-        tot_good += good;
-        tot_neut += neut;
-        tot_ignored += ignored;
+        tot_good += legs_good;
+        tot_neut += legs_neutral;
+        tot_ignored += legs_ignored;
     }
     if (mfb(bp_feet) & flags) {
         effected += 6;
-        drench_mut_check(ignored, neut, good, mfb(bp_eyes));
-        calculate_portions(good, neut, ignored, 6);
-        tot_good += good;
-        tot_neut += neut;
-        tot_ignored += ignored;
+        tot_good += feet_good;
+        tot_neut += feet_neutral;
+        tot_ignored += feet_ignored;
     }
     if (mfb(bp_arms) & flags) {
         effected += 19;
-        drench_mut_check(ignored, neut, good, mfb(bp_arms));
-        calculate_portions(good, neut, ignored, 19);
-        tot_good += good;
-        tot_neut += neut;
-        tot_ignored += ignored;
+        tot_good += arms_good;
+        tot_neut += arms_neutral;
+        tot_ignored += arms_ignored;
     }
     if (mfb(bp_hands) & flags) {
         effected += 5;
-        drench_mut_check(ignored, neut, good, mfb(bp_hands));
-        calculate_portions(good, neut, ignored, 5);
-        tot_good += good;
-        tot_neut += neut;
-        tot_ignored += ignored;
+        tot_good += hands_good;
+        tot_neut += hands_neutral;
+        tot_ignored += hands_ignored;
     }
     if (mfb(bp_torso) & flags) {
         effected += 40;
-        drench_mut_check(ignored, neut, good, mfb(bp_torso));
-        calculate_portions(good, neut, ignored, 40);
-        tot_good += good;
-        tot_neut += neut;
-        tot_ignored += ignored;
+        tot_good += torso_good;
+        tot_neut += torso_neutral;
+        tot_ignored += torso_ignored;
     }
 
     if (effected == 0) {
