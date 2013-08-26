@@ -99,9 +99,9 @@ void game::init_traits_mutations()
             {
                 catajson curr_part = wet_pro.curr();
                 std::string part_id = curr_part.get("part").as_string();
-                int ignored = curr_part.get("ignored").as_int();
-                int neutral = curr_part.get("neutral").as_int();
-                int good = curr_part.get("good").as_int();
+                int ignored = curr_part.has("ignored") ? curr_part.get("ignored").as_int() : 0;
+                int neutral = curr_part.has("neutral") ? curr_part.get("neutral").as_int() : 0;
+                int good = curr_part.has("good") ? curr_part.get("good").as_int() : 0;
                 tripoint protect = tripoint(ignored, neutral, good);
                 mutation_data[sMutation].protection.push_back(mutation_wet(bodyparts_list[part_id], protect));
             }
