@@ -17,6 +17,7 @@
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+#define testng_vehicle_collisions //Fux
 
 enum astar_list {
  ASL_NONE,
