@@ -11645,6 +11645,27 @@
       [ "scrap", 3 ]
     ]
   ]
+},
+{
+  "result": "crackpipe",
+  "category": "CC_MISC",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "lighter", 20 ],
+      [ "fire", -1 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bottle_glass", 1 ],
+      [ "flask_glass", 1 ]
+    ]
+  ]
 }
 ]
 }
