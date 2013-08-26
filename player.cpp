@@ -639,7 +639,7 @@ void player::update_bodytemp(game *g)
 {
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
-    int Ctemperature = 100*(g->temperature - 32) * 5/9;
+    int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
@@ -696,11 +696,11 @@ void player::update_bodytemp(game *g)
         {
             floor_bedding_warmth -= 1000;
         }
-        else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
+        else if (veh && veh->part_with_feature (vpart, "SEAT") >= 0)
         {
             floor_bedding_warmth += 200;
         }
-        else if (veh && veh->part_with_feature (vpart, vpf_bed) >= 0)
+        else if (veh && veh->part_with_feature (vpart, "BED") >= 0)
         {
             floor_bedding_warmth += 300;
         }
@@ -977,7 +977,7 @@ void player::update_bodytemp(game *g)
         {
             frostbite_timer[i]--;
         }
-        if      (frostbite_timer[i] >= 240 && g->temperature < 32)
+        if      (frostbite_timer[i] >= 240 && g->get_temperature() < 32)
         {
             add_disease(dis_type(frost_pen), 1, 2, 2);
             // Warning message for the player
@@ -986,7 +986,7 @@ void player::update_bodytemp(game *g)
             {
                 g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
-            else if (frostbite_timer[i] >= 120 && g->temperature < 32)
+            else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
             {
                 add_disease(dis_type(frost_pen), 1, 1, 2);
                 // Warning message for the player
@@ -1102,12 +1102,12 @@ int player::current_speed(game *g)
  if (g != NULL) {
   if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy))
    newmoves -= (g->light_level() >= 12 ? 5 : 10);
-  if (has_trait("COLDBLOOD3") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 2);
-  else if (has_trait("COLDBLOOD2") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 3);
-  else if (has_trait("COLDBLOOD") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 5);
+  if (has_trait("COLDBLOOD3") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 2);
+  else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 3);
+  else if (has_trait("COLDBLOOD") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 5);
  }
 
  if (has_artifact_with(AEP_SPEED_UP))
@@ -2256,13 +2256,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   line++;
  }
  if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
-      has_trait("COLDBLOOD3")) && g->temperature < 65) {
+      has_trait("COLDBLOOD3")) && g->get_temperature() < 65) {
   if (has_trait("COLDBLOOD3"))
-   pen = int( (65 - g->temperature) / 2);
+   pen = int( (65 - g->get_temperature()) / 2);
   else if (has_trait("COLDBLOOD2"))
-   pen = int( (65 - g->temperature) / 3);
+   pen = int( (65 - g->get_temperature()) / 3);
   else
-   pen = int( (65 - g->temperature) / 2);
+   pen = int( (65 - g->get_temperature()) / 2);
   mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -2989,7 +2989,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 
   bool has_turrets = false;
   for (int p = 0; p < veh->parts.size(); p++) {
-   if (veh->part_flag (p, vpf_turret)) {
+   if (veh->part_flag (p, "TURRET")) {
     has_turrets = true;
     break;
    }
@@ -3471,7 +3471,7 @@ int player::throw_range(signed char ch)
  if ((tmp.weight() / 113) > int(str_cur * 15))
   return 0;
  // Increases as weight decreases until 150 g, then decreases again
- int ret = (str_cur * 8) / (tmp.weight() > 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+ int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
  ret -= int(tmp.volume() / 4);
  if (has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel")))
     ret *= 2;
@@ -4139,21 +4139,25 @@ int player::addiction_level(add_type type)
 
 bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 {
-    int liquid_amount = veh->drain( desired_liquid , veh->fuel_capacity( desired_liquid ));
-    item used_item(g->itypes[ default_ammo(desired_liquid) ], g->turn);
+    int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
+    item used_item( g->itypes[default_ammo(desired_liquid)], g->turn );
     used_item.charges = liquid_amount;
-    if (!g->handle_liquid(used_item, false, false)) { 
-      //Didn't handle all of it, put the remainder (in used_item.charges) back
-      veh->refill(desired_liquid, used_item.charges);
+    int extra = g->move_liquid( used_item );
+    if( extra == -1 ) {
+        // Failed somehow, put the liquid back and bail out.
+        veh->refill( desired_liquid, used_item.charges );
+        return false;
     }
-    int siphoned = liquid_amount - veh->fuel_left(desired_liquid);
-    if(siphoned > 0) {
+    int siphoned = liquid_amount - extra;
+    veh->refill( desired_liquid, extra );
+    if( siphoned > 0 ) {
         g->add_msg(_("Siphoned %d units of %s from the %s."),
-                          siphoned, used_item.name.c_str(), veh->name.c_str());
+                   siphoned, used_item.name.c_str(), veh->name.c_str());
+        //Don't consume turns if we decided not to siphon
+        return true;
+    } else {
+        return false;
     }
-
-    //Don't consume turns if we decided not to siphon
-    return siphoned > 0;
 }
 
 void player::cauterize(game *g) {
@@ -4752,7 +4756,7 @@ void player::drench(game *g, int saturation, int flags) {
   int morale_cap;
 
   if (wantsDrench) {
-    morale_cap = (g->temperature - 60) * saturation / 100;
+    morale_cap = (g->get_temperature() - 60) * saturation / 100;
   } else {
     morale_cap = -(saturation / 2);
   }
@@ -7677,8 +7681,8 @@ void player::try_to_sleep(game *g)
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
      furn_at_pos == f_armchair || furn_at_pos == f_sofa ||
-     (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
-      (veh && veh->part_with_feature (vpart, vpf_bed) >= 0))
+     (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+      (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
   g->add_msg(
@@ -7702,11 +7706,11 @@ bool player::can_sleep(game *g)
  const trap_id trap_at_pos = g->m.tr_at(posx, posy);
  const ter_id ter_at_pos = g->m.ter(posx, posy);
  const furn_id furn_at_pos = g->m.furn(posx, posy);
- if ((veh && veh->part_with_feature (vpart, vpf_bed) >= 0) ||
+ if ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
      furn_at_pos == f_sofa)
   sleepy += 4;
- else if ((veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
+ else if ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       trap_at_pos == tr_rollmat || furn_at_pos == f_armchair)
   sleepy += 3;
  else if (furn_at_pos == f_bed)

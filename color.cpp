@@ -1,4 +1,5 @@
 #include "color.h"
+#include "output.h"
 
 #define HILIGHT COLOR_BLUE
 void init_colors()
@@ -407,4 +408,47 @@ nc_color int_to_color(int key)
 
  }
  return c_black;
+}
+
+/**
+ * Given the name of a color, returns the nc_color constant that matches. If
+ * no match is found, c_white is returned.
+ * @param new_color The color to get, as a std::string.
+ * @return The nc_color constant that matches the input.
+ */
+nc_color color_from_string(std::string new_color){
+    if("red"==new_color){
+        return c_red;
+    } else if("blue"==new_color){
+        return c_blue;
+    } else if("green"==new_color){
+        return c_green;
+    } else if("light_cyan"==new_color){
+        return c_ltcyan;
+    } else if("brown"==new_color){
+        return c_brown;
+    } else if("light_red"==new_color){
+        return c_ltred;
+    } else if("white"==new_color){
+        return c_white;
+    } else if("light_blue"==new_color){
+        return c_ltblue;
+    } else if("yellow"==new_color){
+        return c_yellow;
+    } else if("magenta"==new_color){
+        return c_magenta;
+    } else if("cyan"==new_color){
+        return c_cyan;
+    } else if("light_gray"==new_color){
+        return c_ltgray;
+    } else if("dark_gray"==new_color){
+        return c_dkgray;
+    } else if("light_green"==new_color){
+        return c_ltgreen;
+    } else if("pink"==new_color){
+        return c_pink;
+    } else {
+        debugmsg("Received invalid color property %s. Color is required.", new_color.c_str());
+        return c_white;
+    }
 }

@@ -695,8 +695,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 cur->setFieldDensity(cur->getFieldDensity() - 1);
                             }
                         } else {
-                            curfield.replaceField(fd_fire_vent, fd_flame_burst);
+                            it = curfield.replaceField(fd_fire_vent, fd_flame_burst);
                             cur->setFieldDensity(3);
+                            continue;
                         }
                         break;
 
@@ -704,8 +705,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         if (cur->getFieldDensity() > 1) {
                             cur->setFieldDensity(cur->getFieldDensity() - 1);
                         } else {
-                            curfield.replaceField(fd_flame_burst, fd_fire_vent);
+                            it = curfield.replaceField(fd_flame_burst, fd_fire_vent);
                             cur->setFieldDensity(3);
+                            continue;
                         }
                         break;
 
@@ -898,7 +900,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
                     }
                     if (should_dissipate == true || !cur->isAlive()) { // Totally dissapated.
                         grid[gridn]->field_count--;
-                        grid[gridn]->fld[locx][locy].removeField(cur->getFieldType());
+                        it = grid[gridn]->fld[locx][locy].removeField(cur->getFieldType());
+                        continue;
                     }
                 }
                 if (!skipIterIncr)
@@ -1652,17 +1655,22 @@ field_id field::fieldSymbol() const{
 	return draw_symbol;
 }
 
-bool field::replaceField(field_id old_field, field_id new_field)
+std::map<field_id, field_entry*>::iterator field::replaceField(field_id old_field, field_id new_field)
 {
-    field_entry* field = findField(old_field);
-    if (!field)
-        return false;
-    field->setFieldType(new_field);
-    field_list.erase(old_field);
-    field_list[new_field] = field;
-    if (draw_symbol == old_field)
-        draw_symbol = new_field;
-    return true;
+    std::map<field_id, field_entry*>::iterator it = field_list.find(old_field);
+    std::map<field_id, field_entry*>::iterator next = it;
+    next++;
+
+    if(it != field_list.end()) {
+        field_entry* tmp = it->second;
+        tmp->setFieldType(new_field);
+        field_list.erase(it);
+        it = next;
+        field_list[new_field] = tmp;
+        if (draw_symbol == old_field)
+            draw_symbol = new_field;
+    }
+    return it;
 }
 
 int field::move_cost() const{

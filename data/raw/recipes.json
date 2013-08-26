@@ -1398,14 +1398,25 @@
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ],
+    [
+      ["welder", 100],
+      ["welder_crude", 150],
+      ["toolset", 4]
+    ]
   ],
   "components": [
     [
       [ "1cyl_combustion", 1 ]
     ],
     [
+      [ "metal_tank", 1 ]
+    ],
+    [
       [ "chain", 1 ]
+    ],
+    [
+      [ "scrap", 3 ]
     ]
   ]
 },
@@ -3771,6 +3782,25 @@
   "components": [
       [
         [ "kernels", 1 ]
+      ]
+  ]
+},
+
+{
+  "result": "popcorn2",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 300,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [],
+  "components": [
+      [
+          [ "popcorn", 1 ]
+      ],
+      [
+          [ "salt", 1 ]
       ]
   ]
 },
@@ -11566,6 +11596,51 @@
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ]
       ]
+  ]
+},
+{
+  "result": "jackhammer",
+  "category": "CC_MISC",
+  "skill_used": "mechanics",
+  "difficulty": 5,
+  "time": 25000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      ["welder", 100],
+      ["welder_crude", 150],
+      ["toolset", 4]
+    ]
+  ],
+  "components": [
+    [
+      [ "1cyl_combustion", 1 ]
+    ],
+    [
+      [ "metal_tank", 1 ]
+    ],
+    [
+      [ "rebar", 2 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ]
   ]
 }
 ]

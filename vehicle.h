@@ -151,7 +151,7 @@ struct vehicle_part
  *   coords. If it shows debug messages that it can't add parts, when you start
  *   the game, you did something wrong.
  *   There are a few rules: some parts are external, so one should be the first part
- *   at given mount point (tile). They require some part in neighbouring tile (with `vpf_mount_point` flag) to
+ *   at given mount point (tile). They require some part in neighbouring tile (with the "MOUNT_POINT" flag) to
  *   be mounted to. Other parts are internal or placed over. They can only be installed on top
  *   of external part. Some functional parts can be only in single instance per tile, i. e.,
  *   no two engines at one mount point.
@@ -161,6 +161,8 @@ class vehicle
 {
 private:
     game *g;
+
+    bool can_stack_vpart_flag(std::string vpart_flag);
 
 public:
     vehicle (game *ag=0, vhtype_id type_id = veh_null, int veh_init_fuel = -1, int veh_init_status = -1);
@@ -182,7 +184,7 @@ public:
     std::string use_controls();
 
 // get vpart type info for part number (part at given vector index)
-    const vpart_info& part_info (int index);
+    vpart_info& part_info (int index);
 
 // get vpart powerinfo for part number, accounting for variable-sized parts.
     int part_power (int index);
@@ -213,11 +215,11 @@ public:
 // returns the list of indeces of parts inside (or over) given
     std::vector<int> internal_parts (int p);
 
-// returns index of part, inner to given, with certain flag (WARNING: without mfb!), or -1
-    int part_with_feature (int p, unsigned int f, bool unbroken = true);
+// returns index of part, inner to given, with certain flag, or -1
+    int part_with_feature (int p, std::string f, bool unbroken = true);
 
-// returns true if given flag is present for given part index (WARNING: without mfb!)
-    bool part_flag (int p, unsigned int f);
+// returns true if given flag is present for given part index 
+    bool part_flag (int p, std::string f);
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);

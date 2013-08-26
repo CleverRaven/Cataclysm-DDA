@@ -130,6 +130,15 @@
     ]
   },
   {
+    "name" : "GROUP_ICE_LAB",
+    "default" : "mon_zombie_scientist",
+    "monsters" : [
+      { "monster" : "mon_blob_small", "freq" : 25, "multiplier" : 0 },
+      { "monster" : "mon_manhack", "freq" : 245, "multiplier" : 0 },
+      { "monster" : "mon_skitterbot", "freq" : 245, "multiplier" : 0 }
+    ]
+  },
+  {
     "name" : "GROUP_NETHER",
     "default" : "mon_blank",
     "monsters" : [

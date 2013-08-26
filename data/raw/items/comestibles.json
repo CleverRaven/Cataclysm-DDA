@@ -1999,6 +1999,35 @@
     },
     {
         "type" : "COMESTIBLE",
+        "id" : "banana",
+        "name" : "banana",
+        "weight" : 125,
+        "color" : "yellow",
+        "addiction_type" : "none",
+        "spoils_in" : 120,
+        "use_action" : "NONE",
+        "stim" : 0,
+        "container" : "null",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 0,
+        "heal" : 4,
+        "addiction_potential" : 0,
+        "nutrition" : 12,
+        "description" : "A long, curved yellow fruit in a peel. Some people like using them in desserts. Those people are probably dead.",
+        "price" : 12,
+        "material" : "veggy",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "bashing" : 1,
+        "fun" : 5
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "orange",
         "name" : "orange",
         "weight" : 200,
@@ -2197,6 +2226,7 @@
         "charges" : 3,
         "bashing" : 0,
         "cutting" : 0,
+        "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
     {
@@ -2226,6 +2256,7 @@
         "charges" : 3,
         "bashing" : 0,
         "cutting" : 0,
+        "flags" : ["EATEN_HOT"],
         "fun" : 8
     },
     {
@@ -2255,6 +2286,7 @@
         "charges" : 3,
         "bashing" : 0,
         "cutting" : 0,
+        "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
     {
