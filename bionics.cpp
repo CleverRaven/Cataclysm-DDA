@@ -665,10 +665,10 @@ void game::init_bionics() throw (std::string)
 
         // set up all the bionic parameters
         std::string id          = bio.get("id").as_string();
-        std::string name        = bio.get("name").as_string();
+        std::string name        = _(bio.get("name").as_string().c_str());
         int cost                = bio.get("cost").as_int();
         int time                = bio.get("time").as_int();
-        std::string description = bio.get("description").as_string();
+        std::string description = _(bio.get("description").as_string().c_str());
         bool faulty             = (tags.find("FAULTY") != tags.end());
         bool powersource        = (tags.find("POWER") != tags.end());
         bool active             = (tags.find("ACTIVE") != tags.end());
