@@ -180,9 +180,7 @@ std::string direction_name_short(direction dir)
 
 
 float rl_vec2d::norm(){
- if (fabs(x) > fabs(y))
-  return fabs(x);
- return fabs(y);
+ return sqrt(x*x + y*y);
 }
 
 rl_vec2d rl_vec2d::normalized(){
@@ -198,11 +196,6 @@ rl_vec2d rl_vec2d::normalized(){
 }
 float rl_vec2d::dot_product (rl_vec2d &v){
  float dot = x*v.x + y*v.y;
- // this is messy, but the dot of normalized rl_vecs should somehow be max 1
- float tot1 = fabs(x) + fabs(y);
- float tot2 = fabs(v.x) + fabs(v.y);
- dot /= ((tot1+tot2)/2);
- dot *= norm() * v.norm();
  return dot;
 }
 bool rl_vec2d::is_null(){

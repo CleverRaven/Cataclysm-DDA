@@ -2448,8 +2448,7 @@ rl_vec2d vehicle::move_vec(){
     float mx,my;
     mx = cos (move.dir() * M_PI/180);
     my = sin (move.dir() * M_PI/180);
-    rl_vec2d ret(mx,my);
-    ret = ret.normalized();
+    rl_vec2d ret(mx,my); 
     return ret;
 }
 
@@ -2458,8 +2457,7 @@ rl_vec2d vehicle::face_vec(){
     float fx,fy;
     fx = cos (face.dir() * M_PI/180);
     fy = sin (face.dir() * M_PI/180);
-    rl_vec2d ret(fx,fy);
-    ret = ret.normalized();
+    rl_vec2d ret(fx,fy);   
     return ret;
 }
 
