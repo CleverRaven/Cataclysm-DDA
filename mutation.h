@@ -19,6 +19,8 @@ struct dream
 
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<std::string> > mutations_category;
+typedef std::pair<unsigned long, tripoint> mutation_wet;
+extern std::map<std::string, unsigned> bodyparts_list;
 
 struct mutation_branch
 {
@@ -28,6 +30,7 @@ struct mutation_branch
     std::vector<std::string> replacements; // Mutations that replace this one
     std::vector<std::string> additions; // Mutations that add to this one
     std::vector<std::string> category; // Mutation Categorys
+    std::vector<mutation_wet> protection; // Mutation wet effects
 
     mutation_branch() { valid = false; };
 };

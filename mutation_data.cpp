@@ -1,11 +1,18 @@
 #include "game.h"
 #include "catajson.h"
+#include "mutation.h"
 
 #include <vector>
 #include <map>
 
+// mfb(n) converts a flag to its appropriate position in covers's bitfield
+#ifndef mfb
+#define mfb(n) static_cast <unsigned long> (1 << (n))
+#endif
+
 std::vector<dream> dreams;
 std::map<std::string, std::vector<std::string> > mutations_category;
+std::map<std::string, unsigned> bodyparts_list;
 
 void game::init_traits_mutations()
 {
@@ -83,7 +90,35 @@ void game::init_traits_mutations()
                 }
             }
         }
+
+        init_mutation_parts();
+
+        if (cjMutation.has("wet_protection")) {
+            catajson wet_pro = cjMutation.get("wet_protection");
+            for (wet_pro.set_begin(); wet_pro.has_curr(); wet_pro.next())
+            {
+                catajson curr_part = wet_pro.curr();
+                std::string part_id = curr_part.get("part").as_string();
+                int ignored = curr_part.get("ignored").as_int();
+                int neutral = curr_part.get("neutral").as_int();
+                int good = curr_part.get("good").as_int();
+                tripoint protect = tripoint(ignored, neutral, good);
+                mutation_data[sMutation].protection.push_back(mutation_wet(bodyparts_list[part_id], protect));
+            }
+        }
 	}
+}
+
+void game::init_mutation_parts()
+{
+    bodyparts_list["TORSO"] = mfb(bp_torso);
+    bodyparts_list["HEAD"] = mfb(bp_head);
+    bodyparts_list["EYES"] = mfb(bp_eyes);
+    bodyparts_list["MOUTH"] = mfb(bp_mouth);
+    bodyparts_list["ARMS"] = mfb(bp_arms);
+    bodyparts_list["HANDS"] = mfb(bp_hands);
+    bodyparts_list["LEGS"] = mfb(bp_legs);
+    bodyparts_list["FEET"] = mfb(bp_feet);
 }
 
 void game::init_dreams()

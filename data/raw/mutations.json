@@ -130,7 +130,27 @@
         "description": "Your skin is tough. Cutting damage is slightly reduced for you. Slightly decreases wet penalties.",
         "starting_trait": true,
         "valid": true,
-        "category": ["MUTCAT_LIZARD", "MUTCAT_CATTLE"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_CATTLE"],
+        "wet_protection":[
+         {
+            "part": "LEGS",
+            "ignored": 0,
+            "neutral": 1,
+            "good": 0
+         },
+         {
+            "part": "ARMS",
+            "ignored": 0,
+            "neutral": 1,
+            "good": 0
+         },
+         {
+            "part": "TORSO",
+            "ignored": 0,
+            "neutral": 2,
+            "good": 0
+         }
+      ]
     },
     {
         "id": "PACKMULE",

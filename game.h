@@ -362,6 +362,7 @@ void load_artifacts(); // Load artifact data
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
   void init_traits_mutations();    // Initializes mutation "tech tree"
+  void init_mutation_parts(); // Initializes mutation body part data
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
