@@ -175,7 +175,7 @@ itypes[id]=new it_bionic(id, price,name,des,':',\
 color, "steel", "plastic", 10,2041, 8, 0, 0, difficulty)
 
 #define BIO_SINGLE(id,price,color,difficulty) \
-     BIO(id, std::string("CBM: ")+bionics[id]->name, price,color,difficulty, \
+     BIO(id, std::string(_("CBM: "))+bionics[id]->name, price,color,difficulty, \
            bionics[id]->description) \
 
 //  Name                     RAR PRICE    COLOR   DIFFICULTY

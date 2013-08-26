@@ -499,8 +499,6 @@ bool player::install_bionics(game *g, it_bionic* type)
      }
  }
 
- std::string bio_name = type->name.substr(5);	// Strip off "CBM: "
- 
  int pl_skill = int_cur * 4 +
    skillLevel("electronics") * 4 +
    skillLevel("firstaid")    * 3 +
