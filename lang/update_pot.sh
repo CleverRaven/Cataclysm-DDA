@@ -13,11 +13,16 @@ then
     fi
 fi
 
-# extract translatable strings from .json files
-python lang/extract_json_strings.py
-
-# update cataclysm-dda.pot
-xgettext -d cataclysm-dda -F -c~ -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp *.h lang/json/*.py
+# try to extract translatable strings from .json files
+if python lang/extract_json_strings.py 
+then
+    # update cataclysm-dda.pot
+    xgettext -d cataclysm-dda -F -c~ -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp *.h lang/json/*.py
+else
+    echo 'UPDATE FAILED'
+    cd $oldpwd
+    exit 1
+fi
 
 cd $oldpwd
 
