@@ -161,6 +161,14 @@ with open(os.path.join(to_folder,"json_dreams.py"), 'w') as dream_jtl:
             writestr(dream_jtl, message)
 extracted.append("dreams.json")
 
+# data/raw/vehicle_parts.json
+with open(os.path.join(to_folder,"json_vehicle_parts.py"),'w') as veh_jtl:
+    jsonfile = os.path.join(raw_folder, "vehicle_parts.json")
+    jsondata = json.loads(open(jsonfile).read())
+    for item in jsondata:
+        writestr(veh_jtl, item["name"])
+extracted.append("vehicle_parts.json")
+
 ## please add any new .json files to extract just above here.
 ## make sure you extract the right thing from the right place.
 
