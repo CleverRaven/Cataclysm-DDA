@@ -572,7 +572,8 @@
       ["mag_gaming", 20],
       ["mag_swimming", 10],
       ["flyer", 10],
-      ["mag_fabrication", 30]
+      ["mag_fabrication", 30],
+      ["mag_tailor", 25]
     ]
   },
   { "id":"softdrugs",
@@ -1428,7 +1429,8 @@
       ["SICP", 3],
       ["textbook_robots", 1],
       ["textbook_mechanics", 12],
-      ["textbook_fabrication", 12]
+      ["textbook_fabrication", 12],
+      ["textbook_tailor", 12]
     ]
   },
   { "id":"cop_shoes",
@@ -1671,7 +1673,8 @@
       ["extinguisher", 20],
       ["mp3", 18],
       ["portable_game", 8],
-      ["umbrella", 5]
+      ["umbrella", 5],
+      ["mag_tailor", 5]
     ]
   },
   { "id":"school",
@@ -1690,6 +1693,7 @@
       ["manual_business", 40],
       ["manual_first_aid", 40],
       ["manual_computers", 20],
+      ["mag_tailor", 10],
       ["cookbook", 35],
       ["cookbook_italian", 25],
       ["manual_electronics", 20],
@@ -1874,7 +1878,8 @@
       ["sw_500", 1],
       ["wristwatch", 15],
       ["umbrella", 5],
-      ["tac_helmet", 5]
+      ["tac_helmet", 5],
+      ["textbook_tailor", 12]
     ]
   },
   { "id":"mil_surplus",
@@ -1942,6 +1947,7 @@
       ["mag_dodge", 20],
       ["manual_first_aid", 40],
       ["manual_tailor", 15],
+      ["textbook_tailor", 5],
       ["manual_carpentry", 10],
       ["lighter", 60],
       ["matches", 60],
