@@ -2154,7 +2154,7 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A heavy pair of leather gloves, used by firefighters for heat protection.",
+        "description" : "A heavy pair of leather gloves, used by firefighters and metalworkers for heat protection.",
         "price" : 95,
         "material" : ["leather", "null"],
         "volume" : 3,
@@ -4129,7 +4129,7 @@
     {
         "type" : "ARMOR",
         "id" : "gloves_plate",
-        "name" : "plate armor gloves",
+        "name" : "plate armor gauntlets",
         "weight" : 2600,
         "color" : "dark_gray",
         "covers" : ["HANDS"],

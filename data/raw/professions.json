@@ -533,5 +533,25 @@
             "name":"traps"
          }
       ]
+    },
+   {
+      "description":"You were going through your community college's metalsmithing program when the world ended. You start with a few related tools and some skill in fabrication.",
+      "ident":"blacksmith",
+      "items":[
+         "jeans",
+         "boots",
+         "tank_top",
+         "apron_leather",
+         "fire_gauntlets",
+         "hammer"
+      ],
+      "name":"Blacksmith",
+      "points":1,
+      "skills":[
+         {
+            "level":1,
+            "name":"fabrication"
+         }
+      ]
     }
 ]
