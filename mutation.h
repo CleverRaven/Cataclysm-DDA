@@ -20,7 +20,6 @@ struct dream
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<std::string> > mutations_category;
 typedef std::pair<unsigned long, tripoint> mutation_wet;
-extern std::map<std::string, unsigned> bodyparts_list;
 
 struct mutation_branch
 {

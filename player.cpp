@@ -4700,260 +4700,76 @@ void player::drench(game *g, int saturation, int flags) {
     }
 
     int effected = 0;
-    int tot_good = 0; //Increase good wet bonus
-    int tot_neut = 0; //Ignored for good wet bonus
     int tot_ignored = 0; //Always ignored
-    int good = 0;
-    int neut = 0;
+    int tot_neut = 0; //Ignored for good wet bonus
+    int tot_good = 0; //Increase good wet bonus
     int ignored = 0;
+    int neut = 0;
+    int good = 0;
 
     if (mfb(bp_eyes) & flags) {
         effected += 1;
-        if (has_trait("MEMBRANE")) {
-            neut += 1;
-        }
+        drench_mut_check(ignored, neut, good, mfb(bp_eyes));
         calculate_portions(good, neut, ignored, 1);
         tot_good += good;
-        good = 0;
         tot_neut += neut;
-        neut = 0;
         tot_ignored += ignored;
-        ignored = 0;
     }
     if (mfb(bp_mouth) & flags) {
         effected += 1;
-        if (has_trait("MOUTH_TENTACLES")) {
-            neut += 1;
-        } else if (has_trait("MANDIBLES") || has_trait("BEAK")) {
-            ignored += 1;
-        }
+        drench_mut_check(ignored, neut, good, mfb(bp_mouth));
         calculate_portions(good, neut, ignored, 1);
         tot_good += good;
-        good = 0;
         tot_neut += neut;
-        neut = 0;
         tot_ignored += ignored;
-        ignored = 0;
     }
     if (mfb(bp_head) & flags) {
         effected += 7;
-        if (has_trait("GILLS")) {
-            good += 1;
-        }
-        if (has_trait("SCALES")) {
-            ignored += 3;
-        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
-            ignored += 5;
-        } else if (has_trait("SLEEK_SCALES")) {
-            ignored += 7;
-        } else if (has_trait("CHITIN")) {
-            ignored += 1;
-        } else if (has_trait("CHITIN2")) {
-            ignored += 2;
-        } else if (has_trait("CHITIN3")) {
-            ignored += 4;
-        } else if (has_trait("PLANTSKIN")) {
-            neut += 4;
-        }
-        if (has_trait("LEAVES")) {
-            ignored += 1;
-        }
-        if (has_trait("SLIMY")) {
-            good += 4;
-            neut += 3;
-        }
+        drench_mut_check(ignored, neut, good, mfb(bp_head));
         calculate_portions(good, neut, ignored, 7);
         tot_good += good;
-        good = 0;
         tot_neut += neut;
-        neut = 0;
         tot_ignored += ignored;
-        ignored = 0;
     }
     if (mfb(bp_legs) & flags) {
         effected += 21;
-        if (has_trait("THICKSKIN")) {
-            neut += 1;
-        }
-        if (has_trait("SCALES")) {
-            ignored += 10;
-        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
-            ignored += 16;
-        } else if (has_trait("SLEEK_SCALES")) {
-            ignored += 21;
-        } else if (has_trait("CHITIN")) {
-            ignored += 5;
-        } else if (has_trait("CHITIN2")) {
-            ignored += 9;
-        } else if (has_trait("CHITIN3")) {
-            ignored += 14;
-        } else if (has_trait("PLANTSKIN")) {
-            neut += 5;
-        }
-        if (has_trait("TAIL_FIN")) {
-            good += 3;
-        }
-        if (has_trait("SLIMY")) {
-            good += 14;
-            neut += 7;
-        }
-        if (has_trait("LEG_TENTACLES")) {
-            neut += 21;
-        }
+        drench_mut_check(ignored, neut, good, mfb(bp_legs));
         calculate_portions(good, neut, ignored, 21);
         tot_good += good;
-        good = 0;
         tot_neut += neut;
-        neut = 0;
         tot_ignored += ignored;
-        ignored = 0;
     }
     if (mfb(bp_feet) & flags) {
         effected += 6;
-        if (has_trait("SCALES")) {
-            ignored += 3;
-        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
-            ignored += 5;
-        } else if (has_trait("SLEEK_SCALES")) {
-            ignored += 6;
-        } else if (has_trait("CHITIN")) {
-            ignored += 1;
-        } else if (has_trait("CHITIN2")) {
-            ignored += 2;
-        } else if (has_trait("CHITIN3")) {
-            ignored += 4;
-        } else if (has_trait("PLANTSKIN")) {
-            neut += 1;
-        }
-        if (has_trait("PADDED_FEET")) {
-            neut += 1;
-        } else if (has_trait("HOOVES")) {
-            ignored += 6;
-        }
-        if (has_trait("SLIMY")) {
-            good += 4;
-            neut += 2;
-        }
-        if (has_trait("LEG_TENTACLES")) {
-            neut += 6;
-        }
+        drench_mut_check(ignored, neut, good, mfb(bp_eyes));
         calculate_portions(good, neut, ignored, 6);
         tot_good += good;
-        good = 0;
         tot_neut += neut;
-        neut = 0;
         tot_ignored += ignored;
-        ignored = 0;
     }
     if (mfb(bp_arms) & flags) {
         effected += 19;
-        if (has_trait("THICKSKIN")) {
-            neut += 1;
-        }
-        if (has_trait("SCALES")) {
-            ignored += 9;
-        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
-            ignored += 14;
-        } else if (has_trait("SLEEK_SCALES")) {
-            ignored += 19;
-        } else if (has_trait("CHITIN")) {
-            ignored += 4;
-        } else if (has_trait("CHITIN2")) {
-            ignored += 8;
-        } else if (has_trait("CHITIN3")) {
-            ignored += 12;
-        } else if (has_trait("PLANTSKIN")) {
-            neut += 4;
-        }
-        if (has_trait("SLIMY")) {
-            good += 12;
-            neut += 7;
-        }
-        if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-            has_trait("ARM_TENTACLES_8")) {
-            neut += 19;
-        }
+        drench_mut_check(ignored, neut, good, mfb(bp_arms));
         calculate_portions(good, neut, ignored, 19);
         tot_good += good;
-        good = 0;
         tot_neut += neut;
-        neut = 0;
         tot_ignored += ignored;
-        ignored = 0;
     }
     if (mfb(bp_hands) & flags) {
         effected += 5;
-        if (has_trait("SCALES")) {
-            ignored += 2;
-        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
-            ignored += 4;
-        } else if (has_trait("SLEEK_SCALES")) {
-            ignored += 5;
-        } else if (has_trait("CHITIN")) {
-            ignored += 1;
-        } else if (has_trait("CHITIN2")) {
-            ignored += 2;
-        } else if (has_trait("CHITIN3")) {
-            ignored += 3;
-        } else if (has_trait("PLANTSKIN")) {
-            neut += 1;
-        }
-        if (has_trait("SLIME_HANDS")) {
-            good += 5;
-        }
-        if (has_trait("WEBBED")) {
-            neut += 3;
-        }
-        if (has_trait("SLIMY")) {
-            good += 3;
-            neut += 2;
-        }
-        if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-            has_trait("ARM_TENTACLES_8")) {
-            neut += 5;
-        }
+        drench_mut_check(ignored, neut, good, mfb(bp_hands));
         calculate_portions(good, neut, ignored, 5);
         tot_good += good;
-        good = 0;
         tot_neut += neut;
-        neut = 0;
         tot_ignored += ignored;
-        ignored = 0;
     }
     if (mfb(bp_torso) & flags) {
         effected += 40;
-        if (has_trait("THICKSKIN")) {
-            neut += 2;
-        }
-        if (has_trait("SCALES")) {
-            ignored += 20;
-        } else if (has_trait("THICK_SCALES") || has_trait("BARK")) {
-            ignored += 30;
-        } else if (has_trait("SLEEK_SCALES")) {
-            ignored += 40;
-        } else if (has_trait("CHITIN")) {
-            ignored += 10;
-        } else if (has_trait("CHITIN2")) {
-            ignored += 18;
-        } else if (has_trait("CHITIN3")) {
-            ignored += 26;
-        } else if (has_trait("PLANTSKIN")) {
-            neut += 10;
-        }
-        if (has_trait("SLIMY")) {
-            good += 26;
-            neut += 14;
-        }
-        if (has_trait("SHELL")) {
-            ignored += 26;
-        }
+        drench_mut_check(ignored, neut, good, mfb(bp_torso));
         calculate_portions(good, neut, ignored, 40);
         tot_good += good;
-        good = 0;
         tot_neut += neut;
-        neut = 0;
         tot_ignored += ignored;
-        ignored = 0;
     }
 
     if (effected == 0) {
@@ -4970,7 +4786,7 @@ void player::drench(game *g, int saturation, int flags) {
 
     int morale_cap;
     if (wants_drench) {
-        morale_cap = g->temperature - std::min(65, 65 + (tot_ignored - tot_good)) * saturation / 100;
+        morale_cap = g->temperature - std::min(65, 65 + (tot_ignored - tot_good) / 2) * saturation / 100;
     } else {
         morale_cap = -(saturation / 2);
     }
@@ -5008,7 +4824,26 @@ void player::drench(game *g, int saturation, int flags) {
             d_start *= 1.2;
         }
     }
+
     add_morale(MORALE_WET, morale_effect, morale_cap, dur, d_start);
+}
+
+void player::drench_mut_check(int &ignored, int &neutral, int &good, unsigned long bpart)
+{
+    ignored = 0;
+    neutral = 0;
+    good = 0;
+    for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        if (has_trait(iter->first)) {
+            for (int i = 0; i < g->mutation_data[iter->first].protection.size(); i++) {
+                if (g->mutation_data[iter->first].protection[i].first == bpart) {
+                    ignored += g->mutation_data[iter->first].protection[i].second.x;
+                    neutral += g->mutation_data[iter->first].protection[i].second.y;
+                    good += g->mutation_data[iter->first].protection[i].second.z;
+                }
+            }
+        }
+    }
 }
 
 int player::weight_carried()

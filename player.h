@@ -213,6 +213,7 @@ public:
  void vomit(game *g);
 
  void drench(game *g, int saturation, int flags); // drenches the player in water; saturation is percent
+ void drench_mut_check(int &ignored, int &neutral, int &good, unsigned long bpart); // Checks mutation drench protection
 
  char lookup_item(char let);
  bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
