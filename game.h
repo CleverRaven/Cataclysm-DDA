@@ -151,6 +151,7 @@ class game
   bool is_empty(const int x, const int y);	// True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
   bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
+  bool is_in_ice_lab(point location);
 // Kill that monster; fixes any pointers etc
   void kill_mon(int index, bool player_did_it = false);
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
@@ -268,6 +269,7 @@ class game
 
   calendar turn;
   signed char temperature;              // The air temperature
+  int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;			// Weather pattern--SEE weather.h
 
   std::list<weather_segment> future_weather;
@@ -301,6 +303,10 @@ class game
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
+ 
+ //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
+ //otherwise returns sentinel -1, signifies transaction fail.
+ int move_liquid(item &liquid);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
 
@@ -364,6 +370,7 @@ void load_artifacts(); // Load artifact data
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
   void init_traits_mutations();    // Initializes mutation "tech tree"
+  void init_vehicle_parts();       // Initializes vehicle part types
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.

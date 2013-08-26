@@ -557,8 +557,8 @@ void inventory::form_from_map(game *g, point origin, int range)
    vehicle *veh = g->m.veh_at(x, y, vpart);
 
    if (veh) {
-     const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
-     const int weldpart = veh->part_with_feature(vpart, vpf_weldrig);
+     const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+     const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
 
      if (kpart >= 0) {
        item hotplate(g->itypes["hotplate"], 0);
