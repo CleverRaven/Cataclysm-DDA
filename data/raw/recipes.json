@@ -12283,8 +12283,8 @@
   "result": "canister_empty",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "difficulty": 4,
-  "time": 120000,
+  "difficulty": 6,
+  "time": 180000,
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
@@ -12301,17 +12301,14 @@
       ["crucible", -1]  
       ],
       [
-      ["swage", -1]  
-      ],
-      [
-	  ["forge", 450]
+	  ["forge", 20]
       ]
       ],
   "components": 
     [ 
      [
-	 [ "steel_chunk", 2 ],
-     [ "scrap", 6 ]
+	 [ "steel_chunk", 1 ],
+     [ "scrap", 3 ]
      ]
 	]
 },
@@ -12488,7 +12485,7 @@
       ["anvil", -1]  
       ],
       [
-      ["swage", -1]  
+      ["crucible", -1]  
       ],
       [
 	  ["forge", 350]
@@ -12526,7 +12523,7 @@
       ["anvil", -1]  
       ],
       [
-      ["swage", -1]  
+      ["crucible", -1]  
       ],
       [
 	  ["forge", 300]
@@ -12605,7 +12602,7 @@
       ["anvil", -1]  
       ],
       [
-      ["swage", -1]  
+      ["crucible", -1]  
       ],
       [
 	  ["forge", 450]
@@ -12644,6 +12641,43 @@
     [
       [ "leather", 18 ]
     ]
+  ]
+},
+
+{
+  "result": "pockknife",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 260000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 350]
+      ]
+      ],
+  "components": [
+    [
+     [ "steel_lump", 1 ],
+	 [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+    ],
+     [
+      [ "plastic_chunk", 1 ]
+     ]
   ]
 }
 
