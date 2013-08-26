@@ -26,7 +26,7 @@
     "cost"       :    0,
     "time"       :    0,
     "flags"      :    ["POWER"],
-    "description":    "You have a battery draining attachment, and thus can make use of the energy\ncontained in normal, everyday batteries.  Use 'E' to consume batteries."
+    "description":    "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries."
 },
 {
     "id"         :    "bio_metabolics",
@@ -34,7 +34,7 @@
     "cost"       :    0,
     "time"       :    100,
     "flags"      :    ["POWER", "ACTIVE"],
-    "description":    "Your digestive system and power supply are interconnected.  Any drain on\nenergy instead increases your hunger."
+    "description":    "Your digestive system and power supply are interconnected.  Any drain on energy instead increases your hunger."
 },
 {
     "id"         :    "bio_solar",
@@ -42,7 +42,7 @@
     "cost"       :    0,
     "time"       :    0,
     "flags"      :    ["POWER"],
-    "description":    "You have a few solar panels installed.  While in direct sunlight, your power\nlevel will slowly recharge."
+    "description":    "You have a few solar panels installed.  While in direct sunlight, your power level will slowly recharge."
 },
 {
     "id"         :    "bio_torsionratchet",
@@ -50,7 +50,7 @@
     "cost"       :    0,
     "time"       :    0,
     "flags"      :    ["POWER"],
-    "description":    "Your joints have been equipped with torsion ratchets that generate power slowly\nwhen you move."
+    "description":    "Your joints have been equipped with torsion ratchets that generate power slowly when you move."
 },
 {
     "id"         :    "bio_furnace",
@@ -58,7 +58,7 @@
     "cost"       :    0,
     "time"       :    0,
     "flags"      :    ["POWER"],
-    "description":    "You can burn nearly any organic material as fuel (use 'E'), recharging your\npower level.  Some materials will burn better than others."
+    "description":    "You can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others."
 },
 {
     "id"         :    "bio_ethanol",
@@ -66,21 +66,21 @@
     "cost"       :    0,
     "time"       :    0,
     "flags"      :    ["POWER"],
-    "description":    "You burn alcohol as fuel in an extremely efficient reaction.  However, you\nwill still suffer the inebriating effects of the substance."
+    "description":    "You burn alcohol as fuel in an extremely efficient reaction.  However, you will still suffer the inebriating effects of the substance."
 },
 {
     "id"         :    "bio_memory",
     "name"       :    "Enhanced Memory Banks",
     "cost"       :    1,
     "time"       :    0,
-    "description":    "Your memory has been enhanced with small quantum storage drives.  Any time\nyou start to forget a skill, you have a chance at retaining all knowledge, at\nthe cost of a small amount of poweron."
+    "description":    "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, you have a chance at retaining all knowledge, at the cost of a small amount of poweron."
 },
 {
     "id"         :    "bio_ears",
     "name"       :    "Enhanced Hearing",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Your hearing has been drastically improved, allowing you to hear ten times\nbetter than the average person.  Additionally, high-intensity sounds will be\nautomatically dampened before they can damage your hearing."
+    "description":    "Your hearing has been drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing."
 },
 {
     "id"         :    "bio_eye_enhancer",
@@ -94,49 +94,49 @@
     "name"       :    "Wired Reflexes",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Your reaction time has been greatly enhanced with bionic\nnerve stimulators, giving you a +2 bonus to dexterity."
+    "description":    "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity."
 },
 {
     "id"         :    "bio_str_enhancer",
     "name"       :    "Muscle Augmentation",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Your muscular system has been enhanced with myomer fibers,\ngiving you a +2 bonus to strength."
+    "description":    "Your muscular system has been enhanced with myomer fibers, giving you a +2 bonus to strength."
 },
 {
     "id"         :    "bio_int_enhancer",
     "name"       :    "Cerebral Booster",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Your brain has been enhanced with bionic coprocessors,\ngiving you a +2 bonus to intelligence."
+    "description":    "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence."
 },
 {
     "id"         :    "bio_membrane",
     "name"       :    "Nictating Membrane",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Your eyes have a thin membrane that closes over your eyes while underwater,\nnegating any vision penalties."
+    "description":    "Your eyes have a thin membrane that closes over your eyes while underwater, negating any vision penalties."
 },
 {
     "id"         :    "bio_targeting",
     "name"       :    "Targeting System",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Your eyes are equipped with range finders, and their movement is synced with\nthat of your arms, to a degree.  Shots you fire will be much more accurate,\nparticularly at long range."
+    "description":    "Your eyes are equipped with range finders, and their movement is synced with that of your arms, to a degree.  Shots you fire will be much more accurate, particularly at long range."
 },
 {
     "id"         :    "bio_gills",
     "name"       :    "Membrane Oxygenator",
     "cost"       :    1,
     "time"       :    0,
-    "description":    "An oxygen interchange system automatically switches on while underwater,\nslowly draining your energy reserves but providing oxygen."
+    "description":    "An oxygen interchange system automatically switches on while underwater, slowly draining your energy reserves but providing oxygen."
 },
 {
     "id"         :    "bio_purifier",
     "name"       :    "Air Filtration System",
     "cost"       :    1,
     "time"       :    0,
-    "description":    "Implanted in your trachea is an advanced filtration system.  If toxins find\ntheir way into your windpipe, the filter will attempt to remove them."
+    "description":    "Implanted in your trachea is an advanced filtration system.  If toxins find their way into your windpipe, the filter will attempt to remove them."
 },
 {
     "id"         :    "bio_climate",
@@ -144,35 +144,35 @@
     "cost"       :    1,
     "time"       :    30,
     "flags"      :    ["ACTIVE"],
-    "description":    "Throughout your body lies a network of thermal piping which eases the effects\nof high and low ambient temperatures."
+    "description":    "Throughout your body lies a network of thermal piping which eases the effects of high and low ambient temperatures."
 },
 {
     "id"         :    "bio_storage",
     "name"       :    "Internal Storage",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Space inside your chest cavity has been converted into a storage area.  You\nmay carry an extra 8 units of volume."
+    "description":    "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 8 units of volume."
 },
 {
     "id"         :    "bio_recycler",
     "name"       :    "Recycler Unit",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Your digestive system has been outfitted with a series of filters and\nprocessors, allowing you to reclaim waste liquid and, to a lesser degree,\nnutrients.  The net effect is a greatly reduced need to eat and drink."
+    "description":    "Your digestive system has been outfitted with a series of filters and processors, allowing you to reclaim waste liquid and, to a lesser degree, nutrients.  The net effect is a greatly reduced need to eat and drink."
 },
 {
     "id"         :    "bio_digestion",
     "name"       :    "Expanded Digestive System",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "You have been outfitted with three synthetic stomachs and industrial-grade\nintestines.  Not only can you extract much more nutrition from food, but you\nare highly resistant to foodborne illness, and can sometimes eat rotten food."
+    "description":    "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and can sometimes eat rotten food."
 },
 {
     "id"         :    "bio_tools",
     "name"       :    "Integrated Toolset",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Implanted in your hands and fingers is a complete tool set - screwdriver,\nhammer, wrench, and heating elements.  You can use this in place of many\ntools when crafting."
+    "description":    "Implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting."
 },
 {
     "id"         :    "bio_shock",
@@ -180,7 +180,7 @@
     "cost"       :    0,
     "time"       :    1,
     "flags"      :    ["ACTIVE"],
-    "description":    "While fighting unarmed, or with a weapon that conducts electricity, there is\na chance that a successful hit will shock your opponent, inflicting extra\ndamage and disabling them temporarily at the cost of some energy."
+    "description":    "While fighting unarmed, or with a weapon that conducts electricity, there is a chance that a successful hit will shock your opponent, inflicting extra damage and disabling them temporarily at the cost of some energy."
 },
 {
     "id"         :    "bio_heat_absorb",
@@ -188,42 +188,42 @@
     "cost"       :    0,
     "time"       :    1,
     "flags"      :    ["ACTIVE"],
-    "description":    "While fighting unarmed against a warm-blooded opponent, there is a chance\nthat a successful hit will drain body heat, inflicting a small amount of\nextra damage, and increasing your power reserves slightly."
+    "description":    "While fighting unarmed against a warm-blooded opponent, there is a chance that a successful hit will drain body heat, inflicting a small amount of extra damage, and increasing your power reserves slightly."
 },
 {
     "id"         :    "bio_carbon",
     "name"       :    "Subdermal Carbon Filament",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Lying just beneath your skin is a thin armor made of carbon nanotubes. This\nreduces bashing damage by 2 and cutting damage by 4."
+    "description":    "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This reduces bashing damage by 2 and cutting damage by 4."
 },
 {
     "id"         :    "bio_armor_head",
     "name"       :    "Alloy Plating - Head",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "The flesh on your head has been replaced by a strong armor, protecting both\nyour head and jaw regions."
+    "description":    "The flesh on your head has been replaced by a strong armor, protecting both your head and jaw regions."
 },
 {
     "id"         :    "bio_armor_torso",
     "name"       :    "Alloy Plating - Torso",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "The flesh on your torso has been replaced by a strong armor, protecting you\ngreatly."
+    "description":    "The flesh on your torso has been replaced by a strong armor, protecting you greatly."
 },
 {
     "id"         :    "bio_armor_arms",
     "name"       :    "Alloy Plating - Arms",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "The flesh on your arms has been replaced by a strong armor, protecting you\ngreatly."
+    "description":    "The flesh on your arms has been replaced by a strong armor, protecting you greatly."
 },
 {
     "id"         :    "bio_armor_legs",
     "name"       :    "Alloy Plating - Legs",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "The flesh on your legs has been replaced by a strong armor, protecting you\ngreatly."
+    "description":    "The flesh on your legs has been replaced by a strong armor, protecting you greatly."
 },
 {
     "id"         :    "bio_flashlight",
@@ -239,7 +239,7 @@
     "cost"       :    1,
     "time"       :    20,
     "flags"      :    ["ACTIVE"],
-    "description":    "Your eyes have been modified to amplify existing light, allowing you to see\nin the dark."
+    "description":    "Your eyes have been modified to amplify existing light, allowing you to see in the dark."
 },
 {
     "id"         :    "bio_infrared",
@@ -247,7 +247,7 @@
     "cost"       :    1,
     "time"       :    4,
     "flags"      :    ["ACTIVE"],
-    "description":    "Your range of vision extends into the infrared, allowing you to see warm-\nblooded creatures in the dark, and even through walls."
+    "description":    "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark, and even through walls."
 },
 {
     "id"         :    "bio_face_mask",
@@ -255,7 +255,7 @@
     "cost"       :    1,
     "time"       :    10,
     "flags"      :    ["ACTIVE"],
-    "description":    "Your face is actually made of a compound which may be molded by electrical\nimpulses, making you impossible to recognize.  While not powered, however,\nthe compound reverts to its default shape."
+    "description":    "Your face is actually made of a compound which may be molded by electrical impulses, making you impossible to recognize.  While not powered, however, the compound reverts to its default shape."
 },
 {
     "id"         :    "bio_ads",
@@ -263,7 +263,7 @@
     "cost"       :    1,
     "time"       :    7,
     "flags"      :    ["ACTIVE"],
-    "description":    "A thin forcefield surrounds your body, continually draining power.  Anything\nattempting to penetrate this field has a chance of being deflected at the\ncost of more energy.  Melee attacks will be stopped more often than bullets."
+    "description":    "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of more energy.  Melee attacks will be stopped more often than bullets."
 },
 {
     "id"         :    "bio_ods",
@@ -271,7 +271,7 @@
     "cost"       :    1,
     "time"       :    6,
     "flags"      :    ["ACTIVE"],
-    "description":    "A thin forcefield surrounds your body, continually draining power.  This\nfield does not deflect penetration, but rather delivers a very strong shock,\ndamaging unarmed attackers and those with a conductive weapon."
+    "description":    "A thin forcefield surrounds your body, continually draining power.  This field does not deflect penetration, but rather delivers a very strong shock, damaging unarmed attackers and those with a conductive weapon."
 },
 {
     "id"         :    "bio_scent_mask",
@@ -279,7 +279,7 @@
     "cost"       :    1,
     "time"       :    8,
     "flags"      :    ["ACTIVE"],
-    "description":    "While this system is powered, your body will produce very little odor, making\nit nearly impossible for creatures to track you by scent."
+    "description":    "While this system is powered, your body will produce very little odor, making it nearly impossible for creatures to track you by scent."
 },
 {
     "id"         :    "bio_scent_vision",
@@ -287,7 +287,7 @@
     "cost"       :    1,
     "time"       :    30,
     "flags"      :    ["ACTIVE"],
-    "description":    "While this system is powered, you're able to visually sense your own scent,\nmaking it possible for you to recognize your surroundings even if you can't\nsee it."
+    "description":    "While this system is powered, you're able to visually sense your own scent, making it possible for you to recognize your surroundings even if you can't see it."
 },
 {
     "id"         :    "bio_cloak",
@@ -295,7 +295,7 @@
     "cost"       :    2,
     "time"       :    1,
     "flags"      :    ["ACTIVE"],
-    "description":    "This high-power system uses a set of cameras and LEDs to make you blend into\nyour background, rendering you fully invisible to normal vision.  However,\nyou may be detected by infrared, sonar, etc."
+    "description":    "This high-power system uses a set of cameras and LEDs to make you blend into your background, rendering you fully invisible to normal vision.  However, you may be detected by infrared, sonar, etc."
 },
 {
     "id"         :    "bio_painkiller",
@@ -303,7 +303,7 @@
     "cost"       :    2,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Your nervous system is wired to allow you to inhibit the signals of pain,\nallowing you to dull your senses at will.  However, the use of this system\nmay cause delayed reaction time and drowsiness."
+    "description":    "Your nervous system is wired to allow you to inhibit the signals of pain, allowing you to dull your senses at will.  However, the use of this system may cause delayed reaction time and drowsiness."
 },
 {
     "id"         :    "bio_nanobots",
@@ -311,7 +311,7 @@
     "cost"       :    5,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Inside your body is a fleet of tiny dormant robots.  Once charged from your\nenergy banks, they will flit about your body, repairing any damage."
+    "description":    "Inside your body is a fleet of tiny dormant robots.  Once charged from your energy banks, they will flit about your body, repairing any damage."
 },
 {
     "id"         :    "bio_heatsink",
@@ -319,7 +319,7 @@
     "cost"       :    1,
     "time"       :    6,
     "flags"      :    ["ACTIVE"],
-    "description":    "Powerful heatsinks supermaterials are woven into your flesh.  While powered,\nthis system will prevent heat damage up to 2000 degrees fahrenheit.  Note\nthat this does not affect your internal temperature."
+    "description":    "Powerful heatsinks supermaterials are woven into your flesh.  While powered, this system will prevent heat damage up to 2000 degrees fahrenheit.  Note that this does not affect your internal temperature."
 },
 {
     "id"         :    "bio_resonator",
@@ -327,7 +327,7 @@
     "cost"       :    4,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Your entire body may resonate at very high power, creating a short-range\nshockwave.  While it will not to much damage to flexible creatures, stiff\nitems such as walls, doors, and even robots will be severely damaged."
+    "description":    "Your entire body may resonate at very high power, creating a short-range shockwave.  While it will not to much damage to flexible creatures, stiff items such as walls, doors, and even robots will be severely damaged."
 },
 {
     "id"         :    "bio_time_freeze",
@@ -335,7 +335,7 @@
     "cost"       :    3,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "At an immense cost of power, you may increase your body speed and reactions\ndramatically, essentially freezing time.  You are still delicate, however,\nand violent or rapid movements may damage you due to friction."
+    "description":    "At an immense cost of power, you may increase your body speed and reactions dramatically, essentially freezing time.  You are still delicate, however, and violent or rapid movements may damage you due to friction."
 },
 {
     "id"         :    "bio_teleport",
@@ -343,7 +343,7 @@
     "cost"       :    10,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "This highly experimental unit folds space over short distances, instantly\ntransporting your body up to 25 feet at the cost of much power.  Note that\nprolonged or frequent use may have dangerous side effects."
+    "description":    "This highly experimental unit folds space over short distances, instantly transporting your body up to 25 feet at the cost of much power.  Note that prolonged or frequent use may have dangerous side effects."
 },
 {
     "id"         :    "bio_blood_anal",
@@ -351,7 +351,7 @@
     "cost"       :    1,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Small sensors have been implanted in your heart, allowing you to analyse your\nblood.  This will detect many illnesses, drugs, and other conditions."
+    "description":    "Small sensors have been implanted in your heart, allowing you to analyse your blood.  This will detect many illnesses, drugs, and other conditions."
 },
 {
     "id"         :    "bio_blood_filter",
@@ -359,7 +359,7 @@
     "cost"       :    3,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "A filtration system in your heart allows you to actively filter out chemical\nimpurities, primarily drugs.  It will have limited impact on viruses.  Note\nthat it is not a targeted filter; ALL drugs in your system will be affected."
+    "description":    "A filtration system in your heart allows you to actively filter out chemical impurities, primarily drugs.  It will have limited impact on viruses.  Note that it is not a targeted filter; ALL drugs in your system will be affected."
 },
 {
     "id"         :    "bio_alarm",
@@ -367,7 +367,7 @@
     "cost"       :    1,
     "time"       :    400,
     "flags"      :    ["ACTIVE"],
-    "description":    "A motion-detecting alarm system will notice almost all movement within a\nfifteen-foot radius, and will silently alert you.  This is very useful during\nsleep, or if you suspect a cloaked pursuer."
+    "description":    "A motion-detecting alarm system will notice almost all movement within a fifteen-foot radius, and will silently alert you.  This is very useful during sleep, or if you suspect a cloaked pursuer."
 },
 {
     "id"         :    "bio_evap",
@@ -375,7 +375,7 @@
     "cost"       :    8,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "This unit draws moisture from the surrounding air, which then is poured from\na fingertip in the form of water.  It may fail in very dry environments."
+    "description":    "This unit draws moisture from the surrounding air, which then is poured from a fingertip in the form of water.  It may fail in very dry environments."
 },
 {
     "id"         :    "bio_lighter",
@@ -383,7 +383,7 @@
     "cost"       :    3,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "The index fingers of both hands have powerful fire starters which extend from\nthe tip."
+    "description":    "The index fingers of both hands have powerful fire starters which extend from the tip."
 },
 {
     "id"         :    "bio_claws",
@@ -391,7 +391,7 @@
     "cost"       :    3,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Your fingers can withdraw into your hands, allowing a set of vicious claws to\nextend.  These do considerable cutting damage, but prevent you from holding\nanything else."
+    "description":    "Your fingers can withdraw into your hands, allowing a set of vicious claws to extend.  These do considerable cutting damage, but prevent you from holding anything else."
 },
 {
     "id"         :    "bio_blaster",
@@ -399,7 +399,7 @@
     "cost"       :    2,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use\nyour energy banks to fire a damaging heat ray; however, you are unable to use\nor carry two-handed items, and may only fire handguns."
+    "description":    "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray; however, you are unable to use or carry two-handed items, and may only fire handguns."
 },
 {
     "id"         :    "bio_laser",
@@ -407,7 +407,7 @@
     "cost"       :    2,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "One of your fingers has a small high-powered laser embedded in it.  This long\nrange weapon is not incredibly damaging, but is very accurate, and has the\npotential to start fires."
+    "description":    "One of your fingers has a small high-powered laser embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires."
 },
 {
     "id"         :    "bio_emp",
@@ -415,7 +415,7 @@
     "cost"       :    4,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Mounted in the palms of your hand are small parabolic EMP field generators.\nYou may use power to fire a short-ranged blast which will disable electronics\nand robots."
+    "description":    "Mounted in the palms of your hand are small parabolic EMP field generators.  You may use power to fire a short-ranged blast which will disable electronics and robots."
 },
 {
     "id"         :    "bio_hydraulics",
@@ -423,7 +423,7 @@
     "cost"       :    1,
     "time"       :    3,
     "flags"      :    ["ACTIVE"],
-    "description":    "While activated, the muscles in your arms will be greatly enchanced,\nincreasing your strength by 20."
+    "description":    "While activated, the muscles in your arms will be greatly enchanced, increasing your strength by 20."
 },
 {
     "id"         :    "bio_water_extractor",
@@ -431,7 +431,7 @@
     "cost"       :    2,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Nanotubes embedded in the palm of your hand will pump any available fluid out\nof a dead body, cleanse it of impurities and convert it into drinkable water.\nYou must, however, have a container to store the water in."
+    "description":    "Nanotubes embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in."
 },
 {
     "id"         :    "bio_magnet",
@@ -439,7 +439,7 @@
     "cost"       :    2,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Embedded in your hand is a powerful electromagnet, allowing you to pull items\nmade of iron over short distances."
+    "description":    "Embedded in your hand is a powerful electromagnet, allowing you to pull items made of iron over short distances."
 },
 {
     "id"         :    "bio_fingerhack",
@@ -447,7 +447,7 @@
     "cost"       :    1,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "One of your fingers has an electrohack embedded in it; an all-purpose hacking\nunit used to override control panels and the like (but not computers).  Skill\nin computers is important, and a failed use may damage your circuits."
+    "description":    "One of your fingers has an electrohack embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits."
 },
 {
     "id"         :    "bio_lockpick",
@@ -455,7 +455,7 @@
     "cost"       :    1,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "One of your fingers has an electronic lockpick embedded in it.  This auto-\nmatic system will quickly unlock all but the most advanced key locks without\nany skill required on the part of the user."
+    "description":    "One of your fingers has an electronic lockpick embedded in it.  This auto-matic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user."
 },
 {
     "id"         :    "bio_ground_sonar",
@@ -463,7 +463,7 @@
     "cost"       :    1,
     "time"       :    5,
     "flags"      :    ["ACTIVE"],
-    "description":    "Your feet are equipped with precision sonar equipment, allowing you to detect\nthe movements of creatures below the ground."
+    "description":    "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground."
 },
 {
     "id"         :    "bio_power_armor_interface",
@@ -479,7 +479,7 @@
     "cost"       :    1,
     "time"       :    50,
     "flags"      :    ["ACTIVE"],
-    "description":    "Interfaces your power system with the internal charging port on suits of power armor.\nThe Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II\npower armor series."
+    "description":    "Interfaces your power system with the internal charging port on suits of power armor.  The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series."
 },
 {
     "id"         :    "bio_flashbang",
@@ -487,7 +487,7 @@
     "cost"       :    5,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Light emitting diodes integrated into your skin can release a flash comparable\nto a flashbang grenade, blinding nearby enemies. Speakers integrated into your\nbody mimic the loud sound, deafening those nearby."
+    "description":    "Light emitting diodes integrated into your skin can release a flash comparable to a flashbang grenade, blinding nearby enemies.  Speakers integrated into your body mimic the loud sound, deafening those nearby."
 },
 {
     "id"         :    "bio_railgun",
@@ -495,7 +495,7 @@
     "cost"       :    1,
     "time"       :    100,
     "flags"      :    ["ACTIVE"],
-    "description":    "EM field generators in your arms double the range and damage of thrown\niron and steel objects at a cost of 1 power per throw, causing them to\nleave a trail of electricity that can cause additional damage."
+    "description":    "EM field generators in your arms double the range and damage of thrown iron and steel objects at a cost of 1 power per throw, causing them to leave a trail of electricity that can cause additional damage."
 },
 {
     "id"         :    "bio_probability_travel",
@@ -503,7 +503,7 @@
     "cost"       :    1,
     "time"       :    100,
     "flags"      :    ["ACTIVE"],
-    "description":    "Increases your body's wavelength, allowing you to quantum tunnel through\nwalls, reappearing on the other side. Power drain in standby is minimal,\nbut each tile tunneled through costs 10 bionic power."
+    "description":    "Increases your body's wavelength, allowing you to quantum tunnel through walls, reappearing on the other side.  Power drain in standby is minimal, but each tile tunneled through costs 10 bionic power."
 },
 {
     "id"         :    "bio_shockwave",
@@ -511,7 +511,7 @@
     "cost"       :    10,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "You generate a powerful shockwave, knocking back all nearby creatures.\nTargets are stunned briefly, take damage and additional stun upon impact\nwith impassable terrain, and knockback any creatures they collide with."
+    "description":    "You generate a powerful shockwave, knocking back all nearby creatures.  Targets are stunned briefly, take damage and additional stun upon impact with impassable terrain, and knockback any creatures they collide with."
 },
 {
     "id"         :    "bio_chain_lightning",
@@ -519,7 +519,7 @@
     "cost"       :    5,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Your body is equipped with a chain lightning generator, allowing you to\n emit a blast of lightning at a target, leaving a trail of lightning in\n its wake, jumping to additional targets within 4 tiles of the previous target."
+    "description":    "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target."
 },
 {
     "id"         :    "bio_night",
@@ -535,7 +535,7 @@
     "cost"       :    1,
     "time"       :    10,
     "flags"      :    ["ACTIVE"],
-    "description":    "Your nervous system has been augmented with bionic processors, allowing you\nto dodge attacks beyond normal human capability, including bullets."
+    "description":    "Your nervous system has been augmented with bionic processors, allowing you to dodge attacks beyond normal human capability, including bullets."
 },
 {
     "id"         :    "bio_dis_shock",
@@ -543,7 +543,7 @@
     "cost"       :    0,
     "time"       :    0,
     "flags"      :    ["FAULTY"],
-    "description":    "A malfunctioning bionic which occasionally discharges electricity through\nyour body, causing pain and brief paralysis but no damage."
+    "description":    "A malfunctioning bionic which occasionally discharges electricity through your body, causing pain and brief paralysis but no damage."
 },
 {
     "id"         :    "bio_dis_acid",
@@ -551,7 +551,7 @@
     "cost"       :    0,
     "time"       :    0,
     "flags"      :    ["FAULTY"],
-    "description":    "A malfunctioning bionic which occasionally discharges acid into your muscles,\ncausing sharp pain and minor damage."
+    "description":    "A malfunctioning bionic which occasionally discharges acid into your muscles, causing sharp pain and minor damage."
 },
 {
     "id"         :    "bio_drain",
@@ -559,7 +559,7 @@
     "cost"       :    0,
     "time"       :    0,
     "flags"      :    ["FAULTY"],
-    "description":    "A malfunctioning bionic.  It doesn't perform any useful function, but will\noccasionally draw power from your batteries."
+    "description":    "A malfunctioning bionic.  It doesn't perform any useful function, but will occasionally draw power from your batteries."
 },
 {
     "id"         :    "bio_noise",
@@ -575,7 +575,7 @@
     "cost"       :    0,
     "time"       :    0,
     "flags"      :    ["FAULTY"],
-    "description":    "Damaged power circuits cause short-circuiting inside your muscles when your\nbatteries are above 75%%%% capacity, causing greatly reduced strength.  This\nhas no effect if you have no internal batteries."
+    "description":    "Damaged power circuits cause short-circuiting inside your muscles when your batteries are above 75%%%% capacity, causing greatly reduced strength.  This has no effect if you have no internal batteries."
 },
 {
     "id"         :    "bio_stiff",
@@ -583,6 +583,6 @@
     "cost"       :    0,
     "time"       :    0,
     "flags"      :    ["FAULTY"],
-    "description":    "Improperly installed wires cause a physical stiffness in most of your body,\ncausing increased encumberance."
+    "description":    "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumberance."
 }
 ]
