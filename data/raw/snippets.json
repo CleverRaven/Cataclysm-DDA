@@ -72,6 +72,22 @@
         {
 	    "category": "flier",
             "text": "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of a man flexing shiny cybernetic arms in front of a mirror. He is flanked by two scantily clad nurses who hold bloody chainsaws and give approving thumbs up. In the background feral dogs gnaw on the man's discarded former limbs. The caption reads:  \"Spring Cleaning Sale! 20% off!\""
+	},
+        {
+	    "category": "flier",
+            "text": "This is an advertisement for for Rivtech brand handguns. It shows a picture of a well armed couple in business suits with matching handguns facing down a legion of villainous looking characters. The caption reads:  \"Protect yourself with the Rivtech caseless automagnum!\""
+	},
+        {
+	    "category": "flier",
+            "text": "This is an advertisement for for Rivtech brand rifles. It shows a picture of a smiling soldier with a futuristic looking rifle on her shoulder saluting the viewer. The caption reads:  \"Rivtech caseless firearms proudly supports our Military.\""
+	},
+        {
+	    "category": "flier",
+            "text": "This is an advertisement for for Rivtech brand firearms. It shows a picture of a trio of well armed hunters. The three are each armed with different futuristic looking weapons and are shooting at a crowd of hostile approaching bears and moose. The caption reads:  \"Rivtech caseless firearms. Stronger than bears and moose.\""
+	},
+        {
+	    "category": "flier",
+            "text": "This is an advertisement for for Rivtech brand ammunition. It shows a picture of an armored steel plate with a gaping hole blasted through the middle. Sitting beside the plate is a block of brightly colored caselesss ammunition. The caption reads:  \"Rivtech 8x40mm caseless. Nothing else comes close.\""
 	}
     ]
 }

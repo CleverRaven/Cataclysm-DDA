@@ -9013,12 +9013,14 @@
   "autolearn": true,
   "tools": [
     [
-      [ "goggles_welding", -1 ]
+      [ "goggles_welding", -1 ],
+      [ "crucible", -1 ]
     ],
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 1 ]
+      [ "toolset", 1 ],
+	  [ "forge", 10]
     ]
   ],
   "components": [
@@ -9057,12 +9059,14 @@
   "autolearn": true,
   "tools": [
     [
-      [ "goggles_welding", -1 ]
+      [ "goggles_welding", -1 ],
+      [ "crucible", -1 ]
     ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 2 ]
+      [ "toolset", 2 ],
+      [ "forge", 50 ]
     ]
   ],
   "components": [
@@ -9107,12 +9111,14 @@
   "autolearn": true,
   "tools": [
     [
-      [ "goggles_welding", -1 ]
+      [ "goggles_welding", -1 ],
+      [ "crucible", -1 ]
     ],
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 5 ]
+      [ "toolset", 5 ],
+      [ "forge", 100 ]
     ]
   ],
   "components": [
@@ -10115,12 +10121,14 @@
   "autolearn": true,
   "tools": [
     [
-      [ "goggles_welding", -1 ]
+      [ "goggles_welding", -1 ],
+      [ "crucible", -1 ]
     ],
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 1 ]
+      [ "toolset", 1 ],
+	  [ "forge", 5]
     ]
   ],
   "components": [
@@ -11488,7 +11496,7 @@
   "time": 360000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_smithing", 6 ]],
+  "book_learn": [[ "textbook_weapwest", 6 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]  
@@ -11531,7 +11539,7 @@
   "time": 420000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_smithing", 7 ]],
+  "book_learn": [[ "textbook_weapwest", 7 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]  
@@ -11574,7 +11582,7 @@
   "time": 420000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_smithing", 8 ]],
+  "book_learn": [[ "textbook_weapwest", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]  
@@ -11617,7 +11625,7 @@
   "time": 480000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_smithing", 8 ]],
+  "book_learn": [[ "textbook_weapwest", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]  
@@ -11639,7 +11647,7 @@
     [ 
      [
 	 [ "steel_lump", 4 ],
-	 [ "steel_chunk", 32 ],
+	 [ "steel_chunk", 16 ],
      [ "scrap", 48 ]
      ],
      [
@@ -11660,7 +11668,7 @@
   "time": 480000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_smithing", 8 ]],
+  "book_learn": [[ "textbook_weapeast", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]  
@@ -11682,7 +11690,7 @@
     [ 
      [
 	 [ "steel_lump", 2 ],
-	 [ "steel_chunk", 16 ],
+	 [ "steel_chunk", 8 ],
      [ "scrap", 24 ]
      ],
      [
@@ -11692,6 +11700,49 @@
      [
       [ "fur", 2 ],
       [ "leather", 2 ]
+     ]
+	]
+},
+{
+  "result": "nodachi",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 10,
+  "time": 580000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapeast", 8 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 500]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 5 ],
+	 [ "steel_chunk", 20 ],
+     [ "scrap", 60 ]
+     ],
+     [
+      [ "2x4", 3 ],
+      [ "stick", 6 ]
+     ],
+     [
+      [ "fur", 3 ],
+      [ "leather", 3 ]
      ]
 	]
 },
@@ -11742,7 +11793,7 @@
   "time": 240000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_smithing", 5 ]],
+  "book_learn": [[ "textbook_weapwest", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]  
@@ -11764,7 +11815,7 @@
     [ 
      [
 	 [ "steel_lump", 4 ],
-	 [ "steel_chunk", 32 ],
+	 [ "steel_chunk", 16 ],
      [ "scrap", 48 ]
      ],
      [
@@ -11806,7 +11857,7 @@
     [ 
      [
 	 [ "steel_lump", 2 ],
-	 [ "steel_chunk", 16 ],
+	 [ "steel_chunk", 8 ],
      [ "scrap", 24 ]
      ],
      [
@@ -11848,7 +11899,7 @@
     [ 
      [
 	 [ "steel_lump", 1 ],
-	 [ "steel_chunk", 8 ],
+	 [ "steel_chunk", 4 ],
      [ "scrap", 12 ]
      ],
      [
@@ -11864,8 +11915,7 @@
   "difficulty": 6,
   "time": 360000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_smithing", 5 ]],
+  "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]  
@@ -11887,12 +11937,691 @@
     [ 
      [
 	 [ "steel_lump", 1 ],
-	 [ "steel_chunk", 8 ],
+	 [ "steel_chunk", 4 ],
      [ "scrap", 12 ]
      ],
      [
       [ "fur", 2 ],
       [ "leather", 2 ]
+     ]
+	]
+},
+{
+  "result": "wrench",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 300000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["crucible", -1]  
+      ],
+      [
+	  ["forge", 200]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 1 ],
+	 [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
+	]
+},
+{
+  "result": "hacksaw",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 320000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 200]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 1 ],
+	 [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ],
+     [
+      [ "plastic_chunk", 1 ]
+     ]
+	]
+},
+{
+  "result": "boltcutters",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 380000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["crucible", -1]  
+      ],
+      [
+	  ["forge", 300]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 2 ],
+	 [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ],
+     [
+      [ "plastic_chunk", 2 ]
+     ]
+	]
+},
+{
+  "result": "shovel",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 280000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["crucible", -1]  
+      ],
+      [
+	  ["forge", 200]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 2 ],
+	 [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ],
+     [
+      [ "2x4", 2 ],
+      [ "stick", 4 ]
+     ]
+	]
+},
+{
+  "result": "hoe",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 320000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["crucible", -1]  
+      ],
+      [
+	  ["forge", 250]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 2 ],
+	 [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ],
+     [
+      [ "2x4", 2 ],
+      [ "stick", 4 ]
+     ]
+	]
+},
+{
+  "result": "ax",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 360000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["crucible", -1]  
+      ],
+      [
+	  ["forge", 300]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 3 ],
+	 [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
+     ],
+     [
+      [ "2x4", 3 ],
+      [ "stick", 6 ]
+     ]
+	]
+},
+{
+  "result": "saw",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 420000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["crucible", -1]  
+      ],
+      [
+	  ["forge", 350]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 2 ],
+	 [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ],
+     [
+      [ "2x4", 2 ],
+      [ "stick", 4 ]
+     ]
+	]
+},
+{
+  "result": "hammer_sledge",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 460000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["crucible", -1]  
+      ],
+      [
+	  ["forge", 300]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 8 ],
+	 [ "steel_chunk", 32 ]
+     ],
+     [
+      [ "2x4", 3 ],
+      [ "stick", 6 ]
+     ]
+	]
+},
+{
+  "result": "chain",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 520000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["crucible", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 450]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 8 ],
+	 [ "steel_chunk", 32 ]
+     ]
+	]
+},
+{
+  "result": "canister_empty",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["crucible", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 450]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_chunk", 2 ],
+     [ "scrap", 6 ]
+     ]
+	]
+},
+{
+  "result": "armor_plate",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 600000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 8 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 450]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 30 ]
+     ],
+     [
+      [ "fur", 16 ],
+      [ "leather", 16 ]
+     ]
+	]
+},
+{
+  "result": "armor_lightplate",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 560000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 7 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 400]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 20 ],
+	 [ "steel_chunk", 80 ]
+     ],
+     [
+      [ "fur", 20 ],
+      [ "leather", 20 ]
+     ]
+	]
+},
+{
+  "result": "gloves_plate",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 420000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 5 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 300]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 6 ],
+	 [ "steel_chunk", 48 ],
+     [ "scrap", 72 ]
+     ],
+     [
+      [ "fur", 10 ],
+      [ "leather", 10 ]
+     ]
+	]
+},
+{
+  "result": "boots_plate",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 4 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 250]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 8 ],
+	 [ "steel_chunk", 32 ],
+     [ "scrap", 96 ]
+     ],
+     [
+      [ "fur", 16 ],
+      [ "leather", 16 ]
+     ]
+	]
+},
+{
+  "result": "helmet_plate",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 540000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 6 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 350]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 14 ],
+	 [ "steel_chunk", 56 ]
+     ],
+     [
+      [ "fur", 4 ],
+      [ "leather", 4 ]
+     ]
+	]
+},
+{
+  "result": "helmet_barbute",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 540000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 5 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 300]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 10 ],
+	 [ "steel_chunk", 40 ]
+     ],
+     [
+      [ "fur", 4 ],
+      [ "leather", 4 ]
+     ]
+	]
+},
+{
+  "result": "armor_samurai",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 560000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armeast", 8 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 450]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 16 ],
+	 [ "steel_chunk", 64 ]
+     ],
+     [
+      [ "fur", 28 ],
+      [ "leather", 28 ]
+     ],
+     [
+      [ "rag", 10 ]
+     ]
+	]
+},
+{
+  "result": "helmet_kabuto",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 600000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armeast", 8 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 450]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 12 ]
+     ],
+     [
+      [ "fur", 14 ],
+      [ "leather", 14 ]
+     ],
+     [
+      [ "rag", 4 ]
      ]
 	]
 }
