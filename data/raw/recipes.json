@@ -11417,6 +11417,7 @@
       [ "toolset", -1 ]
       ],
       [
+      [ "welder", 28 ],
       [ "soldering_iron", 28 ],
       [ "toolset", 2 ]
       ],
@@ -11471,6 +11472,7 @@
       [ "toolset", -1 ]
       ],
       [
+      [ "welder", 28 ],
       [ "soldering_iron", 28 ],
       [ "toolset", 2 ]
       ],
@@ -11528,6 +11530,7 @@
       [ "toolset", -1 ]
     ],
     [
+      [ "welder", 56 ],
       [ "soldering_iron", 56 ],
       [ "toolset", 4
 	  ]
