@@ -1703,7 +1703,11 @@
       ["helmet_kabuto", 1],
       ["gloves_plate", 1],
       ["boots_plate", 1],
-      ["helmet_barbute", 1]
+      ["helmet_barbute", 1],
+      ["textbook_weapwest", 5],
+      ["textbook_weapeast", 5],
+      ["textbook_armwest", 5],
+      ["textbook_armeast", 5]
     ]
   },
   { "id":"art",
