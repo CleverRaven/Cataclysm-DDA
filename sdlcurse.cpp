@@ -91,7 +91,7 @@ bool WinCreate()
 	atexit(SDL_Quit);
 
     std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
-	SDL_WM_SetCaption(version, NULL);
+	SDL_WM_SetCaption(version.c_str(), NULL);
 
     char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
     SDL_putenv(center_string);
