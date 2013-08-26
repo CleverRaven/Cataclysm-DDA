@@ -796,6 +796,19 @@ void player::update_bodytemp(game *g)
         {
             temp_cur[i] += 250;
         }
+        // Walking in icy mist is bad for body temp 
+        if ((local_field.findField(fd_ice_mist) && local_field.findField(fd_ice_mist)->getFieldDensity() > 2))
+        {
+            temp_cur[i] -= 250;
+        }
+        else if ((local_field.findField(fd_ice_mist) && local_field.findField(fd_ice_mist)->getFieldDensity() > 1))
+        {
+            temp_cur[i] -= 100;
+        }
+        else if ((local_field.findField(fd_ice_mist) && local_field.findField(fd_ice_mist)->getFieldDensity() > 0))
+        {
+            temp_cur[i] -= 50;
+        }
         // WEATHER
         if (g->weather == WEATHER_SUNNY && g->is_in_sunlight(posx, posy))
         {

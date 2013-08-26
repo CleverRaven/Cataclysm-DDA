@@ -3179,6 +3179,38 @@ void iuse::grenade_act(game *g, player *p, item *it, bool t)
   g->explosion(pos.x, pos.y, 12, 28, false);
 }
 
+void iuse::freeze_grenade(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p,_("You push the detonator on the grenade."));
+ it->make(g->itypes["freeze_grenade_act"]);
+ it->charges = 5;
+ it->active = true;
+}
+
+void iuse::freeze_grenade_act(game *g, player *p, item *it, bool t)
+{
+ point pos = g->find_item(it);
+ if (pos.x == -999 || pos.y == -999)
+  return;
+ if (t) // Simple timer effects
+  if ( one_in(2) ) {
+    g->sound(pos.x, pos.y, 0, _("Beep."));	// Vol 0 = only heard if you hold it
+  } else {
+    g->sound(pos.x, pos.y, 0, _("Boop."));	// Vol 0 = only heard if you hold it
+  }
+ else	// When that timer runs down...
+  {
+   int junk;
+   for (int i = -2; i <= 2; i++) {
+    for (int j = -2; j <= 2; j++) {
+     if (g->m.sees(pos.x, pos.y, pos.x + i, pos.y + j, 3, junk) &&
+         g->m.move_cost(pos.x + i, pos.y + j) > 0)
+      g->m.add_field(g, pos.x + i, pos.y + j, fd_ice_mist, rng(1, 2) + rng(0, 1));
+    }
+   }
+  }
+}
+
 void iuse::granade(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,_("You pull the pin on the Granade."));

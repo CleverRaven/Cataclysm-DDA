@@ -167,7 +167,15 @@ void game::init_fields()
             {_("faint glimmer"), _("beam of light"), _("intense beam of light")}, '#',
             {c_blue, c_ltblue, c_white}, {true, true, true}, {false, false, false}, 1,
             {0,0,0}
-        }
+        },
+        
+        { // Ice mist
+            {_("cold mist"),	_("ice mist"), _("ice fog")},		'8',
+            {c_ltblue, c_cyan, c_blue},	{true, false, false},{false, true, true},  300,
+            {0,0,0}
+        },
+        
+        // Ice on the floor
     };
     for(int i=0; i<num_fields; i++) {
         fieldlist[i] = tmp_fields[i];
@@ -904,6 +912,10 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         }
                         break;
 
+                    case fd_ice_mist:
+                        spread_gas( this, cur, x, y, curtype, 80, 50 );
+                        break;
+
                 } // switch (curtype)
 
                 cur->setFieldAge(cur->getFieldAge() + 1);
@@ -1172,6 +1184,10 @@ void map::step_in_field(int x, int y, game *g)
             //Stepping on an acid vent shuts it down.
             field_list_it = curfield.removeField( fd_acid_vent );
             continue;
+
+        case fd_ice_mist:
+            // This stuff is taken care of in game::get_temperature() and player::update_bodytemp()
+            break;
         }
         ++field_list_it;
     }
@@ -1396,6 +1412,17 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                     } else {
                         z->setpos(newposx, newposy);
                     }
+                }
+            }
+            break;
+
+        case fd_ice_mist:
+            // When MF_ICE gets a flag, add it here...
+            if (z->has_flag(MF_WARM)) {
+                switch (cur->getFieldDensity()) {
+                    case 1: z->moves -= rng(10, 20); break;
+                    case 2: z->moves -= rng(20, 40); break;
+                    case 3: z->moves -= rng(40, 80); break;
                 }
             }
             break;
