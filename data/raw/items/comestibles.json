@@ -5747,7 +5747,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "lsd",
-        "name" : "LSD tablets",
+        "name" : "pink tablets",
         "weight" : 5,
         "color" : "pink",
         "addiction_type" : "none",
