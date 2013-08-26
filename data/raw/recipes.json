@@ -11321,7 +11321,9 @@
     ],
     [
       [ "pickle", 1],
-      [ "veggy_pickled", 1]
+      [ "veggy_pickled", 1],
+      [ "onion", 1],
+      [ "tomato", 1]
     ],
     [
       [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1]
@@ -11359,7 +11361,9 @@
     ],
     [
       [ "pickle", 1],
-      [ "veggy_pickled", 1]
+      [ "veggy_pickled", 1],
+      [ "onion", 1],
+      [ "tomato", 1]
     ],
     [
       [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1]
