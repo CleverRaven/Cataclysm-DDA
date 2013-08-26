@@ -109,7 +109,8 @@
       ["cell_phone", 50],
       ["wristwatch", 15],
       ["umbrella", 50],
-      ["fish_bowl", 1]
+      ["fish_bowl", 1],
+      ["gum", 90]
     ]
   },
   { "id":"kitchen",
@@ -314,7 +315,8 @@
       ["house_coat", 25],
       ["talking_doll", 65],
       ["money_bundle", 30],
-      ["wristwatch", 15]
+      ["wristwatch", 15],
+      ["gum", 90]
     ]
   },
   { "id":"homeguns",
@@ -548,7 +550,8 @@
       ["mp3", 18],
       ["portable_game", 8],
       ["roadmap", 40],
-      ["money_bundle", 55]
+      ["money_bundle", 55],
+      ["gum", 90]
     ]
   },
   { "id":"magazines",
@@ -1631,7 +1634,8 @@
       ["coffee_raw", 15],
       ["usb_drive", 5],
       ["software_useless", 10],
-      ["umbrella", 5]
+      ["umbrella", 5],
+      ["gum", 10]
     ]
   },
   { "id":"cubical_office",
@@ -1671,7 +1675,8 @@
       ["extinguisher", 20],
       ["mp3", 18],
       ["portable_game", 8],
-      ["umbrella", 5]
+      ["umbrella", 5],
+      ["gum", 40]
     ]
   },
   { "id":"school",
@@ -2621,7 +2626,8 @@
       ["mp3", 18],
       ["solar_cell", 5],
       ["flyer", 10],
-      ["usb_drive", 5]
+      ["usb_drive", 5],
+      ["gum", 20]
     ]
   },
   { "id":"toxic_dump_equipment",
@@ -3022,7 +3028,8 @@
       ["rm103a_pistol", 1],
       ["laser_sight", 15],
       ["8mm_inc", 2],
-      ["tac_helmet", 10]
+      ["tac_helmet", 10],
+      ["gum", 90]
     ]
   },
   { "id":"science",
@@ -3237,7 +3244,8 @@
       ["crackpipe", 37],
       ["spare_mag", 15],
       ["bio_blaster", 10],
-      ["laser_sight", 15]
+      ["laser_sight", 15],
+      ["gum", 90]
     ]
   },
   { "id":"wreckage",
