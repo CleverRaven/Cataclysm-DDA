@@ -157,12 +157,6 @@ void game::init_fields()
             {0,0,0}
         },
 
-        { // Ice on the floor
-            {_("frosted floor"),	_("icy floor"), _("ice sheet")},		'#',
-            {c_ltblue, c_cyan, c_blue},	{true, true, true}, {true, true, true},  10,
-            {0,0,0}
-        },
-
         { // plasma glow (for plasma weapons)
             {_("faint plasma"), _("glowing plasma"), _("burning plasma")}, '9',
             {c_magenta, c_pink, c_white}, {true, true, true}, {false, false, false}, 2,
@@ -181,7 +175,11 @@ void game::init_fields()
             {0,0,0}
         },
         
-        // Ice on the floor
+        { // Ice on the floor
+            {_("frosted floor"),	_("icy floor"), _("ice sheet")},		'#',
+            {c_ltblue, c_cyan, c_blue},	{true, true, true}, {true, true, true},  10,
+            {0,0,0}
+        },
     };
     for(int i=0; i<num_fields; i++) {
         fieldlist[i] = tmp_fields[i];
@@ -1454,7 +1452,6 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                 }
             }
             break;
-
         }
         ++field_list_it;
     }
