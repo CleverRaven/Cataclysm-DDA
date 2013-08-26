@@ -110,7 +110,7 @@
       ["wristwatch", 15],
       ["umbrella", 50],
       ["fish_bowl", 1],
-      ["lsd", 5]
+      ["lsd", 1]
     ]
   },
   { "id":"kitchen",
@@ -316,7 +316,7 @@
       ["talking_doll", 65],
       ["money_bundle", 30],
       ["wristwatch", 15],
-      ["lsd", 8]
+      ["lsd", 1]
     ]
   },
   { "id":"homeguns",
@@ -1015,8 +1015,7 @@
       ["jar_glass", 10],
       ["jar_3l_glass", 8],
       ["flyer", 10],
-      ["talking_doll", 60],
-      ["lsd", 1]
+      ["talking_doll", 60]
     ]
   },
   { "id":"ammo",
@@ -1491,7 +1490,7 @@
       ["tazer", 3],
       ["software_hacking", 10],
       ["spray_can", 50],
-      ["lsd", 10]
+      ["lsd", 2]
     ]
   },
   {
@@ -2626,7 +2625,7 @@
       ["solar_cell", 5],
       ["flyer", 10],
       ["usb_drive", 5],
-      ["lsd", 5]
+      ["lsd", 1]
     ]
   },
   { "id":"toxic_dump_equipment",
@@ -2684,7 +2683,7 @@
       ["mag_porn", 20],
       ["rag", 1],
       ["flyer", 10],
-      ["lsd", 5]
+      ["lsd", 1]
     ]
   },
   { "id":"cavern",
@@ -2764,7 +2763,7 @@
       ["spray_can", 50],
       ["bio_blaster", 10],
       ["tac_helmet", 5],
-      ["lsd", 20]
+      ["lsd", 4]
     ]
   },
   { "id":"ant_food",
@@ -3188,7 +3187,7 @@
       ["heroin", 1],
       ["crack", 8],
       ["crackpipe", 37],
-      ["lsd", 10]
+      ["lsd", 8]
     ]
   },
   { "id":"drugdealer",
