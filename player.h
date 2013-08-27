@@ -213,6 +213,7 @@ public:
  void vomit(game *g);
 
  void drench(game *g, int saturation, int flags); // drenches the player in water; saturation is percent
+ void drench_mut_check(int &ignored, int &neutral, int &good, unsigned long bpart); // Checks mutation drench protection
 
  char lookup_item(char let);
  bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
@@ -325,6 +326,11 @@ public:
  bool studied_all_recipes(it_book *book);
  bool try_study_recipe(game *g, it_book *book);
 
+// Library functions
+ double logistic(double t);
+ double logistic_range(int min, int max, int pos);
+ void calculate_portions(int &x, int &y, int &z, int maximum);
+
 // ---------------VALUES-----------------
  int posx, posy;
  int view_offset_x, view_offset_y;
@@ -372,6 +378,33 @@ public:
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
  bool nv_cached;
+
+// Drench cache values
+ bool drench_cached;
+ int eyes_ignored;
+ int eyes_neutral;
+ int eyes_good;
+ int mouth_ignored;
+ int mouth_neutral;
+ int mouth_good;
+ int head_ignored;
+ int head_neutral;
+ int head_good;
+ int legs_ignored;
+ int legs_neutral;
+ int legs_good;
+ int feet_ignored;
+ int feet_neutral;
+ int feet_good;
+ int arms_ignored;
+ int arms_neutral;
+ int arms_good;
+ int hands_ignored;
+ int hands_neutral;
+ int hands_good;
+ int torso_ignored;
+ int torso_neutral;
+ int torso_good;
 
  std::vector<morale_point> morale;
 
