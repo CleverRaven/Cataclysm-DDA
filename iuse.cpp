@@ -491,7 +491,8 @@ void iuse::cig(game *g, player *p, item *it, bool t) {
 void iuse::antibiotic(game *g, player *p, item *it, bool t) {
     g->add_msg_if_player(p,_("You take some antibiotics."));
     // cheap model of antibiotic resistance, but it's something.
-    bool resisted = (rng(1,100) > 5);
+    int resistChance = 5;
+    bool resisted = (rng(1,100) < resistChance);
     if (p->has_disease("infected") && !resisted) {
         p->rem_disease("infected");
         p->add_disease("recover", 1200);
