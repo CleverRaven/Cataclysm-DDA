@@ -6,6 +6,11 @@ from __future__ import print_function
 import json
 import os
 
+## DATA
+
+# some .json files have no translatable strings. ignore them.
+ignore = ["item_groups.json", "monstergroups.json", "recipes.json"]
+
 ## PREPARATION
 
 # allow running from main directory, or from script subdirectory
@@ -62,11 +67,14 @@ def convert(infilename, outfile):
 
 ## EXTRACTION
 
+extracted = []
+
 # data/raw/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
     for filename in os.listdir(os.path.join(raw_folder,"items")):
         jsonfile = os.path.join(raw_folder, "items", filename)
         convert(jsonfile, items_jtl)
+extracted.append("items")
 
 # data/raw/skills.json
 with open(os.path.join(to_folder, "json_skills.py"), 'w') as skills_jtl:
@@ -77,16 +85,19 @@ with open(os.path.join(to_folder, "json_skills.py"), 'w') as skills_jtl:
     for n, d in zip(names, descriptions):
         writestr(skills_jtl, n)
         writestr(skills_jtl, d)
+extracted.append("skills.json")
 
 # data/raw/professions.json
 with open(os.path.join(to_folder,"json_professions.py"), 'w') as prof_jtl:
     prof_json = os.path.join(raw_folder, "professions.json")
     convert(prof_json, prof_jtl)
+extracted.append("professions.json")
 
 # data/raw/bionics.json
 with open(os.path.join(to_folder,"json_bionics.py"), 'w') as bio_jtl:
     bio_json = os.path.join(raw_folder, "bionics.json")
     convert(bio_json, bio_jtl)
+extracted.append("bionics.json")
 
 # data/raw/snippets.json
 with open(os.path.join(to_folder,"json_snippets.py"), 'w') as snip_jtl:
@@ -96,6 +107,7 @@ with open(os.path.join(to_folder,"json_snippets.py"), 'w') as snip_jtl:
     texts = [item["text"] for item in snip]
     for t in texts:
         writestr(snip_jtl, t)
+extracted.append("snippets.json")
 
 # data/raw/materials.json
 with open(os.path.join(to_folder,"json_materials.py"), 'w') as mat_jtl:
@@ -113,6 +125,7 @@ with open(os.path.join(to_folder,"json_materials.py"), 'w') as mat_jtl:
         writestr(mat_jtl, d[1])
         writestr(mat_jtl, d[2])
         writestr(mat_jtl, d[3])
+extracted.append("materials.json")
 
 # data/raw/names.json
 with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
@@ -128,6 +141,7 @@ with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
         if len(tlinfo) > 1: # then add it as a translator comment
             tlcomment(name_jtl, '; '.join(tlinfo))
         writestr(name_jtl, "<name>" + item["name"])
+extracted.append("names.json")
 
 # data/raw/mutations.json
 with open(os.path.join(to_folder,"json_mutations.py"), 'w') as mut_jtl:
@@ -136,6 +150,7 @@ with open(os.path.join(to_folder,"json_mutations.py"), 'w') as mut_jtl:
     for item in jsondata:
         writestr(mut_jtl, item["name"])
         writestr(mut_jtl, item["description"])
+extracted.append("mutations.json")
 
 # data/raw/dreams.json
 with open(os.path.join(to_folder,"json_dreams.py"), 'w') as dream_jtl:
@@ -144,4 +159,45 @@ with open(os.path.join(to_folder,"json_dreams.py"), 'w') as dream_jtl:
     for item in jsondata:
         for message in item["message"]:
             writestr(dream_jtl, message)
+extracted.append("dreams.json")
+
+# data/raw/vehicle_parts.json
+with open(os.path.join(to_folder,"json_vehicle_parts.py"),'w') as veh_jtl:
+    jsonfile = os.path.join(raw_folder, "vehicle_parts.json")
+    jsondata = json.loads(open(jsonfile).read())
+    for item in jsondata:
+        writestr(veh_jtl, item["name"])
+extracted.append("vehicle_parts.json")
+
+# data/raw/parrot.json
+with open(os.path.join(to_folder,"json_parrot.py"),'w') as parrot_jtl:
+    jsonfile = os.path.join(raw_folder, "parrot.json")
+    jsondata = json.loads(open(jsonfile).read())
+    for item in jsondata:
+        writestr(parrot_jtl, item["sound"])
+extracted.append("parrot.json")
+
+## please add any new .json files to extract just above here.
+## make sure you extract the right thing from the right place.
+
+# SANITY
+
+all_files = os.listdir(raw_folder)
+not_found = []
+for f in all_files:
+    if not f in extracted and not f in ignore:
+        not_found.append(f)
+
+if not_found:
+    if len(not_found) == 1:
+        print("WARNING: Unrecognized raw file!")
+        print(not_found)
+        print("Does it have translatable strings in it?")
+        print("Add it to lang/extract_json_strings.py then try again.")
+    else:
+        print("WARNING: Unrecognized raw files!")
+        print(not_found)
+        print("Do they have translatable strings in them?")
+        print("Add them to lang/extract_json_strings.py then try again.")
+    exit(1)
 

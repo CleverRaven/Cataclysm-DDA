@@ -92,8 +92,8 @@ game::game() :
  init_skills();
  init_professions();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
- init_mtypes();	              // Set up monster types             (SEE mtypedef.cpp)
- init_itypes();	              // Set up item types                (SEE itypedef.cpp)
+ init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
+ init_itypes();               // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();
  item_controller->init(this); //Item manager
  init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
@@ -107,7 +107,8 @@ game::game() :
  init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();             // Set up autosave
  init_diseases();             // Set up disease lookup table
- init_dreams();				  // Set up dreams					  (SEE mutation_data.cpp)
+ init_dreams();               // Set up dreams                    (SEE mutation_data.cpp)
+ init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;
@@ -10937,13 +10938,13 @@ void game::plswim(int x, int y)
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 
- int drenchFlags = mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms);
+ int drenchFlags = mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_feet);
 
- if (get_temperature() < 50)
-   drenchFlags |= mfb(bp_feet)|mfb(bp_hands);
+ if (get_temperature() <= 50)
+   drenchFlags |= mfb(bp_hands);
 
  if (u.underwater)
-   drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth);
+   drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_hands);
 
  u.drench(this, 100, drenchFlags);
 }

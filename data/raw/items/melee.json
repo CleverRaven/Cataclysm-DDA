@@ -1655,7 +1655,7 @@
     {
         "id" : "plasma_engine",
         "name" : "plasma engine",
-        "description" : "High technology engine, working on hydrgen fuel.",
+        "description" : "High technology engine, working on hydrogen fuel.",
         "weight" : 39689,
         "to_hit" : -2,
         "color" : "light_cyan",
@@ -1941,7 +1941,7 @@
   {
     "id" : "cell_phone",
     "name" : "cell phone",
-    "description" : "A simple cell phone. Nowadays only useful for telling the time or as a alarm-clock. Can also be disasembled into some useful parts.",
+    "description" : "A simple cell phone. Nowadays only useful for telling the time or as a alarm-clock. Can also be disassembled into some useful parts.",
     "weight" : 113,
     "to_hit" : -3,
     "color" : "light_gray",

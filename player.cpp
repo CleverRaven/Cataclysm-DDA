@@ -140,6 +140,7 @@ player::player()
   temp_conv[i] = BODYTEMP_NORM;
  }
  nv_cached = false;
+ drench_cached = false;
  volume = 0;
 
  memorial_log.clear();
@@ -258,6 +259,7 @@ player& player::operator= (const player & rhs)
  addictions = rhs.addictions;
 
  nv_cached = false;
+ drench_cached = false;
 
  return (*this);
 }
@@ -3430,32 +3432,40 @@ bool player::has_nv()
 
 void player::pause(game *g)
 {
- moves = 0;
- if (recoil > 0) {
-   if (str_cur + 2 * skillLevel("gun") >= recoil)
-   recoil = 0;
-  else {
-    recoil -= str_cur + 2 * skillLevel("gun");
-   recoil = int(recoil / 2);
-  }
- }
+    moves = 0;
+    if (recoil > 0) {
+        if (str_cur + 2 * skillLevel("gun") >= recoil) {
+            recoil = 0;
+        } else {
+            recoil -= str_cur + 2 * skillLevel("gun");
+            recoil = int(recoil / 2);
+        }
+    }
 
-// Meditation boost for Toad Style
- if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
-  int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
-  int arm_max = (int_cur + per_cur) / 2;
-  if (arm_amount > 3)
-   arm_amount = 3;
-  if (arm_max > 20)
-   arm_max = 20;
-  add_disease("armor_boost", 2, arm_amount, arm_max);
- }
+    // Meditation boost for Toad Style
+    if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
+        int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
+        int arm_max = (int_cur + per_cur) / 2;
+        if (arm_amount > 3) {
+            arm_amount = 3;
+        }
+        if (arm_max > 20) {
+            arm_max = 20;
+        }
+        add_disease("armor_boost", 2, arm_amount, arm_max);
+    }
 
-// Train swimming if underwater
- if (underwater) {
-   practice(g->turn, "swimming", 1);
-   drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth));
- }
+    // Train swimming if underwater
+    if (underwater) {
+        practice(g->turn, "swimming", 1);
+        if (g->temperature <= 50) {
+            drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
+                           mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_feet)|mfb(bp_hands));
+        } else {
+            drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
+                           mfb(bp_eyes)|mfb(bp_mouth));
+        }
+    }
 }
 
 int player::throw_range(signed char ch)
@@ -4749,22 +4759,192 @@ void player::vomit(game *g)
 }
 
 void player::drench(game *g, int saturation, int flags) {
-  if (is_waterproof(flags))
-    return;
+    if (is_waterproof(flags)) {
+        return;
+    }
 
-  bool wantsDrench = is_water_friendly(flags);
-  int morale_cap;
+    if (!drench_cached) {
+        int ignored = 0;
+        int neutral = 0;
+        int good = 0;
 
-  if (wantsDrench) {
-    morale_cap = (g->get_temperature() - 60) * saturation / 100;
-  } else {
-    morale_cap = -(saturation / 2);
-  }
+        drench_mut_check(ignored, neutral, good, mfb(bp_eyes));
+        calculate_portions(good, neutral, ignored, 1);
+        eyes_ignored = ignored;
+        eyes_neutral = neutral;
+        eyes_good = good;
 
-  if (morale_cap == 0)
-    return;
+        drench_mut_check(ignored, neutral, good, mfb(bp_mouth));
+        calculate_portions(good, neutral, ignored, 1);
+        mouth_ignored = ignored;
+        mouth_neutral = neutral;
+        mouth_good = good;
 
-  add_morale(MORALE_WET, (morale_cap > 0?1:-1), morale_cap);
+        drench_mut_check(ignored, neutral, good, mfb(bp_head));
+        calculate_portions(good, neutral, ignored, 7);
+        head_ignored = ignored;
+        head_neutral = neutral;
+        head_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_legs));
+        calculate_portions(good, neutral, ignored, 21);
+        legs_ignored = ignored;
+        legs_neutral = neutral;
+        legs_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_feet));
+        calculate_portions(good, neutral, ignored, 6);
+        feet_ignored = ignored;
+        feet_neutral = neutral;
+        feet_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_arms));
+        calculate_portions(good, neutral, ignored, 19);
+        arms_ignored = ignored;
+        arms_neutral = neutral;
+        arms_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_hands));
+        calculate_portions(good, neutral, ignored, 5);
+        hands_ignored = ignored;
+        hands_neutral = neutral;
+        hands_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_torso));
+        calculate_portions(good, neutral, ignored, 40);
+        torso_ignored = ignored;
+        torso_neutral = neutral;
+        torso_good = good;
+
+        drench_cached = true;
+    }
+
+    int effected = 0;
+    int tot_ignored = 0; //Always ignored
+    int tot_neut = 0; //Ignored for good wet bonus
+    int tot_good = 0; //Increase good wet bonus
+
+    if (mfb(bp_eyes) & flags) {
+        effected += 1;
+        tot_good += eyes_good;
+        tot_neut += eyes_neutral;
+        tot_ignored += eyes_ignored;
+    }
+    if (mfb(bp_mouth) & flags) {
+        effected += 1;
+        tot_good += mouth_good;
+        tot_neut += mouth_neutral;
+        tot_ignored += mouth_ignored;
+    }
+    if (mfb(bp_head) & flags) {
+        effected += 7;
+        tot_good += head_good;
+        tot_neut += head_neutral;
+        tot_ignored += head_ignored;
+    }
+    if (mfb(bp_legs) & flags) {
+        effected += 21;
+        tot_good += legs_good;
+        tot_neut += legs_neutral;
+        tot_ignored += legs_ignored;
+    }
+    if (mfb(bp_feet) & flags) {
+        effected += 6;
+        tot_good += feet_good;
+        tot_neut += feet_neutral;
+        tot_ignored += feet_ignored;
+    }
+    if (mfb(bp_arms) & flags) {
+        effected += 19;
+        tot_good += arms_good;
+        tot_neut += arms_neutral;
+        tot_ignored += arms_ignored;
+    }
+    if (mfb(bp_hands) & flags) {
+        effected += 5;
+        tot_good += hands_good;
+        tot_neut += hands_neutral;
+        tot_ignored += hands_ignored;
+    }
+    if (mfb(bp_torso) & flags) {
+        effected += 40;
+        tot_good += torso_good;
+        tot_neut += torso_neutral;
+        tot_ignored += torso_ignored;
+    }
+
+    if (effected == 0) {
+        return;
+    }
+
+    bool wants_drench = false;
+    // If not protected by mutations then check clothing
+    if (tot_good + tot_neut + tot_ignored < effected) {
+        wants_drench = is_water_friendly(flags);
+    } else {
+        wants_drench = true;
+    }
+
+    int morale_cap;
+    if (wants_drench) {
+        morale_cap = g->get_temperature() - std::min(65, 65 + (tot_ignored - tot_good) / 2) * saturation / 100;
+    } else {
+        morale_cap = -(saturation / 2);
+    }
+
+    // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
+    if (morale_cap > 0) {
+        morale_cap = morale_cap * (effected - tot_ignored + tot_good) / effected;
+    } else if (morale_cap < 0) {
+        morale_cap = morale_cap * (effected - tot_ignored - tot_neut - tot_good) / effected;
+    }
+
+    if (morale_cap == 0) {
+        return;
+    }
+
+    int morale_effect = morale_cap / 8;
+    if (morale_effect == 0) {
+        if (morale_cap > 0) {
+            morale_effect = 1;
+        } else {
+            morale_effect = -1;
+        }
+    }
+
+    int dur = 60;
+    int d_start = 30;
+    if (morale_cap < 0) {
+        if (has_trait("LIGHTFUR") || has_trait("FUR")) {
+            dur /= 5;
+            d_start /= 5;
+        }
+    } else {
+        if (has_trait("SLIMY")) {
+            dur *= 1.2;
+            d_start *= 1.2;
+        }
+    }
+
+    add_morale(MORALE_WET, morale_effect, morale_cap, dur, d_start);
+}
+
+void player::drench_mut_check(int &ignored, int &neutral, int &good, unsigned long bpart)
+{
+    ignored = 0;
+    neutral = 0;
+    good = 0;
+    for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        if (has_trait(iter->first)) {
+            for (int i = 0; i < g->mutation_data[iter->first].protection.size(); i++) {
+                if (g->mutation_data[iter->first].protection[i].first == bpart) {
+                    ignored += g->mutation_data[iter->first].protection[i].second.x;
+                    neutral += g->mutation_data[iter->first].protection[i].second.y;
+                    good += g->mutation_data[iter->first].protection[i].second.z;
+                }
+            }
+        }
+    }
 }
 
 int player::weight_carried()
@@ -4845,51 +5025,6 @@ bool player::can_pickWeight(int weight, bool safe)
     }
 }
 
-// --- Library functions ---
-// This stuff could be moved elsewhere, but there
-// doesn't seem to be a good place to put it right now.
-
-// Basic logistic function.
-double logistic(double t)
-{
-    return 1 / (1 + exp(-t));
-}
-
-const double LOGI_CUTOFF = 4;
-const double LOGI_MIN = logistic(-LOGI_CUTOFF);
-const double LOGI_MAX = logistic(+LOGI_CUTOFF);
-const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
-
-// Logistic curve [-6,6], flipped and scaled to
-// range from 1 to 0 as pos goes from min to max.
-double logistic_range(int min, int max, int pos)
-{
-    // Anything beyond [min,max] gets clamped.
-    if (pos < min)
-    {
-        return 1.0;
-    }
-    else if (pos > max)
-    {
-        return 0.0;
-    }
-
-    // Normalize the pos to [0,1]
-    double range = max - min;
-    double unit_pos = (pos - min) / range;
-
-    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
-    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
-
-    // Get the raw logistic value.
-    double raw_logistic = logistic(scaled_pos);
-
-    // Scale the output to [0,1]
-    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
-}
-// --- End ---
-
-
 int player::net_morale(morale_point effect)
 {
     double bonus = effect.bonus;
@@ -4969,7 +5104,9 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
             {
                 // Otherwise, we need to figure out whether the existing effect had
                 // more remaining duration and decay-resistance than the new one does.
-                if (morale[i].duration - morale[i].age <= duration)
+                // Only takes the new duration if new bonus and old are the same sign.
+                if (morale[i].duration - morale[i].age <= duration &&
+                   ((morale[i].bonus > 0) == (max_bonus > 0)) )
                 {
                     morale[i].duration = duration;
                 }
@@ -4979,7 +5116,8 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
                     morale[i].duration -= morale[i].age;
                 }
 
-                if (morale[i].decay_start - morale[i].age <= decay_start)
+                if (morale[i].decay_start - morale[i].age <= decay_start &&
+                   ((morale[i].bonus > 0) == (max_bonus > 0)) )
                 {
                     morale[i].decay_start = decay_start;
                 }
@@ -6075,9 +6213,9 @@ bool player::eat(game *g, signed char ch)
         if (has_trait("GOURMAND"))
         {
             if (comest->fun < -2)
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
             else if (comest->fun > 0)
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, comest);
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
             if (hunger < -60 || thirst < -60)
                 g->add_msg_if_player(this,_("You can't finish it all!"));
             if (hunger < -60)
@@ -6088,9 +6226,9 @@ bool player::eat(game *g, signed char ch)
         else
         {
             if (comest->fun < 0)
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, comest);
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, false, comest);
             else if (comest->fun > 0)
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
             if (hunger < -20 || thirst < -20)
                 g->add_msg_if_player(this,_("You can't finish it all!"));
             if (hunger < -20)
@@ -8548,3 +8686,54 @@ point player::adjacent_tile()
     else
         return point(posx, posy);           // or return player position if no valid adjacent tiles
 }
+
+// --- Library functions ---
+// This stuff could be moved elsewhere, but there
+// doesn't seem to be a good place to put it right now.
+
+// Basic logistic function.
+double player::logistic(double t)
+{
+    return 1 / (1 + exp(-t));
+}
+
+// Logistic curve [-6,6], flipped and scaled to
+// range from 1 to 0 as pos goes from min to max.
+double player::logistic_range(int min, int max, int pos)
+{
+    const double LOGI_CUTOFF = 4;
+    const double LOGI_MIN = logistic(-LOGI_CUTOFF);
+    const double LOGI_MAX = logistic(+LOGI_CUTOFF);
+    const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
+    // Anything beyond [min,max] gets clamped.
+    if (pos < min)
+    {
+        return 1.0;
+    }
+    else if (pos > max)
+    {
+        return 0.0;
+    }
+
+    // Normalize the pos to [0,1]
+    double range = max - min;
+    double unit_pos = (pos - min) / range;
+
+    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
+    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
+
+    // Get the raw logistic value.
+    double raw_logistic = logistic(scaled_pos);
+
+    // Scale the output to [0,1]
+    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
+}
+
+// Calculates portions favoring x, then y, then z
+void player::calculate_portions(int &x, int &y, int &z, int maximum)
+{
+    z = std::min(z, std::max(maximum - x - y, 0));
+    y = std::min(y, std::max(maximum - x , 0));
+    x = std::min(x, std::max(maximum, 0));
+}
+// --- End ---
