@@ -20,7 +20,7 @@ void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
     int funnel_radius_mm = 0;
     switch (t) {
         case tr_funnel:             funnel_radius_mm = 380; break;
-        case tr_makeshift_funnel:   funnel_radius_mm =  38; break;
+        case tr_makeshift_funnel:   funnel_radius_mm =  85; break;
         default: return;
     }
 
