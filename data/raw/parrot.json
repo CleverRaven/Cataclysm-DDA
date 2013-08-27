@@ -276,7 +276,7 @@
     "volume" : 30
 },
 {
-    "sound" : "\"Look, it's responding!",
+    "sound" : "\"Look, it's responding!\"",
     "volume" : 40
 },
 {
@@ -352,11 +352,11 @@
     "volume" : 20
 },
 {
-    "sound" : "\"You're new here, aren't you?",
+    "sound" : "\"You're new here, aren't you?\"",
     "volume" : 20
 },
 {
-    "sound" : "\"How do you like it here?",
+    "sound" : "\"How do you like it here?\"",
     "volume" : 20
 },
 {
@@ -768,11 +768,11 @@
     "volume" : 20
 },
 {
-    "sound" : "\"Nobody is helping us.",
+    "sound" : "\"Nobody is helping us.\"",
     "volume" : 20
 },
 {
-    "sound" : "\"We're on our own.",
+    "sound" : "\"We're on our own.\"",
     "volume" : 20
 },
 {
