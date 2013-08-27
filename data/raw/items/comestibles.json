@@ -4487,7 +4487,6 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-
         "description" : "Pharmaceutical flu shot designed for mass vaccinations, still in the packaging. Purported to provide some kind of immunity.",
         "price" : 500,
         "material" : "plastic",
@@ -4561,7 +4560,6 @@
     {
         "type" : "COMESTIBLE",
         "id" : "pills_sleep",
-
         "name" : "Ambien",
         "weight" : 1,
         "color" : "cyan",
@@ -4577,7 +4575,6 @@
         "heal" : 0,
         "addiction_potential" : 40,
         "nutrition" : 0,
-
         "description" : "A habit-forming tranquilizer with a variety of psychoactive side effects. Used in the treatment of insomnia.",
         "price" : 50,
         "material" : "plastic",
@@ -4607,7 +4604,6 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-
         "description" : "Potassium iodide tablets. They might help mitigate some of the detrimental effects caused by irradiation.",
         "price" : 140,
         "material" : "plastic",
@@ -4695,7 +4691,6 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-
         "description" : "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
         "price" : 500,
         "material" : "plastic",
@@ -4815,7 +4810,6 @@
         "heal" : -2,
         "addiction_potential" : 40,
         "nutrition" : 0,
-
         "description" : "Antianxiety agent with a potent sedative effect.  May cause dissociation and loss of memory.  It is dangerously addictive, and withdrawal from regular use should be gradual.",
         "price" : 600,
         "material" : "plastic",
@@ -4845,7 +4839,6 @@
         "heal" : 0,
         "addiction_potential" : 10,
         "nutrition" : 0,
-
         "description" : "Medical grade amphetamine salts, commonly prescribed to treat hyperactive attention deficits.  It suppresses the appetite, and is quite addictive.",
         "price" : 450,
         "material" : "plastic",
@@ -4875,7 +4868,6 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-
         "description" : "Antipsychotic medication. Used to stabilize brain chemistry, it can arrest hallucinations and other symptoms of psychosis. Carries a sedative effect.",
         "price" : 500,
         "material" : "plastic",
@@ -4905,7 +4897,6 @@
         "heal" : 0,
         "addiction_potential" : 5,
         "nutrition" : 0,
-
         "description" : "A common and popular antidepressant. It will elevate mood, and can profoundly affect the action of other drugs.  It is only rarely habit-forming, though adverse reactions are not uncommon.",
         "price" : 300,
         "material" : "plastic",
@@ -4935,7 +4926,6 @@
         "heal" : -1,
         "addiction_potential" : 50,
         "nutrition" : 0,
-
         "description" : "A mixture of dried tobacco leaf, pesticides and chemical additives, rolled into a filtered paper tube. Stimulates mental acuity and reduces appetite. Highly addictive and hazardous to health.",
         "price" : 120,
         "material" : "veggy",
@@ -4965,8 +4955,7 @@
         "heal" : 0,
         "addiction_potential" : 5,
         "nutrition" : 0,
-
-        "description" : "The dried flower buds and leaves of a psychoactive variety of hemp plant. Used to reduce nausea, stimulate appetite and elevate mood, though it is somewhat habit-forming and adverse reactions are possible.",
+        "description" : "The dried flower buds and leaves harvested from a psychoactive variety of hemp plant. Used to reduce nausea, stimulate appetite and elevate mood. It can be habit-forming, and adverse reactions are possible.",
         "price" : 250,
         "material" : "veggy",
         "tool" : "null",
@@ -4975,30 +4964,36 @@
         "phase" : "solid",
         "charges" : 5,
         "bashing" : 0,
-
         "fun" : 15
-    },
-    {   "type" : "AMMO",
+    },    
+    {
+        "type" : "COMESTIBLE",
         "id" : "seed_weed",
-        "price" : 120,
-        "name" : "cannabis seeds",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Seeds of the cannabis plant.  Filled with vitamins, they can be eaten raw or roasted.",
-        "material" : "veggy",
-        "volume" : 1,
+        "name" : "hemp seeds",
         "weight" : 1,
-        "bashing" : 0,
-        "cutting" : 0,
+        "color" : "green",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "use_action" : "NONE",
+        "stim" : 0,
+        "container" : "null",
         "to_hit" : 0,
-        "ammo_type" : "NULL",
-        "damage" : 0,
-        "pierce" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 4,
-        "flags": ["SEED"]
+        "comestible_type" : "FOOD",
+        "symbol" : ".",
+        "quench" : 0,
+        "heal" : 1,
+        "addiction_potential" : 0,
+        "nutrition" : 5,
+        "description" : "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
+        "price" : 150,
+        "material" : "veggy",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -5047,8 +5042,7 @@
         "heal" : -5,
         "addiction_potential" : 50,
         "nutrition" : 0,
-
-        "description" : "A dangerously addictive and potent stimulant. Very effective in boosting alertness, it is hazardous to health and the risk of an adverse reaction is great.",
+        "description" : "A dangerously addictive and potent stimulant. While extremely effective at enhancing alertness, it is hazardous to health and the risk of an adverse reaction is great.",
         "price" : 800,
         "material" : "powder",
         "tool" : "null",
@@ -5078,7 +5072,6 @@
         "heal" : -5,
         "addiction_potential" : 75,
         "nutrition" : 0,
-
         "description" : "An extremely potent opioid narcotic derived from morphine.  Incredibly addictive, the risk of overdose is extreme, and the drug is contraindicated for nearly all medical purposes.",
         "price" : 1000,
         "material" : "powder",
