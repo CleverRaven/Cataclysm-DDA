@@ -59,11 +59,11 @@ void game::init_vehicle_parts()
     next_part.dmg_mod = next_json.has("damage_modifier") ? next_json.get("damage_modifier").as_int() : 100;
     next_part.durability = next_json.get("durability").as_int();
     //Handle the par1 union as best we can by accepting any ONE of its elements
-    int element_count = next_json.has("par1") ? 1 : 0
-                      + next_json.has("power") ? 1 : 0
-                      + next_json.has("size") ? 1 : 0
-                      + next_json.has("wheel_width") ? 1 : 0
-                      + next_json.has("bonus") ? 1 : 0;
+    int element_count = (next_json.has("par1") ? 1 : 0)
+                      + (next_json.has("power") ? 1 : 0)
+                      + (next_json.has("size") ? 1 : 0)
+                      + (next_json.has("wheel_width") ? 1 : 0)
+                      + (next_json.has("bonus") ? 1 : 0);
     if(element_count == 0) {
       //If not specified, assume 0
       next_part.par1 = 0;
