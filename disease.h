@@ -22,4 +22,19 @@ std::string dis_description(disease dis);
 
 dis_type disease_for_body_part(dis_type base, int body_part);
 
+// Todo: Move helper functions into a DiseaseHandler Class.
+// Should standardize parameters so we can make function pointers.
+
+void manage_fire_exposure(player& p, int fireStrength=1);
+void manage_fungal_infection(game* g, player& p, disease& dis);
+void manage_sleep(game* g, player& p, disease& dis);
+
+void handle_alcohol(game* g, player& p, disease& dis);
+void handle_bite_wound(game* g, player& p, disease& dis);
+void handle_cough(player& p, int volume=12);
+void handle_evil(player& p, disease& dis);
+void handle_insect_parasites(game* g, player& p, disease& dis);
+
+bool will_vomit(player& p, int chance=1000);
+
 #endif
