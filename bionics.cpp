@@ -166,7 +166,7 @@ You can not activate %s!  To read a description of \
 // Clear the lines first
      ch = 0;
      werase(w_description);
-     mvwprintz(w_description, 0, 0, c_ltblue, bionics[tmp->id]->description.c_str());
+     fold_and_print(w_description, 0, 0, 78, c_ltblue, bionics[tmp->id]->description.c_str());
     }
    }
   }
