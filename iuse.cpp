@@ -52,7 +52,7 @@ static bool use_fire(game *g, player *p, item *it)
     if (!p->use_charges_if_avail("fire", 1))
     {
         add_or_drop_item(g, p, it);
-        g->add_msg_if_player(p, _("You need a lighter!"));
+        g->add_msg_if_player(p, _("You need a source of flame!"));
         return false;
     }
     return true;
@@ -471,212 +471,211 @@ void iuse::alcohol_weak(game *g, player *p, item *it, bool t)
  p->add_disease("drunk", duration);
 }
 
-void iuse::cig(game *g, player *p, item *it, bool t)
-{
- if (!use_fire(g, p, it)) return;
- if (it->type->id == "cig")
-  g->add_msg_if_player(p,_("You light a cigarette and smoke it."));
- else //cigar
-  g->add_msg_if_player(p,_("You take a few puffs from your cigar."));
- p->add_disease("cig", 200);
- for (int i = 0; i < p->illness.size(); i++) {
-  if (p->illness[i].type == "cig" && p->illness[i].duration > 600)
-   g->add_msg_if_player(p,_("Ugh, too much smoke... you feel gross."));
- }
+void iuse::cig(game *g, player *p, item *it, bool t) {
+    if (!use_fire(g, p, it)) return;
+    if (it->type->id == "cig") {
+        g->add_msg_if_player(p,_("You light a cigarette and smoke it."));
+    } else {  // cigar
+        g->add_msg_if_player(p,_("You take a few puffs from your cigar."));
+    }
+    p->thirst += 2;
+    p->hunger -= 3;
+    p->add_disease("cig", 200);
+    for (int i = 0; i < p->illness.size(); i++) {
+        if (p->illness[i].type == "cig" && p->illness[i].duration > 600) {
+            g->add_msg_if_player(p,_("Ugh, too much smoke... you feel nasty."));
+        }
+    }
 }
 
-void iuse::antibiotic(game *g, player *p, item *it, bool t)
-{
-if (p->has_disease("infected")){
-  g->add_msg_if_player(p,_("You took some antibiotics."));
-  p->rem_disease("infected");
-  p->add_disease("recover", 1200);
-  }
-   else {
- g->add_msg_if_player(p,_("You took some antibiotics."));
- }
+void iuse::antibiotic(game *g, player *p, item *it, bool t) {
+    g->add_msg_if_player(p,_("You take some antibiotics."));
+    // cheap model of antibiotic resistance, but it's something.
+    bool resisted = (rng(1,100) > 5);
+    if (p->has_disease("infected") && !resisted) {
+        p->rem_disease("infected");
+        p->add_disease("recover", 1200);
+    }
 }
 
-void iuse::weed(game *g, player *p, item *it, bool t)
-{
- if (!use_fire(g, p, it)) return;
- g->add_msg_if_player(p,_("Good stuff, man!"));
-
- int duration = 60;
- if (p->has_trait("LIGHTWEIGHT"))
-  duration = 90;
- p->hunger += 8;
- if (p->pkill < 15)
-  p->pkill += 5;
- p->add_disease("high", duration);
+void iuse::weed(game *g, player *p, item *it, bool t) {
+    // Requires flame and something to smoke with.
+    bool canSmoke = (p->has_amount("apparatus", 1) || p->has_amount("rolling_paper", 1));
+    if (canSmoke && p->use_charges_if_avail("fire", 1)) {
+        p->hunger += 4;
+        p->thirst += 6;
+        p->pkill += 3;
+        p->pkill *= 2;
+        g->add_msg_if_player(p,_("You smoke some weed.  Good stuff, man!"));
+        int duration = (p->has_trait("LIGHTWEIGHT") ? 120 : 90);
+        p->add_disease("weed_high", duration);
+        if (!(p->has_amount("apparatus", 1))) {
+            p->use_charges_if_avail("rolling_paper", 1);
+        }
+    }
 }
 
-void iuse::coke(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,_("You snort a bump."));
-
- int duration = 21 - p->str_cur;
- if (p->has_trait("LIGHTWEIGHT"))
-  duration += 20;
- p->hunger -= 8;
- p->add_disease("high", duration);
+void iuse::coke(game *g, player *p, item *it, bool t) {
+    g->add_msg_if_player(p,_("You snort a bump of coke."));
+    int duration = 21 - p->str_cur + rng(0,10);
+    if (p->has_trait("LIGHTWEIGHT")) {
+        duration += 20;
+    }
+    p->hunger -= 8;
+    p->add_disease("high", duration);
 }
 
-void iuse::crack(game *g, player *p, item *it, bool t)
-{
-  // Crack requires a fire source AND a pipe.
-  if (!use_fire(g, p, it)) return;
-  g->add_msg_if_player(p,_("You smoke some rocks."));
-  int duration = 10;
-  if (p->has_trait("LIGHTWEIGHT"))
-  {
-    duration += 10;
-  }
-  p->hunger -= 8;
-  p->add_disease("high", duration);
+void iuse::crack(game *g, player *p, item *it, bool t) {
+    // Crack requires a fire source and a pipe.
+    if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
+        int duration = 15;
+        if (p->has_trait("LIGHTWEIGHT")) {
+            duration += 20;
+        }
+        g->add_msg_if_player(p,_("You smoke your crack rocks.  Mother would be proud."));
+        p->hunger -= 10;
+        p->add_disease("high", duration);
+    }
 }
 
-void iuse::grack(game *g, player *p, item *it, bool t)
-{
-  // Grack requires a fire source AND a pipe.
-  if (!use_fire(g, p, it)) return;
-  g->add_msg_if_player(p,_("You smoke some Grack Cocaine. Time seems to stop."));
-  int duration = 1000;
-  if (p->has_trait("LIGHTWEIGHT"))
-    duration += 10;
-  p->hunger -= 8;
-  p->add_disease("grack", duration);
+void iuse::grack(game *g, player *p, item *it, bool t) {
+    // Grack requires a fire source AND a pipe.
+    if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
+        g->add_msg_if_player(p,_("You smoke some Grack Cocaine. Time seems to stop."));
+        int duration = 1000;
+        if (p->has_trait("LIGHTWEIGHT")) {
+            duration += 10;
+        }
+        p->hunger -= 20;
+        p->add_disease("grack", duration);
+    }
 }
 
-
-void iuse::meth(game *g, player *p, item *it, bool t)
-{
+void iuse::meth(game *g, player *p, item *it, bool t) {
     int duration = 10 * (40 - p->str_cur);
-    if (p->has_amount("apparatus", 1) &&
-        p->use_charges_if_avail("fire", 1))
-    {
-        g->add_msg_if_player(p,_("You smoke some crystals."));
-        duration *= 1.5;
+    if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
+        g->add_msg_if_player(p,_("You smoke your meth.  The world seems to sharpen."));
+        duration *= (p->has_trait("LIGHTWEIGHT") ? 1.8 : 1.5);
+    } else {
+        g->add_msg_if_player(p,_("You snort some crystal meth."));
     }
-    else
-    {
-        g->add_msg_if_player(p,_("You snort some crystals."));
+    if (!p->has_disease("meth")) {
+        duration += 600;
     }
-    if (!p->has_disease("meth")) {duration += 600;}
-    if (duration > 0)
-    {
+    if (duration > 0) {
         int hungerpen = (p->str_cur < 10 ? 20 : 30 - p->str_cur);
         p->hunger -= hungerpen;
         p->add_disease("meth", duration);
     }
 }
 
-void iuse::vitamins(game *g, player *p, item *it, bool t)
-{
+void iuse::vitamins(game *g, player *p, item *it, bool t) {
     g->add_msg_if_player(p,_("You take some vitamins."));
-    if (p->health >= 10)
-    {
+    if (p->health >= 10) {
         return;
-    }
-    else if (p->health >= 0)
-    {
+    } else if (p->health >= 0) {
         p->health = 10;
-    }
-    else
-    {
+    } else {
         p->health += 10;
     }
 }
 
-void iuse::vaccine(game *g, player *p, item *it, bool t)
-{
-    g->add_msg_if_player(p,_("You inject the vaccine, and feel much healthier."));
-    if (p->health >= 100)
-    {
+void iuse::vaccine(game *g, player *p, item *it, bool t) {
+    g->add_msg_if_player(p,
+        _("You inject the vaccine. \nIt feels just like stabbing yourself with a big needle."));
+    if (p->health >= 100) {
         return;
-    }
-    else if (p->health >= 0)
-    {
+    } else if (p->health >= 0) {
         p->health = 100;
-    }
-    else
-    {
+    } else {
         p->health += 100;
     }
 }
 
-void iuse::poison(game *g, player *p, item *it, bool t)
-{
- p->add_disease("poison", 600);
- p->add_disease("foodpoison", 1800);
+void iuse::poison(game *g, player *p, item *it, bool t) {
+    p->add_disease("poison", 600);
+    p->add_disease("foodpoison", 1800);
 }
 
-void iuse::hallu(game *g, player *p, item *it, bool t)
-{
- p->add_disease("hallu", 2400);
+void iuse::hallu(game *g, player *p, item *it, bool t) {
+    p->add_disease("hallu", 2400);
+    if (one_in(2)) {
+        g->add_msg_if_player(p,_("The world takes on a dreamlike quality."));
+    } else if (one_in(3)) {
+        g->add_msg_if_player(p,_("You have a sudden nostalgic feeling."));
+    } else if (one_in(5)) {
+        g->add_msg_if_player(p,_("Everything around you is starting to breathe."));
+    } else {
+        g->add_msg_if_player(p,_("Something feels very wrong."));
+    }
 }
 
-void iuse::thorazine(game *g, player *p, item *it, bool t)
-{
- p->fatigue += 15;
- p->rem_disease("hallu");
- p->rem_disease("visuals");
- p->rem_disease("high");
- if (!p->has_disease("dermatik"))
-  p->rem_disease("formication");
- g->add_msg_if_player(p,_("You feel somewhat sedated."));
+void iuse::thorazine(game *g, player *p, item *it, bool t) {
+    p->fatigue += 15;
+    p->rem_disease("hallu");
+    p->rem_disease("visuals");
+    p->rem_disease("high");
+    if (!p->has_disease("dermatik")) {
+        p->rem_disease("formication");
+    }
+    if (one_in(50)) {  // adverse reaction
+        g->add_msg_if_player(p,_("You feel absolutely exhausted."));
+        p->fatigue += 50;
+    } else {
+        g->add_msg_if_player(p,_("You feel a bit wobbly."));
+    }
 }
 
-void iuse::prozac(game *g, player *p, item *it, bool t)
-{
- if (!p->has_disease("took_prozac") && p->morale_level() < 0)
-  p->add_disease("took_prozac", 7200);
- else
-  p->stim += 3;
+void iuse::prozac(game *g, player *p, item *it, bool t) {
+    if (!p->has_disease("took_prozac") && p->morale_level() < 0) {
+        p->add_disease("took_prozac", 7200);
+    } else {
+        p->stim += 3;
+    }
+    if (one_in(150)) {  // adverse reaction
+        g->add_msg_if_player(p,_("You suddenly feel hollow inside."));
+    }
 }
 
-void iuse::sleep(game *g, player *p, item *it, bool t)
-{
- p->fatigue += 40;
- g->add_msg_if_player(p,_("You feel very sleepy..."));
+void iuse::sleep(game *g, player *p, item *it, bool t) {
+    p->fatigue += 40;
+    g->add_msg_if_player(p,_("You feel very sleepy..."));
 }
 
-void iuse::iodine(game *g, player *p, item *it, bool t)
-{
- p->add_disease("iodine", 1200);
- g->add_msg_if_player(p,_("You take an iodine tablet."));
+void iuse::iodine(game *g, player *p, item *it, bool t) {
+    p->add_disease("iodine", 1200);
+    g->add_msg_if_player(p,_("You take an iodine tablet."));
 }
 
-void iuse::flumed(game *g, player *p, item *it, bool t)
-{
- p->add_disease("took_flumed", 6000);
- g->add_msg_if_player(p,_("You take some %s"), it->tname().c_str());
+void iuse::flumed(game *g, player *p, item *it, bool t) {
+    p->add_disease("took_flumed", 6000);
+    g->add_msg_if_player(p,_("You take some %s"), it->tname().c_str());
 }
 
-void iuse::flusleep(game *g, player *p, item *it, bool t)
-{
- p->add_disease("took_flumed", 7200);
- p->fatigue += 30;
- g->add_msg_if_player(p,_("You feel very sleepy..."));
+void iuse::flusleep(game *g, player *p, item *it, bool t) {
+    p->add_disease("took_flumed", 7200);
+    p->fatigue += 30;
+    g->add_msg_if_player(p,_("You take some %s"), it->tname().c_str());
+    g->add_msg_if_player(p,_("You feel very sleepy..."));
 }
 
-void iuse::inhaler(game *g, player *p, item *it, bool t)
-{
- p->rem_disease("asthma");
- g->add_msg_if_player(p,_("You take a puff from your inhaler."));
+void iuse::inhaler(game *g, player *p, item *it, bool t) {
+    p->rem_disease("asthma");
+    g->add_msg_if_player(p,_("You take a puff from your inhaler."));
+    if (one_in(50)) {  // adverse reaction
+        g->add_msg_if_player(p,_("Your heart begins to race."));
+        p->fatigue -= 10;
+    }
 }
 
-void iuse::blech(game *g, player *p, item *it, bool t)
-{
-// TODO: Add more effects?
- g->add_msg_if_player(p,_("Blech, that burns your throat!"));
- p->vomit(g);
+void iuse::blech(game *g, player *p, item *it, bool t) {
+    // TODO: Add more effects?
+    g->add_msg_if_player(p,_("Blech, that burns your throat!"));
+    p->vomit(g);
 }
 
-void iuse::mutagen(game *g, player *p, item *it, bool t)
-{
-    if( it->has_flag("MUTAGEN_STRONG") )
-    {
+void iuse::mutagen(game *g, player *p, item *it, bool t) {
+    if( it->has_flag("MUTAGEN_STRONG") ) {
          p->mutate(g);
          if (!one_in(3))
              p->mutate(g);
@@ -1919,7 +1918,6 @@ void iuse::noise_emitter_on(game *g, player *p, item *it, bool t)
         it->active = false;
     }
 }
-
 
 void iuse::roadmap(game *g, player *p, item *it, bool t)
 {

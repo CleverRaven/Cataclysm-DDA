@@ -5382,7 +5382,7 @@
         "container" : "null",
         "to_hit" : 0,
         "comestible_type" : "FOOD",
-        "symbol" : "%",
+        "symbol" : "`",
         "quench" : 0,
         "heal" : 0,
         "addiction_potential" : 0,

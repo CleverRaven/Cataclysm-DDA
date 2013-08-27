@@ -287,6 +287,8 @@ void player::activate_bionic(int b, game *g)
     good.push_back(_("Methamphetamines"));
   if (has_disease("high"))
    good.push_back(_("Intoxicant: Other"));
+  if (has_disease("weed_high"))
+   good.push_back(_("THC Intoxication"));
   if (has_disease("hallu") || has_disease("visuals"))
    bad.push_back(_("Magic Mushroom"));
   if (has_disease("iodine"))
@@ -351,7 +353,7 @@ void player::activate_bionic(int b, game *g)
     power_level += bionics["bio_evap"]->power_cost;
   }
  } else if(bio.id == "bio_lighter"){
-  if(!g->choose_adjacent(_("Start a fire"), dirx, diry) || 
+  if(!g->choose_adjacent(_("Start a fire"), dirx, diry) ||
     (!g->m.add_field(g, dirx, diry, fd_fire, 1))){
        g->add_msg_if_player(this,_("You can't light a fire there."));
        power_level += bionics["bio_lighter"]->power_cost;
@@ -500,7 +502,7 @@ bool player::install_bionics(game *g, it_bionic* type)
  }
 
  std::string bio_name = type->name.substr(5);	// Strip off "CBM: "
- 
+
  int pl_skill = int_cur * 4 +
    skillLevel("electronics") * 4 +
    skillLevel("firstaid")    * 3 +
@@ -512,7 +514,7 @@ bool player::install_bionics(game *g, it_bionic* type)
  // we will base chance_of_success on a ratio of skill and difficulty
  // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
  float skill_difficulty_parameter = adjusted_skill / (4.0 * type->difficulty);
- 
+
  // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
  // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
  // curve flattens out just above 80%
@@ -565,7 +567,7 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
  float adjusted_skill = float (pl_skill) - std::min( float (40), float (pl_skill) - float (pl_skill) / float (10.0));
 
  // failure level is decided by how far off the character was from a successful install, and
- // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low 
+ // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
  // difficulties), only minor consequences occur.  At low skill levels, severe consequences
  // are more likely.
  int failure_level = sqrt(success * 4.0 * type->difficulty / float (adjusted_skill));
