@@ -5224,73 +5224,73 @@ int player::active_item_charges(itype_id id)
 
 void player::process_active_items(game *g)
 {
- if (weapon.is_artifact() && weapon.is_tool())
-  g->process_artifact(&weapon, this, true);
- else if (weapon.active) {
-  if (weapon.has_flag("CHARGE")) { // We're chargin it up!
-   if (weapon.charges == 8) {
-    bool maintain = false;
-    if (use_charges_if_avail("adv_UPS_on", 2) || use_charges_if_avail("UPS_on", 4)) {
-     maintain = true;
-    } else if (use_charges_if_avail("adv_UPS_off", 2) || use_charges_if_avail("UPS_off", 4)) {
-     maintain = true;
-    }
-    if (maintain) {
-     if (one_in(20)) {
-      g->add_msg(_("Your %s discharges!"), weapon.tname().c_str());
-      point target(posx + rng(-12, 12), posy + rng(-12, 12));
-      std::vector<point> traj = line_to(posx, posy, target.x, target.y, 0);
-      g->fire(*this, target.x, target.y, traj, false);
-     } else
-      g->add_msg(_("Your %s beeps alarmingly."), weapon.tname().c_str());
-    }
-   } else {
-    if (use_charges_if_avail("adv_UPS_on", (1 + weapon.charges)/2) || use_charges_if_avail("UPS_on", 1 + weapon.charges)) {
-     weapon.poison++;
-    } else if (use_charges_if_avail("adv_UPS_off", (1 + weapon.charges)/2) || use_charges_if_avail("UPS_off", 1 + weapon.charges)) {
-     weapon.poison++;
-    } else {
-     g->add_msg(_("Your %s spins down."), weapon.tname().c_str());
-     if (weapon.poison <= 0) {
-      weapon.charges--;
-      weapon.poison = weapon.charges - 1;
-     } else
-      weapon.poison--;
-     if (weapon.charges == 0)
-      weapon.active = false;
-    }
-    if (weapon.poison >= weapon.charges) {
-     weapon.charges++;
-     weapon.poison = 0;
-    }
-   }
-   return;
-  } // if (weapon.has_flag("CHARGE"))
-  if (!process_single_active_item(g, &weapon))
-  {
-   weapon = get_combat_style();
-  }
- }
+    if (weapon.is_artifact() && weapon.is_tool()) {
+        g->process_artifact(&weapon, this, true);
+    } else if (weapon.active) {
+        if (weapon.has_flag("CHARGE")) {
+            if (weapon.charges == 8) { // Maintaining charge takes less power.
+                if (
+                    use_charges_if_avail("adv_UPS_on", 2) ||
+                    use_charges_if_avail("UPS_on", 4)
+                    ) {
+                    weapon.poison++;
+                } else {
+                    weapon.poison--;
+                }
+                if ( (weapon.poison >= 3) && (one_in(20)) ) { // 3 turns leeway, then it may discharge.
+                g->add_msg(_("Your %s discharges!"), weapon.tname().c_str());
+                    point target(posx + rng(-12, 12), posy + rng(-12, 12));
+                    std::vector<point> traj = line_to(posx, posy, target.x, target.y, 0);
+                    g->fire(*this, target.x, target.y, traj, false);
+                } else {
+                    g->add_msg(_("Your %s beeps alarmingly."), weapon.tname().c_str());
+                }
+            } else { // We're chargin it up!
+                if (
+                    use_charges_if_avail("adv_UPS_on", ceil((1 + weapon.charges) / 2)) ||
+                    use_charges_if_avail("UPS_on", 1 + weapon.charges)
+                    ) {
+                    weapon.poison++;
+                } else {
+                    weapon.poison--;
+                }
 
-    std::vector<item*> inv_active = inv.active_items();
-    for (std::vector<item*>::iterator iter = inv_active.begin(); iter != inv_active.end(); ++iter)
-    {
+                if (weapon.poison >= weapon.charges) {
+                    weapon.charges++;
+                    weapon.poison = 0;
+                }
+            }
+            if (weapon.poison < 0) {
+                g->add_msg(_("Your %s spins down."), weapon.tname().c_str());
+                weapon.charges--;
+                weapon.poison = weapon.charges - 1;
+            }
+            if (weapon.charges <= 0) {
+                weapon.active = false;
+            }
+        }
+        else if (!process_single_active_item(g, &weapon)) {
+            weapon = get_combat_style();
+        }
+    }
+
+    std::vector<item *> inv_active = inv.active_items();
+    for (std::vector<item *>::iterator iter = inv_active.begin(); iter != inv_active.end(); ++iter) {
         item *tmp_it = *iter;
-        if (tmp_it->is_artifact() && tmp_it->is_tool())
-        {
+        if (tmp_it->is_artifact() && tmp_it->is_tool()) {
             g->process_artifact(tmp_it, this);
         }
-        if (!process_single_active_item(g, tmp_it))
-        {
+        if (!process_single_active_item(g, tmp_it)) {
             inv.remove_item(tmp_it);
         }
     }
 
-// worn items
-  for (int i = 0; i < worn.size(); i++) {
-    if (worn[i].is_artifact())
-    g->process_artifact(&(worn[i]), this);
-  }
+    // worn items
+    for (int i = 0; i < worn.size(); i++) {
+        if (worn[i].is_artifact()) {
+            g->process_artifact(&(worn[i]), this);
+        }
+    }
 }
 
 // returns false if the item needs to be removed

@@ -9634,15 +9634,16 @@ void game::plfire(bool burst)
   return;
  }
  if (u.weapon.has_flag("CHARGE") && !u.weapon.active) {
-  if (u.has_charges("UPS_on", 1) || u.has_charges("UPS_off", 1) ||
-      u.has_charges("adv_UPS_on", 1) || u.has_charges("adv_UPS_off", 1)) {
+  if (u.has_charges("UPS_on", 1)  ||
+      u.has_charges("adv_UPS_on", 1) ) {
    add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
    u.weapon.charges = 0;
+   u.weapon.poison = 0;
    u.weapon.curammo = dynamic_cast<it_ammo*>(itypes["charge_shot"]);
    u.weapon.active = true;
    return;
   } else {
-   add_msg(_("You need a charged UPS."));
+   add_msg(_("You need a powered UPS."));
    return;
   }
  }
