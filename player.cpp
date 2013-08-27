@@ -760,6 +760,9 @@ void player::update_bodytemp(game *g)
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
+        // Fetches the temperature change due to surrounding tiles
+        temp_conv[i] += g->get_radiante_energy(posx, posy);
+        /*
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
         for (int j = -6 ; j <= 6 ; j++)
@@ -787,6 +790,7 @@ void player::update_bodytemp(game *g)
                 }
             }
         }
+        */
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
         if (has_disease("onfire")) { temp_cur[i] += 250; }
@@ -808,15 +812,6 @@ void player::update_bodytemp(game *g)
         else if ((local_field.findField(fd_ice_mist) && local_field.findField(fd_ice_mist)->getFieldDensity() > 0))
         {
             temp_cur[i] -= 50;
-        }
-        // WEATHER
-        if (g->weather == WEATHER_SUNNY && g->is_in_sunlight(posx, posy))
-        {
-            temp_conv[i] += 1000;
-        }
-        if (g->weather == WEATHER_CLEAR && g->is_in_sunlight(posx, posy))
-        {
-            temp_conv[i] += 500;
         }
         // DISEASES
         if (has_disease("flu") && i == bp_head) { temp_conv[i] += 1500; }
@@ -854,6 +849,7 @@ void player::update_bodytemp(game *g)
             }
         }
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F. 500 is picked at random...
+/*
         if (has_bionic("bio_heatsink") && blister_count < 500)
         {
             blister_count = (has_trait("BARK") ? -100 : 0);
@@ -863,6 +859,7 @@ void player::update_bodytemp(game *g)
         {
             add_disease("blisters", 1, 0, -1, (body_part)i, -1);
         }
+*/        
         // BLOOD LOSS : Loss of blood results in loss of body heat
         int blood_loss = 0;
         if      (i == bp_legs)

@@ -44,7 +44,7 @@ void monster::receive_moves(game *g, map m)
     } else if (has_flag(MF_ELECTRONIC)) {
         monster_resistance = 3.0;
     } else if (has_flag(MF_INSECT_BLOOD)) {
-        monster_resistance = 0.3
+        monster_resistance = 0.3;
     }
     if (has_flag(MF_ICE)) {
         preferred_temperature = 0;

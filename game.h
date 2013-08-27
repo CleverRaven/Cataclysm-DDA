@@ -286,7 +286,8 @@ class game
   signed char temperature;              // The air temperature
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   int get_temperature(point location); // Returns outdoor or indoor temp of point location
-  weather_type weather;		// Weather pattern--SEE weather.h
+  int get_radiante_energy(int x, int y);    // Returns the temperature changes at a coord (x, y) due to radiante energy 
+  weather_type weather;	        // Weather pattern--SEE weather.h
 
   std::list<weather_segment> future_weather;
 

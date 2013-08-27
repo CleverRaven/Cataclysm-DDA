@@ -29,6 +29,7 @@
 #include "init.h"
 #include "help.h"
 #include "action.h"
+#include <stdlib.h>
 #include <map>
 #include <set>
 #include <algorithm>
@@ -1220,6 +1221,76 @@ int game::get_temperature(point location)
     tmp_temperature += m.temperature(u.posx, u.posy);
 
     return tmp_temperature;
+}
+
+int game::get_radiante_energy(int posx, int posy)
+{
+    // Need to find a way to calculate distance between monster and tile
+    // Implicitly, this always calculates the tile from the POV of the player
+    // because of the use of "u_see"
+    int radiante_temperature_change = 0;
+    // om temp, covnerted to DDA units
+    int om_temperature = 100*(get_temperature() - 32) * 5/9;
+
+    /**
+     *  Sun energy (distance is constant due to sheer magnitude of its distance
+     */
+
+    if (weather == WEATHER_SUNNY && is_in_sunlight(posx, posy))
+    {
+        radiante_temperature_change += 1000;
+    }
+    if (weather == WEATHER_CLEAR && is_in_sunlight(posx, posy))
+    {
+        radiante_temperature_change += 500;
+    }
+
+    int felt_radiante_energy = 0;
+    int tile_distance = 1;
+    int tile_energy = 0;
+    int temperature_difference = 0;
+    // Four intensities of fire, in DDA units (1000F, 1500F, 2000F, 2500F)
+    int fire_temperature_level[4] = {54000, 82000, 110000, 140000};
+    int fire_energy = 0;
+
+    for (int j = -6 ; j <= 6 ; j++)
+    {
+        for (int k = -6 ; k <= 6 ; k++)
+        {
+            // Skip things you can't see
+            if ( !u_see(posx + j, posy + k) ) {
+                continue;
+            }
+            field &tile_field = m.field_at(posx + j, posy + k);
+            tile_distance = std::max(1, std::max(j, k));
+
+            /**
+             *  Fire energy
+             *      Find the felt_radiante temperatue of the player
+             *      ISSUE : fire "size" should also incorporate number of tiles ...
+             *          perhaps only take the closest fire tile... or the closest 4(?) tiles
+             */
+
+            if ( tile_field.findField(fd_fire) ) {
+                switch (tile_field.findField(fd_fire)->getFieldDensity()) {
+                    case 1: 
+                        tile_energy = fire_temperature_level[1]; break;
+                    case 2:
+                        tile_energy = fire_temperature_level[2]; break;
+                    case 3:
+                        tile_energy = fire_temperature_level[3]; break;
+                    case 4:
+                        tile_energy = fire_temperature_level[4]; break;
+                }
+                // If we are too far from the fire, avoid temp diff being negative
+                temperature_difference = std::max(0, tile_energy / (tile_distance * tile_distance) - om_temperature);
+                fire_energy = std::max(fire_energy, (int)(temperature_difference*exp(0.004)));
+            }
+        }
+    }
+    felt_radiante_energy += fire_energy;
+    add_msg("Radiante Energy : %d", felt_radiante_energy);
+    return felt_radiante_energy;
 }
 
 int game::assign_mission_id()
