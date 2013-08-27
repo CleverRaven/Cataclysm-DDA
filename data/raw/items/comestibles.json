@@ -268,7 +268,7 @@
         "spoils_in" : 8,
         "use_action" : "NONE",
         "stim" : 0,
-        "container" : "bottle_glass",
+        "container" : "jug_plastic",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
         "symbol" : "~",
