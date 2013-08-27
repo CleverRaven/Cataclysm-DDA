@@ -368,6 +368,7 @@ void player::remove_child_flag(game *g, std::string flag)
 
 void mutation_effect(game *g, player &p, std::string mut)
 {
+    p.drench_cached = false;
     bool is_u = (&p == &(g->u));
     bool destroy = false;
     std::vector<body_part> bps;
@@ -489,6 +490,7 @@ void mutation_effect(game *g, player &p, std::string mut)
 
 void mutation_loss_effect(game *g, player &p, std::string mut)
 {
+    p.drench_cached = false;
     if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "HARDCORE") {
         p.recalc_hp();
 
