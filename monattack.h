@@ -12,7 +12,6 @@ struct SpeechBubble {
 
 class mattack {
 public:
-    mattack();
     void none		        (game *g, monster *z){};
     void antqueen	        (game *g, monster *z);
     void shriek		        (game *g, monster *z);
@@ -53,10 +52,8 @@ public:
     void bite		        (game *g, monster *z);
     void flesh_golem        (game *g, monster *z);
     void parrot             (game *g, monster *z);
-    static bool initialized;
-private:
-    static std::vector<SpeechBubble> parrotVector;
-    bool load_parrot_speech();
 };
+
+extern std::vector<SpeechBubble> parrotVector;
 
 #endif
