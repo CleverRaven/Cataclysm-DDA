@@ -783,7 +783,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
     for (int y = posy - 1; y <= posy + 1; y++) {
      int mondex = g->mon_at(x, y);
      if (mondex != -1) {
-      if (g->z[mondex].friendly == 0)
+      if (g->zombie(mondex).friendly == 0)
        enemy_count++;
       else
        enemy_count -= 2;
@@ -879,17 +879,17 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
    for (int y = posy - 1; y <= posy + 1; y++) {
     if (x != tarx || y != tary) { // Don't double-hit our target
      int mondex = g->mon_at(x, y);
-     if (mondex != -1 && hit_roll() >= rng(0, 5) + g->z[mondex].dodge_roll()) {
+     if (mondex != -1 && hit_roll() >= rng(0, 5) + g->zombie(mondex).dodge_roll()) {
          count_hit++;
-         int dam = roll_bash_damage(&(g->z[mondex]), false) +
-             roll_cut_damage (&(g->z[mondex]), false);
-         if (g->z[mondex].hurt(dam)) {
-             g->z[mondex].die(g);
+         int dam = roll_bash_damage(&(g->zombie(mondex)), false) +
+             roll_cut_damage (&(g->zombie(mondex)), false);
+         if (g->zombie(mondex).hurt(dam)) {
+             g->zombie(mondex).die(g);
          }
          if (weapon.has_technique(TEC_FLAMING, this))  { // Add to wide attacks
-             g->z[mondex].add_effect(ME_ONFIRE, rng(3, 4));
+             g->zombie(mondex).add_effect(ME_ONFIRE, rng(3, 4));
          }
-         std::string temp_target = rmp_format(_("<target>the %s"), g->z[mondex].name().c_str());
+         std::string temp_target = rmp_format(_("<target>the %s"), g->zombie(mondex).name().c_str());
          g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
      }
      int npcdex = g->npc_at(x, y);

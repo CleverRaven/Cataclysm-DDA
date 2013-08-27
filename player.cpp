@@ -3654,7 +3654,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
    valid.erase(valid.begin() + index);
    snake.spawn(sp.x, sp.y);
    snake.friendly = -1;
-   g->z.push_back(snake);
+   g->add_zombie(snake);
   }
  }
 
@@ -3910,7 +3910,7 @@ void player::knock_back_from(game *g, int x, int y)
 // First, see if we hit a monster
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
-  monster *z = &(g->z[mondex]);
+  monster *z = &(g->zombie(mondex));
   hit(g, bp_torso, 0, z->type->size, 0);
   add_disease("stunned", 1);
   if ((str_max - 6) / 4 > z->type->size) {
@@ -4409,7 +4409,7 @@ void player::suffer(game *g)
                         phantasm = monster(g->mtypes[mon_hallu_zom + rng(0, 3)]);
                         phantasm.spawn(posx + rng(-10, 10), posy + rng(-10, 10));
                         if (g->mon_at(phantasm.posx, phantasm.posy) == -1)
-                            g->z.push_back(phantasm);
+                            g->add_zombie(phantasm);
                     }
                     break;
                 case 8:

@@ -112,8 +112,8 @@ void mdeath::boomer(game *g, monster *z)
     g->m.add_field(g, z->posx + i, z->posy + j, fd_bile, 1);
    int mondex = g->mon_at(z->posx + i, z->posy +j);
    if (mondex != -1) {
-    g->z[mondex].stumble(g, false);
-    g->z[mondex].moves -= 250;
+    g->zombie(mondex).stumble(g, false);
+    g->zombie(mondex).moves -= 250;
    }
   }
  }
@@ -125,21 +125,21 @@ void mdeath::kill_vines(game *g, monster *z)
 {
  std::vector<int> vines;
  std::vector<int> hubs;
- for (int i = 0; i < g->z.size(); i++) {
-  if (g->z[i].type->id == mon_creeper_hub &&
-      (g->z[i].posx != z->posx || g->z[i].posy != z->posy))
+ for (int i = 0; i < g->num_zombies(); i++) {
+  if (g->zombie(i).type->id == mon_creeper_hub &&
+      (g->zombie(i).posx != z->posx || g->zombie(i).posy != z->posy))
    hubs.push_back(i);
-  if (g->z[i].type->id == mon_creeper_vine)
+  if (g->zombie(i).type->id == mon_creeper_vine)
    vines.push_back(i);
  }
 
  for (int i = 0; i < vines.size(); i++) {
-  monster *vine = &(g->z[ vines[i] ]);
+  monster *vine = &(g->zombie( vines[i] ) );
   int dist = rl_dist(vine->posx, vine->posy, z->posx, z->posy);
   bool closer_hub = false;
   for (int j = 0; j < hubs.size() && !closer_hub; j++) {
    if (rl_dist(vine->posx, vine->posy,
-               g->z[ hubs[j] ].posx, g->z[ hubs[j] ].posy) < dist)
+               g->zombie( hubs[j] ).posx, g->zombie( hubs[j] ).posy) < dist)
     closer_hub = true;
   }
   if (!closer_hub)
@@ -155,20 +155,20 @@ void mdeath::vine_cut(game *g, monster *z)
    if (x == z->posx && y == z->posy)
     y++; // Skip ourselves
    int mondex = g->mon_at(x, y);
-   if (mondex != -1 && g->z[mondex].type->id == mon_creeper_vine)
+   if (mondex != -1 && g->zombie(mondex).type->id == mon_creeper_vine)
     vines.push_back(mondex);
   }
  }
 
  for (int i = 0; i < vines.size(); i++) {
   bool found_neighbor = false;
-  monster *vine = &(g->z[ vines[i] ]);
+  monster *vine = &(g->zombie( vines[i] ));
   for (int x = vine->posx - 1; x <= vine->posx + 1 && !found_neighbor; x++) {
    for (int y = vine->posy - 1; y <= vine->posy + 1 && !found_neighbor; y++) {
     if (x != z->posx || y != z->posy) { // Not the dying vine
      int mondex = g->mon_at(x, y);
-     if (mondex != -1 && (g->z[mondex].type->id == mon_creeper_hub ||
-                          g->z[mondex].type->id == mon_creeper_vine  ))
+     if (mondex != -1 && (g->zombie(mondex).type->id == mon_creeper_hub ||
+                          g->zombie(mondex).type->id == mon_creeper_vine  ))
       found_neighbor = true;
     }
    }
@@ -198,14 +198,14 @@ void mdeath::fungus(game *g, monster *z)
     if (g->mon_at(sporex, sporey) >= 0) {	// Spores hit a monster
      if (g->u_see(sporex, sporey))
       g->add_msg(_("The %s is covered in tiny spores!"),
-                 g->z[g->mon_at(sporex, sporey)].name().c_str());
-     if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
+                 g->zombie(g->mon_at(sporex, sporey)).name().c_str());
+     if (!g->zombie(g->mon_at(sporex, sporey)).make_fungus(g))
       g->kill_mon(g->mon_at(sporex, sporey), (z->friendly != 0));
     } else if (g->u.posx == sporex && g->u.posy == sporey)
      g->u.infect("spores", bp_mouth, 4, 30, g);
     else {
      spore.spawn(sporex, sporey);
-     g->z.push_back(spore);
+     g->add_zombie(spore);
     }
    }
   }
@@ -216,7 +216,7 @@ void mdeath::fungusawake(game *g, monster *z)
 {
  monster newfung(g->mtypes[mon_fungaloid]);
  newfung.spawn(z->posx, z->posy);
- g->z.push_back(newfung);
+ g->add_zombie(newfung);
 }
 
 void mdeath::disintegrate(game *g, monster *z)
@@ -247,7 +247,7 @@ void mdeath::worm(game *g, monster *z)
  for (int worms = 0; worms < 2 && wormspots.size() > 0; worms++) {
   rn = rng(0, wormspots.size() - 1);
   worm.spawn(wormspots[rn].x, wormspots[rn].y);
-  g->z.push_back(worm);
+  g->add_zombie(worm);
   wormspots.erase(wormspots.begin() + rn);
  }
 }
@@ -308,7 +308,7 @@ void mdeath::blobsplit(game *g, monster *z)
  for (int s = 0; s < 2 && valid.size() > 0; s++) {
   rn = rng(0, valid.size() - 1);
   blob.spawn(valid[rn].x, valid[rn].y);
-  g->z.push_back(blob);
+  g->add_zombie(blob);
   valid.erase(valid.begin() + rn);
  }
 }
@@ -323,8 +323,8 @@ void mdeath::amigara(game *g, monster *z)
 {
  if (g->u.has_disease("amigara")) {
   int count = 0;
-  for (int i = 0; i < g->z.size(); i++) {
-   if (g->z[i].type->id == mon_amigara_horror)
+  for (int i = 0; i < g->num_zombies(); i++) {
+   if (g->zombie(i).type->id == mon_amigara_horror)
     count++;
   }
   if (count <= 1) { // We're the last!
@@ -341,7 +341,7 @@ void mdeath::thing(game *g, monster *z)
 {
  monster thing(g->mtypes[mon_thing]);
  thing.spawn(z->posx, z->posy);
- g->z.push_back(thing);
+ g->add_zombie(thing);
 }
 
 void mdeath::explode(game *g, monster *z)
@@ -381,7 +381,7 @@ void mdeath::ratking(game *g, monster *z)
     for (int rats = 0; rats < 7 && ratspots.size() > 0; rats++) {
         rn = rng(0, ratspots.size() - 1);
         rat.spawn(ratspots[rn].x, ratspots[rn].y);
-        g->z.push_back(rat);
+        g->add_zombie(rat);
         ratspots.erase(ratspots.begin() + rn);
  }
 }
@@ -395,8 +395,8 @@ void mdeath::smokeburst(game *g, monster *z)
       g->m.add_field(g, z->posx + i, z->posy + j, fd_smoke, 3);
       int mondex = g->mon_at(z->posx + i, z->posy +j);
       if (mondex != -1) {
-        g->z[mondex].stumble(g, false);
-        g->z[mondex].moves -= 250;
+        g->zombie(mondex).stumble(g, false);
+        g->zombie(mondex).moves -= 250;
       }
     }
   }
@@ -485,8 +485,8 @@ void mdeath::gameover(game *g, monster *z)
 
 void mdeath::kill_breathers(game *g, monster *z)
 {
- for (int i = 0; i < g->z.size(); i++) {
-  if (g->z[i].type->id == mon_breather_hub || g->z[i].type->id == mon_breather)
-   g->z[i].dead = true;
+ for (int i = 0; i < g->num_zombies(); i++) {
+  if (g->zombie(i).type->id == mon_breather_hub || g->zombie(i).type->id == mon_breather)
+   g->zombie(i).dead = true;
  }
 }

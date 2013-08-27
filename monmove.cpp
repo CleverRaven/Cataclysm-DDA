@@ -100,8 +100,8 @@ void monster::plan(game *g)
  int tc, stc;
  bool fleeing = false;
  if (friendly != 0) {	// Target monsters, not the player!
-  for (int i = 0; i < g->z.size(); i++) {
-   monster *tmp = &(g->z[i]);
+  for (int i = 0; i < g->num_zombies(); i++) {
+   monster *tmp = &(g->zombie(i));
    if (tmp->friendly == 0 && rl_dist(posx, posy, tmp->posx, tmp->posy) < dist &&
        g->m.sees(posx, posy, tmp->posx, tmp->posy, sightrange, tc)) {
     closest = i;
@@ -112,7 +112,7 @@ void monster::plan(game *g)
   if (has_effect(ME_DOCILE))
    closest = -1;
   if (closest >= 0)
-   set_dest(g->z[closest].posx, g->z[closest].posy, stc);
+   set_dest(g->zombie(closest).posx, g->zombie(closest).posy, stc);
   else if (friendly > 0 && one_in(3))	// Grow restless with no targets
    friendly--;
   else if (friendly < 0 && g->sees_u(posx, posy, tc)) {
@@ -158,8 +158,8 @@ void monster::plan(game *g)
  }
  if (!fleeing) {
   fleeing = attitude() == MATT_FLEE;
-  for (int i = 0; i < g->z.size(); i++) {
-   monster *mon = &(g->z[i]);
+  for (int i = 0; i < g->num_zombies(); i++) {
+   monster *mon = &(g->zombie(i));
    int mondist = rl_dist(posx, posy, mon->posx, mon->posy);
    if (mon->friendly != 0 && mondist < dist && can_see() &&
        g->m.sees(posx, posy, mon->posx, mon->posy, sightrange, tc)) {
@@ -179,7 +179,7 @@ void monster::plan(game *g)
   if (closest == -2)
    set_dest(g->u.posx, g->u.posy, stc);
   else if (closest <= -3)
-   set_dest(g->z[-3 - closest].posx, g->z[-3 - closest].posy, stc);
+   set_dest(g->zombie(-3 - closest).posx, g->zombie(-3 - closest).posy, stc);
   else if (closest >= 0)
    set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, stc);
  }
@@ -261,7 +261,7 @@ void monster::move(game *g)
  }
 
  if (plans.size() > 0 && !is_fleeing(g->u) &&
-     (mondex == -1 || g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)) &&
+     (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
      (can_move_to(g, plans[0].x, plans[0].y) ||
       (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
      (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
@@ -387,7 +387,7 @@ point monster::scent_move(game *g)
   for (int y = -1; y <= 1; y++) {
    smell = g->scent(posx + x, posy + y);
    int mon = g->mon_at(posx + x, posy + y);
-   if ((mon == -1 || g->z[mon].friendly != 0 || has_flag(MF_ATTACKMON)) &&
+   if ((mon == -1 || g->zombie(mon).friendly != 0 || has_flag(MF_ATTACKMON)) &&
        (can_move_to(g, posx + x, posy + y) ||
         (posx + x == g->u.posx && posx + y == g->u.posy) ||
         (g->m.has_flag(bashable, posx + x, posy + y) && has_flag(MF_BASHES)))) {
@@ -697,10 +697,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     }
     if (anger_adjust != 0 && morale_adjust != 0)
     {
-        for (int i = 0; i < g->z.size(); i++)
+        for (int i = 0; i < g->num_zombies(); i++)
         {
-            g->z[i].morale += morale_adjust;
-            g->z[i].anger += anger_adjust;
+            g->zombie(i).morale += morale_adjust;
+            g->zombie(i).anger += anger_adjust;
         }
     }
 }
@@ -779,7 +779,7 @@ int monster::attack_at(int x, int y) {
     if(mondex != -1) {
         // Currently, there are only pro-player and anti-player groups,
         // this makes it easy for us.
-        monster& mon = g->z[mondex];
+        monster& mon = g->zombie(mondex);
 
         // Don't attack yourself.
         if(&mon == this) {
@@ -970,7 +970,7 @@ void monster::knock_back_from(game *g, int x, int y)
 // First, see if we hit another monster
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
-  monster *z = &(g->z[mondex]);
+  monster *z = &(g->zombie(mondex));
   hurt(z->type->size);
   add_effect(ME_STUNNED, 1);
   if (type->size > 1 + z->type->size) {

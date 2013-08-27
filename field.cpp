@@ -766,7 +766,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                             mon_id type = mon_id(rng(mon_flying_polyp, mon_blank));
                             monster creature(g->mtypes[type]);
                             creature.spawn(x + rng(-3, 3), y + rng(-3, 3));
-                            g->z.push_back(creature);
+                            g->add_zombie(creature);
                         }
                         break;
 
@@ -807,7 +807,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                     }
 
                                     if (mondex != -1) {
-                                        monster *mon = &(g->z[mondex]);
+                                        monster *mon = &(g->zombie(mondex));
                                         mon->hurt(6 - mon->armor_bash());
                                         if (g->u_see(newp.x, newp.y))
                                             g->add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
@@ -1369,7 +1369,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                     if (mon_hit != -1) {
                         if (g->u_see(z)) {
                             g->add_msg(_("The %s teleports into a %s, killing them both!"),
-                                       z->name().c_str(), g->z[mon_hit].name().c_str());
+                                       z->name().c_str(), g->zombie(mon_hit).name().c_str());
                         }
                         g->explode_mon(mon_hit);
                     } else {
@@ -1447,8 +1447,8 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
 //    g->u.add_disease("crushed", 42, g);    //Using a disease allows for easy modification without messing with field code
  //   g->u.rem_disease("crushed");           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
    }
-   if (fdmon != -1 && fdmon < g->z.size()) {  //If there's a monster at (x,y)...
-    monster* monhit = &(g->z[fdmon]);
+   if (fdmon != -1 && fdmon < g->num_zombies()) {  //If there's a monster at (x,y)...
+    monster* monhit = &(g->zombie(fdmon));
     int dam = 10;                             //This is a simplistic damage implementation. It can be improved, for instance to account for armor
     if (monhit->hurt(dam))                    //Ideally an external disease-like system would handle this to make it easier to modify later
      g->kill_mon(fdmon, false);

@@ -547,7 +547,7 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
 
 void monster::hit_monster(game *g, int i)
 {
- monster* target = &(g->z[i]);
+ monster* target = &(g->zombie(i));
  moves -= 100;
 
  if (this == target) {
@@ -698,11 +698,11 @@ void monster::die(game *g)
  }
  if (anger_adjust != 0 && morale_adjust != 0) {
   int light = g->light_level();
-  for (int i = 0; i < g->z.size(); i++) {
+  for (int i = 0; i < g->num_zombies(); i++) {
    int t = 0;
-   if (g->m.sees(g->z[i].posx, g->z[i].posy, posx, posy, light, t)) {
-    g->z[i].morale += morale_adjust;
-    g->z[i].anger += anger_adjust;
+   if (g->m.sees(g->zombie(i).posx, g->zombie(i).posy, posx, posy, light, t)) {
+    g->zombie(i).morale += morale_adjust;
+    g->zombie(i).anger += anger_adjust;
    }
   }
  }

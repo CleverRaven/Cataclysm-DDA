@@ -375,7 +375,7 @@ void game::monster_wish()
  if (spawn.x == -1)
   return;
  tmp.spawn(spawn.x, spawn.y);
- z.push_back(tmp);
+ add_zombie(tmp);
 }
 
 void game::mutation_wish()

@@ -458,7 +458,7 @@ void trapfuncm::telepad(game *g, monster *z, int x, int y)
   if (mon_hit != -1) {
    if (g->u_see(z))
     g->add_msg(_("The %s teleports into a %s, killing them both!"),
-               z->name().c_str(), g->z[mon_hit].name().c_str());
+               z->name().c_str(), g->zombie(mon_hit).name().c_str());
    g->explode_mon(mon_hit);
   } else {
    z->posx = newposx;
@@ -853,7 +853,7 @@ void trapfunc::shadow(game *g, int x, int y)
   g->add_msg(_("A shadow forms nearby."));
   spawned.sp_timeout = rng(2, 10);
   spawned.spawn(monx, mony);
-  g->z.push_back(spawned);
+  g->add_zombie(spawned);
   g->m.remove_trap(x, y);
  }
 }
@@ -888,7 +888,7 @@ void trapfunc::snake(game *g, int x, int y)
   if (tries < 5) {
    g->add_msg(_("A shadowy snake forms nearby."));
    spawned.spawn(monx, mony);
-   g->z.push_back(spawned);
+   g->add_zombie(spawned);
    g->m.remove_trap(x, y);
    return;
   }

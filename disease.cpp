@@ -760,15 +760,16 @@ void dis_effect(game *g, player &p, disease &dis)
       sporex = p.posx + i;
       sporey = p.posy + j;
       if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
-       if (g->mon_at(sporex, sporey) >= 0) {	// Spores hit a monster
+       const int zid = g->mon_at(sporex, sporey);
+       if (zid >= 0) {	// Spores hit a monster
         if (g->u_see(sporex, sporey))
          g->add_msg(_("The %s is covered in tiny spores!"),
-                    g->z[g->mon_at(sporex, sporey)].name().c_str());
-        if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
-         g->kill_mon(g->mon_at(sporex, sporey));
+                    g->zombie(zid).name().c_str());
+        if (!g->zombie(zid).make_fungus(g))
+         g->kill_mon(zid);
        } else {
         spore.spawn(sporex, sporey);
-        g->z.push_back(spore);
+        g->add_zombie(spore);
        }
       }
      }
@@ -1142,7 +1143,7 @@ void dis_effect(game *g, player &p, disease &dis)
       grub.friendly = -1;
      else
       grub.friendly =  0;
-     g->z.push_back(grub);
+     g->add_zombie(grub);
     }
    }
   }
@@ -1224,7 +1225,7 @@ void dis_effect(game *g, player &p, disease &dis)
    if (one_in(50)) {	// Generate phantasm
     monster phantasm(g->mtypes[mon_hallu_zom + rng(0, 3)]);
     phantasm.spawn(p.posx + rng(-10, 10), p.posy + rng(-10, 10));
-    g->z.push_back(phantasm);
+    g->add_zombie(phantasm);
    }
   }
   break;
@@ -1324,7 +1325,7 @@ void dis_effect(game *g, player &p, disease &dis)
      if (g->m.move_cost(x, y) == 0)
       g->m.ter_set(x, y, t_rubble);
      beast.spawn(x, y);
-     g->z.push_back(beast);
+     g->add_zombie(beast);
      if (g->u_see(x, y)) {
       g->cancel_activity_query(_("A monster appears nearby!"));
       g->add_msg(_("A portal opens nearby, and a monster crawls through!"));
@@ -1383,7 +1384,7 @@ void dis_effect(game *g, player &p, disease &dis)
     if (g->m.move_cost(x, y) == 0)
      g->m.ter_set(x, y, t_rubble);
     beast.spawn(x, y);
-    g->z.push_back(beast);
+    g->add_zombie(beast);
     if (g->u_see(x, y)) {
      g->cancel_activity_query(_("A monster appears nearby!"));
      g->add_msg(_("A portal opens nearby, and a monster crawls through!"));

@@ -3838,7 +3838,7 @@ void map::spawn_monsters(game *g)
       tmp.spawnposx = fx;
       tmp.spawnposy = fy;
       tmp.spawn(fx, fy);
-      g->z.push_back(tmp);
+      g->add_zombie(tmp);
      }
     }
    }

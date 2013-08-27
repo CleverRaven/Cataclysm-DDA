@@ -281,7 +281,7 @@ void defense_game::init_map(game *g)
   generator.spawn(p.x, p.y);
  }
  generator.friendly = -1;
- g->z.push_back(generator);
+ g->add_zombie(generator);
 }
 
 void defense_game::init_to_style(defense_style new_style)
@@ -1281,7 +1281,7 @@ void defense_game::spawn_wave_monster(game *g, mtype *type)
 // We wanna kill!
  tmp.anger = 100;
  tmp.morale = 100;
- g->z.push_back(tmp);
+ g->add_zombie(tmp);
 }
 
 std::string defense_game::special_wave_message(std::string name)
