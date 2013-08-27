@@ -5,7 +5,6 @@
     "color": "green",
     "name":".45 caliber retool",
     "description":"Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to a .45 firearm.  The conversion results in reduced accuracy and increased recoil.",
-    "rarity": 3,
     "price": 480,
     "material": "steel",
     "weight": 226,
@@ -43,7 +42,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
-        "rarity" : 15,
         "price" : 480,
         "loudness_modifier" : -25
     },
@@ -67,7 +65,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : -2,
-        "rarity" : 12,
         "price" : 280,
         "loudness_modifier" : 0
     },
@@ -91,7 +88,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : 5,
-        "rarity" : 10,
         "price" : 400,
         "loudness_modifier" : 0
     },
@@ -115,7 +111,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : -6,
-        "rarity" : 6,
         "price" : 320,
         "loudness_modifier" : 2
     },
@@ -139,7 +134,6 @@
         "cutting" : 0,
         "burst_modifier" : -1,
         "recoil_modifier" : 0,
-        "rarity" : 5,
         "price" : 220,
         "loudness_modifier" : 0
     },
@@ -163,7 +157,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
-        "rarity" : 8,
         "price" : 560,
         "loudness_modifier" : 0
     },
@@ -187,7 +180,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : 2,
-        "rarity" : 4,
         "price" : 720,
         "loudness_modifier" : 0
     },
@@ -211,7 +203,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
-        "rarity" : 15,
         "price" : 200,
         "loudness_modifier" : 0
     },
@@ -235,7 +226,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
-        "rarity" : 15,
         "price" : 200,
         "loudness_modifier" : 0
     },
@@ -259,7 +249,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : -8,
-        "rarity" : 4,
         "price" : 680,
         "loudness_modifier" : 0
     },
@@ -283,7 +272,6 @@
         "cutting" : 0,
         "burst_modifier" : 6,
         "recoil_modifier" : 0,
-        "rarity" : 3,
         "price" : 700,
         "loudness_modifier" : 4
     },
@@ -308,7 +296,6 @@
         "damage_modifier" : 0,
         "acceptable_ammo" : ["22", "9mm", "38", "40", "57", "46"],
         "mod_targets" : ["pistol"],
-        "rarity" : 2,
         "bashing" : 2,
         "ammo_modifier" : "NULL"
     },
@@ -333,7 +320,6 @@
         "damage_modifier" : 0,
         "acceptable_ammo" : ["38", "40", "44", "45"],
         "mod_targets" : ["pistol", "smg"],
-        "rarity" : 3,
         "bashing" : 0,
         "ammo_modifier" : "9mm"
     },
@@ -358,7 +344,6 @@
         "damage_modifier" : 0,
         "acceptable_ammo" : ["9mm", "38", "40", "57", "46", "762", "223"],
         "mod_targets" : ["pistol", "smg", "rifle"],
-        "rarity" : 2,
         "bashing" : -2,
         "ammo_modifier" : "22"
     },
@@ -383,7 +368,6 @@
         "damage_modifier" : 0,
         "acceptable_ammo" : ["22", "9mm", "38"],
         "mod_targets" : ["pistol", "smg"],
-        "rarity" : 1,
         "bashing" : -3,
         "ammo_modifier" : "57"
     },
@@ -408,7 +392,6 @@
         "damage_modifier" : 0,
         "acceptable_ammo" : ["22", "9mm", "38"],
         "mod_targets" : ["pistol", "smg"],
-        "rarity" : 1,
         "bashing" : -3,
         "ammo_modifier" : "46"
     },
@@ -433,7 +416,6 @@
         "damage_modifier" : 0,
         "acceptable_ammo" : ["shot", "762", "223", "3006"],
         "mod_targets" : ["shotgun", "rifle"],
-        "rarity" : 2,
         "bashing" : 4,
         "ammo_modifier" : "308"
     },
@@ -458,7 +440,6 @@
         "damage_modifier" : 0,
         "acceptable_ammo" : ["shot", "762", "3006", "308"],
         "mod_targets" : ["shotgun", "rifle"],
-        "rarity" : 2,
         "bashing" : 4,
         "ammo_modifier" : "223"
     },
@@ -482,7 +463,6 @@
         "cutting" : 0,
         "burst_modifier" : 4,
         "recoil_modifier" : 4,
-        "rarity" : 1,
         "price" : 680,
         "loudness_modifier" : 4
     },
@@ -506,7 +486,6 @@
         "cutting" : 0,
         "burst_modifier" : -99,
         "recoil_modifier" : 0,
-        "rarity" : 1,
         "price" : 660,
         "loudness_modifier" : 3
     },
@@ -530,7 +509,6 @@
         "recoil_modifier" : 0,
         "damage_modifier" : 0,
         "mod_targets" : ["rifle"],
-        "rarity" : 2,
         "bashing" : 2,
         "flags" : ["MODE_AUX"],
         "ammo_modifier" : "40mm"
@@ -555,7 +533,6 @@
         "recoil_modifier" : 3,
         "damage_modifier" : 0,
         "mod_targets" : ["shotgun", "smg", "rifle"],
-        "rarity" : 6,
         "bashing" : 0,
         "flags" : ["STAB"],
         "ammo_modifier" : "NULL"
@@ -580,7 +557,6 @@
         "recoil_modifier" : 0,
         "damage_modifier" : 0,
         "mod_targets" : ["rifle"],
-        "rarity" : 2,
         "bashing" : 2,
         "flags" : ["MODE_AUX"],
         "ammo_modifier" : "shot"
@@ -605,7 +581,6 @@
         "recoil_modifier" : 0,
         "damage_modifier" : 0,
         "mod_targets" : ["shotgun", "rifle"],
-        "rarity" : 2,
         "bashing" : 2,
         "flags" : ["MODE_AUX", "STR_RELOAD"],
         "ammo_modifier" : "bolt"
@@ -630,7 +605,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
-        "rarity" : 15,
         "price" : 680,
         "loudness_modifier" : 0
     },
@@ -654,7 +628,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
-        "rarity" : 15,
         "price" : 680,
         "loudness_modifier" : 0
     },
@@ -678,7 +651,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
-        "rarity" : 17,
         "price" : 680,
         "loudness_modifier" : 0
     },
@@ -702,7 +674,6 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
-        "rarity" : 20,
         "price" : 680,
         "loudness_modifier" : 0
     },
@@ -726,8 +697,99 @@
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
-        "rarity" : 16,
         "price" : 680,
+        "loudness_modifier" : 0
+    },
+    {
+        "type" : "GUNMOD",
+        "id" : "barrel_ported",
+        "name" : "ported barrel",
+        "clip_size_modifier" : 0,
+        "dispersion_modifier" : 1,
+        "damage_modifier" : 0,
+        "ammo_modifier" : "NULL",
+        "description" : "A ported barrel redirects exhaust gases to compensate for muzzle climb, improves recoil but increases noise and reduces accuracy slightly.",
+        "weight" : 225,
+        "to_hit" : -3,
+        "color" : "light_gray",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "mod_targets" : ["smg", "rifle", "pistol", "shotgun"],
+        "volume" : 2,
+        "bashing" : 0,
+        "cutting" : 0,
+        "burst_modifier" : 0,
+        "recoil_modifier" : -4,
+        "price" : 720,
+        "loudness_modifier" : 6
+    },
+    {
+        "type" : "GUNMOD",
+        "id" : "pistol_grip",
+        "name" : "ergonomic grip",
+        "clip_size_modifier" : 0,
+        "dispersion_modifier" : -2,
+        "damage_modifier" : 0,
+        "ammo_modifier" : "NULL",
+        "description" : "A set of ergonomic replacement furniture for a pistol, improves recoil and accuracy. Aside from increased weight, there are no drawbacks.",
+        "weight" : 125,
+        "to_hit" : -3,
+        "color" : "dark_gray",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "mod_targets" : ["pistol"],
+        "volume" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "burst_modifier" : 0,
+        "recoil_modifier" : -2,
+        "price" : 380,
+        "loudness_modifier" : 0
+    },
+    {
+        "type" : "GUNMOD",
+        "id" : "adjustable_stock",
+        "name" : "adjustable stock",
+        "clip_size_modifier" : 0,
+        "dispersion_modifier" : -2,
+        "damage_modifier" : 0,
+        "ammo_modifier" : "NULL",
+        "description" : "An adjustable replacement stock, improves recoil and accuracy. Aside from increased weight, there are no drawbacks.",
+        "weight" : 350,
+        "to_hit" : -3,
+        "color" : "dark_gray",
+        "symbol" : ":",
+        "material" : ["plastic", "steel"],
+        "mod_targets" : ["smg", "rifle", "shotgun"],
+        "volume" : 2,
+        "bashing" : 0,
+        "cutting" : 0,
+        "burst_modifier" : 0,
+        "recoil_modifier" : -2,
+        "price" : 380,
+        "loudness_modifier" : 0
+    },
+    {
+        "type" : "GUNMOD",
+        "id" : "pistol_stock",
+        "name" : "pistol stock",
+        "clip_size_modifier" : 0,
+        "dispersion_modifier" : -1,
+        "damage_modifier" : 0,
+        "ammo_modifier" : "NULL",
+        "description" : "An add on stock for handguns, improves recoil and accuracy. Aside from increased weight, there are no drawbacks.",
+        "weight" : 350,
+        "to_hit" : -3,
+        "color" : "dark_gray",
+        "symbol" : ":",
+        "material" : ["plastic", "steel"],
+        "mod_targets" : ["pistol"],
+        "volume" : 2,
+        "bashing" : 0,
+        "cutting" : 0,
+        "burst_modifier" : 0,
+        "recoil_modifier" : -5,
+        "price" : 380,
         "loudness_modifier" : 0
     }
 

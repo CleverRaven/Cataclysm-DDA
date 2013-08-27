@@ -45,8 +45,8 @@ public:
 
 // newcharacter.cpp
  bool create(game *g, character_type type, std::string tempname = "");
- int  random_good_trait();
- int  random_bad_trait ();
+ std::string random_good_trait();
+ std::string random_bad_trait();
  void normalize(game *g);	// Starting set up of HP and inventory
 // </newcharacter.cpp>
 
@@ -74,13 +74,16 @@ public:
  int  run_cost(int base_cost, bool diag = false); // Adjust base_cost
  int  swim_speed();	// Our speed when swimming
 
- bool has_trait(int flag) const;
- bool has_base_trait(int flag) const;
- void toggle_trait(int flag);
- void toggle_mutation(int flag);
- mutation_category get_highest_category();
- int get_category_level(mutation_category cat);
- std::string get_category_dream(mutation_category cat, int strength);
+ bool has_trait(std::string flag);
+ bool has_base_trait(std::string flag);
+ bool has_conflicting_trait(std::string flag);
+ void toggle_trait(std::string flag);
+ void toggle_mutation(std::string flag);
+ void set_cat_level_rec(std::string sMut);
+ void set_highest_cat_level();
+ std::string get_highest_category();
+ int get_category_level(std::string cat);
+ std::string get_category_dream(std::string cat, int strength);
 
  bool in_climate_control(game *g);
 
@@ -94,7 +97,7 @@ public:
 
  bool mutation_ok(game *g, std::string mutation, bool force_good, bool force_bad);
  void mutate(game *g);
- void mutate_category(game *g, mutation_category);
+ void mutate_category(game *g, std::string);
  void mutate_towards(game *g, std::string mut);
  void remove_mutation(game *g, std::string mut);
  bool has_child_flag(game *g, std::string mut);
@@ -203,13 +206,14 @@ public:
  bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
- void siphon(game *g, vehicle *veh, ammotype desired_liquid);
+ bool siphon(game *g, vehicle *veh, ammotype desired_liquid);
  void cauterize(game *g);
  void suffer(game *g);
  void mend(game *g);
  void vomit(game *g);
 
- void drench(game *g, int saturation); // drenches the player in water; saturation is percent
+ void drench(game *g, int saturation, int flags); // drenches the player in water; saturation is percent
+ void drench_mut_check(int &ignored, int &neutral, int &good, unsigned long bpart); // Checks mutation drench protection
 
  char lookup_item(char let);
  bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
@@ -225,6 +229,7 @@ public:
  void read(game *g, char let);	// Read a book
  void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN
+ std::string is_snuggling(game *g);    // Check to see if the player is using floor items to keep warm. If so, return one such item
  float fine_detail_vision_mod(game *g); // Used for things like reading and sewing, checks light level
 
  // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
@@ -290,6 +295,11 @@ public:
  bool has_artifact_with(art_effect_passive effect);
  bool worn_with_flag( std::string flag ) const;
 
+ bool covered_with_flag( const std::string flag, int parts ) const;
+ bool covered_with_flag_exclusively( const std::string flag, int parts = -1 ) const;
+ bool is_water_friendly( int flags = -1 ) const;
+ bool is_waterproof( int flags ) const;
+
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
  std::list<item> use_amount(itype_id it, int quantity, bool use_container = false);
@@ -316,11 +326,18 @@ public:
  bool studied_all_recipes(it_book *book);
  bool try_study_recipe(game *g, it_book *book);
 
+// Library functions
+ double logistic(double t);
+ double logistic_range(int min, int max, int pos);
+ void calculate_portions(int &x, int &y, int &z, int maximum);
+
 // ---------------VALUES-----------------
  int posx, posy;
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  bool controlling_vehicle;  // Is currently in control of a vehicle
+ // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
+ point grab_point;
  player_activity activity;
  player_activity backlog;
 // _missions vectors are of mission IDs
@@ -333,9 +350,11 @@ public:
  std::string name;
  bool male;
  profession* prof;
- std::map<std:string, bool> my_traits;
- std::map<std:string, bool> my_mutations;
- int mutation_category_level[NUM_MUTATION_CATEGORIES];
+ std::map<std::string, bool> my_traits;
+ std::map<std::string, bool> my_mutations;
+
+ std::map<std::string, int> mutation_category_level;
+
  int next_climate_control_check;
  bool last_climate_control_ret;
  std::vector<bionic> my_bionics;
@@ -359,6 +378,33 @@ public:
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
  bool nv_cached;
+
+// Drench cache values
+ bool drench_cached;
+ int eyes_ignored;
+ int eyes_neutral;
+ int eyes_good;
+ int mouth_ignored;
+ int mouth_neutral;
+ int mouth_good;
+ int head_ignored;
+ int head_neutral;
+ int head_good;
+ int legs_ignored;
+ int legs_neutral;
+ int legs_good;
+ int feet_ignored;
+ int feet_neutral;
+ int feet_good;
+ int arms_ignored;
+ int arms_neutral;
+ int arms_good;
+ int hands_ignored;
+ int hands_neutral;
+ int hands_good;
+ int torso_ignored;
+ int torso_neutral;
+ int torso_good;
 
  std::vector<morale_point> morale;
 
@@ -389,6 +435,14 @@ public:
  std::vector <addiction> addictions;
 
  recipe* lastrecipe;
+
+ //Dumps all memorial events into a single newline-delimited string
+ std::string dump_memorial();
+ //Log an event, to be later written to the memorial file
+ void add_memorial_log(const char* message, ...);
+ //Notable events, to be printed in memorial
+ std::vector <std::string> memorial_log;
+
  int getID ();
 protected:
     void setID (int i);

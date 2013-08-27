@@ -113,6 +113,7 @@ class game
   void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
   void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
+  std::vector<game_message> recent_messages(const int count); //Retrieves the last X messages
   std::string press_x(action_id act);	// (Press X (or Y)|Try) to Z
   std::string press_x(action_id act, std::string key_bound,
                                      std::string key_unbound);
@@ -132,6 +133,8 @@ class game
   void draw_footsteps();
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
   void explosion(int x, int y, int power, int shrapnel, bool fire);
+// Draws an explosion with set radius and color at the given location
+  void draw_explosion(int x, int y, int radius, nc_color col);
 // Flashback at (x, y)
   void flashbang(int x, int y, bool player_immune = false);
 // Move the player vertically, if (force) then they fell
@@ -141,13 +144,14 @@ class game
   void resonance_cascade(int x, int y);
   void scrambler_blast(int x, int y);
   void emp_blast(int x, int y);
-  int  npc_at(int x, int y);	// Index of the npc at (x, y); -1 for none
-  int  npc_by_id(int id);	// Index of the npc at (x, y); -1 for none
+  int  npc_at(const int x, const int y) const;	// Index of the npc at (x, y); -1 for none
+  int  npc_by_id(const int id) const;	// Index of the npc at (x, y); -1 for none
  // void build_monmap();		// Caches data for mon_at()
-  int  mon_at(int x, int y);	// Index of the monster at (x, y); -1 for none
-  bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
+  int  mon_at(const int x, const int y) const;	// Index of the monster at (x, y); -1 for none
+  bool is_empty(const int x, const int y);	// True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
   bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
+  bool is_in_ice_lab(point location);
 // Kill that monster; fixes any pointers etc
   void kill_mon(int index, bool player_did_it = false);
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
@@ -259,12 +263,13 @@ class game
 
   std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
-  std:map<std:string, mutation_branch> mutation_data; // Mutation data
+  std::map<std::string, mutation_branch> mutation_data; // Mutation data
   std::map<char, action_id> keymap;
   std::map<char, action_id> default_keymap;
 
   calendar turn;
   signed char temperature;              // The air temperature
+  int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;			// Weather pattern--SEE weather.h
 
   std::list<weather_segment> future_weather;
@@ -297,7 +302,11 @@ class game
   WINDOW *w_status2;
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
- bool handle_liquid(item &liquid, bool from_ground, bool infinite);
+ bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
+ 
+ //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
+ //otherwise returns sentinel -1, signifies transaction fail.
+ int move_liquid(item &liquid);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
 
@@ -338,7 +347,8 @@ void load_artifacts(); // Load artifact data
   void save_artifacts();
 	 void save_maps();
   std::string save_weather() const;
-
+  void save_uistate();
+  void load_uistate();
 // Data Initialization
   void init_npctalk();
   void init_materials();
@@ -346,7 +356,6 @@ void load_artifacts(); // Load artifact data
   void init_weather();
   void init_overmap();
   void init_artifacts();
-  void init_traits();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
@@ -360,11 +369,14 @@ void load_artifacts(); // Load artifact data
   void init_recipes() throw (std::string);      // Initializes crafting recipes
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
-  void init_mutations();    // Initializes mutation "tech tree"
+  void init_traits_mutations();    // Initializes mutation "tech tree"
+  void init_mutation_parts(); // Initializes mutation body part data
+  void init_vehicle_parts();       // Initializes vehicle part types
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
-  void init_dreams();		// Initializes dreams
+  void init_dreams();       // Initializes dreams
+  void init_parrot_speech() throw (std::string);  // Initializes Mi-Go parrot speech
 
   void load_keyboard_settings(); // Load keybindings from disk
 
@@ -421,6 +433,8 @@ void load_artifacts(); // Load artifact data
   // open vehicle interaction screen
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
+  // Establish a grab on something.
+  void grab();
 // Pick where to put liquid; false if it's left where it was
 
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'

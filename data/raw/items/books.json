@@ -17,7 +17,6 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "rarity" : 20,
         "price" : 30,
         "required_level" : 0
     },
@@ -39,7 +38,6 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "speech",
-        "rarity" : 40,
         "price" : 40,
         "required_level" : 0
     },
@@ -61,7 +59,6 @@
         "time" : 10,
         "fun" : 2,
         "skill" : "none",
-        "rarity" : 35,
         "price" : 40,
         "required_level" : 0
     },
@@ -83,7 +80,6 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "driving",
-        "rarity" : 40,
         "price" : 45,
         "required_level" : 0
     },
@@ -105,7 +101,6 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "cooking",
-        "rarity" : 30,
         "price" : 45,
         "required_level" : 0
     },
@@ -127,7 +122,6 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "carpentry",
-        "rarity" : 30,
         "price" : 45,
         "required_level" : 0
     },
@@ -149,7 +143,6 @@
         "time" : 7,
         "fun" : 1,
         "skill" : "gun",
-        "rarity" : 20,
         "price" : 48,
         "required_level" : 0
     },
@@ -171,7 +164,6 @@
         "time" : 7,
         "fun" : 1,
         "skill" : "archery",
-        "rarity" : 20,
         "price" : 48,
         "required_level" : 0
     },
@@ -193,7 +185,6 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "none",
-        "rarity" : 20,
         "price" : 30,
         "required_level" : 0
     },
@@ -215,7 +206,6 @@
         "time" : 7,
         "fun" : 2,
         "skill" : "none",
-        "rarity" : 20,
         "price" : 30,
         "required_level" : 0
     },
@@ -237,7 +227,6 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "firstaid",
-        "rarity" : 15,
         "price" : 48,
         "required_level" : 0
     },
@@ -259,7 +248,6 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "dodge",
-        "rarity" : 20,
         "price" : 48,
         "required_level" : 0
     },
@@ -281,7 +269,6 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "throw",
-        "rarity" : 20,
         "price" : 48,
         "required_level" : 0
     },
@@ -303,7 +290,6 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "swimming",
-        "rarity" : 20,
         "price" : 48,
         "required_level" : 0
     },
@@ -325,7 +311,6 @@
         "time" : 15,
         "fun" : 2,
         "skill" : "none",
-        "rarity" : 30,
         "price" : 55,
         "required_level" : 0
     },
@@ -347,7 +332,6 @@
         "time" : 18,
         "fun" : 3,
         "skill" : "none",
-        "rarity" : 28,
         "price" : 55,
         "required_level" : 0
     },
@@ -369,7 +353,6 @@
         "time" : 20,
         "fun" : 3,
         "skill" : "none",
-        "rarity" : 20,
         "price" : 55,
         "required_level" : 0
     },
@@ -391,7 +374,6 @@
         "time" : 25,
         "fun" : 4,
         "skill" : "none",
-        "rarity" : 40,
         "price" : 55,
         "required_level" : 0
     },
@@ -413,7 +395,6 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "rarity" : 20,
         "price" : 55,
         "required_level" : 0
     },
@@ -435,7 +416,6 @@
         "time" : 18,
         "fun" : 4,
         "skill" : "none",
-        "rarity" : 25,
         "price" : 55,
         "required_level" : 0
     },
@@ -457,7 +437,6 @@
         "time" : 18,
         "fun" : 1,
         "skill" : "none",
-        "rarity" : 18,
         "price" : 55,
         "required_level" : 0
     },
@@ -479,7 +458,6 @@
         "time" : 18,
         "fun" : 2,
         "skill" : "none",
-        "rarity" : 18,
         "price" : 55,
         "required_level" : 0
     },
@@ -501,7 +479,6 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "unarmed",
-        "rarity" : 30,
         "price" : 180,
         "required_level" : 0
     },
@@ -523,7 +500,6 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "cutting",
-        "rarity" : 12,
         "price" : 200,
         "required_level" : 1
     },
@@ -545,7 +521,6 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "mechanics",
-        "rarity" : 35,
         "price" : 190,
         "required_level" : 0
     },
@@ -567,7 +542,6 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "survival",
-        "rarity" : 20,
         "price" : 200,
         "required_level" : 0
     },
@@ -589,7 +563,6 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "speech",
-        "rarity" : 50,
         "price" : 160,
         "required_level" : 0
     },
@@ -611,7 +584,6 @@
         "time" : 25,
         "fun" : -1,
         "skill" : "barter",
-        "rarity" : 40,
         "price" : 180,
         "required_level" : 0
     },
@@ -633,7 +605,6 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "firstaid",
-        "rarity" : 40,
         "price" : 200,
         "required_level" : 0
     },
@@ -655,7 +626,6 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "computer",
-        "rarity" : 20,
         "price" : 170,
         "required_level" : 0
     },
@@ -677,7 +647,6 @@
         "time" : 10,
         "fun" : 0,
         "skill" : "cooking",
-        "rarity" : 35,
         "price" : 160,
         "required_level" : 0
     },
@@ -699,7 +668,6 @@
         "time" : 10,
         "fun" : -5,
         "skill" : "cooking",
-        "rarity" : 1,
         "price" : 400,
         "required_level" : 2
     },
@@ -721,7 +689,6 @@
         "time" : 10,
         "fun" : 0,
         "skill" : "cooking",
-        "rarity" : 25,
         "price" : 200,
         "required_level" : 3
     },
@@ -743,7 +710,6 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "electronics",
-        "rarity" : 20,
         "price" : 200,
         "required_level" : 0
     },
@@ -765,9 +731,50 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "tailor",
-        "rarity" : 15,
         "price" : 190,
         "required_level" : 0
+    },
+	{
+        "type" : "BOOK",
+        "id" : "mag_tailor",
+        "name" : "Sew Awesome Monthly",
+        "max_level" : 1,
+        "description" : "A well presented monthly magazine all about knitting, crocheting, and needlepoint. Filled with ideas and project patterns.",
+        "weight" : 75,
+        "to_hit" : 1,
+        "color" : "pink",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 8,
+        "fun" : 2,
+        "skill" : "tailor",
+        "price" : 40,
+        "required_level" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "textbook_tailor",
+        "name" : "Sewing Techniques for Designers",
+        "max_level" : 6,
+        "description" : "A massive, hardbound book full of a wealth of information for the professional clothing designer.",
+        "weight" : 2600,
+        "to_hit" : 1,
+        "color" : "green",
+        "intelligence" : 8,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 8,
+        "bashing" : 4,
+        "cutting" : 0,
+        "time" : 30,
+        "fun" : 0,
+        "skill" : "tailor",
+        "price" : 600,
+        "required_level" : 3
     },
     {
         "type" : "BOOK",
@@ -787,7 +794,6 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "traps",
-        "rarity" : 12,
         "price" : 240,
         "required_level" : 0
     },
@@ -809,7 +815,6 @@
         "time" : 16,
         "fun" : 0,
         "skill" : "carpentry",
-        "rarity" : 10,
         "price" : 220,
         "required_level" : 0
     },
@@ -831,7 +836,6 @@
         "time" : 35,
         "fun" : -2,
         "skill" : "computer",
-        "rarity" : 8,
         "price" : 500,
         "required_level" : 2
     },
@@ -853,7 +857,6 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "electronics",
-        "rarity" : 6,
         "price" : 520,
         "required_level" : 2
     },
@@ -875,7 +878,6 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "barter",
-        "rarity" : 12,
         "price" : 480,
         "required_level" : 3
     },
@@ -897,7 +899,6 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "mechanics",
-        "rarity" : 12,
         "price" : 495,
         "required_level" : 3
     },
@@ -919,7 +920,6 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "cooking",
-        "rarity" : 11,
         "price" : 495,
         "required_level" : 3
     },
@@ -941,7 +941,6 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "carpentry",
-        "rarity" : 6,
         "price" : 550,
         "required_level" : 3
     },
@@ -963,7 +962,6 @@
         "time" : 50,
         "fun" : -1,
         "skill" : "computer",
-        "rarity" : 3,
         "price" : 780,
         "required_level" : 4
     },
@@ -985,7 +983,6 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "electronics",
-        "rarity" : 1,
         "price" : 920,
         "required_level" : 5
     },
@@ -1007,7 +1004,6 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "none",
-        "rarity" : 20,
         "price" : 5,
         "required_level" : 0
     },
@@ -1029,7 +1025,6 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "none",
-        "rarity" : 20,
         "price" : 5,
         "required_level" : 0
     },
@@ -1051,7 +1046,6 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "none",
-        "rarity" : 20,
         "price" : 100,
         "required_level" : 0
     },
@@ -1073,7 +1067,6 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "none",
-        "rarity" : 0,
         "price" : 500,
         "required_level" : 0
     },
@@ -1095,7 +1088,6 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "none",
-        "rarity" : 0,
         "price" : 500,
         "required_level" : 0
     },
@@ -1117,8 +1109,154 @@
         "time" : 30,
         "fun" : 2,
         "skill" : "none",
-        "rarity" : 0,
         "price" : 900,
         "required_level" : 0
+    },
+	{
+        "type" : "BOOK",
+        "id" : "mag_fabrication",
+        "name" : "Crafty Crafter's Quarterly",
+        "max_level" : 1,
+        "description" : "A fun quarterly magazine all about macaroni art and things you can make by supergluing found objects together.",
+        "weight" : 60,
+        "to_hit" : 1,
+        "color" : "pink",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 8,
+        "fun" : 2,
+        "skill" : "fabrication",
+        "price" : 45,
+        "required_level" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "manual_fabrication",
+        "name" : "101 Crafts for Beginners",
+        "max_level" : 3,
+        "description" : "A large, paperback book detailing a hundred and one beginner's projects in fabrication.",
+        "weight" : 510,
+        "to_hit" : 0,
+        "color" : "yellow",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 3,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 16,
+        "fun" : 1,
+        "skill" : "fabrication",
+        "price" : 220,
+        "required_level" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "textbook_fabrication",
+        "name" : "DIY Compendium",
+        "max_level" : 6,
+        "description" : "A thick, hardbound book detailing countless projects for inventions that claim to improve all aspects of life.",
+        "weight" : 2100,
+        "to_hit" : 1,
+        "color" : "green",
+        "intelligence" : 8,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 7,
+        "bashing" : 4,
+        "cutting" : 0,
+        "time" : 30,
+        "fun" : 0,
+        "skill" : "fabrication",
+        "price" : 550,
+        "required_level" : 3
+    },
+    {
+        "type" : "BOOK",
+        "id" : "textbook_weapwest",
+        "name" : "The Historic Weaponsmith",
+        "max_level" : 8,
+        "description" : "This in-depth and technical text details various forms of ancient European weaponsmithing, and is well illustrated with step by step photo instructions.",
+        "weight" : 654,
+        "to_hit" : 0,
+        "color" : "yellow",
+        "intelligence" : 8,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 5,
+        "bashing" : -2,
+        "cutting" : 0,
+        "time" : 10,
+        "fun" : -1,
+        "skill" : "fabrication",
+        "price" : 300,
+        "required_level" : 3
+    },
+    {
+        "type" : "BOOK",
+        "id" : "textbook_weapeast",
+        "name" : "The Swords of the Samurai",
+        "max_level" : 8,
+        "description" : "This in-depth and technical text details various forms of ancient Japanese swordsmithing, and is well illustrated with step by step photo instructions.",
+        "weight" : 654,
+        "to_hit" : 0,
+        "color" : "cyan",
+        "intelligence" : 8,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 5,
+        "bashing" : -2,
+        "cutting" : 0,
+        "time" : 10,
+        "fun" : -1,
+        "skill" : "fabrication",
+        "price" : 300,
+        "required_level" : 3
+    },
+    {
+        "type" : "BOOK",
+        "id" : "textbook_armwest",
+        "name" : "Studies in Historic Armorsmithing",
+        "max_level" : 8,
+        "description" : "This in-depth and technical text details various forms of ancient European armor crafting, and is well illustrated with lots of photos.",
+        "weight" : 654,
+        "to_hit" : 0,
+        "color" : "blue",
+        "intelligence" : 8,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 5,
+        "bashing" : -2,
+        "cutting" : 0,
+        "time" : 10,
+        "fun" : -1,
+        "skill" : "fabrication",
+        "price" : 300,
+        "required_level" : 3
+    },
+    {
+        "type" : "BOOK",
+        "id" : "textbook_armeast",
+        "name" : "The Art of Japenese Armormaking",
+        "max_level" : 8,
+        "description" : "This in-depth and technical text details various forms of ancient Japanese armor crafting, and is well illustrated with lots of photos.",
+        "weight" : 654,
+        "to_hit" : 0,
+        "color" : "light_blue",
+        "intelligence" : 8,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 5,
+        "bashing" : -2,
+        "cutting" : 0,
+        "time" : 10,
+        "fun" : -1,
+        "skill" : "fabrication",
+        "price" : 300,
+        "required_level" : 3
     }
 ]

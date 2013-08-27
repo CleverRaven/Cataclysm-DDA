@@ -20,12 +20,12 @@ itype_id ESCAPE_ITEMS[NUM_ESCAPE_ITEMS] = {
 
 // A list of alternate attack items (e.g. grenades), from least to most valuable
 #ifndef NUM_ALT_ATTACK_ITEMS
-#define NUM_ALT_ATTACK_ITEMS 16
+#define NUM_ALT_ATTACK_ITEMS 18
 itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] = {
  "knife_combat", "spear_wood", "molotov", "pipebomb", "grenade",
- "gasbomb", "bot_manhack", "tazer", "dynamite", "mininuke",
+ "gasbomb", "bot_manhack", "tazer", "dynamite", "granade", "mininuke",
  "molotov_lit", "pipebomb_act", "grenade_act", "gasbomb_act",
- "dynamite_act", "mininuke_act"
+ "dynamite_act", "granade_act", "mininuke_act"
 };
 #endif
 
@@ -521,6 +521,8 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
       return npc_pause; // wait for clear shot
     else
      return npc_avoid_friendly_fire;
+   else if (rl_dist(posx,posy,tarx,tary) > weapon.range())
+       return npc_melee; // If out of range, move closer to the target
    else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
             gun->burst > 1 &&
             ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) || emergency(danger * 2)))
@@ -1518,8 +1520,8 @@ void npc::alt_attack(game *g, int target)
    move_to(g, tarx, tary);
  }
 
- char invlet;
- item *used;
+ char invlet = 0;
+ item *used = NULL;
  if (weapon.type->id == which) {
   used = &weapon;
   invlet = 0;

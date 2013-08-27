@@ -54,6 +54,55 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
  g->add_msg(_("Out of order."));
 }
 
+void iexamine::toilet(game *g, player *p, map *m, int examx, int examy) {
+    std::vector<item>& items = m->i_at(examx, examy);
+    int waterIndex = -1;
+    for (int i = 0; i < items.size(); i++) {
+        if (items[i].typeId() == "water") {
+            waterIndex = i;
+            break;
+        }
+    }
+
+    if (waterIndex < 0) {
+        g->add_msg(_("This toilet is empty."));
+    } else {
+        bool drained = false;
+
+        item& water = items[waterIndex];
+        // Use a different poison value each time water is drawn from the toilet.
+        water.poison = one_in(3) ? 0 : rng(1, 3);
+
+        // First try handling/bottling, then try drinking.
+        if (g->handle_liquid(water, true, false))
+        {
+            p->moves -= 100;
+            drained = true;
+        }
+        else if (query_yn(_("Drink from your hands?")))
+        {
+            // Create a dose of water no greater than the amount of water remaining.
+            item water_temp(item_controller->find_template("water"), 0);
+            water_temp.poison = water.poison;
+            water_temp.charges = std::min(water_temp.charges, water.charges);
+
+            p->inv.push_back(water_temp);
+            water_temp = p->inv.item_by_type(water_temp.typeId());
+            p->eat(g, water_temp.invlet);
+            p->moves -= 350;
+
+            water.charges -= water_temp.charges;
+            if (water.charges <= 0) {
+                drained = true;
+            }
+        }
+
+        if (drained) {
+            items.erase(items.begin() + waterIndex);
+        }
+    }
+}
+
 void iexamine::elevator(game *g, player *p, map *m, int examx, int examy){
  if (!query_yn(_("Use the %s?"),m->tername(examx, examy).c_str())) return;
  int movez = (g->levz < 0 ? 2 : -2);
@@ -408,6 +457,24 @@ void iexamine::slot_machine(game *g, player *p, map *m, int examx, int examy) {
  }
 }
 
+void iexamine::safe(game *g, player *p, map *m, int examx, int examy) {
+  if (!p->has_amount("stethoscope", 1)) {
+    g->add_msg(_("You need a stethoscope for safecracking."));
+    return;
+  }
+
+  if (query_yn(_("Attempt to crack the safe?"))) {
+    bool success = true;
+
+    if (success) {
+      m->furn_set(examx, examy, f_safe_o);
+      g->add_msg(_("You successfully crack the safe!"));
+    } else {
+      g->add_msg(_("The safe resists your attempt at cracking it."));
+    }
+  }
+}
+
 void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) {
  basecamp *camp = m->camp_at(examx, examy);
  if (camp && camp->board_x() == examx && camp->board_y() == examy) {
@@ -561,7 +628,66 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
   m->spawn_item(examx, examy, "poppy_bud", 0);
 }
 
-void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std::string itemType, int new_ter) {
+void iexamine::dirtmound(game *g, player *p, map *m, int examx, int examy) {
+  if (g->get_temperature() < 50) // semi-appropriate temperature for most plants
+    g->add_msg(_("It is too cold to plant anything now."));
+
+  const bool lightCheck = true; // TODO: This.
+
+  if (!lightCheck)
+    g->add_msg(_("It is too dark to plant anything now."));
+
+  if (m->i_at(examx, examy).size() == 0 && p->has_item_with_flag("SEED") && query_yn(_("Plant a seed?"))) {
+    std::vector<item*> seeds = p->inv.all_items_with_flag("SEED");
+
+    size_t seed_index = 0;
+
+    if (seeds.size() > 1) {
+      // TODO: Allow choosing a type of seed
+    }
+
+    m->set(examx, examy, t_dirt, f_plant_seed);
+
+    itype_id seedType = seeds[seed_index]->typeId();
+
+    std::list<item> planted = p->inv.use_charges(seedType, 1);
+    m->spawn_item(examx, examy, seedType, g->turn, 1, 1);
+
+    p->moves -= 500;
+  }
+}
+
+void iexamine::aggie_plant(game *g, player *p, map *m, int examx, int examy) {
+  if (m->furn(examx, examy) == f_plant_harvest && query_yn(_("Harvest plant?"))) {
+    itype_id seedType = m->i_at(examx, examy)[0].typeId();
+
+    m->i_clear(examx, examy);
+    m->furn_set(examx, examy, f_null);
+
+    int skillLevel = p->skillLevel("survival");
+    int plantCount = rng(skillLevel / 2, skillLevel);
+    if (plantCount >= 12)
+      plantCount = 12;
+
+    m->spawn_item(examx, examy, seedType.substr(5), g->turn, plantCount);
+    m->spawn_item(examx, examy, seedType, 0, 1, rng(plantCount / 4, plantCount / 2));
+
+    p->moves -= 500;
+  } else if (m->furn(examx,examy) != f_plant_harvest && m->i_at(examx, examy).size() == 1 && p->charges_of("fertilizer_liquid") && query_yn(_("Fertilize plant"))) {
+    unsigned int fertilizerEpoch = 14400 * 2;
+
+    if (m->i_at(examx, examy)[0].bday > fertilizerEpoch) {
+      m->i_at(examx, examy)[0].bday -= fertilizerEpoch;
+    } else {
+      m->i_at(examx, examy)[0].bday = 0;
+    }
+
+    p->use_charges("fertilizer_liquid", 1);
+    m->spawn_item(examx, examy, "fertilizer", 0, 1, 1);
+  }
+}
+
+void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std::string itemType, int new_ter, bool seeds) {
   if (!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
     none(g, p, m, examx, examy);
     return;
@@ -573,11 +699,15 @@ void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std:
   else if (survival < 6)
     p->practice(g->turn, "survival", rng(1, 12 / survival));
 
-  int num_fruits = rng(1, survival);
-  if (num_fruits > 12)
-    num_fruits = 12;
+  int plantCount = rng(survival / 2, survival);
+  if (plantCount > 12)
+    plantCount = 12;
 
-  m->spawn_item(examx, examy, itemType, g->turn, num_fruits);
+  m->spawn_item(examx, examy, itemType, g->turn, plantCount);
+
+  if (seeds) {
+    m->spawn_item(examx, examy, "seed_" + itemType, g->turn, 1, rng(plantCount / 4, plantCount / 2));
+  }
 
   m->ter_set(examx, examy, (ter_id)new_ter);
 }
@@ -587,11 +717,11 @@ void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::shrub_blueberry(game *g, player *p, map *m, int examx, int examy) {
-  pick_plant(g, p, m, examx, examy, "blueberries", t_shrub);
+  pick_plant(g, p, m, examx, examy, "blueberries", t_shrub, true);
 }
 
 void iexamine::shrub_strawberry(game *g, player *p, map *m, int examx, int examy) {
-  pick_plant(g, p, m, examx, examy, "strawberries", t_shrub);
+  pick_plant(g, p, m, examx, examy, "strawberries", t_shrub, true);
 }
 
 void iexamine::shrub_wildveggies(game *g, player *p, map *m, int examx, int examy) {
@@ -727,17 +857,6 @@ void iexamine::trap(game *g, player *p, map *m, int examx, int examy) {
      query_yn(_("There is a %s there.  Disarm?"),
               g->traps[m->tr_at(examx, examy)]->name.c_str())) {
      m->disarm_trap(g, examx, examy);
- }
- else if (m->tr_at(examx, examy) == tr_funnel && m->is_outside(examx, examy) &&
-          (g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_RAINY ||
-           g->weather == WEATHER_THUNDER || g->weather == WEATHER_LIGHTNING))
- {
-     water_source(g, p, m, examx, examy);
- }
- else if (m->tr_at(examx, examy) == tr_funnel && m->is_outside(examx, examy) &&
-          (g->weather == WEATHER_ACID_DRIZZLE || g->weather == WEATHER_ACID_RAIN))
- {
-     acid_source(g, p, m, examx, examy);
  }
 }
 

@@ -186,7 +186,7 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
   wprintz(w, h_white, _("Trapped"));
  std::string damage_info;
  nc_color col;
- if (hp == type->hp) {
+ if (hp >= type->hp) {
   damage_info = _("It is uninjured");
   col = c_green;
  } else if (hp >= type->hp * .8) {
@@ -261,6 +261,18 @@ bool monster::can_see()
 bool monster::can_hear()
 {
  return has_flag(MF_HEARS) && !has_effect(ME_DEAF);
+}
+
+bool monster::can_submerge()
+{
+  return (has_flag(MF_NO_BREATHE) || has_flag(MF_SWIMS) || has_flag(MF_AQUATIC))
+          && !has_flag(MF_ELECTRONIC);
+}
+
+bool monster::can_drown()
+{
+ return !has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)
+         && !has_flag(MF_NO_BREATHE) && !has_flag(MF_FLIES);
 }
 
 bool monster::made_of(std::string m)
@@ -488,7 +500,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
 
 int monster::hit(game *g, player &p, body_part &bp_hit) {
  int ret = 0;
- int highest_hit;
+ int highest_hit = 0;
  switch (type->size) {
  case MS_TINY:
   highest_hit = 3;
@@ -539,7 +551,6 @@ void monster::hit_monster(game *g, int i)
  moves -= 100;
 
  if (this == target) {
-  debugmsg("stopped monster from hitting itself");
   return;
  }
 

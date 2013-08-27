@@ -126,8 +126,8 @@ void player::power_bionics(game *g)
  wrefresh(wBio);
  char ch;
  bool activating = true;
- bionic *tmp;
- int b;
+ bionic *tmp = NULL;
+ int b = 0;
  do {
   ch = getch();
   if (ch == '!') {
@@ -166,7 +166,7 @@ You can not activate %s!  To read a description of \
 // Clear the lines first
      ch = 0;
      werase(w_description);
-     mvwprintz(w_description, 0, 0, c_ltblue, bionics[tmp->id]->description.c_str());
+     fold_and_print(w_description, 0, 0, 78, c_ltblue, bionics[tmp->id]->description.c_str());
     }
    }
   }
@@ -206,7 +206,7 @@ void player::activate_bionic(int b, game *g)
 // Not-on units, or those with zero charge, have to pay the power cost
   if (bionics[bio.id]->charge_time > 0) {
    my_bionics[b].powered = true;
-   my_bionics[b].charge = bionics[bio.id]->charge_time;
+   my_bionics[b].charge = bionics[bio.id]->charge_time - 1;
   }
   power_level -= power_cost;
  }
@@ -499,8 +499,6 @@ bool player::install_bionics(game *g, it_bionic* type)
      }
  }
 
- std::string bio_name = type->name.substr(5);	// Strip off "CBM: "
- 
  int pl_skill = int_cur * 4 +
    skillLevel("electronics") * 4 +
    skillLevel("firstaid")    * 3 +
@@ -665,10 +663,10 @@ void game::init_bionics() throw (std::string)
 
         // set up all the bionic parameters
         std::string id          = bio.get("id").as_string();
-        std::string name        = bio.get("name").as_string();
+        std::string name        = _(bio.get("name").as_string().c_str());
         int cost                = bio.get("cost").as_int();
         int time                = bio.get("time").as_int();
-        std::string description = bio.get("description").as_string();
+        std::string description = _(bio.get("description").as_string().c_str());
         bool faulty             = (tags.find("FAULTY") != tags.end());
         bool powersource        = (tags.find("POWER") != tags.end());
         bool active             = (tags.find("ACTIVE") != tags.end());

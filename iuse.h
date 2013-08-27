@@ -102,6 +102,8 @@ class iuse
   void pipebomb_act	(game *g, player *p, item *it, bool t);
   void grenade		(game *g, player *p, item *it, bool t);
   void grenade_act	(game *g, player *p, item *it, bool t);
+  void granade		(game *g, player *p, item *it, bool t);
+  void granade_act	(game *g, player *p, item *it, bool t);
   void flashbang	(game *g, player *p, item *it, bool t);
   void flashbang_act	(game *g, player *p, item *it, bool t);
   void c4    		(game *g, player *p, item *it, bool t);
@@ -138,6 +140,7 @@ class iuse
   void tazer		(game *g, player *p, item *it, bool t);
   void mp3		(game *g, player *p, item *it, bool t);
   void mp3_on		(game *g, player *p, item *it, bool t);
+  void portable_game    (game *g, player *p, item *it, bool t);
   void vortex		(game *g, player *p, item *it, bool t);
   void dog_whistle	(game *g, player *p, item *it, bool t);
   void vacutainer	(game *g, player *p, item *it, bool t);
@@ -165,6 +168,7 @@ class iuse
   void boots            (game *g, player *p, item *it, bool t);
   void towel            (game *g, player *p, item *it, bool t);
   void unfold_bicycle        (game *g, player *p, item *it, bool t);
+  void adrenaline_injector (game *g, player *p, item *it, bool t);
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS

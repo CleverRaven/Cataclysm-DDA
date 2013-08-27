@@ -10,10 +10,11 @@
 #include "material.h"
 #include "item_factory.h"
 #include "options.h"
+#include "uistate.h"
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
 std::string default_technique_name(technique_id tech);
@@ -54,7 +55,7 @@ item::item(itype* it, unsigned int turn)
  item_counter = 0;
  active = false;
  curammo = NULL;
- corpse = NULL;
+ corpse = it->corpse;
  owned = -1;
  mission_id = -1;
  player_id = -1;
@@ -140,7 +141,7 @@ item::item(itype *it, unsigned int turn, char let)
   bigness= rng( engine->min_bigness, engine->max_bigness);
  }
  curammo = NULL;
- corpse = NULL;
+ corpse = it->corpse;
  owned = -1;
  invlet = let;
  mission_id = -1;
@@ -639,7 +640,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     if (has_flag("FIT"))
     {
         dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "<num> (fits)",
-                                 std::min(0, armor->encumber - 1), true, "", true, true));
+                                 std::max(0, armor->encumber - 1), true, "", true, true));
     }
     else
     {
@@ -733,10 +734,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This tool has double the normal maximum charges."));
     }
-    std::map<std::string, std::string>::iterator item_note = item_vars.find("item_note");
+    std::map<std::string, std::string>::const_iterator item_note = item_vars.find("item_note");
+    std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");
+
     if ( item_note != item_vars.end() ) {
         dump->push_back(iteminfo("DESCRIPTION", "\n" ));
-        dump->push_back(iteminfo("DESCRIPTION", item_note->second ));
+        std::string ntext = "";
+        if ( item_note_type != item_vars.end() ) {
+            ntext += string_format(_("%1$s on this %2$s is a note saying: "),
+                item_note_type->second.c_str(), type->name.c_str()
+            );
+        } else {
+            ntext += "Note: ";
+        }
+        dump->push_back(iteminfo("DESCRIPTION", ntext + item_note->second ));
     }
   if (contents.size() > 0) {
    if (is_gun()) {
@@ -862,7 +873,7 @@ std::string item::tname(game *g)
   burntext = rm_prefix(_("<burnt_adj>burnt "));
 
  std::string maintext = "";
- if (typeId() == "corpse") {
+ if (corpse != NULL && typeId() == "corpse" ) {
   if (name != "")
    maintext = rmp_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
   else maintext = rmp_format(_("<item_name>%s corpse"), corpse->name.c_str());
@@ -937,10 +948,11 @@ std::string item::tname(game *g)
 
 nc_color item::color() const
 {
- if (typeId() == "corpse")
-  return corpse->color;
  if( is_null() )
   return c_black;
+ if ( corpse != NULL && typeId() == "corpse" ) {
+    return corpse->color;
+ }
  return type->color;
 }
 
@@ -958,8 +970,8 @@ int item::price() const
 // MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {
-    if (typeId() == "corpse") {
-        int ret;
+    if (corpse != NULL && typeId() == "corpse" ) {
+        int ret = 0;
         switch (corpse->size) {
             case MS_TINY:   ret =   1000;  break;
             case MS_SMALL:  ret =  40750;  break;
@@ -1011,7 +1023,7 @@ int item::weight() const
 
 int item::volume() const
 {
- if (typeId() == "corpse") {
+ if (corpse != NULL && typeId() == "corpse" ) {
   switch (corpse->size) {
    case MS_TINY:   return   2;
    case MS_SMALL:  return  40;
@@ -1149,7 +1161,7 @@ bool item::rotten(game *g)
 bool item::ready_to_revive(game *g)
 {
     if (OPTIONS["REVIVE_ZOMBIES"]) {
-        if (type->id != "corpse" || corpse->species != species_zombie || damage >= 4)
+        if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
         {
             return false;
         }
@@ -1399,7 +1411,7 @@ bool item::made_of(std::string mat_ident) const
  if( is_null() )
   return false;
 
- if (typeId() == "corpse")
+ if (corpse != NULL && typeId() == "corpse" )
   return (corpse->mat == mat_ident);
 
     return (type->m1 == mat_ident || type->m2 == mat_ident);
@@ -1407,7 +1419,7 @@ bool item::made_of(std::string mat_ident) const
 
 std::string item::get_material(int m) const
 {
-    if (typeId() == "corpse")
+    if (corpse != NULL && typeId() == "corpse" )
         return corpse->mat;
 
     return (m==2)?type->m2:type->m1;
@@ -2079,34 +2091,40 @@ char item::pick_reload_ammo(player &u, bool interactive)
  char am_invlet = 0;
 
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
-   WINDOW* w_ammo = newwin(am.size() + 1, FULL_SCREEN_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
-   char ch;
-   clear();
-   it_ammo* ammo_def;
-   mvwprintw(w_ammo, 0, 0, _("\
-Choose ammo type:         Damage     Armor Pierce     Range     Accuracy"));
-   for (int i = 0; i < am.size(); i++) {
-    ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
-    mvwaddch(w_ammo, i + 1, 1, i + 'a');
-    mvwprintw(w_ammo, i + 1, 3, "%s (%d)", am[i]->tname().c_str(),
-                                           am[i]->charges);
-    mvwprintw(w_ammo, i + 1, 27, "%d", ammo_def->damage);
-    mvwprintw(w_ammo, i + 1, 38, "%d", ammo_def->pierce);
-    mvwprintw(w_ammo, i + 1, 55, "%d", ammo_def->range);
-    mvwprintw(w_ammo, i + 1, 65, "%d", 100 - ammo_def->dispersion);
-   }
-   refresh();
-   wrefresh(w_ammo);
-   do
-    ch = getch();
-   while ((ch < 'a' || ch - 'a' > am.size() - 1) && ch != ' ' && ch != 27);
-   werase(w_ammo);
-   delwin(w_ammo);
-   erase();
-   if (ch == ' ' || ch == 27)
-    am_invlet = 0;
-   else
-    am_invlet = am[ch - 'a']->invlet;
+     uimenu amenu;
+     amenu.return_invalid = true;
+     amenu.w_y = 0;
+     amenu.w_x = 0;
+     amenu.w_width = TERMX;
+     int namelen=TERMX-2-40-3;
+     std::string lastreload = "";
+
+     if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
+         lastreload = uistate.lastreload[ ammo_type() ];
+     }
+
+     amenu.text=string_format("Choose ammo type:"+std::string(namelen,' ')).substr(0,namelen) +
+         "   Damage    Pierce    Range     Accuracy";
+     it_ammo* ammo_def;
+     for (int i = 0; i < am.size(); i++) {
+         ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
+         amenu.addentry(i,true,i + 'a',"%s | %-7d | %-7d | %-7d | %-7d",
+             std::string(
+                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) + 
+                std::string(namelen,' ')
+             ).substr(0,namelen).c_str(),
+             ammo_def->damage, ammo_def->pierce, ammo_def->range,
+             100 - ammo_def->dispersion
+         );
+         if ( lastreload == am[i]->typeId() ) {
+             amenu.selected = i;
+         }
+     }
+     amenu.query();
+     if ( amenu.ret >= 0 ) {
+        am_invlet = am[ amenu.ret ]->invlet;
+        uistate.lastreload[ ammo_type() ] = am[ amenu.ret ]->typeId();
+     }
  }
  // Either only one valid choice or chosing for a NPC, just return the first.
  else if (am.size() > 0){
@@ -2259,7 +2277,7 @@ bool item::flammable() const
     material_type* cur_mat1 = material_type::find_material(type->m1);
     material_type* cur_mat2 = material_type::find_material(type->m2);
 
-    return ((cur_mat1->fire_resist() + cur_mat2->elec_resist()) <= 0);
+    return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
 }
 
 std::string default_technique_name(technique_id tech)

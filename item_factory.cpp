@@ -12,7 +12,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
 Item_factory* item_controller = new Item_factory();
@@ -120,6 +120,8 @@ void Item_factory::init(){
     iuse_function_list["PIPEBOMB_ACT"] = &iuse::pipebomb_act;
     iuse_function_list["GRENADE"] = &iuse::grenade;
     iuse_function_list["GRENADE_ACT"] = &iuse::grenade_act;
+    iuse_function_list["GRANADE"] = &iuse::granade;
+    iuse_function_list["GRANADE_ACT"] = &iuse::granade_act;
     iuse_function_list["FLASHBANG"] = &iuse::flashbang;
     iuse_function_list["FLASHBANG_ACT"] = &iuse::flashbang_act;
     iuse_function_list["C4"] = &iuse::c4;
@@ -156,6 +158,7 @@ void Item_factory::init(){
     iuse_function_list["TAZER"] = &iuse::tazer;
     iuse_function_list["MP3"] = &iuse::mp3;
     iuse_function_list["MP3_ON"] = &iuse::mp3_on;
+    iuse_function_list["PORTABLE_GAME"] = &iuse::portable_game;
     iuse_function_list["VORTEX"] = &iuse::vortex;
     iuse_function_list["DOG_WHISTLE"] = &iuse::dog_whistle;
     iuse_function_list["VACUTAINER"] = &iuse::vacutainer;
@@ -182,6 +185,7 @@ void Item_factory::init(){
     iuse_function_list["BOOTS"] = &iuse::boots;
     iuse_function_list["ABSORBENT"] = &iuse::towel;
     iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
+    iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
@@ -449,6 +453,9 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     {
                         it_ammo* ammo_template = new it_ammo();
                         ammo_template->type = entry.get("ammo_type").as_string();
+                        if(entry.has("casing")) {
+                            ammo_template->casing = entry.get("casing").as_string();
+                        }
                         ammo_template->damage = entry.get("damage").as_int();
                         ammo_template->pierce = entry.get("pierce").as_int();
                         ammo_template->range = entry.get("range").as_int();
@@ -510,7 +517,6 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                 m_templates[new_id] = new_item_template;
 
                 // And then proceed to assign the correct field
-                new_item_template->rarity = entry.get("rarity").as_int();
                 new_item_template->price = entry.get("price").as_int();
                 new_item_template->name = _(entry.get("name").as_string().c_str());
                 new_item_template->sym = entry.get("symbol").as_char();
@@ -547,6 +553,7 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     ALARMCLOCK - Has an alarmclock feature
                     MALE_TYPICAL - Typically only worn by men.
                     FEMALE_TYPICAL - Typically only worn by women.
+                    USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
 
                     Container-only flags:
                     SEALS
@@ -700,44 +707,6 @@ void Item_factory::load_item_groups_from( game *g, const std::string file_name )
     }
     if( !json_good() ) {
         throw "There was an error reading " + file_name;
-    }
-}
-
-//Grab color, with appropriate error handling
-nc_color Item_factory::color_from_string(std::string new_color){
-    if("red"==new_color){
-        return c_red;
-    } else if("blue"==new_color){
-        return c_blue;
-    } else if("green"==new_color){
-        return c_green;
-    } else if("light_cyan"==new_color){
-        return c_ltcyan;
-    } else if("brown"==new_color){
-        return c_brown;
-    } else if("light_red"==new_color){
-        return c_ltred;
-    } else if("white"==new_color){
-        return c_white;
-    } else if("light_blue"==new_color){
-        return c_ltblue;
-    } else if("yellow"==new_color){
-        return c_yellow;
-    } else if("magenta"==new_color){
-        return c_magenta;
-    } else if("cyan"==new_color){
-        return c_cyan;
-    } else if("light_gray"==new_color){
-        return c_ltgray;
-    } else if("dark_gray"==new_color){
-        return c_dkgray;
-    } else if("light_green"==new_color){
-        return c_ltgreen;
-    } else if("pink"==new_color){
-        return c_pink;
-    } else {
-        debugmsg("Received invalid color property %s. Color is required.", new_color.c_str());
-        return c_white;
     }
 }
 

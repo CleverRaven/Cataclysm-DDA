@@ -1752,6 +1752,7 @@ void talk_function::deny_equipment(game *g, npc *p)
 void talk_function::hostile(game *g, npc *p)
 {
  g->add_msg(_("%s turns hostile!"), p->name.c_str());
+ g->u.add_memorial_log(_("%s became hostile."), p->name.c_str());
  p->attitude = NPCATT_KILL;
 }
 

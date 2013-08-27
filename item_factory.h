@@ -55,7 +55,6 @@ private:
     void load_item_templates_from(const std::string file_name) throw (std::string);
     void load_item_groups_from(game *g, const std::string file_name) throw (std::string);
 
-    nc_color color_from_string(std::string color);
     Use_function use_from_string(std::string name);
     void tags_from_json(catajson tag_list, std::set<std::string> &tags);
     unsigned flags_from_json(catajson flags, std::string flag_type="");

@@ -30,8 +30,7 @@ nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
 
 std::map<std::string, trait> traits;
-std::vector<std::string> vTraitsGood;
-std::vector<std::string> vTraitsBad;
+std::vector<std::string> vStartingTraits[2];
 
 std::string morale_data[NUM_MORALE_TYPES];
 
@@ -42,6 +41,7 @@ void game::init_morale()
     _("Enjoyed %i"),
     _("Enjoyed a hot meal"),
     _("Music"),
+    _("Played Video Game"),
     _("Marloss Bliss"),
     _("Good Feeling"),
 
@@ -75,35 +75,6 @@ void game::init_morale()
     _("Optimist")
     };
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
-}
-
-void game::init_traits()
-{
-    catajson traitsRaw("data/raw/traits.json",true);
-
-    if(!json_good()) {
-        exit(1);
-    }
-
-    for(traitsRaw.set_begin(); traitsRaw.has_curr() && json_good(); traitsRaw.next()) {
-        catajson curr_trait = traitsRaw.curr();
-
-        trait new_trait;
-        new_trait.name = curr_trait.get("name").as_string();
-        new_trait.points = curr_trait.get("points").as_int();
-        new_trait.visiblity = curr_trait.get("visibility").as_int();
-        new_trait.ugliness = curr_trait.get("ugliness").as_int();
-        new_trait.description = curr_trait.get("description").as_string();
-
-        if (curr_trait.get("starting_trait").as_string() == "good") {
-            vTraitsGood.push_back(curr_trait.get("id").as_string());
-
-        } else if (curr_trait.get("starting_trait").as_string() == "bad") {
-            vTraitsBad.push_back(curr_trait.get("id").as_string());
-        }
-
-        traits[curr_trait.get("id").as_string()] = new_trait;
-    }
 }
 
 player::player()
@@ -147,17 +118,16 @@ player::player()
  active_mission = -1;
  in_vehicle = false;
  controlling_vehicle = false;
+ grab_point.x = 0;
+ grab_point.y = 0;
  style_selected = "null";
  focus_pool = 100;
  last_item = itype_id("null");
- for (int i = 0; i < PF_MAX2; i++)
-  my_traits[i] = false;
- for (int i = 0; i < PF_MAX2; i++)
-  my_mutations[i] = false;
 
- mutation_category_level[0] = 5; // Weigh us towards no category for a bit
- for (int i = 1; i < NUM_MUTATION_CATEGORIES; i++)
-  mutation_category_level[i] = 0;
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+    my_traits[iter->first] = false;
+    my_mutations[iter->first] = false;
+ }
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill) {
@@ -170,7 +140,10 @@ player::player()
   temp_conv[i] = BODYTEMP_NORM;
  }
  nv_cached = false;
+ drench_cached = false;
  volume = 0;
+
+ memorial_log.clear();
 }
 
 player::player(const player &rhs)
@@ -192,6 +165,7 @@ player& player::operator= (const player & rhs)
 
  in_vehicle = rhs.in_vehicle;
  controlling_vehicle = rhs.controlling_vehicle;
+ grab_point = rhs.grab_point;
  activity = rhs.activity;
  backlog = rhs.backlog;
 
@@ -204,14 +178,8 @@ player& player::operator= (const player & rhs)
  male = rhs.male;
  prof = rhs.prof;
 
- for (int i = 0; i < PF_MAX2; i++)
-  my_traits[i] = rhs.my_traits[i];
-
- for (int i = 0; i < PF_MAX2; i++)
-  my_mutations[i] = rhs.my_mutations[i];
-
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  mutation_category_level[i] = rhs.mutation_category_level[i];
+ my_traits = rhs.my_traits;
+ my_mutations = rhs.my_mutations;
 
  my_bionics = rhs.my_bionics;
 
@@ -291,6 +259,7 @@ player& player::operator= (const player & rhs)
  addictions = rhs.addictions;
 
  nv_cached = false;
+ drench_cached = false;
 
  return (*this);
 }
@@ -333,6 +302,12 @@ void player::reset(game *g)
   str_cur += 20;
  if (has_bionic("bio_eye_enhancer"))
   per_cur += 2;
+ if (has_bionic("bio_str_enhancer"))
+  str_cur += 2;
+ if (has_bionic("bio_int_enhancer"))
+  int_cur += 2;
+if (has_bionic("bio_dex_enhancer"))
+  dex_cur += 2;
 if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
      hunger < 100 && (int(g->turn) % 5 == 0)) {
   hunger += 2;
@@ -502,7 +477,7 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_head)) {
             bonus += 3;
         }
-        
+
         if(bonus) {
             add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
         }
@@ -666,7 +641,7 @@ void player::update_bodytemp(game *g)
 {
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
-    int Ctemperature = 100*(g->temperature - 32) * 5/9;
+    int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
@@ -677,7 +652,65 @@ void player::update_bodytemp(game *g)
     const trap_id trap_at_pos = g->m.tr_at(posx, posy);
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     const furn_id furn_at_pos = g->m.furn(posx, posy);
+    // When the player is sleeping, he will use floor items for warmth
+    int floor_item_warmth = 0;
+    // When the player is sleeping, he will use floor bedding for warmth
+    int floor_bedding_warmth = 0;
+    if ( has_disease("sleep") ) {
+        // Search the floor for items
+        std::vector<item>& floor_item = g->m.i_at(posx, posy);
+        it_armor* floor_armor = NULL;
 
+        for ( std::vector<item>::iterator afloor_item = floor_item.begin() ;
+        afloor_item != floor_item.end() ;
+        ++afloor_item) {
+            if ( !afloor_item->is_armor() ) {
+                continue;
+            }
+            floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
+            // Items that are big enough and covers the torso are used to keep warm.
+            // Smaller items don't do as good a job
+            if ( floor_armor->volume > 1 &&
+            ((floor_armor->covers & mfb(bp_torso)) ||
+             (floor_armor->covers & mfb(bp_legs))) ) {
+                floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
+            }
+        }
+
+        // Search the floor for bedding
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at (posx, posy, vpart);
+        if      (furn_at_pos == f_bed)
+        {
+            floor_bedding_warmth += 1000;
+        }
+        else if (furn_at_pos == f_makeshift_bed ||
+                 furn_at_pos == f_armchair ||
+                 furn_at_pos == f_sofa)
+        {
+            floor_bedding_warmth += 500;
+        }
+        else if (trap_at_pos == tr_cot)
+        {
+            floor_bedding_warmth -= 500;
+        }
+        else if (trap_at_pos == tr_rollmat)
+        {
+            floor_bedding_warmth -= 1000;
+        }
+        else if (veh && veh->part_with_feature (vpart, "SEAT") >= 0)
+        {
+            floor_bedding_warmth += 200;
+        }
+        else if (veh && veh->part_with_feature (vpart, "BED") >= 0)
+        {
+            floor_bedding_warmth += 300;
+        }
+        else
+        {
+            floor_bedding_warmth -= 2000;
+        }
+    }
     // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
@@ -695,41 +728,6 @@ void player::update_bodytemp(game *g)
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
-        else
-        {
-            int vpart = -1;
-            vehicle *veh = g->m.veh_at (posx, posy, vpart);
-            if      (furn_at_pos == f_bed)
-            {
-                temp_conv[i] += 1000;
-            }
-            else if (furn_at_pos == f_makeshift_bed ||
-                     furn_at_pos == f_armchair ||
-                     furn_at_pos == f_sofa)
-            {
-                temp_conv[i] += 500;
-            }
-            else if (trap_at_pos == tr_cot)
-            {
-                temp_conv[i] -= 500;
-            }
-            else if (trap_at_pos == tr_rollmat)
-            {
-                temp_conv[i] -= 1000;
-            }
-            else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
-            {
-                temp_conv[i] += 200;
-            }
-            else if (veh && veh->part_with_feature (vpart, vpf_bed) >= 0)
-            {
-                temp_conv[i] += 300;
-            }
-            else
-            {
-                temp_conv[i] -= 2000;
-            }
-        }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
         for (int j = -6 ; j <= 6 ; j++)
@@ -886,6 +884,21 @@ void player::update_bodytemp(game *g)
         // Chemical Imbalance
         // Added linse in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
+        if ( has_disease("sleep") ) {
+            int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
+            // Too warm, don't need items on the floor
+            if ( temp_conv[i] > BODYTEMP_NORM ) {
+                // Do nothing
+            }
+            // Intelligently use items on the floor; just enough to be comfortable
+            else if ( (temp_conv[i] + sleep_bonus) > BODYTEMP_NORM ) {
+                temp_conv[i] = BODYTEMP_NORM;
+            }
+            // Use all items on the floor -- there are not enough to keep comfortable
+            else {
+                temp_conv[i] += sleep_bonus;
+            }
+        }
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
@@ -966,7 +979,7 @@ void player::update_bodytemp(game *g)
         {
             frostbite_timer[i]--;
         }
-        if      (frostbite_timer[i] >= 240 && g->temperature < 32)
+        if      (frostbite_timer[i] >= 240 && g->get_temperature() < 32)
         {
             add_disease(dis_type(frost_pen), 1, 2, 2);
             // Warning message for the player
@@ -975,7 +988,7 @@ void player::update_bodytemp(game *g)
             {
                 g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
-            else if (frostbite_timer[i] >= 120 && g->temperature < 32)
+            else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
             {
                 add_disease(dis_type(frost_pen), 1, 1, 2);
                 // Warning message for the player
@@ -1043,7 +1056,7 @@ int player::current_speed(game *g)
 // Minus some for weight...
  int carry_penalty = 0;
  if (weight_carried() > weight_capacity())
-  carry_penalty = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
+  carry_penalty = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
  newmoves -= carry_penalty;
 
  if (pain > pkill) {
@@ -1091,12 +1104,12 @@ int player::current_speed(game *g)
  if (g != NULL) {
   if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy))
    newmoves -= (g->light_level() >= 12 ? 5 : 10);
-  if (has_trait("COLDBLOOD3") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 2);
-  else if (has_trait("COLDBLOOD2") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 3);
-  else if (has_trait("COLDBLOOD") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 5);
+  if (has_trait("COLDBLOOD3") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 2);
+  else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 3);
+  else if (has_trait("COLDBLOOD") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 5);
  }
 
  if (has_artifact_with(AEP_SPEED_UP))
@@ -1222,9 +1235,9 @@ void player::load_info(game *g, std::string data)
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
-         inveh >> vctrl >> scent >> moves >> underwater >> dodges_left >>
-         blocks_left >> oxygen >> active_mission >> focus_pool >> male >>
-         prof_ident >> health >> styletmp;
+         inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
+         underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
+         focus_pool >> male >> prof_ident >> health >> styletmp;
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1240,14 +1253,26 @@ void player::load_info(game *g, std::string data)
  controlling_vehicle = vctrl != 0;
  style_selected = styletmp;
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump >> my_traits[i];
+ std::string sTemp = "";
+ for (int i = 0; i < traits.size(); i++) {
+    dump >> sTemp;
+    if (sTemp == "TRAITS_END") {
+        break;
+    } else {
+        my_traits[sTemp] = true;
+    }
+ }
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump >> my_mutations[i];
+ for (int i = 0; i < traits.size(); i++) {
+    dump >> sTemp;
+    if (sTemp == "MUTATIONS_END") {
+        break;
+    } else {
+        my_mutations[sTemp] = true;
+    }
+ }
 
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  dump >> mutation_category_level[i];
+ set_highest_cat_level();
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
@@ -1339,6 +1364,14 @@ void player::load_info(game *g, std::string data)
   dump >> mistmp;
   failed_missions.push_back(mistmp);
  }
+
+ //Loading the player log
+ std::string memorialtmp;
+ while(dump.peek() == '|') {
+   dump >> memorialtmp;
+   memorial_log.push_back(memorialtmp);
+ }
+
 }
 
 std::string player::save_info()
@@ -1351,18 +1384,29 @@ std::string player::save_info()
          " " << stim << " " << pain << " " << pkill << " " << radiation <<
          " " << cash << " " << recoil << " " << driving_recoil << " " <<
          (in_vehicle? 1 : 0) << " " << (controlling_vehicle? 1 : 0) << " " <<
+         grab_point.x << " " << grab_point.y << " " <<
          scent << " " << moves << " " << underwater << " " << dodges_left <<
          " " << blocks_left << " " << oxygen << " " << active_mission << " " <<
          focus_pool << " " << male << " " << prof->ident() << " " << health <<
          " " << style_selected << " " << activity.save_info() << " " <<
          backlog.save_info() << " ";
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump << my_traits[i] << " ";
- for (int i = 0; i < PF_MAX2; i++)
-  dump << my_mutations[i] << " ";
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  dump << mutation_category_level[i] << " ";
+ for (std::map<std::string, bool>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
+    if (iter->second) {
+        dump << iter->first << " ";
+    }
+ }
+
+ dump << "TRAITS_END" << " ";
+
+ for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+    if (iter->second) {
+        dump << iter->first << " ";
+    }
+ }
+
+ dump << "MUTATIONS_END" << " ";
+
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
  for (int i = 0; i < num_bp; i++)
@@ -1425,6 +1469,8 @@ std::string player::save_info()
 
  dump << std::endl;
 
+ dump << dump_memorial();
+
  dump << inv.save_str_no_quant();
 
  for (int i = 0; i < worn.size(); i++) {
@@ -1456,11 +1502,23 @@ void player::memorial( std::ofstream &memorial_file )
       profession_name << _("a ") << gender_str << " " << prof->name();
     }
 
-    //Header
-    std::string version = string_format("%s", getVersionString());
-    oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+    //Figure out the location
+    point cur_loc = g->om_location();
+    oter_id cur_ter = g->cur_om->ter(cur_loc.x, cur_loc.y, g->levz);
+    if (cur_ter == ot_null)
+    {
+        if (cur_loc.x >= OMAPX && cur_loc.y >= OMAPY) {
+            cur_ter = g->om_diag->ter(cur_loc.x - OMAPX, cur_loc.y - OMAPY, g->levz);
+        } else if (cur_loc.x >= OMAPX) {
+            cur_ter = g->om_hori->ter(cur_loc.x - OMAPX, cur_loc.y, g->levz);
+        } else if (cur_loc.y >= OMAPY) {
+            cur_ter = g->om_vert->ter(cur_loc.x, cur_loc.y - OMAPY, g->levz);
+        }
+    }
     std::string tername = oterlist[cur_ter].name;
 
+    //Header
+    std::string version = string_format("%s", getVersionString());
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << name << "\n";
@@ -1468,7 +1526,7 @@ void player::memorial( std::ofstream &memorial_file )
                   << _(" when the apocalypse began.") << "\n";
     memorial_file << pronoun << _(" died on ") << _(season_name[g->turn.get_season()].c_str())
                   << _(" of year ") << (g->turn.years() + 1)
-                  << _(", day ") << (g->turn.days() + 1) 
+                  << _(", day ") << (g->turn.days() + 1)
                   << _(", at ") << g->turn.print_time() << ".\n";
     memorial_file << pronoun << _(" was killed in a ") << tername << ".\n";
     memorial_file << "\n";
@@ -1494,6 +1552,19 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Base Stats:") << "\n";
     memorial_file << indent << _("Str ") << str_max << indent << _("Dex ") << dex_max << indent
                   << _("Int ") << int_max << indent << _("Per ") << per_max << "\n";
+    memorial_file << "\n";
+
+    //Last 10 messages
+    memorial_file << _("Final Messages:") << "\n";
+    std::vector<game_message> recent_messages = g->recent_messages(10);
+    for(int i = 0; i < recent_messages.size(); i++) {
+      memorial_file << indent << recent_messages[i].turn.print_time() << " " <<
+              recent_messages[i].message;
+      if(recent_messages[i].count > 1) {
+        memorial_file << " x" << recent_messages[i].count;
+      }
+      memorial_file << "\n";
+    }
     memorial_file << "\n";
 
     //Kill list
@@ -1527,10 +1598,10 @@ void player::memorial( std::ofstream &memorial_file )
     //Traits
     memorial_file << _("Traits:") << "\n";
     bool had_trait = false;
-    for(int i = 1; i < PF_MAX2; i++) { //Don't start at i=0 or we get a 'null trait'
-      if(has_trait(i)) {
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+      if(has_trait(iter->first)) {
         had_trait = true;
-        memorial_file << indent << traits[i].name << "\n";
+        memorial_file << indent << traits[iter->first].name << "\n";
       }
     }
     if(!had_trait) {
@@ -1635,6 +1706,59 @@ void player::memorial( std::ofstream &memorial_file )
       }
       memorial_file << "\n";
     }
+    memorial_file << "\n";
+
+    //History
+    memorial_file << _("Game History") << "\n";
+    memorial_file << dump_memorial();
+
+}
+
+/**
+ * Adds an event to the memorial log, to be written to the memorial file when
+ * the character dies. The message should contain only the informational string,
+ * as the timestamp and location will be automatically prepended.
+ */
+void player::add_memorial_log(const char* message, ...)
+{
+
+  va_list ap;
+  va_start(ap, message);
+  char buff[1024];
+  vsprintf(buff, message, ap);
+  va_end(ap);
+
+  std::stringstream timestamp;
+  timestamp << _("Year") << " " << (g->turn.years() + 1) << ", "
+            << _(season_name[g->turn.get_season()].c_str()) << " "
+            << (g->turn.days() + 1) << ", " << g->turn.print_time();
+
+  oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
+  std::string location = oterlist[cur_ter].name;
+
+  std::stringstream log_message;
+  log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << buff;
+
+  memorial_log.push_back(log_message.str());
+
+}
+
+/**
+ * Concatenates all of the memorial log entries, delimiting them with newlines,
+ * and returns the resulting string. Used for saving and for writing out to the
+ * memorial file.
+ */
+std::string player::dump_memorial()
+{
+
+  std::stringstream output;
+
+  for(int i = 0; i < memorial_log.size(); i++) {
+    output << memorial_log[i] << "\n";
+  }
+
+  return output.str();
+
 }
 
 void player::disp_info(game *g)
@@ -1746,9 +1870,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 
  effect_win_size_y = effect_name.size()+1;
 
- for(int i = 0; i < PF_MAX2; i++) {
-  if(my_mutations[i]) {
-   traitslist.push_back(pl_flag(i));
+ for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+  if(my_mutations[iter->first]) {
+   traitslist.push_back(iter->first);
   }
  }
 
@@ -1952,7 +2076,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
- 
+
  const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
@@ -2072,7 +2196,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  int pen = 0;
  line = 3;
  if (weight_carried() > weight_capacity()) {
-  pen = 50 * (weight_carried() - weight_capacity()) / (weight_capacity());
+  pen = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
   mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -2134,13 +2258,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   line++;
  }
  if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
-      has_trait("COLDBLOOD3")) && g->temperature < 65) {
+      has_trait("COLDBLOOD3")) && g->get_temperature() < 65) {
   if (has_trait("COLDBLOOD3"))
-   pen = int( (65 - g->temperature) / 2);
+   pen = int( (65 - g->get_temperature()) / 2);
   else if (has_trait("COLDBLOOD2"))
-   pen = int( (65 - g->temperature) / 3);
+   pen = int( (65 - g->get_temperature()) / 3);
   else
-   pen = int( (65 - g->temperature) / 2);
+   pen = int( (65 - g->get_temperature()) / 2);
   mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -2193,7 +2317,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
     mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
     mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
-                      OPTIONS["USE_METRIC_WEIGHT"]?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?"kg":"lbs");
     mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
@@ -2379,7 +2503,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
 
    for (int i = min; i < max; i++) {
     mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
-    if (traitslist[i] > PF_MAX2)
+    if (i > traits.size())
      status = c_ltblue;
     else if (traits[traitslist[i]].points > 0)
      status = c_ltgreen;
@@ -2506,7 +2630,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
      min = 0;
    }
 
-   Skill *selectedSkill;
+   Skill *selectedSkill = NULL;
 
    for (int i = min; i < max; i++)
    {
@@ -2867,7 +2991,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 
   bool has_turrets = false;
   for (int p = 0; p < veh->parts.size(); p++) {
-   if (veh->part_flag (p, vpf_turret)) {
+   if (veh->part_flag (p, "TURRET")) {
     has_turrets = true;
     break;
    }
@@ -2886,7 +3010,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   int speedox = sideStyle ? 0 : 33;
   int speedoy = sideStyle ? 5 :  3;
 
-  bool metric = OPTIONS["USE_METRIC_SPEED"];
+  bool metric = OPTIONS["USE_METRIC_SPEEDS"] == "km/h";
   const char *units = metric ? "km/h" : "mph";
   int velx    = metric ?  5 : 4; // strlen(units) + 1
   int cruisex = metric ? 10 : 9; // strlen(units) + 6
@@ -2953,76 +3077,105 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
  }
 }
 
-bool player::has_trait(int flag) const
+bool player::has_trait(std::string flag)
 {
- if (flag == PF_NULL)
-  return true;
- return my_mutations[flag]; //Looks for active mutations and traits
+    if (flag == "") {
+        return false;
+    }
+
+    return my_mutations[flag]; //Looks for active mutations and traits
 }
 
-bool player::has_base_trait(int flag) const
+bool player::has_base_trait(std::string flag)
 {
- if (flag == PF_NULL)
-  return true;
- return my_traits[flag]; //Looks only at base traits
+    if (flag == "") {
+        return false;
+    }
+
+    return my_traits[flag]; //Looks only at base traits
 }
 
-void player::toggle_trait(int flag)
+bool player::has_conflicting_trait(std::string flag)
 {
- my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player
- my_mutations[flag] = !my_mutations[flag]; //Toggles corresponding trait in mutations list as well.
+    if(g->mutation_data[flag].cancels.size() > 0) {
+        std::vector<std::string> cancels = g->mutation_data[flag].cancels;
+
+        for (int i = 0; i < cancels.size(); i++) {
+            if ( has_trait(cancels[i]) )
+                return true;
+        }
+    }
+
+    return false;
 }
 
-void player::toggle_mutation(int flag)
+void player::toggle_trait(std::string flag)
 {
- my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
+    my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player
+    my_mutations[flag] = !my_mutations[flag]; //Toggles corresponding trait in mutations list as well.
 }
 
-mutation_category player::get_highest_category() // Returns the mutation category with the highest strength
+void player::toggle_mutation(std::string flag)
 {
-	int level = 0;
-	mutation_category maxcat = MUTCAT_NULL;
-	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-	{
-		if (mutation_category_level[i] > level)
-		{
-			maxcat = mutation_category(i);
-			level = mutation_category_level[i];
+    my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
+}
+
+void player::set_cat_level_rec(std::string sMut)
+{
+    if (!has_base_trait(sMut)) { //Skip base traits
+        for (int i = 0; i < g->mutation_data[sMut].category.size(); i++) {
+            mutation_category_level[g->mutation_data[sMut].category[i]] += 8;
+        }
+
+        for (int i = 0; i < g->mutation_data[sMut].prereqs.size(); i++) {
+            set_cat_level_rec(g->mutation_data[sMut].prereqs[i]);
+        }
+    }
+}
+
+void player::set_highest_cat_level()
+{
+    mutation_category_level.clear();
+
+	// Loop through our mutations
+    for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        if (has_trait(iter->first)) {
+            set_cat_level_rec(iter->first);
+        }
+    }
+}
+
+std::string player::get_highest_category() // Returns the mutation category with the highest strength
+{
+    int iLevel = 0;
+	std::string sMaxCat = "";
+
+	for (std::map<std::string, int>::iterator iter = mutation_category_level.begin(); iter != mutation_category_level.end(); ++iter) {
+		if (mutation_category_level[iter->first] > iLevel) {
+			sMaxCat = iter->first;
+			iLevel = mutation_category_level[iter->first];
 		}
 	}
-	return maxcat;
+
+	return sMaxCat;
 }
 
-int player::get_category_level(mutation_category cat) // Returns the strength of a given mutation category
-{
-	int level = 0;
-	for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-	{
-		if (mutation_category(i) == cat)
-		{
-			level = mutation_category_level[i];
-		}
-	}
-	return level;
-}
-
-std::string player::get_category_dream(mutation_category cat, int strength) // Returns a randomly selected dream
+std::string player::get_category_dream(std::string cat, int strength) // Returns a randomly selected dream
 {
 	std::string message;
 	std::vector<dream> valid_dreams;
 	dream selected_dream;
-	for (int i = 0; i < dreams.size(); i++) // Pull the list of dreams
-	{
-		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) // Pick only the ones matching our desired category and strength
-		{
+	for (int i = 0; i < dreams.size(); i++) { //Pull the list of dreams
+		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) { //Pick only the ones matching our desired category and strength
 			valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
-		}	
+		}
 	}
+
 	int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
 	selected_dream = valid_dreams[index];
 	index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream
 	message = selected_dream.message[index];
-	return message;	
+	return message;
 }
 
 bool player::in_climate_control(game *g)
@@ -3088,6 +3241,18 @@ void player::add_bionic(bionic_id b)
  char newinv;
  if (my_bionics.size() == 0)
   newinv = 'a';
+ else if (my_bionics.size() == 26)
+  newinv = 'A';
+ else if (my_bionics.size() == 52)
+  newinv = '0';
+ else if (my_bionics.size() == 62)
+  newinv = '"';
+ else if (my_bionics.size() == 76)
+  newinv = ':';
+ else if (my_bionics.size() == 83)
+  newinv = '[';
+ else if (my_bionics.size() == 89)
+  newinv = '{';
  else
   newinv = my_bionics[my_bionics.size() - 1].invlet + 1;
  my_bionics.push_back(bionic(b, newinv));
@@ -3267,30 +3432,40 @@ bool player::has_nv()
 
 void player::pause(game *g)
 {
- moves = 0;
- if (recoil > 0) {
-   if (str_cur + 2 * skillLevel("gun") >= recoil)
-   recoil = 0;
-  else {
-    recoil -= str_cur + 2 * skillLevel("gun");
-   recoil = int(recoil / 2);
-  }
- }
+    moves = 0;
+    if (recoil > 0) {
+        if (str_cur + 2 * skillLevel("gun") >= recoil) {
+            recoil = 0;
+        } else {
+            recoil -= str_cur + 2 * skillLevel("gun");
+            recoil = int(recoil / 2);
+        }
+    }
 
-// Meditation boost for Toad Style
- if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
-  int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
-  int arm_max = (int_cur + per_cur) / 2;
-  if (arm_amount > 3)
-   arm_amount = 3;
-  if (arm_max > 20)
-   arm_max = 20;
-  add_disease("armor_boost", 2, arm_amount, arm_max);
- }
+    // Meditation boost for Toad Style
+    if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
+        int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
+        int arm_max = (int_cur + per_cur) / 2;
+        if (arm_amount > 3) {
+            arm_amount = 3;
+        }
+        if (arm_max > 20) {
+            arm_max = 20;
+        }
+        add_disease("armor_boost", 2, arm_amount, arm_max);
+    }
 
-// Train swimming if underwater
- if (underwater)
-   practice(g->turn, "swimming", 1);
+    // Train swimming if underwater
+    if (underwater) {
+        practice(g->turn, "swimming", 1);
+        if (g->temperature <= 50) {
+            drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
+                           mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_feet)|mfb(bp_hands));
+        } else {
+            drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
+                           mfb(bp_eyes)|mfb(bp_mouth));
+        }
+    }
 }
 
 int player::throw_range(signed char ch)
@@ -3306,7 +3481,7 @@ int player::throw_range(signed char ch)
  if ((tmp.weight() / 113) > int(str_cur * 15))
   return 0;
  // Increases as weight decreases until 150 g, then decreases again
- int ret = (str_cur * 8) / (tmp.weight() > 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+ int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
  ret -= int(tmp.volume() / 4);
  if (has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel")))
     ret *= 2;
@@ -3373,7 +3548,7 @@ int player::rust_rate(bool real_life)
     int intel = (real_life ? int_cur : int_max);
     int ret = ((OPTIONS["SKILL_RUST"] == "Vanilla" || OPTIONS["SKILL_RUST"] == "Capped") ? 500 : 500 - 35 * (intel - 8));
 
-    if (has_trait(PF_FORGETFUL)) {
+    if (has_trait("FORGETFUL")) {
         ret *= 1.33;
     }
 
@@ -3972,13 +4147,27 @@ int player::addiction_level(add_type type)
  return 0;
 }
 
-void player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
+bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 {
-    int liquid_amount = veh->drain( desired_liquid , veh->fuel_capacity( desired_liquid ));
-    item used_item(g->itypes[ default_ammo(desired_liquid) ], g->turn);
+    int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
+    item used_item( g->itypes[default_ammo(desired_liquid)], g->turn );
     used_item.charges = liquid_amount;
-    g->add_msg(_("Siphoned %d units of %s from the vehicle."), liquid_amount, used_item.name.c_str());
-    while (!g->handle_liquid(used_item, false, false)) { } // handle the liquid until it's all gone
+    int extra = g->move_liquid( used_item );
+    if( extra == -1 ) {
+        // Failed somehow, put the liquid back and bail out.
+        veh->refill( desired_liquid, used_item.charges );
+        return false;
+    }
+    int siphoned = liquid_amount - extra;
+    veh->refill( desired_liquid, extra );
+    if( siphoned > 0 ) {
+        g->add_msg(_("Siphoned %d units of %s from the %s."),
+                   siphoned, used_item.name.c_str(), veh->name.c_str());
+        //Don't consume turns if we decided not to siphon
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void player::cauterize(game *g) {
@@ -4035,12 +4224,20 @@ void player::suffer(game *g)
     {
         if (weight_carried() > weight_capacity())
         {
-            // one in 11 with it reducing by 1 for every additional 20%, occurs constantly at 300%
-            // " + 1" is so that the shift occurs on the 20% instead of above it
-            if (one_in(10 - ((weight_carried() + 1) / (weight_capacity() / 5) - 7)) )
-            {
+            // Starts at 1 in 25, goes down by 5 for every 50% more carried
+            if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))){
                 g->add_msg_if_player(this,"Your body strains under the weight!");
-                pain += 1;
+                // 1 more pain for every 800 grams more (5 per extra STR needed)
+                if ( (weight_carried() - weight_capacity()) / 800 > pain && pain < 100) {
+                    pain += 1;
+                }
+            }
+        }
+        if (weight_carried() > 4 * weight_capacity()) {
+            if (has_disease("downed")) {
+                add_disease("downed", 1);
+            } else {
+                add_disease("downed", 2);
             }
         }
         int timer = -3600;
@@ -4561,13 +4758,193 @@ void player::vomit(game *g)
  rem_disease("sleep");
 }
 
-void player::drench(game *g, int saturation) {
-  int morale_cap = (g->temperature - 60) * saturation / 100;
+void player::drench(game *g, int saturation, int flags) {
+    if (is_waterproof(flags)) {
+        return;
+    }
 
-  if (morale_cap == 0)
-    return;
+    if (!drench_cached) {
+        int ignored = 0;
+        int neutral = 0;
+        int good = 0;
 
-  add_morale(MORALE_WET, (morale_cap > 0?1:-1), morale_cap);
+        drench_mut_check(ignored, neutral, good, mfb(bp_eyes));
+        calculate_portions(good, neutral, ignored, 1);
+        eyes_ignored = ignored;
+        eyes_neutral = neutral;
+        eyes_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_mouth));
+        calculate_portions(good, neutral, ignored, 1);
+        mouth_ignored = ignored;
+        mouth_neutral = neutral;
+        mouth_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_head));
+        calculate_portions(good, neutral, ignored, 7);
+        head_ignored = ignored;
+        head_neutral = neutral;
+        head_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_legs));
+        calculate_portions(good, neutral, ignored, 21);
+        legs_ignored = ignored;
+        legs_neutral = neutral;
+        legs_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_feet));
+        calculate_portions(good, neutral, ignored, 6);
+        feet_ignored = ignored;
+        feet_neutral = neutral;
+        feet_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_arms));
+        calculate_portions(good, neutral, ignored, 19);
+        arms_ignored = ignored;
+        arms_neutral = neutral;
+        arms_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_hands));
+        calculate_portions(good, neutral, ignored, 5);
+        hands_ignored = ignored;
+        hands_neutral = neutral;
+        hands_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_torso));
+        calculate_portions(good, neutral, ignored, 40);
+        torso_ignored = ignored;
+        torso_neutral = neutral;
+        torso_good = good;
+
+        drench_cached = true;
+    }
+
+    int effected = 0;
+    int tot_ignored = 0; //Always ignored
+    int tot_neut = 0; //Ignored for good wet bonus
+    int tot_good = 0; //Increase good wet bonus
+
+    if (mfb(bp_eyes) & flags) {
+        effected += 1;
+        tot_good += eyes_good;
+        tot_neut += eyes_neutral;
+        tot_ignored += eyes_ignored;
+    }
+    if (mfb(bp_mouth) & flags) {
+        effected += 1;
+        tot_good += mouth_good;
+        tot_neut += mouth_neutral;
+        tot_ignored += mouth_ignored;
+    }
+    if (mfb(bp_head) & flags) {
+        effected += 7;
+        tot_good += head_good;
+        tot_neut += head_neutral;
+        tot_ignored += head_ignored;
+    }
+    if (mfb(bp_legs) & flags) {
+        effected += 21;
+        tot_good += legs_good;
+        tot_neut += legs_neutral;
+        tot_ignored += legs_ignored;
+    }
+    if (mfb(bp_feet) & flags) {
+        effected += 6;
+        tot_good += feet_good;
+        tot_neut += feet_neutral;
+        tot_ignored += feet_ignored;
+    }
+    if (mfb(bp_arms) & flags) {
+        effected += 19;
+        tot_good += arms_good;
+        tot_neut += arms_neutral;
+        tot_ignored += arms_ignored;
+    }
+    if (mfb(bp_hands) & flags) {
+        effected += 5;
+        tot_good += hands_good;
+        tot_neut += hands_neutral;
+        tot_ignored += hands_ignored;
+    }
+    if (mfb(bp_torso) & flags) {
+        effected += 40;
+        tot_good += torso_good;
+        tot_neut += torso_neutral;
+        tot_ignored += torso_ignored;
+    }
+
+    if (effected == 0) {
+        return;
+    }
+
+    bool wants_drench = false;
+    // If not protected by mutations then check clothing
+    if (tot_good + tot_neut + tot_ignored < effected) {
+        wants_drench = is_water_friendly(flags);
+    } else {
+        wants_drench = true;
+    }
+
+    int morale_cap;
+    if (wants_drench) {
+        morale_cap = g->get_temperature() - std::min(65, 65 + (tot_ignored - tot_good) / 2) * saturation / 100;
+    } else {
+        morale_cap = -(saturation / 2);
+    }
+
+    // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
+    if (morale_cap > 0) {
+        morale_cap = morale_cap * (effected - tot_ignored + tot_good) / effected;
+    } else if (morale_cap < 0) {
+        morale_cap = morale_cap * (effected - tot_ignored - tot_neut - tot_good) / effected;
+    }
+
+    if (morale_cap == 0) {
+        return;
+    }
+
+    int morale_effect = morale_cap / 8;
+    if (morale_effect == 0) {
+        if (morale_cap > 0) {
+            morale_effect = 1;
+        } else {
+            morale_effect = -1;
+        }
+    }
+
+    int dur = 60;
+    int d_start = 30;
+    if (morale_cap < 0) {
+        if (has_trait("LIGHTFUR") || has_trait("FUR")) {
+            dur /= 5;
+            d_start /= 5;
+        }
+    } else {
+        if (has_trait("SLIMY")) {
+            dur *= 1.2;
+            d_start *= 1.2;
+        }
+    }
+
+    add_morale(MORALE_WET, morale_effect, morale_cap, dur, d_start);
+}
+
+void player::drench_mut_check(int &ignored, int &neutral, int &good, unsigned long bpart)
+{
+    ignored = 0;
+    neutral = 0;
+    good = 0;
+    for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        if (has_trait(iter->first)) {
+            for (int i = 0; i < g->mutation_data[iter->first].protection.size(); i++) {
+                if (g->mutation_data[iter->first].protection[i].first == bpart) {
+                    ignored += g->mutation_data[iter->first].protection[i].second.x;
+                    neutral += g->mutation_data[iter->first].protection[i].second.y;
+                    good += g->mutation_data[iter->first].protection[i].second.z;
+                }
+            }
+        }
+    }
 }
 
 int player::weight_carried()
@@ -4623,7 +5000,7 @@ double player::convert_weight(int weight)
 {
     double ret;
     ret = double(weight);
-    if (OPTIONS["USE_METRIC_WEIGHT"]) {
+    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg") {
         ret /= 1000;
     } else {
         ret /= 453.6;
@@ -4647,51 +5024,6 @@ bool player::can_pickWeight(int weight, bool safe)
         return (weight_carried() + weight <= weight_capacity());
     }
 }
-
-// --- Library functions ---
-// This stuff could be moved elsewhere, but there
-// doesn't seem to be a good place to put it right now.
-
-// Basic logistic function.
-double logistic(double t)
-{
-    return 1 / (1 + exp(-t));
-}
-
-const double LOGI_CUTOFF = 4;
-const double LOGI_MIN = logistic(-LOGI_CUTOFF);
-const double LOGI_MAX = logistic(+LOGI_CUTOFF);
-const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
-
-// Logistic curve [-6,6], flipped and scaled to
-// range from 1 to 0 as pos goes from min to max.
-double logistic_range(int min, int max, int pos)
-{
-    // Anything beyond [min,max] gets clamped.
-    if (pos < min)
-    {
-        return 1.0;
-    }
-    else if (pos > max)
-    {
-        return 0.0;
-    }
-
-    // Normalize the pos to [0,1]
-    double range = max - min;
-    double unit_pos = (pos - min) / range;
-
-    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
-    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
-
-    // Get the raw logistic value.
-    double raw_logistic = logistic(scaled_pos);
-
-    // Scale the output to [0,1]
-    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
-}
-// --- End ---
-
 
 int player::net_morale(morale_point effect)
 {
@@ -4772,7 +5104,9 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
             {
                 // Otherwise, we need to figure out whether the existing effect had
                 // more remaining duration and decay-resistance than the new one does.
-                if (morale[i].duration - morale[i].age <= duration)
+                // Only takes the new duration if new bonus and old are the same sign.
+                if (morale[i].duration - morale[i].age <= duration &&
+                   ((morale[i].bonus > 0) == (max_bonus > 0)) )
                 {
                     morale[i].duration = duration;
                 }
@@ -4782,7 +5116,8 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
                     morale[i].duration -= morale[i].age;
                 }
 
-                if (morale[i].decay_start - morale[i].age <= decay_start)
+                if (morale[i].decay_start - morale[i].age <= decay_start &&
+                   ((morale[i].bonus > 0) == (max_bonus > 0)) )
                 {
                     morale[i].decay_start = decay_start;
                 }
@@ -5378,6 +5713,43 @@ bool player::worn_with_flag( std::string flag ) const
     return false;
 }
 
+bool player::covered_with_flag(const std::string flag, int parts) const {
+  int covered = 0;
+
+  for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
+    int cover = ((it_armor *)(armorPiece->type))->covers & parts;
+
+    if (!cover) continue; // For our purposes, this piece covers nothing.
+    if (cover & covered) continue; // the body part(s) is already covered.
+
+    bool hasFlag = armorPiece->has_flag(flag);
+
+    if (!hasFlag)
+      return false; // The item is the top layer on a relevant body part, and isn't tagged, so we fail.
+    else
+      covered |= cover; // The item is the top layer on a relevant body part, and is tagged.
+  }
+
+  return (covered == parts);
+}
+
+bool player::covered_with_flag_exclusively(const std::string flag, int flags) const {
+  for (std::vector<item>::const_iterator armorPiece = worn.begin(); armorPiece != worn.end(); ++armorPiece) {
+    if ((((it_armor *)(armorPiece->type))->covers & flags) && !armorPiece->has_flag(flag))
+      return false;
+  }
+
+  return true;
+}
+
+bool player::is_water_friendly(int flags) const {
+  return covered_with_flag_exclusively("WATER_FRIENDLY", flags);
+}
+
+bool player::is_waterproof(int flags) const {
+  return covered_with_flag("WATERPROOF", flags);
+}
+
 bool player::has_artifact_with(art_effect_passive effect)
 {
  if (weapon.is_artifact() && weapon.is_tool()) {
@@ -5779,11 +6151,11 @@ bool player::eat(game *g, signed char ch)
         if (eaten->poison > 0)
             add_disease("foodpoison", eaten->poison * 300);
 
-        if (comest->comesttype == "DRINK") {
+        if (comest->comesttype == "DRINK" && !eaten->has_flag("USE_EAT_VERB")) {
             g->add_msg_player_or_npc( this, _("You drink your %s."), _("<npcname> drinks a %s."),
                                       eaten->tname(g).c_str());
         }
-        else if (comest->comesttype == "FOOD") {
+        else if (comest->comesttype == "FOOD" || eaten->has_flag("USE_EAT_VERB")) {
             g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                       eaten->tname(g).c_str());
         }
@@ -5845,9 +6217,9 @@ bool player::eat(game *g, signed char ch)
         if (has_trait("GOURMAND"))
         {
             if (comest->fun < -2)
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
             else if (comest->fun > 0)
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, comest);
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
             if (hunger < -60 || thirst < -60)
                 g->add_msg_if_player(this,_("You can't finish it all!"));
             if (hunger < -60)
@@ -5858,9 +6230,9 @@ bool player::eat(game *g, signed char ch)
         else
         {
             if (comest->fun < 0)
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, comest);
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, false, comest);
             else if (comest->fun > 0)
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
             if (hunger < -20 || thirst < -20)
                 g->add_msg_if_player(this,_("You can't finish it all!"));
             if (hunger < -20)
@@ -5939,7 +6311,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
     return false;
    }
   } else if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
-   inv.push_back(remove_weapon());
+   inv.add_item_keep_invlet(remove_weapon());
    inv.unsort();
    moves -= 20;
    recoil = 0;
@@ -5986,7 +6358,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
             volume_capacity()) {
   item tmpweap = remove_weapon();
   weapon = inv.remove_item_by_letter(ch);
-  inv.push_back(tmpweap);
+  inv.add_item_keep_invlet(tmpweap);
   inv.unsort();
   moves -= 45;
   if (weapon.is_artifact() && weapon.is_tool()) {
@@ -6226,14 +6598,19 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
     }
     else
     {
-        // Only helmets can be worn with power armor, except other power armor components
-        if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & (mfb(bp_head) | mfb(bp_eyes))))
-        {
-            if(interactive)
+        // Only headgear can be worn with power armor, except other power armor components
+        if( armor->covers & ~(mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) ) ) {
+            for (int i = 0; i < worn.size(); i++)
             {
-                g->add_msg(_("You can't wear %s with power armor!"), to_wear->tname().c_str());
+                if( ((it_armor *)worn[i].type)->is_power_armor() )
+                {
+                    if(interactive)
+                    {
+                        g->add_msg(_("You can't wear %s with power armor!"), to_wear->tname().c_str());
+                    }
+                    return false;
+                }
             }
-            return false;
         }
     }
 
@@ -6397,7 +6774,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             if (armor->covers & mfb(i) && encumb(i) >= 4)
             {
                 g->add_msg(
-                    (i == bp_head || i == bp_torso) ? 
+                    (i == bp_head || i == bp_torso) ?
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
                     body_part_name(body_part(i), 2).c_str(), encumb_text(body_part(i)).c_str());
             }
@@ -6453,7 +6830,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
      }
     if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
         volume_carried() + worn[i].type->volume) {
-     inv.push_back(worn[i]);
+     inv.add_item_keep_invlet(worn[i]);
      worn.erase(worn.begin() + i);
      inv.unsort();
      return true;
@@ -6491,7 +6868,7 @@ void player::sort_armor(game *g)
     int eyes_win_y = 3;
     int mouth_win_y = 3;
 
-    // color array for damae
+    // color array for damage
     nc_color dam_color[] = {c_green, c_ltgreen, c_yellow, c_magenta, c_ltred, c_red};
 
     for (int i = 0; i < worn.size(); i++)
@@ -6516,6 +6893,16 @@ void player::sort_armor(game *g)
 
     int iCenterOffsetX = TERMX/2 - FULL_SCREEN_WIDTH/2;
     int iCenterOffsetY = TERMY/2 - (info_win_y + arm_info_win_y + worn_win_y)/2;
+
+    // Prevent calling newwin with negative Y offset
+    if (iCenterOffsetY < 0){
+        worn_win_y = TERMY - 7;
+        iCenterOffsetY = 0;
+    }
+
+    // Keep track of how many worn items to display
+    int wornDisplayed = (worn_win_y-5 > worn.size()) ? worn.size() : worn_win_y-5;
+    int wornOffset = 0;
 
     WINDOW* w_info       = newwin(info_win_y, FULL_SCREEN_WIDTH, iCenterOffsetY + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X + iCenterOffsetX);
     WINDOW* w_arm_info   = newwin(arm_info_win_y, FULL_SCREEN_WIDTH,  iCenterOffsetY + info_win_y - 1 + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X + iCenterOffsetX);
@@ -6629,18 +7016,23 @@ void player::sort_armor(game *g)
             mvwprintz(w_all_worn, 1, iCol1WinX-9, c_ltgray ,_("Storage"));
 
             mvwprintz(w_all_worn, 2, 1, c_ltgray, _("(Innermost)"));
-            for (int i = 0; i < worn.size(); i++)
+
+            for (int i = 0; i < wornDisplayed; i++)
             {
-                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);
-                if (i == cursor_y)
-                    mvwprintz(w_all_worn, 3+cursor_y, 2, c_yellow, ">>");
-                if (selected >= 0 && i == selected)
-                    mvwprintz(w_all_worn, i+3, 5, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
+                int j = i + wornOffset;
+                it_armor* each_armor = dynamic_cast<it_armor*>(worn[j].type);
+                if (j == cursor_y)
+                    mvwprintz(w_all_worn, 3+cursor_y - wornOffset, 2, c_yellow, ">>");
+                if (selected >= 0 && j == selected)
+                    mvwprintz(w_all_worn, i+3, 5, dam_color[int(worn[j].damage + 1)], each_armor->name.c_str());
                 else
-                    mvwprintz(w_all_worn, i+3, 4, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
-                mvwprintz(w_all_worn, i+3, iCol1WinX-4, dam_color[int(worn[i].damage + 1)], "%2d", int(each_armor->storage));
+                    mvwprintz(w_all_worn, i+3, 4, dam_color[int(worn[j].damage + 1)], each_armor->name.c_str());
+                mvwprintz(w_all_worn, i+3, iCol1WinX-4, dam_color[int(worn[j].damage + 1)], "%2d", int(each_armor->storage));
             }
-            mvwprintz(w_all_worn, 3 + worn.size(), 1, c_ltgray, _("(Outermost)"));
+            mvwprintz(w_all_worn, wornDisplayed + 3, 1, c_ltgray, _("(Outermost)"));
+
+            if (wornDisplayed < worn.size()) // Show flag if list is scollable
+                mvwprintz(w_all_worn, wornDisplayed + 3, iCol1WinX-8, c_yellow, _("<more>"));
 
             werase(w_torso_worn);
             werase(w_eyes_worn);
@@ -6754,6 +7146,11 @@ void player::sort_armor(game *g)
                     cursor_y++;
                     cursor_y = (cursor_y >= worn.size() ? 0 : cursor_y);
                 }
+                // Scrolling logic
+                if (!((cursor_y > wornOffset) && (cursor_y < wornOffset + wornDisplayed))){
+                    wornOffset = cursor_y - wornDisplayed + 1;
+                    wornOffset = (wornOffset > 0) ? wornOffset : 0;
+                }
                 redraw = true;
                 break;
             case 'k':
@@ -6773,6 +7170,12 @@ void player::sort_armor(game *g)
                 {
                     cursor_y--;
                     cursor_y = (cursor_y < 0 ? worn.size() - 1 : cursor_y);
+                }
+                // Scrolling logic
+                wornOffset = (cursor_y < wornOffset) ? cursor_y : wornOffset;
+                if (!((cursor_y >= wornOffset) && (cursor_y < wornOffset + wornDisplayed))){
+                    wornOffset = cursor_y - wornDisplayed + 1;
+                    wornOffset = (wornOffset > 0) ? wornOffset : 0;
                 }
                 redraw = true;
                 break;
@@ -7416,13 +7819,13 @@ void player::try_to_sleep(game *g)
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
      furn_at_pos == f_armchair || furn_at_pos == f_sofa ||
-     (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
-      (veh && veh->part_with_feature (vpart, vpf_bed) >= 0))
+     (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+      (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
   g->add_msg(
-             terlist[ter_at_pos].movecost <= 2 ? 
-             _("It's a little hard to get to sleep on this %s.") : 
+             terlist[ter_at_pos].movecost <= 2 ?
+             _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
              terlist[ter_at_pos].name.c_str());
  add_disease("lying_down", 300);
@@ -7441,11 +7844,11 @@ bool player::can_sleep(game *g)
  const trap_id trap_at_pos = g->m.tr_at(posx, posy);
  const ter_id ter_at_pos = g->m.ter(posx, posy);
  const furn_id furn_at_pos = g->m.furn(posx, posy);
- if ((veh && veh->part_with_feature (vpart, vpf_bed) >= 0) ||
+ if ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
      furn_at_pos == f_sofa)
   sleepy += 4;
- else if ((veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
+ else if ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       trap_at_pos == tr_rollmat || furn_at_pos == f_armchair)
   sleepy += 3;
  else if (furn_at_pos == f_bed)
@@ -7463,6 +7866,42 @@ bool player::can_sleep(game *g)
  if (sleepy > 0)
   return true;
  return false;
+}
+
+std::string player::is_snuggling(game *g)
+{
+    std::vector<item>& floor_item = g->m.i_at(posx, posy);
+    it_armor* floor_armor = NULL;
+    int ticker = 0;
+
+    // If there are no items on the floor, return nothing
+    if ( floor_item.size() == 0 ) {
+        return "nothing";
+    }
+
+    for ( std::vector<item>::iterator afloor_item = floor_item.begin() ; afloor_item != floor_item.end() ; ++afloor_item) {
+        if ( !afloor_item->is_armor() ) {
+            continue;
+        }
+        else if ( afloor_item->volume() > 1 &&
+        (dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_torso) ||
+         dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_legs)) ){
+            floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
+            ticker++;
+        }
+    }
+
+    if ( ticker == 0 ) {
+        return "nothing";
+    }
+    else if ( ticker == 1 ) {
+        return floor_armor->name.c_str();
+    }
+    else if ( ticker > 1 ) {
+        return "many";
+    }
+
+    return "nothing";
 }
 
 // Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
@@ -8251,3 +8690,54 @@ point player::adjacent_tile()
     else
         return point(posx, posy);           // or return player position if no valid adjacent tiles
 }
+
+// --- Library functions ---
+// This stuff could be moved elsewhere, but there
+// doesn't seem to be a good place to put it right now.
+
+// Basic logistic function.
+double player::logistic(double t)
+{
+    return 1 / (1 + exp(-t));
+}
+
+// Logistic curve [-6,6], flipped and scaled to
+// range from 1 to 0 as pos goes from min to max.
+double player::logistic_range(int min, int max, int pos)
+{
+    const double LOGI_CUTOFF = 4;
+    const double LOGI_MIN = logistic(-LOGI_CUTOFF);
+    const double LOGI_MAX = logistic(+LOGI_CUTOFF);
+    const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
+    // Anything beyond [min,max] gets clamped.
+    if (pos < min)
+    {
+        return 1.0;
+    }
+    else if (pos > max)
+    {
+        return 0.0;
+    }
+
+    // Normalize the pos to [0,1]
+    double range = max - min;
+    double unit_pos = (pos - min) / range;
+
+    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
+    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
+
+    // Get the raw logistic value.
+    double raw_logistic = logistic(scaled_pos);
+
+    // Scale the output to [0,1]
+    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
+}
+
+// Calculates portions favoring x, then y, then z
+void player::calculate_portions(int &x, int &y, int &z, int maximum)
+{
+    z = std::min(z, std::max(maximum - x - y, 0));
+    y = std::min(y, std::max(maximum - x , 0));
+    x = std::min(x, std::max(maximum, 0));
+}
+// --- End ---

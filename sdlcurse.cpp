@@ -72,7 +72,6 @@ bool fexists(const char *filename)
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
-	const SDL_VideoInfo* video_info;
 	int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
 
 	if(SDL_Init(init_flags) < 0)

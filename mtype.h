@@ -44,7 +44,7 @@ mon_graboid, mon_worm, mon_halfworm,
 mon_sludge_crawler,
 // Zombies
  mon_zombie, mon_zombie_cop, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
- mon_zombie_smoker,
+ mon_zombie_smoker, mon_zombie_swimmer,
  mon_zombie_fast, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
  mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
  mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
@@ -123,7 +123,7 @@ std::vector<monster_trigger> default_fears(monster_species spec);
 // And comment them well. ;)
 // mfb(n) converts a flag to its appropriate position in mtype's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 enum m_flag {
 MF_NULL = 0,	// Helps with setvector
@@ -175,7 +175,7 @@ MF_FRIENDLY_SPECIAL, // Use our special attack, even if friendly
 MF_HIT_AND_RUN,	// Flee for several turns after a melee attack
 MF_GUILT,	// You feel guilty for killing it
 MF_HUMAN,	// It's a live human
-MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and poison
+MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and poison, and can't drown
 MF_REGENERATES_50, // Monster regenerates very quickly over time
 MF_FLAMMABLE, // Monster catches fire, burns, and passes the fire on to nearby objects
 MF_MAX		// Sets the length of the flags - obviously MUST be last
