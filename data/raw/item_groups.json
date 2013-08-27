@@ -3293,17 +3293,18 @@
       ["oxycodone", 7],
       ["xanax", 10],
       ["adderall", 10],
-      ["crackpipe", 12],
       ["pipe_tobacco", 2],
+      ["adrenaline_injector", 2],
       ["weed", 60],
       ["seed_weed", 35],
       ["rolling_paper", 9],
-      ["pipe_glass", 7],
+      ["pipe_glass", 17],
       ["coke", 8],
       ["meth", 2],
       ["heroin", 1],
-      ["crack", 8],
-      ["lsd", 8]
+      ["crack", 4],
+      ["crackpipe", 7],
+      ["lsd", 6]
     ]
   },
   { "id":"drugdealer",
