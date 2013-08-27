@@ -9,6 +9,11 @@
     "tiles":
     [
         {
+            "id":"unknown",
+            "bg":54,
+            "rotates":true
+        },
+        {
             "id":"weather_acid_drop",
             "bg":14
         },
@@ -40,7 +45,6 @@
         {
             "id":"explosion",
             "bg": 5,
-            "fg": 0,
             "multitile": true,
             "rotates": true,
             "additional_tiles":

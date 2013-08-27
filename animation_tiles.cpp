@@ -198,6 +198,8 @@ void game::draw_weather(weather_printable wPrint)
         case WEATHER_SNOW:
         case WEATHER_SNOWSTORM: weather_name = "weather_snowflake"; break;
     }
+    /*
+    // may have been the culprit of slowdown. Seems to be the same speed now for both weathered and non-weathered display
     for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
          weather_iterator != wPrint.vdrops.end();
          ++weather_iterator)
@@ -205,6 +207,7 @@ void game::draw_weather(weather_printable wPrint)
         mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
 
     }
+    */
     tilecontext->init_draw_weather(wPrint, weather_name);
 }
 #endif

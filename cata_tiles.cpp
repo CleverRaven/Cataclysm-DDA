@@ -183,7 +183,9 @@ void cata_tiles::load_tileset(std::string path)
     }
     /** create the buffer screen */
     buffer = SDL_AllocSurface(SDL_SWSURFACE, WindowWidth, WindowHeight, 32, 0xff0000, 0xff00, 0xff, 0);
-    // overlay has an alpha mask attached
+
+    screentile_height = WindowHeight / tile_height;
+    screentile_width = WindowWidth / tile_width;
 
 DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->h << "\n";
     /** reinit tile_atlas */
@@ -460,7 +462,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
             if (!draw_terrain(x,y))
             {
-                DebugLog() << "Terrain Failed to load at <"<<x<<", "<<y<<">\n";
+                //DebugLog() << "Terrain Failed to load at <"<<x<<", "<<y<<">\n";
                 continue;
             }
             draw_furniture(x,y);
@@ -516,13 +518,23 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
 
 bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position)
 {
+    // For the moment, if the ID string does not produce a drawable tile it will revert to the "unknown" tile.
+    // The "unknown" tile is one that is highly visible so you kinda can't miss it :D
+
+    // check to make sure that we are drawing within a valid area [0->width|height / tile_width|height]
+    if (is_at_screen_position && (x < 0 || x > screentile_width || y < 0 || y > screentile_height)) return false;
+    else if (!is_at_screen_position && ((x-o_x) < 0 || (x-o_x) > screentile_width || (y-o_y) < 0 || (y-o_y) > screentile_height)) return false;
+
     tile_id_iterator it = tile_ids->find(id);
-    // if id is not found, return false
-    if (it == tile_ids->end()) return false;
+    // if id is not found, return unknown tile
+    if (it == tile_ids->end()) return draw_from_id_string("unknown", x, y, subtile, rota, is_at_screen_position);
 
     tile_type *display_tile = it->second;
-    // if found id does not have a valid tile_type then return false
-    if (!display_tile) return false;
+    // if found id does not have a valid tile_type then return unknown tile
+    if (!display_tile) return draw_from_id_string("unknown", x, y, subtile, rota, is_at_screen_position);
+
+    // if both bg and fg are -1 then return unknown tile
+    if (display_tile->bg == -1 && display_tile->fg == -1) return draw_from_id_string("unknown", x, y, subtile, rota, is_at_screen_position);
 
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
     if (subtile != -1 && display_tile->multitile)

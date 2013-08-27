@@ -182,6 +182,7 @@ class cata_tiles
         tile_id_map *tile_ids;
 
         int tile_height, tile_width;
+        int screentile_width, screentile_height;
         tile *screen_tiles;
         int num_tiles;
 
