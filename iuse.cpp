@@ -501,18 +501,34 @@ void iuse::antibiotic(game *g, player *p, item *it, bool t) {
 
 void iuse::weed(game *g, player *p, item *it, bool t) {
     // Requires flame and something to smoke with.
-    bool canSmoke = (p->has_amount("apparatus", 1) || p->has_amount("rolling_paper", 1));
-    if (canSmoke && p->use_charges_if_avail("fire", 1)) {
+    bool alreadyHigh = (p->has_disease("weed_high"));
+    bool hasPipe = (p->has_amount("apparatus", 1));
+    bool canSmoke = (hasPipe || p->has_charges("rolling_paper", 1));
+    if (!canSmoke) {
+        g->add_msg_if_player(p,_("You haven't got anything to smoke out of."));
+        add_or_drop_item(g, p, it);
+        return;
+    } else if (!hasPipe) {
+        p->use_charges_if_avail("rolling_paper", 1);
+    }
+    if (p->use_charges_if_avail("fire", 1)) {
         p->hunger += 4;
         p->thirst += 6;
-        p->pkill += 3;
-        p->pkill *= 2;
-        g->add_msg_if_player(p,_("You smoke some weed.  Good stuff, man!"));
+        if (p->pkill < 10) {
+            p->pkill += 3;
+            p->pkill *= 2;
+        }
+        if (!alreadyHigh) {
+            g->add_msg_if_player(p,_("You smoke some weed.  Good stuff, man!"));
+        } else {
+            g->add_msg_if_player(p,_("You smoke some more weed."));
+        }
         int duration = (p->has_trait("LIGHTWEIGHT") ? 120 : 90);
         p->add_disease("weed_high", duration);
-        if (!(p->has_amount("apparatus", 1))) {
-            p->use_charges_if_avail("rolling_paper", 1);
-        }
+    } else {
+        g->add_msg_if_player(p,_("You need something to light it."));
+        add_or_drop_item(g, p, it);
+        return;
     }
 }
 
@@ -547,7 +563,7 @@ void iuse::grack(game *g, player *p, item *it, bool t) {
         if (p->has_trait("LIGHTWEIGHT")) {
             duration += 10;
         }
-        p->hunger -= 20;
+        p->hunger -= 10;
         p->add_disease("grack", duration);
     }
 }
