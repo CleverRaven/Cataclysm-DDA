@@ -5,6 +5,7 @@
 #include "line.h"
 #include "bodypart.h"
 #include "material.h"
+#include "catajson.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -17,16 +18,7 @@
 #include <limits>  // std::numeric_limits
 #define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
 
-bool mattack::initialized = false;
-std::vector<SpeechBubble> mattack::parrotVector;
-
-mattack::mattack() {
-    // this should only need to be done once:
-    if (!initialized) {
-        initialized = true;
-        load_parrot_speech();
-    }
-}
+std::vector<SpeechBubble> parrotVector;
 
 void mattack::antqueen(game *g, monster *z)
 {
@@ -1570,63 +1562,31 @@ void mattack::parrot(game *g, monster *z) {
         if (parrotVector.size() == 0) { return; }
         int index = rng(0, parrotVector.size() - 1);
         SpeechBubble speech = parrotVector[index];
-        g->sound(z->posx, z->posy, speech.volume, _(speech.text.c_str()));
+        g->sound(z->posx, z->posy, speech.volume, speech.text);
     }
 }
 
-bool mattack::load_parrot_speech() {
-    const char* FILEPATH = "data/raw/speech/parrot.txt";
-    std::string buffer;
-    char delimiter = ':';
-    SpeechBubble speech;
-    // load parrot dialogue data file
-    std::ifstream f(FILEPATH);
-    if (f.is_open()) {
-        while (f.good()) {
-            int n = 0;
-            std::getline(f, buffer);
-            // clear leading whitespace
-            while (n < buffer.size() && isspace(buffer[n])) {
-                buffer.erase(n, 1);
-            }
-            // filter out comments and invalid statements
-            size_t dpos = buffer.find(delimiter);
-            bool invalid = (dpos == std::string::npos);
-            bool isComment = (buffer.find("//") == 0);
-            if (isComment || invalid) {
-                continue;
-            }
-            // build data from extracted string
-            std::stringstream stream(buffer);
-            std::getline(stream, speech.text, delimiter);
-            /*
-                std::getline(stream, buffer);
-                try {
-                    speech.volume = stoi(buffer);
-                } catch(std::invalid_argument) {
-                    speech.volume = 30;
-                } catch(std::out_of_range) {
-                    speech.volume = 90;
-                }
-            */
-            stream << buffer;
-            stream >> speech.volume;
-            stream.str("");
-            stream.clear();
-            // store the data and ignore the rest of this line
-            parrotVector.push_back(speech);
-            SKIPLINE(f);
-        }
-        f.close();
-    } else {
-        // todo:  make debug message
-        std::cerr << "IO ERROR: Unable to read " << FILEPATH << "!";
+void game::init_parrot_speech() throw (std::string)
+{
+    catajson parrot_file("data/raw/parrot.json");
+
+    if (!json_good()) {
+        throw (std::string) "data/raw/parrot.json was not found";
     }
-    if (parrotVector.size() == 0) {
-        speech.text = "imprecise muttering.";
-        speech.volume = 20;
+
+    for (parrot_file.set_begin(); parrot_file.has_curr(); parrot_file.next()) {
+        catajson parrot = parrot_file.curr();
+
+        std::string sound   = _(parrot.get("sound").as_string().c_str());
+        int volume          = parrot.get("volume").as_int();
+
+        SpeechBubble speech = {sound, volume};
+
         parrotVector.push_back(speech);
-        return false;
     }
-    return true;
+
+    if (!json_good()) {
+        throw (std::string) "There was an error reading data/raw/parrot.json";
+    }
 }
+

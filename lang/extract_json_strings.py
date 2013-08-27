@@ -169,6 +169,14 @@ with open(os.path.join(to_folder,"json_vehicle_parts.py"),'w') as veh_jtl:
         writestr(veh_jtl, item["name"])
 extracted.append("vehicle_parts.json")
 
+# data/raw/parrot.json
+with open(os.path.join(to_folder,"json_parrot.py"),'w') as parrot_jtl:
+    jsonfile = os.path.join(raw_folder, "parrot.json")
+    jsondata = json.loads(open(jsonfile).read())
+    for item in jsondata:
+        writestr(parrot_jtl, item["sound"])
+extracted.append("parrot.json")
+
 ## please add any new .json files to extract just above here.
 ## make sure you extract the right thing from the right place.
 
