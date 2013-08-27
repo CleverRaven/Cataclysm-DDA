@@ -8394,7 +8394,8 @@
   ],
   "components": [
     [
-      [ "jug_plastic", 1 ]
+      [ "jug_plastic", 1 ],
+      [ "bottle_plastic", 3 ]
     ]
   ]
 },
