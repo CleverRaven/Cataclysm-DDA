@@ -9001,6 +9001,7 @@
   "tools": [
     [
       [ "lighter", 5 ],
+      [ "ref_lighter", 5 ],,
       [ "fire", -1 ],
       [ "toolset", 1 ]
     ]
@@ -13144,6 +13145,7 @@
   "tools": [
     [
       [ "lighter", 20 ],
+      [ "ref_lighter", 20 ],,
       [ "fire", -1 ],
       [ "toolset", 2 ]
     ]
