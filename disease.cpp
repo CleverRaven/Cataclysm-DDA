@@ -1053,40 +1053,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_HALLU:
-        // This assumes that we were given DI_HALLU with a 3600 (6-hour) lifespan
-        if (dis.duration > 3000) {
-            // First hour symptoms
-            if (one_in(300)) {
-                g->add_msg_if_player(&p,_("You feel a little strange."));
-            }
-        } else if (dis.duration > 2400) {	// Coming up
-            if (one_in(100) || (p.has_trait("WEAKSTOMACH") && one_in(100))) {
-                g->add_msg_if_player(&p,_("You feel nauseous."));
-                p.hunger -= 5;
-            }
-            if (!p.is_npc()) {
-                if (one_in(200))
-                g->add_msg(_("Huh?  What was that?"));
-                else if (one_in(200))
-                g->add_msg(_("Oh god, what's happening?"));
-                else if (one_in(200))
-                g->add_msg(_("Of course... it's all fractals!"));
-            }
-        } else if (dis.duration == 2400) {
-            // Visuals start
-            p.add_disease("visuals", 2400);
-        } else {
-            // Full symptoms
-            p.per_cur -= 2;
-            p.int_cur -= 1;
-            p.dex_cur -= 2;
-            p.str_cur -= 1;
-            if (one_in(50)) {	// Generate phantasm
-                monster phantasm(g->mtypes[mon_hallu_zom + rng(0, 3)]);
-                phantasm.spawn(p.posx + rng(-10, 10), p.posy + rng(-10, 10));
-                g->z.push_back(phantasm);
-            }
-        }
+            handle_deliriant(g, p, dis);
         break;
 
         case DI_ADRENALINE:
@@ -2201,6 +2168,80 @@ void handle_cough(player &p, int loudness) {
         p.rem_disease("sleep");
     }
     g->add_msg_if_player(&p,_("You wake up coughing."));
+}
+
+void handle_deliriant(game* g, player& p, disease& dis, int maxDuration) {
+    // drawn from original proportions based on 3600 (6-hour) lifespan
+    static bool puked = false;
+    int comeupTime = maxDuration*0.9;
+    int noticeTime = comeupTime + maxDuration*0.5;
+    int peakTime = maxDuration*0.8;
+    int comedownTime = maxDuration*0.2;
+    // Baseline
+    if (dis.duration == noticeTime) {
+        g->add_msg_if_player(&p,_("You feel a little strange."));
+    } else if (dis.duration == comeupTime) {
+        // Coming up
+        if (one_in(2)) {
+            g->add_msg_if_player(&p,_("The world takes on a dreamlike quality."));
+        } else if (one_in(3)) {
+            g->add_msg_if_player(&p,_("You have a sudden nostalgic feeling."));
+        } else if (one_in(5)) {
+            g->add_msg_if_player(&p,_("Everything around you is starting to breathe."));
+        } else {
+            g->add_msg_if_player(&p,_("Something feels very, very wrong."));
+        }
+    } else if (dis.duration > peakTime) {
+        if (one_in(100) || will_vomit(p, 50)) {
+            g->add_msg_if_player(&p,_("You feel sick to your stomach."));
+            p.hunger -= 5;
+            if (one_in(6)) {
+                p.vomit(g);
+            }
+        }
+        if (p.is_npc() && one_in(200)) {
+            std::string npcText;
+            switch(rng(1,4)) {
+                case 1:
+                    npcText = "\"I think it's starting to kick in.\"";
+                    break;
+                case 2:
+                    npcText = "\"Oh God, what's happening?\"";
+                    break;
+                case 3:
+                    npcText = "\"Of course... it's all fractals!\"";
+                    break;
+                default:
+                    npcText = "\"Huh?  What was that?\"";
+                    break;
+                int loudness = 20 + p.str_cur - p.int_cur;
+                loudness = (loudness > 5 ? loudness : 5);
+                loudness = (loudness < 30 ? loudness : 30);
+                g->sound(p.posx, p.posy, loudness, _(npcText.c_str()));
+            }
+        }
+    } else if (dis.duration == peakTime) {
+        // Visuals start
+        p.add_disease("visuals", peakTime - comedownTime);
+    } else if (dis.duration > comedownTime) {
+        // Full symptoms
+        p.per_cur -= 2;
+        p.int_cur -= 1;
+        p.dex_cur -= 2;
+        p.str_cur -= 1;
+        if (one_in(50)) {
+            // Generate phantasm
+            monster phantasm(g->mtypes[mon_hallu_zom + rng(0, 3)]);
+            phantasm.spawn(p.posx + rng(-10, 10), p.posy + rng(-10, 10));
+            g->z.push_back(phantasm);
+        }
+    } else if (dis.duration == comedownTime) {
+        if (one_in(42)) {
+            g->add_msg_if_player(&p,_("Everything looks SO boring now."));
+        } else {
+            g->add_msg_if_player(&p,_("Things are returning to normal."));
+        }
+    }
 }
 
 void handle_evil(player& p, disease& dis) {

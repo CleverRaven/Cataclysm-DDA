@@ -599,7 +599,7 @@ void iuse::vitamins(game *g, player *p, item *it, bool t) {
 
 void iuse::vaccine(game *g, player *p, item *it, bool t) {
     g->add_msg_if_player(p,
-        _("You inject the vaccine. \nNothing like stabbing yourself with a big needle."));
+        _("You inject the vaccine. \nYou feel tough."));
     if (p->health >= 100) {
         return;
     } else if (p->health >= 0) {
@@ -617,15 +617,6 @@ void iuse::poison(game *g, player *p, item *it, bool t) {
 
 void iuse::hallu(game *g, player *p, item *it, bool t) {
     p->add_disease("hallu", 2400);
-    if (one_in(2)) {
-        g->add_msg_if_player(p,_("The world takes on a dreamlike quality."));
-    } else if (one_in(3)) {
-        g->add_msg_if_player(p,_("You have a sudden nostalgic feeling."));
-    } else if (one_in(5)) {
-        g->add_msg_if_player(p,_("Everything around you is starting to breathe."));
-    } else {
-        g->add_msg_if_player(p,_("Something feels very wrong."));
-    }
 }
 
 void iuse::thorazine(game *g, player *p, item *it, bool t) {
