@@ -128,9 +128,9 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
      m->ter_set(examx + i, examy + j, t_floor);
      }
   }
-  for (int i = 0; i < g->z.size(); i++) {
-   if (g->z[i].type->id == mon_turret) {
-    g->z.erase(g->z.begin() + i);
+  for (int i = 0; i < g->num_zombies(); i++) {
+   if (g->zombie(i).type->id == mon_turret) {
+    g->remove_zombie(i);
     i--;
    }
   }

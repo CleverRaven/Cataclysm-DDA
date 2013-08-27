@@ -795,7 +795,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
     if (one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
         (goo_spawned == 0 || one_in(goo_spawned * 2))) {
      goo.spawn(x, y);
-     g->z.push_back(goo);
+     g->add_zombie(goo);
      goo_spawned++;
     }
    }
@@ -843,11 +843,11 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
  p->moves -= 15;
  int mon_dex = g->mon_at(dirx,diry);
  if (mon_dex != -1) {
-  if (g->z[mon_dex].type->id == mon_dog) {
+  if (g->zombie(mon_dex).type->id == mon_dog) {
    g->add_msg_if_player(p,_("The dog seems to like you!"));
-   g->z[mon_dex].friendly = -1;
+   g->zombie(mon_dex).friendly = -1;
   } else
-   g->add_msg_if_player(p,_("The %s seems quite unimpressed!"),g->z[mon_dex].type->name.c_str());
+   g->add_msg_if_player(p,_("The %s seems quite unimpressed!"),g->zombie(mon_dex).type->name.c_str());
  } else
   g->add_msg_if_player(p,_("You spill the dogfood all over the ground."));
 }
@@ -1249,16 +1249,16 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
  }
  int mondex = g->mon_at(x, y);
  if (mondex != -1) {
-  g->z[mondex].moves -= 150;
-  if (g->u_see(&(g->z[mondex])))
-   g->add_msg_if_player(p,_("The %s is sprayed!"), g->z[mondex].name().c_str());
-  if (g->z[mondex].made_of(LIQUID)) {
-   if (g->u_see(&(g->z[mondex])))
-    g->add_msg_if_player(p,_("The %s is frozen!"), g->z[mondex].name().c_str());
-   if (g->z[mondex].hurt(rng(20, 60)))
+  g->zombie(mondex).moves -= 150;
+  if (g->u_see(&(g->zombie(mondex))))
+   g->add_msg_if_player(p,_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
+  if (g->zombie(mondex).made_of(LIQUID)) {
+   if (g->u_see(&(g->zombie(mondex))))
+    g->add_msg_if_player(p,_("The %s is frozen!"), g->zombie(mondex).name().c_str());
+   if (g->zombie(mondex).hurt(rng(20, 60)))
     g->kill_mon(mondex, (p == &(g->u)));
    else
-    g->z[mondex].speed /= 2;
+    g->zombie(mondex).speed /= 2;
   }
  }
  if (g->m.move_cost(x, y) != 0) {
@@ -2861,17 +2861,17 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
  if (mondex != -1) {
   if (g->u_see(goox, gooy))
    g->add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
-              g->z[mondex].name().c_str());
-  g->z[mondex].poly(g->mtypes[mon_blob]);
-  g->z[mondex].speed -= rng(5, 25);
-  g->z[mondex].hp = g->z[mondex].speed;
+              g->zombie(mondex).name().c_str());
+  g->zombie(mondex).poly(g->mtypes[mon_blob]);
+  g->zombie(mondex).speed -= rng(5, 25);
+  g->zombie(mondex).hp = g->zombie(mondex).speed;
  } else {
   if (g->u_see(goox, gooy))
    g->add_msg(_("Living black goo emerges from the canister!"));
   monster goo(g->mtypes[mon_blob]);
   goo.friendly = -1;
   goo.spawn(goox, gooy);
-  g->z.push_back(goo);
+  g->add_zombie(goo);
  }
  tries = 0;
  while (!one_in(4) && tries < 10) {
@@ -2963,10 +2963,11 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                 g->draw_explosion(pos.x, pos.y, 10, c_ltcyan);
                 for (int i = -10; i <= 10; i++) {
                     for (int j = -10; j <= 10; j++) {
-                        if (g->mon_at(pos.x + i, pos.y + j) != -1 &&
-                              (g->z[g->mon_at(pos.x + i, pos.y + j)].type->species == species_insect ||
-                               g->z[g->mon_at(pos.x + i, pos.y + j)].type->species == species_hallu) ) {
-                            g->explode_mon(g->mon_at(pos.x + i, pos.y + j));
+                        const int zid = g->mon_at(pos.x + i, pos.y + j);
+                        if (zid != -1 &&
+                              (g->zombie(zid).type->species == species_insect ||
+                               g->zombie(zid).type->species == species_hallu) ) {
+                            g->explode_mon(zid);
                         }
                     }
                 }
@@ -2977,10 +2978,10 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                 g->draw_explosion(pos.x, pos.y, 10, c_green);
                 for (int i = -10; i <= 10; i++) {
                     for (int j = -10; j <= 10; j++) {
-                        if (g->mon_at(pos.x + i, pos.y + j) != -1) {
-                            int mon_hit = g->mon_at(pos.x + i, pos.y + j);
-                            g->z[mon_hit].speed *= 1 + rng(0, 20) * .1;
-                            g->z[mon_hit].hp *= 1 + rng(0, 20) * .1;
+                        const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                        if (mon_hit != -1) {
+                            g->zombie(mon_hit).speed *= 1 + rng(0, 20) * .1;
+                            g->zombie(mon_hit).hp *= 1 + rng(0, 20) * .1;
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->str_max += rng(0, g->active_npc[npc_hit]->str_max/2);
@@ -3009,10 +3010,10 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                 g->draw_explosion(pos.x, pos.y, 10, c_red);
                 for (int i = -10; i <= 10; i++) {
                     for (int j = -10; j <= 10; j++) {
-                        if (g->mon_at(pos.x + i, pos.y + j) != -1) {
-                            int mon_hit = g->mon_at(pos.x + i, pos.y + j);
-                            g->z[mon_hit].speed = rng(1, g->z[mon_hit].speed);
-                            g->z[mon_hit].hp = rng(1, g->z[mon_hit].hp);
+                        const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                        if (mon_hit != -1) {
+                            g->zombie(mon_hit).speed = rng(1, g->zombie(mon_hit).speed);
+                            g->zombie(mon_hit).hp = rng(1, g->zombie(mon_hit).hp);
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->str_max -= rng(0, g->active_npc[npc_hit]->str_max/2);
@@ -3040,12 +3041,12 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                 g->draw_explosion(pos.x, pos.y, 10, c_pink);
                 for (int i = -10; i <= 10; i++) {
                     for (int j = -10; j <= 10; j++) {
-                        if (g->mon_at(pos.x + i, pos.y + j) != -1) {
-                            int mon_hit = g->mon_at(pos.x + i, pos.y + j);
-                            g->z[mon_hit].speed = g->z[mon_hit].type->speed;
-                            g->z[mon_hit].hp = g->z[mon_hit].type->hp;
-                            for (int i = 0; i < g->z[mon_hit].effects.size(); i++) {
-                                g->z[mon_hit].effects.erase(g->z[mon_hit].effects.begin() + i);
+                        const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                        if (mon_hit != -1) {
+                            g->zombie(mon_hit).speed = g->zombie(mon_hit).type->speed;
+                            g->zombie(mon_hit).hp = g->zombie(mon_hit).type->hp;
+                            for (int i = 0; i < g->zombie(mon_hit).effects.size(); i++) {
+                                g->zombie(mon_hit).effects.erase(g->zombie(mon_hit).effects.begin() + i);
                                 i--;
                             }
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
@@ -3514,10 +3515,10 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
  for (int x = pos.x - 4; x <= pos.x + 4; x++) {
   for (int y = pos.y - 4; y <= pos.y + 4; y++) {
    int mondex = g->mon_at(x, y);
-   if (mondex != -1 && g->z[mondex].symbol() == 'Z' &&
-       g->z[mondex].friendly == 0 && rng(0, 500) > g->z[mondex].hp) {
+   if (mondex != -1 && g->zombie(mondex).symbol() == 'Z' &&
+       g->zombie(mondex).friendly == 0 && rng(0, 500) > g->zombie(mondex).hp) {
     converts++;
-    g->z[mondex].make_friendly();
+    g->zombie(mondex).make_friendly();
    }
   }
  }
@@ -3560,7 +3561,7 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,_("You misprogram the manhack; it's hostile!"));
  else
   m_manhack.friendly = -1;
- g->z.push_back(m_manhack);
+ g->add_zombie(m_manhack);
 }
 
 void iuse::turret(game *g, player *p, item *it, bool t)
@@ -3581,7 +3582,7 @@ void iuse::turret(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,_("You misprogram the turret; it's hostile!"));
  else
   mturret.friendly = -1;
- g->z.push_back(mturret);
+ g->add_zombie(mturret);
 }
 
 void iuse::UPS_off(game *g, player *p, item *it, bool t)
@@ -3681,7 +3682,7 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
  p->moves -= 100;
 
  if (mondex != -1) {
-  monster *z = &(g->z[mondex]);
+  monster *z = &(g->zombie(mondex));
   switch (z->type->size) {
    case MS_TINY:  numdice -= 2; break;
    case MS_SMALL: numdice -= 1; break;
@@ -3811,23 +3812,23 @@ void iuse::vortex(game *g, player *p, item *it, bool t)
  it->make(g->itypes["spiral_stone"]);
  monster mvortex(g->mtypes[mon_vortex], spawn[index].x, spawn[index].y);
  mvortex.friendly = -1;
- g->z.push_back(mvortex);
+ g->add_zombie(mvortex);
 }
 
 void iuse::dog_whistle(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,_("You blow your dog whistle."));
- for (int i = 0; i < g->z.size(); i++) {
-  if (g->z[i].friendly != 0 && g->z[i].type->id == mon_dog) {
-   bool u_see = g->u_see(&(g->z[i]));
-   if (g->z[i].has_effect(ME_DOCILE)) {
+ for (int i = 0; i < g->num_zombies(); i++) {
+  if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == mon_dog) {
+   bool u_see = g->u_see(&(g->zombie(i)));
+   if (g->zombie(i).has_effect(ME_DOCILE)) {
     if (u_see)
-     g->add_msg_if_player(p,_("Your %s looks ready to attack."), g->z[i].name().c_str());
-    g->z[i].rem_effect(ME_DOCILE);
+     g->add_msg_if_player(p,_("Your %s looks ready to attack."), g->zombie(i).name().c_str());
+    g->zombie(i).rem_effect(ME_DOCILE);
    } else {
     if (u_see)
-     g->add_msg_if_player(p,_("Your %s goes docile."), g->z[i].name().c_str());
-    g->z[i].add_effect(ME_DOCILE, -1);
+     g->add_msg_if_player(p,_("Your %s goes docile."), g->zombie(i).name().c_str());
+    g->zombie(i).add_effect(ME_DOCILE, -1);
    }
   }
  }
@@ -4804,7 +4805,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
     for (int y = p->posy - 8; y <= p->posy + 8; y++) {
      int mondex = g->mon_at(x, y);
      if (mondex != -1)
-      g->z[mondex].add_effect(ME_STUNNED, rng(5, 15));
+      g->zombie(mondex).add_effect(ME_STUNNED, rng(5, 15));
     }
    }
 
@@ -4812,9 +4813,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    for (int x = p->posx - 8; x <= p->posx + 8; x++) {
     for (int y = p->posy - 8; y <= p->posy + 8; y++) {
      int mondex = g->mon_at(x, y);
-     if (mondex != -1 &&  g->z[mondex].friendly == 0 &&
-         rng(0, 600) > g->z[mondex].hp)
-      g->z[mondex].make_friendly();
+     if (mondex != -1 &&  g->zombie(mondex).friendly == 0 &&
+         rng(0, 600) > g->zombie(mondex).hp)
+      g->zombie(mondex).make_friendly();
     }
    }
    break;
@@ -4853,7 +4854,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
      point spawnp = empty[index_inner];
      empty.erase(empty.begin() + index_inner);
      spawned.spawn(spawnp.x, spawnp.y);
-     g->z.push_back(spawned);
+     g->add_zombie(spawned);
     }
    }
   } break;
@@ -4874,8 +4875,8 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   } break;
 
   case AEA_HURTALL:
-   for (int j = 0; j < g->z.size(); j++)
-    g->z[j].hurt(rng(0, 5));
+   for (int j = 0; j < g->num_zombies(); j++)
+    g->zombie(j).hurt(rng(0, 5));
    break;
 
   case AEA_RADIATION:
@@ -4969,7 +4970,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
      num_spawned++;
      spawned.sp_timeout = rng(8, 20);
      spawned.spawn(monx, mony);
-     g->z.push_back(spawned);
+     g->add_zombie(spawned);
     }
    }
    if (num_spawned > 1)

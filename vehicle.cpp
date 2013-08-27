@@ -1492,7 +1492,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     int mondex = g->mon_at(x, y);
     int npcind = g->npc_at(x, y);
     bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
-    monster *z = mondex >= 0? &g->z[mondex] : 0;
+    monster *z = mondex >= 0? &g->zombie(mondex) : 0;
     player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
 
     if (ph && ph->in_vehicle) // if in a vehicle assume it's this one
@@ -2314,13 +2314,13 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     monster *target = 0;
     int range = ammo.type == "gasoline" ? 5 : 12;
     int closest = range + 1;
-    for (int i = 0; i < g->z.size(); i++)
+    for (int i = 0; i < g->num_zombies(); i++)
     {
-        int dist = rl_dist(x, y, g->z[i].posx, g->z[i].posy);
-        if (g->z[i].friendly == 0 && dist < closest &&
-            g->m.sees(x, y, g->z[i].posx, g->z[i].posy, range, t))
+        int dist = rl_dist(x, y, g->zombie(i).posx(), g->zombie(i).posy());
+        if (g->zombie(i).friendly == 0 && dist < closest &&
+            g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t))
         {
-            target = &(g->z[i]);
+            target = &(g->zombie(i));
             closest = dist;
             fire_t = t;
         }
@@ -2328,7 +2328,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     if (!target)
         return false;
 
-    std::vector<point> traj = line_to(x, y, target->posx, target->posy, fire_t);
+    std::vector<point> traj = line_to(x, y, target->posx(), target->posy(), fire_t);
     for (int i = 0; i < traj.size(); i++)
         if (traj[i].x == g->u.posx && traj[i].y == g->u.posy)
             return false; // won't shoot at player
@@ -2348,7 +2348,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
-    g->fire(tmp, target->posx, target->posy, traj, true);
+    g->fire(tmp, target->posx(), target->posy(), traj, true);
     if (ammo.type == "gasoline")
     {
         for (int i = 0; i < traj.size(); i++)

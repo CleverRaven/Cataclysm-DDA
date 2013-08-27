@@ -144,8 +144,8 @@ void npc::execute_action(game *g, npc_action action, int target)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->z[target].posx;
-  tary = g->z[target].posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
  }
 /*
   debugmsg("%s ran execute_action() with target = %d! Action %s",
@@ -389,10 +389,10 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
  int highest_priority = 0;
  total_danger = 0;
 
- for (int i = 0; i < g->z.size(); i++) {
-  monster *mon = &(g->z[i]);
+ for (int i = 0; i < g->num_zombies(); i++) {
+  monster *mon = &(g->zombie(i));
   if (g->pl_sees(this, mon, linet)) {
-   int distance = (100 * rl_dist(posx, posy, mon->posx, mon->posy)) /
+   int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) /
                   mon->speed;
    double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
    int priority = mon->type->difficulty * (1 + hp_percent) - distance;
@@ -442,7 +442,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
     enemy = i;
    } else if (okay_by_rules && defend_u) {
     priority = mon->type->difficulty * (1 + hp_percent);
-    distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx, mon->posy)) /
+    distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx(), mon->posy())) /
                mon->speed;
     priority -= distance;
     if (mon->speed < current_speed(g))
@@ -461,9 +461,9 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
 npc_action npc::method_of_fleeing(game *g, int enemy)
 {
  int speed = (enemy == TARGET_PLAYER ? g->u.current_speed(g) :
-                                       g->z[enemy].speed);
+                                       g->zombie(enemy).speed);
  point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx, g->u.posy) :
-                    point(g->z[enemy].posx, g->z[enemy].posy));
+                    point(g->zombie(enemy).posx(), g->zombie(enemy).posy()));
  int distance = rl_dist(posx, posy, enemy_loc.x, enemy_loc.y);
 
  if (choose_escape_item() >= 0) // We have an escape item!
@@ -485,8 +485,8 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->z[target].posx;
-  tary = g->z[target].posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
  } else { // This function shouldn't be called...
   debugmsg("Ran npc::method_of_attack without a target!");
   return npc_pause;
@@ -496,7 +496,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  if (target == TARGET_PLAYER)
   target_HP = g->u.hp_percentage() * g->u.hp_max[hp_torso];
  else
-  target_HP = g->z[target].hp;
+  target_HP = g->zombie(target).hp;
 
  if (can_use_gun) {
   if (need_to_reload() && can_reload())
@@ -855,8 +855,8 @@ bool npc::wont_hit_friend(game *g, int tarx, int tary, char invlet)
      return false;
 // Hit a friendly monster?
 /*
-    for (int n = 0; n < g->z.size(); n++) {
-     if (g->z[n].friendly != 0 && g->z[n].posx == x && g->z[n].posy == y)
+    for (int n = 0; n < g->num_zombies(); n++) {
+     if (g->zombie(n).friendly != 0 && g->zombie(n).posx == x && g->zombie(n).posy == y)
       return false;
     }
 */
@@ -904,8 +904,8 @@ bool npc::enough_time_to_reload(game *g, int target, item &gun)
   dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
   speed = speed_estimate(g->u.current_speed(g));
  } else if (target >= 0) {
-  dist = rl_dist(posx, posy, g->z[target].posx, g->z[target].posy);
-  speed = speed_estimate(g->z[target].speed);
+  dist = rl_dist(posx, posy, g->zombie(target).posx(), g->zombie(target).posy());
+  speed = speed_estimate(g->zombie(target).speed);
  } else
   return true; // No target, plenty of time to reload
 
@@ -976,7 +976,7 @@ void npc::move_to(game *g, int x, int y)
  if (x == posx && y == posy)	{ // We're just pausing!
   moves -= 100;
  } else if (g->mon_at(x, y) != -1) {	// Shouldn't happen, but it might.
-  //monster *m = &(g->z[g->mon_at(x, y)]);
+  //monster *m = &(g->zombie(g->mon_at(x, y)));
   //debugmsg("Bumped into a monster, %d, a %s",g->mon_at(x, y),m->name().c_str());
   melee_monster(g, g->mon_at(x, y));
  } else if (g->u.posx == x && g->u.posy == y) {
@@ -1045,10 +1045,10 @@ void npc::avoid_friendly_fire(game *g, int target)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->z[target].posx;
-  tary = g->z[target].posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
   if (!one_in(3))
-   say(g, _("<move> so I can shoot that %s!"), g->z[target].name().c_str());
+   say(g, _("<move> so I can shoot that %s!"), g->zombie(target).name().c_str());
  } else {
   debugmsg("npc::avoid_friendly_fire() called with no target!");
   move_pause();
@@ -1452,7 +1452,7 @@ npc_action npc::scan_new_items(game *g, int target)
 
 void npc::melee_monster(game *g, int target)
 {
- monster* monhit = &(g->z[target]);
+ monster* monhit = &(g->zombie(target));
  int dam = hit_mon(g, monhit);
  if (monhit->hurt(dam))
   g->kill_mon(target, false);
@@ -1489,8 +1489,8 @@ void npc::alt_attack(game *g, int target)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->z[target].posx;
-  tary = g->z[target].posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
  } else {
   debugmsg("npc::alt_attack() called with target = %d", target);
   move_pause();

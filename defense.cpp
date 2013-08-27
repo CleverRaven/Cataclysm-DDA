@@ -281,7 +281,7 @@ void defense_game::init_map(game *g)
   generator.spawn(p.x, p.y);
  }
  generator.friendly = -1;
- g->z.push_back(generator);
+ g->add_zombie(generator);
 }
 
 void defense_game::init_to_style(defense_style new_style)
@@ -1264,16 +1264,17 @@ void defense_game::spawn_wave_monster(game *g, mtype *type)
 {
  monster tmp(type);
  if (location == DEFLOC_HOSPITAL || location == DEFLOC_MALL) {
-  tmp.posy = SEEY; // Always spawn to the north!
-  tmp.posx = rng(SEEX * (MAPSIZE / 2), SEEX * (1 + MAPSIZE / 2));
+  tmp.setpos(rng(SEEX * (MAPSIZE / 2), SEEX * (1 + MAPSIZE / 2)),
+             SEEY // Always spawn to the north!
+             );
  } else if (one_in(2)) {
   tmp.spawn(rng(SEEX * (MAPSIZE / 2), SEEX * (1 + MAPSIZE / 2)), rng(1, SEEY));
   if (one_in(2))
-   tmp.posy = SEEY * MAPSIZE - 1 - tmp.posy;
+   tmp.setpos(tmp.posx(), SEEY * MAPSIZE - 1 - tmp.posy());
  } else {
   tmp.spawn(rng(1, SEEX), rng(SEEY * (MAPSIZE / 2), SEEY * (1 + MAPSIZE / 2)));
   if (one_in(2))
-   tmp.posx = SEEX * MAPSIZE - 1 - tmp.posx;
+   tmp.setpos(SEEX * MAPSIZE - 1 - tmp.posx(), tmp.posy());
  }
  tmp.wandx = g->u.posx;
  tmp.wandy = g->u.posy;
@@ -1281,7 +1282,7 @@ void defense_game::spawn_wave_monster(game *g, mtype *type)
 // We wanna kill!
  tmp.anger = 100;
  tmp.morale = 100;
- g->z.push_back(tmp);
+ g->add_zombie(tmp);
 }
 
 std::string defense_game::special_wave_message(std::string name)

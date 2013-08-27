@@ -234,7 +234,7 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                     int mon_idx = g->mon_at(x, y);
                     int npc_idx = g->npc_at(x, y);
                     if ( mon_idx >= 0 ) {
-                        g->z[mon_idx].draw(w, center.x, center.y, false);
+                        g->zombie(mon_idx).draw(w, center.x, center.y, false);
                     } else if ( npc_idx >= 0 ) {
                         g->active_npc[npc_idx]->draw(w, center.x, center.y, false);
                     } else {
@@ -285,7 +285,7 @@ void editmap::update_view(bool update_info)
 
     // update target point
     if (mon_index != -1) {
-        g->z[mon_index].draw(g->w_terrain, target.x, target.y, true);
+        g->zombie(mon_index).draw(g->w_terrain, target.x, target.y, true);
     } else if (npc_index != -1) {
         g->active_npc[npc_index]->draw(g->w_terrain, target.x, target.y, true);
     } else {
@@ -411,7 +411,7 @@ void editmap::update_view(bool update_info)
         }
 
         if (mon_index != -1) {
-            g->z[mon_index].print_info(g, w_info);
+            g->zombie(mon_index).print_info(g, w_info);
             off += 6;
         } else if (npc_index != -1) {
             g->active_npc[npc_index]->print_info(w_info);

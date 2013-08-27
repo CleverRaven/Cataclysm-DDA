@@ -541,7 +541,6 @@ void inventory::form_from_map(game *g, point origin, int range)
      add_item(g->m.i_at(x, y)[i]);
 // Kludges for now!
    ter_id terrain_id = g->m.ter(x, y);
-   furn_id furniture_id = g->m.furn(x, y);
    if ((g->m.field_at(x, y).findField(fd_fire)) || (terrain_id == t_lava)) {
     item fire(g->itypes["fire"], 0);
     fire.charges = 1;
