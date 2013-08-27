@@ -370,6 +370,7 @@ void dis_msg(game *g, dis_type type_string) {
 
 void dis_effect(game *g, player &p, disease &dis) {
     std::stringstream sTemp;
+    mon_id montype;
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
     int bonus, psnChance;
@@ -1042,10 +1043,11 @@ void dis_effect(game *g, player &p, disease &dis) {
                     g->add_msg(_("You start scratching yourself all over!"));
                     g->cancel_activity();
                 } else if (g->u_see(p.posx, p.posy)) {
-                    if (p.male)
-                    g->add_msg(_("%s starts scratching himself all over!"), p.name.c_str());
-                    else
-                    g->add_msg(_("%s starts scratching herself all over!"), p.name.c_str());
+                    if (p.male) {
+                        g->add_msg(_("%s starts scratching himself all over!"), p.name.c_str());
+                    } else {
+                        g->add_msg(_("%s starts scratching herself all over!"), p.name.c_str());
+                    }
                 }
                 p.moves -= 150;
                 p.hurt(g, bp_torso, 0, 1);
@@ -1170,15 +1172,18 @@ void dis_effect(game *g, player &p, disease &dis) {
             if (dis.duration > 3600) {
                 // 12 teles
                 if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-                    mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
-                    monster beast(g->mtypes[type]);
+                    montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
+                    monster beast(g->mtypes[montype]);
                     int x, y;
                     int tries = 0;
                     do {
                         x = p.posx + rng(-4, 4);
                         y = p.posy + rng(-4, 4);
                         tries++;
-                    } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) && tries < 10);
+                        if (tries >= 10) {
+                            break;
+                        }
+                    } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1));
                     if (tries < 10) {
                         if (g->m.move_cost(x, y) == 0) {
                             g->m.ter_set(x, y, t_rubble);
@@ -1302,7 +1307,8 @@ void dis_effect(game *g, player &p, disease &dis) {
                     p.rem_disease("sleep");
                     g->add_msg_if_player(&p,_("You wake up."));
                     }
-                    g->add_msg_if_player(&p,_("You feel feverish and nauseous, your wound has begun to turn green."));
+                    g->add_msg_if_player(&p,
+                        _("You feel feverish and nauseous, your wound has begun to turn green."));
                     p.vomit(g);
                     if(p.pain < 60)
                         p.pain++;
@@ -1315,7 +1321,8 @@ void dis_effect(game *g, player &p, disease &dis) {
                     if (p.has_disease("sleep")) {
                         p.rem_disease("sleep");
                         g->add_msg_if_player(&p,_("You wake up."));
-                        g->add_msg_if_player(&p,_("You feel terribly weak, standing up is nearly impossible."));
+                        g->add_msg_if_player(&p,
+                                _("You feel terribly weak, standing up is nearly impossible."));
                     } else {
                         g->add_msg_if_player(&p,_("You can barely remain standing."));
                     }
@@ -1577,7 +1584,7 @@ std::string dis_description(disease dis)
         switch (dis.intensity) {
         case 1: return _("Your head is exposed to the cold.");
         case 2: return _("Your head is very exposed to the cold. It is hard to concentrate.");
-        case 3: return _("Your head is dangerously cold. Getting undressed sounds like a good idea.");
+        case 3: return _("Your head is extremely cold.  You can barely think straight.");
         }
 
     case DI_COLD_MOUTH:
@@ -1590,8 +1597,8 @@ std::string dis_description(disease dis)
     case DI_COLD_TORSO:
         switch (dis.intensity) {
         case 1: return _("Your torso is exposed to the cold.");
-        case 2: return _("Your torso is very exposed to the cold. Your actions are incoordinated.");
-        case 3: return _("Your torso is dangerously cold. Your actions are incredibly incoordinated.");
+        case 2: return _("Your torso is very cold, and your actions are incoordinated.");
+        case 3: return _("Your torso is dangerously cold. Your actions are very incoordinated.");
         }
 
     case DI_COLD_ARMS:
@@ -1604,8 +1611,8 @@ std::string dis_description(disease dis)
     case DI_COLD_HANDS:
         switch (dis.intensity) {
         case 1: return _("Your hands are exposed to the cold.");
-        case 2: return _("Your hands are very exposed to the cold. Your hands are shivering.");
-        case 3: return _("Your hands are dangerously cold. Your hands are shivering uncontrollably");
+        case 2: return _("Your hands are shivering from the cold.");
+        case 3: return _("Your hands are shiivering uncontrollably from the extreme cold.");
         }
 
     case DI_COLD_LEGS:
@@ -2170,13 +2177,15 @@ void handle_cough(player &p, int loudness) {
     g->add_msg_if_player(&p,_("You wake up coughing."));
 }
 
-void handle_deliriant(game* g, player& p, disease& dis, int maxDuration) {
-    // drawn from original proportions based on 3600 (6-hour) lifespan
+void handle_deliriant(game* g, player& p, disease& dis) {
+    // To be redone.
+    // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
     static bool puked = false;
+    int maxDuration = 3600;
     int comeupTime = maxDuration*0.9;
-    int noticeTime = comeupTime + maxDuration*0.5;
+    int noticeTime = comeupTime + (maxDuration-comeupTime)/2;
     int peakTime = maxDuration*0.8;
-    int comedownTime = maxDuration*0.2;
+    int comedownTime = maxDuration*0.3;
     // Baseline
     if (dis.duration == noticeTime) {
         g->add_msg_if_player(&p,_("You feel a little strange."));
@@ -2191,12 +2200,16 @@ void handle_deliriant(game* g, player& p, disease& dis, int maxDuration) {
         } else {
             g->add_msg_if_player(&p,_("Something feels very, very wrong."));
         }
-    } else if (dis.duration > peakTime) {
-        if (one_in(100) || will_vomit(p, 50)) {
+    } else if (dis.duration > peakTime && dis.duration < comeupTime) {
+        if ((one_in(200) || will_vomit(p, 50)) && !puked) {
             g->add_msg_if_player(&p,_("You feel sick to your stomach."));
-            p.hunger -= 5;
+            p.hunger -= 2;
             if (one_in(6)) {
                 p.vomit(g);
+                if (one_in(2)) {
+                    // we've vomited enough for now
+                    puked = true;
+                }
             }
         }
         if (p.is_npc() && one_in(200)) {
@@ -2222,15 +2235,16 @@ void handle_deliriant(game* g, player& p, disease& dis, int maxDuration) {
         }
     } else if (dis.duration == peakTime) {
         // Visuals start
+        g->add_msg_if_player(&p,_("Fractal patterns dance across your vision."));
         p.add_disease("visuals", peakTime - comedownTime);
-    } else if (dis.duration > comedownTime) {
+    } else if (dis.duration > comedownTime && dis.duration < peakTime) {
         // Full symptoms
         p.per_cur -= 2;
         p.int_cur -= 1;
         p.dex_cur -= 2;
         p.str_cur -= 1;
         if (one_in(50)) {
-            // Generate phantasm
+            // Generate a phantasm
             monster phantasm(g->mtypes[mon_hallu_zom + rng(0, 3)]);
             phantasm.spawn(p.posx + rng(-10, 10), p.posy + rng(-10, 10));
             g->z.push_back(phantasm);
@@ -2241,6 +2255,7 @@ void handle_deliriant(game* g, player& p, disease& dis, int maxDuration) {
         } else {
             g->add_msg_if_player(&p,_("Things are returning to normal."));
         }
+        puked = false;
     }
 }
 

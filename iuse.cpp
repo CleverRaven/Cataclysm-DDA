@@ -514,7 +514,7 @@ void iuse::weed(game *g, player *p, item *it, bool t) {
     if (p->use_charges_if_avail("fire", 1)) {
         p->hunger += 4;
         p->thirst += 6;
-        if (p->pkill < 10) {
+        if (p->pkill < 5) {
             p->pkill += 3;
             p->pkill *= 2;
         }
@@ -616,11 +616,13 @@ void iuse::poison(game *g, player *p, item *it, bool t) {
 }
 
 void iuse::hallu(game *g, player *p, item *it, bool t) {
-    p->add_disease("hallu", 2400);
+    if (!p->has_disease("hallu")) {
+        p->add_disease("hallu", 3600);
+    }
 }
 
 void iuse::thorazine(game *g, player *p, item *it, bool t) {
-    p->fatigue += 15;
+    p->fatigue += 5;
     p->rem_disease("hallu");
     p->rem_disease("visuals");
     p->rem_disease("high");
@@ -628,8 +630,8 @@ void iuse::thorazine(game *g, player *p, item *it, bool t) {
         p->rem_disease("formication");
     }
     if (one_in(50)) {  // adverse reaction
-        g->add_msg_if_player(p,_("You feel absolutely exhausted."));
-        p->fatigue += 50;
+        g->add_msg_if_player(p,_("You feel completely exhausted."));
+        p->fatigue += 15;
     } else {
         g->add_msg_if_player(p,_("You feel a bit wobbly."));
     }

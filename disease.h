@@ -32,7 +32,7 @@ void manage_sleep(game* g, player& p, disease& dis);
 void handle_alcohol(game* g, player& p, disease& dis);
 void handle_bite_wound(game* g, player& p, disease& dis);
 void handle_cough(player& p, int volume=12);
-void handle_deliriant(game* g, player& p, disease& dis, int maxDuration=3600);
+void handle_deliriant(game* g, player& p, disease& dis);
 void handle_evil(player& p, disease& dis);
 void handle_insect_parasites(game* g, player& p, disease& dis);
 
