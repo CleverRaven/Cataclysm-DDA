@@ -7865,6 +7865,28 @@
 },
 
 {
+  "result": "hat_cotton",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "requires_skills": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 3 ]
+    ]
+  ]
+},
+
+{
   "result": "helmet_chitin",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
