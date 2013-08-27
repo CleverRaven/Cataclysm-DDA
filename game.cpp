@@ -5706,6 +5706,7 @@ int game::npc_by_id(const int id) const
 
 void game::add_zombie(monster& m)
 {
+    z_at[point(m.posx(), m.posy())] = z.size();
     z.push_back(m);
 }
 
@@ -5719,22 +5720,36 @@ monster& game::zombie(const int idx)
     return z[idx];
 }
 
+void game::update_zombie_pos(const monster &m, const int newx, const int newy)
+{
+    const int zid = mon_at(m.posx(), m.posy());
+    if (zid != -1) {
+        z_at.erase(point(m.posx(), m.posy()));
+        z_at[point(newx, newy)] = zid;
+    }
+    else {
+        // We're changing the x/y coordinates of a zombie that hasn't been added
+        // to the game yet. add_zombie() will update z_at for us.
+    }
+}
+
 void game::remove_zombie(const int idx)
 {
+    monster& m = z[idx];
+    z_at.erase(point(m.posx(), m.posy()));
     z.erase(z.begin() + idx);
 }
 
 int game::mon_at(const int x, const int y) const
 {
- for (int i = 0; i < num_zombies(); i++) {
-  if (z[i].posx() == x && z[i].posy() == y) {
-   if (z[i].dead)
+    std::map<point, int>::const_iterator i = z_at.find(point(x, y));
+    if (i != z_at.end()) {
+        const int zid = i->second;
+        if (!z[zid].dead) {
+            return zid;
+        }
+    }
     return -1;
-   else
-    return i;
-  }
- }
- return -1;
 }
 
 bool game::is_empty(const int x, const int y)

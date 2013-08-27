@@ -151,6 +151,7 @@ class game
   void add_zombie(monster& m);
   size_t num_zombies() const;
   monster& zombie(const int idx);
+  void update_zombie_pos(const monster &m, const int newx, const int newy);
   void remove_zombie(const int idx);
 
   int  mon_at(const int x, const int y) const;	// Index of the monster at (x, y); -1 for none
@@ -523,6 +524,7 @@ void load_artifacts(); // Load artifact data
 // ########################## DATA ################################
 
   std::vector<monster> z;
+  std::map<point, int> z_at;
 
   signed char last_target;// The last monster targeted
   char run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new

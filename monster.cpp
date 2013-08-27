@@ -100,6 +100,7 @@ monster::~monster()
 
 void monster::setpos(const int x, const int y)
 {
+    g->update_zombie_pos(*this, x, y);
     _posx = x;
     _posy = y;
 }
