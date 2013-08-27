@@ -10,6 +10,7 @@
 #include "material.h"
 #include "item_factory.h"
 #include "options.h"
+#include "uistate.h"
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -2090,34 +2091,40 @@ char item::pick_reload_ammo(player &u, bool interactive)
  char am_invlet = 0;
 
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
-   WINDOW* w_ammo = newwin(am.size() + 1, FULL_SCREEN_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
-   char ch;
-   clear();
-   it_ammo* ammo_def;
-   mvwprintw(w_ammo, 0, 0, _("\
-Choose ammo type:         Damage     Armor Pierce     Range     Accuracy"));
-   for (int i = 0; i < am.size(); i++) {
-    ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
-    mvwaddch(w_ammo, i + 1, 1, i + 'a');
-    mvwprintw(w_ammo, i + 1, 3, "%s (%d)", am[i]->tname().c_str(),
-                                           am[i]->charges);
-    mvwprintw(w_ammo, i + 1, 27, "%d", ammo_def->damage);
-    mvwprintw(w_ammo, i + 1, 38, "%d", ammo_def->pierce);
-    mvwprintw(w_ammo, i + 1, 55, "%d", ammo_def->range);
-    mvwprintw(w_ammo, i + 1, 65, "%d", 100 - ammo_def->dispersion);
-   }
-   refresh();
-   wrefresh(w_ammo);
-   do
-    ch = getch();
-   while ((ch < 'a' || ch - 'a' > am.size() - 1) && ch != ' ' && ch != 27);
-   werase(w_ammo);
-   delwin(w_ammo);
-   erase();
-   if (ch == ' ' || ch == 27)
-    am_invlet = 0;
-   else
-    am_invlet = am[ch - 'a']->invlet;
+     uimenu amenu;
+     amenu.return_invalid = true;
+     amenu.w_y = 0;
+     amenu.w_x = 0;
+     amenu.w_width = TERMX;
+     int namelen=TERMX-2-40-3;
+     std::string lastreload = "";
+
+     if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
+         lastreload = uistate.lastreload[ ammo_type() ];
+     }
+
+     amenu.text=string_format("Choose ammo type:"+std::string(namelen,' ')).substr(0,namelen) +
+         "   Damage    Pierce    Range     Accuracy";
+     it_ammo* ammo_def;
+     for (int i = 0; i < am.size(); i++) {
+         ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
+         amenu.addentry(i,true,i + 'a',"%s | %-7d | %-7d | %-7d | %-7d",
+             std::string(
+                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) + 
+                std::string(namelen,' ')
+             ).substr(0,namelen).c_str(),
+             ammo_def->damage, ammo_def->pierce, ammo_def->range,
+             100 - ammo_def->dispersion
+         );
+         if ( lastreload == am[i]->typeId() ) {
+             amenu.selected = i;
+         }
+     }
+     amenu.query();
+     if ( amenu.ret >= 0 ) {
+        am_invlet = am[ amenu.ret ]->invlet;
+        uistate.lastreload[ ammo_type() ] = am[ amenu.ret ]->typeId();
+     }
  }
  // Either only one valid choice or chosing for a NPC, just return the first.
  else if (am.size() > 0){

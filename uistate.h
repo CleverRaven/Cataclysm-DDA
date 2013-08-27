@@ -25,6 +25,8 @@ struct uistatedata {
 
   std::map<std::string, std::vector<std::string>*> input_history; 
 
+  std::map<std::string, std::string> lastreload; // last typeid used when reloading ammotype
+
   bool _testing_save;
   bool _really_testing_save;
   std::string errdump;
