@@ -4357,7 +4357,7 @@
     "material": "glass",
     "weight": 242,
     "volume": 1,
-    "to_hit": -10
+    "to_hit": -10,
     "bashing": 0,
     "cutting": 0,
     "turns_per_charge":0,
@@ -4379,7 +4379,7 @@
     "material": "glass",
     "weight": 442,
     "volume": 3,
-    "to_hit": -10
+    "to_hit": -10,
     "bashing": 1,
     "cutting": 0,
     "turns_per_charge":0,
@@ -4401,7 +4401,7 @@
     "material": "wood",
     "weight": 372,
     "volume": 3,
-    "to_hit": -10
+    "to_hit": -10,
     "bashing": 1,
     "cutting": 0,
     "turns_per_charge":0,
