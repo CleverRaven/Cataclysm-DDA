@@ -725,7 +725,8 @@
       ["chisel", 2],
       ["swage", 1],
       ["anvil", 2],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["tool_belt", 30]
     ]
   },
   { "id":"tools",
@@ -746,7 +747,8 @@
       ["ax", 8],
       ["tongs", 3],
       ["chisel", 2],
-      ["swage", 1]
+      ["swage", 1],
+      ["tool_belt", 5]
     ]
   },
   { "id":"bigtools",
@@ -764,7 +766,8 @@
       ["forge", 2],
       ["crucible", 2],
       ["anvil", 4],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["tool_belt", 30]
     ]
   },
   { "id":"mischw",
@@ -794,7 +797,8 @@
       ["cable", 60],
       ["textbook_mechanics", 12],
       ["textbook_fabrication", 12],
-      ["vac_sealer", 10]
+      ["vac_sealer", 10],
+      ["tool_belt", 30]
     ]
   },
   { "id":"consumer_electronics",
@@ -1884,6 +1888,7 @@
       ["pants", 75],
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["army_top", 30],
       ["skirt", 75],
       ["jumpsuit", 20],
       ["dress", 70],
@@ -2370,6 +2375,7 @@
     "items":[
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["army_top", 30],
       ["kevlar", 30],
       ["vest", 15],
       ["mask_gas", 10],
@@ -2412,7 +2418,8 @@
       ["vest", 15],
       ["chestrig", 10],
       ["under_armor", 20],
-      ["power_armor_basic", 5]
+      ["power_armor_basic", 5],
+      ["army_top", 30]
     ]
   },
   { "id":"mil_armor_helmet",
@@ -2556,7 +2563,8 @@
       ["fishing_waders", 2],
       ["cloak", 5],
       ["tac_helmet", 5],
-      ["apron_leather", 2]
+      ["apron_leather", 2],
+      ["tool_belt", 5]
     ]
   },
   { "id":"survival_tools",
@@ -2592,7 +2600,8 @@
       ["bio_ethanol", 10],
       ["heatpack", 60],
       ["glowstick", 60],
-      ["tongs", 5]
+      ["tongs", 5],
+      ["tool_belt", 10]
     ]
   },
   { "id":"sewage_plant",
@@ -3007,6 +3016,7 @@
       ["hose", 15],
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["army_top", 30],
       ["jumpsuit", 20],
       ["kevlar", 30],
       ["mask_gas", 10],
@@ -3040,6 +3050,7 @@
       ["boots_steel", 50],
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["army_top", 30],
       ["kevlar", 30],
       ["vest", 15],
       ["gloves_fingerless", 20],
@@ -3050,6 +3061,7 @@
       ["armguard_hard", 20],
       ["legguard_hard", 15],
       ["helmet_army", 40],
+      ["kevlar", 30],
       ["backpack", 38],
       ["holster", 8],
       ["bootstrap", 3],
