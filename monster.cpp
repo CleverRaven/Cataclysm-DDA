@@ -17,8 +17,8 @@
 
 monster::monster()
 {
- posx = 20;
- posy = 10;
+ _posx = 20;
+ _posy = 10;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -42,8 +42,8 @@ monster::monster()
 
 monster::monster(mtype *t)
 {
- posx = 20;
- posy = 10;
+ _posx = 20;
+ _posy = 10;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -69,8 +69,8 @@ monster::monster(mtype *t)
 
 monster::monster(mtype *t, int x, int y)
 {
- posx = x;
- posy = y;
+ _posx = x;
+ _posy = y;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -98,6 +98,17 @@ monster::~monster()
 {
 }
 
+void monster::setpos(const int x, const int y)
+{
+    _posx = x;
+    _posy = y;
+}
+
+void monster::setpos(const point &p)
+{
+    setpos(p.x, p.y);
+}
+
 void monster::poly(mtype *t)
 {
  double hp_percentage = double(hp) / double(type->hp);
@@ -112,8 +123,7 @@ void monster::poly(mtype *t)
 
 void monster::spawn(int x, int y)
 {
- posx = x;
- posy = y;
+ setpos(x, y);
 }
 
 std::string monster::name()
@@ -221,8 +231,8 @@ char monster::symbol()
 
 void monster::draw(WINDOW *w, int plx, int ply, bool inv)
 {
- int x = getmaxx(w)/2 + posx - plx;
- int y = getmaxy(w)/2 + posy - ply;
+ int x = getmaxx(w)/2 + posx() - plx;
+ int y = getmaxy(w)/2 + posy() - ply;
  nc_color color = type->color;
  if (friendly != 0 && !inv)
   mvwputch_hi(w, y, x, color, type->sym);
@@ -293,11 +303,13 @@ void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
 {
  std::stringstream dump;
  int idtmp, plansize;
+ int npx, npy;
  dump << data;
- dump >> idtmp >> posx >> posy >> wandx >> wandy >> wandf >> moves >> speed >>
+ dump >> idtmp >> npx >> npy >> wandx >> wandy >> wandf >> moves >> speed >>
          hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
          no_extra_death_drops >> dead >> anger >> morale;
  type = (*mtypes)[idtmp];
+ setpos(npx, npy);
  point ptmp;
  plans.clear();
  for (int i = 0; i < plansize; i++) {
@@ -309,7 +321,7 @@ void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
 std::string monster::save_info()
 {
     std::stringstream pack;
-    pack << int(type->id) << " " << posx << " " << posy << " " << wandx << " " <<
+    pack << int(type->id) << " " << _posx << " " << _posy << " " << wandx << " " <<
         wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
         " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
         faction_id << " " << mission_id << " " << no_extra_death_drops << " " <<
@@ -337,8 +349,7 @@ void monster::debug(player &u)
 
 void monster::shift(int sx, int sy)
 {
- posx -= sx * SEEX;
- posy -= sy * SEEY;
+ setpos(_posx - sx * SEEX, _posy - sy * SEEY);
  for (int i = 0; i < plans.size(); i++) {
   plans[i].x -= sx * SEEX;
   plans[i].y -= sy * SEEY;
@@ -351,7 +362,7 @@ bool monster::is_fleeing(player &u)
   return true;
  monster_attitude att = attitude(&u);
  return (att == MATT_FLEE ||
-         (att == MATT_FOLLOW && rl_dist(posx, posy, u.posx, u.posy) <= 4));
+         (att == MATT_FOLLOW && rl_dist(_posx, _posy, u.posx, u.posy) <= 4));
 }
 
 monster_attitude monster::attitude(player *u)
@@ -445,10 +456,10 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
    break;
 
   case MTRIG_PLAYER_CLOSE:
-   if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 5)
+   if (rl_dist(_posx, _posy, g->u.posx, g->u.posy) <= 5)
     ret += 5;
    for (int i = 0; i < g->active_npc.size(); i++) {
-    if (rl_dist(posx, posy, g->active_npc[i]->posx, g->active_npc[i]->posy) <= 5)
+    if (rl_dist(_posx, _posy, g->active_npc[i]->posx, g->active_npc[i]->posy) <= 5)
      ret += 5;
    }
    break;
@@ -469,8 +480,8 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
  }
 
  if (check_terrain) {
-  for (int x = posx - 3; x <= posx + 3; x++) {
-   for (int y = posy - 3; y <= posy + 3; y++) {
+  for (int x = _posx - 3; x <= _posx + 3; x++) {
+   for (int y = _posy - 3; y <= _posy + 3; y++) {
     if (check_meat) {
      std::vector<item> *items = &(g->m.i_at(x, y));
      for (int n = 0; n < items->size(); n++) {
@@ -700,7 +711,7 @@ void monster::die(game *g)
   int light = g->light_level();
   for (int i = 0; i < g->num_zombies(); i++) {
    int t = 0;
-   if (g->m.sees(g->zombie(i).posx, g->zombie(i).posy, posx, posy, light, t)) {
+   if (g->m.sees(g->zombie(i).posx(), g->zombie(i).posy(), _posx, _posy, light, t)) {
     g->zombie(i).morale += morale_adjust;
     g->zombie(i).anger += anger_adjust;
    }
@@ -738,7 +749,7 @@ void monster::drop_items_on_death(game *g)
         // We have selected a string representing an item group, now
         // get a random item tag from it and spawn it.
         Item_tag selected_item = item_controller->id_from(it[selected_location].loc);
-        g->m.spawn_item(posx, posy, selected_item, 0);
+        g->m.spawn_item(_posx, _posy, selected_item, 0);
 
         if (type->item_chance < 0)
         {

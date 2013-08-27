@@ -123,7 +123,7 @@ void trapfuncm::tripwire(game *g, monster *z, int x, int y)
   g->add_msg(_("The %s trips over a tripwire!"), z->name().c_str());
  z->stumble(g, false);
  if (rng(0, 10) > z->type->sk_dodge && z->hurt(rng(1, 4)))
-  g->kill_mon(g->mon_at(z->posx, z->posy));
+  g->kill_mon(g->mon_at(z->posx(), z->posy()));
 }
 
 void trapfunc::crossbow(game *g, int x, int y)
@@ -446,13 +446,13 @@ void trapfuncm::telepad(game *g, monster *z, int x, int y)
  int tries = 0;
  int newposx, newposy;
  do {
-  newposx = rng(z->posx - SEEX, z->posx + SEEX);
-  newposy = rng(z->posy - SEEY, z->posy + SEEY);
+  newposx = rng(z->posx() - SEEX, z->posx() + SEEX);
+  newposy = rng(z->posy() - SEEY, z->posy() + SEEY);
   tries++;
  } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
 
  if (tries == 10)
-  g->explode_mon(g->mon_at(z->posx, z->posy));
+  g->explode_mon(g->mon_at(z->posx(), z->posy()));
  else {
   int mon_hit = g->mon_at(newposx, newposy);
   if (mon_hit != -1) {
@@ -461,8 +461,7 @@ void trapfuncm::telepad(game *g, monster *z, int x, int y)
                z->name().c_str(), g->zombie(mon_hit).name().c_str());
    g->explode_mon(mon_hit);
   } else {
-   z->posx = newposx;
-   z->posy = newposy;
+   z->setpos(newposx, newposy);
   }
  }
 }

@@ -819,7 +819,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
  std::string You = rm_prefix(is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
  std::string target = rm_prefix(mon ? string_format("<target>the %s",z->name().c_str()) :
                        (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : "<target>you"));
- int tarx = (mon ? z->posx : p->posx), tary = (mon ? z->posy : p->posy);
+ int tarx = (mon ? z->posx() : p->posx), tary = (mon ? z->posy() : p->posy);
 
  if (technique == TEC_RAPID) {
   moves += int( attack_speed(*this, false) / 2);
@@ -1141,7 +1141,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
                        (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : _("<target>you")));
  std::string target_possessive = rm_prefix(mon ? string_format(_("<target's>the %s's"), z->name().c_str()) :
                                   (p->is_npc() ? string_format(_("<target's>%s's"), p->name.c_str()) : "<target's>your"));
- int tarposx = (mon ? z->posx : p->posx), tarposy = (mon ? z->posy : p->posy);
+ int tarposx = (mon ? z->posx() : p->posx), tarposy = (mon ? z->posy() : p->posy);
 
 // Bashing effecs
  if (mon)
@@ -1326,9 +1326,9 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
     g->add_msg_if_player(p,_("Stinger Strike!"));
     if (mon) {
      z->add_effect(ME_STUNNED, 3);
-     int zposx = z->posx, zposy = z->posy;
+     int zposx = z->posx(), zposy = z->posy();
      z->knock_back_from(g, posx, posy);
-     if (z->posx != zposx || z->posy != zposy)
+     if (z->posx() != zposx || z->posy() != zposy)
       z->knock_back_from(g, posx, posy); // Knock a 2nd time if the first worked
     } else {
      p->add_disease("stunned", 2);

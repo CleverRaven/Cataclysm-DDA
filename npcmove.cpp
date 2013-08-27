@@ -144,8 +144,8 @@ void npc::execute_action(game *g, npc_action action, int target)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->zombie(target).posx;
-  tary = g->zombie(target).posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
  }
 /*
   debugmsg("%s ran execute_action() with target = %d! Action %s",
@@ -392,7 +392,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
  for (int i = 0; i < g->num_zombies(); i++) {
   monster *mon = &(g->zombie(i));
   if (g->pl_sees(this, mon, linet)) {
-   int distance = (100 * rl_dist(posx, posy, mon->posx, mon->posy)) /
+   int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) /
                   mon->speed;
    double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
    int priority = mon->type->difficulty * (1 + hp_percent) - distance;
@@ -442,7 +442,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
     enemy = i;
    } else if (okay_by_rules && defend_u) {
     priority = mon->type->difficulty * (1 + hp_percent);
-    distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx, mon->posy)) /
+    distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx(), mon->posy())) /
                mon->speed;
     priority -= distance;
     if (mon->speed < current_speed(g))
@@ -463,7 +463,7 @@ npc_action npc::method_of_fleeing(game *g, int enemy)
  int speed = (enemy == TARGET_PLAYER ? g->u.current_speed(g) :
                                        g->zombie(enemy).speed);
  point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx, g->u.posy) :
-                    point(g->zombie(enemy).posx, g->zombie(enemy).posy));
+                    point(g->zombie(enemy).posx(), g->zombie(enemy).posy()));
  int distance = rl_dist(posx, posy, enemy_loc.x, enemy_loc.y);
 
  if (choose_escape_item() >= 0) // We have an escape item!
@@ -485,8 +485,8 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->zombie(target).posx;
-  tary = g->zombie(target).posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
  } else { // This function shouldn't be called...
   debugmsg("Ran npc::method_of_attack without a target!");
   return npc_pause;
@@ -904,7 +904,7 @@ bool npc::enough_time_to_reload(game *g, int target, item &gun)
   dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
   speed = speed_estimate(g->u.current_speed(g));
  } else if (target >= 0) {
-  dist = rl_dist(posx, posy, g->zombie(target).posx, g->zombie(target).posy);
+  dist = rl_dist(posx, posy, g->zombie(target).posx(), g->zombie(target).posy());
   speed = speed_estimate(g->zombie(target).speed);
  } else
   return true; // No target, plenty of time to reload
@@ -1045,8 +1045,8 @@ void npc::avoid_friendly_fire(game *g, int target)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->zombie(target).posx;
-  tary = g->zombie(target).posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
   if (!one_in(3))
    say(g, _("<move> so I can shoot that %s!"), g->zombie(target).name().c_str());
  } else {
@@ -1489,8 +1489,8 @@ void npc::alt_attack(game *g, int target)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->zombie(target).posx;
-  tary = g->zombie(target).posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
  } else {
   debugmsg("npc::alt_attack() called with target = %d", target);
   move_pause();

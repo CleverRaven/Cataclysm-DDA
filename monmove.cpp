@@ -78,7 +78,7 @@ void monster::set_dest(int x, int y, int &t)
 {
  plans.clear();
 // TODO: This causes a segfault, once in a blue moon!  Whyyyyy.
- plans = line_to(posx, posy, x, y, t);
+ plans = line_to(_posx, _posy, x, y, t);
 }
 
 // Move towards (x,y) for f more turns--generally if we hear a sound there
@@ -102,55 +102,55 @@ void monster::plan(game *g)
  if (friendly != 0) {	// Target monsters, not the player!
   for (int i = 0; i < g->num_zombies(); i++) {
    monster *tmp = &(g->zombie(i));
-   if (tmp->friendly == 0 && rl_dist(posx, posy, tmp->posx, tmp->posy) < dist &&
-       g->m.sees(posx, posy, tmp->posx, tmp->posy, sightrange, tc)) {
+   if (tmp->friendly == 0 && rl_dist(posx(), posy(), tmp->posx(), tmp->posy()) < dist &&
+       g->m.sees(_posx, _posy, tmp->posx(), tmp->posy(), sightrange, tc)) {
     closest = i;
-    dist = rl_dist(posx, posy, tmp->posx, tmp->posy);
+    dist = rl_dist(_posx, _posy, tmp->posx(), tmp->posy());
     stc = tc;
    }
   }
   if (has_effect(ME_DOCILE))
    closest = -1;
   if (closest >= 0)
-   set_dest(g->zombie(closest).posx, g->zombie(closest).posy, stc);
+   set_dest(g->zombie(closest).posx(), g->zombie(closest).posy(), stc);
   else if (friendly > 0 && one_in(3))	// Grow restless with no targets
    friendly--;
-  else if (friendly < 0 && g->sees_u(posx, posy, tc)) {
-   if (rl_dist(posx, posy, g->u.posx, g->u.posy) > 2)
+  else if (friendly < 0 && g->sees_u(_posx, _posy, tc)) {
+   if (rl_dist(posx(), posy(), g->u.posx, g->u.posy) > 2)
     set_dest(g->u.posx, g->u.posy, tc);
    else
     plans.clear();
   }
   return;
  }
- if (is_fleeing(g->u) && can_see() && g->sees_u(posx, posy, tc)) {
+ if (is_fleeing(g->u) && can_see() && g->sees_u(_posx, _posy, tc)) {
   fleeing = true;
-  wandx = posx * 2 - g->u.posx;
-  wandy = posy * 2 - g->u.posy;
+  wandx = posx() * 2 - g->u.posx;
+  wandy = posy() * 2 - g->u.posy;
   wandf = 40;
-  dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
+  dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
  }
 // If we can see, and we can see a character, start moving towards them
- if (!is_fleeing(g->u) && can_see() && g->sees_u(posx, posy, tc)) {
-  dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
+ if (!is_fleeing(g->u) && can_see() && g->sees_u(posx(), posy(), tc)) {
+  dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
   closest = -2;
   stc = tc;
  }
  for (int i = 0; i < g->active_npc.size(); i++) {
   npc *me = (g->active_npc[i]);
-  int medist = rl_dist(posx, posy, me->posx, me->posy);
+  int medist = rl_dist(posx(), posy(), me->posx, me->posy);
   if ((medist < dist || (!fleeing && is_fleeing(*me))) &&
       (can_see() &&
-       g->m.sees(posx, posy, me->posx, me->posy, sightrange, tc))) {
+       g->m.sees(posx(), posy(), me->posx, me->posy, sightrange, tc))) {
    if (is_fleeing(*me)) {
     fleeing = true;
-    wandx = posx * 2 - me->posx;
-    wandy = posy * 2 - me->posy;
+    wandx = posx() * 2 - me->posx;
+    wandy = posy() * 2 - me->posy;
     wandf = 40;
     dist = medist;
    } else if (can_see() &&
-              g->m.sees(posx, posy, me->posx, me->posy, sightrange, tc)) {
-    dist = rl_dist(posx, posy, me->posx, me->posy);
+              g->m.sees(posx(), posy(), me->posx, me->posy, sightrange, tc)) {
+    dist = rl_dist(posx(), posy(), me->posx, me->posy);
     closest = i;
     stc = tc;
    }
@@ -160,13 +160,13 @@ void monster::plan(game *g)
   fleeing = attitude() == MATT_FLEE;
   for (int i = 0; i < g->num_zombies(); i++) {
    monster *mon = &(g->zombie(i));
-   int mondist = rl_dist(posx, posy, mon->posx, mon->posy);
+   int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
    if (mon->friendly != 0 && mondist < dist && can_see() &&
-       g->m.sees(posx, posy, mon->posx, mon->posy, sightrange, tc)) {
+       g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, tc)) {
     dist = mondist;
     if (fleeing) {
-     wandx = posx * 2 - mon->posx;
-     wandy = posy * 2 - mon->posy;
+     wandx = posx() * 2 - mon->posx();
+     wandy = posy() * 2 - mon->posy();
      wandf = 40;
     } else {
      closest = -3 - i;
@@ -179,7 +179,7 @@ void monster::plan(game *g)
   if (closest == -2)
    set_dest(g->u.posx, g->u.posy, stc);
   else if (closest <= -3)
-   set_dest(g->zombie(-3 - closest).posx, g->zombie(-3 - closest).posy, stc);
+   set_dest(g->zombie(-3 - closest).posx(), g->zombie(-3 - closest).posy(), stc);
   else if (closest >= 0)
    set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, stc);
  }
@@ -281,7 +281,7 @@ void monster::move(game *g)
  if (wandf > 0 && !moved) { // No LOS, no scent, so as a fall-back follow sound
   plans.clear();
   point tmp = wander_next(g);
-  if (tmp.x != posx || tmp.y != posy) {
+  if (tmp.x != posx() || tmp.y != posy()) {
    next = tmp;
    moved = true;
   }
@@ -375,7 +375,7 @@ point monster::scent_move(game *g)
 {
  std::vector<point> smoves;
 
- int maxsmell = 2; // Squares with smell 0 are not eligable targets
+ int maxsmell = 2; // Squares with smell 0 are not eligible targets
  if (has_flag(MF_KEENNOSE))
  {
      maxsmell = 1;
@@ -385,24 +385,26 @@ point monster::scent_move(game *g)
  unsigned int smell;
  for (int x = -1; x <= 1; x++) {
   for (int y = -1; y <= 1; y++) {
-   smell = g->scent(posx + x, posy + y);
-   int mon = g->mon_at(posx + x, posy + y);
+   const int nx = posx() + x;
+   const int ny = posy() + y;
+   smell = g->scent(nx, ny);
+   int mon = g->mon_at(nx, ny);
    if ((mon == -1 || g->zombie(mon).friendly != 0 || has_flag(MF_ATTACKMON)) &&
-       (can_move_to(g, posx + x, posy + y) ||
-        (posx + x == g->u.posx && posx + y == g->u.posy) ||
-        (g->m.has_flag(bashable, posx + x, posy + y) && has_flag(MF_BASHES)))) {
+       (can_move_to(g, nx, ny) ||
+        (nx == g->u.posx && ny == g->u.posy) ||
+        (g->m.has_flag(bashable, nx, ny) && has_flag(MF_BASHES)))) {
     if ((!is_fleeing(g->u) && smell > maxsmell) ||
         ( is_fleeing(g->u) && smell < minsmell)   ) {
      smoves.clear();
-     pbuff.x = posx + x;
-     pbuff.y = posy + y;
+     pbuff.x = nx;
+     pbuff.y = ny;
      smoves.push_back(pbuff);
      maxsmell = smell;
      minsmell = smell;
     } else if ((!is_fleeing(g->u) && smell == maxsmell) ||
                ( is_fleeing(g->u) && smell == minsmell)   ) {
-     pbuff.x = posx + x;
-     pbuff.y = posy + y;
+     pbuff.x = nx;
+     pbuff.y = ny;
      smoves.push_back(pbuff);
     }
    }
@@ -419,16 +421,16 @@ point monster::wander_next(game *g)
 {
  point next;
  bool xbest = true;
- if (abs(wandy - posy) > abs(wandx - posx))// which is more important
+ if (abs(wandy - posy()) > abs(wandx - posx()))// which is more important
   xbest = false;
- next.x = posx;
- next.y = posy;
- int x = posx, x2 = posx - 1, x3 = posx + 1;
- int y = posy, y2 = posy - 1, y3 = posy + 1;
- if (wandx < posx) { x--; x2++;          }
- if (wandx > posx) { x++; x2++; x3 -= 2; }
- if (wandy < posy) { y--; y2++;          }
- if (wandy > posy) { y++; y2++; y3 -= 2; }
+ next.x = posx();
+ next.y = posy();
+ int x = posx(), x2 = posx() - 1, x3 = posx() + 1;
+ int y = posy(), y2 = posy() - 1, y3 = posy() + 1;
+ if (wandx < posx()) { x--; x2++;          }
+ if (wandx > posx()) { x++; x2++; x3 -= 2; }
+ if (wandy < posy()) { y--; y2++;          }
+ if (wandy > posy()) { y++; y2++; y3 -= 2; }
  if (xbest) {
   if (can_move_to(g, x, y) || (x == g->u.posx && y == g->u.posy) ||
       (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y))) {
@@ -835,59 +837,61 @@ int monster::move_to(game *g, int x, int y, bool force)
   if (plans.size() > 0)
    plans.erase(plans.begin());
 
-  moves -= calc_movecost(g, posx, posy, x, y);
+  moves -= calc_movecost(g, posx(), posy(), x, y);
 
-  if (has_flag(MF_SLUDGETRAIL)){
-   g->m.add_field(g, posx, posy, fd_sludge, 3);
-   g->m.add_field(g, posx+1, posy, fd_sludge, 2);
-   g->m.add_field(g, posx, posy+1, fd_sludge, 2);
-   g->m.add_field(g, posx-1, posy, fd_sludge, 2);
-   g->m.add_field(g, posx, posy-1, fd_sludge, 2);
+  if (has_flag(MF_SLUDGETRAIL)) {
+    for (int dx = -1; dx <= 1; dx++) {
+      for (int dy = -1; dy <= 1; dy++) {
+        const int fstr = 3 - (abs(dx) + abs(dy));
+        if (fstr >= 2) {
+          g->m.add_field(g, posx() + dx, posy() + dy, fd_sludge, fstr);
+        }
+      }
+    }
   }
 
   //Check for moving into/out of water
-  bool was_water = g->m.is_divable(posx, posy);
+  bool was_water = g->m.is_divable(posx(), posy());
   bool will_be_water = g->m.is_divable(x, y);
 
   if(was_water && !will_be_water && g->u_see(x, y)) {
     //Use more dramatic messages for swimming monsters
     g->add_msg(_("A %s %s from the %s!"), name().c_str(),
             has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
-            g->m.tername(posx, posy).c_str());
+            g->m.tername(posx(), posy()).c_str());
   } else if(!was_water && will_be_water && g->u_see(x, y)) {
     g->add_msg(_("A %s %s into the %s!"), name().c_str(),
             has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
             g->m.tername(x, y).c_str());
   }
 
-  posx = x;
-  posy = y;
+  setpos(x, y);
   footsteps(g, x, y);
-  if (type->size != MS_TINY && g->m.has_flag(sharp, posx, posy) && !one_in(4))
+  if (type->size != MS_TINY && g->m.has_flag(sharp, posx(), posy()) && !one_in(4))
      hurt(rng(2, 3));
-  if (type->size != MS_TINY && g->m.has_flag(rough, posx, posy) && one_in(6))
+  if (type->size != MS_TINY && g->m.has_flag(rough, posx(), posy()) && one_in(6))
      hurt(rng(1, 2));
   if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
-      g->m.tr_at(posx, posy) != tr_null) { // Monster stepped on a trap!
-   trap* tr = g->traps[g->m.tr_at(posx, posy)];
+      g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
+   trap* tr = g->traps[g->m.tr_at(posx(), posy())];
    if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
     trapfuncm f;
-    (f.*(tr->actm))(g, this, posx, posy);
+    (f.*(tr->actm))(g, this, posx(), posy());
    }
   }
 // Diggers turn the dirt into dirtmound
   if (has_flag(MF_DIGS)){
-   g->m.ter_set(posx, posy, t_dirtmound);
+   g->m.ter_set(posx(), posy(), t_dirtmound);
   }
 // Acid trail monsters leave... a trail of acid
   if (has_flag(MF_ACIDTRAIL)){
-   g->m.add_field(g, posx, posy, fd_acid, 1);
+   g->m.add_field(g, posx(), posy(), fd_acid, 1);
   }
   if (has_flag(MF_ACIDTRAIL)){
-   g->m.add_field(g, posx, posy, fd_acid, 1);
+   g->m.add_field(g, posx(), posy(), fd_acid, 1);
   }
   if (has_flag(MF_ACIDTRAIL)){
-   g->m.add_field(g, posx, posy, fd_acid, 1);
+   g->m.add_field(g, posx(), posy(), fd_acid, 1);
   }
 
   return 1;
@@ -910,16 +914,18 @@ void monster::stumble(game *g, bool moved)
  std::vector <point> valid_stumbles;
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
-   if (can_move_to(g, posx + i, posy + j) &&
+   const int nx = posx() + i;
+   const int ny = posy() + j;
+   if (can_move_to(g, nx, ny) &&
        //Stop zombies and other non-breathing monsters wandering INTO water
        //(Unless they can swim/are aquatic)
        //But let them wander OUT of water if they are there.
        !(has_flag(MF_NO_BREATHE) && !has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)
-           && g->m.has_flag(swimmable, posx + i, posy + j)
-           && !g->m.has_flag(swimmable, posx, posy)) &&
-       (g->u.posx != posx + i || g->u.posy != posy + j) &&
-       (g->mon_at(posx + i, posy + j) == -1 || (i == 0 && j == 0))) {
-    point tmp(posx + i, posy + j);
+           && g->m.has_flag(swimmable, nx, ny)
+           && !g->m.has_flag(swimmable, posx(), posy())) &&
+       (g->u.posx != nx || g->u.posy != ny) &&
+       (g->mon_at(nx, ny) == -1 || (i == 0 && j == 0))) {
+    point tmp(nx, ny);
     valid_stumbles.push_back(tmp);
    }
   }
@@ -933,18 +939,17 @@ void monster::stumble(game *g, bool moved)
  int cx = valid_stumbles[choice].x;
  int cy = valid_stumbles[choice].y;
 
- moves -= calc_movecost(g, posx, posy, cx, cy);
- posx = cx;
- posy = cy;
+ moves -= calc_movecost(g, posx(), posy(), cx, cy);
+ setpos(cx, cy);
 
  // Here we have to fix our plans[] list,
  // acquiring a new path to the previous target.
  // target == either end of current plan, or the player.
  int tc;
  if (plans.size() > 0) {
-  if (g->m.sees(posx, posy, plans.back().x, plans.back().y, -1, tc))
+  if (g->m.sees(posx(), posy(), plans.back().x, plans.back().y, -1, tc))
    set_dest(plans.back().x, plans.back().y, tc);
-  else if (g->sees_u(posx, posy, tc))
+  else if (g->sees_u(posx(), posy(), tc))
    set_dest(g->u.posx, g->u.posy, tc);
   else //durr, i'm suddenly calm. what was i doing?
    plans.clear();
@@ -953,16 +958,16 @@ void monster::stumble(game *g, bool moved)
 
 void monster::knock_back_from(game *g, int x, int y)
 {
- if (x == posx && y == posy)
+ if (x == posx() && y == posy())
   return; // No effect
- point to(posx, posy);
- if (x < posx)
+ point to(posx(), posy());
+ if (x < posx())
   to.x++;
- if (x > posx)
+ if (x > posx())
   to.x--;
- if (y < posy)
+ if (y < posy())
   to.y++;
- if (y > posy)
+ if (y > posy())
   to.y--;
 
  bool u_see = g->u_see(to.x, to.y);
@@ -974,7 +979,7 @@ void monster::knock_back_from(game *g, int x, int y)
   hurt(z->type->size);
   add_effect(ME_STUNNED, 1);
   if (type->size > 1 + z->type->size) {
-   z->knock_back_from(g, posx, posy); // Chain reaction!
+   z->knock_back_from(g, posx(), posy()); // Chain reaction!
    z->hurt(type->size);
    z->add_effect(ME_STUNNED, 1);
   } else if (type->size > z->type->size) {
@@ -1023,8 +1028,7 @@ void monster::knock_back_from(game *g, int x, int y)
   }
 
  } else { // It's no wall
-  posx = to.x;
-  posy = to.y;
+  setpos(to);
  }
 }
 
@@ -1044,23 +1048,23 @@ bool monster::will_reach(game *g, int x, int y)
  if (has_flag(MF_DIGS))
   return false;
 
- if (has_flag(MF_IMMOBILE) && (posx != x || posy != y))
+ if (has_flag(MF_IMMOBILE) && (posx() != x || posy() != y))
   return false;
 
- std::vector<point> path = g->m.route(posx, posy, x, y, has_flag(MF_BASHES));
+ std::vector<point> path = g->m.route(posx(), posy(), x, y, has_flag(MF_BASHES));
  if (path.size() == 0)
    return false;
 
- if (has_flag(MF_SMELLS) && g->scent(posx, posy) > 0 &&
-     g->scent(x, y) > g->scent(posx, posy))
+ if (has_flag(MF_SMELLS) && g->scent(posx(), posy()) > 0 &&
+     g->scent(x, y) > g->scent(posx(), posy()))
   return true;
 
  if (can_hear() && wandf > 0 && rl_dist(wandx, wandy, x, y) <= 2 &&
-     rl_dist(posx, posy, wandx, wandy) <= wandf)
+     rl_dist(posx(), posy(), wandx, wandy) <= wandf)
   return true;
 
  int t;
- if (can_see() && g->m.sees(posx, posy, x, y, g->light_level(), t))
+ if (can_see() && g->m.sees(posx(), posy(), x, y, g->light_level(), t))
   return true;
 
  return false;
@@ -1068,7 +1072,7 @@ bool monster::will_reach(game *g, int x, int y)
 
 int monster::turns_to_reach(game *g, int x, int y)
 {
- std::vector<point> path = g->m.route(posx, posy, x, y, has_flag(MF_BASHES));
+ std::vector<point> path = g->m.route(posx(), posy(), x, y, has_flag(MF_BASHES));
  if (path.size() == 0)
   return 999;
 
@@ -1077,7 +1081,7 @@ int monster::turns_to_reach(game *g, int x, int y)
   if (g->m.move_cost(path[i].x, path[i].y) == 0) // We have to bash through
    turns += 5;
   else if (i == 0)
-   turns += double(calc_movecost(g, posx, posy, path[i].x, path[i].y)) / speed;
+   turns += double(calc_movecost(g, posx(), posy(), path[i].x, path[i].y)) / speed;
   else
    turns += double(calc_movecost(g, path[i-1].x, path[i-1].y, path[i].x, path[i].y)) / speed;
  }

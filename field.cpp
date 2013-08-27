@@ -1357,13 +1357,13 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                 int tries = 0;
                 int newposx, newposy;
                 do {
-                    newposx = rng(z->posx - SEEX, z->posx + SEEX);
-                    newposy = rng(z->posy - SEEY, z->posy + SEEY);
+                    newposx = rng(z->posx() - SEEX, z->posx() + SEEX);
+                    newposy = rng(z->posy() - SEEY, z->posy() + SEEY);
                     tries++;
                 } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
 
                 if (tries == 10) {
-                    g->explode_mon(g->mon_at(z->posx, z->posy));
+                    g->explode_mon(g->mon_at(z->posx(), z->posy()));
                 } else {
                     int mon_hit = g->mon_at(newposx, newposy);
                     if (mon_hit != -1) {
@@ -1373,8 +1373,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                         }
                         g->explode_mon(mon_hit);
                     } else {
-                        z->posx = newposx;
-                        z->posy = newposy;
+                        z->setpos(newposx, newposy);
                     }
                 }
             }

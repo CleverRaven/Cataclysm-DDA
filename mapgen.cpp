@@ -12508,8 +12508,8 @@ void map::add_spawn(monster *mon)
   spawnx = mon->spawnposx;
   spawny = mon->spawnposy;
  } else {
-  spawnx = mon->posx;
-  spawny = mon->posy;
+  spawnx = mon->posx();
+  spawny = mon->posy();
  }
  while (spawnx < 0)
   spawnx += SEEX;

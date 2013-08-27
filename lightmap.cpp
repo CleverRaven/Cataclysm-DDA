@@ -121,8 +121,8 @@ void map::generate_lightmap(game* g)
  }
 
  for (int i = 0; i < g->num_zombies(); ++i) {
-  int mx = g->zombie(i).posx;
-  int my = g->zombie(i).posy;
+  int mx = g->zombie(i).posx();
+  int my = g->zombie(i).posy();
   if (INBOUNDS(mx, my)) {
    if (g->zombie(i).has_effect(ME_ONFIRE)) {
      apply_light_source(mx, my, 3, trigdist);

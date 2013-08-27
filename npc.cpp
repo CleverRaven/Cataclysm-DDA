@@ -1784,7 +1784,7 @@ int npc::danger_assessment(game *g)
  int ret = 0;
  int sightdist = g->light_level(), junk;
  for (int i = 0; i < g->num_zombies(); i++) {
-  if (g->m.sees(posx, posy, g->zombie(i).posx, g->zombie(i).posy, sightdist, junk))
+  if (g->m.sees(posx, posy, g->zombie(i).posx(), g->zombie(i).posy(), sightdist, junk))
    ret += g->zombie(i).type->difficulty;
  }
  ret /= 10;
