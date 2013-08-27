@@ -8412,29 +8412,48 @@ void game::pickup(int posx, int posy, int min)
   k_part = veh->part_with_feature(veh_part, "KITCHEN");
   veh_part = veh->part_with_feature(veh_part, "CARGO", false);
   from_veh = veh && veh_part >= 0 &&
-             veh->parts[veh_part].items.size() > 0 &&
-             query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str());
-
-  if (!from_veh && k_part >= 0) {
-    if (veh->fuel_left("water")) {
-      if (query_yn(_("Fill a container?"))) {
-      int amt = veh->drain("water", veh->fuel_left("water"));
-      item fill_water(g->itypes[default_ammo("water")], g->turn);
-      fill_water.charges = amt;
-      int back = g->move_liquid(fill_water);
-      veh->refill("water", back);
-      }
-      if (query_yn(_("Have a drink?"))) {
-        veh->drain("water", 1);
-
-        item water(itypes["water_clean"], 0);
-        u.eat(this, u.inv.add_item(water).invlet);
-        u.moves -= 250;
-      }
-    } else {
-      add_msg(_("The water tank is empty."));
+             veh->parts[veh_part].items.size() > 0;
+  
+  if(from_veh) {
+    if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str())) {
+      from_veh = false;
     }
   }
+
+  if(!from_veh) {
+
+    //Either no cargo to grab, or we declined; what about water?
+    bool got_water = false;
+    if (k_part >= 0) {
+      if (veh->fuel_left("water")) {
+        if (query_yn(_("Fill a container?"))) {
+          int amt = veh->drain("water", veh->fuel_left("water"));
+          item fill_water(g->itypes[default_ammo("water")], g->turn);
+          fill_water.charges = amt;
+          int back = g->move_liquid(fill_water);
+          veh->refill("water", back);
+          got_water = true;
+        }
+        if (query_yn(_("Have a drink?"))) {
+          veh->drain("water", 1);
+
+          item water(itypes["water_clean"], 0);
+          u.eat(this, u.inv.add_item(water).invlet);
+          u.moves -= 250;
+          got_water = true;
+        }
+      } else {
+        add_msg(_("The water tank is empty."));
+      }
+    }
+
+    //If we still haven't done anything, we probably want to examine the vehicle
+    if(!got_water) {
+      exam_vehicle(*veh, posx, posy);
+    }
+
+  }
+
  }
 
     if (!from_veh) {
