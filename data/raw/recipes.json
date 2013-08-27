@@ -5499,7 +5499,8 @@
     [
       [ "ammonia", 1 ],
       [ "lemon", 1 ],
-      [ "acid", 1 ]
+      [ "acid", 1 ],
+      [ "vinegar", 1 ]
     ],
     [
       [ "steel_chunk", 1 ],
