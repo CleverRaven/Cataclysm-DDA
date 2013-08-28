@@ -3991,7 +3991,7 @@
         "volume" : 0,
         "material_thickness" : 0,
         "storage" : 0,
-        "description" : "A simple wristwatch. Tells the time and has a alarm-clock feature.",
+        "description" : "A simple wristwatch. Tells the time and has an alarm clock feature.",
         "weight" : 50,
         "to_hit" : -1,
         "color" : "white",

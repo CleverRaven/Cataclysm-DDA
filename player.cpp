@@ -5533,6 +5533,8 @@ bool player::has_fire(const int quantity)
         return true;
     } else if (has_bionic("bio_laser")) {
         return true;
+    } else if (has_charges("ref_lighter", quantity)) {
+        return true;
     } else if (has_charges("matches", quantity)) {
         return true;
     } else if (has_charges("lighter", quantity)) {
@@ -5568,6 +5570,9 @@ void player::use_fire(const int quantity)
     } else if (has_bionic("bio_lighter")) {
         return;
     } else if (has_bionic("bio_laser")) {
+        return;
+    } else if (has_charges("ref_lighter", quantity)) {
+        use_charges("ref_lighter", quantity);
         return;
     } else if (has_charges("matches", quantity)) {
         use_charges("matches", quantity);
@@ -5787,29 +5792,25 @@ bool player::has_amount(itype_id it, int quantity)
     return (amount_of(it) >= quantity);
 }
 
-int player::amount_of(itype_id it)
-{
-    if (it == "toolset" && has_bionic("bio_tools"))
-    {
+int player::amount_of(itype_id it) {
+    if (it == "toolset" && has_bionic("bio_tools")) {
         return 1;
     }
-    if (it == "apparatus")
-    {
-        if (has_amount("crackpipe", 1) || has_amount("can_drink", 1) )
-        {
+    if (it == "apparatus") {
+        if (has_amount("crackpipe", 1) ||
+            has_amount("can_drink", 1) ||
+            has_amount("pipe_glass", 1) ||
+            has_amount("pipe_tobacco", 1)) {
             return 1;
         }
     }
     int quantity = 0;
-    if (weapon.type->id == it)
-    {
+    if (weapon.type->id == it) {
         quantity++;
     }
 
-    for (int i = 0; i < weapon.contents.size(); i++)
-    {
-        if (weapon.contents[i].type->id == it)
-        {
+    for (int i = 0; i < weapon.contents.size(); i++)     {
+        if (weapon.contents[i].type->id == it) {
             quantity++;
         }
     }
@@ -6774,7 +6775,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             if (armor->covers & mfb(i) && encumb(i) >= 4)
             {
                 g->add_msg(
-                    (i == bp_head || i == bp_torso) ?
+                    (i == bp_head || i == bp_torso || i == bp_mouth) ?
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
                     body_part_name(body_part(i), 2).c_str(), encumb_text(body_part(i)).c_str());
             }
