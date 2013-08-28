@@ -391,6 +391,7 @@ void load_artifacts(); // Load artifact data
 // Player actions
   void wishitem( player * p=NULL, int x=-1, int y=-1 );
   void wishmonster( int x=-1, int y=-1 );
+  void wishskill( player * p );
   void mutation_wish(); // Mutate
 
   void pldrive(int x, int y); // drive vehicle

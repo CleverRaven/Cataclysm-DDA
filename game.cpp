@@ -3230,85 +3230,7 @@ Current turn: %d; Next spawn %d.\n\
    break;
 
   case 11: {
-      const int skoffset = 1;
-      uimenu skmenu;
-      skmenu.text = "Select a skill to modify";
-      skmenu.return_invalid = true;
-      skmenu.addentry(0, true, '1', "Set all skills to...");
-      int origskills[ Skill::skills.size()] ;
-
-      for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-           aSkill != Skill::skills.end(); ++aSkill) {
-        int skill_id = (*aSkill)->id();
-        skmenu.addentry( skill_id + skoffset, true, -1, "@ %d: %s  ",
-                         (int)u.skillLevel(*aSkill), (*aSkill)->ident().c_str() );
-        origskills[skill_id] = (int)u.skillLevel(*aSkill);
-      }
-      do {
-        skmenu.query();
-        int skill_id = -1;
-        int skset = -1;
-        int sksel = skmenu.selected - skoffset;
-        if ( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
-          if ( sksel >= 0 && sksel < Skill::skills.size() ) {
-            skill_id = sksel;
-            skset = (int)u.skillLevel( Skill::skills[skill_id]) +
-                ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
-          }
-        } else if ( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < Skill::skills.size() ) {
-          skill_id = sksel;
-          uimenu sksetmenu;
-          sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
-          sksetmenu.w_y = skmenu.w_y + 2;
-          sksetmenu.w_height = skmenu.w_height - 4;
-          sksetmenu.return_invalid = true;
-          sksetmenu.settext( "Set '%s' to..", Skill::skills[skill_id]->ident().c_str() );
-          int skcur = (int)u.skillLevel(Skill::skills[skill_id]);
-          sksetmenu.selected = skcur;
-          for ( int i = 0; i < 21; i++ ) {
-              sksetmenu.addentry( i, true, i + 48, "%d%s", i, (skcur == i ? " (current)" : "") );
-          }
-          sksetmenu.query();
-          skset = sksetmenu.ret;
-        }
-        if ( skset != -1 && skill_id != -1 ) {
-          u.skillLevel( Skill::skills[skill_id] ).level(skset);
-          skmenu.textformatted[0] = string_format("%s set to %d             ",
-              Skill::skills[skill_id]->ident().c_str(),
-              (int)u.skillLevel(Skill::skills[skill_id])).substr(0,skmenu.w_width - 4);
-          skmenu.entries[skill_id + skoffset].txt = string_format("@ %d: %s  ",
-              (int)u.skillLevel( Skill::skills[skill_id]), Skill::skills[skill_id]->ident().c_str() );
-          skmenu.entries[skill_id + skoffset].text_color =
-              ( (int)u.skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
-                skmenu.text_color : c_yellow );
-        } else if ( skmenu.ret == 0 && sksel == -1 ) {
-          int ret = menu(true, "Set all skills...",
-                         "+3","+1","-1","-3","To 0","To 5","To 10","(Reset changes)",NULL);
-          if ( ret > 0 ) {
-              int skmod = 0;
-              int skset = -1;
-              if (ret < 5 ) {
-                skmod=( ret < 3 ? ( ret == 1 ? 3 : 1 ) :
-                    ( ret == 3 ? -1 : -3 )
-                );
-              } else if ( ret < 8 ) {
-                skset=( ( ret - 5 ) * 5 );
-              }
-              for (int skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
-                int changeto = ( skmod != 0 ? u.skillLevel( Skill::skills[skill_id] ) + skmod :
-                                 ( skset != -1 ? skset : origskills[skill_id] ) );
-                u.skillLevel( Skill::skills[skill_id] ).level( changeto );
-                skmenu.entries[skill_id + skoffset].txt =
-                    string_format("@ %d: %s  ", (int)u.skillLevel(Skill::skills[skill_id]),
-                                  Skill::skills[skill_id]->ident().c_str() );
-                skmenu.entries[skill_id + skoffset].text_color =
-                    ( (int)u.skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
-                      skmenu.text_color : c_yellow );
-              }
-          }
-        }
-      } while ( ! ( skmenu.ret == -1 && ( skmenu.keypress == 'q' || skmenu.keypress == ' ' ||
-                                          skmenu.keypress == KEY_ESCAPE ) ) );
+    wishskill(&u);
     }
     break;
 
@@ -3328,27 +3250,42 @@ Current turn: %d; Next spawn %d.\n\
    else {
     std::stringstream data;
     npc *p = active_npc[npcdex];
-    data << p->name << " " << (p->male ? _("Male") : _("Female")) << std::endl;
+    uimenu nmenu;
+    nmenu.disabled_color = c_ltgray;
+    nmenu.return_invalid = true;
+    data << p->name << " " << (p->male ? _("Male") : _("Female"));
+    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
+
     data << npc_class_name(p->myclass) << "; " <<
-            npc_attitude_name(p->attitude) << std::endl;
-    if (p->has_destination())
+            npc_attitude_name(p->attitude);
+    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
+    if (p->has_destination()) {
      data << _("Destination: ") << p->goalx << ":" << p->goaly << "(" <<
-             oterlist[ cur_om->ter(p->goalx, p->goaly, p->goalz) ].name << ")" <<
-             std::endl;
-    else
-     data << _("No destination.") << std::endl;
+             oterlist[ cur_om->ter(p->goalx, p->goaly, p->goalz) ].name << ")";
+    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
+
+    } else {
+     data << _("No destination.");
+    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
+
+    }
     data << _("Trust: ") << p->op_of_u.trust << _(" Fear: ") << p->op_of_u.fear <<
             _(" Value: ") << p->op_of_u.value << _(" Anger: ") << p->op_of_u.anger <<
-            _(" Owed: ") << p->op_of_u.owed << std::endl;
+            _(" Owed: ") << p->op_of_u.owed;
+    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
+
     data << _("Aggression: ") << int(p->personality.aggression) << _(" Bravery: ") <<
             int(p->personality.bravery) << _(" Collector: ") <<
             int(p->personality.collector) << _(" Altruism: ") <<
-            int(p->personality.altruism) << std::endl;
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-      data << (*aSkill)->name() << ": " << p->skillLevel(*aSkill) << std::endl;
-    }
+            int(p->personality.altruism);
+    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
+    nmenu.addentry(50,true,'s',"%s",_("Edit [s]kills"));
+    nmenu.addentry(51,true,'q',"%s",_("[q]uit"));
 
-    full_screen_popup(data.str().c_str());
+    nmenu.query();
+    if (nmenu.ret == 50 ) {
+      wishskill(p);
+    }
    }
   } break;
 
