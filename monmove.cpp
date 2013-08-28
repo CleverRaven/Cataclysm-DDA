@@ -222,9 +222,9 @@ void monster::move(game *g)
  }
  if (has_effect(ME_BOULDERING)){
   moves -= 20;
-  if (moves < 0)
-   moves = 0;
-  return;
+  if (moves < 0) {
+   return;
+  }
  }
  if (friendly != 0) {
   if (friendly > 0)
