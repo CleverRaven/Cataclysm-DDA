@@ -5754,6 +5754,13 @@ void game::remove_zombie(const int idx)
     monster& m = _z[idx];
     z_at.erase(point(m.posx(), m.posy()));
     _z.erase(_z.begin() + idx);
+
+    // Fix indices in z_at for any zombies that were just moved down 1 place.
+    for (std::map<point, int>::iterator iter = z_at.begin(); iter != z_at.end(); iter++) {
+        if (iter->second > idx) {
+            iter->second--;
+        }
+    }
 }
 
 void game::clear_zombies()
