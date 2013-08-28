@@ -443,6 +443,7 @@ void game::wishitem( player *p, int x, int y)
  * Set skill on any player object; player character or NPC
  */
 void game::wishskill(player * p) {
+
       const int skoffset = 1;
       uimenu skmenu;
       skmenu.text = "Select a skill to modify";
