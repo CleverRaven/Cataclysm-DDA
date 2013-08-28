@@ -692,7 +692,7 @@ std::vector<int> vehicle::internal_parts (int p)
     return res;
 }
 
-int vehicle::part_with_feature (int part, std::string flag, bool unbroken)
+int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
 {
     if (part_flag(part, flag)) {
         return part;
@@ -706,7 +706,7 @@ int vehicle::part_with_feature (int part, std::string flag, bool unbroken)
     return -1;
 }
 
-bool vehicle::part_flag (int part, std::string flag)
+bool vehicle::part_flag (int part, const std::string &flag)
 {
     if (part < 0 || part >= parts.size()) {
         return false;
