@@ -195,7 +195,7 @@ std::string uimenu::inputfilter()
 {
     std::string identifier = ""; // todo: uimenu.filter_identifier ?
     long key = 0;
-
+    int spos = -1;
     mvwprintz(window, w_height - 1, 2, border_color, "< ");
     mvwprintz(window, w_height - 1, w_width - 3, border_color, " >");
 /*
@@ -207,7 +207,7 @@ std::string uimenu::inputfilter()
 */
     do {
         // filter=filter_input->query(filter, false);
-        filter=string_input_win(window, filter, 256, 4, w_height - 1, w_width - 4, false, key, identifier, 4, w_height - 1);
+        filter=string_input_win(window, filter, 256, 4, w_height - 1, w_width - 4, false, key, spos, identifier, 4, w_height - 1 );
         // key = filter_input->keypress;
         if ( key != KEY_ESCAPE ) {
             if ( scrollby(0, key) == false ) {

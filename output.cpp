@@ -563,7 +563,8 @@ std::string string_input_popup(std::string title, int width, std::string input, 
   }
   mvwprintz(w, starty, 1, title_color, "%s", title.c_str() );
   long key=0;
-  std::string ret = string_input_win(w, input, max_length, startx, starty, endx, true, key, identifier, w_x, w_y);
+  int pos = -1;
+  std::string ret = string_input_win(w, input, max_length, startx, starty, endx, true, key, pos, identifier, w_x, w_y, true );
       werase(w);
       wrefresh(w);
       delwin(w);
@@ -571,14 +572,16 @@ std::string string_input_popup(std::string title, int width, std::string input, 
   return ret;
 }
 
-std::string string_input_win(WINDOW * w, std::string input, int max_length, int startx, int starty, int endx, bool loop, long & ch, std::string identifier, int w_x, int w_y, bool dorefresh) {
+std::string string_input_win(WINDOW * w, std::string input, int max_length, int startx, int starty, int endx, bool loop, long & ch, int & pos, std::string identifier, int w_x, int w_y, bool dorefresh ) {
   std::string ret = input;
   nc_color title_color = c_ltred;
   nc_color desc_color = c_green;
   nc_color string_color = c_magenta;
   nc_color cursor_color = h_ltgray;
   nc_color underscore_color = c_ltgray;
-  int pos = utf8_width(input.c_str());
+  if ( pos == -1 ) {
+      pos = utf8_width(input.c_str());
+  }
   int lastpos=pos;
   int scrmax=endx-startx; 
   int shift = 0;

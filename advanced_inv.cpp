@@ -1147,6 +1147,7 @@ void advanced_inventory::display(game * gp, player * pp) {
             recalc = true;
         } else if( 'f' == c || '.' == c || '/' == c) {
             long key = 0;
+            int spos = -1;
             std::string filter=panes[src].filter;
             std::string origfilter = filter;
             filter_edit = true;
@@ -1154,7 +1155,7 @@ void advanced_inventory::display(game * gp, player * pp) {
             do {
                 mvwprintz(panes[src].window, getmaxy(panes[src].window) - 1, 2, c_cyan, "< ");
                 mvwprintz(panes[src].window, getmaxy(panes[src].window) - 1, (w_width/2) - 3, c_cyan, " >");
-                filter=string_input_win(panes[src].window, panes[src].filter, 256, 4, w_height - 1, (w_width/2) - 4, false, key, "", 4, getmaxy(panes[src].window) - 1);
+                filter=string_input_win(panes[src].window, panes[src].filter, 256, 4, w_height - 1, (w_width/2) - 4, false, key, spos, "", 4, getmaxy(panes[src].window) - 1 );
                 if ( filter != panes[src].filter ) {
                     panes[src].filtercache.clear();
                     panes[src].filter=filter;
