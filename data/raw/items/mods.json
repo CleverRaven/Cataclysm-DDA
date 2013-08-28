@@ -515,8 +515,8 @@
     },
     {
         "type" : "GUNMOD",
-        "id" : "40mm pipe launcher",
-        "name" : "pipe_launcher40mm",
+        "id" : "pipe_launcher40mm",
+        "name" : "40mm pipe launcher",
         "weight" : 2080,
         "color" : "light_gray",
         "burst_modifier" : 0,
