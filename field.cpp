@@ -352,6 +352,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 ammo_type->ammo_effects.count("EXPLOSIVE") ||
                                 ammo_type->ammo_effects.count("FRAG") ||
                                 ammo_type->ammo_effects.count("NAPALM") ||
+                                ammo_type->ammo_effects.count("NAPALM_BIG") ||
                                 ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
                                 ammo_type->ammo_effects.count("EXPLOSIVE_HUGE") ||
                                 ammo_type->ammo_effects.count("TEARGAS") ||

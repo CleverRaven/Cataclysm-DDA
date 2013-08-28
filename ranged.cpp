@@ -937,7 +937,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
  else if (weapon->curammo->type == "40mm")
   g->sound(p.posx, p.posy, 8, _("Thunk!"));
  else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm" ||
-     weapon->curammo->type == "84x246mm")
+     weapon->curammo->type == "84x246mm" || weapon->curammo->type == "m235")
   g->sound(p.posx, p.posy, 4, _("Fwoosh!"));
  else if (weapon->curammo->type != "bolt" &&
           weapon->curammo->type != "arrow" &&
@@ -1212,6 +1212,9 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
 
   if (effects.count("NAPALM"))
     g->explosion(x, y, 18, 0, true);
+
+  if (effects.count("NAPALM_BIG"))
+    g->explosion(x, y, 72, 0, true);
 
   if (effects.count("ACIDBOMB")) {
     for (int i = x - 1; i <= x + 1; i++) {

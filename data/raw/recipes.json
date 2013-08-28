@@ -1257,6 +1257,62 @@
 },
 
 {
+  "result": "pipe_launcher40mm",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "requires_skills": [ "launcher", 3 ],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "duct_tape", 50 ]
+    ],
+    [
+      [ "nail", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "u_shotgun",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "requires_skills": [ "shotgun", 3 ],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "duct_tape", 75 ]
+    ],
+    [
+      [ "nail", 2 ]
+    ]
+  ]
+},
+
+{
   "result": "shot_he",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",

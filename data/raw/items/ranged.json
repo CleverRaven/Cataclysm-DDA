@@ -2462,5 +2462,31 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 300
+  },
+  {
+    "id": "m202_flash",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "M202 FLASH",
+    "description": "A massive and deadly four shot 66 millimeter man-portable, reusable, thermobaric rocket launcher.",
+    "price": 9000,
+    "material": "steel",
+    "flags": ["MODE_BURST", "BACKBLAST"],
+    "skill": "launcher",
+    "ammo": "m235",
+    "weight": 5220,
+    "volume": 32,
+    "bashing": 14,
+    "cutting": 0,
+    "to_hit": -2,
+    "ranged_damage": 0,
+    "range": 0,
+    "dispersion": 20,
+    "recoil": 10,
+    "durability": 7,
+    "burst": 4,
+    "clip_size": 4,
+    "reload": 600
   }
 ]
