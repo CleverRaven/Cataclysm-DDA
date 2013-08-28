@@ -5499,7 +5499,8 @@
     [
       [ "ammonia", 1 ],
       [ "lemon", 1 ],
-      [ "acid", 1 ]
+      [ "acid", 1 ],
+      [ "vinegar", 1 ]
     ],
     [
       [ "steel_chunk", 1 ],
@@ -7865,6 +7866,28 @@
 },
 
 {
+  "result": "hat_cotton",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "requires_skills": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 3 ]
+    ]
+  ]
+},
+
+{
   "result": "helmet_chitin",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -8394,7 +8417,8 @@
   ],
   "components": [
     [
-      [ "bottle_plastic", 1 ]
+      [ "jug_plastic", 1 ],
+      [ "bottle_plastic", 3 ]
     ]
   ]
 },
@@ -9001,6 +9025,7 @@
   "tools": [
     [
       [ "lighter", 5 ],
+      [ "ref_lighter", 5 ],,
       [ "fire", -1 ],
       [ "toolset", 1 ]
     ]
@@ -13144,6 +13169,7 @@
   "tools": [
     [
       [ "lighter", 20 ],
+      [ "ref_lighter", 20 ],,
       [ "fire", -1 ],
       [ "toolset", 2 ]
     ]
