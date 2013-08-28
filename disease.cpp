@@ -2125,7 +2125,8 @@ void handle_alcohol(game* g, player& p, disease& dis) {
     if (dis.duration <= 600) {
         p.str_cur += 1;
     }
-    if (dis.duration > 2000 + 100 * dice(2, 100) && will_vomit(p, 1) || one_in(20)) {
+    if (dis.duration > 2000 + 100 * dice(2, 100) &&
+        (will_vomit(p, 1) || one_in(20))) {
         p.vomit(g);
     }
     bool readyForNap = one_in(500 - int(dis.duration / 80));
