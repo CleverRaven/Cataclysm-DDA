@@ -389,8 +389,8 @@ void load_artifacts(); // Load artifact data
   void create_starting_npcs(); // Creates NPCs that start near you
 
 // Player actions
-  void wish();	// Cheat by wishing for an item 'Z'
-  void monster_wish(); // Create a monster
+  void wishitem( player * p=NULL, int x=-1, int y=-1 );
+  void wishmonster( int x=-1, int y=-1 );
   void mutation_wish(); // Mutate
 
   void pldrive(int x, int y); // drive vehicle

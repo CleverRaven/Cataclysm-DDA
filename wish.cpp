@@ -4,379 +4,10 @@
 #include "item_factory.h"
 #include <sstream>
 #include "text_snippets.h"
+#include "helper.h"
+#include "uistate.h"
 
 #define LESS(a, b) ((a)<(b)?(a):(b))
-
-void game::wish()
-{
- WINDOW* w_search = newwin(2, FULL_SCREEN_WIDTH, 0, 0);
- WINDOW* w_list = newwin(FULL_SCREEN_HEIGHT-2, 30, 2,  0);
- WINDOW* w_info = newwin(FULL_SCREEN_HEIGHT-2, 50, 2, 30);
- int a = 0, shift = 0, result_selected = 0;
- int ch = '.';
- bool search = false;
- bool incontainer = false;
- bool changed = false;
- std::string pattern = "";
- std::string info;
- std::vector<int> search_results;
- // use this item for info display, but NOT for instantiation
- item tmp;
- tmp.corpse = mtypes[0];
- do {
-  werase(w_search);
-  werase(w_info);
-  werase(w_list);
-  mvwprintw(w_search, 0, 0, _("('/' to search, Esc to stop, <> to switch between results)"));
-  mvwprintz(w_search, 1, 0, c_white, _("Wish for a: "));
-  if (search) {
-   if (ch == '\n') {
-    search = false;
-    ch = '.';
-   }
-   else if (ch == 27) // Escape to stop searching
-   {
-    search = false;
-    ch = '.';
-   } else if (ch == KEY_BACKSPACE || ch == 127) {
-    if (pattern.length() > 0)
-    {
-     pattern.erase(pattern.end() - 1);
-     search_results.clear();
-     changed = true;
-    }
-    else
-    {
-     changed = false;
-    }
-   } else if (ch == '>' || ch == KEY_NPAGE) {
-    if (!search_results.empty()) {
-     result_selected++;
-     if (result_selected >= search_results.size())
-      result_selected = 0;
-     shift = search_results[result_selected];
-     a = 0;
-     if (shift + 23 > standard_itype_ids.size()) {
-      a = shift + 23 - standard_itype_ids.size();
-      shift = standard_itype_ids.size() - 23;
-     }
-    }
-    changed = false;
-   } else if (ch == '<' || ch == KEY_PPAGE) {
-    if (!search_results.empty()) {
-     result_selected--;
-     if (result_selected < 0)
-      result_selected = search_results.size() - 1;
-     shift = search_results[result_selected];
-     a = 0;
-     if (shift + 23 > standard_itype_ids.size()) {
-      a = shift + 23 - standard_itype_ids.size();
-      shift = standard_itype_ids.size() - 23;
-     }
-    }
-    changed = false;
-   } else {
-    pattern += ch;
-    search_results.clear();
-    changed = true;
-   }
-
-   // If the pattern hasn't changed or we've stopped searching, no need to update
-   if (search && changed) {
-    // If the pattern is blank, search just returns all items, which will be listed anyway
-    if (pattern.length() > 0)
-    {
-     for (int i = 0; i < standard_itype_ids.size(); i++) {
-      if (item_controller->find_template(standard_itype_ids[i])->name.find(pattern) != std::string::npos) {
-       shift = i;
-       a = 0;
-       result_selected = 0;
-       if (shift + 23 > standard_itype_ids.size()) {
-        a = shift + 23 - standard_itype_ids.size();
-        shift = standard_itype_ids.size() - 23;
-       }
-       search_results.push_back(i);
-      }
-     }
-     if (search_results.size() > 0) {
-      shift = search_results[0];
-      a = 0;
-     }
-    }
-    else // The pattern is blank, so jump back to the top of the list
-    {
-     shift = 0;
-    }
-   }
-
-  } else {	// Not searching; scroll by keys
-   if (ch == 'j') a++;
-   if (ch == 'k') a--;
-   if (ch == '/') {
-    search = true;
-   }
-   if (ch == 'f') incontainer = !incontainer;
-   if (( ch == '>' || ch == KEY_NPAGE ) && !search_results.empty()) {
-    result_selected++;
-    if (result_selected >= search_results.size())
-     result_selected = 0;
-    shift = search_results[result_selected];
-    a = 0;
-    if (shift + 23 > standard_itype_ids.size()) {
-     a = shift + 23 - standard_itype_ids.size();
-     shift = standard_itype_ids.size() - 23;
-    }
-   } else if (( ch == '<' || ch == KEY_PPAGE ) && !search_results.empty()) {
-    result_selected--;
-    if (result_selected < 0)
-     result_selected = search_results.size() - 1;
-    shift = search_results[result_selected];
-    a = 0;
-    if (shift + 23 > standard_itype_ids.size()) {
-     a = shift + 23 - standard_itype_ids.size();
-     shift = standard_itype_ids.size() - 23;
-    }
-   }
-  }
-  int search_string_length = pattern.length();
-  if (!search_results.empty())
-   mvwprintz(w_search, 1, 12, c_green, "%s", pattern.c_str());
-  else if (pattern.length() > 0)
-  {
-   mvwprintz(w_search, 1, 12, c_red, _("\"%s \" not found!"),pattern.c_str());
-   search_string_length += 1;
-  }
-  if (incontainer)
-   mvwprintz(w_search, 0, 70, c_ltblue, _("contained"));
-  if (a < 0) {
-   a = 0;
-   shift--;
-   if (shift < 0) shift = 0;
-  }
-  if (a > 22) {
-   a = 22;
-   shift++;
-   if (shift + 23 > standard_itype_ids.size()) shift = standard_itype_ids.size() - 23;
-  }
-  for (int i = 0; i < 23 && i+shift < standard_itype_ids.size(); i++) {
-   nc_color col = c_ltgray;
-   if (i == a)
-    col = h_ltgray;
-   mvwprintz(w_list, i, 0, col, item_controller->find_template(standard_itype_ids[i+shift])->name.c_str());
-   wprintz(w_list, item_controller->find_template(standard_itype_ids[i+shift])->color, "%c%", item_controller->find_template(standard_itype_ids[i+shift])->sym);
-  }
-  tmp.make(item_controller->find_template(standard_itype_ids[a + shift]));
-  tmp.bday = turn;
-  if (tmp.is_tool())
-   tmp.charges = dynamic_cast<it_tool*>(tmp.type)->max_charges;
-  else if (tmp.is_ammo())
-   tmp.charges = 100;
-  else if (tmp.is_gun())
-   tmp.charges = 0;
-  else if (tmp.is_gunmod() && (tmp.has_flag("MODE_AUX") ||
-			       tmp.typeId() == "spare_mag"))
-   tmp.charges = 0;
-  else
-   tmp.charges = -1;
-  // Should be a flag, but we're out at the moment
-  if( tmp.is_stationary() )
-  {
-    tmp.note = SNIPPET.assign( (dynamic_cast<it_stationary*>(tmp.type))->category );
-  }
-  info = tmp.info(true);
-  mvwprintw(w_info, 0, 0, info.c_str());
-  wrefresh(w_search);
-  wrefresh(w_info);
-  wrefresh(w_list);
-  if (search)
-  {
-   curs_set(1);
-   ch = mvgetch(1, search_string_length+12);
-  }
-  else
-  {
-   curs_set(0);
-   ch = input();
-  }
- } while (ch != '\n' && !(ch==KEY_ESCAPE && !search));
- clear();
-
- if(ch=='\n')
- {
-  // Allow for multiples
-  curs_set(1);
-  mvprintw(0, 0, _("How many do you want? (default is 1): "));
-  char str[5];
-  int count = 1;
-  echo();
-  getnstr(str, 5);
-  noecho();
-  count = atoi(str);
-  if (count<=0)
-  {
-   count = 1;
-  }
-  curs_set(0);
-
-  item granted = item_controller->create(standard_itype_ids[a + shift], turn);
-  mvprintw(2, 0, _("Wish granted - %d x %s."), count, granted.type->name.c_str());
-  tmp.invlet = nextinv;
-  for (int i=0; i<count; i++)
-  {
-   if (!incontainer)
-    u.i_add(granted);
-   else
-    u.i_add(granted.in_its_container(&itypes));
-  }
-  advance_nextinv();
-  getch();
- }
- delwin(w_info);
- delwin(w_list);
-}
-
-void game::monster_wish()
-{
- WINDOW* w_list = newwin(25, 30, 0,  0);
- WINDOW* w_info = newwin(25, 50, 0, 30);
- int a = 0, shift = 1, result_selected = 0;
- int ch = '.';
- bool search = false, friendly = false;
- std::string pattern;
- std::string info;
- std::vector<int> search_results;
- monster tmp;
- do {
-  werase(w_info);
-  werase(w_list);
-  mvwprintw(w_list, 0, 0, _("Spawn a: "));
-  if (search) {
-   if (ch == '\n') {
-    search = false;
-    ch = '.';
-   } else if (ch == KEY_BACKSPACE || ch == 127) {
-    if (pattern.length() > 0)
-     pattern.erase(pattern.end() - 1);
-   } else if (ch == '>' || ch == KEY_NPAGE) {
-    search = false;
-    if (!search_results.empty()) {
-     result_selected++;
-     if (result_selected > search_results.size())
-      result_selected = 0;
-     shift = search_results[result_selected];
-     a = 0;
-     if (shift + 23 > mtypes.size()) {
-      a = shift + 23 - mtypes.size();
-      shift = mtypes.size() - 23;
-     }
-    }
-   } else if (ch == '<' || ch == KEY_PPAGE) {
-    search = false;
-    if (!search_results.empty()) {
-     result_selected--;
-     if (result_selected < 0)
-      result_selected = search_results.size() - 1;
-     shift = search_results[result_selected];
-     a = 0;
-     if (shift + 23 > mtypes.size()) {
-      a = shift + 23 - mtypes.size();
-      shift = mtypes.size() - 23;
-     }
-    }
-   } else {
-    pattern += ch;
-    search_results.clear();
-   }
-
-   if (search) {
-    for (int i = 1; i < mtypes.size(); i++) {
-     if (mtypes[i]->name.find(pattern) != std::string::npos) {
-      shift = i;
-      a = 0;
-      result_selected = 0;
-      if (shift + 23 > mtypes.size()) {
-       a = shift + 23 - mtypes.size();
-       shift = mtypes.size() - 23;
-      }
-      search_results.push_back(i);
-     }
-    }
-   }
-
-  } else {	// Not searching; scroll by keys
-   if (ch == 'j') a++;
-   if (ch == 'k') a--;
-   if (ch == 'f') friendly = !friendly;
-   if (ch == '/') {
-    search = true;
-    pattern =  "";
-    search_results.clear();
-   }
-   if (( ch == '>' || ch == KEY_NPAGE ) && !search_results.empty()) {
-    result_selected++;
-    if (result_selected > search_results.size())
-     result_selected = 0;
-    shift = search_results[result_selected];
-    a = 0;
-    if (shift + 23 > mtypes.size()) {
-     a = shift + 23 - mtypes.size();
-     shift = mtypes.size() - 23;
-    }
-   } else if (( ch == '<' || ch == KEY_PPAGE ) && !search_results.empty()) {
-    result_selected--;
-    if (result_selected < 0)
-     result_selected = search_results.size() - 1;
-    shift = search_results[result_selected];
-    a = 0;
-    if (shift + 23 > mtypes.size()) {
-     a = shift + 23 - mtypes.size();
-     shift = mtypes.size() - 23;
-    }
-   }
-  }
-  if (!search_results.empty())
-   mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
-  else if (pattern.length() > 0)
-   mvwprintz(w_list, 0, 11, c_red, _("%s not found!            "),pattern.c_str());
-  if (a < 0) {
-   a = 0;
-   shift--;
-   if (shift < 1) shift = 1;
-  }
-  if (a > 22) {
-   a = 22;
-   shift++;
-   if (shift + 23 > mtypes.size()) shift = mtypes.size() - 23;
-  }
-  for (int i = 1; i < 24; i++) {
-   nc_color col = c_white;
-   if (i == a + 1)
-    col = h_white;
-   mvwprintz(w_list, i, 0, col, mtypes[i-1+shift]->name.c_str());
-   wprintz(w_list, mtypes[i-1+shift]->color, " %c%", mtypes[i-1+shift]->sym);
-  }
-  tmp = monster(mtypes[a + shift]);
-  if (friendly)
-   tmp.friendly = -1;
-  tmp.print_info(this, w_info);
-  wrefresh(w_info);
-  wrefresh(w_list);
-  if (search)
-   ch = getch();
-  else
-   ch = input();
- } while (ch != '\n');
- clear();
- delwin(w_info);
- delwin(w_list);
- refresh_all();
- wrefresh(w_terrain);
- point spawn = look_around();
- if (spawn.x == -1)
-  return;
- tmp.spawn(spawn.x, spawn.y);
- z.push_back(tmp);
-}
 
 void game::mutation_wish()
 {
@@ -557,4 +188,253 @@ void game::mutation_wish()
 
     delwin(w_info);
     delwin(w_list);
+}
+
+
+class wish_monster_callback: public uimenu_callback
+{
+    public:
+        int lastent;           // last menu entry
+        std::string msg;       // feedback mesage
+        bool friendly;         // spawn friendly critter?
+        WINDOW *w_info;        // ui_parent menu's padding area 
+        monster tmp;           // scrap critter for monster::print_info
+        bool started;          // if unset, intialize window
+        std::string padding;   // ' ' x window width
+
+        wish_monster_callback() {
+            started = false;
+            friendly = false;
+            msg = "";
+            lastent = -2;
+            w_info = NULL;
+            padding = "";
+        }
+
+        void setup(uimenu *menu) {
+            w_info = newwin(menu->w_height - 2, menu->pad_right , 1, menu->w_x + menu->w_width - 2 - menu->pad_right);
+            padding = std::string( getmaxx(w_info), ' ' );
+            werase(w_info);
+            wrefresh(w_info);
+        }
+
+        virtual bool key(int key, int entnum, uimenu *menu) {
+            if ( key == 'f' ) {
+                friendly = !friendly;
+                lastent = -2; // force tmp monster regen
+                return true;  // tell menu we handled keypress
+            }
+            return false;
+        }
+
+        virtual void select(int entnum, uimenu *menu) {
+            if ( ! started ) {
+                started = true;
+                setup(menu);
+            }
+            if (entnum != lastent) {
+                lastent = entnum;
+                tmp = monster(g->mtypes[entnum]);
+                if (friendly) {
+                    tmp.friendly = -1;
+                }
+            }
+
+            werase(w_info);
+            tmp.print_info(g, w_info);
+
+            std::string header = string_format("#%d: %s", entnum, g->mtypes[entnum]->name.c_str()
+                                              );
+            mvwprintz(w_info, 1, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
+                      header.c_str()
+                     );
+
+            mvwprintz(w_info, getmaxy(w_info) - 3, 0, c_green, "%s", msg.c_str());
+            msg = padding;
+            mvwprintw(w_info, getmaxy(w_info) - 2, 0, "[/] find, [f] friendly, [q]uit");
+            //wrefresh(w_info); // for some reason this makes everything disappear on first run? Not needed, at any rate.
+        }
+
+        virtual void refresh(uimenu *menu) {
+            wrefresh(w_info);
+        }
+
+        ~wish_monster_callback() {
+            werase(w_info);
+            wrefresh(w_info);
+            delwin(w_info);
+        }
+};
+
+void game::wishmonster(int x, int y)
+{
+    uimenu wmenu;
+    wmenu.w_x = 0;
+    wmenu.w_width = ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
+    wmenu.pad_right = ( wmenu.w_width - 30 );
+    wmenu.return_invalid = true;
+    wmenu.selected = uistate.wishmonster_selected;
+    wish_monster_callback *cb = new wish_monster_callback();
+    wmenu.callback = cb;
+
+    for (int i = 0; i < mtypes.size(); i++) {
+        wmenu.addentry( i, true, 0, "%s", mtypes[i]->name.c_str() );
+        wmenu.entries[i].extratxt.txt = string_format("%c", mtypes[i]->sym);
+        wmenu.entries[i].extratxt.color = mtypes[i]->color;
+        wmenu.entries[i].extratxt.left = 1;
+    }
+
+    do {
+        wmenu.query();
+        if ( wmenu.ret >= 0 ) {
+            monster mon = monster(g->mtypes[wmenu.ret]);
+            if (cb->friendly) {
+                mon.friendly = -1;
+            }
+            point spawn = ( x == -1 && y == -1 ? look_around() : point ( x, y ) );
+            if (spawn.x != -1) {
+                mon.spawn(spawn.x, spawn.y);
+#define old_game_z 1
+// If this errors and you've merged pr 2690, undefine old_game_z (or remove these ifdefs alltogether)
+#ifdef old_game_z
+                z.push_back(mon);
+#else
+                add_zombie(mon);
+#endif
+                cb->msg = _("Monster spawned, choose another or 'q' to quit.");
+                wmenu.redraw();
+            }
+        }
+    } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    delete cb;
+    cb = NULL;
+    return;
+}
+
+class wish_item_callback: public uimenu_callback
+{
+    public:
+        int lastlen;
+        bool incontainer;
+        std::string msg;
+        item tmp;
+        wish_item_callback() {
+            lastlen = 0;
+            incontainer = false;
+            msg = "";
+        }
+        virtual bool key(int key, int entnum, uimenu *menu) {
+            if ( key == 'f' ) {
+                incontainer = !incontainer;
+                return true;
+            }
+            return false;
+        }
+
+        virtual void select(int entnum, uimenu *menu) {
+            const int starty = 3;
+            const int startx = menu->w_width - menu->pad_right;
+            itype *ity = item_controller->find_template(standard_itype_ids[entnum]);
+
+            std::string padding = std::string(menu->pad_right - 1, ' ');
+
+            for(int i = 0; i < lastlen + starty + 1; i++ ) {
+                mvwprintw(menu->window, 1 + i, startx, "%s", padding.c_str() );
+            }
+
+            if ( ity != NULL ) {
+                tmp.make(item_controller->find_template(standard_itype_ids[entnum]));
+                tmp.bday = g->turn;
+                if (tmp.is_tool()) {
+                    tmp.charges = dynamic_cast<it_tool *>(tmp.type)->max_charges;
+                } else if (tmp.is_ammo()) {
+                    tmp.charges = 100;
+                } else if (tmp.is_gun()) {
+                    tmp.charges = 0;
+                } else if (tmp.is_gunmod() && (tmp.has_flag("MODE_AUX") ||
+                                               tmp.typeId() == "spare_mag")) {
+                    tmp.charges = 0;
+                } else {
+                    tmp.charges = -1;
+                }
+                if( tmp.is_stationary() ) {
+                    tmp.note = SNIPPET.assign( (dynamic_cast<it_stationary *>(tmp.type))->category );
+                }
+
+                std::vector<std::string> desc = foldstring(tmp.info(true), menu->pad_right - 1);
+                int dsize = desc.size();
+                if ( dsize > menu->w_height - 5 ) {
+                    dsize = menu->w_height - 5;
+                }
+                lastlen = dsize;
+                std::string header = string_format("#%d: %s%s",
+                                                   entnum,
+                                                   standard_itype_ids[entnum].c_str(),
+                                                   ( incontainer ? " (contained)" : "" )
+                                                  );
+
+                mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
+                          header.c_str()
+                         );
+
+                for(int i = 0; i < desc.size(); i++ ) {
+                    mvwprintw(menu->window, starty + i, startx, "%s", desc[i].c_str() );
+                }
+
+                mvwprintz(menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str());
+                msg = padding;
+                mvwprintw(menu->window, menu->w_height - 2, startx, "[/] find, [f] container, [q]uit");
+            }
+        }
+};
+
+void game::wishitem( player *p, int x, int y)
+{
+    if ( p == NULL && x <= 0 ) {
+        debugmsg("game::wishitem(): invalid parameters");
+        return;
+    }
+    int amount = 1;
+    uimenu wmenu;
+    wmenu.w_width = TERMX;
+    wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
+    wmenu.return_invalid = true;
+    wmenu.selected = uistate.wishitem_selected;
+    wish_item_callback *cb = new wish_item_callback();
+    wmenu.callback = cb;
+
+    for (int i = 0; i <  standard_itype_ids.size(); i++) {
+        itype *ity = item_controller->find_template(standard_itype_ids[i]);
+        wmenu.addentry( i, true, 0, string_format("%s", ity->name.c_str()) );
+        wmenu.entries[i].extratxt.txt = string_format("%c", ity->sym);
+        wmenu.entries[i].extratxt.color = ity->color;
+        wmenu.entries[i].extratxt.left = 1;
+    }
+    do {
+        wmenu.query();
+        if ( wmenu.ret >= 0 ) {
+            amount = helper::to_int(
+                         string_input_popup( _("How many?"), 20,
+                                             helper::to_string( amount ),
+                                             item_controller->find_template(standard_itype_ids[wmenu.ret])->name.c_str()
+                                           )
+                     );
+            item granted = item_controller->create(standard_itype_ids[wmenu.ret], turn);
+            int incontainer = dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer;
+            if ( p != NULL ) {
+                dynamic_cast<wish_item_callback *>(wmenu.callback)->tmp.invlet = nextinv;
+                for (int i = 0; i < amount; i++) {
+                    p->i_add(!incontainer ? granted : granted.in_its_container(&itypes));
+                }
+                advance_nextinv();
+            } else if ( x >= 0 && y >= 0 ) {
+                m.add_item_or_charges(x, y, granted);
+            }
+            dynamic_cast<wish_item_callback *>(wmenu.callback)->msg = _("Item granted, choose another or 'q' to quit.");
+            uistate.wishitem_selected = wmenu.ret;
+        }
+    } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    delete wmenu.callback;
+    wmenu.callback = NULL;
+    return;
 }

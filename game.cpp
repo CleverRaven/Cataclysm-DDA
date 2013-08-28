@@ -3113,7 +3113,7 @@ void game::debug()
  std::vector<std::string> opts;
  switch (action) {
   case 1:
-   wish();
+   wishitem(&u);
    break;
 
   case 2:
@@ -3175,7 +3175,7 @@ void game::debug()
   } break;
 
   case 6:
-   monster_wish();
+   wishmonster();
    break;
 
   case 7:
