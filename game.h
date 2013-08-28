@@ -153,6 +153,7 @@ class game
   monster& zombie(const int idx);
   void update_zombie_pos(const monster &m, const int newx, const int newy);
   void remove_zombie(const int idx);
+  void clear_zombies();
 
   int  mon_at(const int x, const int y) const;	// Index of the monster at (x, y); -1 for none
   bool is_empty(const int x, const int y);	// True if no PC, no monster, move cost > 0
@@ -523,7 +524,7 @@ void load_artifacts(); // Load artifact data
 
 // ########################## DATA ################################
 
-  std::vector<monster> z;
+  std::vector<monster> _z;
   std::map<point, int> z_at;
 
   signed char last_target;// The last monster targeted
