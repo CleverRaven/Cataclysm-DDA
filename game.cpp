@@ -3251,6 +3251,7 @@ Current turn: %d; Next spawn %d.\n\
     std::stringstream data;
     npc *p = active_npc[npcdex];
     uimenu nmenu;
+    nmenu.text_color = c_cyan;
     nmenu.disabled_color = c_ltgray;
     nmenu.return_invalid = true;
     data << p->name << " " << (p->male ? _("Male") : _("Female"));
@@ -3281,7 +3282,6 @@ Current turn: %d; Next spawn %d.\n\
     nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
     nmenu.addentry(50,true,'s',"%s",_("Edit [s]kills"));
     nmenu.addentry(51,true,'q',"%s",_("[q]uit"));
-
     nmenu.query();
     if (nmenu.ret == 50 ) {
       wishskill(p);
