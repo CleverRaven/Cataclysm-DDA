@@ -936,7 +936,8 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   g->sound(p.posx, p.posy, 8, _("Fzzt!"));
  else if (weapon->curammo->type == "40mm")
   g->sound(p.posx, p.posy, 8, _("Thunk!"));
- else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm")
+ else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm" ||
+     weapon->curammo->type == "84x246mm")
   g->sound(p.posx, p.posy, 4, _("Fwoosh!"));
  else if (weapon->curammo->type != "bolt" &&
           weapon->curammo->type != "arrow" &&
@@ -1222,6 +1223,9 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
 
   if (effects.count("EXPLOSIVE_BIG"))
     g->explosion(x, y, 40, 0, false);
+	
+  if (effects.count("EXPLOSIVE_HUGE"))
+    g->explosion(x, y, 80, 0, false);
 
   if (effects.count("TEARGAS")) {
     for (int i = -2; i <= 2; i++) {
@@ -1234,6 +1238,12 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
     for (int i = -1; i <= 1; i++) {
       for (int j = -1; j <= 1; j++)
         g->m.add_field(g, x + i, y + j, fd_smoke, 3);
+    }
+  }
+  if (effects.count("SMOKE_BIG")) {
+    for (int i = -6; i <= 6; i++) {
+      for (int j = -6; j <= 6; j++)
+        g->m.add_field(g, x + i, y + j, fd_smoke, 18);
     }
   }
 
