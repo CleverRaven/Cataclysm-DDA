@@ -526,18 +526,11 @@ int query_int(const char *mes, ...)
 std::string string_input_popup(std::string title, int width, std::string input, std::string desc, std::string identifier, int max_length ) {
   nc_color title_color = c_ltred;
   nc_color desc_color = c_green;
-  nc_color string_color = c_magenta;
-  nc_color cursor_color = h_ltgray;
-  nc_color underscore_color = c_ltgray;
-  bool _debug=false;
 
   std::vector<std::string> descformatted;
 
-  std::string ret = input;
   int titlesize = utf8_width(title.c_str());
   int startx = titlesize + 2;
-  WINDOW *dw;
-  if(_debug) dw = newwin(1, 80, 3, ((TERMX > 80) ? (TERMX-80)/2 : 0));
   if ( max_length == 0 ) max_length = width;
   int w_height=3;
   int iPopupWidth = (width == 0) ? FULL_SCREEN_WIDTH : width + titlesize + 4;
@@ -569,14 +562,28 @@ std::string string_input_popup(std::string title, int width, std::string input, 
     mvwprintz(w, 1+i, 1, desc_color, "%s", descformatted[i].c_str() );
   }
   mvwprintz(w, starty, 1, title_color, "%s", title.c_str() );
+  long key=0;
+  std::string ret = string_input_win(w, input, max_length, startx, starty, endx, true, key, identifier, w_x, w_y);
+      werase(w);
+      wrefresh(w);
+      delwin(w);
+      refresh();
+  return ret;
+}
 
+std::string string_input_win(WINDOW * w, std::string input, int max_length, int startx, int starty, int endx, bool loop, long & ch, std::string identifier, int w_x, int w_y, bool dorefresh) {
+  std::string ret = input;
+  nc_color title_color = c_ltred;
+  nc_color desc_color = c_green;
+  nc_color string_color = c_magenta;
+  nc_color cursor_color = h_ltgray;
+  nc_color underscore_color = c_ltgray;
   int pos = utf8_width(input.c_str());
   int lastpos=pos;
   int scrmax=endx-startx; 
   int shift = 0;
   int lastshift=shift;
   bool redraw=true;
-  long ch=0;
 
   do {
     
@@ -589,10 +596,6 @@ std::string string_input_popup(std::string title, int width, std::string input, 
     }
 
     if (shift < 0 ) shift=0;
-
-    if(_debug) mvwprintz(dw, 0, startx, c_red, "ch %d [%c] %c%c start/endx: %d/%d pos=%d (%d) shift=%d (%d) scrmax=%d size=%d     ", ch, (pos < ret.size() ? ret[pos] : '!' ),
-      (lastpos!=pos?'p':' '),(lastshift!=shift?'s':' '),
-      startx,endx,pos,lastpos,shift,lastshift,scrmax,ret.size() );
 
     if( redraw || lastshift != shift ) {  
       redraw=false;
@@ -620,20 +623,11 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 
     lastpos=pos;
     lastshift=shift;
-    wrefresh(w);
-    if (_debug) wrefresh(dw);
+    if (dorefresh) wrefresh(w);
     ch = getch();
     if (ch == 27) {	// Escape
-      werase(w);
-      wrefresh(w);
-      delwin(w);
-      refresh();
       return "";
     } else if (ch == '\n') {
-      werase(w);
-      wrefresh(w);
-      delwin(w);
-      refresh();
       if(identifier.size() > 0 && ret.size() > 0 ) {
         std::vector<std::string> * hist=uistate.gethistory(identifier);
         if( hist!=NULL ) {
@@ -682,6 +676,8 @@ std::string string_input_popup(std::string title, int width, std::string input, 
            }
         }
       }
+    } else if (ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE ) {
+      /* absolutely nothing */
     } else if (ch == KEY_RIGHT ) {
       if( pos+1 <= ret.size() ) {
         pos++;
@@ -715,7 +711,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
       redraw = true;
       pos++;
     }
-  } while ( true );
+  } while ( loop==true );
   return ret;
 }
 
