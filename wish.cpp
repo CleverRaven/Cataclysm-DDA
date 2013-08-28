@@ -9,187 +9,170 @@
 
 #define LESS(a, b) ((a)<(b)?(a):(b))
 
-void game::mutation_wish()
+
+class wish_mutate_callback: public uimenu_callback
 {
-    WINDOW* w_list = newwin(25, 30, 0,  0);
-    WINDOW* w_info = newwin(25, 50, 0, 30);
+    public:
+        int lastlen;           // last menu entry
+        std::string msg;       // feedback mesage
+        bool started;
+        std::vector<std::string> vTraits;
+        std::map<std::string, bool> pTraits;
+        game *g;
+        player *p;
+        std::string padding;
 
-    std::vector<std::string> vTraits;
+        nc_color mcolor(std::string m) {
+            if ( pTraits[ m ] == true ) {
+                return c_green;
+            }
+            return c_ltgray;
+        }
+
+        wish_mutate_callback() {
+            lastlen = 0;
+            msg = "";
+            started = false;
+            vTraits.clear();
+            pTraits.clear();
+        }
+        virtual bool key(int key, int entnum, uimenu *menu) {
+            return false;
+        }
+
+        virtual void select(int entnum, uimenu *menu) {
+            if ( ! started ) {
+                started = true;
+                padding = std::string(menu->pad_right - 1, ' ');
+                for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+                    vTraits.push_back(iter->first);
+                    pTraits[iter->first] = ( p->has_trait( iter->first ) );
+                }
+            }
+
+            int startx = menu->w_width - menu->pad_right;
+            for ( int i = 1; i < lastlen; i++ ) {
+                mvwprintw(menu->window, i, startx, "%s", padding.c_str() );
+            }
+
+            mvwprintw(menu->window, 1, startx, g->mutation_data[vTraits[ entnum ]].valid ? _("Valid") : _("Nonvalid"));
+            int line2 = 2;
+
+            if ( g->mutation_data[vTraits[ entnum ]].prereqs.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs:"));
+                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].prereqs.size(); j++) {
+                    std::string mstr=g->mutation_data[vTraits[ entnum ]].prereqs[j];
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
+
+            if ( g->mutation_data[vTraits[ entnum ]].cancels.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Cancels:"));
+                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].cancels.size(); j++) {
+                    std::string mstr=g->mutation_data[vTraits[ entnum ]].cancels[j];
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
+
+            if ( g->mutation_data[vTraits[ entnum ]].replacements.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Becomes:"));
+                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].replacements.size(); j++) {
+                    std::string mstr=g->mutation_data[vTraits[ entnum ]].replacements[j];
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
+
+            if ( g->mutation_data[vTraits[ entnum ]].additions.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Add-ons:"));
+                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].additions.size(); j++) {
+                    std::string mstr=g->mutation_data[vTraits[ entnum ]].additions[j];
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
+
+            if ( g->mutation_data[vTraits[ entnum ]].category.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray,  _("Category:"));
+                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].category.size(); j++) {
+                    mvwprintw(menu->window, line2, startx + 11, g->mutation_data[vTraits[ entnum ]].category[j].c_str());
+                    line2++;
+                }
+            }
+            lastlen = line2 + 1;
+
+            mvwprintz(menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str());
+            msg = padding;
+            mvwprintw(menu->window, menu->w_height - 2, startx, "[/] find, [q]uit");
+
+
+
+        };
+};
+
+
+void game::wishmutate( player *p )
+{
+    uimenu wmenu;
+    int c=0;
+
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        vTraits.push_back(iter->first);
+        wmenu.addentry(-1,true,-2,"%s",iter->second.name.c_str() );
+        if( p->has_trait( iter->first ) ) {
+             wmenu.entries[ c ].text_color = c_green;
+        }
+        c++;
     }
-
-    int result_selected = 0;
-    int iCurrentLine = 0;
-    int iStartPos = 0;
-    int iContentHeight = 23;
-    int ch = '.';
-
-    bool search = false;
-    std::string pattern;
-    std::string info;
-    std::vector<int> search_results;
-
+    wmenu.w_width = ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
+    wmenu.pad_right = ( wmenu.w_width - 30 );
+    wmenu.return_invalid = true;
+    wmenu.selected = uistate.wishmutate_selected;
+    wish_mutate_callback *cb = new wish_mutate_callback();
+    cb->g=this;
+    cb->p=p;
+    wmenu.callback = cb;
     do {
-        werase(w_info);
-        werase(w_list);
-        mvwprintw(w_list, 0, 0, _("Mutate: "));
-
-        if (ch == '>' || ch == KEY_NPAGE) {
-            search = false;
-            if (!search_results.empty()) {
-                result_selected++;
-                if (result_selected >= search_results.size()) {
-                    result_selected = 0;
-                }
-
-                iCurrentLine = search_results[result_selected];
-            }
-        } else if (ch == '<' || ch == KEY_PPAGE) {
-            search = false;
-            if (!search_results.empty()) {
-                result_selected--;
-                if (result_selected < 0) {
-                    result_selected = search_results.size() - 1;
-                }
-
-                iCurrentLine = search_results[result_selected];
-            }
-        } else if (search) {
-            if (ch == KEY_BACKSPACE || ch == 127) {
-                if (pattern.length() > 0) {
-                    pattern.erase(pattern.end() - 1);
-                }
-
+        wmenu.query();
+        if ( wmenu.ret > 0 ) {
+            int rc=0;
+            std::string mstr=cb->vTraits[ wmenu.ret ];
+            if ( p->has_trait( mstr ) ) {
+                do {
+                    p->remove_mutation(this, mstr );
+                    rc++;
+                } while (p->has_trait( mstr ) && rc < 10);
             } else {
-                pattern += ch;
-                search_results.clear();
+                do {
+                    p->mutate_towards(this, mstr );
+                    rc++;
+                } while (!p->has_trait( mstr ) && rc < 10);
             }
-
-            if (search) {
-                for (int i = 0; i < vTraits.size(); i++) {
-                    if (traits[vTraits[i]].name.find(pattern) != std::string::npos) {
-                        result_selected = 0;
-                        search_results.push_back(i);
+            cb->msg=string_format("%s Mutation changes: %d",mstr.c_str(),rc);
+            if ( rc != 0 ) {
+                for ( int i = 0; i < cb->vTraits.size(); i++ ) {
+                    if ( p->has_trait( cb->vTraits[ i ] ) ) {
+                        wmenu.entries[ i ].text_color = c_green;
+                        cb->pTraits[ cb->vTraits[ i ] ] = true;
+                    } else {
+                        wmenu.entries[ i ].text_color = wmenu.text_color;
+                        cb->pTraits[ cb->vTraits[ i ] ] = false;
                     }
-                }
-
-                if (search_results.size() > 0) {
-                    iCurrentLine = search_results[result_selected];
-                }
-            }
-
-        } else {	// Not searching; scroll by keys
-            if (ch == 'j') {
-                iCurrentLine++;
-                if (iCurrentLine >= vTraits.size()) {
-                    iCurrentLine = 0;
-                }
-            } else if (ch == 'k') {
-                iCurrentLine--;
-                if (iCurrentLine < 0) {
-                    iCurrentLine = vTraits.size()-1;
-                }
-            } else if (ch == '/') {
-                search = true;
-                pattern =  "";
-                search_results.clear();
+                }                
             }
         }
+    } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    delete cb;
+    cb = NULL;
+    return;
 
-        if (!search_results.empty()) {
-            mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
-        } else if (pattern.length() > 0) {
-            mvwprintz(w_list, 0, 11, c_red, _("%s not found!            "),pattern.c_str());
-        }
-
-        if (vTraits.size() > iContentHeight) {
-            iStartPos = iCurrentLine - (iContentHeight - 1) / 2;
-
-            if (iStartPos < 0) {
-                iStartPos = 0;
-            } else if (iStartPos + iContentHeight > vTraits.size()) {
-                iStartPos = vTraits.size() - iContentHeight;
-            }
-        }
-
-        //Draw Mutations
-        for (int i = iStartPos; i < vTraits.size(); i++) {
-            if (i >= iStartPos && i < iStartPos + ((iContentHeight > vTraits.size()) ? vTraits.size() : iContentHeight)) {
-                nc_color cLineColor = c_white;
-
-                mvwprintz(w_list, 1 + i - iStartPos, 0, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, traits[vTraits[i]].name.c_str());
-            }
-        }
-
-        mvwprintw(w_info, 1, 0, mutation_data[vTraits[iCurrentLine]].valid ? _("Valid") : _("Nonvalid"));
-        int line2 = 2;
-
-        bool found = false;
-        std::string sCat = "";
-        for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
-            std::vector<std::string> group = mutations_category[iter->first];
-
-            for (int j = 0; !found && j < group.size(); j++) {
-                if (group[j] == vTraits[iCurrentLine]) {
-                    found = true;
-                    sCat = iter->first;
-                    break;
-                }
-            }
-        }
-
-        mvwprintw(w_info, line2, 0, _("Prereqs:"));
-        for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].prereqs.size(); j++) {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[vTraits[iCurrentLine]].prereqs[j] ].name.c_str());
-            line2++;
-        }
-
-        mvwprintw(w_info, line2, 0, _("Cancels:"));
-        for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].cancels.size(); j++) {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[vTraits[iCurrentLine]].cancels[j] ].name.c_str());
-            line2++;
-        }
-
-        mvwprintw(w_info, line2, 0, _("Becomes:"));
-        for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].replacements.size(); j++) {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[vTraits[iCurrentLine]].replacements[j] ].name.c_str());
-            line2++;
-        }
-
-        mvwprintw(w_info, line2, 0, _("Add-ons:"));
-        for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].additions.size(); j++) {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[vTraits[iCurrentLine]].additions[j] ].name.c_str());
-            line2++;
-        }
-
-        mvwprintw(w_info, line2, 0, _("Category: "));
-        for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].category.size(); j++) {
-            mvwprintw(w_info, line2, 10, mutation_data[vTraits[iCurrentLine]].category[j].c_str());
-            line2++;
-        }
-
-        wrefresh(w_info);
-        wrefresh(w_list);
-
-        if (search) {
-            ch = getch();
-        } else {
-            ch = input();
-        }
-    } while (ch != '\n' && ch != 27);
-    clear();
-
-    if (ch == '\n') {
-        do {
-            u.mutate_towards(this, vTraits[iCurrentLine]);
-        } while (!u.has_trait(vTraits[iCurrentLine]));
-    }
-
-    delwin(w_info);
-    delwin(w_list);
 }
-
 
 class wish_monster_callback: public uimenu_callback
 {

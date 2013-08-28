@@ -3210,7 +3210,7 @@ Current turn: %d; Next spawn %d.\n\
    break;
 
   case 9:
-   mutation_wish();
+   wishmutate(&u);
    break;
 
   case 10:
