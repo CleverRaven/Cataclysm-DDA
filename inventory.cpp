@@ -541,13 +541,12 @@ void inventory::form_from_map(game *g, point origin, int range)
      add_item(g->m.i_at(x, y)[i]);
 // Kludges for now!
    ter_id terrain_id = g->m.ter(x, y);
-   furn_id furniture_id = g->m.furn(x, y);
    if ((g->m.field_at(x, y).findField(fd_fire)) || (terrain_id == t_lava)) {
     item fire(g->itypes["fire"], 0);
     fire.charges = 1;
     add_item(fire);
    }
-   if (furniture_id == f_toilet || terrain_id == t_water_sh || terrain_id == t_water_dp){
+   if (terrain_id == t_water_sh || terrain_id == t_water_dp){
     item water(g->itypes["water"], 0);
     water.charges = 50;
     add_item(water);
@@ -557,8 +556,8 @@ void inventory::form_from_map(game *g, point origin, int range)
    vehicle *veh = g->m.veh_at(x, y, vpart);
 
    if (veh) {
-     const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
-     const int weldpart = veh->part_with_feature(vpart, vpf_weldrig);
+     const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+     const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
 
      if (kpart >= 0) {
        item hotplate(g->itypes["hotplate"], 0);

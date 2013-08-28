@@ -176,7 +176,7 @@ class map
   * 0         | Impassable
   * n > 0     | x*n turns to move past this
   */
- int move_cost(const int x, const int y);
+ int move_cost(const int x, const int y, const vehicle *ignored_vehicle = NULL);
 
 
  /**
@@ -189,7 +189,8 @@ class map
   *
   * @return The cost in turns to move out of `(x1, y1)` and into `(x2, y2)`
   */
- int combined_movecost(const int x1, const int y1, const int x2, const int y2);
+ int combined_movecost(const int x1, const int y1, const int x2, const int y2,
+                       const vehicle *ignored_vehicle = NULL);
 
  /**
   * Returns whether the tile at `(x, y)` is transparent(you can look past it).
@@ -259,7 +260,7 @@ class map
 // Returns true, if there was a submap change.
 // If test is true, function only checks for submap change, no displacement
 // WARNING: not checking collisions!
- bool displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test);
+ bool displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test = false);
  void vehmove(game* g);          // Vehicle movement
  bool vehproceed(game* g);
 // move water under wheels. true if moved
@@ -282,6 +283,7 @@ class map
  bool has_flag_ter_and_furn(const t_flag flag, const int x, const int y); // checks terrain and furniture
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
+ bool is_divable(const int x, const int y);
  bool is_outside(const int x, const int y);
  bool flammable_items_at(const int x, const int y);
  bool moppable_items_at(const int x, const int y);
@@ -329,9 +331,11 @@ class map
  std::list<item> use_charges(const point origin, const int range, const itype_id type, const int amount);
 
 // Traps
- trap_id& tr_at(const int x, const int y);
+ trap_id tr_at(const int x, const int y);
  void add_trap(const int x, const int y, const trap_id t);
  void disarm_trap( game *g, const int x, const int y);
+ void remove_trap(const int x, const int y);
+ std::set<point> trap_locations(trap_id t);
 
 // Fields
  field& field_at(const int x, const int y);
@@ -362,6 +366,7 @@ class map
  void place_spawns(game *g, std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);
+ void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
@@ -408,7 +413,6 @@ protected:
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
  ter_id nulter;	// Returned when &ter() is asked for an OOB value
- trap_id nultrap; // Returned when &tr_at() is asked for an OOB value
  field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
  int nulrad;	// OOB &radiation()
@@ -425,6 +429,7 @@ private:
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
+ void forget_traps(int gridx, int gridy);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
@@ -432,10 +437,10 @@ private:
  float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
+ std::map<trap_id, std::set<point> > traplocs;
 };
 
 std::vector<point> closest_points_first(int radius,int x,int y);
-
 class tinymap : public map
 {
 public:

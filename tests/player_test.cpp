@@ -16,7 +16,7 @@ extern "C" {
 // core body temperature settles.
 void temperature_check( game *g, player *p, int ambient_temp, int target_temp, std::string clothing )
 {
-    g->temperature = ambient_temp;
+    g->get_temperature() = ambient_temp;
     for (int i = 0 ; i < num_bp; i++)
     {
         p->temp_cur[i] = BODYTEMP_NORM;

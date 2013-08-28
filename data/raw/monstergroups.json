@@ -49,6 +49,7 @@
       { "monster" : "mon_zombie_grabber", "freq" : 70, "multiplier" : 1 },
       { "monster" : "mon_skeleton", "freq" : 30, "multiplier" : 2 },
       { "monster" : "mon_zombie_smoker", "freq" : 30, "multiplier" : 5 },
+      { "monster" : "mon_zombie_swimmer", "freq" : 20, "multiplier" : 2 },
       { "monster" : "mon_zombie_shrieker", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_spitter", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_electric", "freq" : 30, "multiplier" : 5 },
@@ -129,6 +130,15 @@
     ]
   },
   {
+    "name" : "GROUP_ICE_LAB",
+    "default" : "mon_zombie_scientist",
+    "monsters" : [
+      { "monster" : "mon_blob_small", "freq" : 25, "multiplier" : 0 },
+      { "monster" : "mon_manhack", "freq" : 245, "multiplier" : 0 },
+      { "monster" : "mon_skitterbot", "freq" : 245, "multiplier" : 0 }
+    ]
+  },
+  {
     "name" : "GROUP_NETHER",
     "default" : "mon_blank",
     "monsters" : [
@@ -187,6 +197,7 @@
       { "monster" : "mon_zombie_grabber", "freq" : 70, "multiplier" : 1 },
       { "monster" : "mon_skeleton", "freq" : 30, "multiplier" : 2 },
       { "monster" : "mon_zombie_smoker", "freq" : 30, "multiplier" : 5 },
+      { "monster" : "mon_zombie_swimmer", "freq" : 20, "multiplier" : 2 },
       { "monster" : "mon_zombie_shrieker", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_spitter", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_electric", "freq" : 30, "multiplier" : 5 },
@@ -208,6 +219,7 @@
       { "monster" : "mon_zombie_grabber", "freq" : 70, "multiplier" : 1 },
       { "monster" : "mon_skeleton", "freq" : 30, "multiplier" : 2 },
       { "monster" : "mon_zombie_smoker", "freq" : 30, "multiplier" : 5 },
+      { "monster" : "mon_zombie_swimmer", "freq" : 20, "multiplier" : 2 },
       { "monster" : "mon_zombie_shrieker", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_spitter", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_electric", "freq" : 30, "multiplier" : 5 },
@@ -228,6 +240,7 @@
       { "monster" : "mon_zombie_grabber", "freq" : 70, "multiplier" : 1 },
       { "monster" : "mon_skeleton", "freq" : 30, "multiplier" : 2 },
       { "monster" : "mon_zombie_smoker", "freq" : 30, "multiplier" : 5 },
+      { "monster" : "mon_zombie_swimmer", "freq" : 20, "multiplier" : 2 },
       { "monster" : "mon_zombie_shrieker", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_spitter", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_electric", "freq" : 30, "multiplier" : 5 },
@@ -248,6 +261,7 @@
       { "monster" : "mon_zombie_grabber", "freq" : 70, "multiplier" : 1 },
       { "monster" : "mon_skeleton", "freq" : 30, "multiplier" : 2 },
       { "monster" : "mon_zombie_smoker", "freq" : 30, "multiplier" : 5 },
+      { "monster" : "mon_zombie_swimmer", "freq" : 20, "multiplier" : 2 },
       { "monster" : "mon_zombie_shrieker", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_spitter", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_electric", "freq" : 180, "multiplier" : 5 },
@@ -268,6 +282,7 @@
       { "monster" : "mon_zombie_grabber", "freq" : 70, "multiplier" : 1 },
       { "monster" : "mon_skeleton", "freq" : 30, "multiplier" : 2 },
       { "monster" : "mon_zombie_smoker", "freq" : 30, "multiplier" : 5 },
+      { "monster" : "mon_zombie_swimmer", "freq" : 20, "multiplier" : 2 },
       { "monster" : "mon_zombie_shrieker", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_spitter", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_zombie_electric", "freq" : 30, "multiplier" : 5 },

@@ -1,5 +1,7 @@
 #include "vehicle.h"
 #include "game.h"
+#include "item_factory.h"
+#include "catajson.h"
 
 // GENERAL GUIDELINES
 // When adding a new vehicle, you MUST REMEMBER to insert it in the vhtype_id enum
@@ -26,6 +28,81 @@
 //  vpart_id enum in veh_type.h file
 // If you use wrong config, installation of part will fail
 
+vpart_info vpart_list[num_vparts];
+
+// Note on the 'symbol' flag in vehicle parts -
+// the following symbols will be translated:
+// y, u, n, b to NW, NE, SE, SW lines correspondingly
+// h, j, c to horizontal, vertical, cross correspondingly
+/**
+ * Reads in the vehicle parts from a json file.
+ */
+void game::init_vehicle_parts()
+{
+  catajson vehicle_parts_json("data/raw/vehicle_parts.json", true);
+
+  if (!json_good()) {
+    throw (std::string)"data/raw/vehicle_parts.json wasn't found";
+  }
+
+  unsigned int index = 0;
+  for (vehicle_parts_json.set_begin(); vehicle_parts_json.has_curr() && json_good(); vehicle_parts_json.next())
+  {
+    catajson next_json = vehicle_parts_json.curr();
+    vpart_info next_part;
+
+    next_part.name = next_json.get("name").as_string();
+    next_part.sym = next_json.get("symbol").as_char();
+    next_part.color = color_from_string(next_json.get("color").as_string());
+    next_part.sym_broken = next_json.get("broken_symbol").as_char();
+    next_part.color_broken = color_from_string(next_json.get("broken_color").as_string());
+    next_part.dmg_mod = next_json.has("damage_modifier") ? next_json.get("damage_modifier").as_int() : 100;
+    next_part.durability = next_json.get("durability").as_int();
+    //Handle the par1 union as best we can by accepting any ONE of its elements
+    int element_count = (next_json.has("par1") ? 1 : 0)
+                      + (next_json.has("power") ? 1 : 0)
+                      + (next_json.has("size") ? 1 : 0)
+                      + (next_json.has("wheel_width") ? 1 : 0)
+                      + (next_json.has("bonus") ? 1 : 0);
+    if(element_count == 0) {
+      //If not specified, assume 0
+      next_part.par1 = 0;
+    } else if(element_count == 1) {
+      if(next_json.has("par1")) {
+        next_part.par1 = next_json.get("par1").as_int();
+      } else if(next_json.has("power")) {
+        next_part.par1 = next_json.get("power").as_int();
+      } else if(next_json.has("size")) {
+        next_part.par1 = next_json.get("size").as_int();
+      } else if(next_json.has("wheel_width")) {
+        next_part.par1 = next_json.get("wheel_width").as_int();
+      } else { //bonus
+        next_part.par1 = next_json.get("bonus").as_int();
+      }
+    } else {
+      //Too many
+      debugmsg("Error parsing vehicle part '%s': \
+               Use AT MOST one of: par1, power, size, wheel_width, bonus",
+               next_part.name.c_str());
+      //Keep going to produce more messages if other parts are wrong
+      next_part.par1 = 0;
+    }
+    next_part.fuel_type = next_json.has("fuel_type") ? next_json.get("fuel_type").as_string() : "NULL";
+    next_part.item = next_json.get("item").as_string();
+    next_part.difficulty = next_json.get("difficulty").as_int();
+    next_part.flags = next_json.get("flags").as_tags();
+
+    vpart_list[index] = next_part;
+
+    index++;
+  }
+
+  if(!json_good()) {
+    exit(1);
+  }
+
+}
+
 void game::init_vehicles()
 {
     vehicle *veh;
@@ -36,7 +113,7 @@ void game::init_vehicles()
 
 #define VEHICLE(nm) { veh = new vehicle(this, (vhtype_id)index++); veh->name = nm; vtypes.push_back(veh); }
 #define PART(mdx, mdy, id) { pi = veh->install_part(mdx, mdy, id); \
-    if (pi < 0) debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d", veh->name.c_str(), vpart_list[id].name, veh->parts.size(), mdx, mdy); }
+    if (pi < 0) debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d", veh->name.c_str(), vpart_list[id].name.c_str(), veh->parts.size(), mdx, mdy); }
 
     //        name
     VEHICLE (_("Bicycle"));
@@ -1100,7 +1177,12 @@ void game::init_vehicles()
     PART (-6, 2, vp_board_n);
     PART (-6, -2, vp_board_b);
 
+    VEHICLE (_("Shopping Cart"));
+    //    #
 
+    //   dx, dy,    part_id
+    PART (0, 0, vp_wheel_caster);
+    PART (0, 0, vp_cargo_box);
 
     if (vtypes.size() != num_vehicles)
         debugmsg("%d vehicles, %d types", vtypes.size(), num_vehicles);

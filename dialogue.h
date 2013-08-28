@@ -147,4 +147,4 @@ struct tag_data
  std::string (*replacement)[10];
 };
 
-#endif
+#endif  // _DIALOGUE_H_

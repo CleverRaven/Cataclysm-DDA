@@ -186,7 +186,7 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
   wprintz(w, h_white, _("Trapped"));
  std::string damage_info;
  nc_color col;
- if (hp == type->hp) {
+ if (hp >= type->hp) {
   damage_info = _("It is uninjured");
   col = c_green;
  } else if (hp >= type->hp * .8) {
@@ -261,6 +261,18 @@ bool monster::can_see()
 bool monster::can_hear()
 {
  return has_flag(MF_HEARS) && !has_effect(ME_DEAF);
+}
+
+bool monster::can_submerge()
+{
+  return (has_flag(MF_NO_BREATHE) || has_flag(MF_SWIMS) || has_flag(MF_AQUATIC))
+          && !has_flag(MF_ELECTRONIC);
+}
+
+bool monster::can_drown()
+{
+ return !has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)
+         && !has_flag(MF_NO_BREATHE) && !has_flag(MF_FLIES);
 }
 
 bool monster::made_of(std::string m)

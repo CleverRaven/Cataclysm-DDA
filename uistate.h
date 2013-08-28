@@ -15,6 +15,7 @@ struct uistatedata {
   int adv_inv_leftpage;
   int adv_inv_rightpage;
   int adv_inv_last_popup_dest;
+  bool editmap_nsa_viewmode;        // true: ignore LOS and lighting
   bool debug_ranged;
   point adv_inv_last_coords;
   int last_inv_start, last_inv_sel;
@@ -23,6 +24,8 @@ struct uistatedata {
   */
 
   std::map<std::string, std::vector<std::string>*> input_history; 
+
+  std::map<std::string, std::string> lastreload; // last typeid used when reloading ammotype
 
   bool _testing_save;
   bool _really_testing_save;
@@ -41,6 +44,7 @@ struct uistatedata {
       adv_inv_last_popup_dest=0;
       adv_inv_last_coords.x=-999;
       adv_inv_last_coords.y=-999;
+      editmap_nsa_viewmode = false;
       last_inv_start = -2;
       last_inv_sel = -2;
       debug_ranged = false;  
@@ -69,6 +73,7 @@ struct uistatedata {
       data[std::string("adv_inv_leftarea")] = picojson::value(adv_inv_leftarea);
       data[std::string("adv_inv_rightarea")] = picojson::value(adv_inv_rightarea);
       data[std::string("adv_inv_last_popup_dest")] = picojson::value(adv_inv_last_popup_dest);
+      data[std::string("editmap_nsa_viewmode")] = picojson::value(editmap_nsa_viewmode);
 
       std::map<std::string, picojson::value> histmap;
       for(std::map<std::string, std::vector<std::string>*>::iterator it = input_history.begin(); it != input_history.end(); ++it ) {
@@ -99,6 +104,7 @@ struct uistatedata {
           picoint(data,"adv_inv_leftarea",               adv_inv_leftarea);
           picoint(data,"adv_inv_rightarea",              adv_inv_rightarea);
           picoint(data,"adv_inv_last_popup_dest",        adv_inv_last_popup_dest);
+          picobool(data,"editmap_nsa_viewmode",          editmap_nsa_viewmode);
 
           picojson::object::const_iterator hmit = data.find("input_history");
           if ( ! picoverify() ) return false;
@@ -150,9 +156,9 @@ struct uistatedata {
       picojson::object::const_iterator it = obj.find(key); 
       if(!picoverify()) return false;
       if(it != obj.end()) {
-          if ( it->second.is<double>() ) {
+          if ( it->second.is<bool>() ) {
               if(!picoverify()) return false;
-              int tmp=(int)it->second.get<double>();
+              bool tmp=(int)it->second.get<bool>();
               if(!picoverify()) return false;
               var = tmp;
               return true;

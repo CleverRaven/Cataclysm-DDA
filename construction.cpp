@@ -846,7 +846,7 @@ void game::complete_construction()
     std::vector<component> player_use;
     std::vector<component> map_use;
 
-    u.practice(turn, "carpentry", std::min(built->difficulty, 1) * 10);
+    u.practice(turn, "carpentry", std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < 10; i++) {
         if (!stage.components[i].empty()) {
             consume_items(&u, stage.components[i]);
@@ -1179,12 +1179,13 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,12));
         g->m.ter_set(p.x, p.y, t_door_frame);
       break;
+      case t_curtains:
       case t_window_domestic:
-        g->m.spawn_item(p.x, p.y, "stick", 0);
-        g->m.spawn_item(p.x, p.y, "sheet", 0, 2);
-        g->m.spawn_item(p.x, p.y, "glass_sheet", 0);
-        g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(3,4));
-        g->m.spawn_item(p.x, p.y, "string_36", 0, 0, 1);
+        g->m.spawn_item(g->u.posx, g->u.posy, "stick", 0);
+        g->m.spawn_item(g->u.posx, g->u.posy, "sheet", 0, 2);
+        g->m.spawn_item(g->u.posx, g->u.posy, "glass_sheet", 0);
+        g->m.spawn_item(g->u.posx, g->u.posy, "nail", 0, 0, rng(3,4));
+        g->m.spawn_item(g->u.posx, g->u.posy, "string_36", 0, 0, 1);
         g->m.ter_set(p.x, p.y, t_window_empty);
       break;
       case t_window:

@@ -5,10 +5,20 @@
 #include "line.h"
 #include "bodypart.h"
 #include "material.h"
+#include "catajson.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
 #include <math.h>
+
+// for loading monster dialogue:
+#include <iostream>
+#include <fstream>
+
+#include <limits>  // std::numeric_limits
+#define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
+
+std::vector<SpeechBubble> parrotVector;
 
 void mattack::antqueen(game *g, monster *z)
 {
@@ -681,14 +691,14 @@ void mattack::leap(game *g, monster *z)
     int best = 0;
     bool fleeing = z->is_fleeing(g->u);
 
-    for (int x = z->posx - 3; x <= z->posx + 3; x++) 
+    for (int x = z->posx - 3; x <= z->posx + 3; x++)
     {
-        for (int y = z->posy - 3; y <= z->posy + 3; y++) 
+        for (int y = z->posy - 3; y <= z->posy + 3; y++)
         {
             bool blocked_path = false;
             // check if monster has a clear path to the proposed point
             std::vector<point> line = line_to(z->posx, z->posy, x, y, linet);
-            for (int i = 0; i < line.size(); i++) 
+            for (int i = 0; i < line.size(); i++)
             {
                 if (g->m.move_cost(line[i].x, line[i].y) == 0)
                 {
@@ -1002,7 +1012,7 @@ void mattack::vortex(game *g, monster *z)
     material_type* mon_mat = material_type::find_material(thrown->type->mat);
     distance -= mon_mat->density() / 10;
     damage -= mon_mat->density() / 5;
-    
+
     if (distance > 0) {
      if (g->u_see(thrown))
       g->add_msg(_("The %s is thrown by winds!"), thrown->name().c_str());
@@ -1184,10 +1194,10 @@ void mattack::smg(game *g, monster *z)
   int boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
   bool iff_trig = false;   // player seen and within range of stray shots
   int pldist=rl_dist(z->posx, z->posy, g->u.posx, g->u.posy);
-  if ( pldist < iff_dist && 
+  if ( pldist < iff_dist &&
       g->sees_u(z->posx, z->posy, t) ) {
       iff_trig = true;
-      if ( pldist < 3 ) iff_hangle=( pldist == 2 ? 30 : 60 ); // granularity increases with proximity 
+      if ( pldist < 3 ) iff_hangle=( pldist == 2 ? 30 : 60 ); // granularity increases with proximity
       u_angle = coord2angle (z->posx, z->posy, g->u.posx, g->u.posy );
   }
   for (int i = 0; i < g->z.size(); i++) {
@@ -1208,7 +1218,7 @@ void mattack::smg(game *g, monster *z)
           target = &(g->z[i]);
           closest = dist;
           fire_t = t;
-        } 
+        }
       } // else if ( advanced_software_upgrade ) {
         // todo; make friendly && unfriendly lists, then select closest non-friendly fire target
     }
@@ -1299,10 +1309,10 @@ void mattack::flamethrower(game *g, monster *z)
     z->moves = -500;			// It takes a while
     std::vector<point> traj = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
 
-    for (int i = 0; i < traj.size(); i++) 
+    for (int i = 0; i < traj.size(); i++)
     {
         // break out of attack if flame hits a wall
-        if (g->m.hit_with_fire(g, traj[i].x, traj[i].y)) 
+        if (g->m.hit_with_fire(g, traj[i].x, traj[i].y))
         {
             if (g->u_see(traj[i].x, traj[i].y))
                 g->add_msg(_("The tongue of flame hits the %s!"),
@@ -1362,19 +1372,21 @@ void mattack::multi_robot(game *g, monster *z)
 
 void mattack::ratking(game *g, monster *z)
 {
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 10)
-  return;
- z->sp_timeout = z->type->sp_freq;	// Reset timer
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 50) {
+        return;
+    }
+    z->sp_timeout = z->type->sp_freq;    // Reset timer
 
- switch (rng(1, 5)) { // What do we say?
-  case 1: g->add_msg(_("\"YOU... ARE FILTH...\"")); break;
-  case 2: g->add_msg(_("\"VERMIN... YOU ARE VERMIN...\"")); break;
-  case 3: g->add_msg(_("\"LEAVE NOW...\"")); break;
-  case 4: g->add_msg(_("\"WE... WILL FEAST... UPON YOU...\"")); break;
-  case 5: g->add_msg(_("\"FOUL INTERLOPER...\"")); break;
- }
-
- g->u.add_disease("rat", 20);
+    switch (rng(1, 5)) { // What do we say?
+        case 1: g->add_msg(_("\"YOU... ARE FILTH...\"")); break;
+        case 2: g->add_msg(_("\"VERMIN... YOU ARE VERMIN...\"")); break;
+        case 3: g->add_msg(_("\"LEAVE NOW...\"")); break;
+        case 4: g->add_msg(_("\"WE... WILL FEAST... UPON YOU...\"")); break;
+        case 5: g->add_msg(_("\"FOUL INTERLOPER...\"")); break;
+    }
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) <= 10) {
+        g->u.add_disease("rat", 30);
+    }
 }
 
 void mattack::generator(game *g, monster *z)
@@ -1537,33 +1549,44 @@ void mattack::flesh_golem(game *g, monster *z)
     }
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
-void mattack::parrot(game *g, monster *z)
-{
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 50)
-  return;	// Out of range
- if (one_in(20)){
-  z->moves = -100;			// It takes a while
-  z->sp_timeout = z->type->sp_freq;	// Reset timer
-  switch (rng(1,18)) {
-    case 1:      g->sound(z->posx, z->posy, 60, _("a woman cry out!"));       break;
-    case 2:      g->sound(z->posx, z->posy, 40, _("a small girl crying..."));       break;
-    case 3:      g->sound(z->posx, z->posy, 20, _("'This creature has some form of higher level brain function.'"));       break;
-    case 4:      g->sound(z->posx, z->posy, 40, _("'Shall we terminate the specimen if power is lost?'"));       break;
-    case 5:      g->sound(z->posx, z->posy, 40, _("a small girl pleading, 'Mommy, help!'"));       break;
-    case 6:      g->sound(z->posx, z->posy, 40, _("a child, 'Oh God, my leg!  Give it back!'"));       break;
-    case 7:      g->sound(z->posx, z->posy, 40, _("'Destroy the specimen if it begins to interact with the lock.'"));       break;
-    case 8:      g->sound(z->posx, z->posy, 40, _("a woman yell, 'I hope you rot in hell for this!'"));       break;
-    case 9:      g->sound(z->posx, z->posy, 40, _("'Kill them all and let God sort them out!'"));       break;
-    case 10:     g->sound(z->posx, z->posy, 40, _("'I'm gonna cut your damned limbs off and let you blead out!'"));       break;
-    case 11:     g->sound(z->posx, z->posy, 40, _("'I wonder if you understand what I'm saying.'"));       break;
-    case 12:     g->sound(z->posx, z->posy, 40, _("'I believe that it is trying to learn our language.'"));       break;
-    case 13:     g->sound(z->posx, z->posy, 40, _("'It seems to want to experiment on us... give it a prisoner.'"));       break;
-    case 14:     g->sound(z->posx, z->posy, 40, _("'It is interested in observing the brain of a living human.'"));       break;
-    case 15:     g->sound(z->posx, z->posy, 40, _("'Would it react differently with a child?'"));       break;
-    case 16:     g->sound(z->posx, z->posy, 40, _("'It seems to want to experiment on us... give it a prisoner.'"));       break;
-    case 17:     g->sound(z->posx, z->posy, 40, _("'Although advanced, its ethics are not our own.'"));       break;
-    case 18:     g->sound(z->posx, z->posy, 40, _("'It shows no empathy towards the prisoners we... 'gave' it.'"));       break;
-   }
- }
-
+void mattack::parrot(game *g, monster *z) {
+    /*  let it talk when we're out of range, and it'll wake stuff up.
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 50) {
+        return;	// Out of range
+    }
+    */
+    if (one_in(20)) {
+        z->moves = -100;  // It takes a while
+        z->sp_timeout = z->type->sp_freq;  // Reset timer
+        // parrotVector should never have size < 1, but just in case:
+        if (parrotVector.size() == 0) { return; }
+        int index = rng(0, parrotVector.size() - 1);
+        SpeechBubble speech = parrotVector[index];
+        g->sound(z->posx, z->posy, speech.volume, speech.text);
+    }
 }
+
+void game::init_parrot_speech() throw (std::string)
+{
+    catajson parrot_file("data/raw/parrot.json");
+
+    if (!json_good()) {
+        throw (std::string) "data/raw/parrot.json was not found";
+    }
+
+    for (parrot_file.set_begin(); parrot_file.has_curr(); parrot_file.next()) {
+        catajson parrot = parrot_file.curr();
+
+        std::string sound   = _(parrot.get("sound").as_string().c_str());
+        int volume          = parrot.get("volume").as_int();
+
+        SpeechBubble speech = {sound, volume};
+
+        parrotVector.push_back(speech);
+    }
+
+    if (!json_good()) {
+        throw (std::string) "There was an error reading data/raw/parrot.json";
+    }
+}
+

@@ -88,6 +88,9 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_lab_stairs,	   0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
+ {ot_ice_lab_stairs,	   0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+
 {ot_fema_entrance,	   2, 5,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
@@ -219,41 +222,79 @@ bool is_wall_material(oter_id ter)
  return false;
 }
 
+// Likelihood to pick a specific overmap terrain.
+struct oter_weight {
+    oter_id ot;
+    int weight;
+};
+
+// Local class for picking overmap terrain from a weighted list.
+struct oter_weight_list {
+    oter_weight_list() : total_weight(0) { };
+
+    void add_item(oter_id id, int weight) {
+        oter_weight new_weight = { id, weight };
+        items.push_back(new_weight);
+        total_weight += weight;
+    }
+
+    oter_id pick() {
+        int picked = rng(0, total_weight);
+        int accumulated_weight = 0;
+
+        int i;
+        for(i=0; i<items.size(); i++) {
+            accumulated_weight += items[i].weight;
+            if(accumulated_weight >= picked) {
+                break;
+            }
+        }
+
+        return items[i].ot;
+    }
+
+private:
+    int total_weight;
+    std::vector<oter_weight> items;
+};
+
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- const int type = rng(0, 27);
 
- switch (type) {
-  case  0: ret = ot_s_lot;	         break;
-  case  1: ret = ot_s_gas_north;         break;
-  case  2: ret = ot_s_pharm_north;       break;
-  case  3: ret = ot_s_grocery_north;     break;
-  case  4: ret = ot_s_hardware_north;    break;
-  case  5: ret = ot_s_sports_north;      break;
-  case  6: ret = ot_s_liquor_north;      break;
-  case  7: ret = ot_s_gun_north;         break;
-  case  8: ret = ot_s_clothes_north;     break;
-  case  9: ret = ot_s_library_north;     break;
-  case 10: ret = ot_s_restaurant_north;  break;
-  case 11: ret = ot_sub_station_north;   break;
-  case 12: ret = ot_bank_north;          break;
-  case 13: ret = ot_bar_north;           break;
-  case 14: ret = ot_s_electronics_north; break;
-  case 15: ret = ot_pawn_north;          break;
-  case 16: ret = ot_mil_surplus_north;   break;
-  case 17: ret = ot_s_garage_north;      break;
-  case 18: ret = ot_station_radio_north; break;
-  case 19: ret = ot_office_doctor_north; break;
-  case 20: ret = ot_s_restaurant_fast_north;  break;
-  case 21: ret = ot_s_restaurant_coffee_north;  break;
-  case 22: ret = ot_church_north;        break;
-  case 23: ret = ot_office_cubical_north;        break;
-  case 24: ret = ot_police_north;        break;
-  case 25: ret = ot_furniture_north;     break;
-  case 26: ret = ot_abstorefront_north;  break;
-  case 27: ret = ot_police_north;        break;
- }
+ // TODO: adjust weights based on area, maybe using JSON
+ //       (implies we have area types first)
+ oter_weight_list weightlist;
+ weightlist.add_item(ot_s_gas_north, 5);
+ weightlist.add_item(ot_s_pharm_north, 3);
+ weightlist.add_item(ot_s_grocery_north, 15);
+ weightlist.add_item(ot_s_hardware_north, 5);
+ weightlist.add_item(ot_s_sports_north, 5);
+ weightlist.add_item(ot_s_liquor_north, 5);
+ weightlist.add_item(ot_s_gun_north, 5);
+ weightlist.add_item(ot_s_clothes_north, 5);
+ weightlist.add_item(ot_s_library_north, 4);
+ weightlist.add_item(ot_s_restaurant_north, 5);
+ weightlist.add_item(ot_sub_station_north, 5);
+ weightlist.add_item(ot_bank_north, 3);
+ weightlist.add_item(ot_bar_north, 5);
+ weightlist.add_item(ot_s_electronics_north, 5);
+ weightlist.add_item(ot_pawn_north, 3);
+ weightlist.add_item(ot_mil_surplus_north, 2);
+ weightlist.add_item(ot_s_garage_north, 5);
+ weightlist.add_item(ot_station_radio_north, 5);
+ weightlist.add_item(ot_office_doctor_north, 2);
+ weightlist.add_item(ot_s_restaurant_fast_north, 3);
+ weightlist.add_item(ot_s_restaurant_coffee_north, 3);
+ weightlist.add_item(ot_church_north, 2);
+ weightlist.add_item(ot_office_cubical_north, 2);
+ weightlist.add_item(ot_furniture_north, 2);
+ weightlist.add_item(ot_abstorefront_north, 2);
+ weightlist.add_item(ot_police_north, 1);
+ weightlist.add_item(ot_s_lot, 4);
+
+ ret = weightlist.pick();
+
  if (ret == ot_s_lot)
   return ret;
  if (dir < 0) dir += 4;
@@ -498,7 +539,11 @@ void game::init_overmap()
     {_("evac shelter"),	'+',	c_white,	2, no_extras, false, true, 0},
     {_("LMOE shelter"),	'+',	c_red,	2, no_extras, true, false, 0},
     {_("LMOE shelter"),	'+',	c_red,	2, no_extras, false, true, 0},
+    {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0}, // Regular lab start
+    {_("science lab"),		'L',	c_blue,		5, no_extras, true, false, 0},
     {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0},
+    {_("science lab"),		'L',	c_cyan,		5, no_extras, false, false, 0},
+    {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0}, // Ice lab start
     {_("science lab"),		'L',	c_blue,		5, no_extras, true, false, 0},
     {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0},
     {_("science lab"),		'L',	c_cyan,		5, no_extras, false, false, 0},
@@ -1199,6 +1244,7 @@ bool overmap::generate_sub(int const z)
  std::vector<city> ant_points;
  std::vector<city> goo_points;
  std::vector<city> lab_points;
+ std::vector<city> ice_lab_points;
  std::vector<point> shaft_points;
  std::vector<city> mine_points;
  std::vector<point> bunker_points;
@@ -1278,6 +1324,13 @@ bool overmap::generate_sub(int const z)
    else if (ter(i, j, z + 1) == ot_lab_stairs)
     ter(i, j, z) = ot_lab;
 
+   else if (ter(i, j, z + 1) == ot_ice_lab_core ||
+            (z == -1 && ter(i, j, z + 1) == ot_ice_lab_stairs))
+    ice_lab_points.push_back(city(i, j, rng(1, 5 + z)));
+
+   else if (ter(i, j, z + 1) == ot_ice_lab_stairs)
+    ter(i, j, z) = ot_ice_lab;
+
    else if (ter(i, j, z + 1) == ot_bunker && z == -1)
     bunker_points.push_back( point(i, j) );
 
@@ -1355,6 +1408,13 @@ bool overmap::generate_sub(int const z)
      requires_sub |= lab;
      if (!lab && ter(lab_points[i].x, lab_points[i].y, z) == ot_lab_core)
          ter(lab_points[i].x, lab_points[i].y, z) = ot_lab;
+ }
+ for (int i = 0; i < ice_lab_points.size(); i++)
+ {
+     bool ice_lab = build_ice_lab(ice_lab_points[i].x, ice_lab_points[i].y, z, ice_lab_points[i].s);
+     requires_sub |= ice_lab;
+     if (!ice_lab && ter(ice_lab_points[i].x, ice_lab_points[i].y, z) == ot_ice_lab_core)
+         ter(ice_lab_points[i].x, ice_lab_points[i].y, z) = ot_ice_lab;
  }
  for (int i = 0; i < ant_points.size(); i++)
   build_anthill(ant_points[i].x, ant_points[i].y, z, ant_points[i].s);
@@ -2347,6 +2407,72 @@ bool overmap::build_lab(int x, int y, int z, int s)
  return numstairs > 0;
 }
 
+bool overmap::build_ice_lab(int x, int y, int z, int s)
+{
+ std::vector<point> generated_ice_lab;
+ ter(x, y, z) = ot_ice_lab;
+ for (int n = 0; n <= 1; n++) {	// Do it in two passes to allow diagonals
+  for (int i = 1; i <= s; i++) {
+   for (int lx = x - i; lx <= x + i; lx++) {
+    for (int ly = y - i; ly <= y + i; ly++) {
+     if ((ter(lx - 1, ly, z) == ot_ice_lab || ter(lx + 1, ly, z) == ot_ice_lab ||
+         ter(lx, ly - 1, z) == ot_ice_lab || ter(lx, ly + 1, z) == ot_ice_lab) &&
+         one_in(i))
+     {
+         ter(lx, ly, z) = ot_ice_lab;
+         generated_ice_lab.push_back(point(lx,ly));
+     }
+    }
+   }
+  }
+ }
+ bool generate_stairs = true;
+ for (std::vector<point>::iterator it=generated_ice_lab.begin();
+      it != generated_ice_lab.end(); it++)
+ {
+     if (ter(it->x, it->y, z+1) == ot_ice_lab_stairs)
+         generate_stairs = false;
+ }
+ if (generate_stairs && generated_ice_lab.size() > 0)
+ {
+     int v = rng(0,generated_ice_lab.size()-1);
+     point p = generated_ice_lab[v];
+     ter(p.x, p.y, z+1) = ot_ice_lab_stairs;
+ }
+
+ ter(x, y, z) = ot_ice_lab_core;
+ int numstairs = 0;
+ if (s > 0) {	// Build stairs going down
+  while (!one_in(6)) {
+   int stairx, stairy;
+   int tries = 0;
+   do {
+    stairx = rng(x - s, x + s);
+    stairy = rng(y - s, y + s);
+    tries++;
+   } while (ter(stairx, stairy, z) != ot_ice_lab && tries < 15);
+   if (tries < 15) {
+    ter(stairx, stairy, z) = ot_ice_lab_stairs;
+    numstairs++;
+   }
+  }
+ }
+ if (numstairs == 0) {	// This is the bottom of the ice_lab;  We need a finale
+  int finalex, finaley;
+  int tries = 0;
+  do {
+   finalex = rng(x - s, x + s);
+   finaley = rng(y - s, y + s);
+   tries++;
+  } while (tries < 15 && ter(finalex, finaley, z) != ot_ice_lab &&
+                         ter(finalex, finaley, z) != ot_ice_lab_core);
+  ter(finalex, finaley, z) = ot_ice_lab_finale;
+ }
+ zg.push_back(mongroup("GROUP_ice_lab", (x * 2), (y * 2), z, s, 400));
+
+ return numstairs > 0;
+}
+
 void overmap::build_anthill(int x, int y, int z, int s)
 {
  build_tunnel(x, y, z, s - rng(0, 3), 0);
@@ -2587,21 +2713,25 @@ void overmap::building_on_hiway(int x, int y, int dir)
  else if (xdif ==  1)
   rot = 3;
 
- switch (rng(1, 3)) {
+ switch (rng(1, 4)) {
  case 1:
   if (!is_river(ter(x + xdif, y + ydif, 0)))
    ter(x + xdif, y + ydif, 0) = ot_lab_stairs;
   break;
  case 2:
   if (!is_river(ter(x + xdif, y + ydif, 0)))
-   ter(x + xdif, y + ydif, 0) = house(rot);
+   ter(x + xdif, y + ydif, 0) = ot_ice_lab_stairs;
   break;
  case 3:
+  if (!is_river(ter(x + xdif, y + ydif, 0)))
+   ter(x + xdif, y + ydif, 0) = house(rot);
+  break;
+ case 4:
   if (!is_river(ter(x + xdif, y + ydif, 0)))
    ter(x + xdif, y + ydif, 0) = ot_radio_tower;
   break;
 /*
- case 4:
+ case 5:
   if (!is_river(ter(x + xdif, y + ydif)))
    ter(x + xdir, y + ydif) = ot_sewage_treatment;
   break;
