@@ -6632,7 +6632,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                g->add_msg(_("You can't wear more than two %s at once."), to_wear->tname().c_str());
+                g->add_msg(_("You can't wear more than two %ss at once."), to_wear->tname().c_str());
             }
             return false;
         }
@@ -6646,7 +6646,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_head) && encumb(bp_head) != 0)
+        if (armor->covers & mfb(bp_head) && encumb(bp_head) != 0 && armor->encumber > 0)
         {
             if(interactive)
             {
