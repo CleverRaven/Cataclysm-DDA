@@ -574,8 +574,6 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 
 std::string string_input_win(WINDOW * w, std::string input, int max_length, int startx, int starty, int endx, bool loop, long & ch, int & pos, std::string identifier, int w_x, int w_y, bool dorefresh ) {
   std::string ret = input;
-  nc_color title_color = c_ltred;
-  nc_color desc_color = c_green;
   nc_color string_color = c_magenta;
   nc_color cursor_color = h_ltgray;
   nc_color underscore_color = c_ltgray;
