@@ -109,6 +109,7 @@ public:
  std::vector<technique_id> techniques();
  bool goes_bad();
  bool count_by_charges() const;
+ int max_charges() const;
  bool craft_has_charges();
  int num_charges();
  bool rotten(game *g);

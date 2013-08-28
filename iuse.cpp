@@ -52,7 +52,7 @@ static bool use_fire(game *g, player *p, item *it)
     if (!p->use_charges_if_avail("fire", 1))
     {
         add_or_drop_item(g, p, it);
-        g->add_msg_if_player(p, _("You need a lighter!"));
+        g->add_msg_if_player(p, _("You need a source of flame!"));
         return false;
     }
     return true;
@@ -471,212 +471,222 @@ void iuse::alcohol_weak(game *g, player *p, item *it, bool t)
  p->add_disease("drunk", duration);
 }
 
-void iuse::cig(game *g, player *p, item *it, bool t)
-{
- if (!use_fire(g, p, it)) return;
- if (it->type->id == "cig")
-  g->add_msg_if_player(p,_("You light a cigarette and smoke it."));
- else //cigar
-  g->add_msg_if_player(p,_("You take a few puffs from your cigar."));
- p->add_disease("cig", 200);
- for (int i = 0; i < p->illness.size(); i++) {
-  if (p->illness[i].type == "cig" && p->illness[i].duration > 600)
-   g->add_msg_if_player(p,_("Ugh, too much smoke... you feel gross."));
- }
+void iuse::cig(game *g, player *p, item *it, bool t) {
+    if (!use_fire(g, p, it)) return;
+    if (it->type->id == "cig") {
+        g->add_msg_if_player(p,_("You light a cigarette and smoke it."));
+    } else {  // cigar
+        g->add_msg_if_player(p,_("You take a few puffs from your cigar."));
+    }
+    p->thirst += 2;
+    p->hunger -= 3;
+    p->add_disease("cig", 200);
+    for (int i = 0; i < p->illness.size(); i++) {
+        if (p->illness[i].type == "cig" && p->illness[i].duration > 600) {
+            g->add_msg_if_player(p,_("Ugh, too much smoke... you feel nasty."));
+        }
+    }
 }
 
-void iuse::antibiotic(game *g, player *p, item *it, bool t)
-{
-if (p->has_disease("infected")){
-  g->add_msg_if_player(p,_("You took some antibiotics."));
-  p->rem_disease("infected");
-  p->add_disease("recover", 1200);
-  }
-   else {
- g->add_msg_if_player(p,_("You took some antibiotics."));
- }
+void iuse::antibiotic(game *g, player *p, item *it, bool t) {
+    g->add_msg_if_player(p,_("You take some antibiotics."));
+    // cheap model of antibiotic resistance, but it's something.
+    int resistChance = 5;
+    bool resisted = (rng(1,100) < resistChance);
+    if (p->has_disease("infected") && !resisted) {
+        p->rem_disease("infected");
+        p->add_disease("recover", 1200);
+    }
 }
 
-void iuse::weed(game *g, player *p, item *it, bool t)
-{
- if (!use_fire(g, p, it)) return;
- g->add_msg_if_player(p,_("Good stuff, man!"));
-
- int duration = 60;
- if (p->has_trait("LIGHTWEIGHT"))
-  duration = 90;
- p->hunger += 8;
- if (p->pkill < 15)
-  p->pkill += 5;
- p->add_disease("high", duration);
+void iuse::weed(game *g, player *p, item *it, bool t) {
+    // Requires flame and something to smoke with.
+    bool alreadyHigh = (p->has_disease("weed_high"));
+    bool hasPipe = (p->has_amount("apparatus", 1));
+    bool canSmoke = (hasPipe || p->has_charges("rolling_paper", 1));
+    if (!canSmoke) {
+        g->add_msg_if_player(p,_("You haven't got anything to smoke out of."));
+        add_or_drop_item(g, p, it);
+        return;
+    } else if (!hasPipe) {
+        p->use_charges_if_avail("rolling_paper", 1);
+    }
+    if (p->use_charges_if_avail("fire", 1)) {
+        p->hunger += 4;
+        p->thirst += 6;
+        if (p->pkill < 5) {
+            p->pkill += 3;
+            p->pkill *= 2;
+        }
+        if (!alreadyHigh) {
+            g->add_msg_if_player(p,_("You smoke some weed.  Good stuff, man!"));
+        } else {
+            g->add_msg_if_player(p,_("You smoke some more weed."));
+        }
+        int duration = (p->has_trait("LIGHTWEIGHT") ? 120 : 90);
+        p->add_disease("weed_high", duration);
+    } else {
+        g->add_msg_if_player(p,_("You need something to light it."));
+        add_or_drop_item(g, p, it);
+        return;
+    }
 }
 
-void iuse::coke(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,_("You snort a bump."));
-
- int duration = 21 - p->str_cur;
- if (p->has_trait("LIGHTWEIGHT"))
-  duration += 20;
- p->hunger -= 8;
- p->add_disease("high", duration);
+void iuse::coke(game *g, player *p, item *it, bool t) {
+    g->add_msg_if_player(p,_("You snort a bump of coke."));
+    int duration = 21 - p->str_cur + rng(0,10);
+    if (p->has_trait("LIGHTWEIGHT")) {
+        duration += 20;
+    }
+    p->hunger -= 8;
+    p->add_disease("high", duration);
 }
 
-void iuse::crack(game *g, player *p, item *it, bool t)
-{
-  // Crack requires a fire source AND a pipe.
-  if (!use_fire(g, p, it)) return;
-  g->add_msg_if_player(p,_("You smoke some rocks."));
-  int duration = 10;
-  if (p->has_trait("LIGHTWEIGHT"))
-  {
-    duration += 10;
-  }
-  p->hunger -= 8;
-  p->add_disease("high", duration);
+void iuse::crack(game *g, player *p, item *it, bool t) {
+    // Crack requires a fire source and a pipe.
+    if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
+        int duration = 15;
+        if (p->has_trait("LIGHTWEIGHT")) {
+            duration += 20;
+        }
+        g->add_msg_if_player(p,_("You smoke your crack rocks.  Mother would be proud."));
+        p->hunger -= 10;
+        p->add_disease("high", duration);
+    }
 }
 
-void iuse::grack(game *g, player *p, item *it, bool t)
-{
-  // Grack requires a fire source AND a pipe.
-  if (!use_fire(g, p, it)) return;
-  g->add_msg_if_player(p,_("You smoke some Grack Cocaine. Time seems to stop."));
-  int duration = 1000;
-  if (p->has_trait("LIGHTWEIGHT"))
-    duration += 10;
-  p->hunger -= 8;
-  p->add_disease("grack", duration);
+void iuse::grack(game *g, player *p, item *it, bool t) {
+    // Grack requires a fire source AND a pipe.
+    if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
+        g->add_msg_if_player(p,_("You smoke some Grack Cocaine. Time seems to stop."));
+        int duration = 1000;
+        if (p->has_trait("LIGHTWEIGHT")) {
+            duration += 10;
+        }
+        p->hunger -= 10;
+        p->add_disease("grack", duration);
+    }
 }
 
-
-void iuse::meth(game *g, player *p, item *it, bool t)
-{
+void iuse::meth(game *g, player *p, item *it, bool t) {
     int duration = 10 * (40 - p->str_cur);
-    if (p->has_amount("apparatus", 1) &&
-        p->use_charges_if_avail("fire", 1))
-    {
-        g->add_msg_if_player(p,_("You smoke some crystals."));
-        duration *= 1.5;
+    if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
+        g->add_msg_if_player(p,_("You smoke your meth.  The world seems to sharpen."));
+        duration *= (p->has_trait("LIGHTWEIGHT") ? 1.8 : 1.5);
+    } else {
+        g->add_msg_if_player(p,_("You snort some crystal meth."));
     }
-    else
-    {
-        g->add_msg_if_player(p,_("You snort some crystals."));
+    if (!p->has_disease("meth")) {
+        duration += 600;
     }
-    if (!p->has_disease("meth")) {duration += 600;}
-    if (duration > 0)
-    {
+    if (duration > 0) {
         int hungerpen = (p->str_cur < 10 ? 20 : 30 - p->str_cur);
         p->hunger -= hungerpen;
         p->add_disease("meth", duration);
     }
 }
 
-void iuse::vitamins(game *g, player *p, item *it, bool t)
-{
+void iuse::vitamins(game *g, player *p, item *it, bool t) {
     g->add_msg_if_player(p,_("You take some vitamins."));
-    if (p->health >= 10)
-    {
+    if (p->health >= 10) {
         return;
-    }
-    else if (p->health >= 0)
-    {
+    } else if (p->health >= 0) {
         p->health = 10;
-    }
-    else
-    {
+    } else {
         p->health += 10;
     }
 }
 
-void iuse::vaccine(game *g, player *p, item *it, bool t)
-{
-    g->add_msg_if_player(p,_("You inject the vaccine, and feel much healthier."));
-    if (p->health >= 100)
-    {
+void iuse::vaccine(game *g, player *p, item *it, bool t) {
+    g->add_msg_if_player(p, _("You inject the vaccine."));
+    g->add_msg_if_player(p, _("You feel tough."));
+    if (p->health >= 100) {
         return;
-    }
-    else if (p->health >= 0)
-    {
+    } else if (p->health >= 0) {
         p->health = 100;
-    }
-    else
-    {
+    } else {
         p->health += 100;
     }
+    p->pain += 3;
 }
 
-void iuse::poison(game *g, player *p, item *it, bool t)
-{
- p->add_disease("poison", 600);
- p->add_disease("foodpoison", 1800);
+void iuse::poison(game *g, player *p, item *it, bool t) {
+    p->add_disease("poison", 600);
+    p->add_disease("foodpoison", 1800);
 }
 
-void iuse::hallu(game *g, player *p, item *it, bool t)
-{
- p->add_disease("hallu", 2400);
+void iuse::hallu(game *g, player *p, item *it, bool t) {
+    if (!p->has_disease("hallu")) {
+        p->add_disease("hallu", 3600);
+    }
 }
 
-void iuse::thorazine(game *g, player *p, item *it, bool t)
-{
- p->fatigue += 15;
- p->rem_disease("hallu");
- p->rem_disease("visuals");
- p->rem_disease("high");
- if (!p->has_disease("dermatik"))
-  p->rem_disease("formication");
- g->add_msg_if_player(p,_("You feel somewhat sedated."));
+void iuse::thorazine(game *g, player *p, item *it, bool t) {
+    p->fatigue += 5;
+    p->rem_disease("hallu");
+    p->rem_disease("visuals");
+    p->rem_disease("high");
+    if (!p->has_disease("dermatik")) {
+        p->rem_disease("formication");
+    }
+    if (one_in(50)) {  // adverse reaction
+        g->add_msg_if_player(p,_("You feel completely exhausted."));
+        p->fatigue += 15;
+    } else {
+        g->add_msg_if_player(p,_("You feel a bit wobbly."));
+    }
 }
 
-void iuse::prozac(game *g, player *p, item *it, bool t)
-{
- if (!p->has_disease("took_prozac") && p->morale_level() < 0)
-  p->add_disease("took_prozac", 7200);
- else
-  p->stim += 3;
+void iuse::prozac(game *g, player *p, item *it, bool t) {
+    if (!p->has_disease("took_prozac") && p->morale_level() < 0) {
+        p->add_disease("took_prozac", 7200);
+    } else {
+        p->stim += 3;
+    }
+    if (one_in(150)) {  // adverse reaction
+        g->add_msg_if_player(p,_("You suddenly feel hollow inside."));
+    }
 }
 
-void iuse::sleep(game *g, player *p, item *it, bool t)
-{
- p->fatigue += 40;
- g->add_msg_if_player(p,_("You feel very sleepy..."));
+void iuse::sleep(game *g, player *p, item *it, bool t) {
+    p->fatigue += 40;
+    g->add_msg_if_player(p,_("You feel very sleepy..."));
 }
 
-void iuse::iodine(game *g, player *p, item *it, bool t)
-{
- p->add_disease("iodine", 1200);
- g->add_msg_if_player(p,_("You take an iodine tablet."));
+void iuse::iodine(game *g, player *p, item *it, bool t) {
+    p->add_disease("iodine", 1200);
+    g->add_msg_if_player(p,_("You take an iodine tablet."));
 }
 
-void iuse::flumed(game *g, player *p, item *it, bool t)
-{
- p->add_disease("took_flumed", 6000);
- g->add_msg_if_player(p,_("You take some %s"), it->tname().c_str());
+void iuse::flumed(game *g, player *p, item *it, bool t) {
+    p->add_disease("took_flumed", 6000);
+    g->add_msg_if_player(p,_("You take some %s"), it->tname().c_str());
 }
 
-void iuse::flusleep(game *g, player *p, item *it, bool t)
-{
- p->add_disease("took_flumed", 7200);
- p->fatigue += 30;
- g->add_msg_if_player(p,_("You feel very sleepy..."));
+void iuse::flusleep(game *g, player *p, item *it, bool t) {
+    p->add_disease("took_flumed", 7200);
+    p->fatigue += 30;
+    g->add_msg_if_player(p,_("You take some %s"), it->tname().c_str());
+    g->add_msg_if_player(p,_("You feel very sleepy..."));
 }
 
-void iuse::inhaler(game *g, player *p, item *it, bool t)
-{
- p->rem_disease("asthma");
- g->add_msg_if_player(p,_("You take a puff from your inhaler."));
+void iuse::inhaler(game *g, player *p, item *it, bool t) {
+    p->rem_disease("asthma");
+    g->add_msg_if_player(p,_("You take a puff from your inhaler."));
+    if (one_in(50)) {  // adverse reaction
+        g->add_msg_if_player(p,_("Your heart begins to race."));
+        p->fatigue -= 10;
+    }
 }
 
-void iuse::blech(game *g, player *p, item *it, bool t)
-{
-// TODO: Add more effects?
- g->add_msg_if_player(p,_("Blech, that burns your throat!"));
- p->vomit(g);
+void iuse::blech(game *g, player *p, item *it, bool t) {
+    // TODO: Add more effects?
+    g->add_msg_if_player(p,_("Blech, that burns your throat!"));
+    p->vomit(g);
 }
 
-void iuse::mutagen(game *g, player *p, item *it, bool t)
-{
-    if( it->has_flag("MUTAGEN_STRONG") )
-    {
+void iuse::mutagen(game *g, player *p, item *it, bool t) {
+    if( it->has_flag("MUTAGEN_STRONG") ) {
          p->mutate(g);
          if (!one_in(3))
              p->mutate(g);
@@ -1920,7 +1930,6 @@ void iuse::noise_emitter_on(game *g, player *p, item *it, bool t)
     }
 }
 
-
 void iuse::roadmap(game *g, player *p, item *it, bool t)
 {
  if (it->charges < 1) {
@@ -2228,9 +2237,9 @@ void iuse::siphon(game *g, player *p, item *it, bool t)
         g->add_msg_if_player(p, _("That vehicle has no fuel to siphon."));
         return;
     }
-    p->siphon(g, veh, "gasoline");
-    p->moves -= 200;
-    return;
+    if (p->siphon(g, veh, "gasoline")) {
+        p->moves -= 200;
+    }
 }
 
 void iuse::chainsaw_off(game *g, player *p, item *it, bool t)
@@ -2679,6 +2688,10 @@ if(it->type->id == "cot"){
   message << _("You place the funnel, waiting to collect rain.");
   type = tr_funnel;
   practice = 0;
+  } else if(it->type->id == "makeshift_funnel"){
+  message << _("You place the makeshift funnel, waiting to collect rain.");
+  type = tr_makeshift_funnel;
+  practice = 0;
  } else if(it->type->id == "tripwire"){
 // Must have a connection between solid squares.
   if ((g->m.move_cost(posx    , posy - 1) != 2 &&
@@ -2881,7 +2894,7 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
   if (tries < 10) {
    if (g->u_see(goox, gooy))
     g->add_msg(_("A nearby splatter of goo forms into a goo pit."));
-   g->m.tr_at(goox, gooy) = tr_goo;
+   g->m.add_trap(goox, gooy, tr_goo);
   }
  }
 }
@@ -2932,6 +2945,173 @@ void iuse::grenade_act(game *g, player *p, item *it, bool t)
   g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
  else	// When that timer runs down...
   g->explosion(pos.x, pos.y, 12, 28, false);
+}
+
+void iuse::granade(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p,_("You pull the pin on the Granade."));
+ it->make(g->itypes["granade_act"]);
+ it->charges = 5;
+ it->active = true;
+}
+
+void iuse::granade_act(game *g, player *p, item *it, bool t)
+{
+    point pos = g->find_item(it);
+    if (pos.x == -999 || pos.y == -999) {
+        return;
+    }
+    if (t) { // Simple timer effects
+        g->sound(pos.x, pos.y, 0, _("Merged!"));  // Vol 0 = only heard if you hold it
+    } else {  // When that timer runs down...
+        int effect_roll = rng(1,4);
+        switch (effect_roll)
+        {
+            case 1:
+                g->sound(pos.x, pos.y, 100, _("BUGFIXES!!"));
+                g->draw_explosion(pos.x, pos.y, 10, c_ltcyan);
+                for (int i = -10; i <= 10; i++) {
+                    for (int j = -10; j <= 10; j++) {
+                        if (g->mon_at(pos.x + i, pos.y + j) != -1 &&
+                              (g->z[g->mon_at(pos.x + i, pos.y + j)].type->species == species_insect ||
+                               g->z[g->mon_at(pos.x + i, pos.y + j)].type->species == species_hallu) ) {
+                            g->explode_mon(g->mon_at(pos.x + i, pos.y + j));
+                        }
+                    }
+                }
+                break;
+
+            case 2:
+                g->sound(pos.x, pos.y, 100, _("BUFFS!!"));
+                g->draw_explosion(pos.x, pos.y, 10, c_green);
+                for (int i = -10; i <= 10; i++) {
+                    for (int j = -10; j <= 10; j++) {
+                        if (g->mon_at(pos.x + i, pos.y + j) != -1) {
+                            int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                            g->z[mon_hit].speed *= 1 + rng(0, 20) * .1;
+                            g->z[mon_hit].hp *= 1 + rng(0, 20) * .1;
+                        } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
+                            int npc_hit = g->npc_at(pos.x + i, pos.y + j);
+                            g->active_npc[npc_hit]->str_max += rng(0, g->active_npc[npc_hit]->str_max/2);
+                            g->active_npc[npc_hit]->dex_max += rng(0, g->active_npc[npc_hit]->dex_max/2);
+                            g->active_npc[npc_hit]->int_max += rng(0, g->active_npc[npc_hit]->int_max/2);
+                            g->active_npc[npc_hit]->per_max += rng(0, g->active_npc[npc_hit]->per_max/2);
+                        } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
+                            g->u.str_max += rng(0, g->u.str_max/2);
+                            g->u.dex_max += rng(0, g->u.dex_max/2);
+                            g->u.int_max += rng(0, g->u.int_max/2);
+                            g->u.per_max += rng(0, g->u.per_max/2);
+                            g->u.recalc_hp();
+                            for (int part = 0; part < num_hp_parts; part++) {
+                                g->u.hp_cur[part] *= 1 + rng(0, 20) * .1;
+                                if (g->u.hp_cur[part] > g->u.hp_max[part]) {
+                                    g->u.hp_cur[part] = g->u.hp_max[part];
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case 3:
+                g->sound(pos.x, pos.y, 100, _("NERFS!!"));
+                g->draw_explosion(pos.x, pos.y, 10, c_red);
+                for (int i = -10; i <= 10; i++) {
+                    for (int j = -10; j <= 10; j++) {
+                        if (g->mon_at(pos.x + i, pos.y + j) != -1) {
+                            int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                            g->z[mon_hit].speed = rng(1, g->z[mon_hit].speed);
+                            g->z[mon_hit].hp = rng(1, g->z[mon_hit].hp);
+                        } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
+                            int npc_hit = g->npc_at(pos.x + i, pos.y + j);
+                            g->active_npc[npc_hit]->str_max -= rng(0, g->active_npc[npc_hit]->str_max/2);
+                            g->active_npc[npc_hit]->dex_max -= rng(0, g->active_npc[npc_hit]->dex_max/2);
+                            g->active_npc[npc_hit]->int_max -= rng(0, g->active_npc[npc_hit]->int_max/2);
+                            g->active_npc[npc_hit]->per_max -= rng(0, g->active_npc[npc_hit]->per_max/2);
+                        } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
+                            g->u.str_max -= rng(0, g->u.str_max/2);
+                            g->u.dex_max -= rng(0, g->u.dex_max/2);
+                            g->u.int_max -= rng(0, g->u.int_max/2);
+                            g->u.per_max -= rng(0, g->u.per_max/2);
+                            g->u.recalc_hp();
+                            for (int part = 0; part < num_hp_parts; part++) {
+                                if (g->u.hp_cur[part] > 0) {
+                                    g->u.hp_cur[part] = rng(1, g->u.hp_cur[part]);
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case 4:
+                g->sound(pos.x, pos.y, 100, _("REVERTS!!"));
+                g->draw_explosion(pos.x, pos.y, 10, c_pink);
+                for (int i = -10; i <= 10; i++) {
+                    for (int j = -10; j <= 10; j++) {
+                        if (g->mon_at(pos.x + i, pos.y + j) != -1) {
+                            int mon_hit = g->mon_at(pos.x + i, pos.y + j);
+                            g->z[mon_hit].speed = g->z[mon_hit].type->speed;
+                            g->z[mon_hit].hp = g->z[mon_hit].type->hp;
+                            for (int i = 0; i < g->z[mon_hit].effects.size(); i++) {
+                                g->z[mon_hit].effects.erase(g->z[mon_hit].effects.begin() + i);
+                                i--;
+                            }
+                        } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
+                            int npc_hit = g->npc_at(pos.x + i, pos.y + j);
+                            for (int i = 0; i < g->active_npc[npc_hit]->illness.size(); i++) {
+                                g->active_npc[npc_hit]->illness.erase(g->active_npc[npc_hit]->illness.begin() + i);
+                                i--;
+                            }
+                            for (int i = 0; i < g->active_npc[npc_hit]->addictions.size(); i++) {
+                                g->active_npc[npc_hit]->addictions.erase(g->active_npc[npc_hit]->addictions.begin() + i);
+                                i--;
+                            }
+                            for (int i = 0; i < g->active_npc[npc_hit]->morale.size(); i++) {
+                                g->active_npc[npc_hit]->morale.erase(g->active_npc[npc_hit]->morale.begin() + i);
+                                i--;
+                            }
+                            for (int part = 0; part < num_hp_parts; part++) {
+                                g->active_npc[npc_hit]->hp_cur[part] = g->active_npc[npc_hit]->hp_max[part];
+                            }
+                            g->active_npc[npc_hit]->hunger = 0;
+                            g->active_npc[npc_hit]->thirst = 0;
+                            g->active_npc[npc_hit]->fatigue = 0;
+                            g->active_npc[npc_hit]->health = 0;
+                            g->active_npc[npc_hit]->stim = 0;
+                            g->active_npc[npc_hit]->pain = 0;
+                            g->active_npc[npc_hit]->pkill = 0;
+                            g->active_npc[npc_hit]->radiation = 0;
+                        } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
+                            for (int i = 0; i < g->u.illness.size(); i++) {
+                                g->u.illness.erase(g->u.illness.begin() + i);
+                                i--;
+                            }
+                            for (int i = 0; i < g->u.addictions.size(); i++) {
+                                g->u.addictions.erase(g->u.addictions.begin() + i);
+                                i--;
+                            }
+                            for (int i = 0; i < g->u.morale.size(); i++) {
+                                g->u.morale.erase(g->u.morale.begin() + i);
+                                i--;
+                            }
+                            for (int part = 0; part < num_hp_parts; part++) {
+                                g->u.hp_cur[part] = g->u.hp_max[part];
+                            }
+                            g->u.hunger = 0;
+                            g->u.thirst = 0;
+                            g->u.fatigue = 0;
+                            g->u.health = 0;
+                            g->u.stim = 0;
+                            g->u.pain = 0;
+                            g->u.pkill = 0;
+                            g->u.radiation = 0;
+                        }
+                    }
+                }
+                break;
+        }
+    }
 }
 
 void iuse::flashbang(game *g, player *p, item *it, bool t)
@@ -2993,6 +3173,7 @@ void iuse::EMPbomb_act(game *g, player *p, item *it, bool t)
  if (t)	// Simple timer effects
   g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
  else {	// When that timer runs down...
+  g->draw_explosion(pos.x, pos.y, 4, c_ltblue);
   for (int x = pos.x - 4; x <= pos.x + 4; x++) {
    for (int y = pos.y - 4; y <= pos.y + 4; y++)
     g->emp_blast(x, y);
@@ -3016,6 +3197,7 @@ void iuse::scrambler_act(game *g, player *p, item *it, bool t)
  if (t)	// Simple timer effects
   g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
  else {	// When that timer runs down...
+  g->draw_explosion(pos.x, pos.y, 4, c_cyan);
   for (int x = pos.x - 4; x <= pos.x + 4; x++) {
    for (int y = pos.y - 4; y <= pos.y + 4; y++)
     g->scrambler_blast(x, y);
@@ -3925,6 +4107,16 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
         return;
     }
 
+
+    if (g->m.furn(dirx, diry) == f_rack){
+        p->moves -= 500;
+        g->m.furn_set(dirx, diry, f_null);
+        g->sound(dirx, diry, 15,_("grnd grnd grnd"));
+        g->m.spawn_item(p->posx, p->posy, "pipe", 0, rng(1, 3));
+        g->m.spawn_item(p->posx, p->posy, "steel_chunk", 0);
+        return;
+    }
+
     switch (g->m.ter(dirx, diry))
     {
     case t_chainfence_v:
@@ -3942,14 +4134,6 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
         g->m.ter_set(dirx, diry, t_dirt);
         g->sound(dirx, diry, 15,_("grnd grnd grnd"));
         g->m.spawn_item(dirx, diry, "pipe", 0, 6);
-        break;
-
-    case f_rack:
-        p->moves -= 500;
-        g->m.furn_set(dirx, diry, f_null);
-        g->sound(dirx, diry, 15,_("grnd grnd grnd"));
-        g->m.spawn_item(p->posx, p->posy, "pipe", 0, rng(1, 3));
-        g->m.spawn_item(p->posx, p->posy, "steel_chunk", 0);
         break;
 
     case t_bars:

@@ -667,10 +667,10 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 33, c_ltgray, "                                              ");
                         mvwprintz(w,  3, 33, col_tr, _("%s earns %d points"),
-                                  _(traits[vStartingTraits[iCurrentPage][i]].name.c_str()),
+                                  traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
                                   traits[vStartingTraits[iCurrentPage][i]].points * -1);
                         fold_and_print(w_description, 0, 0, 78, col_tr, "%s",
-                                       _(traits[vStartingTraits[iCurrentPage][i]].description.c_str()));
+                                       traits[vStartingTraits[iCurrentPage][i]].description.c_str());
                     }
 
                     nc_color cLine = col_off_pas;
@@ -757,7 +757,7 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                         if (iCurWorkingPage == 0) {
                             num_good -= traits[cur_trait].points;
                         } else {
-                            num_bad += traits[cur_trait].points;
+                            num_bad -= traits[cur_trait].points;
                         }
                     }
 
@@ -769,8 +769,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                     popup(_("Sorry, but you can only take %d points of advantages."),
                           max_trait_points);
 
-                } else if (!iCurWorkingPage == 0 && num_bad - traits[cur_trait].points >
-                           max_trait_points) {
+                } else if (iCurWorkingPage != 0 && num_bad + traits[cur_trait].points <
+                           -max_trait_points) {
                     popup(_("Sorry, but you can only take %d points of disadvantages."),
                           max_trait_points);
 
@@ -789,7 +789,7 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                         if (iCurWorkingPage == 0) {
                             num_good += traits[cur_trait].points;
                         } else {
-                            num_bad -= traits[cur_trait].points;
+                            num_bad += traits[cur_trait].points;
                         }
                     }
                 }

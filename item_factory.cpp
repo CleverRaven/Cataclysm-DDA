@@ -120,6 +120,8 @@ void Item_factory::init(){
     iuse_function_list["PIPEBOMB_ACT"] = &iuse::pipebomb_act;
     iuse_function_list["GRENADE"] = &iuse::grenade;
     iuse_function_list["GRENADE_ACT"] = &iuse::grenade_act;
+    iuse_function_list["GRANADE"] = &iuse::granade;
+    iuse_function_list["GRANADE_ACT"] = &iuse::granade_act;
     iuse_function_list["FLASHBANG"] = &iuse::flashbang;
     iuse_function_list["FLASHBANG_ACT"] = &iuse::flashbang_act;
     iuse_function_list["C4"] = &iuse::c4;
@@ -705,44 +707,6 @@ void Item_factory::load_item_groups_from( game *g, const std::string file_name )
     }
     if( !json_good() ) {
         throw "There was an error reading " + file_name;
-    }
-}
-
-//Grab color, with appropriate error handling
-nc_color Item_factory::color_from_string(std::string new_color){
-    if("red"==new_color){
-        return c_red;
-    } else if("blue"==new_color){
-        return c_blue;
-    } else if("green"==new_color){
-        return c_green;
-    } else if("light_cyan"==new_color){
-        return c_ltcyan;
-    } else if("brown"==new_color){
-        return c_brown;
-    } else if("light_red"==new_color){
-        return c_ltred;
-    } else if("white"==new_color){
-        return c_white;
-    } else if("light_blue"==new_color){
-        return c_ltblue;
-    } else if("yellow"==new_color){
-        return c_yellow;
-    } else if("magenta"==new_color){
-        return c_magenta;
-    } else if("cyan"==new_color){
-        return c_cyan;
-    } else if("light_gray"==new_color){
-        return c_ltgray;
-    } else if("dark_gray"==new_color){
-        return c_dkgray;
-    } else if("light_green"==new_color){
-        return c_ltgreen;
-    } else if("pink"==new_color){
-        return c_pink;
-    } else {
-        debugmsg("Received invalid color property %s. Color is required.", new_color.c_str());
-        return c_white;
     }
 }
 

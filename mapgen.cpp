@@ -258,6 +258,10 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  int x = 0;
  int y = 0;
 
+ // To distinguish between types of labs
+ bool ice_lab = true;
+ bool ice_lab_finale = true;
+
  oter_id t_nesw[] = {t_north, t_east, t_south, t_west};
  int nesw_fac[] = {0, 0, 0, 0};
  int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
@@ -746,6 +750,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 95)
         add_vehicle (g, veh_rv, vx, vy, one_in(2)? 90 : 180, -1, -1);
+    else if (rc <= 96)
+        add_vehicle (g, veh_shopping_cart, vx, vy, one_in(2)? 90 : 180);
     else
         add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, -1);
    }
@@ -1317,57 +1323,42 @@ t   t\n\
      ter_set(i, j, grass_or_dirt());
    }
   }
-  if (x_in_y(2,3))
   {
       int vx = rng (0, 3) * 4 + 5;
       int vy = 4;
-		vhtype_id vt = veh_null;
-		int r = rng(1, 100);
-		if (r <= 10)//specials
-     		{
-			int ra = rng(1, 100);
-				if (ra <= 3)
-					vt = veh_armytruck;
-				else if (ra <= 10)
-					vt = veh_bubblecar;
-                else if (ra <= 15)
-					vt = veh_rv;
-				else if (ra <= 20)
-					vt = veh_schoolbus;
-				else
-					vt = veh_sandbike;
-			}
-		else if (r <= 30)//commercial
-			{
-			int rb = rng(1, 100);
-				if (rb <= 25)
-					vt = veh_trucktrailer;
-				else if (rb <= 35)
-					vt = veh_semi;
-				else
-					vt = veh_truck;
-			}
-		else//commons
-			{
-			int rc = rng(1, 100);
-				if (rc <= 4)
-					vt = veh_golfcart;
-				else if (rc <= 11)
-					vt = veh_scooter;
-				else if (rc <= 21)
-					vt = veh_bug;
-				else if (rc <= 50)
-					vt = veh_car;
-				else if (rc <= 60)
-					vt = veh_car;
-				else if (rc <= 75)
-					vt = veh_bicycle;
-				else
-					vt = veh_motorcycle;
-			}
+      vhtype_id vt = veh_null;
+      int r = rng(1, 100);
+      if (r <= 5) { //specials
+          int ra = rng(1, 100);
+          if (ra <= 3) {         vt = veh_armytruck;
+          } else if (ra <= 10) { vt = veh_bubblecar;
+          } else if (ra <= 15) { vt = veh_rv;
+          } else if (ra <= 20) { vt = veh_schoolbus;
+          } else {               vt = veh_sandbike;
+          }
+      }	else if (r <= 15) { //commercial
+          int rb = rng(1, 100);
+          if (rb <= 25) {        vt = veh_trucktrailer;
+          } else if (rb <= 35) { vt = veh_semi;
+          } else {               vt = veh_truck;
+          }
+      }		else if (r < 50) { //commons
+          int rc = rng(1, 100);
+          if (rc <= 4) { 				    vt = veh_golfcart;
+          }	else if (rc <= 11) {	vt = veh_scooter;
+          } else if (rc <= 21) {	vt = veh_bug;
+          } else if (rc <= 50) { vt = veh_car;
+          } else if (rc <= 60) {	vt = veh_car;
+          } else if (rc <= 75) {	vt = veh_bicycle;
+          } else {          					vt = veh_motorcycle;
+          }
+      } else {
+          vt = veh_shopping_cart;
+      }
 
       add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270, -1, -1);
   }
+
   place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
   if (t_east  >= ot_road_null && t_east  <= ot_road_nesw_manhole)
    rotate(1);
@@ -1407,6 +1398,7 @@ t   t\n\
 ........................\n",
    mapf::basic_bind( "+ n . w", t_concrete, t_concrete, t_grass, t_water_dp ),
    mapf::basic_bind( "n", f_dive_block));
+   add_spawn(mon_zombie_swimmer, rng(1, 6), SEEX, SEEY);
  } break;
 
  case ot_park: {
@@ -1521,7 +1513,8 @@ t   t\n\
   }
   ter_set(cw, rng(mw + 1, bw - 1), t_door_c);
   ter_set(rw - 1, mw, t_door_c);
-  set(rw - 1, bw - 1, t_floor, f_toilet);
+  ter_set(rw - 1, bw - 1, t_floor);
+  place_toilet(rw - 1, bw - 1);
   ter_set(rng(10, 13), tw, t_door_c);
   if (one_in(5))
    ter_set(rng(lw + 1, cw - 1), bw, (one_in(4) ? t_door_c : t_door_locked));
@@ -1584,6 +1577,14 @@ t   t\n\
      ter_set(i, j, grass_or_dirt());
    }
   }
+
+  {
+      int num_carts = rng(0, 5);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, veh_shopping_cart, rng(lw, cw), rng(tw, mw), 90);
+      }
+  }
+
   if (one_in(3))
    place_items("snacks",	74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
   else if (one_in(4))
@@ -3221,6 +3222,14 @@ C..C..C...|hhh|#########\n\
      ter_set(i, j, grass_or_dirt());
    }
   }
+
+  {
+      int num_carts = rng(0, 5);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, veh_shopping_cart, rng(3, 21), rng(3, 21), 90);
+      }
+  }
+
   place_items("fridgesnacks",	65,  3, 10,  3, 15, false, 0);
   place_items("fridge",	70,  8, 20, 14, 20, false, 0);
   place_items("fridge",	50, 19, 20, 20, 20, false, 0);
@@ -3528,6 +3537,13 @@ C..C..C...|hhh|#########\n\
   place_items("trash",		30,  5, 14,  7, 14, false, 0);
   place_items("trash",		30, 18, 15, 18, 17, false, 0);
 
+  {
+      int num_carts = rng(0, 3);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, veh_shopping_cart, rng(4, 19), rng(3, 11), 90);
+      }
+  }
+
   if (terrain_type == ot_s_liquor_east)
    rotate(1);
   if (terrain_type == ot_s_liquor_south)
@@ -3633,6 +3649,13 @@ C..C..C...|hhh|#########\n\
     ter_set(i, SEEY * 2 - 4, t_door_c);
    else
     ter_set(i + 1, SEEY * 2 - 4, t_door_c);
+  }
+
+  {
+      int num_carts = rng(0, 5);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, veh_shopping_cart, rng(3, 16), rng(3, 21), 90);
+      }
   }
 
   place_items("shoes",		70,  7, 10, 12, 10, false, 0);
@@ -4067,7 +4090,7 @@ case ot_lmoe: {
   furn_set(20, 7, f_desk);
   line(this, t_rubble, 15, 10, 16, 10);
   furn_set(19, 10, f_sink);
-  furn_set(20, 11, f_toilet);
+  place_toilet(20, 11);
   place_items("allguns", 80, 3, 3, 6, 3, false, 0);
   place_items("ammo", 80, 3, 3, 6, 3, false, 0);
   place_items("cannedfood", 90, 3, 9, 7, 9, false, 0);
@@ -4091,6 +4114,10 @@ case ot_lmoe: {
  case ot_lab:
  case ot_lab_stairs:
  case ot_lab_core:
+    ice_lab = false;
+ case ot_ice_lab:
+ case ot_ice_lab_stairs:
+ case ot_ice_lab_core:
 // Check for adjacent sewers; used below
   tw = 0;
   rw = 0;
@@ -4146,6 +4173,7 @@ case ot_lmoe: {
          ((j < tw || j > SEEY * 2 - 1 - bw) && i > SEEX - 3 && i < SEEX + 2))
       ter_set(i, j, t_sewage);
      if ((i == 0 && t_east >= ot_lab && t_east <= ot_lab_core) ||
+         (i == 0 && t_east >= ot_ice_lab && t_east <= ot_ice_lab_core) ||
          i == SEEX * 2 - 1) {
       if (ter(i, j) == t_sewage)
        ter_set(i, j, t_bars);
@@ -4154,6 +4182,7 @@ case ot_lmoe: {
       else
        ter_set(i, j, t_concrete_v);
      } else if ((j == 0 && t_north >= ot_lab && t_north <= ot_lab_core) ||
+                (j == 0 && t_north >= ot_ice_lab && t_north <= ot_ice_lab_core) ||
                 j == SEEY * 2 - 1) {
       if (ter(i, j) == t_sewage)
        ter_set(i, j, t_bars);
@@ -4166,10 +4195,19 @@ case ot_lmoe: {
    }
   } else { // We're below ground, and no sewers
 // Set up the boudaries of walls (connect to adjacent lab squares)
-   tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;
-   rw = (t_east  >= ot_lab && t_east  <= ot_lab_finale) ? 1 : 2;
-   bw = (t_south >= ot_lab && t_south <= ot_lab_finale) ? 1 : 2;
-   lw = (t_west  >= ot_lab && t_west  <= ot_lab_finale) ? 0 : 2;
+// Are we in an ice lab?
+   if ( ice_lab ) {
+        tw = (t_north >= ot_ice_lab && t_north <= ot_ice_lab_finale) ? 0 : 2;
+        rw = (t_east  >= ot_ice_lab && t_east  <= ot_ice_lab_finale) ? 1 : 2;
+        bw = (t_south >= ot_ice_lab && t_south <= ot_ice_lab_finale) ? 1 : 2;
+        lw = (t_west  >= ot_ice_lab && t_west  <= ot_ice_lab_finale) ? 0 : 2;
+   }
+   else {
+       tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;
+       rw = (t_east  >= ot_lab && t_east  <= ot_lab_finale) ? 1 : 2;
+       bw = (t_south >= ot_lab && t_south <= ot_lab_finale) ? 1 : 2;
+       lw = (t_west  >= ot_lab && t_west  <= ot_lab_finale) ? 0 : 2;
+   }
    int boarders = 0;
    if (tw == 0 ) boarders++;
    if (rw == 1 ) boarders++;
@@ -4299,7 +4337,7 @@ case ot_lmoe: {
     rotate(3);}
    if (lw == 2){
     rotate(1);}
-   if (t_above == ot_lab_stairs) {
+   if (t_above == ot_lab_stairs || t_above == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4308,7 +4346,7 @@ case ot_lmoe: {
      ter_set(sx, sy, t_stairs_up);
     }
 
-   if (terrain_type == ot_lab_stairs) {
+   if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4331,7 +4369,7 @@ case ot_lmoe: {
        ter_set(i, j, t_rock_floor);
      }
     }
-    if (t_above == ot_lab_stairs)
+    if (t_above == ot_lab_stairs || t_above == ot_ice_lab_stairs)
      ter_set(rng(SEEX - 1, SEEX), rng(SEEY - 1, SEEY), t_stairs_up);
 // Top left
     if (one_in(2)) {
@@ -4373,7 +4411,7 @@ case ot_lmoe: {
      ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
      ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
     }
-    if (terrain_type == ot_lab_stairs) {	// Stairs going down
+    if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs) {	// Stairs going down
      std::vector<point> stair_points;
      if (tw != 0) {
       stair_points.push_back(point(SEEX - 1, 2));
@@ -4424,7 +4462,7 @@ case ot_lmoe: {
        ter_set(i, j, t_rock_floor);
      }
     }
-    if (t_above == ot_lab_stairs) {
+    if (t_above == ot_lab_stairs || t_above == ot_ice_lab_stairs) {
      ter_set(SEEX - 1, SEEY - 1, t_stairs_up);
      ter_set(SEEX    , SEEY - 1, t_stairs_up);
      ter_set(SEEX - 1, SEEY    , t_stairs_up);
@@ -4458,7 +4496,7 @@ case ot_lmoe: {
      ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
      ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
     }
-    if (terrain_type == ot_lab_stairs)
+    if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs)
      ter_set(SEEX - 3 + 5 * rng(0, 1), SEEY - 3 + 5 * rng(0, 1), t_stairs_down);
     break;
 
@@ -4474,7 +4512,7 @@ case ot_lmoe: {
      }
     }
     science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, rng(0, 3));
-    if (t_above == ot_lab_stairs) {
+    if (t_above == ot_lab_stairs || t_above == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4490,7 +4528,7 @@ case ot_lmoe: {
      ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
      ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
     }
-    if (terrain_type == ot_lab_stairs) {
+    if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4705,7 +4743,7 @@ ff.......|....|WWWWWWWW|\n\
        ter_set(i, j, t_concrete_h);
      }
     }
-    if (t_above == ot_lab_stairs) {
+    if (t_above == ot_lab_stairs || t_above == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4713,7 +4751,7 @@ ff.......|....|WWWWWWWW|\n\
      } while (ter(sx, sy) != t_rock_floor);
      ter_set(sx, sy, t_stairs_up);
     }
-    if (terrain_type == ot_lab_stairs) {
+    if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs) {
      int sx, sy;
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
@@ -4776,10 +4814,21 @@ ff.......|....|WWWWWWWW|\n\
  break;
 
  case ot_lab_finale:
-  tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;
-  rw = (t_east  >= ot_lab && t_east  <= ot_lab_finale) ? 1 : 2;
-  bw = (t_south >= ot_lab && t_south <= ot_lab_finale) ? 1 : 2;
-  lw = (t_west  >= ot_lab && t_west  <= ot_lab_finale) ? 0 : 2;
+ ice_lab_finale = false;
+ case ot_ice_lab_finale:
+  if ( ice_lab_finale ) {
+      tw = (t_north >= ot_ice_lab && t_north <= ot_ice_lab_finale) ? 0 : 2;
+      rw = (t_east  >= ot_ice_lab && t_east  <= ot_ice_lab_finale) ? 1 : 2;
+      bw = (t_south >= ot_ice_lab && t_south <= ot_ice_lab_finale) ? 1 : 2;
+      lw = (t_west  >= ot_ice_lab && t_west  <= ot_ice_lab_finale) ? 0 : 2;
+  }
+  else {
+      tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;
+      rw = (t_east  >= ot_lab && t_east  <= ot_lab_finale) ? 1 : 2;
+      bw = (t_south >= ot_lab && t_south <= ot_lab_finale) ? 1 : 2;
+      lw = (t_west  >= ot_lab && t_west  <= ot_lab_finale) ? 0 : 2;
+  }
+
 // Start by setting up a large, empty room.
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -9262,7 +9311,7 @@ case ot_s_garage_north:
 	furn_set(16, 4, f_dresser);
 	furn_set(19, 4, f_dresser);
 	ter_set(13, 6, t_door_c);
-	furn_set(9, 4, f_toilet);
+	place_toilet(9, 4);
 	line(this, f_bathtub, 8, 7, 9, 7);
 	furn_set(8, 5, f_sink);
 	place_items("fridge", 65, 4, 15, 4, 15, false, 0);
@@ -10101,7 +10150,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 |BBBB  D              \n\
 |------|              \n",
      mapf::basic_bind("g - | + D", t_wall_glass_h, t_wall_h, t_wall_v, t_door_c, t_door_locked),
-     mapf::basic_bind("# c & B C O b H h o d e m E", f_table, f_counter, f_fridge, f_rack, f_cupboard, f_oven, f_bed, f_armchair, f_chair, f_toilet, f_dresser, f_desk, f_sofa, f_bookcase));
+     mapf::basic_bind("# c & B C O b H h o d e m E", f_table, f_counter, f_fridge, f_rack, f_cupboard, f_oven, f_bed, f_armchair, f_chair, f_toilet, f_dresser, f_desk, f_sofa, f_bookcase),
+     true // empty toilets
+     );
      place_items("tools", 50, 21, 5, 21, 8, false, 0);
      //Upper Right Shelf
      place_items("hardware", 50, 21, 10, 21, 13, false, 0);
@@ -10701,15 +10752,21 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
    item body;
    body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
    int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
-   if (furn(zx, zy) == f_bed || one_in(3))
-    add_item(zx, zy, body);
-   else if (move_cost(zx, zy) > 0) {
-    mon_id zom = mon_zombie;
-    if (one_in(6))
-     zom = mon_zombie_spitter;
-    else if (!one_in(3))
-     zom = mon_boomer;
-    add_spawn(zom, 1, zx, zy);
+   if (move_cost(zx, zy) > 0) {
+     if (furn(zx, zy) == f_bed || one_in(3)) {
+      add_item(zx, zy, body);
+     } else {
+      mon_id zom = mon_zombie;
+      if (one_in(6)) {
+       zom = mon_zombie_spitter;
+      } else if (!one_in(3)) {
+       zom = mon_boomer;
+      }
+      add_spawn(zom, 1, zx, zy);
+     }
+   } else {
+     //This is a wall: try again
+     i--;
    }
   }
   break;
@@ -12328,9 +12385,13 @@ void map::place_spawns(game *g, std::string group, const int chance,
  if (!OPTIONS["STATIC_SPAWN"])
   return;
 
- if (one_in(chance))
+ float multiplier = OPTIONS["SPAWN_DENSITY"];
+
+ if( multiplier == 0.0 ) return;
+
+ if (one_in(chance / multiplier))
  {
-  int num = density * (float)rng(10, 50);
+  int num = density * (float)rng(10, 50) * multiplier;
 
   for (int i = 0; i < num; i++)
   {
@@ -12359,6 +12420,14 @@ void map::place_gas_pump(int x, int y, int charges)
  gas.charges = charges;
  add_item(x, y, gas);
  ter_set(x, y, t_gas_pump);
+}
+
+void map::place_toilet(int x, int y, int charges)
+{
+    item water(g->itypes["water"], 0);
+    water.charges = charges;
+    add_item(x, y, water);
+    furn_set(x, y, f_toilet);
 }
 
 int map::place_items(items_location loc, int chance, int x1, int y1,
@@ -12651,7 +12720,7 @@ void map::rotate(int turns)
    ter_set(i, j, rotated[i][j]);
    furn_set(i, j, furnrot[i][j]);
    i_at (i, j) = itrot  [i][j];
-   tr_at(i, j) = traprot[i][j];
+   add_trap(i, j, traprot[i][j]);
    if (turns % 2 == 1) { 	// Rotate things like walls 90 degrees
     if (ter(i, j) == t_wall_v)
      ter_set(i, j, t_wall_h);
@@ -12972,7 +13041,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   }
   break;
  case room_bathroom:
-  m->furn_set(x2 - 1, y2 - 1, f_toilet);
+  m->place_toilet(x2 - 1, y2 - 1);
   m->place_items("harddrugs", 18, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
   m->place_items("cleaning",  48, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
   placed = "softdrugs";
@@ -13095,19 +13164,19 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     trapy = rng(y1 + 1, y2 - 1);
    } while(!one_in(5));
    if (rotate == 0) {
-    m->tr_at(x1, y2) = tr_null;
+    m->remove_trap(x1, y2);
     m->furn_set(x1, y2, f_fridge);
     m->place_items("goo", 60, x1, y2, x1, y2, false, 0);
    } else if (rotate == 1) {
-    m->tr_at(x1, y1) = tr_null;
+    m->remove_trap(x1, y1);
     m->furn_set(x1, y1, f_fridge);
     m->place_items("goo", 60, x1, y1, x1, y1, false, 0);
    } else if (rotate == 2) {
-    m->tr_at(x2, y1) = tr_null;
+    m->remove_trap(x2, y1);
     m->furn_set(x2, y1, f_fridge);
     m->place_items("goo", 60, x2, y1, x2, y1, false, 0);
    } else {
-    m->tr_at(x2, y2) = tr_null;
+    m->remove_trap(x2, y2);
     m->furn_set(x2, y2, f_fridge);
     m->place_items("goo", 60, x2, y2, x2, y2, false, 0);
    }
@@ -13956,7 +14025,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   break;
 
  case room_mansion_bathroom:
-    m->furn_set( rng(x1 + 1, cx_hi - 1), rng(y1 + 1, cy_hi - 1) , f_toilet);
+    m->place_toilet(rng(x1 + 1, cx_hi - 1), rng(y1 + 1, cy_hi - 1));
     m->furn_set( rng(cx_hi + 1, x2 - 1), rng(y1 + 1, cy_hi - 1) , f_bathtub);
     m->furn_set( rng(x1 + 1, cx_hi - 1), rng(cy_hi + 1, y2 - 1) , f_sink);
 

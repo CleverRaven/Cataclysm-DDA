@@ -4,6 +4,7 @@
 #include "output.h"
 #include "color.h"
 #include "catacharset.h"
+#include "get_version.h"
 #include <cstdlib>
 #include <fstream>
 
@@ -11,7 +12,7 @@
 //Globals                           *
 //***********************************
 
-const WCHAR *szWindowClass = (L"CataCurseWindow");    //Class name :D
+const char *szWindowClass = ("CataCurseWindow");    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
 HDC WindowDC;           //Device Context of the window, used for backbuffer
@@ -30,8 +31,6 @@ int halfheight;          //half of the font height, used for centering lines
 HFONT font;             //Handle to the font created by CreateFont
 RGBQUAD *windowsPalette;  //The coor palette, 16 colors emulates a terminal
 unsigned char *dcbits;  //the bits of the screen image, for direct access
-char szDirectory[MAX_PATH] = "";
-
 bool CursorVisible = true; // Showcursor is a somewhat weird function
 
 //***********************************
@@ -45,19 +44,18 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,u_int32_t Msg,WPARAM wParam, LPARA
 bool WinCreate()
 {
     WindowINST = GetModuleHandle(0); // Get current process handle
-    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.6git");
+    std::string title = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
 
     // Register window class
-    WNDCLASSEXW WindowClassType = {0};
-    WindowClassType.cbSize        = sizeof(WNDCLASSEXW);
+    WNDCLASSEXA WindowClassType   = {};
+    WindowClassType.cbSize        = sizeof(WNDCLASSEXA);
     WindowClassType.lpfnWndProc   = ProcessMessages;//the procedure that gets msgs
     WindowClassType.hInstance     = WindowINST;// hInstance
     WindowClassType.hIcon         = LoadIcon(WindowINST, MAKEINTRESOURCE(0)); // Get first resource
     WindowClassType.hIconSm       = LoadIcon(WindowINST, MAKEINTRESOURCE(0));
     WindowClassType.hCursor       = LoadCursor(NULL, IDC_ARROW);
-    WindowClassType.lpszMenuName  = NULL;
     WindowClassType.lpszClassName = szWindowClass;
-    if (!RegisterClassExW(&WindowClassType))
+    if (!RegisterClassExA(&WindowClassType))
         return false;
 
     // Adjust window size
@@ -75,7 +73,7 @@ bool WinCreate()
     int WindowY = WorkArea.bottom/2 - (WndRect.bottom - WndRect.top)/2;
 
     // Magic
-    WindowHandle = CreateWindowExW(0, szWindowClass , szTitle, WndStyle,
+    WindowHandle = CreateWindowExA(0, szWindowClass , title.c_str(), WndStyle,
                                    WindowX, WindowY,
                                    WndRect.right - WndRect.left,
                                    WndRect.bottom - WndRect.top,
@@ -95,7 +93,7 @@ void WinDestroy()
     if ((!WindowHandle == 0) && (!(DestroyWindow(WindowHandle)))){
         WindowHandle = 0;
     }
-    if (!(UnregisterClassW(szWindowClass, WindowINST))){
+    if (!(UnregisterClassA(szWindowClass, WindowINST))){
         WindowINST = 0;
     }
 };
@@ -214,7 +212,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
         exit(0); // A messy exit, but easy way to escape game loop
     };
 
-    return DefWindowProcW(hWnd, Msg, wParam, lParam);
+    return DefWindowProcA(hWnd, Msg, wParam, lParam);
 }
 
 //The following 3 methods use mem functions for fast drawing
@@ -432,7 +430,6 @@ WINDOW *curses_init(void)
     mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
-
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
 uint64_t GetPerfCount(){

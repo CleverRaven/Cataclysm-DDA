@@ -1,11 +1,18 @@
 #include "game.h"
 #include "catajson.h"
+#include "mutation.h"
 
 #include <vector>
 #include <map>
 
+// mfb(n) converts a flag to its appropriate position in covers's bitfield
+#ifndef mfb
+#define mfb(n) static_cast <unsigned long> (1 << (n))
+#endif
+
 std::vector<dream> dreams;
 std::map<std::string, std::vector<std::string> > mutations_category;
+std::map<std::string, unsigned> bodyparts_list;
 
 void game::init_traits_mutations()
 {
@@ -23,11 +30,11 @@ void game::init_traits_mutations()
         std::string sMutation = cjMutation.get("id").as_string();
 
         trait new_trait;
-        new_trait.name = cjMutation.get("name").as_string();
+        new_trait.name = _(cjMutation.get("name").as_string().c_str());
         new_trait.points = cjMutation.get("points").as_int();
         new_trait.visiblity = cjMutation.get("visibility").as_int();
         new_trait.ugliness = cjMutation.get("ugliness").as_int();
-        new_trait.description = cjMutation.get("description").as_string();
+        new_trait.description = _(cjMutation.get("description").as_string().c_str());
         new_trait.startingtrait = false;
 
         if (cjMutation.has("starting_trait")) {
@@ -83,7 +90,35 @@ void game::init_traits_mutations()
                 }
             }
         }
+
+        init_mutation_parts();
+
+        if (cjMutation.has("wet_protection")) {
+            catajson wet_pro = cjMutation.get("wet_protection");
+            for (wet_pro.set_begin(); wet_pro.has_curr(); wet_pro.next())
+            {
+                catajson curr_part = wet_pro.curr();
+                std::string part_id = curr_part.get("part").as_string();
+                int ignored = curr_part.has("ignored") ? curr_part.get("ignored").as_int() : 0;
+                int neutral = curr_part.has("neutral") ? curr_part.get("neutral").as_int() : 0;
+                int good = curr_part.has("good") ? curr_part.get("good").as_int() : 0;
+                tripoint protect = tripoint(ignored, neutral, good);
+                mutation_data[sMutation].protection.push_back(mutation_wet(bodyparts_list[part_id], protect));
+            }
+        }
 	}
+}
+
+void game::init_mutation_parts()
+{
+    bodyparts_list["TORSO"] = mfb(bp_torso);
+    bodyparts_list["HEAD"] = mfb(bp_head);
+    bodyparts_list["EYES"] = mfb(bp_eyes);
+    bodyparts_list["MOUTH"] = mfb(bp_mouth);
+    bodyparts_list["ARMS"] = mfb(bp_arms);
+    bodyparts_list["HANDS"] = mfb(bp_hands);
+    bodyparts_list["LEGS"] = mfb(bp_legs);
+    bodyparts_list["FEET"] = mfb(bp_feet);
 }
 
 void game::init_dreams()
@@ -104,7 +139,7 @@ void game::init_dreams()
 		catajson messages = dreamcurr.get("message");
 		for (messages.set_begin(); messages.has_curr(); messages.next())
 		{
-			newdream.message.push_back(messages.curr().as_string());
+			newdream.message.push_back(_(messages.curr().as_string().c_str()));
 		}
 		newdream.strength		= dreamcurr.get("strength").as_int();
 		newdream.category		= dreamcurr.get("category").as_string();
