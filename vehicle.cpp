@@ -1875,9 +1875,12 @@ int vehicle::stored_volume(int part) {
    }
    return cur_volume;
 }
-// stub, pending per vpart limits
+
 int vehicle::max_volume(int part) {
-   return MAX_VOLUME_IN_VEHICLE_STORAGE;
+	if ( part_flag(part, "CARGO") ){ 
+		return vpart_list[parts[part].id].size;		
+	}
+	return 0;	
 }
 
 // free space
