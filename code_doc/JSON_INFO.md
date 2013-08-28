@@ -12,6 +12,7 @@
 * skills.json        - skill descriptions and ID's
 * snippets.json      - flier/poster descriptions
 * traits.json        - traits/mutation visibility, does NOT include mutation effects
+* vehicle_parts.json - vehicle parts, does NOT affect flag effects
 
 ##raw/items
 * archery.json       - bows and arrows
@@ -179,6 +180,29 @@
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction
 "description": "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people." // In-game description
+```
+###VEHICLE PARTS
+```C++
+"name": "wheel",              // Displayed name
+"symbol": "0",                // ASCII character displayed when part is working
+"color": "dark_gray",         // Color used when part is working
+"broken_symbol": "x",         // ASCII character displayed when part is broken
+"broken_color": "light_gray", // Color used when part is broken
+"damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this part hits something, as a percentage. Higher = more damage to creature struck
+"durability": 200,            // How much damage the part can take before breaking
+"wheel_width": 9,             /* (Optional, default = 0)
+                               * SPECIAL: A part may have at most ONE of the following fields:
+                               *    wheel_width = base wheel width in inches
+                               *    size        = trunk/box storage volume capacity
+                               *    power       = base engine power (in liters)
+                               *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
+                               *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
+"fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
+"item": "wheel",              // The item used to install this part, and the item obtained when removing this part
+"difficulty": 4,              // Your mechanics skill must be at least this level to install this part
+"flags": [                    // Flags associated with the part
+     "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
+]
 ```
 #raw/items jsons
 

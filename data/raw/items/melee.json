@@ -1956,7 +1956,7 @@
   {
     "id" : "cell_phone",
     "name" : "cell phone",
-    "description" : "A simple cell phone. Nowadays only useful for telling the time or as a alarm-clock. Can also be disassembled into some useful parts.",
+    "description" : "A simple cell phone. Nowadays only useful for telling the time or as an alarm clock. Can also be disassembled into some useful parts.",
     "weight" : 113,
     "to_hit" : -3,
     "color" : "light_gray",

@@ -404,7 +404,8 @@
       ["rm99_pistol", 1],
       ["rm103a_pistol", 1],
       ["laser_sight", 15],
-      ["rifle_scope", 17]
+      ["rifle_scope", 17],
+      ["improve_sights", 20]
     ]
   },
   { "id":"dresser",
@@ -2350,7 +2351,8 @@
       ["rm51_assault_rifle", 1],
       ["rm88_battle_rifle", 1],
       ["rm2000_smg", 1],
-      ["laser_sight", 15]
+      ["laser_sight", 15],
+      ["improve_sights", 5]
     ]
   },
   { "id":"grenades",
@@ -3121,7 +3123,8 @@
       ["8mm_inc", 2],
       ["tac_helmet", 10],
       ["gum", 90],
-      ["nic_gum", 1]
+      ["nic_gum", 1],
+      ["improve_sights", 10]
     ]
   },
   { "id":"science",
@@ -3343,7 +3346,8 @@
       ["laser_sight", 15],
       ["lsd", 10],
       ["gum", 90],
-      ["nic_gum", 1]
+      ["nic_gum", 1],
+      ["improve_sights", 10]
     ]
   },
   { "id":"wreckage",
