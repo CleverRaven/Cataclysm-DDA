@@ -17,7 +17,6 @@
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
-#define testng_vehicle_collisions
 
 enum astar_list {
  ASL_NONE,
@@ -555,8 +554,8 @@ bool map::vehproceed(game* g){
       can_move = false;
    // find collisions  
    int vel1 = veh->velocity/100; //velocity of car before collision
-   veh->collision( veh_veh_colls, dx, dy, can_move, dmg_1 );   
-   
+   veh->collision( veh_veh_colls, dx, dy, can_move, dmg_1 );    
+
    bool veh_veh_coll_flag = false;
    if(veh_veh_colls.size()){ // we have dynamic crap!
       // effects of colliding with another vehicle:
@@ -564,7 +563,7 @@ bool map::vehproceed(game* g){
       // parts are damaged/broken on both sides,
       // remaining times are normalized,
 	  veh_veh_coll_flag = true;
-      veh_collision c = veh_veh_colls[0];
+      veh_collision c = veh_veh_colls[0]; //Note: What´s with collisions with more than 2 vehicles? 
       vehicle* veh2 = (vehicle*) c.target;
       g->add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
                  veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
@@ -576,66 +575,107 @@ bool map::vehproceed(game* g){
       rl_vec2d velo_veh2 = veh2->velo_vec();
       float m1 = veh->total_mass();
       float m2 = veh2->total_mass();
-
 	  //Energy of vehicle1 annd vehicle2 before collision
 	  float E = 0.5 * m1 * velo_veh1.norm() * velo_veh1.norm() + 0.5 * m2 * velo_veh2.norm() * velo_veh2.norm();
 
-	  rl_vec2d collision_axis = (velo_veh1 - velo_veh2).normalized();
+	  //collision_axis
+	  int x_cof1 = 0, y_cof1 = 0, x_cof2 = 0, y_cof2 = 0;
+	  veh ->center_of_mass(x_cof1, y_cof1);	 
+	  veh2->center_of_mass(x_cof2, y_cof2);
+	  rl_vec2d collision_axis_y;
+	  
+	  collision_axis_y.x = ( veh->global_x() + x_cof1 ) -  ( veh2->global_x() + x_cof2 );
+	  collision_axis_y.y = ( veh->global_y() + y_cof1 ) -  ( veh2->global_y() + y_cof2 );
+	  collision_axis_y = collision_axis_y.normalized();
+	  rl_vec2d collision_axis_x = collision_axis_y.get_vertical();
       // imp? & delta? & final? reworked:
       // newvel1 =( vel1 * ( mass1 - mass2 ) + ( 2 * mass2 * vel2 ) ) / ( mass1 + mass2 )
-      // as per http://en.wikipedia.org/wiki/Elastic_collision
-      // impulse vectors
-      rl_vec2d imp1 = collision_axis   *    collision_axis.dot_product (velo_veh1) * ( m1 );
-      rl_vec2d imp2 = (collision_axis) * (-collision_axis).dot_product (velo_veh2) * ( m2 );
-      // finally, changes in veh velocity
-      // 30% is absorbed as bashing damage??	
+      // as per http://en.wikipedia.org/wiki/Elastic_collision  	
+	  float vel1_y = collision_axis_y.dot_product(velo_veh1); //velocity of veh1 before collision in the direction of collision_axis_y
+	  float vel1_x = collision_axis_x.dot_product(velo_veh1); 
+	  float vel2_y = collision_axis_y.dot_product(velo_veh2); //velocity of veh2 before collision in the direction of collision_axis_y
+	  float vel2_x = collision_axis_x.dot_product(velo_veh2);
+	  float e = get_collision_factor(vel1_y/100 - vel2_y/100); // e = 0 -> inelastic collision
+	  // e = 1 -> elastic collision	 
 
-      rl_vec2d delta1 = (imp2 * .5f); // todo: get remaing kinetic energy, convert to damage
-      rl_vec2d delta2 = (imp1 * .5f); // by adding imp
-      rl_vec2d final1 = ( ( velo_veh1 * ( m1 - m2 ) ) + delta1 * 2 ) / ( m1 + m2 );
-      rl_vec2d final2 = ( ( velo_veh2 * ( m2 - m1 ) ) + delta2 * 2 ) / ( m1 + m2 );
+	  float vel1_x_a = vel1_x; //velocity after collision
+	  // vel1_x_a = vel1_x, because in x-direction we have no transmission of force
+	  float vel2_x_a = vel2_x; 
+	  //transmission of force only in direction of collision_axix_y
+	  float vel1_y_a = ( m2 * vel2_y * ( 1 + e ) + vel1_y * ( m1 - m2 * e) ) / ( m1 + m2);  //equation: partially elastic collision
+	  float vel2_y_a = ( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e) ) / ( m1 + m2);  //equation: partially elastic collision	  
+	  rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a; //add both components; Note: collision_axis is normalized
+	  rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a; //add both components; Note: collision_axis is normalized
 
 	  //Energy after collision
 	  float E_a = 0.5 * m1 * final1.norm() * final1.norm() + 0.5 * m2 * final2.norm() * final2.norm();
-	  float d_E = E - E_a;  //Lost energy at collision
-	  float dmg = abs( d_E / 1000 / 6000 );  //adjust to balance damage
-	  float dmg1 = dmg * 0.5;
-	  float dmg2 = dmg * 0.5;
+	  float d_E = E - E_a;  //Lost energy at collision -> deformation energy
+	  float dmg = abs( d_E / 1000 / 2000 );  //adjust to balance damage
+	  float dmg_veh1 = dmg * 0.5;
+	  float dmg_veh2 = dmg * 0.5;
 
-	  int parm1 = veh->part_with_feature (c.part, "ARMOR");
-	  if (parm1 < 0) {
-		  parm1 = c.part;
-      }
-	  int parm2 = veh2->part_with_feature (c.target_part, "ARMOR");
-	  if (parm2 < 0) {
-		  parm2 = c.target_part;
-	  }
-	  veh->damage(parm1, dmg1, 1);
-	  veh2->damage(parm2, dmg2, 1);  
+	  //Debugging
+	  /*
+	  g->add_msg(_("Veh1: x: %d y: %d"), veh->global_x() + x_cof1, veh->global_y() + y_cof1);	
+	  g->add_msg(_("Veh2: x: %d y: %d"), veh2->global_x() + x_cof2, veh2->global_y() + y_cof2);		 
+	  g->add_msg(_("Coll_X: %f Coll_Y: %f e: %f"), collision_axis_y.x, collision_axis_y.y, e);	
+	  g->add_msg(_("Vel1_y: %f Vel1_x: %f"), vel1_y, vel1_x);	
+	  g->add_msg(_("Vel2_y: %f Vel2_x: %f"), vel2_y, vel2_x);	
+	  g->add_msg(_("Vel1_y_a: %f Vel1_x_a: %f"), vel1_y_a, vel1_x_a);	
+	  g->add_msg(_("Vel2_y_a: %f Vel2_x_a: %f"), vel2_y_a, vel2_x_a);
+	  g->add_msg(_("DMG1: %f DMG2:: %f"), dmg_veh1, dmg_veh2);
+	  */
 
-	  if (dmg2 > 100)
-         veh2->damage_all(dmg2 / 20, dmg2 / 10, 1);// shake veh because of collision	
+	  int coll_parts_cnt=0; //quantity of colliding parts between veh1 and veh2
+	  for(int i = 0; i < veh_veh_colls.size(); i++) {
+		  veh_collision tmp_c = veh_veh_colls[i];
+		  if(veh2 == (vehicle*) tmp_c.target) coll_parts_cnt++;		
+	  }	
 
-	  dmg_1 += dmg1;
+	  float dmg1_part = dmg_veh1 / coll_parts_cnt; 
+	  float dmg2_part = dmg_veh2 / coll_parts_cnt;
+
+	  //damage colliding parts (only veh1 and veh2 parts) 
+	  for(int i = 0; i < veh_veh_colls.size(); i++) {
+		  veh_collision tmp_c = veh_veh_colls[i];
+
+		  if(veh2 == (vehicle*) tmp_c.target) {
+			int parm1 = veh->part_with_feature (tmp_c.part, "ARMOR");
+			if (parm1 < 0) {
+				parm1 = tmp_c.part;
+			}
+			int parm2 = veh2->part_with_feature (tmp_c.target_part, "ARMOR");
+			if (parm2 < 0) {
+				parm2 = tmp_c.target_part;
+			}
+			veh->damage(parm1, dmg1_part, 1);
+			veh2->damage(parm2, dmg2_part, 1);	
+		  }		 	 
+	  }	
+
+	  if (dmg2_part > 100)
+         veh2->damage_all(dmg2_part / 20, dmg2_part / 10, 1);// shake veh because of collision	
+
+	  dmg_1 += dmg1_part;
 
       veh->move.init (final1.x, final1.y);
       veh->velocity = final1.norm();
       // shrug it off if the change is less than 8mph.
-      if(delta1.norm() > 800) {
+      if(dmg_veh1 > 800) {
          veh->skidding = 1;
       }
       veh2->move.init(final2.x, final2.y);
       veh2->velocity = final2.norm();
-      if(delta2.norm() > 800) {
+      if(dmg_veh2 > 800) {
          veh2->skidding = 1;
       }
-
+//#define testng_vehicle_collisions
 #ifdef testng_vehicle_collisions
-      debugmsg("C(%d): %s (%.0f): %.0f => %.0f // %s (%.0f): %.0f => %.0f //DMG: %d",
+      debugmsg("C(%d): %s (%.0f): %.0f => %.0f // %s (%.0f): %.0f => %.0f //DMG_V1: %d",
         (int)g->turn,
         veh->name.c_str(), m1, velo_veh1.norm(), final1.norm(),
         veh2->name.c_str(), m2, velo_veh2.norm(), final2.norm(),
-		(int)dmg1
+		(int)dmg_veh1
       );
 #endif
       //give veh2 the initiative to proceed next before veh1
@@ -757,8 +797,8 @@ bool map::vehproceed(game* g){
          veh->turn (coll_turn);
       }
       // accept new position
-      // if submap changed, we need to process grid from the beginning.
-      displace_vehicle (g, x, y, dx, dy);
+      // if submap changed, we need to process grid from the beginning.	
+	  displace_vehicle (g, x, y, dx, dy);
    } else { // can_move
       veh->stop();
    }
@@ -3745,7 +3785,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 
    // Only add if not tracking already.
    if( vehicle_list.find( *it ) == vehicle_list.end() ) {
-    // gridx/y not correct. TODO: Fix
+    // gridx/y not correct. TODO: Fix	
     (*it)->smx = gridx;
     (*it)->smy = gridy;
     vehicle_list.insert(*it);
@@ -3845,7 +3885,7 @@ void map::copy_grid(const int to, const int from)
  for( std::vector<vehicle*>::iterator it = grid[to]->vehicles.begin(),
        end = grid[to]->vehicles.end(); it != end; ++it ) {
   (*it)->smx = to % my_MAPSIZE;
-  (*it)->smy = to / my_MAPSIZE;
+  (*it)->smy = to / my_MAPSIZE; 
  }
 }
 

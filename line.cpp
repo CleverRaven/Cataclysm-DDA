@@ -194,6 +194,13 @@ rl_vec2d rl_vec2d::normalized(){
  ret.y = y/n;
  return ret;
 }
+
+rl_vec2d rl_vec2d::get_vertical(){
+ rl_vec2d ret;
+ ret.x = -y;
+ ret.y = x;
+ return ret;
+}
 float rl_vec2d::dot_product (rl_vec2d &v){
  float dot = x*v.x + y*v.y;
  return dot;

@@ -956,6 +956,30 @@ int vehicle::total_mass ()
     return m/1000;
 }
 
+void vehicle::center_of_mass(int &x, int &y)
+{
+	int m_part = 0;
+	float xf = 0, yf = 0;
+	int m_total = total_mass();
+	for (int i = 0; i < parts.size(); i++)
+	{
+		m_part = 0;
+		m_part += g->itypes[part_info(i).item]->weight;
+        for (int j = 0; j < parts[i].items.size(); j++) {
+            m_part += parts[i].items[j].type->weight;
+        }
+        if (part_flag(i,"BOARDABLE") && parts[i].has_flag(vehicle_part::passenger_flag)) {
+            m_part += 81500; // TODO: get real weight
+        }
+		xf += parts[i].precalc_dx[0] * m_part / 1000;
+		yf += parts[i].precalc_dy[0] * m_part / 1000;
+	}
+	xf /= m_total;
+	yf /= m_total;
+	x = int(xf + 0.5); //round to nearest
+	y = int(yf + 0.5);
+}
+
 int vehicle::fuel_left (ammotype ftype, bool for_engine)
 {
     int fl = 0;
@@ -2460,4 +2484,14 @@ rl_vec2d vehicle::face_vec(){
     rl_vec2d ret(fx,fy);   
     return ret;
 }
+
+float get_collision_factor(float delta_v)
+{
+	if(abs(delta_v) <= 31){
+		return ( 1 - ( 0.9 * abs(delta_v) ) / 31 ); 
+	} else {
+		return 0.1;
+	}
+}
+
 
