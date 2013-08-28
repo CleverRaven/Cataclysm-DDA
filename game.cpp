@@ -92,8 +92,8 @@ game::game() :
  init_skills();
  init_professions();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
- init_mtypes();	              // Set up monster types             (SEE mtypedef.cpp)
- init_itypes();	              // Set up item types                (SEE itypedef.cpp)
+ init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
+ init_itypes();               // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();
  item_controller->init(this); //Item manager
  init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
@@ -103,10 +103,12 @@ game::game() :
  init_missions();             // Set up mission templates         (SEE missiondef.cpp)
  init_construction();         // Set up constructables            (SEE construction.cpp)
  init_traits_mutations();
+ init_vehicle_parts();        // Set up vehicle parts             (SEE veh_typedef.cpp)
  init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();             // Set up autosave
  init_diseases();             // Set up disease lookup table
- init_dreams();				  // Set up dreams					  (SEE mutation_data.cpp)
+ init_dreams();               // Set up dreams                    (SEE mutation_data.cpp)
+ init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;
@@ -533,6 +535,7 @@ void game::cleanup_at_end(){
         u.add_memorial_log("%s %s", u.name.c_str(),
                 uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
         write_memorial_file();
+        u.memorial_log.clear();
         if (OPTIONS["DELETE_WORLD"] == "Yes" ||
             (OPTIONS["DELETE_WORLD"] == "Query" && query_yn(_("Delete saved world?"))))
         {
@@ -575,51 +578,47 @@ bool game::do_turn()
   u.add_memorial_log(_("Died of a drug overdose."));
   u.hp_cur[hp_torso] = 0;
  }
-// Check if we're starving or have starved
-    if (u.hunger > 2999) {
-     switch (u.hunger) {
-         case 3000: if (turn % 10 == 0)
-          add_msg(_("You haven't eaten in over a week!")); break;
-         case 4000: if (turn % 10 == 0)
-          add_msg(_("You are STARVING!")); break;
-         case 5000: if (turn % 10 == 0)
-          add_msg(_("Food...")); break;
-         case 6000:
-          add_msg(_("You have starved to death."));
-          u.add_memorial_log(_("Died of starvation."));
-          u.hp_cur[hp_torso] = 0;
-          break;
-     }
+    // Check if we're starving or have starved
+    if (u.hunger >= 3000){
+        if (u.hunger >= 6000){
+            add_msg(_("You have starved to death."));
+            u.add_memorial_log(_("Died of starvation."));
+            u.hp_cur[hp_torso] = 0;
+        } else if (u.hunger >= 5000 && turn % 10 == 0){
+            add_msg(_("Food..."));
+        } else if (u.hunger >= 4000 && turn % 10 == 0){
+            add_msg(_("You are STARVING!"));
+        } else if (turn % 10 == 0){
+            add_msg(_("You haven't eaten in over a week!"));
+        }
     }
-// Check if we're dying of thirst
-    if (u.thirst > 599) {
-     switch (u.thirst) {
-         case  600: if (turn % 10 == 0)
-          add_msg(_("You haven't had anything to drink in 2 days!")); break;
-         case  800: if (turn % 10 == 0)
-          add_msg(_("You are THIRSTY!")); break;
-         case 1000: if (turn % 10 == 0)
-          add_msg(_("4 days... no water..")); break;
-         case 1200:
-          add_msg(_("You have died of dehydration."));
-          u.add_memorial_log(_("Died of thirst."));
-          u.hp_cur[hp_torso] = 0;
-          break;
-     }
+
+    // Check if we're dying of thirst
+    if (u.thirst >= 600){
+        if (u.thirst >= 1200){
+            add_msg(_("You have died of dehydration."));
+            u.add_memorial_log(_("Died of thirst."));
+            u.hp_cur[hp_torso] = 0;
+        } else if (u.thirst >= 1000 && turn % 10 == 0){
+            add_msg(_("4 days... no water.."));
+        } else if (u.thirst >= 800 && turn % 10 == 0){
+            add_msg(_("You are THIRSTY!"));
+        } else if (turn % 10 == 0){
+            add_msg(_("You haven't had anything to drink in 2 days!"));
+        }
     }
-// Check if we're falling asleep
-    if (u.fatigue > 599) {
-     switch (u.fatigue) {
-         case  600: if (turn % 10 == 0)
-          add_msg(_("You haven't slept in 2 days!")); break;
-         case  800: if (turn % 10 == 0)
-          add_msg(_("Anywhere would be a good place to sleep...")); break;
-         case 1000:
-          add_msg(_("Surivor sleep now."));
-          u.fatigue -= 10;
-          u.try_to_sleep(this);
-          break;
-     }
+
+    // Check if we're falling asleep, unless we're sleeping
+    if (u.fatigue >= 600 && !u.has_disease("sleep")){
+        if (u.fatigue >= 1000){
+            add_msg(_("Surivor sleep now."));
+            u.fatigue -= 10;
+            u.try_to_sleep(this);
+        } else if (u.fatigue >= 800 && turn % 10 == 0){
+            add_msg(_("Anywhere would be a good place to sleep..."));
+        } else if (turn % 10 == 0) {
+            add_msg(_("You haven't slept in 2 days!"));
+        }
     }
 
  if (turn % 50 == 0) {	// Hunger, thirst, & fatigue up every 5 minutes
@@ -1199,6 +1198,18 @@ void game::update_weather()
             cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
         }
     }
+}
+
+int game::get_temperature()
+{
+    point location = om_location();
+    int tmp_temperature = temperature;
+
+    if ( is_in_ice_lab(location) && levz < 0) {
+        tmp_temperature = 20 + 30*levz;
+    }
+
+    return tmp_temperature;
 }
 
 int game::assign_mission_id()
@@ -1873,6 +1884,10 @@ bool game::handle_action()
    pickup(u.posx, u.posy, 1);
    break;
 
+  case ACTION_GRAB:
+   grab();
+   break;
+
   case ACTION_BUTCHER:
    butcher();
    break;
@@ -2296,19 +2311,21 @@ void game::update_scent()
 
 bool game::is_game_over()
 {
- if (uquit != QUIT_NO)
-  return true;
- for (int i = 0; i <= hp_torso; i++) {
-  if (u.hp_cur[i] < 1) {
-   place_corpse();
-   std::stringstream playerfile;
-   playerfile << "save/" << base64_encode(u.name) << ".sav";
-   unlink(playerfile.str().c_str());
-   uquit = QUIT_DIED;
-   return true;
-  }
- }
- return false;
+    if (uquit != QUIT_NO)
+        return true;
+    for (int i = 0; i <= hp_torso; i++){
+        if (u.hp_cur[i] < 1) {
+            if (u.in_vehicle)
+                g->m.unboard_vehicle(this, u.posx, u.posy);
+            place_corpse();
+            std::stringstream playerfile;
+            playerfile << "save/" << base64_encode(u.name) << ".sav";
+            unlink(playerfile.str().c_str());
+            uquit = QUIT_DIED;
+            return true;
+        }
+    }
+    return false;
 }
 
 void game::place_corpse()
@@ -3827,19 +3844,20 @@ void game::draw()
     }
 
     nc_color col_temp = c_blue;
-    if (temperature >= 90) {
+    int display_temp = get_temperature();
+    if (display_temp >= 90) {
         col_temp = c_red;
-    } else if (temperature >= 75) {
+    } else if (display_temp >= 75) {
         col_temp = c_yellow;
-    } else if (temperature >= 60) {
+    } else if (display_temp >= 60) {
         col_temp = c_ltgreen;
-    } else if (temperature >= 50) {
+    } else if (display_temp >= 50) {
         col_temp = c_cyan;
-    } else if (temperature >  32) {
+    } else if (display_temp >  32) {
         col_temp = c_ltblue;
     }
 
-    wprintz(w_location, col_temp, (std::string(" ") + print_temperature(temperature)).c_str());
+    wprintz(w_location, col_temp, (std::string(" ") + print_temperature(display_temp)).c_str());
     wrefresh(w_location);
 
     //Safemode coloring
@@ -4371,11 +4389,18 @@ bool game::u_see(player *p)
 bool game::u_see(monster *mon)
 {
  int dist = rl_dist(u.posx, u.posy, mon->posx, mon->posy);
- if (u.has_trait("ANTENNAE") && dist <= 3)
+ if (u.has_trait("ANTENNAE") && dist <= 3) {
   return true;
+ }
  if (mon->has_flag(MF_DIGS) && !u.has_active_bionic("bio_ground_sonar") &&
-     dist > 1)
+     dist > 1) {
   return false;	// Can't see digging monsters until we're right next to them
+ }
+ if (m.is_divable(mon->posx, mon->posy) && mon->can_submerge()
+         && !m.is_divable(u.posx, u.posy)) {
+   //Monster is in the water and submerged, and we're out of/above the water
+   return false;
+ }
 
  return u_see(mon->posx, mon->posy);
 }
@@ -4557,17 +4582,12 @@ int game::mon_info(WINDOW *w)
         _("South:"), _("SW:"), _("West:"), _("NW:") };
     int widths[8];
     for (int i = 0; i < 8; i++) {
-        widths[i] = strlen(dir_labels[i]);
+        widths[i] = utf8_width(dir_labels[i]);
     }
-    const int row1spaces = width - (widths[7] + widths[0] + widths[1]);
-    const int row3spaces = width - (widths[5] + widths[4] + widths[3]);
     int xcoords[8];
     const int ycoords[] = { 0, 0, 1, 2, 2, 2, 1, 0 };
-    xcoords[0] = widths[7] +  row1spaces / 3;
-    xcoords[1] = widths[7] - (row1spaces / 3) + row1spaces + widths[0];
-    xcoords[4] = widths[5] +  row3spaces / 3;
-    xcoords[3] = widths[5] - (row3spaces / 3) + row3spaces + widths[4];
-    xcoords[2] = (xcoords[1] + xcoords[3]) / 2;
+    xcoords[0] = xcoords[4] = width / 3;
+    xcoords[1] = xcoords[3] = xcoords[2] = (width / 3) * 2;
     xcoords[5] = xcoords[6] = xcoords[7] = 0;
     for (int i = 0; i < 8; i++) {
         nc_color c = unique_types[i].empty() ? c_dkgray
@@ -4575,13 +4595,13 @@ int game::mon_info(WINDOW *w)
         mvwprintz(w, ycoords[i] + startrow, xcoords[i], c, dir_labels[i]);
     }
 
-    // The list of symbols needs a space on each end.
-    const int symroom = row1spaces / 3 - 2;
-
     // Print the symbols of all monsters in all directions.
     for (int i = 0; i < 8; i++) {
-        point pr(xcoords[i] + strlen(dir_labels[i]) + 1, ycoords[i] + startrow);
+        int symroom;
+        point pr(xcoords[i] + widths[i] + 1, ycoords[i] + startrow);
 
+        // The list of symbols needs a space on each end.
+        symroom = (width / 3) - widths[i] - 2;
         const int typeshere = unique_types[i].size();
         for (int j = 0; j < typeshere && j < symroom; j++) {
             buff = unique_types[i][j];
@@ -4961,9 +4981,6 @@ void game::draw_footsteps()
 
 void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
 {
- timespec ts;	// Timespec for the animation of the explosion
- ts.tv_sec = 0;
- ts.tv_nsec = EXPLOSION_SPEED;
  int radius = sqrt(double(power / 4));
  int dam;
  std::string junk;
@@ -5027,34 +5044,14 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
   }
  }
 // Draw the explosion
- for (int i = 1; i <= radius; i++) {
-  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                      x - i + VIEWX - u.posx - u.view_offset_x, c_red, '/');
-  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                      x + i + VIEWX - u.posx - u.view_offset_x, c_red,'\\');
-  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                      x - i + VIEWX - u.posx - u.view_offset_x, c_red,'\\');
-  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                      x + i + VIEWX - u.posx - u.view_offset_x, c_red, '/');
-  for (int j = 1 - i; j < 0 + i; j++) {
-   mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                       x + j + VIEWX - u.posx - u.view_offset_x, c_red,'-');
-   mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                       x + j + VIEWX - u.posx - u.view_offset_x, c_red,'-');
-   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
-                       x - i + VIEWX - u.posx - u.view_offset_x, c_red,'|');
-   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
-                       x + i + VIEWX - u.posx - u.view_offset_x, c_red,'|');
-  }
-  wrefresh(w_terrain);
-  nanosleep(&ts, NULL);
- }
+ draw_explosion(x, y, radius, c_red);
 
 // The rest of the function is shrapnel
  if (shrapnel <= 0)
   return;
  int sx, sy, t, tx, ty;
  std::vector<point> traj;
+ timespec ts;
  ts.tv_sec = 0;
  ts.tv_nsec = BULLET_SPEED;	// Reset for animation of bullets
  for (int i = 0; i < shrapnel; i++) {
@@ -5102,6 +5099,35 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
        m.shoot(this, tx, ty, dam, j == traj.size() - 1, shrapnel_effects );
    }
   }
+ }
+}
+
+void game::draw_explosion(int x, int y, int radius, nc_color col)
+{
+    timespec ts;    // Timespec for the animation of the explosion
+    ts.tv_sec = 0;
+    ts.tv_nsec = EXPLOSION_SPEED;
+    for (int i = 1; i <= radius; i++) {
+        mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, col, '/');
+        mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, col,'\\');
+        mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, col,'\\');
+        mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, col, '/');
+        for (int j = 1 - i; j < 0 + i; j++) {
+            mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, col,'-');
+            mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, col,'-');
+            mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x - i + VIEWX - u.posx - u.view_offset_x, col,'|');
+            mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x + i + VIEWX - u.posx - u.view_offset_x, col,'|');
+  }
+  wrefresh(w_terrain);
+  nanosleep(&ts, NULL);
  }
 }
 
@@ -5306,8 +5332,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
             }
             targ->posx = traj[i].x;
             targ->posy = traj[i].y;
-            if(m.has_flag(liquid, targ->posx, targ->posy) && !targ->has_flag(MF_SWIMS) &&
-                !targ->has_flag(MF_AQUATIC) && !targ->has_flag(MF_FLIES) && !targ->dead)
+            if(m.has_flag(liquid, targ->posx, targ->posy) && !targ->can_drown() && !targ->dead)
             {
                 targ->hurt(9999);
                 if (u_see(targ))
@@ -5569,11 +5594,11 @@ void game::resonance_cascade(int x, int y)
    case  8:
    case  9:
    case 10:
-    m.tr_at(i, j) = tr_portal;
+    m.add_trap(i, j, tr_portal);
     break;
    case 11:
    case 12:
-    m.tr_at(i, j) = tr_goo;
+    m.add_trap(i, j, tr_goo);
     break;
    case 13:
    case 14:
@@ -5663,7 +5688,7 @@ void game::emp_blast(int x, int y)
 // TODO: Drain NPC energy reserves
 }
 
-int game::npc_at(int x, int y)
+int game::npc_at(const int x, const int y) const
 {
  for (int i = 0; i < active_npc.size(); i++) {
   if (active_npc[i]->posx == x && active_npc[i]->posy == y && !active_npc[i]->dead)
@@ -5672,7 +5697,7 @@ int game::npc_at(int x, int y)
  return -1;
 }
 
-int game::npc_by_id(int id)
+int game::npc_by_id(const int id) const
 {
  for (int i = 0; i < active_npc.size(); i++) {
   if (active_npc[i]->getID() == id)
@@ -5681,7 +5706,7 @@ int game::npc_by_id(int id)
  return -1;
 }
 
-int game::mon_at(int x, int y)
+int game::mon_at(const int x, const int y) const
 {
  for (int i = 0; i < z.size(); i++) {
   if (z[i].posx == x && z[i].posy == y) {
@@ -5694,7 +5719,7 @@ int game::mon_at(int x, int y)
  return -1;
 }
 
-bool game::is_empty(int x, int y)
+bool game::is_empty(const int x, const int y)
 {
  return ((m.move_cost(x, y) > 0 || m.has_flag(liquid, x, y)) &&
          npc_at(x, y) == -1 && mon_at(x, y) == -1 &&
@@ -5705,6 +5730,19 @@ bool game::is_in_sunlight(int x, int y)
 {
  return (m.is_outside(x, y) && light_level() >= 40 &&
          (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
+}
+
+bool game::is_in_ice_lab(point location)
+{
+    oter_id cur_ter = cur_om->ter(location.x, location.y, levz);
+    bool is_in_ice_lab = false;
+
+    if (cur_ter == ot_ice_lab      || cur_ter == ot_ice_lab_stairs ||
+        cur_ter == ot_ice_lab_core || cur_ter == ot_ice_lab_finale) {
+        is_in_ice_lab = true;
+    }
+
+    return is_in_ice_lab;
 }
 
 void game::kill_mon(int index, bool u_did_it)
@@ -5855,7 +5893,7 @@ void game::open()
 
     int vpart;
     vehicle *veh = m.veh_at(openx, openy, vpart);
-    if (veh && veh->part_flag(vpart, vpf_openable)) {
+    if (veh && veh->part_flag(vpart, "OPENABLE")) {
         if (veh->parts[vpart].open) {
             add_msg(_("That door is already open."));
             u.moves += 100;
@@ -5903,7 +5941,7 @@ void game::close()
     if (mon_at(closex, closey) != -1)
         add_msg(_("There's a %s in the way!"),
                 z[mon_at(closex, closey)].name().c_str());
-    else if (veh && veh->part_flag(vpart, vpf_openable) &&
+    else if (veh && veh->part_flag(vpart, "OPENABLE") &&
              veh->parts[vpart].open) {
         veh->parts[vpart].open = 0;
         veh->insides_dirty = true;
@@ -6116,7 +6154,7 @@ bool game::vehicle_near ()
 
 bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
 {
-    if (!veh.part_flag(part, vpf_fuel_tank))
+    if (!veh.part_flag(part, "FUEL_TANK"))
         return false;
     item* it = NULL;
     item *p_itm = NULL;
@@ -6404,7 +6442,7 @@ void game::control_vehicle()
         std::string message = veh->use_controls();
         if (!message.empty())
             add_msg(message.c_str());
-    } else if (veh && veh->part_with_feature(veh_part, vpf_controls) >= 0
+    } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                    && u.in_vehicle) {
         u.controlling_vehicle = true;
         add_msg(_("You take control of the %s."), veh->name.c_str());
@@ -6417,7 +6455,7 @@ void game::control_vehicle()
             add_msg(_("No vehicle there."));
             return;
         }
-        if (veh->part_with_feature(veh_part, vpf_controls) < 0) {
+        if (veh->part_with_feature(veh_part, "CONTROLS") < 0) {
             add_msg(_("No controls there."));
             return;
         }
@@ -6436,8 +6474,8 @@ void game::examine()
  int veh_part = 0;
  vehicle *veh = m.veh_at (examx, examy, veh_part);
  if (veh) {
-  int vpcargo = veh->part_with_feature(veh_part, vpf_cargo, false);
-  int vpkitchen = veh->part_with_feature(veh_part, vpf_kitchen, true);
+  int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
+  int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
   if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0)
    pickup(examx, examy, 0);
   else if (u.in_vehicle)
@@ -6817,7 +6855,7 @@ void advanced_inv_update_area( advanced_inv_area &area, game *g ) {
         int vp = 0;
         area.veh = g->m.veh_at( u.posx+area.offx,u.posy+area.offy, vp );
         if ( area.veh ) {
-            area.vstor = area.veh->part_with_feature(vp, vpf_cargo, false);
+            area.vstor = area.veh->part_with_feature(vp, "CARGO", false);
         }
         if ( area.vstor >= 0 ) {
             area.desc = area.veh->name;
@@ -8371,30 +8409,70 @@ void game::pickup(int posx, int posy, int min)
  int k_part = 0;
  vehicle *veh = m.veh_at (posx, posy, veh_part);
  if (min != -1 && veh) {
-  k_part = veh->part_with_feature(veh_part, vpf_kitchen);
-  veh_part = veh->part_with_feature(veh_part, vpf_cargo, false);
+  k_part = veh->part_with_feature(veh_part, "KITCHEN");
+  veh_part = veh->part_with_feature(veh_part, "CARGO", false);
   from_veh = veh && veh_part >= 0 &&
-             veh->parts[veh_part].items.size() > 0 &&
-             query_yn(_("Get items from %s?"), veh->part_info(veh_part).name);
-
-  if (!from_veh && k_part >= 0) {
-    if (veh->fuel_left("water")) {
-      if (query_yn(_("Have a drink?"))) {
-        veh->drain("water", 1);
-
-        item water(itypes["water_clean"], 0);
-        u.eat(this, u.inv.add_item(water).invlet);
-        u.moves -= 250;
-      }
-    } else {
-      add_msg(_("The water tank is empty."));
+             veh->parts[veh_part].items.size() > 0;
+  
+  if(from_veh) {
+    if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str())) {
+      from_veh = false;
     }
   }
+
+  if(!from_veh) {
+
+    //Either no cargo to grab, or we declined; what about water?
+    bool got_water = false;
+    if (k_part >= 0) {
+      if (veh->fuel_left("water")) {
+        if (query_yn(_("Fill a container?"))) {
+          int amt = veh->drain("water", veh->fuel_left("water"));
+          item fill_water(g->itypes[default_ammo("water")], g->turn);
+          fill_water.charges = amt;
+          int back = g->move_liquid(fill_water);
+          veh->refill("water", back);
+          got_water = true;
+        }
+        if (query_yn(_("Have a drink?"))) {
+          veh->drain("water", 1);
+
+          item water(itypes["water_clean"], 0);
+          u.eat(this, u.inv.add_item(water).invlet);
+          u.moves -= 250;
+          got_water = true;
+        }
+      } else {
+        add_msg(_("The water tank is empty."));
+      }
+    }
+
+    //If we still haven't done anything, we probably want to examine the vehicle
+    if(!got_water) {
+      exam_vehicle(*veh, posx, posy);
+    }
+
+  }
+
  }
- if ((!from_veh) && m.i_at(posx, posy).size() == 0)
- {
-     return;
- }
+
+    if (!from_veh) {
+        bool isEmpty = (m.i_at(posx, posy).size() == 0);
+
+        // Hide the pickup window if this is a toilet and there's nothing here
+        // but water.
+        if ((!isEmpty) && m.furn(posx, posy) == f_toilet) {
+            isEmpty = true;
+            for (int i = 0; isEmpty && i < m.i_at(posx, posy).size(); i++) {
+                if (m.i_at(posx, posy)[i].typeId() != "water") {
+                    isEmpty = false;
+                }
+            }
+        }
+
+        if (isEmpty) { return; }
+    }
+
  // Not many items, just grab them
  if ((from_veh ? veh->parts[veh_part].items.size() : m.i_at(posx, posy).size() ) <= min && min != -1)
  {
@@ -8870,6 +8948,32 @@ void game::pickup(int posx, int posy, int min)
  delwin(w_item_info);
 }
 
+// Establish or release a grab on a vehicle
+void game::grab()
+{
+    int grabx = 0;
+    int graby = 0;
+    if( 0 != u.grab_point.x || 0 != u.grab_point.y ) {
+        vehicle *veh = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
+        if( veh ) { add_msg(_("You release the %s."), veh->name.c_str() ); }
+        u.grab_point.x = 0;
+        u.grab_point.y = 0;
+        return;
+    }
+    if( choose_adjacent( _("Grab"), grabx, graby ) ) {
+        vehicle *veh = m.veh_at(grabx, graby);
+        if( veh != NULL ) {
+            u.grab_point.x = grabx - u.posx;
+            u.grab_point.y = graby - u.posy;
+            add_msg(_("You grab the %s."), veh->name.c_str());
+        } else {
+            add_msg(_("There's no vehicle to grab there!"));
+        }
+    } else {
+        add_msg(_("Never Mind."));
+    }
+}
+
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source)
 {
@@ -9124,6 +9228,157 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
  return true;
 }
 
+//Move_liquid returns the amount of liquid left if we didn't move all the liquid, otherwise returns sentinel -1, signifies transaction fail.
+//One-use, strictly for liquid transactions. Not intended for use with while loops.
+int game::move_liquid(item &liquid)
+{
+  if(!liquid.made_of(LIQUID)) {
+   dbg(D_ERROR) << "game:move_liquid: Tried to move_liquid a non-liquid!";
+   debugmsg("Tried to move_liquid a non-liquid!");
+   return -1;
+  }
+  
+  //liquid is in fact a liquid.
+  std::stringstream text;
+  text << _("Container for ") << liquid.tname(this);
+  char ch = inv_type(text.str().c_str(), IC_CONTAINER);
+
+  //is container selected?
+  if(u.has_item(ch)) {
+    item *cont = &(u.i_at(ch));
+    if (cont == NULL || cont->is_null())
+      return -1;
+    else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
+    // for filling up chainsaws, jackhammers and flamethrowers
+    ammotype ammo = "NULL";
+    int max = 0;
+
+      if (cont->is_tool()) {
+      it_tool* tool = dynamic_cast<it_tool*>(cont->type);
+      ammo = tool->ammo;
+      max = tool->max_charges;
+      } else {
+      it_gun* gun = dynamic_cast<it_gun*>(cont->type);
+      ammo = gun->ammo;
+      max = gun->clip;
+      }
+
+      ammotype liquid_type = liquid.ammo_type();
+
+      if (ammo != liquid_type) {
+      add_msg(_("Your %s won't hold %s."), cont->tname(this).c_str(),
+                                           liquid.tname(this).c_str());
+      return -1;
+      }
+
+      if (max <= 0 || cont->charges >= max) {
+      add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
+                                                    liquid.tname(this).c_str());
+      return -1;
+      }
+
+      if (cont->charges > 0 && cont->curammo->id != liquid.type->id) {
+      add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
+      return -1;
+      }
+
+      add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
+                                          cont->tname(this).c_str());
+      cont->curammo = dynamic_cast<it_ammo*>(liquid.type);
+      cont->charges += liquid.charges;
+      if (cont->charges > max) {
+      int extra = cont->charges - max;
+      cont->charges = max;
+      add_msg(_("There's some left over!"));
+      return extra;
+      }
+      else return 0;
+    } else if (!cont->is_container()) {
+      add_msg(_("That %s won't hold %s."), cont->tname(this).c_str(),
+                                         liquid.tname(this).c_str());
+      return -1;
+    } else {
+      if (!cont->contents.empty())
+      {
+        if  (cont->contents[0].type->id != liquid.type->id)
+        {
+          add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
+          return -1;
+        }
+      }
+      it_container* container = dynamic_cast<it_container*>(cont->type);
+      int holding_container_charges;
+
+      if (liquid.type->is_food())
+      {
+        it_comest* tmp_comest = dynamic_cast<it_comest*>(liquid.type);
+        holding_container_charges = container->contains * tmp_comest->charges;
+      }
+      else if (liquid.type->is_ammo())
+      {
+        it_ammo* tmp_ammo = dynamic_cast<it_ammo*>(liquid.type);
+        holding_container_charges = container->contains * tmp_ammo->count;
+      }
+      else
+        holding_container_charges = container->contains;
+      if (!cont->contents.empty()) {
+
+        // case 1: container is completely full
+        if (cont->contents[0].charges == holding_container_charges) {
+          add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
+                                                   liquid.tname(this).c_str());
+          return -1;
+        } else {
+            add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
+                      cont->tname(this).c_str());
+          cont->contents[0].charges += liquid.charges;
+            if (cont->contents[0].charges > holding_container_charges) {
+              int extra = cont->contents[0].charges - holding_container_charges;
+              cont->contents[0].charges = holding_container_charges;
+              add_msg(_("There's some left over!"));
+              return extra;
+            }
+            else return 0;
+          }
+      } else {
+          if (!cont->has_flag("WATERTIGHT")) {
+            add_msg(_("That %s isn't water-tight."), cont->tname(this).c_str());
+            return -1;
+          }
+          else if (!(cont->has_flag("SEALS"))) {
+            add_msg(_("You can't seal that %s!"), cont->tname(this).c_str());
+            return -1;
+          }
+          // pouring into a valid empty container
+          int default_charges = 1;
+
+          if (liquid.is_food()) {
+            it_comest* comest = dynamic_cast<it_comest*>(liquid.type);
+            default_charges = comest->charges;
+          }
+          else if (liquid.is_ammo()) {
+            it_ammo* ammo = dynamic_cast<it_ammo*>(liquid.type);
+            default_charges = ammo->count;
+          }
+          if (liquid.charges > container->contains * default_charges) {
+            add_msg(_("You fill your %s with some of the %s."), cont->tname(this).c_str(),
+                                                      liquid.tname(this).c_str());
+            u.inv.unsort();
+            int extra = liquid.charges - container->contains * default_charges;
+            liquid.charges = container->contains * default_charges;
+            cont->put_in(liquid);
+            return extra;
+          } else {
+          cont->put_in(liquid);
+          return 0;
+          }
+      }
+    }
+    return -1;
+  }
+ return -1;
+}
+
 void game::drop(char chInput)
 {
     std::vector<item> dropped;
@@ -9157,7 +9412,7 @@ void game::drop(char chInput)
     bool to_veh = false;
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
     if (veh) {
-        veh_part = veh->part_with_feature (veh_part, vpf_cargo);
+        veh_part = veh->part_with_feature (veh_part, "CARGO");
         to_veh = veh_part >= 0;
     }
     if (dropped.size() == 1 || same) {
@@ -9167,7 +9422,7 @@ void game::drop(char chInput)
                              dropped.size()),
                     dropped[0].tname(this).c_str(),
                     veh->name.c_str(),
-                    veh->part_info(veh_part).name);
+                    veh->part_info(veh_part).name.c_str());
         } else {
             add_msg(ngettext("You drop your %s.", "You drop your %ss.",
                              dropped.size()),
@@ -9176,7 +9431,7 @@ void game::drop(char chInput)
     } else {
         if (to_veh) {
             add_msg(_("You put several items in the %s's %s."),
-                    veh->name.c_str(), veh->part_info(veh_part).name);
+                    veh->name.c_str(), veh->part_info(veh_part).name.c_str());
         } else {
             add_msg(_("You drop several items."));
         }
@@ -9210,7 +9465,7 @@ void game::drop_in_direction()
     bool to_veh = false;
     vehicle *veh = m.veh_at(dirx, diry, veh_part);
     if (veh) {
-        veh_part = veh->part_with_feature (veh_part, vpf_cargo);
+        veh_part = veh->part_with_feature (veh_part, "CARGO");
         to_veh = veh->type != veh_null && veh_part >= 0;
     }
 
@@ -9245,7 +9500,7 @@ void game::drop_in_direction()
                              dropped.size()),
                     dropped[0].tname(this).c_str(),
                     veh->name.c_str(),
-                    veh->part_info(veh_part).name);
+                    veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
             add_msg(ngettext("You drop your %s on the %s.",
                              "You drop your %ss on the %s.", dropped.size()),
@@ -9260,7 +9515,7 @@ void game::drop_in_direction()
     } else {
         if (to_veh) {
             add_msg(_("You put several items in the %s's %s."),
-                    veh->name.c_str(), veh->part_info(veh_part).name);
+                    veh->name.c_str(), veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
             add_msg(_("You drop several items on the %s."),
                     m.name(dirx, diry).c_str());
@@ -10158,7 +10413,7 @@ void game::pldrive(int x, int y) {
   u.in_vehicle = false;
   return;
  }
- int pctr = veh->part_with_feature (part, vpf_controls);
+ int pctr = veh->part_with_feature (part, "CONTROLS");
  if (pctr < 0) {
   add_msg (_("You can't drive the vehicle from here. You need controls!"));
   return;
@@ -10186,7 +10441,7 @@ void game::pldrive(int x, int y) {
      u.practice(turn, "driving", 1);
 }
 
-void game::plmove(int x, int y)
+void game::plmove(int dx, int dy)
 {
  if (run_mode == 2) { // Monsters around and we don't wanna run
    add_msg(_("Monster spotted--safe mode is on! \
@@ -10195,12 +10450,14 @@ void game::plmove(int x, int y)
            from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
   return;
  }
+ int x = 0;
+ int y = 0;
  if (u.has_disease("stunned")) {
   x = rng(u.posx - 1, u.posx + 1);
   y = rng(u.posy - 1, u.posy + 1);
  } else {
-  x += u.posx;
-  y += u.posy;
+  x = u.posx + dx;
+  y = u.posy + dy;
 
   if (moveCount % 60 == 0) {
    if (u.has_bionic("bio_torsionratchet")) {
@@ -10302,9 +10559,19 @@ void game::plmove(int x, int y)
  int vpart0 = -1, vpart1 = -1, dpart = -1;
  vehicle *veh0 = m.veh_at(u.posx, u.posy, vpart0);
  vehicle *veh1 = m.veh_at(x, y, vpart1);
+ if( u.grab_point.x != 0 || u.grab_point.y ) {
+     vehicle *grabbed_vehicle = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
+     // If we're pushing a vehicle, the vehicle tile we'd be "stepping onto" is
+     // actually the current tile.
+     // If there's a vehicle there, it will actually result in failed movement.
+     if( grabbed_vehicle == veh1 ) {
+         veh1 = veh0;
+         vpart1 = vpart0;
+     }
+ }
  bool veh_closed_door = false;
  if (veh1) {
-  dpart = veh1->part_with_feature (vpart1, vpf_openable);
+  dpart = veh1->part_with_feature (vpart1, "OPENABLE");
   veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
  }
 
@@ -10317,7 +10584,7 @@ void game::plmove(int x, int y)
   } else if (veh1 != veh0) {
    add_msg(_("There is another vehicle in the way."));
    return;
-  } else if (veh1->part_with_feature(vpart1, vpf_boardable) < 0) {
+  } else if (veh1->part_with_feature(vpart1, "BOARDABLE") < 0) {
    add_msg(_("That part of the vehicle is currently unsafe."));
    return;
   }
@@ -10357,9 +10624,63 @@ void game::plmove(int x, int y)
              return;
       }
 
+  float drag_multiplier = 1.0;
+  vehicle *grabbed_vehicle = NULL;
+  if( u.grab_point.x != 0 || u.grab_point.y != 0 ) {
+      grabbed_vehicle = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
+      if( NULL != grabbed_vehicle ) {
+          if( grabbed_vehicle == veh0 ) {
+              add_msg(_("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
+              return;
+          }
+          drag_multiplier += (float)(grabbed_vehicle->total_mass() * 1000) /
+              (float)(u.weight_capacity() * 5);
+          if( drag_multiplier > 2.0 ) {
+              add_msg(_("The %s is too heavy for you to budge!"), grabbed_vehicle->name.c_str());
+              return;
+          }
+          tileray mdir;
+          mdir.init( dx, dy );
+          mdir.advance( 1 );
+          grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
+          int imp = 0;
+          std::vector<veh_collision> veh_veh_colls;
+          bool can_move = true;
+          // Set player location to illegal value so it can't collide with vehicle.
+          int player_prev_x = u.posx;
+          int player_prev_y = u.posy;
+          u.posx = 0;
+          u.posy = 0;
+          if( grabbed_vehicle->collision( veh_veh_colls, dx, dy, can_move, imp, true ) ) {
+              // TODO: figure out what we collided with.
+              add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
+              u.moves -= 10;
+              u.posx = player_prev_x;
+              u.posy = player_prev_y;
+              return;
+          }
+          u.posx = player_prev_x;
+          u.posy = player_prev_y;
+          int gx = grabbed_vehicle->global_x();
+          int gy = grabbed_vehicle->global_y();
+          for( int ep = 0; ep < grabbed_vehicle->external_parts.size(); ep++ ) {
+              const int p = grabbed_vehicle->external_parts[ ep ];
+              if( grabbed_vehicle->part_flag( p, "WHEEL" ) && one_in(2) )
+                  grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dx,
+                                                gy + grabbed_vehicle->parts[p].precalc_dy[0] + dy, p );
+          }
+          m.displace_vehicle( this, gx, gy, dx, dy );
+      } else {
+          add_msg( _("No vehicle at grabbed point.") );
+          u.grab_point.x = 0;
+          u.grab_point.y = 0;
+      }
+  }
+
 // Calculate cost of moving
   bool diag = trigdist && u.posx != x && u.posy != y;
-  u.moves -= u.run_cost(m.combined_movecost(u.posx, u.posy, x, y), diag);
+  u.moves -= u.run_cost(m.combined_movecost(u.posx, u.posy, x, y, grabbed_vehicle), diag) *
+      drag_multiplier;
 
 // Adjust recoil down
   if (u.recoil > 0) {
@@ -10374,7 +10695,7 @@ void game::plmove(int x, int y)
       ( u.has_trait("PARKOUR") && m.move_cost(x, y) > 4    ))
   {
    if (veh1 && m.move_cost(x,y) != 2)
-    add_msg(_("Moving past this %s is slow!"), veh1->part_info(vpart1).name);
+    add_msg(_("Moving past this %s is slow!"), veh1->part_info(vpart1).name.c_str());
    else
     add_msg(_("Moving past this %s is slow!"), m.name(x, y).c_str());
   }
@@ -10428,6 +10749,7 @@ void game::plmove(int x, int y)
    z[mondex].move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
    add_msg(_("You displace the %s."), z[mondex].name().c_str());
   }
+
   if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
       x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)))
    update_map(x, y);
@@ -10446,7 +10768,7 @@ void game::plmove(int x, int y)
   }
 
 // If the new tile is a boardable part, board it
-  if (veh1 && veh1->part_with_feature(vpart1, vpf_boardable) >= 0)
+  if (veh1 && veh1->part_with_feature(vpart1, "BOARDABLE") >= 0)
    m.board_vehicle(this, u.posx, u.posy, &u);
 
   if (m.tr_at(x, y) != tr_null) { // We stepped on a trap!
@@ -10515,7 +10837,7 @@ void game::plmove(int x, int y)
     }
   }
 
-  if (veh1 && veh1->part_with_feature(vpart1, vpf_controls) >= 0
+  if (veh1 && veh1->part_with_feature(vpart1, "CONTROLS") >= 0
            && u.in_vehicle)
       add_msg(_("There are vehicle controls here.  %s to drive."),
               press_x(ACTION_CONTROL_VEHICLE).c_str() );
@@ -10556,7 +10878,7 @@ void game::plmove(int x, int y)
     u.posx += (tunneldist + 1) * (x - u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
     u.posy += (tunneldist + 1) * (y - u.posy); //ditto for y
     add_msg(_("You quantum tunnel through the %d-tile wide barrier!"), tunneldist);
-    if (m.veh_at(u.posx, u.posy, vpart1) && m.veh_at(u.posx, u.posy, vpart1)->part_with_feature(vpart1, vpf_boardable) >= 0)
+    if (m.veh_at(u.posx, u.posy, vpart1) && m.veh_at(u.posx, u.posy, vpart1)->part_with_feature(vpart1, "BOARDABLE") >= 0)
         m.board_vehicle(this, u.posx, u.posy, &u);
   }
   else //or you couldn't tunnel due to lack of energy
@@ -10569,7 +10891,7 @@ void game::plmove(int x, int y)
   veh1->insides_dirty = true;
   u.moves -= 100;
   add_msg (_("You open the %s's %s."), veh1->name.c_str(),
-                                    veh1->part_info(dpart).name);
+                                    veh1->part_info(dpart).name.c_str());
 
  } else if (m.has_flag(swimmable, x, y)) { // Dive into water!
 // Requires confirmation if we were on dry land previously
@@ -10635,13 +10957,13 @@ void game::plswim(int x, int y)
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 
- int drenchFlags = mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms);
+ int drenchFlags = mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_feet);
 
- if (temperature < 50)
-   drenchFlags |= mfb(bp_feet)|mfb(bp_hands);
+ if (get_temperature() <= 50)
+   drenchFlags |= mfb(bp_hands);
 
  if (u.underwater)
-   drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth);
+   drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_hands);
 
  u.drench(this, 100, drenchFlags);
 }
@@ -10823,6 +11145,16 @@ void game::vertical_move(int movez, bool force)
     add_msg(_("You can't go up here!"));
   }
   return;
+ }
+
+ if( force ) {
+     // Let go of a grabbed cart.
+     u.grab_point.x = 0;
+     u.grab_point.y = 0;
+ } else if( u.grab_point.x != 0 || u.grab_point.y != 0 ) {
+     // TODO: Warp the cart along with you if you're on an elevator
+     add_msg(_("You can't drag things up and down stairs."));
+     return;
  }
 
  map tmpmap(&traps);

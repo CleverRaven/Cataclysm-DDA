@@ -253,7 +253,7 @@ void veh_interact::do_install(int reason)
     int dif_eng = 0;
     for (int p = 0; p < veh->parts.size(); p++)
     {
-        if (veh->part_flag (p, vpf_engine))
+        if (veh->part_flag (p, "ENGINE"))
         {
             engines++;
             dif_eng = dif_eng / 2 + 12;
@@ -277,7 +277,7 @@ void veh_interact::do_install(int reason)
         wprintz(w_msg, c_ltgray, rm_prefix(_("<veh>, and level ")).c_str());
         wprintz(w_msg, has_skill? c_ltgreen : c_red, "%d", vpart_list[sel_part].difficulty);
         wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> skill in mechanics.")).c_str());
-        bool eng = vpart_list[sel_part].flags & mfb (vpf_engine);
+        bool eng = vpart_list[sel_part].has_flag("ENGINE");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
         if (engines && eng) // already has engine
         {
@@ -681,11 +681,11 @@ void veh_interact::move_cursor (int dx, int dy)
             {
                 need_repair.push_back (i);
             }
-            if (veh->part_flag(p, vpf_fuel_tank) && veh->parts[p].amount < veh->part_info(p).size)
+            if (veh->part_flag(p, "FUEL_TANK") && veh->parts[p].amount < veh->part_info(p).size)
             {
                 ptank = p;
             }
-            if (veh->part_flag(p, vpf_wheel) && veh->parts[p].amount < veh->part_info(p).size)
+            if (veh->part_flag(p, "WHEEL") && veh->parts[p].amount < veh->part_info(p).size)
             {
                 wheel = p;
             }
@@ -840,9 +840,9 @@ void veh_interact::display_list (int pos)
         itype_id itm = vpart_list[can_mount[i]].item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[can_mount[i]].difficulty;
-        bool is_wheel = vpart_list[can_mount[i]].flags & mfb(vpf_wheel);
+        bool is_wheel = vpart_list[can_mount[i]].has_flag("WHEEL");
         nc_color col = has_comps && (has_skill || is_wheel) ? c_white : c_dkgray;
-        mvwprintz(w_list, y, 3, pos == i? hilite (col) : col, vpart_list[can_mount[i]].name);
+        mvwprintz(w_list, y, 3, pos == i? hilite (col) : col, vpart_list[can_mount[i]].name.c_str());
         mvwputch (w_list, y, 1,
                   vpart_list[can_mount[i]].color, special_symbol (vpart_list[can_mount[i]].sym));
     }
@@ -1004,7 +1004,7 @@ void complete_vehicle (game *g)
         }
 
         g->add_msg (_("You install a %s into the %s."),
-                    vpart_list[part].name, veh->name.c_str());
+                    vpart_list[part].name.c_str(), veh->name.c_str());
         g->u.practice (g->turn, "mechanics", vpart_list[part].difficulty * 5 + 20);
         break;
     case 'r':
@@ -1023,7 +1023,7 @@ void complete_vehicle (game *g)
         g->consume_tools(&g->u, tools, true);
         veh->parts[part].hp = veh->part_info(part).durability;
         g->add_msg (_("You repair the %s's %s."),
-                    veh->name.c_str(), veh->part_info(part).name);
+                    veh->name.c_str(), veh->part_info(part).name.c_str());
         g->u.practice (g->turn, "mechanics", (vpart_list[part].difficulty + dd) * 5 + 20);
         break;
     case 'f':
@@ -1053,7 +1053,7 @@ void complete_vehicle (game *g)
         else
         {
             g->add_msg (_("You remove %s%s from %s."), broken? rm_prefix(_("<veh>broken ")).c_str() : "",
-                        veh->part_info(part).name, veh->name.c_str());
+                        veh->part_info(part).name.c_str(), veh->name.c_str());
             veh->remove_part (part);
         }
         break;
@@ -1064,13 +1064,13 @@ void complete_vehicle (game *g)
         parts = veh->parts_at_relative( dx, dy );
         if( parts.size() ) {
             item removed_wheel;
-            replaced_wheel = veh->part_with_feature( parts[0], vpf_wheel, false );
+            replaced_wheel = veh->part_with_feature( parts[0], "WHEEL", false );
             broken = veh->parts[replaced_wheel].hp <= 0;
             if( replaced_wheel != -1 ) {
                 removed_wheel = veh->item_from_part( replaced_wheel );
                 veh->remove_part( replaced_wheel );
                 g->add_msg( _("You replace one of the %s's tires with %s."),
-                            veh->name.c_str(), vpart_list[part].name );
+                            veh->name.c_str(), vpart_list[part].name.c_str() );
             } else {
                 debugmsg( "no wheel to remove when changing wheels." );
                 return;

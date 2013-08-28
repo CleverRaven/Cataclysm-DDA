@@ -52,9 +52,9 @@ void game::init_itypes ()
   new itype("toolset", 0, "integrated toolset",
             "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
-// For smoking crack or meth
+// For smoking drugs
  itypes["apparatus"]=
-  new itype("apparatus", 0, "something to smoke that from, and a lighter",
+  new itype("apparatus", 0, "a smoking device and a source of flame",
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 
@@ -90,6 +90,10 @@ VAR_VEH_PART("wheel_small", _("small wheel"),140,  ']', c_dkgray,  "steel",   "p
     9, 2722,  10,  0,  -1, 0,       6,         14,   BIGNESS_WHEEL_DIAMETER,  _("\
 A pretty small wheel. Probably from one of those segway things.\
 It is not very menacing."));
+VAR_VEH_PART("wheel_caster", _("casters"),140,  ']', c_dkgray,  "steel",   "plastic",
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
+    5, 1500,  6,  0,  -1, 0,       4,         6,   BIGNESS_WHEEL_DIAMETER,  _("\
+A set of casters, like on a shopping cart."));
 
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("1cyl_combustion", _("1-cylinder engine"), 100, ':', c_ltcyan,  "iron",   "null",
@@ -171,19 +175,8 @@ itypes[id]=new it_bionic(id, price,name,des,':',\
 color, "steel", "plastic", 10,2041, 8, 0, 0, difficulty)
 
 #define BIO_SINGLE(id,price,color,difficulty) \
-     BIO(id, std::string("CBM: ")+bionics[id]->name, price,color,difficulty, \
+     BIO(id, std::string(_("CBM: "))+bionics[id]->name, price,color,difficulty, \
            bionics[id]->description) \
-
-//  Name                     RAR PRICE    COLOR   DIFFICULTY
-BIO("bio_power_storage", _("CBM: Power Storage"), 3800,	c_green,	 1, _("\
-Compact Bionics Module that upgrades your power capacity by 4 units. Having\n\
-at least one of these is a prerequisite to using powered bionics. You will\n\
-also need a power supply, found in another CBM.")); // This is a special case, which increases power capacity by 4
-
- BIO("bio_power_storage_mkII", _("CBM: Power Storage Mk. II"), 10000, c_green, 1, _("\
-Compact Bionics Module developed at DoubleTech Industries as a replacement\n\
-for the highly sucessful CBM: Power Storage. Increases you power capacity\n\
-by 10 units.")); // This is another special case, increases power capacity by 10 units
 
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \
@@ -202,6 +195,11 @@ itypes[id]=new it_macguffin(id, price, name, description,\
 // similar.  For the sake of clarity, no matter what the type of item, place
 // them all here.
 
+// TODO: move the cost, color and difficulty to bionics.json
+
+// power storage
+BIO_SINGLE("bio_power_storage", 3800, c_green, 1);
+BIO_SINGLE("bio_power_storage_mkII", 10000, c_green, 1);
 // power sources
 BIO_SINGLE("bio_solar", 3500, c_yellow, 4);
 BIO_SINGLE("bio_batteries", 800, c_yellow, 4);
@@ -219,6 +217,7 @@ BIO_SINGLE("bio_magnet", 2000, c_ltgray, 2);
 BIO_SINGLE("bio_memory", 10000, c_pink, 9);
 BIO_SINGLE("bio_painkiller", 2000, c_pink, 4);
 BIO_SINGLE("bio_alarm", 250, c_pink, 1);
+BIO_SINGLE("bio_int_enhancer", 8000, c_ltblue, 11);
 // sensory
 BIO_SINGLE("bio_ears", 5000, c_ltblue, 6);
 BIO_SINGLE("bio_eye_enhancer", 8000, c_ltblue, 11);
@@ -273,6 +272,8 @@ BIO_SINGLE("bio_hydraulics", 4000, c_dkgray, 6);
 BIO_SINGLE("bio_time_freeze", 14000, c_white, 11);
 BIO_SINGLE("bio_teleport", 7000, c_white, 7);
 BIO_SINGLE("bio_probability_travel", 14000, c_white, 11);
+BIO_SINGLE("bio_str_enhancer", 8000, c_ltblue, 11);
+BIO_SINGLE("bio_dex_enhancer", 8000, c_ltblue, 11);
 // ranged combat
 BIO_SINGLE("bio_blaster", 2200, c_red, 3);
 BIO_SINGLE("bio_laser", 7200, c_red, 5);

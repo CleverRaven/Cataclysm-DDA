@@ -410,7 +410,7 @@ void computer::activate_function(game *g, computer_action action)
                 {
                     if (g->m.tr_at(i, j) == tr_portal)
                     {
-                        g->m.tr_at(i, j) = tr_null;
+                        g->m.remove_trap(i, j);
                     }
                     else
                     {

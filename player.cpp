@@ -118,6 +118,8 @@ player::player()
  active_mission = -1;
  in_vehicle = false;
  controlling_vehicle = false;
+ grab_point.x = 0;
+ grab_point.y = 0;
  style_selected = "null";
  focus_pool = 100;
  last_item = itype_id("null");
@@ -138,6 +140,7 @@ player::player()
   temp_conv[i] = BODYTEMP_NORM;
  }
  nv_cached = false;
+ drench_cached = false;
  volume = 0;
 
  memorial_log.clear();
@@ -162,6 +165,7 @@ player& player::operator= (const player & rhs)
 
  in_vehicle = rhs.in_vehicle;
  controlling_vehicle = rhs.controlling_vehicle;
+ grab_point = rhs.grab_point;
  activity = rhs.activity;
  backlog = rhs.backlog;
 
@@ -255,6 +259,7 @@ player& player::operator= (const player & rhs)
  addictions = rhs.addictions;
 
  nv_cached = false;
+ drench_cached = false;
 
  return (*this);
 }
@@ -297,6 +302,12 @@ void player::reset(game *g)
   str_cur += 20;
  if (has_bionic("bio_eye_enhancer"))
   per_cur += 2;
+ if (has_bionic("bio_str_enhancer"))
+  str_cur += 2;
+ if (has_bionic("bio_int_enhancer"))
+  int_cur += 2;
+if (has_bionic("bio_dex_enhancer"))
+  dex_cur += 2;
 if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
      hunger < 100 && (int(g->turn) % 5 == 0)) {
   hunger += 2;
@@ -630,7 +641,7 @@ void player::update_bodytemp(game *g)
 {
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
-    int Ctemperature = 100*(g->temperature - 32) * 5/9;
+    int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
@@ -641,7 +652,65 @@ void player::update_bodytemp(game *g)
     const trap_id trap_at_pos = g->m.tr_at(posx, posy);
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     const furn_id furn_at_pos = g->m.furn(posx, posy);
+    // When the player is sleeping, he will use floor items for warmth
+    int floor_item_warmth = 0;
+    // When the player is sleeping, he will use floor bedding for warmth
+    int floor_bedding_warmth = 0;
+    if ( has_disease("sleep") ) {
+        // Search the floor for items
+        std::vector<item>& floor_item = g->m.i_at(posx, posy);
+        it_armor* floor_armor = NULL;
 
+        for ( std::vector<item>::iterator afloor_item = floor_item.begin() ;
+        afloor_item != floor_item.end() ;
+        ++afloor_item) {
+            if ( !afloor_item->is_armor() ) {
+                continue;
+            }
+            floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
+            // Items that are big enough and covers the torso are used to keep warm.
+            // Smaller items don't do as good a job
+            if ( floor_armor->volume > 1 &&
+            ((floor_armor->covers & mfb(bp_torso)) ||
+             (floor_armor->covers & mfb(bp_legs))) ) {
+                floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
+            }
+        }
+
+        // Search the floor for bedding
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at (posx, posy, vpart);
+        if      (furn_at_pos == f_bed)
+        {
+            floor_bedding_warmth += 1000;
+        }
+        else if (furn_at_pos == f_makeshift_bed ||
+                 furn_at_pos == f_armchair ||
+                 furn_at_pos == f_sofa)
+        {
+            floor_bedding_warmth += 500;
+        }
+        else if (trap_at_pos == tr_cot)
+        {
+            floor_bedding_warmth -= 500;
+        }
+        else if (trap_at_pos == tr_rollmat)
+        {
+            floor_bedding_warmth -= 1000;
+        }
+        else if (veh && veh->part_with_feature (vpart, "SEAT") >= 0)
+        {
+            floor_bedding_warmth += 200;
+        }
+        else if (veh && veh->part_with_feature (vpart, "BED") >= 0)
+        {
+            floor_bedding_warmth += 300;
+        }
+        else
+        {
+            floor_bedding_warmth -= 2000;
+        }
+    }
     // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
@@ -659,41 +728,6 @@ void player::update_bodytemp(game *g)
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
-        else
-        {
-            int vpart = -1;
-            vehicle *veh = g->m.veh_at (posx, posy, vpart);
-            if      (furn_at_pos == f_bed)
-            {
-                temp_conv[i] += 1000;
-            }
-            else if (furn_at_pos == f_makeshift_bed ||
-                     furn_at_pos == f_armchair ||
-                     furn_at_pos == f_sofa)
-            {
-                temp_conv[i] += 500;
-            }
-            else if (trap_at_pos == tr_cot)
-            {
-                temp_conv[i] -= 500;
-            }
-            else if (trap_at_pos == tr_rollmat)
-            {
-                temp_conv[i] -= 1000;
-            }
-            else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
-            {
-                temp_conv[i] += 200;
-            }
-            else if (veh && veh->part_with_feature (vpart, vpf_bed) >= 0)
-            {
-                temp_conv[i] += 300;
-            }
-            else
-            {
-                temp_conv[i] -= 2000;
-            }
-        }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
         for (int j = -6 ; j <= 6 ; j++)
@@ -850,6 +884,21 @@ void player::update_bodytemp(game *g)
         // Chemical Imbalance
         // Added linse in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
+        if ( has_disease("sleep") ) {
+            int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
+            // Too warm, don't need items on the floor
+            if ( temp_conv[i] > BODYTEMP_NORM ) {
+                // Do nothing
+            }
+            // Intelligently use items on the floor; just enough to be comfortable
+            else if ( (temp_conv[i] + sleep_bonus) > BODYTEMP_NORM ) {
+                temp_conv[i] = BODYTEMP_NORM;
+            }
+            // Use all items on the floor -- there are not enough to keep comfortable
+            else {
+                temp_conv[i] += sleep_bonus;
+            }
+        }
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
@@ -930,7 +979,7 @@ void player::update_bodytemp(game *g)
         {
             frostbite_timer[i]--;
         }
-        if      (frostbite_timer[i] >= 240 && g->temperature < 32)
+        if      (frostbite_timer[i] >= 240 && g->get_temperature() < 32)
         {
             add_disease(dis_type(frost_pen), 1, 2, 2);
             // Warning message for the player
@@ -939,7 +988,7 @@ void player::update_bodytemp(game *g)
             {
                 g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
-            else if (frostbite_timer[i] >= 120 && g->temperature < 32)
+            else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
             {
                 add_disease(dis_type(frost_pen), 1, 1, 2);
                 // Warning message for the player
@@ -1055,12 +1104,12 @@ int player::current_speed(game *g)
  if (g != NULL) {
   if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy))
    newmoves -= (g->light_level() >= 12 ? 5 : 10);
-  if (has_trait("COLDBLOOD3") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 2);
-  else if (has_trait("COLDBLOOD2") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 3);
-  else if (has_trait("COLDBLOOD") && g->temperature < 60)
-   newmoves -= int( (65 - g->temperature) / 5);
+  if (has_trait("COLDBLOOD3") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 2);
+  else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 3);
+  else if (has_trait("COLDBLOOD") && g->get_temperature() < 60)
+   newmoves -= int( (65 - g->get_temperature()) / 5);
  }
 
  if (has_artifact_with(AEP_SPEED_UP))
@@ -1186,9 +1235,9 @@ void player::load_info(game *g, std::string data)
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
-         inveh >> vctrl >> scent >> moves >> underwater >> dodges_left >>
-         blocks_left >> oxygen >> active_mission >> focus_pool >> male >>
-         prof_ident >> health >> styletmp;
+         inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
+         underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
+         focus_pool >> male >> prof_ident >> health >> styletmp;
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1335,6 +1384,7 @@ std::string player::save_info()
          " " << stim << " " << pain << " " << pkill << " " << radiation <<
          " " << cash << " " << recoil << " " << driving_recoil << " " <<
          (in_vehicle? 1 : 0) << " " << (controlling_vehicle? 1 : 0) << " " <<
+         grab_point.x << " " << grab_point.y << " " <<
          scent << " " << moves << " " << underwater << " " << dodges_left <<
          " " << blocks_left << " " << oxygen << " " << active_mission << " " <<
          focus_pool << " " << male << " " << prof->ident() << " " << health <<
@@ -2208,13 +2258,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   line++;
  }
  if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
-      has_trait("COLDBLOOD3")) && g->temperature < 65) {
+      has_trait("COLDBLOOD3")) && g->get_temperature() < 65) {
   if (has_trait("COLDBLOOD3"))
-   pen = int( (65 - g->temperature) / 2);
+   pen = int( (65 - g->get_temperature()) / 2);
   else if (has_trait("COLDBLOOD2"))
-   pen = int( (65 - g->temperature) / 3);
+   pen = int( (65 - g->get_temperature()) / 3);
   else
-   pen = int( (65 - g->temperature) / 2);
+   pen = int( (65 - g->get_temperature()) / 2);
   mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -2941,7 +2991,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 
   bool has_turrets = false;
   for (int p = 0; p < veh->parts.size(); p++) {
-   if (veh->part_flag (p, vpf_turret)) {
+   if (veh->part_flag (p, "TURRET")) {
     has_turrets = true;
     break;
    }
@@ -3382,32 +3432,40 @@ bool player::has_nv()
 
 void player::pause(game *g)
 {
- moves = 0;
- if (recoil > 0) {
-   if (str_cur + 2 * skillLevel("gun") >= recoil)
-   recoil = 0;
-  else {
-    recoil -= str_cur + 2 * skillLevel("gun");
-   recoil = int(recoil / 2);
-  }
- }
+    moves = 0;
+    if (recoil > 0) {
+        if (str_cur + 2 * skillLevel("gun") >= recoil) {
+            recoil = 0;
+        } else {
+            recoil -= str_cur + 2 * skillLevel("gun");
+            recoil = int(recoil / 2);
+        }
+    }
 
-// Meditation boost for Toad Style
- if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
-  int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
-  int arm_max = (int_cur + per_cur) / 2;
-  if (arm_amount > 3)
-   arm_amount = 3;
-  if (arm_max > 20)
-   arm_max = 20;
-  add_disease("armor_boost", 2, arm_amount, arm_max);
- }
+    // Meditation boost for Toad Style
+    if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
+        int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
+        int arm_max = (int_cur + per_cur) / 2;
+        if (arm_amount > 3) {
+            arm_amount = 3;
+        }
+        if (arm_max > 20) {
+            arm_max = 20;
+        }
+        add_disease("armor_boost", 2, arm_amount, arm_max);
+    }
 
-// Train swimming if underwater
- if (underwater) {
-   practice(g->turn, "swimming", 1);
-   drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth));
- }
+    // Train swimming if underwater
+    if (underwater) {
+        practice(g->turn, "swimming", 1);
+        if (g->temperature <= 50) {
+            drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
+                           mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_feet)|mfb(bp_hands));
+        } else {
+            drench(g, 100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
+                           mfb(bp_eyes)|mfb(bp_mouth));
+        }
+    }
 }
 
 int player::throw_range(signed char ch)
@@ -3423,7 +3481,7 @@ int player::throw_range(signed char ch)
  if ((tmp.weight() / 113) > int(str_cur * 15))
   return 0;
  // Increases as weight decreases until 150 g, then decreases again
- int ret = (str_cur * 8) / (tmp.weight() > 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+ int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
  ret -= int(tmp.volume() / 4);
  if (has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel")))
     ret *= 2;
@@ -4089,13 +4147,27 @@ int player::addiction_level(add_type type)
  return 0;
 }
 
-void player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
+bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 {
-    int liquid_amount = veh->drain( desired_liquid , veh->fuel_capacity( desired_liquid ));
-    item used_item(g->itypes[ default_ammo(desired_liquid) ], g->turn);
+    int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
+    item used_item( g->itypes[default_ammo(desired_liquid)], g->turn );
     used_item.charges = liquid_amount;
-    g->add_msg(_("Siphoned %d units of %s from the vehicle."), liquid_amount, used_item.name.c_str());
-    while (!g->handle_liquid(used_item, false, false)) { } // handle the liquid until it's all gone
+    int extra = g->move_liquid( used_item );
+    if( extra == -1 ) {
+        // Failed somehow, put the liquid back and bail out.
+        veh->refill( desired_liquid, used_item.charges );
+        return false;
+    }
+    int siphoned = liquid_amount - extra;
+    veh->refill( desired_liquid, extra );
+    if( siphoned > 0 ) {
+        g->add_msg(_("Siphoned %d units of %s from the %s."),
+                   siphoned, used_item.name.c_str(), veh->name.c_str());
+        //Don't consume turns if we decided not to siphon
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void player::cauterize(game *g) {
@@ -4687,22 +4759,192 @@ void player::vomit(game *g)
 }
 
 void player::drench(game *g, int saturation, int flags) {
-  if (is_waterproof(flags))
-    return;
+    if (is_waterproof(flags)) {
+        return;
+    }
 
-  bool wantsDrench = is_water_friendly(flags);
-  int morale_cap;
+    if (!drench_cached) {
+        int ignored = 0;
+        int neutral = 0;
+        int good = 0;
 
-  if (wantsDrench) {
-    morale_cap = (g->temperature - 60) * saturation / 100;
-  } else {
-    morale_cap = -(saturation / 2);
-  }
+        drench_mut_check(ignored, neutral, good, mfb(bp_eyes));
+        calculate_portions(good, neutral, ignored, 1);
+        eyes_ignored = ignored;
+        eyes_neutral = neutral;
+        eyes_good = good;
 
-  if (morale_cap == 0)
-    return;
+        drench_mut_check(ignored, neutral, good, mfb(bp_mouth));
+        calculate_portions(good, neutral, ignored, 1);
+        mouth_ignored = ignored;
+        mouth_neutral = neutral;
+        mouth_good = good;
 
-  add_morale(MORALE_WET, (morale_cap > 0?1:-1), morale_cap);
+        drench_mut_check(ignored, neutral, good, mfb(bp_head));
+        calculate_portions(good, neutral, ignored, 7);
+        head_ignored = ignored;
+        head_neutral = neutral;
+        head_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_legs));
+        calculate_portions(good, neutral, ignored, 21);
+        legs_ignored = ignored;
+        legs_neutral = neutral;
+        legs_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_feet));
+        calculate_portions(good, neutral, ignored, 6);
+        feet_ignored = ignored;
+        feet_neutral = neutral;
+        feet_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_arms));
+        calculate_portions(good, neutral, ignored, 19);
+        arms_ignored = ignored;
+        arms_neutral = neutral;
+        arms_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_hands));
+        calculate_portions(good, neutral, ignored, 5);
+        hands_ignored = ignored;
+        hands_neutral = neutral;
+        hands_good = good;
+
+        drench_mut_check(ignored, neutral, good, mfb(bp_torso));
+        calculate_portions(good, neutral, ignored, 40);
+        torso_ignored = ignored;
+        torso_neutral = neutral;
+        torso_good = good;
+
+        drench_cached = true;
+    }
+
+    int effected = 0;
+    int tot_ignored = 0; //Always ignored
+    int tot_neut = 0; //Ignored for good wet bonus
+    int tot_good = 0; //Increase good wet bonus
+
+    if (mfb(bp_eyes) & flags) {
+        effected += 1;
+        tot_good += eyes_good;
+        tot_neut += eyes_neutral;
+        tot_ignored += eyes_ignored;
+    }
+    if (mfb(bp_mouth) & flags) {
+        effected += 1;
+        tot_good += mouth_good;
+        tot_neut += mouth_neutral;
+        tot_ignored += mouth_ignored;
+    }
+    if (mfb(bp_head) & flags) {
+        effected += 7;
+        tot_good += head_good;
+        tot_neut += head_neutral;
+        tot_ignored += head_ignored;
+    }
+    if (mfb(bp_legs) & flags) {
+        effected += 21;
+        tot_good += legs_good;
+        tot_neut += legs_neutral;
+        tot_ignored += legs_ignored;
+    }
+    if (mfb(bp_feet) & flags) {
+        effected += 6;
+        tot_good += feet_good;
+        tot_neut += feet_neutral;
+        tot_ignored += feet_ignored;
+    }
+    if (mfb(bp_arms) & flags) {
+        effected += 19;
+        tot_good += arms_good;
+        tot_neut += arms_neutral;
+        tot_ignored += arms_ignored;
+    }
+    if (mfb(bp_hands) & flags) {
+        effected += 5;
+        tot_good += hands_good;
+        tot_neut += hands_neutral;
+        tot_ignored += hands_ignored;
+    }
+    if (mfb(bp_torso) & flags) {
+        effected += 40;
+        tot_good += torso_good;
+        tot_neut += torso_neutral;
+        tot_ignored += torso_ignored;
+    }
+
+    if (effected == 0) {
+        return;
+    }
+
+    bool wants_drench = false;
+    // If not protected by mutations then check clothing
+    if (tot_good + tot_neut + tot_ignored < effected) {
+        wants_drench = is_water_friendly(flags);
+    } else {
+        wants_drench = true;
+    }
+
+    int morale_cap;
+    if (wants_drench) {
+        morale_cap = g->get_temperature() - std::min(65, 65 + (tot_ignored - tot_good) / 2) * saturation / 100;
+    } else {
+        morale_cap = -(saturation / 2);
+    }
+
+    // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
+    if (morale_cap > 0) {
+        morale_cap = morale_cap * (effected - tot_ignored + tot_good) / effected;
+    } else if (morale_cap < 0) {
+        morale_cap = morale_cap * (effected - tot_ignored - tot_neut - tot_good) / effected;
+    }
+
+    if (morale_cap == 0) {
+        return;
+    }
+
+    int morale_effect = morale_cap / 8;
+    if (morale_effect == 0) {
+        if (morale_cap > 0) {
+            morale_effect = 1;
+        } else {
+            morale_effect = -1;
+        }
+    }
+
+    int dur = 60;
+    int d_start = 30;
+    if (morale_cap < 0) {
+        if (has_trait("LIGHTFUR") || has_trait("FUR")) {
+            dur /= 5;
+            d_start /= 5;
+        }
+    } else {
+        if (has_trait("SLIMY")) {
+            dur *= 1.2;
+            d_start *= 1.2;
+        }
+    }
+
+    add_morale(MORALE_WET, morale_effect, morale_cap, dur, d_start);
+}
+
+void player::drench_mut_check(int &ignored, int &neutral, int &good, unsigned long bpart)
+{
+    ignored = 0;
+    neutral = 0;
+    good = 0;
+    for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        if (has_trait(iter->first)) {
+            for (int i = 0; i < g->mutation_data[iter->first].protection.size(); i++) {
+                if (g->mutation_data[iter->first].protection[i].first == bpart) {
+                    ignored += g->mutation_data[iter->first].protection[i].second.x;
+                    neutral += g->mutation_data[iter->first].protection[i].second.y;
+                    good += g->mutation_data[iter->first].protection[i].second.z;
+                }
+            }
+        }
+    }
 }
 
 int player::weight_carried()
@@ -4783,51 +5025,6 @@ bool player::can_pickWeight(int weight, bool safe)
     }
 }
 
-// --- Library functions ---
-// This stuff could be moved elsewhere, but there
-// doesn't seem to be a good place to put it right now.
-
-// Basic logistic function.
-double logistic(double t)
-{
-    return 1 / (1 + exp(-t));
-}
-
-const double LOGI_CUTOFF = 4;
-const double LOGI_MIN = logistic(-LOGI_CUTOFF);
-const double LOGI_MAX = logistic(+LOGI_CUTOFF);
-const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
-
-// Logistic curve [-6,6], flipped and scaled to
-// range from 1 to 0 as pos goes from min to max.
-double logistic_range(int min, int max, int pos)
-{
-    // Anything beyond [min,max] gets clamped.
-    if (pos < min)
-    {
-        return 1.0;
-    }
-    else if (pos > max)
-    {
-        return 0.0;
-    }
-
-    // Normalize the pos to [0,1]
-    double range = max - min;
-    double unit_pos = (pos - min) / range;
-
-    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
-    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
-
-    // Get the raw logistic value.
-    double raw_logistic = logistic(scaled_pos);
-
-    // Scale the output to [0,1]
-    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
-}
-// --- End ---
-
-
 int player::net_morale(morale_point effect)
 {
     double bonus = effect.bonus;
@@ -4907,7 +5104,9 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
             {
                 // Otherwise, we need to figure out whether the existing effect had
                 // more remaining duration and decay-resistance than the new one does.
-                if (morale[i].duration - morale[i].age <= duration)
+                // Only takes the new duration if new bonus and old are the same sign.
+                if (morale[i].duration - morale[i].age <= duration &&
+                   ((morale[i].bonus > 0) == (max_bonus > 0)) )
                 {
                     morale[i].duration = duration;
                 }
@@ -4917,7 +5116,8 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
                     morale[i].duration -= morale[i].age;
                 }
 
-                if (morale[i].decay_start - morale[i].age <= decay_start)
+                if (morale[i].decay_start - morale[i].age <= decay_start &&
+                   ((morale[i].bonus > 0) == (max_bonus > 0)) )
                 {
                     morale[i].decay_start = decay_start;
                 }
@@ -5333,6 +5533,8 @@ bool player::has_fire(const int quantity)
         return true;
     } else if (has_bionic("bio_laser")) {
         return true;
+    } else if (has_charges("ref_lighter", quantity)) {
+        return true;
     } else if (has_charges("matches", quantity)) {
         return true;
     } else if (has_charges("lighter", quantity)) {
@@ -5368,6 +5570,9 @@ void player::use_fire(const int quantity)
     } else if (has_bionic("bio_lighter")) {
         return;
     } else if (has_bionic("bio_laser")) {
+        return;
+    } else if (has_charges("ref_lighter", quantity)) {
+        use_charges("ref_lighter", quantity);
         return;
     } else if (has_charges("matches", quantity)) {
         use_charges("matches", quantity);
@@ -5587,29 +5792,25 @@ bool player::has_amount(itype_id it, int quantity)
     return (amount_of(it) >= quantity);
 }
 
-int player::amount_of(itype_id it)
-{
-    if (it == "toolset" && has_bionic("bio_tools"))
-    {
+int player::amount_of(itype_id it) {
+    if (it == "toolset" && has_bionic("bio_tools")) {
         return 1;
     }
-    if (it == "apparatus")
-    {
-        if (has_amount("crackpipe", 1) || has_amount("can_drink", 1) )
-        {
+    if (it == "apparatus") {
+        if (has_amount("crackpipe", 1) ||
+            has_amount("can_drink", 1) ||
+            has_amount("pipe_glass", 1) ||
+            has_amount("pipe_tobacco", 1)) {
             return 1;
         }
     }
     int quantity = 0;
-    if (weapon.type->id == it)
-    {
+    if (weapon.type->id == it) {
         quantity++;
     }
 
-    for (int i = 0; i < weapon.contents.size(); i++)
-    {
-        if (weapon.contents[i].type->id == it)
-        {
+    for (int i = 0; i < weapon.contents.size(); i++)     {
+        if (weapon.contents[i].type->id == it) {
             quantity++;
         }
     }
@@ -6017,9 +6218,9 @@ bool player::eat(game *g, signed char ch)
         if (has_trait("GOURMAND"))
         {
             if (comest->fun < -2)
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
             else if (comest->fun > 0)
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, comest);
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
             if (hunger < -60 || thirst < -60)
                 g->add_msg_if_player(this,_("You can't finish it all!"));
             if (hunger < -60)
@@ -6030,9 +6231,9 @@ bool player::eat(game *g, signed char ch)
         else
         {
             if (comest->fun < 0)
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, comest);
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, false, comest);
             else if (comest->fun > 0)
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
             if (hunger < -20 || thirst < -20)
                 g->add_msg_if_player(this,_("You can't finish it all!"));
             if (hunger < -20)
@@ -6574,7 +6775,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             if (armor->covers & mfb(i) && encumb(i) >= 4)
             {
                 g->add_msg(
-                    (i == bp_head || i == bp_torso) ?
+                    (i == bp_head || i == bp_torso || i == bp_mouth) ?
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
                     body_part_name(body_part(i), 2).c_str(), encumb_text(body_part(i)).c_str());
             }
@@ -7619,8 +7820,8 @@ void player::try_to_sleep(game *g)
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
      furn_at_pos == f_armchair || furn_at_pos == f_sofa ||
-     (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
-      (veh && veh->part_with_feature (vpart, vpf_bed) >= 0))
+     (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+      (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
   g->add_msg(
@@ -7644,11 +7845,11 @@ bool player::can_sleep(game *g)
  const trap_id trap_at_pos = g->m.tr_at(posx, posy);
  const ter_id ter_at_pos = g->m.ter(posx, posy);
  const furn_id furn_at_pos = g->m.furn(posx, posy);
- if ((veh && veh->part_with_feature (vpart, vpf_bed) >= 0) ||
+ if ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
      furn_at_pos == f_sofa)
   sleepy += 4;
- else if ((veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
+ else if ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       trap_at_pos == tr_rollmat || furn_at_pos == f_armchair)
   sleepy += 3;
  else if (furn_at_pos == f_bed)
@@ -7666,6 +7867,42 @@ bool player::can_sleep(game *g)
  if (sleepy > 0)
   return true;
  return false;
+}
+
+std::string player::is_snuggling(game *g)
+{
+    std::vector<item>& floor_item = g->m.i_at(posx, posy);
+    it_armor* floor_armor = NULL;
+    int ticker = 0;
+
+    // If there are no items on the floor, return nothing
+    if ( floor_item.size() == 0 ) {
+        return "nothing";
+    }
+
+    for ( std::vector<item>::iterator afloor_item = floor_item.begin() ; afloor_item != floor_item.end() ; ++afloor_item) {
+        if ( !afloor_item->is_armor() ) {
+            continue;
+        }
+        else if ( afloor_item->volume() > 1 &&
+        (dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_torso) ||
+         dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_legs)) ){
+            floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
+            ticker++;
+        }
+    }
+
+    if ( ticker == 0 ) {
+        return "nothing";
+    }
+    else if ( ticker == 1 ) {
+        return floor_armor->name.c_str();
+    }
+    else if ( ticker > 1 ) {
+        return "many";
+    }
+
+    return "nothing";
 }
 
 // Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
@@ -8454,3 +8691,54 @@ point player::adjacent_tile()
     else
         return point(posx, posy);           // or return player position if no valid adjacent tiles
 }
+
+// --- Library functions ---
+// This stuff could be moved elsewhere, but there
+// doesn't seem to be a good place to put it right now.
+
+// Basic logistic function.
+double player::logistic(double t)
+{
+    return 1 / (1 + exp(-t));
+}
+
+// Logistic curve [-6,6], flipped and scaled to
+// range from 1 to 0 as pos goes from min to max.
+double player::logistic_range(int min, int max, int pos)
+{
+    const double LOGI_CUTOFF = 4;
+    const double LOGI_MIN = logistic(-LOGI_CUTOFF);
+    const double LOGI_MAX = logistic(+LOGI_CUTOFF);
+    const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
+    // Anything beyond [min,max] gets clamped.
+    if (pos < min)
+    {
+        return 1.0;
+    }
+    else if (pos > max)
+    {
+        return 0.0;
+    }
+
+    // Normalize the pos to [0,1]
+    double range = max - min;
+    double unit_pos = (pos - min) / range;
+
+    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
+    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
+
+    // Get the raw logistic value.
+    double raw_logistic = logistic(scaled_pos);
+
+    // Scale the output to [0,1]
+    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
+}
+
+// Calculates portions favoring x, then y, then z
+void player::calculate_portions(int &x, int &y, int &z, int maximum)
+{
+    z = std::min(z, std::max(maximum - x - y, 0));
+    y = std::min(y, std::max(maximum - x , 0));
+    x = std::min(x, std::max(maximum, 0));
+}
+// --- End ---

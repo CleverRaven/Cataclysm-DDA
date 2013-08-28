@@ -206,13 +206,14 @@ public:
  bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
- void siphon(game *g, vehicle *veh, ammotype desired_liquid);
+ bool siphon(game *g, vehicle *veh, ammotype desired_liquid);
  void cauterize(game *g);
  void suffer(game *g);
  void mend(game *g);
  void vomit(game *g);
 
  void drench(game *g, int saturation, int flags); // drenches the player in water; saturation is percent
+ void drench_mut_check(int &ignored, int &neutral, int &good, unsigned long bpart); // Checks mutation drench protection
 
  char lookup_item(char let);
  bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
@@ -228,6 +229,7 @@ public:
  void read(game *g, char let);	// Read a book
  void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN
+ std::string is_snuggling(game *g);    // Check to see if the player is using floor items to keep warm. If so, return one such item
  float fine_detail_vision_mod(game *g); // Used for things like reading and sewing, checks light level
 
  // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
@@ -324,11 +326,18 @@ public:
  bool studied_all_recipes(it_book *book);
  bool try_study_recipe(game *g, it_book *book);
 
+// Library functions
+ double logistic(double t);
+ double logistic_range(int min, int max, int pos);
+ void calculate_portions(int &x, int &y, int &z, int maximum);
+
 // ---------------VALUES-----------------
  int posx, posy;
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  bool controlling_vehicle;  // Is currently in control of a vehicle
+ // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
+ point grab_point;
  player_activity activity;
  player_activity backlog;
 // _missions vectors are of mission IDs
@@ -369,6 +378,33 @@ public:
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
  bool nv_cached;
+
+// Drench cache values
+ bool drench_cached;
+ int eyes_ignored;
+ int eyes_neutral;
+ int eyes_good;
+ int mouth_ignored;
+ int mouth_neutral;
+ int mouth_good;
+ int head_ignored;
+ int head_neutral;
+ int head_good;
+ int legs_ignored;
+ int legs_neutral;
+ int legs_good;
+ int feet_ignored;
+ int feet_neutral;
+ int feet_good;
+ int arms_ignored;
+ int arms_neutral;
+ int arms_good;
+ int hands_ignored;
+ int hands_neutral;
+ int hands_good;
+ int torso_ignored;
+ int torso_neutral;
+ int torso_good;
 
  std::vector<morale_point> morale;
 
