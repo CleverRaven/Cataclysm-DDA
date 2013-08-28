@@ -78,6 +78,8 @@ void cata_tiles::init(SDL_Surface *screen, std::string json_path, std::string ti
     load_tilejson(json_path);
     DebugLog() << "Attempting to Load Tileset file\n";
     load_tileset(tileset_path);
+    DebugLog() << "Attempting to Create Rotation Cache\n";
+    create_rotation_cache();
 // may be useless, figure out and remove if necessary
 // removed for now since it's not used currently
 /*
@@ -396,6 +398,42 @@ for (compList.set_begin(); compList.has_curr(); compList.next())
     DebugLog() << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids->size() << "\n";
 }
 
+void cata_tiles::create_rotation_cache()
+{
+    /*
+    Each tile has the potential of having 3 additional rotational values applied to it.
+    0 is the default tile in the tileset
+    1 is an East rotation
+    2 is a South rotation
+    3 is a West rotation
+    These rotations are stored in a map<tile number, vector<SDL_Surface*> > with 3 values relating to east, south, and west in that order
+    */
+    /*
+    if (fg >= 0 && fg < tile_values->size())
+    {
+        // get rect
+        SDL_Rect *fgrect = (*tile_values)[fg];
+        // get new surface of just the rotated fgrect and blit it to the screen
+        SDL_Surface *rotatile = rotate_tile(tile_atlas, fgrect, rota);
+        SDL_BlitSurface(rotatile, NULL, buffer, &destination);
+        SDL_FreeSurface(rotatile);
+    }
+    */
+    for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it)
+    {
+        const int tile_num = it->first;
+        SDL_Rect *tile_rect = it->second;
+
+        std::vector<SDL_Surface*> rotations;
+        for (int i = 1; i < 4; ++i)
+        {
+            rotations.push_back(rotate_tile(tile_atlas, tile_rect, i));
+        }
+        rotation_cache[tile_num] = rotations;
+        //DebugLog() << "Tile ["<<tile_num<<"] rotations added\n";
+    }
+}
+
 void cata_tiles::draw()
 {
     /** steps to drawing
@@ -615,10 +653,14 @@ bool cata_tiles::draw_tile_at(tile_type* tile, int x, int y, int rota)
         {
             // get rect
             SDL_Rect *fgrect = (*tile_values)[fg];
+            //DebugLog() << "Drawing rotated tile [" << fg << "] with rotation value ["<< rota << "]\n";
             // get new surface of just the rotated fgrect and blit it to the screen
-            SDL_Surface *rotatile = rotate_tile(tile_atlas, fgrect, rota);
+            std::vector<SDL_Surface*> fgtiles = rotation_cache[fg];
+            //DebugLog() << "\tAvailable Rotation tiles [" << fgtiles.size() << "]\n";
+            SDL_Surface *rotatile = fgtiles[rota - 1];
+            //SDL_Surface *rotatile = rotate_tile(tile_atlas, fgrect, rota);
             SDL_BlitSurface(rotatile, NULL, buffer, &destination);
-            SDL_FreeSurface(rotatile);
+            //SDL_FreeSurface(rotatile);
         }
     }
 

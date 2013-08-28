@@ -111,6 +111,8 @@ class cata_tiles
         void load_tileset(std::string path);
         /** Load tileset config file */
         void load_tilejson(std::string path);
+        /* After loading tileset, create additional cache for rotating each tile assuming it is used for rotations */
+        void create_rotation_cache();
         /** Draw to screen */
         void draw(); /* Deprecated */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
@@ -180,6 +182,8 @@ class cata_tiles
         SDL_Surface *buffer, *tile_atlas, *display_screen;
         tile_map *tile_values;
         tile_id_map *tile_ids;
+
+        std::map<int, std::vector<SDL_Surface*> > rotation_cache;
 
         int tile_height, tile_width;
         int screentile_width, screentile_height;
