@@ -1612,7 +1612,7 @@ std::string dis_description(disease dis)
         switch (dis.intensity) {
         case 1: return _("Your hands are exposed to the cold.");
         case 2: return _("Your hands are shivering from the cold.");
-        case 3: return _("Your hands are shiivering uncontrollably from the extreme cold.");
+        case 3: return _("Your hands are shivering uncontrollably from the extreme cold.");
         }
 
     case DI_COLD_LEGS:
@@ -1691,8 +1691,8 @@ Your legs are frostbitten from prolonged exposure to the cold. It is extremely p
     case DI_HOT_HANDS:
         switch (dis.intensity) {
         case 1: return _("Your hands feel warm.");
-        case 2: return _("Your hands feel hot and incoordinated.");
-        case 3: return _("Your hands feel disgustinly hot and are very incoordinated.");
+        case 2: return _("Your hands feel hot and uncoordinated.");
+        case 3: return _("Your hands feel disgustinly hot and are very uncoordinated.");
         }
 
     case DI_HOT_LEGS:
