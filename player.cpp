@@ -5792,29 +5792,25 @@ bool player::has_amount(itype_id it, int quantity)
     return (amount_of(it) >= quantity);
 }
 
-int player::amount_of(itype_id it)
-{
-    if (it == "toolset" && has_bionic("bio_tools"))
-    {
+int player::amount_of(itype_id it) {
+    if (it == "toolset" && has_bionic("bio_tools")) {
         return 1;
     }
-    if (it == "apparatus")
-    {
-        if (has_amount("crackpipe", 1) || has_amount("can_drink", 1) )
-        {
+    if (it == "apparatus") {
+        if (has_amount("crackpipe", 1) ||
+            has_amount("can_drink", 1) ||
+            has_amount("pipe_glass", 1) ||
+            has_amount("pipe_tobacco", 1)) {
             return 1;
         }
     }
     int quantity = 0;
-    if (weapon.type->id == it)
-    {
+    if (weapon.type->id == it) {
         quantity++;
     }
 
-    for (int i = 0; i < weapon.contents.size(); i++)
-    {
-        if (weapon.contents[i].type->id == it)
-        {
+    for (int i = 0; i < weapon.contents.size(); i++)     {
+        if (weapon.contents[i].type->id == it) {
             quantity++;
         }
     }
