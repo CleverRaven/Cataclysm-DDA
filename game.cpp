@@ -3251,39 +3251,31 @@ Current turn: %d; Next spawn %d.\n\
     std::stringstream data;
     npc *p = active_npc[npcdex];
     uimenu nmenu;
-    nmenu.text_color = c_cyan;
-    nmenu.disabled_color = c_ltgray;
     nmenu.return_invalid = true;
-    data << p->name << " " << (p->male ? _("Male") : _("Female"));
-    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
+    data << p->name << " " << (p->male ? _("Male") : _("Female")) << std::endl;
 
     data << npc_class_name(p->myclass) << "; " <<
-            npc_attitude_name(p->attitude);
-    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
+            npc_attitude_name(p->attitude) << std::endl;
     if (p->has_destination()) {
      data << _("Destination: ") << p->goalx << ":" << p->goaly << "(" <<
-             oterlist[ cur_om->ter(p->goalx, p->goaly, p->goalz) ].name << ")";
-    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
-
+             oterlist[ cur_om->ter(p->goalx, p->goaly, p->goalz) ].name << ")" << std::endl;
     } else {
-     data << _("No destination.");
-    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
-
+     data << _("No destination.") << std::endl;
     }
     data << _("Trust: ") << p->op_of_u.trust << _(" Fear: ") << p->op_of_u.fear <<
             _(" Value: ") << p->op_of_u.value << _(" Anger: ") << p->op_of_u.anger <<
-            _(" Owed: ") << p->op_of_u.owed;
-    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
+            _(" Owed: ") << p->op_of_u.owed << std::endl;
 
     data << _("Aggression: ") << int(p->personality.aggression) << _(" Bravery: ") <<
             int(p->personality.bravery) << _(" Collector: ") <<
             int(p->personality.collector) << _(" Altruism: ") <<
-            int(p->personality.altruism);
-    nmenu.addentry(-1,false,-2,"%s",data.str().c_str()); data.str("");
-    nmenu.addentry(50,true,'s',"%s",_("Edit [s]kills"));
-    nmenu.addentry(51,true,'q',"%s",_("[q]uit"));
+            int(p->personality.altruism) << std::endl << " " << std::endl;
+    nmenu.text=data.str();
+    nmenu.addentry(0,true,'s',"%s",_("Edit [s]kills"));
+    nmenu.addentry(1,true,'q',"%s",_("[q]uit"));
+    nmenu.selected = 0;
     nmenu.query();
-    if (nmenu.ret == 50 ) {
+    if (nmenu.ret == 0 ) {
       wishskill(p);
     }
    }
