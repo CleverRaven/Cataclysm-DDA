@@ -6,6 +6,9 @@
 */
 struct uistatedata {
 /**** declare your variable here. It can be anything, really *****/
+  int wishitem_selected;
+  int wishmutate_selected;
+  int wishmonster_selected;
   int adv_inv_leftsort;
   int adv_inv_rightsort;
   int adv_inv_leftarea;
@@ -15,6 +18,9 @@ struct uistatedata {
   int adv_inv_leftpage;
   int adv_inv_rightpage;
   int adv_inv_last_popup_dest;
+  std::string adv_inv_leftfilter;
+  std::string adv_inv_rightfilter;
+
   bool editmap_nsa_viewmode;        // true: ignore LOS and lighting
   bool debug_ranged;
   point adv_inv_last_coords;
@@ -33,6 +39,9 @@ struct uistatedata {
 
   uistatedata() {
 /**** this will set a default value on startup, however to save, see below ****/
+      wishitem_selected = 0;
+      wishmutate_selected = 0;
+      wishmonster_selected = 0;
       adv_inv_leftsort = 1;
       adv_inv_rightsort = 1;
       adv_inv_leftarea = 5;
@@ -44,10 +53,11 @@ struct uistatedata {
       adv_inv_last_popup_dest=0;
       adv_inv_last_coords.x=-999;
       adv_inv_last_coords.y=-999;
+      adv_inv_leftfilter="";
+      adv_inv_rightfilter="";
       editmap_nsa_viewmode = false;
       last_inv_start = -2;
       last_inv_sel = -2;
-      debug_ranged = false;  
       // internal stuff
       _testing_save = true;        // internal: whine on json errors. set false if no complaints in 2 weeks.
       _really_testing_save = false; // internal: spammy
