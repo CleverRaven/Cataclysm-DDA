@@ -257,11 +257,7 @@ nc_color monster::color_with_effects()
 
 bool monster::has_flag(m_flag f)
 {
- for (int i = 0; i < type->flags.size(); i++) {
-  if (type->flags[i] == f)
-   return true;
- }
- return false;
+ return type->has_flag(f);
 }
 
 bool monster::can_see()
