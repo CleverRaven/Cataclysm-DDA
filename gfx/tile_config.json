@@ -10,7 +10,7 @@
     [
         {
             "id":"unknown",
-            "bg":54,
+            "fg":54,
             "rotates":true
         },
         {

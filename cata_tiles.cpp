@@ -624,8 +624,6 @@ bool cata_tiles::draw_tile_at(tile_type* tile, int x, int y, int rota)
 
     return true;
 }
-
-
 /**
     may be able to cache results for each rotation using a double dx,dy pair. Would certainly increase speed at the expense of:
     [4 * tile_width * tile_height * (2*sizeof(double))] memory use.
@@ -895,7 +893,8 @@ bool cata_tiles::draw_vpart(int x, int y)
     if (!veh) return false;
     // veh_part is the index of the part
     // get a north-east-south-west value instead of east-south-west-north value to use with rotation
-    const int veh_dir = (veh->face.dir4() + 1) % 4;
+    int veh_dir = (veh->face.dir4() + 1) % 4;
+    if (veh_dir == 1 || veh_dir == 3) veh_dir = (veh_dir + 2) % 4;
     // get the veh part itself
     vehicle_part vpart = veh->parts[veh_part];
     // get the vpart_id
@@ -1280,9 +1279,9 @@ void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects
             subtile = t_connection;
             switch(val)
             {
-                case 14: rotation = 0; break;
+                case 14: rotation = 2; break;
                 case 11: rotation = 1; break;
-                case 7:  rotation = 2; break;
+                case 7:  rotation = 0; break;
                 case 13: rotation = 3; break;
             }
             break;

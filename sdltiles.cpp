@@ -208,6 +208,7 @@ static void OutputChar(Uint16 t, int x, int y, unsigned char color)
     }
 }
 
+
 // only update if the set interval has elapsed
 void try_update()
 {
