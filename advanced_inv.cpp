@@ -15,61 +15,6 @@
 #include "uistate.h"
 #include "helper.h"
 #include "auto_pickup.h"
-
-/*
-#include "rng.h"
-#include "input.h"
-#include "keypress.h"
-#include "output.h"
-#include "skill.h"
-#include "line.h"
-#include "computer.h"
-#include "veh_interact.h"
-#include "options.h"
-#include "auto_pickup.h"
-#include "mapbuffer.h"
-#include "debug.h"
-#include "editmap.h"
-#include "bodypart.h"
-#include "map.h"
-#include "object.h"
-#include "output.h"
-#include "uistate.h"
-#include "item_factory.h"
-#include "helper.h"
-#include "text_snippets.h"
-#include "catajson.h"
-#include "artifact.h"
-#include "overmapbuffer.h"
-#include "trap.h"
-#include "mapdata.h"
-#include "catacharset.h"
-#include "translations.h"
-#include "rules.h"
-//#include "player.h"
-#include <map>
-#include <set>
-#include <algorithm>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <math.h>
-#include <vector>
-#ifndef _MSC_VER
-#include <unistd.h>
-#include <dirent.h>
-#endif
-#include <sys/stat.h>
-#include "debug.h"
-#include "artifactdata.h"
-#include "weather.h"
-#include "weather_const.h"
-#include "bench.h"
-#if (defined _WIN32 || defined __WIN32__)
-#include <windows.h>
-#include <tchar.h>
-#endif
-*/
 #ifdef _MSC_VER
 // MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
 #define snprintf _snprintf_s
