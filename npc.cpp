@@ -155,10 +155,8 @@ std::string npc::save_info()
          " " << oxygen << " " << (marked_for_death ? "1" : "0") << " " <<
          (dead ? "1" : "0") << " " << myclass << " " << patience << " ";
 
- for (std::map<std::string, bool>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
-    if (iter->second) {
-        dump << iter->first << " ";
-    }
+ for (std::set<std::string>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
+    dump << *iter << " ";
  }
 
  dump << "TRAITS_END" << " ";
@@ -256,7 +254,7 @@ void npc::load_info(game *g, std::string data)
     if (sTemp == "TRAITS_END") {
         break;
     } else {
-        my_traits[sTemp] = true;
+        my_traits.insert(sTemp);
     }
  }
 
