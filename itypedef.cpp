@@ -52,9 +52,9 @@ void game::init_itypes ()
   new itype("toolset", 0, "integrated toolset",
             "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
-// For smoking crack or meth
+// For smoking drugs
  itypes["apparatus"]=
-  new itype("apparatus", 0, "something to smoke that from, and a lighter",
+  new itype("apparatus", 0, "a smoking device and a source of flame",
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 
