@@ -155,6 +155,7 @@ void game::wishmutate( player *p )
                 } while (!p->has_trait( mstr ) && rc < 10);
             }
             cb->msg=string_format("%s Mutation changes: %d",mstr.c_str(),rc);
+            uistate.wishmutate_selected = wmenu.ret;
             if ( rc != 0 ) {
                 for ( int i = 0; i < cb->vTraits.size(); i++ ) {
                     if ( p->has_trait( cb->vTraits[ i ] ) ) {
@@ -285,6 +286,7 @@ void game::wishmonster(int x, int y)
                 add_zombie(mon);
 #endif
                 cb->msg = _("Monster spawned, choose another or 'q' to quit.");
+                uistate.wishmonster_selected = wmenu.ret;
                 wmenu.redraw();
             }
         }
