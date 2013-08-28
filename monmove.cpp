@@ -94,95 +94,108 @@ void monster::wander_to(int x, int y, int f)
 
 void monster::plan(game *g)
 {
- int sightrange = g->light_level();
- int closest = -1;
- int dist = 1000;
- int tc, stc;
- bool fleeing = false;
- if (friendly != 0) {	// Target monsters, not the player!
-  for (int i = 0; i < g->num_zombies(); i++) {
-   monster *tmp = &(g->zombie(i));
-   if (tmp->friendly == 0 && rl_dist(posx(), posy(), tmp->posx(), tmp->posy()) < dist &&
-       g->m.sees(_posx, _posy, tmp->posx(), tmp->posy(), sightrange, tc)) {
-    closest = i;
-    dist = rl_dist(_posx, _posy, tmp->posx(), tmp->posy());
-    stc = tc;
-   }
-  }
-  if (has_effect(ME_DOCILE))
-   closest = -1;
-  if (closest >= 0)
-   set_dest(g->zombie(closest).posx(), g->zombie(closest).posy(), stc);
-  else if (friendly > 0 && one_in(3))	// Grow restless with no targets
-   friendly--;
-  else if (friendly < 0 && g->sees_u(_posx, _posy, tc)) {
-   if (rl_dist(posx(), posy(), g->u.posx, g->u.posy) > 2)
-    set_dest(g->u.posx, g->u.posy, tc);
-   else
-    plans.clear();
-  }
-  return;
- }
- if (is_fleeing(g->u) && can_see() && g->sees_u(_posx, _posy, tc)) {
-  fleeing = true;
-  wandx = posx() * 2 - g->u.posx;
-  wandy = posy() * 2 - g->u.posy;
-  wandf = 40;
-  dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
- }
-// If we can see, and we can see a character, start moving towards them
- if (!is_fleeing(g->u) && can_see() && g->sees_u(posx(), posy(), tc)) {
-  dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
-  closest = -2;
-  stc = tc;
- }
- for (int i = 0; i < g->active_npc.size(); i++) {
-  npc *me = (g->active_npc[i]);
-  int medist = rl_dist(posx(), posy(), me->posx, me->posy);
-  if ((medist < dist || (!fleeing && is_fleeing(*me))) &&
-      (can_see() &&
-       g->m.sees(posx(), posy(), me->posx, me->posy, sightrange, tc))) {
-   if (is_fleeing(*me)) {
-    fleeing = true;
-    wandx = posx() * 2 - me->posx;
-    wandy = posy() * 2 - me->posy;
-    wandf = 40;
-    dist = medist;
-   } else if (can_see() &&
-              g->m.sees(posx(), posy(), me->posx, me->posy, sightrange, tc)) {
-    dist = rl_dist(posx(), posy(), me->posx, me->posy);
-    closest = i;
-    stc = tc;
-   }
-  }
- }
- if (!fleeing) {
-  fleeing = attitude() == MATT_FLEE;
-  for (int i = 0; i < g->num_zombies(); i++) {
-   monster *mon = &(g->zombie(i));
-   int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
-   if (mon->friendly != 0 && mondist < dist && can_see() &&
-       g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, tc)) {
-    dist = mondist;
-    if (fleeing) {
-     wandx = posx() * 2 - mon->posx();
-     wandy = posy() * 2 - mon->posy();
-     wandf = 40;
-    } else {
-     closest = -3 - i;
-     stc = tc;
+    int sightrange = g->light_level();
+    int closest = -1;
+    int dist = 1000;
+    int tc, stc;
+    bool fleeing = false;
+    if (friendly != 0) {	// Target monsters, not the player!
+        for (int i = 0; i < g->num_zombies(); i++) {
+            monster *tmp = &(g->zombie(i));
+            if (tmp->friendly == 0) {
+                int d = rl_dist(posx(), posy(), tmp->posx(), tmp->posy());
+                if (d < dist && g->m.sees(posx(), posy(), tmp->posx(), tmp->posy(), sightrange, tc)) {
+                    closest = i;
+                    dist = d;
+                    stc = tc;
+                }
+            }
+        }
+
+        if (has_effect(ME_DOCILE)) {
+            closest = -1;
+        }
+
+        if (closest >= 0) {
+            set_dest(g->zombie(closest).posx(), g->zombie(closest).posy(), stc);
+        } else if (friendly > 0 && one_in(3)) {
+            // Grow restless with no targets
+            friendly--;
+        } else if (friendly < 0 && g->sees_u(_posx, _posy, tc)) {
+            if (rl_dist(posx(), posy(), g->u.posx, g->u.posy) > 2) {
+                set_dest(g->u.posx, g->u.posy, tc);
+            } else {
+                plans.clear();
+            }
+        }
+        return;
     }
-   }
-  }
- }
- if (!fleeing) {
-  if (closest == -2)
-   set_dest(g->u.posx, g->u.posy, stc);
-  else if (closest <= -3)
-   set_dest(g->zombie(-3 - closest).posx(), g->zombie(-3 - closest).posy(), stc);
-  else if (closest >= 0)
-   set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, stc);
- }
+
+    // If we can see, and we can see a character, move toward them or flee.
+    if (can_see() && g->sees_u(_posx, _posy, tc)) {
+        dist = rl_dist(posx(), posy(), g->u.posx, g->u.posy);
+        if (is_fleeing(g->u)) {
+            // Wander away.
+            fleeing = true;
+            wandx = posx() * 2 - g->u.posx;
+            wandy = posy() * 2 - g->u.posy;
+            wandf = 40;
+        } else {
+            // Chase the player.
+            closest = -2;
+            stc = tc;
+        }
+    }
+
+    for (int i = 0; i < g->active_npc.size(); i++) {
+        npc *me = (g->active_npc[i]);
+        int medist = rl_dist(posx(), posy(), me->posx, me->posy);
+        if ((medist < dist || (!fleeing && is_fleeing(*me))) &&
+                (can_see() &&
+                g->m.sees(posx(), posy(), me->posx, me->posy, sightrange, tc))) {
+            if (is_fleeing(*me)) {
+                fleeing = true;
+                wandx = posx() * 2 - me->posx;
+                wandy = posy() * 2 - me->posy;
+                wandf = 40;
+            } else {
+                closest = i;
+                stc = tc;
+            }
+            dist = medist;
+        }
+    }
+
+    if (!fleeing) {
+        fleeing = attitude() == MATT_FLEE;
+        if (can_see()) {
+            for (int i = 0; i < g->num_zombies(); i++) {
+                monster *mon = &(g->zombie(i));
+                if (mon->friendly != 0) {
+                    int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
+                    if (mondist < dist &&
+                            g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, tc)) {
+                        dist = mondist;
+                        if (fleeing) {
+                            wandx = posx() * 2 - mon->posx();
+                            wandy = posy() * 2 - mon->posy();
+                            wandf = 40;
+                        } else {
+                            closest = -3 - i;
+                            stc = tc;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (closest == -2)
+            set_dest(g->u.posx, g->u.posy, stc);
+        else if (closest <= -3)
+            set_dest(g->zombie(-3 - closest).posx(), g->zombie(-3 - closest).posy(), stc);
+        else if (closest >= 0)
+            set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, stc);
+    }
 }
 
 // General movement.
