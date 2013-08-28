@@ -194,17 +194,17 @@ void uimenu::filterlist()
 std::string uimenu::inputfilter()
 {
     std::string identifier = ""; // todo: uimenu.filter_identifier ?
-    bool selcallback = (callback != NULL );
     long key = 0;
 
     mvwprintz(window, w_height - 1, 2, border_color, "< ");
     mvwprintz(window, w_height - 1, w_width - 3, border_color, " >");
-
+/*
+//debatable merit
     std::string origfilter = filter;
     int origselected = selected;
     int origfselected = fselected;
     int origvshift = vshift;
-
+*/
     do {
         // filter=filter_input->query(filter, false);
         filter=string_input_win(window, filter, 256, 4, w_height - 1, w_width - 4, false, key, identifier, 4, w_height - 1);
@@ -219,7 +219,7 @@ std::string uimenu::inputfilter()
 
     if ( key == KEY_ESCAPE ) {
 /*
-//debatable merit
+//perhaps as an option
         filter = origfilter;
         selected = origselected;
         fselected = origfselected;
@@ -414,7 +414,6 @@ void uimenu::show() {
     } else if ( fselected >= vshift + vmax ) {
         vshift=1+fselected-vmax;
     }
-    bool selcallback = (callback != NULL );
     for ( int fei = vshift, si=0; si < vmax; fei++,si++ ) {
         if ( fei < fentries.size() ) {
             int ei=fentries [ fei ];
@@ -518,7 +517,6 @@ bool uimenu::scrollby(int scrollby, const int key) {
     }
 
     int iter = ( hilight_disabled ? 1 : fentries.size() );
-    const int adv = ( backwards ? -1 : 1 );
 
     if ( backwards ) {
             while ( iter > 0 ) {

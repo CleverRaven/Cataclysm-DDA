@@ -781,7 +781,6 @@ void advanced_inventory::display(game * gp, player * pp) {
             werase(head);
             {
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
-                int line=1;
                 if( checkshowmsg || showmsg ) {
 #ifdef game_friend
                   for (int i = messages.size() - 1; i >= 0 && line < 4; i--) {
