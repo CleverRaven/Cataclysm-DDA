@@ -92,8 +92,8 @@ game::game() :
  init_skills();
  init_professions();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
- init_mtypes();	              // Set up monster types             (SEE mtypedef.cpp)
- init_itypes();	              // Set up item types                (SEE itypedef.cpp)
+ init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
+ init_itypes();               // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();
  item_controller->init(this); //Item manager
  init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
@@ -107,7 +107,8 @@ game::game() :
  init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();             // Set up autosave
  init_diseases();             // Set up disease lookup table
- init_dreams();				  // Set up dreams					  (SEE mutation_data.cpp)
+ init_dreams();               // Set up dreams                    (SEE mutation_data.cpp)
+ init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;
@@ -8411,29 +8412,48 @@ void game::pickup(int posx, int posy, int min)
   k_part = veh->part_with_feature(veh_part, "KITCHEN");
   veh_part = veh->part_with_feature(veh_part, "CARGO", false);
   from_veh = veh && veh_part >= 0 &&
-             veh->parts[veh_part].items.size() > 0 &&
-             query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str());
-
-  if (!from_veh && k_part >= 0) {
-    if (veh->fuel_left("water")) {
-      if (query_yn(_("Fill a container?"))) {
-      int amt = veh->drain("water", veh->fuel_left("water"));
-      item fill_water(g->itypes[default_ammo("water")], g->turn);
-      fill_water.charges = amt;
-      int back = g->move_liquid(fill_water);
-      veh->refill("water", back);
-      }
-      if (query_yn(_("Have a drink?"))) {
-        veh->drain("water", 1);
-
-        item water(itypes["water_clean"], 0);
-        u.eat(this, u.inv.add_item(water).invlet);
-        u.moves -= 250;
-      }
-    } else {
-      add_msg(_("The water tank is empty."));
+             veh->parts[veh_part].items.size() > 0;
+  
+  if(from_veh) {
+    if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str())) {
+      from_veh = false;
     }
   }
+
+  if(!from_veh) {
+
+    //Either no cargo to grab, or we declined; what about water?
+    bool got_water = false;
+    if (k_part >= 0) {
+      if (veh->fuel_left("water")) {
+        if (query_yn(_("Fill a container?"))) {
+          int amt = veh->drain("water", veh->fuel_left("water"));
+          item fill_water(g->itypes[default_ammo("water")], g->turn);
+          fill_water.charges = amt;
+          int back = g->move_liquid(fill_water);
+          veh->refill("water", back);
+          got_water = true;
+        }
+        if (query_yn(_("Have a drink?"))) {
+          veh->drain("water", 1);
+
+          item water(itypes["water_clean"], 0);
+          u.eat(this, u.inv.add_item(water).invlet);
+          u.moves -= 250;
+          got_water = true;
+        }
+      } else {
+        add_msg(_("The water tank is empty."));
+      }
+    }
+
+    //If we still haven't done anything, we probably want to examine the vehicle
+    if(!got_water) {
+      exam_vehicle(*veh, posx, posy);
+    }
+
+  }
+
  }
 
     if (!from_veh) {
@@ -10937,13 +10957,13 @@ void game::plswim(int x, int y)
  u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 
- int drenchFlags = mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms);
+ int drenchFlags = mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_feet);
 
- if (get_temperature() < 50)
-   drenchFlags |= mfb(bp_feet)|mfb(bp_hands);
+ if (get_temperature() <= 50)
+   drenchFlags |= mfb(bp_hands);
 
  if (u.underwater)
-   drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth);
+   drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_hands);
 
  u.drench(this, 100, drenchFlags);
 }

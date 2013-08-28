@@ -20,7 +20,7 @@ void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
     int funnel_radius_mm = 0;
     switch (t) {
         case tr_funnel:             funnel_radius_mm = 380; break;
-        case tr_makeshift_funnel:   funnel_radius_mm =  38; break;
+        case tr_makeshift_funnel:   funnel_radius_mm =  85; break;
         default: return;
     }
 
@@ -145,11 +145,13 @@ void decay_fire_and_scent(game *g, int fire_amount)
 void generic_wet(game *g, bool acid)
 {
     if ((!g->u.is_wearing("coat_rain") || one_in(50)) &&
-            (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) &&
-            !g->u.has_trait("FEATHERS") && g->u.warmth(bp_torso) < 20 &&
-            PLAYER_OUTSIDE && one_in(2)) {
-        g->u.drench(g, 30 - g->u.warmth(bp_torso), mfb(bp_torso)|mfb(bp_arms));
+         (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
+         (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 30 && PLAYER_OUTSIDE &&
+         one_in(2)) {
+        g->u.drench(g, 30 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
+                     mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head));
     }
+
     fill_water_collectors(g, 4, acid);
     decay_fire_and_scent(g, 15);
 }
@@ -157,9 +159,10 @@ void generic_wet(game *g, bool acid)
 void generic_very_wet(game *g, bool acid)
 {
     if ((!g->u.is_wearing("coat_rain") || one_in(25)) &&
-            (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) &&
-            !g->u.has_trait("FEATHERS") && g->u.warmth(bp_torso) < 50 && PLAYER_OUTSIDE) {
-        g->u.drench(g, 60 - g->u.warmth(bp_torso), mfb(bp_torso)|mfb(bp_arms));
+         (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) && !g->u.has_trait("FEATHERS") &&
+         (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 60 && PLAYER_OUTSIDE) {
+        g->u.drench(g, 60 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
+                     mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head));
     }
 
     fill_water_collectors(g, 8, acid);

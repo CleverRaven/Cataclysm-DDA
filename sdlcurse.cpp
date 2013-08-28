@@ -5,6 +5,7 @@
 #include "color.h"
 #include "debug.h"
 #include "catacharset.h"
+#include "get_version.h"
 #include <fstream>
 #include <sys/stat.h>
 
@@ -89,7 +90,8 @@ bool WinCreate()
 
 	atexit(SDL_Quit);
 
-	SDL_WM_SetCaption("Cataclysm: Dark Days Ahead - 0.6git", NULL);
+    std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
+    SDL_WM_SetCaption(version.c_str(), NULL);
 
     char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
     SDL_putenv(center_string);

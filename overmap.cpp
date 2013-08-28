@@ -222,41 +222,79 @@ bool is_wall_material(oter_id ter)
  return false;
 }
 
+// Likelihood to pick a specific overmap terrain.
+struct oter_weight {
+    oter_id ot;
+    int weight;
+};
+
+// Local class for picking overmap terrain from a weighted list.
+struct oter_weight_list {
+    oter_weight_list() : total_weight(0) { };
+
+    void add_item(oter_id id, int weight) {
+        oter_weight new_weight = { id, weight };
+        items.push_back(new_weight);
+        total_weight += weight;
+    }
+
+    oter_id pick() {
+        int picked = rng(0, total_weight);
+        int accumulated_weight = 0;
+
+        int i;
+        for(i=0; i<items.size(); i++) {
+            accumulated_weight += items[i].weight;
+            if(accumulated_weight >= picked) {
+                break;
+            }
+        }
+
+        return items[i].ot;
+    }
+
+private:
+    int total_weight;
+    std::vector<oter_weight> items;
+};
+
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- const int type = rng(0, 28);
 
- switch (type) {
-  case  1: ret = ot_s_gas_north;         break;
-  case  2: ret = ot_s_pharm_north;       break;
-  case  3: ret = ot_s_grocery_north;     break;
-  case  4: ret = ot_s_hardware_north;    break;
-  case  5: ret = ot_s_sports_north;      break;
-  case  6: ret = ot_s_liquor_north;      break;
-  case  7: ret = ot_s_gun_north;         break;
-  case  8: ret = ot_s_clothes_north;     break;
-  case  9: ret = ot_s_library_north;     break;
-  case 10: ret = ot_s_restaurant_north;  break;
-  case 11: ret = ot_sub_station_north;   break;
-  case 12: ret = ot_bank_north;          break;
-  case 13: ret = ot_bar_north;           break;
-  case 14: ret = ot_s_electronics_north; break;
-  case 15: ret = ot_pawn_north;          break;
-  case 16: ret = ot_mil_surplus_north;   break;
-  case 17: ret = ot_s_garage_north;      break;
-  case 18: ret = ot_station_radio_north; break;
-  case 19: ret = ot_office_doctor_north; break;
-  case 20: ret = ot_s_restaurant_fast_north;  break;
-  case 21: ret = ot_s_restaurant_coffee_north;  break;
-  case 22: ret = ot_church_north;        break;
-  case 23: ret = ot_office_cubical_north;        break;
-  case 24: ret = ot_police_north;        break;
-  case 25: ret = ot_furniture_north;     break;
-  case 26: ret = ot_abstorefront_north;  break;
-  case 27: ret = ot_police_north;        break;
-  default: ret = ot_s_lot;               break;
- }
+ // TODO: adjust weights based on area, maybe using JSON
+ //       (implies we have area types first)
+ oter_weight_list weightlist;
+ weightlist.add_item(ot_s_gas_north, 5);
+ weightlist.add_item(ot_s_pharm_north, 3);
+ weightlist.add_item(ot_s_grocery_north, 15);
+ weightlist.add_item(ot_s_hardware_north, 5);
+ weightlist.add_item(ot_s_sports_north, 5);
+ weightlist.add_item(ot_s_liquor_north, 5);
+ weightlist.add_item(ot_s_gun_north, 5);
+ weightlist.add_item(ot_s_clothes_north, 5);
+ weightlist.add_item(ot_s_library_north, 4);
+ weightlist.add_item(ot_s_restaurant_north, 5);
+ weightlist.add_item(ot_sub_station_north, 5);
+ weightlist.add_item(ot_bank_north, 3);
+ weightlist.add_item(ot_bar_north, 5);
+ weightlist.add_item(ot_s_electronics_north, 5);
+ weightlist.add_item(ot_pawn_north, 3);
+ weightlist.add_item(ot_mil_surplus_north, 2);
+ weightlist.add_item(ot_s_garage_north, 5);
+ weightlist.add_item(ot_station_radio_north, 5);
+ weightlist.add_item(ot_office_doctor_north, 2);
+ weightlist.add_item(ot_s_restaurant_fast_north, 3);
+ weightlist.add_item(ot_s_restaurant_coffee_north, 3);
+ weightlist.add_item(ot_church_north, 2);
+ weightlist.add_item(ot_office_cubical_north, 2);
+ weightlist.add_item(ot_furniture_north, 2);
+ weightlist.add_item(ot_abstorefront_north, 2);
+ weightlist.add_item(ot_police_north, 1);
+ weightlist.add_item(ot_s_lot, 4);
+
+ ret = weightlist.pick();
+
  if (ret == ot_s_lot)
   return ret;
  if (dir < 0) dir += 4;
