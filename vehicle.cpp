@@ -2203,7 +2203,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                 if (type == 2 ||
                     (one_in (ft == "gasoline" ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
                 {
-                    g->u.add_memorial_log(_("The engine of the %s exploded!"), name.c_str());
+                    g->u.add_memorial_log(_("The fuel tank of the %s exploded!"), name.c_str());
                     g->explosion (global_x() + parts[p].precalc_dx[0], global_y() + parts[p].precalc_dy[0],
                                 pow, 0, ft == "gasoline");
                     parts[p].hp = 0;
