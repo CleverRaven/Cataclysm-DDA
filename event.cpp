@@ -39,7 +39,7 @@ void event::actualize(game *g)
     int robx = (g->levx > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
         roby = (g->levy > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
     robot.spawn(robx, roby);
-    g->z.push_back(robot);
+    g->add_zombie(robot);
    }
   } break;
 
@@ -59,7 +59,7 @@ void event::actualize(game *g)
              rl_dist(g->u.posx, g->u.posx, monx, mony) <= 2);
     if (tries < 10) {
      wyrm.spawn(monx, mony);
-     g->z.push_back(wyrm);
+     g->add_zombie(wyrm);
     }
    }
    if (!one_in(25)) // They just keep coming!
@@ -105,7 +105,7 @@ void event::actualize(game *g)
              tries < 10);
     if (tries < 10) {
      horror.spawn(monx, mony);
-     g->z.push_back(horror);
+     g->add_zombie(horror);
     }
    }
   } break;
@@ -208,7 +208,7 @@ void event::actualize(game *g)
             rl_dist(x, y, g->u.posx, g->u.posy) <= 2);
    if (tries < 20) {
     spawned.spawn(x, y);
-    g->z.push_back(spawned);
+    g->add_zombie(spawned);
    }
   } break;
 
@@ -229,7 +229,7 @@ void event::per_turn(game *g)
     if (place.x == -1 && place.y == -1)
      return; // We're safely indoors!
     eyebot.spawn(place.x, place.y);
-    g->z.push_back(eyebot);
+    g->add_zombie(eyebot);
     if (g->u_see(place.x, place.y))
      g->add_msg(_("An eyebot swoops down nearby!"));
    }

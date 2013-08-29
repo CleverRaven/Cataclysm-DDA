@@ -273,7 +273,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
             else
             {
-                m->ter_set(i, j, t_dirt);
+                m->ter_set(i, j, grass_or_dirt());
             }
         }
     }
@@ -310,7 +310,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 {
                     m->ter_set(x, y, t_water_dp);
                 }
-                else if (m->ter(x, y) == t_dirt || m->ter(x, y) == t_underbrush)
+                else if (m->ter(x, y) == t_dirt || m->ter(x, y) == t_grass ||
+                         m->ter(x, y) == t_underbrush)
                 {
                     m->ter_set(x, y, t_water_sh);
                 }
@@ -332,7 +333,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             for (int j = 0; j < dat.n_fac; j++)
             {
                 int wx = rng(0, SEEX * 2 -1), wy = rng(0, SEEY - 1);
-                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_underbrush)
+                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
+                    m->ter(wx, wy) == t_underbrush)
                 {
                     m->ter_set(wx, wy, t_water_sh);
                 }
@@ -340,7 +342,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             for (int j = 0; j < dat.e_fac; j++)
             {
                 int wx = rng(SEEX, SEEX * 2 - 1), wy = rng(0, SEEY * 2 - 1);
-                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_underbrush)
+                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
+                    m->ter(wx, wy) == t_underbrush)
                 {
                     m->ter_set(wx, wy, t_water_sh);
                 }
@@ -348,7 +351,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             for (int j = 0; j < dat.s_fac; j++)
             {
                 int wx = rng(0, SEEX * 2 - 1), wy = rng(SEEY, SEEY * 2 - 1);
-                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_underbrush)
+                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
+                    m->ter(wx, wy) == t_underbrush)
                 {
                     m->ter_set(wx, wy, t_water_sh);
                 }
@@ -356,7 +360,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             for (int j = 0; j < dat.w_fac; j++)
             {
                 int wx = rng(0, SEEX - 1), wy = rng(0, SEEY * 2 - 1);
-                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_underbrush)
+                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
+                    m->ter(wx, wy) == t_underbrush)
                 {
                     m->ter_set(wx, wy, t_water_sh);
                 }
@@ -370,7 +375,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             m->add_trap(x, y, tr_sinkhole);
             if (m->ter(x, y) != t_water_sh)
             {
-                m->ter_set(x, y, t_dirt);
+                m->ter_set(x, y, grass_or_dirt());
             }
         }
     }
@@ -386,7 +391,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
         {
             for (int j = 0; j < SEEX * 2; j++)
             {
-                if ((m->ter(i, j) == t_dirt || m->ter(i, j) == t_underbrush) && !one_in(3))
+                if ((m->ter(i, j) == t_dirt || m->ter(i, j) == t_grass ||
+                     m->ter(i, j) == t_underbrush) && !one_in(3))
                 {
                     m->add_field(NULL, i, j, fd_web, rng(1, 3));
                 }

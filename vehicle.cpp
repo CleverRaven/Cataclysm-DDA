@@ -692,7 +692,7 @@ std::vector<int> vehicle::internal_parts (int p)
     return res;
 }
 
-int vehicle::part_with_feature (int part, std::string flag, bool unbroken)
+int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
 {
     if (part_flag(part, flag)) {
         return part;
@@ -706,7 +706,7 @@ int vehicle::part_with_feature (int part, std::string flag, bool unbroken)
     return -1;
 }
 
-bool vehicle::part_flag (int part, std::string flag)
+bool vehicle::part_flag (int part, const std::string &flag)
 {
     if (part < 0 || part >= parts.size()) {
         return false;
@@ -1492,7 +1492,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     int mondex = g->mon_at(x, y);
     int npcind = g->npc_at(x, y);
     bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
-    monster *z = mondex >= 0? &g->z[mondex] : 0;
+    monster *z = mondex >= 0? &g->zombie(mondex) : 0;
     player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
 
     if (ph && ph->in_vehicle) // if in a vehicle assume it's this one
@@ -1875,9 +1875,12 @@ int vehicle::stored_volume(int part) {
    }
    return cur_volume;
 }
-// stub, pending per vpart limits
+
 int vehicle::max_volume(int part) {
-   return MAX_VOLUME_IN_VEHICLE_STORAGE;
+	if ( part_flag(part, "CARGO") ){ 
+		return vpart_list[parts[part].id].size;		
+	}
+	return 0;	
 }
 
 // free space
@@ -2314,13 +2317,13 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     monster *target = 0;
     int range = ammo.type == "gasoline" ? 5 : 12;
     int closest = range + 1;
-    for (int i = 0; i < g->z.size(); i++)
+    for (int i = 0; i < g->num_zombies(); i++)
     {
-        int dist = rl_dist(x, y, g->z[i].posx, g->z[i].posy);
-        if (g->z[i].friendly == 0 && dist < closest &&
-            g->m.sees(x, y, g->z[i].posx, g->z[i].posy, range, t))
+        int dist = rl_dist(x, y, g->zombie(i).posx(), g->zombie(i).posy());
+        if (g->zombie(i).friendly == 0 && dist < closest &&
+            g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t))
         {
-            target = &(g->z[i]);
+            target = &(g->zombie(i));
             closest = dist;
             fire_t = t;
         }
@@ -2328,7 +2331,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     if (!target)
         return false;
 
-    std::vector<point> traj = line_to(x, y, target->posx, target->posy, fire_t);
+    std::vector<point> traj = line_to(x, y, target->posx(), target->posy(), fire_t);
     for (int i = 0; i < traj.size(); i++)
         if (traj[i].x == g->u.posx && traj[i].y == g->u.posy)
             return false; // won't shoot at player
@@ -2348,7 +2351,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
-    g->fire(tmp, target->posx, target->posy, traj, true);
+    g->fire(tmp, target->posx(), target->posy(), traj, true);
     if (ammo.type == "gasoline")
     {
         for (int i = 0; i < traj.size(); i++)

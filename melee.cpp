@@ -783,7 +783,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
     for (int y = posy - 1; y <= posy + 1; y++) {
      int mondex = g->mon_at(x, y);
      if (mondex != -1) {
-      if (g->z[mondex].friendly == 0)
+      if (g->zombie(mondex).friendly == 0)
        enemy_count++;
       else
        enemy_count -= 2;
@@ -819,7 +819,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
  std::string You = rm_prefix(is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
  std::string target = rm_prefix(mon ? string_format("<target>the %s",z->name().c_str()) :
                        (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : "<target>you"));
- int tarx = (mon ? z->posx : p->posx), tary = (mon ? z->posy : p->posy);
+ int tarx = (mon ? z->posx() : p->posx), tary = (mon ? z->posy() : p->posy);
 
  if (technique == TEC_RAPID) {
   moves += int( attack_speed(*this, false) / 2);
@@ -879,17 +879,17 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
    for (int y = posy - 1; y <= posy + 1; y++) {
     if (x != tarx || y != tary) { // Don't double-hit our target
      int mondex = g->mon_at(x, y);
-     if (mondex != -1 && hit_roll() >= rng(0, 5) + g->z[mondex].dodge_roll()) {
+     if (mondex != -1 && hit_roll() >= rng(0, 5) + g->zombie(mondex).dodge_roll()) {
          count_hit++;
-         int dam = roll_bash_damage(&(g->z[mondex]), false) +
-             roll_cut_damage (&(g->z[mondex]), false);
-         if (g->z[mondex].hurt(dam)) {
-             g->z[mondex].die(g);
+         int dam = roll_bash_damage(&(g->zombie(mondex)), false) +
+             roll_cut_damage (&(g->zombie(mondex)), false);
+         if (g->zombie(mondex).hurt(dam)) {
+             g->zombie(mondex).die(g);
          }
          if (weapon.has_technique(TEC_FLAMING, this))  { // Add to wide attacks
-             g->z[mondex].add_effect(ME_ONFIRE, rng(3, 4));
+             g->zombie(mondex).add_effect(ME_ONFIRE, rng(3, 4));
          }
-         std::string temp_target = rmp_format(_("<target>the %s"), g->z[mondex].name().c_str());
+         std::string temp_target = rmp_format(_("<target>the %s"), g->zombie(mondex).name().c_str());
          g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
      }
      int npcdex = g->npc_at(x, y);
@@ -1141,7 +1141,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
                        (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : _("<target>you")));
  std::string target_possessive = rm_prefix(mon ? string_format(_("<target's>the %s's"), z->name().c_str()) :
                                   (p->is_npc() ? string_format(_("<target's>%s's"), p->name.c_str()) : "<target's>your"));
- int tarposx = (mon ? z->posx : p->posx), tarposy = (mon ? z->posy : p->posy);
+ int tarposx = (mon ? z->posx() : p->posx), tarposy = (mon ? z->posy() : p->posy);
 
 // Bashing effecs
  if (mon)
@@ -1326,9 +1326,9 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
     g->add_msg_if_player(p,_("Stinger Strike!"));
     if (mon) {
      z->add_effect(ME_STUNNED, 3);
-     int zposx = z->posx, zposy = z->posy;
+     int zposx = z->posx(), zposy = z->posy();
      z->knock_back_from(g, posx, posy);
-     if (z->posx != zposx || z->posy != zposy)
+     if (z->posx() != zposx || z->posy() != zposy)
       z->knock_back_from(g, posx, posy); // Knock a 2nd time if the first worked
     } else {
      p->add_disease("stunned", 2);

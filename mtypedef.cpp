@@ -75,16 +75,12 @@
   fear = default_fears(species);
  }
 
- bool mtype::has_flag(m_flag flag)
+ bool mtype::has_flag(m_flag flag) const
  {
-  for (int i = 0; i < flags.size(); i++) {
-   if (flags[i] == flag)
-    return true;
-  }
-  return false;
+  return bitflags[flag];
  }
 
- bool mtype::in_category(m_category category)
+ bool mtype::in_category(m_category category) const
  {
   for (int i = 0; i < categories.size(); i++) {
    if (categories[i] == category)
@@ -1433,6 +1429,15 @@ away.  Defend it at all costs!")
 );
 FLAGS(MF_NOHEAD, MF_ACIDPROOF, MF_IMMOBILE);
 
+    // The flag vectors are slow, given how often has_flags() is called,
+    // so instead we'll use bitsets and initialize them here.
+    const int num_mtypes = mtypes.size();
+    for (int i = 0; i < num_mtypes; i++) {
+        const int num_flags = mtypes[i]->flags.size();
+        for (int j = 0; j < num_flags; j++) {
+            mtypes[i]->bitflags[mtypes[i]->flags[j]] = true;
+        }
+    }
 }
 
 

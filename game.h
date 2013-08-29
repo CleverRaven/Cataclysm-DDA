@@ -147,6 +147,14 @@ class game
   int  npc_at(const int x, const int y) const;	// Index of the npc at (x, y); -1 for none
   int  npc_by_id(const int id) const;	// Index of the npc at (x, y); -1 for none
  // void build_monmap();		// Caches data for mon_at()
+
+  void add_zombie(monster& m);
+  size_t num_zombies() const;
+  monster& zombie(const int idx);
+  void update_zombie_pos(const monster &m, const int newx, const int newy);
+  void remove_zombie(const int idx);
+  void clear_zombies();
+
   int  mon_at(const int x, const int y) const;	// Index of the monster at (x, y); -1 for none
   bool is_empty(const int x, const int y);	// True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
@@ -279,7 +287,6 @@ class game
   map m;
   int levx, levy, levz;	// Placement inside the overmap
   player u;
-  std::vector<monster> z;
   std::vector<monster_and_count> coming_to_stairs;
   int monstairx, monstairy, monstairz;
   std::vector<npc *> active_npc;
@@ -389,8 +396,10 @@ void load_artifacts(); // Load artifact data
   void create_starting_npcs(); // Creates NPCs that start near you
 
 // Player actions
-  void wish();	// Cheat by wishing for an item 'Z'
-  void monster_wish(); // Create a monster
+  void wishitem( player * p=NULL, int x=-1, int y=-1 );
+  void wishmonster( int x=-1, int y=-1 );
+  void wishmutate( player * p );
+  void wishskill( player * p );
   void mutation_wish(); // Mutate
 
   void pldrive(int x, int y); // drive vehicle
@@ -516,6 +525,9 @@ void load_artifacts(); // Load artifact data
 
 
 // ########################## DATA ################################
+
+  std::vector<monster> _z;
+  std::map<point, int> z_at;
 
   signed char last_target;// The last monster targeted
   char run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new

@@ -140,9 +140,9 @@ void initOptions() {
                                              0, 25, 12
                                             );
 
-    OPTIONS["SPAWN_DENSITY"] =       cOpt(mPage["general"], _("Spawn rate scaling factor"),
+    OPTIONS["SPAWN_DENSITY"] =          cOpt(mPage["general"], _("Spawn rate scaling factor"),
                                              _("A scaling factor that determines density of monster spawns."),
-                                          0.0, 50.0, 1.0, 0.1
+                                             0.0, 50.0, 1.0, 0.1
                                             );
 
     OPTIONS["INITIAL_TIME"] =           cOpt(mPage["debug"], _("Initial time"),
@@ -508,16 +508,3 @@ void save_options()
 
     fout.close();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

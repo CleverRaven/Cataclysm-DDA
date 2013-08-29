@@ -624,6 +624,6 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "gasoline" )	  return "gasoline";
     if( guntype == "THREAD" )return "thread";
     if( guntype == "water" ) return "water_clean";
-    if( guntype == "8x40mm"  )return "8x40mm caseless";
+    if( guntype == "8x40mm"  )return "8mm_caseless";
     return "null";
 }
