@@ -726,7 +726,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             p.str_cur--;
             p.dex_cur--;
             p.per_cur--;
-            if (one_in(6)) {
+            if (dis.duration >= 10 && one_in(6)) {
                 handle_cough(p);
             }
             break;
@@ -2171,7 +2171,9 @@ void handle_cough(player &p, int loudness) {
         g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
     }
     p.moves -= 80;
-    p.hurt(g, bp_torso, 0, 1 - (rng(0, 1) * rng(0, 1)));
+    if (!one_in(4)) {
+        p.hurt(g, bp_torso, 0, 1);
+    }
     if (p.has_disease("sleep")) {
         p.rem_disease("sleep");
         g->add_msg_if_player(&p,_("You wake up coughing."));
