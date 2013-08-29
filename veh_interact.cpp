@@ -338,7 +338,7 @@ void veh_interact::do_repair(int reason)
         return;
     case 2:
         mvwprintz(w_msg, 0, 1, c_ltgray, _("You need a powered welder to repair."));
-        mvwprintz(w_msg, 0, 12, has_welder? c_ltgreen : c_red, _("powered welder"));
+        mvwprintz(w_msg, 0, 12, has_welder? c_ltgreen : c_red, _("powered welder")); // FIXME: i18n
         wrefresh (w_msg);
         return;
     default:;
@@ -357,7 +357,7 @@ void veh_interact::do_repair(int reason)
         int dif = veh->part_info(sel_part).difficulty + (veh->parts[sel_part].hp <= 0? 0 : 2);
         bool has_skill = g->u.skillLevel("mechanics") >= dif;
         mvwprintz(w_msg, 0, 1, c_ltgray, _("You need level %d skill in mechanics."), dif);
-        mvwprintz(w_msg, 0, 16, has_skill? c_ltgreen : c_red, "%d", dif);
+        mvwprintz(w_msg, 0, 16, has_skill? c_ltgreen : c_red, "%d", dif); // FIXME: i18n
         if (veh->parts[sel_part].hp <= 0)
         {
             itype_id itm = veh->part_info(sel_part).item;
@@ -508,7 +508,7 @@ void veh_interact::do_siphon(int reason)
         return;
     case 2:
         mvwprintz(w_msg, 0, 1, c_ltgray, _("You need a hose to siphon fuel."));
-        mvwprintz(w_msg, 0, 12, c_red, _("hose"));
+        mvwprintz(w_msg, 0, 12, c_red, _("hose")); //FIXME: i18n
         wrefresh (w_msg);
         return;
     default:;
@@ -600,7 +600,7 @@ void veh_interact::do_drain(int reason)
         return;
     case 2:
         mvwprintz(w_msg, 0, 1, c_ltgray, _("You need a hose to siphon water.") );
-        mvwprintz(w_msg, 0, 12, c_red, _("hose") );
+        mvwprintz(w_msg, 0, 12, c_red, _("hose") ); // FIXME: i18n
         wrefresh (w_msg);
         return;
     default:;
@@ -745,7 +745,7 @@ void veh_interact::display_stats ()
 {
     bool conf = veh->valid_wheel_config();
     mvwprintz(w_stats, 0, 1, c_ltgray, _("Name: "));
-    mvwprintz(w_stats, 0, 7, c_ltgreen, veh->name.c_str());
+    mvwprintz(w_stats, 0, 1+utf8_width(_("Name: ")), c_ltgreen, veh->name.c_str());
     if(OPTIONS["USE_METRIC_SPEEDS"] == "km/h") {
         mvwprintz(w_stats, 1, 1, c_ltgray, _("Safe speed:      Km/h"));
         mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", int(veh->safe_velocity(false) * 0.0161f));
@@ -770,13 +770,19 @@ void veh_interact::display_stats ()
         mvwprintz(w_stats, 4, 12, c_ltblue,"%5d", (int) (veh->total_mass() * 2.2));
     }
     mvwprintz(w_stats, 5, 26, c_ltgray, _("K dynamics:        "));
-    mvwprintz(w_stats, 5, 37, c_ltblue, "%3d", (int) (veh->k_dynamics() * 100));
-    mvwputch (w_stats, 5, 41, c_ltgray, '%');
+    mvwprintz(w_stats, 5, 41, c_ltblue, "%3d", (int) (veh->k_dynamics() * 100));
+    mvwputch (w_stats, 5, 45, c_ltgray, '%');
     mvwprintz(w_stats, 6, 26, c_ltgray, _("K mass:            "));
-    mvwprintz(w_stats, 6, 37, c_ltblue, "%3d", (int) (veh->k_mass() * 100));
-    mvwputch (w_stats, 6, 41, c_ltgray, '%');
+    mvwprintz(w_stats, 6, 41, c_ltblue, "%3d", (int) (veh->k_mass() * 100));
+    mvwputch (w_stats, 6, 45, c_ltgray, '%');
     mvwprintz(w_stats, 5, 1, c_ltgray, _("Wheels: "));
-    mvwprintz(w_stats, 5, 11, conf? c_ltgreen : c_ltred, (conf? _("<wheels>enough") : _("<wheels>  lack"))+8);
+    if (conf) {
+        mvwprintz(w_stats, 5, 1+utf8_width(_("Wheels: ")), c_ltgreen,
+                  rm_prefix(_("<wheels>enough")).c_str());
+    } else {
+        mvwprintz(w_stats, 5, 1+utf8_width(_("Wheels: ")), c_ltgreen,
+                  rm_prefix(_("<wheels>  lack")).c_str());
+    }
     mvwprintz(w_stats, 6, 1, c_ltgray,  _("Fuel usage (safe):        "));
     int xfu = 20;
     ammotype ftypes[3] = { "gasoline", "battery", "plasma" };
@@ -1046,14 +1052,21 @@ void complete_vehicle (game *g)
         }
         if (veh->parts.size() < 2)
         {
-            g->add_msg (_("You completely dismantle %s."), veh->name.c_str());
+            g->add_msg (_("You completely dismantle the %s."), veh->name.c_str());
             g->u.activity.type = ACT_NULL;
             g->m.destroy_vehicle (veh);
         }
         else
         {
-            g->add_msg (_("You remove %s%s from %s."), broken? rm_prefix(_("<veh>broken ")).c_str() : "",
-                        veh->part_info(part).name.c_str(), veh->name.c_str());
+            if (broken) {
+                g->add_msg(_("You remove the broken %s from the %s."),
+                           veh->part_info(part).name.c_str(),
+                           veh->name.c_str());
+            } else {
+                g->add_msg(_("You remove the %s from the %s."),
+                           veh->part_info(part).name.c_str(),
+                           veh->name.c_str());
+            }
             veh->remove_part (part);
         }
         break;
@@ -1069,7 +1082,7 @@ void complete_vehicle (game *g)
             if( replaced_wheel != -1 ) {
                 removed_wheel = veh->item_from_part( replaced_wheel );
                 veh->remove_part( replaced_wheel );
-                g->add_msg( _("You replace one of the %s's tires with %s."),
+                g->add_msg( _("You replace one of the %s's tires with a %s."),
                             veh->name.c_str(), vpart_list[part].name.c_str() );
             } else {
                 debugmsg( "no wheel to remove when changing wheels." );
