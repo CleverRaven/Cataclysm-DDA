@@ -7491,6 +7491,16 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     if (replace_item)
      inv.add_item_keep_invlet(copy);
     return;
+   } else if ((mod->id == "improve_sights" || mod->id == "red_dot_sight" || mod->id == "holo_sight" || mod->id == "rifle_scope") &&
+              (gun->contents[i].type->id == "improve_sights" ||
+               gun->contents[i].type->id == "red_dot_sight" ||
+               gun->contents[i].type->id == "holo_sight" ||
+               gun->contents[i].type->id == "rifle_scope")) {
+    g->add_msg(_("Your %s can only use one type of optical aiming device at a time."), //intentionally leaving laser_sight off the list so that it CAN be used with optics
+               gun->tname(g).c_str());
+    if (replace_item)
+     inv.add_item_keep_invlet(copy);
+    return;
    } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
 	      !gun->contents[i].has_flag("MODE_AUX") &&
 	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
@@ -7515,6 +7525,15 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     if (replace_item)
      inv.add_item_keep_invlet(copy);
     return;
+   } else if ((mod->id == "suppressor" || mod->id == "barrel_ported") &&
+              (gun->contents[i].type->id == "suppressor" ||
+               gun->contents[i].type->id == "barrel_ported")) {
+    g->add_msg(_("Your %s cannot use a suppressor and a ported barrel at the same time."),
+               gun->tname(g).c_str());
+    if (replace_item)
+     inv.add_item_keep_invlet(copy);
+    return;
+   }
    }
   }
   g->add_msg(_("You attach the %s to your %s."), used->tname(g).c_str(),
