@@ -115,6 +115,8 @@ class wish_mutate_callback: public uimenu_callback
 
 
         };
+
+    ~wish_mutate_callback() {};
 };
 
 

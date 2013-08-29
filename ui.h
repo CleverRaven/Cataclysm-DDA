@@ -93,6 +93,7 @@ class uimenu_callback {
         virtual bool key(int key, int entnum, uimenu * menu) { return false; };
         virtual void refresh(uimenu * menu) {};
         virtual void redraw(uimenu * menu) {};
+        virtual ~uimenu_callback() {};
 };
 /*
  * uimenu: scrolling vertical list menu
