@@ -7427,14 +7427,7 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     if (replace_item)
      inv.add_item_keep_invlet(copy);
     return;
-   } else if ((mod->id == "barrel_small" || mod->id == "barrel_big") &&
-              (gun->contents[i].type->id == "barrel_small" ||
-               gun->contents[i].type->id == "barrel_big")) {
-    g->add_msg(_("Your %s cannot use two different lengths of barrel at the same time."),
-               gun->tname(g).c_str());
-    if (replace_item)
-     inv.add_item_keep_invlet(copy);
-    return;
+   }
    }
   }
   g->add_msg(_("You attach the %s to your %s."), used->tname(g).c_str(),
