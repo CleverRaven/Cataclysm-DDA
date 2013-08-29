@@ -699,8 +699,6 @@ void advanced_inventory::display(game * gp, player * pp) {
     panes[left].window = left_window;
     panes[right].window = right_window;
 
-    //advanced_inventory_pane panes[2]={ advanced_inventory_pane(0,5), advanced_inventory_pane(1, 0), }; 
-
     while(!exit)
     {
 
@@ -817,7 +815,6 @@ void advanced_inventory::display(game * gp, player * pp) {
             }
             int destarea = panes[dest].area;
             if ( panes[dest].area == isall || 'M' == c ) {
-                // popup("Choose a specific square in the destination window.");  continue;
                 bool valid=false;
                 uimenu m; /* using new uimenu class */
                 m.text=_("Select destination");
@@ -1069,7 +1066,6 @@ void advanced_inventory::display(game * gp, player * pp) {
             checkshowmsg=false;
             redraw=true;
         } else if('s' == c) {
-            // int ch = uimenu(true, "Sort by... ", "Unsorted (recently added first)", "name", "weight", "volume", "charges", NULL );
             redraw=true;
             uimenu sm; /* using new uimenu class */
             sm.text=_("Sort by... ");

@@ -806,27 +806,34 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
         if (parts[pl[i]].hp > 0)
             col_cond = c_red;
 
-        std::stringstream nom; //part name
+        std::string partname;
         // part bigness, if that's relevant.
-        if (part_flag(pl[i], "VARIABLE_SIZE")){
-           if (part_flag(pl[i], "ENGINE")){ //bigness == liters
-              nom << rmp_format(_("<veh_adj>%4.2f-Liter "), (float)(parts[pl[i]].bigness) / 100);
-           }
-           else if (part_flag(pl[i], "WHEEL")){ //bigness == inches
-              nom << rmp_format(_("<veh_adj>%d\" "), parts[pl[i]].bigness);
-           }
+        if (part_flag(pl[i], "VARIABLE_SIZE") && part_flag(pl[i], "ENGINE")) {
+            //~ 2.8-Liter engine
+            partname = string_format(_("%4.2f-Liter %s"),
+                                     (float)(parts[pl[i]].bigness) / 100,
+                                     part_info(pl[i]).name.c_str());
+        } else if (part_flag(pl[i], "VARIABLE_SIZE") && part_flag(pl[i], "WHEEL")) {
+            //~ 14" wheel
+            partname = string_format(_("%d\" %s"),
+                                     parts[pl[i]].bigness,
+                                     part_info(pl[i]).name.c_str());
+        } else {
+            partname = part_info(pl[i]).name;
         }
-        nom << part_info(pl[i]).name;
-        std::string partname = nom.str();
 
         bool armor = part_flag(pl[i], "ARMOR");
         mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, partname.c_str());
         mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, armor? "(" : (i? "-" : "["));
         mvwprintz(win, y, 2 + utf8_width(partname.c_str()), i == hl? hilite(c_ltgray) : c_ltgray, armor? ")" : (i? "-" : "]"));
-//         mvwprintz(win, y, 3 + strlen(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
+//         mvwprintz(win, y, 3 + utf8_width(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
 
-        if (i == 0) {
-            mvwprintz(win, y, width-5, c_ltgray, is_inside(pl[i])? " In " : "Out ");
+        if (i == 0 && is_inside(pl[i])) {
+            //~ indicates that a vehicle part is inside
+            mvwprintz(win, y, width-2-utf8_width(_("In")), c_ltgray, _("In"));
+        } else if (i == 0) {
+            //~ indicates that a vehicle part is outside
+            mvwprintz(win, y, width-2-utf8_width(_("Out")), c_ltgray, _("Out"));
         }
         y++;
     }
