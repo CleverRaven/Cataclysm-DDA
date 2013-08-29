@@ -1258,51 +1258,62 @@
         },
         {
             "id":"mon_zombie",
-            "fg": 48,
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_cop",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_shrieker",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_spitter",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_electric",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_smoker",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_fast",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_brute",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_hulk",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_fungus",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_boomer",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_boomer_fungus",
+            "fg": 61,
             "rotates":false
         },
         {
@@ -1311,26 +1322,32 @@
         },
         {
             "id":"mon_zombie_necro",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_scientist",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_soldier",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_grabber",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_zombie_master",
+            "fg": 61,
             "rotates":false
         },
         {
             "id":"mon_beekeeper",
+            "fg": 61,
             "rotates":false
         },
         {
