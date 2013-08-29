@@ -12522,8 +12522,8 @@ void map::add_spawn(monster *mon)
   spawnx = mon->spawnposx;
   spawny = mon->spawnposy;
  } else {
-  spawnx = mon->posx;
-  spawny = mon->posy;
+  spawnx = mon->posx();
+  spawny = mon->posy();
  }
  while (spawnx < 0)
   spawnx += SEEX;
@@ -14450,7 +14450,7 @@ void map::add_extra(map_extra type, game *g)
      if (one_in(15)) {
       monster creature(g->mtypes[mon_id(rng(mon_gelatin, mon_blank))]);
       creature.spawn(i, j);
-      g->z.push_back(creature);
+      g->add_zombie(creature);
      }
     }
    }

@@ -1295,7 +1295,7 @@ void computer::activate_failure(game *g, computer_failure fail)
                 g->add_msg(_("Manhacks drop from compartments in the ceiling."));
                 monster robot(g->mtypes[mon_manhack]);
                 robot.spawn(mx, my);
-                g->z.push_back(robot);
+                g->add_zombie(robot);
             }
         }
     }
@@ -1319,7 +1319,7 @@ void computer::activate_failure(game *g, computer_failure fail)
                 g->add_msg(_("Secubots emerge from compartments in the floor."));
                 monster robot(g->mtypes[mon_secubot]);
                 robot.spawn(mx, my);
-                g->z.push_back(robot);
+                g->add_zombie(robot);
             }
         }
     }

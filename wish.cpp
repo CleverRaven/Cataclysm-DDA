@@ -280,13 +280,7 @@ void game::wishmonster(int x, int y)
             point spawn = ( x == -1 && y == -1 ? look_around() : point ( x, y ) );
             if (spawn.x != -1) {
                 mon.spawn(spawn.x, spawn.y);
-#define old_game_z 1
-// If this errors and you've merged pr 2690, undefine old_game_z (or remove these ifdefs alltogether)
-#ifdef old_game_z
-                z.push_back(mon);
-#else
                 add_zombie(mon);
-#endif
                 cb->msg = _("Monster spawned, choose another or 'q' to quit.");
                 uistate.wishmonster_selected = wmenu.ret;
                 wmenu.redraw();

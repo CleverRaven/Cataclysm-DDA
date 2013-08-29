@@ -125,8 +125,8 @@ player::player()
  last_item = itype_id("null");
 
  for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-    my_traits[iter->first] = false;
-    my_mutations[iter->first] = false;
+    my_traits.erase(iter->first);
+    my_mutations.erase(iter->first);
  }
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
@@ -1259,7 +1259,7 @@ void player::load_info(game *g, std::string data)
     if (sTemp == "TRAITS_END") {
         break;
     } else {
-        my_traits[sTemp] = true;
+        my_traits.insert(sTemp);
     }
  }
 
@@ -1268,7 +1268,7 @@ void player::load_info(game *g, std::string data)
     if (sTemp == "MUTATIONS_END") {
         break;
     } else {
-        my_mutations[sTemp] = true;
+        my_mutations.insert(sTemp);
     }
  }
 
@@ -1391,18 +1391,14 @@ std::string player::save_info()
          " " << style_selected << " " << activity.save_info() << " " <<
          backlog.save_info() << " ";
 
- for (std::map<std::string, bool>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
-    if (iter->second) {
-        dump << iter->first << " ";
-    }
+ for (std::set<std::string>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
+    dump << *iter << " ";
  }
 
  dump << "TRAITS_END" << " ";
 
- for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-    if (iter->second) {
-        dump << iter->first << " ";
-    }
+ for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+    dump << *iter << " ";
  }
 
  dump << "MUTATIONS_END" << " ";
@@ -1870,10 +1866,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 
  effect_win_size_y = effect_name.size()+1;
 
- for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-  if(my_mutations[iter->first]) {
-   traitslist.push_back(iter->first);
-  }
+ for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+  traitslist.push_back(*iter);
  }
 
  trait_win_size_y = traitslist.size()+1;
@@ -3077,25 +3071,19 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
  }
 }
 
-bool player::has_trait(std::string flag)
+bool player::has_trait(const std::string &flag) const
 {
-    if (flag == "") {
-        return false;
-    }
-
-    return my_mutations[flag]; //Looks for active mutations and traits
+    // Look for active mutations and traits
+    return (flag != "") && (my_mutations.find(flag) != my_mutations.end());
 }
 
-bool player::has_base_trait(std::string flag)
+bool player::has_base_trait(const std::string &flag) const
 {
-    if (flag == "") {
-        return false;
-    }
-
-    return my_traits[flag]; //Looks only at base traits
+    // Look only at base traits
+    return (flag != "") && (my_traits.find(flag) != my_traits.end());
 }
 
-bool player::has_conflicting_trait(std::string flag)
+bool player::has_conflicting_trait(const std::string &flag) const
 {
     if(g->mutation_data[flag].cancels.size() > 0) {
         std::vector<std::string> cancels = g->mutation_data[flag].cancels;
@@ -3109,18 +3097,28 @@ bool player::has_conflicting_trait(std::string flag)
     return false;
 }
 
-void player::toggle_trait(std::string flag)
+void toggle_str_set(std::set<std::string> &set, const std::string &str)
 {
-    my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player
-    my_mutations[flag] = !my_mutations[flag]; //Toggles corresponding trait in mutations list as well.
+    std::set<std::string>::iterator i = set.find(str);
+    if (i == set.end()) {
+        set.insert(str);
+    } else {
+        set.erase(i);
+    }
 }
 
-void player::toggle_mutation(std::string flag)
+void player::toggle_trait(const std::string &flag)
 {
-    my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
+    toggle_str_set(my_traits, flag); //Toggles a base trait on the player
+    toggle_str_set(my_mutations, flag); //Toggles corresponding trait in mutations list as well.
 }
 
-void player::set_cat_level_rec(std::string sMut)
+void player::toggle_mutation(const std::string &flag)
+{
+    toggle_str_set(my_mutations, flag); //Toggles a mutation on the player
+}
+
+void player::set_cat_level_rec(const std::string &sMut)
 {
     if (!has_base_trait(sMut)) { //Skip base traits
         for (int i = 0; i < g->mutation_data[sMut].category.size(); i++) {
@@ -3137,45 +3135,43 @@ void player::set_highest_cat_level()
 {
     mutation_category_level.clear();
 
-	// Loop through our mutations
-    for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-        if (has_trait(iter->first)) {
-            set_cat_level_rec(iter->first);
-        }
+    // Loop through our mutations
+    for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        set_cat_level_rec(*iter);
     }
 }
 
-std::string player::get_highest_category() // Returns the mutation category with the highest strength
+std::string player::get_highest_category() const // Returns the mutation category with the highest strength
 {
     int iLevel = 0;
-	std::string sMaxCat = "";
+    std::string sMaxCat = "";
 
-	for (std::map<std::string, int>::iterator iter = mutation_category_level.begin(); iter != mutation_category_level.end(); ++iter) {
-		if (mutation_category_level[iter->first] > iLevel) {
-			sMaxCat = iter->first;
-			iLevel = mutation_category_level[iter->first];
-		}
-	}
+    for (std::map<std::string, int>::const_iterator iter = mutation_category_level.begin(); iter != mutation_category_level.end(); ++iter) {
+        if (iter->second > iLevel) {
+            sMaxCat = iter->first;
+            iLevel = iter->second;
+        }
+    }
 
-	return sMaxCat;
+    return sMaxCat;
 }
 
-std::string player::get_category_dream(std::string cat, int strength) // Returns a randomly selected dream
+std::string player::get_category_dream(const std::string &cat, int strength) const // Returns a randomly selected dream
 {
-	std::string message;
-	std::vector<dream> valid_dreams;
-	dream selected_dream;
-	for (int i = 0; i < dreams.size(); i++) { //Pull the list of dreams
-		if ((dreams[i].category == cat) && (dreams[i].strength == strength)) { //Pick only the ones matching our desired category and strength
-			valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
-		}
-	}
+    std::string message;
+    std::vector<dream> valid_dreams;
+    dream selected_dream;
+    for (int i = 0; i < dreams.size(); i++) { //Pull the list of dreams
+        if ((dreams[i].category == cat) && (dreams[i].strength == strength)) { //Pick only the ones matching our desired category and strength
+            valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
+        }
+    }
 
-	int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
-	selected_dream = valid_dreams[index];
-	index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream
-	message = selected_dream.message[index];
-	return message;
+    int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
+    selected_dream = valid_dreams[index];
+    index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream
+    message = selected_dream.message[index];
+    return message;
 }
 
 bool player::in_climate_control(game *g)
@@ -3654,7 +3650,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
    valid.erase(valid.begin() + index);
    snake.spawn(sp.x, sp.y);
    snake.friendly = -1;
-   g->z.push_back(snake);
+   g->add_zombie(snake);
   }
  }
 
@@ -3910,7 +3906,7 @@ void player::knock_back_from(game *g, int x, int y)
 // First, see if we hit a monster
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
-  monster *z = &(g->z[mondex]);
+  monster *z = &(g->zombie(mondex));
   hit(g, bp_torso, 0, z->type->size, 0);
   add_disease("stunned", 1);
   if ((str_max - 6) / 4 > z->type->size) {
@@ -4408,8 +4404,8 @@ void player::suffer(game *g)
                     {
                         phantasm = monster(g->mtypes[mon_hallu_zom + rng(0, 3)]);
                         phantasm.spawn(posx + rng(-10, 10), posy + rng(-10, 10));
-                        if (g->mon_at(phantasm.posx, phantasm.posy) == -1)
-                            g->z.push_back(phantasm);
+                        if (g->mon_at(phantasm.posx(), phantasm.posy()) == -1)
+                            g->add_zombie(phantasm);
                     }
                     break;
                 case 8:
@@ -4934,14 +4930,12 @@ void player::drench_mut_check(int &ignored, int &neutral, int &good, unsigned lo
     ignored = 0;
     neutral = 0;
     good = 0;
-    for (std::map<std::string, bool>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-        if (has_trait(iter->first)) {
-            for (int i = 0; i < g->mutation_data[iter->first].protection.size(); i++) {
-                if (g->mutation_data[iter->first].protection[i].first == bpart) {
-                    ignored += g->mutation_data[iter->first].protection[i].second.x;
-                    neutral += g->mutation_data[iter->first].protection[i].second.y;
-                    good += g->mutation_data[iter->first].protection[i].second.z;
-                }
+    for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        for (int i = 0; i < g->mutation_data[*iter].protection.size(); i++) {
+            if (g->mutation_data[*iter].protection[i].first == bpart) {
+                ignored += g->mutation_data[*iter].protection[i].second.x;
+                neutral += g->mutation_data[*iter].protection[i].second.y;
+                good += g->mutation_data[*iter].protection[i].second.z;
             }
         }
     }

@@ -216,10 +216,10 @@ public:
     std::vector<int> internal_parts (int p);
 
 // returns index of part, inner to given, with certain flag, or -1
-    int part_with_feature (int p, std::string f, bool unbroken = true);
+    int part_with_feature (int p, const std::string &f, bool unbroken = true);
 
-// returns true if given flag is present for given part index 
-    bool part_flag (int p, std::string f);
+// returns true if given flag is present for given part index
+    bool part_flag (int p, const std::string &f);
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);

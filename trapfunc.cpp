@@ -123,7 +123,7 @@ void trapfuncm::tripwire(game *g, monster *z, int x, int y)
   g->add_msg(_("The %s trips over a tripwire!"), z->name().c_str());
  z->stumble(g, false);
  if (rng(0, 10) > z->type->sk_dodge && z->hurt(rng(1, 4)))
-  g->kill_mon(g->mon_at(z->posx, z->posy));
+  g->kill_mon(g->mon_at(z->posx(), z->posy()));
 }
 
 void trapfunc::crossbow(game *g, int x, int y)
@@ -446,23 +446,22 @@ void trapfuncm::telepad(game *g, monster *z, int x, int y)
  int tries = 0;
  int newposx, newposy;
  do {
-  newposx = rng(z->posx - SEEX, z->posx + SEEX);
-  newposy = rng(z->posy - SEEY, z->posy + SEEY);
+  newposx = rng(z->posx() - SEEX, z->posx() + SEEX);
+  newposy = rng(z->posy() - SEEY, z->posy() + SEEY);
   tries++;
  } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
 
  if (tries == 10)
-  g->explode_mon(g->mon_at(z->posx, z->posy));
+  g->explode_mon(g->mon_at(z->posx(), z->posy()));
  else {
   int mon_hit = g->mon_at(newposx, newposy);
   if (mon_hit != -1) {
    if (g->u_see(z))
     g->add_msg(_("The %s teleports into a %s, killing them both!"),
-               z->name().c_str(), g->z[mon_hit].name().c_str());
+               z->name().c_str(), g->zombie(mon_hit).name().c_str());
    g->explode_mon(mon_hit);
   } else {
-   z->posx = newposx;
-   z->posy = newposy;
+   z->setpos(newposx, newposy);
   }
  }
 }
@@ -853,7 +852,7 @@ void trapfunc::shadow(game *g, int x, int y)
   g->add_msg(_("A shadow forms nearby."));
   spawned.sp_timeout = rng(2, 10);
   spawned.spawn(monx, mony);
-  g->z.push_back(spawned);
+  g->add_zombie(spawned);
   g->m.remove_trap(x, y);
  }
 }
@@ -888,7 +887,7 @@ void trapfunc::snake(game *g, int x, int y)
   if (tries < 5) {
    g->add_msg(_("A shadowy snake forms nearby."));
    spawned.spawn(monx, mony);
-   g->z.push_back(spawned);
+   g->add_zombie(spawned);
    g->m.remove_trap(x, y);
    return;
   }

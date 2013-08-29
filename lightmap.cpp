@@ -120,17 +120,17 @@ void map::generate_lightmap(game* g)
   }
  }
 
- for (int i = 0; i < g->z.size(); ++i) {
-  int mx = g->z[i].posx;
-  int my = g->z[i].posy;
+ for (int i = 0; i < g->num_zombies(); ++i) {
+  int mx = g->zombie(i).posx();
+  int my = g->zombie(i).posy();
   if (INBOUNDS(mx, my)) {
-   if (g->z[i].has_effect(ME_ONFIRE)) {
+   if (g->zombie(i).has_effect(ME_ONFIRE)) {
      apply_light_source(mx, my, 3, trigdist);
    }
    // TODO: [lightmap] Attach natural light brightness to creatures
    // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
    // TODO: [lightmap] Allow creatures to have facing and arc lights
-   switch (g->z[i].type->id) {
+   switch (g->zombie(i).type->id) {
     case mon_zombie_electric:
      apply_light_source(mx, my, 1, trigdist);
      break;
