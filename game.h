@@ -134,7 +134,8 @@ class game
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
   void explosion(int x, int y, int power, int shrapnel, bool fire);
 // Draws an explosion with set radius and color at the given location
-  void draw_explosion(int x, int y, int radius, nc_color col);
+  /* Defined later in this file */
+  //void draw_explosion(int x, int y, int radius, nc_color col);
 // Flashback at (x, y)
   void flashbang(int x, int y, bool player_immune = false);
 // Move the player vertically, if (force) then they fell
@@ -304,7 +305,7 @@ class game
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
- 
+
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
  //otherwise returns sentinel -1, signifies transaction fail.
  int move_liquid(item &liquid);

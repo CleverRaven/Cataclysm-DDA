@@ -552,6 +552,36 @@
         },
         {
             "id":"t_rock",
+            "fg":17,
+            "bg":3,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 36
+                },
+                {
+                    "id": "corner",
+                    "fg": 37
+                },
+                {
+                    "id": "edge",
+                    "fg": 38
+                },
+                {
+                    "id": "t_connection",
+                    "fg": 39
+                },
+                {
+                    "id": "end_piece",
+                    "fg": 40
+                },
+                {
+                    "id": "unconnected",
+                    "fg": 41
+                }
+            ],
             "rotates":false
         },
         {
@@ -1709,6 +1739,35 @@
         },
         {
             "id":"f_counter",
+            "fg":55,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 59
+                },
+                {
+                    "id": "corner",
+                    "fg": 55
+                },
+                {
+                    "id": "edge",
+                    "fg": 56
+                },
+                {
+                    "id": "t_connection",
+                    "fg": 57
+                },
+                {
+                    "id": "end_piece",
+                    "fg": 58
+                },
+                {
+                    "id": "unconnected",
+                    "fg": 60
+                }
+            ],
             "rotates":false
         },
         {
@@ -1725,6 +1784,7 @@
         },
         {
             "id":"f_locker",
+            "fg":29,
             "rotates":false
         },
         {
