@@ -33,8 +33,10 @@ void event::actualize(game *g)
   case EVENT_ROBOT_ATTACK: {
    if (rl_dist(g->levx, g->levy, map_point.x, map_point.y) <= 4) {
     mtype *robot_type = g->mtypes[mon_tripod];
-    if (faction_id == 0) // The cops!
+    if (faction_id == 0) { // The cops!
      robot_type = g->mtypes[mon_copbot];
+     g->u.add_memorial_log(_("Became wanted by the police!"));
+    }
     monster robot(robot_type);
     int robx = (g->levx > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
         roby = (g->levy > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
@@ -46,6 +48,7 @@ void event::actualize(game *g)
   case EVENT_SPAWN_WYRMS: {
    if (g->levz >= 0)
     return;
+   g->u.add_memorial_log(_("Awoke a group of dark wyrms!"));
    monster wyrm(g->mtypes[mon_dark_wyrm]);
    int num_wyrms = rng(1, 4);
    for (int i = 0; i < num_wyrms; i++) {
@@ -67,6 +70,7 @@ void event::actualize(game *g)
   } break;
 
   case EVENT_AMIGARA: {
+   g->u.add_memorial_log(_("Angered a group of amigara horrors!"));
    int num_horrors = rng(3, 5);
    int faultx = -1, faulty = -1;
    bool horizontal = false;
@@ -111,6 +115,7 @@ void event::actualize(game *g)
   } break;
 
   case EVENT_ROOTS_DIE:
+   g->u.add_memorial_log(_("Destroyed a triffid grove."));
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_root_wall && one_in(3))
@@ -120,6 +125,7 @@ void event::actualize(game *g)
    break;
 
   case EVENT_TEMPLE_OPEN: {
+   g->u.add_memorial_log(_("Opened a strange temple."));
    bool saw_grate = false;
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
@@ -175,10 +181,12 @@ void event::actualize(game *g)
     return; // We finished flooding the entire chamber!
 // Check if we should print a message
    if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy)) {
-    if (flood_buf[g->u.posx][g->u.posy] == t_water_sh)
+    if (flood_buf[g->u.posx][g->u.posy] == t_water_sh) {
      g->add_msg(_("Water quickly floods up to your knees."));
-    else { // Must be deep water!
+     g->u.add_memorial_log(_("Water level reached knees."));
+    } else { // Must be deep water!
      g->add_msg(_("Water fills nearly to the ceiling!"));
+     g->u.add_memorial_log(_("Water level reached the ceiling."));
      g->plswim(g->u.posx, g->u.posy);
     }
    }

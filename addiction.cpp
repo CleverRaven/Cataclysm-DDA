@@ -166,6 +166,25 @@ void addict_effect(game *g, addiction &add)
     }
 }
 
+/**
+ * Returns the name of an addiction. It should be able to finish the sentence
+ * "Became addicted to ______".
+ */
+std::string addiction_type_name(add_type cur)
+{
+  switch(cur) {
+    case ADD_CIG:		return _("nicotine");
+    case ADD_CAFFEINE:	return _("caffeine");
+    case ADD_ALCOHOL:	return _("alcohol");
+    case ADD_SLEEP:	return _("sleeping pills");
+    case ADD_PKILLER:	return _("opiates");
+    case ADD_SPEED:	return _("amphetamine");
+    case ADD_COKE:	return _("cocaine");
+    case ADD_CRACK:       return _("crack cocaine");
+    default:		return "bugs in addiction.cpp";
+  }
+}
+
 std::string addiction_name(addiction cur)
 {
  switch (cur.type) {
