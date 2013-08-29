@@ -4106,7 +4106,7 @@
     {
         "type" : "ARMOR",
         "id" : "bookplate",
-        "name" : "Bookplate",
+        "name" : "bookplate",
         "weight" : 1090,
         "color" : "dark_gray",
         "covers" : ["TORSO"],
@@ -4346,7 +4346,7 @@
     {
         "type" : "ARMOR",
         "id" : "armor_samurai",
-        "name" : "Ō-yoroi",
+        "name" : "O-yoroi",
         "weight" : 9220,
         "color" : "cyan",
         "covers" : ["TORSO", "LEGS", "ARMS", "HANDS"],
