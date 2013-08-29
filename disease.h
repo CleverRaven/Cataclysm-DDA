@@ -12,6 +12,8 @@ class game;
 
 void dis_msg(game *g, dis_type type);
 
+void dis_remove_memorial(game *g, dis_type type);
+
 void dis_effect(game *g, player &p, disease &dis);
 
 int disease_speed_boost(disease dis);

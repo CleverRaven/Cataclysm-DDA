@@ -2,6 +2,7 @@ cataclysm
 cataclysm-tiles
 data/*.template
 save/
+graveyard/
 memorial/
 obj/
 debug.log
