@@ -258,6 +258,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  int bw = 0;
  int cw = 0;
  int actual_house_height= 0;
+ int bw_old = 0;
 
  int x = 0;
  int y = 0;
@@ -963,6 +964,7 @@ t   t\n\
   bw = SEEX * 2 - rng(2, 5);	// South external wall
   cw = tw + rng(4, 7);		// Middle wall between living room & kitchen/bed
   actual_house_height=bw-rng(4,6); //reserving some space for backyard. Actual south external wall.
+  bw_old = bw;
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -1119,14 +1121,20 @@ t   t\n\
    cw = tw + rng(3, 6);
    mw = rng(lw + 7, rw - 4);
    //int actual_house_height=bw-rng(4,6);
-// Plop down the rooms
+   //in some rare cases some rooms (especially kitchen and living room) may get rather small
+   if ((tw<=3)&&( abs((actual_house_height-3)-cw)>=3 ) ) {
+        //everything is fine
+        house_room(this, room_backyard, lw, actual_house_height+1, rw, bw);
+        //door from bedroom to backyard
+        ter_set((lw+mw)/2, actual_house_height, t_door_c);
+   } else { //using old layout
+        actual_house_height = bw_old;
+   }
+   // Plop down the rooms
    house_room(this, room_living, lw, tw, rw, cw);
    house_room(this, room_kitchen, mw, cw, rw, actual_house_height - 3);
    house_room(this, room_bedroom, lw, cw, mw, actual_house_height ); //making bedroom smaller
    house_room(this, room_bathroom, mw, actual_house_height - 3, rw, actual_house_height);
-   house_room(this, room_backyard, lw, actual_house_height+1, rw, bw);
-//door from bedroom to backyard
-   ter_set((lw+mw)/2, actual_house_height, t_door_c);
 
 // Space between kitchen & living room:
    rn = rng(mw + 1, rw - 3);
