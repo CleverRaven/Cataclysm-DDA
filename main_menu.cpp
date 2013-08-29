@@ -97,6 +97,88 @@ void game::print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int i
     }
 }
 
+std::map<std::string, std::vector<std::string> > get_save_data()
+{
+    std::string save_dir = "save";
+
+    struct dirent *dp, *sdp;
+    struct stat _buff;
+    DIR *save = opendir(save_dir.c_str()), *world;
+
+    std::map<std::string, std::vector<std::string> > world_savegames;
+
+    world_savegames.clear();
+
+    // make sure save directory exists, if not try to create it
+    if (!save) {
+        #if (defined _WIN32 || defined __WIN32__)
+            mkdir("save");
+        #else
+            mkdir("save", 0777);
+        #endif
+        save = opendir("save");
+    }
+    // if save directory still does not exist, exit with message
+    if (!save) {
+        dbg(D_ERROR) << "game:opening_screen: Unable to make save directory.";
+        debugmsg("Could not make './save' directory");
+        endwin();
+        exit(1);
+    }
+
+    // read through save directory looking for folders. These folders are the World folders containing the save data
+    while ((dp = readdir(save)))
+    {
+        if (stat(dp->d_name, &_buff) != 0x4)
+        {
+            //DebugLog() << "Potential Folder Found: "<< dp->d_name << "\n";
+            // ignore "." and ".."
+            if ((strcmp(dp->d_name, ".") != 0) && (strcmp(dp->d_name, "..") != 0))
+            {
+                std::string subdirname = save_dir + "/" + dp->d_name;
+                //subdirname.append(dp->d_name);
+                // now that we have the world directory found and saved, we need to populate it with appropriate save file information
+                world = opendir(subdirname.c_str());
+                if (world == NULL)
+                {
+                    //DebugLog() << "Could not open directory: "<< dp->d_name << "\n";
+                    continue;
+                }
+                else
+                {
+                    //worldlist.push_back(dp->d_name);
+                    world_savegames[dp->d_name] = std::vector<std::string>();
+                }
+                while ((sdp = readdir(world)))
+                {
+                    std::string tmp = sdp->d_name;
+                    if (tmp.find(".sav") != std::string::npos)
+                    {
+                        world_savegames[dp->d_name].push_back(tmp.substr(0, tmp.find(".sav")));
+                    }
+                }
+                // close the world directory
+                closedir(world);
+            }
+        }
+    }
+
+    // list worlds and savegame data in DebugLog
+    /*
+    for (std::map<std::string, std::vector<std::string> >::iterator it = world_savegames.begin(); it != world_savegames.end(); ++it)
+    {
+        DebugLog() << "World: "<< it->first << "\n";
+        for (std::vector<std::string>::iterator sit = it->second.begin(); sit != it->second.end(); ++sit)
+        {
+            DebugLog() << "\t" << base64_decode(*sit) << "\n";
+        }
+    }
+    //*/
+
+    // return save data
+    return world_savegames;
+}
+
 bool game::opening_screen()
 {
     WINDOW* w_background = newwin(TERMY, TERMX, 0, 0);
@@ -119,7 +201,9 @@ bool game::opening_screen()
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
 
     std::vector<std::string> savegames, templates;
-    dirent *dp;
+
+
+    struct dirent *dp;
     DIR *dir = opendir("save");
     if (!dir) {
         #if (defined _WIN32 || defined __WIN32__)
@@ -135,12 +219,17 @@ bool game::opening_screen()
         endwin();
         exit(1);
     }
+
+
     while ((dp = readdir(dir))) {
         std::string tmp = dp->d_name;
         if (tmp.find(".sav") != std::string::npos)
             savegames.push_back(tmp.substr(0, tmp.find(".sav")));
     }
     closedir(dir);
+
+    std::map<std::string, std::vector<std::string> > world_save_data = get_save_data();
+
     dir = opendir("data");
     while ((dp = readdir(dir))) {
         std::string tmp = dp->d_name;
@@ -307,6 +396,7 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 2) {	// Load Character
+                #if 0
                 if (savegames.size() == 0)
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + iMenuOffsetX, c_red, _("No save games found!"));
                 else {
@@ -341,6 +431,60 @@ bool game::opening_screen()
                         start = true;
                     }
                 }
+                #else
+                if (world_save_data.size() == 0)
+                {
+                    // no worlds to display
+                    mvwprintz(w_open, iMenuOffsetY - 2, 19 + iMenuOffsetX, c_red, _("No save games found!"));
+                }
+                else
+                {
+                    // show world names
+                    int i = 0;
+                    for (std::map<std::string, std::vector<std::string> >::iterator it = world_save_data.begin();
+                         it != world_save_data.end();
+                         ++it)
+                    {
+                        int line = iMenuOffsetY - 2 - i;
+                        mvwprintz(w_open, line, 19+iMenuOffsetX, (sel2 == i ? h_white : c_white), it->first.c_str());
+                        ++i;
+                    }
+                    /*
+                    for (int i = 0; i < savegames.size(); i++) {
+                        int line = iMenuOffsetY - 2 - i;
+                        mvwprintz(w_open, line, 19 + iMenuOffsetX, (sel2 == i ? h_white : c_white), base64_decode(savegames[i]).c_str());
+                    }*/
+                }
+                wrefresh(w_open);
+                refresh();
+                input = get_input();
+
+                if (world_save_data.size() == 0 && (input == DirectionS || input == Confirm)) {
+                    layer = 1;
+                }
+                else if (input == DirectionS) {
+                    if (sel2 > 0)
+                        sel2--;
+                    else
+                        sel2 = world_save_data.size() - 1;
+                } else if (input == DirectionN) {
+                    if (sel2 < world_save_data.size() - 1)
+                        sel2++;
+                    else
+                        sel2 = 0;
+                } else if (input == DirectionW || input == Cancel) {
+                    layer = 1;
+                }
+                if (input == DirectionE || input == Confirm) {
+                    if (sel2 >= 0 && sel2 < world_save_data.size()) {
+                        werase(w_background);
+                        wrefresh(w_background);
+                        // for now can't load the world_save_data
+                        //load(world_save_data[sel2]);
+                        //start = true;
+                    }
+                }
+                #endif
             } else if (sel1 == 3) {  // Delete world
                 if (query_yn(_("Delete the world and all saves?"))) {
                     delete_save();
