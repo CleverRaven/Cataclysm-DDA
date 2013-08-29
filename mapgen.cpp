@@ -1226,6 +1226,10 @@ t   t\n\
         furn_set(lw+1, cw+2, f_table);
         ter_set(lw+1, cw+3, t_console_broken);
         furn_set(lw+3, bw-1, f_bookcase);
+            place_items("magazines",	30,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
+            place_items("novels",	40,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
+            place_items("alcohol",	20,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
+            place_items("manuals",	30,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
         //=========================
     ter_set(rng(lw + 2, mw - 3), cw, t_door_c);
     if (one_in(4))
@@ -1252,6 +1256,10 @@ t   t\n\
         furn_set(rw-1, cw+2, f_table);
         ter_set(rw-1, cw+3, t_console_broken);
         furn_set(rw-3, bw-1, f_bookcase);
+            place_items("magazines",	40,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
+            place_items("novels",	40,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
+            place_items("alcohol",	20,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
+            place_items("manuals",	20,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
         //=========================
 
     if (one_in(4))
