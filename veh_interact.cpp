@@ -985,7 +985,7 @@ void complete_vehicle (game *g)
             int py = g->u.view_offset_y;
             g->u.view_offset_x = veh->global_x() + gx - g->u.posx;
             g->u.view_offset_y = veh->global_y() + gy - g->u.posy;
-            popup("Choose a facing direction for the new headlight.");
+            popup(_("Choose a facing direction for the new headlight."));
             point headlight_target = g->look_around();
             // Restore previous view offsets.
             g->u.view_offset_x = px;

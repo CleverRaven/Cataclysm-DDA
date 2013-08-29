@@ -7263,7 +7263,6 @@ void game::advanced_inv()
             }
             int destarea = panes[dest].area;
             if ( panes[dest].area == isall || 'M' == c ) {
-                // popup("Choose a specific square in the destination window.");  continue;
                 bool valid=false;
                 uimenu m; /* using new uimenu class */
                 m.text=_("Select destination");
