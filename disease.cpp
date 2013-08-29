@@ -2174,8 +2174,8 @@ void handle_cough(player &p, int loudness) {
     p.hurt(g, bp_torso, 0, 1 - (rng(0, 1) * rng(0, 1)));
     if (p.has_disease("sleep")) {
         p.rem_disease("sleep");
+        g->add_msg_if_player(&p,_("You wake up coughing."));
     }
-    g->add_msg_if_player(&p,_("You wake up coughing."));
 }
 
 void handle_deliriant(game* g, player& p, disease& dis) {
