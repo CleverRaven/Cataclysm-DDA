@@ -1727,7 +1727,20 @@
         },
         {
             "id":"f_bench",
-            "rotates":false
+            "fg":30,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "edge",
+                    "fg": 30
+                },
+                {
+                    "id": "end_piece",
+                    "fg": 31
+                }
+            ],
+            "rotates":true
         },
         {
             "id":"f_table",
