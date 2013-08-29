@@ -4,557 +4,505 @@
 #include "item_factory.h"
 #include <sstream>
 #include "text_snippets.h"
+#include "helper.h"
+#include "uistate.h"
 
 #define LESS(a, b) ((a)<(b)?(a):(b))
 
-void game::wish()
+
+class wish_mutate_callback: public uimenu_callback
 {
- WINDOW* w_search = newwin(2, FULL_SCREEN_WIDTH, 0, 0);
- WINDOW* w_list = newwin(FULL_SCREEN_HEIGHT-2, 30, 2,  0);
- WINDOW* w_info = newwin(FULL_SCREEN_HEIGHT-2, 50, 2, 30);
- int a = 0, shift = 0, result_selected = 0;
- int ch = '.';
- bool search = false;
- bool incontainer = false;
- bool changed = false;
- std::string pattern = "";
- std::string info;
- std::vector<int> search_results;
- // use this item for info display, but NOT for instantiation
- item tmp;
- tmp.corpse = mtypes[0];
- do {
-  werase(w_search);
-  werase(w_info);
-  werase(w_list);
-  mvwprintw(w_search, 0, 0, _("('/' to search, Esc to stop, <> to switch between results)"));
-  mvwprintz(w_search, 1, 0, c_white, _("Wish for a: "));
-  if (search) {
-   if (ch == '\n') {
-    search = false;
-    ch = '.';
-   }
-   else if (ch == 27) // Escape to stop searching
-   {
-    search = false;
-    ch = '.';
-   } else if (ch == KEY_BACKSPACE || ch == 127) {
-    if (pattern.length() > 0)
-    {
-     pattern.erase(pattern.end() - 1);
-     search_results.clear();
-     changed = true;
-    }
-    else
-    {
-     changed = false;
-    }
-   } else if (ch == '>' || ch == KEY_NPAGE) {
-    if (!search_results.empty()) {
-     result_selected++;
-     if (result_selected >= search_results.size())
-      result_selected = 0;
-     shift = search_results[result_selected];
-     a = 0;
-     if (shift + 23 > standard_itype_ids.size()) {
-      a = shift + 23 - standard_itype_ids.size();
-      shift = standard_itype_ids.size() - 23;
-     }
-    }
-    changed = false;
-   } else if (ch == '<' || ch == KEY_PPAGE) {
-    if (!search_results.empty()) {
-     result_selected--;
-     if (result_selected < 0)
-      result_selected = search_results.size() - 1;
-     shift = search_results[result_selected];
-     a = 0;
-     if (shift + 23 > standard_itype_ids.size()) {
-      a = shift + 23 - standard_itype_ids.size();
-      shift = standard_itype_ids.size() - 23;
-     }
-    }
-    changed = false;
-   } else {
-    pattern += ch;
-    search_results.clear();
-    changed = true;
-   }
+    public:
+        int lastlen;           // last menu entry
+        std::string msg;       // feedback mesage
+        bool started;
+        std::vector<std::string> vTraits;
+        std::map<std::string, bool> pTraits;
+        game *g;
+        player *p;
+        std::string padding;
 
-   // If the pattern hasn't changed or we've stopped searching, no need to update
-   if (search && changed) {
-    // If the pattern is blank, search just returns all items, which will be listed anyway
-    if (pattern.length() > 0)
-    {
-     for (int i = 0; i < standard_itype_ids.size(); i++) {
-      if (item_controller->find_template(standard_itype_ids[i])->name.find(pattern) != std::string::npos) {
-       shift = i;
-       a = 0;
-       result_selected = 0;
-       if (shift + 23 > standard_itype_ids.size()) {
-        a = shift + 23 - standard_itype_ids.size();
-        shift = standard_itype_ids.size() - 23;
-       }
-       search_results.push_back(i);
-      }
-     }
-     if (search_results.size() > 0) {
-      shift = search_results[0];
-      a = 0;
-     }
-    }
-    else // The pattern is blank, so jump back to the top of the list
-    {
-     shift = 0;
-    }
-   }
+        nc_color mcolor(std::string m) {
+            if ( pTraits[ m ] == true ) {
+                return c_green;
+            }
+            return c_ltgray;
+        }
 
-  } else {	// Not searching; scroll by keys
-   if (ch == 'j') a++;
-   if (ch == 'k') a--;
-   if (ch == '/') {
-    search = true;
-   }
-   if (ch == 'f') incontainer = !incontainer;
-   if (( ch == '>' || ch == KEY_NPAGE ) && !search_results.empty()) {
-    result_selected++;
-    if (result_selected >= search_results.size())
-     result_selected = 0;
-    shift = search_results[result_selected];
-    a = 0;
-    if (shift + 23 > standard_itype_ids.size()) {
-     a = shift + 23 - standard_itype_ids.size();
-     shift = standard_itype_ids.size() - 23;
-    }
-   } else if (( ch == '<' || ch == KEY_PPAGE ) && !search_results.empty()) {
-    result_selected--;
-    if (result_selected < 0)
-     result_selected = search_results.size() - 1;
-    shift = search_results[result_selected];
-    a = 0;
-    if (shift + 23 > standard_itype_ids.size()) {
-     a = shift + 23 - standard_itype_ids.size();
-     shift = standard_itype_ids.size() - 23;
-    }
-   }
-  }
-  int search_string_length = pattern.length();
-  if (!search_results.empty())
-   mvwprintz(w_search, 1, 12, c_green, "%s", pattern.c_str());
-  else if (pattern.length() > 0)
-  {
-   mvwprintz(w_search, 1, 12, c_red, _("\"%s \" not found!"),pattern.c_str());
-   search_string_length += 1;
-  }
-  if (incontainer)
-   mvwprintz(w_search, 0, 70, c_ltblue, _("contained"));
-  if (a < 0) {
-   a = 0;
-   shift--;
-   if (shift < 0) shift = 0;
-  }
-  if (a > 22) {
-   a = 22;
-   shift++;
-   if (shift + 23 > standard_itype_ids.size()) shift = standard_itype_ids.size() - 23;
-  }
-  for (int i = 0; i < 23 && i+shift < standard_itype_ids.size(); i++) {
-   nc_color col = c_ltgray;
-   if (i == a)
-    col = h_ltgray;
-   mvwprintz(w_list, i, 0, col, item_controller->find_template(standard_itype_ids[i+shift])->name.c_str());
-   wprintz(w_list, item_controller->find_template(standard_itype_ids[i+shift])->color, "%c%", item_controller->find_template(standard_itype_ids[i+shift])->sym);
-  }
-  tmp.make(item_controller->find_template(standard_itype_ids[a + shift]));
-  tmp.bday = turn;
-  if (tmp.is_tool())
-   tmp.charges = dynamic_cast<it_tool*>(tmp.type)->max_charges;
-  else if (tmp.is_ammo())
-   tmp.charges = 100;
-  else if (tmp.is_gun())
-   tmp.charges = 0;
-  else if (tmp.is_gunmod() && (tmp.has_flag("MODE_AUX") ||
-			       tmp.typeId() == "spare_mag"))
-   tmp.charges = 0;
-  else
-   tmp.charges = -1;
-  // Should be a flag, but we're out at the moment
-  if( tmp.is_stationary() )
-  {
-    tmp.note = SNIPPET.assign( (dynamic_cast<it_stationary*>(tmp.type))->category );
-  }
-  info = tmp.info(true);
-  mvwprintw(w_info, 0, 0, info.c_str());
-  wrefresh(w_search);
-  wrefresh(w_info);
-  wrefresh(w_list);
-  if (search)
-  {
-   curs_set(1);
-   ch = mvgetch(1, search_string_length+12);
-  }
-  else
-  {
-   curs_set(0);
-   ch = input();
-  }
- } while (ch != '\n' && !(ch==KEY_ESCAPE && !search));
- clear();
+        wish_mutate_callback() {
+            lastlen = 0;
+            msg = "";
+            started = false;
+            vTraits.clear();
+            pTraits.clear();
+        }
+        virtual bool key(int key, int entnum, uimenu *menu) {
+            return false;
+        }
 
- if(ch=='\n')
- {
-  // Allow for multiples
-  curs_set(1);
-  mvprintw(0, 0, _("How many do you want? (default is 1): "));
-  char str[5];
-  int count = 1;
-  echo();
-  getnstr(str, 5);
-  noecho();
-  count = atoi(str);
-  if (count<=0)
-  {
-   count = 1;
-  }
-  curs_set(0);
+        virtual void select(int entnum, uimenu *menu) {
+            if ( ! started ) {
+                started = true;
+                padding = std::string(menu->pad_right - 1, ' ');
+                for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+                    vTraits.push_back(iter->first);
+                    pTraits[iter->first] = ( p->has_trait( iter->first ) );
+                }
+            }
 
-  item granted = item_controller->create(standard_itype_ids[a + shift], turn);
-  mvprintw(2, 0, _("Wish granted - %d x %s."), count, granted.type->name.c_str());
-  tmp.invlet = nextinv;
-  for (int i=0; i<count; i++)
-  {
-   if (!incontainer)
-    u.i_add(granted);
-   else
-    u.i_add(granted.in_its_container(&itypes));
-  }
-  advance_nextinv();
-  getch();
- }
- delwin(w_info);
- delwin(w_list);
-}
+            int startx = menu->w_width - menu->pad_right;
+            for ( int i = 1; i < lastlen; i++ ) {
+                mvwprintw(menu->window, i, startx, "%s", padding.c_str() );
+            }
 
-void game::monster_wish()
+            mvwprintw(menu->window, 1, startx, g->mutation_data[vTraits[ entnum ]].valid ? _("Valid") : _("Nonvalid"));
+            int line2 = 2;
+
+            if ( g->mutation_data[vTraits[ entnum ]].prereqs.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs:"));
+                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].prereqs.size(); j++) {
+                    std::string mstr=g->mutation_data[vTraits[ entnum ]].prereqs[j];
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
+
+            if ( g->mutation_data[vTraits[ entnum ]].cancels.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Cancels:"));
+                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].cancels.size(); j++) {
+                    std::string mstr=g->mutation_data[vTraits[ entnum ]].cancels[j];
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
+
+            if ( g->mutation_data[vTraits[ entnum ]].replacements.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Becomes:"));
+                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].replacements.size(); j++) {
+                    std::string mstr=g->mutation_data[vTraits[ entnum ]].replacements[j];
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
+
+            if ( g->mutation_data[vTraits[ entnum ]].additions.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray, _("Add-ons:"));
+                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].additions.size(); j++) {
+                    std::string mstr=g->mutation_data[vTraits[ entnum ]].additions[j];
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    line2++;
+                }
+            }
+
+            if ( g->mutation_data[vTraits[ entnum ]].category.size() > 0 ) {
+                line2++;
+                mvwprintz(menu->window, line2, startx, c_ltgray,  _("Category:"));
+                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].category.size(); j++) {
+                    mvwprintw(menu->window, line2, startx + 11, g->mutation_data[vTraits[ entnum ]].category[j].c_str());
+                    line2++;
+                }
+            }
+            lastlen = line2 + 1;
+
+            mvwprintz(menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str());
+            msg = padding;
+            mvwprintw(menu->window, menu->w_height - 2, startx, "[/] find, [q]uit");
+
+
+
+        };
+
+    ~wish_mutate_callback() {};
+};
+
+
+void game::wishmutate( player *p )
 {
- WINDOW* w_list = newwin(25, 30, 0,  0);
- WINDOW* w_info = newwin(25, 50, 0, 30);
- int a = 0, shift = 1, result_selected = 0;
- int ch = '.';
- bool search = false, friendly = false;
- std::string pattern;
- std::string info;
- std::vector<int> search_results;
- monster tmp;
- do {
-  werase(w_info);
-  werase(w_list);
-  mvwprintw(w_list, 0, 0, _("Spawn a: "));
-  if (search) {
-   if (ch == '\n') {
-    search = false;
-    ch = '.';
-   } else if (ch == KEY_BACKSPACE || ch == 127) {
-    if (pattern.length() > 0)
-     pattern.erase(pattern.end() - 1);
-   } else if (ch == '>' || ch == KEY_NPAGE) {
-    search = false;
-    if (!search_results.empty()) {
-     result_selected++;
-     if (result_selected > search_results.size())
-      result_selected = 0;
-     shift = search_results[result_selected];
-     a = 0;
-     if (shift + 23 > mtypes.size()) {
-      a = shift + 23 - mtypes.size();
-      shift = mtypes.size() - 23;
-     }
-    }
-   } else if (ch == '<' || ch == KEY_PPAGE) {
-    search = false;
-    if (!search_results.empty()) {
-     result_selected--;
-     if (result_selected < 0)
-      result_selected = search_results.size() - 1;
-     shift = search_results[result_selected];
-     a = 0;
-     if (shift + 23 > mtypes.size()) {
-      a = shift + 23 - mtypes.size();
-      shift = mtypes.size() - 23;
-     }
-    }
-   } else {
-    pattern += ch;
-    search_results.clear();
-   }
+    uimenu wmenu;
+    int c=0;
 
-   if (search) {
-    for (int i = 1; i < mtypes.size(); i++) {
-     if (mtypes[i]->name.find(pattern) != std::string::npos) {
-      shift = i;
-      a = 0;
-      result_selected = 0;
-      if (shift + 23 > mtypes.size()) {
-       a = shift + 23 - mtypes.size();
-       shift = mtypes.size() - 23;
-      }
-      search_results.push_back(i);
-     }
-    }
-   }
-
-  } else {	// Not searching; scroll by keys
-   if (ch == 'j') a++;
-   if (ch == 'k') a--;
-   if (ch == 'f') friendly = !friendly;
-   if (ch == '/') {
-    search = true;
-    pattern =  "";
-    search_results.clear();
-   }
-   if (( ch == '>' || ch == KEY_NPAGE ) && !search_results.empty()) {
-    result_selected++;
-    if (result_selected > search_results.size())
-     result_selected = 0;
-    shift = search_results[result_selected];
-    a = 0;
-    if (shift + 23 > mtypes.size()) {
-     a = shift + 23 - mtypes.size();
-     shift = mtypes.size() - 23;
-    }
-   } else if (( ch == '<' || ch == KEY_PPAGE ) && !search_results.empty()) {
-    result_selected--;
-    if (result_selected < 0)
-     result_selected = search_results.size() - 1;
-    shift = search_results[result_selected];
-    a = 0;
-    if (shift + 23 > mtypes.size()) {
-     a = shift + 23 - mtypes.size();
-     shift = mtypes.size() - 23;
-    }
-   }
-  }
-  if (!search_results.empty())
-   mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
-  else if (pattern.length() > 0)
-   mvwprintz(w_list, 0, 11, c_red, _("%s not found!            "),pattern.c_str());
-  if (a < 0) {
-   a = 0;
-   shift--;
-   if (shift < 1) shift = 1;
-  }
-  if (a > 22) {
-   a = 22;
-   shift++;
-   if (shift + 23 > mtypes.size()) shift = mtypes.size() - 23;
-  }
-  for (int i = 1; i < 24; i++) {
-   nc_color col = c_white;
-   if (i == a + 1)
-    col = h_white;
-   mvwprintz(w_list, i, 0, col, mtypes[i-1+shift]->name.c_str());
-   wprintz(w_list, mtypes[i-1+shift]->color, " %c%", mtypes[i-1+shift]->sym);
-  }
-  tmp = monster(mtypes[a + shift]);
-  if (friendly)
-   tmp.friendly = -1;
-  tmp.print_info(this, w_info);
-  wrefresh(w_info);
-  wrefresh(w_list);
-  if (search)
-   ch = getch();
-  else
-   ch = input();
- } while (ch != '\n');
- clear();
- delwin(w_info);
- delwin(w_list);
- refresh_all();
- wrefresh(w_terrain);
- point spawn = look_around();
- if (spawn.x == -1)
-  return;
- tmp.spawn(spawn.x, spawn.y);
- z.push_back(tmp);
-}
-
-void game::mutation_wish()
-{
-    WINDOW* w_list = newwin(25, 30, 0,  0);
-    WINDOW* w_info = newwin(25, 50, 0, 30);
-
-    std::vector<std::string> vTraits;
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        vTraits.push_back(iter->first);
+        wmenu.addentry(-1,true,-2,"%s",iter->second.name.c_str() );
+        if( p->has_trait( iter->first ) ) {
+             wmenu.entries[ c ].text_color = c_green;
+        }
+        c++;
     }
+    wmenu.w_width = ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
+    wmenu.pad_right = ( wmenu.w_width - 30 );
+    wmenu.return_invalid = true;
+    wmenu.selected = uistate.wishmutate_selected;
+    wish_mutate_callback *cb = new wish_mutate_callback();
+    cb->g=this;
+    cb->p=p;
+    wmenu.callback = cb;
+    do {
+        wmenu.query();
+        if ( wmenu.ret > 0 ) {
+            int rc=0;
+            std::string mstr=cb->vTraits[ wmenu.ret ];
+            if ( p->has_trait( mstr ) ) {
+                do {
+                    p->remove_mutation(this, mstr );
+                    rc++;
+                } while (p->has_trait( mstr ) && rc < 10);
+            } else {
+                do {
+                    p->mutate_towards(this, mstr );
+                    rc++;
+                } while (!p->has_trait( mstr ) && rc < 10);
+            }
+            cb->msg=string_format("%s Mutation changes: %d",mstr.c_str(),rc);
+            uistate.wishmutate_selected = wmenu.ret;
+            if ( rc != 0 ) {
+                for ( int i = 0; i < cb->vTraits.size(); i++ ) {
+                    if ( p->has_trait( cb->vTraits[ i ] ) ) {
+                        wmenu.entries[ i ].text_color = c_green;
+                        cb->pTraits[ cb->vTraits[ i ] ] = true;
+                    } else {
+                        wmenu.entries[ i ].text_color = wmenu.text_color;
+                        cb->pTraits[ cb->vTraits[ i ] ] = false;
+                    }
+                }                
+            }
+        }
+    } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    delete cb;
+    cb = NULL;
+    return;
 
-    int result_selected = 0;
-    int iCurrentLine = 0;
-    int iStartPos = 0;
-    int iContentHeight = 23;
-    int ch = '.';
+}
 
-    bool search = false;
-    std::string pattern;
-    std::string info;
-    std::vector<int> search_results;
+class wish_monster_callback: public uimenu_callback
+{
+    public:
+        int lastent;           // last menu entry
+        std::string msg;       // feedback mesage
+        bool friendly;         // spawn friendly critter?
+        WINDOW *w_info;        // ui_parent menu's padding area 
+        monster tmp;           // scrap critter for monster::print_info
+        bool started;          // if unset, intialize window
+        std::string padding;   // ' ' x window width
+
+        wish_monster_callback() {
+            started = false;
+            friendly = false;
+            msg = "";
+            lastent = -2;
+            w_info = NULL;
+            padding = "";
+        }
+
+        void setup(uimenu *menu) {
+            w_info = newwin(menu->w_height - 2, menu->pad_right , 1, menu->w_x + menu->w_width - 2 - menu->pad_right);
+            padding = std::string( getmaxx(w_info), ' ' );
+            werase(w_info);
+            wrefresh(w_info);
+        }
+
+        virtual bool key(int key, int entnum, uimenu *menu) {
+            if ( key == 'f' ) {
+                friendly = !friendly;
+                lastent = -2; // force tmp monster regen
+                return true;  // tell menu we handled keypress
+            }
+            return false;
+        }
+
+        virtual void select(int entnum, uimenu *menu) {
+            if ( ! started ) {
+                started = true;
+                setup(menu);
+            }
+            if (entnum != lastent) {
+                lastent = entnum;
+                tmp = monster(g->mtypes[entnum]);
+                if (friendly) {
+                    tmp.friendly = -1;
+                }
+            }
+
+            werase(w_info);
+            tmp.print_info(g, w_info);
+
+            std::string header = string_format("#%d: %s", entnum, g->mtypes[entnum]->name.c_str()
+                                              );
+            mvwprintz(w_info, 1, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
+                      header.c_str()
+                     );
+
+            mvwprintz(w_info, getmaxy(w_info) - 3, 0, c_green, "%s", msg.c_str());
+            msg = padding;
+            mvwprintw(w_info, getmaxy(w_info) - 2, 0, "[/] find, [f] friendly, [q]uit");
+            //wrefresh(w_info); // for some reason this makes everything disappear on first run? Not needed, at any rate.
+        }
+
+        virtual void refresh(uimenu *menu) {
+            wrefresh(w_info);
+        }
+
+        ~wish_monster_callback() {
+            werase(w_info);
+            wrefresh(w_info);
+            delwin(w_info);
+        }
+};
+
+void game::wishmonster(int x, int y)
+{
+    uimenu wmenu;
+    wmenu.w_x = 0;
+    wmenu.w_width = ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
+    wmenu.pad_right = ( wmenu.w_width - 30 );
+    wmenu.return_invalid = true;
+    wmenu.selected = uistate.wishmonster_selected;
+    wish_monster_callback *cb = new wish_monster_callback();
+    wmenu.callback = cb;
+
+    for (int i = 0; i < mtypes.size(); i++) {
+        wmenu.addentry( i, true, 0, "%s", mtypes[i]->name.c_str() );
+        wmenu.entries[i].extratxt.txt = string_format("%c", mtypes[i]->sym);
+        wmenu.entries[i].extratxt.color = mtypes[i]->color;
+        wmenu.entries[i].extratxt.left = 1;
+    }
 
     do {
-        werase(w_info);
-        werase(w_list);
-        mvwprintw(w_list, 0, 0, _("Mutate: "));
-
-        if (ch == '>' || ch == KEY_NPAGE) {
-            search = false;
-            if (!search_results.empty()) {
-                result_selected++;
-                if (result_selected >= search_results.size()) {
-                    result_selected = 0;
-                }
-
-                iCurrentLine = search_results[result_selected];
+        wmenu.query();
+        if ( wmenu.ret >= 0 ) {
+            monster mon = monster(g->mtypes[wmenu.ret]);
+            if (cb->friendly) {
+                mon.friendly = -1;
             }
-        } else if (ch == '<' || ch == KEY_PPAGE) {
-            search = false;
-            if (!search_results.empty()) {
-                result_selected--;
-                if (result_selected < 0) {
-                    result_selected = search_results.size() - 1;
-                }
-
-                iCurrentLine = search_results[result_selected];
-            }
-        } else if (search) {
-            if (ch == KEY_BACKSPACE || ch == 127) {
-                if (pattern.length() > 0) {
-                    pattern.erase(pattern.end() - 1);
-                }
-
-            } else {
-                pattern += ch;
-                search_results.clear();
-            }
-
-            if (search) {
-                for (int i = 0; i < vTraits.size(); i++) {
-                    if (traits[vTraits[i]].name.find(pattern) != std::string::npos) {
-                        result_selected = 0;
-                        search_results.push_back(i);
-                    }
-                }
-
-                if (search_results.size() > 0) {
-                    iCurrentLine = search_results[result_selected];
-                }
-            }
-
-        } else {	// Not searching; scroll by keys
-            if (ch == 'j') {
-                iCurrentLine++;
-                if (iCurrentLine >= vTraits.size()) {
-                    iCurrentLine = 0;
-                }
-            } else if (ch == 'k') {
-                iCurrentLine--;
-                if (iCurrentLine < 0) {
-                    iCurrentLine = vTraits.size()-1;
-                }
-            } else if (ch == '/') {
-                search = true;
-                pattern =  "";
-                search_results.clear();
+            point spawn = ( x == -1 && y == -1 ? look_around() : point ( x, y ) );
+            if (spawn.x != -1) {
+                mon.spawn(spawn.x, spawn.y);
+                add_zombie(mon);
+                cb->msg = _("Monster spawned, choose another or 'q' to quit.");
+                uistate.wishmonster_selected = wmenu.ret;
+                wmenu.redraw();
             }
         }
+    } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    delete cb;
+    cb = NULL;
+    return;
+}
 
-        if (!search_results.empty()) {
-            mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
-        } else if (pattern.length() > 0) {
-            mvwprintz(w_list, 0, 11, c_red, _("%s not found!            "),pattern.c_str());
+class wish_item_callback: public uimenu_callback
+{
+    public:
+        int lastlen;
+        bool incontainer;
+        std::string msg;
+        item tmp;
+        wish_item_callback() {
+            lastlen = 0;
+            incontainer = false;
+            msg = "";
         }
-
-        if (vTraits.size() > iContentHeight) {
-            iStartPos = iCurrentLine - (iContentHeight - 1) / 2;
-
-            if (iStartPos < 0) {
-                iStartPos = 0;
-            } else if (iStartPos + iContentHeight > vTraits.size()) {
-                iStartPos = vTraits.size() - iContentHeight;
+        virtual bool key(int key, int entnum, uimenu *menu) {
+            if ( key == 'f' ) {
+                incontainer = !incontainer;
+                return true;
             }
+            return false;
         }
 
-        //Draw Mutations
-        for (int i = iStartPos; i < vTraits.size(); i++) {
-            if (i >= iStartPos && i < iStartPos + ((iContentHeight > vTraits.size()) ? vTraits.size() : iContentHeight)) {
-                nc_color cLineColor = c_white;
+        virtual void select(int entnum, uimenu *menu) {
+            const int starty = 3;
+            const int startx = menu->w_width - menu->pad_right;
+            itype *ity = item_controller->find_template(standard_itype_ids[entnum]);
 
-                mvwprintz(w_list, 1 + i - iStartPos, 0, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, traits[vTraits[i]].name.c_str());
+            std::string padding = std::string(menu->pad_right - 1, ' ');
+
+            for(int i = 0; i < lastlen + starty + 1; i++ ) {
+                mvwprintw(menu->window, 1 + i, startx, "%s", padding.c_str() );
             }
-        }
 
-        mvwprintw(w_info, 1, 0, mutation_data[vTraits[iCurrentLine]].valid ? _("Valid") : _("Nonvalid"));
-        int line2 = 2;
-
-        bool found = false;
-        std::string sCat = "";
-        for (std::map<std::string, std::vector<std::string> >::iterator iter = mutations_category.begin(); iter != mutations_category.end(); ++iter) {
-            std::vector<std::string> group = mutations_category[iter->first];
-
-            for (int j = 0; !found && j < group.size(); j++) {
-                if (group[j] == vTraits[iCurrentLine]) {
-                    found = true;
-                    sCat = iter->first;
-                    break;
+            if ( ity != NULL ) {
+                tmp.make(item_controller->find_template(standard_itype_ids[entnum]));
+                tmp.bday = g->turn;
+                if (tmp.is_tool()) {
+                    tmp.charges = dynamic_cast<it_tool *>(tmp.type)->max_charges;
+                } else if (tmp.is_ammo()) {
+                    tmp.charges = 100;
+                } else if (tmp.is_gun()) {
+                    tmp.charges = 0;
+                } else if (tmp.is_gunmod() && (tmp.has_flag("MODE_AUX") ||
+                                               tmp.typeId() == "spare_mag")) {
+                    tmp.charges = 0;
+                } else {
+                    tmp.charges = -1;
                 }
+                if( tmp.is_stationary() ) {
+                    tmp.note = SNIPPET.assign( (dynamic_cast<it_stationary *>(tmp.type))->category );
+                }
+
+                std::vector<std::string> desc = foldstring(tmp.info(true), menu->pad_right - 1);
+                int dsize = desc.size();
+                if ( dsize > menu->w_height - 5 ) {
+                    dsize = menu->w_height - 5;
+                }
+                lastlen = dsize;
+                std::string header = string_format("#%d: %s%s",
+                                                   entnum,
+                                                   standard_itype_ids[entnum].c_str(),
+                                                   ( incontainer ? " (contained)" : "" )
+                                                  );
+
+                mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
+                          header.c_str()
+                         );
+
+                for(int i = 0; i < desc.size(); i++ ) {
+                    mvwprintw(menu->window, starty + i, startx, "%s", desc[i].c_str() );
+                }
+
+                mvwprintz(menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str());
+                msg = padding;
+                mvwprintw(menu->window, menu->w_height - 2, startx, "[/] find, [f] container, [q]uit");
             }
         }
+};
 
-        mvwprintw(w_info, line2, 0, _("Prereqs:"));
-        for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].prereqs.size(); j++) {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[vTraits[iCurrentLine]].prereqs[j] ].name.c_str());
-            line2++;
-        }
-
-        mvwprintw(w_info, line2, 0, _("Cancels:"));
-        for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].cancels.size(); j++) {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[vTraits[iCurrentLine]].cancels[j] ].name.c_str());
-            line2++;
-        }
-
-        mvwprintw(w_info, line2, 0, _("Becomes:"));
-        for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].replacements.size(); j++) {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[vTraits[iCurrentLine]].replacements[j] ].name.c_str());
-            line2++;
-        }
-
-        mvwprintw(w_info, line2, 0, _("Add-ons:"));
-        for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].additions.size(); j++) {
-            mvwprintw(w_info, line2, 9, traits[ mutation_data[vTraits[iCurrentLine]].additions[j] ].name.c_str());
-            line2++;
-        }
-
-        mvwprintw(w_info, line2, 0, _("Category: "));
-        for (int j = 0; j < mutation_data[vTraits[iCurrentLine]].category.size(); j++) {
-            mvwprintw(w_info, line2, 10, mutation_data[vTraits[iCurrentLine]].category[j].c_str());
-            line2++;
-        }
-
-        wrefresh(w_info);
-        wrefresh(w_list);
-
-        if (search) {
-            ch = getch();
-        } else {
-            ch = input();
-        }
-    } while (ch != '\n' && ch != 27);
-    clear();
-
-    if (ch == '\n') {
-        do {
-            u.mutate_towards(this, vTraits[iCurrentLine]);
-        } while (!u.has_trait(vTraits[iCurrentLine]));
+void game::wishitem( player *p, int x, int y)
+{
+    if ( p == NULL && x <= 0 ) {
+        debugmsg("game::wishitem(): invalid parameters");
+        return;
     }
+    int amount = 1;
+    uimenu wmenu;
+    wmenu.w_width = TERMX;
+    wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
+    wmenu.return_invalid = true;
+    wmenu.selected = uistate.wishitem_selected;
+    wish_item_callback *cb = new wish_item_callback();
+    wmenu.callback = cb;
 
-    delwin(w_info);
-    delwin(w_list);
+    for (int i = 0; i <  standard_itype_ids.size(); i++) {
+        itype *ity = item_controller->find_template(standard_itype_ids[i]);
+        wmenu.addentry( i, true, 0, string_format("%s", ity->name.c_str()) );
+        wmenu.entries[i].extratxt.txt = string_format("%c", ity->sym);
+        wmenu.entries[i].extratxt.color = ity->color;
+        wmenu.entries[i].extratxt.left = 1;
+    }
+    do {
+        wmenu.query();
+        if ( wmenu.ret >= 0 ) {
+            amount = helper::to_int(
+                         string_input_popup( _("How many?"), 20,
+                                             helper::to_string( amount ),
+                                             item_controller->find_template(standard_itype_ids[wmenu.ret])->name.c_str()
+                                           )
+                     );
+            item granted = item_controller->create(standard_itype_ids[wmenu.ret], turn);
+            int incontainer = dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer;
+            if ( p != NULL ) {
+                dynamic_cast<wish_item_callback *>(wmenu.callback)->tmp.invlet = nextinv;
+                for (int i = 0; i < amount; i++) {
+                    p->i_add(!incontainer ? granted : granted.in_its_container(&itypes));
+                }
+                advance_nextinv();
+            } else if ( x >= 0 && y >= 0 ) {
+                m.add_item_or_charges(x, y, granted);
+            }
+            dynamic_cast<wish_item_callback *>(wmenu.callback)->msg = _("Item granted, choose another or 'q' to quit.");
+            uistate.wishitem_selected = wmenu.ret;
+        }
+    } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    delete wmenu.callback;
+    wmenu.callback = NULL;
+    return;
+}
+
+/*
+ * Set skill on any player object; player character or NPC
+ */
+void game::wishskill(player * p) {
+
+      const int skoffset = 1;
+      uimenu skmenu;
+      skmenu.text = "Select a skill to modify";
+      skmenu.return_invalid = true;
+      skmenu.addentry(0, true, '1', "Set all skills to...");
+      int origskills[ Skill::skills.size()] ;
+
+      for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+           aSkill != Skill::skills.end(); ++aSkill) {
+        int skill_id = (*aSkill)->id();
+        skmenu.addentry( skill_id + skoffset, true, -1, "@ %d: %s  ",
+                         (int)p->skillLevel(*aSkill), (*aSkill)->ident().c_str() );
+        origskills[skill_id] = (int)p->skillLevel(*aSkill);
+      }
+      do {
+        skmenu.query();
+        int skill_id = -1;
+        int skset = -1;
+        int sksel = skmenu.selected - skoffset;
+        if ( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
+          if ( sksel >= 0 && sksel < Skill::skills.size() ) {
+            skill_id = sksel;
+            skset = (int)p->skillLevel( Skill::skills[skill_id]) +
+                ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
+          }
+        } else if ( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < Skill::skills.size() ) {
+          skill_id = sksel;
+          uimenu sksetmenu;
+          sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
+          sksetmenu.w_y = skmenu.w_y + 2;
+          sksetmenu.w_height = skmenu.w_height - 4;
+          sksetmenu.return_invalid = true;
+          sksetmenu.settext( "Set '%s' to..", Skill::skills[skill_id]->ident().c_str() );
+          int skcur = (int)p->skillLevel(Skill::skills[skill_id]);
+          sksetmenu.selected = skcur;
+          for ( int i = 0; i < 21; i++ ) {
+              sksetmenu.addentry( i, true, i + 48, "%d%s", i, (skcur == i ? " (current)" : "") );
+          }
+          sksetmenu.query();
+          skset = sksetmenu.ret;
+        }
+        if ( skset != -1 && skill_id != -1 ) {
+          p->skillLevel( Skill::skills[skill_id] ).level(skset);
+          skmenu.textformatted[0] = string_format("%s set to %d             ",
+              Skill::skills[skill_id]->ident().c_str(),
+              (int)p->skillLevel(Skill::skills[skill_id])).substr(0,skmenu.w_width - 4);
+          skmenu.entries[skill_id + skoffset].txt = string_format("@ %d: %s  ",
+              (int)p->skillLevel( Skill::skills[skill_id]), Skill::skills[skill_id]->ident().c_str() );
+          skmenu.entries[skill_id + skoffset].text_color =
+              ( (int)p->skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
+                skmenu.text_color : c_yellow );
+        } else if ( skmenu.ret == 0 && sksel == -1 ) {
+          int ret = menu(true, "Set all skills...",
+                         "+3","+1","-1","-3","To 0","To 5","To 10","(Reset changes)",NULL);
+          if ( ret > 0 ) {
+              int skmod = 0;
+              int skset = -1;
+              if (ret < 5 ) {
+                skmod=( ret < 3 ? ( ret == 1 ? 3 : 1 ) :
+                    ( ret == 3 ? -1 : -3 )
+                );
+              } else if ( ret < 8 ) {
+                skset=( ( ret - 5 ) * 5 );
+              }
+              for (int skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
+                int changeto = ( skmod != 0 ? p->skillLevel( Skill::skills[skill_id] ) + skmod :
+                                 ( skset != -1 ? skset : origskills[skill_id] ) );
+                p->skillLevel( Skill::skills[skill_id] ).level( changeto );
+                skmenu.entries[skill_id + skoffset].txt =
+                    string_format("@ %d: %s  ", (int)p->skillLevel(Skill::skills[skill_id]),
+                                  Skill::skills[skill_id]->ident().c_str() );
+                skmenu.entries[skill_id + skoffset].text_color =
+                    ( (int)p->skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
+                      skmenu.text_color : c_yellow );
+              }
+          }
+        }
+      } while ( ! ( skmenu.ret == -1 && ( skmenu.keypress == 'q' || skmenu.keypress == ' ' ||
+                                          skmenu.keypress == KEY_ESCAPE ) ) );
+
 }

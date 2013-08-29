@@ -181,7 +181,6 @@ class monster {
  void add_item(item it);	// Add an item to inventory
 
 // TEMP VALUES
- int posx, posy;
  int wandx, wandy; // Wander destination - Just try to move in that direction
  int wandf;	   // Urge to wander - Increased by sound, decrements each move
  std::vector<item> inv; // Inventory
@@ -203,9 +202,15 @@ class monster {
  bool dead;
  bool made_footstep;
  std::string unique_name; // If we're unique
+ 
+ void setpos(const int x, const int y);
+ void setpos(const point &p);
+ inline int posx() const { return _posx; }
+ inline int posy() const { return _posy; }
 
 private:
  std::vector <point> plans;
+ int _posx, _posy;
 };
 
 #endif

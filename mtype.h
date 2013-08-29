@@ -3,6 +3,7 @@
 // SEE ALSO: monitemsdef.cpp, which defines data on which items any given
 // monster may carry.
 
+#include <bitset>
 #include <string>
 #include <vector>
 #include <math.h>
@@ -200,6 +201,7 @@ struct mtype {
  std::string mat;	// See materials.json for material list.  Generally, flesh; veggy?
  phase_id phase;
  std::vector<m_flag> flags;
+ std::bitset<MF_MAX> bitflags;
  std::vector<m_category> categories;
  std::vector<monster_trigger> anger;   // What angers us?
  std::vector<monster_trigger> placate; // What reduces our anger?
@@ -240,8 +242,8 @@ struct mtype {
         void (mattack::*psp_attack)(game *, monster *),
         std::string pdescription );
 
- bool has_flag(m_flag flag);
- bool in_category(m_category category);
+ bool has_flag(m_flag flag) const;
+ bool in_category(m_category category) const;
 };
 
 #endif
