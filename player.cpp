@@ -7419,10 +7419,11 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     if (replace_item)
      inv.add_item_keep_invlet(copy);
     return;
-   } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" || mod->id == "masterkey" || mod->id == "u_shotgun" || mod->id == "bayonet") &&
+   } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" || mod->id == "masterkey" 
+            || mod->id == "u_shotgun" || mod->id == "bayonet" || mod->id == "gun_crossbow") &&
               (gun->contents[i].type->id == "pipe_launcher40mm" || gun->contents[i].type->id == "m203" 
             || gun->contents[i].type->id == "masterkey" || gun->contents[i].type->id == "u_shotgun" 
-            || gun->contents[i].type->id == "bayonet")) {
+            || gun->contents[i].type->id == "bayonet" || gun->contents[i].type->id == "gun_crossbow")) {
     g->add_msg(_("Your %s already has an under-barrel accessory weapon."),
                gun->tname(g).c_str());
     if (replace_item)
