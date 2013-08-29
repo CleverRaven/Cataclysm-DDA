@@ -64,6 +64,28 @@
 					<Add library="iconv" />
 				</Linker>
 			</Target>
+			<Target title="Release - Tile Support">
+				<Option output="Cataclysm-Tiles" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/TilesRelease/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-pg" />
+					<Add option="-DSDLTILES" />
+					<Add directory="3rdparty/include/SDL" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="3rdparty\lib\libSDL.dll.a" />
+					<Add library="3rdparty\lib\libSDLmain.a" />
+					<Add library="3rdparty\lib\x86\SDL_image.lib" />
+					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
+					<Add directory="3rdparty/lib" />
+					<Add directory="3rdparty/lib/x86" />
+				</Linker>
+			</Target>
 		</Build>
 		<Linker>
 			<Add option="-Wl,-stack,12000000,-subsystem,windows" />
@@ -71,10 +93,16 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 		</Linker>
+		<Unit filename="SDLMain.h" />
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
 		<Unit filename="addiction.cpp" />
 		<Unit filename="addiction.h" />
+		<Unit filename="advanced_inv.cpp" />
+		<Unit filename="advanced_inv.h" />
+		<Unit filename="animation.h" />
+		<Unit filename="animation_curses.cpp" />
+		<Unit filename="animation_tiles.cpp" />
 		<Unit filename="artifact.cpp" />
 		<Unit filename="artifact.h" />
 		<Unit filename="artifactdata.h" />
@@ -90,7 +118,10 @@
 		<Unit filename="building_generation.h" />
 		<Unit filename="calendar.cpp" />
 		<Unit filename="calendar.h" />
+		<Unit filename="cata_tiles.cpp" />
+		<Unit filename="cata_tiles.h" />
 		<Unit filename="catacharset.cpp" />
+		<Unit filename="catacharset.h" />
 		<Unit filename="catacurse.h" />
 		<Unit filename="catajson.cpp" />
 		<Unit filename="catajson.h" />
@@ -110,12 +141,15 @@
 		<Unit filename="dialogue.h" />
 		<Unit filename="disease.cpp" />
 		<Unit filename="disease.h" />
+		<Unit filename="editmap.cpp" />
+		<Unit filename="editmap.h" />
 		<Unit filename="enums.h" />
 		<Unit filename="event.cpp" />
 		<Unit filename="event.h" />
 		<Unit filename="faction.cpp" />
 		<Unit filename="faction.h" />
 		<Unit filename="field.cpp" />
+		<Unit filename="field.h" />
 		<Unit filename="game.cpp" />
 		<Unit filename="game.h" />
 		<Unit filename="gamemode.cpp" />
@@ -219,6 +253,7 @@
 		<Unit filename="rng.cpp" />
 		<Unit filename="rng.h" />
 		<Unit filename="sdlcurse.cpp" />
+		<Unit filename="sdltiles.cpp" />
 		<Unit filename="settlement.cpp" />
 		<Unit filename="settlement.h" />
 		<Unit filename="setvector.cpp" />
@@ -227,6 +262,7 @@
 		<Unit filename="skill.h" />
 		<Unit filename="text_snippets.cpp" />
 		<Unit filename="text_snippets.h" />
+		<Unit filename="tile_id_data.h" />
 		<Unit filename="tileray.cpp" />
 		<Unit filename="tileray.h" />
 		<Unit filename="translations.h" />
@@ -237,6 +273,7 @@
 		<Unit filename="tutorial.h" />
 		<Unit filename="ui.cpp" />
 		<Unit filename="ui.h" />
+		<Unit filename="uistate.h" />
 		<Unit filename="veh_interact.cpp" />
 		<Unit filename="veh_interact.h" />
 		<Unit filename="veh_type.h" />
@@ -244,7 +281,10 @@
 		<Unit filename="vehicle.cpp" />
 		<Unit filename="vehicle.h" />
 		<Unit filename="version.cpp" />
-		<Unit filename="version.h" />
+		<Unit filename="wcwidth.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="wdirent.h" />
 		<Unit filename="weather.cpp" />
 		<Unit filename="weather.h" />
 		<Unit filename="weather_data.cpp" />
