@@ -4682,7 +4682,17 @@ void game::cleanup_dead()
 
 void game::monmove()
 {
- cleanup_dead();
+    cleanup_dead();
+
+    // monster::plan() needs to know about all monsters with nonzero friendliness.
+    // We'll build this list once (instead of once per monster) for speed.
+    std::vector<int> friendlies;
+    for (int i = 0, numz = num_zombies(); i < numz; i++) {
+        if (zombie(i).friendly) {
+            friendlies.push_back(i);
+        }
+    }
+
  for (int i = 0; i < num_zombies(); i++) {
   monster &z = _z[i];
   while (!z.dead && !z.can_move_to(this, z.posx(), z.posy())) {
@@ -4722,7 +4732,7 @@ void game::monmove()
 
   while (z.moves > 0 && !z.dead) {
    z.made_footstep = false;
-   z.plan(this);	// Formulate a path to follow
+   z.plan(this, friendlies);	// Formulate a path to follow
    z.move(this);	// Move one square, possibly hit u
    z.process_triggers(this);
    m.mon_in_field(z.posx(), z.posy(), this, &z);

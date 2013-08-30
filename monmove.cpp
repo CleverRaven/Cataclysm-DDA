@@ -90,7 +90,7 @@ void monster::wander_to(int x, int y, int f)
  wandf = f;
 }
 
-void monster::plan(game *g)
+void monster::plan(game *g, const std::vector<int> &friendlies)
 {
     int sightrange = g->light_level();
     int closest = -1;
@@ -167,21 +167,20 @@ void monster::plan(game *g)
     if (!fleeing) {
         fleeing = attitude() == MATT_FLEE;
         if (can_see()) {
-            for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
+            for (int f = 0, numf = friendlies.size(); f < numf; f++) {
+                const int i = friendlies[f];
                 monster *mon = &(g->zombie(i));
-                if (mon->friendly != 0) {
-                    int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
-                    if (mondist < dist &&
-                            g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, tc)) {
-                        dist = mondist;
-                        if (fleeing) {
-                            wandx = posx() * 2 - mon->posx();
-                            wandy = posy() * 2 - mon->posy();
-                            wandf = 40;
-                        } else {
-                            closest = -3 - i;
-                            stc = tc;
-                        }
+                int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
+                if (mondist < dist &&
+                        g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, tc)) {
+                    dist = mondist;
+                    if (fleeing) {
+                        wandx = posx() * 2 - mon->posx();
+                        wandy = posy() * 2 - mon->posy();
+                        wandf = 40;
+                    } else {
+                        closest = -3 - i;
+                        stc = tc;
                     }
                 }
             }
