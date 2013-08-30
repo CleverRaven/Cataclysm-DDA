@@ -159,6 +159,10 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
 endif
 
 ifdef TILES
+  SDL = 1
+endif
+
+ifdef SDL
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
       DEFINES += -DOSX_SDL_FW
@@ -180,7 +184,12 @@ ifdef TILES
   else
     LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
   endif
-  DEFINES += -DTILES
+  ifdef TILES
+    LDFLAGS += -lSDL_image
+    DEFINES += -DSDLTILES
+  else
+    DEFINES += -DTILES
+  endif
   ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -lgdi32 -ldxguid -lwinmm
     TARGET = $(W32TILESTARGET)

@@ -3964,7 +3964,7 @@
     "revert_to": "null",
     "use_action": "DEJAR"
   },
-
+  
   {
     "id": "jar_kompot",
     "type": "TOOL",
@@ -3972,9 +3972,10 @@
     "color": "red",
     "name": "sealed 3-litre jar of kompot",
     "description": "A sealed glass jar containing kompot.  Activate to open and enjoy.",
+    "rarity": 0,
     "price": 80,
     "material": ["glass", "water"],
-    "weight": 3365,
+    "weight": 3,
     "volume": 2,
     "bashing": 8,
     "cutting": 1,
