@@ -369,7 +369,7 @@ bool player::create(game *g, character_type type, std::string tempname)
 // make sure we have no mutations
  for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
   if (!has_base_trait(iter->first))
-	my_mutations[iter->first] = false;
+   my_mutations.erase(iter->first);
 
 	// Equip any armor from our inventory.
  // If we are unable to wear some of it due to encumberance, it will silently fail.

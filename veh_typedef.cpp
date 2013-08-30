@@ -51,7 +51,7 @@ void game::init_vehicle_parts()
     catajson next_json = vehicle_parts_json.curr();
     vpart_info next_part;
 
-    next_part.name = next_json.get("name").as_string();
+    next_part.name = _(next_json.get("name").as_string().c_str());
     next_part.sym = next_json.get("symbol").as_char();
     next_part.color = color_from_string(next_json.get("color").as_string());
     next_part.sym_broken = next_json.get("broken_symbol").as_char();

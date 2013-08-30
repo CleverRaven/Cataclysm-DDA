@@ -3924,7 +3924,7 @@
     "type": "TOOL",
     "symbol": ")",
     "color": "red",
-    "name": "Packed M72 LAW",
+    "name": "packed M72 LAW",
     "description": "An M72 LAW, packed in its storage form. (a)ctivate it to pop it out and make it ready to fire. Once activated, it cannot be repacked.",
     "price": 500,
     "material": "steel",
