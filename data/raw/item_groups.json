@@ -388,7 +388,7 @@
       ["reflexbow", 2],
       ["arrow_wood", 7],
       ["arrow_cf", 5],
-      ["u_shotgun", 2],
+      ["masterkey", 2],
       ["shot_hull", 10],
       ["9mm_casing", 10],
       ["38_casing", 10],
@@ -414,7 +414,8 @@
       ["rm103a_pistol", 1],
       ["laser_sight", 15],
       ["rifle_scope", 17],
-      ["improve_sights", 20]
+      ["improve_sights", 20],
+      ["u_shotgun", 5]
     ]
   },
   { "id":"dresser",
@@ -2344,7 +2345,13 @@
       ["m320", 10],
       ["mgl", 6],
       ["m203", 2],
-      ["LAW_Packed", 30]
+      ["LAW_Packed", 30],
+      ["m3_carlgustav", 2],
+      ["84x246mm_he", 6],
+      ["84x246mm_hedp", 4],
+      ["84x246mm_smoke", 9],
+      ["m202_flash", 4],
+      ["m235tpa", 6]
     ]
   },
   { "id":"mil_rifles",
@@ -2371,7 +2378,7 @@
       ["m203", 2],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
-      ["u_shotgun", 2],
+      ["masterkey", 2],
       ["rm51_assault_rifle", 1],
       ["rm88_battle_rifle", 1],
       ["rm2000_smg", 1],
@@ -3064,6 +3071,12 @@
       ["chestrig", 10],
       ["rucksack", 20],
       ["LAW_Packed", 30],
+      ["m3_carlgustav", 1],
+      ["84x246mm_he", 3],
+      ["84x246mm_hedp", 2],
+      ["84x246mm_smoke", 3],
+      ["m202_flash", 2],
+      ["m235tpa", 3],
       ["tac_helmet", 5]
     ]
   },
@@ -3142,7 +3155,7 @@
       ["12mm", 2],
       ["flamethrower", 1],
       ["binoculars", 20],
-      ["u_shotgun", 2],
+      ["masterkey", 2],
       ["chestrig", 10],
       ["power_armor_basic", 5],
       ["power_armor_helmet_basic", 6],
@@ -3153,6 +3166,12 @@
       ["rucksack", 20],
       ["heatpack", 60],
       ["LAW_Packed", 30],
+      ["m3_carlgustav", 1],
+      ["84x246mm_he", 3],
+      ["84x246mm_hedp", 2],
+      ["84x246mm_smoke", 3],
+      ["m202_flash", 2],
+      ["m235tpa", 3],
       ["rm51_assault_rifle", 1],
       ["rm88_battle_rifle", 1],
       ["rm2000_smg", 1],
@@ -3394,7 +3413,8 @@
       ["lsd", 10],
       ["gum", 90],
       ["nic_gum", 1],
-      ["improve_sights", 10]
+      ["improve_sights", 10],
+      ["u_shotgun", 4]
     ]
   },
   { "id":"wreckage",

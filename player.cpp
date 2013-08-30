@@ -7254,17 +7254,23 @@ hint_rating player::rate_action_unload(item *it) {
  }
  int spare_mag = -1;
  int has_m203 = -1;
+ int has_40mml = -1;
  int has_shotgun = -1;
+ int has_shotgun2 = -1;
  if (it->is_gun()) {
   spare_mag = it->has_gunmod ("spare_mag");
   has_m203 = it->has_gunmod ("m203");
+  has_40mml = it->has_gunmod ("pipe_launcher40mm");
   has_shotgun = it->has_gunmod ("u_shotgun");
+  has_shotgun2 = it->has_gunmod ("masterkey");
  }
  if (it->is_container() ||
      (it->charges == 0 &&
       (spare_mag == -1 || it->contents[spare_mag].charges <= 0) &&
       (has_m203 == -1 || it->contents[has_m203].charges <= 0) &&
-      (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0))) {
+      (has_40mml == -1 || it->contents[has_40mml].charges <= 0) &&
+      (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0) &&
+      (has_shotgun2 == -1 || it->contents[has_shotgun2].charges <= 0))) {
   if (it->contents.size() == 0) {
    return HINT_IFFY;
   }
@@ -7541,7 +7547,17 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     if (replace_item)
      inv.add_item_keep_invlet(copy);
     return;
-   }
+   } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" || mod->id == "masterkey" 
+            || mod->id == "u_shotgun" || mod->id == "bayonet" || mod->id == "gun_crossbow") &&
+              (gun->contents[i].type->id == "pipe_launcher40mm" || gun->contents[i].type->id == "m203" 
+            || gun->contents[i].type->id == "masterkey" || gun->contents[i].type->id == "u_shotgun" 
+            || gun->contents[i].type->id == "bayonet" || gun->contents[i].type->id == "gun_crossbow")) {
+    g->add_msg(_("Your %s already has an under-barrel accessory weapon."),
+               gun->tname(g).c_str());
+    if (replace_item)
+     inv.add_item_keep_invlet(copy);
+    return;
+   } 
   }
   g->add_msg(_("You attach the %s to your %s."), used->tname(g).c_str(),
              gun->tname(g).c_str());
