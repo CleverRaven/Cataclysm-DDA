@@ -1876,7 +1876,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
             {
                 tower = &g->cur_om->radios[k];
 
-                if( 0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
+                if(tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) > 0 &&
                     tower->frequency != old_frequency )
                 {
                     if( tower->frequency > old_frequency &&
