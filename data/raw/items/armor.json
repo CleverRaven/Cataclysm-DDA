@@ -80,7 +80,7 @@
         "storage" : 0,
         "symbol" : "[",
         "description" : "Heavy plastic armor for your upper torso. Normally worn by football players.",
-        "price" : 100,
+        "price" : 180,
         "material" : ["plastic", "cotton"],
         "volume" : 16,
         "cutting" : 0,
@@ -89,7 +89,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 3,
         "bashing" : -2,
-        "coverage" : 50,
+        "coverage" : 45,
         "material_thickness" : 8
     },
     {
@@ -98,7 +98,7 @@
         "name" : "football helmet",
         "weight" : 3310,
         "color" : "blue",
-        "covers" : ["TORSO"],
+        "covers" : ["HEAD"],
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
@@ -112,7 +112,8 @@
         "enviromental_protection" : 0,
         "encumberance" : 5,
         "bashing" : -2,
-        "coverage" : 50,
+        "flags" : ["WATER_FRIENDLY"],
+        "coverage" : 90,
         "material_thickness" : 10
     },
     {
