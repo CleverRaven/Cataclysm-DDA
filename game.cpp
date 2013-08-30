@@ -7868,7 +7868,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     // Ask to pour rotten liquid (milk!) from the get-go
     if (!from_ground && liquid.rotten(this) &&
             query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
-        m.add_item_or_charges(u.posx, u.posy, liquid, 1);
+        if (!m.has_flag(swimmable, u.posx, u.posy))
+            m.add_item_or_charges(u.posx, u.posy, liquid, 1);
 
         return true;
     }
@@ -7881,7 +7882,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         // we asked to pour rotten already
         if (!from_ground && !liquid.rotten(this) &&
                 query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
-            m.add_item_or_charges(u.posx, u.posy, liquid, 1);
+            if (!m.has_flag(swimmable, u.posx, u.posy))
+                m.add_item_or_charges(u.posx, u.posy, liquid, 1);
             return true;
         }
         return false;
@@ -7893,7 +7895,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         // we asked to pour rotten already
         if (!from_ground && !liquid.rotten(this) &&
                 query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
-            m.add_item_or_charges(u.posx, u.posy, liquid, 1);
+            if (!m.has_flag(swimmable, u.posx, u.posy))
+                m.add_item_or_charges(u.posx, u.posy, liquid, 1);
             return true;
         }
         add_msg(_("Never mind."));
