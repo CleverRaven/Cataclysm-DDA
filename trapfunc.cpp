@@ -23,6 +23,7 @@ float pit_effectiveness(game *g, int x, int y)
 void trapfunc::bubble(game *g, int x, int y)
 {
  g->add_msg(_("You step on some bubblewrap!"));
+ g->u.add_memorial_log(_("Stepped on bubblewrap."));
  g->sound(x, y, 18, _("Pop!"));
  g->m.remove_trap(x, y);
 }
@@ -46,6 +47,7 @@ void trapfuncm::cot(game *g, monster *z, int x, int y)
 void trapfunc::beartrap(game *g, int x, int y)
 {
  g->add_msg(_("A bear trap closes on your foot!"));
+ g->u.add_memorial_log(_("Caught by a beartrap."));
  g->sound(x, y, 8, _("SNAP!"));
  g->u.hit(g, bp_legs, rng(0, 1), 10, 16);
  g->u.add_disease("beartrap", -1);
@@ -75,6 +77,7 @@ void trapfuncm::beartrap(game *g, monster *z, int x, int y)
 void trapfunc::board(game *g, int x, int y)
 {
  g->add_msg(_("You step on a spiked board!"));
+ g->u.add_memorial_log(_("Stepped on a spiked board."));
  g->u.hit(g, bp_feet, 0, 0, rng(6, 10));
  g->u.hit(g, bp_feet, 1, 0, rng(6, 10));
 }
@@ -96,6 +99,7 @@ void trapfuncm::board(game *g, monster *z, int x, int y)
 void trapfunc::tripwire(game *g, int x, int y)
 {
  g->add_msg(_("You trip over a tripwire!"));
+ g->u.add_memorial_log(_("Tripped on a tripwire."));
  std::vector<point> valid;
  for (int j = x - 1; j <= x + 1; j++) {
   for (int k = y - 1; k <= y + 1; k++) {
@@ -130,6 +134,7 @@ void trapfunc::crossbow(game *g, int x, int y)
 {
  bool add_bolt = true;
  g->add_msg(_("You trigger a crossbow trap!"));
+ g->u.add_memorial_log(_("Triggered a crossbow trap."));
  if (!one_in(4) && rng(8, 20) > g->u.dodge(g)) {
   body_part hit = num_bp;
   switch (rng(1, 10)) {
@@ -192,6 +197,7 @@ void trapfuncm::crossbow(game *g, monster *z, int x, int y)
 void trapfunc::shotgun(game *g, int x, int y)
 {
  g->add_msg(_("You trigger a shotgun trap!"));
+ g->u.add_memorial_log(_("Triggered a shotgun trap."));
  int shots = (one_in(8) || one_in(20 - g->u.str_max) ? 2 : 1);
  if (g->m.tr_at(x, y) == tr_shotgun_1)
   shots = 1;
@@ -254,6 +260,7 @@ void trapfuncm::shotgun(game *g, monster *z, int x, int y)
 void trapfunc::blade(game *g, int x, int y)
 {
  g->add_msg(_("A blade swings out and hacks your torso!"));
+ g->u.add_memorial_log(_("Triggered a blade trap."));
  g->u.hit(g, bp_torso, 0, 12, 30);
 }
 
@@ -275,6 +282,7 @@ void trapfunc::snare_light(game *g, int x, int y)
 {
  g->sound(x, y, 2, _("Snap!"));
  g->add_msg(_("A snare closes on your leg."));
+ g->u.add_memorial_log(_("Triggered a light snare."));
  g->u.add_disease("lightsnare", rng(10, 20));
  g->m.remove_trap(x, y);
  g->m.spawn_item(x, y, "string_36", 0);
@@ -332,6 +340,7 @@ void trapfunc::snare_heavy(game *g, int x, int y)
  body_part hit = bp_legs;
  g->sound(x, y, 4, _("Snap!"));
  g->add_msg(_("A snare closes on your %s."), body_part_name(hit, side).c_str());
+ g->u.add_memorial_log(_("Triggered a heavy snare."));
  g->u.hit(g, bp_legs, side, 15, 20);
  g->u.add_disease("heavysnare", rng(20, 30));
  g->m.remove_trap(x, y);
@@ -398,6 +407,7 @@ void trapfuncm::snare_heavy(game *g, monster *z, int x, int y)
 void trapfunc::landmine(game *g, int x, int y)
 {
  g->add_msg(_("You trigger a landmine!"));
+ g->u.add_memorial_log(_("Stepped on a lane mine."));
  g->explosion(x, y, 10, 8, false);
  g->m.remove_trap(x, y);
 }
@@ -417,6 +427,7 @@ void trapfuncm::landmine(game *g, monster *z, int x, int y)
 void trapfunc::boobytrap(game *g, int x, int y)
 {
  g->add_msg(_("You trigger a boobytrap!"));
+ g->u.add_memorial_log(_("Triggered a boobytrap."));
  g->explosion(x, y, 18, 12, false);
  g->m.remove_trap(x, y);
 }
@@ -434,6 +445,7 @@ void trapfunc::telepad(game *g, int x, int y)
     //~ the sound of a telepad functioning
     g->sound(x, y, 6, _("vvrrrRRMM*POP!*"));
     g->add_msg(_("The air shimmers around you..."));
+    g->u.add_memorial_log(_("Triggered a teleport trap."));
     g->teleport();
 }
 
@@ -469,6 +481,7 @@ void trapfuncm::telepad(game *g, monster *z, int x, int y)
 void trapfunc::goo(game *g, int x, int y)
 {
  g->add_msg(_("You step in a puddle of thick goo."));
+ g->u.add_memorial_log(_("Stepped into thick goo."));
  g->u.infect("slimed", bp_feet, 6, 20, g);
  if (one_in(3)) {
   g->add_msg(_("The acidic goo eats away at your feet."));
@@ -494,6 +507,7 @@ void trapfuncm::goo(game *g, monster *z, int x, int y)
 void trapfunc::dissector(game *g, int x, int y)
 {
  g->add_msg(_("Electrical beams emit from the floor and slice your flesh!"));
+ g->u.add_memorial_log(_("Stepped into a dissector."));
  //~ the sound of a dissector dissecting
  g->sound(x, y, 10, _("BRZZZAP!"));
  g->u.hit(g, bp_head,  0, 0, 15);
@@ -518,6 +532,7 @@ void trapfuncm::dissector(game *g, monster *z, int x, int y)
 void trapfunc::pit(game *g, int x, int y)
 {
     g->add_msg(_("You fall in a pit!"));
+    g->u.add_memorial_log(_("Fell in a pit."));
     if (g->u.has_trait("WINGS_BIRD")) {
         g->add_msg(_("You flap your wings and flutter down gracefully."));
     } else {
@@ -556,6 +571,7 @@ void trapfuncm::pit(game *g, monster *z, int x, int y)
 void trapfunc::pit_spikes(game *g, int x, int y)
 {
     g->add_msg(_("You fall in a pit!"));
+    g->u.add_memorial_log(_("Fell into a spiked pit."));
     int dodge = g->u.dodge(g);
     int damage = pit_effectiveness(g, x, y) * rng(20, 50);
     if (g->u.has_trait("WINGS_BIRD")) {
@@ -626,6 +642,7 @@ void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)
 void trapfunc::lava(game *g, int x, int y)
 {
  g->add_msg(_("The %s burns you horribly!"), g->m.tername(x, y).c_str());
+ g->u.add_memorial_log(_("Stepped into lava."));
  g->u.hit(g, bp_feet, 0, 0, 20);
  g->u.hit(g, bp_feet, 1, 0, 20);
  g->u.hit(g, bp_legs, 0, 0, 20);
@@ -661,6 +678,7 @@ void trapfuncm::lava(game *g, monster *z, int x, int y)
 void trapfunc::sinkhole(game *g, int x, int y)
 {
  g->add_msg(_("You step into a sinkhole, and start to sink down!"));
+ g->u.add_memorial_log(_("Stepped into a sinkhole."));
  if (g->u.has_amount("rope_30", 1) &&
      query_yn(_("Throw your rope to try to catch something?"))) {
   int throwroll = rng(g->u.skillLevel("throw"),
@@ -719,6 +737,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
 void trapfunc::ledge(game *g, int x, int y)
 {
  g->add_msg(_("You fall down a level!"));
+ g->u.add_memorial_log(_("Fell down a ledge."));
  g->vertical_move(-1, true);
 }
 
@@ -731,6 +750,7 @@ void trapfuncm::ledge(game *g, monster *z, int x, int y)
 void trapfunc::temple_flood(game *g, int x, int y)
 {
  g->add_msg(_("You step on a loose tile, and water starts to flood the room!"));
+ g->u.add_memorial_log(_("Triggered a flood trap."));
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEY * MAPSIZE; j++) {
    if (g->m.tr_at(i, j) == tr_temple_flood)
@@ -835,6 +855,7 @@ void trapfuncm::hum(game *g, monster *z, int x, int y)
 
 void trapfunc::shadow(game *g, int x, int y)
 {
+ g->u.add_memorial_log(_("Triggered a shadow trap."));
  monster spawned(g->mtypes[mon_shadow]);
  int tries = 0, monx, mony, junk;
  do {
@@ -859,6 +880,7 @@ void trapfunc::shadow(game *g, int x, int y)
 
 void trapfunc::drain(game *g, int x, int y)
 {
+ g->u.add_memorial_log(_("Triggered a life-draining trap."));
  g->add_msg(_("You feel your life force sapping away."));
  g->u.hurtall(1);
 }
@@ -870,6 +892,7 @@ void trapfuncm::drain(game *g, monster *z, int x, int y)
 
 void trapfunc::snake(game *g, int x, int y)
 {
+ g->u.add_memorial_log(_("Triggered a shadow snake trap."));
  if (one_in(3)) {
   monster spawned(g->mtypes[mon_shadow_snake]);
   int tries = 0, monx, mony, junk;

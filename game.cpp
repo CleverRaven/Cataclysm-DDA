@@ -612,7 +612,8 @@ bool game::do_turn()
     // Check if we're falling asleep, unless we're sleeping
     if (u.fatigue >= 600 && !u.has_disease("sleep")){
         if (u.fatigue >= 1000){
-            add_msg(_("Surivor sleep now."));
+            add_msg(_("Survivor sleep now."));
+            u.add_memorial_log(_("Succumbed to lack of sleep."));
             u.fatigue -= 10;
             u.try_to_sleep(this);
         } else if (u.fatigue >= 800 && turn % 10 == 0){
@@ -6097,6 +6098,7 @@ void game::smash()
             !event_queued(EVENT_WANTED))
         {
             sound(smashx, smashy, 40, _("An alarm sounds!"));
+            u.add_memorial_log(_("Set off an alarm."));
             add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
         }
         u.moves -= move_cost;
@@ -10764,6 +10766,7 @@ void game::teleport(player *p)
                 if (is_u) {
                     add_msg(_("You teleport into the middle of a %s!"),
                             m.name(newx, newy).c_str());
+                    p->add_memorial_log(_("Teleported into a %s."), m.name(newx, newy).c_str());
                 } else {
                     add_msg(_("%s teleports into the middle of a %s!"),
                             p->name.c_str(), m.name(newx, newy).c_str());
@@ -10777,6 +10780,7 @@ void game::teleport(player *p)
                 if (is_u) {
                     add_msg(_("You teleport into the middle of a %s!"),
                             z.name().c_str());
+                    u.add_memorial_log(_("Telefragged a %s."), z.name().c_str());
                 } else {
                     add_msg(_("%s teleports into the middle of a %s!"),
                             p->name.c_str(), z.name().c_str());
