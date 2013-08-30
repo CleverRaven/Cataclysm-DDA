@@ -13161,7 +13161,7 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 5,
-  "time": 50000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13216,7 +13216,7 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 6,
-  "time": 60000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13262,7 +13262,7 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 6,
-  "time": 60000,
+  "time": 30000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 5 ]],
