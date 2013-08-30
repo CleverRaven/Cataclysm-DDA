@@ -27,6 +27,13 @@ cata_tiles::cata_tiles()
     tile_values = NULL;
     tile_ids = NULL;
     screen_tiles = NULL;
+
+    in_animation = false;
+    do_draw_explosion = false;
+    do_draw_bullet = false;
+    do_draw_hit = false;
+    do_draw_line = false;
+    do_draw_weather = false;
 }
 
 cata_tiles::~cata_tiles()
