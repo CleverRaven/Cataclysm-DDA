@@ -263,7 +263,7 @@ void cata_tiles::load_tilejson(std::string path)
         return;
     }
     catajson info = config.get("tile_info");
-    int tilecount = 0;
+    //int tilecount = 0;
 
     for (info.set_begin(); info.has_curr(); info.next())
     {
@@ -482,7 +482,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
 
     init_light();
 
-    int x, y, t;
+    int x, y;
     LIGHTING l;
 
     o_x = posx - sx/2;
@@ -545,18 +545,16 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         }
     }
     // check to see if player is located at ter
-    else if (g->u.posx != g->ter_view_x || g->u.posy != g->ter_view_y)
+    else if (g->u.posx + g->u.view_offset_x != g->ter_view_x || g->u.posy + g->u.view_offset_y != g->ter_view_y)
     {
         draw_from_id_string("cursor", g->ter_view_x, g->ter_view_y, 0, 0);
         //draw_explosion_frame(1, 1, 1, 0, 0);
         //draw_from_id_string("explosion", posx - 1, posy - 1, corner, 0);
     }
 
-
-
     //extern SDL_Surface *screen;
-    SDL_Rect srcrect = {0,0,width, height};
-    SDL_Rect desrect = {destx, desty, width, height};
+    SDL_Rect srcrect = {0, 0, (Uint16)width, (Uint16)height};
+    SDL_Rect desrect = {(Sint16)destx, (Sint16)desty, (Uint16)width, (Uint16)height};
 
     SDL_BlitSurface(buffer, &srcrect, display_screen, &desrect);
 }
@@ -659,7 +657,7 @@ bool cata_tiles::draw_tile_at(tile_type* tile, int x, int y, int rota)
         if (fg >= 0 && fg < tile_values->size())
         {
             // get rect
-            SDL_Rect *fgrect = (*tile_values)[fg];
+            //SDL_Rect *fgrect = (*tile_values)[fg];
             //DebugLog() << "Drawing rotated tile [" << fg << "] with rotation value ["<< rota << "]\n";
             // get new surface of just the rotated fgrect and blit it to the screen
             std::vector<SDL_Surface*> fgtiles = rotation_cache[fg];
@@ -803,6 +801,8 @@ bool cata_tiles::draw_lighting(int x, int y, LIGHTING l)
 
     // lighting is never rotated, though, could possibly add in random rotation?
     draw_from_id_string(light_name, x, y, 0, 0);
+
+    return false;
 }
 
 bool cata_tiles::draw_terrain(int x, int y)
@@ -813,16 +813,16 @@ bool cata_tiles::draw_terrain(int x, int y)
 
 	// need to check for walls, and then deal with wallfication details!
 	int s = terlist[t].sym;
-	bool wallchange = false;
+	//bool wallchange = false;
 
-	char alteration = 0;
+	//char alteration = 0;
 	int subtile = 0, rotation = 0;
 
     // check walls
 	if (s == LINE_XOXO /*vertical*/ || s == LINE_OXOX /*horizontal*/)
 	{
 		get_wall_values(x, y, LINE_XOXO, LINE_OXOX, subtile, rotation);
-		wallchange = true;
+		//wallchange = true;
 	}
 	// check windows and doors for wall connections, may or may not have a subtile available, but should be able to rotate to some extent
 	else if (s == '"' || s == '+' || s == '\'')
@@ -1173,6 +1173,7 @@ LIGHTING cata_tiles::light_at(int x, int y)
 {
     /** Logic */
     const int dist = rl_dist(g->u.posx, g->u.posy, x, y);
+    /*
     int sight_range = sightrange_light;
     int low_sight_range = sightrange_lowlight;
 
@@ -1184,6 +1185,7 @@ LIGHTING cata_tiles::light_at(int x, int y)
     {
         low_sight_range = std::max(g_lightlevel, sightrange_natural);
     }
+    */
 
     int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
     int distance_to_look = real_max_sight_range;
