@@ -13157,7 +13157,7 @@
 },
 
 {
-  "result": "veggy_pickled",
+  "result": "jar_veggy_pickled",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 5,
@@ -13212,7 +13212,7 @@
 },
 
 {
-  "result": "meat_pickled",
+  "result": "jar_meat_pickled",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 6,
@@ -13258,7 +13258,7 @@
   ]
 },
 {
-  "result": "human_pickled",
+  "result": "jar_human_pickled",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 6,
