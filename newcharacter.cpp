@@ -612,6 +612,10 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
         }
     }
 
+    for (int i = 0; i < 2; i++) {
+        std::sort(vStartingTraits[i].begin(), vStartingTraits[i].end(), trait_display_sort);
+    }
+
     nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
 
     int iStartPos = 0;

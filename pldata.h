@@ -130,6 +130,11 @@ struct trait {
 
 extern std::map<std::string, trait> traits;
 
+inline bool trait_display_sort(const std::string &a, const std::string &b)
+{
+    return traits[a].name < traits[b].name;
+}
+
 enum hp_part {
     hp_head = 0,
     hp_torso,
