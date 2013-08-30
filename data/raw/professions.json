@@ -79,13 +79,13 @@
       "ident":"soldier",
       "items":[
          "pants_army",
-         "jacket_army",
+         "army_top",
          "boots_combat",
          "knife_combat",
          "binoculars"
       ],
       "name":"Military Recruit",
-      "points":4,
+      "points":3,
       "skills":[
          {
             "level":1,
@@ -169,7 +169,8 @@
          "pants",
          "dress_shirt",
          "dress_shoes",
-         "cig"
+         "cig",
+         "ref_lighter"
       ],
       "name":"Chain Smoker",
       "points":-1
@@ -476,8 +477,8 @@
       "name": "Punk Rock Girl",
       "description":"The apocalypse has been your psychotic dream come true. Now that the system is dead, it's time to party among the bones of the world!",
       "points": 2,
-      "items": ["skirt", "army_top", "jacket_leather", "gloves_fingerless", "boots_combat",
-                "weed", "cig", "mp3", "lighter"]
+      "items": ["skirt", "corset", "trenchcoat", "gloves_fingerless", "boots_combat",
+                "weed", "cig", "mp3", "ref_lighter"]
    },
    {
      "ident": "junkie",
@@ -561,5 +562,38 @@
       "description":"All you ever wanted was to make people laugh. Dropping out of school and performing at kids' parties was a dream come true until the world ended. There's precious few balloon animals in your future now - cue the sad trombone.",
       "points": 0,
       "items": ["clown_suit", "clownshoes"]
-   }
+   },
+   {
+      "ident": "lost_sub",
+      "name": "Lost Submissive",
+      "description":"Early in the rush to safety, you were separated from your master by cruel fate. Now you are on your own with nothing to your name but a suit of really kinky black leather. Unfortunately, there's no safewords in the apocalypse.",
+      "points": 0,
+      "items": ["bondage_suit", "bondage_mask", "boots"]
+   },
+   {
+      "ident": "senior",
+      "name": "Senior Citizen",
+      "description":"You haven't seen this much blood since the war. The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done. You start with a cane and your bifocal glasses.",
+      "points": 0,
+      "items": ["dress_shirt", "pants_checkered", "dress_shoes", "cane", "glasses_bifocal"]
+   },
+   {
+      "description":"Being a paramedic put you in a bad spot when it all ended. You had to fight your way out of a hospital full of infected to get to the shelter. You start with a few related tools and some skill in first aid.",
+      "ident":"paramedic",
+      "items":[
+         "pants",
+         "boots",
+         "polo_shirt",
+         "gloves_medical",
+         "1st_aid"
+      ],
+      "name":"Paramedic",
+      "points":2,
+      "skills":[
+         {
+            "level":1,
+            "name":"firstaid"
+         }
+      ]
+    }
 ]
