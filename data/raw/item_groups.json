@@ -841,6 +841,8 @@
       ["aspirin", 85],
       ["bat", 60],
       ["bat_metal", 60],
+      ["football_armor", 10],
+      ["helmet_football", 10],
       ["sneakers", 80],
       ["socks", 70],
       ["tshirt", 80],
@@ -945,6 +947,8 @@
       ["aspirin", 85],
       ["bat", 60],
       ["bat_metal", 60],
+      ["football_armor", 10],
+      ["helmet_football", 10],
       ["sneakers", 80],
       ["socks", 70],
       ["tshirt", 80],
@@ -1807,7 +1811,9 @@
       ["backpack_leather", 18],
       ["pockknife", 14],
       ["mag_comic", 20],
-      ["umbrella", 5]
+      ["umbrella", 5],
+      ["football_armor", 5],
+      ["helmet_football", 5]
     ]
   },
   { "id":"church",
