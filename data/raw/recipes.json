@@ -44,6 +44,30 @@
 },
 
 {
+  "result": "pocketwatch",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "scrap", 2 ]
+    ],
+    [
+      [ "clockworks", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "knife_steak",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -7921,6 +7945,30 @@
       [ "rag", 20 ],
       [ "fur", 16 ],
       [ "leather", 12 ]
+    ]
+  ]
+},
+
+{
+  "result": "backpack_leather",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 20 ]
+    ],
+    [
+      [ "scrap", 6 ]
     ]
   ]
 },
