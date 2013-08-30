@@ -13001,6 +13001,7 @@
       ],
       [
       [ "chestrig", 1 ],
+      [ "legrig", 1 ],
       [ "vest", 1 ],
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
@@ -13059,6 +13060,7 @@
       ],
       [
       [ "chestrig", 1 ],
+      [ "legrig", 1 ],
       [ "vest", 1 ],
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
@@ -13122,6 +13124,7 @@
       ],
       [
       [ "chestrig", 1 ],
+      [ "legrig", 1 ],
       [ "vest", 1 ],
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
