@@ -13239,11 +13239,11 @@
 },
 
 {
-  "result": "veggy_pickled",
+  "result": "jar_veggy_pickled",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 5,
-  "time": 50000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13271,7 +13271,8 @@
   "components": [
     [
       [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water_clean", 1 ],
+      [ "salt_water", 1 ]
     ],
     [
       [ "jar_glass", 1 ]
@@ -13294,11 +13295,11 @@
 },
 
 {
-  "result": "meat_pickled",
+  "result": "jar_meat_pickled",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 6,
-  "time": 60000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13326,7 +13327,8 @@
   "components": [
     [
       [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water_clean", 1 ],
+      [ "salt_water", 1 ]
     ],
     [
       [ "jar_glass", 1 ]
@@ -13340,11 +13342,11 @@
   ]
 },
 {
-  "result": "human_pickled",
+  "result": "jar_human_pickled",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 6,
-  "time": 60000,
+  "time": 30000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 5 ]],
@@ -13373,7 +13375,8 @@
   "components": [
     [
       [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water_clean", 1 ],
+      [ "salt_water", 1 ]
     ],
     [
       [ "jar_glass", 1 ]
