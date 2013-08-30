@@ -2283,8 +2283,9 @@
         "warmth" : 40,
         "phase" : "solid",
         "enviromental_protection" : 0,
-        "encumberance" : 1,
+        "encumberance" : 2,
         "bashing" : -3,
+        "flags" : ["VARSIZE"],
         "coverage" : 95,
         "material_thickness" : 3
     },
