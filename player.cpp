@@ -1166,7 +1166,7 @@ int player::run_cost(int base_cost, bool diag)
     if (has_trait("PONDEROUS3"))
         movecost *= 1.3;
 
-    movecost += encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
+    movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
     if (!wearing_something_on(bp_feet) && !has_trait("PADDED_FEET") &&
             !has_trait("HOOVES"))

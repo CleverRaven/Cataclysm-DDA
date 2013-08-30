@@ -913,7 +913,7 @@ bool cata_tiles::draw_entity(int x, int y)
     // check for monster (most common)
     if (!entity_here && g->mon_at(x,y) >= 0)
     {
-        monster m = g->z[g->mon_at(x,y)];
+        monster m = g->zombie(g->mon_at(x,y));
         if (!m.dead)
         {
             ent_name = monster_names[m.type->id];

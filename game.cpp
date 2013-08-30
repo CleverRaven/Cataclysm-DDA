@@ -5075,7 +5075,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
   }
  }
 }
-
+/*
 void game::draw_explosion(int x, int y, int radius, nc_color col)
 {
     timespec ts;    // Timespec for the animation of the explosion
@@ -5104,7 +5104,7 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
   nanosleep(&ts, NULL);
  }
 }
-
+*/
 void game::flashbang(int x, int y, bool player_immune)
 {
  int dist = rl_dist(u.posx, u.posy, x, y), t;
@@ -7285,7 +7285,7 @@ void game::pickup(int posx, int posy, int min)
   veh_part = veh->part_with_feature(veh_part, "CARGO", false);
   from_veh = veh && veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0;
-  
+
   if(from_veh) {
     if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str())) {
       from_veh = false;
@@ -8109,7 +8109,7 @@ int game::move_liquid(item &liquid)
    debugmsg("Tried to move_liquid a non-liquid!");
    return -1;
   }
-  
+
   //liquid is in fact a liquid.
   std::stringstream text;
   text << _("Container for ") << liquid.tname(this);
@@ -9355,9 +9355,12 @@ void game::plmove(int dx, int dy)
     kill_mon(mondex, true);
    else
     sMonSym = z.symbol();
+    draw_hit_mon(x,y,z,z.dead);
+    /*
    hit_animation(x - u.posx + VIEWX - u.view_offset_x,
                  y - u.posy + VIEWY - u.view_offset_y,
                  red_background(cMonColor), sMonSym);
+    */
    return;
   } else
    displace = true;
