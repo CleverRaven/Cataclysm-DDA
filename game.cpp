@@ -4791,17 +4791,26 @@ void game::monmove()
 
 bool game::sound(int x, int y, int vol, std::string description)
 {
- vol *= 1.5; // Scale it a little
-// First, alert all monsters (that can hear) to the sound
- for (int i = 0; i < num_zombies(); i++) {
-  monster &z = _z[i];
-  if (z.can_hear()) {
-   int dist = rl_dist(x, y, z.posx(), z.posy());
-   int volume = vol - (z.has_flag(MF_GOODHEARING) ? int(dist / 2) : dist);
-   z.wander_to(x, y, volume);
-   z.process_trigger(MTRIG_SOUND, volume);
-  }
- }
+    // Scale the sound a little.
+    vol *= 1.5; 
+
+    // Alert all monsters (that can hear) to the sound.
+    for (int i = 0, numz = num_zombies(); i < numz; i++) {
+        monster &z = _z[i];
+        // rl_dist() is faster than z.has_flag() or z.can_hear(), so we'll check it first.
+        int dist = rl_dist(x, y, z.posx(), z.posy());
+        int vol_goodhearing = vol - int(dist / 2);
+        if (vol_goodhearing > 0 && z.can_hear()) {
+            const bool goodhearing = z.has_flag(MF_GOODHEARING);
+            int volume = goodhearing ? vol_goodhearing : (vol - dist);
+            if (volume > 0) {
+                int wander_turns = volume * (goodhearing ? 6 : 1);
+                z.wander_to(x, y, wander_turns);
+                z.process_trigger(MTRIG_SOUND, volume);
+            }
+        }
+    }
+
 // Loud sounds make the next spawn sooner!
  int spawn_range = int(MAPSIZE / 2) * SEEX;
  if (vol >= spawn_range) {
