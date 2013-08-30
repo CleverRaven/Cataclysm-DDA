@@ -4346,7 +4346,7 @@
     {
         "type" : "ARMOR",
         "id" : "armor_samurai",
-        "name" : "O-yoroi",
+        "name" : "Ō-yoroi",
         "weight" : 9220,
         "color" : "cyan",
         "covers" : ["TORSO", "LEGS", "ARMS", "HANDS"],
