@@ -612,7 +612,8 @@ bool game::do_turn()
     // Check if we're falling asleep, unless we're sleeping
     if (u.fatigue >= 600 && !u.has_disease("sleep")){
         if (u.fatigue >= 1000){
-            add_msg(_("Surivor sleep now."));
+            add_msg(_("Survivor sleep now."));
+            u.add_memorial_log(_("Succumbed to lack of sleep."));
             u.fatigue -= 10;
             u.try_to_sleep(this);
         } else if (u.fatigue >= 800 && turn % 10 == 0){
@@ -1668,33 +1669,59 @@ bool game::handle_action()
 
         //x% of the Viewport, only shown on visible areas
         int dropCount = iEndX * iEndY * fFactor;
-        std::vector<std::pair<int, int> > vDrops;
+        //std::vector<std::pair<int, int> > vDrops;
+
+        weather_printable wPrint;
+        wPrint.colGlyph = colGlyph;
+        wPrint.cGlyph = cGlyph;
+        wPrint.wtype = weather;
+        wPrint.vdrops.clear();
+        wPrint.startx = iStartX;
+        wPrint.starty = iStartY;
+        wPrint.endx = iEndX;
+        wPrint.endy = iEndY;
 
         int iCh;
 
         timeout(125);
+        /*
+        Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
+        Get tile information from above's weather information:
+            WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
+            WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+            WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
+        */
+        int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
+        int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
+
         do {
-            for(int i=0; i < vDrops.size(); i++) {
+            for(int i=0; i < wPrint.vdrops.size(); i++) {
                 m.drawsq(w_terrain, u,
-                         vDrops[i].first - getmaxx(w_terrain)/2 + u.posx + u.view_offset_x,
-                         vDrops[i].second - getmaxy(w_terrain)/2 + u.posy + u.view_offset_y,
+                         //vDrops[i].first - getmaxx(w_terrain)/2 + u.posx + u.view_offset_x,
+                         wPrint.vdrops[i].first + offset_x,
+                         //vDrops[i].second - getmaxy(w_terrain)/2 + u.posy + u.view_offset_y,
+                         wPrint.vdrops[i].second + offset_y,
                          false,
                          true,
                          u.posx + u.view_offset_x,
                          u.posy + u.view_offset_y);
             }
 
-            vDrops.clear();
+            //vDrops.clear();
+            wPrint.vdrops.clear();
 
             for(int i=0; i < dropCount; i++) {
                 int iRandX = rng(iStartX, iEndX-1);
                 int iRandY = rng(iStartY, iEndY-1);
 
                 if (mapRain[iRandY][iRandX]) {
-                    vDrops.push_back(std::make_pair(iRandX, iRandY));
-                    mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
+                    //vDrops.push_back(std::make_pair(iRandX, iRandY));
+                    wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
+
+                    //mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
                 }
             }
+            draw_weather(wPrint);
 
             wrefresh(w_terrain);
         } while ((iCh = getch()) == ERR);
@@ -3829,6 +3856,10 @@ void game::draw_ter(int posx, int posy)
   posx = u.posx + u.view_offset_x;
  if (posy == -999)
   posy = u.posy + u.view_offset_y;
+
+ ter_view_x = posx;
+ ter_view_y = posy;
+
  m.build_map_cache(this);
  m.draw(this, w_terrain, point(posx, posy));
 
@@ -4981,6 +5012,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    }
   }
  }
+
 // Draw the explosion
  draw_explosion(x, y, radius, c_red);
 
@@ -5001,6 +5033,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    traj = line_to(x, y, sx, sy, 0);
   dam = rng(20, 60);
   for (int j = 0; j < traj.size(); j++) {
+    draw_bullet(u, traj[j].x, traj[j].y, j, traj, '`', ts);
+  /*
    if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y))
     m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
    if (u_see(traj[j].x, traj[j].y)) {
@@ -5009,6 +5043,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     wrefresh(w_terrain);
     nanosleep(&ts, NULL);
    }
+   */
    tx = traj[j].x;
    ty = traj[j].y;
    const int zid = mon_at(tx, ty);
@@ -5039,35 +5074,6 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
        m.shoot(this, tx, ty, dam, j == traj.size() - 1, shrapnel_effects );
    }
   }
- }
-}
-
-void game::draw_explosion(int x, int y, int radius, nc_color col)
-{
-    timespec ts;    // Timespec for the animation of the explosion
-    ts.tv_sec = 0;
-    ts.tv_nsec = EXPLOSION_SPEED;
-    for (int i = 1; i <= radius; i++) {
-        mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                      x - i + VIEWX - u.posx - u.view_offset_x, col, '/');
-        mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                      x + i + VIEWX - u.posx - u.view_offset_x, col,'\\');
-        mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                      x - i + VIEWX - u.posx - u.view_offset_x, col,'\\');
-        mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                      x + i + VIEWX - u.posx - u.view_offset_x, col, '/');
-        for (int j = 1 - i; j < 0 + i; j++) {
-            mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                       x + j + VIEWX - u.posx - u.view_offset_x, col,'-');
-            mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                       x + j + VIEWX - u.posx - u.view_offset_x, col,'-');
-            mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
-                       x - i + VIEWX - u.posx - u.view_offset_x, col,'|');
-            mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
-                       x + i + VIEWX - u.posx - u.view_offset_x, col,'|');
-  }
-  wrefresh(w_terrain);
-  nanosleep(&ts, NULL);
  }
 }
 
@@ -6063,6 +6069,7 @@ void game::smash()
             !event_queued(EVENT_WANTED))
         {
             sound(smashx, smashy, 40, _("An alarm sounds!"));
+            u.add_memorial_log(_("Set off an alarm."));
             add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
         }
         u.moves -= move_cost;
@@ -6704,10 +6711,11 @@ point game::look_around()
   }
   if (m.graffiti_at(lx, ly).contents)
    mvwprintw(w_look, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at(lx, ly).contents->c_str());
+  //mvwprintw(w_look, 5, 1, _("Maploc: <%d,%d>"), lx, ly);
   wrefresh(w_look);
   wrefresh(w_terrain);
 
-  DebugLog() << __FUNCTION__ << "calling get_input() \n";
+  DebugLog() << __FUNCTION__ << ": calling get_input() \n";
   input = get_input();
   if (!u_see(lx, ly))
    mvwputch(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_black, ' ');
@@ -6841,6 +6849,8 @@ void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
 
     //Draw new trail
     vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
+    draw_line(x, y, vPoint);
+    /*
     for (int i = 1; i < vPoint.size(); i++)
     {
         m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
@@ -6848,7 +6858,7 @@ void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
 
     mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
                         vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
-
+    */
     wrefresh(w_terrain);
 }
 
@@ -7248,7 +7258,7 @@ void game::pickup(int posx, int posy, int min)
   veh_part = veh->part_with_feature(veh_part, "CARGO", false);
   from_veh = veh && veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0;
-  
+
   if(from_veh) {
     if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str())) {
       from_veh = false;
@@ -8072,7 +8082,7 @@ int game::move_liquid(item &liquid)
    debugmsg("Tried to move_liquid a non-liquid!");
    return -1;
   }
-  
+
   //liquid is in fact a liquid.
   std::stringstream text;
   text << _("Container for ") << liquid.tname(this);
@@ -9318,9 +9328,12 @@ void game::plmove(int dx, int dy)
     kill_mon(mondex, true);
    else
     sMonSym = z.symbol();
+    draw_hit_mon(x,y,z,z.dead);
+    /*
    hit_animation(x - u.posx + VIEWX - u.view_offset_x,
                  y - u.posy + VIEWY - u.view_offset_y,
                  red_background(cMonColor), sMonSym);
+    */
    return;
   } else
    displace = true;
@@ -10724,6 +10737,7 @@ void game::teleport(player *p)
                 if (is_u) {
                     add_msg(_("You teleport into the middle of a %s!"),
                             m.name(newx, newy).c_str());
+                    p->add_memorial_log(_("Teleported into a %s."), m.name(newx, newy).c_str());
                 } else {
                     add_msg(_("%s teleports into the middle of a %s!"),
                             p->name.c_str(), m.name(newx, newy).c_str());
@@ -10737,6 +10751,7 @@ void game::teleport(player *p)
                 if (is_u) {
                     add_msg(_("You teleport into the middle of a %s!"),
                             z.name().c_str());
+                    u.add_memorial_log(_("Telefragged a %s."), z.name().c_str());
                 } else {
                     add_msg(_("%s teleports into the middle of a %s!"),
                             p->name.c_str(), z.name().c_str());

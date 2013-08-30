@@ -3306,7 +3306,7 @@
         "color" : "light_green",
         "encumberance" : 0,
         "price" : 600,
-        "material" : ["silver", "null"],
+        "material" : ["gold", "null"],
         "coverage" : 0,
         "symbol" : "[",
         "bashing" : 0,
@@ -4106,7 +4106,7 @@
     {
         "type" : "ARMOR",
         "id" : "bookplate",
-        "name" : "Bookplate",
+        "name" : "bookplate",
         "weight" : 1090,
         "color" : "dark_gray",
         "covers" : ["TORSO"],

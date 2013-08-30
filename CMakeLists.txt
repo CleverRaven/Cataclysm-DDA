@@ -23,6 +23,7 @@ PROJECT(CataclysmDDA)
 
 OPTION(LOCALIZE "Toggle gettext localization/translation." ON)
 OPTION(SDL "Use SDL curses emulation instead of terminal support." OFF)
+OPTION(TILES "Enable tileset support." OFF)
 
 # Note: The CMake documentation says it's better to list the actual source
 #       files here, as otherwise cmake won't know to rerun when a new file
@@ -54,7 +55,7 @@ ENDIF()
 
 # TODO: windows rc stuff
 
-IF(SDL)
+IF(SDL OR TILES)
     # CMake ships with a few helpful include's to find common libraries
     # like SDL
     Include(FindSDL)
@@ -64,7 +65,21 @@ IF(SDL)
     Find_Package(SDL_ttf REQUIRED)
     
     TARGET_LINK_LIBRARIES(cataclysm ${SDL_LIBRARY} ${SDLTTF_LIBRARY})
-    add_definitions(-DTILES)
+    
+    IF(TILES)
+        # Install GFX directory
+        ADD_CUSTOM_COMMAND(
+            TARGET cataclysm PRE_BUILD 
+            COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/gfx $<TARGET_FILE_DIR:cataclysm>/gfx
+        )
+    
+        Include(FindSDL_image)
+        TARGET_LINK_LIBRARIES(cataclysm ${SDLIMAGE_LIBRARY})
+        ADD_DEFINITIONS(-DSDLTILES)
+    ELSE()
+        ADD_DEFINITIONS(-DTILES)
+    ENDIF()
+    
 ELSEIF(MSVC OR MINGW)
     # On windows our default isn't curses, but rather GDI
     TARGET_LINK_LIBRARIES(cataclysm gdi32 intl iconv winmm)

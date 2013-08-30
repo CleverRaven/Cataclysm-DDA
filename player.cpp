@@ -1166,7 +1166,7 @@ int player::run_cost(int base_cost, bool diag)
     if (has_trait("PONDEROUS3"))
         movecost *= 1.3;
 
-    movecost += encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
+    movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
     if (!wearing_something_on(bp_feet) && !has_trait("PADDED_FEET") &&
             !has_trait("HOOVES"))
@@ -1550,9 +1550,9 @@ void player::memorial( std::ofstream &memorial_file )
                   << _("Int ") << int_max << indent << _("Per ") << per_max << "\n";
     memorial_file << "\n";
 
-    //Last 10 messages
+    //Last 20 messages
     memorial_file << _("Final Messages:") << "\n";
-    std::vector<game_message> recent_messages = g->recent_messages(10);
+    std::vector<game_message> recent_messages = g->recent_messages(20);
     for(int i = 0; i < recent_messages.size(); i++) {
       memorial_file << indent << recent_messages[i].turn.print_time() << " " <<
               recent_messages[i].message;
@@ -3614,11 +3614,14 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  dam += cut;
  if (dam <= 0)
   return dam;
-
+// TODO: Pre or post blit hit tile onto "this"'s location here
  if( g->u_see( this->posx, this->posy ) ) {
+    g->draw_hit_player(this);
+    /*
      hit_animation(this->posx - g->u.posx + VIEWX - g->u.view_offset_x,
                    this->posy - g->u.posy + VIEWY - g->u.view_offset_y,
                    red_background(this->color()), '@');
+    */
  }
 
  rem_disease("speed_boost");
@@ -4052,10 +4055,14 @@ void player::add_disease(dis_type type, int duration,
 
 void player::rem_disease(dis_type type)
 {
- for (int i = 0; i < illness.size(); i++) {
-  if (illness[i].type == type)
-   illness.erase(illness.begin() + i);
- }
+  for (int i = 0; i < illness.size(); i++) {
+    if (illness[i].type == type) {
+      illness.erase(illness.begin() + i);
+      if(!is_npc()) {
+        dis_remove_memorial(g, type);
+      }
+    }
+  }
 }
 
 bool player::has_disease(dis_type type) const
@@ -4094,21 +4101,26 @@ void player::add_addiction(add_type type, int strength)
   strength = int(strength * 1.5);
   timer = 800;
  }
+ //Update existing addiction
  for (int i = 0; i < addictions.size(); i++) {
   if (addictions[i].type == type) {
-        if (addictions[i].sated <   0)
+   if (addictions[i].sated < 0) {
     addictions[i].sated = timer;
-   else if (addictions[i].sated < 600)
+   } else if (addictions[i].sated < 600) {
     addictions[i].sated += timer;	// TODO: Make this variable?
-   else
+   } else {
     addictions[i].sated += int((3000 - addictions[i].sated) / 2);
+   }
    if ((rng(0, strength) > rng(0, addictions[i].intensity * 5) ||
-       rng(0, 500) < strength) && addictions[i].intensity < 20)
+       rng(0, 500) < strength) && addictions[i].intensity < 20) {
     addictions[i].intensity++;
+   }
    return;
   }
  }
+ //Add a new addiction
  if (rng(0, 100) < strength) {
+  add_memorial_log(_("Became addicted to %s."), addiction_type_name(type).c_str());
   addiction tmp(type, 1);
   addictions.push_back(tmp);
  }
@@ -4128,6 +4140,7 @@ void player::rem_addiction(add_type type)
 {
  for (int i = 0; i < addictions.size(); i++) {
   if (addictions[i].type == type) {
+   add_memorial_log(_("Overcame addiction to %s."), addiction_type_name(type).c_str());
    addictions.erase(addictions.begin() + i);
    return;
   }
@@ -4724,6 +4737,7 @@ void player::mend(game *g)
    }
    if(mended) {
     hp_cur[i] = 1;
+    add_memorial_log(_("Broken %s began to mend."), body_part_name(part, side).c_str());
     g->add_msg(_("Your %s has started to mend!"),
       body_part_name(part, side).c_str());
    }
@@ -4733,6 +4747,7 @@ void player::mend(game *g)
 
 void player::vomit(game *g)
 {
+ add_memorial_log(_("Threw up."));
  g->add_msg(_("You throw up heavily!"));
  hunger += rng(30, 50);
  thirst += rng(30, 50);
@@ -5231,6 +5246,7 @@ void player::process_active_items(game *g)
     }
     if (maintain) {
      if (one_in(20)) {
+      add_memorial_log(_("Accidental discharge of %s."), weapon.tname().c_str());
       g->add_msg(_("Your %s discharges!"), weapon.tname().c_str());
       point target(posx + rng(-12, 12), posy + rng(-12, 12));
       std::vector<point> traj = line_to(posx, posy, target.x, target.y, 0);
@@ -5343,6 +5359,7 @@ bool player::process_single_active_item(game *g, item *it)
         {
             if (it->ready_to_revive(g))
             {
+                add_memorial_log(_("Had a %s revive while carrying it."), it->name.c_str());
                 g->add_msg_if_player(this, _("Oh dear god, a corpse you're carrying has started moving!"));
                 g->revive_corpse(posx, posy, it);
                 return false;
@@ -7240,17 +7257,23 @@ hint_rating player::rate_action_unload(item *it) {
  }
  int spare_mag = -1;
  int has_m203 = -1;
+ int has_40mml = -1;
  int has_shotgun = -1;
+ int has_shotgun2 = -1;
  if (it->is_gun()) {
   spare_mag = it->has_gunmod ("spare_mag");
   has_m203 = it->has_gunmod ("m203");
+  has_40mml = it->has_gunmod ("pipe_launcher40mm");
   has_shotgun = it->has_gunmod ("u_shotgun");
+  has_shotgun2 = it->has_gunmod ("masterkey");
  }
  if (it->is_container() ||
      (it->charges == 0 &&
       (spare_mag == -1 || it->contents[spare_mag].charges <= 0) &&
       (has_m203 == -1 || it->contents[has_m203].charges <= 0) &&
-      (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0))) {
+      (has_40mml == -1 || it->contents[has_40mml].charges <= 0) &&
+      (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0) &&
+      (has_shotgun2 == -1 || it->contents[has_shotgun2].charges <= 0))) {
   if (it->contents.size() == 0) {
    return HINT_IFFY;
   }
@@ -7501,6 +7524,24 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     if (replace_item)
      inv.add_item_keep_invlet(copy);
     return;
+   } else if ((mod->id == "barrel_ported" || mod->id == "suppressor") &&
+              (gun->contents[i].type->id == "barrel_ported" ||
+               gun->contents[i].type->id == "suppressor")) {
+    g->add_msg(_("Your %s cannot use a suppressor and a ported barrel at the same time."),
+               gun->tname(g).c_str());
+    if (replace_item)
+     inv.add_item_keep_invlet(copy);
+    return;
+   } else if ((mod->id == "improve_sights" || mod->id == "red_dot_sight" || mod->id == "holo_sight" || mod->id == "rifle_scope") &&
+              (gun->contents[i].type->id == "improve_sights" ||
+               gun->contents[i].type->id == "red_dot_sight" ||
+               gun->contents[i].type->id == "holo_sight" ||
+               gun->contents[i].type->id == "rifle_scope")) {
+    g->add_msg(_("Your %s can only use one type of optical aiming device at a time."), //intentionally leaving laser_sight off the list so that it CAN be used with optics
+               gun->tname(g).c_str());
+    if (replace_item)
+     inv.add_item_keep_invlet(copy);
+    return;
    } else if ((mod->id == "clip" || mod->id == "clip2") &&
               (gun->contents[i].type->id == "clip" ||
                gun->contents[i].type->id == "clip2")) {
@@ -7509,7 +7550,17 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     if (replace_item)
      inv.add_item_keep_invlet(copy);
     return;
-   }
+   } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" || mod->id == "masterkey" 
+            || mod->id == "u_shotgun" || mod->id == "bayonet" || mod->id == "gun_crossbow") &&
+              (gun->contents[i].type->id == "pipe_launcher40mm" || gun->contents[i].type->id == "m203" 
+            || gun->contents[i].type->id == "masterkey" || gun->contents[i].type->id == "u_shotgun" 
+            || gun->contents[i].type->id == "bayonet" || gun->contents[i].type->id == "gun_crossbow")) {
+    g->add_msg(_("Your %s already has an under-barrel accessory weapon."),
+               gun->tname(g).c_str());
+    if (replace_item)
+     inv.add_item_keep_invlet(copy);
+    return;
+   } 
   }
   g->add_msg(_("You attach the %s to your %s."), used->tname(g).c_str(),
              gun->tname(g).c_str());
@@ -8164,6 +8215,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     // now check if armour was completely destroyed and display relevant messages
                     if (worn[i].damage >= 5)
                     {
+                      add_memorial_log(_("Worn %s was completely destroyed."), worn[i].tname(g).c_str());
                         g->add_msg_player_or_npc( this, _("Your %s is completely destroyed!"),
                                                   _("<npcname>'s %s is completely destroyed!"),
                                                   worn[i].tname(g).c_str() );

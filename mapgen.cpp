@@ -41,6 +41,7 @@ enum room_type {
  room_kitchen,
  room_bedroom,
  room_backyard,
+ room_study,
  room_mine_shaft,
  room_mine_office,
  room_mine_storage,
@@ -258,6 +259,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  int bw = 0;
  int cw = 0;
  int actual_house_height= 0;
+ int bw_old = 0;
 
  int x = 0;
  int y = 0;
@@ -963,6 +965,7 @@ t   t\n\
   bw = SEEX * 2 - rng(2, 5);	// South external wall
   cw = tw + rng(4, 7);		// Middle wall between living room & kitchen/bed
   actual_house_height=bw-rng(4,6); //reserving some space for backyard. Actual south external wall.
+  bw_old = bw;
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -1119,14 +1122,20 @@ t   t\n\
    cw = tw + rng(3, 6);
    mw = rng(lw + 7, rw - 4);
    //int actual_house_height=bw-rng(4,6);
-// Plop down the rooms
+   //in some rare cases some rooms (especially kitchen and living room) may get rather small
+   if ((tw<=3)&&( abs((actual_house_height-3)-cw)>=3 ) ) {
+        //everything is fine
+        house_room(this, room_backyard, lw, actual_house_height+1, rw, bw);
+        //door from bedroom to backyard
+        ter_set((lw+mw)/2, actual_house_height, t_door_c);
+   } else { //using old layout
+        actual_house_height = bw_old;
+   }
+   // Plop down the rooms
    house_room(this, room_living, lw, tw, rw, cw);
    house_room(this, room_kitchen, mw, cw, rw, actual_house_height - 3);
    house_room(this, room_bedroom, lw, cw, mw, actual_house_height ); //making bedroom smaller
    house_room(this, room_bathroom, mw, actual_house_height - 3, rw, actual_house_height);
-   house_room(this, room_backyard, lw, actual_house_height+1, rw, bw);
-//door from bedroom to backyard
-   ter_set((lw+mw)/2, actual_house_height, t_door_c);
 
 // Space between kitchen & living room:
    rn = rng(mw + 1, rw - 3);
@@ -1168,7 +1177,7 @@ t   t\n\
    ter_set(rn, actual_house_height, t_window_domestic);
    break;
 
-  case 3:	// Long center hallway
+  case 3:	// Long center hallway, kitchen, living room and office
    mw = int((lw + rw) / 2);
    cw = bw - rng(5, 7);
 // Hallway doors and windows
@@ -1206,30 +1215,61 @@ t   t\n\
     ter_set(rw, rn + 1, t_window_domestic);
    }
    if (one_in(2)) {	// Bottom rooms are bedroom or bathroom
-    house_room(this, room_bedroom, lw, cw, rw - 3, bw);
+       //bathroom to the left (eastern wall), study to the right
+    //house_room(this, room_bedroom, lw, cw, rw - 3, bw);
+    house_room(this, room_bedroom, mw-2, cw, rw-3, bw);
     house_room(this, room_bathroom, rw - 3, cw, rw, bw);
+    house_room(this, room_study, lw, cw, mw-2, bw);
+        //===Study Room Furniture==
+        ter_set(mw-2, (bw+cw)/2, t_door_o);
+        furn_set(lw+1, cw+1, f_chair);
+        furn_set(lw+1, cw+2, f_table);
+        ter_set(lw+1, cw+3, t_console_broken);
+        furn_set(lw+3, bw-1, f_bookcase);
+            place_items("magazines",	30,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
+            place_items("novels",	40,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
+            place_items("alcohol",	20,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
+            place_items("manuals",	30,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
+        //=========================
     ter_set(rng(lw + 2, mw - 3), cw, t_door_c);
     if (one_in(4))
      ter_set(rng(rw - 2, rw - 1), cw, t_door_c);
     else
      ter_set(rw - 3, rng(cw + 2, bw - 2), t_door_c);
-    rn = rng(lw + 1, rw - 5);
+    rn = rng(mw, rw - 5); //bedroom windows
     ter_set(rn    , bw, t_window_domestic);
     ter_set(rn + 1, bw, t_window_domestic);
+    ter_set(rng(lw+2, mw-3), bw, t_window_domestic); //study window
+
     if (one_in(4))
      ter_set(rng(rw - 2, rw - 1), bw, t_window_domestic);
     else
      ter(rw, rng(cw + 1, bw - 1));
-   } else {
+   } else { //bathroom to the right
     house_room(this, room_bathroom, lw, cw, lw + 3, bw);
-    house_room(this, room_bedroom, lw + 3, cw, rw, bw);
+    //house_room(this, room_bedroom, lw + 3, cw, rw, bw);
+    house_room(this, room_bedroom, lw+3, cw, mw+2, bw);
+    house_room(this, room_study, mw+2, cw, rw, bw);
+        //===Study Room Furniture==
+        ter_set(mw+2, (bw+cw)/2, t_door_c);
+        furn_set(rw-1, cw+1, f_chair);
+        furn_set(rw-1, cw+2, f_table);
+        ter_set(rw-1, cw+3, t_console_broken);
+        furn_set(rw-3, bw-1, f_bookcase);
+            place_items("magazines",	40,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
+            place_items("novels",	40,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
+            place_items("alcohol",	20,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
+            place_items("manuals",	20,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
+        //=========================
+
     if (one_in(4))
      ter_set(rng(lw + 1, lw + 2), cw, t_door_c);
     else
      ter_set(lw + 3, rng(cw + 2, bw - 2), t_door_c);
-    rn = rng(lw + 4, rw - 2);
+    rn = rng(lw + 4, mw); //bedroom windows
     ter_set(rn    , bw, t_window_domestic);
     ter_set(rn + 1, bw, t_window_domestic);
+    ter_set(rng(mw+3, rw-1), bw, t_window_domestic); //study window
     if (one_in(4))
      ter_set(rng(lw + 1, lw + 2), bw, t_window_domestic);
     else
@@ -12877,6 +12917,10 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
  items_location placed = "none";
  int chance = 0, rn;
  switch (type) {
+ case room_study:
+    placed = "livingroom";
+    chance = 40;
+ break;
  case room_living:
   placed = "livingroom";
   chance = 83;

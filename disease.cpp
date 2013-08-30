@@ -368,6 +368,36 @@ void dis_msg(game *g, dis_type type_string) {
     }
 }
 
+void dis_remove_memorial(game* g, dis_type type_string) {
+
+  dis_type_enum type = disease_type_lookup[type_string];
+
+  switch(type) {
+    case DI_COMMON_COLD:
+      g->u.add_memorial_log(_("Got over the cold."));
+      break;
+    case DI_FLU:
+      g->u.add_memorial_log(_("Got over the flu."));
+      break;
+    case DI_ONFIRE:
+      g->u.add_memorial_log(_("Put out the fire."));
+      break;
+    case DI_SPORES:
+      g->u.add_memorial_log(_("Cured the fungal infection."));
+      break;
+    case DI_DERMATIK:
+      g->u.add_memorial_log(_("Dermatik eggs hatched."));
+      break;
+    case DI_BITE:
+      g->u.add_memorial_log(_("Cleaned the bite wound."));
+      break;
+    case DI_INFECTED:
+      g->u.add_memorial_log(_("Sterilized the infection... this time."));
+      break;
+  }
+
+}
+
 void dis_effect(game *g, player &p, disease &dis) {
     std::stringstream sTemp;
     mon_id montype;
@@ -2337,9 +2367,6 @@ void handle_insect_parasites(game* g, player& p, disease& dis) {
             g->add_msg_player_or_npc( &p,
                 _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
                 _("Insects begin to emerge from <npcname>'s skin!") );
-            if(!p.is_npc()) {
-                p.add_memorial_log(_("Dermatik eggs hatched."));
-            }
 
             p.moves -= 600;
             monster grub(g->mtypes[mon_dermatik_larva]);
