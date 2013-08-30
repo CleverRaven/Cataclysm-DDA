@@ -6677,7 +6677,10 @@ point game::look_around()
        mvwprintw(w_look, 3, 1, _("You cannot see what is inside of it."));
        m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
    }
-   else if (lx == u.posx + u.view_offset_x && ly == u.posy + u.view_offset_y)
+   // The player is not at <u.posx + u.view_offset_x, u.posy + u.view_offset_y>
+   // Should not be putting the "You (name)" at this location
+   // Changing it to reflect actual position not view-center position
+   else if (lx == u.posx && ly == u.posy )
    {
        int x,y;
        x = getmaxx(w_terrain)/2 - u.view_offset_x;
@@ -6689,7 +6692,7 @@ point game::look_around()
            mvwprintw(w_look, 3, 1, _("There is a %s there. Parts:"), veh->name.c_str());
            veh->print_part_desc(w_look, 4, 48, veh_part);
            m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   }
+       }
 
    }
    else
