@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include "cursesdef.h"
 
+#include "picofunc.h"
+
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
 
@@ -296,36 +298,139 @@ bool monster::made_of(phase_id p)
  return false;
 }
 
-void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
+void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
 {
- std::stringstream dump;
- int idtmp, plansize;
- dump << data;
- dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
-         hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
-         no_extra_death_drops >> dead >> anger >> morale;
- type = (*mtypes)[idtmp];
- point ptmp;
- plans.clear();
- for (int i = 0; i < plansize; i++) {
-  dump >> ptmp.x >> ptmp.y;
-  plans.push_back(ptmp);
- }
-}
-
-std::string monster::save_info()
-{
-    std::stringstream pack;
-    pack << int(type->id) << " " << _posx << " " << _posy << " " << wandx << " " <<
-        wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
-        " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
-        faction_id << " " << mission_id << " " << no_extra_death_drops << " " <<
-        dead << " " << anger << " " << morale;
-    for (int i = 0; i < plans.size(); i++) {
-        pack << " " << plans[i].x << " " << plans[i].y;
+    std::stringstream dump;
+    int idtmp, plansize;
+    dump << data;
+    if ( dump.peek() == '{' ) {
+        picojson::value pdata;
+        dump >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad monster json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, mtypes);
+        }
+        return;
     }
 
-    return pack.str();
+    dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
+         hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
+         no_extra_death_drops >> dead >> anger >> morale;
+    type = (*mtypes)[idtmp];
+    point ptmp;
+    plans.clear();
+    for (int i = 0; i < plansize; i++) {
+        dump >> ptmp.x >> ptmp.y;
+        plans.push_back(ptmp);
+    }
+}
+
+bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
+{
+
+    const picojson::object &data = parsed.get<picojson::object>();
+    int idtmp;
+    picoint(data, "typeid", idtmp);
+
+    type = (*mtypes)[idtmp];
+
+    picoint(data, "posx", _posx);
+    picoint(data, "posy", _posy);
+    picoint(data, "wandx", wandx);
+    picoint(data, "wandy", wandy);
+    picoint(data, "wandf", wandf);
+    picoint(data, "moves", moves);
+    picoint(data, "speed", speed);
+    picoint(data, "hp", hp);
+    picoint(data, "sp_timeout", sp_timeout);
+    picoint(data, "friendly", friendly);
+    picoint(data, "faction_id", faction_id);
+    picoint(data, "mission_id", mission_id);
+    picobool(data, "no_extra_death_drops", no_extra_death_drops);
+    picobool(data, "dead", dead);
+    picoint(data, "anger", anger);
+    picoint(data, "morale", morale);
+
+    plans.clear();
+    picojson::object::const_iterator pvplans_it = data.find("plans");
+    if ( pvplans_it != data.end() ) {
+        const picojson::array &pvplans = pvplans_it->second.get<picojson::array>();
+        for( picojson::array::const_iterator pvpoint = pvplans.begin(); pvpoint != pvplans.end(); ++pvpoint) {
+            if ( ! (*pvpoint).is<picojson::array>() ) {
+                //popup("not array %s",(*pvpoint).serialize().c_str());
+                continue;
+            }
+            point ptmp;
+            if ( ! (*pvpoint).get<picojson::array>()[0].is<double>()  ||
+                 ! (*pvpoint).get<picojson::array>()[1].is<double>() ) {
+                continue;
+            }
+            ptmp.x = int ( (*pvpoint).get<picojson::array>()[0].get<double>() );
+            ptmp.y = int ( (*pvpoint).get<picojson::array>()[1].get<double>() );
+            plans.push_back(ptmp);
+        }
+    }
+    return true;
+}
+
+/*
+ * Save, json ed; serialization that won't break as easily. In theory.
+ */
+picojson::value monster::json_save()
+{
+    std::map<std::string, picojson::value> data;
+    data["typeid"] = pv(int(type->id));
+    data["posx"] = pv(_posx);
+    data["posy"] = pv(_posy);
+    data["wandx"] = pv(wandx);
+    data["wandy"] = pv(wandy);
+    data["wandf"] = pv(wandf);
+    data["moves"] = pv(moves);
+    data["speed"] = pv(speed);
+    data["hp"] = pv(hp);
+    data["sp_timeout"] = pv(sp_timeout);
+    data["friendly"] = pv(friendly);
+    data["faction_id"] = pv(faction_id);
+    data["mission_id"] = pv(mission_id);
+    data["no_extra_death_drops"] = pv(no_extra_death_drops);
+    data["dead"] = pv(dead);
+    data["anger"] = pv(anger);
+    data["morale"] = pv(morale);
+
+    std::vector<picojson::value> pvplans;
+    for(int i = 0; i < plans.size(); i++) {
+        std::vector<picojson::value> pvpoint;
+        pvpoint.push_back( pv( (int)plans[i].x ) );
+        pvpoint.push_back( pv( (int)plans[i].y ) );
+        pvplans.push_back( pv ( pvpoint ) );
+    }
+    data["plans"] = pv( pvplans );
+
+    return picojson::value(data);
+}
+
+/*
+ * save serialized monster data to a line.
+ * This is useful after player.sav is fully jsonized, to save full static spawns in maps.txt 
+ */
+std::string monster::save_info()
+{
+    return json_save().serialize();
+    /*  
+    // deprecated hairball; useful in testing (?)
+        std::stringstream pack;
+        pack << int(type->id) << " " << _posx << " " << _posy << " " << wandx << " " <<
+            wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
+            " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
+            faction_id << " " << mission_id << " " << no_extra_death_drops << " " <<
+            dead << " " << anger << " " << morale;
+        for (int i = 0; i < plans.size(); i++) {
+            pack << " " << plans[i].x << " " << plans[i].y;
+        }
+        return pack.str();
+    */
 }
 
 void monster::debug(player &u)

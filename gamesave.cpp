@@ -65,7 +65,7 @@ void game::serialize_save(std::ofstream & fout) {
  * save format version. If an alteration is made that breaks saves, please bump this version and
  * make a new copy in serialize_load.
  */
-    const int savever = 2;
+    const int savever = 3;
 
 switch (savever) {
     default: {
@@ -192,6 +192,7 @@ void game::serialize_load(std::ifstream & fin) {
        case ???: {
        } break;
 */
+       case 3:
        case 2: {
 /*
  * Format version 2: Temporary format. Still resembles a hairball, but it's at least a multi-line hairball;

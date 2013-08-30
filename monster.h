@@ -70,8 +70,10 @@ class monster {
  bool can_drown();              // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
  bool made_of(std::string m);	// Returns true if it's made of m
  bool made_of(phase_id p); // Returns true if its phase is p
-
+ bool json_load(picojson::value parsed, std::vector<mtype*> *mtypes);
  void load_info(std::string data, std::vector<mtype*> *mtypes);
+ 
+ virtual picojson::value json_save();
  std::string save_info();	// String of all data, for save files
  void debug(player &u); 	// Gives debug info
 
