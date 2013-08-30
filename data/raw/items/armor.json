@@ -3306,7 +3306,7 @@
         "color" : "light_green",
         "encumberance" : 0,
         "price" : 600,
-        "material" : ["silver", "null"],
+        "material" : ["gold", "null"],
         "coverage" : 0,
         "symbol" : "[",
         "bashing" : 0,

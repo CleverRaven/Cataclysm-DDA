@@ -1960,7 +1960,7 @@
         "symbol" : "=",
         "color" : "yellow",
         "description" : "Small gold bits. Before the cataclysm these would have been worth quite a bit. Still usable in making ammunition.",
-        "material" : "steel",
+        "material" : "gold",
         "volume" : 0,
         "weight" : 3,
         "bashing" : 1,

@@ -534,6 +534,7 @@ bool player::install_bionics(game *g, it_bionic* type)
  practice(g->turn, "mechanics", (100 - chance_of_success) * 0.5);
  int success = chance_of_success - rng(1, 100);
  if (success > 0) {
+     g->u.add_memorial_log(_("Installed bionic: %s."), bionics[type->id]->name.c_str());
      if (pow_up) {
          max_power_level += pow_up;
          g->add_msg_if_player(this, _("Increased storage capacity by %i"), pow_up);
@@ -541,8 +542,10 @@ bool player::install_bionics(game *g, it_bionic* type)
          g->add_msg(_("Successfully installed %s."), bionics[type->id]->name.c_str());
          add_bionic(type->id);
      }
- } else
-  bionics_install_failure(g, this, type, success);
+ } else {
+     g->u.add_memorial_log(_("Failed to install bionic: %s."), bionics[type->id]->name.c_str());
+     bionics_install_failure(g, this, type, success);
+ }
  g->refresh_all();
  return true;
 }
@@ -630,13 +633,16 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
   }
   if (valid.size() == 0) { // We've got all the bad bionics!
    if (u->max_power_level > 0) {
+    int old_power = u->max_power_level;
     g->add_msg(_("You lose power capacity!"));
     u->max_power_level = rng(0, u->max_power_level - 1);
+    g->u.add_memorial_log(_("Lost %d units of power capacity."), old_power - u->max_power_level);
    }
 // TODO: What if we can't lose power capacity?  No penalty?
   } else {
    int index = rng(0, valid.size() - 1);
    u->add_bionic(valid[index]);
+   g->u.add_memorial_log(_("Installed bad bionic: %s."), bionics[valid[index]]->name.c_str());
   }
  }
   break;
