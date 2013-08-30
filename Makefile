@@ -191,7 +191,7 @@ ifdef SDL
     DEFINES += -DTILES
   endif
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lgdi32 -ldxguid -lwinmm
+    LDFLAGS += -lgdi32 -ldxguid -lwinmm -ljpeg -lpng
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else
