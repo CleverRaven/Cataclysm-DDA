@@ -79,13 +79,13 @@
       "ident":"soldier",
       "items":[
          "pants_army",
-         "army_top",
-         "boots_steel",
+         "jacket_army",
+         "boots_combat",
          "knife_combat",
          "binoculars"
       ],
       "name":"Military Recruit",
-      "points":3,
+      "points":4,
       "skills":[
          {
             "level":1,
@@ -262,7 +262,7 @@
       "description":"You've traveled for a living, sightseeing here and there, and living off your parents' trust fund. But now they're gone, and the only thing between you and death is the open road and your backpack.",
       "ident":"backpacker",
       "items":[
-         "backpack",
+         "backpack_leather",
          "jeans",
          "sneakers",
          "tshirt",
@@ -401,7 +401,7 @@
       "items":[
          "pants",
          "poncho",
-         "boots",
+         "boots_combat",
          "flashlight"
       ],
       "name":"Security Guard",
@@ -476,7 +476,7 @@
       "name": "Punk Rock Girl",
       "description":"The apocalypse has been your psychotic dream come true. Now that the system is dead, it's time to party among the bones of the world!",
       "points": 2,
-      "items": ["skirt", "army_top", "jacket_leather", "gloves_fingerless", "boots_steel",
+      "items": ["skirt", "army_top", "jacket_leather", "gloves_fingerless", "boots_combat",
                 "weed", "cig", "mp3", "lighter"]
    },
    {
@@ -554,5 +554,12 @@
             "name":"fabrication"
          }
       ]
-    }
+    },
+   {
+      "ident": "clown",
+      "name": "Clown",
+      "description":"All you ever wanted was to make people laugh. Dropping out of school and performing at kids' parties was a dream come true until the world ended. There's precious few balloon animals in your future now - cue the sad trombone.",
+      "points": 0,
+      "items": ["clown_suit", "clownshoes"]
+   }
 ]
