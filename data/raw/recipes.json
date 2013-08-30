@@ -13189,7 +13189,8 @@
   "components": [
     [
       [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water_clean", 1 ],
+      [ "salt_water", 1 ]
     ],
     [
       [ "jar_glass", 1 ]
@@ -13244,7 +13245,8 @@
   "components": [
     [
       [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water_clean", 1 ],
+      [ "salt_water", 1 ]
     ],
     [
       [ "jar_glass", 1 ]
@@ -13291,7 +13293,8 @@
   "components": [
     [
       [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water_clean", 1 ],
+      [ "salt_water", 1 ]
     ],
     [
       [ "jar_glass", 1 ]
