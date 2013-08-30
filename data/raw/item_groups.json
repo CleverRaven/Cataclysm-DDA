@@ -72,6 +72,7 @@
       ["boots", 70],
       ["boots_combat", 10],
       ["boots_winter", 60],
+      ["boots_hiking", 10],
       ["flip_flops", 35],
       ["dress_shoes", 50],
       ["heels", 50],
@@ -783,6 +784,7 @@
       ["machete", 5],
       ["boots_steel", 50],
       ["boots_combat", 20],
+      ["boots_hiking", 10],
       ["hat_hard", 50],
       ["mask_filter", 30],
       ["glasses_safety", 40],
@@ -865,7 +867,8 @@
       ["wetsuit_booties", 20],
       ["glowstick", 60],
       ["elbow_pads", 40],
-      ["knee_pads", 40]
+      ["knee_pads", 40],
+      ["boots_hiking", 10]
     ]
   },
   { "id":"camping",
@@ -933,7 +936,8 @@
       ["umbrella",12],
       ["blowgun", 5],
       ["dart", 5],
-      ["pocketwatch", 5]
+      ["pocketwatch", 5],
+      ["boots_hiking", 20]
     ]
   },
   { "id":"allsporting",
@@ -1017,7 +1021,8 @@
       ["blowgun", 5],
       ["dart", 5],
       ["elbow_pads", 40],
-      ["knee_pads", 40]
+      ["knee_pads", 40],
+      ["boots_hiking", 10]
     ]
   },
   { "id":"alcohol",
@@ -1327,7 +1332,8 @@
       ["flip_flops", 35],
       ["dress_shoes", 50],
       ["heels", 50],
-      ["boots_combat", 10]
+      ["boots_combat", 10],
+      ["boots_hiking", 20]
     ]
   },
   { "id":"pants",
@@ -1507,6 +1513,7 @@
     "items":[
       ["boots", 70],
       ["boots_steel", 50],
+      ["boots_hiking", 20],
       ["boots_combat", 10]
     ]
   },
@@ -1611,6 +1618,7 @@
       ["sneakers", 80],
       ["boots", 70],
       ["boots_steel", 50],
+      ["boots_hiking", 40],
       ["dress_shoes", 50]
     ]
   },
@@ -1996,6 +2004,7 @@
       ["helmet_barbute", 1],
       ["apron_leather", 5],
       ["boots_combat", 10],
+      ["boots_hiking", 10],
       ["gloves_tactical", 1],
       ["glasses_bal", 5],
       ["elbow_pads", 10],
@@ -2050,6 +2059,7 @@
       ["screwdriver", 40],
       ["boots", 70],
       ["boots_winter", 60],
+      ["boots_hiking", 30],
       ["socks_wool", 30],
       ["jeans", 90],
       ["shorts", 70],
@@ -2593,6 +2603,7 @@
     "items":[
       ["boots_steel", 50],
       ["boots_combat", 50],
+      ["boots_hiking", 50],
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["pants_army", 30],
@@ -2707,6 +2718,7 @@
     "items":[
       ["boots", 70],
       ["boots_steel", 50],
+      ["boots_hiking", 10],
       ["jumpsuit", 20],
       ["gloves_rubber", 20],
       ["gloves_leather", 45],
