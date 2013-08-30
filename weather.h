@@ -42,7 +42,15 @@ enum weather_type {
  WEATHER_SNOWSTORM,	// Heavy snow
  NUM_WEATHER_TYPES
 };
-
+// used for drawing weather bits to the screen
+struct weather_printable
+{
+    weather_type wtype;
+    std::vector<std::pair<int, int> > vdrops;
+    nc_color colGlyph;
+    char cGlyph;
+    int startx, starty, endx, endy;
+};
 struct weather_effect
 {
  void none		(game *) {};

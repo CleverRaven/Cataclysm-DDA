@@ -134,7 +134,8 @@ class game
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
   void explosion(int x, int y, int power, int shrapnel, bool fire);
 // Draws an explosion with set radius and color at the given location
-  void draw_explosion(int x, int y, int radius, nc_color col);
+  /* Defined later in this file */
+  //void draw_explosion(int x, int y, int radius, nc_color col);
 // Flashback at (x, y)
   void flashbang(int x, int y, bool player_immune = false);
 // Move the player vertically, if (force) then they fell
@@ -300,6 +301,7 @@ class game
 
   std::map<int, std::map<int, bool> > mapRain;
 
+  int ter_view_x, ter_view_y;
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;
@@ -310,7 +312,7 @@ class game
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
- 
+
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
  //otherwise returns sentinel -1, signifies transaction fail.
  int move_liquid(item &liquid);
@@ -337,6 +339,16 @@ void load_artifacts(); // Load artifact data
  // parameters force, stun, and dam_mult are passed to knockback()
  // ignore_player determines if player is affected, useful for bionic, etc.
  void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
+
+
+// Animation related functions
+  void draw_explosion(int x, int y, int radius, nc_color col);
+  void draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
+  void draw_hit_mon(int x, int y, monster m, bool dead = false);
+  void draw_hit_player(player *p, bool dead = false);
+  void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
+  void draw_line(const int x, const int y, std::vector<point> ret);
+  void draw_weather(weather_printable wPrint);
 
  private:
 // Game-start procedures
@@ -521,7 +533,6 @@ void load_artifacts(); // Load artifact data
   void display_scent();   // Displays the scent map
   void mondebug();        // Debug monster behavior directly
   void groupdebug();      // Get into on monster groups
-
 
 
 // ########################## DATA ################################

@@ -298,6 +298,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       ty = trajectory[i].y;
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
+   draw_bullet(p, tx, ty, i, trajectory, effects->count("FLAME")? '#':'*', ts);
+   /*
    if (u_see(tx, ty)) {
     if (i > 0)
     {
@@ -313,7 +315,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
     if (&p == &u)
      nanosleep(&ts, NULL);
    }
-
+   */
    if (dam <= 0 && !(effects->count("FLAME"))) { // Ran out of momentum.
     ammo_effects(this, tx, ty, *effects);
     if (is_bolt && !(effects->count("IGNITE")) &&
@@ -716,6 +718,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
    // Only draw a highlighted trajectory if we can see the endpoint.
    // Provides feedback to the player, and avoids leaking information about tiles they can't see.
+   draw_line(x, y, center, ret);
+/*
    if (u_see( x, y)) {
     for (int i = 0; i < ret.size(); i++) {
       int mondex = mon_at(ret[i].x, ret[i].y),
@@ -729,7 +733,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
        m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center.x, center.y);
     }
    }
-
+//*/
+    /* Print to target window, could maybe be moved up and out of the w_terrain drawing section? */
    if (!relevent) { // currently targetting vehicle to refill with fuel
     vehicle *veh = m.veh_at(x, y);
     if (veh)
@@ -1107,6 +1112,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
             hit_animation(mon.posx() - g->u.posx + VIEWX - g->u.view_offset_x,
                      mon.posy() - g->u.posy + VIEWY - g->u.view_offset_y,
                      red_background(mon.type->color), (bMonDead) ? '%' : mon.symbol());
+        */
         }
 
         if (bMonDead) {
