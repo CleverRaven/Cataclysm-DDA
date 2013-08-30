@@ -15,7 +15,6 @@
 #include "editmap.h"
 #include "bodypart.h"
 #include "map.h"
-#include "object.h"
 #include "output.h"
 #include "uistate.h"
 #include "item_factory.h"
@@ -29,7 +28,6 @@
 #include "mapdata.h"
 #include "catacharset.h"
 #include "translations.h"
-#include "rules.h"
 //#include "player.h"
 #include <map>
 #include <set>
@@ -47,8 +45,6 @@
 #include "debug.h"
 #include "artifactdata.h"
 #include "weather.h"
-#include "weather_const.h"
-#include "bench.h"
 #if (defined _WIN32 || defined __WIN32__)
 #include <windows.h>
 #include <tchar.h>
