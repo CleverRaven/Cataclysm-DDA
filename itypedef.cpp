@@ -577,12 +577,14 @@ std::string ammo_name(ammotype t)
     if( t == "3006" )  return _(".30-06");
     if( t == "308" )	  return _(".308");
     if( t == "40mm" )  return _("40mm grenade");
-    if( t == "66mm" )  return _("High Explosive Anti Tank Warhead");
+    if( t == "66mm" )  return _("High Explosive Anti Tank warhead");
+    if( t == "84x246mm" )  return _("84mm recoilless projectile");
+    if( t == "m235" )  return _("M235 Incendiary TPA");
     if( t == "gasoline" )	  return _("gasoline");
     if( t == "THREAD" )return _("thread");
     if( t == "battery" )  return _("batteries");
     if( t == "plutonium" )  return _("plutonium");
-    if( t == "muscle" )return _("Muscle");
+    if( t == "muscle" )return _("muscle");
     if( t == "fusion" )return _("fusion cell");
     if( t == "12mm" )  return _("12mm slugs");
     if( t == "plasma" )return _("hydrogen");
@@ -616,6 +618,8 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "3006" )	 return "270";
     if( guntype == "40mm" )  return "40mm_concussive";
     if( guntype == "66mm" )  return "66mm_HEAT";
+    if( guntype == "84x246mm" )  return "84x246mm_he";
+    if( guntype == "m235" )  return "m235tpa";
     if( guntype == "battery" )	 return "battery";
     if( guntype == "fusion" )return "laser_pack";
     if( guntype == "12mm" )  return "12mm";
@@ -624,6 +628,6 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "gasoline" )	  return "gasoline";
     if( guntype == "THREAD" )return "thread";
     if( guntype == "water" ) return "water_clean";
-    if( guntype == "8x40mm"  )return "8x40mm caseless";
+    if( guntype == "8x40mm"  )return "8mm_caseless";
     return "null";
 }

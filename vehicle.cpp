@@ -692,7 +692,7 @@ std::vector<int> vehicle::internal_parts (int p)
     return res;
 }
 
-int vehicle::part_with_feature (int part, std::string flag, bool unbroken)
+int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
 {
     if (part_flag(part, flag)) {
         return part;
@@ -706,7 +706,7 @@ int vehicle::part_with_feature (int part, std::string flag, bool unbroken)
     return -1;
 }
 
-bool vehicle::part_flag (int part, std::string flag)
+bool vehicle::part_flag (int part, const std::string &flag)
 {
     if (part < 0 || part >= parts.size()) {
         return false;
@@ -806,27 +806,34 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
         if (parts[pl[i]].hp > 0)
             col_cond = c_red;
 
-        std::stringstream nom; //part name
+        std::string partname;
         // part bigness, if that's relevant.
-        if (part_flag(pl[i], "VARIABLE_SIZE")){
-           if (part_flag(pl[i], "ENGINE")){ //bigness == liters
-              nom << rmp_format(_("<veh_adj>%4.2f-Liter "), (float)(parts[pl[i]].bigness) / 100);
-           }
-           else if (part_flag(pl[i], "WHEEL")){ //bigness == inches
-              nom << rmp_format(_("<veh_adj>%d\" "), parts[pl[i]].bigness);
-           }
+        if (part_flag(pl[i], "VARIABLE_SIZE") && part_flag(pl[i], "ENGINE")) {
+            //~ 2.8-Liter engine
+            partname = string_format(_("%4.2f-Liter %s"),
+                                     (float)(parts[pl[i]].bigness) / 100,
+                                     part_info(pl[i]).name.c_str());
+        } else if (part_flag(pl[i], "VARIABLE_SIZE") && part_flag(pl[i], "WHEEL")) {
+            //~ 14" wheel
+            partname = string_format(_("%d\" %s"),
+                                     parts[pl[i]].bigness,
+                                     part_info(pl[i]).name.c_str());
+        } else {
+            partname = part_info(pl[i]).name;
         }
-        nom << part_info(pl[i]).name;
-        std::string partname = nom.str();
 
         bool armor = part_flag(pl[i], "ARMOR");
         mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, partname.c_str());
         mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, armor? "(" : (i? "-" : "["));
         mvwprintz(win, y, 2 + utf8_width(partname.c_str()), i == hl? hilite(c_ltgray) : c_ltgray, armor? ")" : (i? "-" : "]"));
-//         mvwprintz(win, y, 3 + strlen(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
+//         mvwprintz(win, y, 3 + utf8_width(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
 
-        if (i == 0) {
-            mvwprintz(win, y, width-5, c_ltgray, is_inside(pl[i])? " In " : "Out ");
+        if (i == 0 && is_inside(pl[i])) {
+            //~ indicates that a vehicle part is inside
+            mvwprintz(win, y, width-2-utf8_width(_("In")), c_ltgray, _("In"));
+        } else if (i == 0) {
+            //~ indicates that a vehicle part is outside
+            mvwprintz(win, y, width-2-utf8_width(_("Out")), c_ltgray, _("Out"));
         }
         y++;
     }
@@ -1516,7 +1523,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     int mondex = g->mon_at(x, y);
     int npcind = g->npc_at(x, y);
     bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
-    monster *z = mondex >= 0? &g->z[mondex] : 0;
+    monster *z = mondex >= 0? &g->zombie(mondex) : 0;
     player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
 
     if (ph && ph->in_vehicle) // if in a vehicle assume it's this one
@@ -1951,9 +1958,12 @@ int vehicle::stored_volume(int part) {
    }
    return cur_volume;
 }
-// stub, pending per vpart limits
+
 int vehicle::max_volume(int part) {
-   return MAX_VOLUME_IN_VEHICLE_STORAGE;
+	if ( part_flag(part, "CARGO") ){ 
+		return vpart_list[parts[part].id].size;		
+	}
+	return 0;	
 }
 
 // free space
@@ -2276,6 +2286,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                 if (type == 2 ||
                     (one_in (ft == "gasoline" ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
                 {
+                    g->u.add_memorial_log(_("The fuel tank of the %s exploded!"), name.c_str());
                     g->explosion (global_x() + parts[p].precalc_dx[0], global_y() + parts[p].precalc_dy[0],
                                 pow, 0, ft == "gasoline");
                     parts[p].hp = 0;
@@ -2390,13 +2401,13 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     monster *target = 0;
     int range = ammo.type == "gasoline" ? 5 : 12;
     int closest = range + 1;
-    for (int i = 0; i < g->z.size(); i++)
+    for (int i = 0; i < g->num_zombies(); i++)
     {
-        int dist = rl_dist(x, y, g->z[i].posx, g->z[i].posy);
-        if (g->z[i].friendly == 0 && dist < closest &&
-            g->m.sees(x, y, g->z[i].posx, g->z[i].posy, range, t))
+        int dist = rl_dist(x, y, g->zombie(i).posx(), g->zombie(i).posy());
+        if (g->zombie(i).friendly == 0 && dist < closest &&
+            g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t))
         {
-            target = &(g->z[i]);
+            target = &(g->zombie(i));
             closest = dist;
             fire_t = t;
         }
@@ -2404,7 +2415,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     if (!target)
         return false;
 
-    std::vector<point> traj = line_to(x, y, target->posx, target->posy, fire_t);
+    std::vector<point> traj = line_to(x, y, target->posx(), target->posy(), fire_t);
     for (int i = 0; i < traj.size(); i++)
         if (traj[i].x == g->u.posx && traj[i].y == g->u.posy)
             return false; // won't shoot at player
@@ -2424,7 +2435,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
-    g->fire(tmp, target->posx, target->posy, traj, true);
+    g->fire(tmp, target->posx(), target->posy(), traj, true);
     if (ammo.type == "gasoline")
     {
         for (int i = 0; i < traj.size(); i++)

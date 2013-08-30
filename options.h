@@ -243,8 +243,16 @@ class cOpt
             } else if (sType == "int") {
                 iSet = atoi(sSetIn.c_str());
 
+                if ( iSet < iMin || iSet > iMax ) {
+                    iSet = iDefault;
+                }
+
             } else if (sType == "float") {
                 fSet = atof(sSetIn.c_str());
+
+                if ( fSet < fMin || fSet > fMax ) {
+                    fSet = fDefault;
+                }
             }
         };
 

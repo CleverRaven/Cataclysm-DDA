@@ -3,7 +3,11 @@
 #include "output.h"
 #include <sstream>
 #include <stdlib.h>
+#include <algorithm>
+#include "keypress.h"
 #include "cursesdef.h"
+#include "uistate.h"
+
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
 #else
@@ -80,11 +84,17 @@ uimenu::uimenu(int startx, int width, int starty, std::string title, std::vector
     //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
 }
 
+/*
+ * Enables oneshot construction -> running -> exit
+ */
 uimenu::operator int() const {
     int r = ret + shift_retval;
     return r;
 }
 
+/*
+ * Sane defaults on initialization
+ */
 void uimenu::init() {
     w_x = MENU_AUTOASSIGN;              // starting position
     w_y = MENU_AUTOASSIGN;              // -1 = auto center
@@ -117,8 +127,119 @@ void uimenu::init() {
     shift_retval = 0;        // for legacy menu/vec_menu
     vshift = 0;              // scrolling menu offset
     vmax = 0;                // max entries area rows
+    callback = NULL;         // * uimenu_callback
+    filter = "";             // filter string. If "", show everything
+    fentries.clear();        // fentries is the actual display after filtering, and maps displayed entry number to actual entry number
+    fselected = 0;           // fentries[selected]
+    filtering = true;        // enable list display filtering via '/' or '.' 
+    filtering_nocase = true; // ignore case when filtering
+    max_entry_len = 0;       // does nothing but can be read
 }
 
+/*
+ * case insensitive string::find( string::findstr ). findstr must be lowercased
+ */
+bool lcmatch(const std::string &str, const std::string &findstr)
+{
+    std::string ret = "";
+    ret.reserve( str.size() );
+    transform( str.begin(), str.end(), std::back_inserter(ret), tolower );
+    return ( ret.find( findstr ) != -1 );
+}
+
+/*
+ * repopulate filtered entries list (fentries) and set fselected accordingly
+ */
+void uimenu::filterlist()
+{
+    bool notfiltering = ( ! filtering || filter.size() < 1 );
+    int num_entries = entries.size();
+    bool nocase = (filtering_nocase == true); // todo: && is_all_lc( filter )
+    std::string fstr = "";
+    fstr.reserve(filter.size());
+    if ( nocase ) {
+        transform( filter.begin(), filter.end(), std::back_inserter(fstr), tolower );
+    } else {
+        fstr = filter;
+    }
+    fentries.clear();
+    fselected = -1;
+    int f = 0;
+    for ( int i = 0; i < num_entries; i++ ) {
+        if ( notfiltering
+             || ( nocase == false && entries[ i ].txt.find(filter) != -1 )
+             || lcmatch(entries[i].txt, fstr)
+           ) {
+            fentries.push_back( i );
+            if ( i == selected ) {
+                fselected = f;
+            }
+            f++;
+        }
+    }
+    if ( fselected == -1 ) {
+        fselected = 0;
+        vshift = 0;
+        if ( fentries.size() < 1 ) {
+            selected = -1;
+        } else {
+            selected = fentries [ 0 ];
+        }
+    }
+}
+
+/*
+ * Call string_input_win / ui_element_input::input_filter and filter the entries list interactively
+ */
+std::string uimenu::inputfilter()
+{
+    std::string identifier = ""; // todo: uimenu.filter_identifier ?
+    long key = 0;
+    int spos = -1;
+    mvwprintz(window, w_height - 1, 2, border_color, "< ");
+    mvwprintz(window, w_height - 1, w_width - 3, border_color, " >");
+/*
+//debatable merit
+    std::string origfilter = filter;
+    int origselected = selected;
+    int origfselected = fselected;
+    int origvshift = vshift;
+*/
+    do {
+        // filter=filter_input->query(filter, false);
+        filter=string_input_win(window, filter, 256, 4, w_height - 1, w_width - 4, false, key, spos, identifier, 4, w_height - 1 );
+        // key = filter_input->keypress;
+        if ( key != KEY_ESCAPE ) {
+            if ( scrollby(0, key) == false ) {
+                filterlist();
+            }
+            show();
+        }
+    } while(key != '\n' && key != KEY_ESCAPE);
+
+    if ( key == KEY_ESCAPE ) {
+/*
+//perhaps as an option
+        filter = origfilter;
+        selected = origselected;
+        fselected = origfselected;
+        vshift = origvshift;
+*/
+        filterlist();
+}
+
+    wattron(window, border_color);
+    for( int i = 1; i < w_width - 1; i++ ) {
+        mvwaddch(window, w_height-1, i, LINE_OXOX);
+    }
+    wattroff(window, border_color);
+
+    return filter;
+}
+
+/*
+ * Calculate sizes, populate arrays, initialize window
+ */
 void uimenu::setup() {
     bool w_auto = (w_width == -1 || w_width == -2 );
     bool w_autofold = ( w_width == -2);
@@ -133,12 +254,15 @@ void uimenu::setup() {
     if ( h_auto ) {
         w_height = 4;
     }
-
+    max_entry_len = 0;
     std::vector<int> autoassign;
     autoassign.clear();
     int pad = pad_left + pad_right + 2;
     for ( int i = 0; i < entries.size(); i++ ) {
         int txtwidth = utf8_width(entries[ i ].txt.c_str());
+        if ( txtwidth > max_entry_len ) {
+            max_entry_len = txtwidth;
+        }
         if(entries[ i ].enabled) {
             if( entries[ i ].hotkey > 0 ) {
                 keymap[ entries[ i ].hotkey ] = i;
@@ -159,6 +283,7 @@ void uimenu::setup() {
         if ( entries[ i ].text_color == C_UNSET_MASK ) {
             entries[ i ].text_color = text_color;
         }
+        fentries.push_back( i );
     }
     if ( autoassign.size() > 0 ) {
         for ( int a = 0; a < autoassign.size(); a++ ) {
@@ -242,6 +367,7 @@ void uimenu::setup() {
     }
 
     window = newwin(w_height, w_width, w_y, w_x);
+
     werase(window);
     wattron(window, border_color);
     wborder(window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -252,9 +378,25 @@ void uimenu::setup() {
         wprintz(window, title_color, "%s", title.c_str() );
         wprintz(window, border_color, " >");
     }
+    fselected = selected;
+/* pending completion of string_input refactor
+
+    if ( filtering ) {
+        filter_input = new ui_element_input( this );
+        filter_input->max_length = 256;
+        filter_input->starty = w_height - 1;
+        filter_input->startx = 4;
+        filter_input->endx = w_width - 4;
+        filter_input->loop = false;
+    }
+*/
+
     started = true;
 }
 
+/*
+ * Generate and refresh output
+ */
 void uimenu::show() {
     if (!started) {
         setup();
@@ -263,21 +405,25 @@ void uimenu::show() {
     for ( int i = 0; i < textformatted.size(); i++ ) {
         mvwprintz(window, 1+i, 2, text_color, "%s", textformatted[i].c_str());
     }
-    int estart = textformatted.size() + 1; // todo fold text + get offset
 
-    if ( selected < vshift ) {
-        vshift=selected;
-    } else if ( selected >= vshift + vmax ) {
-        vshift=1+selected-vmax;
+
+    int estart = textformatted.size() + 1;
+
+    if ( fselected < vshift ) {
+        vshift=fselected;
+    } else if ( fselected >= vshift + vmax ) {
+        vshift=1+fselected-vmax;
     }
-    for ( int ei = vshift, si=0; si < vmax; ei++,si++ ) {
-        if ( ei < entries.size() ) {
+    for ( int fei = vshift, si=0; si < vmax; fei++,si++ ) {
+        if ( fei < fentries.size() ) {
+            int ei=fentries [ fei ];
             nc_color co = ( ei == selected ?
                hilight_color : 
                ( entries[ ei ].enabled ? 
                   entries[ ei ].text_color : 
                disabled_color ) 
             );
+
             if ( hilight_full ) {
                mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
             }
@@ -288,13 +434,122 @@ void uimenu::show() {
             if ( entries[ ei ].extratxt.txt.size() > 0 ) {
                 mvwprintz(window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left, entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
             }
+            if ( callback != NULL && ei == selected ) {
+                callback->select(ei,this);
+            }
         } else {
             mvwprintz(window, estart + si, pad_left + 1, c_ltgray , "%s", padspaces.c_str());
         }
     }
-    wrefresh(window);
+
+    if ( filter.size() > 0 ) {
+        mvwprintz(window,w_height-1,2,border_color,"< %s >",filter.c_str() );
+        mvwprintz(window,w_height-1,4,text_color,"%s",filter.c_str());
+    } 
+    this->refresh(true);
 }
 
+/*
+ * wrefresh + wrefresh callback's window
+ */
+void uimenu::refresh( bool refresh_callback ) {
+    wrefresh(window);
+    if ( refresh_callback && callback != NULL ) {
+        callback->refresh(this);
+    }
+}
+
+/*
+ * redraw borders, which is required in some cases ( look_around() )
+ */
+void uimenu::redraw( bool redraw_callback ) {
+    wattron(window, border_color);
+    wborder(window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wattroff(window, border_color);
+    if( title.size() > 0 ) {
+        mvwprintz(window, 0, 1, border_color, "< ");
+        wprintz(window, title_color, "%s", title.c_str() );
+        wprintz(window, border_color, " >");
+    }
+    if ( filter.size() > 0 ) {
+        mvwprintz(window,w_height-1,2,border_color,"< %s >",filter.c_str() );
+        mvwprintz(window,w_height-1,4,text_color,"%s",filter.c_str());
+    }
+/*
+// pending tests on if this is needed
+    if ( redraw_callback && callback != NULL ) {
+        callback->redraw(this);
+    }
+*/
+}
+
+/*
+ * check for valid scrolling keypress and handle. return false if invalid keypress
+ */
+bool uimenu::scrollby(int scrollby, const int key) {
+    if ( key != 0 ) {
+        if ( key == KEY_UP ) {
+            scrollby=-1;
+        } else if ( key == KEY_PPAGE ) {
+            scrollby=(-vmax + 1);
+        } else if ( key == KEY_DOWN ) {
+            scrollby=1;
+        } else if ( key == KEY_NPAGE ) {
+            scrollby=vmax - 1;
+            } else {
+            return false;
+            }
+    } else if ( scrollby == 0 ) {
+        return false;
+    }
+
+    bool looparound = ( scrollby == -1 || scrollby == 1 );
+    bool backwards = ( scrollby < 0 );
+    
+    fselected += scrollby;
+    if ( ! looparound ) {
+        if ( backwards && fselected < 0 ) {
+            fselected = 0;
+        } else if ( fselected >= fentries.size() ) {
+            fselected = fentries.size()-1;
+        }
+    }
+
+    int iter = ( hilight_disabled ? 1 : fentries.size() );
+
+    if ( backwards ) {
+            while ( iter > 0 ) {
+                iter--;
+            if( fselected < 0 ) {
+                fselected = fentries.size() - 1;
+                }
+            if ( entries[ fentries [ fselected ] ].enabled == false ) {
+                fselected--;
+                } else {
+                    iter = 0;
+                }
+            }
+            } else {
+            while ( iter > 0 ) {
+                iter--;
+            if( fselected >= fentries.size() ) {
+                fselected = 0;
+                }
+            if ( entries[ fentries [ fselected ] ].enabled == false ) {
+                fselected++;
+                } else {
+                    iter = 0;
+                }
+            }
+    }
+    selected = fentries [ fselected ];
+    return true;
+}
+
+/*
+ * Handle input and update display
+ */
 void uimenu::query(bool loop) {
     keypress = 0;
     if ( entries.size() < 1 ) {
@@ -302,69 +557,47 @@ void uimenu::query(bool loop) {
     }
     int startret = UIMENU_INVALID;
     ret = UIMENU_INVALID;
+    bool keycallback = (callback != NULL );
+
     show();
     do {
-        //show();
+        bool skiprefresh = false;
+        bool skipkey = false;
         keypress = getch();
-        if ( keypress == KEY_UP || keypress == KEY_PPAGE ) {
-            if ( keypress == KEY_PPAGE ) {
-                selected += ( -vmax + 1 );
-            } else {
-                selected--;
-            }
-            int iter = ( hilight_disabled ? 1 : entries.size() );
-            while ( iter > 0 ) {
-                iter--;
-                if( selected < 0 ) {
-                    selected = entries.size() - 1;
-                }
-                if ( entries[ selected ].enabled == false ) {
-                    selected--;
-                } else {
-                    iter = 0;
-                }
-            }
-            // todo: scroll_callback(this, selected, last_selected );
-        } else if ( keypress == KEY_DOWN || keypress == KEY_NPAGE ) {
-            if ( keypress == KEY_NPAGE ) {
-                selected += ( vmax - 1 );
-            } else {
-                selected++;
-            }
-            int iter = entries.size();
-            if ( hilight_disabled == true ) {
-                iter = 1;
-            }
-            while ( iter > 0 ) {
-                iter--;
-                if( selected >= entries.size() ) {
-                    selected = 0;
-                }
-                if ( entries[ selected ].enabled == false ) {
-                    selected++;
-                } else {
-                    iter = 0;
-                }
-            }
-            // todo: scroll_callback(this, selected, last_selected );
-        } else if ( keypress == '\n' || keypress == KEY_ENTER || keymap.find(keypress) != keymap.end() ) {
+
+        if ( scrollby(0, keypress) == true ) {
+            /* nothing */
+        } else if ( filtering && ( keypress == '/' || keypress == '.' ) ) {
+            inputfilter();
+        } else if ( fentries.size() > 0 && ( keypress == '\n' || keypress == KEY_ENTER || keymap.find(keypress) != keymap.end() ) ) {
             if ( keymap.find(keypress) != keymap.end() ) {
-                selected = keymap[ keypress ];
+                selected = keymap[ keypress ];//fixme ?
             }
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
             } else if ( return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
             }
+        } else if ( keypress == 27 ) { //break loop with ESCAPE key
+            break;
         } else {
-            if ( return_invalid ) {
+            if ( keycallback ) {
+                skipkey = callback->key( keypress, selected, this );
+            }
+            if ( ! skipkey && return_invalid ) {
                 ret = -1;
             }
         }
+
+        if ( skiprefresh==false ) {
         show();
+        }
     } while ( loop & (ret == startret ) );
 }
 
+/*
+ * cleanup
+ */
 uimenu::~uimenu() {
     //dprint(3,"death: ret=%d, w_x=%d, w_y=%d, w_width=%d, w_height=%d", ret, w_x, w_y, w_width, w_height );
     werase(window);
@@ -422,3 +655,4 @@ void uimenu::settext(const char *format, ...) {
    }
    text = std::string(buf);
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////

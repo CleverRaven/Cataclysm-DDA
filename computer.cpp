@@ -365,6 +365,7 @@ void computer::activate_function(game *g, computer_action action)
         break;
 
     case COMPACT_RELEASE:
+        g->u.add_memorial_log(_("Released subspace specimens."));
         g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
         g->m.translate(t_reinforced_glass_h, t_floor);
         g->m.translate(t_reinforced_glass_v, t_floor);
@@ -372,6 +373,7 @@ void computer::activate_function(game *g, computer_action action)
         break;
 
     case COMPACT_TERMINATE:
+        g->u.add_memorial_log(_("Terminated subspace specimens."));
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
@@ -391,6 +393,7 @@ void computer::activate_function(game *g, computer_action action)
         break;
 
     case COMPACT_PORTAL:
+        g->u.add_memorial_log(_("Opened a portal."));
         for (int i = 0; i < SEEX * MAPSIZE; i++)
         {
             for (int j = 0; j < SEEY * MAPSIZE; j++)
@@ -427,6 +430,7 @@ void computer::activate_function(game *g, computer_action action)
         {
             return;
         }
+        g->u.add_memorial_log(_("Caused a resonance cascade."));
         std::vector<point> cascade_points;
         for (int i = g->u.posx - 10; i <= g->u.posx + 10; i++)
         {
@@ -624,7 +628,8 @@ void computer::activate_function(game *g, computer_action action)
             tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, level);
         }
 
-
+        g->u.add_memorial_log(_("Launched a nuke at a %s."),
+                oterlist[g->cur_om->ter(target.x, target.y, 0)].name.c_str());
         for(int x = target.x - 2; x <= target.x + 2; x++)
         {
             for(int y = target.y -  2; y <= target.y + 2; y++)
@@ -641,6 +646,7 @@ void computer::activate_function(game *g, computer_action action)
     case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
         if(query_yn(_("Disarm missile.")))
         {
+            g->u.add_memorial_log(_("Disarmed a nuclear missile."));
             g->add_msg(_("Nuclear missile disarmed!"));
             options.clear();//disable missile.
             activate_failure(g, COMPFAIL_SHUTDOWN);
@@ -1186,7 +1192,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         break;
 
     case COMPACT_SRCF_SEAL:
-        g->add_msg(_("Evacuate Immediatly!"));
+        g->u.add_memorial_log(_("Sealed a Hazardous Material Sarcophagus."));
+        g->add_msg(_("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
@@ -1270,6 +1277,7 @@ void computer::activate_failure(game *g, computer_failure fail)
         break;
 
     case COMPFAIL_ALARM:
+        g->u.add_memorial_log(_("Set off an alarm."));
         g->sound(g->u.posx, g->u.posy, 60, _("An alarm sounds!"));
         if (g->levz > 0 && !g->event_queued(EVENT_WANTED))
         {
@@ -1295,7 +1303,7 @@ void computer::activate_failure(game *g, computer_failure fail)
                 g->add_msg(_("Manhacks drop from compartments in the ceiling."));
                 monster robot(g->mtypes[mon_manhack]);
                 robot.spawn(mx, my);
-                g->z.push_back(robot);
+                g->add_zombie(robot);
             }
         }
     }
@@ -1319,7 +1327,7 @@ void computer::activate_failure(game *g, computer_failure fail)
                 g->add_msg(_("Secubots emerge from compartments in the floor."));
                 monster robot(g->mtypes[mon_secubot]);
                 robot.spawn(mx, my);
-                g->z.push_back(robot);
+                g->add_zombie(robot);
             }
         }
     }

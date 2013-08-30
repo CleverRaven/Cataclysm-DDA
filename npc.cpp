@@ -155,10 +155,8 @@ std::string npc::save_info()
          " " << oxygen << " " << (marked_for_death ? "1" : "0") << " " <<
          (dead ? "1" : "0") << " " << myclass << " " << patience << " ";
 
- for (std::map<std::string, bool>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
-    if (iter->second) {
-        dump << iter->first << " ";
-    }
+ for (std::set<std::string>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
+    dump << *iter << " ";
  }
 
  dump << "TRAITS_END" << " ";
@@ -256,7 +254,7 @@ void npc::load_info(game *g, std::string data)
     if (sTemp == "TRAITS_END") {
         break;
     } else {
-        my_traits[sTemp] = true;
+        my_traits.insert(sTemp);
     }
  }
 
@@ -1783,9 +1781,9 @@ int npc::danger_assessment(game *g)
 {
  int ret = 0;
  int sightdist = g->light_level(), junk;
- for (int i = 0; i < g->z.size(); i++) {
-  if (g->m.sees(posx, posy, g->z[i].posx, g->z[i].posy, sightdist, junk))
-   ret += g->z[i].type->difficulty;
+ for (int i = 0; i < g->num_zombies(); i++) {
+  if (g->m.sees(posx, posy, g->zombie(i).posx(), g->zombie(i).posy(), sightdist, junk))
+   ret += g->zombie(i).type->difficulty;
  }
  ret /= 10;
  if (ret <= 2)
@@ -2084,22 +2082,35 @@ void npc::shift(int sx, int sy)
 
 void npc::die(game *g, bool your_fault)
 {
-    if (dead)
+    if (dead) {
         return;
+    }
     dead = true;
 
-    if (in_vehicle)
+    if (in_vehicle) {
         g->m.unboard_vehicle(g, posx, posy);
+    }
 
-    if (g->u_see(posx, posy))
+    if (g->u_see(posx, posy)) {
         g->add_msg(_("%s dies!"), name.c_str());
-    if (your_fault && !g->u.has_trait("CANNIBAL")){
-        if (is_friend()){
-            // Very long duration, about 7d, decay starts after 10h.
-            g->u.add_morale(MORALE_KILLED_FRIEND, -500, 0, 10000, 600);
+    }
+    if (your_fault){
+        if (is_friend()) {
+            if(!g->u.has_trait("CANNIBAL")) {
+                // Very long duration, about 7d, decay starts after 10h.
+                g->u.add_memorial_log(_("Killed a friend, %s."), name.c_str());
+                g->u.add_morale(MORALE_KILLED_FRIEND, -500, 0, 10000, 600);
+            } else {
+                g->u.add_memorial_log(_("Killed a delicious-looking friend, %s, in cold blood."), name.c_str());
+            }
         } else if (!is_enemy() || this->hit_by_player){
-            // Very long duration, about 3.5d, decay starts after 5h.
-            g->u.add_morale(MORALE_KILLED_INNOCENT, -100, 0, 5000, 300);
+            if(!g->u.has_trait("CANNIBAL")) {
+                // Very long duration, about 3.5d, decay starts after 5h.
+                g->u.add_memorial_log("Killed an innocent person, %s.", name.c_str());
+                g->u.add_morale(MORALE_KILLED_INNOCENT, -100, 0, 5000, 300);
+            } else {
+                g->u.add_memorial_log(_("Killed a delicious-looking innocent, %s, in cold blood."), name.c_str());
+            }
         }
     }
 

@@ -134,7 +134,8 @@ class game
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
   void explosion(int x, int y, int power, int shrapnel, bool fire);
 // Draws an explosion with set radius and color at the given location
-  void draw_explosion(int x, int y, int radius, nc_color col);
+  /* Defined later in this file */
+  //void draw_explosion(int x, int y, int radius, nc_color col);
 // Flashback at (x, y)
   void flashbang(int x, int y, bool player_immune = false);
 // Move the player vertically, if (force) then they fell
@@ -147,6 +148,14 @@ class game
   int  npc_at(const int x, const int y) const;	// Index of the npc at (x, y); -1 for none
   int  npc_by_id(const int id) const;	// Index of the npc at (x, y); -1 for none
  // void build_monmap();		// Caches data for mon_at()
+
+  void add_zombie(monster& m);
+  size_t num_zombies() const;
+  monster& zombie(const int idx);
+  void update_zombie_pos(const monster &m, const int newx, const int newy);
+  void remove_zombie(const int idx);
+  void clear_zombies();
+
   int  mon_at(const int x, const int y) const;	// Index of the monster at (x, y); -1 for none
   bool is_empty(const int x, const int y);	// True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
@@ -279,7 +288,6 @@ class game
   map m;
   int levx, levy, levz;	// Placement inside the overmap
   player u;
-  std::vector<monster> z;
   std::vector<monster_and_count> coming_to_stairs;
   int monstairx, monstairy, monstairz;
   std::vector<npc *> active_npc;
@@ -293,6 +301,7 @@ class game
 
   std::map<int, std::map<int, bool> > mapRain;
 
+  int ter_view_x, ter_view_y;
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;
@@ -303,7 +312,7 @@ class game
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
- 
+
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
  //otherwise returns sentinel -1, signifies transaction fail.
  int move_liquid(item &liquid);
@@ -330,6 +339,16 @@ void load_artifacts(); // Load artifact data
  // parameters force, stun, and dam_mult are passed to knockback()
  // ignore_player determines if player is affected, useful for bionic, etc.
  void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
+
+
+// Animation related functions
+  void draw_explosion(int x, int y, int radius, nc_color col);
+  void draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
+  void draw_hit_mon(int x, int y, monster m, bool dead = false);
+  void draw_hit_player(player *p, bool dead = false);
+  void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
+  void draw_line(const int x, const int y, std::vector<point> ret);
+  void draw_weather(weather_printable wPrint);
 
  private:
 // Game-start procedures
@@ -389,8 +408,10 @@ void load_artifacts(); // Load artifact data
   void create_starting_npcs(); // Creates NPCs that start near you
 
 // Player actions
-  void wish();	// Cheat by wishing for an item 'Z'
-  void monster_wish(); // Create a monster
+  void wishitem( player * p=NULL, int x=-1, int y=-1 );
+  void wishmonster( int x=-1, int y=-1 );
+  void wishmutate( player * p );
+  void wishskill( player * p );
   void mutation_wish(); // Mutate
 
   void pldrive(int x, int y); // drive vehicle
@@ -514,8 +535,10 @@ void load_artifacts(); // Load artifact data
   void groupdebug();      // Get into on monster groups
 
 
-
 // ########################## DATA ################################
+
+  std::vector<monster> _z;
+  std::map<point, int> z_at;
 
   signed char last_target;// The last monster targeted
   char run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new

@@ -368,6 +368,36 @@ void dis_msg(game *g, dis_type type_string) {
     }
 }
 
+void dis_remove_memorial(game* g, dis_type type_string) {
+
+  dis_type_enum type = disease_type_lookup[type_string];
+
+  switch(type) {
+    case DI_COMMON_COLD:
+      g->u.add_memorial_log(_("Got over the cold."));
+      break;
+    case DI_FLU:
+      g->u.add_memorial_log(_("Got over the flu."));
+      break;
+    case DI_ONFIRE:
+      g->u.add_memorial_log(_("Put out the fire."));
+      break;
+    case DI_SPORES:
+      g->u.add_memorial_log(_("Cured the fungal infection."));
+      break;
+    case DI_DERMATIK:
+      g->u.add_memorial_log(_("Dermatik eggs hatched."));
+      break;
+    case DI_BITE:
+      g->u.add_memorial_log(_("Cleaned the bite wound."));
+      break;
+    case DI_INFECTED:
+      g->u.add_memorial_log(_("Sterilized the infection... this time."));
+      break;
+  }
+
+}
+
 void dis_effect(game *g, player &p, disease &dis) {
     std::stringstream sTemp;
     mon_id montype;
@@ -1189,7 +1219,7 @@ void dis_effect(game *g, player &p, disease &dis) {
                             g->m.ter_set(x, y, t_rubble);
                         }
                         beast.spawn(x, y);
-                        g->z.push_back(beast);
+                        g->add_zombie(beast);
                         if (g->u_see(x, y)) {
                             g->cancel_activity_query(_("A monster appears nearby!"));
                             g->add_msg(_("A portal opens nearby, and a monster crawls through!"));
@@ -1253,7 +1283,7 @@ void dis_effect(game *g, player &p, disease &dis) {
                         g->m.ter_set(x, y, t_rubble);
                     }
                     beast.spawn(x, y);
-                    g->z.push_back(beast);
+                    g->add_zombie(beast);
                     if (g->u_see(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));
                         g->add_msg(_("A portal opens nearby, and a monster crawls through!"));
@@ -2002,17 +2032,18 @@ void manage_fungal_infection(game* g, player& p, disease& dis) {
                 sporex = p.posx + i;
                 sporey = p.posy + j;
                 if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
-                    if (g->mon_at(sporex, sporey) >= 0) {	// Spores hit a monster
+                    const int zid = g->mon_at(sporex, sporey);
+                    if (zid >= 0) {  // Spores hit a monster
                         if (g->u_see(sporex, sporey)) {
                             g->add_msg(_("The %s is covered in tiny spores!"),
-                                        g->z[g->mon_at(sporex, sporey)].name().c_str());
+                                       g->zombie(zid).name().c_str());
                         }
-                        if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g)) {
-                            g->kill_mon(g->mon_at(sporex, sporey));
+                        if (!g->zombie(zid).make_fungus(g)) {
+                            g->kill_mon(zid);
                         }
                     } else {
                         spore.spawn(sporex, sporey);
-                        g->z.push_back(spore);
+                        g->add_zombie(spore);
                     }
                 }
             }
@@ -2248,7 +2279,7 @@ void handle_deliriant(game* g, player& p, disease& dis) {
             // Generate a phantasm
             monster phantasm(g->mtypes[mon_hallu_zom + rng(0, 3)]);
             phantasm.spawn(p.posx + rng(-10, 10), p.posy + rng(-10, 10));
-            g->z.push_back(phantasm);
+            g->add_zombie(phantasm);
         }
     } else if (dis.duration == comedownTime) {
         if (one_in(42)) {
@@ -2336,9 +2367,6 @@ void handle_insect_parasites(game* g, player& p, disease& dis) {
             g->add_msg_player_or_npc( &p,
                 _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
                 _("Insects begin to emerge from <npcname>'s skin!") );
-            if(!p.is_npc()) {
-                p.add_memorial_log(_("Dermatik eggs hatched."));
-            }
 
             p.moves -= 600;
             monster grub(g->mtypes[mon_dermatik_larva]);
@@ -2361,7 +2389,7 @@ void handle_insect_parasites(game* g, player& p, disease& dis) {
                     grub.friendly = -1;
                 } else {
                     grub.friendly = 0;
-                } g->z.push_back(grub);
+                } g->add_zombie(grub);
             }
         }
     }
