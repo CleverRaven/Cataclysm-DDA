@@ -745,7 +745,7 @@
       "type" : "GUN",
       "symbol" : "(",
       "color" : "green",
-      "name" : "ganz-rustung",
+      "name" : "Ganz-Rustung",
       "description" : "A HUGE very slow-loading medieval crossbow from Germany. It's tension is so powerful that you feel it shake after firing. Un-skilled users will find it very hard to reload. Bolts fired from this weapon have a good chance of remaining intact for re-use.",
       "price" : 1000,
       "material" : ["iron", "wood"],
