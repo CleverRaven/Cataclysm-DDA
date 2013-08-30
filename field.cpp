@@ -382,9 +382,13 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
                             } else if ((it->made_of("wood") || it->made_of("veggy"))) {
                                 //Wood or vegy items burn slowly.
-                                if (vol <= cur->getFieldDensity() * 10 || cur->getFieldDensity() == 3) {
-                                    cur->setFieldAge(cur->getFieldAge() - 30);
-                                    destroyed = it->burn(cur->getFieldDensity());
+                                if (vol <= cur->getFieldDensity() * 10 ||
+                                    cur->getFieldDensity() == 3) {
+                                    // A single wood item will just maintain at the current level.
+                                    cur->setFieldAge(cur->getFieldAge() - 1);
+                                    if( one_in(50) ) {
+                                        destroyed = it->burn(cur->getFieldDensity());
+                                    }
                                     smoke++;
                                     consumed++;
                                 } else if (it->burnt < cur->getFieldDensity()) {
