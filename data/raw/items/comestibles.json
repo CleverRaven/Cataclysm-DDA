@@ -819,7 +819,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "drink_screwdriver",
-        "name" : "Screwdriver",
+        "name" : "screwdriver",
         "weight" : 250,
         "color" : "yellow",
         "addiction_type" : "alcohol",
@@ -848,7 +848,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "drink_wild_apple",
-        "name" : "Wild Apple",
+        "name" : "wild apple",
         "weight" : 248,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -5146,7 +5146,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "poppy_sleep",
-        "name" : "Poppy Sleep",
+        "name" : "poppy sleep",
         "weight" : 1,
         "color" : "pink",
         "addiction_type" : "opiate",
@@ -5175,7 +5175,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "poppy_pain",
-        "name" : "Poppy Painkillers",
+        "name" : "poppy painkillers",
         "weight" : 1,
         "color" : "pink",
         "addiction_type" : "opiate",
@@ -5432,7 +5432,7 @@
   {
         "type" : "COMESTIBLE",
         "id" : "drink_strawberry_surprise",
-        "name" : "Strawberry Surprise",
+        "name" : "strawberry surprise",
         "weight" : 36,
         "color" : "pink",
         "addiction_type" : "alcohol",
@@ -5461,7 +5461,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "drink_boozeberry",
-        "name" : "Boozeberry",
+        "name" : "boozeberry",
         "weight" : 36,
         "color" : "cyan",
         "symbol": "D",
@@ -5491,7 +5491,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "cola_meth",
-        "name" : "Methacola",
+        "name" : "methacola",
         "weight" : 261,
         "color" : "cyan",
         "addiction_type" : "amphetamine",
@@ -5520,7 +5520,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "taint_tornado",
-        "name" : "Tainted Tornado",
+        "name" : "tainted tornado",
         "weight" : 100,
         "color" : "brown",
         "addiction_type" : "alcohol",

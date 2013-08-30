@@ -4106,7 +4106,7 @@
     {
         "type" : "ARMOR",
         "id" : "bookplate",
-        "name" : "Bookplate",
+        "name" : "bookplate",
         "weight" : 1090,
         "color" : "dark_gray",
         "covers" : ["TORSO"],
