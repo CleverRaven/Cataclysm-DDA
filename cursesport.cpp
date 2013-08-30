@@ -179,32 +179,32 @@ ncurses does not do this, and this prevents: wattron(win, c_customBordercolor); 
 
 int hline(chtype ch, int n)
 {
-    whline(mainwin, ch, n);
+    return whline(mainwin, ch, n);
 }
 
 int vline(chtype ch, int n)
 {
-    wvline(mainwin, ch, n);
+    return wvline(mainwin, ch, n);
 }
 
 int whline(WINDOW *win, chtype ch, int n)
 {
-    mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
+    return mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
 }
 
 int wvline(WINDOW *win, chtype ch, int n)
 {
-    mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
+    return mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
 }
 
 int mvhline(int y, int x, chtype ch, int n)
 {
-    mvwhline(mainwin, y, x, ch, n);
+    return mvwhline(mainwin, y, x, ch, n);
 }
 
 int mvvline(int y, int x, chtype ch, int n)
 {
-    mvwvline(mainwin, y, x, ch, n);
+    return mvwvline(mainwin, y, x, ch, n);
 }
 
 int mvwhline(WINDOW *win, int y, int x, chtype ch, int n)
@@ -216,6 +216,8 @@ int mvwhline(WINDOW *win, int y, int x, chtype ch, int n)
         for (int i=0; i<n; i++)
             mvwaddch(win, y, x + i, LINE_OXOX);
     }
+
+    return 0;
 }
 
 int mvwvline(WINDOW *win, int y, int x, chtype ch, int n)
@@ -227,6 +229,8 @@ int mvwvline(WINDOW *win, int y, int x, chtype ch, int n)
         for (int j=0; j<n; j++)
             mvwaddch(win, y + j, x, LINE_XOXO);
     }
+
+    return 0;
 }
 
 //Refreshes a window, causing it to redraw on top.

@@ -51,7 +51,7 @@ struct tile
 
     tile()
     {
-        sx = sx = wx = wy = 0;
+        sx = wx = wy = 0;
     }
     tile(int x, int y, int x2, int y2)
     {
