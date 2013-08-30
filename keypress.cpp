@@ -9,7 +9,7 @@ long input(long ch)
  }
 
 // Our current tiles and Windows code doesn't have ungetch()
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
  int newch;
 
  // Clear the buffer of characters that match the one we're going to act on.

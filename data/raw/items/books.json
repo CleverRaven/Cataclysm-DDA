@@ -905,7 +905,7 @@
     {
         "type" : "BOOK",
         "id" : "textbook_chemistry",
-        "name" : "Chemistry Textbook",
+        "name" : "chemistry textbook",
         "max_level" : 6,
         "description" : "A college textbook on chemistry.",
         "weight" : 1587,
@@ -989,7 +989,7 @@
     {
         "type" : "BOOK",
         "id" : "record_weather",
-        "name" : "National Weather Transcripts",
+        "name" : "national weather transcripts",
         "max_level" : 0,
         "description" : "Old weather records are about as interesting as a rock.",
         "weight" : 454,
@@ -1010,7 +1010,7 @@
     {
         "type" : "BOOK",
         "id" : "record_patient",
-        "name" : "Patient Treatment Records",
+        "name" : "patient treatment records",
         "max_level" : 0,
         "description" : "A massive stack of medical records that contain every gory detail.",
         "weight" : 680,
@@ -1031,7 +1031,7 @@
     {
         "type" : "BOOK",
         "id" : "record_accounting",
-        "name" : "Corporate Accounting Ledger",
+        "name" : "corporate accounting ledger",
         "max_level" : 0,
         "description" : "If you knew what to look for something might stand out...",
         "weight" : 566,
@@ -1073,7 +1073,7 @@
     {
         "type" : "BOOK",
         "id" : "priest_diary",
-        "name" : "Priest's Diary",
+        "name" : "priest's diary",
         "max_level" : 0,
         "description" : "A small book filled with journal entries in Latin.",
         "weight" : 340,

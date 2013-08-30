@@ -1257,6 +1257,62 @@
 },
 
 {
+  "result": "pipe_launcher40mm",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "requires_skills": [ "launcher", 3 ],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "duct_tape", 50 ]
+    ],
+    [
+      [ "nail", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "u_shotgun",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "requires_skills": [ "shotgun", 3 ],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "duct_tape", 75 ]
+    ],
+    [
+      [ "nail", 2 ]
+    ]
+  ]
+},
+
+{
   "result": "shot_he",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
@@ -13183,11 +13239,11 @@
 },
 
 {
-  "result": "veggy_pickled",
+  "result": "jar_veggy_pickled",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 5,
-  "time": 50000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13215,7 +13271,8 @@
   "components": [
     [
       [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water_clean", 1 ],
+      [ "salt_water", 1 ]
     ],
     [
       [ "jar_glass", 1 ]
@@ -13238,11 +13295,11 @@
 },
 
 {
-  "result": "meat_pickled",
+  "result": "jar_meat_pickled",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 6,
-  "time": 60000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13270,7 +13327,8 @@
   "components": [
     [
       [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water_clean", 1 ],
+      [ "salt_water", 1 ]
     ],
     [
       [ "jar_glass", 1 ]
@@ -13284,11 +13342,11 @@
   ]
 },
 {
-  "result": "human_pickled",
+  "result": "jar_human_pickled",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 6,
-  "time": 60000,
+  "time": 30000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 5 ]],
@@ -13317,7 +13375,8 @@
   "components": [
     [
       [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water_clean", 1 ],
+      [ "salt_water", 1 ]
     ],
     [
       [ "jar_glass", 1 ]
@@ -13327,6 +13386,37 @@
     ],
     [
       [ "vinegar", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "goggles_welding",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "goggles_ski", 1 ],
+      [ "goggles_swim", 1 ],
+      [ "glasses_safety", 1 ],
+      [ "sunglasses", 1 ]
+    ],
+    [
+      [ "duct_tape", 20 ],
+      [ "medical_tape", 20 ]
+    ],
+    [
+      [ "spray_can", 1 ]
     ]
   ]
 }
