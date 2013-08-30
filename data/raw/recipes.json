@@ -13243,7 +13243,7 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 5,
-  "time": 50000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13272,9 +13272,6 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
-    ],
-    [
-      [ "jar_glass", 1 ]
     ],
     [
       ["veggy", 1],
@@ -13298,7 +13295,7 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 6,
-  "time": 60000,
+  "time": 40000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -13329,9 +13326,6 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "jar_glass", 1 ]
-    ],
-    [
       [ "meat", 1 ]
     ],
     [
@@ -13344,7 +13338,7 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 6,
-  "time": 60000,
+  "time": 40000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 5 ]],
@@ -13374,9 +13368,6 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
-    ],
-    [
-      [ "jar_glass", 1 ]
     ],
     [
       [ "human_flesh", 1 ]
