@@ -1112,8 +1112,8 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
         }
         bool bMonDead = mon.hurt(adjusted_damage, dam);
         if( u_see_mon ) {
-            g->draw_hit_mon(mon.posx,
-                            mon.posy,
+            g->draw_hit_mon(mon.posx(),
+                            mon.posy(),
                             mon,
                             bMonDead);
         /*
@@ -1250,7 +1250,7 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
 
   if (effects.count("EXPLOSIVE_BIG"))
     g->explosion(x, y, 40, 0, false);
-	
+
   if (effects.count("EXPLOSIVE_HUGE"))
     g->explosion(x, y, 80, 0, false);
 
