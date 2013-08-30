@@ -2053,7 +2053,7 @@
         "encumberance" : 0,
         "bashing" : -5,
         "flags" : ["WATER_FRIENDLY"],
-        "coverage" : 15,
+        "coverage" : 20,
         "material_thickness" : 5
     },
     {
@@ -4220,7 +4220,7 @@
         "encumberance" : 0,
         "bashing" : -5,
         "flags" : ["WATER_FRIENDLY"],
-        "coverage" : 15,
+        "coverage" : 20,
         "material_thickness" : 5
     },
   {
