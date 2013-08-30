@@ -6833,17 +6833,15 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
 
 void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
 {
-    //Remove previous trail, if any
-    for (int i = 0; i < vPoint.size(); i++)
-    {
-        m.drawsq(w_terrain, u, vPoint[i].x, vPoint[i].y, false, true);
-    }
+    //Reset terrain
+    draw_ter();
 
-    //Draw new trail
+    //Draw trail
+    point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
     vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
     for (int i = 1; i < vPoint.size(); i++)
     {
-        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
+        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true, center.x, center.y);
     }
 
     mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
@@ -6978,6 +6976,9 @@ void game::list_items()
     const int iStoreViewOffsetX = u.view_offset_x;
     const int iStoreViewOffsetY = u.view_offset_y;
 
+    u.view_offset_x = 0;
+    u.view_offset_y = 0;
+
     int iActive = 0; // Item index that we're looking at
     const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
     int iStartPos = 0;
@@ -6992,13 +6993,11 @@ void game::list_items()
     bool refilter = true;
     int iFilter = 0;
     bool bStopDrawing = false;
+
     do
     {
         if (ground_items.size() > 0)
         {
-            u.view_offset_x = 0;
-            u.view_offset_y = 0;
-
             if (ch == 'I' || ch == 'c' || ch == 'C')
             {
                 compare(iActiveX, iActiveY);
@@ -7137,6 +7136,7 @@ void game::list_items()
                         {
                             iActiveX = iter->x;
                             iActiveY = iter->y;
+
                             sActiveItemName = iter->example.tname(this);
                             activeItem = iter->example;
                         }
@@ -7189,6 +7189,13 @@ void game::list_items()
                 {
                     iLastActiveX = iActiveX;
                     iLastActiveY = iActiveY;
+
+                    if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
+                        std::stringstream ssTemp;
+
+                        u.view_offset_x = (abs(iActiveX) > VIEWX) ? ((iActiveX < 0) ? VIEWX+iActiveX : iActiveX-VIEWX) : 0;
+                        u.view_offset_y = (abs(iActiveY) > VIEWY) ? ((iActiveY < 0) ? VIEWY+iActiveY : iActiveY-VIEWY) : 0;
+                    }
 
                     draw_trail_to_square(vPoint, iActiveX, iActiveY);
                 }
@@ -7248,7 +7255,7 @@ void game::pickup(int posx, int posy, int min)
   veh_part = veh->part_with_feature(veh_part, "CARGO", false);
   from_veh = veh && veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0;
-  
+
   if(from_veh) {
     if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str())) {
       from_veh = false;
@@ -8072,7 +8079,7 @@ int game::move_liquid(item &liquid)
    debugmsg("Tried to move_liquid a non-liquid!");
    return -1;
   }
-  
+
   //liquid is in fact a liquid.
   std::stringstream text;
   text << _("Container for ") << liquid.tname(this);
