@@ -1937,6 +1937,7 @@
       ["peacoat", 30],
       ["coat_lab", 20],
       ["helmet_army", 40],
+      ["helmet_liner", 10],
       ["hat_fur", 15],
       ["holster", 8],
       ["bootstrap", 3],
@@ -2026,7 +2027,8 @@
       ["heatpack", 60],
       ["sleeping_bag", 10],
       ["emer_blanket", 20],
-      ["flyer", 10]
+      ["flyer", 10],
+      ["helmet_liner", 20]
     ]
   },
   { "id":"shelter",
@@ -2426,7 +2428,6 @@
       ["vest", 15],
       ["mask_gas", 10],
       ["goggles_nv", 1],
-      ["helmet_army", 40],
       ["backpack", 38],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -2442,6 +2443,7 @@
       ["power_armor_basic", 5],
       ["power_armor_frame", 4],
       ["helmet_army", 40],
+      ["helmet_liner", 10],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["beret", 50],
@@ -2479,6 +2481,7 @@
   { "id":"mil_armor_helmet",
     "items":[
       ["helmet_army", 40],
+      ["helmet_liner", 20],
       ["beret", 50],
       ["mask_bal", 10]
     ]
@@ -3088,6 +3091,7 @@
       ["kevlar", 30],
       ["mask_gas", 10],
       ["helmet_army", 40],
+      ["helmet_liner", 10],
       ["battery", 50],
       ["plut_cell", 10],
       ["m249", 1],
@@ -3133,6 +3137,7 @@
       ["armguard_hard", 20],
       ["legguard_hard", 15],
       ["helmet_army", 40],
+      ["helmet_liner", 10],
       ["backpack", 38],
       ["holster", 8],
       ["bootstrap", 3],
