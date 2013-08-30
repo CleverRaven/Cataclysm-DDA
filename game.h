@@ -99,6 +99,8 @@ class game
   bool game_quit(); // True if we actually quit the game - used in main.cpp
   bool game_error();
   quit_status uquit;    // used in main.cpp to determine what type of quit
+  void serialize_save(std::ofstream & fout);
+  void serialize_load(std::ifstream & fin);
   void save();
   void delete_save();
   void write_memorial_file();
@@ -357,6 +359,7 @@ void load_artifacts(); // Load artifact data
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master();	// Load the master data file, with factions &c
   void load_weather(std::ifstream &fin);
+  void load_weather(std::string line);
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game
   void start_special_game(special_game_id gametype); // See gamemode.cpp
