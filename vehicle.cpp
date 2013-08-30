@@ -1654,27 +1654,35 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 
 	//k=100 -> 100% damage on part
 	//k=0 -> 100% damage on obj
-	float k = 50 +  part_dens - vpart_dens; 
-	if(k > 80) k = 80;  //saturation
-	if(k < 20) k = 20;   
+	float material_factor = (part_dens - vpart_dens)*0.5;
+	if ( material_factor >= 25) material_factor = 25; //saturation
+	if ( material_factor < -25) material_factor = -25;
+	float weight_factor;
+	if ( mass >= mass2 ) weight_factor = -25 * ( log(mass) - log(mass2) ) / log(mass);   //factor = -25 if mass is much greater than mass2
+	else weight_factor = 25 * ( log(mass2) - log(mass) ) / log(mass2) ;   //factor = +25 if mass2 is much greater than mass
+
+	float k = 50 + material_factor + weight_factor; 
+	if(k > 90) k = 90;  //saturation 
+	if(k < 10) k = 10;   
 	
 	//Damage calculation
 	const float dmg = abs(d_E / k_mvel); //damage dealt overall
 	const float part_dmg = dmg * k / 100;     //damage for vehicle-part
-	const float obj_dmg  = dmg * (100-k)/100;  //damage for oject
+	const float obj_dmg  = dmg * (100-k)/100;  //damage for object
 
 	//Debugging
-	/*
+
 	g->add_msg (_("---DebugINFO---"));
-	g->add_msg (_("Part: %s"), part_info(parm).name);
+	g->add_msg (_("Part: %s"), part_info(parm).name.c_str());
 	g->add_msg (_("Veh_part_dmg: %d"), int(part_dmg));
 	g->add_msg (_("Obj_dmg: %d"), int(obj_dmg));
 	g->add_msg (_("Dmg: %d"),int(dmg));
-	g->add_msg (_("k: %d"), int(k));
-	g->add_msg (_("v_dens: %d"), vpart_dens);
-	g->add_msg (_("p_dens: %d"), part_dens);
+	g->add_msg (_("k: %f"), k);
+	g->add_msg (_("e: %f"), e);
+	g->add_msg (_("Material_factor: %f"), material_factor);
+	g->add_msg (_("weigth_factor: %f"), weight_factor);
 	g->add_msg (_("---------------"));
-	*/
+	
 
     bool smashed = true;
     std::string snd;
