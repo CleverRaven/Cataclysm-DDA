@@ -6839,16 +6839,15 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
 }
 
 
-void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
+void game::draw_trail_to_square(int x, int y)
 {
     //Reset terrain
     draw_ter();
 
     //Draw trail
     point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
-    vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
-    draw_line(x, y, vPoint);
-    /*
+    std::vector<point> vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
+
     for (int i = 1; i < vPoint.size(); i++)
     {
         m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true, center.x, center.y);
@@ -6856,7 +6855,7 @@ void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
 
     mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
                         vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
-    */
+
     wrefresh(w_terrain);
 }
 
@@ -6996,7 +6995,6 @@ void game::list_items()
     int iActiveY = 0;
     int iLastActiveX = -1;
     int iLastActiveY = -1;
-    std::vector<point> vPoint;
     InputEvent input = Undefined;
     long ch = 0; //this is a long because getch returns a long
     bool reset = true;
@@ -7207,7 +7205,7 @@ void game::list_items()
                         u.view_offset_y = (abs(iActiveY) > VIEWY) ? ((iActiveY < 0) ? VIEWY+iActiveY : iActiveY-VIEWY) : 0;
                     }
 
-                    draw_trail_to_square(vPoint, iActiveX, iActiveY);
+                    draw_trail_to_square(iActiveX, iActiveY);
                 }
 
                 wrefresh(w_items);
