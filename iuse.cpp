@@ -1444,9 +1444,14 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
     if (it->charges == 0)
         g->add_msg_if_player(p,_("You need batteries to cauterize wounds."));
 
-    else if (!p->has_disease("bite") && !p->has_disease("bleed"))
-        g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
-
+    else if (!p->has_disease("bite") && !p->has_disease("bleed")) {
+        if (p->has_trait("MASOCHIST") && query_yn(_("Cauterize yourself for fun?"))) {
+            it->charges -= 1;
+            p->cauterize(g);
+        } 
+        else
+            g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
+    }
     else if (p->is_npc() || query_yn(_("Cauterize any open wounds?")))
     {
         it->charges -= 1;
@@ -1457,8 +1462,17 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 void iuse::solder_weld(game *g, player *p, item *it, bool t)
 {
     it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
-    int choice = menu(true,
-    _("Using soldering item:"), _("Cauterize wound"), _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
+    int choice = 2;
+    
+        // Option for cauterization only if player has the incentive to do so
+        // One does not check for open wounds with a soldering iron.
+    if (p->has_disease("bite") || p->has_disease("bleed")) {
+        choice = menu(true, ("Using soldering item:"), _("Cauterize wound"), _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
+    }
+    else if (p->has_trait("MASOCHIST")) {   // Masochists might be wounded too, let's not ask twice.
+        choice = menu(true, ("Using soldering item:"), _("Cauterize yourself for fun"), _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
+    }
+    
     switch (choice)
     {
         case 1:
