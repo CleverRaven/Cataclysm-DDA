@@ -63,6 +63,7 @@
          "pants_cargo",
          "sneakers",
          "weed",
+         "rolling_paper",
          "picklocks"
       ],
       "name":"Scoundrel",
@@ -478,7 +479,7 @@
       "description":"The apocalypse has been your psychotic dream come true. Now that the system is dead, it's time to party among the bones of the world!",
       "points": 2,
       "items": ["skirt", "corset", "trenchcoat", "gloves_fingerless", "boots_combat",
-                "weed", "cig", "mp3", "ref_lighter"]
+                "weed", "rolling_paper", "cig", "mp3", "ref_lighter"]
    },
    {
      "ident": "junkie",
