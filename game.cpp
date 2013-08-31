@@ -3021,7 +3021,7 @@ void game::load(std::string name)
  // Now that the player's worn items are updated, their sight limits need to be
  // recalculated. (This would be cleaner if u.worn were private.)
  u.recalc_sight_limits();
- 
+
 // Now dump tmpinv into the player's inventory
  u.inv.add_stack(tmpinv);
  fin.close();
@@ -3041,7 +3041,7 @@ void game::save_factions_missions_npcs ()
 {
 	std::stringstream masterfile;
 	std::ofstream fout;
-    masterfile << "save/master.gsav";
+    masterfile << "save/" << active_world << "/master.gsav";
 
     fout.open(masterfile.str().c_str());
 
@@ -3061,7 +3061,10 @@ void game::save_artifacts()
 {
     std::ofstream fout;
     std::vector<picojson::value> artifacts;
-    fout.open("save/artifacts.gsav");
+    std::stringstream artifactfile;
+    artifactfile << "save/" << active_world << "/artifacts.gsav";
+
+    fout.open(artifactfile.str().c_str());
     for ( std::vector<std::string>::iterator it =
 	      artifact_itype_ids.begin();
 	  it != artifact_itype_ids.end(); ++it)
@@ -3081,9 +3084,9 @@ void game::save_maps()
 }
 
 void game::save_uistate() {
-    const std::string savedir="save";
+    const std::string savedir="save/";
     std::stringstream savefile;
-    savefile << savedir << "/uistate.json";
+    savefile << savedir << active_world << "/uistate.json";
     std::ofstream fout;
     fout.open(savefile.str().c_str());
     fout << uistate.save();
@@ -3110,7 +3113,7 @@ void game::save()
 {
  std::stringstream playerfile;
  std::ofstream fout;
- playerfile << "save/" << base64_encode(u.name) << ".sav";
+ playerfile << "save/" << active_world << "/" << base64_encode(u.name) << ".sav";
 
  fout.open(playerfile.str().c_str());
  // First, write out basic game state information.
@@ -5034,7 +5037,7 @@ void game::monmove()
 bool game::sound(int x, int y, int vol, std::string description)
 {
     // Scale the sound a little.
-    vol *= 1.5; 
+    vol *= 1.5;
 
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {

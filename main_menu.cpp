@@ -202,6 +202,10 @@ bool game::opening_screen()
 
     std::vector<std::string> savegames, templates;
 
+    world_name_keys.clear();
+    world_save_data.clear();
+    active_world.clear();
+
 
     struct dirent *dp;
     DIR *dir = opendir("save");
@@ -228,8 +232,8 @@ bool game::opening_screen()
     }
     closedir(dir);
 
-    std::map<std::string, std::vector<std::string> > world_save_data = get_save_data();
-    std::vector<std::string> world_name_keys;
+    world_save_data = get_save_data();
+
     for (std::map<std::string, std::vector<std::string> >::iterator it = world_save_data.begin(); it != world_save_data.end(); ++it)
     {
         world_name_keys.push_back(it->first);
@@ -540,7 +544,9 @@ bool game::opening_screen()
                     if (sel3 >= 0 && sel3 < savegames.size()) {
                         werase(w_background);
                         wrefresh(w_background);
-                        load_from(world_name_keys[sel2], savegames[sel3]);
+                        active_world = world_name_keys[sel2];
+
+                        load_from(active_world, savegames[sel3]);
                         start = true;
                     }
                 }

@@ -350,6 +350,8 @@ void load_artifacts(); // Load artifact data
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
 
+  std::string active_world;
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -571,6 +573,10 @@ void load_artifacts(); // Load artifact data
   special_game *gamemode;
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
+
+  std::map<std::string, std::vector<std::string> > world_save_data;
+  std::vector<std::string> world_name_keys;
+
 };
 
 #endif
