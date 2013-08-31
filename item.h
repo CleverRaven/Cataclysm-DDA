@@ -203,30 +203,58 @@ private:
 std::ostream & operator<<(std::ostream &, const item &);
 std::ostream & operator<<(std::ostream &, const item *);
 
-struct map_item_stack
+class map_item_stack
 {
-public:
-    item example; //an example item for showing stats, etc.
-    int x;
-    int y;
-    int count;
+    private:
+        class item_group
+        {
+            public:
+                int x;
+                int y;
+                int count;
 
-    //only expected to be used for things like lists and vectors
-    map_item_stack()
-    {
-        example = item();
-        x = 0;
-        y = 0;
-        count = 0;
-    }
+                //only expected to be used for things like lists and vectors
+                item_group() {
+                    x = 0;
+                    y = 0;
+                    count = 0;
+                }
 
-    map_item_stack(item it, int arg_x, int arg_y)
-    {
-        example = it;
-        x = arg_x;
-        y = arg_y;
-        count = 1;
-    }
+                item_group(const int arg_x, const int arg_y, const int arg_count) {
+                    x = arg_x;
+                    y = arg_y;
+                    count = arg_count;
+                }
+
+                ~item_group() {};
+        };
+    public:
+        item example; //an example item for showing stats, etc.
+        std::vector<item_group> vIG;
+
+        //only expected to be used for things like lists and vectors
+        map_item_stack() {
+            example = item();
+            vIG.push_back(item_group());
+        }
+
+        map_item_stack(const item it, const int arg_x, const int arg_y) {
+            example = it;
+            vIG.push_back(item_group(arg_x, arg_y, 1));
+        }
+
+        ~map_item_stack() {};
+
+        void addNewPos(const int arg_x, const int arg_y) {
+            vIG.push_back(item_group(arg_x, arg_y, 1));
+        }
+
+        void incCount() {
+            const int iVGsize = vIG.size();
+            if (iVGsize > 0) {
+                vIG[iVGsize-1].count++;
+            }
+        }
 };
 
 //the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
