@@ -809,6 +809,20 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
     return 1;
 }
 
+inline bool profession_display_sort(const profession *a, const profession *b)
+{
+    // The generic ("Unemployed") profession should be listed first.
+    const profession *gen = profession::generic();
+    if (b == gen) {
+        return false;
+    } else if (a == gen) {
+        return true;
+    }
+
+    return a->name() < b->name();
+}
+
+
 int set_profession(WINDOW* w, game* g, player *u, character_type type, int &points)
 {
     draw_tabs(w, "PROFESSION");
@@ -819,12 +833,18 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
     int retval = 0;
 
     //may as well stick that +1 on for convenience
-    profession const** sorted_profs = new profession const*[profession::count()+1];
+    //std::vector<profession const *> sorted_profs;
+    std::vector<const profession *> sorted_profs;
+    sorted_profs.resize(profession::count() + 1);
+    //profession const** sorted_profs = new profession const*[profession::count()+1];
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter)
     {
         profession const* prof = &(iter->second);
         sorted_profs[prof->id()] = prof;
     }
+    
+    // Sort professions by name, but leave Unemployed at the top.
+    std::sort(sorted_profs.begin() + 1, sorted_profs.end(), profession_display_sort);
 
     do
     {
@@ -892,14 +912,16 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         {
             case 'j':
             case '2':
-                if (cur_id < profession::count())
                 cur_id++;
+                if (cur_id > profession::count())
+                    cur_id = 1;
             break;
 
             case 'k':
             case '8':
-                if (cur_id > 1)
                 cur_id--;
+                if (cur_id < 1)
+                    cur_id = profession::count();
             break;
 
             case '\n':
@@ -918,7 +940,6 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         }
     } while (retval == 0);
 
-    delete[] sorted_profs;
     return retval;
 }
 
@@ -1000,14 +1021,16 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
   switch (input()) {
     case 'j':
     case '2':
-     if (cur_sk < Skill::skills.size() - 1)
-      cur_sk++;
-    currentSkill = Skill::skill(cur_sk);
+     cur_sk++;
+     if (cur_sk >= Skill::skills.size())
+      cur_sk = 0;
+     currentSkill = Skill::skill(cur_sk);
     break;
     case 'k':
     case '8':
-    if (cur_sk > 0)
      cur_sk--;
+     if (cur_sk < 0)
+      cur_sk = Skill::skills.size() - 1;
     currentSkill = Skill::skill(cur_sk);
     break;
     case 'h':
