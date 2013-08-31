@@ -243,7 +243,7 @@ class game
   std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack, std::string filter);
   std::vector<map_item_stack> find_nearby_items(int search_x, int search_y);
   std::string ask_item_filter(WINDOW* window, int rows);
-  void draw_trail_to_square(std::vector<point>& vPoint, int x, int y);
+  void draw_trail_to_square(int x, int y);
   void reset_item_list_state(WINDOW* window, int height);
   std::string sFilter; // this is a member so that it's remembered over time
   std::string list_item_upvote;

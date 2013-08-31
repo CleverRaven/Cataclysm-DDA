@@ -2364,9 +2364,10 @@ void game::place_corpse()
   your_body.name = u.name;
   for (int i = 0; i < tmp.size(); i++)
     m.add_item_or_charges(u.posx, u.posy, *(tmp[i]));
-  for (int i = 0; i < u.my_bionics.size(); i++) {
-    if (itypes.find(u.my_bionics[i].id) != itypes.end()) {
-      your_body.contents.push_back(item(itypes[u.my_bionics[i].id], turn));
+  for (int i = 0; i < u.num_bionics(); i++) {
+    bionic &b = u.bionic_at_index(i);
+    if (itypes.find(b.id) != itypes.end()) {
+      your_body.contents.push_back(item(itypes[b.id], turn));
     }
   }
   int pow = u.max_power_level;
@@ -2790,6 +2791,10 @@ void game::load(std::string name)
    }
   }
  }
+ // Now that the player's worn items are updated, their sight limits need to be
+ // recalculated. (This would be cleaner if u.worn were private.)
+ u.recalc_sight_limits();
+ 
 // Now dump tmpinv into the player's inventory
  u.inv.add_stack(tmpinv);
  fin.close();
@@ -4682,7 +4687,17 @@ void game::cleanup_dead()
 
 void game::monmove()
 {
- cleanup_dead();
+    cleanup_dead();
+
+    // monster::plan() needs to know about all monsters with nonzero friendliness.
+    // We'll build this list once (instead of once per monster) for speed.
+    std::vector<int> friendlies;
+    for (int i = 0, numz = num_zombies(); i < numz; i++) {
+        if (zombie(i).friendly) {
+            friendlies.push_back(i);
+        }
+    }
+
  for (int i = 0; i < num_zombies(); i++) {
   monster &z = _z[i];
   while (!z.dead && !z.can_move_to(this, z.posx(), z.posy())) {
@@ -4722,7 +4737,7 @@ void game::monmove()
 
   while (z.moves > 0 && !z.dead) {
    z.made_footstep = false;
-   z.plan(this);	// Formulate a path to follow
+   z.plan(this, friendlies);	// Formulate a path to follow
    z.move(this);	// Move one square, possibly hit u
    z.process_triggers(this);
    m.mon_in_field(z.posx(), z.posy(), this, &z);
@@ -4791,17 +4806,26 @@ void game::monmove()
 
 bool game::sound(int x, int y, int vol, std::string description)
 {
- vol *= 1.5; // Scale it a little
-// First, alert all monsters (that can hear) to the sound
- for (int i = 0; i < num_zombies(); i++) {
-  monster &z = _z[i];
-  if (z.can_hear()) {
-   int dist = rl_dist(x, y, z.posx(), z.posy());
-   int volume = vol - (z.has_flag(MF_GOODHEARING) ? int(dist / 2) : dist);
-   z.wander_to(x, y, volume);
-   z.process_trigger(MTRIG_SOUND, volume);
-  }
- }
+    // Scale the sound a little.
+    vol *= 1.5; 
+
+    // Alert all monsters (that can hear) to the sound.
+    for (int i = 0, numz = num_zombies(); i < numz; i++) {
+        monster &z = _z[i];
+        // rl_dist() is faster than z.has_flag() or z.can_hear(), so we'll check it first.
+        int dist = rl_dist(x, y, z.posx(), z.posy());
+        int vol_goodhearing = vol - int(dist / 2);
+        if (vol_goodhearing > 0 && z.can_hear()) {
+            const bool goodhearing = z.has_flag(MF_GOODHEARING);
+            int volume = goodhearing ? vol_goodhearing : (vol - dist);
+            if (volume > 0) {
+                int wander_turns = volume * (goodhearing ? 6 : 1);
+                z.wander_to(x, y, wander_turns);
+                z.process_trigger(MTRIG_SOUND, volume);
+            }
+        }
+    }
+
 // Loud sounds make the next spawn sooner!
  int spawn_range = int(MAPSIZE / 2) * SEEX;
  if (vol >= spawn_range) {
@@ -6842,26 +6866,23 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
 }
 
 
-void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
+void game::draw_trail_to_square(int x, int y)
 {
-    //Remove previous trail, if any
-    for (int i = 0; i < vPoint.size(); i++)
-    {
-        m.drawsq(w_terrain, u, vPoint[i].x, vPoint[i].y, false, true);
-    }
+    //Reset terrain
+    draw_ter();
 
-    //Draw new trail
-    vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
-    draw_line(x, y, vPoint);
-    /*
+    //Draw trail
+    point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
+    std::vector<point> vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
+
     for (int i = 1; i < vPoint.size(); i++)
     {
-        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
+        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true, center.x, center.y);
     }
 
     mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
                         vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
-    */
+
     wrefresh(w_terrain);
 }
 
@@ -6991,6 +7012,9 @@ void game::list_items()
     const int iStoreViewOffsetX = u.view_offset_x;
     const int iStoreViewOffsetY = u.view_offset_y;
 
+    u.view_offset_x = 0;
+    u.view_offset_y = 0;
+
     int iActive = 0; // Item index that we're looking at
     const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
     int iStartPos = 0;
@@ -6998,20 +7022,17 @@ void game::list_items()
     int iActiveY = 0;
     int iLastActiveX = -1;
     int iLastActiveY = -1;
-    std::vector<point> vPoint;
     InputEvent input = Undefined;
     long ch = 0; //this is a long because getch returns a long
     bool reset = true;
     bool refilter = true;
     int iFilter = 0;
     bool bStopDrawing = false;
+
     do
     {
         if (ground_items.size() > 0)
         {
-            u.view_offset_x = 0;
-            u.view_offset_y = 0;
-
             if (ch == 'I' || ch == 'c' || ch == 'C')
             {
                 compare(iActiveX, iActiveY);
@@ -7150,6 +7171,7 @@ void game::list_items()
                         {
                             iActiveX = iter->x;
                             iActiveY = iter->y;
+
                             sActiveItemName = iter->example.tname(this);
                             activeItem = iter->example;
                         }
@@ -7203,7 +7225,14 @@ void game::list_items()
                     iLastActiveX = iActiveX;
                     iLastActiveY = iActiveY;
 
-                    draw_trail_to_square(vPoint, iActiveX, iActiveY);
+                    if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
+                        std::stringstream ssTemp;
+
+                        u.view_offset_x = (abs(iActiveX) > VIEWX) ? ((iActiveX < 0) ? VIEWX+iActiveX : iActiveX-VIEWX) : 0;
+                        u.view_offset_y = (abs(iActiveY) > VIEWY) ? ((iActiveY < 0) ? VIEWY+iActiveY : iActiveY-VIEWY) : 0;
+                    }
+
+                    draw_trail_to_square(iActiveX, iActiveY);
                 }
 
                 wrefresh(w_items);
@@ -9428,8 +9457,7 @@ void game::plmove(int dx, int dy)
 
 
  if (m.move_cost(x, y) > 0) { // move_cost() of 0 = impassible (e.g. a wall)
-  if (u.underwater)
-   u.underwater = false;
+  u.set_underwater(false);
 
   //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
   field_entry *cur = NULL;
@@ -9775,15 +9803,15 @@ void game::plswim(int x, int y)
   u.rem_disease("onfire");
  }
  int movecost = u.swim_speed();
- u.practice(turn, "swimming", u.underwater ? 2 : 1);
+ u.practice(turn, "swimming", u.is_underwater() ? 2 : 1);
  if (movecost >= 500) {
-  if (!u.underwater) {
+  if (!u.is_underwater()) {
     add_msg(_("You sink like a rock!"));
-   u.underwater = true;
+   u.set_underwater(true);
    u.oxygen = 30 + 2 * u.str_cur;
   }
  }
- if (u.oxygen <= 5 && u.underwater) {
+ if (u.oxygen <= 5 && u.is_underwater()) {
   if (movecost < 500)
     popup(_("You need to breathe! (%s to surface.)"),
           press_x(ACTION_MOVE_UP).c_str());
@@ -9799,7 +9827,7 @@ void game::plswim(int x, int y)
  if (get_temperature() <= 50)
    drenchFlags |= mfb(bp_hands);
 
- if (u.underwater)
+ if (u.is_underwater())
    drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_hands);
 
  u.drench(this, 100, drenchFlags);
@@ -9951,7 +9979,7 @@ void game::vertical_move(int movez, bool force)
 // > and < are used for diving underwater.
  if (m.move_cost(u.posx, u.posy) == 0 && m.has_flag(swimmable, u.posx, u.posy)){
   if (movez == -1) {
-   if (u.underwater) {
+   if (u.is_underwater()) {
     add_msg(_("You are already underwater!"));
     return;
    }
@@ -9959,12 +9987,12 @@ void game::vertical_move(int movez, bool force)
     add_msg(_("You can't dive while wearing a flotation device."));
     return;
    }
-   u.underwater = true;
+   u.set_underwater(true);
    u.oxygen = 30 + 2 * u.str_cur;
    add_msg(_("You dive underwater!"));
   } else {
    if (u.swim_speed() < 500) {
-    u.underwater = false;
+    u.set_underwater(false);
     add_msg(_("You surface."));
    } else
     add_msg(_("You can't surface!"));

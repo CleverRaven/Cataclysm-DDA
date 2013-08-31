@@ -587,7 +587,7 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
   case 5: g->add_msg(_("You screw up the installation.")); break;
  }
 
- if (fail_type == 3 && u->my_bionics.size() == 0)
+ if (fail_type == 3 && u->num_bionics() == 0)
   fail_type = 2; // If we have no bionics, take damage instead of losing some
 
  switch (fail_type) {
@@ -603,15 +603,12 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
   break;
 
  case 3:
-  if (u->my_bionics.size() <= failure_level) {
+  if (u->num_bionics() <= failure_level) {
     g->add_msg(_("All of your existing bionics are lost!"));
   } else {
     g->add_msg(_("Some of your existing bionics are lost!"));
   }
-  for (int i = 0; i < failure_level && u->my_bionics.size() > 0; i++) {
-   int rem = rng(0, u->my_bionics.size() - 1);
-   u->my_bionics.erase(u->my_bionics.begin() + rem);
-  }
+  for (int i = 0; i < failure_level && u->remove_random_bionic(); i++);
   break;
 
  case 4:
