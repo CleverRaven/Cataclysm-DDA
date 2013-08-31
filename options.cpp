@@ -9,6 +9,7 @@
 #include <string>
 
 bool trigdist;
+bool use_tiles;
 
 std::map<std::string, cOpt> OPTIONS;
 std::vector<std::string> vPages;
@@ -249,7 +250,10 @@ void initOptions() {
                                              _("If true, shift the view toward the selected item if it is outside of your current viewport."),
                                              true
                                             );
-
+    OPTIONS["USE_TILES"] =              cOpt(mPage["interface"], _("Use Tiles"),
+                                             _("If true, replaces some TTF rendered text with Tiles. Only applicable on SDL builds. Requires restart."),
+                                             true
+                                             );
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         mPageItems[(iter->second).getPage()].push_back(iter->first);
     }
@@ -476,8 +480,13 @@ void load_options()
     fin.close();
 
     trigdist = false; // cache to global due to heavy usage.
+    use_tiles = false; // cache to global due to heavy usage.
     if(OPTIONS["CIRCLEDIST"]) {
         trigdist=true;
+    }
+    if(OPTIONS["USE_TILES"])
+    {
+        use_tiles = true;
     }
 }
 

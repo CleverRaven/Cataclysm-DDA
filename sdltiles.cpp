@@ -330,7 +330,7 @@ void curses_drawwindow(WINDOW *win)
     };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
 
-    if (g && win == g->w_terrain)
+    if (g && win == g->w_terrain && use_tiles)
     {
         update_rect.y = win->y*fontheight;
 		update_rect.h = win->height*fontheight;

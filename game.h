@@ -44,6 +44,8 @@ extern game *g;
 
 #define PICKUP_RANGE 2
 extern bool trigdist;
+extern bool use_tiles;
+
 enum tut_type {
  TUT_NULL,
  TUT_BASIC, TUT_COMBAT,
