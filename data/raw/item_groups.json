@@ -1166,7 +1166,7 @@
       ["raging_bull", 1],
       ["sw_500", 1],
       ["v29_cheap", 3],
-      ["rm99_pistol", 1],
+      ["rm99_pistol", 2],
       ["rm103a_pistol", 1]
     ]
   },
@@ -1188,7 +1188,9 @@
       ["remington_700", 14],
       ["sks", 12],
       ["ruger_mini", 12],
-      ["savage_111f", 10]
+      ["savage_111f", 10],
+      ["rm51_assault_rifle", 2],
+      ["rm88_battle_rifle", 1]
     ]
   },
   { "id":"smg",
@@ -1202,7 +1204,8 @@
       ["hk_ump45", 12],
       ["TDI", 4],
       ["fn_p90", 7],
-      ["hk_mp7", 5]
+      ["hk_mp7", 5],
+      ["rm2000_smg", 1]
     ]
   },
   { "id":"assault",
@@ -1278,7 +1281,7 @@
       ["rm51_assault_rifle", 1],
       ["rm88_battle_rifle", 1],
       ["rm2000_smg", 1],
-      ["rm99_pistol", 1],
+      ["rm99_pistol", 2],
       ["rm103a_pistol", 1],
       ["blowgun", 5]
     ]
