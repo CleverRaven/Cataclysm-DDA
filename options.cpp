@@ -145,6 +145,11 @@ void initOptions() {
                                              0.0, 50.0, 1.0, 0.1
                                             );
 
+    OPTIONS["CITY_SIZE"] =              cOpt(mPage["general"], _("Size of cities"),
+                                             _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
+                                             4, 16, 4
+                                            );
+
     OPTIONS["INITIAL_TIME"] =           cOpt(mPage["debug"], _("Initial time"),
                                              _("Initial starting time of day on character generation."),
                                              0, 23, 8
