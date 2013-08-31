@@ -927,7 +927,7 @@ void monster::stumble(game *g, bool moved)
   for (int j = -1; j <= 1; j++) {
    const int nx = posx() + i;
    const int ny = posy() + j;
-   if (can_move_to(g, nx, ny) &&
+   if ((i || j) && can_move_to(g, nx, ny) &&
        //Stop zombies and other non-breathing monsters wandering INTO water
        //(Unless they can swim/are aquatic)
        //But let them wander OUT of water if they are there.
@@ -935,7 +935,7 @@ void monster::stumble(game *g, bool moved)
            && g->m.has_flag(swimmable, nx, ny)
            && !g->m.has_flag(swimmable, posx(), posy())) &&
        (g->u.posx != nx || g->u.posy != ny) &&
-       (g->mon_at(nx, ny) == -1 || (i == 0 && j == 0))) {
+       (g->mon_at(nx, ny) == -1)) {
     point tmp(nx, ny);
     valid_stumbles.push_back(tmp);
    }

@@ -98,16 +98,17 @@ monster::~monster()
 {
 }
 
-void monster::setpos(const int x, const int y)
+bool monster::setpos(const int x, const int y)
 {
-    g->update_zombie_pos(*this, x, y);
+    bool ret = g->update_zombie_pos(*this, x, y);
     _posx = x;
     _posy = y;
+    return ret;
 }
 
-void monster::setpos(const point &p)
+bool monster::setpos(const point &p)
 {
-    setpos(p.x, p.y);
+    return setpos(p.x, p.y);
 }
 
 void monster::poly(mtype *t)
@@ -124,7 +125,8 @@ void monster::poly(mtype *t)
 
 void monster::spawn(int x, int y)
 {
- setpos(x, y);
+    _posx = x;
+    _posy = y;
 }
 
 std::string monster::name()
@@ -344,7 +346,8 @@ void monster::debug(player &u)
 
 void monster::shift(int sx, int sy)
 {
- setpos(_posx - sx * SEEX, _posy - sy * SEEY);
+ _posx -= sx * SEEX;
+ _posy -= sy * SEEY;
  for (int i = 0; i < plans.size(); i++) {
   plans[i].x -= sx * SEEX;
   plans[i].y -= sy * SEEY;
