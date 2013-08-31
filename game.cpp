@@ -5730,17 +5730,12 @@ bool game::update_zombie_pos(const monster &m, const int newx, const int newy)
 void game::remove_zombie(const int idx)
 {
     monster& m = _z[idx];
-    int prev = mon_at(m.posx(), m.posy());
+    const point oldloc(m.posx(), m.posy());
+    const std::map<point, int>::const_iterator i = z_at.find(oldloc);
+    const int prev = (i == z_at.end() ? -1 : i->second);
 
-    if (prev >= 0) {
-        if (&_z[prev] == &m) {
-            z_at.erase(point(m.posx(), m.posy()));
-        } else if (!m.dead) {
-            // It's possible that this zombie has been overwritten by another in
-            // z_at. This should only have happened if this zombie is dead.
-            debugmsg("removing monster %d from %d,%d, but monster %d exists here instead",
-                    idx, m.posx(), m.posy(), prev);
-        }
+    if (prev == idx) {
+        z_at.erase(oldloc);
     }
 
     _z.erase(_z.begin() + idx);
