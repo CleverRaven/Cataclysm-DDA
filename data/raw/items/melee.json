@@ -1954,6 +1954,21 @@
     "flags" : ["WATCH", "ALARMCLOCK"]
   },
   {
+    "id" : "pocketwatch",
+    "name" : "pocket watch",
+    "description" : "An old fashioned pocket watch. This one tells you the time and looks good doing it. Can also be disassembled into some useful parts.",
+    "weight" : 42,
+    "to_hit" : -3,
+    "color" : "light_gray",
+    "symbol" : ",",
+    "material" : ["steel", "glass"],
+    "volume" : 0,
+    "bashing" : -8,
+    "cutting" : 0,
+    "price" : 250,
+    "flags" : ["WATCH"]
+  },
+  {
     "id" : "umbrella",
     "symbol" : "/",
     "color": "magenta",
