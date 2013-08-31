@@ -108,10 +108,24 @@ void mapbuffer::save()
    fout << std::endl;
   }
  // Dump the radiation
+  int lastrad = -1;
+  int count = 0;
   for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++)
-    fout << sm->rad[i][j] << " ";
+   for (int i = 0; i < SEEX; i++) {
+    int r = sm->rad[i][j];
+    if (r == lastrad) {
+     count++;
+    } else {
+     if (count) {
+      fout << count << " ";
+     }
+     fout << r << " ";
+     lastrad = r;
+     count = 1;
+    }
+   }
   }
+  fout << count;
   fout << std::endl;
 
  // Furniture
@@ -244,13 +258,19 @@ void mapbuffer::load()
    }
   }
 // Load irradiation
+
+  int radtmp;
+  int count = 0;
   for (int j = 0; j < SEEY; j++) {
    for (int i = 0; i < SEEX; i++) {
-    int radtmp;
-    fin >> radtmp;
-    radtmp -= int(turndif / 100);	// Radiation slowly decays
-    if (radtmp < 0)
-     radtmp = 0;
+    if (count == 0) {
+     fin >> radtmp >> count;
+     radtmp -= int(turndif / 100);	// Radiation slowly decays
+     if (radtmp < 0) {
+      radtmp = 0;
+     }
+    }
+    count--;
     sm->rad[i][j] = radtmp;
    }
   }
