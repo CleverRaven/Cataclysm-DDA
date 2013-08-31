@@ -56,10 +56,14 @@ std::string get_input_string_from_file(std::string fname="input.txt");
 #define JOY_6        6
 #define JOY_7        7
 
-#define JOY_LEFT     256 + 1
-#define JOY_RIGHT    256 + 2
-#define JOY_UP       256 + 3
-#define JOY_DOWN     256 + 4
+#define JOY_LEFT        256 + 1
+#define JOY_RIGHT       256 + 2
+#define JOY_UP          256 + 3
+#define JOY_DOWN        256 + 4
+#define JOY_RIGHTUP     256 + 5
+#define JOY_RIGHTDOWN   256 + 6
+#define JOY_LEFTUP      256 + 7
+#define JOY_LEFTDOWN    256 + 8
 
 enum input_event_t {
     INPUT_ERROR,

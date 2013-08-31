@@ -246,6 +246,10 @@ void input_manager::init_keycode_mapping() {
     add_keycode_pair(JOY_RIGHT,     "JOY_RIGHT");
     add_keycode_pair(JOY_UP,        "JOY_UP");
     add_keycode_pair(JOY_DOWN,      "JOY_DOWN");
+    add_keycode_pair(JOY_LEFTUP,    "JOY_LEFTUP");
+    add_keycode_pair(JOY_LEFTDOWN,  "JOY_LEFTDOWN");
+    add_keycode_pair(JOY_RIGHTUP,   "JOY_RIGHTUP");
+    add_keycode_pair(JOY_RIGHTDOWN, "JOY_RIGHTDOWN");
 
     add_keycode_pair(JOY_0,         "JOY_0");
     add_keycode_pair(JOY_1,         "JOY_1");

@@ -78,6 +78,10 @@
             {
                 "input_method":"keyboard",
                 "key":"u"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_LEFTUP"
             }
         ]
     },
@@ -88,6 +92,10 @@
             {
                 "input_method":"keyboard",
                 "key":"i"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_RIGHTUP"
             }
         ]
     },
@@ -98,6 +106,10 @@
             {
                 "input_method":"keyboard",
                 "key":"n"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_LEFTDOWN"
             }
         ]
     },
@@ -108,6 +120,10 @@
             {
                 "input_method":"keyboard",
                 "key":"m"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_RIGHTDOWN"
             }
         ]
     },

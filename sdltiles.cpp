@@ -70,6 +70,11 @@ int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
 bool lastchar_isbutton; // Whether lastchar was a gamepad button press rather than a keypress.
 int inputdelay;         //How long getch will wait for a character to be typed
+int delaydpad = -1;     // Used for entering diagonal directions with d-pad.
+int dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
+bool dpad_continuous = false;  // Whether we're currently moving continously with the dpad.
+int lastdpad = ERR;      // Keeps track of the last dpad press.
+int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
 //WINDOW *_windows;  //Probably need to change this to dynamic at some point
 //int WindowCount;        //The number of curses windows currently in use
 int fontwidth;          //the width of the font, background is always this size
@@ -525,11 +530,89 @@ static int end_alt_code()
     return atoi(alt_buffer);
 }
 
+int HandleDPad()
+{
+    // Check if we have a gamepad d-pad event.
+    if(SDL_JoystickGetHat(joystick, 0) != SDL_HAT_CENTERED) {
+        // When someone tries to press a diagonal, they likely will
+        // press a single direction first. Wait a few milliseconds to
+        // give them time to press both of the buttons for the diagonal.
+        int button = SDL_JoystickGetHat(joystick, 0);
+        int lc = ERR;
+        if(button == SDL_HAT_LEFT) {
+            lc = JOY_LEFT;
+        } else if(button == SDL_HAT_DOWN) {
+            lc = JOY_DOWN;
+        } else if(button == SDL_HAT_RIGHT) {
+            lc = JOY_RIGHT;
+        } else if(button == SDL_HAT_UP) {
+            lc = JOY_UP;
+        } else if(button == SDL_HAT_LEFTUP) {
+            lc = JOY_LEFTUP;
+        } else if(button == SDL_HAT_LEFTDOWN) {
+            lc = JOY_LEFTDOWN;
+        } else if(button == SDL_HAT_RIGHTUP) {
+            lc = JOY_RIGHTUP;
+        } else if(button == SDL_HAT_RIGHTDOWN) {
+            lc = JOY_RIGHTDOWN;
+        }
+        
+        if(delaydpad == -1) {
+            delaydpad = SDL_GetTicks() + dpad_delay;
+            queued_dpad = lc;
+        }
+        
+        // Okay it seems we're ready to process.
+        if(SDL_GetTicks() > delaydpad) {
+
+            if(lc != ERR) {
+                if(dpad_continuous && (lc & lastdpad) == 0) {
+                    // Continuous movement should only work in the same or similar directions.
+                    dpad_continuous = false;
+                    lastdpad = lc;
+                    return 0;
+                }
+                
+                lastchar_isbutton = true;
+                lastchar = lc;
+                lastdpad = lc;
+                queued_dpad = ERR;
+                
+                if(dpad_continuous == false) {
+                    delaydpad = SDL_GetTicks() + 200;
+                    dpad_continuous = true;
+                } else {
+                    delaydpad = SDL_GetTicks() + 60;
+                }
+                return 1;
+            }
+        }
+    } else {
+        dpad_continuous = false;
+        delaydpad = -1;
+        
+        // If we didn't hold it down for a while, just
+        // fire the last registered press.
+        if(queued_dpad != ERR) {
+            lastchar = queued_dpad;
+            lastchar_isbutton = true;
+            queued_dpad = ERR;
+            return 1;
+        }
+    }
+    
+    return 0;
+}
+
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
     SDL_Event ev;
     bool quit = false;
+    if(HandleDPad()) {
+        return;
+    }
+    
     while(SDL_PollEvent(&ev))
     {
         SDL_JoyAxisEvent *jaxis;
@@ -612,31 +695,6 @@ void CheckMessages()
                 // TODO: somehow get the "digipad" values from the axes
                 jaxis = &ev.jaxis;
                 //DebugLog() << "AXIS: " << (int) jaxis->axis << " " << jaxis->value << "\n";
-            break;
-            case SDL_JOYHATMOTION: { // on gamepads the joyhat is the d-pad
-                // TODO: detect if two directions are pressed at once, and if so, generate
-                // a diagonal press instead(so you can move diagonally with dpad).
-                jhat = &ev.jhat;
-                //DebugLog() << "BALL: " << (int) jhat->hat << " " << (int) jhat->value << "\n";
-
-                // TODO: when holding down the d-pad, keep generating button events.
-
-                int lc = ERR;
-                if(jhat->value == 8) {
-                    lc = JOY_LEFT;
-                } else if(jhat->value == 4) {
-                    lc = JOY_DOWN;
-                } else if(jhat->value == 2) {
-                    lc = JOY_RIGHT;
-                } else if(jhat->value == 1) {
-                    lc = JOY_UP;
-                }
-
-                if(lc != ERR) {
-                    lastchar_isbutton = true;
-                    lastchar = lc;
-                }
-            }
             break;
             case SDL_MOUSEMOTION:
                 if((OPTIONS["HIDE_CURSOR"] == "show" || OPTIONS["HIDE_CURSOR"] == "hidekb") &&
