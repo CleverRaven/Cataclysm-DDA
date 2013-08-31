@@ -149,10 +149,10 @@ class game
   int  npc_by_id(const int id) const;	// Index of the npc at (x, y); -1 for none
  // void build_monmap();		// Caches data for mon_at()
 
-  void add_zombie(monster& m);
+  bool add_zombie(monster& m);
   size_t num_zombies() const;
   monster& zombie(const int idx);
-  void update_zombie_pos(const monster &m, const int newx, const int newy);
+  bool update_zombie_pos(const monster &m, const int newx, const int newy);
   void remove_zombie(const int idx);
   void clear_zombies();
 
@@ -497,6 +497,7 @@ void load_artifacts(); // Load artifact data
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(mon_id type, int x, int y, int z);// Picks a group from cur_om
   void set_adjacent_overmaps(bool from_scratch = false);
+  void rebuild_mon_at_cache();
 
 // Routine loop functions, approximately in order of execution
   void cleanup_dead();     // Delete any dead NPCs/monsters

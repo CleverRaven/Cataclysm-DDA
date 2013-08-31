@@ -202,9 +202,9 @@ class monster {
  bool dead;
  bool made_footstep;
  std::string unique_name; // If we're unique
- 
- void setpos(const int x, const int y);
- void setpos(const point &p);
+
+ bool setpos(const int x, const int y);
+ bool setpos(const point &p);
  inline int posx() const { return _posx; }
  inline int posy() const { return _posy; }
 

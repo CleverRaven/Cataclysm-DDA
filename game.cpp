@@ -4717,7 +4717,7 @@ void game::monmove()
    int starty = z.posy() - 3 * ydir, endy = z.posy() + 3 * ydir;
    for (int x = startx; x != endx && !okay; x += xdir) {
     for (int y = starty; y != endy && !okay; y += ydir){
-     if (z.can_move_to(this, x, y)) {
+     if (z.can_move_to(this, x, y) && is_empty(x, y)) {
       z.setpos(x, y);
       okay = true;
      }
@@ -5680,10 +5680,15 @@ int game::npc_by_id(const int id) const
  return -1;
 }
 
-void game::add_zombie(monster& m)
+bool game::add_zombie(monster& m)
 {
+    if (-1 != mon_at(m.posx(), m.posy())) {
+        debugmsg("add_zombie: there's already a monster at %d,%d", m.posx(), m.posy());
+        return false;
+    }
     z_at[point(m.posx(), m.posy())] = _z.size();
     _z.push_back(m);
+    return true;
 }
 
 size_t game::num_zombies() const
@@ -5696,23 +5701,43 @@ monster& game::zombie(const int idx)
     return _z[idx];
 }
 
-void game::update_zombie_pos(const monster &m, const int newx, const int newy)
+bool game::update_zombie_pos(const monster &m, const int newx, const int newy)
 {
+    bool success = false;
     const int zid = mon_at(m.posx(), m.posy());
-    if (zid != -1) {
-        z_at.erase(point(m.posx(), m.posy()));
-        z_at[point(newx, newy)] = zid;
-    }
-    else {
+    const int newzid = mon_at(newx, newy);
+    if (newzid >= 0 && !_z[newzid].dead) {
+        debugmsg("update_zombie_pos: new location %d,%d already has zombie %d",
+                newx, newy, newzid);
+    } else if (zid >= 0) {
+        if (&m == &_z[zid]) {
+            z_at.erase(point(m.posx(), m.posy()));
+            z_at[point(newx, newy)] = zid;
+            success = true;
+        } else {
+            debugmsg("update_zombie_pos: old location %d,%d had zombie %d instead",
+                    m.posx(), m.posy(), zid);
+        }
+    } else {
         // We're changing the x/y coordinates of a zombie that hasn't been added
         // to the game yet. add_zombie() will update z_at for us.
+        debugmsg("update_zombie_pos: no such zombie at %d,%d (moving to %d,%d)",
+                m.posx(), m.posy(), newx, newy);
     }
+    return success;
 }
 
 void game::remove_zombie(const int idx)
 {
     monster& m = _z[idx];
-    z_at.erase(point(m.posx(), m.posy()));
+    const point oldloc(m.posx(), m.posy());
+    const std::map<point, int>::const_iterator i = z_at.find(oldloc);
+    const int prev = (i == z_at.end() ? -1 : i->second);
+
+    if (prev == idx) {
+        z_at.erase(oldloc);
+    }
+
     _z.erase(_z.begin() + idx);
 
     // Fix indices in z_at for any zombies that were just moved down 1 place.
@@ -5739,6 +5764,15 @@ int game::mon_at(const int x, const int y) const
         }
     }
     return -1;
+}
+
+void game::rebuild_mon_at_cache()
+{
+    z_at.clear();
+    for (int i = 0, numz = num_zombies(); i < numz; i++) {
+        monster &m = _z[i];
+        z_at[point(m.posx(), m.posy())] = i;
+    }
 }
 
 bool game::is_empty(const int x, const int y)
@@ -10433,6 +10467,10 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
     i--;
   }
  }
+
+ // The order in which zombies are shifted may cause zombies to briefly exist on
+ // the same square. This messes up the mon_at cache, so we need to rebuild it.
+ rebuild_mon_at_cache();
 }
 
 void game::spawn_mon(int shiftx, int shifty)
