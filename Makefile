@@ -160,6 +160,7 @@ endif
 
 ifdef TILES
   SDL = 1
+  BINDIST_EXTRAS += gfx
 endif
 
 ifdef SDL
