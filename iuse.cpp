@@ -129,9 +129,13 @@ void iuse::none(game *g, player *p, item *it, bool t)
  */
 void iuse::sewage(game *g, player *p, item *it, bool t)
 {
- p->vomit(g);
- if (one_in(4))
-  p->mutate(g);
+  if(!p->is_npc()) {
+    p->add_memorial_log(_("Ate a sewage sample."));
+  }
+  p->vomit(g);
+  if (one_in(4)) {
+    p->mutate(g);
+  }
 }
 
 void iuse::honeycomb(game *g, player *p, item *it, bool t)
@@ -406,16 +410,7 @@ void iuse::pkill(game *g, player *p, item *it, bool t)
     // Aspirin
     if (it->has_flag("PKILL_1")) {
         g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
-        if (!p->has_disease("pkill1")) {
-            p->add_disease("pkill1", 120);
-        } else {
-            for (int i = 0; i < p->illness.size(); i++) {
-                if (p->illness[i].type == "pkill1") {
-                    p->illness[i].duration = 120;
-                    i = p->illness.size();
-                }
-            }
-        }
+        p->add_disease("pkill1", 120);
     // Codeine
     } else if (it->has_flag("PKILL_2")) {
         g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
@@ -481,10 +476,8 @@ void iuse::cig(game *g, player *p, item *it, bool t) {
     p->thirst += 2;
     p->hunger -= 3;
     p->add_disease("cig", 200);
-    for (int i = 0; i < p->illness.size(); i++) {
-        if (p->illness[i].type == "cig" && p->illness[i].duration > 600) {
-            g->add_msg_if_player(p,_("Ugh, too much smoke... you feel nasty."));
-        }
+    if (p->disease_level("cig") > 600) {
+        g->add_msg_if_player(p,_("Ugh, too much smoke... you feel nasty."));
     }
 }
 
@@ -686,6 +679,9 @@ void iuse::blech(game *g, player *p, item *it, bool t) {
 }
 
 void iuse::mutagen(game *g, player *p, item *it, bool t) {
+    if(!p->is_npc()) {
+      p->add_memorial_log(_("Consumed mutagen."));
+    }
     if( it->has_flag("MUTAGEN_STRONG") ) {
          p->mutate(g);
          if (!one_in(3))
@@ -764,6 +760,9 @@ void iuse::mutagen(game *g, player *p, item *it, bool t) {
 
 void iuse::purifier(game *g, player *p, item *it, bool t)
 {
+ if(!p->is_npc()) {
+  p->add_memorial_log(_("Consumed purifier."));
+ }
  std::vector<std::string> valid;	// Which flags the player has
  for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
   if (p->has_trait(iter->first) && !p->has_base_trait(iter->first))  //Looks for active mutation
@@ -1718,6 +1717,7 @@ _(
   bonus += fac->respects_u + 3 * fac->likes_u;
   if (bonus >= 25) {
    popup(_("They reply, \"Help is on the way!\""));
+   g->u.add_memorial_log(_("Called for help from %s."), fac->name.c_str());
    g->add_event(EVENT_HELP, int(g->turn) + fac->response_time(g), fac->id, -1, -1);
    fac->respects_u -= rng(0, 8);
    fac->likes_u -= rng(3, 5);
@@ -1729,7 +1729,7 @@ _(
    fac->respects_u -= rng(1, 8);
   }
 
- } else if (ch == '2') {	// Call Acquaitance
+ } else if (ch == '2') {	// Call Acquaintance
 // TODO: Implement me!
  } else if (ch == '3') {	// General S.O.S.
   p->moves -= 150;
@@ -1744,6 +1744,7 @@ _(
    npc* coming = in_range[rng(0, in_range.size() - 1)];
    popup(_("A reply!  %s says, \"I'm on my way; give me %d minutes!\""),
          coming->name.c_str(), coming->minutes_to_u(g));
+   g->u.add_memorial_log(_("Called for help from %s."), coming->name.c_str());
    coming->mission = NPC_MISSION_RESCUE_U;
   } else
    popup(_("No-one seems to reply..."));
@@ -1864,7 +1865,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
             {
                 tower = &g->cur_om->radios[k];
 
-                if( 0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
+                if(tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) > 0 &&
                     tower->frequency != old_frequency )
                 {
                     if( tower->frequency > old_frequency &&
@@ -2181,6 +2182,7 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
      g->m.spawn_item(dirx, diry, "manhole_cover", 0);
    }
    if ( type == t_door_locked_alarm ) {
+     g->u.add_memorial_log(_("Set off an alarm."));
     g->sound(p->posx, p->posy, 40, _("An alarm sounds!"));
     if (!g->event_queued(EVENT_WANTED)) {
      g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
@@ -3060,53 +3062,9 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                             }
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
-                            for (int i = 0; i < g->active_npc[npc_hit]->illness.size(); i++) {
-                                g->active_npc[npc_hit]->illness.erase(g->active_npc[npc_hit]->illness.begin() + i);
-                                i--;
-                            }
-                            for (int i = 0; i < g->active_npc[npc_hit]->addictions.size(); i++) {
-                                g->active_npc[npc_hit]->addictions.erase(g->active_npc[npc_hit]->addictions.begin() + i);
-                                i--;
-                            }
-                            for (int i = 0; i < g->active_npc[npc_hit]->morale.size(); i++) {
-                                g->active_npc[npc_hit]->morale.erase(g->active_npc[npc_hit]->morale.begin() + i);
-                                i--;
-                            }
-                            for (int part = 0; part < num_hp_parts; part++) {
-                                g->active_npc[npc_hit]->hp_cur[part] = g->active_npc[npc_hit]->hp_max[part];
-                            }
-                            g->active_npc[npc_hit]->hunger = 0;
-                            g->active_npc[npc_hit]->thirst = 0;
-                            g->active_npc[npc_hit]->fatigue = 0;
-                            g->active_npc[npc_hit]->health = 0;
-                            g->active_npc[npc_hit]->stim = 0;
-                            g->active_npc[npc_hit]->pain = 0;
-                            g->active_npc[npc_hit]->pkill = 0;
-                            g->active_npc[npc_hit]->radiation = 0;
+                            g->active_npc[npc_hit]->environmental_revert_effect();
                         } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
-                            for (int i = 0; i < g->u.illness.size(); i++) {
-                                g->u.illness.erase(g->u.illness.begin() + i);
-                                i--;
-                            }
-                            for (int i = 0; i < g->u.addictions.size(); i++) {
-                                g->u.addictions.erase(g->u.addictions.begin() + i);
-                                i--;
-                            }
-                            for (int i = 0; i < g->u.morale.size(); i++) {
-                                g->u.morale.erase(g->u.morale.begin() + i);
-                                i--;
-                            }
-                            for (int part = 0; part < num_hp_parts; part++) {
-                                g->u.hp_cur[part] = g->u.hp_max[part];
-                            }
-                            g->u.hunger = 0;
-                            g->u.thirst = 0;
-                            g->u.fatigue = 0;
-                            g->u.health = 0;
-                            g->u.stim = 0;
-                            g->u.pain = 0;
-                            g->u.pkill = 0;
-                            g->u.radiation = 0;
+                            g->u.environmental_revert_effect();
                         }
                     }
                 }
@@ -3482,6 +3440,9 @@ void iuse::firecracker_act(game *g, player *p, item *it, bool t)
 
 void iuse::mininuke(game *g, player *p, item *it, bool t)
 {
+ if(!p->is_npc()) {
+   p->add_memorial_log(_("Activated a mininuke."));
+ }
  g->add_msg_if_player(p,_("You activate the mininuke."));
  it->make(g->itypes["mininuke_act"]);
  it->charges = 10;
@@ -4689,6 +4650,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   debugmsg("iuse::artifact called on a non-tool artifact! %s",
            it->tname().c_str());
   return;
+ }
+ if(!p->is_npc()) {
+   p->add_memorial_log(_("Activated the %s."), it->name.c_str());
  }
  it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it->type);
  int num_used = rng(1, art->effects_activated.size());

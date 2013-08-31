@@ -240,6 +240,11 @@ void initOptions() {
                                              true
                                             );
 
+    OPTIONS["SHIFT_LIST_ITEM_VIEW"] =   cOpt(mPage["interface"], _("Shift list item view"),
+                                             _("If true, shift the view toward the selected item if it is outside of your current viewport."),
+                                             true
+                                            );
+
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         mPageItems[(iter->second).getPage()].push_back(iter->first);
     }

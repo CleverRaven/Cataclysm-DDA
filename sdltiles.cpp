@@ -1,13 +1,15 @@
-#if (defined TILES)
+#if (defined SDLTILES)
 #include "catacurse.h"
 #include "options.h"
 #include "output.h"
 #include "color.h"
-#include "debug.h"
 #include "catacharset.h"
-#include "get_version.h"
+#include "debug.h"
+#include <vector>
 #include <fstream>
 #include <sys/stat.h>
+//#include "sdltiles.h"
+#include "cata_tiles.h"
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -21,20 +23,26 @@
 #include <windows.h>
 #include "SDL.h"
 #include "SDL_ttf.h"
+#include "SDL_image.h" // Make sure to add this to the other OS inclusions
 #else
 #include <wordexp.h>
 #if (defined OSX_SDL_FW)
 #include "SDL.h"
 #include "SDL_ttf/SDL_ttf.h"
+#include "SDL_image/SDL_image.h" // Make sure to add this to the other OS inclusions
 #else
 #include "SDL/SDL.h"
 #include "SDL/SDL_ttf.h"
+#include "SDL/SDL_image.h" // Make sure to add this to the other OS inclusions
 #endif
 #endif
+
 
 //***********************************
 //Globals                           *
 //***********************************
+
+cata_tiles *tilecontext;
 
 static SDL_Color windowsPalette[256];
 static SDL_Surface *screen = NULL;
@@ -51,6 +59,10 @@ int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
+
+static unsigned long lastupdate = 0;
+static unsigned long interval = 25;
+static bool needupdate = false;
 
 static bool fontblending = false;
 
@@ -73,6 +85,7 @@ bool fexists(const char *filename)
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
+	//const SDL_VideoInfo* video_info;
 	int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
 
 	if(SDL_Init(init_flags) < 0)
@@ -90,8 +103,7 @@ bool WinCreate()
 
 	atexit(SDL_Quit);
 
-    std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
-    SDL_WM_SetCaption(version.c_str(), NULL);
+	SDL_WM_SetCaption("Cataclysm: Dark Days Ahead - 0.6git", NULL);
 
     char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
     SDL_putenv(center_string);
@@ -102,7 +114,7 @@ bool WinCreate()
 
 	ClearScreen();
 
-    if(OPTIONS["HIDE_CURSOR"] != "Always" && SDL_ShowCursor(-1))
+	if(OPTIONS["HIDE_CURSOR"] > 0 && SDL_ShowCursor(-1))
         SDL_ShowCursor(SDL_DISABLE);
     else
         SDL_ShowCursor(SDL_ENABLE);
@@ -145,7 +157,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
 
-
+// Get and store the glyphs from the ttf font
 static void cache_glyphs()
 {
     int top=999, bottom=-999;
@@ -174,6 +186,7 @@ static void cache_glyphs()
     ttf_height_hack =  delta - top;
 }
 
+// blit glyph (Uint16 t) at coordinates (int x, int y) with color (unsigned char color)
 static void OutputChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
@@ -195,122 +208,141 @@ static void OutputChar(Uint16 t, int x, int y, unsigned char color)
     }
 }
 
+
+// only update if the set interval has elapsed
+void try_update()
+{
+	unsigned long now=SDL_GetTicks();
+	if(now-lastupdate>=interval)
+	{
+		SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
+		needupdate = false;
+		lastupdate = now;
+	}
+	else
+	{
+		needupdate = true;
+	}
+}
+
 void curses_drawwindow(WINDOW *win)
 {
     int i,j,w,drawx,drawy;
     unsigned tmp;
 
-    int miny = 99999;
-    int maxy = -99999;
+    SDL_Rect update_rect;
+    update_rect.x = win->x * fontwidth;
+    update_rect.w = win->width * fontwidth;
+    update_rect.y = 9999; // default value
+    update_rect.h = 9999; // default value
 
-    for (j=0; j<win->height; j++)
-    {
+    int jr = 0;
+
+    for (j=0; j<win->height; j++){
         if (win->line[j].touched)
         {
-            if(j<miny) {
-                miny=j;
+            if (update_rect.y == 9999)
+            {
+                update_rect.y = (win->y+j)*fontheight;
+				jr=j;
             }
-            if(j>maxy) {
-                maxy=j;
-            }
+			update_rect.h = (j-jr+1)*fontheight;
 
+            needupdate = true;
 
             win->line[j].touched=false;
 
-            for (i=0,w=0; w<win->width; i++,w++)
-            {
+            for (i=0,w=0; w<win->width; i++,w++){
                 drawx=((win->x+w)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
-                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight))
-                {
-                    const char* utf8str = win->line[j].chars+i;
-                    int len = ANY_LENGTH;
-                    tmp = UTF8_getch(&utf8str, &len);
-                    int FG = win->line[j].FG[w];
-                    int BG = win->line[j].BG[w];
-                    FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
+                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
+				const char* utf8str = win->line[j].chars+i;
+				int len = ANY_LENGTH;
+                tmp = UTF8_getch(&utf8str, &len);
+                int FG = win->line[j].FG[w];
+                int BG = win->line[j].BG[w];
+                FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
-                    if ( tmp != UNKNOWN_UNICODE){
-                        int cw = mk_wcwidth((wchar_t)tmp);
-                        len = ANY_LENGTH-len;
-                        if(cw>1)
-                        {
-                            FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
-                            w+=cw-1;
-                        }
-                        if(len>1)
-                        {
-                            i+=len-1;
-                        }
-                        if(0!=tmp) {
-                            OutputChar(tmp, drawx,drawy,FG);
-                        }
-                    } else {
-                        switch ((unsigned char)win->line[j].chars[i]) {
-                        case LINE_OXOX_C://box bottom/top side (horizontal line)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            break;
-                        case LINE_XOXO_C://box left/right side (vertical line)
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_OXXO_C://box top left
-                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_OOXX_C://box top right
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_XOOX_C://box bottom right
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
-                            break;
-                        case LINE_XXOO_C://box bottom left
-                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
-                            break;
-                        case LINE_XXOX_C://box bottom north T (left, right, up)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight,2,FG);
-                            break;
-                        case LINE_XXXO_C://box bottom east T (up, right, down)
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                            break;
-                        case LINE_OXXX_C://box bottom south T (left, right, down)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_XXXX_C://box X (left down up right)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_XOXX_C://box bottom east T (left, down, up)
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                            break;
-                        default:
-                            break;
-                        }//switch (tmp)
+                if ( tmp != UNKNOWN_UNICODE){
+					int cw = mk_wcwidth((wchar_t)tmp);
+					len = ANY_LENGTH-len;
+					if(cw>1)
+					{
+						FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
+						w+=cw-1;
+					}
+					if(len>1)
+					{
+						i+=len-1;
+					}
+                    if(tmp) OutputChar(tmp, drawx,drawy,FG);
+                } else {
+                    switch ((unsigned char)win->line[j].chars[i]) {
+                    case LINE_OXOX_C://box bottom/top side (horizontal line)
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                        break;
+                    case LINE_XOXO_C://box left/right side (vertical line)
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                        break;
+                    case LINE_OXXO_C://box top left
+                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+                        break;
+                    case LINE_OOXX_C://box top right
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+                        break;
+                    case LINE_XOOX_C://box bottom right
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
+                        break;
+                    case LINE_XXOO_C://box bottom left
+                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
+                        break;
+                    case LINE_XXOX_C://box bottom north T (left, right, up)
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight,2,FG);
+                        break;
+                    case LINE_XXXO_C://box bottom east T (up, right, down)
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
+                        break;
+                    case LINE_OXXX_C://box bottom south T (left, right, down)
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+                        break;
+                    case LINE_XXXX_C://box X (left down up right)
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                        break;
+                    case LINE_XOXX_C://box bottom east T (left, down, up)
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
+                        break;
+                    default:
+                        break;
                     }
+                    };//switch (tmp)
                 }//(tmp < 0)
-            }//for (i=0;i<_windows[w].width;i++)
+            };//for (i=0;i<_windows[w].width;i++)
         }
-    }// for (j=0;j<_windows[w].height;j++)
+    };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
 
-    if(maxy>=0)
+    if (g && win == g->w_terrain)
     {
-        int tx=win->x, ty=win->y+miny, tw=win->width, th=maxy-miny+1;
-        int maxw=WindowWidth/fontwidth, maxh=WindowHeight/fontheight;
-        if(tw+tx>maxw) {
-            tw= maxw-tx;
-        }
-        if(th+ty>maxh) {
-            th= maxh-ty;
-        }
-        SDL_UpdateRect(screen, tx*fontwidth, ty*fontheight, tw*fontwidth, th*fontheight);
+        update_rect.y = win->y*fontheight;
+		update_rect.h = win->height*fontheight;
+		//GfxDraw(thegame, win->x*fontwidth, win->y*fontheight, thegame->terrain_view_x, thegame->terrain_view_y, win->width*fontwidth, win->height*fontheight);
+		tilecontext->draw(win->x * fontwidth, win->y * fontheight, g->ter_view_x, g->ter_view_y, win->width * fontwidth, win->height * fontheight);
     }
+//*/
+    if (update_rect.y != 9999)
+    {
+		SDL_UpdateRect(screen, update_rect.x, update_rect.y, update_rect.w, update_rect.h);
+    }
+    if (needupdate) try_update();
 }
 
 #define ALT_BUFFER_SIZE 8
@@ -336,6 +368,8 @@ static int add_alt_code(char c)
             alt_buffer[++alt_buffer_len] = '\0';
         }
     }
+
+    return 0;
 }
 
 static int end_alt_code()
@@ -355,10 +389,8 @@ void CheckMessages()
 		{
 			case SDL_KEYDOWN:
 			{
-       int lc = 0;
-       if(OPTIONS["HIDE_CURSOR"] != "Always" && SDL_ShowCursor(-1)) {
-           SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
-       }
+                int lc = 0;
+			    if(OPTIONS["HIDE_CURSOR"] > 0 && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
 				Uint8 *keystate = SDL_GetKeyState(NULL);
 				// manually handle Alt+F4 for older SDL lib, no big deal
 				if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
@@ -423,7 +455,7 @@ void CheckMessages()
             }
             break;
 			case SDL_MOUSEMOTION:
-                if((OPTIONS["HIDE_CURSOR"] == "Always" || OPTIONS["HIDE_CURSOR"] == "HiddenKB") &&
+                if(((int)OPTIONS["HIDE_CURSOR"] == 0 || (int)OPTIONS["HIDE_CURSOR"] == 2) &&
                     !SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_ENABLE);
                 break;
 			case SDL_QUIT:
@@ -432,6 +464,7 @@ void CheckMessages()
 
 		}
 	}
+    if (needupdate) try_update();
     if(quit)
     {
         endwin();
@@ -454,12 +487,7 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 0 == strcmp( ent->d_name, ".." ) ) {
                 continue;
             }
-            #if (defined _WIN32 || defined WINDOWS)
-                std::string f = path + "\\" + ent->d_name;
-            #else
-                std::string f = path + "/" + ent->d_name;
-            #endif
-
+            std::string f = path + "/" + ent->d_name;
             struct stat stat_buffer;
             if( stat( f.c_str(), &stat_buffer ) == -1 ) {
                 continue;
@@ -638,11 +666,7 @@ WINDOW *curses_init(void)
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-
-    const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "Narrow") ? 45 : 55;
-    WindowWidth= (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
-    if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
-    WindowWidth *= fontwidth;
+    WindowWidth= (55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)) * fontwidth;
     WindowHeight= (OPTIONS["VIEWPORT_Y"] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
 
@@ -679,7 +703,23 @@ WINDOW *curses_init(void)
     // I can only guess by check a certain tall character...
     cache_glyphs();
 
-    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
+// Should NOT be doing this for every damned window I think... keeping too much in memory is wasteful of the tiles.
+// Most definitely should not be doing this multiple times...
+    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)),0,0);
+    DebugLog() << "Initializing SDL Tiles context\n";
+    IMG_Init(IMG_INIT_PNG);
+    tilecontext = new cata_tiles;
+/*
+// Deprecated: handled by an initializer.
+    tilecontext->load_tilejson("gfx/tile_config.json");
+    tilecontext->load_tileset("gfx/tile.png");
+*/
+/*
+// Deprecated: now handled by init(SDL_Surface *screen, std::string file_path) which will pull the json path and tileset path from an outside
+// text file
+    tilecontext->init(screen, "gfx/tile_config.json", "gfx/tinytile.png");
+*/
+    tilecontext->init(screen, "data/gfx.txt");
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
@@ -779,4 +819,5 @@ void curses_timeout(int t)
     inputdelay = t;
 }
 
-#endif // TILES
+
+#endif // SDLTILES

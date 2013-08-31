@@ -134,7 +134,8 @@ class game
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
   void explosion(int x, int y, int power, int shrapnel, bool fire);
 // Draws an explosion with set radius and color at the given location
-  void draw_explosion(int x, int y, int radius, nc_color col);
+  /* Defined later in this file */
+  //void draw_explosion(int x, int y, int radius, nc_color col);
 // Flashback at (x, y)
   void flashbang(int x, int y, bool player_immune = false);
 // Move the player vertically, if (force) then they fell
@@ -242,7 +243,7 @@ class game
   std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack, std::string filter);
   std::vector<map_item_stack> find_nearby_items(int search_x, int search_y);
   std::string ask_item_filter(WINDOW* window, int rows);
-  void draw_trail_to_square(std::vector<point>& vPoint, int x, int y);
+  void draw_trail_to_square(int x, int y);
   void reset_item_list_state(WINDOW* window, int height);
   std::string sFilter; // this is a member so that it's remembered over time
   std::string list_item_upvote;
@@ -300,6 +301,7 @@ class game
 
   std::map<int, std::map<int, bool> > mapRain;
 
+  int ter_view_x, ter_view_y;
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;
@@ -337,6 +339,16 @@ void load_artifacts(); // Load artifact data
  // parameters force, stun, and dam_mult are passed to knockback()
  // ignore_player determines if player is affected, useful for bionic, etc.
  void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
+
+
+// Animation related functions
+  void draw_explosion(int x, int y, int radius, nc_color col);
+  void draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
+  void draw_hit_mon(int x, int y, monster m, bool dead = false);
+  void draw_hit_player(player *p, bool dead = false);
+  void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
+  void draw_line(const int x, const int y, std::vector<point> ret);
+  void draw_weather(weather_printable wPrint);
 
  private:
 // Game-start procedures
@@ -524,7 +536,6 @@ void load_artifacts(); // Load artifact data
   void display_scent();   // Displays the scent map
   void mondebug();        // Debug monster behavior directly
   void groupdebug();      // Get into on monster groups
-
 
 
 // ########################## DATA ################################

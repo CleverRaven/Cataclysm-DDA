@@ -352,9 +352,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 ammo_type->ammo_effects.count("EXPLOSIVE") ||
                                 ammo_type->ammo_effects.count("FRAG") ||
                                 ammo_type->ammo_effects.count("NAPALM") ||
+                                ammo_type->ammo_effects.count("NAPALM_BIG") ||
                                 ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
+                                ammo_type->ammo_effects.count("EXPLOSIVE_HUGE") ||
                                 ammo_type->ammo_effects.count("TEARGAS") ||
                                 ammo_type->ammo_effects.count("SMOKE") ||
+                                ammo_type->ammo_effects.count("SMOKE_BIG") ||
                                 ammo_type->ammo_effects.count("FLASHBANG") ||
                                 ammo_type->ammo_effects.count("COOKOFF"))) {
                                 //Any kind of explosive ammo (IE: not arrows and pebbles and such)

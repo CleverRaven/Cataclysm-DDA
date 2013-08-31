@@ -298,6 +298,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       ty = trajectory[i].y;
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
+   draw_bullet(p, tx, ty, i, trajectory, effects->count("FLAME")? '#':'*', ts);
+   /*
    if (u_see(tx, ty)) {
     if (i > 0)
     {
@@ -313,7 +315,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
     if (&p == &u)
      nanosleep(&ts, NULL);
    }
-
+   */
    if (dam <= 0 && !(effects->count("FLAME"))) { // Ran out of momentum.
     ammo_effects(this, tx, ty, *effects);
     if (is_bolt && !(effects->count("IGNITE")) &&
@@ -487,7 +489,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         double goodhit = missed_by;
         tx = trajectory[i].x;
         ty = trajectory[i].y;
-        
+
         const int zid = mon_at(tx, ty);
 
         // If there's a monster in the path of our item, and either our aim was true,
@@ -602,7 +604,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         m.add_item_or_charges(tx, ty, thrown);
     }
 }
-
+// TODO: Shunt redundant drawing code elsewhere
 std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 int hiy, std::vector <monster> t, int &target,
                                 item *relevent)
@@ -694,8 +696,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    for (int j = 1; j < getmaxx(w_target) - 2; j++)
     mvwputch(w_target, i, j, c_white, ' ');
   }
-  m.build_map_cache(this);
-  m.draw(this, w_terrain, center);
+  /* Start drawing w_terrain things -- possibly move out to centralized draw_terrain_window function as they all should be roughly similar*/
+  m.build_map_cache(this); // part of the SDLTILES drawing code
+  m.draw(this, w_terrain, center); // embedded in SDL drawing code
   // Draw the Monsters
   for (int i = 0; i < num_zombies(); i++) {
    if (u_see(&(zombie(i)))) {
@@ -716,6 +719,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
    // Only draw a highlighted trajectory if we can see the endpoint.
    // Provides feedback to the player, and avoids leaking information about tiles they can't see.
+   draw_line(x, y, center, ret);
+/*
    if (u_see( x, y)) {
     for (int i = 0; i < ret.size(); i++) {
       int mondex = mon_at(ret[i].x, ret[i].y),
@@ -729,7 +734,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
        m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center.x, center.y);
     }
    }
-
+//*/
+    /* Print to target window, could maybe be moved up and out of the w_terrain drawing section? */
    if (!relevent) { // currently targetting vehicle to refill with fuel
     vehicle *veh = m.veh_at(x, y);
     if (veh)
@@ -755,6 +761,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   refresh();
   ch = input();
   get_direction(this, tarx, tary, ch);
+  /* More drawing to terrain */
   if (tarx != -2 && tary != -2 && ch != '.') {	// Direction character pressed
    int mondex = mon_at(x, y), npcdex = npc_at(x, y);
    if (mondex != -1 && u_see(&(zombie(mondex))))
@@ -947,7 +954,8 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   g->sound(p.posx, p.posy, 8, _("Fzzt!"));
  else if (weapon->curammo->type == "40mm")
   g->sound(p.posx, p.posy, 8, _("Thunk!"));
- else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm")
+ else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm" ||
+     weapon->curammo->type == "84x246mm" || weapon->curammo->type == "m235")
   g->sound(p.posx, p.posy, 4, _("Fwoosh!"));
  else if (weapon->curammo->type != "bolt" &&
           weapon->curammo->type != "arrow" &&
@@ -1104,9 +1112,15 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
         }
         bool bMonDead = mon.hurt(adjusted_damage, dam);
         if( u_see_mon ) {
-            hit_animation(mon.posx() - g->u.posx + VIEWX - g->u.view_offset_x,
-                     mon.posy() - g->u.posy + VIEWY - g->u.view_offset_y,
+            g->draw_hit_mon(mon.posx(),
+                            mon.posy(),
+                            mon,
+                            bMonDead);
+        /*
+            hit_animation(mon.posx - g->u.posx + VIEWX - g->u.view_offset_x,
+                     mon.posy - g->u.posy + VIEWY - g->u.view_offset_y,
                      red_background(mon.type->color), (bMonDead) ? '%' : mon.symbol());
+        */
         }
 
         if (bMonDead) {
@@ -1223,6 +1237,9 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
   if (effects.count("NAPALM"))
     g->explosion(x, y, 18, 0, true);
 
+  if (effects.count("NAPALM_BIG"))
+    g->explosion(x, y, 72, 0, true);
+
   if (effects.count("ACIDBOMB")) {
     for (int i = x - 1; i <= x + 1; i++) {
       for (int j = y - 1; j <= y + 1; j++) {
@@ -1233,6 +1250,9 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
 
   if (effects.count("EXPLOSIVE_BIG"))
     g->explosion(x, y, 40, 0, false);
+
+  if (effects.count("EXPLOSIVE_HUGE"))
+    g->explosion(x, y, 80, 0, false);
 
   if (effects.count("TEARGAS")) {
     for (int i = -2; i <= 2; i++) {
@@ -1245,6 +1265,12 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
     for (int i = -1; i <= 1; i++) {
       for (int j = -1; j <= 1; j++)
         g->m.add_field(g, x + i, y + j, fd_smoke, 3);
+    }
+  }
+  if (effects.count("SMOKE_BIG")) {
+    for (int i = -6; i <= 6; i++) {
+      for (int j = -6; j <= 6; j++)
+        g->m.add_field(g, x + i, y + j, fd_smoke, 18);
     }
   }
 
