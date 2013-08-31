@@ -2187,14 +2187,18 @@ spawns happen at... <cue Clue music>
 20:56	<kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
- int NUM_CITIES = dice(3, 4);
+ int NUM_CITIES = dice(4, 4);
  int cx, cy, cs;
  int start_dir;
+ int city_min = OPTIONS["CITY_SIZE"] - 1;
+ int city_max = OPTIONS["CITY_SIZE"] + 1;
+ // Limit number of cities based on how big they are.
+ NUM_CITIES = std::min(NUM_CITIES, int(256 / OPTIONS["CITY_SIZE"] * OPTIONS["CITY_SIZE"]));
 
  while (cities.size() < NUM_CITIES) {
   cx = rng(12, OMAPX - 12);
   cy = rng(12, OMAPY - 12);
-  cs = dice(3, 4) ;
+  cs = dice(city_min, city_max) ;
   if (ter(cx, cy, 0) == ot_field) {
    ter(cx, cy, 0) = ot_road_nesw;
    city tmp; tmp.x = cx; tmp.y = cy; tmp.s = cs;
