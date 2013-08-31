@@ -1146,31 +1146,34 @@ void iuse::extra_battery(game *g, player *p, item *it, bool t)
     it->invlet = 0;
 }
 
-void iuse::scissors(game *g, player *p, item *it, bool t)
+bool iuse::valid_fabric(game *g, player *p, item *it)
 {
-    char ch = g->inv(_("Chop up what?"));
-    item* cut = &(p->i_at(ch));
     if (cut->type->id == "null")
     {
         g->add_msg_if_player(p,_("You do not have that item!"));
-        return;
+        return false;
     }
     if (cut->type->id == "string_6" || cut->type->id == "string_36" || cut->type->id == "rope_30" || cut->type->id == "rope_6")
     {
         g->add_msg(_("You cannot cut that, you must disassemble it using the disassemble key"));
-        return;
+        return false;
     }
     if (cut->type->id == "rag" || cut->type->id == "rag_bloody" || cut->type->id == "leather")
     {
         g->add_msg_if_player(p, _("There's no point in cutting a %s."), cut->type->name.c_str());
-        return;
+        return false;
     }
     if (!cut->made_of("cotton") && !cut->made_of("leather"))
     {
         g->add_msg(_("You can only slice items made of cotton or leather."));
-        return;
+        return false;
     }
+    
+    return true;
+}
 
+void iuse::cut_up(game *g, player *p, item *it, item *cut, bool t)
+{
     p->moves -= 25 * cut->volume();
     int count = cut->volume();
     if (p->skillLevel("tailor") == 0)
@@ -1181,19 +1184,19 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     {
         count -= rng(0, 2);
     }
-
+    
     if (dice(3, 3) > p->dex_cur)
     {
         count -= rng(1, 3);
     }
-
+    
     if (cut->damage>2 || cut->damage<0)
     {
         count-= cut->damage;
     }
-
-    //scrap_text is result string of worthless scraps
-    //sliced_text is result on a success
+    
+        //scrap_text is result string of worthless scraps
+        //sliced_text is result on a success
     std::string scrap_text, sliced_text, type;
     if (cut->made_of("cotton"))
     {
@@ -1207,7 +1210,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
         sliced_text = ngettext("You slice the %s into a piece of leather.", "You slice the %1$s into %2$d pieces of leather.", count);
         type = "leather";
     }
-
+    
     if (count <= 0)
     {
         g->add_msg_if_player(p, scrap_text.c_str(), cut->tname().c_str());
@@ -1235,6 +1238,19 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
             p->i_add(result, g);
     }
     return;
+}
+
+void iuse::scissors(game *g, player *p, item *it, bool t)
+{
+    char ch = g->inv(_("Chop up what?"));
+    item* cut = &(p->i_at(ch));
+    
+    if (!valid_fabric(cut))
+    {
+        return;
+    }
+
+    return cut_up(g,p,it,cut,t);
 }
 
 void iuse::extinguisher(game *g, player *p, item *it, bool t)
