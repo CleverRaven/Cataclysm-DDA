@@ -92,6 +92,9 @@ public:
  void charge_power(int amount);
  void power_bionics(game *g);
  void activate_bionic(int b, game *g);
+ bool remove_random_bionic();
+ int num_bionics() const;
+ bionic& bionic_at_index(int i);
  float active_light();
 
  bool mutation_ok(game *g, std::string mutation, bool force_good, bool force_bad);
@@ -102,7 +105,8 @@ public:
  bool has_child_flag(game *g, std::string mut);
  void remove_child_flag(game *g, std::string mut);
 
- int  sight_range(int light_level);
+ int  sight_range(int light_level) const;
+ void recalc_sight_limits();
  int  unimpaired_range();
  int  overmap_sight_range(int light_level);
  int  clairvoyance(); // Sight through walls &c
@@ -349,21 +353,17 @@ public:
  std::string name;
  bool male;
  profession* prof;
- std::set<std::string> my_traits;
- std::set<std::string> my_mutations;
 
  std::map<std::string, int> mutation_category_level;
 
  int next_climate_control_check;
  bool last_climate_control_ret;
- std::vector<bionic> my_bionics;
 // Current--i.e. modified by disease, pain, etc.
  int str_cur, dex_cur, int_cur, per_cur;
 // Maximum--i.e. unmodified by disease
  int str_max, dex_max, int_max, per_max;
  int power_level, max_power_level;
  int hunger, thirst, fatigue, health;
- bool underwater;
  int oxygen;
  unsigned int recoil;
  unsigned int driving_recoil;
@@ -424,13 +424,12 @@ public:
 
  inventory inv;
  itype_id last_item;
- std::vector <item> worn;
+ std::vector<item> worn;
  std::vector<itype_id> styles;
  itype_id style_selected;
  item weapon;
  item ret_null;	// Null item, sometimes returns by weapon() etc
 
- std::vector <disease> illness;
  std::vector <addiction> addictions;
 
  recipe* lastrecipe;
@@ -443,11 +442,28 @@ public:
  std::vector <std::string> memorial_log;
 
  int getID ();
+ 
+ bool is_underwater() const;
+ void set_underwater(bool);
+ 
+ void environmental_revert_effect();
+
 protected:
+    std::set<std::string> my_traits;
+    std::set<std::string> my_mutations;
+    std::vector<bionic> my_bionics;
+    std::vector<disease> illness;
+    bool underwater;
+
+    int sight_max;
+    int sight_boost;
+    int sight_boost_cap;
+
     void setID (int i);
+
 private:
- bool has_fire(const int quantity);
- void use_fire(const int quantity);
+    bool has_fire(const int quantity);
+    void use_fire(const int quantity);
 
     int id;	// A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
     //NPCs also use this ID value. Values should never be reused.

@@ -106,7 +106,7 @@ class monster {
   */
  void wander_to(int x, int y, int f); // Try to get to (x, y), we don't know
 				      // the route.  Give up after f steps.
- void plan(game *g);
+ void plan(game *g, const std::vector<int> &friendlies);
  void move(game *g); // Actual movement
  void footsteps(game *g, int x, int y); // noise made by movement
  void friendly_move(game *g);

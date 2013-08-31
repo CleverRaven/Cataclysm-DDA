@@ -410,16 +410,7 @@ void iuse::pkill(game *g, player *p, item *it, bool t)
     // Aspirin
     if (it->has_flag("PKILL_1")) {
         g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
-        if (!p->has_disease("pkill1")) {
-            p->add_disease("pkill1", 120);
-        } else {
-            for (int i = 0; i < p->illness.size(); i++) {
-                if (p->illness[i].type == "pkill1") {
-                    p->illness[i].duration = 120;
-                    i = p->illness.size();
-                }
-            }
-        }
+        p->add_disease("pkill1", 120);
     // Codeine
     } else if (it->has_flag("PKILL_2")) {
         g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
@@ -485,10 +476,8 @@ void iuse::cig(game *g, player *p, item *it, bool t) {
     p->thirst += 2;
     p->hunger -= 3;
     p->add_disease("cig", 200);
-    for (int i = 0; i < p->illness.size(); i++) {
-        if (p->illness[i].type == "cig" && p->illness[i].duration > 600) {
-            g->add_msg_if_player(p,_("Ugh, too much smoke... you feel nasty."));
-        }
+    if (p->disease_level("cig") > 600) {
+        g->add_msg_if_player(p,_("Ugh, too much smoke... you feel nasty."));
     }
 }
 
@@ -3073,53 +3062,9 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                             }
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
-                            for (int i = 0; i < g->active_npc[npc_hit]->illness.size(); i++) {
-                                g->active_npc[npc_hit]->illness.erase(g->active_npc[npc_hit]->illness.begin() + i);
-                                i--;
-                            }
-                            for (int i = 0; i < g->active_npc[npc_hit]->addictions.size(); i++) {
-                                g->active_npc[npc_hit]->addictions.erase(g->active_npc[npc_hit]->addictions.begin() + i);
-                                i--;
-                            }
-                            for (int i = 0; i < g->active_npc[npc_hit]->morale.size(); i++) {
-                                g->active_npc[npc_hit]->morale.erase(g->active_npc[npc_hit]->morale.begin() + i);
-                                i--;
-                            }
-                            for (int part = 0; part < num_hp_parts; part++) {
-                                g->active_npc[npc_hit]->hp_cur[part] = g->active_npc[npc_hit]->hp_max[part];
-                            }
-                            g->active_npc[npc_hit]->hunger = 0;
-                            g->active_npc[npc_hit]->thirst = 0;
-                            g->active_npc[npc_hit]->fatigue = 0;
-                            g->active_npc[npc_hit]->health = 0;
-                            g->active_npc[npc_hit]->stim = 0;
-                            g->active_npc[npc_hit]->pain = 0;
-                            g->active_npc[npc_hit]->pkill = 0;
-                            g->active_npc[npc_hit]->radiation = 0;
+                            g->active_npc[npc_hit]->environmental_revert_effect();
                         } else if (g->u.posx == pos.x + i && g->u.posy == pos.y + j) {
-                            for (int i = 0; i < g->u.illness.size(); i++) {
-                                g->u.illness.erase(g->u.illness.begin() + i);
-                                i--;
-                            }
-                            for (int i = 0; i < g->u.addictions.size(); i++) {
-                                g->u.addictions.erase(g->u.addictions.begin() + i);
-                                i--;
-                            }
-                            for (int i = 0; i < g->u.morale.size(); i++) {
-                                g->u.morale.erase(g->u.morale.begin() + i);
-                                i--;
-                            }
-                            for (int part = 0; part < num_hp_parts; part++) {
-                                g->u.hp_cur[part] = g->u.hp_max[part];
-                            }
-                            g->u.hunger = 0;
-                            g->u.thirst = 0;
-                            g->u.fatigue = 0;
-                            g->u.health = 0;
-                            g->u.stim = 0;
-                            g->u.pain = 0;
-                            g->u.pkill = 0;
-                            g->u.radiation = 0;
+                            g->u.environmental_revert_effect();
                         }
                     }
                 }
