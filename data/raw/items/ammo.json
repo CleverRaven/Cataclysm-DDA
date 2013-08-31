@@ -886,7 +886,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "57",
-        "casing" : "57_casing",
+        "casing" : "57mm_casing",
         "damage" : 14,
         "pierce" : 30,
         "range" : 14,
