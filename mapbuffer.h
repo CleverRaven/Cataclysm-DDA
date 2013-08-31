@@ -41,6 +41,7 @@ class mapbuffer
 
   /** Load the entire world from savefiles into submaps in this instance. **/
   void load();
+  void load_from(std::string worldname);
 
   /** Store all submaps in this instance into savefiles. **/
   void save();

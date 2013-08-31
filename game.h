@@ -310,7 +310,7 @@ class game
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
- 
+
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
  //otherwise returns sentinel -1, signifies transaction fail.
  int move_liquid(item &liquid);
@@ -344,8 +344,10 @@ void load_artifacts(); // Load artifact data
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master();	// Load the master data file, with factions &c
+  bool load_master_from(std::string worldname);
   void load_weather(std::ifstream &fin);
   void load(std::string name);	// Load a player-specific save file
+  void load_from(std::string worldname, std::string name);
   void start_game();	// Starts a new game
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
@@ -356,6 +358,7 @@ void load_artifacts(); // Load artifact data
   std::string save_weather() const;
   void save_uistate();
   void load_uistate();
+  void load_uistate_from(std::string worldname);
 // Data Initialization
   void init_npctalk();
   void init_materials();

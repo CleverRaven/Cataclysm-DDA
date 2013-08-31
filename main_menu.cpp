@@ -229,6 +229,11 @@ bool game::opening_screen()
     closedir(dir);
 
     std::map<std::string, std::vector<std::string> > world_save_data = get_save_data();
+    std::vector<std::string> world_name_keys;
+    for (std::map<std::string, std::vector<std::string> >::iterator it = world_save_data.begin(); it != world_save_data.end(); ++it)
+    {
+        world_name_keys.push_back(it->first);
+    }
 
     dir = opendir("data");
     while ((dp = readdir(dir))) {
@@ -237,7 +242,7 @@ bool game::opening_screen()
             templates.push_back(tmp.substr(0, tmp.find(".template")));
     }
 
-    int sel1 = 1, sel2 = 1, layer = 1;
+    int sel1 = 1, sel2 = 1, sel3 = 1, layer = 1;
     InputEvent input;
     int chInput;
     bool start = false;
@@ -396,43 +401,7 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 2) {	// Load Character
-                #if 0
-                if (savegames.size() == 0)
-                    mvwprintz(w_open, iMenuOffsetY - 2, 19 + iMenuOffsetX, c_red, _("No save games found!"));
-                else {
-                    for (int i = 0; i < savegames.size(); i++) {
-                        int line = iMenuOffsetY - 2 - i;
-                        mvwprintz(w_open, line, 19 + iMenuOffsetX, (sel2 == i ? h_white : c_white), base64_decode(savegames[i]).c_str());
-                    }
-                }
-                wrefresh(w_open);
-                refresh();
-                input = get_input();
-                if (savegames.size() == 0 && (input == DirectionS || input == Confirm)) {
-                    layer = 1;
-                } else if (input == DirectionS) {
-                    if (sel2 > 0)
-                        sel2--;
-                    else
-                        sel2 = savegames.size() - 1;
-                } else if (input == DirectionN) {
-                    if (sel2 < savegames.size() - 1)
-                        sel2++;
-                    else
-                        sel2 = 0;
-                } else if (input == DirectionW || input == Cancel) {
-                    layer = 1;
-                }
-                if (input == DirectionE || input == Confirm) {
-                    if (sel2 >= 0 && sel2 < savegames.size()) {
-                        werase(w_background);
-                        wrefresh(w_background);
-                        load(savegames[sel2]);
-                        start = true;
-                    }
-                }
-                #else
-                if (world_save_data.size() == 0)
+                if (world_name_keys.size() == 0)
                 {
                     // no worlds to display
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + iMenuOffsetX, c_red, _("No save games found!"));
@@ -441,12 +410,12 @@ bool game::opening_screen()
                 {
                     // show world names
                     int i = 0;
-                    for (std::map<std::string, std::vector<std::string> >::iterator it = world_save_data.begin();
-                         it != world_save_data.end();
+                    for (std::vector<std::string>::iterator it = world_name_keys.begin();
+                         it != world_name_keys.end();
                          ++it)
                     {
                         int line = iMenuOffsetY - 2 - i;
-                        mvwprintz(w_open, line, 19+iMenuOffsetX, (sel2 == i ? h_white : c_white), it->first.c_str());
+                        mvwprintz(w_open, line, 19+iMenuOffsetX, (sel2 == i ? h_white : c_white), (*it).c_str());
                         ++i;
                     }
                     /*
@@ -459,16 +428,16 @@ bool game::opening_screen()
                 refresh();
                 input = get_input();
 
-                if (world_save_data.size() == 0 && (input == DirectionS || input == Confirm)) {
+                if (world_name_keys.size() == 0 && (input == DirectionS || input == Confirm)) {
                     layer = 1;
                 }
                 else if (input == DirectionS) {
                     if (sel2 > 0)
                         sel2--;
                     else
-                        sel2 = world_save_data.size() - 1;
+                        sel2 = world_name_keys.size() - 1;
                 } else if (input == DirectionN) {
-                    if (sel2 < world_save_data.size() - 1)
+                    if (sel2 < world_name_keys.size() - 1)
                         sel2++;
                     else
                         sel2 = 0;
@@ -476,15 +445,17 @@ bool game::opening_screen()
                     layer = 1;
                 }
                 if (input == DirectionE || input == Confirm) {
-                    if (sel2 >= 0 && sel2 < world_save_data.size()) {
-                        werase(w_background);
-                        wrefresh(w_background);
+                    if (sel2 >= 0 && sel2 < world_name_keys.size()) {
+                        layer = 3;
+                        sel3 = 0;
+                        //werase(w_background);
+                        //wrefresh(w_background);
                         // for now can't load the world_save_data
                         //load(world_save_data[sel2]);
                         //start = true;
                     }
                 }
-                #endif
+
             } else if (sel1 == 3) {  // Delete world
                 if (query_yn(_("Delete the world and all saves?"))) {
                     delete_save();
@@ -531,47 +502,93 @@ bool game::opening_screen()
                     }
                 }
             }
-        } else if (layer == 3) {	// Character Templates
-            if (templates.size() == 0)
-                mvwprintz(w_open, iMenuOffsetY-4, iMenuOffsetX+20, c_red, _("No templates found!"));
-            else {
-                for (int i = 0; i < templates.size(); i++) {
-                    int line = iMenuOffsetY - 4 - i;
-                    mvwprintz(w_open, line, 20 + iMenuOffsetX, (sel1 == i ? h_white : c_white), templates[i].c_str());
+        } else if (layer == 3) {
+            if (sel1 == 2) // Load Game
+            {
+                // sel2 is the world index
+                savegames = world_save_data[world_name_keys[sel2]];
+
+                if (savegames.size() == 0)
+                    mvwprintz(w_open, iMenuOffsetY - 2, 19+19 + iMenuOffsetX, c_red, _("No save games found!"));
+                else {
+                    for (int i = 0; i < savegames.size(); i++) {
+                        int line = iMenuOffsetY - 2 - i;
+                        mvwprintz(w_open, line, 19+19 + iMenuOffsetX, (sel2 == i ? h_white : c_white), base64_decode(savegames[i]).c_str());
+                    }
+                }
+                wrefresh(w_open);
+                refresh();
+                input = get_input();
+                if (savegames.size() == 0 && (input == DirectionS || input == Confirm)) {
+                    layer = 2;
+                } else if (input == DirectionS) {
+                    if (sel3 > 0)
+                        sel3--;
+                    else
+                        sel3 = savegames.size() - 1;
+                } else if (input == DirectionN) {
+                    if (sel3 < savegames.size() - 1)
+                        sel3++;
+                    else
+                        sel3 = 0;
+                } else if (input == DirectionW || input == Cancel) {
+                    layer = 2;
+                    sel3 = 0;
+                    print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
+                }
+                if (input == DirectionE || input == Confirm) {
+                    if (sel3 >= 0 && sel3 < savegames.size()) {
+                        werase(w_background);
+                        wrefresh(w_background);
+                        load_from(world_name_keys[sel2], savegames[sel3]);
+                        start = true;
+                    }
                 }
             }
-            wrefresh(w_open);
-            refresh();
-            input = get_input();
-            if (input == DirectionS) {
-                if (sel1 > 0)
-                    sel1--;
-                else
-                    sel1 = templates.size() - 1;
-            } else if (templates.size() == 0 && (input == DirectionN || input == Confirm)) {
-                sel1 = 1;
-                layer = 2;
-                print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
-            } else if (input == DirectionN) {
-                if (sel1 < templates.size() - 1)
-                    sel1++;
-                else
-                    sel1 = 0;
-            } else if (input == DirectionW  || input == Cancel || templates.size() == 0) {
-                sel1 = 1;
-                layer = 2;
-                print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
-            } else if (input == DirectionE || input == Confirm) {
-                if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
-                    u = player();
-                    delwin(w_open);
-                    return (opening_screen());
+            else
+            {
+                // Character Templates
+                if (templates.size() == 0)
+                    mvwprintz(w_open, iMenuOffsetY-4, iMenuOffsetX+20, c_red, _("No templates found!"));
+                else {
+                    for (int i = 0; i < templates.size(); i++) {
+                        int line = iMenuOffsetY - 4 - i;
+                        mvwprintz(w_open, line, 20 + iMenuOffsetX, (sel1 == i ? h_white : c_white), templates[i].c_str());
+                    }
                 }
+                wrefresh(w_open);
+                refresh();
+                input = get_input();
+                if (input == DirectionS) {
+                    if (sel1 > 0)
+                        sel1--;
+                    else
+                        sel1 = templates.size() - 1;
+                } else if (templates.size() == 0 && (input == DirectionN || input == Confirm)) {
+                    sel1 = 1;
+                    layer = 2;
+                    print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
+                } else if (input == DirectionN) {
+                    if (sel1 < templates.size() - 1)
+                        sel1++;
+                    else
+                        sel1 = 0;
+                } else if (input == DirectionW  || input == Cancel || templates.size() == 0) {
+                    sel1 = 1;
+                    layer = 2;
+                    print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
+                } else if (input == DirectionE || input == Confirm) {
+                    if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
+                        u = player();
+                        delwin(w_open);
+                        return (opening_screen());
+                    }
 
-                werase(w_background);
-                wrefresh(w_background);
-                start_game();
-                start = true;
+                    werase(w_background);
+                    wrefresh(w_background);
+                    start_game();
+                    start = true;
+                }
             }
         }
     }

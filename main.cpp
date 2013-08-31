@@ -85,7 +85,8 @@ int main(int argc, char *argv[])
  g->load_artifacts(); //artifacts have to be loaded before any items are created
  if(g->game_error())
   exit_handler(-999);
- MAPBUFFER.load();
+// this needs to be moved elsewhere. otherwise it will be pretty useless in the world factory
+ //MAPBUFFER.load();
 
  curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 

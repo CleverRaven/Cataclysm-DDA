@@ -199,6 +199,148 @@ void mapbuffer::save()
  fout.close();
 }
 
+void mapbuffer::load_from(std::string worldname)
+{
+    if (!master_game) {
+        debugmsg("Can't load mapbuffer without a master_game");
+        return;
+    }
+    std::map<tripoint, submap*>::iterator it;
+    std::ifstream fin;
+    std::stringstream mapfile;
+    mapfile << "save/" << worldname << "/maps.txt";
+
+    fin.open(mapfile.str().c_str());
+    if (!fin.is_open())
+    {
+        return;
+    }
+
+    int itx, ity, t, d, a, num_submaps, num_loaded = 0;
+    item it_tmp;
+    std::string databuff;
+    fin >> num_submaps;
+
+    while (!fin.eof())
+    {
+        if (num_loaded % 100 == 0)
+        {
+            popup_nowait(_("Please wait as the map loads [%d/%d]"),
+                    num_loaded, num_submaps);
+        }
+        int locx, locy, locz, turn;
+        submap* sm = new submap();
+        fin >> locx >> locy >> locz >> turn;
+
+        if(fin.eof())
+        {
+            break;
+        }
+        sm->turn_last_touched = turn;
+        int turndif = (master_game ? int(master_game->turn) - turn : 0);
+        if (turndif < 0)
+        {
+            turndif = 0;
+        }
+        // Load terrain
+        for (int j = 0; j < SEEY; j++)
+        {
+            for (int i = 0; i < SEEX; i++)
+            {
+                int tmpter;
+                fin >> tmpter;
+                sm->ter[i][j] = ter_id(tmpter);
+                sm->frn[i][j] = f_null;
+                sm->itm[i][j].clear();
+                sm->trp[i][j] = tr_null;
+                //sm->fld[i][j] = field(); //not needed now
+                sm->graf[i][j] = graffiti();
+            }
+        }
+        // Load irradiation
+        for (int j = 0; j < SEEY; j++)
+        {
+            for (int i = 0; i < SEEX; i++)
+            {
+                int radtmp;
+                fin >> radtmp;
+                radtmp -= int(turndif / 100);	// Radiation slowly decays
+                if (radtmp < 0)
+                    radtmp = 0;
+                sm->rad[i][j] = radtmp;
+            }
+        }
+        // Load items and traps and fields and spawn points and vehicles
+        std::string string_identifier;
+        do
+        {
+            fin >> string_identifier; // "----" indicates end of this submap
+            t = 0;
+            if (string_identifier == "I") {
+                fin >> itx >> ity;
+                getline(fin, databuff); // Clear out the endline
+                getline(fin, databuff);
+                it_tmp.load_info(databuff, master_game);
+                sm->itm[itx][ity].push_back(it_tmp);
+                if (it_tmp.active)
+                    sm->active_item_count++;
+            } else if (string_identifier == "C") {
+                getline(fin, databuff); // Clear out the endline
+                getline(fin, databuff);
+                int index = sm->itm[itx][ity].size() - 1;
+                it_tmp.load_info(databuff, master_game);
+                sm->itm[itx][ity][index].put_in(it_tmp);
+                if (it_tmp.active)
+                    sm->active_item_count++;
+            } else if (string_identifier == "T") {
+                fin >> itx >> ity >> t;
+                sm->trp[itx][ity] = trap_id(t);
+            } else if (string_identifier == "f") {
+                fin >> itx >> ity >> t;
+                sm->frn[itx][ity] = furn_id(t);
+            } else if (string_identifier == "F") {
+                fin >> itx >> ity >> t >> d >> a;
+                if(!sm->fld[itx][ity].findField(field_id(t)))
+                    sm->field_count++;
+                sm->fld[itx][ity].addField(field_id(t), d, a);
+            } else if (string_identifier == "S") {
+                char tmpfriend;
+                int tmpfac = -1, tmpmis = -1;
+                std::string spawnname;
+                fin >> t >> a >> itx >> ity >> tmpfac >> tmpmis >> tmpfriend >> spawnname;
+                spawn_point tmp(mon_id(t), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
+                                spawnname);
+                sm->spawns.push_back(tmp);
+            } else if (string_identifier == "V") {
+                vehicle * veh = new vehicle(master_game);
+                veh->load (fin);
+                //veh.smx = gridx;
+                //veh.smy = gridy;
+                master_game->m.vehicle_list.insert(veh);
+                sm->vehicles.push_back(veh);
+            } else if (string_identifier == "c") {
+                getline(fin, databuff);
+                sm->comp.load_data(databuff);
+            } else if (string_identifier == "B") {
+                getline(fin, databuff);
+                sm->camp.load_data(databuff);
+            } else if (string_identifier == "G") {
+                std::string s;
+                int j;
+                int i;
+                fin >> j >> i;
+                getline(fin,s);
+                sm->graf[j][i] = graffiti(s);
+            }
+        } while (string_identifier != "----" && !fin.eof());
+
+        submap_list.push_back(sm);
+        submaps[ tripoint(locx, locy, locz) ] = sm;
+        num_loaded++;
+    }
+    fin.close();
+}
+
 void mapbuffer::load()
 {
  if (!master_game) {

@@ -2420,6 +2420,51 @@ void game::death_screen()
     disp_kills();
 }
 
+bool game::load_master_from(std::string worldname)
+{
+    std::ifstream fin;
+    std::string data;
+    char junk;
+    std::stringstream master;
+    master << "save/" << worldname << "/master.gsav";
+
+    fin.open(master.str().c_str());
+
+    if (!fin.is_open())
+        return false;
+
+    // First, get the next ID numbers for each of these
+    fin >> next_mission_id >> next_faction_id >> next_npc_id;
+    int num_missions, num_factions;
+
+    fin >> num_missions;
+    if (fin.peek() == '\n')
+    {
+        fin.get(junk); // Chomp that pesky endline
+    }
+
+    for (int i = 0; i < num_missions; i++)
+    {
+        mission tmpmiss;
+        tmpmiss.load_info(this, fin);
+        active_missions.push_back(tmpmiss);
+    }
+
+    fin >> num_factions;
+    if (fin.peek() == '\n')
+    {
+        fin.get(junk); // Chomp that pesky endline
+    }
+    for (int i = 0; i < num_factions; i++)
+    {
+        getline(fin, data);
+        faction tmp;
+        tmp.load_info(data);
+        factions.push_back(tmp);
+    }
+    fin.close();
+    return true;
+}
 
 bool game::load_master()
 {
@@ -2456,6 +2501,32 @@ bool game::load_master()
  return true;
 }
 
+void game::load_uistate_from(std::string worldname)
+{
+    const std::string savedir="save/";
+    std::stringstream savefile;
+    savefile << savedir << worldname << "/uistate.json";
+
+    std::ifstream fin;
+    fin.open(savefile.str().c_str());
+    if(!fin.good()) {
+        fin.close();
+        return;
+    }
+    picojson::value wrapped_data;
+    fin >> wrapped_data;
+    fin.close();
+    std::string jsonerr=picojson::get_last_error();
+    if ( ! jsonerr.empty() ) {
+       dbg(D_ERROR) << "load_uistate_from: " << jsonerr.c_str();
+       return;
+    }
+    bool success=uistate.load(wrapped_data);
+    if ( ! success ) {
+       dbg(D_ERROR) << "load_uistate_from: " << uistate.errdump;
+    }
+    uistate.errdump="";
+}
 void game::load_uistate() {
     const std::string savedir="save";
     std::stringstream savefile;
@@ -2657,6 +2728,162 @@ void game::load_weather(std::ifstream &fin)
         new_segment.deadline = tmpnextweather;
         future_weather.push_back(new_segment);
     }
+}
+
+void game::load_from(std::string worldname, std::string name)
+{
+    DebugLog() << "Starting attempt to load World["<<worldname<<"] Player["<<base64_decode(name)<<"]\n";
+
+    // load [worldname] world
+    MAPBUFFER.load_from(worldname);
+    std::ifstream fin;
+    std::stringstream playerfile;
+    playerfile << "save/" << worldname << "/" << name << ".sav";
+    fin.open(playerfile.str().c_str());
+    // first, read in basic game state information
+    if (!fin.is_open())
+    {
+        dbg(D_ERROR) << "game:load_from: No save game exists!";
+        debugmsg("No save game exists!");
+        return;
+    }
+    u = player();
+    u.name = base64_decode(name);
+    u.ret_null = item(itypes["null"], 0);
+    u.weapon = item(itypes["null"], 0);
+
+    int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
+    fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >> next_faction_id >> next_mission_id >> tmpspawn;
+
+    load_weather(fin); // does not need any changing
+
+    fin >> levx >> levy >> levz >> comx >> comy;
+
+    turn = tmpturn;
+    nextspawn = tmpspawn;
+
+    cur_om = &overmap_buffer.get(this, comx, comy); // may need change
+    m.load(this, levx, levy, levz);
+
+    run_mode = tmprun;
+    if (OPTIONS["SAFEMODE"] && run_mode == 0)
+    {
+        run_mode = 1;
+    }
+    autosafemode = OPTIONS["AUTOSAFEMODE"];
+    last_target = tmptar;
+
+    // Next, the scent map.
+    for (int i = 0; i < SEEX * MAPSIZE; i++)
+    {
+        for (int j = 0; j < SEEY * MAPSIZE; j++)
+        {
+            fin >> grscent[i][j];
+        }
+    }
+    // Now the number of monsters...
+    int nummon;
+    fin >> nummon;
+    // ... and the data on each one.
+    std::string data;
+    clear_zombies();
+    monster montmp;
+    char junk;
+    int num_items;
+    if (fin.peek() == '\n')
+    {
+        fin.get(junk); // Chomp that pesky endline
+    }
+    for (int i = 0; i < nummon; i++)
+    {
+        getline(fin, data);
+        montmp.load_info(data, &mtypes);
+
+        fin >> num_items;
+        // Chomp the endline after number of items.
+        getline( fin, data );
+        for (int j = 0; j < num_items; j++)
+        {
+            getline( fin, data );
+            montmp.inv.push_back( item( data, this ) );
+        }
+
+        add_zombie(montmp);
+    }
+    // And the kill counts;
+    if (fin.peek() == '\n')
+    {
+        fin.get(junk); // Chomp that pesky endline
+    }
+
+    for (int i = 0; i < num_monsters; i++)
+    {
+        fin >> kills[i];
+    }
+    // Finally, the data on the player.
+    if (fin.peek() == '\n')
+    {
+        fin.get(junk); // Chomp that pesky endline
+    }
+
+    getline(fin, data);
+    u.load_info(this, data);
+    // And the player's inventory...
+    u.inv.load_invlet_cache( fin );
+
+    char item_place;
+    std::string itemdata;
+    // We need a temporary vector of items.  Otherwise, when we encounter an item
+    // which is contained in another item, the auto-sort/stacking behavior of the
+    // player's inventory may cause the contained item to be misplaced.
+    std::list<item> tmpinv;
+    while (!fin.eof())
+    {
+        fin >> item_place;
+        if (!fin.eof())
+        {
+            getline(fin, itemdata);
+            if (item_place == 'I')
+            {
+                tmpinv.push_back(item(itemdata, this));
+            }
+            else if (item_place == 'C')
+            {
+                tmpinv.back().contents.push_back(item(itemdata, this));
+            }
+            else if (item_place == 'W')
+            {
+                u.worn.push_back(item(itemdata, this));
+            }
+            else if (item_place == 'S')
+            {
+                u.worn.back().contents.push_back(item(itemdata, this));
+            }
+            else if (item_place == 'w')
+            {
+                u.weapon = item(itemdata, this);
+            }
+            else if (item_place == 'c')
+            {
+                u.weapon.contents.push_back(item(itemdata, this));
+            }
+        }
+    }
+    // Now dump tmpinv into the player's inventory
+    u.inv.add_stack(tmpinv);
+    fin.close();
+    load_auto_pickup(true); // Load character auto pickup rules
+    //load_uistate();
+    load_uistate_from(worldname);
+    // Now load up the master game data; factions (and more?)
+    //load_master();
+    load_master_from(worldname);
+    update_map(u.posx, u.posy);
+    set_adjacent_overmaps(true);
+    MAPBUFFER.set_dirty();
+    draw();
+
+    DebugLog() << "Successfully Loaded World["<<worldname<<"] Player["<<base64_decode(name)<<"]\n";
 }
 
 void game::load(std::string name)
@@ -7248,7 +7475,7 @@ void game::pickup(int posx, int posy, int min)
   veh_part = veh->part_with_feature(veh_part, "CARGO", false);
   from_veh = veh && veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0;
-  
+
   if(from_veh) {
     if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str())) {
       from_veh = false;
@@ -8072,7 +8299,7 @@ int game::move_liquid(item &liquid)
    debugmsg("Tried to move_liquid a non-liquid!");
    return -1;
   }
-  
+
   //liquid is in fact a liquid.
   std::stringstream text;
   text << _("Container for ") << liquid.tname(this);
