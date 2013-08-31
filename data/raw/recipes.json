@@ -2354,6 +2354,61 @@
 },
 
 {
+  "result": "quiver",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "requires_skills": [ "archery", 1 ],
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 2 ],
+      [ "sewing_kit", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ]
+  ]
+},
+
+{
+  "result": "quiver_large",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "requires_skills": [ "archery", 2 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 8 ]
+    ],
+    [
+      [ "scrap", 2 ],
+      [ "steel_chunk", 1]
+    ]
+  ]
+},
+
+{
   "result": "bolt_wood",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
