@@ -434,6 +434,7 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                         gun_template->burst = entry.get("burst").as_int();
                         gun_template->clip = entry.get("clip_size").as_int();
                         gun_template->reload_time = entry.get("reload").as_int();
+                        gun_template->pierce = entry.has("pierce") ? entry.get("pierce").as_int() : 0;
                         if( entry.has("ammo_effects") ) {
                             tags_from_json(entry.get("ammo_effects"), gun_template->ammo_effects);
                         }

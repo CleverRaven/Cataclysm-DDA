@@ -159,13 +159,13 @@ void game::init_fields()
 
         { // plasma glow (for plasma weapons)
             {_("faint plasma"), _("glowing plasma"), _("burning plasma")},	'9',
-            {c_magenta, c_pink, c_white},	{true, true, true}, {true, true, true},	     2,
+            {c_magenta, c_pink, c_white},	{true, true, true}, {false, false, false},	     2,
             {0,0,0}
         },
 
         { // laser beam (for laser weapons)
             {_("faint glimmer"), _("beam of light"), _("intense beam of light")},	'#',
-            {c_blue, c_ltblue, c_white},	{true, true, true}, {true, true, true},	     1,
+            {c_blue, c_ltblue, c_white},	{true, true, true}, {false, false, false},	     1,
             {0,0,0}
         }
     };
