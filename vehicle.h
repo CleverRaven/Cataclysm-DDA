@@ -175,10 +175,10 @@ public:
     void init_state(game* g, int veh_init_fuel, int veh_init_status);
 
 // load and init vehicle data from stream. This implies valid save data!
-    void load (std::ifstream &stin);
+    void load (std::stringstream &stin);
 
 // Save vehicle data to stream
-    void save (std::ofstream &stout);
+    void save (std::stringstream &stout);
 
 // Operate vehicle
     std::string use_controls();

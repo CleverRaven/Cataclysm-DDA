@@ -62,7 +62,7 @@ bool vehicle::player_in_control (player *p)
     return part_with_feature(veh_part, "CONTROLS", false) >= 0 && p->controlling_vehicle;
 }
 
-void vehicle::load (std::ifstream &stin)
+void vehicle::load (std::stringstream &stin)
 {
     int t;
     int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
@@ -141,7 +141,7 @@ void vehicle::load (std::ifstream &stin)
     getline(stin, databuff); // Clear EoL
 }
 
-void vehicle::save (std::ofstream &stout)
+void vehicle::save (std::stringstream &stout)
 {
     stout <<
         int(type) << " " <<
