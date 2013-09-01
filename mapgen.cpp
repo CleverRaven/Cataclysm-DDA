@@ -5012,6 +5012,35 @@ ff.......|....|WWWWWWWW|\n\
  case ot_bunker:
   if (t_above == ot_null) {	// We're on ground level
    fill_background(this, &grass_or_dirt);
+   //chainlink fence that surrounds bunker
+        line(this, t_chainfence_v, 1, 1, 1, SEEY*2-1);
+        line(this, t_chainfence_v, SEEX*2-1, 1, SEEX*2-1, SEEY*2-1);
+        line(this, t_chainfence_h, 1, SEEY*2-1, SEEX*2-1, SEEY*2-1);
+        line(this, t_chainfence_h, 1, 1, SEEX*2-1, 1);
+        line(this, t_chaingate_l, SEEX-3, SEEY*2-1, SEEX+2, SEEY*2-1);
+        line(this, t_chaingate_l, 1, SEEY*2-2, 1, SEEY*2-7);
+        line(this, t_chaingate_l, SEEX*2-1, SEEY*2-2, SEEX*2-1, SEEY*2-7);
+   //watch cabin
+        //line(this, t_concrete_h, SEEX-6, SEEY*2-4, SEEX-4, SEEY*2-4);
+        ter_set(2, 13, t_concrete_h); ter_set(4, 13, t_concrete_h); ter_set(3, 13, t_door_c);
+        ter_set(4, 14, t_concrete_v);
+        ter_set(4, 15, t_concrete_v);
+        ter_set(1, 13, t_concrete_h);
+        ter_set(3, 15, t_window);
+        ter_set(2, 15, t_window);
+        ter_set(1, 14, t_reinforced_glass_v);
+        ter_set(1, 15, t_reinforced_glass_v);
+        ter_set(2, 14, t_floor); ter_set(3, 14, t_floor); furn_set(2,14, f_table);
+   //watch cabin 2
+        ter_set(SEEX*2-2, 13, t_concrete_h); ter_set(SEEX*2-4, 13, t_concrete_h); ter_set(SEEX*2-3, 13, t_door_c);
+        ter_set(SEEX*2-4, 14, t_concrete_v);
+        ter_set(SEEX*2-4, 15, t_concrete_v);
+        ter_set(SEEX*2-1, 13, t_concrete_h);
+        ter_set(SEEX*2-3, 15, t_window);
+        ter_set(SEEX*2-2, 15, t_window);
+        ter_set(SEEX*2-1, 14, t_reinforced_glass_v);
+        ter_set(SEEX*2-1, 15, t_reinforced_glass_v);
+        ter_set(SEEX*2-2, 14, t_floor); ter_set(SEEX*2-3, 14, t_floor); furn_set(SEEX*2-2, 14, f_table);
    line(this, t_wall_metal_h,  7,  7, 16,  7);
    line(this, t_wall_metal_h,  8,  8, 15,  8);
    line(this, t_wall_metal_h,  8, 15, 15, 15);
@@ -5031,7 +5060,6 @@ ff.......|....|WWWWWWWW|\n\
     add_spawn(mon_turret, 1, 14, i + 1);
    }
    ter_set(13, 16, t_card_military);
-
   } else { // Below ground!
 
    fill_background(this, t_rock);
