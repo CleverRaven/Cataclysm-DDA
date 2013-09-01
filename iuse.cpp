@@ -117,8 +117,7 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
         //but might need to be reworked for some European languages that have more verb forms
     char ch = g->inv(string_format(_("%s on what?"), verb.c_str()));
     item* cut = &(p->i_at(ch));
-    {
-    if (cut->type->id == "null")
+    if (cut->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
         return false;
     }
