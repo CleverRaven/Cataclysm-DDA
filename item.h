@@ -81,8 +81,10 @@ public:
  char pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, char invlet);
  void next_mode();
-
+ bool json_load(picojson::value parsed, game * g);
+ virtual picojson::value json_save() const;
  std::string save_info() const;	// Formatted for save files
+ //
  void load_info(std::string data, game *g);
  //std::string info(bool showtext = false);	// Formatted for human viewing
  std::string info(bool showtext = false);
