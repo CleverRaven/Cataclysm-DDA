@@ -2532,7 +2532,7 @@ void game::load_artifacts()
     }
     file_test.close();
 
-    catajson artifact_list(std::string("save/artifacts.gsav"));
+    catajson artifact_list(std::string("save/artifacts.gsav"),false,true);
 
     if(!json_good())
     {
@@ -2867,7 +2867,7 @@ void game::save_artifacts()
 	artifacts.push_back(itypes[*it]->save_data());
     }
     picojson::value out = picojson::value(artifacts);
-    fout << out.serialize();
+    fout << compress_string(out.serialize());
     fout.close();
 }
 

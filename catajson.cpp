@@ -1,5 +1,6 @@
 #include "catajson.h"
 #include "output.h"
+#include "compress.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -10,11 +11,25 @@ catajson::catajson()
     path_msg = "";
 }
 
-catajson::catajson(std::string path, bool is_static)
+catajson::catajson(std::string path, bool is_static, bool is_compressed)
 {
     std::ifstream file;
     file.open(path.c_str());
-    file >> val;
+    if (is_compressed)
+    {
+        std::stringstream data;
+        while (!file.eof())
+        {
+            char buffer[1024];
+            file.read(buffer,1024);
+            data.write(buffer,file.gcount());
+        }
+        file.close();
+        data.str(decompress_string(data.str()));
+        data >> val;
+    } else {
+        file >> val;
+    }
     file.close();
 
     path_msg = path;
