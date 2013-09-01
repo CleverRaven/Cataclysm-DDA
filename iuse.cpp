@@ -115,10 +115,10 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
         //Note: this part still strongly relies on English grammar.
         //Although it can be easily worked around in language like Chinese,
         //but might need to be reworked for some European languages that have more verb forms
-    char ch = g->inv(string_format(_("%s on what?"), verb.c_str()));
     item* cut = &(p->i_at(ch));
-    if (cut->type->id == "null")
+    char ch = g->inv(string_format(_("%s on what?"), verb.c_str()));
     {
+    if (cut->type->id == "null")
         g->add_msg(_("You do not have that item!"));
         return false;
     }
@@ -1154,27 +1154,24 @@ void iuse::extra_battery(game *g, player *p, item *it, bool t)
 
 bool iuse::valid_fabric(game *g, player *p, item *it, bool t)
 {
-    if (it->type->id == "null")
-    {
-        g->add_msg_if_player(p,_("You do not have that item!"));
+    if (it->type->id == "null") {
+        g->add_msg_if_player(p, _("You do not have that item!"));
         return false;
     }
-    if (it->type->id == "string_6" || it->type->id == "string_36" || it->type->id == "rope_30" || it->type->id == "rope_6")
-    {
+    if (it->type->id == "string_6" || it->type->id == "string_36" || it->type->id == "rope_30" ||
+        it->type->id == "rope_6") {
         g->add_msg(_("You cannot cut that, you must disassemble it using the disassemble key"));
         return false;
     }
-    if (it->type->id == "rag" || it->type->id == "rag_bloody" || it->type->id == "leather")
-    {
+    if (it->type->id == "rag" || it->type->id == "rag_bloody" || it->type->id == "leather") {
         g->add_msg_if_player(p, _("There's no point in cutting a %s."), it->type->name.c_str());
         return false;
     }
-    if (!it->made_of("cotton") && !it->made_of("leather"))
-    {
+    if (!it->made_of("cotton") && !it->made_of("leather")) {
         g->add_msg(_("You can only slice items made of cotton or leather."));
         return false;
     }
-    
+
     return true;
 }
 
