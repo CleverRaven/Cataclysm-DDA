@@ -18,6 +18,7 @@
         "broken_color": "red",
         "damage_modifier": 60,
         "durability": 300,
+        "size": 400,
         "item": "seat",
         "difficulty": 1,
         "flags": [
@@ -46,6 +47,7 @@
         "broken_color": "magenta",
         "damage_modifier": 60,
         "durability": 300,
+        "size": 400,
         "item": "seat",
         "difficulty": 1,
         "flags": [
@@ -306,6 +308,7 @@
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
+        "size": 400,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -848,6 +851,7 @@
         "broken_color": "light_cyan",
         "damage_modifier": 10,
         "durability": 20,
+        "size": 400,
         "item": "kitchen_unit",
         "difficulty": 4,
         "flags": [
@@ -862,6 +866,7 @@
         "broken_color": "light_red",
         "damage_modifier": 10,
         "durability": 20,
+        "size": 400,
         "item": "weldrig",
         "difficulty": 4,
         "flags": [
