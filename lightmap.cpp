@@ -116,6 +116,9 @@ void map::generate_lightmap(game* g)
      else
       apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL, trigdist);  // kinda a hack as the square will still get marked
      break;
+    case fd_laser:
+     apply_light_source(sx, sy, 1, trigdist);
+     break;
    }
 	}
   }

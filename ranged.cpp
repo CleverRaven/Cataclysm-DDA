@@ -102,7 +102,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  int num_shots = 1;
  if (burst)
   num_shots = weapon->burst_size();
- if (num_shots > weapon->num_charges() && !weapon->has_flag("CHARGE"))
+ if (num_shots > weapon->num_charges() && !weapon->has_flag("CHARGE") && !weapon->has_flag("NO_AMMO"))
   num_shots = weapon->num_charges();
 
  if (num_shots == 0)
@@ -933,31 +933,47 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
  std::string gunsound;
  // noise() doesn't suport gunmods, but it does return the right value
  int noise = p.weapon.noise();
- if (noise < 5) {
-  if (burst)
-   gunsound = _("Brrrip!");
-  else
-   gunsound = _("plink!");
- } else if (noise < 25) {
-  if (burst)
-   gunsound = _("Brrrap!");
-  else
-   gunsound = _("bang!");
- } else if (noise < 60) {
-  if (burst)
-   gunsound = _("P-p-p-pow!");
-  else
-   gunsound = _("blam!");
+
+ it_gun* weapontype = dynamic_cast<it_gun*>(weapon->type);
+ if (weapontype->ammo_effects.count("LASER") || weapontype->ammo_effects.count("PLASMA")) {
+  if (noise < 20) {
+    gunsound = _("Fzzt!");
+  } else if (noise < 40) {
+    gunsound = _("Pew!");
+  } else if (noise < 60) {
+    gunsound = _("Bzorp!");
+  } else {
+    gunsound = _("Kra-kow!!");
+  }
  } else {
-  if (burst)
+  if (noise < 5) {
+   if (burst)
+   gunsound = _("Brrrip!");
+   else
+   gunsound = _("plink!");
+  } else if (noise < 25) {
+   if (burst)
+   gunsound = _("Brrrap!");
+   else
+   gunsound = _("bang!");
+  } else if (noise < 60) {
+   if (burst)
+   gunsound = _("P-p-p-pow!");
+   else
+   gunsound = _("blam!");
+  } else {
+   if (burst)
    gunsound = _("Kaboom!!");
-  else
+   else
    gunsound = _("kerblam!");
+  }
  }
+ /*
  if (weapon->curammo->type == "fusion" || weapon->curammo->type == "battery" ||
      weapon->curammo->type == "plutonium")
   g->sound(p.posx, p.posy, 8, _("Fzzt!"));
- else if (weapon->curammo->type == "40mm")
+  */
+ if (weapon->curammo->type == "40mm")
   g->sound(p.posx, p.posy, 8, _("Thunk!"));
  else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm" ||
      weapon->curammo->type == "84x246mm" || weapon->curammo->type == "m235")
@@ -1293,11 +1309,11 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
     }
   }
 
-  if (effects.count("PLASMATRAIL")) {
+  if (effects.count("PLASMA")) {
     for (int i = x - 1; i <= x + 1; i++) {
       for (int j = y - 1; j <= y + 1; j++) {
         if (one_in(2))
-          g->m.add_field(g, i, j, fd_plasma, 3);
+          g->m.add_field(g, i, j, fd_plasma, rng(2,3));
       }
     }
   }

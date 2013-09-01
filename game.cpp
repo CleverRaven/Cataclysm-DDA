@@ -8560,6 +8560,11 @@ void game::plfire(bool burst)
   }
  }
 
+ if (u.weapon.has_flag("NO_AMMO")) {
+   u.weapon.charges = 1;
+   u.weapon.curammo = dynamic_cast<it_ammo*>(itypes["generic_no_ammo"]);
+ }
+
  if ((u.weapon.has_flag("STR8_DRAW")  && u.str_cur <  4) ||
      (u.weapon.has_flag("STR10_DRAW") && u.str_cur <  5) ||
      (u.weapon.has_flag("STR12_DRAW") && u.str_cur <  6)   ) {
@@ -8579,7 +8584,8 @@ void game::plfire(bool burst)
   refresh_all();
  }
 
- if (u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT")) {
+ if (u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT")
+     && !u.weapon.has_flag("NO_AMMO")) {
   add_msg(_("You need to reload!"));
   return;
  }

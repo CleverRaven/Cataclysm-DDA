@@ -2006,6 +2006,11 @@ int item::range(player *p)
    return 0;
  }
 
+ // Ammoless weapons use weapon's range only
+ if (has_flag("NO_AMMO") && !curammo) {
+  return dynamic_cast<it_gun*>(type)->range;
+ }
+
  int ret = (curammo ? dynamic_cast<it_gun*>(type)->range + curammo->range : 0);
 
  if (has_flag("STR8_DRAW") && p) {
