@@ -2452,48 +2452,48 @@ void game::death_screen()
 
 bool game::load_master()
 {
- std::ifstream fin;
- std::string data;
- char junk;
- fin.open("save/master.gsav");
- if (!fin.is_open())
-  return false;
+    std::ifstream fin;
+    std::string data;
+    char junk;
+    fin.open("save/master.gsav");
+    if (!fin.is_open())
+        return false;
 
- std::stringstream file_data;
+    std::stringstream file_data;
 
- while (!fin.eof())
- {
-     char buffer[1024];
-     fin.read(buffer,1024);
-     file_data.write(buffer,fin.gcount());
- }
- fin.close();
+    while (!fin.eof())
+    {
+        char buffer[1024];
+        fin.read(buffer,1024);
+        file_data.write(buffer,fin.gcount());
+    }
+    fin.close();
 
- file_data.str(decompress_string(file_data.str()));
+    file_data.str(decompress_string(file_data.str()));
 
-// First, get the next ID numbers for each of these
- file_data >> next_mission_id >> next_faction_id >> next_npc_id;
- int num_missions, num_factions;
+    // First, get the next ID numbers for each of these
+    file_data >> next_mission_id >> next_faction_id >> next_npc_id;
+    int num_missions, num_factions;
 
- file_data >> num_missions;
- if (file_data.peek() == '\n')
-  file_data.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_missions; i++) {
-  mission tmpmiss;
-  tmpmiss.load_info(this, file_data);
-  active_missions.push_back(tmpmiss);
- }
+    file_data >> num_missions;
+    if (file_data.peek() == '\n')
+        file_data.get(junk); // Chomp that pesky endline
+    for (int i = 0; i < num_missions; i++) {
+        mission tmpmiss;
+        tmpmiss.load_info(this, file_data);
+        active_missions.push_back(tmpmiss);
+    }
 
- file_data >> num_factions;
- if (file_data.peek() == '\n')
-  file_data.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_factions; i++) {
-  getline(file_data, data);
-  faction tmp;
-  tmp.load_info(data);
-  factions.push_back(tmp);
- }
- return true;
+    file_data >> num_factions;
+    if (file_data.peek() == '\n')
+        file_data.get(junk); // Chomp that pesky endline
+    for (int i = 0; i < num_factions; i++) {
+        getline(file_data, data);
+        faction tmp;
+        tmp.load_info(data);
+        factions.push_back(tmp);
+    }
+    return true;
 }
 
 void game::load_uistate() {
