@@ -331,9 +331,9 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
 {
 
     const picojson::object &data = parsed.get<picojson::object>();
+
     int idtmp;
     picoint(data, "typeid", idtmp);
-
     type = (*mtypes)[idtmp];
 
     picoint(data, "posx", _posx);
@@ -359,7 +359,6 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
         const picojson::array &pvplans = pvplans_it->second.get<picojson::array>();
         for( picojson::array::const_iterator pvpoint = pvplans.begin(); pvpoint != pvplans.end(); ++pvpoint) {
             if ( ! (*pvpoint).is<picojson::array>() ) {
-                //popup("not array %s",(*pvpoint).serialize().c_str());
                 continue;
             }
             point ptmp;
@@ -394,19 +393,21 @@ picojson::value monster::json_save()
     data["friendly"] = pv(friendly);
     data["faction_id"] = pv(faction_id);
     data["mission_id"] = pv(mission_id);
-    data["no_extra_death_drops"] = pv(no_extra_death_drops);
+    data["no_extra_death_drops"] = pv( no_extra_death_drops );
     data["dead"] = pv(dead);
     data["anger"] = pv(anger);
     data["morale"] = pv(morale);
 
-    std::vector<picojson::value> pvplans;
-    for(int i = 0; i < plans.size(); i++) {
-        std::vector<picojson::value> pvpoint;
-        pvpoint.push_back( pv( (int)plans[i].x ) );
-        pvpoint.push_back( pv( (int)plans[i].y ) );
-        pvplans.push_back( pv ( pvpoint ) );
+    if ( plans.size() > 0 ) {
+        std::vector<picojson::value> pvplans;
+        for(int i = 0; i < plans.size(); i++) {
+            std::vector<picojson::value> pvpoint;
+            pvpoint.push_back( pv( (int)plans[i].x ) );
+            pvpoint.push_back( pv( (int)plans[i].y ) );
+            pvplans.push_back( pv ( pvpoint ) );
+        }
+        data["plans"] = pv( pvplans );
     }
-    data["plans"] = pv( pvplans );
 
     return picojson::value(data);
 }
@@ -417,8 +418,10 @@ picojson::value monster::json_save()
  */
 std::string monster::save_info()
 {
+#ifdef jsonsave_monster
     return json_save().serialize();
-    /*  
+#endif
+      
     // deprecated hairball; useful in testing (?)
         std::stringstream pack;
         pack << int(type->id) << " " << _posx << " " << _posy << " " << wandx << " " <<
@@ -430,7 +433,6 @@ std::string monster::save_info()
             pack << " " << plans[i].x << " " << plans[i].y;
         }
         return pack.str();
-    */
 }
 
 void monster::debug(player &u)
