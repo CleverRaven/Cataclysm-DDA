@@ -376,6 +376,8 @@ struct it_gun : public itype
  int clip;
  int reload_time;
 
+ std::set<std::string> ammo_effects;
+
  virtual bool is_gun() { return true; }
 
  it_gun(std::string pid, unsigned int pprice,
@@ -383,6 +385,7 @@ struct it_gun : public itype
         char psym, nc_color pcolor, std::string pm1, std::string pm2,
         unsigned short pvolume, unsigned int pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
+        std::set<std::string> effects,
 
 	const char *pskill_used, ammotype pammo, signed char pdmg_bonus, signed char prange,
 	signed char pdispersion, signed char precoil, unsigned char pdurability,
@@ -399,6 +402,7 @@ struct it_gun : public itype
   burst = pburst;
   clip = pclip;
   reload_time = preload_time;
+  ammo_effects = effects;
  }
 
  it_gun() :itype() { };

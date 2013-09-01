@@ -2060,6 +2060,7 @@
     "price": 13000,
     "material": "steel",
     "flags": ["USE_UPS", "MODE_BURST"],
+    "ammo_effects": ["PLASMATRAIL"],
     "skill": "rifle",
     "ammo": "plasma",
     "weight": 4535,

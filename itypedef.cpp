@@ -134,9 +134,10 @@ A large and very powerful 8-cylinder combustion engine."));
 // clip is how many shots we get before reloading.
 
 #define GUN(id,name,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
-to_hit,dmg,range,dispersion,recoil,durability,burst,clip,reload_time,des) \
+to_hit,dmg,range,dispersion,recoil,durability,burst,clip,reload_time,des,effects) \
 itypes[id]=new it_gun(id,price,name,des,'(',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,range,dispersion,\
+color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,effects,\
+skill,ammo,dmg,range,dispersion,\
 recoil,durability,burst,clip,reload_time)
 
 /* TOOLS
@@ -319,17 +320,18 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
     }
 }
 
+std::set<std::string> empty_effects;
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("bio_blaster_gun", _("fusion blaster"),	 0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	"fusion", 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
-"");
+"", empty_effects);
 
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("bio_lightning", _("Chain Lightning"),	 0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	"fusion", 12,  0,  0,  0,  0,  0,  4,  0, 10,  1,  10, 500,
-"");
+"", empty_effects);
 
 
 // Unarmed Styles

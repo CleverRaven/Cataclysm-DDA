@@ -155,6 +155,12 @@ void game::init_fields()
             {"", "", ""}, '&',
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
+        },
+
+        { // plasma glow (for plasma weapons)
+            {_("faint plasma"), _("glowing plasma"), _("burning plasma")},	'9',
+            {c_magenta, c_pink, c_white},	{true, true, true}, {true, true, true},	     2,
+            {0,0,0}
         }
     };
     for(int i=0; i<num_fields; i++) {

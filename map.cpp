@@ -2161,6 +2161,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     if (ammo_effects.count("LIGHTNING"))
         add_field(g, x, y, fd_electricity, rng(2, 3));
 
+    if (ammo_effects.count("PLASMATRAIL"))
+        add_field(g, x, y, fd_plasma, rng(2, 3));
+
     // Set damage to 0 if it's less
     if (dam < 0)
         dam = 0;

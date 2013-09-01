@@ -77,6 +77,11 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
  bool is_bolt = false;
  std::set<std::string> *effects = &curammo->ammo_effects;
+ std::set<std::string> *gun_effects = &dynamic_cast<it_gun*>(weapon->type)->ammo_effects;
+ effects->insert(gun_effects->begin(),gun_effects->end());
+
+ // Add weapon ammo_effect flags
+
  // Bolts and arrows are silent
  if (curammo->type == "bolt" || curammo->type == "arrow")
   is_bolt = true;
@@ -1287,4 +1292,14 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
       }
     }
   }
+
+  if (effects.count("PLASMATRAIL")) {
+    for (int i = x - 1; i <= x + 1; i++) {
+      for (int j = y - 1; j <= y + 1; j++) {
+        if (one_in(2))
+          g->m.add_field(g, i, j, fd_plasma, 3);
+      }
+    }
+  }
+
 }

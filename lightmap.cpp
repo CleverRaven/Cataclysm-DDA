@@ -108,6 +108,7 @@ void map::generate_lightmap(game* g)
      apply_light_source(sx, sy, 8, trigdist);
      break;
     case fd_electricity:
+    case fd_plasma:
      if (3 == cur->getFieldDensity())
       apply_light_source(sx, sy, 8, trigdist);
      else if (2 == cur->getFieldDensity())
