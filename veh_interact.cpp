@@ -202,6 +202,7 @@ int veh_interact::cant_do (char mode)
     case 'd': //drain tank
         valid_target = veh->fuel_left("water") > 0;
         has_tools = has_siphon;
+        break;
     default:
         return -1;
     }
