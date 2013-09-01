@@ -71,67 +71,88 @@ void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> traj
 /* Monster hit animation */
 void game::draw_hit_mon(int x, int y, monster m, bool dead)
 {
-    //int iTimeout = 0;
-    tilecontext->init_draw_hit(x, y, monster_names[m.type->id]);
-    wrefresh(w_terrain);
+    if (use_tiles)
+    {
+        //int iTimeout = 0;
+        tilecontext->init_draw_hit(x, y, monster_names[m.type->id]);
+        wrefresh(w_terrain);
 
-    timespec tspec;
-    tspec.tv_sec = 0;
-    tspec.tv_nsec = BULLET_SPEED;
+        timespec tspec;
+        tspec.tv_sec = 0;
+        tspec.tv_nsec = BULLET_SPEED;
 
-    nanosleep(&tspec, NULL);
-    /*
-    nc_color cMonColor = m.type->color;
-    char sMonSym = m.symbol();
-    hit_animation(x,
-                  y,
-                  red_background(cMonColor), dead?'%':sMonSym);
-    */
-    /*
-    x + VIEWX - u.posx - u.view_offset_x,
+        nanosleep(&tspec, NULL);
+        /*
+        nc_color cMonColor = m.type->color;
+        char sMonSym = m.symbol();
+        hit_animation(x,
+                      y,
+                      red_background(cMonColor), dead?'%':sMonSym);
+        */
+        /*
+        x + VIEWX - u.posx - u.view_offset_x,
+                      y + VIEWY - u.posy - u.view_offset_y,
+        */
+        mvwputch(w_terrain,
+                 x + VIEWX - u.posx - u.view_offset_x,
+                 y + VIEWY - u.posy - u.view_offset_y,
+                 c_white, ' ');
+        wrefresh(w_terrain);
+    }
+    else
+    {
+        nc_color cMonColor = m.type->color;
+        char sMonSym = m.symbol();
+
+        hit_animation(x + VIEWX - u.posx - u.view_offset_x,
                   y + VIEWY - u.posy - u.view_offset_y,
-    */
-    mvwputch(w_terrain,
-             x + VIEWX - u.posx - u.view_offset_x,
-             y + VIEWY - u.posy - u.view_offset_y,
-             c_white, ' ');
-    wrefresh(w_terrain);
+                  red_background(cMonColor), dead?'%':sMonSym);
+    }
 }
 /* Player hit animation */
 void game::draw_hit_player(player *p, bool dead)
 {
-    // get base name of player id
-    std::string pname = (p->is_npc()?"npc_":"player_");
-    // get sex of player
-    pname += (p->male?"male":"female");
+    if (use_tiles)
+    {
+        // get base name of player id
+        std::string pname = (p->is_npc()?"npc_":"player_");
+        // get sex of player
+        pname += (p->male?"male":"female");
 
-    tilecontext->init_draw_hit(p->posx, p->posy, pname);
-    wrefresh(w_terrain);
+        tilecontext->init_draw_hit(p->posx, p->posy, pname);
+        wrefresh(w_terrain);
 
-    timespec tspec;
-    tspec.tv_sec = 0;
-    tspec.tv_nsec = BULLET_SPEED;
+        timespec tspec;
+        tspec.tv_sec = 0;
+        tspec.tv_nsec = BULLET_SPEED;
 
-    nanosleep(&tspec, NULL);
-    /*
-    hit_animation(p->posx - g->u.posx + VIEWX - g->u.view_offset_x,
-                  p->posy - g->u.posy + VIEWY - g->u.view_offset_y,
-                  red_background(p->color()), '@');
-    */
-    /*
-    if (iTimeout <= 0 || iTimeout > 999) {
-        iTimeout = 70;
+        nanosleep(&tspec, NULL);
+        /*
+        hit_animation(p->posx - g->u.posx + VIEWX - g->u.view_offset_x,
+                      p->posy - g->u.posy + VIEWY - g->u.view_offset_y,
+                      red_background(p->color()), '@');
+        */
+        /*
+        if (iTimeout <= 0 || iTimeout > 999) {
+            iTimeout = 70;
+        }
+
+        timeout(iTimeout);
+        getch(); //useing this, because holding down a key with nanosleep can get yourself killed
+        timeout(-1);
+        */
+        mvwputch(w_terrain,
+                 p->posx + VIEWX - u.posx - u.view_offset_x,
+                 p->posy + VIEWY - u.posy - u.view_offset_y,
+                 c_white, ' ');
+        wrefresh(w_terrain);
     }
-
-    timeout(iTimeout);
-    getch(); //useing this, because holding down a key with nanosleep can get yourself killed
-    timeout(-1);
-    */
-    mvwputch(w_terrain,
-             p->posx + VIEWX - u.posx - u.view_offset_x,
-             p->posy + VIEWY - u.posy - u.view_offset_y,
-             c_white, ' ');
-    wrefresh(w_terrain);
+    else
+    {
+        hit_animation(p->posx + VIEWX - u.posx - u.view_offset_x,
+                      p->posy + VIEWY - u.posy - u.view_offset_y,
+                      red_background(p->color()), '@');
+    }
 }
 
 /* Line drawing code, not really an animation but should be separated anyway */
@@ -178,36 +199,48 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
 //*/
 void game::draw_weather(weather_printable wPrint)
 {
-    std::string weather_name;
-    /*
-    WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-    WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
-    WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
-    */
-    switch(wPrint.wtype)
+    if (use_tiles)
     {
-        // Acid weathers, uses acid droplet tile, fallthrough intended
-        case WEATHER_ACID_DRIZZLE:
-        case WEATHER_ACID_RAIN: weather_name = "weather_acid_drop"; break;
-        // Normal rainy weathers, uses normal raindrop tile, fallthrough intended
-        case WEATHER_DRIZZLE:
-        case WEATHER_RAINY:
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING: weather_name = "weather_rain_drop"; break;
-        // Snowy weathers, uses snowflake tile, fallthrough intended
-        case WEATHER_SNOW:
-        case WEATHER_SNOWSTORM: weather_name = "weather_snowflake"; break;
-    }
-    /*
-    // may have been the culprit of slowdown. Seems to be the same speed now for both weathered and non-weathered display
-    for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
-         weather_iterator != wPrint.vdrops.end();
-         ++weather_iterator)
-    {
-        mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
+        std::string weather_name;
+        /*
+        WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
+        WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+        WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
+        */
+        switch(wPrint.wtype)
+        {
+            // Acid weathers, uses acid droplet tile, fallthrough intended
+            case WEATHER_ACID_DRIZZLE:
+            case WEATHER_ACID_RAIN: weather_name = "weather_acid_drop"; break;
+            // Normal rainy weathers, uses normal raindrop tile, fallthrough intended
+            case WEATHER_DRIZZLE:
+            case WEATHER_RAINY:
+            case WEATHER_THUNDER:
+            case WEATHER_LIGHTNING: weather_name = "weather_rain_drop"; break;
+            // Snowy weathers, uses snowflake tile, fallthrough intended
+            case WEATHER_SNOW:
+            case WEATHER_SNOWSTORM: weather_name = "weather_snowflake"; break;
+        }
+        /*
+        // may have been the culprit of slowdown. Seems to be the same speed now for both weathered and non-weathered display
+        for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
+             weather_iterator != wPrint.vdrops.end();
+             ++weather_iterator)
+        {
+            mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
 
+        }
+        */
+        tilecontext->init_draw_weather(wPrint, weather_name);
     }
-    */
-    tilecontext->init_draw_weather(wPrint, weather_name);
+    else
+    {
+        for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
+             weather_iterator != wPrint.vdrops.end();
+             ++weather_iterator)
+        {
+            mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
+        }
+    }
 }
 #endif
