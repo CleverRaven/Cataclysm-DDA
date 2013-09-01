@@ -2881,7 +2881,8 @@ std::string game::save_weather() const
 {
     std::stringstream weather_string;
     weather_string << future_weather.size() + 1 << " ";
-    weather_string << int(nextweather) << " " << weather << " " << int(temperature) << " ";
+    weather_string << int(nextweather) << " " << weather << " "
+                   << int(temperature) << " ";
     for( std::list<weather_segment>::const_iterator current_weather = future_weather.begin();
          current_weather != future_weather.end(); ++current_weather )
     {
@@ -2894,47 +2895,49 @@ std::string game::save_weather() const
 
 void game::save()
 {
- std::stringstream playerfile;
- std::ofstream fout;
- playerfile << "save/" << base64_encode(u.name) << ".sav";
- std::stringstream data;
+    std::stringstream playerfile;
+    std::ofstream fout;
+    playerfile << "save/" << base64_encode(u.name) << ".sav";
+    std::stringstream data;
 
- // First, write out basic game state information.
- data << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
-         mostseen << " " << nextinv << " " << next_npc_id << " " <<
-     next_faction_id << " " << next_mission_id << " " << int(nextspawn) << " ";
+    // First, write out basic game state information.
+    data << int(turn) << " " << int(last_target) << " " << int(run_mode) << " "
+         << mostseen << " " << nextinv << " " << next_npc_id << " "
+         << next_faction_id << " " << next_mission_id << " " << int(nextspawn)
+         << " ";
 
- data << save_weather();
+    data << save_weather();
 
- data << levx << " " << levy << " " << levz << " " << cur_om->pos().x <<
-         " " << cur_om->pos().y << " " << std::endl;
- // Next, the scent map.
- for (int i = 0; i < SEEX * MAPSIZE; i++) {
-  for (int j = 0; j < SEEY * MAPSIZE; j++)
-   data << grscent[i][j] << " ";
- }
- // Now save all monsters.
- data << std::endl << num_zombies() << std::endl;
- for (int i = 0; i < num_zombies(); i++) {
-     data << _z[i].save_info() << std::endl;
-     data << _z[i].inv.size() << std::endl;
-     for( std::vector<item>::iterator it = _z[i].inv.begin(); it != _z[i].inv.end(); ++it )
-     {
-         data << it->save_info() << std::endl;
-     }
- }
- for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
-  data << kills[i] << " ";
- // And finally the player.
- data << u.save_info() << std::endl;
- data << std::endl;
+    data << levx << " " << levy << " " << levz << " " << cur_om->pos().x <<
+        " " << cur_om->pos().y << " " << std::endl;
+    // Next, the scent map.
+    for (int i = 0; i < SEEX * MAPSIZE; i++) {
+        for (int j = 0; j < SEEY * MAPSIZE; j++)
+            data << grscent[i][j] << " ";
+    }
+    // Now save all monsters.
+    data << std::endl << num_zombies() << std::endl;
+    for (int i = 0; i < num_zombies(); i++) {
+        data << _z[i].save_info() << std::endl;
+        data << _z[i].inv.size() << std::endl;
+        for( std::vector<item>::iterator it = _z[i].inv.begin(); it != _z[i].inv.end(); ++it )
+        {
+            data << it->save_info() << std::endl;
+        }
+    }
+    for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
+        data << kills[i] << " ";
+    // And finally the player.
+    data << u.save_info() << std::endl;
+    data << std::endl;
 
- fout.open(playerfile.str().c_str());
- fout << compress_string(data.str());
- fout.close();
- //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
- save_auto_pickup(true); // Save character auto pickup rules
- save_uistate();
+    fout.open(playerfile.str().c_str());
+    fout << compress_string(data.str());
+    fout.close();
+    //factions, missions, and npcs, maps and artifact data is saved in
+    //cleanup_at_end()
+    save_auto_pickup(true); // Save character auto pickup rules
+    save_uistate();
 }
 
 void game::delete_save()
