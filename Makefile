@@ -24,6 +24,8 @@
 #  make TILES=1
 # Disable gettext, on some platforms the dependencies are hard to wrangle.
 #  make LOCALIZE=0
+# Disable compressed saves
+#  make COMPRESS=0
 
 # comment these to toggle them as one sees fit.
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
@@ -62,6 +64,7 @@ W32TARGET = cataclysm.exe
 BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
 LOCALIZE = 1
+COMPRESS = 1
 
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
@@ -220,6 +223,11 @@ endif
 
 ifeq ($(LOCALIZE),1)
   DEFINES += -DLOCALIZE
+endif
+
+ifeq ($(COMPRESS), 1)
+  LDFLAGS += -lz
+  DEFINES += -DCOMPRESS
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
