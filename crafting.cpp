@@ -553,6 +553,7 @@ recipe* game::select_crafting_recipe()
     item tmp;
     int line = 0, xpos, ypos;
     bool redraw = true;
+    bool keepline = false;
     bool done = false;
     recipe *chosen = NULL;
     InputEvent input;
@@ -563,7 +564,11 @@ recipe* game::select_crafting_recipe()
         if (redraw)
         { // When we switch tabs, redraw the header
             redraw = false;
-            line = 0;
+            if ( ! keepline ) {
+                line = 0;
+            } else {
+                keepline = false;
+            }
             draw_recipe_tabs(w_head, tab, (filterstring == "")?false:true);
             current.clear();
             available.clear();
@@ -881,6 +886,7 @@ recipe* game::select_crafting_recipe()
                 tmp = item(item_controller->find_template(current[line]->result), 0);
                 full_screen_popup(tmp.info(true).c_str());
                 redraw = true;
+                keepline = true;
                 break;
             case Filter:
                 filterstring = string_input_popup(_("Search:"), 55, filterstring);
