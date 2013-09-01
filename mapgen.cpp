@@ -4920,7 +4920,7 @@ ff.......|....|WWWWWWWW|\n\
    if (!one_in(3)) {
     rn = dice(4, 3);
     spawn_item(SEEX - 1, SEEY - 1, "laser_pack", 0, rn);
-    spawn_item(SEEX + 1, SEEY - 1, "laser_pack", 0, rn);
+    spawn_item(SEEX + 1, SEEY - 1, "UPS_off", 0, rn);
     spawn_item(SEEX - 1, SEEY    , "v29", 0);
     spawn_item(SEEX + 1, SEEY    , "ftk93", 0);
    } else if (!one_in(3)) {

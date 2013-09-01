@@ -73,6 +73,7 @@ public:
  int clip_size();
  int dispersion();
  int gun_damage(bool with_ammo = true);
+ int gun_pierce(bool with_ammo = true);
  int noise() const;
  int burst_size();
  int recoil(bool with_ammo = true);

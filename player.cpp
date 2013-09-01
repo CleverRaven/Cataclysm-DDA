@@ -8575,14 +8575,17 @@ std::string player::weapname(bool charges)
      weapon.charges >= 0 && charges) {
   std::stringstream dump;
   int spare_mag = weapon.has_gunmod("spare_mag");
-  dump << weapon.tname().c_str() << " (" << weapon.charges;
-  if( -1 != spare_mag )
+  dump << weapon.tname().c_str();
+  if (!weapon.has_flag("NO_AMMO")) {
+   dump << " (" << weapon.charges;
+   if( -1 != spare_mag )
    dump << "+" << weapon.contents[spare_mag].charges;
-  for (int i = 0; i < weapon.contents.size(); i++)
+   for (int i = 0; i < weapon.contents.size(); i++)
    if (weapon.contents[i].is_gunmod() &&
-       weapon.contents[i].has_flag("MODE_AUX"))
+     weapon.contents[i].has_flag("MODE_AUX"))
     dump << "+" << weapon.contents[i].charges;
-  dump << ")";
+   dump << ")";
+  }
   return dump.str();
  } else if (weapon.is_null())
   return _("fists");

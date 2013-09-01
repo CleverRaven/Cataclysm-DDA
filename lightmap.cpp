@@ -108,12 +108,16 @@ void map::generate_lightmap(game* g)
      apply_light_source(sx, sy, 8, trigdist);
      break;
     case fd_electricity:
+    case fd_plasma:
      if (3 == cur->getFieldDensity())
       apply_light_source(sx, sy, 8, trigdist);
      else if (2 == cur->getFieldDensity())
       apply_light_source(sx, sy, 1, trigdist);
      else
       apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL, trigdist);  // kinda a hack as the square will still get marked
+     break;
+    case fd_laser:
+     apply_light_source(sx, sy, 1, trigdist);
      break;
    }
 	}

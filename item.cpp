@@ -688,12 +688,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
 
  } else if (is_gun()) {
   it_gun* gun = dynamic_cast<it_gun*>(type);
-  int ammo_dam = 0, ammo_range = 0, ammo_recoil = 0;
+  int ammo_dam = 0, ammo_range = 0, ammo_recoil = 0, ammo_pierce = 0;
   bool has_ammo = (curammo != NULL && charges > 0);
   if (has_ammo) {
    ammo_dam = curammo->damage;
    ammo_range = curammo->range;
    ammo_recoil = curammo->recoil;
+   ammo_pierce = curammo->recoil;
   }
 
   dump->push_back(iteminfo("GUN", _("Skill used: "), gun->skill_used->name()));
@@ -710,6 +711,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
    temp2 << string_format(_("<num> = %d"), gun_damage());
 
   dump->push_back(iteminfo("GUN", _("Damage: "), temp1.str(), gun_damage(false), true, temp2.str()));
+
+  temp1.str("");
+  if (has_ammo)
+   temp1 << ammo_pierce;
+
+  temp1 << (gun_pierce(false) >= 0 ? "+" : "" );
+
+  temp2.str("");
+  if (has_ammo)
+   temp2 << string_format(_("<num> = %d"), gun_pierce());
+
+  dump->push_back(iteminfo("GUN", _("Armor-pierce: "), temp1.str(), gun_pierce(false), true, temp2.str()));
 
   temp1.str("");
   if (has_ammo) {
@@ -2103,6 +2116,26 @@ int item::gun_damage(bool with_ammo)
  return ret;
 }
 
+int item::gun_pierce(bool with_ammo)
+{
+ if (is_gunmod() && mode == "MODE_AUX")
+  return curammo->pierce;
+ if (!is_gun())
+  return 0;
+ if(mode == "MODE_AUX") {
+  item* gunmod = active_gunmod();
+  if(gunmod != NULL && gunmod->curammo != NULL)
+   return gunmod->curammo->pierce;
+  else
+   return 0;
+ }
+ it_gun* gun = dynamic_cast<it_gun*>(type);
+ int ret = gun->pierce;
+ if (with_ammo && curammo != NULL)
+  ret += curammo->pierce;
+ return ret;
+}
+
 int item::noise() const
 {
  if (!is_gun())
@@ -2179,6 +2212,11 @@ int item::range(player *p)
    return gunmod->curammo->range;
   else
    return 0;
+ }
+
+ // Ammoless weapons use weapon's range only
+ if (has_flag("NO_AMMO") && !curammo) {
+  return dynamic_cast<it_gun*>(type)->range;
  }
 
  int ret = (curammo ? dynamic_cast<it_gun*>(type)->range + curammo->range : 0);
