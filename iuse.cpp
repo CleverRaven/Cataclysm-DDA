@@ -3883,12 +3883,13 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     if ((p->has_disease("bite") || p->has_disease("bleed"))) {
         choice = menu(true, _("Using knife:"), _("Cut up fabric/plastic/kevlar/wood"), _("Cauterize"), _("Carve writing on item"), _("Cancel"), NULL);
     }
-    else if (choice == cauterize && !p->use_charges_if_avail("fire", 4) ) 
-    {
-        g->add_msg_if_player(p,_("You need a lighter with 4 charges before you can cauterize yourself."));
-        return;
-    }
-    else if (choice == cauterize) {
+
+    if (choice == cauterize) {
+        if ( !p->use_charges_if_avail("fire", 4) )
+        {
+            g->add_msg_if_player(p,_("You need a lighter with 4 charges before you can cauterize yourself."));
+            return;
+        }
         p->cauterize(g);
         return;
     }
