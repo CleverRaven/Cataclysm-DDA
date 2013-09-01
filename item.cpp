@@ -543,7 +543,6 @@ bool item::json_load(picojson::value parsed, game * g)
         for( picojson::object::const_iterator pvarsit = pvars.begin(); pvarsit != pvars.end(); ++pvarsit) {
              if ( pvarsit->second.is<std::string>() ) {
                   item_vars[ pvarsit->first ] = pvarsit->second.get<std::string>();
-                  check_item_var( this, pvarsit->first );
              }
         }
     }
