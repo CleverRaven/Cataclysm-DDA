@@ -420,10 +420,6 @@ picojson::value monster::json_save()
  */
 std::string monster::save_info()
 {
-#ifdef jsonsave_monster
-    return json_save().serialize();
-#endif
-      
     // deprecated hairball; useful in testing (?)
         std::stringstream pack;
         pack << int(type->id) << " " << _posx << " " << _posy << " " << wandx << " " <<

@@ -7385,9 +7385,7 @@ void game::pickup(int posx, int posy, int min)
 
  // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
  int maxmaxitems = TERMY;
- #ifndef MAXLISTHEIGHT
-  maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
- #endif
+ maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
 
  int itemsH = 12;
  int pickupBorderRows = 3;
@@ -9274,51 +9272,45 @@ void game::plmove(int dx, int dy)
  int mondex = mon_at(x, y);
  bool displace = false;	// Are we displacing a monster?
  if (mondex != -1) {
-  monster &z = zombie(mondex);
-  if (z.friendly == 0) {
-   int udam = u.hit_mon(this, &z);
-   char sMonSym = '%';
-   nc_color cMonColor = z.type->color;
-   if (z.hurt(udam))
-    kill_mon(mondex, true);
-   else
-    sMonSym = z.symbol();
-    draw_hit_mon(x,y,z,z.dead);
-    /*
-   hit_animation(x - u.posx + VIEWX - u.view_offset_x,
-                 y - u.posy + VIEWY - u.view_offset_y,
-                 red_background(cMonColor), sMonSym);
-    */
-   return;
-  } else
-   displace = true;
+     monster &z = zombie(mondex);
+     if (z.friendly == 0) {
+         int udam = u.hit_mon(this, &z);
+         if (z.hurt(udam)) {
+             kill_mon(mondex, true);
+         }
+         draw_hit_mon(x,y,z,z.dead);
+         return;
+     } else {
+         displace = true;
+     }
  }
-// If not a monster, maybe there's an NPC there
+ // If not a monster, maybe there's an NPC there
  int npcdex = npc_at(x, y);
  if (npcdex != -1) {
-	 if(!active_npc[npcdex]->is_enemy()){
-		if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
-				if (active_npc[npcdex]->is_friend()) {
-					add_msg(_("%s moves out of the way."), active_npc[npcdex]->name.c_str());
-					active_npc[npcdex]->move_away_from(this, u.posx, u.posy);
-				}
+     if(!active_npc[npcdex]->is_enemy()){
+         if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
+             if (active_npc[npcdex]->is_friend()) {
+                 add_msg(_("%s moves out of the way."), active_npc[npcdex]->name.c_str());
+                 active_npc[npcdex]->move_away_from(this, u.posx, u.posy);
+             }
 
-				return;	// Cancel the attack
-		} else {
-			active_npc[npcdex]->hit_by_player = true; //The NPC knows we started the fight, used for morale penalty.
-		}
-	 }
+             return;	// Cancel the attack
+         } else {
+             //The NPC knows we started the fight, used for morale penalty.
+             active_npc[npcdex]->hit_by_player = true;
+         }
+     }
 
-	 u.hit_player(this, *active_npc[npcdex]);
-	 active_npc[npcdex]->make_angry();
-	 if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
-		 active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
-			 active_npc[npcdex]->die(this, true);
-	 }
-	 return;
+     u.hit_player(this, *active_npc[npcdex]);
+     active_npc[npcdex]->make_angry();
+     if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
+         active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
+         active_npc[npcdex]->die(this, true);
+     }
+     return;
  }
 
-// Otherwise, actual movement, zomg
+     // Otherwise, actual movement, zomg
  if (u.has_disease("amigara")) {
   int curdist = 999, newdist = 999;
   for (int cx = 0; cx < SEEX * MAPSIZE; cx++) {

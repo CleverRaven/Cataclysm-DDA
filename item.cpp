@@ -350,10 +350,6 @@ picojson::value item::json_save() const
 
 std::string item::save_info() const
 {
-#ifdef jsonsave_item
-    return json_save().serialize();
-#endif
-
  if (type == NULL){
   debugmsg("Tried to save an item with NULL type!");
  }

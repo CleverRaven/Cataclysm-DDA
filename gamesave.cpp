@@ -28,7 +28,6 @@
 #include "mapdata.h"
 #include "catacharset.h"
 #include "translations.h"
-//#include "player.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -245,11 +244,9 @@ void game::unserialize(std::ifstream & fin) {
                 fin >> item_place;
                 if (!fin.eof()) {
                     getline(fin, itemdata);
-                    if ( item_place == 'I' || item_place == 'C' || item_place == 'W' || item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
+                    if ( item_place == 'I' || item_place == 'C' || item_place == 'W' ||
+                         item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
                         item tmpitem(itemdata, this);
-#ifdef has_baseobject
-                        tmpitem.parentref = &u;
-#endif
                         if (item_place == 'I') {
                             tmpinv.push_back(tmpitem);
                         } else if (item_place == 'C') {

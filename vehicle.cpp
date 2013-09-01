@@ -1634,25 +1634,23 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     }
 
 	int degree = rng (70, 100);
-	
+
 	//Calculate Impulse of car
 	const float vel1 = velocity/100; //Velocity of car
-	const float imp1 = vel1 * mass;  // [miles * kg / h]	
 
 	//Impulse of object
-	const float vel2 = 0; //Assumption: velocitiy of hit object = 0 mph 
-	//TODO: real vel2 for body collisions
-	const float imp2= vel2 * mass2;  //Impulse of object	
+ //Assumption: velocitiy of hit object = 0 mph
+	const float vel2 = 0;
+ //lost energy at collision -> deformation energy -> damage
+	const float d_E = ((mass*mass2)*(1-e)*(1-e)*(vel1-vel2)*(vel1-vel2)) / (2*mass + 2*mass2);
+ //velocity of car after collision
+	const float vel1_a = (mass2*vel2*(1+e) + vel1*(mass - e*mass2)) / (mass + mass2);
+ //velocity of object after collision
+	const float vel2_a = (mass*vel1*(1+e) + vel2*(mass2 - e*mass)) / (mass + mass2);
 
-	const float d_E = ((mass*mass2)*(1-e)*(1-e)*(vel1-vel2)*(vel1-vel2)) / (2*mass + 2*mass2); //lost energy at collision -> deformation energy -> damage
-	const float vel1_a = (mass2*vel2*(1+e) + vel1*(mass - e*mass2)) / (mass + mass2);      //velocity of car after collision
-	const float vel2_a = (mass*vel1*(1+e) + vel2*(mass2 - e*mass)) / (mass + mass2);     //velocity of object after collision
-	const float imp1_a = vel1_a*mass; //impulse after collision
-	const float imp2_a = vel2_a*mass2; //impulse after collision
-	
-	//Calculate damage resulting from d_E		
+	//Calculate damage resulting from d_E
 	material_type* vpart_item_mat1 = material_type::find_material(g->itypes[part_info(parm).item]->m1);
-	material_type* vpart_item_mat2 = material_type::find_material(g->itypes[part_info(parm).item]->m2);  
+	material_type* vpart_item_mat2 = material_type::find_material(g->itypes[part_info(parm).item]->m2);
 	int vpart_dens;
 	if(vpart_item_mat2->ident() == "null")
 		vpart_dens = vpart_item_mat1->density();

@@ -669,15 +669,6 @@ bool map::vehproceed(game* g){
       if(dmg_veh2 > 800) {
          veh2->skidding = 1;
       }
-//#define testng_vehicle_collisions
-#ifdef testng_vehicle_collisions
-      debugmsg("C(%d): %s (%.0f): %.0f => %.0f // %s (%.0f): %.0f => %.0f //DMG_V1: %d",
-        (int)g->turn,
-        veh->name.c_str(), m1, velo_veh1.norm(), final1.norm(),
-        veh2->name.c_str(), m2, velo_veh2.norm(), final2.norm(),
-		(int)dmg_veh1
-      );
-#endif
       //give veh2 the initiative to proceed next before veh1
       float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
       if(avg_of_turn < .1f)
