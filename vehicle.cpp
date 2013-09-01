@@ -1677,20 +1677,6 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 	const float part_dmg = dmg * k / 100;     //damage for vehicle-part
 	const float obj_dmg  = dmg * (100-k)/100;  //damage for object
 
-	//Debugging
-
-	g->add_msg (_("---DebugINFO---"));
-	g->add_msg (_("Part: %s"), part_info(parm).name.c_str());
-	g->add_msg (_("Veh_part_dmg: %d"), int(part_dmg));
-	g->add_msg (_("Obj_dmg: %d"), int(obj_dmg));
-	g->add_msg (_("Dmg: %d"),int(dmg));
-	g->add_msg (_("k: %f"), k);
-	g->add_msg (_("e: %f"), e);
-	g->add_msg (_("Material_factor: %f"), material_factor);
-	g->add_msg (_("weigth_factor: %f"), weight_factor);
-	g->add_msg (_("---------------"));
-	
-
     bool smashed = true;
     std::string snd;
     if (collision_type == veh_coll_bashable)
