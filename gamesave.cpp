@@ -71,10 +71,8 @@ void game::serialize(std::ofstream & fout) {
  */
     const int savever = 3;
 
-switch (savever) {
-    default: {
 /*
- * Format version 2: Interim format. Still resembles a hairball, but it's at least a multi-line hairball;
+ * Format version 3: Interim format. Still resembles a hairball, but it's at least a multi-line hairball;
  * Data is segmented for readabilty, stability, and gradual conversion into something closer to sanity.
  */
         // Header
@@ -121,43 +119,6 @@ switch (savever) {
         fout << std::endl;
         ////////
     } break;
- case 0: {
-// old instabile mess, which is only preserved for testing and only usable past
-// 15612a3 anyway.
- // First, write out basic game state information.
- fout << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
-         mostseen << " " << nextinv << " " << next_npc_id << " " <<
-     next_faction_id << " " << next_mission_id << " " << int(nextspawn) << " ";
-
- fout << save_weather();
-
- fout << levx << " " << levy << " " << levz << " " << cur_om->pos().x <<
-         " " << cur_om->pos().y << " " << std::endl;
- // Next, the scent map.
- for (int i = 0; i < SEEX * MAPSIZE; i++) {
-  for (int j = 0; j < SEEY * MAPSIZE; j++)
-   fout << grscent[i][j] << " ";
- }
- // Now save all monsters.
- fout << std::endl << num_zombies() << std::endl;
- for (int i = 0; i < num_zombies(); i++) {
-     fout << _z[i].save_info() << std::endl;
-     fout << _z[i].inv.size() << std::endl;
-     for( std::vector<item>::iterator it = _z[i].inv.begin(); it != _z[i].inv.end(); ++it )
-     {
-         fout << it->save_info() << std::endl;
-     }
- }
- for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
-  fout << kills[i] << " ";
- // And finally the player.
- fout << u.save_info() << std::endl;
- fout << std::endl;
-
- } break;
-/////
-}
-
 }
 
 /*
