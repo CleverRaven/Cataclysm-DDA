@@ -71,7 +71,7 @@ void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> traj
 /* Monster hit animation */
 void game::draw_hit_mon(int x, int y, monster m, bool dead)
 {
-    int iTimeout = 0;
+    //int iTimeout = 0;
     tilecontext->init_draw_hit(x, y, monster_names[m.type->id]);
     wrefresh(w_terrain);
 

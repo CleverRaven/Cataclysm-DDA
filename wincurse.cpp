@@ -98,6 +98,38 @@ void WinDestroy()
     }
 };
 
+// Copied from sdlcurses.cpp
+#define ALT_BUFFER_SIZE 8
+static char alt_buffer[ALT_BUFFER_SIZE] = {};
+static int alt_buffer_len = 0;
+static bool alt_down = false;
+
+static void begin_alt_code()
+{
+    alt_buffer[0] = '\0';
+    alt_down = true;
+    alt_buffer_len = 0;
+}
+
+static int add_alt_code(char c)
+{
+    // not exactly how it works, but acceptable
+    if(c>='0' && c<='9')
+    {
+        if(alt_buffer_len<ALT_BUFFER_SIZE-1)
+        {
+            alt_buffer[alt_buffer_len] = c;
+            alt_buffer[++alt_buffer_len] = '\0';
+        }
+    }
+}
+
+static int end_alt_code()
+{
+    alt_down = false;
+    return atoi(alt_buffer);
+}
+
 //This function processes any Windows messages we get. Keyboard, OnClose, etc
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                                  WPARAM wParam, LPARAM lParam)
@@ -105,8 +137,9 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
     uint16_t MouseOver;
     switch (Msg)
     {
+    case WM_DEADCHAR:
     case WM_CHAR:
-        lastchar=(int)wParam;
+        lastchar = (int)wParam;
         switch (lastchar){
             case VK_RETURN: //Reroute ENTER key for compatilbity purposes
                 lastchar=10;
@@ -114,7 +147,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
             case VK_BACK: //Reroute BACKSPACE key for compatilbity purposes
                 lastchar=127;
                 break;
-        };
+        }
         return 0;
 
     case WM_KEYDOWN:                //Here we handle non-character input
@@ -177,6 +210,23 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                 break;
         };
         return 0;
+
+    case WM_KEYUP:
+        if (!GetAsyncKeyState(VK_LMENU) && alt_down){ // LeftAlt hack
+            if (int code = end_alt_code())
+                lastchar = code;
+        }
+        return 0;
+
+    case WM_SYSCHAR:
+        add_alt_code((char)wParam);
+        return 0;
+
+    case WM_SYSKEYDOWN:
+        if (GetAsyncKeyState(VK_LMENU) && !alt_down){ // LeftAlt hack
+            begin_alt_code();
+        }
+        break;
 
     case WM_SETCURSOR:
         MouseOver = LOWORD(lParam);
@@ -341,7 +391,6 @@ void curses_drawwindow(WINDOW *win)
     }
 }
 
-
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
@@ -409,19 +458,27 @@ WINDOW *curses_init(void)
     backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
     DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
 
-    int nResults = AddFontResourceExA("data\\termfont",FR_PRIVATE,NULL);
-    if (nResults>0){
-        font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-                          ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                          PROOF_QUALITY, FF_MODERN, typeface_c);   //Create our font
-
-    } else {
-        MessageBox(WindowHandle, "Failed to load default font, using FixedSys.", NULL, 0);
-        font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-                      ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                      PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
+    // Load private fonts
+    if (SetCurrentDirectory("data\\font")){
+        WIN32_FIND_DATA findData;
+        for (HANDLE findFont = FindFirstFile(".\\*", &findData); findFont != INVALID_HANDLE_VALUE; )
+        {
+            if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)){ // Skip folders
+                AddFontResourceExA(findData.cFileName, FR_PRIVATE,NULL);
+            }
+            if (!FindNextFile(findFont, &findData)){
+                FindClose(findFont);
+                break;
+            }
+        }
+        SetCurrentDirectory("..\\..");
     }
-    //FixedSys will be user-changable at some point in time??
+
+    // Use desired font, if possible
+    font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+                      ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
+                      PROOF_QUALITY, FF_MODERN, typeface_c);
+
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
 //    WindowCount=0;

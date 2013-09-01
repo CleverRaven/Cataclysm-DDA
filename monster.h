@@ -108,7 +108,7 @@ class monster {
   */
  void wander_to(int x, int y, int f); // Try to get to (x, y), we don't know
 				      // the route.  Give up after f steps.
- void plan(game *g);
+ void plan(game *g, const std::vector<int> &friendlies);
  void move(game *g); // Actual movement
  void footsteps(game *g, int x, int y); // noise made by movement
  void friendly_move(game *g);
@@ -204,9 +204,9 @@ class monster {
  bool dead;
  bool made_footstep;
  std::string unique_name; // If we're unique
- 
- void setpos(const int x, const int y);
- void setpos(const point &p);
+
+ bool setpos(const int x, const int y);
+ bool setpos(const point &p);
  inline int posx() const { return _posx; }
  inline int posy() const { return _posy; }
 

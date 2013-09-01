@@ -145,6 +145,11 @@ void initOptions() {
                                              0.0, 50.0, 1.0, 0.1
                                             );
 
+    OPTIONS["CITY_SIZE"] =              cOpt(mPage["general"], _("Size of cities"),
+                                             _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
+                                             4, 16, 4
+                                            );
+
     OPTIONS["INITIAL_TIME"] =           cOpt(mPage["debug"], _("Initial time"),
                                              _("Initial starting time of day on character generation."),
                                              0, 23, 8
@@ -237,6 +242,11 @@ void initOptions() {
 
     OPTIONS["SORT_CRAFTING"] =          cOpt(mPage["interface"], _("Sort Crafting menu"),
                                              _("If true, the crafting menus will display recipes that you can craft before other recipes"),
+                                             true
+                                            );
+
+    OPTIONS["SHIFT_LIST_ITEM_VIEW"] =   cOpt(mPage["interface"], _("Shift list item view"),
+                                             _("If true, shift the view toward the selected item if it is outside of your current viewport."),
                                              true
                                             );
 

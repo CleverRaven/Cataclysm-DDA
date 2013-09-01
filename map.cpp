@@ -3165,7 +3165,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   tercol = c_dkgray;
  else
   normal_tercol = true;
- if (move_cost(x, y) == 0 && has_flag(swimmable, x, y) && !u.underwater)
+ if (move_cost(x, y) == 0 && has_flag(swimmable, x, y) && !u.is_underwater())
   show_items = false;	// Can only see underwater items if WE are underwater
 // If there's a trap here, and we have sufficient perception, draw that instead
  if (curr_trap != tr_null &&

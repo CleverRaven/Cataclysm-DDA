@@ -1954,6 +1954,21 @@
     "flags" : ["WATCH", "ALARMCLOCK"]
   },
   {
+    "id" : "pocketwatch",
+    "name" : "pocket watch",
+    "description" : "An old fashioned pocket watch. This one tells you the time and looks good doing it. Can also be disassembled into some useful parts.",
+    "weight" : 42,
+    "to_hit" : -3,
+    "color" : "light_gray",
+    "symbol" : ",",
+    "material" : ["steel", "glass"],
+    "volume" : 0,
+    "bashing" : -8,
+    "cutting" : 0,
+    "price" : 250,
+    "flags" : ["WATCH"]
+  },
+  {
     "id" : "umbrella",
     "symbol" : "/",
     "color": "magenta",
@@ -2010,5 +2025,19 @@
     "cutting": 16,
     "to_hit": 1,
     "techniques": ["WBLOCK_1"]
+  },
+  {
+    "id": "hockey_stick",
+    "symbol": ";",
+    "color": "light_blue",
+    "name": "hockey stick",
+    "description": "A curved wooden stick with a wide and flat end. Commonly used by hockey players.",
+    "price": 110,
+    "material" : ["wood", "plastic"],
+    "weight": 420,
+    "volume": 4,
+    "bashing": 18,
+    "cutting": 1,
+    "to_hit": 2
   }
 ]

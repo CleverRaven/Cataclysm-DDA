@@ -151,10 +151,10 @@ class game
   int  npc_by_id(const int id) const;	// Index of the npc at (x, y); -1 for none
  // void build_monmap();		// Caches data for mon_at()
 
-  void add_zombie(monster& m);
+  bool add_zombie(monster& m);
   size_t num_zombies() const;
   monster& zombie(const int idx);
-  void update_zombie_pos(const monster &m, const int newx, const int newy);
+  bool update_zombie_pos(const monster &m, const int newx, const int newy);
   void remove_zombie(const int idx);
   void clear_zombies();
 
@@ -245,7 +245,7 @@ class game
   std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack, std::string filter);
   std::vector<map_item_stack> find_nearby_items(int search_x, int search_y);
   std::string ask_item_filter(WINDOW* window, int rows);
-  void draw_trail_to_square(std::vector<point>& vPoint, int x, int y);
+  void draw_trail_to_square(int x, int y);
   void reset_item_list_state(WINDOW* window, int height);
   std::string sFilter; // this is a member so that it's remembered over time
   std::string list_item_upvote;
@@ -500,6 +500,7 @@ void load_artifacts(); // Load artifact data
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(mon_id type, int x, int y, int z);// Picks a group from cur_om
   void set_adjacent_overmaps(bool from_scratch = false);
+  void rebuild_mon_at_cache();
 
 // Routine loop functions, approximately in order of execution
   void cleanup_dead();     // Delete any dead NPCs/monsters

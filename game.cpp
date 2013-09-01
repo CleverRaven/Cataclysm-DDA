@@ -2364,9 +2364,10 @@ void game::place_corpse()
   your_body.name = u.name;
   for (int i = 0; i < tmp.size(); i++)
     m.add_item_or_charges(u.posx, u.posy, *(tmp[i]));
-  for (int i = 0; i < u.my_bionics.size(); i++) {
-    if (itypes.find(u.my_bionics[i].id) != itypes.end()) {
-      your_body.contents.push_back(item(itypes[u.my_bionics[i].id], turn));
+  for (int i = 0; i < u.num_bionics(); i++) {
+    bionic &b = u.bionic_at_index(i);
+    if (itypes.find(b.id) != itypes.end()) {
+      your_body.contents.push_back(item(itypes[b.id], turn));
     }
   }
   int pow = u.max_power_level;
@@ -2727,6 +2728,11 @@ void game::load(std::string name)
  u.weapon = item(itypes["null"], 0);
  unserialize(fin);
  fin.close();
+
+ // Now that the player's worn items are updated, their sight limits need to be
+ // recalculated. (This would be cleaner if u.worn were private.)
+ u.recalc_sight_limits();
+
  load_auto_pickup(true); // Load character auto pickup rules
  load_uistate();
 // Now load up the master game data; factions (and more?)
@@ -4588,7 +4594,17 @@ void game::cleanup_dead()
 
 void game::monmove()
 {
- cleanup_dead();
+    cleanup_dead();
+
+    // monster::plan() needs to know about all monsters with nonzero friendliness.
+    // We'll build this list once (instead of once per monster) for speed.
+    std::vector<int> friendlies;
+    for (int i = 0, numz = num_zombies(); i < numz; i++) {
+        if (zombie(i).friendly) {
+            friendlies.push_back(i);
+        }
+    }
+
  for (int i = 0; i < num_zombies(); i++) {
   monster &z = _z[i];
   while (!z.dead && !z.can_move_to(this, z.posx(), z.posy())) {
@@ -4608,7 +4624,7 @@ void game::monmove()
    int starty = z.posy() - 3 * ydir, endy = z.posy() + 3 * ydir;
    for (int x = startx; x != endx && !okay; x += xdir) {
     for (int y = starty; y != endy && !okay; y += ydir){
-     if (z.can_move_to(this, x, y)) {
+     if (z.can_move_to(this, x, y) && is_empty(x, y)) {
       z.setpos(x, y);
       okay = true;
      }
@@ -4628,7 +4644,7 @@ void game::monmove()
 
   while (z.moves > 0 && !z.dead) {
    z.made_footstep = false;
-   z.plan(this);	// Formulate a path to follow
+   z.plan(this, friendlies);	// Formulate a path to follow
    z.move(this);	// Move one square, possibly hit u
    z.process_triggers(this);
    m.mon_in_field(z.posx(), z.posy(), this, &z);
@@ -4697,17 +4713,26 @@ void game::monmove()
 
 bool game::sound(int x, int y, int vol, std::string description)
 {
- vol *= 1.5; // Scale it a little
-// First, alert all monsters (that can hear) to the sound
- for (int i = 0; i < num_zombies(); i++) {
-  monster &z = _z[i];
-  if (z.can_hear()) {
-   int dist = rl_dist(x, y, z.posx(), z.posy());
-   int volume = vol - (z.has_flag(MF_GOODHEARING) ? int(dist / 2) : dist);
-   z.wander_to(x, y, volume);
-   z.process_trigger(MTRIG_SOUND, volume);
-  }
- }
+    // Scale the sound a little.
+    vol *= 1.5; 
+
+    // Alert all monsters (that can hear) to the sound.
+    for (int i = 0, numz = num_zombies(); i < numz; i++) {
+        monster &z = _z[i];
+        // rl_dist() is faster than z.has_flag() or z.can_hear(), so we'll check it first.
+        int dist = rl_dist(x, y, z.posx(), z.posy());
+        int vol_goodhearing = vol - int(dist / 2);
+        if (vol_goodhearing > 0 && z.can_hear()) {
+            const bool goodhearing = z.has_flag(MF_GOODHEARING);
+            int volume = goodhearing ? vol_goodhearing : (vol - dist);
+            if (volume > 0) {
+                int wander_turns = volume * (goodhearing ? 6 : 1);
+                z.wander_to(x, y, wander_turns);
+                z.process_trigger(MTRIG_SOUND, volume);
+            }
+        }
+    }
+
 // Loud sounds make the next spawn sooner!
  int spawn_range = int(MAPSIZE / 2) * SEEX;
  if (vol >= spawn_range) {
@@ -5562,10 +5587,15 @@ int game::npc_by_id(const int id) const
  return -1;
 }
 
-void game::add_zombie(monster& m)
+bool game::add_zombie(monster& m)
 {
+    if (-1 != mon_at(m.posx(), m.posy())) {
+        debugmsg("add_zombie: there's already a monster at %d,%d", m.posx(), m.posy());
+        return false;
+    }
     z_at[point(m.posx(), m.posy())] = _z.size();
     _z.push_back(m);
+    return true;
 }
 
 size_t game::num_zombies() const
@@ -5578,23 +5608,43 @@ monster& game::zombie(const int idx)
     return _z[idx];
 }
 
-void game::update_zombie_pos(const monster &m, const int newx, const int newy)
+bool game::update_zombie_pos(const monster &m, const int newx, const int newy)
 {
+    bool success = false;
     const int zid = mon_at(m.posx(), m.posy());
-    if (zid != -1) {
-        z_at.erase(point(m.posx(), m.posy()));
-        z_at[point(newx, newy)] = zid;
-    }
-    else {
+    const int newzid = mon_at(newx, newy);
+    if (newzid >= 0 && !_z[newzid].dead) {
+        debugmsg("update_zombie_pos: new location %d,%d already has zombie %d",
+                newx, newy, newzid);
+    } else if (zid >= 0) {
+        if (&m == &_z[zid]) {
+            z_at.erase(point(m.posx(), m.posy()));
+            z_at[point(newx, newy)] = zid;
+            success = true;
+        } else {
+            debugmsg("update_zombie_pos: old location %d,%d had zombie %d instead",
+                    m.posx(), m.posy(), zid);
+        }
+    } else {
         // We're changing the x/y coordinates of a zombie that hasn't been added
         // to the game yet. add_zombie() will update z_at for us.
+        debugmsg("update_zombie_pos: no such zombie at %d,%d (moving to %d,%d)",
+                m.posx(), m.posy(), newx, newy);
     }
+    return success;
 }
 
 void game::remove_zombie(const int idx)
 {
     monster& m = _z[idx];
-    z_at.erase(point(m.posx(), m.posy()));
+    const point oldloc(m.posx(), m.posy());
+    const std::map<point, int>::const_iterator i = z_at.find(oldloc);
+    const int prev = (i == z_at.end() ? -1 : i->second);
+
+    if (prev == idx) {
+        z_at.erase(oldloc);
+    }
+
     _z.erase(_z.begin() + idx);
 
     // Fix indices in z_at for any zombies that were just moved down 1 place.
@@ -5621,6 +5671,15 @@ int game::mon_at(const int x, const int y) const
         }
     }
     return -1;
+}
+
+void game::rebuild_mon_at_cache()
+{
+    z_at.clear();
+    for (int i = 0, numz = num_zombies(); i < numz; i++) {
+        monster &m = _z[i];
+        z_at[point(m.posx(), m.posy())] = i;
+    }
 }
 
 bool game::is_empty(const int x, const int y)
@@ -6583,7 +6642,10 @@ point game::look_around()
        mvwprintw(w_look, 3, 1, _("You cannot see what is inside of it."));
        m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
    }
-   else if (lx == u.posx + u.view_offset_x && ly == u.posy + u.view_offset_y)
+   // The player is not at <u.posx + u.view_offset_x, u.posy + u.view_offset_y>
+   // Should not be putting the "You (name)" at this location
+   // Changing it to reflect actual position not view-center position
+   else if (lx == u.posx && ly == u.posy )
    {
        int x,y;
        x = getmaxx(w_terrain)/2 - u.view_offset_x;
@@ -6595,7 +6657,7 @@ point game::look_around()
            mvwprintw(w_look, 3, 1, _("There is a %s there. Parts:"), veh->name.c_str());
            veh->print_part_desc(w_look, 4, 48, veh_part);
            m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   }
+       }
 
    }
    else
@@ -6745,26 +6807,23 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
 }
 
 
-void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
+void game::draw_trail_to_square(int x, int y)
 {
-    //Remove previous trail, if any
-    for (int i = 0; i < vPoint.size(); i++)
-    {
-        m.drawsq(w_terrain, u, vPoint[i].x, vPoint[i].y, false, true);
-    }
+    //Reset terrain
+    draw_ter();
 
-    //Draw new trail
-    vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
-    draw_line(x, y, vPoint);
-    /*
+    //Draw trail
+    point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
+    std::vector<point> vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
+
     for (int i = 1; i < vPoint.size(); i++)
     {
-        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
+        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true, center.x, center.y);
     }
 
     mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
                         vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
-    */
+
     wrefresh(w_terrain);
 }
 
@@ -6894,6 +6953,9 @@ void game::list_items()
     const int iStoreViewOffsetX = u.view_offset_x;
     const int iStoreViewOffsetY = u.view_offset_y;
 
+    u.view_offset_x = 0;
+    u.view_offset_y = 0;
+
     int iActive = 0; // Item index that we're looking at
     const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
     int iStartPos = 0;
@@ -6901,20 +6963,17 @@ void game::list_items()
     int iActiveY = 0;
     int iLastActiveX = -1;
     int iLastActiveY = -1;
-    std::vector<point> vPoint;
     InputEvent input = Undefined;
     long ch = 0; //this is a long because getch returns a long
     bool reset = true;
     bool refilter = true;
     int iFilter = 0;
     bool bStopDrawing = false;
+
     do
     {
         if (ground_items.size() > 0)
         {
-            u.view_offset_x = 0;
-            u.view_offset_y = 0;
-
             if (ch == 'I' || ch == 'c' || ch == 'C')
             {
                 compare(iActiveX, iActiveY);
@@ -7053,6 +7112,7 @@ void game::list_items()
                         {
                             iActiveX = iter->x;
                             iActiveY = iter->y;
+
                             sActiveItemName = iter->example.tname(this);
                             activeItem = iter->example;
                         }
@@ -7106,7 +7166,14 @@ void game::list_items()
                     iLastActiveX = iActiveX;
                     iLastActiveY = iActiveY;
 
-                    draw_trail_to_square(vPoint, iActiveX, iActiveY);
+                    if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
+                        std::stringstream ssTemp;
+
+                        u.view_offset_x = (abs(iActiveX) > VIEWX) ? ((iActiveX < 0) ? VIEWX+iActiveX : iActiveX-VIEWX) : 0;
+                        u.view_offset_y = (abs(iActiveY) > VIEWY) ? ((iActiveY < 0) ? VIEWY+iActiveY : iActiveY-VIEWY) : 0;
+                    }
+
+                    draw_trail_to_square(iActiveX, iActiveY);
                 }
 
                 wrefresh(w_items);
@@ -7728,255 +7795,237 @@ void game::grab()
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source)
 {
- if (!liquid.made_of(LIQUID)) {
-  dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
-  debugmsg("Tried to handle_liquid a non-liquid!");
-  return false;
- }
- if (liquid.type->id == "gasoline" && vehicle_near() && query_yn(_("Refill vehicle?"))) {
-  int vx = u.posx, vy = u.posy;
-  refresh_all();
-  if (choose_adjacent(_("Refill vehicle"), vx, vy)) {
-   vehicle *veh = m.veh_at (vx, vy);
-   if (veh) {
-    ammotype ftype = "gasoline";
-    int fuel_cap = veh->fuel_capacity(ftype);
-    int fuel_amnt = veh->fuel_left(ftype);
-    if (fuel_cap < 1)
-     add_msg (_("This vehicle doesn't use %s."), ammo_name(ftype).c_str());
-    else if (fuel_amnt == fuel_cap)
-     add_msg (_("Already full."));
-    else if (from_ground && query_yn(_("Pump until full?"))) {
-     u.assign_activity(this, ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
-     u.activity.placement = point(vx, vy);
-    } else { // Not pump
-     veh->refill ("gasoline", liquid.charges);
-     if (veh->fuel_left(ftype) < fuel_cap) {
-        add_msg(_("You refill %s with %s."),
-                veh->name.c_str(), ammo_name(ftype).c_str());
-     } else {
-        add_msg(_("You refill %s with %s to its maximum."),
-                veh->name.c_str(), ammo_name(ftype).c_str());
-     }
-
-     u.moves -= 100;
-     return true;
+    if (!liquid.made_of(LIQUID)) {
+        dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
+        debugmsg("Tried to handle_liquid a non-liquid!");
+        return false;
     }
-   } else // if (veh)
-    add_msg (_("There isn't any vehicle there."));
-   return false;
-  } // if (choose_adjacent("Refill vehicle", vx, vy))
 
- } else { // Not filling vehicle
+    if (liquid.type->id == "gasoline" && vehicle_near() && query_yn(_("Refill vehicle?"))) {
+        int vx = u.posx, vy = u.posy;
+        refresh_all();
+        if (choose_adjacent(_("Refill vehicle"), vx, vy)) {
+            vehicle *veh = m.veh_at (vx, vy);
+            if (veh) {
+                ammotype ftype = "gasoline";
+                int fuel_cap = veh->fuel_capacity(ftype);
+                int fuel_amnt = veh->fuel_left(ftype);
+                if (fuel_cap < 1) {
+                    add_msg (_("This vehicle doesn't use %s."), ammo_name(ftype).c_str());
+                } else if (fuel_amnt == fuel_cap) {
+                    add_msg (_("Already full."));
+                } else if (from_ground && query_yn(_("Pump until full?"))) {
+                    u.assign_activity(this, ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
+                    u.activity.placement = point(vx, vy);
+                } else { // Not pump
+                    veh->refill ("gasoline", liquid.charges);
+                    if (veh->fuel_left(ftype) < fuel_cap) {
+                        add_msg(_("You refill %s with %s."),
+                                veh->name.c_str(), ammo_name(ftype).c_str());
+                    } else {
+                        add_msg(_("You refill %s with %s to its maximum."),
+                                veh->name.c_str(), ammo_name(ftype).c_str());
+                    }
 
-   // Ask to pour rotten liquid (milk!) from the get-go
-  if (!from_ground && liquid.rotten(this) &&
-      query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
-   m.add_item_or_charges(u.posx, u.posy, liquid, 1);
-   return true;
-  }
-
-  std::stringstream text;
-  text << _("Container for ") << liquid.tname(this);
-  char ch = inv_type(text.str().c_str(), IC_CONTAINER);
-  if (!u.has_item(ch)) {
-    // No container selected (escaped, ...), ask to pour
-    // we asked to pour rotten already
-   if (!from_ground && !liquid.rotten(this) &&
-       query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
-    m.add_item_or_charges(u.posx, u.posy, liquid, 1);
-    return true;
-   }
-   return false;
-  }
-
-  item *cont = &(u.i_at(ch));
-  if (cont == NULL || cont->is_null()) {
-    // Container is null, ask to pour.
-    // we asked to pour rotten already
-   if (!from_ground && !liquid.rotten(this) &&
-       query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
-    m.add_item_or_charges(u.posx, u.posy, liquid, 1);
-    return true;
-   }
-   add_msg(_("Never mind."));
-   return false;
-
-  } else if(cont == source) {
-
-    //Source and destination are the same; abort
-    add_msg(_("That's the same container!"));
-    return false;
-
-  } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
-// for filling up chainsaws, jackhammers and flamethrowers
-   ammotype ammo = "NULL";
-   int max = 0;
-
-   if (cont->is_tool()) {
-    it_tool* tool = dynamic_cast<it_tool*>(cont->type);
-    ammo = tool->ammo;
-    max = tool->max_charges;
-   } else {
-    it_gun* gun = dynamic_cast<it_gun*>(cont->type);
-    ammo = gun->ammo;
-    max = gun->clip;
-   }
-
-   ammotype liquid_type = liquid.ammo_type();
-
-   if (ammo != liquid_type) {
-    add_msg(_("Your %s won't hold %s."), cont->tname(this).c_str(),
-                                      liquid.tname(this).c_str());
-    return false;
-   }
-
-   if (max <= 0 || cont->charges >= max) {
-    add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
-                                               liquid.tname(this).c_str());
-    return false;
-   }
-
-   if (cont->charges > 0 && cont->curammo->id != liquid.type->id) {
-    add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
-    return false;
-   }
-
-   add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
-                                        cont->tname(this).c_str());
-   cont->curammo = dynamic_cast<it_ammo*>(liquid.type);
-   if (infinite)
-    cont->charges = max;
-   else {
-    cont->charges += liquid.charges;
-    if (cont->charges > max) {
-     int extra = cont->charges - max;
-     cont->charges = max;
-     liquid.charges = extra;
-     add_msg(_("There's some left over!"));
-     return false;
-    }
-   }
-   return true;
-
-  } else if (!cont->is_container()) {
-   add_msg(_("That %s won't hold %s."), cont->tname(this).c_str(),
-                                     liquid.tname(this).c_str());
-   return false;
-  } else        // filling up normal containers
-    {
-      // first, check if liquid types are compatible
-      if (!cont->contents.empty())
-      {
-        if  (cont->contents[0].type->id != liquid.type->id)
-        {
-          add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
-          return false;
-        }
-      }
-
-      // ok, liquids are compatible.  Now check what the type of liquid is
-      // this will determine how much the holding container can hold
-
-      it_container* container = dynamic_cast<it_container*>(cont->type);
-      int holding_container_charges;
-
-      if (liquid.type->is_food())
-      {
-        it_comest* tmp_comest = dynamic_cast<it_comest*>(liquid.type);
-        holding_container_charges = container->contains * tmp_comest->charges;
-      }
-      else if (liquid.type->is_ammo())
-      {
-        it_ammo* tmp_ammo = dynamic_cast<it_ammo*>(liquid.type);
-        holding_container_charges = container->contains * tmp_ammo->count;
-      }
-      else
-        holding_container_charges = container->contains;
-
-      // if the holding container is NOT empty
-      if (!cont->contents.empty())
-      {
-        // case 1: container is completely full
-        if (cont->contents[0].charges == holding_container_charges)
-        {
-          add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
-                                                   liquid.tname(this).c_str());
-          return false;
-        }
-
-        // case 2: container is half full
-
-        if (infinite)
-        {
-          cont->contents[0].charges = holding_container_charges;
-          add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
-                                        cont->tname(this).c_str());
-          return true;
-        }
-        else // Container is finite, not empty and not full, add liquid to it
-        {
-          add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
-                    cont->tname(this).c_str());
-          cont->contents[0].charges += liquid.charges;
-          if (cont->contents[0].charges > holding_container_charges)
-          {
-            int extra = cont->contents[0].charges - holding_container_charges;
-            cont->contents[0].charges = holding_container_charges;
-            liquid.charges = extra;
-            add_msg(_("There's some left over!"));
-            // Why not try to find another container here?
+                    u.moves -= 100;
+                    return true;
+                }
+            } else { // if (veh)
+                add_msg (_("There isn't any vehicle there."));
+            }
             return false;
-          }
-          return true;
-        }
-      }
-      else  // pouring into an empty container
-      {
-        if (!cont->has_flag("WATERTIGHT"))  // invalid container types
-        {
-          add_msg(_("That %s isn't water-tight."), cont->tname(this).c_str());
-          return false;
-        }
-        else if (!(cont->has_flag("SEALS")))
-        {
-          add_msg(_("You can't seal that %s!"), cont->tname(this).c_str());
-          return false;
-        }
-        // pouring into a valid empty container
-        int default_charges = 1;
-
-        if (liquid.is_food())
-        {
-          it_comest* comest = dynamic_cast<it_comest*>(liquid.type);
-          default_charges = comest->charges;
-        }
-        else if (liquid.is_ammo())
-        {
-          it_ammo* ammo = dynamic_cast<it_ammo*>(liquid.type);
-          default_charges = ammo->count;
-        }
-
-        if (infinite) // if filling from infinite source, top it to max
-          liquid.charges = container->contains * default_charges;
-        else if (liquid.charges > container->contains * default_charges)
-        {
-          add_msg(_("You fill your %s with some of the %s."), cont->tname(this).c_str(),
-                                                    liquid.tname(this).c_str());
-          u.inv.unsort();
-          int oldcharges = liquid.charges - container->contains * default_charges;
-          liquid.charges = container->contains * default_charges;
-          cont->put_in(liquid);
-          liquid.charges = oldcharges;
-          return false;
-        }
-        cont->put_in(liquid);
+        } // if (choose_adjacent("Refill vehicle", vx, vy))
         return true;
-      }
+    }
+
+    // Ask to pour rotten liquid (milk!) from the get-go
+    if (!from_ground && liquid.rotten(this) &&
+            query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
+        if (!m.has_flag(swimmable, u.posx, u.posy))
+            m.add_item_or_charges(u.posx, u.posy, liquid, 1);
+
+        return true;
+    }
+
+    std::stringstream text;
+    text << _("Container for ") << liquid.tname(this);
+    char ch = inv_type(text.str().c_str(), IC_CONTAINER);
+    if (!u.has_item(ch)) {
+        // No container selected (escaped, ...), ask to pour
+        // we asked to pour rotten already
+        if (!from_ground && !liquid.rotten(this) &&
+                query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
+            if (!m.has_flag(swimmable, u.posx, u.posy))
+                m.add_item_or_charges(u.posx, u.posy, liquid, 1);
+            return true;
+        }
+        return false;
+    }
+
+    item *cont = &(u.i_at(ch));
+    if (cont == NULL || cont->is_null()) {
+        // Container is null, ask to pour.
+        // we asked to pour rotten already
+        if (!from_ground && !liquid.rotten(this) &&
+                query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
+            if (!m.has_flag(swimmable, u.posx, u.posy))
+                m.add_item_or_charges(u.posx, u.posy, liquid, 1);
+            return true;
+        }
+        add_msg(_("Never mind."));
+        return false;
+
+    } else if(cont == source) {
+        //Source and destination are the same; abort
+        add_msg(_("That's the same container!"));
+        return false;
+
+    } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
+        // for filling up chainsaws, jackhammers and flamethrowers
+        ammotype ammo = "NULL";
+        int max = 0;
+
+        if (cont->is_tool()) {
+            it_tool *tool = dynamic_cast<it_tool *>(cont->type);
+            ammo = tool->ammo;
+            max = tool->max_charges;
+        } else {
+            it_gun *gun = dynamic_cast<it_gun *>(cont->type);
+            ammo = gun->ammo;
+            max = gun->clip;
+        }
+
+        ammotype liquid_type = liquid.ammo_type();
+
+        if (ammo != liquid_type) {
+            add_msg(_("Your %s won't hold %s."), cont->tname(this).c_str(),
+                    liquid.tname(this).c_str());
+            return false;
+        }
+
+        if (max <= 0 || cont->charges >= max) {
+            add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
+                    liquid.tname(this).c_str());
+            return false;
+        }
+
+        if (cont->charges > 0 && cont->curammo->id != liquid.type->id) {
+            add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
+            return false;
+        }
+
+        add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
+                cont->tname(this).c_str());
+        cont->curammo = dynamic_cast<it_ammo *>(liquid.type);
+        if (infinite) {
+            cont->charges = max;
+        } else {
+            cont->charges += liquid.charges;
+            if (cont->charges > max) {
+                int extra = cont->charges - max;
+                cont->charges = max;
+                liquid.charges = extra;
+                add_msg(_("There's some left over!"));
+                return false;
+            }
+        }
+        return true;
+
+    } else if (!cont->is_container()) {
+        add_msg(_("That %s won't hold %s."), cont->tname(this).c_str(),
+                liquid.tname(this).c_str());
+        return false;
+    } else {      // filling up normal containers
+        // first, check if liquid types are compatible
+        if (!cont->contents.empty()) {
+            if  (cont->contents[0].type->id != liquid.type->id) {
+                add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
+                return false;
+            }
+        }
+
+        // ok, liquids are compatible.  Now check what the type of liquid is
+        // this will determine how much the holding container can hold
+
+        it_container *container = dynamic_cast<it_container *>(cont->type);
+        int holding_container_charges;
+
+        if (liquid.type->is_food()) {
+            it_comest *tmp_comest = dynamic_cast<it_comest *>(liquid.type);
+            holding_container_charges = container->contains * tmp_comest->charges;
+        } else if (liquid.type->is_ammo()) {
+            it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(liquid.type);
+            holding_container_charges = container->contains * tmp_ammo->count;
+        } else {
+            holding_container_charges = container->contains;
+        }
+
+        // if the holding container is NOT empty
+        if (!cont->contents.empty()) {
+            // case 1: container is completely full
+            if (cont->contents[0].charges == holding_container_charges) {
+                add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
+                        liquid.tname(this).c_str());
+                return false;
+            }
+
+            // case 2: container is half full
+
+            if (infinite) {
+                cont->contents[0].charges = holding_container_charges;
+                add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
+                        cont->tname(this).c_str());
+                return true;
+            } else { // Container is finite, not empty and not full, add liquid to it
+                add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
+                        cont->tname(this).c_str());
+                cont->contents[0].charges += liquid.charges;
+                if (cont->contents[0].charges > holding_container_charges) {
+                    int extra = cont->contents[0].charges - holding_container_charges;
+                    cont->contents[0].charges = holding_container_charges;
+                    liquid.charges = extra;
+                    add_msg(_("There's some left over!"));
+                    // Why not try to find another container here?
+                    return false;
+                }
+                return true;
+            }
+        } else { // pouring into an empty container
+            if (!cont->has_flag("WATERTIGHT")) { // invalid container types
+                add_msg(_("That %s isn't water-tight."), cont->tname(this).c_str());
+                return false;
+            } else if (!(cont->has_flag("SEALS"))) {
+                add_msg(_("You can't seal that %s!"), cont->tname(this).c_str());
+                return false;
+            }
+            // pouring into a valid empty container
+            int default_charges = 1;
+
+            if (liquid.is_food()) {
+                it_comest *comest = dynamic_cast<it_comest *>(liquid.type);
+                default_charges = comest->charges;
+            } else if (liquid.is_ammo()) {
+                it_ammo *ammo = dynamic_cast<it_ammo *>(liquid.type);
+                default_charges = ammo->count;
+            }
+
+            if (infinite) { // if filling from infinite source, top it to max
+                liquid.charges = container->contains * default_charges;
+            } else if (liquid.charges > container->contains * default_charges) {
+                add_msg(_("You fill your %s with some of the %s."), cont->tname(this).c_str(),
+                        liquid.tname(this).c_str());
+                u.inv.unsort();
+                int oldcharges = liquid.charges - container->contains * default_charges;
+                liquid.charges = container->contains * default_charges;
+                cont->put_in(liquid);
+                liquid.charges = oldcharges;
+                return false;
+            }
+            cont->put_in(liquid);
+            return true;
+        }
     }
     return false;
-  }
- return true;
 }
 
 //Move_liquid returns the amount of liquid left if we didn't move all the liquid, otherwise returns sentinel -1, signifies transaction fail.
@@ -9349,8 +9398,7 @@ void game::plmove(int dx, int dy)
 
 
  if (m.move_cost(x, y) > 0) { // move_cost() of 0 = impassible (e.g. a wall)
-  if (u.underwater)
-   u.underwater = false;
+  u.set_underwater(false);
 
   //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
   field_entry *cur = NULL;
@@ -9696,15 +9744,15 @@ void game::plswim(int x, int y)
   u.rem_disease("onfire");
  }
  int movecost = u.swim_speed();
- u.practice(turn, "swimming", u.underwater ? 2 : 1);
+ u.practice(turn, "swimming", u.is_underwater() ? 2 : 1);
  if (movecost >= 500) {
-  if (!u.underwater) {
+  if (!u.is_underwater()) {
     add_msg(_("You sink like a rock!"));
-   u.underwater = true;
+   u.set_underwater(true);
    u.oxygen = 30 + 2 * u.str_cur;
   }
  }
- if (u.oxygen <= 5 && u.underwater) {
+ if (u.oxygen <= 5 && u.is_underwater()) {
   if (movecost < 500)
     popup(_("You need to breathe! (%s to surface.)"),
           press_x(ACTION_MOVE_UP).c_str());
@@ -9720,7 +9768,7 @@ void game::plswim(int x, int y)
  if (get_temperature() <= 50)
    drenchFlags |= mfb(bp_hands);
 
- if (u.underwater)
+ if (u.is_underwater())
    drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_hands);
 
  u.drench(this, 100, drenchFlags);
@@ -9872,7 +9920,7 @@ void game::vertical_move(int movez, bool force)
 // > and < are used for diving underwater.
  if (m.move_cost(u.posx, u.posy) == 0 && m.has_flag(swimmable, u.posx, u.posy)){
   if (movez == -1) {
-   if (u.underwater) {
+   if (u.is_underwater()) {
     add_msg(_("You are already underwater!"));
     return;
    }
@@ -9880,12 +9928,12 @@ void game::vertical_move(int movez, bool force)
     add_msg(_("You can't dive while wearing a flotation device."));
     return;
    }
-   u.underwater = true;
+   u.set_underwater(true);
    u.oxygen = 30 + 2 * u.str_cur;
    add_msg(_("You dive underwater!"));
   } else {
    if (u.swim_speed() < 500) {
-    u.underwater = false;
+    u.set_underwater(false);
     add_msg(_("You surface."));
    } else
     add_msg(_("You can't surface!"));
@@ -10326,6 +10374,10 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
     i--;
   }
  }
+
+ // The order in which zombies are shifted may cause zombies to briefly exist on
+ // the same square. This messes up the mon_at cache, so we need to rebuild it.
+ rebuild_mon_at_cache();
 }
 
 void game::spawn_mon(int shiftx, int shifty)

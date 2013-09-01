@@ -88,11 +88,9 @@ void monster::wander_to(int x, int y, int f)
  wandx = x;
  wandy = y;
  wandf = f;
- if (has_flag(MF_GOODHEARING))
-  wandf *= 6;
 }
 
-void monster::plan(game *g)
+void monster::plan(game *g, const std::vector<int> &friendlies)
 {
     int sightrange = g->light_level();
     int closest = -1;
@@ -100,7 +98,7 @@ void monster::plan(game *g)
     int tc, stc;
     bool fleeing = false;
     if (friendly != 0) {	// Target monsters, not the player!
-        for (int i = 0; i < g->num_zombies(); i++) {
+        for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
             monster *tmp = &(g->zombie(i));
             if (tmp->friendly == 0) {
                 int d = rl_dist(posx(), posy(), tmp->posx(), tmp->posy());
@@ -169,21 +167,20 @@ void monster::plan(game *g)
     if (!fleeing) {
         fleeing = attitude() == MATT_FLEE;
         if (can_see()) {
-            for (int i = 0; i < g->num_zombies(); i++) {
+            for (int f = 0, numf = friendlies.size(); f < numf; f++) {
+                const int i = friendlies[f];
                 monster *mon = &(g->zombie(i));
-                if (mon->friendly != 0) {
-                    int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
-                    if (mondist < dist &&
-                            g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, tc)) {
-                        dist = mondist;
-                        if (fleeing) {
-                            wandx = posx() * 2 - mon->posx();
-                            wandy = posy() * 2 - mon->posy();
-                            wandf = 40;
-                        } else {
-                            closest = -3 - i;
-                            stc = tc;
-                        }
+                int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
+                if (mondist < dist &&
+                        g->m.sees(posx(), posy(), mon->posx(), mon->posy(), sightrange, tc)) {
+                    dist = mondist;
+                    if (fleeing) {
+                        wandx = posx() * 2 - mon->posx();
+                        wandy = posy() * 2 - mon->posy();
+                        wandf = 40;
+                    } else {
+                        closest = -3 - i;
+                        stc = tc;
                     }
                 }
             }
@@ -396,6 +393,7 @@ point monster::scent_move(game *g)
  int minsmell = 9999;
  point pbuff, next(-1, -1);
  unsigned int smell;
+ const bool fleeing = is_fleeing(g->u);
  for (int x = -1; x <= 1; x++) {
   for (int y = -1; y <= 1; y++) {
    const int nx = posx() + x;
@@ -406,16 +404,16 @@ point monster::scent_move(game *g)
        (can_move_to(g, nx, ny) ||
         (nx == g->u.posx && ny == g->u.posy) ||
         (g->m.has_flag(bashable, nx, ny) && has_flag(MF_BASHES)))) {
-    if ((!is_fleeing(g->u) && smell > maxsmell) ||
-        ( is_fleeing(g->u) && smell < minsmell)   ) {
+    if ((!fleeing && smell > maxsmell) ||
+        ( fleeing && smell < minsmell)   ) {
      smoves.clear();
      pbuff.x = nx;
      pbuff.y = ny;
      smoves.push_back(pbuff);
      maxsmell = smell;
      minsmell = smell;
-    } else if ((!is_fleeing(g->u) && smell == maxsmell) ||
-               ( is_fleeing(g->u) && smell == minsmell)   ) {
+    } else if ((!fleeing && smell == maxsmell) ||
+                ( fleeing && smell == minsmell)   ) {
      pbuff.x = nx;
      pbuff.y = ny;
      smoves.push_back(pbuff);
@@ -929,7 +927,7 @@ void monster::stumble(game *g, bool moved)
   for (int j = -1; j <= 1; j++) {
    const int nx = posx() + i;
    const int ny = posy() + j;
-   if (can_move_to(g, nx, ny) &&
+   if ((i || j) && can_move_to(g, nx, ny) &&
        //Stop zombies and other non-breathing monsters wandering INTO water
        //(Unless they can swim/are aquatic)
        //But let them wander OUT of water if they are there.
@@ -937,7 +935,7 @@ void monster::stumble(game *g, bool moved)
            && g->m.has_flag(swimmable, nx, ny)
            && !g->m.has_flag(swimmable, posx(), posy())) &&
        (g->u.posx != nx || g->u.posy != ny) &&
-       (g->mon_at(nx, ny) == -1 || (i == 0 && j == 0))) {
+       (g->mon_at(nx, ny) == -1)) {
     point tmp(nx, ny);
     valid_stumbles.push_back(tmp);
    }

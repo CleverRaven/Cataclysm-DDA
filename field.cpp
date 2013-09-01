@@ -385,9 +385,13 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
                             } else if ((it->made_of("wood") || it->made_of("veggy"))) {
                                 //Wood or vegy items burn slowly.
-                                if (vol <= cur->getFieldDensity() * 10 || cur->getFieldDensity() == 3) {
-                                    cur->setFieldAge(cur->getFieldAge() - 50);
-                                    destroyed = it->burn(cur->getFieldDensity());
+                                if (vol <= cur->getFieldDensity() * 10 ||
+                                    cur->getFieldDensity() == 3) {
+                                    // A single wood item will just maintain at the current level.
+                                    cur->setFieldAge(cur->getFieldAge() - 1);
+                                    if( one_in(50) ) {
+                                        destroyed = it->burn(cur->getFieldDensity());
+                                    }
                                     smoke++;
                                     consumed++;
                                 } else if (it->burnt < cur->getFieldDensity()) {
@@ -546,7 +550,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 // 2. Calculate maximum field density based on neighbours, 1 neighbours is 2(raging), 2 or more neighbours is 3(inferno)
                                 // 3. Pick the higher maximum between 1. and 2.
                                 // We don't just calculate both maximums and pick the higher because the adjacent field lookup is quite expensive and should be avoided if possible.
-                                if(cur->getFieldAge() < -1000) {
+                                if(cur->getFieldAge() < -1500) {
                                     maximum_density = 3;
                                 } else {
                                     int adjacent_fires = 0;
@@ -1068,8 +1072,8 @@ void map::step_in_field(int x, int y, game *g)
                 g->u.infect("smoke", bp_mouth, 4, 15, g);
             } else if (cur->getFieldDensity() == 2 && !inside){
                 g->u.infect("smoke", bp_mouth, 2, 7, g);
-            } else if (cur->getFieldDensity() == 1 && !inside){
-                g->u.infect("smoke", bp_mouth, 1, 3, g);
+            } else if (cur->getFieldDensity() == 1 && !inside && one_in(2)) {
+                g->u.infect("smoke", bp_mouth, 1, 2, g);
             }
             break;
 

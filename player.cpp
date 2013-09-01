@@ -123,6 +123,9 @@ player::player()
  style_selected = "null";
  focus_pool = 100;
  last_item = itype_id("null");
+ sight_max = 9999;
+ sight_boost = 0;
+ sight_boost_cap = 0;
 
  for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
     my_traits.erase(iter->first);
@@ -144,6 +147,8 @@ player::player()
  volume = 0;
 
  memorial_log.clear();
+ 
+ recalc_sight_limits();
 }
 
 player::player(const player &rhs)
@@ -177,6 +182,10 @@ player& player::operator= (const player & rhs)
  name = rhs.name;
  male = rhs.male;
  prof = rhs.prof;
+ 
+ sight_max = rhs.sight_max;
+ sight_boost = rhs.sight_boost;
+ sight_boost_cap = rhs.sight_boost_cap;
 
  my_traits = rhs.my_traits;
  my_mutations = rhs.my_mutations;
@@ -390,6 +399,8 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
  }
 
  nv_cached = false;
+ 
+ recalc_sight_limits();
 }
 
 void player::action_taken()
@@ -1208,6 +1219,20 @@ int player::swim_speed()
  return ret;
 }
 
+bool player::is_underwater() const
+{
+    return underwater;
+}
+
+void player::set_underwater(bool u)
+{
+    if (underwater != u) {
+        underwater = u;
+        recalc_sight_limits();
+    }
+}
+
+
 nc_color player::color()
 {
  if (has_disease("onfire"))
@@ -1372,6 +1397,7 @@ void player::load_info(game *g, std::string data)
    memorial_log.push_back(memorialtmp);
  }
 
+ recalc_sight_limits();
 }
 
 std::string player::save_info()
@@ -2099,6 +2125,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 // Next, draw traits.
  const char *title_TRAITS = _("TRAITS");
  mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
+ std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
  for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
   if (traits[traitslist[i]].points > 0)
    status = c_ltgreen;
@@ -3111,11 +3138,13 @@ void player::toggle_trait(const std::string &flag)
 {
     toggle_str_set(my_traits, flag); //Toggles a base trait on the player
     toggle_str_set(my_mutations, flag); //Toggles corresponding trait in mutations list as well.
+    recalc_sight_limits();
 }
 
 void player::toggle_mutation(const std::string &flag)
 {
     toggle_str_set(my_mutations, flag); //Toggles a mutation on the player
+    recalc_sight_limits();
 }
 
 void player::set_cat_level_rec(const std::string &sMut)
@@ -3252,6 +3281,28 @@ void player::add_bionic(bionic_id b)
  else
   newinv = my_bionics[my_bionics.size() - 1].invlet + 1;
  my_bionics.push_back(bionic(b, newinv));
+ recalc_sight_limits();
+}
+
+int player::num_bionics() const
+{
+    return my_bionics.size();
+}
+
+bionic& player::bionic_at_index(int i)
+{
+    return my_bionics[i];
+}
+
+// Returns true if a bionic was removed.
+bool player::remove_random_bionic() {
+    const int numb = num_bionics();
+    if (numb) {
+        int rem = rng(0, num_bionics() - 1);
+        my_bionics.erase(my_bionics.begin() + rem);
+        recalc_sight_limits();
+    }
+    return numb;
 }
 
 void player::charge_power(int amount)
@@ -3318,30 +3369,56 @@ float player::active_light()
     return lumination;
 }
 
-int player::sight_range(int light_level)
+int player::sight_range(int light_level) const
 {
- int ret = light_level;
- if ( has_nv() && ret < 12)
-  ret = 12;
- if (has_trait("NIGHTVISION") && ret < 12)
-  ret += 1;
- if (has_trait("NIGHTVISION2") && ret < 12)
-  ret += 4;
- if (has_trait("NIGHTVISION3") && ret < 12)
-  ret = 12;
- if (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE") &&
-     !is_wearing("goggles_swim"))
-  ret = 1;
- if (has_disease("boomered"))
-  ret = 1;
- if (has_disease("in_pit"))
-  ret = 1;
- if (has_disease("blind"))
-  ret = 0;
- if (ret > 4 && has_trait("MYOPIC") && !is_wearing("glasses_eye") &&
-     !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal"))
-  ret = 4;
- return ret;
+    // Apply the sight boost (night vision).
+    if (light_level < sight_boost_cap) {
+        light_level = std::min(light_level + sight_boost, sight_boost_cap);
+    }
+
+    // Clamp to sight_max.
+    return std::min(light_level, sight_max);
+}
+
+// This must be called when any of the following change:
+// - diseases
+// - bionics
+// - traits
+// - underwater
+// - clothes
+// With the exception of clothes, all changes to these player attributes must
+// occur through a function in this class which calls this function. Clothes are
+// typically added/removed with wear() and takeoff(), but direct access to the
+// 'wears' vector is still allowed due to refactor exhaustion.
+void player::recalc_sight_limits()
+{
+    sight_max = 9999;
+    sight_boost = 0;
+    sight_boost_cap = 0;
+
+    // Set sight_max.
+    if (has_disease("blind")) {
+        sight_max = 0;
+    } else if (has_disease("in_pit") ||
+            has_disease("boomered") ||
+            (underwater && !has_bionic("bio_membrane") &&
+                !has_trait("MEMBRANE") && !is_wearing("goggles_swim"))) {
+        sight_max = 1;
+    } else if (has_trait("MYOPIC") && !is_wearing("glasses_eye") &&
+            !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal")) {
+        sight_max = 4;
+    }
+
+    // Set sight_boost and sight_boost_cap, based on night vision.
+    // (A player will never have more than one night vision trait.)
+    sight_boost_cap = 12;
+    if (has_nv() || has_trait("NIGHTVISION3")) {
+        sight_boost = sight_boost_cap;
+    } else if (has_trait("NIGHTVISION2")) {
+        sight_boost = 4;
+    } else if (has_trait("NIGHTVISION")) {
+        sight_boost = 1;
+    }
 }
 
 int player::unimpaired_range()
@@ -4051,6 +4128,8 @@ void player::add_disease(dis_type type, int duration,
   illness.push_back(tmp);
  }
 // activity.type = ACT_NULL;
+
+  recalc_sight_limits();
 }
 
 void player::rem_disease(dis_type type)
@@ -4063,6 +4142,8 @@ void player::rem_disease(dis_type type)
       }
     }
   }
+
+  recalc_sight_limits();
 }
 
 bool player::has_disease(dis_type type) const
@@ -6793,6 +6874,8 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
         }
     }
 
+    recalc_sight_limits();
+
     return true;
 }
 
@@ -6812,52 +6895,60 @@ hint_rating player::rate_action_takeoff(item *it) {
 
 bool player::takeoff(game *g, char let, bool autodrop)
 {
- if (weapon.invlet == let) {
-     return wield(g, -3, autodrop);
- } else {
-  for (int i = 0; i < worn.size(); i++) {
-   if (worn[i].invlet == let) {
-     if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
-         ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso))) {
-       // We're trying to take off power armor, but cannot do that if we have a power armor component on!
-       bool removed_armor = false;
-       for (int j = 0; j < worn.size(); j++) {
-         if ((dynamic_cast<it_armor*>(worn[j].type))->is_power_armor() &&
-             (worn[j].invlet != let)) {
-             if( autodrop ) {
-                 g->m.add_item_or_charges(posx, posy, worn[j]);
-                 worn.erase(worn.begin() + j);
-                 removed_armor = true;
-             } else {
-                 g->add_msg(_("You can't take off power armor while wearing other power armor components."));
-                 return false;
-             }
-         }
-       }
-       if( removed_armor ) {
-           // We've invalidated our index into worn[], so rescan from the beginning.
-           i = -1;
-           continue;
-       }
-     }
-    if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
-        volume_carried() + worn[i].type->volume) {
-     inv.add_item_keep_invlet(worn[i]);
-     worn.erase(worn.begin() + i);
-     inv.unsort();
-     return true;
-    } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
-                        worn[i].tname(g).c_str())) {
-     g->m.add_item_or_charges(posx, posy, worn[i]);
-     worn.erase(worn.begin() + i);
-     return true;
-    } else
-     return false;
-   }
-  }
-  g->add_msg(_("You are not wearing that item."));
-  return false;
- }
+    bool taken_off = false;
+    if (weapon.invlet == let) {
+        taken_off = wield(g, -3, autodrop);
+    } else {
+        bool found = false;
+        for (int i = 0; i < worn.size(); i++) {
+            if (worn[i].invlet == let) {
+                found = true;
+                item &w = worn[i];
+
+                // Handle power armor.
+                if ((dynamic_cast<it_armor*>(w.type))->is_power_armor() &&
+                        ((dynamic_cast<it_armor*>(w.type))->covers & mfb(bp_torso))) {
+                    // We're trying to take off power armor, but cannot do that if we have a power armor component on!
+                    for (int j = 0; j < worn.size(); j++) {
+                        if ((dynamic_cast<it_armor*>(worn[j].type))->is_power_armor() &&
+                                (worn[j].invlet != let)) {
+                            if (autodrop) {
+                                g->m.add_item_or_charges(posx, posy, worn[j]);
+                                worn.erase(worn.begin() + j);
+
+                                // We've invalidated our index into worn[],
+                                // so rescan from the beginning.
+                                i = -1;
+                                taken_off = true;
+                            } else {
+                                g->add_msg(_("You can't take off power armor while wearing other power armor components."));
+                            }
+                        }
+                    }
+                }
+
+                if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(w.type))->storage >
+                        volume_carried() + w.type->volume) {
+                    inv.add_item_keep_invlet(w);
+                    worn.erase(worn.begin() + i);
+                    inv.unsort();
+                    taken_off = true;
+                } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
+                        w.tname(g).c_str())) {
+                    g->m.add_item_or_charges(posx, posy, w);
+                    worn.erase(worn.begin() + i);
+                    taken_off = true;
+                }
+            }
+        }
+        if (!found) {
+            g->add_msg(_("You are not wearing that item."));
+        }
+    }
+
+    recalc_sight_limits();
+
+    return taken_off;
 }
 
 #include <string>
@@ -8743,5 +8834,26 @@ void player::calculate_portions(int &x, int &y, int &z, int maximum)
     z = std::min(z, std::max(maximum - x - y, 0));
     y = std::min(y, std::max(maximum - x , 0));
     x = std::min(x, std::max(maximum, 0));
+}
+
+void player::environmental_revert_effect()
+{
+    illness.clear();
+    addictions.clear();
+    morale.clear();
+
+    for (int part = 0; part < num_hp_parts; part++) {
+        g->u.hp_cur[part] = g->u.hp_max[part];
+    }
+    hunger = 0;
+    thirst = 0;
+    fatigue = 0;
+    health = 0;
+    stim = 0;
+    pain = 0;
+    pkill = 0;
+    radiation = 0;
+    
+    recalc_sight_limits();
 }
 // --- End ---

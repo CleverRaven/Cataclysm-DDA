@@ -581,13 +581,13 @@ std::string string_input_win(WINDOW * w, std::string input, int max_length, int 
       pos = utf8_width(input.c_str());
   }
   int lastpos=pos;
-  int scrmax=endx-startx; 
+  int scrmax=endx-startx;
   int shift = 0;
   int lastshift=shift;
   bool redraw=true;
 
   do {
-    
+
     if ( pos < 0 ) pos=0;
 
     if ( pos < shift ) {
@@ -598,13 +598,13 @@ std::string string_input_win(WINDOW * w, std::string input, int max_length, int 
 
     if (shift < 0 ) shift=0;
 
-    if( redraw || lastshift != shift ) {  
+    if( redraw || lastshift != shift ) {
       redraw=false;
       for ( int reti=shift, scri=0; scri <= scrmax; reti++,scri++ ) {
         if( reti < ret.size() ) {
           mvwputch(w, starty, startx+scri, (reti == pos ? cursor_color : string_color ), ret[reti] );
         } else {
-          mvwputch(w, starty, startx+scri, (reti == pos ? cursor_color : underscore_color ), '_');  
+          mvwputch(w, starty, startx+scri, (reti == pos ? cursor_color : underscore_color ), '_');
         }
       }
     } else if ( lastpos != pos ) {
@@ -1101,39 +1101,32 @@ std::string word_rewrap (const std::string &ins, int width){
     std::ostringstream o;
 	std::string in = ins;
 	std::replace(in.begin(), in.end(), '\n', ' ');
-	int lastwb = 0; //last word break
+
+	int lastwb  = 0; //last word break
 	int lastout = 0;
-	int x=0;
-	int j=0;
 	const char *instr = in.c_str();
 
-	while(j<in.size())
+	for (int j=0, x=0; j<in.size(); )
 	{
 		const char* ins = instr+j;
 		int len = ANY_LENGTH;
 		unsigned uc = UTF8_getch(&ins, &len);
-		int cw = mk_wcwidth((wchar_t)uc);
-		len = ANY_LENGTH-len;
+		x += mk_wcwidth((wchar_t)uc);
+		j += ANY_LENGTH-len;
 
-		j+=len;
-		x+=cw;
-
-		if(x>width)
+		if(x >= width)
 		{
+		    if (lastwb == lastout)
+                lastwb = j;
 			for(int k=lastout; k<lastwb; k++)
 				o << in[k];
-			o<<'\n';
-			x=0;
-			lastout=j=lastwb;
+			o << '\n';
+			x = 0;
+			lastout = j = lastwb;
 		}
-		else if(uc==' '|| uc=='\n')
-		{
-			lastwb=j;
-		}
-		else if(uc>=0x2E80)
-		{
-			lastwb=j;
-		}
+
+		if (uc==' ' || uc>=0x2E80)
+			lastwb = j;
 	}
 	for(int k=lastout; k<in.size(); k++)
 		o << in[k];
@@ -1211,7 +1204,7 @@ std::string string_format(std::string pattern, ...)
     char buff[3000];    //TODO replace Magic Number
     vsprintf(buff, pattern.c_str(), ap);
     va_end(ap);
-    
+
     //drop contents behind $, this trick is there to skip certain arguments
     char* break_pos = strchr(buff, '\003');
     if(break_pos) break_pos[0] = '\0';
@@ -1219,7 +1212,7 @@ std::string string_format(std::string pattern, ...)
     return buff;
 }
 
-//wrap if for i18n 
+//wrap if for i18n
 std::string& capitalize_letter(std::string &str, size_t n)
 {
     char c= str[n];
@@ -1253,7 +1246,7 @@ size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, 
     char buff[3000];    //TODO replace Magic Number
     vsprintf(buff, fmt, ap);
     va_end(ap);
-    
+
     std::string tmp = buff;
     size_t pos = tmp.find_first_of('<');
     size_t pos2 = tmp.find_first_of('>');
@@ -1268,7 +1261,7 @@ size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, 
     }
     else
     {
-        // no shutcut? 
+        // no shutcut?
         mvwprintz(w, y, x, color, buff);
         len = utf8_width(buff);
     }

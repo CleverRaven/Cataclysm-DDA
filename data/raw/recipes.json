@@ -44,6 +44,30 @@
 },
 
 {
+  "result": "pocketwatch",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "scrap", 2 ]
+    ],
+    [
+      [ "clockworks", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "knife_steak",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -2349,6 +2373,61 @@
     ],
     [
       [ "gunpowder", 60 ]
+    ]
+  ]
+},
+
+{
+  "result": "quiver",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "requires_skills": [ "archery", 1 ],
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 2 ],
+      [ "sewing_kit", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ]
+  ]
+},
+
+{
+  "result": "quiver_large",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "requires_skills": [ "archery", 2 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 8 ]
+    ],
+    [
+      [ "scrap", 2 ],
+      [ "steel_chunk", 1]
     ]
   ]
 },
@@ -8004,6 +8083,30 @@
   ]
 },
 
+{
+  "result": "backpack_leather",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 20 ]
+    ],
+    [
+      [ "scrap", 6 ]
+    ]
+  ]
+},
+
 
 {
   "result": "blanket",
@@ -13034,6 +13137,7 @@
       ],
       [
       [ "chestrig", 1 ],
+      [ "legrig", 1 ],
       [ "vest", 1 ],
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
@@ -13092,6 +13196,7 @@
       ],
       [
       [ "chestrig", 1 ],
+      [ "legrig", 1 ],
       [ "vest", 1 ],
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],
@@ -13155,6 +13260,7 @@
       ],
       [
       [ "chestrig", 1 ],
+      [ "legrig", 1 ],
       [ "vest", 1 ],
       [ "tool_belt", 1 ],
       [ "ragpouch", 6 ],

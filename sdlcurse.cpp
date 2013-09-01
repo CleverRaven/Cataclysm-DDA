@@ -454,7 +454,12 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 0 == strcmp( ent->d_name, ".." ) ) {
                 continue;
             }
-            std::string f = path + "/" + ent->d_name;
+            #if (defined _WIN32 || defined WINDOWS)
+                std::string f = path + "\\" + ent->d_name;
+            #else
+                std::string f = path + "/" + ent->d_name;
+            #endif
+
             struct stat stat_buffer;
             if( stat( f.c_str(), &stat_buffer ) == -1 ) {
                 continue;
