@@ -864,13 +864,13 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         mvwprintz(w,  3, 40, c_ltgray, "                                      ");
         if (can_pick == "YES")
         {
-            mvwprintz(w,  3, 20, c_green, _("Profession %s costs %d points (net: %d)"),
+            mvwprintz(w,  3, 20, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
                       sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
         else if(can_pick == "INSUFFICIENT_POINTS")
         {
-            mvwprintz(w,  3, 20, c_ltred, _("Profession %s costs %d points (net: %d)"),
+            mvwprintz(w,  3, 20, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
                       sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
