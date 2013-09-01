@@ -2725,7 +2725,7 @@ void game::load(std::string name)
  u.name = base64_decode(name);
  u.ret_null = item(itypes["null"], 0);
  u.weapon = item(itypes["null"], 0);
- serialize_load(fin);
+ unserialize(fin);
  fin.close();
  load_auto_pickup(true); // Load character auto pickup rules
  load_uistate();
@@ -2815,7 +2815,7 @@ void game::save()
  playerfile << "save/" << base64_encode(u.name) << ".sav";
 
  fout.open(playerfile.str().c_str());
- serialize_save(fout);
+ serialize(fout);
  fout.close();
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
  save_auto_pickup(true); // Save character auto pickup rules
