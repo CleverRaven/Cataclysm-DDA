@@ -110,15 +110,15 @@ static bool item_inscription( game *g, player *p, item *cut, std::string verb, s
 
 // Returns false if the inscription failed or if the player canceled the action. Otherwise, returns true.
 
-static bool inscribe_item( game *g, player *p, std::string verb, std::string gerund, bool carveable )
+static bool inscribe_item( game *g, player *p, std::string verb, std::string gerund,
+                           bool carveable )
 {
-        //Note: this part still strongly relies on English grammar.
-        //Although it can be easily worked around in language like Chinese,
-        //but might need to be reworked for some European languages that have more verb forms
-    item* cut = &(p->i_at(ch));
+    //Note: this part still strongly relies on English grammar.
+    //Although it can be easily worked around in language like Chinese,
+    //but might need to be reworked for some European languages that have more verb forms
     char ch = g->inv(string_format(_("%s on what?"), verb.c_str()));
-    {
-    if (cut->type->id == "null")
+    item *cut = &(p->i_at(ch));
+    if (cut->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
         return false;
     }
