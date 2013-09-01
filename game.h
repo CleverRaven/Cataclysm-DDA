@@ -99,8 +99,8 @@ class game
   bool game_quit(); // True if we actually quit the game - used in main.cpp
   bool game_error();
   quit_status uquit;    // used in main.cpp to determine what type of quit
-  void serialize_save(std::ofstream & fout);
-  void serialize_load(std::ifstream & fin);
+  void serialize(std::ofstream & fout); // for save
+  void unserialize(std::ifstream & fin); // for load
   void save();
   void delete_save();
   void write_memorial_file();

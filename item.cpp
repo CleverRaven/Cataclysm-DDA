@@ -469,13 +469,14 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
          }
      }
      item_vars[var_name]=val_decoded;
+#ifdef has_advanced_decay
      if( var_name == "accumulated_rot" ) {
          accumulated_rot = atoi(val_decoded.c_str());
          //popup("ar %d",accumulated_rot);
      } else if ( var_name == "last_rot_check" ) {
          last_rot_check = atoi(val_decoded.c_str());
      }
-
+#endif
      return true;
    } else {
      return false;
@@ -639,7 +640,7 @@ if ( check == '{' ) {
  for( int i = 0; i < tag_count; ++i )
  {
      dump >> item_tag;
-   if( itag2ivar(item_tag) == false ) {
+   if( itag2ivar(item_tag, item_vars ) == false ) {
      item_tags.insert( item_tag );
    }
  }
