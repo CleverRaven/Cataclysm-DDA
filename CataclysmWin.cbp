@@ -134,7 +134,6 @@
 		<Unit filename="addiction.h" />
 		<Unit filename="advanced_inv.cpp" />
 		<Unit filename="advanced_inv.h" />
-		<Unit filename="animation.h" />
 		<Unit filename="animation_curses.cpp" />
 		<Unit filename="animation_tiles.cpp" />
 		<Unit filename="artifact.cpp" />
@@ -188,6 +187,7 @@
 		<Unit filename="game.h" />
 		<Unit filename="gamemode.cpp" />
 		<Unit filename="gamemode.h" />
+		<Unit filename="gamesave.cpp" />
 		<Unit filename="get_version.h" />
 		<Unit filename="graffiti.cpp" />
 		<Unit filename="graffiti.h" />
@@ -272,6 +272,8 @@
 		<Unit filename="overmap.h" />
 		<Unit filename="overmapbuffer.cpp" />
 		<Unit filename="overmapbuffer.h" />
+		<Unit filename="picofunc.cpp" />
+		<Unit filename="picofunc.h" />
 		<Unit filename="picojson.h" />
 		<Unit filename="player.cpp" />
 		<Unit filename="player.h" />
@@ -315,6 +317,7 @@
 		<Unit filename="vehicle.cpp" />
 		<Unit filename="vehicle.h" />
 		<Unit filename="version.cpp" />
+		<Unit filename="version.h" />
 		<Unit filename="wcwidth.c">
 			<Option compilerVar="CC" />
 		</Unit>
