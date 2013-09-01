@@ -977,7 +977,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   } else if (noise < 40) {
     gunsound = _("Pew!");
   } else if (noise < 60) {
-    gunsound = _("Bzorp!");
+    gunsound = _("Bzap!");
   } else {
     gunsound = _("Kra-kow!!");
   }
@@ -1004,11 +1004,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
    gunsound = _("kerblam!");
   }
  }
- /*
- if (weapon->curammo->type == "fusion" || weapon->curammo->type == "battery" ||
-     weapon->curammo->type == "plutonium")
-  g->sound(p.posx, p.posy, 8, _("Fzzt!"));
-  */
+
  if (weapon->curammo->type == "40mm")
   g->sound(p.posx, p.posy, 8, _("Thunk!"));
  else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm" ||
