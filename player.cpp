@@ -1783,6 +1783,13 @@ std::string player::dump_memorial()
 
 }
 
+inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
+{
+    int levelA = a.second;
+    int levelB = b.second;
+    return levelA > levelB || (levelA == levelB && a.first->name() < b.first->name());
+}
+
 void player::disp_info(game *g)
 {
  int line;
@@ -2152,27 +2159,16 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  const char *title_SKILLS = _("SKILLS");
  mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
 
- // sort skills by level
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-      aSkill != Skill::skills.end(); ++aSkill)
- {
-  SkillLevel level = skillLevel(*aSkill);
-  if (level < 0)
-   continue;
-  bool foundplace = false;
-  for (std::vector<Skill*>::iterator i = skillslist.begin();
-      i != skillslist.end(); ++i)
-  {
-   SkillLevel thislevel = skillLevel(*i);
-   if (thislevel < level)
-   {
-    skillslist.insert(i, *aSkill);
-    foundplace = true;
-    break;
-   }
-  }
-  if (!foundplace)
-   skillslist.push_back(*aSkill);
+ std::vector<std::pair<Skill *, int> > sorted;
+ int num_skills = Skill::skills.size();
+ for (int i = 0; i < num_skills; i++) {
+     Skill *s = Skill::skills[i];
+     SkillLevel &sl = skillLevel(s);
+     sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
+ }
+ std::sort(sorted.begin(), sorted.end(), skill_display_sort);
+ for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin(); i != sorted.end(); i++) {
+     skillslist.push_back((*i).first);
  }
 
  for (std::vector<Skill*>::iterator aSkill = skillslist.begin();
