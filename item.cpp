@@ -345,24 +345,6 @@ picojson::value item::json_save() const
         data["name"] = pv ( name );
     }
 
-#ifdef has_advanced_decay
-    if ( accumulated_rot != 0 ) {
-        data["accumulated_rot"] = pv( accumulated_rot );
-    }
-    if ( last_rot_check != -1 ) {
-        data["last_rot_check"] = pv( last_rot_check );
-    }
-#endif
-
-#ifdef has_item_luminance
-    if ( light.luminance != 0 ) {
-        data["light"] = pv( int(light.luminance) );
-        if ( light.width != 0 ) {
-            data["light_width"] = pv( int(light.width) );
-            data["light_dir"] = pv( int(light.direction) );
-        }
-    }
-#endif
     return picojson::value(data);
 }
 
@@ -469,28 +451,10 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
          }
      }
      item_vars[var_name]=val_decoded;
-#ifdef has_advanced_decay
-     if( var_name == "accumulated_rot" ) {
-         accumulated_rot = atoi(val_decoded.c_str());
-         //popup("ar %d",accumulated_rot);
-     } else if ( var_name == "last_rot_check" ) {
-         last_rot_check = atoi(val_decoded.c_str());
-     }
-#endif
      return true;
    } else {
      return false;
    }
-}
-
-void check_item_var(item * it, const std::string & key ) {
-/*
-   if ( key == "accumulated_rot" ) {
-      it->accumulated_rot = atoi(it->item_vars["accumulated_rot"].c_str());
-   } else if ( key == "last_rot_check" ) {
-      it->last_rot_check = atoi(it->item_vars["accumulated_rot"].c_str());
-   }
-*/
 }
 
 bool item::json_load(picojson::value parsed, game * g)
@@ -584,27 +548,6 @@ bool item::json_load(picojson::value parsed, game * g)
         }
     }
 
-#ifdef has_advanced_decay
-    last_rot_check = -1;
-    accumulated_rot = 0;
-    picoint(data,"last_rot_check",last_rot_check);
-    picoint(data,"accumulated_rot",accumulated_rot);
-#endif
-
-#ifdef has_item_luminance
-    light=nolight;
-    int tmplum=0;
-    int tmpwidth=0;
-    int tmpdir=0;
-    if ( picoint(data,"light",tmplum) ) {
-        picoint(data,"light_width",tmpwidth);
-        picoint(data,"light_dir",tmpdir);
-        light.luminance = (unsigned short)tmplum;
-        light.width = (short)tmpwidth;
-        light.direction = (short)tmpdir;
-    }
-#endif
-
     return true;
 }
 
@@ -632,13 +575,6 @@ if ( check == '{' ) {
  std::string idtmp, ammotmp, item_tag;
  int lettmp, damtmp, acttmp, corp, tag_count;
  dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
-#ifdef has_advanced_decay
- last_rot_check = -1;
- accumulated_rot = 0;
-#endif
-#ifdef has_item_luminance
- light=nolight;
-#endif
  for( int i = 0; i < tag_count; ++i )
  {
      dump >> item_tag;
