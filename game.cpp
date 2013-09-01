@@ -7174,11 +7174,15 @@ void game::list_items()
                         }
 
                         sText.str("");
-                        sText << iter->example.tname(this);
-                        sText << " [" << iter->vIG[iThisPage].count << "]";
 
                         if (iter->vIG.size() > 1) {
-                            sText << " [" << iThisPage+1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ")";
+                            sText << "[" << iThisPage+1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
+                        }
+
+                        sText << iter->example.tname(this);
+
+                        if (iter->vIG[iThisPage].count > 1) {
+                            sText << " [" << iter->vIG[iThisPage].count << "]";
                         }
 
                         mvwprintz(w_items, 1 + iNum - iStartPos, 2,
