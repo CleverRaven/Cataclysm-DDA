@@ -167,7 +167,7 @@ void game::wishmutate( player *p )
                         wmenu.entries[ i ].text_color = wmenu.text_color;
                         cb->pTraits[ cb->vTraits[ i ] ] = false;
                     }
-                }                
+                }
             }
         }
     } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
@@ -183,7 +183,7 @@ class wish_monster_callback: public uimenu_callback
         int lastent;           // last menu entry
         std::string msg;       // feedback mesage
         bool friendly;         // spawn friendly critter?
-        WINDOW *w_info;        // ui_parent menu's padding area 
+        WINDOW *w_info;        // ui_parent menu's padding area
         monster tmp;           // scrap critter for monster::print_info
         bool started;          // if unset, intialize window
         std::string padding;   // ' ' x window width
@@ -466,7 +466,8 @@ void game::wishskill(player * p) {
           sksetmenu.query();
           skset = sksetmenu.ret;
         }
-        if ( skset != -1 && skill_id != -1 ) {
+
+        if ( skset != UIMENU_INVALID && skset != -1 && skill_id != -1 ) {
           p->skillLevel( Skill::skills[skill_id] ).level(skset);
           skmenu.textformatted[0] = string_format("%s set to %d             ",
               Skill::skills[skill_id]->ident().c_str(),
@@ -502,7 +503,6 @@ void game::wishskill(player * p) {
               }
           }
         }
-      } while ( ! ( skmenu.ret == -1 && ( skmenu.keypress == 'q' || skmenu.keypress == ' ' ||
-                                          skmenu.keypress == KEY_ESCAPE ) ) );
+      } while ( !(skmenu.ret == UIMENU_INVALID && (skmenu.keypress == ' ' || skmenu.keypress == KEY_ESCAPE)) );
 
 }

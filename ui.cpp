@@ -131,7 +131,7 @@ void uimenu::init() {
     filter = "";             // filter string. If "", show everything
     fentries.clear();        // fentries is the actual display after filtering, and maps displayed entry number to actual entry number
     fselected = 0;           // fentries[selected]
-    filtering = true;        // enable list display filtering via '/' or '.' 
+    filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
     max_entry_len = 0;       // does nothing but can be read
 }
@@ -418,10 +418,10 @@ void uimenu::show() {
         if ( fei < fentries.size() ) {
             int ei=fentries [ fei ];
             nc_color co = ( ei == selected ?
-               hilight_color : 
-               ( entries[ ei ].enabled ? 
-                  entries[ ei ].text_color : 
-               disabled_color ) 
+               hilight_color :
+               ( entries[ ei ].enabled ?
+                  entries[ ei ].text_color :
+               disabled_color )
             );
 
             if ( hilight_full ) {
@@ -445,7 +445,7 @@ void uimenu::show() {
     if ( filter.size() > 0 ) {
         mvwprintz(window,w_height-1,2,border_color,"< %s >",filter.c_str() );
         mvwprintz(window,w_height-1,4,text_color,"%s",filter.c_str());
-    } 
+    }
     this->refresh(true);
 }
 
@@ -506,7 +506,7 @@ bool uimenu::scrollby(int scrollby, const int key) {
 
     bool looparound = ( scrollby == -1 || scrollby == 1 );
     bool backwards = ( scrollby < 0 );
-    
+
     fselected += scrollby;
     if ( ! looparound ) {
         if ( backwards && fselected < 0 ) {
@@ -578,7 +578,7 @@ void uimenu::query(bool loop) {
             } else if ( return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
             }
-        } else if ( keypress == 27 ) { //break loop with ESCAPE key
+        } else if ( keypress == KEY_ESCAPE ) { //break loop with ESCAPE key
             break;
         } else {
             if ( keycallback ) {
