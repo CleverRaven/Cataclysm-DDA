@@ -573,9 +573,9 @@
    {
       "ident": "senior",
       "name": "Senior Citizen",
-      "description":"You haven't seen this much blood since the war. The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done. You start with a cane and your bifocal glasses.",
+      "description":"You haven't seen this much blood since the war. The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done. You start with a cane and your pocketwatch.",
       "points": 0,
-      "items": ["dress_shirt", "pants_checkered", "dress_shoes", "cane", "glasses_bifocal"]
+      "items": ["dress_shirt", "pants_checkered", "dress_shoes", "cane", "pocketwatch"]
    },
    {
       "description":"Being a paramedic put you in a bad spot when it all ended. You had to fight your way out of a hospital full of infected to get to the shelter. You start with a few related tools and some skill in first aid.",
