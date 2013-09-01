@@ -385,7 +385,7 @@ void player::activate_bionic(int b, game *g)
  } else if (bio.id == "bio_laser"){
   tmp_item = weapon;
   weapon = item(g->itypes["v29"], 0);
-  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["laser_pack"]);
+  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["generic_no_ammo"]);
   weapon.charges = 1;
   g->refresh_all();
   g->plfire(false);
