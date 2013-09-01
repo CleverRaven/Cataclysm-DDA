@@ -2507,9 +2507,19 @@ void game::load_uistate() {
         fin.close();
         return;
     }
-    picojson::value wrapped_data;
-    fin >> wrapped_data;
+    std::stringstream data;
+    while (!fin.eof())
+    {
+        char buffer[1024];
+        fin.read(buffer,1024);
+        data.write(buffer,fin.gcount());
+    }
     fin.close();
+
+    data.str(decompress_string(data.str()));
+
+    picojson::value wrapped_data;
+    data >> wrapped_data;
     std::string jsonerr=picojson::get_last_error();
     if ( ! jsonerr.empty() ) {
        dbg(D_ERROR) << "load_uistate: " << jsonerr.c_str();
@@ -2884,7 +2894,7 @@ void game::save_uistate() {
     savefile << savedir << "/uistate.json";
     std::ofstream fout;
     fout.open(savefile.str().c_str());
-    fout << uistate.save();
+    fout << compress_string(uistate.save());
     fout.close();
     uistate.errdump="";
 }
