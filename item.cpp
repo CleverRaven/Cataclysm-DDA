@@ -282,11 +282,104 @@ void item::put_in(item payload)
 }
 const char ivaresc=001;
 
+
+#define has_advanced_decay 1
+#define has_item_luminance 1
+
+picojson::value item::json_save() const
+{
+    std::map<std::string, picojson::value> data;
+    /////
+    if (type == NULL) {
+        debugmsg("Tried to save an item with NULL type!");
+    }
+    itype_id ammotmp = "null";
+
+    /* TODO: This causes a segfault sometimes, even though we check to make sure
+     * curammo isn't NULL.  The crashes seem to occur most frequently when saving an
+     * NPC, or when saving map data containing an item an NPC has dropped.
+     */
+    if (curammo != NULL) {
+        ammotmp = curammo->id;
+    }
+    if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(),
+                  ammotmp) != unreal_itype_ids.end()  &&
+        std::find(artifact_itype_ids.begin(), artifact_itype_ids.end(),
+                  ammotmp) != artifact_itype_ids.end()
+      ) {
+        ammotmp = "null"; //Saves us from some bugs, apparently?
+    }
+
+    /////
+    data["invlet"] = pv( int(invlet) );
+    data["typeid"] = pv( typeId() );
+    data["bday"] = pv( int(bday) );
+
+    if ( charges != -1 )     data["charges"]    = pv( int(charges) );
+    if ( damage != 0 )       data["damage"]     = pv( int(damage) );
+    if ( burnt != 0 )        data["burnt"]      = pv( burnt );
+    if ( poison != 0 )       data["poison"]     = pv( poison );
+    if ( ammotmp != "null" ) data["curammo"]    = pv( ammotmp );
+    if ( mode != "NULL" )    data["mode"]       = pv( mode );
+    if ( active == true )    data["active"]     = pv( true );
+    if ( corpse != NULL )    data["corpse"]     = pv( corpse->id );
+
+    if ( owned != -1 )       data["owned"]      = pv( player_id );
+    if ( player_id != -1 )   data["player_id"]  = pv( player_id );
+    if ( mission_id != -1 )  data["mission_id"] = pv( mission_id );
+
+    if ( item_tags.size() > 0 ) {
+        std::vector<picojson::value> pvtags;
+        for( std::set<std::string>::const_iterator it = item_tags.begin();
+             it != item_tags.end(); ++it ) {
+            pvtags.push_back( pv( *it ) );
+        }
+        data["item_tags"] = pv ( pvtags );
+    }
+
+    if ( item_vars.size() > 0 ) {
+        std::map<std::string, picojson::value> pvvars;
+        for( std::map<std::string, std::string>::const_iterator it = item_vars.begin(); it != item_vars.end(); ++it ) {
+            pvvars[ std::string(it->first) ] = pv( it->second );
+        }
+        data["item_vars"] = pv ( pvvars );
+    }
+
+    if ( name != type->name ) {
+        data["name"] = pv ( name );
+    }
+
+#ifdef has_advanced_decay
+    if ( accumulated_rot != 0 ) {
+        data["accumulated_rot"] = pv( accumulated_rot );
+    }
+    if ( last_rot_check != -1 ) {
+        data["last_rot_check"] = pv( last_rot_check );
+    }
+#endif
+
+#ifdef has_item_luminance
+    if ( light.luminance != 0 ) {
+        data["light"] = pv( int(light.luminance) );
+        if ( light.width != 0 ) {
+            data["light_width"] = pv( int(light.width) );
+            data["light_dir"] = pv( int(light.direction) );
+        }
+    }
+#endif
+    return picojson::value(data);
+}
+
 std::string item::save_info() const
 {
+#ifdef jsonsave_item
+    return json_save().serialize();
+#endif
+
  if (type == NULL){
   debugmsg("Tried to save an item with NULL type!");
  }
+
  itype_id ammotmp = "null";
 /* TODO: This causes a segfault sometimes, even though we check to make sure
  * curammo isn't NULL.  The crashes seem to occur most frequently when saving an
@@ -380,25 +473,177 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
          }
      }
      item_vars[var_name]=val_decoded;
+     if( var_name == "accumulated_rot" ) {
+         accumulated_rot = atoi(val_decoded.c_str());
+         //popup("ar %d",accumulated_rot);
+     } else if ( var_name == "last_rot_check" ) {
+         last_rot_check = atoi(val_decoded.c_str());
+     }
+
      return true;
    } else {
      return false;
    }
 }
 
+void check_item_var(item * it, const std::string & key ) {
+/*
+   if ( key == "accumulated_rot" ) {
+      it->accumulated_rot = atoi(it->item_vars["accumulated_rot"].c_str());
+   } else if ( key == "last_rot_check" ) {
+      it->last_rot_check = atoi(it->item_vars["accumulated_rot"].c_str());
+   }
+*/
+}
+
+bool item::json_load(picojson::value parsed, game * g)
+{
+    clear();
+    const picojson::object &data = parsed.get<picojson::object>();
+
+
+    burnt = 0;
+    owned = -1;
+    poison = 0;
+    mode = "NULL";
+    owned = -1;
+    mission_id = -1;
+    player_id = -1;
+    name = "";
+    active = false;
+
+
+    std::string idtmp="";
+    std::string ammotmp="null";
+    int lettmp = 0;
+    int corptmp = -1;
+    int bdaytmp = 0;
+    int damtmp = 0;
+
+    if ( ! picostring(data, "typeid", idtmp) ) {
+        debugmsg("Invalid item type: %s ", parsed.serialize().c_str() );
+        idtmp = "null";
+    }
+
+    picoint(data, "charges", charges);
+    picoint(data, "burnt", burnt);
+    picoint(data, "poison", poison);
+    picoint(data, "owned", owned);
+
+    picoint(data, "bday", bdaytmp);
+    bday = bdaytmp;
+
+    picostring(data, "mode", mode);
+    picoint(data, "mission_id", mission_id);
+    picoint(data, "player_id", player_id);
+
+
+    picoint(data, "corpse", corptmp); // todo: make optional in save?
+    if (corptmp != -1) {
+        corpse = g->mtypes[corptmp];
+    } else {
+        corpse = NULL;
+    }
+
+    make(g->itypes[idtmp]);
+
+    if ( ! picostring(data, "name", name) ) {
+        name=type->name;
+    }
+
+    picoint(data, "invlet", lettmp);
+    invlet = char(lettmp);
+
+    picoint(data, "damage", damtmp);
+    damage = damtmp; // todo: check why this is done after make(), using a tmp variable
+    picobool(data, "active", active);
+
+
+    picostring(data, "curammo", ammotmp);
+    if ( ammotmp != "null" ) {
+        curammo = dynamic_cast<it_ammo*>(g->itypes[ammotmp]);
+    } else {
+        curammo = NULL;
+    }
+
+    picojson::object::const_iterator ptagsfind = data.find("item_tags");
+    if ( ptagsfind != data.end() && ptagsfind->second.is<picojson::array>()) {
+        const picojson::array&  ptags = ptagsfind->second.get<picojson::array>();
+        for( picojson::array::const_iterator ptagsit = ptags.begin(); ptagsit != ptags.end(); ++ptagsit) {
+             if ( (*ptagsit).is<std::string>() ) {
+                  item_tags.insert( (*ptagsit).get<std::string>() );
+             }
+        }
+    }
+
+    picojson::object::const_iterator pvarsfind = data.find("item_vars");
+    if ( pvarsfind != data.end() && pvarsfind->second.is<picojson::object>() ) {
+        const picojson::object& pvars = pvarsfind->second.get<picojson::object>();
+        for( picojson::object::const_iterator pvarsit = pvars.begin(); pvarsit != pvars.end(); ++pvarsit) {
+             if ( pvarsit->second.is<std::string>() ) {
+                  item_vars[ pvarsit->first ] = pvarsit->second.get<std::string>();
+                  check_item_var( this, pvarsit->first );
+             }
+        }
+    }
+
+#ifdef has_advanced_decay
+    last_rot_check = -1;
+    accumulated_rot = 0;
+    picoint(data,"last_rot_check",last_rot_check);
+    picoint(data,"accumulated_rot",accumulated_rot);
+#endif
+
+#ifdef has_item_luminance
+    light=nolight;
+    int tmplum=0;
+    int tmpwidth=0;
+    int tmpdir=0;
+    if ( picoint(data,"light",tmplum) ) {
+        picoint(data,"light_width",tmpwidth);
+        picoint(data,"light_dir",tmpdir);
+        light.luminance = (unsigned short)tmplum;
+        light.width = (short)tmpwidth;
+        light.direction = (short)tmpdir;
+    }
+#endif
+
+    return true;
+}
+
 void item::load_info(std::string data, game *g)
 {
- clear();
  std::stringstream dump;
  dump << data;
+char check=dump.peek();
+if ( check == ' ' ) {
+  // sigh..
+  check=data[1];
+} 
+if ( check == '{' ) {
+        picojson::value pdata;
+        dump >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad item json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, g);
+        }
+        return;
+}
+ clear();
  std::string idtmp, ammotmp, item_tag;
  int lettmp, damtmp, acttmp, corp, tag_count;
  dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
 
+ last_rot_check = -1;
+ accumulated_rot = 0;
+
+ light=nolight;
  for( int i = 0; i < tag_count; ++i )
  {
      dump >> item_tag;
-   if( itag2ivar(item_tag, item_vars ) == false ) {
+   if( itag2ivar(item_tag) == false ) {
      item_tags.insert( item_tag );
    }
  }
