@@ -231,22 +231,26 @@ class map_item_stack
     public:
         item example; //an example item for showing stats, etc.
         std::vector<item_group> vIG;
+        int totalcount;
 
         //only expected to be used for things like lists and vectors
         map_item_stack() {
             example = item();
             vIG.push_back(item_group());
+            totalcount = 0;
         }
 
         map_item_stack(const item it, const int arg_x, const int arg_y) {
             example = it;
             vIG.push_back(item_group(arg_x, arg_y, 1));
+            totalcount = 1;
         }
 
         ~map_item_stack() {};
 
         void addNewPos(const int arg_x, const int arg_y) {
             vIG.push_back(item_group(arg_x, arg_y, 1));
+            totalcount++;
         }
 
         void incCount() {
@@ -254,6 +258,7 @@ class map_item_stack
             if (iVGsize > 0) {
                 vIG[iVGsize-1].count++;
             }
+            totalcount++;
         }
 };
 

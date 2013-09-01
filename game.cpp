@@ -7102,7 +7102,9 @@ void game::list_items()
                     break;
                 case DirectionE:
                     iPage++;
-                    //Check for out of bounds further down
+                    if (iPage >= filtered_items[iActive].vIG.size()) {
+                        iPage = filtered_items[iActive].vIG.size()-1;
+                    }
                     break;
                 case DirectionW:
                     iPage--;
@@ -7159,27 +7161,24 @@ void game::list_items()
                     }
                     if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) )
                     {
-                        if (iPage >= iter->vIG.size()) {
-                            iPage = iter->vIG.size()-1;
-                        }
-
-                        int iThisPage = iPage;
+                        int iThisPage = 0;
 
                         if (iNum == iActive) {
+                            iThisPage = iPage;
+
                             iActiveX = iter->vIG[iThisPage].x;
                             iActiveY = iter->vIG[iThisPage].y;
 
                             sActiveItemName = iter->example.tname(this);
                             activeItem = iter->example;
-
-                        } else {
-                            iThisPage = 0;
                         }
+
                         sText.str("");
                         sText << iter->example.tname(this);
+                        sText << " [" << iter->vIG[iThisPage].count << "]";
 
-                        for (int j=0; j < iter->vIG.size(); j++) {
-                            sText << " [" << iter->vIG[iThisPage].count << "]";
+                        if (iter->vIG.size() > 1) {
+                            sText << " [" << iThisPage+1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ")";
                         }
 
                         mvwprintz(w_items, 1 + iNum - iStartPos, 2,
@@ -7227,8 +7226,6 @@ void game::list_items()
                     iLastActiveY = iActiveY;
 
                     if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
-                        std::stringstream ssTemp;
-
                         u.view_offset_x = (abs(iActiveX) > VIEWX) ? ((iActiveX < 0) ? VIEWX+iActiveX : iActiveX-VIEWX) : 0;
                         u.view_offset_y = (abs(iActiveY) > VIEWY) ? ((iActiveY < 0) ? VIEWY+iActiveY : iActiveY-VIEWY) : 0;
                     }
