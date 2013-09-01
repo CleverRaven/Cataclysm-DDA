@@ -27,6 +27,7 @@
 #include "mapdata.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "compress.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -2666,7 +2667,7 @@ void game::load_artifacts()
     	uquit = QUIT_ERROR;
 }
 
-void game::load_weather(std::ifstream &fin)
+void game::load_weather(std::stringstream &fin)
 {
     int tmpnextweather, tmpweather, tmptemp, num_segments;
     weather_segment new_segment;
@@ -2699,17 +2700,30 @@ void game::load(std::string name)
   debugmsg("No save game exists!");
   return;
  }
+
+ std::stringstream data;
+
+ while (!fin.eof())
+ {
+     char buffer[1024];
+     fin.read(buffer,1024);
+     data.write(buffer,fin.gcount());
+ }
+ fin.close();
+
+ data.str(decompress_string(data.str()));
+
  u = player();
  u.name = base64_decode(name);
  u.ret_null = item(itypes["null"], 0);
  u.weapon = item(itypes["null"], 0);
  int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
- fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+ data >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
      next_faction_id >> next_mission_id >> tmpspawn;
 
- load_weather(fin);
+ load_weather(data);
 
- fin >> levx >> levy >> levz >> comx >> comy;
+ data >> levx >> levy >> levz >> comx >> comy;
 
  turn = tmpturn;
  nextspawn = tmpspawn;
@@ -2726,45 +2740,45 @@ void game::load(std::string name)
 // Next, the scent map.
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEY * MAPSIZE; j++)
-   fin >> grscent[i][j];
+   data >> grscent[i][j];
  }
 // Now the number of monsters...
  int nummon;
- fin >> nummon;
+ data >> nummon;
 // ... and the data on each one.
- std::string data;
+ std::string mon_data;
  clear_zombies();
  monster montmp;
  char junk;
  int num_items;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
+ if (data.peek() == '\n')
+  data.get(junk); // Chomp that pesky endline
  for (int i = 0; i < nummon; i++) {
-  getline(fin, data);
-  montmp.load_info(data, &mtypes);
+  getline(data, mon_data);
+  montmp.load_info(mon_data, &mtypes);
 
-  fin >> num_items;
+  data >> num_items;
   // Chomp the endline after number of items.
-  getline( fin, data );
+  getline( data, mon_data );
   for (int i = 0; i < num_items; i++) {
-      getline( fin, data );
-      montmp.inv.push_back( item( data, this ) );
+      getline( data, mon_data );
+      montmp.inv.push_back( item( mon_data, this ) );
   }
 
   add_zombie(montmp);
  }
 // And the kill counts;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
+ if (data.peek() == '\n')
+  data.get(junk); // Chomp that pesky endline
  for (int i = 0; i < num_monsters; i++)
-  fin >> kills[i];
+  data >> kills[i];
 // Finally, the data on the player.
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- getline(fin, data);
- u.load_info(this, data);
+ if (data.peek() == '\n')
+  data.get(junk); // Chomp that pesky endline
+ getline(data, mon_data);
+ u.load_info(this, mon_data);
 // And the player's inventory...
- u.inv.load_invlet_cache( fin );
+ u.inv.load_invlet_cache( data );
 
  char item_place;
  std::string itemdata;
@@ -2772,10 +2786,10 @@ void game::load(std::string name)
 // which is contained in another item, the auto-sort/stacking behavior of the
 // player's inventory may cause the contained item to be misplaced.
  std::list<item> tmpinv;
- while (!fin.eof()) {
-  fin >> item_place;
-  if (!fin.eof()) {
-   getline(fin, itemdata);
+ while (!data.eof()) {
+  data >> item_place;
+  if (!data.eof()) {
+   getline(data, itemdata);
    if (item_place == 'I') {
        tmpinv.push_back(item(itemdata, this));
    } else if (item_place == 'C') {
@@ -2797,7 +2811,6 @@ void game::load(std::string name)
  
 // Now dump tmpinv into the player's inventory
  u.inv.add_stack(tmpinv);
- fin.close();
  load_auto_pickup(true); // Load character auto pickup rules
  load_uistate();
 // Now load up the master game data; factions (and more?)
@@ -2884,37 +2897,40 @@ void game::save()
  std::stringstream playerfile;
  std::ofstream fout;
  playerfile << "save/" << base64_encode(u.name) << ".sav";
+ std::stringstream data;
 
- fout.open(playerfile.str().c_str());
  // First, write out basic game state information.
- fout << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
+ data << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
          mostseen << " " << nextinv << " " << next_npc_id << " " <<
      next_faction_id << " " << next_mission_id << " " << int(nextspawn) << " ";
 
- fout << save_weather();
+ data << save_weather();
 
- fout << levx << " " << levy << " " << levz << " " << cur_om->pos().x <<
+ data << levx << " " << levy << " " << levz << " " << cur_om->pos().x <<
          " " << cur_om->pos().y << " " << std::endl;
  // Next, the scent map.
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEY * MAPSIZE; j++)
-   fout << grscent[i][j] << " ";
+   data << grscent[i][j] << " ";
  }
  // Now save all monsters.
- fout << std::endl << num_zombies() << std::endl;
+ data << std::endl << num_zombies() << std::endl;
  for (int i = 0; i < num_zombies(); i++) {
-     fout << _z[i].save_info() << std::endl;
-     fout << _z[i].inv.size() << std::endl;
+     data << _z[i].save_info() << std::endl;
+     data << _z[i].inv.size() << std::endl;
      for( std::vector<item>::iterator it = _z[i].inv.begin(); it != _z[i].inv.end(); ++it )
      {
-         fout << it->save_info() << std::endl;
+         data << it->save_info() << std::endl;
      }
  }
  for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
-  fout << kills[i] << " ";
+  data << kills[i] << " ";
  // And finally the player.
- fout << u.save_info() << std::endl;
- fout << std::endl;
+ data << u.save_info() << std::endl;
+ data << std::endl;
+
+ fout.open(playerfile.str().c_str());
+ fout << compress_string(data.str());
  fout.close();
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
  save_auto_pickup(true); // Save character auto pickup rules

@@ -1491,7 +1491,7 @@ void inventory::assign_empty_invlet(item &it)
   //debugmsg("Couldn't find empty invlet");
 }
 
-void inventory::load_invlet_cache( std::ifstream &fin ) {
+void inventory::load_invlet_cache( std::stringstream &fin ) {
     // Lines are of the format "P itemname abcde".
     while( fin.peek() == 'P' ) {
         std::string invlet_cache_line;

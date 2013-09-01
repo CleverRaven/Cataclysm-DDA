@@ -112,7 +112,7 @@ class inventory
   // vector rather than list because it's NOT an item stack
   std::vector<item*> active_items();
 
-  void load_invlet_cache( std::ifstream &fin );
+  void load_invlet_cache( std::stringstream &fin );
 
   // hack to account for players saving inventory data (including weapon, etc.)
   std::string save_str_no_quant() const;

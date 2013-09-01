@@ -356,7 +356,7 @@ void load_artifacts(); // Load artifact data
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master();	// Load the master data file, with factions &c
-  void load_weather(std::ifstream &fin);
+  void load_weather(std::stringstream &fin);
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game
   void start_special_game(special_game_id gametype); // See gamemode.cpp
