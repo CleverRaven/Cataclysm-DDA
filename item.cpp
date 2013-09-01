@@ -282,10 +282,6 @@ void item::put_in(item payload)
 }
 const char ivaresc=001;
 
-
-#define has_advanced_decay 1
-#define has_item_luminance 1
-
 picojson::value item::json_save() const
 {
     std::map<std::string, picojson::value> data;
