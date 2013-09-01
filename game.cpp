@@ -6817,41 +6817,46 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     std::vector<item> here;
     std::map<std::string, map_item_stack> temp_items;
     std::vector<map_item_stack> ret;
+    std::vector<std::string> vOrder;
 
     std::vector<point> points = closest_points_first(iSearchX, u.posx, u.posy);
 
-    for (std::vector<point>::iterator p_it = points.begin();
-        p_it != points.end(); p_it++)
-    {
-        if (p_it->y >= u.posy - iSearchY && p_it->y <= u.posy + iSearchY &&
-           u_see(p_it->x,p_it->y) &&
-           (!m.has_flag(container, p_it->x, p_it->y) ||
-           (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag(sealed, p_it->x, p_it->y))))
-            {
-                temp_items.clear();
-                here.clear();
-                here = m.i_at(p_it->x, p_it->y);
-                for (int i = 0; i < here.size(); i++)
-                {
-                    const std::string name = here[i].tname(this);
-                    if (temp_items.find(name) == temp_items.end())
-                    {
-                        temp_items[name] = map_item_stack(here[i], p_it->x - u.posx, p_it->y - u.posy);
-                    }
-                    else
-                    {
-                        temp_items[name].count++;
-                    }
-                }
-                for (std::map<std::string, map_item_stack>::iterator iter = temp_items.begin();
-                     iter != temp_items.end();
-                     ++iter)
-                {
-                    ret.push_back(iter->second);
-                }
+    int iLastX = 0;
+    int iLastY = 0;
 
+    for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); p_it++) {
+        if (p_it->y >= u.posy - iSearchY && p_it->y <= u.posy + iSearchY &&
+            u_see(p_it->x,p_it->y) &&
+            (!m.has_flag(container, p_it->x, p_it->y) ||
+            (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag(sealed, p_it->x, p_it->y)))) {
+
+            here.clear();
+            here = m.i_at(p_it->x, p_it->y);
+            for (int i = 0; i < here.size(); i++) {
+                const std::string name = here[i].tname(this);
+
+                if (temp_items.find(name) == temp_items.end() || (iLastX != p_it->x || iLastY != p_it->y)) {
+                    iLastX = p_it->x;
+                    iLastY = p_it->y;
+
+                    if (std::find(vOrder.begin(), vOrder.end(), name) == vOrder.end()) {
+                        vOrder.push_back(name);
+                        temp_items[name] = map_item_stack(here[i], p_it->x - u.posx, p_it->y - u.posy);
+                    } else {
+                        temp_items[name].addNewPos(p_it->x - u.posx, p_it->y - u.posy);
+                    }
+
+                } else {
+                    temp_items[name].incCount();
+                }
             }
+        }
     }
+
+    for (int i=0; i < vOrder.size(); i++) {
+        ret.push_back(temp_items[vOrder[i]]);
+    }
+
     return ret;
 }
 
@@ -7062,6 +7067,7 @@ void game::list_items()
     bool refilter = true;
     int iFilter = 0;
     bool bStopDrawing = false;
+    int iPage = 0;
 
     do
     {
@@ -7121,6 +7127,7 @@ void game::list_items()
                 highPEnd = list_filter_high_priority(filtered_items,list_item_upvote);
                 lowPStart = list_filter_low_priority(filtered_items,highPEnd,list_item_downvote);
                 iActive = 0;
+                iPage = 0;
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 refilter = false;
@@ -7141,15 +7148,29 @@ void game::list_items()
                     if (iActive < 0)
                     {
                         iActive = 0;
+                        iPage = 0;
                         bStopDrawing = true;
                     }
                     break;
                 case DirectionS:
                     iActive++;
+                    iPage = 0;
                     if (iActive >= iItemNum - iFilter)
                     {
                         iActive = iItemNum - iFilter-1;
                         bStopDrawing = true;
+                    }
+                    break;
+                case DirectionE:
+                    iPage++;
+                    if (iPage >= filtered_items[iActive].vIG.size()) {
+                        iPage = filtered_items[iActive].vIG.size()-1;
+                    }
+                    break;
+                case DirectionW:
+                    iPage--;
+                    if (iPage < 0) {
+                        iPage = 0;
                     }
                     break;
             }
@@ -7201,28 +7222,38 @@ void game::list_items()
                     }
                     if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) )
                     {
-                        if (iNum == iActive)
-                        {
-                            iActiveX = iter->x;
-                            iActiveY = iter->y;
+                        int iThisPage = 0;
+
+                        if (iNum == iActive) {
+                            iThisPage = iPage;
+
+                            iActiveX = iter->vIG[iThisPage].x;
+                            iActiveY = iter->vIG[iThisPage].y;
 
                             sActiveItemName = iter->example.tname(this);
                             activeItem = iter->example;
                         }
+
                         sText.str("");
-                        sText << iter->example.tname(this);
-                        if (iter->count > 1)
-                        {
-                            sText << " " << "[" << iter->count << "]";
+
+                        if (iter->vIG.size() > 1) {
+                            sText << "[" << iThisPage+1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
                         }
+
+                        sText << iter->example.tname(this);
+
+                        if (iter->vIG[iThisPage].count > 1) {
+                            sText << " [" << iter->vIG[iThisPage].count << "]";
+                        }
+
                         mvwprintz(w_items, 1 + iNum - iStartPos, 2,
                                   ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
                                   "%s", (sText.str()).c_str());
                         int numw = iItemNum > 9 ? 2 : 1;
                         mvwprintz(w_items, 1 + iNum - iStartPos, width - (5 + numw),
                                   ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, trig_dist(0, 0, iter->x, iter->y),
-                                  direction_name_short(direction_from(0, 0, iter->x, iter->y)).c_str()
+                                  numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
+                                  direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
                                  );
                      }
                      iNum++;
@@ -7260,8 +7291,6 @@ void game::list_items()
                     iLastActiveY = iActiveY;
 
                     if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
-                        std::stringstream ssTemp;
-
                         u.view_offset_x = (abs(iActiveX) > VIEWX) ? ((iActiveX < 0) ? VIEWX+iActiveX : iActiveX-VIEWX) : 0;
                         u.view_offset_y = (abs(iActiveY) > VIEWY) ? ((iActiveY < 0) ? VIEWY+iActiveY : iActiveY-VIEWY) : 0;
                     }
@@ -9370,12 +9399,12 @@ void game::plmove(int dx, int dy)
   monster &z = zombie(mondex);
   if (z.friendly == 0) {
    int udam = u.hit_mon(this, &z);
-   char sMonSym = '%';
-   nc_color cMonColor = z.type->color;
+   //char sMonSym = '%';
+   //nc_color cMonColor = z.type->color;
    if (z.hurt(udam))
     kill_mon(mondex, true);
-   else
-    sMonSym = z.symbol();
+   //else
+   // sMonSym = z.symbol();
     draw_hit_mon(x,y,z,z.dead);
     /*
    hit_animation(x - u.posx + VIEWX - u.view_offset_x,
