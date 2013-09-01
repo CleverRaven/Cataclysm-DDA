@@ -187,7 +187,7 @@ struct mission {
 
  std::string name();
  std::string save_info();
- void load_info(game *g, std::ifstream &info);
+ void load_info(game *g, std::stringstream &info);
 
  mission()
  {
