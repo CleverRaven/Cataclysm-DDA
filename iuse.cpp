@@ -58,11 +58,10 @@ static bool use_fire(game *g, player *p, item *it)
     return true;
 }
 
-
-static bool item_inscription( game *g, player *p, item *cut, std::string verb, std::string gerund, bool carveable)
+static bool item_inscription( game *g, player *p, item *cut, std::string verb, std::string gerund,
+                              bool carveable)
 {
-    if (!cut->made_of(SOLID))
-    {
+    if (!cut->made_of(SOLID)) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
         g->add_msg(_("You can't %s an item that's not solid!"), lower_verb.c_str());
@@ -74,9 +73,9 @@ static bool item_inscription( game *g, player *p, item *cut, std::string verb, s
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
         std::string mat = cut->get_material(1);
-        material_type* mt = material_type::find_material(mat);
+        material_type *mt = material_type::find_material(mat);
         std::string mtname = "null";
-        if(mt!=NULL) {
+        if(mt != NULL) {
             mtname = mt->name();
         }
         std::transform(mtname.begin(), mtname.end(), mtname.begin(), ::tolower);
@@ -84,18 +83,18 @@ static bool item_inscription( game *g, player *p, item *cut, std::string verb, s
                    lower_verb.c_str(), mtname.c_str());
         return false;
     }
-    
+
     std::map<std::string, std::string>::const_iterator ent = cut->item_vars.find("item_note");
-    
+
     bool hasnote = (ent != cut->item_vars.end());
     std::string message = "";
     std::string messageprefix = string_format( hasnote ? _("(To delete, input one '.')\n") : "" ) +
-    string_format(_("%1$s on this %2$s is a note saying: "), gerund.c_str(), cut->type->name.c_str() );
+                                string_format(_("%1$s on this %2$s is a note saying: "), gerund.c_str(), cut->type->name.c_str() );
     message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
                                  (hasnote ? cut->item_vars["item_note"] : message ),
                                  messageprefix, "inscribe_item", 128
-                                 );
-    
+                                );
+
     if( message.size() > 0 ) {
         if ( hasnote && message == "." ) {
             cut->item_vars.erase("item_note");
