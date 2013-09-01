@@ -108,6 +108,31 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  if (num_shots == 0)
   debugmsg("game::fire() - num_shots = 0!");
 
+
+ int ups_drain = 0;
+ int adv_ups_drain = 0;
+ if (p.weapon.has_flag("USE_UPS")) {
+   ups_drain = 5;
+   adv_ups_drain = 3;
+ } else if (p.weapon.has_flag("USE_UPS_20")) {
+   ups_drain = 20;
+   adv_ups_drain = 12;
+ } else if (p.weapon.has_flag("USE_UPS_40")) {
+   ups_drain = 40;
+   adv_ups_drain = 24;
+ }
+
+ // cap our maximum burst size by the amount of UPS power left
+ if (ups_drain > 0 || adv_ups_drain > 0)
+  while (!(p.has_charges("UPS_off", ups_drain*num_shots) ||
+            p.has_charges("UPS_on", ups_drain*num_shots) ||
+            p.has_charges("adv_UPS_off", adv_ups_drain*num_shots) ||
+            p.has_charges("adv_UPS_on", adv_ups_drain*num_shots))) {
+    num_shots--;
+  }
+
+
+
 // Set up a timespec for use in the nanosleep function below
  timespec ts;
  ts.tv_sec = 0;
@@ -235,8 +260,19 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   // Use up a round (or 100)
   if (weapon->has_flag("FIRE_100"))
    weapon->charges -= 100;
-  else
+  else if (!weapon->has_flag("NO_AMMO"))
    weapon->charges--;
+
+  // Drain UPS power
+  if (p.has_charges("adv_UPS_off", adv_ups_drain))
+    p.use_charges("adv_UPS_off", adv_ups_drain);
+  else if (p.has_charges("adv_UPS_on", adv_ups_drain))
+    p.use_charges("adv_UPS_on", adv_ups_drain);
+  else if (p.has_charges("UPS_off", ups_drain))
+    p.use_charges("UPS_off", ups_drain);
+  else if (p.has_charges("UPS_on", ups_drain))
+    p.use_charges("UPS_on", ups_drain);
+
 
   if (firing->skill_used != Skill::skill("archery") &&
       firing->skill_used != Skill::skill("throw"))

@@ -8594,9 +8594,19 @@ void game::plfire(bool burst)
   return;
  }
  if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
-     !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 53) &&
+     !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 3) &&
      !u.has_charges("adv_UPS_on", 3)) {
-  add_msg(_("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charged to fire that!"));
+  add_msg(_("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charges to fire that!"));
+  return;
+ } else if (u.weapon.has_flag("USE_UPS_20") && !u.has_charges("UPS_off", 20) &&
+  !u.has_charges("UPS_on", 20) && !u.has_charges("adv_UPS_off", 12) &&
+  !u.has_charges("adv_UPS_on", 12)) {
+  add_msg(_("You need a UPS with at least 20 charges or an advanced UPS with at least 12 charges to fire that!"));
+  return;
+ } else if (u.weapon.has_flag("USE_UPS_40") && !u.has_charges("UPS_off", 40) &&
+  !u.has_charges("UPS_on", 40) && !u.has_charges("adv_UPS_off", 24) &&
+  !u.has_charges("adv_UPS_on", 24)) {
+  add_msg(_("You need a UPS with at least 40 charges or an advanced UPS with at least 24 charges to fire that!"));
   return;
  }
 
@@ -8645,16 +8655,6 @@ void game::plfire(bool burst)
   zombie(targetindices[passtarget]).add_effect(ME_HIT_BY_PLAYER, 100);
  }
 
- if (u.weapon.has_flag("USE_UPS")) {
-  if (u.has_charges("adv_UPS_off", 3))
-   u.use_charges("adv_UPS_off", 3);
-  else if (u.has_charges("adv_UPS_on", 3))
-   u.use_charges("adv_UPS_on", 3);
-  else if (u.has_charges("UPS_off", 5))
-   u.use_charges("UPS_off", 5);
-  else if (u.has_charges("UPS_on", 5))
-   u.use_charges("UPS_on", 5);
- }
  if (u.weapon.mode == "MODE_BURST")
   burst = true;
 
@@ -8663,7 +8663,7 @@ void game::plfire(bool burst)
  int num_shots = 1;
  if (burst)
   num_shots = u.weapon.burst_size();
- if (num_shots > u.weapon.num_charges())
+ if (num_shots > u.weapon.num_charges() && !u.weapon.has_flag("NO_AMMO"))
    num_shots = u.weapon.num_charges();
  if (u.skillLevel(firing->skill_used) == 0 ||
      (firing->ammo != "BB" && firing->ammo != "nail"))
