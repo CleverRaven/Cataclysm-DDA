@@ -84,9 +84,9 @@ static bool item_inscription( game *g, player *p, item *cut, std::string verb, s
                    lower_verb.c_str(), mtname.c_str());
         return false;
     }
-    
+
     std::map<std::string, std::string>::const_iterator ent = cut->item_vars.find("item_note");
-    
+
     bool hasnote = (ent != cut->item_vars.end());
     std::string message = "";
     std::string messageprefix = string_format( hasnote ? _("(To delete, input one '.')\n") : "" ) +
@@ -95,7 +95,7 @@ static bool item_inscription( game *g, player *p, item *cut, std::string verb, s
                                  (hasnote ? cut->item_vars["item_note"] : message ),
                                  messageprefix, "inscribe_item", 128
                                  );
-    
+
     if( message.size() > 0 ) {
         if ( hasnote && message == "." ) {
             cut->item_vars.erase("item_note");
@@ -1175,7 +1175,7 @@ bool iuse::valid_fabric(game *g, player *p, item *it, bool t)
         g->add_msg(_("You can only slice items made of cotton or leather."));
         return false;
     }
-    
+
     return true;
 }
 
@@ -1191,17 +1191,17 @@ void iuse::cut_up(game *g, player *p, item *it, item *cut, bool t)
     {
         count -= rng(0, 2);
     }
-    
+
     if (dice(3, 3) > p->dex_cur)
     {
         count -= rng(1, 3);
     }
-    
+
     if (cut->damage>2 || cut->damage<0)
     {
         count-= cut->damage;
     }
-    
+
         //scrap_text is result string of worthless scraps
         //sliced_text is result on a success
     std::string scrap_text, sliced_text, type;
@@ -1217,9 +1217,9 @@ void iuse::cut_up(game *g, player *p, item *it, item *cut, bool t)
         sliced_text = ngettext("You slice the %s into a piece of leather.", "You slice the %1$s into %2$d pieces of leather.", count);
         type = "leather";
     }
-    
+
     char ch = cut->invlet;
-    
+
     if (count <= 0)
     {
         g->add_msg_if_player(p, scrap_text.c_str(), cut->tname().c_str());
@@ -1253,7 +1253,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
 {
     char ch = g->inv(_("Chop up what?"));
     item* cut = &(p->i_at(ch));
-    
+
     if (!valid_fabric(g,p,cut,t))
     {
         return;
@@ -1473,7 +1473,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
         if (p->has_trait("MASOCHIST") && query_yn(_("Cauterize yourself for fun?"))) {
             it->charges -= 1;
             p->cauterize(g);
-        } 
+        }
         else
             g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
     }
@@ -1488,7 +1488,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
 {
     it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
     int choice = 2;
-    
+
         // Option for cauterization only if player has the incentive to do so
         // One does not check for open wounds with a soldering iron.
     if (p->has_disease("bite") || p->has_disease("bleed")) {
@@ -1497,7 +1497,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
     else if (p->has_trait("MASOCHIST")) {   // Masochists might be wounded too, let's not ask twice.
         choice = menu(true, ("Using soldering item:"), _("Cauterize yourself for fun"), _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     }
-    
+
     switch (choice)
     {
         case 1:
@@ -3875,33 +3875,31 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
-    int choice = 0;
-    int cauterize = 2;
+    int choice        = 0;
+    int cauterize     = 2;
     int carve_writing = 3;
-    int cancel = 4;
-    
+    int cancel        = 4;
+
     if ((p->has_disease("bite") || p->has_disease("bleed"))) {
         choice = menu(true, _("Using knife:"), _("Cut up fabric/plastic/kevlar/wood"), _("Cauterize"), _("Carve writing on item"), _("Cancel"), NULL);
-    }
-    else if (choice == cauterize && !p->use_charges_if_avail("fire", 4) ) 
-    {
-        g->add_msg_if_player(p,_("You need a lighter with 4 charges before you can cauterize yourself."));
-        return;
-    }
-    else if (choice == cauterize) {
-        p->cauterize(g);
-        return;
-    }
-    
-    if (&(p->weapon) == it && choice == 0)
-    {
+
+        if (choice == cauterize) {
+            if (!p->use_charges_if_avail("fire", 4)) {
+                g->add_msg_if_player(p,_("You need a lighter with 4 charges before you can cauterize yourself."));
+            } else {
+                p->cauterize(g);
+            }
+            return;
+        }
+    } else if (&(p->weapon) == it){ // If cutting item wielded
         choice = menu(true, _("Using knife:"), _("Cut up fabric/plastic/kevlar/wood"), _("Carve writing on item"), _("Cancel"), NULL);
-        carve_writing = 2;
-        cancel = 3;        
+        if (choice >= cauterize)
+            choice++; // offset ze list
     }
-    
-        // cancel before item selection
-    if (choice == cancel) return;
+
+    // cancel before item selection
+    if (choice == cancel)
+        return;
 
     char ch;
         // finally select item from related inventory
@@ -3909,25 +3907,25 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         ch = g->inv(_("Carve writing on what?"));
     else
         ch = g->inv(_("Chop up what?"));
-    
+
     item* cut = &(p->i_at(ch));
-    
+
     if (cut->type->id == "null")
     {
         g->add_msg(_("You do not have that item!"));
         return;
     }
-    
+
         // item wielded or worn, ask to cut or carve
     if ( choice != carve_writing && p->has_weapon_or_armor(cut->invlet) )
     {
         choice = menu(true, _("Using knife on worn equipment:"), _("Cut up fabric/plastic/kevlar/wood"), _("Carve writing on item"), _("Cancel"), NULL);
         carve_writing = 2;
-        cancel = 3;    
+        cancel = 3;
     }
-    
+
         // cancel accidentally cutting up worn/wielded equipment
-    if (choice == cancel) 
+    if (choice == cancel)
         return;
 
     if (choice == carve_writing)
@@ -3943,9 +3941,9 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         g->add_msg(_("This object is too small to salvage a meaningful quantity of anything from!"));
         return;
     }
-    
+
     std::string found_mat = "plastic";
-    
+
     item *result;
     int count = amount;
 
@@ -3955,12 +3953,12 @@ void iuse::knife(game *g, player *p, item *it, bool t)
             cut_up(g, p, it, cut, t);
             return;
         }
-    } 
+    }
     else if( cut->made_of(found_mat.c_str()) || cut->made_of((found_mat = "kevlar").c_str())) // TODO : extract a function
     {
             //if we're going to cut up a bottle, make sure it isn't full of liquid
             //applies also to all of them kevlar bottles.
-        
+
         if(cut->is_container())
         {
             if(cut->is_food_container())
@@ -3968,11 +3966,11 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg(_("That container has liquid in it!"));
                 return;
             }
-        }   
-        
+        }
+
         if ( found_mat == "plastic" )
             result = new item(g->itypes["plastic_chunk"], int(g->turn), g->nextinv);
-        else 
+        else
             result = new item(g->itypes["kevlar_plate"], int(g->turn), g->nextinv);
 
         g->add_msg(ngettext("You cut the %1$s into %2$i %3$s.","You cut the %1$s into %2$i %3$ss.", amount), cut->tname().c_str(), amount, result->tname().c_str());
@@ -4009,7 +4007,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         else
             p->i_add(*result);
     }
-    
+
         // hear this helps with objects in dynamically allocated memory and
         // their abandonment issues.
     delete result;
