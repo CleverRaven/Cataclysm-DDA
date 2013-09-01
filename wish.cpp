@@ -435,7 +435,7 @@ void game::wishskill(player * p) {
       for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
            aSkill != Skill::skills.end(); ++aSkill) {
         int skill_id = (*aSkill)->id();
-        skmenu.addentry( skill_id + skoffset, true, -1, "@ %d: %s  ",
+        skmenu.addentry( skill_id + skoffset, true, -2, "@ %d: %s  ",
                          (int)p->skillLevel(*aSkill), (*aSkill)->ident().c_str() );
         origskills[skill_id] = (int)p->skillLevel(*aSkill);
       }
@@ -502,7 +502,7 @@ void game::wishskill(player * p) {
               }
           }
         }
-      } while ( ! ( skmenu.ret == -1 && ( skmenu.keypress == 'q' || skmenu.keypress == ' ' ||
-                                          skmenu.keypress == KEY_ESCAPE ) ) );
+      } while ( skmenu.ret != -1 && ( skmenu.keypress != 'q' && skmenu.keypress != ' ' &&
+                                          skmenu.keypress != KEY_ESCAPE ) );
 
 }
