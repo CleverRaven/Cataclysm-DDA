@@ -15,6 +15,7 @@
 #include "editmap.h"
 #include "bodypart.h"
 #include "map.h"
+#include "object.h"
 #include "output.h"
 #include "uistate.h"
 #include "item_factory.h"
@@ -28,6 +29,7 @@
 #include "mapdata.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "rules.h"
 //#include "player.h"
 #include <map>
 #include <set>
@@ -45,6 +47,8 @@
 #include "debug.h"
 #include "artifactdata.h"
 #include "weather.h"
+#include "weather_const.h"
+#include "bench.h"
 #if (defined _WIN32 || defined __WIN32__)
 #include <windows.h>
 #include <tchar.h>
@@ -60,7 +64,7 @@
 /*
  * Save to opened character.sav
  */
-void game::serialize_save(std::ofstream & fout) {
+void game::serialize(std::ofstream & fout) {
 /*
  * save format version. If an alteration is made that breaks saves, please bump this version and
  * make a new copy in serialize_load.
@@ -115,7 +119,7 @@ switch (savever) {
         fout << u.save_info() << std::endl;
 
         fout << std::endl;
-        //////// version 2 /////////////////////////////////////
+        ////////
     } break;
  case 0: {
 // old instabile mess, which is only preserved for testing and only usable past
@@ -151,6 +155,7 @@ switch (savever) {
  fout << std::endl;
 
  } break;
+/////
 }
 
 }
@@ -170,11 +175,11 @@ inline std::stringstream & stream_line(std::ifstream & f, std::stringstream & s,
  * Convenience macro for the above
  */
 #define parseline() stream_line(fin,linein,linebuf)
-//////////////////////////////////////////////////////////////////////////////
+
 /*
  * Parse an open .sav file.
  */
-void game::serialize_load(std::ifstream & fin) {
+void game::unserialize(std::ifstream & fin) {
    int loadver=0; // version to load; set by '# version n' header
    if ( fin.peek() == '#' ) {
        std::string vline;
@@ -195,7 +200,7 @@ void game::serialize_load(std::ifstream & fin) {
        case 3:
        case 2: {
 /*
- * Format version 2: Temporary format. Still resembles a hairball, but it's at least a multi-line hairball;
+ * Format version 3: Temporary format. Still resembles a hairball, but it's at least a multi-line hairball;
  * Data is segmented for readabilty, stability, and gradual conversion into something closer to sanity.
  */
             std::string linebuf;
@@ -307,7 +312,7 @@ void game::serialize_load(std::ifstream & fin) {
             }
             // Now dump tmpinv into the player's inventory
             u.inv.add_stack(tmpinv);
-        //////// version 2
+        ////////
         } break;
 
         default: {
