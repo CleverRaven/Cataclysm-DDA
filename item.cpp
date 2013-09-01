@@ -632,11 +632,13 @@ if ( check == '{' ) {
  std::string idtmp, ammotmp, item_tag;
  int lettmp, damtmp, acttmp, corp, tag_count;
  dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
-
+#ifdef has_advanced_decay
  last_rot_check = -1;
  accumulated_rot = 0;
-
+#endif
+#ifdef has_item_luminance
  light=nolight;
+#endif
  for( int i = 0; i < tag_count; ++i )
  {
      dump >> item_tag;
