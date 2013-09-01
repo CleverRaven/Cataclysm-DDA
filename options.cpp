@@ -250,6 +250,13 @@ void initOptions() {
                                              true
                                             );
 
+#ifdef COMPRESS
+    OPTIONS["COMPRESS_SAVES"] =         cOpt(mPage["debug"], _("Compress save files"),
+                                             _("If true, save files will be compressed using zlib."),
+                                             true
+                                             );
+#endif
+
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         mPageItems[(iter->second).getPage()].push_back(iter->first);
     }

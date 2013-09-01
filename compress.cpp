@@ -1,11 +1,17 @@
 #include "compress.h"
 #include "output.h"
+#include "options.h"
 
 #define CHUNK 16384
 
 std::string compress_string(std::string data)
 {
 #ifdef COMPRESS
+    if (!OPTIONS["COMPRESS_SAVES"])
+    {
+        return data;
+    }
+
     std::string out_string;
     int ret;
     z_stream stream;
