@@ -1300,10 +1300,14 @@ t   t\n\
 
   if (terrain_type >= ot_house_base_north &&
       terrain_type <= ot_house_base_west) {
-   do
-    rn = rng(lw + 1, rw - 1);
-   while (ter(rn, actual_house_height - 1) != t_floor);
-   ter_set(rn, actual_house_height - 1, t_stairs_down);
+      int attempts = 20;
+      do {
+          rn = rng(lw + 1, rw - 1);
+          attempts--;
+      } while (ter(rn, actual_house_height - 1) != t_floor && attempts);
+      if( ter(rn, actual_house_height - 1) != t_floor && attempts ) {
+          ter_set(rn, actual_house_height - 1, t_stairs_down);
+      }
   }
   if (one_in(100)) { // Houses have a 1 in 100 chance of wasps!
    for (int i = 0; i < SEEX * 2; i++) {
