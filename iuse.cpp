@@ -3932,16 +3932,17 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         return;
     }
 
+    std::string verb = "cut";
     std::string found_mat = "plastic";
 
-    item *result;
+    item *result = NULL;
     int count = amount;
 
     if ((cut->made_of("cotton") || cut->made_of("leather")) ) {
         if (valid_fabric(g, p, cut, t)) {
             cut_up(g, p, it, cut, t);
-            return;
         }
+        return;
     } else if( cut->made_of(found_mat.c_str()) ||
                cut->made_of((found_mat = "kevlar").c_str())) { // TODO : extract a function
         //if we're going to cut up a bottle, make sure it isn't full of liquid
@@ -3960,10 +3961,8 @@ void iuse::knife(game *g, player *p, item *it, bool t)
             result = new item(g->itypes["kevlar_plate"], int(g->turn), g->nextinv);
         }
 
-        g->add_msg(ngettext("You cut the %1$s into %2$i %3$s.", "You cut the %1$s into %2$i %3$ss.",
-                            amount), cut->tname().c_str(), amount, result->tname().c_str());
     } else if (cut->made_of("wood")) {
-        g->add_msg(_("You carve several skewers from the %s."), cut->tname().c_str());
+        verb = "carve";
         count = 2 * amount; // twice the volume, i.e. 12 skewers from 2x4 and heavy stick just as before.
         result = new item(g->itypes["skewer"], int(g->turn), g->nextinv);
     } else { // TODO: add the rest of the materials, gold and what not.
@@ -3974,6 +3973,13 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     if ( result == NULL ) {
         return;
     }
+    if ( cut->typeId() == result->typeId() ) {
+        g->add_msg(_("There's no point in cutting a %s."), cut->tname().c_str());
+        return;
+    }
+
+    g->add_msg(ngettext("You %4$s the %1$s into %2$i %3$s.", "You %4$s the %1$s into %2$i %3$ss.",
+                        count), cut->tname().c_str(), count, result->tname().c_str(), verb.c_str());
     // otherwise layout the goodies.
     p->i_rem(ch);
     bool drop = false;
