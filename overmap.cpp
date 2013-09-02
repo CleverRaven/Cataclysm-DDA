@@ -2750,9 +2750,7 @@ void overmap::place_hiways(std::vector<city> cities, int z, oter_id base)
  city best;
  int closest = -1;
  int distance;
- bool maderoad = false;
  for (int i = 0; i < cities.size(); i++) {
-  maderoad = false;
   closest = -1;
   for (int j = i + 1; j < cities.size(); j++) {
    distance = dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
@@ -2760,12 +2758,8 @@ void overmap::place_hiways(std::vector<city> cities, int z, oter_id base)
     closest = distance;
     best = cities[j];
    }
-   if (distance < TOP_HIWAY_DIST) {
-    maderoad = true;
-    make_hiway(cities[i].x, cities[i].y, cities[j].x, cities[j].y, z, base);
-   }
   }
-  if (!maderoad && closest > 0)
+  if( closest > 0 ) {
    make_hiway(cities[i].x, cities[i].y, best.x, best.y, z, base);
  }
 }
