@@ -3934,14 +3934,14 @@ void iuse::knife(game *g, player *p, item *it, bool t)
 
     std::string found_mat = "plastic";
 
-    item *result;
+    item *result = NULL;
     int count = amount;
 
     if ((cut->made_of("cotton") || cut->made_of("leather")) ) {
         if (valid_fabric(g, p, cut, t)) {
             cut_up(g, p, it, cut, t);
-            return;
         }
+        return;
     } else if( cut->made_of(found_mat.c_str()) ||
                cut->made_of((found_mat = "kevlar").c_str())) { // TODO : extract a function
         //if we're going to cut up a bottle, make sure it isn't full of liquid
