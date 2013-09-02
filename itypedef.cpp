@@ -134,9 +134,9 @@ A large and very powerful 8-cylinder combustion engine."));
 // clip is how many shots we get before reloading.
 
 #define GUN(id,name,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
-to_hit,dmg,range,dispersion,recoil,durability,burst,clip,reload_time,des,pierce,effects) \
+to_hit,dmg,range,dispersion,recoil,durability,burst,clip,reload_time,des,pierce,flags,effects) \
 itypes[id]=new it_gun(id,price,name,des,'(',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,pierce,effects,\
+color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,pierce,flags,effects,\
 skill,ammo,dmg,range,dispersion,\
 recoil,durability,burst,clip,reload_time)
 
@@ -320,18 +320,37 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
     }
 }
 
-std::set<std::string> empty_effects;
+std::set<std::string> noammo_flags;
+noammo_flags.insert("NO_AMMO");
+
+std::set<std::string> laser_effects;
+laser_effects.insert("LASER");
+laser_effects.insert("INCENDIARY");
+GUN("bio_laser_gun", _("laser finger"),	 0,c_magenta,	"steel",	"plastic",
+//	SKILL		 AMMO	             VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
+	"pistol",	"generic_no_ammo", 12,  0,  0,  0,  10, 30,  4,  0, 10,  0,  1, 500,
+//    AP
+  "", 15, noammo_flags, laser_effects);
+
+std::set<std::string> fusion_effects;
+fusion_effects.insert("PLASMA");
+fusion_effects.insert("INCENDIARY");
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("bio_blaster_gun", _("fusion blaster"),	 0,c_magenta,	"steel",	"plastic",
-//	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
-	"rifle",	"fusion", 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
-"", 15, empty_effects);
+//	SKILL		AMMO	            VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
+	"rifle",	"generic_no_ammo", 12,  0,  0,  0, 22, 30,  4,  0, 10,  0,  1, 500,
+//    AP
+  "", 15, noammo_flags, fusion_effects);
 
+std::set<std::string> lightning_effects;
+lightning_effects.insert("LIGHTNING");
+lightning_effects.insert("BOUNCE");
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("bio_lightning", _("Chain Lightning"),	 0,c_magenta,	"steel",	"plastic",
-//	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
-	"rifle",	"fusion", 12,  0,  0,  0,  0,  0,  4,  0, 10,  1,  10, 500,
-"", 0, empty_effects);
+//	SKILL		AMMO	             VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
+	"rifle",	"generic_no_ammo", 12,  0,  0,  0,  6,  10,  0,  0, 10,  1, 10, 500,
+"", 0, noammo_flags, lightning_effects);
+
 
 
 // Unarmed Styles

@@ -76,9 +76,11 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  }
 
  bool is_bolt = false;
- std::set<std::string> *effects = &curammo->ammo_effects;
+ std::set<std::string> effects;
+ std::set<std::string> *curammo_effects = &curammo->ammo_effects;
  std::set<std::string> *gun_effects = &dynamic_cast<it_gun*>(weapon->type)->ammo_effects;
- effects->insert(gun_effects->begin(),gun_effects->end());
+ effects.insert(curammo_effects->begin(),curammo_effects->end());
+ effects.insert(gun_effects->begin(),gun_effects->end());
 
  // Add weapon ammo_effect flags
 
@@ -95,7 +97,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   burst = false; // Can't burst fire a semi-auto
 
 // Use different amounts of time depending on the type of gun and our skill
- if (!effects->count("BOUNCE")) {
+ if (!effects.count("BOUNCE")) {
      p.moves -= time_to_fire(p, firing);
  }
 // Decide how many shots to fire
@@ -332,14 +334,14 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   int px = trajectory[0].x;
   int py = trajectory[0].y;
   for (int i = 0; i < trajectory.size() &&
-         (dam > 0 || (effects->count("FLAME"))); i++) {
+         (dam > 0 || (effects.count("FLAME"))); i++) {
       px = tx;
       py = ty;
       tx = trajectory[i].x;
       ty = trajectory[i].y;
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
-   draw_bullet(p, tx, ty, i, trajectory, effects->count("FLAME")? '#':'*', ts);
+   draw_bullet(p, tx, ty, i, trajectory, effects.count("FLAME")? '#':'*', ts);
    /*
    if (u_see(tx, ty)) {
     if (i > 0)
@@ -348,7 +350,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
                  true, u.posx + u.view_offset_x, u.posy + u.view_offset_y);
     }
     char bullet = '*';
-    if (effects->count("FLAME"))
+    if (effects.count("FLAME"))
      bullet = '#';
     mvwputch(w_terrain, ty + VIEWY - u.posy - u.view_offset_y,
              tx + VIEWX - u.posx - u.view_offset_x, c_red, bullet);
@@ -357,10 +359,10 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
      nanosleep(&ts, NULL);
    }
    */
-   if (dam <= 0 && !(effects->count("FLAME"))) { // Ran out of momentum.
-    ammo_effects(this, tx, ty, *effects);
-    if (is_bolt && !(effects->count("IGNITE")) &&
-        !(effects->count("EXPLOSIVE")) &&
+   if (dam <= 0 && !(effects.count("FLAME"))) { // Ran out of momentum.
+    ammo_effects(this, tx, ty, effects);
+    if (is_bolt && !(effects.count("IGNITE")) &&
+        !(effects.count("EXPLOSIVE")) &&
         ((curammo->m1 == "wood" && !one_in(4)) ||
          (curammo->m1 != "wood" && !one_in(15))))
      m.add_item_or_charges(tx, ty, ammotmp);
@@ -412,11 +414,11 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
      shoot_player(this, p, h, dam, goodhit);
     }
    } else
-    m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, *effects);
+    m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, effects);
   } // Done with the trajectory!
 
-  ammo_effects(this, tx, ty, *effects);
-  if (effects->count("BOUNCE"))
+  ammo_effects(this, tx, ty, effects);
+  if (effects.count("BOUNCE"))
   {
     for (int i = 0; i < num_zombies(); i++)
     {
@@ -441,8 +443,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       tx = px;
       ty = py;
   }
-  if (is_bolt && !(effects->count("IGNITE")) &&
-      !(effects->count("EXPLOSIVE")) &&
+  if (is_bolt && !(effects.count("IGNITE")) &&
+      !(effects.count("EXPLOSIVE")) &&
       ((curammo->m1 == "wood" && !one_in(5)) ||
        (curammo->m1 != "wood" && !one_in(15))  ))
     m.add_item_or_charges(tx, ty, ammotmp);
@@ -977,9 +979,19 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   } else if (noise < 40) {
     gunsound = _("Pew!");
   } else if (noise < 60) {
-    gunsound = _("Bzap!");
+    gunsound = _("Tsewww!");
   } else {
     gunsound = _("Kra-kow!!");
+  }
+ } else if (weapontype->ammo_effects.count("LIGHTNING")) {
+  if (noise < 20) {
+    gunsound = _("Bzzt!");
+  } else if (noise < 40) {
+    gunsound = _("Bzap!");
+  } else if (noise < 60) {
+    gunsound = _("Bzaapp!");
+  } else {
+    gunsound = _("Kra-koom!!");
   }
  } else {
   if (noise < 5) {
