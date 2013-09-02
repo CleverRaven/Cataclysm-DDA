@@ -132,8 +132,8 @@ void game::wishmutate( player *p )
         }
         c++;
     }
-    wmenu.w_width = 80;
-    wmenu.pad_right = 40;
+    wmenu.w_width = ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
+    wmenu.pad_right = ( wmenu.w_width - 30 );
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback *cb = new wish_mutate_callback();
