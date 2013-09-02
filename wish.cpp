@@ -132,6 +132,7 @@ void game::wishmutate( player *p )
         }
         c++;
     }
+    wmenu.w_x = 0;
     wmenu.w_width = TERMX;
     // disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
     wmenu.pad_right = ( wmenu.w_width - 30 );
@@ -379,6 +380,7 @@ void game::wishitem( player *p, int x, int y)
     }
     int amount = 1;
     uimenu wmenu;
+    wmenu.w_x = 0;
     wmenu.w_width = TERMX;
     wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
     wmenu.return_invalid = true;
