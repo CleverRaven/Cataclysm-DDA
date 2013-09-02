@@ -11,7 +11,7 @@
 * recipes.json       - crafting/disassembly recipes
 * skills.json        - skill descriptions and ID's
 * snippets.json      - flier/poster descriptions
-* traits.json        - traits/mutation visibility, does NOT include mutation effects
+* mutations.json     - traits/mutations
 * vehicle_parts.json - vehicle parts, does NOT affect flag effects
 
 ##raw/items
@@ -81,7 +81,7 @@
 "default" : "mon_ant",            // Default monster, automatically fills in any remaining spawn chances
 "monsters" : [
   { "monster" : "mon_ant_larva", "freq" : 40, "multiplier" : 0 },   // To choose monster spawned game creates 1000 entries and picks one.
-  { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 }, // Each monster will have a number of entries equal to it's "freq" and 
+  { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 }, // Each monster will have a number of entries equal to it's "freq" and
   { "monster" : "mon_ant_queen", "freq" : 0, "multiplier" : 0 }     // the default monster will fill in the remaining. "multiplier" increases
 ]                                                                   // how much each monster counts for in a spawn group (i.e. will spawn 5 larva or 1 soldier)
 ```
@@ -173,13 +173,22 @@
 "category": "flier", // Category used
 	"text": "This is an advertisement for the Diet Devil brand Metabolic Exchange CBM.  It shows a picture of a tiny obese devil sitting on a woman's shoulder. The woman stares intently at a gigantic wedding cake covered with bacon and candybars. The caption reads: \"Burn calories! Burn!\"" // In-game description
 ```
-###TRAITS
+###TRAITS/MUTATIONS
 ```C++
+"id": "LIGHTEATER",  // Unique ID
 "name": "Optimist",  // In-game name displayed
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction
-"description": "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people." // In-game description
+"description": "Nothing gets you down!" // In-game description
+"starting_trait": true, // Can be selected at character creation
+"valid": false,      // Can be mutated ingame
+"category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
+"prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
+"cancels": ["ROT1", "ROT2", "ROT3"], // Cancels these mutations when mutating
+"changes_to": ["FASTHEALER2"], // Can change into these mutations when mutating further
+"wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
+                    "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 ```
 ###VEHICLE PARTS
 ```C++

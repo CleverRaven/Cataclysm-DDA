@@ -424,6 +424,8 @@ void game::start_game()
 
  //Create mutation_category_level
  u.set_highest_cat_level();
+ //Calc mutation drench protection stats
+ u.drench_mut_calc();
 
  MAPBUFFER.set_dirty();
 
@@ -4714,7 +4716,7 @@ void game::monmove()
 bool game::sound(int x, int y, int vol, std::string description)
 {
     // Scale the sound a little.
-    vol *= 1.5; 
+    vol *= 1.5;
 
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
