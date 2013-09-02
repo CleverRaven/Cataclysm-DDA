@@ -694,7 +694,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
    ammo_dam = curammo->damage;
    ammo_range = curammo->range;
    ammo_recoil = curammo->recoil;
-   ammo_pierce = curammo->recoil;
+   ammo_pierce = curammo->pierce;
   }
 
   dump->push_back(iteminfo("GUN", _("Skill used: "), gun->skill_used->name()));
@@ -710,7 +710,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   if (has_ammo)
    temp2 << string_format(_("<num> = %d"), gun_damage());
 
-  dump->push_back(iteminfo("GUN", _("Damage: "), temp1.str(), gun_damage(false), true, temp2.str()));
+  dump->push_back(iteminfo("GUN", _("Damage: "), temp2.str(), gun_damage(false), true, temp1.str(), true, false));
 
   temp1.str("");
   if (has_ammo)
@@ -722,7 +722,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   if (has_ammo)
    temp2 << string_format(_("<num> = %d"), gun_pierce());
 
-  dump->push_back(iteminfo("GUN", _("Armor-pierce: "), temp1.str(), gun_pierce(false), true, temp2.str()));
+  dump->push_back(iteminfo("GUN", _("Armor-pierce: "), temp2.str(), gun_pierce(false), true, temp1.str(), true, false));
 
   temp1.str("");
   if (has_ammo) {
@@ -735,7 +735,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
    temp2 << string_format(_("<num> = %d"), range(NULL));
   }
 
-  dump->push_back(iteminfo("GUN", _("Range: "), temp1.str(), gun->range, true, temp2.str()));
+  dump->push_back(iteminfo("GUN", _("Range: "), temp2.str(), gun->range, true, temp1.str(), true, false));
 
   dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion()));
 
