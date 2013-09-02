@@ -750,7 +750,7 @@ void dis_effect(game *g, player &p, disease &dis) {
 
         case DI_SMOKE:
         // A hard limit on the duration of the smoke disease.
-            if( dis.duration >= 600) {
+  if(dis.duration > 600) {
                 dis.duration = 600;
             }
             p.str_cur--;
@@ -758,6 +758,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             p.per_cur--;
             if (dis.duration >= 10 && one_in(6)) {
                 handle_cough(p);
+
             }
             break;
 
