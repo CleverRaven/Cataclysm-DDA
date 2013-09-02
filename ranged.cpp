@@ -77,6 +77,11 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
  bool is_bolt = false;
  std::set<std::string> *effects = &curammo->ammo_effects;
+ std::set<std::string> *gun_effects = &dynamic_cast<it_gun*>(weapon->type)->ammo_effects;
+ effects->insert(gun_effects->begin(),gun_effects->end());
+
+ // Add weapon ammo_effect flags
+
  // Bolts and arrows are silent
  if (curammo->type == "bolt" || curammo->type == "arrow")
   is_bolt = true;
@@ -97,11 +102,36 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  int num_shots = 1;
  if (burst)
   num_shots = weapon->burst_size();
- if (num_shots > weapon->num_charges() && !weapon->has_flag("CHARGE"))
+ if (num_shots > weapon->num_charges() && !weapon->has_flag("CHARGE") && !weapon->has_flag("NO_AMMO"))
   num_shots = weapon->num_charges();
 
  if (num_shots == 0)
   debugmsg("game::fire() - num_shots = 0!");
+
+
+ int ups_drain = 0;
+ int adv_ups_drain = 0;
+ if (p.weapon.has_flag("USE_UPS")) {
+   ups_drain = 5;
+   adv_ups_drain = 3;
+ } else if (p.weapon.has_flag("USE_UPS_20")) {
+   ups_drain = 20;
+   adv_ups_drain = 12;
+ } else if (p.weapon.has_flag("USE_UPS_40")) {
+   ups_drain = 40;
+   adv_ups_drain = 24;
+ }
+
+ // cap our maximum burst size by the amount of UPS power left
+ if (ups_drain > 0 || adv_ups_drain > 0)
+  while (!(p.has_charges("UPS_off", ups_drain*num_shots) ||
+            p.has_charges("UPS_on", ups_drain*num_shots) ||
+            p.has_charges("adv_UPS_off", adv_ups_drain*num_shots) ||
+            p.has_charges("adv_UPS_on", adv_ups_drain*num_shots))) {
+    num_shots--;
+  }
+
+
 
 // Set up a timespec for use in the nanosleep function below
  timespec ts;
@@ -230,8 +260,19 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   // Use up a round (or 100)
   if (weapon->has_flag("FIRE_100"))
    weapon->charges -= 100;
-  else
+  else if (!weapon->has_flag("NO_AMMO"))
    weapon->charges--;
+
+  // Drain UPS power
+  if (p.has_charges("adv_UPS_off", adv_ups_drain))
+    p.use_charges("adv_UPS_off", adv_ups_drain);
+  else if (p.has_charges("adv_UPS_on", adv_ups_drain))
+    p.use_charges("adv_UPS_on", adv_ups_drain);
+  else if (p.has_charges("UPS_off", ups_drain))
+    p.use_charges("UPS_off", ups_drain);
+  else if (p.has_charges("UPS_on", ups_drain))
+    p.use_charges("UPS_on", ups_drain);
+
 
   if (firing->skill_used != Skill::skill("archery") &&
       firing->skill_used != Skill::skill("throw"))
@@ -928,31 +969,43 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
  std::string gunsound;
  // noise() doesn't suport gunmods, but it does return the right value
  int noise = p.weapon.noise();
- if (noise < 5) {
-  if (burst)
-   gunsound = _("Brrrip!");
-  else
-   gunsound = _("plink!");
- } else if (noise < 25) {
-  if (burst)
-   gunsound = _("Brrrap!");
-  else
-   gunsound = _("bang!");
- } else if (noise < 60) {
-  if (burst)
-   gunsound = _("P-p-p-pow!");
-  else
-   gunsound = _("blam!");
+
+ it_gun* weapontype = dynamic_cast<it_gun*>(weapon->type);
+ if (weapontype->ammo_effects.count("LASER") || weapontype->ammo_effects.count("PLASMA")) {
+  if (noise < 20) {
+    gunsound = _("Fzzt!");
+  } else if (noise < 40) {
+    gunsound = _("Pew!");
+  } else if (noise < 60) {
+    gunsound = _("Bzap!");
+  } else {
+    gunsound = _("Kra-kow!!");
+  }
  } else {
-  if (burst)
+  if (noise < 5) {
+   if (burst)
+   gunsound = _("Brrrip!");
+   else
+   gunsound = _("plink!");
+  } else if (noise < 25) {
+   if (burst)
+   gunsound = _("Brrrap!");
+   else
+   gunsound = _("bang!");
+  } else if (noise < 60) {
+   if (burst)
+   gunsound = _("P-p-p-pow!");
+   else
+   gunsound = _("blam!");
+  } else {
+   if (burst)
    gunsound = _("Kaboom!!");
-  else
+   else
    gunsound = _("kerblam!");
+  }
  }
- if (weapon->curammo->type == "fusion" || weapon->curammo->type == "battery" ||
-     weapon->curammo->type == "plutonium")
-  g->sound(p.posx, p.posy, 8, _("Fzzt!"));
- else if (weapon->curammo->type == "40mm")
+
+ if (weapon->curammo->type == "40mm")
   g->sound(p.posx, p.posy, 8, _("Thunk!"));
  else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm" ||
      weapon->curammo->type == "84x246mm" || weapon->curammo->type == "m235")
@@ -1045,7 +1098,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
  } else { // Not HARDTOSHOOT
 // Armor blocks BEFORE any critical effects.
   int zarm = mon.armor_cut();
-  zarm -= weapon->curammo->pierce;
+  zarm -= weapon->gun_pierce();
   if (weapon->curammo->phase == LIQUID)
    zarm = 0;
   else if (weapon->curammo->ammo_effects.count("SHOT")) // Shot doesn't penetrate armor well
@@ -1287,4 +1340,14 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
       }
     }
   }
+
+  if (effects.count("PLASMA")) {
+    for (int i = x - 1; i <= x + 1; i++) {
+      for (int j = y - 1; j <= y + 1; j++) {
+        if (one_in(2))
+          g->m.add_field(g, i, j, fd_plasma, rng(2,3));
+      }
+    }
+  }
+
 }

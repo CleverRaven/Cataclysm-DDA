@@ -2665,6 +2665,29 @@ void game::load_artifacts()
     if(!json_good())
     	uquit = QUIT_ERROR;
 }
+// removing soon
+void game::load_weather(std::string data)
+{
+    std::stringstream fin;
+    fin.str(data);
+    int tmpnextweather, tmpweather, tmptemp, num_segments;
+    weather_segment new_segment;
+
+    fin >> num_segments >> tmpnextweather >> tmpweather >> tmptemp;
+
+    weather = weather_type(tmpweather);
+    temperature = tmptemp;
+    nextweather = tmpnextweather;
+
+    for( int i = 0; i < num_segments - 1; ++i)
+    {
+        fin >> tmpnextweather >> tmpweather >> tmptemp;
+        new_segment.weather = weather_type(tmpweather);
+        new_segment.temperature = tmptemp;
+        new_segment.deadline = tmpnextweather;
+        future_weather.push_back(new_segment);
+    }
+}
 
 void game::load_weather(std::ifstream &fin)
 {
@@ -2703,101 +2726,13 @@ void game::load(std::string name)
  u.name = base64_decode(name);
  u.ret_null = item(itypes["null"], 0);
  u.weapon = item(itypes["null"], 0);
- int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
- fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
-     next_faction_id >> next_mission_id >> tmpspawn;
+ unserialize(fin);
+ fin.close();
 
- load_weather(fin);
-
- fin >> levx >> levy >> levz >> comx >> comy;
-
- turn = tmpturn;
- nextspawn = tmpspawn;
-
- cur_om = &overmap_buffer.get(this, comx, comy);
- m.load(this, levx, levy, levz);
-
- run_mode = tmprun;
- if (OPTIONS["SAFEMODE"] && run_mode == 0)
-  run_mode = 1;
- autosafemode = OPTIONS["AUTOSAFEMODE"];
- last_target = tmptar;
-
-// Next, the scent map.
- for (int i = 0; i < SEEX * MAPSIZE; i++) {
-  for (int j = 0; j < SEEY * MAPSIZE; j++)
-   fin >> grscent[i][j];
- }
-// Now the number of monsters...
- int nummon;
- fin >> nummon;
-// ... and the data on each one.
- std::string data;
- clear_zombies();
- monster montmp;
- char junk;
- int num_items;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < nummon; i++) {
-  getline(fin, data);
-  montmp.load_info(data, &mtypes);
-
-  fin >> num_items;
-  // Chomp the endline after number of items.
-  getline( fin, data );
-  for (int i = 0; i < num_items; i++) {
-      getline( fin, data );
-      montmp.inv.push_back( item( data, this ) );
-  }
-
-  add_zombie(montmp);
- }
-// And the kill counts;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_monsters; i++)
-  fin >> kills[i];
-// Finally, the data on the player.
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- getline(fin, data);
- u.load_info(this, data);
-// And the player's inventory...
- u.inv.load_invlet_cache( fin );
-
- char item_place;
- std::string itemdata;
-// We need a temporary vector of items.  Otherwise, when we encounter an item
-// which is contained in another item, the auto-sort/stacking behavior of the
-// player's inventory may cause the contained item to be misplaced.
- std::list<item> tmpinv;
- while (!fin.eof()) {
-  fin >> item_place;
-  if (!fin.eof()) {
-   getline(fin, itemdata);
-   if (item_place == 'I') {
-       tmpinv.push_back(item(itemdata, this));
-   } else if (item_place == 'C') {
-       tmpinv.back().contents.push_back(item(itemdata, this));
-   } else if (item_place == 'W') {
-       u.worn.push_back(item(itemdata, this));
-   } else if (item_place == 'S') {
-       u.worn.back().contents.push_back(item(itemdata, this));
-   } else if (item_place == 'w') {
-       u.weapon = item(itemdata, this);
-   } else if (item_place == 'c') {
-       u.weapon.contents.push_back(item(itemdata, this));
-   }
-  }
- }
  // Now that the player's worn items are updated, their sight limits need to be
  // recalculated. (This would be cleaner if u.worn were private.)
  u.recalc_sight_limits();
- 
-// Now dump tmpinv into the player's inventory
- u.inv.add_stack(tmpinv);
- fin.close();
+
  load_auto_pickup(true); // Load character auto pickup rules
  load_uistate();
 // Now load up the master game data; factions (and more?)
@@ -2886,35 +2821,7 @@ void game::save()
  playerfile << "save/" << base64_encode(u.name) << ".sav";
 
  fout.open(playerfile.str().c_str());
- // First, write out basic game state information.
- fout << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
-         mostseen << " " << nextinv << " " << next_npc_id << " " <<
-     next_faction_id << " " << next_mission_id << " " << int(nextspawn) << " ";
-
- fout << save_weather();
-
- fout << levx << " " << levy << " " << levz << " " << cur_om->pos().x <<
-         " " << cur_om->pos().y << " " << std::endl;
- // Next, the scent map.
- for (int i = 0; i < SEEX * MAPSIZE; i++) {
-  for (int j = 0; j < SEEY * MAPSIZE; j++)
-   fout << grscent[i][j] << " ";
- }
- // Now save all monsters.
- fout << std::endl << num_zombies() << std::endl;
- for (int i = 0; i < num_zombies(); i++) {
-     fout << _z[i].save_info() << std::endl;
-     fout << _z[i].inv.size() << std::endl;
-     for( std::vector<item>::iterator it = _z[i].inv.begin(); it != _z[i].inv.end(); ++it )
-     {
-         fout << it->save_info() << std::endl;
-     }
- }
- for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
-  fout << kills[i] << " ";
- // And finally the player.
- fout << u.save_info() << std::endl;
- fout << std::endl;
+ serialize(fout);
  fout.close();
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
  save_auto_pickup(true); // Save character auto pickup rules
@@ -6817,41 +6724,46 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     std::vector<item> here;
     std::map<std::string, map_item_stack> temp_items;
     std::vector<map_item_stack> ret;
+    std::vector<std::string> vOrder;
 
     std::vector<point> points = closest_points_first(iSearchX, u.posx, u.posy);
 
-    for (std::vector<point>::iterator p_it = points.begin();
-        p_it != points.end(); p_it++)
-    {
-        if (p_it->y >= u.posy - iSearchY && p_it->y <= u.posy + iSearchY &&
-           u_see(p_it->x,p_it->y) &&
-           (!m.has_flag(container, p_it->x, p_it->y) ||
-           (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag(sealed, p_it->x, p_it->y))))
-            {
-                temp_items.clear();
-                here.clear();
-                here = m.i_at(p_it->x, p_it->y);
-                for (int i = 0; i < here.size(); i++)
-                {
-                    const std::string name = here[i].tname(this);
-                    if (temp_items.find(name) == temp_items.end())
-                    {
-                        temp_items[name] = map_item_stack(here[i], p_it->x - u.posx, p_it->y - u.posy);
-                    }
-                    else
-                    {
-                        temp_items[name].count++;
-                    }
-                }
-                for (std::map<std::string, map_item_stack>::iterator iter = temp_items.begin();
-                     iter != temp_items.end();
-                     ++iter)
-                {
-                    ret.push_back(iter->second);
-                }
+    int iLastX = 0;
+    int iLastY = 0;
 
+    for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); p_it++) {
+        if (p_it->y >= u.posy - iSearchY && p_it->y <= u.posy + iSearchY &&
+            u_see(p_it->x,p_it->y) &&
+            (!m.has_flag(container, p_it->x, p_it->y) ||
+            (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag(sealed, p_it->x, p_it->y)))) {
+
+            here.clear();
+            here = m.i_at(p_it->x, p_it->y);
+            for (int i = 0; i < here.size(); i++) {
+                const std::string name = here[i].tname(this);
+
+                if (temp_items.find(name) == temp_items.end() || (iLastX != p_it->x || iLastY != p_it->y)) {
+                    iLastX = p_it->x;
+                    iLastY = p_it->y;
+
+                    if (std::find(vOrder.begin(), vOrder.end(), name) == vOrder.end()) {
+                        vOrder.push_back(name);
+                        temp_items[name] = map_item_stack(here[i], p_it->x - u.posx, p_it->y - u.posy);
+                    } else {
+                        temp_items[name].addNewPos(p_it->x - u.posx, p_it->y - u.posy);
+                    }
+
+                } else {
+                    temp_items[name].incCount();
+                }
             }
+        }
     }
+
+    for (int i=0; i < vOrder.size(); i++) {
+        ret.push_back(temp_items[vOrder[i]]);
+    }
+
     return ret;
 }
 
@@ -7062,6 +6974,7 @@ void game::list_items()
     bool refilter = true;
     int iFilter = 0;
     bool bStopDrawing = false;
+    int iPage = 0;
 
     do
     {
@@ -7121,6 +7034,7 @@ void game::list_items()
                 highPEnd = list_filter_high_priority(filtered_items,list_item_upvote);
                 lowPStart = list_filter_low_priority(filtered_items,highPEnd,list_item_downvote);
                 iActive = 0;
+                iPage = 0;
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 refilter = false;
@@ -7141,15 +7055,29 @@ void game::list_items()
                     if (iActive < 0)
                     {
                         iActive = 0;
+                        iPage = 0;
                         bStopDrawing = true;
                     }
                     break;
                 case DirectionS:
                     iActive++;
+                    iPage = 0;
                     if (iActive >= iItemNum - iFilter)
                     {
                         iActive = iItemNum - iFilter-1;
                         bStopDrawing = true;
+                    }
+                    break;
+                case DirectionE:
+                    iPage++;
+                    if (iPage >= filtered_items[iActive].vIG.size()) {
+                        iPage = filtered_items[iActive].vIG.size()-1;
+                    }
+                    break;
+                case DirectionW:
+                    iPage--;
+                    if (iPage < 0) {
+                        iPage = 0;
                     }
                     break;
             }
@@ -7201,28 +7129,38 @@ void game::list_items()
                     }
                     if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) )
                     {
-                        if (iNum == iActive)
-                        {
-                            iActiveX = iter->x;
-                            iActiveY = iter->y;
+                        int iThisPage = 0;
+
+                        if (iNum == iActive) {
+                            iThisPage = iPage;
+
+                            iActiveX = iter->vIG[iThisPage].x;
+                            iActiveY = iter->vIG[iThisPage].y;
 
                             sActiveItemName = iter->example.tname(this);
                             activeItem = iter->example;
                         }
+
                         sText.str("");
-                        sText << iter->example.tname(this);
-                        if (iter->count > 1)
-                        {
-                            sText << " " << "[" << iter->count << "]";
+
+                        if (iter->vIG.size() > 1) {
+                            sText << "[" << iThisPage+1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
                         }
+
+                        sText << iter->example.tname(this);
+
+                        if (iter->vIG[iThisPage].count > 1) {
+                            sText << " [" << iter->vIG[iThisPage].count << "]";
+                        }
+
                         mvwprintz(w_items, 1 + iNum - iStartPos, 2,
                                   ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
                                   "%s", (sText.str()).c_str());
                         int numw = iItemNum > 9 ? 2 : 1;
                         mvwprintz(w_items, 1 + iNum - iStartPos, width - (5 + numw),
                                   ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, trig_dist(0, 0, iter->x, iter->y),
-                                  direction_name_short(direction_from(0, 0, iter->x, iter->y)).c_str()
+                                  numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
+                                  direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
                                  );
                      }
                      iNum++;
@@ -7260,8 +7198,6 @@ void game::list_items()
                     iLastActiveY = iActiveY;
 
                     if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
-                        std::stringstream ssTemp;
-
                         u.view_offset_x = (abs(iActiveX) > VIEWX) ? ((iActiveX < 0) ? VIEWX+iActiveX : iActiveX-VIEWX) : 0;
                         u.view_offset_y = (abs(iActiveY) > VIEWY) ? ((iActiveY < 0) ? VIEWY+iActiveY : iActiveY-VIEWY) : 0;
                     }
@@ -7478,9 +7414,7 @@ void game::pickup(int posx, int posy, int min)
 
  // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
  int maxmaxitems = TERMY;
- #ifndef MAXLISTHEIGHT
-  maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
- #endif
+ maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
 
  int itemsH = 12;
  int pickupBorderRows = 3;
@@ -8560,6 +8494,11 @@ void game::plfire(bool burst)
   }
  }
 
+ if (u.weapon.has_flag("NO_AMMO")) {
+   u.weapon.charges = 1;
+   u.weapon.curammo = dynamic_cast<it_ammo*>(itypes["generic_no_ammo"]);
+ }
+
  if ((u.weapon.has_flag("STR8_DRAW")  && u.str_cur <  4) ||
      (u.weapon.has_flag("STR10_DRAW") && u.str_cur <  5) ||
      (u.weapon.has_flag("STR12_DRAW") && u.str_cur <  6)   ) {
@@ -8579,7 +8518,8 @@ void game::plfire(bool burst)
   refresh_all();
  }
 
- if (u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT")) {
+ if (u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT")
+     && !u.weapon.has_flag("NO_AMMO")) {
   add_msg(_("You need to reload!"));
   return;
  }
@@ -8588,9 +8528,19 @@ void game::plfire(bool burst)
   return;
  }
  if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
-     !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 53) &&
+     !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 3) &&
      !u.has_charges("adv_UPS_on", 3)) {
-  add_msg(_("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charged to fire that!"));
+  add_msg(_("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charges to fire that!"));
+  return;
+ } else if (u.weapon.has_flag("USE_UPS_20") && !u.has_charges("UPS_off", 20) &&
+  !u.has_charges("UPS_on", 20) && !u.has_charges("adv_UPS_off", 12) &&
+  !u.has_charges("adv_UPS_on", 12)) {
+  add_msg(_("You need a UPS with at least 20 charges or an advanced UPS with at least 12 charges to fire that!"));
+  return;
+ } else if (u.weapon.has_flag("USE_UPS_40") && !u.has_charges("UPS_off", 40) &&
+  !u.has_charges("UPS_on", 40) && !u.has_charges("adv_UPS_off", 24) &&
+  !u.has_charges("adv_UPS_on", 24)) {
+  add_msg(_("You need a UPS with at least 40 charges or an advanced UPS with at least 24 charges to fire that!"));
   return;
  }
 
@@ -8639,16 +8589,6 @@ void game::plfire(bool burst)
   zombie(targetindices[passtarget]).add_effect(ME_HIT_BY_PLAYER, 100);
  }
 
- if (u.weapon.has_flag("USE_UPS")) {
-  if (u.has_charges("adv_UPS_off", 3))
-   u.use_charges("adv_UPS_off", 3);
-  else if (u.has_charges("adv_UPS_on", 3))
-   u.use_charges("adv_UPS_on", 3);
-  else if (u.has_charges("UPS_off", 5))
-   u.use_charges("UPS_off", 5);
-  else if (u.has_charges("UPS_on", 5))
-   u.use_charges("UPS_on", 5);
- }
  if (u.weapon.mode == "MODE_BURST")
   burst = true;
 
@@ -8657,7 +8597,7 @@ void game::plfire(bool burst)
  int num_shots = 1;
  if (burst)
   num_shots = u.weapon.burst_size();
- if (num_shots > u.weapon.num_charges())
+ if (num_shots > u.weapon.num_charges() && !u.weapon.has_flag("NO_AMMO"))
    num_shots = u.weapon.num_charges();
  if (u.skillLevel(firing->skill_used) == 0 ||
      (firing->ammo != "BB" && firing->ammo != "nail"))
@@ -9367,51 +9307,45 @@ void game::plmove(int dx, int dy)
  int mondex = mon_at(x, y);
  bool displace = false;	// Are we displacing a monster?
  if (mondex != -1) {
-  monster &z = zombie(mondex);
-  if (z.friendly == 0) {
-   int udam = u.hit_mon(this, &z);
-   char sMonSym = '%';
-   nc_color cMonColor = z.type->color;
-   if (z.hurt(udam))
-    kill_mon(mondex, true);
-   else
-    sMonSym = z.symbol();
-    draw_hit_mon(x,y,z,z.dead);
-    /*
-   hit_animation(x - u.posx + VIEWX - u.view_offset_x,
-                 y - u.posy + VIEWY - u.view_offset_y,
-                 red_background(cMonColor), sMonSym);
-    */
-   return;
-  } else
-   displace = true;
+     monster &z = zombie(mondex);
+     if (z.friendly == 0) {
+         int udam = u.hit_mon(this, &z);
+         if (z.hurt(udam)) {
+             kill_mon(mondex, true);
+         }
+         draw_hit_mon(x,y,z,z.dead);
+         return;
+     } else {
+         displace = true;
+     }
  }
-// If not a monster, maybe there's an NPC there
+ // If not a monster, maybe there's an NPC there
  int npcdex = npc_at(x, y);
  if (npcdex != -1) {
-	 if(!active_npc[npcdex]->is_enemy()){
-		if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
-				if (active_npc[npcdex]->is_friend()) {
-					add_msg(_("%s moves out of the way."), active_npc[npcdex]->name.c_str());
-					active_npc[npcdex]->move_away_from(this, u.posx, u.posy);
-				}
+     if(!active_npc[npcdex]->is_enemy()){
+         if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
+             if (active_npc[npcdex]->is_friend()) {
+                 add_msg(_("%s moves out of the way."), active_npc[npcdex]->name.c_str());
+                 active_npc[npcdex]->move_away_from(this, u.posx, u.posy);
+             }
 
-				return;	// Cancel the attack
-		} else {
-			active_npc[npcdex]->hit_by_player = true; //The NPC knows we started the fight, used for morale penalty.
-		}
-	 }
+             return;	// Cancel the attack
+         } else {
+             //The NPC knows we started the fight, used for morale penalty.
+             active_npc[npcdex]->hit_by_player = true;
+         }
+     }
 
-	 u.hit_player(this, *active_npc[npcdex]);
-	 active_npc[npcdex]->make_angry();
-	 if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
-		 active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
-			 active_npc[npcdex]->die(this, true);
-	 }
-	 return;
+     u.hit_player(this, *active_npc[npcdex]);
+     active_npc[npcdex]->make_angry();
+     if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
+         active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
+         active_npc[npcdex]->die(this, true);
+     }
+     return;
  }
 
-// Otherwise, actual movement, zomg
+     // Otherwise, actual movement, zomg
  if (u.has_disease("amigara")) {
   int curdist = 999, newdist = 999;
   for (int cx = 0; cx < SEEX * MAPSIZE; cx++) {

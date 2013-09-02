@@ -3450,12 +3450,25 @@ void overmap::save()
  fout.open(plrfilename.c_str());
  for (int z = 0; z < OVERMAP_LAYERS; ++z) {
   fout << "L " << z << std::endl;
+  int count = 0;
+  int lastvis = -1;
   for (int j = 0; j < OMAPY; j++) {
    for (int i = 0; i < OMAPX; i++) {
-    fout << ((layer[z].visible[i][j]) ? "1" : "0");
+    int v = (layer[z].visible[i][j] ? 1 : 0);
+    if (v != lastvis) {
+     if (count) {
+      fout << count << " ";
+     }
+     lastvis = v;
+     fout << v << " ";
+     count = 1;
+    } else {
+     count++;
+    }
    }
-   fout << std::endl;
   }
+  fout << count; 
+  fout << std::endl;
 
   for (int i = 0; i < layer[z].notes.size(); i++) {
    fout << "N " << layer[z].notes[i].x << " " << layer[z].notes[i].y << " " << layer[z].notes[i].num <<
@@ -3468,12 +3481,25 @@ void overmap::save()
  fout.open(terfilename.c_str(), std::ios_base::trunc);
  for (int z = 0; z < OVERMAP_LAYERS; ++z) {
   fout << "L " << z << std::endl;
+  int count = 0;
+  int last_tertype = -1;
   for (int j = 0; j < OMAPY; j++) {
    for (int i = 0; i < OMAPX; i++) {
-    fout << int(layer[z].terrain[i][j]) << " ";
+    int t = int(layer[z].terrain[i][j]);
+    if (t != last_tertype) {
+     if (count) {
+      fout << count << " ";
+     }
+     last_tertype = t;
+     fout << t << " ";
+     count = 1;
+    } else {
+     count++;
+    }
    }
-   fout << std::endl;
   }
+  fout << count;
+  fout << std::endl;
  }
 
  for (int i = 0; i < zg.size(); i++)
@@ -3521,13 +3547,18 @@ void overmap::open(game *g)
     int tmp_ter;
 
     if (z >= 0 && z < OVERMAP_LAYERS) {
+     int count = 0;
      for (int j = 0; j < OMAPY; j++) {
       for (int i = 0; i < OMAPX; i++) {
-       fin >> tmp_ter;
+       if (count == 0) {
+        fin >> tmp_ter >> count;
+        if (tmp_ter < 0 || tmp_ter > num_ter_types) {
+         debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), tmp_ter);
+        }
+       }
+       count--;
        layer[z].terrain[i][j] = oter_id(tmp_ter);
        layer[z].visible[i][j] = false;
-       if (layer[z].terrain[i][j] < 0 || layer[z].terrain[i][j] > num_ter_types)
-        debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), layer[z].terrain[i][j]);
       }
      }
     } else {
@@ -3610,11 +3641,16 @@ void overmap::open(game *g)
      std::string dataline;
      getline(fin, dataline); // Chomp endl
 
-     for (int j = 0; j < OMAPY; j++) {
-      getline(fin, dataline);
-      if (z >= 0 && z < OVERMAP_LAYERS) {
+     int count = 0;
+     int vis;
+     if (z >= 0 && z < OVERMAP_LAYERS) {
+      for (int j = 0; j < OMAPY; j++) {
        for (int i = 0; i < OMAPX; i++) {
-       	layer[z].visible[i][j] = (dataline[i] == '1');
+        if (count == 0) {
+         fin >> vis >> count;
+        }
+        count--;
+       	layer[z].visible[i][j] = (vis == 1);
        }
       }
      }

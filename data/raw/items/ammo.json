@@ -1213,8 +1213,7 @@
         "range" : 30,
         "dispersion" : 0,
         "recoil" : 0,
-        "count" : 20,
-        "effects" : ["INCENDIARY", "LASER"]
+        "count" : 20
     },
     {   "type" : "AMMO",
         "id" : "40mm_concussive",
@@ -2305,5 +2304,27 @@
         "recoil" : 10,
         "count" : 4,
         "effects" : ["NAPALM_BIG", "TRAIL"]
+    },
+    {   "type" : "AMMO",
+        "id" : "generic_no_ammo",
+        "price" : 0,
+        "name" : "placeholder ammunition",
+        "symbol" : "=",
+        "color" : "red",
+        "description" : "",
+        "material" : "null",
+        "volume" : 0,
+        "weight" : 0,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "NULL",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 1
     }
+
 ]

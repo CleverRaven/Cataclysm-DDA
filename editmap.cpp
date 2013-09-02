@@ -220,11 +220,7 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
     */
     bool draw_itm = true;
     bool game_map = ( ( m == &g->m || w == g->w_terrain ) ? true : false );
-#ifdef has_real_coords
-    const int msize = m->mapsize() * 12; // autocalc is required for mapgen stamp, which requires real_coords sanity
-#else
     const int msize = SEEX * MAPSIZE;
-#endif
     for (int x = start.x, sx = 0; x <= end.x; x++, sx++) {
         for (int y = start.y, sy = 0; y <= end.y; y++, sy++) {
             nc_color col = c_dkgray;
@@ -341,17 +337,7 @@ void editmap::update_view(bool update_info)
         wborder(w_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
-#ifdef has_real_coords   // display real values if we can
-        real_coords rc(g->levx, g->levy, target.x, target.y);
-        rc.fromabs(g->m.getabs(target.x, target.y));
-
-        mvwprintz(w_info, 0, 2 , c_ltgray, "< %d,%d %d,%d / %d,%d %d,%d %d,%d >--",
-                  g->m.get_abs_sub().x, g->m.get_abs_sub().y, target.x, target.y,
-                  rc.abs_pos.x, rc.abs_pos.y, rc.abs_sub.x, rc.abs_sub.y, rc.abs_om.x, rc.abs_om.y
-                 );
-#else
         mvwprintz(w_info, 0, 2 , c_ltgray, "< %d,%d >--", target.x, target.y);
-#endif
         for (int i = 1; i < infoHeight - 2; i++) { // clear window
             mvwprintz(w_info, i, 1, c_white, padding.c_str());
         }
@@ -941,9 +927,6 @@ int editmap::edit_trp(point coords)
  */
 enum editmap_imenu_ent {
     imenu_bday, imenu_damage, imenu_burnt,
-#ifdef item_luminance
-    imenu_sep, imenu_luminance, imenu_direction, imenu_width,
-#endif
     imenu_exit,
 };
 
@@ -958,11 +941,7 @@ int editmap::edit_itm(point coords)
     ilmenu.return_invalid = true;
     std::vector<item>& items = g->m.i_at(target.x , target.y );
     for(int i = 0; i < items.size(); i++) {
-#ifdef item_luminance
-        ilmenu.addentry(i, true, 0, "%s%s", items[i].tname(g).c_str(), items[i].light.luminance > 0 ? " L" : "" );
-#else
         ilmenu.addentry(i, true, 0, "%s", items[i].tname(g).c_str());
-#endif
     }
     // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
     ilmenu.addentry(-10, true, 'q', "Cancel");
@@ -978,12 +957,6 @@ int editmap::edit_itm(point coords)
             imenu.addentry(imenu_bday, true, -1, "bday: %d", (int)it->bday);
             imenu.addentry(imenu_damage, true, -1, "damage: %d", (int)it->damage);
             imenu.addentry(imenu_burnt, true, -1, "burnt: %d", (int)it->burnt);
-#ifdef item_luminance
-            imenu.addentry(imenu_sep, false, 0, "-[ light emission ]-");
-            imenu.addentry(imenu_luminance, true, -1, "lum: %f", (float)it->light.luminance);
-            imenu.addentry(imenu_direction, true, -1, "dir: %d", (int)it->light.direction);
-            imenu.addentry(imenu_width, true, -1, "width: %d", (int)it->light.width);
-#endif
             imenu.addentry(imenu_exit, true, -1, "exit");
             do {
                 imenu.query();
@@ -999,17 +972,6 @@ int editmap::edit_itm(point coords)
                         case imenu_burnt:
                             intval = (int)it->burnt;
                             break;
-#ifdef item_luminance
-                        case imenu_luminance:
-                            intval = (int)it->light.luminance;
-                            break;
-                        case imenu_direction:
-                            intval = (int)it->light.direction;
-                            break;
-                        case imenu_width:
-                            intval = (int)it->light.width;
-                            break;
-#endif
                     }
                     int retval = helper::to_int (
                                      string_input_popup( "set: ", 20, helper::to_string(  intval ) )
@@ -1024,17 +986,6 @@ int editmap::edit_itm(point coords)
                         } else if (imenu.ret == imenu_burnt ) {
                             it->burnt = retval;
                             imenu.entries[imenu_burnt].txt = string_format("burnt: %d", it->burnt);
-#ifdef item_luminance
-                        } else if (imenu.ret == imenu_luminance ) {
-                            it->light.luminance = (unsigned short)retval;
-                            imenu.entries[imenu_luminance].txt = string_format("lum: %f", (float)it->light.luminance);
-                        } else if (imenu.ret == imenu_direction ) {
-                            it->light.direction = (short)retval;
-                            imenu.entries[imenu_direction].txt = string_format("dir: %d", (int)it->light.direction);
-                        } else if (imenu.ret == imenu_width ) {
-                            it->light.width = (short)retval;
-                            imenu.entries[imenu_width].txt = string_format("width: %d", (int)it->light.width);
-#endif
                         }
                         werase(g->w_terrain);
                         g->draw_ter(target.x, target.y);

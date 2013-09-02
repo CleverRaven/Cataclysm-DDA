@@ -32,9 +32,9 @@ class Skill {
   //DEBUG
   size_t id() { return _id; }
 
-  std::string ident() { return _ident; }
-  std::string name() { return _name; }
-  std::string description() { return _description; }
+  std::string ident() const { return _ident; }
+  std::string name() const { return _name; }
+  std::string description() const { return _description; }
 
   bool operator==(const Skill& b) const { return this->_ident == b._ident; }
   bool operator< (const Skill& b) const { return this->_ident <  b._ident; } // Only here for the benefit of std::map<Skill,T>

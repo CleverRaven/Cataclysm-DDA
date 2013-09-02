@@ -560,7 +560,7 @@
    {
       "ident": "clown",
       "name": "Clown",
-      "description":"All you ever wanted was to make people laugh. Dropping out of school and performing at kids' parties was a dream come true until the world ended. There's precious few balloon animals in your future now - cue the sad trombone.",
+      "description":"All you ever wanted was to make people laugh. Dropping out of school and performing at kids' parties was a dream come true until the world ended. There's precious few balloon animals in your future now.",
       "points": 0,
       "items": ["clown_suit", "clownshoes"]
    },

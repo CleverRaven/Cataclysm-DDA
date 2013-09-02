@@ -68,6 +68,8 @@ enum field_id {
  fd_push_items,
  fd_shock_vent,
  fd_acid_vent,
+ fd_plasma,
+ fd_laser,
  num_fields
 };
 
