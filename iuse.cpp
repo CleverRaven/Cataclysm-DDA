@@ -3934,7 +3934,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
 
     std::string found_mat = "plastic";
 
-    item *result;
+    item *result = NULL;
     int count = amount;
 
     if ((cut->made_of("cotton") || cut->made_of("leather")) ) {
