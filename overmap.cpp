@@ -2044,7 +2044,7 @@ void overmap::place_forest()
  int fory;
  int fors;
  for (int i = 0; i < NUM_FOREST; i++) {
-// forx and fory determine the epicenter of the forest
+  // forx and fory determine the epicenter of the forest
   forx = rng(0, OMAPX - 1);
   fory = rng(0, OMAPY - 1);
 // fors determinds its basic size
@@ -2052,19 +2052,19 @@ void overmap::place_forest()
   int outer_tries = 1000;
   int inner_tries = 1000;
   for (int j = 0; j < cities.size(); j++) {
-   inner_tries = 1000;
-   while (dist(forx,fory,cities[j].x,cities[j].y) - fors / 2 < cities[j].s ) {
-// Set forx and fory far enough from cities
-    forx = rng(0, OMAPX - 1);
-    fory = rng(0, OMAPY - 1);
-// Set fors to determine the size of the forest; usually won't overlap w/ cities
-    fors = rng(15, 40);
-    j = 0;
-    if( 0 == --inner_tries ) { break; }
-   }
-   if( 0 == --outer_tries || 0 == inner_tries ) {
-    break;
-   }
+      inner_tries = 1000;
+      while (dist(forx,fory,cities[j].x,cities[j].y) - fors / 2 < cities[j].s ) {
+          // Set forx and fory far enough from cities
+          forx = rng(0, OMAPX - 1);
+          fory = rng(0, OMAPY - 1);
+          // Set fors to determine the size of the forest; usually won't overlap w/ cities
+          fors = rng(15, 40);
+          j = 0;
+          if( 0 == --inner_tries ) { break; }
+      }
+      if( 0 == --outer_tries || 0 == inner_tries ) {
+          break;
+      }
   }
   if( 0 == outer_tries || 0 == inner_tries ) { break; }
   int swamps = SWAMPINESS;	// How big the swamp may be...
