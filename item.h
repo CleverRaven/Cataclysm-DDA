@@ -55,7 +55,7 @@ public:
  item(itype* it, unsigned int turn, char let);
  void make_corpse(itype* it, mtype* mt, unsigned int turn);	// Corpse
  item(std::string itemdata, game *g);
- ~item();
+ virtual ~item();
  void make(itype* it);
  void clear(); // cleanup that's required to re-use an item variable
 
