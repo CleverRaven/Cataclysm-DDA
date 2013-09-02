@@ -2745,23 +2745,25 @@ void overmap::building_on_hiway(int x, int y, int dir)
 
 void overmap::place_hiways(std::vector<city> cities, int z, oter_id base)
 {
- if (cities.size() == 1)
-  return;
- city best;
- int closest = -1;
- int distance;
- for (int i = 0; i < cities.size(); i++) {
-  closest = -1;
-  for (int j = i + 1; j < cities.size(); j++) {
-   distance = dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
-   if (distance < closest || closest < 0) {
-    closest = distance;
-    best = cities[j];
-   }
-  }
-  if( closest > 0 ) {
-   make_hiway(cities[i].x, cities[i].y, best.x, best.y, z, base);
- }
+    if (cities.size() == 1) {
+        return;
+    }
+    city best;
+    int closest = -1;
+    int distance;
+    for (int i = 0; i < cities.size(); i++) {
+        closest = -1;
+        for (int j = i + 1; j < cities.size(); j++) {
+            distance = dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
+            if (distance < closest || closest < 0) {
+                closest = distance;
+                best = cities[j];
+            }
+        }
+        if( closest > 0 ) {
+            make_hiway(cities[i].x, cities[i].y, best.x, best.y, z, base);
+        }
+    }
 }
 
 // Polish does both good_roads and good_rivers (and any future polishing) in
