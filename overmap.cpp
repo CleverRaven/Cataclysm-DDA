@@ -2049,7 +2049,10 @@ void overmap::place_forest()
   fory = rng(0, OMAPY - 1);
 // fors determinds its basic size
   fors = rng(15, 40);
+  int outer_tries = 1000;
+  int inner_tries = 1000;
   for (int j = 0; j < cities.size(); j++) {
+   inner_tries = 1000;
    while (dist(forx,fory,cities[j].x,cities[j].y) - fors / 2 < cities[j].s ) {
 // Set forx and fory far enough from cities
     forx = rng(0, OMAPX - 1);
@@ -2057,8 +2060,13 @@ void overmap::place_forest()
 // Set fors to determine the size of the forest; usually won't overlap w/ cities
     fors = rng(15, 40);
     j = 0;
+    if( 0 == --inner_tries ) { break; }
+   }
+   if( 0 == --outer_tries || 0 == inner_tries ) {
+    break;
    }
   }
+  if( 0 == outer_tries || 0 == inner_tries ) { break; }
   int swamps = SWAMPINESS;	// How big the swamp may be...
   x = forx;
   y = fory;
