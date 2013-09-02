@@ -132,7 +132,8 @@ void game::wishmutate( player *p )
         }
         c++;
     }
-    wmenu.w_width = ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
+    wmenu.w_width = TERMX;
+    // disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
     wmenu.pad_right = ( wmenu.w_width - 30 );
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmutate_selected;
@@ -256,7 +257,8 @@ void game::wishmonster(int x, int y)
 {
     uimenu wmenu;
     wmenu.w_x = 0;
-    wmenu.w_width = ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
+    wmenu.w_width = TERMX;
+     // disabled due to foldstring crash //( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
     wmenu.pad_right = ( wmenu.w_width - 30 );
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmonster_selected;
