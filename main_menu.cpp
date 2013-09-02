@@ -82,6 +82,222 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     refresh();
 }
 
+int game::worldpick_screen()
+{
+    DebugLog() << "Entering World Pick Screen\n";
+    const int VAL_ESC = -1;
+    int worldnum = 0;
+
+    int sel = 0, selpage = 0;
+
+    const int iTooltipHeight = 3;
+    const int iContentHeight = FULL_SCREEN_HEIGHT-3-iTooltipHeight;
+
+    const int num_pages = world_name_keys.size() / iContentHeight + 1; // at least 1 page
+
+    DebugLog() << "\t" << num_pages << " Pages to Generate\n";
+    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0;
+    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0;
+
+    std::map<int, bool> mapLines;
+    mapLines[3] = true;
+    //mapLines[60] = true;
+
+    std::map<int, std::vector<std::string> > world_pages;
+
+    DebugLog() << "\tGenerating World List\n";
+    worldnum = 0;
+    for (int i = 0; i < num_pages; ++i)
+    {
+        world_pages[i] = std::vector<std::string>();
+        for (int j = 0; j < iContentHeight; ++j)
+        {
+            DebugLog() << "\t\tAdding World ["<<world_name_keys[worldnum] << "]\n";
+            world_pages[i].push_back(world_name_keys[worldnum++]);
+
+            if (worldnum == world_name_keys.size())
+            {
+                break;
+            }
+        }
+    }
+    DebugLog() << "\tWorld List Generated\n";
+
+    WINDOW* w_worlds_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+
+    WINDOW* w_worlds_tooltip = newwin(iTooltipHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY, 1 + iOffsetX);
+    WINDOW* w_worlds_header = newwin(1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY, 1 + iOffsetX);
+    WINDOW* w_worlds = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
+
+    wborder(w_worlds_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+    mvwputch(w_worlds_border, 4,  0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_worlds_border, 4, 79, c_ltgray, LINE_XOXX); // -|
+
+    for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
+        mvwputch(w_worlds_border, FULL_SCREEN_HEIGHT-1, iter->first + 1, c_ltgray, LINE_XXOX); // _|_
+    }
+
+    mvwprintz(w_worlds_border, 0, 36, c_ltred, _(" WORLD SELECTION "));
+    wrefresh(w_worlds_border);
+
+    for (int i = 0; i < 78; i++) {
+        if (mapLines[i]) {
+            mvwputch(w_worlds_header, 0, i, c_ltgray, LINE_OXXX);
+        } else {
+            mvwputch(w_worlds_header, 0, i, c_ltgray, LINE_OXOX); // Draw header line
+        }
+    }
+
+    wrefresh(w_worlds_header);
+
+    DebugLog() << "\tWindows Generated\n";
+
+    char ch = ' ';
+
+    std::stringstream sTemp;
+
+    do {
+        //Clear the lines
+        for (int i = 0; i < iContentHeight; i++) {
+            for (int j = 0; j < 79; j++) {
+                if (mapLines[j]) {
+                    mvwputch(w_worlds, i, j, c_ltgray, LINE_XOXO);
+                } else {
+                    mvwputch(w_worlds, i, j, c_black, ' ');
+                }
+
+                if (i < iTooltipHeight) {
+                    mvwputch(w_worlds_tooltip, i, j, c_black, ' ');
+                }
+            }
+        }
+
+        //Draw World Names
+        for (int i = 0; i < world_pages[selpage].size(); ++i)
+        {
+            nc_color cLineColor = c_ltgreen;
+
+            sTemp.str("");
+            sTemp << i + 1;
+            mvwprintz(w_worlds, i, 0, c_white, sTemp.str().c_str());
+            mvwprintz(w_worlds, i, 4, c_white, "");
+
+
+            if (i == sel)
+            {
+                wprintz(w_worlds, c_yellow, ">> ");
+            }
+            else
+            {
+                wprintz(w_worlds, c_yellow, "   ");
+            }
+
+            wprintz(w_worlds, c_white, "%s", (world_pages[selpage])[i].c_str());
+            /*
+            if (i >= iStartPos && i < iStartPos + ((iContentHeight > mPageItems[iCurrentPage].size()) ? mPageItems[iCurrentPage].size() : iContentHeight)) {
+                nc_color cLineColor = c_ltgreen;
+
+                sTemp.str("");
+                sTemp << i + 1;
+                mvwprintz(w_options, i - iStartPos, 0, c_white, sTemp.str().c_str());
+                mvwprintz(w_options, i - iStartPos, 4, c_white, "");
+
+                if (iCurrentLine == i) {
+                    wprintz(w_options, c_yellow, ">> ");
+                } else {
+                    wprintz(w_options, c_yellow, "   ");
+                }
+
+                wprintz(w_options, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getMenuText()).c_str());
+
+                if (OPTIONS[mPageItems[iCurrentPage][i]].getValue() == "False") {
+                    cLineColor = c_ltred;
+                }
+
+                mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getValue()).c_str());
+            }
+            */
+        }
+
+        //Draw Tabs
+        mvwprintz(w_worlds_header, 0, 7, c_white, "");
+        for (int i = 0; i < num_pages; ++i) {
+            if (world_pages[i].size() > 0) { //skip empty pages
+                wprintz(w_worlds_header, c_white, "[");
+                wprintz(w_worlds_header, (selpage == i) ? hilite(c_white) : c_white, "Page %d", i+1);
+                wprintz(w_worlds_header, c_white, "]");
+                wputch(w_worlds_header, c_white, LINE_OXOX);
+            }
+        }
+
+        wrefresh(w_worlds_header);
+
+        fold_and_print(w_worlds_tooltip, 0, 0, 78, c_white, "Pick a world to enter game");
+        wrefresh(w_worlds_tooltip);
+
+        wrefresh(w_worlds);
+
+        ch = input();
+
+        if (world_pages[selpage].size() > 0 || ch == '\t') {
+            switch(ch) {
+                case 'j': //move down
+                    sel++;
+                    if (sel >= world_pages[selpage].size()) {
+                        sel = 0;
+                    }
+                    break;
+                case 'k': //move up
+                    sel--;
+                    if (sel < 0) {
+                        sel = world_pages[selpage].size()-1;
+                    }
+                    break;
+                case '>':
+                case '\t': //Switch to next Page
+                    sel = 0;
+                    do { //skip empty pages
+                        selpage++;
+                        if (selpage >= world_pages.size()) {
+                            selpage = 0;
+                        }
+                    } while(world_pages[selpage].size() == 0);
+
+                    break;
+                case '<':
+                    sel = 0;
+                    do { //skip empty pages
+                        selpage--;
+                        if (selpage < 0) {
+                            selpage = world_pages.size()-1;
+                        }
+                    } while(world_pages[selpage].size() == 0);
+                    break;
+                case '\n':
+                    // we are wanting to get out of this by confirmation, so ask if we want to load the level [y/n prompt] and if yes exit
+                    std::stringstream querystring;
+                    querystring << "Do you want to start the game in world [" << world_pages[selpage][sel] << "]?";
+                    if (query_yn(querystring.str().c_str()))
+                    {
+                        werase(w_worlds);
+                        werase(w_worlds_border);
+                        werase(w_worlds_header);
+                        werase(w_worlds_tooltip);
+                        return sel + selpage * iContentHeight;
+                    }
+                    break;
+            }
+        }
+    } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+
+    werase(w_worlds);
+    werase(w_worlds_border);
+    werase(w_worlds_header);
+    werase(w_worlds_tooltip);
+    // we are assumed to have quit, so return -1
+    return -1;
+}
+
 void game::print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX)
 {
     mvwprintz(w_in, iOffsetY, iOffsetX, c_black, "");
@@ -179,6 +395,32 @@ std::map<std::string, std::vector<std::string> > get_save_data()
     return world_savegames;
 }
 
+int game::pick_world_to_play()
+{
+    if (world_name_keys.size() == 0)
+    {
+        if (query_yn("No worlds exist, would you like to make one?"))
+        {
+            return -1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    else if (world_name_keys.size() == 1)
+    {
+        return 0; // use that world!
+    }
+    else
+    {
+        return worldpick_screen();
+        // pick a world
+        // for now, return -1 because need to make a new window to select with (probably) >.<
+        //return -1;
+    }
+}
+
 bool game::opening_screen()
 {
     WINDOW* w_background = newwin(TERMY, TERMX, 0, 0);
@@ -232,8 +474,10 @@ bool game::opening_screen()
     }
     closedir(dir);
 
+    // get world folders, along with their savegame data
     world_save_data = get_save_data();
 
+    // vector to make it easier to get and cache the working world
     for (std::map<std::string, std::vector<std::string> >::iterator it = world_save_data.begin(); it != world_save_data.end(); ++it)
     {
         world_name_keys.push_back(it->first);
@@ -389,15 +633,28 @@ bool game::opening_screen()
                 }
                 if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
-                        if (!u.create(this, (sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2)?PLTYPE_RANDOM : PLTYPE_NOW))) {
+                        if (!u.create(this, (sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2)?PLTYPE_RANDOM : PLTYPE_NOW))){
                             u = player();
                             delwin(w_open);
                             return (opening_screen());
                         }
+                        // check world
+                        int picked_world = pick_world_to_play();
+                        if (picked_world == -1)
+                        {
+                            u = player();
+                            delwin(w_open);
+                            return (opening_screen());
+                        }
+                        else
+                        {
+                            active_world = world_name_keys[picked_world];
+                        }
 
                         werase(w_background);
                         wrefresh(w_background);
-                        start_game();
+                        //start_game();
+                        start_game_from(active_world);
                         start = true;
                     } else if (sel2 == 1) {
                         layer = 3;
@@ -517,7 +774,7 @@ bool game::opening_screen()
                 else {
                     for (int i = 0; i < savegames.size(); i++) {
                         int line = iMenuOffsetY - 2 - i;
-                        mvwprintz(w_open, line, 19+19 + iMenuOffsetX, (sel2 == i ? h_white : c_white), base64_decode(savegames[i]).c_str());
+                        mvwprintz(w_open, line, 19+19 + iMenuOffsetX, (sel3 == i ? h_white : c_white), base64_decode(savegames[i]).c_str());
                     }
                 }
                 wrefresh(w_open);
@@ -589,10 +846,23 @@ bool game::opening_screen()
                         delwin(w_open);
                         return (opening_screen());
                     }
+                    // check world
+                    int picked_world = pick_world_to_play();
+                    if (picked_world == -1)
+                    {
+                        u = player();
+                        delwin(w_open);
+                        return (opening_screen());
+                    }
+                    else
+                    {
+                        active_world = world_name_keys[picked_world];
+                    }
 
                     werase(w_background);
                     wrefresh(w_background);
-                    start_game();
+                    //start_game();
+                    start_game_from(active_world);
                     start = true;
                 }
             }

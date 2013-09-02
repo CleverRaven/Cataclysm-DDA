@@ -372,6 +372,66 @@ void game::setup()
  }
 }
 
+void game::start_game_from(std::string worldname)
+{
+    // load [worldname] world
+    MAPBUFFER.load_from(worldname);
+
+    turn = HOURS(OPTIONS["INITIAL_TIME"]);
+    run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
+    mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
+
+    popup_nowait(_("Please wait as we build your world"));
+    // Init some factions.
+    if (!load_master_from(worldname))	// Master data record contains factions.
+        create_factions();
+    cur_om = &overmap_buffer.get(this, 0, 0);	// We start in the (0,0,0) overmap.
+
+    // Find a random house on the map, and set us there.
+    cur_om->first_house(levx, levy);
+    levx -= int(int(MAPSIZE / 2) / 2);
+    levy -= int(int(MAPSIZE / 2) / 2);
+    levz = 0;
+    // Start the overmap with out immediate neighborhood visible
+    for (int i = -15; i <= 15; i++) {
+        for (int j = -15; j <= 15; j++)
+            cur_om->seen(levx + i, levy + j, 0) = true;
+    }
+    // Convert the overmap coordinates to submap coordinates
+    levx = levx * 2 - 1;
+    levy = levy * 2 - 1;
+    set_adjacent_overmaps(true);
+    // Init the starting map at this location.
+    m.load(this, levx, levy, levz);
+    // Start us off somewhere in the shelter.
+    u.posx = SEEX * int(MAPSIZE / 2) + 5;
+    u.posy = SEEY * int(MAPSIZE / 2) + 6;
+    u.str_cur = u.str_max;
+    u.per_cur = u.per_max;
+    u.int_cur = u.int_max;
+    u.dex_cur = u.dex_max;
+    nextspawn = int(turn);
+    temperature = 65; // Springtime-appropriate?
+    u.next_climate_control_check=0;  // Force recheck at startup
+    u.last_climate_control_ret=false;
+
+    //Reset character pickup rules
+    vAutoPickupRules[2].clear();
+    //Load NPCs. Set nearby npcs to active.
+    load_npcs();
+    //spawn the monsters
+    m.spawn_monsters(this);	// Static monsters
+    //Put some NPCs in there!
+    create_starting_npcs();
+
+    //Create mutation_category_level
+    u.set_highest_cat_level();
+
+    MAPBUFFER.set_dirty();
+
+    u.add_memorial_log(_("%s began their journey into the Cataclysm."), u.name.c_str());
+}
+
 // Set up all default values for a new game
 void game::start_game()
 {

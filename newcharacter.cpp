@@ -392,6 +392,7 @@ bool player::create(game *g, character_type type, std::string tempname)
 
  // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
  apply_persistent_morale();
+
  return true;
 }
 
@@ -1019,7 +1020,7 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
     break;
     case 'l':
     case '6':
-     if (u->skillLevel(currentSkill) <= 19) { 
+     if (u->skillLevel(currentSkill) <= 19) {
       points -= u->skillLevel(currentSkill) + 1;
       u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);
      }

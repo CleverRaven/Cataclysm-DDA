@@ -363,6 +363,7 @@ void load_artifacts(); // Load artifact data
   void load(std::string name);	// Load a player-specific save file
   void load_from(std::string worldname, std::string name);
   void start_game();	// Starts a new game
+  void start_game_from(std::string worldname);
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
   //private save functions.
@@ -539,6 +540,10 @@ void load_artifacts(); // Load artifact data
   void mondebug();        // Debug monster behavior directly
   void groupdebug();      // Get into on monster groups
 
+  // world factory functions
+  int pick_world_to_play();
+  int worldpick_screen();
+
 
 // ########################## DATA ################################
 
@@ -574,9 +579,9 @@ void load_artifacts(); // Load artifact data
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
 
+  // world factory related
   std::map<std::string, std::vector<std::string> > world_save_data;
   std::vector<std::string> world_name_keys;
-
 };
 
 #endif

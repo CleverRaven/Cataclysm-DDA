@@ -49,7 +49,7 @@ void game::show_auto_pickup()
 
     mvwprintz(w_auto_pickup_border, 0, 29, c_ltred, _(" AUTO PICKUP MANAGER "));
     wrefresh(w_auto_pickup_border);
-    
+
     int tmpx = 0;
     tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<A>dd"))+2;
     tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove"))+2;
@@ -236,7 +236,7 @@ void game::show_auto_pickup()
                     case '\n': //Edit Col in current line
                         bStuffChanged = true;
                         if (iCurrentCol == 1) {
-                            fold_and_print(w_auto_pickup_help, 1, 1, 999, c_white, 
+                            fold_and_print(w_auto_pickup_help, 1, 1, 999, c_white,
                                 _(
                                 "* is used as a Wildcard. A few Examples:\n"
                                 "\n"
@@ -351,7 +351,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     WINDOW* w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
 
     wborder(w_test_rule_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-    
+
     int nmatch = vMatchingItems.size();
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s", nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());
     mvwprintz(w_test_rule_border, 0, iContentWidth/2 - utf8_width(buf.c_str())/2, hilite(c_white), buf.c_str());
@@ -612,10 +612,10 @@ void save_auto_pickup(bool bCharacter)
     std::string sFile = "data/auto_pickup.txt";
 
     if (bCharacter) {
-        sFile = "save/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = "save/" + g->active_world + "/" + base64_encode(g->u.name) + ".apu.txt";
         std::ifstream fin;
 
-        fin.open(("save/" + base64_encode(g->u.name) + ".sav").c_str());
+        fin.open(("save/" + g->active_world + "/" + base64_encode(g->u.name) + ".sav").c_str());
         if(!fin.is_open()) {
             return;
         }
@@ -648,7 +648,7 @@ void create_default_auto_pickup(bool bCharacter)
     std::string sFile = "data/auto_pickup.txt";
 
     if (bCharacter) {
-        sFile = "save/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = "save/" + g->active_world + "/" + base64_encode(g->u.name) + ".apu.txt";
     }
 
     fout.open(sFile.c_str());
