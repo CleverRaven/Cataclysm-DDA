@@ -574,7 +574,7 @@
       "ident": "senior",
       "name": "Senior Citizen",
       "description":"You haven't seen this much blood since the war. The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done. You start with a cane and your pocketwatch.",
-      "points": 0,
+      "points": 1,
       "items": ["dress_shirt", "pants_checkered", "dress_shoes", "cane", "pocketwatch"]
    },
    {
