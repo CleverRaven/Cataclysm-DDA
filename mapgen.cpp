@@ -12912,7 +12912,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
     for (int i = x1; i <= x2; i++) {
         for (int j = y1; j <= y2; j++) {
              if ((i==x1)||(i==x2)) {m->ter_set(i,j, t_fence_v); } else
-             if (/*(j==y1)||*/(j==y2)) {m->ter_set(i,j, t_fence_h); } else {
+             if (j==y2) {m->ter_set(i,j, t_fence_h); } else {
              m->ter_set( i, j, t_grass);
              if (one_in(35)) {m->ter_set(i,j, t_tree_young); } else
              if (one_in(35)) {m->ter_set(i,j, t_tree); } else
