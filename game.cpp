@@ -9464,36 +9464,70 @@ void game::plmove(int dx, int dy)
               return;
           }
           tileray mdir;
-          mdir.init( dx, dy );
-          mdir.advance( 1 );
-          grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
-          int imp = 0;
-          std::vector<veh_collision> veh_veh_colls;
-          bool can_move = true;
-          // Set player location to illegal value so it can't collide with vehicle.
-          int player_prev_x = u.posx;
-          int player_prev_y = u.posy;
-          u.posx = 0;
-          u.posy = 0;
-          if( grabbed_vehicle->collision( veh_veh_colls, dx, dy, can_move, imp, true ) ) {
-              // TODO: figure out what we collided with.
-              add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
-              u.moves -= 10;
+
+          int dxVeh = u.grab_point.x * (-1);
+          int dyVeh = u.grab_point.y * (-1);
+          int prev_grab_x = u.grab_point.x;
+          int prev_grab_y = u.grab_point.y;
+
+          if (abs(dx+dxVeh) == 2 || abs(dy+dyVeh) == 2 || ((dxVeh + dx) == 0 && (dyVeh + dy) == 0))  {
+              //We are not moving around the veh
+              if ((dxVeh + dx) == 0 && (dyVeh + dy) == 0) {
+                  //we are pushing in the direction of veh
+                  dxVeh = dx;
+                  dyVeh = dy;
+              } else {
+                  u.grab_point.x = dx * (-1);
+                  u.grab_point.y = dy * (-1);
+              }
+
+              if ((abs(dx+dxVeh) == 0 || abs(dy+dyVeh) == 0) && u.grab_point.x != 0 && u.grab_point.y != 0) {
+                  //We are moving diagonal while veh is diagonal too and one direction is 0
+                  dxVeh = ((dx + dxVeh) == 0) ? 0 : dxVeh;
+                  dyVeh = ((dy + dyVeh) == 0) ? 0 : dyVeh;
+
+                  u.grab_point.x = dxVeh * (-1);
+                  u.grab_point.y = dyVeh * (-1);
+              }
+
+              mdir.init( dxVeh, dyVeh );
+              mdir.advance( 1 );
+              grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
+              int imp = 0;
+              std::vector<veh_collision> veh_veh_colls;
+              bool can_move = true;
+              // Set player location to illegal value so it can't collide with vehicle.
+              int player_prev_x = u.posx;
+              int player_prev_y = u.posy;
+              u.posx = 0;
+              u.posy = 0;
+              if( grabbed_vehicle->collision( veh_veh_colls, dxVeh, dyVeh, can_move, imp, true ) ) {
+                  // TODO: figure out what we collided with.
+                  add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
+                  u.moves -= 10;
+                  u.posx = player_prev_x;
+                  u.posy = player_prev_y;
+                  u.grab_point.x = prev_grab_x;
+                  u.grab_point.y = prev_grab_y;
+                  return;
+              }
               u.posx = player_prev_x;
               u.posy = player_prev_y;
-              return;
+
+              int gx = grabbed_vehicle->global_x();
+              int gy = grabbed_vehicle->global_y();
+              for( int ep = 0; ep < grabbed_vehicle->external_parts.size(); ep++ ) {
+                  const int p = grabbed_vehicle->external_parts[ ep ];
+                  if( grabbed_vehicle->part_flag( p, "WHEEL" ) && one_in(2) )
+                      grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dxVeh,
+                                                    gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
+              }
+              m.displace_vehicle( this, gx, gy, dxVeh, dyVeh );
+          } else {
+              //We are moving around the veh
+              u.grab_point.x = (dx + dxVeh) * (-1);
+              u.grab_point.y = (dy + dyVeh) * (-1);
           }
-          u.posx = player_prev_x;
-          u.posy = player_prev_y;
-          int gx = grabbed_vehicle->global_x();
-          int gy = grabbed_vehicle->global_y();
-          for( int ep = 0; ep < grabbed_vehicle->external_parts.size(); ep++ ) {
-              const int p = grabbed_vehicle->external_parts[ ep ];
-              if( grabbed_vehicle->part_flag( p, "WHEEL" ) && one_in(2) )
-                  grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dx,
-                                                gy + grabbed_vehicle->parts[p].precalc_dy[0] + dy, p );
-          }
-          m.displace_vehicle( this, gx, gy, dx, dy );
       } else {
           add_msg( _("No vehicle at grabbed point.") );
           u.grab_point.x = 0;
