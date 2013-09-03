@@ -786,7 +786,8 @@ void game::process_activity()
     u.activity.moves_left -= 100;
 
     if (u.activity.type == ACT_GAME) {
-      item& game_item = u.inv.item_by_letter(u.activity.invlet);
+      item& game_item = u.weapon.invlet == u.activity.invlet ?
+                            u.weapon : u.inv.item_by_letter(u.activity.invlet);
 
       //Deduct 1 battery charge for every minute spent playing
       if(int(turn) % 10 == 0) {
