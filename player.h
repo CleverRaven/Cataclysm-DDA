@@ -13,6 +13,7 @@
 #include "mutation.h"
 #include "crafting.h"
 #include "vehicle.h"
+#include "martialarts.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -124,6 +125,12 @@ public:
 // melee.cpp
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
+
+ int mabuff_tohit_bonus(); // martial arts to-hit bonus
+ float mabuff_bash_mult(); // martial arts bash damage multiplier
+ int mabuff_bash_bonus(); // martial arts bash damage bonus, applied after mult
+ float mabuff_cut_mult(); // martial arts bash damage multiplier
+ int mabuff_cut_bonus(); // martial arts bash damage bonus, applied after mult
 
  int base_damage(bool real_life = true, int stat = -999);
  int base_to_hit(bool real_life = true, int stat = -999);
@@ -290,7 +297,7 @@ public:
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let);	// Returns the item with inventory letter let
  item &i_of_type(itype_id type); // Returns the first item with this type
- item get_combat_style(); // Returns the combat style item
+ martialart get_combat_style(); // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor();	// Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
@@ -426,7 +433,9 @@ public:
  itype_id last_item;
  std::vector<item> worn;
  std::vector<itype_id> styles;
- itype_id style_selected;
+ std::vector<matype_id> ma_styles;
+ matype_id style_selected;
+
  item weapon;
  item ret_null;	// Null item, sometimes returns by weapon() etc
 

@@ -4,6 +4,7 @@
 #include "disease.h"
 #include "weather.h"
 #include "translations.h"
+#include "martialarts.h"
 #include <stdlib.h>
 #include <sstream>
 
@@ -51,6 +52,8 @@ enum dis_type_enum {
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_INFECTED,
 // Inflicted by an NPC
  DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
+// Martial arts-related buffs
+ DI_MA_BUFF,
 // NPC-only
  DI_CATCH_UP
 };
@@ -168,6 +171,7 @@ void game::init_diseases() {
     disease_type_lookup["asked_for_item"] = DI_ASKED_FOR_ITEM;
     disease_type_lookup["catch_up"] = DI_CATCH_UP;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
+    disease_type_lookup["ma_buff"] = DI_MA_BUFF;
 }
 
 dis_type disease_for_body_part(dis_type base, int body_part) {
@@ -1384,6 +1388,15 @@ void dis_effect(game *g, player &p, disease &dis) {
             p.str_cur-= 1;
             p.dex_cur-= 1;
             break;
+
+        case DI_MA_BUFF:
+            if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end()) {
+              ma_buff b = g->ma_buffs[dis.buff_id];
+              if (b.is_valid_player(p)) {
+                b.apply_player(p);
+              }
+            }
+            break;
     }
 }
 
@@ -1430,7 +1443,7 @@ int disease_speed_boost(disease dis)
  }
 }
 
-std::string dis_name(disease dis)
+std::string dis_name(game* g, disease& dis)
 {
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
@@ -1592,11 +1605,23 @@ std::string dis_name(disease dis)
         else return _("Pus Filled Wound");
     case DI_RECOVER: return _("Recovering From Infection");
 
+    case DI_MA_BUFF:
+        if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end()) {
+          if (g->ma_buffs[dis.buff_id].max_stacks > 1) {
+            std::stringstream buf;
+            buf << g->ma_buffs[dis.buff_id].name
+              << " (" << dis.intensity << ")";
+            return buf.str().c_str();
+          } else
+            return g->ma_buffs[dis.buff_id].name.c_str();
+        } else
+          return "Invalid martial arts buff";
+
     default: return "";
     }
 }
 
-std::string dis_description(disease dis)
+std::string dis_description(game* g,disease& dis)
 {
     int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
@@ -1966,6 +1991,12 @@ condition, and deals massive damage.");
     case DI_BITE: return _("You have a nasty bite wound.");
     case DI_INFECTED: return _("You have an infected wound.");
     case DI_RECOVER: return _("You are recovering from an infection.");
+
+    case DI_MA_BUFF:
+        if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end())
+          return g->ma_buffs[dis.buff_id].desc.c_str();
+        else
+          return "This is probably a bug.";
 
     default: return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
     }

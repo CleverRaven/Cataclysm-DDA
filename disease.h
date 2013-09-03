@@ -18,9 +18,9 @@ void dis_effect(game *g, player &p, disease &dis);
 
 int disease_speed_boost(disease dis);
 
-std::string dis_name(disease dis);
+std::string dis_name(game* g, disease& dis);
 
-std::string dis_description(disease dis);
+std::string dis_description(game* g, disease& dis);
 
 dis_type disease_for_body_part(dis_type base, int body_part);
 

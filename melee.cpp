@@ -43,6 +43,65 @@ bool player::unarmed_attack()
          weapon.has_flag("UNARMED_WEAPON"));
 }
 
+int player::mabuff_tohit_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret += g->ma_buffs[it->buff_id].hit_bonus(*this);
+    }
+  }
+  return ret;
+}
+
+float player::mabuff_bash_mult() {
+  float ret = 1.f;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret *= g->ma_buffs[it->buff_id].bash_mult();
+    }
+  }
+  return ret;
+}
+int player::mabuff_bash_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret += g->ma_buffs[it->buff_id].bash_bonus(*this);
+    }
+  }
+  return ret;
+}
+float player::mabuff_cut_mult() {
+  float ret = 1.f;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret *= g->ma_buffs[it->buff_id].cut_mult();
+    }
+  }
+  return ret;
+}
+int player::mabuff_cut_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret += g->ma_buffs[it->buff_id].cut_bonus(*this);
+    }
+  }
+  return ret;
+}
+
+
+
 int player::base_to_hit(bool real_life, int stat)
 {
  if (stat == -999)
@@ -53,6 +112,10 @@ int player::base_to_hit(bool real_life, int stat)
 int player::hit_roll()
 {
  int stat = dex_cur;
+// apply martial arts bonuses
+  stat += mabuff_tohit_bonus();
+
+// keep the old martial arts mechanics for now
 // Some martial arts use something else to determine hits!
  if(weapon.typeId() == "style_tiger"){
    stat = (str_cur * 2 + dex_cur) / 3;
@@ -511,6 +574,9 @@ int player::roll_bash_damage(monster *z, bool crit)
  int ret = 0;
  int stat = str_cur; // Which stat determines damage?
  int skill = skillLevel("bashing"); // Which skill determines damage?
+
+ stat += mabuff_bash_bonus();
+
  if (unarmed_attack())
   skill = skillLevel("unarmed");
 
@@ -589,7 +655,7 @@ int player::roll_cut_damage(monster *z, bool crit)
  if (z_armor_cut < 0)
   z_armor_cut = 0;
 
- double ret = weapon.damage_cut() - z_armor_cut;
+ double ret = mabuff_cut_bonus() + weapon.damage_cut() - z_armor_cut;
 
  if (unarmed_attack() && !wearing_something_on(bp_hands)) {
   if (has_trait("CLAWS"))
@@ -1285,6 +1351,15 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  }
 
 // Finally, some special effects for martial arts
+  // multiply damage by style damage_mults
+  bash_dam *= mabuff_bash_mult();
+  cut_dam *= mabuff_cut_mult();
+
+  // on-hit effects for new martial arts
+  martialart ma = g->martialarts[style_selected];
+  ma.apply_onhit_buffs(*this, illness);
+
+ // the old hard-coded stuff
  if(weapon.typeId() == "style_karate"){
    dodges_left++;
    blocks_left += 2;

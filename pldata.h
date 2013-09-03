@@ -28,8 +28,21 @@ struct disease
  dis_type type;
  int intensity;
  int duration;
- disease() { type = "null"; duration = 0; intensity = 0; }
+
+ disease() { type = "null"; duration = 0; intensity = 0;}
  disease(dis_type t, int d, int i = 0) { type = t; duration = d; intensity = i;}
+
+ // extra stuff for martial arts, kind of a hack for now
+ std::string buff_id;
+ disease(std::string new_buff_id) {
+  type = "ma_buff";
+  buff_id = new_buff_id;
+  intensity = 1;
+ }
+ bool is_mabuff() {
+   return (buff_id != "" && type == "ma_buff");
+ }
+
 };
 
 struct addiction

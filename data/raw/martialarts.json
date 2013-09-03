@@ -1,0 +1,110 @@
+[
+  {
+    "id": "style_none",
+    "name": "No style"
+  },
+  {
+    "id": "style_karate",
+    "name": "Karate",
+    "desc": "Karate is a popular martial art, originating from Japan. It focuses on rapid, precise attacks, blocks, and fluid movement. A successful hit allows you an extra dodge and two extra blocks on the following round.",
+    "static_buffs": [],
+    "onhit_buffs": [
+      {
+        "id": "karate_buff",
+        "name": "Karate Buff",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 3,
+        "desc": "+1 Dodges, +2 Blocks",
+        "dodges_bonus": 1,
+        "blocks_bonus": 2
+      }
+    ],
+    "techniques": [
+      {
+        "min_unarmed": 0,
+        "tec_flag": "RAPID",
+        "player_str": "%1$s quickly punch %4$s",
+        "2p_str": "%1$s quickly punches %4$s"
+      },
+      {
+        "min_unarmed": 0,
+        "tec_flag": "BLOCK",
+        "player_str": "%1$s block %4$s",
+        "2p_str": "%1$s blocks %4$s"
+      },
+      {
+        "min_unarmed": 0,
+        "tec_flag": "PRECISE",
+        "player_str": "%1$s karate chop %4$s",
+        "2p_str": "%1$s karate chops %4$s"
+      }
+    ]
+  },
+  {
+    "id": "style_test_karate",
+    "name": "SuperKarate",
+    "desc": "Karate is a popular martial art, originating from Japan. It focuses on rapid, precise attacks, blocks, and fluid movement. A successful hit allows you an extra dodge and two extra blocks on the following round.",
+    "static_buffs": [
+      {
+        "id": "karate_static_buff",
+        "name": "SuperKarate",
+        "desc": "uses 1000% INT to calculate to hit and damage",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 2,
+        "hit_int": 10,
+        "hit_dex": -1,
+        "bash_int": 10,
+        "bash_str": -1
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "karate_hit_buff",
+        "name": "SuperKarate Hit Buff",
+        "desc": "+1 dodges, +2 blocks",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 10,
+        "max_stacks": 10,
+        "dodges_bonus": 1,
+        "blocks_bonus": 2
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "karate_dodge_buff",
+        "name": "SuperKarate Attack Buff",
+        "desc": "+2 hit, +2 damage",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 2,
+        "hit": 2,
+        "bash": 2000
+      }
+    ],
+    "techniques": [
+      {
+        "min_unarmed": 0,
+        "tec_flag": "RAPID",
+        "player_str": "%1$s quickly punch %4$s",
+        "2p_str": "%1$s quickly punches %4$s"
+      },
+      {
+        "min_unarmed": 0,
+        "tec_flag": "BLOCK",
+        "player_str": "%1$s block %4$s",
+        "2p_str": "%1$s blocks %4$s"
+      },
+      {
+        "min_unarmed": 0,
+        "tec_flag": "PRECISE",
+        "player_str": "%1$s karate chop %4$s",
+        "2p_str": "%1$s karate chops %4$s"
+      }
+    ]
+  }
+
+]
+
