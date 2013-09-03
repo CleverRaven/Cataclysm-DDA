@@ -241,6 +241,11 @@ void initOptions() {
                                              false
                                             );
 
+    OPTIONS["MENU_SCROLL"] =            cOpt(mPage["interface"], _("Centered menu scrolling"),
+                                             _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
+                                             false
+                                            );
+
     OPTIONS["SORT_CRAFTING"] =          cOpt(mPage["interface"], _("Sort Crafting menu"),
                                              _("If true, the crafting menus will display recipes that you can craft before other recipes"),
                                              true
