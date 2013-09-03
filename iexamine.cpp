@@ -646,12 +646,12 @@ void iexamine::dirtmound(game *g, player *p, map *m, int examx, int examy) {
       // TODO: Allow choosing a type of seed
     }
 
-    m->set(examx, examy, t_dirt, f_plant_seed);
 
     itype_id seedType = seeds[seed_index]->typeId();
 
     std::list<item> planted = p->inv.use_charges(seedType, 1);
     m->spawn_item(examx, examy, seedType, g->turn, 1, 1);
+    m->set(examx, examy, t_dirt, f_plant_seed);
 
     p->moves -= 500;
   }
