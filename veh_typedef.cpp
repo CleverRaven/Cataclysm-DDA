@@ -121,7 +121,7 @@ void game::init_vehicles()
     catajson next_json = vehicles_json.curr();
 
     next_vehicle = new vehicle(this, (vhtype_id) index++);
-    next_vehicle->name = next_json.get("name").as_string();
+    next_vehicle->name = _(next_json.get("name").as_string());
     catajson parts_list = next_json.get("parts");
 
     for(parts_list.set_begin(); parts_list.has_curr() && json_good(); parts_list.next()) {
