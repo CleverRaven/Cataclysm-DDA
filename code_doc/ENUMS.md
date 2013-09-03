@@ -69,7 +69,6 @@ Format: File with definition : Name of enum
 * mtype.h : monster_trigger
 * mtype.h : m_flag
 * mtype.h : m_category
-* mutation.h : mutation_category
 * npc.h : npc_attitude
 * npc.h : npc_mission
 * npc.h : npc_class
