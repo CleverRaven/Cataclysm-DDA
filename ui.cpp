@@ -139,7 +139,7 @@ void uimenu::init() {
 
     scrollbar_auto = true;   // there is no force-on; true will only render scrollbar if entries > vertical height
     scrollbar_nopage_color = c_ltgray;    // color of '|' line for the entire area that isn't current page.
-    scrollbar_page_color = c_green_green; // color of the '|' line for whatever's the current page.
+    scrollbar_page_color = c_cyan_cyan; // color of the '|' line for whatever's the current page.
     scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
 
     last_fsize=-1;
@@ -426,11 +426,11 @@ void uimenu::apply_scrollbar()
             wattron(window, border_color);
             mvwaddch(window, estart, sbside, '^');
             wattroff(window, border_color);
-            wattron(window, c_ltgray);
+            wattron(window, scrollbar_nopage_color);
             for( int i = estart + 1; i < estart + vmax - 1; i++ ) {
                 mvwaddch(window, i, sbside, LINE_XOXO);
             }
-            wattroff(window, c_ltgray);
+            wattroff(window, scrollbar_page_color);
 
             wattron(window, border_color);
             mvwaddch(window, estart + vmax - 1, sbside, 'v');
@@ -440,13 +440,15 @@ void uimenu::apply_scrollbar()
             int svmax = vmax - 2;
             int sbstart = ( vshift * svmax ) / fentries.size();
             int sbend = ( (vshift + vmax) * svmax ) / fentries.size();
-
-            wattron(window, c_ltgreen_green);
+            if ( sbend <= sbstart ) {
+                sbend = sbstart + 1;
+            }
+            wattron(window, scrollbar_page_color);
 
             for ( int i = sbstart; i < sbend; i++ ) {
                 mvwaddch(window, i + estart + 1, sbside, LINE_XOXO);
             }
-            wattroff(window, c_ltgreen_green);
+            wattroff(window, scrollbar_page_color);
         } else {
             wattron(window, border_color);
             for( int i = estart; i < estart + vmax; i++ ) {
