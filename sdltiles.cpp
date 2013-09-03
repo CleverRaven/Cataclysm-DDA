@@ -8,8 +8,8 @@
 #include <vector>
 #include <fstream>
 #include <sys/stat.h>
-//#include "sdltiles.h"
 #include "cata_tiles.h"
+#include "get_version.h"
 
 #ifdef _MSC_VER
 #include "wdirent.h"
