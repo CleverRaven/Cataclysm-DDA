@@ -19,7 +19,7 @@ then
     # update cataclysm-dda.pot
     xgettext -d cataclysm-dda -F -c~ -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp *.h lang/json/*.py
 else
-    echo 'UPDATE FAILED'
+    echo 'UPDATE ABORTED'
     cd $oldpwd
     exit 1
 fi
