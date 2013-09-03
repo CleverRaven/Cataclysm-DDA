@@ -103,7 +103,8 @@ enum vpart_id
  * Other flags are self-explanatory in their names. */
 struct vpart_info
 {
-    std::string name;       // part name
+    std::string id;         // unique identifier for this part
+    std::string name;       // part name, user-visible
     long sym;               // symbol of part as if it's looking north
     nc_color color;         // color
     char sym_broken;        // symbol of broken part as if it's looking north

@@ -92,7 +92,6 @@ Format: File with definition : Name of enum
 * trap.h : trap_id
 * veh_interact.h : sel_types
 * veh_type : vpart_id
-* veh_type : vpart_flags
 * veh_type : vhtype_id
 * vehicle.cpp : vehicle_controls
 * vehicle.h : veh_coll_type

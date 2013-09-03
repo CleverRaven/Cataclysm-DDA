@@ -13,6 +13,7 @@
 * snippets.json      - flier/poster descriptions
 * traits.json        - traits/mutation visibility, does NOT include mutation effects
 * vehicle_parts.json - vehicle parts, does NOT affect flag effects
+* vehicles.json      - vehicle definitions
 
 ##raw/items
 * archery.json       - bows and arrows
@@ -183,6 +184,7 @@
 ```
 ###VEHICLE PARTS
 ```C++
+"id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
 "symbol": "0",                // ASCII character displayed when part is working
 "color": "dark_gray",         // Color used when part is working
@@ -203,6 +205,19 @@
 "flags": [                    // Flags associated with the part
      "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
 ]
+```
+###VEHICLES
+```C++
+"name": "Shopping Cart",                   // Displayed name
+"blueprint": "#",                          // Preview of vehicle - ignored by the code, so use only as documentation
+"parts": [                                 // Parts list
+    {"x": 0, "y": 0, "part": "box"},       // Part definition, positive x direction is to the left, positive y is to the right
+    {"x": 0, "y": 0, "part": "casters"}    // See vehicle_parts.json for part ids
+]
+                                           /* Important! Vehicle parts must be defined in the same order you would install
+                                            * them in the game (ie, frames and mount points first).
+                                            * You also cannot break the normal rules of installation
+                                            * (you can't stack non-stackable part flags). */
 ```
 #raw/items jsons
 
