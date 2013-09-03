@@ -387,6 +387,7 @@ struct it_gun : public itype
         unsigned short pvolume, unsigned int pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
         signed char pierce,
+        std::set<std::string> flags,
         std::set<std::string> effects,
 
 	const char *pskill_used, ammotype pammo, signed char pdmg_bonus, signed char prange,
@@ -405,6 +406,7 @@ struct it_gun : public itype
   clip = pclip;
   reload_time = preload_time;
   ammo_effects = effects;
+  item_tags = flags;
  }
 
  it_gun() :itype() { };
