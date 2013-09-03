@@ -6,6 +6,9 @@
 #include "itype.h"
 #include <string>
 
+/*
+  On altering any entries in this enum please add or remove the appropriate entry to the trap_names array in tile_id_data.h
+*/
 enum trap_id {
  tr_null,
  tr_bubblewrap,
