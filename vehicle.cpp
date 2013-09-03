@@ -588,6 +588,26 @@ bool vehicle::can_unmount (int p)
     return true;
 }
 
+/**
+ * This version of install_part is used -only- to create vehicles being read in
+ * from JSON at the start of the program.
+ * @param dx The x coordinate of where to install the part.
+ * @param dy The y coordinate of where to install the part.
+ * @param vpart_id The string ID of the part to install.
+ * @return false if the part could not be installed, true otherwise.
+ */
+bool vehicle::install_part (int dx, int dy, std::string vpart_info_id)
+{
+  //Just find the right enum constant and delegate to the existing install_part
+  for(int vpart_index = 0; vpart_index < num_vparts; vpart_index++) {
+    if(vpart_list[vpart_index].id == vpart_info_id) {
+      install_part(dx, dy, (vpart_id)vpart_index);
+      return true;
+    }
+  }
+  return false;
+}
+
 int vehicle::install_part (int dx, int dy, vpart_id id, int hp, bool force)
 {
     if (!force && !can_mount (dx, dy, id)) {

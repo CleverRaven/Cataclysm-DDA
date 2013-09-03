@@ -424,6 +424,8 @@ void game::start_game()
 
  //Create mutation_category_level
  u.set_highest_cat_level();
+ //Calc mutation drench protection stats
+ u.drench_mut_calc();
 
  MAPBUFFER.set_dirty();
 
@@ -4714,7 +4716,7 @@ void game::monmove()
 bool game::sound(int x, int y, int vol, std::string description)
 {
     // Scale the sound a little.
-    vol *= 1.5; 
+    vol *= 1.5;
 
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
@@ -6973,7 +6975,6 @@ void game::list_items()
     bool reset = true;
     bool refilter = true;
     int iFilter = 0;
-    bool bStopDrawing = false;
     int iPage = 0;
 
     do
@@ -7045,27 +7046,21 @@ void game::list_items()
                 reset = false;
             }
 
-            bStopDrawing = false;
-
             // we're switching on input here, whereas above it was if/else clauses on a char
             switch(input)
             {
                 case DirectionN:
                     iActive--;
-                    if (iActive < 0)
-                    {
-                        iActive = 0;
-                        iPage = 0;
-                        bStopDrawing = true;
+                    iPage = 0;
+                    if (iActive < 0) {
+                        iActive = iItemNum - iFilter - 1;
                     }
                     break;
                 case DirectionS:
                     iActive++;
                     iPage = 0;
-                    if (iActive >= iItemNum - iFilter)
-                    {
-                        iActive = iItemNum - iFilter-1;
-                        bStopDrawing = true;
+                    if (iActive >= iItemNum - iFilter) {
+                        iActive = 0;
                     }
                     break;
                 case DirectionE:
@@ -7082,133 +7077,130 @@ void game::list_items()
                     break;
             }
 
-            if (!bStopDrawing)
+            if (iItemNum - iFilter > iMaxRows)
             {
-                if (iItemNum - iFilter > iMaxRows)
+                iStartPos = iActive - (iMaxRows - 1) / 2;
+
+                if (iStartPos < 0)
                 {
-                    iStartPos = iActive - (iMaxRows - 1) / 2;
-
-                    if (iStartPos < 0)
-                    {
-                        iStartPos = 0;
-                    }
-                    else if (iStartPos + iMaxRows > iItemNum - iFilter)
-                    {
-                        iStartPos = iItemNum - iFilter - iMaxRows;
-                    }
+                    iStartPos = 0;
                 }
-
-                for (int i = 0; i < iMaxRows; i++)
+                else if (iStartPos + iMaxRows > iItemNum - iFilter)
                 {
-                    wmove(w_items, i + 1, 1);
-                    for (int i = 1; i < width - 1; i++)
-                        wprintz(w_items, c_black, " ");
+                    iStartPos = iItemNum - iFilter - iMaxRows;
                 }
-
-                int iNum = 0;
-                iFilter = ground_items.size() - filtered_items.size();
-                iActiveX = 0;
-                iActiveY = 0;
-                std::string sActiveItemName;
-                item activeItem;
-                std::stringstream sText;
-                bool high = true;
-                bool low = false;
-                int index = 0;
-                for (std::vector<map_item_stack>::iterator iter = filtered_items.begin() ;
-                     iter != filtered_items.end();
-                     ++iter,++index)
-                {
-                    if(index == highPEnd)
-                    {
-                        high = false;
-                    }
-                    if(index == lowPStart)
-                    {
-                        low = true;
-                    }
-                    if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) )
-                    {
-                        int iThisPage = 0;
-
-                        if (iNum == iActive) {
-                            iThisPage = iPage;
-
-                            iActiveX = iter->vIG[iThisPage].x;
-                            iActiveY = iter->vIG[iThisPage].y;
-
-                            sActiveItemName = iter->example.tname(this);
-                            activeItem = iter->example;
-                        }
-
-                        sText.str("");
-
-                        if (iter->vIG.size() > 1) {
-                            sText << "[" << iThisPage+1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
-                        }
-
-                        sText << iter->example.tname(this);
-
-                        if (iter->vIG[iThisPage].count > 1) {
-                            sText << " [" << iter->vIG[iThisPage].count << "]";
-                        }
-
-                        mvwprintz(w_items, 1 + iNum - iStartPos, 2,
-                                  ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
-                                  "%s", (sText.str()).c_str());
-                        int numw = iItemNum > 9 ? 2 : 1;
-                        mvwprintz(w_items, 1 + iNum - iStartPos, width - (5 + numw),
-                                  ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
-                                  direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
-                                 );
-                     }
-                     iNum++;
-                }
-
-                mvwprintz(w_items, 0, (width - 9) / 2 + ((iItemNum - iFilter > 9) ? 0 : 1),
-                          c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
-                wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
-
-                werase(w_item_info);
-                fold_and_print(w_item_info,1,1,width - 5, c_white, "%s", activeItem.info().c_str());
-
-                for (int j=0; j < iInfoHeight-1; j++)
-                {
-                    mvwputch(w_item_info_border, j, 0, c_ltgray, LINE_XOXO);
-                }
-
-                for (int j=0; j < iInfoHeight-1; j++)
-                {
-                    mvwputch(w_item_info_border, j, width - 1, c_ltgray, LINE_XOXO);
-                }
-
-                for (int j=0; j < width - 1; j++)
-                {
-                    mvwputch(w_item_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
-                }
-
-                mvwputch(w_item_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
-                mvwputch(w_item_info_border, iInfoHeight-1, width - 1, c_ltgray, LINE_XOOX);
-
-                //Only redraw trail/terrain if x/y position changed
-                if (iActiveX != iLastActiveX || iActiveY != iLastActiveY)
-                {
-                    iLastActiveX = iActiveX;
-                    iLastActiveY = iActiveY;
-
-                    if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
-                        u.view_offset_x = (abs(iActiveX) > VIEWX) ? ((iActiveX < 0) ? VIEWX+iActiveX : iActiveX-VIEWX) : 0;
-                        u.view_offset_y = (abs(iActiveY) > VIEWY) ? ((iActiveY < 0) ? VIEWY+iActiveY : iActiveY-VIEWY) : 0;
-                    }
-
-                    draw_trail_to_square(iActiveX, iActiveY);
-                }
-
-                wrefresh(w_items);
-                wrefresh(w_item_info_border);
-                wrefresh(w_item_info);
             }
+
+            for (int i = 0; i < iMaxRows; i++)
+            {
+                wmove(w_items, i + 1, 1);
+                for (int i = 1; i < width - 1; i++)
+                    wprintz(w_items, c_black, " ");
+            }
+
+            int iNum = 0;
+            iFilter = ground_items.size() - filtered_items.size();
+            iActiveX = 0;
+            iActiveY = 0;
+            std::string sActiveItemName;
+            item activeItem;
+            std::stringstream sText;
+            bool high = true;
+            bool low = false;
+            int index = 0;
+            for (std::vector<map_item_stack>::iterator iter = filtered_items.begin() ;
+                 iter != filtered_items.end();
+                 ++iter,++index)
+            {
+                if(index == highPEnd)
+                {
+                    high = false;
+                }
+                if(index == lowPStart)
+                {
+                    low = true;
+                }
+                if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) )
+                {
+                    int iThisPage = 0;
+
+                    if (iNum == iActive) {
+                        iThisPage = iPage;
+
+                        iActiveX = iter->vIG[iThisPage].x;
+                        iActiveY = iter->vIG[iThisPage].y;
+
+                        sActiveItemName = iter->example.tname(this);
+                        activeItem = iter->example;
+                    }
+
+                    sText.str("");
+
+                    if (iter->vIG.size() > 1) {
+                        sText << "[" << iThisPage+1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
+                    }
+
+                    sText << iter->example.tname(this);
+
+                    if (iter->vIG[iThisPage].count > 1) {
+                        sText << " [" << iter->vIG[iThisPage].count << "]";
+                    }
+
+                    mvwprintz(w_items, 1 + iNum - iStartPos, 2,
+                              ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
+                              "%s", (sText.str()).c_str());
+                    int numw = iItemNum > 9 ? 2 : 1;
+                    mvwprintz(w_items, 1 + iNum - iStartPos, width - (5 + numw),
+                              ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                              numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
+                              direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
+                             );
+                 }
+                 iNum++;
+            }
+
+            mvwprintz(w_items, 0, (width - 9) / 2 + ((iItemNum - iFilter > 9) ? 0 : 1),
+                      c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
+            wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
+
+            werase(w_item_info);
+            fold_and_print(w_item_info,1,1,width - 5, c_white, "%s", activeItem.info().c_str());
+
+            for (int j=0; j < iInfoHeight-1; j++)
+            {
+                mvwputch(w_item_info_border, j, 0, c_ltgray, LINE_XOXO);
+            }
+
+            for (int j=0; j < iInfoHeight-1; j++)
+            {
+                mvwputch(w_item_info_border, j, width - 1, c_ltgray, LINE_XOXO);
+            }
+
+            for (int j=0; j < width - 1; j++)
+            {
+                mvwputch(w_item_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
+            }
+
+            mvwputch(w_item_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
+            mvwputch(w_item_info_border, iInfoHeight-1, width - 1, c_ltgray, LINE_XOOX);
+
+            //Only redraw trail/terrain if x/y position changed
+            if (iActiveX != iLastActiveX || iActiveY != iLastActiveY)
+            {
+                iLastActiveX = iActiveX;
+                iLastActiveY = iActiveY;
+
+                if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
+                    u.view_offset_x = (abs(iActiveX) > VIEWX) ? ((iActiveX < 0) ? VIEWX+iActiveX : iActiveX-VIEWX) : 0;
+                    u.view_offset_y = (abs(iActiveY) > VIEWY) ? ((iActiveY < 0) ? VIEWY+iActiveY : iActiveY-VIEWY) : 0;
+                }
+
+                draw_trail_to_square(iActiveX, iActiveY);
+            }
+
+            wrefresh(w_items);
+            wrefresh(w_item_info_border);
+            wrefresh(w_item_info);
 
             refresh();
             ch = getch();

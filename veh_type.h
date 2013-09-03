@@ -8,6 +8,9 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
+/*
+  On altering any entries in this enum please add or remove the appropriate entry to the veh_part_names array in tile_id_data.h
+*/
 enum vpart_id
 {
     vp_null = 0,
@@ -95,7 +98,7 @@ enum vpart_id
     num_vparts
 };
 
-/* Flag info: 
+/* Flag info:
  * INTERNAL - Can be mounted inside other parts
  * ANCHOR_POINT - Allows secure seatbelt attachment
  * OVER - Can be mounted over other parts
@@ -103,7 +106,8 @@ enum vpart_id
  * Other flags are self-explanatory in their names. */
 struct vpart_info
 {
-    std::string name;       // part name
+    std::string id;         // unique identifier for this part
+    std::string name;       // part name, user-visible
     long sym;               // symbol of part as if it's looking north
     nc_color color;         // color
     char sym_broken;        // symbol of broken part as if it's looking north
