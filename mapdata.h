@@ -103,6 +103,9 @@ enum: ter_id
 Terrain id refers to a position in the terlist[] area describing, in the order of the enum, the terrain in question
 through the use of a ter_t struct.
 */
+/*
+  On altering any entries in this enum please add or remove the appropriate entry to the terrain_names array in tile_id_data.h
+*/
 enum ter_id {
 t_null = 0,
 t_hole,	// Real nothingness; makes you fall a z-level
@@ -569,6 +572,9 @@ struct furn_t {
  void (iexamine::*examine)(game *, player *, map *m, int examx, int examy);
 };
 
+/*
+  On altering any entries in this enum please add or remove the appropriate entry to the furn_names array in tile_id_data.h
+*/
 enum furn_id {
 f_null,
 f_hay,
