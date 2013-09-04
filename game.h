@@ -105,6 +105,7 @@ class game
   void unserialize(std::ifstream & fin); // for load
   void save();
   void delete_save();
+  void delete_world(std::string world, bool delete_folder);
   void write_memorial_file();
   void cleanup_at_end();
   bool do_turn();

@@ -20,6 +20,7 @@ void initOptions() {
     vPages.push_back(std::make_pair("general", _("General")));
     vPages.push_back(std::make_pair("interface", _("Interface")));
     vPages.push_back(std::make_pair("debug", _("Debug")));
+    vPages.push_back(std::make_pair("world_default", _("World Defaults")));
 
     OPTIONS.clear();
 
@@ -113,37 +114,37 @@ void initOptions() {
                                              "No,Watertight,All", "No"
                                             );
 
-    OPTIONS["SKILL_RUST"] =             cOpt("debug", _("Skill Rust"),
+    OPTIONS["SKILL_RUST"] =             cOpt("world_default", _("Skill Rust"),
                                              _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
                                              "Vanilla,Capped,Int,IntCap,Off", "Vanilla"
                                             );
 
-    OPTIONS["DELETE_WORLD"] =           cOpt("general", _("Delete World"),
+    OPTIONS["DELETE_WORLD"] =           cOpt("world_default", _("Delete World"),
                                              _("Delete world upon player death."),
                                              "No,Yes,Query", "No"
                                             );
 
-    OPTIONS["INITIAL_POINTS"] =         cOpt("debug", _("Initial points"),
+    OPTIONS["INITIAL_POINTS"] =         cOpt("world_default", _("Initial points"),
                                              _("Initial points available on character generation."),
                                              0, 25, 6
                                             );
 
-    OPTIONS["MAX_TRAIT_POINTS"] =       cOpt("debug", _("Maximum trait points"),
+    OPTIONS["MAX_TRAIT_POINTS"] =       cOpt("world_default", _("Maximum trait points"),
                                              _("Maximum trait points available for character generation."),
                                              0, 25, 12
                                             );
 
-    OPTIONS["SPAWN_DENSITY"] =          cOpt("general", _("Spawn rate scaling factor"),
+    OPTIONS["SPAWN_DENSITY"] =          cOpt("world_default", _("Spawn rate scaling factor"),
                                              _("A scaling factor that determines density of monster spawns."),
                                              0.0, 50.0, 1.0, 0.1
                                             );
 
-    OPTIONS["CITY_SIZE"] =              cOpt("general", _("Size of cities"),
+    OPTIONS["CITY_SIZE"] =              cOpt("world_default", _("Size of cities"),
                                              _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
                                              4, 16, 4
                                             );
 
-    OPTIONS["INITIAL_TIME"] =           cOpt("debug", _("Initial time"),
+    OPTIONS["INITIAL_TIME"] =           cOpt("world_default", _("Initial time"),
                                              _("Initial starting time of day on character generation."),
                                              0, 23, 8
                                             );
@@ -168,32 +169,32 @@ void initOptions() {
                                              1, 50, 1
                                             );
 
-    OPTIONS["STATIC_SPAWN"] =           cOpt("debug", _("Static spawn"),
+    OPTIONS["STATIC_SPAWN"] =           cOpt("world_default", _("Static spawn"),
                                              _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
                                              true
                                             );
 
-    OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("debug", _("Classic zombies"),
+    OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("world_default", _("Classic zombies"),
                                              _("Only spawn classic zombies and natural wildlife. Requires a reset of save folder to take effect. This disables certain buildings."),
                                              false
                                             );
 
-    OPTIONS["REVIVE_ZOMBIES"] =         cOpt("debug", _("Revive zombies"),
+    OPTIONS["REVIVE_ZOMBIES"] =         cOpt("world_default", _("Revive zombies"),
                                              _("Allow zombies to revive after a certain amount of time."),
                                              true
                                             );
 
-    OPTIONS["SEASON_LENGTH"] =          cOpt("debug", _("Season length"),
+    OPTIONS["SEASON_LENGTH"] =          cOpt("world_default", _("Season length"),
                                              _("Season length, in days."),
                                              14, 127, 14
                                             );
 
-    OPTIONS["STATIC_NPC"] =             cOpt("debug", _("Static npcs"),
+    OPTIONS["STATIC_NPC"] =             cOpt("world_default", _("Static npcs"),
                                              _("If true, the game will spawn static NPC at the start of the game, requires world reset."),
                                              false
                                             );
 
-    OPTIONS["RANDOM_NPC"] =             cOpt("debug", _("Random npcs"),
+    OPTIONS["RANDOM_NPC"] =             cOpt("world_default", _("Random npcs"),
                                              _("If true, the game will randomly spawn NPC during gameplay."),
                                              false
                                             );

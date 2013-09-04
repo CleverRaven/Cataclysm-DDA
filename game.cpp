@@ -3007,6 +3007,67 @@ void game::save()
  save_uistate();
 }
 
+void game::delete_world(std::string worldname, bool delete_folder)
+{
+    std::string wOption = "worldoptions.txt";
+    std::stringstream path;
+    path << "save/" << worldname;
+#if (defined _WIN32 || defined __WIN32__)
+    WIN32_FIND_DATA FindFileData;
+    HANDLE hFind;
+    TCHAR Buffer[MAX_PATH];
+    std::string file_tmp;
+
+    GetCurrentDirectory(MAX_PATH, Buffer);
+    SetCurrentDirectory(path.str().c_str());
+    hFind = FindFirstFile("*", &FindFileData);
+    if (INVALID_HANDLE_VALUE != hFind)
+    {
+        do
+        {
+            file_tmp = FindFileData.cFileName;
+            if (delete_folder || file_tmp != wOption.c_str())
+            {
+                DeleteFile(FindFileData.cFileName);
+            }
+        }while (FindNextFile(hFind, &FindFileData) != 0);
+        FindClose(hFind);
+    }
+    SetCurrentDirectory(Buffer);
+    if (delete_folder)
+    {
+        SetCurrentDirectory("save");
+        RemoveDirectory(worldname.c_str());
+    }
+    SetCurrentDirectory(Buffer);
+#else
+    DIR *save_dir = opendir(path.str().c_str());
+    struct dirent *save_dirent = NULL;
+    std::string file_tmp;
+    if (save_dir != NULL && 0 == chdir(path.str().c_str()))
+    {
+        while ((save_dirent = readdir(save_dir)) != NULL)
+        {
+            file_tmp = save_dirent->d_name;
+            if (delete_folder || file_tmp != wOption.c_str())
+            {
+                (void)unlink(save_dirent->d_name);
+            }
+        }
+        (void)chdir("..");
+        (void)closedir(save_dir);
+
+        if (delete_folder)
+        {
+            //save_dir = opendir("save");
+            remove(worldname.c_str());
+        }
+        (void)chdir("..");
+    }
+#endif
+
+}
+
 void game::delete_save()
 {
 #if (defined _WIN32 || defined __WIN32__)
