@@ -409,11 +409,16 @@ void uimenu::show() {
 
     int estart = textformatted.size() + 1;
 
-    if ( fselected < vshift ) {
-        vshift=fselected;
-    } else if ( fselected >= vshift + vmax ) {
-        vshift=1+fselected-vmax;
+    if (fentries.size() > vmax) {
+        vshift = fselected - (vmax - 1) / 2;
+
+        if (vshift < 0) {
+            vshift = 0;
+        } else if (vshift + vmax > fentries.size()) {
+            vshift = fentries.size() - vmax;
+        }
     }
+
     for ( int fei = vshift, si=0; si < vmax; fei++,si++ ) {
         if ( fei < fentries.size() ) {
             int ei=fentries [ fei ];
