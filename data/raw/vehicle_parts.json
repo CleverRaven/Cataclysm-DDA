@@ -1,5 +1,6 @@
 [
     {
+        "id": "null",
         "name": "null part",
         "symbol": "?",
         "color": "red",
@@ -11,6 +12,7 @@
         "flags": []
     },
     {
+        "id": "seat",
         "name": "seat",
         "symbol": "#",
         "color": "red",
@@ -18,6 +20,7 @@
         "broken_color": "red",
         "damage_modifier": 60,
         "durability": 300,
+        "size": 400,
         "item": "seat",
         "difficulty": 1,
         "flags": [
@@ -25,6 +28,7 @@
         ]
     },
     {
+        "id": "saddle",
         "name": "saddle",
         "symbol": "#",
         "color": "red",
@@ -39,6 +43,7 @@
         ]
     },
     {
+        "id": "bed",
         "name": "bed",
         "symbol": "#",
         "color": "magenta",
@@ -46,6 +51,7 @@
         "broken_color": "magenta",
         "damage_modifier": 60,
         "durability": 300,
+        "size": 400,
         "item": "seat",
         "difficulty": 1,
         "flags": [
@@ -53,6 +59,7 @@
         ]
     },
     {
+        "id": "frame_horizontal",
         "name": "frame",
         "symbol": "h",
         "color": "light_gray",
@@ -66,6 +73,7 @@
         ]
     },
     {
+        "id": "frame_vertical",
         "name": "frame",
         "symbol": "j",
         "color": "light_gray",
@@ -79,6 +87,7 @@
         ]
     },
     {
+        "id": "frame_cross",
         "name": "frame",
         "symbol": "c",
         "color": "light_gray",
@@ -92,6 +101,7 @@
         ]
     },
     {
+        "id": "frame_nw",
         "name": "frame",
         "symbol": "y",
         "color": "light_gray",
@@ -105,6 +115,7 @@
         ]
     },
     {
+        "id": "frame_ne",
         "name": "frame",
         "symbol": "u",
         "color": "light_gray",
@@ -118,6 +129,7 @@
         ]
     },
     {
+        "id": "frame_se",
         "name": "frame",
         "symbol": "n",
         "color": "light_gray",
@@ -131,6 +143,7 @@
         ]
     },
     {
+        "id": "frame_sw",
         "name": "frame",
         "symbol": "b",
         "color": "light_gray",
@@ -144,6 +157,7 @@
         ]
     },
     {
+        "id": "frame_horizontal_2",
         "name": "frame",
         "symbol": "=",
         "color": "light_gray",
@@ -157,6 +171,7 @@
         ]
     },
     {
+        "id": "frame_vertical_2",
         "name": "frame",
         "symbol": "H",
         "color": "light_gray",
@@ -170,6 +185,7 @@
         ]
     },
     {
+        "id": "frame_cover",
         "name": "frame",
         "symbol": "^",
         "color": "light_gray",
@@ -183,6 +199,7 @@
         ]
     },
     {
+        "id": "frame_handle",
         "name": "handle",
         "symbol": "^",
         "color": "light_cyan",
@@ -196,6 +213,7 @@
         ]
     },
     {
+        "id": "board_horizontal",
         "name": "board",
         "symbol": "h",
         "color": "light_gray",
@@ -209,6 +227,7 @@
         ]
     },
     {
+        "id": "board_vertical",
         "name": "board",
         "symbol": "j",
         "color": "light_gray",
@@ -222,6 +241,7 @@
         ]
     },
     {
+        "id": "board_nw",
         "name": "board",
         "symbol": "y",
         "color": "light_gray",
@@ -235,6 +255,7 @@
         ]
     },
     {
+        "id": "board_ne",
         "name": "board",
         "symbol": "u",
         "color": "light_gray",
@@ -248,6 +269,7 @@
         ]
     },
     {
+        "id": "board_se",
         "name": "board",
         "symbol": "n",
         "color": "light_gray",
@@ -261,6 +283,7 @@
         ]
     },
     {
+        "id": "board_sw",
         "name": "board",
         "symbol": "b",
         "color": "light_gray",
@@ -274,6 +297,7 @@
         ]
     },
     {
+        "id": "aisle_horizontal",
         "name": "aisle",
         "symbol": "=",
         "color": "white",
@@ -287,6 +311,7 @@
         ]
     },
     {
+        "id": "aisle_vertical",
         "name": "aisle",
         "symbol": "H",
         "color": "white",
@@ -300,12 +325,14 @@
         ]
     },
     {
+        "id": "trunk_floor",
         "name": "floor trunk",
         "symbol": "=",
         "color": "white",
         "broken_symbol": "#",
         "broken_color": "light_gray",
         "durability": 400,
+        "size": 400,
         "item": "frame",
         "difficulty": 1,
         "flags": [
@@ -313,6 +340,7 @@
         ]
     },
     {
+        "id": "roof",
         "name": "roof",
         "symbol": "#",
         "color": "light_gray",
@@ -326,6 +354,7 @@
         ]
     },
     {
+        "id": "door",
         "name": "door",
         "symbol": "+",
         "color": "cyan",
@@ -340,6 +369,7 @@
         ]
     },
     {
+        "id": "door_opaque",
         "name": "opaque door",
         "symbol": "+",
         "color": "cyan",
@@ -354,6 +384,7 @@
         ]
     },
     {
+        "id": "door_internal",
         "name": "internal door",
         "symbol": "+",
         "color": "cyan",
@@ -368,6 +399,7 @@
         ]
     },
     {
+        "id": "windshield",
         "name": "windshield",
         "symbol": "\"",
         "color": "light_cyan",
@@ -382,6 +414,7 @@
         ]
     },
     {
+        "id": "blade_horizontal",
         "name": "blade",
         "symbol": "-",
         "color": "white",
@@ -396,12 +429,13 @@
         ]
     },
     {
+        "id": "blade_vertical",
         "name": "blade",
         "symbol": "|",
         "color": "white",
         "broken_symbol": "x",
         "broken_color": "white",
-        "damage_modifier": 350,
+        "damage_modifier": 250,
         "durability": 100,
         "item": "blade",
         "difficulty": 2,
@@ -410,6 +444,7 @@
         ]
     },
     {
+        "id": "spike",
         "name": "spike",
         "symbol": ".",
         "color": "white",
@@ -424,6 +459,7 @@
         ]
     },
     {
+        "id": "wheel",
         "name": "wheel",
         "symbol": "0",
         "color": "dark_gray",
@@ -439,6 +475,7 @@
         ]
     },
     {
+        "id": "wheel_wide",
         "name": "wide wheel",
         "symbol": "O",
         "color": "dark_gray",
@@ -454,6 +491,7 @@
         ]
     },
     {
+        "id": "wheel_underbody",
         "name": "wide wheel (underbody)",
         "symbol": "H",
         "color": "dark_gray",
@@ -469,6 +507,7 @@
         ]
     },
     {
+        "id": "wheel_bicycle",
         "name": "bicycle wheel",
         "symbol": "|",
         "color": "dark_gray",
@@ -484,6 +523,7 @@
         ]
     },
     {
+        "id": "wheel_motorbike",
         "name": "motorbike wheel",
         "symbol": "o",
         "color": "dark_gray",
@@ -499,6 +539,7 @@
         ]
     },
     {
+        "id": "wheel_small",
         "name": "small wheel",
         "symbol": "o",
         "color": "dark_gray",
@@ -514,6 +555,7 @@
         ]
     },
     {
+        "id": "wheel_caster",
         "name": "casters",
         "symbol": "o",
         "color": "dark_gray",
@@ -529,6 +571,7 @@
         ]
     },
     {
+        "id": "engine_1cyl",
         "name": "1-cylinder engine",
         "symbol": "*",
         "color": "light_red",
@@ -545,6 +588,7 @@
         ]
     },
     {
+        "id": "engine_vtwin",
         "name": "V-twin engine",
         "symbol": "*",
         "color": "light_red",
@@ -561,6 +605,7 @@
         ]
     },
     {
+        "id": "engine_inline4",
         "name": "Inline-4 engine",
         "symbol": "*", "color": "light_red",
         "broken_symbol": "#",
@@ -576,6 +621,7 @@
         ]
     },
     {
+        "id": "engine_v6",
         "name": "V6 engine",
         "symbol": "*",
         "color": "light_red",
@@ -592,6 +638,7 @@
         ]
     },
     {
+        "id": "engine_v8",
         "name": "V8 engine",
         "symbol": "*",
         "color": "light_red",
@@ -608,6 +655,7 @@
         ]
     },
     {
+        "id": "engine_electric",
         "name": "electric motor",
         "symbol": "*",
         "color": "yellow",
@@ -624,6 +672,7 @@
         ]
     },
     {
+        "id": "engine_electric_large",
         "name": "large electric motor",
         "symbol": "*",
         "color": "yellow",
@@ -640,6 +689,7 @@
         ]
     },
     {
+        "id": "engine_plasma",
         "name": "plasma engine",
         "symbol": "*",
         "color": "light_blue",
@@ -656,6 +706,7 @@
         ]
     },
     {
+        "id": "foot_pedals",
         "name": "Foot pedals",
         "symbol": "*",
         "color": "light_gray",
@@ -672,6 +723,7 @@
         ]
     },
     {
+        "id": "gas_tank",
         "name": "gasoline tank",
         "symbol": "O",
         "color": "light_red",
@@ -688,6 +740,7 @@
         ]
     },
     {
+        "id": "storage_battery",
         "name": "storage battery",
         "symbol": "O",
         "color": "yellow",
@@ -704,6 +757,7 @@
         ]
     },
     {
+        "id": "minireactor",
         "name": "minireactor",
         "symbol": "O",
         "color": "light_green",
@@ -720,6 +774,7 @@
         ]
     },
     {
+        "id": "hydrogen_tank",
         "name": "hydrogen tank",
         "symbol": "O",
         "color": "light_blue",
@@ -736,6 +791,7 @@
         ]
     },
     {
+        "id": "water_tank",
         "name": "water tank",
         "symbol": "O",
         "color": "light_cyan",
@@ -752,6 +808,7 @@
         ]
     },
     {
+        "id": "trunk",
         "name": "trunk",
         "symbol": "H",
         "color": "brown",
@@ -767,6 +824,7 @@
         ]
     },
     {
+        "id": "box",
         "name": "box",
         "symbol": "o",
         "color": "brown",
@@ -782,6 +840,7 @@
         ]
     },
     {
+        "id": "controls",
         "name": "controls",
         "symbol": "$",
         "color": "light_gray",
@@ -796,6 +855,7 @@
         ]
     },
     {
+        "id": "muffler",
         "name": "muffler",
         "symbol": "/",
         "color": "light_gray",
@@ -811,6 +871,7 @@
         ]
     },
     {
+        "id": "seatbelt",
         "name": "seatbelt",
         "symbol": ",",
         "color": "light_gray",
@@ -826,6 +887,7 @@
         ]
     },
     {
+        "id": "solar_panel",
         "name": "solar panel",
         "symbol": "#",
         "color": "yellow",
@@ -841,6 +903,7 @@
         ]
     },
     {
+        "id": "kitchen_unit",
         "name": "kitchen unit",
         "symbol": "&",
         "color": "light_cyan",
@@ -848,6 +911,7 @@
         "broken_color": "light_cyan",
         "damage_modifier": 10,
         "durability": 20,
+        "size": 400,
         "item": "kitchen_unit",
         "difficulty": 4,
         "flags": [
@@ -855,6 +919,7 @@
         ]
     },
     {
+        "id": "welding_rig",
         "name": "welding rig",
         "symbol": "&",
         "color": "light_red",
@@ -862,6 +927,7 @@
         "broken_color": "light_red",
         "damage_modifier": 10,
         "durability": 20,
+        "size": 400,
         "item": "weldrig",
         "difficulty": 4,
         "flags": [
@@ -869,6 +935,7 @@
         ]
     },
     {
+        "id": "m249",
         "name": "mounted M249",
         "symbol": "t",
         "color": "cyan",
@@ -884,6 +951,7 @@
         ]
     },
     {
+        "id": "flamethrower",
         "name": "mounted flamethrower",
         "symbol": "t",
         "color": "dark_gray",
@@ -899,6 +967,7 @@
         ]
     },
     {
+        "id": "plasma_gun",
         "name": "mounted plasma gun",
         "symbol": "t",
         "color": "light_blue",
@@ -914,6 +983,7 @@
         ]
     },
     {
+        "id": "fusion_gun",
         "name": "mounted fusion gun",
         "symbol": "t",
         "color": "magenta",
@@ -929,6 +999,7 @@
         ]
     },
     {
+        "id": "plating_steel",
         "name": "steel plating",
         "symbol": ")",
         "color": "light_cyan",
@@ -942,6 +1013,7 @@
         ]
     },
     {
+        "id": "plating_superalloy",
         "name": "superalloy plating",
         "symbol": ")",
         "color": "dark_gray",
@@ -955,6 +1027,7 @@
         ]
     },
     {
+        "id": "plating_spiked",
         "name": "spiked plating",
         "symbol": ")",
         "color": "red",
@@ -969,6 +1042,7 @@
         ]
     },
     {
+        "id": "plating_hard",
         "name": "hard plating",
         "symbol": ")",
         "color": "cyan",
@@ -982,6 +1056,7 @@
         ]
     },
     {
+        "id": "headlight",
         "name": "head light",
         "symbol": "*",
         "color": "white",

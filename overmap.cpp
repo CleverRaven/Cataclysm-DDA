@@ -2044,21 +2044,29 @@ void overmap::place_forest()
  int fory;
  int fors;
  for (int i = 0; i < NUM_FOREST; i++) {
-// forx and fory determine the epicenter of the forest
+  // forx and fory determine the epicenter of the forest
   forx = rng(0, OMAPX - 1);
   fory = rng(0, OMAPY - 1);
 // fors determinds its basic size
   fors = rng(15, 40);
+  int outer_tries = 1000;
+  int inner_tries = 1000;
   for (int j = 0; j < cities.size(); j++) {
-   while (dist(forx,fory,cities[j].x,cities[j].y) - fors / 2 < cities[j].s ) {
-// Set forx and fory far enough from cities
-    forx = rng(0, OMAPX - 1);
-    fory = rng(0, OMAPY - 1);
-// Set fors to determine the size of the forest; usually won't overlap w/ cities
-    fors = rng(15, 40);
-    j = 0;
-   }
+      inner_tries = 1000;
+      while (dist(forx,fory,cities[j].x,cities[j].y) - fors / 2 < cities[j].s ) {
+          // Set forx and fory far enough from cities
+          forx = rng(0, OMAPX - 1);
+          fory = rng(0, OMAPY - 1);
+          // Set fors to determine the size of the forest; usually won't overlap w/ cities
+          fors = rng(15, 40);
+          j = 0;
+          if( 0 == --inner_tries ) { break; }
+      }
+      if( 0 == --outer_tries || 0 == inner_tries ) {
+          break;
+      }
   }
+  if( 0 == outer_tries || 0 == inner_tries ) { break; }
   int swamps = SWAMPINESS;	// How big the swamp may be...
   x = forx;
   y = fory;
@@ -2187,14 +2195,18 @@ spawns happen at... <cue Clue music>
 20:56	<kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
- int NUM_CITIES = dice(3, 4);
+ int NUM_CITIES = dice(4, 4);
  int cx, cy, cs;
  int start_dir;
+ int city_min = OPTIONS["CITY_SIZE"] - 1;
+ int city_max = OPTIONS["CITY_SIZE"] + 1;
+ // Limit number of cities based on how big they are.
+ NUM_CITIES = std::min(NUM_CITIES, int(256 / OPTIONS["CITY_SIZE"] * OPTIONS["CITY_SIZE"]));
 
  while (cities.size() < NUM_CITIES) {
   cx = rng(12, OMAPX - 12);
   cy = rng(12, OMAPY - 12);
-  cs = dice(3, 4) ;
+  cs = dice(city_min, city_max) ;
   if (ter(cx, cy, 0) == ot_field) {
    ter(cx, cy, 0) = ot_road_nesw;
    city tmp; tmp.x = cx; tmp.y = cy; tmp.s = cs;
@@ -2741,29 +2753,25 @@ void overmap::building_on_hiway(int x, int y, int dir)
 
 void overmap::place_hiways(std::vector<city> cities, int z, oter_id base)
 {
- if (cities.size() == 1)
-  return;
- city best;
- int closest = -1;
- int distance;
- bool maderoad = false;
- for (int i = 0; i < cities.size(); i++) {
-  maderoad = false;
-  closest = -1;
-  for (int j = i + 1; j < cities.size(); j++) {
-   distance = dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
-   if (distance < closest || closest < 0) {
-    closest = distance;
-    best = cities[j];
-   }
-   if (distance < TOP_HIWAY_DIST) {
-    maderoad = true;
-    make_hiway(cities[i].x, cities[i].y, cities[j].x, cities[j].y, z, base);
-   }
-  }
-  if (!maderoad && closest > 0)
-   make_hiway(cities[i].x, cities[i].y, best.x, best.y, z, base);
- }
+    if (cities.size() == 1) {
+        return;
+    }
+    city best;
+    int closest = -1;
+    int distance;
+    for (int i = 0; i < cities.size(); i++) {
+        closest = -1;
+        for (int j = i + 1; j < cities.size(); j++) {
+            distance = dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
+            if (distance < closest || closest < 0) {
+                closest = distance;
+                best = cities[j];
+            }
+        }
+        if( closest > 0 ) {
+            make_hiway(cities[i].x, cities[i].y, best.x, best.y, z, base);
+        }
+    }
 }
 
 // Polish does both good_roads and good_rivers (and any future polishing) in
@@ -3446,12 +3454,25 @@ void overmap::save()
  fout.open(plrfilename.c_str());
  for (int z = 0; z < OVERMAP_LAYERS; ++z) {
   fout << "L " << z << std::endl;
+  int count = 0;
+  int lastvis = -1;
   for (int j = 0; j < OMAPY; j++) {
    for (int i = 0; i < OMAPX; i++) {
-    fout << ((layer[z].visible[i][j]) ? "1" : "0");
+    int v = (layer[z].visible[i][j] ? 1 : 0);
+    if (v != lastvis) {
+     if (count) {
+      fout << count << " ";
+     }
+     lastvis = v;
+     fout << v << " ";
+     count = 1;
+    } else {
+     count++;
+    }
    }
-   fout << std::endl;
   }
+  fout << count; 
+  fout << std::endl;
 
   for (int i = 0; i < layer[z].notes.size(); i++) {
    fout << "N " << layer[z].notes[i].x << " " << layer[z].notes[i].y << " " << layer[z].notes[i].num <<
@@ -3464,12 +3485,25 @@ void overmap::save()
  fout.open(terfilename.c_str(), std::ios_base::trunc);
  for (int z = 0; z < OVERMAP_LAYERS; ++z) {
   fout << "L " << z << std::endl;
+  int count = 0;
+  int last_tertype = -1;
   for (int j = 0; j < OMAPY; j++) {
    for (int i = 0; i < OMAPX; i++) {
-    fout << int(layer[z].terrain[i][j]) << " ";
+    int t = int(layer[z].terrain[i][j]);
+    if (t != last_tertype) {
+     if (count) {
+      fout << count << " ";
+     }
+     last_tertype = t;
+     fout << t << " ";
+     count = 1;
+    } else {
+     count++;
+    }
    }
-   fout << std::endl;
   }
+  fout << count;
+  fout << std::endl;
  }
 
  for (int i = 0; i < zg.size(); i++)
@@ -3517,13 +3551,18 @@ void overmap::open(game *g)
     int tmp_ter;
 
     if (z >= 0 && z < OVERMAP_LAYERS) {
+     int count = 0;
      for (int j = 0; j < OMAPY; j++) {
       for (int i = 0; i < OMAPX; i++) {
-       fin >> tmp_ter;
+       if (count == 0) {
+        fin >> tmp_ter >> count;
+        if (tmp_ter < 0 || tmp_ter > num_ter_types) {
+         debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), tmp_ter);
+        }
+       }
+       count--;
        layer[z].terrain[i][j] = oter_id(tmp_ter);
        layer[z].visible[i][j] = false;
-       if (layer[z].terrain[i][j] < 0 || layer[z].terrain[i][j] > num_ter_types)
-        debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), layer[z].terrain[i][j]);
       }
      }
     } else {
@@ -3606,11 +3645,16 @@ void overmap::open(game *g)
      std::string dataline;
      getline(fin, dataline); // Chomp endl
 
-     for (int j = 0; j < OMAPY; j++) {
-      getline(fin, dataline);
-      if (z >= 0 && z < OVERMAP_LAYERS) {
+     int count = 0;
+     int vis;
+     if (z >= 0 && z < OVERMAP_LAYERS) {
+      for (int j = 0; j < OMAPY; j++) {
        for (int i = 0; i < OMAPX; i++) {
-       	layer[z].visible[i][j] = (dataline[i] == '1');
+        if (count == 0) {
+         fin >> vis >> count;
+        }
+        count--;
+       	layer[z].visible[i][j] = (vis == 1);
        }
       }
      }

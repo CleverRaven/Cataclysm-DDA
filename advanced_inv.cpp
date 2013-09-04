@@ -724,27 +724,6 @@ void advanced_inventory::display(game * gp, player * pp) {
             werase(head);
             {
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
-                if( checkshowmsg || showmsg ) {
-#ifdef game_friend
-                  for (int i = messages.size() - 1; i >= 0 && line < 4; i--) {
-                    std::string mes = messages[i].message;
-                    if (messages[i].count > 1) {
-                      std::stringstream mesSS;
-                      mesSS << mes << " x " << messages[i].count;
-                      mes = mesSS.str();
-                    }
-                    nc_color col = c_dkgray;
-                    if (int(messages[i].turn) >= curmes) {
-                       col = c_ltred;
-                       showmsg=true;
-                    } else {
-                       col = c_ltgray;
-                    }
-                    if ( showmsg ) mvwprintz(head, line, 2, col, mes.c_str());
-                    line++;
-                  }
-#endif
-                }
                 if ( ! showmsg ) {
                   mvwprintz(head,0,w_width-18,c_white,_("< [?] show log >"));
                   mvwprintz(head,1,2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes,"));

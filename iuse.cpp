@@ -58,21 +58,10 @@ static bool use_fire(game *g, player *p, item *it)
     return true;
 }
 
-// Returns false if the inscription failed or if the player canceled the action. Otherwise, returns true.
-static bool inscribe_item( game *g, player *p, std::string verb, std::string gerund, bool carveable )
+static bool item_inscription( game *g, player *p, item *cut, std::string verb, std::string gerund,
+                              bool carveable)
 {
-    //Note: this part still strongly relies on English grammar.
-    //Although it can be easily worked around in language like Chinese,
-    //but might need to be reworked for some European languages that have more verb forms
-    char ch = g->inv(string_format(_("%s on what?"), verb.c_str()));
-    item* cut = &(p->i_at(ch));
-    if (cut->type->id == "null")
-    {
-        g->add_msg(_("You do not have that item!"));
-        return false;
-    }
-    if (!cut->made_of(SOLID))
-    {
+    if (!cut->made_of(SOLID)) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
         g->add_msg(_("You can't %s an item that's not solid!"), lower_verb.c_str());
@@ -84,9 +73,9 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
         std::string mat = cut->get_material(1);
-        material_type* mt = material_type::find_material(mat);
+        material_type *mt = material_type::find_material(mat);
         std::string mtname = "null";
-        if(mt!=NULL) {
+        if(mt != NULL) {
             mtname = mt->name();
         }
         std::transform(mtname.begin(), mtname.end(), mtname.begin(), ::tolower);
@@ -100,11 +89,11 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
     bool hasnote = (ent != cut->item_vars.end());
     std::string message = "";
     std::string messageprefix = string_format( hasnote ? _("(To delete, input one '.')\n") : "" ) +
-        string_format(_("%1$s on this %2$s is a note saying: "), gerund.c_str(), cut->type->name.c_str() );
+                                string_format(_("%1$s on this %2$s is a note saying: "), gerund.c_str(), cut->type->name.c_str() );
     message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
-        (hasnote ? cut->item_vars["item_note"] : message ),
-        messageprefix, "inscribe_item", 128
-    );
+                                 (hasnote ? cut->item_vars["item_note"] : message ),
+                                 messageprefix, "inscribe_item", 128
+                                );
 
     if( message.size() > 0 ) {
         if ( hasnote && message == "." ) {
@@ -117,6 +106,22 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
         }
     }
     return true;
+}
+
+// Returns false if the inscription failed or if the player canceled the action. Otherwise, returns true.
+
+static bool inscribe_item( game *g, player *p, std::string verb, std::string gerund, bool carveable )
+{
+        //Note: this part still strongly relies on English grammar.
+        //Although it can be easily worked around in language like Chinese,
+        //but might need to be reworked for some European languages that have more verb forms
+    char ch = g->inv(string_format(_("%s on what?"), verb.c_str()));
+    item* cut = &(p->i_at(ch));
+    if (cut->type->id == "null") {
+        g->add_msg(_("You do not have that item!"));
+        return false;
+    }
+    return item_inscription( g, p, cut, verb, gerund, carveable );
 }
 
 void iuse::none(game *g, player *p, item *it, bool t)
@@ -1146,70 +1151,64 @@ void iuse::extra_battery(game *g, player *p, item *it, bool t)
     it->invlet = 0;
 }
 
-void iuse::scissors(game *g, player *p, item *it, bool t)
+bool iuse::valid_fabric(game *g, player *p, item *it, bool t)
 {
-    char ch = g->inv(_("Chop up what?"));
-    item* cut = &(p->i_at(ch));
-    if (cut->type->id == "null")
-    {
-        g->add_msg_if_player(p,_("You do not have that item!"));
-        return;
+    if (it->type->id == "null") {
+        g->add_msg_if_player(p, _("You do not have that item!"));
+        return false;
     }
-    if (cut->type->id == "string_6" || cut->type->id == "string_36" || cut->type->id == "rope_30" || cut->type->id == "rope_6")
-    {
+    if (it->type->id == "string_6" || it->type->id == "string_36" || it->type->id == "rope_30" ||
+        it->type->id == "rope_6") {
         g->add_msg(_("You cannot cut that, you must disassemble it using the disassemble key"));
-        return;
+        return false;
     }
-    if (cut->type->id == "rag" || cut->type->id == "rag_bloody" || cut->type->id == "leather")
-    {
-        g->add_msg_if_player(p, _("There's no point in cutting a %s."), cut->type->name.c_str());
-        return;
+    if (it->type->id == "rag" || it->type->id == "rag_bloody" || it->type->id == "leather") {
+        g->add_msg_if_player(p, _("There's no point in cutting a %s."), it->type->name.c_str());
+        return false;
     }
-    if (!cut->made_of("cotton") && !cut->made_of("leather"))
-    {
+    if (!it->made_of("cotton") && !it->made_of("leather")) {
         g->add_msg(_("You can only slice items made of cotton or leather."));
-        return;
+        return false;
     }
 
+    return true;
+}
+
+void iuse::cut_up(game *g, player *p, item *it, item *cut, bool t)
+{
     p->moves -= 25 * cut->volume();
     int count = cut->volume();
-    if (p->skillLevel("tailor") == 0)
-    {
+    if (p->skillLevel("tailor") == 0) {
         count = rng(0, count);
-    }
-    else if (p->skillLevel("tailor") == 1 && count >= 2)
-    {
+    } else if (p->skillLevel("tailor") == 1 && count >= 2) {
         count -= rng(0, 2);
     }
 
-    if (dice(3, 3) > p->dex_cur)
-    {
+    if (dice(3, 3) > p->dex_cur) {
         count -= rng(1, 3);
     }
 
-    if (cut->damage>2 || cut->damage<0)
-    {
-        count-= cut->damage;
+    if (cut->damage > 2 || cut->damage < 0) {
+        count -= cut->damage;
     }
 
     //scrap_text is result string of worthless scraps
     //sliced_text is result on a success
     std::string scrap_text, sliced_text, type;
-    if (cut->made_of("cotton"))
-    {
+    if (cut->made_of("cotton")) {
         scrap_text = _("You clumsily cut the %s into useless ribbons.");
         sliced_text = ngettext("You slice the %s into a rag.", "You slice the %1$s into %2$d rags.", count);
         type = "rag";
-    }
-    else
-    {
+    } else {
         scrap_text = _("You clumsily cut the %s into useless scraps.");
-        sliced_text = ngettext("You slice the %s into a piece of leather.", "You slice the %1$s into %2$d pieces of leather.", count);
+        sliced_text = ngettext("You slice the %s into a piece of leather.",
+                               "You slice the %1$s into %2$d pieces of leather.", count);
         type = "leather";
     }
 
-    if (count <= 0)
-    {
+    char ch = cut->invlet;
+
+    if (count <= 0) {
         g->add_msg_if_player(p, scrap_text.c_str(), cut->tname().c_str());
         p->i_rem(ch);
         return;
@@ -1218,23 +1217,35 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     item result(g->itypes[type], int(g->turn), g->nextinv);
     p->i_rem(ch);
     bool drop = false;
-    for (int i = 0; i < count; i++)
-    {
+    for (int i = 0; i < count; i++) {
         int iter = 0;
-        while (p->has_item(result.invlet) && iter < inv_chars.size())
-        {
+        while (p->has_item(result.invlet) && iter < inv_chars.size()) {
             result.invlet = g->nextinv;
             g->advance_nextinv();
             iter++;
         }
-        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity())) {
             drop = true;
-        if (drop)
+        }
+        if (drop) {
             g->m.add_item_or_charges(p->posx, p->posy, result);
-        else
+        } else {
             p->i_add(result, g);
+        }
     }
     return;
+}
+
+void iuse::scissors(game *g, player *p, item *it, bool t)
+{
+    char ch = g->inv(_("Chop up what?"));
+    item *cut = &(p->i_at(ch));
+
+    if (!valid_fabric(g, p, cut, t)) {
+        return;
+    }
+
+    return cut_up(g, p, it, cut, t);
 }
 
 void iuse::extinguisher(game *g, player *p, item *it, bool t)
@@ -1444,9 +1455,14 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
     if (it->charges == 0)
         g->add_msg_if_player(p,_("You need batteries to cauterize wounds."));
 
-    else if (!p->has_disease("bite") && !p->has_disease("bleed"))
-        g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
-
+    else if (!p->has_disease("bite") && !p->has_disease("bleed")) {
+        if (p->has_trait("MASOCHIST") && query_yn(_("Cauterize yourself for fun?"))) {
+            it->charges -= 1;
+            p->cauterize(g);
+        } 
+        else
+            g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
+    }
     else if (p->is_npc() || query_yn(_("Cauterize any open wounds?")))
     {
         it->charges -= 1;
@@ -1457,8 +1473,17 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 void iuse::solder_weld(game *g, player *p, item *it, bool t)
 {
     it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
-    int choice = menu(true,
-    _("Using soldering item:"), _("Cauterize wound"), _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
+    int choice = 2;
+    
+        // Option for cauterization only if player has the incentive to do so
+        // One does not check for open wounds with a soldering iron.
+    if (p->has_disease("bite") || p->has_disease("bleed")) {
+        choice = menu(true, ("Using soldering item:"), _("Cauterize wound"), _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
+    }
+    else if (p->has_trait("MASOCHIST")) {   // Masochists might be wounded too, let's not ask twice.
+        choice = menu(true, ("Using soldering item:"), _("Cauterize yourself for fun"), _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
+    }
+    
     switch (choice)
     {
         case 1:
@@ -3836,160 +3861,148 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
-    int choice = menu(true,
-                      _("Using knife:"), _("Cut up fabric"), _("Cut up plastic/kevlar"), _("Carve wood"), _("Cauterize"), _("Carve writing on item"), _("Cancel"), NULL);
-    switch (choice)
-    {
-        if (choice == 5)
-        break;
-        case 1:
-        {
-            iuse::scissors(g, p, it, t);
+    int choice = 0;
+    int cauterize = 2;
+    int carve_writing = 3;
+    int cancel = 4;
+
+    if ((p->has_disease("bite") || p->has_disease("bleed"))) {
+        choice = menu(true, _("Using knife:"), _("Cut up fabric/plastic/kevlar/wood"), _("Cauterize"),
+                      _("Carve writing on item"), _("Cancel"), NULL);
+    }
+
+    if (choice == cauterize) {
+        if ( !p->use_charges_if_avail("fire", 4) ) {
+            g->add_msg_if_player(p, _("You need a lighter with 4 charges before you can cauterize yourself."));
+            return;
         }
-        break;
-        case 2:
-        {
-           char ch = g->inv(_("Chop up what?"));
-           item* cut = &(p->i_at(ch));
-           int amount = 0;
-           if (cut->type->id == "null")
-            {
-                g->add_msg(_("You do not have that item!"));
+        p->cauterize(g);
+        return;
+    }
+
+    if (&(p->weapon) == it && choice == 0) {
+        choice = menu(true, _("Using knife:"), _("Cut up fabric/plastic/kevlar/wood"),
+                      _("Carve writing on item"), _("Cancel"), NULL);
+        carve_writing = 2;
+        cancel = 3;
+    }
+
+    // cancel before item selection
+    if (choice == cancel) {
+        return;
+    }
+
+    char ch;
+    // finally select item from related inventory
+    if ( choice == carve_writing ) {
+        ch = g->inv(_("Carve writing on what?"));
+    } else {
+        ch = g->inv(_("Chop up what?"));
+    }
+
+    item *cut = &(p->i_at(ch));
+
+    if (cut->type->id == "null") {
+        g->add_msg(_("You do not have that item!"));
+        return;
+    }
+
+    // item wielded or worn, ask to cut or carve
+    if ( choice != carve_writing && p->has_weapon_or_armor(cut->invlet) ) {
+        choice = menu(true, _("Using knife on worn equipment:"), _("Cut up fabric/plastic/kevlar/wood"),
+                      _("Carve writing on item"), _("Cancel"), NULL);
+        carve_writing = 2;
+        cancel = 3;
+    }
+
+    // cancel accidentally cutting up worn/wielded equipment
+    if (choice == cancel) {
+        return;
+    }
+
+    if (choice == carve_writing) {
+        item_inscription( g, p, cut, _("Carve"), _("Carved"), true );
+        return;
+    }
+
+    // let's handle the rest
+    int amount = cut->volume();
+    if(amount == 0) {
+        g->add_msg(_("This object is too small to salvage a meaningful quantity of anything from!"));
+        return;
+    }
+
+    std::string verb = "cut";
+    std::string found_mat = "plastic";
+
+    item *result = NULL;
+    int count = amount;
+
+    if ((cut->made_of("cotton") || cut->made_of("leather")) ) {
+        if (valid_fabric(g, p, cut, t)) {
+            cut_up(g, p, it, cut, t);
+        }
+        return;
+    } else if( cut->made_of(found_mat.c_str()) ||
+               cut->made_of((found_mat = "kevlar").c_str())) { // TODO : extract a function
+        //if we're going to cut up a bottle, make sure it isn't full of liquid
+        //applies also to all of them kevlar bottles.
+
+        if(cut->is_container()) {
+            if(cut->is_food_container()) {
+                g->add_msg(_("That container has liquid in it!"));
                 return;
             }
-            if(cut->made_of("plastic"))
-            {
-                //if we're going to cut up a bottle, make sure it isn't full of liquid
-                amount = cut->volume();
-                if(cut->is_container())
-                {
-                    if(cut->is_food_container())
-                    {
-                        g->add_msg(_("That container has liquid in it!"));
-                        break;
-                    }
-                }
-                if(amount == 0)
-                {
-                    g->add_msg(_("This object is too small to salvage a meaningful quantity of plastic from!"));
-                    break;
-                }
-
-
-                g->add_msg(ngettext("You cut the %1$s into one %2$i chunk.","You cut the %1$s into %2$i plastic chunks.", amount), cut->tname().c_str(), amount);
-                int count = amount;
-                item result(g->itypes["plastic_chunk"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
-                bool drop = false;
-                for (int i = 0; i < count; i++)
-                {
-                    int iter = 0;
-                    while (p->has_item(result.invlet) && iter < inv_chars.size())
-                    {
-                        result.invlet = g->nextinv;
-                        g->advance_nextinv();
-                        iter++;
-                    }
-                    if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-                    drop = true;
-                    if (drop)
-                    g->m.add_item_or_charges(p->posx, p->posy, result);
-                    else
-                    p->i_add(result);
-                }
-            }
-            else if(cut->made_of("kevlar"))
-            {
-                amount = cut->volume();
-                if(amount == 0)
-                {
-                    g->add_msg(_("This object is too small to salvage a meaningful quantity of kevlar from!"));
-                    break;
-                }
-
-                g->add_msg(ngettext("You cut the %1$s into one %2$i chunk.","You cut the %1$s into %2$i plastic chunks.", amount), cut->tname().c_str(), amount);
-                int count = amount;
-                item result(g->itypes["kevlar_plate"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
-                bool drop = false;
-                for (int i = 0; i < count; i++)
-                {
-                    int iter = 0;
-                    while (p->has_item(result.invlet) && iter < inv_chars.size())
-                    {
-                        result.invlet = g->nextinv;
-                        g->advance_nextinv();
-                        iter++;
-                    }
-                    if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-                    drop = true;
-                    if (drop)
-                    g->m.add_item_or_charges(p->posx, p->posy, result);
-                    else
-                    p->i_add(result);
-                }
-            }
-            else
-            {
-                g->add_msg(_("You can't carve that up!"));
-            }
         }
-        break;
-        case 3:
-        {
-            char ch = g->inv(_("Chop up what?"));
-            item* cut = &(p->i_at(ch));
-            if (cut->type->id == "null")
-            {
-                g->add_msg(_("You do not have that item!"));
-                return;
-            }
-            if (cut->type->id == "stick" || cut->type->id == "2x4")
-            {
-                g->add_msg(_("You carve several skewers from the %s."), cut->tname().c_str());
-                int count = 12;
-                item skewer(g->itypes["skewer"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
-                bool drop = false;
-                for (int i = 0; i < count; i++)
-                {
-                    int iter = 0;
-                    while (p->has_item(skewer.invlet) && iter < inv_chars.size())
-                    {
-                        skewer.invlet = g->nextinv;
-                        g->advance_nextinv();
-                        iter++;
-                    }
-                    if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-                    drop = true;
-                    if (drop)
-                    g->m.add_item_or_charges(p->posx, p->posy, skewer);
-                    else
-                    p->i_add(skewer);
-                }
-            }
-            else
-            {
-                g->add_msg(_("You can't carve that up!"));
-            }
+
+        if ( found_mat == "plastic" ) {
+            result = new item(g->itypes["plastic_chunk"], int(g->turn), g->nextinv);
+        } else {
+            result = new item(g->itypes["kevlar_plate"], int(g->turn), g->nextinv);
         }
-        break;
-        case 4:
-        {
-            if (!p->has_disease("bite") && !p->has_disease("bleed"))
-                g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
-            else if (!p->use_charges_if_avail("fire", 4))
-                g->add_msg_if_player(p,_("You need a lighter with 4 charges before you can cauterize yourself."));
-            else
-                p->cauterize(g);
-            break;
+
+    } else if (cut->made_of("wood")) {
+        verb = "carve";
+        count = 2 * amount; // twice the volume, i.e. 12 skewers from 2x4 and heavy stick just as before.
+        result = new item(g->itypes["skewer"], int(g->turn), g->nextinv);
+    } else { // TODO: add the rest of the materials, gold and what not.
+        g->add_msg(_("Material of this item is not applicable for cutting up."));
+        return;
+    }
+    // check again
+    if ( result == NULL ) {
+        return;
+    }
+    if ( cut->typeId() == result->typeId() ) {
+        g->add_msg(_("There's no point in cutting a %s."), cut->tname().c_str());
+        return;
+    }
+
+    g->add_msg(ngettext("You %4$s the %1$s into %2$i %3$s.", "You %4$s the %1$s into %2$i %3$ss.",
+                        count), cut->tname().c_str(), count, result->tname().c_str(), verb.c_str());
+    // otherwise layout the goodies.
+    p->i_rem(ch);
+    bool drop = false;
+    for (int i = 0; i < count; i++) {
+        int iter = 0;
+        while (p->has_item(result->invlet) && iter < inv_chars.size()) {
+            result->invlet = g->nextinv;
+            g->advance_nextinv();
+            iter++;
         }
-        case 5:
-        {
-            inscribe_item( g, p, _("Carve"), _("Carved"), true );
-            break;
+        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity())) {
+            drop = true;
+        }
+        if (drop) {
+            g->m.add_item_or_charges(p->posx, p->posy, *result);
+        } else {
+            p->i_add(*result);
         }
     }
+
+    // hear this helps with objects in dynamically allocated memory and
+    // their abandonment issues.
+    delete result;
 }
 
 void iuse::cut_log_into_planks(game *g, player *p, item *it)

@@ -13,12 +13,12 @@ class cOpt
         //Default constructor
         cOpt() {
             sType = "VOID";
-            iPage = -1;
+            sPage = "";
         };
 
         //string constructor
-        cOpt(const int iPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const std::string sItemsIn, std::string sDefaultIn) {
-            iPage = iPageIn;
+        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const std::string sItemsIn, std::string sDefaultIn) {
+            sPage = sPageIn;
             sMenuText = sMenuTextIn;
             sTooltip = sTooltipIn;
             sType = "string";
@@ -38,8 +38,8 @@ class cOpt
         };
 
         //bool constructor
-        cOpt(const int iPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const bool bDefaultIn) {
-            iPage = iPageIn;
+        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const bool bDefaultIn) {
+            sPage = sPageIn;
             sMenuText = sMenuTextIn;
             sTooltip = sTooltipIn;
             sType = "bool";
@@ -49,8 +49,8 @@ class cOpt
         };
 
         //int constructor
-        cOpt(const int iPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const int iMinIn, int iMaxIn, int iDefaultIn) {
-            iPage = iPageIn;
+        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const int iMinIn, int iMaxIn, int iDefaultIn) {
+            sPage = sPageIn;
             sMenuText = sMenuTextIn;
             sTooltip = sTooltipIn;
             sType = "int";
@@ -71,9 +71,9 @@ class cOpt
         };
 
         //float constructor
-        cOpt(const int iPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
              const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn) {
-            iPage = iPageIn;
+            sPage = sPageIn;
             sMenuText = sMenuTextIn;
             sTooltip = sTooltipIn;
             sType = "float";
@@ -98,8 +98,8 @@ class cOpt
         ~cOpt() {};
 
         //helper functions
-        int getPage() {
-            return iPage;
+        std::string getPage() {
+            return sPage;
         };
 
         std::string getMenuText() {
@@ -289,7 +289,7 @@ class cOpt
         };
 
     private:
-        int iPage;
+        std::string sPage;
         std::string sMenuText;
         std::string sTooltip;
         std::string sType;

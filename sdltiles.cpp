@@ -8,8 +8,8 @@
 #include <vector>
 #include <fstream>
 #include <sys/stat.h>
-//#include "sdltiles.h"
 #include "cata_tiles.h"
+#include "get_version.h"
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -103,7 +103,8 @@ bool WinCreate()
 
 	atexit(SDL_Quit);
 
-	SDL_WM_SetCaption("Cataclysm: Dark Days Ahead - 0.6git", NULL);
+    std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
+    SDL_WM_SetCaption(version.c_str(), NULL);
 
     char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
     SDL_putenv(center_string);
@@ -330,7 +331,7 @@ void curses_drawwindow(WINDOW *win)
     };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
 
-    if (g && win == g->w_terrain)
+    if (g && win == g->w_terrain && use_tiles)
     {
         update_rect.y = win->y*fontheight;
 		update_rect.h = win->height*fontheight;

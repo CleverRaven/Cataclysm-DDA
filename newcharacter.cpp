@@ -13,6 +13,7 @@
 #endif
 #include <fstream>
 #include <sstream>
+#include <vector>
 
 // Colors used in this file: (Most else defaults to c_ltgray)
 #define COL_STAT_ACT		c_ltred    // Selected stat
@@ -489,14 +490,16 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
             }
             mvwprintz(w, 6, 33, COL_STAT_ACT, _("Melee to-hit bonus: +%d"),
                       u->base_to_hit(false));
-            mvwprintz(w, 7, 33, COL_STAT_ACT, _("Ranged penalty: -%d"),
-                      abs(u->ranged_dex_mod(false)));
             if (u->throw_dex_mod(false) <= 0) {
-                mvwprintz(w, 8, 33, COL_STAT_ACT, _("Throwing bonus: +%d"),
+                mvwprintz(w, 7, 33, COL_STAT_ACT, _("Throwing bonus: +%d"),
                           abs(u->throw_dex_mod(false)));
             } else {
-                mvwprintz(w, 8, 33, COL_STAT_ACT, _("Throwing penalty: -%d"),
+                mvwprintz(w, 7, 33, COL_STAT_ACT, _("Throwing penalty: -%d"),
                           abs(u->throw_dex_mod(false)));
+            }
+            if (u->ranged_dex_mod(false) != 0) {
+                mvwprintz(w, 8, 33, COL_STAT_ACT, _("Ranged penalty: -%d"),
+                    abs(u->ranged_dex_mod(false)));
             }
             fold_and_print(w, 10, 33, 45, COL_STAT_ACT, _("Dexterity also enhances many actions which require finesse."));
             break;
@@ -520,8 +523,12 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
             if (u->per_max >= HIGH_STAT) {
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Per further costs 2 points."));
             }
+            if (u->ranged_per_mod(false) != 0) {
                 mvwprintz(w, 6, 33, COL_STAT_ACT, _("Ranged penalty: -%d"),
-                      abs(u->ranged_per_mod(false)));
+                    abs(u->ranged_per_mod(false)));
+            }
+
+
             fold_and_print(w, 8, 33, 45, COL_STAT_ACT, _("Perception is also used for detecting traps and other things of interest."));
             break;
         }
@@ -810,6 +817,20 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
     return 1;
 }
 
+inline bool profession_display_sort(const profession *a, const profession *b)
+{
+    // The generic ("Unemployed") profession should be listed first.
+    const profession *gen = profession::generic();
+    if (b == gen) {
+        return false;
+    } else if (a == gen) {
+        return true;
+    }
+
+    return a->name() < b->name();
+}
+
+
 int set_profession(WINDOW* w, game* g, player *u, character_type type, int &points)
 {
     draw_tabs(w, "PROFESSION");
@@ -820,12 +841,18 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
     int retval = 0;
 
     //may as well stick that +1 on for convenience
-    profession const** sorted_profs = new profession const*[profession::count()+1];
+    //std::vector<profession const *> sorted_profs;
+    std::vector<const profession *> sorted_profs;
+    sorted_profs.resize(profession::count() + 1);
+    //profession const** sorted_profs = new profession const*[profession::count()+1];
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter)
     {
         profession const* prof = &(iter->second);
         sorted_profs[prof->id()] = prof;
     }
+    
+    // Sort professions by name, but leave Unemployed at the top.
+    std::sort(sorted_profs.begin() + 1, sorted_profs.end(), profession_display_sort);
 
     do
     {
@@ -893,14 +920,16 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         {
             case 'j':
             case '2':
-                if (cur_id < profession::count())
                 cur_id++;
+                if (cur_id > profession::count())
+                    cur_id = 1;
             break;
 
             case 'k':
             case '8':
-                if (cur_id > 1)
                 cur_id--;
+                if (cur_id < 1)
+                    cur_id = profession::count();
             break;
 
             case '\n':
@@ -919,8 +948,12 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         }
     } while (retval == 0);
 
-    delete[] sorted_profs;
     return retval;
+}
+
+inline bool skill_display_sort(const Skill *a, const Skill *b)
+{
+    return a->name() < b->name();
 }
 
 int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
@@ -929,8 +962,11 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
 
  WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 
- int cur_sk = 0;
- Skill *currentSkill = Skill::skill(cur_sk);
+ std::vector<Skill *> sorted_skills = Skill::skills;
+ std::sort(sorted_skills.begin(), sorted_skills.end(), skill_display_sort);
+ const int num_skills = Skill::skills.size();
+ int cur_pos = 0;
+ Skill *currentSkill = sorted_skills[cur_pos];
 
  do {
   mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
@@ -945,53 +981,53 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
              currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
   fold_and_print(w_description, 0, 0, 78, COL_SKILL_USED, currentSkill->description().c_str());
 
-  if (cur_sk <= 7) {
+  if (cur_pos <= 7) {
    for (int i = 0; i < 17; i++) {
-     Skill *thisSkill = Skill::skill(i);
+    Skill *thisSkill = sorted_skills[i];
 
     mvwprintz(w, 5 + i, 2, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 5 + i, 2, (i == cur_sk ? h_ltgray : c_ltgray),
+     mvwprintz(w, 5 + i, 2, (i == cur_pos ? h_ltgray : c_ltgray),
                thisSkill->name().c_str());
     } else {
      mvwprintz(w, 5 + i, 2,
-               (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
+               (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                "%s ", thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
-      wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
+      wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
    }
-  } else if (cur_sk >= Skill::skills.size() - 9) {
-   for (int i = Skill::skills.size() - 16; i < Skill::skills.size(); i++) {
-     Skill *thisSkill = Skill::skill(i);
-    mvwprintz(w, 21 + i - Skill::skills.size(), 2, c_ltgray, "\
+  } else if (cur_pos >= num_skills - 9) {
+   for (int i = num_skills - 16; i < num_skills; i++) {
+    Skill *thisSkill = sorted_skills[i];
+    mvwprintz(w, 21 + i - num_skills, 2, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 21 + i - Skill::skills.size(), 2,
-               (i == cur_sk ? h_ltgray : c_ltgray), thisSkill->name().c_str());
+     mvwprintz(w, 21 + i - num_skills, 2,
+               (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
     } else {
-     mvwprintz(w, 21 + i - Skill::skills.size(), 2,
-               (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
+     mvwprintz(w, 21 + i - num_skills, 2,
+               (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
                thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
-      wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
+      wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
    }
   } else {
-   for (int i = cur_sk - 7; i < cur_sk + 9; i++) {
-     Skill *thisSkill = Skill::skill(i);
-    mvwprintz(w, 12 + i - cur_sk, 2, c_ltgray, "\
+   for (int i = cur_pos - 7; i < cur_pos + 9; i++) {
+    Skill *thisSkill = sorted_skills[i];
+    mvwprintz(w, 12 + i - cur_pos, 2, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 12 + i - cur_sk, 2, (i == cur_sk ? h_ltgray : c_ltgray),
+     mvwprintz(w, 12 + i - cur_pos, 2, (i == cur_pos ? h_ltgray : c_ltgray),
                thisSkill->name().c_str());
     } else {
-     mvwprintz(w, 12 + i - cur_sk, 2,
-               (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
+     mvwprintz(w, 12 + i - cur_pos, 2,
+               (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                "%s ", thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
-      wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
+      wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
    }
   }
@@ -1001,15 +1037,17 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
   switch (input()) {
     case 'j':
     case '2':
-     if (cur_sk < Skill::skills.size() - 1)
-      cur_sk++;
-    currentSkill = Skill::skill(cur_sk);
+     cur_pos++;
+     if (cur_pos >= num_skills)
+      cur_pos = 0;
+     currentSkill = sorted_skills[cur_pos];
     break;
     case 'k':
     case '8':
-    if (cur_sk > 0)
-     cur_sk--;
-    currentSkill = Skill::skill(cur_sk);
+     cur_pos--;
+     if (cur_pos < 0)
+      cur_pos = num_skills - 1;
+     currentSkill = sorted_skills[cur_pos];
     break;
     case 'h':
     case '4':

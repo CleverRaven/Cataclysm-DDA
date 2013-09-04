@@ -377,15 +377,15 @@ void player::activate_bionic(int b, game *g)
  } else if(bio.id == "bio_blaster"){
   tmp_item = weapon;
   weapon = item(g->itypes["bio_blaster_gun"], 0);
-  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["bio_fusion_ammo"]);
+  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["generic_no_ammo"]);
   weapon.charges = 1;
   g->refresh_all();
   g->plfire(false);
   weapon = tmp_item;
  } else if (bio.id == "bio_laser"){
   tmp_item = weapon;
-  weapon = item(g->itypes["v29"], 0);
-  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["laser_pack"]);
+  weapon = item(g->itypes["bio_laser_gun"], 0);
+  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["generic_no_ammo"]);
   weapon.charges = 1;
   g->refresh_all();
   g->plfire(false);
@@ -479,8 +479,8 @@ void player::activate_bionic(int b, game *g)
  } else if(bio.id == "bio_chain_lightning"){
   tmp_item = weapon;
   weapon = item(g->itypes["bio_lightning"], 0);
-  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["bio_lightning_ammo"]);
-  weapon.charges = 10;
+  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["generic_no_ammo"]);
+  weapon.charges = 1;
   g->refresh_all();
   g->plfire(false);
   weapon = tmp_item;

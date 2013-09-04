@@ -42,6 +42,9 @@ struct field_t {
  int move_cost[3];
 };
 
+/*
+  On altering any entries in this enum please add or remove the appropriate entry to the field_names array in tile_id_data.h
+*/
 //The master list of id's for a field, corresponding to the fieldlist array.
 enum field_id {
  fd_null = 0,
@@ -68,6 +71,8 @@ enum field_id {
  fd_push_items,
  fd_shock_vent,
  fd_acid_vent,
+ fd_plasma,
+ fd_laser,
  num_fields
 };
 

@@ -14,9 +14,12 @@ class map;
 class player;
 class game;
 
+//collision factor for vehicle-vehicle collision; delta_v in mph
+float get_collision_factor(float delta_v);
+
 #define num_fuel_types 5
 extern const ammotype fuel_types[num_fuel_types];
-#define k_mvel 200
+#define k_mvel 200 //adjust this to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
 // 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
@@ -195,6 +198,9 @@ public:
 // check if certain external part can be unmounted
     bool can_unmount (int p);
 
+// install a new part to a vehicle - initialization only
+    bool install_part (int dx, int dy, std::string vpart_info_id);
+
 // install a new part to vehicle (force to skip possibility check)
     int install_part (int dx, int dy, vpart_id id, int hp = -1, bool force = false);
 
@@ -277,6 +283,9 @@ public:
 
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
+
+// get center of mass of vehicle; coordinates are precalc_dx[0] and precalc_dy[0]
+	void center_of_mass(int &x, int &y);
 
 // Get combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted

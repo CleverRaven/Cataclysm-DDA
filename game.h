@@ -44,6 +44,8 @@ extern game *g;
 
 #define PICKUP_RANGE 2
 extern bool trigdist;
+extern bool use_tiles;
+
 enum tut_type {
  TUT_NULL,
  TUT_BASIC, TUT_COMBAT,
@@ -99,6 +101,8 @@ class game
   bool game_quit(); // True if we actually quit the game - used in main.cpp
   bool game_error();
   quit_status uquit;    // used in main.cpp to determine what type of quit
+  void serialize(std::ofstream & fout); // for save
+  void unserialize(std::ifstream & fin); // for load
   void save();
   void delete_save();
   void write_memorial_file();
@@ -149,10 +153,10 @@ class game
   int  npc_by_id(const int id) const;	// Index of the npc at (x, y); -1 for none
  // void build_monmap();		// Caches data for mon_at()
 
-  void add_zombie(monster& m);
+  bool add_zombie(monster& m);
   size_t num_zombies() const;
   monster& zombie(const int idx);
-  void update_zombie_pos(const monster &m, const int newx, const int newy);
+  bool update_zombie_pos(const monster &m, const int newx, const int newy);
   void remove_zombie(const int idx);
   void clear_zombies();
 
@@ -360,6 +364,7 @@ void load_artifacts(); // Load artifact data
   bool load_master();	// Load the master data file, with factions &c
   bool load_master_from(std::string worldname);
   void load_weather(std::ifstream &fin);
+  void load_weather(std::string line);
   void load(std::string name);	// Load a player-specific save file
   void load_from(std::string worldname, std::string name);
   void start_game();	// Starts a new game
@@ -503,6 +508,7 @@ void load_artifacts(); // Load artifact data
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(mon_id type, int x, int y, int z);// Picks a group from cur_om
   void set_adjacent_overmaps(bool from_scratch = false);
+  void rebuild_mon_at_cache();
 
 // Routine loop functions, approximately in order of execution
   void cleanup_dead();     // Delete any dead NPCs/monsters

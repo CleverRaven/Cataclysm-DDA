@@ -143,11 +143,19 @@ player::player()
   temp_conv[i] = BODYTEMP_NORM;
  }
  nv_cached = false;
- drench_cached = false;
  volume = 0;
 
  memorial_log.clear();
- 
+
+ mDrenchEffect[bp_eyes] = 1;
+ mDrenchEffect[bp_mouth] = 1;
+ mDrenchEffect[bp_head] = 7;
+ mDrenchEffect[bp_legs] = 21;
+ mDrenchEffect[bp_feet] = 6;
+ mDrenchEffect[bp_arms] = 19;
+ mDrenchEffect[bp_hands] = 5;
+ mDrenchEffect[bp_torso] = 40;
+
  recalc_sight_limits();
 }
 
@@ -182,13 +190,14 @@ player& player::operator= (const player & rhs)
  name = rhs.name;
  male = rhs.male;
  prof = rhs.prof;
- 
+
  sight_max = rhs.sight_max;
  sight_boost = rhs.sight_boost;
  sight_boost_cap = rhs.sight_boost_cap;
 
  my_traits = rhs.my_traits;
  my_mutations = rhs.my_mutations;
+ mutation_category_level = rhs.mutation_category_level;
 
  my_bionics = rhs.my_bionics;
 
@@ -268,7 +277,6 @@ player& player::operator= (const player & rhs)
  addictions = rhs.addictions;
 
  nv_cached = false;
- drench_cached = false;
 
  return (*this);
 }
@@ -399,7 +407,7 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
  }
 
  nv_cached = false;
- 
+
  recalc_sight_limits();
 }
 
@@ -1298,6 +1306,7 @@ void player::load_info(game *g, std::string data)
  }
 
  set_highest_cat_level();
+ drench_mut_calc();
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
@@ -1783,6 +1792,13 @@ std::string player::dump_memorial()
 
 }
 
+inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
+{
+    int levelA = a.second;
+    int levelB = b.second;
+    return levelA > levelB || (levelA == levelB && a.first->name() < b.first->name());
+}
+
 void player::disp_info(game *g)
 {
  int line;
@@ -2152,27 +2168,16 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  const char *title_SKILLS = _("SKILLS");
  mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
 
- // sort skills by level
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-      aSkill != Skill::skills.end(); ++aSkill)
- {
-  SkillLevel level = skillLevel(*aSkill);
-  if (level < 0)
-   continue;
-  bool foundplace = false;
-  for (std::vector<Skill*>::iterator i = skillslist.begin();
-      i != skillslist.end(); ++i)
-  {
-   SkillLevel thislevel = skillLevel(*i);
-   if (thislevel < level)
-   {
-    skillslist.insert(i, *aSkill);
-    foundplace = true;
-    break;
-   }
-  }
-  if (!foundplace)
-   skillslist.push_back(*aSkill);
+ std::vector<std::pair<Skill *, int> > sorted;
+ int num_skills = Skill::skills.size();
+ for (int i = 0; i < num_skills; i++) {
+     Skill *s = Skill::skills[i];
+     SkillLevel &sl = skillLevel(s);
+     sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
+ }
+ std::sort(sorted.begin(), sorted.end(), skill_display_sort);
+ for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin(); i != sorted.end(); i++) {
+     skillslist.push_back((*i).first);
  }
 
  for (std::vector<Skill*>::iterator aSkill = skillslist.begin();
@@ -4855,114 +4860,18 @@ void player::drench(game *g, int saturation, int flags) {
         return;
     }
 
-    if (!drench_cached) {
-        int ignored = 0;
-        int neutral = 0;
-        int good = 0;
-
-        drench_mut_check(ignored, neutral, good, mfb(bp_eyes));
-        calculate_portions(good, neutral, ignored, 1);
-        eyes_ignored = ignored;
-        eyes_neutral = neutral;
-        eyes_good = good;
-
-        drench_mut_check(ignored, neutral, good, mfb(bp_mouth));
-        calculate_portions(good, neutral, ignored, 1);
-        mouth_ignored = ignored;
-        mouth_neutral = neutral;
-        mouth_good = good;
-
-        drench_mut_check(ignored, neutral, good, mfb(bp_head));
-        calculate_portions(good, neutral, ignored, 7);
-        head_ignored = ignored;
-        head_neutral = neutral;
-        head_good = good;
-
-        drench_mut_check(ignored, neutral, good, mfb(bp_legs));
-        calculate_portions(good, neutral, ignored, 21);
-        legs_ignored = ignored;
-        legs_neutral = neutral;
-        legs_good = good;
-
-        drench_mut_check(ignored, neutral, good, mfb(bp_feet));
-        calculate_portions(good, neutral, ignored, 6);
-        feet_ignored = ignored;
-        feet_neutral = neutral;
-        feet_good = good;
-
-        drench_mut_check(ignored, neutral, good, mfb(bp_arms));
-        calculate_portions(good, neutral, ignored, 19);
-        arms_ignored = ignored;
-        arms_neutral = neutral;
-        arms_good = good;
-
-        drench_mut_check(ignored, neutral, good, mfb(bp_hands));
-        calculate_portions(good, neutral, ignored, 5);
-        hands_ignored = ignored;
-        hands_neutral = neutral;
-        hands_good = good;
-
-        drench_mut_check(ignored, neutral, good, mfb(bp_torso));
-        calculate_portions(good, neutral, ignored, 40);
-        torso_ignored = ignored;
-        torso_neutral = neutral;
-        torso_good = good;
-
-        drench_cached = true;
-    }
-
     int effected = 0;
     int tot_ignored = 0; //Always ignored
     int tot_neut = 0; //Ignored for good wet bonus
     int tot_good = 0; //Increase good wet bonus
 
-    if (mfb(bp_eyes) & flags) {
-        effected += 1;
-        tot_good += eyes_good;
-        tot_neut += eyes_neutral;
-        tot_ignored += eyes_ignored;
-    }
-    if (mfb(bp_mouth) & flags) {
-        effected += 1;
-        tot_good += mouth_good;
-        tot_neut += mouth_neutral;
-        tot_ignored += mouth_ignored;
-    }
-    if (mfb(bp_head) & flags) {
-        effected += 7;
-        tot_good += head_good;
-        tot_neut += head_neutral;
-        tot_ignored += head_ignored;
-    }
-    if (mfb(bp_legs) & flags) {
-        effected += 21;
-        tot_good += legs_good;
-        tot_neut += legs_neutral;
-        tot_ignored += legs_ignored;
-    }
-    if (mfb(bp_feet) & flags) {
-        effected += 6;
-        tot_good += feet_good;
-        tot_neut += feet_neutral;
-        tot_ignored += feet_ignored;
-    }
-    if (mfb(bp_arms) & flags) {
-        effected += 19;
-        tot_good += arms_good;
-        tot_neut += arms_neutral;
-        tot_ignored += arms_ignored;
-    }
-    if (mfb(bp_hands) & flags) {
-        effected += 5;
-        tot_good += hands_good;
-        tot_neut += hands_neutral;
-        tot_ignored += hands_ignored;
-    }
-    if (mfb(bp_torso) & flags) {
-        effected += 40;
-        tot_good += torso_good;
-        tot_neut += torso_neutral;
-        tot_ignored += torso_ignored;
+    for (std::map<int, int>::iterator iter = mDrenchEffect.begin(); iter != mDrenchEffect.end(); ++iter) {
+        if (mfb(iter->first) & flags) {
+            effected += iter->second;
+            tot_ignored += mMutDrench[iter->first]["ignored"];
+            tot_neut += mMutDrench[iter->first]["neutral"];
+            tot_good += mMutDrench[iter->first]["good"];
+        }
     }
 
     if (effected == 0) {
@@ -5021,19 +4930,29 @@ void player::drench(game *g, int saturation, int flags) {
     add_morale(MORALE_WET, morale_effect, morale_cap, dur, d_start);
 }
 
-void player::drench_mut_check(int &ignored, int &neutral, int &good, unsigned long bpart)
+void player::drench_mut_calc()
 {
-    ignored = 0;
-    neutral = 0;
-    good = 0;
-    for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-        for (int i = 0; i < g->mutation_data[*iter].protection.size(); i++) {
-            if (g->mutation_data[*iter].protection[i].first == bpart) {
-                ignored += g->mutation_data[*iter].protection[i].second.x;
-                neutral += g->mutation_data[*iter].protection[i].second.y;
-                good += g->mutation_data[*iter].protection[i].second.z;
+    mMutDrench.clear();
+    int ignored, neutral, good;
+
+    for (std::map<int, int>::iterator it = mDrenchEffect.begin(); it != mDrenchEffect.end(); ++it) {
+        ignored = 0;
+        neutral = 0;
+        good = 0;
+
+        for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+            for (int i = 0; i < g->mutation_data[*iter].protection.size(); i++) {
+                if (g->mutation_data[*iter].protection[i].first == it->first) {
+                    ignored += g->mutation_data[*iter].protection[i].second.x;
+                    neutral += g->mutation_data[*iter].protection[i].second.y;
+                    good += g->mutation_data[*iter].protection[i].second.z;
+                }
             }
         }
+
+        mMutDrench[it->first]["good"] = good;
+        mMutDrench[it->first]["neutral"] = neutral;
+        mMutDrench[it->first]["ignored"] = ignored;
     }
 }
 
@@ -7641,17 +7560,17 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     if (replace_item)
      inv.add_item_keep_invlet(copy);
     return;
-   } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" || mod->id == "masterkey" 
+   } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" || mod->id == "masterkey"
             || mod->id == "u_shotgun" || mod->id == "bayonet" || mod->id == "gun_crossbow") &&
-              (gun->contents[i].type->id == "pipe_launcher40mm" || gun->contents[i].type->id == "m203" 
-            || gun->contents[i].type->id == "masterkey" || gun->contents[i].type->id == "u_shotgun" 
+              (gun->contents[i].type->id == "pipe_launcher40mm" || gun->contents[i].type->id == "m203"
+            || gun->contents[i].type->id == "masterkey" || gun->contents[i].type->id == "u_shotgun"
             || gun->contents[i].type->id == "bayonet" || gun->contents[i].type->id == "gun_crossbow")) {
     g->add_msg(_("Your %s already has an under-barrel accessory weapon."),
                gun->tname(g).c_str());
     if (replace_item)
      inv.add_item_keep_invlet(copy);
     return;
-   } 
+   }
   }
   g->add_msg(_("You attach the %s to your %s."), used->tname(g).c_str(),
              gun->tname(g).c_str());
@@ -8579,14 +8498,17 @@ std::string player::weapname(bool charges)
      weapon.charges >= 0 && charges) {
   std::stringstream dump;
   int spare_mag = weapon.has_gunmod("spare_mag");
-  dump << weapon.tname().c_str() << " (" << weapon.charges;
-  if( -1 != spare_mag )
+  dump << weapon.tname().c_str();
+  if (!weapon.has_flag("NO_AMMO")) {
+   dump << " (" << weapon.charges;
+   if( -1 != spare_mag )
    dump << "+" << weapon.contents[spare_mag].charges;
-  for (int i = 0; i < weapon.contents.size(); i++)
+   for (int i = 0; i < weapon.contents.size(); i++)
    if (weapon.contents[i].is_gunmod() &&
-       weapon.contents[i].has_flag("MODE_AUX"))
+     weapon.contents[i].has_flag("MODE_AUX"))
     dump << "+" << weapon.contents[i].charges;
-  dump << ")";
+   dump << ")";
+  }
   return dump.str();
  } else if (weapon.is_null())
   return _("fists");
@@ -8853,7 +8775,7 @@ void player::environmental_revert_effect()
     pain = 0;
     pkill = 0;
     radiation = 0;
-    
+
     recalc_sight_limits();
 }
 // --- End ---
