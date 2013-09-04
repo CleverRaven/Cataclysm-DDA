@@ -2854,10 +2854,10 @@ void game::load_from(std::string worldname, std::string name)
     std::stringstream playerfile;
     playerfile << "save/" << worldname << "/" << name << ".sav";
     fin.open(playerfile.str().c_str());
-    // first, read in basic game state information
-    if (!fin.is_open())
-    {
-        dbg(D_ERROR) << "game:load_from: No save game exists!";
+
+    // First, read in basic game state information.
+    if (!fin.is_open()) {
+        dbg(D_ERROR) << "game:load: No save game exists!";
         debugmsg("No save game exists!");
         return;
     }
@@ -2865,127 +2865,13 @@ void game::load_from(std::string worldname, std::string name)
     u.name = base64_decode(name);
     u.ret_null = item(itypes["null"], 0);
     u.weapon = item(itypes["null"], 0);
-
-    int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
-    fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >> next_faction_id >> next_mission_id >> tmpspawn;
-
-    load_weather(fin); // does not need any changing
-
-    fin >> levx >> levy >> levz >> comx >> comy;
-
-    turn = tmpturn;
-    nextspawn = tmpspawn;
-
-    cur_om = &overmap_buffer.get(this, comx, comy); // may need change
-    m.load(this, levx, levy, levz);
-
-    run_mode = tmprun;
-    if (OPTIONS["SAFEMODE"] && run_mode == 0)
-    {
-        run_mode = 1;
-    }
-    autosafemode = OPTIONS["AUTOSAFEMODE"];
-    last_target = tmptar;
-
-    // Next, the scent map.
-    for (int i = 0; i < SEEX * MAPSIZE; i++)
-    {
-        for (int j = 0; j < SEEY * MAPSIZE; j++)
-        {
-            fin >> grscent[i][j];
-        }
-    }
-    // Now the number of monsters...
-    int nummon;
-    fin >> nummon;
-    // ... and the data on each one.
-    std::string data;
-    clear_zombies();
-    monster montmp;
-    char junk;
-    int num_items;
-    if (fin.peek() == '\n')
-    {
-        fin.get(junk); // Chomp that pesky endline
-    }
-    for (int i = 0; i < nummon; i++)
-    {
-        getline(fin, data);
-        montmp.load_info(data, &mtypes);
-
-        fin >> num_items;
-        // Chomp the endline after number of items.
-        getline( fin, data );
-        for (int j = 0; j < num_items; j++)
-        {
-            getline( fin, data );
-            montmp.inv.push_back( item( data, this ) );
-        }
-
-        add_zombie(montmp);
-    }
-    // And the kill counts;
-    if (fin.peek() == '\n')
-    {
-        fin.get(junk); // Chomp that pesky endline
-    }
-
-    for (int i = 0; i < num_monsters; i++)
-    {
-        fin >> kills[i];
-    }
-    // Finally, the data on the player.
-    if (fin.peek() == '\n')
-    {
-        fin.get(junk); // Chomp that pesky endline
-    }
-
-    getline(fin, data);
-    u.load_info(this, data);
-    // And the player's inventory...
-    u.inv.load_invlet_cache( fin );
-
-    char item_place;
-    std::string itemdata;
-    // We need a temporary vector of items.  Otherwise, when we encounter an item
-    // which is contained in another item, the auto-sort/stacking behavior of the
-    // player's inventory may cause the contained item to be misplaced.
-    std::list<item> tmpinv;
-    while (!fin.eof())
-    {
-        fin >> item_place;
-        if (!fin.eof())
-        {
-            getline(fin, itemdata);
-            if (item_place == 'I')
-            {
-                tmpinv.push_back(item(itemdata, this));
-            }
-            else if (item_place == 'C')
-            {
-                tmpinv.back().contents.push_back(item(itemdata, this));
-            }
-            else if (item_place == 'W')
-            {
-                u.worn.push_back(item(itemdata, this));
-            }
-            else if (item_place == 'S')
-            {
-                u.worn.back().contents.push_back(item(itemdata, this));
-            }
-            else if (item_place == 'w')
-            {
-                u.weapon = item(itemdata, this);
-            }
-            else if (item_place == 'c')
-            {
-                u.weapon.contents.push_back(item(itemdata, this));
-            }
-        }
-    }
-    // Now dump tmpinv into the player's inventory
-    u.inv.add_stack(tmpinv);
+    unserialize(fin);
     fin.close();
+
+    // Now that the player's worn items are updated, their sight limits need to be
+    // recalculated. (This would be cleaner if u.worn were private.)
+    u.recalc_sight_limits();
+
     load_auto_pickup(true); // Load character auto pickup rules
     //load_uistate();
     load_uistate_from(worldname);
