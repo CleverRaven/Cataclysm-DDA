@@ -460,6 +460,8 @@ void game::construction_menu()
    for (int j = 1; j < 30; j++)
     mvwputch(w_con, i, j, c_black, ' ');
   }
+  //Draw Scrollbar
+  draw_scrollbar(w_con, select, iMaxY-2, constructions.size(), 1);
 // Determine where in the master list to start printing
   //int offset = select - 11;
   int offset = 0;

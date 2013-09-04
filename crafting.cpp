@@ -77,7 +77,7 @@ void game::init_recipes() throw (std::string)
           else {
               debugmsg("Invalid skill requirements: %s", result.c_str());
           }
-          
+
         }
         std::string id_suffix = curr.has("id_suffix") ? curr.get("id_suffix").as_string() : "";
         int learn_by_disassembly = curr.has("decomp_learn") ? curr.get("decomp_learn").as_int() : -1;
@@ -677,7 +677,7 @@ recipe* game::select_crafting_recipe()
             mvwprintz(w_data, 0, 30, col, _("Skills used: %s"),
                 (current[line]->skill_used == NULL ? "N/A" :
                 current[line]->skill_used->name().c_str()));
-            
+
             mvwprintz(w_data, 1, 30, col, _("Required skills: %s"),
                 (current[line]->required_skills_string().c_str()));
             mvwprintz(w_data, 2, 30, col, _("Difficulty: %d"), current[line]->difficulty);
@@ -818,6 +818,9 @@ recipe* game::select_crafting_recipe()
                 }
             }
         }
+
+        //Draw Scrollbar
+        draw_scrollbar(w_data, line, dataLines, recmax, 0);
 
         wrefresh(w_data);
         int ch=(int)getch();

@@ -1164,6 +1164,43 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
  }
 }
 
+void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries, const int iOffsetY, const int iOffsetX)
+{
+    //Clear previous scrollbar
+    for(int i = iOffsetY; i < iOffsetY + iContentHeight; i++) {
+        mvwputch(window, i, iOffsetX, c_white, LINE_XOXO);
+    }
+
+    if (iContentHeight >= iNumEntries) {
+        wrefresh(window);
+        return;
+    }
+
+    if (iNumEntries > 0) {
+        mvwputch(window, iOffsetY, iOffsetX, c_ltgreen, '^');
+        mvwputch(window, iOffsetY + iContentHeight - 1, iOffsetX, c_ltgreen, 'v');
+
+        int iSBHeight = ((iContentHeight-4) * (iContentHeight-4)) / iNumEntries;
+
+        if (iSBHeight < 2) {
+            iSBHeight = 2;
+        }
+
+        int iStartY = (iCurrentLine * (iContentHeight-3-iSBHeight)) / iNumEntries;
+        if (iCurrentLine == 0) {
+            iStartY = -1;
+        } else if (iCurrentLine == iNumEntries-1) {
+            iStartY = iContentHeight-3-iSBHeight;
+        }
+
+        for (int i = 0; i < iSBHeight; i++) {
+            mvwputch(window, i + iOffsetY + 2 + iStartY, iOffsetX, c_cyan_cyan, LINE_XOXO);
+        }
+    }
+
+    wrefresh(window);
+}
+
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 {
     WINDOW *w_hit = newwin(1, 1, iY+VIEW_OFFSET_Y, iX+VIEW_OFFSET_X);

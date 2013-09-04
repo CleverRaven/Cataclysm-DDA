@@ -716,6 +716,12 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                               traits[vStartingTraits[iCurrentPage][i]].name.c_str());
                 }
             }
+
+            //Draw Scrollbar Good Traits
+            draw_scrollbar(w, iCurrentLine[0], iContentHeight, vStartingTraits[0].size(), 5);
+
+            //Draw Scrollbar Bad Traits
+            draw_scrollbar(w, iCurrentLine[1], iContentHeight, vStartingTraits[1].size(), 5, getmaxx(w)-1);
         }
 
         wrefresh(w);
@@ -838,6 +844,8 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
 
     int cur_id = 1;
     int retval = 0;
+    const int iContentHeight = 16;
+    int iStartPos = 1;
 
     //may as well stick that +1 on for convenience
     //std::vector<profession const *> sorted_profs;
@@ -849,7 +857,7 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         profession const* prof = &(iter->second);
         sorted_profs[prof->id()] = prof;
     }
-    
+
     // Sort professions by name, but leave Unemployed at the top.
     std::sort(sorted_profs.begin() + 1, sorted_profs.end(), profession_display_sort);
 
@@ -876,42 +884,34 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         }
         fold_and_print(w_description, 0, 0, 78, c_green, sorted_profs[cur_id]->description().c_str());
 
-        for (int i = 1; i < 17; ++i)
-        {
-            mvwprintz(w, 4 + i, 2, c_ltgray, "\
-                                             ");	// Clear the line
-            int id = i;
-            if ((cur_id < 7) || (profession::count() < 16))
-            {
-                //do nothing
-            }
-            else if (cur_id >= profession::count() - 9)
-            {
-                id = profession::count() - 16 + i;
-            }
-            else
-            {
-                id += cur_id - 7;
-            }
+        if (profession::count() > iContentHeight) {
+            iStartPos = cur_id - (iContentHeight - 1) / 2;
 
-            if (id > profession::count())
-            {
-                break;
-            }
-
-            if (u->prof != sorted_profs[id])
-            {
-                mvwprintz(w, 4 + i, 2, (sorted_profs[id] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
-                          sorted_profs[id]->name().c_str());
-            }
-            else
-            {
-                mvwprintz(w, 4 + i, 2,
-                          (sorted_profs[id] == sorted_profs[cur_id] ?
-                           hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                          sorted_profs[id]->name().c_str());
+            if (iStartPos < 0) {
+                iStartPos = 0;
+            } else if (iStartPos + iContentHeight > profession::count()) {
+                iStartPos = profession::count() - iContentHeight;
             }
         }
+
+        //Draw options
+        for (int i = iStartPos; i < iStartPos + ((iContentHeight > profession::count()) ? profession::count() : iContentHeight); i++) {
+            mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
+                                             ");	// Clear the line
+
+            if (u->prof != sorted_profs[i + 1]) {
+                mvwprintz(w, 5 + i - iStartPos, 2, (sorted_profs[i + 1] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
+                          sorted_profs[i + 1]->name().c_str());
+            } else {
+                mvwprintz(w, 5 + i - iStartPos, 2,
+                          (sorted_profs[i + 1] == sorted_profs[cur_id] ?
+                           hilite(COL_SKILL_USED) : COL_SKILL_USED),
+                          sorted_profs[i + 1]->name().c_str());
+            }
+        }
+
+        //Draw Scrollbar
+        draw_scrollbar(w, cur_id-1, iContentHeight, profession::count(), 5);
 
         wrefresh(w);
         wrefresh(w_description);
@@ -1031,6 +1031,9 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
    }
   }
 
+  //Draw Scrollbar
+  draw_scrollbar(w, cur_pos, 16, num_skills, 5);
+
   wrefresh(w);
   wrefresh(w_description);
   switch (input()) {
@@ -1057,7 +1060,7 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
     break;
     case 'l':
     case '6':
-     if (u->skillLevel(currentSkill) <= 19) { 
+     if (u->skillLevel(currentSkill) <= 19) {
       points -= u->skillLevel(currentSkill) + 1;
       u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);
      }

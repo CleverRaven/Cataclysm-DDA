@@ -367,6 +367,9 @@ void game::show_options()
             mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getValue()).c_str());
         }
 
+        //Draw Scrollbar
+        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), 5);
+
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
         for (int i = 0; i < vPages.size(); i++) {
