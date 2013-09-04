@@ -194,7 +194,7 @@ ma_technique::ma_technique() {
 }
 
 bool ma_technique::is_valid_player(player& u) {
-  return ((unarmed_allowed && !u.is_armed()) || (melee_allowed && u.is_armed()))
+  return ((unarmed_allowed && u.unarmed_attack()) || (melee_allowed && !u.unarmed_attack()))
     && u.skillLevel("melee") >= min_melee
     && u.skillLevel("unarmed") >= min_unarmed
     && u.skillLevel("bashing") >= min_bashing

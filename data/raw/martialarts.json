@@ -109,10 +109,21 @@
         "name": "BEZRKUR RAEG",
         "max_stacks": 10,
         "unarmed_allowed": true,
+        "melee_allowed": true,
         "min_unarmed": 0,
         "buff_duration": 10,
         "desc": "+1 Bash per stack",
         "bash": 1
+      }
+    ],
+    "techniques": [
+      {
+        "name": "brutal",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "tec_flag": "RAPID",
+        "verb_you": "%1$s hid %4$s wid soopr stroung atak",
+        "verb_npc": "%1$s hits %4$s"
       }
     ]
   },

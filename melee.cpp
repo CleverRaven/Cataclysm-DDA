@@ -1489,7 +1489,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
 std::string melee_verb(technique_id tech, player &p, int bash_dam, int cut_dam, int stab_dam)
 {
- // martial arts hitstrings
+  // martial arts hitstrings
  martialart curStyle = g->martialarts[p.style_selected];
  if (curStyle.has_technique(p, tech))
    return curStyle.melee_verb(tech, p);
