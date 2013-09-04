@@ -7078,6 +7078,9 @@ void game::list_items()
                     break;
             }
 
+            //Draw Scrollbar
+            draw_scrollbar(w_items, iActive, iMaxRows, iItemNum - iFilter, 1);
+
             calcStartPos(iStartPos, iActive, iMaxRows, iItemNum - iFilter);
 
             for (int i = 0; i < iMaxRows; i++)
@@ -10629,6 +10632,10 @@ void game::msg_buffer()
   int line = 1;
   int lasttime = -1;
   int i;
+
+  //Draw Scrollbar
+  draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT-2, messages.size(), 1);
+
   for (i = 1; i <= 20 && line <= FULL_SCREEN_HEIGHT-2 && offset + i <= messages.size(); i++) {
    game_message *mtmp = &(messages[ messages.size() - (offset + i) ]);
    calendar timepassed = turn - mtmp->turn;
