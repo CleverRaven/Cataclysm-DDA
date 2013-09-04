@@ -1305,6 +1305,12 @@ bool item::has_flag(std::string f) const
 
 bool item::has_technique(technique_id tech, player *p)
 {
+  // martial arts techniques
+  if (p != NULL &&
+      g->martialarts[p->style_selected].has_technique(*p, tech))
+    return true;
+
+  // keep the old martialarts in
  if (is_style()) {
   it_style *style = dynamic_cast<it_style*>(type);
   for (int i = 0; i < style->moves.size(); i++) {

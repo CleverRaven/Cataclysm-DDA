@@ -3,6 +3,7 @@
 
 #include "player.h"
 #include "pldata.h"
+#include "itype.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -11,8 +12,24 @@ typedef std::string matype_id;
 
 typedef std::string mabuff_id;
 
-class technique {
-    technique();
+class ma_technique {
+  public:
+    ma_technique();
+
+    // given a player's state, does this bonus apply to him?
+    bool is_valid_player(player& u);
+
+    // technique info
+    style_move move;
+
+    bool unarmed_allowed; // does this bonus work when unarmed?
+    bool melee_allowed; // what about with a melee weapon?
+
+    int min_melee; // minimum amount of unarmed to trigger this technique
+    int min_unarmed; // etc
+    int min_bashing;
+    int min_cutting;
+    int min_stabbing;
 };
 
 class ma_buff {
@@ -31,6 +48,8 @@ class ma_buff {
 
     // returns the stat bonus for the on-hit stat (for rolls)
     int hit_bonus(player& u);
+    int dodge_bonus(player& u);
+    int speed_bonus(player& u);
 
     // returns the stat bonus for the various damage stats (for rolls)
     int bash_bonus(player& u);
@@ -63,6 +82,8 @@ class ma_buff {
     int hit; // flat bonus to hit
     int bash; // flat bonus to bash
     int cut; // flat bonus to cut
+    int dodge; // flat dodge bonus
+    int speed; // flat speed bonus
 
     float bash_stat_mult; // bash damage multiplier, like aikido
     float cut_stat_mult; // cut damage multiplier
@@ -81,42 +102,39 @@ class ma_buff {
     float hit_dex; // "" dex point
     float hit_int; // "" int point
     float hit_per; // "" per point
+
+    float dodge_str; // bonus dodge to add per str point
+    float dodge_dex; // "" dex point
+    float dodge_int; // "" int point
+    float dodge_per; // "" per point
 };
 
 class martialart {
   public:
     martialart();
 
-    // modifies a player's "current" stats with all on-move bonuses
+    // modifies a player's "current" stats with various types of bonuses
     void apply_static_buffs(player& u, std::vector<disease>& dVec);
 
     void apply_onhit_buffs(player& u, std::vector<disease>& dVec);
 
-    /*
-    // modifies a player's "current" stats with all on-move bonuses
-    void apply_move_bonus(player& u);
+    void apply_onmove_buffs(player& u, std::vector<disease>& dVec);
 
-    // "" on-attack bonuses
-    void apply_attack_bonus(player& u);
+    void apply_ondodge_buffs(player& u, std::vector<disease>& dVec);
 
-    // "" on-incoming-hit bonuses
-    void apply_defend_bonus(player& u);
+    // determines if a technique is valid or not for this style
+    bool has_technique(player& u, technique_id tech);
 
-    // "" on-hit bonuses
-    void apply_hit_bonus(player& u);
-
-    // "" on-dodge bonuses
-    void apply_dodge_bonus(player& u);
-    */
+    // gets custom melee string for a technique under this style
+    std::string melee_verb(technique_id tech, player& u);
 
     std::string id;
     std::string name;
     std::string desc;
-    std::vector<technique> techniques; // all available techniques
-    std::vector<ma_buff> static_buffs;
-    std::vector<ma_buff> onatk_buffs;
+    std::vector<ma_technique> techniques; // all available techniques
+    std::vector<ma_buff> static_buffs; // all buffs triggered by each condition
+    std::vector<ma_buff> onmove_buffs;
     std::vector<ma_buff> onhit_buffs;
-    std::vector<ma_buff> ondef_buffs;
     std::vector<ma_buff> ondodge_buffs;
 
 };

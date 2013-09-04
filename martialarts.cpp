@@ -1,7 +1,11 @@
 #include "game.h"
+#include "player.h"
 #include "martialarts.h"
 #include "catajson.h"
 #include <map>
+#include <string>
+
+std::map<std::string, technique_id> tech_id_lookup;
 
 void loadBuffArray(game* g, std::vector<ma_buff>& buffArr, catajson& jsonObj) {
   for (jsonObj.set_begin(); jsonObj.has_curr() && json_good();
@@ -26,6 +30,11 @@ void loadBuffArray(game* g, std::vector<ma_buff>& buffArr, catajson& jsonObj) {
     if (curBuff.has("melee_allowed"))
       buff.melee_allowed = curBuff.get("melee_allowed").as_bool();
 
+    if (curBuff.has("min_melee"))
+      buff.min_melee = curBuff.get("min_melee").as_int();
+    if (curBuff.has("min_unarmed"))
+      buff.min_unarmed = curBuff.get("min_unarmed").as_int();
+
     if (curBuff.has("dodges_bonus"))
       buff.dodges_bonus = curBuff.get("dodges_bonus").as_int();
     if (curBuff.has("blocks_bonus"))
@@ -37,6 +46,10 @@ void loadBuffArray(game* g, std::vector<ma_buff>& buffArr, catajson& jsonObj) {
       buff.bash = curBuff.get("bash").as_int();
     if (curBuff.has("cut"))
       buff.cut = curBuff.get("cut").as_int();
+    if (curBuff.has("dodge"))
+      buff.dodge = curBuff.get("dodge").as_int();
+    if (curBuff.has("speed"))
+      buff.speed = curBuff.get("speed").as_int();
 
     if (curBuff.has("bash_mult"))
       buff.bash_stat_mult = curBuff.get("bash_mult").as_double();
@@ -70,6 +83,14 @@ void loadBuffArray(game* g, std::vector<ma_buff>& buffArr, catajson& jsonObj) {
     if (curBuff.has("cut_per"))
       buff.cut_per = curBuff.get("cut_per").as_double();
 
+    if (curBuff.has("dodge_str"))
+      buff.dodge_str = curBuff.get("dodge_str").as_double();
+    if (curBuff.has("dodge_dex"))
+      buff.dodge_dex = curBuff.get("dodge_dex").as_double();
+    if (curBuff.has("dodge_int"))
+      buff.dodge_int = curBuff.get("dodge_int").as_double();
+    if (curBuff.has("dodge_per"))
+      buff.dodge_per = curBuff.get("dodge_per").as_double();
 
 
     buffArr.push_back(buff);
@@ -78,6 +99,28 @@ void loadBuffArray(game* g, std::vector<ma_buff>& buffArr, catajson& jsonObj) {
 }
 
 void game::init_martialarts() {
+  // set up lookup tables for techniques
+  tech_id_lookup["SWEEP"] = TEC_SWEEP;
+  tech_id_lookup["PRECISE"] = TEC_PRECISE;
+  tech_id_lookup["BRUTAL"] = TEC_BRUTAL;
+  tech_id_lookup["GRAB"] = TEC_GRAB;
+  tech_id_lookup["WIDE"] = TEC_WIDE;
+  tech_id_lookup["RAPID"] = TEC_RAPID;
+  tech_id_lookup["FEINT"] = TEC_FEINT;
+  tech_id_lookup["THROW"] = TEC_THROW;
+  tech_id_lookup["DISARM"] = TEC_DISARM;
+  tech_id_lookup["FLAMING"] = TEC_FLAMING;
+
+  tech_id_lookup["BLOCK"] = TEC_BLOCK;
+  tech_id_lookup["BLOCK_LEGS"] = TEC_BLOCK_LEGS;
+  tech_id_lookup["WBLOCK_1"] = TEC_WBLOCK_1;
+  tech_id_lookup["WBLOCK_2"] = TEC_WBLOCK_2;
+  tech_id_lookup["WBLOCK_3"] = TEC_WBLOCK_3;
+  tech_id_lookup["COUNTER"] = TEC_COUNTER;
+  tech_id_lookup["BREAK"] = TEC_BREAK;
+  tech_id_lookup["DEF_THROW"] = TEC_DEF_THROW;
+  tech_id_lookup["DEF_DISARM"] = TEC_DEF_DISARM;
+
   catajson martialartsRaw("data/raw/martialarts.json");
 
   for (martialartsRaw.set_begin(); martialartsRaw.has_curr() && json_good();
@@ -99,18 +142,77 @@ void game::init_martialarts() {
       loadBuffArray(this, ma.onhit_buffs, hitBuffJson);
     }
 
+    if( curMartialArt.has("onmove_buffs") ) {
+      catajson moveBuffJson = curMartialArt.get("onmove_buffs");
+      loadBuffArray(this, ma.onmove_buffs, moveBuffJson);
+    }
+
+    if( curMartialArt.has("techniques") ) {
+      catajson tecJson = curMartialArt.get("techniques");
+      for (tecJson.set_begin(); tecJson.has_curr() && json_good();
+          tecJson.next()) {
+        catajson curTec = tecJson.curr();
+        ma_technique tec;
+        style_move sm(
+            curTec.get("name").as_string(),
+            curTec.get("verb_you").as_string(),
+            curTec.get("verb_npc").as_string(),
+            tech_id_lookup[curTec.get("tec_flag").as_string()],
+            0);
+        tec.move = sm;
+
+        if (curTec.has("unarmed_allowed"))
+          tec.unarmed_allowed = curTec.get("unarmed_allowed").as_bool();
+        if (curTec.has("melee_allowed"))
+          tec.melee_allowed = curTec.get("melee_allowed").as_bool();
+
+        if (curTec.has("min_melee"))
+          tec.min_melee = curTec.get("min_melee").as_int();
+        if (curTec.has("min_unarmed"))
+          tec.min_unarmed = curTec.get("min_unarmed").as_int();
+
+        ma.techniques.push_back(tec);
+      }
+    }
+
     martialarts[ma.id] = ma;
   }
 }
 
-ma_buff::ma_buff() {
 
-  buff_duration = 2;
+
+
+ma_technique::ma_technique() {
+  unarmed_allowed = false; // does this bonus work when unarmed?
+  melee_allowed = false; // what about with a melee weapon?
+
+  min_melee = 0; // minimum amount of unarmed to trigger this technique
+  min_unarmed = 0; // etc
+  min_bashing = 0;
+  min_cutting = 0;
+  min_stabbing = 0;
+}
+
+bool ma_technique::is_valid_player(player& u) {
+  return ((unarmed_allowed && !u.is_armed()) || (melee_allowed && u.is_armed()))
+    && u.skillLevel("melee") >= min_melee
+    && u.skillLevel("unarmed") >= min_unarmed
+    && u.skillLevel("bashing") >= min_bashing
+    && u.skillLevel("cutting") >= min_cutting
+    && u.skillLevel("stabbing") >= min_stabbing
+  ;
+}
+
+
+
+
+ma_buff::ma_buff() {
 
   unarmed_allowed = false; // does this bonus work when unarmed?
   melee_allowed = false; // what about with a melee weapon?
 
-  max_stacks = 1;
+  buff_duration = 2; // total length this buff lasts
+  max_stacks = 1; // total number of stacks this buff can have
 
   min_melee = 0; // minimum amount of unarmed to trigger this bonus
   min_unarmed = 0; // minimum amount of unarmed to trigger this bonus
@@ -121,26 +223,34 @@ ma_buff::ma_buff() {
   dodges_bonus = 0; // extra dodges, like karate
   blocks_bonus = 0; // extra blocks, like karate
 
-  bash = 0;
-  cut = 0;
+  hit = 0; // flat bonus to hit
+  bash = 0; // flat bonus to bash
+  cut = 0; // flat bonus to cut
+  dodge = 0; // flat dodge bonus
+  speed = 0; // flat speed bonus
 
   bash_stat_mult = 1.f; // bash damage multiplier, like aikido
   cut_stat_mult = 1.f; // cut damage multiplier
 
-  bash_str = 0; // bonus damage to add per str point
-  bash_dex = 0; // "" dex point
-  bash_int = 0; // "" int point
-  bash_per = 0; // "" per point
+  bash_str = 0.f; // bonus damage to add per str point
+  bash_dex = 0.f; // "" dex point
+  bash_int = 0.f; // "" int point
+  bash_per = 0.f; // "" per point
 
-  cut_str = 0; // bonus cut damage to add per str point
-  cut_dex = 0; // "" dex point
-  cut_int = 0; // "" int point
-  cut_per = 0; // "" per point
+  cut_str = 0.f; // bonus cut damage to add per str point
+  cut_dex = 0.f; // "" dex point
+  cut_int = 0.f; // "" int point
+  cut_per = 0.f; // "" per point
 
-  hit_str = 0; // bonus to-hit to add per str point
-  hit_dex = 0; // "" dex point
-  hit_int = 0; // "" int point
-  hit_per = 0; // "" per point
+  hit_str = 0.f; // bonus to-hit to add per str point
+  hit_dex = 0.f; // "" dex point
+  hit_int = 0.f; // "" int point
+  hit_per = 0.f; // "" per point
+
+  dodge_str = 0.f; // bonus dodge to add per str point
+  dodge_dex = 0.f; // "" dex point
+  dodge_int = 0.f; // "" int point
+  dodge_per = 0.f; // "" per point
 
 }
 
@@ -159,8 +269,6 @@ void ma_buff::apply_buff(std::vector<disease>& dVec) {
   d.intensity = 1;
   dVec.push_back(d);
 }
-
-
 
 bool ma_buff::is_valid_player(player& u) {
   return ((unarmed_allowed && !u.is_armed()) || (melee_allowed && u.is_armed()))
@@ -183,6 +291,18 @@ int ma_buff::hit_bonus(player& u) {
          u.int_cur*hit_int +
          u.per_cur*hit_per;
 }
+
+int ma_buff::dodge_bonus(player& u) {
+  return dodge + u.str_cur*dodge_str +
+         u.dex_cur*dodge_dex +
+         u.int_cur*dodge_int +
+         u.per_cur*dodge_per;
+}
+
+int ma_buff::speed_bonus(player& u) {
+  return speed;
+}
+
 
 float ma_buff::bash_mult() {
   return bash_stat_mult;
@@ -208,6 +328,8 @@ int ma_buff::cut_bonus(player& u) {
 
 
 
+
+
 martialart::martialart() {
   return;
 }
@@ -230,4 +352,141 @@ void martialart::apply_onhit_buffs(player& u, std::vector<disease>& dVec) {
   }
 }
 
+void martialart::apply_onmove_buffs(player& u, std::vector<disease>& dVec) {
+  for (std::vector<ma_buff>::iterator it = onmove_buffs.begin();
+      it != onmove_buffs.end(); ++it) {
+    if (it->is_valid_player(u)) {
+      it->apply_buff(dVec);
+    }
+  }
+}
 
+void martialart::apply_ondodge_buffs(player& u, std::vector<disease>& dVec) {
+  for (std::vector<ma_buff>::iterator it = ondodge_buffs.begin();
+      it != ondodge_buffs.end(); ++it) {
+    if (it->is_valid_player(u)) {
+      it->apply_buff(dVec);
+    }
+  }
+}
+
+bool martialart::has_technique(player& u, technique_id tech) {
+  for (std::vector<ma_technique>::iterator it = techniques.begin();
+      it != techniques.end(); ++it) {
+    if (it->is_valid_player(u) && it->move.tech == tech) {
+      return true;
+    }
+  }
+  return false;
+}
+
+std::string martialart::melee_verb(technique_id tech, player& u) {
+  for (std::vector<ma_technique>::iterator it = techniques.begin();
+      it != techniques.end(); ++it) {
+    if (it->move.tech == tech) {
+      if (u.is_npc())
+        return it->move.verb_npc;
+      else
+        return it->move.verb_you;
+    }
+  }
+  return std::string("%1$s has bug program in %4$s!!!!");
+}
+
+
+
+// Player stuff
+
+// event handlers
+void player::ma_static_effects() {
+  g->martialarts[style_selected].apply_static_buffs(*this, illness);
+}
+void player::ma_onmove_effects() {
+  g->martialarts[style_selected].apply_onmove_buffs(*this, illness);
+}
+void player::ma_onhit_effects() {
+  g->martialarts[style_selected].apply_onhit_buffs(*this, illness);
+}
+// ondodge doesn't actually work yet
+void player::ma_ondodge_effects() {
+  g->martialarts[style_selected].apply_ondodge_buffs(*this, illness);
+}
+
+// bonuses
+int player::mabuff_tohit_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret += g->ma_buffs[it->buff_id].hit_bonus(*this);
+    }
+  }
+  return ret;
+}
+int player::mabuff_dodge_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret += it->intensity * g->ma_buffs[it->buff_id].dodge_bonus(*this);
+    }
+  }
+  return ret;
+}
+int player::mabuff_speed_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret += it->intensity * g->ma_buffs[it->buff_id].speed_bonus(*this);
+    }
+  }
+  return ret;
+}
+float player::mabuff_bash_mult() {
+  float ret = 1.f;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret *= it->intensity * (1-g->ma_buffs[it->buff_id].bash_mult())+1;
+    }
+  }
+  return ret;
+}
+int player::mabuff_bash_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret += it->intensity * g->ma_buffs[it->buff_id].bash_bonus(*this);
+    }
+  }
+  return ret;
+}
+float player::mabuff_cut_mult() {
+  float ret = 1.f;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret *= it->intensity * (1-g->ma_buffs[it->buff_id].cut_mult())+1;
+    }
+  }
+  return ret;
+}
+int player::mabuff_cut_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret += it->intensity * g->ma_buffs[it->buff_id].cut_bonus(*this);
+    }
+  }
+  return ret;
+}

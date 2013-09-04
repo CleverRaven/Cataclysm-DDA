@@ -9602,6 +9602,10 @@ void game::plmove(int dx, int dy)
    }
   }
 
+  // apply martial art move bonuses
+  u.ma_onmove_effects();
+
+  // leave the old martial arts stuff in for now
 // Some martial art styles have special effects that trigger when we move
   if(u.weapon.type->id == "style_capoeira"){
     if (u.disease_level("attack_boost") < 2)

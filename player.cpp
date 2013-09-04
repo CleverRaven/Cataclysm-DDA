@@ -394,7 +394,7 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
  moves += current_speed(g);
 
 // Apply static martial arts buffs
- g->martialarts[style_selected].apply_static_buffs(*this, illness);
+  ma_static_effects();
 
 // Floor for our stats.  No stat changes should occur after this!
  if (dex_cur < 0)
@@ -1120,6 +1120,9 @@ int player::current_speed(game *g)
 
  for (int i = 0; i < illness.size(); i++)
   newmoves += disease_speed_boost(illness[i]);
+
+ // add martial arts speed bonus
+ newmoves += mabuff_speed_bonus();
 
  if (has_trait("QUICK"))
   newmoves = int(newmoves * 1.10);

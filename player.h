@@ -122,11 +122,19 @@ public:
 
  void pause(game *g); // '.' command; pauses & reduces recoil
 
+// martialarts.cpp
+ void ma_onmove_effects(); // fires all move-triggered martial arts events
+ void ma_onhit_effects(); // fires all hit-triggered martial arts events
+ void ma_ondodge_effects(); // fires all dodge-triggered martial arts events
+ void ma_static_effects(); // fires all non-triggered martial arts events
+
 // melee.cpp
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
  int mabuff_tohit_bonus(); // martial arts to-hit bonus
+ int mabuff_dodge_bonus(); // martial arts dodge bonus
+ int mabuff_speed_bonus(); // martial arts to-hit bonus
  float mabuff_bash_mult(); // martial arts bash damage multiplier
  int mabuff_bash_bonus(); // martial arts bash damage bonus, applied after mult
  float mabuff_cut_mult(); // martial arts bash damage multiplier

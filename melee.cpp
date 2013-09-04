@@ -43,65 +43,6 @@ bool player::unarmed_attack()
          weapon.has_flag("UNARMED_WEAPON"));
 }
 
-int player::mabuff_tohit_bonus() {
-  int ret = 0;
-  for (std::vector<disease>::iterator it = illness.begin();
-      it != illness.end(); ++it) {
-    if (it->is_mabuff() &&
-        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
-      ret += g->ma_buffs[it->buff_id].hit_bonus(*this);
-    }
-  }
-  return ret;
-}
-
-float player::mabuff_bash_mult() {
-  float ret = 1.f;
-  for (std::vector<disease>::iterator it = illness.begin();
-      it != illness.end(); ++it) {
-    if (it->is_mabuff() &&
-        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
-      ret *= g->ma_buffs[it->buff_id].bash_mult();
-    }
-  }
-  return ret;
-}
-int player::mabuff_bash_bonus() {
-  int ret = 0;
-  for (std::vector<disease>::iterator it = illness.begin();
-      it != illness.end(); ++it) {
-    if (it->is_mabuff() &&
-        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
-      ret += g->ma_buffs[it->buff_id].bash_bonus(*this);
-    }
-  }
-  return ret;
-}
-float player::mabuff_cut_mult() {
-  float ret = 1.f;
-  for (std::vector<disease>::iterator it = illness.begin();
-      it != illness.end(); ++it) {
-    if (it->is_mabuff() &&
-        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
-      ret *= g->ma_buffs[it->buff_id].cut_mult();
-    }
-  }
-  return ret;
-}
-int player::mabuff_cut_bonus() {
-  int ret = 0;
-  for (std::vector<disease>::iterator it = illness.begin();
-      it != illness.end(); ++it) {
-    if (it->is_mabuff() &&
-        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
-      ret += g->ma_buffs[it->buff_id].cut_bonus(*this);
-    }
-  }
-  return ret;
-}
-
-
-
 int player::base_to_hit(bool real_life, int stat)
 {
  if (stat == -999)
@@ -524,6 +465,9 @@ int player::dodge(game *g)
     ret += disease_intensity("dodge_boost");
     ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
     ret += int(current_speed(g) / 150); //Faster = small dodge advantage
+
+    // add martial arts bonus
+    ret += mabuff_dodge_bonus();
 
     //Mutations
     if (has_trait("TAIL_LONG")) {ret += 2;}
@@ -1356,8 +1300,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   cut_dam *= mabuff_cut_mult();
 
   // on-hit effects for new martial arts
-  martialart ma = g->martialarts[style_selected];
-  ma.apply_onhit_buffs(*this, illness);
+  ma_onhit_effects();
 
  // the old hard-coded stuff
  if(weapon.typeId() == "style_karate"){
@@ -1546,6 +1489,12 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
 std::string melee_verb(technique_id tech, player &p, int bash_dam, int cut_dam, int stab_dam)
 {
+ // martial arts hitstrings
+ martialart curStyle = g->martialarts[p.style_selected];
+ if (curStyle.has_technique(p, tech))
+   return curStyle.melee_verb(tech, p);
+
+ // old martial arts stuff, leave it in
  if (tech != TEC_NULL && p.weapon.is_style() &&
      p.weapon.style_data(tech).name != "")
   return (p.is_npc()?p.weapon.style_data(tech).verb_npc:p.weapon.style_data(tech).verb_you) + "\003<%2$c%3$c>";
