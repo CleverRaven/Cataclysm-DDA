@@ -132,7 +132,6 @@ class uimenu: public ui_container {
     std::string filter;
     std::vector<int> fentries;
     int fselected;
-    bool centered_scroll;
 
     uimenu_callback * callback;
 
