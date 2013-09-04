@@ -223,7 +223,7 @@ public:
  void vomit(game *g);
 
  void drench(game *g, int saturation, int flags); // drenches the player in water; saturation is percent
- void drench_mut_check(int &ignored, int &neutral, int &good, unsigned long bpart); // Checks mutation drench protection
+ void drench_mut_calc(); //Recalculate mutation drench protection for all bodyparts (ignored/good/neutral stats)
 
  char lookup_item(char let);
  bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
@@ -385,32 +385,9 @@ public:
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
  bool nv_cached;
 
-// Drench cache values
- bool drench_cached;
- int eyes_ignored;
- int eyes_neutral;
- int eyes_good;
- int mouth_ignored;
- int mouth_neutral;
- int mouth_good;
- int head_ignored;
- int head_neutral;
- int head_good;
- int legs_ignored;
- int legs_neutral;
- int legs_good;
- int feet_ignored;
- int feet_neutral;
- int feet_good;
- int arms_ignored;
- int arms_neutral;
- int arms_good;
- int hands_ignored;
- int hands_neutral;
- int hands_good;
- int torso_ignored;
- int torso_neutral;
- int torso_good;
+ // Drench cache
+ std::map<int, std::map<std::string, int> > mMutDrench;
+ std::map<int, int> mDrenchEffect;
 
  std::vector<morale_point> morale;
 
@@ -451,10 +428,10 @@ public:
  std::vector <std::string> memorial_log;
 
  int getID ();
- 
+
  bool is_underwater() const;
  void set_underwater(bool);
- 
+
  void environmental_revert_effect();
 
 protected:

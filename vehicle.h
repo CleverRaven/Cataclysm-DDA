@@ -198,6 +198,9 @@ public:
 // check if certain external part can be unmounted
     bool can_unmount (int p);
 
+// install a new part to a vehicle - initialization only
+    bool install_part (int dx, int dy, std::string vpart_info_id);
+
 // install a new part to vehicle (force to skip possibility check)
     int install_part (int dx, int dy, vpart_id id, int hp = -1, bool force = false);
 
