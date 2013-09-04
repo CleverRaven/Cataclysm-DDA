@@ -215,7 +215,7 @@ void initOptions() {
 
     OPTIONS["MENU_SCROLL"] =            cOpt("interface", _("Centered menu scrolling"),
                                              _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
-                                             false
+                                             true
                                             );
 
     OPTIONS["AUTO_PICKUP"] =            cOpt("general", _("Enable item Auto Pickup"),
