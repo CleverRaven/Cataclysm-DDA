@@ -122,7 +122,7 @@
       ["umbrella", 50],
       ["fish_bowl", 1],
       ["lsd", 1],
-      ["gum", 90],
+      ["gum", 30],
       ["nic_gum", 2]
     ]
   },
@@ -348,7 +348,7 @@
       ["wristwatch", 15],
       ["pocketwatch", 5],
       ["lsd", 1],
-      ["gum", 90],
+      ["gum", 30],
       ["nic_gum", 2],
       ["clown_suit", 1],
       ["clownshoes", 1],
@@ -593,7 +593,7 @@
       ["portable_game", 8],
       ["roadmap", 40],
       ["money_bundle", 55],
-      ["gum", 90],
+      ["gum", 30],
       ["nic_gum", 2]
     ]
   },
@@ -1813,7 +1813,7 @@
       ["portable_game", 8],
       ["umbrella", 5],
       ["mag_tailor", 5],
-      ["gum", 40],
+      ["gum", 20],
       ["nic_gum", 5],
       ["pocketwatch", 2]
     ]
@@ -3549,7 +3549,7 @@
       ["bio_blaster", 10],
       ["laser_sight", 15],
       ["lsd", 10],
-      ["gum", 90],
+      ["gum", 60],
       ["nic_gum", 1],
       ["improve_sights", 10],
       ["u_shotgun", 4],
