@@ -1066,7 +1066,7 @@ void construct::done_vehicle(game *g, point p)
         name = _("Car");
     }
 
-    vehicle *veh = g->m.add_vehicle (g, veh_custom, p.x, p.y, 270, 0, 0);
+    vehicle *veh = g->m.add_vehicle (g, "custom", p.x, p.y, 270, 0, 0);
     if (!veh)
     {
         debugmsg ("error constructing vehicle");

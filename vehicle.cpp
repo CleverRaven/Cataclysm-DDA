@@ -19,7 +19,7 @@ enum vehicle_controls {
  convert_vehicle
 };
 
-vehicle::vehicle(game *ag, vhtype_id type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
+vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
 {
     posx = 0;
     posy = 0;
@@ -34,15 +34,12 @@ vehicle::vehicle(game *ag, vhtype_id type_id, int init_veh_fuel, int init_veh_st
     lights_on = false;
     insides_dirty = true;
 
-    if (type >= num_vehicles)
-        type = 0;
-    if (type > veh_custom)
-    {   // get a copy of sample vehicle of this type
-        if (type < g->vtypes.size())
-        {
-            *this = *(g->vtypes[type]);
-            init_state(ag,init_veh_fuel,init_veh_status);
-        }
+    if(type != "null" && type != "custom") {
+      if(g->vtypes.count(type) > 0) {
+        //If this template already exists, copy it
+        *this = *(g->vtypes[type]);
+        init_state(ag, init_veh_fuel, init_veh_status);
+      }
     }
     precalc_mounts(0, face.dir());
 }
@@ -53,8 +50,9 @@ vehicle::~vehicle()
 
 bool vehicle::player_in_control (player *p)
 {
-    if (type == veh_null)
+    if (type == "null") {
         return false;
+    }
     int veh_part;
     vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
     if (veh && veh != this)
@@ -64,11 +62,10 @@ bool vehicle::player_in_control (player *p)
 
 void vehicle::load (std::ifstream &stin)
 {
-    int t;
     int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
     std::string vehicle_tag;
+    getline(stin, type);
     stin >>
-        t >>
         posx >>
         posy >>
         fdir >>
@@ -82,7 +79,6 @@ void vehicle::load (std::ifstream &stin)
         skd >>
         of_turn_carry >>
         prts;
-    type = (vhtype_id) t;
     face.init (fdir);
     move.init (mdir);
     skidding = skd != 0;
@@ -143,8 +139,8 @@ void vehicle::load (std::ifstream &stin)
 
 void vehicle::save (std::ofstream &stout)
 {
+    stout << type << std::endl;
     stout <<
-        int(type) << " " <<
         posx << " " <<
         posy << " " <<
         face.dir() << " " <<

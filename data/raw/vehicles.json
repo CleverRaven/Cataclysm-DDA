@@ -5,7 +5,7 @@
         "parts": []
     },
     {
-        "name": "custom vehicle template/placeholder",
+        "name": "custom",
         "warning": "Don't remove this vehicle definition!",
         "parts": []
     },
@@ -831,7 +831,7 @@
         ]
     },
     {
-        "name": "Car",
+        "name": "Electric Car",
         "blueprint": [
             ["o#++-o"],
             ["+=##'|"],
