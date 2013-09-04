@@ -1,15 +1,18 @@
 [
     {
+        "id": "null",
         "name": "null",
         "warning": "Don't remove this vehicle definition!",
         "parts": []
     },
     {
+        "id": "custom",
         "name": "custom",
         "warning": "Don't remove this vehicle definition!",
         "parts": []
     },
     {
+        "id": "Bicycle",
         "name": "Bicycle",
         "blueprint": "o#o",
         "parts": [
@@ -23,6 +26,7 @@
         ]
     },
     {
+        "id": "Motorcycle Chassis",
         "name": "Motorcycle Chassis",
         "blueprint": "o#>",
         "parts": [
@@ -34,6 +38,7 @@
         ]
     },
     {
+        "id": "Motorcycle",
         "name": "Motorcycle",
         "blueprint": "o#>o",
         "parts": [
@@ -50,6 +55,7 @@
         ]
     },
     {
+        "id": "Quad Bike",
         "name": "Quad Bike",
         "blueprint": [
             ["O O"],
@@ -75,6 +81,7 @@
         ]
     },
     {
+        "id": "Quad Bike Chassis",
         "name": "Quad Bike Chassis",
         "blueprint": [
                 ["O O"],
@@ -92,6 +99,7 @@
         ]
     },
     {
+        "id": "Car",
         "name": "Car",
         "blueprint": [
             ["o-++-o"],
@@ -151,6 +159,7 @@
         ]
     },
     {
+        "id": "Car Chassis",
         "name": "Car Chassis",
         "blueprint": [
             ["o-  -o"],
@@ -181,6 +190,7 @@
             {"x": -3, "y": 2, "part": "wheel"}
         ]
     }, {
+        "id": "Flatbed Truck",
         "name": "Flatbed Truck",
         "blueprint": [
             ["O--+-O"],
@@ -249,6 +259,7 @@
         ]
     },
     {
+        "id": "Semi Truck",
         "name": "Semi Truck",
         "blueprint": [
                 ["OO ---+-O-"],
@@ -352,6 +363,7 @@
         ]
     },
     {
+        "id": "Truck Trailer",
         "name": "Truck Trailer",
         "blueprint": [
             ["--OO------"],
@@ -425,6 +437,7 @@
         ]
     },
     {
+        "id": "Wagon",
         "name": "Wagon",
         "blueprint": [
             ["==="],
@@ -444,6 +457,7 @@
         ]
     },
     {
+        "id": "Beetle",
         "name": "Beetle",
         "blueprint": [
             ["o+-o"],
@@ -485,6 +499,7 @@
         ]
     },
     {
+        "id": "Bubble Car",
         "name": "Bubble Car",
         "blueprint": [
                 [" --- "],
@@ -549,6 +564,7 @@
         ]
     },
     {
+        "id": "Golf Cart",
         "name": "Golf Cart",
         "blueprint": [
             ["o|o"],
@@ -571,6 +587,7 @@
         ]
     },
     {
+        "id": "Scooter",
         "name": "Scooter",
         "blueprint": "o>o",
         "parts": [
@@ -585,6 +602,7 @@
         ]
     },
     {
+        "id": "Military Cargo Truck",
         "name": "Military Cargo Truck",
         "blueprint": [
             ["-OO--+-O-"],
@@ -688,6 +706,7 @@
         ]
     },
     {
+        "id": "Schoolbus",
         "name": "Schoolbus",
         "blueprint": [
             ["''O'''''''O"],
@@ -831,6 +850,7 @@
         ]
     },
     {
+        "id": "Electric Car",
         "name": "Electric Car",
         "blueprint": [
             ["o#++-o"],
@@ -892,6 +912,7 @@
         ]
     },
     {
+        "id": "RV",
         "name": "RV",
         "blueprint": [
             ["+-----+-O"],
@@ -992,6 +1013,7 @@
         ]
     },
     {
+        "id": "Shopping Cart",
         "name": "Shopping Cart",
         "blueprint": "#",
         "parts": [

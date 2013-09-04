@@ -119,11 +119,8 @@ void game::init_vehicles()
   {
     catajson next_json = vehicles_json.curr();
 
-    std::string name = next_json.get("name").as_string();
-
-    //Use the un-gettext'd version for the ID, and the gettext'd version for the name
-    next_vehicle = new vehicle(this, name);
-    next_vehicle->name = _(name.c_str());
+    next_vehicle = new vehicle(this, next_json.get("id").as_string().c_str());
+    next_vehicle->name = _(next_json.get("name").as_string().c_str());
     catajson parts_list = next_json.get("parts");
 
     for(parts_list.set_begin(); parts_list.has_curr() && json_good(); parts_list.next()) {
@@ -141,7 +138,7 @@ void game::init_vehicles()
       
     }
 
-    vtypes[name] = next_vehicle;
+    vtypes[next_vehicle->type] = next_vehicle;
 
   }
 }
