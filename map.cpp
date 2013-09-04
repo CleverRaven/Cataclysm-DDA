@@ -716,8 +716,8 @@ bool map::vehproceed(game* g){
             g->m.unboard_vehicle(g, x + veh->parts[ppl[ps]].precalc_dx[0],
                   y + veh->parts[ppl[ps]].precalc_dy[0]);
             g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
-                  (vel1 - psg->str_cur + 5 < 10 ? 10 : 
-                   vel1 - psg->str_cur + 5));
+                  (vel1 - psg->str_cur < 10 ? 10 : 
+                   vel1 - psg->str_cur));
          } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {			 
             // FIXME: should actually check if passenger is in control,
             // not just if there are controls there.
