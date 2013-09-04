@@ -473,13 +473,7 @@ void uimenu::show() {
 
     int estart = textformatted.size() + 1;
 
-    if(!centered_scroll){
-        if ( fselected < vshift ) {
-            vshift=fselected;
-        } else if ( fselected >= vshift + vmax ) {
-            vshift=1+fselected-vmax;
-        }
-    } else {
+    if( OPTIONS["MENU_SCROLL"] ) {
         if (fentries.size() > vmax) {
             vshift = fselected - (vmax - 1) / 2;
 
@@ -489,6 +483,12 @@ void uimenu::show() {
                 vshift = fentries.size() - vmax;
             }
          }
+    } else {
+        if( fselected < vshift ) {
+            vshift = fselected;
+        } else if( fselected >= vshift + vmax ) {
+            vshift = 1 + fselected - vmax;
+        }
     }
 
     for ( int fei = vshift, si=0; si < vmax; fei++,si++ ) {
