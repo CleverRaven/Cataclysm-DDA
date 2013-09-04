@@ -135,7 +135,6 @@ void uimenu::init() {
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
     max_entry_len = 0;       // does nothing but can be read
-    centered_scroll = OPTIONS["MENU_SCROLL"];
 
     scrollbar_auto = true;   // there is no force-on; true will only render scrollbar if entries > vertical height
     scrollbar_nopage_color = c_ltgray;    // color of '|' line for the entire area that isn't current page.
