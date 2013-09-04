@@ -1180,7 +1180,7 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
         mvwputch(window, iOffsetY, iOffsetX, c_ltgreen, '^');
         mvwputch(window, iOffsetY + iContentHeight - 1, iOffsetX, c_ltgreen, 'v');
 
-        int iSBHeight = ((iContentHeight-4) * (iContentHeight-4)) / iNumEntries;
+        int iSBHeight = ((iContentHeight-2) * (iContentHeight-2)) / iNumEntries;
 
         if (iSBHeight < 2) {
             iSBHeight = 2;
