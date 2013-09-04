@@ -430,7 +430,7 @@ void uimenu::apply_scrollbar()
             for( int i = estart + 1; i < estart + vmax - 1; i++ ) {
                 mvwaddch(window, i, sbside, LINE_XOXO);
             }
-            wattroff(window, scrollbar_page_color);
+            wattroff(window, scrollbar_nopage_color);
 
             wattron(window, border_color);
             mvwaddch(window, estart + vmax - 1, sbside, 'v');
@@ -438,11 +438,16 @@ void uimenu::apply_scrollbar()
             wattroff(window, border_color);
 
             int svmax = vmax - 2;
-            int sbstart = ( vshift * svmax ) / fentries.size();
-            int sbend = ( (vshift + vmax) * svmax ) / fentries.size();
-            if ( sbend <= sbstart ) {
-                sbend = sbstart + 1;
+            int fentriessz = fentries.size() - vmax;
+            int sbsize = (vmax * svmax) / fentries.size();
+            if ( sbsize < 2 ) {
+                sbsize=2;
             }
+            int svmaxsz = svmax - sbsize;
+
+            int sbstart = ( vshift * svmaxsz ) / fentriessz;
+            int sbend = sbstart + sbsize;
+
             wattron(window, scrollbar_page_color);
 
             for ( int i = sbstart; i < sbend; i++ ) {
