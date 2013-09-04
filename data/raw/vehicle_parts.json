@@ -475,7 +475,7 @@
         ]
     },
     {
-        "id": "wide_wheel",
+        "id": "wheel_wide",
         "name": "wide wheel",
         "symbol": "O",
         "color": "dark_gray",
