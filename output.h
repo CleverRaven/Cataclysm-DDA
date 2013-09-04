@@ -110,6 +110,7 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 7
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0);
+void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW* w);
 
 #endif

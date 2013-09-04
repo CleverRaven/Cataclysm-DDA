@@ -333,15 +333,7 @@ void game::show_options()
             }
         }
 
-        if (mPageItems[iCurrentPage].size() > iContentHeight) {
-            iStartPos = iCurrentLine - (iContentHeight - 1) / 2;
-
-            if (iStartPos < 0) {
-                iStartPos = 0;
-            } else if (iStartPos + iContentHeight > mPageItems[iCurrentPage].size()) {
-                iStartPos = mPageItems[iCurrentPage].size() - iContentHeight;
-            }
-        }
+        calcStartPos(iStartPos, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size());
 
         //Draw options
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iCurrentPage].size()) ? mPageItems[iCurrentPage].size() : iContentHeight); i++) {

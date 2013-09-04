@@ -7078,19 +7078,7 @@ void game::list_items()
                     break;
             }
 
-            if (iItemNum - iFilter > iMaxRows)
-            {
-                iStartPos = iActive - (iMaxRows - 1) / 2;
-
-                if (iStartPos < 0)
-                {
-                    iStartPos = 0;
-                }
-                else if (iStartPos + iMaxRows > iItemNum - iFilter)
-                {
-                    iStartPos = iItemNum - iFilter - iMaxRows;
-                }
-            }
+            calcStartPos(iStartPos, iActive, iMaxRows, iItemNum - iFilter);
 
             for (int i = 0; i < iMaxRows; i++)
             {
