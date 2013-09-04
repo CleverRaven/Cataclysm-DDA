@@ -671,7 +671,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
   dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));
-  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion));
+  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Count: "), "", ammo->count));
 
@@ -682,7 +682,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
   dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));
-  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion));
+  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Count: "), "", contents[0].charges));
 
@@ -737,7 +737,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
 
   dump->push_back(iteminfo("GUN", _("Range: "), temp2.str(), gun->range, true, temp1.str(), true, false));
 
-  dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion()));
+  dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion(), true, "", true, true));
 
 
   temp1.str("");
