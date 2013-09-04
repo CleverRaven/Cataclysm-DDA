@@ -106,7 +106,7 @@
     "onhit_buffs": [
       {
         "id": "berserk_hit_buff",
-        "name": "RAEGG",
+        "name": "BEZRKUR RAEG",
         "max_stacks": 10,
         "unarmed_allowed": true,
         "min_unarmed": 0,

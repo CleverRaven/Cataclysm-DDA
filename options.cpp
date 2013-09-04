@@ -213,6 +213,11 @@ void initOptions() {
                                              "Always,Hidden,HiddenKB", "Always"
                                             );
 
+    OPTIONS["MENU_SCROLL"] =            cOpt("interface", _("Centered menu scrolling"),
+                                             _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
+                                             true
+                                            );
+
     OPTIONS["AUTO_PICKUP"] =            cOpt("general", _("Enable item Auto Pickup"),
                                              _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
                                              false

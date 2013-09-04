@@ -7,6 +7,7 @@
 #include "keypress.h"
 #include "cursesdef.h"
 #include "uistate.h"
+#include "options.h"
 
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
@@ -409,11 +410,24 @@ void uimenu::show() {
 
     int estart = textformatted.size() + 1;
 
-    if ( fselected < vshift ) {
-        vshift=fselected;
-    } else if ( fselected >= vshift + vmax ) {
-        vshift=1+fselected-vmax;
+    if( OPTIONS["MENU_SCROLL"] ) {
+        if (fentries.size() > vmax) {
+            vshift = fselected - (vmax - 1) / 2;
+
+            if (vshift < 0) {
+                vshift = 0;
+            } else if (vshift + vmax > fentries.size()) {
+                vshift = fentries.size() - vmax;
+            }
+         }
+    } else {
+        if( fselected < vshift ) {
+            vshift = fselected;
+        } else if( fselected >= vshift + vmax ) {
+            vshift = 1 + fselected - vmax;
+        }
     }
+
     for ( int fei = vshift, si=0; si < vmax; fei++,si++ ) {
         if ( fei < fentries.size() ) {
             int ei=fentries [ fei ];
