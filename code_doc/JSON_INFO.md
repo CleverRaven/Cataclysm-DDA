@@ -217,7 +217,7 @@
 ```
 ###VEHICLES
 ```C++
-"name": "Shopping Cart",                   // Displayed name
+"name": "Shopping Cart",                   // Used as both the ID and display name, the latter is subject to i18n.
 "blueprint": "#",                          // Preview of vehicle - ignored by the code, so use only as documentation
 "parts": [                                 // Parts list
     {"x": 0, "y": 0, "part": "box"},       // Part definition, positive x direction is to the left, positive y is to the right
