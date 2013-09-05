@@ -124,12 +124,12 @@ void initOptions() {
                                              "No,Yes,Query", "No"
                                             );
 
-    OPTIONS["INITIAL_POINTS"] =         cOpt("world_default", _("Initial points"),
+    OPTIONS["INITIAL_POINTS"] =         cOpt("general", _("Initial points"),
                                              _("Initial points available on character generation."),
                                              0, 25, 6
                                             );
 
-    OPTIONS["MAX_TRAIT_POINTS"] =       cOpt("world_default", _("Maximum trait points"),
+    OPTIONS["MAX_TRAIT_POINTS"] =       cOpt("general", _("Maximum trait points"),
                                              _("Maximum trait points available for character generation."),
                                              0, 25, 12
                                             );
@@ -506,6 +506,30 @@ void save_options()
             fout << "#Default: " << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
             fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
         }
+    }
+
+    fout.close();
+}
+
+// the directory needs to be created before this can be run?
+void save_world_options(std::string world, std::map<std::string, cOpt> world_ops)
+{
+    std::ofstream fout;
+    std::stringstream woption;
+    woption << "save/" << world << "/worldoptions.txt";
+    fout.open(woption.str().c_str());
+
+    if (!fout.is_open())
+    {
+        return;
+    }
+    //fout << world_options_header() << std::endl;
+
+    for (std::map<std::string, cOpt>::iterator it = world_ops.begin(); it != world_ops.end(); ++it)
+    {
+        fout << "#" << it->second.getTooltip() << std::endl;
+        fout << "#Default: " << it->second.getDefaultText() << std::endl;
+        fout << it->first << " " << it->second.getValue() << std::endl << std::endl;
     }
 
     fout.close();

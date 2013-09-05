@@ -550,6 +550,7 @@ void load_artifacts(); // Load artifact data
   // world factory functions
   int pick_world_to_play();
   int worldpick_screen();
+  int worldgen_screen();
 
 
 // ########################## DATA ################################

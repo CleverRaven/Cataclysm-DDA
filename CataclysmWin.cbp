@@ -327,6 +327,8 @@
 		<Unit filename="weather_data.cpp" />
 		<Unit filename="wincurse.cpp" />
 		<Unit filename="wish.cpp" />
+		<Unit filename="world_factory.cpp" />
+		<Unit filename="world_factory.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

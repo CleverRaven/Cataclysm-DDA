@@ -322,5 +322,6 @@ extern std::map<std::string, cOpt> OPTIONS;
 void initOptions();
 void load_options();
 void save_options();
+void save_world_options(std::string world, std::map<std::string, cOpt> world_ops);
 
 #endif

@@ -2410,7 +2410,7 @@ bool game::is_game_over()
                 g->m.unboard_vehicle(this, u.posx, u.posy);
             place_corpse();
             std::stringstream playerfile;
-            playerfile << "save/" << base64_encode(u.name) << ".sav";
+            playerfile << "save/" << active_world << "/" << base64_encode(u.name) << ".sav";
             unlink(playerfile.str().c_str());
             uquit = QUIT_DIED;
             return true;

@@ -8,6 +8,7 @@
 #include "translations.h"
 #include "catacharset.h"
 #include "get_version.h"
+#include "options.h"
 
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -378,7 +379,7 @@ int game::pick_world_to_play()
     {
         if (query_yn("No worlds exist, would you like to make one?"))
         {
-            return -1;
+            return worldgen_screen();
         }
         else
         {
@@ -396,6 +397,75 @@ int game::pick_world_to_play()
         // for now, return -1 because need to make a new window to select with (probably) >.<
         //return -1;
     }
+}
+
+int game::worldgen_screen()
+{
+    const std::string wdef = "world_default";
+    // all we really need to do in here is create the worldoptions.txt file, I think. And then make sure that the world options get loaded properly
+    WINDOW* w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+
+    int tab = 0;
+
+    // read in current world default options
+    std::vector<std::string> world_option_names;
+    /*
+    for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it)
+    {
+        if (it->second.sPage == wdef)
+        {
+            world_option_names.push_back(it->first);
+        }
+    }
+    */
+    // set up map from the defaults
+    std::map<std::string, cOpt> worldops;
+    for (std::vector<std::string>::iterator it = world_option_names.begin(); it != world_option_names.end(); ++it)
+    {
+        worldops[*it] = OPTIONS[*it];
+    }
+
+    std::string world_name = "__WORLD_NAME__";
+
+    do
+    {
+        werase(w);
+        wrefresh(w);
+        switch(tab)
+        {
+            case 0: break;
+            case 1: break;
+        }
+    }while (tab >= 0 && tab < 2);
+
+    delwin(w);
+
+    if (tab < 0)
+    {
+        return -1;
+    }
+
+    // make directory
+    std::stringstream worldfolder;
+    worldfolder << "save/" << world_name;
+    DIR *dir = opendir(worldfolder.str().c_str());
+    if (!dir) {
+        #if (defined _WIN32 || defined __WIN32__)
+            mkdir(worldfolder.str().c_str());
+        #else
+            mkdir(worldfolder.str().c_str(), 0777);
+        #endif
+        dir = opendir(worldfolder.str().c_str());
+        if (!dir) {
+            dbg(D_ERROR) << "game:worldgen_screen: Unable to make world directory.";
+            debugmsg("Could not make './save/<world>' directory");
+            return -1;
+        }
+    }
+    save_world_options(world_name, worldops);
+    return -1;
 }
 
 bool game::opening_screen()
@@ -917,10 +987,10 @@ bool game::opening_screen()
                                 overmap_buffer.clear();
 
                                 layer = 2;
-                                // remove from master map
-                                world_save_data.erase(world_name_keys[sel3]);
-                                // remove from key vector
-                                world_name_keys.erase(world_name_keys.begin() + sel3);
+                                // remove from master map -- just resetting, don't need to kill it!
+                                //world_save_data.erase(world_name_keys[sel3]);
+                                // remove from key vector -- just resetting, don't need to kill it!
+                                //world_name_keys.erase(world_name_keys.begin() + sel3);
 
                                 return opening_screen();
                             }
