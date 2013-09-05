@@ -34,7 +34,7 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     lights_on = false;
     insides_dirty = true;
 
-    if(type != "null" && type != "custom") {
+    if(type != "null") {
       if(g->vtypes.count(type) > 0) {
         //If this template already exists, copy it
         *this = *(g->vtypes[type]);

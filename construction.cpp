@@ -1073,7 +1073,6 @@ void construct::done_vehicle(game *g, point p)
         return;
     }
     veh->name = name;
-    veh->install_part (0, 0, vp_frame_v2);
 
     //Update the vehicle cache immediately, or the vehicle will be invisible for the first couple of turns.
     g->m.update_vehicle_cache(veh, true);
