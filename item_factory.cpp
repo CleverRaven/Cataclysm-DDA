@@ -623,8 +623,8 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     }
 }
 
-Use_function Item_factory::use_from_string(std::string function_name){
-    std::map<Item_tag, Use_function>::iterator found_function = iuse_function_list.find(function_name);
+use_function Item_factory::use_from_string(std::string function_name){
+    std::map<Item_tag, use_function>::iterator found_function = iuse_function_list.find(function_name);
 
     //Before returning, make sure sure the function actually exists
     if(found_function != iuse_function_list.end()){

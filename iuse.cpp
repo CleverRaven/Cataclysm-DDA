@@ -5719,8 +5719,3 @@ int iuse::adrenaline_injector(game *g, player *p, item *it, bool t)
   }
   return it->type->charges_to_use();
 }
-
-int use_function::call(game* g,player* p,item* i,bool b) {
-    iuse use;
-    return (use.*this->cpp_function)(g, p, i, b);
-}

@@ -27,6 +27,8 @@
 # Compile localization files for specified languages
 #  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
+# Enable lua debug support
+#  make LUA=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -166,6 +168,13 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
+endif
+
+ifdef LUA
+  # TODO: Support systems other than arch linux
+  #       (alternatively, expect them to use CMake =)
+  LDFLAGS += -llua5.1
+  CXXFLAGS += -I/usr/include/lua5.1 -DLUA
 endif
 
 ifdef TILES
