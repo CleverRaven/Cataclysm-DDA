@@ -1,11 +1,5 @@
 [
     {
-        "id": "null",
-        "name": "null",
-        "warning": "Don't remove this vehicle definition!",
-        "parts": []
-    },
-    {
         "id": "custom",
         "name": "custom",
         "blueprint": "H",

@@ -34,10 +34,11 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     lights_on = false;
     insides_dirty = true;
 
+    //type can be null if the type_id parameter is omitted
     if(type != "null") {
-      if(g->vtypes.count(type) > 0) {
+      if(ag->vtypes.count(type) > 0) {
         //If this template already exists, copy it
-        *this = *(g->vtypes[type]);
+        *this = *(ag->vtypes[type]);
         init_state(ag, init_veh_fuel, init_veh_status);
       }
     }
@@ -50,9 +51,6 @@ vehicle::~vehicle()
 
 bool vehicle::player_in_control (player *p)
 {
-    if (type == "null") {
-        return false;
-    }
     int veh_part;
     vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
     if (veh && veh != this)

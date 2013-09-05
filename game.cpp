@@ -3163,7 +3163,7 @@ Current turn: %d; Next spawn %d.\n\
    else {
     for(std::map<std::string, vehicle*>::iterator it = vtypes.begin();
              it != vtypes.end(); ++it) {
-      if(it->first != "null" && it->first != "custom") {
+      if(it->first != "custom") {
         opts.push_back(it->second->name);
       }
     }
@@ -8294,7 +8294,7 @@ void game::drop_in_direction()
     vehicle *veh = m.veh_at(dirx, diry, veh_part);
     if (veh) {
         veh_part = veh->part_with_feature (veh_part, "CARGO");
-        to_veh = veh->type != "null" && veh_part >= 0;
+        to_veh = veh_part >= 0;
     }
 
     if (m.has_flag(noitem, dirx, diry) || m.has_flag(sealed, dirx, diry)) {

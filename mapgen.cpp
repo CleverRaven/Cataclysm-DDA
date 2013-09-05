@@ -1384,7 +1384,7 @@ t   t\n\
   {
       int vx = rng (0, 3) * 4 + 5;
       int vy = 4;
-      std::string vt = "null";
+      std::string vt = "";
       int r = rng(1, 100);
       if (r <= 5) { //specials
           int ra = rng(1, 100);
@@ -1400,7 +1400,7 @@ t   t\n\
           } else if (rb <= 35) { vt = "semi_truck";
           } else {               vt = "flatbed_truck";
           }
-      }		else if (r < 50) { //commons
+      }	else if (r < 50) { //commons
           int rc = rng(1, 100);
           if (rc <= 4) { 				    vt = "golf_cart";
           }	else if (rc <= 11) {	vt = "scooter";
@@ -12610,9 +12610,13 @@ void map::add_spawn(monster *mon)
 vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, const int dir,
                           const int veh_fuel, const int veh_status)
 {
+ if(g->vtypes.count(type) == 0) {
+   debugmsg("Nonexistant vehicle type: \"%s\"", type.c_str());
+   return NULL;
+ }
  if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
-  debugmsg("Bad add_vehicle t=%s d=%d x=%d y=%d", type.c_str(), dir, x, y);
-  return 0;
+  debugmsg("Out of bounds add_vehicle t=%s d=%d x=%d y=%d", type.c_str(), dir, x, y);
+  return NULL;
  }
 // debugmsg("add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
 
