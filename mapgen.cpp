@@ -528,17 +528,17 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
     if (rc <= 50)
-        add_vehicle (g, "Car Chassis", vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "car_chassis", vx, vy, veh_spawn_heading, -1, 1);
     else if (rc <= 70)
-        add_vehicle (g, "Car", vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "car", vx, vy, veh_spawn_heading, -1, 1);
     else if (rc <= 80)
-        add_vehicle (g, "Electric Car", vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "electric_car", vx, vy, veh_spawn_heading, -1, 1);
     else if (rc <= 90)
-        add_vehicle (g, "Flatbed Truck", vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "flatbed_truck", vx, vy, veh_spawn_heading, -1, 1);
     else if (rc <= 95)
-        add_vehicle (g, "RV", vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "rv", vx, vy, veh_spawn_heading, -1, 1);
     else
-        add_vehicle (g, "Motorcycle", vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "motorcycle", vx, vy, veh_spawn_heading, -1, 1);
    }
   }
 
@@ -549,11 +549,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (8, 16);
     int rc = rng(1, 10);
     if (rc <= 5)
-        add_vehicle (g, "Car", vx, vy, veh_spawn_heading, 0, -1);
+        add_vehicle (g, "car", vx, vy, veh_spawn_heading, 0, -1);
     else if (rc <= 9)
-        add_vehicle (g, "Flatbed Truck", vx, vy, veh_spawn_heading, 0, -1);
+        add_vehicle (g, "flatbed_truck", vx, vy, veh_spawn_heading, 0, -1);
     else
-        add_vehicle (g, "Semi Truck", vx, vy, veh_spawn_heading, 0, -1);
+        add_vehicle (g, "semi_truck", vx, vy, veh_spawn_heading, 0, -1);
    }
   }
 
@@ -599,17 +599,17 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
 	if (rc <= 50)
-     add_vehicle (g, "Car Chassis", vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 70)
-     add_vehicle (g, "Car", vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 80)
-     add_vehicle (g, "Electric Car", vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 90)
-     add_vehicle (g, "Flatbed Truck", vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 95)
-     add_vehicle (g, "RV", vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else
-     add_vehicle (g, "Motorcycle", vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, 1);
    }
   }
   // spawn regular road out of fuel vehicles
@@ -619,11 +619,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (10, 12);
     int rc = rng(1, 10);
 	if (rc <= 5)
-     add_vehicle (g, "Car", vx, vy, one_in(2)? 90 : 180, 0, -1);
+     add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else if (rc <= 9)
-     add_vehicle (g, "Flatbed Truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
+     add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-     add_vehicle (g, "Semi Truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
+     add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
   }
 
@@ -674,17 +674,17 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
     if (rc <= 50)
-        add_vehicle (g, "Car Chassis", vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 70)
-        add_vehicle (g, "Car", vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 80)
-        add_vehicle (g, "Electric Car", vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 90)
-        add_vehicle (g, "Flatbed Truck", vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 95)
-        add_vehicle (g, "RV", vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else
-        add_vehicle (g, "Motorcycle", vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, 1);
    }
   }
   // spawn regular road out of fuel vehicles
@@ -694,11 +694,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (10, 12);
     int rc = rng(0, 10);
     if (rc <= 5)
-        add_vehicle (g, "Car", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else if (rc <= 9)
-        add_vehicle (g, "Flatbed Truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-        add_vehicle (g, "Semi Truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
   }
 
@@ -747,19 +747,19 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
     if (rc <= 50)
-        add_vehicle (g, "Car Chassis", vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 70)
-        add_vehicle (g, "Car", vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 80)
-        add_vehicle (g, "Electric Car", vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 90)
-        add_vehicle (g, "Flatbed Truck", vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 95)
-        add_vehicle (g, "RV", vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 96)
-        add_vehicle (g, "Shopping Cart", vx, vy, one_in(2)? 90 : 180);
+        add_vehicle (g, "shopping_cart", vx, vy, one_in(2)? 90 : 180);
     else
-        add_vehicle (g, "Motorcycle", vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, -1);
    }
   }
 
@@ -839,11 +839,11 @@ t   t\n\
     int vy = rng (10, 12);
     int rc = rng(1, 10);
     if (rc <= 5)
-        add_vehicle (g, "Car", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else if (rc <= 9)
-        add_vehicle (g, "Flatbed Truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-        add_vehicle (g, "Semi Truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
 
   if (terrain_type == ot_bridge_ew)
@@ -877,11 +877,11 @@ t   t\n\
     int vy = rng (10, 12);
     int rc = rng(1, 10);
     if (rc <= 5)
-        add_vehicle (g, "Car", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else if (rc <= 9)
-        add_vehicle (g, "Flatbed Truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-        add_vehicle (g, "Semi Truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
   break;
 
@@ -1388,30 +1388,30 @@ t   t\n\
       int r = rng(1, 100);
       if (r <= 5) { //specials
           int ra = rng(1, 100);
-          if (ra <= 3) {         vt = "Military Cargo Truck";
-          } else if (ra <= 10) { vt = "Bubble Car";
-          } else if (ra <= 15) { vt = "RV";
-          } else if (ra <= 20) { vt = "Schoolbus";
-          } else {               vt = "Quad Bike";
+          if (ra <= 3) {         vt = "military_cargo_truck";
+          } else if (ra <= 10) { vt = "bubble_car";
+          } else if (ra <= 15) { vt = "rv";
+          } else if (ra <= 20) { vt = "schoolbus";
+          } else {               vt = "quad_bike";
           }
       }	else if (r <= 15) { //commercial
           int rb = rng(1, 100);
-          if (rb <= 25) {        vt = "Truck Trailer";
-          } else if (rb <= 35) { vt = "Semi Truck";
-          } else {               vt = "Flatbed Truck";
+          if (rb <= 25) {        vt = "truck_trailer";
+          } else if (rb <= 35) { vt = "semi_truck";
+          } else {               vt = "flatbed_truck";
           }
       }		else if (r < 50) { //commons
           int rc = rng(1, 100);
-          if (rc <= 4) { 				    vt = "Golf Cart";
-          }	else if (rc <= 11) {	vt = "Scooter";
-          } else if (rc <= 21) {	vt = "Beetle";
-          } else if (rc <= 50) { vt = "Car";
-          } else if (rc <= 60) {	vt = "Car";
-          } else if (rc <= 75) {	vt = "Bicycle";
-          } else {          					vt = "Motorcycle";
+          if (rc <= 4) { 				    vt = "golf_cart";
+          }	else if (rc <= 11) {	vt = "scooter";
+          } else if (rc <= 21) {	vt = "beetle";
+          } else if (rc <= 50) {    vt = "car";
+          } else if (rc <= 60) {	vt = "electric_car";
+          } else if (rc <= 75) {	vt = "bicycle";
+          } else {          					vt = "motorcycle";
           }
       } else {
-          vt = "Shopping Cart";
+          vt = "shopping_cart";
       }
 
       add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270, -1, -1);
@@ -1639,7 +1639,7 @@ t   t\n\
   {
       int num_carts = rng(0, 5);
       for( int i = 0; i < num_carts; i++ ) {
-          add_vehicle (g, "Shopping Cart", rng(lw, cw), rng(tw, mw), 90);
+          add_vehicle (g, "shopping_cart", rng(lw, cw), rng(tw, mw), 90);
       }
   }
 
@@ -2559,27 +2559,27 @@ sss|........|.R.|EEED___\n",
       }
      if (t_west == ot_office_tower_b_entrance){
             rotate(1);
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 17, 7, 180);}
-            if (x_in_y(1,3)){add_vehicle (g, "Motorcycle", 17, 13, 180);}
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 17, 19, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 17, 7, 180);}
+            if (x_in_y(1,3)){add_vehicle (g, "motorcycle", 17, 13, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 17, 19, 180);}
      }
      else if (t_north == ot_office_tower_b_entrance){
             rotate(2);
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 10, 17, 270);}
-            if (x_in_y(1,3)){add_vehicle (g, "Motorcycle", 4, 18, 270);}
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 16, 17, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 10, 17, 270);}
+            if (x_in_y(1,3)){add_vehicle (g, "motorcycle", 4, 18, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 16, 17, 270);}
      }
      else if (t_east == ot_office_tower_b_entrance){
             rotate(3);
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 6, 4, 0);}
-            if (x_in_y(1,3)){add_vehicle (g, "Motorcycle", 6, 10, 180);}
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 6, 16, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 6, 4, 0);}
+            if (x_in_y(1,3)){add_vehicle (g, "motorcycle", 6, 10, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 6, 16, 0);}
 
      }
      else{
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 7, 6, 90);}
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 14, 6, 90);}
-            if (x_in_y(1,3)){add_vehicle (g, "Motorcycle", 19, 6, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 7, 6, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 14, 6, 90);}
+            if (x_in_y(1,3)){add_vehicle (g, "motorcycle", 19, 6, 90);}
      }
   }
 
@@ -2620,26 +2620,26 @@ ssssssssssssssssssssssss\n",
       }
      if (t_north == ot_office_tower_b_entrance){
             rotate(1);
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 8, 15, 0);}
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 7, 10, 180);}
-            if (x_in_y(1,3)){add_vehicle (g, "Beetle", 7, 3, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 8, 15, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 7, 10, 180);}
+            if (x_in_y(1,3)){add_vehicle (g, "beetle", 7, 3, 0);}
      }
      else if (t_east == ot_office_tower_b_entrance){
             rotate(2);
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 7, 7, 270);}
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 13, 8, 90);}
-            if (x_in_y(1,3)){add_vehicle (g, "Beetle", 20, 7, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 7, 7, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 13, 8, 90);}
+            if (x_in_y(1,3)){add_vehicle (g, "beetle", 20, 7, 90);}
      }
      else if (t_south == ot_office_tower_b_entrance){
             rotate(3);
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 16, 7, 0);}
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 15, 13, 180);}
-            if (x_in_y(1,3)){add_vehicle (g, "Beetle", 15, 20, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 16, 7, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 15, 13, 180);}
+            if (x_in_y(1,3)){add_vehicle (g, "beetle", 15, 20, 180);}
      }
      else{
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 16, 16, 90);}
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 9, 15, 270);}
-            if (x_in_y(1,3)){add_vehicle (g, "Beetle", 4, 16, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 16, 16, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 9, 15, 270);}
+            if (x_in_y(1,3)){add_vehicle (g, "beetle", 4, 16, 270);}
      }
   }
 
@@ -2679,26 +2679,26 @@ ___DEEE|.R.|...,,...|sss\n",
       }
      if (t_west == ot_office_tower_b && t_north == ot_office_tower_b){
             rotate(1);
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 17, 4, 180);}
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 17, 10, 180);}
-            if (x_in_y(1,3)){add_vehicle (g, "Car", 17, 17, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 17, 4, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 17, 10, 180);}
+            if (x_in_y(1,3)){add_vehicle (g, "car", 17, 17, 180);}
             }
      else if (t_east == ot_office_tower_b && t_north == ot_office_tower_b){
             rotate(2);
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 6, 17, 270);}
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 12, 17, 270);}
-            if (x_in_y(1,3)){add_vehicle (g, "Car", 18, 17, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 6, 17, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 12, 17, 270);}
+            if (x_in_y(1,3)){add_vehicle (g, "car", 18, 17, 270);}
             }
      else if (t_east == ot_office_tower_b && t_south == ot_office_tower_b){
             rotate(3);
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 6, 6, 0);}
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 6, 13, 0);}
-            if (x_in_y(1,3)){add_vehicle (g, "Car", 5, 19, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 6, 6, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 6, 13, 0);}
+            if (x_in_y(1,3)){add_vehicle (g, "car", 5, 19, 180);}
             }
      else{
-            if (x_in_y(1,5)){add_vehicle (g, "Flatbed Truck", 16, 6, 90);}
-            if (x_in_y(1,5)){add_vehicle (g, "Car", 10, 6, 90);}
-            if (x_in_y(1,3)){add_vehicle (g, "Car", 4, 6, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 16, 6, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 10, 6, 90);}
+            if (x_in_y(1,3)){add_vehicle (g, "car", 4, 6, 90);}
             }
      }
   }break;
@@ -3284,7 +3284,7 @@ C..C..C...|hhh|#########\n\
   {
       int num_carts = rng(0, 5);
       for( int i = 0; i < num_carts; i++ ) {
-          add_vehicle (g, "Shopping Cart", rng(3, 21), rng(3, 21), 90);
+          add_vehicle (g, "shopping_cart", rng(3, 21), rng(3, 21), 90);
       }
   }
 
@@ -3712,7 +3712,7 @@ C..C..C...|hhh|#########\n\
   {
       int num_carts = rng(0, 5);
       for( int i = 0; i < num_carts; i++ ) {
-          add_vehicle (g, "Shopping Cart", rng(3, 16), rng(3, 21), 90);
+          add_vehicle (g, "shopping_cart", rng(3, 16), rng(3, 21), 90);
       }
   }
 
@@ -6561,18 +6561,18 @@ __________           f  \n",
      place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
      if (t_west == ot_public_works && t_north == ot_public_works){
             rotate(1);
-            if (x_in_y(2,3)){add_vehicle (g, "Flatbed Truck", 2, 0, 90);}
+            if (x_in_y(2,3)){add_vehicle (g, "flatbed_truck", 2, 0, 90);}
      }
      else if (t_east == ot_public_works && t_north == ot_public_works){
             rotate(2);
-             if (x_in_y(2,3)){add_vehicle (g, "Flatbed Truck", 23, 10, 270);}
+             if (x_in_y(2,3)){add_vehicle (g, "flatbed_truck", 23, 10, 270);}
      }
      else if (t_east == ot_public_works && t_south == ot_public_works){
             rotate(3);
-             if (x_in_y(2,3)){add_vehicle (g, "Flatbed Truck", 10, 23, 0);}
+             if (x_in_y(2,3)){add_vehicle (g, "flatbed_truck", 10, 23, 0);}
      }
      else{
-             if (x_in_y(2,3)){add_vehicle (g, "Flatbed Truck", 0, 10, 90);}
+             if (x_in_y(2,3)){add_vehicle (g, "flatbed_truck", 0, 10, 90);}
      }
   }
   }break;
@@ -6701,16 +6701,16 @@ sssssssss_______ssssssss\n",
   add_spawn(mon_zombie_child, rng(0, 8), SEEX, SEEY);
   if (t_north == ot_school_2){
    rotate(1);
-   if (x_in_y(1,7)){add_vehicle (g, "Schoolbus", 19, 10, 0);}}
+   if (x_in_y(1,7)){add_vehicle (g, "schoolbus", 19, 10, 0);}}
   else if (t_east == ot_school_2){
    rotate(2);
-   if (x_in_y(1,7)){add_vehicle (g, "Schoolbus", 9, 7, 0);}}
+   if (x_in_y(1,7)){add_vehicle (g, "schoolbus", 9, 7, 0);}}
   else if (t_south == ot_school_2){
    rotate(3);
-   if (x_in_y(1,7)){add_vehicle (g, "Schoolbus", 12, 18, 180);}}
+   if (x_in_y(1,7)){add_vehicle (g, "schoolbus", 12, 18, 180);}}
   else if (t_west == ot_school_2){
    rotate(0);
-   if (x_in_y(1,7)){add_vehicle (g, "Schoolbus", 17, 7, 0);}}
+   if (x_in_y(1,7)){add_vehicle (g, "schoolbus", 17, 7, 0);}}
   }break;
 
  case ot_school_4: {
@@ -8044,16 +8044,16 @@ sssssssssssssssssssssss\n",
   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
   if (t_north == ot_hotel_tower_1_2){
    rotate(1);
-   if (x_in_y(1,12)){add_vehicle (g, "Car", 12, 18, 180);}}
+   if (x_in_y(1,12)){add_vehicle (g, "car", 12, 18, 180);}}
   else if (t_east == ot_hotel_tower_1_2){
    rotate(2);
-   if (x_in_y(1,12)){add_vehicle (g, "Car", 9, 7, 0);}}
+   if (x_in_y(1,12)){add_vehicle (g, "car", 9, 7, 0);}}
   else if (t_south == ot_hotel_tower_1_2){
    rotate(3);
-   if (x_in_y(1,12)){add_vehicle (g, "Car", 12, 18, 180);}}
+   if (x_in_y(1,12)){add_vehicle (g, "car", 12, 18, 180);}}
   else if (t_west == ot_hotel_tower_1_2){
    rotate(0);
-   if (x_in_y(1,12)){add_vehicle (g, "Car", 17, 7, 0);}}
+   if (x_in_y(1,12)){add_vehicle (g, "car", 17, 7, 0);}}
   }break;
 
  case ot_hotel_tower_1_4: {
@@ -8705,16 +8705,16 @@ case ot_haz_sar:{
      }
      if (t_west == ot_haz_sar_entrance){
             rotate(1);
-            if (x_in_y(1,4)){add_vehicle (g, "Military Cargo Truck", 10, 11, 0);}}
+            if (x_in_y(1,4)){add_vehicle (g, "military_cargo_truck", 10, 11, 0);}}
      else if (t_north == ot_haz_sar_entrance){
             rotate(2);
-            if (x_in_y(1,4)){add_vehicle (g, "Military Cargo Truck", 12, 10, 90);}
+            if (x_in_y(1,4)){add_vehicle (g, "military_cargo_truck", 12, 10, 90);}
             }
      else if (t_east == ot_haz_sar_entrance){
             rotate(3);
-            if (x_in_y(1,4)){add_vehicle (g, "Military Cargo Truck", 13, 12, 180);}
+            if (x_in_y(1,4)){add_vehicle (g, "military_cargo_truck", 13, 12, 180);}
             }
-     else if (x_in_y(1,4)){add_vehicle (g, "Military Cargo Truck", 11, 13, 270);}
+     else if (x_in_y(1,4)){add_vehicle (g, "military_cargo_truck", 11, 13, 270);}
 
   }
 
@@ -9321,11 +9321,11 @@ case ot_s_garage_north:
         if (one_in(3)) {
           std::string vt;
           if (one_in(3))
-            vt = one_in(2) ? "Car" : "Car Chassis";
+            vt = one_in(2) ? "car" : "car_chassis";
           else if(one_in(2))
-            vt = one_in(2) ? "Quad Bike" : "Quad Bike Chassis";
+            vt = one_in(2) ? "quad_bike" : "quad_bike_chassis";
           else
-            vt = one_in(2) ? "Motorcycle" : "Motorcycle Chassis";
+            vt = one_in(2) ? "motorcycle" : "motorcycle_chassis";
           add_vehicle (g, vt, vx, vy, theta, -1, -1);
         }
   }

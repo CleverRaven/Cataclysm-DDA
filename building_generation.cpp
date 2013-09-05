@@ -185,7 +185,7 @@ void mapgen_dirtlot(map *m, game *g)
     }
     if (one_in(4))
     {
-        m->add_vehicle (g, "Flatbed Truck", 12, 12, 90, -1, -1);
+        m->add_vehicle (g, "flatbed_truck", 12, 12, 90, -1, -1);
     }
 }
 
