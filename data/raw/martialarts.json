@@ -251,62 +251,89 @@
     ]
   },
   {
-    "id": "style_berserk",
-    "name": "Berserker",
-    "desc": "Hit things to get angrier! Angrier more damage!",
-    "static_buffs": [],
-    "onhit_buffs": [
-      {
-        "id": "berserk_hit_buff",
-        "name": "BEZRKUR RAEG",
-        "max_stacks": 10,
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "min_unarmed": 0,
-        "buff_duration": 10,
-        "desc": "+1 Bash per stack",
-        "bash": 1
-      }
-    ],
+    "id": "style_krav_maga",
+    "name": "Krav Maga",
+    "desc": "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively. It focuses on applicable attacks rather than showy or complex moves. Popular among police and armed forces everywhere.",
     "techniques": [
       {
-        "name": "brutal",
+        "name": "quickly punch",
+        "min_unarmed": 2,
         "unarmed_allowed": true,
-        "melee_allowed": true,
         "tec_flag": "RAPID",
-        "verb_you": "%1$s hid %4$s wid soopr stroung atak",
-        "verb_npc": "%1$s hits %4$s"
-      }
-    ]
-  },
-  {
-    "id": "style_coward",
-    "name": "Coward",
-    "desc": "RUN AWAY",
-    "static_buffs": [],
-    "onhit_buffs": [
+        "verb_you": "%1$s quickly punch %4$s",
+        "verb_npc": "%1$s quickly punches %4$s"
+      },
       {
-        "id": "coward_hit_buff",
-        "name": "scurred",
-        "max_stacks": 100,
+        "name": "block",
+        "min_unarmed": 2,
         "unarmed_allowed": true,
-        "min_unarmed": 0,
-        "buff_duration": 100,
-        "desc": "-1 Bash and to-hit per stack",
-        "bash": -1,
-        "hit": -1
-      }
-    ],
-    "onmove_buffs": [
+        "tec_flag": "BLOCK",
+        "verb_you": "%1$s block %4$s",
+        "verb_npc": "%1$s blocks %4$s"
+      },
       {
-        "id": "coward_move_buff",
-        "name": "RUN AWAY",
-        "desc": "+10 speed per stack",
+        "name": "feint at",
+        "min_unarmed": 3,
         "unarmed_allowed": true,
-        "min_unarmed": 0,
-        "buff_duration": 2,
-        "max_stacks": 10,
-        "speed": 10
+        "tec_flag": "FEINT",
+        "verb_you": "%1$s feint at %4$s",
+        "verb_npc": "%1$s feints at %4$s"
+      },
+      {
+        "name": "jab",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "tec_flag": "PRECISE",
+        "verb_you": "%1$s jab %4$s",
+        "verb_npc": "%1$s jabs %4$s"
+      },
+      {
+        "name": "disarm",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "tec_flag": "DISARM",
+        "verb_you": "%1$s disarm %4$s",
+        "verb_npc": "%1$s disarms %4$s"
+      },
+      {
+        "name": "block",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "tec_flag": "BLOCK",
+        "verb_you": "%1$s block %4$s",
+        "verb_npc": "%1$s blocks %4$s"
+      },
+      {
+        "name": "counter-attack",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "tec_flag": "COUNTER",
+        "verb_you": "%1$s counter-attack %4$s",
+        "verb_npc": "%1$s counter-attacks %4$s"
+      },
+      {
+        "name": "disarm",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "tec_flag": "DEF_DISARM",
+        "verb_you": "%1$s disarm %4$s",
+        "verb_npc": "%1$s disarms %4$s"
+      },
+      {
+        "name": "",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "tec_flag": "DEF_BREAK",
+        "verb_you": "",
+        "verb_npc": ""
+      },
+      {
+        "name": "grab",
+        "min_unarmed": 5,
+        "unarmed_allowed": true,
+        "tec_flag": "GRAB",
+        "verb_you": "%1$s grab %4$s",
+        "verb_npc": "%1$s grabs %4$s"
       }
     ]
   },
