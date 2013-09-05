@@ -128,17 +128,21 @@ public:
  void ma_ondodge_effects(); // fires all dodge-triggered martial arts events
  void ma_static_effects(); // fires all non-triggered martial arts events
 
+ bool has_mabuff(mabuff_id buff_id); // checks if a player has any martial arts buffs attached
+
 // melee.cpp
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
  int mabuff_tohit_bonus(); // martial arts to-hit bonus
  int mabuff_dodge_bonus(); // martial arts dodge bonus
+ int mabuff_block_bonus(); // martial arts block bonus
  int mabuff_speed_bonus(); // martial arts to-hit bonus
  float mabuff_bash_mult(); // martial arts bash damage multiplier
  int mabuff_bash_bonus(); // martial arts bash damage bonus, applied after mult
  float mabuff_cut_mult(); // martial arts bash damage multiplier
  int mabuff_cut_bonus(); // martial arts bash damage bonus, applied after mult
+ bool mabuff_throw_immune(); // martial arts throw immunity
 
  int base_damage(bool real_life = true, int stat = -999);
  int base_to_hit(bool real_life = true, int stat = -999);

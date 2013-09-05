@@ -50,6 +50,7 @@ class ma_buff {
     int hit_bonus(player& u);
     int dodge_bonus(player& u);
     int speed_bonus(player& u);
+    int block_bonus(player& u);
 
     // returns the stat bonus for the various damage stats (for rolls)
     int bash_bonus(player& u);
@@ -59,6 +60,9 @@ class ma_buff {
     // bonuses)
     float bash_mult();
     float cut_mult();
+
+    // returns various boolean flags
+    bool is_throw_immune();
 
     std::string id;
     std::string name;
@@ -76,6 +80,9 @@ class ma_buff {
     int min_cutting; // minimum amount of unarmed to trigger this bonus
     int min_stabbing; // minimum amount of unarmed to trigger this bonus
 
+    std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
+    // mapped as buff_id -> min stacks of buff
+
     int dodges_bonus; // extra dodges, like karate
     int blocks_bonus; // extra blocks, like karate
 
@@ -84,6 +91,7 @@ class ma_buff {
     int cut; // flat bonus to cut
     int dodge; // flat dodge bonus
     int speed; // flat speed bonus
+    int block; // unarmed block damage reduction
 
     float bash_stat_mult; // bash damage multiplier, like aikido
     float cut_stat_mult; // cut damage multiplier
@@ -107,6 +115,13 @@ class ma_buff {
     float dodge_dex; // "" dex point
     float dodge_int; // "" int point
     float dodge_per; // "" per point
+
+    float block_str; // bonus block DR per str point
+    float block_dex; // "" dex point
+    float block_int; // "" int point
+    float block_per; // "" per point
+
+    bool throw_immune; // are we immune to throws/grabs?
 };
 
 class martialart {

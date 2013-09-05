@@ -35,10 +35,10 @@ void loadBuffArray(game* g, std::vector<ma_buff>& buffArr, catajson& jsonObj) {
     if (curBuff.has("min_unarmed"))
       buff.min_unarmed = curBuff.get("min_unarmed").as_int();
 
-    if (curBuff.has("dodges_bonus"))
-      buff.dodges_bonus = curBuff.get("dodges_bonus").as_int();
-    if (curBuff.has("blocks_bonus"))
-      buff.blocks_bonus = curBuff.get("blocks_bonus").as_int();
+    if (curBuff.has("bonus_dodges"))
+      buff.dodges_bonus = curBuff.get("bonus_dodges").as_int();
+    if (curBuff.has("bonus_blocks"))
+      buff.blocks_bonus = curBuff.get("bonus_blocks").as_int();
 
     if (curBuff.has("hit"))
       buff.hit = curBuff.get("hit").as_int();
@@ -50,6 +50,8 @@ void loadBuffArray(game* g, std::vector<ma_buff>& buffArr, catajson& jsonObj) {
       buff.dodge = curBuff.get("dodge").as_int();
     if (curBuff.has("speed"))
       buff.speed = curBuff.get("speed").as_int();
+    if (curBuff.has("block"))
+      buff.block = curBuff.get("block").as_int();
 
     if (curBuff.has("bash_mult"))
       buff.bash_stat_mult = curBuff.get("bash_mult").as_double();
@@ -92,6 +94,21 @@ void loadBuffArray(game* g, std::vector<ma_buff>& buffArr, catajson& jsonObj) {
     if (curBuff.has("dodge_per"))
       buff.dodge_per = curBuff.get("dodge_per").as_double();
 
+    if (curBuff.has("block_str"))
+      buff.block_str = curBuff.get("block_str").as_double();
+    if (curBuff.has("block_dex"))
+      buff.block_dex = curBuff.get("block_dex").as_double();
+    if (curBuff.has("block_int"))
+      buff.block_int = curBuff.get("block_int").as_double();
+    if (curBuff.has("block_per"))
+      buff.block_per = curBuff.get("block_per").as_double();
+
+    if (curBuff.has("throw_immune"))
+      buff.throw_immune = curBuff.get("throw_immune").as_bool();
+
+    if (curBuff.has("req_buffs")) {
+      buff.req_buffs = curBuff.get("req_buffs").as_tags();
+    }
 
     buffArr.push_back(buff);
     g->ma_buffs[buff.id] = buff;
@@ -252,12 +269,14 @@ ma_buff::ma_buff() {
   dodge_int = 0.f; // "" int point
   dodge_per = 0.f; // "" per point
 
+  throw_immune = false;
+
 }
 
 void ma_buff::apply_buff(std::vector<disease>& dVec) {
   for (std::vector<disease>::iterator it = dVec.begin();
       it != dVec.end(); ++it) {
-    if (it->type == "ma_buff" && it->buff_id == id) {
+    if (it->is_mabuff() && it->buff_id == id) {
         it->duration = buff_duration;
         it->intensity++;
         if (it->intensity > max_stacks) it->intensity = max_stacks;
@@ -271,6 +290,11 @@ void ma_buff::apply_buff(std::vector<disease>& dVec) {
 }
 
 bool ma_buff::is_valid_player(player& u) {
+  for (std::set<mabuff_id>::iterator it = req_buffs.begin();
+      it != req_buffs.end(); ++it) {
+    mabuff_id buff_id = *it;
+    if (!u.has_mabuff(*it)) return false;
+  }
   return ((unarmed_allowed && !u.is_armed()) || (melee_allowed && u.is_armed()))
     && u.skillLevel("melee") >= min_melee
     && u.skillLevel("unarmed") >= min_unarmed
@@ -279,6 +303,7 @@ bool ma_buff::is_valid_player(player& u) {
     && u.skillLevel("stabbing") >= min_stabbing
   ;
 }
+
 
 void ma_buff::apply_player(player& u) {
   u.dodges_left += dodges_bonus;
@@ -291,39 +316,41 @@ int ma_buff::hit_bonus(player& u) {
          u.int_cur*hit_int +
          u.per_cur*hit_per;
 }
-
 int ma_buff::dodge_bonus(player& u) {
   return dodge + u.str_cur*dodge_str +
          u.dex_cur*dodge_dex +
          u.int_cur*dodge_int +
          u.per_cur*dodge_per;
 }
-
+int ma_buff::block_bonus(player& u) {
+  return block + u.str_cur*block_str +
+         u.dex_cur*block_dex +
+         u.int_cur*block_int +
+         u.per_cur*block_per;
+}
 int ma_buff::speed_bonus(player& u) {
   return speed;
 }
-
-
 float ma_buff::bash_mult() {
   return bash_stat_mult;
 }
-
 int ma_buff::bash_bonus(player& u) {
   return bash + u.str_cur*bash_str +
          u.dex_cur*bash_dex +
          u.int_cur*bash_int +
          u.per_cur*bash_per;
 }
-
 float ma_buff::cut_mult() {
   return cut_stat_mult;
 }
-
 int ma_buff::cut_bonus(player& u) {
   return cut + u.str_cur*cut_str +
          u.dex_cur*cut_dex +
          u.int_cur*cut_int +
          u.per_cur*cut_per;
+}
+bool ma_buff::is_throw_immune() {
+  return throw_immune;
 }
 
 
@@ -334,40 +361,36 @@ martialart::martialart() {
   return;
 }
 
-void martialart::apply_static_buffs(player& u, std::vector<disease>& dVec) {
-  for (std::vector<ma_buff>::iterator it = static_buffs.begin();
-      it != static_buffs.end(); ++it) {
+// simultaneously check and add all buffs. this is so that buffs that have
+// buff dependencies added by the same event trigger correctly
+void simultaneous_add(player& u, std::vector<ma_buff>& buffs, std::vector<disease>& dVec) {
+  std::vector<ma_buff> buffer; // hey get it because it's for buffs????
+  for (std::vector<ma_buff>::iterator it = buffs.begin();
+      it != buffs.end(); ++it) {
     if (it->is_valid_player(u)) {
-      it->apply_buff(dVec);
+      buffer.push_back(*it);
     }
   }
+  for (std::vector<ma_buff>::iterator it = buffer.begin();
+      it != buffer.end(); ++it) {
+    it->apply_buff(dVec);
+  }
+}
+
+void martialart::apply_static_buffs(player& u, std::vector<disease>& dVec) {
+  simultaneous_add(u, static_buffs, dVec);
 }
 
 void martialart::apply_onhit_buffs(player& u, std::vector<disease>& dVec) {
-  for (std::vector<ma_buff>::iterator it = onhit_buffs.begin();
-      it != onhit_buffs.end(); ++it) {
-    if (it->is_valid_player(u)) {
-      it->apply_buff(dVec);
-    }
-  }
+  simultaneous_add(u, onhit_buffs, dVec);
 }
 
 void martialart::apply_onmove_buffs(player& u, std::vector<disease>& dVec) {
-  for (std::vector<ma_buff>::iterator it = onmove_buffs.begin();
-      it != onmove_buffs.end(); ++it) {
-    if (it->is_valid_player(u)) {
-      it->apply_buff(dVec);
-    }
-  }
+  simultaneous_add(u, onmove_buffs, dVec);
 }
 
 void martialart::apply_ondodge_buffs(player& u, std::vector<disease>& dVec) {
-  for (std::vector<ma_buff>::iterator it = ondodge_buffs.begin();
-      it != ondodge_buffs.end(); ++it) {
-    if (it->is_valid_player(u)) {
-      it->apply_buff(dVec);
-    }
-  }
+  simultaneous_add(u, ondodge_buffs, dVec);
 }
 
 bool martialart::has_technique(player& u, technique_id tech) {
@@ -435,6 +458,17 @@ int player::mabuff_dodge_bonus() {
   }
   return ret;
 }
+int player::mabuff_block_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      ret += it->intensity * g->ma_buffs[it->buff_id].block_bonus(*this);
+    }
+  }
+  return ret;
+}
 int player::mabuff_speed_bonus() {
   int ret = 0;
   for (std::vector<disease>::iterator it = illness.begin();
@@ -489,4 +523,24 @@ int player::mabuff_cut_bonus() {
     }
   }
   return ret;
+}
+bool player::mabuff_throw_immune() {
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      if (g->ma_buffs[it->buff_id].is_throw_immune()) return true;
+    }
+  }
+  return false;
+}
+
+bool player::has_mabuff(mabuff_id id) {
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() && it->buff_id == id) {
+      return true;
+    }
+  }
+  return false;
 }

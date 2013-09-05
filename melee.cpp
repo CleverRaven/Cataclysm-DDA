@@ -846,7 +846,8 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
   if (z != NULL && !z->has_flag(MF_FLIES)) {
    z->add_effect(ME_DOWNED, rng(1, 2));
    bash_dam += z->fall_damage();
-  } else if (p != NULL && p->weapon.typeId() != "style_judo") {
+  } else if (p != NULL && p->weapon.typeId() != "style_judo" &&
+      !p->mabuff_throw_immune()) {
    p->add_disease("downed", rng(1, 2));
    bash_dam += 3;
   }
@@ -878,7 +879,8 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
    z->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
   } else if (p != NULL) {
    p->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
-   if (p->weapon.typeId() != "style_judo")
+   if (p->weapon.typeId() != "style_judo" &&
+      !p->mabuff_throw_immune())
     p->add_disease("downed", rng(1, 2));
   }
   break;
@@ -1046,6 +1048,10 @@ void player::perform_defensive_technique(
     reduction = 0.3;
 
    bash_dam *= reduction;
+
+   // apply martial arts buffs
+   bash_dam -= mabuff_block_bonus();
+   bash_dam = bash_dam < 0 ? 0 : bash_dam;
   } break;
 
   case TEC_WBLOCK_1:
