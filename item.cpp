@@ -309,7 +309,7 @@ picojson::value item::json_save() const
     /////
     data["invlet"] = pv( int(invlet) );
     data["typeid"] = pv( typeId() );
-    data["bday"] = pv( int(bday) );
+    data["bday"] = pv( bday );
 
     if ( charges != -1 )     data["charges"]    = pv( int(charges) );
     if ( damage != 0 )       data["damage"]     = pv( int(damage) );
@@ -474,7 +474,6 @@ bool item::json_load(picojson::value parsed, game * g)
     std::string ammotmp="null";
     int lettmp = 0;
     int corptmp = -1;
-    int bdaytmp = 0;
     int damtmp = 0;
 
     if ( ! picostring(data, "typeid", idtmp) ) {
@@ -487,8 +486,7 @@ bool item::json_load(picojson::value parsed, game * g)
     picoint(data, "poison", poison);
     picoint(data, "owned", owned);
 
-    picoint(data, "bday", bdaytmp);
-    bday = bdaytmp;
+    picoint(data, "bday", bday);
 
     picostring(data, "mode", mode);
     picoint(data, "mission_id", mission_id);
