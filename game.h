@@ -382,7 +382,6 @@ void load_artifacts(); // Load artifact data
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
-  void init_professions();
   void init_faction_data();
   void init_mtypes();       // Initializes monster types
   void init_mongroups() throw (std::string);    // Initualizes monster groups

@@ -8,6 +8,7 @@
 #include "game.h"
 #include "options.h"
 #include "catacharset.h"
+#include "debug.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -836,22 +837,17 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
 
     WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 
-    int cur_id = 1;
+    int cur_id = 0;
     int retval = 0;
 
-    //may as well stick that +1 on for convenience
-    //std::vector<profession const *> sorted_profs;
     std::vector<const profession *> sorted_profs;
-    sorted_profs.resize(profession::count() + 1);
-    //profession const** sorted_profs = new profession const*[profession::count()+1];
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter)
     {
-        profession const* prof = &(iter->second);
-        sorted_profs[prof->id()] = prof;
+        sorted_profs.push_back(&(iter->second));
     }
-    
+
     // Sort professions by name, but leave Unemployed at the top.
-    std::sort(sorted_profs.begin() + 1, sorted_profs.end(), profession_display_sort);
+    std::sort(sorted_profs.begin(), sorted_profs.end(), profession_display_sort);
 
     do
     {
@@ -876,9 +872,9 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         }
         fold_and_print(w_description, 0, 0, 78, c_green, sorted_profs[cur_id]->description().c_str());
 
-        for (int i = 1; i < 17; ++i)
+        for (int i = 0; i < 16; ++i)
         {
-            mvwprintz(w, 4 + i, 2, c_ltgray, "\
+            mvwprintz(w, 5 + i, 2, c_ltgray, "\
                                              ");	// Clear the line
             int id = i;
             if ((cur_id < 7) || (profession::count() < 16))
@@ -901,12 +897,12 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
 
             if (u->prof != sorted_profs[id])
             {
-                mvwprintz(w, 4 + i, 2, (sorted_profs[id] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
+                mvwprintz(w, 5 + i, 2, (sorted_profs[id] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
                           sorted_profs[id]->name().c_str());
             }
             else
             {
-                mvwprintz(w, 4 + i, 2,
+                mvwprintz(w, 5 + i, 2,
                           (sorted_profs[id] == sorted_profs[cur_id] ?
                            hilite(COL_SKILL_USED) : COL_SKILL_USED),
                           sorted_profs[id]->name().c_str());
@@ -920,15 +916,15 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             case 'j':
             case '2':
                 cur_id++;
-                if (cur_id > profession::count())
-                    cur_id = 1;
+                if (cur_id >= profession::count())
+                    cur_id = 0;
             break;
 
             case 'k':
             case '8':
                 cur_id--;
-                if (cur_id < 1)
-                    cur_id = profession::count();
+                if (cur_id < 0)
+                    cur_id = profession::count() - 1;
             break;
 
             case '\n':

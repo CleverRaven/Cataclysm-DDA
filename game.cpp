@@ -92,7 +92,6 @@ game::game() :
  init_faction_data();
  init_morale();
  init_skills();
- init_professions();
  init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
  init_itypes();               // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();

@@ -1,11 +1,11 @@
 #include "init.h"
 
 #include "json.h"
+#include "debug.h"
 
 #include "material.h"
 #include "bionics.h"
-
-#include "debug.h"
+#include "profession.h"
 
 #include <string>
 #include <vector>
@@ -20,6 +20,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     std::vector<std::string> ret;
     ret.push_back("data/raw/materials.json");
     ret.push_back("data/raw/bionics.json");
+    ret.push_back("data/raw/professions.json");
     return ret;
 }
 
@@ -32,6 +33,8 @@ bool load_object_from_json(std::string const &type, Jsin &jsin) throw (std::stri
         return material_type::load_material(jsin);
     } else if (type == "bionic") {
         return load_bionic(jsin);
+    } else if (type == "profession") {
+        return profession::load_profession(jsin);
     } else {
         // unknown type, skip it
         jsin.skip_object();

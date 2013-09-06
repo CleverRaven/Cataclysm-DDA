@@ -3,18 +3,17 @@
 #include <sstream>
 
 #include "profession.h"
-#include "output.h"
 
-#include "catajson.h"
+#include "debug.h"
+#include "json.h"
 
 profession::profession()
-   : _id(0), _ident(""), _name("null"), _description("null"), _point_cost(0)
+   : _ident(""), _name("null"), _description("null"), _point_cost(0)
 {
 }
 
-profession::profession(unsigned int id, std::string ident, std::string name, std::string description, signed int points)
+profession::profession(std::string ident, std::string name, std::string description, signed int points)
 {
-    _id = id;
     _ident = ident;
     _name = name;
     _description = description;
@@ -23,80 +22,59 @@ profession::profession(unsigned int id, std::string ident, std::string name, std
 
 profmap profession::_all_profs;
 
-void game::init_professions()
+bool profession::load_profession(Jsin &jsin)
 {
-    profession::_all_profs = profession::load_professions();
-}
-
-profmap profession::load_professions()
-{
-    profmap allProfs;
-    catajson profsRaw("data/raw/professions.json",true);
-
-    unsigned int id = 0;
-    for (profsRaw.set_begin(); profsRaw.has_curr() && json_good(); profsRaw.next())
-    {
-        ++id;
-        catajson currProf = profsRaw.curr();
-        std::string ident = currProf.get("ident").as_string();
-        std::string name = currProf.get("name").as_string();
-        std::string description = currProf.get("description").as_string();
-        signed int points = currProf.get("points").as_int();
-
-        name = _(name.c_str());
-        description = _(description.c_str());
-
-        profession newProfession(id, ident, name, description, points);
-
-        catajson items = currProf.get("items");
-        for (items.set_begin(); items.has_curr(); items.next())
-        {
-            newProfession.add_item(items.curr().as_string());
-        }
-
-        // Addictions are optional
-        if (currProf.has("addictions"))
-        {
-            catajson addictions = currProf.get("addictions");
-            for (addictions.set_begin(); addictions.has_curr(); addictions.next())
-            {
-                catajson currAdd = addictions.curr();
-                std::string type_str = currAdd.get("type").as_string();
-                add_type type = addiction_type(type_str);
-                int intensity = currAdd.get("intensity").as_int();
-                newProfession.add_addiction(type,intensity);
+    profession prof;
+    std::string s;
+    jsin.start_object();
+    while (!jsin.end_object()) {
+        s = jsin.get_member_name();
+        if (s == "ident") {
+            prof._ident = jsin.get_string();
+        } else if (s == "name") {
+            prof._name = _(jsin.get_string().c_str());
+        } else if (s == "description") {
+            prof._description = _(jsin.get_string().c_str());
+        } else if (s == "points") {
+            prof._point_cost = jsin.get_int();
+        } else if (s == "items") {
+            jsin.start_array();
+            while (!jsin.end_array()) {
+                prof.add_item(jsin.get_string());
             }
-        }
-        // Skills are optional as well
-        if (currProf.has("skills"))
-        {
-            catajson skills = currProf.get("skills");
-            for (skills.set_begin(); skills.has_curr(); skills.next())
-            {
-                catajson currSkill = skills.curr();
-                std::string skill_str = currSkill.get("name").as_string();
-                // Verifying this skill exists MUST happen later since the
-                // skills have not yet been loaded at this point.
-                int level = currSkill.get("level").as_int();
-                newProfession.add_skill(skill_str, level);
+        } else if (s == "skills") {
+            jsin.start_array();
+            while (!jsin.end_array()) {
+                prof.add_skill(jsin.fetch_string("name"),
+                               jsin.fetch_int("level"));
+                jsin.skip_object();
             }
-        }
-        // Optional flags
-        if (currProf.has("flags"))
-        {
-            catajson cflags = currProf.get("flags");
-            for (cflags.set_begin(); cflags.has_curr(); cflags.next())
-            {
-                newProfession.flags.insert(cflags.curr().as_string());
+        } else if (s == "addictions") {
+            jsin.start_array();
+            while (!jsin.end_array()) {
+                prof.add_addiction(addiction_type(jsin.fetch_string("type")),
+                                   jsin.fetch_int("intensity"));
+                jsin.skip_object();
             }
+        } else if (s == "flags") {
+            jsin.start_array();
+            while (!jsin.end_array()) {
+                prof.flags.insert(jsin.get_string());
+            }
+        } else if (s == "type") {
+            jsin.skip_value();
+        } else {
+            dout(D_WARNING) << "Ignoring profession member: " + s;
+            jsin.skip_value();
         }
-        allProfs[ident] = newProfession;
     }
-
-    if(!json_good())
-        exit(1);
-
-    return allProfs;
+    if (prof._ident.empty()) {
+        dout(D_ERROR) << "Failed to load profession, no ident found.";
+        return false;
+    }
+    _all_profs[prof._ident] = prof;
+    dout(D_INFO) << "Loaded profession: " + prof._name;
+    return true;
 }
 
 profession* profession::prof(std::string ident)
@@ -108,7 +86,7 @@ profession* profession::prof(std::string ident)
     }
     else
     {
-        debugmsg("Tried to get invalid profession: %s", ident.c_str());
+        dout(D_ERROR) << "Tried to get invalid profession: " + ident;
         return NULL;
     }
 }
@@ -155,11 +133,6 @@ void profession::add_addiction(add_type type,int intensity)
 void profession::add_skill(const std::string& skill_name, const int level)
 {
     _starting_skills.push_back(StartingSkill(skill_name, level));
-}
-
-unsigned int profession::id() const
-{
-    return _id;
 }
 
 std::string profession::ident() const
