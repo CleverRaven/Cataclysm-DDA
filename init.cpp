@@ -66,7 +66,7 @@ void load_all_from_json(Jsin &jsin) throw (std::string)
     if (ch == '{') {
         // find type and dispatch single object
         jsin.save_pos();
-        type = jsin.find_type();
+        type = jsin.fetch_string("type");
         jsin.load_pos();
         load_object_from_json(type, jsin);
     } else if (ch == '[') {
@@ -82,7 +82,7 @@ void load_all_from_json(Jsin &jsin) throw (std::string)
                 throw err.str();
             }
             jsin.save_pos();
-            type = jsin.find_type();
+            type = jsin.fetch_string("type");
             jsin.load_pos();
             load_object_from_json(type, jsin);
         }

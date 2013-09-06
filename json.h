@@ -22,7 +22,13 @@ public:
 
     void eat_whitespace();
 
-    std::string find_type(); // find an object's "type".
+    std::string fetch_string(std::string name);
+    int fetch_int(std::string name);
+    bool fetch_bool(std::string name);
+    double fetch_float(std::string name);
+
+    bool has_member(std::string name); // seek_member then reset position
+    bool seek_member(std::string &name); // true iff found it
 
     void skip_member();
     void skip_pair_separator();

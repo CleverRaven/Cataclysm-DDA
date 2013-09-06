@@ -87,14 +87,69 @@ void Jsin::eat_whitespace()
     }
 }
 
-// TODO: generalize to find any member's value by name
-std::string Jsin::find_type()
+std::string Jsin::fetch_string(std::string s)
 {
-    std::string s = "";
-    int startpos = stream->tellg();
-    int namepos;
+    int pos = stream->tellg();
+    std::string ret = "";
+    if (seek_member(s)) {
+        ret = get_string();
+    } else {
+        dout(D_ERROR) << "Failed to find string member: " + s;
+    }
+    stream->seekg(pos);
+    return ret;
+}
+
+int Jsin::fetch_int(std::string s)
+{
+    int pos = stream->tellg();
+    int ret = 0;
+    if (seek_member(s)) {
+        ret = get_int();
+    } else {
+        dout(D_ERROR) << "Failed to find int member: " + s;
+    }
+    stream->seekg(pos);
+    return ret;
+}
+
+bool Jsin::fetch_bool(std::string s)
+{
+    int pos = stream->tellg();
+    bool ret = false;
+    if (seek_member(s)) {
+        ret = get_bool();
+    } else {
+        dout(D_ERROR) << "Failed to find bool member: " + s;
+    }
+    stream->seekg(pos);
+    return ret;
+}
+
+double Jsin::fetch_float(std::string s)
+{
+    int pos = stream->tellg();
+    double ret = 0;
+    if (seek_member(s)) {
+        ret = get_float();
+    } else {
+        dout(D_ERROR) << "Failed to find float member: " + s;
+    }
+    stream->seekg(pos);
+    return ret;
+}
+
+bool Jsin::has_member(std::string name)
+{
+    int pos = stream->tellg();
+    bool ret = seek_member(name);
+    stream->seekg(pos);
+    return ret;
+}
+
+bool Jsin::seek_member(std::string &name)
+{
     char ch;
-    char typestr[7];
     // initial '{' may be included or not (as "{{" is impossible)
     if (peek() == '{') {
         stream->get();
@@ -102,14 +157,12 @@ std::string Jsin::find_type()
     while (stream->good()) {
         // eat whitespace
         eat_whitespace();
-        namepos = stream->tellg();
         // make sure there's a name here
         ch = peek();
         if (ch == '}') {
             // reached the end of the object without finding type
-            dout(D_ERROR) << "search for \"type\" member failed!";
-            stream->get();
-            break;
+            dout(D_WARNING) << "member not found: " + name;
+            return false;
         } else if (ch == ',') {
             // usually the separator will be consumed elsewhere,
             // but just in case:
@@ -121,27 +174,15 @@ std::string Jsin::find_type()
             dout(D_ERROR) << err;
             break;
         }
-        // check if the name is "\"type\""
-        stream->get(typestr, 7);
-        if (strcmp(typestr, "\"type\"") == 0) {
-            // eat ':' and return the following string value
-            skip_pair_separator();
-            s = get_string();
-            break;
+        // check if the name matches
+        if (name == get_member_name()) {
+            return true;
         } else {
-            stream->seekg(namepos);
-            std::string name = get_member_name();
-            // eat this name/value pair and iterate.
-            stream->seekg(namepos);
-            skip_member();
+            skip_value();
         }
     }
-    if (s.empty()) {
-        dout(D_ERROR) << "failed to find object type!";
-    }
-    // put the stream position back where it was at the start
-    stream->seekg(startpos);
-    return s;
+    dout(D_ERROR) << "stream failure searching for: " + name;
+    return false;
 }
 
 void Jsin::skip_member()
