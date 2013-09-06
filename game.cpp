@@ -27,6 +27,7 @@
 #include "mapdata.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "init.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -83,7 +84,6 @@ game::game() :
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
  init_npctalk();
- init_materials();
  init_artifacts();
  init_weather();
  init_overmap();
@@ -110,6 +110,7 @@ game::game() :
  init_diseases();             // Set up disease lookup table
  init_dreams();               // Set up dreams                    (SEE mutation_data.cpp)
  init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
+    load_json_dir("data/raw"); // load it, load it all!
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;

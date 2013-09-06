@@ -2,7 +2,7 @@
 
 #include "json.h"
 
-//#include "material.h"
+#include "material.h"
 
 #include <string>
 #include <vector>
@@ -30,7 +30,7 @@ void load_json_dir(std::string const &dirname)
 std::vector<std::string> listfiles(std::string const &dirname)
 {
     std::vector<std::string> ret;
-    //ret.push_back("data/raw/materials.json");
+    ret.push_back("data/raw/materials.json");
     return ret;
 }
 
@@ -78,7 +78,7 @@ bool load_object_from_json(std::string const &type, Jsin &jsin) throw (std::stri
         throw "bad stream. aborting object load.";
     }
     if (type == "material") {
-        //return material_type::load_material(jsin);
+        return material_type::load_material(jsin);
     } else {
         // unknown type, skip it
         jsin.skip_object();

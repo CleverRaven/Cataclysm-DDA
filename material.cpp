@@ -71,60 +71,6 @@ material_type::material_type(std::string ident)
 
 material_map material_type::_all_materials;
 
-void game::init_materials()
-{
-    material_type::_all_materials = material_type::load_materials();
-}
-
-material_map material_type::load_materials()
-{
-    material_map allMaterials;
-
-    catajson materialsRaw("data/raw/materials.json", true);
-
-    unsigned int id = 0;
-    for (materialsRaw.set_begin(); materialsRaw.has_curr() && json_good(); materialsRaw.next())
-    {
-        ++id;
-        catajson currMaterial = materialsRaw.curr();
-        std::string ident = currMaterial.get("ident").as_string();
-        std::string name = currMaterial.get("name").as_string();
-        int bash_resist = currMaterial.get("bash_resist").as_int();
-        int cut_resist = currMaterial.get("cut_resist").as_int();
-        std::string bash_dmg_verb = currMaterial.get("bash_dmg_verb").as_string();
-        std::string cut_dmg_verb = currMaterial.get("cut_dmg_verb").as_string();
-        int acid_resist = currMaterial.get("acid_resist").as_int();
-        int elec_resist = currMaterial.get("elec_resist").as_int();
-        int fire_resist = currMaterial.get("fire_resist").as_int();
-        int density = currMaterial.get("density").as_int();
-
-        catajson adjList = currMaterial.get("dmg_adj");
-        std::string dmg_adj[4];
-        dmg_adj[0] = adjList.get(0).as_string();
-        dmg_adj[1] = adjList.get(1).as_string();
-        dmg_adj[2] = adjList.get(2).as_string();
-        dmg_adj[3] = adjList.get(3).as_string();
-
-        name = _(name.c_str());
-        bash_dmg_verb = _(bash_dmg_verb.c_str());
-        cut_dmg_verb = _(cut_dmg_verb.c_str());
-        dmg_adj[0] = _(dmg_adj[0].c_str());
-        dmg_adj[1] = _(dmg_adj[1].c_str());
-        dmg_adj[2] = _(dmg_adj[2].c_str());
-        dmg_adj[3] = _(dmg_adj[3].c_str());
-
-        material_type newMaterial(id, ident, name, bash_resist, cut_resist, bash_dmg_verb,
-                                  cut_dmg_verb, dmg_adj, acid_resist, elec_resist, fire_resist, density);
-
-        allMaterials[ident] = newMaterial;
-    }
-
-    if(!json_good())
-        exit(1);
-
-    return allMaterials;
-}
-
 // load a material object from incoming JSON
 bool material_type::load_material(Jsin &jsin)
 {
