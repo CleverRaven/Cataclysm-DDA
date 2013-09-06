@@ -44,6 +44,10 @@ extern game *g;
 
 #define PICKUP_RANGE 2
 extern bool trigdist;
+
+extern const int savegame_version;
+extern int savegame_loading_version;
+
 enum tut_type {
  TUT_NULL,
  TUT_BASIC, TUT_COMBAT,

@@ -1,32 +1,20 @@
 
 #include "game.h"
-#include "rng.h"
-#include "input.h"
-#include "keypress.h"
 #include "output.h"
 #include "skill.h"
 #include "line.h"
 #include "computer.h"
-#include "veh_interact.h"
 #include "options.h"
 #include "auto_pickup.h"
 #include "mapbuffer.h"
 #include "debug.h"
-#include "editmap.h"
-#include "bodypart.h"
 #include "map.h"
 #include "output.h"
-#include "uistate.h"
 #include "item_factory.h"
-#include "advanced_inv.h"
-#include "helper.h"
-#include "text_snippets.h"
-#include "catajson.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "mapdata.h"
-#include "catacharset.h"
 #include "translations.h"
 //#include "player.h"
 #include <map>
@@ -37,25 +25,13 @@
 #include <sstream>
 #include <math.h>
 #include <vector>
-#ifndef _MSC_VER
-#include <unistd.h>
-#include <dirent.h>
-#endif
-#include <sys/stat.h>
 #include "debug.h"
 #include "artifactdata.h"
 #include "weather.h"
-#if (defined _WIN32 || defined __WIN32__)
-#include <windows.h>
-#include <tchar.h>
-#endif
 
-#ifdef _MSC_VER
-// MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
-#define snprintf _snprintf_s
-#endif
-
-#define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+const int savegame_version = 4;
+////
+int savegame_loading_version = savegame_version;
 
 /*
  * Save to opened character.sav
@@ -65,14 +41,13 @@ void game::serialize(std::ofstream & fout) {
  * save format version. If an alteration is made that breaks saves, please bump this version and
  * make a new copy in serialize_load.
  */
-    const int savever = 3;
 
 /*
- * Format version 3: Interim format. Still resembles a hairball, but it's at least a multi-line hairball;
+ * Format version -current-: Interim format. Still resembles a hairball, but it's at least a multi-line hairball;
  * Data is segmented for readabilty, stability, and gradual conversion into something closer to sanity.
  */
         // Header
-        fout << "# version " << savever << std::endl;
+        fout << "# version " << savegame_version << std::endl;
         // First, write out basic game state information.
         fout << int(turn) << "  " << int(last_target) << " " << int(run_mode) << " " <<
              mostseen << " " << nextinv << " " << next_npc_id << " " <<
@@ -136,7 +111,6 @@ inline std::stringstream & stream_line(std::ifstream & f, std::stringstream & s,
  * Parse an open .sav file.
  */
 void game::unserialize(std::ifstream & fin) {
-   int loadver=0; // version to load; set by '# version n' header
    if ( fin.peek() == '#' ) {
        std::string vline;
        getline(fin, vline);
@@ -145,16 +119,11 @@ void game::unserialize(std::ifstream & fin) {
        std::stringstream vliness(vline);
        vliness >> tmphash >> tmpver >> savedver;
        if ( tmpver == "version" && savedver != -1 ) {
-           loadver = savedver;
+           savegame_loading_version = savedver;
        }
    }
-   switch (loadver) {
-/*
-       case ???: {
-       } break;
-*/
-       case 3:
-       case 2: {
+   switch (savegame_loading_version) {
+       default: {
 /*
  * Format version 3: Temporary format. Still resembles a hairball, but it's at least a multi-line hairball;
  * Data is segmented for readabilty, stability, and gradual conversion into something closer to sanity.
@@ -247,9 +216,6 @@ void game::unserialize(std::ifstream & fin) {
                     getline(fin, itemdata);
                     if ( item_place == 'I' || item_place == 'C' || item_place == 'W' || item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
                         item tmpitem(itemdata, this);
-#ifdef has_baseobject
-                        tmpitem.parentref = &u;
-#endif
                         if (item_place == 'I') {
                             tmpinv.push_back(tmpitem);
                         } else if (item_place == 'C') {
@@ -271,7 +237,8 @@ void game::unserialize(std::ifstream & fin) {
         ////////
         } break;
 
-        default: {
+        case 0: {
+         // todo: make savegame_legacy.cpp?
 /*
 original 'structure', which globs game/weather/location & killcount/player data onto the same lines.
 */
