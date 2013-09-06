@@ -13525,6 +13525,36 @@
       [ "spray_can", 1 ]
     ]
   ]
+},
+
+{
+  "result": "matchbomb",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "superglue", 1 ],
+      [ "string_36", 1 ]
+    ],
+    [
+      [ "can_food", 1 ],
+      [ "can_drink", 1 ],
+      [ "canister_empty", 1 ]
+    ],
+    [
+      [ "matches", 200 ]
+    ]
+  ]
 }
 ]
 }

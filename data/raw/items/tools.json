@@ -4689,5 +4689,51 @@
     "ammo": "gasoline",
     "revert_to": "null",
     "use_action": "LIGHTER"
+  },
+
+  {
+    "id": "matchbomb",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "light_red",
+    "name": "match head bomb",
+    "description": "A bottle filled with match heads and equipped with a fuse. Use this item to light the fuse; you will, of course, need a lighter in your inventory to do this. After lighting it, throw it to cause fires.",
+    "price": 200,
+    "material": ["glass", "cotton"],
+    "weight": 412,
+    "volume": 2,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "MATCHBOMB"
+  },
+
+  {
+    "id": "matchbomb_lit",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "light_red",
+    "name": "match head bomb (lit)",
+    "description": "A bottle filled with match heads and equipped with a fuse. Throwing it will cause it to explode. Dropping it while lit is not safe.",
+    "price": 0,
+    "material": ["glass", "cotton"],
+    "weight": 412,
+    "volume": 2,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 1,
+    "max_charges": 1,
+    "initial_charges": 1,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "MATCHBOMB_ACT"
   }
 ]
