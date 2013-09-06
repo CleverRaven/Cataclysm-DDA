@@ -4712,5 +4712,28 @@
     "ammo": "charcoal",
     "revert_to": "null",
     "use_action": "NONE"
+  },
+
+  {
+    "id": "char_purifier",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "charcoal water purifier",
+    "description": "Using this item on a container full of water will purify the water using layered charcoal. Water taken from uncertain sources like a river may be dirty.",
+    "price": 800,
+    "material": ["iron"],
+    "weight": 1820,
+    "volume": 14,
+    "bashing": 3,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 10,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "charcoal",
+    "revert_to": "null",
+    "use_action": "WATER_PURIFIER"
   }
 ]
