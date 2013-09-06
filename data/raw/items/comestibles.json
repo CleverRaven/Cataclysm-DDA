@@ -5305,7 +5305,7 @@
         "container": "bottle_plastic",
         "quench": 20,
         "nutrition": 10,
-        "spoils_in": 300,
+        "spoils_in": 600,
         "addiction_potential": 0,
         "addiction_type" : "none",
         "charges": 1,
