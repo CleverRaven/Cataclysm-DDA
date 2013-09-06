@@ -13579,11 +13579,76 @@
 	 [ "steel_chunk", 12 ],
      [ "scrap", 36 ]
      ],
-      [ "metal_tank", 1 ]
+     [ [ "metal_tank", 1 ]
      ],
      [ ["pipe", 3]
      ] 
 	]
+},
+{
+  "result": "char_kiln",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+      [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+      ],
+	  [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "welder", 150 ],
+      [ "welder_crude", 225 ],
+      [ "toolset", 15 ],
+      [ "soldering_iron", 150 ]
+      ] ],
+  "components": 
+    [ 
+     [
+     [ "steel_lump", 5 ],
+	 [ "steel_chunk", 20 ],
+     [ "scrap", 60 ]
+     ],
+     [ [ "metal_tank", 1 ]
+     ],
+     [ ["pipe", 6]
+     ] 
+	]
+},
+{
+  "result": "charcoal",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "lighter", 1 ],
+      [ "ref_lighter", 1 ],
+      [ "fire", -1 ],
+      [ "toolset", 1 ]
+    ],
+    [
+      [ "char_kiln", -1 ] ]
+  ],
+  "components": [
+    [
+      [ "2x4", 10 ]
+    ]
+  ]
 }
 ]
 }
