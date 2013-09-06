@@ -2039,5 +2039,19 @@
     "bashing": 18,
     "cutting": 1,
     "to_hit": 2
+  },
+  {
+    "id": "rock_sock",
+    "symbol": ";",
+    "color": "light_blue",
+    "name": "rock in a sock",
+    "description": "A sock with a rock tied into the end of it. A true weapon of desperation",
+    "price": 10,
+    "material" : ["cloth", "stone"],
+    "weight": 1007,
+    "volume": 2,
+    "bashing": 16,
+    "cutting": 0,
+    "to_hit": 1
   }
 ]
