@@ -49,7 +49,7 @@ void game::show_auto_pickup()
 
     mvwprintz(w_auto_pickup_border, 0, 29, c_ltred, _(" AUTO PICKUP MANAGER "));
     wrefresh(w_auto_pickup_border);
-    
+
     int tmpx = 0;
     tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<A>dd"))+2;
     tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove"))+2;
@@ -119,15 +119,10 @@ void game::show_auto_pickup()
                 mvwprintz(w_auto_pickup, 8, 15, c_white, _("Please load a character first to use this page!"));
             }
 
-            if (vAutoPickupRules[iCurrentPage].size() > iContentHeight) {
-                iStartPos = iCurrentLine - (iContentHeight - 1) / 2;
+            //Draw Scrollbar
+            draw_scrollbar(w_auto_pickup_border, iCurrentLine, iContentHeight, vAutoPickupRules[iCurrentPage].size(), 5);
 
-                if (iStartPos < 0) {
-                    iStartPos = 0;
-                } else if (iStartPos + iContentHeight > vAutoPickupRules[iCurrentPage].size()) {
-                    iStartPos = vAutoPickupRules[iCurrentPage].size() - iContentHeight;
-                }
-            }
+            calcStartPos(iStartPos, iCurrentLine, iContentHeight, vAutoPickupRules[iCurrentPage].size());
 
             // display auto pickup
             for (int i = iStartPos; i < vAutoPickupRules[iCurrentPage].size(); i++) {
@@ -236,7 +231,7 @@ void game::show_auto_pickup()
                     case '\n': //Edit Col in current line
                         bStuffChanged = true;
                         if (iCurrentCol == 1) {
-                            fold_and_print(w_auto_pickup_help, 1, 1, 999, c_white, 
+                            fold_and_print(w_auto_pickup_help, 1, 1, 999, c_white,
                                 _(
                                 "* is used as a Wildcard. A few Examples:\n"
                                 "\n"
@@ -351,7 +346,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     WINDOW* w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
 
     wborder(w_test_rule_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-    
+
     int nmatch = vMatchingItems.size();
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s", nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());
     mvwprintz(w_test_rule_border, 0, iContentWidth/2 - utf8_width(buf.c_str())/2, hilite(c_white), buf.c_str());
@@ -368,15 +363,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
             }
         }
 
-        if (vMatchingItems.size() > iContentHeight) {
-            iStartPos = iCurrentLine - (iContentHeight - 1) / 2;
-
-            if (iStartPos < 0) {
-                iStartPos = 0;
-            } else if (iStartPos + iContentHeight > vMatchingItems.size()) {
-                iStartPos = vMatchingItems.size() - iContentHeight;
-            }
-        }
+        calcStartPos(iStartPos, iCurrentLine, iContentHeight, vMatchingItems.size());
 
         // display auto pickup
         for (int i = iStartPos; i < vMatchingItems.size(); i++) {
