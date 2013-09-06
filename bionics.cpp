@@ -693,7 +693,7 @@ bool load_bionic(Jsin &jsin)
         } else if (s == "type") {
             jsin.skip_value();
         } else {
-            dout(D_INFO) << "Ignoring bionic member: " + s;
+            dout(D_WARNING) << "Ignoring bionic member: " + s;
             jsin.skip_value();
         }
     }

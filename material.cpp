@@ -108,7 +108,7 @@ bool material_type::load_material(Jsin &jsin)
         } else if (name == "type") {
             jsin.skip_value();
         } else {
-            dout(D_INFO) << "Ignoring material member: " + name;
+            dout(D_WARNING) << "Ignoring material member: " + name;
             jsin.skip_value();
         }
     }
