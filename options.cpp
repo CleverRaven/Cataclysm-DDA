@@ -178,11 +178,6 @@ void initOptions() {
                                              false
                                             );
 
-    OPTIONS["REVIVE_ZOMBIES"] =         cOpt("debug", _("Revive zombies"),
-                                             _("Allow zombies to revive after a certain amount of time."),
-                                             true
-                                            );
-
     OPTIONS["SEASON_LENGTH"] =          cOpt("debug", _("Season length"),
                                              _("Season length, in days."),
                                              14, 127, 14
