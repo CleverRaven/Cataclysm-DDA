@@ -75,25 +75,10 @@ Jsin::Jsin(std::istream *s)
     saved_pos = 0;
 }
 
-void Jsin::save_pos()
-{
-    saved_pos = stream->tellg();
-}
-
-void Jsin::load_pos()
-{
-    stream->seekg(saved_pos);
-}
-
-char Jsin::peek()
-{
-    return (char)stream->peek();
-}
-
-bool Jsin::good()
-{
-    return stream->good();
-}
+void Jsin::save_pos() { saved_pos = stream->tellg(); }
+void Jsin::load_pos() { stream->seekg(saved_pos); }
+char Jsin::peek() { return (char)stream->peek(); }
+bool Jsin::good() { return stream->good(); }
 
 void Jsin::eat_whitespace()
 {
