@@ -59,6 +59,7 @@ nc_color sev(int a);	// Right now, ONLY used for scent debugging....
 
 //The one and only game instance
 game *g;
+extern world_factory *world_generator;
 
 uistatedata uistate;
 
@@ -77,6 +78,7 @@ game::game() :
  gamemode(NULL)
 {
  dout() << "Game initialized.";
+ world_generator = new world_factory();
 
  try {
  if(!json_good())
@@ -2850,6 +2852,7 @@ void game::load_from(std::string worldname, std::string name)
 
     // load [worldname] world
     MAPBUFFER.load_from(worldname);
+    DebugLog() << "\tMap loaded\n";
     std::ifstream fin;
     std::stringstream playerfile;
     playerfile << "save/" << worldname << "/" << name << ".sav";
@@ -2872,12 +2875,17 @@ void game::load_from(std::string worldname, std::string name)
     // recalculated. (This would be cleaner if u.worn were private.)
     u.recalc_sight_limits();
 
+    DebugLog() << "\tPlayer Loaded\n";
+
     load_auto_pickup(true); // Load character auto pickup rules
+    DebugLog() << "\tAPU loaded\n";
     //load_uistate();
     load_uistate_from(worldname);
+    DebugLog() << "\tUIState Loaded\n";
     // Now load up the master game data; factions (and more?)
     //load_master();
     load_master_from(worldname);
+    DebugLog() << "\tMaster loaded\n";
     update_map(u.posx, u.posy);
     set_adjacent_overmaps(true);
     MAPBUFFER.set_dirty();
@@ -2923,6 +2931,7 @@ void game::load(std::string name)
 //Requires a valid std:stringstream masterfile to save the
 void game::save_factions_missions_npcs ()
 {
+    DebugLog() << "Saving factions/missions/npcs for [" << active_world << "]\n";
 	std::stringstream masterfile;
 	std::ofstream fout;
     masterfile << "save/" << active_world << "/master.gsav";
@@ -2943,6 +2952,7 @@ void game::save_factions_missions_npcs ()
 
 void game::save_artifacts()
 {
+    DebugLog() << "Saving artifacts in world ["<<active_world<<"]\n";
     std::ofstream fout;
     std::vector<picojson::value> artifacts;
     std::stringstream artifactfile;
@@ -2962,6 +2972,7 @@ void game::save_artifacts()
 
 void game::save_maps()
 {
+    DebugLog() << "Saving maps in world ["<<active_world<<"]\n";
     m.save(cur_om, turn, levx, levy, levz);
     overmap_buffer.save();
     MAPBUFFER.save();
@@ -2995,6 +3006,7 @@ std::string game::save_weather() const
 
 void game::save()
 {
+    DebugLog() << "Saving player file ["<<u.name <<"] in world ["<<active_world<<"]\n";
  std::stringstream playerfile;
  std::ofstream fout;
  playerfile << "save/" << active_world << "/" << base64_encode(u.name) << ".sav";
@@ -3005,6 +3017,8 @@ void game::save()
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
  save_auto_pickup(true); // Save character auto pickup rules
  save_uistate();
+
+ world_generator->active_world->world_saves.push_back(base64_encode(u.name));
 }
 
 void game::delete_world(std::string worldname, bool delete_folder)

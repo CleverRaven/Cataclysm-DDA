@@ -58,14 +58,21 @@ class world_factory
         void set_active_world(WORLD *world);
         void save_world(WORLD *world = NULL);
         std::map<std::string, WORLD*> get_all_worlds();
+        WORLD *pick_world();
 
         WORLD *active_world;
+        std::map<std::string, WORLD*> all_worlds;
+        std::vector<std::string> all_worldnames;
+
+        void remove_world(std::string worldname);
 
     protected:
     private:
         std::string pick_random_name();
         int show_worldgen_tab_options(WINDOW *win, WORLD *world);
         int show_worldgen_tab_confirm(WINDOW *win, WORLD *world);
+
+        void draw_worldgen_tabs(WINDOW *win, int current, std::vector<std::string> tabs);
 
         std::map<std::string, cOpt> get_world_options(std::string path);
 };

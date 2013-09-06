@@ -24,6 +24,7 @@
 #include "gamemode.h"
 #include "action.h"
 #include "translations.h"
+#include "world_factory.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -41,6 +42,7 @@
 
 // The reference to the one and only game instance.
 extern game *g;
+extern world_factory *world_generator;
 
 #define PICKUP_RANGE 2
 extern bool trigdist;
@@ -548,9 +550,9 @@ void load_artifacts(); // Load artifact data
   void groupdebug();      // Get into on monster groups
 
   // world factory functions
-  int pick_world_to_play();
-  int worldpick_screen();
-  int worldgen_screen();
+  WORLD *pick_world_to_play();
+  //int worldpick_screen();
+  //int worldgen_screen();
 
 
 // ########################## DATA ################################

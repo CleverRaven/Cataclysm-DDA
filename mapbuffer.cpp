@@ -243,6 +243,7 @@ void mapbuffer::load_from(std::string worldname)
         {
             popup_nowait(_("Please wait as the map loads [%d/%d]"),
                     num_loaded, num_submaps);
+            DebugLog() << "Loading submap "<<num_loaded<<"\n";
         }
         int locx, locy, locz, turn;
         submap* sm = new submap();
@@ -259,6 +260,7 @@ void mapbuffer::load_from(std::string worldname)
             turndif = 0;
         }
         // Load terrain
+DebugLog() << "\tLoading Terrain\n";
         for (int j = 0; j < SEEY; j++)
         {
             for (int i = 0; i < SEEX; i++)
@@ -274,6 +276,7 @@ void mapbuffer::load_from(std::string worldname)
             }
         }
         // Load irradiation
+DebugLog() << "\tLoading Irradiation\n";
         for (int j = 0; j < SEEY; j++)
         {
             for (int i = 0; i < SEEX; i++)
@@ -287,60 +290,86 @@ void mapbuffer::load_from(std::string worldname)
             }
         }
         // Load items and traps and fields and spawn points and vehicles
+DebugLog() << "\tLoading items/traps/fields/spawn points/vehicles\n";
         std::string string_identifier;
         do
         {
             fin >> string_identifier; // "----" indicates end of this submap
             t = 0;
-            if (string_identifier == "I") {
+            if (string_identifier == "I")
+            {
                 fin >> itx >> ity;
                 getline(fin, databuff); // Clear out the endline
                 getline(fin, databuff);
                 it_tmp.load_info(databuff, master_game);
                 sm->itm[itx][ity].push_back(it_tmp);
                 if (it_tmp.active)
+                {
                     sm->active_item_count++;
-            } else if (string_identifier == "C") {
+                }
+            }
+            else if (string_identifier == "C")
+            {
                 getline(fin, databuff); // Clear out the endline
                 getline(fin, databuff);
                 int index = sm->itm[itx][ity].size() - 1;
                 it_tmp.load_info(databuff, master_game);
                 sm->itm[itx][ity][index].put_in(it_tmp);
                 if (it_tmp.active)
+                {
                     sm->active_item_count++;
-            } else if (string_identifier == "T") {
+                }
+            }
+            else if (string_identifier == "T")
+            {
                 fin >> itx >> ity >> t;
                 sm->trp[itx][ity] = trap_id(t);
-            } else if (string_identifier == "f") {
+            }
+            else if (string_identifier == "f")
+            {
                 fin >> itx >> ity >> t;
                 sm->frn[itx][ity] = furn_id(t);
-            } else if (string_identifier == "F") {
+            }
+            else if (string_identifier == "F")
+            {
                 fin >> itx >> ity >> t >> d >> a;
                 if(!sm->fld[itx][ity].findField(field_id(t)))
+                {
                     sm->field_count++;
+                }
                 sm->fld[itx][ity].addField(field_id(t), d, a);
-            } else if (string_identifier == "S") {
+            }
+            else if (string_identifier == "S")
+            {
                 char tmpfriend;
                 int tmpfac = -1, tmpmis = -1;
                 std::string spawnname;
                 fin >> t >> a >> itx >> ity >> tmpfac >> tmpmis >> tmpfriend >> spawnname;
                 spawn_point tmp(mon_id(t), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
-                                spawnname);
+                spawnname);
                 sm->spawns.push_back(tmp);
-            } else if (string_identifier == "V") {
+            }
+            else if (string_identifier == "V")
+            {
                 vehicle * veh = new vehicle(master_game);
                 veh->load (fin);
                 //veh.smx = gridx;
                 //veh.smy = gridy;
                 master_game->m.vehicle_list.insert(veh);
                 sm->vehicles.push_back(veh);
-            } else if (string_identifier == "c") {
+            }
+            else if (string_identifier == "c")
+            {
                 getline(fin, databuff);
                 sm->comp.load_data(databuff);
-            } else if (string_identifier == "B") {
+            }
+            else if (string_identifier == "B")
+            {
                 getline(fin, databuff);
                 sm->camp.load_data(databuff);
-            } else if (string_identifier == "G") {
+            }
+            else if (string_identifier == "G")
+            {
                 std::string s;
                 int j;
                 int i;
