@@ -13647,10 +13647,10 @@
   ],
   "components": [
     [
-      [ "2x4", 10 ],
-      [ "stick", 10 ],
-      [ "splinter", 40 ],
-      [ "bone", 80 ]
+      [ "2x4", 5 ],
+      [ "stick", 5 ],
+      [ "splinter", 20 ],
+      [ "bone", 40 ]
     ]
   ]
 },
