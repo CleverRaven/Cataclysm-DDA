@@ -13535,12 +13535,6 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-        ]
-  ],
   "components": [
     [
       [ "string_36", 1 ]
