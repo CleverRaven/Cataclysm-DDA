@@ -6013,7 +6013,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 5,
+        "charges" : 10,
         "bashing" : 0,
         "fun" : 0
     }
