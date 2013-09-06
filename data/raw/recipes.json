@@ -13638,9 +13638,10 @@
     [
       [ "lighter", 1 ],
       [ "ref_lighter", 1 ],
-      [ "fire", -1 ],
+      [ "matches", 1 ],
       [ "fire_drill", 1 ],
-      [ "toolset", 1 ]
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
     ],
     [
       [ "char_kiln", -1 ] ]
