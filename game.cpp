@@ -3161,13 +3161,21 @@ Current turn: %d; Next spawn %d.\n\
     debugmsg ("There's already vehicle here");
    }
    else {
-    for (int i = 2; i < vtypes.size(); i++)
-     opts.push_back (vtypes[i]->name);
+    for(std::map<std::string, vehicle*>::iterator it = vtypes.begin();
+             it != vtypes.end(); ++it) {
+      if(it->first != "custom") {
+        opts.push_back(it->second->name);
+      }
+    }
     opts.push_back (std::string(_("Cancel")));
     veh_num = menu_vec (false, _("Choose vehicle to spawn"), opts) + 1;
-    if (veh_num > 1 && veh_num < num_vehicles)
-     m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90, 100, 0);
-     m.board_vehicle (this, u.posx, u.posy, &u);
+    veh_num -= 2;
+    if(veh_num < opts.size() - 1) {
+      //Didn't pick Cancel
+      std::string selected_opt = opts[veh_num];
+      m.add_vehicle (this, selected_opt, u.posx, u.posy, -90, 100, 0);
+      m.board_vehicle (this, u.posx, u.posy, &u);
+    }
    }
    break;
 
@@ -7078,19 +7086,10 @@ void game::list_items()
                     break;
             }
 
-            if (iItemNum - iFilter > iMaxRows)
-            {
-                iStartPos = iActive - (iMaxRows - 1) / 2;
+            //Draw Scrollbar
+            draw_scrollbar(w_items, iActive, iMaxRows, iItemNum - iFilter, 1);
 
-                if (iStartPos < 0)
-                {
-                    iStartPos = 0;
-                }
-                else if (iStartPos + iMaxRows > iItemNum - iFilter)
-                {
-                    iStartPos = iItemNum - iFilter - iMaxRows;
-                }
-            }
+            calcStartPos(iStartPos, iActive, iMaxRows, iItemNum - iFilter);
 
             for (int i = 0; i < iMaxRows; i++)
             {
@@ -8286,7 +8285,7 @@ void game::drop_in_direction()
     vehicle *veh = m.veh_at(dirx, diry, veh_part);
     if (veh) {
         veh_part = veh->part_with_feature (veh_part, "CARGO");
-        to_veh = veh->type != veh_null && veh_part >= 0;
+        to_veh = veh_part >= 0;
     }
 
     if (m.has_flag(noitem, dirx, diry) || m.has_flag(sealed, dirx, diry)) {
@@ -9587,6 +9586,9 @@ void game::plmove(int dx, int dy)
 // Move the player
   u.posx = x;
   u.posy = y;
+  if(dx != 0 || dy != 0) {
+    u.lifetime_stats()->squares_walked++;
+  }
 
   //Autopickup
   if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) && (m.i_at(u.posx, u.posy)).size() > 0) {
@@ -10641,6 +10643,10 @@ void game::msg_buffer()
   int line = 1;
   int lasttime = -1;
   int i;
+
+  //Draw Scrollbar
+  draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT-2, messages.size(), 1);
+
   for (i = 1; i <= 20 && line <= FULL_SCREEN_HEIGHT-2 && offset + i <= messages.size(); i++) {
    game_message *mtmp = &(messages[ messages.size() - (offset + i) ]);
    calendar timepassed = turn - mtmp->turn;

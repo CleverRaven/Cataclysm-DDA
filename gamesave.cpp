@@ -230,6 +230,7 @@ void game::unserialize(std::ifstream & fin) {
             // Finally, the data on the player.
             getline(fin, data);
             u.load_info(this, data);
+            u.load_memorial_file( fin );
 
             // And the player's inventory...
             u.inv.load_invlet_cache( fin );
