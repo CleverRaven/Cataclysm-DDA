@@ -9587,6 +9587,9 @@ void game::plmove(int dx, int dy)
 // Move the player
   u.posx = x;
   u.posy = y;
+  if(dx != 0 || dy != 0) {
+    u.lifetime_stats()->squares_walked++;
+  }
 
   //Autopickup
   if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) && (m.i_at(u.posx, u.posy)).size() > 0) {

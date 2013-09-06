@@ -34,6 +34,8 @@ std::vector<std::string> vStartingTraits[2];
 
 std::string morale_data[NUM_MORALE_TYPES];
 
+stats player_stats;
+
 void game::init_morale()
 {
     std::string tmp_morale_data[NUM_MORALE_TYPES] = {
@@ -146,6 +148,7 @@ player::player()
  volume = 0;
 
  memorial_log.clear();
+ player_stats.reset();
 
  mDrenchEffect[bp_eyes] = 1;
  mDrenchEffect[bp_mouth] = 1;
@@ -1399,12 +1402,7 @@ void player::load_info(game *g, std::string data)
   failed_missions.push_back(mistmp);
  }
 
- //Loading the player log
- std::string memorialtmp;
- while(dump.peek() == '|') {
-   dump >> memorialtmp;
-   memorial_log.push_back(memorialtmp);
- }
+ dump >> player_stats.squares_walked;
 
  recalc_sight_limits();
 }
@@ -1497,6 +1495,8 @@ std::string player::save_info()
  dump << " " << failed_missions.size() << " ";
  for (int i = 0; i < failed_missions.size(); i++)
   dump << failed_missions[i] << " ";
+
+ dump << player_stats.squares_walked << " ";
 
  dump << std::endl;
 
@@ -1739,6 +1739,12 @@ void player::memorial( std::ofstream &memorial_file )
     }
     memorial_file << "\n";
 
+    //Lifetime stats
+    memorial_file << _("Lifetime Stats") << "\n";
+    memorial_file << indent << _("Distance Walked: ")
+                       << player_stats.squares_walked << _(" Squares") << "\n";
+    memorial_file << "\n";
+
     //History
     memorial_file << _("Game History") << "\n";
     memorial_file << dump_memorial();
@@ -1775,6 +1781,21 @@ void player::add_memorial_log(const char* message, ...)
 }
 
 /**
+ * Loads the data in a memorial file from the given ifstream. All the memorial
+ * entry lines begin with a pipe (|).
+ * @param fin The ifstream to read the memorial entries from.
+ */
+void player::load_memorial_file(std::ifstream &fin)
+{
+  std::string entry;
+  memorial_log.clear();
+  while(fin.peek() == '|') {
+    getline(fin, entry);
+    memorial_log.push_back(entry);
+  }
+}
+
+/**
  * Concatenates all of the memorial log entries, delimiting them with newlines,
  * and returns the resulting string. Used for saving and for writing out to the
  * memorial file.
@@ -1790,6 +1811,19 @@ std::string player::dump_memorial()
 
   return output.str();
 
+}
+
+/**
+ * Returns a pointer to the stat-tracking struct. Its fields should be edited
+ * as necessary to track ongoing counters, which will be added to the memorial
+ * file. For single events, rather than cumulative counters, see
+ * add_memorial_log.
+ * @return A pointer to the stats struct being used to track this player's
+ *         lifetime stats.
+ */
+stats* player::lifetime_stats()
+{
+  return &player_stats;
 }
 
 inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
