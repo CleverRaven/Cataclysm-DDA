@@ -718,7 +718,7 @@ bool game::do_turn()
  u.process_active_items(this);
  u.suffer(this);
 
- if (levz >= 0) {
+ if (levz >= 0 && !u.is_underwater()) {
   weather_effect weffect;
   (weffect.*(weather_data[weather].effect))(this);
  }
