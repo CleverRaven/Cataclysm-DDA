@@ -4689,5 +4689,28 @@
     "ammo": "gasoline",
     "revert_to": "null",
     "use_action": "LIGHTER"
+  },
+
+  {
+    "id": "char_forge",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "charcoal forge",
+    "description": "A portable charcoal fired metalworking forge. Combined with the right tools, you can use this for metalworking.",
+    "price": 200,
+    "material": ["steel"],
+    "weight": 8600,
+    "volume": 32,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 100,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "charcoal",
+    "revert_to": "null",
+    "use_action": "NONE"
   }
 ]

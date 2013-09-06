@@ -9322,7 +9322,8 @@
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
       [ "toolset", 1 ],
-	  [ "forge", 10]
+	  [ "forge", 10],
+	  [ "char_forge", 2]
     ]
   ],
   "components": [
@@ -9368,7 +9369,8 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 2 ],
-      [ "forge", 50 ]
+      [ "forge", 50 ],
+	  [ "char_forge", 10]
     ]
   ],
   "components": [
@@ -9420,7 +9422,8 @@
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 5 ],
-      [ "forge", 100 ]
+      [ "forge", 100 ],
+	  [ "char_forge", 20]
     ]
   ],
   "components": [
@@ -10430,7 +10433,8 @@
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
       [ "toolset", 1 ],
-	  [ "forge", 5]
+	  [ "forge", 5],
+	  [ "char_forge", 1]
     ]
   ],
   "components": [
@@ -10649,7 +10653,8 @@
     [
       ["toolset", 10],
       ["fire", -1],
-	  ["forge", 7]
+	  ["forge", 7],
+	  [ "char_forge", 2]
       ]
   ],
   "components": [
@@ -11612,7 +11617,8 @@
       ["crucible", -1]  
       ],
       [
-	  [ "forge", 150]
+	  [ "forge", 150],
+	  [ "char_forge", 30]
       ]
       ],
   "components": 
@@ -11631,7 +11637,8 @@
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
       [
-	  [ "forge", 100]
+	  [ "forge", 100],
+	  [ "char_forge", 20]
       ]
       ],
   "components": 
@@ -11658,7 +11665,8 @@
       ["anvil", -1]  
       ],
       [
-	  [ "forge", 150]
+	  [ "forge", 150],
+	  [ "char_forge", 30]
       ]
       ],
   "components": 
@@ -11689,7 +11697,8 @@
       ]
 	  ,
       [
-	  [ "forge", 200]
+	  [ "forge", 200],
+	  [ "char_forge", 40]
       ]
       ],
   "components": 
@@ -11722,7 +11731,8 @@
       ]
 	  ,
       [
-	  [ "forge", 250]
+	  [ "forge", 250],
+	  [ "char_forge", 50]
       ]
       ],
   "components": 
@@ -11757,7 +11767,8 @@
       ["swage", -1]  
       ],
       [
-	  [ "forge", 250]
+	  [ "forge", 250],
+	  [ "char_forge", 50]
       ]
       ],
   "components": 
@@ -11786,7 +11797,7 @@
     [ ["chisel", -1] ],
     [ ["swage", -1]  ],
     [ ["anvil", -1]  ],
-    [ ["forge", 50]  ] 
+    [ ["forge", 50], [ "char_forge", 10]  ] 
            ],
   "components": [
     [
@@ -11817,7 +11828,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300],
+	  [ "char_forge", 60]
       ]
       ],
   "components": 
@@ -11856,7 +11868,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 350]
+	  ["forge", 350],
+	  [ "char_forge", 70]
       ]
       ],
   "components": 
@@ -11899,7 +11912,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 400]
+	  ["forge", 400],
+	  [ "char_forge", 80]
       ]
       ],
   "components": 
@@ -11942,7 +11956,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450],
+	  [ "char_forge", 90]
       ]
       ],
   "components": 
@@ -11985,7 +12000,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450],
+	  [ "char_forge", 90]
       ]
       ],
   "components": 
@@ -12028,7 +12044,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450],
+	  [ "char_forge", 90]
       ]
       ],
   "components": 
@@ -12071,7 +12088,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 500]
+	  ["forge", 500], ["char_forge", 100]
       ]
       ],
   "components": 
@@ -12110,7 +12127,7 @@
       ["anvil", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12153,7 +12170,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12195,7 +12212,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12237,7 +12254,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12275,7 +12292,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12313,7 +12330,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12347,7 +12364,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12384,7 +12401,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12421,7 +12438,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12459,7 +12476,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 250]
+	  ["forge", 250], ["char_forge", 50]
       ]
       ],
   "components": 
@@ -12497,7 +12514,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12535,7 +12552,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 350]
+	  ["forge", 350], ["char_forge", 70]
       ]
       ],
   "components": 
@@ -12573,7 +12590,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12613,7 +12630,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450], ["char_forge", 90]
       ]
       ],
   "components": 
@@ -12646,7 +12663,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 20]
+	  ["forge", 20], ["char_forge", 4]
       ]
       ],
   "components": 
@@ -12680,7 +12697,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450], ["char_forge", 90]
       ]
       ],
   "components": 
@@ -12717,7 +12734,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 400]
+	  ["forge", 400], ["char_forge", 80]
       ]
       ],
   "components": 
@@ -12755,7 +12772,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12794,7 +12811,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 250]
+	  ["forge", 250], ["char_forge", 50]
       ]
       ],
   "components": 
@@ -12833,7 +12850,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 350]
+	  ["forge", 350], ["char_forge", 70]
       ]
       ],
   "components": 
@@ -12871,7 +12888,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12909,7 +12926,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450], ["char_forge", 90]
       ]
       ],
   "components": 
@@ -12950,7 +12967,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450], ["char_forge", 90]
       ]
       ],
   "components": 
@@ -13011,7 +13028,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 350]
+	  ["forge", 350], ["char_forge", 70]
       ]
       ],
   "components": [
@@ -13525,6 +13542,48 @@
       [ "spray_can", 1 ]
     ]
   ]
+},
+{
+  "result": "char_forge",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+      [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+      ],
+	  [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 10 ],
+      [ "soldering_iron", 100 ]
+      ] ],
+  "components": 
+    [ 
+     [ ["element", 1] ],
+     [
+     [ "steel_lump", 3 ],
+	 [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
+     ],
+      [ "metal_tank", 1 ]
+     ],
+     [ ["pipe", 3]
+     ] 
+	]
 }
 ]
 }
