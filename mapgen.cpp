@@ -3598,7 +3598,7 @@ C..C..C...|hhh|#########\n\
   {
       int num_carts = rng(0, 3);
       for( int i = 0; i < num_carts; i++ ) {
-          add_vehicle (g, "Shopping Cart", rng(4, 19), rng(3, 11), 90);
+          add_vehicle (g, "shopping_cart", rng(4, 19), rng(3, 11), 90);
       }
   }
 
