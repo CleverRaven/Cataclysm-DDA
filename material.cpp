@@ -10,7 +10,7 @@
 
 material_type::material_type()
 {
-    _ident = "null";
+    _ident = "";
     _name = "null";
     _bash_resist = 0;
     _cut_resist = 0;
@@ -132,7 +132,7 @@ material_type* material_type::find_material(std::string ident)
 
 material_type* material_type::base_material()
 {
-    return material_type::find_material("null");
+    return material_type::find_material("");
 }
 
 int material_type::dam_resist(damage_type damtype) const
@@ -162,7 +162,7 @@ int material_type::dam_resist(damage_type damtype) const
 
 bool material_type::is_null() const
 {
-    return (_ident == "null");
+    return (_ident == "");
 }
 
 std::string material_type::ident() const
