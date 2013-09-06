@@ -51,6 +51,7 @@ material_type::material_type(std::string ident, std::string name,
 material_type::material_type(std::string ident)
 {
     material_type* mat_type = find_material(ident);
+    _ident = ident;
     _name = mat_type->name();
     _bash_resist = mat_type->bash_resist();
     _cut_resist = mat_type->cut_resist();
