@@ -5,6 +5,7 @@
 #include <map>
 
 #include "enums.h"
+#include "json.h"
 
 class material_type;
 
@@ -36,6 +37,7 @@ public:
     material_type(std::string ident);
     static material_map _all_materials;
     static material_map load_materials();
+    static bool load_material(Jsin &jsin);
 
     // functions
     static material_type* find_material(std::string ident);

@@ -124,6 +124,54 @@ material_map material_type::load_materials()
     return allMaterials;
 }
 
+// load a material object from incoming JSON
+bool material_type::load_material(Jsin &jsin)
+{
+    // create a new material with default parameters
+    material_type mat;
+    std::string name;
+    jsin.start_object();
+    while (!jsin.end_object()) {
+        name = jsin.get_member_name();
+        if (name == "ident") {
+            mat._ident = jsin.get_string();
+        } else if (name == "name") {
+            mat._name = _(jsin.get_string().c_str());
+        } else if (name == "bash_resist") {
+            mat._bash_resist = jsin.get_int();
+        } else if (name == "cut_resist") {
+            mat._cut_resist = jsin.get_int();
+        } else if (name == "bash_dmg_verb") {
+            mat._bash_dmg_verb = _(jsin.get_string().c_str());
+        } else if (name == "cut_dmg_verb") {
+            mat._cut_dmg_verb = _(jsin.get_string().c_str());
+        } else if (name == "acid_resist") {
+            mat._acid_resist = jsin.get_int();
+        } else if (name == "elec_resist") {
+            mat._elec_resist = jsin.get_int();
+        } else if (name == "fire_resist") {
+            mat._fire_resist = jsin.get_int();
+        } else if (name == "density") {
+            mat._density = jsin.get_int();
+        } else if (name == "dmg_verb") {
+            jsin.start_array();
+            mat._dmg_adj[0] = _(jsin.get_string().c_str());
+            mat._dmg_adj[1] = _(jsin.get_string().c_str());
+            mat._dmg_adj[2] = _(jsin.get_string().c_str());
+            mat._dmg_adj[3] = _(jsin.get_string().c_str());
+            jsin.end_array();
+        } else {
+            // silently ignore unrecognised members.
+        }
+    }
+    // if we didn't find "ident", give up.
+    if (mat._ident.empty()) {
+        return false;
+    }
+    _all_materials[mat._ident] = mat;
+    return true;
+}
+
 material_type* material_type::find_material(std::string ident)
 {
     material_map::iterator found = _all_materials.find(ident);
