@@ -4715,7 +4715,7 @@
   },
 
   {
-    "id": "matchbomb_lit",
+    "id": "matchbomb_act",
     "type": "TOOL",
     "symbol": "*",
     "color": "light_red",
