@@ -13543,13 +13543,11 @@
   ],
   "components": [
     [
-      [ "superglue", 1 ],
       [ "string_36", 1 ]
     ],
     [
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ],
-      [ "canister_empty", 1 ]
+      [ "bottle_glass", 1 ],
+      [ "flask_glass", 1 ]
     ],
     [
       [ "matches", 200 ]
