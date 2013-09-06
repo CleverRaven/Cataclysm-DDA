@@ -238,11 +238,6 @@ void initOptions() {
                                              false
                                             );
 
-    OPTIONS["SORT_CRAFTING"] =          cOpt("interface", _("Sort Crafting menu"),
-                                             _("If true, the crafting menus will display recipes that you can craft before other recipes"),
-                                             true
-                                            );
-
     OPTIONS["SHIFT_LIST_ITEM_VIEW"] =   cOpt("interface", _("Shift list item view"),
                                              _("If true, shift the view toward the selected item if it is outside of your current viewport."),
                                              true
