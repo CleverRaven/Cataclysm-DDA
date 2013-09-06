@@ -3164,7 +3164,7 @@ Current turn: %d; Next spawn %d.\n\
     for(std::map<std::string, vehicle*>::iterator it = vtypes.begin();
              it != vtypes.end(); ++it) {
       if(it->first != "custom") {
-        opts.push_back(it->second->name);
+        opts.push_back(it->second->type);
       }
     }
     opts.push_back (std::string(_("Cancel")));
