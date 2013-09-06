@@ -923,6 +923,12 @@ void game::process_activity()
              u.skillLevel(reading->type).exercise());
 
      if (u.skillLevel(reading->type) == originalSkillLevel && (u.activity.continuous || query_yn(_("Study %s?"), reading->type->name().c_str()))) {
+      //If we just started studying, tell the player how to stop
+      if(!u.activity.continuous) {
+        add_msg(_("Now studying %s, %s to stop early."),
+              reading->type->name().c_str(),
+              press_x(ACTION_PAUSE).c_str());
+      }
       u.cancel_activity();
       if (u.activity.index == -2) {
        u.read(this,u.weapon.invlet);
@@ -930,8 +936,8 @@ void game::process_activity()
        u.read(this,u.activity.invlet);
       }
       if (u.activity.type != ACT_NULL) {
-       u.activity.continuous = true;
-       return;
+        u.activity.continuous = true;
+        return;
       }
      }
 
