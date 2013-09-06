@@ -19,7 +19,7 @@ enum vehicle_controls {
  convert_vehicle
 };
 
-vehicle::vehicle(game *ag, vhtype_id type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
+vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
 {
     posx = 0;
     posy = 0;
@@ -34,15 +34,13 @@ vehicle::vehicle(game *ag, vhtype_id type_id, int init_veh_fuel, int init_veh_st
     lights_on = false;
     insides_dirty = true;
 
-    if (type >= num_vehicles)
-        type = 0;
-    if (type > veh_custom)
-    {   // get a copy of sample vehicle of this type
-        if (type < g->vtypes.size())
-        {
-            *this = *(g->vtypes[type]);
-            init_state(ag,init_veh_fuel,init_veh_status);
-        }
+    //type can be null if the type_id parameter is omitted
+    if(type != "null") {
+      if(ag->vtypes.count(type) > 0) {
+        //If this template already exists, copy it
+        *this = *(ag->vtypes[type]);
+        init_state(ag, init_veh_fuel, init_veh_status);
+      }
     }
     precalc_mounts(0, face.dir());
 }
@@ -53,8 +51,6 @@ vehicle::~vehicle()
 
 bool vehicle::player_in_control (player *p)
 {
-    if (type == veh_null)
-        return false;
     int veh_part;
     vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
     if (veh && veh != this)
@@ -64,11 +60,10 @@ bool vehicle::player_in_control (player *p)
 
 void vehicle::load (std::ifstream &stin)
 {
-    int t;
     int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
     std::string vehicle_tag;
+    getline(stin, type);
     stin >>
-        t >>
         posx >>
         posy >>
         fdir >>
@@ -82,7 +77,6 @@ void vehicle::load (std::ifstream &stin)
         skd >>
         of_turn_carry >>
         prts;
-    type = (vhtype_id) t;
     face.init (fdir);
     move.init (mdir);
     skidding = skd != 0;
@@ -143,8 +137,8 @@ void vehicle::load (std::ifstream &stin)
 
 void vehicle::save (std::ofstream &stout)
 {
+    stout << type << std::endl;
     stout <<
-        int(type) << " " <<
         posx << " " <<
         posy << " " <<
         face.dir() << " " <<
@@ -1694,20 +1688,6 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 	const float dmg = abs(d_E / k_mvel); //damage dealt overall
 	const float part_dmg = dmg * k / 100;     //damage for vehicle-part
 	const float obj_dmg  = dmg * (100-k)/100;  //damage for object
-
-	//Debugging
-
-	g->add_msg (_("---DebugINFO---"));
-	g->add_msg (_("Part: %s"), part_info(parm).name.c_str());
-	g->add_msg (_("Veh_part_dmg: %d"), int(part_dmg));
-	g->add_msg (_("Obj_dmg: %d"), int(obj_dmg));
-	g->add_msg (_("Dmg: %d"),int(dmg));
-	g->add_msg (_("k: %f"), k);
-	g->add_msg (_("e: %f"), e);
-	g->add_msg (_("Material_factor: %f"), material_factor);
-	g->add_msg (_("weigth_factor: %f"), weight_factor);
-	g->add_msg (_("---------------"));
-	
 
     bool smashed = true;
     std::string snd;

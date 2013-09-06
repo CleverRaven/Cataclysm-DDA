@@ -119,15 +119,10 @@ void game::show_auto_pickup()
                 mvwprintz(w_auto_pickup, 8, 15, c_white, _("Please load a character first to use this page!"));
             }
 
-            if (vAutoPickupRules[iCurrentPage].size() > iContentHeight) {
-                iStartPos = iCurrentLine - (iContentHeight - 1) / 2;
+            //Draw Scrollbar
+            draw_scrollbar(w_auto_pickup_border, iCurrentLine, iContentHeight, vAutoPickupRules[iCurrentPage].size(), 5);
 
-                if (iStartPos < 0) {
-                    iStartPos = 0;
-                } else if (iStartPos + iContentHeight > vAutoPickupRules[iCurrentPage].size()) {
-                    iStartPos = vAutoPickupRules[iCurrentPage].size() - iContentHeight;
-                }
-            }
+            calcStartPos(iStartPos, iCurrentLine, iContentHeight, vAutoPickupRules[iCurrentPage].size());
 
             // display auto pickup
             for (int i = iStartPos; i < vAutoPickupRules[iCurrentPage].size(); i++) {
@@ -368,15 +363,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
             }
         }
 
-        if (vMatchingItems.size() > iContentHeight) {
-            iStartPos = iCurrentLine - (iContentHeight - 1) / 2;
-
-            if (iStartPos < 0) {
-                iStartPos = 0;
-            } else if (iStartPos + iContentHeight > vMatchingItems.size()) {
-                iStartPos = vMatchingItems.size() - iContentHeight;
-            }
-        }
+        calcStartPos(iStartPos, iCurrentLine, iContentHeight, vMatchingItems.size());
 
         // display auto pickup
         for (int i = iStartPos; i < vMatchingItems.size(); i++) {

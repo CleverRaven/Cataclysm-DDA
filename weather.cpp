@@ -199,22 +199,20 @@ void weather_effect::lightning(game *g)
 void weather_effect::light_acid(game *g)
 {
     generic_wet(g, true);
-    if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE)
-    {
-        if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(2))
-        {
-            g->add_msg(_("Your umbrella protects you from the acidic drizzle."));
-        }
-        else
-        {
-            if (g->u.is_wearing("coat_rain") && !one_in(3))
-            {
+    if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE) {
+        if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(2)) {
+            g->add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
+        } else {
+            if (g->u.is_wearing("coat_rain") && !one_in(3)) {
                 g->add_msg(_("Your raincoat protects you from the acidic drizzle."));
-            }
-            else
-            {
-                g->add_msg(_("The acid rain stings, but is mostly harmless for now..."));
-                if (one_in(10) && (g->u.pain < 10)) {g->u.pain++;}
+            } else {
+                bool has_helmet = false;
+                if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(4))) {
+                    g->add_msg(_("Your power armor protects you from the acidic drizzle."));
+                } else {
+                    g->add_msg(_("The acid rain stings, but is mostly harmless for now..."));
+                    if (one_in(10) && (g->u.pain < 10)) {g->u.pain++;}
+                }
             }
         }
     }
@@ -222,42 +220,42 @@ void weather_effect::light_acid(game *g)
 
 void weather_effect::acid(game *g)
 {
-    if (int(g->turn) % 2 == 0 && PLAYER_OUTSIDE)
-    {
-        if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4))
-        {
+    if (int(g->turn) % 2 == 0 && PLAYER_OUTSIDE) {
+        if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
             g->add_msg(_("Your umbrella protects you from the acid rain."));
-        }
-        else
-        {
-            if (g->u.is_wearing("coat_rain") && one_in(2))
-            {
+        } else {
+            if (g->u.is_wearing("coat_rain") && one_in(2)) {
                 g->add_msg(_("Your raincoat protects you from the acid rain."));
-            }
-            else
-            {
-                g->add_msg(_("The acid rain burns!"));
-                if (one_in(2) && (g->u.pain < 100)) {g->u.pain += rng(1, 5);}
+            } else {
+                bool has_helmet = false;
+                if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(2))) {
+                    g->add_msg(_("Your power armor protects you from the acidic drizzle."));
+                } else {
+                    g->add_msg(_("The acid rain burns!"));
+                    if (one_in(2) && (g->u.pain < 100)) {g->u.pain += rng(1, 5);}
+                }
             }
         }
     }
 
- if (g->levz >= 0) {
-  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-   for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
-    if (!g->m.has_flag(diggable, x, y) && !g->m.has_flag(noitem, x, y) &&
-        g->m.move_cost(x, y) > 0 && g->m.is_outside(x, y) && one_in(400))
-     g->m.add_field(g, x, y, fd_acid, 1);
-   }
-  }
- }
- for (int i = 0; i < g->num_zombies(); i++) {
-  if (g->m.is_outside(g->zombie(i).posx(), g->zombie(i).posy())) {
-   if (!g->zombie(i).has_flag(MF_ACIDPROOF))
-    g->zombie(i).hurt(1);
-  }
- }
- generic_very_wet(g, true);
+    if (g->levz >= 0) {
+        for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
+            for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
+                if (!g->m.has_flag(diggable, x, y) && !g->m.has_flag(noitem, x, y) &&
+                      g->m.move_cost(x, y) > 0 && g->m.is_outside(x, y) && one_in(400)) {
+                    g->m.add_field(g, x, y, fd_acid, 1);
+                }
+            }
+        }
+    }
+    for (int i = 0; i < g->num_zombies(); i++) {
+        if (g->m.is_outside(g->zombie(i).posx(), g->zombie(i).posy())) {
+            if (!g->zombie(i).has_flag(MF_ACIDPROOF)) {
+                g->zombie(i).hurt(1);
+            }
+        }
+    }
+    generic_very_wet(g, true);
 }
 
 

@@ -214,6 +214,11 @@ void initOptions() {
                                              "Always,Hidden,HiddenKB", "Always"
                                             );
 
+    OPTIONS["MENU_SCROLL"] =            cOpt("interface", _("Centered menu scrolling"),
+                                             _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
+                                             true
+                                            );
+
     OPTIONS["AUTO_PICKUP"] =            cOpt("general", _("Enable item Auto Pickup"),
                                              _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
                                              false
@@ -329,15 +334,7 @@ void game::show_options()
             }
         }
 
-        if (mPageItems[iCurrentPage].size() > iContentHeight) {
-            iStartPos = iCurrentLine - (iContentHeight - 1) / 2;
-
-            if (iStartPos < 0) {
-                iStartPos = 0;
-            } else if (iStartPos + iContentHeight > mPageItems[iCurrentPage].size()) {
-                iStartPos = mPageItems[iCurrentPage].size() - iContentHeight;
-            }
-        }
+        calcStartPos(iStartPos, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size());
 
         //Draw options
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iCurrentPage].size()) ? mPageItems[iCurrentPage].size() : iContentHeight); i++) {
@@ -362,6 +359,9 @@ void game::show_options()
 
             mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getValue()).c_str());
         }
+
+        //Draw Scrollbar
+        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), 5);
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");

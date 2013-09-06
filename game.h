@@ -272,7 +272,7 @@ class game
 
   std::map<std::string, itype*> itypes;
   std::vector <mtype*> mtypes;
-  std::vector <vehicle*> vtypes;
+  std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   recipe_map recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions

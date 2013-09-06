@@ -7,6 +7,7 @@
 #include "keypress.h"
 #include "cursesdef.h"
 #include "uistate.h"
+#include "options.h"
 
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
@@ -134,6 +135,14 @@ void uimenu::init() {
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
     max_entry_len = 0;       // does nothing but can be read
+
+    scrollbar_auto = true;   // there is no force-on; true will only render scrollbar if entries > vertical height
+    scrollbar_nopage_color = c_ltgray;    // color of '|' line for the entire area that isn't current page.
+    scrollbar_page_color = c_cyan_cyan; // color of the '|' line for whatever's the current page.
+    scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
+
+    last_fsize=-1;
+    last_vshift=-1;
 }
 
 /*
@@ -366,6 +375,12 @@ void uimenu::setup() {
         w_y = int((TERMY - w_height) / 2);
     }
 
+    if ( scrollbar_side == -1 ) {
+        scrollbar_side = ( pad_left > 0 ? 1 : 0 );
+    }
+    if ( entries.size() <= vmax ) {
+        scrollbar_auto = false;
+    }
     window = newwin(w_height, w_width, w_y, w_x);
 
     werase(window);
@@ -394,6 +409,58 @@ void uimenu::setup() {
     started = true;
 }
 
+void uimenu::apply_scrollbar()
+{
+    if ( ! scrollbar_auto ) { 
+        return;
+    }
+    if ( last_vshift != vshift || last_fsize != fentries.size() ) {
+        last_vshift=vshift;
+        last_fsize=fentries.size();
+
+        int sbside = ( scrollbar_side == 0 ? 0 : w_width );
+        int estart = textformatted.size() + 1;
+
+        if ( fentries.size() > 0 && vmax < fentries.size() ) {
+            wattron(window, border_color);
+            mvwaddch(window, estart, sbside, '^');
+            wattroff(window, border_color);
+
+            wattron(window, scrollbar_nopage_color);
+            for( int i = estart + 1; i < estart + vmax - 1; i++ ) {
+                mvwaddch(window, i, sbside, LINE_XOXO);
+            }
+            wattroff(window, scrollbar_nopage_color);
+
+            wattron(window, border_color);
+            mvwaddch(window, estart + vmax - 1, sbside, 'v');
+            wattroff(window, border_color);
+
+            int svmax = vmax - 2;
+            int fentriessz = fentries.size() - vmax;
+            int sbsize = (vmax * svmax) / fentries.size();
+            if ( sbsize < 2 ) {
+                sbsize=2;
+            }
+            int svmaxsz = svmax - sbsize;
+            int sbstart = ( vshift * svmaxsz ) / fentriessz;
+            int sbend = sbstart + sbsize;
+
+            wattron(window, scrollbar_page_color);
+            for ( int i = sbstart; i < sbend; i++ ) {
+                mvwaddch(window, i + estart + 1, sbside, LINE_XOXO);
+            }
+            wattroff(window, scrollbar_page_color);
+
+        } else {
+            wattron(window, border_color);
+            for( int i = estart; i < estart + vmax; i++ ) {
+                mvwaddch(window, i, sbside, LINE_XOXO);
+            }
+            wattroff(window, border_color);
+        }
+    }
+}
 /*
  * Generate and refresh output
  */
@@ -409,11 +476,24 @@ void uimenu::show() {
 
     int estart = textformatted.size() + 1;
 
-    if ( fselected < vshift ) {
-        vshift=fselected;
-    } else if ( fselected >= vshift + vmax ) {
-        vshift=1+fselected-vmax;
+    if( OPTIONS["MENU_SCROLL"] ) {
+        if (fentries.size() > vmax) {
+            vshift = fselected - (vmax - 1) / 2;
+
+            if (vshift < 0) {
+                vshift = 0;
+            } else if (vshift + vmax > fentries.size()) {
+                vshift = fentries.size() - vmax;
+            }
+         }
+    } else {
+        if( fselected < vshift ) {
+            vshift = fselected;
+        } else if( fselected >= vshift + vmax ) {
+            vshift = 1 + fselected - vmax;
+        }
     }
+
     for ( int fei = vshift, si=0; si < vmax; fei++,si++ ) {
         if ( fei < fentries.size() ) {
             int ei=fentries [ fei ];
@@ -446,6 +526,8 @@ void uimenu::show() {
         mvwprintz(window,w_height-1,2,border_color,"< %s >",filter.c_str() );
         mvwprintz(window,w_height-1,4,text_color,"%s",filter.c_str());
     }
+    apply_scrollbar();
+
     this->refresh(true);
 }
 
