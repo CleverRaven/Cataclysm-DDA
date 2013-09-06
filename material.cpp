@@ -98,22 +98,27 @@ bool material_type::load_material(Jsin &jsin)
             mat._fire_resist = jsin.get_int();
         } else if (name == "density") {
             mat._density = jsin.get_int();
-        } else if (name == "dmg_verb") {
+        } else if (name == "dmg_adj") {
             jsin.start_array();
             mat._dmg_adj[0] = _(jsin.get_string().c_str());
             mat._dmg_adj[1] = _(jsin.get_string().c_str());
             mat._dmg_adj[2] = _(jsin.get_string().c_str());
             mat._dmg_adj[3] = _(jsin.get_string().c_str());
             jsin.end_array();
+        } else if (name == "type") {
+            jsin.skip_value();
         } else {
-            // silently ignore unrecognised members.
+            dout(D_INFO) << "Ignoring material member: " + name;
+            jsin.skip_value();
         }
     }
     // if we didn't find "ident", give up.
     if (mat._ident.empty()) {
+        dout(D_ERROR) << "Failed to load material, no ident found.";
         return false;
     }
     _all_materials[mat._ident] = mat;
+    dout(D_INFO) << "Loaded material: " + mat._name;
     return true;
 }
 

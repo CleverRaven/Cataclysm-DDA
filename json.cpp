@@ -161,19 +161,10 @@ std::string Jsin::find_type()
 
 void Jsin::skip_member()
 {
-    char ch;
-    // skip the name
     skip_string();
-    // skip the ':'
     skip_pair_separator();
-    // skip the value
     skip_value();
-    // skip the ','
-    eat_whitespace();
-    ch = peek();
-    if (ch == ',') {
-        stream->get();
-    }
+    skip_separator();
 }
 
 void Jsin::skip_pair_separator()
@@ -209,6 +200,7 @@ void Jsin::skip_string()
             break;
         }
     }
+    skip_separator();
 }
 
 void Jsin::skip_value()
@@ -242,6 +234,7 @@ void Jsin::skip_value()
         dout(D_ERROR) << err;
         return;
     }
+    skip_separator();
 }
 
 void Jsin::skip_object()
@@ -276,6 +269,7 @@ void Jsin::skip_object()
         err << " " << brackets << " bracket(s) left.";
         dout(D_ERROR) << err;
     }
+    skip_separator();
 }
 
 void Jsin::skip_array()
@@ -310,6 +304,7 @@ void Jsin::skip_array()
         err << " " << brackets << " bracket(s) left.";
         dout(D_ERROR) << err;
     }
+    skip_separator();
 }
 
 void Jsin::skip_true()
@@ -325,6 +320,7 @@ void Jsin::skip_true()
         stream->seekg(pos);
         return;
     }
+    skip_separator();
 }
 
 void Jsin::skip_false()
@@ -340,6 +336,7 @@ void Jsin::skip_false()
         stream->seekg(pos);
         return;
     }
+    skip_separator();
 }
 
 void Jsin::skip_null()
@@ -355,6 +352,7 @@ void Jsin::skip_null()
         stream->seekg(pos);
         return;
     }
+    skip_separator();
 }
 
 void Jsin::skip_number()
@@ -369,6 +367,17 @@ void Jsin::skip_number()
             stream->unget();
             return;
         }
+    }
+    skip_separator();
+}
+
+void Jsin::skip_separator()
+{
+    char ch;
+    eat_whitespace();
+    ch = peek();
+    if (ch == ',') {
+        stream->get();
     }
 }
 
@@ -441,6 +450,7 @@ std::string Jsin::get_string()
             }
         } else if (ch == '"') {
             // end of the string
+            skip_separator();
             return s;
         } else {
             s += ch;
@@ -509,6 +519,7 @@ double Jsin::get_float()
             e *= -1;
         }
     }
+    skip_separator();
     // now put it all together!
     return i * pow(10, e + mod_e);
 }
@@ -523,6 +534,7 @@ bool Jsin::get_bool()
     if (ch == 't') {
         stream->get(text, 4);
         if (strcmp(text, "rue") == 0) {
+            skip_separator();
             return true;
         } else {
             std::stringstream err;
@@ -535,6 +547,7 @@ bool Jsin::get_bool()
     } else if (ch == 'f') {
         stream->get(text, 5);
         if (strcmp(text, "alse") == 0) {
+            skip_separator();
             return false;
         } else {
             std::stringstream err;

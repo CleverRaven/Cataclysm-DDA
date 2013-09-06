@@ -6,7 +6,8 @@
 #include "item.h"
 #include "bionics.h"
 #include "line.h"
-#include "catajson.h"
+#include "json.h"
+#include "debug.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 
@@ -38,6 +39,7 @@ bionic_id game::random_good_bionic() const
         random_bionic = bionics.begin();
         std::advance(random_bionic,rng(0,bionics.size()-1));
     } while (random_bionic->first == "bio_null" || random_bionic->second->faulty);
+    // TODO: remove bio_null
     return random_bionic->first;
 }
 
@@ -646,57 +648,70 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
  }
 }
 
-void game::init_bionics() throw (std::string)
+bool load_bionic(Jsin &jsin)
 {
-    catajson bionics_file("data/raw/bionics.json");
+    // TODO: make a default constructor for bionic_data and use that
+    std::string id = "";
+    std::string name = "";
+    int cost = 0;
+    int time = 0;
+    std::string description = "";
+    bool faulty = false;
+    bool powersource = false;
+    bool active = false;
 
-    if(!json_good())
-    {
-        throw (std::string)"data/raw/bionics.json was not found";
-    }
-
-    for(bionics_file.set_begin(); bionics_file.has_curr(); bionics_file.next())
-    {
-        catajson bio = bionics_file.curr();
-
-        std::set<std::string> tags;
-
-        if(bio.has("flags"))
-        {
-            tags = bio.get("flags").as_tags();
+    std::string s;
+    jsin.start_object();
+    while (!jsin.end_object()) {
+        s = jsin.get_member_name();
+        if (s == "id") {
+            id = jsin.get_string();
+        } else if (s == "name") {
+            name = _(jsin.get_string().c_str());
+        } else if (s == "cost") {
+            cost = jsin.get_int();
+        } else if (s == "time") {
+            time = jsin.get_int();
+        } else if (s == "description") {
+            description = _(jsin.get_string().c_str());
+        } else if (s == "flags") {
+            jsin.start_array();
+            while (!jsin.end_array()) {
+                // reuse s because why not
+                s = jsin.get_string();
+                if (s == "FAULTY") {
+                    faulty = true;
+                } else if (s == "ACTIVE") {
+                    active = true;
+                } else if (s == "POWER") {
+                    powersource = true;
+                } else {
+                    // probably warrants a debug message
+                    dout(D_WARNING) << "Unrecognised tag: " + s;
+                }
+            }
+        } else if (s == "type") {
+            jsin.skip_value();
+        } else {
+            dout(D_INFO) << "Ignoring bionic member: " + s;
+            jsin.skip_value();
         }
-
-        // set up all the bionic parameters
-        std::string id          = bio.get("id").as_string();
-        std::string name        = _(bio.get("name").as_string().c_str());
-        int cost                = bio.get("cost").as_int();
-        int time                = bio.get("time").as_int();
-        std::string description = _(bio.get("description").as_string().c_str());
-        bool faulty             = (tags.find("FAULTY") != tags.end());
-        bool powersource        = (tags.find("POWER") != tags.end());
-        bool active             = (tags.find("ACTIVE") != tags.end());
-
-        bionics[id] = new bionic_data(name, powersource, active, cost, time, description, faulty);
-
-        // Don't add bio_null to any vectors.
-        if(id != "bio_null")
-        {
-            if(faulty)
-            {
-                faulty_bionics.push_back(id);
-            }
-            else if(powersource)
-            {
-                power_source_bionics.push_back(id);
-            }
-            else if(!active)
-            {
-                unpowered_bionics.push_back(id);
-            }
-        }
-
     }
-    if(!json_good())
-        throw (std::string)"There was an error reading data/raw/bionics.json";
+    if (id.empty()) {
+        dout(D_ERROR) << "Failed to load bionic: no id found.";
+        return false;
+    }
+    if (faulty) {
+        faulty_bionics.push_back(id);
+    }
+    if (powersource) {
+        power_source_bionics.push_back(id);
+    }
+    if (!active && id != "bio_null") {
+        unpowered_bionics.push_back(id);
+    }
+    bionics[id] = new bionic_data(name, powersource, active, cost, time, description, faulty);
+    dout(D_INFO) << "Loaded bionic: " + name;
+    return true;
 }
 

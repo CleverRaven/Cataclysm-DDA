@@ -83,6 +83,7 @@ game::game() :
  if(!json_good())
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
+    load_json_dir("data/raw"); // load it, load it all!
  init_npctalk();
  init_artifacts();
  init_weather();
@@ -92,7 +93,6 @@ game::game() :
  init_morale();
  init_skills();
  init_professions();
- init_bionics();              // Set up bionics                   (SEE bionics.cpp)
  init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
  init_itypes();               // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();
@@ -110,7 +110,6 @@ game::game() :
  init_diseases();             // Set up disease lookup table
  init_dreams();               // Set up dreams                    (SEE mutation_data.cpp)
  init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
-    load_json_dir("data/raw"); // load it, load it all!
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;

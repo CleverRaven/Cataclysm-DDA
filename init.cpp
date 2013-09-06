@@ -3,6 +3,9 @@
 #include "json.h"
 
 #include "material.h"
+#include "bionics.h"
+
+#include "debug.h"
 
 #include <string>
 #include <vector>
@@ -10,6 +13,32 @@
 #include <sstream> // for throwing errors
 
 /* Currently just for loading JSON data from files in data/raw */
+
+// TODO: make this actually load files from the named directory
+std::vector<std::string> listfiles(std::string const &dirname)
+{
+    std::vector<std::string> ret;
+    ret.push_back("data/raw/materials.json");
+    ret.push_back("data/raw/bionics.json");
+    return ret;
+}
+
+bool load_object_from_json(std::string const &type, Jsin &jsin) throw (std::string)
+{
+    if (!jsin.good()) {
+        throw "bad stream. aborting object load.";
+    }
+    if (type == "material") {
+        return material_type::load_material(jsin);
+    } else if (type == "bionic") {
+        return load_bionic(jsin);
+    } else {
+        // unknown type, skip it
+        jsin.skip_object();
+        return false;
+    }
+    return false;
+}
 
 void load_json_dir(std::string const &dirname)
 {
@@ -21,17 +50,10 @@ void load_json_dir(std::string const &dirname)
         // open the file as a stream
         std::ifstream infile(it->c_str());
         // parse it
+        dout(D_INFO) << "Loading JSON from file: " + *(it);
         Jsin jsin(&infile);
         load_all_from_json(jsin);
     }
-}
-
-// TODO: make this actually load files from the named directory
-std::vector<std::string> listfiles(std::string const &dirname)
-{
-    std::vector<std::string> ret;
-    ret.push_back("data/raw/materials.json");
-    return ret;
 }
 
 void load_all_from_json(Jsin &jsin) throw (std::string)
@@ -72,18 +94,4 @@ void load_all_from_json(Jsin &jsin) throw (std::string)
     }
 }
 
-bool load_object_from_json(std::string const &type, Jsin &jsin) throw (std::string)
-{
-    if (!jsin.good()) {
-        throw "bad stream. aborting object load.";
-    }
-    if (type == "material") {
-        return material_type::load_material(jsin);
-    } else {
-        // unknown type, skip it
-        jsin.skip_object();
-        return false;
-    }
-    return false;
-}
 

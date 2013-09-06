@@ -34,6 +34,7 @@ public:
     void skip_false();
     void skip_null();
     void skip_number();
+    void skip_separator();
 
     std::string get_string(); // get the next value as a string
     int get_int(); // get the next value as an int

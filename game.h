@@ -384,7 +384,6 @@ void load_artifacts(); // Load artifact data
   void init_skills() throw (std::string);
   void init_professions();
   void init_faction_data();
-  void init_bionics() throw (std::string);      // Initializes bionics... for now.
   void init_mtypes();       // Initializes monster types
   void init_mongroups() throw (std::string);    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
