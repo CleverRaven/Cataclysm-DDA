@@ -13639,6 +13639,7 @@
       [ "lighter", 1 ],
       [ "ref_lighter", 1 ],
       [ "fire", -1 ],
+      [ "fire_drill", 1 ],
       [ "toolset", 1 ]
     ],
     [
@@ -13646,7 +13647,8 @@
   ],
   "components": [
     [
-      [ "2x4", 10 ]
+      [ "2x4", 10 ],
+      [ "bone", 50 ]
     ]
   ]
 }
