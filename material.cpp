@@ -1,11 +1,12 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
-#include "catajson.h"
 #include "material.h"
-#include "enums.h"
-#include "game.h"
+
+#include "debug.h" // dout
+#include "enums.h" // damage_type
+#include "json.h"
+#include "translations.h"
+
+#include <string>
+#include <sstream> // for error messages
 
 material_type::material_type()
 {
@@ -177,10 +178,10 @@ material_type* material_type::find_material(std::string ident)
     material_map::iterator found = _all_materials.find(ident);
     if(found != _all_materials.end()){
         return &(found->second);
-    }
-    else
-    {
-        debugmsg("Tried to get invalid material: %s", ident.c_str());
+    } else {
+        std::stringstream err;
+        err << "Tried to get invalid material: " << ident;
+        dout(D_ERROR) << err;
         return NULL;
     }
 }
