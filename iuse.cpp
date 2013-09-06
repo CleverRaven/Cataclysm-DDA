@@ -3352,7 +3352,7 @@ void iuse::matchbomb(game *g, player *p, item *it, bool t)
  }
  g->add_msg_if_player(p,_("You light the match head bomb."));
  it->make(g->itypes["matchbomb_act"]);
- it->charges = 20;
+ it->charges = 3;
  it->active = true;
 }
 
