@@ -132,6 +132,12 @@ class uimenu: public ui_container {
     std::string filter;
     std::vector<int> fentries;
     int fselected;
+    bool centered_scroll;
+
+    bool scrollbar_auto;
+    nc_color scrollbar_nopage_color;
+    nc_color scrollbar_page_color;
+    int scrollbar_side;
 
     uimenu_callback * callback;
 
@@ -147,6 +153,7 @@ class uimenu: public ui_container {
     bool scrollby(int scrollby=0, const int key=0 );
     void query(bool loop=true);
     void filterlist();
+    void apply_scrollbar();
     std::string inputfilter();
     void refresh(bool refresh_callback=true);
     void redraw(bool redraw_callback=true);
@@ -163,6 +170,8 @@ class uimenu: public ui_container {
 
   private:
     bool started;
+    int last_fsize;
+    int last_vshift;
 };
 
 #endif
