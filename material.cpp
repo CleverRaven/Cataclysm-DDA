@@ -10,7 +10,6 @@
 
 material_type::material_type()
 {
-    _id = 0;
     _ident = "null";
     _name = "null";
     _bash_resist = 0;
@@ -27,13 +26,12 @@ material_type::material_type()
     _density = 1;
 }
 
-material_type::material_type(unsigned int id, std::string ident, std::string name,
+material_type::material_type(std::string ident, std::string name,
                              int bash_resist, int cut_resist,
                              std::string bash_dmg_verb, std::string cut_dmg_verb,
                              std::string dmg_adj[], int acid_resist, int elec_resist, int fire_resist,
                              int density)
 {
-    _id = id;
     _ident = ident;
     _name = name;
     _bash_resist = bash_resist;
@@ -53,7 +51,6 @@ material_type::material_type(unsigned int id, std::string ident, std::string nam
 material_type::material_type(std::string ident)
 {
     material_type* mat_type = find_material(ident);
-    _id = mat_type->id();
     _name = mat_type->name();
     _bash_resist = mat_type->bash_resist();
     _cut_resist = mat_type->cut_resist();
@@ -165,11 +162,6 @@ int material_type::dam_resist(damage_type damtype) const
 bool material_type::is_null() const
 {
     return (_ident == "null");
-}
-
-unsigned int material_type::id() const
-{
-    return _id;
 }
 
 std::string material_type::ident() const
