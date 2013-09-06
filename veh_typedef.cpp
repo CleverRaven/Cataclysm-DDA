@@ -111,7 +111,6 @@ void game::init_vehicles()
     throw (std::string)"data/raw/vehicles.json wasn't found";
   }
 
-  unsigned int index = 0;
   int part_x = 0;
   int part_y = 0;
   std::string part_id;
@@ -120,7 +119,7 @@ void game::init_vehicles()
   {
     catajson next_json = vehicles_json.curr();
 
-    next_vehicle = new vehicle(this, (vhtype_id) index++);
+    next_vehicle = new vehicle(this, next_json.get("id").as_string().c_str());
     next_vehicle->name = _(next_json.get("name").as_string().c_str());
     catajson parts_list = next_json.get("parts");
 
@@ -139,7 +138,7 @@ void game::init_vehicles()
       
     }
 
-    vtypes.push_back(next_vehicle);
+    vtypes[next_vehicle->type] = next_vehicle;
 
   }
 }
