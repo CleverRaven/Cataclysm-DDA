@@ -19,6 +19,7 @@
 #include "iuse.h"
 #include "iuse_software.h"
 #include "iuse_software_kitten.h"
+#include "iuse_software_snake.h"
 
 bool play_videogame(std::string function_name, std::map<std::string, std::string> & game_data, int &score)
 {
@@ -27,7 +28,6 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
         return true; // generic game
     }
     if ( function_name == "robot_finds_kitten" ) {
-
         WINDOW *bkatwin = newwin(22, 62, (TERMY - 22) / 2, (TERMX - 62) / 2);
         wborder(bkatwin, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -44,8 +44,24 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
             game_data["moraletype"] = "MORALE_GAME_FOUND_KITTEN";
             score = 30;
         }
+
         return foundkitten;
-        /* } else if( function_name == "tetris" ) { */
+
+        return true;
+    /* } else if( function_name == "tetris" ) { */
+    } else if ( function_name == "snake_game" ) {
+        snake_game sg;
+        int iScore = sg.start_game();
+
+        if (iScore >= 10000) {
+            score = 50;
+        } else if (iScore >= 5000) {
+            score = 30;
+        } else {
+            score = 20;
+        }
+
+        return true;
     } else {
         score = -5;
         /* morale/activity workaround >.> */
