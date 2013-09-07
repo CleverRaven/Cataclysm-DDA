@@ -13497,6 +13497,28 @@
 },
 
 {
+  "result": "matchbomb",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "string_6", 1 ]
+    ],
+    [
+      [ "bottle_glass", 1 ],
+      [ "flask_glass", 1 ]
+    ],
+    [
+      [ "matches", 200 ]
+    ]
+  ]
+},
+
+{
   "result": "goggles_welding",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -13523,28 +13545,6 @@
     ],
     [
       [ "spray_can", 1 ]
-    ]
-  ]
-},
-
-{
-  "result": "matchbomb",
-  "category": "CC_WEAPON",
-  "skill_used": "fabrication",
-  "difficulty": 3,
-  "time": 10000,
-  "reversible": false,
-  "autolearn": true,
-  "components": [
-    [
-      [ "string_6", 1 ]
-    ],
-    [
-      [ "bottle_glass", 1 ],
-      [ "flask_glass", 1 ]
-    ],
-    [
-      [ "matches", 200 ]
     ]
   ]
 }
