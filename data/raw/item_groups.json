@@ -967,6 +967,7 @@
       ["blowgun", 5],
       ["dart", 5],
       ["pocketwatch", 5],
+      ["pur_tablets", 10],
       ["boots_hiking", 20]
     ]
   },
@@ -1060,6 +1061,7 @@
       ["dart", 5],
       ["elbow_pads", 40],
       ["knee_pads", 40],
+      ["pur_tablets", 5],
       ["boots_hiking", 10]
     ]
   },
@@ -2095,6 +2097,7 @@
       ["sleeping_bag", 10],
       ["emer_blanket", 20],
       ["flyer", 10],
+      ["pur_tablets", 10],
       ["helmet_liner", 20]
     ]
   },
@@ -2167,6 +2170,7 @@
       ["coat_rain", 5],
       ["umbrella", 7],
       ["apron_leather", 5],
+      ["pur_tablets", 5],
       ["pocketwatch", 5]
     ]
   },
@@ -2226,6 +2230,7 @@
       ["funnel", 50],
       ["jar_glass", 20],
       ["jar_3l_glass", 15],
+      ["pur_tablets", 5],
       ["apron_leather", 2]
     ]
   },
@@ -2584,6 +2589,7 @@
       ["antibiotics", 25],
       ["water_clean", 90],
       ["purifier", 12],
+      ["pur_tablets", 20],
       ["heatpack", 60]
     ]
   },
@@ -2750,6 +2756,7 @@
       ["tongs", 5],
       ["tool_belt", 10],
       ["quiver", 3],
+      ["pur_tablets", 10],
       ["pocketwatch", 2]
     ]
   },
@@ -3025,6 +3032,7 @@
       ["bio_blaster", 10],
       ["tac_helmet", 5],
       ["lsd", 4],
+      ["pur_tablets", 10],
       ["pocketwatch", 5]
     ]
   },
@@ -3322,6 +3330,7 @@
       ["tac_helmet", 10],
       ["gum", 90],
       ["nic_gum", 1],
+      ["pur_tablets", 10],
       ["improve_sights", 10]
     ]
   },
@@ -3371,6 +3380,7 @@
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
       ["software_useless", 10],
+      ["pur_tablets", 10],
       ["canteen", 10]
     ]
   },
@@ -3412,6 +3422,7 @@
       ["plasma_rifle", 1],
       ["laser_rifle", 1],
       ["rm51_assault_rifle", 1],
+      ["pur_tablets", 20],
       ["8mm_caseless", 10]
     ]
   },
