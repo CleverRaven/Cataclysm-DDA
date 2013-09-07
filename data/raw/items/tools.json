@@ -4720,7 +4720,7 @@
     "symbol": "*",
     "color": "light_red",
     "name": "match head bomb (lit)",
-    "description": "A bottle filled with match heads and equipped with a fuse. This one has been lit, and its fuse is now burning down quickly.",
+    "description": "A bottle filled with match heads and equipped with a fuse. This one has been lit, and its fuse is rapidly burning down.",
     "price": 0,
     "material": ["glass", "cotton"],
     "weight": 412,
