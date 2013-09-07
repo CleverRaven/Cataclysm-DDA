@@ -3649,6 +3649,7 @@
       ["smokebomb_act", 0],
       ["molotov_lit", 0],
       ["dynamite_act", 5],
+      ["matchbomb_act", 0],
       ["firecracker_pack_act", 5],
       ["firecracker_act", 5],
       ["mininuke_act", 0],

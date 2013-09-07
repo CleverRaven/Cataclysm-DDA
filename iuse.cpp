@@ -3342,6 +3342,31 @@ void iuse::dynamite_act(game *g, player *p, item *it, bool t)
   g->explosion(pos.x, pos.y, 60, 0, false);
 }
 
+void iuse::matchbomb(game *g, player *p, item *it, bool t)
+{
+ if (!p->use_charges_if_avail("fire", 1))
+ {
+  it->charges++;
+  g->add_msg_if_player(p,_("You need a lighter!"));
+  return;
+ }
+ g->add_msg_if_player(p,_("You light the match head bomb."));
+ it->make(g->itypes["matchbomb_act"]);
+ it->charges = 3;
+ it->active = true;
+}
+
+void iuse::matchbomb_act(game *g, player *p, item *it, bool t)
+{
+ point pos = g->find_item(it);
+ if (pos.x == -999 || pos.y == -999)
+  return;
+ if (t) // Simple timer effects
+  g->sound(pos.x, pos.y, 0, _("ssss..."));
+ else	// When that timer runs down...
+  g->explosion(pos.x, pos.y, 24, 0, false);
+}
+
 void iuse::firecracker_pack(game *g, player *p, item *it, bool t)
 {
  if (!p->use_charges_if_avail("fire", 1))
