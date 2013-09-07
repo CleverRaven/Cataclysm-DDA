@@ -3598,7 +3598,7 @@ C..C..C...|hhh|#########\n\
   {
       int num_carts = rng(0, 3);
       for( int i = 0; i < num_carts; i++ ) {
-          add_vehicle (g, "Shopping Cart", rng(4, 19), rng(3, 11), 90);
+          add_vehicle (g, "shopping_cart", rng(4, 19), rng(3, 11), 90);
       }
   }
 
@@ -12635,17 +12635,46 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
 // veh->init_veh_fuel = 50;
 // veh->init_veh_status = 0;
 
- for( std::vector<int>::const_iterator part = veh->external_parts.begin();
+ //Don't smash more than once per vehicle
+ //(Do explode more than once, so bigger vehicles damage walls more)
+ bool smashed = false;
+  for( std::vector<int>::const_iterator part = veh->external_parts.begin();
       part != veh->external_parts.end(); part++ )
  {
      const int px = x + veh->parts[*part].precalc_dx[0];
      const int py = y + veh->parts[*part].precalc_dy[0];
+     
+     //Don't spawn anything in water
+     if(has_flag(swimmable, px, py)) {
+       delete veh;
+       return NULL;
+     }
+     
+     // Don't spawn shopping carts on top of another vehicle or other obstacle.
+     if(veh->type == "shopping_cart") {
+       if( veh_at(px, py) != NULL || move_cost(px, py) == 0 ) {
+           delete veh;
+           return NULL;
+       }
+     }
 
-     // Don't spawn on top of another vehicle or other obstacle.
-     if( veh_at(px, py) != NULL || terlist[ter(px, py)].movecost != 2 )
-     {
-         delete veh;
-         return NULL;
+     //For other vehicles, simulate collisions with (non-shopping cart) stuff
+     vehicle *other_veh = veh_at(px, py);
+     if(other_veh != NULL && other_veh->type != "shopping cart" && !smashed) {
+
+       //There's a vehicle here; smash them both up lots to look like a collision
+       other_veh->smash();
+       veh->smash();
+       smashed = true;
+
+     } else if(move_cost(px, py) == 0) {
+
+       //There's an obstacle here; destroy the surroundings with a small explosion...
+       g->explosion(px, py, 20, 0, false);
+
+       //Then smash up the vehicle more
+       veh->smash();
+
      }
  }
 
