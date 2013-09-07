@@ -16,7 +16,7 @@
             {"x": 0, "y": 0, "part": "frame_vertical_2"},
             {"x": 0, "y": 0, "part": "saddle"},
             {"x": 0, "y": 0, "part": "controls"},
-            {"x": 0, "y": 0, "part": "foot_crank"},
+            {"x": 0, "y": 0, "part": "foot_pedals"},
             {"x": 1, "y": 0, "part": "wheel_bicycle"},
             {"x": -1, "y": 0, "part": "wheel_bicycle"},
             {"x": -1, "y": 0, "part": "box"}
