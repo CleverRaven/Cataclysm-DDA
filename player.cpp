@@ -74,7 +74,8 @@ void game::init_morale()
     _("Masochism"),
     _("Hoarder"),
     _("Cross-Dresser"),
-    _("Optimist")
+    _("Optimist"),
+    _("Found kitten <3")
     };
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
 }
