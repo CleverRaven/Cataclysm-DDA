@@ -599,10 +599,10 @@ void save_auto_pickup(bool bCharacter)
     std::string sFile = "data/auto_pickup.txt";
 
     if (bCharacter) {
-        sFile = "save/" + g->active_world + "/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = "save/" + g->active_world->world_name + "/" + base64_encode(g->u.name) + ".apu.txt";
         std::ifstream fin;
 
-        fin.open(("save/" + g->active_world + "/" + base64_encode(g->u.name) + ".sav").c_str());
+        fin.open(("save/" + g->active_world->world_name + "/" + base64_encode(g->u.name) + ".sav").c_str());
         if(!fin.is_open()) {
             return;
         }
@@ -635,7 +635,7 @@ void create_default_auto_pickup(bool bCharacter)
     std::string sFile = "data/auto_pickup.txt";
 
     if (bCharacter) {
-        sFile = "save/" + g->active_world + "/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = "save/" + g->active_world->world_name + "/" + base64_encode(g->u.name) + ".apu.txt";
     }
 
     fout.open(sFile.c_str());

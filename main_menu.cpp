@@ -186,7 +186,7 @@ std::map<std::string, std::vector<std::string> > get_save_data()
 // change to WORLD *game::pick_world_to_play()
 WORLD *game::pick_world_to_play()
 {
-    if (world_name_keys.size() == 0)
+    if (worlds.size() == 0)
     {
         if (query_yn("No worlds exist, would you like to make one?"))
         {
@@ -206,10 +206,11 @@ WORLD *game::pick_world_to_play()
 
 bool game::opening_screen()
 {
-    std::map<std::string, WORLD*> worlds;
+    //std::map<std::string, WORLD*> worlds;
     // coming into the opening screen means we have exited a world or otherwise have no active world.
     if (world_generator)
     {
+        active_world = NULL;
         world_generator->set_active_world(NULL);
         worlds = world_generator->get_all_worlds();
     }
@@ -239,11 +240,6 @@ bool game::opening_screen()
 
     std::vector<std::string> savegames, templates;
 
-    world_name_keys.clear();
-    world_save_data.clear();
-    active_world.clear();
-
-
     struct dirent *dp;
     DIR *dir = opendir("save");
     if (!dir) {
@@ -268,15 +264,6 @@ bool game::opening_screen()
             savegames.push_back(tmp.substr(0, tmp.find(".sav")));
     }
     closedir(dir);
-
-    // get world folders, along with their savegame data
-    world_save_data = get_save_data();
-
-    // vector to make it easier to get and cache the working world
-    for (std::map<std::string, std::vector<std::string> >::iterator it = world_save_data.begin(); it != world_save_data.end(); ++it)
-    {
-        world_name_keys.push_back(it->first);
-    }
 
     dir = opendir("data");
     while ((dp = readdir(dir))) {
@@ -445,14 +432,14 @@ bool game::opening_screen()
                         }
                         else
                         {
-                            active_world = picked_world->world_name;//world_name_keys[picked_world];
+                            active_world = picked_world;
                             world_generator->set_active_world(picked_world);
                         }
 
                         werase(w_background);
                         wrefresh(w_background);
                         //start_game();
-                        start_game_from(active_world);
+                        start_game_from(active_world->world_name);
                         start = true;
                     } else if (sel2 == 1) {
                         layer = 3;
@@ -462,7 +449,7 @@ bool game::opening_screen()
             }
             else if (sel1 == 2)
             {	// Load Character
-                if (world_name_keys.size() == 0)
+                if (world_generator->all_worldnames.size() == 0)
                 {
                     // no worlds to display
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + iMenuOffsetX, c_red, _("No save games found!"));
@@ -511,15 +498,7 @@ bool game::opening_screen()
             }
             else if (sel1 == 3)
             {  // World Menu
-                /*
-                if (query_yn(_("Delete the world and all saves?"))) {
-                    delete_save();
-                    savegames.clear();
-                    MAPBUFFER.reset();
-                    MAPBUFFER.make_volatile();
-                    overmap_buffer.clear();
-                }
-                */
+
                 // show options for Create, Destroy, Reset worlds. Create world goes directly to Make World screen. Reset and Destroy ask for world to modify.
                 // Reset empties world of everything but options, then makes new world within it.
                 // Destroy asks for confirmation, then destroys everything in world and then removes world folder
@@ -667,10 +646,10 @@ bool game::opening_screen()
                     if (sel3 >= 0 && sel3 < savegames.size()) {
                         werase(w_background);
                         wrefresh(w_background);
-                        active_world = world_generator->all_worldnames[sel2];
-                        world_generator->set_active_world(world_generator->all_worlds[active_world]);
+                        active_world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
+                        world_generator->set_active_world(active_world);
 
-                        load_from(active_world, savegames[sel3]);
+                        load_from(active_world->world_name, savegames[sel3]);
                         start = true;
                     }
                 }
@@ -712,19 +691,15 @@ bool game::opening_screen()
                         if (sel2 == 1) // Delete World
                         {
                             if (query_yn(_("Delete the world and all saves?"))) {
-                                delete_world(world_name_keys[sel3], true);
-                                //delete_save();
+                                delete_world(world_generator->all_worldnames[sel3], true);
+
                                 savegames.clear();
                                 MAPBUFFER.reset();
                                 MAPBUFFER.make_volatile();
                                 overmap_buffer.clear();
 
                                 layer = 2;
-                                // remove from master map
-                                world_save_data.erase(world_generator->all_worldnames[sel3]);
-                                // remove from key vector
                                 world_generator->remove_world(world_generator->all_worldnames[sel3]);
-                                world_name_keys.erase(world_name_keys.begin() + sel3);
 
                                 return opening_screen();
                             }
@@ -732,7 +707,9 @@ bool game::opening_screen()
                         else if (sel2 == 2) // Reset World
                         {
                             if (query_yn(_("Remove all saves and regenerate world?"))) {
-                                delete_world(world_name_keys[sel3], false);
+                                //delete_world(world_name_keys[sel3], false);
+                                delete_world(world_generator->all_worldnames[sel3], false);
+
                                 //delete_save();
                                 savegames.clear();
                                 MAPBUFFER.reset();
@@ -741,7 +718,9 @@ bool game::opening_screen()
 
                                 layer = 2;
 
-                                world_generator->all_worlds[world_generator->all_worldnames[sel3]]->world_saves.erase(world_generator->all_worlds[world_generator->all_worldnames[sel3]]->world_saves.begin() + sel3);
+                                // clear out the saves from this world
+                                world_generator->all_worlds[world_generator->all_worldnames[sel3]]->world_saves.clear();
+                                //world_generator->all_worlds[world_generator->all_worldnames[sel3]]->world_saves.erase(world_generator->all_worlds[world_generator->all_worldnames[sel3]]->world_saves.begin() + sel3);
                                 // remove from master map -- just resetting, don't need to kill it!
                                 //world_save_data.erase(world_name_keys[sel3]);
                                 // remove from key vector -- just resetting, don't need to kill it!
@@ -803,13 +782,13 @@ bool game::opening_screen()
                     }
                     else
                     {
-                        active_world = picked_world->world_name; //world_name_keys[picked_world];
+                        active_world = picked_world; //world_name_keys[picked_world];
                     }
 
                     werase(w_background);
                     wrefresh(w_background);
                     //start_game();
-                    start_game_from(active_world);
+                    start_game_from(active_world->world_name);
                     start = true;
                 }
             }

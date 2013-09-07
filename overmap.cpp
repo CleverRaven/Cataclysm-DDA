@@ -3704,7 +3704,7 @@ std::string overmap::terrain_filename(int const x, int const y) const
 {
  std::stringstream filename;
 
- filename << "save/" << g->active_world << "/";
+ filename << "save/" << g->active_world->world_name << "/";
 
  if (!prefix.empty()) {
  	filename << prefix << ".";
@@ -3719,7 +3719,7 @@ std::string overmap::player_filename(int const x, int const y) const
 {
  std::stringstream filename;
 
- filename << "save/" << g->active_world << "/" << base64_encode(name) << ".seen." << x << "." << y;
+ filename << "save/" << g->active_world->world_name << "/" << base64_encode(name) << ".seen." << x << "." << y;
 
  return filename.str();
 }

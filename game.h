@@ -357,7 +357,8 @@ void load_artifacts(); // Load artifact data
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
 
-  std::string active_world;
+  //std::string active_world;
+  WORLD *active_world;
 
  private:
 // Game-start procedures
@@ -590,8 +591,9 @@ void load_artifacts(); // Load artifact data
   int moveCount; //Times the player has moved (not pause, sleep, etc)
 
   // world factory related
-  std::map<std::string, std::vector<std::string> > world_save_data;
-  std::vector<std::string> world_name_keys;
+  std::map<std::string, WORLD*> worlds;
+  //std::map<std::string, std::vector<std::string> > world_save_data;
+  //std::vector<std::string> world_name_keys;
 };
 
 #endif

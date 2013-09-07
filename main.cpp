@@ -61,7 +61,6 @@ int main(int argc, char *argv[])
   else // ignore unknown args.
    argc--; argv++;
  }
-DebugLog() << "MAIN: Init Gamestuff!\n";
 // ncurses stuff
  initOptions();
  load_options(); // For getting size options
@@ -74,7 +73,6 @@ DebugLog() << "MAIN: Init Gamestuff!\n";
  set_escdelay(10); // Make escape actually responsive
 
  std::srand(seed);
-DebugLog() << "MAIN: End Init Gamestuff!\n";
  bool quit_game = false;
  bool delete_world = false;
  g = new game;
@@ -97,11 +95,8 @@ DebugLog() << "MAIN: End Init Gamestuff!\n";
   sigIntHandler.sa_flags = 0;
   sigaction(SIGINT, &sigIntHandler, NULL);
  #endif
-DebugLog() << "MAIN: Game initialized, running game loop!\n";
  do {
-DebugLog() << "MAIN: Running g->setup()\n";
   g->setup();
-DebugLog() << "MAIN: Setup complete -- Running turn loop!\n";
   while (!g->do_turn()) ;
   if (g->uquit == QUIT_DELETE_WORLD)
     delete_world = true;

@@ -54,13 +54,11 @@ world_factory::~world_factory()
 
 WORLD *world_factory::make_new_world()
 {
-DebugLog() << "Starting worldgen procedures!\n";
     // Window variables
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0;
 
     // world to return after generating!
-DebugLog() << "\tInitializing new WORLD object\n";
     WORLD *retworld = new WORLD();
 
     // set up windows!
@@ -70,7 +68,6 @@ DebugLog() << "\tInitializing new WORLD object\n";
     std::vector<worldgen_display> tabs;
     std::vector<std::string> tab_strings;
 
-DebugLog() << "\tCreating Worldgen TABS\n";
     tabs.push_back(&world_factory::show_worldgen_tab_options);
     tabs.push_back(&world_factory::show_worldgen_tab_confirm);
 
@@ -79,11 +76,9 @@ DebugLog() << "\tCreating Worldgen TABS\n";
 
     int curtab = 0;
     const int numtabs = tabs.size();
-DebugLog() << "\tStarting Loop\n";
     while (curtab >= 0 && curtab < numtabs)
     {
         draw_worldgen_tabs(wf_win, curtab, tab_strings);
-DebugLog() << "\tEntering Tab:["<<curtab<<"]\n";
         curtab += (world_generator->*tabs[curtab])(wf_win, retworld);
 
         if (curtab < 0)
@@ -94,7 +89,6 @@ DebugLog() << "\tEntering Tab:["<<curtab<<"]\n";
             }
         }
     }
-DebugLog() << "\tExiting Loop\n";
     if (curtab < 0)
     {
         delete retworld;
@@ -121,17 +115,10 @@ void world_factory::set_active_world(WORLD* world)
     if (world)
     {
         ACTIVE_WORLD_OPTIONS = world->world_options;
-        DebugLog() << "ACTIVE_WORLD_OPTIONS set to world options\n";
         awo_populated = true;
-
-        for (std::map<std::string, cOpt>::iterator it = ACTIVE_WORLD_OPTIONS.begin(); it != ACTIVE_WORLD_OPTIONS.end(); ++it)
-        {
-            DebugLog() << "\tKey: "<<it->first << "\tValue: "<<it->second.getValue()<<"\n";
-        }
     }
     else
     {
-        DebugLog() << "ACTIVE_WORLD_OPTIONS cleared\n";
         awo_populated = false;
     }
 }
@@ -508,7 +495,6 @@ void world_factory::save_world(WORLD *world)
 // UI Functions
 int world_factory::show_worldgen_tab_options(WINDOW *win, WORLD* world)
 {
-DebugLog() << "\tEntering TAB: OPTIONS\n";
     //werase(win);
     const int iTooltipHeight = 1;
     const int iContentHeight = FULL_SCREEN_HEIGHT-3-iTooltipHeight;
@@ -526,7 +512,6 @@ DebugLog() << "\tEntering TAB: OPTIONS\n";
     // only populate once
     if (world->world_options.size() == 0)
     {
-DebugLog() << "\tLoading Options\n";
         for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it)
         {
             if (it->second.getPage() == "world_default")
@@ -541,8 +526,6 @@ DebugLog() << "\tLoading Options\n";
     {
         keys.push_back(it->first);
     }
-
-    //draw_tabs(win, 1, _("World Gen Options"), _("Confirmation"));
 
     wrefresh(win);
     refresh();
@@ -586,7 +569,6 @@ DebugLog() << "\tLoading Options\n";
             }
 
             mvwprintz(w_options, curoption, 62, (sel == curoption) ? hilite(cLineColor) : cLineColor, "%s", (it->second.getValue()).c_str());
-            //mvwprintz(win, 4, 2, c_white, )
             ++curoption;
         }
 
@@ -611,11 +593,9 @@ DebugLog() << "\tLoading Options\n";
                     break;
                 case 'l': //set to prev value
                     world->world_options[keys[sel]].setNext();
-                    //bStuffChanged = true;
                     break;
                 case 'h': //set to next value
                     world->world_options[keys[sel]].setPrev();
-                    //bStuffChanged = true;
                     break;
 
                 case '<':
@@ -637,8 +617,6 @@ DebugLog() << "\tLoading Options\n";
 
 int world_factory::show_worldgen_tab_confirm(WINDOW *win, WORLD* world)
 {
-DebugLog() << "\tEntering TAB: CONFIRMATION\n";
-    //werase(win);
     const int iTooltipHeight = 1;
     const int iContentHeight = FULL_SCREEN_HEIGHT-3-iTooltipHeight;
 
@@ -647,20 +625,13 @@ DebugLog() << "\tEntering TAB: CONFIRMATION\n";
 
     WINDOW* w_confirmation = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
-DebugLog() << "\t\tDrawing Tabs\n";
-    //draw_tabs(win, 1, _("World Gen Options"), _("Confirmation"));
-DebugLog() << "\t\tDrawing screen statics\n";
-
-
     unsigned namebar_pos = 3 + utf8_width(_("World Name:"));
 
-DebugLog() << "\t\tDone drawing screen statics\n";
     int line = 1;
     bool noname = false, loop = true;
     long ch;
 
     std::string worldname = world->world_name;
-DebugLog() << "\tEntering CONFIRMATION loop\n";
     do
     {
         mvwprintz(w_confirmation, 2, 2, c_ltgray, _("World Name:"));

@@ -303,10 +303,7 @@ void cata_tiles::load_tilejson(std::string path)
 
         tile_type *curr_tile = new tile_type();
         std::string t_id = entry.get("id").as_string();
-        if (t_id == "explosion")
-        {
-            DebugLog() << "Explosion tile id found\n";
-        }
+
         int t_fg, t_bg;
         t_fg = t_bg = -1;
         bool t_multi, t_rota;
@@ -322,27 +319,7 @@ void cata_tiles::load_tilejson(std::string path)
         if (t_multi)
         {
             t_rota = true;
-            if (t_id == "explosion")
-            {
-                DebugLog() << "--Explosion is Multitile\n";
-            }
-/*
-catajson compList = curr.get("components");
-for (compList.set_begin(); compList.has_curr(); compList.next())
-{
-    ++cl;
-    std::vector<component> component_choices;
-    catajson comp = compList.curr();
-    // interchangable components
-    for (comp.set_begin(); comp.has_curr(); comp.next())
-    {
-        std::string name = comp.curr().get(0).as_string();
-        int quant = comp.curr().get(1).as_int();
-        component_choices.push_back(component(name, quant));
-    }
-    last_rec->components.push_back(component_choices);
-}
-*/
+
             // fetch additional tiles
             if (entry.has("additional_tiles"))
             {
@@ -377,11 +354,6 @@ for (compList.set_begin(); compList.has_curr(); compList.next())
                     }
                     (*tile_ids)[m_id] = curr_subtile;
                     curr_tile->available_subtiles.push_back(s_id);
-                    if (t_id == "explosion")
-                    {
-                        DebugLog() << "--Explosion subtile ID Added: ["<< s_id << "] with value: [" << m_id << "]\n";
-                    }
-                    //DebugLog() << "\tSubtile: \""<<s_id<<"\" written\n";
                 }
             }
         }
@@ -415,17 +387,6 @@ void cata_tiles::create_rotation_cache()
     3 is a West rotation
     These rotations are stored in a map<tile number, vector<SDL_Surface*> > with 3 values relating to east, south, and west in that order
     */
-    /*
-    if (fg >= 0 && fg < tile_values->size())
-    {
-        // get rect
-        SDL_Rect *fgrect = (*tile_values)[fg];
-        // get new surface of just the rotated fgrect and blit it to the screen
-        SDL_Surface *rotatile = rotate_tile(tile_atlas, fgrect, rota);
-        SDL_BlitSurface(rotatile, NULL, buffer, &destination);
-        SDL_FreeSurface(rotatile);
-    }
-    */
     for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it)
     {
         const int tile_num = it->first;
@@ -437,13 +398,12 @@ void cata_tiles::create_rotation_cache()
             rotations.push_back(rotate_tile(tile_atlas, tile_rect, i));
         }
         rotation_cache[tile_num] = rotations;
-        //DebugLog() << "Tile ["<<tile_num<<"] rotations added\n";
     }
 }
 
 void cata_tiles::draw()
 {
-    /** steps to drawing
+    /* steps to drawing
     1) make sure g exists
     2) Clear the buffer
     3) get player position
@@ -548,8 +508,6 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     else if (g->u.posx + g->u.view_offset_x != g->ter_view_x || g->u.posy + g->u.view_offset_y != g->ter_view_y)
     {
         draw_from_id_string("cursor", g->ter_view_x, g->ter_view_y, 0, 0);
-        //draw_explosion_frame(1, 1, 1, 0, 0);
-        //draw_from_id_string("explosion", posx - 1, posy - 1, corner, 0);
     }
 
     //extern SDL_Surface *screen;
@@ -591,14 +549,6 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, 
             //DebugLog() << "<"<< id << ">\n";
             return draw_from_id_string(id, x, y, -1, rota);
         }
-        /*
-        if (display_tile->available_subtiles.find(multitile_keys[subtile]) != display_tile->available_subtiles.end())
-        {
-            // append subtile name to tile and re-find display_tile
-            id += "_" + multitile_keys[subtile];
-            draw_from_id_string(id, x, y, -1, rota);
-        }
-        */
     }
 
     // make sure we aren't going to rotate the tile if it shouldn't be rotated
@@ -656,16 +606,10 @@ bool cata_tiles::draw_tile_at(tile_type* tile, int x, int y, int rota)
     {
         if (fg >= 0 && fg < tile_values->size())
         {
-            // get rect
-            //SDL_Rect *fgrect = (*tile_values)[fg];
-            //DebugLog() << "Drawing rotated tile [" << fg << "] with rotation value ["<< rota << "]\n";
             // get new surface of just the rotated fgrect and blit it to the screen
             std::vector<SDL_Surface*> fgtiles = rotation_cache[fg];
-            //DebugLog() << "\tAvailable Rotation tiles [" << fgtiles.size() << "]\n";
             SDL_Surface *rotatile = fgtiles[rota - 1];
-            //SDL_Surface *rotatile = rotate_tile(tile_atlas, fgrect, rota);
             SDL_BlitSurface(rotatile, NULL, buffer, &destination);
-            //SDL_FreeSurface(rotatile);
         }
     }
 

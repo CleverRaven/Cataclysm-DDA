@@ -319,10 +319,7 @@ void game::init_ui(){
 
 void game::setup()
 {
-DebugLog() << "GAME: Entering g->setup()\n";
-DebugLog() << "GAME: Setting up player\n";
  u = player();
-DebugLog() << "GAME: Setup map\n";
  m = map(&traps); // Init the root map with our vectors
  _z.reserve(1000); // Reserve some space
 
@@ -340,7 +337,6 @@ DebugLog() << "GAME: Setup map\n";
  uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
 
-DebugLog() << "GAME: Setting up weather\n";
  weather = WEATHER_CLEAR; // Start with some nice weather...
  // Weather shift in 30
  nextweather = HOURS(OPTIONS["INITIAL_TIME"]) + MINUTES(30);
@@ -368,9 +364,7 @@ DebugLog() << "GAME: Setting up weather\n";
   for (int j = 0; j < SEEX * MAPSIZE; j++)
    grscent[i][j] = 0;
  }
-DebugLog() << "GAME: Loading Autopickup rules\n";
  load_auto_pickup(false); // Load global auto pickup rules
-DebugLog() << "GAME: Entering opening screen!\n";
  if (opening_screen()) {// Opening menu
 // Finally, draw the screen!
   refresh_all();
@@ -382,11 +376,7 @@ void game::start_game_from(std::string worldname)
 {
     // load [worldname] world
     MAPBUFFER.load_from(worldname);
-DebugLog() << "Setting initial time\n";
-DebugLog() << "awo_populated = "<<awo_populated<<": "<< ACTIVE_WORLD_OPTIONS.size() << "\n";
-    //turn = HOURS((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["INITIAL_TIME"]);
-    turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
-DebugLog() << "Initial time set!\n";
+    turn = HOURS((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["INITIAL_TIME"]);
     run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
     mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -2419,7 +2409,7 @@ bool game::is_game_over()
                 g->m.unboard_vehicle(this, u.posx, u.posy);
             place_corpse();
             std::stringstream playerfile;
-            playerfile << "save/" << active_world << "/" << base64_encode(u.name) << ".sav";
+            playerfile << "save/" << active_world->world_name << "/" << base64_encode(u.name) << ".sav";
             unlink(playerfile.str().c_str());
             uquit = QUIT_DIED;
             return true;
@@ -2855,11 +2845,8 @@ void game::load_weather(std::ifstream &fin)
 
 void game::load_from(std::string worldname, std::string name)
 {
-    DebugLog() << "Starting attempt to load World["<<worldname<<"] Player["<<base64_decode(name)<<"]\n";
-
     // load [worldname] world
     MAPBUFFER.load_from(worldname);
-    DebugLog() << "\tMap loaded\n";
     std::ifstream fin;
     std::stringstream playerfile;
     playerfile << "save/" << worldname << "/" << name << ".sav";
@@ -2882,23 +2869,16 @@ void game::load_from(std::string worldname, std::string name)
     // recalculated. (This would be cleaner if u.worn were private.)
     u.recalc_sight_limits();
 
-    DebugLog() << "\tPlayer Loaded\n";
-
     load_auto_pickup(true); // Load character auto pickup rules
-    DebugLog() << "\tAPU loaded\n";
     //load_uistate();
     load_uistate_from(worldname);
-    DebugLog() << "\tUIState Loaded\n";
     // Now load up the master game data; factions (and more?)
     //load_master();
     load_master_from(worldname);
-    DebugLog() << "\tMaster loaded\n";
     update_map(u.posx, u.posy);
     set_adjacent_overmaps(true);
     MAPBUFFER.set_dirty();
     draw();
-
-    DebugLog() << "Successfully Loaded World["<<worldname<<"] Player["<<base64_decode(name)<<"]\n";
 }
 
 void game::load(std::string name)
@@ -2938,10 +2918,9 @@ void game::load(std::string name)
 //Requires a valid std:stringstream masterfile to save the
 void game::save_factions_missions_npcs ()
 {
-    DebugLog() << "Saving factions/missions/npcs for [" << active_world << "]\n";
-	std::stringstream masterfile;
+    std::stringstream masterfile;
 	std::ofstream fout;
-    masterfile << "save/" << active_world << "/master.gsav";
+    masterfile << "save/" << active_world->world_name << "/master.gsav";
 
     fout.open(masterfile.str().c_str());
 
@@ -2959,11 +2938,10 @@ void game::save_factions_missions_npcs ()
 
 void game::save_artifacts()
 {
-    DebugLog() << "Saving artifacts in world ["<<active_world<<"]\n";
     std::ofstream fout;
     std::vector<picojson::value> artifacts;
     std::stringstream artifactfile;
-    artifactfile << "save/" << active_world << "/artifacts.gsav";
+    artifactfile << "save/" << active_world->world_name << "/artifacts.gsav";
 
     fout.open(artifactfile.str().c_str());
     for ( std::vector<std::string>::iterator it =
@@ -2979,7 +2957,6 @@ void game::save_artifacts()
 
 void game::save_maps()
 {
-    DebugLog() << "Saving maps in world ["<<active_world<<"]\n";
     m.save(cur_om, turn, levx, levy, levz);
     overmap_buffer.save();
     MAPBUFFER.save();
@@ -2988,7 +2965,7 @@ void game::save_maps()
 void game::save_uistate() {
     const std::string savedir="save/";
     std::stringstream savefile;
-    savefile << savedir << active_world << "/uistate.json";
+    savefile << savedir << active_world->world_name << "/uistate.json";
     std::ofstream fout;
     fout.open(savefile.str().c_str());
     fout << uistate.save();
@@ -3013,10 +2990,9 @@ std::string game::save_weather() const
 
 void game::save()
 {
-    DebugLog() << "Saving player file ["<<u.name <<"] in world ["<<active_world<<"]\n";
  std::stringstream playerfile;
  std::ofstream fout;
- playerfile << "save/" << active_world << "/" << base64_encode(u.name) << ".sav";
+ playerfile << "save/" << active_world->world_name << "/" << base64_encode(u.name) << ".sav";
 
  fout.open(playerfile.str().c_str());
  serialize(fout);

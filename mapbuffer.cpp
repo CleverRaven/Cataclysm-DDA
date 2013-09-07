@@ -88,7 +88,7 @@ void mapbuffer::save()
  std::map<tripoint, submap*, pointcomp>::iterator it;
  std::ofstream fout;
  std::stringstream mapsavefile;
- mapsavefile << "save/" << g->active_world << "/maps.txt";
+ mapsavefile << "save/" << g->active_world->world_name << "/maps.txt";
  fout.open(mapsavefile.str().c_str());
 
  fout << submap_list.size() << std::endl;
