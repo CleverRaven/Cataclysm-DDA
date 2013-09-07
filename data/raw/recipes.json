@@ -13497,6 +13497,25 @@
 },
 
 {
+  "result": "rock_sock",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rock", 1 ]
+    ],
+    [
+      [ "socks", 1 ],
+      [ "socks_wool", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "goggles_welding",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
