@@ -174,16 +174,17 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
 }
 void robot_finds_kitten::instructions(WINDOW *w) {
     	mvwprintw (w,0,0,"robotfindskitten v22July2008\n"
-    "Originally by the illustrious Leonard Richardson 1997\n"
+    "Originally by the illustrious Leonard Richardson\n"
     "ReWritten in PDCurses by Joseph Larson,\n"
     "Ported to CDDA gaming system by a nutcase.\n"
     "   In this game, you are robot (");
 	draw_robot(w);
 	wprintw (w,"). Your job is to find kitten. This task\n"
-    "is complicated by the existance of various things which are not kitten.\n"
-    "Robot must touch items to determine if they are kitten or not. The game\n"
-    "ends when robotfindskitten. Alternatively, you may end the game\n"
-    "by hitting 'q'\n"
+    "is complicated by the existance of various things\n"
+    " which are not kitten. Robot must touch items to\n"
+    " determine if they are kitten or not. The game\n"
+    "ends when robotfindskitten. Alternatively, you\n"
+    " may end the game by hitting 'q'\n"
     "   Press any key to start.\n");
     wrefresh(w);
 	getch();
