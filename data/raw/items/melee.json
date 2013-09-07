@@ -2045,7 +2045,7 @@
     "symbol": ";",
     "color": "light_blue",
     "name": "rock in a sock",
-    "description": "A sock with a rock tied into the end of it. A true weapon of desperation",
+    "description": "A sock with a rock tied into the end of it. A true weapon of desperation.",
     "price": 10,
     "material" : ["cloth", "stone"],
     "weight": 1007,
@@ -2053,5 +2053,19 @@
     "bashing": 16,
     "cutting": 0,
     "to_hit": 1
+  },
+  {
+    "id": "char_kiln",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "charcoal kiln",
+    "description": "A stout metal box used for producing charcoal via pyrolysis; the incomplete burning of organic materials in the absence of oxygen.",
+    "price": 160,
+    "material": "steel",
+    "weight": 6400,
+    "volume": 40,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -2
   }
 ]
