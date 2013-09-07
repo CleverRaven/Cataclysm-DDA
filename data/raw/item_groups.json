@@ -1060,7 +1060,8 @@
       ["dart", 5],
       ["elbow_pads", 40],
       ["knee_pads", 40],
-      ["boots_hiking", 10]
+      ["boots_hiking", 10],
+      ["quikclot", 10]
     ]
   },
   { "id":"alcohol",
@@ -1740,7 +1741,8 @@
       ["medical_gauze", 10],
       ["medical_tape", 45],
       ["jar_glass", 20],
-      ["jar_3l_glass", 15]
+      ["jar_3l_glass", 15],
+      ["quikclot", 10]
     ]
   },
   { "id":"office",
@@ -2095,7 +2097,8 @@
       ["sleeping_bag", 10],
       ["emer_blanket", 20],
       ["flyer", 10],
-      ["helmet_liner", 20]
+      ["helmet_liner", 20],
+      ["quikclot", 20]
     ]
   },
   { "id":"shelter",
@@ -2584,7 +2587,8 @@
       ["antibiotics", 25],
       ["water_clean", 90],
       ["purifier", 12],
-      ["heatpack", 60]
+      ["heatpack", 60],
+      ["quikclot", 10]
     ]
   },
   { "id":"mil_food_nodrugs",
@@ -2750,7 +2754,8 @@
       ["tongs", 5],
       ["tool_belt", 10],
       ["quiver", 3],
-      ["pocketwatch", 2]
+      ["pocketwatch", 2],
+      ["quikclot", 10]
     ]
   },
   { "id":"sewage_plant",
@@ -3322,7 +3327,8 @@
       ["tac_helmet", 10],
       ["gum", 90],
       ["nic_gum", 1],
-      ["improve_sights", 10]
+      ["improve_sights", 10],
+      ["quikclot", 20]
     ]
   },
   { "id":"science",

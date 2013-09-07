@@ -13525,6 +13525,36 @@
       [ "spray_can", 1 ]
     ]
   ]
+},
+
+{
+  "result": "quikclot",
+  "category": "CC_MISC",
+  "skill_used": "firstaid",
+  "requires_skills": [ "cooking", 1 ],
+  "difficulty": 4,
+  "time": 1200,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 18 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "chitin_piece", 6 ]
+    ],
+    [
+      [ "ammonia", 1 ]
+    ]
+  ]
 }
 ]
 }
