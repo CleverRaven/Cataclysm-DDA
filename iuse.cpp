@@ -19,6 +19,8 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
+#include "iuse_software.h"
+
 static void add_or_drop_item(game *g, player *p, item *it)
 {
   item replacement(g->itypes[it->type->id], int(g->turn), g->nextinv);
@@ -3786,20 +3788,44 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
 
 void iuse::portable_game(game *g, player *p, item *it, bool t)
 {
-  if(p->has_trait("ILLITERATE")) {
-    g->add_msg(_("You're illiterate!"));
-  } else if(it->charges == 0) {
-    g->add_msg_if_player(p,_("The %s's batteries are dead."), it->name.c_str());
-  } else {
+    if(p->has_trait("ILLITERATE")) {
+        g->add_msg(_("You're illiterate!"));
+    } else if(it->charges == 0) {
+        g->add_msg_if_player(p, _("The %s's batteries are dead."), it->name.c_str());
+    } else {
+        std::string loaded_software = "robot_finds_kitten";
+        if ( it->item_vars.find("loaded_software") != it->item_vars.end() ) {
+            loaded_software = it->item_vars["loaded_software"];
+        }
+        //Play in 15-minute chunks
+        int time = 15000;
 
-    //Play in 15-minute chunks
-    int time = 15000;
+        g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
+        p->assign_activity(g, ACT_GAME, time, -1, it->invlet, "gaming");
+        p->moves = 0;
 
-    g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
-    p->assign_activity(g, ACT_GAME, time, -1, it->invlet, "gaming");
-    p->moves = 0;
+        std::map<std::string, std::string> game_data;
+        game_data.clear();
+        int game_score = 0;
 
-  }
+        bool game_completed = play_videogame(loaded_software, game_data, game_score);
+
+        if ( game_data.find("end_message") != game_data.end() ) {
+            g->add_msg_if_player(p, _("%s"), game_data["end_message"].c_str() );
+        }
+
+        if ( game_score != 0 ) {
+            if ( game_data.find("moraletype") != game_data.end() ) {
+                std::string moraletype = game_data.find("moraletype")->second;
+                if(moraletype == "MORALE_GAME_FOUND_KITTEN") {
+                    p->add_morale(MORALE_GAME_FOUND_KITTEN, game_score, 110);
+                } /*else if ( ...*/
+            } else {
+                p->add_morale(MORALE_GAME, game_score, 110);
+            }
+        }
+
+    }
 }
 
 void iuse::vortex(game *g, player *p, item *it, bool t)
