@@ -1060,6 +1060,7 @@
       ["dart", 5],
       ["elbow_pads", 40],
       ["knee_pads", 40],
+      ["quikclot", 10],
       ["boots_hiking", 10]
     ]
   },
@@ -1740,6 +1741,7 @@
       ["medical_gauze", 10],
       ["medical_tape", 45],
       ["jar_glass", 20],
+      ["quikclot", 10],
       ["jar_3l_glass", 15]
     ]
   },
@@ -2095,6 +2097,7 @@
       ["sleeping_bag", 10],
       ["emer_blanket", 20],
       ["flyer", 10],
+      ["quikclot", 20],
       ["helmet_liner", 20]
     ]
   },
@@ -2584,6 +2587,7 @@
       ["antibiotics", 25],
       ["water_clean", 90],
       ["purifier", 12],
+      ["quikclot", 10],
       ["heatpack", 60]
     ]
   },
@@ -2750,6 +2754,7 @@
       ["tongs", 5],
       ["tool_belt", 10],
       ["quiver", 3],
+      ["quikclot", 10],
       ["pocketwatch", 2]
     ]
   },
@@ -3322,6 +3327,7 @@
       ["tac_helmet", 10],
       ["gum", 90],
       ["nic_gum", 1],
+      ["quikclot", 20],
       ["improve_sights", 10]
     ]
   },
