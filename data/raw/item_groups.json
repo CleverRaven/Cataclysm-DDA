@@ -1511,6 +1511,10 @@
       ["bondage_suit", 1],
       ["bondage_mask", 1],
       ["corset", 10],
+      ["boots_combat", 10],
+      ["pants_army", 10],
+      ["jacket_army", 10],
+      ["army_top", 20],
       ["jersey", 40]
     ]
   },
