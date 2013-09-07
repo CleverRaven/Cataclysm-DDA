@@ -2026,20 +2026,6 @@
     "to_hit": 1,
     "techniques": ["WBLOCK_1"]
   },
-  {
-    "id": "hockey_stick",
-    "symbol": ";",
-    "color": "light_blue",
-    "name": "hockey stick",
-    "description": "A curved wooden stick with a wide and flat end. Commonly used by hockey players.",
-    "price": 110,
-    "material" : ["wood", "plastic"],
-    "weight": 420,
-    "volume": 4,
-    "bashing": 18,
-    "cutting": 1,
-    "to_hit": 2
-  },
 
   {
     "id": "char_kiln",
@@ -2055,5 +2041,19 @@
     "bashing": 10,
     "cutting": 0,
     "to_hit": -2,
+  },
+  {
+    "id": "hockey_stick",
+    "symbol": ";",
+    "color": "light_blue",
+    "name": "hockey stick",
+    "description": "A curved wooden stick with a wide and flat end. Commonly used by hockey players.",
+    "price": 110,
+    "material" : ["wood", "plastic"],
+    "weight": 420,
+    "volume": 4,
+    "bashing": 18,
+    "cutting": 1,
+    "to_hit": 2
   }
 ]

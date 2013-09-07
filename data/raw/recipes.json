@@ -13512,37 +13512,6 @@
     ]
   ]
 },
-
-{
-  "result": "goggles_welding",
-  "category": "CC_ARMOR",
-  "skill_used": "tailor",
-  "difficulty": 4,
-  "time": 30000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "goggles_ski", 1 ],
-      [ "goggles_swim", 1 ],
-      [ "glasses_safety", 1 ],
-      [ "sunglasses", 1 ]
-    ],
-    [
-      [ "duct_tape", 20 ],
-      [ "medical_tape", 20 ]
-    ],
-    [
-      [ "spray_can", 1 ]
-    ]
-  ]
-},
 {
   "result": "char_forge",
   "category": "CC_MISC",
@@ -13677,6 +13646,37 @@
     ],
     [
       [ "rag", 4 ]
+    ]
+  ]
+},
+
+{
+  "result": "goggles_welding",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "goggles_ski", 1 ],
+      [ "goggles_swim", 1 ],
+      [ "glasses_safety", 1 ],
+      [ "sunglasses", 1 ]
+    ],
+    [
+      [ "duct_tape", 20 ],
+      [ "medical_tape", 20 ]
+    ],
+    [
+      [ "spray_can", 1 ]
     ]
   ]
 }
