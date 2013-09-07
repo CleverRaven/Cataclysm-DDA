@@ -761,15 +761,14 @@ template<typename charT>
 struct my_equal {
     public:
         my_equal( const std::locale& loc ) : loc_(loc) {}
-#if(defined _WIN32)
+
         bool operator()(charT ch1, charT ch2) {
+		#if(defined _WIN32)
             return toupper(ch1) == toupper(ch2,);
+		#else
+			return std::toupper(ch1, loc_) == std::toupper(ch2, loc_);
+		#endif
         }
-#else
-        bool operator()(charT ch1, charT ch2) {
-            return std::toupper(ch1, loc_) == std::toupper(ch2, loc_);
-        }
-#endif
     private:
         const std::locale& loc_;
 };
