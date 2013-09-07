@@ -9,6 +9,9 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+#if(defined _WIN32)
+#include <ctype.h>
+#endif
 
 std::map<std::string, bool> mapAutoPickupItems;
 std::vector<cPickupRules> vAutoPickupRules[5];
@@ -758,10 +761,15 @@ template<typename charT>
 struct my_equal {
     public:
         my_equal( const std::locale& loc ) : loc_(loc) {}
-
+#if(defined _WIN32)
+        bool operator()(charT ch1, charT ch2) {
+            return toupper(ch1) == toupper(ch2,);
+        }
+#else
         bool operator()(charT ch1, charT ch2) {
             return std::toupper(ch1, loc_) == std::toupper(ch2, loc_);
         }
+#endif
     private:
         const std::locale& loc_;
 };
