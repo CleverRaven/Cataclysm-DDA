@@ -10461,7 +10461,8 @@
       [ "disinfectant", 2 ]
     ],
     [
-      [ "bandages", 2 ]
+      [ "bandages", 2 ],
+      [ "quikclot", 2 ]
     ]
   ]
 },
