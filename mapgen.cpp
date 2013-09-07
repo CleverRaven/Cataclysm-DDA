@@ -12468,10 +12468,10 @@ void map::post_process(game *g, unsigned zones)
 void map::place_spawns(game *g, std::string group, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
- if (!OPTIONS["STATIC_SPAWN"])
+ if (!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["STATIC_SPAWN"])
   return;
 
- float multiplier = OPTIONS["SPAWN_DENSITY"];
+ float multiplier = (awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["SPAWN_DENSITY"];
 
  if( multiplier == 0.0 ) return;
 
@@ -12575,7 +12575,7 @@ void map::add_spawn(mon_id type, int count, int x, int y, bool friendly,
             type, count, x, y);
   return;
  }
- if( OPTIONS["CLASSIC_ZOMBIES"] && !g->mtypes[type]->in_category(MC_CLASSIC) &&
+ if( (awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["CLASSIC_ZOMBIES"] && !g->mtypes[type]->in_category(MC_CLASSIC) &&
      !g->mtypes[type]->in_category(MC_WILDLIFE) ) {
      // Don't spawn non-classic monsters in classic zombie mode.
      return;
@@ -13783,7 +13783,7 @@ map_extra random_map_extra(map_extras embellishments)
     // Set pick to the total of all the chances for map extras
     for (int i = 0; i < num_map_extras; i++)
     {
-        if (!OPTIONS["CLASSIC_ZOMBIES"] || mfb(i) & classic_extras)
+        if (!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["CLASSIC_ZOMBIES"] || mfb(i) & classic_extras)
         {
             pick += embellishments.chances[i];
         }
@@ -13794,7 +13794,7 @@ map_extra random_map_extra(map_extras embellishments)
     while (pick >= 0)
     {
         choice++;
-        if(!OPTIONS["CLASSIC_ZOMBIES"] || mfb(choice) & classic_extras)
+        if(!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["CLASSIC_ZOMBIES"] || mfb(choice) & classic_extras)
         {
             pick -= embellishments.chances[choice];
         }

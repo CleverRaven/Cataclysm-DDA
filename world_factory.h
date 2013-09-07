@@ -12,6 +12,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include <sstream>
 
 #include <stdlib.h>
@@ -28,6 +29,8 @@
 
 
 extern std::map<std::string, cOpt> OPTIONS;
+extern std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+extern bool awo_populated;
 
 typedef struct WORLD
 {
@@ -73,6 +76,7 @@ class world_factory
         int show_worldgen_tab_confirm(WINDOW *win, WORLD *world);
 
         void draw_worldgen_tabs(WINDOW *win, int current, std::vector<std::string> tabs);
+        bool valid_worldname(std::string name);
 
         std::map<std::string, cOpt> get_world_options(std::string path);
 };

@@ -546,15 +546,15 @@ bool map::vehproceed(game* g){
    // calculate parts' mount points @ next turn (put them into precalc[1])
    veh->precalc_mounts(1, veh->skidding ? veh->turn_dir : mdir.dir());
 
-   int dmg_1 = 0; 
+   int dmg_1 = 0;
 
    std::vector<veh_collision> veh_veh_colls;
 
    if (veh->velocity == 0)
       can_move = false;
-   // find collisions  
+   // find collisions
    int vel1 = veh->velocity/100; //velocity of car before collision
-   veh->collision( veh_veh_colls, dx, dy, can_move, dmg_1 );    
+   veh->collision( veh_veh_colls, dx, dy, can_move, dmg_1 );
 
    bool veh_veh_coll_flag = false;
    if(veh_veh_colls.size()){ // we have dynamic crap!
@@ -563,7 +563,7 @@ bool map::vehproceed(game* g){
       // parts are damaged/broken on both sides,
       // remaining times are normalized,
 	  veh_veh_coll_flag = true;
-      veh_collision c = veh_veh_colls[0]; //Note: What´s with collisions with more than 2 vehicles? 
+      veh_collision c = veh_veh_colls[0]; //Note: What´s with collisions with more than 2 vehicles?
       vehicle* veh2 = (vehicle*) c.target;
       g->add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
                  veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
@@ -580,30 +580,30 @@ bool map::vehproceed(game* g){
 
 	  //collision_axis
 	  int x_cof1 = 0, y_cof1 = 0, x_cof2 = 0, y_cof2 = 0;
-	  veh ->center_of_mass(x_cof1, y_cof1);	 
+	  veh ->center_of_mass(x_cof1, y_cof1);
 	  veh2->center_of_mass(x_cof2, y_cof2);
 	  rl_vec2d collision_axis_y;
-	  
+
 	  collision_axis_y.x = ( veh->global_x() + x_cof1 ) -  ( veh2->global_x() + x_cof2 );
 	  collision_axis_y.y = ( veh->global_y() + y_cof1 ) -  ( veh2->global_y() + y_cof2 );
 	  collision_axis_y = collision_axis_y.normalized();
 	  rl_vec2d collision_axis_x = collision_axis_y.get_vertical();
       // imp? & delta? & final? reworked:
       // newvel1 =( vel1 * ( mass1 - mass2 ) + ( 2 * mass2 * vel2 ) ) / ( mass1 + mass2 )
-      // as per http://en.wikipedia.org/wiki/Elastic_collision  	
+      // as per http://en.wikipedia.org/wiki/Elastic_collision
 	  float vel1_y = collision_axis_y.dot_product(velo_veh1); //velocity of veh1 before collision in the direction of collision_axis_y
-	  float vel1_x = collision_axis_x.dot_product(velo_veh1); 
+	  float vel1_x = collision_axis_x.dot_product(velo_veh1);
 	  float vel2_y = collision_axis_y.dot_product(velo_veh2); //velocity of veh2 before collision in the direction of collision_axis_y
 	  float vel2_x = collision_axis_x.dot_product(velo_veh2);
 	  float e = get_collision_factor(vel1_y/100 - vel2_y/100); // e = 0 -> inelastic collision
-	  // e = 1 -> elastic collision	 
+	  // e = 1 -> elastic collision
 
 	  float vel1_x_a = vel1_x; //velocity after collision
 	  // vel1_x_a = vel1_x, because in x-direction we have no transmission of force
-	  float vel2_x_a = vel2_x; 
+	  float vel2_x_a = vel2_x;
 	  //transmission of force only in direction of collision_axix_y
 	  float vel1_y_a = ( m2 * vel2_y * ( 1 + e ) + vel1_y * ( m1 - m2 * e) ) / ( m1 + m2);  //equation: partially elastic collision
-	  float vel2_y_a = ( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e) ) / ( m1 + m2);  //equation: partially elastic collision	  
+	  float vel2_y_a = ( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e) ) / ( m1 + m2);  //equation: partially elastic collision
 	  rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a; //add both components; Note: collision_axis is normalized
 	  rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a; //add both components; Note: collision_axis is normalized
 
@@ -616,12 +616,12 @@ bool map::vehproceed(game* g){
 
 	  //Debugging
 	  /*
-	  g->add_msg(_("Veh1: x: %d y: %d"), veh->global_x() + x_cof1, veh->global_y() + y_cof1);	
-	  g->add_msg(_("Veh2: x: %d y: %d"), veh2->global_x() + x_cof2, veh2->global_y() + y_cof2);		 
-	  g->add_msg(_("Coll_X: %f Coll_Y: %f e: %f"), collision_axis_y.x, collision_axis_y.y, e);	
-	  g->add_msg(_("Vel1_y: %f Vel1_x: %f"), vel1_y, vel1_x);	
-	  g->add_msg(_("Vel2_y: %f Vel2_x: %f"), vel2_y, vel2_x);	
-	  g->add_msg(_("Vel1_y_a: %f Vel1_x_a: %f"), vel1_y_a, vel1_x_a);	
+	  g->add_msg(_("Veh1: x: %d y: %d"), veh->global_x() + x_cof1, veh->global_y() + y_cof1);
+	  g->add_msg(_("Veh2: x: %d y: %d"), veh2->global_x() + x_cof2, veh2->global_y() + y_cof2);
+	  g->add_msg(_("Coll_X: %f Coll_Y: %f e: %f"), collision_axis_y.x, collision_axis_y.y, e);
+	  g->add_msg(_("Vel1_y: %f Vel1_x: %f"), vel1_y, vel1_x);
+	  g->add_msg(_("Vel2_y: %f Vel2_x: %f"), vel2_y, vel2_x);
+	  g->add_msg(_("Vel1_y_a: %f Vel1_x_a: %f"), vel1_y_a, vel1_x_a);
 	  g->add_msg(_("Vel2_y_a: %f Vel2_x_a: %f"), vel2_y_a, vel2_x_a);
 	  g->add_msg(_("DMG1: %f DMG2:: %f"), dmg_veh1, dmg_veh2);
 	  */
@@ -629,13 +629,13 @@ bool map::vehproceed(game* g){
 	  int coll_parts_cnt=0; //quantity of colliding parts between veh1 and veh2
 	  for(int i = 0; i < veh_veh_colls.size(); i++) {
 		  veh_collision tmp_c = veh_veh_colls[i];
-		  if(veh2 == (vehicle*) tmp_c.target) coll_parts_cnt++;		
-	  }	
+		  if(veh2 == (vehicle*) tmp_c.target) coll_parts_cnt++;
+	  }
 
-	  float dmg1_part = dmg_veh1 / coll_parts_cnt; 
+	  float dmg1_part = dmg_veh1 / coll_parts_cnt;
 	  float dmg2_part = dmg_veh2 / coll_parts_cnt;
 
-	  //damage colliding parts (only veh1 and veh2 parts) 
+	  //damage colliding parts (only veh1 and veh2 parts)
 	  for(int i = 0; i < veh_veh_colls.size(); i++) {
 		  veh_collision tmp_c = veh_veh_colls[i];
 
@@ -649,12 +649,12 @@ bool map::vehproceed(game* g){
 				parm2 = tmp_c.target_part;
 			}
 			veh->damage(parm1, dmg1_part, 1);
-			veh2->damage(parm2, dmg2_part, 1);	
-		  }		 	 
-	  }	
+			veh2->damage(parm2, dmg2_part, 1);
+		  }
+	  }
 
 	  if (dmg2_part > 100)
-         veh2->damage_all(dmg2_part / 20, dmg2_part / 10, 1);// shake veh because of collision	
+         veh2->damage_all(dmg2_part / 20, dmg2_part / 10, 1);// shake veh because of collision
 
 	  dmg_1 += dmg1_part;
 
@@ -674,38 +674,38 @@ bool map::vehproceed(game* g){
       if(avg_of_turn < .1f)
          avg_of_turn = .1f;
       veh->of_turn = avg_of_turn * .9;
-      veh2->of_turn = avg_of_turn * 1.1;     
+      veh2->of_turn = avg_of_turn * 1.1;
    }
 
    int coll_turn = 0;
-   if (dmg_1 > 0) { 
+   if (dmg_1 > 0) {
       // debugmsg ("collision imp=%d dam=%d-%d", imp, imp/10, imp/6);
 	  int vel1_a = veh->velocity/100; //velocity of car after collision
 	  int d_vel = abs(vel1 - vel1_a);
 
       if (dmg_1 > 100)
-         veh->damage_all(dmg_1 / 20, dmg_1 / 10, 1);// shake veh because of collision	
-      std::vector<int> ppl = veh->boarded_parts();   	
+         veh->damage_all(dmg_1 / 20, dmg_1 / 10, 1);// shake veh because of collision
+      std::vector<int> ppl = veh->boarded_parts();
 
       for (int ps = 0; ps < ppl.size(); ps++) {
-         player *psg = veh->get_passenger (ppl[ps]);	
+         player *psg = veh->get_passenger (ppl[ps]);
          if (!psg) {
             debugmsg ("throw passenger: empty passenger at part %d", ppl[ps]);
             continue;
          }
 
-		 bool throw_from_seat = 0;	
-		 if (veh->part_with_feature (ppl[ps], "SEATBELT") == -1) throw_from_seat = d_vel * rng(80, 120) / 100 > (psg->str_cur * 1.5 + 5);    
+		 bool throw_from_seat = 0;
+		 if (veh->part_with_feature (ppl[ps], "SEATBELT") == -1) throw_from_seat = d_vel * rng(80, 120) / 100 > (psg->str_cur * 1.5 + 5);
 
 		  //damage passengers if d_vel is too high
-		 if(d_vel > 60* rng(50,100)/100 && !throw_from_seat) { 
+		 if(d_vel > 60* rng(50,100)/100 && !throw_from_seat) {
 			int dmg = d_vel/4*rng(70,100)/100;
 			psg->hurtall(dmg);
-			if (psg == &g->u) 
+			if (psg == &g->u)
                 g->add_msg(_("You take %d damage by the power of the impact!"), dmg);
-            else if (psg->name.length()) 
-                g->add_msg(_("%s takes %d damage by the power of the impact!"), psg->name.c_str(), dmg);            
-		 }	
+            else if (psg->name.length())
+                g->add_msg(_("%s takes %d damage by the power of the impact!"), psg->name.c_str(), dmg);
+		 }
 
          if (throw_from_seat) {
             if (psg == &g->u) {
@@ -716,9 +716,9 @@ bool map::vehproceed(game* g){
             g->m.unboard_vehicle(g, x + veh->parts[ppl[ps]].precalc_dx[0],
                   y + veh->parts[ppl[ps]].precalc_dy[0]);
             g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
-                  (vel1 - psg->str_cur < 10 ? 10 : 
+                  (vel1 - psg->str_cur < 10 ? 10 :
                    vel1 - psg->str_cur));
-         } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {			 
+         } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {
             // FIXME: should actually check if passenger is in control,
             // not just if there are controls there.
             const int lose_ctrl_roll = rng (0, dmg_1);
@@ -741,7 +741,7 @@ bool map::vehproceed(game* g){
          }
       }
    }
-   if(veh_veh_coll_flag) return true; 
+   if(veh_veh_coll_flag) return true;
 
    // now we're gonna handle traps we're standing on (if we're still moving).
    // this is done here before displacement because
@@ -786,7 +786,7 @@ bool map::vehproceed(game* g){
          veh->turn (coll_turn);
       }
       // accept new position
-      // if submap changed, we need to process grid from the beginning.	
+      // if submap changed, we need to process grid from the beginning.
 	  displace_vehicle (g, x, y, dx, dy);
    } else { // can_move
       veh->stop();
@@ -3780,7 +3780,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 
    // Only add if not tracking already.
    if( vehicle_list.find( *it ) == vehicle_list.end() ) {
-    // gridx/y not correct. TODO: Fix	
+    // gridx/y not correct. TODO: Fix
     (*it)->smx = gridx;
     (*it)->smy = gridy;
     vehicle_list.insert(*it);
@@ -3817,7 +3817,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
   }
 
   // plantEpoch is half a season; 3 epochs pass from plant to harvest
-  const int plantEpoch = 14400 * (int)OPTIONS["SEASON_LENGTH"] / 2;
+  const int plantEpoch = 14400 * (int)(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["SEASON_LENGTH"] / 2;
 
   // check plants
   for (int x = 0; x < SEEX; x++) {
@@ -3880,7 +3880,7 @@ void map::copy_grid(const int to, const int from)
  for( std::vector<vehicle*>::iterator it = grid[to]->vehicles.begin(),
        end = grid[to]->vehicles.end(); it != end; ++it ) {
   (*it)->smx = to % my_MAPSIZE;
-  (*it)->smy = to / my_MAPSIZE; 
+  (*it)->smy = to / my_MAPSIZE;
  }
 }
 

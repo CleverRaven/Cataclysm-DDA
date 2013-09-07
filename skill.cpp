@@ -123,7 +123,7 @@ SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPractic
     _isTraining = isTraining;
     if(lastPracticed == 0)
     {
-        _lastPracticed = HOURS(OPTIONS["INITIAL_TIME"]);
+        _lastPracticed = HOURS((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["INITIAL_TIME"]);
     }
     else
     {
@@ -139,7 +139,7 @@ SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExerc
     _isTraining = isTraining;
     if(lastPracticed == 0)
     {
-        _lastPracticed = HOURS(OPTIONS["INITIAL_TIME"]);
+        _lastPracticed = HOURS((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["INITIAL_TIME"]);
     }
     else
     {
@@ -164,7 +164,7 @@ static int rustRate(int level)
 
 bool SkillLevel::isRusting(const calendar& turn) const
 {
-    return OPTIONS["SKILL_RUST"] != "Off" && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
+    return (awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["SKILL_RUST"] != "Off" && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
 }
 
 bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
@@ -177,7 +177,7 @@ bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
 
         if (_exercise < 0)
         {
-            if (OPTIONS["SKILL_RUST"] == "Vanilla" || OPTIONS["SKILL_RUST"] == "Int")
+            if ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["SKILL_RUST"] == "Vanilla" || (awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["SKILL_RUST"] == "Int")
             {
                 _exercise = (100 * _level) - 1;
                 --_level;

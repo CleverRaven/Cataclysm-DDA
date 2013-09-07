@@ -118,6 +118,22 @@ WORLD *world_factory::load_world(std::string world_name, bool setactive)
 void world_factory::set_active_world(WORLD* world)
 {
     world_generator->active_world = world;
+    if (world)
+    {
+        ACTIVE_WORLD_OPTIONS = world->world_options;
+        DebugLog() << "ACTIVE_WORLD_OPTIONS set to world options\n";
+        awo_populated = true;
+
+        for (std::map<std::string, cOpt>::iterator it = ACTIVE_WORLD_OPTIONS.begin(); it != ACTIVE_WORLD_OPTIONS.end(); ++it)
+        {
+            DebugLog() << "\tKey: "<<it->first << "\tValue: "<<it->second.getValue()<<"\n";
+        }
+    }
+    else
+    {
+        DebugLog() << "ACTIVE_WORLD_OPTIONS cleared\n";
+        awo_populated = false;
+    }
 }
 
 std::map<std::string, WORLD*> world_factory::get_all_worlds()
@@ -126,7 +142,13 @@ std::map<std::string, WORLD*> world_factory::get_all_worlds()
 
     if (all_worlds.size() > 0)
     {
-        return all_worlds;
+        for (std::map<std::string, WORLD*>::iterator it = all_worlds.begin(); it != all_worlds.end(); ++it)
+        {
+            delete it->second;
+        }
+        all_worlds.clear();
+        all_worldnames.clear();
+        //return all_worlds;
     }
 
     const std::string save_dir = "save";
@@ -420,6 +442,7 @@ std::map<std::string, cOpt> world_factory::get_world_options(std::string path)
         if (sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1)
         {
             int ipos = sLine.find(' ');
+            retoptions[sLine.substr(0, ipos)] = OPTIONS[sLine.substr(0, ipos)]; // init to OPTIONS current, works since it's a value type not a reference type :D
             retoptions[sLine.substr(0, ipos)].setValue(sLine.substr(ipos+1, sLine.length()));
         }
     }
@@ -681,10 +704,14 @@ DebugLog() << "\tEntering CONFIRMATION loop\n";
                 else
                 {
                     world->world_name = pick_random_name();
+                    if (!valid_worldname(world->world_name))
+                    {
+                        continue;
+                    }
                     return 1;
                 }
             }
-            else if (query_yn(_("Are you SURE you're finished?")))
+            else if (query_yn(_("Are you SURE you're finished?")) && valid_worldname(worldname))
             {
                 world->world_name = worldname;
                 werase(w_confirmation);
@@ -808,4 +835,15 @@ void world_factory::remove_world(std::string worldname)
     }
     delete all_worlds[worldname];
     all_worlds.erase(worldname);
+}
+bool world_factory::valid_worldname(std::string name)
+{
+    if (std::find(all_worldnames.begin(), all_worldnames.end(), name) == all_worldnames.end())
+    {
+        return true;
+    }
+    std::stringstream msg;
+    msg << name << " is not a valid world name, already exists!";
+    popup_getkey(msg.str().c_str());
+    return false;
 }

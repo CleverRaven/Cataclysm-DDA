@@ -48,7 +48,7 @@ mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector 
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
         if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[it->first]->difficulty))) &&
-           (!OPTIONS["CLASSIC_ZOMBIES"] ||
+           (!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["CLASSIC_ZOMBIES"] ||
             (*mtypes)[it->first]->in_category(MC_CLASSIC) ||
             (*mtypes)[it->first]->in_category(MC_WILDLIFE)))
         {   //Not too hard for us (or we dont care)
@@ -61,7 +61,7 @@ mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector 
         }
     }
     if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[g.defaultMonster]->difficulty))
-        && (!OPTIONS["STATIC_SPAWN"]))
+        && (!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["STATIC_SPAWN"]))
     {
         return mon_null;
     }

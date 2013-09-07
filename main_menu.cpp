@@ -576,6 +576,9 @@ bool game::opening_screen()
                         if (world_generator->make_new_world())
                         {
                             return opening_screen();
+                        }else
+                        {
+                            layer = 1;
                         }
                     }
                     else if (sel2 == 1 || sel2 == 2) // Delete World | Reset World

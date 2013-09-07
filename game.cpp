@@ -319,7 +319,10 @@ void game::init_ui(){
 
 void game::setup()
 {
+DebugLog() << "GAME: Entering g->setup()\n";
+DebugLog() << "GAME: Setting up player\n";
  u = player();
+DebugLog() << "GAME: Setup map\n";
  m = map(&traps); // Init the root map with our vectors
  _z.reserve(1000); // Reserve some space
 
@@ -337,6 +340,7 @@ void game::setup()
  uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
 
+DebugLog() << "GAME: Setting up weather\n";
  weather = WEATHER_CLEAR; // Start with some nice weather...
  // Weather shift in 30
  nextweather = HOURS(OPTIONS["INITIAL_TIME"]) + MINUTES(30);
@@ -364,9 +368,9 @@ void game::setup()
   for (int j = 0; j < SEEX * MAPSIZE; j++)
    grscent[i][j] = 0;
  }
-
+DebugLog() << "GAME: Loading Autopickup rules\n";
  load_auto_pickup(false); // Load global auto pickup rules
-
+DebugLog() << "GAME: Entering opening screen!\n";
  if (opening_screen()) {// Opening menu
 // Finally, draw the screen!
   refresh_all();
@@ -378,8 +382,11 @@ void game::start_game_from(std::string worldname)
 {
     // load [worldname] world
     MAPBUFFER.load_from(worldname);
-
-    turn = HOURS(OPTIONS["INITIAL_TIME"]);
+DebugLog() << "Setting initial time\n";
+DebugLog() << "awo_populated = "<<awo_populated<<": "<< ACTIVE_WORLD_OPTIONS.size() << "\n";
+    //turn = HOURS((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["INITIAL_TIME"]);
+    turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
+DebugLog() << "Initial time set!\n";
     run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
     mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -555,7 +562,7 @@ void game::load_npcs()
 
 void game::create_starting_npcs()
 {
- if(!OPTIONS["STATIC_NPC"])
+ if(!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["STATIC_NPC"])
  	return; //Do not generate a starting npc.
  npc * tmp = new npc();
  tmp->normalize(this);
@@ -601,8 +608,8 @@ void game::cleanup_at_end(){
                 uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
         write_memorial_file();
         u.memorial_log.clear();
-        if (OPTIONS["DELETE_WORLD"] == "Yes" ||
-            (OPTIONS["DELETE_WORLD"] == "Query" && query_yn(_("Delete saved world?"))))
+        if ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "Yes" ||
+            ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "Query" && query_yn(_("Delete saved world?"))))
         {
             delete_save();
             MAPBUFFER.reset();
@@ -3382,7 +3389,7 @@ Current turn: %d; Next spawn %d.\n\
 %d events planned."),
              u.posx, u.posy, levx, levy,
              oterlist[cur_om->ter(levx / 2, levy / 2, levz)].name.c_str(),
-             int(turn), int(nextspawn), (!OPTIONS["RANDOM_NPC"] ? _("NPCs are going to spawn.") :
+             int(turn), int(nextspawn), (!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["RANDOM_NPC"] ? _("NPCs are going to spawn.") :
                                          _("NPCs are NOT going to spawn.")),
              num_zombies(), active_npc.size(), events.size());
 		 if( !active_npc.empty() ) {
@@ -10664,7 +10671,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int iter;
  int t;
  // Create a new NPC?
- if (OPTIONS["RANDOM_NPC"] && one_in(100 + 15 * cur_om->npcs.size())) {
+ if ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["RANDOM_NPC"] && one_in(100 + 15 * cur_om->npcs.size())) {
   npc * tmp = new npc();
   tmp->normalize(this);
   tmp->randomize(this);

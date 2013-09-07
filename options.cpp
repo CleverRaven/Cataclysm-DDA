@@ -12,6 +12,8 @@ bool trigdist;
 bool use_tiles;
 
 std::map<std::string, cOpt> OPTIONS;
+std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+bool awo_populated;
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 
@@ -23,6 +25,7 @@ void initOptions() {
     vPages.push_back(std::make_pair("world_default", _("World Defaults")));
 
     OPTIONS.clear();
+    ACTIVE_WORLD_OPTIONS.clear();
 
     OPTIONS["USE_CELSIUS"] =            cOpt("interface", _("Use Celsius"),
                                              _("Switch between Celsius and Fahrenheit."),
@@ -262,6 +265,19 @@ void initOptions() {
             }
         }
     }
+
+    ACTIVE_WORLD_OPTIONS["SKILL_RUST"] = OPTIONS["SKILL_RUST"];
+    ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] = OPTIONS["DELETE_WORLD"];
+    ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"] = OPTIONS["SPAWN_DENSITY"];
+    ACTIVE_WORLD_OPTIONS["CITY_SIZE"] = OPTIONS["CITY_SIZE"];
+    ACTIVE_WORLD_OPTIONS["INITIAL_TIME"] = OPTIONS["INITIAL_TIME"];
+    ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"] = OPTIONS["STATIC_SPAWN"];
+    ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] = OPTIONS["CLASSIC_ZOMBIES"];
+    ACTIVE_WORLD_OPTIONS["REVIVE_ZOMBIES"] = OPTIONS["REVIVE_ZOMBIES"];
+    ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] = OPTIONS["SEASON_LENGTH"];
+    ACTIVE_WORLD_OPTIONS["STATIC_NPC"] = OPTIONS["STATIC_NPC"];
+    ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] = OPTIONS["RANDOM_NPC"];
+
 }
 
 void game::show_options()
