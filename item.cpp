@@ -170,7 +170,6 @@ void item::init() {
 
 void item::make(itype* it)
 {
- init();
  if(!it)
   type = nullitem();
  else
@@ -182,7 +181,7 @@ void item::clear()
 {
     // should we be clearing contents, as well?
     // Seems risky to - there aren't any reported content-clearing bugs
-    // init(); // this seems to fit? But above comment..
+    // init(); // this should not go here either, or make() should not use it...
     item_tags.clear();
     item_vars.clear();
 }
