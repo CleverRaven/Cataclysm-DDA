@@ -142,7 +142,7 @@ itype * item::nullitem()
 
 item::item(std::string itemdata, game *g)
 {
- load_info(itemdata, g);
+    load_info(itemdata, g);
 }
 
 item::~item()
@@ -525,7 +525,7 @@ char check=dump.peek();
 if ( check == ' ' ) {
   // sigh..
   check=data[1];
-} 
+}
 if ( check == '{' ) {
         picojson::value pdata;
         dump >> pdata;
@@ -539,8 +539,8 @@ if ( check == '{' ) {
 }
  clear();
  std::string idtmp, ammotmp, item_tag;
- int lettmp, damtmp, acttmp, corp, tag_count;
- dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
+ int lettmp, damtmp, acttmp, corp, tag_count, chargestmp;
+ dump >> lettmp >> idtmp >> chargestmp >> damtmp >> tag_count;
  for( int i = 0; i < tag_count; ++i )
  {
      dump >> item_tag;
@@ -567,6 +567,7 @@ if ( check == '{' ) {
   name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
  }
  make(g->itypes[idtmp]);
+ charges = chargestmp;
  invlet = char(lettmp);
  damage = damtmp;
  active = false;
@@ -2308,7 +2309,7 @@ char item::pick_reload_ammo(player &u, bool interactive)
          ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
          amenu.addentry(i,true,i + 'a',"%s | %-7d | %-7d | %-7d | %-7d",
              std::string(
-                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) + 
+                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) +
                 std::string(namelen,' ')
              ).substr(0,namelen).c_str(),
              ammo_def->damage, ammo_def->pierce, ammo_def->range,
