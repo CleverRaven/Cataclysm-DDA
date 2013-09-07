@@ -185,7 +185,8 @@
       ["vinegar", 15],
       ["veggy_pickled", 8],
       ["meat_pickled", 4],
-      ["tongs", 25]
+      ["tongs", 25],
+      ["charcoal", 5]
     ]
   },
   { "id":"knifeblock",
@@ -272,7 +273,8 @@
       ["jar_glass", 50],
       ["jar_3l_glass", 40],
       ["flotation_vest", 1],
-      ["bearing", 1]
+      ["bearing", 1],
+      ["charcoal", 20]
     ]
   },
   { "id":"bedroom",
@@ -719,7 +721,8 @@
       ["rag", 1],
       ["scissors", 50],
       ["string_36", 40],
-      ["vinegar", 10]
+      ["vinegar", 10],
+      ["charcoal", 5]
     ]
   },
   { "id":"hardware",
@@ -749,6 +752,8 @@
       ["jack", 10],
       ["permanent_marker", 50],
       ["forge", 1],
+      ["char_forge", 1],
+      ["char_kiln", 1],
       ["crucible", 1],
       ["tongs", 1],
       ["chisel", 2],
@@ -756,7 +761,8 @@
       ["anvil", 2],
       ["apron_leather", 10],
       ["tool_belt", 30],
-      ["knee_pads", 20]
+      ["knee_pads", 20],
+      ["charcoal", 5]
     ]
   },
   { "id":"tools",
@@ -794,6 +800,8 @@
       ["welder", 25],
       ["ax", 8],
       ["forge", 2],
+      ["char_forge", 2],
+      ["char_kiln", 1],
       ["crucible", 2],
       ["anvil", 4],
       ["apron_leather", 10],
@@ -967,7 +975,8 @@
       ["blowgun", 5],
       ["dart", 5],
       ["pocketwatch", 5],
-      ["boots_hiking", 20]
+      ["boots_hiking", 20],
+      ["charcoal", 20]
     ]
   },
   { "id":"allsporting",
@@ -2054,6 +2063,8 @@
       ["nodachi", 1],
       ["swage", 2],
       ["forge", 5],
+      ["char_forge", 5],
+      ["char_kiln", 2],
       ["armor_lightplate", 1],
       ["armor_samurai", 1],
       ["helmet_kabuto", 1],
@@ -2226,7 +2237,8 @@
       ["funnel", 50],
       ["jar_glass", 20],
       ["jar_3l_glass", 15],
-      ["apron_leather", 2]
+      ["apron_leather", 2],
+      ["charcoal", 10]
     ]
   },
   { "id":"teleport",
@@ -2750,7 +2762,8 @@
       ["tongs", 5],
       ["tool_belt", 10],
       ["quiver", 3],
-      ["pocketwatch", 2]
+      ["pocketwatch", 2],
+      ["charcoal", 5]
     ]
   },
   { "id":"sewage_plant",

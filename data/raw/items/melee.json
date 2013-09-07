@@ -2026,6 +2026,22 @@
     "to_hit": 1,
     "techniques": ["WBLOCK_1"]
   },
+
+  {
+    "id": "char_kiln",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "charcoal kiln",
+    "description": "A stout metal box used for producing charcoal via pyrolysis; the incomplete burning of organic materials in the absence of oxygen.",
+    "price": 160,
+    "material": ["steel"],
+    "weight": 6400,
+    "volume": 40,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -2,
+  },
   {
     "id": "hockey_stick",
     "symbol": ";",
