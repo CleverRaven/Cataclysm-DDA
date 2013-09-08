@@ -3547,19 +3547,6 @@ void overmap::unserialize(game * g, std::ifstream & fin) {
 
     int tmp_ter;
     if (z >= 0 && z < OVERMAP_LAYERS) {
-#define oldomap
-#ifdef oldomap
-     for (int j = 0; j < OMAPY; j++) {
-      for (int i = 0; i < OMAPX; i++) {
-       fin >> tmp_ter;
-       layer[z].terrain[i][j] = oter_id(tmp_ter);
-       layer[z].visible[i][j] = false;
-       if (layer[z].terrain[i][j] < 0 || layer[z].terrain[i][j] > num_ter_types)
-        debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), layer[z].terrain[i][j]);
-      }
-     }
-
-#else
      int count = 0;
      for (int j = 0; j < OMAPY; j++) {
       for (int i = 0; i < OMAPX; i++) {
@@ -3574,7 +3561,6 @@ void overmap::unserialize(game * g, std::ifstream & fin) {
        layer[z].visible[i][j] = false;
       }
      }
-#endif
     } else {
      debugmsg("Loaded z level out of range (z: %d)", z);
     }
