@@ -434,6 +434,7 @@ private:
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
+ vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
