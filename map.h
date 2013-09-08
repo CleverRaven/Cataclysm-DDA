@@ -307,6 +307,9 @@ class map
 // Radiation
  int& radiation(const int x, const int y);	// Amount of radiation at (x, y);
 
+// Temperature
+ int& temperature(const int x, const int y);    // Temperature for submap
+
 // Items
  std::vector<item>& i_at(int x, int y);
  item water_from(const int x, const int y);
@@ -416,6 +419,7 @@ protected:
  field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
  int nulrad;	// OOB &radiation()
+ int null_temperature;  // Because radiation does it too
 
  std::vector <trap*> *traps;
 

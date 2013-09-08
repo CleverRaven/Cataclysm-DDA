@@ -959,6 +959,7 @@ t   t\n\
  case ot_house_south:
  case ot_house_west:
 
+  temperature(x, y) = -100;
   lw = rng(0, 4);		// West external wall
   mw = lw + rng(7, 10);		// Middle wall between bedroom & kitchen/bath
   rw = SEEX * 2 - rng(1, 5);	// East external wall
