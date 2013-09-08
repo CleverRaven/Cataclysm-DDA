@@ -13585,7 +13585,7 @@
 },
 {
   "result": "quikclot",
-  "category": "CC_MISC",
+  "category": "CC_CHEM",
   "skill_used": "firstaid",
   "requires_skills": [ "cooking", 1 ],
   "difficulty": 4,
