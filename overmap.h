@@ -156,6 +156,10 @@ class overmap
   // Initialise
   void init_layers();
   void open(game *g);
+  void unserialize(game *g, std::ifstream & fin);
+
+  bool unserialize_legacy(game *g, std::ifstream & fin);
+
   void generate(game *g, overmap* north, overmap* east, overmap* south,
                 overmap* west);
   bool generate_sub(int const z);
