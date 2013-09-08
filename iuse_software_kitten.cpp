@@ -14,6 +14,7 @@
 #include "catacharset.h"
 #include "options.h"
 #include "debug.h"
+#include "posix_time.h"
 #include "iuse_software_kitten.h"
 
 #define EMPTY -1
