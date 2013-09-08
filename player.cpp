@@ -7880,7 +7880,7 @@ void player::try_to_sleep(game *g)
              terlist[ter_at_pos].movecost <= 2 ?
              _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
-             terlist[ter_at_pos].name.c_str());
+             _(terlist[ter_at_pos].name.c_str())); // FIXME i18n
  add_disease("lying_down", 300);
 }
 
