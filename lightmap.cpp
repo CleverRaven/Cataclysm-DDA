@@ -9,24 +9,21 @@
 #define LIGHTMAP_CACHE_X SEEX * MAPSIZE
 #define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
 
-// for pre-merge testing of other optimizations
-#define lightsource_cache 1
-#define itype_light 1
 void map::generate_lightmap(game* g)
 {
  memset(lm, 0, sizeof(lm));
  memset(sm, 0, sizeof(sm));
-#ifdef lightsource_cache
+
 /* Bulk light sources wastefully cast rays into neighbors; a burning hospital can produce
      significant slowdown, so for stuff like fire and lava:
  * Step 1: Store the position and luminance in buffer via add_light_source, for efficient
      checking of neighbors.
  * Step 2: After everything else, iterate buffer and apply_light_source only in non-redundant
      directions
- * Step 3: Profit! 
+ * Step 3: Profit!
  */
-    memset(light_source_buffer, 0, sizeof(light_source_buffer));
-#endif
+ memset(light_source_buffer, 0, sizeof(light_source_buffer));
+
 
  const int dir_x[] = { 1, 0 , -1,  0 };
  const int dir_y[] = { 0, 1 ,  0, -1 };
@@ -60,7 +57,6 @@ void map::generate_lightmap(game* g)
  // Apply player light sources
  if (held_luminance > LIGHT_AMBIENT_LOW)
   apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
-  int flood_basalt_check = 0; // does excessive lava need high quality lighting? Nope nope nope nope
   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
     const ter_id terrain = g->m.ter(sx, sy);
@@ -84,24 +80,16 @@ void map::generate_lightmap(game* g)
     }
     for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm )
     {
-#ifdef itype_light
-                if ( itm->light.luminance > 0 ) {
-                    if ( itm->light.width > 0 ) {
-                        apply_light_arc( sx, sy, (int)itm->light.direction, 
-                                         (float)itm->light.luminance, (int)itm->light.width );
-                    } else {
-                        add_light_source(sx, sy, (float)itm->light.luminance );
-                    }
-                } else if ( itm->type->light_emission > 0 ) {
-                    add_light_source(sx, sy, (float)itm->type->light_emission );
-                }
-#else
-
-        if ( itm->has_flag("LIGHT_20")) { apply_light_source(sx, sy, 20, trigdist); }
-        if ( itm->has_flag("LIGHT_1")) { apply_light_source(sx, sy, 1, trigdist); }
-        if ( itm->has_flag("LIGHT_4")) { apply_light_source(sx, sy, 4, trigdist); }
-        if ( itm->has_flag("LIGHT_8")) { apply_light_source(sx, sy, 8, trigdist); }
-#endif
+        if ( itm->light.luminance > 0 ) {
+            if ( itm->light.width > 0 ) {
+                apply_light_arc( sx, sy, (int)itm->light.direction,
+                                 (float)itm->light.luminance, (int)itm->light.width );
+            } else {
+                add_light_source(sx, sy, (float)itm->light.luminance );
+            }
+        } else if ( itm->type->light_emission > 0 ) {
+            add_light_source(sx, sy, (float)itm->type->light_emission );
+        }
     }
    if(terrain == t_lava) {
      add_light_source(sx, sy, 50 );
@@ -235,17 +223,10 @@ if (g->u.has_active_bionic("bio_night") ) {
       }
    }
   }
-
- 
-
 }
 
 void map::add_light_source(int x, int y, float luminance ) {
-#ifdef lightsource_cache
     light_source_buffer[x][y] = luminance;
-#else
-    apply_light_source(x, y, luminance, ( trigdist && luminance > 3. ) );
-#endif
 }
 
 lit_level map::light_at(int dx, int dy)
@@ -365,15 +346,11 @@ void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc
     sssSsss
        sy
 */
-#ifdef lightsource_cache
   const int peer_inbounds = LIGHTMAP_CACHE_X-1;
   bool north=(y != 0 && light_source_buffer[x][y-1] < luminance );
   bool south=(y != peer_inbounds && light_source_buffer[x][y+1] < luminance );
   bool east=(x != peer_inbounds && light_source_buffer[x+1][y] < luminance );
   bool west=(x != 0 && light_source_buffer[x-1][y] < luminance );
-#else
-  bool north=true, south=true, east=true, west=true;
-#endif
 
  if (luminance > LIGHT_SOURCE_LOCAL) {
   int range = LIGHT_RANGE(luminance);
