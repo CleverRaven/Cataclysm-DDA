@@ -109,7 +109,6 @@ class game
   void serialize(std::ofstream & fout); // for save
   void unserialize(std::ifstream & fin); // for load
   void save();
-  void delete_save();
   void delete_world(std::string world, bool delete_folder);
   void write_memorial_file();
   void cleanup_at_end();
@@ -368,14 +367,11 @@ void load_artifacts(); // Load artifact data
   bool opening_screen();// Warn about screen size, then present the main menu
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
-  bool load_master();	// Load the master data file, with factions &c
-  bool load_master_from(std::string worldname);
+  bool load_master(std::string worldname);	// Load the master data file, with factions &c -- redefine
   void load_weather(std::ifstream &fin);
   void load_weather(std::string line);
-  void load(std::string name);	// Load a player-specific save file
-  void load_from(std::string worldname, std::string name);
-  void start_game();	// Starts a new game
-  void start_game_from(std::string worldname);
+  void load(std::string worldname, std::string name);	// Load a player-specific save file -- redefine
+  void start_game(std::string worldname);	// Starts a new game -- redefine
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
   //private save functions.
@@ -384,8 +380,7 @@ void load_artifacts(); // Load artifact data
 	 void save_maps();
   std::string save_weather() const;
   void save_uistate();
-  void load_uistate();
-  void load_uistate_from(std::string worldname);
+  void load_uistate(std::string worldname);
 // Data Initialization
   void init_npctalk();
   void init_materials();

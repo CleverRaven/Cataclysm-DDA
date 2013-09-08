@@ -372,7 +372,8 @@ void game::setup()
  }
 }
 
-void game::start_game_from(std::string worldname)
+// Set up all default values for a new game
+void game::start_game(std::string worldname)
 {
     // load [worldname] world
     MAPBUFFER.load_from(worldname);
@@ -382,7 +383,7 @@ void game::start_game_from(std::string worldname)
 
     popup_nowait(_("Please wait as we build your world"));
     // Init some factions.
-    if (!load_master_from(worldname))	// Master data record contains factions.
+    if (!load_master(worldname))	// Master data record contains factions.
         create_factions();
     cur_om = &overmap_buffer.get(this, 0, 0);	// We start in the (0,0,0) overmap.
 
@@ -429,66 +430,6 @@ void game::start_game_from(std::string worldname)
     MAPBUFFER.set_dirty();
 
     u.add_memorial_log(_("%s began their journey into the Cataclysm."), u.name.c_str());
-}
-
-// Set up all default values for a new game
-void game::start_game()
-{
- turn = HOURS(OPTIONS["INITIAL_TIME"]);
- run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
- mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
-
- popup_nowait(_("Please wait as we build your world"));
-// Init some factions.
- if (!load_master())	// Master data record contains factions.
-  create_factions();
- cur_om = &overmap_buffer.get(this, 0, 0);	// We start in the (0,0,0) overmap.
-
-// Find a random house on the map, and set us there.
- cur_om->first_house(levx, levy);
- levx -= int(int(MAPSIZE / 2) / 2);
- levy -= int(int(MAPSIZE / 2) / 2);
- levz = 0;
-// Start the overmap with out immediate neighborhood visible
- for (int i = -15; i <= 15; i++) {
-  for (int j = -15; j <= 15; j++)
-   cur_om->seen(levx + i, levy + j, 0) = true;
- }
-// Convert the overmap coordinates to submap coordinates
- levx = levx * 2 - 1;
- levy = levy * 2 - 1;
- set_adjacent_overmaps(true);
-// Init the starting map at this location.
- m.load(this, levx, levy, levz);
-// Start us off somewhere in the shelter.
- u.posx = SEEX * int(MAPSIZE / 2) + 5;
- u.posy = SEEY * int(MAPSIZE / 2) + 6;
- u.str_cur = u.str_max;
- u.per_cur = u.per_max;
- u.int_cur = u.int_max;
- u.dex_cur = u.dex_max;
- nextspawn = int(turn);
- temperature = 65; // Springtime-appropriate?
- u.next_climate_control_check=0;  // Force recheck at startup
- u.last_climate_control_ret=false;
-
- //Reset character pickup rules
- vAutoPickupRules[2].clear();
- //Load NPCs. Set nearby npcs to active.
- load_npcs();
- //spawn the monsters
- m.spawn_monsters(this);	// Static monsters
- //Put some NPCs in there!
- create_starting_npcs();
-
- //Create mutation_category_level
- u.set_highest_cat_level();
- //Calc mutation drench protection stats
- u.drench_mut_calc();
-
- MAPBUFFER.set_dirty();
-
- u.add_memorial_log(_("%s began their journey into the Cataclysm."), u.name.c_str());
 }
 
 void game::create_factions()
@@ -2517,7 +2458,7 @@ void game::death_screen()
     disp_kills();
 }
 
-bool game::load_master_from(std::string worldname)
+bool game::load_master(std::string worldname)
 {
     std::ifstream fin;
     std::string data;
@@ -2562,43 +2503,7 @@ bool game::load_master_from(std::string worldname)
     fin.close();
     return true;
 }
-
-bool game::load_master()
-{
- std::ifstream fin;
- std::string data;
- char junk;
- fin.open("save/master.gsav");
- if (!fin.is_open())
-  return false;
-
-// First, get the next ID numbers for each of these
- fin >> next_mission_id >> next_faction_id >> next_npc_id;
- int num_missions, num_factions;
-
- fin >> num_missions;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_missions; i++) {
-  mission tmpmiss;
-  tmpmiss.load_info(this, fin);
-  active_missions.push_back(tmpmiss);
- }
-
- fin >> num_factions;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_factions; i++) {
-  getline(fin, data);
-  faction tmp;
-  tmp.load_info(data);
-  factions.push_back(tmp);
- }
- fin.close();
- return true;
-}
-
-void game::load_uistate_from(std::string worldname)
+void game::load_uistate(std::string worldname)
 {
     const std::string savedir="save/";
     std::stringstream savefile;
@@ -2621,31 +2526,6 @@ void game::load_uistate_from(std::string worldname)
     bool success=uistate.load(wrapped_data);
     if ( ! success ) {
        dbg(D_ERROR) << "load_uistate_from: " << uistate.errdump;
-    }
-    uistate.errdump="";
-}
-void game::load_uistate() {
-    const std::string savedir="save";
-    std::stringstream savefile;
-    savefile << savedir << "/uistate.json";
-
-    std::ifstream fin;
-    fin.open(savefile.str().c_str());
-    if(!fin.good()) {
-        fin.close();
-        return;
-    }
-    picojson::value wrapped_data;
-    fin >> wrapped_data;
-    fin.close();
-    std::string jsonerr=picojson::get_last_error();
-    if ( ! jsonerr.empty() ) {
-       dbg(D_ERROR) << "load_uistate: " << jsonerr.c_str();
-       return;
-    }
-    bool success=uistate.load(wrapped_data);
-    if ( ! success ) {
-       dbg(D_ERROR) << "load_uistate: " << uistate.errdump;
     }
     uistate.errdump="";
 }
@@ -2849,8 +2729,7 @@ void game::load_weather(std::ifstream &fin)
         future_weather.push_back(new_segment);
     }
 }
-
-void game::load_from(std::string worldname, std::string name)
+void game::load(std::string worldname, std::string name)
 {
     // load [worldname] world
     MAPBUFFER.load_from(worldname);
@@ -2878,47 +2757,14 @@ void game::load_from(std::string worldname, std::string name)
 
     load_auto_pickup(true); // Load character auto pickup rules
     //load_uistate();
-    load_uistate_from(worldname);
+    load_uistate(worldname);
     // Now load up the master game data; factions (and more?)
     //load_master();
-    load_master_from(worldname);
+    load_master(worldname);
     update_map(u.posx, u.posy);
     set_adjacent_overmaps(true);
     MAPBUFFER.set_dirty();
     draw();
-}
-
-void game::load(std::string name)
-{
- std::ifstream fin;
- std::stringstream playerfile;
- playerfile << "save/" << name << ".sav";
- fin.open(playerfile.str().c_str());
-// First, read in basic game state information.
- if (!fin.is_open()) {
-  dbg(D_ERROR) << "game:load: No save game exists!";
-  debugmsg("No save game exists!");
-  return;
- }
- u = player();
- u.name = base64_decode(name);
- u.ret_null = item(itypes["null"], 0);
- u.weapon = item(itypes["null"], 0);
- unserialize(fin);
- fin.close();
-
- // Now that the player's worn items are updated, their sight limits need to be
- // recalculated. (This would be cleaner if u.worn were private.)
- u.recalc_sight_limits();
-
- load_auto_pickup(true); // Load character auto pickup rules
- load_uistate();
-// Now load up the master game data; factions (and more?)
- load_master();
- update_map(u.posx, u.posy);
- set_adjacent_overmaps(true);
- MAPBUFFER.set_dirty();
- draw();
 }
 
 //Saves all factions and missions and npcs.
@@ -3072,35 +2918,6 @@ void game::delete_world(std::string worldname, bool delete_folder)
 
 }
 
-void game::delete_save()
-{
-#if (defined _WIN32 || defined __WIN32__)
-      WIN32_FIND_DATA FindFileData;
-      HANDLE hFind;
-      TCHAR Buffer[MAX_PATH];
-
-      GetCurrentDirectory(MAX_PATH, Buffer);
-      SetCurrentDirectory("save");
-      hFind = FindFirstFile("*", &FindFileData);
-      if(INVALID_HANDLE_VALUE != hFind) {
-       do {
-        DeleteFile(FindFileData.cFileName);
-       } while(FindNextFile(hFind, &FindFileData) != 0);
-       FindClose(hFind);
-      }
-      SetCurrentDirectory(Buffer);
-#else
-     DIR *save_dir = opendir("save");
-     struct dirent *save_dirent = NULL;
-     if(save_dir != NULL && 0 == chdir("save"))
-     {
-      while ((save_dirent = readdir(save_dir)) != NULL)
-       (void)unlink(save_dirent->d_name);
-      (void)chdir("..");
-      (void)closedir(save_dir);
-     }
-#endif
-}
 
 /**
  * Writes information about the character out to a text file timestamped with

@@ -438,8 +438,8 @@ bool game::opening_screen()
 
                         werase(w_background);
                         wrefresh(w_background);
-                        //start_game();
-                        start_game_from(active_world->world_name);
+
+                        start_game(active_world->world_name);
                         start = true;
                     } else if (sel2 == 1) {
                         layer = 3;
@@ -649,7 +649,7 @@ bool game::opening_screen()
                         active_world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
                         world_generator->set_active_world(active_world);
 
-                        load_from(active_world->world_name, savegames[sel3]);
+                        load(active_world->world_name, savegames[sel3]);
                         start = true;
                     }
                 }
@@ -788,7 +788,7 @@ bool game::opening_screen()
                     werase(w_background);
                     wrefresh(w_background);
                     //start_game();
-                    start_game_from(active_world->world_name);
+                    start_game(active_world->world_name);
                     start = true;
                 }
             }
