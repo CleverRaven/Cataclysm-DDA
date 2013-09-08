@@ -840,7 +840,7 @@ void map::set(const int x, const int y, const ter_id new_terrain, const furn_id 
 
 std::string map::name(const int x, const int y)
 {
- return has_furn(x, y) ? furnlist[furn(x, y)].name : terlist[ter(x, y)].name;
+ return has_furn(x, y) ? _(furnlist[furn(x, y)].name.c_str()) : _(terlist[ter(x, y)].name.c_str()); // FIXME i18n
 }
 
 bool map::has_furn(const int x, const int y)
@@ -876,7 +876,7 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
 
 std::string map::furnname(const int x, const int y)
 {
- return furnlist[furn(x, y)].name;
+ return _(furnlist[furn(x, y)].name.c_str()); // FIXME i18n
 }
 
 ter_id map::ter(const int x, const int y) const
@@ -907,7 +907,7 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain)
 
 std::string map::tername(const int x, const int y) const
 {
- return terlist[ter(x, y)].name;
+ return _(terlist[ter(x, y)].name.c_str()); // FIXME i18n
 }
 
 std::string map::features(const int x, const int y)
