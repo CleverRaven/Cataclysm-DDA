@@ -212,13 +212,14 @@ public:
 // add_disease() does NOT give us a chance to save
 // num_bp indicates that specifying a body part is unessecary such as with
 // drug effects
+// -1 indicates that side of body is irrelevant
  void add_disease(dis_type type, int duration, int intensity = 0,
                   int max_intensity = -1, body_part part = num_bp,
-                  int side = 0);
- void rem_disease(dis_type type, body_part part = num_bp, int side = 0);
- bool has_disease(dis_type type, body_part part = num_bp, int side = 0) const;
- int  disease_level(dis_type type, body_part part = num_bp, int side = 0);
- int  disease_intensity(dis_type type, body_part part = num_bp, int side = 0);
+                  int side = -1);
+ void rem_disease(dis_type type, body_part part = num_bp, int side = -1);
+ bool has_disease(dis_type type, body_part part = num_bp, int side = -1) const;
+ int  disease_level(dis_type type, body_part part = num_bp, int side = -1);
+ int  disease_intensity(dis_type type, body_part part = num_bp, int side = -1);
 
  void add_addiction(add_type type, int strength);
  void rem_addiction(add_type type);

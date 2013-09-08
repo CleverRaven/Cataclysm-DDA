@@ -30,8 +30,8 @@ struct disease
  int duration;
  body_part bp;
  int side;
- disease() { type = "null"; duration = 0; intensity = 0; bp = num_bp; side = 0;}
- disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = 0)
+ disease() { type = "null"; duration = 0; intensity = 0; bp = num_bp; side = -1;}
+ disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1)
         { type = t; duration = d; intensity = i; bp = part; side = s;}
 };
 
