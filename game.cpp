@@ -138,6 +138,8 @@ game::~game()
  delwin(w_location);
  delwin(w_status);
  delwin(w_status2);
+
+ delete world_generator;
 }
 
 void game::init_skills() throw (std::string)

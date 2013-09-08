@@ -50,6 +50,12 @@ world_factory::~world_factory()
     {
         delete active_world;
     }
+    for (std::map<std::string, WORLD*>::iterator it = all_worlds.begin(); it != all_worlds.end(); ++it)
+    {
+        delete it->second;
+    }
+    all_worlds.clear();
+    all_worldnames.clear();
 }
 
 WORLD *world_factory::make_new_world(special_game_id special_game_type)
