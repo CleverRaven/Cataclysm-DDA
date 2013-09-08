@@ -56,6 +56,7 @@ public:
  void make_corpse(itype* it, mtype* mt, unsigned int turn);	// Corpse
  item(std::string itemdata, game *g);
  virtual ~item();
+ void init();
  void make(itype* it);
  void clear(); // cleanup that's required to re-use an item variable
 
@@ -180,7 +181,7 @@ public:
  bool active;           // If true, it has active effects to be processed
  signed char damage;    // How much damage it's sustained; generally, max is 5
  int burnt;	         // How badly we're burnt
- unsigned int bday;     // The turn on which it was created
+ int bday;              // The turn on which it was created
  int owned;	            // UID of NPC owner; 0 = player, -1 = unowned
  union{
    int poison;	         // How badly poisoned is it?

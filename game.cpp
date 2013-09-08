@@ -720,7 +720,7 @@ bool game::do_turn()
  u.process_active_items(this);
  u.suffer(this);
 
- if (levz >= 0) {
+ if (levz >= 0 && !u.is_underwater()) {
   weather_effect weffect;
   (weffect.*(weather_data[weather].effect))(this);
  }
@@ -794,7 +794,7 @@ void game::process_activity()
       //Deduct 1 battery charge for every minute spent playing
       if(int(turn) % 10 == 0) {
         game_item.charges--;
-        u.add_morale(MORALE_GAME, 2, 100); //2 points/min, almost an hour to fill
+        u.add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
       }
       if(game_item.charges == 0) {
         u.activity.moves_left = 0;
@@ -925,6 +925,12 @@ void game::process_activity()
              u.skillLevel(reading->type).exercise());
 
      if (u.skillLevel(reading->type) == originalSkillLevel && (u.activity.continuous || query_yn(_("Study %s?"), reading->type->name().c_str()))) {
+      //If we just started studying, tell the player how to stop
+      if(!u.activity.continuous) {
+        add_msg(_("Now studying %s, %s to stop early."),
+              reading->type->name().c_str(),
+              press_x(ACTION_PAUSE).c_str());
+      }
       u.cancel_activity();
       if (u.activity.index == -2) {
        u.read(this,u.weapon.invlet);
@@ -932,8 +938,8 @@ void game::process_activity()
        u.read(this,u.activity.invlet);
       }
       if (u.activity.type != ACT_NULL) {
-       u.activity.continuous = true;
-       return;
+        u.activity.continuous = true;
+        return;
       }
      }
 
@@ -3159,13 +3165,21 @@ Current turn: %d; Next spawn %d.\n\
     debugmsg ("There's already vehicle here");
    }
    else {
-    for (int i = 2; i < vtypes.size(); i++)
-     opts.push_back (vtypes[i]->name);
+    for(std::map<std::string, vehicle*>::iterator it = vtypes.begin();
+             it != vtypes.end(); ++it) {
+      if(it->first != "custom") {
+        opts.push_back(it->second->type);
+      }
+    }
     opts.push_back (std::string(_("Cancel")));
     veh_num = menu_vec (false, _("Choose vehicle to spawn"), opts) + 1;
-    if (veh_num > 1 && veh_num < num_vehicles)
-     m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90, 100, 0);
-     m.board_vehicle (this, u.posx, u.posy, &u);
+    veh_num -= 2;
+    if(veh_num < opts.size() - 1) {
+      //Didn't pick Cancel
+      std::string selected_opt = opts[veh_num];
+      m.add_vehicle (this, selected_opt, u.posx, u.posy, -90, 100, 0);
+      m.board_vehicle (this, u.posx, u.posy, &u);
+    }
    }
    break;
 
@@ -7076,19 +7090,10 @@ void game::list_items()
                     break;
             }
 
-            if (iItemNum - iFilter > iMaxRows)
-            {
-                iStartPos = iActive - (iMaxRows - 1) / 2;
+            //Draw Scrollbar
+            draw_scrollbar(w_items, iActive, iMaxRows, iItemNum - iFilter, 1);
 
-                if (iStartPos < 0)
-                {
-                    iStartPos = 0;
-                }
-                else if (iStartPos + iMaxRows > iItemNum - iFilter)
-                {
-                    iStartPos = iItemNum - iFilter - iMaxRows;
-                }
-            }
+            calcStartPos(iStartPos, iActive, iMaxRows, iItemNum - iFilter);
 
             for (int i = 0; i < iMaxRows; i++)
             {
@@ -8284,7 +8289,7 @@ void game::drop_in_direction()
     vehicle *veh = m.veh_at(dirx, diry, veh_part);
     if (veh) {
         veh_part = veh->part_with_feature (veh_part, "CARGO");
-        to_veh = veh->type != veh_null && veh_part >= 0;
+        to_veh = veh_part >= 0;
     }
 
     if (m.has_flag(noitem, dirx, diry) || m.has_flag(sealed, dirx, diry)) {
@@ -9463,36 +9468,70 @@ void game::plmove(int dx, int dy)
               return;
           }
           tileray mdir;
-          mdir.init( dx, dy );
-          mdir.advance( 1 );
-          grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
-          int imp = 0;
-          std::vector<veh_collision> veh_veh_colls;
-          bool can_move = true;
-          // Set player location to illegal value so it can't collide with vehicle.
-          int player_prev_x = u.posx;
-          int player_prev_y = u.posy;
-          u.posx = 0;
-          u.posy = 0;
-          if( grabbed_vehicle->collision( veh_veh_colls, dx, dy, can_move, imp, true ) ) {
-              // TODO: figure out what we collided with.
-              add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
-              u.moves -= 10;
+
+          int dxVeh = u.grab_point.x * (-1);
+          int dyVeh = u.grab_point.y * (-1);
+          int prev_grab_x = u.grab_point.x;
+          int prev_grab_y = u.grab_point.y;
+
+          if (abs(dx+dxVeh) == 2 || abs(dy+dyVeh) == 2 || ((dxVeh + dx) == 0 && (dyVeh + dy) == 0))  {
+              //We are not moving around the veh
+              if ((dxVeh + dx) == 0 && (dyVeh + dy) == 0) {
+                  //we are pushing in the direction of veh
+                  dxVeh = dx;
+                  dyVeh = dy;
+              } else {
+                  u.grab_point.x = dx * (-1);
+                  u.grab_point.y = dy * (-1);
+              }
+
+              if ((abs(dx+dxVeh) == 0 || abs(dy+dyVeh) == 0) && u.grab_point.x != 0 && u.grab_point.y != 0) {
+                  //We are moving diagonal while veh is diagonal too and one direction is 0
+                  dxVeh = ((dx + dxVeh) == 0) ? 0 : dxVeh;
+                  dyVeh = ((dy + dyVeh) == 0) ? 0 : dyVeh;
+
+                  u.grab_point.x = dxVeh * (-1);
+                  u.grab_point.y = dyVeh * (-1);
+              }
+
+              mdir.init( dxVeh, dyVeh );
+              mdir.advance( 1 );
+              grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
+              int imp = 0;
+              std::vector<veh_collision> veh_veh_colls;
+              bool can_move = true;
+              // Set player location to illegal value so it can't collide with vehicle.
+              int player_prev_x = u.posx;
+              int player_prev_y = u.posy;
+              u.posx = 0;
+              u.posy = 0;
+              if( grabbed_vehicle->collision( veh_veh_colls, dxVeh, dyVeh, can_move, imp, true ) ) {
+                  // TODO: figure out what we collided with.
+                  add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
+                  u.moves -= 10;
+                  u.posx = player_prev_x;
+                  u.posy = player_prev_y;
+                  u.grab_point.x = prev_grab_x;
+                  u.grab_point.y = prev_grab_y;
+                  return;
+              }
               u.posx = player_prev_x;
               u.posy = player_prev_y;
-              return;
+
+              int gx = grabbed_vehicle->global_x();
+              int gy = grabbed_vehicle->global_y();
+              for( int ep = 0; ep < grabbed_vehicle->external_parts.size(); ep++ ) {
+                  const int p = grabbed_vehicle->external_parts[ ep ];
+                  if( grabbed_vehicle->part_flag( p, "WHEEL" ) && one_in(2) )
+                      grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dxVeh,
+                                                    gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
+              }
+              m.displace_vehicle( this, gx, gy, dxVeh, dyVeh );
+          } else {
+              //We are moving around the veh
+              u.grab_point.x = (dx + dxVeh) * (-1);
+              u.grab_point.y = (dy + dyVeh) * (-1);
           }
-          u.posx = player_prev_x;
-          u.posy = player_prev_y;
-          int gx = grabbed_vehicle->global_x();
-          int gy = grabbed_vehicle->global_y();
-          for( int ep = 0; ep < grabbed_vehicle->external_parts.size(); ep++ ) {
-              const int p = grabbed_vehicle->external_parts[ ep ];
-              if( grabbed_vehicle->part_flag( p, "WHEEL" ) && one_in(2) )
-                  grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dx,
-                                                gy + grabbed_vehicle->parts[p].precalc_dy[0] + dy, p );
-          }
-          m.displace_vehicle( this, gx, gy, dx, dy );
       } else {
           add_msg( _("No vehicle at grabbed point.") );
           u.grab_point.x = 0;
@@ -9585,6 +9624,9 @@ void game::plmove(int dx, int dy)
 // Move the player
   u.posx = x;
   u.posy = y;
+  if(dx != 0 || dy != 0) {
+    u.lifetime_stats()->squares_walked++;
+  }
 
   //Autopickup
   if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) && (m.i_at(u.posx, u.posy)).size() > 0) {
@@ -10643,6 +10685,10 @@ void game::msg_buffer()
   int line = 1;
   int lasttime = -1;
   int i;
+
+  //Draw Scrollbar
+  draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT-2, messages.size(), 1);
+
   for (i = 1; i <= 20 && line <= FULL_SCREEN_HEIGHT-2 && offset + i <= messages.size(); i++) {
    game_message *mtmp = &(messages[ messages.size() - (offset + i) ]);
    calendar timepassed = turn - mtmp->turn;

@@ -685,22 +685,20 @@ bool map::vehproceed(game* g){
 
       if (dmg_1 > 100)
          veh->damage_all(dmg_1 / 20, dmg_1 / 10, 1);// shake veh because of collision	
-      std::vector<int> ppl = veh->boarded_parts();     	  
+      std::vector<int> ppl = veh->boarded_parts();   	
 
       for (int ps = 0; ps < ppl.size(); ps++) {
-         player *psg = veh->get_passenger (ppl[ps]);
+         player *psg = veh->get_passenger (ppl[ps]);	
          if (!psg) {
             debugmsg ("throw passenger: empty passenger at part %d", ppl[ps]);
             continue;
          }
 
-         const int throw_roll = rng (0, d_vel*0.6);
-         const int psblt = veh->part_with_feature (ppl[ps], "SEATBELT");
-         const int sb_bonus = psblt >= 0? veh->part_info(psblt).bonus : 0; 
-         bool throw_from_seat = throw_roll > (psg->str_cur + sb_bonus); 
+		 bool throw_from_seat = 0;	
+		 if (veh->part_with_feature (ppl[ps], "SEATBELT") == -1) throw_from_seat = d_vel * rng(80, 120) / 100 > (psg->str_cur * 1.5 + 5);    
 
 		  //damage passengers if d_vel is too high
-		 if(d_vel > 40* rng(50,100)/100 && !throw_from_seat) { 
+		 if(d_vel > 60* rng(50,100)/100 && !throw_from_seat) { 
 			int dmg = d_vel/4*rng(70,100)/100;
 			psg->hurtall(dmg);
 			if (psg == &g->u) 
@@ -718,9 +716,9 @@ bool map::vehproceed(game* g){
             g->m.unboard_vehicle(g, x + veh->parts[ppl[ps]].precalc_dx[0],
                   y + veh->parts[ppl[ps]].precalc_dy[0]);
             g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
-                  (vel1 - sb_bonus < 10 ? 10 : 
-                   vel1 - sb_bonus));
-         } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {
+                  (vel1 - psg->str_cur < 10 ? 10 : 
+                   vel1 - psg->str_cur));
+         } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {			 
             // FIXME: should actually check if passenger is in control,
             // not just if there are controls there.
             const int lose_ctrl_roll = rng (0, dmg_1);

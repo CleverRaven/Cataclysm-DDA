@@ -21,44 +21,18 @@ std::string default_technique_name(technique_id tech);
 
 item::item()
 {
- name = "";
- charges = -1;
- bday = 0;
- invlet = 0;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- type = nullitem();
- curammo = NULL;
- corpse = NULL;
- active = false;
- owned = -1;
- mission_id = -1;
- player_id = -1;
+    init();
 }
 
 item::item(itype* it, unsigned int turn)
 {
+ init();
  if(!it)
   type = nullitem();
  else
   type = it;
  bday = turn;
- name = "";
- invlet = 0;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- active = false;
- curammo = NULL;
  corpse = it->corpse;
- owned = -1;
- mission_id = -1;
- player_id = -1;
  if (it == NULL)
   return;
  name = it->name;
@@ -100,6 +74,7 @@ item::item(itype* it, unsigned int turn)
 
 item::item(itype *it, unsigned int turn, char let)
 {
+ init();
  if(!it) {
   type = nullitem();
   debugmsg("Instantiating an item from itype, with NULL itype!");
@@ -108,12 +83,6 @@ item::item(itype *it, unsigned int turn, char let)
  }
  bday = turn;
  name = it->name;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- active = false;
  if (it->is_gun()) {
   charges = 0;
  } else if (it->is_ammo()) {
@@ -155,15 +124,7 @@ item::item(itype *it, unsigned int turn, char let)
 
 void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
 {
- name = "";
- charges = -1;
- invlet = 0;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- curammo = NULL;
+ init();
  active = mt->species == species_zombie ? true : false;
  if(!it)
   type = nullitem();
@@ -188,6 +149,25 @@ item::~item()
 {
 }
 
+void item::init() {
+    name = "";
+    charges = -1;
+    bday = 0;
+    invlet = 0;
+    damage = 0;
+    burnt = 0;
+    poison = 0;
+    mode = "NULL";
+    item_counter = 0;
+    type = nullitem();
+    curammo = NULL;
+    corpse = NULL;
+    active = false;
+    owned = -1;
+    mission_id = -1;
+    player_id = -1;
+}
+
 void item::make(itype* it)
 {
  if(!it)
@@ -201,6 +181,7 @@ void item::clear()
 {
     // should we be clearing contents, as well?
     // Seems risky to - there aren't any reported content-clearing bugs
+    // init(); // this should not go here either, or make() should not use it...
     item_tags.clear();
     item_vars.clear();
 }
@@ -309,7 +290,7 @@ picojson::value item::json_save() const
     /////
     data["invlet"] = pv( int(invlet) );
     data["typeid"] = pv( typeId() );
-    data["bday"] = pv( int(bday) );
+    data["bday"] = pv( bday );
 
     if ( charges != -1 )     data["charges"]    = pv( int(charges) );
     if ( damage != 0 )       data["damage"]     = pv( int(damage) );
@@ -455,26 +436,14 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 
 bool item::json_load(picojson::value parsed, game * g)
 {
+    init();
     clear();
     const picojson::object &data = parsed.get<picojson::object>();
-
-
-    burnt = 0;
-    owned = -1;
-    poison = 0;
-    mode = "NULL";
-    owned = -1;
-    mission_id = -1;
-    player_id = -1;
-    name = "";
-    active = false;
-
 
     std::string idtmp="";
     std::string ammotmp="null";
     int lettmp = 0;
     int corptmp = -1;
-    int bdaytmp = 0;
     int damtmp = 0;
 
     if ( ! picostring(data, "typeid", idtmp) ) {
@@ -487,8 +456,7 @@ bool item::json_load(picojson::value parsed, game * g)
     picoint(data, "poison", poison);
     picoint(data, "owned", owned);
 
-    picoint(data, "bday", bdaytmp);
-    bday = bdaytmp;
+    picoint(data, "bday", bday);
 
     picostring(data, "mode", mode);
     picoint(data, "mission_id", mission_id);
@@ -671,7 +639,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
   dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));
-  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion));
+  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Count: "), "", ammo->count));
 
@@ -682,7 +650,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
   dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));
-  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion));
+  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Count: "), "", contents[0].charges));
 
@@ -737,7 +705,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
 
   dump->push_back(iteminfo("GUN", _("Range: "), temp2.str(), gun->range, true, temp1.str(), true, false));
 
-  dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion()));
+  dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion(), true, "", true, true));
 
 
   temp1.str("");

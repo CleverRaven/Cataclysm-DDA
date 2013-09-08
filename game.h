@@ -46,6 +46,9 @@ extern game *g;
 extern bool trigdist;
 extern bool use_tiles;
 
+extern const int savegame_version;
+extern int savegame_loading_version;
+
 enum tut_type {
  TUT_NULL,
  TUT_BASIC, TUT_COMBAT,
@@ -269,7 +272,7 @@ class game
 
   std::map<std::string, itype*> itypes;
   std::vector <mtype*> mtypes;
-  std::vector <vehicle*> vtypes;
+  std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   recipe_map recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions
