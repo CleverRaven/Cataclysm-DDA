@@ -4163,11 +4163,12 @@ void player::add_disease(dis_type type, int duration,
     int i = 0;
     while ((i < illness.size()) && !found) {
         if (illness[i].type == type) {
-            if ((part == num_bp) ^ (illness[i].bp == part)) {
+            if ((part == num_bp) ^ (illness[i].bp == num_bp)) {
                 debugmsg("Bodypart missmatch when applying disease %s",
                          type.c_str());
                 return;
-            } else if ((illness[i].side == -1) ^ (side == -1)) {
+            } else if (illness[i].bp == part &&
+                       ((illness[i].side == -1) ^ (side == -1))) {
                 debugmsg("Side of body missmatch when applying disease %s",
                          type.c_str());
                 return;
