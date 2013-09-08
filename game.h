@@ -106,6 +106,7 @@ class game
   quit_status uquit;    // used in main.cpp to determine what type of quit
   void serialize(std::ofstream & fout); // for save
   void unserialize(std::ifstream & fin); // for load
+  bool unserialize_legacy(std::ifstream & fin); // for old load
   void save();
   void delete_save();
   void write_memorial_file();
