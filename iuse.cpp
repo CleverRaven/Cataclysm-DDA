@@ -3208,6 +3208,10 @@ void iuse::freeze_grenade_act(game *g, player *p, item *it, bool t)
       g->m.add_field(g, pos.x + i, pos.y + j, fd_ice_mist, rng(1, 2) + rng(0, 1));
     }
    }
+   for (int x = pos.x - 1; x <= pos.x + 1; x++) {
+    for (int y = pos.y - 1; y <= pos.y + 1; y++)
+     g->m.add_field(g, x, y, fd_ice_floor, 3);
+   }
   }
 }
 
