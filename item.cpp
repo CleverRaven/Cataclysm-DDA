@@ -19,6 +19,8 @@
 
 std::string default_technique_name(technique_id tech);
 
+light_emission nolight={0,0,0};
+
 item::item()
 {
     init();
@@ -166,6 +168,7 @@ void item::init() {
     owned = -1;
     mission_id = -1;
     player_id = -1;
+    light = nolight;
 }
 
 void item::make(itype* it)
@@ -324,6 +327,14 @@ picojson::value item::json_save() const
 
     if ( name != type->name ) {
         data["name"] = pv ( name );
+    }
+
+    if ( light.luminance != 0 ) {
+        data["light"] = pv( int(light.luminance) );
+        if ( light.width != 0 ) {
+            data["light_width"] = pv( int(light.width) );
+            data["light_dir"] = pv( int(light.direction) );
+        }
     }
 
     return picojson::value(data);
@@ -509,6 +520,18 @@ bool item::json_load(picojson::value parsed, game * g)
                   item_vars[ pvarsit->first ] = pvarsit->second.get<std::string>();
              }
         }
+    }
+
+    light=nolight;
+    int tmplum=0;
+    int tmpwidth=0;
+    int tmpdir=0;
+    if ( picoint(data,"light",tmplum) ) {
+        picoint(data,"light_width",tmpwidth);
+        picoint(data,"light_dir",tmpdir);
+        light.luminance = (unsigned short)tmplum;
+        light.width = (short)tmpwidth;
+        light.direction = (short)tmpdir;
     }
 
     return true;

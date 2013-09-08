@@ -11,7 +11,7 @@
 
 // for pre-merge testing of other optimizations
 #define lightsource_cache 1
-// adding after 0.8... //#define itype_light 1
+#define itype_light 1
 void map::generate_lightmap(game* g)
 {
  memset(lm, 0, sizeof(lm));
@@ -82,6 +82,8 @@ void map::generate_lightmap(game* g)
       }
      }
     }
+    for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm )
+    {
 #ifdef itype_light
                 if ( itm->light.luminance > 0 ) {
                     if ( itm->light.width > 0 ) {
@@ -95,8 +97,6 @@ void map::generate_lightmap(game* g)
                 }
 #else
 
-    for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm )
-    {
         if ( itm->has_flag("LIGHT_20")) { apply_light_source(sx, sy, 20, trigdist); }
         if ( itm->has_flag("LIGHT_1")) { apply_light_source(sx, sy, 1, trigdist); }
         if ( itm->has_flag("LIGHT_4")) { apply_light_source(sx, sy, 4, trigdist); }
