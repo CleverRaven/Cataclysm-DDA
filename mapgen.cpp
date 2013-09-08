@@ -12687,27 +12687,35 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
        * smash them up. It'll look like a nasty collision has occurred.
        * Trying to do a local->global->local conversion would be a major
        * headache, so instead, let's make another vehicle whose (0, 0) point
-       * is at the collision point (px, py), convert the coordinates of both
+       * is the (0, 0) of the existing vehicle, convert the coordinates of both
        * vehicles into global coordinates, find the distance between them and
        * (px, py) and then install them that way.
        * Create a vehicle with type "null" so it starts out empty. */
       vehicle *wreckage = new vehicle(g);
-      wreckage->posx = px;
-      wreckage->posy = py;
-      wreckage->smx = veh->smx;
-      wreckage->smy = veh->smy;
+      wreckage->posx = other_veh->posx;
+      wreckage->posy = other_veh->posy;
+      wreckage->smx = other_veh->smx;
+      wreckage->smy = other_veh->smy;
       for (int part_index = 0; part_index < veh->parts.size(); part_index++) {
-
-        const int local_x = veh->posx + veh->parts[part_index].precalc_dx[0] - px;
-        const int local_y = veh->posy + veh->parts[part_index].precalc_dy[0] - py;
+        
+        const int local_x = (veh->smx * SEEX + veh->posx)
+                       + veh->parts[part_index].precalc_dx[0]
+                       - (wreckage->smx * SEEX + wreckage->posx);
+        const int local_y = (veh->smy * SEEY + veh->posy)
+                       + veh->parts[part_index].precalc_dy[0] 
+                       - (wreckage->smy * SEEY + wreckage->posy);
 
         wreckage->install_part(local_x, local_y, veh->parts[part_index].id, -1, true);
 
       }
       for (int part_index = 0; part_index < other_veh->parts.size(); part_index++) {
 
-        const int local_x = other_veh->posx + other_veh->parts[part_index].precalc_dx[0] - px;
-        const int local_y = other_veh->posy + other_veh->parts[part_index].precalc_dy[0] - py;
+        const int local_x = (other_veh->smx * SEEX + other_veh->posx)
+                       + other_veh->parts[part_index].precalc_dx[0]
+                       - (wreckage->smx * SEEX + wreckage->posx);
+        const int local_y = (other_veh->smy * SEEY + other_veh->posy)
+                       + other_veh->parts[part_index].precalc_dy[0]
+                       - (wreckage->smy * SEEY + wreckage->posy);
 
         wreckage->install_part(local_x, local_y, other_veh->parts[part_index].id, -1, true);
 
@@ -12717,8 +12725,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
       wreckage->smash();
 
       //Now get rid of the old vehicles
-      g->m.destroy_vehicle(other_veh);
-      vehicle_list.erase(other_veh);
+      destroy_vehicle(other_veh);
       delete veh;
 
       //Try again with the wreckage
