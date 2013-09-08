@@ -5,4 +5,4 @@ when lang/merge_po.sh is run.
 They must have the same name as the .po files in lang/po,
 or they will not be merged.
 
-Newly merged files will be removed after merging.
+Newly merged files will be removed after merging. Take care.
