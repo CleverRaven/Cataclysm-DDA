@@ -52,6 +52,50 @@ world_factory::~world_factory()
     }
 }
 
+WORLD *world_factory::make_new_world(special_game_id special_game_type)
+{
+    std::string worldname;
+    switch(special_game_type)
+    {
+        case SGAME_TUTORIAL:
+            worldname = "TUTORIAL";
+            break;
+        case SGAME_DEFENSE:
+            worldname = "DEFENSE";
+            break;
+        default: return NULL;
+    }
+
+    // look through worlds and see if worldname exists in it already. if so then just return it instead of making a new world.
+    if (all_worlds.find(worldname) != all_worlds.end())
+    {
+        return all_worlds[worldname];
+    }
+
+    WORLD *special_world = new WORLD();
+
+    special_world->world_name = worldname;
+    if (special_world->world_options.size() == 0)
+    {
+        for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it)
+        {
+            if (it->second.getPage() == "world_default")
+            {
+                special_world->world_options[it->first] = it->second;
+            }
+        }
+    }
+    special_world->world_options["DELETE_WORLD"].setValue("Yes");
+
+    // add world to world list!
+    all_worlds[worldname] = special_world;
+    all_worldnames.push_back(worldname);
+
+    save_world(special_world);
+
+    return special_world;
+}
+
 WORLD *world_factory::make_new_world()
 {
     // Window variables
@@ -240,7 +284,14 @@ WORLD *world_factory::pick_world()
         world_pages[i] = std::vector<std::string>();
         for (int j = 0; j < iContentHeight; ++j)
         {
-            world_pages[i].push_back(world_names[worldnum++]);
+            if (world_names[worldnum] == "TUTORIAL" || world_names[worldnum] == "DEFENSE")
+            {
+                ++worldnum;
+            }
+            else
+            {
+                world_pages[i].push_back(world_names[worldnum++]);
+            }
 
             if (worldnum == world_names.size())
             {

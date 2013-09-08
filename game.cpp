@@ -542,8 +542,15 @@ void game::cleanup_at_end(){
         if ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "Yes" ||
             ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "Query" && query_yn(_("Reset saved world?"))))
         {
+            if (gamemode->id() == SGAME_NULL)
+            {
+                delete_world(active_world->world_name, false);
+            }
+            else
+            {
+                delete_world(active_world->world_name, true);
+            }
             //delete_save();
-            delete_world(active_world->world_name, false);
             MAPBUFFER.reset();
             MAPBUFFER.make_volatile();
         }

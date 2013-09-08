@@ -186,9 +186,20 @@ std::map<std::string, std::vector<std::string> > get_save_data()
 // change to WORLD *game::pick_world_to_play()
 WORLD *game::pick_world_to_play()
 {
-    if (worlds.size() == 0)
+    int barred = 0;
+    if (worlds.find("TUTORIAL")!= worlds.end())
     {
-        if (query_yn("No worlds exist, would you like to make one?"))
+        ++barred;
+    }
+    if (worlds.find("DEFENSE") != worlds.end())
+    {
+        ++barred;
+    }
+
+    if (worlds.size() == barred)
+    {
+
+        if (query_yn("No playable worlds exist, would you like to make one?"))
         {
             return world_generator->make_new_world();
         }
@@ -595,13 +606,24 @@ bool game::opening_screen()
                     if (sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1) {
                         delete gamemode;
                         gamemode = get_special_game( special_game_id(sel2+1) );
-                        if (!gamemode->init(this)) {
+                        // check world
+                        WORLD *picked_world = world_generator->make_new_world(special_game_id(sel2 + 1));
+
+                        if (picked_world != NULL)
+                        {
+                            active_world = picked_world; //world_name_keys[picked_world];
+                            world_generator->set_active_world(picked_world);
+                            MAPBUFFER.load_from(picked_world->world_name);
+                        }
+
+                        if (picked_world == NULL || !gamemode->init(this)) {
                             delete gamemode;
                             gamemode = new special_game;
                             u = player();
                             delwin(w_open);
                             return (opening_screen());
                         }
+
                         start = true;
                     }
                 }

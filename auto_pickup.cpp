@@ -415,7 +415,7 @@ void load_auto_pickup(bool bCharacter)
     std::string sFile = "data/auto_pickup.txt";
 
     if (bCharacter) {
-        sFile = "save/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = "save/" + g->active_world->world_name + "/" + base64_encode(g->u.name) + ".apu.txt";
     }
 
     fin.open(sFile.c_str());

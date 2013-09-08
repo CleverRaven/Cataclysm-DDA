@@ -8,6 +8,7 @@
 #include "catacharset.h"
 #include "keypress.h"
 #include "input.h"
+#include "gamemode.h"
 
 #include <map>
 #include <vector>
@@ -55,6 +56,7 @@ class world_factory
         ~world_factory();
         /** Generate a World */
         WORLD *make_new_world();
+        WORLD *make_new_world(special_game_id special_type);
         /** Load an existing World */
         WORLD *load_world(std::string world_name, bool setactive = false);
 
@@ -62,6 +64,7 @@ class world_factory
         void save_world(WORLD *world = NULL);
         std::map<std::string, WORLD*> get_all_worlds();
         WORLD *pick_world();
+        WORLD *pick_world(special_game_id special_type);
 
         WORLD *active_world;
         std::map<std::string, WORLD*> all_worlds;
