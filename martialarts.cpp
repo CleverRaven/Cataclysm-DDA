@@ -7,111 +7,159 @@
 
 std::map<std::string, technique_id> tech_id_lookup;
 
+
+ma_technique loadTec(catajson& curTec) {
+  ma_technique tec;
+  style_move sm(
+      curTec.get("name").as_string(),
+      curTec.get("verb_you").as_string(),
+      curTec.get("verb_npc").as_string(),
+      tech_id_lookup[curTec.get("tec_flag").as_string()],
+      0);
+  tec.move = sm;
+
+  if (curTec.has("unarmed_allowed"))
+    tec.unarmed_allowed = curTec.get("unarmed_allowed").as_bool();
+  if (curTec.has("melee_allowed"))
+    tec.melee_allowed = curTec.get("melee_allowed").as_bool();
+
+  if (curTec.has("verb_you"))
+    tec.verb_you = curTec.get("verb_you").as_string();
+  if (curTec.has("verb_npc"))
+    tec.verb_npc = curTec.get("verb_npc").as_string();
+
+  if (curTec.has("min_melee"))
+    tec.min_melee = curTec.get("min_melee").as_int();
+  if (curTec.has("min_unarmed"))
+    tec.min_unarmed = curTec.get("min_unarmed").as_int();
+
+  if (curTec.has("flags"))
+    tec.flags = curTec.get("flags").as_tags();
+
+  return tec;
+}
+void loadTecArray(game* g, std::vector<ma_buff>& tecArr, catajson& jsonObj) {
+  for (jsonObj.set_begin(); jsonObj.has_curr() && json_good();
+      jsonObj.next()) {
+    tecArr.push_back(loadTec(tecJson.curr()));
+  }
+}
+
+ma_buff loadBuff(catajson& curBuff) {
+  ma_buff buff;
+
+  buff.id = curBuff.get("id").as_string();
+  if (curBuff.has("desc"))
+    buff.desc = curBuff.get("desc").as_string();
+  if (curBuff.has("name"))
+    buff.name = curBuff.get("name").as_string();
+
+  if (curBuff.has("buff_duration"))
+    buff.buff_duration = curBuff.get("buff_duration").as_int();
+  if (curBuff.has("max_stacks"))
+    buff.max_stacks = curBuff.get("max_stacks").as_int();
+
+  if (curBuff.has("unarmed_allowed"))
+    buff.unarmed_allowed = curBuff.get("unarmed_allowed").as_bool();
+  if (curBuff.has("melee_allowed"))
+    buff.melee_allowed = curBuff.get("melee_allowed").as_bool();
+
+  if (curBuff.has("min_melee"))
+    buff.min_melee = curBuff.get("min_melee").as_int();
+  if (curBuff.has("min_unarmed"))
+    buff.min_unarmed = curBuff.get("min_unarmed").as_int();
+
+  if (curBuff.has("bonus_dodges"))
+    buff.dodges_bonus = curBuff.get("bonus_dodges").as_int();
+  if (curBuff.has("bonus_blocks"))
+    buff.blocks_bonus = curBuff.get("bonus_blocks").as_int();
+
+  if (curBuff.has("hit"))
+    buff.hit = curBuff.get("hit").as_int();
+  if (curBuff.has("bash"))
+    buff.bash = curBuff.get("bash").as_int();
+  if (curBuff.has("cut"))
+    buff.cut = curBuff.get("cut").as_int();
+  if (curBuff.has("dodge"))
+    buff.dodge = curBuff.get("dodge").as_int();
+  if (curBuff.has("speed"))
+    buff.speed = curBuff.get("speed").as_int();
+  if (curBuff.has("block"))
+    buff.block = curBuff.get("block").as_int();
+
+  if (curBuff.has("bash_mult"))
+    buff.bash_stat_mult = curBuff.get("bash_mult").as_double();
+  if (curBuff.has("cut_mult"))
+    buff.cut_stat_mult = curBuff.get("cut_mult").as_double();
+
+  if (curBuff.has("hit_str"))
+    buff.hit_str = curBuff.get("hit_str").as_double();
+  if (curBuff.has("hit_dex"))
+    buff.hit_dex = curBuff.get("hit_dex").as_double();
+  if (curBuff.has("hit_int"))
+    buff.hit_int = curBuff.get("hit_int").as_double();
+  if (curBuff.has("hit_per"))
+    buff.hit_per = curBuff.get("hit_per").as_double();
+
+  if (curBuff.has("bash_str"))
+    buff.bash_str = curBuff.get("bash_str").as_double();
+  if (curBuff.has("bash_dex"))
+    buff.bash_dex = curBuff.get("bash_dex").as_double();
+  if (curBuff.has("bash_int"))
+    buff.bash_int = curBuff.get("bash_int").as_double();
+  if (curBuff.has("bash_per"))
+    buff.bash_per = curBuff.get("bash_per").as_double();
+
+  if (curBuff.has("cut_str"))
+    buff.cut_str = curBuff.get("cut_str").as_double();
+  if (curBuff.has("cut_dex"))
+    buff.cut_dex = curBuff.get("cut_dex").as_double();
+  if (curBuff.has("cut_int"))
+    buff.cut_int = curBuff.get("cut_int").as_double();
+  if (curBuff.has("cut_per"))
+    buff.cut_per = curBuff.get("cut_per").as_double();
+
+  if (curBuff.has("dodge_str"))
+    buff.dodge_str = curBuff.get("dodge_str").as_double();
+  if (curBuff.has("dodge_dex"))
+    buff.dodge_dex = curBuff.get("dodge_dex").as_double();
+  if (curBuff.has("dodge_int"))
+    buff.dodge_int = curBuff.get("dodge_int").as_double();
+  if (curBuff.has("dodge_per"))
+    buff.dodge_per = curBuff.get("dodge_per").as_double();
+
+  if (curBuff.has("block_str"))
+    buff.block_str = curBuff.get("block_str").as_double();
+  if (curBuff.has("block_dex"))
+    buff.block_dex = curBuff.get("block_dex").as_double();
+  if (curBuff.has("block_int"))
+    buff.block_int = curBuff.get("block_int").as_double();
+  if (curBuff.has("block_per"))
+    buff.block_per = curBuff.get("block_per").as_double();
+
+  if (curBuff.has("throw_immune"))
+    buff.throw_immune = curBuff.get("throw_immune").as_bool();
+
+  if (curBuff.has("req_buffs"))
+    buff.req_buffs = curBuff.get("req_buffs").as_tags();
+
+  return buff;
+}
 void loadBuffArray(game* g, std::vector<ma_buff>& buffArr, catajson& jsonObj) {
   for (jsonObj.set_begin(); jsonObj.has_curr() && json_good();
       jsonObj.next()) {
-    catajson curBuff = jsonObj.curr();
-
-    ma_buff buff;
-
-    buff.id = curBuff.get("id").as_string();
-    if (curBuff.has("desc"))
-      buff.desc = curBuff.get("desc").as_string();
-    if (curBuff.has("name"))
-      buff.name = curBuff.get("name").as_string();
-
-    if (curBuff.has("buff_duration"))
-      buff.buff_duration = curBuff.get("buff_duration").as_int();
-    if (curBuff.has("max_stacks"))
-      buff.max_stacks = curBuff.get("max_stacks").as_int();
-
-    if (curBuff.has("unarmed_allowed"))
-      buff.unarmed_allowed = curBuff.get("unarmed_allowed").as_bool();
-    if (curBuff.has("melee_allowed"))
-      buff.melee_allowed = curBuff.get("melee_allowed").as_bool();
-
-    if (curBuff.has("min_melee"))
-      buff.min_melee = curBuff.get("min_melee").as_int();
-    if (curBuff.has("min_unarmed"))
-      buff.min_unarmed = curBuff.get("min_unarmed").as_int();
-
-    if (curBuff.has("bonus_dodges"))
-      buff.dodges_bonus = curBuff.get("bonus_dodges").as_int();
-    if (curBuff.has("bonus_blocks"))
-      buff.blocks_bonus = curBuff.get("bonus_blocks").as_int();
-
-    if (curBuff.has("hit"))
-      buff.hit = curBuff.get("hit").as_int();
-    if (curBuff.has("bash"))
-      buff.bash = curBuff.get("bash").as_int();
-    if (curBuff.has("cut"))
-      buff.cut = curBuff.get("cut").as_int();
-    if (curBuff.has("dodge"))
-      buff.dodge = curBuff.get("dodge").as_int();
-    if (curBuff.has("speed"))
-      buff.speed = curBuff.get("speed").as_int();
-    if (curBuff.has("block"))
-      buff.block = curBuff.get("block").as_int();
-
-    if (curBuff.has("bash_mult"))
-      buff.bash_stat_mult = curBuff.get("bash_mult").as_double();
-    if (curBuff.has("cut_mult"))
-      buff.cut_stat_mult = curBuff.get("cut_mult").as_double();
-
-    if (curBuff.has("hit_str"))
-      buff.hit_str = curBuff.get("hit_str").as_double();
-    if (curBuff.has("hit_dex"))
-      buff.hit_dex = curBuff.get("hit_dex").as_double();
-    if (curBuff.has("hit_int"))
-      buff.hit_int = curBuff.get("hit_int").as_double();
-    if (curBuff.has("hit_per"))
-      buff.hit_per = curBuff.get("hit_per").as_double();
-
-    if (curBuff.has("bash_str"))
-      buff.bash_str = curBuff.get("bash_str").as_double();
-    if (curBuff.has("bash_dex"))
-      buff.bash_dex = curBuff.get("bash_dex").as_double();
-    if (curBuff.has("bash_int"))
-      buff.bash_int = curBuff.get("bash_int").as_double();
-    if (curBuff.has("bash_per"))
-      buff.bash_per = curBuff.get("bash_per").as_double();
-
-    if (curBuff.has("cut_str"))
-      buff.cut_str = curBuff.get("cut_str").as_double();
-    if (curBuff.has("cut_dex"))
-      buff.cut_dex = curBuff.get("cut_dex").as_double();
-    if (curBuff.has("cut_int"))
-      buff.cut_int = curBuff.get("cut_int").as_double();
-    if (curBuff.has("cut_per"))
-      buff.cut_per = curBuff.get("cut_per").as_double();
-
-    if (curBuff.has("dodge_str"))
-      buff.dodge_str = curBuff.get("dodge_str").as_double();
-    if (curBuff.has("dodge_dex"))
-      buff.dodge_dex = curBuff.get("dodge_dex").as_double();
-    if (curBuff.has("dodge_int"))
-      buff.dodge_int = curBuff.get("dodge_int").as_double();
-    if (curBuff.has("dodge_per"))
-      buff.dodge_per = curBuff.get("dodge_per").as_double();
-
-    if (curBuff.has("block_str"))
-      buff.block_str = curBuff.get("block_str").as_double();
-    if (curBuff.has("block_dex"))
-      buff.block_dex = curBuff.get("block_dex").as_double();
-    if (curBuff.has("block_int"))
-      buff.block_int = curBuff.get("block_int").as_double();
-    if (curBuff.has("block_per"))
-      buff.block_per = curBuff.get("block_per").as_double();
-
-    if (curBuff.has("throw_immune"))
-      buff.throw_immune = curBuff.get("throw_immune").as_bool();
-
-    if (curBuff.has("req_buffs")) {
-      buff.req_buffs = curBuff.get("req_buffs").as_tags();
-    }
-
-    buffArr.push_back(buff);
+    buffArr.push_back(loadBuff(jsonObj.curr()));
     g->ma_buffs[buff.id] = buff;
+  }
+}
+
+void game::init_techniques() {
+  catajson techniquesRaw("data/raw/techniques.json");
+
+  for (techniquesRaw.set_begin(); techniquesRaw.has_curr() && json_good();
+      techniquesRaw.next()) {
+    ma_techniques[techniquesRaw.curr().get("id").as_string()] =
+      loadTec(techniquesRaw.curr());
   }
 }
 
@@ -166,30 +214,7 @@ void game::init_martialarts() {
 
     if( curMartialArt.has("techniques") ) {
       catajson tecJson = curMartialArt.get("techniques");
-      for (tecJson.set_begin(); tecJson.has_curr() && json_good();
-          tecJson.next()) {
-        catajson curTec = tecJson.curr();
-        ma_technique tec;
-        style_move sm(
-            curTec.get("name").as_string(),
-            curTec.get("verb_you").as_string(),
-            curTec.get("verb_npc").as_string(),
-            tech_id_lookup[curTec.get("tec_flag").as_string()],
-            0);
-        tec.move = sm;
 
-        if (curTec.has("unarmed_allowed"))
-          tec.unarmed_allowed = curTec.get("unarmed_allowed").as_bool();
-        if (curTec.has("melee_allowed"))
-          tec.melee_allowed = curTec.get("melee_allowed").as_bool();
-
-        if (curTec.has("min_melee"))
-          tec.min_melee = curTec.get("min_melee").as_int();
-        if (curTec.has("min_unarmed"))
-          tec.min_unarmed = curTec.get("min_unarmed").as_int();
-
-        ma.techniques.push_back(tec);
-      }
     }
 
     martialarts[ma.id] = ma;

@@ -7,10 +7,13 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 
 typedef std::string matype_id;
 
 typedef std::string mabuff_id;
+
+typedef std::string matec_id;
 
 class ma_technique {
   public:
@@ -18,6 +21,11 @@ class ma_technique {
 
     // given a player's state, does this bonus apply to him?
     bool is_valid_player(player& u);
+
+    std::set<std::string> flags;
+
+    std::string verb_you;
+    std::string verb_npc;
 
     // technique info
     style_move move;

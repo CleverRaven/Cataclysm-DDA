@@ -239,7 +239,7 @@ style_selected=ma_type;
   ma_styles.push_back("style_aikido");
   ma_styles.push_back("style_judo");
   //ma_styles.push_back("style_berserk");
-  ///ma_styles.push_back("style_coward");
+  //ma_styles.push_back("style_coward");
  }
 
     if (has_trait("MARTIAL_ARTS2")) {
