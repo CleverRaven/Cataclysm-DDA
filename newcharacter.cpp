@@ -899,7 +899,7 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         }
 
         //Draw Scrollbar
-        draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);
+        draw_scrollbar(w, cur_id, iContentHeight, profession::count()-1, 5);
 
         wrefresh(w);
         wrefresh(w_description);
@@ -908,7 +908,7 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             case 'j':
             case '2':
                 cur_id++;
-                if (cur_id > profession::count() - 1)
+                if (cur_id > profession::count() - 2)
                     cur_id = 0;
             break;
 
@@ -916,7 +916,7 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             case '8':
                 cur_id--;
                 if (cur_id < 0 )
-                    cur_id = profession::count() - 1;
+                    cur_id = profession::count() - 2;
             break;
 
             case '\n':

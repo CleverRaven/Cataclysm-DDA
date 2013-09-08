@@ -48,6 +48,9 @@ extern world_factory *world_generator;
 extern bool trigdist;
 extern bool use_tiles;
 
+extern const int savegame_version;
+extern int savegame_loading_version;
+
 enum tut_type {
  TUT_NULL,
  TUT_BASIC, TUT_COMBAT,

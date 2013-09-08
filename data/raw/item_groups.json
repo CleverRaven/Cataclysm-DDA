@@ -185,7 +185,8 @@
       ["vinegar", 15],
       ["veggy_pickled", 8],
       ["meat_pickled", 4],
-      ["tongs", 25]
+      ["tongs", 25],
+      ["charcoal", 5]
     ]
   },
   { "id":"knifeblock",
@@ -272,7 +273,8 @@
       ["jar_glass", 50],
       ["jar_3l_glass", 40],
       ["flotation_vest", 1],
-      ["bearing", 1]
+      ["bearing", 1],
+      ["charcoal", 20]
     ]
   },
   { "id":"bedroom",
@@ -719,7 +721,8 @@
       ["rag", 1],
       ["scissors", 50],
       ["string_36", 40],
-      ["vinegar", 10]
+      ["vinegar", 10],
+      ["charcoal", 5]
     ]
   },
   { "id":"hardware",
@@ -749,6 +752,8 @@
       ["jack", 10],
       ["permanent_marker", 50],
       ["forge", 1],
+      ["char_forge", 1],
+      ["char_kiln", 1],
       ["crucible", 1],
       ["tongs", 1],
       ["chisel", 2],
@@ -756,7 +761,8 @@
       ["anvil", 2],
       ["apron_leather", 10],
       ["tool_belt", 30],
-      ["knee_pads", 20]
+      ["knee_pads", 20],
+      ["charcoal", 5]
     ]
   },
   { "id":"tools",
@@ -794,6 +800,8 @@
       ["welder", 25],
       ["ax", 8],
       ["forge", 2],
+      ["char_forge", 2],
+      ["char_kiln", 1],
       ["crucible", 2],
       ["anvil", 4],
       ["apron_leather", 10],
@@ -967,7 +975,9 @@
       ["blowgun", 5],
       ["dart", 5],
       ["pocketwatch", 5],
-      ["boots_hiking", 20]
+      ["boots_hiking", 20],
+      ["pur_tablets", 10],
+      ["charcoal", 20]
     ]
   },
   { "id":"allsporting",
@@ -1060,7 +1070,9 @@
       ["dart", 5],
       ["elbow_pads", 40],
       ["knee_pads", 40],
-      ["boots_hiking", 10]
+      ["boots_hiking", 10],
+      ["pur_tablets", 5],
+      ["quikclot", 10]
     ]
   },
   { "id":"alcohol",
@@ -1740,7 +1752,8 @@
       ["medical_gauze", 10],
       ["medical_tape", 45],
       ["jar_glass", 20],
-      ["jar_3l_glass", 15]
+      ["jar_3l_glass", 15],
+      ["quikclot", 10]
     ]
   },
   { "id":"office",
@@ -2054,6 +2067,8 @@
       ["nodachi", 1],
       ["swage", 2],
       ["forge", 5],
+      ["char_forge", 5],
+      ["char_kiln", 2],
       ["armor_lightplate", 1],
       ["armor_samurai", 1],
       ["helmet_kabuto", 1],
@@ -2095,7 +2110,9 @@
       ["sleeping_bag", 10],
       ["emer_blanket", 20],
       ["flyer", 10],
-      ["helmet_liner", 20]
+      ["helmet_liner", 20],
+      ["pur_tablets", 10],
+      ["quikclot", 20]
     ]
   },
   { "id":"shelter",
@@ -2167,7 +2184,8 @@
       ["coat_rain", 5],
       ["umbrella", 7],
       ["apron_leather", 5],
-      ["pocketwatch", 5]
+      ["pocketwatch", 5],
+      ["pur_tablets", 5]
     ]
   },
   { "id":"mechanics",
@@ -2226,7 +2244,9 @@
       ["funnel", 50],
       ["jar_glass", 20],
       ["jar_3l_glass", 15],
-      ["apron_leather", 2]
+      ["apron_leather", 2],
+      ["pur_tablets", 5],
+      ["charcoal", 10]
     ]
   },
   { "id":"teleport",
@@ -2584,7 +2604,9 @@
       ["antibiotics", 25],
       ["water_clean", 90],
       ["purifier", 12],
-      ["heatpack", 60]
+      ["heatpack", 60],
+      ["pur_tablets", 20],
+      ["quikclot", 10]
     ]
   },
   { "id":"mil_food_nodrugs",
@@ -2750,7 +2772,10 @@
       ["tongs", 5],
       ["tool_belt", 10],
       ["quiver", 3],
-      ["pocketwatch", 2]
+      ["pocketwatch", 2],
+      ["pur_tablets", 10],
+      ["quikclot", 10],
+      ["charcoal", 5]
     ]
   },
   { "id":"sewage_plant",
@@ -3025,7 +3050,8 @@
       ["bio_blaster", 10],
       ["tac_helmet", 5],
       ["lsd", 4],
-      ["pocketwatch", 5]
+      ["pocketwatch", 5],
+      ["pur_tablets", 10]
     ]
   },
   { "id":"ant_food",
@@ -3322,7 +3348,9 @@
       ["tac_helmet", 10],
       ["gum", 90],
       ["nic_gum", 1],
-      ["improve_sights", 10]
+      ["improve_sights", 10],
+      ["pur_tablets", 10],
+      ["quikclot", 20]
     ]
   },
   { "id":"science",
@@ -3371,7 +3399,8 @@
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
       ["software_useless", 10],
-      ["canteen", 10]
+      ["canteen", 10],
+      ["pur_tablets", 10]
     ]
   },
   { "id":"rare",
@@ -3412,7 +3441,8 @@
       ["plasma_rifle", 1],
       ["laser_rifle", 1],
       ["rm51_assault_rifle", 1],
-      ["8mm_caseless", 10]
+      ["8mm_caseless", 10],
+      ["pur_tablets", 20]
     ]
   },
   { "id":"stash_food",
@@ -3619,6 +3649,7 @@
       ["smokebomb_act", 0],
       ["molotov_lit", 0],
       ["dynamite_act", 5],
+      ["matchbomb_act", 0],
       ["firecracker_pack_act", 5],
       ["firecracker_act", 5],
       ["mininuke_act", 0],
