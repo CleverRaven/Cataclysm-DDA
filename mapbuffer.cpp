@@ -258,20 +258,6 @@ void mapbuffer::load()
    }
   }
 // Load irradiation
-#define oldmap
-#ifdef oldmap
-  for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++) {
-    int radtmp;
-    fin >> radtmp;
-    radtmp -= int(turndif / 100);	// Radiation slowly decays
-    if (radtmp < 0)
-     radtmp = 0;
-    sm->rad[i][j] = radtmp;
-   }
-  }
-
-#else
   int radtmp;
   int count = 0;
   for (int j = 0; j < SEEY; j++) {
@@ -287,7 +273,6 @@ void mapbuffer::load()
     sm->rad[i][j] = radtmp;
    }
   }
-#endif
 // Load items and traps and fields and spawn points and vehicles
   std::string string_identifier;
   do {
