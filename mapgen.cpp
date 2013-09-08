@@ -959,7 +959,6 @@ t   t\n\
  case ot_house_south:
  case ot_house_west:
 
-  temperature(x, y) = -100;
   lw = rng(0, 4);		// West external wall
   mw = lw + rng(7, 10);		// Middle wall between bedroom & kitchen/bath
   rw = SEEX * 2 - rng(1, 5);	// East external wall
@@ -4178,6 +4177,12 @@ case ot_lmoe: {
  case ot_ice_lab:
  case ot_ice_lab_stairs:
  case ot_ice_lab_core:
+    if (ice_lab) {
+        temperature(x, y) = -20 + 30*g->levz;
+        temperature(x + SEEX, y) = -20 + 30*g->levz;
+        temperature(x, y + SEEY) = -20 + 30*g->levz;
+        temperature(x + SEEX, y + SEEY) = -20 + 30*g->levz;
+    }
 // Check for adjacent sewers; used below
   tw = 0;
   rw = 0;
@@ -4877,10 +4882,14 @@ ff.......|....|WWWWWWWW|\n\
  ice_lab_finale = false;
  case ot_ice_lab_finale:
   if ( ice_lab_finale ) {
-      tw = (t_north >= ot_ice_lab && t_north <= ot_ice_lab_finale) ? 0 : 2;
-      rw = (t_east  >= ot_ice_lab && t_east  <= ot_ice_lab_finale) ? 1 : 2;
-      bw = (t_south >= ot_ice_lab && t_south <= ot_ice_lab_finale) ? 1 : 2;
-      lw = (t_west  >= ot_ice_lab && t_west  <= ot_ice_lab_finale) ? 0 : 2;
+        tw = (t_north >= ot_ice_lab && t_north <= ot_ice_lab_finale) ? 0 : 2;
+        rw = (t_east  >= ot_ice_lab && t_east  <= ot_ice_lab_finale) ? 1 : 2;
+        bw = (t_south >= ot_ice_lab && t_south <= ot_ice_lab_finale) ? 1 : 2;
+        lw = (t_west  >= ot_ice_lab && t_west  <= ot_ice_lab_finale) ? 0 : 2;
+        temperature(x, y) = -20 + 30*g->levz;
+        temperature(x + SEEX, y) = -20 + 30*g->levz;
+        temperature(x, y + SEEY) = -20 + 30*g->levz;
+        temperature(x + SEEX, y + SEEY) = -20 + 30*g->levz;
   }
   else {
       tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;

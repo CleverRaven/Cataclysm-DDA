@@ -1216,12 +1216,6 @@ int game::get_temperature()
     point location = om_location();
     int tmp_temperature = temperature;
 
-    /*
-    if ( is_in_ice_lab(location) && levz < 0) {
-        tmp_temperature = 20 + 30*levz;
-    }
-    */
-
     tmp_temperature += m.temperature(u.posx, u.posy);
 
     return tmp_temperature;
