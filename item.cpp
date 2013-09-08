@@ -170,7 +170,6 @@ void item::init() {
 
 void item::make(itype* it)
 {
- init();
  if(!it)
   type = nullitem();
  else
@@ -182,7 +181,7 @@ void item::clear()
 {
     // should we be clearing contents, as well?
     // Seems risky to - there aren't any reported content-clearing bugs
-    // init(); // this seems to fit? But above comment..
+    // init(); // this should not go here either, or make() should not use it...
     item_tags.clear();
     item_vars.clear();
 }
@@ -291,7 +290,7 @@ picojson::value item::json_save() const
     /////
     data["invlet"] = pv( int(invlet) );
     data["typeid"] = pv( typeId() );
-    data["bday"] = pv( int(bday) );
+    data["bday"] = pv( bday );
 
     if ( charges != -1 )     data["charges"]    = pv( int(charges) );
     if ( damage != 0 )       data["damage"]     = pv( int(damage) );
@@ -445,7 +444,6 @@ bool item::json_load(picojson::value parsed, game * g)
     std::string ammotmp="null";
     int lettmp = 0;
     int corptmp = -1;
-    int bdaytmp = 0;
     int damtmp = 0;
 
     if ( ! picostring(data, "typeid", idtmp) ) {
@@ -458,8 +456,7 @@ bool item::json_load(picojson::value parsed, game * g)
     picoint(data, "poison", poison);
     picoint(data, "owned", owned);
 
-    picoint(data, "bday", bdaytmp);
-    bday = bdaytmp;
+    picoint(data, "bday", bday);
 
     picostring(data, "mode", mode);
     picoint(data, "mission_id", mission_id);
