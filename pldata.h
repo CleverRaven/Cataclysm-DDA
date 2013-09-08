@@ -3,6 +3,7 @@
 
 #include "enums.h"
 #include "translations.h"
+#include "bodypart.h"
 #include <sstream>
 #include <vector>
 #include <map>

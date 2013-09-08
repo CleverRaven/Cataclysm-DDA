@@ -836,7 +836,7 @@ void player::update_bodytemp(game *g)
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if (blister_count - 10*resist(body_part(i)) > 20)
         {
-            add_disease("blisters", 1, 0, -1, i, -1);
+            add_disease("blisters", 1, 0, -1, (body_part)i, -1);
         }
         // BLOOD LOSS : Loss of blood results in loss of body heat
         int blood_loss = 0;
@@ -953,38 +953,40 @@ void player::update_bodytemp(game *g)
         // PENALTIES
         if      (temp_cur[i] < BODYTEMP_FREEZING)
         {
-            add_disease("cold", 1, 3, 3, i, -1);
+            add_disease("cold", 1, 3, 3, (body_part)i, -1);
             frostbite_timer[i] += 3;
         }
         else if (temp_cur[i] < BODYTEMP_VERY_COLD)
         {
-            add_disease("cold", 1, 2, 3, i, -1);
+            add_disease("cold", 1, 2, 3, (body_part)i, -1);
             frostbite_timer[i] += 2;
         }
         else if (temp_cur[i] < BODYTEMP_COLD)
         {
             // Frostbite timer does not go down if you are still cold.
-            add_disease("cold", 1, 1, 3, i, -1);
+            add_disease("cold", 1, 1, 3, (body_part)i, -1);
             frostbite_timer[i] += 1;
         }
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
         {
             // If body temp rises over 15000, disease.cpp ("hot_head") acts weird and the player will die
-            add_disease("hot",  1, 3, 3, i, -1);
+            add_disease("hot",  1, 3, 3, (body_part)i, -1);
         }
         else if (temp_cur[i] > BODYTEMP_VERY_HOT)
         {
-            add_disease("hot",  1, 2, 3, i, -1);
+            add_disease("hot",  1, 2, 3, (body_part)i, -1);
         }
         else if (temp_cur[i] > BODYTEMP_HOT)
         {
-            add_disease("hot",  1, 1, 3, i, -1);
+            add_disease("hot",  1, 1, 3, (body_part)i, -1);
         }
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
         int intensity_mult =
-            - disease_intensity("cold", i) + disease_intensity("hot", i);
-        if (has_disease("cold", i) || has_disease("hot", i))
+            - disease_intensity("cold", (body_part)i) +
+            disease_intensity("hot", (body_part)i);
+        if (has_disease("cold", (body_part)i) ||
+            has_disease("hot", (body_part)i))
         {
             switch (i)
             {
@@ -1004,18 +1006,18 @@ void player::update_bodytemp(game *g)
         }
         if      (frostbite_timer[i] >= 240 && g->get_temperature() < 32)
         {
-            add_disease("frostbite", 1, 2, 2, i, -1);
+            add_disease("frostbite", 1, 2, 2, (body_part)i, -1);
             // Warning message for the player
-            if (disease_intensity("frostbite", i) < 2
+            if (disease_intensity("frostbite", (body_part)i) < 2
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
             {
                 g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
             {
-                add_disease("frostbite", 1, 1, 2, i, -1);
+                add_disease("frostbite", 1, 1, 2, (body_part)i, -1);
                 // Warning message for the player
-                if (!has_disease("frostbite", i))
+                if (!has_disease("frostbite", (body_part)i))
                 {
                     g->add_msg(_("You lose sensation in your %s."),
                         body_part_name(body_part(i), -1).c_str());
@@ -4151,7 +4153,7 @@ void player::infect(dis_type type, body_part vector, int strength,
 
 void player::add_disease(dis_type type, int duration,
                          int intensity, int max_intensity,
-                         body_part part = num_bp, int side = -1)
+                         body_part part, int side)
 {
     if (duration == 0) {
         return;
@@ -4161,13 +4163,13 @@ void player::add_disease(dis_type type, int duration,
     int i = 0;
     while ((i < illness.size()) && !found) {
         if (illness[i].type == type) {
-            if (part == num_bp ^ illness[i].bp == part) {
+            if ((part == num_bp) ^ (illness[i].bp == part)) {
                 debugmsg("Bodypart missmatch when applying disease %s",
-                         type);
+                         type.c_str());
                 return;
-            } else if (illness[i].side == -1 ^ side == -1) {
+            } else if ((illness[i].side == -1) ^ (side == -1)) {
                 debugmsg("Side of body missmatch when applying disease %s",
-                         type);
+                         type.c_str());
                 return;
             }
             if (illness[i].bp == part && illness[i].side == side) {
@@ -4193,7 +4195,7 @@ void player::add_disease(dis_type type, int duration,
     recalc_sight_limits();
 }
 
-void player::rem_disease(dis_type type, body_part part = num_bp, int side = -1)
+void player::rem_disease(dis_type type, body_part part, int side)
 {
     for (int i = 0; i < illness.size(); i++) {
         if (illness[i].type == type && illness[i].bp == part &&
@@ -4208,8 +4210,7 @@ void player::rem_disease(dis_type type, body_part part = num_bp, int side = -1)
     recalc_sight_limits();
 }
 
-bool player::has_disease(dis_type type, body_part part = num_bp,
-                         int side = -1) const
+bool player::has_disease(dis_type type, body_part part, int side) const
 {
     for (int i = 0; i < illness.size(); i++) {
         if (illness[i].type == type && illness[i].bp == part &&
@@ -4220,7 +4221,7 @@ bool player::has_disease(dis_type type, body_part part = num_bp,
     return false;
 }
 
-int player::disease_level(dis_type type, body_part part = num_bp, int side = -1)
+int player::disease_level(dis_type type, body_part part, int side)
 {
     for (int i = 0; i < illness.size(); i++) {
         if (illness[i].type == type && illness[i].bp == part &&
@@ -4231,8 +4232,7 @@ int player::disease_level(dis_type type, body_part part = num_bp, int side = -1)
     return 0;
 }
 
-int player::disease_intensity(dis_type type, body_part part = num_bp,
-                              int side = -1)
+int player::disease_intensity(dis_type type, body_part part, int side)
 {
     for (int i = 0; i < illness.size(); i++) {
         if (illness[i].type == type && illness[i].bp == part &&

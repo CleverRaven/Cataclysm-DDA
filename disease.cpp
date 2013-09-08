@@ -1315,7 +1315,7 @@ int disease_speed_boost(disease dis)
      }
      break;
  case DI_FROSTBITE:
-     swtich (dis.bp) {
+     switch (dis.bp) {
          case bp_feet:
              switch (dis.intensity) {
              case 2 : return -4;}
