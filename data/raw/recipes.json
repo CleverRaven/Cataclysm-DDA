@@ -13527,10 +13527,11 @@
     ],
     [
       [ "bottle_glass", 1 ],
-      [ "flask_glass", 1 ]
+      [ "flask_glass", 1 ],
+      [ "jar_glass", 1 ]
     ],
     [
-      [ "matches", 200 ]
+      [ "matches", 20 ]
     ]
   ]
 },
