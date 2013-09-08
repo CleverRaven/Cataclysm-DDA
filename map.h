@@ -309,6 +309,7 @@ class map
 
 // Temperature
  int& temperature(const int x, const int y);    // Temperature for submap
+ void set_temperature(const int x, const int y, const int temperature); // Set temperature for all four submap quadrants
 
 // Items
  std::vector<item>& i_at(int x, int y);

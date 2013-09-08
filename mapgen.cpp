@@ -4178,10 +4178,8 @@ case ot_lmoe: {
  case ot_ice_lab_stairs:
  case ot_ice_lab_core:
     if (ice_lab) {
-        temperature(x, y) = -20 + 30*g->levz;
-        temperature(x + SEEX, y) = -20 + 30*g->levz;
-        temperature(x, y + SEEY) = -20 + 30*g->levz;
-        temperature(x + SEEX, y + SEEY) = -20 + 30*g->levz;
+        int temperature = -20 + 30*(g->levz);
+        set_temperature(x, y, temperature);
     }
 // Check for adjacent sewers; used below
   tw = 0;
@@ -4886,10 +4884,8 @@ ff.......|....|WWWWWWWW|\n\
         rw = (t_east  >= ot_ice_lab && t_east  <= ot_ice_lab_finale) ? 1 : 2;
         bw = (t_south >= ot_ice_lab && t_south <= ot_ice_lab_finale) ? 1 : 2;
         lw = (t_west  >= ot_ice_lab && t_west  <= ot_ice_lab_finale) ? 0 : 2;
-        temperature(x, y) = -20 + 30*g->levz;
-        temperature(x + SEEX, y) = -20 + 30*g->levz;
-        temperature(x, y + SEEY) = -20 + 30*g->levz;
-        temperature(x + SEEX, y + SEEY) = -20 + 30*g->levz;
+        int temperature = -20 + 30*(g->levz);
+        set_temperature(x, y, temperature);
   }
   else {
       tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;

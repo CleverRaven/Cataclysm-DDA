@@ -2440,6 +2440,14 @@ int& map::temperature(const int x, const int y)
  return grid[nonant]->temperature;
 }
 
+void map::set_temperature(const int x, const int y, int new_temperature)
+{
+    temperature(x, y) = new_temperature;
+    temperature(x + SEEX, y) = new_temperature;
+    temperature(x, y + SEEY) = new_temperature;
+    temperature(x + SEEX, y + SEEY) = new_temperature;
+}
+
 std::vector<item>& map::i_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
