@@ -1342,10 +1342,13 @@ void player::load_info(game *g, std::string data)
 
  int numill;
  disease illtmp;
+ int temp_bpart;
  dump >> numill;
  for (int i = 0; i < numill; i++) {
-  dump >> illtmp.type >> illtmp.duration >> illtmp.intensity;
-  illness.push_back(illtmp);
+     dump >> illtmp.type >> illtmp.duration >> illtmp.intensity
+          >> temp_bpart >> illtmp.side;
+     illtmp.bp = (body_part)temp_bpart;
+     illness.push_back(illtmp);
  }
 
  int numadd = 0;
@@ -1463,7 +1466,9 @@ std::string player::save_info()
 
  dump << illness.size() << " ";
  for (int i = 0; i < illness.size();  i++)
-  dump << illness[i].type << " " << illness[i].duration << " " << illness[i].intensity << " " ;
+     dump << illness[i].type << " " << illness[i].duration << " "
+          << illness[i].intensity << " " << illness[i].bp << " "
+          << illness[i].side << " " ;
 
  dump << addictions.size() << " ";
  for (int i = 0; i < addictions.size(); i++)
