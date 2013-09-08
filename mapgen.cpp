@@ -4880,12 +4880,13 @@ ff.......|....|WWWWWWWW|\n\
  ice_lab_finale = false;
  case ot_ice_lab_finale:
   if ( ice_lab_finale ) {
-        tw = (t_north >= ot_ice_lab && t_north <= ot_ice_lab_finale) ? 0 : 2;
-        rw = (t_east  >= ot_ice_lab && t_east  <= ot_ice_lab_finale) ? 1 : 2;
-        bw = (t_south >= ot_ice_lab && t_south <= ot_ice_lab_finale) ? 1 : 2;
-        lw = (t_west  >= ot_ice_lab && t_west  <= ot_ice_lab_finale) ? 0 : 2;
-        int temperature = -20 + 30*(g->levz);
-        set_temperature(x, y, temperature);
+      int temperature = -20 + 30*(g->levz);
+      set_temperature(x, y, temperature);
+
+      tw = (t_north >= ot_ice_lab && t_north <= ot_ice_lab_finale) ? 0 : 2;
+      rw = (t_east  >= ot_ice_lab && t_east  <= ot_ice_lab_finale) ? 1 : 2;
+      bw = (t_south >= ot_ice_lab && t_south <= ot_ice_lab_finale) ? 1 : 2;
+      lw = (t_west  >= ot_ice_lab && t_west  <= ot_ice_lab_finale) ? 0 : 2;
   }
   else {
       tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;
