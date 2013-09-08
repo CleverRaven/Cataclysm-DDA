@@ -742,9 +742,6 @@ void player::update_bodytemp(game *g)
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
         float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
-        // Disease name shorthand
-        dis_type blister_pen = disease_for_body_part("blisters", i), hot_pen  = disease_for_body_part("hot", i);
-        dis_type cold_pen = disease_for_body_part("cold", i), frost_pen = disease_for_body_part("frostbite", i);
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
         temp_conv[i] = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
         // HUNGER
@@ -839,7 +836,8 @@ void player::update_bodytemp(game *g)
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if (blister_count - 10*resist(body_part(i)) > 20)
         {
-            add_disease(dis_type(blister_pen), 1);
+            add_disease("blisters", 1, 0, -1, i, 0);
+            add_disease("blisters", 1, 0, -1, i, 1);
         }
         // BLOOD LOSS : Loss of blood results in loss of body heat
         int blood_loss = 0;
@@ -956,35 +954,44 @@ void player::update_bodytemp(game *g)
         // PENALTIES
         if      (temp_cur[i] < BODYTEMP_FREEZING)
         {
-            add_disease(dis_type(cold_pen), 1, 3, 3); frostbite_timer[i] += 3;
+            add_disease("cold", 1, 3, 3, i, 0);
+            add_disease("cold", 1, 3, 3, i, 1);
+            frostbite_timer[i] += 3;
         }
         else if (temp_cur[i] < BODYTEMP_VERY_COLD)
         {
-            add_disease(dis_type(cold_pen), 1, 2, 3); frostbite_timer[i] += 2;
+            add_disease("cold", 1, 2, 3, i, 0);
+            add_disease("cold", 1, 2, 3, i, 1);
+            frostbite_timer[i] += 2;
         }
         else if (temp_cur[i] < BODYTEMP_COLD)
         {
             // Frostbite timer does not go down if you are still cold.
-            add_disease(dis_type(cold_pen), 1, 1, 3); frostbite_timer[i] += 1;
+            add_disease("cold", 1, 1, 3, i, 0);
+            add_disease("cold", 1, 1, 3, i, 1);
+            frostbite_timer[i] += 1;
         }
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
         {
             // If body temp rises over 15000, disease.cpp ("hot_head") acts weird and the player will die
-            add_disease(dis_type(hot_pen),  1, 3, 3);
+            add_disease("hot",  1, 3, 3, i, 0);
+            add_disease("hot",  1, 3, 3, i, 1);
         }
         else if (temp_cur[i] > BODYTEMP_VERY_HOT)
         {
-            add_disease(dis_type(hot_pen),  1, 2, 3);
+            add_disease("hot",  1, 2, 3, i, 0);
+            add_disease("hot",  1, 2, 3, i, 1);
         }
         else if (temp_cur[i] > BODYTEMP_HOT)
         {
-            add_disease(dis_type(hot_pen),  1, 1, 3);
+            add_disease("hot",  1, 1, 3, i, 0);
+            add_disease("hot",  1, 1, 3, i, 1);
         }
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
         int intensity_mult =
-            - disease_intensity(dis_type(cold_pen)) + disease_intensity(dis_type(hot_pen));
-        if (has_disease(dis_type(cold_pen)) || has_disease(dis_type(hot_pen)))
+            - disease_intensity("cold", i) + disease_intensity("hot", i);
+        if (has_disease("cold", i) || has_disease("hot", i))
         {
             switch (i)
             {
@@ -1004,18 +1011,20 @@ void player::update_bodytemp(game *g)
         }
         if      (frostbite_timer[i] >= 240 && g->get_temperature() < 32)
         {
-            add_disease(dis_type(frost_pen), 1, 2, 2);
+            add_disease("frostbite", 1, 2, 2, i, 0);
+            add_disease("frostbite", 1, 2, 2, i, 1);
             // Warning message for the player
-            if (disease_intensity(dis_type(frost_pen)) < 2
+            if (disease_intensity("frostbite", i) < 2
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
             {
                 g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
             {
-                add_disease(dis_type(frost_pen), 1, 1, 2);
+                add_disease("frostbite", 1, 1, 2, i, 0);
+                add_disease("frostbite", 1, 1, 2, i, 1);
                 // Warning message for the player
-                if (!has_disease(dis_type(frost_pen)))
+                if (!has_disease("frostbite", i))
                 {
                     g->add_msg(_("You lose sensation in your %s."),
                         body_part_name(body_part(i), -1).c_str());
