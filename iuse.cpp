@@ -210,27 +210,27 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
         mvwprintz(hp_window, 1, 1, c_ltred,  _("Use %s:"), item_name.c_str());
         if(p->hp_cur[hp_head] < p->hp_max[hp_head])
         {
-            mvwprintz(hp_window, 2, 1, c_ltgray, _("1: Head"));
+            mvwprintz(hp_window, 2, 1, p->has_disease("bleed", bp_head) ? c_red : c_ltgray, _("1: Head"));
         }
         if(p->hp_cur[hp_torso] < p->hp_max[hp_torso])
         {
-            mvwprintz(hp_window, 3, 1, c_ltgray, _("2: Torso"));
+            mvwprintz(hp_window, 3, 1, p->has_disease("bleed", bp_torso) ? c_red : c_ltgray, _("2: Torso"));
         }
         if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l])
         {
-            mvwprintz(hp_window, 4, 1, c_ltgray, _("3: Left Arm"));
+            mvwprintz(hp_window, 4, 1, p->has_disease("bleed", bp_arms, 0) ? c_red : c_ltgray, _("3: Left Arm"));
         }
         if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r])
         {
-            mvwprintz(hp_window, 5, 1, c_ltgray, _("4: Right Arm"));
+            mvwprintz(hp_window, 5, 1, p->has_disease("bleed", bp_arms, 1) ? c_red : c_ltgray, _("4: Right Arm"));
         }
         if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l])
         {
-            mvwprintz(hp_window, 6, 1, c_ltgray, _("5: Left Leg"));
+            mvwprintz(hp_window, 6, 1, p->has_disease("bleed", bp_legs, 0) ? c_red : c_ltgray, _("5: Left Leg"));
         }
         if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r])
         {
-            mvwprintz(hp_window, 7, 1, c_ltgray, _("6: Right Leg"));
+            mvwprintz(hp_window, 7, 1, p->has_disease("bleed", bp_legs, 1) ? c_red : c_ltgray, _("6: Right Leg"));
         }
         if(special_action != "")
         {
@@ -381,12 +381,39 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
         dam = normal_power + bonus;
     }
     p->heal(healed, dam);
+    body_part bp_healed;
+    int side = -1;
+    switch(healed) {
+        case hp_head:
+            bp_healed = bp_head;
+            break;
+        case hp_torso:
+            bp_healed = bp_torso;
+            break;
+        case hp_arm_l:
+            bp_healed = bp_arms;
+            side = 0;
+            break;
+        case hp_arm_r:
+            bp_healed = bp_arms;
+            side = 1;
+            break;
+        case hp_leg_l:
+            bp_healed = bp_legs;
+            side = 0;
+            break;
+        case hp_leg_r:
+            bp_healed = bp_legs;
+            side = 1;
+            break;
+    }
+    p->rem_disease("bleed", bp_healed, side);
     return false;
 }
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 3, 1, 4, _("Bandage"), p->has_disease("bleed") ? _("Stop Bleeding") : ""))
+    if (use_healing_item(g, p, it, 3, 1, 4, _("Bandage"), ""))
     {
         g->add_msg_if_player(p,_("You stopped the bleeding."));
         p->rem_disease("bleed");
