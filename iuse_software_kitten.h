@@ -38,7 +38,7 @@ public:
     int rfkscreen[60][20];
     int nummessages;
 int bogus_messages[1200];
-int LINES;
-int COLS;
+int rfkLINES;
+int rfkCOLS;
 };
 #endif
