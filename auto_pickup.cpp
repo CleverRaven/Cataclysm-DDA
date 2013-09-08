@@ -9,9 +9,6 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
-#ifndef LOCALIZE
-#include <ctype.h>
-#endif
 
 std::map<std::string, bool> mapAutoPickupItems;
 std::vector<cPickupRules> vAutoPickupRules[5];
@@ -763,11 +760,7 @@ struct my_equal {
         my_equal( const std::locale& loc ) : loc_(loc) {}
 
         bool operator()(charT ch1, charT ch2) {
-        #ifdef LOCALIZE
             return std::toupper(ch1, loc_) == std::toupper(ch2, loc_);
-        #else
-            return toupper(ch1) == toupper(ch2);
-        #endif
         }
     private:
         const std::locale& loc_;
