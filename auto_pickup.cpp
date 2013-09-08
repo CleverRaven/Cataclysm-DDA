@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
-#if(defined _WIN32)
+#ifndef LOCALIZE
 #include <ctype.h>
 #endif
 
@@ -763,11 +763,11 @@ struct my_equal {
         my_equal( const std::locale& loc ) : loc_(loc) {}
 
         bool operator()(charT ch1, charT ch2) {
-		#if(defined _WIN32)
+        #ifdef LOCALIZE
+            return std::toupper(ch1, loc_) == std::toupper(ch2, loc_);
+        #else
             return toupper(ch1) == toupper(ch2);
-		#else
-			return std::toupper(ch1, loc_) == std::toupper(ch2, loc_);
-		#endif
+        #endif
         }
     private:
         const std::locale& loc_;
