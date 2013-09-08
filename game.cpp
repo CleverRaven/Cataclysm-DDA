@@ -599,9 +599,10 @@ void game::cleanup_at_end(){
         write_memorial_file();
         u.memorial_log.clear();
         if ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "Yes" ||
-            ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "Query" && query_yn(_("Delete saved world?"))))
+            ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "Query" && query_yn(_("Reset saved world?"))))
         {
-            delete_save();
+            //delete_save();
+            delete_world(active_world->world_name, false);
             MAPBUFFER.reset();
             MAPBUFFER.make_volatile();
         }

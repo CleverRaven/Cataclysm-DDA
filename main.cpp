@@ -74,7 +74,6 @@ int main(int argc, char *argv[])
 
  std::srand(seed);
  bool quit_game = false;
- bool delete_world = false;
  g = new game;
  if(g->game_error())
   exit_handler(-999);
@@ -98,18 +97,14 @@ int main(int argc, char *argv[])
  do {
   g->setup();
   while (!g->do_turn()) ;
-  if (g->uquit == QUIT_DELETE_WORLD)
-    delete_world = true;
+
   if (g->game_quit() || g->game_error())
    quit_game = true;
  } while (!quit_game);
+// conditional will never be called, g->uquit has no chance to be set to QUIT_DELETE_WORLD
 
- if (delete_world)
- {
-   g->delete_save();
- } else {
-  MAPBUFFER.save_if_dirty();
- }
+ MAPBUFFER.save_if_dirty();
+
 
  exit_handler(-999);
 
