@@ -4150,26 +4150,40 @@ void player::infect(dis_type type, body_part vector, int strength,
 }
 
 void player::add_disease(dis_type type, int duration,
-                         int intensity, int max_intensity)
+                         int intensity, int max_intensity,
+                         body_part part = num_bp, int side = 0)
 {
  if (duration == 0)
   return;
+
  bool found = false;
  int i = 0;
  while ((i < illness.size()) && !found) {
-  if (illness[i].type == type) {
-   illness[i].duration += duration;
-   illness[i].intensity += intensity;
-   if (max_intensity != -1 && illness[i].intensity > max_intensity)
-    illness[i].intensity = max_intensity;
-   found = true;
-  }
+     if (illness[i].type == type) {
+         if (part == num_bp && illness[i].bp != part) {
+             debugmsg("Attempted to apply %s to whole body when already applied to single part",
+                      type);
+             return;
+         } else if (illness[i].bp == num_bp && part != num_bp) {
+             debugmsg("Attempted to apply %s to single part when already applied to whole body",
+                      type);
+             return;
+         }
+         if (illness[i].bp == part && illness[i].side == side) {
+             illness[i].duration += duration;
+             illness[i].intensity += intensity;
+             if (max_intensity != -1 && illness[i].intensity > max_intensity) {
+                 illness[i].intensity = max_intensity;
+             }
+             found = true;
+         }
+     }
   i++;
  }
  if (!found) {
   if (!is_npc())
    dis_msg(g, type);
-  disease tmp(type, duration, intensity);
+  disease tmp(type, duration, intensity, part, side);
   illness.push_back(tmp);
  }
 // activity.type = ACT_NULL;
@@ -4177,10 +4191,11 @@ void player::add_disease(dis_type type, int duration,
   recalc_sight_limits();
 }
 
-void player::rem_disease(dis_type type)
+void player::rem_disease(dis_type type, body_part part = num_bp, int side = 0)
 {
   for (int i = 0; i < illness.size(); i++) {
-    if (illness[i].type == type) {
+    if (illness[i].type == type && illness[i].bp == part &&
+        illness[i].side == side) {
       illness.erase(illness.begin() + i);
       if(!is_npc()) {
         dis_remove_memorial(g, type);
@@ -4191,28 +4206,31 @@ void player::rem_disease(dis_type type)
   recalc_sight_limits();
 }
 
-bool player::has_disease(dis_type type) const
+bool player::has_disease(dis_type type, body_part part = num_bp, int side = 0) const
 {
  for (int i = 0; i < illness.size(); i++) {
-  if (illness[i].type == type)
+  if (illness[i].type == type && illness[i].bp == part &&
+      illness[i].side == side)
    return true;
  }
  return false;
 }
 
-int player::disease_level(dis_type type)
+int player::disease_level(dis_type type, body_part part = num_bp, int side = 0)
 {
  for (int i = 0; i < illness.size(); i++) {
-  if (illness[i].type == type)
+  if (illness[i].type == type && illness[i].bp == part &&
+      illness[i].side == side)
    return illness[i].duration;
  }
  return 0;
 }
 
-int player::disease_intensity(dis_type type)
+int player::disease_intensity(dis_type type, body_part part = num_bp, int side = 0)
 {
  for (int i = 0; i < illness.size(); i++) {
-  if (illness[i].type == type)
+  if (illness[i].type == type && illness[i].bp == part &&
+      illness[i].side == side)
    return illness[i].intensity;
  }
  return 0;
