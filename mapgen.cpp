@@ -102,6 +102,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
   grid[i]->active_item_count = 0;
   grid[i]->field_count = 0;
   grid[i]->turn_last_touched = turn;
+  grid[i]->temperature = 0;
   grid[i]->comp = computer();
   grid[i]->camp = basecamp();
   for (int x = 0; x < SEEX; x++) {
