@@ -3173,8 +3173,10 @@ Current turn: %d; Next spawn %d.\n\
     if(veh_num < opts.size() - 1) {
       //Didn't pick Cancel
       std::string selected_opt = opts[veh_num];
-      m.add_vehicle (this, selected_opt, u.posx, u.posy, -90, 100, 0);
-      m.board_vehicle (this, u.posx, u.posy, &u);
+      vehicle* veh = m.add_vehicle (this, selected_opt, u.posx, u.posy, -90, 100, 0);
+      if(veh != NULL) {
+        m.board_vehicle (this, u.posx, u.posy, &u);
+      }
     }
    }
    break;
