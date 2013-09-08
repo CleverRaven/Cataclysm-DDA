@@ -102,6 +102,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
   grid[i]->active_item_count = 0;
   grid[i]->field_count = 0;
   grid[i]->turn_last_touched = turn;
+  grid[i]->temperature = 0;
   grid[i]->comp = computer();
   grid[i]->camp = basecamp();
   for (int x = 0; x < SEEX; x++) {
@@ -4176,6 +4177,10 @@ case ot_lmoe: {
  case ot_ice_lab:
  case ot_ice_lab_stairs:
  case ot_ice_lab_core:
+    if (ice_lab) {
+        int temperature = -20 + 30*(g->levz);
+        set_temperature(x, y, temperature);
+    }
 // Check for adjacent sewers; used below
   tw = 0;
   rw = 0;
@@ -4875,6 +4880,9 @@ ff.......|....|WWWWWWWW|\n\
  ice_lab_finale = false;
  case ot_ice_lab_finale:
   if ( ice_lab_finale ) {
+      int temperature = -20 + 30*(g->levz);
+      set_temperature(x, y, temperature);
+
       tw = (t_north >= ot_ice_lab && t_north <= ot_ice_lab_finale) ? 0 : 2;
       rw = (t_east  >= ot_ice_lab && t_east  <= ot_ice_lab_finale) ? 1 : 2;
       bw = (t_south >= ot_ice_lab && t_south <= ot_ice_lab_finale) ? 1 : 2;

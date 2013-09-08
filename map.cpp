@@ -2428,6 +2428,26 @@ int& map::radiation(const int x, const int y)
  return grid[nonant]->rad[lx][ly];
 }
 
+int& map::temperature(const int x, const int y)
+{
+ if (!INBOUNDS(x, y)) {
+  null_temperature = 0;
+  return null_temperature;
+ }
+
+ const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+
+ return grid[nonant]->temperature;
+}
+
+void map::set_temperature(const int x, const int y, int new_temperature)
+{
+    temperature(x, y) = new_temperature;
+    temperature(x + SEEX, y) = new_temperature;
+    temperature(x, y + SEEY) = new_temperature;
+    temperature(x + SEEX, y + SEEY) = new_temperature;
+}
+
 std::vector<item>& map::i_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
