@@ -207,6 +207,22 @@ void map::generate_lightmap(game* g)
      }
    }
  }
+
+    /* Now that we have position and intensity of all bulk light sources, apply_ them
+      This may seem like extra work, but take a 12x12 raging inferno:
+        unbuffered: (12^2)*(160*4) = apply_light_ray x 92160
+        buffered:   (12*4)*(160)   = apply_light_ray x 7680
+    */
+    for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
+        for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
+            if ( light_source_buffer[sx][sy] > 0. ) {
+                apply_light_source(sx, sy, light_source_buffer[sx][sy],
+                                   ( trigdist && light_source_buffer[sx][sy] > 3. ) );
+            }
+         }
+    }
+
+
 if (g->u.has_active_bionic("bio_night") ) {
    for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx)
    {
@@ -219,6 +235,9 @@ if (g->u.has_active_bionic("bio_night") ) {
       }
    }
   }
+
+ 
+
 }
 
 void map::add_light_source(int x, int y, float luminance ) {
