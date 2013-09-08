@@ -889,11 +889,11 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_BLEED:
-            if (one_in(6)) {
+            if (one_in(6 / dis.intensity)) {
                 g->add_msg_player_or_npc( &p, _("You lose some blood."),
                                          _("<npcname> loses some blood.") );
                 p.pain++;
-                p.hurt(g, bp_torso, 0, 1);
+                p.hurt(g, dis.bp, dis.side == -1 ? 0 : dis.side, 1);
                 p.per_cur--;
                 p.str_cur--;
                 g->m.add_field(g, p.posx, p.posy, fd_blood, 1);
@@ -1510,7 +1510,38 @@ std::string dis_name(disease dis)
     case DI_STUNNED: return _("Stunned");
     case DI_DOWNED: return _("Downed");
     case DI_POISON: return _("Poisoned");
-    case DI_BLEED: return _("Bleeding");
+    case DI_BLEED:
+    {
+        std::string status = "";
+        switch (dis.intensity) {
+        case 1: status = _("Bleeding "); break;
+        case 2: status = _("Heavily Bleeding "); break;
+        case 3: status = _("Very Heavily Bleeding "); break;
+        }
+        switch (dis.bp) {
+            case bp_head:
+                status += _("Head");
+                break;
+            case bp_torso:
+                status += _("Torso");
+                break;
+            case bp_arms:
+                if (dis.side == 0) {
+                    status += _("Left Arm");
+                } else if (dis.side == 1) {
+                    status += _("Right Arm");
+                }
+                break;
+            case bp_legs:
+                if (dis.side == 0) {
+                    status += _("Left Leg");
+                } else if (dis.side == 1) {
+                    status += _("Right Leg");
+                }
+                break;
+        }
+        return status;
+    }
     case DI_BADPOISON: return _("Badly Poisoned");
     case DI_FOODPOISON: return _("Food Poisoning");
     case DI_SHAKES: return _("Shakes");
@@ -1840,7 +1871,15 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\n"
         "Occasional pain and/or damage.");
 
-    case DI_BLEED: return _("You are slowly losing blood.");
+    case DI_BLEED:
+        switch (dis.intensity) {
+            case 1:
+                return _("You are slowly losing blood.");
+            case 2:
+                return _("You are losing blood.");
+            case 3:
+                return _("You are rapidly loosing blood.");
+        }
 
     case DI_BADPOISON:
         return _(
