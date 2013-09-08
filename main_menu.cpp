@@ -613,7 +613,7 @@ bool game::opening_screen()
                         {
                             active_world = picked_world; //world_name_keys[picked_world];
                             world_generator->set_active_world(picked_world);
-                            MAPBUFFER.load_from(picked_world->world_name);
+                            //MAPBUFFER.load_from(picked_world->world_name);
                         }
 
                         if (picked_world == NULL || !gamemode->init(this)) {

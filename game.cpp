@@ -560,6 +560,11 @@ void game::cleanup_at_end(){
             gamemode = new special_game;	// null gamemode or something..
         }
     }
+    if (uquit == QUIT_SAVED && gamemode->id() != SGAME_NULL)
+    {
+        MAPBUFFER.reset();
+        MAPBUFFER.make_volatile();
+    }
     overmap_buffer.clear();
 }
 
