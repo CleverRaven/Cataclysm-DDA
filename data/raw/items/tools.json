@@ -131,7 +131,7 @@
     "initial_charges": 50,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "THREAD",
+    "ammo": "thread",
     "revert_to": "null",
     "use_action": "SEW"
   },
@@ -3729,7 +3729,7 @@
     "initial_charges": 0,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "THREAD",
+    "ammo": "thread",
     "revert_to": "null",
     "use_action": "SEW"
   },
