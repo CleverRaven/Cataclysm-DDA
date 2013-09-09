@@ -3641,13 +3641,6 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
 // Special case of 0-shift; refresh the map
  if (sx == 0 && sy == 0) {
   return; // Skip this?
-  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-    if (!loadn(g, wx+sx, wy+sy, wz, gridx, gridy))
-     loadn(g, wx+sx, wy+sy, wz, gridx, gridy);
-   }
-  }
-  return;
  }
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
