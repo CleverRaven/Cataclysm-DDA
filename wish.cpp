@@ -29,9 +29,8 @@ class wish_mutate_callback: public uimenu_callback
             return c_ltgray;
         }
 
-        wish_mutate_callback() {
+        wish_mutate_callback() : msg("") {
             lastlen = 0;
-            msg = "";
             started = false;
             vTraits.clear();
             pTraits.clear();
@@ -190,13 +189,11 @@ class wish_monster_callback: public uimenu_callback
         bool started;          // if unset, intialize window
         std::string padding;   // ' ' x window width
 
-        wish_monster_callback() {
+        wish_monster_callback() : msg(""), padding("") {
             started = false;
             friendly = false;
-            msg = "";
             lastent = -2;
             w_info = NULL;
-            padding = "";
         }
 
         void setup(uimenu *menu) {
@@ -302,10 +299,9 @@ class wish_item_callback: public uimenu_callback
         bool incontainer;
         std::string msg;
         item tmp;
-        wish_item_callback() {
+        wish_item_callback() : msg("") {
             lastlen = 0;
             incontainer = false;
-            msg = "";
         }
         virtual bool key(int key, int entnum, uimenu *menu) {
             if ( key == 'f' ) {
