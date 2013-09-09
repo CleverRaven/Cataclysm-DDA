@@ -3167,8 +3167,7 @@ void map::draw(game *g, WINDOW* w, const point center)
    // I've moved this part above loops without even thinking that
    // this must stay here...
    int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
-   int distance_to_look = real_max_sight_range;
-   distance_to_look = DAYLIGHT_LEVEL;
+   int distance_to_look = DAYLIGHT_LEVEL;
 
    bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
    lit_level lit = light_at(realx, realy);
