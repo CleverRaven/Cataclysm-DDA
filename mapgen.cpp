@@ -204,7 +204,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
  }
  density = density/100;
 
- draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g, density);
+ draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g, density, z);
 
  if ( one_in( oterlist[terrain_type].embellishments.chance ))
   add_extra( random_map_extra( oterlist[terrain_type].embellishments ), g);
@@ -234,7 +234,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
 
 void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                    const oter_id t_south, const oter_id t_west, const oter_id t_above,
-                   const int turn, game *g, const float density)
+                   const int turn, game *g, const float density, const int zlevel)
 {
 // Big old switch statement with a case for each overmap terrain type.
 // Many of these can be copied from another type, then rotated; for instance,
@@ -4178,7 +4178,7 @@ case ot_lmoe: {
  case ot_ice_lab_stairs:
  case ot_ice_lab_core:
     if (ice_lab) {
-        int temperature = -20 + 30*(g->levz);
+        int temperature = -20 + 30*(zlevel);
         set_temperature(x, y, temperature);
     }
 // Check for adjacent sewers; used below
@@ -9155,7 +9155,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
 
   } else { // We're above ground!
 // First, draw a forest
-    draw_map(ot_forest, t_north, t_east, t_south, t_west, t_above, turn, g, density);
+   draw_map(ot_forest, t_north, t_east, t_south, t_west, t_above, turn, g, density, zlevel);
 // Clear the center with some rocks
    square(this, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
    int pathx, pathy;
