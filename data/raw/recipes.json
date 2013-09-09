@@ -13747,6 +13747,230 @@
       [ "rag", 4 ]
     ]
   ]
+},
+{
+  "result": "leather_cat_ears",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 3]
+    ]
+  ]
+},
+
+{
+  "result": "fur_cat_ears",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 3]
+    ]
+  ]
+},
+
+{
+  "result": "leather_cat_tail",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 4 ]
+    ],
+    [
+      [ "string_36", 1]
+    ],
+    [
+      [ "plastic_chunk", 10],
+      [ "bottle_plastic", 5],
+      [ "jug_plastic", 2]
+    ]
+  ]
+},
+
+{
+  "result": "fur_cat_tail",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 4 ]
+    ],
+    [
+      [ "string_36", 1]
+    ],
+    [
+      [ "plastic_chunk", 10],
+      [ "bottle_plastic", 5],
+      [ "jug_plastic", 2]
+    ]
+  ]
+},
+
+{
+  "result": "fur_collar",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 5 ],
+      [ "sewing_kit", 5 ]
+    ],
+    [
+      [ "soldering_iron", 10],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 2 ]
+    ],
+    [
+      [ "scrap", 1]
+    ]
+  ]
+},
+
+{
+  "result": "leather_collar",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 5 ],
+      [ "sewing_kit", 5 ]
+    ],
+    [
+      [ "soldering_iron", 10],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ],
+    [
+      [ "scrap", 1]
+    ]
+  ]
 }
 ]
 }
+
