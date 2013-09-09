@@ -19,6 +19,8 @@
 
 std::string default_technique_name(technique_id tech);
 
+light_emission nolight={0,0,0};
+
 item::item()
 {
     init();
@@ -166,6 +168,7 @@ void item::init() {
     owned = -1;
     mission_id = -1;
     player_id = -1;
+    light = nolight;
 }
 
 void item::make(itype* it)
@@ -290,7 +293,7 @@ picojson::value item::json_save() const
     /////
     data["invlet"] = pv( int(invlet) );
     data["typeid"] = pv( typeId() );
-    data["bday"] = pv( int(bday) );
+    data["bday"] = pv( bday );
 
     if ( charges != -1 )     data["charges"]    = pv( int(charges) );
     if ( damage != 0 )       data["damage"]     = pv( int(damage) );
@@ -324,6 +327,14 @@ picojson::value item::json_save() const
 
     if ( name != type->name ) {
         data["name"] = pv ( name );
+    }
+
+    if ( light.luminance != 0 ) {
+        data["light"] = pv( int(light.luminance) );
+        if ( light.width != 0 ) {
+            data["light_width"] = pv( int(light.width) );
+            data["light_dir"] = pv( int(light.direction) );
+        }
     }
 
     return picojson::value(data);
@@ -444,7 +455,6 @@ bool item::json_load(picojson::value parsed, game * g)
     std::string ammotmp="null";
     int lettmp = 0;
     int corptmp = -1;
-    int bdaytmp = 0;
     int damtmp = 0;
 
     if ( ! picostring(data, "typeid", idtmp) ) {
@@ -457,8 +467,7 @@ bool item::json_load(picojson::value parsed, game * g)
     picoint(data, "poison", poison);
     picoint(data, "owned", owned);
 
-    picoint(data, "bday", bdaytmp);
-    bday = bdaytmp;
+    picoint(data, "bday", bday);
 
     picostring(data, "mode", mode);
     picoint(data, "mission_id", mission_id);
@@ -511,6 +520,18 @@ bool item::json_load(picojson::value parsed, game * g)
                   item_vars[ pvarsit->first ] = pvarsit->second.get<std::string>();
              }
         }
+    }
+
+    light=nolight;
+    int tmplum=0;
+    int tmpwidth=0;
+    int tmpdir=0;
+    if ( picoint(data,"light",tmplum) ) {
+        picoint(data,"light_width",tmpwidth);
+        picoint(data,"light_dir",tmpdir);
+        light.luminance = (unsigned short)tmplum;
+        light.width = (short)tmpwidth;
+        light.direction = (short)tmpdir;
     }
 
     return true;
@@ -1318,22 +1339,20 @@ bool item::rotten(game *g)
 
 bool item::ready_to_revive(game *g)
 {
-    if (OPTIONS["REVIVE_ZOMBIES"]) {
-        if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
-        {
-            return false;
-        }
-        int age_in_hours = (int(g->turn) - bday) / (10 * 60);
-        age_in_hours -= ((float)burnt/volume()) * 24;
-        if (damage > 0)
-        {
-            age_in_hours /= (damage + 1);
-        }
-        int rez_factor = 48 - age_in_hours;
-        if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
-        {
-            return true;
-        }
+    if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
+    {
+        return false;
+    }
+    int age_in_hours = (int(g->turn) - bday) / (10 * 60);
+    age_in_hours -= ((float)burnt/volume()) * 24;
+    if (damage > 0)
+    {
+        age_in_hours /= (damage + 1);
+    }
+    int rez_factor = 48 - age_in_hours;
+    if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
+    {
+        return true;
     }
     return false;
 }

@@ -14,6 +14,13 @@ class npc;
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
 const std::string rad_threshold_colors[] = { "green", "blue", "yellow", "orange", "red", "black"};
 
+struct light_emission {
+  unsigned short luminance;
+  short width;
+  short direction;
+};
+extern light_emission nolight;
+
 struct iteminfo{
  public:
   std::string sType; //Itemtype
@@ -181,8 +188,9 @@ public:
  bool active;           // If true, it has active effects to be processed
  signed char damage;    // How much damage it's sustained; generally, max is 5
  int burnt;	         // How badly we're burnt
- unsigned int bday;     // The turn on which it was created
+ int bday;              // The turn on which it was created
  int owned;	            // UID of NPC owner; 0 = player, -1 = unowned
+ light_emission light;
  union{
    int poison;	         // How badly poisoned is it?
    int bigness;         // engine power, wheel size

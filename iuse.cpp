@@ -19,6 +19,8 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
+#include "iuse_software.h"
+
 static void add_or_drop_item(game *g, player *p, item *it)
 {
   item replacement(g->itypes[it->type->id], int(g->turn), g->nextinv);
@@ -1459,7 +1461,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
         if (p->has_trait("MASOCHIST") && query_yn(_("Cauterize yourself for fun?"))) {
             it->charges -= 1;
             p->cauterize(g);
-        } 
+        }
         else
             g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
     }
@@ -1474,7 +1476,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
 {
     it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
     int choice = 2;
-    
+
         // Option for cauterization only if player has the incentive to do so
         // One does not check for open wounds with a soldering iron.
     if (p->has_disease("bite") || p->has_disease("bleed")) {
@@ -1483,7 +1485,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
     else if (p->has_trait("MASOCHIST")) {   // Masochists might be wounded too, let's not ask twice.
         choice = menu(true, ("Using soldering item:"), _("Cauterize yourself for fun"), _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     }
-    
+
     switch (choice)
     {
         case 1:
@@ -3786,20 +3788,61 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
 
 void iuse::portable_game(game *g, player *p, item *it, bool t)
 {
-  if(p->has_trait("ILLITERATE")) {
-    g->add_msg(_("You're illiterate!"));
-  } else if(it->charges == 0) {
-    g->add_msg_if_player(p,_("The %s's batteries are dead."), it->name.c_str());
-  } else {
+    if(p->has_trait("ILLITERATE")) {
+        g->add_msg(_("You're illiterate!"));
+    } else if(it->charges == 0) {
+        g->add_msg_if_player(p, _("The %s's batteries are dead."), it->name.c_str());
+    } else {
+        std::string loaded_software = "robot_finds_kitten";
+        /*s
+        if ( it->item_vars.find("loaded_software") != it->item_vars.end() ) {
+            loaded_software = it->item_vars["loaded_software"];
+        }*/
 
-    //Play in 15-minute chunks
-    int time = 15000;
+        uimenu as_m;
+        as_m.text = _("What do you want to play?");
+        as_m.entries.push_back(uimenu_entry(1, true, '1',_("Robot finds Kitten") ));
+        as_m.entries.push_back(uimenu_entry(2, true, '2', _("S N A K E") ));
+        as_m.query();
 
-    g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
-    p->assign_activity(g, ACT_GAME, time, -1, it->invlet, "gaming");
-    p->moves = 0;
+        switch (as_m.ret) {
+        case 1:
+            loaded_software = "robot_finds_kitten";
+            break;
+        case 2:
+            loaded_software = "snake_game";
+            break;
+        }
 
-  }
+        //Play in 15-minute chunks
+        int time = 15000;
+
+        g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
+        p->assign_activity(g, ACT_GAME, time, -1, it->invlet, "gaming");
+        p->moves = 0;
+
+        std::map<std::string, std::string> game_data;
+        game_data.clear();
+        int game_score = 0;
+
+        bool game_completed = play_videogame(loaded_software, game_data, game_score);
+
+        if ( game_data.find("end_message") != game_data.end() ) {
+            g->add_msg_if_player(p, _("%s"), game_data["end_message"].c_str() );
+        }
+
+        if ( game_score != 0 ) {
+            if ( game_data.find("moraletype") != game_data.end() ) {
+                std::string moraletype = game_data.find("moraletype")->second;
+                if(moraletype == "MORALE_GAME_FOUND_KITTEN") {
+                    p->add_morale(MORALE_GAME_FOUND_KITTEN, game_score, 110);
+                } /*else if ( ...*/
+            } else {
+                p->add_morale(MORALE_GAME, game_score, 110);
+            }
+        }
+
+    }
 }
 
 void iuse::vortex(game *g, player *p, item *it, bool t)

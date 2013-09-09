@@ -793,7 +793,7 @@ void game::process_activity()
       //Deduct 1 battery charge for every minute spent playing
       if(int(turn) % 10 == 0) {
         game_item.charges--;
-        u.add_morale(MORALE_GAME, 2, 100); //2 points/min, almost an hour to fill
+        u.add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
       }
       if(game_item.charges == 0) {
         u.activity.moves_left = 0;
@@ -1217,9 +1217,7 @@ int game::get_temperature()
     point location = om_location();
     int tmp_temperature = temperature;
 
-    if ( is_in_ice_lab(location) && levz < 0) {
-        tmp_temperature = 20 + 30*levz;
-    }
+    tmp_temperature += m.temperature(u.posx, u.posy);
 
     return tmp_temperature;
 }
@@ -3180,8 +3178,10 @@ Current turn: %d; Next spawn %d.\n\
     if(veh_num < opts.size() - 1) {
       //Didn't pick Cancel
       std::string selected_opt = opts[veh_num];
-      m.add_vehicle (this, selected_opt, u.posx, u.posy, -90, 100, 0);
-      m.board_vehicle (this, u.posx, u.posy, &u);
+      vehicle* veh = m.add_vehicle (this, selected_opt, u.posx, u.posy, -90, 100, 0);
+      if(veh != NULL) {
+        m.board_vehicle (this, u.posx, u.posy, &u);
+      }
     }
    }
    break;

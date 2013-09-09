@@ -74,7 +74,8 @@ void game::init_morale()
     _("Masochism"),
     _("Hoarder"),
     _("Cross-Dresser"),
-    _("Optimist")
+    _("Optimist"),
+    _("Found kitten <3")
     };
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
 }
@@ -7879,7 +7880,7 @@ void player::try_to_sleep(game *g)
              terlist[ter_at_pos].movecost <= 2 ?
              _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
-             terlist[ter_at_pos].name.c_str());
+             _(terlist[ter_at_pos].name.c_str())); // FIXME i18n
  add_disease("lying_down", 300);
 }
 
