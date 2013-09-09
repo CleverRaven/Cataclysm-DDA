@@ -2073,6 +2073,9 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
    door_name = rm_prefix(_("<door_name>door"));
    new_type = t_door_bar_o;
    g->add_msg_if_player(p, _("The door swings open..."));
+ } else if (type == t_door_c) {
+   g->add_msg(_("That door isn't locked."));
+   return;
  } else {
   g->add_msg(_("That cannot be picked."));
   return;
