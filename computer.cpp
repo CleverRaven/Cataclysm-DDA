@@ -7,18 +7,16 @@
 #include <string>
 #include <sstream>
 
-computer::computer()
+computer::computer(): name(DEFAULT_COMPUTER_NAME)
 {
     security = 0;
-    name = DEFAULT_COMPUTER_NAME;
     w_terminal = NULL;
     mission_id = -1;
 }
 
-computer::computer(std::string Name, int Security)
+computer::computer(std::string Name, int Security): name(Name)
 {
     security = Security;
-    name = Name;
     w_terminal = NULL;
     mission_id = -1;
 }
@@ -457,7 +455,6 @@ void computer::activate_function(game *g, computer_action action)
     {
         int lines = 0, notes = 0;
         std::string log, tmp;
-        int ch;
         std::ifstream fin;
         fin.open("data/LAB_NOTES");
         if (!fin.is_open())
@@ -467,7 +464,7 @@ void computer::activate_function(game *g, computer_action action)
         }
         while (fin.good())
         {
-            ch = fin.get();
+            int ch = fin.get();
             if (ch == '%')
             {
                 notes++;
