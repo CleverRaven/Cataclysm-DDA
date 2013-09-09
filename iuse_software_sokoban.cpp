@@ -19,19 +19,19 @@ void sokoban_game::print_score(WINDOW *w_sokoban, int iScore, int iMoves)
 {
     std::stringstream ssTemp;
     ssTemp << "Level: " << iCurrentLevel+1 << "/" << iNumLevel << "    ";
-    mvwprintz(w_sokoban, 1, 5, c_white, ssTemp.str().c_str());
+    mvwprintz(w_sokoban, 1, 3, c_white, ssTemp.str().c_str());
 
     ssTemp.str("");
     ssTemp << "Score: " << iScore;
-    mvwprintz(w_sokoban, 2, 5, c_white, ssTemp.str().c_str());
+    mvwprintz(w_sokoban, 2, 3, c_white, ssTemp.str().c_str());
 
     ssTemp.str("");
     ssTemp << "Moves: " << iMoves << "    ";
-    mvwprintz(w_sokoban, 3, 5, c_white, ssTemp.str().c_str());
+    mvwprintz(w_sokoban, 3, 3, c_white, ssTemp.str().c_str());
 
     ssTemp.str("");
-    ssTemp << "TotalMoves: " << iTotalMoves;
-    mvwprintz(w_sokoban, 4, 5, c_white, ssTemp.str().c_str());
+    ssTemp << "Total moves: " << iTotalMoves;
+    mvwprintz(w_sokoban, 4, 3, c_white, ssTemp.str().c_str());
 
 }
 
@@ -352,7 +352,7 @@ int sokoban_game::start_game()
                         mLevel[iPlayerY][iPlayerX] = (mLevel[iPlayerY][iPlayerX] == "+") ? "." : " ";
                         iPlayerYNew = vUndo[vUndo.size()-1].iOldY;
                         iPlayerXNew = vUndo[vUndo.size()-1].iOldX;
-                        mLevel[iPlayerYNew][iPlayerXNew] = (vUndo[vUndo.size()-1].sTileOld == " ") ? "@" : ".";
+                        mLevel[iPlayerYNew][iPlayerXNew] = vUndo[vUndo.size()-1].sTileOld;
 
                         vUndo.pop_back();
 
@@ -404,41 +404,41 @@ int sokoban_game::start_game()
                 break;
         }
 
-        if (!bMoved) {
-            continue;
-        }
+        if (bMoved) {
+            //check if we can move the player
+            std::string sMoveTo = mLevel[iPlayerY + iDirY][iPlayerX + iDirX];
+            bool bMovePlayer = false;
 
-        //check if we can move the player
-        std::string sMoveTo = mLevel[iPlayerY + iDirY][iPlayerX + iDirX];
-        bool bMovePlayer = false;
+            if (sMoveTo != "#") {
+                if (sMoveTo == "$" || sMoveTo == "*") {
+                    //Check if we can move the package
+                    std::string sMovePackTo = mLevel[iPlayerY + (iDirY * 2)][iPlayerX + (iDirX * 2)];
+                    if (sMovePackTo == "." || sMovePackTo == " ") {
+                        //move both
+                        bMovePlayer = true;
+                        mLevel[iPlayerY + (iDirY * 2)][iPlayerX + (iDirX * 2)] = (sMovePackTo == ".") ? "*" : "$";
 
-        if (sMoveTo != "#") {
-            if (sMoveTo == "$" || sMoveTo == "*") {
-                //Check if we can move the package
-                std::string sMovePackTo = mLevel[iPlayerY + (iDirY * 2)][iPlayerX + (iDirX * 2)];
-                if (sMovePackTo == "." || sMovePackTo == " ") {
-                    //move both
+                        vUndo.push_back(cUndo(iDirY, iDirX, sMoveTo));
+
+                        iMoves--;
+                    }
+                } else {
                     bMovePlayer = true;
-                    mLevel[iPlayerY + (iDirY * 2)][iPlayerX + (iDirX * 2)] = (sMovePackTo == ".") ? "*" : "$";
-
-                    vUndo.push_back(cUndo(iDirY, iDirX, sMoveTo));
                 }
-            } else {
-                bMovePlayer = true;
-            }
 
-            if (bMovePlayer) {
-                //move player
-                vUndo.push_back(cUndo(iPlayerY, iPlayerX, mLevel[iPlayerY][iPlayerX]));
+                if (bMovePlayer) {
+                    //move player
+                    vUndo.push_back(cUndo(iPlayerY, iPlayerX, mLevel[iPlayerY][iPlayerX]));
 
-                mLevel[iPlayerY][iPlayerX] = (mLevel[iPlayerY][iPlayerX] == "+") ? "." : " ";
-                mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = (sMoveTo == "." || sMoveTo == "*") ? "+" : "@";
+                    mLevel[iPlayerY][iPlayerX] = (mLevel[iPlayerY][iPlayerX] == "+") ? "." : " ";
+                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = (sMoveTo == "." || sMoveTo == "*") ? "+" : "@";
 
-                iPlayerY += iDirY;
-                iPlayerX += iDirX;
+                    iPlayerY += iDirY;
+                    iPlayerX += iDirX;
 
-                iMoves++;
-                iTotalMoves++;
+                    iMoves++;
+                    iTotalMoves++;
+                }
             }
         }
 
