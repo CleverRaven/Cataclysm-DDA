@@ -61,16 +61,6 @@ struct tile
         wy = y2;
     }
 };
-struct tile_rotation
-{
-    int *dx, *dy;
-
-    tile_rotation(int num_pixels)
-    {
-        dx = new int[num_pixels];
-        dy = new int[num_pixels];
-    }
-};
 
 /* Enums */
 enum LIGHTING
