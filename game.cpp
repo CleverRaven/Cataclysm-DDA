@@ -2916,7 +2916,7 @@ void game::write_memorial_file() {
 
     //Cleanup
     memorial_file.close();
-
+    closedir(dir);
 }
 
 void game::advance_nextinv()
@@ -5966,7 +5966,7 @@ void game::smash()
             corpses.push_back(it);
         }
     }
-    if (corpses.size() > 0)
+    if (!corpses.empty())
     {
         add_msg(ngettext("You swing at the corpse.",
                          "You swing at the corpses.", corpses.size()));
@@ -7753,7 +7753,7 @@ void game::pickup(int posx, int posy, int min)
  }
 
  if (min == -1) { //Auto pickup item message
-     if (mapPickup.size() > 0) {
+     if (!mapPickup.empty()) {
         std::stringstream sTemp;
 
         for (std::map<std::string, int>::iterator iter = mapPickup.begin(); iter != mapPickup.end(); ++iter) {
