@@ -568,8 +568,8 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     */
                 }
 
-                new_item_template->techniques = (!entry.has("techniques") ? 0 :
-                                                 flags_from_json(entry.get("techniques"), "techniques"));
+                if (entry.has("techniques"))
+                  new_item_template->techniques = entry.get("techniques").as_tags();
                 new_item_template->use = (!entry.has("use_action") ? &iuse::none :
                                           use_from_string(entry.get("use_action").as_string()));
             }
@@ -732,13 +732,11 @@ Use_function Item_factory::use_from_string(std::string function_name){
 void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type)
 {
     std::map<Item_tag, unsigned> flag_map;
-    if(flag_type=="techniques"){
-      flag_map = techniques_list;
-    } else if(flag_type=="bodyparts"){
-        flag_map = bodyparts_list;
+    if(flag_type=="bodyparts"){
+      flag_map = bodyparts_list;
+      set_bitmask_by_string(flag_map, cur_flags, new_flag);
     }
 
-    set_bitmask_by_string(flag_map, cur_flags, new_flag);
 }
 
 void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, unsigned& cur_bitmask, std::string new_flag)

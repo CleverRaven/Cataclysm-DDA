@@ -3,21 +3,45 @@
 
 #include "player.h"
 #include "pldata.h"
-#include "itype.h"
 #include <string>
 #include <vector>
 #include <map>
 #include <set>
 
-typedef std::string matype_id;
+struct ma_requirements {
+    bool unarmed_allowed; // does this bonus work when unarmed?
+    bool melee_allowed; // what about with a melee weapon?
 
-typedef std::string mabuff_id;
+    int min_melee; // minimum amount of unarmed to trigger this bonus
+    int min_unarmed; // minimum amount of unarmed to trigger this bonus
+    int min_bashing; // minimum amount of unarmed to trigger this bonus
+    int min_cutting; // minimum amount of unarmed to trigger this bonus
+    int min_stabbing; // minimum amount of unarmed to trigger this bonus
 
-typedef std::string matec_id;
+    std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
+
+    ma_requirements() {
+      unarmed_allowed = false; // does this bonus work when unarmed?
+      melee_allowed = false; // what about with a melee weapon?
+
+      min_melee = 0; // minimum amount of unarmed to trigger this technique
+      min_unarmed = 0; // etc
+      min_bashing = 0;
+      min_cutting = 0;
+      min_stabbing = 0;
+    }
+
+    bool is_valid_player(player& u);
+
+};
 
 class ma_technique {
   public:
     ma_technique();
+
+    std::string id;
+
+    std::string goal; // the melee goal this achieves
 
     // given a player's state, does this bonus apply to him?
     bool is_valid_player(player& u);
@@ -27,17 +51,61 @@ class ma_technique {
     std::string verb_you;
     std::string verb_npc;
 
+    /*
     // technique info
     style_move move;
+    */
 
-    bool unarmed_allowed; // does this bonus work when unarmed?
-    bool melee_allowed; // what about with a melee weapon?
+    bool defensive;
+    bool crit_tec;
 
-    int min_melee; // minimum amount of unarmed to trigger this technique
-    int min_unarmed; // etc
-    int min_bashing;
-    int min_cutting;
-    int min_stabbing;
+    ma_requirements reqs;
+
+    int down_dur;
+    int stun_dur;
+    int knockback_dist;
+    float knockback_spread; // adding randomness to knockback, like tec_throw
+    std::string aoe; // corresponds to an aoe shape, defaults to just the target
+
+    // offensive
+    bool disarms; // like tec_disarm
+    bool grabs; // like tec_grab
+    bool counters; // like tec_counter
+
+    bool miss_recovery; // allows free recovery from misses, like tec_feint
+    bool grab_break; // allows grab_breaks, like tec_break
+
+    bool flaming; // applies fire effects etc
+    bool quick; // moves discount based on attack speed, like tec_rapid
+
+    int hit; // flat bonus to hit
+    int bash; // flat bonus to bash
+    int cut; // flat bonus to cut
+    int pain; // causes pain
+
+    float bash_mult; // bash damage multiplier
+    float cut_mult; // cut damage multiplier
+
+    float bash_str; // bonus damage to add per str point
+    float bash_dex; // "" dex point
+    float bash_int; // "" int point
+    float bash_per; // "" per point
+
+    float cut_str; // bonus cut damage to add per str point
+    float cut_dex; // "" dex point
+    float cut_int; // "" int point
+    float cut_per; // "" per point
+
+    float hit_str; // bonus to-hit to add per str point
+    float hit_dex; // "" dex point
+    float hit_int; // "" int point
+    float hit_per; // "" per point
+
+    //defensive
+    int block;
+
+    float bash_resist; // multiplies bash by this (1 - amount)
+    float cut_resist; // "" cut ""
 };
 
 class ma_buff {
@@ -76,20 +144,12 @@ class ma_buff {
     std::string name;
     std::string desc;
 
-    bool unarmed_allowed; // does this bonus work when unarmed?
-    bool melee_allowed; // what about with a melee weapon?
+    ma_requirements reqs;
+
+    // mapped as buff_id -> min stacks of buff
 
     int buff_duration; // total length this buff lasts
     int max_stacks; // total number of stacks this buff can have
-
-    int min_melee; // minimum amount of unarmed to trigger this bonus
-    int min_unarmed; // minimum amount of unarmed to trigger this bonus
-    int min_bashing; // minimum amount of unarmed to trigger this bonus
-    int min_cutting; // minimum amount of unarmed to trigger this bonus
-    int min_stabbing; // minimum amount of unarmed to trigger this bonus
-
-    std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
-    // mapped as buff_id -> min stacks of buff
 
     int dodges_bonus; // extra dodges, like karate
     int blocks_bonus; // extra blocks, like karate
@@ -146,15 +206,15 @@ class martialart {
     void apply_ondodge_buffs(player& u, std::vector<disease>& dVec);
 
     // determines if a technique is valid or not for this style
-    bool has_technique(player& u, technique_id tech);
+    bool has_technique(player& u, matec_id tech, game* g);
 
     // gets custom melee string for a technique under this style
-    std::string melee_verb(technique_id tech, player& u);
+    std::string melee_verb(matec_id tech, player& u, game* g);
 
     std::string id;
     std::string name;
     std::string desc;
-    std::vector<ma_technique> techniques; // all available techniques
+    std::set<matec_id> techniques; // all available techniques
     std::vector<ma_buff> static_buffs; // all buffs triggered by each condition
     std::vector<ma_buff> onmove_buffs;
     std::vector<ma_buff> onhit_buffs;

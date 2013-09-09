@@ -1,0 +1,28 @@
+[
+  {
+    "id": "tec_feint",
+    "name": "Feint",
+    "defensive": true,
+
+    "miss_recovery": true
+
+  },
+  {
+    "id": "tec_flaming",
+    "name": "Flaming",
+
+    "flaming": true
+  },
+  {
+    "id": "tec_break",
+    "name": "Grab Break",
+
+    "grab_break": true
+  },
+  {
+    "id": "tec_precise",
+    "name": "Precise Strike",
+
+    "stun_dur": 2
+  }
+]

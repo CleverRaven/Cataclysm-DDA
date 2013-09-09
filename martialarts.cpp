@@ -10,38 +10,81 @@ std::map<std::string, technique_id> tech_id_lookup;
 
 ma_technique loadTec(catajson& curTec) {
   ma_technique tec;
-  style_move sm(
-      curTec.get("name").as_string(),
-      curTec.get("verb_you").as_string(),
-      curTec.get("verb_npc").as_string(),
-      tech_id_lookup[curTec.get("tec_flag").as_string()],
-      0);
-  tec.move = sm;
+
+  tec.id = curTec.get("id").as_string();
 
   if (curTec.has("unarmed_allowed"))
-    tec.unarmed_allowed = curTec.get("unarmed_allowed").as_bool();
+    tec.reqs.unarmed_allowed = curTec.get("unarmed_allowed").as_bool();
   if (curTec.has("melee_allowed"))
-    tec.melee_allowed = curTec.get("melee_allowed").as_bool();
+    tec.reqs.melee_allowed = curTec.get("melee_allowed").as_bool();
+
+  if (curTec.has("min_melee"))
+    tec.reqs.min_melee = curTec.get("min_melee").as_int();
+  if (curTec.has("min_unarmed"))
+    tec.reqs.min_unarmed = curTec.get("min_unarmed").as_int();
 
   if (curTec.has("verb_you"))
     tec.verb_you = curTec.get("verb_you").as_string();
   if (curTec.has("verb_npc"))
     tec.verb_npc = curTec.get("verb_npc").as_string();
 
-  if (curTec.has("min_melee"))
-    tec.min_melee = curTec.get("min_melee").as_int();
-  if (curTec.has("min_unarmed"))
-    tec.min_unarmed = curTec.get("min_unarmed").as_int();
-
   if (curTec.has("flags"))
     tec.flags = curTec.get("flags").as_tags();
 
+  if (curTec.has("req_buffs"))
+    tec.reqs.req_buffs = curTec.get("req_buffs").as_tags();
+
+  if (curTec.has("down_dur"))
+    tec.down_dur = curTec.get("down_dur").as_int();
+  if (curTec.has("stun_dur"))
+    tec.stun_dur = curTec.get("stun_dur").as_int();
+  if (curTec.has("knockback_dist"))
+    tec.knockback_dist = curTec.get("knockback_dist").as_int();
+  if (curTec.has("knockback_spread"))
+    tec.knockback_spread = curTec.get("knockback_spread").as_int();
+
+  if (curTec.has("disarms"))
+    tec.disarms = curTec.get("disarms").as_bool();
+  if (curTec.has("grabs"))
+    tec.grabs = curTec.get("grabs").as_bool();
+  if (curTec.has("counters"))
+    tec.counters = curTec.get("counters").as_bool();
+
+  if (curTec.has("miss_recovery"))
+    tec.miss_recovery = curTec.get("miss_recovery").as_bool();
+  if (curTec.has("grab_break"))
+    tec.grab_break = curTec.get("grab_break").as_bool();
+
+  if (curTec.has("flaming"))
+    tec.flaming = curTec.get("flaming").as_bool();
+  if (curTec.has("quick"))
+    tec.quick = curTec.get("quick").as_bool();
+
+  /* // stuff we still need to read from json
+  hit = 0; // flat bonus to hit
+  bash = 0; // flat bonus to bash
+  cut = 0; // flat bonus to cut
+  pain = 0; // causes pain
+
+  bash_mult = 1.0f; // bash damage multiplier
+  cut_mult = 1.0f; // cut damage multiplier
+
+  //defensive
+  block = 0;
+
+  bash_resist = 0.0f; // multiplies bash by this (1 - amount)
+  cut_resist = 0.0f; // "" cut ""
+  */
+
   return tec;
 }
-void loadTecArray(game* g, std::vector<ma_buff>& tecArr, catajson& jsonObj) {
+void loadTecArray(game* g, std::vector<ma_technique>& tecArr, catajson& jsonObj) {
   for (jsonObj.set_begin(); jsonObj.has_curr() && json_good();
       jsonObj.next()) {
-    tecArr.push_back(loadTec(tecJson.curr()));
+    catajson cur = jsonObj.curr();
+    ma_technique tec = loadTec(cur);
+    tecArr.push_back(tec);
+    g->ma_techniques[tec.id] = tec;
   }
 }
 
@@ -60,14 +103,14 @@ ma_buff loadBuff(catajson& curBuff) {
     buff.max_stacks = curBuff.get("max_stacks").as_int();
 
   if (curBuff.has("unarmed_allowed"))
-    buff.unarmed_allowed = curBuff.get("unarmed_allowed").as_bool();
+    buff.reqs.unarmed_allowed = curBuff.get("unarmed_allowed").as_bool();
   if (curBuff.has("melee_allowed"))
-    buff.melee_allowed = curBuff.get("melee_allowed").as_bool();
+    buff.reqs.melee_allowed = curBuff.get("melee_allowed").as_bool();
 
   if (curBuff.has("min_melee"))
-    buff.min_melee = curBuff.get("min_melee").as_int();
+    buff.reqs.min_melee = curBuff.get("min_melee").as_int();
   if (curBuff.has("min_unarmed"))
-    buff.min_unarmed = curBuff.get("min_unarmed").as_int();
+    buff.reqs.min_unarmed = curBuff.get("min_unarmed").as_int();
 
   if (curBuff.has("bonus_dodges"))
     buff.dodges_bonus = curBuff.get("bonus_dodges").as_int();
@@ -141,14 +184,16 @@ ma_buff loadBuff(catajson& curBuff) {
     buff.throw_immune = curBuff.get("throw_immune").as_bool();
 
   if (curBuff.has("req_buffs"))
-    buff.req_buffs = curBuff.get("req_buffs").as_tags();
+    buff.reqs.req_buffs = curBuff.get("req_buffs").as_tags();
 
   return buff;
 }
 void loadBuffArray(game* g, std::vector<ma_buff>& buffArr, catajson& jsonObj) {
   for (jsonObj.set_begin(); jsonObj.has_curr() && json_good();
       jsonObj.next()) {
-    buffArr.push_back(loadBuff(jsonObj.curr()));
+    catajson cur = jsonObj.curr();
+    ma_buff buff = loadBuff(cur);
+    buffArr.push_back(buff);
     g->ma_buffs[buff.id] = buff;
   }
 }
@@ -158,8 +203,8 @@ void game::init_techniques() {
 
   for (techniquesRaw.set_begin(); techniquesRaw.has_curr() && json_good();
       techniquesRaw.next()) {
-    ma_techniques[techniquesRaw.curr().get("id").as_string()] =
-      loadTec(techniquesRaw.curr());
+    catajson cur = techniquesRaw.curr();
+    ma_techniques[cur.get("id").as_string()] = loadTec(cur);
   }
 }
 
@@ -213,7 +258,7 @@ void game::init_martialarts() {
     }
 
     if( curMartialArt.has("techniques") ) {
-      catajson tecJson = curMartialArt.get("techniques");
+      ma.techniques = curMartialArt.get("techniques").as_tags();
 
     }
 
@@ -222,20 +267,12 @@ void game::init_martialarts() {
 }
 
 
-
-
-ma_technique::ma_technique() {
-  unarmed_allowed = false; // does this bonus work when unarmed?
-  melee_allowed = false; // what about with a melee weapon?
-
-  min_melee = 0; // minimum amount of unarmed to trigger this technique
-  min_unarmed = 0; // etc
-  min_bashing = 0;
-  min_cutting = 0;
-  min_stabbing = 0;
-}
-
-bool ma_technique::is_valid_player(player& u) {
+bool ma_requirements::is_valid_player(player& u) {
+  for (std::set<mabuff_id>::iterator it = req_buffs.begin();
+      it != req_buffs.end(); ++it) {
+    mabuff_id buff_id = *it;
+    if (!u.has_mabuff(*it)) return false;
+  }
   return ((unarmed_allowed && u.unarmed_attack()) || (melee_allowed && !u.unarmed_attack()))
     && u.skillLevel("melee") >= min_melee
     && u.skillLevel("unarmed") >= min_unarmed
@@ -246,21 +283,53 @@ bool ma_technique::is_valid_player(player& u) {
 }
 
 
+ma_technique::ma_technique() {
+
+  down_dur = 0;
+  stun_dur = 0;
+  knockback_dist = 0;
+  knockback_spread = 0; // adding randomness to knockback, like tec_throw
+
+  // offensive
+  disarms = false; // like tec_disarm
+  grabs = false; // like tec_grab
+  counters = false; // like tec_counter
+
+  miss_recovery = false; // allows free recovery from misses, like tec_feint
+  grab_break = false; // allows grab_breaks, like tec_break
+
+  flaming = false; // applies fire effects etc
+  quick = false; // moves discount based on attack speed, like tec_rapid
+
+  moves_discount = 0; // number of extra moves to give, like tec_rapid
+
+  hit = 0; // flat bonus to hit
+  bash = 0; // flat bonus to bash
+  cut = 0; // flat bonus to cut
+  pain = 0; // causes pain
+
+  bash_mult = 1.0f; // bash damage multiplier
+  cut_mult = 1.0f; // cut damage multiplier
+
+  //defensive
+  block = 0;
+
+  bash_resist = 0.0f; // multiplies bash by this (1 - amount)
+  cut_resist = 0.0f; // "" cut ""
+
+}
+
+bool ma_technique::is_valid_player(player& u) {
+  return reqs.is_valid_player(u);
+}
+
+
 
 
 ma_buff::ma_buff() {
 
-  unarmed_allowed = false; // does this bonus work when unarmed?
-  melee_allowed = false; // what about with a melee weapon?
-
   buff_duration = 2; // total length this buff lasts
   max_stacks = 1; // total number of stacks this buff can have
-
-  min_melee = 0; // minimum amount of unarmed to trigger this bonus
-  min_unarmed = 0; // minimum amount of unarmed to trigger this bonus
-  min_bashing = 0; // minimum amount of unarmed to trigger this bonus
-  min_cutting = 0; // minimum amount of unarmed to trigger this bonus
-  min_stabbing = 0; // minimum amount of unarmed to trigger this bonus
 
   dodges_bonus = 0; // extra dodges, like karate
   blocks_bonus = 0; // extra blocks, like karate
@@ -315,20 +384,8 @@ void ma_buff::apply_buff(std::vector<disease>& dVec) {
 }
 
 bool ma_buff::is_valid_player(player& u) {
-  for (std::set<mabuff_id>::iterator it = req_buffs.begin();
-      it != req_buffs.end(); ++it) {
-    mabuff_id buff_id = *it;
-    if (!u.has_mabuff(*it)) return false;
-  }
-  return ((unarmed_allowed && !u.is_armed()) || (melee_allowed && u.is_armed()))
-    && u.skillLevel("melee") >= min_melee
-    && u.skillLevel("unarmed") >= min_unarmed
-    && u.skillLevel("bashing") >= min_bashing
-    && u.skillLevel("cutting") >= min_cutting
-    && u.skillLevel("stabbing") >= min_stabbing
-  ;
+  return reqs.is_valid_player(u);
 }
-
 
 void ma_buff::apply_player(player& u) {
   u.dodges_left += dodges_bonus;
@@ -418,24 +475,26 @@ void martialart::apply_ondodge_buffs(player& u, std::vector<disease>& dVec) {
   simultaneous_add(u, ondodge_buffs, dVec);
 }
 
-bool martialart::has_technique(player& u, technique_id tech) {
-  for (std::vector<ma_technique>::iterator it = techniques.begin();
+bool martialart::has_technique(player& u, matec_id tec_id, game* g) {
+  for (std::set<matec_id>::iterator it = techniques.begin();
       it != techniques.end(); ++it) {
-    if (it->is_valid_player(u) && it->move.tech == tech) {
+    ma_technique tec = g->ma_techniques[*it];
+    if (tec.is_valid_player(u) && tec.id == tec_id) {
       return true;
     }
   }
   return false;
 }
 
-std::string martialart::melee_verb(technique_id tech, player& u) {
-  for (std::vector<ma_technique>::iterator it = techniques.begin();
+std::string martialart::melee_verb(matec_id tec_id, player& u, game* g) {
+  for (std::set<matec_id>::iterator it = techniques.begin();
       it != techniques.end(); ++it) {
-    if (it->move.tech == tech) {
+    ma_technique tec = g->ma_techniques[*it];
+    if (tec.id == tec_id) {
       if (u.is_npc())
-        return it->move.verb_npc;
+        return tec.verb_npc;
       else
-        return it->move.verb_you;
+        return tec.verb_you;
     }
   }
   return std::string("%1$s has bug program in %4$s!!!!");
@@ -445,6 +504,36 @@ std::string martialart::melee_verb(technique_id tech, player& u) {
 
 // Player stuff
 
+// technique
+std::vector<matec_id> player::get_all_techniques(game* g) {
+  std::vector<matec_id> tecs;
+  tecs.insert(tecs.end(), weapon.type->techniques.begin(), weapon.type->techniques.end());
+  tecs.insert(tecs.end(), g->martialarts[style_selected].techniques.begin(),
+      g->martialarts[style_selected].techniques.end());
+
+  return tecs;
+}
+
+// defensive technique-related
+bool player::has_miss_recovery_tec(game* g) {
+  std::vector<matec_id> techniques = get_all_techniques(g);
+  for (std::vector<matec_id>::iterator it = techniques.begin();
+      it != techniques.end(); ++it) {
+    if (g->ma_techniques[*it].miss_recovery == true)
+      return true;
+  }
+  return false;
+}
+
+bool player::has_grab_break_tec(game* g) {
+  std::vector<matec_id> techniques = get_all_techniques(g);
+  for (std::vector<matec_id>::iterator it = techniques.begin();
+      it != techniques.end(); ++it) {
+    if (g->ma_techniques[*it].grab_break == true)
+      return true;
+  }
+  return false;
+}
 // event handlers
 void player::ma_static_effects() {
   g->martialarts[style_selected].apply_static_buffs(*this, illness);
@@ -549,7 +638,7 @@ int player::mabuff_cut_bonus() {
   }
   return ret;
 }
-bool player::mabuff_throw_immune() {
+bool player::is_throw_immune() {
   for (std::vector<disease>::iterator it = illness.begin();
       it != illness.end(); ++it) {
     if (it->is_mabuff() &&

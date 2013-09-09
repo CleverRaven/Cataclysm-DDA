@@ -155,7 +155,10 @@ public:
  int mabuff_bash_bonus(); // martial arts bash damage bonus, applied after mult
  float mabuff_cut_mult(); // martial arts bash damage multiplier
  int mabuff_cut_bonus(); // martial arts bash damage bonus, applied after mult
- bool mabuff_throw_immune(); // martial arts throw immunity
+ bool is_throw_immune(); // martial arts throw immunity
+
+ bool has_miss_recovery_tec(game* g); // technique-based miss recovery, like tec_feint
+ bool has_grab_break_tec(game* g); // technique-based miss recovery, like tec_feint
 
  int base_damage(bool real_life = true, int stat = -999);
  int base_to_hit(bool real_life = true, int stat = -999);
@@ -168,12 +171,15 @@ public:
  int roll_stab_damage(monster *z, bool crit);
  int roll_stuck_penalty(monster *z, bool stabbing);
 
- technique_id pick_technique(game *g, monster *z, player *p,
+ std::vector<matec_id> get_all_techniques(game* g);
+
+ bool has_technique(matec_id tec, game *g);
+ matec_id pick_technique(game *g, monster *z, player *p,
                              bool crit, bool allowgrab);
- void perform_technique(technique_id technique, game *g, monster *z, player *p,
+ void perform_technique(ma_technique technique, game *g, monster *z, player *p,
                        int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
 
- technique_id pick_defensive_technique(game *g, monster *z, player *p);
+ma_technique pick_defensive_technique(game *g, monster *z, player *p);
 
  void perform_defensive_technique(technique_id technique, game *g, monster *z,
                                   player *p, body_part &bp_hit, int &side,
@@ -434,7 +440,6 @@ public:
  inventory inv;
  itype_id last_item;
  std::vector<item> worn;
- std::vector<itype_id> styles;
  std::vector<matype_id> ma_styles;
  matype_id style_selected;
 

@@ -7,6 +7,13 @@
 #include <vector>
 #include <map>
 
+typedef std::string matype_id;
+
+typedef std::string mabuff_id;
+
+typedef std::string matec_id;
+
+
 enum character_type {
  PLTYPE_CUSTOM,
  PLTYPE_RANDOM,
