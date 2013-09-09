@@ -456,7 +456,7 @@ void CheckMessages()
             }
             break;
 			case SDL_MOUSEMOTION:
-                if(((int)OPTIONS["HIDE_CURSOR"] == "show" || (int)OPTIONS["HIDE_CURSOR"] == "hidekb") &&
+                if((OPTIONS["HIDE_CURSOR"] == "show" || OPTIONS["HIDE_CURSOR"] == "hidekb") &&
                     !SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_ENABLE);
                 break;
 			case SDL_QUIT:
