@@ -182,7 +182,7 @@ struct itype
   phase = SOLID;
   volume = 0;
   weight = 0;
-  bigness_property_aspect = BIGNESS_ENGINE_NULL;
+  bigness_aspect = BIGNESS_ENGINE_NULL;
   corpse = NULL;
   melee_dam = 0;
   melee_cut = 0;
@@ -209,7 +209,7 @@ struct itype
   phase       = pphase;
   volume      = pvolume;
   weight      = pweight;
-  bigness_property_aspect = BIGNESS_ENGINE_NULL;
+  bigness_aspect = BIGNESS_ENGINE_NULL;
   corpse      = NULL;
   melee_dam   = pmelee_dam;
   melee_cut   = pmelee_cut;
