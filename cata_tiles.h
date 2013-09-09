@@ -222,8 +222,6 @@ class cata_tiles
             sight_impaired,
             bionight_bionic_active;
 
-
-        tile_rotation *tile_rotations;
 };
 
 #endif // CATA_TILES_H
