@@ -3803,15 +3803,19 @@ void iuse::portable_game(game *g, player *p, item *it, bool t)
         as_m.text = _("What do you want to play?");
         as_m.entries.push_back(uimenu_entry(1, true, '1',_("Robot finds Kitten") ));
         as_m.entries.push_back(uimenu_entry(2, true, '2', _("S N A K E") ));
+        as_m.entries.push_back(uimenu_entry(3, true, '3', _("Sokoban") ));
         as_m.query();
 
         switch (as_m.ret) {
-        case 1:
-            loaded_software = "robot_finds_kitten";
-            break;
-        case 2:
-            loaded_software = "snake_game";
-            break;
+            case 1:
+                loaded_software = "robot_finds_kitten";
+                break;
+            case 2:
+                loaded_software = "snake_game";
+                break;
+            case 3:
+                loaded_software = "sokoban_game";
+                break;
         }
 
         //Play in 15-minute chunks
