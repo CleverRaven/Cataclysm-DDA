@@ -469,7 +469,7 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
     if (id <= 0 || id >= num_vparts) {
         return false;
     }
-    bool n3ar = parts.size() < 1 || vpart_list[id].has_flag("INTERNAL")
+    bool n3ar = parts.empty() || vpart_list[id].has_flag("INTERNAL")
                                  || vpart_list[id].has_flag("OVER"); // first and internal parts needs no mount point
     if (!n3ar) {
         for (int i = 0; i < 4; i++)
@@ -477,7 +477,7 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
             int ndx = i < 2? (i == 0? -1 : 1) : 0;
             int ndy = i < 2? 0 : (i == 2? - 1: 1);
             std::vector<int> parts_n3ar = parts_at_relative (dx + ndx, dy + ndy);
-            if (parts_n3ar.size() < 1) {
+            if (parts_n3ar.empty()) {
                 continue;
             }
             if (part_flag(parts_n3ar[0], "MOUNT_POINT"))
@@ -493,7 +493,7 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
     }
 
     std::vector<int> parts_here = parts_at_relative (dx, dy);
-    if (parts_here.size() < 1)
+    if (parts_here.empty())
     {
         int res = vpart_list[id].has_flag("EXTERNAL");
         return res; // can be mounted if first and external
@@ -587,7 +587,7 @@ bool vehicle::can_unmount (int p)
                 int jdx = j < 2? (j == 0? -1 : 1) : 0;
                 int jdy = j < 2? 0 : (j == 2? - 1: 1);
                 std::vector<int> pc = parts_at_relative (dx + ndx + jdx, dy + ndy + jdy);
-                if (pc.size() > 0 && part_with_feature (pc[0], "MOUNT_POINT") >= 0)
+                if (!pc.empty() && part_with_feature (pc[0], "MOUNT_POINT") >= 0)
                     cnt++;
             }
             if (cnt < 2) {
