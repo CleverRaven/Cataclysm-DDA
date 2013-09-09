@@ -399,7 +399,6 @@ void dis_remove_memorial(game* g, dis_type type_string) {
 }
 
 void dis_effect(game *g, player &p, disease &dis) {
-    std::stringstream sTemp;
     mon_id montype;
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
@@ -2261,11 +2260,12 @@ void handle_deliriant(game* g, player& p, disease& dis) {
                 default:
                     npcText = "\"Huh?  What was that?\"";
                     break;
-                int loudness = 20 + p.str_cur - p.int_cur;
-                loudness = (loudness > 5 ? loudness : 5);
-                loudness = (loudness < 30 ? loudness : 30);
-                g->sound(p.posx, p.posy, loudness, _(npcText.c_str()));
+
             }
+            int loudness = 20 + p.str_cur - p.int_cur;
+            loudness = (loudness > 5 ? loudness : 5);
+            loudness = (loudness < 30 ? loudness : 30);
+            g->sound(p.posx, p.posy, loudness, _(npcText.c_str()));
         }
     } else if (dis.duration == peakTime) {
         // Visuals start
@@ -2364,7 +2364,7 @@ void handle_insect_parasites(game* g, player& p, disease& dis) {
                 }
             }
         }
-        if (valid_spawns.size() >= 1) {
+        if (!valid_spawns.empty()) {
             p.rem_disease("dermatik"); // No more infection!  yay.
             g->add_msg_player_or_npc( &p,
                 _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
@@ -2372,7 +2372,7 @@ void handle_insect_parasites(game* g, player& p, disease& dis) {
 
             p.moves -= 600;
             monster grub(g->mtypes[mon_dermatik_larva]);
-            while (valid_spawns.size() > 0 && num_insects > 0) {
+            while (!valid_spawns.empty() && num_insects > 0) {
                 num_insects--;
                 // Hurt the player
                 body_part burst = bp_torso;
