@@ -612,7 +612,9 @@ void veh_interact::do_drain(int reason)
 void veh_interact::do_rename(int reason)
 {
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
-    (veh->name = name);
+    if(name.length() > 0) {
+        (veh->name = name);
+    }
     werase(w_stats);
     werase(w_grid);
     display_stats ();
