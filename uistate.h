@@ -105,7 +105,6 @@ struct uistatedata {
   };
 
   bool load(picojson::value parsed) {
-      std::string out="";
       if(parsed.is<picojson::object>() ) {
           const picojson::object& data = parsed.get<picojson::object>();
 
