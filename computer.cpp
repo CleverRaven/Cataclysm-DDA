@@ -104,7 +104,7 @@ void computer::use(game *g)
         case 'Y':
             if (!hack_attempt(g, &(g->u)))
             {
-                if (failures.size() == 0)
+                if (failures.empty())
                 {
                     query_any(_("Maximum login attempts exceeded. Press any key..."));
                     shutdown_terminal();
@@ -241,7 +241,6 @@ void computer::load_data(std::string data)
     options.clear();
     failures.clear();
     std::stringstream dump;
-    std::string buffer;
     dump << data;
 
     // Pull in name and security
@@ -442,7 +441,7 @@ void computer::activate_function(game *g, computer_action action)
                 }
             }
         }
-        if (cascade_points.size() == 0)
+        if (cascade_points.empty())
         {
             g->resonance_cascade(g->u.posx, g->u.posy);
         }
