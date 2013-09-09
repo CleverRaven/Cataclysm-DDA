@@ -3639,15 +3639,15 @@ void map::forget_traps(int gridx, int gridy)
 void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
 {
 // Special case of 0-shift; refresh the map
- if (sx == 0 && sy == 0) {
-  return; // Skip this?
- }
+    if (sx == 0 && sy == 0) {
+        return; // Skip this?
+    }
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
- if (g->u.in_vehicle && (sx !=0 || sy != 0)) {
-  g->u.posx -= sx * SEEX;
-  g->u.posy -= sy * SEEY;
- }
+    if (g->u.in_vehicle && (sx !=0 || sy != 0)) {
+        g->u.posx -= sx * SEEX;
+        g->u.posy -= sy * SEEY;
+    }
 
     // Forget about traps in submaps that are being unloaded.
     if (sx != 0) {
@@ -3663,78 +3663,58 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
         }
     }
 
- // Clear vehicle list and rebuild after shift
- clear_vehicle_cache();
- vehicle_list.clear();
+// Clear vehicle list and rebuild after shift
+    clear_vehicle_cache();
+    vehicle_list.clear();
 // Shift the map sx submaps to the right and sy submaps down.
 // sx and sy should never be bigger than +/-1.
 // wx and wy are our position in the world, for saving/loading purposes.
- if (sx >= 0) {
-  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-   if (sy >= 0) {
-    for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-/*
-     if (gridx < sx || gridy < sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+    if (sx >= 0) {
+        for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
+            if (sy >= 0) {
+                for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+                    if (gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                                  gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            } else { // sy < 0; work through it backwards
+                for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
+                    if (gridx + sx < my_MAPSIZE && gridy + sy >= 0) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                                  gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            }
+        }
+    } else { // sx < 0; work through it backwards
+        for (int gridx = my_MAPSIZE - 1; gridx >= 0; gridx--) {
+            if (sy >= 0) {
+                for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+                    if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                        gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            } else { // sy < 0; work through it backwards
+                for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
+                    if (gridx + sx >= 0 && gridy + sy >= 0) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                                  gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            }
+        }
     }
-   } else { // sy < 0; work through it backwards
-    for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
-/*
-     if (gridx < sx || gridy - my_MAPSIZE >= sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx < my_MAPSIZE && gridy + sy >= 0) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
-    }
-   }
-  }
- } else { // sx < 0; work through it backwards
-  for (int gridx = my_MAPSIZE - 1; gridx >= 0; gridx--) {
-   if (sy >= 0) {
-    for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-/*
-     if (gridx - my_MAPSIZE >= sx || gridy < sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
-    }
-   } else { // sy < 0; work through it backwards
-    for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
-/*
-     if (gridx - my_MAPSIZE >= sx || gridy - my_MAPSIZE >= sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx >= 0 && gridy + sy >= 0) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
-    }
-   }
-  }
- }
- reset_vehicle_cache();
+    reset_vehicle_cache();
 }
 
 // saven saves a single nonant.  worldx and worldy are used for the file
