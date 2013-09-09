@@ -3559,6 +3559,36 @@ void iuse::molotov_lit(game *g, player *p, item *it, bool t)
     }
 }
 
+void iuse::ice_molotov(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p,_("You remove the vial from its casing."));
+ p->moves -= 150;
+ it->make(g->itypes["ice_molotov_lit"]);
+ it->charges = 1;
+ it->bday = int(g->turn);
+ it->active = true;
+}
+
+void iuse::ice_molotov_lit(game *g, player *p, item *it, bool t)
+{
+ int age = int(g->turn) - it->bday;
+ if (!p->has_item(it)) {
+  point pos = g->find_item(it);
+  it->charges = -1;
+  for (int x = pos.x - 1; x <= pos.x + 1; x++) {
+   for (int y = pos.y - 1; y <= pos.y + 1; y++)
+    g->m.add_field(g, x, y, fd_ice_floor, 3);
+  }
+ } else if (age >= 5) { // More than 5 turns old = chance of going out
+  if (rng(1, 50) < age) {
+   g->add_msg_if_player(p,_("The liquid nitrogen evaporates."));
+   it->active = false;
+   it->make(g->itypes["canister_empty"]);
+    // BUG I can't make the canister not have charges...
+  }
+ }
+}
+
 void iuse::dynamite(game *g, player *p, item *it, bool t)
 {
  if (!p->use_charges_if_avail("fire", 1))

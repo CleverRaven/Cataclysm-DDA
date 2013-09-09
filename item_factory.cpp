@@ -145,6 +145,8 @@ void Item_factory::init(){
     iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
     iuse_function_list["MOLOTOV"] = &iuse::molotov;
     iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
+    iuse_function_list["ICE_MOLOTOV"] = &iuse::ice_molotov;
+    iuse_function_list["ICE_MOLOTOV_LIT"] = &iuse::ice_molotov_lit;
     iuse_function_list["MATCHBOMB"] = &iuse::matchbomb;
     iuse_function_list["MATCHBOMB_ACT"] = &iuse::matchbomb_act;
     iuse_function_list["DYNAMITE"] = &iuse::dynamite;

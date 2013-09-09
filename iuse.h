@@ -129,6 +129,8 @@ class iuse
   void acidbomb_act	(game *g, player *p, item *it, bool t);
   void molotov		(game *g, player *p, item *it, bool t);
   void molotov_lit	(game *g, player *p, item *it, bool t);
+  void ice_molotov		(game *g, player *p, item *it, bool t);
+  void ice_molotov_lit	(game *g, player *p, item *it, bool t);
   void matchbomb		(game *g, player *p, item *it, bool t);
   void matchbomb_act	(game *g, player *p, item *it, bool t);
   void dynamite		(game *g, player *p, item *it, bool t);
