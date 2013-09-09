@@ -107,7 +107,7 @@ void trapfunc::tripwire(game *g, int x, int y)
     valid.push_back(point(j, k));
   }
  }
- if (valid.size() > 0) {
+ if (!valid.empty()) {
   int index = rng(0, valid.size() - 1);
   g->u.posx = valid[index].x;
   g->u.posy = valid[index].y;
@@ -695,7 +695,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
        safe.push_back(point(i, j));
      }
     }
-    if (safe.size() == 0) {
+    if (safe.empty()) {
      g->add_msg(_("There's nowhere to pull yourself to, and you sink!"));
      g->u.use_amount("rope_30", 1);
      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
