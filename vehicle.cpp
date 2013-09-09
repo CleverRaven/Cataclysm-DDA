@@ -1388,7 +1388,6 @@ void vehicle::thrust (int thd)
     if (velocity == 0)
     {
         turn_dir = face.dir();
-        last_turn = 0;
         move = face;
         of_turn_carry = 0;
         last_turn = 0;
