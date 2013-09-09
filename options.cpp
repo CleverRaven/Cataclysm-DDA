@@ -178,11 +178,6 @@ void initOptions() {
                                              false
                                             );
 
-    OPTIONS["REVIVE_ZOMBIES"] =         cOpt("debug", _("Revive zombies"),
-                                             _("Allow zombies to revive after a certain amount of time."),
-                                             true
-                                            );
-
     OPTIONS["SEASON_LENGTH"] =          cOpt("debug", _("Season length"),
                                              _("Season length, in days."),
                                              14, 127, 14
@@ -236,11 +231,6 @@ void initOptions() {
     OPTIONS["DANGEROUS_PICKUPS"] =      cOpt("general", _("Dangerous pickups"),
                                              _("If false will cause player to drop new items that cause them to exceed the weight limit."),
                                              false
-                                            );
-
-    OPTIONS["SORT_CRAFTING"] =          cOpt("interface", _("Sort Crafting menu"),
-                                             _("If true, the crafting menus will display recipes that you can craft before other recipes"),
-                                             true
                                             );
 
     OPTIONS["SHIFT_LIST_ITEM_VIEW"] =   cOpt("interface", _("Shift list item view"),
