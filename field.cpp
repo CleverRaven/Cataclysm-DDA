@@ -210,7 +210,7 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
     }
     // Then, spread to a nearby point.
     int current_density = cur->getFieldDensity();
-    if (current_density > 1 && cur->getFieldAge() > 0 && spread.size() > 0) {
+    if (current_density > 1 && cur->getFieldAge() > 0 && !spread.empty()) {
         point p = spread[ rng( 0, spread.size() - 1 ) ];
         field_entry *candidate_field = m->field_at(p.x, p.y).findField( curtype );
         int candidate_density = candidate_field ? candidate_field->getFieldDensity() : 0;
@@ -756,7 +756,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                         }
                                     }
                                 }
-                                if (valid.size() == 0) {    // Spread to adjacent space, then
+                                if (valid.empty()) {    // Spread to adjacent space, then
                                     int px = x + rng(-1, 1), py = y + rng(-1, 1);
                                     if (move_cost(px, py) > 0 && field_at(px, py).findField(fd_electricity) &&
                                         field_at(px, py).findField(fd_electricity)->getFieldDensity() < 3) {
@@ -768,7 +768,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                     }
                                     cur->setFieldDensity(cur->getFieldDensity() - 1);
                                 }
-                                while (valid.size() > 0 && cur->getFieldDensity() > 1) {
+                                while (!valid.empty() && cur->getFieldDensity() > 1) {
                                     int index = rng(0, valid.size() - 1);
                                     add_field(g, valid[index], fd_electricity, 1, cur->getFieldAge() + 1);
                                     cur->setFieldDensity(cur->getFieldDensity() - 1);
@@ -906,9 +906,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
                 } // switch (curtype)
 
-                bool should_dissipate = false;
                 cur->setFieldAge(cur->getFieldAge() + 1);
                 if (fieldlist[cur->getFieldType()].halflife > 0) {
+                    bool should_dissipate = false;
                     if (cur->getFieldAge() > 0 &&
                         dice(2, cur->getFieldAge()) > fieldlist[cur->getFieldType()].halflife) {
                         cur->setFieldAge(0);
@@ -924,7 +924,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                     }
                 }
                 if (!skipIterIncr)
-                    it++;
+                    ++it;
                 skipIterIncr = false;
             }
         }
@@ -1173,7 +1173,7 @@ void map::step_in_field(int x, int y, game *g)
             field_list_it = curfield.removeField( fd_acid_vent );
             continue;
         }
-        field_list_it++;
+        ++field_list_it;
     }
 
     if(no_rubble) {
@@ -1399,7 +1399,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             break;
 
         }
-        field_list_it++;
+        ++field_list_it;
     }
     if (dam > 0) {
         z->hurt(dam);
@@ -1629,13 +1629,13 @@ Returns the next iterator or field_list.end().
 std::map<field_id, field_entry*>::iterator field::removeField(const field_id field_to_remove){
     std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_remove);
     std::map<field_id, field_entry*>::iterator next = it;
-    next++;
+    ++next;
     if(it != field_list.end()) {
         field_entry* tmp = it->second;
         delete tmp;
         field_list.erase(it);
         it = next;
-        if(field_list.size() > 0){
+        if(!field_list.empty()){
             draw_symbol = field_list.begin()->second->getFieldType();
         } else {
             draw_symbol = fd_null;
@@ -1680,7 +1680,7 @@ std::map<field_id, field_entry*>::iterator field::replaceField(field_id old_fiel
 {
     std::map<field_id, field_entry*>::iterator it = field_list.find(old_field);
     std::map<field_id, field_entry*>::iterator next = it;
-    next++;
+    ++next;
 
     if(it != field_list.end()) {
         field_entry* tmp = it->second;
