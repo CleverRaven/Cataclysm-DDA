@@ -3,6 +3,7 @@
 #include "output.h"
 #include "debug.h"
 #include "keypress.h"
+#include "translations.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -14,6 +15,280 @@ bool use_tiles;
 std::map<std::string, cOpt> OPTIONS;
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
+
+
+//Default constructor
+cOpt::cOpt() {
+    sType = "VOID";
+    sPage = "";
+}
+
+//string constructor
+cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const std::string sItemsIn, std::string sDefaultIn) {
+    sPage = sPageIn;
+    sMenuText = sMenuTextIn;
+    sTooltip = sTooltipIn;
+    sType = "string";
+
+    std::stringstream ssTemp(sItemsIn);
+    std::string sItem;
+    while (std::getline(ssTemp, sItem, ',')) {
+        vItems.push_back(sItem);
+    }
+
+    if (getItemPos(sDefaultIn) != -1) {
+        sDefaultIn = vItems[0];
+    }
+
+    sDefault = sDefaultIn;
+    sSet = sDefaultIn;
+}
+
+//bool constructor
+cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const bool bDefaultIn) {
+    sPage = sPageIn;
+    sMenuText = sMenuTextIn;
+    sTooltip = sTooltipIn;
+    sType = "bool";
+
+    bDefault = bDefaultIn;
+    bSet = bDefaultIn;
+}
+
+//int constructor
+cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const int iMinIn, int iMaxIn, int iDefaultIn) {
+    sPage = sPageIn;
+    sMenuText = sMenuTextIn;
+    sTooltip = sTooltipIn;
+    sType = "int";
+
+    if (iMinIn > iMaxIn) {
+        iMaxIn = iMinIn;
+    }
+
+    iMin = iMinIn;
+    iMax = iMaxIn;
+
+    if (iDefaultIn < iMinIn || iDefaultIn > iMaxIn) {
+        iDefaultIn = iMinIn ;
+    }
+
+    iDefault = iDefaultIn;
+    iSet = iDefaultIn;
+}
+
+//float constructor
+cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+     const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn) {
+    sPage = sPageIn;
+    sMenuText = sMenuTextIn;
+    sTooltip = sTooltipIn;
+    sType = "float";
+
+    if (fMinIn > fMaxIn) {
+        fMaxIn = fMinIn;
+    }
+
+    fMin = fMinIn;
+    fMax = fMaxIn;
+    fStep = fStepIn;
+
+    if (fDefaultIn < fMinIn || fDefaultIn > fMaxIn) {
+        fDefaultIn = fMinIn ;
+    }
+
+    fDefault = fDefaultIn;
+    fSet = fDefaultIn;
+}
+
+//helper functions
+std::string cOpt::getPage() {
+    return sPage;
+}
+
+std::string cOpt::getMenuText() {
+    return sMenuText;
+}
+
+std::string cOpt::getTooltip() {
+    return sTooltip;
+}
+
+std::string cOpt::getType() {
+    return sType;
+}
+
+std::string cOpt::getValue() {
+    if (sType == "string") {
+        return sSet;
+
+    } else if (sType == "bool") {
+        return (bSet) ? "True" : "False";
+
+    } else if (sType == "int") {
+        std::stringstream ssTemp;
+        ssTemp << iSet;
+        return ssTemp.str();
+
+    } else if (sType == "float") {
+        std::stringstream ssTemp;
+        ssTemp.precision(1);
+        ssTemp << std::fixed << fSet;
+        return ssTemp.str();
+    }
+
+    return "";
+}
+
+std::string cOpt::getDefaultText() {
+    if (sType == "string") {
+        std::string sItems = "";
+        for (int i = 0; i < vItems.size(); i++) {
+            if (sItems != "") {
+                sItems += ", ";
+            }
+            sItems += vItems[i];
+        }
+        return string_format(_("Default: %s - Values: %s"), sDefault.c_str(), sItems.c_str());
+
+    } else if (sType == "bool") {
+        return (bDefault) ? _("Default: True") : _("Default: False");
+
+    } else if (sType == "int") {
+        return string_format(_("Default: %d - Min: %d, Max %d"), iDefault, iMin, iMax);
+
+    } else if (sType == "float") {
+        return string_format(_("Default: %f - Min: %f, Max %f"), fDefault, fMin, fMax);
+    }
+
+    return "";
+}
+
+int cOpt::getItemPos(const std::string sSearch) {
+    if (sType == "string") {
+        for (int i = 0; i < vItems.size(); i++) {
+            if (vItems[i] == sSearch) {
+                return i;
+            }
+        }
+    }
+
+    return -1;
+}
+
+//set to next item
+void cOpt::setNext() {
+    if (sType == "string") {
+        int iNext = getItemPos(sSet)+1;
+        if (iNext >= vItems.size()) {
+            iNext = 0;
+        }
+
+        sSet = vItems[iNext];
+
+    } else if (sType == "bool") {
+        bSet = !bSet;
+
+    } else if (sType == "int") {
+        iSet++;
+        if (iSet > iMax) {
+            iSet = iMin;
+        }
+
+    } else if (sType == "float") {
+        fSet += fStep;
+        if (fSet > fMax) {
+            fSet = fMin;
+        }
+    }
+}
+
+//set to prev item
+void cOpt::setPrev() {
+    if (sType == "string") {
+        int iPrev = getItemPos(sSet)-1;
+        if (iPrev < 0) {
+            iPrev = vItems.size()-1;
+        }
+
+        sSet = vItems[iPrev];
+
+    } else if (sType == "bool") {
+        bSet = !bSet;
+
+    } else if (sType == "int") {
+        iSet--;
+        if (iSet < iMin) {
+            iSet = iMax;
+        }
+
+    } else if (sType == "float") {
+        fSet -= fStep;
+        if (fSet < fMin) {
+            fSet = fMax;
+        }
+    }
+}
+
+//set value
+void cOpt::setValue(std::string sSetIn) {
+    if (sType == "string") {
+        if (getItemPos(sSetIn) != -1) {
+            sSet = sSetIn;
+        }
+
+    } else if (sType == "bool") {
+        bSet = (sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t");
+
+    } else if (sType == "int") {
+        iSet = atoi(sSetIn.c_str());
+
+        if ( iSet < iMin || iSet > iMax ) {
+            iSet = iDefault;
+        }
+
+    } else if (sType == "float") {
+        fSet = atof(sSetIn.c_str());
+
+        if ( fSet < fMin || fSet > fMax ) {
+            fSet = fDefault;
+        }
+    }
+}
+
+//Set default class behaviour to float
+cOpt::operator float() const {
+    if (sType == "string") {
+        return (sSet != "" && sSet == sDefault) ? 1.0 : 0.0;
+
+    } else if (sType == "bool") {
+        return (bSet) ? 1.0 : 0.0;
+
+    } else if (sType == "int") {
+        return (float)iSet;
+
+    } else if (sType == "float") {
+        return fSet;
+    }
+
+    return 0.0;
+}
+
+// if (class == "string")
+bool cOpt::operator==(const std::string sCompare) const {
+    if ( sType == "string" && sSet == sCompare ) {
+        return true;
+    }
+
+    return false;
+}
+
+// if (class != "string")
+bool cOpt::operator!=(const std::string sCompare) const {
+    return !(*this == sCompare);
+}
+
+
 
 void initOptions() {
     vPages.clear();
@@ -365,7 +640,7 @@ void game::show_options()
 
         wrefresh(w_options_header);
 
-        fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #Default: " + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
+        fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #" + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
         wrefresh(w_options_tooltip);
 
         wrefresh(w_options);
@@ -492,10 +767,11 @@ void save_options()
     for(int j = 0; j < vPages.size(); j++) {
         for(int i = 0; i < mPageItems[j].size(); i++) {
             fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
-            fout << "#Default: " << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
+            fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
             fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
         }
     }
 
     fout.close();
 }
+
