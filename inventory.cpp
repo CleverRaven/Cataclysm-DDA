@@ -308,11 +308,13 @@ void inventory::update_cache_with_item(item& newit) {
         std::string type = i->first;
         std::vector<char>& preferred_invlets = i->second;
 
-        // Erase the used invlet from all caches.
-        for(int ind=0; ind < preferred_invlets.size(); ind++) {
-            if(preferred_invlets[ind] == newit.invlet) {
-                preferred_invlets.erase(preferred_invlets.begin()+ind);
-                ind--;
+        if( newit.typeId() != type){
+            // Erase the used invlet from all caches.
+            for(int ind=0; ind < preferred_invlets.size(); ind++) {
+                if(preferred_invlets[ind] == newit.invlet) {
+                    preferred_invlets.erase(preferred_invlets.begin()+ind);
+                    ind--;
+                }
             }
         }
     }
