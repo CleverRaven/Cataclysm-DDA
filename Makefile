@@ -171,22 +171,31 @@ ifdef SDL
 		-F$(HOME)/Library/Frameworks \
 		-I/Library/Frameworks/SDL.framework/Headers \
 		-I$(HOME)/Library/Frameworks/SDL.framework/Headers \
+		-I/Library/Frameworks/SDL_image.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL_image.framework/Headers \
 		-I/Library/Frameworks/SDL_ttf.framework/Headers \
 		-I$(HOME)/Library/Frameworks/SDL_ttf.framework/Headers
       LDFLAGS += -F/Library/Frameworks \
 		 -F$(HOME)/Library/Frameworks \
-		 -framework SDL -framework SDL_ttf -framework Cocoa
+		 -framework SDL -framework SDL_image -framework SDL_ttf -framework Cocoa
       CXXFLAGS += $(OSX_INC)
-    else
+    else # libsdl build
       DEFINES += -DOSX_SDL_LIBS
-      CXXFLAGS += $(shell sdl-config --cflags)
+      # handle #include "SDL/SDL.h" and "SDL.h"
+      CXXFLAGS += $(shell sdl-config --cflags) \
+		  -I$(shell dirname $(shell sdl-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += $(shell sdl-config --libs) -lSDL_ttf
+      ifdef TILES
+	LDFLAGS += -lSDL_image
+      endif
     endif
-  else
+  else # not osx
     LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+    ifdef TILES
+      LDFLAGS += -lSDL_image
+    endif
   endif
   ifdef TILES
-    LDFLAGS += -lSDL_image
     DEFINES += -DSDLTILES
   else
     DEFINES += -DTILES
@@ -235,7 +244,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
 endif
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
-ifdef TILES
+ifdef SDL
   ifeq ($(NATIVE),osx)
     OBJS += $(ODIR)/SDLMain.o
   endif
