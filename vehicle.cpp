@@ -251,7 +251,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
                parts[p].hp= 0;
             else
                parts[p].hp= ((float)(roll-broken) / (unhurt-broken)) * part_info(p).durability;
-         }
+            }
          else // new.
          {
             parts[p].hp= part_info(p).durability;
@@ -269,6 +269,22 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
          }
         }
     }
+}
+
+/**
+ * Smashes up a vehicle that has already been placed; used for generating
+ * very damaged vehicles.
+ */
+void vehicle::smash()
+{
+  for (int part_index = 0; part_index < parts.size(); part_index++) {
+    //Drop by 10-100% of max HP
+    int damage = (int) (dice(1, 10) * 0.1 * part_info(part_index).durability);
+    parts[part_index].hp -= damage;
+    if(parts[part_index].hp < 0) {
+      parts[part_index].hp = 0;
+    }
+  }
 }
 
 std::string vehicle::use_controls()

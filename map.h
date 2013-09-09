@@ -307,6 +307,10 @@ class map
 // Radiation
  int& radiation(const int x, const int y);	// Amount of radiation at (x, y);
 
+// Temperature
+ int& temperature(const int x, const int y);    // Temperature for submap
+ void set_temperature(const int x, const int y, const int temperature); // Set temperature for all four submap quadrants
+
 // Items
  std::vector<item>& i_at(int x, int y);
  item water_from(const int x, const int y);
@@ -416,6 +420,7 @@ protected:
  field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
  int nulrad;	// OOB &radiation()
+ int null_temperature;  // Because radiation does it too
 
  std::vector <trap*> *traps;
 
@@ -434,6 +439,7 @@ private:
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
+ vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
