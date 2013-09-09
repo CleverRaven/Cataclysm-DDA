@@ -867,7 +867,6 @@ void game::process_activity()
      reading = dynamic_cast<it_book*>(u.inv.item_by_letter(u.activity.invlet).type);
 
     if (reading->fun != 0) {
-     std::stringstream morale_text;
      u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, 60, 30,
                   true, reading);
     }
@@ -875,9 +874,7 @@ void game::process_activity()
     no_recipes = true;
     if (reading->recipes.size() > 0)
     {
-        bool recipe_learned = false;
-
-        recipe_learned = u.try_study_recipe(this, reading);
+        bool recipe_learned = u.try_study_recipe(this, reading);
         if (!u.studied_all_recipes(reading))
         {
             no_recipes = false;
@@ -1289,7 +1286,6 @@ npc* game::find_npc(int id)
 }
 
 int game::kill_count(mon_id mon){
- std::vector<mtype *> types;
  for (int i = 0; i < num_monsters; i++) {
   if (mtypes[i]-> id == mon)
    return kills[i];
@@ -1946,7 +1942,6 @@ bool game::handle_action()
   case ACTION_INVENTORY: {
    int cMenu = ' ';
    do {
-     const std::string sSpaces = "                              ";
      char chItem = inv(_("Inventory:"));
      cMenu=inventory_item_menu(chItem);
    } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=' );
@@ -2854,9 +2849,9 @@ void game::delete_save()
       SetCurrentDirectory(Buffer);
 #else
      DIR *save_dir = opendir("save");
-     struct dirent *save_dirent = NULL;
      if(save_dir != NULL && 0 == chdir("save"))
      {
+      struct dirent *save_dirent = NULL;
       while ((save_dirent = readdir(save_dir)) != NULL)
        (void)unlink(save_dirent->d_name);
       (void)chdir("..");
@@ -5470,13 +5465,13 @@ void game::resonance_cascade(int x, int y)
      for (int l = j - 1; l <= j + 1; l++) {
       field_id type;
       switch (rng(1, 7)) {
-       case 1: type = fd_blood;
-       case 2: type = fd_bile;
+       case 1: type = fd_blood; break;
+       case 2: type = fd_bile; break;
        case 3:
-       case 4: type = fd_slime;
-       case 5: type = fd_fire;
+       case 4: type = fd_slime; break;
+       case 5: type = fd_fire; break;
        case 6:
-       case 7: type = fd_nuke_gas;
+       case 7: type = fd_nuke_gas; break;
       }
       if (!one_in(3))
 	   m.add_field(this, k, l, type, 3);
@@ -5667,7 +5662,7 @@ void game::remove_zombie(const int idx)
     // Fix indices in z_at for any zombies that were just moved down 1 place.
     for (std::map<point, int>::iterator iter = z_at.begin(); iter != z_at.end(); iter++) {
         if (iter->second > idx) {
-            iter->second--;
+            --iter->second;
         }
     }
 }
@@ -6748,7 +6743,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     int iLastX = 0;
     int iLastY = 0;
 
-    for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); p_it++) {
+    for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); ++p_it) {
         if (p_it->y >= u.posy - iSearchY && p_it->y <= u.posy + iSearchY &&
             u_see(p_it->x,p_it->y) &&
             (!m.has_flag(container, p_it->x, p_it->y) ||
@@ -7108,7 +7103,6 @@ void game::list_items()
             iFilter = ground_items.size() - filtered_items.size();
             iActiveX = 0;
             iActiveY = 0;
-            std::string sActiveItemName;
             item activeItem;
             std::stringstream sText;
             bool high = true;
@@ -7136,7 +7130,6 @@ void game::list_items()
                         iActiveX = iter->vIG[iThisPage].x;
                         iActiveY = iter->vIG[iThisPage].y;
 
-                        sActiveItemName = iter->example.tname(this);
                         activeItem = iter->example;
                     }
 
@@ -7411,8 +7404,7 @@ void game::pickup(int posx, int posy, int min)
  const int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "Narrow");
 
  // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
- int maxmaxitems = TERMY;
- maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
+ int maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
 
  int itemsH = 12;
  int pickupBorderRows = 3;
@@ -9858,7 +9850,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
 
     tileray tdir(dir);
     std::string sname, snd;
-    if (p)
+    if (is_player)
     {
         if (is_u)
             sname = std::string (_("You are"));
