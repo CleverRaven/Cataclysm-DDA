@@ -20,13 +20,12 @@ std::vector<bionic_id> unpowered_bionics;
 void bionics_install_failure(game *g, player *u, it_bionic* type, int success);
 
 bionic_data::bionic_data(std::string new_name, bool new_power_source, bool new_activated,
-                          int new_power_cost, int new_charge_time, std::string new_description, bool new_faulty){
+                          int new_power_cost, int new_charge_time, std::string new_description, bool new_faulty) : description(new_description){
    name = new_name;
    power_source = new_power_source;
    activated = new_activated;
    power_cost = new_power_cost;
    charge_time = new_charge_time;
-   description = new_description;
    faulty = new_faulty;
 }
 
@@ -92,7 +91,7 @@ void player::power_bionics(game *g)
    active.push_back(my_bionics[i]);
  }
  nc_color type;
- if (passive.size() > 0) {
+ if (!passive.empty()) {
   mvwprintz(wBio, 3, 1, c_ltblue, _("Passive:"));
   for (int i = 0; i < passive.size(); i++) {
    if (bionics[passive[i].id]->power_source)
@@ -103,7 +102,7 @@ void player::power_bionics(game *g)
    mvwprintz(wBio, 4 + i, 3, type, bionics[passive[i].id]->name.c_str());
   }
  }
- if (active.size() > 0) {
+ if (!active.empty()) {
   mvwprintz(wBio, 3, 33, c_ltblue, _("Active:"));
   for (int i = 0; i < active.size(); i++) {
    if (active[i].powered && !bionics[active[i].id]->power_source)
@@ -215,8 +214,7 @@ void player::activate_bionic(int b, game *g)
  std::vector<point> traj;
  std::vector<std::string> good;
  std::vector<std::string> bad;
- WINDOW* w;
- int dirx, diry, t, l, index;
+ int dirx, diry;
  item tmp_item;
 
  if(bio.id == "bio_painkiller"){
@@ -260,7 +258,7 @@ void player::activate_bionic(int b, game *g)
  }
 // TODO: More stuff here (and bio_blood_filter)
  else if(bio.id == "bio_blood_anal"){
-  w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 10+((TERMX > 80) ? (TERMX-80)/2 : 0));
+  WINDOW* w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 10+((TERMX > 80) ? (TERMX-80)/2 : 0));
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
   if (has_disease("fungus"))
@@ -301,7 +299,7 @@ void player::activate_bionic(int b, game *g)
    good.push_back(_("Antihistamines"));
   if (has_disease("adrenaline"))
    good.push_back(_("Adrenaline Spike"));
-  if (good.size() == 0 && bad.size() == 0)
+  if (good.empty() && bad.empty())
    mvwprintz(w, 1, 1, c_white, _("No effects."));
   else {
    for (int line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
@@ -427,6 +425,7 @@ void player::activate_bionic(int b, game *g)
   for (int i = posx - 10; i <= posx + 10; i++) {
    for (int j = posy - 10; j <= posy + 10; j++) {
     if (g->m.i_at(i, j).size() > 0) {
+     int t; //not sure why map:sees really needs this, but w/e
      if (g->m.sees(i, j, posx, posy, -1, t))
       traj = line_to(i, j, posx, posy, t);
      else
@@ -435,10 +434,11 @@ void player::activate_bionic(int b, game *g)
     traj.insert(traj.begin(), point(i, j));
     for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
      if (g->m.i_at(i, j)[k].made_of("iron") || g->m.i_at(i, j)[k].made_of("steel")){
+      int l = 0;
       tmp_item = g->m.i_at(i, j)[k];
       g->m.i_rem(i, j, k);
       for (l = 0; l < traj.size(); l++) {
-       index = g->mon_at(traj[l].x, traj[l].y);
+       int index = g->mon_at(traj[l].x, traj[l].y);
        if (index != -1) {
         if (g->zombie(index).hurt(tmp_item.weight() / 225))
          g->kill_mon(index, true);
@@ -628,7 +628,7 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
     valid.push_back(*it);
    }
   }
-  if (valid.size() == 0) { // We've got all the bad bionics!
+  if (valid.empty()) { // We've got all the bad bionics!
    if (u->max_power_level > 0) {
     int old_power = u->max_power_level;
     g->add_msg(_("You lose power capacity!"));
