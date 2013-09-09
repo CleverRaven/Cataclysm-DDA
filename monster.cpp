@@ -10,6 +10,7 @@
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
+#include <algorithm>
 #include "cursesdef.h"
 
 #include "picofunc.h"

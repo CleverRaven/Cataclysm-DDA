@@ -6,6 +6,7 @@
 #include "translations.h"
 #include <stdlib.h>
 #include <sstream>
+#include <algorithm>
 
 // Used only internally for fast lookups.
 enum dis_type_enum {

@@ -16,6 +16,7 @@
 #include "player.h"
 #include "translations.h"
 #include <sstream>
+#include <algorithm>
 
 void iexamine::none	(game *g, player *p, map *m, int examx, int examy) {
  g->add_msg(_("That is a %s."), m->name(examx, examy).c_str());

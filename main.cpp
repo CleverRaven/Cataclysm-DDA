@@ -135,10 +135,7 @@ void exit_handler(int s) {
  if (bExit) {
   erase(); // Clear screen
   endwin(); // End ncurses
-  #if (defined _WIN32 || defined WINDOWS)
-   system("cls"); // Tell the terminal to clear itself
-   system("color 07");
-  #else
+  #if !(defined _WIN32 || defined WINDOWS)
    system("clear"); // Tell the terminal to clear itself
   #endif
 

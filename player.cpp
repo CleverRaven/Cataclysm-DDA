@@ -6936,7 +6936,7 @@ void player::sort_armor(game *g)
     item tmp_item;
     std::vector<item*> tmp_worn;
     std::string tmp_str;
-    it_armor* each_armor;
+    it_armor* each_armor = 0;
 
     std::string  armor_cat[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"),
                                 _("Hands"), _("Legs"), _("Feet"), _("All"),};

@@ -3,6 +3,9 @@
 #if (defined _WIN32 || defined WINDOWS)
 #define _WIN32_WINNT 0x0500
 #define WIN32_LEAN_AND_MEAN
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 //#define VC_EXTRALEAN
 #include "windows.h"
 #include "mmsystem.h"
