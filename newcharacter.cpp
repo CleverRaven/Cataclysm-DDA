@@ -842,6 +842,8 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
     const int iContentHeight = 16;
     int iStartPos = 0;
 
+    WINDOW* w_items = newwin(iContentHeight, 50, 5 + getbegy(w), 27 + getbegx(w));
+
     //may as well stick that +1 on for convenience
     //std::vector<profession const *> sorted_profs;
     std::vector<const profession *> sorted_profs;
@@ -897,11 +899,24 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             }
         }
 
+        std::vector<std::string>  pipo = sorted_profs[cur_id + 1]->items();
+        mvwprintz(w_items, 0, 2, c_ltgray, _("Profession items:"));
+        for (int i = 0; i < iContentHeight; i++)
+        {
+                // clean
+            mvwprintz(w_items, 1 + i, 2, c_ltgray, "                                        ");
+            if (i < pipo.size())
+                // dirty
+                mvwprintz(w_items, 1 + i , 2, c_ltgray, g->itypes[pipo[i]]->name.c_str());
+        }
+            //TODO :: starting_skills, addictions, w/e
+
         //Draw Scrollbar
         draw_scrollbar(w, cur_id, iContentHeight, profession::count()-1, 5);
 
         wrefresh(w);
         wrefresh(w_description);
+        wrefresh(w_items);
         switch (input())
         {
             case 'j':
