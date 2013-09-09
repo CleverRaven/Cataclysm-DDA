@@ -465,12 +465,9 @@ void defense_game::setup()
     selection--;
    refresh_setup(w, selection);
   } else if (ch == '!') {
-   std::string name = string_input_popup(_("Template Name:"), 20);
+   std::string name = string_input_popup(_("Template Name:"), 20); //TODO: this is NON FUNCTIONAL!!!
    refresh_setup(w, selection);
-  } else if (ch == 'S')
-   return;
-
-  else {
+  } else {
    switch (selection) {
     case 1:	// Scenario selection
      if (ch == 'l') {
@@ -1206,7 +1203,7 @@ void defense_game::spawn_wave(game *g)
     i--;
    }
   }
-  if (valid.size() == 0) {
+  if (valid.empty()) {
    g->add_msg(_("Welcome to Wave %d!"), current_wave);
    g->add_msg("********");
    return;
