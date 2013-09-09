@@ -562,10 +562,10 @@ int player::calc_focus_equilibrium()
     // Factor in pain, since it's harder to rest your mind while your body hurts.
     int eff_morale = morale_level() - pain;
     int focus_gain_rate = 100;
-    it_book* reading;
-    // apply a penalty when improving skills via books
+    
     if (activity.type == ACT_READ)
     {
+        it_book* reading;
         if (this->activity.index == -2)
         {
             reading = dynamic_cast<it_book *>(weapon.type);
@@ -574,7 +574,7 @@ int player::calc_focus_equilibrium()
         {
             reading = dynamic_cast<it_book *>(inv.item_by_letter(activity.invlet).type);
         }
-        // only apply a penalty when we're actually learning something
+        // apply a penalty when we're actually learning something
         if (skillLevel(reading->type) < (int)reading->level)
         {
             focus_gain_rate -= 50;
@@ -2151,7 +2151,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
-  iEnc = iLayers = iArmorEnc = iWarmth = 0;
+  iLayers = iArmorEnc = 0;
   iWarmth = warmth(body_part(i));
   iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
   mvwprintz(w_encumb, i+1, 1, c_ltgray, "%s:", asText[i].c_str());
@@ -4694,9 +4694,9 @@ void player::suffer(game *g)
  int localRadiation = g->m.radiation(posx, posy);
 
  if (localRadiation) {
-   bool power_armored = false, has_helmet = false;
+   bool has_helmet = false;
 
-   power_armored = is_wearing_power_armor(&has_helmet);
+   bool power_armored = is_wearing_power_armor(&has_helmet);
 
    if (power_armored && has_helmet) {
      radiation += 0; // Power armor protects completely from radiation
@@ -5501,7 +5501,6 @@ item& player::i_of_type(itype_id type)
    return worn[i];
  }
  return inv.item_by_type(type);
- return ret_null;
 }
 
 item player::get_combat_style()
@@ -5912,33 +5911,32 @@ bool player::has_watertight_container()
 
 bool player::has_matching_liquid(itype_id it)
 {
- if (inv.has_liquid(it)) {
-  return true;
- }
- if (weapon.is_container() && !weapon.contents.empty()) {
-  if (weapon.contents[0].type->id == it) { // liquid matches
-    it_container* container = dynamic_cast<it_container*>(weapon.type);
-    int holding_container_charges;
-
-    if (weapon.contents[0].type->is_food()) {
-      it_comest* tmp_comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
-
-      if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
-        holding_container_charges = container->contains * 20;
-      else
-        holding_container_charges = container->contains;
+    if (inv.has_liquid(it)) {
+        return true;
     }
-    else if (weapon.contents[0].type->is_ammo())
-      holding_container_charges = container->contains * 200;
-    else
-      holding_container_charges = container->contains;
+    if (weapon.is_container() && !weapon.contents.empty()) {
+        if (weapon.contents[0].type->id == it) { // liquid matches
+            it_container* container = dynamic_cast<it_container*>(weapon.type);
+            int holding_container_charges;
 
-  if (weapon.contents[0].charges < holding_container_charges)
-    return true;
-  }
-}
+            if (weapon.contents[0].type->is_food()) {
+                it_comest* tmp_comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
 
- return false;
+                if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
+                    holding_container_charges = container->contains * 20;
+                else
+                    holding_container_charges = container->contains;
+            }
+            else if (weapon.contents[0].type->is_ammo())
+                holding_container_charges = container->contains * 200;
+            else
+                holding_container_charges = container->contains;
+
+            if (weapon.contents[0].charges < holding_container_charges)
+                return true;
+        }
+    }
+    return false;
 }
 
 bool player::has_weapon_or_armor(char let) const
