@@ -769,7 +769,6 @@ char vehicle::part_sym (int p)
     if (p < 0 || p >= parts.size()) {
         return 0;
     }
-    std::vector<int> ph = internal_parts (p);
     int po = part_with_feature(p, "OVER", false);
     int pd = po < 0? p : po;
     if (part_flag (pd, "OPENABLE") && parts[pd].open) {
