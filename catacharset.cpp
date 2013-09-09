@@ -220,7 +220,6 @@ std::string utf8_substr(std::string s, int start, int size)
 		unsigned tc = UTF8_getch(&ts, &l);
 		int tw = mk_wcwidth((wchar_t)tc);
 		erease_utf8_by_cw(buf+pos, tw, tw, len-pos-1);
-		begin = pos+tw-1;
     }
 
     if(size>0) 
