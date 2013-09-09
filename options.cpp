@@ -15,6 +15,7 @@ bool use_tiles;
 std::map<std::string, cOpt> OPTIONS;
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
+std::map<std::string, std::string> optionNames;
 
 
 //Default constructor
@@ -123,7 +124,7 @@ std::string cOpt::getValue() {
         return sSet;
 
     } else if (sType == "bool") {
-        return (bSet) ? "True" : "False";
+        return (bSet) ? "true" : "false";
 
     } else if (sType == "int") {
         std::stringstream ssTemp;
@@ -140,16 +141,27 @@ std::string cOpt::getValue() {
     return "";
 }
 
+std::string cOpt::getName() {
+    if (sType == "string") {
+        return optionNames[sSet];
+
+    } else if (sType == "bool") {
+        return (bSet) ? _("True") : _("False");
+    }
+
+    return getValue();
+}
+
 std::string cOpt::getDefaultText() {
     if (sType == "string") {
         std::string sItems = "";
         for (int i = 0; i < vItems.size(); i++) {
             if (sItems != "") {
-                sItems += ", ";
+                sItems += _(", ");
             }
-            sItems += vItems[i];
+            sItems += optionNames[vItems[i]];
         }
-        return string_format(_("Default: %s - Values: %s"), sDefault.c_str(), sItems.c_str());
+        return string_format(_("Default: %s - Values: %s"), optionNames[sDefault].c_str(), sItems.c_str());
 
     } else if (sType == "bool") {
         return (bDefault) ? _("Default: True") : _("Default: False");
@@ -298,16 +310,22 @@ void initOptions() {
 
     OPTIONS.clear();
 
+    optionNames["fahrenheit"] = _("Fahrenheit");
+    optionNames["celsius"] = _("Celsius");
     OPTIONS["USE_CELSIUS"] =            cOpt("interface", _("Use Celsius"),
                                              _("Switch between Celsius and Fahrenheit."),
-                                             "Fahrenheit,Celsius", "Fahrenheit"
+                                             "fahrenheit,celsius", "fahrenheit"
                                             );
 
+    optionNames["mph"] = _("mph");
+    optionNames["km/h"] = _("km/h");
     OPTIONS["USE_METRIC_SPEEDS"] =      cOpt("interface", _("Use Metric Speeds"),
                                              _("Switch between Km/h and mph."),
                                              "mph,km/h", "mph"
                                             );
 
+    optionNames["lbs"] = _("lbs");
+    optionNames["kg"] = _("kg");
     OPTIONS["USE_METRIC_WEIGHTS"] =     cOpt("interface", _("Use Metric Weights"),
                                              _("Switch between kg and lbs."),
                                              "lbs,kg", "lbs"
@@ -323,9 +341,15 @@ void initOptions() {
                                              false
                                             );
 
+    //~ 12h time, e.g. 11:59pm
+    optionNames["12h"] = _("12h");
+    //~ Military time, e.g. 2359
+    optionNames["military"] = _("Military");
+    //~ 24h time, e.g. 23:59
+    optionNames["24h"] = _("24h");
     OPTIONS["24_HOUR"] =                cOpt("interface", _("24 Hour Time"),
                                              _("12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal 24h, eg: 7:31"),
-                                             "12h,Military,24h", "12h"
+                                             "12h,military,24h", "12h"
                                             );
 
     OPTIONS["SNAP_TO_TARGET"] =         cOpt("interface", _("Snap to Target"),
@@ -383,19 +407,35 @@ void initOptions() {
                                              true
                                             );
 
+    optionNames["no"] = _("No");
+    //~ containers
+    optionNames["watertight"] = _("Watertight");
+    optionNames["all"] = _("All");
     OPTIONS["DROP_EMPTY"] =             cOpt("general", _("Drop empty containers"),
                                              _("Set to drop empty containers after use. No: Don't drop any. - Watertight: All except watertight containers. - All: Drop all containers."),
-                                             "No,Watertight,All", "No"
+                                             "no,watertight,all", "no"
                                             );
 
+    //~ plain, default, normal
+    optionNames["vanilla"] = _("Vanilla");
+    //~ capped at a value
+    optionNames["capped"] = _("Capped");
+    //~ based on intelligence
+    optionNames["int"] = _("Int");
+    //~ based on intelligence and capped
+    optionNames["intcap"] = _("IntCap");
+    optionNames["off"] = _("Off");
     OPTIONS["SKILL_RUST"] =             cOpt("debug", _("Skill Rust"),
                                              _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
-                                             "Vanilla,Capped,Int,IntCap,Off", "Vanilla"
+                                             "vanilla,capped,int,intcap,off", "vanilla"
                                             );
 
+    optionNames["no"] = _("No");
+    optionNames["yes"] = _("Yes");
+    optionNames["query"] = _("Query");
     OPTIONS["DELETE_WORLD"] =           cOpt("general", _("Delete World"),
                                              _("Delete world upon player death."),
-                                             "No,Yes,Query", "No"
+                                             "no,yes,query", "no"
                                             );
 
     OPTIONS["INITIAL_POINTS"] =         cOpt("debug", _("Initial points"),
@@ -433,9 +473,12 @@ void initOptions() {
                                              12, 93, 12
                                             );
 
+    optionNames["standard"] = _("Standard");
+    //~ sidebar style
+    optionNames["narrow"] = _("Narrow");
     OPTIONS["SIDEBAR_STYLE"] =          cOpt("interface", _("Sidebar style"),
                                              _("Switch between the standard or a narrower and taller sidebar. Requires restart."),
-                                             "Standard,Narrow", "Standard"
+                                             "standard,narrow", "standard"
                                             );
 
     OPTIONS["MOVE_VIEW_OFFSET"] =       cOpt("interface", _("Move view offset"),
@@ -478,9 +521,15 @@ void initOptions() {
                                              false
                                             );
 
+    //~ show mouse cursor
+    optionNames["show"] = _("Show");
+    //~ hide mouse cursor
+    optionNames["hide"] = _("Hide");
+    //~ hide mouse cursor when keyboard is used
+    optionNames["hidekb"] = _("HideKB");
     OPTIONS["HIDE_CURSOR"] =            cOpt("interface", _("Hide Mouse Cursor"),
                                              _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
-                                             "Always,Hidden,HiddenKB", "Always"
+                                             "show,hide,hidekb", "show"
                                             );
 
     OPTIONS["MENU_SCROLL"] =            cOpt("interface", _("Centered menu scrolling"),
@@ -617,11 +666,11 @@ void game::show_options()
 
             wprintz(w_options, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getMenuText()).c_str());
 
-            if (OPTIONS[mPageItems[iCurrentPage][i]].getValue() == "False") {
+            if (OPTIONS[mPageItems[iCurrentPage][i]].getValue() == "false") {
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getValue()).c_str());
+            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getName()).c_str());
         }
 
         //Draw Scrollbar
