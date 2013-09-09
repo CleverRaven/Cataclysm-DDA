@@ -143,7 +143,7 @@ point editmap::edit(point coords)
     }
 
     do {
-        if ( target_list.size() < 1 ) {
+        if ( target_list.empty() ) {
             target_list.push_back(target); // 'editmap.target_list' always has point 'editmap.target' at least
         }
         if ( target_list.size() == 1 ) {
@@ -258,8 +258,6 @@ void editmap::update_view(bool update_info)
         veh_in = veh->is_inside(veh_part);
     }
 
-    int off = 1;
-
     target_ter = g->m.ter(target.x, target.y);
     ter_t terrain_type = terlist[target_ter];
     target_frn = g->m.furn(target.x, target.y);
@@ -334,6 +332,7 @@ void editmap::update_view(bool update_info)
     wrefresh(g->w_terrain);
 
     if ( update_info ) { // only if requested; this messes up windows layered ontop
+        int off = 1;
         wborder(w_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -629,7 +628,6 @@ int editmap::edit_ter(point coords)
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( subch == KEY_ENTER || subch == '\n' || subch == 'g' ) {
-                ter_t tset = terlist[sel_ter];
                 for(int t = 0; t < target_list.size(); t++ ) {
                     g->m.ter_set(target_list[t].x, target_list[t].y, (ter_id)sel_ter);
                 }
@@ -663,7 +661,6 @@ int editmap::edit_ter(point coords)
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( subch == KEY_ENTER || subch == '\n' || subch == 'g' ) {
-                furn_t tset = furnlist[sel_frn];
                 for(int t = 0; t < target_list.size(); t++ ) {
                     g->m.furn_set(target_list[t].x, target_list[t].y, (furn_id)sel_frn);
                 }
