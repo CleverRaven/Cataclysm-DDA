@@ -59,7 +59,7 @@ uimenu::uimenu(bool cancancel, const char *mes, ...) {  // here we emulate the o
 
 uimenu::uimenu(bool cancelable, const char *mes, std::vector<std::string> options) { // exact usage as menu_vec
     init();
-    if (options.size() == 0) {
+    if (options.empty()) {
         debugmsg("0-length menu (\"%s\")", mes);
         ret = -1;
     } else {
@@ -189,7 +189,7 @@ void uimenu::filterlist()
     if ( fselected == -1 ) {
         fselected = 0;
         vshift = 0;
-        if ( fentries.size() < 1 ) {
+        if ( fentries.empty() ) {
             selected = -1;
         } else {
             selected = fentries [ 0 ];
@@ -294,7 +294,7 @@ void uimenu::setup() {
         }
         fentries.push_back( i );
     }
-    if ( autoassign.size() > 0 ) {
+    if ( !autoassign.empty() ) {
         for ( int a = 0; a < autoassign.size(); a++ ) {
             int palloc = autoassign[ a ];
             int setkey=-1;
@@ -421,7 +421,7 @@ void uimenu::apply_scrollbar()
         int sbside = ( scrollbar_side == 0 ? 0 : w_width );
         int estart = textformatted.size() + 1;
 
-        if ( fentries.size() > 0 && vmax < fentries.size() ) {
+        if ( !fentries.empty() && vmax < fentries.size() ) {
             wattron(window, border_color);
             mvwaddch(window, estart, sbside, '^');
             wattroff(window, border_color);
@@ -634,7 +634,7 @@ bool uimenu::scrollby(int scrollby, const int key) {
  */
 void uimenu::query(bool loop) {
     keypress = 0;
-    if ( entries.size() < 1 ) {
+    if ( entries.empty() ) {
         return;
     }
     int startret = UIMENU_INVALID;
@@ -651,7 +651,7 @@ void uimenu::query(bool loop) {
             /* nothing */
         } else if ( filtering && ( keypress == '/' || keypress == '.' ) ) {
             inputfilter();
-        } else if ( fentries.size() > 0 && ( keypress == '\n' || keypress == KEY_ENTER || keymap.find(keypress) != keymap.end() ) ) {
+        } else if ( !fentries.empty() && ( keypress == '\n' || keypress == KEY_ENTER || keymap.find(keypress) != keymap.end() ) ) {
             if ( keymap.find(keypress) != keymap.end() ) {
                 selected = keymap[ keypress ];//fixme ?
             }
