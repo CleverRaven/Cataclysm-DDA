@@ -31,10 +31,7 @@ item::item(itype* it, unsigned int turn)
  init();
  if (it == NULL)
   return;
- if(!it)
-  type = nullitem();
- else
-  type = it;
+ type = it;
  bday = turn;
  corpse = it->corpse;
  name = it->name;
@@ -308,7 +305,7 @@ picojson::value item::json_save() const
     if ( player_id != -1 )   data["player_id"]  = pv( player_id );
     if ( mission_id != -1 )  data["mission_id"] = pv( mission_id );
 
-    if ( item_tags.size() > 0 ) {
+    if (!item_tags.empty()) {
         std::vector<picojson::value> pvtags;
         for( std::set<std::string>::const_iterator it = item_tags.begin();
              it != item_tags.end(); ++it ) {
@@ -317,7 +314,7 @@ picojson::value item::json_save() const
         data["item_tags"] = pv ( pvtags );
     }
 
-    if ( item_vars.size() > 0 ) {
+    if (!item_vars.empty()) {
         std::map<std::string, picojson::value> pvvars;
         for( std::map<std::string, std::string>::const_iterator it = item_vars.begin(); it != item_vars.end(); ++it ) {
             pvvars[ std::string(it->first) ] = pv( it->second );
@@ -523,11 +520,13 @@ bool item::json_load(picojson::value parsed, game * g)
         }
     }
 
-    light=nolight;
     int tmplum=0;
-    int tmpwidth=0;
-    int tmpdir=0;
     if ( picoint(data,"light",tmplum) ) {
+
+        light=nolight;
+        int tmpwidth=0;
+        int tmpdir=0;
+
         picoint(data,"light_width",tmpwidth);
         picoint(data,"light_dir",tmpdir);
         light.luminance = (unsigned short)tmplum;
@@ -852,7 +851,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
 
   dump->push_back(iteminfo("BOOK", "", _("This book takes <num> minutes to read."), book->time, true, "", true, true));
 
-  if (book->recipes.size() > 0) {
+  if (!(book->recipes.empty())) {
    dump->push_back(iteminfo("BOOK", "", _("This book contains <num> crafting recipes."), book->recipes.size(), true, "", true, true));
   }
 
@@ -1119,7 +1118,7 @@ std::string item::tname(game *g)
 
  ret << damtext << vehtext << burntext << maintext << tagtext;
 
- if (item_vars.size()) {
+ if (!item_vars.empty()) {
   return "*" + ret.str() + "*";
  } else {
   return ret.str();
