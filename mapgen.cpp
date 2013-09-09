@@ -12742,7 +12742,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
     } else if (move_cost(px, py) == 0) {
 
       //There's a wall or other obstacle here; destroy it
-      g->m.destroy(g, px, py, false);
+      destroy(g, px, py, false);
 
       //Then smash up the vehicle
       if(!veh_smashed) {
