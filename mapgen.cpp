@@ -4214,7 +4214,7 @@ case ot_lmoe: {
    ter_set(SEEX    , SEEY * 2 - 3, t_stairs_down);
    science_room(this, 2       , 2, SEEX - 3    , SEEY * 2 - 3, 1);
    science_room(this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, 3);
-
+  
    add_spawn(mon_turret, 1, SEEX, 5);
 
    if (t_east > ot_road_null && t_east <= ot_road_nesw_manhole)
@@ -4380,9 +4380,9 @@ case ot_lmoe: {
     item body;
     body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
     if (one_in(2))add_item(1, 1, body);
-    else add_spawn(mon_zombie_shrieker, 1, 1, 1);
+    else add_spawn(mon_zombie_shrieker, 1, 1, 1);	
     if (one_in(2))add_item(9, 3, body);
-    else add_spawn(mon_zombie_brute, 1, 9, 3);
+    else add_spawn(mon_zombie_brute, 1, 9, 3);	
     if (one_in(2))add_item(14, 4, body);
     else add_spawn(mon_zombie_child, 1, 14, 4);
     if (one_in(2))add_item(19, 9, body);
@@ -12562,10 +12562,39 @@ void map::put_items_from(items_location loc, int num, int x, int y, int turn, in
  }
 }
 
-void map::add_spawn(mon_id type, int count, int x, int y, bool friendly,
+void map::add_spawn(mon_id type, int count, int x, int y, bool friendly, bool en_replacement,
                     int faction_id, int mission_id, std::string name)
 {
- if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
+ if( OPTIONS["CLASSIC_ZOMBIES"] && !g->mtypes[type]->in_category(MC_CLASSIC) &&
+     !g->mtypes[type]->in_category(MC_WILDLIFE) ) {
+     // Don't spawn non-classic monsters in classic zombie mode.	
+		 if ( en_replacement && friendly == 0 ){  // replace with classic monsters 
+			 // calculate monster count
+			 int overall_skills = g->mtypes[type]->hp + g->mtypes[type]->speed * 0.3 +
+					 3 * ( g->mtypes[type]->armor_bash + g->mtypes[type]->armor_cut + 
+					 g->mtypes[type]->melee_cut) + 
+					 g->mtypes[type]->melee_skill;
+
+			  //choose a classic monster randomly			 
+			 int m = rng(0, g->classic_monsters.size() - 1); 
+			 mon_id r_type = g->classic_monsters[m]; //replacement for non-classic monster		
+
+			 int tmp_cnt = 0;
+			 do{
+				 overall_skills -= g->mtypes[r_type]->hp + g->mtypes[r_type]->speed * 0.3 +
+					3 * ( g->mtypes[r_type]->armor_bash + g->mtypes[r_type]->armor_cut + 
+					g->mtypes[r_type]->melee_cut) + 
+					g->mtypes[r_type]->melee_skill;
+				 tmp_cnt++;
+			 }while( overall_skills > 0 );
+			 //Test	
+			 //debugmsg("Non_Classic: %s Count: %d \nClassic: %s Count: %d ", g->mtypes[type]->name.c_str(), count, g->mtypes[r_type]->name.c_str(), tmp_cnt);		
+			 count = tmp_cnt;
+			 type = r_type;
+		 }
+		 else return;
+ }
+  if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
   debugmsg("Bad add_spawn(%d, %d, %d, %d)", type, count, x, y);
   return;
  }
@@ -12574,11 +12603,6 @@ void map::add_spawn(mon_id type, int count, int x, int y, bool friendly,
   debugmsg("centadodecamonant doesn't exist in grid; within add_spawn(%d, %d, %d, %d)",
             type, count, x, y);
   return;
- }
- if( OPTIONS["CLASSIC_ZOMBIES"] && !g->mtypes[type]->in_category(MC_CLASSIC) &&
-     !g->mtypes[type]->in_category(MC_WILDLIFE) ) {
-     // Don't spawn non-classic monsters in classic zombie mode.
-     return;
  }
  x %= SEEX;
  y %= SEEY;
@@ -12603,7 +12627,7 @@ void map::add_spawn(monster *mon)
   spawny += SEEY;
  spawnx %= SEEX;
  spawny %= SEEY;
- add_spawn(mon_id(mon->type->id), 1, spawnx, spawny, (mon->friendly < 0),
+ add_spawn(mon_id(mon->type->id), 1, spawnx, spawny, (mon->friendly < 0), true,
            mon->faction_id, mon->mission_id, spawnname);
 }
 

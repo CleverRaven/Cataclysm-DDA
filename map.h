@@ -374,8 +374,9 @@ class map
  void spawn_item(const int x, const int y, item new_item, const int birthday,
                  const int quantity, const int charges, const int damlevel);
  void add_spawn(mon_id type, const int count, const int x, const int y, bool friendly = false,
+				bool en_replacement = true, // replaces non-classic monsters with classic monsters in classic-mode if true
                 const int faction_id = -1, const int mission_id = -1,
-                std::string name = "NONE");
+                std::string name = "NONE"); 
  void add_spawn(monster *mon);
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, std::string type, const int x, const int y, const int dir,

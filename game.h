@@ -272,6 +272,7 @@ class game
 
   std::map<std::string, itype*> itypes;
   std::vector <mtype*> mtypes;
+  std::vector <mon_id> classic_monsters; 
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   recipe_map recipes;	// The list of valid recipes
@@ -404,6 +405,7 @@ void load_artifacts(); // Load artifact data
   void init_diseases();     // Initializes disease lookup table.
   void init_dreams();       // Initializes dreams
   void init_parrot_speech() throw (std::string);  // Initializes Mi-Go parrot speech
+  std::vector <mon_id> get_mon_ids(m_category c); //return mon_ids which match the category
 
   void load_keyboard_settings(); // Load keybindings from disk
 

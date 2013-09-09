@@ -94,6 +94,7 @@ game::game() :
  init_professions();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
  init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
+ classic_monsters = get_mon_ids(MC_CLASSIC); //Set up list of classic monsters (SEE mtypedef.cpp)
  init_itypes();               // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();
  item_controller->init(this); //Item manager

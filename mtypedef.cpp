@@ -1501,4 +1501,14 @@ std::vector<monster_trigger> default_fears(monster_species spec)
  return ret;
 }
 
+std::vector <mon_id> game::get_mon_ids(m_category c)
+{
+	std::vector <mon_id> ret;	
+	for (int i = 1; i < num_monsters ; i++){
+		if( this->mtypes[i]->in_category(c) ){
+			ret.push_back( (mon_id)this->mtypes[i]->id );
+		}
+	}	
+	return ret;
+}
 

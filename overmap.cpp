@@ -86,7 +86,7 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::forest, 0},
 
 {ot_lab_stairs,	   0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC)},
 
  {ot_ice_lab_stairs,	   0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
@@ -96,13 +96,13 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
 
 // Terrain	 MIN MAX DISTANCE
 {ot_bunker,	   2, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_outpost,	   0, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, 0},
+ &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
 
 {ot_silo,	   0,  1, 30, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_radio_tower,   1,  5,  0, 20, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_CLASSIC)},
@@ -147,7 +147,7 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_mine_entrance,  0,  5,  15, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT) | mfb(OMS_FLAG_CLASSIC)},
 
 // Terrain	 MIN MAX DISTANCE
 {ot_anthill,	   0, 30,  10, -1, "GROUP_ANT", 1000, 2000, 10, 30,
@@ -173,7 +173,7 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_cave,	   0, 30,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, 0},
+ &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
 
 {ot_toxic_dump,	   0,  5, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
