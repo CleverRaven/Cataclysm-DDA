@@ -235,7 +235,7 @@ bool game::can_make(recipe *r)
     {
         std::vector<component> &set_of_tools = *tool_set_it;
         // if current tool is null(size 0), assume that there is no more after it.
-        if(set_of_tools.size()==0)
+        if(set_of_tools.empty())
         {
             break;
         }
@@ -269,7 +269,7 @@ bool game::can_make(recipe *r)
     while (comp_set_it != components.end())
     {
         std::vector<component> &set_of_components = *comp_set_it;
-        if(set_of_components.size() == 0)
+        if(set_of_components.empty())
         {
             break;
         }
@@ -671,7 +671,7 @@ recipe* game::select_crafting_recipe()
                 }
             }
         }
-        if (current.size() > 0)
+        if (!current.empty())
         {
             nc_color col = (available[line] ? c_white : c_dkgray);
             mvwprintz(w_data, 0, 30, col, _("Skills used: %s"),
@@ -1268,7 +1268,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         }
 
         // unlike with tools, it's a bad thing if there aren't any components available
-        if (options.size() == 0)
+        if (options.empty())
         {
             debugmsg("Attempted a recipe with no available components!");
             return ret;
@@ -1379,12 +1379,13 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
  if (found_nocharge)
   return; // Default to using a tool that doesn't require charges
 
- if (player_has.size() == 1 && map_has.size() == 0)
-  p->use_charges(player_has[0].type, player_has[0].count);
- else if (map_has.size() == 1 && player_has.size() == 0)
-  m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                   map_has[0].type, map_has[0].count);
- else { // Variety of options, list them and pick one
+ if (player_has.size() + map_has.size() == 1){
+     if(map_has.empty()){
+         p->use_charges(player_has[0].type, player_has[0].count);
+     } else {
+         m.use_charges(p->pos(), PICKUP_RANGE, map_has[0].type, map_has[0].count);
+     }
+ } else { // Variety of options, list them and pick one
 // Populate the list
   std::vector<std::string> options;
   for (int i = 0; i < map_has.size(); i++) {
@@ -1394,7 +1395,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
   for (int i = 0; i < player_has.size(); i++)
    options.push_back(item_controller->find_template(player_has[i].type)->name);
 
-  if (options.size() == 0) // This SHOULD only happen if cooking with a fire,
+  if (options.empty()) // This SHOULD only happen if cooking with a fire,
    return;                 // and the fire goes out.
 
 // Get selection via a popup menu
