@@ -29,14 +29,14 @@ item::item()
 item::item(itype* it, unsigned int turn)
 {
  init();
+ if (it == NULL)
+  return;
  if(!it)
   type = nullitem();
  else
   type = it;
  bday = turn;
  corpse = it->corpse;
- if (it == NULL)
-  return;
  name = it->name;
  if (it->is_gun())
   charges = 0;
@@ -375,8 +375,6 @@ std::string item::save_info() const
  }
 /////
  for( std::map<std::string, std::string>::const_iterator it = item_vars.begin(); it != item_vars.end(); ++it ) {
-    std::string itstr="";
-    std::string itval="";
     dump << ivaresc << it->first << "=";
     for(std::string::const_iterator sit = it->second.begin(); sit != it->second.end(); ++sit ) {
        switch(*sit) {
@@ -413,36 +411,39 @@ std::string item::save_info() const
 }
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
-   if(item_tag.at(0) == ivaresc && item_tag.find('=') != -1 && item_tag.find('=') >= 2 ) {
-     std::string var_name, val_decoded;
-     int svarlen, svarsep;
-     svarsep=item_tag.find('=');
-     svarlen=item_tag.size();
-     var_name="";
-     val_decoded="";
-     var_name=item_tag.substr(1,svarsep-1); // will assume sanity here for now
-     for(int s = svarsep+1; s < svarlen; s++ ) { // cheap and temporary, afaik stringstream IFS = [\r\n\t ];
-         if(item_tag[s] == ivaresc && s < svarlen-2 ){
-             if ( item_tag[s+1] == '0' && item_tag[s+2] == 'A' ) {
-                 s+=2; val_decoded.append(1, '\n');
-             } else if ( item_tag[s+1] == '0' && item_tag[s+2] == 'D' ) {
-                 s+=2; val_decoded.append(1, '\r');
-             } else if ( item_tag[s+1] == '0' && item_tag[s+2] == '6' ) {
-                 s+=2; val_decoded.append(1, '\t');
-             } else if ( item_tag[s+1] == '2' && item_tag[s+2] == '0' ) {
-                 s+=2; val_decoded.append(1, ' ');
-             } else {
-                 val_decoded.append(1, item_tag[s]); // hhrrrmmmmm should be passing \a?
-             }
-         } else {
-             val_decoded.append(1, item_tag[s]);
-         }
-     }
-     item_vars[var_name]=val_decoded;
-     return true;
-   } else {
-     return false;
-   }
+    if(item_tag.at(0) == ivaresc && item_tag.find('=') != -1 && item_tag.find('=') >= 2 ) {
+        std::string var_name, val_decoded;
+        int svarlen, svarsep;
+        svarsep=item_tag.find('=');
+        svarlen=item_tag.size();
+        val_decoded="";
+        var_name=item_tag.substr(1,svarsep-1); // will assume sanity here for now
+        for(int s = svarsep+1; s < svarlen; s++ ) { // cheap and temporary, afaik stringstream IFS = [\r\n\t ];
+            if(item_tag[s] == ivaresc && s < svarlen-2 ) {
+                if ( item_tag[s+1] == '0' && item_tag[s+2] == 'A' ) {
+                    s+=2;
+                    val_decoded.append(1, '\n');
+                } else if ( item_tag[s+1] == '0' && item_tag[s+2] == 'D' ) {
+                    s+=2;
+                    val_decoded.append(1, '\r');
+                } else if ( item_tag[s+1] == '0' && item_tag[s+2] == '6' ) {
+                    s+=2;
+                    val_decoded.append(1, '\t');
+                } else if ( item_tag[s+1] == '2' && item_tag[s+2] == '0' ) {
+                    s+=2;
+                    val_decoded.append(1, ' ');
+                } else {
+                    val_decoded.append(1, item_tag[s]); // hhrrrmmmmm should be passing \a?
+                }
+            } else {
+                val_decoded.append(1, item_tag[s]);
+            }
+        }
+        item_vars[var_name]=val_decoded;
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool item::json_load(picojson::value parsed, game * g)
