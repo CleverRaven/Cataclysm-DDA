@@ -3414,6 +3414,11 @@ float player::active_light()
     return lumination;
 }
 
+point player::pos()
+{
+    return point(posx, posy);
+}
+
 int player::sight_range(int light_level) const
 {
     // Apply the sight boost (night vision).
