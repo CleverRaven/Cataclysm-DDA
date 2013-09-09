@@ -63,7 +63,7 @@ struct player_activity
  point placement;
 
  player_activity() { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
-                     name = ""; placement = point(-1, -1); continuous = false; }
+                     name = ""; placement = point(-1, -1); continuous = false; ignore_trivial = true; }
 
  player_activity(activity_type t, int turns, int Index, char ch, std::string name_in)
  {

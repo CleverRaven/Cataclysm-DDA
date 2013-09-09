@@ -173,6 +173,7 @@ struct itype
 
  itype() {
   id = "null";
+  price = 0;
   name  = "none";
   sym = '#';
   color = c_white;
@@ -181,8 +182,10 @@ struct itype
   phase = SOLID;
   volume = 0;
   weight = 0;
+  bigness_property_aspect = BIGNESS_ENGINE_NULL;
   corpse = NULL;
   melee_dam = 0;
+  melee_cut = 0;
   m_to_hit = 0;
   techniques = 0;
   light_emission = 0;
@@ -206,6 +209,7 @@ struct itype
   phase       = pphase;
   volume      = pvolume;
   weight      = pweight;
+  bigness_property_aspect = BIGNESS_ENGINE_NULL;
   corpse      = NULL;
   melee_dam   = pmelee_dam;
   melee_cut   = pmelee_cut;
@@ -277,7 +281,17 @@ struct it_comest : public itype
         comesttype = pcomesttype;
     }
 
-    it_comest() :itype() { };
+    it_comest() : itype() 
+    {
+        quench = 0;
+        nutr = 0;
+        spoils = 0;
+        stim = 0;
+        healthy = 0;
+        addict = 0;
+        fun = 0;
+        add = ADD_NULL;
+    };
 };
 
 // v6, v8, wankel, etc.
