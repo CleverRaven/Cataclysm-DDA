@@ -87,6 +87,13 @@ void monster_factory::init()
     mattack_function_list["BITE"] = &mattack::bite;
     mattack_function_list["FLESH_GOLEM"] = &mattack::flesh_golem;
     mattack_function_list["PARROT"] = &mattack::parrot;
+
+    // init monster size list
+    mon_size_list["TINY"] = MS_TINY;
+    mon_size_list["SMALL"] = MS_SMALL;
+    mon_size_list["MEDIUM"] = MS_MEDIUM;
+    mon_size_list["LARGE"] = MS_LARGE;
+    mon_size_list["HUGE"] = MS_HUGE;
 }
 
 void monster_factory::load_monster_templates() throw(std::string)
@@ -106,10 +113,10 @@ void monster_factory::load_monster_templates_from(const std::string filename) th
     catajson all_monsters(filename);
 
     if(! json_good())
-    	throw (std::string)"Could not open " + file_name;
+    	throw (std::string)"Could not open " + filename;
 
-    if (! all_items.is_array())
-        throw file_name + (std::string)"is not an array of item_templates";
+    if (! all_monsters.is_array())
+        throw filename + (std::string)"is not an array of item_templates";
 
     for (all_monsters.set_begin(); all_monsters.has_curr(); all_monsters.next())
     {
@@ -155,28 +162,34 @@ void monster_factory::load_monster_templates_from(const std::string filename) th
             */
 
             std::string new_id = entry.get("id").as_string();
-            std::string new_name,
-                        new_species,
-                        new_symbol,
-                        new_color,
-                        new_size,
-                        new_material;
-            int new_difficulty,
-                new_aggression,
-                new_morale,
-                new_speed,
-                new_melee_skill,
-                new_melee_dice,
-                new_melee_sides,
-                new_melee_cut,
-                new_dodge,
-                new_arm_bash,
-                new_arm_cut,
-                new_item_chance,
-                new_hp,
-                new_spec_freq;
-            std::string new_death_func;
-            std::vector<std::string> new_attack_func,
+            std::string new_name = (entry.has("name") && entry.get("name").is_string())? entry.get("name").as_string() : "null_monster",
+                        new_species = (entry.has("species") && entry.get("species").is_string())?entry.get("species").as_string() : "null_species",
+                        new_material = (entry.has("material") && entry.get("material").is_string())? entry.get("material").as_string() : "none";
+
+            m_size new_size = (entry.has("size") && entry.get("size").is_string() && mon_size_list.find(entry.get("size").as_string()) != mon_size_list.end())? mon_size_list[entry.get("size").as_string()]:MS_TINY;
+
+            nc_color new_color = (entry.has("color") && entry.get("color").is_string())? color_from_string(entry.get("color").as_string()) : c_black;
+
+            char new_symbol = (entry.has("symbol") && entry.get("symbol").is_char())? entry.get("symbol").as_char() : ' ';
+
+            int new_difficulty = (entry.has("difficulty") && entry.get("difficulty").is_number())? entry.get("difficulty").as_int(): 0,
+                new_aggression = (entry.has("aggression") && entry.get("aggression").is_number())? entry.get("aggression").as_int(): 0,
+                new_morale = (entry.has("morale") && entry.get("morale").is_number())? entry.get("morale").as_int(): 0,
+                new_speed = (entry.has("speed") && entry.get("speed").is_number())? entry.get("speed").as_int(): 0,
+                new_melee_skill = (entry.has("melee_skill") && entry.get("melee_skill").is_number())? entry.get("melee_skill").as_int(): 0,
+                new_melee_dice = (entry.has("melee_dice") && entry.get("melee_dice").is_number())? entry.get("melee_dice").as_int(): 0,
+                new_melee_sides = (entry.has("melee_dice_sides") && entry.get("melee_dice_sides").is_number())? entry.get("melee_dice_sides").as_int(): 0,
+                new_melee_cut = (entry.has("melee_cut") && entry.get("melee_cut").is_number())? entry.get("melee_cut").as_int(): 0,
+                new_dodge = (entry.has("dodge") && entry.get("dodge").is_number())? entry.get("dodge").as_int(): 0,
+                new_arm_bash = (entry.has("armor_bash") && entry.get("armor_bash").is_number())? entry.get("armor_bash").as_int(): 0,
+                new_arm_cut = (entry.has("armor_cut") && entry.get("armor_cut").is_number())? entry.get("armor_cut").as_int(): 0,
+                new_item_chance = (entry.has("item_drop_chance") && entry.get("item_drop_chance").is_number())? entry.get("item_drop_chance").as_int(): 0,
+                new_hp = (entry.has("hp") && entry.get("hp").is_number())? entry.get("hp").as_int(): 0,
+                new_spec_freq = (entry.has("special_attack_recharge_time") && entry.get("special_attack_recharge_time").is_number())? entry.get("special_attack_recharge_time").as_int(): 0;
+            MonDeathFunction new_death_func = (entry.has("death_function") && entry.get("death_function").is_string() && mdeath_function_list.find(entry.get("death_function").as_string()) != mdeath_function_list.end())? mdeath_function_list[entry.get("death_function").as_string()] : mdeath_function_list["NORMAL"];
+            MonAttackFunction new_attack_func= (entry.has("attack_function") && entry.get("attack_function").is_string() && mattack_function_list.find(entry.get("attack_function").as_string()) != mattack_function_list.end())? mattack_function_list[entry.get("attack_function").as_string()] : mattack_function_list["NONE"];
+
+            std::vector<std::string> //new_attack_func, // alter definitions later to make this usable for multiple applicable attacks / monster?
                                      new_flags,
                                      new_categories,
                                      new_fears,

@@ -48,6 +48,8 @@ class monster_factory
         std::map<Mon_Tag, MonDeathFunction> mdeath_function_list;
         // monster attack functions
         std::map<Mon_Tag, MonAttackFunction> mattack_function_list;
+        // monster sizes
+        std::map<std::string, m_size> mon_size_list;
 
 };
 
