@@ -236,6 +236,4 @@ void game::unserialize(std::ifstream & fin) {
             }
             // Now dump tmpinv into the player's inventory
             u.inv.add_stack(tmpinv);
-        ////////
-//        } break;
 }
