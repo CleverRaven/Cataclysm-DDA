@@ -44,6 +44,129 @@
 #define item_luminance 1
 */
 
+#include "picofunc.h"
+
+///////////////////////////////////// here be dragons
+///////////////////////////////////////// word_rewrap: buggy 
+
+std::vector<std::string> fld_string ( std::string str, int width ) {
+    std::vector<std::string> lines;
+    if ( width < 1 ) {
+        lines.push_back( str );
+        return lines;
+    }
+
+    int linepos = width;
+    int linestart = 0;
+    int crpos = -2;
+    while( linepos < str.length() || crpos != -1 ) {
+        crpos = str.find('\n', linestart);
+        if (crpos != -1 && crpos <= linepos) {
+            lines.push_back( str.substr( linestart, crpos-linestart ) );
+            linepos = crpos + width + 1;
+            linestart = crpos + 1;
+        } else {
+            int spacepos = str.rfind(' ', linepos);
+            if ( spacepos == -1 ) spacepos = str.find(' ', linepos);
+            if ( spacepos < linestart ) {
+                spacepos = linestart + width;
+                if( spacepos < str.length() ) {
+                    lines.push_back( str.substr( linestart, width ) );
+                    linepos = spacepos + width;
+                    linestart = spacepos;
+                }
+            } else {
+                lines.push_back( str.substr( linestart, spacepos-linestart ) );
+                linepos = spacepos + width + 1;
+                linestart = spacepos + 1;
+            }
+        }
+    }
+    lines.push_back( str.substr( linestart ) );
+    return lines;
+};
+
+
+template<class SAVEOBJ>
+void edit_json( SAVEOBJ *it, game * g )
+{
+
+    int tmret = -1;
+picojson::value js1=it->json_save(true);
+    std::string save1 = js1.serialize();//it->json_save();
+std::string osave1=save1;
+std::string ssave1=it->save_info();
+std::string ssave2;
+    std::vector<std::string> fs1 = fld_string(save1, TERMX-10);
+    std::string save2;
+    std::vector<std::string> fs2;
+    do {
+        uimenu tm;
+
+        for(int s = 0; s < fs1.size(); s++) {
+            tm.addentry(-1, true, -2, "%s", fs1[s].c_str() );
+        }
+        if(tmret == 0) {
+            std::stringstream dump;
+            dump << save1;
+            dump >> js1;
+
+            it->json_load(js1, g);
+            picojson::value s2=it->json_save(true);
+            save2 = s2.serialize();
+            fs2 = fld_string(save2, TERMX-10);
+
+            tm.addentry(-1, true, -2, "== Reloaded: =====================" );
+            for(int s = 0; s < fs2.size(); s++) {
+                tm.addentry(-1, true, -2, "%s", fs2[s].c_str() );
+                if ( s < fs1.size() && fs2[s] != fs1[s] ) {
+                    tm.entries[ tm.entries.size()-1 ].text_color = c_ltgreen;
+                    tm.entries[s].text_color = c_ltred;
+                }
+            }
+            fs2.clear();
+        } else if (tmret == 1) {
+            std::string ret = string_input_popup("test", 50240, save1,"", "jsonedit");
+            if ( ret.size() > 0 ) {
+                fs1 = fld_string(save1, TERMX-10);
+                save1 = ret;
+                tmret=-2;
+///                fs2 = fld_string(save1, TERMX-10);
+//                entries.clear
+            }
+        } else if ( tmret == 2 ) {
+    std::ofstream fout;
+    fout.open("save/jtest-1.txt");
+    fout << ssave1;
+    fout.close();
+    fout.open("save/jtest-1j.txt");
+    fout << osave1;
+    fout.close();
+
+    fout.open("save/jtest-2j.txt");
+    fout << it->json_save(true).serialize();
+    fout.close();
+
+    fout.open("save/jtest-2.txt");
+    fout << it->save_info();
+    fout.close();
+
+        } 
+        tm.addentry(0,true,'r',"rehash");
+        tm.addentry(1,true,'e',"edit");
+tm.addentry(2,true,'d',"dump to save/jtest-*.txt");
+        tm.addentry(3,true,'q',"exit");
+        if ( tmret != -2 ) {
+           tm.query();
+           tmret = tm.ret;
+        } else {
+           tmret = 0;
+        }
+
+    } while(tmret != 3);
+
+}
+
 /*
  * map position to screen position
  */
@@ -170,6 +293,14 @@ point editmap::edit(point coords)
             lastop = 't';
         } else if ( ch == 'v' ) {
             uberdraw = !uberdraw;
+        } else if ( ch == 'm' ) {
+            int mon_index = g->mon_at(target.x, target.y);
+            int npc_index = g->npc_at(target.x, target.y);
+          if(mon_index >= 0) {
+            edit_mon(target);
+          } else if (npc_index >= 0) {
+            edit_npc(target);
+          }
         } else if ( ch == 'o' ) {
             apply_mapgen( target );
             lastop = 'o';
@@ -928,6 +1059,7 @@ int editmap::edit_trp(point coords)
 enum editmap_imenu_ent {
     imenu_bday, imenu_damage, imenu_burnt,
     imenu_sep, imenu_luminance, imenu_direction, imenu_width,
+    imenu_savetest,
     imenu_exit,
 };
 
@@ -962,11 +1094,11 @@ int editmap::edit_itm(point coords)
             imenu.addentry(imenu_luminance, true, -1, "lum: %f", (float)it->light.luminance);
             imenu.addentry(imenu_direction, true, -1, "dir: %d", (int)it->light.direction);
             imenu.addentry(imenu_width, true, -1, "width: %d", (int)it->light.width);
-
+            imenu.addentry(imenu_savetest,true,-1,"savetest");
             imenu.addentry(imenu_exit, true, -1, "exit");
             do {
                 imenu.query();
-                if ( imenu.ret >= 0 && imenu.ret < imenu_exit ) {
+                if ( imenu.ret >= 0 && imenu.ret < imenu_savetest ) {
                     int intval = -1;
                     switch(imenu.ret) {
                         case imenu_bday:
@@ -1017,6 +1149,8 @@ int editmap::edit_itm(point coords)
                     wrefresh(ilmenu.window);
                     wrefresh(imenu.window);
                     wrefresh(g->w_terrain);
+                } else if ( imenu.ret == imenu_savetest ) {
+                    edit_json(it,g);
                 }
             } while(imenu.ret != imenu_exit);
             wrefresh(w_info);
@@ -1031,6 +1165,9 @@ int editmap::edit_itm(point coords)
 int editmap::edit_mon(point coords)
 {
     int ret = 0;
+    int mon_index = g->mon_at(target.x, target.y);
+    monster * it=&g->zombie(mon_index);
+    edit_json(it,g);
     return ret;
 }
 
@@ -1136,6 +1273,9 @@ bool editmap::move_target( InputEvent &input, int ch, int moveorigin )
 int editmap::edit_npc(point coords)
 {
     int ret = 0;
+    int npc_index = g->npc_at(target.x, target.y);
+    npc * it=g->active_npc[npc_index];
+    edit_json(it,g);
     return ret;
 }
 
