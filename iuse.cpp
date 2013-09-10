@@ -3937,7 +3937,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     const int cauterize = 2;
     const int cancel = 4;
     char ch;
- 
+
     uimenu kmenu;
     kmenu.text = _("Using knife:");
     kmenu.addentry( cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood") );
@@ -3946,7 +3946,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         if ( !p->use_charges_if_avail("fire", 4) ) {
             kmenu.addentry( cauterize, false, -1, _("You need a lighter with 4 charges before you can cauterize yourself.") );
         } else {
-            kmenu.addentry( cauterize, true, -1, 
+            kmenu.addentry( cauterize, true, -1,
               (p->has_disease("bite") || p->has_disease("bleed")) ? _("Cauterize") :  _("Cauterize...for FUN!")
             );
         }
@@ -3972,8 +3972,8 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     if (cut->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
         return;
-    } else if ( p->has_weapon_or_armor(cut->invlet) && menu(true, _("You're wearing that, are you sure?"), _("Yes"), _("No") ) != 1 ) {
-        return;       
+    } else if (p->has_weapon_or_armor(cut->invlet) && menu(true, _("You're wearing that, are you sure?"), _("Yes"), _("No"), NULL) != 1) {
+        return;
     }
 
     if (choice == carve_writing) {
