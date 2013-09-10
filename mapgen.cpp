@@ -102,6 +102,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
   grid[i]->active_item_count = 0;
   grid[i]->field_count = 0;
   grid[i]->turn_last_touched = turn;
+  grid[i]->temperature = 0;
   grid[i]->comp = computer();
   grid[i]->camp = basecamp();
   for (int x = 0; x < SEEX; x++) {
@@ -203,7 +204,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
  }
  density = density/100;
 
- draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g, density);
+ draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g, density, z);
 
  if ( one_in( oterlist[terrain_type].embellishments.chance ))
   add_extra( random_map_extra( oterlist[terrain_type].embellishments ), g);
@@ -233,7 +234,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
 
 void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                    const oter_id t_south, const oter_id t_west, const oter_id t_above,
-                   const int turn, game *g, const float density)
+                   const int turn, game *g, const float density, const int zlevel)
 {
 // Big old switch statement with a case for each overmap terrain type.
 // Many of these can be copied from another type, then rotated; for instance,
@@ -528,17 +529,17 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
     if (rc <= 50)
-        add_vehicle (g, veh_car_chassis, vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "car_chassis", vx, vy, veh_spawn_heading, -1, 1);
     else if (rc <= 70)
-        add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "car", vx, vy, veh_spawn_heading, -1, 1);
     else if (rc <= 80)
-        add_vehicle (g, veh_car_electric, vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "electric_car", vx, vy, veh_spawn_heading, -1, 1);
     else if (rc <= 90)
-        add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "flatbed_truck", vx, vy, veh_spawn_heading, -1, 1);
     else if (rc <= 95)
-        add_vehicle (g, veh_rv, vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "rv", vx, vy, veh_spawn_heading, -1, 1);
     else
-        add_vehicle (g, veh_motorcycle, vx, vy, veh_spawn_heading, -1, 1);
+        add_vehicle (g, "motorcycle", vx, vy, veh_spawn_heading, -1, 1);
    }
   }
 
@@ -549,11 +550,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (8, 16);
     int rc = rng(1, 10);
     if (rc <= 5)
-        add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
+        add_vehicle (g, "car", vx, vy, veh_spawn_heading, 0, -1);
     else if (rc <= 9)
-        add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, 0, -1);
+        add_vehicle (g, "flatbed_truck", vx, vy, veh_spawn_heading, 0, -1);
     else
-        add_vehicle (g, veh_semi, vx, vy, veh_spawn_heading, 0, -1);
+        add_vehicle (g, "semi_truck", vx, vy, veh_spawn_heading, 0, -1);
    }
   }
 
@@ -599,17 +600,17 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
 	if (rc <= 50)
-     add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 70)
-     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 80)
-     add_vehicle (g, veh_car_electric, vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 90)
-     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 95)
-     add_vehicle (g, veh_rv, vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else
-     add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, 1);
+     add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, 1);
    }
   }
   // spawn regular road out of fuel vehicles
@@ -619,11 +620,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (10, 12);
     int rc = rng(1, 10);
 	if (rc <= 5)
-     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+     add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else if (rc <= 9)
-     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+     add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-     add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+     add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
   }
 
@@ -674,17 +675,17 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
     if (rc <= 50)
-        add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 70)
-        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 80)
-        add_vehicle (g, veh_car_electric, vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 90)
-        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 95)
-        add_vehicle (g, veh_rv, vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else
-        add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, 1);
+        add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, 1);
    }
   }
   // spawn regular road out of fuel vehicles
@@ -694,11 +695,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (10, 12);
     int rc = rng(0, 10);
     if (rc <= 5)
-        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else if (rc <= 9)
-        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-        add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
   }
 
@@ -747,19 +748,19 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
     if (rc <= 50)
-        add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 70)
-        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 80)
-        add_vehicle (g, veh_car_electric, vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 90)
-        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 95)
-        add_vehicle (g, veh_rv, vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 96)
-        add_vehicle (g, veh_shopping_cart, vx, vy, one_in(2)? 90 : 180);
+        add_vehicle (g, "shopping_cart", vx, vy, one_in(2)? 90 : 180);
     else
-        add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, -1);
+        add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, -1);
    }
   }
 
@@ -839,11 +840,11 @@ t   t\n\
     int vy = rng (10, 12);
     int rc = rng(1, 10);
     if (rc <= 5)
-        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else if (rc <= 9)
-        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-        add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
 
   if (terrain_type == ot_bridge_ew)
@@ -877,11 +878,11 @@ t   t\n\
     int vy = rng (10, 12);
     int rc = rng(1, 10);
     if (rc <= 5)
-        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else if (rc <= 9)
-        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-        add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
   break;
 
@@ -1384,34 +1385,35 @@ t   t\n\
   {
       int vx = rng (0, 3) * 4 + 5;
       int vy = 4;
-      vhtype_id vt = veh_null;
+      std::string vt = "";
       int r = rng(1, 100);
       if (r <= 5) { //specials
           int ra = rng(1, 100);
-          if (ra <= 3) {         vt = veh_armytruck;
-          } else if (ra <= 10) { vt = veh_bubblecar;
-          } else if (ra <= 15) { vt = veh_rv;
-          } else if (ra <= 20) { vt = veh_schoolbus;
-          } else {               vt = veh_sandbike;
+          if (ra <= 3) {         vt = "military_cargo_truck";
+          } else if (ra <= 10) { vt = "bubble_car";
+          } else if (ra <= 15) { vt = "rv";
+          } else if (ra <= 20) { vt = "schoolbus";
+          } else {               vt = "quad_bike";
           }
       }	else if (r <= 15) { //commercial
           int rb = rng(1, 100);
-          if (rb <= 25) {        vt = veh_trucktrailer;
-          } else if (rb <= 35) { vt = veh_semi;
-          } else {               vt = veh_truck;
+          if (rb <= 25) {        vt = "truck_trailer";
+          } else if (rb <= 35) { vt = "semi_truck";
+          } else {               vt = "flatbed_truck";
           }
-      }		else if (r < 50) { //commons
+      }	else if (r < 50) { //commons
           int rc = rng(1, 100);
-          if (rc <= 4) { 				    vt = veh_golfcart;
-          }	else if (rc <= 11) {	vt = veh_scooter;
-          } else if (rc <= 21) {	vt = veh_bug;
-          } else if (rc <= 50) { vt = veh_car;
-          } else if (rc <= 60) {	vt = veh_car;
-          } else if (rc <= 75) {	vt = veh_bicycle;
-          } else {          					vt = veh_motorcycle;
+          if (rc <= 4) { 				    vt = "golf_cart";
+          }	else if (rc <= 11) {	vt = "scooter";
+          } else if (rc <= 21) {	vt = "beetle";
+          } else if (rc <= 50) {    vt = "car";
+          } else if (rc <= 60) {	vt = "electric_car";
+          } else if (rc <= 75) {	vt = "bicycle";
+          } else if (rc <= 90) {    vt = "motorcycle";
+          } else {                  vt = "motorcycle_sidecart";
           }
       } else {
-          vt = veh_shopping_cart;
+          vt = "shopping_cart";
       }
 
       add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270, -1, -1);
@@ -1639,7 +1641,7 @@ t   t\n\
   {
       int num_carts = rng(0, 5);
       for( int i = 0; i < num_carts; i++ ) {
-          add_vehicle (g, veh_shopping_cart, rng(lw, cw), rng(tw, mw), 90);
+          add_vehicle (g, "shopping_cart", rng(lw, cw), rng(tw, mw), 90);
       }
   }
 
@@ -2559,27 +2561,27 @@ sss|........|.R.|EEED___\n",
       }
      if (t_west == ot_office_tower_b_entrance){
             rotate(1);
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 17, 7, 180);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_motorcycle, 17, 13, 180);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 17, 19, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 17, 7, 180);}
+            if (x_in_y(1,3)){add_vehicle (g, "motorcycle", 17, 13, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 17, 19, 180);}
      }
      else if (t_north == ot_office_tower_b_entrance){
             rotate(2);
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 10, 17, 270);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_motorcycle, 4, 18, 270);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 16, 17, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 10, 17, 270);}
+            if (x_in_y(1,3)){add_vehicle (g, "motorcycle", 4, 18, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 16, 17, 270);}
      }
      else if (t_east == ot_office_tower_b_entrance){
             rotate(3);
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 6, 4, 0);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_motorcycle, 6, 10, 180);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 6, 16, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 6, 4, 0);}
+            if (x_in_y(1,3)){add_vehicle (g, "motorcycle", 6, 10, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 6, 16, 0);}
 
      }
      else{
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 7, 6, 90);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 14, 6, 90);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_motorcycle, 19, 6, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 7, 6, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 14, 6, 90);}
+            if (x_in_y(1,3)){add_vehicle (g, "motorcycle", 19, 6, 90);}
      }
   }
 
@@ -2620,26 +2622,26 @@ ssssssssssssssssssssssss\n",
       }
      if (t_north == ot_office_tower_b_entrance){
             rotate(1);
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 8, 15, 0);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 7, 10, 180);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_bug, 7, 3, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 8, 15, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 7, 10, 180);}
+            if (x_in_y(1,3)){add_vehicle (g, "beetle", 7, 3, 0);}
      }
      else if (t_east == ot_office_tower_b_entrance){
             rotate(2);
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 7, 7, 270);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 13, 8, 90);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_bug, 20, 7, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 7, 7, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 13, 8, 90);}
+            if (x_in_y(1,3)){add_vehicle (g, "beetle", 20, 7, 90);}
      }
      else if (t_south == ot_office_tower_b_entrance){
             rotate(3);
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 16, 7, 0);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 15, 13, 180);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_bug, 15, 20, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 16, 7, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 15, 13, 180);}
+            if (x_in_y(1,3)){add_vehicle (g, "beetle", 15, 20, 180);}
      }
      else{
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 16, 16, 90);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 9, 15, 270);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_bug, 4, 16, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 16, 16, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 9, 15, 270);}
+            if (x_in_y(1,3)){add_vehicle (g, "beetle", 4, 16, 270);}
      }
   }
 
@@ -2679,26 +2681,26 @@ ___DEEE|.R.|...,,...|sss\n",
       }
      if (t_west == ot_office_tower_b && t_north == ot_office_tower_b){
             rotate(1);
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 17, 4, 180);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 17, 10, 180);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_car, 17, 17, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 17, 4, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 17, 10, 180);}
+            if (x_in_y(1,3)){add_vehicle (g, "car", 17, 17, 180);}
             }
      else if (t_east == ot_office_tower_b && t_north == ot_office_tower_b){
             rotate(2);
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 6, 17, 270);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 12, 17, 270);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_car, 18, 17, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 6, 17, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 12, 17, 270);}
+            if (x_in_y(1,3)){add_vehicle (g, "car", 18, 17, 270);}
             }
      else if (t_east == ot_office_tower_b && t_south == ot_office_tower_b){
             rotate(3);
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 6, 6, 0);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 6, 13, 0);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_car, 5, 19, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 6, 6, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 6, 13, 0);}
+            if (x_in_y(1,3)){add_vehicle (g, "car", 5, 19, 180);}
             }
      else{
-            if (x_in_y(1,5)){add_vehicle (g, veh_truck, 16, 6, 90);}
-            if (x_in_y(1,5)){add_vehicle (g, veh_car, 10, 6, 90);}
-            if (x_in_y(1,3)){add_vehicle (g, veh_car, 4, 6, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 16, 6, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "car", 10, 6, 90);}
+            if (x_in_y(1,3)){add_vehicle (g, "car", 4, 6, 90);}
             }
      }
   }break;
@@ -3284,7 +3286,7 @@ C..C..C...|hhh|#########\n\
   {
       int num_carts = rng(0, 5);
       for( int i = 0; i < num_carts; i++ ) {
-          add_vehicle (g, veh_shopping_cart, rng(3, 21), rng(3, 21), 90);
+          add_vehicle (g, "shopping_cart", rng(3, 21), rng(3, 21), 90);
       }
   }
 
@@ -3598,7 +3600,7 @@ C..C..C...|hhh|#########\n\
   {
       int num_carts = rng(0, 3);
       for( int i = 0; i < num_carts; i++ ) {
-          add_vehicle (g, veh_shopping_cart, rng(4, 19), rng(3, 11), 90);
+          add_vehicle (g, "shopping_cart", rng(4, 19), rng(3, 11), 90);
       }
   }
 
@@ -3712,7 +3714,7 @@ C..C..C...|hhh|#########\n\
   {
       int num_carts = rng(0, 5);
       for( int i = 0; i < num_carts; i++ ) {
-          add_vehicle (g, veh_shopping_cart, rng(3, 16), rng(3, 21), 90);
+          add_vehicle (g, "shopping_cart", rng(3, 16), rng(3, 21), 90);
       }
   }
 
@@ -4176,6 +4178,10 @@ case ot_lmoe: {
  case ot_ice_lab:
  case ot_ice_lab_stairs:
  case ot_ice_lab_core:
+    if (ice_lab) {
+        int temperature = -20 + 30*(zlevel);
+        set_temperature(x, y, temperature);
+    }
 // Check for adjacent sewers; used below
   tw = 0;
   rw = 0;
@@ -4875,6 +4881,9 @@ ff.......|....|WWWWWWWW|\n\
  ice_lab_finale = false;
  case ot_ice_lab_finale:
   if ( ice_lab_finale ) {
+      int temperature = -20 + 30*(g->levz);
+      set_temperature(x, y, temperature);
+
       tw = (t_north >= ot_ice_lab && t_north <= ot_ice_lab_finale) ? 0 : 2;
       rw = (t_east  >= ot_ice_lab && t_east  <= ot_ice_lab_finale) ? 1 : 2;
       bw = (t_south >= ot_ice_lab && t_south <= ot_ice_lab_finale) ? 1 : 2;
@@ -6561,18 +6570,18 @@ __________           f  \n",
      place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
      if (t_west == ot_public_works && t_north == ot_public_works){
             rotate(1);
-            if (x_in_y(2,3)){add_vehicle (g, veh_truck, 2, 0, 90);}
+            if (x_in_y(2,3)){add_vehicle (g, "flatbed_truck", 2, 0, 90);}
      }
      else if (t_east == ot_public_works && t_north == ot_public_works){
             rotate(2);
-             if (x_in_y(2,3)){add_vehicle (g, veh_truck, 23, 10, 270);}
+             if (x_in_y(2,3)){add_vehicle (g, "flatbed_truck", 23, 10, 270);}
      }
      else if (t_east == ot_public_works && t_south == ot_public_works){
             rotate(3);
-             if (x_in_y(2,3)){add_vehicle (g, veh_truck, 10, 23, 0);}
+             if (x_in_y(2,3)){add_vehicle (g, "flatbed_truck", 10, 23, 0);}
      }
      else{
-             if (x_in_y(2,3)){add_vehicle (g, veh_truck, 0, 10, 90);}
+             if (x_in_y(2,3)){add_vehicle (g, "flatbed_truck", 0, 10, 90);}
      }
   }
   }break;
@@ -6701,16 +6710,16 @@ sssssssss_______ssssssss\n",
   add_spawn(mon_zombie_child, rng(0, 8), SEEX, SEEY);
   if (t_north == ot_school_2){
    rotate(1);
-   if (x_in_y(1,7)){add_vehicle (g, veh_schoolbus, 19, 10, 0);}}
+   if (x_in_y(1,7)){add_vehicle (g, "schoolbus", 19, 10, 0);}}
   else if (t_east == ot_school_2){
    rotate(2);
-   if (x_in_y(1,7)){add_vehicle (g, veh_schoolbus, 9, 7, 0);}}
+   if (x_in_y(1,7)){add_vehicle (g, "schoolbus", 9, 7, 0);}}
   else if (t_south == ot_school_2){
    rotate(3);
-   if (x_in_y(1,7)){add_vehicle (g, veh_schoolbus, 12, 18, 180);}}
+   if (x_in_y(1,7)){add_vehicle (g, "schoolbus", 12, 18, 180);}}
   else if (t_west == ot_school_2){
    rotate(0);
-   if (x_in_y(1,7)){add_vehicle (g, veh_schoolbus, 17, 7, 0);}}
+   if (x_in_y(1,7)){add_vehicle (g, "schoolbus", 17, 7, 0);}}
   }break;
 
  case ot_school_4: {
@@ -8044,16 +8053,16 @@ sssssssssssssssssssssss\n",
   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
   if (t_north == ot_hotel_tower_1_2){
    rotate(1);
-   if (x_in_y(1,12)){add_vehicle (g, veh_car, 12, 18, 180);}}
+   if (x_in_y(1,12)){add_vehicle (g, "car", 12, 18, 180);}}
   else if (t_east == ot_hotel_tower_1_2){
    rotate(2);
-   if (x_in_y(1,12)){add_vehicle (g, veh_car, 9, 7, 0);}}
+   if (x_in_y(1,12)){add_vehicle (g, "car", 9, 7, 0);}}
   else if (t_south == ot_hotel_tower_1_2){
    rotate(3);
-   if (x_in_y(1,12)){add_vehicle (g, veh_car, 12, 18, 180);}}
+   if (x_in_y(1,12)){add_vehicle (g, "car", 12, 18, 180);}}
   else if (t_west == ot_hotel_tower_1_2){
    rotate(0);
-   if (x_in_y(1,12)){add_vehicle (g, veh_car, 17, 7, 0);}}
+   if (x_in_y(1,12)){add_vehicle (g, "car", 17, 7, 0);}}
   }break;
 
  case ot_hotel_tower_1_4: {
@@ -8705,16 +8714,16 @@ case ot_haz_sar:{
      }
      if (t_west == ot_haz_sar_entrance){
             rotate(1);
-            if (x_in_y(1,4)){add_vehicle (g, veh_armytruck, 10, 11, 0);}}
+            if (x_in_y(1,4)){add_vehicle (g, "military_cargo_truck", 10, 11, 0);}}
      else if (t_north == ot_haz_sar_entrance){
             rotate(2);
-            if (x_in_y(1,4)){add_vehicle (g, veh_armytruck, 12, 10, 90);}
+            if (x_in_y(1,4)){add_vehicle (g, "military_cargo_truck", 12, 10, 90);}
             }
      else if (t_east == ot_haz_sar_entrance){
             rotate(3);
-            if (x_in_y(1,4)){add_vehicle (g, veh_armytruck, 13, 12, 180);}
+            if (x_in_y(1,4)){add_vehicle (g, "military_cargo_truck", 13, 12, 180);}
             }
-     else if (x_in_y(1,4)){add_vehicle (g, veh_armytruck, 11, 13, 270);}
+     else if (x_in_y(1,4)){add_vehicle (g, "military_cargo_truck", 11, 13, 270);}
 
   }
 
@@ -9147,7 +9156,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
 
   } else { // We're above ground!
 // First, draw a forest
-    draw_map(ot_forest, t_north, t_east, t_south, t_west, t_above, turn, g, density);
+   draw_map(ot_forest, t_north, t_east, t_south, t_west, t_above, turn, g, density, zlevel);
 // Clear the center with some rocks
    square(this, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
    int pathx, pathy;
@@ -9319,13 +9328,13 @@ case ot_s_garage_north:
 
         // place vehicle, if any
         if (one_in(3)) {
-          vhtype_id vt;
+          std::string vt;
           if (one_in(3))
-            vt = one_in(2) ? veh_car : veh_car_chassis;
+            vt = one_in(2) ? "car" : "car_chassis";
           else if(one_in(2))
-            vt = one_in(2) ? veh_sandbike : veh_sandbike_chassis;
+            vt = one_in(2) ? "quad_bike" : "quad_bike_chassis";
           else
-            vt = one_in(2) ? veh_motorcycle : veh_motorcycle_chassis;
+            vt = one_in(2) ? "motorcycle" : "motorcycle_chassis";
           add_vehicle (g, vt, vx, vy, theta, -1, -1);
         }
   }
@@ -12607,12 +12616,16 @@ void map::add_spawn(monster *mon)
            mon->faction_id, mon->mission_id, spawnname);
 }
 
-vehicle *map::add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir,
+vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, const int dir,
                           const int veh_fuel, const int veh_status)
 {
+ if(g->vtypes.count(type) == 0) {
+   debugmsg("Nonexistant vehicle type: \"%s\"", type.c_str());
+   return NULL;
+ }
  if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
-  debugmsg("Bad add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
-  return 0;
+  debugmsg("Out of bounds add_vehicle t=%s d=%d x=%d y=%d", type.c_str(), dir, x, y);
+  return NULL;
  }
 // debugmsg("add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
 
@@ -12631,27 +12644,117 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, const int x, const int y, con
 // veh->init_veh_fuel = 50;
 // veh->init_veh_status = 0;
 
- for( std::vector<int>::const_iterator part = veh->external_parts.begin();
-      part != veh->external_parts.end(); part++ )
- {
-     const int px = x + veh->parts[*part].precalc_dx[0];
-     const int py = y + veh->parts[*part].precalc_dy[0];
+ vehicle *placed_vehicle = add_vehicle_to_map(veh, x, y);
 
-     // Don't spawn on top of another vehicle or other obstacle.
-     if( veh_at(px, py) != NULL || terlist[ter(px, py)].movecost != 2 )
-     {
-         delete veh;
-         return NULL;
-     }
+ if(placed_vehicle != NULL) {
+  grid[nonant]->vehicles.push_back(placed_vehicle);
+
+  vehicle_list.insert(placed_vehicle);
+  update_vehicle_cache(placed_vehicle,true);
+
+  //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
  }
+ return placed_vehicle;
+}
 
- grid[nonant]->vehicles.push_back(veh);
+/**
+ * Takes a vehicle already created with new and attempts to place it on the map,
+ * checking for collisions. If the vehicle can't be placed, returns NULL,
+ * otherwise returns a pointer to the placed vehicle, which may not necessarily
+ * be the one passed in (if wreckage is created by fusing cars).
+ * @param veh The vehicle to place on the map.
+ * @return The vehicle that was finally placed.
+ */
+vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
+{
+  for (std::vector<int>::const_iterator part = veh->external_parts.begin();
+          part != veh->external_parts.end(); part++) {
+    const int px = x + veh->parts[*part].precalc_dx[0];
+    const int py = y + veh->parts[*part].precalc_dy[0];
 
- vehicle_list.insert(veh);
- update_vehicle_cache(veh,true);
+    //Don't spawn anything in water
+    if (ter(px, py) == t_water_dp || ter(px, py) == t_water_pool) {
+      delete veh;
+      return NULL;
+    }
 
- //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
- return veh;
+    // Don't spawn shopping carts on top of another vehicle or other obstacle.
+    if (veh->type == "shopping_cart") {
+      if (veh_at(px, py) != NULL || move_cost(px, py) == 0) {
+        delete veh;
+        return NULL;
+      }
+    }
+
+    //When hitting a wall, only smash the vehicle once (but walls many times)
+    bool veh_smashed = false;
+    //For other vehicles, simulate collisions with (non-shopping cart) stuff
+    vehicle *other_veh = veh_at(px, py);
+    if (other_veh != NULL && other_veh->type != "shopping cart") {
+
+      /* There's a vehicle here, so let's fuse them together into wreckage and
+       * smash them up. It'll look like a nasty collision has occurred.
+       * Trying to do a local->global->local conversion would be a major
+       * headache, so instead, let's make another vehicle whose (0, 0) point
+       * is the (0, 0) of the existing vehicle, convert the coordinates of both
+       * vehicles into global coordinates, find the distance between them and
+       * (px, py) and then install them that way.
+       * Create a vehicle with type "null" so it starts out empty. */
+      vehicle *wreckage = new vehicle(g);
+      wreckage->posx = other_veh->posx;
+      wreckage->posy = other_veh->posy;
+      wreckage->smx = other_veh->smx;
+      wreckage->smy = other_veh->smy;
+      for (int part_index = 0; part_index < veh->parts.size(); part_index++) {
+        
+        const int local_x = (veh->smx * SEEX + veh->posx)
+                       + veh->parts[part_index].precalc_dx[0]
+                       - (wreckage->smx * SEEX + wreckage->posx);
+        const int local_y = (veh->smy * SEEY + veh->posy)
+                       + veh->parts[part_index].precalc_dy[0] 
+                       - (wreckage->smy * SEEY + wreckage->posy);
+
+        wreckage->install_part(local_x, local_y, veh->parts[part_index].id, -1, true);
+
+      }
+      for (int part_index = 0; part_index < other_veh->parts.size(); part_index++) {
+
+        const int local_x = (other_veh->smx * SEEX + other_veh->posx)
+                       + other_veh->parts[part_index].precalc_dx[0]
+                       - (wreckage->smx * SEEX + wreckage->posx);
+        const int local_y = (other_veh->smy * SEEY + other_veh->posy)
+                       + other_veh->parts[part_index].precalc_dy[0]
+                       - (wreckage->smy * SEEY + wreckage->posy);
+
+        wreckage->install_part(local_x, local_y, other_veh->parts[part_index].id, -1, true);
+
+      }
+
+      wreckage->name = _("Wreckage");
+      wreckage->smash();
+
+      //Now get rid of the old vehicles
+      destroy_vehicle(other_veh);
+      delete veh;
+
+      //Try again with the wreckage
+      return add_vehicle_to_map(wreckage, x, y);
+
+    } else if (move_cost(px, py) == 0) {
+
+      //There's a wall or other obstacle here; destroy it
+      destroy(g, px, py, false);
+
+      //Then smash up the vehicle
+      if(!veh_smashed) {
+        veh->smash();
+        veh_smashed = true;
+      }
+
+    }
+  }
+
+  return veh;
 }
 
 computer* map::add_computer(int x, int y, std::string name, int security)

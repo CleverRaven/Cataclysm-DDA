@@ -307,6 +307,10 @@ class map
 // Radiation
  int& radiation(const int x, const int y);	// Amount of radiation at (x, y);
 
+// Temperature
+ int& temperature(const int x, const int y);    // Temperature for submap
+ void set_temperature(const int x, const int y, const int temperature); // Set temperature for all four submap quadrants
+
 // Items
  std::vector<item>& i_at(int x, int y);
  item water_from(const int x, const int y);
@@ -378,7 +382,7 @@ class map
                 std::string name = "NONE");
  void add_spawn(monster *mon);
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
- vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir,
+ vehicle *add_vehicle(game *g, std::string type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1 );
  computer* add_computer(const int x, const int y, std::string name, const int security);
  float light_transparency(const int x, const int y) const;
@@ -398,7 +402,7 @@ protected:
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                const oter_id t_south, const oter_id t_west, const oter_id t_above, const int turn,
-               game *g, const float density);
+               game *g, const float density, const int zlevel);
  void add_extra(map_extra type, game *g);
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
@@ -416,6 +420,7 @@ protected:
  field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
  int nulrad;	// OOB &radiation()
+ int null_temperature;  // Because radiation does it too
 
  std::vector <trap*> *traps;
 
@@ -424,15 +429,23 @@ protected:
 private:
  long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
+ // apply a circular light pattern immediately, however it's best to use...
  void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);
+ // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
+ // light rays from causing massive slowdowns, if there's a huge amount of light.
+ void add_light_source(int x, int y, float luminance);
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
+ vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ // to prevent redundant ray casting into neighbors: precalculate bulk light source positions. This is
+ // only valid for the duration of generate_lightmap
+ float light_source_buffer[MAPSIZE*SEEX][MAPSIZE*SEEY];
  bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];

@@ -3,9 +3,7 @@
 
 #include <string>
 #include <vector>
-#ifdef LOCALIZE
 #include <locale>
-#endif
 #include <algorithm>
 
 class cPickupRules {
@@ -29,7 +27,7 @@ class cPickupRules {
         ~cPickupRules() {};
 };
 
-extern std::map<std::string, bool> mapAutoPickupItems;
+extern std::map<std::string, std::string> mapAutoPickupItems;
 extern std::vector<cPickupRules> vAutoPickupRules[5];
 
 void test_pattern(int iCurrentPage, int iCurrentLine);
@@ -38,7 +36,7 @@ void merge_vector();
 bool hasPickupRule(std::string sRule);
 void addPickupRule(std::string sRule);
 void removePickupRule(std::string sRule);
-void createPickupRules();
+void createPickupRules(const std::string sItemNameIn = "");
 void save_reset_changes(bool bReset);
 void show_auto_pickup();
 void load_auto_pickup(bool bCharacter);

@@ -9322,7 +9322,8 @@
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
       [ "toolset", 1 ],
-	  [ "forge", 10]
+	  [ "forge", 10],
+	  [ "char_forge", 2]
     ]
   ],
   "components": [
@@ -9368,7 +9369,8 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 2 ],
-      [ "forge", 50 ]
+      [ "forge", 50 ],
+	  [ "char_forge", 10]
     ]
   ],
   "components": [
@@ -9420,7 +9422,8 @@
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 5 ],
-      [ "forge", 100 ]
+      [ "forge", 100 ],
+	  [ "char_forge", 20]
     ]
   ],
   "components": [
@@ -10430,7 +10433,8 @@
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
       [ "toolset", 1 ],
-	  [ "forge", 5]
+	  [ "forge", 5],
+	  [ "char_forge", 1]
     ]
   ],
   "components": [
@@ -10461,7 +10465,8 @@
       [ "disinfectant", 2 ]
     ],
     [
-      [ "bandages", 2 ]
+      [ "bandages", 2 ],
+      [ "quikclot", 2 ]
     ]
   ]
 },
@@ -10649,7 +10654,8 @@
     [
       ["toolset", 10],
       ["fire", -1],
-	  ["forge", 7]
+	  ["forge", 7],
+	  [ "char_forge", 2]
       ]
   ],
   "components": [
@@ -11612,7 +11618,8 @@
       ["crucible", -1]  
       ],
       [
-	  [ "forge", 150]
+	  [ "forge", 150],
+	  [ "char_forge", 30]
       ]
       ],
   "components": 
@@ -11631,7 +11638,8 @@
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
       [
-	  [ "forge", 100]
+	  [ "forge", 100],
+	  [ "char_forge", 20]
       ]
       ],
   "components": 
@@ -11658,7 +11666,8 @@
       ["anvil", -1]  
       ],
       [
-	  [ "forge", 150]
+	  [ "forge", 150],
+	  [ "char_forge", 30]
       ]
       ],
   "components": 
@@ -11689,7 +11698,8 @@
       ]
 	  ,
       [
-	  [ "forge", 200]
+	  [ "forge", 200],
+	  [ "char_forge", 40]
       ]
       ],
   "components": 
@@ -11722,7 +11732,8 @@
       ]
 	  ,
       [
-	  [ "forge", 250]
+	  [ "forge", 250],
+	  [ "char_forge", 50]
       ]
       ],
   "components": 
@@ -11757,7 +11768,8 @@
       ["swage", -1]  
       ],
       [
-	  [ "forge", 250]
+	  [ "forge", 250],
+	  [ "char_forge", 50]
       ]
       ],
   "components": 
@@ -11786,7 +11798,7 @@
     [ ["chisel", -1] ],
     [ ["swage", -1]  ],
     [ ["anvil", -1]  ],
-    [ ["forge", 50]  ] 
+    [ ["forge", 50], [ "char_forge", 10]  ] 
            ],
   "components": [
     [
@@ -11817,7 +11829,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300],
+	  [ "char_forge", 60]
       ]
       ],
   "components": 
@@ -11856,7 +11869,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 350]
+	  ["forge", 350],
+	  [ "char_forge", 70]
       ]
       ],
   "components": 
@@ -11899,7 +11913,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 400]
+	  ["forge", 400],
+	  [ "char_forge", 80]
       ]
       ],
   "components": 
@@ -11942,7 +11957,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450],
+	  [ "char_forge", 90]
       ]
       ],
   "components": 
@@ -11985,7 +12001,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450],
+	  [ "char_forge", 90]
       ]
       ],
   "components": 
@@ -12028,7 +12045,8 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450],
+	  [ "char_forge", 90]
       ]
       ],
   "components": 
@@ -12071,7 +12089,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 500]
+	  ["forge", 500], ["char_forge", 100]
       ]
       ],
   "components": 
@@ -12110,7 +12128,7 @@
       ["anvil", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12153,7 +12171,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12195,7 +12213,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12237,7 +12255,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12275,7 +12293,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12313,7 +12331,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12347,7 +12365,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12384,7 +12402,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12421,7 +12439,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 200]
+	  ["forge", 200], ["char_forge", 40]
       ]
       ],
   "components": 
@@ -12459,7 +12477,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 250]
+	  ["forge", 250], ["char_forge", 50]
       ]
       ],
   "components": 
@@ -12497,7 +12515,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12535,7 +12553,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 350]
+	  ["forge", 350], ["char_forge", 70]
       ]
       ],
   "components": 
@@ -12573,7 +12591,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12613,7 +12631,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450], ["char_forge", 90]
       ]
       ],
   "components": 
@@ -12646,7 +12664,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 20]
+	  ["forge", 20], ["char_forge", 4]
       ]
       ],
   "components": 
@@ -12680,7 +12698,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450], ["char_forge", 90]
       ]
       ],
   "components": 
@@ -12717,7 +12735,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 400]
+	  ["forge", 400], ["char_forge", 80]
       ]
       ],
   "components": 
@@ -12755,7 +12773,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12794,7 +12812,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 250]
+	  ["forge", 250], ["char_forge", 50]
       ]
       ],
   "components": 
@@ -12833,7 +12851,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 350]
+	  ["forge", 350], ["char_forge", 70]
       ]
       ],
   "components": 
@@ -12871,7 +12889,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 300]
+	  ["forge", 300], ["char_forge", 60]
       ]
       ],
   "components": 
@@ -12909,7 +12927,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450], ["char_forge", 90]
       ]
       ],
   "components": 
@@ -12950,7 +12968,7 @@
       ["crucible", -1]  
       ],
       [
-	  ["forge", 450]
+	  ["forge", 450], ["char_forge", 90]
       ]
       ],
   "components": 
@@ -13011,7 +13029,7 @@
       ["swage", -1]  
       ],
       [
-	  ["forge", 350]
+	  ["forge", 350], ["char_forge", 70]
       ]
       ],
   "components": [
@@ -13399,7 +13417,6 @@
     ]
   ]
 },
-
 {
   "result": "jar_meat_pickled",
   "category": "CC_FOOD",
@@ -13497,6 +13514,29 @@
 },
 
 {
+  "result": "matchbomb",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "string_6", 1 ]
+    ],
+    [
+      [ "bottle_glass", 1 ],
+      [ "flask_glass", 1 ],
+      [ "jar_glass", 1 ]
+    ],
+    [
+      [ "matches", 20 ]
+    ]
+  ]
+},
+
+{
   "result": "goggles_welding",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -13525,6 +13565,413 @@
       [ "spray_can", 1 ]
     ]
   ]
+},
+{
+  "result": "rock_sock",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rock", 1 ]
+    ],
+    [
+      [ "socks", 1 ],
+      [ "socks_wool", 1 ]
+    ]
+  ]
+},
+{
+  "result": "quikclot",
+  "category": "CC_CHEM",
+  "skill_used": "firstaid",
+  "requires_skills": [ "cooking", 1 ],
+  "difficulty": 4,
+  "time": 1200,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 18 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "chitin_piece", 6 ]
+    ],
+    [
+      [ "ammonia", 1 ]
+    ]
+  ]
+},
+{
+  "result": "char_forge",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+      [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 10 ],
+      [ "soldering_iron", 100 ]
+      ] ],
+  "components":
+    [
+     [ ["pilot_light", 1] ],
+     [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
+     ],
+     [ [ "metal_tank", 1 ]
+     ],
+     [ ["pipe", 3]
+     ]
+  ]
+},
+{
+  "result": "char_kiln",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+      [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "welder", 150 ],
+      [ "welder_crude", 225 ],
+      [ "toolset", 15 ],
+      [ "soldering_iron", 150 ]
+      ] ],
+  "components":
+    [
+     [
+     [ "steel_lump", 5 ],
+     [ "steel_chunk", 20 ],
+     [ "scrap", 60 ]
+     ],
+     [ [ "metal_tank", 1 ]
+     ],
+     [ ["pipe", 6]
+     ]
+  ]
+},
+{
+  "result": "charcoal",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "lighter", 1 ],
+      [ "ref_lighter", 1 ],
+      [ "matches", 1 ],
+      [ "fire_drill", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "char_kiln", -1 ] ]
+  ],
+  "components": [
+    [
+      [ "2x4", 5 ],
+      [ "stick", 5 ],
+      [ "splinter", 20 ],
+      [ "bone", 40 ]
+    ]
+  ]
+},
+{
+  "result": "char_purifier",
+  "category": "CC_MISC",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "bottle_glass", 2 ],
+      [ "bottle_plastic", 5 ]
+    ],
+    [
+      [ "hose", 1 ]
+    ],
+    [
+      [ "scrap", 8 ]
+    ],
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},
+{
+  "result": "leather_cat_ears",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 3]
+    ]
+  ]
+},
+
+{
+  "result": "fur_cat_ears",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 3]
+    ]
+  ]
+},
+
+{
+  "result": "leather_cat_tail",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 4 ]
+    ],
+    [
+      [ "string_36", 1]
+    ],
+    [
+      [ "plastic_chunk", 10],
+      [ "bottle_plastic", 5],
+      [ "jug_plastic", 2]
+    ]
+  ]
+},
+
+{
+  "result": "fur_cat_tail",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "hotplate", 5],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 4 ]
+    ],
+    [
+      [ "string_36", 1]
+    ],
+    [
+      [ "plastic_chunk", 10],
+      [ "bottle_plastic", 5],
+      [ "jug_plastic", 2]
+    ]
+  ]
+},
+
+{
+  "result": "fur_collar",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 5 ],
+      [ "sewing_kit", 5 ]
+    ],
+    [
+      [ "soldering_iron", 10],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 2 ]
+    ],
+    [
+      [ "scrap", 1]
+    ]
+  ]
+},
+
+{
+  "result": "leather_collar",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 5 ],
+      [ "sewing_kit", 5 ]
+    ],
+    [
+      [ "soldering_iron", 10],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ],
+    [
+      [ "scrap", 1]
+    ]
+  ]
 }
 ]
 }
+

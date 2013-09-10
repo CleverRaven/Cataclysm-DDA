@@ -602,7 +602,7 @@ std::string ammo_name(ammotype t)
     if( t == "84x246mm" )  return _("84mm recoilless projectile");
     if( t == "m235" )  return _("M235 Incendiary TPA");
     if( t == "gasoline" )	  return _("gasoline");
-    if( t == "THREAD" )return _("thread");
+    if( t == "thread" )return _("thread");
     if( t == "battery" )  return _("batteries");
     if( t == "plutonium" )  return _("plutonium");
     if( t == "muscle" )return _("muscle");
@@ -611,6 +611,9 @@ std::string ammo_name(ammotype t)
     if( t == "plasma" )return _("hydrogen");
     if( t == "water"  )return _("clean water");
     if( t == "8x40mm"  )return _("8x40mm caseless");
+    if( t == "charcoal"  )return _("charcoal");
+    if( t == "UPS"  )return _("UPS");
+    if( t == "components"  )return _("components");
     return "XXX";
 }
 
@@ -647,8 +650,10 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "plasma" )return "plasma";
     if( guntype == "plutonium" )	 return "plut_cell";
     if( guntype == "gasoline" )	  return "gasoline";
-    if( guntype == "THREAD" )return "thread";
+    if( guntype == "thread" )return "thread";
     if( guntype == "water" ) return "water_clean";
-    if( guntype == "8x40mm"  )return "8mm_caseless";
+    if( guntype == "charcoal"  )return "charcoal";
+    if( guntype == "UPS"  )return _("UPS");
+    if( guntype == "components"  )return _("components");
     return "null";
 }

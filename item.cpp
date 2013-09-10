@@ -19,46 +19,22 @@
 
 std::string default_technique_name(technique_id tech);
 
+light_emission nolight={0,0,0};
+
 item::item()
 {
- name = "";
- charges = -1;
- bday = 0;
- invlet = 0;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- type = nullitem();
- curammo = NULL;
- corpse = NULL;
- active = false;
- owned = -1;
- mission_id = -1;
- player_id = -1;
+    init();
 }
 
 item::item(itype* it, unsigned int turn)
 {
+ init();
  if(!it)
   type = nullitem();
  else
   type = it;
  bday = turn;
- name = "";
- invlet = 0;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- active = false;
- curammo = NULL;
  corpse = it->corpse;
- owned = -1;
- mission_id = -1;
- player_id = -1;
  if (it == NULL)
   return;
  name = it->name;
@@ -100,6 +76,7 @@ item::item(itype* it, unsigned int turn)
 
 item::item(itype *it, unsigned int turn, char let)
 {
+ init();
  if(!it) {
   type = nullitem();
   debugmsg("Instantiating an item from itype, with NULL itype!");
@@ -108,12 +85,6 @@ item::item(itype *it, unsigned int turn, char let)
  }
  bday = turn;
  name = it->name;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- active = false;
  if (it->is_gun()) {
   charges = 0;
  } else if (it->is_ammo()) {
@@ -155,15 +126,7 @@ item::item(itype *it, unsigned int turn, char let)
 
 void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
 {
- name = "";
- charges = -1;
- invlet = 0;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- curammo = NULL;
+ init();
  active = mt->species == species_zombie ? true : false;
  if(!it)
   type = nullitem();
@@ -188,6 +151,26 @@ item::~item()
 {
 }
 
+void item::init() {
+    name = "";
+    charges = -1;
+    bday = 0;
+    invlet = 0;
+    damage = 0;
+    burnt = 0;
+    poison = 0;
+    mode = "NULL";
+    item_counter = 0;
+    type = nullitem();
+    curammo = NULL;
+    corpse = NULL;
+    active = false;
+    owned = -1;
+    mission_id = -1;
+    player_id = -1;
+    light = nolight;
+}
+
 void item::make(itype* it)
 {
  if(!it)
@@ -201,6 +184,7 @@ void item::clear()
 {
     // should we be clearing contents, as well?
     // Seems risky to - there aren't any reported content-clearing bugs
+    // init(); // this should not go here either, or make() should not use it...
     item_tags.clear();
     item_vars.clear();
 }
@@ -345,6 +329,14 @@ picojson::value item::json_save() const
         data["name"] = pv ( name );
     }
 
+    if ( light.luminance != 0 ) {
+        data["light"] = pv( int(light.luminance) );
+        if ( light.width != 0 ) {
+            data["light_width"] = pv( int(light.width) );
+            data["light_dir"] = pv( int(light.direction) );
+        }
+    }
+
     return picojson::value(data);
 }
 
@@ -455,20 +447,9 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 
 bool item::json_load(picojson::value parsed, game * g)
 {
+    init();
     clear();
     const picojson::object &data = parsed.get<picojson::object>();
-
-
-    burnt = 0;
-    owned = -1;
-    poison = 0;
-    mode = "NULL";
-    owned = -1;
-    mission_id = -1;
-    player_id = -1;
-    name = "";
-    active = false;
-
 
     std::string idtmp="";
     std::string ammotmp="null";
@@ -539,6 +520,18 @@ bool item::json_load(picojson::value parsed, game * g)
                   item_vars[ pvarsit->first ] = pvarsit->second.get<std::string>();
              }
         }
+    }
+
+    light=nolight;
+    int tmplum=0;
+    int tmpwidth=0;
+    int tmpdir=0;
+    if ( picoint(data,"light",tmplum) ) {
+        picoint(data,"light_width",tmpwidth);
+        picoint(data,"light_dir",tmpdir);
+        light.luminance = (unsigned short)tmplum;
+        light.width = (short)tmpwidth;
+        light.direction = (short)tmpdir;
     }
 
     return true;
@@ -669,7 +662,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
   dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));
-  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion));
+  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Count: "), "", ammo->count));
 
@@ -680,7 +673,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
   dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));
-  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion));
+  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Count: "), "", contents[0].charges));
 
@@ -735,7 +728,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
 
   dump->push_back(iteminfo("GUN", _("Range: "), temp2.str(), gun->range, true, temp1.str(), true, false));
 
-  dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion()));
+  dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion(), true, "", true, true));
 
 
   temp1.str("");
@@ -1346,22 +1339,20 @@ bool item::rotten(game *g)
 
 bool item::ready_to_revive(game *g)
 {
-    if (OPTIONS["REVIVE_ZOMBIES"]) {
-        if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
-        {
-            return false;
-        }
-        int age_in_hours = (int(g->turn) - bday) / (10 * 60);
-        age_in_hours -= ((float)burnt/volume()) * 24;
-        if (damage > 0)
-        {
-            age_in_hours /= (damage + 1);
-        }
-        int rez_factor = 48 - age_in_hours;
-        if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
-        {
-            return true;
-        }
+    if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
+    {
+        return false;
+    }
+    int age_in_hours = (int(g->turn) - bday) / (10 * 60);
+    age_in_hours -= ((float)burnt/volume()) * 24;
+    if (damage > 0)
+    {
+        age_in_hours /= (damage + 1);
+    }
+    int rez_factor = 48 - age_in_hours;
+    if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
+    {
+        return true;
     }
     return false;
 }
