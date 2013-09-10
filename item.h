@@ -282,6 +282,9 @@ class map_item_stack
         }
 };
 
+//this is an attempt for functional programming
+bool is_edible(item i, player const*u);
+
 //the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
 //it would be better long-term to rewrite stuff so that we don't need that hack
 enum hint_rating {

@@ -201,6 +201,18 @@ inventory inventory::operator+ (const item &rhs)
  return inventory(*this) += rhs;
 }
 
+inventory inventory::filter_by_activation(player& u)
+{
+    inventory a;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        if(u.rate_action_use(&iter->front()) == HINT_GOOD) {
+            a += *iter;
+        }
+    }
+    return a;
+}
+
 inventory inventory::filter_by_category(item_cat cat, const player& u) const
 {
     inventory reduced_inv;

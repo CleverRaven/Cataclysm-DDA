@@ -260,6 +260,8 @@ class game
   std::string list_item_upvote;
   std::string list_item_downvote;
   char inv(std::string title);
+  char inv(inventory,std::string);
+  char inv_activatable(std::string title);
   char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
   int inventory_item_menu(char chItem, int startx = 0, int width = 50);
   std::vector<item> multidrop();
