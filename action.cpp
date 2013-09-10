@@ -34,9 +34,8 @@ void game::load_keyboard_settings()
 
  // Check for new defaults, and automatically bind them if possible
  std::map<char, action_id>::iterator d_it;
- bool found;
  for (d_it = default_keymap.begin(); d_it != default_keymap.end(); ++d_it) {
-  found = false;
+  bool found = false;
   std::map<char, action_id>::iterator k_it;
   for (k_it = keymap.begin(); k_it != keymap.end(); ++k_it) {
    if (d_it->second == k_it->second) {

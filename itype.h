@@ -102,9 +102,8 @@ struct style_move
  style_move(std::string N, std::string V1, std::string V2, technique_id T, int L) :
   name (N),verb_you (V1),verb_npc (V2), tech (T), level (L) { };
 
- style_move()
+ style_move() : name(""), verb_you(""), verb_npc("")
  {
-  name = verb_you = verb_npc = "";
   tech = TEC_NULL;
   level = 0;
  }
@@ -171,14 +170,10 @@ struct itype
 
  void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
 
- itype() {
-  id = "null";
+ itype() : id("null"), name("none"), m1("null"), m2("null") {
   price = 0;
-  name  = "none";
   sym = '#';
   color = c_white;
-  m1 = "null";
-  m2 = "null";
   phase = SOLID;
   volume = 0;
   weight = 0;
@@ -197,15 +192,12 @@ struct itype
        char psym, nc_color pcolor, std::string pm1, std::string pm2, phase_id pphase,
        unsigned short pvolume, unsigned int pweight,
        signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-       unsigned ptechniques = 0) {
-  id          = pid;
+       unsigned ptechniques = 0) :
+    id(pid), name(pname), description(pdes), m1(pm1), m2(pm2) {
   price       = pprice;
-  name        = pname;
   description = pdes;
   sym         = psym;
   color       = pcolor;
-  m1          = pm1;
-  m2          = pm2;
   phase       = pphase;
   volume      = pvolume;
   weight      = pweight;
@@ -289,6 +281,7 @@ struct it_comest : public itype
         stim = 0;
         healthy = 0;
         addict = 0;
+        charges = 0;
         fun = 0;
         add = ADD_NULL;
     };
@@ -415,6 +408,7 @@ struct it_gun : public itype
   skill_used = pskill_used?Skill::skill(pskill_used):NULL;
   ammo = pammo;
   dmg_bonus = pdmg_bonus;
+  pierce = 0; //TODO: make the constructor take this I suppose
   range = prange;
   dispersion = pdispersion;
   recoil = precoil;
@@ -569,7 +563,7 @@ struct it_container : public itype
 {
  unsigned char contains;	// Internal volume
  virtual bool is_container() { return true; }
- it_container() {};
+ it_container() : contains(0) {};
 };
 
 struct it_tool : public itype
@@ -809,6 +803,7 @@ struct it_artifact_tool : public it_tool
   price = 0;
   def_charges = 0;
   charges_per_use = 1;
+  charge_type = ARTC_NULL;
   turns_per_charge = 0;
   revert_to = "null";
   use = &iuse::artifact;
@@ -830,6 +825,7 @@ struct it_artifact_tool : public it_tool
 	 pmax_charges, pdef_charges, pcharges_per_use, pturns_per_charge,
 	 pammo, prevert_to, &iuse::artifact)
  {
+     charge_type = ARTC_NULL;
      item_tags = pitem_tags;
      artifact_itype_ids.push_back(pid);
  };
