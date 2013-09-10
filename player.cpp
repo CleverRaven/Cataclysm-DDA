@@ -1264,6 +1264,24 @@ void player::load_info(game *g, std::string data)
 {
  std::stringstream dump;
  dump << data;
+
+char check=dump.peek();
+if ( check == ' ' ) {
+  // sigh..
+  check=data[1];
+}
+if ( check == '{' ) {
+        picojson::value pdata;
+        dump >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad npc json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, g);
+        }
+        return;
+}
+
  int inveh, vctrl;
  itype_id styletmp;
  std::string prof_ident;
@@ -1407,10 +1425,33 @@ void player::load_info(game *g, std::string data)
 
  recalc_sight_limits();
 }
-
+#define jsonsave_player 1
+#define jsonsave_player_inv 1
 std::string player::save_info()
 {
  std::stringstream dump;
+
+#ifdef jsonsave_player
+#ifdef jsonsave_player_inv
+    return json_save(true).serialize();
+ dump << dump_memorial(); // testme
+#else
+ std::stringstream tdump;
+ tdump << json_save(false).serialize();
+ tdump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
+ tdump << inv.save_str_no_quant();
+ dump << dump_memorial(); // testme
+ tdump << "w " << weapon.save_info() << std::endl;
+ for (int i = 0; i < worn.size(); i++) {
+     tdump << "W " << worn[i].save_info() << std::endl;
+ }
+ for (int j = 0; j < weapon.contents.size(); j++) {
+     tdump << "c " << weapon.contents[j].save_info() << std::endl;
+ }
+ return tdump.str();
+#endif
+#endif
+
  dump << posx    << " " << posy    << " " << str_cur << " " << str_max << " " <<
          dex_cur << " " << dex_max << " " << int_cur << " " << int_max << " " <<
          per_cur << " " << per_max << " " << power_level << " " <<

@@ -139,6 +139,8 @@ struct npc_favor
   item_id = "null";
   skill = NULL;
  };
+ picojson::value json_save();
+ bool json_load(std::map<std::string, picojson::value> & data);
 
 };
 
@@ -154,6 +156,8 @@ struct npc_personality {
   collector  = 0;
   altruism   = 0;
  };
+ picojson::value json_save();
+ void json_load(std::map<std::string, picojson::value> & data);
 };
 
 struct npc_opinion
@@ -218,7 +222,9 @@ struct npc_opinion
  {
   return (npc_opinion(*this) += rhs);
  };
-
+ picojson::value json_save();
+ bool json_load(std::map<std::string, picojson::value> & data );
+///////////////// FIXME: move
  std::string save_info()
  {
   std::stringstream ret;
@@ -245,6 +251,7 @@ struct npc_opinion
    favors.push_back(tmpfavor);
   }
  }
+///////////////////////
 };
 
 enum combat_engagement {
@@ -269,7 +276,7 @@ struct npc_combat_rules
   use_grenades = true;
   use_silent = false;
  };
-
+////////////// FIXME:: move
  std::string save_info()
  {
   std::stringstream dump;
@@ -283,6 +290,10 @@ struct npc_combat_rules
   data >> tmpen >> use_guns >> use_grenades >> use_silent;
   engagement = combat_engagement(tmpen);
  }
+////////////////////
+ picojson::value json_save();
+ bool json_load(std::map<std::string, picojson::value> & data);
+
 };
 
 enum talk_topic {
@@ -366,7 +377,10 @@ struct npc_chatbin
   skill = NULL;
   first_topic = TALK_NONE;
  }
+ picojson::value json_save();
+ bool json_load(std::map<std::string, picojson::value> & data);
 
+///FIXME: move
  std::string save_info()
  {
   std::stringstream ret;
@@ -398,6 +412,7 @@ struct npc_chatbin
    missions_assigned.push_back(tmpmiss);
   }
  }
+///////////////
 };
 
 class npc : public player {
@@ -423,6 +438,13 @@ public:
 // Save & load
  virtual void load_info(game *g, std::string data);// Overloaded from player
  virtual std::string save_info();
+
+//  void json_load_common_variables( std::map<std::string, picojson::value> & data ); 
+ virtual void json_load(picojson::value & parsed, game * g);   // populate variables, inventory items, and misc from json object
+
+// void json_save_common_variables( std::map<std::string, picojson::value> & data );
+ virtual picojson::value json_save(bool save_contents=false);
+
 
 // Display
  void draw(WINDOW* w, int plx, int ply, bool inv);

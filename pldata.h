@@ -3,6 +3,7 @@
 
 #include "enums.h"
 #include "translations.h"
+#include "picofunc.h"
 #include <sstream>
 #include <vector>
 #include <map>
@@ -103,6 +104,10 @@ struct player_activity
 
   return ret.str();
  }
+
+ picojson::value json_save(); // found in gamesave.cpp
+ bool json_load(picojson::value & parsed);
+//std::map<std::string, picojson::value> & data);
 
  void load_info(std::stringstream &dump)
  {
