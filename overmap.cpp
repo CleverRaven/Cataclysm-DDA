@@ -3527,29 +3527,25 @@ void overmap::save()
  fout.close();
 }
 
-void overmap::open(game *g)
-{
+
+void overmap::unserialize(game * g, std::ifstream & fin) {
  std::string const plrfilename = player_filename(loc.x, loc.y);
  std::string const terfilename = terrain_filename(loc.x, loc.y);
- std::ifstream fin;
+//
+// DEBUG VARS
+ int nummg = 0;
  char datatype;
  int cx, cy, cz, cs, cp, cd, cdying;
  std::string cstr;
  city tmp;
  std::list<item> npc_inventory;
 
-// Set position IDs
- fin.open(terfilename.c_str());
-// DEBUG VARS
- int nummg = 0;
- if (fin.is_open()) {
   int z = 0; // assumption
   while (fin >> datatype) {
    if (datatype == 'L') { 	// Load layer data, and switch to layer
     fin >> z;
 
     int tmp_ter;
-
     if (z >= 0 && z < OVERMAP_LAYERS) {
      int count = 0;
      for (int j = 0; j < OMAPY; j++) {
@@ -3591,9 +3587,9 @@ void overmap::open(game *g)
     getline(fin, tmp.message);
     radios.push_back(tmp);
    } else if (datatype == 'n') {	// NPC
-/* When we start loading a new NPC, check to see if we've accumulated items for
-   assignment to an NPC.
- */
+// When we start loading a new NPC, check to see if we've accumulated items for
+//   assignment to an NPC.
+ 
     if (!npc_inventory.empty() && !npcs.empty()) {
      npcs.back()->inv.add_stack(npc_inventory);
      npc_inventory.clear();
@@ -3628,22 +3624,23 @@ void overmap::open(game *g)
     }
    }
   }
+
 // If we accrued an npc_inventory, assign it now
   if (!npc_inventory.empty() && !npcs.empty())
    npcs.back()->inv.add_stack(npc_inventory);
 
-  fin.close();
-
+  std::ifstream sfin;
   // Private/per-character data
-  fin.open(plrfilename.c_str());
-  if (fin.is_open()) {	// Load private seen data
+  sfin.open(plrfilename.c_str());
+
+  if (sfin.is_open()) {	// Load private seen data
    int z = 0; // assumption
-   while (fin >> datatype) {
+   while (sfin >> datatype) {
     if (datatype == 'L') {  // Load layer data, and switch to layer
-     fin >> z;
+     sfin >> z;
 
      std::string dataline;
-     getline(fin, dataline); // Chomp endl
+     getline(sfin, dataline); // Chomp endl
 
      int count = 0;
      int vis;
@@ -3651,7 +3648,7 @@ void overmap::open(game *g)
       for (int j = 0; j < OMAPY; j++) {
        for (int i = 0; i < OMAPX; i++) {
         if (count == 0) {
-         fin >> vis >> count;
+         sfin >> vis >> count;
         }
         count--;
        	layer[z].visible[i][j] = (vis == 1);
@@ -3660,16 +3657,29 @@ void overmap::open(game *g)
      }
     } else if (datatype == 'N') { // Load notes
      om_note tmp;
-     fin >> tmp.x >> tmp.y >> tmp.num;
-     getline(fin, tmp.text);	// Chomp endl
-     getline(fin, tmp.text);
+     sfin >> tmp.x >> tmp.y >> tmp.num;
+     getline(sfin, tmp.text);	// Chomp endl
+     getline(sfin, tmp.text);
      if (z >= 0 && z < OVERMAP_LAYERS) {
       layer[z].notes.push_back(tmp);
      }
     }
    }
-   fin.close();
+   sfin.close();
   }
+}
+
+
+void overmap::open(game *g)
+{
+ std::string const plrfilename = player_filename(loc.x, loc.y);
+ std::string const terfilename = terrain_filename(loc.x, loc.y);
+  std::ifstream fin;
+// Set position IDs
+ fin.open(terfilename.c_str());
+ if (fin.is_open()) {
+   unserialize(g, fin);
+   fin.close();
  } else {	// No map exists!  Prepare neighbors, and generate one.
   std::vector<overmap*> pointers;
 // Fetch north and south

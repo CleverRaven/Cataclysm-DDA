@@ -260,7 +260,6 @@ void mapbuffer::load()
    }
   }
 // Load irradiation
-
   int radtmp;
   int count = 0;
   for (int j = 0; j < SEEY; j++) {
