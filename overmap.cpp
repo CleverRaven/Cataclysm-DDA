@@ -3452,6 +3452,9 @@ void overmap::save()
 
  // Player specific data
  fout.open(plrfilename.c_str());
+
+ fout << "# version " << savegame_version << std::endl;
+
  for (int z = 0; z < OVERMAP_LAYERS; ++z) {
   fout << "L " << z << std::endl;
   int count = 0;
@@ -3483,6 +3486,7 @@ void overmap::save()
 
  // World terrain data
  fout.open(terfilename.c_str(), std::ios_base::trunc);
+ fout << "# version " << savegame_version << std::endl;
  for (int z = 0; z < OVERMAP_LAYERS; ++z) {
   fout << "L " << z << std::endl;
   int count = 0;
@@ -3528,9 +3532,7 @@ void overmap::save()
 }
 
 
-void overmap::unserialize(game * g, std::ifstream & fin) {
- std::string const plrfilename = player_filename(loc.x, loc.y);
- std::string const terfilename = terrain_filename(loc.x, loc.y);
+void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename) {
 //
 // DEBUG VARS
  int nummg = 0;
@@ -3539,6 +3541,26 @@ void overmap::unserialize(game * g, std::ifstream & fin) {
  std::string cstr;
  city tmp;
  std::list<item> npc_inventory;
+
+   if ( fin.peek() == '#' ) {
+       std::string vline;
+       getline(fin, vline);
+       std::string tmphash, tmpver;
+       int savedver=-1;
+       std::stringstream vliness(vline);
+       vliness >> tmphash >> tmpver >> savedver;
+       if ( tmpver == "version" && savedver != -1 ) {
+           savegame_loading_version = savedver;
+       }
+   }
+   if (savegame_loading_version != savegame_version) {
+       if ( unserialize_legacy(g, fin, plrfilename, terfilename) == true ) {
+            return;
+       } else {
+           //popup_nowait(_("Cannot find loader for overmap save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
+       }
+   }
+  
 
   int z = 0; // assumption
   while (fin >> datatype) {
@@ -3632,7 +3654,10 @@ void overmap::unserialize(game * g, std::ifstream & fin) {
   std::ifstream sfin;
   // Private/per-character data
   sfin.open(plrfilename.c_str());
-
+  if ( fin.peek() == '#' ) { // not handling muilti-version seen cache
+     std::string vline;
+     getline(fin, vline);
+  }
   if (sfin.is_open()) {	// Load private seen data
    int z = 0; // assumption
    while (sfin >> datatype) {
@@ -3678,7 +3703,7 @@ void overmap::open(game *g)
 // Set position IDs
  fin.open(terfilename.c_str());
  if (fin.is_open()) {
-   unserialize(g, fin);
+   unserialize(g, fin, plrfilename, terfilename);
    fin.close();
  } else {	// No map exists!  Prepare neighbors, and generate one.
   std::vector<overmap*> pointers;
