@@ -842,24 +842,20 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
     const int iContentHeight = 16;
     int iStartPos = 0;
 
-    //may as well stick that +1 on for convenience
-    //std::vector<profession const *> sorted_profs;
     std::vector<const profession *> sorted_profs;
-    sorted_profs.resize(profession::count() + 1);
-    //profession const** sorted_profs = new profession const*[profession::count()+1];
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter)
     {
-        profession const* prof = &(iter->second);
-        sorted_profs[prof->id()] = prof;
+        sorted_profs.push_back(&(iter->second));
     }
 
-    // Sort professions by name, but leave Unemployed at the top.
-    std::sort(sorted_profs.begin() + 1, sorted_profs.end(), profession_display_sort);
+    // Sort professions by name.
+    // profession_display_sort() keeps "unemployed" at the top.
+    std::sort(sorted_profs.begin(), sorted_profs.end(), profession_display_sort);
 
     do
     {
-        int netPointCost = sorted_profs[cur_id + 1]->point_cost() - u->prof->point_cost();
-        std::string can_pick = sorted_profs[cur_id + 1]->can_pick(u, points);
+        int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
+        std::string can_pick = sorted_profs[cur_id]->can_pick(u, points);
 
         mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
         // Clear the bottom of the screen.
@@ -868,16 +864,16 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         if (can_pick == "YES")
         {
             mvwprintz(w,  3, 20, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      sorted_profs[cur_id + 1]->name().c_str(), sorted_profs[cur_id + 1]->point_cost(),
+                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
         else if(can_pick == "INSUFFICIENT_POINTS")
         {
             mvwprintz(w,  3, 20, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
-                      sorted_profs[cur_id + 1]->name().c_str(), sorted_profs[cur_id + 1]->point_cost(),
+                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
-        fold_and_print(w_description, 0, 0, 78, c_green, sorted_profs[cur_id + 1]->description().c_str());
+        fold_and_print(w_description, 0, 0, 78, c_green, sorted_profs[cur_id]->description().c_str());
 
         calcStartPos(iStartPos, cur_id, iContentHeight, profession::count() - 1);
 
@@ -886,14 +882,14 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              ");	// Clear the line
 
-            if (u->prof != sorted_profs[i + 1]) {
-                mvwprintz(w, 5 + i - iStartPos, 2, (sorted_profs[i + 1] == sorted_profs[cur_id + 1] ? h_ltgray : c_ltgray),
-                          sorted_profs[i + 1]->name().c_str());
+            if (u->prof != sorted_profs[i]) {
+                mvwprintz(w, 5 + i - iStartPos, 2, (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
+                          sorted_profs[i]->name().c_str());
             } else {
                 mvwprintz(w, 5 + i - iStartPos, 2,
-                          (sorted_profs[i + 1] == sorted_profs[cur_id + 1] ?
+                          (sorted_profs[i] == sorted_profs[cur_id] ?
                            hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                          sorted_profs[i + 1]->name().c_str());
+                          sorted_profs[i]->name().c_str());
             }
         }
 
@@ -920,7 +916,7 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
 
             case '\n':
             case '5':
-                u->prof = profession::prof(sorted_profs[cur_id + 1]->ident()); // we've got a const*
+                u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
                 points -= netPointCost;
             break;
 
