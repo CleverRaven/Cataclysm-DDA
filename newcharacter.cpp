@@ -877,10 +877,10 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         }
         fold_and_print(w_description, 0, 0, 78, c_green, sorted_profs[cur_id]->description().c_str());
 
-        calcStartPos(iStartPos, cur_id, iContentHeight, profession::count() - 1);
+        calcStartPos(iStartPos, cur_id, iContentHeight, profession::count());
 
         //Draw options
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > (profession::count() - 1)) ? (profession::count() - 1) : iContentHeight); i++) {
+        for (int i = iStartPos; i < iStartPos + ((iContentHeight > profession::count()) ? profession::count() : iContentHeight); i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              ");	// Clear the line
 
@@ -908,7 +908,7 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             //TODO :: starting_skills, addictions, w/e
 
         //Draw Scrollbar
-        draw_scrollbar(w, cur_id, iContentHeight, profession::count()-1, 5);
+        draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);
 
         wrefresh(w);
         wrefresh(w_description);
@@ -918,7 +918,7 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             case 'j':
             case '2':
                 cur_id++;
-                if (cur_id > profession::count() - 2)
+                if (cur_id > profession::count() - 1)
                     cur_id = 0;
             break;
 
@@ -926,7 +926,7 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             case '8':
                 cur_id--;
                 if (cur_id < 0 )
-                    cur_id = profession::count() - 2;
+                    cur_id = profession::count() - 1;
             break;
 
             case '\n':
