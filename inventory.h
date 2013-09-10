@@ -117,6 +117,19 @@ class inventory
   // hack to account for players saving inventory data (including weapon, etc.)
   std::string save_str_no_quant() const;
 
+  void json_load_invcache(picojson::value & parsed);
+  void json_load_items(picojson::value & parsed, game * g);
+  void json_load(picojson::value & parsed, game * g);
+
+
+  void json_save_invcache( std::map<std::string, picojson::value> & data) const;
+  picojson::value json_save_invcache() const;
+
+  void json_save_items( std::vector<picojson::value> & data) const;
+  picojson::value json_save_items() const;
+
+  picojson::value json_save() const;
+
 /* TODO: This stuff, I guess?
   std::string save();
   void load(std::string data);
