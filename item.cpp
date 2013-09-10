@@ -147,6 +147,11 @@ item::item(std::string itemdata, game *g)
  load_info(itemdata, g);
 }
 
+item::item(picojson::value & parsed, game *g)
+ {
+    json_load(parsed, g);
+}
+
 item::~item()
 {
 }
@@ -266,7 +271,7 @@ void item::put_in(item payload)
 }
 const char ivaresc=001;
 
-picojson::value item::json_save() const
+picojson::value item::json_save(bool save_contents) const
 {
     std::map<std::string, picojson::value> data;
     /////
@@ -337,8 +342,18 @@ picojson::value item::json_save() const
         }
     }
 
+    if ( save_contents && contents.size() > 0 ) {
+        std::vector<picojson::value> pcontents;
+        for (int k = 0; k < contents.size(); k++) {
+            pcontents.push_back( contents[k].json_save(false) ); // no matryoshka dolls
+        }
+        data["contents"] = pv ( pcontents );
+        pcontents.clear();
+    }
+
     return picojson::value(data);
 }
+
 /*
  * Old 1 line string output retained for mapbuffer
  */
@@ -380,11 +395,11 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
    }
 }
 
-bool item::json_load(picojson::value parsed, game * g)
+bool item::json_load(picojson::value & parsed, game * g)
 {
     init();
     clear();
-    const picojson::object &data = parsed.get<picojson::object>();
+    picojson::object &data = parsed.get<picojson::object>();
 
     std::string idtmp="";
     std::string ammotmp="null";
@@ -464,9 +479,19 @@ bool item::json_load(picojson::value parsed, game * g)
     if ( picoint(data,"light",tmplum) ) {
         picoint(data,"light_width",tmpwidth);
         picoint(data,"light_dir",tmpdir);
-        light.luminance = (unsigned short)tmplum;
+        light.luminance = tmplum;
         light.width = (short)tmpwidth;
         light.direction = (short)tmpdir;
+    }
+
+    picojson::object::iterator pcontfind = data.find("contents");
+    if ( pcontfind != data.end() && pcontfind->second.is<picojson::array>()) {
+        picojson::array&  pcont = pcontfind->second.get<picojson::array>();
+        for( picojson::array::iterator pcit = pcont.begin(); pcit != pcont.end(); ++pcit) {
+             if ( (*pcit).is<picojson::object>() ) {
+                  contents.push_back( item( *pcit, g) );
+             }
+        }
     }
 
     return true;

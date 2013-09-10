@@ -62,6 +62,7 @@ public:
  item(itype* it, unsigned int turn, char let);
  void make_corpse(itype* it, mtype* mt, unsigned int turn);	// Corpse
  item(std::string itemdata, game *g);
+ item(picojson::value & parsed, game * g);
  virtual ~item();
  void init();
  void make(itype* it);
@@ -90,8 +91,8 @@ public:
  char pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, char invlet);
  void next_mode();
- bool json_load(picojson::value parsed, game * g);
- virtual picojson::value json_save() const;
+ bool json_load(picojson::value & parsed, game * g);
+ virtual picojson::value json_save(bool save_contents=false) const;
  std::string save_info() const;	// Formatted for save files
  //
  void load_info(std::string data, game *g);
