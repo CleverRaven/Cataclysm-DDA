@@ -9,6 +9,7 @@
 #include "mutation.h"
 #include "player.h"
 #include "vehicle.h"
+#include "uistate.h"
 #include <sstream>
 #include <algorithm>
 
@@ -3939,6 +3940,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     char ch;
  
     uimenu kmenu;
+    kmenu.selected = uistate.iuse_knife_selected;
     kmenu.text = _("Using knife:");
     kmenu.addentry( cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood") );
     kmenu.addentry( carve_writing, true, -1, _("Carve writing on item") );
@@ -3954,7 +3956,9 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     kmenu.addentry( cancel, true, 'q', _("Cancel") );
     kmenu.query();
     choice = kmenu.ret;
-
+    if ( choice < cauterize ) {
+        uistate.iuse_knife_selected = choice;
+    }
 
     if ( choice == cauterize) {
         p->cauterize(g);
@@ -3972,7 +3976,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     if (cut->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
         return;
-    } else if ( p->has_weapon_or_armor(cut->invlet) && menu(true, _("You're wearing that, are you sure?"), _("Yes"), _("No") ) != 1 ) {
+    } else if ( p->has_weapon_or_armor(cut->invlet) && menu(true, _("You're wearing that, are you sure?"), _("Yes"), _("No"), NULL ) != 1 ) {
         return;       
     }
 

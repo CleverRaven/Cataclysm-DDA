@@ -339,77 +339,12 @@ picojson::value item::json_save() const
 
     return picojson::value(data);
 }
-
+/*
+ * Old 1 line string output retained for mapbuffer
+ */
 std::string item::save_info() const
 {
- if (type == NULL){
-  debugmsg("Tried to save an item with NULL type!");
- }
-
- itype_id ammotmp = "null";
-/* TODO: This causes a segfault sometimes, even though we check to make sure
- * curammo isn't NULL.  The crashes seem to occur most frequently when saving an
- * NPC, or when saving map data containing an item an NPC has dropped.
- */
- if (curammo != NULL){
-  ammotmp = curammo->id;
- }
- if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(),
-     ammotmp) != unreal_itype_ids.end()  &&
-     std::find(artifact_itype_ids.begin(), artifact_itype_ids.end(),
-     ammotmp) != artifact_itype_ids.end()
-     ) {
-  ammotmp = "null"; //Saves us from some bugs, apparently?
- }
- std::stringstream dump;
- dump << " " << int(invlet) << " " << typeId() << " " <<  int(charges) <<
-     " " << int(damage) << " ";
-/////
- int stags=item_tags.size() + item_vars.size();
-/////
- dump << stags << " ";
- for( std::set<std::string>::const_iterator it = item_tags.begin();
-      it != item_tags.end(); ++it )
- {
-     dump << *it << " ";
- }
-/////
- for( std::map<std::string, std::string>::const_iterator it = item_vars.begin(); it != item_vars.end(); ++it ) {
-    std::string itstr="";
-    std::string itval="";
-    dump << ivaresc << it->first << "=";
-    for(std::string::const_iterator sit = it->second.begin(); sit != it->second.end(); ++sit ) {
-       switch(*sit) {
-           case '\n': dump << ivaresc << "0A"; break;
-           case '\r': dump << ivaresc << "0D"; break;
-           case '\t': dump << ivaresc << "09"; break;
-           case ' ': dump << ivaresc << "20"; break;
-           default:  dump << *sit; break;
-       }
-    }
-    dump << " ";
- }
-////
-
- dump << burnt << " " << poison << " " << ammotmp <<
-        " " << owned << " " << int(bday) << " " << mode;
- if (active)
-  dump << " 1";
- else
-  dump << " 0";
- if (corpse != NULL)
-  dump << " " << corpse->id;
- else
-  dump << " -1";
- dump << " " << mission_id << " " << player_id;
- size_t pos = name.find_first_of("\n");
- std::string temp_name = name;
- while (pos != std::string::npos)  {
-  temp_name.replace(pos, 1, "@@");
-  pos = temp_name.find_first_of("\n");
- }
- dump << " '" << temp_name << "'";
- return dump.str();
+    return json_save().serialize();
 }
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
