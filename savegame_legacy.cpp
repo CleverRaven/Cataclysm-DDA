@@ -268,3 +268,20 @@ original 'structure', which globs game/weather/location & killcount/player data 
     }
     return false;
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+ * Parse an open, obsolete overmap. These can linger unless the player moves around to all explored areas.
+ */
+
+bool overmap::unserialize_legacy(game *g, std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename) {
+   return false; // stub
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+ * Parse an open, obsolete maps.txt.
+ */
+bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
+   return false;
+}
