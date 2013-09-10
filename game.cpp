@@ -7471,8 +7471,16 @@ void game::pickup(int posx, int posy, int min)
                 }
 
                 //Check the Pickup Rules
-                if ( mapAutoPickupItems[here[i].tname(this)] ) {
+                if ( mapAutoPickupItems[here[i].tname(this)] == "true" ) {
                     bPickup = true;
+                } else if ( mapAutoPickupItems[here[i].tname(this)] != "false" ) {
+                    //No prematched pickup rule found
+                    //items with damage, (fits) or a container
+                    createPickupRules(here[i].tname(this));
+
+                    if ( mapAutoPickupItems[here[i].tname(this)] == "true" ) {
+                        bPickup = true;
+                    }
                 }
             }
 
