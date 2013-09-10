@@ -3,6 +3,7 @@
 #include "output.h"
 #include "debug.h"
 #include "keypress.h"
+#include "translations.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -14,6 +15,292 @@ bool use_tiles;
 std::map<std::string, cOpt> OPTIONS;
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
+std::map<std::string, std::string> optionNames;
+
+
+//Default constructor
+cOpt::cOpt() {
+    sType = "VOID";
+    sPage = "";
+}
+
+//string constructor
+cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const std::string sItemsIn, std::string sDefaultIn) {
+    sPage = sPageIn;
+    sMenuText = sMenuTextIn;
+    sTooltip = sTooltipIn;
+    sType = "string";
+
+    std::stringstream ssTemp(sItemsIn);
+    std::string sItem;
+    while (std::getline(ssTemp, sItem, ',')) {
+        vItems.push_back(sItem);
+    }
+
+    if (getItemPos(sDefaultIn) != -1) {
+        sDefaultIn = vItems[0];
+    }
+
+    sDefault = sDefaultIn;
+    sSet = sDefaultIn;
+}
+
+//bool constructor
+cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const bool bDefaultIn) {
+    sPage = sPageIn;
+    sMenuText = sMenuTextIn;
+    sTooltip = sTooltipIn;
+    sType = "bool";
+
+    bDefault = bDefaultIn;
+    bSet = bDefaultIn;
+}
+
+//int constructor
+cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const int iMinIn, int iMaxIn, int iDefaultIn) {
+    sPage = sPageIn;
+    sMenuText = sMenuTextIn;
+    sTooltip = sTooltipIn;
+    sType = "int";
+
+    if (iMinIn > iMaxIn) {
+        iMaxIn = iMinIn;
+    }
+
+    iMin = iMinIn;
+    iMax = iMaxIn;
+
+    if (iDefaultIn < iMinIn || iDefaultIn > iMaxIn) {
+        iDefaultIn = iMinIn ;
+    }
+
+    iDefault = iDefaultIn;
+    iSet = iDefaultIn;
+}
+
+//float constructor
+cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+     const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn) {
+    sPage = sPageIn;
+    sMenuText = sMenuTextIn;
+    sTooltip = sTooltipIn;
+    sType = "float";
+
+    if (fMinIn > fMaxIn) {
+        fMaxIn = fMinIn;
+    }
+
+    fMin = fMinIn;
+    fMax = fMaxIn;
+    fStep = fStepIn;
+
+    if (fDefaultIn < fMinIn || fDefaultIn > fMaxIn) {
+        fDefaultIn = fMinIn ;
+    }
+
+    fDefault = fDefaultIn;
+    fSet = fDefaultIn;
+}
+
+//helper functions
+std::string cOpt::getPage() {
+    return sPage;
+}
+
+std::string cOpt::getMenuText() {
+    return sMenuText;
+}
+
+std::string cOpt::getTooltip() {
+    return sTooltip;
+}
+
+std::string cOpt::getType() {
+    return sType;
+}
+
+std::string cOpt::getValue() {
+    if (sType == "string") {
+        return sSet;
+
+    } else if (sType == "bool") {
+        return (bSet) ? "true" : "false";
+
+    } else if (sType == "int") {
+        std::stringstream ssTemp;
+        ssTemp << iSet;
+        return ssTemp.str();
+
+    } else if (sType == "float") {
+        std::stringstream ssTemp;
+        ssTemp.precision(1);
+        ssTemp << std::fixed << fSet;
+        return ssTemp.str();
+    }
+
+    return "";
+}
+
+std::string cOpt::getName() {
+    if (sType == "string") {
+        return optionNames[sSet];
+
+    } else if (sType == "bool") {
+        return (bSet) ? _("True") : _("False");
+    }
+
+    return getValue();
+}
+
+std::string cOpt::getDefaultText() {
+    if (sType == "string") {
+        std::string sItems = "";
+        for (int i = 0; i < vItems.size(); i++) {
+            if (sItems != "") {
+                sItems += _(", ");
+            }
+            sItems += optionNames[vItems[i]];
+        }
+        return string_format(_("Default: %s - Values: %s"), optionNames[sDefault].c_str(), sItems.c_str());
+
+    } else if (sType == "bool") {
+        return (bDefault) ? _("Default: True") : _("Default: False");
+
+    } else if (sType == "int") {
+        return string_format(_("Default: %d - Min: %d, Max %d"), iDefault, iMin, iMax);
+
+    } else if (sType == "float") {
+        return string_format(_("Default: %f - Min: %f, Max %f"), fDefault, fMin, fMax);
+    }
+
+    return "";
+}
+
+int cOpt::getItemPos(const std::string sSearch) {
+    if (sType == "string") {
+        for (int i = 0; i < vItems.size(); i++) {
+            if (vItems[i] == sSearch) {
+                return i;
+            }
+        }
+    }
+
+    return -1;
+}
+
+//set to next item
+void cOpt::setNext() {
+    if (sType == "string") {
+        int iNext = getItemPos(sSet)+1;
+        if (iNext >= vItems.size()) {
+            iNext = 0;
+        }
+
+        sSet = vItems[iNext];
+
+    } else if (sType == "bool") {
+        bSet = !bSet;
+
+    } else if (sType == "int") {
+        iSet++;
+        if (iSet > iMax) {
+            iSet = iMin;
+        }
+
+    } else if (sType == "float") {
+        fSet += fStep;
+        if (fSet > fMax) {
+            fSet = fMin;
+        }
+    }
+}
+
+//set to prev item
+void cOpt::setPrev() {
+    if (sType == "string") {
+        int iPrev = getItemPos(sSet)-1;
+        if (iPrev < 0) {
+            iPrev = vItems.size()-1;
+        }
+
+        sSet = vItems[iPrev];
+
+    } else if (sType == "bool") {
+        bSet = !bSet;
+
+    } else if (sType == "int") {
+        iSet--;
+        if (iSet < iMin) {
+            iSet = iMax;
+        }
+
+    } else if (sType == "float") {
+        fSet -= fStep;
+        if (fSet < fMin) {
+            fSet = fMax;
+        }
+    }
+}
+
+//set value
+void cOpt::setValue(std::string sSetIn) {
+    if (sType == "string") {
+        if (getItemPos(sSetIn) != -1) {
+            sSet = sSetIn;
+        }
+
+    } else if (sType == "bool") {
+        bSet = (sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t");
+
+    } else if (sType == "int") {
+        iSet = atoi(sSetIn.c_str());
+
+        if ( iSet < iMin || iSet > iMax ) {
+            iSet = iDefault;
+        }
+
+    } else if (sType == "float") {
+        fSet = atof(sSetIn.c_str());
+
+        if ( fSet < fMin || fSet > fMax ) {
+            fSet = fDefault;
+        }
+    }
+}
+
+//Set default class behaviour to float
+cOpt::operator float() const {
+    if (sType == "string") {
+        return (sSet != "" && sSet == sDefault) ? 1.0 : 0.0;
+
+    } else if (sType == "bool") {
+        return (bSet) ? 1.0 : 0.0;
+
+    } else if (sType == "int") {
+        return (float)iSet;
+
+    } else if (sType == "float") {
+        return fSet;
+    }
+
+    return 0.0;
+}
+
+// if (class == "string")
+bool cOpt::operator==(const std::string sCompare) const {
+    if ( sType == "string" && sSet == sCompare ) {
+        return true;
+    }
+
+    return false;
+}
+
+// if (class != "string")
+bool cOpt::operator!=(const std::string sCompare) const {
+    return !(*this == sCompare);
+}
+
+
 
 void initOptions() {
     vPages.clear();
@@ -23,16 +310,22 @@ void initOptions() {
 
     OPTIONS.clear();
 
+    optionNames["fahrenheit"] = _("Fahrenheit");
+    optionNames["celsius"] = _("Celsius");
     OPTIONS["USE_CELSIUS"] =            cOpt("interface", _("Use Celsius"),
                                              _("Switch between Celsius and Fahrenheit."),
-                                             "Fahrenheit,Celsius", "Fahrenheit"
+                                             "fahrenheit,celsius", "fahrenheit"
                                             );
 
+    optionNames["mph"] = _("mph");
+    optionNames["km/h"] = _("km/h");
     OPTIONS["USE_METRIC_SPEEDS"] =      cOpt("interface", _("Use Metric Speeds"),
                                              _("Switch between Km/h and mph."),
                                              "mph,km/h", "mph"
                                             );
 
+    optionNames["lbs"] = _("lbs");
+    optionNames["kg"] = _("kg");
     OPTIONS["USE_METRIC_WEIGHTS"] =     cOpt("interface", _("Use Metric Weights"),
                                              _("Switch between kg and lbs."),
                                              "lbs,kg", "lbs"
@@ -48,9 +341,15 @@ void initOptions() {
                                              false
                                             );
 
+    //~ 12h time, e.g. 11:59pm
+    optionNames["12h"] = _("12h");
+    //~ Military time, e.g. 2359
+    optionNames["military"] = _("Military");
+    //~ 24h time, e.g. 23:59
+    optionNames["24h"] = _("24h");
     OPTIONS["24_HOUR"] =                cOpt("interface", _("24 Hour Time"),
                                              _("12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal 24h, eg: 7:31"),
-                                             "12h,Military,24h", "12h"
+                                             "12h,military,24h", "12h"
                                             );
 
     OPTIONS["SNAP_TO_TARGET"] =         cOpt("interface", _("Snap to Target"),
@@ -108,19 +407,35 @@ void initOptions() {
                                              true
                                             );
 
+    optionNames["no"] = _("No");
+    //~ containers
+    optionNames["watertight"] = _("Watertight");
+    optionNames["all"] = _("All");
     OPTIONS["DROP_EMPTY"] =             cOpt("general", _("Drop empty containers"),
                                              _("Set to drop empty containers after use. No: Don't drop any. - Watertight: All except watertight containers. - All: Drop all containers."),
-                                             "No,Watertight,All", "No"
+                                             "no,watertight,all", "no"
                                             );
 
+    //~ plain, default, normal
+    optionNames["vanilla"] = _("Vanilla");
+    //~ capped at a value
+    optionNames["capped"] = _("Capped");
+    //~ based on intelligence
+    optionNames["int"] = _("Int");
+    //~ based on intelligence and capped
+    optionNames["intcap"] = _("IntCap");
+    optionNames["off"] = _("Off");
     OPTIONS["SKILL_RUST"] =             cOpt("debug", _("Skill Rust"),
                                              _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
-                                             "Vanilla,Capped,Int,IntCap,Off", "Vanilla"
+                                             "vanilla,capped,int,intcap,off", "vanilla"
                                             );
 
+    optionNames["no"] = _("No");
+    optionNames["yes"] = _("Yes");
+    optionNames["query"] = _("Query");
     OPTIONS["DELETE_WORLD"] =           cOpt("general", _("Delete World"),
                                              _("Delete world upon player death."),
-                                             "No,Yes,Query", "No"
+                                             "no,yes,query", "no"
                                             );
 
     OPTIONS["INITIAL_POINTS"] =         cOpt("debug", _("Initial points"),
@@ -158,9 +473,12 @@ void initOptions() {
                                              12, 93, 12
                                             );
 
+    optionNames["standard"] = _("Standard");
+    //~ sidebar style
+    optionNames["narrow"] = _("Narrow");
     OPTIONS["SIDEBAR_STYLE"] =          cOpt("interface", _("Sidebar style"),
                                              _("Switch between the standard or a narrower and taller sidebar. Requires restart."),
-                                             "Standard,Narrow", "Standard"
+                                             "standard,narrow", "standard"
                                             );
 
     OPTIONS["MOVE_VIEW_OFFSET"] =       cOpt("interface", _("Move view offset"),
@@ -203,9 +521,15 @@ void initOptions() {
                                              false
                                             );
 
+    //~ show mouse cursor
+    optionNames["show"] = _("Show");
+    //~ hide mouse cursor
+    optionNames["hide"] = _("Hide");
+    //~ hide mouse cursor when keyboard is used
+    optionNames["hidekb"] = _("HideKB");
     OPTIONS["HIDE_CURSOR"] =            cOpt("interface", _("Hide Mouse Cursor"),
                                              _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
-                                             "Always,Hidden,HiddenKB", "Always"
+                                             "show,hide,hidekb", "show"
                                             );
 
     OPTIONS["MENU_SCROLL"] =            cOpt("interface", _("Centered menu scrolling"),
@@ -342,11 +666,11 @@ void game::show_options()
 
             wprintz(w_options, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getMenuText()).c_str());
 
-            if (OPTIONS[mPageItems[iCurrentPage][i]].getValue() == "False") {
+            if (OPTIONS[mPageItems[iCurrentPage][i]].getValue() == "false") {
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getValue()).c_str());
+            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getName()).c_str());
         }
 
         //Draw Scrollbar
@@ -365,7 +689,7 @@ void game::show_options()
 
         wrefresh(w_options_header);
 
-        fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #Default: " + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
+        fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #" + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
         wrefresh(w_options_tooltip);
 
         wrefresh(w_options);
@@ -492,10 +816,11 @@ void save_options()
     for(int j = 0; j < vPages.size(); j++) {
         for(int i = 0; i < mPageItems[j].size(); i++) {
             fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
-            fout << "#Default: " << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
+            fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
             fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
         }
     }
 
     fout.close();
 }
+
