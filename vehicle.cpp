@@ -349,7 +349,10 @@ std::string vehicle::use_controls()
  int select=selectmenu.ret;
 // int select = menu_vec(true, "Vehicle controls", options_message);
 
- std::string message;
+ std::string message = "You did nothing!";
+ if (select == UIMENU_INVALID)
+    return message;
+
  switch(options_choice[select]) {
   case toggle_cruise_control:
    cruise_on = !cruise_on;
@@ -664,10 +667,10 @@ void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
     itype* itemtype = g->itypes[pitmid];
     if(itemtype->is_var_veh_part())
        i.bigness = parts[partnum].bigness;
-       
+
     // remove charges if part is made of a tool
     if(itemtype->is_tool())
-        i.charges = 0;       
+        i.charges = 0;
 
     // translate part damage to item damage.
     // max damage is 4, min damage 0.
@@ -1589,15 +1592,15 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     float mass = total_mass();
     float mass2=0;
 	float e= 0.3; // e = 0 -> plastic collision
-	// e = 1 -> inelastic collision	
-	int part_dens = 0; //part density	
+	// e = 1 -> inelastic collision
+	int part_dens = 0; //part density
 
     if (is_body_collision)
     { // then, check any monster/NPC/player on the way
         collision_type = veh_coll_body; // body
 		e=0.30;
 		part_dens = 15;
-        if (z)			
+        if (z)
             switch (z->type->size)
             {
             case MS_TINY:    // Rodent
@@ -1696,10 +1699,10 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 	if ( mass >= mass2 ) weight_factor = -25 * ( log(mass) - log(mass2) ) / log(mass);   //factor = -25 if mass is much greater than mass2
 	else weight_factor = 25 * ( log(mass2) - log(mass) ) / log(mass2) ;   //factor = +25 if mass2 is much greater than mass
 
-	float k = 50 + material_factor + weight_factor; 
-	if(k > 90) k = 90;  //saturation 
-	if(k < 10) k = 10;   
-	
+	float k = 50 + material_factor + weight_factor;
+	if(k > 90) k = 90;  //saturation
+	if(k < 10) k = 10;
+
 	//Damage calculation
 	const float dmg = abs(d_E / k_mvel); //damage dealt overall
 	const float part_dmg = dmg * k / 100;     //damage for vehicle-part
@@ -1708,9 +1711,9 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     bool smashed = true;
     std::string snd;
     if (collision_type == veh_coll_bashable)
-    { // something bashable -- use map::bash to determine outcome	
+    { // something bashable -- use map::bash to determine outcome
         int absorb = -1;
-        g->m.bash(x, y, obj_dmg, snd, &absorb);   
+        g->m.bash(x, y, obj_dmg, snd, &absorb);
         smashed = obj_dmg > absorb;
     }
     else
@@ -1828,7 +1831,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     if (!smashed) // tree, wall, or bear sometimes wins
     {
         cruise_on = false;
-        stop();   
+        stop();
     }
     else
     {
@@ -1838,7 +1841,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             turn_amount = 1;
         turn_amount *= 15;
         if (turn_amount > 120)
-            turn_amount = 120;    
+            turn_amount = 120;
 		int turn_roll = rng (0, 100);
         if (turn_roll < abs(vel1 - vel1_a)*2 ) //probability of skidding increases with higher delta_v
 			//delta_v = vel1 - vel1_a
@@ -1974,10 +1977,10 @@ int vehicle::stored_volume(int part) {
 }
 
 int vehicle::max_volume(int part) {
-	if ( part_flag(part, "CARGO") ){ 
-		return vpart_list[parts[part].id].size;		
+	if ( part_flag(part, "CARGO") ){
+		return vpart_list[parts[part].id].size;
 	}
-	return 0;	
+	return 0;
 }
 
 // free space
@@ -2017,7 +2020,7 @@ bool vehicle::add_item (int part, item itm)
     if (!part_flag(part, "CARGO")) {
         return false;
     }
-    
+
     if (parts[part].items.size() >= max_storage)
         return false;
     it_ammo *ammo = dynamic_cast<it_ammo*> (itm.type);
@@ -2039,7 +2042,7 @@ bool vehicle::add_item (int part, item itm)
           return true;
         }
       }
-    
+
     if ( cur_volume + add_volume > maxvolume ) {
       return false;
     }
@@ -2505,7 +2508,7 @@ rl_vec2d vehicle::move_vec(){
     float mx,my;
     mx = cos (move.dir() * M_PI/180);
     my = sin (move.dir() * M_PI/180);
-    rl_vec2d ret(mx,my); 
+    rl_vec2d ret(mx,my);
     return ret;
 }
 
@@ -2514,14 +2517,14 @@ rl_vec2d vehicle::face_vec(){
     float fx,fy;
     fx = cos (face.dir() * M_PI/180);
     fy = sin (face.dir() * M_PI/180);
-    rl_vec2d ret(fx,fy);   
+    rl_vec2d ret(fx,fy);
     return ret;
 }
 
 float get_collision_factor(float delta_v)
 {
 	if(abs(delta_v) <= 31){
-		return ( 1 - ( 0.9 * abs(delta_v) ) / 31 ); 
+		return ( 1 - ( 0.9 * abs(delta_v) ) / 31 );
 	} else {
 		return 0.1;
 	}
