@@ -418,9 +418,10 @@ namespace picojson {
   };
 
   template<typename Iter> inline int _parse_quadhex(input<Iter> &in) {
-    int uni_ch = 0, hex;
+    int uni_ch = 0;
     for (int i = 0; i < 4; i++) {
-      if ((hex = in.getc()) == -1) {
+      int hex = in.getc();
+      if (hex == -1) {
 	return -1;
       }
       if ('0' <= hex && hex <= '9') {
