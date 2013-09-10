@@ -3603,22 +3603,42 @@ void iuse::ice_molotov(game *g, player *p, item *it, bool t)
 
 void iuse::ice_molotov_lit(game *g, player *p, item *it, bool t)
 {
- int age = int(g->turn) - it->bday;
- if (!p->has_item(it)) {
-  point pos = g->find_item(it);
-  it->charges = -1;
-  for (int x = pos.x - 1; x <= pos.x + 1; x++) {
-   for (int y = pos.y - 1; y <= pos.y + 1; y++)
-    g->m.add_field(g, x, y, fd_ice_floor, 3);
-  }
- } else if (age >= 5) { // More than 5 turns old = chance of going out
-  if (rng(1, 50) < age) {
-   g->add_msg_if_player(p,_("The liquid nitrogen evaporates."));
-   it->active = false;
-   it->make(g->itypes["canister_empty"]);
-    // BUG I can't make the canister not have charges...
-  }
- }
+    int age = int(g->turn) - it->bday;
+    if (!p->has_item(it)) {
+        point pos = g->find_item(it);
+        it->charges = -1;
+        // 5x5 radius of L1 floor (30% chance)
+        for (int x = pos.x - 3; x <= pos.x + 3; x++) {
+            for (int y = pos.y - 3; y <= pos.y + 3; y++) {
+                if ( rng(1, 10) < 4) {
+                    g->m.add_field(g, x, y, fd_ice_floor, 1);
+                }
+            }
+        }
+        // 4x4 radius of L2 floor (60% chance)
+        for (int x = pos.x - 2; x <= pos.x + 2; x++) {
+            for (int y = pos.y - 2; y <= pos.y + 2; y++) {
+                if ( rng(1, 10) < 7) {
+                    g->m.add_field(g, x, y, fd_ice_floor, 2);
+                }
+            }
+        }
+        // 3x3 radius of L3 floor (90% chance)
+        for (int x = pos.x - 1; x <= pos.x + 1; x++) {
+            for (int y = pos.y - 1; y <= pos.y + 1; y++) {
+                if ( rng(1, 10) < 10) {
+                    g->m.add_field(g, x, y, fd_ice_floor, 3);
+                }
+            }
+        }
+    } else if (age >= 5) { // More than 5 turns old = chance of going out
+        if (rng(1, 50) < age) {
+            g->add_msg_if_player(p,_("The liquid nitrogen evaporates."));
+            it->active = false;
+            it->make(g->itypes["canister_empty"]);
+            // BUG I can't make the canister not have charges...
+        }
+    }
 }
 
 void iuse::dynamite(game *g, player *p, item *it, bool t)
