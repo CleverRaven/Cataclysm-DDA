@@ -41,8 +41,8 @@ class mapbuffer
 
   /** Load the entire world from savefiles into submaps in this instance. **/
   void load();
-  bool load_legacy();
-
+  void unserialize(std::ifstream & fin);
+  bool unserialize_legacy(std::ifstream & fin);
   /** Store all submaps in this instance into savefiles. **/
   void save();
 
