@@ -142,9 +142,29 @@ npc& npc::operator= (const npc & rhs)
 
  return *this;
 }
-
+#define jsonsave_npc 1
+#define jsonsave_npc_inv 1
 std::string npc::save_info()
 {
+#ifdef jsonsave_npc
+#ifdef jsonsave_npc_inv
+  return json_save(true).serialize();
+#else
+ std::stringstream tdump;
+  tdump << json_save(false).serialize();
+ tdump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
+ tdump << inv.save_str_no_quant();
+ tdump << "w " << weapon.save_info() << std::endl;
+ for (int i = 0; i < worn.size(); i++)
+  tdump << "W " << worn[i].save_info() << std::endl;
+ for (int j = 0; j < weapon.contents.size(); j++)
+  tdump << "c " << weapon.contents[j].save_info() << std::endl;
+
+ return tdump.str();
+
+#endif
+#endif
+
  std::stringstream dump;
 // The " || " is what tells npc::load_info() that it's down reading the name
  dump << getID() << " " << name << " || " << posx << " " << posy << " " << str_cur <<
@@ -222,6 +242,24 @@ void npc::load_info(game *g, std::string data)
  std::string tmpname;
  int deathtmp, deadtmp, classtmp, npc_id;
  dump << data;
+
+char check=dump.peek();
+if ( check == ' ' ) {
+  // sigh..
+  check=data[1];
+} 
+if ( check == '{' ) {
+        picojson::value pdata;
+        dump >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad npc json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, g);
+        }
+        return;
+}
+
  dump >> npc_id;
  setID(npc_id);
 // Standard player stuff
