@@ -406,17 +406,20 @@ item& inventory::add_item(item newit, bool keep_invlet)
                     int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
                     it_ref->item_counter = tmpcounter;
                     newit.item_counter = tmpcounter;
-		        }
+                }
                 newit.invlet = it_ref->invlet;
                 iter->push_back(newit);
                 return iter->back();
+            }
+            else if (keep_invlet)
+            {
+                assign_empty_invlet(*it_ref);
             }
         }
         // If keep_invlet is true, we'll be forcing other items out of their current invlet.
         else if (keep_invlet && it_ref->invlet == newit.invlet)
         {
             assign_empty_invlet(*it_ref);
-            update_cache_with_item(newit);
         }
     }
 
