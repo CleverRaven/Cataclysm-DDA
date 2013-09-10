@@ -20,6 +20,7 @@
 #include "iuse_software.h"
 #include "iuse_software_kitten.h"
 #include "iuse_software_snake.h"
+#include "iuse_software_sokoban.h"
 
 bool play_videogame(std::string function_name, std::map<std::string, std::string> & game_data, int &score)
 {
@@ -56,6 +57,19 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
         if (iScore >= 10000) {
             score = 50;
         } else if (iScore >= 5000) {
+            score = 30;
+        } else {
+            score = 20;
+        }
+
+        return true;
+    } else if ( function_name == "sokoban_game" ) {
+        sokoban_game sg;
+        int iScore = sg.start_game();
+
+        if (iScore >= 5000) {
+            score = 50;
+        } else if (iScore >= 1000) {
             score = 30;
         } else {
             score = 20;

@@ -1409,7 +1409,8 @@ t   t\n\
           } else if (rc <= 50) {    vt = "car";
           } else if (rc <= 60) {	vt = "electric_car";
           } else if (rc <= 75) {	vt = "bicycle";
-          } else {          					vt = "motorcycle";
+          } else if (rc <= 90) {    vt = "motorcycle";
+          } else {                  vt = "motorcycle_sidecart";
           }
       } else {
           vt = "shopping_cart";

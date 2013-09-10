@@ -475,7 +475,7 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
                       calc_HP(u->str_max, u->has_trait("TOUGH")));
             mvwprintz(w, 7, 33, COL_STAT_ACT, _("Carry weight: %.1f %s"),
                       u->convert_weight(u->weight_capacity(false)),
-                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?_("kg"):_("lbs"));
             mvwprintz(w, 8, 33, COL_STAT_ACT, _("Melee damage: %d"),
                       u->base_damage(false));
             fold_and_print(w, 10, 33, 45, COL_STAT_ACT, _("Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective."));
@@ -842,6 +842,8 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
     const int iContentHeight = 16;
     int iStartPos = 0;
 
+    WINDOW* w_items = newwin(iContentHeight, 50, 5 + getbegy(w), 27 + getbegx(w));
+
     std::vector<const profession *> sorted_profs;
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter)
     {
@@ -893,11 +895,24 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             }
         }
 
+        std::vector<std::string>  pipo = sorted_profs[cur_id]->items();
+        mvwprintz(w_items, 0, 2, c_ltgray, _("Profession items:"));
+        for (int i = 0; i < iContentHeight; i++)
+        {
+                // clean
+            mvwprintz(w_items, 1 + i, 2, c_ltgray, "                                        ");
+            if (i < pipo.size())
+                // dirty
+                mvwprintz(w_items, 1 + i , 2, c_ltgray, g->itypes[pipo[i]]->name.c_str());
+        }
+            //TODO :: starting_skills, addictions, w/e
+
         //Draw Scrollbar
         draw_scrollbar(w, cur_id, iContentHeight, profession::count()-1, 5);
 
         wrefresh(w);
         wrefresh(w_description);
+        wrefresh(w_items);
         switch (input())
         {
             case 'j':

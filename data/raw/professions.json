@@ -599,9 +599,9 @@
     },
 	{
 	  "ident":"cosplay",
-      "name":"Anime Convention Goer",
-      "description":"You finally got permission from your folks to attend the premier anime convention in the Northeast.  It just had to happen the day of the apocalypse.  At least you were ready in case your cosplay got torn.",
-      "items":["shorts", "sneakers", "tank_top", "sewing_kit", "mbag", "fur_cat_ears", "fur_cat_tail", "fur_collar"],
+      "name":"Otaku",
+      "description":"Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
+      "items":["shorts", "sneakers", "tank_top", "sewing_kit", "mbag", "fur_cat_ears", "fur_cat_tail", "fur_collar", "cheeseburger"],
       "points":2
     }
 ]
