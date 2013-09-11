@@ -34,6 +34,8 @@ std::vector<std::string> vStartingTraits[2];
 
 std::string morale_data[NUM_MORALE_TYPES];
 
+stats player_stats;
+
 void game::init_morale()
 {
     std::string tmp_morale_data[NUM_MORALE_TYPES] = {
@@ -72,7 +74,8 @@ void game::init_morale()
     _("Masochism"),
     _("Hoarder"),
     _("Cross-Dresser"),
-    _("Optimist")
+    _("Optimist"),
+    _("Found kitten <3")
     };
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
 }
@@ -146,6 +149,7 @@ player::player()
  volume = 0;
 
  memorial_log.clear();
+ player_stats.reset();
 
  mDrenchEffect[bp_eyes] = 1;
  mDrenchEffect[bp_mouth] = 1;
@@ -1399,12 +1403,7 @@ void player::load_info(game *g, std::string data)
   failed_missions.push_back(mistmp);
  }
 
- //Loading the player log
- std::string memorialtmp;
- while(dump.peek() == '|') {
-   dump >> memorialtmp;
-   memorial_log.push_back(memorialtmp);
- }
+ dump >> player_stats.squares_walked;
 
  recalc_sight_limits();
 }
@@ -1497,6 +1496,8 @@ std::string player::save_info()
  dump << " " << failed_missions.size() << " ";
  for (int i = 0; i < failed_missions.size(); i++)
   dump << failed_missions[i] << " ";
+
+ dump << player_stats.squares_walked << " ";
 
  dump << std::endl;
 
@@ -1739,6 +1740,12 @@ void player::memorial( std::ofstream &memorial_file )
     }
     memorial_file << "\n";
 
+    //Lifetime stats
+    memorial_file << _("Lifetime Stats") << "\n";
+    memorial_file << indent << _("Distance Walked: ")
+                       << player_stats.squares_walked << _(" Squares") << "\n";
+    memorial_file << "\n";
+
     //History
     memorial_file << _("Game History") << "\n";
     memorial_file << dump_memorial();
@@ -1775,6 +1782,21 @@ void player::add_memorial_log(const char* message, ...)
 }
 
 /**
+ * Loads the data in a memorial file from the given ifstream. All the memorial
+ * entry lines begin with a pipe (|).
+ * @param fin The ifstream to read the memorial entries from.
+ */
+void player::load_memorial_file(std::ifstream &fin)
+{
+  std::string entry;
+  memorial_log.clear();
+  while(fin.peek() == '|') {
+    getline(fin, entry);
+    memorial_log.push_back(entry);
+  }
+}
+
+/**
  * Concatenates all of the memorial log entries, delimiting them with newlines,
  * and returns the resulting string. Used for saving and for writing out to the
  * memorial file.
@@ -1790,6 +1812,19 @@ std::string player::dump_memorial()
 
   return output.str();
 
+}
+
+/**
+ * Returns a pointer to the stat-tracking struct. Its fields should be edited
+ * as necessary to track ongoing counters, which will be added to the memorial
+ * file. For single events, rather than cumulative counters, see
+ * add_memorial_log.
+ * @return A pointer to the stats struct being used to track this player's
+ *         lifetime stats.
+ */
+stats* player::lifetime_stats()
+{
+  return &player_stats;
 }
 
 inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
@@ -2025,9 +2060,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 
 // Print name and header
  if (male) {
-    mvwprintw(w_tip, 0, 0, "%s - Male", name.c_str());
+    mvwprintw(w_tip, 0, 0, _("%s - Male"), name.c_str());
  } else {
-    mvwprintw(w_tip, 0, 0, "%s - Female", name.c_str());
+    mvwprintw(w_tip, 0, 0, _("%s - Female"), name.c_str());
  }
  mvwprintz(w_tip, 0, 39, c_ltred, _("| Press TAB to cycle, ESC or q to return."));
  wrefresh(w_tip);
@@ -2211,6 +2246,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
      line++;
    }
  }
+
  wrefresh(w_skills);
 
 // Finally, draw speed.
@@ -2343,7 +2379,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
     mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
     mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
-                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?_("kg"):_("lbs"));
     mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
@@ -2685,6 +2721,10 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
     mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
     mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
    }
+
+   //Draw Scrollbar
+   draw_scrollbar(w_skills, line, skill_win_size_y, skillslist.size(), 1);
+
    werase(w_info);
    if (line >= 0 && line < skillslist.size()) {
     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", selectedSkill->description().c_str());
@@ -2716,7 +2756,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
        status = isLearning ? c_ltblue : c_blue;
 
       mvwprintz(w_skills, i + 1,  1, status, "%s:", thisSkill->name().c_str());
-      mvwprintz(w_skills, i + 1, 19, status, "%d (%2d%%%%)", (int)level, (level.exercise() <  0 ? 0 : level.exercise()));
+      mvwprintz(w_skills, i + 1, 19, status, "%-2d(%2d%%%%)", (int)level, (level.exercise() <  0 ? 0 : level.exercise()));
      }
      wrefresh(w_skills);
      line = 0;
@@ -2843,7 +2883,7 @@ void player::disp_morale(game *g)
 
 void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
-    int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "Narrow");
+    int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "narrow");
 
     WINDOW *weapwin = sideStyle ? w2 : w;
     mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
@@ -3037,7 +3077,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   int speedoy = sideStyle ? 5 :  3;
 
   bool metric = OPTIONS["USE_METRIC_SPEEDS"] == "km/h";
-  const char *units = metric ? "km/h" : "mph";
+  const char *units = metric ? _("km/h") : _("mph");
   int velx    = metric ?  5 : 4; // strlen(units) + 1
   int cruisex = metric ? 10 : 9; // strlen(units) + 6
   float conv  = metric ? 0.0161f : 0.01f;
@@ -3619,12 +3659,12 @@ int player::read_speed(bool real_life)
 
 int player::rust_rate(bool real_life)
 {
-    if (OPTIONS["SKILL_RUST"] == "Off") {
+    if (OPTIONS["SKILL_RUST"] == "off") {
         return 0;
     }
 
     int intel = (real_life ? int_cur : int_max);
-    int ret = ((OPTIONS["SKILL_RUST"] == "Vanilla" || OPTIONS["SKILL_RUST"] == "Capped") ? 500 : 500 - 35 * (intel - 8));
+    int ret = ((OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
         ret *= 1.33;
@@ -6272,10 +6312,10 @@ bool player::eat(game *g, signed char ch)
             it.contents.erase(it.contents.begin());
             if (!is_npc())
             {
-                if (OPTIONS["DROP_EMPTY"] == "No") {
+                if (OPTIONS["DROP_EMPTY"] == "no") {
                     g->add_msg(_("%c - an empty %s"), it.invlet, it.tname(g).c_str());
 
-                } else if (OPTIONS["DROP_EMPTY"] == "Watertight") {
+                } else if (OPTIONS["DROP_EMPTY"] == "watertight") {
                     if (it.is_container())
                     {
                         if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS")))
@@ -6293,7 +6333,7 @@ bool player::eat(game *g, signed char ch)
                         g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                         g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                     }
-                } else if (OPTIONS["DROP_EMPTY"] == "All") {
+                } else if (OPTIONS["DROP_EMPTY"] == "all") {
                     g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                     g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                 }
@@ -7840,7 +7880,7 @@ void player::try_to_sleep(game *g)
              terlist[ter_at_pos].movecost <= 2 ?
              _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
-             terlist[ter_at_pos].name.c_str());
+             _(terlist[ter_at_pos].name.c_str())); // FIXME i18n
  add_disease("lying_down", 300);
 }
 
@@ -8037,7 +8077,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
     ret += armorenc;
 
     if (layers > 1) {
-        ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso
+        ret += (layers - 1) * (bp == bp_torso ? .5 : 1);// Easier to layer on torso
     }
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
         ret += 3;

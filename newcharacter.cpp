@@ -476,7 +476,7 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
                       calc_HP(u->str_max, u->has_trait("TOUGH")));
             mvwprintz(w, 7, 33, COL_STAT_ACT, _("Carry weight: %.1f %s"),
                       u->convert_weight(u->weight_capacity(false)),
-                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?_("kg"):_("lbs"));
             mvwprintz(w, 8, 33, COL_STAT_ACT, _("Melee damage: %d"),
                       u->base_damage(false));
             fold_and_print(w, 10, 33, 45, COL_STAT_ACT, _("Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective."));
@@ -626,9 +626,12 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
 
     nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
 
-    int iStartPos = 0;
-    int iContentHeight = 16;
+    const int iContentHeight = 16;
     int iCurWorkingPage = 0;
+
+    int iStartPos[2];
+    iStartPos[0] = 0;
+    iStartPos[1] = 0;
 
     int iCurrentLine[2];
     iCurrentLine[0] = 0;
@@ -661,19 +664,11 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                 hi_off  = hilite(col_off_act);
             }
 
-            if (vStartingTraits[iCurrentPage].size() > iContentHeight) {
-                iStartPos = iCurrentLine[iCurrentPage] - (iContentHeight - 1) / 2;
-
-                if (iStartPos < 0) {
-                    iStartPos = 0;
-                } else if (iStartPos + iContentHeight > vStartingTraits[iCurrentPage].size()) {
-                    iStartPos = vStartingTraits[iCurrentPage].size() - iContentHeight;
-                }
-            }
+            calcStartPos(iStartPos[iCurrentPage], iCurrentLine[iCurrentPage], iContentHeight, vStartingTraits[iCurrentPage].size());
 
             //Draw Traits
-            for (int i = iStartPos; i < vStartingTraits[iCurrentPage].size(); i++) {
-                if (i >= iStartPos && i < iStartPos +
+            for (int i = iStartPos[iCurrentPage]; i < vStartingTraits[iCurrentPage].size(); i++) {
+                if (i >= iStartPos[iCurrentPage] && i < iStartPos[iCurrentPage] +
                     ((iContentHeight > vStartingTraits[iCurrentPage].size()) ?
                      vStartingTraits[iCurrentPage].size() : iContentHeight)) {
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
@@ -711,12 +706,18 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                         cLine = c_ltgray;
                     }
 
-                    mvwprintz(w, 5 + i - iStartPos, (iCurrentPage == 0) ? 2 : 40, c_ltgray, "\
+                    mvwprintz(w, 5 + i - iStartPos[iCurrentPage], (iCurrentPage == 0) ? 2 : 40, c_ltgray, "\
                                   ");	// Clear the line
-                    mvwprintz(w, 5 + i - iStartPos, (iCurrentPage == 0) ? 2 : 40, cLine,
+                    mvwprintz(w, 5 + i - iStartPos[iCurrentPage], (iCurrentPage == 0) ? 2 : 40, cLine,
                               traits[vStartingTraits[iCurrentPage][i]].name.c_str());
                 }
             }
+
+            //Draw Scrollbar Good Traits
+            draw_scrollbar(w, iCurrentLine[0], iContentHeight, vStartingTraits[0].size(), 5);
+
+            //Draw Scrollbar Bad Traits
+            draw_scrollbar(w, iCurrentLine[1], iContentHeight, vStartingTraits[1].size(), 5, getmaxx(w)-1);
         }
 
         wrefresh(w);
@@ -839,6 +840,10 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
 
     int cur_id = 0;
     int retval = 0;
+    const int iContentHeight = 16;
+    int iStartPos = 0;
+
+    WINDOW* w_items = newwin(iContentHeight, 50, 5 + getbegy(w), 27 + getbegx(w));
 
     std::vector<const profession *> sorted_profs;
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter)
@@ -846,7 +851,8 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         sorted_profs.push_back(&(iter->second));
     }
 
-    // Sort professions by name, but leave Unemployed at the top.
+    // Sort professions by name.
+    // profession_display_sort() keeps "unemployed" at the top.
     std::sort(sorted_profs.begin(), sorted_profs.end(), profession_display_sort);
 
     do
@@ -872,51 +878,48 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         }
         fold_and_print(w_description, 0, 0, 78, c_green, sorted_profs[cur_id]->description().c_str());
 
-        for (int i = 0; i < 16; ++i)
-        {
-            mvwprintz(w, 5 + i, 2, c_ltgray, "\
+        calcStartPos(iStartPos, cur_id, iContentHeight, profession::count());
+
+        //Draw options
+        for (int i = iStartPos; i < iStartPos + ((iContentHeight > profession::count()) ? profession::count() : iContentHeight); i++) {
+            mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              ");	// Clear the line
-            int id = i;
-            if ((cur_id < 7) || (profession::count() < 16))
-            {
-                //do nothing
-            }
-            else if (cur_id >= profession::count() - 9)
-            {
-                id = profession::count() - 16 + i;
-            }
-            else
-            {
-                id += cur_id - 7;
-            }
 
-            if (id > profession::count())
-            {
-                break;
-            }
-
-            if (u->prof != sorted_profs[id])
-            {
-                mvwprintz(w, 5 + i, 2, (sorted_profs[id] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
-                          sorted_profs[id]->name().c_str());
-            }
-            else
-            {
-                mvwprintz(w, 5 + i, 2,
-                          (sorted_profs[id] == sorted_profs[cur_id] ?
+            if (u->prof != sorted_profs[i]) {
+                mvwprintz(w, 5 + i - iStartPos, 2, (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
+                          sorted_profs[i]->name().c_str());
+            } else {
+                mvwprintz(w, 5 + i - iStartPos, 2,
+                          (sorted_profs[i] == sorted_profs[cur_id] ?
                            hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                          sorted_profs[id]->name().c_str());
+                          sorted_profs[i]->name().c_str());
             }
         }
 
+        std::vector<std::string>  pipo = sorted_profs[cur_id]->items();
+        mvwprintz(w_items, 0, 2, c_ltgray, _("Profession items:"));
+        for (int i = 0; i < iContentHeight; i++)
+        {
+                // clean
+            mvwprintz(w_items, 1 + i, 2, c_ltgray, "                                        ");
+            if (i < pipo.size())
+                // dirty
+                mvwprintz(w_items, 1 + i , 2, c_ltgray, g->itypes[pipo[i]]->name.c_str());
+        }
+            //TODO :: starting_skills, addictions, w/e
+
+        //Draw Scrollbar
+        draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);
+
         wrefresh(w);
         wrefresh(w_description);
+        wrefresh(w_items);
         switch (input())
         {
             case 'j':
             case '2':
                 cur_id++;
-                if (cur_id >= profession::count())
+                if (cur_id > profession::count() - 1)
                     cur_id = 0;
             break;
 
@@ -1027,6 +1030,9 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
    }
   }
 
+  //Draw Scrollbar
+  draw_scrollbar(w, cur_pos, 16, num_skills, 5);
+
   wrefresh(w);
   wrefresh(w_description);
   switch (input()) {
@@ -1053,7 +1059,7 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
     break;
     case 'l':
     case '6':
-     if (u->skillLevel(currentSkill) <= 19) { 
+     if (u->skillLevel(currentSkill) <= 19) {
       points -= u->skillLevel(currentSkill) + 1;
       u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);
      }

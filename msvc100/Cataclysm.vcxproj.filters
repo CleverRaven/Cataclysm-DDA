@@ -114,6 +114,15 @@
     <ClCompile Include="..\iuse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\iuse_software.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\iuse_software_kitten.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\iuse_software_snake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\keypress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -400,6 +409,15 @@
     </ClInclude>
     <ClInclude Include="..\iuse.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\iuse_software.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\iuse_software_kitten.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\iuse_software_snake.h">
+      <Filter>Include Files</Filter>
     </ClInclude>
     <ClInclude Include="..\keypress.h">
       <Filter>Header Files</Filter>

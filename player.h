@@ -33,6 +33,19 @@ struct special_attack
  special_attack() { bash = 0; cut = 0; stab = 0; };
 };
 
+struct stats
+{
+    int squares_walked;
+
+    void reset() {
+        squares_walked = 0;
+    }
+
+    stats() {
+        reset();
+    }
+};
+
 class player {
   std::map<Skill*,SkillLevel> _skills;
 
@@ -266,6 +279,7 @@ public:
  int weight_capacity(bool real_life = true);
  int volume_capacity();
  double convert_weight(int weight);
+ bool can_eat(const item i);
  bool can_pickVolume(int volume);
  bool can_pickWeight(int weight, bool safe = true);
  int net_morale(morale_point effect);
@@ -415,8 +429,13 @@ public:
  std::string dump_memorial();
  //Log an event, to be later written to the memorial file
  void add_memorial_log(const char* message, ...);
+ //Loads the memorial log from a file
+ void load_memorial_file(std::ifstream &fin);
  //Notable events, to be printed in memorial
  std::vector <std::string> memorial_log;
+
+ //Record of player stats, for posterity only
+ stats* lifetime_stats();
 
  int getID ();
 

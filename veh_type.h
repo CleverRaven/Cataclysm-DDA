@@ -134,34 +134,4 @@ struct vpart_info
 
 extern vpart_info vpart_list[num_vparts];
 
-enum vhtype_id
-{
-    veh_null = 0,
-    veh_custom,
-
-// in-built vehicles
-    veh_bicycle,
-    veh_motorcycle_chassis,
-    veh_motorcycle,
-    veh_sandbike,
-    veh_sandbike_chassis,
-    veh_car,
-    veh_car_chassis,
-    veh_truck,
-    veh_semi,  //6L Semitruck. 10 wheels. Sleeper cab.
-    veh_trucktrailer,  //Just a trailer with 8 wheels.
-    veh_wagon, // Dwarf Fortress Wagon
-    veh_bug,  //Old VW Bug.
-    veh_bubblecar,  //360 degree view glass circular vehicle. Underpowered plutonium.
-    veh_golfcart,  //Yamaha golf cart.
-    veh_scooter,  //Vespa S50 scooter.
-    veh_armytruck,  //Army M35A2 6L gas and/or hydrogen engine if commented parts uncommented.
-    veh_schoolbus,  //Standard schoolbus
-    veh_car_electric, // electric version of standard car.
-    veh_rv, //RV with bed and kitchen unit
-    veh_shopping_cart, // Just a frame and cargo box
-
-    num_vehicles
-};
-
 #endif

@@ -583,9 +583,12 @@ extremities from frostbite and to keep your distance from large fires."));
                     mvwprintz(w_help, 10, 50, c_white, _("keybinding for an action."));
                     needs_refresh = false;
                 }
-// Clear the lines
+                // Clear the lines
                 for (int i = 0; i < FULL_SCREEN_HEIGHT-2; i++)
                     mvwprintz(w_help, i, 0, c_black, "                                                ");
+
+                //Draw Scrollbar
+                draw_scrollbar(w_help_border, offset-1, FULL_SCREEN_HEIGHT-2, NUM_ACTIONS-20, 1);
 
                 for (int i = 0; i < FULL_SCREEN_HEIGHT-2 && offset + i < NUM_ACTIONS; i++) {
                     std::vector<char> keys = keys_bound_to( action_id(offset + i) );

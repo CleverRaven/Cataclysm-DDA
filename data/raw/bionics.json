@@ -15,7 +15,7 @@
     "type"       :    "bionic",
     "id"         :    "bio_power_storage_mkII",
     "name"       :    "Power Storage Mk. II",
-    "description":    "Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly sucessful CBM: Power Storage.  Increases you power capacity by 10 units."
+    "description":    "Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful CBM: Power Storage.  Increases your power capacity by 10 units."
 },
 {
     "type"       :    "bionic",
@@ -315,7 +315,7 @@
     "name"       :    "Sonic Resonator",
     "active"     :    true,
     "cost"       :    4,
-    "description":    "Your entire body may resonate at very high power, creating a short-range shockwave.  While it will not to much damage to flexible creatures, stiff items such as walls, doors, and even robots will be severely damaged."
+    "description":    "Your entire body may resonate at very high power, creating a short-range shockwave.  While it will not do much damage to flexible creatures, stiff items such as walls, doors, and even robots will be severely damaged."
 },
 {
     "type"       :    "bionic",
@@ -413,7 +413,7 @@
     "active"     :    true,
     "cost"       :    1,
     "time"       :    3,
-    "description":    "While activated, the muscles in your arms will be greatly enchanced, increasing your strength by 20."
+    "description":    "While activated, the muscles in your arms will be greatly enhanced, increasing your strength by 20."
 },
 {
     "type"       :    "bionic",
@@ -445,7 +445,7 @@
     "name"       :    "Fingerpick",
     "active"     :    true,
     "cost"       :    1,
-    "description":    "One of your fingers has an electronic lockpick embedded in it.  This auto-matic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user."
+    "description":    "One of your fingers has an electronic lockpick embedded in it.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user."
 },
 {
     "type"       :    "bionic",
@@ -573,7 +573,6 @@
     "type"       :    "bionic",
     "id"         :    "bio_stiff",
     "name"       :    "Wire-induced Stiffness",
-    "faulty"     :    true,
-    "description":    "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumberance."
+    "description":    "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance."
 }
 ]

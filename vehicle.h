@@ -138,8 +138,7 @@ struct vehicle_part
  * - To keep info consistent, always use
  *   `map::board_vehicle()` and `map::unboard_vehicle()` for
  *   boarding/unboarding player.
- * - To add new predesigned vehicle, assign new value for `vhtype_id` enum
- *   and declare vehicle and add parts in file veh_typedef.cpp, using macros,
+ * - To add new predesigned vehicle, add an entry to data/raw/vehicles.json
  *   similar to the existing ones. Keep in mind, that positive x coordinate points
  *   forwards, negative x is back, positive y is to the right, and
  *   negative y to the left:
@@ -168,7 +167,7 @@ private:
     bool can_stack_vpart_flag(std::string vpart_flag);
 
 public:
-    vehicle (game *ag=0, vhtype_id type_id = veh_null, int veh_init_fuel = -1, int veh_init_status = -1);
+    vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
 
 // check if given player controls this vehicle
@@ -176,6 +175,9 @@ public:
 
 // init parts state for randomly generated vehicle
     void init_state(game* g, int veh_init_fuel, int veh_init_status);
+
+// damages all parts of a vehicle by a random amount
+    void smash();
 
 // load and init vehicle data from stream. This implies valid save data!
     void load (std::ifstream &stin);
@@ -413,7 +415,7 @@ public:
 
     // config values
     std::string name;   // vehicle name
-    int type;           // vehicle type
+    std::string type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     std::vector<int> external_parts;   // List of external parts indeces
     std::set<std::string> tags;        // Properties of the vehicle

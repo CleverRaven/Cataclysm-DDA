@@ -102,7 +102,7 @@ bool WinCreate()
 
 	ClearScreen();
 
-    if(OPTIONS["HIDE_CURSOR"] != "Always" && SDL_ShowCursor(-1))
+    if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1))
         SDL_ShowCursor(SDL_DISABLE);
     else
         SDL_ShowCursor(SDL_ENABLE);
@@ -356,7 +356,7 @@ void CheckMessages()
 			case SDL_KEYDOWN:
 			{
        int lc = 0;
-       if(OPTIONS["HIDE_CURSOR"] != "Always" && SDL_ShowCursor(-1)) {
+       if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
            SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
        }
 				Uint8 *keystate = SDL_GetKeyState(NULL);
@@ -423,7 +423,7 @@ void CheckMessages()
             }
             break;
 			case SDL_MOUSEMOTION:
-                if((OPTIONS["HIDE_CURSOR"] == "Always" || OPTIONS["HIDE_CURSOR"] == "HiddenKB") &&
+                if((OPTIONS["HIDE_CURSOR"] == "show" || OPTIONS["HIDE_CURSOR"] == "hidekb") &&
                     !SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_ENABLE);
                 break;
 			case SDL_QUIT:
@@ -639,7 +639,7 @@ WINDOW *curses_init(void)
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
 
-    const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "Narrow") ? 45 : 55;
+    const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
     WindowWidth= (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
     if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
     WindowWidth *= fontwidth;

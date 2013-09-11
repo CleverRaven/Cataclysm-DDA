@@ -201,6 +201,17 @@ inventory inventory::operator+ (const item &rhs)
  return inventory(*this) += rhs;
 }
 
+inventory inventory::filter_by_activation(player& u)
+{
+    inventory a;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        if(u.rate_action_use(&iter->front()) == HINT_GOOD){
+                a += *iter;
+            }
+        }
+    return a;
+}
 
 inventory inventory::filter_by_category(item_cat cat, const player& u) const
 {
@@ -406,17 +417,20 @@ item& inventory::add_item(item newit, bool keep_invlet)
                     int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
                     it_ref->item_counter = tmpcounter;
                     newit.item_counter = tmpcounter;
-		        }
+                }
                 newit.invlet = it_ref->invlet;
                 iter->push_back(newit);
                 return iter->back();
+            }
+            else if (keep_invlet)
+            {
+                assign_empty_invlet(*it_ref);
             }
         }
         // If keep_invlet is true, we'll be forcing other items out of their current invlet.
         else if (keep_invlet && it_ref->invlet == newit.invlet)
         {
             assign_empty_invlet(*it_ref);
-            update_cache_with_item(newit);
         }
     }
 

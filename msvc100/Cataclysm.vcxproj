@@ -146,6 +146,9 @@
     <ClCompile Include="..\item_group.cpp" />
     <ClCompile Include="..\itypedef.cpp" />
     <ClCompile Include="..\iuse.cpp" />
+    <ClCompile Include="..\iuse_software.cpp" />
+    <ClCompile Include="..\iuse_software_kitten.cpp" />
+    <ClCompile Include="..\iuse_software_snake.cpp" />
     <ClCompile Include="..\keypress.cpp" />
     <ClCompile Include="..\lightmap.cpp" />
     <ClCompile Include="..\line.cpp" />
@@ -245,6 +248,9 @@
     <ClInclude Include="..\item_group.h" />
     <ClInclude Include="..\itype.h" />
     <ClInclude Include="..\iuse.h" />
+    <ClInclude Include="..\iuse_software.h" />
+    <ClInclude Include="..\iuse_software_kitten.h" />
+    <ClInclude Include="..\iuse_software_snake.h" />
     <ClInclude Include="..\keypress.h" />
     <ClInclude Include="..\lightmap.h" />
     <ClInclude Include="..\line.h" />

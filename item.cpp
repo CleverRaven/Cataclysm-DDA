@@ -19,46 +19,22 @@
 
 std::string default_technique_name(technique_id tech);
 
+light_emission nolight={0,0,0};
+
 item::item()
 {
- name = "";
- charges = -1;
- bday = 0;
- invlet = 0;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- type = nullitem();
- curammo = NULL;
- corpse = NULL;
- active = false;
- owned = -1;
- mission_id = -1;
- player_id = -1;
+    init();
 }
 
 item::item(itype* it, unsigned int turn)
 {
+ init();
  if(!it)
   type = nullitem();
  else
   type = it;
  bday = turn;
- name = "";
- invlet = 0;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- active = false;
- curammo = NULL;
  corpse = it->corpse;
- owned = -1;
- mission_id = -1;
- player_id = -1;
  if (it == NULL)
   return;
  name = it->name;
@@ -100,6 +76,7 @@ item::item(itype* it, unsigned int turn)
 
 item::item(itype *it, unsigned int turn, char let)
 {
+ init();
  if(!it) {
   type = nullitem();
   debugmsg("Instantiating an item from itype, with NULL itype!");
@@ -108,12 +85,6 @@ item::item(itype *it, unsigned int turn, char let)
  }
  bday = turn;
  name = it->name;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- active = false;
  if (it->is_gun()) {
   charges = 0;
  } else if (it->is_ammo()) {
@@ -155,15 +126,7 @@ item::item(itype *it, unsigned int turn, char let)
 
 void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
 {
- name = "";
- charges = -1;
- invlet = 0;
- damage = 0;
- burnt = 0;
- poison = 0;
- mode = "NULL";
- item_counter = 0;
- curammo = NULL;
+ init();
  active = mt->species == species_zombie ? true : false;
  if(!it)
   type = nullitem();
@@ -188,6 +151,26 @@ item::~item()
 {
 }
 
+void item::init() {
+    name = "";
+    charges = -1;
+    bday = 0;
+    invlet = 0;
+    damage = 0;
+    burnt = 0;
+    poison = 0;
+    mode = "NULL";
+    item_counter = 0;
+    type = nullitem();
+    curammo = NULL;
+    corpse = NULL;
+    active = false;
+    owned = -1;
+    mission_id = -1;
+    player_id = -1;
+    light = nolight;
+}
+
 void item::make(itype* it)
 {
  if(!it)
@@ -201,6 +184,7 @@ void item::clear()
 {
     // should we be clearing contents, as well?
     // Seems risky to - there aren't any reported content-clearing bugs
+    // init(); // this should not go here either, or make() should not use it...
     item_tags.clear();
     item_vars.clear();
 }
@@ -309,7 +293,7 @@ picojson::value item::json_save() const
     /////
     data["invlet"] = pv( int(invlet) );
     data["typeid"] = pv( typeId() );
-    data["bday"] = pv( int(bday) );
+    data["bday"] = pv( bday );
 
     if ( charges != -1 )     data["charges"]    = pv( int(charges) );
     if ( damage != 0 )       data["damage"]     = pv( int(damage) );
@@ -345,79 +329,22 @@ picojson::value item::json_save() const
         data["name"] = pv ( name );
     }
 
+    if ( light.luminance != 0 ) {
+        data["light"] = pv( int(light.luminance) );
+        if ( light.width != 0 ) {
+            data["light_width"] = pv( int(light.width) );
+            data["light_dir"] = pv( int(light.direction) );
+        }
+    }
+
     return picojson::value(data);
 }
-
+/*
+ * Old 1 line string output retained for mapbuffer
+ */
 std::string item::save_info() const
 {
- if (type == NULL){
-  debugmsg("Tried to save an item with NULL type!");
- }
-
- itype_id ammotmp = "null";
-/* TODO: This causes a segfault sometimes, even though we check to make sure
- * curammo isn't NULL.  The crashes seem to occur most frequently when saving an
- * NPC, or when saving map data containing an item an NPC has dropped.
- */
- if (curammo != NULL){
-  ammotmp = curammo->id;
- }
- if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(),
-     ammotmp) != unreal_itype_ids.end()  &&
-     std::find(artifact_itype_ids.begin(), artifact_itype_ids.end(),
-     ammotmp) != artifact_itype_ids.end()
-     ) {
-  ammotmp = "null"; //Saves us from some bugs, apparently?
- }
- std::stringstream dump;
- dump << " " << int(invlet) << " " << typeId() << " " <<  int(charges) <<
-     " " << int(damage) << " ";
-/////
- int stags=item_tags.size() + item_vars.size();
-/////
- dump << stags << " ";
- for( std::set<std::string>::const_iterator it = item_tags.begin();
-      it != item_tags.end(); ++it )
- {
-     dump << *it << " ";
- }
-/////
- for( std::map<std::string, std::string>::const_iterator it = item_vars.begin(); it != item_vars.end(); ++it ) {
-    std::string itstr="";
-    std::string itval="";
-    dump << ivaresc << it->first << "=";
-    for(std::string::const_iterator sit = it->second.begin(); sit != it->second.end(); ++sit ) {
-       switch(*sit) {
-           case '\n': dump << ivaresc << "0A"; break;
-           case '\r': dump << ivaresc << "0D"; break;
-           case '\t': dump << ivaresc << "09"; break;
-           case ' ': dump << ivaresc << "20"; break;
-           default:  dump << *sit; break;
-       }
-    }
-    dump << " ";
- }
-////
-
- dump << burnt << " " << poison << " " << ammotmp <<
-        " " << owned << " " << int(bday) << " " << mode;
- if (active)
-  dump << " 1";
- else
-  dump << " 0";
- if (corpse != NULL)
-  dump << " " << corpse->id;
- else
-  dump << " -1";
- dump << " " << mission_id << " " << player_id;
- size_t pos = name.find_first_of("\n");
- std::string temp_name = name;
- while (pos != std::string::npos)  {
-  temp_name.replace(pos, 1, "@@");
-  pos = temp_name.find_first_of("\n");
- }
- dump << " '" << temp_name << "'";
- return dump.str();
+    return json_save().serialize();
 }
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
@@ -455,26 +382,14 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 
 bool item::json_load(picojson::value parsed, game * g)
 {
+    init();
     clear();
     const picojson::object &data = parsed.get<picojson::object>();
-
-
-    burnt = 0;
-    owned = -1;
-    poison = 0;
-    mode = "NULL";
-    owned = -1;
-    mission_id = -1;
-    player_id = -1;
-    name = "";
-    active = false;
-
 
     std::string idtmp="";
     std::string ammotmp="null";
     int lettmp = 0;
     int corptmp = -1;
-    int bdaytmp = 0;
     int damtmp = 0;
 
     if ( ! picostring(data, "typeid", idtmp) ) {
@@ -487,8 +402,7 @@ bool item::json_load(picojson::value parsed, game * g)
     picoint(data, "poison", poison);
     picoint(data, "owned", owned);
 
-    picoint(data, "bday", bdaytmp);
-    bday = bdaytmp;
+    picoint(data, "bday", bday);
 
     picostring(data, "mode", mode);
     picoint(data, "mission_id", mission_id);
@@ -541,6 +455,18 @@ bool item::json_load(picojson::value parsed, game * g)
                   item_vars[ pvarsit->first ] = pvarsit->second.get<std::string>();
              }
         }
+    }
+
+    light=nolight;
+    int tmplum=0;
+    int tmpwidth=0;
+    int tmpdir=0;
+    if ( picoint(data,"light",tmplum) ) {
+        picoint(data,"light_width",tmpwidth);
+        picoint(data,"light_dir",tmpdir);
+        light.luminance = (unsigned short)tmplum;
+        light.width = (short)tmpwidth;
+        light.direction = (short)tmpdir;
     }
 
     return true;
@@ -671,7 +597,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
   dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));
-  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion));
+  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Count: "), "", ammo->count));
 
@@ -682,7 +608,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
   dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
   dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));
-  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion));
+  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Count: "), "", contents[0].charges));
 
@@ -737,7 +663,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
 
   dump->push_back(iteminfo("GUN", _("Range: "), temp2.str(), gun->range, true, temp1.str(), true, false));
 
-  dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion()));
+  dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion(), true, "", true, true));
 
 
   temp1.str("");
@@ -1348,22 +1274,20 @@ bool item::rotten(game *g)
 
 bool item::ready_to_revive(game *g)
 {
-    if (OPTIONS["REVIVE_ZOMBIES"]) {
-        if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
-        {
-            return false;
-        }
-        int age_in_hours = (int(g->turn) - bday) / (10 * 60);
-        age_in_hours -= ((float)burnt/volume()) * 24;
-        if (damage > 0)
-        {
-            age_in_hours /= (damage + 1);
-        }
-        int rez_factor = 48 - age_in_hours;
-        if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
-        {
-            return true;
-        }
+    if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
+    {
+        return false;
+    }
+    int age_in_hours = (int(g->turn) - bday) / (10 * 60);
+    age_in_hours -= ((float)burnt/volume()) * 24;
+    if (damage > 0)
+    {
+        age_in_hours /= (damage + 1);
+    }
+    int rez_factor = 48 - age_in_hours;
+    if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
+    {
+        return true;
     }
     return false;
 }
@@ -1727,6 +1651,11 @@ bool item::is_food(player const*u) const
 bool item::is_food_container(player const*u) const
 {
  return (contents.size() >= 1 && contents[0].is_food(u));
+}
+
+bool is_edible(item i, player const*u)
+{
+    return (i.is_food(u) || i.is_food_container(u));
 }
 
 bool item::is_food() const
