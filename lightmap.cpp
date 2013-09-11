@@ -264,59 +264,89 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
  return seen_cache[tx][ty];
 }
 
-void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
-{
-   if (!INBOUNDS(fx, fy) || !INBOUNDS(tx, ty)) return;
 
-   seen_cache[fx][fy] = true;
 
-   const int ax = abs(tx - fx) << 1;
-   const int ay = abs(ty - fy) << 1;
-   const int dx = (fx < tx) ? 1 : -1;
-   const int dy = (fy < ty) ? 1 : -1;
-   int x = fx;
-   int y = fy;
-   bool seen = true;
+/**
+ * Calculates the Field Of View for the provided map from the given x, y
+ * coordinates. Returns a lightmap for a result where the values represent a
+ * percentage of fully lit.
+ *
+ * A value equal to or below 0 means that cell is not in the
+ * field of view, whereas a value equal to or above 1 means that cell is
+ * in the field of view.
+ *
+ * @param startx the horizontal component of the starting location
+ * @param starty the vertical component of the starting location
+ * @param radius the maximum distance to draw the FOV
+ */
+void map::build_seen_cache( game *g ) {
+    memset(seen_cache, false, sizeof(seen_cache));
 
-   // TODO: [lightmap] Pull out the common code here rather than duplication
-   if (ax > ay)
-   {
-      int t = ay - (ax >> 1);
-      do
-      {
-         if(t >= 0 && ((y + dy != ty) || (x + dx == tx)))
-         {
-            y += dy;
-            t -= ax;
-         }
+    castLight( g, 1, 1.0f, 0.0f, 0, 1, 1, 0 );
+    castLight( g, 1, 1.0f, 0.0f, 1, 0, 0, 1 );
 
-         x += dx;
-         t += ay;
+    castLight( g, 1, 1.0f, 0.0f, 0, -1, 1, 0 );
+    castLight( g, 1, 1.0f, 0.0f, -1, 0, 0, 1 );
 
-         seen_cache[x][y] |= seen;
-         if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID) seen = false;
+    castLight( g, 1, 1.0f, 0.0f, 0, 1, -1, 0 );
+    castLight( g, 1, 1.0f, 0.0f, 1, 0, 0, -1 );
 
-      } while(!(x == tx && y == ty));
-   }
-   else
-   {
-      int t = ax - (ay >> 1);
-      do
-      {
-         if(t >= 0 && ((x + dx != tx) || (y + dy == ty)))
-         {
-            x += dx;
-            t -= ay;
-         }
+    castLight( g, 1, 1.0f, 0.0f, 0, -1, -1, 0 );
+    castLight( g, 1, 1.0f, 0.0f, -1, 0, 0, -1 );
+}
 
-         y += dy;
-         t += ax;
+void map::castLight( game *g, int row, float start, float end, int xx, int xy, int yx, int yy ) {
+    float newStart = 0.0f;
+    float radius = 60.0f;
+    if( start < end ) {
+        return;
+    }
+    bool blocked = false;
+    for( int distance = row; distance <= radius && !blocked; distance++ ) {
+        int deltaY = -distance;
+        for( int deltaX = -distance; deltaX <= 0; deltaX++ ) {
+            int currentX = g->u.posx + deltaX * xx + deltaY * xy;
+            int currentY = g->u.posy + deltaX * yx + deltaY * yy;
+            float leftSlope = (deltaX - 0.5f) / (deltaY + 0.5f);
+            float rightSlope = (deltaX + 0.5f) / (deltaY - 0.5f);
 
-         seen_cache[x][y] |= seen;
-         if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID) seen = false;
+            if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * my_MAPSIZE &&
+                  currentY < SEEY * my_MAPSIZE) || start < rightSlope ) {
+                continue;
+            } else if( end > leftSlope ) {
+                break;
+            }
 
-      } while(!(x == tx && y == ty));
-   }
+            //check if it's within the visible area and mark visible if so
+            if( rl_dist(0, 0, deltaX, deltaY) <= radius ) {
+                /*
+                float bright = (float) (1 - (rStrat.radius(deltaX, deltaY) / radius));
+                lightMap[currentX][currentY] = bright;
+                */
+                seen_cache[currentX][currentY] = true;
+            }
+
+            if( blocked ) {
+                //previous cell was a blocking one
+                if( light_transparency(currentX, currentY) == LIGHT_TRANSPARENCY_SOLID ) {
+                    //hit a wall
+                    newStart = rightSlope;
+                    continue;
+                } else {
+                    blocked = false;
+                    start = newStart;
+                }
+            } else {
+                if( light_transparency(currentX, currentY) == LIGHT_TRANSPARENCY_SOLID &&
+                    distance < radius ) {
+                    //hit a wall within sight line
+                    blocked = true;
+                    castLight(g, distance + 1, start, leftSlope, xx, xy, yx, yy);
+                    newStart = rightSlope;
+                }
+            }
+        }
+    }
 }
 
 void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc )
