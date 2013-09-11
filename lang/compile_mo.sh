@@ -20,7 +20,7 @@ then
     do
         f="lang/po/${n}.po"
         mkdir -p lang/mo/${n}/LC_MESSAGES
-        msgfmt -f -c -o lang/mo/${n}/LC_MESSAGES/cataclysm-dda.mo ${f}
+        msgfmt -f -o lang/mo/${n}/LC_MESSAGES/cataclysm-dda.mo ${f}
     done
 else
 # if nothing specified, compile .mo file for every .po file in lang/po
@@ -28,7 +28,7 @@ else
     do
         n=`basename $f .po`
         mkdir -p lang/mo/${n}/LC_MESSAGES
-        msgfmt -f -c -o lang/mo/${n}/LC_MESSAGES/cataclysm-dda.mo ${f}
+        msgfmt -f -o lang/mo/${n}/LC_MESSAGES/cataclysm-dda.mo ${f}
     done
 fi
 

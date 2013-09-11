@@ -10,6 +10,7 @@ struct uistatedata {
   int wishitem_selected;
   int wishmutate_selected;
   int wishmonster_selected;
+  int iuse_knife_selected;
   int adv_inv_leftsort;
   int adv_inv_rightsort;
   int adv_inv_leftarea;
@@ -43,6 +44,7 @@ struct uistatedata {
       wishitem_selected = 0;
       wishmutate_selected = 0;
       wishmonster_selected = 0;
+      iuse_knife_selected = 0;
       adv_inv_leftsort = 1;
       adv_inv_rightsort = 1;
       adv_inv_leftarea = 5;

@@ -304,6 +304,7 @@ ma_technique pick_defensive_technique(game *g, monster *z, player *p);
  int weight_capacity(bool real_life = true);
  int volume_capacity();
  double convert_weight(int weight);
+ bool can_eat(const item i);
  bool can_pickVolume(int volume);
  bool can_pickWeight(int weight, bool safe = true);
  int net_morale(morale_point effect);

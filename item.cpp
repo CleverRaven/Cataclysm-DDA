@@ -19,6 +19,8 @@
 
 std::string default_technique_name(technique_id tech);
 
+light_emission nolight={0,0,0};
+
 item::item()
 {
     init();
@@ -166,6 +168,7 @@ void item::init() {
     owned = -1;
     mission_id = -1;
     player_id = -1;
+    light = nolight;
 }
 
 void item::make(itype* it)
@@ -326,79 +329,22 @@ picojson::value item::json_save() const
         data["name"] = pv ( name );
     }
 
+    if ( light.luminance != 0 ) {
+        data["light"] = pv( int(light.luminance) );
+        if ( light.width != 0 ) {
+            data["light_width"] = pv( int(light.width) );
+            data["light_dir"] = pv( int(light.direction) );
+        }
+    }
+
     return picojson::value(data);
 }
-
+/*
+ * Old 1 line string output retained for mapbuffer
+ */
 std::string item::save_info() const
 {
- if (type == NULL){
-  debugmsg("Tried to save an item with NULL type!");
- }
-
- itype_id ammotmp = "null";
-/* TODO: This causes a segfault sometimes, even though we check to make sure
- * curammo isn't NULL.  The crashes seem to occur most frequently when saving an
- * NPC, or when saving map data containing an item an NPC has dropped.
- */
- if (curammo != NULL){
-  ammotmp = curammo->id;
- }
- if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(),
-     ammotmp) != unreal_itype_ids.end()  &&
-     std::find(artifact_itype_ids.begin(), artifact_itype_ids.end(),
-     ammotmp) != artifact_itype_ids.end()
-     ) {
-  ammotmp = "null"; //Saves us from some bugs, apparently?
- }
- std::stringstream dump;
- dump << " " << int(invlet) << " " << typeId() << " " <<  int(charges) <<
-     " " << int(damage) << " ";
-/////
- int stags=item_tags.size() + item_vars.size();
-/////
- dump << stags << " ";
- for( std::set<std::string>::const_iterator it = item_tags.begin();
-      it != item_tags.end(); ++it )
- {
-     dump << *it << " ";
- }
-/////
- for( std::map<std::string, std::string>::const_iterator it = item_vars.begin(); it != item_vars.end(); ++it ) {
-    std::string itstr="";
-    std::string itval="";
-    dump << ivaresc << it->first << "=";
-    for(std::string::const_iterator sit = it->second.begin(); sit != it->second.end(); ++sit ) {
-       switch(*sit) {
-           case '\n': dump << ivaresc << "0A"; break;
-           case '\r': dump << ivaresc << "0D"; break;
-           case '\t': dump << ivaresc << "09"; break;
-           case ' ': dump << ivaresc << "20"; break;
-           default:  dump << *sit; break;
-       }
-    }
-    dump << " ";
- }
-////
-
- dump << burnt << " " << poison << " " << ammotmp <<
-        " " << owned << " " << int(bday) << " " << mode;
- if (active)
-  dump << " 1";
- else
-  dump << " 0";
- if (corpse != NULL)
-  dump << " " << corpse->id;
- else
-  dump << " -1";
- dump << " " << mission_id << " " << player_id;
- size_t pos = name.find_first_of("\n");
- std::string temp_name = name;
- while (pos != std::string::npos)  {
-  temp_name.replace(pos, 1, "@@");
-  pos = temp_name.find_first_of("\n");
- }
- dump << " '" << temp_name << "'";
- return dump.str();
+    return json_save().serialize();
 }
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
@@ -509,6 +455,18 @@ bool item::json_load(picojson::value parsed, game * g)
                   item_vars[ pvarsit->first ] = pvarsit->second.get<std::string>();
              }
         }
+    }
+
+    light=nolight;
+    int tmplum=0;
+    int tmpwidth=0;
+    int tmpdir=0;
+    if ( picoint(data,"light",tmplum) ) {
+        picoint(data,"light_width",tmpwidth);
+        picoint(data,"light_dir",tmpdir);
+        light.luminance = (unsigned short)tmplum;
+        light.width = (short)tmpwidth;
+        light.direction = (short)tmpdir;
     }
 
     return true;
@@ -1299,22 +1257,20 @@ bool item::rotten(game *g)
 
 bool item::ready_to_revive(game *g)
 {
-    if (OPTIONS["REVIVE_ZOMBIES"]) {
-        if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
-        {
-            return false;
-        }
-        int age_in_hours = (int(g->turn) - bday) / (10 * 60);
-        age_in_hours -= ((float)burnt/volume()) * 24;
-        if (damage > 0)
-        {
-            age_in_hours /= (damage + 1);
-        }
-        int rez_factor = 48 - age_in_hours;
-        if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
-        {
-            return true;
-        }
+    if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
+    {
+        return false;
+    }
+    int age_in_hours = (int(g->turn) - bday) / (10 * 60);
+    age_in_hours -= ((float)burnt/volume()) * 24;
+    if (damage > 0)
+    {
+        age_in_hours /= (damage + 1);
+    }
+    int rez_factor = 48 - age_in_hours;
+    if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
+    {
+        return true;
     }
     return false;
 }
@@ -1678,6 +1634,11 @@ bool item::is_food(player const*u) const
 bool item::is_food_container(player const*u) const
 {
  return (contents.size() >= 1 && contents[0].is_food(u));
+}
+
+bool is_edible(item i, player const*u)
+{
+    return (i.is_food(u) || i.is_food_container(u));
 }
 
 bool item::is_food() const

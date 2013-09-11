@@ -1093,7 +1093,6 @@ void dis_effect(game *g, player &p, disease &dis) {
         break;
 
         case DI_ADRENALINE:
-            g->u.moves += 800;
             if (dis.duration > 150) {
                 // 5 minutes positive effects
                 p.str_cur += 5;
@@ -1103,7 +1102,6 @@ void dis_effect(game *g, player &p, disease &dis) {
             } else if (dis.duration == 150) {
                 // 15 minutes come-down
                 g->add_msg_if_player(&p,_("Your adrenaline rush wears off.  You feel AWFUL!"));
-                p.moves -= 300;
             } else {
                 p.str_cur -= 2;
                 p.dex_cur -= 1;

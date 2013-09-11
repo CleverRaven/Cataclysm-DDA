@@ -176,6 +176,9 @@ public:
 // init parts state for randomly generated vehicle
     void init_state(game* g, int veh_init_fuel, int veh_init_status);
 
+// damages all parts of a vehicle by a random amount
+    void smash();
+
 // load and init vehicle data from stream. This implies valid save data!
     void load (std::ifstream &stin);
 

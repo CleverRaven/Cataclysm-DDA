@@ -144,6 +144,7 @@ struct itype
 
  std::set<std::string> item_tags;
  std::set<std::string> techniques;
+ unsigned int light_emission;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
  // unsigned techniques : NUM_TECHNIQUES;
 
  virtual bool is_food()          { return false; }
@@ -184,6 +185,7 @@ struct itype
   corpse = NULL;
   melee_dam = 0;
   m_to_hit = 0;
+  light_emission = 0;
   use = &iuse::none;
  }
 
@@ -207,6 +209,7 @@ struct itype
   melee_dam   = pmelee_dam;
   melee_cut   = pmelee_cut;
   m_to_hit    = pm_to_hit;
+  light_emission = 0;
   use         = &iuse::none;
  }
 };

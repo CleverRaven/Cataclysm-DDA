@@ -239,8 +239,8 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     char ktile[83] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#&()*+./:;=?![]{|}y";
     int used_messages[MAXMESSAGES];
 
-    LINES = 20;
-    COLS = 60;
+    rfkLINES = 20;
+    rfkCOLS = 60;
 
     const int numbogus = 20;
     const int maxcolor = 15;
@@ -249,8 +249,8 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     empty.y = -1;
     empty.color = (nc_color)0;
     empty.character = ' ';
-    for (int c = 0; c < COLS; c++) {
-        for (int c2 = 0; c2 < LINES; c2++) {
+    for (int c = 0; c < rfkCOLS; c++) {
+        for (int c2 = 0; c2 < rfkLINES; c2++) {
             rfkscreen[c][c2] = EMPTY;
         }
     }
@@ -262,16 +262,16 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     }
     /* Now we initialize the various game OBJECTs.
        * Assign a position to the player. */
-    robot.x = rand() % COLS;
-    robot.y = rand() % (LINES - 3) + 3;
+    robot.x = rand() % rfkCOLS;
+    robot.y = rand() % (rfkLINES - 3) + 3;
     robot.character = '#';
     robot.color = int_to_color(1);
     rfkscreen[robot.x][robot.y] = ROBOT;
 
     /* Assign the kitten a unique position. */
     do {
-        kitten.x = rand() % COLS;
-        kitten.y = rand() % (LINES - 3) + 3;
+        kitten.x = rand() % rfkCOLS;
+        kitten.y = rand() % (rfkLINES - 3) + 3;
     } while (rfkscreen[kitten.x][kitten.y] != EMPTY);
 
     /* Assign the kitten a character and a color. */
@@ -285,8 +285,8 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     for (int c = 0; c < numbogus; c++) {
         /* Assign a unique position. */
         do {
-            bogus[c].x = rand() % COLS;
-            bogus[c].y = (rand() % (LINES - 3)) + 3;
+            bogus[c].x = rand() % rfkCOLS;
+            bogus[c].y = (rand() % (rfkLINES - 3)) + 3;
         } while (rfkscreen[bogus[c].x][bogus[c].y] != EMPTY);
         rfkscreen[bogus[c].x][bogus[c].y] = c + 2;
 
@@ -309,7 +309,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
 
     werase(w);
     mvwprintz (w, 0, 0, c_white, "robotfindskitten v22July2008");
-    for (int c = 0; c < COLS; c++) {
+    for (int c = 0; c < rfkCOLS; c++) {
         mvwputch (w, 2, c, c_white, '_');
     }
     wmove(w, kitten.y, kitten.x);
@@ -394,7 +394,7 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
         case 0:
             break;
         default: { /* invalid command */
-            for (int c = 0; c < COLS; c++) {
+            for (int c = 0; c < rfkCOLS; c++) {
                 mvwputch (w, 0, c, c_white, ' ');
                 mvwputch (w, 1, c, c_white, ' ');
             }
@@ -403,7 +403,7 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
         }
     }
 
-    if (check_y < 3 || check_y > LINES - 1 || check_x < 0 || check_x > COLS - 1) {
+    if (check_y < 3 || check_y > rfkLINES - 1 || check_x < 0 || check_x > rfkCOLS - 1) {
         return;
     }
 
@@ -413,24 +413,24 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
                 /* We didn't move. */
                 break;
             case KITTEN: {/* Found it! */
-                for (int c = 0; c < COLS; c++) {
+                for (int c = 0; c < rfkCOLS; c++) {
                     mvwputch (w, 0, c, c_white, ' ');
                 }
 
                 /* The grand cinema scene. */
                 for (int c = 0; c <= 3; c++) {
 
-                    wmove(w, 1, (COLS / 2) - 5 + c);
+                    wmove(w, 1, (rfkCOLS / 2) - 5 + c);
                     wputch(w, c_white, ' ');
-                    wmove(w, 1, (COLS / 2) + 4 - c);
+                    wmove(w, 1, (rfkCOLS / 2) + 4 - c);
                     wputch(w, c_white, ' ');
-                    wmove(w, 1, (COLS / 2) - 4 + c);
+                    wmove(w, 1, (rfkCOLS / 2) - 4 + c);
                     if (input == KEY_LEFT || input == KEY_UP) {
                         draw_kitten(w);
                     } else {
                         draw_robot(w);
                     }
-                    wmove(w, 1, (COLS / 2) + 3 - c);
+                    wmove(w, 1, (rfkCOLS / 2) + 3 - c);
                     if (input == KEY_LEFT || input == KEY_UP) {
                         draw_robot(w);
                     } else {
@@ -441,10 +441,10 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
                 }
 
                 /* They're in love! */
-                mvwprintz(w, 0, ((COLS - 6) / 2) - 1, c_ltred, "<3<3<3");
+                mvwprintz(w, 0, ((rfkCOLS - 6) / 2) - 1, c_ltred, "<3<3<3");
                 wrefresh(w);
                 nanosleep(&ts, NULL);
-                for (int c = 0; c < COLS; c++) {
+                for (int c = 0; c < rfkCOLS; c++) {
                     mvwputch (w, 0, c, c_white, ' ');
                     mvwputch (w, 1, c, c_white, ' ');
                 }
@@ -456,7 +456,7 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
             break;
 
             default: {
-                for (int c = 0; c < COLS; c++) {
+                for (int c = 0; c < rfkCOLS; c++) {
                     mvwputch (w, 0, c, c_white, ' ');
                     mvwputch (w, 1, c, c_white, ' ');
                 }

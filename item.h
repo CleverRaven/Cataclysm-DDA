@@ -15,6 +15,13 @@ class itype;
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
 const std::string rad_threshold_colors[] = { "green", "blue", "yellow", "orange", "red", "black"};
 
+struct light_emission {
+  unsigned short luminance;
+  short width;
+  short direction;
+};
+extern light_emission nolight;
+
 struct iteminfo{
  public:
   std::string sType; //Itemtype
@@ -183,6 +190,7 @@ public:
  int burnt;	         // How badly we're burnt
  int bday;              // The turn on which it was created
  int owned;	            // UID of NPC owner; 0 = player, -1 = unowned
+ light_emission light;
  union{
    int poison;	         // How badly poisoned is it?
    int bigness;         // engine power, wheel size
@@ -265,6 +273,9 @@ class map_item_stack
             totalcount++;
         }
 };
+
+//this is an attempt for functional programming
+bool is_edible(item i, player const*u);
 
 //the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
 //it would be better long-term to rewrite stuff so that we don't need that hack

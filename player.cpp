@@ -2067,9 +2067,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 
 // Print name and header
  if (male) {
-    mvwprintw(w_tip, 0, 0, "%s - Male", name.c_str());
+    mvwprintw(w_tip, 0, 0, _("%s - Male"), name.c_str());
  } else {
-    mvwprintw(w_tip, 0, 0, "%s - Female", name.c_str());
+    mvwprintw(w_tip, 0, 0, _("%s - Female"), name.c_str());
  }
  mvwprintz(w_tip, 0, 39, c_ltred, _("| Press TAB to cycle, ESC or q to return."));
  wrefresh(w_tip);
@@ -2386,7 +2386,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
     mvwprintz(w_stats, 6, 2, c_magenta, _("Base HP: %d              "),
              hp_max[1]);
     mvwprintz(w_stats, 7, 2, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
-                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?"kg":"lbs");
+                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?_("kg"):_("lbs"));
     mvwprintz(w_stats, 8, 2, c_magenta, _("Melee damage: %d         "),
              base_damage(false));
 
@@ -2890,7 +2890,7 @@ void player::disp_morale(game *g)
 
 void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
-    int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "Narrow");
+    int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "narrow");
 
     WINDOW *weapwin = sideStyle ? w2 : w;
     mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
@@ -3095,7 +3095,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
   int speedoy = sideStyle ? 5 :  3;
 
   bool metric = OPTIONS["USE_METRIC_SPEEDS"] == "km/h";
-  const char *units = metric ? "km/h" : "mph";
+  const char *units = metric ? _("km/h") : _("mph");
   int velx    = metric ?  5 : 4; // strlen(units) + 1
   int cruisex = metric ? 10 : 9; // strlen(units) + 6
   float conv  = metric ? 0.0161f : 0.01f;
@@ -3677,12 +3677,12 @@ int player::read_speed(bool real_life)
 
 int player::rust_rate(bool real_life)
 {
-    if (OPTIONS["SKILL_RUST"] == "Off") {
+    if (OPTIONS["SKILL_RUST"] == "off") {
         return 0;
     }
 
     int intel = (real_life ? int_cur : int_max);
-    int ret = ((OPTIONS["SKILL_RUST"] == "Vanilla" || OPTIONS["SKILL_RUST"] == "Capped") ? 500 : 500 - 35 * (intel - 8));
+    int ret = ((OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
         ret *= 1.33;
@@ -6329,10 +6329,10 @@ bool player::eat(game *g, signed char ch)
             it.contents.erase(it.contents.begin());
             if (!is_npc())
             {
-                if (OPTIONS["DROP_EMPTY"] == "No") {
+                if (OPTIONS["DROP_EMPTY"] == "no") {
                     g->add_msg(_("%c - an empty %s"), it.invlet, it.tname(g).c_str());
 
-                } else if (OPTIONS["DROP_EMPTY"] == "Watertight") {
+                } else if (OPTIONS["DROP_EMPTY"] == "watertight") {
                     if (it.is_container())
                     {
                         if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS")))
@@ -6350,7 +6350,7 @@ bool player::eat(game *g, signed char ch)
                         g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                         g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                     }
-                } else if (OPTIONS["DROP_EMPTY"] == "All") {
+                } else if (OPTIONS["DROP_EMPTY"] == "all") {
                     g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                     g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                 }
@@ -7882,7 +7882,7 @@ void player::try_to_sleep(game *g)
              terlist[ter_at_pos].movecost <= 2 ?
              _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
-             terlist[ter_at_pos].name.c_str());
+             _(terlist[ter_at_pos].name.c_str())); // FIXME i18n
  add_disease("lying_down", 300);
 }
 
