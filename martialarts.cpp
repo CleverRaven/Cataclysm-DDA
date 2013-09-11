@@ -34,6 +34,11 @@ ma_technique loadTec(catajson& curTec) {
   if (curTec.has("req_buffs"))
     tec.reqs.req_buffs = curTec.get("req_buffs").as_tags();
 
+  if (curTec.has("crit_tec"))
+    tec.crit_tec = curTec.get("crit_tec").as_bool();
+  if (curTec.has("defensive"))
+    tec.defensive = curTec.get("defensive").as_bool();
+
   if (curTec.has("down_dur"))
     tec.down_dur = curTec.get("down_dur").as_int();
   if (curTec.has("stun_dur"))
@@ -59,6 +64,9 @@ ma_technique loadTec(catajson& curTec) {
     tec.flaming = curTec.get("flaming").as_bool();
   if (curTec.has("quick"))
     tec.quick = curTec.get("quick").as_bool();
+
+  if (curTec.has("aoe"))
+    tec.aoe = curTec.get("aoe").as_string();
 
   /* // stuff we still need to read from json
   hit = 0; // flat bonus to hit
@@ -285,6 +293,9 @@ bool ma_requirements::is_valid_player(player& u) {
 
 ma_technique::ma_technique() {
 
+  crit_tec = false;
+  defensive = false;
+
   down_dur = 0;
   stun_dur = 0;
   knockback_dist = 0;
@@ -300,8 +311,6 @@ ma_technique::ma_technique() {
 
   flaming = false; // applies fire effects etc
   quick = false; // moves discount based on attack speed, like tec_rapid
-
-  moves_discount = 0; // number of extra moves to give, like tec_rapid
 
   hit = 0; // flat bonus to hit
   bash = 0; // flat bonus to bash

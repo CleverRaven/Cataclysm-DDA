@@ -94,8 +94,8 @@ game::game() :
  init_professions();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
  init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
+ init_techniques();           // Set up techniques                (SEE martialarts.cpp)
  init_itypes();               // Set up item types                (SEE itypedef.cpp)
- init_techniques();           // Set up techniques                (SEE techniques.cpp)
  init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
  SNIPPET.load();
  item_controller->init(this); //Item manager

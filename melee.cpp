@@ -15,7 +15,7 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
                     bool bashing, bool cutting, bool stabbing);
 int  attack_speed(player &u, bool missed);
 int  stumble(player &u);
-std::string melee_verb(ma_technique tech, player &p, int bash_dam, int cut_dam, int stab_dam);
+std::string melee_verb(matec_id tech, player &p, int bash_dam, int cut_dam, int stab_dam);
 
 /* Melee Functions!
  * These all belong to class player.
@@ -194,7 +194,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 // Mutation-based attacks
  perform_special_attacks(g, z, NULL, bash_dam, cut_dam, stab_dam);
 
- verb = melee_verb(technique, *this, bash_dam, cut_dam, stab_dam);
+ verb = melee_verb(technique.id, *this, bash_dam, cut_dam, stab_dam);
 
 // Handles speed penalties to monster & us, etc
  melee_special_effects(g, z, NULL, critical_hit, bash_dam, cut_dam, stab_dam);
@@ -314,10 +314,11 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
 // Pick one or more special attacks
  matec_id tec_id = pick_technique(g, NULL, &p, critical_hit, allow_grab);
+ ma_technique technique = g->ma_techniques[tec_id];
 
 // Handles effects as well; not done in melee_affect_*
  if (tec_id != "tec_none")
-  perform_technique(g->ma_techniques[tec_id], g, NULL, &p, bash_dam, cut_dam, stab_dam, pain);
+  perform_technique(technique, g, NULL, &p, bash_dam, cut_dam, stab_dam, pain);
  /*
  if (weapon.has_technique(TEC_FLAMING, this)) { // bypass technique selection, it's on FIRE after all
    p.add_disease("onfire", rng(2, 3));
@@ -337,7 +338,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
  p.hit(g, bp_hit, side, bash_dam, (cut_dam > stab_dam ? cut_dam : stab_dam));
 
- verb = melee_verb(technique, *this, bash_dam, cut_dam, stab_dam);
+ verb = melee_verb(technique.id, *this, bash_dam, cut_dam, stab_dam);
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
  hit_message(g, is_u, You, your, verb, weapon.tname(), target, dam, critical_hit);
 
@@ -746,6 +747,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
   return "tec_none";
 
  std::vector<matec_id> all = get_all_techniques(g);
+
  std::vector<matec_id> possible;
  bool downed = ((z && !z->has_effect(ME_DOWNED)) ||
                 (p && !p->has_disease("downed"))  );
@@ -759,7 +761,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
     if (tec.defensive) continue;
 
     // if crit then select only from crit tecs
-    if (crit && !tec.crit_tec) continue;
+    if (crit && !tec.crit_tec || !crit && tec.crit_tec) continue;
 
     // don't apply downing techniques to someone who's already downed
     if (downed && tec.down_dur > 0) continue;
@@ -768,13 +770,13 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
     //TODO: these are the stat reqs for tec_disarm
     // dice(   dex_cur +    skillLevel("unarmed"),  8) >
     // dice(p->dex_cur + p->skillLevel("melee"),   10))
-    if (!(tec.disarms && !z p->weapon.typeId() != "null")) continue
+    if (tec.disarms && !(!z && p->weapon.typeId() != "null")) continue;
 
     // ignore aoe tecs for a bit
-    if (tec.aoe.length > 0) continue;
+    if (tec.aoe.length() > 0) continue;
 
     if (tec.is_valid_player(*this))
-      possible.push_back(tec);
+      possible.push_back(tec.id);
   }
 
   // now add aoe tecs (since they depend on if we have other tecs or not)
@@ -783,7 +785,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
     ma_technique tec = g->ma_techniques[*it];
 
     // don't use aoe tecs if there's only one target
-    if (tec.aoe.length > 0) {
+    if (tec.aoe.length() > 0) {
       int enemy_count = 0;
       for (int x = posx - 1; x <= posx + 1; x++) {
         for (int y = posy - 1; y <= posy + 1; y++) {
@@ -805,19 +807,19 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
       }
       if (tec.is_valid_player(*this) &&
           enemy_count >= (possible.empty() ? 1 : 2)) {
-        possible.push_back(tec);
+        possible.push_back(tec.id);
       }
     }
   }
 
   if (possible.empty()) return "tec_none";
 
-  return possible[ rng(0, possible.size() - 1) ].id;
+  return possible[ rng(0, possible.size() - 1) ];
 }
 
 bool player::has_technique(matec_id id, game* g) {
   return weapon.has_technique(id, this) ||
-    g->martialarts[style_selected].has_technique(*this, id);
+    g->martialarts[style_selected].has_technique(*this, id, g);
 }
 
 void player::perform_technique(ma_technique technique, game *g, monster *z,
@@ -864,7 +866,7 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
     int kb_offset = rng(
       -technique.knockback_spread,
       technique.knockback_spread
-    )
+    );
     if (z != NULL) {
       z->knock_back_from(g, posx+kb_offset, posy+kb_offset);
     } else if (p != NULL) {
@@ -930,8 +932,9 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
 
 ma_technique player::pick_defensive_technique(game *g, monster *z, player *p)
 {
+  /*
  if (blocks_left == 0)
-  return null;
+  return NULL;
 
  std::vector<matec_id> all = get_all_techniques(g);
  std::vector<matec_id> possible;
@@ -1016,6 +1019,9 @@ ma_technique player::pick_defensive_technique(game *g, monster *z, player *p)
 
  blocks_left++; // We didn't use any blocks, so give it back!
  return TEC_NULL;
+ */
+   ma_technique a;
+ return a;
 }
 
 void player::perform_defensive_technique(
@@ -1507,18 +1513,51 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
 std::string melee_verb(matec_id tec_id, player &p, int bash_dam, int cut_dam, int stab_dam)
 {
-  // martial arts hitstrings
- martialart curStyle = g->martialarts[p.style_selected];
- if (curStyle.has_technique(p, tec_id))
-   return curStyle.melee_verb(tec_id, p);
 
- // old martial arts stuff, leave it in
- if (tec_id != "tec_none" && p.weapon.is_style() &&
-     p.weapon.style_data(tech).name != "")
-  return (p.is_npc()?p.weapon.style_data(tech).verb_npc:p.weapon.style_data(tech).verb_you) + "\003<%2$c%3$c>";
+  std::stringstream ret;
 
- std::stringstream ret;
+  if (g->ma_techniques.find(tec_id) != g->ma_techniques.end()) {
+    if (p.is_npc())
+      return g->ma_techniques[tec_id].verb_npc;
+    else
+      return g->ma_techniques[tec_id].verb_you;
+  }
 
+  // verb should be based on how the weapon is used, and the total damage inflicted
+
+  // if it's a stabbing weapon or a spear
+  if (p.weapon.has_flag("SPEAR") || (p.weapon.has_flag("STAB") && stab_dam > cut_dam))
+  {
+      if (bash_dam + stab_dam + cut_dam >= 30)
+          ret << (p.is_npc()?_("%1$s impales %4$s"):_("%1$s impale %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 20)
+          ret << (p.is_npc()?_("%1$s pierces %4$s"):_("%1$s pierce %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 10)
+          ret << (p.is_npc()?_("%1$s stabs %4$s"):_("%1$s stab %4$s"));
+      else ret << (p.is_npc()?_("%1$s pokes %4$s"):_("%1$s poke %4$s"));
+  } else if (p.weapon.is_cutting_weapon())    // if it's a cutting weapon
+  {
+      if (bash_dam + stab_dam + cut_dam >= 30)
+          ret << (p.is_npc()?_("%1$s hacks %4$s"):_("%1$s hack %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 20)
+          ret << (p.is_npc()?_("%1$s slices %4$s"):_("%1$s slice %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 10)
+          ret << (p.is_npc()?_("%1$s cuts %4$s"):_("%1$s cut %4$s"));
+      else ret << (p.is_npc()?_("%1$s nicks %4$s"):_("%1$s nick %4$s"));
+  } else                                      // it must be a bashing weapon
+  {
+      if (bash_dam + stab_dam + cut_dam >= 30)
+          ret << (p.is_npc()?_("%1$s clobbers %4$s"):_("%1$s clobber %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 20)
+          ret << (p.is_npc()?_("%1$s batters %4$s"):_("%1$s batter %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 10)
+          ret << (p.is_npc()?_("%1$s whacks %4$s"):_("%1$s whack %4$s"));
+      else ret << (p.is_npc()?_("%1$s hits %4$s"):_("%1$s hit %4$s"));
+  }
+  ret << "\003<%2$c%3$c>";
+  return ret.str();
+
+ /* // keep this for the string data
  //1$ You 2$ your 3$ weapon 4$ target
  switch (tech) {
 
@@ -1583,6 +1622,7 @@ std::string melee_verb(matec_id tec_id, player &p, int bash_dam, int cut_dam, in
  } // switch (tech)
 
  return ret.str();
+ */
 }
 
 void hit_message(game *g, bool is_u, std::string You, std::string your, std::string verb,

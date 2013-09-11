@@ -1467,12 +1467,6 @@ void npc::wield_best_melee(game *g)
 {
  item& it = inv.best_for_melee(this);
  int best_score = it.melee_value(this);
- if (!styles.empty() && // Wield a style if our skills warrant it
-      best_score < 15 * skillLevel("unarmed") + 8 * skillLevel("melee")) {
-// TODO: More intelligent style choosing
-  wield(g, 0 - rng(1, styles.size()));
-  return;
- }
  if (it.is_null()) {
   debugmsg("npc::wield_best_melee failed to find a melee weapon.");
   move_pause();

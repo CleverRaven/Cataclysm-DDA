@@ -272,7 +272,7 @@ player& player::operator= (const player & rhs)
 
  last_item = rhs.last_item;
  worn = rhs.worn;
- styles = rhs.styles;
+ ma_styles = rhs.ma_styles;
  style_selected = rhs.style_selected;
  weapon = rhs.weapon;
 
@@ -6371,34 +6371,19 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   return false;
  }
  if (ch == -3) {
-  bool pickstyle = (!styles.empty());
-  if (weapon.is_style())
-   remove_weapon();
-  else if (!is_armed()) {
-   if (!pickstyle) {
-    g->add_msg(_("You are already wielding nothing."));
-    return false;
-   }
-  } else if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
+  if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
    inv.add_item_keep_invlet(remove_weapon());
    inv.unsort();
    moves -= 20;
    recoil = 0;
-   if (!pickstyle)
-    return true;
+   return true;
   } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                       weapon.tname(g).c_str())) {
    g->m.add_item_or_charges(posx, posy, remove_weapon());
    recoil = 0;
-   if (!pickstyle)
-    return true;
+   return true;
   } else
    return false;
-
-  if (pickstyle) {
-   weapon = ret_null;
-   return true;
-  }
  }
  if (ch == 0) {
   g->add_msg(_("You're already wielding that!"));

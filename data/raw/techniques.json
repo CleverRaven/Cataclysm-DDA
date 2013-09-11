@@ -2,6 +2,8 @@
   {
     "id": "tec_feint",
     "name": "Feint",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
     "defensive": true,
 
     "miss_recovery": true
@@ -10,19 +12,68 @@
   {
     "id": "tec_flaming",
     "name": "Flaming",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
 
     "flaming": true
   },
   {
     "id": "tec_break",
     "name": "Grab Break",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
 
+    "defensive": true,
     "grab_break": true
   },
   {
     "id": "tec_precise",
     "name": "Precise Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+
+    "verb_you": "%1$s jab %2$s %3$s at %4$s",
+    "verb_npc": "%1$s jabs %2$s %3$s at %4$s",
 
     "stun_dur": 2
+  },
+  {
+    "id": "tec_rapid",
+    "name": "Rapid Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+
+    "verb_you": "%1$s quickly punch %4$s",
+    "verb_npc": "%1$s quickly punches %4$s",
+
+    "quick": true
+  },
+  {
+    "id": "WIDE",
+    "name": "Wide Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+
+    "verb_you": "%1$s swing in a wide arc through %4$s",
+    "verb_npc": "%1$s swings in a wide arc through %4$s",
+
+    "aoe": "yup",
+
+    "quick": true
+  },
+  {
+    "id": "BRUTAL",
+    "name": "Wide Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+
+    "verb_you":"%1$s slam %2$s %3$s against %4$s",
+    "verb_npc":"%1$s slams %2$s %3$s against %4$s",
+
+    "stun_dur": 1,
+    "knockback_dist": 1,
+
+    "quick": true
   }
 ]

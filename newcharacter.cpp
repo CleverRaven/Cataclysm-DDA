@@ -242,6 +242,7 @@ style_selected=ma_type;
   //ma_styles.push_back("style_coward");
  }
 
+/*
     if (has_trait("MARTIAL_ARTS2")) {
   itype_id ma_type;
   do {
@@ -314,6 +315,7 @@ style_selected=ma_type;
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
+ */
  ret_null = item(g->itypes["null"], 0);
  weapon = ret_null;
 
