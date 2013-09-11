@@ -12705,14 +12705,19 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
       wreckage->posy = other_veh->posy;
       wreckage->smx = other_veh->smx;
       wreckage->smy = other_veh->smy;
+
+      //Where are we on the global scale?
+      const int global_x = wreckage->smx * SEEX + wreckage->posx;
+      const int global_y = wreckage->smy * SEEY + wreckage->posy;
+
       for (int part_index = 0; part_index < veh->parts.size(); part_index++) {
         
         const int local_x = (veh->smx * SEEX + veh->posx)
                        + veh->parts[part_index].precalc_dx[0]
-                       - (wreckage->smx * SEEX + wreckage->posx);
+                       - global_x;
         const int local_y = (veh->smy * SEEY + veh->posy)
                        + veh->parts[part_index].precalc_dy[0] 
-                       - (wreckage->smy * SEEY + wreckage->posy);
+                       - global_y;
 
         wreckage->install_part(local_x, local_y, veh->parts[part_index].id, -1, true);
 
@@ -12721,10 +12726,10 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
 
         const int local_x = (other_veh->smx * SEEX + other_veh->posx)
                        + other_veh->parts[part_index].precalc_dx[0]
-                       - (wreckage->smx * SEEX + wreckage->posx);
+                       - global_x;
         const int local_y = (other_veh->smy * SEEY + other_veh->posy)
                        + other_veh->parts[part_index].precalc_dy[0]
-                       - (wreckage->smy * SEEY + wreckage->posy);
+                       - global_y;
 
         wreckage->install_part(local_x, local_y, other_veh->parts[part_index].id, -1, true);
 
@@ -12738,7 +12743,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
       delete veh;
 
       //Try again with the wreckage
-      return add_vehicle_to_map(wreckage, x, y);
+      return add_vehicle_to_map(wreckage, global_x, global_y);
 
     } else if (move_cost(px, py) == 0) {
 
