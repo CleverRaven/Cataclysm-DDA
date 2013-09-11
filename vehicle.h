@@ -185,6 +185,9 @@ public:
 // Save vehicle data to stream
     void save (std::ofstream &stout);
 
+    void json_load( picojson::value & parsed, game * g );
+
+    picojson::value json_save( bool save_contents = true );
 // Operate vehicle
     void use_controls();
 

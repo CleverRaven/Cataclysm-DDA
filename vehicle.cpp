@@ -63,6 +63,22 @@ void vehicle::load (std::ifstream &stin)
     int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
     std::string vehicle_tag;
     getline(stin, type);
+
+    if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
+        std::stringstream derp;
+        derp << type;
+        picojson::value pdata;
+        derp >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, g);
+        }
+        return;
+    }
+
     stin >>
         posx >>
         posy >>
@@ -135,8 +151,15 @@ void vehicle::load (std::ifstream &stin)
     getline(stin, databuff); // Clear EoL
 }
 
+#define jsonsave_vehicle 1
 void vehicle::save (std::ofstream &stout)
 {
+#ifdef jsonsave_vehicle
+    stout << json_save(true).serialize();
+    stout << std::endl;
+    return;
+#else
+// hi, I'm deprecated. 
     stout << type << std::endl;
     stout <<
         posx << " " <<
@@ -182,6 +205,7 @@ void vehicle::save (std::ofstream &stout)
         stout << *it << " ";
     }
     stout << std::endl;
+#endif
 }
 
 void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
