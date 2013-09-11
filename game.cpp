@@ -92,7 +92,6 @@ game::game() :
  init_fields();
  init_faction_data();
  init_morale();
- init_skills();
  init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
  init_itypes();               // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();
@@ -136,18 +135,6 @@ game::~game()
  delwin(w_location);
  delwin(w_status);
  delwin(w_status2);
-}
-
-void game::init_skills() throw (std::string)
-{
-    try
-    {
-    Skill::skills = Skill::loadSkills();
-    }
-    catch (std::string &error_message)
-    {
-        throw;
-    }
 }
 
 // Fixed window sizes

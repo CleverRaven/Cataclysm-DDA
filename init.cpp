@@ -6,6 +6,7 @@
 #include "material.h"
 #include "bionics.h"
 #include "profession.h"
+#include "skill.h"
 
 #include <string>
 #include <vector>
@@ -21,6 +22,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/raw/materials.json");
     ret.push_back("data/raw/bionics.json");
     ret.push_back("data/raw/professions.json");
+    ret.push_back("data/raw/skills.json");
     return ret;
 }
 
@@ -33,6 +35,8 @@ void load_object(Jsobj &jo)
         load_bionic(jo);
     } else if (type == "profession") {
         profession::load_profession(jo);
+    } else if (type == "skill") {
+        Skill::load_skill(jo);
     }
 }
 

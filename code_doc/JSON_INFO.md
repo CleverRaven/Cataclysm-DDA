@@ -168,10 +168,10 @@
 ```
 ###SKILLS
 ```C++
-"smg",              // Unique ID. Must be one continuous word, use underscores if necessary
-"submachine guns",  // In-game name displayed
-"Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
-["gun_type"]        // Special flags, most skills will have an empty list "[]"
+"ident" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
+"name" : "submachine guns",  // In-game name displayed
+"description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
+"tags" : ["gun_type"]  // Special flags (default: none)
 ```
 ###SNIPPETS
 ```C++
