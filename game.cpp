@@ -10401,55 +10401,58 @@ void game::update_stair_monsters()
 
 void game::despawn_monsters(const bool stairs, const int shiftx, const int shifty)
 {
- for (unsigned int i = 0; i < num_zombies(); i++) {
-  monster &z = zombie(i);
-  // If either shift argument is non-zero, we're shifting.
-  if(shiftx != 0 || shifty != 0) {
-   z.shift(shiftx, shifty);
-   if( z.posx() >= 0 && z.posx() <= SEEX * MAPSIZE &&
-       z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE ) {
-    // We're inbounds, so don't despawn after all.
-    continue;
-   }
-  }
+    for (unsigned int i = 0; i < num_zombies(); i++) {
+        monster &z = zombie(i);
+        // If either shift argument is non-zero, we're shifting.
+        if(shiftx != 0 || shifty != 0) {
+            z.shift(shiftx, shifty);
+            if( z.posx() >= 0 && z.posx() <= SEEX * MAPSIZE &&
+                z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE ) {
+                // We're inbounds, so don't despawn after all.
+                continue;
+            }
+        }
 
-  if (stairs && z.will_reach(this, u.posx, u.posy)) {
-   int turns = z.turns_to_reach(this, u.posx, u.posy);
-   if (turns < 999)
-    coming_to_stairs.push_back( monster_and_count(z, 1 + turns) );
-  } else if ( (z.spawnmapx != -1) ||
-      ((stairs || shiftx != 0 || shifty != 0) && z.friendly != 0 ) ) {
-    // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
-    real_coords rc(levx, levy, z.posx(), z.posy()); // this is madness
-    z.spawnmapx = rc.sub.x;
-    z.spawnmapy = rc.sub.y;
-    z.spawnposx = rc.sub_pos.x;
-    z.spawnposy = rc.sub_pos.y;
+        if (stairs && z.will_reach(this, u.posx, u.posy)) {
+            int turns = z.turns_to_reach(this, u.posx, u.posy);
+            if (turns < 999) {
+                coming_to_stairs.push_back( monster_and_count(z, 1 + turns) );
+            }
+        } else if ( (z.spawnmapx != -1) ||
+                    ((stairs || shiftx != 0 || shifty != 0) && z.friendly != 0 ) ) {
+            // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
+            real_coords rc(levx, levy, z.posx(), z.posy()); // this is madness
+            z.spawnmapx = rc.sub.x;
+            z.spawnmapy = rc.sub.y;
+            z.spawnposx = rc.sub_pos.x;
+            z.spawnposy = rc.sub_pos.y;
 
-    tinymap tmp(&traps);
-    tmp.load(this, z.spawnmapx, z.spawnmapy, levz, false);
-    tmp.add_spawn(&z);
-    tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
-  } else {
-   	// No spawn site, so absorb them back into a group.
-   int group = valid_group((mon_id)(z.type->id), levx + shiftx, levy + shifty, levz);
-   if (group != -1) {
-    cur_om->zg[group].population++;
-    if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-        !cur_om->zg[group].diffuse)
-     cur_om->zg[group].radius++;
-   }
-  }
-  // Shifting needs some cleanup for despawned monsters since they won't be cleared afterwards.
-  if(shiftx != 0 || shifty != 0) {
-    remove_zombie(i);
-    i--;
-  }
- }
+            tinymap tmp(&traps);
+            tmp.load(this, z.spawnmapx, z.spawnmapy, levz, false);
+            tmp.add_spawn(&z);
+            tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
+        } else {
+            // No spawn site, so absorb them back into a group.
+            int group = valid_group((mon_id)(z.type->id), levx + shiftx, levy + shifty, levz);
+            if (group != -1) {
+                cur_om->zg[group].population++;
+                if (cur_om->zg[group].population /
+                    (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
+                    !cur_om->zg[group].diffuse) {
+                    cur_om->zg[group].radius++;
+                }
+            }
+        }
+        // Shifting needs some cleanup for despawned monsters since they won't be cleared afterwards.
+        if(shiftx != 0 || shifty != 0) {
+            remove_zombie(i);
+            i--;
+        }
+    }
 
- // The order in which zombies are shifted may cause zombies to briefly exist on
- // the same square. This messes up the mon_at cache, so we need to rebuild it.
- rebuild_mon_at_cache();
+    // The order in which zombies are shifted may cause zombies to briefly exist on
+    // the same square. This messes up the mon_at cache, so we need to rebuild it.
+    rebuild_mon_at_cache();
 }
 
 void game::spawn_mon(int shiftx, int shifty)
