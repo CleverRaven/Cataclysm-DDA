@@ -2101,9 +2101,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 
 // Print name and header
  if (male) {
-    mvwprintw(w_tip, 0, 0, "%s - Male", name.c_str());
+    mvwprintw(w_tip, 0, 0, _("%s - Male"), name.c_str());
  } else {
-    mvwprintw(w_tip, 0, 0, "%s - Female", name.c_str());
+    mvwprintw(w_tip, 0, 0, _("%s - Female"), name.c_str());
  }
  mvwprintz(w_tip, 0, 39, c_ltred, _("| Press TAB to cycle, ESC or q to return."));
  wrefresh(w_tip);

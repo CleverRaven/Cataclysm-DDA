@@ -323,7 +323,7 @@
         "points": 3,
         "visibility": 0,
         "ugliness": 0,
-        "description": "For your whole life you've been forbidden from indulging in your peculiar tastes. Now the world's ended, and you'll be damned if anyone is going to tell you you can't eat people.",
+        "description": "For your whole life you've been forbidden from indulging in your peculiar tastes. Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
         "starting_trait": true,
         "valid": false,
         "cancels": ["VEGETARIAN"]
@@ -408,7 +408,7 @@
         "points": -2,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Without reading glasses, you are unable to read anything, and take penalities on melee accuracy and electronics/tailoring crafting. However, you are guaranteed to start with a pair of reading glasses.",
+        "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting. However, you are guaranteed to start with a pair of reading glasses.",
         "starting_trait": true,
         "valid": false
     },
@@ -923,7 +923,7 @@
         "points": 1,
         "visibility": 6,
         "ugliness": 2,
-        "description": "Light fur has grown to coveryour entire body, providing slight protection from cold.",
+        "description": "Light fur has grown to cover your entire body, providing slight protection from cold.",
         "valid": true,
         "prereqs": ["SKIN_ROUGH"],
         "cancels": ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
@@ -1271,7 +1271,7 @@
         "points": 8,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Your body produces a potent venom. Any special attacks from mutatations have a chance to poison your target.",
+        "description": "Your body produces a potent venom. Any special attacks from mutations have a chance to poison your target.",
         "valid": true,
         "prereqs": ["POISRESIST"],
         "category": ["MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
@@ -1503,7 +1503,7 @@
         "points": 2,
         "visibility": 7,
         "ugliness": 2,
-        "description": "You have a long tail that ends in a heavy, bony club. It does not improve your balance at all, but alows for a powerful bashing attack.",
+        "description": "You have a long tail that ends in a heavy, bony club. It does not improve your balance at all, but allows for a powerful bashing attack.",
         "valid": true,
         "prereqs": ["TAIL_LONG"],
         "cancels": ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN"]
@@ -1531,7 +1531,7 @@
     },
     {
         "id": "PAINREC3",
-        "name": "Very Quick Pain Reovery",
+        "name": "Very Quick Pain Recovery",
         "points": 8,
         "visibility": 0,
         "ugliness": 0,
@@ -1681,7 +1681,7 @@
         "points": 7,
         "visibility": 2,
         "ugliness": 2,
-        "description": "Your muscles are noticably bulging. Strength + 7",
+        "description": "Your muscles are noticeably bulging. Strength + 7",
         "valid": true,
         "prereqs": ["STR_UP_3"],
         "category": ["MUTCAT_BEAST"]
@@ -1769,7 +1769,7 @@
         "points": 4,
         "visibility": 3,
         "ugliness": 3,
-        "description": "Your skull bulges noticably with your impressive brain. Intelligence + 7",
+        "description": "Your skull bulges noticeably with your impressive brain. Intelligence + 7",
         "valid": true,
         "prereqs": ["INT_UP_3"]
     },
@@ -1989,7 +1989,7 @@
         "points": 7,
         "visibility": -10,
         "ugliness": -10,
-        "description": "You are inredibly beautiful. People cannot help themselves for your charms, and will do whatever they can to please you.",
+        "description": "You are incredibly beautiful. People cannot help themselves for your charms, and will do whatever they can to please you.",
         "valid": true,
         "cancels": ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
         "prereqs": ["BEAUTIFUL2"]
