@@ -10,18 +10,18 @@ logg.txt
 bindist/
 cataclysmdda-*
 objwin/
-cataclysm.exe
 version.h
-Cataclysm.exe
 CataclysmWin.cscope_file_list
 CataclysmWin.depend
 CataclysmWin.layout
+*.exe
 *.dll
 
 # Visual Studio files
 *.suo
-*.user
-Cataclysm.sdf
+*.sdf
+*.pdb
+*.ilk
 Release*/
 Debug*/
 *.opensdf

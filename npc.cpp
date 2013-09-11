@@ -11,6 +11,7 @@
 #include "line.h"
 #include "item_factory.h"
 #include "translations.h"
+#include <algorithm>
 
 std::vector<item> starting_clothes(npc_class type, bool male, game *g);
 std::list<item> starting_inv(npc *me, npc_class type, game *g);

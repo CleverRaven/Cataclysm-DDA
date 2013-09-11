@@ -36,7 +36,11 @@
 #include <sstream>
 #include <math.h>
 #include <vector>
-#ifndef _MSC_VER
+
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
+#else
 #include <unistd.h>
 #include <dirent.h>
 #endif

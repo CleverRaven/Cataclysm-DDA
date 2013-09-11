@@ -211,6 +211,12 @@
 		<Unit filename="itypedef.cpp" />
 		<Unit filename="iuse.cpp" />
 		<Unit filename="iuse.h" />
+		<Unit filename="iuse_software.cpp" />
+		<Unit filename="iuse_software.h" />
+		<Unit filename="iuse_software_kitten.cpp" />
+		<Unit filename="iuse_software_kitten.h" />
+		<Unit filename="iuse_software_snake.cpp" />
+		<Unit filename="iuse_software_snake.h" />
 		<Unit filename="keypress.cpp" />
 		<Unit filename="keypress.h" />
 		<Unit filename="lightmap.cpp" />

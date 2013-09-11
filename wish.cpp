@@ -434,7 +434,7 @@ void game::wishskill(player * p) {
       skmenu.text = "Select a skill to modify";
       skmenu.return_invalid = true;
       skmenu.addentry(0, true, '1', "Set all skills to...");
-      int origskills[ Skill::skills.size()] ;
+      int *origskills = new int[Skill::skills.size()] ;
 
       for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
            aSkill != Skill::skills.end(); ++aSkill) {
@@ -509,4 +509,5 @@ void game::wishskill(player * p) {
         }
       } while ( skmenu.ret != -1 && ( skmenu.keypress != 'q' && skmenu.keypress != ' ' &&
                                       skmenu.keypress != KEY_ESCAPE ) );
+	  delete[] origskills;
 }
