@@ -31,12 +31,16 @@
 
 ###BIONICS
 ```C++
-"id"         :    "bio_batteries",   // Unique ID. Must be one continuous word, use underscores if necessary
-"name"       :    "Battery System",  // In-game name displayed
-"cost"       :    0,                 // How many PUs it costs to use the bionic.
-"time"       :    0,                 // How long, when activated, between drawing cost. If 0, it draws power once.
-"flags"      :    ["POWER"],         // Used to flag the bionic as a specific type.
-"description":    "You have a battery draining attachment, and thus can make use of the energy\ncontained in normal, everyday batteries.  Use 'E' to consume batteries." // In-game description
+"id"           : "bio_batteries",  // Unique ID. Must be one continuous word,
+                                   // use underscores if necessary.
+"name"         : "Battery System", // In-game name displayed
+"active"       : false,  // Whether the bionic is active or passive (default: passive)
+"power_source" : false,  // Whether the bionic provides power (default: false)
+"faulty"       : false,  // Whether it is a faulty type (default: false)
+"cost"         : 0,  // How many PUs it costs to use the bionic. (default: 0)
+"time"         : 0,  // How long, when activated, between drawing cost.
+                     // If 0, it draws power once. (default: 0)
+"description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries." // In-game description
 ```
 ###DREAMS
 ```C++
