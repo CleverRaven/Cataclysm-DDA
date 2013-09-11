@@ -271,7 +271,7 @@ void map::destroy_vehicle (vehicle *veh)
    return;
   }
  }
- debugmsg ("destroy_vehicle can't find it! sm=%d", veh_sm);
+ debugmsg ("destroy_vehicle can't find it! name=%s, sm=%d", veh->name.c_str(), veh_sm);
 }
 
 bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test)

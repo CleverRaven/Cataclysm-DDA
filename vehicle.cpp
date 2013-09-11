@@ -278,8 +278,8 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 void vehicle::smash()
 {
   for (int part_index = 0; part_index < parts.size(); part_index++) {
-    //Drop by 10-100% of max HP
-    int damage = (int) (dice(1, 10) * 0.1 * part_info(part_index).durability);
+    //Drop by 10-120% of max HP (anything over 100 = broken)
+    int damage = (int) (dice(1, 12) * 0.1 * part_info(part_index).durability);
     parts[part_index].hp -= damage;
     if(parts[part_index].hp < 0) {
       parts[part_index].hp = 0;
