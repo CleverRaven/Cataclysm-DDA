@@ -68,14 +68,190 @@ bool is_whitespace(char ch)
     }
 }
 
+
+/* class Jsobj
+ * represents a JSON object,
+ * providing access to the underlying data.
+ */
+Jsobj::Jsobj(Jsin *j)
+{
+    jsin = j;
+    start = jsin->tell();
+    jsin->start_object();
+    while (!jsin->end_object()) {
+        std::string n = jsin->get_member_name();
+        int p = jsin->tell();
+        positions[n] = p;
+        jsin->skip_value();
+    }
+    end = jsin->tell();
+}
+
+void Jsobj::finish()
+{
+    jsin->seek(end);
+}
+
+bool Jsobj::get_bool(std::string name)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        throw (std::string)"member not found: " + name;
+    }
+    jsin->seek(pos);
+    return jsin->get_bool();
+}
+
+bool Jsobj::get_bool(std::string name, bool fallback)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        return fallback;
+    }
+    jsin->seek(pos);
+    return jsin->get_bool();
+}
+
+int Jsobj::get_int(std::string name)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        throw (std::string)"member not found: " + name;
+    }
+    jsin->seek(pos);
+    return jsin->get_int();
+}
+
+int Jsobj::get_int(std::string name, int fallback)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        return fallback;
+    }
+    jsin->seek(pos);
+    return jsin->get_int();
+}
+
+double Jsobj::get_float(std::string name)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        throw (std::string)"member not found: " + name;
+    }
+    jsin->seek(pos);
+    return jsin->get_float();
+}
+
+double Jsobj::get_float(std::string name, double fallback)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        return fallback;
+    }
+    jsin->seek(pos);
+    return jsin->get_float();
+}
+
+std::string Jsobj::get_string(std::string name)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        throw (std::string)"member not found: " + name;
+    }
+    jsin->seek(pos);
+    return jsin->get_string();
+}
+
+std::string Jsobj::get_string(std::string name, std::string fallback)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        return fallback;
+    }
+    jsin->seek(pos);
+    return jsin->get_string();
+}
+
+Jsarr Jsobj::get_array(std::string name)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        return Jsarr(); // empty array
+    }
+    jsin->seek(pos);
+    return Jsarr(jsin);
+}
+
+
+/* class Jsarr
+ * represents a JSON array,
+ * providing access to the underlying data.
+ */
+Jsarr::Jsarr(Jsin *j)
+{
+    jsin = j;
+    start = jsin->tell();
+    pos = 0;
+    jsin->start_array();
+    while (!jsin->end_array()) {
+        positions.push_back(jsin->tell());
+        jsin->skip_value();
+    }
+}
+
+bool Jsarr::has_more()
+{
+    return (pos >= 0 && pos < positions.size());
+}
+
+bool Jsarr::next_bool()
+{
+    jsin->seek(positions[pos++]);
+    return jsin->get_bool();
+}
+
+int Jsarr::next_int()
+{
+    jsin->seek(positions[pos++]);
+    return jsin->get_int();
+}
+
+double Jsarr::next_float()
+{
+    jsin->seek(positions[pos++]);
+    return jsin->get_float();
+}
+
+std::string Jsarr::next_string()
+{
+    jsin->seek(positions[pos++]);
+    return jsin->get_string();
+}
+
+Jsarr Jsarr::next_array()
+{
+    jsin->seek(positions[pos++]);
+    return jsin->get_array();
+}
+
+Jsobj Jsarr::next_object()
+{
+    jsin->seek(positions[pos++]);
+    return jsin->get_object();
+}
+
+
+/* class Jsin
+ * represents an istream of JSON data,
+ * allowing easy extraction into c++ datatypes.
+ */
 Jsin::Jsin(std::istream *s)
 {
     stream = s;
-    saved_pos = 0;
 }
 
-void Jsin::save_pos() { saved_pos = stream->tellg(); }
-void Jsin::load_pos() { stream->seekg(saved_pos); }
+int Jsin::tell() { return stream->tellg(); }
+void Jsin::seek(int pos) { stream->seekg(pos); }
 char Jsin::peek() { return (char)stream->peek(); }
 bool Jsin::good() { return stream->good(); }
 
@@ -84,102 +260,6 @@ void Jsin::eat_whitespace()
     while (is_whitespace((char)stream->peek())) {
         stream->get();
     }
-}
-
-std::string Jsin::fetch_string(std::string s)
-{
-    int pos = stream->tellg();
-    std::string ret = "";
-    if (seek_member(s)) {
-        ret = get_string();
-    } else {
-        dout(D_ERROR) << "Failed to find string member: " << s << "\n";
-    }
-    stream->seekg(pos);
-    return ret;
-}
-
-int Jsin::fetch_int(std::string s)
-{
-    int pos = stream->tellg();
-    int ret = 0;
-    if (seek_member(s)) {
-        ret = get_int();
-    } else {
-        dout(D_ERROR) << "Failed to find int member: " << s << "\n";
-    }
-    stream->seekg(pos);
-    return ret;
-}
-
-bool Jsin::fetch_bool(std::string s)
-{
-    int pos = stream->tellg();
-    bool ret = false;
-    if (seek_member(s)) {
-        ret = get_bool();
-    } else {
-        dout(D_ERROR) << "Failed to find bool member: " << s << "\n";
-    }
-    stream->seekg(pos);
-    return ret;
-}
-
-double Jsin::fetch_float(std::string s)
-{
-    int pos = stream->tellg();
-    double ret = 0;
-    if (seek_member(s)) {
-        ret = get_float();
-    } else {
-        dout(D_ERROR) << "Failed to find float member: " << s << "\n";
-    }
-    stream->seekg(pos);
-    return ret;
-}
-
-bool Jsin::has_member(std::string name)
-{
-    int pos = stream->tellg();
-    bool ret = seek_member(name);
-    stream->seekg(pos);
-    return ret;
-}
-
-bool Jsin::seek_member(std::string &name)
-{
-    char ch;
-    // initial '{' may be included or not (as "{{" is impossible)
-    if (peek() == '{') {
-        stream->get();
-    }
-    while (stream->good()) {
-        // eat whitespace
-        eat_whitespace();
-        // make sure there's a name here
-        ch = peek();
-        if (ch == '}') {
-            // reached the end of the object without finding type
-            dout(D_WARNING) << "member not found: " << name << "\n";
-            return false;
-        } else if (ch == ',') {
-            // usually the separator will be consumed elsewhere,
-            // but just in case:
-            stream->get();
-            continue;
-        } else if (ch != '"') {
-            dout(D_ERROR) << "expected name but found '" << ch << "'\n";
-            break;
-        }
-        // check if the name matches
-        if (name == get_member_name()) {
-            return true;
-        } else {
-            skip_value();
-        }
-    }
-    dout(D_ERROR) << "stream failure searching for: " << name << "\n";
-    return false;
 }
 
 void Jsin::skip_member()

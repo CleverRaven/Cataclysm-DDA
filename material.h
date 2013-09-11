@@ -35,7 +35,7 @@ public:
                   int density);
     material_type(std::string ident);
     static material_map _all_materials;
-    static bool load_material(Jsin &jsin);
+    static void load_material(Jsobj &jsobj);
 
     // functions
     static material_type* find_material(std::string ident);

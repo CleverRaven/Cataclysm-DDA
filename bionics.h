@@ -49,6 +49,6 @@ extern std::vector<bionic_id> faulty_bionics;
 extern std::vector<bionic_id> power_source_bionics;
 extern std::vector<bionic_id> unpowered_bionics;
 
-bool load_bionic(Jsin &jsin); // load a bionic from JSON
+void load_bionic(Jsobj &jsobj); // load a bionic from JSON
 
 #endif

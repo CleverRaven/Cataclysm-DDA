@@ -648,70 +648,22 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
  }
 }
 
-bool load_bionic(Jsin &jsin)
+void load_bionic(Jsobj &jsobj)
 {
-    // TODO: make a default constructor for bionic_data and use that
-    std::string id = "";
-    std::string name = "";
-    int cost = 0;
-    int time = 0;
-    std::string description = "";
-    bool faulty = false;
-    bool powersource = false;
-    bool active = false;
+    std::string id = jsobj.get_string("id");
+    std::string name = _(jsobj.get_string("name").c_str());
+    std::string description = _(jsobj.get_string("description").c_str());
+    int cost = jsobj.get_int("cost", 0);
+    int time = jsobj.get_int("time", 0);
+    bool faulty = jsobj.get_bool("faulty", false);
+    bool power_source = jsobj.get_bool("power_source", false);
+    bool active = jsobj.get_bool("active", false);
 
-    std::string s;
-    jsin.start_object();
-    while (!jsin.end_object()) {
-        s = jsin.get_member_name();
-        if (s == "id") {
-            id = jsin.get_string();
-        } else if (s == "name") {
-            name = _(jsin.get_string().c_str());
-        } else if (s == "cost") {
-            cost = jsin.get_int();
-        } else if (s == "time") {
-            time = jsin.get_int();
-        } else if (s == "description") {
-            description = _(jsin.get_string().c_str());
-        } else if (s == "flags") {
-            jsin.start_array();
-            while (!jsin.end_array()) {
-                // reuse s because why not
-                s = jsin.get_string();
-                if (s == "FAULTY") {
-                    faulty = true;
-                } else if (s == "ACTIVE") {
-                    active = true;
-                } else if (s == "POWER") {
-                    powersource = true;
-                } else {
-                    // probably warrants a debug message
-                    dout(D_WARNING) << "Unrecognised tag: " << s <<"\n";
-                }
-            }
-        } else if (s == "type") {
-            jsin.skip_value();
-        } else {
-            dout(D_WARNING) << "Ignoring bionic member: " << s << "\n";
-            jsin.skip_value();
-        }
-    }
-    if (id.empty()) {
-        dout(D_ERROR) << "Failed to load bionic: no id found.\n";
-        return false;
-    }
-    if (faulty) {
-        faulty_bionics.push_back(id);
-    }
-    if (powersource) {
-        power_source_bionics.push_back(id);
-    }
-    if (!active && id != "bio_null") {
-        unpowered_bionics.push_back(id);
-    }
-    bionics[id] = new bionic_data(name, powersource, active, cost, time, description, faulty);
+    if (faulty) { faulty_bionics.push_back(id); }
+    if (power_source) { power_source_bionics.push_back(id); }
+    if (!active && id != "bio_null") { unpowered_bionics.push_back(id); }
+
+    bionics[id] = new bionic_data(name, power_source, active, cost, time, description, faulty);
     dout(D_INFO) << "Loaded bionic: " << name << "\n";
-    return true;
 }
 

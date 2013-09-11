@@ -69,56 +69,29 @@ material_type::material_type(std::string ident)
 material_map material_type::_all_materials;
 
 // load a material object from incoming JSON
-bool material_type::load_material(Jsin &jsin)
+void material_type::load_material(Jsobj &jsobj)
 {
-    // create a new material with default parameters
     material_type mat;
-    std::string name;
-    jsin.start_object();
-    while (!jsin.end_object()) {
-        name = jsin.get_member_name();
-        if (name == "ident") {
-            mat._ident = jsin.get_string();
-        } else if (name == "name") {
-            mat._name = _(jsin.get_string().c_str());
-        } else if (name == "bash_resist") {
-            mat._bash_resist = jsin.get_int();
-        } else if (name == "cut_resist") {
-            mat._cut_resist = jsin.get_int();
-        } else if (name == "bash_dmg_verb") {
-            mat._bash_dmg_verb = _(jsin.get_string().c_str());
-        } else if (name == "cut_dmg_verb") {
-            mat._cut_dmg_verb = _(jsin.get_string().c_str());
-        } else if (name == "acid_resist") {
-            mat._acid_resist = jsin.get_int();
-        } else if (name == "elec_resist") {
-            mat._elec_resist = jsin.get_int();
-        } else if (name == "fire_resist") {
-            mat._fire_resist = jsin.get_int();
-        } else if (name == "density") {
-            mat._density = jsin.get_int();
-        } else if (name == "dmg_adj") {
-            jsin.start_array();
-            mat._dmg_adj[0] = _(jsin.get_string().c_str());
-            mat._dmg_adj[1] = _(jsin.get_string().c_str());
-            mat._dmg_adj[2] = _(jsin.get_string().c_str());
-            mat._dmg_adj[3] = _(jsin.get_string().c_str());
-            jsin.end_array();
-        } else if (name == "type") {
-            jsin.skip_value();
-        } else {
-            dout(D_WARNING) << "Ignoring material member: " << name << "\n";
-            jsin.skip_value();
-        }
-    }
-    // if we didn't find "ident", give up.
-    if (mat._ident.empty()) {
-        dout(D_ERROR) << "Failed to load material, no ident found.\n";
-        return false;
-    }
+
+    mat._ident = jsobj.get_string("ident");
+    mat._name = _(jsobj.get_string("name").c_str());
+    mat._bash_resist = jsobj.get_int("bash_resist");
+    mat._cut_resist = jsobj.get_int("cut_resist");
+    mat._bash_dmg_verb = _(jsobj.get_string("bash_dmg_verb").c_str());
+    mat._cut_dmg_verb = _(jsobj.get_string("cut_dmg_verb").c_str());
+    mat._acid_resist = jsobj.get_int("acid_resist");
+    mat._elec_resist = jsobj.get_int("elec_resist");
+    mat._fire_resist = jsobj.get_int("fire_resist");
+    mat._density = jsobj.get_int("density");
+
+    Jsarr jsarr = jsobj.get_array("dmg_adj");
+    mat._dmg_adj[0] = _(jsarr.next_string().c_str());
+    mat._dmg_adj[1] = _(jsarr.next_string().c_str());
+    mat._dmg_adj[2] = _(jsarr.next_string().c_str());
+    mat._dmg_adj[3] = _(jsarr.next_string().c_str());
+
     _all_materials[mat._ident] = mat;
     dout(D_INFO) << "Loaded material: " << mat._name << "\n";
-    return true;
 }
 
 material_type* material_type::find_material(std::string ident)

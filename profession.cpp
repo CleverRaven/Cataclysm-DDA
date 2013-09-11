@@ -22,59 +22,39 @@ profession::profession(std::string ident, std::string name, std::string descript
 
 profmap profession::_all_profs;
 
-bool profession::load_profession(Jsin &jsin)
+void profession::load_profession(Jsobj &jsobj)
 {
     profession prof;
-    std::string s;
-    jsin.start_object();
-    while (!jsin.end_object()) {
-        s = jsin.get_member_name();
-        if (s == "ident") {
-            prof._ident = jsin.get_string();
-        } else if (s == "name") {
-            prof._name = _(jsin.get_string().c_str());
-        } else if (s == "description") {
-            prof._description = _(jsin.get_string().c_str());
-        } else if (s == "points") {
-            prof._point_cost = jsin.get_int();
-        } else if (s == "items") {
-            jsin.start_array();
-            while (!jsin.end_array()) {
-                prof.add_item(jsin.get_string());
-            }
-        } else if (s == "skills") {
-            jsin.start_array();
-            while (!jsin.end_array()) {
-                prof.add_skill(jsin.fetch_string("name"),
-                               jsin.fetch_int("level"));
-                jsin.skip_object();
-            }
-        } else if (s == "addictions") {
-            jsin.start_array();
-            while (!jsin.end_array()) {
-                prof.add_addiction(addiction_type(jsin.fetch_string("type")),
-                                   jsin.fetch_int("intensity"));
-                jsin.skip_object();
-            }
-        } else if (s == "flags") {
-            jsin.start_array();
-            while (!jsin.end_array()) {
-                prof.flags.insert(jsin.get_string());
-            }
-        } else if (s == "type") {
-            jsin.skip_value();
-        } else {
-            dout(D_WARNING) << "Ignoring profession member: " << s << "\n";
-            jsin.skip_value();
-        }
+    Jsarr jsarr;
+
+    prof._ident = jsobj.get_string("ident");
+    prof._name = _(jsobj.get_string("name").c_str());
+    prof._description = _(jsobj.get_string("description").c_str());
+    prof._point_cost = jsobj.get_int("points");
+
+    jsarr = jsobj.get_array("items");
+    while (jsarr.has_more()) {
+        prof.add_item(jsarr.next_string());
     }
-    if (prof._ident.empty()) {
-        dout(D_ERROR) << "Failed to load profession, no ident found.\n";
-        return false;
+    jsarr = jsobj.get_array("skills");
+    while (jsarr.has_more()) {
+        Jsobj jo = jsarr.next_object();
+        prof.add_skill(jo.get_string("name"),
+                       jo.get_int("level"));
     }
+    jsarr = jsobj.get_array("addictions");
+    while (jsarr.has_more()) {
+        Jsobj jo = jsarr.next_object();
+        prof.add_addiction(addiction_type(jo.get_string("type")),
+                           jo.get_int("intensity"));
+    }
+    jsarr = jsobj.get_array("flags");
+    while (jsarr.has_more()) {
+        prof.flags.insert(jsarr.next_string());
+    }
+
     _all_profs[prof._ident] = prof;
     dout(D_INFO) << "Loaded profession: " << prof._name << "\n";
-    return true;
 }
 
 profession* profession::prof(std::string ident)

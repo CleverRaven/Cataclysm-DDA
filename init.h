@@ -7,7 +7,7 @@
 #include <vector>
 
 std::vector<std::string> listfiles(std::string const &dirname);
-bool load_object_from_json(std::string const &type, Jsin &jsin) throw (std::string);
+void load_object(Jsobj &jsobj);
 
 void load_json_dir(std::string const &dirname);
 void load_all_from_json(Jsin &jsin) throw (std::string);

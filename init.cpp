@@ -24,23 +24,16 @@ std::vector<std::string> listfiles(std::string const &dirname)
     return ret;
 }
 
-bool load_object_from_json(std::string const &type, Jsin &jsin) throw (std::string)
+void load_object(Jsobj &jo)
 {
-    if (!jsin.good()) {
-        throw "bad stream. aborting object load.";
-    }
+    std::string type = jo.get_string("type");
     if (type == "material") {
-        return material_type::load_material(jsin);
+        material_type::load_material(jo);
     } else if (type == "bionic") {
-        return load_bionic(jsin);
+        load_bionic(jo);
     } else if (type == "profession") {
-        return profession::load_profession(jsin);
-    } else {
-        // unknown type, skip it
-        jsin.skip_object();
-        return false;
+        profession::load_profession(jo);
     }
-    return false;
 }
 
 void load_json_dir(std::string const &dirname)
@@ -68,10 +61,9 @@ void load_all_from_json(Jsin &jsin) throw (std::string)
     ch = jsin.peek();
     if (ch == '{') {
         // find type and dispatch single object
-        jsin.save_pos();
-        type = jsin.fetch_string("type");
-        jsin.load_pos();
-        load_object_from_json(type, jsin);
+        Jsobj jo = jsin.get_object();
+        load_object(jo);
+        jo.finish();
     } else if (ch == '[') {
         jsin.start_array();
         // find type and dispatch each object until array close
@@ -80,14 +72,14 @@ void load_all_from_json(Jsin &jsin) throw (std::string)
             ch = jsin.peek();
             if (ch != '{') {
                 std::stringstream err;
+                err << "pos " << jsin.tell() << ": ";
                 err << "expected array of objects but found '";
                 err << ch << "', not '{'";
                 throw err.str();
             }
-            jsin.save_pos();
-            type = jsin.fetch_string("type");
-            jsin.load_pos();
-            load_object_from_json(type, jsin);
+            Jsobj jo = jsin.get_object();
+            load_object(jo);
+            jo.finish();
         }
     } else {
         // not an object or an array?
