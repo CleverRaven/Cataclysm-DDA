@@ -10406,10 +10406,11 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
   // If either shift argument is non-zero, we're shifting.
   if(shiftx != 0 || shifty != 0) {
    z.shift(shiftx, shifty);
-   if (z.posx() >= 0 - SEEX             && z.posy() >= 0 - SEEX &&
-       z.posx() <= SEEX * (MAPSIZE + 1) && z.posy() <= SEEY * (MAPSIZE + 1))
-     // We're inbounds, so don't despawn after all.
-     continue;
+   if( z.posx() >= 0 && z.posx() <= SEEX * MAPSIZE &&
+       z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE ) {
+    // We're inbounds, so don't despawn after all.
+    continue;
+   }
   }
 
   if (stairs && z.will_reach(this, u.posx, u.posy)) {
