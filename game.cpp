@@ -77,7 +77,7 @@ game::game() :
  om_diag(NULL),
  gamemode(NULL)
 {
- dout() << "Game initialized.";
+ dout() << "Game initialized.\n";
 
  try {
  if(!json_good())

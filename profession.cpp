@@ -64,16 +64,16 @@ bool profession::load_profession(Jsin &jsin)
         } else if (s == "type") {
             jsin.skip_value();
         } else {
-            dout(D_WARNING) << "Ignoring profession member: " + s;
+            dout(D_WARNING) << "Ignoring profession member: " << s << "\n";
             jsin.skip_value();
         }
     }
     if (prof._ident.empty()) {
-        dout(D_ERROR) << "Failed to load profession, no ident found.";
+        dout(D_ERROR) << "Failed to load profession, no ident found.\n";
         return false;
     }
     _all_profs[prof._ident] = prof;
-    dout(D_INFO) << "Loaded profession: " + prof._name;
+    dout(D_INFO) << "Loaded profession: " << prof._name << "\n";
     return true;
 }
 
@@ -86,7 +86,7 @@ profession* profession::prof(std::string ident)
     }
     else
     {
-        dout(D_ERROR) << "Tried to get invalid profession: " + ident;
+        dout(D_ERROR) << "Tried to get invalid profession: " << ident << "\n";
         return NULL;
     }
 }

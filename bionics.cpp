@@ -687,18 +687,18 @@ bool load_bionic(Jsin &jsin)
                     powersource = true;
                 } else {
                     // probably warrants a debug message
-                    dout(D_WARNING) << "Unrecognised tag: " + s;
+                    dout(D_WARNING) << "Unrecognised tag: " << s <<"\n";
                 }
             }
         } else if (s == "type") {
             jsin.skip_value();
         } else {
-            dout(D_WARNING) << "Ignoring bionic member: " + s;
+            dout(D_WARNING) << "Ignoring bionic member: " << s << "\n";
             jsin.skip_value();
         }
     }
     if (id.empty()) {
-        dout(D_ERROR) << "Failed to load bionic: no id found.";
+        dout(D_ERROR) << "Failed to load bionic: no id found.\n";
         return false;
     }
     if (faulty) {
@@ -711,7 +711,7 @@ bool load_bionic(Jsin &jsin)
         unpowered_bionics.push_back(id);
     }
     bionics[id] = new bionic_data(name, powersource, active, cost, time, description, faulty);
-    dout(D_INFO) << "Loaded bionic: " + name;
+    dout(D_INFO) << "Loaded bionic: " << name << "\n";
     return true;
 }
 

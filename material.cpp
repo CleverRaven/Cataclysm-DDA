@@ -6,7 +6,6 @@
 #include "translations.h"
 
 #include <string>
-#include <sstream> // for error messages
 
 material_type::material_type()
 {
@@ -108,17 +107,17 @@ bool material_type::load_material(Jsin &jsin)
         } else if (name == "type") {
             jsin.skip_value();
         } else {
-            dout(D_WARNING) << "Ignoring material member: " + name;
+            dout(D_WARNING) << "Ignoring material member: " << name << "\n";
             jsin.skip_value();
         }
     }
     // if we didn't find "ident", give up.
     if (mat._ident.empty()) {
-        dout(D_ERROR) << "Failed to load material, no ident found.";
+        dout(D_ERROR) << "Failed to load material, no ident found.\n";
         return false;
     }
     _all_materials[mat._ident] = mat;
-    dout(D_INFO) << "Loaded material: " + mat._name;
+    dout(D_INFO) << "Loaded material: " << mat._name << "\n";
     return true;
 }
 
@@ -128,9 +127,7 @@ material_type* material_type::find_material(std::string ident)
     if(found != _all_materials.end()){
         return &(found->second);
     } else {
-        std::stringstream err;
-        err << "Tried to get invalid material: " << ident;
-        dout(D_ERROR) << err;
+        dout(D_ERROR) << "Tried to get invalid material: " << ident << "\n";
         return NULL;
     }
 }
