@@ -12631,7 +12631,6 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
 
  const int smx = x / SEEX;
  const int smy = y / SEEY;
- const int nonant = smx + smy * my_MAPSIZE;
 // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
  vehicle * veh = new vehicle(g, type, veh_fuel, veh_status);
  veh->posx = x % SEEX;
@@ -12647,6 +12646,7 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
  vehicle *placed_vehicle = add_vehicle_to_map(veh, x, y);
 
  if(placed_vehicle != NULL) {
+  const int nonant = placed_vehicle->smx + placed_vehicle->smy * my_MAPSIZE;
   grid[nonant]->vehicles.push_back(placed_vehicle);
 
   vehicle_list.insert(placed_vehicle);
