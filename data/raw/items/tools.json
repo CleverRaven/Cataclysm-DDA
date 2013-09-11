@@ -1787,7 +1787,7 @@
     "symbol": "*",
     "color": "blue",
     "name": "ice molotov cocktail",
-    "description": "A canister containing liquid nitrogen. Activate it to remove it from its protective casing and throw it to freeze the floor. Do it quick; it will evaporate after exposure with the air",
+    "description": "A canister containing liquid nitrogen inside a protetive casing. Activate it to remove it from its protective casing and throw it to freeze the floor. Do it quickly; it will evaporate after exposure with the air",
     "price": 200,
     "material": ["glass", "metal"],
     "weight": 742,
@@ -1810,7 +1810,7 @@
     "symbol": "*",
     "color": "blue",
     "name": "ice molotov cocktail (lit)",
-    "description": "A canister containing liquid nitrogen. Activate it to remove it from its protective casing and throw it to freeze the floor. Do it quick; it will evaporate after exposure with the air",
+    "description": "A canister containing liquid nitrogen. Throw it to freeze the floor. Do it quickly; it will evaporate after exposure with the air",
     "price": 0,
     "material": ["glass", "metal"],
     "weight": 742,
@@ -1823,7 +1823,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "canister",
+    "revert_to": "null",
     "use_action": "ICE_MOLOTOV_LIT"
   },
 

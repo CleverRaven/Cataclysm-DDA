@@ -3593,7 +3593,7 @@ void iuse::molotov_lit(game *g, player *p, item *it, bool t)
 
 void iuse::ice_molotov(game *g, player *p, item *it, bool t)
 {
- g->add_msg_if_player(p,_("You remove the vial from its casing."));
+ g->add_msg_if_player(p,_("You remove the canister from its casing."));
  p->moves -= 150;
  it->make(g->itypes["ice_molotov_lit"]);
  it->charges = 1;
@@ -3607,27 +3607,19 @@ void iuse::ice_molotov_lit(game *g, player *p, item *it, bool t)
     if (!p->has_item(it)) {
         point pos = g->find_item(it);
         it->charges = -1;
-        // 5x5 radius of L1 floor (30% chance)
         for (int x = pos.x - 3; x <= pos.x + 3; x++) {
             for (int y = pos.y - 3; y <= pos.y + 3; y++) {
-                if ( rng(1, 10) < 4) {
+                // 7x7 radius of L1 floor (50% chance)
+                if ( x_in_y(1, 2) ) {
                     g->m.add_field(g, x, y, fd_ice_floor, 1);
                 }
-            }
-        }
-        // 4x4 radius of L2 floor (60% chance)
-        for (int x = pos.x - 2; x <= pos.x + 2; x++) {
-            for (int y = pos.y - 2; y <= pos.y + 2; y++) {
-                if ( rng(1, 10) < 7) {
-                    g->m.add_field(g, x, y, fd_ice_floor, 2);
+                // 5x5 radius of L2 floor (80% chance)
+                if ( x_in_y(4, 5) && abs(x) <= 2 && abs(y) <= 2) {
+                    //g->m.add_field(g, x, y, fd_ice_floor, 1);
                 }
-            }
-        }
-        // 3x3 radius of L3 floor (90% chance)
-        for (int x = pos.x - 1; x <= pos.x + 1; x++) {
-            for (int y = pos.y - 1; y <= pos.y + 1; y++) {
-                if ( rng(1, 10) < 10) {
-                    g->m.add_field(g, x, y, fd_ice_floor, 3);
+                // 3x3 radius of L3 floor (90% chance)
+                if ( x_in_y(9, 10) && abs(x) <= 1 && abs(y) <= 1) {
+                    //g->m.add_field(g, x, y, fd_ice_floor, 1);
                 }
             }
         }
