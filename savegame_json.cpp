@@ -936,3 +936,147 @@ picojson::value npc::json_save(bool save_contents) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// inventory.h
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+///// vehicle.h
+/*
+ * Load vehicle from a json blob that might just exceed player in size.
+ */
+void vehicle::json_load(picojson::value & parsed, game * g ) {
+    if ( ! parsed.is<picojson::object>() ) {
+         debugmsg("vehicle::json_load: bad json:\n%s",parsed.serialize().c_str() );
+    }
+    picojson::object &data = parsed.get<picojson::object>();
+
+    int fdir, mdir;
+    
+    picostring(data,"type",type);
+    picoint(data, "posx", posx);    
+    picoint(data, "posy", posy);
+    picoint(data, "faceDir", fdir);
+    picoint(data, "moveDir", mdir);
+    picoint(data, "turn_dir", turn_dir);
+    picoint(data, "velocity", velocity);
+    picoint(data, "cruise_velocity", cruise_velocity);
+    picobool(data, "cruise_on", cruise_on);
+    picobool(data, "lights_on", lights_on);
+    picobool(data, "skidding", skidding);
+    picoint(data, "turret_mode", turret_mode);
+    picojson::object::const_iterator oftcit = data.find("of_turn_carry"); 
+    if(oftcit != data.end() && oftcit->second.is<double>() ) {
+        of_turn_carry = (float)oftcit->second.get<double>();
+    }
+    face.init (fdir);
+    move.init (mdir);
+    picostring(data,"name",name);
+
+    parts.clear();
+
+    picojson::array * parray=pgetarray(data,"parts");
+    if ( parray != NULL ) {
+        for( picojson::array::iterator pt = parray->begin(); pt != parray->end(); ++pt) {
+            if ( (*pt).is<picojson::object>() ) {
+                std::map<std::string, picojson::value> & pdata = (*pt).get<picojson::object>();
+                int pid, pflag;
+ // FIXME: init map<string(vpart_info.id), int(vpart_id)>, save/load string idents
+//              if ( picostring(pdata,"id",tmpid) && vpart_enums.find(tmpid) != vpart_enums.end() ) {
+//                  pid = vpart_enums[tmpid];
+//              } else {
+                picoint(pdata, "id_enum", pid);
+                vehicle_part new_part;
+                new_part.id = (vpart_id) pid;
+                
+                picoint(pdata, "mount_dx", new_part.mount_dx);
+                picoint(pdata, "mount_dy", new_part.mount_dy);
+                picoint(pdata, "hp", new_part.hp );
+                picoint(pdata, "amount", new_part.amount );
+                picoint(pdata, "blood", new_part.blood );
+                picoint(pdata, "bigness", new_part.bigness );
+                if ( picoint(pdata, "flags", pflag ) ) {
+                    new_part.flags = pflag;
+                }                
+                picoint(pdata, "passenger_id", new_part.passenger_id );
+                
+                picojson::array * piarray=pgetarray(pdata,"items");
+                new_part.items.clear();
+                if ( piarray != NULL ) {
+                    for( picojson::array::iterator pit = piarray->begin(); pit != piarray->end(); ++pit) {
+                        if ( (*pit).is<picojson::object>() ) {
+                            new_part.items.push_back( item( *pit, g ) );
+                        }
+                    }
+                }            
+                parts.push_back (new_part);
+            }
+        }
+        parray = NULL;
+    }
+    find_external_parts ();
+    find_exhaust ();
+    insides_dirty = true;
+    precalc_mounts (0, face.dir());
+    parray = pgetarray(data,"tags");
+    if ( parray != NULL ) {
+        for( picojson::array::iterator pt = parray->begin(); pt != parray->end(); ++pt) {
+            if ( (*pt).is<std::string>() ) {
+                tags.insert( (*pt).get<std::string>() );
+            }
+        }
+    }
+    return;
+}
+
+
+picojson::value vehicle::json_save( bool save_contents ) {
+    std::map<std::string, picojson::value> data;
+    data["type"] = pv ( type );
+    data["posx"] = pv ( posx );
+    data["posy"] = pv ( posy );
+    data["faceDir"] = pv ( face.dir() );
+    data["moveDir"] = pv ( move.dir() );
+    data["turn_dir"] = pv ( turn_dir );
+    data["velocity"] = pv ( velocity );
+    data["cruise_velocity"] = pv ( cruise_velocity );
+
+    data["cruise_on"] = pv ( cruise_on );
+    data["lights_on"] = pv ( lights_on );
+    data["turret_mode"] = pv ( turret_mode );
+    data["skidding"] = pv ( skidding );
+
+    data["of_turn_carry"] = pv ( of_turn_carry );
+    data["name"] = pv ( name );
+
+    std::vector<picojson::value> ptmpvec;
+    std::map<std::string, picojson::value> pdata;
+    std::vector<picojson::value> pitms;
+    for (int p = 0; p < parts.size(); p++) {
+        pdata["id_enum"] = pv ( parts[p].id );
+        pdata["mount_dx"] = pv ( parts[p].mount_dx );
+        pdata["mount_dy"] = pv ( parts[p].mount_dy );
+        pdata["hp"] = pv ( parts[p].hp );
+        pdata["amount"] = pv ( parts[p].amount );
+        pdata["blood"] = pv ( parts[p].blood );
+        pdata["bigness"] = pv ( parts[p].bigness );
+        pdata["flags"] = pv ( parts[p].flags );
+        pdata["passenger_id"] = pv ( parts[p].passenger_id );
+        if ( parts[p].items.size() > 0 ) {
+            for (int i = 0; i < parts[p].items.size(); i++) {
+                pitms.push_back( parts[p].items[i].json_save(true) );
+            }
+            pdata["items"] = pv ( pitms );
+            pitms.clear();
+        }
+        ptmpvec.push_back( pv ( pdata ) );
+        pdata.clear();
+    }
+    data["parts"] = pv ( ptmpvec );
+    ptmpvec.clear();
+
+    for( std::set<std::string>::const_iterator it = tags.begin(); it != tags.end(); ++it ) {
+        ptmpvec.push_back( pv( *it ) );
+    }
+    data["tags"] = pv ( ptmpvec );
+    ptmpvec.clear();
+    return pv( data );
+}
+
