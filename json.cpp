@@ -10,6 +10,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <sstream>
 
 /* JSON parsing and serialization tools for Cataclysm-DDA
  * ~
@@ -96,7 +97,8 @@ bool Jsobj::get_bool(std::string name)
 {
     int pos = positions[name];
     if (pos <= start) {
-        throw (std::string)"member not found: " + name;
+        jsin->seek(start);
+        throw jsin->line_number() + ": member not found: " + name;
     }
     jsin->seek(pos);
     return jsin->get_bool();
@@ -116,7 +118,8 @@ int Jsobj::get_int(std::string name)
 {
     int pos = positions[name];
     if (pos <= start) {
-        throw (std::string)"member not found: " + name;
+        jsin->seek(start);
+        throw jsin->line_number() + ": member not found: " + name;
     }
     jsin->seek(pos);
     return jsin->get_int();
@@ -136,7 +139,8 @@ double Jsobj::get_float(std::string name)
 {
     int pos = positions[name];
     if (pos <= start) {
-        throw (std::string)"member not found: " + name;
+        jsin->seek(start);
+        throw jsin->line_number() + ": member not found: " + name;
     }
     jsin->seek(pos);
     return jsin->get_float();
@@ -156,7 +160,8 @@ std::string Jsobj::get_string(std::string name)
 {
     int pos = positions[name];
     if (pos <= start) {
-        throw (std::string)"member not found: " + name;
+        jsin->seek(start);
+        throw jsin->line_number() + ": member not found: " + name;
     }
     jsin->seek(pos);
     return jsin->get_string();
@@ -276,7 +281,7 @@ void Jsin::skip_pair_separator()
     eat_whitespace();
     stream->get(ch);
     if (ch != ':') {
-        dout(D_ERROR) << "expected pair separator ':', not '" << ch << "'\n";
+        dout(D_ERROR) << line_number() << ": expected pair separator ':', not '" << ch << "'\n";
     }
 }
 
@@ -286,7 +291,7 @@ void Jsin::skip_string()
     eat_whitespace();
     stream->get(ch);
     if (ch != '"') {
-        dout(D_ERROR) << "expecting string but found '" << ch << "'\n";
+        dout(D_ERROR) << line_number() << ": expecting string but found '" << ch << "'\n";
         stream->unget();
         return;
     }
@@ -328,7 +333,7 @@ void Jsin::skip_value()
         skip_null();
     // or an error.
     } else {
-        dout(D_ERROR) << "expected JSON value but got '" << ch << "'\n";
+        dout(D_ERROR) << line_number() << ": expected JSON value but got '" << ch << "'\n";
         return;
     }
     skip_separator();
@@ -341,7 +346,7 @@ void Jsin::skip_object()
     eat_whitespace();
     stream->get(ch);
     if (ch != '{') {
-        dout(D_ERROR) << "expected object but found '" << ch << "'\n";
+        dout(D_ERROR) << line_number() << ": expected object but found '" << ch << "'\n";
         return;
     }
     while (brackets && stream->good()) {
@@ -359,7 +364,7 @@ void Jsin::skip_object()
     }
     if (brackets != 0) {
         // something messed up!
-        dout(D_ERROR) << "couldn't find end of object!" << " " << brackets << " bracket(s) left.\n";
+        dout(D_ERROR) << line_number() << ": couldn't find end of object!" << " " << brackets << " bracket(s) left.\n";
     }
     skip_separator();
 }
@@ -371,7 +376,7 @@ void Jsin::skip_array()
     eat_whitespace();
     stream->get(ch);
     if (ch != '[') {
-        dout(D_ERROR) << "expected array but found '" << ch << "'\n";
+        dout(D_ERROR) << line_number() << ": expected array but found '" << ch << "'\n";
         return;
     }
     while (brackets && stream->good()) {
@@ -389,7 +394,7 @@ void Jsin::skip_array()
     }
     if (brackets != 0) {
         // something messed up!
-        dout(D_ERROR) << "couldn't find end of array!" << " " << brackets << " bracket(s) left.\n";
+        dout(D_ERROR) << line_number() << ": couldn't find end of array!" << " " << brackets << " bracket(s) left.\n";
     }
     skip_separator();
 }
@@ -401,7 +406,7 @@ void Jsin::skip_true()
     eat_whitespace();
     stream->get(ch, 5);
     if (strcmp(ch, "true") != 0) {
-        dout(D_ERROR) << "expected \"true\", but found \"" << ch << "\"\n";
+        dout(D_ERROR) << line_number() << ": expected \"true\", but found \"" << ch << "\"\n";
         stream->seekg(pos);
         return;
     }
@@ -415,7 +420,7 @@ void Jsin::skip_false()
     eat_whitespace();
     stream->get(ch, 6);
     if (strcmp(ch, "false") != 0) {
-        dout(D_ERROR) << "expected \"false\", but found \"" << ch << "\"\n";
+        dout(D_ERROR) << line_number() << ": expected \"false\", but found \"" << ch << "\"\n";
         stream->seekg(pos);
         return;
     }
@@ -429,7 +434,7 @@ void Jsin::skip_null()
     eat_whitespace();
     stream->get(ch, 5);
     if (strcmp(ch, "null") != 0) {
-        dout(D_ERROR) << "expected \"null\", but found \"" << ch << "\"\n";
+        dout(D_ERROR) << line_number() << ": expected \"null\", but found \"" << ch << "\"\n";
         stream->seekg(pos);
         return;
     }
@@ -484,7 +489,7 @@ std::string Jsin::get_string()
     // the first character had better be a '"'
     stream->get(ch);
     if (ch != '"') {
-        dout(D_ERROR) << "expecting string but got '" << ch << "'\n";
+        dout(D_ERROR) << line_number() << ": expecting string but got '" << ch << "'\n";
         return s;
     }
     // add chars to the string, one at a time, converting:
@@ -536,7 +541,7 @@ std::string Jsin::get_string()
         }
     }
     // if we get to here, probably hit a premature EOF?
-    dout(D_ERROR) << "something went wrong.\n";
+    dout(D_ERROR) << "something went wrong D:\n";
     return "";
 }
 
@@ -614,7 +619,8 @@ bool Jsin::get_bool()
             skip_separator();
             return true;
         } else {
-            dout(D_ERROR) << "not a boolean. expected \"true\", but got \""
+            dout(D_ERROR) << line_number() << ": "
+                          << "not a boolean. expected \"true\", but got \""
                           << ch << text << "\"\n";
             stream->seekg(pos);
             return true;
@@ -625,13 +631,15 @@ bool Jsin::get_bool()
             skip_separator();
             return false;
         } else {
-            dout(D_ERROR) << "not a boolean. expected \"false\", but got \""
+            dout(D_ERROR) << line_number() << ": "
+                          << "not a boolean. expected \"false\", but got \""
                           << ch << text << "\"\n";
             stream->seekg(pos);
             return false;
         }
     }
-    dout(D_ERROR) << "not a boolean value! expected 't' or 'f' but got '"
+    dout(D_ERROR) << line_number() << ": "
+                  << "not a boolean value! expected 't' or 'f' but got '"
                   << ch << "'\n";
     stream->seekg(pos);
     return false;
@@ -645,7 +653,8 @@ bool Jsin::start_array()
         return true;
     } else {
         // expecting an array, so this is an error
-        dout(D_ERROR) << "tried to start array, but found '"
+        dout(D_ERROR) << line_number() << ": "
+                      << "tried to start array, but found '"
                       << peek() << "', not '['\n";
         return false;
     }
@@ -658,7 +667,7 @@ bool Jsin::end_array()
         stream->get();
         return true;
     } else if (stream->peek() == (int)',') {
-        // also eat separators? i guess
+        // also eat separators, makes iterating easy
         stream->get();
         return false;
     } else {
@@ -675,7 +684,8 @@ bool Jsin::start_object()
         return true;
     } else {
         // expecting an object, so fail loudly
-        dout(D_ERROR) << "tried to start an object, but found '"
+        dout(D_ERROR) << line_number() << ": "
+                      << "tried to start an object, but found '"
                       << peek() << "', not '{'\n";
         return false;
     }
@@ -688,7 +698,7 @@ bool Jsin::end_object()
         stream->get();
         return true;
     } else if (stream->peek() == (int)',') {
-        // also eat separators? why not
+        // also eat separators, makes iterating easy
         stream->get();
         return false;
     } else {
@@ -697,3 +707,22 @@ bool Jsin::end_object()
     }
 }
 
+// intended for occasional use only
+std::string Jsin::line_number()
+{
+    int pos = stream->tellg();
+    int line = 1;
+    int offset = 1;
+    stream->seekg(0);
+    for (int i=0; i < pos; ++i) {
+        if (stream->get() == '\n') {
+            offset = 1;
+            ++line;
+        } else {
+            ++offset;
+        }
+    }
+    std::stringstream ret;
+    ret << "line " << line << ":" << offset;
+    return ret.str();
+}

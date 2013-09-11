@@ -46,9 +46,13 @@ void load_json_dir(std::string const &dirname)
         // open the file as a stream
         std::ifstream infile(it->c_str());
         // parse it
-        dout(D_INFO) << "Loading JSON from file: " + *(it) << "\n";
-        Jsin jsin(&infile);
-        load_all_from_json(jsin);
+        dout(D_INFO) << "Loading JSON from file: " << *(it) << "\n";
+        try {
+            Jsin jsin(&infile);
+            load_all_from_json(jsin);
+        } catch (std::string e) {
+            throw *(it) + ": " + e;
+        }
     }
 }
 
