@@ -34,6 +34,15 @@
   sp_attack = NULL;
   flags.push_back(MF_HUMAN);
  }
+
+ // Non-default (prepares for loading from json!)
+ mtype::mtype (std::string pid)
+ {
+     sid = pid;
+     name = "";
+
+ }
+
  // Non-default (messy)
  mtype::mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, std::string pmat,
@@ -100,6 +109,7 @@
 
 void game::init_mtypes ()
 {
+    monster_controller = new monster_factory();
  int id = 0;
 // Null monster named "None".
  mtypes.push_back(new mtype);
@@ -366,7 +376,7 @@ A sluglike creature, eight feet long and the width of a refrigerator, it's black
 body glistens as it oozes it's way along the ground. Eye stalks occassionally push their \
 way out of the oily mass and look around.")
 );
-FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30, 
+FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30,
 MF_SLUDGEPROOF, MF_SLUDGETRAIL, MF_SWIMS, MF_FLAMMABLE);
 
 
