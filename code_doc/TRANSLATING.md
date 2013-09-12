@@ -4,139 +4,84 @@ Info on translating Cataclysm-DDA into another language.
 TRANSLATORS
 ===========
 
-If there is already a translation available for your language,
-and you just want to update or improve it,
-you can edit the .po file for your language,
-found inside the "lang/po" subdirectory.
+The current official location for translating Cataclysm-DDA is at
+[Launchpad Translations](https://translations.launchpad.net/cdda).
 
-After editing this file,
-if you are running the dev version and want to test your changes,
-perform step 4 from the maintainers section below.
+For the moment, there are separate locations for translating
+[Chinese](https://translations.launchpad.net/cataclysm)
+and [Russian](https://translations.launchpad.net/cataclysm-dda).
+We will be merging these once translations have stabalized.
 
-If there is no translation yet,
-the .po file will need to be generated.
-You can do this yourself by following the instructions below,
-or ask one of the CleverRaven devs to do it for you.
+Using Launchpad Translations anyone can help translate.
+All you need to do is set up a Launchpad account,
+and tell it your preferred language.
+After that, your language should show up for translation,
+even if you are starting a new translation from scratch.
 
-Specific instructions and notes for translators can be found in
-"lang/translation_notes".
+If you have any questions or comments about translation,
+feel free to post in the "Translations Team Discussion" subforum of
+[the Cataclysm-DDA forums](http://smf.cataclysmdda.com/).
+
+There are some issues specific to Cataclysm-DDA,
+(and some specific to translating computer programs in general,)
+which translators should be aware of,
+such as the use of terms like "%s" and "%3$d" (leave them as they are),
+and the use of tags like "<name>" (don't translate the tags).
+
+Information about these,
+and any other issues specific to individual languages,
+can be found in Cataclysm-DDA's `lang/translation_notes/` folder.
 General notes for all translators are in
-"lang/translation_notes/README_all_translators.txt".
-Notes specific to a language may be stored as "<lang_id>.txt",
-for exmple "lang/translation_notes/de_DE.txt".
+`lang/translation_notes/README_all_translators.txt`,
+and notes specific to a language may be stored as `<lang_id>.txt`,
+for example `lang/translation_notes/de.txt` for German.
 
-When you are done translating,
-submit the changes back to CleverRaven for inclusion in Cataclysm-DDA.
+Cataclysm-DDA has more than 10,000 translatable strings,
+but don't be discouraged.
+The more translators there are,
+the easier it becomes :).
 
 
 MAINTAINERS
 ===========
 
+Several steps need to be done in the correct order,
+to correctly merge and maintain the translation files.
 
-Step 1: Extract the translatable strings
-----------------------------------------
+There are scripts available for these,
+so usually the process will be as follows:
 
-First all the translatable strings in the source code need to be collated.
+1. Download the translations in .po format from Launchpad.
+2. Put them in `lang/incoming/`,
+   ensuring they are named consistently with the files in `lang/po/`.
+3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-dda.pot`.
+4. Run `lang/merge_po.sh` to update `lang/po/*.po`.
+   This will also merge the translations from `lang/incoming/`.
 
-To do this, run the `lang/update_pot.sh` script.
-It requires that you have both Python and the gettext utilities installed.
+These steps should be enough to keep the translation files up-to-date.
 
-    lang/update_pot.sh
+To compile the .po files into .mo files for use,
+run `lang/compile_mo.sh`.
+It will create a directory in `lang/mo/` for each language found.
 
-This needs to be done every time translatable strings are added or modified.
-It will create or update the file `lang/po/cataclysm-dda.pot`.
-All of the translations depend on this file.
+Also note that both `lang/merge_po.sh` and `lang/compile_mo.sh`
+accept arguments specifying which languages to merge or compile.
+So to compile only the translation for, say, Traditional Chinese (zh_TW),
+one would run `lang/compile_mo.sh zh_TW`.
 
+After compiling the appropriate .mo file,
+if your system is using that language,
+the translations will be automatically used when you run cataclysm.
 
-Step 2(a): Initialize each language file
-----------------------------------------
+If your system locale is different from the one you want to test,
+the easiest way to do so is to find out your locale identifier,
+compile the translation you want to test,
+then rename the directory in `lang/mo/` to your locale identifier.
 
-If we're starting a new translation from scratch,
-we have to initialize the translation file.
-In this example the translation is into New Zealand English (en_NZ).
-For other languages change `en_NZ` to the relevant language identifier.
-
-    msginit -l en_NZ.UTF-8 -o lang/po/en_NZ.po -i lang/po/cataclysm-dda.pot
-
-
-Step 2(b): Update an already existing language file
----------------------------------------------------
-
-If we just want to update a translation,
-we'll want to keep all the messages that have already been translated.
-In this case we use `msgmerge` in stead of `msginit`.
-
-    msgmerge -F -U lang/po/en_NZ.po lang/po/cataclysm-dda.pot
-
-
-Step 2(c): Update all the .po files at once
--------------------------------------------
-
-To update the .po file for every language at once,
-use the `lang/merge_po.sh` script.
-
-    lang/merge_po.sh
-
-This will run the above `msgmerge` command for each file in `lang/po/*.po`.
+So for example if your local language is New Zealand English (en_NZ),
+and you want to test the Russian (ru) translation,
+the steps would be `lang/compile_mo.sh ru`,
+`mv lang/mo/ru lang/mo/en_NZ`,
+`./cataclysm`.
 
 
-Step 3: Translate
------------------
-
-Now open the .po file in your favorite editor and translate!
-Detailed instructions for translating can be found in
-`lang/translation_notes/README_all_translators.txt`.
-
-
-Step 4(a): Compile a single .po file
-------------------------------------
-
-If it is a new translation,
-you will need to create a subdirectory in `lang/mo` for it,
-and then a subdirectory called `LC_MESSAGES` inside that.
-For example:
-
-    mkdir -p lang/mo/en_NZ/LC_MESSAGES
-
-Now run the `msgfmt` program to compile the translations for use in game.
-
-    msgfmt -f -c -o lang/mo/en_NZ/LC_MESSAGES/cataclysm-dda.mo lang/po/en_NZ.po
-
-
-Step 4(b): Compile all the .po files
-------------------------------------
-
-To compile all the .po files at once,
-use the lang/compile_mo.sh script.
-
-    lang/compile_mo.sh
-
-This runs the above `mkdir` and `msgfmt` commands for all available .po files.
-
-
-
-Testing your changes in game
-============================
-
-The game has no menu to change language,
-so you need to manually set the locale.
-This is a different process depending on your OS.
-
-Note: The locale you set doesn't have to be an exact match.
-For instance, to use the `de_DE.po` translation,
-setting your locale to `de_DE.UTF8` will work fine.
-
-Arch Linux
-----------
-
-Step 1: Ensure the locale is enabled
-
-Edit `/etc/locale.gen` to include your desired locale(usually a matter of uncommenting),
-then run `locale-gen`
-
-Step 2: Set the locale in your current terminal window and run cataclysm
-
-```bash
-export LANG=mylocale
-./cataclysm
-```
