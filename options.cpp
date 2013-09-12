@@ -822,5 +822,7 @@ void save_options()
     }
 
     fout.close();
+
+    trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
 }
 
