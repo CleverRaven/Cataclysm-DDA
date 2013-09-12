@@ -930,30 +930,6 @@
   },
 
   {
-    "id": "jacqueshammer",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "magenta",
-    "name": "jacqueshammer",
-    "description": "Ce jacqueshammer marche a l'essence. Utilisez-le (si charge) pour creuser un trou dans un terrain solide adjacent.",
-    "price": 890,
-    "material": "iron",
-    "weight": 15875,
-    "volume": 26,
-    "bashing": 20,
-    "cutting": 6,
-    "flags" : ["STAB"],
-    "to_hit": -4,
-    "max_charges": 120,
-    "initial_charges": 0,
-    "charges_per_use": 10,
-    "turns_per_charge": 0,
-    "ammo": "gasoline",
-    "revert_to": "null",
-    "use_action": "JACQUESHAMMER"
-  },
-
-  {
     "id": "bubblewrap",
     "type": "TOOL",
     "symbol": ";",
