@@ -413,7 +413,8 @@ void game::wishitem( player *p, int x, int y)
                 }
                 advance_nextinv();
             } else if ( x >= 0 && y >= 0 ) {
-                m.add_item_or_charges(x, y, granted);
+                m.add_item_or_charges(x, y, !incontainer ? granted : granted.in_its_container(&itypes));
+                wmenu.keypress = 'q';
             }
             dynamic_cast<wish_item_callback *>(wmenu.callback)->msg = _("Item granted, choose another or 'q' to quit.");
             uistate.wishitem_selected = wmenu.ret;
@@ -454,6 +455,7 @@ void game::wishskill(player * p) {
             skset = (int)p->skillLevel( Skill::skills[skill_id]) +
                 ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
           }
+          skmenu.ret = -2;
         } else if ( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < Skill::skills.size() ) {
           skill_id = sksel;
           uimenu sksetmenu;
