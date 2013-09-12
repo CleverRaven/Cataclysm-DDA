@@ -5690,7 +5690,7 @@ std::list<item> player::use_charges(itype_id it, int quantity)
   }
  }
 
- if (weapon.type->id == it) {
+ if (weapon.type->id == it || weapon.ammo_type() == it) {
   if (weapon.charges > 0 && weapon.charges <= quantity) {
    ret.push_back(weapon);
    quantity -= weapon.charges;
@@ -5887,8 +5887,9 @@ int player::charges_of(itype_id it)
    return 0;
  }
  int quantity = 0;
- if (weapon.type->id == it)
+ if (weapon.type->id == it || weapon.ammo_type() == it) {
   quantity += weapon.charges;
+ }
  for (int i = 0; i < weapon.contents.size(); i++) {
   if (weapon.contents[i].type->id == it)
    quantity += weapon.contents[i].charges;

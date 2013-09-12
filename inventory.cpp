@@ -928,7 +928,10 @@ int inventory::charges_of(itype_id it) const
              stack_iter != iter->end();
              ++stack_iter)
         {
-            if (stack_iter->type->id == it)
+            //Check for ammo used in construction (such as nails in nailguns)
+            if(stack_iter->ammo_type() == it) {
+              count += stack_iter->charges;
+            } else if (stack_iter->type->id == it)
             {
                 if (stack_iter->charges < 0)
                 {
