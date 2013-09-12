@@ -359,6 +359,10 @@ void load_artifacts(); // Load artifact data
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
 
+  void wishitem( player * p=NULL, int x=-1, int y=-1 );
+  void wishmonster( int x=-1, int y=-1 );
+  void wishmutate( player * p );
+  void wishskill( player * p );
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -418,10 +422,6 @@ void load_artifacts(); // Load artifact data
   void create_starting_npcs(); // Creates NPCs that start near you
 
 // Player actions
-  void wishitem( player * p=NULL, int x=-1, int y=-1 );
-  void wishmonster( int x=-1, int y=-1 );
-  void wishmutate( player * p );
-  void wishskill( player * p );
   void mutation_wish(); // Mutate
 
   void pldrive(int x, int y); // drive vehicle
