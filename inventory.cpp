@@ -422,7 +422,7 @@ item& inventory::add_item(item newit, bool keep_invlet)
                 iter->push_back(newit);
                 return iter->back();
             }
-            else if (keep_invlet)
+            else if (keep_invlet && it_ref->invlet == newit.invlet)
             {
                 assign_empty_invlet(*it_ref);
             }
