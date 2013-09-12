@@ -30,11 +30,11 @@ and the use of tags like `<name>` (don't translate the tags).
 
 Information about these,
 and any other issues specific to individual languages,
-can be found in Cataclysm-DDA's `lang/translation_notes/` folder.
+can be found in Cataclysm-DDA's `lang/notes/` folder.
 General notes for all translators are in
-`lang/translation_notes/README_all_translators.txt`,
+`lang/notes/README_all_translators.txt`,
 and notes specific to a language may be stored as `<lang_id>.txt`,
-for example `lang/translation_notes/de.txt` for German.
+for example `lang/notes/de.txt` for German.
 
 Cataclysm-DDA has more than 10,000 translatable strings,
 but don't be discouraged.
