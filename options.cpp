@@ -37,7 +37,7 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
         vItems.push_back(sItem);
     }
 
-    if (getItemPos(sDefaultIn) != -1) {
+    if (getItemPos(sDefaultIn) == -1) {
         sDefaultIn = vItems[0];
     }
 
