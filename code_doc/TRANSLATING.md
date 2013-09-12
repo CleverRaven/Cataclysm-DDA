@@ -25,8 +25,8 @@ feel free to post in the "Translations Team Discussion" subforum of
 There are some issues specific to Cataclysm-DDA,
 (and some specific to translating computer programs in general,)
 which translators should be aware of,
-such as the use of terms like "%s" and "%3$d" (leave them as they are),
-and the use of tags like "<name>" (don't translate the tags).
+such as the use of terms like `%s` and `%3$d` (leave them as they are),
+and the use of tags like `<name>` (don't translate the tags).
 
 Information about these,
 and any other issues specific to individual languages,
