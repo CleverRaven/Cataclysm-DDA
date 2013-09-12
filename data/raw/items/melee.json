@@ -1167,7 +1167,7 @@
     "description": "A heavy circular block of solid rubber, normally used for playing hockey. You can throw it to cause some serious harm.",
     "price": 10,
     "material": "plastic",
-    "weight": 910,
+    "weight": 170,
     "volume": 1,
     "bashing": 18,
     "cutting": 0,
