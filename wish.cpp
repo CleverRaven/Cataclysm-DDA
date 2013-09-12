@@ -454,6 +454,7 @@ void game::wishskill(player * p) {
             skset = (int)p->skillLevel( Skill::skills[skill_id]) +
                 ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
           }
+          skmenu.ret = -2;
         } else if ( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < Skill::skills.size() ) {
           skill_id = sksel;
           uimenu sksetmenu;
