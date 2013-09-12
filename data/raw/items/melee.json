@@ -1145,6 +1145,34 @@
         ["HAMMER", 1]
     ]
   },
+  {
+    "id": "baseball",
+    "symbol": "*",
+    "color": "white",
+    "name": "baseball",
+    "description": "A baseball, good for throwing at enemies. Getting hit with one of these hurts a lot more than you might think.",
+    "price": 10,
+    "material": "leather",
+    "weight": 150,
+    "volume": 1,
+    "bashing": 14,
+    "cutting": 0,
+    "to_hit": 0
+  },
+  {
+    "id": "puck",
+    "symbol": "*",
+    "color": "dark_gray",
+    "name": "hockey puck",
+    "description": "A heavy circular block of solid rubber, normally used for playing hockey. You can throw it to cause some serious harm.",
+    "price": 10,
+    "material": "plastic",
+    "weight": 910,
+    "volume": 1,
+    "bashing": 18,
+    "cutting": 0,
+    "to_hit": -1
+  },
   { "id":"fertilizer",
     "symbol": "*",
     "color": "green",

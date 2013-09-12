@@ -613,7 +613,8 @@
           "hockey_stick",
           "jersey",
           "pants",
-          "sneakers"
+          "sneakers",
+          "puck"
       ],
       "points": 2
     },
@@ -626,7 +627,8 @@
           "helmet_ball",
           "dress_shirt",
           "pants",
-          "sneakers"
+          "sneakers",
+          "baseball"
       ],
       "points": 2
     }
