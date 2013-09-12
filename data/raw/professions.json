@@ -616,5 +616,18 @@
           "sneakers"
       ],
       "points": 2
+    },
+    {
+      "ident": "batter",
+      "name": "Baseball Player",
+      "description": "You were a batter on a local minor league team before the cataclysm. You escaped with your equipment, but how long can you survive until your innings are up?",
+      "items": [
+          "bat",
+          "helmet_ball",
+          "dress_shirt",
+          "pants",
+          "sneakers"
+      ],
+      "points": 2
     }
 ]
