@@ -1061,7 +1061,7 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
             }
 
             // Now check the item itself
-            if (stack_iter->type->id == it)
+            if (stack_iter->type->id == it || stack_iter->ammo_type() == it)
             {
                 if (stack_iter->charges <= quantity)
                 {
