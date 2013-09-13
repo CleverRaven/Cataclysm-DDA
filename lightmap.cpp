@@ -359,7 +359,11 @@ void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc
   lm[x][y] += std::max(luminance, static_cast<float>(LL_LOW));
   sm[x][y] += luminance;
  }
-
+ if ( luminance <= 1 ) {
+   return;
+ } else if ( luminance <=2 ) {
+   luminance = 1.49f;
+ }
 /* If we're a 5 luminance fire , we skip casting rays into ey && sx if we have
      neighboring fires to the north and west that were applied via light_source_buffer
    If there's a 1 luminance candle east in buffer, we still cast rays into ex since it's smaller
