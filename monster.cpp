@@ -959,3 +959,8 @@ void monster::add_item(item it)
 {
  inv.push_back(it);
 }
+
+bool monster::is_hallucination()
+{
+  return type->species == species_hallu;
+}

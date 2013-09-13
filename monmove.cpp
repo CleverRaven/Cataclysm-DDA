@@ -800,7 +800,7 @@ int monster::attack_at(int x, int y) {
         }
 
         // Special case: Target is hallucination
-        if(mon.type->species == species_hallu) {
+        if(mon.is_hallucination()) {
             g->kill_mon(mondex);
 
             // We haven't actually attacked anything, i.e. we can still do things.

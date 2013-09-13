@@ -5745,8 +5745,9 @@ void game::kill_mon(int index, bool u_did_it)
     mdeath tmpdeath;
     tmpdeath.guilt(this, &z);
    }
-   if (z.type->species != species_hallu)
+   if (!z.is_hallucination()) {
     kills[z.type->id]++;	// Increment our kill counter
+   }
   }
   for (int i = 0; i < z.inv.size(); i++)
    m.add_item_or_charges(z.posx(), z.posy(), z.inv[i]);
