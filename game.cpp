@@ -6428,9 +6428,7 @@ void game::control_vehicle()
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
 
     if (veh && veh->player_in_control(&u)) {
-        std::string message = veh->use_controls();
-        if (!message.empty())
-            add_msg(message.c_str());
+        veh->use_controls();
     } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                    && u.in_vehicle) {
         u.controlling_vehicle = true;
@@ -6448,9 +6446,7 @@ void game::control_vehicle()
             add_msg(_("No controls there."));
             return;
         }
-        std::string message = veh->use_controls();
-        if (!message.empty())
-            add_msg(message.c_str());
+        veh->use_controls();
     }
 }
 
