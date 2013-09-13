@@ -5,6 +5,7 @@
 #include "keypress.h"
 #include <sstream>
 #include <stdlib.h>
+#include <algorithm>
 
 #include "cursesdef.h"
 

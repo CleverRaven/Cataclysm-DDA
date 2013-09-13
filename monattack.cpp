@@ -6,6 +6,7 @@
 #include "bodypart.h"
 #include "material.h"
 #include "catajson.h"
+#include <algorithm>
 
 //Used for e^(x) functions
 #include <stdio.h>

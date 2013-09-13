@@ -1,7 +1,10 @@
 #include "debug.h"
 #include <time.h>
 #include <cstdlib>
+
+#ifndef _MSC_VER
 #include <sys/time.h>
+#endif
 
 
 #if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)

@@ -411,7 +411,7 @@ item& inventory::add_item(item newit, bool keep_invlet)
                 iter->push_back(newit);
                 return iter->back();
             }
-            else if (keep_invlet)
+            else if (keep_invlet && it_ref->invlet == newit.invlet)
             {
                 assign_empty_invlet(*it_ref);
             }
@@ -917,7 +917,8 @@ int inventory::charges_of(itype_id it) const
              stack_iter != iter->end();
              ++stack_iter)
         {
-            if (stack_iter->type->id == it)
+            //Check for ammo used in construction (such as nails in nailguns)
+            if (stack_iter->type->id == it || stack_iter->ammo_type() == it)
             {
                 if (stack_iter->charges < 0)
                 {
@@ -1047,7 +1048,7 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
             }
 
             // Now check the item itself
-            if (stack_iter->type->id == it)
+            if (stack_iter->type->id == it || stack_iter->ammo_type() == it)
             {
                 if (stack_iter->charges <= quantity)
                 {
