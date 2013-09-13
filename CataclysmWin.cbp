@@ -217,6 +217,8 @@
 		<Unit filename="iuse_software_kitten.h" />
 		<Unit filename="iuse_software_snake.cpp" />
 		<Unit filename="iuse_software_snake.h" />
+		<Unit filename="iuse_software_sokoban.cpp" />
+		<Unit filename="iuse_software_sokoban.h" />
 		<Unit filename="keypress.cpp" />
 		<Unit filename="keypress.h" />
 		<Unit filename="lightmap.cpp" />
