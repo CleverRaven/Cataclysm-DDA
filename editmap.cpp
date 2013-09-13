@@ -39,11 +39,6 @@
 #define has_real_coords 1
 */
 
-/*
-// pending merge of item.light PR
-#define item_luminance 1
-*/
-
 #include "picofunc.h"
 
 ///////////////////////////////////// here be dragons
@@ -92,11 +87,9 @@ void edit_json( SAVEOBJ *it, game * g )
 {
 
     int tmret = -1;
-picojson::value js1=it->json_save(true);
-    std::string save1 = js1.serialize();//it->json_save();
-std::string osave1=save1;
-std::string ssave1=it->save_info();
-std::string ssave2;
+    picojson::value js1=it->json_save(true);
+    std::string save1 = js1.serialize();
+    std::string osave1=save1;
     std::vector<std::string> fs1 = fld_string(save1, TERMX-10);
     std::string save2;
     std::vector<std::string> fs2;
@@ -131,30 +124,20 @@ std::string ssave2;
                 fs1 = fld_string(save1, TERMX-10);
                 save1 = ret;
                 tmret=-2;
-///                fs2 = fld_string(save1, TERMX-10);
-//                entries.clear
             }
         } else if ( tmret == 2 ) {
-    std::ofstream fout;
-    fout.open("save/jtest-1.txt");
-    fout << ssave1;
-    fout.close();
-    fout.open("save/jtest-1j.txt");
-    fout << osave1;
-    fout.close();
+            std::ofstream fout;
+            fout.open("save/jtest-1j.txt");
+            fout << osave1;
+            fout.close();
 
-    fout.open("save/jtest-2j.txt");
-    fout << it->json_save(true).serialize();
-    fout.close();
-
-    fout.open("save/jtest-2.txt");
-    fout << it->save_info();
-    fout.close();
-
+            fout.open("save/jtest-2j.txt");
+            fout << it->json_save(true).serialize();
+            fout.close();
         } 
         tm.addentry(0,true,'r',"rehash");
         tm.addentry(1,true,'e',"edit");
-tm.addentry(2,true,'d',"dump to save/jtest-*.txt");
+        tm.addentry(2,true,'d',"dump to save/jtest-*.txt");
         tm.addentry(3,true,'q',"exit");
         if ( tmret != -2 ) {
            tm.query();
@@ -296,10 +279,14 @@ point editmap::edit(point coords)
         } else if ( ch == 'm' ) {
             int mon_index = g->mon_at(target.x, target.y);
             int npc_index = g->npc_at(target.x, target.y);
+            int veh_part = -1;
+            vehicle *veh = g->m.veh_at(target.x, target.y, veh_part);
           if(mon_index >= 0) {
             edit_mon(target);
           } else if (npc_index >= 0) {
             edit_npc(target);
+          } else if (veh) {
+            edit_veh(target);
           }
         } else if ( ch == 'o' ) {
             apply_mapgen( target );
@@ -1077,6 +1064,8 @@ int editmap::edit_itm(point coords)
         ilmenu.addentry(i, true, 0, "%s%s", items[i].tname(g).c_str(), items[i].light.luminance > 0 ? " L" : "" );
     }
     // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
+    ilmenu.addentry(-5, true, 'a', "Add item");
+
     ilmenu.addentry(-10, true, 'q', "Cancel");
     do {
         ilmenu.query();
@@ -1096,6 +1085,7 @@ int editmap::edit_itm(point coords)
             imenu.addentry(imenu_width, true, -1, "width: %d", (int)it->light.width);
             imenu.addentry(imenu_savetest,true,-1,"savetest");
             imenu.addentry(imenu_exit, true, -1, "exit");
+
             do {
                 imenu.query();
                 if ( imenu.ret >= 0 && imenu.ret < imenu_savetest ) {
@@ -1154,6 +1144,18 @@ int editmap::edit_itm(point coords)
                 }
             } while(imenu.ret != imenu_exit);
             wrefresh(w_info);
+        } else if ( ilmenu.ret == -5 ) {
+            ilmenu.ret = UIMENU_INVALID;
+            g->wishitem(NULL,target.x, target.y);
+            ilmenu.entries.clear();
+            for(int i = 0; i < items.size(); i++) {
+               ilmenu.addentry(i, true, 0, "%s%s", items[i].tname(g).c_str(), items[i].light.luminance > 0 ? " L" : "" );
+            }
+            ilmenu.addentry(-5, true, 'a', "Add item");
+            ilmenu.addentry(-10, true, 'q', "Cancel");
+            update_view(true);
+            ilmenu.setup();
+            ilmenu.refresh();
         }
     } while (ilmenu.ret >= 0 || ilmenu.ret == UIMENU_INVALID);
     return ret;
@@ -1170,6 +1172,16 @@ int editmap::edit_mon(point coords)
     edit_json(it,g);
     return ret;
 }
+
+
+int editmap::edit_veh(point coords)
+{
+    int ret = 0;
+    int veh_part = -1;
+    vehicle *it = g->m.veh_at(target.x, target.y, veh_part);
+    edit_json(it,g);
+}
+
 
 /*
  *  Calculate target_list based on origin and target class variables, and shapetype.
