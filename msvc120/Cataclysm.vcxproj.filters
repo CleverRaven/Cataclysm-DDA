@@ -150,6 +150,9 @@
     <ClCompile Include="..\iuse_software_snake.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\iuse_software_sokoban.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\keypress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -465,6 +468,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\iuse_software_snake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\iuse_software_sokoban.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\keypress.h">
