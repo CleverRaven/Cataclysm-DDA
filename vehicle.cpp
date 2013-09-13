@@ -1627,7 +1627,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     if (g->m.has_flag_ter_or_furn (thin_obstacle, x, y))
     {
         collision_type = veh_coll_thin_obstacle; // some fence
-        mass2 = 20;
+        mass2 = 10;
 		e=0.30;
 		part_dens = 20;
     }
