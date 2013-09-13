@@ -65,13 +65,13 @@ void setupDebug()
 
 void limitDebugLevel( int i )
 {
- dout() << "Set debug level to: " << (DebugLevel)i << "\n";
+ dout() << "Set debug level to: " << (DebugLevel)i;
  debugLevel = i;
 }
 
 void limitDebugClass( int i )
 {
- dout() << "Set debug class to: " << (DebugClass)i << "\n";
+ dout() << "Set debug class to: " << (DebugClass)i;
  debugClass = i;
 }
 
@@ -178,6 +178,7 @@ std::ostream & dout(DebugLevel lev,DebugClass cl)
 {
  if( (lev & debugLevel) && (cl & debugClass) )
  {
+  debugFile.file << std::endl;
   debugFile.currentTime() << " ";
   if( lev != debugLevel )
    debugFile.file << lev;

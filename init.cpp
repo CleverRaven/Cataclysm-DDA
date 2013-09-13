@@ -38,7 +38,7 @@ void load_object(Jsobj &jo)
     } else if (type == "skill") {
         Skill::load_skill(jo);
     } else {
-        dout(D_WARNING) << "Unrecognized JSON object, type: \"" << type << "\"\n";
+        dout(D_WARNING) << "Unrecognized JSON object, type: \"" << type << "\"";
     }
 }
 
@@ -52,7 +52,7 @@ void load_json_dir(std::string const &dirname)
         // open the file as a stream
         std::ifstream infile(it->c_str());
         // parse it
-        dout(D_INFO) << "Loading JSON from file: " << *(it) << "\n";
+        dout(D_INFO) << "Loading JSON from file: " << *(it);
         try {
             Jsin jsin(&infile);
             load_all_from_json(jsin);
