@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.7-git\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 15:47+1200\n"
+"POT-Creation-Date: 2013-09-13 16:06+1200\n"
 "PO-Revision-Date: 2013-08-14 15:38+0000\n"
 "Last-Translator: vultures <Unknown>\n"
 "Language-Team: Serbian\n"
@@ -8100,7 +8100,7 @@ msgstr ""
 msgid "You release the %s."
 msgstr ""
 
-#: game.cpp:7818 item.cpp:2440
+#: game.cpp:7818 item.cpp:2441
 msgid "Grab"
 msgstr ""
 
@@ -10615,6 +10615,10 @@ msgstr ""
 msgid "Coverage: "
 msgstr ""
 
+#: item.cpp:756
+msgid "<num> (fits)"
+msgstr ""
+
 #: item.cpp:756 item.cpp:761
 msgid "Encumberment: "
 msgstr ""
@@ -10695,158 +10699,195 @@ msgstr ""
 msgid ". Requires Unarmed Skill of <num>"
 msgstr ""
 
-#: item.cpp:858 iuse.cpp:95
+#: item.cpp:825
+msgid "This piece of clothing fits you perfectly."
+msgstr ""
+
+#: item.cpp:830
+msgid "This piece of clothing has pockets to warm your hands."
+msgstr ""
+
+#: item.cpp:843
+#, c-format
+msgid "The film strip on the badge is %s."
+msgstr ""
+
+#: item.cpp:848
+msgid "This tool has double the normal maximum charges."
+msgstr ""
+
+#: item.cpp:857 iuse.cpp:95
 #, c-format
 msgid "%1$s on this %2$s is a note saying: "
 msgstr ""
 
-#: item.cpp:957
+#: item.cpp:861
+msgid "Note: "
+msgstr ""
+
+#: item.cpp:956
 msgid "<dam_adj>reinforced "
 msgstr ""
 
-#: item.cpp:960
+#: item.cpp:959
 msgid "<dam_adj>bruised "
 msgstr ""
 
-#: item.cpp:961
+#: item.cpp:960
 msgid "<dam_adj>damaged "
 msgstr ""
 
-#: item.cpp:962
+#: item.cpp:961
 msgid "<dam_adj>mangled "
 msgstr ""
 
-#: item.cpp:963
+#: item.cpp:962
 msgid "<dam_adj>pulped "
 msgstr ""
 
+#. ~ liters, e.g. 3.21-Liter V8 engine
 #: item.cpp:976
 #, c-format
 msgid "<veh_adj>%s-Liter "
 msgstr ""
 
-#: item.cpp:979
+#. ~ inches, e.g. 20" wheel
+#: item.cpp:980
 #, c-format
 msgid "<veh_adj>%d\" "
 msgstr ""
 
-#: item.cpp:985
+#: item.cpp:986
 msgid "<burnt_adj>badly burnt "
 msgstr ""
 
-#: item.cpp:987
+#: item.cpp:988
 msgid "<burnt_adj>burnt "
-msgstr ""
-
-#: item.cpp:992
-#, c-format
-msgid "<item_name>%s corpse of %s"
 msgstr ""
 
 #: item.cpp:993
 #, c-format
+msgid "<item_name>%s corpse of %s"
+msgstr ""
+
+#: item.cpp:994
+#, c-format
 msgid "<item_name>%s corpse"
 msgstr ""
 
-#: item.cpp:996
+#: item.cpp:997
 msgid "<item_name>human blood"
 msgstr ""
 
-#: item.cpp:1009
+#: item.cpp:999
 #, c-format
-msgid "<item_name>%s of %s"
+msgid "<item_name>%s blood"
 msgstr ""
 
 #: item.cpp:1010
 #, c-format
+msgid "<item_name>%s of %s"
+msgstr ""
+
+#: item.cpp:1011
+#, c-format
 msgid "<item_name>%s with %s"
 msgstr ""
 
-#: item.cpp:1036
+#: item.cpp:1016
+#, c-format
+msgid "<item_name>%s, full"
+msgstr ""
+
+#: item.cpp:1037
 msgid " (fresh)"
 msgstr ""
 
-#: item.cpp:1038
+#: item.cpp:1039
 msgid " (hot)"
 msgstr ""
 
-#: item.cpp:1041
+#: item.cpp:1042
 msgid " (rotten)"
 msgstr ""
 
-#: item.cpp:1048
+#: item.cpp:1045
+msgid " (fits)"
+msgstr ""
+
+#: item.cpp:1049
 msgid " (owned)"
 msgstr ""
 
-#: item.cpp:2437
+#: item.cpp:2438
 msgid "Sweep attack"
 msgstr ""
 
-#: item.cpp:2438
+#: item.cpp:2439
 msgid "Precision attack"
 msgstr ""
 
-#: item.cpp:2439
+#: item.cpp:2440
 msgid "Knock-back attack"
 msgstr ""
 
-#: item.cpp:2441
+#: item.cpp:2442
 msgid "Hit all adjacent monsters"
 msgstr ""
 
-#: item.cpp:2442
+#: item.cpp:2443
 msgid "Rapid attack"
 msgstr ""
 
-#: item.cpp:2443
+#: item.cpp:2444
 msgid "Feint"
 msgstr ""
 
-#: item.cpp:2444
+#: item.cpp:2445
 msgid "Throw"
 msgstr ""
 
-#: item.cpp:2445
+#: item.cpp:2446
 msgid "Block"
 msgstr ""
 
-#: item.cpp:2446
+#: item.cpp:2447
 msgid "Leg block"
 msgstr ""
 
-#: item.cpp:2447
+#: item.cpp:2448
 msgid "Weak block"
 msgstr ""
 
-#: item.cpp:2448
+#: item.cpp:2449
 msgid "Parry"
 msgstr ""
 
-#: item.cpp:2449
+#: item.cpp:2450
 msgid "Shield"
 msgstr ""
 
-#: item.cpp:2450
+#: item.cpp:2451
 msgid "Counter-attack"
 msgstr ""
 
-#: item.cpp:2451
+#: item.cpp:2452
 msgid "Grab break"
 msgstr ""
 
-#: item.cpp:2452
+#: item.cpp:2453
 msgid "Disarm"
 msgstr ""
 
-#: item.cpp:2453
+#: item.cpp:2454
 msgid "Defensive throw"
 msgstr ""
 
-#: item.cpp:2454
+#: item.cpp:2455
 msgid "Defense disarm"
 msgstr ""
 
-#: item.cpp:2455
+#: item.cpp:2456
 msgid "FLAMING"
 msgstr ""
 
@@ -49903,141 +49944,158 @@ msgstr ""
 msgid "Item granted, choose another or 'q' to quit."
 msgstr ""
 
-#~ msgid " - 3 IF not resistant, -1 otherwise\n"
-#~ msgstr " - 3 AKO nema otpornost, -1 inače\n"
-
-#~ msgid "Fungus stalks burst through %s's hands!"
-#~ msgstr "%s, gljivični stalci ti izbijaju po šakama!"
-
-#~ msgid "Loss of health - Entire Body"
-#~ msgstr "Pogoršano Stanje Čitavog Tela"
-
-#~ msgid "Loss of health - Torso"
-#~ msgstr "Pogoršano Stanje Grudnog Koša"
-
-#~ msgid "Occasional pain and/or damage."
-#~ msgstr "Povremeni bol i/ili štetno dejstvo."
-
-#~ msgid "Occasional vomiting"
-#~ msgstr "Povremeno povraćanje"
-
-#~ msgid "POW:   "
-#~ msgstr "NAP:   "
-
-#~ msgid "Symptoms alleviated by medication (Dayquil or Nyquil)."
-#~ msgstr "Simptomi se umiruju dejstvom Dejkila ili Najkila (lek)."
-
-#~ msgid "You double over, spewing live spores from your mouth!"
-#~ msgstr "Savio/la si se, iskašljavajući pritom žive spore!"
-
-#~ msgid "Your infected wound is incredibly painful."
-#~ msgstr "Osećaš kako zaražena rana koju imaš jako boli."
-
-#~ msgid "Quit"
-#~ msgstr "Izlaz"
-
-#~ msgid "Help"
-#~ msgstr "Pomoć"
-
-#~ msgid "Load"
-#~ msgstr "Učitaj"
-
-#~ msgid "MOTD"
-#~ msgstr "Misao Dana"
+#, fuzzy
+#~ msgid "You flub the installation"
+#~ msgstr "Infekcija uzima danak; razboleo/la si se."
 
 #, fuzzy
-#~ msgid "xamine"
-#~ msgstr "nagazna mina"
+#~ msgid "You screw up the installation"
+#~ msgstr "Infekcija uzima danak; razboleo/la si se."
 
 #, fuzzy
-#~ msgid "eset"
-#~ msgstr "Resetovanje"
+#~ msgid " AM"
+#~ msgstr "RAM Memorija"
+
+#~ msgid "Your torso is burning up. You should remove some layers."
+#~ msgstr "Osećaš vatru po grudima. Trebalo bi da skineš nešto od odeće."
+
+#~ msgid "Your hands are shivering."
+#~ msgstr "Tresu ti se šake."
+
+#~ msgid "Your feet feel numb."
+#~ msgstr "Gubiš osećaj u stopalima."
+
+#~ msgid "Fully rested."
+#~ msgstr "Potpuno odmoran/na."
+
+#~ msgid "Huh?  What was that?"
+#~ msgstr "Molim? Šta to bi?"
+
+#~ msgid "Oh god, what's happening?"
+#~ msgstr "Gospode Bože, šta se ovo dešava?"
+
+#~ msgid "Of course... it's all fractals!"
+#~ msgstr "Pa da... sve je u razlomcima!"
+
+#~ msgid ""
+#~ "Your head is dangerously cold. Getting undressed sounds like a good idea."
+#~ msgstr ""
+#~ "Osećaš strašnu hladnoću po glavi. Najbolje bi bilo da svučeš sve sa sebe."
+
+#~ msgid "Your hands are very exposed to the cold. Your hands are shivering."
+#~ msgstr "Šake su ti duže vreme izložene hladnoći. Počinju da se tresu."
 
 #, fuzzy
-#~ msgid "Your muscles are very slow to move.  You run 30%% slower."
-#~ msgstr "Noge su ti duže vreme izložene hladnoći. To utiče na ukupnu snagu."
+#~ msgid "her"
+#~ msgstr "grabulje"
 
 #, fuzzy
-#~ msgid "You are a little smarter.  Intelligence + 1"
-#~ msgstr "Osećaš se malo čudno."
+#~ msgid "greatly "
+#~ msgstr "srednjevekovna kaciga"
 
 #, fuzzy
-#~ msgid "Your muscles are a little stronger.  Strength + 1"
-#~ msgstr "Osećaš se malo čudno."
+#~ msgid "recharge"
+#~ msgstr "punjenje"
+
+#, fuzzy
+#~ msgid "battery"
+#~ msgstr "baterije"
+
+#, fuzzy
+#~ msgid "fuel tank"
+#~ msgstr "rezervoar"
+
+#, fuzzy
+#~ msgid "reactor"
+#~ msgstr "mini reaktor"
+
+#, fuzzy
+#~ msgid "in"
+#~ msgstr "džin"
+
+#, fuzzy
+#~ msgid "on"
+#~ msgstr "Ništa"
+
+#, fuzzy
+#~ msgid "floataion vest"
+#~ msgstr "kožni opasač"
+
+#~ msgid "belt rig"
+#~ msgstr "vojni opasač"
+
+#~ msgid "house coat"
+#~ msgstr "bademantil"
 
 #~ msgid ""
-#~ "A funnel used to collect rainwater. (a)ctivate it and place it outside "
-#~ "then collect water from it when it rains."
+#~ "A basic helmet, designed for use with the DOubleTech Power Armor, Mk. I. "
+#~ "Offers excellent protection from both attacks and environmental hazards."
 #~ msgstr ""
-#~ "Poveći levak za skupljanje kišnice. (A)ktivirati napolju kako bi "
-#~ "prikupljao vodu dok pada kiša."
+#~ "Osnovna varijanta kacige koja ide uz DoubleTech-ov Mk. I oklop sa "
+#~ "jedinicom za napajanje. Odlična zaštita od napada i štetnih faktora u "
+#~ "vazduhu i okolini."
 
-#~ msgid "Refined cocaine, incredibly addictive."
-#~ msgstr "Vrsta prerađenog kokaina koja izaziva neverovatnu zavisnost."
+#, fuzzy
+#~ msgid "RM99 Revolver"
+#~ msgstr "Revolver-Sačmarica"
 
-#~ msgid "Painkillers made by refining mutated poppy seeds.."
-#~ msgstr "Sredstvo protiv bolova spravljeno od semenja mutirane biljke maka."
+#, fuzzy
+#~ msgid "12 Gauge Pistol"
+#~ msgstr "V29 laserski pištolj"
 
-#~ msgid "Sleeping pills made by refining mutated poppy seeds."
-#~ msgstr "Domaće pilule za spavanje od semenja mutirane biljke maka."
+#~ msgid "Screwdriver"
+#~ msgstr "Šrafciger"
+
+#~ msgid "Take frequently to improve your immune system."
+#~ msgstr "Uzima se često kao dodatak ishrani jer koristi imunom sistemu."
+
+#~ msgid "Vaccine shot"
+#~ msgstr "Vakcina"
+
+#~ msgid "Provides long lasting protection against sickness."
+#~ msgstr "Ima dugotrajno podsticajno dejstvo na imunitet od raznih bolesti."
+
+#~ msgid "Low-grade painkiller. Best taken in pairs."
+#~ msgstr "Sredstvo protiv lakih bolova, konzumira se u parovima."
+
+#~ msgid "No-doz pills. Useful for staying up all night."
+#~ msgstr "Pilule koje se uzimaju bez recepta i služe za održavanje budnosti."
+
+#~ msgid "Prescription sleep aids. Will make you very tired."
+#~ msgstr "Pilule za spavanje na recept. Izazivaju jak osećaj umora."
 
 #~ msgid ""
-#~ "Medication designed to stop the spread of, and kill, bacterial infections."
-#~ msgstr "Medicinsko sredstvo koje ubija bakterije i sprečava širenje zaraze."
-
-#~ msgid ""
-#~ "A gentleman's vice. Cigars are what separates a gentleman from a savage."
+#~ "Iodine tablets are used for recovering from irradiation. They are not "
+#~ "spectacularly effective, but are better than nothing."
 #~ msgstr ""
-#~ "Porok pravih džentlmena. Cigare čine tu razliku između čoveka i divljaka."
+#~ "Tablete joda se koriste nakon izlaganja zračenju. Oporavak nije preterano "
+#~ "brz ni efikasan, ali bolje išta nego ništa."
 
-#~ msgid ""
-#~ "A very strong illegal opiate. Unless you have an opiate tolerance, avoid "
-#~ "heroin, as it will be too strong for you."
+#~ msgid "Daytime flu medication. Will halt all flu symptoms for a while."
 #~ msgstr ""
-#~ "Ilegalan i snažan narkotik. Ukoliko ne poseduješ izuzetnu otpornost na "
-#~ "opijate trebalo bi da izbegavaš heroin, zbog jačine dejstva."
+#~ "Lek protiv simptoma gripa za dnevnu upotrebu. Efekat traje umereno dugo."
 
 #~ msgid ""
-#~ "A very strong illegal stimulant. Extremely addictive and bad for you, but "
-#~ "also extremely effective in boosting your alertness."
+#~ "Nighttime flu medication. Will halt all flu symptoms for a while, plus "
+#~ "make you sleepy."
 #~ msgstr ""
-#~ "Ilegalan i izuzetno snažan narkotik. Vrlo brzo izaziva zavisnost i jako "
-#~ "je loš po zdravlje, a stimulativno dejstvo drži dugo na oprezu."
-
-#~ msgid "A strong, illegal stimulant. Highly addictive."
-#~ msgstr "Nelegalno sredstvo, stimulant koji brzo izaziva zavisnost."
+#~ "Lek protiv simptoma gripa za noćnu upotrebu. Efekat traje umereno dugo,uz "
+#~ "opuštajuće, uspavljujuće dejstvo."
 
 #~ msgid ""
-#~ "Really useful only for relaxing. Will reduce your attributes and reflexes."
-#~ msgstr "Koristi uglavnom kod opuštanja. Refleksi i osobine biće umanjeni."
-
-#~ msgid "marijuana"
-#~ msgstr "marihuana"
-
-#~ msgid ""
-#~ "These will boost your dexterity, intelligence, and perception for a short "
-#~ "time. They are quite addictive."
+#~ "Vital medicine for those with asthma. Those without asthma can use it for "
+#~ "a minor stimulant boost."
 #~ msgstr ""
-#~ "Uvećavaju spretnost, inteligenciju i percepciju na kratak vremenski rok, "
-#~ "dok značajno uvećavaju šansu da se navučeš."
+#~ "Neophodna spravica onima sa astmom. Potpuno zdravima može poslužiti kao "
+#~ "blag stimulans."
 
-#~ msgid "A strong anti-depressant. Useful if your morale level is very low."
-#~ msgstr "Snažan antidepresiv. Primenljiv kada je moral u padu."
-
-#~ msgid ""
-#~ "Anti-psychotic medication. Used to control the symptoms of schizophrenia "
-#~ "and similar ailments. Also popular as a way to come down from a bad trip."
+#~ msgid "A weak opiate, prescribed for light to moderate pain."
 #~ msgstr ""
-#~ "Vrlo snažno sredstvo za smirenje, na recept. Koristi se za otklanjanje "
-#~ "simptoma šizofrenije i sl. Zloupotrebljava se kao sredstvo za \"spuštanje."
-#~ "\""
+#~ "Opijat slabijeg dejstva, za analgetsku primenu protiv bolova slabog i "
+#~ "umerenog intenziteta."
 
-#~ msgid ""
-#~ "A strong stimulant prescribed for ADD. It will greatly increase your "
-#~ "stimulant level, but is quite addictive."
-#~ msgstr ""
-#~ "Sredstvo na recept koje se prepisuje kod akutnih poremećaja pažnje (ADD)."
-#~ "Vrlo snažan kao stimulant, ali brzo izaziva zavisnost."
+#~ msgid "A strong opiate, prescribed for moderate to intense pain."
+#~ msgstr "Opijat jakog dejstva, za umerene i snažne bolove."
 
 #~ msgid ""
 #~ "Anti-anxiety medication. It will reduce your stimulant level steadily, "
@@ -50048,155 +50106,138 @@ msgstr ""
 #~ "vrlo postepeno i na taj način negira nuspojave nervoze, na primer kod "
 #~ "osoba sa Poremećajem Gomilanja."
 
-#~ msgid "A strong opiate, prescribed for moderate to intense pain."
-#~ msgstr "Opijat jakog dejstva, za umerene i snažne bolove."
-
-#~ msgid "A weak opiate, prescribed for light to moderate pain."
+#~ msgid ""
+#~ "A strong stimulant prescribed for ADD. It will greatly increase your "
+#~ "stimulant level, but is quite addictive."
 #~ msgstr ""
-#~ "Opijat slabijeg dejstva, za analgetsku primenu protiv bolova slabog i "
-#~ "umerenog intenziteta."
+#~ "Sredstvo na recept koje se prepisuje kod akutnih poremećaja pažnje (ADD)."
+#~ "Vrlo snažan kao stimulant, ali brzo izaziva zavisnost."
 
 #~ msgid ""
-#~ "Vital medicine for those with asthma. Those without asthma can use it for "
-#~ "a minor stimulant boost."
+#~ "Anti-psychotic medication. Used to control the symptoms of schizophrenia "
+#~ "and similar ailments. Also popular as a way to come down from a bad trip."
 #~ msgstr ""
-#~ "Neophodna spravica onima sa astmom. Potpuno zdravima može poslužiti kao "
-#~ "blag stimulans."
+#~ "Vrlo snažno sredstvo za smirenje, na recept. Koristi se za otklanjanje "
+#~ "simptoma šizofrenije i sl. Zloupotrebljava se kao sredstvo za \"spuštanje."
+#~ "\""
+
+#~ msgid "A strong anti-depressant. Useful if your morale level is very low."
+#~ msgstr "Snažan antidepresiv. Primenljiv kada je moral u padu."
 
 #~ msgid ""
-#~ "Nighttime flu medication. Will halt all flu symptoms for a while, plus "
-#~ "make you sleepy."
+#~ "These will boost your dexterity, intelligence, and perception for a short "
+#~ "time. They are quite addictive."
 #~ msgstr ""
-#~ "Lek protiv simptoma gripa za noćnu upotrebu. Efekat traje umereno dugo,uz "
-#~ "opuštajuće, uspavljujuće dejstvo."
+#~ "Uvećavaju spretnost, inteligenciju i percepciju na kratak vremenski rok, "
+#~ "dok značajno uvećavaju šansu da se navučeš."
 
-#~ msgid "Daytime flu medication. Will halt all flu symptoms for a while."
-#~ msgstr ""
-#~ "Lek protiv simptoma gripa za dnevnu upotrebu. Efekat traje umereno dugo."
+#~ msgid "marijuana"
+#~ msgstr "marihuana"
 
 #~ msgid ""
-#~ "Iodine tablets are used for recovering from irradiation. They are not "
-#~ "spectacularly effective, but are better than nothing."
-#~ msgstr ""
-#~ "Tablete joda se koriste nakon izlaganja zračenju. Oporavak nije preterano "
-#~ "brz ni efikasan, ali bolje išta nego ništa."
+#~ "Really useful only for relaxing. Will reduce your attributes and reflexes."
+#~ msgstr "Koristi uglavnom kod opuštanja. Refleksi i osobine biće umanjeni."
 
-#~ msgid "Prescription sleep aids. Will make you very tired."
-#~ msgstr "Pilule za spavanje na recept. Izazivaju jak osećaj umora."
-
-#~ msgid "No-doz pills. Useful for staying up all night."
-#~ msgstr "Pilule koje se uzimaju bez recepta i služe za održavanje budnosti."
-
-#~ msgid "Low-grade painkiller. Best taken in pairs."
-#~ msgstr "Sredstvo protiv lakih bolova, konzumira se u parovima."
-
-#~ msgid "Provides long lasting protection against sickness."
-#~ msgstr "Ima dugotrajno podsticajno dejstvo na imunitet od raznih bolesti."
-
-#~ msgid "Vaccine shot"
-#~ msgstr "Vakcina"
-
-#~ msgid "Take frequently to improve your immune system."
-#~ msgstr "Uzima se često kao dodatak ishrani jer koristi imunom sistemu."
-
-#~ msgid "Screwdriver"
-#~ msgstr "Šrafciger"
-
-#, fuzzy
-#~ msgid "12 Gauge Pistol"
-#~ msgstr "V29 laserski pištolj"
-
-#, fuzzy
-#~ msgid "RM99 Revolver"
-#~ msgstr "Revolver-Sačmarica"
+#~ msgid "A strong, illegal stimulant. Highly addictive."
+#~ msgstr "Nelegalno sredstvo, stimulant koji brzo izaziva zavisnost."
 
 #~ msgid ""
-#~ "A basic helmet, designed for use with the DOubleTech Power Armor, Mk. I. "
-#~ "Offers excellent protection from both attacks and environmental hazards."
+#~ "A very strong illegal stimulant. Extremely addictive and bad for you, but "
+#~ "also extremely effective in boosting your alertness."
 #~ msgstr ""
-#~ "Osnovna varijanta kacige koja ide uz DoubleTech-ov Mk. I oklop sa "
-#~ "jedinicom za napajanje. Odlična zaštita od napada i štetnih faktora u "
-#~ "vazduhu i okolini."
-
-#~ msgid "house coat"
-#~ msgstr "bademantil"
-
-#~ msgid "belt rig"
-#~ msgstr "vojni opasač"
-
-#, fuzzy
-#~ msgid "floataion vest"
-#~ msgstr "kožni opasač"
-
-#, fuzzy
-#~ msgid "on"
-#~ msgstr "Ništa"
-
-#, fuzzy
-#~ msgid "in"
-#~ msgstr "džin"
-
-#, fuzzy
-#~ msgid "reactor"
-#~ msgstr "mini reaktor"
-
-#, fuzzy
-#~ msgid "fuel tank"
-#~ msgstr "rezervoar"
-
-#, fuzzy
-#~ msgid "battery"
-#~ msgstr "baterije"
-
-#, fuzzy
-#~ msgid "recharge"
-#~ msgstr "punjenje"
-
-#, fuzzy
-#~ msgid "greatly "
-#~ msgstr "srednjevekovna kaciga"
-
-#, fuzzy
-#~ msgid "her"
-#~ msgstr "grabulje"
-
-#~ msgid "Your hands are very exposed to the cold. Your hands are shivering."
-#~ msgstr "Šake su ti duže vreme izložene hladnoći. Počinju da se tresu."
+#~ "Ilegalan i izuzetno snažan narkotik. Vrlo brzo izaziva zavisnost i jako "
+#~ "je loš po zdravlje, a stimulativno dejstvo drži dugo na oprezu."
 
 #~ msgid ""
-#~ "Your head is dangerously cold. Getting undressed sounds like a good idea."
+#~ "A very strong illegal opiate. Unless you have an opiate tolerance, avoid "
+#~ "heroin, as it will be too strong for you."
 #~ msgstr ""
-#~ "Osećaš strašnu hladnoću po glavi. Najbolje bi bilo da svučeš sve sa sebe."
+#~ "Ilegalan i snažan narkotik. Ukoliko ne poseduješ izuzetnu otpornost na "
+#~ "opijate trebalo bi da izbegavaš heroin, zbog jačine dejstva."
 
-#~ msgid "Of course... it's all fractals!"
-#~ msgstr "Pa da... sve je u razlomcima!"
+#~ msgid ""
+#~ "A gentleman's vice. Cigars are what separates a gentleman from a savage."
+#~ msgstr ""
+#~ "Porok pravih džentlmena. Cigare čine tu razliku između čoveka i divljaka."
 
-#~ msgid "Oh god, what's happening?"
-#~ msgstr "Gospode Bože, šta se ovo dešava?"
+#~ msgid ""
+#~ "Medication designed to stop the spread of, and kill, bacterial infections."
+#~ msgstr "Medicinsko sredstvo koje ubija bakterije i sprečava širenje zaraze."
 
-#~ msgid "Huh?  What was that?"
-#~ msgstr "Molim? Šta to bi?"
+#~ msgid "Sleeping pills made by refining mutated poppy seeds."
+#~ msgstr "Domaće pilule za spavanje od semenja mutirane biljke maka."
 
-#~ msgid "Fully rested."
-#~ msgstr "Potpuno odmoran/na."
+#~ msgid "Painkillers made by refining mutated poppy seeds.."
+#~ msgstr "Sredstvo protiv bolova spravljeno od semenja mutirane biljke maka."
 
-#~ msgid "Your feet feel numb."
-#~ msgstr "Gubiš osećaj u stopalima."
+#~ msgid "Refined cocaine, incredibly addictive."
+#~ msgstr "Vrsta prerađenog kokaina koja izaziva neverovatnu zavisnost."
 
-#~ msgid "Your hands are shivering."
-#~ msgstr "Tresu ti se šake."
-
-#~ msgid "Your torso is burning up. You should remove some layers."
-#~ msgstr "Osećaš vatru po grudima. Trebalo bi da skineš nešto od odeće."
-
-#, fuzzy
-#~ msgid " AM"
-#~ msgstr "RAM Memorija"
-
-#, fuzzy
-#~ msgid "You screw up the installation"
-#~ msgstr "Infekcija uzima danak; razboleo/la si se."
+#~ msgid ""
+#~ "A funnel used to collect rainwater. (a)ctivate it and place it outside "
+#~ "then collect water from it when it rains."
+#~ msgstr ""
+#~ "Poveći levak za skupljanje kišnice. (A)ktivirati napolju kako bi "
+#~ "prikupljao vodu dok pada kiša."
 
 #, fuzzy
-#~ msgid "You flub the installation"
-#~ msgstr "Infekcija uzima danak; razboleo/la si se."
+#~ msgid "Your muscles are a little stronger.  Strength + 1"
+#~ msgstr "Osećaš se malo čudno."
+
+#, fuzzy
+#~ msgid "You are a little smarter.  Intelligence + 1"
+#~ msgstr "Osećaš se malo čudno."
+
+#, fuzzy
+#~ msgid "Your muscles are very slow to move.  You run 30%% slower."
+#~ msgstr "Noge su ti duže vreme izložene hladnoći. To utiče na ukupnu snagu."
+
+#, fuzzy
+#~ msgid "eset"
+#~ msgstr "Resetovanje"
+
+#, fuzzy
+#~ msgid "xamine"
+#~ msgstr "nagazna mina"
+
+#~ msgid "MOTD"
+#~ msgstr "Misao Dana"
+
+#~ msgid "Load"
+#~ msgstr "Učitaj"
+
+#~ msgid "Help"
+#~ msgstr "Pomoć"
+
+#~ msgid "Quit"
+#~ msgstr "Izlaz"
+
+#~ msgid "Your infected wound is incredibly painful."
+#~ msgstr "Osećaš kako zaražena rana koju imaš jako boli."
+
+#~ msgid "You double over, spewing live spores from your mouth!"
+#~ msgstr "Savio/la si se, iskašljavajući pritom žive spore!"
+
+#~ msgid "Symptoms alleviated by medication (Dayquil or Nyquil)."
+#~ msgstr "Simptomi se umiruju dejstvom Dejkila ili Najkila (lek)."
+
+#~ msgid "POW:   "
+#~ msgstr "NAP:   "
+
+#~ msgid "Occasional vomiting"
+#~ msgstr "Povremeno povraćanje"
+
+#~ msgid "Occasional pain and/or damage."
+#~ msgstr "Povremeni bol i/ili štetno dejstvo."
+
+#~ msgid "Loss of health - Torso"
+#~ msgstr "Pogoršano Stanje Grudnog Koša"
+
+#~ msgid "Loss of health - Entire Body"
+#~ msgstr "Pogoršano Stanje Čitavog Tela"
+
+#~ msgid "Fungus stalks burst through %s's hands!"
+#~ msgstr "%s, gljivični stalci ti izbijaju po šakama!"
+
+#~ msgid " - 3 IF not resistant, -1 otherwise\n"
+#~ msgstr " - 3 AKO nema otpornost, -1 inače\n"
