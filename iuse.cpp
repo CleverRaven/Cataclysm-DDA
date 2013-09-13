@@ -9,6 +9,7 @@
 #include "mutation.h"
 #include "player.h"
 #include "vehicle.h"
+#include "uistate.h"
 #include <sstream>
 #include <algorithm>
 
@@ -18,6 +19,8 @@
 #ifndef mfb
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
+
+#include "iuse_software.h"
 
 static void add_or_drop_item(game *g, player *p, item *it)
 {
@@ -1459,7 +1462,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
         if (p->has_trait("MASOCHIST") && query_yn(_("Cauterize yourself for fun?"))) {
             it->charges -= 1;
             p->cauterize(g);
-        } 
+        }
         else
             g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
     }
@@ -1474,7 +1477,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
 {
     it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
     int choice = 2;
-    
+
         // Option for cauterization only if player has the incentive to do so
         // One does not check for open wounds with a soldering iron.
     if (p->has_disease("bite") || p->has_disease("bleed")) {
@@ -1483,7 +1486,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
     else if (p->has_trait("MASOCHIST")) {   // Masochists might be wounded too, let's not ask twice.
         choice = menu(true, ("Using soldering item:"), _("Cauterize yourself for fun"), _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     }
-    
+
     switch (choice)
     {
         case 1:
@@ -2071,6 +2074,9 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
    door_name = rm_prefix(_("<door_name>door"));
    new_type = t_door_bar_o;
    g->add_msg_if_player(p, _("The door swings open..."));
+ } else if (type == t_door_c) {
+   g->add_msg(_("That door isn't locked."));
+   return;
  } else {
   g->add_msg(_("That cannot be picked."));
   return;
@@ -3786,20 +3792,65 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
 
 void iuse::portable_game(game *g, player *p, item *it, bool t)
 {
-  if(p->has_trait("ILLITERATE")) {
-    g->add_msg(_("You're illiterate!"));
-  } else if(it->charges == 0) {
-    g->add_msg_if_player(p,_("The %s's batteries are dead."), it->name.c_str());
-  } else {
+    if(p->has_trait("ILLITERATE")) {
+        g->add_msg(_("You're illiterate!"));
+    } else if(it->charges == 0) {
+        g->add_msg_if_player(p, _("The %s's batteries are dead."), it->name.c_str());
+    } else {
+        std::string loaded_software = "robot_finds_kitten";
+        /*s
+        if ( it->item_vars.find("loaded_software") != it->item_vars.end() ) {
+            loaded_software = it->item_vars["loaded_software"];
+        }*/
 
-    //Play in 15-minute chunks
-    int time = 15000;
+        uimenu as_m;
+        as_m.text = _("What do you want to play?");
+        as_m.entries.push_back(uimenu_entry(1, true, '1',_("Robot finds Kitten") ));
+        as_m.entries.push_back(uimenu_entry(2, true, '2', _("S N A K E") ));
+        as_m.entries.push_back(uimenu_entry(3, true, '3', _("Sokoban") ));
+        as_m.query();
 
-    g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
-    p->assign_activity(g, ACT_GAME, time, -1, it->invlet, "gaming");
-    p->moves = 0;
+        switch (as_m.ret) {
+            case 1:
+                loaded_software = "robot_finds_kitten";
+                break;
+            case 2:
+                loaded_software = "snake_game";
+                break;
+            case 3:
+                loaded_software = "sokoban_game";
+                break;
+        }
 
-  }
+        //Play in 15-minute chunks
+        int time = 15000;
+
+        g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
+        p->assign_activity(g, ACT_GAME, time, -1, it->invlet, "gaming");
+        p->moves = 0;
+
+        std::map<std::string, std::string> game_data;
+        game_data.clear();
+        int game_score = 0;
+
+        bool game_completed = play_videogame(loaded_software, game_data, game_score);
+
+        if ( game_data.find("end_message") != game_data.end() ) {
+            g->add_msg_if_player(p, _("%s"), game_data["end_message"].c_str() );
+        }
+
+        if ( game_score != 0 ) {
+            if ( game_data.find("moraletype") != game_data.end() ) {
+                std::string moraletype = game_data.find("moraletype")->second;
+                if(moraletype == "MORALE_GAME_FOUND_KITTEN") {
+                    p->add_morale(MORALE_GAME_FOUND_KITTEN, game_score, 110);
+                } /*else if ( ...*/
+            } else {
+                p->add_morale(MORALE_GAME, game_score, 110);
+            }
+        }
+
+    }
 }
 
 void iuse::vortex(game *g, player *p, item *it, bool t)
@@ -3881,43 +3932,43 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
-    int choice = 0;
-    int cauterize = 2;
-    int carve_writing = 3;
-    int cancel = 4;
-
-    if ((p->has_disease("bite") || p->has_disease("bleed"))) {
-        choice = menu(true, _("Using knife:"), _("Cut up fabric/plastic/kevlar/wood"), _("Cauterize"),
-                      _("Carve writing on item"), _("Cancel"), NULL);
+    int choice = -1;
+    const int cut_fabric = 0;
+    const int carve_writing = 1;
+    const int cauterize = 2;
+    const int cancel = 4;
+    char ch;
+ 
+    uimenu kmenu;
+    kmenu.selected = uistate.iuse_knife_selected;
+    kmenu.text = _("Using knife:");
+    kmenu.addentry( cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood") );
+    kmenu.addentry( carve_writing, true, -1, _("Carve writing on item") );
+    if (p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ) {
+        if ( !p->use_charges_if_avail("fire", 4) ) {
+            kmenu.addentry( cauterize, false, -1, _("You need a lighter with 4 charges before you can cauterize yourself.") );
+        } else {
+            kmenu.addentry( cauterize, true, -1, 
+              (p->has_disease("bite") || p->has_disease("bleed")) ? _("Cauterize") :  _("Cauterize...for FUN!")
+            );
+        }
+    }
+    kmenu.addentry( cancel, true, 'q', _("Cancel") );
+    kmenu.query();
+    choice = kmenu.ret;
+    if ( choice < cauterize ) {
+        uistate.iuse_knife_selected = choice;
     }
 
-    if (choice == cauterize) {
-        if ( !p->use_charges_if_avail("fire", 4) ) {
-            g->add_msg_if_player(p, _("You need a lighter with 4 charges before you can cauterize yourself."));
-            return;
-        }
+    if ( choice == cauterize) {
         p->cauterize(g);
         return;
-    }
-
-    if (&(p->weapon) == it && choice == 0) {
-        choice = menu(true, _("Using knife:"), _("Cut up fabric/plastic/kevlar/wood"),
-                      _("Carve writing on item"), _("Cancel"), NULL);
-        carve_writing = 2;
-        cancel = 3;
-    }
-
-    // cancel before item selection
-    if (choice == cancel) {
-        return;
-    }
-
-    char ch;
-    // finally select item from related inventory
-    if ( choice == carve_writing ) {
+    } else if (choice == cut_fabric) {
+        ch = g->inv(_("Chop up what?"));
+    } else if (choice == carve_writing) {
         ch = g->inv(_("Carve writing on what?"));
     } else {
-        ch = g->inv(_("Chop up what?"));
+        return;
     }
 
     item *cut = &(p->i_at(ch));
@@ -3925,19 +3976,8 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     if (cut->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
         return;
-    }
-
-    // item wielded or worn, ask to cut or carve
-    if ( choice != carve_writing && p->has_weapon_or_armor(cut->invlet) ) {
-        choice = menu(true, _("Using knife on worn equipment:"), _("Cut up fabric/plastic/kevlar/wood"),
-                      _("Carve writing on item"), _("Cancel"), NULL);
-        carve_writing = 2;
-        cancel = 3;
-    }
-
-    // cancel accidentally cutting up worn/wielded equipment
-    if (choice == cancel) {
-        return;
+    } else if ( p->has_weapon_or_armor(cut->invlet) && menu(true, _("You're wearing that, are you sure?"), _("Yes"), _("No"), NULL ) != 1 ) {
+        return;       
     }
 
     if (choice == carve_writing) {

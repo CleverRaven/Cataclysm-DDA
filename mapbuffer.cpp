@@ -103,6 +103,7 @@ void mapbuffer::save()
   fout << it->first.x << " " << it->first.y << " " << it->first.z << std::endl;
   submap *sm = it->second;
   fout << sm->turn_last_touched << std::endl;
+  fout << sm->temperature << std::endl;
 // Dump the terrain.
   for (int j = 0; j < SEEY; j++) {
    for (int i = 0; i < SEEX; i++)
@@ -377,13 +378,14 @@ void mapbuffer::load()
   if (num_loaded % 100 == 0)
    popup_nowait(_("Please wait as the map loads [%d/%d]"),
                 num_loaded, num_submaps);
-  int locx, locy, locz, turn;
+  int locx, locy, locz, turn, temperature;
   submap* sm = new submap();
-  fin >> locx >> locy >> locz >> turn;
+  fin >> locx >> locy >> locz >> turn >> temperature;
   if(fin.eof()) {
       break;
   }
   sm->turn_last_touched = turn;
+  sm->temperature = temperature;
   int turndif = (master_game ? int(master_game->turn) - turn : 0);
   if (turndif < 0)
    turndif = 0;

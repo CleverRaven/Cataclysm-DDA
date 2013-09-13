@@ -420,17 +420,7 @@ picojson::value monster::json_save()
  */
 std::string monster::save_info()
 {
-    // deprecated hairball; useful in testing (?)
-        std::stringstream pack;
-        pack << int(type->id) << " " << _posx << " " << _posy << " " << wandx << " " <<
-            wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
-            " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
-            faction_id << " " << mission_id << " " << no_extra_death_drops << " " <<
-            dead << " " << anger << " " << morale;
-        for (int i = 0; i < plans.size(); i++) {
-            pack << " " << plans[i].x << " " << plans[i].y;
-        }
-        return pack.str();
+    return json_save().serialize();
 }
 
 void monster::debug(player &u)

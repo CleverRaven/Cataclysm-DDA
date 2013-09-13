@@ -11,282 +11,48 @@ class cOpt
 {
     public:
         //Default constructor
-        cOpt() {
-            sType = "VOID";
-            sPage = "";
-        };
+        cOpt();
 
         //string constructor
-        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const std::string sItemsIn, std::string sDefaultIn) {
-            sPage = sPageIn;
-            sMenuText = sMenuTextIn;
-            sTooltip = sTooltipIn;
-            sType = "string";
-
-            std::stringstream ssTemp(sItemsIn);
-            std::string sItem;
-            while (std::getline(ssTemp, sItem, ',')) {
-                vItems.push_back(sItem);
-            }
-
-            if (getItemPos(sDefaultIn) != -1) {
-                sDefaultIn = vItems[0];
-            }
-
-            sDefault = sDefaultIn;
-            sSet = sDefaultIn;
-        };
+        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const std::string sItemsIn, std::string sDefaultIn);
 
         //bool constructor
-        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const bool bDefaultIn) {
-            sPage = sPageIn;
-            sMenuText = sMenuTextIn;
-            sTooltip = sTooltipIn;
-            sType = "bool";
-
-            bDefault = bDefaultIn;
-            bSet = bDefaultIn;
-        };
+        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const bool bDefaultIn);
 
         //int constructor
-        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const int iMinIn, int iMaxIn, int iDefaultIn) {
-            sPage = sPageIn;
-            sMenuText = sMenuTextIn;
-            sTooltip = sTooltipIn;
-            sType = "int";
-
-            if (iMinIn > iMaxIn) {
-                iMaxIn = iMinIn;
-            }
-
-            iMin = iMinIn;
-            iMax = iMaxIn;
-
-            if (iDefaultIn < iMinIn || iDefaultIn > iMaxIn) {
-                iDefaultIn = iMinIn ;
-            }
-
-            iDefault = iDefaultIn;
-            iSet = iDefaultIn;
-        };
+        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const int iMinIn, int iMaxIn, int iDefaultIn);
 
         //float constructor
-        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn) {
-            sPage = sPageIn;
-            sMenuText = sMenuTextIn;
-            sTooltip = sTooltipIn;
-            sType = "float";
-
-            if (fMinIn > fMaxIn) {
-                fMaxIn = fMinIn;
-            }
-
-            fMin = fMinIn;
-            fMax = fMaxIn;
-            fStep = fStepIn;
-
-            if (fDefaultIn < fMinIn || fDefaultIn > fMaxIn) {
-                fDefaultIn = fMinIn ;
-            }
-
-            fDefault = fDefaultIn;
-            fSet = fDefaultIn;
-        };
+        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn, const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn);
 
         //Default deconstructor
         ~cOpt() {};
 
         //helper functions
-        std::string getPage() {
-            return sPage;
-        };
+        std::string getPage();
+        std::string getMenuText();
+        std::string getTooltip();
+        std::string getType();
 
-        std::string getMenuText() {
-            return sMenuText;
-        };
+        std::string getValue();
+        std::string getName();
+        std::string getDefaultText();
 
-        std::string getTooltip() {
-            return sTooltip;
-        };
-
-        std::string getType() {
-            return sType;
-        };
-
-        std::string getValue() {
-            if (sType == "string") {
-                return sSet;
-
-            } else if (sType == "bool") {
-                return (bSet) ? "True" : "False";
-
-            } else if (sType == "int") {
-                std::stringstream ssTemp;
-                ssTemp << iSet;
-                return ssTemp.str();
-
-            } else if (sType == "float") {
-                std::stringstream ssTemp;
-                ssTemp.precision(1);
-                ssTemp << std::fixed << fSet;
-                return ssTemp.str();
-            }
-
-            return "";
-        };
-
-        std::string getDefaultText() {
-            if (sType == "string") {
-                std::string sItems = "";
-                for (int i = 0; i < vItems.size(); i++) {
-                    if (sItems != "") {
-                        sItems += ", ";
-                    }
-                    sItems += vItems[i];
-                }
-                return sDefault + " - Values: " + sItems;
-
-            } else if (sType == "bool") {
-                return (bDefault) ? "True" : "False";
-
-            } else if (sType == "int") {
-                std::stringstream ssTemp;
-                ssTemp << iDefault << " - Min: " << iMin << ", Max: " << iMax;
-                return ssTemp.str();
-
-            } else if (sType == "float") {
-                std::stringstream ssTemp;
-                ssTemp << fDefault << " - Min: " << fMin << ", Max: " << fMax;
-                return ssTemp.str();
-            }
-
-            return "";
-        };
-
-        int getItemPos(const std::string sSearch) {
-            if (sType == "string") {
-                for (int i = 0; i < vItems.size(); i++) {
-                    if (vItems[i] == sSearch) {
-                        return i;
-                    }
-                }
-            }
-
-            return -1;
-        };
+        int getItemPos(const std::string sSearch);
 
         //set to next item
-        void setNext() {
-            if (sType == "string") {
-                int iNext = getItemPos(sSet)+1;
-                if (iNext >= vItems.size()) {
-                    iNext = 0;
-                }
-
-                sSet = vItems[iNext];
-
-            } else if (sType == "bool") {
-                bSet = !bSet;
-
-            } else if (sType == "int") {
-                iSet++;
-                if (iSet > iMax) {
-                    iSet = iMin;
-                }
-
-            } else if (sType == "float") {
-                fSet += fStep;
-                if (fSet > fMax) {
-                    fSet = fMin;
-                }
-            }
-        };
-
+        void setNext();
         //set to prev item
-        void setPrev() {
-            if (sType == "string") {
-                int iPrev = getItemPos(sSet)-1;
-                if (iPrev < 0) {
-                    iPrev = vItems.size()-1;
-                }
-
-                sSet = vItems[iPrev];
-
-            } else if (sType == "bool") {
-                bSet = !bSet;
-
-            } else if (sType == "int") {
-                iSet--;
-                if (iSet < iMin) {
-                    iSet = iMax;
-                }
-
-            } else if (sType == "float") {
-                fSet -= fStep;
-                if (fSet < fMin) {
-                    fSet = fMax;
-                }
-            }
-        };
-
+        void setPrev();
         //set value
-        void setValue(std::string sSetIn) {
-            if (sType == "string") {
-                if (getItemPos(sSetIn) != -1) {
-                    sSet = sSetIn;
-                }
-
-            } else if (sType == "bool") {
-                bSet = (sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t");
-
-            } else if (sType == "int") {
-                iSet = atoi(sSetIn.c_str());
-
-                if ( iSet < iMin || iSet > iMax ) {
-                    iSet = iDefault;
-                }
-
-            } else if (sType == "float") {
-                fSet = atof(sSetIn.c_str());
-
-                if ( fSet < fMin || fSet > fMax ) {
-                    fSet = fDefault;
-                }
-            }
-        };
+        void setValue(std::string sSetIn);
 
         //Set default class behaviour to float
-        operator float() const {
-            if (sType == "string") {
-                return (sSet != "" && sSet == sDefault) ? 1.0 : 0.0;
-
-            } else if (sType == "bool") {
-                return (bSet) ? 1.0 : 0.0;
-
-            } else if (sType == "int") {
-                return (float)iSet;
-
-            } else if (sType == "float") {
-                return fSet;
-            }
-
-            return 0.0;
-        };
-
+        operator float() const;
         // if (class == "string")
-        bool operator==(const std::string sCompare) const {
-            if ( sType == "string" && sSet == sCompare ) {
-                return true;
-            }
-
-            return false;
-        };
-
+        bool operator==(const std::string sCompare) const;
         // if (class != "string")
-        bool operator!=(const std::string sCompare) const {
-            return !(*this == sCompare);
-        };
+        bool operator!=(const std::string sCompare) const;
 
     private:
         std::string sPage;

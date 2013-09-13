@@ -504,9 +504,9 @@ void game::construction_menu()
 
     const char* mes;
     if (current_con->stages[n].terrain != t_null)
-      mes = terlist[current_con->stages[n].terrain].name.c_str();
+      mes = _(terlist[current_con->stages[n].terrain].name.c_str()); // FIXME i18n
     else if (current_con->stages[n].furniture != f_null)
-      mes = furnlist[current_con->stages[n].furniture].name.c_str();
+      mes = _(furnlist[current_con->stages[n].furniture].name.c_str()); // FIXME i18n
     else
       mes = "";
     posy++;

@@ -27,6 +27,7 @@
 #include "mapdata.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "item.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -162,7 +163,7 @@ void game::init_ui(){
     clear();	// Clear the screen
     intro();	// Print an intro screen, make sure we're at least 80x25
 
-    const int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "Narrow") ? 45 : 55;
+    const int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = sidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1);
@@ -222,7 +223,7 @@ void game::init_ui(){
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
 
-    switch ((int)(OPTIONS["SIDEBAR_STYLE"] == "Narrow")) {
+    switch ((int)(OPTIONS["SIDEBAR_STYLE"] == "narrow")) {
         case 0: // standard
             minimapX = 0;
             minimapY = 0;
@@ -541,8 +542,8 @@ void game::cleanup_at_end(){
                 uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
         write_memorial_file();
         u.memorial_log.clear();
-        if ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "Yes" ||
-            ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "Query" && query_yn(_("Reset saved world?"))))
+        if ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "yes" ||
+            ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "query" && query_yn(_("Reset saved world?"))))
         {
             if (gamemode->id() == SGAME_NULL)
             {
@@ -807,7 +808,7 @@ void game::process_activity()
       //Deduct 1 battery charge for every minute spent playing
       if(int(turn) % 10 == 0) {
         game_item.charges--;
-        u.add_morale(MORALE_GAME, 2, 100); //2 points/min, almost an hour to fill
+        u.add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
       }
       if(game_item.charges == 0) {
         u.activity.moves_left = 0;
@@ -1231,9 +1232,7 @@ int game::get_temperature()
     point location = om_location();
     int tmp_temperature = temperature;
 
-    if ( is_in_ice_lab(location) && levz < 0) {
-        tmp_temperature = 20 + 30*levz;
-    }
+    tmp_temperature += m.temperature(u.posx, u.posy);
 
     return tmp_temperature;
 }
@@ -2534,12 +2533,12 @@ void game::load_uistate(std::string worldname)
     fin.close();
     std::string jsonerr=picojson::get_last_error();
     if ( ! jsonerr.empty() ) {
-       dbg(D_ERROR) << "load_uistate_from: " << jsonerr.c_str();
+       dbg(D_ERROR) << "load_uistate: " << jsonerr.c_str();
        return;
     }
     bool success=uistate.load(wrapped_data);
     if ( ! success ) {
-       dbg(D_ERROR) << "load_uistate_from: " << uistate.errdump;
+       dbg(D_ERROR) << "load_uistate: " << uistate.errdump;
     }
     uistate.errdump="";
 }
@@ -2787,7 +2786,7 @@ void game::save_factions_missions_npcs ()
 {
     std::stringstream masterfile;
 	std::ofstream fout;
-    masterfile << "save/" << active_world->world_name << "/master.gsav";
+    masterfile << "save/master.gsav";
 
     fout.open(masterfile.str().c_str());
 
@@ -3245,8 +3244,10 @@ Current turn: %d; Next spawn %d.\n\
     if(veh_num < opts.size() - 1) {
       //Didn't pick Cancel
       std::string selected_opt = opts[veh_num];
-      m.add_vehicle (this, selected_opt, u.posx, u.posy, -90, 100, 0);
-      m.board_vehicle (this, u.posx, u.posy, &u);
+      vehicle* veh = m.add_vehicle (this, selected_opt, u.posx, u.posy, -90, 100, 0);
+      if(veh != NULL) {
+        m.board_vehicle (this, u.posx, u.posy, &u);
+      }
     }
    }
    break;
@@ -3725,7 +3726,7 @@ void game::draw()
     werase(w_status2);
     u.disp_status(w_status, w_status2, this);
 
-    const int sideStyle = (int)(OPTIONS["SIDEBAR_STYLE"] == "Narrow");
+    const int sideStyle = (int)(OPTIONS["SIDEBAR_STYLE"] == "narrow");
 
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
@@ -4446,7 +4447,7 @@ int game::mon_info(WINDOW *w)
 {
     const int width = getmaxx(w);
     const int maxheight = 12;
-    const int startrow = (OPTIONS["SIDEBAR_STYLE"] == "Narrow") ? 1 : 0;
+    const int startrow = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 1 : 0;
 
     int buff;
     int newseen = 0;
@@ -6153,7 +6154,7 @@ void game::use_item(char chInput)
 {
  char ch;
  if (chInput == '.')
-  ch = inv(_("Use item:"));
+  ch = inv_activatable(_("Use item:"));
  else
   ch = chInput;
 
@@ -6918,7 +6919,7 @@ void game::draw_trail_to_square(int x, int y)
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state(WINDOW* window, int height)
 {
-    const int width = (OPTIONS["SIDEBAR_STYLE"] == "Narrow") ? 45 : 55;
+    const int width = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
     for (int i = 1; i < TERMX; i++)
     {
         if (i < width)
@@ -7019,7 +7020,7 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
 void game::list_items()
 {
     int iInfoHeight = 12;
-    const int width = (OPTIONS["SIDEBAR_STYLE"] == "Narrow") ? 45 : 55;
+    const int width = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
     WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
     WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
     WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
@@ -7474,7 +7475,7 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 
- const int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "Narrow");
+ const int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "narrow");
 
  // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
  int maxmaxitems = TERMY;
@@ -7537,8 +7538,16 @@ void game::pickup(int posx, int posy, int min)
                 }
 
                 //Check the Pickup Rules
-                if ( mapAutoPickupItems[here[i].tname(this)] ) {
+                if ( mapAutoPickupItems[here[i].tname(this)] == "true" ) {
                     bPickup = true;
+                } else if ( mapAutoPickupItems[here[i].tname(this)] != "false" ) {
+                    //No prematched pickup rule found
+                    //items with damage, (fits) or a container
+                    createPickupRules(here[i].tname(this));
+
+                    if ( mapAutoPickupItems[here[i].tname(this)] == "true" ) {
+                        bPickup = true;
+                    }
                 }
             }
 
@@ -8905,7 +8914,7 @@ void game::eat(char chInput)
   return;
  }
  if (chInput == '.')
-  ch = inv_type(_("Consume item:"), IC_COMESTIBLE);
+  ch = inv_type(_("Consume item:"), IC_COMESTIBLE );
  else
   ch = chInput;
 

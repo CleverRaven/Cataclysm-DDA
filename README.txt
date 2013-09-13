@@ -1,10 +1,10 @@
 Cataclysm: Dark Days Ahead
 
 Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While some have described
-it as a "zombie game", there's far more to Cataclysm than that. Struggle to survive in a harsh, persistant,
+it as a "zombie game", there's far more to Cataclysm than that. Struggle to survive in a harsh, persistent,
 procedurally generated world. Scavenge the remnants of a dead civilization for for food, equipment,
 or, if you're lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat
-or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots 
+or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots
 and things far stranger and deadlier, and against the others like yourself, that want what you have...
 
 Download
@@ -15,7 +15,7 @@ The latest instructions on how to compile can be found on our wiki at http://www
 
 Contribute
 Please see CONTRIBUTING.md for details.
-Contributing is much easier with an advanced text editor, for windows a good program is Notepad++, avaliable at http://notepad-plus-plus.org/.
+Contributing is much easier with an advanced text editor, for windows a good program is Notepad++, available at http://notepad-plus-plus.org/.
 
 Frequently Asked Questions
 1)Is there a tutorial?

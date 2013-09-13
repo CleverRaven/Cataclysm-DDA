@@ -927,6 +927,7 @@ int editmap::edit_trp(point coords)
  */
 enum editmap_imenu_ent {
     imenu_bday, imenu_damage, imenu_burnt,
+    imenu_sep, imenu_luminance, imenu_direction, imenu_width,
     imenu_exit,
 };
 
@@ -941,7 +942,7 @@ int editmap::edit_itm(point coords)
     ilmenu.return_invalid = true;
     std::vector<item>& items = g->m.i_at(target.x , target.y );
     for(int i = 0; i < items.size(); i++) {
-        ilmenu.addentry(i, true, 0, "%s", items[i].tname(g).c_str());
+        ilmenu.addentry(i, true, 0, "%s%s", items[i].tname(g).c_str(), items[i].light.luminance > 0 ? " L" : "" );
     }
     // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
     ilmenu.addentry(-10, true, 'q', "Cancel");
@@ -957,6 +958,11 @@ int editmap::edit_itm(point coords)
             imenu.addentry(imenu_bday, true, -1, "bday: %d", (int)it->bday);
             imenu.addentry(imenu_damage, true, -1, "damage: %d", (int)it->damage);
             imenu.addentry(imenu_burnt, true, -1, "burnt: %d", (int)it->burnt);
+            imenu.addentry(imenu_sep, false, 0, "-[ light emission ]-");
+            imenu.addentry(imenu_luminance, true, -1, "lum: %f", (float)it->light.luminance);
+            imenu.addentry(imenu_direction, true, -1, "dir: %d", (int)it->light.direction);
+            imenu.addentry(imenu_width, true, -1, "width: %d", (int)it->light.width);
+
             imenu.addentry(imenu_exit, true, -1, "exit");
             do {
                 imenu.query();
@@ -972,6 +978,15 @@ int editmap::edit_itm(point coords)
                         case imenu_burnt:
                             intval = (int)it->burnt;
                             break;
+                        case imenu_luminance:
+                            intval = (int)it->light.luminance;
+                            break;
+                        case imenu_direction:
+                            intval = (int)it->light.direction;
+                            break;
+                        case imenu_width:
+                            intval = (int)it->light.width;
+                            break;
                     }
                     int retval = helper::to_int (
                                      string_input_popup( "set: ", 20, helper::to_string(  intval ) )
@@ -986,6 +1001,15 @@ int editmap::edit_itm(point coords)
                         } else if (imenu.ret == imenu_burnt ) {
                             it->burnt = retval;
                             imenu.entries[imenu_burnt].txt = string_format("burnt: %d", it->burnt);
+                        } else if (imenu.ret == imenu_luminance ) {
+                            it->light.luminance = (unsigned short)retval;
+                            imenu.entries[imenu_luminance].txt = string_format("lum: %f", (float)it->light.luminance);
+                        } else if (imenu.ret == imenu_direction ) {
+                            it->light.direction = (short)retval;
+                            imenu.entries[imenu_direction].txt = string_format("dir: %d", (int)it->light.direction);
+                        } else if (imenu.ret == imenu_width ) {
+                            it->light.width = (short)retval;
+                            imenu.entries[imenu_width].txt = string_format("width: %d", (int)it->light.width);
                         }
                         werase(g->w_terrain);
                         g->draw_ter(target.x, target.y);
@@ -999,7 +1023,6 @@ int editmap::edit_itm(point coords)
         }
     } while (ilmenu.ret >= 0 || ilmenu.ret == UIMENU_INVALID);
     return ret;
-
 }
 
 /*

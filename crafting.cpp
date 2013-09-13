@@ -1005,7 +1005,7 @@ void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, 
             {
                 if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
                 {
-                    if (OPTIONS["SORT_CRAFTING"] && can_make(*iter))
+                    if (can_make(*iter))
                     {
                         can_craft.push_back(*iter);
                     }

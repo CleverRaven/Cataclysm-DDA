@@ -359,7 +359,7 @@ std::string calendar::print_time(bool just_hour) const
     std::stringstream time_string;
     int hour_param;
 
-    if (OPTIONS["24_HOUR"] == "Military") {
+    if (OPTIONS["24_HOUR"] == "military") {
         hour_param = hour % 24;
         time_string << string_format("%02d%02d", hour_param, minute);
     } else if (OPTIONS["24_HOUR"] == "24h") {

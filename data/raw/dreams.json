@@ -235,7 +235,7 @@
 
 	{
 		"message"		:	[
-			"You have a a disturbing dream of swimming with a school of fish.",
+			"You have a disturbing dream of swimming with a school of fish.",
 			"When you wake up you panic about drowning from being out of water."
 			],
 		"category"		:	"MUTCAT_FISH",

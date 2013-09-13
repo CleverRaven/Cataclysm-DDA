@@ -267,10 +267,11 @@ void map::destroy_vehicle (vehicle *veh)
    vehicle_list.erase(veh);
    reset_vehicle_cache();
    grid[veh_sm]->vehicles.erase (grid[veh_sm]->vehicles.begin() + i);
+   delete veh;
    return;
   }
  }
- debugmsg ("destroy_vehicle can't find it! sm=%d", veh_sm);
+ debugmsg ("destroy_vehicle can't find it! name=%s, sm=%d", veh->name.c_str(), veh_sm);
 }
 
 bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test)
@@ -840,7 +841,7 @@ void map::set(const int x, const int y, const ter_id new_terrain, const furn_id 
 
 std::string map::name(const int x, const int y)
 {
- return has_furn(x, y) ? furnlist[furn(x, y)].name : terlist[ter(x, y)].name;
+ return has_furn(x, y) ? _(furnlist[furn(x, y)].name.c_str()) : _(terlist[ter(x, y)].name.c_str()); // FIXME i18n
 }
 
 bool map::has_furn(const int x, const int y)
@@ -876,7 +877,7 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
 
 std::string map::furnname(const int x, const int y)
 {
- return furnlist[furn(x, y)].name;
+ return _(furnlist[furn(x, y)].name.c_str()); // FIXME i18n
 }
 
 ter_id map::ter(const int x, const int y) const
@@ -907,7 +908,7 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain)
 
 std::string map::tername(const int x, const int y) const
 {
- return terlist[ter(x, y)].name;
+ return _(terlist[ter(x, y)].name.c_str()); // FIXME i18n
 }
 
 std::string map::features(const int x, const int y)
@@ -2426,6 +2427,26 @@ int& map::radiation(const int x, const int y)
  const int lx = x % SEEX;
  const int ly = y % SEEY;
  return grid[nonant]->rad[lx][ly];
+}
+
+int& map::temperature(const int x, const int y)
+{
+ if (!INBOUNDS(x, y)) {
+  null_temperature = 0;
+  return null_temperature;
+ }
+
+ const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+
+ return grid[nonant]->temperature;
+}
+
+void map::set_temperature(const int x, const int y, int new_temperature)
+{
+    temperature(x, y) = new_temperature;
+    temperature(x + SEEX, y) = new_temperature;
+    temperature(x, y + SEEY) = new_temperature;
+    temperature(x + SEEX, y + SEEY) = new_temperature;
 }
 
 std::vector<item>& map::i_at(const int x, const int y)
