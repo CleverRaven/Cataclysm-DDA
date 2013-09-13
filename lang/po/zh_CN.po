@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 16:06+1200\n"
+"POT-Creation-Date: 2013-09-13 21:13+1200\n"
 "PO-Revision-Date: 2013-09-13 03:15+0000\n"
 "Last-Translator: Hao Q <fallrain05@qq.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
@@ -698,6 +698,11 @@ msgstr "1-9(或者GHJKLYUBNI)选择方块激活表格，0调出详细目录，"
 msgid "[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."
 msgstr "[e]检查物品，[s]排列显示，[p]打开自动拾取，[q]退出屏幕。"
 
+#: advanced_inv.cpp:733
+#, fuzzy
+msgid "< [?] show help >"
+msgstr "<[?]查看日志>"
+
 #: advanced_inv.cpp:772
 msgid "same square!"
 msgstr "同样的广场！"
@@ -735,12 +740,9 @@ msgid "How many do you want to move? (0 to cancel)"
 msgstr "你想移动多少？ （0 取消）"
 
 #: advanced_inv.cpp:884
-msgid "! Move how many? (0 to cancel) "
+#, fuzzy, c-format
+msgid "Destination can only hold %d! Move how many? (0 to cancel) "
 msgstr "！移动多少？ （0 取消） "
-
-#: advanced_inv.cpp:884
-msgid "Destination can only hold "
-msgstr "目标仅能承受 "
 
 #: advanced_inv.cpp:913 advanced_inv.cpp:920
 #, c-format
@@ -51324,37 +51326,40 @@ msgstr "多少？"
 msgid "Item granted, choose another or 'q' to quit."
 msgstr "物品授予，选择另一个或者按'q'推出。"
 
-#~ msgid "Using knife on worn equipment:"
-#~ msgstr "在磨损的设备上使用小刀："
+#~ msgid "---------------"
+#~ msgstr "---------------"
 
-#~ msgid "null"
-#~ msgstr "空"
+#~ msgid "weigth_factor: %f"
+#~ msgstr "权重因子：%f"
 
-#~ msgid "custom vehicle template/placeholder"
-#~ msgstr "自定义车辆模板/占位"
+#~ msgid "Material_factor: %f"
+#~ msgstr "材料系数：%f"
 
-#~ msgid "Revive zombies"
-#~ msgstr "丧尸复活"
-
-#~ msgid "Allow zombies to revive after a certain amount of time."
-#~ msgstr "允许丧尸一定时间后复活。"
-
-#~ msgid "Sort Crafting menu"
-#~ msgstr "制作菜单的排序"
+#~ msgid "---DebugINFO---"
+#~ msgstr "---调试信息---"
 
 #~ msgid ""
 #~ "If true, the crafting menus will display recipes that you can craft "
 #~ "before other recipes"
 #~ msgstr "如果设置为是，制作菜单将会把你能制作的项目给排在其他项目之前。"
 
-#~ msgid "---DebugINFO---"
-#~ msgstr "---调试信息---"
+#~ msgid "Sort Crafting menu"
+#~ msgstr "制作菜单的排序"
 
-#~ msgid "Material_factor: %f"
-#~ msgstr "材料系数：%f"
+#~ msgid "Allow zombies to revive after a certain amount of time."
+#~ msgstr "允许丧尸一定时间后复活。"
 
-#~ msgid "weigth_factor: %f"
-#~ msgstr "权重因子：%f"
+#~ msgid "Revive zombies"
+#~ msgstr "丧尸复活"
 
-#~ msgid "---------------"
-#~ msgstr "---------------"
+#~ msgid "custom vehicle template/placeholder"
+#~ msgstr "自定义车辆模板/占位"
+
+#~ msgid "null"
+#~ msgstr "空"
+
+#~ msgid "Using knife on worn equipment:"
+#~ msgstr "在磨损的设备上使用小刀："
+
+#~ msgid "Destination can only hold "
+#~ msgstr "目标仅能承受 "

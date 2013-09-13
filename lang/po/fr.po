@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.7-git\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 16:06+1200\n"
+"POT-Creation-Date: 2013-09-13 21:13+1200\n"
 "PO-Revision-Date: 2013-08-31 22:23+0000\n"
 "Last-Translator: Argasm <argasm@gmail.com>\n"
 "Language-Team: French\n"
@@ -705,6 +705,11 @@ msgstr ""
 msgid "[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."
 msgstr ""
 
+#: advanced_inv.cpp:733
+#, fuzzy
+msgid "< [?] show help >"
+msgstr "< [?] montrer le journal >"
+
 #: advanced_inv.cpp:772
 msgid "same square!"
 msgstr ""
@@ -742,11 +747,8 @@ msgid "How many do you want to move? (0 to cancel)"
 msgstr ""
 
 #: advanced_inv.cpp:884
-msgid "! Move how many? (0 to cancel) "
-msgstr ""
-
-#: advanced_inv.cpp:884
-msgid "Destination can only hold "
+#, c-format
+msgid "Destination can only hold %d! Move how many? (0 to cancel) "
 msgstr ""
 
 #: advanced_inv.cpp:913 advanced_inv.cpp:920
@@ -49103,33 +49105,39 @@ msgstr ""
 msgid "Item granted, choose another or 'q' to quit."
 msgstr ""
 
-#, fuzzy
-#~ msgid "Part: %s"
-#~ msgstr "Graffiti : %s"
+#~ msgid "Mutate: "
+#~ msgstr "Mutation: "
 
-#~ msgid "Your torso is burning up. You should remove some layers."
-#~ msgstr "Votre torse est brulant. Vous devriez retirer des couches."
+#~ msgid "%s not found!            "
+#~ msgstr "%s introuvable!            "
 
-#~ msgid "Your feet feel numb."
-#~ msgstr "Vous ne sentez plus vos pieds."
+#~ msgid "Spawn a: "
+#~ msgstr "Faire apparaître un/une: "
 
-#~ msgid "Your coughing wakes you up."
-#~ msgstr "Votre toux vous réveille."
+#~ msgid "Wish granted - %d x %s."
+#~ msgstr "Obtenu - %d x %s."
 
-#~ msgid "An alarm rings but you don't hear it."
-#~ msgstr "Une alarme sonne mais vous ne l'entendez pas!"
+#~ msgid "How many do you want? (default is 1): "
+#~ msgstr "Combien? (par défaut = 1): "
 
-#~ msgid "Fully rested."
-#~ msgstr "Complétement reposé."
+#~ msgid "contained"
+#~ msgstr "contenu"
 
-#~ msgid "You feel your skeleton melt"
-#~ msgstr "Vous sentez vos os fondre."
+#~ msgid "\"%s \" not found!"
+#~ msgstr "\"%s \" Introuvable!"
 
-#~ msgid "Huh?  What was that?"
-#~ msgstr "Hein ? qu'est ce que c'est que ça ?"
+#~ msgid "Wish for a: "
+#~ msgstr "Faire un voeux pour un/une: "
 
-#~ msgid "Oh god, what's happening?"
-#~ msgstr "Bon sang, qu'est ce qu'il se passe ?"
+#~ msgid "('/' to search, Esc to stop, <> to switch between results)"
+#~ msgstr ""
+#~ "('/' pour chercher, Esc pour arrêter, <> pour fouiller dans les résultats)"
+
+#~ msgid "<veh>broken "
+#~ msgstr "<veh>brisé "
+
+#~ msgid "Your hands are very exposed to the cold. Your hands are shivering."
+#~ msgstr "Vos mains sont très exposées au froid. Vos mains tremblent."
 
 #~ msgid ""
 #~ "Your head is dangerously cold. Getting undressed sounds like a good idea."
@@ -49137,36 +49145,30 @@ msgstr ""
 #~ "Votre crâne est dangereusement froid. Se déshabiller semble une bonne "
 #~ "idée."
 
-#~ msgid "Your hands are very exposed to the cold. Your hands are shivering."
-#~ msgstr "Vos mains sont très exposées au froid. Vos mains tremblent."
+#~ msgid "Oh god, what's happening?"
+#~ msgstr "Bon sang, qu'est ce qu'il se passe ?"
 
-#~ msgid "<veh>broken "
-#~ msgstr "<veh>brisé "
+#~ msgid "Huh?  What was that?"
+#~ msgstr "Hein ? qu'est ce que c'est que ça ?"
 
-#~ msgid "('/' to search, Esc to stop, <> to switch between results)"
-#~ msgstr ""
-#~ "('/' pour chercher, Esc pour arrêter, <> pour fouiller dans les résultats)"
+#~ msgid "You feel your skeleton melt"
+#~ msgstr "Vous sentez vos os fondre."
 
-#~ msgid "Wish for a: "
-#~ msgstr "Faire un voeux pour un/une: "
+#~ msgid "Fully rested."
+#~ msgstr "Complétement reposé."
 
-#~ msgid "\"%s \" not found!"
-#~ msgstr "\"%s \" Introuvable!"
+#~ msgid "An alarm rings but you don't hear it."
+#~ msgstr "Une alarme sonne mais vous ne l'entendez pas!"
 
-#~ msgid "contained"
-#~ msgstr "contenu"
+#~ msgid "Your coughing wakes you up."
+#~ msgstr "Votre toux vous réveille."
 
-#~ msgid "How many do you want? (default is 1): "
-#~ msgstr "Combien? (par défaut = 1): "
+#~ msgid "Your feet feel numb."
+#~ msgstr "Vous ne sentez plus vos pieds."
 
-#~ msgid "Wish granted - %d x %s."
-#~ msgstr "Obtenu - %d x %s."
+#~ msgid "Your torso is burning up. You should remove some layers."
+#~ msgstr "Votre torse est brulant. Vous devriez retirer des couches."
 
-#~ msgid "Spawn a: "
-#~ msgstr "Faire apparaître un/une: "
-
-#~ msgid "%s not found!            "
-#~ msgstr "%s introuvable!            "
-
-#~ msgid "Mutate: "
-#~ msgstr "Mutation: "
+#, fuzzy
+#~ msgid "Part: %s"
+#~ msgstr "Graffiti : %s"

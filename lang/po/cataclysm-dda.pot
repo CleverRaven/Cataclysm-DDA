@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 16:06+1200\n"
+"POT-Creation-Date: 2013-09-13 21:13+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -691,6 +691,10 @@ msgstr ""
 msgid "[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."
 msgstr ""
 
+#: advanced_inv.cpp:733
+msgid "< [?] show help >"
+msgstr ""
+
 #: advanced_inv.cpp:772
 msgid "same square!"
 msgstr ""
@@ -728,11 +732,8 @@ msgid "How many do you want to move? (0 to cancel)"
 msgstr ""
 
 #: advanced_inv.cpp:884
-msgid "! Move how many? (0 to cancel) "
-msgstr ""
-
-#: advanced_inv.cpp:884
-msgid "Destination can only hold "
+#, c-format
+msgid "Destination can only hold %d! Move how many? (0 to cancel) "
 msgstr ""
 
 #: advanced_inv.cpp:913 advanced_inv.cpp:920

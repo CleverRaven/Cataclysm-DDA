@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 16:06+1200\n"
+"POT-Creation-Date: 2013-09-13 21:13+1200\n"
 "PO-Revision-Date: 2013-09-10 18:18+0000\n"
 "Last-Translator: Ranama <andrey.magistrat@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -700,6 +700,11 @@ msgstr ""
 msgid "[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."
 msgstr "[e] Осмотреть предмет, [s] Сортировка, [p] Авто-подбор, [q] выход."
 
+#: advanced_inv.cpp:733
+#, fuzzy
+msgid "< [?] show help >"
+msgstr "< [?] показать лог >"
+
 #: advanced_inv.cpp:772
 msgid "same square!"
 msgstr "Места равны!"
@@ -737,12 +742,9 @@ msgid "How many do you want to move? (0 to cancel)"
 msgstr "Сколько нужно перенести? (0 - отмена)"
 
 #: advanced_inv.cpp:884
-msgid "! Move how many? (0 to cancel) "
+#, fuzzy, c-format
+msgid "Destination can only hold %d! Move how many? (0 to cancel) "
 msgstr "! Как далеко передвинуть? (0 to cancel) "
-
-#: advanced_inv.cpp:884
-msgid "Destination can only hold "
-msgstr "Место назначения может содержать только "
 
 #: advanced_inv.cpp:913 advanced_inv.cpp:920
 #, c-format
@@ -51846,18 +51848,21 @@ msgstr ""
 msgid "Item granted, choose another or 'q' to quit."
 msgstr ""
 
-#~ msgid "Revive zombies"
-#~ msgstr "Возрождение зомби"
-
-#~ msgid "Allow zombies to revive after a certain amount of time."
-#~ msgstr "Разрешает возрождение зомби через определенное время."
-
-#~ msgid "Sort Crafting menu"
-#~ msgstr "Сортировать меню крафта"
-
 #~ msgid ""
 #~ "If true, the crafting menus will display recipes that you can craft "
 #~ "before other recipes"
 #~ msgstr ""
 #~ "Если стоит \"true\", то в меню крафта будут первыми выводиться те "
 #~ "рецепты, которые вам доступны."
+
+#~ msgid "Sort Crafting menu"
+#~ msgstr "Сортировать меню крафта"
+
+#~ msgid "Allow zombies to revive after a certain amount of time."
+#~ msgstr "Разрешает возрождение зомби через определенное время."
+
+#~ msgid "Revive zombies"
+#~ msgstr "Возрождение зомби"
+
+#~ msgid "Destination can only hold "
+#~ msgstr "Место назначения может содержать только "

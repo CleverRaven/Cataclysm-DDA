@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.7-git\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 16:06+1200\n"
+"POT-Creation-Date: 2013-09-13 21:13+1200\n"
 "PO-Revision-Date: 2013-08-14 15:43+0000\n"
 "Last-Translator: YOUR NAME <Unknown>\n"
 "Language-Team: German\n"
@@ -695,6 +695,10 @@ msgstr ""
 msgid "[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."
 msgstr ""
 
+#: advanced_inv.cpp:733
+msgid "< [?] show help >"
+msgstr ""
+
 #: advanced_inv.cpp:772
 msgid "same square!"
 msgstr ""
@@ -732,11 +736,8 @@ msgid "How many do you want to move? (0 to cancel)"
 msgstr ""
 
 #: advanced_inv.cpp:884
-msgid "! Move how many? (0 to cancel) "
-msgstr ""
-
-#: advanced_inv.cpp:884
-msgid "Destination can only hold "
+#, c-format
+msgid "Destination can only hold %d! Move how many? (0 to cancel) "
 msgstr ""
 
 #: advanced_inv.cpp:913 advanced_inv.cpp:920
@@ -49086,69 +49087,26 @@ msgstr ""
 msgid "Item granted, choose another or 'q' to quit."
 msgstr ""
 
-#~ msgid " Move up/down  "
-#~ msgstr "Nach oben/unten gehen"
+#~ msgid "Quit"
+#~ msgstr "Beenden"
 
-#~ msgid " and your body is damaged."
-#~ msgstr "und dein Körper ist verletzt."
+#~ msgid "Special"
+#~ msgstr "Spezial"
 
-#~ msgid " and all of your existing bionics are lost."
-#~ msgstr "und all deine bestehenden Bioniken gehen verloren."
+#~ msgid "Load"
+#~ msgstr "Laden"
 
-#~ msgid " and some of your existing bionics are lost."
-#~ msgstr "und einige deiner bestehenden Bioniken gehen verloren."
+#~ msgid "New Game"
+#~ msgstr "Neu"
 
-#~ msgid " and do damage to your genetics, causing mutation."
-#~ msgstr "und beschädigen deine Gene, was zu Mutationen führt."
+#~ msgid "Painkillers made by refining mutated poppy seeds.."
+#~ msgstr "Schmerztablette hergestellt aus rafinierten poppy samen.."
 
-#~ msgid "Your torso is burning up. You should remove some layers."
-#~ msgstr "Dein Oberkörper brennt vor hitze. Du solltest etwas ausziehen."
+#~ msgid "Sleeping pills made by refining mutated poppy seeds."
+#~ msgstr "Schlaftabletten. Hergestellt aus gemahlenen mutierten Poppysamen."
 
-#~ msgid "Your hands are shivering."
-#~ msgstr "Deine Hände zittern."
-
-#~ msgid "Your feet feel numb."
-#~ msgstr "Deine Füße fühlen sich taub an."
-
-#~ msgid "Fully rested."
-#~ msgstr "Komplett erholt."
-
-#~ msgid "Huh?  What was that?"
-#~ msgstr "Hmm? Was was das?"
-
-#~ msgid "Oh god, what's happening?"
-#~ msgstr "Oh Gott, was passiert hier?"
-
-#~ msgid "Of course... it's all fractals!"
-#~ msgstr "Natürlich... es sind alles nur Dimensionen!"
-
-#~ msgid ""
-#~ "Your head is dangerously cold. Getting undressed sounds like a good idea."
-#~ msgstr ""
-#~ "Dein Kopf ist gefährlich kalt. Sich nakt auszuziehen hört sich wie eine "
-#~ "gute Idee an."
-
-#~ msgid "Your hands are very exposed to the cold. Your hands are shivering."
-#~ msgstr "Deine Hände sind der Kälte extrem ausgesetzt. Deine Hände zittern."
-
-#~ msgid "Debug messages %s!"
-#~ msgstr "Debug Nachrichten %s!"
-
-#~ msgid "Screwdriver"
-#~ msgstr "Schraubenzieher."
-
-#~ msgid "Take frequently to improve your immune system."
-#~ msgstr "Benutze diese regelmäßig um dein Immunsystem zu stärken."
-
-#~ msgid "Vaccine shot"
-#~ msgstr "Grippeimpfung"
-
-#~ msgid "Provides long lasting protection against sickness."
-#~ msgstr "Gewährt langanhaltenden Schutz gegen Krankheit."
-
-#~ msgid "Daytime flu medication. Will halt all flu symptoms for a while."
-#~ msgstr ""
-#~ "Tageszeitliche Medizin gegen Grippe. Stoppt Grippesymptome für eine Weile."
+#~ msgid "marijuana"
+#~ msgstr "Marihuana"
 
 #~ msgid ""
 #~ "Vital medicine for those with asthma. Those without asthma can use it for "
@@ -49157,23 +49115,66 @@ msgstr ""
 #~ "Lebensnodwendige Medizin für Asthmatiker. Personen ohne Asthma können den "
 #~ "Spray als leichtes Aufputschmittel verwenden."
 
-#~ msgid "marijuana"
-#~ msgstr "Marihuana"
+#~ msgid "Daytime flu medication. Will halt all flu symptoms for a while."
+#~ msgstr ""
+#~ "Tageszeitliche Medizin gegen Grippe. Stoppt Grippesymptome für eine Weile."
 
-#~ msgid "Sleeping pills made by refining mutated poppy seeds."
-#~ msgstr "Schlaftabletten. Hergestellt aus gemahlenen mutierten Poppysamen."
+#~ msgid "Provides long lasting protection against sickness."
+#~ msgstr "Gewährt langanhaltenden Schutz gegen Krankheit."
 
-#~ msgid "Painkillers made by refining mutated poppy seeds.."
-#~ msgstr "Schmerztablette hergestellt aus rafinierten poppy samen.."
+#~ msgid "Vaccine shot"
+#~ msgstr "Grippeimpfung"
 
-#~ msgid "New Game"
-#~ msgstr "Neu"
+#~ msgid "Take frequently to improve your immune system."
+#~ msgstr "Benutze diese regelmäßig um dein Immunsystem zu stärken."
 
-#~ msgid "Load"
-#~ msgstr "Laden"
+#~ msgid "Screwdriver"
+#~ msgstr "Schraubenzieher."
 
-#~ msgid "Special"
-#~ msgstr "Spezial"
+#~ msgid "Debug messages %s!"
+#~ msgstr "Debug Nachrichten %s!"
 
-#~ msgid "Quit"
-#~ msgstr "Beenden"
+#~ msgid "Your hands are very exposed to the cold. Your hands are shivering."
+#~ msgstr "Deine Hände sind der Kälte extrem ausgesetzt. Deine Hände zittern."
+
+#~ msgid ""
+#~ "Your head is dangerously cold. Getting undressed sounds like a good idea."
+#~ msgstr ""
+#~ "Dein Kopf ist gefährlich kalt. Sich nakt auszuziehen hört sich wie eine "
+#~ "gute Idee an."
+
+#~ msgid "Of course... it's all fractals!"
+#~ msgstr "Natürlich... es sind alles nur Dimensionen!"
+
+#~ msgid "Oh god, what's happening?"
+#~ msgstr "Oh Gott, was passiert hier?"
+
+#~ msgid "Huh?  What was that?"
+#~ msgstr "Hmm? Was was das?"
+
+#~ msgid "Fully rested."
+#~ msgstr "Komplett erholt."
+
+#~ msgid "Your feet feel numb."
+#~ msgstr "Deine Füße fühlen sich taub an."
+
+#~ msgid "Your hands are shivering."
+#~ msgstr "Deine Hände zittern."
+
+#~ msgid "Your torso is burning up. You should remove some layers."
+#~ msgstr "Dein Oberkörper brennt vor hitze. Du solltest etwas ausziehen."
+
+#~ msgid " and do damage to your genetics, causing mutation."
+#~ msgstr "und beschädigen deine Gene, was zu Mutationen führt."
+
+#~ msgid " and some of your existing bionics are lost."
+#~ msgstr "und einige deiner bestehenden Bioniken gehen verloren."
+
+#~ msgid " and all of your existing bionics are lost."
+#~ msgstr "und all deine bestehenden Bioniken gehen verloren."
+
+#~ msgid " and your body is damaged."
+#~ msgstr "und dein Körper ist verletzt."
+
+#~ msgid " Move up/down  "
+#~ msgstr "Nach oben/unten gehen"

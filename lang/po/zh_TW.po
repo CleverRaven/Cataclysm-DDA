@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 16:06+1200\n"
+"POT-Creation-Date: 2013-09-13 21:13+1200\n"
 "PO-Revision-Date: 2013-09-12 09:02+0000\n"
 "Last-Translator: xap cdda <Unknown>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
@@ -698,6 +698,11 @@ msgstr "1-9 (或 GHJKLYUBNI) 選擇要使用的地區, 0 使用物品欄,"
 msgid "[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."
 msgstr "[e]檢視物品,  [s]排序顯示, [p]切換自動撿取, [q]離開."
 
+#: advanced_inv.cpp:733
+#, fuzzy
+msgid "< [?] show help >"
+msgstr "< [?] 顯示log >"
+
 #: advanced_inv.cpp:772
 msgid "same square!"
 msgstr "相同地區!"
@@ -735,12 +740,9 @@ msgid "How many do you want to move? (0 to cancel)"
 msgstr "你要移動多少量? (0 取消)"
 
 #: advanced_inv.cpp:884
-msgid "! Move how many? (0 to cancel) "
+#, fuzzy, c-format
+msgid "Destination can only hold %d! Move how many? (0 to cancel) "
 msgstr "! 移動多少? (0 取消) "
-
-#: advanced_inv.cpp:884
-msgid "Destination can only hold "
-msgstr ""
 
 #: advanced_inv.cpp:913 advanced_inv.cpp:920
 #, c-format
@@ -49919,16 +49921,16 @@ msgstr "多少？"
 msgid "Item granted, choose another or 'q' to quit."
 msgstr ""
 
-#~ msgid "Revive zombies"
-#~ msgstr "殭屍復活"
-
-#~ msgid "Allow zombies to revive after a certain amount of time."
-#~ msgstr "允許殭屍在一段時間後復活"
-
-#~ msgid "Sort Crafting menu"
-#~ msgstr "製作物品選單排序"
-
 #~ msgid ""
 #~ "If true, the crafting menus will display recipes that you can craft "
 #~ "before other recipes"
 #~ msgstr "設定為 True ，製作選單將會把你能製作的物品優先排在前面。"
+
+#~ msgid "Sort Crafting menu"
+#~ msgstr "製作物品選單排序"
+
+#~ msgid "Allow zombies to revive after a certain amount of time."
+#~ msgstr "允許殭屍在一段時間後復活"
+
+#~ msgid "Revive zombies"
+#~ msgstr "殭屍復活"
