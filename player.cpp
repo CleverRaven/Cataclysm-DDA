@@ -134,12 +134,10 @@ player::player()
     my_traits.erase(iter->first);
     my_mutations.erase(iter->first);
  }
-
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill) {
    skillLevel(*aSkill).level(0);
  }
-
  for (int i = 0; i < num_bp; i++) {
   temp_cur[i] = BODYTEMP_NORM;
   frostbite_timer[i] = 0;
@@ -159,7 +157,6 @@ player::player()
  mDrenchEffect[bp_arms] = 19;
  mDrenchEffect[bp_hands] = 5;
  mDrenchEffect[bp_torso] = 40;
-
  recalc_sight_limits();
 }
 
@@ -3659,12 +3656,12 @@ int player::read_speed(bool real_life)
 
 int player::rust_rate(bool real_life)
 {
-    if (OPTIONS["SKILL_RUST"] == "off") {
+    if ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["SKILL_RUST"] == "off") {
         return 0;
     }
 
     int intel = (real_life ? int_cur : int_max);
-    int ret = ((OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
+    int ret = (((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["SKILL_RUST"] == "vanilla" || (awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
         ret *= 1.33;

@@ -61,7 +61,6 @@ int main(int argc, char *argv[])
   else // ignore unknown args.
    argc--; argv++;
  }
-
 // ncurses stuff
  initOptions();
  load_options(); // For getting size options
@@ -74,9 +73,7 @@ int main(int argc, char *argv[])
  set_escdelay(10); // Make escape actually responsive
 
  std::srand(seed);
-
  bool quit_game = false;
- bool delete_world = false;
  g = new game;
  if(g->game_error())
   exit_handler(-999);
@@ -85,7 +82,8 @@ int main(int argc, char *argv[])
  g->load_artifacts(); //artifacts have to be loaded before any items are created
  if(g->game_error())
   exit_handler(-999);
- MAPBUFFER.load();
+// this needs to be moved elsewhere. otherwise it will be pretty useless in the world factory
+ //MAPBUFFER.load();
 
  curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
@@ -96,22 +94,17 @@ int main(int argc, char *argv[])
   sigIntHandler.sa_flags = 0;
   sigaction(SIGINT, &sigIntHandler, NULL);
  #endif
-
  do {
   g->setup();
   while (!g->do_turn()) ;
-  if (g->uquit == QUIT_DELETE_WORLD)
-    delete_world = true;
+
   if (g->game_quit() || g->game_error())
    quit_game = true;
  } while (!quit_game);
+// conditional will never be called, g->uquit has no chance to be set to QUIT_DELETE_WORLD
 
- if (delete_world)
- {
-   g->delete_save();
- } else {
-  MAPBUFFER.save_if_dirty();
- }
+ MAPBUFFER.save_if_dirty();
+
 
  exit_handler(-999);
 

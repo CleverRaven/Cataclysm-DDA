@@ -393,6 +393,7 @@ bool player::create(game *g, character_type type, std::string tempname)
 
  // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
  apply_persistent_morale();
+
  return true;
 }
 

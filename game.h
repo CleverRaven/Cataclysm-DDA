@@ -24,6 +24,7 @@
 #include "gamemode.h"
 #include "action.h"
 #include "translations.h"
+#include "world_factory.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -41,6 +42,7 @@
 
 // The reference to the one and only game instance.
 extern game *g;
+extern world_factory *world_generator;
 
 #define PICKUP_RANGE 2
 extern bool trigdist;
@@ -107,7 +109,7 @@ class game
   void serialize(std::ofstream & fout); // for save
   void unserialize(std::ifstream & fin); // for load
   void save();
-  void delete_save();
+  void delete_world(std::string world, bool delete_folder);
   void write_memorial_file();
   void cleanup_at_end();
   bool do_turn();
@@ -357,16 +359,19 @@ void load_artifacts(); // Load artifact data
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
 
+  //std::string active_world;
+  WORLD *active_world;
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
-  bool load_master();	// Load the master data file, with factions &c
+  bool load_master(std::string worldname);	// Load the master data file, with factions &c -- redefine
   void load_weather(std::ifstream &fin);
   void load_weather(std::string line);
-  void load(std::string name);	// Load a player-specific save file
-  void start_game();	// Starts a new game
+  void load(std::string worldname, std::string name);	// Load a player-specific save file -- redefine
+  void start_game(std::string worldname);	// Starts a new game -- redefine
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
   //private save functions.
@@ -375,7 +380,7 @@ void load_artifacts(); // Load artifact data
 	 void save_maps();
   std::string save_weather() const;
   void save_uistate();
-  void load_uistate();
+  void load_uistate(std::string worldname);
 // Data Initialization
   void init_npctalk();
   void init_materials();
@@ -543,6 +548,11 @@ void load_artifacts(); // Load artifact data
   void mondebug();        // Debug monster behavior directly
   void groupdebug();      // Get into on monster groups
 
+  // world factory functions
+  WORLD *pick_world_to_play();
+  //int worldpick_screen();
+  //int worldgen_screen();
+
 
 // ########################## DATA ################################
 
@@ -577,6 +587,11 @@ void load_artifacts(); // Load artifact data
   special_game *gamemode;
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
+
+  // world factory related
+  std::map<std::string, WORLD*> worlds;
+  //std::map<std::string, std::vector<std::string> > world_save_data;
+  //std::vector<std::string> world_name_keys;
 };
 
 #endif

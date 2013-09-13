@@ -244,6 +244,7 @@ void defense_game::init_map(game *g)
  }
 // Init the map
  int old_percent = 0;
+
  for (int i = 0; i <= MAPSIZE * 2; i += 2) {
   for (int j = 0; j <= MAPSIZE * 2; j += 2) {
    int mx = g->levx - MAPSIZE + i, my = g->levy - MAPSIZE + j;

@@ -13,6 +13,8 @@ bool trigdist;
 bool use_tiles;
 
 std::map<std::string, cOpt> OPTIONS;
+std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+bool awo_populated;
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, std::string> optionNames;
@@ -307,8 +309,10 @@ void initOptions() {
     vPages.push_back(std::make_pair("general", _("General")));
     vPages.push_back(std::make_pair("interface", _("Interface")));
     vPages.push_back(std::make_pair("debug", _("Debug")));
+    vPages.push_back(std::make_pair("world_default", _("World Defaults")));
 
     OPTIONS.clear();
+    ACTIVE_WORLD_OPTIONS.clear();
 
     optionNames["fahrenheit"] = _("Fahrenheit");
     optionNames["celsius"] = _("Celsius");
@@ -425,7 +429,7 @@ void initOptions() {
     //~ based on intelligence and capped
     optionNames["intcap"] = _("IntCap");
     optionNames["off"] = _("Off");
-    OPTIONS["SKILL_RUST"] =             cOpt("debug", _("Skill Rust"),
+    OPTIONS["SKILL_RUST"] =             cOpt("world_default", _("Skill Rust"),
                                              _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
                                              "vanilla,capped,int,intcap,off", "vanilla"
                                             );
@@ -433,32 +437,32 @@ void initOptions() {
     optionNames["no"] = _("No");
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
-    OPTIONS["DELETE_WORLD"] =           cOpt("general", _("Delete World"),
+    OPTIONS["DELETE_WORLD"] =           cOpt("world_default", _("Delete World"),
                                              _("Delete world upon player death."),
                                              "no,yes,query", "no"
                                             );
 
-    OPTIONS["INITIAL_POINTS"] =         cOpt("debug", _("Initial points"),
+    OPTIONS["INITIAL_POINTS"] =         cOpt("general", _("Initial points"),
                                              _("Initial points available on character generation."),
                                              0, 25, 6
                                             );
 
-    OPTIONS["MAX_TRAIT_POINTS"] =       cOpt("debug", _("Maximum trait points"),
+    OPTIONS["MAX_TRAIT_POINTS"] =       cOpt("general", _("Maximum trait points"),
                                              _("Maximum trait points available for character generation."),
                                              0, 25, 12
                                             );
 
-    OPTIONS["SPAWN_DENSITY"] =          cOpt("general", _("Spawn rate scaling factor"),
+    OPTIONS["SPAWN_DENSITY"] =          cOpt("world_default", _("Spawn rate scaling factor"),
                                              _("A scaling factor that determines density of monster spawns."),
                                              0.0, 50.0, 1.0, 0.1
                                             );
 
-    OPTIONS["CITY_SIZE"] =              cOpt("general", _("Size of cities"),
+    OPTIONS["CITY_SIZE"] =              cOpt("world_default", _("Size of cities"),
                                              _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
                                              4, 16, 4
                                             );
 
-    OPTIONS["INITIAL_TIME"] =           cOpt("debug", _("Initial time"),
+    OPTIONS["INITIAL_TIME"] =           cOpt("world_default", _("Initial time"),
                                              _("Initial starting time of day on character generation."),
                                              0, 23, 8
                                             );
@@ -486,27 +490,27 @@ void initOptions() {
                                              1, 50, 1
                                             );
 
-    OPTIONS["STATIC_SPAWN"] =           cOpt("debug", _("Static spawn"),
+    OPTIONS["STATIC_SPAWN"] =           cOpt("world_default", _("Static spawn"),
                                              _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
                                              true
                                             );
 
-    OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("debug", _("Classic zombies"),
+    OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("world_default", _("Classic zombies"),
                                              _("Only spawn classic zombies and natural wildlife. Requires a reset of save folder to take effect. This disables certain buildings."),
                                              false
                                             );
 
-    OPTIONS["SEASON_LENGTH"] =          cOpt("debug", _("Season length"),
+    OPTIONS["SEASON_LENGTH"] =          cOpt("world_default", _("Season length"),
                                              _("Season length, in days."),
                                              14, 127, 14
                                             );
 
-    OPTIONS["STATIC_NPC"] =             cOpt("debug", _("Static npcs"),
+    OPTIONS["STATIC_NPC"] =             cOpt("world_default", _("Static npcs"),
                                              _("If true, the game will spawn static NPC at the start of the game, requires world reset."),
                                              false
                                             );
 
-    OPTIONS["RANDOM_NPC"] =             cOpt("debug", _("Random npcs"),
+    OPTIONS["RANDOM_NPC"] =             cOpt("world_default", _("Random npcs"),
                                              _("If true, the game will randomly spawn NPC during gameplay."),
                                              false
                                             );
@@ -826,3 +830,26 @@ void save_options()
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
 }
 
+// the directory needs to be created before this can be run?
+void save_world_options(std::string world, std::map<std::string, cOpt> world_ops)
+{
+    std::ofstream fout;
+    std::stringstream woption;
+    woption << "save/" << world << "/worldoptions.txt";
+    fout.open(woption.str().c_str());
+
+    if (!fout.is_open())
+    {
+        return;
+    }
+    //fout << world_options_header() << std::endl;
+
+    for (std::map<std::string, cOpt>::iterator it = world_ops.begin(); it != world_ops.end(); ++it)
+    {
+        fout << "#" << it->second.getTooltip() << std::endl;
+        fout << "#Default: " << it->second.getDefaultText() << std::endl;
+        fout << it->first << " " << it->second.getValue() << std::endl << std::endl;
+    }
+
+    fout.close();
+}

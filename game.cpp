@@ -63,6 +63,7 @@ nc_color sev(int a);	// Right now, ONLY used for scent debugging....
 
 //The one and only game instance
 game *g;
+extern world_factory *world_generator;
 
 uistatedata uistate;
 
@@ -81,6 +82,7 @@ game::game() :
  gamemode(NULL)
 {
  dout() << "Game initialized.";
+ world_generator = new world_factory();
 
  try {
  if(!json_good())
@@ -140,6 +142,8 @@ game::~game()
  delwin(w_location);
  delwin(w_status);
  delwin(w_status2);
+
+ delete world_generator;
 }
 
 void game::init_skills() throw (std::string)
@@ -366,9 +370,7 @@ void game::setup()
   for (int j = 0; j < SEEX * MAPSIZE; j++)
    grscent[i][j] = 0;
  }
-
  load_auto_pickup(false); // Load global auto pickup rules
-
  if (opening_screen()) {// Opening menu
 // Finally, draw the screen!
   refresh_all();
@@ -377,63 +379,63 @@ void game::setup()
 }
 
 // Set up all default values for a new game
-void game::start_game()
+void game::start_game(std::string worldname)
 {
- turn = HOURS(OPTIONS["INITIAL_TIME"]);
- run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
- mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
+    // load [worldname] world
+    MAPBUFFER.load_from(worldname);
+    turn = HOURS((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["INITIAL_TIME"]);
+    run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
+    mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
- popup_nowait(_("Please wait as we build your world"));
-// Init some factions.
- if (!load_master())	// Master data record contains factions.
-  create_factions();
- cur_om = &overmap_buffer.get(this, 0, 0);	// We start in the (0,0,0) overmap.
+    popup_nowait(_("Please wait as we build your world"));
+    // Init some factions.
+    if (!load_master(worldname))	// Master data record contains factions.
+        create_factions();
+    cur_om = &overmap_buffer.get(this, 0, 0);	// We start in the (0,0,0) overmap.
 
-// Find a random house on the map, and set us there.
- cur_om->first_house(levx, levy);
- levx -= int(int(MAPSIZE / 2) / 2);
- levy -= int(int(MAPSIZE / 2) / 2);
- levz = 0;
-// Start the overmap with out immediate neighborhood visible
- for (int i = -15; i <= 15; i++) {
-  for (int j = -15; j <= 15; j++)
-   cur_om->seen(levx + i, levy + j, 0) = true;
- }
-// Convert the overmap coordinates to submap coordinates
- levx = levx * 2 - 1;
- levy = levy * 2 - 1;
- set_adjacent_overmaps(true);
-// Init the starting map at this location.
- m.load(this, levx, levy, levz);
-// Start us off somewhere in the shelter.
- u.posx = SEEX * int(MAPSIZE / 2) + 5;
- u.posy = SEEY * int(MAPSIZE / 2) + 6;
- u.str_cur = u.str_max;
- u.per_cur = u.per_max;
- u.int_cur = u.int_max;
- u.dex_cur = u.dex_max;
- nextspawn = int(turn);
- temperature = 65; // Springtime-appropriate?
- u.next_climate_control_check=0;  // Force recheck at startup
- u.last_climate_control_ret=false;
+    // Find a random house on the map, and set us there.
+    cur_om->first_house(levx, levy);
+    levx -= int(int(MAPSIZE / 2) / 2);
+    levy -= int(int(MAPSIZE / 2) / 2);
+    levz = 0;
+    // Start the overmap with out immediate neighborhood visible
+    for (int i = -15; i <= 15; i++) {
+        for (int j = -15; j <= 15; j++)
+            cur_om->seen(levx + i, levy + j, 0) = true;
+    }
+    // Convert the overmap coordinates to submap coordinates
+    levx = levx * 2 - 1;
+    levy = levy * 2 - 1;
+    set_adjacent_overmaps(true);
+    // Init the starting map at this location.
+    m.load(this, levx, levy, levz);
+    // Start us off somewhere in the shelter.
+    u.posx = SEEX * int(MAPSIZE / 2) + 5;
+    u.posy = SEEY * int(MAPSIZE / 2) + 6;
+    u.str_cur = u.str_max;
+    u.per_cur = u.per_max;
+    u.int_cur = u.int_max;
+    u.dex_cur = u.dex_max;
+    nextspawn = int(turn);
+    temperature = 65; // Springtime-appropriate?
+    u.next_climate_control_check=0;  // Force recheck at startup
+    u.last_climate_control_ret=false;
 
- //Reset character pickup rules
- vAutoPickupRules[2].clear();
- //Load NPCs. Set nearby npcs to active.
- load_npcs();
- //spawn the monsters
- m.spawn_monsters(this);	// Static monsters
- //Put some NPCs in there!
- create_starting_npcs();
+    //Reset character pickup rules
+    vAutoPickupRules[2].clear();
+    //Load NPCs. Set nearby npcs to active.
+    load_npcs();
+    //spawn the monsters
+    m.spawn_monsters(this);	// Static monsters
+    //Put some NPCs in there!
+    create_starting_npcs();
 
- //Create mutation_category_level
- u.set_highest_cat_level();
- //Calc mutation drench protection stats
- u.drench_mut_calc();
+    //Create mutation_category_level
+    u.set_highest_cat_level();
 
- MAPBUFFER.set_dirty();
+    MAPBUFFER.set_dirty();
 
- u.add_memorial_log(_("%s began their journey into the Cataclysm."), u.name.c_str());
+    u.add_memorial_log(_("%s began their journey into the Cataclysm."), u.name.c_str());
 }
 
 void game::create_factions()
@@ -497,7 +499,7 @@ void game::load_npcs()
 
 void game::create_starting_npcs()
 {
- if(!OPTIONS["STATIC_NPC"])
+ if(!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["STATIC_NPC"])
  	return; //Do not generate a starting npc.
  npc * tmp = new npc();
  tmp->normalize(this);
@@ -543,10 +545,18 @@ void game::cleanup_at_end(){
                 uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
         write_memorial_file();
         u.memorial_log.clear();
-        if (OPTIONS["DELETE_WORLD"] == "yes" ||
-            (OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?"))))
+        if ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "yes" ||
+            ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["DELETE_WORLD"] == "query" && query_yn(_("Reset saved world?"))))
         {
-            delete_save();
+            if (gamemode->id() == SGAME_NULL)
+            {
+                delete_world(active_world->world_name, false);
+            }
+            else
+            {
+                delete_world(active_world->world_name, true);
+            }
+            //delete_save();
             MAPBUFFER.reset();
             MAPBUFFER.make_volatile();
         }
@@ -555,6 +565,11 @@ void game::cleanup_at_end(){
             delete gamemode;
             gamemode = new special_game;	// null gamemode or something..
         }
+    }
+    if (uquit == QUIT_SAVED && gamemode->id() != SGAME_NULL)
+    {
+        MAPBUFFER.reset();
+        MAPBUFFER.make_volatile();
     }
     overmap_buffer.clear();
 }
@@ -2358,7 +2373,7 @@ bool game::is_game_over()
                 g->m.unboard_vehicle(this, u.posx, u.posy);
             place_corpse();
             std::stringstream playerfile;
-            playerfile << "save/" << base64_encode(u.name) << ".sav";
+            playerfile << "save/" << active_world->world_name << "/" << base64_encode(u.name) << ".sav";
             unlink(playerfile.str().c_str());
             uquit = QUIT_DIED;
             return true;
@@ -2459,46 +2474,56 @@ void game::death_screen()
     disp_kills();
 }
 
-
-bool game::load_master()
+bool game::load_master(std::string worldname)
 {
- std::ifstream fin;
- std::string data;
- char junk;
- fin.open("save/master.gsav");
- if (!fin.is_open())
-  return false;
+    std::ifstream fin;
+    std::string data;
+    char junk;
+    std::stringstream master;
+    master << "save/" << worldname << "/master.gsav";
 
-// First, get the next ID numbers for each of these
- fin >> next_mission_id >> next_faction_id >> next_npc_id;
- int num_missions, num_factions;
+    fin.open(master.str().c_str());
 
- fin >> num_missions;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_missions; i++) {
-  mission tmpmiss;
-  tmpmiss.load_info(this, fin);
-  active_missions.push_back(tmpmiss);
- }
+    if (!fin.is_open())
+        return false;
 
- fin >> num_factions;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_factions; i++) {
-  getline(fin, data);
-  faction tmp;
-  tmp.load_info(data);
-  factions.push_back(tmp);
- }
- fin.close();
- return true;
+    // First, get the next ID numbers for each of these
+    fin >> next_mission_id >> next_faction_id >> next_npc_id;
+    int num_missions, num_factions;
+
+    fin >> num_missions;
+    if (fin.peek() == '\n')
+    {
+        fin.get(junk); // Chomp that pesky endline
+    }
+
+    for (int i = 0; i < num_missions; i++)
+    {
+        mission tmpmiss;
+        tmpmiss.load_info(this, fin);
+        active_missions.push_back(tmpmiss);
+    }
+
+    fin >> num_factions;
+    if (fin.peek() == '\n')
+    {
+        fin.get(junk); // Chomp that pesky endline
+    }
+    for (int i = 0; i < num_factions; i++)
+    {
+        getline(fin, data);
+        faction tmp;
+        tmp.load_info(data);
+        factions.push_back(tmp);
+    }
+    fin.close();
+    return true;
 }
-
-void game::load_uistate() {
-    const std::string savedir="save";
+void game::load_uistate(std::string worldname)
+{
+    const std::string savedir="save/";
     std::stringstream savefile;
-    savefile << savedir << "/uistate.json";
+    savefile << savedir << worldname << "/uistate.json";
 
     std::ifstream fin;
     fin.open(savefile.str().c_str());
@@ -2720,45 +2745,49 @@ void game::load_weather(std::ifstream &fin)
         future_weather.push_back(new_segment);
     }
 }
-
-void game::load(std::string name)
+void game::load(std::string worldname, std::string name)
 {
- std::ifstream fin;
- std::stringstream playerfile;
- playerfile << "save/" << name << ".sav";
- fin.open(playerfile.str().c_str());
-// First, read in basic game state information.
- if (!fin.is_open()) {
-  dbg(D_ERROR) << "game:load: No save game exists!";
-  debugmsg("No save game exists!");
-  return;
- }
- u = player();
- u.name = base64_decode(name);
- u.ret_null = item(itypes["null"], 0);
- u.weapon = item(itypes["null"], 0);
- unserialize(fin);
- fin.close();
+    // load [worldname] world
+    MAPBUFFER.load_from(worldname);
+    std::ifstream fin;
+    std::stringstream playerfile;
+    playerfile << "save/" << worldname << "/" << name << ".sav";
+    fin.open(playerfile.str().c_str());
 
- // Now that the player's worn items are updated, their sight limits need to be
- // recalculated. (This would be cleaner if u.worn were private.)
- u.recalc_sight_limits();
+    // First, read in basic game state information.
+    if (!fin.is_open()) {
+        dbg(D_ERROR) << "game:load: No save game exists!";
+        debugmsg("No save game exists!");
+        return;
+    }
+    u = player();
+    u.name = base64_decode(name);
+    u.ret_null = item(itypes["null"], 0);
+    u.weapon = item(itypes["null"], 0);
+    unserialize(fin);
+    fin.close();
 
- load_auto_pickup(true); // Load character auto pickup rules
- load_uistate();
-// Now load up the master game data; factions (and more?)
- load_master();
- update_map(u.posx, u.posy);
- set_adjacent_overmaps(true);
- MAPBUFFER.set_dirty();
- draw();
+    // Now that the player's worn items are updated, their sight limits need to be
+    // recalculated. (This would be cleaner if u.worn were private.)
+    u.recalc_sight_limits();
+
+    load_auto_pickup(true); // Load character auto pickup rules
+    //load_uistate();
+    load_uistate(worldname);
+    // Now load up the master game data; factions (and more?)
+    //load_master();
+    load_master(worldname);
+    update_map(u.posx, u.posy);
+    set_adjacent_overmaps(true);
+    MAPBUFFER.set_dirty();
+    draw();
 }
 
 //Saves all factions and missions and npcs.
 //Requires a valid std:stringstream masterfile to save the
 void game::save_factions_missions_npcs ()
 {
-	std::stringstream masterfile;
+    std::stringstream masterfile;
 	std::ofstream fout;
     masterfile << "save/master.gsav";
 
@@ -2780,7 +2809,10 @@ void game::save_artifacts()
 {
     std::ofstream fout;
     std::vector<picojson::value> artifacts;
-    fout.open("save/artifacts.gsav");
+    std::stringstream artifactfile;
+    artifactfile << "save/" << active_world->world_name << "/artifacts.gsav";
+
+    fout.open(artifactfile.str().c_str());
     for ( std::vector<std::string>::iterator it =
 	      artifact_itype_ids.begin();
 	  it != artifact_itype_ids.end(); ++it)
@@ -2800,9 +2832,9 @@ void game::save_maps()
 }
 
 void game::save_uistate() {
-    const std::string savedir="save";
+    const std::string savedir="save/";
     std::stringstream savefile;
-    savefile << savedir << "/uistate.json";
+    savefile << savedir << active_world->world_name << "/uistate.json";
     std::ofstream fout;
     fout.open(savefile.str().c_str());
     fout << uistate.save();
@@ -2829,7 +2861,7 @@ void game::save()
 {
  std::stringstream playerfile;
  std::ofstream fout;
- playerfile << "save/" << base64_encode(u.name) << ".sav";
+ playerfile << "save/" << active_world->world_name << "/" << base64_encode(u.name) << ".sav";
 
  fout.open(playerfile.str().c_str());
  serialize(fout);
@@ -2837,37 +2869,71 @@ void game::save()
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
  save_auto_pickup(true); // Save character auto pickup rules
  save_uistate();
+
+ world_generator->active_world->world_saves.push_back(base64_encode(u.name));
 }
 
-void game::delete_save()
+void game::delete_world(std::string worldname, bool delete_folder)
 {
+    std::string wOption = "worldoptions.txt";
+    std::stringstream path;
+    path << "save/" << worldname;
 #if (defined _WIN32 || defined __WIN32__)
-      WIN32_FIND_DATA FindFileData;
-      HANDLE hFind;
-      TCHAR Buffer[MAX_PATH];
+    WIN32_FIND_DATA FindFileData;
+    HANDLE hFind;
+    TCHAR Buffer[MAX_PATH];
+    std::string file_tmp;
 
-      GetCurrentDirectory(MAX_PATH, Buffer);
-      SetCurrentDirectory("save");
-      hFind = FindFirstFile("*", &FindFileData);
-      if(INVALID_HANDLE_VALUE != hFind) {
-       do {
-        DeleteFile(FindFileData.cFileName);
-       } while(FindNextFile(hFind, &FindFileData) != 0);
-       FindClose(hFind);
-      }
-      SetCurrentDirectory(Buffer);
+    GetCurrentDirectory(MAX_PATH, Buffer);
+    SetCurrentDirectory(path.str().c_str());
+    hFind = FindFirstFile("*", &FindFileData);
+    if (INVALID_HANDLE_VALUE != hFind)
+    {
+        do
+        {
+            file_tmp = FindFileData.cFileName;
+            if (delete_folder || file_tmp != wOption.c_str())
+            {
+                DeleteFile(FindFileData.cFileName);
+            }
+        }while (FindNextFile(hFind, &FindFileData) != 0);
+        FindClose(hFind);
+    }
+    SetCurrentDirectory(Buffer);
+    if (delete_folder)
+    {
+        SetCurrentDirectory("save");
+        RemoveDirectory(worldname.c_str());
+    }
+    SetCurrentDirectory(Buffer);
 #else
-     DIR *save_dir = opendir("save");
-     struct dirent *save_dirent = NULL;
-     if(save_dir != NULL && 0 == chdir("save"))
-     {
-      while ((save_dirent = readdir(save_dir)) != NULL)
-       (void)unlink(save_dirent->d_name);
-      (void)chdir("..");
-      (void)closedir(save_dir);
-     }
+    DIR *save_dir = opendir(path.str().c_str());
+    struct dirent *save_dirent = NULL;
+    std::string file_tmp;
+    if (save_dir != NULL && 0 == chdir(path.str().c_str()))
+    {
+        while ((save_dirent = readdir(save_dir)) != NULL)
+        {
+            file_tmp = save_dirent->d_name;
+            if (delete_folder || file_tmp != wOption.c_str())
+            {
+                (void)unlink(save_dirent->d_name);
+            }
+        }
+        (void)chdir("..");
+        (void)closedir(save_dir);
+
+        if (delete_folder)
+        {
+            //save_dir = opendir("save");
+            remove(worldname.c_str());
+        }
+        (void)chdir("..");
+    }
 #endif
+
 }
+
 
 /**
  * Writes information about the character out to a text file timestamped with
@@ -3139,7 +3205,7 @@ Current turn: %d; Next spawn %d.\n\
 %d events planned."),
              u.posx, u.posy, levx, levy,
              oterlist[cur_om->ter(levx / 2, levy / 2, levz)].name.c_str(),
-             int(turn), int(nextspawn), (!OPTIONS["RANDOM_NPC"] ? _("NPCs are going to spawn.") :
+             int(turn), int(nextspawn), (!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["RANDOM_NPC"] ? _("NPCs are going to spawn.") :
                                          _("NPCs are NOT going to spawn.")),
              num_zombies(), active_npc.size(), events.size());
 		 if( !active_npc.empty() ) {
@@ -10469,7 +10535,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int iter;
  int t;
  // Create a new NPC?
- if (OPTIONS["RANDOM_NPC"] && one_in(100 + 15 * cur_om->npcs.size())) {
+ if ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["RANDOM_NPC"] && one_in(100 + 15 * cur_om->npcs.size())) {
   npc * tmp = new npc();
   tmp->normalize(this);
   tmp->randomize(this);

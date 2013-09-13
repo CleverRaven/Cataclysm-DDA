@@ -2198,10 +2198,10 @@ void overmap::place_cities()
  int NUM_CITIES = dice(4, 4);
  int cx, cy, cs;
  int start_dir;
- int city_min = OPTIONS["CITY_SIZE"] - 1;
- int city_max = OPTIONS["CITY_SIZE"] + 1;
+ int city_min = (awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["CITY_SIZE"] - 1;
+ int city_max = (awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["CITY_SIZE"] + 1;
  // Limit number of cities based on how big they are.
- NUM_CITIES = std::min(NUM_CITIES, int(256 / OPTIONS["CITY_SIZE"] * OPTIONS["CITY_SIZE"]));
+ NUM_CITIES = std::min(NUM_CITIES, int(256 / (awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["CITY_SIZE"] * (awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["CITY_SIZE"]));
 
  while (cities.size() < NUM_CITIES) {
   cx = rng(12, OMAPX - 12);
@@ -3054,7 +3054,7 @@ void overmap::place_specials()
     int min = special.min_dist_from_city, max = special.max_dist_from_city;
     point pt(p.x, p.y);
     // Skip non-classic specials if we're in classic mode
-    if (OPTIONS["CLASSIC_ZOMBIES"] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
+    if ((awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["CLASSIC_ZOMBIES"] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
     if ((placed[ omspec_id(i) ] < special.max_appearances || special.max_appearances <= 0) &&
         (min == -1 || dist_from_city(pt) >= min) &&
         (max == -1 || dist_from_city(pt) <= max) &&
@@ -3342,7 +3342,7 @@ void overmap::place_special(overmap_special special, tripoint p)
 
 void overmap::place_mongroups()
 {
- if (!OPTIONS["STATIC_SPAWN"]) {
+ if (!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["STATIC_SPAWN"]) {
   // Cities are full of zombies
   for (unsigned int i = 0; i < cities.size(); i++) {
    if (!one_in(16) || cities[i].s > 5)
@@ -3351,7 +3351,7 @@ void overmap::place_mongroups()
   }
  }
 
- if (!OPTIONS["CLASSIC_ZOMBIES"]) {
+ if (!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["CLASSIC_ZOMBIES"]) {
   // Figure out where swamps are, and place swamp monsters
   for (int x = 3; x < OMAPX - 3; x += 7) {
    for (int y = 3; y < OMAPY - 3; y += 7) {
@@ -3371,7 +3371,7 @@ void overmap::place_mongroups()
   }
  }
 
- if (!OPTIONS["CLASSIC_ZOMBIES"]) {
+ if (!(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["CLASSIC_ZOMBIES"]) {
   // Place the "put me anywhere" groups
   int numgroups = rng(0, 3);
   for (int i = 0; i < numgroups; i++) {
@@ -3471,7 +3471,7 @@ void overmap::save()
     }
    }
   }
-  fout << count; 
+  fout << count;
   fout << std::endl;
 
   for (int i = 0; i < layer[z].notes.size(); i++) {
@@ -3704,7 +3704,7 @@ std::string overmap::terrain_filename(int const x, int const y) const
 {
  std::stringstream filename;
 
- filename << "save/";
+ filename << "save/" << g->active_world->world_name << "/";
 
  if (!prefix.empty()) {
  	filename << prefix << ".";
@@ -3719,7 +3719,7 @@ std::string overmap::player_filename(int const x, int const y) const
 {
  std::stringstream filename;
 
- filename << "save/" << base64_encode(name) << ".seen." << x << "." << y;
+ filename << "save/" << g->active_world->world_name << "/" << base64_encode(name) << ".seen." << x << "." << y;
 
  return filename.str();
 }

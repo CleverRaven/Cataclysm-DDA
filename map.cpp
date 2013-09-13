@@ -3841,7 +3841,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
   }
 
   // plantEpoch is half a season; 3 epochs pass from plant to harvest
-  const int plantEpoch = 14400 * (int)OPTIONS["SEASON_LENGTH"] / 2;
+  const int plantEpoch = 14400 * (int)(awo_populated?ACTIVE_WORLD_OPTIONS:OPTIONS)["SEASON_LENGTH"] / 2;
 
   // check plants
   for (int x = 0; x < SEEX; x++) {

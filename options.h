@@ -84,9 +84,12 @@ class cOpt
 };
 
 extern std::map<std::string, cOpt> OPTIONS;
+extern std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+extern bool awo_populated;
 
 void initOptions();
 void load_options();
 void save_options();
+void save_world_options(std::string world, std::map<std::string, cOpt> world_ops);
 
 #endif

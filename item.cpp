@@ -480,7 +480,7 @@ char check=dump.peek();
 if ( check == ' ' ) {
   // sigh..
   check=data[1];
-} 
+}
 if ( check == '{' ) {
         picojson::value pdata;
         dump >> pdata;
@@ -2261,7 +2261,7 @@ char item::pick_reload_ammo(player &u, bool interactive)
          ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
          amenu.addentry(i,true,i + 'a',"%s | %-7d | %-7d | %-7d | %-7d",
              std::string(
-                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) + 
+                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) +
                 std::string(namelen,' ')
              ).substr(0,namelen).c_str(),
              ammo_def->damage, ammo_def->pierce, ammo_def->range,
