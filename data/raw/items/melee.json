@@ -1155,9 +1155,9 @@
     "material": "leather",
     "weight": 150,
     "volume": 1,
-    "bashing": 14,
+    "bashing": 12,
     "cutting": 0,
-    "to_hit": 0
+    "to_hit": 3
   },
   {
     "id": "puck",
@@ -1169,9 +1169,9 @@
     "material": "plastic",
     "weight": 170,
     "volume": 1,
-    "bashing": 18,
+    "bashing": 12,
     "cutting": 0,
-    "to_hit": -1
+    "to_hit": 2
   },
   { "id":"fertilizer",
     "symbol": "*",
