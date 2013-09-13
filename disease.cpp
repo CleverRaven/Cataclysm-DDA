@@ -15,17 +15,9 @@ enum dis_type_enum {
  DI_GLARE, DI_WET,
 // Temperature, the order is important (dependant on bodypart.h)
  DI_COLD,
- DI_COLD_TORSO, DI_COLD_HEAD, DI_COLD_EYES, DI_COLD_MOUTH,
- DI_COLD_ARMS, DI_COLD_HANDS, DI_COLD_LEGS, DI_COLD_FEET,
  DI_FROSTBITE,
- DI_FROSTBITE_TORSO, DI_FROSTBITE_HEAD, DI_FROSTBITE_EYES, DI_FROSTBITE_MOUTH,
- DI_FROSTBITE_ARMS, DI_FROSTBITE_HANDS, DI_FROSTBITE_LEGS, DI_FROSTBITE_FEET,
  DI_HOT,
- DI_HOT_TORSO, DI_HOT_HEAD, DI_HOT_EYES, DI_HOT_MOUTH,
- DI_HOT_ARMS, DI_HOT_HANDS, DI_HOT_LEGS, DI_HOT_FEET,
  DI_BLISTERS,
- DI_BLISTERS_TORSO, DI_BLISTERS_HEAD, DI_BLISTERS_EYES, DI_BLISTERS_MOUTH,
- DI_BLISTERS_ARMS, DI_BLISTERS_HANDS, DI_BLISTERS_LEGS, DI_BLISTERS_FEET,
 // Diseases
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
@@ -65,41 +57,9 @@ void game::init_diseases() {
     disease_type_lookup["glare"] = DI_GLARE;
     disease_type_lookup["wet"] = DI_WET;
     disease_type_lookup["cold"] = DI_COLD;
-    disease_type_lookup["cold_torso"] = DI_COLD_TORSO;
-    disease_type_lookup["cold_head"] = DI_COLD_HEAD;
-    disease_type_lookup["cold_eyes"] = DI_COLD_EYES;
-    disease_type_lookup["cold_mouth"] = DI_COLD_MOUTH;
-    disease_type_lookup["cold_arms"] = DI_COLD_ARMS;
-    disease_type_lookup["cold_hands"] = DI_COLD_HANDS;
-    disease_type_lookup["cold_legs"] = DI_COLD_LEGS;
-    disease_type_lookup["cold_feet"] = DI_COLD_FEET;
     disease_type_lookup["frostbite"] = DI_FROSTBITE;
-    disease_type_lookup["frostbite_torso"] = DI_FROSTBITE_TORSO;
-    disease_type_lookup["frostbite_head"] = DI_FROSTBITE_HEAD;
-    disease_type_lookup["frostbite_eyes"] = DI_FROSTBITE_EYES;
-    disease_type_lookup["frostbite_mouth"] = DI_FROSTBITE_MOUTH;
-    disease_type_lookup["frostbite_arms"] = DI_FROSTBITE_ARMS;
-    disease_type_lookup["frostbite_hands"] = DI_FROSTBITE_HANDS;
-    disease_type_lookup["frostbite_legs"] = DI_FROSTBITE_LEGS;
-    disease_type_lookup["frostbite_feet"] = DI_FROSTBITE_FEET;
     disease_type_lookup["hot"] = DI_HOT;
-    disease_type_lookup["hot_torso"] = DI_HOT_TORSO;
-    disease_type_lookup["hot_head"] = DI_HOT_HEAD;
-    disease_type_lookup["hot_eyes"] = DI_HOT_EYES;
-    disease_type_lookup["hot_mouth"] = DI_HOT_MOUTH;
-    disease_type_lookup["hot_arms"] = DI_HOT_ARMS;
-    disease_type_lookup["hot_hands"] = DI_HOT_HANDS;
-    disease_type_lookup["hot_legs"] = DI_HOT_LEGS;
-    disease_type_lookup["hot_feet"] = DI_HOT_FEET;
     disease_type_lookup["blisters"] = DI_BLISTERS;
-    disease_type_lookup["blisters_torso"] = DI_BLISTERS_TORSO;
-    disease_type_lookup["blisters_head"] = DI_BLISTERS_HEAD;
-    disease_type_lookup["blisters_eyes"] = DI_BLISTERS_EYES;
-    disease_type_lookup["blisters_mouth"] = DI_BLISTERS_MOUTH;
-    disease_type_lookup["blisters_arms"] = DI_BLISTERS_ARMS;
-    disease_type_lookup["blisters_hands"] = DI_BLISTERS_HANDS;
-    disease_type_lookup["blisters_legs"] = DI_BLISTERS_LEGS;
-    disease_type_lookup["blisters_feet"] = DI_BLISTERS_FEET;
     disease_type_lookup["infection"] = DI_INFECTION;
     disease_type_lookup["common_cold"] = DI_COMMON_COLD;
     disease_type_lookup["flu"] = DI_FLU;
@@ -169,99 +129,6 @@ void game::init_diseases() {
     disease_type_lookup["asked_for_item"] = DI_ASKED_FOR_ITEM;
     disease_type_lookup["catch_up"] = DI_CATCH_UP;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
-}
-
-dis_type disease_for_body_part(dis_type base, int body_part) {
-    if(base == "hot") {
-        switch(body_part) {
-        case 0:
-            return "hot_torso";
-        case 1:
-            return "hot_head";
-        case 2:
-            return "hot_eyes";
-        case 3:
-            return "hot_mouth";
-        case 4:
-            return "hot_arms";
-        case 5:
-            return "hot_hands";
-        case 6:
-            return "hot_legs";
-        case 7:
-            return "hot_feet";
-        default:
-            return "none";
-        }
-    }
-    else if(base == "cold") {
-        switch(body_part) {
-        case 0:
-            return "cold_torso";
-        case 1:
-            return "cold_head";
-        case 2:
-            return "cold_eyes";
-        case 3:
-            return "cold_mouth";
-        case 4:
-            return "cold_arms";
-        case 5:
-            return "cold_hands";
-        case 6:
-            return "cold_legs";
-        case 7:
-            return "cold_feet";
-        default:
-            return "none";
-        }
-    }
-    else if(base == "blisters") {
-        switch(body_part) {
-        case 0:
-            return "blisters_torso";
-        case 1:
-            return "blisters_head";
-        case 2:
-            return "blisters_eyes";
-        case 3:
-            return "blisters_mouth";
-        case 4:
-            return "blisters_arms";
-        case 5:
-            return "blisters_hands";
-        case 6:
-            return "blisters_legs";
-        case 7:
-            return "blisters_feet";
-        default:
-            return "none";
-        }
-    }
-    else if(base == "frostbite") {
-        switch(body_part) {
-        case 0:
-            return "frostbite_torso";
-        case 1:
-            return "frostbite_head";
-        case 2:
-            return "frostbite_eyes";
-        case 3:
-            return "frostbite_mouth";
-        case 4:
-            return "frostbite_arms";
-        case 5:
-            return "frostbite_hands";
-        case 6:
-            return "frostbite_legs";
-        case 7:
-            return "frostbite_feet";
-        default:
-            return "none";
-        }
-    }
-
-    return "none";
 }
 
 void dis_msg(game *g, dis_type type_string) {
@@ -418,274 +285,312 @@ void dis_effect(game *g, player &p, disease &dis) {
             p.add_morale(MORALE_WET, -1, -50, 60, 10);
             break;
 
-        case DI_COLD_HEAD:
-            switch(dis.intensity) {
-                case 3:
-                    p.int_cur -= 2;
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your thoughts are unclear."));
+        case DI_COLD:
+            switch(dis.bp) {
+                case bp_head:
+                    switch(dis.intensity) {
+                        case 3:
+                            p.int_cur -= 2;
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your thoughts are unclear."));
+                            }
+                        case 2 :
+                            p.int_cur--;
+                        default:
+                            break;
                     }
-                case 2 : p.int_cur--;
-                default:break;
-            } break;
-
-        case DI_COLD_MOUTH:
-            switch(dis.intensity) {
-                case 3:
-                    p.per_cur -= 2;
-                case 2:
-                    p.per_cur--;
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your face is stiff from the cold."));
-                    }
-                default:break;
-            } break;
-
-        case DI_COLD_TORSO:
-            switch(dis.intensity) {
-                case 3:
-                    // Speed -20
-                    p.dex_cur -= 2;
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your torso is freezing cold. \
-                                     You should put on a few more layers."));
-                    }
-                case 2:
-                    p.dex_cur -= 2;
-            } break;
-
-        case DI_COLD_ARMS:
-            switch(dis.intensity) {
-                case 3:
-                    p.dex_cur -= 2;
-                case 2:
-                    p.dex_cur--;
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your arms are shivering."));
-                    }
-                default:break;
-            } break;
-
-        case DI_COLD_HANDS:
-            switch(dis.intensity) {
-                case 3:
-                    p.dex_cur -= 2;
-                case 2:
-                    p.dex_cur -= 1;
-                if (!sleeping && tempMsgTrigger) {
-                    g->add_msg(_("Your hands feel like ice."));
-                }
-                default:break;
-            } break;
-
-        case DI_COLD_LEGS:
-            switch(dis.intensity) {
-                case 3:
-                    p.dex_cur--;
-                    p.str_cur--;
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your legs tremble against the relentless cold."));
-                    }
-                case 2:
-                    p.dex_cur--;
-                    p.str_cur--;
-                default:break;
-            } break;
-
-        case DI_COLD_FEET:
-            switch(dis.intensity) {
-                case 3:
-                    p.dex_cur--;
-                    p.str_cur--;
                     break;
-                case 2:
+                case bp_mouth:
+                    switch(dis.intensity) {
+                        case 3:
+                            p.per_cur -= 2;
+                        case 2:
+                            p.per_cur--;
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your face is stiff from the cold."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_torso:
+                    switch(dis.intensity) {
+                        case 3:
+                            // Speed -20
+                            p.dex_cur -= 2;
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your torso is freezing cold. \
+                                     You should put on a few more layers."));
+                            }
+                        case 2:
+                            p.dex_cur -= 2;
+                    }
+                    break;
+                case bp_arms:
+                    switch(dis.intensity) {
+                        case 3:
+                            p.dex_cur -= 2;
+                        case 2:
+                            p.dex_cur--;
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your arms are shivering."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_hands:
+                    switch(dis.intensity) {
+                        case 3:
+                            p.dex_cur -= 2;
+                        case 2:
+                            p.dex_cur -= 1;
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your hands feel like ice."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_legs:
+                    switch(dis.intensity) {
+                        case 3:
+                            p.dex_cur--;
+                            p.str_cur--;
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your legs tremble against the relentless cold."));
+                            }
+                        case 2:
+                            p.dex_cur--;
+                            p.str_cur--;
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_feet:
+                    switch(dis.intensity) {
+                        case 3:
+                            p.dex_cur--;
+                            p.str_cur--;
+                            break;
+                        case 2:
+                            p.dex_cur--;
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your feet feel frigid."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+            }
+            break;
+
+        case DI_FROSTBITE:
+            switch(dis.bp) {
+                case bp_hands:
+                    switch(dis.intensity) {
+                        case 2:
+                            p.dex_cur -= 3;
+                        case 1:
+                            if (p.temp_cur[bp_hands] > BODYTEMP_COLD && p.pain < 40) {
+                                p.pain++;
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your fingers itch."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_feet:
+                    switch(dis.intensity) {
+                        case 2:
+                            if (p.temp_cur[bp_feet] > BODYTEMP_COLD && p.pain < 40) {
+                                p.pain++;
+                            }
+                        case 1:
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your toes itch."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_mouth:
+                    switch(dis.intensity) {
+                        case 2:
+                            p.per_cur -= 2;
+                            if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) {
+                                p.pain++;
+                            }
+                        case 1:
+                            p.per_cur--;
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your face feels numb."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+            }
+            break;
+
+        case DI_BLISTERS:
+            switch(dis.bp) {
+                case bp_hands:
                     p.dex_cur--;
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your feet feel frigid."));
-                    }
-                default:break;
-            } break;
-
-        case DI_FROSTBITE_HANDS:
-            switch(dis.intensity) {
-                case 2:
-                    p.dex_cur -= 3;
-                case 1:
-                    if (p.temp_cur[bp_hands] > BODYTEMP_COLD && p.pain < 40) {
+                    if (p.pain < 35) {
                         p.pain++;
                     }
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your fingers itch."));
+                    if (one_in(2)) {
+                        p.hp_cur[hp_arm_r]--;
+                    } else {
+                        p.hp_cur[hp_arm_l]--;
                     }
-                default:break;
-            } break;
-
-        case DI_FROSTBITE_FEET:
-            switch(dis.intensity) {
-                case 2:
-                    if (p.temp_cur[bp_feet] > BODYTEMP_COLD && p.pain < 40) {
+                    break;
+                case bp_feet:
+                    p.str_cur--;
+                    if (p.pain < 35) {
                         p.pain++;
                     }
-                case 1:
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your toes itch."));
+                    if (one_in(2)) {
+                        p.hp_cur[hp_leg_r]--;
+                    } else {
+                        p.hp_cur[hp_leg_l]--;
                     }
-                default:break;
-            } break;
-
-
-        case DI_FROSTBITE_MOUTH:
-            switch(dis.intensity) {
-                case 2:
-                    p.per_cur -= 2;
-                    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) {
-                        p.pain++;
-                    }
-                case 1:
+                    break;
+                case bp_mouth:
                     p.per_cur--;
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your face feels numb."));
+                    p.hp_cur[hp_head]--;
+                    if (p.pain < 35) {
+                        p.pain++;
                     }
-                default:break;
-            } break;
-
-        case DI_BLISTERS_HANDS:
-            p.dex_cur--;
-            if (p.pain < 35) { p.pain++; }
-            if (one_in(2)) {
-                p.hp_cur[hp_arm_r]--;
-            } else {
-                p.hp_cur[hp_arm_l]--;
+                    break;
             }
             break;
 
-        case DI_BLISTERS_FEET:
-            p.str_cur--;
-            if (p.pain < 35) { p.pain++; }
-            if (one_in(2)) {
-                p.hp_cur[hp_leg_r]--;
-            } else {
-                p.hp_cur[hp_leg_l]--;
+        case DI_HOT:
+            switch(dis.bp) {
+                case bp_head:
+                    switch(dis.intensity) {
+                        case 3:
+                            if (int(g->turn) % 150 == 0) {
+                                p.thirst++;
+                            }
+                            if (p.pain < 40) {
+                                p.pain++;
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your head is pounding from the heat."));
+                            }
+                        case 2:
+                            if (int(g->turn) % 300 == 0) {
+                                p.thirst++;
+                            }
+                            // Hallucinations handled in game.cpp
+                            if (one_in(std::min(14500, 15000 - p.temp_cur[bp_head]))) {
+                                p.vomit(g);
+                            }
+                            if (p.pain < 20) {
+                                p.pain++;
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("The heat is making you see things."));
+                            }
+                    }
+                    break;
+                case bp_mouth:
+                    switch(dis.intensity) {
+                        case 3:
+                            if (int(g->turn) % 150 == 0) {
+                                p.thirst++;
+                            }
+                            if (p.pain < 30) {
+                                p.pain++;
+                            }
+                        case 2:
+                            if (int(g->turn) % 300 == 0) {
+                                p.thirst++;
+                            }
+                    }
+                    break;
+                case bp_torso:
+                    switch(dis.intensity) {
+                        case 3:
+                            if (int(g->turn) % 150 == 0) {
+                                p.thirst++;
+                            }
+                            p.str_cur--;
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("You are sweating profusely."));
+                            }
+                        case 2:
+                            if (int(g->turn) % 300 == 0) {
+                                p.thirst++;
+                            }
+                            p.str_cur--;
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_arms:
+                    switch(dis.intensity) {
+                        case 3 :
+                            if (int(g->turn) % 150 == 0) {
+                                p.thirst++;
+                            }
+                            if (p.pain < 30) {
+                                p.pain++;
+                            }
+                        case 2:
+                            if (int(g->turn) % 300 == 0) {
+                                p.thirst++;
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_hands:
+                    switch(dis.intensity) {
+                        case 3:
+                            p.dex_cur--;
+                        case 2:
+                            p.dex_cur--;
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_legs:
+                    switch (dis.intensity) {
+                        case 3 :
+                            if (int(g->turn) % 150 == 0) {
+                                p.thirst++;
+                            }
+                            if (p.pain < 30) {
+                                p.pain++;
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your legs are cramping up."));
+                            }
+                        case 2:
+                            if (int(g->turn) % 300 == 0) {
+                                p.thirst++;
+                            }
+                    }
+                    break;
+                case bp_feet:
+                    switch (dis.intensity) {
+                        case 3 :
+                            if (p.pain < 30) {
+                                p.pain++;
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your feet are swelling in the heat."));
+                            }
+                    }
+                    break;
             }
             break;
-
-        case DI_BLISTERS_MOUTH:
-            p.per_cur--;
-            p.hp_cur[hp_head]--;
-            if (p.pain < 35) { p.pain++; }
-            break;
-
-        case DI_HOT_HEAD:
-            switch(dis.intensity) {
-                case 3:
-                    if (int(g->turn) % 150 == 0) {
-                        p.thirst++;
-                    }
-                    if (p.pain < 40) {
-                        p.pain++;
-                    }
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your head is pounding from the heat."));
-                    }
-                case 2:
-                    if (int(g->turn) % 300 == 0) {
-                        p.thirst++;
-                    }
-                    // Hallucinations handled in game.cpp
-                    if (one_in(std::min(14500,15000-p.temp_cur[bp_head]))) {
-                        p.vomit(g);
-                    }
-                    if (p.pain < 20) { p.pain++; }
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("The heat is making you see things."));
-                    }
-            } break;
-
-        case DI_HOT_MOUTH:
-            switch(dis.intensity) {
-                case 3:
-                    if (int(g->turn) % 150 == 0) {
-                        p.thirst++;
-                    }
-                    if (p.pain < 30) {
-                        p.pain++;
-                    }
-                case 2:
-                    if (int(g->turn) % 300 == 0) {
-                        p.thirst++;
-                    }
-            } break;
-
-        case DI_HOT_TORSO:
-            switch(dis.intensity) {
-                case 3:
-                    if (int(g->turn) % 150 == 0) {
-                        p.thirst++;
-                    }
-                    p.str_cur--;
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("You are sweating profusely."));
-                    }
-                case 2:
-                    if (int(g->turn) % 300 == 0) {
-                        p.thirst++;
-                    }
-                    p.str_cur--;
-                default:break;
-            } break;
-
-        case DI_HOT_ARMS:
-            switch(dis.intensity) {
-                case 3 :
-                    if (int(g->turn) % 150 == 0) {
-                        p.thirst++;
-                    }
-                    if (p.pain < 30) {
-                        p.pain++;
-                    }
-                case 2:
-                    if (int(g->turn) % 300 == 0) {
-                        p.thirst++;
-                    }
-                default:break;
-            } break;
-
-        case DI_HOT_HANDS:
-            switch(dis.intensity) {
-                case 3:
-                    p.dex_cur--;
-                case 2:
-                    p.dex_cur--;
-            default:break;
-            } break;
-
-        case DI_HOT_LEGS:
-            switch (dis.intensity) {
-                case 3 :
-                    if (int(g->turn) % 150 == 0) {
-                        p.thirst++;
-                    }
-                    if (p.pain < 30) {
-                        p.pain++;
-                    }
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your legs are cramping up."));
-                    }
-                case 2:
-                    if (int(g->turn) % 300 == 0) {
-                        p.thirst++;
-                    }
-            } break;
-
-        case DI_HOT_FEET:
-            switch (dis.intensity) {
-                case 3 :
-                    if (p.pain < 30) p.pain++;
-                    if (!sleeping && tempMsgTrigger) {
-                        g->add_msg(_("Your feet are swelling in the heat."));
-                    }
-            } break;
-
         case DI_COMMON_COLD:
             if (int(g->turn) % 300 == 0) {
                 p.thirst++;
@@ -985,11 +890,11 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_BLEED:
-            if (one_in(6)) {
+            if (one_in(6 / dis.intensity)) {
                 g->add_msg_player_or_npc( &p, _("You lose some blood."),
                                          _("<npcname> loses some blood.") );
                 p.pain++;
-                p.hurt(g, bp_torso, 0, 1);
+                p.hurt(g, dis.bp, dis.side == -1 ? 0 : dis.side, 1);
                 p.per_cur--;
                 p.str_cur--;
                 g->m.add_field(g, p.posx, p.posy, fd_blood, 1);
@@ -1390,29 +1295,53 @@ int disease_speed_boost(disease dis)
 {
  dis_type_enum type = disease_type_lookup[dis.type];
  switch (type) {
- case DI_COLD_TORSO:
-  switch (dis.intensity) {
-   case 1 : return  -2;
-   case 2 : return  -5;
-   case 3 : return -20;}
- case DI_COLD_LEGS:
-  switch (dis.intensity) {
-   case 1 : return  -2;
-   case 2 : return  -5;
-   case 3 : return -20;}
- case DI_FROSTBITE_FEET:
-  switch (dis.intensity) {
-   case 2 : return -4;}
- case DI_HOT_HEAD:
-  switch (dis.intensity) {
-   case 1 : return  -2;
-   case 2 : return  -5;
-   case 3 : return -20;}
- case DI_HOT_TORSO:
-  switch (dis.intensity) {
-   case 1 : return  -2;
-   case 2 : return  -5;
-   case 3 : return -20;}
+ case DI_COLD:
+     switch (dis.bp) {
+         case bp_torso:
+             switch (dis.intensity) {
+             case 1 : return  -2;
+             case 2 : return  -5;
+             case 3 : return -20;}
+             break;
+         case bp_legs:
+             switch (dis.intensity) {
+             case 1 : return  -2;
+             case 2 : return  -5;
+             case 3 : return -20;}
+             break;
+         default:
+             return 0;
+     }
+     break;
+ case DI_FROSTBITE:
+     switch (dis.bp) {
+         case bp_feet:
+             switch (dis.intensity) {
+             case 2 : return -4;}
+             break;
+         default:
+             return 0;
+     }
+     break;
+ case DI_HOT:
+     switch(dis.bp) {
+         case bp_head:
+             switch (dis.intensity) {
+             case 1 : return  -2;
+             case 2 : return  -5;
+             case 3 : return -20;}
+             break;
+         case bp_torso:
+             switch (dis.intensity) {
+             case 1 : return  -2;
+             case 2 : return  -5;
+             case 3 : return -20;}
+             break;
+         default:
+             return 0;
+     }
+     break;
+
  case DI_INFECTION:	return -80;
  case DI_SAP:		return -25;
  case DI_SPORES:	return -15;
@@ -1435,94 +1364,137 @@ std::string dis_name(disease dis)
     switch (type) {
     case DI_NULL: return "";
     case DI_GLARE: return _("Glare");
-    case DI_COLD_HEAD:
-        switch (dis.intensity) {
-        case 1: return _("Chilly head");
-        case 2: return _("Cold head!");
-        case 3: return _("Freezing head!!");}
-    case DI_COLD_MOUTH:
-        switch (dis.intensity) {
-        case 1: return _("Chilly face");
-        case 2: return _("Cold face!");
-        case 3: return _("Freezing face!!");}
-    case DI_COLD_TORSO:
-        switch (dis.intensity) {
-        case 1: return _("Chilly torso");
-        case 2: return _("Cold torso!");
-        case 3: return _("Freezing torso!!");}
-    case DI_COLD_ARMS:
-        switch (dis.intensity) {
-        case 1: return _("Chilly arms");
-        case 2: return _("Cold arms!");
-        case 3: return _("Freezing arms!!");}
-    case DI_COLD_HANDS:
-        switch (dis.intensity) {
-        case 1: return _("Chilly hands");
-        case 2: return _("Cold hands!");
-        case 3: return _("Freezing hands!!");}
-    case DI_COLD_LEGS:
-        switch (dis.intensity) {
-        case 1: return _("Chilly legs");
-        case 2: return _("Cold legs!");
-        case 3: return _("Freezing legs!!");}
-    case DI_COLD_FEET:
-        switch (dis.intensity) {
-        case 1: return _("Chilly feet");
-        case 2: return _("Cold feet!");
-        case 3: return _("Freezing feet!!");}
-    case DI_FROSTBITE_HANDS:
-        switch (dis.intensity) {
-        case 1: return _("Frostnip - hands");
-        case 2: return _("Frostbite - hands");}
-    case DI_FROSTBITE_FEET:
-        switch (dis.intensity) {
-        case 1: return _("Frostnip - feet");
-        case 2: return _("Frostbite - feet");}
-    case DI_FROSTBITE_MOUTH:
-        switch (dis.intensity) {
-        case 1: return _("Frostnip - face");
-        case 2: return _("Frostbite - face");}
-    case DI_HOT_HEAD:
-        switch (dis.intensity) {
-        case 1: return _("Warm head");
-        case 2: return _("Hot head!");
-        case 3: return _("Scorching head!!");}
-    case DI_HOT_MOUTH:
-        switch (dis.intensity) {
-        case 1: return _("Warm face");
-        case 2: return _("Hot face!");
-        case 3: return _("Scorching face!!");}
-    case DI_HOT_TORSO:
-        switch (dis.intensity) {
-        case 1: return _("Warm torso");
-        case 2: return _("Hot torso!");
-        case 3: return _("Scorching torso!!");}
-    case DI_HOT_ARMS:
-        switch (dis.intensity) {
-        case 1: return _("Warm arms");
-        case 2: return _("Hot arms!");
-        case 3: return _("Scorching arms!!");}
-    case DI_HOT_HANDS:
-        switch (dis.intensity) {
-        case 1: return _("Warm hands");
-        case 2: return _("Hot hands!");
-        case 3: return _("Scorching hands!!");}
-    case DI_HOT_LEGS:
-        switch (dis.intensity) {
-        case 1: return _("Warm legs");
-        case 2: return _("Hot legs!");
-        case 3: return _("Scorching legs!!");}
-    case DI_HOT_FEET:
-        switch (dis.intensity) {
-        case 1: return _("Warm feet");
-        case 2: return _("Hot feet!");
-        case 3: return _("Scorching feet!!");}
-    case DI_BLISTERS_MOUTH: return _("Blisters - face");
-    case DI_BLISTERS_TORSO: return _("Blisters - torso");
-    case DI_BLISTERS_ARMS: return _("Blisters - arms");
-    case DI_BLISTERS_HANDS: return _("Blisters - hands");
-    case DI_BLISTERS_LEGS: return _("Blisters - legs");
-    case DI_BLISTERS_FEET: return _("Blisters - feet");
+    case DI_COLD:
+        switch (dis.bp) {
+            case bp_head:
+                switch (dis.intensity) {
+                case 1: return _("Chilly head");
+                case 2: return _("Cold head!");
+                case 3: return _("Freezing head!!");}
+                break;
+            case bp_mouth:
+                switch (dis.intensity) {
+                case 1: return _("Chilly face");
+                case 2: return _("Cold face!");
+                case 3: return _("Freezing face!!");}
+                break;
+            case bp_torso: 
+                switch (dis.intensity) {
+                case 1: return _("Chilly torso");
+                case 2: return _("Cold torso!");
+                case 3: return _("Freezing torso!!");}
+                break;
+            case bp_arms:
+                switch (dis.intensity) {
+                case 1: return _("Chilly arms");
+                case 2: return _("Cold arms!");
+                case 3: return _("Freezing arms!!");}
+                break;
+            case bp_hands:
+                switch (dis.intensity) {
+                case 1: return _("Chilly hands");
+                case 2: return _("Cold hands!");
+                case 3: return _("Freezing hands!!");}
+                break;
+            case bp_legs:
+                switch (dis.intensity) {
+                case 1: return _("Chilly legs");
+                case 2: return _("Cold legs!");
+                case 3: return _("Freezing legs!!");}
+                break;
+            case bp_feet:
+                switch (dis.intensity) {
+                case 1: return _("Chilly feet");
+                case 2: return _("Cold feet!");
+                case 3: return _("Freezing feet!!");}
+                break;
+        }
+        break;
+
+    case DI_FROSTBITE:
+        switch(dis.bp) {
+            case bp_hands:
+                switch (dis.intensity) {
+                case 1: return _("Frostnip - hands");
+                case 2: return _("Frostbite - hands");}
+                break;
+            case bp_feet:
+                switch (dis.intensity) {
+                case 1: return _("Frostnip - feet");
+                case 2: return _("Frostbite - feet");}
+                break;
+            case bp_mouth:
+                switch (dis.intensity) {
+                case 1: return _("Frostnip - face");
+                case 2: return _("Frostbite - face");}
+                break;
+        }
+        break;
+
+    case DI_HOT:
+        switch (dis.bp) {
+            case bp_head:
+                switch (dis.intensity) {
+                case 1: return _("Warm head");
+                case 2: return _("Hot head!");
+                case 3: return _("Scorching head!!");}
+                break;
+            case bp_mouth:
+                switch (dis.intensity) {
+                case 1: return _("Warm face");
+                case 2: return _("Hot face!");
+                case 3: return _("Scorching face!!");}
+                break;
+            case bp_torso:
+                switch (dis.intensity) {
+                case 1: return _("Warm torso");
+                case 2: return _("Hot torso!");
+                case 3: return _("Scorching torso!!");}
+                break;
+            case bp_arms:
+                switch (dis.intensity) {
+                case 1: return _("Warm arms");
+                case 2: return _("Hot arms!");
+                case 3: return _("Scorching arms!!");}
+                break;
+            case bp_hands:
+                switch (dis.intensity) {
+                case 1: return _("Warm hands");
+                case 2: return _("Hot hands!");
+                case 3: return _("Scorching hands!!");}
+                break;
+            case bp_legs:
+                switch (dis.intensity) {
+                case 1: return _("Warm legs");
+                case 2: return _("Hot legs!");
+                case 3: return _("Scorching legs!!");}
+                break;
+            case bp_feet:
+                switch (dis.intensity) {
+                case 1: return _("Warm feet");
+                case 2: return _("Hot feet!");
+                case 3: return _("Scorching feet!!");}
+                break;
+        }
+        break;
+
+    case DI_BLISTERS:
+        switch(dis.bp) {
+            case bp_mouth:
+                return _("Blisters - face");
+            case bp_torso:
+                return _("Blisters - torso");
+            case bp_arms:
+                return _("Blisters - arms");
+            case bp_hands:
+                return _("Blisters - hands");
+            case bp_legs:
+                return _("Blisters - legs");
+            case bp_feet:
+                return _("Blisters - feet");
+        }
+        break;
+
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
     case DI_SMOKE: return _("Smoke");
@@ -1537,7 +1509,38 @@ std::string dis_name(disease dis)
     case DI_STUNNED: return _("Stunned");
     case DI_DOWNED: return _("Downed");
     case DI_POISON: return _("Poisoned");
-    case DI_BLEED: return _("Bleeding");
+    case DI_BLEED:
+    {
+        std::string status = "";
+        switch (dis.intensity) {
+        case 1: status = _("Bleeding "); break;
+        case 2: status = _("Heavily Bleeding "); break;
+        case 3: status = _("Very Heavily Bleeding "); break;
+        }
+        switch (dis.bp) {
+            case bp_head:
+                status += _("Head");
+                break;
+            case bp_torso:
+                status += _("Torso");
+                break;
+            case bp_arms:
+                if (dis.side == 0) {
+                    status += _("Left Arm");
+                } else if (dis.side == 1) {
+                    status += _("Right Arm");
+                }
+                break;
+            case bp_legs:
+                if (dis.side == 0) {
+                    status += _("Left Leg");
+                } else if (dis.side == 1) {
+                    status += _("Right Leg");
+                }
+                break;
+        }
+        return status;
+    }
     case DI_BADPOISON: return _("Badly Poisoned");
     case DI_FOODPOISON: return _("Food Poisoning");
     case DI_SHAKES: return _("Shakes");
@@ -1609,147 +1612,183 @@ std::string dis_description(disease dis)
         stream << _("Perception - 1");
         return stream.str();
 
-    case DI_COLD_HEAD:
-        switch (dis.intensity) {
-        case 1: return _("Your head is exposed to the cold.");
-        case 2: return _("Your head is very exposed to the cold. It is hard to concentrate.");
-        case 3: return _("Your head is extremely cold.  You can barely think straight.");
+    case DI_COLD:
+        switch(dis.bp) {
+            case bp_head:
+                switch (dis.intensity) {
+                case 1: return _("Your head is exposed to the cold.");
+                case 2: return _("Your head is very exposed to the cold. It is hard to concentrate.");
+                case 3: return _("Your head is extremely cold.  You can barely think straight.");
+                }
+                break;
+            case bp_mouth:
+                switch (dis.intensity) {
+                case 1: return _("Your face is exposed to the cold.");
+                case 2: return _("Your face is very exposed to the cold.");
+                case 3: return _("Your face is dangerously cold.");
+                }
+                break;
+            case bp_torso:
+                switch (dis.intensity) {
+                case 1: return _("Your torso is exposed to the cold.");
+                case 2: return _("Your torso is very cold, and your actions are incoordinated.");
+                case 3: return _("Your torso is dangerously cold. Your actions are very incoordinated.");
+                }
+                break;
+            case bp_arms:
+                switch (dis.intensity) {
+                case 1: return _("Your arms are exposed to the cold.");
+                case 2: return _("Your arms are very exposed to the cold. Your arms are shivering.");
+                case 3: return _("Your arms are dangerously cold. Your arms are shivering uncontrollably");
+                }
+                break;
+            case bp_hands:
+                switch (dis.intensity) {
+                case 1: return _("Your hands are exposed to the cold.");
+                case 2: return _("Your hands are shivering from the cold.");
+                case 3: return _("Your hands are shivering uncontrollably from the extreme cold.");
+                }
+                break;
+            case bp_legs:
+                switch (dis.intensity) {
+                case 1: return _("Your legs are exposed to the cold.");
+                case 2: return _("Your legs are very exposed to the cold. Your strength is sapped.");
+                case 3: return _("Your legs are dangerously cold. Your strength is sapped.");
+                }
+                break;
+            case bp_feet:
+                switch (dis.intensity) {
+                case 1: return _("Your feet are exposed to the cold.");
+                case 2: return _("Your feet are very exposed to the cold. Your strength is sapped.");
+                case 3: return _("Your feet are dangerously cold. Your strength is sapped.");
+                }
+                break;
         }
+        break;
 
-    case DI_COLD_MOUTH:
-        switch (dis.intensity) {
-        case 1: return _("Your face is exposed to the cold.");
-        case 2: return _("Your face is very exposed to the cold.");
-        case 3: return _("Your face is dangerously cold.");
-        }
-
-    case DI_COLD_TORSO:
-        switch (dis.intensity) {
-        case 1: return _("Your torso is exposed to the cold.");
-        case 2: return _("Your torso is very cold, and your actions are incoordinated.");
-        case 3: return _("Your torso is dangerously cold. Your actions are very incoordinated.");
-        }
-
-    case DI_COLD_ARMS:
-        switch (dis.intensity) {
-        case 1: return _("Your arms are exposed to the cold.");
-        case 2: return _("Your arms are very exposed to the cold. Your arms are shivering.");
-        case 3: return _("Your arms are dangerously cold. Your arms are shivering uncontrollably");
-        }
-
-    case DI_COLD_HANDS:
-        switch (dis.intensity) {
-        case 1: return _("Your hands are exposed to the cold.");
-        case 2: return _("Your hands are shivering from the cold.");
-        case 3: return _("Your hands are shivering uncontrollably from the extreme cold.");
-        }
-
-    case DI_COLD_LEGS:
-        switch (dis.intensity) {
-        case 1: return _("Your legs are exposed to the cold.");
-        case 2: return _("Your legs are very exposed to the cold. Your strength is sapped.");
-        case 3: return _("Your legs are dangerously cold. Your strength is sapped.");
-        }
-
-    case DI_COLD_FEET:
-        switch (dis.intensity) {
-        case 1: return _("Your feet are exposed to the cold.");
-        case 2: return _("Your feet are very exposed to the cold. Your strength is sapped.");
-        case 3: return _("Your feet are dangerously cold. Your strength is sapped.");
-        }
-
-    case DI_FROSTBITE_HANDS:
-        switch (dis.intensity) {
-        case 1: return _("\
+    case DI_FROSTBITE:
+        switch(dis.bp) {
+            case bp_hands:
+                switch (dis.intensity) {
+                case 1: return _("\
 Your hands are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
-        case 2: return _("\
+                case 2: return _("\
 Your hands are frostbitten from the prolonged exposure to the cold. The tissues in your hands are frozen.");
-        }
-
-    case DI_FROSTBITE_FEET:
-        switch (dis.intensity) {
-        case 1: return _("\
+                }
+                break;
+            case bp_feet:
+                switch (dis.intensity) {
+                case 1: return _("\
 Your feet are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
-        case 2: return _("\
+                case 2: return _("\
 Your feet are frostbitten from the prolonged exposure to the cold. The tissues in your feet are frozen.");
-        }
-
-    case DI_FROSTBITE_MOUTH:
-        switch (dis.intensity) {
-        case 1: return _("\
+                }
+                break;
+            case bp_mouth:
+                switch (dis.intensity) {
+                case 1: return _("\
 Your face is frostnipped from the prolonged exposure to the cold and has gone numb. When the blood begins to flow, it will be painful.");
-        case 2: return _("\
+                case 2: return _("\
 Your face is frostbitten from the prolonged exposure to the cold. The tissues in your face are frozen.");
-        }
-
-    case DI_FROSTBITE_TORSO: return _("\
+                }
+                break;
+            case bp_torso:
+                return _("\
 Your torso is frostbitten from prolonged exposure to the cold. It is extremely painful.");
-    case DI_FROSTBITE_ARMS: return _("\
+                break;
+            case bp_arms:
+                return _("\
 Your arms are frostbitten from prolonged exposure to the cold. It is extremely painful.");
-    case DI_FROSTBITE_LEGS: return _("\
+                break;
+            case bp_legs:
+                return _("\
 Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.");
-
-    case DI_HOT_HEAD:
-        switch (dis.intensity) {
-        case 1: return _("Your head feels warm.");
-        case 2: return _("Your head is sweating from the heat. You feel nauseated. You have a headache.");
-        case 3: return _("Your head is sweating profusely. You feel very nauseated. You have a headache.");
+                break;
         }
+        break;
 
-    case DI_HOT_MOUTH:
-        switch (dis.intensity) {
-        case 1: return _("Your face feels warm.");
-        case 2: return _("Your face is sweating from the heat, making it hard to see.");
-        case 3: return _("Your face is sweating profusely, making it hard to see.");
+    case DI_HOT:
+        switch (dis.bp) {
+            case bp_head:
+                switch (dis.intensity) {
+                case 1: return _("Your head feels warm.");
+                case 2: return _("Your head is sweating from the heat. You feel nauseated. You have a headache.");
+                case 3: return _("Your head is sweating profusely. You feel very nauseated. You have a headache.");
+                }
+                break;
+            case bp_mouth:
+                switch (dis.intensity) {
+                case 1: return _("Your face feels warm.");
+                case 2: return _("Your face is sweating from the heat, making it hard to see.");
+                case 3: return _("Your face is sweating profusely, making it hard to see.");
+                }
+                break;
+            case bp_torso:
+                switch (dis.intensity) {
+                case 1: return _("Your torso feels warm.");
+                case 2: return _("Your torso is sweating from the heat. You feel weak.");
+                case 3: return _("Your torso is sweating profusely. You feel very weak.");
+                }
+                break;
+            case bp_arms:
+                switch (dis.intensity) {
+                case 1: return _("Your arms feel warm.");
+                case 2: return _("Your arms are sweating from the heat.");
+                case 3: return _("Your arms are sweating profusely. Your muscles are in pain due to cramps.");
+                }
+                break;
+            case bp_hands:
+                switch (dis.intensity) {
+                case 1: return _("Your hands feel warm.");
+                case 2: return _("Your hands feel hot and uncoordinated.");
+                case 3: return _("Your hands feel disgustinly hot and are very uncoordinated.");
+                }
+                break;
+            case bp_legs:
+                switch (dis.intensity) {
+                case 1: return _("Your legs feel warm.");
+                case 2: return _("Your legs are sweating from the heat.");
+                case 3: return _("Your legs are sweating profusely. Your muscles are in pain due to cramps.");
+                }
+                break;
+            case bp_feet:
+                switch (dis.intensity) {
+                case 1: return _("Your feet feel warm.");
+                case 2: return _("Your feet are painfully swollen due to the heat.");
+                case 3: return _("Your feet are painfully swollen due to the heat.");
+                }
+                break;
         }
+        break;
 
-    case DI_HOT_TORSO:
-        switch (dis.intensity) {
-        case 1: return _("Your torso feels warm.");
-        case 2: return _("Your torso is sweating from the heat. You feel weak.");
-        case 3: return _("Your torso is sweating profusely. You feel very weak.");
-        }
-
-    case DI_HOT_ARMS:
-        switch (dis.intensity) {
-        case 1: return _("Your arms feel warm.");
-        case 2: return _("Your arms are sweating from the heat.");
-        case 3: return _("Your arms are sweating profusely. Your muscles are in pain due to cramps.");
-        }
-
-    case DI_HOT_HANDS:
-        switch (dis.intensity) {
-        case 1: return _("Your hands feel warm.");
-        case 2: return _("Your hands feel hot and uncoordinated.");
-        case 3: return _("Your hands feel disgustinly hot and are very uncoordinated.");
-        }
-
-    case DI_HOT_LEGS:
-        switch (dis.intensity) {
-        case 1: return _("Your legs feel warm.");
-        case 2: return _("Your legs are sweating from the heat.");
-        case 3: return _("Your legs are sweating profusely. Your muscles are in pain due to cramps.");
-        }
-
-    case DI_HOT_FEET:
-        switch (dis.intensity) {
-        case 1: return _("Your feet feel warm.");
-        case 2: return _("Your feet are painfully swollen due to the heat.");
-        case 3: return _("Your feet are painfully swollen due to the heat.");
-        }
-
-    case DI_BLISTERS_MOUTH: return _("\
+    case DI_BLISTERS:
+        switch (dis.bp) {
+            case bp_mouth:
+                return _("\
 Your face is blistering from the intense heat. It is extremely painful.");
-    case DI_BLISTERS_TORSO: return _("\
+                break;
+            case bp_torso:
+                return _("\
 Your torso is blistering from the intense heat. It is extremely painful.");
-    case DI_BLISTERS_ARMS: return _("\
+                break;
+            case bp_arms:
+                return _("\
 Your arms are blistering from the intense heat. It is extremely painful.");
-    case DI_BLISTERS_HANDS: return _("\
+                break;
+            case bp_hands:
+                return _("\
 Your hands are blistering from the intense heat. It is extremely painful.");
-    case DI_BLISTERS_LEGS: return _("\
+                break;
+            case bp_legs:
+                return _("\
 Your legs are blistering from the intense heat. It is extremely painful.");
-    case DI_BLISTERS_FEET: return _("\
+                break;
+            case bp_feet:
+                return _("\
 Your feet are blistering from the intense heat. It is extremely painful.");
+                break;
+        }
+        break;
 
     case DI_COMMON_COLD:
         return _(
@@ -1831,7 +1870,15 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\n"
         "Occasional pain and/or damage.");
 
-    case DI_BLEED: return _("You are slowly losing blood.");
+    case DI_BLEED:
+        switch (dis.intensity) {
+            case 1:
+                return _("You are slowly losing blood.");
+            case 2:
+                return _("You are losing blood.");
+            case 3:
+                return _("You are rapidly loosing blood.");
+        }
 
     case DI_BADPOISON:
         return _(

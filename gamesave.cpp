@@ -28,7 +28,7 @@
 #include "artifactdata.h"
 #include "weather.h"
 
-const int savegame_version = 4;
+const int savegame_version = 5;
 ////
 int savegame_loading_version = savegame_version;
 
