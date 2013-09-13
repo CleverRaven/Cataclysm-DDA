@@ -215,7 +215,7 @@ else
       ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Darwin)
         LDFLAGS += -lncurses
       else
-        LDFLAGS += -lncursesw
+        LDFLAGS += -lncurses
       endif
       # Work around Cygwin not including gettext support in glibc
       ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
