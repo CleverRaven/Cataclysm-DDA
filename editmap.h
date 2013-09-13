@@ -28,6 +28,7 @@ class editmap
         int edit_itm(point coords);
         int edit_mon(point coords);
         int edit_npc(point coords);
+        int edit_veh(point coords);
         int apply_mapgen(point coords);
         int mapgen_preview(real_coords &tc, uimenu &gmenu);
         int select_shape(shapetype shape, int mode = -1 );
