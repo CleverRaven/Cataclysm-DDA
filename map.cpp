@@ -2618,8 +2618,11 @@ bool map::is_full(const int x, const int y, const int addvolume, const int addnu
 // overflow_radius > 0: if x,y is full, attempt to drop item up to overflow_radius squares away, if x,y is full
 bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius) {
 
-    if (( new_item.is_style() || !INBOUNDS(x,y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) ){
-        debugmsg("%i,%i:is_style %i, liquid %i, destroy_item %i",x,y, new_item.is_style() ,(new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ,has_flag(destroy_item, x, y) );
+    if( (new_item.is_style() || !INBOUNDS(x,y) ||
+         (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) ) {
+        debugmsg("%i,%i:is_style %i, liquid %i, destroy_item %i", x, y, new_item.is_style(),
+                 (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)),
+                 has_flag(destroy_item, x, y) );
         return false;
     }
 
@@ -4161,18 +4164,6 @@ void map::build_transparency_cache()
    }
   }
  }
-}
-
-void map::build_seen_cache(game *g)
-{
-  memset(seen_cache, false, sizeof(seen_cache));
-  const int j = (SEEX * my_MAPSIZE) - 1;
-  for (int i = 0; i < SEEX * my_MAPSIZE; i++) {
-    cache_seen(g->u.posx, g->u.posy, 0, i, 60);
-    cache_seen(g->u.posx, g->u.posy, i, 0, 60);
-    cache_seen(g->u.posx, g->u.posy, j, i, 60);
-    cache_seen(g->u.posx, g->u.posy, i, j, 60);
-  }
 }
 
 void map::build_map_cache(game *g)

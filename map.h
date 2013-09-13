@@ -410,6 +410,7 @@ protected:
  void build_outside_cache(const game *g);
  void generate_lightmap(game *g);
  void build_seen_cache(game *g);
+ void castLight( game *g, int row, float start, float end, int xx, int xy, int yx, int yy );
 
  bool inbounds(const int x, const int y);
  int my_MAPSIZE;
