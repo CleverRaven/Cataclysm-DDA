@@ -256,7 +256,7 @@ void player::json_load_common_variables( std::map<std::string, picojson::value> 
                 int tmpbioinv;
                 if ( picostring(pdata,"id",tmpbio.id) ) {
                     picoint(pdata,"invlet",tmpbioinv);
-                    tmpbio.id = (char)tmpbioinv;
+                    tmpbio.invlet = (char)tmpbioinv;
                     picobool(pdata,"powered",tmpbio.powered);
                     picoint(pdata,"charge",tmpbio.charge);
                     my_bionics.push_back(tmpbio);
