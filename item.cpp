@@ -968,13 +968,15 @@ std::string item::tname(game *g)
 
  std::string vehtext = "";
  if (is_var_veh_part()){
-  if(type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT){ //liters, e.g. "3.21-Liter V8 engine"
+  if(type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT){
    ret.str("");
    ret.precision(4);
    ret << (float)bigness/100;
+   //~ liters, e.g. 3.21-Liter V8 engine
    vehtext = rmp_format(_("<veh_adj>%s-Liter "), ret.str().c_str());
   }
-  else if(type->bigness_aspect == BIGNESS_WHEEL_DIAMETER) { //inches, e.g. "20" wheel"
+  else if(type->bigness_aspect == BIGNESS_WHEEL_DIAMETER) {
+   //~ inches, e.g. 20" wheel
    vehtext = rmp_format(_("<veh_adj>%d\" "), bigness);
   }
  }
