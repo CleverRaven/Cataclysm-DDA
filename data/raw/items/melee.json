@@ -696,7 +696,7 @@
     "symbol": "/",
     "color": "brown",
     "name": "log",
-    "description": "A large log, cut from a tree. (a)ctivate a wood ax or wood saw to cut it into planks",
+    "description": "A large log, cut from a tree. (a)ctivate a wood axe or wood saw to cut it into planks",
     "price": 100,
     "material": "wood",
     "weight": 9071,
