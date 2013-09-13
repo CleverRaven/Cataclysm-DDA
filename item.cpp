@@ -127,7 +127,7 @@ item::item(itype *it, unsigned int turn, char let)
 void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
 {
  init();
- active = mt->species == species_zombie ? true : false;
+ active = mt->has_flag(MF_REVIVES)? true : false;
  if(!it)
   type = nullitem();
  else
@@ -1275,7 +1275,7 @@ bool item::rotten(game *g)
 
 bool item::ready_to_revive(game *g)
 {
-    if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
+    if ( corpse == NULL || !corpse->has_flag(MF_REVIVES) || damage >= 4)
     {
         return false;
     }
