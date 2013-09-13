@@ -840,7 +840,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
             }
         }
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", string_format(_("The film strip on the badge is %s."), rad_threshold_colors[i - 1])));
+        dump->push_back(iteminfo("DESCRIPTION", string_format(_("The film strip on the badge is %s."), rad_threshold_colors[i - 1].c_str())));
     }
     if (is_tool() && has_flag("DOUBLE_AMMO"))
     {
