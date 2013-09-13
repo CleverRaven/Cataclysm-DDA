@@ -281,7 +281,7 @@ void Jsin::skip_pair_separator()
     stream->get(ch);
     if (ch != ':') {
         std::stringstream err;
-        err << line_number() << ": expected pair separator ':', not '" << ch << "'";
+        err << line_number(-1) << ": expected pair separator ':', not '" << ch << "'";
         throw err.str();
     }
 }
@@ -293,7 +293,7 @@ void Jsin::skip_string()
     stream->get(ch);
     if (ch != '"') {
         std::stringstream err;
-        err << line_number() << ": expecting string but found '" << ch << "'";
+        err << line_number(-1) << ": expecting string but found '" << ch << "'";
         throw err.str();
     }
     while (stream->good()) {
@@ -349,7 +349,7 @@ void Jsin::skip_object()
     stream->get(ch);
     if (ch != '{') {
         std::stringstream err;
-        err << line_number() << ": expected object but found '" << ch << "'";
+        err << line_number(-1) << ": expected object but found '" << ch << "'";
         throw err.str();
     }
     while (brackets && stream->good()) {
@@ -368,7 +368,7 @@ void Jsin::skip_object()
     if (brackets != 0) {
         // something messed up!
         std::stringstream err;
-        err << line_number() << ": couldn't find end of object!";
+        err << "couldn't find end of object!";
         err << " " << brackets << " bracket(s) left.";
         throw err.str();
     }
@@ -383,7 +383,7 @@ void Jsin::skip_array()
     stream->get(ch);
     if (ch != '[') {
         std::stringstream err;
-        err << line_number() << ": expected array but found '" << ch << "'";
+        err << line_number(-1) << ": expected array but found '" << ch << "'";
         throw err.str();
     }
     while (brackets && stream->good()) {
@@ -402,7 +402,7 @@ void Jsin::skip_array()
     if (brackets != 0) {
         // something messed up!
         std::stringstream err;
-        err << line_number() << ": couldn't find end of array!";
+        err << "couldn't find end of array!";
         err << " " << brackets << " bracket(s) left.";
         throw err.str();
     }
@@ -416,7 +416,7 @@ void Jsin::skip_true()
     stream->get(ch, 5);
     if (strcmp(ch, "true") != 0) {
         std::stringstream err;
-        err << line_number() << ": expected \"true\", but found \"" << ch << "\"";
+        err << line_number(-4) << ": expected \"true\", but found \"" << ch << "\"";
         throw err.str();
     }
     skip_separator();
@@ -429,7 +429,7 @@ void Jsin::skip_false()
     stream->get(ch, 6);
     if (strcmp(ch, "false") != 0) {
         std::stringstream err;
-        err << line_number() << ": expected \"false\", but found \"" << ch << "\"";
+        err << line_number(-5) << ": expected \"false\", but found \"" << ch << "\"";
         throw err.str();
     }
     skip_separator();
@@ -442,7 +442,7 @@ void Jsin::skip_null()
     stream->get(ch, 5);
     if (strcmp(ch, "null") != 0) {
         std::stringstream err;
-        err << line_number() << ": expected \"null\", but found \"" << ch << "\"";
+        err << line_number(-4) << ": expected \"null\", but found \"" << ch << "\"";
         throw err.str();
     }
     skip_separator();
@@ -497,7 +497,7 @@ std::string Jsin::get_string()
     stream->get(ch);
     if (ch != '"') {
         std::stringstream err;
-        err << line_number() << ": expecting string but got '" << ch << "'";
+        err << line_number(-1) << ": expecting string but got '" << ch << "'";
         throw err.str();
     }
     // add chars to the string, one at a time, converting:
@@ -627,7 +627,7 @@ bool Jsin::get_bool()
             skip_separator();
             return true;
         } else {
-            err << line_number() << ": ";
+            err << line_number(-4) << ": ";
             err << "not a boolean. expected \"true\", but got \"";
             err << ch << text << "\"";
             stream->seekg(pos);
@@ -639,14 +639,14 @@ bool Jsin::get_bool()
             skip_separator();
             return false;
         } else {
-            err << line_number() << ": ";
+            err << line_number(-5) << ": ";
             err << "not a boolean. expected \"false\", but got \"";
             err << ch << text << "\"";
             stream->seekg(pos);
             throw err.str();
         }
     }
-    err << line_number() << ": ";
+    err << line_number(-1) << ": ";
     err << "not a boolean value! expected 't' or 'f' but got '" << ch << "'";
     stream->seekg(pos);
     throw err.str();
@@ -717,7 +717,7 @@ bool Jsin::end_object()
 }
 
 // intended for occasional use only
-std::string Jsin::line_number()
+std::string Jsin::line_number(int offset_modifier)
 {
     int pos = stream->tellg();
     int line = 1;
@@ -732,6 +732,6 @@ std::string Jsin::line_number()
         }
     }
     std::stringstream ret;
-    ret << "line " << line << ":" << offset;
+    ret << "line " << line << ":" << (offset + offset_modifier);
     return ret.str();
 }

@@ -107,7 +107,7 @@ public:
     bool end_object(); // returns false if it's not the end
 
     // useful debug info
-    std::string line_number(); // intended for occasional use only
+    std::string line_number(int offset_modifier=0); // for occasional use only
 };
 
 #endif // _JSON_H_
