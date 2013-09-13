@@ -4,7 +4,7 @@
 
 #include "profession.h"
 
-#include "debug.h"
+#include "output.h" //debugmsg
 #include "json.h"
 
 profession::profession()
@@ -54,7 +54,7 @@ void profession::load_profession(Jsobj &jsobj)
     }
 
     _all_profs[prof._ident] = prof;
-    dout(D_INFO) << "Loaded profession: " << prof._name << "\n";
+    //dout(D_INFO) << "Loaded profession: " << prof._name;
 }
 
 profession* profession::prof(std::string ident)
@@ -66,7 +66,7 @@ profession* profession::prof(std::string ident)
     }
     else
     {
-        dout(D_ERROR) << "Tried to get invalid profession: " << ident << "\n";
+        debugmsg("Tried to get invalid profession: %s", ident.c_str());
         return NULL;
     }
 }

@@ -7,7 +7,6 @@
 #include "bionics.h"
 #include "line.h"
 #include "json.h"
-#include "debug.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 
@@ -664,6 +663,6 @@ void load_bionic(Jsobj &jsobj)
     if (!active && id != "bio_null") { unpowered_bionics.push_back(id); }
 
     bionics[id] = new bionic_data(name, power_source, active, cost, time, description, faulty);
-    dout(D_INFO) << "Loaded bionic: " << name << "\n";
+    //dout(D_INFO) << "Loaded bionic: " << name << "\n";
 }
 

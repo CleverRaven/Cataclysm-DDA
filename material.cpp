@@ -1,6 +1,6 @@
 #include "material.h"
 
-#include "debug.h" // dout
+#include "output.h" // debugmsg
 #include "enums.h" // damage_type
 #include "json.h"
 #include "translations.h"
@@ -91,7 +91,7 @@ void material_type::load_material(Jsobj &jsobj)
     mat._dmg_adj[3] = _(jsarr.next_string().c_str());
 
     _all_materials[mat._ident] = mat;
-    dout(D_INFO) << "Loaded material: " << mat._name << "\n";
+    //dout(D_INFO) << "Loaded material: " << mat._name;
 }
 
 material_type* material_type::find_material(std::string ident)
@@ -100,7 +100,7 @@ material_type* material_type::find_material(std::string ident)
     if(found != _all_materials.end()){
         return &(found->second);
     } else {
-        dout(D_ERROR) << "Tried to get invalid material: " << ident << "\n";
+        debugmsg("Tried to get invalid material: %s", ident.c_str());
         return NULL;
     }
 }

@@ -10,7 +10,6 @@
 
 #include "options.h"
 #include "output.h"
-#include "debug.h"
 
 Skill::Skill() {
   _ident = std::string("null");
@@ -44,7 +43,7 @@ void Skill::load_skill(Jsobj &jsobj)
 
     Skill *sk = new Skill(skills.size(), ident, name, description, tags);
     skills.push_back(sk);
-    dout(D_INFO) << "Loaded skill: " << name << "\n";
+    //dout(D_INFO) << "Loaded skill: " << name << "\n";
 }
 
 Skill* Skill::skill(std::string ident) {
