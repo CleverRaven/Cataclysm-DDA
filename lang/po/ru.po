@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 21:13+1200\n"
+"POT-Creation-Date: 2013-09-14 10:43+1200\n"
 "PO-Revision-Date: 2013-09-10 18:18+0000\n"
 "Last-Translator: Ranama <andrey.magistrat@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -1816,7 +1816,7 @@ msgstr "Выброс адреналина"
 msgid "No effects."
 msgstr "Нет эффекта."
 
-#: bionics.cpp:344 iexamine.cpp:83 iexamine.cpp:873
+#: bionics.cpp:344 iexamine.cpp:83 iexamine.cpp:912
 msgid "Drink from your hands?"
 msgstr "Пить прямо из рук?"
 
@@ -3430,14 +3430,14 @@ msgstr "Какой инструмент использовать?"
 msgid "Disassemble item:"
 msgstr "Разобрать прдмет:"
 
-#: crafting.cpp:1420 game.cpp:6099 game.cpp:7671 game.cpp:7912 game.cpp:8234
-#: game.cpp:8319 game.cpp:8389 game.cpp:8859 game.cpp:8879 iexamine.cpp:758
+#: crafting.cpp:1420 game.cpp:6099 game.cpp:7667 game.cpp:7908 game.cpp:8230
+#: game.cpp:8315 game.cpp:8385 game.cpp:8855 game.cpp:8875 iexamine.cpp:797
 #: iuse.cpp:362 npctalk.cpp:835 npctalk.cpp:843 npctalk.cpp:1348
 #: npctalk.cpp:1378
 msgid "Never mind."
 msgstr "Ничего особенного."
 
-#: crafting.cpp:1425 game.cpp:8864
+#: crafting.cpp:1425 game.cpp:8860
 #, c-format
 msgid "You don't have item '%c'!"
 msgstr "У вас нет в наличии '%c'!"
@@ -5489,12 +5489,12 @@ msgstr ""
 msgid "trap: %s (%d)"
 msgstr "ловушка: %s (%d)"
 
-#: editmap.cpp:406 game.cpp:6649 game.cpp:6678
+#: editmap.cpp:406 game.cpp:6645 game.cpp:6674
 #, c-format
 msgid "There is a %s there. Parts:"
 msgstr "Здесь %s. Части:"
 
-#: editmap.cpp:413 game.cpp:6655
+#: editmap.cpp:413 game.cpp:6651
 #, c-format
 msgid "There is a %s there."
 msgstr "%s."
@@ -5504,7 +5504,7 @@ msgstr "%s."
 msgid "There are %d other items there as well."
 msgstr "Здесь есть ещё %d предметов."
 
-#: editmap.cpp:424 game.cpp:6702
+#: editmap.cpp:424 game.cpp:6698
 #, c-format
 msgid "Graffiti: %s"
 msgstr "Граффити: %s"
@@ -6229,7 +6229,7 @@ msgstr " , их главная цель: "
 msgid ". Their primary concern is "
 msgstr ". Они занимаются "
 
-#: faction.cpp:440 faction.cpp:442 faction.cpp:452 game.cpp:9712
+#: faction.cpp:440 faction.cpp:442 faction.cpp:452 game.cpp:9708
 #: npctalk.cpp:725
 msgid "."
 msgstr "."
@@ -6243,11 +6243,11 @@ msgid " They are known for "
 msgstr " Получили известность за "
 
 #: faction.cpp:447 faction.cpp:450 faction.cpp:452 faction.cpp:453
-#: faction.cpp:455 game.cpp:9706 npc.cpp:1966 npc.cpp:1990 options.cpp:160
+#: faction.cpp:455 game.cpp:9702 npc.cpp:1966 npc.cpp:1990 options.cpp:160
 msgid ", "
 msgstr ", "
 
-#: faction.cpp:455 game.cpp:9708
+#: faction.cpp:455 game.cpp:9704
 msgid ", and "
 msgstr ", и "
 
@@ -7537,8 +7537,8 @@ msgstr "Редактор карты"
 msgid "Change weather"
 msgstr "Сменить погоду"
 
-#: game.cpp:3061 game.cpp:3178 game.cpp:9233 iexamine.cpp:363 iexamine.cpp:483
-#: iexamine.cpp:493 iexamine.cpp:738 iuse.cpp:1484 iuse.cpp:1487 iuse.cpp:2382
+#: game.cpp:3061 game.cpp:3178 game.cpp:9229 iexamine.cpp:363 iexamine.cpp:483
+#: iexamine.cpp:493 iexamine.cpp:777 iuse.cpp:1484 iuse.cpp:1487 iuse.cpp:2382
 #: iuse.cpp:2429 iuse.cpp:2869 iuse.cpp:3956 iuse.cpp:5043 iuse.cpp:5160
 #: iuse.cpp:5162 iuse.cpp:5164
 msgid "Cancel"
@@ -8154,395 +8154,395 @@ msgstr "Калитка с треском захлопывается!"
 msgid "You dive from the %s."
 msgstr ""
 
-#: game.cpp:6437
+#: game.cpp:6435
 #, c-format
 msgid "You take control of the %s."
 msgstr "Вы сели за руль %s."
 
-#: game.cpp:6440
+#: game.cpp:6438
 msgid "Control vehicle"
 msgstr "Управление машиной"
 
-#: game.cpp:6444
+#: game.cpp:6442
 msgid "No vehicle there."
 msgstr "Тут нет машины"
 
-#: game.cpp:6448
+#: game.cpp:6446
 msgid "No controls there."
 msgstr "Тут нет руля"
 
-#: game.cpp:6460
+#: game.cpp:6456
 msgid "Examine"
 msgstr "Изучить"
 
-#: game.cpp:6471
+#: game.cpp:6467
 msgid "You can't do that while onboard."
 msgstr "Этого в транспорте сделать нельзя."
 
-#: game.cpp:6473
+#: game.cpp:6469
 msgid "You can't do that on moving vehicle."
 msgstr "Вы не можете сделать это в движущейся машине"
 
-#: game.cpp:6496
+#: game.cpp:6492
 #, c-format
 msgid "The %s is firmly sealed."
 msgstr "%s надёжно запечатан."
 
-#: game.cpp:6500
+#: game.cpp:6496
 msgid "It is empty."
 msgstr "Здесь пусто."
 
-#: game.cpp:6521
+#: game.cpp:6517
 msgid "Peek"
 msgstr "Заглянуть"
 
-#: game.cpp:6559
+#: game.cpp:6555
 msgid "Looking Around"
 msgstr "Осмотрется"
 
-#: game.cpp:6560
+#: game.cpp:6556
 msgid "Use directional keys to move the cursor"
 msgstr "Используйте клавиши управления, чтобы перемещать курсор"
 
-#: game.cpp:6561
+#: game.cpp:6557
 msgid "to a nearby square."
 msgstr "на соседнюю клетку."
 
-#: game.cpp:6583
+#: game.cpp:6579
 #, c-format
 msgid "%s; Impassable"
 msgstr "%s; Непроходимо"
 
-#: game.cpp:6585
+#: game.cpp:6581
 #, c-format
 msgid "%s; Movement cost %d"
 msgstr "%s; Цена движения %d"
 
-#: game.cpp:6619 game.cpp:6637
+#: game.cpp:6615 game.cpp:6633
 msgid "There are several items there."
 msgstr "Здесь лежат несколько вещей."
 
-#: game.cpp:6623 game.cpp:6641
+#: game.cpp:6619 game.cpp:6637
 msgid "There is an item there."
 msgstr "Здесь лежит предмет."
 
-#: game.cpp:6626 game.cpp:6644 game.cpp:6663
+#: game.cpp:6622 game.cpp:6640 game.cpp:6659
 msgid "You cannot see what is inside of it."
 msgstr "Вы не можете увидеть, что находится внутри."
 
-#: game.cpp:6659
+#: game.cpp:6655
 msgid "There are other items there as well."
 msgstr "Здесь есть ещё предметы."
 
-#: game.cpp:6676
+#: game.cpp:6672
 #, c-format
 msgid "You (%s)"
 msgstr "Вы (%s)"
 
-#: game.cpp:6696
+#: game.cpp:6692
 msgid "Bright light."
 msgstr "Яркий свет."
 
-#: game.cpp:6699
+#: game.cpp:6695
 msgid "Unseen."
 msgstr "Невидимый."
 
-#: game.cpp:6823
+#: game.cpp:6819
 msgid "Type part of an item's name to see"
 msgstr "Введите часть названия, чтобы найти"
 
-#: game.cpp:6824
+#: game.cpp:6820
 msgid "nearby matching items."
 msgstr "нужные предметы поблизости."
 
-#: game.cpp:6825
+#: game.cpp:6821
 msgid "Seperate multiple items with ,"
 msgstr "Разделяйте несколько предметов запятой (,)"
 
-#: game.cpp:6826
+#: game.cpp:6822
 msgid "Example: back,flash,aid, ,band"
 msgstr "Пример: back,flash,aid, ,band"
 
-#: game.cpp:6829
+#: game.cpp:6825
 msgid "To exclude items, place - in front"
 msgstr ""
 
-#: game.cpp:6830
+#: game.cpp:6826
 msgid "Example: -pipe,chunk,steel"
 msgstr "Пример: -pipe,chunk,steel"
 
-#: game.cpp:6832
+#: game.cpp:6828
 msgid "Filter:"
 msgstr "Фильтр:"
 
-#: game.cpp:6832 game.cpp:7039 game.cpp:7046
+#: game.cpp:6828 game.cpp:7035 game.cpp:7042
 msgid "UP: history, CTRL-U clear line, ESC: abort, ENTER: save"
 msgstr "ВВЕРХ: история, CTRL-U очистить, ESC: прервать, ENTER: сохранить"
 
-#: game.cpp:6885 main_menu.cpp:71
+#: game.cpp:6881 main_menu.cpp:71
 msgid "<R>eset"
 msgstr "Сброс"
 
-#: game.cpp:6888
+#: game.cpp:6884
 msgid "<E>xamine"
 msgstr "<E>:Изучить"
 
-#: game.cpp:6889
+#: game.cpp:6885
 msgid "<C>ompare"
 msgstr "<C>равнить"
 
-#: game.cpp:6890
+#: game.cpp:6886
 msgid "<F>ilter"
 msgstr "<F>:Фильтр"
 
-#: game.cpp:6891
+#: game.cpp:6887
 msgid "<+/->Priority"
 msgstr "<+/->Приоритет"
 
-#: game.cpp:7039
+#: game.cpp:7035
 msgid "High Priority:"
 msgstr "Высокий приоритет:"
 
-#: game.cpp:7046
+#: game.cpp:7042
 msgid "Low Priority:"
 msgstr "Низкий приоритет:"
 
-#: game.cpp:7221
+#: game.cpp:7217
 msgid "You dont see any items around you!"
 msgstr "Вы не видите ни одного предмета вокруг."
 
-#: game.cpp:7251
+#: game.cpp:7247
 msgid "You cannot pick up items with your claws out!"
 msgstr "Вы не можете взять предметы когда ваши когти выпущены!"
 
-#: game.cpp:7267
+#: game.cpp:7263
 #, c-format
 msgid "Get items from %s?"
 msgstr "Взять предметы из %s?"
 
-#: game.cpp:7278
+#: game.cpp:7274
 msgid "Fill a container?"
 msgstr "Наполнить контейнер?"
 
-#: game.cpp:7286
+#: game.cpp:7282
 msgid "Have a drink?"
 msgstr "Выпить?"
 
-#: game.cpp:7295
+#: game.cpp:7291
 msgid "The water tank is empty."
 msgstr "Бак для воды пуст."
 
-#: game.cpp:7331 game.cpp:7792
+#: game.cpp:7327 game.cpp:7788
 msgid "You can't pick up a liquid!"
 msgstr "Вы не можете поднять жидкость!"
 
-#: game.cpp:7346 game.cpp:7698
+#: game.cpp:7342 game.cpp:7694
 msgid "You're carrying too many items!"
 msgstr "Вы несёте слишком много вещей!"
 
-#: game.cpp:7349 game.cpp:7704
+#: game.cpp:7345 game.cpp:7700
 #, c-format
 msgid "The %s is too heavy!"
 msgstr "%s слишком тяжелый!"
 
-#: game.cpp:7355 game.cpp:7710
+#: game.cpp:7351 game.cpp:7706
 #, c-format
 msgid "Put on the %s?"
 msgstr "Надеть %s?"
 
-#: game.cpp:7362 game.cpp:7720
+#: game.cpp:7358 game.cpp:7716
 #, c-format
 msgid "Drop your %s and pick up %s?"
 msgstr "Выбросить %s и взять в руки %s?"
 
-#: game.cpp:7371 game.cpp:7386 game.cpp:7397 game.cpp:7731
+#: game.cpp:7367 game.cpp:7382 game.cpp:7393 game.cpp:7727
 #, c-format
 msgid "Wielding %c - %s"
 msgstr "Вооружился %c - %s"
 
-#: game.cpp:7375
+#: game.cpp:7371
 #, c-format
 msgid ""
 "There's no room in your inventory for the %s, and you can't unwield your %s."
 msgstr ""
 "В вашем инвентаре нет места для %s, и вы не можете выпустить из рук %s."
 
-#: game.cpp:7408 game.cpp:7794
+#: game.cpp:7404 game.cpp:7790
 msgid "You're overburdened!"
 msgstr "Вы перегружены!"
 
-#: game.cpp:7410 game.cpp:7796
+#: game.cpp:7406 game.cpp:7792
 msgid "You struggle to carry such a large volume!"
 msgstr "Вы с трудом тащите такой большой объём предметов!"
 
-#: game.cpp:7454
+#: game.cpp:7450
 msgid "PICK UP (, = all)"
 msgstr "ПОДНЯТЬ(, =всё)"
 
-#: game.cpp:7541
+#: game.cpp:7537
 msgid "Enter 2 letters (case sensitive):"
 msgstr "Введите 2 буквы (с учётом регистра):"
 
-#: game.cpp:7629
+#: game.cpp:7625
 msgid "[left] Unmark"
 msgstr "[лево] Отмена"
 
-#: game.cpp:7630
+#: game.cpp:7626
 msgid "[up/dn] Scroll"
 msgstr "[верх/низ]"
 
-#: game.cpp:7631
+#: game.cpp:7627
 msgid "[right] Mark"
 msgstr "[право] Метка"
 
-#: game.cpp:7635
+#: game.cpp:7631
 msgid "[pgup] Prev"
 msgstr "[pgup] Пред."
 
-#: game.cpp:7636
+#: game.cpp:7632
 msgid "[,] All"
 msgstr "[,] Всё"
 
-#: game.cpp:7637
+#: game.cpp:7633
 msgid "[pgdn] Next"
 msgstr "[pgdn] След."
 
-#: game.cpp:7649
+#: game.cpp:7645
 #, c-format
 msgid "Wgt %.1f"
 msgstr "Вес %.1f"
 
-#: game.cpp:7653
+#: game.cpp:7649
 #, c-format
 msgid "Vol %d"
 msgstr "Объём: %d"
 
-#: game.cpp:7737
+#: game.cpp:7733
 #, c-format
 msgid ""
 "There's no room in your inventory for the %s, and you can't  unwield your %s."
 msgstr ""
 "В вашем инвентаре нет места для %s, и вы не можете выпустить из рук %s."
 
-#: game.cpp:7787
+#: game.cpp:7783
 msgid "You pick up: "
 msgstr "Вы подняли: "
 
-#: game.cpp:7813
+#: game.cpp:7809
 #, c-format
 msgid "You release the %s."
 msgstr "Вы отпускаете %s."
 
-#: game.cpp:7818 item.cpp:2441
+#: game.cpp:7814 item.cpp:2441
 msgid "Grab"
 msgstr "Захват"
 
-#: game.cpp:7823
+#: game.cpp:7819
 #, c-format
 msgid "You grab the %s."
 msgstr "Вы хватаете %s."
 
-#: game.cpp:7825
+#: game.cpp:7821
 msgid "There's no vehicle to grab there!"
 msgstr "Нет транспорта, чтобы взять."
 
-#: game.cpp:7828
+#: game.cpp:7824
 msgid "Never Mind."
 msgstr "Не важно."
 
-#: game.cpp:7841
+#: game.cpp:7837
 msgid "Refill vehicle?"
 msgstr "Заправить машину?"
 
-#: game.cpp:7844
+#: game.cpp:7840
 msgid "Refill vehicle"
 msgstr "Заправить машину"
 
-#: game.cpp:7851
+#: game.cpp:7847
 #, c-format
 msgid "This vehicle doesn't use %s."
 msgstr "Эта машина не использует %s"
 
-#: game.cpp:7853
+#: game.cpp:7849
 msgid "Already full."
 msgstr "Уже полный."
 
-#: game.cpp:7854
+#: game.cpp:7850
 msgid "Pump until full?"
 msgstr "Заправлять пока не заполнится?"
 
-#: game.cpp:7860
+#: game.cpp:7856
 #, c-format
 msgid "You refill %s with %s."
 msgstr "Вы заправили %s с помощью %s."
 
-#: game.cpp:7863
+#: game.cpp:7859
 #, c-format
 msgid "You refill %s with %s to its maximum."
 msgstr "Вы заправили %s с помощью %s до максимума."
 
-#: game.cpp:7871
+#: game.cpp:7867
 msgid "There isn't any vehicle there."
 msgstr "Тут нету машины."
 
-#: game.cpp:7880 game.cpp:7894 game.cpp:7907
+#: game.cpp:7876 game.cpp:7890 game.cpp:7903
 #, c-format
 msgid "Pour %s on the ground?"
 msgstr "Вылить %s на землю?"
 
-#: game.cpp:7888 game.cpp:8080
+#: game.cpp:7884 game.cpp:8076
 msgid "Container for "
 msgstr "Контейнер для "
 
-#: game.cpp:7917
+#: game.cpp:7913
 msgid "That's the same container!"
 msgstr "Это тот же самый контейнер."
 
-#: game.cpp:7938 game.cpp:8106
+#: game.cpp:7934 game.cpp:8102
 #, c-format
 msgid "Your %s won't hold %s."
 msgstr "Ваш %s не может хранить %s"
 
-#: game.cpp:7944 game.cpp:8004 game.cpp:8112 game.cpp:8165
+#: game.cpp:7940 game.cpp:8000 game.cpp:8108 game.cpp:8161
 #, c-format
 msgid "Your %s can't hold any more %s."
 msgstr "Ваш %s не может хранить больше %s"
 
-#: game.cpp:7950 game.cpp:7979 game.cpp:8118 game.cpp:8142
+#: game.cpp:7946 game.cpp:7975 game.cpp:8114 game.cpp:8138
 #, c-format
 msgid "You can't mix loads in your %s."
 msgstr "Вы не можете смешивать содержимое в вашем %s"
 
-#: game.cpp:7954 game.cpp:8013 game.cpp:8017 game.cpp:8122 game.cpp:8169
+#: game.cpp:7950 game.cpp:8009 game.cpp:8013 game.cpp:8118 game.cpp:8165
 #, c-format
 msgid "You pour %s into your %s."
 msgstr "Вы  налили %s в ваш %s"
 
-#: game.cpp:7965 game.cpp:8024 game.cpp:8129 game.cpp:8175
+#: game.cpp:7961 game.cpp:8020 game.cpp:8125 game.cpp:8171
 msgid "There's some left over!"
 msgstr "Там еще осталось!"
 
-#: game.cpp:7972 game.cpp:8134
+#: game.cpp:7968 game.cpp:8130
 #, c-format
 msgid "That %s won't hold %s."
 msgstr "%s не может содержать %s."
 
-#: game.cpp:8032 game.cpp:8182
+#: game.cpp:8028 game.cpp:8178
 #, c-format
 msgid "That %s isn't water-tight."
 msgstr "%s не удержит жидкость."
 
-#: game.cpp:8035 game.cpp:8186
+#: game.cpp:8031 game.cpp:8182
 #, c-format
 msgid "You can't seal that %s!"
 msgstr "Вы не можете закрыть %s!"
 
-#: game.cpp:8052 game.cpp:8201
+#: game.cpp:8048 game.cpp:8197
 #, c-format
 msgid "You fill your %s with some of the %s."
 msgstr "В %s вы наливаете %s."
 
-#: game.cpp:8257 game.cpp:8335
+#: game.cpp:8253 game.cpp:8331
 #, c-format
 msgid "You put your %1$s in the %2$s's %3$s."
 msgid_plural "You put your %1$ss in the %2$s's %3$s."
@@ -8550,7 +8550,7 @@ msgstr[0] "Вы положили %1$s в %2$s %3$s."
 msgstr[1] "Вы положили %1$s в %2$s %3$s."
 msgstr[2] "Вы положили %1$s в %2$s %3$s."
 
-#: game.cpp:8264
+#: game.cpp:8260
 #, c-format
 msgid "You drop your %s."
 msgid_plural "You drop your %ss."
@@ -8558,28 +8558,28 @@ msgstr[0] "Вы выбросили %s."
 msgstr[1] "Вы выбросили %s."
 msgstr[2] "Вы выбросили %s."
 
-#: game.cpp:8270 game.cpp:8354
+#: game.cpp:8266 game.cpp:8350
 #, c-format
 msgid "You put several items in the %s's %s."
 msgstr "Вы положили несколько предметов в %s %s."
 
-#: game.cpp:8273
+#: game.cpp:8269
 msgid "You drop several items."
 msgstr "Вы выбросили несколько предметов."
 
-#: game.cpp:8286 game.cpp:8374
+#: game.cpp:8282 game.cpp:8370
 msgid "The trunk is full, so some items fall on the ground."
 msgstr "Багажник полон, некоторые вещи вываливаются на землю."
 
-#: game.cpp:8297
+#: game.cpp:8293
 msgid "Drop"
 msgstr "Выбросить"
 
-#: game.cpp:8310
+#: game.cpp:8306
 msgid "You can't place items there!"
 msgstr "Вы не можете положить сюда предметы!"
 
-#: game.cpp:8342
+#: game.cpp:8338
 #, c-format
 msgid "You drop your %s on the %s."
 msgid_plural "You drop your %ss on the %s."
@@ -8587,7 +8587,7 @@ msgstr[0] "Вы выбросили %s на %s."
 msgstr[1] "Вы выбросили %s на %s."
 msgstr[2] "Вы выбросили %s на %s."
 
-#: game.cpp:8347
+#: game.cpp:8343
 #, c-format
 msgid "You put your %s in the %s."
 msgid_plural "You put your %ss in the %s."
@@ -8595,82 +8595,82 @@ msgstr[0] "Вы положили %s в %s."
 msgstr[1] "Вы положили %s в %s."
 msgstr[2] "Вы положили %s в %s."
 
-#: game.cpp:8357
+#: game.cpp:8353
 #, c-format
 msgid "You drop several items on the %s."
 msgstr "Вы выбросили несколько предметов на %s."
 
-#: game.cpp:8360
+#: game.cpp:8356
 #, c-format
 msgid "You put several items in the %s."
 msgstr "Вы положили несколько предметов в %s."
 
-#: game.cpp:8386
+#: game.cpp:8382
 msgid "Reassign item:"
 msgstr "Переназначить предмет:"
 
-#: game.cpp:8393 player.cpp:6044 player.cpp:7441 player.cpp:7486
+#: game.cpp:8389 player.cpp:6044 player.cpp:7441 player.cpp:7486
 #: player.cpp:7720
 msgid "You do not have that item."
 msgstr "У вас нет этого предмета."
 
-#: game.cpp:8396
+#: game.cpp:8392
 #, c-format
 msgid "%c - %s; enter new letter."
 msgstr "%c - %s; нажмите новую клавишу."
 
-#: game.cpp:8399
+#: game.cpp:8395
 #, c-format
 msgid "%c is not a valid inventory letter."
 msgstr "%c не годится в качестве символа для инвентаря."
 
-#: game.cpp:8419
+#: game.cpp:8415
 msgid "Throw item:"
 msgstr "Метнуть предмет:"
 
-#: game.cpp:8425 player.cpp:6391
+#: game.cpp:8421 player.cpp:6391
 msgid "You don't have that item."
 msgstr "У вас нет этого предмета."
 
-#: game.cpp:8428
+#: game.cpp:8424
 msgid "That is too heavy to throw."
 msgstr "Вы не можете метнуть такой тяжелый предмет."
 
-#: game.cpp:8434
+#: game.cpp:8430
 msgid "That's part of your body, you can't throw that!"
 msgstr "Это часть вашего тела, её нельзя метнуть!"
 
-#: game.cpp:8490
+#: game.cpp:8486
 msgid "You need a free arm to drive!"
 msgstr "Для вождения нужна свободная рука!"
 
-#: game.cpp:8496
+#: game.cpp:8492
 #, c-format
 msgid "Your %s starts charging."
 msgstr "%s заряжается."
 
-#: game.cpp:8502
+#: game.cpp:8498
 msgid "You need a charged UPS."
 msgstr "Вам нужен заряженный УБП."
 
-#: game.cpp:8515
+#: game.cpp:8511
 msgid "You're not strong enough to draw the bow!"
 msgstr "Вы недостаточно сильны, чтобы натянуть тетиву!"
 
-#: game.cpp:8522 game.cpp:8963 iuse.cpp:2423
+#: game.cpp:8518 game.cpp:8959 iuse.cpp:2423
 msgid "Out of ammo!"
 msgstr "Кончились боеприпасы!"
 
-#: game.cpp:8533
+#: game.cpp:8529
 msgid "You need to reload!"
 msgstr "Вам нужно перезарядиться!"
 
-#: game.cpp:8537
+#: game.cpp:8533
 #, c-format
 msgid "Your %s needs 100 charges to fire!"
 msgstr "%s должна иметь 100 зарядов для выстрела!"
 
-#: game.cpp:8543
+#: game.cpp:8539
 msgid ""
 "You need a UPS with at least 5 charges or an advanced UPS with at least 3 "
 "charges to fire that!"
@@ -8678,7 +8678,7 @@ msgstr ""
 "Для стрельбы вам нужен УБП, как минимум, с 5 зарядами или улучшенный УБП, "
 "как минимум, с 3 зарядами!"
 
-#: game.cpp:8548
+#: game.cpp:8544
 msgid ""
 "You need a UPS with at least 20 charges or an advanced UPS with at least 12 "
 "charges to fire that!"
@@ -8686,7 +8686,7 @@ msgstr ""
 "Для стрельбы вам нужен УБП, как минимум, с 20 зарядами или улучшенный УБП, "
 "как минимум, с 12 зарядами!"
 
-#: game.cpp:8553
+#: game.cpp:8549
 msgid ""
 "You need a UPS with at least 40 charges or an advanced UPS with at least 24 "
 "charges to fire that!"
@@ -8694,103 +8694,103 @@ msgstr ""
 "Для стрельбы вам нужен УБП, как минимум, с 40 зарядами или улучшенный УБП, "
 "как минимум, с 24 зарядами!"
 
-#: game.cpp:8626
+#: game.cpp:8622
 msgid "You can't butcher while driving!"
 msgstr "Вы не можете заниматься разделкой за рулём!"
 
-#: game.cpp:8635
+#: game.cpp:8631
 msgid "There are no corpses here to butcher."
 msgstr "Нет трупов для разделки."
 
-#: game.cpp:8640
+#: game.cpp:8636
 msgid "You don't have a sharp item to butcher with."
 msgstr "У вас нет острого предмета, чтобы разделать тушу."
 
-#: game.cpp:8647
+#: game.cpp:8643
 #, c-format
 msgid "Butcher the %s corpse?"
 msgstr "Разделать труп %s?"
 
-#: game.cpp:8671
+#: game.cpp:8667
 msgid "There's no corpse to butcher!"
 msgstr "Нет трупа для разделки."
 
-#: game.cpp:8715
+#: game.cpp:8711
 msgid "You harvest some usable bones!"
 msgstr "Вы добыли несколько костей!"
 
-#: game.cpp:8718
+#: game.cpp:8714
 msgid "You harvest some fluid bladders!"
 msgstr "Вы собираете капли жидкости!"
 
-#: game.cpp:8725
+#: game.cpp:8721
 msgid "You harvest some usable sinews!"
 msgstr "Вы добыли сухожилия!"
 
-#: game.cpp:8728
+#: game.cpp:8724
 msgid "You harvest some plant fibres!"
 msgstr "Вы собрали растительные волокна!"
 
-#: game.cpp:8734
+#: game.cpp:8730
 #, c-format
 msgid "You manage to skin the %s!"
 msgstr "Вы снимаете кожу с %s!"
 
-#: game.cpp:8754
+#: game.cpp:8750
 msgid "You harvest some feathers!"
 msgstr "Вы собрали перья!"
 
-#: game.cpp:8762
+#: game.cpp:8758
 #, c-format
 msgid "You discover a CBM in the %s!"
 msgstr "Вы нашли CBM в %s!"
 
-#: game.cpp:8784
+#: game.cpp:8780
 #, c-format
 msgid "You discover a %s in the %s!"
 msgstr "Вы нашли %s в %s!"
 
-#: game.cpp:8792
+#: game.cpp:8788
 msgid "Your clumsy butchering destroys the meat!"
 msgstr "Вы неумело разделали тушу и всё мясо пропало!"
 
-#: game.cpp:8815
+#: game.cpp:8811
 msgid "You butcher the corpse."
 msgstr "Вы разделали труп."
 
-#: game.cpp:8825
+#: game.cpp:8821
 msgid "You found some wild veggies!"
 msgstr "Вы нашли немного дикой зелени!"
 
-#: game.cpp:8832
+#: game.cpp:8828
 msgid "You didn't find anything."
 msgstr "Вы ничего не нашли."
 
-#: game.cpp:8846
+#: game.cpp:8842
 msgid "Eat underbrush?"
 msgstr "Съесть куст?"
 
-#: game.cpp:8850
+#: game.cpp:8846
 msgid "You eat the underbrush."
 msgstr "Вы съедаете куст."
 
-#: game.cpp:8854
+#: game.cpp:8850
 msgid "Consume item:"
 msgstr "Употребить:"
 
-#: game.cpp:8874
+#: game.cpp:8870
 msgid "Wear item:"
 msgstr "Надеть предмет:"
 
-#: game.cpp:8889
+#: game.cpp:8885
 msgid "Take off item:"
 msgstr "Снять вещь:"
 
-#: game.cpp:8896
+#: game.cpp:8892
 msgid "Invalid selection."
 msgstr "Недопустимый выбор."
 
-#: game.cpp:8935
+#: game.cpp:8931
 #, c-format
 msgid ""
 "Your %s does not need to be reloaded; it reloads and fires in a single "
@@ -8799,94 +8799,94 @@ msgstr ""
 "%s не нужно перезаряжать, для него зарядка и стрельба происходит в одно "
 "действие."
 
-#: game.cpp:8940
+#: game.cpp:8936
 #, c-format
 msgid "Your %s does not reload normally."
 msgstr "%s штатно не перезаряжается."
 
-#: game.cpp:8957
+#: game.cpp:8953
 #, c-format
 msgid "Your %s is fully loaded!"
 msgstr "%s полностью заряжен!"
 
-#: game.cpp:8971 game.cpp:8985
+#: game.cpp:8967 game.cpp:8981
 #, c-format
 msgid "You can't reload a %s!"
 msgstr "Вы не можете перезарядить %s!"
 
-#: game.cpp:8977
+#: game.cpp:8973
 #, c-format
 msgid "Out of %s!"
 msgstr "Закончились %s!"
 
-#: game.cpp:8983
+#: game.cpp:8979
 msgid "You're not wielding anything."
 msgstr "Вы не вооружены."
 
-#: game.cpp:9026 game.cpp:9094
+#: game.cpp:9022 game.cpp:9090
 #, c-format
 msgid "You can't unload a %s!"
 msgstr "Вы не можете разрядить %s!"
 
-#: game.cpp:9047
+#: game.cpp:9043
 #, c-format
 msgid "Your %s isn't loaded, and is not modified."
 msgstr "%s не заряжен и не модифицирован."
 
-#: game.cpp:9052
+#: game.cpp:9048
 #, c-format
 msgid "Your %s isn't charged."
 msgstr "Ваш %s не заряжен."
 
-#: game.cpp:9080
+#: game.cpp:9076
 #, c-format
 msgid "You put the %s in your inventory."
 msgstr "Вы положили %s в свой инвентарь."
 
-#: game.cpp:9083
+#: game.cpp:9079
 #, c-format
 msgid "You drop the %s on the ground."
 msgstr "Вы выбросили %s на землю."
 
-#: game.cpp:9131
+#: game.cpp:9127
 msgid "You can't remove partially depleted plutonium!"
 msgstr "Вы не можете убрать частично обеднённый уран!"
 
-#: game.cpp:9134
+#: game.cpp:9130
 #, c-format
 msgid "You remove %i plutonium from the advanced UPS"
 msgstr "Вы вынули %i плутония из улучшенного УБП."
 
-#: game.cpp:9170
+#: game.cpp:9166
 #, c-format
 msgid "You cannot unwield your %s."
 msgstr "вы не можете отпустить %s."
 
-#: game.cpp:9176
+#: game.cpp:9172
 msgid "Wield item:"
 msgstr "Вооружиться предметом:"
 
-#: game.cpp:9178
+#: game.cpp:9174
 msgid "Wield item: Press - to choose a style"
 msgstr "Вооружиться: нажмите '-' для выбора боевого стиля"
 
-#: game.cpp:9194
+#: game.cpp:9190
 msgid "Read:"
 msgstr "Читать:"
 
-#: game.cpp:9202
+#: game.cpp:9198
 msgid "You talk to yourself for a moment."
 msgstr "Вы немного поговорили сам с собой."
 
-#: game.cpp:9218
+#: game.cpp:9214
 msgid "There's no-one close enough to talk to."
 msgstr "Никого нет поблизости, чтобы поговорить."
 
-#: game.cpp:9235
+#: game.cpp:9231
 msgid "Who do you want to talk to?"
 msgstr "С кем вы хотите поговорить?"
 
-#: game.cpp:9247
+#: game.cpp:9243
 #, c-format
 msgid ""
 "Monster spotted--run mode is on! (%s to turn it off or %s to ignore monster.)"
@@ -8894,16 +8894,16 @@ msgstr ""
 "Замечен монстр--режим бега включён! (%s чтобы выключить или %s чтобы "
 "игнорировать монстра.)"
 
-#: game.cpp:9263
+#: game.cpp:9259
 msgid "You can't drive the vehicle from here. You need controls!"
 msgstr "Здесь нет панели управления транспортом!"
 
-#: game.cpp:9276
+#: game.cpp:9272
 #, c-format
 msgid "You regain control of the %s."
 msgstr "Вы вновь контролируете %s."
 
-#: game.cpp:9292
+#: game.cpp:9288
 #, c-format
 msgid ""
 "Monster spotted--safe mode is on! (%s to turn it off or %s to ignore "
@@ -8912,291 +8912,291 @@ msgstr ""
 "Замечен монстр--безопасный режим включён! (%s чтобы выключить или %s чтобы "
 "игнорировать монстра.)"
 
-#: game.cpp:9336
+#: game.cpp:9332
 #, c-format
 msgid "Really attack %s?"
 msgstr "Действительно атаковать %s?"
 
-#: game.cpp:9338
+#: game.cpp:9334
 #, c-format
 msgid "%s moves out of the way."
 msgstr "%s уходит с дороги."
 
-#: game.cpp:9374
+#: game.cpp:9370
 msgid "You cannot pull yourself away from the faultline..."
 msgstr "Вы не можете заставить себя отойти от разлома..."
 
-#: game.cpp:9381
+#: game.cpp:9377
 msgid "You try to escape the pit, but slip back in."
 msgstr "Вы пытаетесь выбраться из ямы, но соскальзываете вниз."
 
-#: game.cpp:9385
+#: game.cpp:9381
 msgid "You escape the pit!"
 msgstr "Вы выбрались из ямы!"
 
-#: game.cpp:9391
+#: game.cpp:9387
 msgid "You struggle to stand."
 msgstr "Вы пытаетесь подняться."
 
-#: game.cpp:9395
+#: game.cpp:9391
 msgid "You stand up."
 msgstr "Вы поднялись."
 
-#: game.cpp:9423
+#: game.cpp:9419
 msgid "Dive from moving vehicle?"
 msgstr "Выпрыгнуть на ходу?"
 
-#: game.cpp:9428
+#: game.cpp:9424
 msgid "There is another vehicle in the way."
 msgstr "Другое транспортное средство на пути."
 
-#: game.cpp:9431
+#: game.cpp:9427
 msgid "That part of the vehicle is currently unsafe."
 msgstr "Эта часть транспорта небезопасна."
 
-#: game.cpp:9448
+#: game.cpp:9444
 #, c-format
 msgid "Really step into that %s?"
 msgstr "Уверены, что хотите зайти в %s?"
 
-#: game.cpp:9465
+#: game.cpp:9461
 #, c-format
 msgid "Really step onto that %s?"
 msgstr "Точно ли надо идти в %s?"
 
-#: game.cpp:9475
+#: game.cpp:9471
 #, c-format
 msgid "You can't move %s while standing on it!"
 msgstr "Вы не можете  двигать %s, пока стоите на нём!"
 
-#: game.cpp:9481
+#: game.cpp:9477
 #, c-format
 msgid "The %s is too heavy for you to budge!"
 msgstr "Вы не можете сдвинуть %s. Слишком тяжело!"
 
-#: game.cpp:9524
+#: game.cpp:9520
 #, c-format
 msgid "The %s collides with something."
 msgstr "%s ударяется о что-то"
 
-#: game.cpp:9550
+#: game.cpp:9546
 msgid "No vehicle at grabbed point."
 msgstr ""
 
-#: game.cpp:9574 game.cpp:9576
+#: game.cpp:9570 game.cpp:9572
 #, c-format
 msgid "Moving past this %s is slow!"
 msgstr "Передвижение через %s замедлено!"
 
-#: game.cpp:9580
+#: game.cpp:9576
 #, c-format
 msgid "You hurt your feet on the %s!"
 msgstr "Вы травмируете ступни о %s!"
 
-#: game.cpp:9591
+#: game.cpp:9587
 #, c-format
 msgid "You cut your %s on the %s!"
 msgstr "Вы порезали %s об %s!"
 
-#: game.cpp:9601
+#: game.cpp:9597
 msgid "You emit a rattling sound."
 msgstr "Вы издаёте грохочущий звук."
 
-#: game.cpp:9604 game.cpp:9817
+#: game.cpp:9600 game.cpp:9813
 msgid "The water puts out the flames!"
 msgstr "Вода тушит огонь!"
 
-#: game.cpp:9615
+#: game.cpp:9611
 msgid "Deactivate the turret?"
 msgstr "Выключить турель?"
 
-#: game.cpp:9622
+#: game.cpp:9618
 #, c-format
 msgid "You can't displace your %s."
 msgstr "Вы не можете сдвинуть %s."
 
-#: game.cpp:9627
+#: game.cpp:9623
 #, c-format
 msgid "You displace the %s."
 msgstr "Вы сдвигаете %s."
 
-#: game.cpp:9700
+#: game.cpp:9696
 msgid "You see here "
 msgstr "Под ногами "
 
-#: game.cpp:9716
+#: game.cpp:9712
 msgid "There are many items here."
 msgstr "Здесь находится много предметов."
 
-#: game.cpp:9722
+#: game.cpp:9718
 #, c-format
 msgid "There are vehicle controls here.  %s to drive."
 msgstr ""
 "Здесь находится управление транспортным средством. %s чтобы сесть за руль."
 
-#: game.cpp:9741
+#: game.cpp:9737
 msgid ""
 "You try to quantum tunnel through the barrier but are reflected! Try again "
 "with more energy!"
 msgstr ""
 
-#: game.cpp:9747
+#: game.cpp:9743
 msgid "It's too dangerous to tunnel that far!"
 msgstr ""
 
-#: game.cpp:9760
+#: game.cpp:9756
 #, c-format
 msgid "You quantum tunnel through the %d-tile wide barrier!"
 msgstr ""
 
-#: game.cpp:9773
+#: game.cpp:9769
 #, c-format
 msgid "You open the %s's %s."
 msgstr "Вы открыли %s %s."
 
-#: game.cpp:9779
+#: game.cpp:9775
 msgid "Dive into the water?"
 msgstr "Погрузиться в воду?"
 
-#: game.cpp:9781
+#: game.cpp:9777
 #, c-format
 msgid "You start swimming.  %s to dive underwater."
 msgstr "Вы поплыли. %s чтобы нырнуть под воду."
 
-#: game.cpp:9788
+#: game.cpp:9784
 #, c-format
 msgid "You bump into a %s!"
 msgstr "Вы врезаетесь в %s!"
 
-#: game.cpp:9794
+#: game.cpp:9790
 msgid "That door is locked!"
 msgstr "Эта дверь закрыта!"
 
-#: game.cpp:9798
+#: game.cpp:9794
 msgid "You rattle the bars but the door is locked!"
 msgstr ""
 
-#: game.cpp:9824
+#: game.cpp:9820
 msgid "You sink like a rock!"
 msgstr "Вы тонете как камень!"
 
-#: game.cpp:9831
+#: game.cpp:9827
 #, c-format
 msgid "You need to breathe! (%s to surface.)"
 msgstr "Вам необходимо вдохнуть! (%s чтобы всплыть.)"
 
-#: game.cpp:9834
+#: game.cpp:9830
 msgid "You need to breathe but you can't swim!  Get to dry land, quick!"
 msgstr ""
 "Вам нужно вздохнуть, к тому же вы не умеете плавать! Быстрее выбирайтесь на "
 "землю!"
 
-#: game.cpp:9876
+#: game.cpp:9872
 msgid "You are"
 msgstr "Вы"
 
-#: game.cpp:9878 game.cpp:9881
+#: game.cpp:9874 game.cpp:9877
 msgid " is"
 msgstr ""
 
-#: game.cpp:9921 vehicle.cpp:1754
+#: game.cpp:9917 vehicle.cpp:1752
 #, c-format
 msgid "You hear a %s"
 msgstr "Вы слышите %s"
 
-#: game.cpp:9929
+#: game.cpp:9925
 #, c-format
 msgid "%s slammed against the %s for %d damage!"
 msgstr "%s бьётся о %s и получает %d урона!"
 
-#: game.cpp:9977
+#: game.cpp:9973
 #, c-format
 msgid "You fall on the ground for %d damage."
 msgstr "Вы ударились об землю, получив %d очков повреждений."
 
-#: game.cpp:9979
+#: game.cpp:9975
 msgid "You land on the ground."
 msgstr "Вы приземлились."
 
-#: game.cpp:9986
+#: game.cpp:9982
 msgid "You dive into water."
 msgstr "Вы нырнули под воду."
 
-#: game.cpp:9988
+#: game.cpp:9984
 msgid "You fall into water."
 msgstr "Вы упали в воду."
 
-#: game.cpp:9998
+#: game.cpp:9994
 msgid "You are already underwater!"
 msgstr "Вы уже под водой!"
 
-#: game.cpp:10002
+#: game.cpp:9998
 msgid "You can't dive while wearing a flotation device."
 msgstr "Вы не можете нырнуть, пока не снимете летательный аппарат."
 
-#: game.cpp:10007
+#: game.cpp:10003
 msgid "You dive underwater!"
 msgstr "Вы нырнули под воду!"
 
-#: game.cpp:10011
+#: game.cpp:10007
 msgid "You surface."
 msgstr "Вы всплыли."
 
-#: game.cpp:10013
+#: game.cpp:10009
 msgid "You can't surface!"
 msgstr "Вы не можете всплыть!"
 
-#: game.cpp:10023
+#: game.cpp:10019
 msgid "You can't go down here!"
 msgstr "Вы не можете здесь спуститься!"
 
-#: game.cpp:10025
+#: game.cpp:10021
 msgid "You can't go up here!"
 msgstr "Вы не можете здесь подняться!"
 
-#: game.cpp:10036
+#: game.cpp:10032
 msgid "You can't drag things up and down stairs."
 msgstr "Вы не можете двигать предметы по лестнице."
 
-#: game.cpp:10067
+#: game.cpp:10063
 msgid "Halfway down, the way down becomes blocked off."
 msgstr "На полпути вниз, вы обнаруживаете, что путь заблокирован."
 
-#: game.cpp:10070
+#: game.cpp:10066
 msgid "There is a sheer drop halfway down. Climb your rope down?"
 msgstr "На полпути вниз есть выступ. Спустить туда верёвку?"
 
-#: game.cpp:10075
+#: game.cpp:10071
 msgid "There is a sheer drop halfway down.  Jump?"
 msgstr "На полпути вниз есть выступ. Спрыгнуть?"
 
-#: game.cpp:10116
+#: game.cpp:10112
 msgid "AUTO: goes down"
 msgstr ""
 
-#: game.cpp:10119
+#: game.cpp:10115
 msgid "AUTO: goes up"
 msgstr ""
 
-#: game.cpp:10143 trapfunc.cpp:537 trapfunc.cpp:578
+#: game.cpp:10139 trapfunc.cpp:537 trapfunc.cpp:578
 msgid "You flap your wings and flutter down gracefully."
 msgstr "Вы машете крыльями и аккуратно приземляетесь."
 
-#: game.cpp:10148
+#: game.cpp:10144
 msgid "You fall expertly and take no damage."
 msgstr "Вы упали профессионально и не получили повреждений"
 
-#: game.cpp:10150
+#: game.cpp:10146
 #, c-format
 msgid "You fall heavily, taking %d damage."
 msgstr "Вы неудачно упали, получив %d очков повреждений."
 
-#: game.cpp:10383
+#: game.cpp:10379
 #, c-format
 msgid "A %s comes down the %s!"
 msgstr ""
 
-#: game.cpp:10386
+#: game.cpp:10382
 #, c-format
 msgid "A %s comes up the %s!"
 msgstr ""
@@ -11128,7 +11128,7 @@ msgstr ""
 msgid "You hear the rumble of rock shifting."
 msgstr ""
 
-#: iexamine.cpp:605 iexamine.cpp:692 iexamine.cpp:729
+#: iexamine.cpp:605 iexamine.cpp:731 iexamine.cpp:768
 #, c-format
 msgid "Pick %s?"
 msgstr "Собрать %s?"
@@ -11145,73 +11145,94 @@ msgstr "Вы засыпаете..."
 msgid "Your legs are covered by flower's roots!"
 msgstr "Цветы пустили корни в ваших ногах!"
 
-#: iexamine.cpp:634
+#: iexamine.cpp:635
 msgid "It is too cold to plant anything now."
 msgstr "Слишком холодно, чтобы что-то сажать."
 
-#: iexamine.cpp:639
-msgid "It is too dark to plant anything now."
-msgstr "Слишком темно, чтобы что-то сажать."
+#: iexamine.cpp:644
+#, fuzzy
+msgid "You have no seeds to plant."
+msgstr "Вы умерли от голода."
 
-#: iexamine.cpp:641
-msgid "Plant a seed?"
+#: iexamine.cpp:648
+msgid "This should never happen... I think."
+msgstr ""
+
+#: iexamine.cpp:671
+#, fuzzy
+msgid "Use which seed?"
+msgstr "Какой инструмент использовать?"
+
+#: iexamine.cpp:675
+#, fuzzy, c-format
+msgid "Plant %s here?"
 msgstr "Посадить семена?"
 
-#: iexamine.cpp:662
+#: iexamine.cpp:681
+#, fuzzy
+msgid "You saved your seeds for later."
+msgstr "Вы ещё больше повредили %s!"
+
+#: iexamine.cpp:697
+#, fuzzy, c-format
+msgid "Planted %s"
+msgstr "Посадить семена?"
+
+#: iexamine.cpp:701
 msgid "Harvest plant?"
 msgstr "Собрать урожай?"
 
-#: iexamine.cpp:677
+#: iexamine.cpp:716
 msgid "Fertilize plant"
 msgstr "Удобрить растение?"
 
-#: iexamine.cpp:737
+#: iexamine.cpp:776
 msgid "Lumps"
 msgstr ""
 
-#: iexamine.cpp:737
+#: iexamine.cpp:776
 msgid "Recycle metal into?:"
 msgstr "Переработать металл в:"
 
-#: iexamine.cpp:737
+#: iexamine.cpp:776
 msgid "Sheets"
 msgstr ""
 
-#: iexamine.cpp:738
+#: iexamine.cpp:777
 msgid "Chunks"
 msgstr ""
 
-#: iexamine.cpp:738
+#: iexamine.cpp:777
 msgid "Scraps"
 msgstr ""
 
-#: iexamine.cpp:752
+#: iexamine.cpp:791
 msgid ""
 "The recycler is currently empty.  Drop some metal items onto it and examine "
 "it again."
 msgstr ""
 
-#: iexamine.cpp:776
+#: iexamine.cpp:815
 msgid "The recycler chews up all the items in its hopper."
 msgstr ""
 
-#: iexamine.cpp:777
+#: iexamine.cpp:816
 msgid "The recycler beeps: \"No steel to process!\""
 msgstr ""
 
-#: iexamine.cpp:781
+#: iexamine.cpp:820
 msgid "Ka-klunk!"
 msgstr ""
 
-#: iexamine.cpp:800 iexamine.cpp:813 iexamine.cpp:824
+#: iexamine.cpp:839 iexamine.cpp:852 iexamine.cpp:863
 msgid "The recycler beeps: \"Insufficient steel!\""
 msgstr ""
 
-#: iexamine.cpp:801 iexamine.cpp:814 iexamine.cpp:825
+#: iexamine.cpp:840 iexamine.cpp:853 iexamine.cpp:864
 msgid "It spits out an assortment of smaller pieces instead."
 msgstr ""
 
-#: iexamine.cpp:858
+#: iexamine.cpp:897
 #, c-format
 msgid "There is a %s there.  Disarm?"
 msgstr "Тут %s. Обезвредить?"
@@ -14158,7 +14179,7 @@ msgstr ""
 msgid "You light a string of %d firecrackers."
 msgstr ""
 
-#: iuse.cpp:3461 iuse.cpp:3488 vehicle.cpp:1916
+#: iuse.cpp:3461 iuse.cpp:3488 vehicle.cpp:1914
 msgid "Bang!"
 msgstr ""
 
@@ -16177,9 +16198,10 @@ msgid "leather chaps"
 msgstr "кожаные чапсы"
 
 #: lang/json/json_items.py:46
+#, fuzzy
 msgid ""
 "A pair of black leather chaps. Very tough, and light, but doesn't offer any "
-"any storage."
+"storage."
 msgstr ""
 "Пара кожаных чаппарахас. Очень прочные и лёгкие, но не имеют свободного "
 "места."
@@ -16429,7 +16451,8 @@ msgid "flag shirt"
 msgstr "футболка с флагом"
 
 #: lang/json/json_items.py:100
-msgid "A t-shirt embroided with the pattern of an American flag."
+#, fuzzy
+msgid "A t-shirt embroidered with the pattern of an American flag."
 msgstr "Футболка с вышитым на груди американским флагом."
 
 #: lang/json/json_items.py:101
@@ -16742,9 +16765,10 @@ msgid "chest rig"
 msgstr "нагрудник"
 
 #: lang/json/json_items.py:172
+#, fuzzy
 msgid ""
-"A light vest covered in webbing, pockets and straps. This variety is "
-"favoured by the military."
+"A light vest covered in webbing, pockets and straps. This variety is favored "
+"by the military."
 msgstr ""
 "Лёгкий жилет со множеством лямок, карманов и ремней. Этот фасон особенно "
 "любим военными."
@@ -17468,10 +17492,11 @@ msgid "radiation badge"
 msgstr "плёночный дозиметр"
 
 #: lang/json/json_items.py:322
+#, fuzzy
 msgid ""
 "A plastic badge with an embedded film strip.  The film strip changes color "
-"as it it is exposed to radiation.  Wear on your lapel so you can notice if "
-"it changes."
+"as it is exposed to radiation.  Wear on your lapel so you can notice if it "
+"changes."
 msgstr ""
 "Пластиковый значок, с куском плёнки внутри. Под воздействием ионизирующего "
 "излучения плёнка меняет свой цвет. Носите значок на лацкане, чтобы вовремя "
@@ -17576,9 +17601,10 @@ msgid "leather cloak"
 msgstr "кожаный плащ"
 
 #: lang/json/json_items.py:346
+#, fuzzy
 msgid ""
 "A heavy leather cloak that is thrown over your body. Provides decent "
-"protection"
+"protection."
 msgstr ""
 "Тяжелый кожаный плащ, закрывающий все тело. Обеспечивает достойную защиту."
 
@@ -17678,7 +17704,8 @@ msgid "arm splint"
 msgstr "шина на руку"
 
 #: lang/json/json_items.py:364 lang/json/json_items.py:366
-msgid "A tool to help set bones and hold them in place"
+#, fuzzy
+msgid "A tool to help set bones and hold them in place."
 msgstr "Инструмент для вправления и фиксации костей."
 
 #: lang/json/json_items.py:365
@@ -17910,10 +17937,13 @@ msgid "drop leg pouches"
 msgstr ""
 
 #: lang/json/json_items.py:414
+#, fuzzy
 msgid ""
 "A set of pouches that can be worn on the thighs using buckled straps. This "
-"variety is favoured by the military."
+"variety is favored by the military."
 msgstr ""
+"Лёгкий жилет со множеством лямок, карманов и ремней. Этот фасон особенно "
+"любим военными."
 
 #: lang/json/json_items.py:415
 #, fuzzy
@@ -17922,7 +17952,7 @@ msgstr "кожаные чапсы"
 
 #: lang/json/json_items.py:416
 msgid ""
-"A shiny pair of black cat ears on a headband.  It does nothing, but there's "
+"A shiny pair of black cat ears on a headband. It does nothing, but there's "
 "no reason not to look good even if no one's looking."
 msgstr ""
 
@@ -17932,7 +17962,7 @@ msgstr ""
 
 #: lang/json/json_items.py:418
 msgid ""
-"A fuzzy pair of brownish cat ears on a headband.  It does nothing, but "
+"A fuzzy pair of brownish cat ears on a headband. It does nothing, but "
 "there's no reason not to look good even if no one's looking."
 msgstr ""
 
@@ -17943,7 +17973,7 @@ msgstr "кожаные чапсы"
 
 #: lang/json/json_items.py:420
 msgid ""
-"A glossy black leather tail weighted down with tiny beads of plastic.  Sways "
+"A glossy black leather tail weighted down with tiny beads of plastic. Sways "
 "behind you when you walk."
 msgstr ""
 
@@ -17953,7 +17983,7 @@ msgstr ""
 
 #: lang/json/json_items.py:422
 msgid ""
-"A fuzzy tawny tail weighted down with tiny beads of plastic.  Sways behind "
+"A fuzzy tawny tail weighted down with tiny beads of plastic. Sways behind "
 "you when you walk."
 msgstr ""
 
@@ -17963,7 +17993,7 @@ msgstr ""
 
 #: lang/json/json_items.py:424
 msgid ""
-"A decorative 'collar' made out of fur.  Complete with a little bell hanging "
+"A decorative 'collar' made out of fur. Complete with a little bell hanging "
 "from the front.  Don't worry, it's silent."
 msgstr ""
 
@@ -17974,7 +18004,7 @@ msgstr "кожаный плащ"
 
 #: lang/json/json_items.py:426
 msgid ""
-"A black leather 'collar' with a bell dangling from the front.  Don't worry, "
+"A black leather 'collar' with a bell dangling from the front. Don't worry, "
 "the bell is silent."
 msgstr ""
 
@@ -25475,9 +25505,10 @@ msgid "scrambler grenade"
 msgstr "граната - шифратор"
 
 #: lang/json/json_items.py:1877
+#, fuzzy
 msgid ""
 "This is a highly modified EMP grenade, designed to scramble robots' control "
-"chips, rather than destroy them. This converts the robot to your side for a  "
+"chips, rather than destroy them. This converts the robot to your side for a "
 "short time, before the backup systems kick in."
 msgstr ""
 "Это сильно модифицированная ЭМГ граната, предназначенная для подчинения "
@@ -25503,9 +25534,10 @@ msgid "teargas canister"
 msgstr "слезоточивый газ"
 
 #: lang/json/json_items.py:1881
+#, fuzzy
 msgid ""
 "Use this item to pull the pin. Five turns after you do that, it will begin "
-"to expell a highly toxic gas for several turns. This gas damages and slows "
+"to expel a highly toxic gas for several turns. This gas damages and slows "
 "those who enter it, as well as obscuring vision and scent."
 msgstr ""
 "Сорвите чеку, и через пять ходов граната сработает, выпустив облако "
@@ -25529,9 +25561,10 @@ msgid "smoke bomb"
 msgstr "дымовая бомба"
 
 #: lang/json/json_items.py:1885
+#, fuzzy
 msgid ""
 "Use this item to pull the pin. Five turns after you do that, it will begin "
-"to expell a thick black smoke. This smoke will slow those who enter it, as "
+"to expel a thick black smoke. This smoke will slow those who enter it, as "
 "well as obscuring vision and scent."
 msgstr ""
 "Сорвите чеку и через пять ходов граната сработает, создавая дымовую завесу, "
@@ -25551,7 +25584,8 @@ msgstr ""
 "густой дым."
 
 #: lang/json/json_items.py:1888
-msgid "flamable arrow"
+#, fuzzy
+msgid "flammable arrow"
 msgstr "зажигательная стрела"
 
 #: lang/json/json_items.py:1889
@@ -25792,9 +25826,10 @@ msgid "advanced UPS (off)"
 msgstr "улучшенный УБП (выкл)"
 
 #: lang/json/json_items.py:1927 lang/json/json_items.py:1929
+#, fuzzy
 msgid ""
 "An advanced version of the unified power supply, or UPS. This device has "
-"been significantly redesigned to provide better effeciency as well as to "
+"been significantly redesigned to provide better efficiency as well as to "
 "consume plutonium fuel cells rather than batteries."
 msgstr ""
 "Улучшенная версия УБП. Это устройство было переработано с целью повышения "
@@ -25908,7 +25943,8 @@ msgstr ""
 "осторожно!"
 
 #: lang/json/json_items.py:1948
-msgid "C4-Explosive(armed)"
+#, fuzzy
+msgid "C4-Explosive (armed)"
 msgstr "C4-взрывчатка(взведено)"
 
 #: lang/json/json_items.py:1949
@@ -26351,9 +26387,10 @@ msgid "hand press & die set"
 msgstr "комплект прессформ и штампов"
 
 #: lang/json/json_items.py:2029
+#, fuzzy
 msgid ""
 "A small hand press for hand loading firearm ammunition. Comes with "
-"everything  you need to start hand loading."
+"everything you need to start hand loading."
 msgstr ""
 "Небольшой ручной пресс для снаряжения патронов. Содержит всё необходимое, "
 "чтобы начать снаряжение."
@@ -26566,9 +26603,10 @@ msgid "stone axe"
 msgstr "каменный топор"
 
 #: lang/json/json_items.py:2069
+#, fuzzy
 msgid ""
 "A sharpened stone affixed to a stick, works passably well as an axe but "
-"really can't compare to a proper axe.."
+"really can't compare to a proper axe."
 msgstr ""
 "Заострёный камень, прикрепленный к палке. Используется как топор, но по "
 "эффективности не может сравниться с настоящим топором."
@@ -39588,7 +39626,7 @@ msgid "Some items shatter!  "
 msgstr ""
 
 #: map.cpp:1179 map.cpp:1411 map.cpp:1472 map.cpp:1503 map.cpp:1534
-#: map.cpp:1584 map.cpp:1600 map.cpp:1973 map.cpp:1997 vehicle.cpp:1734
+#: map.cpp:1584 map.cpp:1600 map.cpp:1973 map.cpp:1997 vehicle.cpp:1732
 msgid "crash!"
 msgstr ""
 
@@ -39687,19 +39725,19 @@ msgstr ""
 msgid "The metal bars melt!"
 msgstr ""
 
-#: map.cpp:2728
+#: map.cpp:2731
 msgid "A nearby corpse rises and moves towards you!"
 msgstr "Труп зомби поблизости оживает и движется по направлению к вам."
 
-#: map.cpp:2961
+#: map.cpp:2964
 msgid "You disarm the trap!"
 msgstr "Вы успешно обезвредили ловушку!"
 
-#: map.cpp:2980
+#: map.cpp:2983
 msgid "You fail to disarm the trap."
 msgstr "Вы не смогли обезвредить ловушку."
 
-#: map.cpp:2985
+#: map.cpp:2988
 msgid "You fail to disarm the trap, and you set it off!"
 msgstr "Вы не смогли обезвредить ловушку и она сработала!"
 
@@ -50496,7 +50534,7 @@ msgstr ""
 msgid "Stepped on bubblewrap."
 msgstr ""
 
-#: trapfunc.cpp:27 trapfunc.cpp:37 vehicle.cpp:1884
+#: trapfunc.cpp:27 trapfunc.cpp:37 vehicle.cpp:1882
 msgid "Pop!"
 msgstr ""
 
@@ -50513,7 +50551,7 @@ msgstr "Медвежий капкан захлопнулся на вашей н�
 msgid "Caught by a beartrap."
 msgstr ""
 
-#: trapfunc.cpp:51 trapfunc.cpp:64 vehicle.cpp:1889
+#: trapfunc.cpp:51 trapfunc.cpp:64 vehicle.cpp:1887
 msgid "SNAP!"
 msgstr "ЩЁЛК!"
 
@@ -50693,7 +50731,7 @@ msgid "Stepped into a dissector."
 msgstr ""
 
 #. ~ the sound of a dissector dissecting
-#: trapfunc.cpp:512 trapfunc.cpp:527 vehicle.cpp:1940
+#: trapfunc.cpp:512 trapfunc.cpp:527 vehicle.cpp:1938
 msgid "BRZZZAP!"
 msgstr "БЖЖЖИК!"
 
@@ -51540,131 +51578,131 @@ msgstr "Ничего не делать"
 msgid "Vehicle controls"
 msgstr ""
 
-#: vehicle.cpp:359
+#: vehicle.cpp:358
 msgid "Cruise control turned off"
 msgstr "Круиз-контроль выключен."
 
-#: vehicle.cpp:359
+#: vehicle.cpp:358
 msgid "Cruise control turned on"
 msgstr "Круиз-контроль включён."
 
-#: vehicle.cpp:363
+#: vehicle.cpp:362
 msgid "Headlights turned off"
 msgstr "Фары выключены"
 
-#: vehicle.cpp:363
+#: vehicle.cpp:362
 msgid "Headlights turned on"
 msgstr "Фары включены"
 
-#: vehicle.cpp:368
+#: vehicle.cpp:367
 msgid "Turrets: Burst mode"
 msgstr ""
 
-#: vehicle.cpp:368
+#: vehicle.cpp:367
 msgid "Turrets: Disabled"
 msgstr "Турели: Отключены"
 
-#: vehicle.cpp:372
+#: vehicle.cpp:371
 msgid "You let go of the controls."
 msgstr ""
 
-#: vehicle.cpp:376
+#: vehicle.cpp:375
 msgid "You painstakingly pack the bicycle into a portable configuration."
 msgstr "Вы тщательно сложили велосипед в компактное состояние."
 
 #. ~ 2.8-Liter engine
-#: vehicle.cpp:846
+#: vehicle.cpp:844
 #, c-format
 msgid "%4.2f-Liter %s"
 msgstr ""
 
 #. ~ 14" wheel
-#: vehicle.cpp:851
+#: vehicle.cpp:849
 #, c-format
 msgid "%d\" %s"
 msgstr ""
 
 #. ~ indicates that a vehicle part is inside
-#: vehicle.cpp:866
+#: vehicle.cpp:864
 msgid "In"
 msgstr ""
 
 #. ~ indicates that a vehicle part is outside
-#: vehicle.cpp:869
+#: vehicle.cpp:867
 msgid "Out"
 msgstr ""
 
-#: vehicle.cpp:1410
+#: vehicle.cpp:1408
 #, c-format
 msgid "The %s doesn't have enough wheels to move!"
 msgstr "%s не хватает колёс для езды!"
 
-#: vehicle.cpp:1427
+#: vehicle.cpp:1425
 #, c-format
 msgid "The %s doesn't have an engine!"
 msgstr "В %s отсутствует двигатель!"
 
-#: vehicle.cpp:1429
+#: vehicle.cpp:1427
 #, c-format
 msgid "The %s's engine emits a sneezing sound."
 msgstr "Двигатель %s жужжит и не заводится."
 
-#: vehicle.cpp:1447
+#: vehicle.cpp:1445
 msgid "Your engine emits a high pitched whine."
 msgstr ""
 
-#: vehicle.cpp:1449
+#: vehicle.cpp:1447
 msgid "Your engine emits a loud grinding sound."
 msgstr "Из двигателя доносится громкий скрежет."
 
-#: vehicle.cpp:1748
+#: vehicle.cpp:1746
 #, c-format
 msgid "Your %s's %s rams into a %s with a %s"
 msgstr ""
 
-#: vehicle.cpp:1750
+#: vehicle.cpp:1748
 #, c-format
 msgid "Your %s's %s rams into a %s."
 msgstr "Ваш %s %s въезжает в %s."
 
-#: vehicle.cpp:1795
+#: vehicle.cpp:1793
 #, c-format
 msgid "Your %s's %s rams into %s, inflicting %d damage%s!"
 msgstr "Ваш %s %s таранит %s, нанося %d очков ущерба%s!"
 
-#: vehicle.cpp:1797
+#: vehicle.cpp:1795
 msgid " and stunning it"
 msgstr ""
 
-#: vehicle.cpp:1878
+#: vehicle.cpp:1876
 #, c-format
 msgid "The %s's %s runs over %s."
 msgstr ""
 
-#: vehicle.cpp:1899
+#: vehicle.cpp:1897
 msgid "Swinnng!"
 msgstr ""
 
-#: vehicle.cpp:1905
+#: vehicle.cpp:1903
 msgid "Clank!"
 msgstr ""
 
-#: vehicle.cpp:2306
+#: vehicle.cpp:2304
 #, c-format
 msgid "The fuel tank of the %s exploded!"
 msgstr ""
 
-#: vehicle.cpp:2440
+#: vehicle.cpp:2438
 #, c-format
 msgid "The %s fires its %s!"
 msgstr "%s стреляет из %s!"
 
-#: vehicle.cpp:2442
+#: vehicle.cpp:2440
 #, c-format
 msgid "<veh_player>The %s"
 msgstr ""
 
-#: vehicle.cpp:2476
+#: vehicle.cpp:2474
 #, c-format
 msgid "The %s recovers from its skid."
 msgstr "%s вернул управление."
@@ -51848,6 +51886,18 @@ msgstr ""
 msgid "Item granted, choose another or 'q' to quit."
 msgstr ""
 
+#~ msgid "Destination can only hold "
+#~ msgstr "Место назначения может содержать только "
+
+#~ msgid "Revive zombies"
+#~ msgstr "Возрождение зомби"
+
+#~ msgid "Allow zombies to revive after a certain amount of time."
+#~ msgstr "Разрешает возрождение зомби через определенное время."
+
+#~ msgid "Sort Crafting menu"
+#~ msgstr "Сортировать меню крафта"
+
 #~ msgid ""
 #~ "If true, the crafting menus will display recipes that you can craft "
 #~ "before other recipes"
@@ -51855,14 +51905,5 @@ msgstr ""
 #~ "Если стоит \"true\", то в меню крафта будут первыми выводиться те "
 #~ "рецепты, которые вам доступны."
 
-#~ msgid "Sort Crafting menu"
-#~ msgstr "Сортировать меню крафта"
-
-#~ msgid "Allow zombies to revive after a certain amount of time."
-#~ msgstr "Разрешает возрождение зомби через определенное время."
-
-#~ msgid "Revive zombies"
-#~ msgstr "Возрождение зомби"
-
-#~ msgid "Destination can only hold "
-#~ msgstr "Место назначения может содержать только "
+#~ msgid "It is too dark to plant anything now."
+#~ msgstr "Слишком темно, чтобы что-то сажать."

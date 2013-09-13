@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 21:13+1200\n"
+"POT-Creation-Date: 2013-09-14 10:43+1200\n"
 "PO-Revision-Date: 2013-09-13 03:15+0000\n"
 "Last-Translator: Hao Q <fallrain05@qq.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
@@ -1804,7 +1804,7 @@ msgstr "肾上腺素激增"
 msgid "No effects."
 msgstr "没有效果。"
 
-#: bionics.cpp:344 iexamine.cpp:83 iexamine.cpp:873
+#: bionics.cpp:344 iexamine.cpp:83 iexamine.cpp:912
 msgid "Drink from your hands?"
 msgstr "用手捧着喝？"
 
@@ -3359,14 +3359,14 @@ msgstr "用哪个工具?"
 msgid "Disassemble item:"
 msgstr "拆解物品:"
 
-#: crafting.cpp:1420 game.cpp:6099 game.cpp:7671 game.cpp:7912 game.cpp:8234
-#: game.cpp:8319 game.cpp:8389 game.cpp:8859 game.cpp:8879 iexamine.cpp:758
+#: crafting.cpp:1420 game.cpp:6099 game.cpp:7667 game.cpp:7908 game.cpp:8230
+#: game.cpp:8315 game.cpp:8385 game.cpp:8855 game.cpp:8875 iexamine.cpp:797
 #: iuse.cpp:362 npctalk.cpp:835 npctalk.cpp:843 npctalk.cpp:1348
 #: npctalk.cpp:1378
 msgid "Never mind."
 msgstr "你不稀罕。"
 
-#: crafting.cpp:1425 game.cpp:8864
+#: crafting.cpp:1425 game.cpp:8860
 #, c-format
 msgid "You don't have item '%c'!"
 msgstr "你没有'%c'物品！"
@@ -5384,12 +5384,12 @@ msgstr "占地：%s(%d) 密度： %d 年龄： %d"
 msgid "trap: %s (%d)"
 msgstr "陷阱： %s(%d)"
 
-#: editmap.cpp:406 game.cpp:6649 game.cpp:6678
+#: editmap.cpp:406 game.cpp:6645 game.cpp:6674
 #, c-format
 msgid "There is a %s there. Parts:"
 msgstr "那里有一个 %s 。部件："
 
-#: editmap.cpp:413 game.cpp:6655
+#: editmap.cpp:413 game.cpp:6651
 #, c-format
 msgid "There is a %s there."
 msgstr "那里有一个 %s 。"
@@ -5399,7 +5399,7 @@ msgstr "那里有一个 %s 。"
 msgid "There are %d other items there as well."
 msgstr "那里同样有%d其他物品。"
 
-#: editmap.cpp:424 game.cpp:6702
+#: editmap.cpp:424 game.cpp:6698
 #, c-format
 msgid "Graffiti: %s"
 msgstr "涂鸦： %s"
@@ -6124,7 +6124,7 @@ msgstr " 的终极目标是 "
 msgid ". Their primary concern is "
 msgstr "。他们主要关注的是 "
 
-#: faction.cpp:440 faction.cpp:442 faction.cpp:452 game.cpp:9712
+#: faction.cpp:440 faction.cpp:442 faction.cpp:452 game.cpp:9708
 #: npctalk.cpp:725
 msgid "."
 msgstr "."
@@ -6138,11 +6138,11 @@ msgid " They are known for "
 msgstr " 他们名声来自于 "
 
 #: faction.cpp:447 faction.cpp:450 faction.cpp:452 faction.cpp:453
-#: faction.cpp:455 game.cpp:9706 npc.cpp:1966 npc.cpp:1990 options.cpp:160
+#: faction.cpp:455 game.cpp:9702 npc.cpp:1966 npc.cpp:1990 options.cpp:160
 msgid ", "
 msgstr "， "
 
-#: faction.cpp:455 game.cpp:9708
+#: faction.cpp:455 game.cpp:9704
 msgid ", and "
 msgstr "，和 "
 
@@ -7430,8 +7430,8 @@ msgstr "地图编辑器"
 msgid "Change weather"
 msgstr "改变天气"
 
-#: game.cpp:3061 game.cpp:3178 game.cpp:9233 iexamine.cpp:363 iexamine.cpp:483
-#: iexamine.cpp:493 iexamine.cpp:738 iuse.cpp:1484 iuse.cpp:1487 iuse.cpp:2382
+#: game.cpp:3061 game.cpp:3178 game.cpp:9229 iexamine.cpp:363 iexamine.cpp:483
+#: iexamine.cpp:493 iexamine.cpp:777 iuse.cpp:1484 iuse.cpp:1487 iuse.cpp:2382
 #: iuse.cpp:2429 iuse.cpp:2869 iuse.cpp:3956 iuse.cpp:5043 iuse.cpp:5160
 #: iuse.cpp:5162 iuse.cpp:5164
 msgid "Cancel"
@@ -8039,1024 +8039,1024 @@ msgstr "栅栏门“碰”的一声被关上了！"
 msgid "You dive from the %s."
 msgstr "你从 %s 潜水。"
 
-#: game.cpp:6437
+#: game.cpp:6435
 #, c-format
 msgid "You take control of the %s."
 msgstr "你控制了%s。"
 
-#: game.cpp:6440
+#: game.cpp:6438
 msgid "Control vehicle"
 msgstr "控制交通工具"
 
-#: game.cpp:6444
+#: game.cpp:6442
 msgid "No vehicle there."
 msgstr "那里没有交通工具。"
 
-#: game.cpp:6448
+#: game.cpp:6446
 msgid "No controls there."
 msgstr "那里没有控制器。"
 
-#: game.cpp:6460
+#: game.cpp:6456
 msgid "Examine"
 msgstr "E查看"
 
-#: game.cpp:6471
+#: game.cpp:6467
 msgid "You can't do that while onboard."
 msgstr "你不能那样做。"
 
-#: game.cpp:6473
+#: game.cpp:6469
 msgid "You can't do that on moving vehicle."
 msgstr "在交通工具上你不能这样操作。"
 
-#: game.cpp:6496
+#: game.cpp:6492
 #, c-format
 msgid "The %s is firmly sealed."
 msgstr "%s 被完全密封。"
 
-#: game.cpp:6500
+#: game.cpp:6496
 msgid "It is empty."
 msgstr "它是空的。"
 
-#: game.cpp:6521
+#: game.cpp:6517
 msgid "Peek"
 msgstr "偷窥"
 
-#: game.cpp:6559
+#: game.cpp:6555
 msgid "Looking Around"
 msgstr "环视四周"
 
-#: game.cpp:6560
+#: game.cpp:6556
 msgid "Use directional keys to move the cursor"
 msgstr "用方向键移动光标"
 
-#: game.cpp:6561
+#: game.cpp:6557
 msgid "to a nearby square."
 msgstr "去附近的广场。"
 
-#: game.cpp:6583
+#: game.cpp:6579
 #, c-format
 msgid "%s; Impassable"
 msgstr "%s ；禁止通行"
 
-#: game.cpp:6585
+#: game.cpp:6581
 #, c-format
 msgid "%s; Movement cost %d"
 msgstr "%s ；移动消耗 %d"
 
-#: game.cpp:6619 game.cpp:6637
+#: game.cpp:6615 game.cpp:6633
 msgid "There are several items there."
 msgstr "那里有几件物品。"
 
-#: game.cpp:6623 game.cpp:6641
+#: game.cpp:6619 game.cpp:6637
 msgid "There is an item there."
 msgstr "那里有一件物品。"
 
-#: game.cpp:6626 game.cpp:6644 game.cpp:6663
+#: game.cpp:6622 game.cpp:6640 game.cpp:6659
 msgid "You cannot see what is inside of it."
 msgstr "你看不见里头都有啥。"
 
-#: game.cpp:6659
+#: game.cpp:6655
 msgid "There are other items there as well."
 msgstr "那里同样有一些其他东西。"
 
-#: game.cpp:6676
+#: game.cpp:6672
 #, c-format
 msgid "You (%s)"
 msgstr "你(%s)"
 
-#: game.cpp:6696
+#: game.cpp:6692
 msgid "Bright light."
 msgstr "强光。"
 
-#: game.cpp:6699
+#: game.cpp:6695
 msgid "Unseen."
 msgstr "看不见的。"
 
-#: game.cpp:6823
+#: game.cpp:6819
 msgid "Type part of an item's name to see"
 msgstr "输入物品的部分名称来查询"
 
-#: game.cpp:6824
+#: game.cpp:6820
 msgid "nearby matching items."
 msgstr "附近符合条件的物品。"
 
-#: game.cpp:6825
+#: game.cpp:6821
 msgid "Seperate multiple items with ,"
 msgstr "用,分离开多个物品"
 
-#: game.cpp:6826
+#: game.cpp:6822
 msgid "Example: back,flash,aid, ,band"
 msgstr "举例：black,flash,aid,band"
 
-#: game.cpp:6829
+#: game.cpp:6825
 msgid "To exclude items, place - in front"
 msgstr "要去掉某个物品，将其前面置为 -"
 
-#: game.cpp:6830
+#: game.cpp:6826
 msgid "Example: -pipe,chunk,steel"
 msgstr "举例：-pipe,chunk,steel"
 
-#: game.cpp:6832
+#: game.cpp:6828
 msgid "Filter:"
 msgstr "筛选："
 
-#: game.cpp:6832 game.cpp:7039 game.cpp:7046
+#: game.cpp:6828 game.cpp:7035 game.cpp:7042
 msgid "UP: history, CTRL-U clear line, ESC: abort, ENTER: save"
 msgstr "上方向键:记录,CTRL-U 清除行,ESC:放弃,ENTER:保存"
 
-#: game.cpp:6885 main_menu.cpp:71
+#: game.cpp:6881 main_menu.cpp:71
 msgid "<R>eset"
 msgstr "<R>重置"
 
-#: game.cpp:6888
+#: game.cpp:6884
 msgid "<E>xamine"
 msgstr "<E>查看"
 
-#: game.cpp:6889
+#: game.cpp:6885
 msgid "<C>ompare"
 msgstr "<C>比较"
 
-#: game.cpp:6890
+#: game.cpp:6886
 msgid "<F>ilter"
 msgstr "<F>筛选"
 
-#: game.cpp:6891
+#: game.cpp:6887
 msgid "<+/->Priority"
 msgstr "<+/->优先级"
 
-#: game.cpp:7039
+#: game.cpp:7035
 msgid "High Priority:"
 msgstr "提高优先级："
 
-#: game.cpp:7046
+#: game.cpp:7042
 msgid "Low Priority:"
 msgstr "降低优先级："
 
-#: game.cpp:7221
+#: game.cpp:7217
 msgid "You dont see any items around you!"
 msgstr "周围你没有看见任何物品！"
 
-#: game.cpp:7251
+#: game.cpp:7247
 msgid "You cannot pick up items with your claws out!"
 msgstr "你的爪子拿不起来东西"
 
-#: game.cpp:7267
+#: game.cpp:7263
 #, c-format
 msgid "Get items from %s?"
 msgstr "从 %s 取出物品？"
 
-#: game.cpp:7278
+#: game.cpp:7274
 msgid "Fill a container?"
 msgstr "填充一个容器？"
 
-#: game.cpp:7286
+#: game.cpp:7282
 msgid "Have a drink?"
 msgstr "喝一杯？"
 
-#: game.cpp:7295
+#: game.cpp:7291
 msgid "The water tank is empty."
 msgstr "水槽空空如也。"
 
-#: game.cpp:7331 game.cpp:7792
+#: game.cpp:7327 game.cpp:7788
 msgid "You can't pick up a liquid!"
 msgstr "你不能捡起液体！"
 
-#: game.cpp:7346 game.cpp:7698
+#: game.cpp:7342 game.cpp:7694
 msgid "You're carrying too many items!"
 msgstr "你携带太多东西了！"
 
-#: game.cpp:7349 game.cpp:7704
+#: game.cpp:7345 game.cpp:7700
 #, c-format
 msgid "The %s is too heavy!"
 msgstr "%s 实在是太重了！"
 
-#: game.cpp:7355 game.cpp:7710
+#: game.cpp:7351 game.cpp:7706
 #, c-format
 msgid "Put on the %s?"
 msgstr "穿上 %s？"
 
-#: game.cpp:7362 game.cpp:7720
+#: game.cpp:7358 game.cpp:7716
 #, c-format
 msgid "Drop your %s and pick up %s?"
 msgstr "扔下你的 %s 并且捡起 %s ？"
 
-#: game.cpp:7371 game.cpp:7386 game.cpp:7397 game.cpp:7731
+#: game.cpp:7367 game.cpp:7382 game.cpp:7393 game.cpp:7727
 #, c-format
 msgid "Wielding %c - %s"
 msgstr "装备 %c-%s"
 
-#: game.cpp:7375
+#: game.cpp:7371
 #, c-format
 msgid ""
 "There's no room in your inventory for the %s, and you can't unwield your %s."
 msgstr "你的包裹没有 %s 的空间了，并且你不能卸下你的 %s 。"
 
-#: game.cpp:7408 game.cpp:7794
+#: game.cpp:7404 game.cpp:7790
 msgid "You're overburdened!"
 msgstr "你负担过重！"
 
-#: game.cpp:7410 game.cpp:7796
+#: game.cpp:7406 game.cpp:7792
 msgid "You struggle to carry such a large volume!"
 msgstr "你装不下更多东西了！"
 
-#: game.cpp:7454
+#: game.cpp:7450
 msgid "PICK UP (, = all)"
 msgstr "捡起（,=所有）"
 
-#: game.cpp:7541
+#: game.cpp:7537
 msgid "Enter 2 letters (case sensitive):"
 msgstr "输入2个字母（区分大小写）"
 
-#: game.cpp:7629
+#: game.cpp:7625
 msgid "[left] Unmark"
 msgstr "[左]取消标记"
 
-#: game.cpp:7630
+#: game.cpp:7626
 msgid "[up/dn] Scroll"
 msgstr "[上/下]滚屏"
 
-#: game.cpp:7631
+#: game.cpp:7627
 msgid "[right] Mark"
 msgstr "[右]标记"
 
-#: game.cpp:7635
+#: game.cpp:7631
 msgid "[pgup] Prev"
 msgstr "[pgup]前页"
 
-#: game.cpp:7636
+#: game.cpp:7632
 msgid "[,] All"
 msgstr "[,]所有"
 
-#: game.cpp:7637
+#: game.cpp:7633
 msgid "[pgdn] Next"
 msgstr "[pgdn]下页"
 
-#: game.cpp:7649
+#: game.cpp:7645
 #, c-format
 msgid "Wgt %.1f"
 msgstr "重量 %1f"
 
-#: game.cpp:7653
+#: game.cpp:7649
 #, c-format
 msgid "Vol %d"
 msgstr "体积 %d"
 
-#: game.cpp:7737
+#: game.cpp:7733
 #, c-format
 msgid ""
 "There's no room in your inventory for the %s, and you can't  unwield your %s."
 msgstr "你的包裹没有给 %s 的空间了，并且你不能卸下你的 %s 。"
 
-#: game.cpp:7787
+#: game.cpp:7783
 msgid "You pick up: "
 msgstr "你捡起： "
 
-#: game.cpp:7813
+#: game.cpp:7809
 #, c-format
 msgid "You release the %s."
 msgstr "你放开 %s."
 
-#: game.cpp:7818 item.cpp:2441
+#: game.cpp:7814 item.cpp:2441
 msgid "Grab"
 msgstr "抓取"
 
-#: game.cpp:7823
+#: game.cpp:7819
 #, c-format
 msgid "You grab the %s."
 msgstr "你抓住 %s."
 
-#: game.cpp:7825
+#: game.cpp:7821
 msgid "There's no vehicle to grab there!"
 msgstr "这附近没有可挂扣的车辆."
 
-#: game.cpp:7828
+#: game.cpp:7824
 msgid "Never Mind."
 msgstr "不用担心."
 
-#: game.cpp:7841
+#: game.cpp:7837
 msgid "Refill vehicle?"
 msgstr "给车灌油？"
 
-#: game.cpp:7844
+#: game.cpp:7840
 msgid "Refill vehicle"
 msgstr "给车灌油"
 
-#: game.cpp:7851
+#: game.cpp:7847
 #, c-format
 msgid "This vehicle doesn't use %s."
 msgstr "车不能用 %s 。"
 
-#: game.cpp:7853
+#: game.cpp:7849
 msgid "Already full."
 msgstr "已经满了。"
 
-#: game.cpp:7854
+#: game.cpp:7850
 msgid "Pump until full?"
 msgstr "直接加满？"
 
-#: game.cpp:7860
+#: game.cpp:7856
 #, c-format
 msgid "You refill %s with %s."
 msgstr "你给 %s 再次注入 %s。"
 
-#: game.cpp:7863
+#: game.cpp:7859
 #, c-format
 msgid "You refill %s with %s to its maximum."
 msgstr "你给 %s 注入 %s 并达到最大值 。"
 
-#: game.cpp:7871
+#: game.cpp:7867
 msgid "There isn't any vehicle there."
 msgstr "这里没有任何载具。"
 
-#: game.cpp:7880 game.cpp:7894 game.cpp:7907
+#: game.cpp:7876 game.cpp:7890 game.cpp:7903
 #, c-format
 msgid "Pour %s on the ground?"
 msgstr "把 %s 倾倒在地上？"
 
-#: game.cpp:7888 game.cpp:8080
+#: game.cpp:7884 game.cpp:8076
 msgid "Container for "
 msgstr "（选择）容器来装 "
 
-#: game.cpp:7917
+#: game.cpp:7913
 msgid "That's the same container!"
 msgstr "这是相同的容器!"
 
-#: game.cpp:7938 game.cpp:8106
+#: game.cpp:7934 game.cpp:8102
 #, c-format
 msgid "Your %s won't hold %s."
 msgstr "你的 %s 不能支撑 %s。"
 
-#: game.cpp:7944 game.cpp:8004 game.cpp:8112 game.cpp:8165
+#: game.cpp:7940 game.cpp:8000 game.cpp:8108 game.cpp:8161
 #, c-format
 msgid "Your %s can't hold any more %s."
 msgstr "你的 %s 再也不能支撑 %s 了。"
 
-#: game.cpp:7950 game.cpp:7979 game.cpp:8118 game.cpp:8142
+#: game.cpp:7946 game.cpp:7975 game.cpp:8114 game.cpp:8138
 #, c-format
 msgid "You can't mix loads in your %s."
 msgstr "你不能在 %s 里头混合负载。"
 
-#: game.cpp:7954 game.cpp:8013 game.cpp:8017 game.cpp:8122 game.cpp:8169
+#: game.cpp:7950 game.cpp:8009 game.cpp:8013 game.cpp:8118 game.cpp:8165
 #, c-format
 msgid "You pour %s into your %s."
 msgstr "你将 %s 灌进你的 %s。"
 
-#: game.cpp:7965 game.cpp:8024 game.cpp:8129 game.cpp:8175
+#: game.cpp:7961 game.cpp:8020 game.cpp:8125 game.cpp:8171
 msgid "There's some left over!"
 msgstr "有一些遗留下来。"
 
-#: game.cpp:7972 game.cpp:8134
+#: game.cpp:7968 game.cpp:8130
 #, c-format
 msgid "That %s won't hold %s."
 msgstr "那些 %s 不能支撑 %s 。"
 
-#: game.cpp:8032 game.cpp:8182
+#: game.cpp:8028 game.cpp:8178
 #, c-format
 msgid "That %s isn't water-tight."
 msgstr "那个 %s 透水。"
 
-#: game.cpp:8035 game.cpp:8186
+#: game.cpp:8031 game.cpp:8182
 #, c-format
 msgid "You can't seal that %s!"
 msgstr "你无法将 %s 密封！"
 
-#: game.cpp:8052 game.cpp:8201
+#: game.cpp:8048 game.cpp:8197
 #, c-format
 msgid "You fill your %s with some of the %s."
 msgstr "你往你的 %s 注入一些 %s 。"
 
-#: game.cpp:8257 game.cpp:8335
+#: game.cpp:8253 game.cpp:8331
 #, c-format
 msgid "You put your %1$s in the %2$s's %3$s."
 msgid_plural "You put your %1$ss in the %2$s's %3$s."
 msgstr[0] "你将你的 %1$s 放到 %2$s 的 %3$s 里面。"
 
-#: game.cpp:8264
+#: game.cpp:8260
 #, c-format
 msgid "You drop your %s."
 msgid_plural "You drop your %ss."
 msgstr[0] "你丢弃了你的 %s。"
 
-#: game.cpp:8270 game.cpp:8354
+#: game.cpp:8266 game.cpp:8350
 #, c-format
 msgid "You put several items in the %s's %s."
 msgstr "你将一些物品放进 %s 的 %s 。"
 
-#: game.cpp:8273
+#: game.cpp:8269
 msgid "You drop several items."
 msgstr "你扔掉了几件物品。"
 
-#: game.cpp:8286 game.cpp:8374
+#: game.cpp:8282 game.cpp:8370
 msgid "The trunk is full, so some items fall on the ground."
 msgstr "这个箱子满了，一些物品掉落到地上。"
 
-#: game.cpp:8297
+#: game.cpp:8293
 msgid "Drop"
 msgstr "丢弃"
 
-#: game.cpp:8310
+#: game.cpp:8306
 msgid "You can't place items there!"
 msgstr "你不能将物品放在那里！"
 
-#: game.cpp:8342
+#: game.cpp:8338
 #, c-format
 msgid "You drop your %s on the %s."
 msgid_plural "You drop your %ss on the %s."
 msgstr[0] "你丢弃了你的 %s 在 %s之上。"
 
-#: game.cpp:8347
+#: game.cpp:8343
 #, c-format
 msgid "You put your %s in the %s."
 msgid_plural "You put your %ss in the %s."
 msgstr[0] "你把你的 %s 放进 %s 里面。"
 
-#: game.cpp:8357
+#: game.cpp:8353
 #, c-format
 msgid "You drop several items on the %s."
 msgstr "你在 %s 上丢下几件物品。"
 
-#: game.cpp:8360
+#: game.cpp:8356
 #, c-format
 msgid "You put several items in the %s."
 msgstr "你将一些物品放进 %s 里面。"
 
-#: game.cpp:8386
+#: game.cpp:8382
 msgid "Reassign item:"
 msgstr "重新指定物品快捷键："
 
-#: game.cpp:8393 player.cpp:6044 player.cpp:7441 player.cpp:7486
+#: game.cpp:8389 player.cpp:6044 player.cpp:7441 player.cpp:7486
 #: player.cpp:7720
 msgid "You do not have that item."
 msgstr "你没有那东西。"
 
-#: game.cpp:8396
+#: game.cpp:8392
 #, c-format
 msgid "%c - %s; enter new letter."
 msgstr "%c - %s ；输入新字母。"
 
-#: game.cpp:8399
+#: game.cpp:8395
 #, c-format
 msgid "%c is not a valid inventory letter."
 msgstr "%c不合法。"
 
-#: game.cpp:8419
+#: game.cpp:8415
 msgid "Throw item:"
 msgstr "投掷物品："
 
-#: game.cpp:8425 player.cpp:6391
+#: game.cpp:8421 player.cpp:6391
 msgid "You don't have that item."
 msgstr "你没有那东西。"
 
-#: game.cpp:8428
+#: game.cpp:8424
 msgid "That is too heavy to throw."
 msgstr "太重了，不能投掷。"
 
-#: game.cpp:8434
+#: game.cpp:8430
 msgid "That's part of your body, you can't throw that!"
 msgstr "这是你身体的一部分，你不能投掷。"
 
-#: game.cpp:8490
+#: game.cpp:8486
 msgid "You need a free arm to drive!"
 msgstr "你需要空出手来操作。"
 
-#: game.cpp:8496
+#: game.cpp:8492
 #, c-format
 msgid "Your %s starts charging."
 msgstr "你的 %s 开始充电。"
 
-#: game.cpp:8502
+#: game.cpp:8498
 msgid "You need a charged UPS."
 msgstr "你需要一个充过电的UPS。"
 
-#: game.cpp:8515
+#: game.cpp:8511
 msgid "You're not strong enough to draw the bow!"
 msgstr "你力气还不够，无法将弓拉开！"
 
-#: game.cpp:8522 game.cpp:8963 iuse.cpp:2423
+#: game.cpp:8518 game.cpp:8959 iuse.cpp:2423
 msgid "Out of ammo!"
 msgstr "没子弹了！"
 
-#: game.cpp:8533
+#: game.cpp:8529
 msgid "You need to reload!"
 msgstr "你需要重新加载！"
 
-#: game.cpp:8537
+#: game.cpp:8533
 #, c-format
 msgid "Your %s needs 100 charges to fire!"
 msgstr "你的 %s 需要100电池去射击。"
 
-#: game.cpp:8543
+#: game.cpp:8539
 msgid ""
 "You need a UPS with at least 5 charges or an advanced UPS with at least 3 "
 "charges to fire that!"
 msgstr "你需要至少5点UPS电量（或3点高级UPS电量）来射击！"
 
-#: game.cpp:8548
+#: game.cpp:8544
 msgid ""
 "You need a UPS with at least 20 charges or an advanced UPS with at least 12 "
 "charges to fire that!"
 msgstr "你需要至少20点UPS电量（或12点高级UPS电量）来射击！"
 
-#: game.cpp:8553
+#: game.cpp:8549
 msgid ""
 "You need a UPS with at least 40 charges or an advanced UPS with at least 24 "
 "charges to fire that!"
 msgstr "你需要至少40格的UPS电量或者24格的高级UPS电量来引燃！"
 
-#: game.cpp:8626
+#: game.cpp:8622
 msgid "You can't butcher while driving!"
 msgstr "你开车时不能屠宰！"
 
-#: game.cpp:8635
+#: game.cpp:8631
 msgid "There are no corpses here to butcher."
 msgstr "没有尸体供屠宰。"
 
-#: game.cpp:8640
+#: game.cpp:8636
 msgid "You don't have a sharp item to butcher with."
 msgstr "你手上没有尖锐的物品用来进行屠宰。"
 
-#: game.cpp:8647
+#: game.cpp:8643
 #, c-format
 msgid "Butcher the %s corpse?"
 msgstr "屠宰 %s 的尸体？"
 
-#: game.cpp:8671
+#: game.cpp:8667
 msgid "There's no corpse to butcher!"
 msgstr "没有尸体供屠宰！"
 
-#: game.cpp:8715
+#: game.cpp:8711
 msgid "You harvest some usable bones!"
 msgstr "你收获了一些可用的骨头！"
 
-#: game.cpp:8718
+#: game.cpp:8714
 msgid "You harvest some fluid bladders!"
 msgstr "你收获了一些流体囊状物！"
 
-#: game.cpp:8725
+#: game.cpp:8721
 msgid "You harvest some usable sinews!"
 msgstr "你收获了一些可用的肌肉！"
 
-#: game.cpp:8728
+#: game.cpp:8724
 msgid "You harvest some plant fibres!"
 msgstr "你收获了一些植物纤维！"
 
-#: game.cpp:8734
+#: game.cpp:8730
 #, c-format
 msgid "You manage to skin the %s!"
 msgstr "你设法去扒 %s 的皮！"
 
-#: game.cpp:8754
+#: game.cpp:8750
 msgid "You harvest some feathers!"
 msgstr "你收获了一些羽毛！"
 
-#: game.cpp:8762
+#: game.cpp:8758
 #, c-format
 msgid "You discover a CBM in the %s!"
 msgstr "你在 %s 里面发现了一些生化组件！"
 
-#: game.cpp:8784
+#: game.cpp:8780
 #, c-format
 msgid "You discover a %s in the %s!"
 msgstr "你发现了一些 %s 在 %s 里头！"
 
-#: game.cpp:8792
+#: game.cpp:8788
 msgid "Your clumsy butchering destroys the meat!"
 msgstr "肉被你破坏了！"
 
-#: game.cpp:8815
+#: game.cpp:8811
 msgid "You butcher the corpse."
 msgstr "你屠宰了尸体。"
 
-#: game.cpp:8825
+#: game.cpp:8821
 msgid "You found some wild veggies!"
 msgstr "你发现了一些野生蔬菜！"
 
-#: game.cpp:8832
+#: game.cpp:8828
 msgid "You didn't find anything."
 msgstr "你没有发现任何东西。"
 
-#: game.cpp:8846
+#: game.cpp:8842
 msgid "Eat underbrush?"
 msgstr "吃下灌木丛？"
 
-#: game.cpp:8850
+#: game.cpp:8846
 msgid "You eat the underbrush."
 msgstr "你吃下了灌木丛。"
 
-#: game.cpp:8854
+#: game.cpp:8850
 msgid "Consume item:"
 msgstr "进食/消耗物品："
 
-#: game.cpp:8874
+#: game.cpp:8870
 msgid "Wear item:"
 msgstr "穿戴物品："
 
-#: game.cpp:8889
+#: game.cpp:8885
 msgid "Take off item:"
 msgstr "脱下物品："
 
-#: game.cpp:8896
+#: game.cpp:8892
 msgid "Invalid selection."
 msgstr "无效的选择"
 
-#: game.cpp:8935
+#: game.cpp:8931
 #, c-format
 msgid ""
 "Your %s does not need to be reloaded; it reloads and fires in a single "
 "action."
 msgstr "你的 %s 不需要重新装载，装载和开火一步到位。"
 
-#: game.cpp:8940
+#: game.cpp:8936
 #, c-format
 msgid "Your %s does not reload normally."
 msgstr "你的 %s 没有正常装填。"
 
-#: game.cpp:8957
+#: game.cpp:8953
 #, c-format
 msgid "Your %s is fully loaded!"
 msgstr "你的 %s 装满了。"
 
-#: game.cpp:8971 game.cpp:8985
+#: game.cpp:8967 game.cpp:8981
 #, c-format
 msgid "You can't reload a %s!"
 msgstr "你不能重新装填 %s"
 
-#: game.cpp:8977
+#: game.cpp:8973
 #, c-format
 msgid "Out of %s!"
 msgstr "%s用完了！"
 
-#: game.cpp:8983
+#: game.cpp:8979
 msgid "You're not wielding anything."
 msgstr "你没有装备任何东西。"
 
-#: game.cpp:9026 game.cpp:9094
+#: game.cpp:9022 game.cpp:9090
 #, c-format
 msgid "You can't unload a %s!"
 msgstr "你不能卸载一个%s！"
 
-#: game.cpp:9047
+#: game.cpp:9043
 #, c-format
 msgid "Your %s isn't loaded, and is not modified."
 msgstr "你的%s没有加载，并不会被修改。"
 
-#: game.cpp:9052
+#: game.cpp:9048
 #, c-format
 msgid "Your %s isn't charged."
 msgstr "你的%s没有充电。"
 
-#: game.cpp:9080
+#: game.cpp:9076
 #, c-format
 msgid "You put the %s in your inventory."
 msgstr "你将%s放进包裹。"
 
-#: game.cpp:9083
+#: game.cpp:9079
 #, c-format
 msgid "You drop the %s on the ground."
 msgstr "你将%s扔到地上。"
 
-#: game.cpp:9131
+#: game.cpp:9127
 msgid "You can't remove partially depleted plutonium!"
 msgstr "你不能移除部分耗尽的钚！"
 
-#: game.cpp:9134
+#: game.cpp:9130
 #, c-format
 msgid "You remove %i plutonium from the advanced UPS"
 msgstr "你从高级UPS移除了%i的钚"
 
-#: game.cpp:9170
+#: game.cpp:9166
 #, c-format
 msgid "You cannot unwield your %s."
 msgstr "你不能装备你的%s。"
 
-#: game.cpp:9176
+#: game.cpp:9172
 msgid "Wield item:"
 msgstr "装备物品："
 
-#: game.cpp:9178
+#: game.cpp:9174
 msgid "Wield item: Press - to choose a style"
 msgstr "装备物品：按下'-'键选择一个类型"
 
-#: game.cpp:9194
+#: game.cpp:9190
 msgid "Read:"
 msgstr "读物："
 
-#: game.cpp:9202
+#: game.cpp:9198
 msgid "You talk to yourself for a moment."
 msgstr "你自言自语了一阵子。"
 
-#: game.cpp:9218
+#: game.cpp:9214
 msgid "There's no-one close enough to talk to."
 msgstr "周围没有人可以说话。"
 
-#: game.cpp:9235
+#: game.cpp:9231
 msgid "Who do you want to talk to?"
 msgstr "你想对谁说话？"
 
-#: game.cpp:9247
+#: game.cpp:9243
 #, c-format
 msgid ""
 "Monster spotted--run mode is on! (%s to turn it off or %s to ignore monster.)"
 msgstr "怪物 侦测-奔跑 模式启动！（%s关闭模式或者%s忽略怪物。）"
 
-#: game.cpp:9263
+#: game.cpp:9259
 msgid "You can't drive the vehicle from here. You need controls!"
 msgstr "没有控制器，你无法启动交通工具。"
 
-#: game.cpp:9276
+#: game.cpp:9272
 #, c-format
 msgid "You regain control of the %s."
 msgstr "你重新获得了对%s的控制。"
 
-#: game.cpp:9292
+#: game.cpp:9288
 #, c-format
 msgid ""
 "Monster spotted--safe mode is on! (%s to turn it off or %s to ignore "
 "monster.)"
 msgstr "怪物 侦测-奔跑 模式启动！（%s关闭模式或者%s忽略怪物。）"
 
-#: game.cpp:9336
+#: game.cpp:9332
 #, c-format
 msgid "Really attack %s?"
 msgstr "真的要攻击%s？"
 
-#: game.cpp:9338
+#: game.cpp:9334
 #, c-format
 msgid "%s moves out of the way."
 msgstr "%s 让开了路."
 
-#: game.cpp:9374
+#: game.cpp:9370
 msgid "You cannot pull yourself away from the faultline..."
 msgstr "你不能离开断层线..."
 
-#: game.cpp:9381
+#: game.cpp:9377
 msgid "You try to escape the pit, but slip back in."
 msgstr "你试图从坑里头爬出来，但是又滑落进去了。"
 
-#: game.cpp:9385
+#: game.cpp:9381
 msgid "You escape the pit!"
 msgstr "你逃出了深坑！"
 
-#: game.cpp:9391
+#: game.cpp:9387
 msgid "You struggle to stand."
 msgstr "你挣扎着站起来。"
 
-#: game.cpp:9395
+#: game.cpp:9391
 msgid "You stand up."
 msgstr "你站了起来。"
 
-#: game.cpp:9423
+#: game.cpp:9419
 msgid "Dive from moving vehicle?"
 msgstr "从移动中的车内俯冲出去？"
 
-#: game.cpp:9428
+#: game.cpp:9424
 msgid "There is another vehicle in the way."
 msgstr "路上还有一台车。"
 
-#: game.cpp:9431
+#: game.cpp:9427
 msgid "That part of the vehicle is currently unsafe."
 msgstr "车的一部分目前不安全。"
 
-#: game.cpp:9448
+#: game.cpp:9444
 #, c-format
 msgid "Really step into that %s?"
 msgstr "真的要步入%s？"
 
-#: game.cpp:9465
+#: game.cpp:9461
 #, c-format
 msgid "Really step onto that %s?"
 msgstr "真的要走上%s？"
 
-#: game.cpp:9475
+#: game.cpp:9471
 #, c-format
 msgid "You can't move %s while standing on it!"
 msgstr "你站在 %s 上时无法移动它!"
 
-#: game.cpp:9481
+#: game.cpp:9477
 #, c-format
 msgid "The %s is too heavy for you to budge!"
 msgstr "%s 太重你推不开."
 
-#: game.cpp:9524
+#: game.cpp:9520
 #, c-format
 msgid "The %s collides with something."
 msgstr "%s 和什么东西撞上了."
 
-#: game.cpp:9550
+#: game.cpp:9546
 msgid "No vehicle at grabbed point."
 msgstr "无车辆连在挂钩上。"
 
-#: game.cpp:9574 game.cpp:9576
+#: game.cpp:9570 game.cpp:9572
 #, c-format
 msgid "Moving past this %s is slow!"
 msgstr "小心翼翼的穿过 %s !"
 
-#: game.cpp:9580
+#: game.cpp:9576
 #, c-format
 msgid "You hurt your feet on the %s!"
 msgstr "你伤到了你的脚在%s位置！"
 
-#: game.cpp:9591
+#: game.cpp:9587
 #, c-format
 msgid "You cut your %s on the %s!"
 msgstr "你划伤了你的%s在经过%s时！"
 
-#: game.cpp:9601
+#: game.cpp:9597
 msgid "You emit a rattling sound."
 msgstr "你发出了响声。"
 
-#: game.cpp:9604 game.cpp:9817
+#: game.cpp:9600 game.cpp:9813
 msgid "The water puts out the flames!"
 msgstr "水中冒出了火焰！"
 
-#: game.cpp:9615
+#: game.cpp:9611
 msgid "Deactivate the turret?"
 msgstr "停止炮台？"
 
-#: game.cpp:9622
+#: game.cpp:9618
 #, c-format
 msgid "You can't displace your %s."
 msgstr "你不能取代你的%s。"
 
-#: game.cpp:9627
+#: game.cpp:9623
 #, c-format
 msgid "You displace the %s."
 msgstr "你取代了%s。"
 
-#: game.cpp:9700
+#: game.cpp:9696
 msgid "You see here "
 msgstr "你在这里看到 "
 
-#: game.cpp:9716
+#: game.cpp:9712
 msgid "There are many items here."
 msgstr "那里有许多物品。"
 
-#: game.cpp:9722
+#: game.cpp:9718
 #, c-format
 msgid "There are vehicle controls here.  %s to drive."
 msgstr "那里有一个载具控制器。%s去驾驶。"
 
-#: game.cpp:9741
+#: game.cpp:9737
 msgid ""
 "You try to quantum tunnel through the barrier but are reflected! Try again "
 "with more energy!"
 msgstr "你尝试着穿越障碍物，但是被反弹了回来！再加一把力试试！"
 
-#: game.cpp:9747
+#: game.cpp:9743
 msgid "It's too dangerous to tunnel that far!"
 msgstr "挖掘如此深的隧道实在太危险了！"
 
-#: game.cpp:9760
+#: game.cpp:9756
 #, c-format
 msgid "You quantum tunnel through the %d-tile wide barrier!"
 msgstr "你穿越了%d块瓦片宽的栅栏！"
 
-#: game.cpp:9773
+#: game.cpp:9769
 #, c-format
 msgid "You open the %s's %s."
 msgstr "你打开%s的%s."
 
-#: game.cpp:9779
+#: game.cpp:9775
 msgid "Dive into the water?"
 msgstr "潜入水中？"
 
-#: game.cpp:9781
+#: game.cpp:9777
 #, c-format
 msgid "You start swimming.  %s to dive underwater."
 msgstr "你开始游泳。%s着潜入了水下。"
 
-#: game.cpp:9788
+#: game.cpp:9784
 #, c-format
 msgid "You bump into a %s!"
 msgstr "你撞到了一个%s！"
 
-#: game.cpp:9794
+#: game.cpp:9790
 msgid "That door is locked!"
 msgstr "门锁上了！"
 
-#: game.cpp:9798
+#: game.cpp:9794
 msgid "You rattle the bars but the door is locked!"
 msgstr "你转动把手，但是门被锁上了！"
 
-#: game.cpp:9824
+#: game.cpp:9820
 msgid "You sink like a rock!"
 msgstr "你像石头一样下沉！"
 
-#: game.cpp:9831
+#: game.cpp:9827
 #, c-format
 msgid "You need to breathe! (%s to surface.)"
 msgstr "你需要呼吸！（%s去表面。）"
 
-#: game.cpp:9834
+#: game.cpp:9830
 msgid "You need to breathe but you can't swim!  Get to dry land, quick!"
 msgstr "你需要呼吸，但是你不会游泳！赶紧爬上岸！"
 
-#: game.cpp:9876
+#: game.cpp:9872
 msgid "You are"
 msgstr "您是"
 
-#: game.cpp:9878 game.cpp:9881
+#: game.cpp:9874 game.cpp:9877
 msgid " is"
 msgstr " 是"
 
-#: game.cpp:9921 vehicle.cpp:1754
+#: game.cpp:9917 vehicle.cpp:1752
 #, c-format
 msgid "You hear a %s"
 msgstr "你听到一声%s"
 
-#: game.cpp:9929
+#: game.cpp:9925
 #, c-format
 msgid "%s slammed against the %s for %d damage!"
 msgstr "%s猛烈撞击%s，并且造成了%d的伤害！"
 
-#: game.cpp:9977
+#: game.cpp:9973
 #, c-format
 msgid "You fall on the ground for %d damage."
 msgstr "你摔倒在地上，造成%d伤害。"
 
-#: game.cpp:9979
+#: game.cpp:9975
 msgid "You land on the ground."
 msgstr "你落在地面上。"
 
-#: game.cpp:9986
+#: game.cpp:9982
 msgid "You dive into water."
 msgstr "你潜入水中。"
 
-#: game.cpp:9988
+#: game.cpp:9984
 msgid "You fall into water."
 msgstr "你落水了。"
 
-#: game.cpp:9998
+#: game.cpp:9994
 msgid "You are already underwater!"
 msgstr "你已经在水下了！"
 
-#: game.cpp:10002
+#: game.cpp:9998
 msgid "You can't dive while wearing a flotation device."
 msgstr "你穿着漂浮设备，不能潜水。"
 
-#: game.cpp:10007
+#: game.cpp:10003
 msgid "You dive underwater!"
 msgstr "你潜入水中！"
 
-#: game.cpp:10011
+#: game.cpp:10007
 msgid "You surface."
 msgstr "你浮出了水面."
 
-#: game.cpp:10013
+#: game.cpp:10009
 msgid "You can't surface!"
 msgstr "你不能浮出水面!"
 
-#: game.cpp:10023
+#: game.cpp:10019
 msgid "You can't go down here!"
 msgstr "你在这里无法下楼！"
 
-#: game.cpp:10025
+#: game.cpp:10021
 msgid "You can't go up here!"
 msgstr "你在这里无法上楼！"
 
-#: game.cpp:10036
+#: game.cpp:10032
 msgid "You can't drag things up and down stairs."
 msgstr "你不能拽着东西上下楼梯。"
 
-#: game.cpp:10067
+#: game.cpp:10063
 msgid "Halfway down, the way down becomes blocked off."
 msgstr "往下的路中途被挡住了."
 
-#: game.cpp:10070
+#: game.cpp:10066
 msgid "There is a sheer drop halfway down. Climb your rope down?"
 msgstr "往下的路中途变成直落的悬崖了,用绳子爬下去吗?"
 
-#: game.cpp:10075
+#: game.cpp:10071
 msgid "There is a sheer drop halfway down.  Jump?"
 msgstr "往下的路中途变成直落的悬崖了,跳下去?"
 
-#: game.cpp:10116
+#: game.cpp:10112
 msgid "AUTO: goes down"
 msgstr "自动：地下"
 
-#: game.cpp:10119
+#: game.cpp:10115
 msgid "AUTO: goes up"
 msgstr "自动：地上"
 
-#: game.cpp:10143 trapfunc.cpp:537 trapfunc.cpp:578
+#: game.cpp:10139 trapfunc.cpp:537 trapfunc.cpp:578
 msgid "You flap your wings and flutter down gracefully."
 msgstr "你优雅的拍打着你的翅膀，缓缓的降落了。"
 
-#: game.cpp:10148
+#: game.cpp:10144
 msgid "You fall expertly and take no damage."
 msgstr "你熟练的降落了，没有受到任何伤害。"
 
-#: game.cpp:10150
+#: game.cpp:10146
 #, c-format
 msgid "You fall heavily, taking %d damage."
 msgstr "你重重的摔了下来，受到了%d的伤害。"
 
-#: game.cpp:10383
+#: game.cpp:10379
 #, c-format
 msgid "A %s comes down the %s!"
 msgstr "一个 %s 下楼来到 %s ！"
 
-#: game.cpp:10386
+#: game.cpp:10382
 #, c-format
 msgid "A %s comes up the %s!"
 msgstr "一个 %s 上楼来到 %s ！"
@@ -10945,7 +10945,7 @@ msgstr "按下 %s？"
 msgid "You hear the rumble of rock shifting."
 msgstr "你听到了岩石移动的轰隆声"
 
-#: iexamine.cpp:605 iexamine.cpp:692 iexamine.cpp:729
+#: iexamine.cpp:605 iexamine.cpp:731 iexamine.cpp:768
 #, c-format
 msgid "Pick %s?"
 msgstr "摘取 %s?"
@@ -10962,73 +10962,94 @@ msgstr "你陷入沉睡...."
 msgid "Your legs are covered by flower's roots!"
 msgstr "你的腿被花根缠住了"
 
-#: iexamine.cpp:634
+#: iexamine.cpp:635
 msgid "It is too cold to plant anything now."
 msgstr "天冷，不能种植。"
 
-#: iexamine.cpp:639
-msgid "It is too dark to plant anything now."
-msgstr "光线不足，无法种植。"
+#: iexamine.cpp:644
+#, fuzzy
+msgid "You have no seeds to plant."
+msgstr "你饿死了。"
 
-#: iexamine.cpp:641
-msgid "Plant a seed?"
+#: iexamine.cpp:648
+msgid "This should never happen... I think."
+msgstr ""
+
+#: iexamine.cpp:671
+#, fuzzy
+msgid "Use which seed?"
+msgstr "用哪个工具?"
+
+#: iexamine.cpp:675
+#, fuzzy, c-format
+msgid "Plant %s here?"
 msgstr "开始播种？"
 
-#: iexamine.cpp:662
+#: iexamine.cpp:681
+#, fuzzy
+msgid "You saved your seeds for later."
+msgstr "你进一步破坏了你的 %s!"
+
+#: iexamine.cpp:697
+#, fuzzy, c-format
+msgid "Planted %s"
+msgstr "开始播种？"
+
+#: iexamine.cpp:701
 msgid "Harvest plant?"
 msgstr "开始收获？"
 
-#: iexamine.cpp:677
+#: iexamine.cpp:716
 msgid "Fertilize plant"
 msgstr "给植物施肥"
 
-#: iexamine.cpp:737
+#: iexamine.cpp:776
 msgid "Lumps"
 msgstr "大块"
 
-#: iexamine.cpp:737
+#: iexamine.cpp:776
 msgid "Recycle metal into?:"
 msgstr "回收金属？："
 
-#: iexamine.cpp:737
+#: iexamine.cpp:776
 msgid "Sheets"
 msgstr "工作表"
 
-#: iexamine.cpp:738
+#: iexamine.cpp:777
 msgid "Chunks"
 msgstr "块"
 
-#: iexamine.cpp:738
+#: iexamine.cpp:777
 msgid "Scraps"
 msgstr "废料"
 
-#: iexamine.cpp:752
+#: iexamine.cpp:791
 msgid ""
 "The recycler is currently empty.  Drop some metal items onto it and examine "
 "it again."
 msgstr "回收器现在是空的。往里面扔一些金属物品再检查一次。"
 
-#: iexamine.cpp:776
+#: iexamine.cpp:815
 msgid "The recycler chews up all the items in its hopper."
 msgstr "回收器把所有东西都吞进了漏斗。"
 
-#: iexamine.cpp:777
+#: iexamine.cpp:816
 msgid "The recycler beeps: \"No steel to process!\""
 msgstr "回收商的哔哔声:“没有钢材进行处理!”"
 
-#: iexamine.cpp:781
+#: iexamine.cpp:820
 msgid "Ka-klunk!"
 msgstr "喀拉！"
 
-#: iexamine.cpp:800 iexamine.cpp:813 iexamine.cpp:824
+#: iexamine.cpp:839 iexamine.cpp:852 iexamine.cpp:863
 msgid "The recycler beeps: \"Insufficient steel!\""
 msgstr "回收商的哔哔声:“钢材不够!”"
 
-#: iexamine.cpp:801 iexamine.cpp:814 iexamine.cpp:825
+#: iexamine.cpp:840 iexamine.cpp:853 iexamine.cpp:864
 msgid "It spits out an assortment of smaller pieces instead."
 msgstr "它吐出了各式各样的小块零件。"
 
-#: iexamine.cpp:858
+#: iexamine.cpp:897
 #, c-format
 msgid "There is a %s there.  Disarm?"
 msgstr "那有一个%s。是否拆除？"
@@ -13974,7 +13995,7 @@ msgstr "你点燃了一个爆竹。"
 msgid "You light a string of %d firecrackers."
 msgstr "你点燃了一串%d鞭炮。"
 
-#: iuse.cpp:3461 iuse.cpp:3488 vehicle.cpp:1916
+#: iuse.cpp:3461 iuse.cpp:3488 vehicle.cpp:1914
 msgid "Bang!"
 msgstr "Bang！"
 
@@ -16060,9 +16081,10 @@ msgid "leather chaps"
 msgstr "防风护腿"
 
 #: lang/json/json_items.py:46
+#, fuzzy
 msgid ""
 "A pair of black leather chaps. Very tough, and light, but doesn't offer any "
-"any storage."
+"storage."
 msgstr "一条黑色的皮裤。穿起来非常舒服，但是没有口袋。"
 
 #: lang/json/json_items.py:47
@@ -16307,7 +16329,8 @@ msgid "flag shirt"
 msgstr "爱国衫"
 
 #: lang/json/json_items.py:100
-msgid "A t-shirt embroided with the pattern of an American flag."
+#, fuzzy
+msgid "A t-shirt embroidered with the pattern of an American flag."
 msgstr "一件带着星条旗花纹的t恤。"
 
 #: lang/json/json_items.py:101
@@ -16608,9 +16631,10 @@ msgid "chest rig"
 msgstr "军用携行具"
 
 #: lang/json/json_items.py:172
+#, fuzzy
 msgid ""
-"A light vest covered in webbing, pockets and straps. This variety is "
-"favoured by the military."
+"A light vest covered in webbing, pockets and straps. This variety is favored "
+"by the military."
 msgstr "有着织带、口袋及肩带的军用背心。"
 
 #: lang/json/json_items.py:173
@@ -17299,10 +17323,11 @@ msgid "radiation badge"
 msgstr "辐射标识牌"
 
 #: lang/json/json_items.py:322
+#, fuzzy
 msgid ""
 "A plastic badge with an embedded film strip.  The film strip changes color "
-"as it it is exposed to radiation.  Wear on your lapel so you can notice if "
-"it changes."
+"as it is exposed to radiation.  Wear on your lapel so you can notice if it "
+"changes."
 msgstr "用于检测辐射剂量的徽章，佩戴在胸前，如果有辐射就会通过变色来提醒你。"
 
 #: lang/json/json_items.py:323
@@ -17398,9 +17423,10 @@ msgid "leather cloak"
 msgstr "皮革披风"
 
 #: lang/json/json_items.py:346
+#, fuzzy
 msgid ""
 "A heavy leather cloak that is thrown over your body. Provides decent "
-"protection"
+"protection."
 msgstr "笨重的皮革披风，提供全方位的保护。"
 
 #: lang/json/json_items.py:347
@@ -17492,7 +17518,8 @@ msgid "arm splint"
 msgstr "手臂夹板"
 
 #: lang/json/json_items.py:364 lang/json/json_items.py:366
-msgid "A tool to help set bones and hold them in place"
+#, fuzzy
+msgid "A tool to help set bones and hold them in place."
 msgstr "一个用于固定和矫正骨骼的工具。"
 
 #: lang/json/json_items.py:365
@@ -17732,9 +17759,10 @@ msgid "drop leg pouches"
 msgstr "绑腿包"
 
 #: lang/json/json_items.py:414
+#, fuzzy
 msgid ""
 "A set of pouches that can be worn on the thighs using buckled straps. This "
-"variety is favoured by the military."
+"variety is favored by the military."
 msgstr "一组扣绑在大腿上的小包。特种兵的最爱。"
 
 #: lang/json/json_items.py:415
@@ -17744,7 +17772,7 @@ msgstr "防风护腿"
 
 #: lang/json/json_items.py:416
 msgid ""
-"A shiny pair of black cat ears on a headband.  It does nothing, but there's "
+"A shiny pair of black cat ears on a headband. It does nothing, but there's "
 "no reason not to look good even if no one's looking."
 msgstr ""
 
@@ -17754,7 +17782,7 @@ msgstr ""
 
 #: lang/json/json_items.py:418
 msgid ""
-"A fuzzy pair of brownish cat ears on a headband.  It does nothing, but "
+"A fuzzy pair of brownish cat ears on a headband. It does nothing, but "
 "there's no reason not to look good even if no one's looking."
 msgstr ""
 
@@ -17765,7 +17793,7 @@ msgstr "防风护腿"
 
 #: lang/json/json_items.py:420
 msgid ""
-"A glossy black leather tail weighted down with tiny beads of plastic.  Sways "
+"A glossy black leather tail weighted down with tiny beads of plastic. Sways "
 "behind you when you walk."
 msgstr ""
 
@@ -17775,7 +17803,7 @@ msgstr ""
 
 #: lang/json/json_items.py:422
 msgid ""
-"A fuzzy tawny tail weighted down with tiny beads of plastic.  Sways behind "
+"A fuzzy tawny tail weighted down with tiny beads of plastic. Sways behind "
 "you when you walk."
 msgstr ""
 
@@ -17785,7 +17813,7 @@ msgstr ""
 
 #: lang/json/json_items.py:424
 msgid ""
-"A decorative 'collar' made out of fur.  Complete with a little bell hanging "
+"A decorative 'collar' made out of fur. Complete with a little bell hanging "
 "from the front.  Don't worry, it's silent."
 msgstr ""
 
@@ -17796,7 +17824,7 @@ msgstr "皮革披风"
 
 #: lang/json/json_items.py:426
 msgid ""
-"A black leather 'collar' with a bell dangling from the front.  Don't worry, "
+"A black leather 'collar' with a bell dangling from the front. Don't worry, "
 "the bell is silent."
 msgstr ""
 
@@ -24990,9 +25018,10 @@ msgid "scrambler grenade"
 msgstr "扰频手雷"
 
 #: lang/json/json_items.py:1877
+#, fuzzy
 msgid ""
 "This is a highly modified EMP grenade, designed to scramble robots' control "
-"chips, rather than destroy them. This converts the robot to your side for a  "
+"chips, rather than destroy them. This converts the robot to your side for a "
 "short time, before the backup systems kick in."
 msgstr ""
 "这是一个改良的EMP手雷，用来获取机器人芯片的控制权，从而让它们站在你这边。可"
@@ -25015,9 +25044,10 @@ msgid "teargas canister"
 msgstr "催泪霰弹"
 
 #: lang/json/json_items.py:1881
+#, fuzzy
 msgid ""
 "Use this item to pull the pin. Five turns after you do that, it will begin "
-"to expell a highly toxic gas for several turns. This gas damages and slows "
+"to expel a highly toxic gas for several turns. This gas damages and slows "
 "those who enter it, as well as obscuring vision and scent."
 msgstr ""
 "拔下安全销来使用毒气弹，你将有五回合时间来扔掉它，接下来的几个回合它会在周围"
@@ -25039,9 +25069,10 @@ msgid "smoke bomb"
 msgstr "烟雾弹"
 
 #: lang/json/json_items.py:1885
+#, fuzzy
 msgid ""
 "Use this item to pull the pin. Five turns after you do that, it will begin "
-"to expell a thick black smoke. This smoke will slow those who enter it, as "
+"to expel a thick black smoke. This smoke will slow those who enter it, as "
 "well as obscuring vision and scent."
 msgstr ""
 "拔下安全销来使用烟雾弹，你将有五回合时间来扔掉它，之后它会释放浓厚的烟雾，让"
@@ -25059,7 +25090,8 @@ msgid ""
 msgstr "这个烟雾弹的插销已被拔出，很快它就会开始施放黑黑的浓烟！"
 
 #: lang/json/json_items.py:1888
-msgid "flamable arrow"
+#, fuzzy
+msgid "flammable arrow"
 msgstr "燃烧箭"
 
 #: lang/json/json_items.py:1889
@@ -25286,9 +25318,10 @@ msgid "advanced UPS (off)"
 msgstr "高级UPS电源（关）"
 
 #: lang/json/json_items.py:1927 lang/json/json_items.py:1929
+#, fuzzy
 msgid ""
 "An advanced version of the unified power supply, or UPS. This device has "
-"been significantly redesigned to provide better effeciency as well as to "
+"been significantly redesigned to provide better efficiency as well as to "
 "consume plutonium fuel cells rather than batteries."
 msgstr "UPS电源的改良版，经过重新设计，不再消耗普通电池而是消耗钚电池。"
 
@@ -25397,7 +25430,8 @@ msgstr ""
 "可以激活吧。"
 
 #: lang/json/json_items.py:1948
-msgid "C4-Explosive(armed)"
+#, fuzzy
+msgid "C4-Explosive (armed)"
 msgstr "C4炸弹（已激活）"
 
 #: lang/json/json_items.py:1949
@@ -25831,9 +25865,10 @@ msgid "hand press & die set"
 msgstr "弹药组装架"
 
 #: lang/json/json_items.py:2029
+#, fuzzy
 msgid ""
 "A small hand press for hand loading firearm ammunition. Comes with "
-"everything  you need to start hand loading."
+"everything you need to start hand loading."
 msgstr "需要手动去压缩弹药填充的枪支，手工装载完弹药便可以拥有你想要的一切。"
 
 #: lang/json/json_items.py:2031
@@ -26016,9 +26051,10 @@ msgid "stone axe"
 msgstr "石斧"
 
 #: lang/json/json_items.py:2069
+#, fuzzy
 msgid ""
 "A sharpened stone affixed to a stick, works passably well as an axe but "
-"really can't compare to a proper axe.."
+"really can't compare to a proper axe."
 msgstr ""
 "一片锋利的石头被绑在一根棍子上，也能当斧子来用啦，可惜和铁斧相比，就差得远"
 "了。"
@@ -38882,7 +38918,7 @@ msgid "Some items shatter!  "
 msgstr "一些物品粉碎!!  "
 
 #: map.cpp:1179 map.cpp:1411 map.cpp:1472 map.cpp:1503 map.cpp:1534
-#: map.cpp:1584 map.cpp:1600 map.cpp:1973 map.cpp:1997 vehicle.cpp:1734
+#: map.cpp:1584 map.cpp:1600 map.cpp:1973 map.cpp:1997 vehicle.cpp:1732
 msgid "crash!"
 msgstr "撞击声！"
 
@@ -38981,19 +39017,19 @@ msgstr "咔吱！"
 msgid "The metal bars melt!"
 msgstr "金属棒融化了！"
 
-#: map.cpp:2728
+#: map.cpp:2731
 msgid "A nearby corpse rises and moves towards you!"
 msgstr "一具尸体从附近死人堆站了起来并向你走来！"
 
-#: map.cpp:2961
+#: map.cpp:2964
 msgid "You disarm the trap!"
 msgstr "你成功解除了陷阱！"
 
-#: map.cpp:2980
+#: map.cpp:2983
 msgid "You fail to disarm the trap."
 msgstr "你拆解陷阱失败。"
 
-#: map.cpp:2985
+#: map.cpp:2988
 msgid "You fail to disarm the trap, and you set it off!"
 msgstr "你拆解陷阱失败，但是你将它关闭了！"
 
@@ -49976,7 +50012,7 @@ msgstr "你踩到了一些气泡袋！"
 msgid "Stepped on bubblewrap."
 msgstr ""
 
-#: trapfunc.cpp:27 trapfunc.cpp:37 vehicle.cpp:1884
+#: trapfunc.cpp:27 trapfunc.cpp:37 vehicle.cpp:1882
 msgid "Pop!"
 msgstr "砰！"
 
@@ -49993,7 +50029,7 @@ msgstr "一个捕熊陷阱夹住了你的腿！啊~~~疼~~~"
 msgid "Caught by a beartrap."
 msgstr "被捕熊陷阱夹住了。"
 
-#: trapfunc.cpp:51 trapfunc.cpp:64 vehicle.cpp:1889
+#: trapfunc.cpp:51 trapfunc.cpp:64 vehicle.cpp:1887
 msgid "SNAP!"
 msgstr "咔嗒！"
 
@@ -50173,7 +50209,7 @@ msgid "Stepped into a dissector."
 msgstr ""
 
 #. ~ the sound of a dissector dissecting
-#: trapfunc.cpp:512 trapfunc.cpp:527 vehicle.cpp:1940
+#: trapfunc.cpp:512 trapfunc.cpp:527 vehicle.cpp:1938
 msgid "BRZZZAP!"
 msgstr "嗞啦~~~~~~~~~~~~！"
 
@@ -51020,131 +51056,131 @@ msgstr "什么都不做"
 msgid "Vehicle controls"
 msgstr "车辆控制"
 
-#: vehicle.cpp:359
+#: vehicle.cpp:358
 msgid "Cruise control turned off"
 msgstr "定速巡航关闭了"
 
-#: vehicle.cpp:359
+#: vehicle.cpp:358
 msgid "Cruise control turned on"
 msgstr "定速巡航打开了"
 
-#: vehicle.cpp:363
+#: vehicle.cpp:362
 msgid "Headlights turned off"
 msgstr "车灯已关闭"
 
-#: vehicle.cpp:363
+#: vehicle.cpp:362
 msgid "Headlights turned on"
 msgstr "车头灯已打开"
 
-#: vehicle.cpp:368
+#: vehicle.cpp:367
 msgid "Turrets: Burst mode"
 msgstr "炮台：连发模式"
 
-#: vehicle.cpp:368
+#: vehicle.cpp:367
 msgid "Turrets: Disabled"
 msgstr "炮塔:已停用"
 
-#: vehicle.cpp:372
+#: vehicle.cpp:371
 msgid "You let go of the controls."
 msgstr "你放开了车辆的控制."
 
-#: vehicle.cpp:376
+#: vehicle.cpp:375
 msgid "You painstakingly pack the bicycle into a portable configuration."
 msgstr "你把自行车打包好了。"
 
 #. ~ 2.8-Liter engine
-#: vehicle.cpp:846
+#: vehicle.cpp:844
 #, c-format
 msgid "%4.2f-Liter %s"
 msgstr ""
 
 #. ~ 14" wheel
-#: vehicle.cpp:851
+#: vehicle.cpp:849
 #, c-format
 msgid "%d\" %s"
 msgstr ""
 
 #. ~ indicates that a vehicle part is inside
-#: vehicle.cpp:866
+#: vehicle.cpp:864
 msgid "In"
 msgstr ""
 
 #. ~ indicates that a vehicle part is outside
-#: vehicle.cpp:869
+#: vehicle.cpp:867
 msgid "Out"
 msgstr ""
 
-#: vehicle.cpp:1410
+#: vehicle.cpp:1408
 #, c-format
 msgid "The %s doesn't have enough wheels to move!"
 msgstr "这台%s轮胎不足，无法启动！"
 
-#: vehicle.cpp:1427
+#: vehicle.cpp:1425
 #, c-format
 msgid "The %s doesn't have an engine!"
 msgstr "这个 %s 没有引擎."
 
-#: vehicle.cpp:1429
+#: vehicle.cpp:1427
 #, c-format
 msgid "The %s's engine emits a sneezing sound."
 msgstr "%s的发动机发出了扑哧声。"
 
-#: vehicle.cpp:1447
+#: vehicle.cpp:1445
 msgid "Your engine emits a high pitched whine."
 msgstr "你的发动机发出了高八度的哀鸣声。"
 
-#: vehicle.cpp:1449
+#: vehicle.cpp:1447
 msgid "Your engine emits a loud grinding sound."
 msgstr "你的发动机发出了很大的摩擦声。"
 
-#: vehicle.cpp:1748
+#: vehicle.cpp:1746
 #, c-format
 msgid "Your %s's %s rams into a %s with a %s"
 msgstr "你%s的%s用%s撞上了%s"
 
-#: vehicle.cpp:1750
+#: vehicle.cpp:1748
 #, c-format
 msgid "Your %s's %s rams into a %s."
 msgstr "你%s的%s撞上了%s"
 
-#: vehicle.cpp:1795
+#: vehicle.cpp:1793
 #, c-format
 msgid "Your %s's %s rams into %s, inflicting %d damage%s!"
 msgstr "%s的%s撞上了%s，造成%d伤害（%s）！"
 
-#: vehicle.cpp:1797
+#: vehicle.cpp:1795
 msgid " and stunning it"
 msgstr " 并且把它撞晕了"
 
-#: vehicle.cpp:1878
+#: vehicle.cpp:1876
 #, c-format
 msgid "The %s's %s runs over %s."
 msgstr "%s的%s从%s上压了过去。"
 
-#: vehicle.cpp:1899
+#: vehicle.cpp:1897
 msgid "Swinnng!"
 msgstr "摇来晃去！"
 
-#: vehicle.cpp:1905
+#: vehicle.cpp:1903
 msgid "Clank!"
 msgstr "当啷！"
 
-#: vehicle.cpp:2306
+#: vehicle.cpp:2304
 #, c-format
 msgid "The fuel tank of the %s exploded!"
 msgstr "%s 的油箱爆炸了！"
 
-#: vehicle.cpp:2440
+#: vehicle.cpp:2438
 #, c-format
 msgid "The %s fires its %s!"
 msgstr "%s发射了它的%s！"
 
-#: vehicle.cpp:2442
+#: vehicle.cpp:2440
 #, c-format
 msgid "<veh_player>The %s"
 msgstr "<veh_player>的 %s"
 
-#: vehicle.cpp:2476
+#: vehicle.cpp:2474
 #, c-format
 msgid "The %s recovers from its skid."
 msgstr "%s从打滑中恢复过来。"
@@ -51326,40 +51362,43 @@ msgstr "多少？"
 msgid "Item granted, choose another or 'q' to quit."
 msgstr "物品授予，选择另一个或者按'q'推出。"
 
-#~ msgid "---------------"
-#~ msgstr "---------------"
+#~ msgid "Destination can only hold "
+#~ msgstr "目标仅能承受 "
 
-#~ msgid "weigth_factor: %f"
-#~ msgstr "权重因子：%f"
+#~ msgid "Using knife on worn equipment:"
+#~ msgstr "在磨损的设备上使用小刀："
 
-#~ msgid "Material_factor: %f"
-#~ msgstr "材料系数：%f"
+#~ msgid "null"
+#~ msgstr "空"
 
-#~ msgid "---DebugINFO---"
-#~ msgstr "---调试信息---"
+#~ msgid "custom vehicle template/placeholder"
+#~ msgstr "自定义车辆模板/占位"
+
+#~ msgid "Revive zombies"
+#~ msgstr "丧尸复活"
+
+#~ msgid "Allow zombies to revive after a certain amount of time."
+#~ msgstr "允许丧尸一定时间后复活。"
+
+#~ msgid "Sort Crafting menu"
+#~ msgstr "制作菜单的排序"
 
 #~ msgid ""
 #~ "If true, the crafting menus will display recipes that you can craft "
 #~ "before other recipes"
 #~ msgstr "如果设置为是，制作菜单将会把你能制作的项目给排在其他项目之前。"
 
-#~ msgid "Sort Crafting menu"
-#~ msgstr "制作菜单的排序"
+#~ msgid "---DebugINFO---"
+#~ msgstr "---调试信息---"
 
-#~ msgid "Allow zombies to revive after a certain amount of time."
-#~ msgstr "允许丧尸一定时间后复活。"
+#~ msgid "Material_factor: %f"
+#~ msgstr "材料系数：%f"
 
-#~ msgid "Revive zombies"
-#~ msgstr "丧尸复活"
+#~ msgid "weigth_factor: %f"
+#~ msgstr "权重因子：%f"
 
-#~ msgid "custom vehicle template/placeholder"
-#~ msgstr "自定义车辆模板/占位"
+#~ msgid "---------------"
+#~ msgstr "---------------"
 
-#~ msgid "null"
-#~ msgstr "空"
-
-#~ msgid "Using knife on worn equipment:"
-#~ msgstr "在磨损的设备上使用小刀："
-
-#~ msgid "Destination can only hold "
-#~ msgstr "目标仅能承受 "
+#~ msgid "It is too dark to plant anything now."
+#~ msgstr "光线不足，无法种植。"
