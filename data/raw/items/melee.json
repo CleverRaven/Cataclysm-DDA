@@ -1173,6 +1173,20 @@
     "cutting": 0,
     "to_hit": 2
   },
+  {
+    "id": "football",
+    "symbol": "*",
+    "color": "red",
+    "name": "football",
+    "description": "An oval made of leather and string, it's easily thrown but does little damage. You could take it apart into leather if you wanted.",
+    "price": 10,
+    "material": "leather",
+    "weight": 400,
+    "volume": 2,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": 5
+  },
   { "id":"fertilizer",
     "symbol": "*",
     "color": "green",
