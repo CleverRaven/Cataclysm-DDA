@@ -1171,7 +1171,10 @@
     "volume": 1,
     "bashing": 12,
     "cutting": 0,
-    "to_hit": 2
+    "to_hit": 2,
+    "tool": [
+        ["HAMMER", 1]
+    ]
   },
   {
     "id": "football",
