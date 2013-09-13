@@ -480,7 +480,7 @@
     "symbol": "(",
     "color": "pink",
     "name": "S&W 500",
-    "description": "The Smith and Wesson 500 is a five-shooter revolver, it fires the most powerful handgun cartridge the .500 S&W Magnum, it's one of world's best revolver.",
+    "description": "The Smith and Wesson 500 is a five-shooter revolver, it fires the most powerful handgun cartridge the .500 S&W Magnum, it's one of world's best revolvers.",
     "price": 2000,
     "material": ["steel", "plastic"],
     "flags": "RELOAD_ONE",
