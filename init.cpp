@@ -37,6 +37,8 @@ void load_object(Jsobj &jo)
         profession::load_profession(jo);
     } else if (type == "skill") {
         Skill::load_skill(jo);
+    } else {
+        dout(D_WARNING) << "Unrecognized JSON object, type: \"" << type << "\"\n";
     }
 }
 
