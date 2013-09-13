@@ -80,15 +80,16 @@ void map::generate_lightmap(game* g)
     }
     for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm )
     {
-        if ( itm->light.luminance > 0 ) {
-            if ( itm->light.width > 0 ) {
-                apply_light_arc( sx, sy, (int)itm->light.direction,
-                                 (float)itm->light.luminance, (int)itm->light.width );
+
+        float ilum=0.0; // brightness
+        int iwidth=0;   // 0-360 degrees. 0 is a circular light_source
+        int idir=0;     // otherwise, it's a light_arc pointed in this direction
+        if ( itm->getlight(ilum, iwidth, idir ) ) {
+            if ( iwidth > 0 ) {
+                apply_light_arc( sx, sy, idir, ilum, iwidth );
             } else {
-                add_light_source(sx, sy, (float)itm->light.luminance );
+                add_light_source(sx, sy, ilum);
             }
-        } else if ( itm->type->light_emission > 0 ) {
-            add_light_source(sx, sy, (float)itm->type->light_emission );
         }
     }
    if(terrain == t_lava) {

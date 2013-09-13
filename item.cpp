@@ -2487,3 +2487,49 @@ itype_id item::typeId() const
 item item::clone(){
     return item(type, bday);
 }
+
+bool item::getlight(float & luminance, int & width, int & direction, bool calculate_dimming ) const {
+    luminance = 0;
+    width = 0;
+    direction = 0;
+    if ( light.luminance > 0 ) {
+        luminance = (float)light.luminance;
+        if ( light.width > 0 ) { // width > 0 is a light arc
+            width = light.width;
+            direction = light.direction;
+        }
+        return true;
+    } else {
+        const int lumint = getlight_emit( calculate_dimming );
+        if ( lumint > 0 ) {
+            luminance = (float)lumint;
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
+ * Returns just the integer
+ */
+int item::getlight_emit(bool calculate_dimming) const {
+    const int mult = 10; // woo intmath
+    const int chargedrop = 5 * mult; // start dimming at 1/5th charge.
+    
+    int lumint = type->light_emission * mult;
+    
+    if ( lumint == 0 ) {
+        return 0;
+    }
+    if ( calculate_dimming && has_flag("CHARGEDIM") && is_tool()) {
+        it_tool * tool = dynamic_cast<it_tool *>(type);
+        int maxcharge = tool->max_charges;
+        if ( maxcharge > 0 ) {
+            lumint = ( type->light_emission * chargedrop * charges ) / maxcharge;
+        }
+    }
+    if ( lumint > 4 && lumint < 10 ) {
+        lumint = 10;
+    }
+    return lumint / 10;
+}
