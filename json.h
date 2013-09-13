@@ -101,9 +101,9 @@ public:
     Jsobj get_object() { return Jsobj(this); };
     Jsarr get_array() { return Jsarr(this); };
 
-    bool start_array(); // verify array start
+    void start_array(); // verify array start
     bool end_array(); // returns false if it's not the end
-    bool start_object();
+    void start_object();
     bool end_object(); // returns false if it's not the end
 
     // useful debug info
