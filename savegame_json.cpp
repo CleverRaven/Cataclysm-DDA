@@ -255,11 +255,15 @@ void player::json_load_common_variables( std::map<std::string, picojson::value> 
                 bionic tmpbio;
                 int tmpbioinv;
                 if ( picostring(pdata,"id",tmpbio.id) ) {
+                  if ( bionics.find(tmpbio.id) == bionics.end() ) {
+                    debugmsg("json_load: bad bionics:\n%s", (*pt).serialize().c_str()  );
+                  } else {
                     picoint(pdata,"invlet",tmpbioinv);
                     tmpbio.invlet = (char)tmpbioinv;
                     picobool(pdata,"powered",tmpbio.powered);
                     picoint(pdata,"charge",tmpbio.charge);
                     my_bionics.push_back(tmpbio);
+                  }
                 }
             }
         }
