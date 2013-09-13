@@ -1317,6 +1317,15 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
       }
     }
   }
+  if (effects.count("ICEBOMB")) {
+    for (int i = x - 1; i <= x + 1; i++) {
+      for (int j = y - 1; j <= y + 1; j++) {
+        g->m.add_field(g, i, j, fd_ice_floor, 3);
+        if (one_in(2))
+            g->m.add_field(g, i, j, fd_ice_mist, rng(1,2));
+      }
+    }
+  }
 
   if (effects.count("EXPLOSIVE_BIG"))
     g->explosion(x, y, 40, 0, false);
