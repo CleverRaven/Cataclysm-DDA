@@ -92,6 +92,12 @@ void Jsobj::finish()
     jsin->seek(end);
 }
 
+std::string Jsobj::line_number()
+{
+    jsin->seek(start);
+    return jsin->line_number();
+}
+
 bool Jsobj::get_bool(std::string name)
 {
     int pos = positions[name];

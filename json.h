@@ -36,6 +36,9 @@ public:
 
     Jsarr get_array(std::string name); // returns empty array if not found
     //Jsobj get_object(std::string name);
+
+    // useful debug info
+    std::string line_number(); // for occasional use only
 };
 
 class Jsarr {

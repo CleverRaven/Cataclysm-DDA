@@ -1,7 +1,6 @@
 #include "init.h"
 
 #include "json.h"
-#include "debug.h"
 
 #include "material.h"
 #include "bionics.h"
@@ -38,7 +37,10 @@ void load_object(Jsobj &jo)
     } else if (type == "skill") {
         Skill::load_skill(jo);
     } else {
-        dout(D_WARNING) << "Unrecognized JSON object, type: \"" << type << "\"";
+        std::stringstream err;
+        err << jo.line_number() << ": ";
+        err << "unrecognized JSON object, type: \"" << type << "\"";
+        throw err.str();
     }
 }
 
@@ -52,7 +54,6 @@ void load_json_dir(std::string const &dirname)
         // open the file as a stream
         std::ifstream infile(it->c_str());
         // parse it
-        dout(D_INFO) << "Loading JSON from file: " << *(it);
         try {
             Jsin jsin(&infile);
             load_all_from_json(jsin);
@@ -74,6 +75,15 @@ void load_all_from_json(Jsin &jsin) throw (std::string)
         Jsobj jo = jsin.get_object();
         load_object(jo);
         jo.finish();
+        // if there's anything else in the file, it's an error.
+        jsin.eat_whitespace();
+        if (jsin.good()) {
+            std::stringstream err;
+            err << jsin.line_number() << ": ";
+            err << "expected single-object file but found '";
+            err << jsin.peek() << "'";
+            throw err.str();
+        }
     } else if (ch == '[') {
         jsin.start_array();
         // find type and dispatch each object until array close
@@ -82,7 +92,7 @@ void load_all_from_json(Jsin &jsin) throw (std::string)
             ch = jsin.peek();
             if (ch != '{') {
                 std::stringstream err;
-                err << "pos " << jsin.tell() << ": ";
+                err << jsin.line_number() << ": ";
                 err << "expected array of objects but found '";
                 err << ch << "', not '{'";
                 throw err.str();
@@ -94,6 +104,7 @@ void load_all_from_json(Jsin &jsin) throw (std::string)
     } else {
         // not an object or an array?
         std::stringstream err;
+        err << jsin.line_number() << ": ";
         err << "expected object or array, but found '" << ch << "'";
         throw err.str();
     }
