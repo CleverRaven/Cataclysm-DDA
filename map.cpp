@@ -4163,18 +4163,6 @@ void map::build_transparency_cache()
  }
 }
 
-void map::build_seen_cache(game *g)
-{
-  memset(seen_cache, false, sizeof(seen_cache));
-  const int j = (SEEX * my_MAPSIZE) - 1;
-  for (int i = 0; i < SEEX * my_MAPSIZE; i++) {
-    cache_seen(g->u.posx, g->u.posy, 0, i, 60);
-    cache_seen(g->u.posx, g->u.posy, i, 0, 60);
-    cache_seen(g->u.posx, g->u.posy, j, i, 60);
-    cache_seen(g->u.posx, g->u.posy, i, j, 60);
-  }
-}
-
 void map::build_map_cache(game *g)
 {
  build_outside_cache(g);
