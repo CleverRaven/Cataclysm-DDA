@@ -2086,6 +2086,20 @@
     "to_hit": 2
   },
   {
+    "id": "golf_club",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "golf club",
+    "description": "A long handle with a big metal head, flat on one side, for driving golf balls. Fore!",
+    "price": 130,
+    "material": "steel",
+    "weight": 300,
+    "volume": 4,
+    "bashing": 20,
+    "cutting": 0,
+    "to_hit": 1
+  },
+  {
     "id": "rock_sock",
     "symbol": ";",
     "color": "light_blue",

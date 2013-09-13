@@ -645,5 +645,18 @@
           "football"
       ],
       "points": 4
+    },
+    {
+      "ident": "golfer",
+      "name": "Golfer",
+      "description": "A birdie is 1 under par, but how much is a zombie? Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
+      "items": [
+          "hat_ball",
+          "dress_shirt",
+          "pants",
+          "sneakers",
+          "golf_club"
+      ],
+      "points": 1
     }
 ]
