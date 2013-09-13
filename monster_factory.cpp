@@ -121,6 +121,7 @@ void monster_factory::init_flags()
 {
     mon_flags["NULL"]= MF_NULL;
     mon_flags["REVIVES"] = MF_REVIVES;
+    mon_flags["HALLUCINATION"] = MF_HALLUCINATION;
     mon_flags["SEES"] = MF_SEES;
     mon_flags["VIS50"] = MF_VIS50;
     mon_flags["VIS40"] = MF_VIS40;

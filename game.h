@@ -3,7 +3,6 @@
 
 #include "mtype.h"
 #include "monster.h"
-#include "monster_factory.h"
 #include "map.h"
 #include "lightmap.h"
 #include "player.h"
@@ -25,6 +24,7 @@
 #include "gamemode.h"
 #include "action.h"
 #include "translations.h"
+#include "monster_factory.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -42,7 +42,6 @@
 
 // The reference to the one and only game instance.
 extern game *g;
-extern monster_factory *monster_controller;
 
 #define PICKUP_RANGE 2
 extern bool trigdist;

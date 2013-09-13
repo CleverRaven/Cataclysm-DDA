@@ -37,7 +37,8 @@
 	    	"id":"ROBOT"
 	    },
 	    {
-	    	"id":"HALLUCINATION"
+	    	"id":"HALLUCINATION",
+	    	"flags":["HALLUCINATION"]
 	    }
 	],
 
