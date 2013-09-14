@@ -69,7 +69,7 @@ material_type::material_type(std::string ident)
 material_map material_type::_all_materials;
 
 // load a material object from incoming JSON
-void material_type::load_material(Jsobj &jsobj)
+void material_type::load_material(JsonObject &jsobj)
 {
     material_type mat;
 
@@ -84,7 +84,7 @@ void material_type::load_material(Jsobj &jsobj)
     mat._fire_resist = jsobj.get_int("fire_resist");
     mat._density = jsobj.get_int("density");
 
-    Jsarr jsarr = jsobj.get_array("dmg_adj");
+    JsonArray jsarr = jsobj.get_array("dmg_adj");
     mat._dmg_adj[0] = _(jsarr.next_string().c_str());
     mat._dmg_adj[1] = _(jsarr.next_string().c_str());
     mat._dmg_adj[2] = _(jsarr.next_string().c_str());

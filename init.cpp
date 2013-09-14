@@ -25,7 +25,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     return ret;
 }
 
-void load_object(Jsobj &jo)
+void load_object(JsonObject &jo)
 {
     std::string type = jo.get_string("type");
     if (type == "material") {
@@ -55,7 +55,7 @@ void load_json_dir(std::string const &dirname)
         std::ifstream infile(it->c_str());
         // parse it
         try {
-            Jsin jsin(&infile);
+            JsonIn jsin(&infile);
             load_all_from_json(jsin);
         } catch (std::string e) {
             throw *(it) + ": " + e;
@@ -63,7 +63,7 @@ void load_json_dir(std::string const &dirname)
     }
 }
 
-void load_all_from_json(Jsin &jsin) throw (std::string)
+void load_all_from_json(JsonIn &jsin) throw (std::string)
 {
     char ch;
     std::string type = "";
@@ -72,7 +72,7 @@ void load_all_from_json(Jsin &jsin) throw (std::string)
     ch = jsin.peek();
     if (ch == '{') {
         // find type and dispatch single object
-        Jsobj jo = jsin.get_object();
+        JsonObject jo = jsin.get_object();
         load_object(jo);
         jo.finish();
         // if there's anything else in the file, it's an error.
@@ -97,7 +97,7 @@ void load_all_from_json(Jsin &jsin) throw (std::string)
                 err << ch << "', not '{'";
                 throw err.str();
             }
-            Jsobj jo = jsin.get_object();
+            JsonObject jo = jsin.get_object();
             load_object(jo);
             jo.finish();
         }

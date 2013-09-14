@@ -19,7 +19,7 @@ class Skill {
 
  public:
   static std::vector<Skill*> skills;
-  static void load_skill(Jsobj &jsobj);
+  static void load_skill(JsonObject &jsobj);
   static Skill* skill(std::string ident);
   static Skill* skill(size_t id);
 

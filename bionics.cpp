@@ -647,7 +647,7 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
  }
 }
 
-void load_bionic(Jsobj &jsobj)
+void load_bionic(JsonObject &jsobj)
 {
     std::string id = jsobj.get_string("id");
     std::string name = _(jsobj.get_string("name").c_str());

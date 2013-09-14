@@ -6,20 +6,20 @@
 #include <istream>
 #include <map>
 
-class Jsin;
-class Jsobj;
-class Jsarr;
+class JsonIn;
+class JsonObject;
+class JsonArray;
 
 bool is_whitespace(char ch);
 
-class Jsobj {
+class JsonObject {
 private:
     std::map<std::string, int> positions;
     int start;
     int end;
-    Jsin *jsin;
+    JsonIn *jsin;
 public:
-    Jsobj(Jsin *jsin);
+    JsonObject(JsonIn *jsin);
 
     void finish(); // moves the stream to the end of the object
 
@@ -34,22 +34,22 @@ public:
     std::string get_string(std::string name);
     std::string get_string(std::string name, std::string fallback);
 
-    Jsarr get_array(std::string name); // returns empty array if not found
-    //Jsobj get_object(std::string name);
+    JsonArray get_array(std::string name); // returns empty array if not found
+    //JsonObject get_object(std::string name);
 
     // useful debug info
     std::string line_number(); // for occasional use only
 };
 
-class Jsarr {
+class JsonArray {
 private:
     std::vector<int> positions;
     int start;
     int index;
-    Jsin *jsin;
+    JsonIn *jsin;
 public:
-    Jsarr(Jsin *jsin);
-    Jsarr() {};
+    JsonArray(JsonIn *jsin);
+    JsonArray() {};
 
     bool has_more(); // true iff more elements may be retrieved with next_*
     int size();
@@ -59,24 +59,24 @@ public:
     int next_int();
     double next_float();
     std::string next_string();
-    Jsarr next_array();
-    Jsobj next_object();
+    JsonArray next_array();
+    JsonObject next_object();
 
     // static access
     bool get_bool(int index);
     int get_int(int index);
     double get_float(int index);
     std::string get_string(int index);
-    Jsarr get_array(int index);
-    Jsobj get_object(int index);
+    JsonArray get_array(int index);
+    JsonObject get_object(int index);
 };
 
-class Jsin {
+class JsonIn {
 private:
     std::istream *stream;
 
 public:
-    Jsin(std::istream *stream);
+    JsonIn(std::istream *stream);
 
     int tell(); // get current stream position
     void seek(int pos); // seek to specified stream position
@@ -102,8 +102,8 @@ public:
     bool get_bool(); // get the next value as a bool
     double get_float(); // get the next value as a double
     std::string get_member_name(); // also strips the ':'
-    Jsobj get_object() { return Jsobj(this); };
-    Jsarr get_array() { return Jsarr(this); };
+    JsonObject get_object() { return JsonObject(this); };
+    JsonArray get_array() { return JsonArray(this); };
 
     void start_array(); // verify array start
     bool end_array(); // returns false if it's not the end

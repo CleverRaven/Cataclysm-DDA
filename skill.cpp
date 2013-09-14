@@ -29,14 +29,14 @@ Skill::Skill(size_t id, std::string ident, std::string name, std::string descrip
 
 std::vector<Skill*> Skill::skills;
 
-void Skill::load_skill(Jsobj &jsobj)
+void Skill::load_skill(JsonObject &jsobj)
 {
     std::string ident = jsobj.get_string("ident");
     std::string name = _(jsobj.get_string("name").c_str());
     std::string description = _(jsobj.get_string("description").c_str());
 
     std::set<std::string> tags;
-    Jsarr jsarr = jsobj.get_array("tags");
+    JsonArray jsarr = jsobj.get_array("tags");
     while (jsarr.has_more()) {
         tags.insert(jsarr.next_string());
     }

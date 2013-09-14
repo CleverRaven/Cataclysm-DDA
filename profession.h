@@ -39,7 +39,7 @@ public:
     profession(std::string ident, std::string name, std::string description, signed int points);
     static profmap _all_profs;
 
-    static void load_profession(Jsobj &jsobj);
+    static void load_profession(JsonObject &jsobj);
 
     // these should be the only ways used to get at professions
     static profession* prof(std::string ident);

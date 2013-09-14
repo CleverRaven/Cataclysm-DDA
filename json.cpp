@@ -33,11 +33,11 @@
  * }
  * ~
  * A central dispatcher (init.cpp) will load each .json file,
- * construct a Jsobj instance to represent each object in the file,
- * then send the Jsobj to the appropriate data constructor,
+ * construct a JsonObject instance to represent each object in the file,
+ * then send the JsonObject to the appropriate data constructor,
  * according to its "type" member.
  * ~
- * Object constructors can use the Jsobj class to construct from JSON.
+ * Object constructors can use the JsonObject class to construct from JSON.
  * The type of each member must be inferrable from the object "type",
  * and each should be parsed expecting the correct datatype.
  * If it fails, it's an error.
@@ -71,11 +71,11 @@ bool is_whitespace(char ch)
 }
 
 
-/* class Jsobj
+/* class JsonObject
  * represents a JSON object,
  * providing access to the underlying data.
  */
-Jsobj::Jsobj(Jsin *j)
+JsonObject::JsonObject(JsonIn *j)
 {
     jsin = j;
     start = jsin->tell();
@@ -90,18 +90,18 @@ Jsobj::Jsobj(Jsin *j)
     end = jsin->tell();
 }
 
-void Jsobj::finish()
+void JsonObject::finish()
 {
     jsin->seek(end);
 }
 
-std::string Jsobj::line_number()
+std::string JsonObject::line_number()
 {
     jsin->seek(start);
     return jsin->line_number();
 }
 
-bool Jsobj::get_bool(std::string name)
+bool JsonObject::get_bool(std::string name)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -112,7 +112,7 @@ bool Jsobj::get_bool(std::string name)
     return jsin->get_bool();
 }
 
-bool Jsobj::get_bool(std::string name, bool fallback)
+bool JsonObject::get_bool(std::string name, bool fallback)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -122,7 +122,7 @@ bool Jsobj::get_bool(std::string name, bool fallback)
     return jsin->get_bool();
 }
 
-int Jsobj::get_int(std::string name)
+int JsonObject::get_int(std::string name)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -133,7 +133,7 @@ int Jsobj::get_int(std::string name)
     return jsin->get_int();
 }
 
-int Jsobj::get_int(std::string name, int fallback)
+int JsonObject::get_int(std::string name, int fallback)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -143,7 +143,7 @@ int Jsobj::get_int(std::string name, int fallback)
     return jsin->get_int();
 }
 
-double Jsobj::get_float(std::string name)
+double JsonObject::get_float(std::string name)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -154,7 +154,7 @@ double Jsobj::get_float(std::string name)
     return jsin->get_float();
 }
 
-double Jsobj::get_float(std::string name, double fallback)
+double JsonObject::get_float(std::string name, double fallback)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -164,7 +164,7 @@ double Jsobj::get_float(std::string name, double fallback)
     return jsin->get_float();
 }
 
-std::string Jsobj::get_string(std::string name)
+std::string JsonObject::get_string(std::string name)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -175,7 +175,7 @@ std::string Jsobj::get_string(std::string name)
     return jsin->get_string();
 }
 
-std::string Jsobj::get_string(std::string name, std::string fallback)
+std::string JsonObject::get_string(std::string name, std::string fallback)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -185,22 +185,22 @@ std::string Jsobj::get_string(std::string name, std::string fallback)
     return jsin->get_string();
 }
 
-Jsarr Jsobj::get_array(std::string name)
+JsonArray JsonObject::get_array(std::string name)
 {
     int pos = positions[name];
     if (pos <= start) {
-        return Jsarr(); // empty array
+        return JsonArray(); // empty array
     }
     jsin->seek(pos);
-    return Jsarr(jsin);
+    return JsonArray(jsin);
 }
 
 
-/* class Jsarr
+/* class JsonArray
  * represents a JSON array,
  * providing access to the underlying data.
  */
-Jsarr::Jsarr(Jsin *j)
+JsonArray::JsonArray(JsonIn *j)
 {
     jsin = j;
     start = jsin->tell();
@@ -213,111 +213,111 @@ Jsarr::Jsarr(Jsin *j)
     }
 }
 
-bool Jsarr::has_more()
+bool JsonArray::has_more()
 {
     return (index >= 0 && index < positions.size());
 }
 
-int Jsarr::size()
+int JsonArray::size()
 {
     return positions.size();
 }
 
-bool Jsarr::next_bool()
+bool JsonArray::next_bool()
 {
     jsin->seek(positions[index++]);
     return jsin->get_bool();
 }
 
-int Jsarr::next_int()
+int JsonArray::next_int()
 {
     jsin->seek(positions[index++]);
     return jsin->get_int();
 }
 
-double Jsarr::next_float()
+double JsonArray::next_float()
 {
     jsin->seek(positions[index++]);
     return jsin->get_float();
 }
 
-std::string Jsarr::next_string()
+std::string JsonArray::next_string()
 {
     jsin->seek(positions[index++]);
     return jsin->get_string();
 }
 
-Jsarr Jsarr::next_array()
+JsonArray JsonArray::next_array()
 {
     jsin->seek(positions[index++]);
     return jsin->get_array();
 }
 
-Jsobj Jsarr::next_object()
+JsonObject JsonArray::next_object()
 {
     jsin->seek(positions[index++]);
     return jsin->get_object();
 }
 
-bool Jsarr::get_bool(int i)
+bool JsonArray::get_bool(int i)
 {
     jsin->seek(positions[i]);
     return jsin->get_bool();
 }
 
-int Jsarr::get_int(int i)
+int JsonArray::get_int(int i)
 {
     jsin->seek(positions[i]);
     return jsin->get_int();
 }
 
-double Jsarr::get_float(int i)
+double JsonArray::get_float(int i)
 {
     jsin->seek(positions[i]);
     return jsin->get_float();
 }
 
-std::string Jsarr::get_string(int i)
+std::string JsonArray::get_string(int i)
 {
     jsin->seek(positions[i]);
     return jsin->get_string();
 }
 
-Jsarr Jsarr::get_array(int i)
+JsonArray JsonArray::get_array(int i)
 {
     jsin->seek(positions[i]);
     return jsin->get_array();
 }
 
-Jsobj Jsarr::get_object(int i)
+JsonObject JsonArray::get_object(int i)
 {
     jsin->seek(positions[i]);
     return jsin->get_object();
 }
 
 
-/* class Jsin
+/* class JsonIn
  * represents an istream of JSON data,
  * allowing easy extraction into c++ datatypes.
  */
-Jsin::Jsin(std::istream *s)
+JsonIn::JsonIn(std::istream *s)
 {
     stream = s;
 }
 
-int Jsin::tell() { return stream->tellg(); }
-void Jsin::seek(int pos) { stream->seekg(pos); }
-char Jsin::peek() { return (char)stream->peek(); }
-bool Jsin::good() { return stream->good(); }
+int JsonIn::tell() { return stream->tellg(); }
+void JsonIn::seek(int pos) { stream->seekg(pos); }
+char JsonIn::peek() { return (char)stream->peek(); }
+bool JsonIn::good() { return stream->good(); }
 
-void Jsin::eat_whitespace()
+void JsonIn::eat_whitespace()
 {
     while (is_whitespace((char)stream->peek())) {
         stream->get();
     }
 }
 
-void Jsin::skip_member()
+void JsonIn::skip_member()
 {
     skip_string();
     skip_pair_separator();
@@ -325,7 +325,7 @@ void Jsin::skip_member()
     skip_separator();
 }
 
-void Jsin::skip_pair_separator()
+void JsonIn::skip_pair_separator()
 {
     char ch;
     eat_whitespace();
@@ -337,7 +337,7 @@ void Jsin::skip_pair_separator()
     }
 }
 
-void Jsin::skip_string()
+void JsonIn::skip_string()
 {
     char ch;
     eat_whitespace();
@@ -359,7 +359,7 @@ void Jsin::skip_string()
     skip_separator();
 }
 
-void Jsin::skip_value()
+void JsonIn::skip_value()
 {
     char ch;
     eat_whitespace();
@@ -392,7 +392,7 @@ void Jsin::skip_value()
     skip_separator();
 }
 
-void Jsin::skip_object()
+void JsonIn::skip_object()
 {
     char ch;
     int brackets = 1;
@@ -426,7 +426,7 @@ void Jsin::skip_object()
     skip_separator();
 }
 
-void Jsin::skip_array()
+void JsonIn::skip_array()
 {
     char ch;
     int brackets = 1;
@@ -460,7 +460,7 @@ void Jsin::skip_array()
     skip_separator();
 }
 
-void Jsin::skip_true()
+void JsonIn::skip_true()
 {
     char text[5];
     eat_whitespace();
@@ -473,7 +473,7 @@ void Jsin::skip_true()
     skip_separator();
 }
 
-void Jsin::skip_false()
+void JsonIn::skip_false()
 {
     char text[6];
     eat_whitespace();
@@ -486,7 +486,7 @@ void Jsin::skip_false()
     skip_separator();
 }
 
-void Jsin::skip_null()
+void JsonIn::skip_null()
 {
     char text[5];
     eat_whitespace();
@@ -499,7 +499,7 @@ void Jsin::skip_null()
     skip_separator();
 }
 
-void Jsin::skip_number()
+void JsonIn::skip_number()
 {
     char ch;
     eat_whitespace();
@@ -515,7 +515,7 @@ void Jsin::skip_number()
     skip_separator();
 }
 
-void Jsin::skip_separator()
+void JsonIn::skip_separator()
 {
     char ch;
     eat_whitespace();
@@ -525,7 +525,7 @@ void Jsin::skip_separator()
     }
 }
 
-std::string Jsin::get_member_name()
+std::string JsonIn::get_member_name()
 {
     // get the name
     std::string s = get_string();
@@ -537,7 +537,7 @@ std::string Jsin::get_member_name()
     return s;
 }
 
-std::string Jsin::get_string()
+std::string JsonIn::get_string()
 {
     std::string s = "";
     char ch;
@@ -603,14 +603,14 @@ std::string Jsin::get_string()
     throw (std::string)"something went wrong D:";
 }
 
-int Jsin::get_int()
+int JsonIn::get_int()
 {
     // get float value and then convert to int,
     // because "1.359e3" is technically a valid integer.
     return (int)get_float();
 }
 
-double Jsin::get_float()
+double JsonIn::get_float()
 {
     // this could maybe be prettier?
     char ch;
@@ -664,7 +664,7 @@ double Jsin::get_float()
     return i * pow(10, e + mod_e);
 }
 
-bool Jsin::get_bool()
+bool JsonIn::get_bool()
 {
     char ch;
     char text[5];
@@ -703,7 +703,7 @@ bool Jsin::get_bool()
     throw err.str();
 }
 
-void Jsin::start_array()
+void JsonIn::start_array()
 {
     eat_whitespace();
     if (stream->peek() == (int)'[') {
@@ -719,7 +719,7 @@ void Jsin::start_array()
     }
 }
 
-bool Jsin::end_array()
+bool JsonIn::end_array()
 {
     eat_whitespace();
     if (stream->peek() == (int)']') {
@@ -735,7 +735,7 @@ bool Jsin::end_array()
     }
 }
 
-void Jsin::start_object()
+void JsonIn::start_object()
 {
     eat_whitespace();
     if (stream->peek() == (int)'{') {
@@ -751,7 +751,7 @@ void Jsin::start_object()
     }
 }
 
-bool Jsin::end_object()
+bool JsonIn::end_object()
 {
     eat_whitespace();
     if (stream->peek() == (int)'}') {
@@ -768,7 +768,7 @@ bool Jsin::end_object()
 }
 
 // intended for occasional use only
-std::string Jsin::line_number(int offset_modifier)
+std::string JsonIn::line_number(int offset_modifier)
 {
     int pos = stream->tellg();
     int line = 1;

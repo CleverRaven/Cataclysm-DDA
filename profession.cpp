@@ -22,10 +22,10 @@ profession::profession(std::string ident, std::string name, std::string descript
 
 profmap profession::_all_profs;
 
-void profession::load_profession(Jsobj &jsobj)
+void profession::load_profession(JsonObject &jsobj)
 {
     profession prof;
-    Jsarr jsarr;
+    JsonArray jsarr;
 
     prof._ident = jsobj.get_string("ident");
     prof._name = _(jsobj.get_string("name").c_str());
@@ -38,13 +38,13 @@ void profession::load_profession(Jsobj &jsobj)
     }
     jsarr = jsobj.get_array("skills");
     while (jsarr.has_more()) {
-        Jsobj jo = jsarr.next_object();
+        JsonObject jo = jsarr.next_object();
         prof.add_skill(jo.get_string("name"),
                        jo.get_int("level"));
     }
     jsarr = jsobj.get_array("addictions");
     while (jsarr.has_more()) {
-        Jsobj jo = jsarr.next_object();
+        JsonObject jo = jsarr.next_object();
         prof.add_addiction(addiction_type(jo.get_string("type")),
                            jo.get_int("intensity"));
     }
