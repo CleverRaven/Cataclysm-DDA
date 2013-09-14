@@ -80,7 +80,7 @@ void game::init_morale()
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
 }
 
-player::player()
+player::player() : name("")
 {
  id = 0; // Player is 0. NPCs are different.
  view_offset_x = 0;
@@ -110,7 +110,6 @@ player::player()
  driving_recoil = 0;
  scent = 500;
  health = 0;
- name = "";
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  moves = 100;
@@ -269,6 +268,9 @@ player& player::operator= (const player & rhs)
  for (int i = 0; i < rhs.inv.size(); i++)
   inv.add_stack(rhs.inv.const_stack(i));
 
+ volume = rhs.volume;
+
+ lastrecipe = rhs.lastrecipe;
  last_item = rhs.last_item;
  worn = rhs.worn;
  styles = rhs.styles;
@@ -2211,7 +2213,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
      sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
  }
  std::sort(sorted.begin(), sorted.end(), skill_display_sort);
- for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin(); i != sorted.end(); i++) {
+ for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin(); i != sorted.end(); ++i) {
      skillslist.push_back((*i).first);
  }
 
@@ -6592,7 +6594,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
     // are we trying to put on power armor? If so, make sure we don't have any other gear on.
     if (armor->is_power_armor())
     {
-        for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); it++)
+        for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it)
         {
             if ((dynamic_cast<it_armor*>(it->type))->covers & armor->covers)
             {
@@ -6610,7 +6612,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
 
             if (worn.size())
             {
-                for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); it++)
+                for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it)
                 {
                     if (dynamic_cast<it_armor*>(it->type)->power_armor)
                     {
@@ -7749,7 +7751,7 @@ void player::read(game *g, char ch)
     {
         g->add_msg(_("The %s-related jargon flies over your head!"),
          tmp->type->name().c_str());
-        if (tmp->recipes.size() == 0)
+        if (tmp->recipes.empty())
         {
             return;
         }
@@ -7770,7 +7772,7 @@ void player::read(game *g, char ch)
         return;
     }
 
-    if (tmp->recipes.size() > 0 && !(activity.continuous))
+    if (!tmp->recipes.empty() && !(activity.continuous))
     {
         if (can_study_recipe(tmp))
         {
@@ -8477,8 +8479,8 @@ bool player::knows_recipe(recipe *rec)
         if(rec->skill_used == NULL || skillLevel(rec->skill_used) >= rec->difficulty){
             meets_requirements = true;
             //If there are required skills, insure their requirements are met, or we can't craft
-            if(rec->required_skills.size()){
-                for(std::map<Skill*,int>::iterator iter=rec->required_skills.begin(); iter!=rec->required_skills.end();iter++){
+            if(!rec->required_skills.empty()){
+                for(std::map<Skill*,int>::iterator iter=rec->required_skills.begin(); iter!=rec->required_skills.end();++iter){
                     if(skillLevel(iter->first) < iter->second){
                         meets_requirements = false;
                     }

@@ -408,7 +408,6 @@ struct it_gun : public itype
   skill_used = pskill_used?Skill::skill(pskill_used):NULL;
   ammo = pammo;
   dmg_bonus = pdmg_bonus;
-  pierce = 0; //TODO: make the constructor take this I suppose
   range = prange;
   dispersion = pdispersion;
   recoil = precoil;
@@ -420,7 +419,19 @@ struct it_gun : public itype
   item_tags = flags;
  }
 
- it_gun() :itype() { };
+ it_gun() :itype() {
+  ammo = "";
+  skill_used = NULL;
+  dmg_bonus = 0;
+  pierce = 0;
+  range = 0;
+  dispersion = 0;
+  recoil = 0;
+  durability = 0;
+  burst = 0;
+  clip = 0;
+  reload_time = 0;
+ };
 };
 
 struct it_gunmod : public itype
@@ -463,7 +474,19 @@ struct it_gunmod : public itype
   used_on_rifle = rifle;
  }
 
- it_gunmod() :itype() { };
+ it_gunmod() :itype() {
+  dispersion = 0;
+  damage = 0;
+  loudness = 0;
+  clip = 0;
+  recoil = 0;
+  burst = 0;
+  newtype = "";
+  used_on_pistol = false;
+  used_on_shotgun = false;
+  used_on_smg = false;
+  used_on_rifle = false;
+ };
 };
 
 struct it_armor : public itype
