@@ -252,7 +252,6 @@ std::string uimenu::inputfilter()
 void uimenu::setup() {
     bool w_auto = (w_width == -1 || w_width == -2 );
     bool w_autofold = ( w_width == -2);
-    int realtextwidth = 0;
 
     if ( w_auto ) {
         w_width = 4;
@@ -321,6 +320,7 @@ void uimenu::setup() {
     if(text.size() > 0 ) {
         int twidth = utf8_width(text.c_str());
         bool formattxt=true;
+        int realtextwidth = 0;
         if ( textwidth == -1 ) {
             if ( w_autofold || !w_auto ) {
                realtextwidth = w_width - 4;
@@ -672,7 +672,7 @@ void uimenu::query(bool loop) {
         }
 
         if ( skiprefresh==false ) {
-        show();
+            show();
         }
     } while ( loop && (ret == startret ) );
 }
