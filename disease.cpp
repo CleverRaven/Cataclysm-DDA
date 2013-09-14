@@ -2277,11 +2277,7 @@ void handle_deliriant(game* g, player& p, disease& dis) {
         p.dex_cur -= 2;
         p.str_cur -= 1;
         if (one_in(50)) {
-            // Generate a phantasm - literally any monster
-            monster phantasm(g->mtypes[rng(1, num_monsters - 1)]);
-            phantasm.hallucination = true;
-            phantasm.spawn(p.posx + rng(-10, 10), p.posy + rng(-10, 10));
-            g->add_zombie(phantasm);
+            g->spawn_hallucination();
         }
     } else if (dis.duration == comedownTime) {
         if (one_in(42)) {

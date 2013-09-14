@@ -162,6 +162,7 @@ class game
   bool update_zombie_pos(const monster &m, const int newx, const int newy);
   void remove_zombie(const int idx);
   void clear_zombies();
+  bool spawn_hallucination(); //Spawns a hallucination close to the player
 
   int  mon_at(const int x, const int y) const;	// Index of the monster at (x, y); -1 for none
   bool is_empty(const int x, const int y);	// True if no PC, no monster, move cost > 0

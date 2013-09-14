@@ -4541,10 +4541,7 @@ void player::suffer(game *g)
                 case 7:
                     for (i = 0; i < 10; i++)
                     {
-                        phantasm = monster(g->mtypes[mon_hallu_zom + rng(0, 3)]);
-                        phantasm.spawn(posx + rng(-10, 10), posy + rng(-10, 10));
-                        if (g->mon_at(phantasm.posx(), phantasm.posy()) == -1)
-                            g->add_zombie(phantasm);
+                        g->spawn_hallucination();
                     }
                     break;
                 case 8:

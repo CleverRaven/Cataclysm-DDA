@@ -5682,6 +5682,26 @@ void game::clear_zombies()
     z_at.clear();
 }
 
+/**
+ * Attempts to spawn a hallucination somewhere close to the player. Returns
+ * false if the hallucination couldn't be spawned for whatever reason, such as
+ * a monster already in the target square.
+ * @return Whether or not a hallucination was successfully spawned.
+ */
+bool game::spawn_hallucination()
+{
+  monster phantasm(mtypes[rng(1, num_monsters - 1)]);
+  phantasm.hallucination = true;
+  phantasm.spawn(u.posx + rng(-10, 10), u.posy + rng(-10, 10));
+
+  //Don't attempt to place phantasms inside of other monsters
+  if (mon_at(phantasm.posx(), phantasm.posy()) == -1) {
+    return add_zombie(phantasm);
+  } else {
+    return false;
+  }
+}
+
 int game::mon_at(const int x, const int y) const
 {
     std::map<point, int>::const_iterator i = z_at.find(point(x, y));
