@@ -204,7 +204,7 @@ Jsarr::Jsarr(Jsin *j)
 {
     jsin = j;
     start = jsin->tell();
-    pos = 0;
+    index = 0;
     // cache the position of each element
     jsin->start_array();
     while (!jsin->end_array()) {
@@ -215,42 +215,42 @@ Jsarr::Jsarr(Jsin *j)
 
 bool Jsarr::has_more()
 {
-    return (pos >= 0 && pos < positions.size());
+    return (index >= 0 && index < positions.size());
 }
 
 bool Jsarr::next_bool()
 {
-    jsin->seek(positions[pos++]);
+    jsin->seek(positions[index++]);
     return jsin->get_bool();
 }
 
 int Jsarr::next_int()
 {
-    jsin->seek(positions[pos++]);
+    jsin->seek(positions[index++]);
     return jsin->get_int();
 }
 
 double Jsarr::next_float()
 {
-    jsin->seek(positions[pos++]);
+    jsin->seek(positions[index++]);
     return jsin->get_float();
 }
 
 std::string Jsarr::next_string()
 {
-    jsin->seek(positions[pos++]);
+    jsin->seek(positions[index++]);
     return jsin->get_string();
 }
 
 Jsarr Jsarr::next_array()
 {
-    jsin->seek(positions[pos++]);
+    jsin->seek(positions[index++]);
     return jsin->get_array();
 }
 
 Jsobj Jsarr::next_object()
 {
-    jsin->seek(positions[pos++]);
+    jsin->seek(positions[index++]);
     return jsin->get_object();
 }
 
@@ -421,12 +421,12 @@ void Jsin::skip_array()
 
 void Jsin::skip_true()
 {
-    char ch[5];
+    char text[5];
     eat_whitespace();
-    stream->get(ch, 5);
-    if (strcmp(ch, "true") != 0) {
+    stream->get(text, 5);
+    if (strcmp(text, "true") != 0) {
         std::stringstream err;
-        err << line_number(-4) << ": expected \"true\", but found \"" << ch << "\"";
+        err << line_number(-4) << ": expected \"true\", but found \"" << text << "\"";
         throw err.str();
     }
     skip_separator();
@@ -434,12 +434,12 @@ void Jsin::skip_true()
 
 void Jsin::skip_false()
 {
-    char ch[6];
+    char text[6];
     eat_whitespace();
-    stream->get(ch, 6);
-    if (strcmp(ch, "false") != 0) {
+    stream->get(text, 6);
+    if (strcmp(text, "false") != 0) {
         std::stringstream err;
-        err << line_number(-5) << ": expected \"false\", but found \"" << ch << "\"";
+        err << line_number(-5) << ": expected \"false\", but found \"" << text << "\"";
         throw err.str();
     }
     skip_separator();
@@ -447,12 +447,12 @@ void Jsin::skip_false()
 
 void Jsin::skip_null()
 {
-    char ch[5];
+    char text[5];
     eat_whitespace();
-    stream->get(ch, 5);
-    if (strcmp(ch, "null") != 0) {
+    stream->get(text, 5);
+    if (strcmp(text, "null") != 0) {
         std::stringstream err;
-        err << line_number(-4) << ": expected \"null\", but found \"" << ch << "\"";
+        err << line_number(-4) << ": expected \"null\", but found \"" << text << "\"";
         throw err.str();
     }
     skip_separator();

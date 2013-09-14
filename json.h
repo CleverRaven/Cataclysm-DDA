@@ -45,7 +45,7 @@ class Jsarr {
 private:
     std::vector<int> positions;
     int start;
-    int pos;
+    int index;
     Jsin *jsin;
 public:
     Jsarr(Jsin *jsin);
@@ -62,12 +62,12 @@ public:
 
     // static access
     //int size();
-    //bool get_bool(int pos);
-    //int get_int(int pos);
-    //double get_float(int pos);
-    //std::string get_string(int pos);
-    //Jsarr get_array(int pos);
-    //Jsobj get_object(int pos);
+    //bool get_bool(int index);
+    //int get_int(int index);
+    //double get_float(int index);
+    //std::string get_string(int index);
+    //Jsarr get_array(int index);
+    //Jsobj get_object(int index);
 };
 
 class Jsin {
