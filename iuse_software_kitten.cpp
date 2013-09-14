@@ -356,7 +356,7 @@ void robot_finds_kitten::instructions(WINDOW *w) {
     "Ported to CDDA gaming system by a nutcase.\n"
     "In this game, you are robot (");
 	draw_robot(w);
-	wprintw (w,"). Your job is to find kitten.");
+	wprintw (w,"). Your job is to find kitten.\n"
     "This task is complicated by the existance of various\n"
     "things which are not kitten. Robot must touch items\n"
     "to determine if they are kitten or not. The game\n"
