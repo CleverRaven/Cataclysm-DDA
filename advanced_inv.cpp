@@ -734,7 +734,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                       mes = mesSS.str();
                     }
                     nc_color col = c_dkgray;
-                    if (int(g->messages[i].turn) >= curmes) {
+                    if (int(g->messages[i].turn) >= g->curmes) {
                        col = c_ltred;
                        showmsg=true;
                     } else {
