@@ -195,7 +195,6 @@ struct itype
        unsigned ptechniques = 0) :
     id(pid), name(pname), description(pdes), m1(pm1), m2(pm2) {
   price       = pprice;
-  description = pdes;
   sym         = psym;
   color       = pcolor;
   phase       = pphase;
@@ -255,8 +254,8 @@ struct it_comest : public itype
     unsigned char pcharges, signed char pfun, itype_id pcontainer,
     itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
     add_type padd, std::string pcomesttype)
-    :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
-    pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
+    : itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
+    pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), comesttype(pcomesttype), container(pcontainer), tool(ptool)
     {
         quench     = pquench;
         nutr       = pnutr;
@@ -266,11 +265,8 @@ struct it_comest : public itype
         addict     = paddict;
         charges    = pcharges;
         fun        = pfun;
-        container  = pcontainer;
-        tool       = ptool;
         use        = puse;
         add        = padd;
-        comesttype = pcomesttype;
     }
 
     it_comest() : itype() 
