@@ -1194,6 +1194,19 @@ void map::step_in_field(int x, int y, game *g)
         case fd_ice_mist:
             // This stuff is taken care of in game::get_temperature() and player::update_bodytemp()
             break;
+
+        case fd_ice_floor:
+            switch (cur->getFieldDensity()) {
+                // Check vs foot protection and agility
+                case 3 : 
+                        g->u.skillLevel("melee") -= 1; 
+                        g->u.skillLevel("dodge") -= 1; // Pick a random direction
+                case 2 : 
+                        g->u.skillLevel("melee") -= 1; p.skillLevel("dodge") -= 1;
+                case 1 : 
+                        g->u.moves += 25;
+            }
+            break;
         }
         ++field_list_it;
     }
@@ -1423,9 +1436,19 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             break;
 
         case fd_ice_mist:
-            // When MF_ICE gets a flag, add it here...
-            if (z->has_flag(MF_WARM)) {
+            if (!z->has_flag(MF_ICE)) {
                 switch (cur->getFieldDensity()) {
+                    case 1: z->moves -= rng(10, 20); break;
+                    case 2: z->moves -= rng(20, 40); break;
+                    case 3: z->moves -= rng(40, 80); break;
+                }
+            }
+            break;
+
+        case fd_ice_floor:
+            if (!z->has_flag(MF_ICE)) {
+                switch (cur->getFieldDensity()) {
+                    // TODO : add something more interesting. More chance to miss? To stumble?
                     case 1: z->moves -= rng(10, 20); break;
                     case 2: z->moves -= rng(20, 40); break;
                     case 3: z->moves -= rng(40, 80); break;

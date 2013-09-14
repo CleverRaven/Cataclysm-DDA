@@ -4792,7 +4792,7 @@ void game::monmove()
     }
     z.dead = true;
    } else
-    z[i].receive_moves(g, m);
+    z.receive_moves(g, m);
   }
  }
 
