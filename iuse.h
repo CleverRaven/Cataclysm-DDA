@@ -93,6 +93,8 @@ class iuse
   void broadfire_on	    (game *g, player *p, item *it, bool t);
   void firekatana_off	(game *g, player *p, item *it, bool t);
   void firekatana_on	(game *g, player *p, item *it, bool t);
+  void zweifire_off	(game *g, player *p, item *it, bool t);
+  void zweifire_on	(game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);
   void jacqueshammer	(game *g, player *p, item *it, bool t);
   void pickaxe          (game *g, player *p, item *it, bool t);

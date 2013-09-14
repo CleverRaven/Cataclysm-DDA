@@ -2589,6 +2589,76 @@ void iuse::firekatana_on(game *g, player *p, item *it, bool t)
     }
 }
 
+void iuse::zweifire_off(game *g, player *p, item *it, bool t)
+{
+    int choice = menu(true,
+                      _("Was werden Sie tun?"), _("Schalten Sie"), _("Verwenden Sie als Messer"), _("nichts tun"), NULL);
+    switch (choice)
+    {
+        if (choice == 2)
+            break;
+    case 1:
+    {
+        p->moves -= 10;
+        if (it->charges > 0)
+        {
+            g->sound(p->posx, p->posy, 10,
+                     _("Ihre Flammenschwert heizt!"));
+            it->make(g->itypes["zweifire_on"]);
+            it->active = true;
+        }
+        else
+            g->add_msg_if_player(p,_("Ihre Flammenschwert hat kein Kraftstoff."));
+    }
+    break;
+    case 2:
+    {
+        iuse::knife(g, p, it, t);
+    }
+    }
+}
+
+void iuse::zweifire_on(game *g, player *p, item *it, bool t)
+{
+    if (t)   	// Effects while simply on
+    {
+        if (one_in(35))
+            g->add_msg_if_player(p,_("Ihre Klinge leuchtet!"));
+    }
+    else if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("Ihre Flammenschwert läuft Benzin aus!"));
+        it->make(g->itypes["zweifire_off"]);
+        it->active = false;
+    }
+    else
+    {
+        int choice = menu(true,
+                          _("Was werden Sie tun?"), _("Ausschalten"), _("ein Feuer"), _("nichts tun"), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            g->add_msg_if_player(p,_("Sie schalten Sie Ihre flammenschwert."));
+            it->make(g->itypes["zweifire_off"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 5;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
+}
+
 void iuse::jackhammer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
@@ -3938,7 +4008,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     const int cauterize = 2;
     const int cancel = 4;
     char ch;
- 
+
     uimenu kmenu;
     kmenu.selected = uistate.iuse_knife_selected;
     kmenu.text = _("Using knife:");
@@ -3948,7 +4018,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         if ( !p->use_charges_if_avail("fire", 4) ) {
             kmenu.addentry( cauterize, false, -1, _("You need a lighter with 4 charges before you can cauterize yourself.") );
         } else {
-            kmenu.addentry( cauterize, true, -1, 
+            kmenu.addentry( cauterize, true, -1,
               (p->has_disease("bite") || p->has_disease("bleed")) ? _("Cauterize") :  _("Cauterize...for FUN!")
             );
         }
@@ -3977,7 +4047,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         g->add_msg(_("You do not have that item!"));
         return;
     } else if ( p->has_weapon_or_armor(cut->invlet) && menu(true, _("You're wearing that, are you sure?"), _("Yes"), _("No"), NULL ) != 1 ) {
-        return;       
+        return;
     }
 
     if (choice == carve_writing) {
