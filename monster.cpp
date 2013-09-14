@@ -303,7 +303,8 @@ bool monster::made_of(phase_id p)
 void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
 {
     std::stringstream dump;
-    int idtmp, plansize;
+    std::string idtmp;
+    int plansize;
     dump << data;
     if ( dump.peek() == '{' ) {
         picojson::value pdata;
@@ -320,7 +321,7 @@ void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
     dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
          hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
          no_extra_death_drops >> dead >> anger >> morale;
-    type = (*mtypes)[idtmp];
+    type = monster_controller->mon_templates[idtmp];
     point ptmp;
     plans.clear();
     for (int i = 0; i < plansize; i++) {
@@ -334,9 +335,9 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
 
     const picojson::object &data = parsed.get<picojson::object>();
 
-    int idtmp;
-    picoint(data, "typeid", idtmp);
-    type = (*mtypes)[idtmp];
+    std::string idtmp;
+    picostring(data, "typeid", idtmp);
+    type = monster_controller->mon_templates[idtmp];
 
     picoint(data, "posx", _posx);
     picoint(data, "posy", _posy);

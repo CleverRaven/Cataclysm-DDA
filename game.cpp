@@ -4599,6 +4599,13 @@ int game::mon_info(WINDOW *w)
             if (listed_mons.find(monbuff) == listed_mons.end())
             {
                 listed_mons[monbuff] = true;
+                DebugLog() << "Looking for \""<<monbuff<<"\"--";
+                if (monster_controller->mon_templates.find(monbuff) == monster_controller->mon_templates.end())
+                {
+                    DebugLog() << "Not Found!\n";
+                    continue;
+                }
+                DebugLog() << "Found!\n";
                 mtype *montype = monster_controller->mon_templates[monbuff];
 
                 std::string name = montype->name;

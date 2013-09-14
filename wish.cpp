@@ -266,17 +266,32 @@ void game::wishmonster(int x, int y)
     wish_monster_callback *cb = new wish_monster_callback();
     wmenu.callback = cb;
 
+    int i = 0;
+    for (std::map<std::string, mtype*>::iterator monit = monster_controller->mon_templates.begin(); monit != monster_controller->mon_templates.end(); ++monit, ++i)
+    {
+        wmenu.addentry(i, true, 0, "%s", monit->second->name.c_str());
+        wmenu.entries[i].extratxt.txt = string_format("%c", monit->second->sym);
+        wmenu.entries[i].extratxt.color = monit->second->color;
+        wmenu.entries[i].extratxt.left = 1;
+    }
+/*
     for (int i = 0; i < mtypes.size(); i++) {
         wmenu.addentry( i, true, 0, "%s", mtypes[i]->name.c_str() );
         wmenu.entries[i].extratxt.txt = string_format("%c", mtypes[i]->sym);
         wmenu.entries[i].extratxt.color = mtypes[i]->color;
         wmenu.entries[i].extratxt.left = 1;
     }
-
+*/
     do {
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
-            monster mon = monster(g->mtypes[wmenu.ret]);
+            std::map<std::string, mtype*>::iterator monit = monster_controller->mon_templates.begin();// + wmenu.ret;
+            for (int i = 0; i < wmenu.ret; ++i)
+            {
+                ++monit;
+            }
+            //monster mon = monster(g->mtypes[wmenu.ret]);
+            monster mon = monster(monit->second);
             if (cb->friendly) {
                 mon.friendly = -1;
             }
