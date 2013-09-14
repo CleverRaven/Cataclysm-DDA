@@ -206,6 +206,7 @@ class monster {
  bool dead;
  bool made_footstep;
  std::string unique_name; // If we're unique
+ bool hallucination;
 
  bool setpos(const int x, const int y);
  bool setpos(const point &p);

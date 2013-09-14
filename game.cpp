@@ -9321,7 +9321,7 @@ void game::plmove(int dx, int dy)
      monster &z = zombie(mondex);
      if (z.friendly == 0) {
          int udam = u.hit_mon(this, &z);
-         if (z.hurt(udam)) {
+         if (z.hurt(udam) || z.is_hallucination()) {
              kill_mon(mondex, true);
          }
          draw_hit_mon(x,y,z,z.dead);
