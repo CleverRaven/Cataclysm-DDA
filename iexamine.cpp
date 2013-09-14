@@ -645,7 +645,7 @@ void iexamine::dirtmound(game *g, player *p, map *m, int examx, int examy) {
         return;
     }
     if (m->i_at(examx, examy).size() != 0){
-        g->add_msg(_("This should never happen... I think."));
+        g->add_msg(_("Something's lying there..."));
         return;
     }
 
