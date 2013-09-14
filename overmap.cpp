@@ -1849,6 +1849,9 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwputch(w, j, i, c_black, ' ');
   }
 
+  real_coords rc;
+  rc.fromomap( g->cur_om->pos().x, g->cur_om->pos().y, cursx, cursy );
+
   if (csee) {
    mvwputch(w, 1, om_map_width + 1, oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
    std::vector<std::string> name = foldstring(oterlist[ccur_ter].name,25);
@@ -1871,7 +1874,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   mvwprintz(w, 19, om_map_width + 1, c_magenta, _("D - Delete a note          "));
   mvwprintz(w, 20, om_map_width + 1, c_magenta, _("L - List notes             "));
   mvwprintz(w, 21, om_map_width + 1, c_magenta, _("Esc or q - Return to game  "));
-  mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, string_format(_("LEVEL %i"),z).c_str());
+  mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, "%s, %d'%d, %d'%d", string_format(_("LEVEL %i"),z).c_str(),
+  rc.abs_om.x, rc.abs_om_pos.x, rc.abs_om.y, rc.abs_om_pos.y );
 // Done with all drawing!
   wrefresh(w);
 }
