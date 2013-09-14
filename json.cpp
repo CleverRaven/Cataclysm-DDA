@@ -218,6 +218,11 @@ bool Jsarr::has_more()
     return (index >= 0 && index < positions.size());
 }
 
+int Jsarr::size()
+{
+    return positions.size();
+}
+
 bool Jsarr::next_bool()
 {
     jsin->seek(positions[index++]);
@@ -251,6 +256,42 @@ Jsarr Jsarr::next_array()
 Jsobj Jsarr::next_object()
 {
     jsin->seek(positions[index++]);
+    return jsin->get_object();
+}
+
+bool Jsarr::get_bool(int i)
+{
+    jsin->seek(positions[i]);
+    return jsin->get_bool();
+}
+
+int Jsarr::get_int(int i)
+{
+    jsin->seek(positions[i]);
+    return jsin->get_int();
+}
+
+double Jsarr::get_float(int i)
+{
+    jsin->seek(positions[i]);
+    return jsin->get_float();
+}
+
+std::string Jsarr::get_string(int i)
+{
+    jsin->seek(positions[i]);
+    return jsin->get_string();
+}
+
+Jsarr Jsarr::get_array(int i)
+{
+    jsin->seek(positions[i]);
+    return jsin->get_array();
+}
+
+Jsobj Jsarr::get_object(int i)
+{
+    jsin->seek(positions[i]);
     return jsin->get_object();
 }
 

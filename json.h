@@ -51,8 +51,10 @@ public:
     Jsarr(Jsin *jsin);
     Jsarr() {};
 
-    // iterative access
     bool has_more(); // true iff more elements may be retrieved with next_*
+    int size();
+
+    // iterative access
     bool next_bool();
     int next_int();
     double next_float();
@@ -61,13 +63,12 @@ public:
     Jsobj next_object();
 
     // static access
-    //int size();
-    //bool get_bool(int index);
-    //int get_int(int index);
-    //double get_float(int index);
-    //std::string get_string(int index);
-    //Jsarr get_array(int index);
-    //Jsobj get_object(int index);
+    bool get_bool(int index);
+    int get_int(int index);
+    double get_float(int index);
+    std::string get_string(int index);
+    Jsarr get_array(int index);
+    Jsobj get_object(int index);
 };
 
 class Jsin {
