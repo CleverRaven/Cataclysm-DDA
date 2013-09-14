@@ -2024,7 +2024,7 @@
         "symbol" : "[",
         "description" : "A common belt with pockets widely used by handymen, and electricians.",
         "price" : 200,
-        "material" : ["leather", "cotton"],
+        "material" : ["leather", "null"],
         "volume" : 4,
         "cutting" : 0,
         "warmth" : 5,
