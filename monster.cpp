@@ -382,7 +382,7 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
 picojson::value monster::json_save()
 {
     std::map<std::string, picojson::value> data;
-    data["typeid"] = pv(int(type->id));
+    data["typeid"] = pv((type->id));
     data["posx"] = pv(_posx);
     data["posy"] = pv(_posy);
     data["wandx"] = pv(wandx);
@@ -416,13 +416,13 @@ picojson::value monster::json_save()
 
 /*
  * save serialized monster data to a line.
- * This is useful after player.sav is fully jsonized, to save full static spawns in maps.txt 
+ * This is useful after player.sav is fully jsonized, to save full static spawns in maps.txt
  */
 std::string monster::save_info()
 {
     // deprecated hairball; useful in testing (?)
         std::stringstream pack;
-        pack << int(type->id) << " " << _posx << " " << _posy << " " << wandx << " " <<
+        pack << (type->id) << " " << _posx << " " << _posy << " " << wandx << " " <<
             wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
             " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
             faction_id << " " << mission_id << " " << no_extra_death_drops << " " <<
@@ -776,7 +776,7 @@ void monster::die(game *g)
                      g->cur_om->monsters_at(g->levx+x, g->levy+y, z);
                  for (int i = 0; i < groups.size(); i++) {
                      if (MonsterGroupManager::IsMonsterInGroup
-                         (groups[i]->type, mon_id(type->id)))
+                         (groups[i]->type, (type->id)))
                          groups[i]->dying = true;
                  }
           }
@@ -926,34 +926,26 @@ void monster::process_effects(game *g)
 
 bool monster::make_fungus(game *g)
 {
- switch (mon_id(type->id)) {
- case mon_ant:
- case mon_ant_soldier:
- case mon_ant_queen:
- case mon_fly:
- case mon_bee:
- case mon_dermatik:
-  poly(g->mtypes[mon_ant_fungus]);
-  return true;
- case mon_zombie:
- case mon_zombie_shrieker:
- case mon_zombie_electric:
- case mon_zombie_spitter:
- case mon_zombie_fast:
- case mon_zombie_brute:
- case mon_zombie_hulk:
-  poly(g->mtypes[mon_zombie_fungus]);
-  return true;
- case mon_boomer:
-  poly(g->mtypes[mon_boomer_fungus]);
-  return true;
- case mon_triffid:
- case mon_triffid_young:
- case mon_triffid_queen:
-  poly(g->mtypes[mon_fungaloid]);
-  return true;
- default:
-  return true;
+ if (type->id == "mon_ant" || type->id == "mon_ant_soldier" || type->id == "mon_ant_queen" ||
+     type->id == "mon_fly" || type->id == "mon_bee" || type->id == "mon_dermatik")
+ {
+     poly(monster_controller->mon_templates["mon_ant_fungus"]);
+     return true;
+ }
+ else if (type->id == "mon_zombie" || type->id == "mon_shrieker" || type->id == "mon_zombie_electric" || type->id == "mon_zombie_spitter" ||
+          type->id == "mon_zombie_fast" || type->id == "mon_zombie_brute" || type->id == "mon_zombie_hulk")
+ {
+     poly(monster_controller->mon_templates["mon_zombie_fungus"]);
+     return true;
+ }
+ else if (type->id == "mon_triffid" || type->id == "mon_triffid_young" || type->id == "mon_triffid_queen")
+ {
+     poly(monster_controller->mon_templates["mon_fungaloid"]);
+     return true;
+ }
+ else
+ {
+     return true;
  }
  return false;
 }

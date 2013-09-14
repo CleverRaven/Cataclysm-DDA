@@ -143,7 +143,7 @@ private:
 
  void spawn_wave(game *g);
  void caravan(game *g);
- std::vector<mon_id> pick_monster_wave(game *g);
+ std::vector<std::string> pick_monster_wave(game *g);
  void spawn_wave_monster(game *g, mtype *type);
 
  std::string special_wave_message(std::string name);

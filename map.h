@@ -373,9 +373,13 @@ class map
  void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0, const int quantity = 0, const int charges = 0, const int damlevel = 0);
  void spawn_item(const int x, const int y, item new_item, const int birthday,
                  const int quantity, const int charges, const int damlevel);
- void add_spawn(mon_id type, const int count, const int x, const int y, bool friendly = false,
+ void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
+ /*void add_spawn(mon_id type, const int count, const int x, const int y, bool friendly = false,
+                const int faction_id = -1, const int mission_id = -1,
+                std::string name = "NONE");
+*/
  void add_spawn(monster *mon);
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, std::string type, const int x, const int y, const int dir,

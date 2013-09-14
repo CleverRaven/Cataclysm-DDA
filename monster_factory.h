@@ -34,6 +34,9 @@ class monster_factory
 
         /** Default destructor */
         ~monster_factory();
+
+        // storage for monster templates
+        std::map<Mon_Tag, mtype*> mon_templates;
     protected:
     private:
         // init functions
@@ -65,8 +68,6 @@ class monster_factory
 
         // missing monster type
         mtype *m_missing_type;
-        // storage for monster templates
-        std::map<Mon_Tag, mtype*> mon_templates;
         // storage for monster species
         std::map<Mon_Tag, species_type*> mon_species;
         // categories list, vector for now?

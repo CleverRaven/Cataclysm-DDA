@@ -199,7 +199,9 @@ class game
   int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
                              int npc_id = -1);
   npc* find_npc(int id);
-  int kill_count(mon_id mon);       // Return the number of kills of a given mon_id
+  int kill_count(std::string mon); // Return the number of kills of a given monster name (to replace kill_count(mon_id)
+  std::map<std::string, int> all_kills();
+  //int kill_count(mon_id mon);       // Return the number of kills of a given mon_id
   mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
   mission_type* find_mission_type(int id); // Same, but returns its type
   bool mission_complete(int id, int npc_id); // True if we made it
@@ -278,7 +280,8 @@ class game
   recipe_map recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions
 
-  std::vector <items_location_and_chance> monitems[num_monsters];
+  std::map<std::string, std::vector<items_location_and_chance> > monitems;
+  //std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
   std::map<std::string, mutation_branch> mutation_data; // Mutation data
   std::map<char, action_id> keymap;
@@ -504,7 +507,8 @@ void load_artifacts(); // Load artifact data
   void update_stair_monsters();
   void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
-  int valid_group(mon_id type, int x, int y, int z);// Picks a group from cur_om
+  int valid_group(std::string monid, int ox, int oy, int oz);
+  //int valid_group(mon_id type, int x, int y, int z);// Picks a group from cur_om
   void set_adjacent_overmaps(bool from_scratch = false);
   void rebuild_mon_at_cache();
 
@@ -567,6 +571,7 @@ void load_artifacts(); // Load artifact data
   //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
   int nulscent;				// Returned for OOB scent checks
   std::vector<event> events;	        // Game events to be processed
+  std::map<std::string, int> monkills; // Player's monster kill count, not restricted by mon_id
   int kills[num_monsters];	        // Player's kill count
   std::string last_action;		// The keypresses of last turn
   int moves_since_last_save;

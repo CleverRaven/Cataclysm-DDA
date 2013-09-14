@@ -7,7 +7,7 @@
 
  // Default constructor
  mtype::mtype () {
-  id = 0;
+  id = "mon_null";
   name = _("human");
   description = "";
   species = species_none;
@@ -38,7 +38,7 @@
  // Non-default (prepares for loading from json!)
  mtype::mtype (std::string pid)
  {
-     sid = pid;
+     id = pid;
      name = "";
 
  }
@@ -83,7 +83,7 @@
   anger = default_anger(species);
   fear = default_fears(species);
  }
-
+// this can stick around, since m_flag is still in use
  bool mtype::has_flag(m_flag flag) const
  {
   return bitflags[flag];
@@ -108,7 +108,7 @@
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 
 void game::init_mtypes ()
-{
+{// pretty much everything after this line should probably be removed :P
     monster_controller = new monster_factory();
  int id = 0;
 // Null monster named "None".

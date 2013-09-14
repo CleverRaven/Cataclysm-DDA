@@ -1,5 +1,7 @@
 #include "monster_factory.h"
 
+#include "debug.h"
+
 monster_factory *monster_controller;
 
 monster_factory::monster_factory()
@@ -12,6 +14,15 @@ monster_factory::monster_factory()
     m_missing_type->description = _("There is only the space where a monster type should be, but isn't. No monster template of this type exists.");
 
     mon_templates["mon_null"] = m_missing_type;
+
+    DebugLog() << "Loading monster templates!\n";
+    try {
+        load_monster_templates(); // this one HAS to be called after game is created
+    }
+    catch (std::string &error_message) {
+        throw;
+    }
+    DebugLog() << "Monster templates loaded!\n";
 }
 
 monster_factory::~monster_factory()
@@ -21,6 +32,7 @@ monster_factory::~monster_factory()
 
 void monster_factory::init()
 {
+    DebugLog() << "Initializing monster required data!\n";
     // init mdeath functions
     init_death_functions();
 
@@ -35,6 +47,7 @@ void monster_factory::init()
 
     // monster triggers
     init_triggers();
+    DebugLog() << "Finished Initializing!\n";
 }
 
 void monster_factory::init_death_functions()
@@ -205,6 +218,12 @@ void monster_factory::load_monster_templates() throw(std::string)
         load_monster_templates_from("data/raw/monsters.json");
 
         finalize_monsters();
+/*
+        for (std::map<std::string, mtype*>::iterator it = mon_templates.begin(); it != mon_templates.end(); ++it)
+        {
+            DebugLog() << "\tMonID:\t"<<it->second->id << "\n";
+        }
+*/
     }
     catch (std::string &error_message)
     {
@@ -386,7 +405,7 @@ void monster_factory::load_monster_templates_from(const std::string filename) th
             newmon->armor_cut = entry.get("cut_resist").as_int();
             newmon->item_chance = entry.get("item_drop_chance").as_int();
             newmon->hp = entry.get("hp").as_int();
-            newmon->sp_freq = entry.get("special_frequency").as_int();
+            newmon->sp_freq = entry.get("special_attack_frequency").as_int();
 
             if (entry.has("death_function") && entry.get("death_function").is_string())
             {
@@ -421,7 +440,7 @@ void monster_factory::load_monster_templates_from(const std::string filename) th
             }
 
             // we have completed the definition of this mtype*, add it to the list!
-            mon_templates[newmon->sid] = newmon;
+            mon_templates[newmon->id] = newmon;
         }
     }
 }

@@ -133,7 +133,7 @@ std::vector<monster_trigger> default_fears(monster_species spec);
 enum m_flag {
 MF_NULL = 0,	// Helps with setvector
 MF_REVIVES,     // Flag to allow revivication, will break the hell out of saves though!
-MF_HALLUCINATION,
+MF_HALLUCINATION, // lets the monster be displayed as a hallucination!
 MF_SEES,	// It can see you (and will run/follow)
 MF_VIS50, //Vision -10
 MF_VIS40, //Vision -20
@@ -208,13 +208,13 @@ struct species_type
 
 struct mtype {
 // altered members
-    std::string sid;
+    std::string id;
     std::set<species_type*> s_species;
     std::map<std::string, m_flag> s_flags;
     std::map<std::string, monster_trigger> s_anger, s_placate, s_fear;
     std::set<std::string> s_categories;
 // /altered members
- int id;
+ //int id; -- not used anymore, so commenting out to see how much stuff breaks :D
  std::string name;
  std::string description;
  monster_species species;

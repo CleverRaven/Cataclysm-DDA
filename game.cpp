@@ -1291,6 +1291,22 @@ npc* game::find_npc(int id)
     return NULL;
 }
 
+int game::kill_count(std::string mon)
+{
+    for (std::map<std::string, int>::iterator killcount = monkills.begin(); killcount != monkills.end(); ++killcount)
+    {
+        if (mon == killcount->first)
+        {
+            return killcount->second;
+        }
+    }
+    return 0;
+}
+std::map<std::string, int> game::all_kills()
+{
+    return monkills;
+}
+/*
 int game::kill_count(mon_id mon){
  std::vector<mtype *> types;
  for (int i = 0; i < num_monsters; i++) {
@@ -1299,7 +1315,7 @@ int game::kill_count(mon_id mon){
  }
  return 0;
 }
-
+*/
 mission* game::find_mission(int id)
 {
  for (int i = 0; i < active_missions.size(); i++) {
@@ -1385,11 +1401,11 @@ bool game::mission_complete(int id, int npc_id)
    return (miss->step >= 1);
 
   case MGOAL_KILL_MONSTER_TYPE:
-   debugmsg("%d kill count", kill_count(miss->monster_type));
-   debugmsg("%d goal", miss->monster_kill_goal);
-   if (kill_count(miss->monster_type) >= miss->monster_kill_goal){
-    return true;}
-   return false;
+    debugmsg("%d kill count", kill_count(miss->monster_type));
+    debugmsg("%d goal", miss->monster_kill_goal);
+    if (kill_count(miss->monster_type) >= miss->monster_kill_goal){
+        return true;}
+    return false;
 
   default:
    return false;
@@ -4373,6 +4389,17 @@ bool vector_has(std::vector<int> vec, int test)
  }
  return false;
 }
+bool vector_has(std::vector<std::string> vec, std::string test)
+{
+    for (int i = 0; i < vec.size(); ++i)
+    {
+        if (vec[i] == test)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 // Print monster info to the given window, and return the lowest row (0-indexed)
 // to which we printed. This is used to share a window with the message log and
@@ -4383,6 +4410,7 @@ int game::mon_info(WINDOW *w)
     const int maxheight = 12;
     const int startrow = (OPTIONS["SIDEBAR_STYLE"] == "Narrow") ? 1 : 0;
 
+    std::string monbuff;
     int buff;
     int newseen = 0;
     const int iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
@@ -4392,6 +4420,7 @@ int game::mon_info(WINDOW *w)
     // 6 8 2	0-7 are provide by direction_from()
     // 5 4 3	8 is used for local monsters (for when we explain them below)
     std::vector<int> unique_types[9];
+    std::vector<std::string> unique_mons[9];
     // dangerous_types tracks whether we should print in red to warn the player
     bool dangerous[8];
     for (int i = 0; i < 8; i++)
@@ -4424,8 +4453,8 @@ int game::mon_info(WINDOW *w)
                 }
             }
 
-            if (!vector_has(unique_types[dir_to_mon], z.type->id))
-                unique_types[index].push_back(z.type->id);
+            if (!vector_has(unique_mons[dir_to_mon], z.type->id))
+                unique_mons[index].push_back(z.type->id);
         }
     }
 
@@ -4485,7 +4514,7 @@ int game::mon_info(WINDOW *w)
     xcoords[1] = xcoords[3] = xcoords[2] = (width / 3) * 2;
     xcoords[5] = xcoords[6] = xcoords[7] = 0;
     for (int i = 0; i < 8; i++) {
-        nc_color c = unique_types[i].empty() ? c_dkgray
+        nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dkgray
                    : (dangerous[i] ? c_ltred : c_ltgray);
         mvwprintz(w, ycoords[i] + startrow, xcoords[i], c, dir_labels[i]);
     }
@@ -4498,6 +4527,30 @@ int game::mon_info(WINDOW *w)
         // The list of symbols needs a space on each end.
         symroom = (width / 3) - widths[i] - 2;
         const int typeshere = unique_types[i].size();
+        const int monshere = unique_mons[i].size();
+        //show monsters first
+        for (int j = 0; j < monshere && j < symroom; ++j)
+        {
+            monbuff = unique_mons[i][j];
+            nc_color c;
+            char sym;
+
+            if (symroom < monshere && j == symroom - 1)
+            {
+                c = c_white;
+                sym = '+';
+            }
+            else
+            {
+                c = monster_controller->mon_templates[monbuff]->color;
+                sym = monster_controller->mon_templates[monbuff]->sym;
+            }
+            mvwputch(w, pr.y, pr.x, c, sym);
+
+            ++pr.x;
+        }
+        symroom -= monshere;
+        //then npcs
         for (int j = 0; j < typeshere && j < symroom; j++) {
             buff = unique_types[i][j];
             nc_color c;
@@ -4515,9 +4568,6 @@ int game::mon_info(WINDOW *w)
                     default:            c = c_pink;    break;
                 }
                 sym = '@';
-            } else { // It's a monster!
-                c   = mtypes[buff]->color;
-                sym = mtypes[buff]->sym;
             }
             mvwputch(w, pr.y, pr.x, c, sym);
 
@@ -4526,6 +4576,8 @@ int game::mon_info(WINDOW *w)
     } // for (int i = 0; i < 8; i++)
 
     // Now we print their full names!
+
+    std::map<std::string, bool> listed_mons;
 
     bool listed_it[num_monsters]; // Don't list any twice!
     for (int i = 0; i < num_monsters; i++)
@@ -4541,8 +4593,40 @@ int game::mon_info(WINDOW *w)
     for (int j = 8; j >= 0 && pr.y < maxheight; j--) {
         // Separate names by some number of spaces (more for local monsters).
         int namesep = (j == 8 ? 2 : 1);
-        for (int i = 0; i < unique_types[j].size() && pr.y < maxheight; i++) {
-            buff = unique_types[j][i];
+        for (int i = 0; i < unique_mons[j].size() && pr.y < maxheight; i++) {
+            monbuff = unique_mons[j][i];
+            // only print if not found in the listed_mons map. Map because syntax for finding something in a map is waaaay easier than a vector
+            if (listed_mons.find(monbuff) == listed_mons.end())
+            {
+                listed_mons[monbuff] = true;
+                mtype *montype = monster_controller->mon_templates[monbuff];
+
+                std::string name = montype->name;
+
+                // Move to the next row if necessary. (The +2 is for the "Z ").
+                if (pr.x + 2 + name.length() >= width) {
+                    pr.y++;
+                    pr.x = 0;
+                }
+                if (pr.y < maxheight) { // Don't print if we've overflowed
+                    lastrowprinted = pr.y;
+                    mvwputch(w, pr.y, pr.x, montype->color, montype->sym);
+                    pr.x += 2; // symbol and space
+                    nc_color danger = c_dkgray;
+                    if (montype->difficulty >= 30)
+                        danger = c_red;
+                    else if (montype->difficulty >= 16)
+                        danger = c_ltred;
+                    else if (montype->difficulty >= 8)
+                        danger = c_white;
+                    else if (montype->agro > 0)
+                        danger = c_ltgray;
+                    mvwprintz(w, pr.y, pr.x, danger, name.c_str());
+                    pr.x += name.length() + namesep;
+                }
+            }
+            /*
+            //buff = unique_types[j][i];
             // buff < 0 means an NPC!  Don't list those.
             if (buff >= 0 && !listed_it[buff]) {
                 listed_it[buff] = true;
@@ -4571,6 +4655,7 @@ int game::mon_info(WINDOW *w)
                     pr.x += name.length() + namesep;
                 }
             }
+            */
         }
     }
 
@@ -4689,14 +4774,14 @@ void game::monmove()
        z.posx() > (SEEX * MAPSIZE * 7) / 6 ||
        z.posy() > (SEEY * MAPSIZE * 7) / 6   ) {
 // Re-absorb into local group, if applicable
-    int group = valid_group((mon_id)(z.type->id), levx, levy, levz);
+    int group = valid_group(z.type->id, levx, levy, levz);
     if (group != -1) {
      cur_om->zg[group].population++;
      if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
          !cur_om->zg[group].diffuse )
       cur_om->zg[group].radius++;
-    } else if (MonsterGroupManager::Monster2Group((mon_id)(z.type->id)) != "GROUP_NULL") {
-     cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((mon_id)(z.type->id)),
+    } else if (MonsterGroupManager::Monster2Group(z.type->id) != "GROUP_NULL") {
+     cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group(z.type->id),
                                   levx, levy, levz, 1, 1));
     }
     z.dead = true;
@@ -5449,7 +5534,7 @@ void game::resonance_cascade(int x, int y)
 {
  int maxglow = 100 - 5 * trig_dist(x, y, u.posx, u.posy);
  int minglow =  60 - 5 * trig_dist(x, y, u.posx, u.posy);
- mon_id spawn;
+ std::string spawn;
  monster invader;
  if (minglow < 0)
   minglow = 0;
@@ -5499,7 +5584,7 @@ void game::resonance_cascade(int x, int y)
    case 14:
    case 15:
     spawn = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &mtypes);
-    invader = monster(mtypes[spawn], i, j);
+    invader = monster(monster_controller->mon_templates[spawn], i, j);
     add_zombie(invader);
     break;
    case 16:
@@ -5742,8 +5827,8 @@ void game::kill_mon(int index, bool u_did_it)
     mdeath tmpdeath;
     tmpdeath.guilt(this, &z);
    }
-   if (z.type->species != species_hallu)
-    kills[z.type->id]++;	// Increment our kill counter
+   if (!z.has_flag(MF_HALLUCINATION))
+    monkills[z.type->id]++;	// Increment our kill counter
   }
   for (int i = 0; i < z.inv.size(); i++)
    m.add_item_or_charges(z.posx(), z.posy(), z.inv[i]);
@@ -5762,7 +5847,7 @@ void game::explode_mon(int index)
  monster &z = _z[index];
  if (!z.dead) {
   z.dead = true;
-  kills[z.type->id]++;	// Increment our kill counter
+  monkills[z.type->id]++;	// Increment our kill counter
 // Send body parts and blood all over!
   mtype* corpse = z.type;
   if (corpse->mat == "flesh" || corpse->mat == "veggy") { // No chunks otherwise
@@ -9600,7 +9685,7 @@ void game::plmove(int dx, int dy)
    if (z.has_flag(MF_IMMOBILE)) {
 // ...except that turrets can be picked up.
 // TODO: Make there a flag, instead of hard-coded to mon_turret
-    if (z.type->id == mon_turret) {
+    if (z.type->id == "mon_turret") {
      if (query_yn(_("Deactivate the turret?"))) {
       remove_zombie(mondex);
       u.moves -= 100;
@@ -10423,7 +10508,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
     tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
   } else {
    	// No spawn site, so absorb them back into a group.
-   int group = valid_group((mon_id)(z.type->id), levx + shiftx, levy + shifty, levz);
+   int group = valid_group(z.type->id, levx + shiftx, levy + shifty, levz);
    if (group != -1) {
     cur_om->zg[group].population++;
     if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
@@ -10503,9 +10588,9 @@ void game::spawn_mon(int shiftx, int shifty)
     nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
 
    for (int j = 0; j < group; j++) {	// For each monster in the group...
-     mon_id type = MonsterGroupManager::GetMonsterFromGroup( cur_om->zg[i].type, &mtypes,
+     std::string type = MonsterGroupManager::GetMonsterFromGroup( cur_om->zg[i].type, &mtypes,
                                                              &group, (int)turn );
-     zom = monster(mtypes[type]);
+     zom = monster(monster_controller->mon_templates[type]);
      iter = 0;
      do {
       monx = rng(0, SEEX * MAPSIZE - 1);
@@ -10544,6 +10629,47 @@ void game::spawn_mon(int shiftx, int shifty)
  }
 }
 
+int game::valid_group(std::string type, int x, int y, int z_coord)
+{
+    std::vector<int> valid_groups, semi_valid;
+    int dist;
+
+    for (int i = 0; i < cur_om->zg.size(); i++) {
+        if (cur_om->zg[i].posz != z_coord) { continue; }
+
+        dist = trig_dist(x, y, cur_om->zg[i].posx, cur_om->zg[i].posy);
+        if (dist < cur_om->zg[i].radius)
+        {
+            if(MonsterGroupManager::IsMonsterInGroup(cur_om->zg[i].type, type))
+            {
+                valid_groups.push_back(i);
+            }
+        }
+        else if (dist < cur_om->zg[i].radius + 3)
+        {
+            if(MonsterGroupManager::IsMonsterInGroup(cur_om->zg[i].type, type))
+            {
+                semi_valid.push_back(i);
+            }
+        }
+    }
+    if (valid_groups.size() == 0)
+    {
+        if (semi_valid.size() == 0)
+            return -1;
+        else
+        {
+            // If there's a group that's ALMOST big enough, expand that group's radius
+            // by one and absorb into that group.
+            int semi = rng(0, semi_valid.size() - 1);
+            if (!cur_om->zg[semi_valid[semi]].diffuse)
+                cur_om->zg[semi_valid[semi]].radius++;
+            return semi_valid[semi];
+        }
+    }
+    return valid_groups[rng(0, valid_groups.size() - 1)];
+}
+/*
 int game::valid_group(mon_id type, int x, int y, int z_coord)
 {
  std::vector <int> valid_groups;
@@ -10576,7 +10702,7 @@ int game::valid_group(mon_id type, int x, int y, int z_coord)
  }
  return valid_groups[rng(0, valid_groups.size() - 1)];
 }
-
+*/
 void game::wait()
 {
     const bool bHasWatch = u.has_item_with_flag("WATCH");

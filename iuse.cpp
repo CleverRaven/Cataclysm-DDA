@@ -859,7 +859,7 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
  p->moves -= 15;
  int mon_dex = g->mon_at(dirx,diry);
  if (mon_dex != -1) {
-  if (g->zombie(mon_dex).type->id == mon_dog) {
+  if (g->zombie(mon_dex).type->id == "mon_dog") {
    g->add_msg_if_player(p,_("The dog seems to like you!"));
    g->zombie(mon_dex).friendly = -1;
   } else
@@ -3877,7 +3877,7 @@ void iuse::dog_whistle(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,_("You blow your dog whistle."));
  for (int i = 0; i < g->num_zombies(); i++) {
-  if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == mon_dog) {
+  if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == "mon_dog") {
    bool u_see = g->u_see(&(g->zombie(i)));
    if (g->zombie(i).has_effect(ME_DOCILE)) {
     if (u_see)

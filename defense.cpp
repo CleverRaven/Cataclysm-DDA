@@ -1196,12 +1196,12 @@ void defense_game::spawn_wave(game *g)
  int diff = initial_difficulty + current_wave * wave_difficulty;
  bool themed_wave = one_in(SPECIAL_WAVE_CHANCE); // All a single monster type
  g->u.cash += cash_per_wave + (current_wave - 1) * cash_increase;
- std::vector<mon_id> valid;
+ std::vector<std::string> valid;
  valid = pick_monster_wave(g);
  while (diff > 0) {
 // Clear out any monsters that exceed our remaining difficulty
   for (int i = 0; i < valid.size(); i++) {
-   if (g->mtypes[valid[i]]->difficulty > diff) {
+   if (monster_controller->mon_templates[valid[i]]->difficulty > diff) {
     valid.erase(valid.begin() + i);
     i--;
    }
@@ -1212,7 +1212,7 @@ void defense_game::spawn_wave(game *g)
    return;
   }
   int rn = rng(0, valid.size() - 1);
-  mtype *type = g->mtypes[valid[rn]];
+  mtype *type = monster_controller->mon_templates[valid[rn]];
   if (themed_wave) {
    int num = diff / type->difficulty;
    if (num >= SPECIAL_WAVE_MIN) {
@@ -1232,10 +1232,10 @@ void defense_game::spawn_wave(game *g)
  g->add_msg("********");
 }
 
-std::vector<mon_id> defense_game::pick_monster_wave(game *g)
+std::vector<std::string> defense_game::pick_monster_wave(game *g)
 {
  std::vector<std::string> valid;
- std::vector<mon_id> ret;
+ std::vector<std::string> ret;
 
  if (zombies || specials) {
   if (specials)
