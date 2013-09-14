@@ -260,52 +260,58 @@ private:
 
 oter_id shop(int dir)
 {
- oter_id ret = ot_s_lot;
+// TODO: adjust weights based on area, maybe using JSON
+//       (implies we have area types first)
+    oter_weight_list weightlist;
+    weightlist.add_item(ot_s_gas_north, 5);
+    weightlist.add_item(ot_s_pharm_north, 3);
+    weightlist.add_item(ot_s_grocery_north, 15);
+    weightlist.add_item(ot_s_hardware_north, 5);
+    weightlist.add_item(ot_s_sports_north, 5);
+    weightlist.add_item(ot_s_liquor_north, 5);
+    weightlist.add_item(ot_s_gun_north, 5);
+    weightlist.add_item(ot_s_clothes_north, 5);
+    weightlist.add_item(ot_s_library_north, 4);
+    weightlist.add_item(ot_s_restaurant_north, 5);
+    weightlist.add_item(ot_sub_station_north, 5);
+    weightlist.add_item(ot_bank_north, 3);
+    weightlist.add_item(ot_bar_north, 5);
+    weightlist.add_item(ot_s_electronics_north, 5);
+    weightlist.add_item(ot_pawn_north, 3);
+    weightlist.add_item(ot_mil_surplus_north, 2);
+    weightlist.add_item(ot_s_garage_north, 5);
+    weightlist.add_item(ot_station_radio_north, 5);
+    weightlist.add_item(ot_office_doctor_north, 2);
+    weightlist.add_item(ot_s_restaurant_fast_north, 3);
+    weightlist.add_item(ot_s_restaurant_coffee_north, 3);
+    weightlist.add_item(ot_church_north, 2);
+    weightlist.add_item(ot_office_cubical_north, 2);
+    weightlist.add_item(ot_furniture_north, 2);
+    weightlist.add_item(ot_abstorefront_north, 2);
+    weightlist.add_item(ot_police_north, 1);
+    weightlist.add_item(ot_s_lot, 4);
 
- // TODO: adjust weights based on area, maybe using JSON
- //       (implies we have area types first)
- oter_weight_list weightlist;
- weightlist.add_item(ot_s_gas_north, 5);
- weightlist.add_item(ot_s_pharm_north, 3);
- weightlist.add_item(ot_s_grocery_north, 15);
- weightlist.add_item(ot_s_hardware_north, 5);
- weightlist.add_item(ot_s_sports_north, 5);
- weightlist.add_item(ot_s_liquor_north, 5);
- weightlist.add_item(ot_s_gun_north, 5);
- weightlist.add_item(ot_s_clothes_north, 5);
- weightlist.add_item(ot_s_library_north, 4);
- weightlist.add_item(ot_s_restaurant_north, 5);
- weightlist.add_item(ot_sub_station_north, 5);
- weightlist.add_item(ot_bank_north, 3);
- weightlist.add_item(ot_bar_north, 5);
- weightlist.add_item(ot_s_electronics_north, 5);
- weightlist.add_item(ot_pawn_north, 3);
- weightlist.add_item(ot_mil_surplus_north, 2);
- weightlist.add_item(ot_s_garage_north, 5);
- weightlist.add_item(ot_station_radio_north, 5);
- weightlist.add_item(ot_office_doctor_north, 2);
- weightlist.add_item(ot_s_restaurant_fast_north, 3);
- weightlist.add_item(ot_s_restaurant_coffee_north, 3);
- weightlist.add_item(ot_church_north, 2);
- weightlist.add_item(ot_office_cubical_north, 2);
- weightlist.add_item(ot_furniture_north, 2);
- weightlist.add_item(ot_abstorefront_north, 2);
- weightlist.add_item(ot_police_north, 1);
- weightlist.add_item(ot_s_lot, 4);
-
- ret = weightlist.pick();
-
- if (ret == ot_s_lot)
-  return ret;
- if (dir < 0) dir += 4;
- switch (dir) {
-  case 0:                         break;
-  case 1: ret = oter_id(ret + 1); break;
-  case 2: ret = oter_id(ret + 2); break;
-  case 3: ret = oter_id(ret + 3); break;
-  default: debugmsg("Bad rotation of shop."); return ot_null;
- }
- return ret;
+    oter_id ret = weightlist.pick();
+    if (ret != ot_s_lot) { //then we need to rotate the shop
+        if (dir < 0) dir += 4;
+        switch (dir) {
+        case 0:
+            break;
+        case 1:
+            ret = oter_id(ret + 1);
+            break;
+        case 2:
+            ret = oter_id(ret + 2);
+            break;
+        case 3:
+            ret = oter_id(ret + 3);
+            break;
+        default:
+            debugmsg("Bad rotation of shop.");
+            return ot_null;
+        }
+    }
+    return ret;
 }
 
 oter_id house(int dir)
@@ -1131,9 +1137,8 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
 // Now actually place those rivers.
  if (river_start.size() > river_end.size() && river_end.size() > 0) {
   std::vector<point> river_end_copy = river_end;
-  int index;
   while (!river_start.empty()) {
-   index = rng(0, river_start.size() - 1);
+   int index = rng(0, river_start.size() - 1);
    if (!river_end.empty()) {
     place_river(river_start[index], river_end[0]);
     river_end.erase(river_end.begin());
@@ -1144,9 +1149,8 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
   }
  } else if (river_end.size() > river_start.size() && river_start.size() > 0) {
   std::vector<point> river_start_copy = river_start;
-  int index;
   while (!river_end.empty()) {
-   index = rng(0, river_end.size() - 1);
+   int index = rng(0, river_end.size() - 1);
    if (!river_start.empty()) {
     place_river(river_start[0], river_end[index]);
     river_start.erase(river_start.begin());
@@ -2039,16 +2043,12 @@ void overmap::process_mongroups()
 
 void overmap::place_forest()
 {
- int x, y;
- int forx;
- int fory;
- int fors;
  for (int i = 0; i < NUM_FOREST; i++) {
   // forx and fory determine the epicenter of the forest
-  forx = rng(0, OMAPX - 1);
-  fory = rng(0, OMAPY - 1);
-// fors determinds its basic size
-  fors = rng(15, 40);
+  int forx = rng(0, OMAPX - 1);
+  int fory = rng(0, OMAPY - 1);
+  // fors determinds its basic size
+  int fors = rng(15, 40);
   int outer_tries = 1000;
   int inner_tries = 1000;
   for (int j = 0; j < cities.size(); j++) {
@@ -2068,8 +2068,8 @@ void overmap::place_forest()
   }
   if( 0 == outer_tries || 0 == inner_tries ) { break; }
   int swamps = SWAMPINESS;	// How big the swamp may be...
-  x = forx;
-  y = fory;
+  int x = forx;
+  int y = fory;
 // Depending on the size on the forest...
   for (int j = 0; j < fors; j++) {
    int swamp_chance = 0;
@@ -2196,7 +2196,6 @@ spawns happen at... <cue Clue music>
 void overmap::place_cities()
 {
  int NUM_CITIES = dice(4, 4);
- int cx, cy, cs;
  int start_dir;
  int city_min = OPTIONS["CITY_SIZE"] - 1;
  int city_max = OPTIONS["CITY_SIZE"] + 1;
@@ -2204,16 +2203,16 @@ void overmap::place_cities()
  NUM_CITIES = std::min(NUM_CITIES, int(256 / OPTIONS["CITY_SIZE"] * OPTIONS["CITY_SIZE"]));
 
  while (cities.size() < NUM_CITIES) {
-  cx = rng(12, OMAPX - 12);
-  cy = rng(12, OMAPY - 12);
-  cs = dice(city_min, city_max) ;
+  int cx = rng(12, OMAPX - 12);
+  int cy = rng(12, OMAPY - 12);
+  int size = dice(city_min, city_max) ;
   if (ter(cx, cy, 0) == ot_field) {
    ter(cx, cy, 0) = ot_road_nesw;
-   city tmp; tmp.x = cx; tmp.y = cy; tmp.s = cs;
+   city tmp; tmp.x = cx; tmp.y = cy; tmp.s = size;
    cities.push_back(tmp);
    start_dir = rng(0, 3);
    for (int j = 0; j < 4; j++)
-    make_road(cx, cy, cs, (start_dir + j) % 4, tmp);
+    make_road(cx, cy, size, (start_dir + j) % 4, tmp);
   }
  }
 }
@@ -2742,12 +2741,6 @@ void overmap::building_on_hiway(int x, int y, int dir)
   if (!is_river(ter(x + xdif, y + ydif, 0)))
    ter(x + xdif, y + ydif, 0) = ot_radio_tower;
   break;
-/*
- case 5:
-  if (!is_river(ter(x + xdif, y + ydif)))
-   ter(x + xdir, y + ydif) = ot_sewage_treatment;
-  break;
-*/
  }
 }
 
@@ -2757,12 +2750,10 @@ void overmap::place_hiways(std::vector<city> cities, int z, oter_id base)
         return;
     }
     city best;
-    int closest = -1;
-    int distance;
     for (int i = 0; i < cities.size(); i++) {
-        closest = -1;
+        int closest = -1;
         for (int j = i + 1; j < cities.size(); j++) {
-            distance = dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
+            int distance = dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
             if (distance < closest || closest < 0) {
                 closest = distance;
                 best = cities[j];
