@@ -2248,6 +2248,13 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     if (ammo_effects.count("TRAIL") && !one_in(4))
         add_field(g, x, y, fd_smoke, rng(1, 2));
 
+    if (ammo_effects.count("FROST_TRAIL") && !one_in(5)) {
+        if (one_in(2)) 
+            add_field(g, x, y, fd_ice_mist, rng(1, 2));
+        else
+            add_field(g, x, y, fd_ice_floor, 1);
+    }
+
     if (ammo_effects.count("LIGHTNING"))
         add_field(g, x, y, fd_electricity, rng(2, 3));
 
