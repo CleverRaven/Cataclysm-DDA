@@ -771,6 +771,10 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
 }
 
 int monster::bash_at(int x, int y) {
+    //Hallucinations can't bash stuff.
+    if(is_hallucination()) {
+      return 0;
+    }
     bool try_bash = !can_move_to(g, x, y) || one_in(3);
     bool can_bash = g->m.has_flag(bashable, x, y) && has_flag(MF_BASHES);
     if(try_bash && can_bash) {

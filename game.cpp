@@ -5784,6 +5784,10 @@ void game::explode_mon(int index)
   return;
  }
  monster &z = _z[index];
+ if(z.is_hallucination()) {
+   //Can't gib hallucinations
+   return;
+ }
  if (!z.dead) {
   z.dead = true;
   kills[z.type->id]++;	// Increment our kill counter
