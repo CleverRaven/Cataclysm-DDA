@@ -1053,7 +1053,11 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
                 if (stack_iter->charges <= quantity)
                 {
                     ret.push_back(*stack_iter);
-                    quantity -= stack_iter->charges;
+                    if (stack_iter->charges < 0) {
+                        quantity--;
+                    } else {
+                        quantity -= stack_iter->charges;
+                    }
                     if (stack_iter->destroyed_at_zero_charges())
                     {
                         stack_iter = iter->erase(stack_iter);

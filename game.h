@@ -96,6 +96,8 @@ struct mutation_branch;
 
 class game
 {
+ friend class editmap;
+ friend class advanced_inventory;
  public:
   game();
   ~game();

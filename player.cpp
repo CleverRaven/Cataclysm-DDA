@@ -3038,11 +3038,13 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     else if (morale_cur <= -10)
         col_morale = c_red;
     const char *morale_str;
-    if      (morale_cur >= 100) morale_str = ":D";
+    if      (morale_cur >= 200) morale_str = "8D";
+    else if (morale_cur >= 100) morale_str = ":D";
     else if (morale_cur >= 10)  morale_str = ":)";
     else if (morale_cur > -10)  morale_str = ":|";
     else if (morale_cur > -100) morale_str = "):";
-    else                        morale_str = "D:";
+    else if (morale_cur > -200) morale_str = "D:";
+    else                        morale_str = "D8";
     mvwprintz(w, sideStyle ? 0 : 3, sideStyle ? 11 : 10, col_morale, morale_str);
 
  vehicle *veh = g->m.veh_at (posx, posy);
@@ -3359,55 +3361,46 @@ void player::charge_power(int amount)
   power_level = 0;
 }
 
+
+/*
+ * Calculate player brightness based on the brightest active item, as
+ * per itype tag LIGHT_* and optional CHARGEDIM ( fade starting at 20% charge )
+ * item.light.* is -unimplemented- for the moment, as it is a custom override for
+ * applying light sources/arcs with specific angle and direction.
+ */
 float player::active_light()
 {
     float lumination = 0;
+    
+    int maxlum = 0;
+    const invslice & stacks = inv.slice(0, inv.size());
+    for( int x = 0; x < stacks.size(); ++x ) {
+        item &itemit = stacks[x]->front();
+        item * stack_iter = &itemit;
+        if (stack_iter->active && stack_iter->charges > 0) {
+            int lumit = stack_iter->getlight_emit(true);
+            if ( maxlum < lumit ) {
+                maxlum = lumit;
+            }
+        }
+    }
 
-    int flashlight = active_item_charges("flashlight_on");
-    int torch = active_item_charges("torch_lit");
-	int shishkebab = active_item_charges("shishkebab_on");
-	int firemachete = active_item_charges("firemachete_on");
-	int broadfire = active_item_charges("broadfire_on");
-	int firekatana = active_item_charges("firekatana_on");
-    int gasoline_lantern = active_item_charges("gasoline_lantern_on");
-    if (flashlight > 0)
-    {
-        lumination = std::min(100, flashlight * 5);    // Will do for now
+    // worn light sources? Unimplemented
+
+    if (!weapon.is_null()) {
+        if ( weapon.active  && weapon.charges > 0) {
+            int lumit = weapon.getlight_emit(true);
+            if ( maxlum < lumit ) {
+                maxlum = lumit;
+            }
+        }
     }
-    else if (torch > 0)
-    {
-        lumination = std::min(100, torch * 5);
-    }
-	else if (shishkebab > 0)
-    {
-        lumination = std::min(100, shishkebab * 5);
-    }
-	else if (firemachete > 0)
-    {
-        lumination = std::min(100, firemachete * 5);
-    }
-	else if (broadfire > 0)
-    {
-        lumination = std::min(100, broadfire * 5);
-    }
-    else if (firekatana > 0)
-    {
-        lumination = std::min(100, firekatana * 5);
-    }
-    else if (active_item_charges("pda_flashlight") > 0)
-    {
-        lumination = 6;
-    }
-    else if (gasoline_lantern > 0)
-    {
-        lumination = 5;
-    }
-    else if (has_active_bionic("bio_flashlight"))
-    {
+
+    lumination = (float)maxlum;
+
+    if ( lumination < 60 && has_active_bionic("bio_flashlight") ) {
         lumination = 60;
-    }
-    else if (has_artifact_with(AEP_GLOW))
-    {
+    } else if ( lumination < 25 && has_artifact_with(AEP_GLOW) ) {
         lumination = 25;
     }
 

@@ -1030,6 +1030,7 @@
     <ClCompile Include="..\iuse_software.cpp" />
     <ClCompile Include="..\iuse_software_kitten.cpp" />
     <ClCompile Include="..\iuse_software_snake.cpp" />
+    <ClCompile Include="..\iuse_software_sokoban.cpp" />
     <ClCompile Include="..\keypress.cpp" />
     <ClCompile Include="..\lightmap.cpp" />
     <ClCompile Include="..\line.cpp" />
@@ -1137,6 +1138,7 @@
     <ClInclude Include="..\iuse_software.h" />
     <ClInclude Include="..\iuse_software_kitten.h" />
     <ClInclude Include="..\iuse_software_snake.h" />
+    <ClInclude Include="..\iuse_software_sokoban.h" />
     <ClInclude Include="..\keypress.h" />
     <ClInclude Include="..\lightmap.h" />
     <ClInclude Include="..\line.h" />
