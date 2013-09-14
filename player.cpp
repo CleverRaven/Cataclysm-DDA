@@ -3371,7 +3371,7 @@ void player::charge_power(int amount)
 float player::active_light()
 {
     float lumination = 0;
-    
+
     int maxlum = 0;
     const invslice & stacks = inv.slice(0, inv.size());
     for( int x = 0; x < stacks.size(); ++x ) {
@@ -5589,6 +5589,16 @@ bool player::has_fire(const int quantity)
     } else if (has_charges("welder", quantity)) {
         return true;
     } else if (has_charges("welder_crude", quantity)) {
+        return true;
+    } else if (has_charges("shishkebab_on", quantity)) {
+        return true;
+    } else if (has_charges("firemachete_on", quantity)) {
+        return true;
+    } else if (has_charges("broadfire_on", quantity)) {
+        return true;
+    } else if (has_charges("firekatana_on", quantity)) {
+        return true;
+    } else if (has_charges("zweifire_on", quantity)) {
         return true;
     }
     return false;
