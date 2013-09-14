@@ -208,6 +208,12 @@ void monster::move(game *g)
  if (wandf > 0)
   wandf--;
 
+ //Hallucinations have a chance of disappearing each turn
+ if (is_hallucination() && one_in(25)) {
+   die(g);
+   return;
+ }
+
 // First, use the special attack, if we can!
  if (sp_timeout > 0) {
    sp_timeout--;
@@ -614,7 +620,15 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 }
 
                 //Hallucinations don't actually hurt the player, but do produce the message
-                if(!is_hallucination()) {
+                if(is_hallucination()) {
+
+                    //~14% chance of vanishing after hitting the player
+                    if(one_in(7)) {
+                      die(g);
+                      return;
+                    }
+
+                } else {
 
                     //Hurt the player
                     dam = p.hit(g, bphit, side, dam, cut);
