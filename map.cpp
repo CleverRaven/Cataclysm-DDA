@@ -1298,7 +1298,7 @@ switch (furn(x, y)) {
   result = rng(4, 20);
   if (res) *res = result;
   if (str >= result) {
-   sound += _("smash");
+   sound += _("smash!");
    furn_set(x, y, f_null);
    spawn_item(x, y, "2x4", 0, rng(1, 5));
    spawn_item(x, y, "nail", 0, 0, rng(2, 10));
