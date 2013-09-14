@@ -3008,7 +3008,7 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                         const int zid = g->mon_at(pos.x + i, pos.y + j);
                         if (zid != -1 &&
                               (g->zombie(zid).type->species == species_insect ||
-                               g->zombie(zid).type->species == species_hallu) ) {
+                               g->zombie(zid).is_hallucination()) ) {
                             g->explode_mon(zid);
                         }
                     }

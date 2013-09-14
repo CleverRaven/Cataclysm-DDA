@@ -1382,36 +1382,6 @@ FLAGS(MF_IMMOBILE, MF_NO_BREATHE);
 
 
 // HALLUCINATIONS
-mon(_("zombie"),	species_hallu, 'Z',	c_ltgreen,	MS_MEDIUM,	"flesh",
-//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  0,100,100, 65,  3,  0,  0,  0,  0,  0,  0,  0,  1,  20,
-	&mdeath::disappear,	&mattack::disappear, _("\
-A human body, stumbling slowly forward on\n\
-uncertain legs, possessed with an\n\
-unstoppable rage.")
-);
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_NO_BREATHE, MF_VIS40);
-
-mon(_("giant bee"),species_hallu, 'a',	c_yellow,	MS_MEDIUM,	"flesh",
-//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  0,100,100,180,  2,  0,  0,  0,  0,  0,  0,  0,  1,  20,
-	&mdeath::disappear,	&mattack::disappear, _("\
-A honey bee the size of a small dog. It\n\
-buzzes angrily through the air, dagger-\n\
-sized sting pointed forward.")
-);
-FLAGS(MF_SMELLS, MF_NO_BREATHE, MF_FLIES);
-
-mon(_("giant ant"),species_hallu, 'a',	c_brown,	MS_MEDIUM,	"flesh",
-//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  0,100,100,100,  3,  0,  0,  0,  0,  0,  0,  0,  1,  20,
-	&mdeath::disappear,	&mattack::disappear, _("\
-A red ant the size of a crocodile. It is\n\
-covered in chitinous armor, and has a\n\
-pair of vicious mandibles.")
-);
-FLAGS(MF_SMELLS, MF_NO_BREATHE);
-
 mon(_("your mother"),species_hallu, '@',	c_white,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  0,100,100,100,  3,  0,  0,  0,  0,  0,  0,  0,  5,  20,

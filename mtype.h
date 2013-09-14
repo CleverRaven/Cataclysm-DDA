@@ -88,7 +88,7 @@ mon_dementia, mon_homunculus, mon_blood_sacrifice, mon_flesh_angel,
 mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_hazmatbot, mon_copbot, mon_molebot,
  mon_tripod, mon_chickenbot, mon_tankbot, mon_turret, mon_exploder,
 // Hallucinations
-mon_hallu_zom, mon_hallu_bee, mon_hallu_ant, mon_hallu_mom,
+mon_hallu_mom,
 // Special monsters
 mon_generator,
 num_monsters
