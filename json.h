@@ -21,7 +21,7 @@ private:
 public:
     Jsobj(Jsin *jsin);
 
-    void finish();
+    void finish(); // moves the stream to the end of the object
 
     // variants with no fallback throw an error if the name is not found.
     // variants with a fallback return the fallback value in stead.

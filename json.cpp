@@ -32,11 +32,13 @@
  *     "description": "An unwieldy mop. Good for cleaning up spills."
  * }
  * ~
- * A central dispatcher will load each .json file, read the "type",
- * and send a Jsin instance to the appropriate constructor.
+ * A central dispatcher (init.cpp) will load each .json file,
+ * construct a Jsobj instance to represent each object in the file,
+ * then send the Jsobj to the appropriate data constructor,
+ * according to its "type" member.
  * ~
- * Object constructors can use the Jsin class to construct from JSON.
- * The type of each member should be inferrable from the object "type",
+ * Object constructors can use the Jsobj class to construct from JSON.
+ * The type of each member must be inferrable from the object "type",
  * and each should be parsed expecting the correct datatype.
  * If it fails, it's an error.
  * ~
@@ -77,6 +79,7 @@ Jsobj::Jsobj(Jsin *j)
 {
     jsin = j;
     start = jsin->tell();
+    // cache the position of the value for each member
     jsin->start_object();
     while (!jsin->end_object()) {
         std::string n = jsin->get_member_name();
@@ -202,6 +205,7 @@ Jsarr::Jsarr(Jsin *j)
     jsin = j;
     start = jsin->tell();
     pos = 0;
+    // cache the position of each element
     jsin->start_array();
     while (!jsin->end_array()) {
         positions.push_back(jsin->tell());
