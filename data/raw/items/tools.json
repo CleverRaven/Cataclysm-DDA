@@ -131,7 +131,7 @@
     "initial_charges": 50,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "THREAD",
+    "ammo": "thread",
     "revert_to": "null",
     "use_action": "SEW"
   },
@@ -261,7 +261,7 @@
     "description": "A small gasoline powered lantern. It does not provide much light, but it lasts a long time. It is turned on. Use it to turn it off.",
     "price": 600,
     "material": ["glass", "iron"],
-    "flags": "LIGHT_4",
+    "flags": "LIGHT_6",
     "weight": 1400,
     "volume": 3,
     "bashing": 1,
@@ -308,7 +308,7 @@
     "description": "This flashlight is turned on, and continually draining its batteries. It provides light during the night or while underground. Use it to turn it off.",
     "price": 380,
     "material": ["plastic", "iron"],
-    "flags": "LIGHT_20",
+    "flags": [ "LIGHT_100", "CHARGEDIM" ],
     "weight": 400,
     "volume": 3,
     "bashing": 1,
@@ -378,7 +378,7 @@
     "description": "A light-emitting circuit wired directly to some batteries. Provides a weak light, lasting 25 hours per 3 (battery) charges. When the batteries die, you'll need to scrap it to recover the components that are reusable.",
     "price": 200,
     "material": ["plastic", "iron"],
-    "flags": "LIGHT_1",
+    "flags": ["LIGHT_2", "CHARGEDIM"],
     "weight": 907,
     "volume": 1,
     "bashing": 1,
@@ -1511,7 +1511,7 @@
     "symbol": "*",
     "color": "cyan",
     "name": "scrambler grenade",
-    "description": "This is a highly modified EMP grenade, designed to scramble robots' control chips, rather than destroy them. This converts the robot to your side for a  short time, before the backup systems kick in.",
+    "description": "This is a highly modified EMP grenade, designed to scramble robots' control chips, rather than destroy them. This converts the robot to your side for a short time, before the backup systems kick in.",
     "price": 600,
     "material": ["steel", "plastic"],
     "weight": 500,
@@ -1557,7 +1557,7 @@
     "symbol": "*",
     "color": "yellow",
     "name": "teargas canister",
-    "description": "Use this item to pull the pin. Five turns after you do that, it will begin to expell a highly toxic gas for several turns. This gas damages and slows those who enter it, as well as obscuring vision and scent.",
+    "description": "Use this item to pull the pin. Five turns after you do that, it will begin to expel a highly toxic gas for several turns. This gas damages and slows those who enter it, as well as obscuring vision and scent.",
     "price": 600,
     "material": "steel",
     "weight": 1264,
@@ -1603,7 +1603,7 @@
     "symbol": "*",
     "color": "dark_gray",
     "name": "smoke bomb",
-    "description": "Use this item to pull the pin. Five turns after you do that, it will begin to expell a thick black smoke. This smoke will slow those who enter it, as well as obscuring vision and scent.",
+    "description": "Use this item to pull the pin. Five turns after you do that, it will begin to expel a thick black smoke. This smoke will slow those who enter it, as well as obscuring vision and scent.",
     "price": 180,
     "material": "steel",
     "weight": 1058,
@@ -1650,7 +1650,7 @@
       "description" : "This arrow has a rag soaked in a flammable liquid wrapped around the shaft near the head. You need to light it before shooting.",
       "price" : 350,
       "material" : "wood",
-      "name" : "flamable arrow",
+      "name" : "flammable arrow",
       "volume" : 2,
       "weight" : 150,
       "bashing" : 2,
@@ -1674,6 +1674,7 @@
     "description": "A bottle of flammable liquid with a rag inserted. Use this item to light the rag; you will, of course, need a lighter in your inventory to do this. After lighting it, throw it to cause fires.",
     "price": 200,
     "material": ["glass", "cotton"],
+    "flags": "LIGHT_15",
     "weight": 742,
     "volume": 2,
     "bashing": 8,
@@ -2085,7 +2086,7 @@
     "symbol": ";",
     "color": "light_green",
     "name": "advanced UPS (off)",
-    "description": "An advanced version of the unified power supply, or UPS. This device has been significantly redesigned to provide better effeciency as well as to consume plutonium fuel cells rather than batteries.",
+    "description": "An advanced version of the unified power supply, or UPS. This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.",
     "price": 5600,
     "material": ["steel", "plastic"],
     "weight": 453,
@@ -2107,7 +2108,7 @@
      "symbol" : ";",
      "color" : "light_green",
      "name" : "advanced UPS (on)",
-     "description" : "An advanced version of the unified power supply, or UPS. This device has been significantly redesigned to provide better effeciency as well as to consume plutonium fuel cells rather than batteries.",
+     "description" : "An advanced version of the unified power supply, or UPS. This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.",
      "price" : 5600,
      "material" : ["steel", "plastic"],
      "weight" : 453,
@@ -2239,7 +2240,7 @@
     "use_action": "VORTEX"
   },
 
-   {
+  {
     "id": "etched_skull",
     "type": "TOOL",
     "symbol": ";",
@@ -2336,7 +2337,7 @@
     "type": "TOOL",
     "symbol": ";",
     "color": "light_cyan",
-    "name": "C4-Explosive(armed)",
+    "name": "C4-Explosive (armed)",
     "description": "Highly explosive, use with caution. Comes with a small timer. It's armed and ticking!",
     "price": 6000,
     "material": ["plastic", "steel"],
@@ -2580,6 +2581,7 @@
     "price": 280,
     "material": "iron",
     "techniques": ["WBLOCK_1", "FLAMING"],
+    "flags": ["LIGHT_50", "CHARGEDIM"],
     "weight": 1814,
     "volume": 10,
     "bashing": 6,
@@ -2654,7 +2656,7 @@
     "description": "A katana that glows with the fury and heat of the SUN!  Well, okay it's not THAT hot,  but getting hit with it still stings like the dickens.",
     "price": 980,
     "material": "steel",
-    "flags": ["FIRE", "SLICE"],
+    "flags": ["FIRE", "SLICE", "LIGHT_50", "CHARGEDIM"],
     "techniques": ["RAPID", "WBLOCK_2", "FLAMING"],
     "weight": 2041,
     "volume": 18,
@@ -2804,7 +2806,7 @@
     "description": "A combination of two Dark-Age conflict-resolution classics, the broadsword and the torch.  Light it up and show those heathen zombies who's Lord around here.",
     "price": 1200,
     "material": "iron",
-    "flags": ["FIRE", "CHOP"],
+    "flags": ["FIRE", "CHOP", "LIGHT_50", "CHARGEDIM"],
     "techniques": "WBLOCK_1",
     "weight": 1474,
     "volume": 9,
@@ -2829,8 +2831,8 @@
     "description": "A combination of two Dark-Age conflict-resolution classics, the broadsword and the torch.  The blade is glowing with heat.  Excalibur can eat it's heart out.",
     "price": 1200,
     "material": "iron",
-    "flags": ["FIRE", "CHOP"],
-    "techniques": ["WBLOCK_1", "FLAMING"],
+    "flags": ["FIRE", "CHOP", "LIGHT_50", "CHARGEDIM"],
+    "techniques": ["WBLOCK_1", "FLAMING" ],
     "weight": 1474,
     "volume": 9,
     "bashing": 8,
@@ -2903,7 +2905,7 @@
     "price": 100,
     "material": ["iron", "plastic"],
     "techniques": "FLAMING",
-    "flags": ["FIRE", "CHOP"],
+    "flags": ["FIRE", "CHOP", "LIGHT_50", "CHARGEDIM"],
     "weight": 1701,
     "volume": 9,
     "bashing": 5,
@@ -2917,6 +2919,7 @@
     "revert_to": "shishkebab_off",
     "use_action": "SHISHKEBAB_ON"
   },
+  
   {
     "id": "makeshift_halberd",
     "type": "TOOL",
@@ -3140,7 +3143,7 @@
     "price": 0,
     "material": "wood",
     "techniques": "FLAMING",
-    "flags": "FIRE",
+    "flags": ["FIRE", "LIGHT_75", "CHARGEDIM" ],
     "weight": 831,
     "volume": 6,
     "bashing": 12,
@@ -3300,7 +3303,7 @@
     "symbol": ";",
     "color": "blue",
     "name": "hand press & die set",
-    "description": "A small hand press for hand loading firearm ammunition. Comes with everything  you need to start hand loading.",
+    "description": "A small hand press for hand loading firearm ammunition. Comes with everything you need to start hand loading.",
     "price": 100,
     "material": ["steel", "plastic"],
     "weight": 6350,
@@ -3594,7 +3597,8 @@
     "revert_to": "null",
     "use_action": "RAG"
   },
-   {
+  
+  {
     "id": "plastic_chunk",
     "type": "TOOL",
     "symbol": ",",
@@ -3649,6 +3653,7 @@
     "description": "A small multipurpose electronic device. Can be loaded with a variety of apps, providing all kinds of functionality.",
     "price": 35,
     "material": ["plastic", "iron"],
+    "flags": "LIGHT_6",
     "weight": 141,
     "volume": 1,
     "bashing": 0,
@@ -3729,7 +3734,7 @@
     "initial_charges": 0,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "THREAD",
+    "ammo": "thread",
     "revert_to": "null",
     "use_action": "SEW"
   },
@@ -3763,7 +3768,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "stone axe",
-    "description": "A sharpened stone affixed to a stick, works passably well as an axe but really can't compare to a proper axe..",
+    "description": "A sharpened stone affixed to a stick, works passably well as an axe but really can't compare to a proper axe.",
     "price": 105,
     "material": ["wood", "stone"],
     "weight": 3154,
@@ -4242,6 +4247,7 @@
     "revert_to": "null",
     "use_action": "DEJAR"
   },
+  
   {
     "id": "medical_gauze",
     "type": "TOOL",
@@ -4264,6 +4270,7 @@
     "revert_to": "null",
     "use_action": "RAG"
   },
+  
   {
     "id": "talking_doll",
     "type": "TOOL",
@@ -4286,6 +4293,7 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
+  
   {
     "id": "towel",
     "type": "TOOL",
@@ -4298,7 +4306,7 @@
     "weight": 370,
     "volume": 2,
     "bashing": 0,
-    "cutting": 8,
+    "cutting": 0,
     "to_hit": -1,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4308,6 +4316,7 @@
     "revert_to": "null",
     "use_action": "ABSORBENT"
   },
+  
   {
     "id": "folding_bicycle",
     "type": "TOOL",
@@ -4330,6 +4339,7 @@
     "revert_to": "null",
     "use_action": "UNFOLD_BICYCLE"
   },
+  
   {
     "id": "welder_crude",
     "type": "TOOL",
@@ -4352,6 +4362,7 @@
     "revert_to": "null",
     "use_action": "SOLDER_WELD"
   },
+  
   {
     "id": "still",
     "type": "TOOL",
@@ -4373,51 +4384,54 @@
     "ammo": "none",
     "revert_to": "null"
   },
+  
   {
-    "id":"mold_plastic",
-    "type":"TOOL",
-    "color":"light_blue",
-    "symbol":";",
-    "name":"plastic mold",
-    "description":"A plastic mold which can be used to craft items made of plastic.",
-    "price":10,
-    "material":"plastic",
-    "weight":2,
-    "volume":10,
-    "to_hit":1,
-    "cutting":0,
-    "bashing":3,
-    "turns_per_charge":0,
-    "charges_per_use":0,
-    "initial_charges":0,
-    "max_charges":0,
-    "revert_to":"null",
-    "ammo":"NULL"
+    "id": "mold_plastic",
+    "type": "TOOL",
+    "color": "light_blue",
+    "symbol": ";",
+    "name": "plastic mold",
+    "description": "A plastic mold which can be used to craft items made of plastic.",
+    "price": 10,
+    "material": "plastic",
+    "weight": 2,
+    "volume": 10,
+    "to_hit": 1,
+    "cutting": 0,
+    "bashing": 3,
+    "turns_per_charge": 0,
+    "charges_per_use": 0,
+    "initial_charges": 0,
+    "max_charges": 0,
+    "revert_to": "null",
+    "ammo": "NULL"
   },
+  
   {
-    "id":"chemistry_set",
-    "type":"TOOL",
-    "color":"blue",
-    "symbol":";",
-    "name":"chemistry set",
-    "description":"This chemistry set stored in a bag contains some glass containers, some metal wire and safety glasses. It might be used to craft some chems if you\u0027re so inclined.",
-    "price":5000,
-    "material":"glass",
-    "weight":40,
-    "volume":30,
-    "to_hit":-5,
-    "cutting":0,
-    "bashing":-8,
-    "turns_per_charge":0,
-    "charges_per_use":0,
-    "initial_charges":0,
-    "max_charges":0,
-    "revert_to":"null",
-    "ammo":"NULL"
+    "id": "chemistry_set",
+    "type": "TOOL",
+    "color": "blue",
+    "symbol": ";",
+    "name": "chemistry set",
+    "description": "This chemistry set stored in a bag contains some glass containers, some metal wire and safety glasses. It might be used to craft some chems if you\u0027re so inclined.",
+    "price": 5000,
+    "material": "glass",
+    "weight": 40,
+    "volume": 30,
+    "to_hit": -5,
+    "cutting": 0,
+    "bashing": -8,
+    "turns_per_charge": 0,
+    "charges_per_use": 0,
+    "initial_charges": 0,
+    "max_charges": 0,
+    "revert_to": "null",
+    "ammo": "NULL"
   },
+  
   {
     "id": "crackpipe",
-    "type":"TOOL",
+    "type": "TOOL",
     "symbol": ",",
     "color": "light_cyan",
     "name": "crack pipe",
@@ -4430,16 +4444,17 @@
     "to_hit": -10,
     "bashing": 0,
     "cutting": 0,
-    "turns_per_charge":0,
-    "charges_per_use":0,
-    "initial_charges":0,
-    "max_charges":0,
-    "revert_to":"null",
-    "ammo":"NULL"
+    "turns_per_charge": 0,
+    "charges_per_use": 0,
+    "initial_charges": 0,
+    "max_charges": 0,
+    "revert_to": "null",
+    "ammo": "NULL"
   },
+  
   {
     "id": "pipe_glass",
-    "type":"TOOL",
+    "type": "TOOL",
     "symbol": ",",
     "color": "blue",
     "name": "glass pipe",
@@ -4452,16 +4467,17 @@
     "to_hit": -10,
     "bashing": 1,
     "cutting": 0,
-    "turns_per_charge":0,
-    "charges_per_use":0,
-    "initial_charges":0,
-    "max_charges":0,
-    "revert_to":"null",
-    "ammo":"NULL"
+    "turns_per_charge": 0,
+    "charges_per_use": 0,
+    "initial_charges": 0,
+    "max_charges": 0,
+    "revert_to": "null",
+    "ammo": "NULL"
   },
+  
   {
     "id": "pipe_tobacco",
-    "type":"TOOL",
+    "type": "TOOL",
     "symbol": ",",
     "color": "brown",
     "name": "tobacco pipe",
@@ -4474,36 +4490,37 @@
     "to_hit": -10,
     "bashing": 1,
     "cutting": 0,
-    "turns_per_charge":0,
-    "charges_per_use":0,
-    "initial_charges":0,
-    "max_charges":0,
-    "revert_to":"null",
-    "ammo":"NULL"
+    "turns_per_charge": 0,
+    "charges_per_use": 0,
+    "initial_charges": 0,
+    "max_charges": 0,
+    "revert_to": "null",
+    "ammo": "NULL"
   },
+  
   {
-    "id":"adrenaline_injector",
-    "type":"TOOL",
-    "color":"pink",
-    "symbol":"!",
-    "name":"adrenaline injector",
-    "description":"A syringe filled with one shot of adrenaline. It serves as a powerful stimulant when you inject yourself with it.",
-    "price":600,
+    "id": "adrenaline_injector",
+    "type": "TOOL",
+    "color": "pink",
+    "symbol": "!",
+    "name": "adrenaline injector",
+    "description": "A syringe filled with one shot of adrenaline. It serves as a powerful stimulant when you inject yourself with it.",
+    "price": 600,
     "rarity": 3,
-    "material":"plastic",
-    "weight":10,
-    "volume":1,
-    "to_hit":-2,
+    "material": "plastic",
+    "weight": 10,
+    "volume": 1,
+    "to_hit": -2,
     "bashing": -4,
     "cutting": 6,
     "flags": "SPEAR",
-    "turns_per_charge":0,
-    "charges_per_use":0,
-    "initial_charges":0,
-    "max_charges":0,
-    "revert_to":"null",
-    "ammo":"NULL",
-    "use_action":"ADRENALINE_INJECTOR"
+    "turns_per_charge": 0,
+    "charges_per_use": 0,
+    "initial_charges": 0,
+    "max_charges": 0,
+    "revert_to": "null",
+    "ammo": "NULL",
+    "use_action": "ADRENALINE_INJECTOR"
   },
 
   {
@@ -4715,7 +4732,9 @@
     "revert_to": "null",
     "use_action": "MATCHBOMB_ACT"
   },
-{ "id":"ref_lighter",
+  
+  { 
+    "id": "ref_lighter",
     "type": "TOOL",
     "symbol": ",",
     "color": "light_gray",
@@ -4736,6 +4755,7 @@
     "revert_to": "null",
     "use_action": "LIGHTER"
   },
+  
   {
     "id": "char_forge",
     "type": "TOOL",
@@ -4758,6 +4778,7 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
+  
   {
     "id": "char_purifier",
     "type": "TOOL",

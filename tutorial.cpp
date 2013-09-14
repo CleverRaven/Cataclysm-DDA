@@ -3,6 +3,7 @@
 #include "action.h"
 #include "tutorial.h"
 #include "overmapbuffer.h"
+#include "translations.h"
 
 bool tutorial_game::init(game *g)
 {
@@ -220,6 +221,6 @@ void tutorial_game::add_message(game *g, tut_lesson lesson)
  if (tutorials_seen[lesson])
   return;
  tutorials_seen[lesson] = true;
- popup_top(tut_text[lesson].c_str());
+ popup_top(_(tut_text[lesson].c_str()));
  g->refresh_all();
 }

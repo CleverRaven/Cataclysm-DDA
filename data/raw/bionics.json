@@ -18,7 +18,7 @@
     "name"       :    "Power Storage Mk. II",
     "cost"       :    0,
     "time"       :    0,
-    "description":    "Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly sucessful CBM: Power Storage.  Increases you power capacity by 10 units."
+    "description":    "Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful CBM: Power Storage.  Increases you power capacity by 10 units."
 },
 {
     "id"         :    "bio_batteries",
@@ -327,7 +327,7 @@
     "cost"       :    4,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "Your entire body may resonate at very high power, creating a short-range shockwave.  While it will not to much damage to flexible creatures, stiff items such as walls, doors, and even robots will be severely damaged."
+    "description":    "Your entire body may resonate at very high power, creating a short-range shockwave.  While it will not too much damage to flexible creatures, stiff items such as walls, doors, and even robots will be severely damaged."
 },
 {
     "id"         :    "bio_time_freeze",
@@ -423,7 +423,7 @@
     "cost"       :    1,
     "time"       :    3,
     "flags"      :    ["ACTIVE"],
-    "description":    "While activated, the muscles in your arms will be greatly enchanced, increasing your strength by 20."
+    "description":    "While activated, the muscles in your arms will be greatly enhanced, increasing your strength by 20."
 },
 {
     "id"         :    "bio_water_extractor",
@@ -455,7 +455,7 @@
     "cost"       :    1,
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
-    "description":    "One of your fingers has an electronic lockpick embedded in it.  This auto-matic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user."
+    "description":    "One of your fingers has an electronic lockpick embedded in it.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user."
 },
 {
     "id"         :    "bio_ground_sonar",
@@ -583,6 +583,6 @@
     "cost"       :    0,
     "time"       :    0,
     "flags"      :    ["FAULTY"],
-    "description":    "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumberance."
+    "description":    "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance."
 }
 ]

@@ -10,7 +10,7 @@
 #include <fstream>
 #include <string>
 
-std::map<std::string, bool> mapAutoPickupItems;
+std::map<std::string, std::string> mapAutoPickupItems;
 std::vector<cPickupRules> vAutoPickupRules[5];
 
 void game::show_auto_pickup()
@@ -326,6 +326,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     }
 
     //Loop through all itemfactory items
+    //TODO: somehow generate damaged, fitting or container items
     for (int i = 0; i < standard_itype_ids.size(); i++) {
         sItemName = item_controller->find_template(standard_itype_ids[i])->name;
         if (vAutoPickupRules[iCurrentPage][iCurrentLine].bActive && auto_pickup_match(sItemName, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule)) {
@@ -350,6 +351,8 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     int nmatch = vMatchingItems.size();
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s", nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());
     mvwprintz(w_test_rule_border, 0, iContentWidth/2 - utf8_width(buf.c_str())/2, hilite(c_white), buf.c_str());
+
+    mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white), _("Won't display damaged, fits and can/bottle items"));
 
     wrefresh(w_test_rule_border);
 
@@ -533,18 +536,28 @@ void removePickupRule(std::string sRule)
     }
 }
 
-void createPickupRules()
+void createPickupRules(const std::string sItemNameIn)
 {
-    mapAutoPickupItems.clear();
+    if (sItemNameIn == "") {
+        mapAutoPickupItems.clear();
+    }
+
     std::string sItemName = "";
 
     for (int iPattern = 0; iPattern < vAutoPickupRules[0].size(); iPattern++) { //Includes only
         if (!vAutoPickupRules[0][iPattern].bExclude) {
-            //Check include paterns against all itemfactory items
-            for (int i = 0; i < standard_itype_ids.size(); i++) {
-                sItemName = item_controller->find_template(standard_itype_ids[i])->name;
-                if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(sItemName, vAutoPickupRules[0][iPattern].sRule)) {
-                    mapAutoPickupItems[sItemName] = true;
+            if (sItemNameIn != "") {
+                if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(sItemNameIn, vAutoPickupRules[0][iPattern].sRule)) {
+                    mapAutoPickupItems[sItemNameIn] = "true";
+                    break;
+                }
+            } else {
+                //Check include paterns against all itemfactory items
+                for (int i = 0; i < standard_itype_ids.size(); i++) {
+                    sItemName = item_controller->find_template(standard_itype_ids[i])->name;
+                    if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(sItemName, vAutoPickupRules[0][iPattern].sRule)) {
+                        mapAutoPickupItems[sItemName] = "true";
+                    }
                 }
             }
         }
@@ -552,10 +565,17 @@ void createPickupRules()
 
     for (int iPattern = 0; iPattern < vAutoPickupRules[0].size(); iPattern++) { //Excludes only
         if (vAutoPickupRules[0][iPattern].bExclude) {
-            //Check exclude paterns against all included items
-            for (std::map<std::string, bool>::iterator iter = mapAutoPickupItems.begin(); iter != mapAutoPickupItems.end(); ++iter) {
-                if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(iter->first, vAutoPickupRules[0][iPattern].sRule)) {
-                    mapAutoPickupItems[iter->first] = false;
+            if (sItemNameIn != "") {
+                if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(sItemNameIn, vAutoPickupRules[0][iPattern].sRule)) {
+                    mapAutoPickupItems[sItemNameIn] = "false";
+                    return;
+                }
+            } else {
+                //Check exclude paterns against all included items
+                for (std::map<std::string, std::string>::iterator iter = mapAutoPickupItems.begin(); iter != mapAutoPickupItems.end(); ++iter) {
+                    if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(iter->first, vAutoPickupRules[0][iPattern].sRule)) {
+                        mapAutoPickupItems[iter->first] = "false";
+                    }
                 }
             }
         }

@@ -408,17 +408,20 @@ item& inventory::add_item(item newit, bool keep_invlet)
                     int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
                     it_ref->item_counter = tmpcounter;
                     newit.item_counter = tmpcounter;
-		        }
+                }
                 newit.invlet = it_ref->invlet;
                 iter->push_back(newit);
                 return iter->back();
+            }
+            else if (keep_invlet && it_ref->invlet == newit.invlet)
+            {
+                assign_empty_invlet(*it_ref);
             }
         }
         // If keep_invlet is true, we'll be forcing other items out of their current invlet.
         else if (keep_invlet && it_ref->invlet == newit.invlet)
         {
             assign_empty_invlet(*it_ref);
-            update_cache_with_item(newit);
         }
     }
 
@@ -916,7 +919,8 @@ int inventory::charges_of(itype_id it) const
              stack_iter != iter->end();
              ++stack_iter)
         {
-            if (stack_iter->type->id == it)
+            //Check for ammo used in construction (such as nails in nailguns)
+            if (stack_iter->type->id == it || stack_iter->ammo_type() == it)
             {
                 if (stack_iter->charges < 0)
                 {
@@ -1046,12 +1050,16 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
             }
 
             // Now check the item itself
-            if (stack_iter->type->id == it)
+            if (stack_iter->type->id == it || stack_iter->ammo_type() == it)
             {
                 if (stack_iter->charges <= quantity)
                 {
                     ret.push_back(*stack_iter);
-                    quantity -= stack_iter->charges;
+                    if (stack_iter->charges < 0) {
+                        quantity--;
+                    } else {
+                        quantity -= stack_iter->charges;
+                    }
                     if (stack_iter->destroyed_at_zero_charges())
                     {
                         stack_iter = iter->erase(stack_iter);

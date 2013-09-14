@@ -9,7 +9,7 @@ import os
 ## DATA
 
 # some .json files have no translatable strings. ignore them.
-ignore = ["item_groups.json", "monstergroups.json", "recipes.json"]
+ignore = ["item_groups.json", "monstergroups.json", "recipes.json", "sokoban.txt"]
 
 ## PREPARATION
 

@@ -411,7 +411,7 @@ void uimenu::setup() {
 
 void uimenu::apply_scrollbar()
 {
-    if ( ! scrollbar_auto ) { 
+    if ( ! scrollbar_auto ) {
         return;
     }
     if ( last_vshift != vshift || last_fsize != fentries.size() ) {
@@ -660,7 +660,7 @@ void uimenu::query(bool loop) {
             } else if ( return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
             }
-        } else if ( keypress == KEY_ESCAPE ) { //break loop with ESCAPE key
+        } else if ( keypress == KEY_ESCAPE && return_invalid) { //break loop with ESCAPE key
             break;
         } else {
             if ( keycallback ) {
@@ -674,7 +674,7 @@ void uimenu::query(bool loop) {
         if ( skiprefresh==false ) {
         show();
         }
-    } while ( loop & (ret == startret ) );
+    } while ( loop && (ret == startret ) );
 }
 
 /*

@@ -10,6 +10,7 @@
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
+#include <algorithm>
 #include "cursesdef.h"
 
 #include "picofunc.h"
@@ -40,6 +41,7 @@ monster::monster()
  dead = false;
  made_footstep = false;
  unique_name = "";
+ hallucination = false;
 }
 
 monster::monster(mtype *t)
@@ -67,6 +69,7 @@ monster::monster(mtype *t)
  dead = false;
  made_footstep = false;
  unique_name = "";
+ hallucination = false;
 }
 
 monster::monster(mtype *t, int x, int y)
@@ -94,6 +97,7 @@ monster::monster(mtype *t, int x, int y)
  dead = false;
  made_footstep = false;
  unique_name = "";
+ hallucination = false;
 }
 
 monster::~monster()
@@ -420,17 +424,7 @@ picojson::value monster::json_save()
  */
 std::string monster::save_info()
 {
-    // deprecated hairball; useful in testing (?)
-        std::stringstream pack;
-        pack << int(type->id) << " " << _posx << " " << _posy << " " << wandx << " " <<
-            wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
-            " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
-            faction_id << " " << mission_id << " " << no_extra_death_drops << " " <<
-            dead << " " << anger << " " << morale;
-        for (int i = 0; i < plans.size(); i++) {
-            pack << " " << plans[i].x << " " << plans[i].y;
-        }
-        return pack.str();
+    return json_save().serialize();
 }
 
 void monster::debug(player &u)
@@ -793,7 +787,13 @@ void monster::die(game *g)
  }
 // Also, perform our death function
  mdeath md;
- (md.*type->dies)(g, this);
+ if(is_hallucination()) {
+   //Hallucinations always just disappear
+   md.disappear(g, this);
+   return;
+ } else {
+   (md.*type->dies)(g, this);
+ }
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;
  for (int i = 0; i < type->anger.size(); i++) {
@@ -822,6 +822,9 @@ void monster::die(game *g)
 
 void monster::drop_items_on_death(game *g)
 {
+    if(is_hallucination()) {
+        return;
+    }
     int total_chance = 0, cur_chance, selected_location;
     bool animal_done = false;
     std::vector<items_location_and_chance> it = g->monitems[type->id];
@@ -967,4 +970,9 @@ void monster::make_friendly()
 void monster::add_item(item it)
 {
  inv.push_back(it);
+}
+
+bool monster::is_hallucination()
+{
+  return hallucination;
 }

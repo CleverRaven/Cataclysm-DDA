@@ -6,6 +6,7 @@
 #include "translations.h"
 #include <stdlib.h>
 #include <sstream>
+#include <algorithm>
 
 // Used only internally for fast lookups.
 enum dis_type_enum {
@@ -1088,7 +1089,6 @@ void dis_effect(game *g, player &p, disease &dis) {
         break;
 
         case DI_ADRENALINE:
-            g->u.moves += 800;
             if (dis.duration > 150) {
                 // 5 minutes positive effects
                 p.str_cur += 5;
@@ -1098,7 +1098,6 @@ void dis_effect(game *g, player &p, disease &dis) {
             } else if (dis.duration == 150) {
                 // 15 minutes come-down
                 g->add_msg_if_player(&p,_("Your adrenaline rush wears off.  You feel AWFUL!"));
-                p.moves -= 300;
             } else {
                 p.str_cur -= 2;
                 p.dex_cur -= 1;
@@ -2278,10 +2277,7 @@ void handle_deliriant(game* g, player& p, disease& dis) {
         p.dex_cur -= 2;
         p.str_cur -= 1;
         if (one_in(50)) {
-            // Generate a phantasm
-            monster phantasm(g->mtypes[mon_hallu_zom + rng(0, 3)]);
-            phantasm.spawn(p.posx + rng(-10, 10), p.posy + rng(-10, 10));
-            g->add_zombie(phantasm);
+            g->spawn_hallucination();
         }
     } else if (dis.duration == comedownTime) {
         if (one_in(42)) {

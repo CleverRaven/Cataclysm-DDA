@@ -125,7 +125,11 @@ public:
  int num_charges();
  bool rotten(game *g);
  bool ready_to_revive(game *g); // used for corpses
-
+// light emission, determined by type->light_emission (LIGHT_???) tag (circular),
+// overridden by light.* struct (shaped)
+ bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;
+// for quick iterative loops
+ int getlight_emit(bool calculate_dimming = true) const;
 // Our value as a weapon, given particular skills
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
