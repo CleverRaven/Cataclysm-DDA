@@ -451,7 +451,10 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
                 mvwprintz (w, 0, 0, c_white, "You found kitten! Way to go, robot!");
                 wrefresh(w);
                 ret = true;
-                getch ();
+                int ech=input;
+                do {
+                    ech=getch ();
+                } while ( ech == input );
             }
             break;
 
@@ -460,7 +463,10 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
                     mvwputch (w, 0, c, c_white, ' ');
                     mvwputch (w, 1, c, c_white, ' ');
                 }
-                mvwprintw (w, 0, 0, "%s", getmessage(bogus_messages[rfkscreen[check_x][check_y] - 2]).c_str());
+                std::vector<std::string> bogusvstr = foldstring( getmessage(bogus_messages[rfkscreen[check_x][check_y] - 2]), rfkCOLS);
+                for (int c = 0; c < bogusvstr.size(); c++) {
+                    mvwprintw (w, 0, 0, "%s", bogusvstr[c].c_str());
+                }
                 wrefresh(w);
             }
             break;
