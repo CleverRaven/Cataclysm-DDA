@@ -5682,6 +5682,26 @@ void game::clear_zombies()
     z_at.clear();
 }
 
+/**
+ * Attempts to spawn a hallucination somewhere close to the player. Returns
+ * false if the hallucination couldn't be spawned for whatever reason, such as
+ * a monster already in the target square.
+ * @return Whether or not a hallucination was successfully spawned.
+ */
+bool game::spawn_hallucination()
+{
+  monster phantasm(mtypes[rng(1, num_monsters - 1)]);
+  phantasm.hallucination = true;
+  phantasm.spawn(u.posx + rng(-10, 10), u.posy + rng(-10, 10));
+
+  //Don't attempt to place phantasms inside of other monsters
+  if (mon_at(phantasm.posx(), phantasm.posy()) == -1) {
+    return add_zombie(phantasm);
+  } else {
+    return false;
+  }
+}
+
 int game::mon_at(const int x, const int y) const
 {
     std::map<point, int>::const_iterator i = z_at.find(point(x, y));
@@ -5745,8 +5765,9 @@ void game::kill_mon(int index, bool u_did_it)
     mdeath tmpdeath;
     tmpdeath.guilt(this, &z);
    }
-   if (z.type->species != species_hallu)
+   if (!z.is_hallucination()) {
     kills[z.type->id]++;	// Increment our kill counter
+   }
   }
   for (int i = 0; i < z.inv.size(); i++)
    m.add_item_or_charges(z.posx(), z.posy(), z.inv[i]);
@@ -5763,6 +5784,10 @@ void game::explode_mon(int index)
   return;
  }
  monster &z = _z[index];
+ if(z.is_hallucination()) {
+   //Can't gib hallucinations
+   return;
+ }
  if (!z.dead) {
   z.dead = true;
   kills[z.type->id]++;	// Increment our kill counter
@@ -9316,7 +9341,7 @@ void game::plmove(int dx, int dy)
      monster &z = zombie(mondex);
      if (z.friendly == 0) {
          int udam = u.hit_mon(this, &z);
-         if (z.hurt(udam)) {
+         if (z.hurt(udam) || z.is_hallucination()) {
              kill_mon(mondex, true);
          }
          draw_hit_mon(x,y,z,z.dead);
