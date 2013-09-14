@@ -3833,10 +3833,10 @@ void iuse::portable_game(game *g, player *p, item *it, bool t)
         game_data.clear();
         int game_score = 0;
 
-        bool game_completed = play_videogame(loaded_software, game_data, game_score);
+        play_videogame(loaded_software, game_data, game_score);
 
         if ( game_data.find("end_message") != game_data.end() ) {
-            g->add_msg_if_player(p, _("%s"), game_data["end_message"].c_str() );
+            g->add_msg_if_player(p, "%s", game_data["end_message"].c_str() );
         }
 
         if ( game_score != 0 ) {
