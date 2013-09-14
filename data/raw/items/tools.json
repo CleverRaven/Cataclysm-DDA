@@ -3142,7 +3142,7 @@
     "price": 0,
     "material": "wood",
     "techniques": "FLAMING",
-    "flags": "FIRE",
+    "flags": ["FIRE", "LIGHT_75", "CHARGEDIM" ],
     "weight": 831,
     "volume": 6,
     "bashing": 12,

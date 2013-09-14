@@ -3364,8 +3364,7 @@ void player::charge_power(int amount)
  * Calculate player brightness based on the brightest active item, as
  * per itype tag LIGHT_* and optional CHARGEDIM ( fade starting at 20% charge )
  * item.light.* is -unimplemented- for the moment, as it is a custom override for
- * applying light sources/arcs with specific angle and direction. A mechanic to
- * point the flashlight while in 'x' look_around might be good.
+ * applying light sources/arcs with specific angle and direction.
  */
 float player::active_light()
 {
