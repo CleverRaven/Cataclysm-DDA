@@ -3203,7 +3203,7 @@
     "to_hit": 3,
     "max_charges": 75,
     "initial_charges": 75,
-    "charges_per_use": 1,
+    "charges_per_use": 0,
     "turns_per_charge": 20,
     "ammo": "NULL",
     "revert_to": "torch_done",

@@ -4341,14 +4341,42 @@ void iuse::torch(game *g, player *p, item *it, bool t)
 
 void iuse::torch_lit(game *g, player *p, item *it, bool t)
 {
- if (t) {	// Normal use
-// Do nothing... player::active_light and the lightmap::generate deal with this
- } else {	// Turning it off
-  g->add_msg_if_player(p,_("The torch is extinguished"));
-  it->charges -= 1;
-  it->make(g->itypes["torch"]);
-  it->active = false;
- }
+    if (t)
+    {
+        if (it->charges == 0)
+        {
+            g->add_msg_if_player(p,_("The torch burns out."));
+            it->make(g->itypes["torch_done"]);
+            it->active = false;
+        }
+    }
+    else  	// Turning it off
+    {
+        int choice = menu(true,
+                          _("torch (lit)"), _("extinguish"), _("light something"), _("cancel"), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            g->add_msg_if_player(p,_("The torch is extinguished"));
+            it->charges -= 1;
+            it->make(g->itypes["torch"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 5;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
 }
 
 
