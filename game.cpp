@@ -48,6 +48,9 @@
 #include "artifactdata.h"
 
 #if (defined _WIN32 || defined __WIN32__)
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <windows.h>
 #include <tchar.h>
 #endif
