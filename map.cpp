@@ -2620,9 +2620,9 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 
     if( new_item.is_style() || !INBOUNDS(x,y) ) {
         // Complain about things that should never happen.
-        debugmsg("%i,%i:is_style %i, liquid %i, destroy_item %i", x, y, new_item.is_style(),
-                 (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)),
-                 has_flag(destroy_item, x, y) );
+        dbg(D_INFO) << x << "," << y << ":is_style "<< new_item.is_style() << ", liquid "<<(new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) <<
+                    ", destroy_item "<<has_flag(destroy_item, x, y);
+
         return false;
     }
     if( (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) {
