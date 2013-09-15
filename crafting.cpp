@@ -21,8 +21,6 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 void game::init_recipes() throw (std::string)
 {
     int id = -1;
-    recipe* last_rec = NULL;
-
     catajson recipeRaw("data/raw/recipes.json");
 
     if(!json_good())
@@ -85,7 +83,7 @@ void game::init_recipes() throw (std::string)
 
         std::string rec_name = result + id_suffix;
 
-        last_rec = new recipe(rec_name, id, result, category, skill_used, requires_skills,
+        recipe* last_rec = new recipe(rec_name, id, result, category, skill_used, requires_skills,
                               difficulty, time, reversible, autolearn,
                               learn_by_disassembly);
 

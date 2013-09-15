@@ -394,18 +394,6 @@ void uimenu::setup() {
         wprintz(window, border_color, " >");
     }
     fselected = selected;
-/* pending completion of string_input refactor
-
-    if ( filtering ) {
-        filter_input = new ui_element_input( this );
-        filter_input->max_length = 256;
-        filter_input->starty = w_height - 1;
-        filter_input->startx = 4;
-        filter_input->endx = w_width - 4;
-        filter_input->loop = false;
-    }
-*/
-
     started = true;
 }
 
@@ -681,7 +669,6 @@ void uimenu::query(bool loop) {
  * cleanup
  */
 uimenu::~uimenu() {
-    //dprint(3,"death: ret=%d, w_x=%d, w_y=%d, w_width=%d, w_height=%d", ret, w_x, w_y, w_width, w_height );
     werase(window);
     wrefresh(window);
     delwin(window);
@@ -737,4 +724,3 @@ void uimenu::settext(const char *format, ...) {
    }
    text = std::string(buf);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
