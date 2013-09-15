@@ -5034,6 +5034,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
 
 void game::flashbang(int x, int y, bool player_immune)
 {
+    g->draw_explosion(x, y, 8, c_white);
     int dist = rl_dist(u.posx, u.posy, x, y), t;
     if (dist <= 8 && !player_immune) {
         if (!u.has_bionic("bio_ears")) {
