@@ -1129,7 +1129,6 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  if (z == NULL && p == NULL)
   return;
  bool mon = (z != NULL);
- bool is_u = (!is_npc());
  std::string target = rm_prefix(mon ? string_format(_("<target>the %s"),z->name().c_str()) :
                        (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : _("<target>you")));
  std::string target_possessive = rm_prefix(mon ? string_format(_("<target's>the %s's"), z->name().c_str()) :

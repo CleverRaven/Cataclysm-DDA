@@ -1605,17 +1605,16 @@ void npc::say(game *g, std::string line, ...)
 
 void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
 {
- int val, price;
  bool found_lighter = false;
  invslice slice = inv.slice(0, inv.size());
  for (int i = 0; i < slice.size(); i++) {
   if (slice[i]->front().type->id == "lighter" && !found_lighter)
    found_lighter = true;
   else {
-   val = value(slice[i]->front()) - (slice[i]->front().price() / 50);
+   int val = value(slice[i]->front()) - (slice[i]->front().price() / 50);
    if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP) {
     items.push_back(&slice[i]->front());
-    price = slice[i]->front().price() / (price_adjustment(skillLevel("barter")));
+    int price = slice[i]->front().price() / (price_adjustment(skillLevel("barter")));
     prices.push_back(price);
    }
   }
@@ -1625,13 +1624,12 @@ void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
 void npc::init_buying(inventory& you, std::vector<item*> &items,
                       std::vector<int> &prices)
 {
- int val, price;
  invslice slice = you.slice(0, you.size());
  for (int i = 0; i < slice.size(); i++) {
-  val = value(slice[i]->front());
+  int val = value(slice[i]->front());
   if (val >= NPC_HI_VALUE) {
    items.push_back(&slice[i]->front());
-   price = slice[i]->front().price();
+   int price = slice[i]->front().price();
    if (val >= NPC_VERY_HI_VALUE)
     price *= 2;
    price *= price_adjustment(skillLevel("barter"));

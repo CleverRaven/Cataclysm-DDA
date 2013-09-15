@@ -21,7 +21,6 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 void game::init_recipes() throw (std::string)
 {
     int id = -1;
-    int tl, cl;
     recipe* last_rec = NULL;
 
     catajson recipeRaw("data/raw/recipes.json");
@@ -82,8 +81,6 @@ void game::init_recipes() throw (std::string)
         std::string id_suffix = curr.has("id_suffix") ? curr.get("id_suffix").as_string() : "";
         int learn_by_disassembly = curr.has("decomp_learn") ? curr.get("decomp_learn").as_int() : -1;
 
-        tl = -1;
-        cl = -1;
         ++id;
 
         std::string rec_name = result + id_suffix;
@@ -107,7 +104,6 @@ void game::init_recipes() throw (std::string)
         catajson compList = curr.get("components");
         for (compList.set_begin(); compList.has_curr(); compList.next())
         {
-            ++cl;
             std::vector<component> component_choices;
             catajson comp = compList.curr();
             // interchangable components
@@ -125,7 +121,6 @@ void game::init_recipes() throw (std::string)
             catajson toolList = curr.get("tools");
             for (toolList.set_begin(); toolList.has_curr(); toolList.next())
             {
-                ++tl;
                 std::vector<component> tool_choices;
                 catajson tool = toolList.curr();
                 // interchangable tools
