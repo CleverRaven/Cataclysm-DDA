@@ -25,6 +25,8 @@ item::item()
 {
     init();
     charges = -1;
+    invlet = 0;
+    item_counter = 0;
 }
 
 item::item(itype* it, unsigned int turn)
@@ -35,6 +37,8 @@ item::item(itype* it, unsigned int turn)
  else
   type = it;
  bday = turn;
+    invlet = 0;
+    item_counter = 0;
  corpse = it->corpse;
  if (it == NULL)
   return;
@@ -86,6 +90,7 @@ item::item(itype *it, unsigned int turn, char let)
  }
  bday = turn;
  name = it->name;
+ item_counter = 0;
  if (it->is_gun()) {
   charges = 0;
  } else if (it->is_ammo()) {
@@ -128,6 +133,8 @@ item::item(itype *it, unsigned int turn, char let)
 void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
 {
  init();
+ invlet = 0;
+ item_counter = 0;
  charges = -1;
  active = mt->has_flag(MF_REVIVES)? true : false;
  if(!it)
@@ -157,12 +164,12 @@ void item::init() {
     name = "";
 //    charges = -1;
     bday = 0;
-    invlet = 0;
+//    invlet = 0;
     damage = 0;
     burnt = 0;
     poison = 0;
     mode = "NULL";
-    item_counter = 0;
+//    item_counter = 0;
     type = nullitem();
     curammo = NULL;
     corpse = NULL;
@@ -392,6 +399,7 @@ bool item::json_load(picojson::value parsed, game * g)
     std::string ammotmp="null";
     int lettmp = 0;
     int corptmp = -1;
+    invlet = 0;
     int damtmp = 0;
     charges = -1;
     if ( ! picostring(data, "typeid", idtmp) ) {
