@@ -186,7 +186,7 @@ public:
     void save (std::ofstream &stout);
 
 // Operate vehicle
-    std::string use_controls();
+    void use_controls();
 
 // get vpart type info for part number (part at given vector index)
     vpart_info& part_info (int index);

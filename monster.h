@@ -182,6 +182,8 @@ class monster {
  void make_friendly();
  void add_item(item it);	// Add an item to inventory
 
+ bool is_hallucination();       // true if the monster isn't actually real
+
 // TEMP VALUES
  int wandx, wandy; // Wander destination - Just try to move in that direction
  int wandf;	   // Urge to wander - Increased by sound, decrements each move
@@ -204,6 +206,7 @@ class monster {
  bool dead;
  bool made_footstep;
  std::string unique_name; // If we're unique
+ bool hallucination;
 
  bool setpos(const int x, const int y);
  bool setpos(const point &p);

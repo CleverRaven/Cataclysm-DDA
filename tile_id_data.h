@@ -408,10 +408,7 @@ const std::string monster_names[num_monsters] =
     toString(mon_tankbot),
     toString(mon_turret),
     toString(mon_exploder),
-
-    toString(mon_hallu_zom),
-    toString(mon_hallu_bee),
-    toString(mon_hallu_ant),
+    
     toString(mon_hallu_mom),
 
     toString(mon_generator)

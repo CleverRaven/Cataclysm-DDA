@@ -33,6 +33,7 @@ then
 # if nothing specified, merge all incoming translations
 elif [ -d lang/incoming ]
 then
+    shopt -s nullglob # work as expected if nothing matches *.po
     for f in lang/incoming/*.po
     do
         n=`basename ${f} .po`
