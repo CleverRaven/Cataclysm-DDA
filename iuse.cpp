@@ -2592,7 +2592,7 @@ void iuse::firekatana_on(game *g, player *p, item *it, bool t)
 void iuse::zweifire_off(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true,
-                      _("Was werden Sie tun?"), _("Schalten Sie"), _("Verwenden Sie als Messer"), _("nichts tun"), NULL);
+                      _("Was willst du tun?"), _("Die Flamme entfachen."), _("Als Messer verwenden."), _("Nichts tun."), NULL);
     switch (choice)
     {
         if (choice == 2)
@@ -2603,12 +2603,12 @@ void iuse::zweifire_off(game *g, player *p, item *it, bool t)
         if (it->charges > 0)
         {
             g->sound(p->posx, p->posy, 10,
-                     _("Ihre Flammenschwert heizt!"));
+                     _("Die Klinge deines Schwertes brennt!"));
             it->make(g->itypes["zweifire_on"]);
             it->active = true;
         }
         else
-            g->add_msg_if_player(p,_("Ihre Flammenschwert hat kein Kraftstoff."));
+            g->add_msg_if_player(p,_("Dein Flammenschwert hat keinen Brennstoff mehr."));
     }
     break;
     case 2:
@@ -2623,25 +2623,25 @@ void iuse::zweifire_on(game *g, player *p, item *it, bool t)
     if (t)   	// Effects while simply on
     {
         if (one_in(35))
-            g->add_msg_if_player(p,_("Ihre Klinge leuchtet!"));
+            g->add_msg_if_player(p,_("Das Feuer um deine Schwertklinge leuchtet hell!"));
     }
     else if (it->charges == 0)
     {
-        g->add_msg_if_player(p,_("Ihre Flammenschwert läuft Benzin aus!"));
+        g->add_msg_if_player(p,_("Deinem Flammenschwert ist der Brennstoff ausgegangen!"));
         it->make(g->itypes["zweifire_off"]);
         it->active = false;
     }
     else
     {
         int choice = menu(true,
-                          _("Was werden Sie tun?"), _("Ausschalten"), _("ein Feuer"), _("nichts tun"), NULL);
+                          _("Was willst du tun?"), _("Die Flamme erlöschen."), _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
         switch (choice)
         {
             if (choice == 2)
                 break;
         case 1:
         {
-            g->add_msg_if_player(p,_("Sie schalten Sie Ihre flammenschwert."));
+            g->add_msg_if_player(p,_("Die Flamme deines Schwertes erlischt."));
             it->make(g->itypes["zweifire_off"]);
             it->active = false;
         }
