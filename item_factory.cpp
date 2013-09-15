@@ -417,6 +417,11 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                         comest_template->spoils = entry.get("spoils_in").as_int();
                         comest_template->addict = entry.get("addiction_potential").as_int();
                         comest_template->charges = entry.get("charges").as_int();
+                        if(entry.has("stack_size")) {
+                          comest_template->stack_size = entry.get("stack_size").as_int();
+                        } else {
+                          comest_template->stack_size = comest_template->charges;
+                        }
                         comest_template->stim = entry.get("stim").as_int();
                         comest_template->healthy = entry.get("heal").as_int();
                         comest_template->fun = entry.get("fun").as_int();
@@ -469,6 +474,11 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                             entry.get("dispersion").as_int();
                         ammo_template->recoil = entry.get("recoil").as_int();
                         ammo_template->count = entry.get("count").as_int();
+                        if(entry.has("stack_size")) {
+                          ammo_template->stack_size = entry.get("stack_size").as_int();
+                        } else {
+                          ammo_template->stack_size = ammo_template->count;
+                        }
                         if( entry.has("effects") ) {
                             tags_from_json(entry.get("effects"), ammo_template->ammo_effects);
                         }

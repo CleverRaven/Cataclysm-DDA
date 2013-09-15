@@ -4408,6 +4408,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
+        "stack_size": 9,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4466,6 +4467,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 20,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4525,6 +4527,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 20,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4554,6 +4557,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4583,6 +4587,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 5
     },
@@ -4612,6 +4617,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4641,6 +4647,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4670,6 +4677,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4729,6 +4737,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 10
     },
@@ -4759,6 +4768,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 18
     },
@@ -4789,6 +4799,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 6
     },
@@ -4818,6 +4829,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 20
     },
@@ -4847,6 +4859,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 10
     },
@@ -4876,6 +4889,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4905,6 +4919,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 15,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4934,6 +4949,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 50,
         "bashing" : 0,
         "fun" : 5
     },
@@ -4963,6 +4979,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 5,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 15
     },    
@@ -4993,6 +5010,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 1
     },
@@ -5022,6 +5040,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 8,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 25
     },
@@ -5051,6 +5070,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 6,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 30
     },
@@ -5081,8 +5101,8 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
+        "stack_size" : 100,
         "bashing" : 0,
-
         "fun" : 50
     },
     {
@@ -5140,6 +5160,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 15,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -5169,6 +5190,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -5199,6 +5221,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -5228,6 +5251,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 50
     },
@@ -5811,6 +5835,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 5,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 20
     },
@@ -5840,6 +5865,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 4
     },
@@ -5869,6 +5895,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 1
     },
@@ -6014,6 +6041,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -6043,6 +6071,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
+        "stack_size" : 9,
         "bashing" : 0,
         "fun" : 0
     }
