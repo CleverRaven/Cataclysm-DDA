@@ -374,9 +374,8 @@ void editmap::update_view(bool update_info)
         off++;  // 4-5
 
         if (cur_field->fieldCount() > 0) {
-            field_entry *cur = NULL;
             for(std::map<field_id, field_entry *>::iterator field_list_it = cur_field->getFieldStart(); field_list_it != cur_field->getFieldEnd(); ++field_list_it) {
-                cur = field_list_it->second;
+                field_entry* cur = field_list_it->second;
                 if(cur == NULL) {
                     continue;
                 }
@@ -445,8 +444,6 @@ int editmap::edit_ter(point coords)
 
     int pickh = pwh - 2;
     int pickw = width - 4;
-    int cur_t = 0;
-    int cur_f = 0;
 
     if( sel_ter < 0 ) {
         sel_ter = target_ter;
@@ -489,7 +486,7 @@ int editmap::edit_ter(point coords)
         nc_color c_tercurs = ( ter_frn_mode == 0 ? c_ltgreen : c_dkgray );
         nc_color c_frncurs = ( ter_frn_mode == 1 ? c_ltgreen : c_dkgray );
 
-        cur_t = 0;
+        int cur_t = 0;
         int tstart = 2;
         // draw icon grid
         for (int y = tstart; y < pickh && cur_t < num_terrain_types; y += 2) {
@@ -541,7 +538,7 @@ int editmap::edit_ter(point coords)
         }
 
         off += 2;
-        cur_f = 0;
+        int cur_f = 0;
         int fstart = off; // calc vertical offset, draw furniture icons
         for (int y = fstart; y < pickh && cur_f < num_furniture_types; y += 2) {
             for (int x = 3; x < pickw && cur_f < num_furniture_types; x++, cur_f++) {
