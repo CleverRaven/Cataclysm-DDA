@@ -3540,6 +3540,25 @@
 },
 
 {
+  "result": "salt_water",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ],
+    [
+      [ "salt", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "acid",
   "category": "CC_DRINK",
   "skill_used": "cooking",

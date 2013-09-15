@@ -16,6 +16,7 @@
 #include "player.h"
 #include "translations.h"
 #include <sstream>
+#include <algorithm>
 
 void iexamine::none	(game *g, player *p, map *m, int examx, int examy) {
  g->add_msg(_("That is a %s."), m->name(examx, examy).c_str());
@@ -629,32 +630,71 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::dirtmound(game *g, player *p, map *m, int examx, int examy) {
-  if (g->get_temperature() < 50) // semi-appropriate temperature for most plants
-    g->add_msg(_("It is too cold to plant anything now."));
 
-  const bool lightCheck = true; // TODO: This.
-
-  if (!lightCheck)
-    g->add_msg(_("It is too dark to plant anything now."));
-
-  if (m->i_at(examx, examy).size() == 0 && p->has_item_with_flag("SEED") && query_yn(_("Plant a seed?"))) {
-    std::vector<item*> seeds = p->inv.all_items_with_flag("SEED");
-
-    size_t seed_index = 0;
-
-    if (seeds.size() > 1) {
-      // TODO: Allow choosing a type of seed
+    if (g->get_temperature() < 50) { // semi-appropriate temperature for most plants
+        g->add_msg(_("It is too cold to plant anything now."));
+        return;
+    }
+    /* ambient_light_at() not working?
+    if (m->ambient_light_at(examx, examy) < LIGHT_AMBIENT_LOW) {
+        g->add_msg(_("It is too dark to plant anything now."));
+        return;
+    }*/
+    if (!p->has_item_with_flag("SEED")){
+        g->add_msg(_("You have no seeds to plant."));
+        return;
+    }
+    if (m->i_at(examx, examy).size() != 0){
+        g->add_msg(_("This should never happen... I think."));
+        return;
     }
 
+    // Get list of all inv+wielded seeds
+    std::vector<item*> seed_inv = p->inv.all_items_with_flag("SEED");
+    if (g->u.weapon.has_flag("SEED"))
+        seed_inv.push_back(&g->u.weapon);
 
-    itype_id seedType = seeds[seed_index]->typeId();
+    // Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
+    std::vector<itype_id> seed_types;
+    std::vector<std::string> seed_names;
+    for (std::vector<item*>::iterator it = seed_inv.begin() ; it != seed_inv.end(); it++){
+        if (std::find(seed_types.begin(), seed_types.end(), (*it)->typeId()) == seed_types.end()){
+            seed_types.push_back((*it)->typeId());
+            seed_names.push_back((*it)->name);
+        }
+    }
 
-    std::list<item> planted = p->inv.use_charges(seedType, 1);
-    m->spawn_item(examx, examy, seedType, g->turn, 1, 1);
+    // Choose seed if applicable
+    int seed_index = 0;
+    if (seed_types.size() > 1) {
+        seed_names.push_back("Cancel");
+        seed_index = menu_vec(false, _("Use which seed?"), seed_names) - 1; // TODO: make cancelable using ESC
+        if (seed_index == seed_names.size() - 1)
+            seed_index = -1;
+    } else {
+        if (!query_yn(_("Plant %s here?"), seed_names[0].c_str()))
+            seed_index = -1;
+    }
+
+    // Did we cancel?
+    if (seed_index < 0) {
+        g->add_msg(_("You saved your seeds for later.")); // huehuehue
+        return;
+    }
+
+    // Actual planting
+    std::list<item> planted = p->inv.use_charges(seed_types[seed_index], 1);
+    if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
+        if (g->u.weapon.charges > 1) {
+            g->u.weapon.charges--;
+        } else {
+            g->u.remove_weapon();
+        }
+    }
+    m->spawn_item(examx, examy, seed_types[seed_index], g->turn, 1, 1);
     m->set(examx, examy, t_dirt, f_plant_seed);
-
     p->moves -= 500;
-  }
+    g->add_msg(_("Planted %s"), seed_names[seed_index].c_str());
 }
 
 void iexamine::aggie_plant(game *g, player *p, map *m, int examx, int examy) {

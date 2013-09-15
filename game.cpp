@@ -27,7 +27,6 @@
 #include "mapdata.h"
 #include "catacharset.h"
 #include "translations.h"
-#include "item.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -36,7 +35,11 @@
 #include <sstream>
 #include <math.h>
 #include <vector>
-#ifndef _MSC_VER
+
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
+#else
 #include <unistd.h>
 #include <dirent.h>
 #endif
@@ -45,6 +48,9 @@
 #include "artifactdata.h"
 
 #if (defined _WIN32 || defined __WIN32__)
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <windows.h>
 #include <tchar.h>
 #endif
@@ -5679,6 +5685,26 @@ void game::clear_zombies()
     z_at.clear();
 }
 
+/**
+ * Attempts to spawn a hallucination somewhere close to the player. Returns
+ * false if the hallucination couldn't be spawned for whatever reason, such as
+ * a monster already in the target square.
+ * @return Whether or not a hallucination was successfully spawned.
+ */
+bool game::spawn_hallucination()
+{
+  monster phantasm(mtypes[rng(1, num_monsters - 1)]);
+  phantasm.hallucination = true;
+  phantasm.spawn(u.posx + rng(-10, 10), u.posy + rng(-10, 10));
+
+  //Don't attempt to place phantasms inside of other monsters
+  if (mon_at(phantasm.posx(), phantasm.posy()) == -1) {
+    return add_zombie(phantasm);
+  } else {
+    return false;
+  }
+}
+
 int game::mon_at(const int x, const int y) const
 {
     std::map<point, int>::const_iterator i = z_at.find(point(x, y));
@@ -5742,8 +5768,9 @@ void game::kill_mon(int index, bool u_did_it)
     mdeath tmpdeath;
     tmpdeath.guilt(this, &z);
    }
-   if (z.type->species != species_hallu)
+   if (!z.is_hallucination()) {
     kills[z.type->id]++;	// Increment our kill counter
+   }
   }
   for (int i = 0; i < z.inv.size(); i++)
    m.add_item_or_charges(z.posx(), z.posy(), z.inv[i]);
@@ -5760,6 +5787,10 @@ void game::explode_mon(int index)
   return;
  }
  monster &z = _z[index];
+ if(z.is_hallucination()) {
+   //Can't gib hallucinations
+   return;
+ }
  if (!z.dead) {
   z.dead = true;
   kills[z.type->id]++;	// Increment our kill counter
@@ -6088,7 +6119,7 @@ void game::use_item(char chInput)
 {
  char ch;
  if (chInput == '.')
-  ch = inv_activatable(_("Use item:"));
+  ch = inv(_("Use item:"));
  else
   ch = chInput;
 
@@ -6425,9 +6456,7 @@ void game::control_vehicle()
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
 
     if (veh && veh->player_in_control(&u)) {
-        std::string message = veh->use_controls();
-        if (!message.empty())
-            add_msg(message.c_str());
+        veh->use_controls();
     } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                    && u.in_vehicle) {
         u.controlling_vehicle = true;
@@ -6445,9 +6474,7 @@ void game::control_vehicle()
             add_msg(_("No controls there."));
             return;
         }
-        std::string message = veh->use_controls();
-        if (!message.empty())
-            add_msg(message.c_str());
+        veh->use_controls();
     }
 }
 
@@ -8848,7 +8875,7 @@ void game::eat(char chInput)
   return;
  }
  if (chInput == '.')
-  ch = inv_type(_("Consume item:"), IC_COMESTIBLE );
+  ch = inv_type(_("Consume item:"), IC_COMESTIBLE);
  else
   ch = chInput;
 
@@ -9317,7 +9344,7 @@ void game::plmove(int dx, int dy)
      monster &z = zombie(mondex);
      if (z.friendly == 0) {
          int udam = u.hit_mon(this, &z);
-         if (z.hurt(udam)) {
+         if (z.hurt(udam) || z.is_hallucination()) {
              kill_mon(mondex, true);
          }
          draw_hit_mon(x,y,z,z.dead);
@@ -10401,54 +10428,58 @@ void game::update_stair_monsters()
 
 void game::despawn_monsters(const bool stairs, const int shiftx, const int shifty)
 {
- for (unsigned int i = 0; i < num_zombies(); i++) {
-  monster &z = zombie(i);
-  // If either shift argument is non-zero, we're shifting.
-  if(shiftx != 0 || shifty != 0) {
-   z.shift(shiftx, shifty);
-   if (z.posx() >= 0 - SEEX             && z.posy() >= 0 - SEEX &&
-       z.posx() <= SEEX * (MAPSIZE + 1) && z.posy() <= SEEY * (MAPSIZE + 1))
-     // We're inbounds, so don't despawn after all.
-     continue;
-  }
+    for (unsigned int i = 0; i < num_zombies(); i++) {
+        monster &z = zombie(i);
+        // If either shift argument is non-zero, we're shifting.
+        if(shiftx != 0 || shifty != 0) {
+            z.shift(shiftx, shifty);
+            if( z.posx() >= 0 && z.posx() <= SEEX * MAPSIZE &&
+                z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE ) {
+                // We're inbounds, so don't despawn after all.
+                continue;
+            }
+        }
 
-  if (stairs && z.will_reach(this, u.posx, u.posy)) {
-   int turns = z.turns_to_reach(this, u.posx, u.posy);
-   if (turns < 999)
-    coming_to_stairs.push_back( monster_and_count(z, 1 + turns) );
-  } else if ( (z.spawnmapx != -1) ||
-      ((stairs || shiftx != 0 || shifty != 0) && z.friendly != 0 ) ) {
-    // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
-    real_coords rc(levx, levy, z.posx(), z.posy()); // this is madness
-    z.spawnmapx = rc.sub.x;
-    z.spawnmapy = rc.sub.y;
-    z.spawnposx = rc.sub_pos.x;
-    z.spawnposy = rc.sub_pos.y;
+        if (stairs && z.will_reach(this, u.posx, u.posy)) {
+            int turns = z.turns_to_reach(this, u.posx, u.posy);
+            if (turns < 999) {
+                coming_to_stairs.push_back( monster_and_count(z, 1 + turns) );
+            }
+        } else if ( (z.spawnmapx != -1) ||
+                    ((stairs || shiftx != 0 || shifty != 0) && z.friendly != 0 ) ) {
+            // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
+            real_coords rc(levx, levy, z.posx(), z.posy()); // this is madness
+            z.spawnmapx = rc.sub.x;
+            z.spawnmapy = rc.sub.y;
+            z.spawnposx = rc.sub_pos.x;
+            z.spawnposy = rc.sub_pos.y;
 
-    tinymap tmp(&traps);
-    tmp.load(this, z.spawnmapx, z.spawnmapy, levz, false);
-    tmp.add_spawn(&z);
-    tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
-  } else {
-   	// No spawn site, so absorb them back into a group.
-   int group = valid_group((mon_id)(z.type->id), levx + shiftx, levy + shifty, levz);
-   if (group != -1) {
-    cur_om->zg[group].population++;
-    if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-        !cur_om->zg[group].diffuse)
-     cur_om->zg[group].radius++;
-   }
-  }
-  // Shifting needs some cleanup for despawned monsters since they won't be cleared afterwards.
-  if(shiftx != 0 || shifty != 0) {
-    remove_zombie(i);
-    i--;
-  }
- }
+            tinymap tmp(&traps);
+            tmp.load(this, z.spawnmapx, z.spawnmapy, levz, false);
+            tmp.add_spawn(&z);
+            tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
+        } else {
+            // No spawn site, so absorb them back into a group.
+            int group = valid_group((mon_id)(z.type->id), levx + shiftx, levy + shifty, levz);
+            if (group != -1) {
+                cur_om->zg[group].population++;
+                if (cur_om->zg[group].population /
+                    (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
+                    !cur_om->zg[group].diffuse) {
+                    cur_om->zg[group].radius++;
+                }
+            }
+        }
+        // Shifting needs some cleanup for despawned monsters since they won't be cleared afterwards.
+        if(shiftx != 0 || shifty != 0) {
+            remove_zombie(i);
+            i--;
+        }
+    }
 
- // The order in which zombies are shifted may cause zombies to briefly exist on
- // the same square. This messes up the mon_at cache, so we need to rebuild it.
- rebuild_mon_at_cache();
+    // The order in which zombies are shifted may cause zombies to briefly exist on
+    // the same square. This messes up the mon_at cache, so we need to rebuild it.
+    rebuild_mon_at_cache();
 }
 
 void game::spawn_mon(int shiftx, int shifty)

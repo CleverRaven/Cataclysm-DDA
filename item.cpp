@@ -127,7 +127,7 @@ item::item(itype *it, unsigned int turn, char let)
 void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
 {
  init();
- active = mt->species == species_zombie ? true : false;
+ active = mt->has_flag(MF_REVIVES)? true : false;
  if(!it)
   type = nullitem();
  else
@@ -753,7 +753,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("ARMOR", _("Coverage: "), _("<num> percent"), armor->coverage));
     if (has_flag("FIT"))
     {
-        dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "<num> (fits)",
+        dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
                                  std::max(0, armor->encumber - 1), true, "", true, true));
     }
     else
@@ -822,12 +822,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     if (is_armor() && has_flag("FIT"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", "This piece of clothing fits you perfectly."));
+        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
     }
     if (is_armor() && has_flag("POCKETS"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", "This piece of clothing has pockets to warm your hands."));
+        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing has pockets to warm your hands.")));
     }
     if (is_armor() && type->id == "rad_badge")
     {
@@ -840,13 +840,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
             }
         }
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", "The film strip on the badge is " +
-                                 rad_threshold_colors[i - 1] + "."));
+        dump->push_back(iteminfo("DESCRIPTION", string_format(_("The film strip on the badge is %s."), rad_threshold_colors[i - 1].c_str())));
     }
     if (is_tool() && has_flag("DOUBLE_AMMO"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", "This tool has double the normal maximum charges."));
+        dump->push_back(iteminfo("DESCRIPTION", _("This tool has double the normal maximum charges.")));
     }
     std::map<std::string, std::string>::const_iterator item_note = item_vars.find("item_note");
     std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");
@@ -859,7 +858,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
                 item_note_type->second.c_str(), type->name.c_str()
             );
         } else {
-            ntext += "Note: ";
+            ntext += _("Note: ");
         }
         dump->push_back(iteminfo("DESCRIPTION", ntext + item_note->second ));
     }
@@ -969,13 +968,15 @@ std::string item::tname(game *g)
 
  std::string vehtext = "";
  if (is_var_veh_part()){
-  if(type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT){ //liters, e.g. "3.21-Liter V8 engine"
+  if(type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT){
    ret.str("");
    ret.precision(4);
    ret << (float)bigness/100;
+   //~ liters, e.g. 3.21-Liter V8 engine
    vehtext = rmp_format(_("<veh_adj>%s-Liter "), ret.str().c_str());
   }
-  else if(type->bigness_aspect == BIGNESS_WHEEL_DIAMETER) { //inches, e.g. "20" wheel"
+  else if(type->bigness_aspect == BIGNESS_WHEEL_DIAMETER) {
+   //~ inches, e.g. 20" wheel
    vehtext = rmp_format(_("<veh_adj>%d\" "), bigness);
   }
  }
@@ -995,7 +996,7 @@ std::string item::tname(game *g)
   if (corpse == NULL || corpse->id == mon_null)
    maintext = rm_prefix(_("<item_name>human blood"));
   else
-   maintext = rmp_format("<item_name>%s blood", corpse->name.c_str());
+   maintext = rmp_format(_("<item_name>%s blood"), corpse->name.c_str());
  }
  else if (is_gun() && contents.size() > 0 ) {
   ret.str("");
@@ -1012,7 +1013,7 @@ std::string item::tname(game *g)
   );
  }
  else if (contents.size() > 0) {
-  maintext = rmp_format("<item_name>%s, full", type->name.c_str());
+  maintext = rmp_format(_("<item_name>%s, full"), type->name.c_str());
  } else {
   maintext = type->name;
  }
@@ -1041,7 +1042,7 @@ std::string item::tname(game *g)
    ret << _(" (rotten)");
 
  if (has_flag("FIT")){
-     ret << " (fits)";
+     ret << _(" (fits)");
  }
 
  if (owned > 0)
@@ -1274,7 +1275,7 @@ bool item::rotten(game *g)
 
 bool item::ready_to_revive(game *g)
 {
-    if ( corpse == NULL ||  corpse->species != species_zombie || damage >= 4)
+    if ( corpse == NULL || !corpse->has_flag(MF_REVIVES) || damage >= 4)
     {
         return false;
     }
@@ -1651,11 +1652,6 @@ bool item::is_food(player const*u) const
 bool item::is_food_container(player const*u) const
 {
  return (contents.size() >= 1 && contents[0].is_food(u));
-}
-
-bool is_edible(item i, player const*u)
-{
-    return (i.is_food(u) || i.is_food_container(u));
 }
 
 bool item::is_food() const
@@ -2491,4 +2487,50 @@ itype_id item::typeId() const
 
 item item::clone(){
     return item(type, bday);
+}
+
+bool item::getlight(float & luminance, int & width, int & direction, bool calculate_dimming ) const {
+    luminance = 0;
+    width = 0;
+    direction = 0;
+    if ( light.luminance > 0 ) {
+        luminance = (float)light.luminance;
+        if ( light.width > 0 ) { // width > 0 is a light arc
+            width = light.width;
+            direction = light.direction;
+        }
+        return true;
+    } else {
+        const int lumint = getlight_emit( calculate_dimming );
+        if ( lumint > 0 ) {
+            luminance = (float)lumint;
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
+ * Returns just the integer
+ */
+int item::getlight_emit(bool calculate_dimming) const {
+    const int mult = 10; // woo intmath
+    const int chargedrop = 5 * mult; // start dimming at 1/5th charge.
+    
+    int lumint = type->light_emission * mult;
+    
+    if ( lumint == 0 ) {
+        return 0;
+    }
+    if ( calculate_dimming && has_flag("CHARGEDIM") && is_tool()) {
+        it_tool * tool = dynamic_cast<it_tool *>(type);
+        int maxcharge = tool->max_charges;
+        if ( maxcharge > 0 ) {
+            lumint = ( type->light_emission * chargedrop * charges ) / maxcharge;
+        }
+    }
+    if ( lumint > 4 && lumint < 10 ) {
+        lumint = 10;
+    }
+    return lumint / 10;
 }
