@@ -10556,7 +10556,7 @@ msgid "You have no seeds to plant."
 msgstr "Vous êtes en manque de stimulants."
 
 #: iexamine.cpp:648
-msgid "This should never happen... I think."
+msgid "Something's lying there..."
 msgstr ""
 
 #: iexamine.cpp:671
