@@ -306,7 +306,7 @@ JsonIn::JsonIn(std::istream *s)
 }
 
 int JsonIn::tell() { return stream->tellg(); }
-void JsonIn::seek(int pos) { stream->seekg(pos); }
+void JsonIn::seek(int pos) { stream->seekg(pos, stream->beg); }
 char JsonIn::peek() { return (char)stream->peek(); }
 bool JsonIn::good() { return stream->good(); }
 
@@ -681,7 +681,7 @@ bool JsonIn::get_bool()
             err << line_number(-4) << ": ";
             err << "not a boolean. expected \"true\", but got \"";
             err << ch << text << "\"";
-            stream->seekg(pos);
+            seek(pos);
             throw err.str();
         }
     } else if (ch == 'f') {
@@ -693,13 +693,13 @@ bool JsonIn::get_bool()
             err << line_number(-5) << ": ";
             err << "not a boolean. expected \"false\", but got \"";
             err << ch << text << "\"";
-            stream->seekg(pos);
+            seek(pos);
             throw err.str();
         }
     }
     err << line_number(-1) << ": ";
     err << "not a boolean value! expected 't' or 'f' but got '" << ch << "'";
-    stream->seekg(pos);
+    seek(pos);
     throw err.str();
 }
 
@@ -773,7 +773,7 @@ std::string JsonIn::line_number(int offset_modifier)
     int pos = stream->tellg();
     int line = 1;
     int offset = 1;
-    stream->seekg(0);
+    seek(0);
     for (int i=0; i < pos; ++i) {
         if (stream->get() == '\n') {
             offset = 1;
