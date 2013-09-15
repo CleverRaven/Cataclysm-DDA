@@ -1314,14 +1314,9 @@ bool item::count_by_charges() const
 
 int item::max_charges() const
 {
-  if(is_ammo()) {
-    it_ammo* ammo = dynamic_cast<it_ammo*>(type);
-    return ammo->count;
-  } else if(is_food()) {
-    it_comest* food = dynamic_cast<it_comest*>(type);
-    return food->charges;
+  if(count_by_charges()) {
+    return type->stack_size;
   } else {
-    //Doesn't have charges
     return 1;
   }
 }
