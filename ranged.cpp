@@ -14,7 +14,8 @@ int recoil_add(player &p);
 void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon);
 int calculate_range(player &p, int tarx, int tary);
 double calculate_missed_by(player &p, int trange, item* weapon);
-void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, item* weapon);
+void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
+                   item* weapon, const std::set<std::string> &effects);
 void shoot_player(game *g, player &p, player *h, int &dam, double goodhit);
 
 void splatter(game *g, std::vector<point> trajectory, int dam,
@@ -392,7 +393,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
     std::vector<point> blood_traj = trajectory;
     blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
     splatter(this, blood_traj, dam, &z);
-    shoot_monster(this, p, z, dam, goodhit, weapon);
+    shoot_monster(this, p, z, dam, goodhit, weapon, effects);
 
    } else if ((!missed || one_in(3)) &&
               (npc_at(tx, ty) != -1 || (u.posx == tx && u.posy == ty)))  {
@@ -885,9 +886,6 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
    z.add_effect(ME_ONFIRE, rng(10, 10));
 
  }
- if (effects.count("BOUNCE")) {
-     z.add_effect(ME_BOUNCED, 1);
- }
  int stun_strength = 0;
  if (effects.count("BEANBAG")) {
      stun_strength = 4;
@@ -1093,7 +1091,8 @@ int recoil_add(player &p)
  return 0;
 }
 
-void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, item* weapon)
+void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
+                   item* weapon, const std::set<std::string> &effects)
 {
  // Gunmods don't have a type, so use the player weapon type.
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
@@ -1101,19 +1100,22 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
  bool u_see_mon = g->u_see(&(mon));
  int adjusted_damage = dam;
  if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - goodhit)) && // Maxes out at 50% chance with perfect hit
-     weapon->curammo->phase != LIQUID && !weapon->curammo->ammo_effects.count("SHOT") &&
-     !weapon->curammo->ammo_effects.count("BOUNCE")) {
+     weapon->curammo->phase != LIQUID && !effects.count("SHOT") && !effects.count("BOUNCE")) {
   if (u_see_mon)
    g->add_msg(_("The shot passes through the %s without hitting."),
            mon.name().c_str());
   goodhit = 1;
  } else { // Not HARDTOSHOOT
-// Armor blocks BEFORE any critical effects.
+  // Bounce applies whether it does damage or not.
+  if (effects.count("BOUNCE")) {
+      mon.add_effect(ME_BOUNCED, 1);
+  }
+  // Armor blocks BEFORE any critical effects.
   int zarm = mon.armor_cut();
   zarm -= weapon->gun_pierce();
   if (weapon->curammo->phase == LIQUID)
    zarm = 0;
-  else if (weapon->curammo->ammo_effects.count("SHOT")) // Shot doesn't penetrate armor well
+  else if (effects.count("SHOT")) // Shot doesn't penetrate armor well
    zarm *= rng(2, 3);
   if (zarm > 0)
    adjusted_damage -= zarm;
@@ -1177,21 +1179,13 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
         }
         bool bMonDead = mon.hurt(adjusted_damage, dam);
         if( u_see_mon ) {
-            g->draw_hit_mon(mon.posx(),
-                            mon.posy(),
-                            mon,
-                            bMonDead);
-        /*
-            hit_animation(mon.posx - g->u.posx + VIEWX - g->u.view_offset_x,
-                     mon.posy - g->u.posy + VIEWY - g->u.view_offset_y,
-                     red_background(mon.type->color), (bMonDead) ? '%' : mon.symbol());
-        */
+            g->draw_hit_mon(mon.posx(), mon.posy(), mon, bMonDead);
         }
 
         if (bMonDead) {
             g->kill_mon(g->mon_at(mon.posx(), mon.posy()), (&p == &(g->u)));
-        } else if (!weapon->curammo->ammo_effects.empty()) {
-            g->hit_monster_with_flags(mon, weapon->curammo->ammo_effects);
+        } else if (!effects.empty()) {
+            g->hit_monster_with_flags(mon, effects);
         }
         adjusted_damage = 0;
     }
