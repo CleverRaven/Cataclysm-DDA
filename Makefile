@@ -255,6 +255,7 @@ endif
 
 ifdef LANGUAGES
   L10N = localization
+  BINDIST_EXTRAS += lang/mo
 endif
 
 all: version $(TARGET) $(L10N)
@@ -300,10 +301,10 @@ clean: clean-tests
 
 bindist: $(BINDIST)
 
-$(BINDIST): $(TARGET) $(BINDIST_EXTRAS)
+$(BINDIST): $(TARGET) $(L10N) $(BINDIST_EXTRAS)
 	rm -rf $(BINDIST_DIR)
 	mkdir -p $(BINDIST_DIR)
-	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+	cp -R --parents $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 	$(BINDIST_CMD)
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
