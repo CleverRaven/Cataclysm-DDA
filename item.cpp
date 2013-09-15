@@ -1155,7 +1155,7 @@ int item::volume() const
 
  if (count_by_charges()) {
    ret *= charges;
-   ret /= 100;
+   ret /= max_charges();
  }
 
  if (is_gun()) {
