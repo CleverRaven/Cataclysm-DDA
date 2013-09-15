@@ -886,9 +886,6 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
    z.add_effect(ME_ONFIRE, rng(10, 10));
 
  }
- if (effects.count("BOUNCE")) {
-     z.add_effect(ME_BOUNCED, 1);
- }
  int stun_strength = 0;
  if (effects.count("BEANBAG")) {
      stun_strength = 4;
@@ -1109,7 +1106,11 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
            mon.name().c_str());
   goodhit = 1;
  } else { // Not HARDTOSHOOT
-// Armor blocks BEFORE any critical effects.
+  // Bounce applies whether it does damage or not.
+  if (effects.count("BOUNCE")) {
+      mon.add_effect(ME_BOUNCED, 1);
+  }
+  // Armor blocks BEFORE any critical effects.
   int zarm = mon.armor_cut();
   zarm -= weapon->gun_pierce();
   if (weapon->curammo->phase == LIQUID)
