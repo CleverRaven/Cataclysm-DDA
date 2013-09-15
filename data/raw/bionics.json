@@ -118,6 +118,13 @@
     "description":    "Your eyes have a thin membrane that closes over your eyes while underwater, negating any vision penalties."
 },
 {
+    "id"         :    "bio_sunglasses",
+    "name"       :    "Transition lenses",
+    "cost"       :    0,
+    "time"       :    0,
+    "description":    "Your eyes have quick-reacting transition lenses installed over them, negating any glare penalties and partially protecting you from bright flashes."
+},
+{
     "id"         :    "bio_targeting",
     "name"       :    "Targeting System",
     "cost"       :    0,
@@ -134,7 +141,7 @@
 {
     "id"         :    "bio_purifier",
     "name"       :    "Air Filtration System",
-    "cost"       :    1,
+    "cost"       :    0,
     "time"       :    0,
     "description":    "Implanted in your trachea is an advanced filtration system.  If toxins find their way into your windpipe, the filter will attempt to remove them."
 },
