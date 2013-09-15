@@ -24,6 +24,9 @@
 #  make TILES=1
 # Disable gettext, on some platforms the dependencies are hard to wrangle.
 #  make LOCALIZE=0
+# Compile localization files for specified languages
+#  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
+#  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 
 # comment these to toggle them as one sees fit.
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
@@ -250,7 +253,11 @@ ifdef SDL
   endif
 endif
 
-all: version $(TARGET)
+ifdef LANGUAGES
+  L10N = localization
+endif
+
+all: version $(TARGET) $(L10N)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
@@ -281,6 +288,9 @@ $(ODIR)/SDLMain.o: SDLMain.m
 	$(CC) -c $(OSX_INC) $< -o $@
 
 version.cpp: version
+
+localization:
+	lang/compile_mo.sh $(LANGUAGES)
 
 clean: clean-tests
 	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
