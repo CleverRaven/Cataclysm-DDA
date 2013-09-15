@@ -24,6 +24,7 @@ light_emission nolight={0,0,0};
 item::item()
 {
     init();
+    charges = -1;
 }
 
 item::item(itype* it, unsigned int turn)
@@ -127,6 +128,7 @@ item::item(itype *it, unsigned int turn, char let)
 void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
 {
  init();
+ charges = -1;
  active = mt->has_flag(MF_REVIVES)? true : false;
  if(!it)
   type = nullitem();
@@ -153,7 +155,7 @@ item::~item()
 
 void item::init() {
     name = "";
-    charges = -1;
+//    charges = -1;
     bday = 0;
     invlet = 0;
     damage = 0;
@@ -391,7 +393,7 @@ bool item::json_load(picojson::value parsed, game * g)
     int lettmp = 0;
     int corptmp = -1;
     int damtmp = 0;
-
+    charges = -1;
     if ( ! picostring(data, "typeid", idtmp) ) {
         debugmsg("Invalid item type: %s ", parsed.serialize().c_str() );
         idtmp = "null";
