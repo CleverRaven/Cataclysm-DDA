@@ -3301,26 +3301,27 @@ void iuse::molotov(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,_("You light the molotov cocktail."));
  p->moves -= 150;
  it->make(g->itypes["molotov_lit"]);
- it->charges = 1;
  it->bday = int(g->turn);
  it->active = true;
 }
 
 void iuse::molotov_lit(game *g, player *p, item *it, bool t)
 {
- int age = int(g->turn) - it->bday;
- if (!p->has_item(it)) {
-  point pos = g->find_item(it);
-  it->charges = -1;
-  g->explosion(pos.x, pos.y, 8, 0, true);
- } else if (age >= 5) { // More than 5 turns old = chance of going out
-  if (rng(1, 50) < age) {
-   g->add_msg_if_player(p,_("Your lit molotov goes out."));
-   it->make(g->itypes["molotov"]);
-   it->charges = 0;
-   it->active = false;
-  }
- }
+    int age = int(g->turn) - it->bday;
+    if (p->has_item(it)) {
+        it->charges += 1;
+        if (age >= 5) { // More than 5 turns old = chance of going out
+            if (rng(1, 50) < age) {
+                g->add_msg_if_player(p,_("Your lit molotov goes out."));
+                it->make(g->itypes["molotov"]);
+                it->active = false;
+            }
+        }
+    } else {
+        point pos = g->find_item(it);
+        if (!t)
+            g->explosion(pos.x, pos.y, 8, 0, true);
+    }
 }
 
 void iuse::dynamite(game *g, player *p, item *it, bool t)
