@@ -13186,7 +13186,8 @@
       ],
       [
       [ "kevlar", 1 ],
-      [ "swat_armor", 1 ]
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
       ]
   ]
 },
@@ -13245,7 +13246,8 @@
       ],
       [
       [ "kevlar", 1 ],
-      [ "swat_armor", 1 ]
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
       ]
   ]
 },
@@ -13309,7 +13311,8 @@
       ],
       [
       [ "kevlar", 1 ],
-      [ "swat_armor", 1 ]
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
       ]
   ]
 },
