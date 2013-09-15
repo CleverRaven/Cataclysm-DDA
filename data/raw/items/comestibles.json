@@ -5746,7 +5746,7 @@
         "nutrition" : 30,
         "description" : "A block of yellow processed cheese.",
         "price" : 70,
-        "material" : "flesh",
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
