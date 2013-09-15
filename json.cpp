@@ -668,7 +668,7 @@ bool JsonIn::get_bool()
 {
     char ch;
     char text[5];
-    int pos = stream->tellg();
+    int pos = tell();
     std::stringstream err;
     eat_whitespace();
     stream->get(ch);
@@ -770,7 +770,7 @@ bool JsonIn::end_object()
 // intended for occasional use only
 std::string JsonIn::line_number(int offset_modifier)
 {
-    int pos = stream->tellg();
+    int pos = tell();
     int line = 1;
     int offset = 1;
     seek(0);
