@@ -7198,6 +7198,27 @@
 },
 
 {
+  "result": "towel",
+  "category": "CC_MISC",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 5 ],
+      [ "sewing_kit", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},
+
+{
   "result": "pants_cargo",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
