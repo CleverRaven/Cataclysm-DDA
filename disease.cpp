@@ -400,7 +400,6 @@ void dis_remove_memorial(game* g, dis_type type_string) {
 }
 
 void dis_effect(game *g, player &p, disease &dis) {
-    mon_id montype;
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
     int bonus, psnChance;
@@ -1200,7 +1199,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             if (dis.duration > 3600) {
                 // 12 teles
                 if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-                    montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
+                    mon_id montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
                     monster beast(g->mtypes[montype]);
                     int x, y;
                     int tries = 0;
@@ -1971,14 +1970,12 @@ condition, and deals massive damage.");
 
 void manage_fire_exposure(player &p, int fireStrength) {
     // TODO: this should be determined by material properties
-    item tmp;
-    bool burnVeggy, burnFabric, burnPlastic;
     p.hurtall(3*fireStrength);
     for (int i = 0; i < p.worn.size(); i++) {
-    tmp = p.worn[i];
-        burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
-        burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
-        burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
+        item tmp = p.worn[i];
+        bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
+        bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
+        bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
         if (burnVeggy || burnFabric || burnPlastic) {
             p.worn.erase(p.worn.begin() + i);
             i--;
