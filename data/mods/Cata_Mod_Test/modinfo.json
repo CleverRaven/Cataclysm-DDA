@@ -1,0 +1,11 @@
+{
+	"ident":"CATA_MOD",
+	"type": "SUPPLEMENTAL",
+	"author": "GalenEvil",
+	"name": "Cataclysm Supplemental Files",
+	"description": "Test supplemental mod depending on the vanilla core",
+	"dependencies":
+	[
+		"CATA_CORE"
+	]
+}
