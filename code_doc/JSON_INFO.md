@@ -253,6 +253,7 @@
 "dispersion" : 0,     // Inaccuracy of ammo, measured in quarter-degrees
 "recoil" : 18,        // Recoil caused when firing
 "count" : 25,         // Number of rounds that spawn together
+"stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
 "effects" : ["COOKOFF", "SHOT"] // Special effects
 ```
 ###ARMOR
@@ -329,6 +330,7 @@
 "cutting" : 0,        // Cutting damage caused by using it as a melee weapon
 "phase" : "solid",    // What phase it is
 "charges" : 4,        // Number of uses when spawned
+"stack_size" : 8,     // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "bashing" : 0,        // Bashing damage caused by using it as a melee weapon
 "fun" : 50            // Morale effects when used
 ```
