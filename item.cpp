@@ -1136,7 +1136,31 @@ int item::weight() const
     return ret;
 }
 
-int item::volume() const
+/*
+ * precise_unit_volume: Returns the volume, multiplied by 100.
+ * 1: -except- ammo, since the game treats the volume of count_by_charge items as 1/100th of the volume defined in .json
+ * 2: Ammo is also not totalled.
+ * 3: gun mods -are- added to the total, since a modded gun is not a splittable thing, in an inventory sense
+ * This allows one to obtain the volume of something consistent with game rules, with a precision that is lost
+ * when a 2 volume bullet is divided by 100 and returned as an int.
+ */
+int item::precise_unit_volume() const
+{
+   return volume(true, true);
+}
+
+/*
+ * note, the game currently has two different scales of volume: items that are count_by_charges, and
+ * everything else:
+ *    everything else: volume = type->volume
+ *   count_by_charges: volume = type->volume / 100
+ * Also, this function will multiply count_by_charges items by the amount of charges before dividing by 100.
+ * If you need more precision, precise_value = true will return a multiple of 100
+ * If you want to handle counting up charges elsewhere, unit value = true will skip that part,
+ *   except for guns.
+ * Default values are unit_value=false, precise_value=false
+ */
+int item::volume(bool unit_value, bool precise_value ) const
 {
  if (corpse != NULL && typeId() == "corpse" ) {
   switch (corpse->size) {
@@ -1152,15 +1176,21 @@ int item::volume() const
   return 0;
 
  int ret = type->volume;
-
+ 
  if (count_by_charges()) {
-   ret *= charges;
-   ret /= 100;
+   if ( unit_value == false ) {
+       ret *= charges;
+   }
+   if ( precise_value == false ) {
+       ret /= 100;
+   }
+ } else if ( precise_value == true ) {
+     ret *= 100;
  }
 
  if (is_gun()) {
   for (int i = 0; i < contents.size(); i++)
-   ret += contents[i].volume();
+   ret += contents[i].volume( false, precise_value );
  }
    return ret;
 }
