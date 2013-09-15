@@ -299,10 +299,18 @@ clean: clean-tests
 	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -f version.h
 
+distclean:
+	rm -rf $(BINDIST_DIR)
+	rm -rf save
+	rm -rf lang/mo
+	rm -f data/options.txt
+	rm -f data/keymap.txt
+	rm -f data/auto_pickup.txt
+	rm -f data/fontlist.txt
+
 bindist: $(BINDIST)
 
-$(BINDIST): $(TARGET) $(L10N) $(BINDIST_EXTRAS)
-	rm -rf $(BINDIST_DIR)
+$(BINDIST): distclean $(TARGET) $(L10N) $(BINDIST_EXTRAS)
 	mkdir -p $(BINDIST_DIR)
 	cp -R --parents $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 	$(BINDIST_CMD)
