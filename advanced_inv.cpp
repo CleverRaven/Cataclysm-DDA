@@ -1042,26 +1042,27 @@ void advanced_inventory::display(game * gp, player * pp) {
                            if ( unitweight > 0 && unitweight * amount > max_weight ) {
                               max = int( max_weight / unitweight );
                            }
-                           
-                            std::string popupmsg=_("How many do you want to move? (0 to cancel)");
-                            if(amount > max) {
-                                popupmsg=string_format(_("Destination can only hold %d! Move how many? (0 to cancel) "), max);
+                           if ( max != 0 ) {
+                                std::string popupmsg=_("How many do you want to move? (0 to cancel)");
+                                if(amount > max) {
+                                    popupmsg=string_format(_("Destination can only hold %d! Move how many? (0 to cancel) "), max);
+                                }
+                                // fixme / todo make popup take numbers only (m = accept, q = cancel)
+                                amount = helper::to_int(
+                                    string_input_popup( popupmsg, 20,
+                                         helper::to_string(
+                                             ( amount > max ? max : amount )
+                                         )
+                                    )
+                                );
+                                if ( amount > max ) amount = max;
+                                if ( amount != it->charges ) {
+                                    tryvolume = ( unitvolume * amount ) / 100;
+                                    tryweight = ( unitweight * amount ) / 100;
+                                    trycharges = amount;
+                                }
+                                if ( trycharges == 0 ) continue;
                             }
-                            // fixme / todo make popup take numbers only (m = accept, q = cancel)
-                            amount = helper::to_int(
-                                string_input_popup( popupmsg, 20,
-                                     helper::to_string(
-                                         ( amount > max ? max : amount )
-                                     )
-                                )
-                            );
-                            if ( amount > max ) amount = max;
-                            if ( amount != it->charges ) {
-                                tryvolume = ( unitvolume * amount ) / 100;
-                                tryweight = ( unitweight * amount ) / 100;
-                                trycharges = amount;
-                            }
-                            if ( trycharges == 0 ) continue;
                         }
                         // ...not even going to think about checking for stack
                         // at this time...
