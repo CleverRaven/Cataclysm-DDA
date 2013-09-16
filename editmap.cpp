@@ -1146,7 +1146,7 @@ int editmap::edit_itm(point coords)
             wrefresh(w_info);
         } else if ( ilmenu.ret == -5 ) {
             ilmenu.ret = UIMENU_INVALID;
-//            g->wishitem(NULL,target.x, target.y);
+            g->wishitem(NULL,target.x, target.y);
             ilmenu.entries.clear();
             for(int i = 0; i < items.size(); i++) {
                ilmenu.addentry(i, true, 0, "%s%s", items[i].tname(g).c_str(), items[i].light.luminance > 0 ? " L" : "" );
