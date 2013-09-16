@@ -3008,7 +3008,7 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                         const int zid = g->mon_at(pos.x + i, pos.y + j);
                         if (zid != -1 &&
                               (g->zombie(zid).type->species == species_insect ||
-                               g->zombie(zid).type->species == species_hallu) ) {
+                               g->zombie(zid).is_hallucination()) ) {
                             g->explode_mon(zid);
                         }
                     }
@@ -3301,26 +3301,27 @@ void iuse::molotov(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,_("You light the molotov cocktail."));
  p->moves -= 150;
  it->make(g->itypes["molotov_lit"]);
- it->charges = 1;
  it->bday = int(g->turn);
  it->active = true;
 }
 
 void iuse::molotov_lit(game *g, player *p, item *it, bool t)
 {
- int age = int(g->turn) - it->bday;
- if (!p->has_item(it)) {
-  point pos = g->find_item(it);
-  it->charges = -1;
-  g->explosion(pos.x, pos.y, 8, 0, true);
- } else if (age >= 5) { // More than 5 turns old = chance of going out
-  if (rng(1, 50) < age) {
-   g->add_msg_if_player(p,_("Your lit molotov goes out."));
-   it->make(g->itypes["molotov"]);
-   it->charges = 0;
-   it->active = false;
-  }
- }
+    int age = int(g->turn) - it->bday;
+    if (p->has_item(it)) {
+        it->charges += 1;
+        if (age >= 5) { // More than 5 turns old = chance of going out
+            if (rng(1, 50) < age) {
+                g->add_msg_if_player(p,_("Your lit molotov goes out."));
+                it->make(g->itypes["molotov"]);
+                it->active = false;
+            }
+        }
+    } else {
+        point pos = g->find_item(it);
+        if (!t)
+            g->explosion(pos.x, pos.y, 8, 0, true);
+    }
 }
 
 void iuse::dynamite(game *g, player *p, item *it, bool t)
@@ -3833,10 +3834,10 @@ void iuse::portable_game(game *g, player *p, item *it, bool t)
         game_data.clear();
         int game_score = 0;
 
-        bool game_completed = play_videogame(loaded_software, game_data, game_score);
+        play_videogame(loaded_software, game_data, game_score);
 
         if ( game_data.find("end_message") != game_data.end() ) {
-            g->add_msg_if_player(p, _("%s"), game_data["end_message"].c_str() );
+            g->add_msg_if_player(p, "%s", game_data["end_message"].c_str() );
         }
 
         if ( game_score != 0 ) {

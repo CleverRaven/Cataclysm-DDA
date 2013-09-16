@@ -1,0 +1,9 @@
+Come up with a release name at the absolute last second.
+Update VERSION in Makefile and version.cpp for MSVC and C::B builds.
+Bring changelog up to date if necessary.
+Update MOTD.
+Tag release.
+Commit above (to trigger jenkins builds).
+Sanity test jenkins builds.
+Upload builds to github release page.
+Post release thread in forum.

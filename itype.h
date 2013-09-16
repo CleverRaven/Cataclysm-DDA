@@ -133,6 +133,7 @@ struct itype
  phase_id phase;      //e.g. solid, liquid, gas
 
  unsigned int volume;	// Space taken up by this item
+ int stack_size;        // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
  unsigned int weight;	// Weight in grams. Assumes positive weight. No helium, guys!
  bigness_property_aspect bigness_aspect;
 

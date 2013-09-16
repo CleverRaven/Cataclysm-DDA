@@ -39,7 +39,8 @@
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
-        "count" : 50
+        "count" : 50,
+        "stack_size" : 200
     },
     {   "type" : "AMMO",
         "id" : "sinew",
@@ -60,7 +61,8 @@
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
-        "count" : 10
+        "count" : 10,
+        "stack_size" : 200
     },
     {   "type" : "AMMO",
         "id" : "plant_fibre",
@@ -81,7 +83,8 @@
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
-        "count" : 10
+        "count" : 10,
+        "stack_size" : 200
     },
     {   "type" : "AMMO",
         "id" : "duct_tape",
@@ -324,7 +327,7 @@
         "name" : "shotgun slug",
         "symbol" : "=",
         "color" : "red",
-        "description" : "A heavy metal slug used with shotguns to give them the range capabilities of a rifle. Extremely damaging but rather innaccurate. Works best in a shotgun with a rifled barrel.",
+        "description" : "A heavy metal slug used with shotguns to give them the range capabilities of a rifle. Extremely damaging but rather inaccurate. Works best in a shotgun with a rifled barrel.",
         "material" : "plastic",
         "volume" : 2,
         "weight" : 28,
@@ -362,6 +365,7 @@
         "dispersion" : 6,
         "recoil" : 20,
         "count" : 5,
+        "stack_size" : 25,
         "effects" : ["EXPLOSIVE"]
     },
     {   "type" : "AMMO",
@@ -393,7 +397,7 @@
         "name" : ".22 FMJ",
         "symbol" : "=",
         "color" : "light_blue",
-        "description" : "A brass-jacketed .22 calibre round with surperior penetration capacity.",
+        "description" : "A brass-jacketed .22 calibre round with superior penetration capacity.",
         "material" : "steel",
         "volume" : 2,
         "weight" : 3,
@@ -485,7 +489,7 @@
         "name" : "9mm +P",
         "symbol" : "=",
         "color" : "light_blue",
-        "description" : "Attempts to improve the ballistics of 9mm ammunition lead to high-pressure rounds. Increased velocity resullts in superior accuracy and damage.",
+        "description" : "Attempts to improve the ballistics of 9mm ammunition lead to high-pressure rounds. Increased velocity results in superior accuracy and damage.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 7,
@@ -500,6 +504,7 @@
         "dispersion" : 9,
         "recoil" : 14,
         "count" : 25,
+        "stack_size" : 50,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
@@ -523,6 +528,7 @@
         "dispersion" : 8,
         "recoil" : 15,
         "count" : 10,
+        "stack_size" : 50,
         "effects" : ["COOKOFF"]
     },
 
@@ -602,7 +608,7 @@
         "name" : ".38 Super",
         "symbol" : "=",
         "color" : "light_blue",
-        "description" : "The .38 Super is a high-pressure load of the .38 Special caliber. It is a popular choice in pistol competions for its high accuracy, while its stopping power keeps it popular for self-defense.",
+        "description" : "The .38 Super is a high-pressure load of the .38 Special caliber. It is a popular choice in pistol competitions for its high accuracy, while its stopping power keeps it popular for self-defense.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 7,
@@ -617,6 +623,7 @@
         "dispersion" : 8,
         "recoil" : 14,
         "count" : 25,
+        "stack_size" : 50,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
@@ -717,7 +724,7 @@
         "name" : ".44 Magnum",
         "symbol" : "=",
         "color" : "blue",
-        "description" : "Described (in 1971) by Dirty Harry as \"the most powerful handgun in the world,\" the .44 Magnum gained widespead popularity due to its depictions in the media. In reality, its intense recoil makes it unsuitable in most cases.",
+        "description" : "Described (in 1971) by Dirty Harry as \"the most powerful handgun in the world,\" the .44 Magnum gained widespread popularity due to its depictions in the media. In reality, its intense recoil makes it unsuitable in most cases.",
         "material" : "steel",
         "volume" : 2,
         "weight" : 13,
@@ -801,6 +808,7 @@
         "dispersion" : 12,
         "recoil" : 18,
         "count" : 25,
+        "stack_size" : 50,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
@@ -824,6 +832,7 @@
         "dispersion" : 10,
         "recoil" : 20,
         "count" : 10,
+        "stack_size" : 50,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
@@ -1031,6 +1040,7 @@
         "dispersion" : 5,
         "recoil" : 32,
         "count" : 30,
+        "stack_size": 40,
         "effects" : ["INCENDIARY"]
     },
     {   "type" : "AMMO",
@@ -1077,6 +1087,7 @@
         "dispersion" : 1,
         "recoil" : 36,
         "count" : 10,
+        "stack_size" : 20,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
@@ -1085,7 +1096,7 @@
         "name" : ".30-06 FMJ",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "A brass-jacketed variant of the .30-06 round.  Both penetration and stopping power are between the military and other civialian versions of the round.",
+        "description" : "A brass-jacketed variant of the .30-06 round.  Both penetration and stopping power are between the military and other civilian versions of the round.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 14,
@@ -1100,6 +1111,7 @@
         "dispersion" : 1,
         "recoil" : 36,
         "count" : 10,
+        "stack_size" : 20,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
@@ -1123,6 +1135,7 @@
         "dispersion" : 2,
         "recoil" : 35,
         "count" : 5,
+        "stack_size" : 20,
         "effects" : ["INCENDIARY"]
     },
     {   "type" : "AMMO",
@@ -1131,7 +1144,7 @@
         "name" : ".308 Winchester",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "The .308 Winchester is a rifle round, the commercial equivalent of the military 7.62x51mm round. Its high accuracy and phenominal damage have made it the most poplar hunting round in the world.",
+        "description" : "The .308 Winchester is a rifle round, the commercial equivalent of the military 7.62x51mm round. Its high accuracy and phenomenal damage have made it the most popular hunting round in the world.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 11,
@@ -1192,6 +1205,7 @@
         "dispersion" : 0,
         "recoil" : 32,
         "count" : 10,
+        "stack_size" : 20,
         "effects" : ["INCENDIARY"]
     },
     {   "type" : "AMMO",
@@ -1328,6 +1342,7 @@
         "dispersion" : 2,
         "recoil" : 15,
         "count" : 6,
+        "stack_size" : 4,
         "effects" : ["SMOKE", "TRAIL"]
     },
     {   "type" : "AMMO",
@@ -1351,6 +1366,7 @@
         "dispersion" : 2,
         "recoil" : 15,
         "count" : 6,
+        "stack_size" : 4,
         "effects" : ["FLASHBANG"]
     },
     {   "type" : "AMMO",
@@ -1374,6 +1390,7 @@
         "dispersion" : 2,
         "recoil" : 15,
         "count" : 1,
+        "stack_size" : 4,
         "effects" : ["ACIDBOMB"]
     },
     {   "type" : "AMMO",
@@ -2040,50 +2057,6 @@
         "count" : 35
     },
     {   "type" : "AMMO",
-        "id" : "bio_fusion_ammo",
-        "price" : 0,
-        "name" : "Fusion blast",
-        "symbol" : "=",
-        "color" : "dark_gray",
-        "description" : "",
-        "material" : "null",
-        "volume" : 0,
-        "weight" : 100,
-        "bashing" : 0,
-        "cutting" : 0,
-        "to_hit" : 0,
-        "ammo_type" : "fusion",
-        "effects" : ["INCENDIARY"],
-        "damage" : 40,
-        "pierce" : 0,
-        "range" : 10,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 5
-    },
-    {   "type" : "AMMO",
-        "id" : "bio_lightning_ammo",
-        "price" : 0,
-        "name" : "Lightning",
-        "symbol" : "=",
-        "color" : "dark_gray",
-        "description" : "",
-        "material" : "null",
-        "volume" : 0,
-        "weight" : 100,
-        "bashing" : 0,
-        "cutting" : 0,
-        "to_hit" : 0,
-        "ammo_type" : "fusion",
-        "effects" : ["BOUNCE","LIGHTNING"],
-        "damage" : 6,
-        "pierce" : 0,
-        "range" : 10,
-        "dispersion" : 0,
-        "recoil" : 10,
-        "count" : 10
-    },
-    {   "type" : "AMMO",
         "id" : "shot_beanbag",
         "price" : 900,
         "name" : "shotgun beanbag",
@@ -2171,9 +2144,11 @@
         "dispersion" : 3,
         "recoil" : 24,
         "count" : 25,
+        "stack_size" : 50,
         "effects" : ["COOKOFF"]
     },
-	{   "type" : "AMMO",
+    {
+        "type" : "AMMO",
         "id" : "8mm_jhp",
         "price" : 500,
         "name" : "8x40mm JHP caseless",
@@ -2193,6 +2168,7 @@
         "dispersion" : 3,
         "recoil" : 24,
         "count" : 25,
+        "stack_size" : 50,
         "effects" : ["COOKOFF"]
     },
 	{   "type" : "AMMO",
@@ -2215,6 +2191,7 @@
         "dispersion" : 3,
         "recoil" : 22,
         "count" : 25,
+        "stack_size" : 50,
         "effects" : ["COOKOFF", "INCENDIARY"]
     },
     {   "type" : "AMMO",
@@ -2305,7 +2282,8 @@
         "count" : 4,
         "effects" : ["NAPALM_BIG", "TRAIL"]
     },
-    {   "type" : "AMMO",
+    {
+        "type" : "AMMO",
         "id" : "generic_no_ammo",
         "price" : 0,
         "name" : "placeholder ammunition",
@@ -2326,7 +2304,8 @@
         "recoil" : 0,
         "count" : 1
     },
-    {   "type" : "AMMO",
+    {
+        "type" : "AMMO",
         "id" : "charcoal",
         "price" : 10,
         "name" : "charcoal",

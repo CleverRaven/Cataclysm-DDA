@@ -3452,6 +3452,9 @@ void overmap::save()
 
  // Player specific data
  fout.open(plrfilename.c_str());
+
+ fout << "# version " << savegame_version << std::endl;
+
  for (int z = 0; z < OVERMAP_LAYERS; ++z) {
   fout << "L " << z << std::endl;
   int count = 0;
@@ -3483,6 +3486,9 @@ void overmap::save()
 
  // World terrain data
  fout.open(terfilename.c_str(), std::ios_base::trunc);
+
+ fout << "# version " << savegame_version << std::endl;
+
  for (int z = 0; z < OVERMAP_LAYERS; ++z) {
   fout << "L " << z << std::endl;
   int count = 0;
@@ -3543,6 +3549,10 @@ void overmap::open(game *g)
 // DEBUG VARS
  int nummg = 0;
  if (fin.is_open()) {
+  if ( fin.peek() == '#' ) {    // Version header
+    std::string vline;
+    getline(fin, vline);
+  }                             // We're the first version with versioning: discard and continue
   int z = 0; // assumption
   while (fin >> datatype) {
    if (datatype == 'L') { 	// Load layer data, and switch to layer
@@ -3637,6 +3647,10 @@ void overmap::open(game *g)
   // Private/per-character data
   fin.open(plrfilename.c_str());
   if (fin.is_open()) {	// Load private seen data
+   if ( fin.peek() == '#' ) {    // Version header
+     std::string vline;
+     getline(fin, vline);
+   }                             // We're the first version with versioning: discard and continue
    int z = 0; // assumption
    while (fin >> datatype) {
     if (datatype == 'L') {  // Load layer data, and switch to layer

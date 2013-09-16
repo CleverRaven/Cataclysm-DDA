@@ -96,6 +96,8 @@ struct mutation_branch;
 
 class game
 {
+ friend class editmap;
+ friend class advanced_inventory;
  public:
   game();
   ~game();
@@ -162,6 +164,7 @@ class game
   bool update_zombie_pos(const monster &m, const int newx, const int newy);
   void remove_zombie(const int idx);
   void clear_zombies();
+  bool spawn_hallucination(); //Spawns a hallucination close to the player
 
   int  mon_at(const int x, const int y) const;	// Index of the monster at (x, y); -1 for none
   bool is_empty(const int x, const int y);	// True if no PC, no monster, move cost > 0
@@ -256,8 +259,6 @@ class game
   std::string list_item_upvote;
   std::string list_item_downvote;
   char inv(std::string title);
-  char inv(inventory,std::string);
-  char inv_activatable(std::string title);
   char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
   int inventory_item_menu(char chItem, int startx = 0, int width = 50);
   std::vector<item> multidrop();

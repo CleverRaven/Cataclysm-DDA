@@ -20,6 +20,9 @@
 
 // SDL headers end up in different places depending on the OS, sadly
 #if (defined _WIN32 || defined WINDOWS)
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <windows.h>
 #include "SDL.h"
 #include "SDL_ttf.h"

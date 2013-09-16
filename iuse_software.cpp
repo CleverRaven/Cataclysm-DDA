@@ -21,6 +21,7 @@
 #include "iuse_software_kitten.h"
 #include "iuse_software_snake.h"
 #include "iuse_software_sokoban.h"
+#include "translations.h"
 
 bool play_videogame(std::string function_name, std::map<std::string, std::string> & game_data, int &score)
 {
@@ -41,7 +42,7 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
         werase(bkatwin);
         delwin(bkatwin);
         if (foundkitten == true) {
-            game_data["end_message"] = "You found kitten!";
+            game_data["end_message"] = _("You found kitten!");
             game_data["moraletype"] = "MORALE_GAME_FOUND_KITTEN";
             score = 30;
         }
@@ -79,7 +80,7 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
     } else {
         score = -5;
         /* morale/activity workaround >.> */
-        game_data["end_message"] = string_format("You struggle to get '%s' working, and finally give up to play minesweeper.", function_name.c_str() );
+        game_data["end_message"] = string_format(_("You struggle to get '%s' working, and finally give up to play minesweeper."), function_name.c_str() );
         // todo: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
         return false;
     }

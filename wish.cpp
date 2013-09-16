@@ -37,6 +37,18 @@ class wish_mutate_callback: public uimenu_callback
             pTraits.clear();
         }
         virtual bool key(int key, int entnum, uimenu *menu) {
+            if ( key == 't' && p->has_trait( vTraits[ entnum ] ) ) {
+                 if ( p->has_base_trait( vTraits[ entnum ] ) ) {
+                      p->toggle_trait( vTraits[ entnum ] );
+                      p->toggle_mutation( vTraits[ entnum ] );
+                 } else {
+                      p->toggle_mutation( vTraits[ entnum ] );
+                      p->toggle_trait( vTraits[ entnum ] );
+                 }
+                 menu->entries[ entnum ].text_color = ( p->has_trait( vTraits[ entnum ] ) ? c_green : menu->text_color );
+                 menu->entries[ entnum ].extratxt.txt= ( p->has_base_trait( vTraits[ entnum ] ) ? "T" : "" );
+                 return true;
+            }
             return false;
         }
 
@@ -106,6 +118,20 @@ class wish_mutate_callback: public uimenu_callback
                     line2++;
                 }
             }
+            line2 += 2;
+            
+            mvwprintz(menu->window, line2, startx, c_ltgray, "pts: %d vis: %d ugly: %d",
+                      traits[vTraits[ entnum ]].points,
+                      traits[vTraits[ entnum ]].visiblity,
+                      traits[vTraits[ entnum ]].ugliness
+                     );
+            line2 += 2;
+
+            std::vector<std::string> desc = foldstring( traits[vTraits[ entnum ]].description, menu->pad_right - 1 );
+            for( int j = 0; j < desc.size(); j++ ) {
+                mvwprintz(menu->window, line2, startx, c_ltgray, "%s", desc[j].c_str() );
+                line2++;
+            }
             lastlen = line2 + 1;
 
             mvwprintz(menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str());
@@ -127,8 +153,14 @@ void game::wishmutate( player *p )
 
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
         wmenu.addentry(-1,true,-2,"%s",iter->second.name.c_str() );
+        wmenu.entries[ c ].extratxt.left=1;
+        wmenu.entries[ c ].extratxt.txt="";
+        wmenu.entries[ c ].extratxt.color=c_ltgreen;
         if( p->has_trait( iter->first ) ) {
              wmenu.entries[ c ].text_color = c_green;
+             if ( p->has_base_trait( iter->first ) ) {
+                 wmenu.entries[ c ].extratxt.txt="T";
+             }
         }
         c++;
     }
@@ -162,9 +194,13 @@ void game::wishmutate( player *p )
             uistate.wishmutate_selected = wmenu.ret;
             if ( rc != 0 ) {
                 for ( int i = 0; i < cb->vTraits.size(); i++ ) {
+                    wmenu.entries[ i ].extratxt.txt="";
                     if ( p->has_trait( cb->vTraits[ i ] ) ) {
                         wmenu.entries[ i ].text_color = c_green;
                         cb->pTraits[ cb->vTraits[ i ] ] = true;
+                        if ( p->has_base_trait( cb->vTraits[ i ] ) ) {
+                            wmenu.entries[ i ].extratxt.txt="T";
+                        }
                     } else {
                         wmenu.entries[ i ].text_color = wmenu.text_color;
                         cb->pTraits[ cb->vTraits[ i ] ] = false;
@@ -413,7 +449,8 @@ void game::wishitem( player *p, int x, int y)
                 }
                 advance_nextinv();
             } else if ( x >= 0 && y >= 0 ) {
-                m.add_item_or_charges(x, y, granted);
+                m.add_item_or_charges(x, y, !incontainer ? granted : granted.in_its_container(&itypes));
+                wmenu.keypress = 'q';
             }
             dynamic_cast<wish_item_callback *>(wmenu.callback)->msg = _("Item granted, choose another or 'q' to quit.");
             uistate.wishitem_selected = wmenu.ret;
@@ -434,7 +471,7 @@ void game::wishskill(player * p) {
       skmenu.text = "Select a skill to modify";
       skmenu.return_invalid = true;
       skmenu.addentry(0, true, '1', "Set all skills to...");
-      int origskills[ Skill::skills.size()] ;
+      int *origskills = new int[Skill::skills.size()] ;
 
       for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
            aSkill != Skill::skills.end(); ++aSkill) {
@@ -454,6 +491,7 @@ void game::wishskill(player * p) {
             skset = (int)p->skillLevel( Skill::skills[skill_id]) +
                 ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
           }
+          skmenu.ret = -2;
         } else if ( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < Skill::skills.size() ) {
           skill_id = sksel;
           uimenu sksetmenu;
@@ -509,4 +547,5 @@ void game::wishskill(player * p) {
         }
       } while ( skmenu.ret != -1 && ( skmenu.keypress != 'q' && skmenu.keypress != ' ' &&
                                       skmenu.keypress != KEY_ESCAPE ) );
+	  delete[] origskills;
 }

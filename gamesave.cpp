@@ -28,7 +28,7 @@
 #include "artifactdata.h"
 #include "weather.h"
 
-const int savegame_version = 4;
+const int savegame_version = 5;
 ////
 int savegame_loading_version = savegame_version;
 
@@ -124,7 +124,7 @@ void game::unserialize(std::ifstream & fin) {
    switch (savegame_loading_version) {
        default: {
 /*
- * Format version 3: Temporary format. Still resembles a hairball, but it's at least a multi-line hairball;
+ * Format version 5: Temporary format. Still resembles a hairball, but it's at least a multi-line hairball;
  * Data is segmented for readabilty, stability, and gradual conversion into something closer to sanity.
  */
             std::string linebuf;

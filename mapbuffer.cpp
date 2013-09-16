@@ -89,6 +89,8 @@ void mapbuffer::save()
  std::ofstream fout;
  fout.open("save/maps.txt");
 
+ fout << "# version " << savegame_version << std::endl;
+
  fout << submap_list.size() << std::endl;
  int num_saved_submaps = 0;
  int num_total_submaps = submap_list.size();
@@ -229,6 +231,10 @@ void mapbuffer::load()
  int itx, ity, t, d, a, num_submaps, num_loaded = 0;
  item it_tmp;
  std::string databuff;
+ if ( fin.peek() == '#' ) {    // Version header
+   std::string vline;
+   getline(fin, vline);
+ }                             // We're the first version with versioning: discard and continue
  fin >> num_submaps;
 
  while (!fin.eof()) {
