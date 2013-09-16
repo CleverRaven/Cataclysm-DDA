@@ -9747,7 +9747,8 @@ void game::plmove(int dx, int dy)
       add_msg(_("There are vehicle controls here.  %s to drive."),
               press_x(ACTION_CONTROL_VEHICLE).c_str() );
 
- } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel")) { //probability travel through walls but not water
+  } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
+  //probability travel through walls but not water
   int tunneldist = 0;
   // tile is impassable
   while((m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&

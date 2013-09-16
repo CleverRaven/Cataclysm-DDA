@@ -312,21 +312,21 @@ void initOptions() {
 
     optionNames["fahrenheit"] = _("Fahrenheit");
     optionNames["celsius"] = _("Celsius");
-    OPTIONS["USE_CELSIUS"] =            cOpt("interface", _("Use Celsius"),
+    OPTIONS["USE_CELSIUS"] =            cOpt("interface", _("Temperature units"),
                                              _("Switch between Celsius and Fahrenheit."),
                                              "fahrenheit,celsius", "fahrenheit"
                                             );
 
     optionNames["mph"] = _("mph");
     optionNames["km/h"] = _("km/h");
-    OPTIONS["USE_METRIC_SPEEDS"] =      cOpt("interface", _("Use Metric Speeds"),
-                                             _("Switch between Km/h and mph."),
+    OPTIONS["USE_METRIC_SPEEDS"] =      cOpt("interface", _("Speed units"),
+                                             _("Switch between km/h and mph."),
                                              "mph,km/h", "mph"
                                             );
 
     optionNames["lbs"] = _("lbs");
     optionNames["kg"] = _("kg");
-    OPTIONS["USE_METRIC_WEIGHTS"] =     cOpt("interface", _("Use Metric Weights"),
+    OPTIONS["USE_METRIC_WEIGHTS"] =     cOpt("interface", _("Mass units"),
                                              _("Switch between kg and lbs."),
                                              "lbs,kg", "lbs"
                                             );
@@ -336,7 +336,7 @@ void initOptions() {
                                              true
                                             );
 
-    OPTIONS["NO_BRIGHT_BACKGROUNDS"] =  cOpt("interface", _("No Bright Backgrounds"),
+    OPTIONS["NO_BRIGHT_BACKGROUNDS"] =  cOpt("interface", _("No bright backgrounds"),
                                             _("If true, bright backgrounds are not used--some consoles are not compatible."),
                                              false
                                             );
@@ -347,12 +347,12 @@ void initOptions() {
     optionNames["military"] = _("Military");
     //~ 24h time, e.g. 23:59
     optionNames["24h"] = _("24h");
-    OPTIONS["24_HOUR"] =                cOpt("interface", _("24 Hour Time"),
+    OPTIONS["24_HOUR"] =                cOpt("interface", _("24 hour time"),
                                              _("12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal 24h, eg: 7:31"),
                                              "12h,military,24h", "12h"
                                             );
 
-    OPTIONS["SNAP_TO_TARGET"] =         cOpt("interface", _("Snap to Target"),
+    OPTIONS["SNAP_TO_TARGET"] =         cOpt("interface", _("Snap to target"),
                                              _("If true, automatically follow the crosshair when firing/throwing."),
                                              false
                                             );
@@ -367,7 +367,7 @@ void initOptions() {
                                              0, 50, 0
                                             );
 
-    OPTIONS["AUTOSAFEMODE"] =           cOpt("general", _("Auto-Safemode on by default"),
+    OPTIONS["AUTOSAFEMODE"] =           cOpt("general", _("Auto-safemode on by default"),
                                              _("If true, auto-safemode will be on after starting a new game or loading."),
                                              false
                                             );
@@ -377,7 +377,7 @@ void initOptions() {
                                              1, 100, 50
                                             );
 
-    OPTIONS["AUTOSAVE"] =               cOpt("general", _("Periodically Autosave"),
+    OPTIONS["AUTOSAVE"] =               cOpt("general", _("Periodically autosave"),
                                              _("If true, game will periodically save the map."),
                                              false
                                             );
@@ -425,7 +425,7 @@ void initOptions() {
     //~ based on intelligence and capped
     optionNames["intcap"] = _("IntCap");
     optionNames["off"] = _("Off");
-    OPTIONS["SKILL_RUST"] =             cOpt("debug", _("Skill Rust"),
+    OPTIONS["SKILL_RUST"] =             cOpt("debug", _("Skill rust"),
                                              _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
                                              "vanilla,capped,int,intcap,off", "vanilla"
                                             );
@@ -433,7 +433,7 @@ void initOptions() {
     optionNames["no"] = _("No");
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
-    OPTIONS["DELETE_WORLD"] =           cOpt("general", _("Delete World"),
+    OPTIONS["DELETE_WORLD"] =           cOpt("general", _("Delete world"),
                                              _("Delete world upon player death."),
                                              "no,yes,query", "no"
                                             );
@@ -527,7 +527,7 @@ void initOptions() {
     optionNames["hide"] = _("Hide");
     //~ hide mouse cursor when keyboard is used
     optionNames["hidekb"] = _("HideKB");
-    OPTIONS["HIDE_CURSOR"] =            cOpt("interface", _("Hide Mouse Cursor"),
+    OPTIONS["HIDE_CURSOR"] =            cOpt("interface", _("Hide mouse cursor"),
                                              _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
                                              "show,hide,hidekb", "show"
                                             );
@@ -537,17 +537,17 @@ void initOptions() {
                                              true
                                             );
 
-    OPTIONS["AUTO_PICKUP"] =            cOpt("general", _("Enable item Auto Pickup"),
+    OPTIONS["AUTO_PICKUP"] =            cOpt("general", _("Enable item auto pickup"),
                                              _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
                                              false
                                             );
 
-    OPTIONS["AUTO_PICKUP_ZERO"] =       cOpt("general", _("Auto Pickup 0 Vol light items"),
+    OPTIONS["AUTO_PICKUP_ZERO"] =       cOpt("general", _("Auto pickup 0 vol light items"),
                                              _("Auto pickup items with 0 Volume, and weight less than or equal to [option] * 50 grams. '0' disables this option"),
                                              0, 20, 0
                                             );
 
-    OPTIONS["AUTO_PICKUP_SAFEMODE"] =   cOpt("general", _("Auto Pickup Safemode"),
+    OPTIONS["AUTO_PICKUP_SAFEMODE"] =   cOpt("general", _("Auto pickup safemode"),
                                              _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by Safemode proximity distance."),
                                              false
                                             );
@@ -562,7 +562,7 @@ void initOptions() {
                                              true
                                             );
 
-    OPTIONS["USE_TILES"] =              cOpt("interface", _("Use Tiles"),
+    OPTIONS["USE_TILES"] =              cOpt("interface", _("Use tiles"),
                                              _("If true, replaces some TTF rendered text with Tiles. Only applicable on SDL builds. Requires restart."),
                                              true
                                              );
