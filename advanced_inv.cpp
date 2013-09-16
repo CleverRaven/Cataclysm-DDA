@@ -861,7 +861,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                 int free_volume = ( squares[ destarea ].vstor >= 0 ?
                     squares[ destarea ].veh->free_volume( squares[ destarea ].vstor ) :
                     m.free_volume ( squares[ destarea ].x, squares[ destarea ].y )
-                ) * 100;
+                ) * 1000;
                 // TODO figure out a better way to get the item. Without invlets.
                 item* it = &u.inv.slice(item_pos, 1).front()->front();
                 std::list<item>& stack = u.inv.stack_by_letter(it->invlet);
@@ -1030,11 +1030,11 @@ void advanced_inventory::display(game * gp, player * pp) {
                         if ( it->count_by_charges() && it->charges > 1 ) {
                            amount = it->charges;
                            int unitvolume = it->precise_unit_volume();
-                           int unitweight = ( tryweight * 100 ) / it->charges;
+                           int unitweight = ( tryweight * 1000 ) / it->charges;
                            int max_vol = u.volume_capacity() - u.volume_carried();
                            int max_weight = ( u.weight_capacity() * 4 ) - u.weight_carried();
-                           max_vol *= 100;
-                           max_weight *= 100;
+                           max_vol *= 1000;
+                           max_weight *= 1000;
                            int max = amount;
                            if ( unitvolume > 0 && unitvolume * amount > max_vol ) {
                               max = int( max_vol / unitvolume );
@@ -1042,6 +1042,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                            if ( unitweight > 0 && unitweight * amount > max_weight ) {
                               max = int( max_weight / unitweight );
                            }
+                           // popup("uvol: %d amt: %d mvol: %d mamt: %d", unitvolume, amount, max_vol, max);
                            if ( max != 0 ) {
                                 std::string popupmsg=_("How many do you want to move? (0 to cancel)");
                                 if(amount > max) {
@@ -1057,11 +1058,13 @@ void advanced_inventory::display(game * gp, player * pp) {
                                 );
                                 if ( amount > max ) amount = max;
                                 if ( amount != it->charges ) {
-                                    tryvolume = ( unitvolume * amount ) / 100;
-                                    tryweight = ( unitweight * amount ) / 100;
+                                    tryvolume = ( unitvolume * amount ) / 1000;
+                                    tryweight = ( unitweight * amount ) / 1000;
                                     trycharges = amount;
                                 }
                                 if ( trycharges == 0 ) continue;
+                            } else {
+                                continue;
                             }
                         }
                         // ...not even going to think about checking for stack
