@@ -34,11 +34,10 @@ void game::load_keyboard_settings()
 
  // Check for new defaults, and automatically bind them if possible
  std::map<char, action_id>::iterator d_it;
- bool found;
- for (d_it = default_keymap.begin(); d_it != default_keymap.end(); d_it++) {
-  found = false;
+ for (d_it = default_keymap.begin(); d_it != default_keymap.end(); ++d_it) {
+  bool found = false;
   std::map<char, action_id>::iterator k_it;
-  for (k_it = keymap.begin(); k_it != keymap.end(); k_it++) {
+  for (k_it = keymap.begin(); k_it != keymap.end(); ++k_it) {
    if (d_it->second == k_it->second) {
     found = true;
     break;
@@ -97,7 +96,7 @@ void game::save_keymap()
   return;
  }
  std::map<char, action_id>::iterator it;
- for (it = keymap.begin(); it != keymap.end(); it++)
+ for (it = keymap.begin(); it != keymap.end(); ++it)
   fout << action_ident( (*it).second ) << " " << (*it).first << std::endl;
 
  fout.close();
@@ -107,7 +106,7 @@ std::vector<char> game::keys_bound_to(action_id act)
 {
  std::vector<char> ret;
  std::map<char, action_id>::iterator it;
- for (it = keymap.begin(); it != keymap.end(); it++) {
+ for (it = keymap.begin(); it != keymap.end(); ++it) {
   if ( (*it).second == act )
    ret.push_back( (*it).first );
  }
@@ -118,7 +117,7 @@ std::vector<char> game::keys_bound_to(action_id act)
 void game::clear_bindings(action_id act)
 {
  std::map<char, action_id>::iterator it;
- for (it = keymap.begin(); it != keymap.end(); it++) {
+ for (it = keymap.begin(); it != keymap.end(); ++it) {
   if ( (*it).second == act ) {
    keymap.erase(it);
    it = keymap.begin();

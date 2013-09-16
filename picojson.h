@@ -418,9 +418,10 @@ namespace picojson {
   };
 
   template<typename Iter> inline int _parse_quadhex(input<Iter> &in) {
-    int uni_ch = 0, hex;
+    int uni_ch = 0;
     for (int i = 0; i < 4; i++) {
-      if ((hex = in.getc()) == -1) {
+      int hex = in.getc();
+      if (hex == -1) {
 	return -1;
       }
       if ('0' <= hex && hex <= '9') {
@@ -944,42 +945,38 @@ int main(void)
   {
     picojson::value v1, v2;
     const char *s;
-    string err;
     s = "{ \"b\": true, \"a\": [1,2,\"three\"], \"d\": 2 }";
-    err = picojson::parse(v1, s, s + strlen(s));
+    picojson::parse(v1, s, s + strlen(s));
     s = "{ \"d\": 2.0, \"b\": true, \"a\": [1,2,\"three\"] }";
-    err = picojson::parse(v2, s, s + strlen(s));
+    picojson::parse(v2, s, s + strlen(s));
     ok((v1 == v2), "check == operator in deep comparison");
   }
 
   {
     picojson::value v1, v2;
     const char *s;
-    string err;
     s = "{ \"b\": true, \"a\": [1,2,\"three\"], \"d\": 2 }";
-    err = picojson::parse(v1, s, s + strlen(s));
+    picojson::parse(v1, s, s + strlen(s));
     s = "{ \"d\": 2.0, \"a\": [1,\"three\"], \"b\": true }";
-    err = picojson::parse(v2, s, s + strlen(s));
+    picojson::parse(v2, s, s + strlen(s));
     ok((v1 != v2), "check != operator for array in deep comparison");
   }
 
   {
     picojson::value v1, v2;
     const char *s;
-    string err;
     s = "{ \"b\": true, \"a\": [1,2,\"three\"], \"d\": 2 }";
-    err = picojson::parse(v1, s, s + strlen(s));
+    picojson::parse(v1, s, s + strlen(s));
     s = "{ \"d\": 2.0, \"a\": [1,2,\"three\"], \"b\": false }";
-    err = picojson::parse(v2, s, s + strlen(s));
+    picojson::parse(v2, s, s + strlen(s));
     ok((v1 != v2), "check != operator for object in deep comparison");
   }
 
   {
     picojson::value v1, v2;
     const char *s;
-    string err;
     s = "{ \"b\": true, \"a\": [1,2,\"three\"], \"d\": 2 }";
-    err = picojson::parse(v1, s, s + strlen(s));
+    picojson::parse(v1, s, s + strlen(s));
     picojson::object& o = v1.get<picojson::object>();
     o.erase("b");
     picojson::array& a = o["a"].get<picojson::array>();
@@ -987,7 +984,7 @@ int main(void)
     i = std::remove(a.begin(), a.end(), picojson::value(std::string("three")));
     a.erase(i, a.end());
     s = "{ \"a\": [1,2], \"d\": 2 }";
-    err = picojson::parse(v2, s, s + strlen(s));
+    picojson::parse(v2, s, s + strlen(s));
     ok((v1 == v2), "check erase()");
   }
 
@@ -997,7 +994,6 @@ int main(void)
   {
     const char* s = "{ \"a\": [1,2], \"d\": 2 }";
     picojson::null_parse_context ctx;
-    string err;
     picojson::_parse(ctx, s, s + strlen(s), &err);
     ok(err.empty(), "null_parse_context");
   }

@@ -282,16 +282,11 @@ void iexamine::wreckage(game *g, player *p, map *m, int examx, int examy) {
 
 void iexamine::pit(game *g, player *p, map *m, int examx, int examy)
 {
-    bool player_has = false;
-    bool map_has = false;
     inventory map_inv;
     map_inv.form_from_map(g, point(p->posx, p->posy), 1);
 
-    // check if player has 2x4
-    player_has = p->has_amount("2x4", 1);
-
-    // check if map has 2x4 in a 1-tile radius around player
-    map_has = map_inv.has_amount("2x4", 1);
+    bool player_has = p->has_amount("2x4", 1);
+    bool map_has = map_inv.has_amount("2x4", 1);
 
     // return if there is no 2x4 around
     if (!player_has && !map_has)

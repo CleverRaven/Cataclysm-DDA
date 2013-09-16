@@ -1089,7 +1089,6 @@ void advanced_inventory::display(game * gp, player * pp) {
             long key = 0;
             int spos = -1;
             std::string filter=panes[src].filter;
-            std::string origfilter = filter;
             filter_edit = true;
 
             do {
@@ -1136,7 +1135,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                 recalc=true;
                 checkshowmsg=true;
             } else {
-                std::vector<iteminfo> vThisItem, vDummy, vMenu;
+                std::vector<iteminfo> vThisItem, vDummy;
                 it->info(true, &vThisItem, g);
                 int rightWidth = w_width / 2 - 2;
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"), "\n"));

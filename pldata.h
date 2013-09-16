@@ -28,8 +28,8 @@ struct disease
  dis_type type;
  int intensity;
  int duration;
- disease() { type = "null"; duration = 0; intensity = 0; }
- disease(dis_type t, int d, int i = 0) { type = t; duration = d; intensity = i;}
+ disease() : type("null") { duration = 0; intensity = 0; }
+ disease(dis_type t, int d, int i = 0) : type(t) { duration = d; intensity = i;}
 };
 
 struct addiction
@@ -62,29 +62,25 @@ struct player_activity
  std::vector<int> values;
  point placement;
 
- player_activity() { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
-                     name = ""; placement = point(-1, -1); continuous = false; }
+ player_activity() : name(""), placement(point(-1,-1)) { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
+                     continuous = false; ignore_trivial = true; }
 
- player_activity(activity_type t, int turns, int Index, char ch, std::string name_in)
+ player_activity(activity_type t, int turns, int Index, char ch, std::string name_in) : name(name_in), placement(point(-1,-1))
  {
   type = t;
   moves_left = turns;
   index = Index;
   invlet = ch;
-  name = name_in;
-  placement = point(-1, -1);
   continuous = false;
   ignore_trivial = false;
  }
 
- player_activity(const player_activity &copy)
+ player_activity(const player_activity &copy) : name(copy.name), placement(copy.placement)
  {
   type = copy.type;
   moves_left = copy.moves_left;
   index = copy.index;
   invlet = copy.invlet;
-  name = copy.name;
-  placement = copy.placement;
   continuous = copy.continuous;
   ignore_trivial = copy.ignore_trivial;
   values.clear();

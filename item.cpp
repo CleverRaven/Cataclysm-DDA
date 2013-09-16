@@ -29,14 +29,11 @@ item::item()
 item::item(itype* it, unsigned int turn)
 {
  init();
- if(!it)
-  type = nullitem();
- else
-  type = it;
- bday = turn;
- corpse = it->corpse;
  if (it == NULL)
   return;
+ type = it;
+ bday = turn;
+ corpse = it->corpse;
  name = it->name;
  if (it->is_gun())
   charges = 0;
@@ -308,7 +305,7 @@ picojson::value item::json_save() const
     if ( player_id != -1 )   data["player_id"]  = pv( player_id );
     if ( mission_id != -1 )  data["mission_id"] = pv( mission_id );
 
-    if ( item_tags.size() > 0 ) {
+    if (!item_tags.empty()) {
         std::vector<picojson::value> pvtags;
         for( std::set<std::string>::const_iterator it = item_tags.begin();
              it != item_tags.end(); ++it ) {
@@ -317,7 +314,7 @@ picojson::value item::json_save() const
         data["item_tags"] = pv ( pvtags );
     }
 
-    if ( item_vars.size() > 0 ) {
+    if (!item_vars.empty()) {
         std::map<std::string, picojson::value> pvvars;
         for( std::map<std::string, std::string>::const_iterator it = item_vars.begin(); it != item_vars.end(); ++it ) {
             pvvars[ std::string(it->first) ] = pv( it->second );
@@ -348,36 +345,39 @@ std::string item::save_info() const
 }
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
-   if(item_tag.at(0) == ivaresc && item_tag.find('=') != -1 && item_tag.find('=') >= 2 ) {
-     std::string var_name, val_decoded;
-     int svarlen, svarsep;
-     svarsep=item_tag.find('=');
-     svarlen=item_tag.size();
-     var_name="";
-     val_decoded="";
-     var_name=item_tag.substr(1,svarsep-1); // will assume sanity here for now
-     for(int s = svarsep+1; s < svarlen; s++ ) { // cheap and temporary, afaik stringstream IFS = [\r\n\t ];
-         if(item_tag[s] == ivaresc && s < svarlen-2 ){
-             if ( item_tag[s+1] == '0' && item_tag[s+2] == 'A' ) {
-                 s+=2; val_decoded.append(1, '\n');
-             } else if ( item_tag[s+1] == '0' && item_tag[s+2] == 'D' ) {
-                 s+=2; val_decoded.append(1, '\r');
-             } else if ( item_tag[s+1] == '0' && item_tag[s+2] == '6' ) {
-                 s+=2; val_decoded.append(1, '\t');
-             } else if ( item_tag[s+1] == '2' && item_tag[s+2] == '0' ) {
-                 s+=2; val_decoded.append(1, ' ');
-             } else {
-                 val_decoded.append(1, item_tag[s]); // hhrrrmmmmm should be passing \a?
-             }
-         } else {
-             val_decoded.append(1, item_tag[s]);
-         }
-     }
-     item_vars[var_name]=val_decoded;
-     return true;
-   } else {
-     return false;
-   }
+    if(item_tag.at(0) == ivaresc && item_tag.find('=') != -1 && item_tag.find('=') >= 2 ) {
+        std::string var_name, val_decoded;
+        int svarlen, svarsep;
+        svarsep=item_tag.find('=');
+        svarlen=item_tag.size();
+        val_decoded="";
+        var_name=item_tag.substr(1,svarsep-1); // will assume sanity here for now
+        for(int s = svarsep+1; s < svarlen; s++ ) { // cheap and temporary, afaik stringstream IFS = [\r\n\t ];
+            if(item_tag[s] == ivaresc && s < svarlen-2 ) {
+                if ( item_tag[s+1] == '0' && item_tag[s+2] == 'A' ) {
+                    s+=2;
+                    val_decoded.append(1, '\n');
+                } else if ( item_tag[s+1] == '0' && item_tag[s+2] == 'D' ) {
+                    s+=2;
+                    val_decoded.append(1, '\r');
+                } else if ( item_tag[s+1] == '0' && item_tag[s+2] == '6' ) {
+                    s+=2;
+                    val_decoded.append(1, '\t');
+                } else if ( item_tag[s+1] == '2' && item_tag[s+2] == '0' ) {
+                    s+=2;
+                    val_decoded.append(1, ' ');
+                } else {
+                    val_decoded.append(1, item_tag[s]); // hhrrrmmmmm should be passing \a?
+                }
+            } else {
+                val_decoded.append(1, item_tag[s]);
+            }
+        }
+        item_vars[var_name]=val_decoded;
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool item::json_load(picojson::value parsed, game * g)
@@ -457,11 +457,13 @@ bool item::json_load(picojson::value parsed, game * g)
         }
     }
 
-    light=nolight;
     int tmplum=0;
-    int tmpwidth=0;
-    int tmpdir=0;
     if ( picoint(data,"light",tmplum) ) {
+
+        light=nolight;
+        int tmpwidth=0;
+        int tmpdir=0;
+
         picoint(data,"light_width",tmpwidth);
         picoint(data,"light_dir",tmpdir);
         light.luminance = (unsigned short)tmplum;
@@ -786,7 +788,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
 
   dump->push_back(iteminfo("BOOK", "", _("This book takes <num> minutes to read."), book->time, true, "", true, true));
 
-  if (book->recipes.size() > 0) {
+  if (!(book->recipes.empty())) {
    dump->push_back(iteminfo("BOOK", "", _("This book contains <num> crafting recipes."), book->recipes.size(), true, "", true, true));
   }
 
@@ -1054,7 +1056,7 @@ std::string item::tname(game *g)
 
  ret << damtext << vehtext << burntext << maintext << tagtext;
 
- if (item_vars.size()) {
+ if (!item_vars.empty()) {
   return "*" + ret.str() + "*";
  } else {
   return ret.str();
