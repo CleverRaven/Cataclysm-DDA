@@ -11,7 +11,8 @@
 
 void weather_effect::glare(game *g)
 {
- if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses"))
+ if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses") &&
+     !g->u.has_bionic("bio_sunglasses"))
   g->u.infect("glare", bp_eyes, 1, 2, g);
 }
 
