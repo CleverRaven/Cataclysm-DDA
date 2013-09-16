@@ -63,7 +63,7 @@
         "type" : "skill",
         "ident" : "tailor",
         "name" : "tailoring",
-        "description" : "Your skill in the craft and repair of clothing, bags, blankets and other textiles. Affects knitting, sewing, stiching, weaving, and nearly anything else involving a needle and thread.",
+        "description" : "Your skill in the craft and repair of clothing, bags, blankets and other textiles. Affects knitting, sewing, stitching, weaving, and nearly anything else involving a needle and thread.",
     },{
         "type" : "skill",
         "ident" : "traps",
