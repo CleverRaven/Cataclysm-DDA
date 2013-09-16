@@ -27,6 +27,7 @@
 #include "mapdata.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "init.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -89,17 +90,14 @@ game::game() :
  if(!json_good())
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
+    load_json_dir("data/raw"); // load it, load it all!
  init_npctalk();
- init_materials();
  init_artifacts();
  init_weather();
  init_overmap();
  init_fields();
  init_faction_data();
  init_morale();
- init_skills();
- init_professions();
- init_bionics();              // Set up bionics                   (SEE bionics.cpp)
  init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
  init_itypes();               // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();
@@ -143,18 +141,6 @@ game::~game()
  delwin(w_location);
  delwin(w_status);
  delwin(w_status2);
-}
-
-void game::init_skills() throw (std::string)
-{
-    try
-    {
-    Skill::skills = Skill::loadSkills();
-    }
-    catch (std::string &error_message)
-    {
-        throw;
-    }
 }
 
 // Fixed window sizes

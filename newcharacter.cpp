@@ -8,6 +8,7 @@
 #include "game.h"
 #include "options.h"
 #include "catacharset.h"
+#include "debug.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -925,7 +926,7 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             case 'k':
             case '8':
                 cur_id--;
-                if (cur_id < 0 )
+                if (cur_id < 0)
                     cur_id = profession::count() - 1;
             break;
 

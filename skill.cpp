@@ -6,11 +6,10 @@
 #include "skill.h"
 #include "rng.h"
 
-#include "catajson.h"
+#include "json.h"
 
 #include "options.h"
 #include "output.h"
-#include "debug.h"
 
 Skill::Skill() {
   _ident = std::string("null");
@@ -30,52 +29,21 @@ Skill::Skill(size_t id, std::string ident, std::string name, std::string descrip
 
 std::vector<Skill*> Skill::skills;
 
-std::vector<Skill*> Skill::loadSkills() throw (std::string) {
-  std::vector<Skill*> allSkills;
+void Skill::load_skill(JsonObject &jsobj)
+{
+    std::string ident = jsobj.get_string("ident");
+    std::string name = _(jsobj.get_string("name").c_str());
+    std::string description = _(jsobj.get_string("description").c_str());
 
-  picojson::value skillsRaw;
-
-  std::ifstream skillsFile;
-
-  skillsFile.open("data/raw/skills.json");
-
-  if(!skillsFile.good())
-  {
-	  throw "Unable to read data/raw/skills.json";
-	  return allSkills;
-  }
-
-  skillsFile >> skillsRaw;
-
-  if (skillsRaw.is<picojson::array>()) {
-    const picojson::array& skills = skillsRaw.get<picojson::array>();
-    for (picojson::array::const_iterator aSkill = skills.begin(); aSkill != skills.end(); ++aSkill) {
-      const picojson::array& fields = aSkill->get<picojson::array>();
-      picojson::array::const_iterator aField = fields.begin();
-
-      std::string ident, name, description;
-
-      ident = aField++->get<std::string>();
-      name = aField++->get<std::string>();
-      description = aField++->get<std::string>();
-
-      name = _(name.c_str());
-      description = _(description.c_str());
-
-      std::set<std::string> tags;
-      const picojson::array& rawTags = aField++->get<picojson::array>();
-      for (picojson::array::const_iterator aTag = rawTags.begin(); aTag != rawTags.end(); ++aTag) {
-        tags.insert(aTag->get<std::string>());
-      }
-
-      Skill *newSkill = new Skill(allSkills.size(), ident, name, description, tags);
-      allSkills.push_back(newSkill);
+    std::set<std::string> tags;
+    JsonArray jsarr = jsobj.get_array("tags");
+    while (jsarr.has_more()) {
+        tags.insert(jsarr.next_string());
     }
-  } else {
-	throw "data/raw/skills.json is not an array";
-    return allSkills;
-  }
-  return allSkills;
+
+    Skill *sk = new Skill(skills.size(), ident, name, description, tags);
+    skills.push_back(sk);
+    //dout(D_INFO) << "Loaded skill: " << name << "\n";
 }
 
 Skill* Skill::skill(std::string ident) {
