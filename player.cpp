@@ -5566,6 +5566,8 @@ bool player::has_fire(const int quantity)
 
     if (has_charges("torch_lit", 1)) {
         return true;
+    } else if (has_charges("battletorch_lit", quantity)) {
+        return true;
     } else if (has_charges("candle_lit", 1)) {
         return true;
     } else if (has_bionic("bio_tools")) {
@@ -5614,7 +5616,19 @@ void player::use_fire(const int quantity)
 
     if (has_charges("torch_lit", 1)) {
         return;
+    } else if (has_charges("battletorch_lit", 1)) {
+        return;
     } else if (has_charges("candle_lit", 1)) {
+        return;
+    } else if (has_charges("shishkebab_on", quantity)) {
+        return;
+    } else if (has_charges("firemachete_on", quantity)) {
+        return;
+    } else if (has_charges("broadfire_on", quantity)) {
+        return;
+    } else if (has_charges("firekatana_on", quantity)) {
+        return;
+    } else if (has_charges("zweifire_on", quantity)) {
         return;
     } else if (has_bionic("bio_tools")) {
         return;
@@ -5645,6 +5659,21 @@ void player::use_fire(const int quantity)
         return;
     } else if (has_charges("welder_crude", quantity)) {
         use_charges("welder_crude", quantity);
+        return;
+    } else if (has_charges("shishkebab_off", quantity)) {
+        use_charges("shishkebab_off", quantity);
+        return;
+    } else if (has_charges("firemachete_off", quantity)) {
+        use_charges("firemachete_off", quantity);
+        return;
+    } else if (has_charges("broadfire_off", quantity)) {
+        use_charges("broadfire_off", quantity);
+        return;
+    } else if (has_charges("firekatana_off", quantity)) {
+        use_charges("firekatana_off", quantity);
+        return;
+    } else if (has_charges("zweifire_off", quantity)) {
+        use_charges("zweifire_off", quantity);
         return;
     }
 }

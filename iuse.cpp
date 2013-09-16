@@ -4380,6 +4380,62 @@ void iuse::torch_lit(game *g, player *p, item *it, bool t)
 }
 
 
+void iuse::battletorch(game *g, player *p, item *it, bool t)
+{
+    if (!p->use_charges_if_avail("fire", 1))
+    {
+        g->add_msg_if_player(p,_("You need a lighter or fire to light this."));
+    }
+    else
+    {
+        g->add_msg_if_player(p,_("You light the Louieville Slaughterer."));
+        it->make(g->itypes["battletorch_lit"]);
+        it->active = true;
+    }
+}
+
+
+void iuse::battletorch_lit(game *g, player *p, item *it, bool t)
+{
+    if (t)
+    {
+        if (it->charges == 0)
+        {
+            g->add_msg_if_player(p,_("The Louieville Slaughterer burns out."));
+            it->make(g->itypes["bat"]);
+            it->active = false;
+        }
+    }
+    else  	// Turning it off
+    {
+        int choice = menu(true,
+                          _("Louieville Slaughterer (lit)"), _("extinguish"), _("light something"), _("cancel"), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            g->add_msg_if_player(p,_("The Louieville Slaughterer is extinguished"));
+            it->charges -= 1;
+            it->make(g->itypes["battletorch"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 5;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
+}
+
+
 void iuse::candle(game *g, player *p, item *it, bool t)
 {
     if (!p->use_charges_if_avail("fire", 1))

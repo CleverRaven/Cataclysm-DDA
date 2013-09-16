@@ -173,6 +173,8 @@ void Item_factory::init(){
     iuse_function_list["SHELTER"] = &iuse::shelter;
     iuse_function_list["TORCH"] = &iuse::torch;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
+    iuse_function_list["BATTLETORCH"] = &iuse::battletorch;
+    iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
     iuse_function_list["CANDLE"] = &iuse::candle;
     iuse_function_list["CANDLE_LIT"] = &iuse::candle_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;

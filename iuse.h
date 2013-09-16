@@ -158,6 +158,8 @@ class iuse
   void shelter          (game *g, player *p, item *it, bool t);
   void torch            (game *g, player *p, item *it, bool t);
   void torch_lit        (game *g, player *p, item *it, bool t);
+  void battletorch            (game *g, player *p, item *it, bool t);
+  void battletorch_lit        (game *g, player *p, item *it, bool t);
   void candle           (game *g, player *p, item *it, bool t);
   void candle_lit       (game *g, player *p, item *it, bool t);
   void bullet_puller	(game *g, player *p, item *it, bool t);
