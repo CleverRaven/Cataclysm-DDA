@@ -5,6 +5,7 @@
 #include <map>
 
 #include "enums.h"
+#include "json.h"
 
 class material_type;
 
@@ -13,7 +14,6 @@ typedef std::map<std::string, material_type> material_map;
 class material_type
 {
 private:
-    unsigned int _id;
     std::string _ident;
     std::string _name;
     int _bash_resist;       // negative integers means susceptibility
@@ -28,14 +28,14 @@ private:
 
 public:
     material_type();
-    material_type(unsigned int id, std::string ident, std::string name,
+    material_type(std::string ident, std::string name,
                   int bash_resist, int cut_resist,
                   std::string bash_dmg_verb, std::string cut_dmg_verb,
                   std::string dmg_adj[], int acid_resist, int elec_resist, int fire_resist,
                   int density);
     material_type(std::string ident);
     static material_map _all_materials;
-    static material_map load_materials();
+    static void load_material(JsonObject &jsobj);
 
     // functions
     static material_type* find_material(std::string ident);
@@ -44,7 +44,6 @@ public:
 
     int dam_resist(damage_type damtype) const;
 
-    unsigned int id() const;
     bool is_null() const;
     std::string ident() const;
     std::string name() const;
