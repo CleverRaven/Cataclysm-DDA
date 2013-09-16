@@ -44,6 +44,7 @@ enum vpart_id
     vp_door_o,
     vp_door_i,
     vp_window,
+    vp_reinforced_window,
     vp_blade_h,
     vp_blade_v,
     vp_spike_h,
