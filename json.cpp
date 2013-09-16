@@ -773,9 +773,18 @@ std::string JsonIn::line_number(int offset_modifier)
     int pos = tell();
     int line = 1;
     int offset = 1;
+    char ch;
     seek(0);
     for (int i=0; i < pos; ++i) {
-        if (stream->get() == '\n') {
+        stream->get(ch);
+        if (ch == '\r') {
+            offset = 1;
+            ++line;
+            if (peek() == '\n') {
+                stream->get();
+                ++i;
+            }
+        } else if (ch == '\n') {
             offset = 1;
             ++line;
         } else {
