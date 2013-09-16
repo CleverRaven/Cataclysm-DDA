@@ -1440,59 +1440,55 @@ void game::disassemble(char ch)
                 bool have_all_tools = true;
                 for (int j = 0; j < cur_recipe->tools.size(); j++)
                 {
-                    bool have_this_tool = false;
                     if (cur_recipe->tools[j].size() == 0) // no tools required, may change this
                     {
-                        have_this_tool = true;
+                        continue;
                     }
-                    else
+                    bool have_this_tool = false;
+                    for (int k = 0; k < cur_recipe->tools[j].size(); k++)
                     {
-                        for (int k = 0; k < cur_recipe->tools[j].size(); k++)
-                        {
-                            itype_id type = cur_recipe->tools[j][k].type;
-                            int req = cur_recipe->tools[j][k].count;	// -1 => 1
+                        itype_id type = cur_recipe->tools[j][k].type;
+                        int req = cur_recipe->tools[j][k].count;	// -1 => 1
 
-                            if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
-                                (req >  0 && crafting_inv.has_charges(type, req)))
+                        if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                            (req >  0 && crafting_inv.has_charges(type, req)))
+                        {
+                            have_this_tool = true;
+                            k = cur_recipe->tools[j].size();
+                        }
+                        // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
+                        if (type == "welder")
+                        {
+                            if (crafting_inv.has_amount("hacksaw", 1) ||
+                                crafting_inv.has_amount("toolset", 1))
                             {
                                 have_this_tool = true;
-                                k = cur_recipe->tools[j].size();
-                            }
-                            // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
-                            if (type == "welder")
-                            {
-                                if (crafting_inv.has_amount("hacksaw", 1) ||
-                                    crafting_inv.has_amount("toolset", 1))
-                                {
-                                    have_this_tool = true;
-                                }
-                                else
-                                {
-                                    have_this_tool = false;
-                                }
-                            }
-                        }
-
-                        if (!have_this_tool)
-                        {
-                            have_all_tools = false;
-                            int req = cur_recipe->tools[j][0].count;
-                            if (cur_recipe->tools[j][0].type == "welder")
-                            {
-                                add_msg(_("You need a hacksaw to disassemble this."));
                             }
                             else
                             {
-                                if (req <= 0)
-                                {
-                                    add_msg(_("You need a %s to disassemble this."),
-                                    item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str());
-                                }
-                                else
-                                {
-                                    add_msg(_("You need a %s with %d charges to disassemble this."),
-                                    item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str(), req);
-                                }
+                                have_this_tool = false;
+                            }
+                        }
+                    }
+                    if (!have_this_tool)
+                    {
+                        have_all_tools = false;
+                        int req = cur_recipe->tools[j][0].count;
+                        if (cur_recipe->tools[j][0].type == "welder")
+                        {
+                            add_msg(_("You need a hacksaw to disassemble this."));
+                        }
+                        else
+                        {
+                            if (req <= 0)
+                            {
+                                add_msg(_("You need a %s to disassemble this."),
+                                item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str());
+                            }
+                            else
+                            {
+                                add_msg(_("You need a %s with %d charges to disassemble this."),
+                                item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str(), req);
                             }
                         }
                     }
@@ -1572,7 +1568,7 @@ void game::complete_disassemble()
   for (int j = 0; j < dis->tools.size(); j++)
   {
     if (dis->tools[j].size() > 0)
-    consume_tools(&u, dis->tools[j], false);
+        consume_tools(&u, dis->tools[j], false);
   }
 
   // add the components to the map
