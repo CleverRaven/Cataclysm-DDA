@@ -306,7 +306,7 @@ JsonIn::JsonIn(std::istream *s)
 }
 
 int JsonIn::tell() { return stream->tellg(); }
-void JsonIn::seek(int pos) { stream->seekg(pos, stream->beg); }
+void JsonIn::seek(int pos) { stream->seekg(pos, std::istream::beg); }
 char JsonIn::peek() { return (char)stream->peek(); }
 bool JsonIn::good() { return stream->good(); }
 
