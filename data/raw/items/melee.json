@@ -377,7 +377,7 @@
   {
     "id": "reinforced_glass_sheet",
     "symbol": "]",
-    "color": "light_cyan",
+    "color": "light_blue",
     "name": "sheet of reinforced glass",
     "description": "A large sheet of glass strengthened with steel wiring.",
     "price": 1135,
