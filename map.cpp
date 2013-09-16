@@ -348,8 +348,6 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
                       g->u.posx, g->u.posy);
    continue;
   }
-  int trec = rec -psgs[i]->skillLevel("driving");
-  if (trec < 0) trec = 0;
   // add recoil
   psg->driving_recoil = rec;
   // displace passenger taking in account vehicle movement (dx, dy)
@@ -1175,7 +1173,6 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
  vehicle *veh = veh_at(x, y, vpart);
  if (veh) {
   veh->damage (vpart, str, 1);
-  result = str;
   sound += _("crash!");
   return true;
  }
