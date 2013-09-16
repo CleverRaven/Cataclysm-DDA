@@ -52,7 +52,7 @@ void load_json_dir(std::string const &dirname)
     std::vector<std::string>::iterator it;
     for (it = dir.begin(); it != dir.end(); it++) {
         // open the file as a stream
-        std::ifstream infile(it->c_str());
+        std::ifstream infile(it->c_str(), std::ifstream::in | std::ifstream::binary);
         // parse it
         try {
             JsonIn jsin(&infile);
