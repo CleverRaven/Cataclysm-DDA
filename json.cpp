@@ -312,7 +312,7 @@ bool JsonIn::good() { return stream->good(); }
 
 void JsonIn::eat_whitespace()
 {
-    while (is_whitespace((char)stream->peek())) {
+    while (is_whitespace(peek())) {
         stream->get();
     }
 }
@@ -747,7 +747,7 @@ bool JsonIn::get_bool()
 void JsonIn::start_array()
 {
     eat_whitespace();
-    if (stream->peek() == (int)'[') {
+    if (peek() == '[') {
         stream->get();
         return;
     } else {
@@ -763,10 +763,10 @@ void JsonIn::start_array()
 bool JsonIn::end_array()
 {
     eat_whitespace();
-    if (stream->peek() == (int)']') {
+    if (peek() == ']') {
         stream->get();
         return true;
-    } else if (stream->peek() == (int)',') {
+    } else if (peek() == ',') {
         // also eat separators, makes iterating easy
         stream->get();
         return false;
@@ -779,7 +779,7 @@ bool JsonIn::end_array()
 void JsonIn::start_object()
 {
     eat_whitespace();
-    if (stream->peek() == (int)'{') {
+    if (peek() == '{') {
         stream->get();
         return;
     } else {
@@ -795,10 +795,10 @@ void JsonIn::start_object()
 bool JsonIn::end_object()
 {
     eat_whitespace();
-    if (stream->peek() == (int)'}') {
+    if (peek() == '}') {
         stream->get();
         return true;
-    } else if (stream->peek() == (int)',') {
+    } else if (peek() == ',') {
         // also eat separators, makes iterating easy
         stream->get();
         return false;
