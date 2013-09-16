@@ -51,17 +51,17 @@ void game::show_auto_pickup()
     wrefresh(w_auto_pickup_border);
 
     int tmpx = 0;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<A>dd"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<C>opy"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<M>ove"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<E>nable"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<D>isable"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<T>est"))+2;
+    shortcut_print(w_auto_pickup_header, 0, tmpx++, c_white, c_ltgreen, _("<A>dd"))+2;
+    shortcut_print(w_auto_pickup_header, 0, tmpx++, c_white, c_ltgreen, _("<R>emove"))+2;
+    shortcut_print(w_auto_pickup_header, 0, tmpx++, c_white, c_ltgreen, _("<C>opy"))+2;
+    shortcut_print(w_auto_pickup_header, 0, tmpx++, c_white, c_ltgreen, _("<M>ove"))+2;
+    shortcut_print(w_auto_pickup_header, 0, tmpx++, c_white, c_ltgreen, _("<E>nable"))+2;
+    shortcut_print(w_auto_pickup_header, 0, tmpx++, c_white, c_ltgreen, _("<D>isable"))+2;
+    shortcut_print(w_auto_pickup_header, 0, tmpx++, c_white, c_ltgreen, _("<T>est"))+2;
     tmpx = 0;
-    tmpx += shortcut_print(w_auto_pickup_header, 1, tmpx, c_white, c_ltgreen, _("<+-> Move up/down"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 1, tmpx, c_white, c_ltgreen, _("<Enter>-Edit"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 1, tmpx, c_white, c_ltgreen, _("<Tab>-Switch Page"))+2;
+    shortcut_print(w_auto_pickup_header, 1, tmpx++, c_white, c_ltgreen, _("<+-> Move up/down"))+2;
+    shortcut_print(w_auto_pickup_header, 1, tmpx++, c_white, c_ltgreen, _("<Enter>-Edit"))+2;
+    shortcut_print(w_auto_pickup_header, 1, tmpx++, c_white, c_ltgreen, _("<Tab>-Switch Page"))+2;
 
     for (int i = 0; i < 78; i++) {
         if (mapLines[i]) {
@@ -75,8 +75,6 @@ void game::show_auto_pickup()
     mvwprintz(w_auto_pickup_header, 3, 0, c_white, "#");
     mvwprintz(w_auto_pickup_header, 3, 7, c_white, _("Rules"));
     mvwprintz(w_auto_pickup_header, 3, 51, c_white, _("I/E"));
-    //mvwprintz(w_auto_pickup_header, 3, 55, c_white, "Volume");
-    //mvwprintz(w_auto_pickup_header, 3, 62, c_white, "Weight");
 
     wrefresh(w_auto_pickup_header);
 
@@ -91,14 +89,8 @@ void game::show_auto_pickup()
 
     do {
         int locx = 17;
-        locx += shortcut_print(w_auto_pickup_header, 2, locx, c_white, (iCurrentPage == 1) ? hilite(c_white) : c_white, _("[<Global>]"))+1;
-        locx = shortcut_print(w_auto_pickup_header, 2, locx, c_white, (iCurrentPage == 2) ? hilite(c_white) : c_white, _("[<Character>]"))+1;
-
-        /*
-        mvwprintz(w_auto_pickup_header, 2, 12 + 21, c_white, "[");
-        wprintz(w_auto_pickup_header, (iCurrentPage == 3) ? hilite(c_white) : c_white, "Options");
-        wprintz(w_auto_pickup_header, c_white, "]");
-        */
+        shortcut_print(w_auto_pickup_header, 2, locx++, c_white, (iCurrentPage == 1) ? hilite(c_white) : c_white, _("[<Global>]"))+1;
+        shortcut_print(w_auto_pickup_header, 2, locx++, c_white, (iCurrentPage == 2) ? hilite(c_white) : c_white, _("[<Character>]"))+1;
 
         wrefresh(w_auto_pickup_header);
 
