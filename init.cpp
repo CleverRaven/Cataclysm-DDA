@@ -63,7 +63,7 @@ void load_json_dir(std::string const &dirname)
     }
 }
 
-void load_all_from_json(JsonIn &jsin) throw (std::string)
+void load_all_from_json(JsonIn &jsin)
 {
     char ch;
     std::string type = "";
