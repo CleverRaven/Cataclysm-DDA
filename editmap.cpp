@@ -1141,7 +1141,7 @@ int editmap::select_shape(shapetype shape, int mode)
     point orig = target;
     point origor = origin;
     int ch = 0;
-    InputEvent input;
+    InputEvent input = Undefined;
     bool update = false;
     blink = true;
     if ( mode >= 0 ) {
