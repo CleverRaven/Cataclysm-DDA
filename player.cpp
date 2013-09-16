@@ -73,7 +73,7 @@ void game::init_morale()
 
     _("Masochism"),
     _("Hoarder"),
-    _("Cross-Dresser"),
+    _("Stylish"),
     _("Optimist"),
     _("Found kitten <3")
     };
@@ -471,18 +471,22 @@ void player::apply_persistent_morale()
         add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
     }
 
-    // Cross-dressers get a morale bonus for each body part covered in an
-    // item of the opposite gender(MALE_TYPICAL/FEMALE_TYPICAL item flags).
-    if (has_trait("CROSSDRESSER"))
+    // The stylish get a morale bonus for each body part covered in an item 
+    // with the FANCY or SUPER_FANCY tag.
+    if (has_trait("STYLISH"))
     {
         int bonus = 0;
-        std::string required_flag = male ? "FEMALE_TYPICAL" : "MALE_TYPICAL";
+        std::string basic_flag = "FANCY";
+        std::string bonus_flag = "SUPER_FANCY";
 
-        unsigned char covered = 0; // body parts covered by stuff with opposite gender flags
+        unsigned char covered = 0; // body parts covered
         for(int i=0; i<worn.size(); i++) {
-            if(worn[i].has_flag(required_flag)) {
+            if(worn[i].has_flag(basic_flag) || worn[i].has_flag(bonus_flag) ) {
                 it_armor* item_type = (it_armor*) worn[i].type;
                 covered |= item_type->covers;
+            }
+            if(worn[i].has_flag(bonus_flag)) {
+              bonus+=2;
             }
         }
         if(covered & mfb(bp_torso)) {
@@ -502,7 +506,7 @@ void player::apply_persistent_morale()
         }
 
         if(bonus) {
-            add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
+            add_morale(MORALE_PERM_FANCY, bonus, bonus, 5, 5, true);
         }
     }
 
@@ -7046,10 +7050,10 @@ void player::sort_armor(game *g)
                 tmp_str += _("It is waterproof.\n");
             if (tmp_worn[leftListIndex]->has_flag("WATER_FRIENDLY"))
                 tmp_str += _("It is water friendly.\n");
-            if (tmp_worn[leftListIndex]->has_flag("FEMALE_TYPICAL"))
-                tmp_str += _("It looks girly.\n");
-            if (tmp_worn[leftListIndex]->has_flag("MALE_TYPICAL"))
-                tmp_str += _("It looks manly.\n");
+            if (tmp_worn[leftListIndex]->has_flag("FANCY"))
+                tmp_str += _("It looks fancy.\n");
+            if (tmp_worn[leftListIndex]->has_flag("SUPER_FANCY"))
+                tmp_str += _("It looks really fancy.\n");
             if (tmp_worn[leftListIndex]->has_flag("FLOATATION"))
                 tmp_str += _("You will not drown today.\n");
             if (tmp_worn[leftListIndex]->has_flag("OVERSIZE"))

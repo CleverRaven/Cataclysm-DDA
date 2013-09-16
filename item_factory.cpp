@@ -568,8 +568,8 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
                     WATCH - Shows the current time, instead of sun/moon position
                     ALARMCLOCK - Has an alarmclock feature
-                    MALE_TYPICAL - Typically only worn by men.
-                    FEMALE_TYPICAL - Typically only worn by women.
+                    FANCY - Less than practical clothing meant primarily to convey a certain image.
+                    SUPER_FANCY - Clothing suitable for the most posh of events.
                     LIGHT_* - light emission, sets cached int light_emission
                     USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
 
