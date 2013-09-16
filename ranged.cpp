@@ -38,27 +38,25 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
   tmpammo->damage = charges * charges;
   tmpammo->pierce = (charges >= 4 ? (charges - 3) * 2.5 : 0);
-  tmpammo->range = 5 + charges * 5;
   if (charges <= 4)
    tmpammo->dispersion = 14 - charges * 2;
   else // 5, 12, 21, 32
    tmpammo->dispersion = charges * (charges - 4);
   tmpammo->recoil = tmpammo->dispersion * .8;
+  tmpammo->ammo_effects.clear(); // Reset effects. 
   if (charges == 8) { tmpammo->ammo_effects.insert("EXPLOSIVE_BIG"); }
   else if (charges >= 6) { tmpammo->ammo_effects.insert("EXPLOSIVE"); }
 
   if (charges >= 5){ tmpammo->ammo_effects.insert("FLAME"); }
   else if (charges >= 4) { tmpammo->ammo_effects.insert("INCENDIARY"); }
 
-  if (gunmod != NULL) {
+  if (gunmod != NULL) { // TODO: range calculation in case of active gunmod.
    weapon = gunmod;
   } else {
    weapon = &p.weapon;
   }
   curammo = tmpammo;
   weapon->curammo = tmpammo;
-  weapon->active = false;
-  weapon->charges = 0;
  } else if (gunmod != NULL) {
   weapon = gunmod;
   curammo = weapon->curammo;
@@ -141,7 +139,6 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  ts.tv_sec = 0;
  ts.tv_nsec = BULLET_SPEED;
 
- // Use up some ammunition
 int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
  if (trange < int(firing->volume / 3) && firing->ammo != "shot")
@@ -261,10 +258,14 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
    }
 
   // Use up a round (or 100)
-  if (weapon->has_flag("FIRE_100"))
-   weapon->charges -= 100;
-  else if (!weapon->has_flag("NO_AMMO"))
-   weapon->charges--;
+  if (weapon->has_flag("FIRE_100")) {
+      weapon->charges -= 100;
+  } else if (weapon->has_flag("CHARGE")) {
+      weapon->active = false;
+      weapon->charges = 0;
+  } else if (!weapon->has_flag("NO_AMMO")) {
+      weapon->charges--;
+  }
 
   // Drain UPS power
   if (p.has_charges("adv_UPS_off", adv_ups_drain))
