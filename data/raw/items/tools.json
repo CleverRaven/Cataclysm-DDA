@@ -1680,8 +1680,8 @@
     "bashing": 8,
     "cutting": 0,
     "to_hit": 1,
-    "max_charges": 0,
-    "initial_charges": 0,
+    "max_charges": 1,
+    "initial_charges": 1,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
@@ -1706,9 +1706,9 @@
     "max_charges": 1,
     "initial_charges": 1,
     "charges_per_use": 0,
-    "turns_per_charge": 0,
+    "turns_per_charge": 1,
     "ammo": "NULL",
-    "revert_to": "molotov",
+    "revert_to": "null",
     "use_action": "MOLOTOV_LIT"
   },
 
