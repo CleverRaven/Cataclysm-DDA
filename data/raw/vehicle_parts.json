@@ -417,7 +417,7 @@
         "id": "reinforced_windshield",
         "name": "reinforced windshield",
         "symbol": "\"",
-        "color": "light_cyan",
+        "color": "light_blue",
         "broken_symbol": "0",
         "broken_color": "light_gray",
         "damage_modifier": 80,
