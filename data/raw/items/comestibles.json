@@ -4047,7 +4047,7 @@
         "heal" : 1,
         "addiction_potential" : 0,
         "nutrition" : 24,
-        "description" : "A healthy cornmeal fritter.",
+        "description" : "A tasty and nutritious fried bread treat.",
         "price" : 50,
         "material" : "veggy",
         "tool" : "null",
@@ -4102,10 +4102,10 @@
         "to_hit" : 0,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 2,
+        "quench" : 3,
         "heal" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 12,
+        "nutrition" : 13,
         "description" : "Sweet and delicious, real maple syrup!",
         "price" : 90,
         "material" : "veggy",
@@ -4115,7 +4115,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : 8
+        "fun" : 7
     },
     {
         "type" : "COMESTIBLE",
