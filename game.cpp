@@ -257,7 +257,7 @@ void game::init_ui(){
             break;
 
 
-        case 1: // narrow
+        default: // narrow, using default so all variables are assigned something in all cases
 
             // First, figure out how large each element will be.
 
