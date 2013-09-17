@@ -28,19 +28,26 @@
 #include "artifactdata.h"
 #include "weather.h"
 
+/*
+ * Changes that break backwards compatibility should bump this number, so the game can
+ * load a legacy format loader
+ */
 const int savegame_version = 7;
-////
+
+/*
+ * This is a global set by detected version header in .sav, maps.txt, or overmap.
+ * This allows loaders for classes that exist in multiple files (such as item) to have
+ * support for backwards compatibility as well.
+ */
 int savegame_loading_version = savegame_version;
+
+////////////////////////////////////////////////////////////////////////////////////////
+///// game.sav
 
 /*
  * Save to opened character.sav
  */
 void game::serialize(std::ofstream & fout) {
-/*
- * save format version. If an alteration is made that breaks saves, please bump this version and
- * make a new copy in serialize_load.
- */
-
 /*
  * Format version -current-: Interim format. Still resembles a hairball, but it's at least a multi-line hairball;
  * Data is segmented for readabilty, stability, and gradual conversion into something closer to sanity.
@@ -237,3 +244,8 @@ void game::unserialize(std::ifstream & fin) {
             // Now dump tmpinv into the player's inventory
             u.inv.add_stack(tmpinv);
 }
+////////////////////////////////////////////////////////////////////////////////////////
+///// overmap
+
+////////////////////////////////////////////////////////////////////////////////////////
+///// mapbuffer

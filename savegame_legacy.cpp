@@ -50,6 +50,58 @@ inline std::stringstream & stream_line(std::ifstream & f, std::stringstream & s,
 bool	 game::unserialize_legacy(std::ifstream & fin) {
 
    switch (savegame_loading_version) {
+/*
+// reserved for pending breakage
+       case 7:
+       case 5:
+       case 4: {
+   // Format version 4-?: Interim format. Still resembles a hairball, but it's at least a multi-line hairball;
+   // Data is segmented for readabilty, stability, and gradual conversion into something closer to sanity.
+        // Header
+        fout << "# version " << savegame_version << std::endl;
+        // First, write out basic game state information.
+        fout << int(turn) << "  " << int(last_target) << " " << int(run_mode) << " " <<
+             mostseen << " " << nextinv << " " << next_npc_id << " " <<
+             next_faction_id << " " << next_mission_id << " " << int(nextspawn) << std::endl;
+
+        // future weather (for now)
+        fout << save_weather();
+        fout << std::endl;
+
+        // current map coordinates
+        fout << levx << " " << levy << " " << levz << " " << cur_om->pos().x <<
+             " " << cur_om->pos().y << " " << std::endl;
+
+        // Next, the scent map.
+        for (int i = 0; i < SEEX * MAPSIZE; i++) {
+            for (int j = 0; j < SEEY * MAPSIZE; j++) {
+                fout << grscent[i][j] << " ";
+            }
+        }
+
+        // Now save all monsters.
+        fout << std::endl << num_zombies() << std::endl;
+
+        for (int i = 0; i < num_zombies(); i++) {
+            fout << _z[i].save_info() << std::endl;
+            fout << _z[i].inv.size() << std::endl;
+            for( std::vector<item>::iterator it = _z[i].inv.begin(); it != _z[i].inv.end(); ++it ) {
+                fout << it->save_info() << std::endl;
+            }
+        }
+
+        for (int i = 0; i < num_monsters; i++) { // Save the kill counts, too.
+            fout << kills[i] << " ";
+        }
+        fout << std::endl;
+
+        // And finally the player.
+        fout << u.save_info() << std::endl;
+
+        fout << std::endl;
+        ////////
+       } break;
+*/
        case 3: {
 
             std::string linebuf;
