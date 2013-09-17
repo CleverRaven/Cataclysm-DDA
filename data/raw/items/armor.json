@@ -4787,7 +4787,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A medieval helmet that provides excellent protection to head, with a Y shaped opening for the face.",
+        "description" : "A medieval helmet that provides excellent protection for the head, with a Y shaped opening for the face.",
         "price" : 300,
         "material" : ["iron", "null"],
         "volume" : 20,
