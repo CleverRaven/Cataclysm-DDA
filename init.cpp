@@ -43,6 +43,10 @@ void load_object(JsonObject &jo)
     }
 }
 
+void init_data_structures()
+{
+}
+
 void load_json_dir(std::string const &dirname)
 {
     // get a list of all files in the directory
