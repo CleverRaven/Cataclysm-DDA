@@ -79,11 +79,11 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  bool is_bolt = false;
  std::set<std::string> effects;
  std::set<std::string> *curammo_effects = &curammo->ammo_effects;
- std::set<std::string> *gun_effects = &dynamic_cast<it_gun*>(weapon->type)->ammo_effects;
+ if(gunmod == NULL){
+     std::set<std::string> *gun_effects = &dynamic_cast<it_gun*>(weapon->type)->ammo_effects;
+     effects.insert(gun_effects->begin(),gun_effects->end());
+ }
  effects.insert(curammo_effects->begin(),curammo_effects->end());
- effects.insert(gun_effects->begin(),gun_effects->end());
-
- // Add weapon ammo_effect flags
 
  // Bolts and arrows are silent
  if (curammo->type == "bolt" || curammo->type == "arrow")
@@ -969,6 +969,10 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
  std::string gunsound;
  // noise() doesn't suport gunmods, but it does return the right value
  int noise = p.weapon.noise();
+ if(weapon->is_gunmod()){ //TODO make this produce the correct sound
+  g->sound(p.posx, p.posy, noise, "Whatever sound this gunmod should make");
+  return;
+ }
 
  it_gun* weapontype = dynamic_cast<it_gun*>(weapon->type);
  if (weapontype->ammo_effects.count("LASER") || weapontype->ammo_effects.count("PLASMA")) {
