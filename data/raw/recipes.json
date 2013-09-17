@@ -4756,7 +4756,38 @@
     [
       [ "milk", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ]
+      [ "can_coconut", 1 ],
+      [ "cooking_oil", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "johnnycake",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 14000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cooking_oil", 1 ]
+    ],
+    [
+      [ "cornmeal", 2 ],
+      [ "flour", 2 ]
     ]
   ]
 },
