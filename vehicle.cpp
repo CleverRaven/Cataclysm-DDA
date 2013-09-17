@@ -14,6 +14,7 @@ enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
  toggle_turrets,
+ honk_horn,
  release_control,
  control_cancel,
  convert_vehicle
@@ -299,7 +300,9 @@ void vehicle::use_controls()
  curent++;
 
  bool has_lights = false;
+ bool has_horn = false;
  bool has_turrets = false;
+ vpart_info *horn=NULL;
  for (int p = 0; p < parts.size(); p++) {
   if (part_flag(p, "LIGHT")) {
    has_lights = true;
@@ -307,12 +310,24 @@ void vehicle::use_controls()
   else if (part_flag(p, "TURRET")) {
    has_turrets = true;
   }
+  else if (part_flag(p, "HORN")) {
+   has_horn = true;
+   horn=&part_info(p);
+  }
  }
+
 
  // Lights if they are there - Note you can turn them on even when damaged, they just don't work
  if (has_lights) {
   options_choice.push_back(toggle_lights);
   options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") : _("Turn on headlights"), 'h'));
+  curent++;
+ }
+ 
+ //Honk the horn!
+ if (has_horn) {
+  options_choice.push_back(honk_horn);
+  options_message.push_back(uimenu_entry("Honk horn", 'o'));
   curent++;
  }
 
@@ -360,6 +375,16 @@ void vehicle::use_controls()
   case toggle_lights:
    lights_on = !lights_on;
    g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
+   break;
+  case honk_horn:
+   if(horn->bonus>=30){
+       g->sound(posx,posy,horn->bonus,_("BEEEP"));
+       g->add_msg(_("You honk the horn! BEEEP"));
+   }
+   else{
+       g->sound(posx,posy,horn->bonus,_("honk"));
+       g->add_msg(_("You honk the horn!"));
+   }
    break;
   case toggle_turrets:
    if (++turret_mode > 1)
