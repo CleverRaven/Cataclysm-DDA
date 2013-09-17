@@ -164,6 +164,7 @@
       ["hamburger", 8],
       ["heatpack", 60],
       ["can_beans", 40],
+      ["con_milk", 20],
       ["can_corn", 35],
       ["can_spam", 30],
       ["can_pineapple", 30],
@@ -667,6 +668,7 @@
     "items":[
       ["can_beans", 40],
       ["can_corn", 35],
+      ["con_milk", 30],
       ["can_spam", 30],
       ["can_pineapple", 30],
       ["can_coconut", 10],
@@ -2147,6 +2149,7 @@
       ["chocolate", 50],
       ["ravioli", 25],
       ["can_beans", 40],
+      ["con_milk", 20],
       ["can_spam", 30],
       ["can_tuna", 35],
       ["coffee_raw", 15],
@@ -2625,6 +2628,7 @@
       ["mre_beef", 50],
       ["mre_veggy", 50],
       ["1st_aid", 35],
+      ["con_milk", 5],
       ["codeine", 15],
       ["antibiotics", 25],
       ["water_clean", 90],
@@ -2641,6 +2645,7 @@
       ["mre_beef", 50],
       ["mre_veggy", 50],
       ["1st_aid", 35],
+      ["con_milk", 10],
       ["water_clean", 90]
     ]
   },
@@ -3484,6 +3489,7 @@
       ["salt", 10],
       ["vinegar", 10],
       ["jar_veggy_pickled", 30],
+      ["con_milk", 20],
       ["jar_meat_pickled", 20]
     ]
   },
