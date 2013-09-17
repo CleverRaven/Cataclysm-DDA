@@ -5077,6 +5077,58 @@
 },
 
 {
+  "result": "cookies",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 1 ],
+      [ "oatmeal", 1 ],
+      [ "cornmeal", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "syrup", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ],
+      [ "honeycomb", 1 ]
+    ],
+    [
+      [ "cooking oil", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "candy", 3 ],
+      [ "chocolate", 1 ],
+      [ "strawberries", 1 ],
+      [ "jam_strawberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "jam_blueberries", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "pie",
   "category": "CC_FOOD",
   "skill_used": "cooking",
