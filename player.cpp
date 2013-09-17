@@ -1287,7 +1287,7 @@ if ( check == '{' ) {
         }
         return;
 }
-
+/////////////////// everything below is for OLD saves. update json_load in gamesave_json.cpp
  int inveh, vctrl;
  itype_id styletmp;
  std::string prof_ident;
@@ -1434,140 +1434,13 @@ if ( check == '{' ) {
 
  recalc_sight_limits();
 }
-#define jsonsave_player 1
-#define jsonsave_player_inv 1
 std::string player::save_info()
 {
- std::stringstream dump;
-
-#ifdef jsonsave_player
-#ifdef jsonsave_player_inv
-    return json_save(true).serialize();
- dump << dump_memorial(); // testme
-#else
- std::stringstream tdump;
- tdump << json_save(false).serialize();
- tdump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
- tdump << inv.save_str_no_quant();
- dump << dump_memorial(); // testme
- tdump << "w " << weapon.save_info() << std::endl;
- for (int i = 0; i < worn.size(); i++) {
-     tdump << "W " << worn[i].save_info() << std::endl;
- }
- for (int j = 0; j < weapon.contents.size(); j++) {
-     tdump << "c " << weapon.contents[j].save_info() << std::endl;
- }
- return tdump.str();
-#endif
-#endif
-
- dump << posx    << " " << posy    << " " << str_cur << " " << str_max << " " <<
-         dex_cur << " " << dex_max << " " << int_cur << " " << int_max << " " <<
-         per_cur << " " << per_max << " " << power_level << " " <<
-         max_power_level << " " << hunger << " " << thirst << " " << fatigue <<
-         " " << stim << " " << pain << " " << pkill << " " << radiation <<
-         " " << cash << " " << recoil << " " << driving_recoil << " " <<
-         (in_vehicle? 1 : 0) << " " << (controlling_vehicle? 1 : 0) << " " <<
-         grab_point.x << " " << grab_point.y << " " <<
-         scent << " " << moves << " " << underwater << " " << dodges_left <<
-         " " << blocks_left << " " << oxygen << " " << active_mission << " " <<
-         focus_pool << " " << male << " " << prof->ident() << " " << health <<
-         " " << style_selected << " " << activity.save_info() << " " <<
-         backlog.save_info() << " ";
-
- for (std::set<std::string>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
-    dump << *iter << " ";
- }
-
- dump << "TRAITS_END" << " ";
-
- for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-    dump << *iter << " ";
- }
-
- dump << "MUTATIONS_END" << " ";
-
- for (int i = 0; i < num_hp_parts; i++)
-  dump << hp_cur[i] << " " << hp_max[i] << " ";
- for (int i = 0; i < num_bp; i++)
-  dump << temp_cur[i] << " " << temp_conv[i] << " " << frostbite_timer[i] << " ";
-
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-   SkillLevel level = skillLevel(*aSkill);
-   dump << level;
- }
-
- dump << learned_recipes.size() << " ";
- for (std::map<std::string, recipe*>::iterator iter = learned_recipes.begin();
-      iter != learned_recipes.end();
-      ++iter)
- {
-  dump << iter->first << " ";
- }
-
- dump << styles.size() << " ";
- for (int i = 0; i < styles.size(); i++)
-  dump << styles[i] << " ";
-
- dump << illness.size() << " ";
- for (int i = 0; i < illness.size();  i++)
-     dump << illness[i].type << " " << illness[i].duration << " "
-          << illness[i].intensity << " " << illness[i].bp << " "
-          << illness[i].side << " " ;
-
- dump << addictions.size() << " ";
- for (int i = 0; i < addictions.size(); i++)
-  dump << int(addictions[i].type) << " " << addictions[i].intensity << " " <<
-          addictions[i].sated << " ";
-
- dump << my_bionics.size() << " ";
- for (int i = 0; i < my_bionics.size(); i++)
-  dump << my_bionics[i].id << " " << my_bionics[i].invlet << " " <<
-          my_bionics[i].powered << " " << my_bionics[i].charge << " ";
-
- dump << morale.size() << " ";
- for (int i = 0; i < morale.size(); i++) {
-  // Output morale properties in structure order.
-  dump << morale[i].type << " ";
-  if (morale[i].item_type == NULL)
-   dump << "0";
-  else
-   dump << morale[i].item_type->id;
-  dump << " " << morale[i].bonus << " " << morale[i].duration << " "
-       << morale[i].decay_start << " " << morale[i].age << " ";
- }
-
- dump << " " << active_missions.size() << " ";
- for (int i = 0; i < active_missions.size(); i++)
-  dump << active_missions[i] << " ";
-
- dump << " " << completed_missions.size() << " ";
- for (int i = 0; i < completed_missions.size(); i++)
-  dump << completed_missions[i] << " ";
-
- dump << " " << failed_missions.size() << " ";
- for (int i = 0; i < failed_missions.size(); i++)
-  dump << failed_missions[i] << " ";
-
- dump << player_stats.squares_walked << " ";
-
- dump << std::endl;
-
- dump << dump_memorial();
-
- dump << inv.save_str_no_quant();
-
- for (int i = 0; i < worn.size(); i++) {
-  dump << "W " << worn[i].save_info() << std::endl;
-  for (int j = 0; j < worn[i].contents.size(); j++)
-   dump << "S " << worn[i].contents[j].save_info() << std::endl;
- }
- if (!weapon.is_null())
-  dump << "w " << weapon.save_info() << std::endl;
- for (int j = 0; j < weapon.contents.size(); j++)
-  dump << "c " << weapon.contents[j].save_info() << std::endl;
-
- return dump.str();
+    std::stringstream dump;
+    dump << json_save(true).serialize();
+    dump << std::endl;
+    dump << dump_memorial();
+    return dump.str();
 }
 
 void player::memorial( std::ofstream &memorial_file )

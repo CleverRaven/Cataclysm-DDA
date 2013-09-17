@@ -142,98 +142,10 @@ npc& npc::operator= (const npc & rhs)
 
  return *this;
 }
-#define jsonsave_npc 1
-#define jsonsave_npc_inv 1
+
 std::string npc::save_info()
 {
-#ifdef jsonsave_npc
-#ifdef jsonsave_npc_inv
   return json_save(true).serialize();
-#else
- std::stringstream tdump;
-  tdump << json_save(false).serialize();
- tdump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
- tdump << inv.save_str_no_quant();
- tdump << "w " << weapon.save_info() << std::endl;
- for (int i = 0; i < worn.size(); i++)
-  tdump << "W " << worn[i].save_info() << std::endl;
- for (int j = 0; j < weapon.contents.size(); j++)
-  tdump << "c " << weapon.contents[j].save_info() << std::endl;
-
- return tdump.str();
-
-#endif
-#endif
-
- std::stringstream dump;
-// The " || " is what tells npc::load_info() that it's down reading the name
- dump << getID() << " " << name << " || " << posx << " " << posy << " " << str_cur <<
-         " " << str_max << " " << dex_cur << " " << dex_max << " " << int_cur <<
-         " " << int_max << " " << per_cur << " " << per_max << " " << hunger <<
-         " " << thirst << " " << fatigue << " " << stim << " " << pain << " " <<
-         pkill << " " <<  radiation << " " << cash << " " << recoil << " " <<
-         scent << " " << moves << " " << underwater << " " << dodges_left <<
-         " " << oxygen << " " << (marked_for_death ? "1" : "0") << " " <<
-         (dead ? "1" : "0") << " " << myclass << " " << patience << " ";
-
- for (std::set<std::string>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
-    dump << *iter << " ";
- }
-
- dump << "TRAITS_END" << " ";
-
- for (int i = 0; i < num_hp_parts; i++)
-  dump << hp_cur[i] << " " << hp_max[i] << " ";
-
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-   SkillLevel level = skillLevel(*aSkill);
-   dump << level;
- }
-
- dump << styles.size() << " ";
- for (int i = 0; i < styles.size(); i++)
-  dump << itype_id(styles[i]) << " ";
-
- dump << illness.size() << " ";
- for (int i = 0; i < illness.size();  i++)
-  dump << illness[i].type << " " << illness[i].duration << " ";
-
- dump << addictions.size() << " ";
- for (int i = 0; i < addictions.size(); i++)
-  dump << int(addictions[i].type) << " " << addictions[i].intensity << " " <<
-          addictions[i].sated << " ";
-
- dump << my_bionics.size() << " ";
- for (int i = 0; i < my_bionics.size(); i++)
-  dump << bionic_id(my_bionics[i].id) << " " << my_bionics[i].invlet << " " <<
-          int(my_bionics[i].powered) << " " << my_bionics[i].charge << " ";
-
-// NPC-specific stuff
- dump << int(personality.aggression) << " " << int(personality.bravery) <<
-         " " << int(personality.collector) << " " <<
-         int(personality.altruism) << " " << wandx << " " << wandy << " " <<
-         wandf << " " << omx << " " << omy << " " << omz << " " << mapx <<
-         " " << mapy << " " << plx << " " << ply << " " <<  goalx << " " <<
-         goaly << " " << goalz << " " << int(mission) << " " << int(flags) << " ";
- if (my_fac == NULL)
-  dump << -1;
- else
-  dump << my_fac->id;
- dump << " " << attitude << " " << " " << op_of_u.save_info() << " " <<
-         chatbin.save_info() << " ";
-
- dump << combat_rules.save_info();
-
-// Inventory size, plus armor size, plus 1 for the weapon
- dump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
- dump << inv.save_str_no_quant();
- dump << "w " << weapon.save_info() << std::endl;
- for (int i = 0; i < worn.size(); i++)
-  dump << "W " << worn[i].save_info() << std::endl;
- for (int j = 0; j < weapon.contents.size(); j++)
-  dump << "c " << weapon.contents[j].save_info() << std::endl;
-
- return dump.str();
 }
 
 void npc::load_info(game *g, std::string data)
@@ -259,7 +171,7 @@ if ( check == '{' ) {
         }
         return;
 }
-
+////////////////////////////////// everything below is for OLD saves
  dump >> npc_id;
  setID(npc_id);
 // Standard player stuff
