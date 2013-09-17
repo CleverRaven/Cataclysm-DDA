@@ -1,6 +1,7 @@
 #include "game.h"
 #include "catajson.h"
 #include "mutation.h"
+#include "json.h"
 
 #include <vector>
 #include <map>
@@ -121,29 +122,18 @@ void game::init_mutation_parts()
     bodyparts_list["FEET"] = mfb(bp_feet);
 }
 
-void game::init_dreams()
+void load_dream(JsonObject &jsobj)
 {
-	catajson dreams_file("data/raw/dreams.json");
+    dream newdream;
 
-	if (!json_good())
-	{
-		throw (std::string)"data/raw/dreams.json wasn't found";
-	}
+    newdream.strength = jsobj.get_int("strength");
+    newdream.category = jsobj.get_string("category");
 
-	for (dreams_file.set_begin(); dreams_file.has_curr(); dreams_file.next())
-	{
-		catajson dreamcurr = dreams_file.curr();
+    JsonArray jsarr = jsobj.get_array("message"); // TODO: pluralize
+    while (jsarr.has_more()) {
+        newdream.message.push_back(_(jsarr.next_string().c_str()));
+    }
 
-		dream newdream;
-
-		catajson messages = dreamcurr.get("message");
-		for (messages.set_begin(); messages.has_curr(); messages.next())
-		{
-			newdream.message.push_back(_(messages.curr().as_string().c_str()));
-		}
-		newdream.strength		= dreamcurr.get("strength").as_int();
-		newdream.category		= dreamcurr.get("category").as_string();
-
-		dreams.push_back(newdream);
-	}
+    dreams.push_back(newdream);
 }
+

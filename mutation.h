@@ -2,6 +2,8 @@
 #define _MUTATION_H_
 
 #include "pldata.h"
+#include "json.h"
+
 #include <vector>
 #include <map>
 
@@ -34,5 +36,6 @@ struct mutation_branch
     mutation_branch() { valid = false; };
 };
 
+void load_dream(JsonObject &jsobj);
 
 #endif

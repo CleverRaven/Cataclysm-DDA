@@ -113,7 +113,6 @@ game::game() :
  init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();             // Set up autosave
  init_diseases();             // Set up disease lookup table
- init_dreams();               // Set up dreams                    (SEE mutation_data.cpp)
  init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
  } catch(std::string &error_message)
  {

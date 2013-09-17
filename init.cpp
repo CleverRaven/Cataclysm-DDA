@@ -6,6 +6,7 @@
 #include "bionics.h"
 #include "profession.h"
 #include "skill.h"
+#include "mutation.h"
 
 #include <string>
 #include <vector>
@@ -22,6 +23,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/bionics.json");
     ret.push_back("data/json/professions.json");
     ret.push_back("data/json/skills.json");
+    ret.push_back("data/json/dreams.json");
     return ret;
 }
 
@@ -36,6 +38,8 @@ void load_object(JsonObject &jo)
         profession::load_profession(jo);
     } else if (type == "skill") {
         Skill::load_skill(jo);
+    } else if (type == "dream") {
+        load_dream(jo);
     } else {
         std::stringstream err;
         err << jo.line_number() << ": ";
