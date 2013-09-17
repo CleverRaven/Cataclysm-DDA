@@ -4577,9 +4577,10 @@
       [ "zucchini", 1 ],
       [ "veggy", 1 ],
       [ "veggy_wild", 1 ],
-      [ "seasoning_italian", 10 ],
-      [ "seasoning_salt", 10 ],
-      [ "pepper", 15 ]
+      [ "seasoning_italian", 15 ],
+      [ "seasoning_salt", 15 ],
+      [ "pepper", 20 ],
+      [ "powder_eggs", 5 ]
     ]
   ]
 },
@@ -4641,7 +4642,8 @@
     ],
     [
       [ "macaroni_raw", 1 ],
-      [ "potato_raw", 1 ]
+      [ "potato_raw", 1 ],
+      [ "powder_eggs", 5 ]
     ],
     [
       [ "tomato", 2 ],
@@ -4679,7 +4681,8 @@
     ],
     [
       [ "macaroni_raw", 1 ],
-      [ "potato_raw", 1 ]
+      [ "potato_raw", 1 ],
+      [ "powder_eggs", 5 ]
     ],
     [
       [ "meat", 2 ]
@@ -4715,7 +4718,8 @@
     [
       [ "meat", 2 ],
       [ "meat_smoked", 2 ],
-      [ "sausage", 1 ]
+      [ "sausage", 1 ],
+      [ "powder_eggs", 15 ]
     ],
     [
       [ "veggy_wild", 2 ],
