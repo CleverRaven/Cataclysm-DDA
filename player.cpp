@@ -4160,7 +4160,7 @@ void player::infect(dis_type type, body_part vector, int strength,
 
 void player::add_disease(dis_type type, int duration,
                          int intensity, int max_intensity,
-                         body_part part, int side)
+                         body_part part, int side, bool additive)
 {
     if (duration == 0) {
         return;
@@ -4181,7 +4181,9 @@ void player::add_disease(dis_type type, int duration,
                 return;
             }
             if (illness[i].bp == part && illness[i].side == side) {
-                illness[i].duration += duration;
+                if (additive) {
+                    illness[i].duration += duration;
+                }
                 illness[i].intensity += intensity;
                 if (max_intensity != -1 && illness[i].intensity > max_intensity) {
                     illness[i].intensity = max_intensity;

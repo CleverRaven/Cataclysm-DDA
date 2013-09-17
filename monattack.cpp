@@ -1502,7 +1502,7 @@ void mattack::bite(game *g, monster *z) {
     g->add_msg(_("Your %s is bitten!"), body_part_name(hit, side).c_str());
 
     if(one_in(14 - dam)) {
-      g->u.add_disease("bite", 3601, 1, 1, hit, side); //6 hours + 1 "tick"
+      g->u.add_disease("bite", 3601, 1, 1, hit, side, false); //6 hours + 1 "tick"
     }
   } else {
     g->add_msg(_("Your %s is bitten, but your armor protects you."), body_part_name(hit, side).c_str());
