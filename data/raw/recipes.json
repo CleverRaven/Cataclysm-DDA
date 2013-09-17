@@ -4884,7 +4884,8 @@
       [ "milk", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
-      [ "cooking_oil", 1 ]
+      [ "cooking_oil", 1 ],
+      [ "powder_eggs", 5 ]
     ]
   ]
 },
@@ -4994,6 +4995,84 @@
 },
 
 {
+  "result": "scrambled_eggs",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "powder_eggs", 10 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "deluxe_eggs",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "powder_eggs", 10 ]
+    ],
+    [
+      [ "meat", 1 ],
+      [ "meat_cooked", 1 ],
+      [ "meak_smoked", 1 ],
+      [ "sausage", 1 ],
+      [ "jerky", 3 ],
+      [ "meat_pickled", 1 ],
+      [ "meat_vac", 1 ],
+      [ "meat_canned", 1 ],
+      [ "can_sardine", 1 ],
+      [ "can_tuna", 1 ],
+      [ "can_salmon", 1 ],
+      [ "can_herring", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "pancakes",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -5019,7 +5098,8 @@
     [
       [ "milk", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ]
+      [ "can_coconut", 1 ],
+      [ "powder_eggs", 5 ]
     ],
     [
       [ "syrup", 1 ]
@@ -5060,7 +5140,8 @@
     [
       [ "milk", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ]
+      [ "can_coconut", 1 ],
+      [ "powder_eggs", 5 ]
     ],
     [
       [ "syrup", 1 ]
