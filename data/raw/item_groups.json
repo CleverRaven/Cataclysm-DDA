@@ -159,6 +159,7 @@
       ["funnel", 50],
       ["vac_sealer", 10],
       ["seasoning_italian", 25],
+      ["seasoning_salt", 25],
       ["cookbook_italian", 25],
       ["chips2", 65],
       ["chips3", 65],
@@ -699,6 +700,7 @@
       ["sugar", 20],
       ["can_cheese", 40],
       ["salt", 20],
+      ["seasoning_salt", 25],
       ["vinegar", 15],
       ["cooking_oil", 30],
       ["jar_veggy_pickled", 8],
@@ -717,6 +719,7 @@
       ["crackers", 20],
       ["biscuit", 12],
       ["hardtack", 2],
+      ["seasoning_salt", 25],
       ["seasoning_italian", 25]
     ]
   },
@@ -3511,6 +3514,7 @@
       ["can_corn", 35],
       ["can_spam", 30],
       ["salt", 10],
+      ["seasoning_salt", 5],
       ["vinegar", 10],
       ["jar_veggy_pickled", 30],
       ["con_milk", 20],

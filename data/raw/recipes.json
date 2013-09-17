@@ -3662,8 +3662,49 @@
   ],
   "components": [
     [
-      [ "meat", 3 ],
+      [ "meat", 3 ]
+    ],
+    [
       [ "skewer", 3 ]
+    ]
+  ]
+},
+
+{
+  "result": "sausage",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "hatchet", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "char_smoker", 2 ]
+    ],
+    [
+      [ "tongs", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 6 ]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_italian", 10 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },
@@ -3721,8 +3762,50 @@
   ],
   "components": [
     [
-      [ "human_flesh", 3 ],
+      [ "human_flesh", 3 ]
+    ],
+    [
       [ "skewer", 3 ]
+    ]
+  ]
+},
+
+{
+  "result": "mannwurst",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 4 ]],
+  "tools": [
+    [
+      [ "hatchet", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "char_smoker", 2 ]
+    ],
+    [
+      [ "tongs", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "human_flesh", 6 ]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_italian", 10 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },
@@ -3971,7 +4054,8 @@
       [ "potato_raw", 1 ]
     ],
     [
-      [ "salt", 1 ]
+      [ "salt", 1 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },
@@ -4018,7 +4102,8 @@
           [ "popcorn", 1 ]
       ],
       [
-          [ "salt", 1 ]
+          [ "salt", 1 ],
+          [ "seasoning_salt", 10 ] 
       ]
   ]
 },
@@ -4398,7 +4483,8 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ]
+      [ "salt", 1 ],
+      [ "seasoning_salt", 10 ]
     ],
     [
       [ "meat", 1 ]
@@ -4426,7 +4512,8 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ]
+      [ "salt", 1 ],
+      [ "seasoning_salt", 10 ]
     ],
     [
       [ "human_flesh", 1 ]
@@ -4485,7 +4572,9 @@
       [ "tomato", 1 ],
       [ "zucchini", 1 ],
       [ "veggy", 1 ],
-      [ "veggy_wild", 1 ]
+      [ "veggy_wild", 1 ],
+      [ "seasoning_italian", 10 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },
@@ -4751,7 +4840,8 @@
       [ "flour", 2 ]
     ],
     [
-      [ "salt", 1 ]
+      [ "salt", 1 ],
+      [ "seasoning_salt", 10 ]
     ],
     [
       [ "water", 2 ],
@@ -12061,7 +12151,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "seasoning_salt", 10 ]
     ]
   ]
 },
@@ -13584,7 +13674,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "seasoning_salt", 10 ]
     ]
   ]
 },
@@ -13616,7 +13706,7 @@
       [ "tomato", 1 ]
     ],
     [
-      [ "salt", 1 ], [ "salt_water", 1 ]
+      [ "salt", 1 ], [ "salt_water", 1 ], [ "seasoning_salt", 10 ]
     ]
   ]
 },
