@@ -19,7 +19,6 @@
 #include "uistate.h"
 #include "item_factory.h"
 #include "helper.h"
-#include "text_snippets.h"
 #include "catajson.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
@@ -101,7 +100,6 @@ game::game() :
  init_morale();
  init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
  init_itypes();               // Set up item types                (SEE itypedef.cpp)
- SNIPPET.load();
  item_controller->init(this); //Item manager
  init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
  init_traps();                // Set up the trap types            (SEE trapdef.cpp)

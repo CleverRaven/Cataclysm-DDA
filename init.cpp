@@ -7,6 +7,7 @@
 #include "profession.h"
 #include "skill.h"
 #include "mutation.h"
+#include "text_snippets.h"
 
 #include <string>
 #include <vector>
@@ -25,6 +26,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/skills.json");
     ret.push_back("data/json/dreams.json");
     ret.push_back("data/json/mutations.json");
+    ret.push_back("data/json/snippets.json");
     return ret;
 }
 
@@ -37,6 +39,7 @@ void load_object(JsonObject &jo)
     else if (type == "skill") { Skill::load_skill(jo); }
     else if (type == "dream") { load_dream(jo); }
     else if (type == "mutation") { load_mutation(jo); }
+    else if (type == "snippet") { SNIPPET.load_snippet(jo); }
     else {
         std::stringstream err;
         err << jo.line_number() << ": ";
