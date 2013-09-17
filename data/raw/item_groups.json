@@ -202,6 +202,7 @@
     "items":[
       ["water_clean", 90],
       ["oj", 50],
+      ["lemonade", 50],
       ["cola", 70],
       ["rootbeer", 65],
       ["milk", 50],
@@ -514,6 +515,7 @@
       ["water_clean", 90],
       ["oj", 50],
       ["apple_cider", 50],
+      ["lemonade", 50],
       ["energy_drink", 55],
       ["cola", 70],
       ["rootbeer", 65],
