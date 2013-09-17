@@ -1240,13 +1240,11 @@ int disease_speed_boost(disease dis)
              case 1 : return  -2;
              case 2 : return  -5;
              case 3 : return -20;}
-             break;
          case bp_legs:
              switch (dis.intensity) {
              case 1 : return  -2;
              case 2 : return  -5;
              case 3 : return -20;}
-             break;
          default:
              return 0;
      }
@@ -1256,7 +1254,6 @@ int disease_speed_boost(disease dis)
          case bp_feet:
              switch (dis.intensity) {
              case 2 : return -4;}
-             break;
          default:
              return 0;
      }
@@ -1268,13 +1265,11 @@ int disease_speed_boost(disease dis)
              case 1 : return  -2;
              case 2 : return  -5;
              case 3 : return -20;}
-             break;
          case bp_torso:
              switch (dis.intensity) {
              case 1 : return  -2;
              case 2 : return  -5;
              case 3 : return -20;}
-             break;
          default:
              return 0;
      }
@@ -1309,45 +1304,37 @@ std::string dis_name(disease dis)
                 case 1: return _("Chilly head");
                 case 2: return _("Cold head!");
                 case 3: return _("Freezing head!!");}
-                break;
             case bp_mouth:
                 switch (dis.intensity) {
                 case 1: return _("Chilly face");
                 case 2: return _("Cold face!");
                 case 3: return _("Freezing face!!");}
-                break;
             case bp_torso: 
                 switch (dis.intensity) {
                 case 1: return _("Chilly torso");
                 case 2: return _("Cold torso!");
                 case 3: return _("Freezing torso!!");}
-                break;
             case bp_arms:
                 switch (dis.intensity) {
                 case 1: return _("Chilly arms");
                 case 2: return _("Cold arms!");
                 case 3: return _("Freezing arms!!");}
-                break;
             case bp_hands:
                 switch (dis.intensity) {
                 case 1: return _("Chilly hands");
                 case 2: return _("Cold hands!");
                 case 3: return _("Freezing hands!!");}
-                break;
             case bp_legs:
                 switch (dis.intensity) {
                 case 1: return _("Chilly legs");
                 case 2: return _("Cold legs!");
                 case 3: return _("Freezing legs!!");}
-                break;
             case bp_feet:
                 switch (dis.intensity) {
                 case 1: return _("Chilly feet");
                 case 2: return _("Cold feet!");
                 case 3: return _("Freezing feet!!");}
-                break;
         }
-        break;
 
     case DI_FROSTBITE:
         switch(dis.bp) {
@@ -1355,19 +1342,15 @@ std::string dis_name(disease dis)
                 switch (dis.intensity) {
                 case 1: return _("Frostnip - hands");
                 case 2: return _("Frostbite - hands");}
-                break;
             case bp_feet:
                 switch (dis.intensity) {
                 case 1: return _("Frostnip - feet");
                 case 2: return _("Frostbite - feet");}
-                break;
             case bp_mouth:
                 switch (dis.intensity) {
                 case 1: return _("Frostnip - face");
                 case 2: return _("Frostbite - face");}
-                break;
         }
-        break;
 
     case DI_HOT:
         switch (dis.bp) {
@@ -1376,25 +1359,21 @@ std::string dis_name(disease dis)
                 case 1: return _("Warm head");
                 case 2: return _("Hot head!");
                 case 3: return _("Scorching head!!");}
-                break;
             case bp_mouth:
                 switch (dis.intensity) {
                 case 1: return _("Warm face");
                 case 2: return _("Hot face!");
                 case 3: return _("Scorching face!!");}
-                break;
             case bp_torso:
                 switch (dis.intensity) {
                 case 1: return _("Warm torso");
                 case 2: return _("Hot torso!");
                 case 3: return _("Scorching torso!!");}
-                break;
             case bp_arms:
                 switch (dis.intensity) {
                 case 1: return _("Warm arms");
                 case 2: return _("Hot arms!");
                 case 3: return _("Scorching arms!!");}
-                break;
             case bp_hands:
                 switch (dis.intensity) {
                 case 1: return _("Warm hands");
@@ -1406,15 +1385,12 @@ std::string dis_name(disease dis)
                 case 1: return _("Warm legs");
                 case 2: return _("Hot legs!");
                 case 3: return _("Scorching legs!!");}
-                break;
             case bp_feet:
                 switch (dis.intensity) {
                 case 1: return _("Warm feet");
                 case 2: return _("Hot feet!");
                 case 3: return _("Scorching feet!!");}
-                break;
         }
-        break;
 
     case DI_BLISTERS:
         switch(dis.bp) {
@@ -1431,7 +1407,6 @@ std::string dis_name(disease dis)
             case bp_feet:
                 return _("Blisters - feet");
         }
-        break;
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
@@ -1612,51 +1587,43 @@ std::string dis_description(disease dis)
                 case 2: return _("Your head is very exposed to the cold. It is hard to concentrate.");
                 case 3: return _("Your head is extremely cold.  You can barely think straight.");
                 }
-                break;
             case bp_mouth:
                 switch (dis.intensity) {
                 case 1: return _("Your face is exposed to the cold.");
                 case 2: return _("Your face is very exposed to the cold.");
                 case 3: return _("Your face is dangerously cold.");
                 }
-                break;
             case bp_torso:
                 switch (dis.intensity) {
                 case 1: return _("Your torso is exposed to the cold.");
                 case 2: return _("Your torso is very cold, and your actions are incoordinated.");
                 case 3: return _("Your torso is dangerously cold. Your actions are very incoordinated.");
                 }
-                break;
             case bp_arms:
                 switch (dis.intensity) {
                 case 1: return _("Your arms are exposed to the cold.");
                 case 2: return _("Your arms are very exposed to the cold. Your arms are shivering.");
                 case 3: return _("Your arms are dangerously cold. Your arms are shivering uncontrollably");
                 }
-                break;
             case bp_hands:
                 switch (dis.intensity) {
                 case 1: return _("Your hands are exposed to the cold.");
                 case 2: return _("Your hands are shivering from the cold.");
                 case 3: return _("Your hands are shivering uncontrollably from the extreme cold.");
                 }
-                break;
             case bp_legs:
                 switch (dis.intensity) {
                 case 1: return _("Your legs are exposed to the cold.");
                 case 2: return _("Your legs are very exposed to the cold. Your strength is sapped.");
                 case 3: return _("Your legs are dangerously cold. Your strength is sapped.");
                 }
-                break;
             case bp_feet:
                 switch (dis.intensity) {
                 case 1: return _("Your feet are exposed to the cold.");
                 case 2: return _("Your feet are very exposed to the cold. Your strength is sapped.");
                 case 3: return _("Your feet are dangerously cold. Your strength is sapped.");
                 }
-                break;
         }
-        break;
 
     case DI_FROSTBITE:
         switch(dis.bp) {
@@ -1667,7 +1634,6 @@ Your hands are frostnipped from the prolonged exposure to the cold and have gone
                 case 2: return _("\
 Your hands are frostbitten from the prolonged exposure to the cold. The tissues in your hands are frozen.");
                 }
-                break;
             case bp_feet:
                 switch (dis.intensity) {
                 case 1: return _("\
@@ -1675,7 +1641,6 @@ Your feet are frostnipped from the prolonged exposure to the cold and have gone 
                 case 2: return _("\
 Your feet are frostbitten from the prolonged exposure to the cold. The tissues in your feet are frozen.");
                 }
-                break;
             case bp_mouth:
                 switch (dis.intensity) {
                 case 1: return _("\
@@ -1683,21 +1648,16 @@ Your face is frostnipped from the prolonged exposure to the cold and has gone nu
                 case 2: return _("\
 Your face is frostbitten from the prolonged exposure to the cold. The tissues in your face are frozen.");
                 }
-                break;
             case bp_torso:
                 return _("\
 Your torso is frostbitten from prolonged exposure to the cold. It is extremely painful.");
-                break;
             case bp_arms:
                 return _("\
 Your arms are frostbitten from prolonged exposure to the cold. It is extremely painful.");
-                break;
             case bp_legs:
                 return _("\
 Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.");
-                break;
         }
-        break;
 
     case DI_HOT:
         switch (dis.bp) {
@@ -1707,80 +1667,65 @@ Your legs are frostbitten from prolonged exposure to the cold. It is extremely p
                 case 2: return _("Your head is sweating from the heat. You feel nauseated. You have a headache.");
                 case 3: return _("Your head is sweating profusely. You feel very nauseated. You have a headache.");
                 }
-                break;
             case bp_mouth:
                 switch (dis.intensity) {
                 case 1: return _("Your face feels warm.");
                 case 2: return _("Your face is sweating from the heat, making it hard to see.");
                 case 3: return _("Your face is sweating profusely, making it hard to see.");
                 }
-                break;
             case bp_torso:
                 switch (dis.intensity) {
                 case 1: return _("Your torso feels warm.");
                 case 2: return _("Your torso is sweating from the heat. You feel weak.");
                 case 3: return _("Your torso is sweating profusely. You feel very weak.");
                 }
-                break;
             case bp_arms:
                 switch (dis.intensity) {
                 case 1: return _("Your arms feel warm.");
                 case 2: return _("Your arms are sweating from the heat.");
                 case 3: return _("Your arms are sweating profusely. Your muscles are in pain due to cramps.");
                 }
-                break;
             case bp_hands:
                 switch (dis.intensity) {
                 case 1: return _("Your hands feel warm.");
                 case 2: return _("Your hands feel hot and uncoordinated.");
                 case 3: return _("Your hands feel disgustinly hot and are very uncoordinated.");
                 }
-                break;
             case bp_legs:
                 switch (dis.intensity) {
                 case 1: return _("Your legs feel warm.");
                 case 2: return _("Your legs are sweating from the heat.");
                 case 3: return _("Your legs are sweating profusely. Your muscles are in pain due to cramps.");
                 }
-                break;
             case bp_feet:
                 switch (dis.intensity) {
                 case 1: return _("Your feet feel warm.");
                 case 2: return _("Your feet are painfully swollen due to the heat.");
                 case 3: return _("Your feet are painfully swollen due to the heat.");
                 }
-                break;
         }
-        break;
 
     case DI_BLISTERS:
         switch (dis.bp) {
             case bp_mouth:
                 return _("\
 Your face is blistering from the intense heat. It is extremely painful.");
-                break;
             case bp_torso:
                 return _("\
 Your torso is blistering from the intense heat. It is extremely painful.");
-                break;
             case bp_arms:
                 return _("\
 Your arms are blistering from the intense heat. It is extremely painful.");
-                break;
             case bp_hands:
                 return _("\
 Your hands are blistering from the intense heat. It is extremely painful.");
-                break;
             case bp_legs:
                 return _("\
 Your legs are blistering from the intense heat. It is extremely painful.");
-                break;
             case bp_feet:
                 return _("\
 Your feet are blistering from the intense heat. It is extremely painful.");
-                break;
         }
-        break;
 
     case DI_COMMON_COLD:
         return _(
