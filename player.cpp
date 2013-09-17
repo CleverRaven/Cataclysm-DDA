@@ -4145,8 +4145,13 @@ void player::get_sick(game *g)
 void player::infect(dis_type type, body_part vector, int strength,
                     int duration, game *g)
 {
- if (dice(strength, 3) > dice(resist(vector), 3))
-  add_disease(type, duration);
+    if (strength <= 0) {
+        return;
+    }
+
+    if (dice(strength, 3) > dice(resist(vector), 3)) {
+        add_disease(type, duration);
+    }
 }
 
 void player::add_disease(dis_type type, int duration,
@@ -8407,19 +8412,22 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
 
 int player::resist(body_part bp)
 {
- int ret = 0;
- for (int i = 0; i < worn.size(); i++) {
-  if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp) ||
-      (bp == bp_eyes && // Head protection works on eyes too (e.g. baseball cap)
-           (dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_head)))
-   ret += (dynamic_cast<it_armor*>(worn[i].type))->env_resist;
- }
- if (bp == bp_mouth && has_bionic("bio_purifier") && ret < 5) {
-  ret += 2;
-  if (ret == 6)
-   ret = 5;
- }
- return ret;
+    int ret = 0;
+    for (int i = 0; i < worn.size(); i++) {
+        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp) ||
+             (bp == bp_eyes && // Head protection works on eyes too (e.g. baseball cap)
+             (dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_head))) {
+            ret += (dynamic_cast<it_armor*>(worn[i].type))->env_resist;
+        }
+    }
+
+    if (bp == bp_mouth && has_bionic("bio_purifier") && ret < 5) {
+        ret += 2;
+        if (ret > 5) {
+            ret = 5;
+        }
+    }
+    return ret;
 }
 
 bool player::wearing_something_on(body_part bp)
