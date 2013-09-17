@@ -95,6 +95,15 @@ void JsonObject::finish()
     jsin->seek(end);
 }
 
+bool JsonObject::has_member(std::string name)
+{
+    int pos = positions[name]; // zero if the member isn't there
+    if (pos > start) {
+        return true;
+    }
+    return false;
+}
+
 std::string JsonObject::line_number()
 {
     jsin->seek(start);

@@ -23,6 +23,8 @@ public:
 
     void finish(); // moves the stream to the end of the object
 
+    bool has_member(std::string name); // true iff named member exists
+
     // variants with no fallback throw an error if the name is not found.
     // variants with a fallback return the fallback value in stead.
     bool get_bool(std::string name);
