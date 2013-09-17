@@ -76,6 +76,8 @@ enum vpart_id
 
 // pure internal parts
     vp_controls,
+	vp_horn,
+	vp_horn_bicycle,
     vp_muffler,
     vp_seatbelt,
     vp_solar_panel,
@@ -120,7 +122,7 @@ struct vpart_info
         int power;      // engine (top spd), solar panel (% of 1 fuel per turn, can be > 100)
         int size;       // fuel tank, trunk
         int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
-        int bonus;      // seatbelt (str), muffler (%)
+        int bonus;      // seatbelt (str), muffler (%), horn (vol)
     };
     std::string fuel_type;  // engine, fuel tank
     itype_id item;      // corresponding item
