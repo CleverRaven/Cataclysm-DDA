@@ -373,10 +373,10 @@ const std::string& input_context::handle_input() {
 
 void input_context::register_directions() {
     register_cardinal();
-    register_action("UPLEFT");
-    register_action("DOWNLEFT");
-    register_action("UPRIGHT");
-    register_action("DOWNRIGHT");
+    register_action("LEFTUP");
+    register_action("LEFTDOWN");
+    register_action("RIGHTUP");
+    register_action("RIGHTDOWN");
 }
 
 void input_context::register_updown() {
@@ -407,16 +407,16 @@ void input_context::get_direction(int& dx, int& dy, const std::string& action) {
     } else if(action ==  "RIGHT") {
         dx = 1;
         dy = 0;
-    } else if(action == "UPLEFT") {
+    } else if(action == "LEFTUP") {
         dx = -1;
         dy = -1;
-    } else if(action == "UPRIGHT") {
+    } else if(action == "RIGHTUP") {
         dx = 1;
         dy = -1;
-    } else if(action == "DOWNLEFT") {
+    } else if(action == "LEFTDOWN") {
         dx = -1;
         dy = 1;
-    } else if(action == "DOWNRIGHT") {
+    } else if(action == "RIGHTDOWN") {
         dx = 1;
         dy = 1;
     } else {

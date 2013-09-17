@@ -72,7 +72,7 @@
         ]
     },
     {
-        "id":"UPLEFT",
+        "id":"LEFTUP",
         "name":"Pan up-left",
         "bindings":[
             {
@@ -86,7 +86,7 @@
         ]
     },
     {
-        "id":"UPRIGHT",
+        "id":"RIGHTUP",
         "name":"Pan up-right",
         "bindings":[
             {
@@ -100,7 +100,7 @@
         ]
     },
     {
-        "id":"DOWNLEFT",
+        "id":"LEFTDOWN",
         "name":"Pan down-left",
         "bindings":[
             {
@@ -114,7 +114,7 @@
         ]
     },
     {
-        "id":"DOWNRIGHT",
+        "id":"RIGHTDOWN",
         "name":"Pan down-right",
         "bindings":[
             {
