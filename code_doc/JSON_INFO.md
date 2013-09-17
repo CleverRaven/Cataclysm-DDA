@@ -64,7 +64,8 @@
   ["mushroom_poison", 3],
   ["mushroom_magic", 1],
   ["blueberries", 3]
-]
+],
+"groups":[]               // ?
 ```
 ###MATERIALS
 ```C++
