@@ -597,11 +597,66 @@
          }
       ]
     },
-	{
-	  "ident":"cosplay",
+    {
+      "ident":"cosplay",
       "name":"Otaku",
       "description":"Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
       "items":["shorts", "sneakers", "tank_top", "sewing_kit", "mbag", "fur_cat_ears", "fur_cat_tail", "fur_collar", "cheeseburger"],
       "points":2
+    },
+    {
+      "ident": "goalie",
+      "name": "Hockey Player",
+      "description": "You were a minor-league hockey goalie before the rest of your team became zombies. It's just you and your hockey equipment versus the undead, but at least you can cross-check them now.",
+      "items": [
+          "mask_hockey",
+          "hockey_stick",
+          "jersey",
+          "pants",
+          "sneakers",
+          "puck"
+      ],
+      "points": 2
+    },
+    {
+      "ident": "batter",
+      "name": "Baseball Player",
+      "description": "You were a batter on a local minor league team before the cataclysm. You escaped with your equipment, but how long can you survive until your innings are up?",
+      "items": [
+          "bat",
+          "helmet_ball",
+          "dress_shirt",
+          "pants",
+          "cleats",
+          "baseball"
+      ],
+      "points": 2
+    },
+    {
+      "ident": "linebacker",
+      "name": "Football Player",
+      "description": "You were the star player for the local football team, adored by teammates and fans alike. Now they just adore your brains. You've still got your bulky football gear on.",
+      "items": [
+          "football_armor",
+          "tank_top",
+          "helmet_football",
+          "pants",
+          "cleats",
+          "football"
+      ],
+      "points": 4
+    },
+    {
+      "ident": "golfer",
+      "name": "Golfer",
+      "description": "A birdie is 1 under par, but how much is a zombie? Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
+      "items": [
+          "hat_ball",
+          "dress_shirt",
+          "pants",
+          "sneakers",
+          "golf_club"
+      ],
+      "points": 1
     }
 ]
