@@ -4167,6 +4167,10 @@ void player::add_disease(dis_type type, int duration,
         return;
     }
 
+    if (hp_cur[part] == 0) {
+        return;
+    }
+
     if (main_parts_only) {
         if (part == bp_eyes || part == bp_mouth) {
             part = bp_head;
