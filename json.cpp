@@ -232,74 +232,99 @@ int JsonArray::size()
     return positions.size();
 }
 
+void JsonArray::verify_index(int i)
+{
+    if (!jsin) {
+        throw (std::string)"tried to access empty array.";
+    } else if (i < 0 || i >= positions.size()) {
+        jsin->seek(start);
+        std::stringstream err;
+        err << jsin->line_number() << ": ";
+        err << "bad index value: " << i;
+        throw err.str();
+    }
+}
+
 bool JsonArray::next_bool()
 {
+    verify_index(index);
     jsin->seek(positions[index++]);
     return jsin->get_bool();
 }
 
 int JsonArray::next_int()
 {
+    verify_index(index);
     jsin->seek(positions[index++]);
     return jsin->get_int();
 }
 
 double JsonArray::next_float()
 {
+    verify_index(index);
     jsin->seek(positions[index++]);
     return jsin->get_float();
 }
 
 std::string JsonArray::next_string()
 {
+    verify_index(index);
     jsin->seek(positions[index++]);
     return jsin->get_string();
 }
 
 JsonArray JsonArray::next_array()
 {
+    verify_index(index);
     jsin->seek(positions[index++]);
     return jsin->get_array();
 }
 
 JsonObject JsonArray::next_object()
 {
+    verify_index(index);
     jsin->seek(positions[index++]);
     return jsin->get_object();
 }
 
 bool JsonArray::get_bool(int i)
 {
+    verify_index(i);
     jsin->seek(positions[i]);
     return jsin->get_bool();
 }
 
 int JsonArray::get_int(int i)
 {
+    verify_index(i);
     jsin->seek(positions[i]);
     return jsin->get_int();
 }
 
 double JsonArray::get_float(int i)
 {
+    verify_index(i);
     jsin->seek(positions[i]);
     return jsin->get_float();
 }
 
 std::string JsonArray::get_string(int i)
 {
+    verify_index(i);
     jsin->seek(positions[i]);
     return jsin->get_string();
 }
 
 JsonArray JsonArray::get_array(int i)
 {
+    verify_index(i);
     jsin->seek(positions[i]);
     return jsin->get_array();
 }
 
 JsonObject JsonArray::get_object(int i)
 {
+    verify_index(i);
     jsin->seek(positions[i]);
     return jsin->get_object();
 }

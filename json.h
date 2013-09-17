@@ -49,6 +49,9 @@ private:
     int start;
     int index;
     JsonIn *jsin;
+
+    void verify_index(int i);
+
 public:
     JsonArray(JsonIn *jsin);
     JsonArray() {};
