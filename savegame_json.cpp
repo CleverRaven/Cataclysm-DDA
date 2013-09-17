@@ -225,8 +225,8 @@ void player::json_load_common_variables( std::map<std::string, picojson::value> 
                 disease tmpill;
                 if ( picostring(pdata,"type",tmpill.type) && picoint(pdata,"duration",tmpill.duration) ) {
                     picoint(pdata,"intensity",tmpill.intensity);
-                    int tmpbp=0;
 /* PENDING PR #2911 MERGE
+                    int tmpbp=0;
                     picoint(pdata,"bp", tmpbp);
                     tmpill.bp = (body_part)tmpbp;
                     picoint(pdata,"side", tmpill.side);
@@ -997,11 +997,14 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
             if ( (*pt).is<picojson::object>() ) {
                 std::map<std::string, picojson::value> & pdata = (*pt).get<picojson::object>();
                 int pid, pflag;
- // FIXME: init map<string(vpart_info.id), int(vpart_id)>, save/load string idents
-//              if ( picostring(pdata,"id",tmpid) && vpart_enums.find(tmpid) != vpart_enums.end() ) {
-//                  pid = vpart_enums[tmpid];
-//              } else {
-                picoint(pdata, "id_enum", pid);
+ // FIXME: this is temporary until migration to string id (?)
+                std::string tmpid;
+                if ( picostring(pdata,"id",tmpid) && vpart_enums.find(tmpid) != vpart_enums.end() ) {
+                    pid = vpart_enums[tmpid];
+                } else {
+                    // FIXME: stash int to stringid array in _legacy, for 0.8
+                    picoint(pdata, "id_enum", pid);
+                }
                 vehicle_part new_part;
                 new_part.id = (vpart_id) pid;
                
@@ -1069,7 +1072,7 @@ picojson::value vehicle::json_save( bool save_contents ) {
     std::map<std::string, picojson::value> pdata;
     std::vector<picojson::value> pitms;
     for (int p = 0; p < parts.size(); p++) {
-        pdata["id_enum"] = pv ( parts[p].id );
+        pdata["id"] = pv ( vpart_list[ parts[p].id ].id ); // FIXME; after vpart enum is dropped
         pdata["mount_dx"] = pv ( parts[p].mount_dx );
         pdata["mount_dy"] = pv ( parts[p].mount_dy );
         pdata["hp"] = pv ( parts[p].hp );
