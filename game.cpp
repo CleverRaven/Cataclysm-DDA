@@ -90,7 +90,7 @@ game::game() :
  if(!json_good())
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
-    load_json_dir("data/raw"); // load it, load it all!
+    load_json_dir("data/json"); // load it, load it all!
  init_npctalk();
  init_artifacts();
  init_weather();

@@ -18,10 +18,10 @@
 std::vector<std::string> listfiles(std::string const &dirname)
 {
     std::vector<std::string> ret;
-    ret.push_back("data/raw/materials.json");
-    ret.push_back("data/raw/bionics.json");
-    ret.push_back("data/raw/professions.json");
-    ret.push_back("data/raw/skills.json");
+    ret.push_back("data/json/materials.json");
+    ret.push_back("data/json/bionics.json");
+    ret.push_back("data/json/professions.json");
+    ret.push_back("data/json/skills.json");
     return ret;
 }
 
