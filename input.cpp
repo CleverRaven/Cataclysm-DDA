@@ -226,6 +226,11 @@ void input_manager::add_keycode_pair(long ch, const std::string& name) {
     keyname_to_keycode[name] = ch;
 }
 
+void input_manager::add_gamepad_keycode_pair(long ch, const std::string& name) {
+    gamepad_keycode_to_keyname[ch] = name;
+    keyname_to_keycode[name] = ch;
+}
+
 void input_manager::init_keycode_mapping() {
     // Between space and tilde, all keys more or less map
     // to themselves(see ASCII table)
@@ -242,31 +247,35 @@ void input_manager::init_keycode_mapping() {
     add_keycode_pair(KEY_PPAGE,     "PGDWN");
     add_keycode_pair(KEY_ESCAPE,    "ESC");
 
-    add_keycode_pair(JOY_LEFT,      "JOY_LEFT");
-    add_keycode_pair(JOY_RIGHT,     "JOY_RIGHT");
-    add_keycode_pair(JOY_UP,        "JOY_UP");
-    add_keycode_pair(JOY_DOWN,      "JOY_DOWN");
-    add_keycode_pair(JOY_LEFTUP,    "JOY_LEFTUP");
-    add_keycode_pair(JOY_LEFTDOWN,  "JOY_LEFTDOWN");
-    add_keycode_pair(JOY_RIGHTUP,   "JOY_RIGHTUP");
-    add_keycode_pair(JOY_RIGHTDOWN, "JOY_RIGHTDOWN");
+    add_gamepad_keycode_pair(JOY_LEFT,      "JOY_LEFT");
+    add_gamepad_keycode_pair(JOY_RIGHT,     "JOY_RIGHT");
+    add_gamepad_keycode_pair(JOY_UP,        "JOY_UP");
+    add_gamepad_keycode_pair(JOY_DOWN,      "JOY_DOWN");
+    add_gamepad_keycode_pair(JOY_LEFTUP,    "JOY_LEFTUP");
+    add_gamepad_keycode_pair(JOY_LEFTDOWN,  "JOY_LEFTDOWN");
+    add_gamepad_keycode_pair(JOY_RIGHTUP,   "JOY_RIGHTUP");
+    add_gamepad_keycode_pair(JOY_RIGHTDOWN, "JOY_RIGHTDOWN");
 
-    add_keycode_pair(JOY_0,         "JOY_0");
-    add_keycode_pair(JOY_1,         "JOY_1");
-    add_keycode_pair(JOY_2,         "JOY_2");
-    add_keycode_pair(JOY_3,         "JOY_3");
-    add_keycode_pair(JOY_4,         "JOY_4");
-    add_keycode_pair(JOY_5,         "JOY_5");
-    add_keycode_pair(JOY_6,         "JOY_6");
-    add_keycode_pair(JOY_7,         "JOY_7");
+    add_gamepad_keycode_pair(JOY_0,         "JOY_0");
+    add_gamepad_keycode_pair(JOY_1,         "JOY_1");
+    add_gamepad_keycode_pair(JOY_2,         "JOY_2");
+    add_gamepad_keycode_pair(JOY_3,         "JOY_3");
+    add_gamepad_keycode_pair(JOY_4,         "JOY_4");
+    add_gamepad_keycode_pair(JOY_5,         "JOY_5");
+    add_gamepad_keycode_pair(JOY_6,         "JOY_6");
+    add_gamepad_keycode_pair(JOY_7,         "JOY_7");
 }
 
 long input_manager::get_keycode(std::string name) {
     return keyname_to_keycode[name];
 }
 
-std::string input_manager::get_keyname(long ch) {
-    return keycode_to_keyname[ch];
+std::string input_manager::get_keyname(long ch, input_event_t inp_type) {
+    if(inp_type == INPUT_KEYBOARD) {
+        return keycode_to_keyname[ch];
+    } else {
+        return gamepad_keycode_to_keyname[ch];
+    }
 }
 
 const std::vector<input_event>& input_manager::get_input_for_action(const std::string& action_descriptor, const std::string context, bool *overwrites_default) {
@@ -325,10 +334,8 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
 
     std::stringstream rval;
     for(int i=0; i < events.size(); i++) {
-        if(events[i].type == INPUT_KEYBOARD) {
-            for(int j=0; j<events[i].sequence.size(); j++) {
-                rval << inp_mngr.get_keyname(events[i].sequence[j]);
-            }
+        for(int j=0; j<events[i].sequence.size(); j++) {
+            rval << inp_mngr.get_keyname(events[i].sequence[j], events[i].type);
         }
         if(i + 1 < events.size()) {
             // We're generating a list separated by or

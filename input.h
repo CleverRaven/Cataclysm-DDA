@@ -149,9 +149,11 @@ public:
     long get_keycode(std::string name);
 
     /**
-     * Get the key name associated with the given keycode.
+     * Get the key name associated with the given keyboard keycode.
+     * 
+     * @param input_type Whether the keycode is a gamepad or a keyboard code.
      */
-    std::string get_keyname(long ch);
+    std::string get_keyname(long ch, input_event_t input_type);
 
     /**
      * Get the human-readable name for an action.
@@ -171,12 +173,14 @@ private:
     std::map<std::string, std::string> actionID_to_name;
 
     std::map<long, std::string> keycode_to_keyname;
+    std::map<long, std::string> gamepad_keycode_to_keyname;
     std::map<std::string, long> keyname_to_keycode;
 
     // Maps the key names we see in keybindings.json and in-game to
     // the keycode integers.
     void init_keycode_mapping();
     void add_keycode_pair(long ch, const std::string& name);
+    void add_gamepad_keycode_pair(long ch, const std::string& name);
 };
 
 // Singleton for our input manager.
