@@ -3645,6 +3645,30 @@
 },
 
 {
+  "result": "meat_smoked",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "char_smoker", 2 ]
+    ],
+    [
+      [ "tongs", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "meat", 3 ],
+      [ "skewer", 3 ]
+    ]
+  ]
+},
+
+{
   "result": "human_cooked",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -3674,6 +3698,31 @@
   "components": [
     [
       [ "human_flesh", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "human_smoked",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 3 ]],
+  "tools": [
+    [
+      [ "char_smoker", 2 ]
+    ],
+    [
+      [ "tongs", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "human_flesh", 3 ],
+      [ "skewer", 3 ]
     ]
   ]
 },

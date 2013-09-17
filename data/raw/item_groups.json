@@ -560,6 +560,7 @@
       ["mustard", 60],
       ["pickle", 40],
       ["salt", 20],
+      ["meat_smoked", 4],
       ["cheeseburger", 35],
       ["hamburger", 30],
       ["cheese", 30]
