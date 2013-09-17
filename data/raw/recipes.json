@@ -3523,6 +3523,7 @@
   "tools": [
     [
       [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3621,6 +3622,7 @@
   "tools": [
     [
       [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3654,6 +3656,7 @@
   "tools": [
     [
       [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3686,6 +3689,7 @@
   "tools": [
     [
       [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3720,6 +3724,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3752,6 +3757,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3779,6 +3785,7 @@
   "tools": [
     [
       [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3809,6 +3816,7 @@
   "tools": [
     [
       [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
@@ -3831,6 +3839,7 @@
   "tools": [
     [
       [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3861,6 +3870,7 @@
   "tools": [
     [
       [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3888,6 +3898,7 @@
    "tools": [
     [
       [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3927,6 +3938,7 @@
   "tools": [
       [
         [ "hotplate", 2 ],
+        [ "char_smoker", 1 ],
         [ "toolset", 1 ],
         [ "fire", -1 ]
       ],
@@ -3973,6 +3985,7 @@
   "tools": [
     [
       [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4003,6 +4016,7 @@
   "tools": [
     [
       [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4041,6 +4055,7 @@
   "tools": [
     [
       ["hotplate", 2],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -4067,6 +4082,7 @@
   "tools": [
     [
       ["hotplate", 2],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -4093,6 +4109,7 @@
   "tools": [
     [
       ["hotplate", 2],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -4122,6 +4139,7 @@
   "tools": [
     [
       ["hotplate", 2],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -4152,6 +4170,7 @@
   "tools": [
     [
       [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4322,6 +4341,7 @@
   "tools": [
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
@@ -4349,6 +4369,7 @@
   "tools": [
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
@@ -4396,6 +4417,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4430,6 +4452,7 @@
   "tools": [
     [
       [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4460,6 +4483,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4497,6 +4521,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4530,6 +4555,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4565,6 +4591,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4598,6 +4625,7 @@
   "tools": [
     [
       [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4622,12 +4650,13 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 3,
-  "time": 60000,
+  "time": 90000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
       [ "hotplate", 16 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
     ],
@@ -4661,6 +4690,7 @@
   "tools": [
     [
       [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4692,6 +4722,7 @@
   "tools": [
     [
       [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4732,6 +4763,7 @@
   "tools": [
     [
       [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4774,6 +4806,7 @@
   "tools": [
     [
       [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4813,6 +4846,7 @@
   "tools": [
     [
       [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4864,6 +4898,7 @@
   "tools": [
     [
       [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -9070,6 +9105,7 @@
     [
       [ "fire", -1 ],
       [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ]
     ]
   ],
@@ -10263,6 +10299,7 @@
     ],
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -10308,6 +10345,7 @@
     ],
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -10352,6 +10390,7 @@
     ],
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -10397,6 +10436,7 @@
     ],
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -11023,6 +11063,7 @@
   "tools": [
     [
       ["hotplate", 2],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -11432,6 +11473,7 @@
   "tools": [
     [
       ["hotplate", 5],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -11498,7 +11540,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "hotplate", 5 ], [ "toolset", 1 ], [ "fire", -1 ] ],
+    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
     [ [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ] ]
   ],
   "components": [
@@ -11519,6 +11561,7 @@
   "tools": [
     [
       ["hotplate", 25],
+      [ "char_smoker", 1 ],
       ["toolset", 2],
       ["fire", -1]
     ],
@@ -11723,6 +11766,7 @@
    "tools": [
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -13248,6 +13292,7 @@
    "tools": [
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -13288,6 +13333,7 @@
    "tools": [
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -13580,6 +13626,7 @@
     ],
     [
       [ "hotplate", 20 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
     ],
@@ -13635,6 +13682,7 @@
     ],
     [
       [ "hotplate", 20 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
     ],
@@ -13683,6 +13731,7 @@
     ],
     [
       [ "hotplate", 20 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
     ],
@@ -13848,6 +13897,47 @@
      [ [ "metal_tank", 1 ]
      ],
      [ ["pipe", 3]
+     ]
+  ]
+},
+{
+  "result": "char_smoker",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "cooking", 2 ],
+  "difficulty": 2,
+  "time": 70000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+      [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 5 ],
+      [ "soldering_iron", 50 ]
+      ] ],
+  "components":
+    [
+     [ ["pilot_light", 1] ],
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 6 ],
+     [ "scrap", 18 ]
+     ],
+     [ [ "metal_tank", 1 ]
      ]
   ]
 },

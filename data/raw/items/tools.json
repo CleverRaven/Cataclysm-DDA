@@ -4881,6 +4881,29 @@
   },
   
   {
+    "id": "char_smoker",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "charcoal smoker",
+    "description": "A portable charcoal smoker. Good for weekend barbecuing and preserving meat with smoke.",
+    "price": 100,
+    "material": "steel",
+    "weight": 2600,
+    "volume": 18,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 20,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "charcoal",
+    "revert_to": "null",
+    "use_action": "NONE"
+  },
+  
+  {
     "id": "char_purifier",
     "type": "TOOL",
     "symbol": ";",
