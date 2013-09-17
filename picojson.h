@@ -99,8 +99,8 @@ namespace picojson {
     bool contains(size_t idx) const;
     bool contains(const std::string& key) const;
     std::string to_str() const;
-    template <typename Iter> void serialize(Iter os) const;
-    std::string serialize() const;
+    template <typename Iter> void serialize(Iter os, int indent=0, bool oneline=false) const;
+    std::string serialize(int indent=0, bool oneline=false) const;
   private:
     template <typename T> value(const T*); // intentionally defined to block implicit conversion of pointer to bool
   };
@@ -313,33 +313,53 @@ namespace picojson {
     *oi++ = '"';
   }
 
-  template <typename Iter> void value::serialize(Iter oi) const {
+  template <typename Iter> void value::serialize(Iter oi, int indent, bool oneline) const {
     switch (type_) {
     case string_type:
       serialize_str(*string_, oi);
       break;
     case array_type: {
       *oi++ = '[';
-      for (array::const_iterator i = array_->begin(); i != array_->end(); ++i) {
-	if (i != array_->begin()) {
-	  *oi++ = ',';
-	}
-	i->serialize(oi);
+      if(array_->size() > 0 ) {
+        for (array::const_iterator i = array_->begin(); i != array_->end(); ++i) {
+          if (i != array_->begin()) {
+            *oi++ = ',';
+          }
+          if ( oneline != true ) {
+            *oi++ = '\n';
+            for (int is=0; is<(indent+1)*4; ++is) *oi++ = ' ';
+          }
+          i->serialize(oi, indent+1, oneline);
+        }
+        if ( oneline != true ) {
+          *oi++ = '\n';
+          for (int is=0; is<(indent)*4; ++is) *oi++ = ' ';
+        }
       }
       *oi++ = ']';
       break;
     }
     case object_type: {
       *oi++ = '{';
+      if ( oneline != true ) { *oi++ = '\n'; }
       for (object::const_iterator i = object_->begin();
 	   i != object_->end();
 	   ++i) {
 	if (i != object_->begin()) {
 	  *oi++ = ',';
+          if ( oneline != true ) { *oi++ = '\n'; }
 	}
+        if ( oneline != true ) {
+          for (int is=0; is<(indent+1)*4; ++is) *oi++ = ' ';
+        }
 	serialize_str(i->first, oi);
-	*oi++ = ':';
-	i->second.serialize(oi);
+	//*oi++ = ':';
+        copy(": ", oi);
+	i->second.serialize(oi, indent+1, oneline);
+      }
+      if ( oneline != true ) {
+        *oi++ = '\n'; 
+        for (int is=0; is<(indent)*4; ++is) *oi++ = ' ';
       }
       *oi++ = '}';
       break;
@@ -350,9 +370,9 @@ namespace picojson {
     }
   }
 
-  inline std::string value::serialize() const {
+  inline std::string value::serialize(int indent, bool oneline) const {
     std::string s;
-    serialize(std::back_inserter(s));
+    serialize(std::back_inserter(s), indent, (indent == -1 || oneline == true ? true : false ) );
     return s;
   }
 
