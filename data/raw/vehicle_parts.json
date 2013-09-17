@@ -414,6 +414,21 @@
         ]
     },
     {
+        "id": "reinforced_windshield",
+        "name": "reinforced windshield",
+        "symbol": "\"",
+        "color": "light_blue",
+        "broken_symbol": "0",
+        "broken_color": "light_gray",
+        "damage_modifier": 80,
+        "durability": 300,
+        "item": "reinforced_glass_sheet",
+        "difficulty": 6,
+        "flags": [
+            "OVER", "OBSTACLE", "NO_REINFORCE"
+        ]
+    },
+    {
         "id": "blade_horizontal",
         "name": "blade",
         "symbol": "-",

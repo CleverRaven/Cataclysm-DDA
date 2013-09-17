@@ -211,27 +211,27 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
         mvwprintz(hp_window, 1, 1, c_ltred,  _("Use %s:"), item_name.c_str());
         if(p->hp_cur[hp_head] < p->hp_max[hp_head])
         {
-            mvwprintz(hp_window, 2, 1, c_ltgray, _("1: Head"));
+            mvwprintz(hp_window, 2, 1, p->has_disease("bleed", bp_head) ? c_red : c_ltgray, _("1: Head"));
         }
         if(p->hp_cur[hp_torso] < p->hp_max[hp_torso])
         {
-            mvwprintz(hp_window, 3, 1, c_ltgray, _("2: Torso"));
+            mvwprintz(hp_window, 3, 1, p->has_disease("bleed", bp_torso) ? c_red : c_ltgray, _("2: Torso"));
         }
         if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l])
         {
-            mvwprintz(hp_window, 4, 1, c_ltgray, _("3: Left Arm"));
+            mvwprintz(hp_window, 4, 1, p->has_disease("bleed", bp_arms, 0) ? c_red : c_ltgray, _("3: Left Arm"));
         }
         if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r])
         {
-            mvwprintz(hp_window, 5, 1, c_ltgray, _("4: Right Arm"));
+            mvwprintz(hp_window, 5, 1, p->has_disease("bleed", bp_arms, 1) ? c_red : c_ltgray, _("4: Right Arm"));
         }
         if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l])
         {
-            mvwprintz(hp_window, 6, 1, c_ltgray, _("5: Left Leg"));
+            mvwprintz(hp_window, 6, 1, p->has_disease("bleed", bp_legs, 0) ? c_red : c_ltgray, _("5: Left Leg"));
         }
         if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r])
         {
-            mvwprintz(hp_window, 7, 1, c_ltgray, _("6: Right Leg"));
+            mvwprintz(hp_window, 7, 1, p->has_disease("bleed", bp_legs, 1) ? c_red : c_ltgray, _("6: Right Leg"));
         }
         if(special_action != "")
         {
@@ -382,12 +382,39 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
         dam = normal_power + bonus;
     }
     p->heal(healed, dam);
+    body_part bp_healed;
+    int side = -1;
+    switch(healed) {
+        case hp_head:
+            bp_healed = bp_head;
+            break;
+        case hp_torso:
+            bp_healed = bp_torso;
+            break;
+        case hp_arm_l:
+            bp_healed = bp_arms;
+            side = 0;
+            break;
+        case hp_arm_r:
+            bp_healed = bp_arms;
+            side = 1;
+            break;
+        case hp_leg_l:
+            bp_healed = bp_legs;
+            side = 0;
+            break;
+        case hp_leg_r:
+            bp_healed = bp_legs;
+            side = 1;
+            break;
+    }
+    p->rem_disease("bleed", bp_healed, side);
     return false;
 }
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 3, 1, 4, _("Bandage"), p->has_disease("bleed") ? _("Stop Bleeding") : ""))
+    if (use_healing_item(g, p, it, 3, 1, 4, _("Bandage"), ""))
     {
         g->add_msg_if_player(p,_("You stopped the bleeding."));
         p->rem_disease("bleed");
@@ -2589,6 +2616,76 @@ void iuse::firekatana_on(game *g, player *p, item *it, bool t)
     }
 }
 
+void iuse::zweifire_off(game *g, player *p, item *it, bool t)
+{
+    int choice = menu(true,
+                      _("Was willst du tun?"), _("Die Flamme entfachen."), _("Als Messer verwenden."), _("Nichts tun."), NULL);
+    switch (choice)
+    {
+        if (choice == 2)
+            break;
+    case 1:
+    {
+        p->moves -= 10;
+        if (it->charges > 0)
+        {
+            g->sound(p->posx, p->posy, 10,
+                     _("Die Klinge deines Schwertes brennt!"));
+            it->make(g->itypes["zweifire_on"]);
+            it->active = true;
+        }
+        else
+            g->add_msg_if_player(p,_("Dein Flammenschwert hat keinen Brennstoff mehr."));
+    }
+    break;
+    case 2:
+    {
+        iuse::knife(g, p, it, t);
+    }
+    }
+}
+
+void iuse::zweifire_on(game *g, player *p, item *it, bool t)
+{
+    if (t)   	// Effects while simply on
+    {
+        if (one_in(35))
+            g->add_msg_if_player(p,_("Das Feuer um deine Schwertklinge leuchtet hell!"));
+    }
+    else if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("Deinem Flammenschwert ist der Brennstoff ausgegangen!"));
+        it->make(g->itypes["zweifire_off"]);
+        it->active = false;
+    }
+    else
+    {
+        int choice = menu(true,
+                          _("Was willst du tun?"), _("Die Flamme erlöschen."), _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            g->add_msg_if_player(p,_("Die Flamme deines Schwertes erlischt."));
+            it->make(g->itypes["zweifire_off"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 5;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
+}
+
 void iuse::jackhammer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
@@ -3939,7 +4036,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     const int cauterize = 2;
     const int cancel = 4;
     char ch;
- 
+
     uimenu kmenu;
     kmenu.selected = uistate.iuse_knife_selected;
     kmenu.text = _("Using knife:");
@@ -3949,7 +4046,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         if ( !p->use_charges_if_avail("fire", 4) ) {
             kmenu.addentry( cauterize, false, -1, _("You need a lighter with 4 charges before you can cauterize yourself.") );
         } else {
-            kmenu.addentry( cauterize, true, -1, 
+            kmenu.addentry( cauterize, true, -1,
               (p->has_disease("bite") || p->has_disease("bleed")) ? _("Cauterize") :  _("Cauterize...for FUN!")
             );
         }
@@ -3978,7 +4075,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         g->add_msg(_("You do not have that item!"));
         return;
     } else if ( p->has_weapon_or_armor(cut->invlet) && menu(true, _("You're wearing that, are you sure?"), _("Yes"), _("No"), NULL ) != 1 ) {
-        return;       
+        return;
     }
 
     if (choice == carve_writing) {
@@ -4272,14 +4369,98 @@ void iuse::torch(game *g, player *p, item *it, bool t)
 
 void iuse::torch_lit(game *g, player *p, item *it, bool t)
 {
- if (t) {	// Normal use
-// Do nothing... player::active_light and the lightmap::generate deal with this
- } else {	// Turning it off
-  g->add_msg_if_player(p,_("The torch is extinguished"));
-  it->charges -= 1;
-  it->make(g->itypes["torch"]);
-  it->active = false;
- }
+    if (t)
+    {
+        if (it->charges == 0)
+        {
+            g->add_msg_if_player(p,_("The torch burns out."));
+            it->make(g->itypes["torch_done"]);
+            it->active = false;
+        }
+    }
+    else  	// Turning it off
+    {
+        int choice = menu(true,
+                          _("torch (lit)"), _("extinguish"), _("light something"), _("cancel"), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            g->add_msg_if_player(p,_("The torch is extinguished"));
+            it->charges -= 1;
+            it->make(g->itypes["torch"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 5;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
+}
+
+
+void iuse::battletorch(game *g, player *p, item *it, bool t)
+{
+    if (!p->use_charges_if_avail("fire", 1))
+    {
+        g->add_msg_if_player(p,_("You need a lighter or fire to light this."));
+    }
+    else
+    {
+        g->add_msg_if_player(p,_("You light the Louieville Slaughterer."));
+        it->make(g->itypes["battletorch_lit"]);
+        it->active = true;
+    }
+}
+
+
+void iuse::battletorch_lit(game *g, player *p, item *it, bool t)
+{
+    if (t)
+    {
+        if (it->charges == 0)
+        {
+            g->add_msg_if_player(p,_("The Louieville Slaughterer burns out."));
+            it->make(g->itypes["bat"]);
+            it->active = false;
+        }
+    }
+    else  	// Turning it off
+    {
+        int choice = menu(true,
+                          _("Louieville Slaughterer (lit)"), _("extinguish"), _("light something"), _("cancel"), NULL);
+        switch (choice)
+        {
+            if (choice == 2)
+                break;
+        case 1:
+        {
+            g->add_msg_if_player(p,_("The Louieville Slaughterer is extinguished"));
+            it->charges -= 1;
+            it->make(g->itypes["battletorch"]);
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+            int dirx, diry;
+            if (prep_firestarter_use(g, p, it, dirx, diry))
+            {
+                p->moves -= 5;
+                resolve_firestarter_use(g, p, it, dirx, diry);
+            }
+        }
+        }
+    }
 }
 
 

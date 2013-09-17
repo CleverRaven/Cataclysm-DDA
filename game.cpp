@@ -5019,27 +5019,37 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
 
 void game::flashbang(int x, int y, bool player_immune)
 {
- int dist = rl_dist(u.posx, u.posy, x, y), t;
- if (dist <= 8 && !player_immune) {
-  if (!u.has_bionic("bio_ears"))
-   u.add_disease("deaf", 40 - dist * 4);
-  if (m.sees(u.posx, u.posy, x, y, 8, t))
-   u.infect("blind", bp_eyes, (12 - dist) / 2, 10 - dist, this);
- }
- for (int i = 0; i < num_zombies(); i++) {
-  monster &z = _z[i];
-  dist = rl_dist(z.posx(), z.posy(), x, y);
-  if (dist <= 4)
-   z.add_effect(ME_STUNNED, 10 - dist);
-  if (dist <= 8) {
-   if (z.has_flag(MF_SEES) && m.sees(z.posx(), z.posy(), x, y, 8, t))
-    z.add_effect(ME_BLIND, 18 - dist);
-   if (z.has_flag(MF_HEARS))
-    z.add_effect(ME_DEAF, 60 - dist * 4);
-  }
- }
- sound(x, y, 12, _("a huge boom!"));
-// TODO: Blind/deafen NPC
+    g->draw_explosion(x, y, 8, c_white);
+    int dist = rl_dist(u.posx, u.posy, x, y), t;
+    if (dist <= 8 && !player_immune) {
+        if (!u.has_bionic("bio_ears")) {
+            u.add_disease("deaf", 40 - dist * 4);
+        }
+        if (m.sees(u.posx, u.posy, x, y, 8, t)) {
+            int flash_mod = 0;
+            if (u.has_bionic("bio_sunglasses")) {
+                flash_mod = 6;
+            }
+            u.infect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist, this);
+        }
+    }
+    for (int i = 0; i < num_zombies(); i++) {
+        monster &z = _z[i];
+        dist = rl_dist(z.posx(), z.posy(), x, y);
+        if (dist <= 4) {
+            z.add_effect(ME_STUNNED, 10 - dist);
+        }
+        if (dist <= 8) {
+            if (z.has_flag(MF_SEES) && m.sees(z.posx(), z.posy(), x, y, 8, t)) {
+                z.add_effect(ME_BLIND, 18 - dist);
+            }
+            if (z.has_flag(MF_HEARS)) {
+                z.add_effect(ME_DEAF, 60 - dist * 4);
+            }
+        }
+    }
+    sound(x, y, 12, _("a huge boom!"));
+    // TODO: Blind/deafen NPC
 }
 
 void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player)
@@ -8500,15 +8510,16 @@ void game::plfire(bool burst)
   return;
  }
  if (u.weapon.has_flag("CHARGE") && !u.weapon.active) {
-  if (u.has_charges("UPS_on", 1) || u.has_charges("UPS_off", 1) ||
-      u.has_charges("adv_UPS_on", 1) || u.has_charges("adv_UPS_off", 1)) {
+  if (u.has_charges("UPS_on", 1)  ||
+      u.has_charges("adv_UPS_on", 1) ) {
    add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
    u.weapon.charges = 0;
+   u.weapon.poison = 0;
    u.weapon.curammo = dynamic_cast<it_ammo*>(itypes["charge_shot"]);
    u.weapon.active = true;
    return;
   } else {
-   add_msg(_("You need a charged UPS."));
+   add_msg(_("You need a powered UPS."));
    return;
   }
  }
@@ -9731,7 +9742,8 @@ void game::plmove(int dx, int dy)
       add_msg(_("There are vehicle controls here.  %s to drive."),
               press_x(ACTION_CONTROL_VEHICLE).c_str() );
 
- } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel")) { //probability travel through walls but not water
+  } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
+  //probability travel through walls but not water
   int tunneldist = 0;
   // tile is impassable
   while((m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&

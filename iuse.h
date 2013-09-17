@@ -93,6 +93,8 @@ class iuse
   void broadfire_on	    (game *g, player *p, item *it, bool t);
   void firekatana_off	(game *g, player *p, item *it, bool t);
   void firekatana_on	(game *g, player *p, item *it, bool t);
+  void zweifire_off	(game *g, player *p, item *it, bool t);
+  void zweifire_on	(game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);
   void jacqueshammer	(game *g, player *p, item *it, bool t);
   void pickaxe          (game *g, player *p, item *it, bool t);
@@ -156,6 +158,8 @@ class iuse
   void shelter          (game *g, player *p, item *it, bool t);
   void torch            (game *g, player *p, item *it, bool t);
   void torch_lit        (game *g, player *p, item *it, bool t);
+  void battletorch            (game *g, player *p, item *it, bool t);
+  void battletorch_lit        (game *g, player *p, item *it, bool t);
   void candle           (game *g, player *p, item *it, bool t);
   void candle_lit       (game *g, player *p, item *it, bool t);
   void bullet_puller	(game *g, player *p, item *it, bool t);

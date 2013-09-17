@@ -109,6 +109,8 @@ void Item_factory::init(){
     iuse_function_list["BROADFIRE_ON"] = &iuse::broadfire_on;
     iuse_function_list["FIREKATANA_OFF"] = &iuse::firekatana_off;
     iuse_function_list["FIREKATANA_ON"] = &iuse::firekatana_on;
+    iuse_function_list["ZWEIFIRE_OFF"] = &iuse::zweifire_off;
+    iuse_function_list["ZWEIFIRE_ON"] = &iuse::zweifire_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
     iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
@@ -171,6 +173,8 @@ void Item_factory::init(){
     iuse_function_list["SHELTER"] = &iuse::shelter;
     iuse_function_list["TORCH"] = &iuse::torch;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
+    iuse_function_list["BATTLETORCH"] = &iuse::battletorch;
+    iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
     iuse_function_list["CANDLE"] = &iuse::candle;
     iuse_function_list["CANDLE_LIT"] = &iuse::candle_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
@@ -568,8 +572,8 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
                     WATCH - Shows the current time, instead of sun/moon position
                     ALARMCLOCK - Has an alarmclock feature
-                    MALE_TYPICAL - Typically only worn by men.
-                    FEMALE_TYPICAL - Typically only worn by women.
+                    FANCY - Less than practical clothing meant primarily to convey a certain image.
+                    SUPER_FANCY - Clothing suitable for the most posh of events.
                     LIGHT_* - light emission, sets cached int light_emission
                     USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
 

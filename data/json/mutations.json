@@ -217,10 +217,10 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "CROSSDRESSER",
-        "name": "Cross-Dresser",
+        "id": "STYLISH",
+        "name": "Stylish",
         "points": 2,
-        "description": "Covering your body in clothing typical for the opposite gender makes you feel better.",
+        "description": "Practicality is far less important than style. Even at the end of the world, it's important to look your best.",
         "starting_trait": true,
         "valid": false
     },{

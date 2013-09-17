@@ -71,6 +71,30 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "cleats",
+        "name" : "cleats",
+        "weight": 285,
+        "color": "light_gray",
+        "covers" : ["FEET"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Sport shoes with hard undersides, and studs on the bottom designed to dig into the grass.",
+        "price" : 150,
+        "material" : ["cotton", "leather"],
+        "volume": 6,
+        "cutting" : 0,
+        "warmth": 20,
+        "phase": "solid",
+        "enviromental_protection" : 0,
+        "encumberance": 0,
+        "bashing" : 2,
+        "flags": ["VARSIZE"],
+        "coverage": 50,
+        "material_thickness" : 2
+    },
+    {
+        "type" : "ARMOR",
         "id" : "football_armor",
         "name" : "football armor",
         "weight" : 3310,
@@ -333,7 +357,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 1,
         "bashing" : 1,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 50,
         "material_thickness" : 2
     },
@@ -357,7 +381,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 4,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE", "SUPER_FANCY"],
         "coverage" : 30,
         "material_thickness" : 2
     },
@@ -716,7 +740,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE"],
         "coverage" : 60,
         "material_thickness" : 1
     },
@@ -787,7 +811,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 3,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 85,
         "material_thickness" : 3
     },
@@ -811,6 +835,7 @@
         "enviromental_protection" : 2,
         "encumberance" : 6,
         "bashing" : 14,
+        "flags" : ["FANCY"],
         "coverage" : 95,
         "material_thickness" : 4
     },
@@ -882,7 +907,7 @@
         "enviromental_protection" : 1,
         "encumberance" : 1,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 80,
         "material_thickness" : 5
     },
@@ -978,7 +1003,7 @@
         "enviromental_protection" : 2,
         "encumberance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
         "coverage" : 90,
         "material_thickness" : 3
     },
@@ -1002,7 +1027,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 3,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 80,
         "material_thickness" : 2
     },
@@ -1026,7 +1051,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 3,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE", "SUPER_FANCY"],
         "coverage" : 80,
         "material_thickness" : 2
     },
@@ -1073,7 +1098,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "MALE_TYPICAL"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -1097,7 +1122,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "MALE_TYPICAL"],
+        "flags" : ["VARSIZE", "SUPER_FANCY"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -1241,7 +1266,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "MALE_TYPICAL"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 90,
         "material_thickness" : 1
     },
@@ -1673,7 +1698,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 2,
         "bashing" : -4,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 95,
         "material_thickness" : 4
     },
@@ -2875,7 +2900,8 @@
         "encumberance" : 0,
         "bashing" : -3,
         "coverage" : 40,
-        "material_thickness" : 2
+        "material_thickness" : 2,
+        "flags" : ["SUPER_FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -2900,8 +2926,8 @@
         "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 1
-    },
-    {
+   },
+   {
         "type" : "ARMOR",
         "id" : "hat_ball",
         "name" : "baseball cap",
@@ -3108,7 +3134,8 @@
         "encumberance" : 1,
         "bashing" : 10,
         "coverage" : 70,
-        "material_thickness" : 3
+        "material_thickness" : 3,
+        "flags" : ["FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3132,7 +3159,8 @@
         "bashing" : -5,
         "flags" : ["WATER_FRIENDLY"],
         "coverage" : 60,
-        "material_thickness" : 2
+        "material_thickness" : 2,
+        "flags" : ["FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3373,7 +3401,7 @@
         "bashing" : -5,
         "coverage" : 60,
         "material_thickness" : 1,
-        "flags": ["MALE_TYPICAL"]
+        "flags": ["SUPER_FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3396,7 +3424,7 @@
         "encumberance" : 0,
         "bashing" : -3,
         "coverage" : 60,
-        "flags": ["MALE_TYPICAL"],
+        "flags": ["FANCY"],
         "material_thickness" : 1
     },
     {
@@ -3513,7 +3541,7 @@
         "bashing" : 2,
         "coverage" : 30,
         "material_thickness" : 2,
-        "flags" : ["FEMALE_TYPICAL"]
+        "flags" : ["FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3716,7 +3744,8 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
-        "phase" : "solid"
+        "phase" : "solid",
+        "flags" : ["FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3739,7 +3768,7 @@
         "warmth" : 0,
         "enviromental_protection" : 0,
         "phase" : "solid",
-        "flags" : ["FEMALE_TYPICAL"]
+        "flags" : ["FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3761,7 +3790,8 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
-        "phase" : "solid"
+        "phase" : "solid",
+        "flags" : ["FANCY"]
     },
     {
         "type": "TOOL",
@@ -4935,7 +4965,7 @@
         "warmth" : 0,
         "enviromental_protection" : 0,
         "phase" : "solid"
-    }, 
+    },
     {
         "type" : "ARMOR",
         "id" : "fur_cat_ears",
@@ -4979,7 +5009,7 @@
         "warmth" : 0,
         "enviromental_protection" : 0,
         "phase" : "solid"
-    }, 
+    },
     {
         "type" : "ARMOR",
         "id" : "fur_cat_tail",
@@ -5001,7 +5031,7 @@
         "warmth" : 0,
         "enviromental_protection" : 0,
         "phase" : "solid"
-    }, 
+    },
     {
         "type" : "ARMOR",
         "id" : "fur_collar",
@@ -5023,7 +5053,7 @@
         "warmth" : 0,
         "enviromental_protection" : 0,
         "phase" : "solid"
-    }, 
+    },
     {
         "type" : "ARMOR",
         "id" : "leather_collar",
