@@ -122,7 +122,7 @@ class wish_mutate_callback: public uimenu_callback
             
             mvwprintz(menu->window, line2, startx, c_ltgray, "pts: %d vis: %d ugly: %d",
                       traits[vTraits[ entnum ]].points,
-                      traits[vTraits[ entnum ]].visiblity,
+                      traits[vTraits[ entnum ]].visibility,
                       traits[vTraits[ entnum ]].ugliness
                      );
             line2 += 2;

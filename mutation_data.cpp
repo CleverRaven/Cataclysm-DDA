@@ -26,7 +26,7 @@ void load_mutation(JsonObject &jsobj)
     new_trait.name = _(jsobj.get_string("name").c_str());
     new_trait.description = _(jsobj.get_string("description").c_str());
     new_trait.points = jsobj.get_int("points");
-    new_trait.visiblity = jsobj.get_int("visibility", 0); // TODO: visiblity
+    new_trait.visibility = jsobj.get_int("visibility", 0);
     new_trait.ugliness = jsobj.get_int("ugliness", 0);
     new_trait.startingtrait = jsobj.get_bool("starting_trait", false);
 
