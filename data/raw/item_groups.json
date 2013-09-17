@@ -180,6 +180,7 @@
       ["sauce_red", 20],
       ["sauce_pesto", 15],
       ["bread", 14],
+      ["crackers", 20],
       ["biscuit", 12],
       ["hardtack", 2],
       ["mayonnaise", 35],
@@ -681,6 +682,7 @@
       ["can_tuna", 35],
       ["can_catfood", 20],
       ["broth", 15],
+      ["crackers", 10],
       ["soup_veggy", 15],
       ["soup_meat", 15],
       ["flour", 30],
@@ -700,6 +702,7 @@
       ["sauce_red", 20],
       ["sauce_pesto", 15],
       ["bread", 14],
+      ["crackers", 20],
       ["biscuit", 12],
       ["hardtack", 2],
       ["seasoning_italian", 25]

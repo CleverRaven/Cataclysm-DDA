@@ -3649,7 +3649,7 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 3,
-  "time": 10000,
+  "time": 12000,
   "reversible": false,
   "autolearn": false,
   "tools": [
@@ -3707,7 +3707,7 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 3,
-  "time": 10000,
+  "time": 12000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
@@ -4619,7 +4619,8 @@
       [ "broth_bone", 2 ]
     ],
     [
-      [ "meat", 2 ]
+      [ "meat", 2 ],
+      [ "meat_smoked", 2 ]
     ],
     [
       [ "veggy_wild", 2 ],
@@ -4716,7 +4717,7 @@
   ],
   "components": [
     [
-      [ "flour", 3 ]
+      [ "flour", 2 ]
     ],
     [
       [ "salt", 1 ]
