@@ -1,16 +1,15 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
-#include "catajson.h"
 #include "material.h"
-#include "enums.h"
-#include "game.h"
+
+#include "output.h" // debugmsg
+#include "enums.h" // damage_type
+#include "json.h"
+#include "translations.h"
+
+#include <string>
 
 material_type::material_type()
 {
-    _id = 0;
-    _ident = "null";
+    _ident = "";
     _name = "null";
     _bash_resist = 0;
     _cut_resist = 0;
@@ -26,13 +25,12 @@ material_type::material_type()
     _density = 1;
 }
 
-material_type::material_type(unsigned int id, std::string ident, std::string name,
+material_type::material_type(std::string ident, std::string name,
                              int bash_resist, int cut_resist,
                              std::string bash_dmg_verb, std::string cut_dmg_verb,
                              std::string dmg_adj[], int acid_resist, int elec_resist, int fire_resist,
                              int density)
 {
-    _id = id;
     _ident = ident;
     _name = name;
     _bash_resist = bash_resist;
@@ -52,7 +50,7 @@ material_type::material_type(unsigned int id, std::string ident, std::string nam
 material_type::material_type(std::string ident)
 {
     material_type* mat_type = find_material(ident);
-    _id = mat_type->id();
+    _ident = ident;
     _name = mat_type->name();
     _bash_resist = mat_type->bash_resist();
     _cut_resist = mat_type->cut_resist();
@@ -70,58 +68,30 @@ material_type::material_type(std::string ident)
 
 material_map material_type::_all_materials;
 
-void game::init_materials()
+// load a material object from incoming JSON
+void material_type::load_material(JsonObject &jsobj)
 {
-    material_type::_all_materials = material_type::load_materials();
-}
+    material_type mat;
 
-material_map material_type::load_materials()
-{
-    material_map allMaterials;
+    mat._ident = jsobj.get_string("ident");
+    mat._name = _(jsobj.get_string("name").c_str());
+    mat._bash_resist = jsobj.get_int("bash_resist");
+    mat._cut_resist = jsobj.get_int("cut_resist");
+    mat._bash_dmg_verb = _(jsobj.get_string("bash_dmg_verb").c_str());
+    mat._cut_dmg_verb = _(jsobj.get_string("cut_dmg_verb").c_str());
+    mat._acid_resist = jsobj.get_int("acid_resist");
+    mat._elec_resist = jsobj.get_int("elec_resist");
+    mat._fire_resist = jsobj.get_int("fire_resist");
+    mat._density = jsobj.get_int("density");
 
-    catajson materialsRaw("data/raw/materials.json", true);
+    JsonArray jsarr = jsobj.get_array("dmg_adj");
+    mat._dmg_adj[0] = _(jsarr.next_string().c_str());
+    mat._dmg_adj[1] = _(jsarr.next_string().c_str());
+    mat._dmg_adj[2] = _(jsarr.next_string().c_str());
+    mat._dmg_adj[3] = _(jsarr.next_string().c_str());
 
-    unsigned int id = 0;
-    for (materialsRaw.set_begin(); materialsRaw.has_curr() && json_good(); materialsRaw.next())
-    {
-        ++id;
-        catajson currMaterial = materialsRaw.curr();
-        std::string ident = currMaterial.get("ident").as_string();
-        std::string name = currMaterial.get("name").as_string();
-        int bash_resist = currMaterial.get("bash_resist").as_int();
-        int cut_resist = currMaterial.get("cut_resist").as_int();
-        std::string bash_dmg_verb = currMaterial.get("bash_dmg_verb").as_string();
-        std::string cut_dmg_verb = currMaterial.get("cut_dmg_verb").as_string();
-        int acid_resist = currMaterial.get("acid_resist").as_int();
-        int elec_resist = currMaterial.get("elec_resist").as_int();
-        int fire_resist = currMaterial.get("fire_resist").as_int();
-        int density = currMaterial.get("density").as_int();
-
-        catajson adjList = currMaterial.get("dmg_adj");
-        std::string dmg_adj[4];
-        dmg_adj[0] = adjList.get(0).as_string();
-        dmg_adj[1] = adjList.get(1).as_string();
-        dmg_adj[2] = adjList.get(2).as_string();
-        dmg_adj[3] = adjList.get(3).as_string();
-
-        name = _(name.c_str());
-        bash_dmg_verb = _(bash_dmg_verb.c_str());
-        cut_dmg_verb = _(cut_dmg_verb.c_str());
-        dmg_adj[0] = _(dmg_adj[0].c_str());
-        dmg_adj[1] = _(dmg_adj[1].c_str());
-        dmg_adj[2] = _(dmg_adj[2].c_str());
-        dmg_adj[3] = _(dmg_adj[3].c_str());
-
-        material_type newMaterial(id, ident, name, bash_resist, cut_resist, bash_dmg_verb,
-                                  cut_dmg_verb, dmg_adj, acid_resist, elec_resist, fire_resist, density);
-
-        allMaterials[ident] = newMaterial;
-    }
-
-    if(!json_good())
-        exit(1);
-
-    return allMaterials;
+    _all_materials[mat._ident] = mat;
+    //dout(D_INFO) << "Loaded material: " << mat._name;
 }
 
 material_type* material_type::find_material(std::string ident)
@@ -129,9 +99,7 @@ material_type* material_type::find_material(std::string ident)
     material_map::iterator found = _all_materials.find(ident);
     if(found != _all_materials.end()){
         return &(found->second);
-    }
-    else
-    {
+    } else {
         debugmsg("Tried to get invalid material: %s", ident.c_str());
         return NULL;
     }
@@ -139,7 +107,7 @@ material_type* material_type::find_material(std::string ident)
 
 material_type* material_type::base_material()
 {
-    return material_type::find_material("null");
+    return material_type::find_material("");
 }
 
 int material_type::dam_resist(damage_type damtype) const
@@ -169,12 +137,7 @@ int material_type::dam_resist(damage_type damtype) const
 
 bool material_type::is_null() const
 {
-    return (_ident == "null");
-}
-
-unsigned int material_type::id() const
-{
-    return _id;
+    return (_ident == "");
 }
 
 std::string material_type::ident() const

@@ -650,17 +650,24 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         }
                         p.add_disease("badpoison", 40);
                     }
-                    if (has_flag(MF_BLEED) && dam > 6 && cut > 0)
-                    {
-                        if (!is_npc)
-                        {
+
+                    if (has_flag(MF_BLEED) && dam > 6 && cut > 0) {
+                        if (!is_npc) {
                             g->add_msg(_("You're Bleeding!"));
                         }
-                        p.add_disease("bleed", 60);
+                        if (bphit == bp_mouth || bphit == bp_eyes ||
+                            bphit == bp_head) {
+                            p.add_disease("bleed", 60, 1, 3, bp_head, -1);
+                        } else if (bphit == bp_torso) {
+                            p.add_disease("bleed", 60, 1, 3, bp_torso, -1);
+                        } else {
+                            p.add_disease("bleed", 60, 1, 3, bphit, side);
+                        }
                     }
 
                     //Same as monster's chance to not miss
-                    if (can_grab && has_flag(MF_GRABS) && (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill)))
+                    if (can_grab && has_flag(MF_GRABS) &&
+                        (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill)))
                     {
                         if (!is_npc)
                         {
@@ -673,9 +680,9 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                             {
                                 g->add_msg(_("You break the grab!"));
                             }
-                        }
-                        else
+                        } else {
                             hit_player(g, p, false); //We grabed, so hit them again
+                        }
                     }
 
                 }

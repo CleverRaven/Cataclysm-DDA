@@ -216,12 +216,16 @@ public:
  void infect(dis_type type, body_part vector, int strength, int duration,
              game *g);
 // add_disease() does NOT give us a chance to save
+// num_bp indicates that specifying a body part is unessecary such as with
+// drug effects
+// -1 indicates that side of body is irrelevant
  void add_disease(dis_type type, int duration, int intensity = 0,
-                  int max_intensity = -1);
- void rem_disease(dis_type type);
- bool has_disease(dis_type type) const;
- int  disease_level(dis_type type);
- int  disease_intensity(dis_type type);
+                  int max_intensity = -1, body_part part = num_bp,
+                  int side = -1);
+ void rem_disease(dis_type type, body_part part = num_bp, int side = -1);
+ bool has_disease(dis_type type, body_part part = num_bp, int side = -1) const;
+ int  disease_level(dis_type type, body_part part = num_bp, int side = -1);
+ int  disease_intensity(dis_type type, body_part part = num_bp, int side = -1);
 
  void add_addiction(add_type type, int strength);
  void rem_addiction(add_type type);

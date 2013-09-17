@@ -200,7 +200,7 @@ CATEGORIES(MC_WILDLIFE);
 
 mon(_("cougar"),	species_mammal, 'C',	c_brown,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 12,  0, 20,180, 14,  2,  3,  4,  4,  1,  0,  0, 15,  5,
+	 12,  0, 20,180, 14,  2,  3,  4,  4,  1,  0,  0, 40,  5,
 	&mdeath::normal,	&mattack::leap, _("\
 A vicious and fast hunter.")
 );

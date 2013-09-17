@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include "calendar.h"
 #include "picofunc.h"
+#include "json.h"
 
 class Skill {
   size_t _id;
@@ -19,7 +20,7 @@ class Skill {
 
  public:
   static std::vector<Skill*> skills;
-  static std::vector<Skill*> loadSkills() throw (std::string);
+  static void load_skill(JsonObject &jsobj);
   static Skill* skill(std::string ident);
   static Skill* skill(size_t id);
 

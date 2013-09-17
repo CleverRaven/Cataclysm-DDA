@@ -6,7 +6,7 @@
 #include "item.h"
 #include "bionics.h"
 #include "line.h"
-#include "catajson.h"
+#include "json.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 
@@ -38,6 +38,7 @@ bionic_id game::random_good_bionic() const
         random_bionic = bionics.begin();
         std::advance(random_bionic,rng(0,bionics.size()-1));
     } while (random_bionic->first == "bio_null" || random_bionic->second->faulty);
+    // TODO: remove bio_null
     return random_bionic->first;
 }
 
@@ -646,57 +647,22 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
  }
 }
 
-void game::init_bionics() throw (std::string)
+void load_bionic(JsonObject &jsobj)
 {
-    catajson bionics_file("data/raw/bionics.json");
+    std::string id = jsobj.get_string("id");
+    std::string name = _(jsobj.get_string("name").c_str());
+    std::string description = _(jsobj.get_string("description").c_str());
+    int cost = jsobj.get_int("cost", 0);
+    int time = jsobj.get_int("time", 0);
+    bool faulty = jsobj.get_bool("faulty", false);
+    bool power_source = jsobj.get_bool("power_source", false);
+    bool active = jsobj.get_bool("active", false);
 
-    if(!json_good())
-    {
-        throw (std::string)"data/raw/bionics.json was not found";
-    }
+    if (faulty) { faulty_bionics.push_back(id); }
+    if (power_source) { power_source_bionics.push_back(id); }
+    if (!active && id != "bio_null") { unpowered_bionics.push_back(id); }
 
-    for(bionics_file.set_begin(); bionics_file.has_curr(); bionics_file.next())
-    {
-        catajson bio = bionics_file.curr();
-
-        std::set<std::string> tags;
-
-        if(bio.has("flags"))
-        {
-            tags = bio.get("flags").as_tags();
-        }
-
-        // set up all the bionic parameters
-        std::string id          = bio.get("id").as_string();
-        std::string name        = _(bio.get("name").as_string().c_str());
-        int cost                = bio.get("cost").as_int();
-        int time                = bio.get("time").as_int();
-        std::string description = _(bio.get("description").as_string().c_str());
-        bool faulty             = (tags.find("FAULTY") != tags.end());
-        bool powersource        = (tags.find("POWER") != tags.end());
-        bool active             = (tags.find("ACTIVE") != tags.end());
-
-        bionics[id] = new bionic_data(name, powersource, active, cost, time, description, faulty);
-
-        // Don't add bio_null to any vectors.
-        if(id != "bio_null")
-        {
-            if(faulty)
-            {
-                faulty_bionics.push_back(id);
-            }
-            else if(powersource)
-            {
-                power_source_bionics.push_back(id);
-            }
-            else if(!active)
-            {
-                unpowered_bionics.push_back(id);
-            }
-        }
-
-    }
-    if(!json_good())
-        throw (std::string)"There was an error reading data/raw/bionics.json";
+    bionics[id] = new bionic_data(name, power_source, active, cost, time, description, faulty);
+    //dout(D_INFO) << "Loaded bionic: " << name << "\n";
 }
 

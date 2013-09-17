@@ -7,6 +7,7 @@
 #include "pldata.h"
 #include "addiction.h"
 #include "skill.h"
+#include "json.h"
 
 class profession;
 
@@ -18,7 +19,6 @@ public:
     typedef std::pair<std::string, int> StartingSkill;
     typedef std::vector<StartingSkill> StartingSkillList;
 private:
-    unsigned int _id; // used when we care about precise order, starts at 1
     std::string _ident;
     std::string _name;
     std::string _description;
@@ -36,10 +36,10 @@ private:
 public:
     //these three aren't meant for external use, but had to be made public regardless
     profession();
-    profession(unsigned int id, std::string ident, std::string name, std::string description, signed int points);
+    profession(std::string ident, std::string name, std::string description, signed int points);
     static profmap _all_profs;
 
-    static profmap load_professions();
+    static void load_profession(JsonObject &jsobj);
 
     // these should be the only ways used to get at professions
     static profession* prof(std::string ident);
@@ -51,7 +51,6 @@ public:
 
     static bool has_initialized();
 
-    unsigned int id() const;
     std::string ident() const;
     std::string name() const;
     std::string description() const;

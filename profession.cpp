@@ -3,18 +3,17 @@
 #include <sstream>
 
 #include "profession.h"
-#include "output.h"
 
-#include "catajson.h"
+#include "output.h" //debugmsg
+#include "json.h"
 
 profession::profession()
-   : _id(0), _ident(""), _name("null"), _description("null"), _point_cost(0)
+   : _ident(""), _name("null"), _description("null"), _point_cost(0)
 {
 }
 
-profession::profession(unsigned int id, std::string ident, std::string name, std::string description, signed int points)
+profession::profession(std::string ident, std::string name, std::string description, signed int points)
 {
-    _id = id;
     _ident = ident;
     _name = name;
     _description = description;
@@ -23,80 +22,39 @@ profession::profession(unsigned int id, std::string ident, std::string name, std
 
 profmap profession::_all_profs;
 
-void game::init_professions()
+void profession::load_profession(JsonObject &jsobj)
 {
-    profession::_all_profs = profession::load_professions();
-}
+    profession prof;
+    JsonArray jsarr;
 
-profmap profession::load_professions()
-{
-    profmap allProfs;
-    catajson profsRaw("data/raw/professions.json",true);
+    prof._ident = jsobj.get_string("ident");
+    prof._name = _(jsobj.get_string("name").c_str());
+    prof._description = _(jsobj.get_string("description").c_str());
+    prof._point_cost = jsobj.get_int("points");
 
-    unsigned int id = 0;
-    for (profsRaw.set_begin(); profsRaw.has_curr() && json_good(); profsRaw.next())
-    {
-        ++id;
-        catajson currProf = profsRaw.curr();
-        std::string ident = currProf.get("ident").as_string();
-        std::string name = currProf.get("name").as_string();
-        std::string description = currProf.get("description").as_string();
-        signed int points = currProf.get("points").as_int();
-
-        name = _(name.c_str());
-        description = _(description.c_str());
-
-        profession newProfession(id, ident, name, description, points);
-
-        catajson items = currProf.get("items");
-        for (items.set_begin(); items.has_curr(); items.next())
-        {
-            newProfession.add_item(items.curr().as_string());
-        }
-
-        // Addictions are optional
-        if (currProf.has("addictions"))
-        {
-            catajson addictions = currProf.get("addictions");
-            for (addictions.set_begin(); addictions.has_curr(); addictions.next())
-            {
-                catajson currAdd = addictions.curr();
-                std::string type_str = currAdd.get("type").as_string();
-                add_type type = addiction_type(type_str);
-                int intensity = currAdd.get("intensity").as_int();
-                newProfession.add_addiction(type,intensity);
-            }
-        }
-        // Skills are optional as well
-        if (currProf.has("skills"))
-        {
-            catajson skills = currProf.get("skills");
-            for (skills.set_begin(); skills.has_curr(); skills.next())
-            {
-                catajson currSkill = skills.curr();
-                std::string skill_str = currSkill.get("name").as_string();
-                // Verifying this skill exists MUST happen later since the
-                // skills have not yet been loaded at this point.
-                int level = currSkill.get("level").as_int();
-                newProfession.add_skill(skill_str, level);
-            }
-        }
-        // Optional flags
-        if (currProf.has("flags"))
-        {
-            catajson cflags = currProf.get("flags");
-            for (cflags.set_begin(); cflags.has_curr(); cflags.next())
-            {
-                newProfession.flags.insert(cflags.curr().as_string());
-            }
-        }
-        allProfs[ident] = newProfession;
+    jsarr = jsobj.get_array("items");
+    while (jsarr.has_more()) {
+        prof.add_item(jsarr.next_string());
+    }
+    jsarr = jsobj.get_array("skills");
+    while (jsarr.has_more()) {
+        JsonObject jo = jsarr.next_object();
+        prof.add_skill(jo.get_string("name"),
+                       jo.get_int("level"));
+    }
+    jsarr = jsobj.get_array("addictions");
+    while (jsarr.has_more()) {
+        JsonObject jo = jsarr.next_object();
+        prof.add_addiction(addiction_type(jo.get_string("type")),
+                           jo.get_int("intensity"));
+    }
+    jsarr = jsobj.get_array("flags");
+    while (jsarr.has_more()) {
+        prof.flags.insert(jsarr.next_string());
     }
 
-    if(!json_good())
-        exit(1);
-
-    return allProfs;
+    _all_profs[prof._ident] = prof;
+    //dout(D_INFO) << "Loaded profession: " << prof._name;
 }
 
 profession* profession::prof(std::string ident)
@@ -155,11 +113,6 @@ void profession::add_addiction(add_type type,int intensity)
 void profession::add_skill(const std::string& skill_name, const int level)
 {
     _starting_skills.push_back(StartingSkill(skill_name, level));
-}
-
-unsigned int profession::id() const
-{
-    return _id;
 }
 
 std::string profession::ident() const
