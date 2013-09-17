@@ -276,7 +276,6 @@ class game
   std::vector <mtype*> mtypes;
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
-  recipe_map recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions
 
   std::vector <items_location_and_chance> monitems[num_monsters];
@@ -326,8 +325,6 @@ class game
  int move_liquid(item &liquid);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
-
- recipe* recipe_by_name(std::string name); // See crafting.cpp
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 
@@ -390,7 +387,6 @@ void load_artifacts(); // Load artifact data
   void init_mongroups() throw (std::string);    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
   void init_traps();        // Initializes trap types
-  void init_recipes() throw (std::string);      // Initializes crafting recipes
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
   void init_vehicle_parts();       // Initializes vehicle part types

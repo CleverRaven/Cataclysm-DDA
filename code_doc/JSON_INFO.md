@@ -128,7 +128,7 @@
 "result": "javelin",         // ID of resulting item
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
 "skill_used": "fabrication", // Skill trained and used for success checks
-"requires_skills": [ "survival", 1, "throw", 2 ], // Skills required to unlock recipe
+"requires_skills": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
 "difficulty": 3,             // Difficulty of success check
 "time": 5000,                // Time to perform recipe
 "reversible": false,         // Can be disassembled.
@@ -146,9 +146,8 @@
   [ "toolset", -1 ]
 ],
 [
-  [ "fire", -1 ]
-	]
-],
+    [ "fire", -1 ]
+]],
 "components": [              // Equivalent components are surrounded by a single set of brackets
 [
   [ "spear_wood", 1 ],       // Number of charges/items required

@@ -5,6 +5,7 @@
 #include "itype.h"
 #include "mtype.h"
 #include "overmapbuffer.h"
+#include "crafting.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -187,7 +188,7 @@ void defense_game::init_constructions(game *g)
 
 void defense_game::init_recipes(game *g)
 {
-    for (recipe_map::iterator map_iter = g->recipes.begin(); map_iter != g->recipes.end(); ++map_iter)
+    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
     {
         for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
         {

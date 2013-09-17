@@ -9,6 +9,7 @@
 #include "mutation.h"
 #include "text_snippets.h"
 #include "item_factory.h"
+#include "crafting.h"
 
 #include <string>
 #include <vector>
@@ -29,6 +30,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/mutations.json");
     ret.push_back("data/json/snippets.json");
     ret.push_back("data/json/item_groups.json");
+    ret.push_back("data/json/recipes.json");
     return ret;
 }
 
@@ -43,6 +45,8 @@ void load_object(JsonObject &jo)
     else if (type == "mutation") { load_mutation(jo); }
     else if (type == "snippet") { SNIPPET.load_snippet(jo); }
     else if (type == "item_group") { item_controller->load_item_group(jo); }
+    else if (type == "recipe_category") { load_recipe_category(jo); }
+    else if (type == "recipe") { load_recipe(jo); }
     else {
         std::stringstream err;
         err << jo.line_number() << ": ";
