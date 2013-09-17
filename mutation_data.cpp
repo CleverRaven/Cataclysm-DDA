@@ -88,9 +88,9 @@ void load_dream(JsonObject &jsobj)
     newdream.strength = jsobj.get_int("strength");
     newdream.category = jsobj.get_string("category");
 
-    JsonArray jsarr = jsobj.get_array("message"); // TODO: pluralize
+    JsonArray jsarr = jsobj.get_array("messages");
     while (jsarr.has_more()) {
-        newdream.message.push_back(_(jsarr.next_string().c_str()));
+        newdream.messages.push_back(_(jsarr.next_string().c_str()));
     }
 
     dreams.push_back(newdream);

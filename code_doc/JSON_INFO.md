@@ -44,15 +44,15 @@
 ```
 ###DREAMS
 ```C++
-"message"		:	[                // List of potential dreams
-	"You have a strange dream about birds.",
-	"Your dreams give you a strange feathered feeling."
-	],
-"category"		:	"MUTCAT_BIRD",   // Mutation category needed to dream
-"strength"		:	1                // Mutation category strength required
-                                          1 = 20 - 34
-                                          2 = 35 - 49
-                                          3 = 50+
+"messages" : [                // List of potential dreams
+    "You have a strange dream about birds.",
+    "Your dreams give you a strange feathered feeling."
+],
+"category" : "MUTCAT_BIRD",   // Mutation category needed to dream
+"strength" : 1                // Mutation category strength required
+                                     1 = 20 - 34
+                                     2 = 35 - 49
+                                     3 = 50+
 ```
 ###ITEM GROUPS
 ```C++

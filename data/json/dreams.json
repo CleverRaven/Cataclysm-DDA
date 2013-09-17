@@ -1,7 +1,7 @@
 [
     {
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about lizards.",
             "Your dreams give you a strange scaly feeling."
             ],
@@ -9,7 +9,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about birds.",
             "Your dreams give you a strange feathered feeling."
             ],
@@ -17,7 +17,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about fish.",
             "Your dreams give you a strange wet, scaly feeling."
             ],
@@ -25,7 +25,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about animals.",
             "Your dreams give you a strange furry feeling."
             ],
@@ -33,7 +33,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about cattle.",
             "Your dreams give you a strange content, furry feeling."
             ],
@@ -41,7 +41,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about insects.",
             "Your dreams give you a strange chitinous feeling."
             ],
@@ -49,7 +49,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about plants.",
             "Your dreams give you a strange plantlike feeling."
             ],
@@ -57,7 +57,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about slime.",
             "Your dreams give you a strange slimy feeling."
             ],
@@ -65,7 +65,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about living in a cave.",
             "Your dreams give a strange reclusive feeling."
             ],
@@ -73,7 +73,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about sea creatures.",
             "Your dreams give you a strange wet feeling."
             ],
@@ -81,7 +81,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about spiders.",
             "Your dreams give you a strange webbed feeling."
             ],
@@ -89,7 +89,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream about rats.",
             "Your dreams give you a strange fuzzy feeling."
             ],
@@ -97,7 +97,7 @@
         "strength" : 1
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a disturbing dream of bathing in the sun on a rock.",
             "While dreaming, you see a distinctively lizard-like reflection of yourself."
             ],
@@ -105,7 +105,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have strange dreams of soaring through the sky.",
             "In a dream, you see a curiously birdlike reflection of yourself."
             ],
@@ -113,7 +113,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You dream of swimming in the open ocean",
             "In your dream, you see a strangely fishlike image of yourself."
             ],
@@ -121,7 +121,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a vivid dream of hunting in the woods.",
             "Whilst dreaming, you see a disturbingly bestial version of yourself."
             ],
@@ -129,7 +129,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You dream of grazing in an open field.",
             "In a dream you catch a glimpse of a strangely cattle-like image of yourself."
             ],
@@ -137,7 +137,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a dream of working in a hive.",
             "While dreaming you look into a mirror and see a frighteningly insectoid reflection."
             ],
@@ -145,7 +145,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a confusing dream of growing in a garden.",
             "You are confused by a plantlike image of yourself in a dream."
             ],
@@ -153,7 +153,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream of living in sludge.",
             "In your dream you see an odd, slimy reflection of yourself."
             ],
@@ -161,7 +161,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You dream of living deep inside a dark cave.",
             "You dream of being a primitive cave dweller."
             ],
@@ -169,7 +169,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You dream of living on the ocean floor.",
             "While dreaming, a reflection of yourself appears almost like an octopus."
             ],
@@ -177,7 +177,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a strange dream of spinning webs",
             "In your dream you see a very spiderlike version of yourself."
             ],
@@ -185,7 +185,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You vividly dream of living in the sewers.",
             "In your dream you see a group of rats that look almost like yourself."
             ],
@@ -193,7 +193,7 @@
         "strength" : 2
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You are terrified by a dream of becoming a lizard hybrid.",
             "You have a disturbingly lifelike dream of living as a lizard."
             ],
@@ -201,7 +201,7 @@
         "strength" : 3
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a realistic dream of flying south with your flock for the winter.",
             "You are disturbed when your birdlike dreams are more lifelike than reality."
             ],
@@ -209,7 +209,7 @@
         "strength" : 3
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a disturbing dream of swimming with a school of fish.",
             "When you wake up you panic about drowning from being out of water."
             ],
@@ -217,7 +217,7 @@
         "strength" : 3
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You vividly dream of running with your pack, hunting a wild animal.",
             "A terrifyingly real dream has you killing game with your bare teeth."
             ],
@@ -225,7 +225,7 @@
         "strength" : 3
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You terrifyingly dream of being led to a slaughterhouse by a farmer.",
             "You find it hard to wake from a vivid dream of grazing on a farm."
             ],
@@ -233,7 +233,7 @@
         "strength" : 3
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You are terrified by a dream of serving the hive queen mindlessly.",
             "Your disturbingly lifelike dream has you pollinating plants."
             ],
@@ -241,7 +241,7 @@
         "strength" : 3
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You have a confusing and scary dream of becoming a plant.",
             "The transition from your lifelike dreams of living as a plant to reality shocks you."
             ],
@@ -249,7 +249,7 @@
         "strength" : 3
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "Your vivid dream of living as a slime blob frightens you.",
             "You find it hard to control your limbs after dreaming of amorphous blob life."
             ],
@@ -257,7 +257,7 @@
         "strength" : 3
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "Your dream of living in the dark for years is almost real.",
             "You are frightened of the outside after your vivid dream of cave life."
             ],
@@ -265,7 +265,7 @@
         "strength" : 3
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "Your dreams of living on the ocean floor seem more lifelike than reality.",
             "You dream of living as a terrifying octopus mutant."
             ],
@@ -273,7 +273,7 @@
         "strength" : 3
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You vividly dream of living in a web and consuming insects.",
             "Your dreams of fully turning into a spider frighten you."
             ],
@@ -281,7 +281,7 @@
         "strength" : 3
     },{
         "type" : "dream",
-        "message" : [
+        "messages" : [
             "You scream in fear while you dream of being chased by a cat",
             "Your lifelike dreams have you scavenging food with a pack of rats."
             ],

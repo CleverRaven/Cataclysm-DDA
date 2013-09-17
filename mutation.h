@@ -18,9 +18,9 @@ typedef std::pair<unsigned long, tripoint> mutation_wet;
 
 struct dream
 {
-    std::vector<std::string> message;			// The messages that the dream will give
-    std::string category;	// The category that will trigger the dream
-    int strength;					// The category strength required for the dream
+    std::vector<std::string> messages; // The messages that the dream will give
+    std::string category; // The category that will trigger the dream
+    int strength; // The category strength required for the dream
 
     dream() {
         category = "";
