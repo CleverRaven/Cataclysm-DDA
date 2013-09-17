@@ -4830,6 +4830,49 @@
 },
 
 {
+  "result": "fruit_pancakes",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
+      [ "syrup", 1 ]
+    ],
+    [
+      [ "cooking oil", 1 ]
+    ],
+    [
+      [ "strawberries", 1 ],
+      [ "jam_strawberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "jam_blueberries", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "pie",
   "category": "CC_FOOD",
   "skill_used": "cooking",
