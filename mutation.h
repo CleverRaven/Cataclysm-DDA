@@ -3,9 +3,18 @@
 
 #include "pldata.h"
 #include "json.h"
+#include "enums.h" // tripoint
 
 #include <vector>
 #include <map>
+
+struct dream;
+struct mutation_branch;
+
+extern std::vector<dream> dreams;
+extern std::map<std::string, std::vector<std::string> > mutations_category;
+extern std::map<std::string, mutation_branch> mutation_data;
+typedef std::pair<unsigned long, tripoint> mutation_wet;
 
 struct dream
 {
@@ -18,10 +27,6 @@ struct dream
         strength = 0;
     }
 };
-
-extern std::vector<dream> dreams;
-extern std::map<std::string, std::vector<std::string> > mutations_category;
-typedef std::pair<unsigned long, tripoint> mutation_wet;
 
 struct mutation_branch
 {
@@ -36,6 +41,8 @@ struct mutation_branch
     mutation_branch() { valid = false; };
 };
 
+void init_mutation_parts();
+void load_mutation(JsonObject &jsobj);
 void load_dream(JsonObject &jsobj);
 
 #endif

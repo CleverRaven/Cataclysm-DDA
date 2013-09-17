@@ -24,6 +24,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/professions.json");
     ret.push_back("data/json/skills.json");
     ret.push_back("data/json/dreams.json");
+    ret.push_back("data/json/mutations.json");
     return ret;
 }
 
@@ -35,6 +36,7 @@ void load_object(JsonObject &jo)
     else if (type == "profession") { profession::load_profession(jo); }
     else if (type == "skill") { Skill::load_skill(jo); }
     else if (type == "dream") { load_dream(jo); }
+    else if (type == "mutation") { load_mutation(jo); }
     else {
         std::stringstream err;
         err << jo.line_number() << ": ";
@@ -45,6 +47,8 @@ void load_object(JsonObject &jo)
 
 void init_data_structures()
 {
+    mutations_category[""].clear();
+    init_mutation_parts();
 }
 
 void load_json_dir(std::string const &dirname)

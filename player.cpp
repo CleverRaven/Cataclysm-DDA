@@ -3159,8 +3159,8 @@ bool player::has_base_trait(const std::string &flag) const
 
 bool player::has_conflicting_trait(const std::string &flag) const
 {
-    if(g->mutation_data[flag].cancels.size() > 0) {
-        std::vector<std::string> cancels = g->mutation_data[flag].cancels;
+    if(mutation_data[flag].cancels.size() > 0) {
+        std::vector<std::string> cancels = mutation_data[flag].cancels;
 
         for (int i = 0; i < cancels.size(); i++) {
             if ( has_trait(cancels[i]) )
@@ -3197,12 +3197,12 @@ void player::toggle_mutation(const std::string &flag)
 void player::set_cat_level_rec(const std::string &sMut)
 {
     if (!has_base_trait(sMut)) { //Skip base traits
-        for (int i = 0; i < g->mutation_data[sMut].category.size(); i++) {
-            mutation_category_level[g->mutation_data[sMut].category[i]] += 8;
+        for (int i = 0; i < mutation_data[sMut].category.size(); i++) {
+            mutation_category_level[mutation_data[sMut].category[i]] += 8;
         }
 
-        for (int i = 0; i < g->mutation_data[sMut].prereqs.size(); i++) {
-            set_cat_level_rec(g->mutation_data[sMut].prereqs[i]);
+        for (int i = 0; i < mutation_data[sMut].prereqs.size(); i++) {
+            set_cat_level_rec(mutation_data[sMut].prereqs[i]);
         }
     }
 }
@@ -4971,11 +4971,11 @@ void player::drench_mut_calc()
         good = 0;
 
         for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-            for (int i = 0; i < g->mutation_data[*iter].protection.size(); i++) {
-                if (g->mutation_data[*iter].protection[i].first == it->first) {
-                    ignored += g->mutation_data[*iter].protection[i].second.x;
-                    neutral += g->mutation_data[*iter].protection[i].second.y;
-                    good += g->mutation_data[*iter].protection[i].second.z;
+            for (int i = 0; i < mutation_data[*iter].protection.size(); i++) {
+                if (mutation_data[*iter].protection[i].first == it->first) {
+                    ignored += mutation_data[*iter].protection[i].second.x;
+                    neutral += mutation_data[*iter].protection[i].second.y;
+                    good += mutation_data[*iter].protection[i].second.z;
                 }
             }
         }

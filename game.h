@@ -92,7 +92,6 @@ struct mission_type;
 class map;
 class player;
 class calendar;
-struct mutation_branch;
 
 class game
 {
@@ -282,7 +281,6 @@ class game
 
   std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
-  std::map<std::string, mutation_branch> mutation_data; // Mutation data
   std::map<char, action_id> keymap;
   std::map<char, action_id> default_keymap;
 
@@ -395,8 +393,6 @@ void load_artifacts(); // Load artifact data
   void init_recipes() throw (std::string);      // Initializes crafting recipes
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
-  void init_traits_mutations();    // Initializes mutation "tech tree"
-  void init_mutation_parts(); // Initializes mutation body part data
   void init_vehicle_parts();       // Initializes vehicle part types
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters

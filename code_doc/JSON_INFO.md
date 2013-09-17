@@ -183,15 +183,16 @@
 "id": "LIGHTEATER",  // Unique ID
 "name": "Optimist",  // In-game name displayed
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
-"visibility": 0,     // Visibility of the trait for purposes of NPC interaction
-"ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction
+"visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
+"ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
 "description": "Nothing gets you down!" // In-game description
-"starting_trait": true, // Can be selected at character creation
-"valid": false,      // Can be mutated ingame
+"starting_trait": true, // Can be selected at character creation (default: false)
+"valid": false,      // Can be mutated ingame (default: true)
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 "prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
 "cancels": ["ROT1", "ROT2", "ROT3"], // Cancels these mutations when mutating
 "changes_to": ["FASTHEALER2"], // Can change into these mutations when mutating further
+"leads_to": [], // Mutations that add to this one
 "wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 ```
