@@ -6,21 +6,6 @@
 
 #include <vector>
 #include <string>
-#include <sstream>
-
-#include <stdlib.h>
-#include <fstream>
-
-// FILE I/O
-#include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
-#else
-#include <dirent.h>
-#endif
-
-
 
 enum mod_type
 {
@@ -67,6 +52,7 @@ class mod_factory
         virtual ~mod_factory();
 
         void refresh_mod_list();
+        void show_mod_layering_ui();
 
         std::vector<MOD_INFORMATION*> mods;
     protected:

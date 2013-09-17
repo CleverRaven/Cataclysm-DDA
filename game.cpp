@@ -53,6 +53,8 @@
 #define snprintf _snprintf_s
 #endif
 
+#include "mod_factory.h"
+
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
@@ -78,6 +80,8 @@ game::game() :
  gamemode(NULL)
 {
  dout() << "Game initialized.";
+mod_factory mfac;
+mfac.refresh_mod_list();
 
  try {
  if(!json_good())

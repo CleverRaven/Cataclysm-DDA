@@ -1,5 +1,21 @@
 #include "mod_factory.h"
 
+// these aren't used for anything outside of this file specifically, so no need for them to be inside the header
+#include <sstream>
+
+#include <stdlib.h>
+#include <fstream>
+
+// FILE I/O
+#include <sys/stat.h>
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
+#else
+#include <dirent.h>
+#endif
+
+
 mod_factory::mod_factory()
 {
     //ctor
@@ -32,12 +48,12 @@ void mod_factory::refresh_mod_list()
     // try to load cores
     if (!load_mods_from(data_folder + core_folder))
     {
-
+        // there are no core mods for some reason?
     }
     // try to load supplementary mods
     if (!load_mods_from(data_folder + mods_folder))
     {
-
+        // there are no supplemental mods?
     }
     // for debuggery purposes, print to debug log all of the mods found!
     print_debug_mods();
@@ -213,4 +229,36 @@ void mod_factory::print_debug_mods()
 
         DebugLog() << debugstring.str();
     }
+}
+
+// needs to be drawn out for 80x25 screen including border
+void mod_factory::show_mod_layering_ui()
+{
+    /* -- SCREEN at 80x25
+    ********************************************************************************
+    *                                                                              *
+    ********************************************************************************
+    *            AVAILABLE MODS           *****           SELECTED MODS            *
+    ********************************************************************************
+    * (MOD TYPE)[MOD NAME]                *ADD*                                    *
+    *                                     *[+]*                                    *
+    * (MOD TYPE)[MOD NAME]                *   *                                    *
+    *                                     *[<]*                                    *
+    *                                     *   *                                    *
+    *                                     *REM*                                    *
+    *                                     *[-]*                                    *
+    *                                     *****                                    *
+    *                                     *MOV*                                    *
+    *                                     *[+]*                                    *
+    *                                     *---*                                    *
+    *                                     *[-]*                                    *
+    *                                     *****                                    *
+    *                                     *[?]*                                    *
+    *                                     *[>]*                                    *
+    ********************************************************************************
+    * MOD DESCRIPTION SECTION                                                      *
+    *                                                                              *
+    *                                                                              *
+    ********************************************************************************
+    */
 }
