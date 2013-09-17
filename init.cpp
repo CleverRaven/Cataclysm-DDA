@@ -30,17 +30,12 @@ std::vector<std::string> listfiles(std::string const &dirname)
 void load_object(JsonObject &jo)
 {
     std::string type = jo.get_string("type");
-    if (type == "material") {
-        material_type::load_material(jo);
-    } else if (type == "bionic") {
-        load_bionic(jo);
-    } else if (type == "profession") {
-        profession::load_profession(jo);
-    } else if (type == "skill") {
-        Skill::load_skill(jo);
-    } else if (type == "dream") {
-        load_dream(jo);
-    } else {
+    if (type == "material") { material_type::load_material(jo);}
+    else if (type == "bionic") { load_bionic(jo); }
+    else if (type == "profession") { profession::load_profession(jo); }
+    else if (type == "skill") { Skill::load_skill(jo); }
+    else if (type == "dream") { load_dream(jo); }
+    else {
         std::stringstream err;
         err << jo.line_number() << ": ";
         err << "unrecognized JSON object, type: \"" << type << "\"";
