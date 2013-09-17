@@ -223,7 +223,7 @@ void dis_msg(game *g, dis_type type_string) {
         break;
     case DI_INFECTED:
         g->add_msg(_("Your bite wound feels infected"));
-        g->u.add_memorial_log(_("Contracted the infection."));
+        g->u.add_memorial_log(_("Contracted an infection."));
         break;
     case DI_LIGHTSNARE:
         g->add_msg(_("You are snared."));
@@ -257,10 +257,10 @@ void dis_remove_memorial(game* g, dis_type type_string) {
       g->u.add_memorial_log(_("Dermatik eggs hatched."));
       break;
     case DI_BITE:
-      g->u.add_memorial_log(_("Cleaned the bite wound."));
+      g->u.add_memorial_log(_("Recoverd from a bite wound."));
       break;
     case DI_INFECTED:
-      g->u.add_memorial_log(_("Sterilized the infection... this time."));
+      g->u.add_memorial_log(_("Recovered from an infection... this time."));
       break;
   }
 
