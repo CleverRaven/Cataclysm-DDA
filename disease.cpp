@@ -1524,12 +1524,66 @@ std::string dis_name(disease dis)
         case 2: return _("Viper Strike Unlocked!");
         default: return "Viper combo bug. (in disease.cpp:dis_name)";}
     case DI_BITE:
-        if (dis.duration > 3000) return _("Bite Wound");
-        else return _("Painful Bite Wound");
+    {
+        std::string status = "";
+        if (dis.duration > 2401) {status = _("Bite - ");
+        } else { status = _("Painful Bite - "); 
+        }
+        switch (dis.bp) {
+            case bp_head:
+                status += _("Head");
+                break;
+            case bp_torso:
+                status += _("Torso");
+                break;
+            case bp_arms:
+                if (dis.side == 0) {
+                    status += _("Left Arm");
+                } else if (dis.side == 1) {
+                    status += _("Right Arm");
+                }
+                break;
+            case bp_legs:
+                if (dis.side == 0) {
+                    status += _("Left Leg");
+                } else if (dis.side == 1) {
+                    status += _("Right Leg");
+                }
+                break;
+        }
+        return status;
+    }
     case DI_INFECTED:
-        if (dis.duration > 10800) return _("Infected Wound");
-        if (dis.duration > 7200) return _("Painful Infected Wound");
-        else return _("Pus Filled Wound");
+    {
+        std::string status = "";
+        if (dis.duration > 8401) {status = _("Infected - ");
+        } else if (dis.duration > 3601) {status = _("Badly Infected - ");
+        } else {status = _("Pus Filled - ");
+        }
+        switch (dis.bp) {
+            case bp_head:
+                status += _("Head");
+                break;
+            case bp_torso:
+                status += _("Torso");
+                break;
+            case bp_arms:
+                if (dis.side == 0) {
+                    status += _("Left Arm");
+                } else if (dis.side == 1) {
+                    status += _("Right Arm");
+                }
+                break;
+            case bp_legs:
+                if (dis.side == 0) {
+                    status += _("Left Leg");
+                } else if (dis.side == 1) {
+                    status += _("Right Leg");
+                }
+                break;
+        }
+        return status;
+    }
     case DI_RECOVER: return _("Recovering From Infection");
 
     default: return "";
@@ -2194,7 +2248,7 @@ void handle_bite_wound(game* g, player& p, disease& dis) {
         p.dex_cur-= 1;
     } else {
         // Infection starts
-        p.add_disease("infected", 14401, dis.bp, dis.side); // 1 day of timer + 1 tick
+        p.add_disease("infected", 14401, 1, 1, dis.bp, dis.side); // 1 day of timer + 1 tick
         p.rem_disease("bite");
     }
 }
@@ -2323,8 +2377,7 @@ void handle_recovery(game* g, player& p, disease& dis) {
             g->add_msg_if_player(&p,_("You wake up."));
             }
             g->add_msg_if_player(&p,
-                _("You feel feverish and nauseous, your %s wound has begun to turn green."),
-                  body_part_name(dis.bp, dis.side).c_str());
+                _("You feel feverish and nauseous."));
             p.vomit(g);
             if(p.pain < 40) {
                 p.pain++;
@@ -2338,8 +2391,7 @@ void handle_recovery(game* g, player& p, disease& dis) {
             p.rem_disease("sleep");
             g->add_msg_if_player(&p,_("You wake up."));
             }
-            g->add_msg_if_player(&p,_("Your %s wound is incredibly painful."),
-                                 body_part_name(dis.bp, dis.side).c_str());
+            g->add_msg_if_player(&p,_("Your healing wound is incredibly painful."));
             if(p.pain < 24) {
                 p.pain++;
             }
@@ -2352,8 +2404,7 @@ void handle_recovery(game* g, player& p, disease& dis) {
                 p.rem_disease("sleep");
                 g->add_msg_if_player(&p,_("You wake up."));
             }
-            g->add_msg_if_player(&p,_("Your %s wound feels swollen and painful."),
-                                 body_part_name(dis.bp, dis.side).c_str());
+            g->add_msg_if_player(&p,_("Your healing wound feels swollen and painful."));
             if(p.pain < 8) {
                 p.pain++;
             }
