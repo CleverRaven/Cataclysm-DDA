@@ -1220,73 +1220,11 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_INFECTED:
-            p.dex_cur-= 1;
-            if (dis.duration > 10800) {
-                // Infection Symptoms 6 hours into infection
-                if (one_in(300)) {
-                    if (p.has_disease("sleep")) {
-                    p.rem_disease("sleep");
-                    g->add_msg_if_player(&p,_("You wake up."));
-                    }
-                    g->add_msg_if_player(&p,"Your infected wound is incredibly painful.");
-                    if(p.pain < 40)
-                        p.pain++;
-                }
-                p.str_cur-= 1;
-                p.dex_cur-= 1;
-            } else if (dis.duration > 7200) {
-                //Infection Symptoms 12 hours into infection
-                if (one_in(100)) {
-                    if (p.has_disease("sleep")) {
-                    p.rem_disease("sleep");
-                    g->add_msg_if_player(&p,_("You wake up."));
-                    }
-                    g->add_msg_if_player(&p,
-                        _("You feel feverish and nauseous, your wound has begun to turn green."));
-                    p.vomit(g);
-                    if(p.pain < 60)
-                        p.pain++;
-                }
-                p.str_cur-= 2;
-                p.dex_cur-= 2;
-            } else if (dis.duration > 3600) {
-                //Infection Symptoms 18 hours into infection
-                if (one_in(100)) {
-                    if (p.has_disease("sleep")) {
-                        p.rem_disease("sleep");
-                        g->add_msg_if_player(&p,_("You wake up."));
-                        g->add_msg_if_player(&p,
-                                _("You feel terribly weak, standing up is nearly impossible."));
-                    } else {
-                        g->add_msg_if_player(&p,_("You can barely remain standing."));
-                    }
-                    p.vomit(g);
-                    if(p.pain < 100)
-                    {
-                        p.pain++;
-                    }
-                }
-                p.str_cur-= 2;
-                p.dex_cur-= 2;
-                if(one_in(10)) {
-                    if (p.has_disease("sleep"))
-                    p.rem_disease("sleep");
-                    g->add_msg(_("You pass out."));
-                    p.add_disease("sleep", 60);
-                }
-            } else {
-                // You die. 24 hours after infection Total time, 30 hours including bite.
-                if (p.has_disease("sleep"))
-                    p.rem_disease("sleep");
-                g->add_msg(_("You succumb to the infection."));
-                g->u.add_memorial_log(_("Succumbed to the infection."));
-                p.hurtall(500);
-            }
+            handle_infected_wound(g, p, dis);
             break;
 
         case DI_RECOVER:
-            p.str_cur-= 1;
-            p.dex_cur-= 1;
+            handle_recovery(g, p, dis);
             break;
     }
 }
@@ -2214,29 +2152,213 @@ void handle_alcohol(game* g, player& p, disease& dis) {
 }
 
 void handle_bite_wound(game* g, player& p, disease& dis) {
-    //3600 (6-hour) lifespan
-    if (dis.duration > 2400) {
-        // First symptoms for 2 hours
-        if (one_in(300)) {
-            g->add_msg_if_player(&p,_("Your bite wound really hurts."));
+    // Recovery chance
+    if(int(g->turn) % 10 == 1) {
+        int recover_factor = 100;
+        if (p.has_disease("recover")) {
+            recover_factor -= std::min(p.disease_level("recover") / 720, 100);
         }
-    } else if (dis.duration > 1200) {
-        //Pain at 4 hours in
+        recover_factor += p.health; // Health still helps if factor is zero
+        recover_factor = std::max(recover_factor, 0); // but can't hurt
+
+        if (x_in_y(recover_factor, 108000)) {
+            g->add_msg_if_player(&p,_("Your %s wound begins to feel better."),
+                                 body_part_name(dis.bp, dis.side).c_str());
+            if ((3601 - dis.duration) > 2400) { //No recovery time threshold
+                p.add_disease("recover", 2 * (3601 - dis.duration) - 4800);
+            }
+            p.rem_disease("bite", dis.bp, dis.side);
+        }
+    }
+
+    // 3600 (6-hour) lifespan + 1 "tick" for conversion
+    if (dis.duration > 2401) {
+        // No real symptoms for 2 hours
+        if (one_in(300)) {
+            g->add_msg_if_player(&p,_("Your %s wound really hurts."),
+                                 body_part_name(dis.bp, dis.side).c_str());
+        }
+    } else if (dis.duration > 1) {
+        // Then some pain for 4 hours
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
                 p.rem_disease("sleep");
                 g->add_msg_if_player(&p,_("You wake up."));
             }
-            g->add_msg_if_player(&p,_("Your bite wound feels swollen and painful."));
-            if(p.pain < 20) {
+            g->add_msg_if_player(&p,_("Your %s wound feels swollen and painful."),
+                                 body_part_name(dis.bp, dis.side).c_str());
+            if(p.pain < 10) {
                 p.pain++;
             }
-    }
-    p.dex_cur-= 1;
+        }
+        p.dex_cur-= 1;
     } else {
         // Infection starts
+        p.add_disease("infected", 14401, dis.bp, dis.side); // 1 day of timer + 1 tick
         p.rem_disease("bite");
-        p.add_disease("infected", 14400); // 1 day of timer
+    }
+}
+
+void handle_infected_wound(game* g, player& p, disease& dis) {
+    // Recovery chance
+    if(int(g->turn) % 10 == 1) {
+        int recover_factor = 100;
+        if (p.has_disease("recover")) {
+            recover_factor -= std::min(p.disease_level("recover") / 720, 100);
+        }
+        recover_factor += p.health; // Health still helps if factor is zero
+        recover_factor = std::max(recover_factor, 0); // but can't hurts
+
+        if(x_in_y(100 + p.health, 864000)) {
+            g->add_msg_if_player(&p,_("Your %s wound begins to feel better."),
+                                 body_part_name(dis.bp, dis.side).c_str());
+            if (dis.duration > 8401) {
+                p.add_disease("recover", 3 * (14401 - dis.duration + 3600) - 4800);
+            } else {
+                p.add_disease("recover", 4 * (14401 - dis.duration + 3600) - 4800);
+            }
+            p.rem_disease("infected", dis.bp, dis.side);
+        }
+    }
+
+    if (dis.duration > 8401) {
+        // 10 hours bad pain
+        if (one_in(100)) {
+            if (p.has_disease("sleep")) {
+            p.rem_disease("sleep");
+            g->add_msg_if_player(&p,_("You wake up."));
+            }
+            g->add_msg_if_player(&p,_("Your %s wound is incredibly painful."),
+                                 body_part_name(dis.bp, dis.side).c_str());
+            if(p.pain < 30) {
+                p.pain++;
+            }
+        }
+        p.str_cur -= 1;
+        p.dex_cur -= 1;
+    } else if (dis.duration > 3601) {
+        // 8 hours of vomiting + pain
+        if (one_in(100)) {
+            if (p.has_disease("sleep")) {
+            p.rem_disease("sleep");
+            g->add_msg_if_player(&p,_("You wake up."));
+            }
+            g->add_msg_if_player(&p,
+                _("You feel feverish and nauseous, your %s wound has begun to turn green."),
+                  body_part_name(dis.bp, dis.side).c_str());
+            p.vomit(g);
+            if(p.pain < 50) {
+                p.pain++;
+            }
+        }
+        p.str_cur -= 2;
+        p.dex_cur -= 2;
+    } else if (dis.duration > 1) {
+        // 6 hours extreme symptoms
+        if (one_in(100)) {
+            if (p.has_disease("sleep")) {
+                p.rem_disease("sleep");
+                g->add_msg_if_player(&p,_("You wake up."));
+                g->add_msg_if_player(&p,
+                        _("You feel terribly weak, standing up is nearly impossible."));
+            } else {
+                g->add_msg_if_player(&p,_("You can barely remain standing."));
+            }
+            p.vomit(g);
+            if(p.pain < 100)
+            {
+                p.pain++;
+            }
+        }
+        p.str_cur -= 3;
+        p.dex_cur -= 3;
+        if(one_in(100)) {
+            if (p.has_disease("sleep")) {
+                p.rem_disease("sleep");
+                g->add_msg(_("You pass out."));
+            }
+            p.add_disease("sleep", 60);
+        }
+    } else {
+        // Death. 24 hours after infection. Total time, 30 hours including bite.
+        if (p.has_disease("sleep")) {
+            p.rem_disease("sleep");
+        }
+        g->add_msg(_("You succumb to the infection."));
+        g->u.add_memorial_log(_("Succumbed to the infection."));
+        p.hurtall(500);
+    }
+}
+
+void handle_recovery(game* g, player& p, disease& dis) {
+    if (dis.duration > 52800) {
+        if (one_in(100)) {
+            if (p.has_disease("sleep")) {
+                p.rem_disease("sleep");
+                g->add_msg_if_player(&p,_("You wake up."));
+                g->add_msg_if_player(&p,
+                        _("You feel terribly weak, standing up is nearly impossible."));
+            } else {
+                g->add_msg_if_player(&p,_("You can barely remain standing."));
+            }
+            p.vomit(g);
+            if(p.pain < 80)
+            {
+                p.pain++;
+            }
+        }
+        p.str_cur -= 3;
+        p.dex_cur -= 3;
+        if(one_in(100)) {
+            if (p.has_disease("sleep")) {
+                p.rem_disease("sleep");
+                g->add_msg(_("You pass out."));
+                p.add_disease("sleep", 60);
+            }
+        }
+    } else if (dis.duration > 33600) {
+        if (one_in(100)) {
+            if (p.has_disease("sleep")) {
+            p.rem_disease("sleep");
+            g->add_msg_if_player(&p,_("You wake up."));
+            }
+            g->add_msg_if_player(&p,
+                _("You feel feverish and nauseous, your %s wound has begun to turn green."),
+                  body_part_name(dis.bp, dis.side).c_str());
+            p.vomit(g);
+            if(p.pain < 40) {
+                p.pain++;
+            }
+        }
+        p.str_cur -= 2;
+        p.dex_cur -= 2;
+    } else if (dis.duration > 9600) {
+        if (one_in(100)) {
+            if (p.has_disease("sleep")) {
+            p.rem_disease("sleep");
+            g->add_msg_if_player(&p,_("You wake up."));
+            }
+            g->add_msg_if_player(&p,_("Your %s wound is incredibly painful."),
+                                 body_part_name(dis.bp, dis.side).c_str());
+            if(p.pain < 24) {
+                p.pain++;
+            }
+        }
+        p.str_cur -= 1;
+        p.dex_cur -= 1;
+    } else {
+        if (one_in(100)) {
+            if (p.has_disease("sleep")) {
+                p.rem_disease("sleep");
+                g->add_msg_if_player(&p,_("You wake up."));
+            }
+            g->add_msg_if_player(&p,_("Your %s wound feels swollen and painful."),
+                                 body_part_name(dis.bp, dis.side).c_str());
+            if(p.pain < 8) {
+                p.pain++;
+            }
+        }
+        p.dex_cur-= 1;
     }
 }
 
