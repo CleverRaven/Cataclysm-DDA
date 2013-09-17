@@ -3704,7 +3704,8 @@
     [
       [ "salt", 1 ],
       [ "seasoning_italian", 10 ],
-      [ "seasoning_salt", 10 ]
+      [ "seasoning_salt", 10 ],
+      [ "pepper", 10 ]
     ]
   ]
 },
@@ -3805,7 +3806,8 @@
     [
       [ "salt", 1 ],
       [ "seasoning_italian", 10 ],
-      [ "seasoning_salt", 10 ]
+      [ "seasoning_salt", 10 ],
+      [ "pepper", 10 ]
     ]
   ]
 },
@@ -4484,7 +4486,8 @@
     [
       [ "salt_water", 1 ],
       [ "salt", 1 ],
-      [ "seasoning_salt", 10 ]
+      [ "seasoning_salt", 5 ],
+      [ "pepper", 10 ]
     ],
     [
       [ "meat", 1 ]
@@ -4513,7 +4516,8 @@
     [
       [ "salt_water", 1 ],
       [ "salt", 1 ],
-      [ "seasoning_salt", 10 ]
+      [ "seasoning_salt", 5 ],
+      [ "pepper", 10 ]
     ],
     [
       [ "human_flesh", 1 ]
@@ -4574,7 +4578,8 @@
       [ "veggy", 1 ],
       [ "veggy_wild", 1 ],
       [ "seasoning_italian", 10 ],
-      [ "seasoning_salt", 10 ]
+      [ "seasoning_salt", 10 ],
+      [ "pepper", 15 ]
     ]
   ]
 },
@@ -5124,6 +5129,42 @@
       [ "jam_strawberries", 1 ],
       [ "blueberries", 1 ],
       [ "jam_blueberries", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "seasoning_salt",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt", 2 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "honeycomb", 1 ]
+    ],
+    [
+      [ "seasoning_italian", 20 ],
+      [ "pepper", 20 ]
     ]
   ]
 },
@@ -5701,7 +5742,9 @@
     ],
     [
       [ "can_sardine", 1 ],
-      [ "can_tuna", 1 ]
+      [ "can_tuna", 1 ],
+      [ "can_salmon", 1 ],
+      [ "can_herring", 1 ]
     ],
     [
       [ "ammonia", 1 ]
@@ -12212,7 +12255,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "seasoning_salt", 10 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "seasoning_salt", 15]
     ]
   ]
 },
@@ -13735,7 +13778,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "seasoning_salt", 10 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "seasoning_salt", 15 ]
     ]
   ]
 },
@@ -13767,7 +13810,7 @@
       [ "tomato", 1 ]
     ],
     [
-      [ "salt", 1 ], [ "salt_water", 1 ], [ "seasoning_salt", 10 ]
+      [ "salt", 1 ], [ "salt_water", 1 ], [ "seasoning_salt", 5 ]
     ]
   ]
 },
