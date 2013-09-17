@@ -657,11 +657,11 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         }
                         if (bphit == bp_mouth || bphit == bp_eyes ||
                             bphit == bp_head) {
-                            p.add_disease("bleed", 60, 1, 3, bp_head, -1);
+                            p.add_disease("bleed", 60, 1, 3, bp_head, -1, true);
                         } else if (bphit == bp_torso) {
-                            p.add_disease("bleed", 60, 1, 3, bp_torso, -1);
+                            p.add_disease("bleed", 60, 1, 3, bp_torso, -1, true);
                         } else {
-                            p.add_disease("bleed", 60, 1, 3, bphit, side);
+                            p.add_disease("bleed", 60, 1, 3, bphit, side, true);
                         }
                     }
 

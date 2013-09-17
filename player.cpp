@@ -4160,10 +4160,21 @@ void player::infect(dis_type type, body_part vector, int strength,
 
 void player::add_disease(dis_type type, int duration,
                          int intensity, int max_intensity,
-                         body_part part, int side, bool additive)
+                         body_part part, int side, bool main_parts_only, 
+                         bool additive)
 {
     if (duration == 0) {
         return;
+    }
+
+    if (main_parts_only) {
+        if (part == bp_eyes || part == bp_mouth) {
+            part = bp_head;
+        } else if (part == bp_hands) {
+            part = bp_arms;
+        } else if (part == bp_feet) {
+            part = bp_legs;
+        }
     }
 
     bool found = false;

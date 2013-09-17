@@ -215,7 +215,7 @@ public:
 // -1 indicates that side of body is irrelevant
  void add_disease(dis_type type, int duration, int intensity = 0,
                   int max_intensity = -1, body_part part = num_bp,
-                  int side = -1, bool additive = true);
+                  int side = -1, bool main_parts_only = false, bool additive = true);
  void rem_disease(dis_type type, body_part part = num_bp, int side = -1);
  bool has_disease(dis_type type, body_part part = num_bp, int side = -1) const;
  int  disease_level(dis_type type, body_part part = num_bp, int side = -1);
