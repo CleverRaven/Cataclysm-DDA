@@ -5021,6 +5021,10 @@
     ],
     [
       [ "cooking oil", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
     ]
   ]
 },
@@ -5058,6 +5062,10 @@
     ],
     [
       [ "cooking oil", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
     ],
     [
       [ "strawberries", 1 ],
@@ -5142,8 +5150,7 @@
     [
       [ "sauce_pesto", 1 ],
       [ "sauce_red", 1 ],
-      [ "seasoning_italian", 5 ],
-      [ "seasoning_salt", 5 ]
+      [ "seasoning_italian", 5 ]
     ],
     [
       [ "water", 1 ],
@@ -5183,8 +5190,7 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "seasoning_italian", 5 ],
-      [ "seasoning_salt", 5 ]
+      [ "seasoning_italian", 5 ]
     ],
     [
       [ "water", 1 ],
@@ -5235,7 +5241,6 @@
     ],
     [
       [ "seasoning_italian", 5 ],
-      [ "seasoning_salt", 5 ],
       [ "sauce_red", 1 ],
       [ "tomato", 2 ]
     ],
@@ -5284,7 +5289,6 @@
     ],
     [
       [ "seasoning_italian", 5 ],
-      [ "seasoning_salt", 5 ],
       [ "sauce_pesto", 1 ]
     ],
     [
