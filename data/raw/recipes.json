@@ -4990,7 +4990,9 @@
       [ "strawberries", 1 ],
       [ "jam_strawberries", 1 ],
       [ "blueberries", 1 ],
-      [ "jam_blueberries", 1 ]
+      [ "jam_blueberries", 1 ],
+      [ "banana", 1 ],
+      [ "apple", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -5172,7 +5174,7 @@
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 1,
-  "time": 12000,
+  "time": 18000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -5202,7 +5204,9 @@
       [ "strawberries", 1 ],
       [ "blueberries", 1 ],
       [ "orange", 1 ],
-      [ "lemon", 1 ]
+      [ "lemon", 1 ],
+      [ "banana", 1 ],
+      [ "apple", 1 ]
     ],
     [
       [ "sugar", 1 ],
@@ -5235,8 +5239,7 @@
   "components": [
     [
       [ "flour", 1 ],
-      [ "oatmeal", 1 ],
-      [ "cornmeal", 1 ]
+      [ "oatmeal", 1 ]
     ],
     [
       [ "sugar", 1 ],
@@ -5244,9 +5247,6 @@
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "honeycomb", 1 ]
-    ],
-    [
-      [ "cooking oil", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -5258,7 +5258,9 @@
       [ "strawberries", 1 ],
       [ "jam_strawberries", 1 ],
       [ "blueberries", 1 ],
-      [ "jam_blueberries", 1 ]
+      [ "jam_blueberries", 1 ],
+      [ "banana", 1 ],
+      [ "apple", 1 ]
     ]
   ]
 },

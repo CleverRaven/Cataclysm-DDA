@@ -2277,7 +2277,7 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 8,
-        "heal" : 1,
+        "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 18,
         "description" : "Dried strips of sugary fruit paste.",
