@@ -213,7 +213,7 @@ matype_id ma_type;
 do {
   int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
                     _("Karate"), _("Judo"), _("Aikido"), _("Tai Chi"),
-                    _("Taekwondo"), NULL);
+                    _("Capoeira"), NULL);
   if (choice == 1)
   ma_type = "style_karate";
   if (choice == 2)
@@ -223,7 +223,7 @@ do {
   if (choice == 4)
   ma_type = "style_tai_chi";
   if (choice == 5)
-  ma_type = "style_taekwondo";
+  ma_type = "style_capoeira";
 } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
 ma_styles.push_back(ma_type);
 style_selected=ma_type;
