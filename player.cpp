@@ -2945,7 +2945,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     }
     if (mode) {
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 2, x, c_red, mode);
+        mvwprintz(weapwin, 3, x, c_red, mode);
     }
 
     wmove(w, sideStyle ? 1 : 2, 0);
