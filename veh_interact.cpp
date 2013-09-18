@@ -33,8 +33,6 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 {
     g = gm;
     veh = v;
-    ex = x;
-    ey = y;
     //        x1      x2
     // y1 ----+------+--
     //        |      |

@@ -49,7 +49,6 @@ private:
 
     vehicle *veh;
     game *g;
-    int ex, ey;
     bool has_wrench;
     bool has_welder;
     bool has_hacksaw;
