@@ -5177,6 +5177,17 @@
   "autolearn": true,
   "tools": [
     [
+      [ "hatchet", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],

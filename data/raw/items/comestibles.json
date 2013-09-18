@@ -2272,7 +2272,7 @@
         "spoils_in" : 0,
         "use_action" : "NONE",
         "stim" : 0,
-        "container" : "null",
+        "container" : "bag_plastic",
         "to_hit" : 0,
         "comestible_type" : "FOOD",
         "symbol" : "%",
