@@ -3523,6 +3523,7 @@
   "tools": [
     [
       [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3621,6 +3622,7 @@
   "tools": [
     [
       [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3643,6 +3645,72 @@
 },
 
 {
+  "result": "meat_smoked",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "char_smoker", 2 ]
+    ],
+    [
+      [ "tongs", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "meat", 3 ]
+    ],
+    [
+      [ "skewer", 3 ]
+    ]
+  ]
+},
+
+{
+  "result": "sausage",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hatchet", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "char_smoker", 2 ]
+    ],
+    [
+      [ "tongs", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 6 ]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_italian", 10 ],
+      [ "seasoning_salt", 10 ],
+      [ "pepper", 10 ]
+    ]
+  ]
+},
+
+{
   "result": "human_cooked",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -3654,6 +3722,7 @@
   "tools": [
     [
       [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3676,6 +3745,74 @@
 },
 
 {
+  "result": "human_smoked",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 3 ]],
+  "tools": [
+    [
+      [ "char_smoker", 2 ]
+    ],
+    [
+      [ "tongs", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "human_flesh", 3 ]
+    ],
+    [
+      [ "skewer", 3 ]
+    ]
+  ]
+},
+
+{
+  "result": "mannwurst",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 4 ]],
+  "tools": [
+    [
+      [ "hatchet", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "char_smoker", 2 ]
+    ],
+    [
+      [ "tongs", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "human_flesh", 6 ]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_italian", 10 ],
+      [ "seasoning_salt", 10 ],
+      [ "pepper", 10 ]
+    ]
+  ]
+},
+
+{
   "result": "dogfood",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -3686,6 +3823,7 @@
   "tools": [
     [
       [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3720,6 +3858,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3752,6 +3891,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3779,6 +3919,7 @@
   "tools": [
     [
       [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3809,6 +3950,7 @@
   "tools": [
     [
       [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
@@ -3831,6 +3973,7 @@
   "tools": [
     [
       [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3861,6 +4004,7 @@
   "tools": [
     [
       [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3888,6 +4032,7 @@
    "tools": [
     [
       [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3911,7 +4056,8 @@
       [ "potato_raw", 1 ]
     ],
     [
-      [ "salt", 1 ]
+      [ "salt", 1 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },
@@ -3927,6 +4073,7 @@
   "tools": [
       [
         [ "hotplate", 2 ],
+        [ "char_smoker", 1 ],
         [ "toolset", 1 ],
         [ "fire", -1 ]
       ],
@@ -3957,7 +4104,8 @@
           [ "popcorn", 1 ]
       ],
       [
-          [ "salt", 1 ]
+          [ "salt", 1 ],
+          [ "seasoning_salt", 10 ] 
       ]
   ]
 },
@@ -3973,6 +4121,7 @@
   "tools": [
     [
       [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4003,6 +4152,7 @@
   "tools": [
     [
       [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4041,6 +4191,7 @@
   "tools": [
     [
       ["hotplate", 2],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -4067,6 +4218,7 @@
   "tools": [
     [
       ["hotplate", 2],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -4093,6 +4245,7 @@
   "tools": [
     [
       ["hotplate", 2],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -4122,6 +4275,7 @@
   "tools": [
     [
       ["hotplate", 2],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -4152,6 +4306,7 @@
   "tools": [
     [
       [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4322,6 +4477,7 @@
   "tools": [
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
@@ -4329,7 +4485,9 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ]
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ],
+      [ "pepper", 10 ]
     ],
     [
       [ "meat", 1 ]
@@ -4349,6 +4507,7 @@
   "tools": [
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
@@ -4356,7 +4515,9 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ]
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ],
+      [ "pepper", 10 ]
     ],
     [
       [ "human_flesh", 1 ]
@@ -4396,6 +4557,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4414,7 +4576,11 @@
       [ "tomato", 1 ],
       [ "zucchini", 1 ],
       [ "veggy", 1 ],
-      [ "veggy_wild", 1 ]
+      [ "veggy_wild", 1 ],
+      [ "seasoning_italian", 15 ],
+      [ "seasoning_salt", 15 ],
+      [ "pepper", 20 ],
+      [ "powder_eggs", 5 ]
     ]
   ]
 },
@@ -4430,6 +4596,7 @@
   "tools": [
     [
       [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4460,6 +4627,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4474,7 +4642,8 @@
     ],
     [
       [ "macaroni_raw", 1 ],
-      [ "potato_raw", 1 ]
+      [ "potato_raw", 1 ],
+      [ "powder_eggs", 5 ]
     ],
     [
       [ "tomato", 2 ],
@@ -4497,6 +4666,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4511,7 +4681,8 @@
     ],
     [
       [ "macaroni_raw", 1 ],
-      [ "potato_raw", 1 ]
+      [ "potato_raw", 1 ],
+      [ "powder_eggs", 5 ]
     ],
     [
       [ "meat", 2 ]
@@ -4530,6 +4701,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4544,7 +4716,11 @@
       [ "broth_bone", 2 ]
     ],
     [
-      [ "meat", 2 ]
+      [ "meat", 2 ],
+      [ "meat_smoked", 2 ],
+      [ "sausage", 1 ],
+      [ "bacon", 2 ],
+      [ "powder_eggs", 15 ]
     ],
     [
       [ "veggy_wild", 2 ],
@@ -4565,6 +4741,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4598,6 +4775,7 @@
   "tools": [
     [
       [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4618,6 +4796,513 @@
 },
 
 {
+  "result": "cornbread",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cornmeal", 3 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ]
+  ]
+},
+
+{
+  "result": "hardtack",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 16 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 2 ]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_salt", 10 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ]
+  ]
+},
+
+{
+  "result": "biscuit",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 2 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ],
+      [ "cooking_oil", 1 ],
+      [ "powder_eggs", 5 ]
+    ]
+  ]
+},
+
+{
+  "result": "johnnycake",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 14000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cooking_oil", 1 ]
+    ],
+    [
+      [ "cornmeal", 2 ],
+      [ "flour", 2 ]
+    ]
+  ]
+},
+
+{
+  "result": "oatmeal_cooked",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oatmeal", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "oatmeal_deluxe",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oatmeal", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "syrup", 1 ],
+      [ "con_milk", 1 ],
+      [ "honeycomb", 1 ],
+      [ "strawberries", 1 ],
+      [ "jam_strawberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "jam_blueberries", 1 ],
+      [ "banana", 1 ],
+      [ "apple", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "scrambled_eggs",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "powder_eggs", 10 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "deluxe_eggs",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "powder_eggs", 10 ]
+    ],
+    [
+      [ "bacon", 1 ],
+      [ "meat_cooked", 1 ],
+      [ "meat_smoked", 1 ],
+      [ "sausage", 1 ],
+      [ "jerky", 3 ],
+      [ "meat_pickled", 1 ],
+      [ "meat_vac", 1 ],
+      [ "meat_canned", 1 ],
+      [ "can_sardine", 1 ],
+      [ "can_tuna", 1 ],
+      [ "can_salmon", 1 ],
+      [ "can_herring", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "pancakes",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ],
+      [ "powder_eggs", 5 ]
+    ],
+    [
+      [ "syrup", 1 ]
+    ],
+    [
+      [ "cooking_oil", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "fruit_pancakes",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ],
+      [ "powder_eggs", 5 ]
+    ],
+    [
+      [ "syrup", 1 ]
+    ],
+    [
+      [ "cooking_oil", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "strawberries", 1 ],
+      [ "jam_strawberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "jam_blueberries", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "fruit_leather",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hatchet", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "strawberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "orange", 1 ],
+      [ "lemon", 1 ],
+      [ "banana", 1 ],
+      [ "apple", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "honeycomb", 1 ],
+      [ "syrup", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "cookies",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 1 ],
+      [ "oatmeal", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "syrup", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ],
+      [ "honeycomb", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "candy", 3 ],
+      [ "chocolate", 1 ],
+      [ "strawberries", 1 ],
+      [ "jam_strawberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "jam_blueberries", 1 ],
+      [ "banana", 1 ],
+      [ "apple", 1 ]
+    ]
+  ]
+},
+
+{
+  "result": "seasoning_salt",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt", 2 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "honeycomb", 1 ]
+    ],
+    [
+      [ "seasoning_italian", 20 ],
+      [ "pepper", 20 ]
+    ]
+  ]
+},
+
+{
   "result": "pie",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -4628,6 +5313,7 @@
   "tools": [
     [
       [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4668,6 +5354,7 @@
   "tools": [
     [
       [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4710,6 +5397,7 @@
   "tools": [
     [
       [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4749,6 +5437,7 @@
   "tools": [
     [
       [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -4800,6 +5489,7 @@
   "tools": [
     [
       [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -5185,7 +5875,9 @@
     ],
     [
       [ "can_sardine", 1 ],
-      [ "can_tuna", 1 ]
+      [ "can_tuna", 1 ],
+      [ "can_salmon", 1 ],
+      [ "can_herring", 1 ]
     ],
     [
       [ "ammonia", 1 ]
@@ -5301,7 +5993,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat_tainted", 3 ]
+      [ "meat_tainted", 3 ],
+      [ "can_chowder", 1 ]
     ],
     [
       [ "ammonia", 1 ]
@@ -9006,6 +9699,7 @@
     [
       [ "fire", -1 ],
       [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ]
     ]
   ],
@@ -10199,6 +10893,7 @@
     ],
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -10244,6 +10939,7 @@
     ],
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -10288,6 +10984,7 @@
     ],
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -10333,6 +11030,7 @@
     ],
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -10959,6 +11657,7 @@
   "tools": [
     [
       ["hotplate", 2],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -11368,6 +12067,7 @@
   "tools": [
     [
       ["hotplate", 5],
+      [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
     ],
@@ -11434,7 +12134,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "hotplate", 5 ], [ "toolset", 1 ], [ "fire", -1 ] ],
+    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
     [ [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ] ]
   ],
   "components": [
@@ -11455,6 +12155,7 @@
   "tools": [
     [
       ["hotplate", 25],
+      [ "char_smoker", 1 ],
       ["toolset", 2],
       ["fire", -1]
     ],
@@ -11659,6 +12360,7 @@
    "tools": [
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -11687,7 +12389,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15]
     ]
   ]
 },
@@ -13184,6 +13886,7 @@
    "tools": [
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -13209,7 +13912,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15 ]
     ]
   ]
 },
@@ -13224,6 +13927,7 @@
    "tools": [
     [
       [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -13240,7 +13944,7 @@
       [ "tomato", 1 ]
     ],
     [
-      [ "salt", 1 ], [ "salt_water", 1 ]
+      [ "salt", 1 ], [ "salt_water", 1 ], [ "seasoning_salt", 5 ]
     ]
   ]
 },
@@ -13516,6 +14220,7 @@
     ],
     [
       [ "hotplate", 20 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
     ],
@@ -13571,6 +14276,7 @@
     ],
     [
       [ "hotplate", 20 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
     ],
@@ -13619,6 +14325,7 @@
     ],
     [
       [ "hotplate", 20 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
     ],
@@ -13784,6 +14491,45 @@
      [ [ "metal_tank", 1 ]
      ],
      [ ["pipe", 3]
+     ]
+  ]
+},
+{
+  "result": "char_smoker",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "cooking", 2 ],
+  "difficulty": 2,
+  "time": 70000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+      [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 5 ],
+      [ "soldering_iron", 50 ]
+      ] ],
+  "components":
+    [
+     [ ["pilot_light", 1] ],
+     [
+     [ "scrap", 4 ]
+     ],
+     [ [ "metal_tank", 1 ]
      ]
   ]
 },
