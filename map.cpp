@@ -563,6 +563,10 @@ bool map::vehproceed(game* g){
     veh->collision( veh_veh_colls, dx, dy, can_move, dmg_1 );
 
     bool veh_veh_coll_flag = false;
+    // Used to calculate the epicenter of the collision.
+    point epicenter1(0, 0);
+    point epicenter2(0, 0);
+
     if(veh_veh_colls.size()) { // we have dynamic crap!
         // effects of colliding with another vehicle:
         // transfers of momentum, skidding,
@@ -652,13 +656,24 @@ bool map::vehproceed(game* g){
                 if (parm2 < 0) {
                     parm2 = tmp_c.target_part;
                 }
+                epicenter1.x += veh->parts[parm1].mount_dx;
+                epicenter1.y += veh->parts[parm1].mount_dy;
                 veh->damage(parm1, dmg1_part, 1);
+
+                epicenter2.x += veh2->parts[parm2].mount_dx;
+                epicenter2.y += veh2->parts[parm2].mount_dy;
                 veh2->damage(parm2, dmg2_part, 1);
             }
         }
+        epicenter1.x /= coll_parts_cnt;
+        epicenter1.y /= coll_parts_cnt;
+        epicenter2.x /= coll_parts_cnt;
+        epicenter2.y /= coll_parts_cnt;
+
 
         if (dmg2_part > 100) {
-            veh2->damage_all(dmg2_part / 20, dmg2_part / 10, 1);// shake veh because of collision
+            // shake veh because of collision
+            veh2->damage_all(dmg2_part / 2, dmg2_part, 1, epicenter2);
         }
 
         dmg_1 += dmg1_part;
@@ -684,12 +699,12 @@ bool map::vehproceed(game* g){
 
     int coll_turn = 0;
     if (dmg_1 > 0) {
-        int vel1_a = veh->velocity/100; //velocity of car after collision
+        int vel1_a = veh->velocity / 100; //velocity of car after collision
         int d_vel = abs(vel1 - vel1_a);
 
         if (dmg_1 > 100) {
             // shake veh because of collision
-            veh->damage_all(dmg_1 / 20, dmg_1 / 10, 1);
+            veh->damage_all(dmg_1 / 2, dmg_1, 1, epicenter1);
         }
         std::vector<int> ppl = veh->boarded_parts();
 

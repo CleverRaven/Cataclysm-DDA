@@ -390,7 +390,7 @@ public:
     int damage (int p, int dmg, int type = 1, bool aimed = true);
 
     // damage all parts (like shake from strong collision), range from dmg1 to dmg2
-    void damage_all (int dmg1, int dmg2, int type = 1);
+    void damage_all (int dmg1, int dmg2, int type, const point &impact);
 
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
