@@ -76,8 +76,6 @@ enum vpart_id
 
 // pure internal parts
     vp_controls,
-	vp_horn,
-	vp_horn_bicycle,
     vp_muffler,
     vp_seatbelt,
     vp_solar_panel,
@@ -96,6 +94,9 @@ enum vpart_id
     vp_hard_plate,
 
     vp_head_light,
+	vp_horn_car,
+	vp_horn_bicycle,
+	vp_horn_big,
 
     num_vparts
 };
