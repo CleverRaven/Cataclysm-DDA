@@ -1199,10 +1199,9 @@ void map::step_in_field(int x, int y, game *g)
             switch (cur->getFieldDensity()) {
                 // Check vs foot protection and agility
                 case 3 : 
-                        g->u.skillLevel("melee") -= 1; 
-                        g->u.skillLevel("dodge") -= 1; // Pick a random direction
+                        // g->u.skillLevel("melee") -= 1; g->u.skillLevel("dodge") -= 1; // Pick a random direction
                 case 2 : 
-                        g->u.skillLevel("melee") -= 1; p.skillLevel("dodge") -= 1;
+                        // g->u.skillLevel("melee") -= 1; p.skillLevel("dodge") -= 1;
                 case 1 : 
                         g->u.moves += 25;
             }
