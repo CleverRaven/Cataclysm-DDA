@@ -1286,7 +1286,6 @@ int game::get_radiante_energy(int posx, int posy)
                     case 4:
                         tile_energy = fire_temperature_level[4]; break;
                 }
-<<<<<<< HEAD
                 felt_tile_energy += exp(0.004) * (tile_energy / (tile_distance * tile_distance));
             }
 
