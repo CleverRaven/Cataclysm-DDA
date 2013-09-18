@@ -10398,7 +10398,7 @@ void game::update_stair_monsters()
        tries++;
       }
       if (tries < 10) {
-       coming_to_stairs[i].mon.setpos(sx, sy);
+       coming_to_stairs[i].mon.setpos(sx, sy, true);
        add_zombie( coming_to_stairs[i].mon );
        if (u_see(sx, sy)) {
         if (m.has_flag(goes_up, sx, sy)) {
