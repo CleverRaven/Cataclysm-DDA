@@ -162,7 +162,7 @@
     "verb_you": "%1$s swing in a wide arc through %4$s",
     "verb_npc": "%1$s swings in a wide arc through %4$s",
 
-    "aoe": "yup",
+    "aoe": "splash",
 
     "quick": true
   },
@@ -173,12 +173,43 @@
     "melee_allowed": true,
     "crit_tec": true,
 
-    "verb_you":"%1$s slam %2$s %3$s against %4$s",
-    "verb_npc":"%1$s slams %2$s %3$s against %4$s",
-
     "stun_dur": 1,
     "knockback_dist": 1,
 
-    "quick": true
+    "verb_you":"%1$s slam %2$s %3$s against %4$s",
+    "verb_npc":"%1$s slams %2$s %3$s against %4$s"
+  },
+  {
+    "id": "RAPID",
+    "name": "Rapid Strike",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+
+    "quick": true,
+
+    "verb_you": "%1$s quickly strike with %2$s %3$s at %4$s",
+    "verb_npc": "%1$s quickly strikes with %2$s %3$s at %4$s"
+  },
+  {
+    "id": "WRAP",
+    "name": "Wrap attack",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+
+    "stun_dur": 2,
+
+    "verb_you": "%1$s use %2$s %3$s to wrap up %4$s",
+    "verb_npc": "%1$s uses %2$s %3$s to wrap up %4$s"
+  },
+  {
+    "id": "SWEEP",
+    "name": "Sweep Attack",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+
+    "down_dur": 2,
+
+    "verb_you": "%1$s use %2$s %3$s to sweep %4$s",
+    "verb_npc": "%1$s uses %2$s %3$s to sweep %4$s"
   }
 ]
