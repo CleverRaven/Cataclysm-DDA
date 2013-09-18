@@ -5946,7 +5946,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat_tainted", 3 ]
+      [ "meat_tainted", 3 ],
+      [ "can_chowder", 1 ]
     ],
     [
       [ "ammonia", 1 ]
