@@ -3118,21 +3118,14 @@
       ["biollante_bud", 1]
     ]
   },
-  { "id":"bugs",
-    "items":[
-      ["chitin_piece", 10]
-    ]
-  },
   { "id":"bees",
     "items":[
-      ["bee_sting", 5],
-      ["chitin_piece", 10]
+      ["bee_sting", 5]
     ]
   },
   { "id":"wasps",
     "items":[
-      ["wasp_sting", 5],
-      ["chitin_piece", 10]
+      ["wasp_sting", 5]
     ]
   },
   { "id":"robots",
