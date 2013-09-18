@@ -3651,7 +3651,7 @@
   "difficulty": 3,
   "time": 12000,
   "reversible": false,
-  "autolearn": false,
+  "autolearn": true,
   "tools": [
     [
       [ "char_smoker", 2 ]
@@ -3677,7 +3677,7 @@
   "difficulty": 4,
   "time": 18000,
   "reversible": false,
-  "autolearn": false,
+  "autolearn": true,
   "tools": [
     [
       [ "hatchet", -1 ],
