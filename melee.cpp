@@ -1102,7 +1102,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   if (mon) {
    z->hurt( shock * rng(1, 3) );
    z->moves -= shock * 180;
-   g->add_msg_player_or_npc( p, _("You shock %s."), _("<npcname> shocks %s."), target.c_str() );
+   g->add_msg_player_or_npc( this, _("You shock %s."), _("<npcname> shocks %s."), target.c_str() );
   } else {
    p->hurt(g, bp_torso, 0, shock * rng(1, 3));
    p->moves -= shock * 80;
@@ -1111,7 +1111,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
 
  if (drain_them) {
   charge_power(rng(0, 2));
-  g->add_msg_player_or_npc( p, _("You drain %s body heat!"), _("<npcname> drains %s body heat!"),
+  g->add_msg_player_or_npc( this, _("You drain %s body heat!"), _("<npcname> drains %s body heat!"),
                             target_possessive.c_str() );
   if (mon) {
    z->moves -= rng(80, 120);
