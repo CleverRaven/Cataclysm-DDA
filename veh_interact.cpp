@@ -323,7 +323,6 @@ void veh_interact::do_install(int reason)
         get_direction (g, dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2)
         {
-            //if(itm.is_var_veh_part() && crafting_inv.has_amount(itm, 2);
             sel_cmd = 'i';
             return;
         }
@@ -1099,8 +1098,6 @@ item consume_vpart_item (game *g, vpart_id vpid)
         g->m.i_rem(x,y,i);
     }
     return candidates[selection].vpart_item;
-    //item ret = candidates[selection].vpart_item;
-    //return ret;
 }
 
 /**
