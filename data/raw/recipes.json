@@ -514,7 +514,7 @@
   "result": "longbow",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [[ "survival", 1 ], [ "archery", 3 ]],
+  "requires_skills": [ "archery", 3 ],
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
@@ -582,7 +582,7 @@
   "result": "shortbow",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [[ "survival", 1 ], [ "archery", 1 ]],
+  "requires_skills": [ "archery", 1 ],
   "difficulty": 2,
   "time": 15000,
   "reversible": true,
@@ -1801,7 +1801,7 @@
   "result" : "arrowhead",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 1 ], [ "survival", 1 ]],
+  "requires_skills": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
@@ -1827,7 +1827,7 @@
   "result" : "fletching",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 1 ], [ "survival", 1 ]],
+  "requires_skills": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
@@ -1861,7 +1861,7 @@
   "result" : "arrow_fire_hardened",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 1 ], [ "survival", 1 ]],
+  "requires_skills": [ "archery", 1 ],
   "difficulty" : 0,
   "time" : 5000,
   "reversible" : false,
@@ -1893,7 +1893,7 @@
   "result" : "arrow_field_point",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 1 ], [ "survival", 1 ]],
+  "requires_skills": [ "archery", 1 ],
   "difficulty" : 1,
   "time" : 2000,
   "reversible" : false,
@@ -1935,7 +1935,7 @@
   "result" : "arrow_small_game",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 1 ], [ "survival", 1 ]],
+  "requires_skills": [ "archery", 1 ],
   "difficulty" : 2,
   "time" : 2000,
   "reversible" : false,
@@ -1970,7 +1970,7 @@
   "result" : "arrow_fire_hardened_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 3 ], [ "survival", 1 ]],
+  "requires_skills": [ "archery", 3 ],
   "difficulty" : 3,
   "time" : 3000,
   "reversible" : false,
@@ -2002,7 +2002,7 @@
   "result" : "arrow_field_point_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 3 ], [ "survival", 1 ]],
+  "requires_skills": [ "archery", 3 ],
   "difficulty" : 3,
   "time" : 3000,
   "reversible" : false,
@@ -2034,7 +2034,7 @@
   "result" : "flamable_arrow",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 3 ], [ "survival", 3 ]],
+  "requires_skills": [ "archery", 3 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
@@ -2145,7 +2145,7 @@
   "result" : "arrow_heavy_fire_hardened_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 3 ], [ "survival", 1 ]],
+  "requires_skills": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
@@ -2179,7 +2179,7 @@
   "result" : "arrow_heavy_field_point_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 3 ], [ "survival", 1 ]],
+  "requires_skills": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
@@ -3540,6 +3540,25 @@
 },
 
 {
+  "result": "salt_water",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ],
+    [
+      [ "salt", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "acid",
   "category": "CC_DRINK",
   "skill_used": "cooking",
@@ -4194,6 +4213,34 @@
   "components": [
     [
       [ "apple", 3 ]
+    ]
+  ]
+},
+
+{
+  "result": "lemonade",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "lemon", 2 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
     ]
   ]
 },
@@ -7198,6 +7245,27 @@
 },
 
 {
+  "result": "towel",
+  "category": "CC_MISC",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 5 ],
+      [ "sewing_kit", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 2 ]
+    ]
+  ]
+},
+
+{
   "result": "pants_cargo",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -9175,6 +9243,32 @@
 },
 
 {
+  "result": "battletorch",
+  "category": "CC_WEAPON",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "bat", 1 ]
+    ],
+    [
+      [ "gasoline", 200 ],
+      [ "vodka", 7 ],
+      [ "rum", 7 ],
+      [ "whiskey", 7 ],
+      [ "tequila", 7 ],
+      [ "gin", 7 ],
+      [ "triple_sec", 7 ]
+    ],
+    [
+      [ "rag", 1 ]
+    ]
+  ]
+},
+
+{
   "result": "candle",
   "category": "CC_MISC",
   "difficulty": 0,
@@ -9328,7 +9422,8 @@
   ],
   "components": [
     [
-      [ "steel_chunk", 4 ]
+      [ "steel_chunk", 4 ],
+      [ "rebar", 2 ]
     ]
   ]
 },
@@ -10787,6 +10882,40 @@
     ],
     [
       ["katana", 1]
+    ],
+    [
+      ["flamethrower_crude", 1]
+    ]
+  ]
+},
+
+{
+  "result": "zweifire_off",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "difficulty": 5,
+  "time": 30000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["welder", 20],
+      ["welder_crude", 30],
+      ["toolset", 1]
+    ]
+    ],
+  "components": [
+    [
+      ["leather", 5]
+    ],
+    [
+      ["pipe", 1]
+    ],
+    [
+      ["zweihander", 1]
     ],
     [
       ["flamethrower_crude", 1]
@@ -13167,7 +13296,8 @@
       ],
       [
       [ "kevlar", 1 ],
-      [ "swat_armor", 1 ]
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
       ]
   ]
 },
@@ -13226,7 +13356,8 @@
       ],
       [
       [ "kevlar", 1 ],
-      [ "swat_armor", 1 ]
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
       ]
   ]
 },
@@ -13290,7 +13421,8 @@
       ],
       [
       [ "kevlar", 1 ],
-      [ "swat_armor", 1 ]
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
       ]
   ]
 },
@@ -13721,7 +13853,8 @@
       [ "2x4", 5 ],
       [ "stick", 5 ],
       [ "splinter", 20 ],
-      [ "bone", 40 ]
+      [ "bone", 40 ],
+      [ "log", 1 ]
     ]
   ]
 },
@@ -13969,6 +14102,64 @@
     ],
     [
       [ "scrap", 1]
+    ]
+  ]
+},
+{
+  "result": "baseball",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ],
+    [
+      [ "string_6", 2 ]
+    ]
+  ]
+},
+{
+  "result": "football",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 4 ]
+    ],
+    [
+      [ "string_6", 3 ]
     ]
   ]
 }

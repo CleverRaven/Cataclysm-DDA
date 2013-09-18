@@ -1,7 +1,17 @@
 #Until multiple tilesets are implemented, there should only ever be these two entries
 #in this file.
 
+#Paths to Deon's tileset: gfx/DeonTileset/tile_config.json & /deontiles.png
+#Paths to Hoder's tileset: gfx/HoderTileset/tile_config.json & /hodertiles.png
+
+#DEON's TILESET
 #JSON Path - Default of gfx/tile_config.json
-JSON: gfx/tile_config.json
+JSON: gfx/DeonTileset/tile_config.json
 #Tileset Path - Default of gfx/tinytile.png
-TILESET: gfx/tinytile.png
+TILESET: gfx/DeonTileset/deontiles.png
+
+#HODER'S TILESET -- Commented out
+#JSON Path - Default of gfx/tile_config.json
+#JSON: gfx/HoderTileset/tile_config.json
+#Tileset Path - Default of gfx/tinytile.png
+#TILESET: gfx/HoderTileset/hodertiles.png

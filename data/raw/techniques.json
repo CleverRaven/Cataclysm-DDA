@@ -29,6 +29,7 @@
   {
     "id": "tec_precise",
     "name": "Precise Strike",
+    "min_unarmed": 0,
     "unarmed_allowed": true,
     "melee_allowed": true,
 
@@ -38,16 +39,120 @@
     "stun_dur": 2
   },
   {
-    "id": "tec_rapid",
-    "name": "Rapid Strike",
+    "id": "tec_karate_rapid",
+    "name": "Quick Punch",
+    "min_unarmed": 0,
     "unarmed_allowed": true,
-    "melee_allowed": true,
 
     "verb_you": "%1$s quickly punch %4$s",
     "verb_npc": "%1$s quickly punches %4$s",
 
     "quick": true
   },
+  {
+    "id": "tec_karate_precise",
+    "name": "Karate Chop",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+
+    "verb_you": "%1$s karate chop %4$s",
+    "verb_npc": "%1$s karate chops %4$s",
+
+    "stun_dur": 2
+  },
+  {
+    "id": "tec_aikido_throw",
+    "name": "throw",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+
+    "verb_you": "%1$s throw %4$s",
+    "verb_npc": "%1$s throws %4$s"
+  },
+  {
+    "id": "tec_aikido_feint",
+    "name": "feint at",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+
+    "defensive": true,
+    "miss_recovery": true,
+
+    "verb_you": "%1$s feint at %4$s",
+    "verb_npc": "%1$s feints at %4$s"
+  },
+  {
+    "id": "tec_aikido_disarm",
+    "name": "disarm",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "disarms": true,
+
+    "verb_you": "%1$s disarm %4$s",
+    "verb_npc": "%1$s disarms %4$s"
+  },
+  {
+    "id": "tec_judo_throw",
+    "name": "throw",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+
+    "verb_you": "%1$s throw %4$s",
+    "verb_npc": "%1$s throws %4$s"
+  },
+  {
+    "id": "tec_judo_grab",
+    "name": "throw",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+
+    "down_dur": 1,
+
+    "verb_you": "%1$s grab %4$s",
+    "verb_npc": "%1$s grabs %4$s"
+  },
+  {
+    "id": "tec_taichi_disarm",
+    "name": "disarm",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "disarms": true,
+
+    "verb_you": "%1$s disarm %4$s",
+    "verb_npc": "%1$s disarms %4$s"
+  },
+  {
+    "id": "tec_taichi_precise",
+    "name": "Precise Strike",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+
+    "stun_dur": 2,
+
+    "verb_you": "%1$s strike %4$s",
+    "verb_npc": "%1$s strikes %4$s"
+  },
+  {
+    "id": "tec_capoeira_feint",
+    "name": "feint at",
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+
+    "defensive": true,
+    "miss_recovery": true,
+
+    "verb_you": "%1$s feint at %4$s",
+    "verb_npc": "%1$s feints at %4$s"
+  },
+
   {
     "id": "WIDE",
     "name": "Wide Strike",

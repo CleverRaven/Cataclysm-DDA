@@ -155,12 +155,14 @@ public:
 
  bool has_miss_recovery_tec(game* g); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(game* g); // technique-based miss recovery, like tec_feint
+ bool can_leg_block(game* g); // technique-based miss recovery, like tec_feint
 
 // melee.cpp
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
- void block_hit(game *g, body_part &bp_hit, int &bash_dam, int &cut_dam, int &stab_dam);
+ void block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
+    int &bash_dam, int &cut_dam, int &stab_dam);
 
  int base_damage(bool real_life = true, int stat = -999);
  int base_to_hit(bool real_life = true, int stat = -999);
@@ -180,12 +182,6 @@ public:
                              bool crit, bool allowgrab);
  void perform_technique(ma_technique technique, game *g, monster *z, player *p,
                        int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
-
-ma_technique pick_defensive_technique(game *g, monster *z, player *p);
-
- void perform_defensive_technique(technique_id technique, game *g, monster *z,
-                                  player *p, body_part &bp_hit, int &side,
-                                  int &bash_dam, int &cut_dam, int &stab_dam);
 
  void perform_special_attacks(game *g, monster *z, player *p,
                         int &bash_dam, int &cut_dam, int &pierce_dam);
@@ -237,12 +233,16 @@ ma_technique pick_defensive_technique(game *g, monster *z, player *p);
  void infect(dis_type type, body_part vector, int strength, int duration,
              game *g);
 // add_disease() does NOT give us a chance to save
+// num_bp indicates that specifying a body part is unessecary such as with
+// drug effects
+// -1 indicates that side of body is irrelevant
  void add_disease(dis_type type, int duration, int intensity = 0,
-                  int max_intensity = -1);
- void rem_disease(dis_type type);
- bool has_disease(dis_type type) const;
- int  disease_level(dis_type type);
- int  disease_intensity(dis_type type);
+                  int max_intensity = -1, body_part part = num_bp,
+                  int side = -1);
+ void rem_disease(dis_type type, body_part part = num_bp, int side = -1);
+ bool has_disease(dis_type type, body_part part = num_bp, int side = -1) const;
+ int  disease_level(dis_type type, body_part part = num_bp, int side = -1);
+ int  disease_intensity(dis_type type, body_part part = num_bp, int side = -1);
 
  void add_addiction(add_type type, int strength);
  void rem_addiction(add_type type);
@@ -306,7 +306,6 @@ ma_technique pick_defensive_technique(game *g, monster *z, player *p);
  int weight_capacity(bool real_life = true);
  int volume_capacity();
  double convert_weight(int weight);
- bool can_eat(const item i);
  bool can_pickVolume(int volume);
  bool can_pickWeight(int weight, bool safe = true);
  int net_morale(morale_point effect);

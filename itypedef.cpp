@@ -233,6 +233,7 @@ BIO_SINGLE("bio_targeting", 6500, c_red, 5);
 BIO_SINGLE("bio_ground_sonar", 4500, c_red, 5);
 // hazmat
 BIO_SINGLE("bio_purifier", 4500, c_ltgreen, 4);
+BIO_SINGLE("bio_sunglasses", 4500, c_ltgreen, 4);
 BIO_SINGLE("bio_climate", 3500, c_ltgreen, 3);
 BIO_SINGLE("bio_heatsink", 3500, c_ltgreen, 3);
 BIO_SINGLE("bio_blood_filter", 3500, c_ltgreen, 3);

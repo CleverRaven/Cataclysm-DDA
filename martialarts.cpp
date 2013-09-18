@@ -267,7 +267,10 @@ void game::init_martialarts() {
 
     if( curMartialArt.has("techniques") ) {
       ma.techniques = curMartialArt.get("techniques").as_tags();
+    }
 
+    if( curMartialArt.has("can_leg_block") ) {
+      ma.has_leg_block = curMartialArt.get("can_leg_block").as_bool();
     }
 
     martialarts[ma.id] = ma;
@@ -449,7 +452,7 @@ bool ma_buff::is_throw_immune() {
 
 
 martialart::martialart() {
-  return;
+  has_leg_block = false;
 }
 
 // simultaneously check and add all buffs. this is so that buffs that have
@@ -543,6 +546,11 @@ bool player::has_grab_break_tec(game* g) {
   }
   return false;
 }
+
+bool player::can_leg_block(game* g) {
+  return g->martialarts[style_selected].has_leg_block;
+}
+
 // event handlers
 void player::ma_static_effects() {
   g->martialarts[style_selected].apply_static_buffs(*this, illness);

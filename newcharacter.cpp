@@ -8,6 +8,7 @@
 #include "game.h"
 #include "options.h"
 #include "catacharset.h"
+#include "debug.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -208,8 +209,7 @@ power_level = 10;
 }
 
 if (has_trait("MARTIAL_ARTS")) {
-  /*
-itype_id ma_type;
+matype_id ma_type;
 do {
   int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
                     _("Karate"), _("Judo"), _("Aikido"), _("Tai Chi"),
@@ -224,22 +224,9 @@ do {
   ma_type = "style_tai_chi";
   if (choice == 5)
   ma_type = "style_taekwondo";
-  item tmpitem = item(g->itypes[ma_type], 0);
-  if(PLTYPE_NOW!=type) {
-      full_screen_popup(tmpitem.info(true).c_str());
-  }
 } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
-styles.push_back(ma_type);
+ma_styles.push_back(ma_type);
 style_selected=ma_type;
-*/
-  //ma_styles.push_back("style_test_karate");
-  ma_styles.push_back("style_karate");
-  //ma_styles.push_back("style_tai_chi");
-  //ma_styles.push_back("style_capoeira");
-  //ma_styles.push_back("style_aikido");
-  //ma_styles.push_back("style_judo");
-  //ma_styles.push_back("style_berserk");
-  //ma_styles.push_back("style_coward");
  }
 
 /*
@@ -937,7 +924,7 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
             case 'k':
             case '8':
                 cur_id--;
-                if (cur_id < 0 )
+                if (cur_id < 0)
                     cur_id = profession::count() - 1;
             break;
 

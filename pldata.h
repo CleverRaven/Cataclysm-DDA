@@ -3,6 +3,7 @@
 
 #include "enums.h"
 #include "translations.h"
+#include "bodypart.h"
 #include <sstream>
 #include <vector>
 #include <map>
@@ -35,9 +36,8 @@ struct disease
  dis_type type;
  int intensity;
  int duration;
-
- disease() { type = "null"; duration = 0; intensity = 0;}
- disease(dis_type t, int d, int i = 0) { type = t; duration = d; intensity = i;}
+ body_part bp;
+ int side;
 
  // extra stuff for martial arts, kind of a hack for now
  std::string buff_id;
@@ -50,6 +50,9 @@ struct disease
    return (buff_id != "" && type == "ma_buff");
  }
 
+ disease() { type = "null"; duration = 0; intensity = 0; bp = num_bp; side = -1;}
+ disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1)
+        { type = t; duration = d; intensity = i; bp = part; side = s;}
 };
 
 struct addiction

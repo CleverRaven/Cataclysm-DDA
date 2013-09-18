@@ -683,10 +683,12 @@ std::string string_input_win(WINDOW * w, std::string input, int max_length, int 
       if( pos+1 <= ret.size() ) {
         pos++;
       }
+      redraw=true;
     } else if (ch == KEY_LEFT ) {
       if ( pos > 0 ) {
         pos--;
       }
+      redraw=true;
     } else if (ch == 0x15 ) {                      // ctrl-u: delete all the things
       pos = 0;
       ret.erase(0);

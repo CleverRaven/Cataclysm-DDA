@@ -173,6 +173,35 @@
     },
     {
         "type" : "COMESTIBLE",
+        "id" : "lemonade",
+        "name" : "lemonade",
+        "weight" : 263,
+        "color" : "yellow",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "use_action" : "NONE",
+        "stim" : 0,
+        "container" : "bottle_plastic",
+        "to_hit" : 0,
+        "comestible_type" : "DRINK",
+        "symbol" : "~",
+        "quench" : 35,
+        "heal" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 4,
+        "description" : "Lemon juice mixed with water and sugar to dull the sourness. Delicious and refreshing.",
+        "price" : 38,
+        "material" : "null",
+        "tool" : "null",
+        "volume" : 2,
+        "cutting" : 0,
+        "phase" : "liquid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : 3
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "energy_drink",
         "name" : "energy drink",
         "weight" : 262,
@@ -4408,6 +4437,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
+        "stack_size": 9,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4437,6 +4467,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 2,
+        "stack_size" : 6,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4466,6 +4497,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 20,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4525,6 +4557,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 20,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4554,6 +4587,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4583,6 +4617,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 5
     },
@@ -4612,6 +4647,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4641,6 +4677,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4670,6 +4707,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4729,6 +4767,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 10
     },
@@ -4759,6 +4798,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 18
     },
@@ -4789,6 +4829,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 6
     },
@@ -4818,6 +4859,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 20
     },
@@ -4847,6 +4889,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 10
     },
@@ -4876,6 +4919,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4905,6 +4949,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 15,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -4934,6 +4979,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 50,
         "bashing" : 0,
         "fun" : 5
     },
@@ -4963,6 +5009,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 5,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 15
     },    
@@ -4993,6 +5040,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 1
     },
@@ -5022,6 +5070,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 8,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 25
     },
@@ -5051,6 +5100,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 6,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 30
     },
@@ -5081,8 +5131,8 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
+        "stack_size" : 100,
         "bashing" : 0,
-
         "fun" : 50
     },
     {
@@ -5140,6 +5190,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 15,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -5169,6 +5220,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -5199,6 +5251,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -5228,6 +5281,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 4,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 50
     },
@@ -5746,7 +5800,7 @@
         "nutrition" : 30,
         "description" : "A block of yellow processed cheese.",
         "price" : 70,
-        "material" : "flesh",
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5811,6 +5865,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 5,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 20
     },
@@ -5840,6 +5895,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 4
     },
@@ -5869,6 +5925,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 1
     },
@@ -6014,6 +6071,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 10,
+        "stack_size" : 100,
         "bashing" : 0,
         "fun" : 0
     },
@@ -6043,6 +6101,7 @@
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3,
+        "stack_size" : 9,
         "bashing" : 0,
         "fun" : 0
     }

@@ -469,7 +469,7 @@ void advanced_inventory::recalc_pane(int i)
 
     if(panes[i].area == isinventory) {
 
-        invslice stacks = u.inv.slice(0, u.inv.size());
+       const invslice & stacks = u.inv.slice(0, u.inv.size());
         for( int x = 0; x < stacks.size(); ++x ) {
             item &item = stacks[x]->front();
             advanced_inv_listitem it;
@@ -724,13 +724,33 @@ void advanced_inventory::display(game * gp, player * pp) {
             werase(head);
             {
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+                int line=1;
+                if( checkshowmsg || showmsg ) {
+                  for (int i = g->messages.size() - 1; i >= 0 && line < 4; i--) {
+                    std::string mes = g->messages[i].message;
+                    if (g->messages[i].count > 1) {
+                      std::stringstream mesSS;
+                      mesSS << mes << " x " << g->messages[i].count;
+                      mes = mesSS.str();
+                    }
+                    nc_color col = c_dkgray;
+                    if (int(g->messages[i].turn) >= g->curmes) {
+                       col = c_ltred;
+                       showmsg=true;
+                    } else {
+                       col = c_ltgray;
+                    }
+                    if ( showmsg ) mvwprintz(head, line, 2, col, mes.c_str());
+                    line++;
+                  }
+                }
                 if ( ! showmsg ) {
                   mvwprintz(head,0,w_width-18,c_white,_("< [?] show log >"));
                   mvwprintz(head,1,2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes,"));
                   mvwprintz(head,2,2, c_white, _("1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"));
                   mvwprintz(head,3,2, c_white, _("[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."));
                 } else {
-                  mvwprintz(head,0,w_width-19,c_white,"< [?] show help >");
+                  mvwprintz(head,0,w_width-19,c_white,_("< [?] show help >"));
                 }
             }
             redraw = false;
@@ -881,7 +901,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                 if ( askamount ) {
                     std::string popupmsg=_("How many do you want to move? (0 to cancel)");
                     if(amount > max) {
-                        popupmsg=_("Destination can only hold ") + helper::to_string(max) + _("! Move how many? (0 to cancel) ");
+                        popupmsg=string_format(_("Destination can only hold %d! Move how many? (0 to cancel) "), max);
                     }
                     // fixme / todo make popup take numbers only (m = accept, q = cancel)
                     amount = helper::to_int(

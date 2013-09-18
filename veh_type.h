@@ -94,6 +94,8 @@ enum vpart_id
     vp_hard_plate,
 
     vp_head_light,
+// added after 0.8
+    vp_reinforced_window,
 
     num_vparts
 };

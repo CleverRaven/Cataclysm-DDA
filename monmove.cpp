@@ -208,12 +208,21 @@ void monster::move(game *g)
  if (wandf > 0)
   wandf--;
 
+ //Hallucinations have a chance of disappearing each turn
+ if (is_hallucination() && one_in(25)) {
+   die(g);
+   return;
+ }
+
 // First, use the special attack, if we can!
- if (sp_timeout > 0)
-  sp_timeout--;
+ if (sp_timeout > 0) {
+   sp_timeout--;
+ }
  if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
-  mattack ma;
-  (ma.*type->sp_attack)(g, this);
+   mattack ma;
+   if(!is_hallucination()) {
+     (ma.*type->sp_attack)(g, this);
+   }
  }
  if (moves < 0)
   return;
@@ -513,6 +522,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     int side = rng(0, 1);
     int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
 
+    p.block_hit(g, this, NULL, bphit, side, dam, cut, stab);
     //technique_id tech = p.pick_defensive_technique(g, this, NULL);
     //p.perform_defensive_technique(tech, g, this, NULL, bphit, side, dam, cut, stab);
 
@@ -614,52 +624,72 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     return; // Defensive technique canceled damage.
                 }
 
-                //Hurt the player
-                dam = p.hit(g, bphit, side, dam, cut);
+                //Hallucinations don't actually hurt the player, but do produce the message
+                if(is_hallucination()) {
 
-                //Monster effects
-                if (dam > 0 && has_flag(MF_VENOM))
-                {
-                    if (!is_npc)
-                    {
-                        g->add_msg(_("You're poisoned!"));
+                    //~14% chance of vanishing after hitting the player
+                    if(one_in(7)) {
+                      die(g);
+                      return;
                     }
-                    p.add_disease("poison", 30);
-                }
-                else if (dam > 0 && has_flag(MF_BADVENOM))
-                {
-                    if (!is_npc)
-                    {
-                        g->add_msg(_("You feel poison flood your body, wracking you with pain..."));
-                    }
-                    p.add_disease("badpoison", 40);
-                }
-                if (has_flag(MF_BLEED) && dam > 6 && cut > 0)
-                {
-                    if (!is_npc)
-                    {
-                        g->add_msg(_("You're Bleeding!"));
-                    }
-                    p.add_disease("bleed", 60);
-                }
 
-                //Same as monster's chance to not miss
-                if (can_grab && has_flag(MF_GRABS) && (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill)))
-                {
-                    if (!is_npc)
-                    {
-                        g->add_msg(_("The %s grabs you!"), name().c_str());
-                    }
-                    if (p.has_grab_break_tec(g) &&
-                        dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
+                } else {
+
+                    //Hurt the player
+                    dam = p.hit(g, bphit, side, dam, cut);
+
+                    //Monster effects
+                    if (dam > 0 && has_flag(MF_VENOM))
                     {
                         if (!is_npc)
                         {
-                            g->add_msg(_("You break the grab!"));
+                            g->add_msg(_("You're poisoned!"));
+                        }
+                        p.add_disease("poison", 30);
+                    }
+                    else if (dam > 0 && has_flag(MF_BADVENOM))
+                    {
+                        if (!is_npc)
+                        {
+                            g->add_msg(_("You feel poison flood your body, wracking you with pain..."));
+                        }
+                        p.add_disease("badpoison", 40);
+                    }
+
+                    if (has_flag(MF_BLEED) && dam > 6 && cut > 0) {
+                        if (!is_npc) {
+                            g->add_msg(_("You're Bleeding!"));
+                        }
+                        if (bphit == bp_mouth || bphit == bp_eyes ||
+                            bphit == bp_head) {
+                            p.add_disease("bleed", 60, 1, 3, bp_head, -1);
+                        } else if (bphit == bp_torso) {
+                            p.add_disease("bleed", 60, 1, 3, bp_torso, -1);
+                        } else {
+                            p.add_disease("bleed", 60, 1, 3, bphit, side);
                         }
                     }
-                    else
-                        hit_player(g, p, false); //We grabed, so hit them again
+
+                    //Same as monster's chance to not miss
+                    if (can_grab && has_flag(MF_GRABS) &&
+                        (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill)))
+                    {
+                        if (!is_npc)
+                        {
+                            g->add_msg(_("The %s grabs you!"), name().c_str());
+                        }
+                        if (p.has_grab_break_tec(g) &&
+                            dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
+                        {
+                            if (!is_npc)
+                            {
+                                g->add_msg(_("You break the grab!"));
+                            }
+                        } else {
+                            hit_player(g, p, false); //We grabed, so hit them again
+                        }
+                    }
+
                 }
                 /* TODO: replace with counter mechanic
                 //Counter-attack?
@@ -667,7 +697,9 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     // A counterattack is a free action to avoid stunlocking the player.
                     int player_moves = p.moves;
-                    hurt( p.hit_mon(g, this) );
+                    if(hurt( p.hit_mon(g, this)) || is_hallucination()) {
+                      die(g);
+                    }
                     p.moves = player_moves;
                 }
                 */
@@ -767,6 +799,10 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
 }
 
 int monster::bash_at(int x, int y) {
+    //Hallucinations can't bash stuff.
+    if(is_hallucination()) {
+      return 0;
+    }
     bool try_bash = !can_move_to(g, x, y) || one_in(3);
     bool can_bash = g->m.has_flag(bashable, x, y) && has_flag(MF_BASHES);
     if(try_bash && can_bash) {
@@ -806,7 +842,7 @@ int monster::attack_at(int x, int y) {
         }
 
         // Special case: Target is hallucination
-        if(mon.type->species == species_hallu) {
+        if(mon.is_hallucination()) {
             g->kill_mon(mondex);
 
             // We haven't actually attacked anything, i.e. we can still do things.
@@ -884,6 +920,10 @@ int monster::move_to(game *g, int x, int y, bool force)
 
   setpos(x, y);
   footsteps(g, x, y);
+  if(is_hallucination()) {
+    //Hallucinations don't do any of the stuff after this point
+    return 1;
+  }
   if (type->size != MS_TINY && g->m.has_flag(sharp, posx(), posy()) && !one_in(4))
      hurt(rng(2, 3));
   if (type->size != MS_TINY && g->m.has_flag(rough, posx(), posy()) && one_in(6))
@@ -901,6 +941,7 @@ int monster::move_to(game *g, int x, int y, bool force)
    g->m.ter_set(posx(), posy(), t_dirtmound);
   }
 // Acid trail monsters leave... a trail of acid
+  //Why is this being done three times?
   if (has_flag(MF_ACIDTRAIL)){
    g->m.add_field(g, posx(), posy(), fd_acid, 1);
   }

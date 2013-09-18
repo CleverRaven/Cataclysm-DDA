@@ -31,12 +31,16 @@
 
 ###BIONICS
 ```C++
-"id"         :    "bio_batteries",   // Unique ID. Must be one continuous word, use underscores if necessary
-"name"       :    "Battery System",  // In-game name displayed
-"cost"       :    0,                 // How many PUs it costs to use the bionic.
-"time"       :    0,                 // How long, when activated, between drawing cost. If 0, it draws power once.
-"flags"      :    ["POWER"],         // Used to flag the bionic as a specific type.
-"description":    "You have a battery draining attachment, and thus can make use of the energy\ncontained in normal, everyday batteries.  Use 'E' to consume batteries." // In-game description
+"id"           : "bio_batteries",  // Unique ID. Must be one continuous word,
+                                   // use underscores if necessary.
+"name"         : "Battery System", // In-game name displayed
+"active"       : false,  // Whether the bionic is active or passive (default: passive)
+"power_source" : false,  // Whether the bionic provides power (default: false)
+"faulty"       : false,  // Whether it is a faulty type (default: false)
+"cost"         : 0,  // How many PUs it costs to use the bionic. (default: 0)
+"time"         : 0,  // How long, when activated, between drawing cost.
+                     // If 0, it draws power once. (default: 0)
+"description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries." // In-game description
 ```
 ###DREAMS
 ```C++
@@ -164,10 +168,10 @@
 ```
 ###SKILLS
 ```C++
-"smg",              // Unique ID. Must be one continuous word, use underscores if necessary
-"submachine guns",  // In-game name displayed
-"Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
-["gun_type"]        // Special flags, most skills will have an empty list "[]"
+"ident" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
+"name" : "submachine guns",  // In-game name displayed
+"description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
+"tags" : ["gun_type"]  // Special flags (default: none)
 ```
 ###SNIPPETS
 ```C++
@@ -253,6 +257,7 @@
 "dispersion" : 0,     // Inaccuracy of ammo, measured in quarter-degrees
 "recoil" : 18,        // Recoil caused when firing
 "count" : 25,         // Number of rounds that spawn together
+"stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
 "effects" : ["COOKOFF", "SHOT"] // Special effects
 ```
 ###ARMOR
@@ -329,6 +334,7 @@
 "cutting" : 0,        // Cutting damage caused by using it as a melee weapon
 "phase" : "solid",    // What phase it is
 "charges" : 4,        // Number of uses when spawned
+"stack_size" : 8,     // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "bashing" : 0,        // Bashing damage caused by using it as a melee weapon
 "fun" : 50            // Morale effects when used
 ```

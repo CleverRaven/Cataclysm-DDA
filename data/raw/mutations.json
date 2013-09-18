@@ -276,12 +276,12 @@
         "valid": false
     },
     {
-        "id": "CROSSDRESSER",
-        "name": "Cross-Dresser",
+        "id": "STYLISH",
+        "name": "Stylish",
         "points": 2,
         "visibility": 0,
         "ugliness": 0,
-        "description": "Covering your body in clothing typical for the opposite gender makes you feel better.",
+        "description": "Practicality is far less important than style. Even at the end of the world, it's important to look your best.",
         "starting_trait": true,
         "valid": false
     },
@@ -335,36 +335,6 @@
         "visibility": 0,
         "ugliness": 0,
         "description": "You have received some martial arts training at a local dojo. You start with your choice of karate, judo, aikido, tai chi, or taekwondo.",
-        "starting_trait": true,
-        "valid": false
-    },
-    {
-        "id": "MARTIAL_ARTS2",
-        "name": "Self-Defense Classes",
-        "points": 3,
-        "visibility": 0,
-        "ugliness": 0,
-        "description": "You have taken some self-defense classes at a nearby gym. You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan.",
-        "starting_trait": true,
-        "valid": false
-    },
-    {
-        "id": "MARTIAL_ARTS3",
-        "name": "Shaolin Adept",
-        "points": 3,
-        "visibility": 0,
-        "ugliness": 0,
-        "description": "You have studied the arts of the Shaolin monks. You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
-        "starting_trait": true,
-        "valid": false
-    },
-    {
-        "id": "MARTIAL_ARTS4",
-        "name": "Venom Mob Protege",
-        "points": 3,
-        "visibility": 0,
-        "ugliness": 0,
-        "description": "You are a pupil of the Venom Clan. You start with one of the five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.",
         "starting_trait": true,
         "valid": false
     },
