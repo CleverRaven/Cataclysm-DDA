@@ -4296,6 +4296,36 @@
     },
     {
         "type" : "COMESTIBLE",
+        "id" : "bacon",
+        "name" : "bacon",
+        "weight" : 420,
+        "color" : "red",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "use_action" : "NONE",
+        "stim" : 0,
+        "container" : "null",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : -4,
+        "heal" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 54,
+        "description" : "A thick slab of salty cured bacon.",
+        "price" : 190,
+        "material" : "flesh",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 4,
+        "bashing" : 0,
+        "flags" : ["EATEN_HOT"],
+        "fun" : 8
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "potato_raw",
         "name" : "raw potato",
         "weight" : 300,
@@ -6543,9 +6573,9 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 3,
+        "charges" : 4,
         "bashing" : 0,
-        "fun" : 8
+        "fun" : 7
     },
     {
         "type" : "COMESTIBLE",
@@ -6575,7 +6605,7 @@
         "charges" : 3,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 7
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -6846,7 +6876,7 @@
         "type" : "COMESTIBLE",
         "id" : "quikclot",
         "name" : "hemostatic powder",
-        "weight" : 50,
+        "weight" : 20,
         "color" : "yellow",
         "addiction_type" : "none",
         "spoils_in" : 0,
@@ -6867,8 +6897,8 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 3,
-        "stack_size" : 9,
+        "charges" : 6,
+        "stack_size" : 18,
         "bashing" : 0,
         "fun" : 0
     }

@@ -147,6 +147,7 @@
       ["extinguisher", 20],
       ["whiskey", 16],
       ["syrup", 20],
+      ["bacon", 25],
       ["bleach", 20],
       ["ammonia", 24],
       ["flour", 50],
@@ -255,6 +256,7 @@
 	  ["pickle", 40],
       ["vinegar", 15],
       ["jar_veggy_pickled", 8],
+      ["bacon", 25],
       ["jar_meat_pickled", 2]
     ]
   },
@@ -555,6 +557,7 @@
       ["pizza_meat", 8],
       ["cheeseburger", 8],
       ["hamburger", 8],
+      ["bacon", 10],
       ["pie", 20]
     ]
   },
@@ -581,6 +584,7 @@
       ["meat_smoked", 4],
       ["cheeseburger", 35],
       ["hamburger", 30],
+      ["bacon", 25],
       ["cheese", 30]
     ]
   },
