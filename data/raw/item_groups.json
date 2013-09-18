@@ -155,6 +155,7 @@
       ["powder_eggs", 20],
       ["oatmeal", 50],
       ["cooking_oil", 20],
+      ["fruit_leather", 15],
       ["sugar", 40],
       ["salt", 40],
       ["pepper", 30],
@@ -538,6 +539,7 @@
       ["popcorn", 25],
       ["popcorn2", 35],
       ["popcorn3", 35],
+      ["fruit_leather", 25],
       ["kernels", 25]
     ]
   },
@@ -559,6 +561,7 @@
       ["cheeseburger", 8],
       ["hamburger", 8],
       ["bacon", 10],
+      ["fruit_leather", 15],
       ["pie", 20]
     ]
   },
