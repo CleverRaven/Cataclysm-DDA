@@ -234,10 +234,10 @@ style_selected=ma_type;
 */
   //ma_styles.push_back("style_test_karate");
   ma_styles.push_back("style_karate");
-  ma_styles.push_back("style_tai_chi");
-  ma_styles.push_back("style_capoeira");
-  ma_styles.push_back("style_aikido");
-  ma_styles.push_back("style_judo");
+  //ma_styles.push_back("style_tai_chi");
+  //ma_styles.push_back("style_capoeira");
+  //ma_styles.push_back("style_aikido");
+  //ma_styles.push_back("style_judo");
   //ma_styles.push_back("style_berserk");
   //ma_styles.push_back("style_coward");
  }

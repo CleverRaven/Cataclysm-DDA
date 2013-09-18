@@ -125,6 +125,9 @@ int player::hit_roll()
  return dice(numdice, sides);
 }
 
+void player::block_hit(game *g, body_part &bp_hit, int &bash_dam, int &cut_dam, int &stab_dam) {
+}
+
 int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 {
  bool is_u = (this == &(g->u));	// Affects how we'll display messages

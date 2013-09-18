@@ -143,10 +143,6 @@ public:
 
  bool has_mabuff(mabuff_id buff_id); // checks if a player has any martial arts buffs attached
 
-// melee.cpp
- int  hit_mon(game *g, monster *z, bool allow_grab = true);
- void hit_player(game *g, player &p, bool allow_grab = true);
-
  int mabuff_tohit_bonus(); // martial arts to-hit bonus
  int mabuff_dodge_bonus(); // martial arts dodge bonus
  int mabuff_block_bonus(); // martial arts block bonus
@@ -159,6 +155,12 @@ public:
 
  bool has_miss_recovery_tec(game* g); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(game* g); // technique-based miss recovery, like tec_feint
+
+// melee.cpp
+ int  hit_mon(game *g, monster *z, bool allow_grab = true);
+ void hit_player(game *g, player &p, bool allow_grab = true);
+
+ void block_hit(game *g, body_part &bp_hit, int &bash_dam, int &cut_dam, int &stab_dam);
 
  int base_damage(bool real_life = true, int stat = -999);
  int base_to_hit(bool real_life = true, int stat = -999);
