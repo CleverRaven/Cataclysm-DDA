@@ -3596,7 +3596,6 @@ void iuse::ice_molotov(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,_("You remove the canister from its casing."));
  p->moves -= 150;
  it->make(g->itypes["ice_molotov_lit"]);
- it->charges = 1;
  it->bday = int(g->turn);
  it->active = true;
 }
@@ -3604,31 +3603,34 @@ void iuse::ice_molotov(game *g, player *p, item *it, bool t)
 void iuse::ice_molotov_lit(game *g, player *p, item *it, bool t)
 {
     int age = int(g->turn) - it->bday;
-    if (!p->has_item(it)) {
-        point pos = g->find_item(it);
-        it->charges = -1;
-        for (int x = pos.x - 3; x <= pos.x + 3; x++) {
-            for (int y = pos.y - 3; y <= pos.y + 3; y++) {
-                // 7x7 radius of L1 floor (50% chance)
-                if ( x_in_y(1, 2) ) {
-                    g->m.add_field(g, x, y, fd_ice_floor, 1);
-                }
-                // 5x5 radius of L2 floor (80% chance)
-                if ( x_in_y(4, 5) && abs(x) <= 2 && abs(y) <= 2) {
-                    //g->m.add_field(g, x, y, fd_ice_floor, 1);
-                }
-                // 3x3 radius of L3 floor (90% chance)
-                if ( x_in_y(9, 10) && abs(x) <= 1 && abs(y) <= 1) {
-                    //g->m.add_field(g, x, y, fd_ice_floor, 1);
-                }
+    if (p->has_item(it)) {
+        it->charges += 1;
+        if (age >= 5) { // More than 5 turns old = chance of going out
+            if (rng(1, 50) < age) {
+                g->add_msg_if_player(p,_("The liquid nitrogen evaporates."));
+                it->make(g->itypes["canister_empty"]);
+                it->active = false;
             }
         }
-    } else if (age >= 5) { // More than 5 turns old = chance of going out
-        if (rng(1, 50) < age) {
-            g->add_msg_if_player(p,_("The liquid nitrogen evaporates."));
-            it->active = false;
-            it->make(g->itypes["canister_empty"]);
-            // BUG I can't make the canister not have charges...
+    } else {
+        point pos = g->find_item(it);
+        if (!t) {
+            for (int x = pos.x - 3; x <= pos.x + 3; x++) {
+                for (int y = pos.y - 3; y <= pos.y + 3; y++) {
+                    // 7x7 radius of L1 floor (50% chance)
+                    if ( x_in_y(1, 2) ) {
+                        g->m.add_field(g, x, y, fd_ice_floor, 1);
+                    }
+                    // 5x5 radius of L2 floor (80% chance)
+                    if ( x_in_y(4, 5) && abs(x) <= 2 && abs(y) <= 2) {
+                        //g->m.add_field(g, x, y, fd_ice_floor, 1);
+                    }
+                    // 3x3 radius of L3 floor (90% chance)
+                    if ( x_in_y(9, 10) && abs(x) <= 1 && abs(y) <= 1) {
+                        //g->m.add_field(g, x, y, fd_ice_floor, 1);
+                    }
+                }
+            }
         }
     }
 }
