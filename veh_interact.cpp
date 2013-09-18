@@ -110,12 +110,11 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     has_jack = crafting_inv.has_amount("jack", 1);
     has_siphon = crafting_inv.has_amount("hose", 1);
 
-    has_wheel = 0;
-    has_wheel |= crafting_inv.has_amount( "wheel", 1 );
-    has_wheel |= crafting_inv.has_amount( "wheel_wide", 1 );
-    has_wheel |= crafting_inv.has_amount( "wheel_bicycle", 1 );
-    has_wheel |= crafting_inv.has_amount( "wheel_motorbike", 1 );
-    has_wheel |= crafting_inv.has_amount( "wheel_small", 1 );
+    has_wheel = crafting_inv.has_amount( "wheel", 1 ) ||
+                crafting_inv.has_amount( "wheel_wide", 1 ) ||
+                crafting_inv.has_amount( "wheel_bicycle", 1 ) ||
+                crafting_inv.has_amount( "wheel_motorbike", 1 ) ||
+                crafting_inv.has_amount( "wheel_small", 1 );
 
     display_stats ();
     display_veh   ();
