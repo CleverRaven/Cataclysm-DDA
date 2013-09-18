@@ -9,6 +9,9 @@
 #include "options.h"
 #include "debug.h"
 
+/**
+ * Creates a blank veh_interact window.
+ */
 veh_interact::veh_interact ()
 {
     cx = 0;
@@ -20,6 +23,12 @@ veh_interact::veh_interact ()
     sel_type=0;
 }
 
+/**
+ * Creates a veh_interact window based on the given parameters.
+ * @param v The vehicle the player is interacting with.
+ * @param x The x-coordinate of the square the player is 'e'xamining.
+ * @param y The y-coordinate of the square the player is 'e'xamining.
+ */
 void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 {
     g = gm;
@@ -140,7 +149,6 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
                 case 's': do_siphon(mval);  break;
                 case 'c': do_tirechange(mval); break;
                 case 'd': do_drain(mval);  break;
-                default:;
                 }
                 if (sel_cmd != ' ')
                     finish = true;
@@ -164,6 +172,17 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     erase();
 }
 
+/**
+ * Checks if the player is able to perform some command, and returns a nonzero
+ * error code if they are unable to perform it. The return from this function
+ * should be passed into the various do_whatever functions further down.
+ * @param mode The command the player is trying to perform (ie 'r' for repair).
+ * @return 0 if the player has everything they need,
+ *         1 if the command can't target that square,
+ *         2 if the player lacks tools,
+ *         3 if something else obstructs the action,
+ *         4 if the player's skill isn't high enough.
+ */
 int veh_interact::cant_do (char mode)
 {
     bool valid_target = false;
@@ -222,6 +241,11 @@ int veh_interact::cant_do (char mode)
     return 0;
 }
 
+/**
+ * Handles installing a new part.
+ * @param reason 1 if the square can't have anything installed,
+ *               2 if the player is lacking tools.
+ */
 void veh_interact::do_install(int reason)
 {
     werase (w_msg);
@@ -245,7 +269,6 @@ void veh_interact::do_install(int reason)
         wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> to install parts.")).c_str());
         wrefresh (w_msg);
         return;
-    default:;
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:      "));
     wrefresh (w_mode);
@@ -262,6 +285,7 @@ void veh_interact::do_install(int reason)
     }
     while (true)
     {
+        //sel_part is the currently selected part in the installable parts list
         sel_part = can_mount[pos];
         display_list (pos);
         itype_id itm = vpart_list[sel_part].item;
@@ -321,7 +345,11 @@ void veh_interact::do_install(int reason)
     }
 }
 
-
+/**
+ * Handles repairing a vehicle part.
+ * @param reason 1 if there's no damaged parts in the selected square,
+ *               2 if the player is lacking tools.
+ */
 void veh_interact::do_repair(int reason)
 {
     werase (w_msg);
@@ -342,13 +370,13 @@ void veh_interact::do_repair(int reason)
         mvwprintz(w_msg, 0, 12, has_welder? c_ltgreen : c_red, _("powered welder")); // FIXME: i18n
         wrefresh (w_msg);
         return;
-    default:;
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to repair:"));
     wrefresh (w_mode);
     int pos = 0;
     while (true)
     {
+        //sel_part points to a vehicle_part inside of the target vehicle
         sel_part = parts_here[need_repair[pos]];
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, winw2, cpart, need_repair[pos]);
@@ -398,6 +426,11 @@ void veh_interact::do_repair(int reason)
     }
 }
 
+/**
+ * Handles refilling a vehicle's fuel tank.
+ * @param reason 1 if there's no fuel tank in the spot,
+ *               2 if the player has nothing to fill the tank with.
+ */
 void veh_interact::do_refill(int reason)
 {
     werase (w_msg);
@@ -413,12 +446,18 @@ void veh_interact::do_refill(int reason)
         mvwprintz(w_msg, 0, 10, c_red, ammo_name(veh->part_info(ptank).fuel_type).c_str());
         wrefresh (w_msg);
         return;
-    default:;
     }
     sel_cmd = 'f';
     sel_part = ptank;
 }
 
+/**
+ * Handles removing a part from the vehicle.
+ * @param reason 1 if there are no parts to remove,
+ *               2 if the player is lacking tools,
+ *               3 if there's something attached that needs to be removed first,
+ *               4 if the player's mechanics skill isn't high enough.
+ */
 void veh_interact::do_remove(int reason)
 {
     werase (w_msg);
@@ -457,7 +496,6 @@ void veh_interact::do_remove(int reason)
         mvwprintz(w_msg, 0, 1, c_ltred, _("You need level 2 mechanics skill to remove parts."));
         wrefresh (w_msg);
         return;
-    default:;
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
     wrefresh (w_mode);
@@ -498,6 +536,10 @@ void veh_interact::do_remove(int reason)
     }
 }
 
+/**
+ * Handles siphoning gas.
+ * @param reason 1 if the vehicle has no gas, 2 if the player has no hose.
+ */
 void veh_interact::do_siphon(int reason)
 {
     werase (w_msg);
@@ -512,11 +554,15 @@ void veh_interact::do_siphon(int reason)
         mvwprintz(w_msg, 0, 12, c_red, _("hose")); //FIXME: i18n
         wrefresh (w_msg);
         return;
-    default:;
     }
     sel_cmd = 's';
 }
 
+/**
+ * Handles changing a tire.
+ * @param reason 1 if there's no wheel in the selected square,
+ *               2 if the player is missing a tool.
+ */
 void veh_interact::do_tirechange(int reason)
 {
     werase( w_msg );
@@ -531,7 +577,6 @@ void veh_interact::do_tirechange(int reason)
         wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> and a ")).c_str());
         wprintz(w_msg, has_jack? c_ltgreen : c_red, _("jack"));
         return;
-    default:;
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose wheel to use as replacement:      "));
     wrefresh (w_mode);
@@ -590,6 +635,10 @@ void veh_interact::do_tirechange(int reason)
     }
 }
 
+/**
+ * Handles draining water from a vehicle.
+ * @param reason 1 if the vehicle has no water, 2 if the player has no hose.
+ */
 void veh_interact::do_drain(int reason)
 {
     werase (w_msg);
@@ -604,11 +653,14 @@ void veh_interact::do_drain(int reason)
         mvwprintz(w_msg, 0, 12, c_red, _("hose") ); // FIXME: i18n
         wrefresh (w_msg);
         return;
-    default:;
     }
     sel_cmd = 'd';
 }
 
+/**
+ * Handles renaming a vehicle.
+ * @param reason Unused.
+ */
 void veh_interact::do_rename(int reason)
 {
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
@@ -621,6 +673,12 @@ void veh_interact::do_rename(int reason)
     display_veh   ();
 }
 
+/**
+ * Returns the first (external) part on the vehicle at the given position.
+ * @param dx The x-coordinate, relative to the viewport's 0-point (?)
+ * @param dy The y-coordinate, relative to the viewport's 0-point (?)
+ * @return The external vehicle part at the specified coordinates.
+ */
 int veh_interact::part_at (int dx, int dy)
 {
     int vdx = -ddx - dy;
@@ -634,6 +692,11 @@ int veh_interact::part_at (int dx, int dy)
     return -1;
 }
 
+/**
+ * Moves the cursor on the vehicle editing window.
+ * @param dx How far to move the cursor on the x-axis.
+ * @param dy How far to move the cursor on the y-axis.
+ */
 void veh_interact::move_cursor (int dx, int dy)
 {
     mvwputch (w_disp, cy + 6, cx + 6, cpart >= 0 ? veh->part_color (cpart) : c_black,
@@ -662,7 +725,6 @@ void veh_interact::move_cursor (int dx, int dy)
     wrefresh (w_parts);
 
     can_mount.clear();
-    has_mats.clear();
     if (!obstruct)
         for (int i = 1; i < num_vparts; i++)
         {
@@ -675,6 +737,7 @@ void veh_interact::move_cursor (int dx, int dy)
     wheel = -1;
     if (cpart >= 0)
     {
+        //Misleading, internal_parts actually returns all parts at that square
         parts_here = veh->internal_parts(cpart);
         parts_here.insert (parts_here.begin(), cpart);
         for (int i = 0; i < parts_here.size(); i++)
@@ -700,6 +763,9 @@ void veh_interact::move_cursor (int dx, int dy)
     display_mode (' ');
 }
 
+/**
+ * Draws the viewport with the vehicle in it on the left side of the window.
+ */
 void veh_interact::display_veh ()
 {
     int x1 = 12, y1 = 12, x2 = -12, y2 = -12;
@@ -744,6 +810,9 @@ void veh_interact::display_veh ()
     wrefresh (w_disp);
 }
 
+/**
+ * Displays the vehicle's stats at the bottom of the window.
+ */
 void veh_interact::display_stats ()
 {
     bool conf = veh->valid_wheel_config();
@@ -811,6 +880,11 @@ void veh_interact::display_stats ()
     wrefresh (w_stats);
 }
 
+/**
+ * Prints the list of usable commands at the top of the window, and highlights
+ * the hotkeys used to activate them.
+ * @param mode What command we are currently using. ' ' for no command.
+ */
 void veh_interact::display_mode (char mode)
 {
     werase (w_mode);
@@ -839,6 +913,11 @@ void veh_interact::display_mode (char mode)
     wrefresh (w_mode);
 }
 
+/**
+ * Draws the list of parts that can be mounted in the selected square. Used
+ * when installing new parts or changing tires.
+ * @param pos The current cursor position in the list.
+ */
 void veh_interact::display_list (int pos)
 {
     werase (w_list);
@@ -858,6 +937,7 @@ void veh_interact::display_list (int pos)
     wrefresh (w_list);
 }
 
+/** Used by consume_vpart_item to track items that could be consumed. */
 struct candidate_vpart {
     bool in_inventory;
     int mapx;
@@ -874,10 +954,14 @@ struct candidate_vpart {
         in_inventory(true),mapx(-1),mapy(-1),invlet(ch) { vpart_item = vpitem; }
 };
 
-// given vpart type, give a choice from inventory items & nearby items.
-// not using consume_items in crafting.cpp
-// because it got into weird cases, & it doesn't consider
-// characteristics like item hp & bigness.
+/**
+ * Given a vpart type, gives the choice of inventory and nearby items to consume
+ * for install/repair/etc. Doesn't use consume_items in crafting.cpp, as it got
+ * into weird cases and doesn't consider properties like HP and bigness. The
+ * item will be removed by this function.
+ * @param vpid The vpart type to look for.
+ * @return The item that was consumed.
+ */
 item consume_vpart_item (game *g, vpart_id vpid){
     std::vector<candidate_vpart> candidates;
     const itype_id itid = vpart_list[vpid].item;
@@ -943,6 +1027,10 @@ item consume_vpart_item (game *g, vpart_id vpid){
     //return ret;
 }
 
+/**
+ * Called when the activity timer for installing parts, repairing, etc times
+ * out and the the action is complete.
+ */
 void complete_vehicle (game *g)
 {
     if (g->u.activity.values.size() < 7)
@@ -1105,6 +1193,5 @@ void complete_vehicle (game *g)
     case 'd':
         g->u.siphon( g, veh, "water" );
         break;
-    default:;
     }
 }
