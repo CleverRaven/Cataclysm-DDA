@@ -7595,7 +7595,7 @@ void player::use(game *g, char let)
     inv.add_item_keep_invlet(copy);
    return;
   } else if (gun->contents.size() >= 4) {
-   g->add_msg(_("Your %s already has 4 mods installed!  To remove the mods,\
+   g->add_msg(_("Your %s already has 4 mods installed!  To remove the mods, \
 press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
    if (replace_item)
     inv.add_item_keep_invlet(copy);
