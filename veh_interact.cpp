@@ -81,15 +81,17 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     for (int i = 0; i < FULL_SCREEN_HEIGHT; i++)
     {
         mvwputch(w_grid, i, winx2, c_ltgray, i == winy1 || i == winy2-1? LINE_XOXX : LINE_XOXO);
-        if (i >= winy1 && i < winy2)
+        if (i >= winy1 && i < winy2) {
             mvwputch(w_grid, i, winx1, c_ltgray, LINE_XOXO);
+        }
     }
     for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
     {
         mvwputch(w_grid, winy1, i, c_ltgray,
                  i == winx1? LINE_OXXX : (i == winx2? LINE_OXXX : LINE_OXOX));
-        if (i < winx2)
+        if (i < winx2) {
             mvwputch(w_grid, winy2-1, i, c_ltgray, i == winx1? LINE_XXOX : LINE_OXOX);
+        }
     }
     wrefresh(w_grid);
 
@@ -126,31 +128,39 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
         int dx, dy;
         get_direction (gm, dx, dy, ch);
         if (ch == KEY_ESCAPE || ch == 'q' )
+        {
             finish = true;
+        } 
         else
+        {
             if (dx != -2 && (dx || dy) &&
                 cx + dx >= -6 && cx + dx < 6 &&
                 cy + dy >= -6 && cy + dy < 6)
+            {
                 move_cursor(dx, dy);
+            }
             else
             {
                 int mval = cant_do(ch);
                 display_mode (ch);
                 switch (ch)
                 {
-                case 'i': do_install(mval); break;
-                case 'r': do_repair(mval);  break;
-                case 'f': do_refill(mval);  break;
-                case 'o': do_remove(mval);  break;
-                case 'e': do_rename(mval);  break;
-                case 's': do_siphon(mval);  break;
-                case 'c': do_tirechange(mval); break;
-                case 'd': do_drain(mval);  break;
+                    case 'i': do_install(mval); break;
+                    case 'r': do_repair(mval);  break;
+                    case 'f': do_refill(mval);  break;
+                    case 'o': do_remove(mval);  break;
+                    case 'e': do_rename(mval);  break;
+                    case 's': do_siphon(mval);  break;
+                    case 'c': do_tirechange(mval); break;
+                    case 'd': do_drain(mval);  break;
                 }
                 if (sel_cmd != ' ')
+                {
                     finish = true;
+                }
                 display_mode (' ');
             }
+        }
     }
     werase(w_grid);
     werase(w_mode);
@@ -397,8 +407,9 @@ void veh_interact::do_repair(int reason)
         char ch = input(); // See keypress.h
         int dx, dy;
         get_direction (g, dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && has_comps && (veh->parts[sel_part].hp > 0 ||
-                                                       has_wrench) && has_skill)
+        if ((ch == '\n' || ch == ' ') && 
+                has_comps &&
+                (veh->parts[sel_part].hp > 0 || has_wrench) && has_skill)
         {
             sel_cmd = 'r';
             return;
@@ -416,9 +427,13 @@ void veh_interact::do_repair(int reason)
         {
             pos += dy;
             if(pos >= need_repair.size())
+            {
                 pos = 0;
+            }
             else if(pos < 0)
+            {
                 pos = need_repair.size() - 1;
+            }
         }
     }
 }
@@ -525,10 +540,13 @@ void veh_interact::do_remove(int reason)
         {
             pos += dy;
             if (pos < first)
+            {
                 pos = parts_here.size()-1;
-            else
-                if (pos >= parts_here.size())
-                    pos = first;
+            }
+            else if (pos >= parts_here.size())
+            {
+                pos = first;
+            }
         }
     }
 }
@@ -583,15 +601,15 @@ void veh_interact::do_tirechange(int reason)
         bool is_wheel = false;
         sel_part = can_mount[pos];
         switch(sel_part) {
-        case vp_wheel:
-        case vp_wheel_wide:
-        case vp_wheel_bicycle:
-        case vp_wheel_motorbike:
-        case vp_wheel_small:
-            is_wheel = true;
-            break;
-        default:
-            break;
+            case vp_wheel:
+            case vp_wheel_wide:
+            case vp_wheel_bicycle:
+            case vp_wheel_motorbike:
+            case vp_wheel_small:
+                is_wheel = true;
+                break;
+            default:
+                break;
         }
         display_list (pos);
         itype_id itm = vpart_list[sel_part].item;
@@ -684,7 +702,9 @@ int veh_interact::part_at (int dx, int dy)
     {
         int p = veh->external_parts[ep];
         if (veh->parts[p].mount_dx == vdx && veh->parts[p].mount_dy == vdy)
+        {
             return p;
+        }
     }
     return -1;
 }
@@ -723,11 +743,15 @@ void veh_interact::move_cursor (int dx, int dy)
 
     can_mount.clear();
     if (!obstruct)
+    {
         for (int i = 1; i < num_vparts; i++)
         {
             if (veh->can_mount (vdx, vdy, (vpart_id) i))
+            {
                 can_mount.push_back (i);
+            }
         }
+    }
     need_repair.clear();
     parts_here.clear();
     ptank = -1;
@@ -770,28 +794,48 @@ void veh_interact::display_veh ()
     {
         int p = veh->external_parts[ep];
         if (veh->parts[p].mount_dx < x1)
+        {
             x1 = veh->parts[p].mount_dx;
+        }
         if (veh->parts[p].mount_dy < y1)
+        {
             y1 = veh->parts[p].mount_dy;
+        }
         if (veh->parts[p].mount_dx > x2)
+        {
             x2 = veh->parts[p].mount_dx;
+        }
         if (veh->parts[p].mount_dy > y2)
+        {
             y2 = veh->parts[p].mount_dy;
+        }
     }
     ddx = 0;
     ddy = 0;
     if (x2 - x1 < 11) { x1--; x2++; }
     if (y2 - y1 < 11 ) { y1--; y2++; }
     if (x1 < -5)
+    {
         ddx = -5 - x1;
+    }
     else
+    {
         if (x2 > 6)
+        {
             ddx = 6 - x2;
+        }
+    }
     if (y1 < -6)
+    {
         ddy = -6 - y1;
+    }
     else
+    {
         if (y2 > 5)
+        {
             ddy = 5 - y2;
+        }
+    }
 
     for (int ep = 0; ep < veh->external_parts.size(); ep++)
     {
@@ -802,7 +846,9 @@ void veh_interact::display_veh ()
         int x = veh->parts[p].mount_dy + ddy;
         mvwputch (w_disp, 6+y, 6+x, cx == x && cy == y? hilite(col) : col, special_symbol(sym));
         if (cx == x && cy == y)
+        {
             cpart = p;
+        }
     }
     wrefresh (w_disp);
 }
@@ -822,8 +868,7 @@ void veh_interact::display_stats ()
         mvwprintz(w_stats, 2, 14, c_ltred, "%3d", int(veh->max_velocity(false) * 0.0161f));
         mvwprintz(w_stats, 3, 1, c_ltgray, _("Accel.:          Kmh/t"));
         mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", int(veh->acceleration(false) * 0.0161f));
-    }
-    else {
+    } else {
         mvwprintz(w_stats, 1, 1, c_ltgray, _("Safe speed:      mph"));
         mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", veh->safe_velocity(false) / 100);
         mvwprintz(w_stats, 2, 1, c_ltgray, _("Top speed:       mph"));
@@ -864,12 +909,20 @@ void veh_interact::display_stats ()
         {
             fu = fu / 100;
             if (fu < 1)
+            {
                 fu = 1;
+            }
             if (!first)
+            {
                 mvwprintz(w_stats, 6, xfu++, c_ltgray, "/");
+            }
             mvwprintz(w_stats, 6, xfu++, fcs[i], "%d", fu);
-            if (fu > 9) xfu++;
-            if (fu > 99) xfu++;
+            if (fu > 9) {
+              xfu++;
+            }
+            if (fu > 99) {
+              xfu++;
+            }
             first = false;
         }
     }
@@ -959,29 +1012,41 @@ struct candidate_vpart {
  * @param vpid The vpart type to look for.
  * @return The item that was consumed.
  */
-item consume_vpart_item (game *g, vpart_id vpid){
+item consume_vpart_item (game *g, vpart_id vpid)
+{
     std::vector<candidate_vpart> candidates;
     const itype_id itid = vpart_list[vpid].item;
     for (int x = g->u.posx - PICKUP_RANGE; x <= g->u.posx + PICKUP_RANGE; x++)
+    {
         for (int y = g->u.posy - PICKUP_RANGE; y <= g->u.posy + PICKUP_RANGE; y++)
-            for(int i=0; i < g->m.i_at(x,y).size(); i++){
+        {
+            for(int i=0; i < g->m.i_at(x,y).size(); i++)
+            {
                 item* ith_item = &(g->m.i_at(x,y)[i]);
                 if (ith_item->type->id == itid)
+                {
                     candidates.push_back (candidate_vpart(x,y,i,*ith_item));
+                }
             }
+        }
+    }
 
     std::vector<item*> cand_from_inv = g->u.inv.all_items_by_type(itid);
-    for (int i=0; i < cand_from_inv.size(); i++){
+    for (int i=0; i < cand_from_inv.size(); i++)
+    {
         item* ith_item = cand_from_inv[i];
         if (ith_item->type->id  == itid)
+        {
             candidates.push_back (candidate_vpart(ith_item->invlet,*ith_item));
+        }
     }
     if (g->u.weapon.type->id == itid) {
         candidates.push_back (candidate_vpart(-1,g->u.weapon));
     }
 
     // bug?
-    if(candidates.size() == 0){
+    if(candidates.size() == 0)
+    {
         debugmsg("part not found");
         return item();
     }
@@ -993,14 +1058,21 @@ item consume_vpart_item (game *g, vpart_id vpid){
     } else {
         // popup menu!?
         std::vector<std::string> options;
-        for(int i=0;i<candidates.size(); i++){
-            if(candidates[i].in_inventory){
+        for(int i=0;i<candidates.size(); i++)
+        {
+            if(candidates[i].in_inventory)
+            {
                 if (candidates[i].invlet == -1)
+                {
                     options.push_back(candidates[i].vpart_item.tname() + _(" (wielded)"));
+                }
                 else
+                {
                     options.push_back(candidates[i].vpart_item.tname());
+                }
             }
-            else { //nearby.
+            else
+            { //nearby.
                 options.push_back(candidates[i].vpart_item.tname() + _(" (nearby)"));
             }
         }
@@ -1008,12 +1080,19 @@ item consume_vpart_item (game *g, vpart_id vpid){
         selection -= 1;
     }
     //remove item from inventory. or map.
-    if(candidates[selection].in_inventory){
+    if(candidates[selection].in_inventory)
+    {
         if(candidates[selection].invlet == -1) //weapon
+        {
             g->u.remove_weapon();
+        }
         else //non-weapon inventory
+        {
             g->u.inv.remove_item_by_letter(candidates[selection].invlet);
-    } else { //map.
+        }
+    } 
+    else
+    { //map.
         int x = candidates[selection].mapx;
         int y = candidates[selection].mapy;
         int i = candidates[selection].index;
@@ -1061,7 +1140,9 @@ void complete_vehicle (game *g)
     case 'i':
         partnum = veh->install_part (dx, dy, (vpart_id) part);
         if(partnum < 0)
+        {
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part);
+        }
         used_item = consume_vpart_item (g, (vpart_id) part);
         veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
         tools.push_back(component("welder", welder_charges));
@@ -1091,8 +1172,13 @@ void complete_vehicle (game *g)
             const double PI = 3.14159265358979f;
             int dir = (atan2(delta_y, delta_x) * 180.0 / PI);
             dir -= veh->face.dir();
-            while(dir < 0) dir += 360;
-            while(dir > 360) dir -= 360;
+            while(dir < 0)
+            {
+                dir += 360;
+            }
+            while(dir > 360) {
+                dir -= 360;
+            }
 
             veh->parts[partnum].direction = dir;
         }
@@ -1122,13 +1208,17 @@ void complete_vehicle (game *g)
         break;
     case 'f':
         if (!g->pl_refill_vehicle(*veh, part, true))
+        {
             debugmsg ("complete_vehicle refill broken");
+        }
         g->pl_refill_vehicle(*veh, part);
         break;
     case 'o':
         // Dump contents of part at player's feet, if any.
         for (int i = 0; i < veh->parts[part].items.size(); i++)
+        {
             g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[part].items[i]);
+        }
         veh->parts[part].items.clear();
 
         broken = veh->parts[part].hp <= 0;
@@ -1136,7 +1226,9 @@ void complete_vehicle (game *g)
             used_item = veh->item_from_part( part );
             g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
             if(type!=SEL_JACK) // Changing tires won't make you a car mechanic
+            {
                 g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
+            }
         }
         if (veh->parts.size() < 2)
         {
