@@ -15,9 +15,8 @@ class game;
 class veh_interact
 {
 public:
-    //These four terribly-named variables are for the editing viewport
-    int cx; //cursor x
-    int cy; //cursor y
+    int cursor_x;
+    int cursor_y;
     int ddx;
     int ddy;
     int sel_part; //Sometimes is a vehicle_part, sometimes is vpart_info, should be split

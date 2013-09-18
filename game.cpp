@@ -6278,8 +6278,8 @@ void game::handbrake ()
 void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 {
     veh_interact vehint;
-    vehint.cx = cx;
-    vehint.cy = cy;
+    vehint.cursor_x = cx;
+    vehint.cursor_y = cy;
     vehint.exec(this, &veh, examx, examy);
 //    debugmsg ("exam_vehicle cmd=%c %d", vehint.sel_cmd, (int) vehint.sel_cmd);
     if (vehint.sel_cmd != ' ')
@@ -6290,10 +6290,10 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
                                      (int) vehint.sel_cmd, 0, "");
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
-        u.activity.values.push_back (vehint.cx);   // values[2]
-        u.activity.values.push_back (vehint.cy);   // values[3]
-        u.activity.values.push_back (-vehint.ddx - vehint.cy);   // values[4]
-        u.activity.values.push_back (vehint.cx - vehint.ddy);   // values[5]
+        u.activity.values.push_back (vehint.cursor_x);   // values[2]
+        u.activity.values.push_back (vehint.cursor_y);   // values[3]
+        u.activity.values.push_back (-vehint.ddx - vehint.cursor_y);   // values[4]
+        u.activity.values.push_back (vehint.cursor_x - vehint.ddy);   // values[5]
         u.activity.values.push_back (vehint.sel_part); // values[6]
         u.activity.values.push_back (vehint.sel_type); // int. might make bitmask
         u.moves = 0;

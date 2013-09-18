@@ -14,8 +14,8 @@
  */
 veh_interact::veh_interact ()
 {
-    cx = 0;
-    cy = 0;
+    cursor_x = 0;
+    cursor_y = 0;
     cpart = -1;
     ddx = 0;
     ddy = 0;
@@ -134,8 +134,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
         else
         {
             if (dx != -2 && (dx || dy) &&
-                cx + dx >= -6 && cx + dx < 6 &&
-                cy + dy >= -6 && cy + dy < 6)
+                cursor_x + dx >= -6 && cursor_x + dx < 6 &&
+                cursor_y + dy >= -6 && cursor_y + dy < 6)
             {
                 move_cursor(dx, dy);
             }
@@ -715,13 +715,13 @@ int veh_interact::part_at (int dx, int dy)
  */
 void veh_interact::move_cursor (int dx, int dy)
 {
-    mvwputch (w_disp, cy + 6, cx + 6, cpart >= 0 ? veh->part_color (cpart) : c_black,
+    mvwputch (w_disp, cursor_y + 6, cursor_x + 6, cpart >= 0 ? veh->part_color (cpart) : c_black,
               special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
-    cx += dx;
-    cy += dy;
-    cpart = part_at (cx, cy);
-    int vdx = -ddx - cy;
-    int vdy = cx - ddy;
+    cursor_x += dx;
+    cursor_y += dy;
+    cpart = part_at (cursor_x, cursor_y);
+    int vdx = -ddx - cursor_y;
+    int vdy = cursor_x - ddy;
     int vx, vy;
     veh->coord_translate (vdx, vdy, vx, vy);
     int vehx = veh->global_x() + vx;
@@ -733,7 +733,7 @@ void veh_interact::move_cursor (int dx, int dy)
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
-    mvwputch (w_disp, cy + 6, cx + 6, obstruct ? red_background(col) : hilite(col),
+    mvwputch (w_disp, cursor_y + 6, cursor_x + 6, obstruct ? red_background(col) : hilite(col),
               special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
     wrefresh (w_disp);
     werase (w_parts);
@@ -843,8 +843,8 @@ void veh_interact::display_veh ()
         nc_color col = veh->part_color (p);
         int y = -(veh->parts[p].mount_dx + ddx);
         int x = veh->parts[p].mount_dy + ddy;
-        mvwputch (w_disp, 6+y, 6+x, cx == x && cy == y? hilite(col) : col, special_symbol(sym));
-        if (cx == x && cy == y)
+        mvwputch (w_disp, 6+y, 6+x, cursor_x == x && cursor_y == y? hilite(col) : col, special_symbol(sym));
+        if (cursor_x == x && cursor_y == y)
         {
             cpart = p;
         }
@@ -897,30 +897,30 @@ void veh_interact::display_stats ()
                   rm_prefix(_("<wheels>  lack")).c_str());
     }
     mvwprintz(w_stats, 6, 1, c_ltgray,  _("Fuel usage (safe):        "));
-    int xfu = 20;
-    ammotype ftypes[3] = { "gasoline", "battery", "plasma" };
-    nc_color fcs[3] = { c_ltred, c_yellow, c_ltblue };
+    int fuel_usage_x = 20;
+    ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
+    nc_color fuel_colors[3] = { c_ltred, c_yellow, c_ltblue };
     bool first = true;
     for (int i = 0; i < 3; i++)
     {
-        int fu = veh->basic_consumption (ftypes[i]);
-        if (fu > 0)
+        int fuel_usage = veh->basic_consumption (fuel_types[i]);
+        if (fuel_usage > 0)
         {
-            fu = fu / 100;
-            if (fu < 1)
+            fuel_usage = fuel_usage / 100;
+            if (fuel_usage < 1)
             {
-                fu = 1;
+                fuel_usage = 1;
             }
             if (!first)
             {
-                mvwprintz(w_stats, 6, xfu++, c_ltgray, "/");
+                mvwprintz(w_stats, 6, fuel_usage_x++, c_ltgray, "/");
             }
-            mvwprintz(w_stats, 6, xfu++, fcs[i], "%d", fu);
-            if (fu > 9) {
-              xfu++;
+            mvwprintz(w_stats, 6, fuel_usage_x++, fuel_colors[i], "%d", fuel_usage);
+            if (fuel_usage > 9) {
+              fuel_usage_x++;
             }
-            if (fu > 99) {
-              xfu++;
+            if (fuel_usage > 99) {
+              fuel_usage_x++;
             }
             first = false;
         }
