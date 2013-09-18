@@ -761,36 +761,13 @@ void player::update_bodytemp(game *g)
         // FATIGUE
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
         // Fetches the temperature change due to surrounding tiles
-        temp_conv[i] += g->get_radiante_energy(posx, posy);
-        /*
-        // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
-        int blister_count = 0; // If the counter is high, your skin starts to burn
-        for (int j = -6 ; j <= 6 ; j++)
-        {
-            for (int k = -6 ; k <= 6 ; k++)
-            {
-                int heat_intensity = 0;
-                field &local_field = g->m.field_at(posx + j, posy + k);
-                if(local_field.findField(fd_fire))
-                {
-                    heat_intensity = local_field.findField(fd_fire)->getFieldDensity();
-                }
-                else if (g->m.tr_at(posx + j, posy + k) == tr_lava )
-                {
-                    heat_intensity = 3;
-                }
-                if (heat_intensity > 0 && g->u_see(posx + j, posy + k))
-                {
-                    // Ensure fire_dist >=1 to avoid divide-by-zero errors.
-                    int fire_dist = std::max(1, std::max(j, k));
-                    if (frostbite_timer[i] > 0)
-                        { frostbite_timer[i] -= heat_intensity - fire_dist / 2;}
-                    temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
-                    blister_count += heat_intensity / (fire_dist * fire_dist);
-                }
-            }
-        }
-        */
+        int radiante_heat = g->get_radiante_energy(posx, posy);
+        temp_conv[i] += radiante_heat;
+        // Radiante energy will cause blisters
+        int blister_count += radiante_heat % 10000;
+        // Radiante energy will reduce frostbite
+        if (frostbite_timer[i] > 0)
+            { frostbite_timer[i] -= radiante_heat % 10000;}
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
         if (has_disease("onfire")) { temp_cur[i] += 250; }
@@ -849,7 +826,6 @@ void player::update_bodytemp(game *g)
             }
         }
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F. 500 is picked at random...
-/*
         if (has_bionic("bio_heatsink") && blister_count < 500)
         {
             blister_count = (has_trait("BARK") ? -100 : 0);
@@ -859,7 +835,6 @@ void player::update_bodytemp(game *g)
         {
             add_disease("blisters", 1, 0, -1, (body_part)i, -1);
         }
-*/        
         // BLOOD LOSS : Loss of blood results in loss of body heat
         int blood_loss = 0;
         if      (i == bp_legs)
