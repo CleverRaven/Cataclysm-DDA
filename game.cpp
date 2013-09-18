@@ -1247,10 +1247,10 @@ int game::get_radiante_energy(int posx, int posy)
 
     int tile_distance = 1;
     int tile_energy = 0;
-    int temperature_difference = 0;
     // Four intensities of fire, in DDA units
-    int fire_temperature_level[4] = {54000, 82000, 110000, 140000};
-    int fire_energy = 0;
+    // Values taken from wikipedia and divided by 4
+    int fire_temperature_level[4] = {13500, 20500, 27500, 35000};
+    int lava_temperature = fire_temperature_level[3];
 
     for (int j = -6 ; j <= 6 ; j++)
     {
@@ -1259,17 +1259,18 @@ int game::get_radiante_energy(int posx, int posy)
             // Skip things you can't see
             if ( !u_see(posx + j, posy + k) ) {
                 // DEBUG
-                felt_radiante_energy = 1;
+                felt_radiante_energy += 1;
                 continue;
             }
             field &tile_field = m.field_at(posx + j, posy + k);
             tile_distance = std::max(1, std::max(abs(j), abs(k)));
+            int felt_tile_energy = 0;
 
             /**
              *  Fire energy
              *      Find the felt_radiante temperatue of the player
              *      ISSUE : fire "size" should also incorporate number of tiles ...
-             *          perhaps only take the closest fire tile... or the closest 4(?) tiles
+             *          Current fix : fire temp definitions are divided by 4
              *      BUG : Sometimes, when the player is close, and he takes a step, the radiante energy is zero
              *          because he loses sight
              */
@@ -1285,15 +1286,29 @@ int game::get_radiante_energy(int posx, int posy)
                     case 4:
                         tile_energy = fire_temperature_level[4]; break;
                 }
-                // If we are too far from the fire, avoid temp diff being negative
-                temperature_difference = std::max(0, tile_energy / (tile_distance * tile_distance));
-                fire_energy = std::max(fire_energy, (int)(temperature_difference*exp(0.004)));
+                felt_tile_energy += exp(0.004) * (tile_energy / (tile_distance * tile_distance));
             }
+
+            /**
+             * Lava energy
+             *      ISSUE : Cannot use tile_field because lava is a type of terrain
+             *      How to make this prettier?
+             */
+
+            if ( m.tr_at(posx + j, posy + k) == tr_lava ) {
+                tile_energy = lava_temperature;
+
+                felt_tile_energy += exp(0.004) * (tile_energy / (tile_distance * tile_distance));
+            }
+
+            /**
+             * Total energy felt
+             */
+
+            felt_radiante_energy += felt_tile_energy;
         }
     }
-    felt_radiante_energy += fire_energy;
-    // DEBUG
-    add_msg("Radiante Energy : %d", felt_radiante_energy);
+
     return felt_radiante_energy;
 }
 
