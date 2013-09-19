@@ -6300,7 +6300,18 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
         u.activity.values.push_back (vehint.cursor_y);   // values[3]
         u.activity.values.push_back (-vehint.ddx - vehint.cursor_y);   // values[4]
         u.activity.values.push_back (vehint.cursor_x - vehint.ddy);   // values[5]
-        u.activity.values.push_back (vehint.sel_vpart_info); // values[6]
+        //Find the vpart_id for the selected vpart
+        //This is temporary, and should be removed when the vpart_id enum is removed
+        vpart_id sel_vpart_id = vp_null;
+        if(vehint.sel_vpart_info != NULL) {
+          for(int index = 0; index < num_vparts; index++) {
+            if(vpart_list[index].id == vehint.sel_vpart_info->id) {
+              sel_vpart_id = (vpart_id) index;
+              break;
+            }
+          }
+        }
+        u.activity.values.push_back (sel_vpart_id); // values[6]
         u.activity.values.push_back (veh.index_of_part(vehint.sel_vehicle_part)); // values[7]
         u.activity.values.push_back (vehint.sel_type); // int. might make bitmask
         u.moves = 0;

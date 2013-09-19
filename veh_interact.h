@@ -19,7 +19,7 @@ public:
     int cursor_y;
     int ddx;
     int ddy;
-    int sel_vpart_info;
+    struct vpart_info *sel_vpart_info;
     struct vehicle_part *sel_vehicle_part;
     char sel_cmd; //Command currently being run by the player
     int sel_type;
@@ -78,7 +78,7 @@ private:
     /* Vector of all vpart TYPES that can be mounted in the current square.
      * Can be converted to a vector<vpart_info>.
      * Updated whenever the cursor moves. */
-    std::vector<int> can_mount;
+    std::vector<vpart_info> can_mount;
 
     /* Vector of vparts in the current square that can be repaired. Strictly a
      * subset of parts_here.

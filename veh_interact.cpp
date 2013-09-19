@@ -21,7 +21,7 @@ veh_interact::veh_interact ()
     ddy = 0;
     sel_cmd = ' ';
     sel_type=0;
-    sel_vpart_info = vp_null;
+    sel_vpart_info = NULL;
     sel_vehicle_part = NULL;
 }
 
@@ -294,11 +294,11 @@ void veh_interact::do_install(int reason)
     }
     while (true)
     {
-        sel_vpart_info = can_mount[pos];
+        sel_vpart_info = &(can_mount[pos]);
         display_list (pos);
-        itype_id itm = vpart_list[sel_vpart_info].item;
+        itype_id itm = sel_vpart_info->item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
-        bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[sel_vpart_info].difficulty;
+        bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
         bool has_tools = has_welder && has_wrench;
         werase (w_msg);
         mvwprintz(w_msg, 0, 1, c_ltgray, rm_prefix(_("<veh>Needs ")).c_str());
@@ -308,9 +308,9 @@ void veh_interact::do_install(int reason)
         wprintz(w_msg, c_ltgray, rm_prefix(_("<veh>, a ")).c_str());
         wprintz(w_msg, has_welder? c_ltgreen : c_red, _("powered welder"));
         wprintz(w_msg, c_ltgray, rm_prefix(_("<veh>, and level ")).c_str());
-        wprintz(w_msg, has_skill? c_ltgreen : c_red, "%d", vpart_list[sel_vpart_info].difficulty);
+        wprintz(w_msg, has_skill? c_ltgreen : c_red, "%d", sel_vpart_info->difficulty);
         wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> skill in mechanics.")).c_str());
-        bool eng = vpart_list[sel_vpart_info].has_flag("ENGINE");
+        bool eng = sel_vpart_info->has_flag("ENGINE");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
         if (engines && eng) // already has engine
         {
@@ -597,21 +597,10 @@ void veh_interact::do_tirechange(int reason)
     int pos = 0;
     while (true)
     {
-        bool is_wheel = false;
-        sel_vpart_info = can_mount[pos];
-        switch(sel_vpart_info) {
-            case vp_wheel:
-            case vp_wheel_wide:
-            case vp_wheel_bicycle:
-            case vp_wheel_motorbike:
-            case vp_wheel_small:
-                is_wheel = true;
-                break;
-            default:
-                break;
-        }
+        sel_vpart_info = &(can_mount[pos]);
+        bool is_wheel = sel_vpart_info->has_flag("WHEEL");
         display_list (pos);
-        itype_id itm = vpart_list[sel_vpart_info].item;
+        itype_id itm = sel_vpart_info->item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_tools = has_jack && has_wrench;
         werase (w_msg);
@@ -747,7 +736,7 @@ void veh_interact::move_cursor (int dx, int dy)
         {
             if (veh->can_mount (vdx, vdy, (vpart_id) i))
             {
-                can_mount.push_back (i);
+                can_mount.push_back (vpart_list[i]);
             }
         }
     }
@@ -974,14 +963,13 @@ void veh_interact::display_list (int pos)
     for (int i = page * page_size; i < (page + 1) * page_size && i < can_mount.size(); i++)
     {
         int y = i - page * page_size;
-        itype_id itm = vpart_list[can_mount[i]].item;
+        itype_id itm = can_mount[i].item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
-        bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[can_mount[i]].difficulty;
-        bool is_wheel = vpart_list[can_mount[i]].has_flag("WHEEL");
+        bool has_skill = g->u.skillLevel("mechanics") >= can_mount[i].difficulty;
+        bool is_wheel = can_mount[i].has_flag("WHEEL");
         nc_color col = has_comps && (has_skill || is_wheel) ? c_white : c_dkgray;
-        mvwprintz(w_list, y, 3, pos == i? hilite (col) : col, vpart_list[can_mount[i]].name.c_str());
-        mvwputch (w_list, y, 1,
-                  vpart_list[can_mount[i]].color, special_symbol (vpart_list[can_mount[i]].sym));
+        mvwprintz(w_list, y, 3, pos == i? hilite (col) : col, can_mount[i].name.c_str());
+        mvwputch (w_list, y, 1, can_mount[i].color, special_symbol(can_mount[i].sym));
     }
     wrefresh (w_list);
 }
