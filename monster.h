@@ -208,8 +208,8 @@ class monster {
  std::string unique_name; // If we're unique
  bool hallucination;
 
- bool setpos(const int x, const int y);
- bool setpos(const point &p);
+ bool setpos(const int x, const int y, const bool level_change = false);
+ bool setpos(const point &p, const bool level_change = false);
  inline int posx() const { return _posx; }
  inline int posy() const { return _posy; }
 

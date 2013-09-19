@@ -104,17 +104,17 @@ monster::~monster()
 {
 }
 
-bool monster::setpos(const int x, const int y)
+bool monster::setpos(const int x, const int y, const bool level_change)
 {
-    bool ret = g->update_zombie_pos(*this, x, y);
+    bool ret = level_change ? true : g->update_zombie_pos(*this, x, y);
     _posx = x;
     _posy = y;
     return ret;
 }
 
-bool monster::setpos(const point &p)
+bool monster::setpos(const point &p, const bool level_change)
 {
-    return setpos(p.x, p.y);
+    return setpos(p.x, p.y, level_change);
 }
 
 void monster::poly(mtype *t)
