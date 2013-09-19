@@ -11555,8 +11555,7 @@
   "tools":[ [ ["still", -1] ],
     [ ["fire", -1] ] ],
   "components": [ [ ["strawberries", 2] ],
-    [ ["vodka", 4] ],
-    [ ["bottle_glass", 1] ] ]
+    [ ["vodka", 4] ] ]
 },
 {
   "result": "drink_boozeberry",
@@ -11569,8 +11568,7 @@
   "tools":[ [ ["still", -1] ],
     [ ["fire", -1] ] ],
   "components": [ [ ["blueberries", 2] ],
-    [ ["vodka", 4] ],
-    [ ["bottle_glass", 1] ] ]
+    [ ["vodka", 4] ] ]
 },
 {
   "result": "cola_meth",
@@ -11583,8 +11581,7 @@
   "tools":[ [ ["still", -1] ],
     [ ["fire", -1] ] ],
   "components": [ [ ["meth", 4] ],
-    [ ["cola", 2] ],
-    [ ["bottle_glass", 1] ] ]
+    [ ["cola", 2] ] ]
 },
 {
   "result": "bookplate",
@@ -11645,8 +11642,7 @@
   "components": [ [ ["meat_tainted", 12] ],
     [ ["vodka", 2] ],
     [ ["whiskey", 2] ],
-    [ ["rum", 2] ],
-    [ ["bottle_glass", 1] ] ]
+    [ ["rum", 2] ] ]
 },
 {
    "result": "cheeseburger",
