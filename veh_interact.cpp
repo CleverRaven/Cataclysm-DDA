@@ -389,13 +389,13 @@ void veh_interact::do_repair(int reason)
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
-        int dif = vpart_list[sel_vehicle_part->id].difficulty + (sel_vehicle_part->hp <= 0? 0 : 2);
+        int dif = vehicle_part_types[sel_vehicle_part->id].difficulty + (sel_vehicle_part->hp <= 0? 0 : 2);
         bool has_skill = g->u.skillLevel("mechanics") >= dif;
         mvwprintz(w_msg, 0, 1, c_ltgray, _("You need level %d skill in mechanics."), dif);
         mvwprintz(w_msg, 0, 16, has_skill? c_ltgreen : c_red, "%d", dif); // FIXME: i18n
         if (sel_vehicle_part->hp <= 0)
         {
-            itype_id itm = vpart_list[sel_vehicle_part->id].item;
+            itype_id itm = vehicle_part_types[sel_vehicle_part->id].item;
             has_comps = crafting_inv.has_amount(itm, 1);
             mvwprintz(w_msg, 1, 1, c_ltgray, _("You also need a wrench and %s to replace broken one."),
                       g->itypes[itm]->name.c_str());
@@ -453,8 +453,8 @@ void veh_interact::do_refill(int reason)
         return;
     case 2:
         mvwprintz(w_msg, 0, 1, c_ltgray, _("You need %s."),
-                  ammo_name(vpart_list[ptank->id].fuel_type).c_str());
-        mvwprintz(w_msg, 0, 10, c_red, ammo_name(vpart_list[ptank->id].fuel_type).c_str());
+                  ammo_name(vehicle_part_types[ptank->id].fuel_type).c_str());
+        mvwprintz(w_msg, 0, 10, c_red, ammo_name(vehicle_part_types[ptank->id].fuel_type).c_str());
         wrefresh (w_msg);
         return;
     }
@@ -736,7 +736,7 @@ void veh_interact::move_cursor (int dx, int dy)
         {
             if (veh->can_mount (vdx, vdy, (vpart_id) i))
             {
-                can_mount.push_back (vpart_list[i]);
+                can_mount.push_back (vehicle_part_types[i]);
             }
         }
     }
@@ -1002,7 +1002,7 @@ struct candidate_vpart {
 item consume_vpart_item (game *g, vpart_id vpid)
 {
     std::vector<candidate_vpart> candidates;
-    const itype_id itid = vpart_list[vpid].item;
+    const itype_id itid = vehicle_part_types[vpid].item;
     for (int x = g->u.posx - PICKUP_RANGE; x <= g->u.posx + PICKUP_RANGE; x++)
     {
         for (int y = g->u.posy - PICKUP_RANGE; y <= g->u.posy + PICKUP_RANGE; y++)
@@ -1169,8 +1169,8 @@ void complete_vehicle (game *g)
         }
 
         g->add_msg (_("You install a %s into the %s."),
-                    vpart_list[part_id].name.c_str(), veh->name.c_str());
-        g->u.practice (g->turn, "mechanics", vpart_list[part_id].difficulty * 5 + 20);
+                    vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
+        g->u.practice (g->turn, "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20);
         break;
     case 'r':
         if (veh->parts[vehicle_part].hp <= 0)
@@ -1189,7 +1189,7 @@ void complete_vehicle (game *g)
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         g->add_msg (_("You repair the %s's %s."),
                     veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
-        g->u.practice (g->turn, "mechanics", (vpart_list[vehicle_part].difficulty + dd) * 5 + 20);
+        g->u.practice (g->turn, "mechanics", (vehicle_part_types[vehicle_part].difficulty + dd) * 5 + 20);
         break;
     case 'f':
         if (!g->pl_refill_vehicle(*veh, vehicle_part, true))
@@ -1248,7 +1248,7 @@ void complete_vehicle (game *g)
                 removed_wheel = veh->item_from_part( replaced_wheel );
                 veh->remove_part( replaced_wheel );
                 g->add_msg( _("You replace one of the %s's tires with a %s."),
-                            veh->name.c_str(), vpart_list[part_id].name.c_str() );
+                            veh->name.c_str(), vehicle_part_types[part_id].name.c_str() );
             } else {
                 debugmsg( "no wheel to remove when changing wheels." );
                 return;

@@ -27,7 +27,7 @@
 // vehicle_parts.json
 // If you use wrong config, installation of part will fail
 
-vpart_info vpart_list[num_vparts];
+vpart_info vehicle_part_types[num_vparts];
 
 // Note on the 'symbol' flag in vehicle parts -
 // the following symbols will be translated:
@@ -92,7 +92,7 @@ void game::init_vehicle_parts()
     next_part.difficulty = next_json.get("difficulty").as_int();
     next_part.flags = next_json.get("flags").as_tags();
 
-    vpart_list[index] = next_part;
+    vehicle_part_types[index] = next_part;
 
     index++;
   }

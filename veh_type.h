@@ -134,6 +134,6 @@ struct vpart_info
     }
 };
 
-extern vpart_info vpart_list[num_vparts];
+extern vpart_info vehicle_part_types[num_vparts];
 
 #endif

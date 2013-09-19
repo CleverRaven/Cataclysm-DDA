@@ -6167,7 +6167,7 @@ bool game::vehicle_near ()
 
 bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
 {
-  vpart_info part_info = vpart_list[part->id];
+  vpart_info part_info = vehicle_part_types[part->id];
   if (!part_info.has_flag("FUEL_TANK")) {
     return false;
   }
@@ -6305,7 +6305,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
         vpart_id sel_vpart_id = vp_null;
         if(vehint.sel_vpart_info != NULL) {
           for(int index = 0; index < num_vparts; index++) {
-            if(vpart_list[index].id == vehint.sel_vpart_info->id) {
+            if(vehicle_part_types[index].id == vehint.sel_vpart_info->id) {
               sel_vpart_id = (vpart_id) index;
               break;
             }
