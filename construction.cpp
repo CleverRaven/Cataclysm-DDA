@@ -846,8 +846,6 @@ void game::complete_construction()
     int stage_num = u.activity.values[0];
     constructable *built = constructions[u.activity.index];
     construction_stage stage = built->stages[stage_num];
-    std::vector<component> player_use;
-    std::vector<component> map_use;
 
     u.practice(turn, "carpentry", std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < 10; i++) {
