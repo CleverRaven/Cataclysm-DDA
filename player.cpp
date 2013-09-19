@@ -765,10 +765,10 @@ void player::update_bodytemp(game *g)
         // Apply felt radiante energy
         temp_conv[i] += radiante_heat;
         // Radiante energy will cause blisters
-        int blister_count = radiante_heat % 10000;
+        int blister_count = radiante_heat / 10000;
         // Radiante energy will reduce frostbite
         if (frostbite_timer[i] > 0)
-            { frostbite_timer[i] -= radiante_heat % 10000;}
+            { frostbite_timer[i] -= radiante_heat / 10000;}
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
         if (has_disease("onfire")) { temp_cur[i] += 250; }
