@@ -21,6 +21,8 @@ veh_interact::veh_interact ()
     ddy = 0;
     sel_cmd = ' ';
     sel_type=0;
+    sel_vpart_info = vp_null;
+    sel_vehicle_part = NULL;
 }
 
 /**
@@ -208,7 +210,7 @@ int veh_interact::cant_do (char mode)
         has_tools = has_welder;
         break;
     case 'f': // refill mode
-        valid_target = ptank >= 0;
+        valid_target = ptank != NULL;
         has_tools = has_fuel;
         break;
     case 'o': // remove mode
@@ -222,7 +224,7 @@ int veh_interact::cant_do (char mode)
         has_tools = has_siphon;
         break;
     case 'c': // Change tire
-        valid_target = wheel >= 0;
+        valid_target = wheel != NULL;
         has_tools = has_wrench && has_jack && has_wheel;
         break;
     case 'd': //drain tank
@@ -381,19 +383,19 @@ void veh_interact::do_repair(int reason)
     int pos = 0;
     while (true)
     {
-        sel_vehicle_part = parts_here[need_repair[pos]];
+        sel_vehicle_part = &veh->parts[parts_here[need_repair[pos]]];
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, winw2, cpart, need_repair[pos]);
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
-        int dif = veh->part_info(sel_vehicle_part).difficulty + (veh->parts[sel_vehicle_part].hp <= 0? 0 : 2);
+        int dif = vpart_list[sel_vehicle_part->id].difficulty + (sel_vehicle_part->hp <= 0? 0 : 2);
         bool has_skill = g->u.skillLevel("mechanics") >= dif;
         mvwprintz(w_msg, 0, 1, c_ltgray, _("You need level %d skill in mechanics."), dif);
         mvwprintz(w_msg, 0, 16, has_skill? c_ltgreen : c_red, "%d", dif); // FIXME: i18n
-        if (veh->parts[sel_vehicle_part].hp <= 0)
+        if (sel_vehicle_part->hp <= 0)
         {
-            itype_id itm = veh->part_info(sel_vehicle_part).item;
+            itype_id itm = vpart_list[sel_vehicle_part->id].item;
             has_comps = crafting_inv.has_amount(itm, 1);
             mvwprintz(w_msg, 1, 1, c_ltgray, _("You also need a wrench and %s to replace broken one."),
                       g->itypes[itm]->name.c_str());
@@ -406,7 +408,7 @@ void veh_interact::do_repair(int reason)
         get_direction (g, dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && 
                 has_comps &&
-                (veh->parts[sel_vehicle_part].hp > 0 || has_wrench) && has_skill)
+                (sel_vehicle_part->hp > 0 || has_wrench) && has_skill)
         {
             sel_cmd = 'r';
             return;
@@ -451,8 +453,8 @@ void veh_interact::do_refill(int reason)
         return;
     case 2:
         mvwprintz(w_msg, 0, 1, c_ltgray, _("You need %s."),
-                  ammo_name(veh->part_info(ptank).fuel_type).c_str());
-        mvwprintz(w_msg, 0, 10, c_red, ammo_name(veh->part_info(ptank).fuel_type).c_str());
+                  ammo_name(vpart_list[ptank->id].fuel_type).c_str());
+        mvwprintz(w_msg, 0, 10, c_red, ammo_name(vpart_list[ptank->id].fuel_type).c_str());
         wrefresh (w_msg);
         return;
     }
@@ -512,7 +514,7 @@ void veh_interact::do_remove(int reason)
     int pos = first;
     while (true)
     {
-        sel_vehicle_part = parts_here[pos];
+        sel_vehicle_part = &veh->parts[parts_here[pos]];
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, winw2, cpart, pos);
         wrefresh (w_parts);
@@ -751,8 +753,8 @@ void veh_interact::move_cursor (int dx, int dy)
     }
     need_repair.clear();
     parts_here.clear();
-    ptank = -1;
-    wheel = -1;
+    ptank = NULL;
+    wheel = NULL;
     if (cpart >= 0)
     {
         //Misleading, internal_parts actually returns all parts at that square
@@ -767,15 +769,15 @@ void veh_interact::move_cursor (int dx, int dy)
             }
             if (veh->part_flag(p, "FUEL_TANK") && veh->parts[p].amount < veh->part_info(p).size)
             {
-                ptank = p;
+                ptank = &veh->parts[p];
             }
             if (veh->part_flag(p, "WHEEL") && veh->parts[p].amount < veh->part_info(p).size)
             {
-                wheel = p;
+                wheel = &veh->parts[p];
             }
         }
     }
-    has_fuel = ptank >= 0 ? g->pl_refill_vehicle(*veh, ptank, true) : false;
+    has_fuel = ptank != NULL ? g->refill_vehicle_part(*veh, ptank, true) : false;
     werase (w_msg);
     wrefresh (w_msg);
     display_mode (' ');

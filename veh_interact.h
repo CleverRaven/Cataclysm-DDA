@@ -20,7 +20,7 @@ public:
     int ddx;
     int ddy;
     int sel_vpart_info;
-    int sel_vehicle_part;
+    struct vehicle_part *sel_vehicle_part;
     char sel_cmd; //Command currently being run by the player
     int sel_type;
 private:
@@ -92,13 +92,11 @@ private:
      * Updated whenever the cursor moves. */
     std::vector<int> parts_here;
 
-    /* vehicle_part, refers to the fuel tank (if any) in the currently selected
-     * square. Can be converted to a vehicle_part. Could also possibly be
-     * removed and replaced with an iterator over parts_here. */
-    int ptank;
+    /* Refers to the fuel tank (if any) in the currently selected square. */
+    struct vehicle_part *ptank;
 
-    /* Same as ptank but with a wheel instead. */
-    int wheel;
+    /* Refers to the wheel (if any) in the currently selected square. */
+    struct vehicle_part *wheel;
 
     /* Whether or not the player can refuel the vehicle. Probably doesn't need
      * to be precalculated, but can be kept around harmlessly enough. */

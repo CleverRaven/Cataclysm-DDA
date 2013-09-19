@@ -765,6 +765,29 @@ int vehicle::global_part_at(int x, int y)
  return part_at(dx,dy);
 }
 
+/**
+ * Given a vehicle part which is inside of this vehicle, returns the index of
+ * that part. This exists solely because activities relating to vehicle editing
+ * require the index of the vehicle part to be passed around.
+ * @param part The part to find.
+ * @return The part index, -1 if it is not part of this vehicle.
+ */
+int vehicle::index_of_part(vehicle_part *part)
+{
+  if(part != NULL) {
+    for(int index = 0; index < parts.size(); index++) {
+      vehicle_part next_part = parts[index];
+      if(part->id == next_part.id &&
+              part->mount_dx == next_part.mount_dx &&
+              part->mount_dy == next_part.mount_dy &&
+              part->hp == next_part.hp) {
+        return index;
+      }
+    }
+  }
+  return -1;
+}
+
 char vehicle::part_sym (int p)
 {
     if (p < 0 || p >= parts.size()) {
