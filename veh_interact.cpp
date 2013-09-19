@@ -1104,7 +1104,7 @@ item consume_vpart_item (game *g, vpart_id vpid)
  */
 void complete_vehicle (game *g)
 {
-    if (g->u.activity.values.size() < 7)
+    if (g->u.activity.values.size() < 8)
     {
         debugmsg ("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
         return;
