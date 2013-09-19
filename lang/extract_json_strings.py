@@ -79,12 +79,7 @@ extracted.append("items")
 # data/raw/skills.json
 with open(os.path.join(to_folder, "json_skills.py"), 'w') as skills_jtl:
     jsonfile = os.path.join(raw_folder, "skills.json")
-    jsondata = json.loads(open(jsonfile).read())
-    names = [item[1] for item in jsondata]
-    descriptions = [item[2] for item in jsondata]
-    for n, d in zip(names, descriptions):
-        writestr(skills_jtl, n)
-        writestr(skills_jtl, d)
+    convert(jsonfile, skills_jtl)
 extracted.append("skills.json")
 
 # data/raw/professions.json
