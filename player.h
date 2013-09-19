@@ -118,6 +118,7 @@ public:
  bool has_child_flag(game *g, std::string mut);
  void remove_child_flag(game *g, std::string mut);
 
+ point pos();
  int  sight_range(int light_level) const;
  void recalc_sight_limits();
  int  unimpaired_range();

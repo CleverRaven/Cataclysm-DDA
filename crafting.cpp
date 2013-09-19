@@ -21,9 +21,6 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 void game::init_recipes() throw (std::string)
 {
     int id = -1;
-    int tl, cl;
-    recipe* last_rec = NULL;
-
     catajson recipeRaw("data/raw/recipes.json");
 
     if(!json_good())
@@ -82,13 +79,11 @@ void game::init_recipes() throw (std::string)
         std::string id_suffix = curr.has("id_suffix") ? curr.get("id_suffix").as_string() : "";
         int learn_by_disassembly = curr.has("decomp_learn") ? curr.get("decomp_learn").as_int() : -1;
 
-        tl = -1;
-        cl = -1;
         ++id;
 
         std::string rec_name = result + id_suffix;
 
-        last_rec = new recipe(rec_name, id, result, category, skill_used, requires_skills,
+        recipe* last_rec = new recipe(rec_name, id, result, category, skill_used, requires_skills,
                               difficulty, time, reversible, autolearn,
                               learn_by_disassembly);
 
@@ -107,7 +102,6 @@ void game::init_recipes() throw (std::string)
         catajson compList = curr.get("components");
         for (compList.set_begin(); compList.has_curr(); compList.next())
         {
-            ++cl;
             std::vector<component> component_choices;
             catajson comp = compList.curr();
             // interchangable components
@@ -125,7 +119,6 @@ void game::init_recipes() throw (std::string)
             catajson toolList = curr.get("tools");
             for (toolList.set_begin(); toolList.has_curr(); toolList.next())
             {
-                ++tl;
                 std::vector<component> tool_choices;
                 catajson tool = toolList.curr();
                 // interchangable tools
@@ -235,7 +228,7 @@ bool game::can_make(recipe *r)
     {
         std::vector<component> &set_of_tools = *tool_set_it;
         // if current tool is null(size 0), assume that there is no more after it.
-        if(set_of_tools.size()==0)
+        if(set_of_tools.empty())
         {
             break;
         }
@@ -269,7 +262,7 @@ bool game::can_make(recipe *r)
     while (comp_set_it != components.end())
     {
         std::vector<component> &set_of_components = *comp_set_it;
-        if(set_of_components.size() == 0)
+        if(set_of_components.empty())
         {
             break;
         }
@@ -671,7 +664,7 @@ recipe* game::select_crafting_recipe()
                 }
             }
         }
-        if (current.size() > 0)
+        if (!current.empty())
         {
             nc_color col = (available[line] ? c_white : c_dkgray);
             mvwprintz(w_data, 0, 30, col, _("Skills used: %s"),
@@ -1268,7 +1261,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         }
 
         // unlike with tools, it's a bad thing if there aren't any components available
-        if (options.size() == 0)
+        if (options.empty())
         {
             debugmsg("Attempted a recipe with no available components!");
             return ret;
@@ -1379,12 +1372,13 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
  if (found_nocharge)
   return; // Default to using a tool that doesn't require charges
 
- if (player_has.size() == 1 && map_has.size() == 0)
-  p->use_charges(player_has[0].type, player_has[0].count);
- else if (map_has.size() == 1 && player_has.size() == 0)
-  m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                   map_has[0].type, map_has[0].count);
- else { // Variety of options, list them and pick one
+ if (player_has.size() + map_has.size() == 1){
+     if(map_has.empty()){
+         p->use_charges(player_has[0].type, player_has[0].count);
+     } else {
+         m.use_charges(p->pos(), PICKUP_RANGE, map_has[0].type, map_has[0].count);
+     }
+ } else { // Variety of options, list them and pick one
 // Populate the list
   std::vector<std::string> options;
   for (int i = 0; i < map_has.size(); i++) {
@@ -1394,7 +1388,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
   for (int i = 0; i < player_has.size(); i++)
    options.push_back(item_controller->find_template(player_has[i].type)->name);
 
-  if (options.size() == 0) // This SHOULD only happen if cooking with a fire,
+  if (options.empty()) // This SHOULD only happen if cooking with a fire,
    return;                 // and the fire goes out.
 
 // Get selection via a popup menu
@@ -1446,59 +1440,55 @@ void game::disassemble(char ch)
                 bool have_all_tools = true;
                 for (int j = 0; j < cur_recipe->tools.size(); j++)
                 {
-                    bool have_this_tool = false;
                     if (cur_recipe->tools[j].size() == 0) // no tools required, may change this
                     {
-                        have_this_tool = true;
+                        continue;
                     }
-                    else
+                    bool have_this_tool = false;
+                    for (int k = 0; k < cur_recipe->tools[j].size(); k++)
                     {
-                        for (int k = 0; k < cur_recipe->tools[j].size(); k++)
-                        {
-                            itype_id type = cur_recipe->tools[j][k].type;
-                            int req = cur_recipe->tools[j][k].count;	// -1 => 1
+                        itype_id type = cur_recipe->tools[j][k].type;
+                        int req = cur_recipe->tools[j][k].count;	// -1 => 1
 
-                            if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
-                                (req >  0 && crafting_inv.has_charges(type, req)))
+                        if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                            (req >  0 && crafting_inv.has_charges(type, req)))
+                        {
+                            have_this_tool = true;
+                            k = cur_recipe->tools[j].size();
+                        }
+                        // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
+                        if (type == "welder")
+                        {
+                            if (crafting_inv.has_amount("hacksaw", 1) ||
+                                crafting_inv.has_amount("toolset", 1))
                             {
                                 have_this_tool = true;
-                                k = cur_recipe->tools[j].size();
-                            }
-                            // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
-                            if (type == "welder")
-                            {
-                                if (crafting_inv.has_amount("hacksaw", 1) ||
-                                    crafting_inv.has_amount("toolset", 1))
-                                {
-                                    have_this_tool = true;
-                                }
-                                else
-                                {
-                                    have_this_tool = false;
-                                }
-                            }
-                        }
-
-                        if (!have_this_tool)
-                        {
-                            have_all_tools = false;
-                            int req = cur_recipe->tools[j][0].count;
-                            if (cur_recipe->tools[j][0].type == "welder")
-                            {
-                                add_msg(_("You need a hacksaw to disassemble this."));
                             }
                             else
                             {
-                                if (req <= 0)
-                                {
-                                    add_msg(_("You need a %s to disassemble this."),
-                                    item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str());
-                                }
-                                else
-                                {
-                                    add_msg(_("You need a %s with %d charges to disassemble this."),
-                                    item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str(), req);
-                                }
+                                have_this_tool = false;
+                            }
+                        }
+                    }
+                    if (!have_this_tool)
+                    {
+                        have_all_tools = false;
+                        int req = cur_recipe->tools[j][0].count;
+                        if (cur_recipe->tools[j][0].type == "welder")
+                        {
+                            add_msg(_("You need a hacksaw to disassemble this."));
+                        }
+                        else
+                        {
+                            if (req <= 0)
+                            {
+                                add_msg(_("You need a %s to disassemble this."),
+                                item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str());
+                            }
+                            else
+                            {
+                                add_msg(_("You need a %s with %d charges to disassemble this."),
+                                item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str(), req);
                             }
                         }
                     }
@@ -1578,7 +1568,7 @@ void game::complete_disassemble()
   for (int j = 0; j < dis->tools.size(); j++)
   {
     if (dis->tools[j].size() > 0)
-    consume_tools(&u, dis->tools[j], false);
+        consume_tools(&u, dis->tools[j], false);
   }
 
   // add the components to the map

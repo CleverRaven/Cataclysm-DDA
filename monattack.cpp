@@ -252,7 +252,6 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
  if (dist > 5 || !g->sees_u(z->posx(), z->posy(), t))
   return;	// Out of range
  z->sp_timeout = z->type->sp_freq;	// Reset timer
- std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
  std::vector<point> free;
  for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
   for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {

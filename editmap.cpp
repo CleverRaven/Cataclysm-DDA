@@ -143,7 +143,7 @@ point editmap::edit(point coords)
     }
 
     do {
-        if ( target_list.size() < 1 ) {
+        if ( target_list.empty() ) {
             target_list.push_back(target); // 'editmap.target_list' always has point 'editmap.target' at least
         }
         if ( target_list.size() == 1 ) {
@@ -258,8 +258,6 @@ void editmap::update_view(bool update_info)
         veh_in = veh->is_inside(veh_part);
     }
 
-    int off = 1;
-
     target_ter = g->m.ter(target.x, target.y);
     ter_t terrain_type = terlist[target_ter];
     target_frn = g->m.furn(target.x, target.y);
@@ -334,6 +332,7 @@ void editmap::update_view(bool update_info)
     wrefresh(g->w_terrain);
 
     if ( update_info ) { // only if requested; this messes up windows layered ontop
+        int off = 1;
         wborder(w_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -375,9 +374,8 @@ void editmap::update_view(bool update_info)
         off++;  // 4-5
 
         if (cur_field->fieldCount() > 0) {
-            field_entry *cur = NULL;
             for(std::map<field_id, field_entry *>::iterator field_list_it = cur_field->getFieldStart(); field_list_it != cur_field->getFieldEnd(); ++field_list_it) {
-                cur = field_list_it->second;
+                field_entry* cur = field_list_it->second;
                 if(cur == NULL) {
                     continue;
                 }
@@ -446,8 +444,6 @@ int editmap::edit_ter(point coords)
 
     int pickh = pwh - 2;
     int pickw = width - 4;
-    int cur_t = 0;
-    int cur_f = 0;
 
     if( sel_ter < 0 ) {
         sel_ter = target_ter;
@@ -490,7 +486,7 @@ int editmap::edit_ter(point coords)
         nc_color c_tercurs = ( ter_frn_mode == 0 ? c_ltgreen : c_dkgray );
         nc_color c_frncurs = ( ter_frn_mode == 1 ? c_ltgreen : c_dkgray );
 
-        cur_t = 0;
+        int cur_t = 0;
         int tstart = 2;
         // draw icon grid
         for (int y = tstart; y < pickh && cur_t < num_terrain_types; y += 2) {
@@ -542,7 +538,7 @@ int editmap::edit_ter(point coords)
         }
 
         off += 2;
-        cur_f = 0;
+        int cur_f = 0;
         int fstart = off; // calc vertical offset, draw furniture icons
         for (int y = fstart; y < pickh && cur_f < num_furniture_types; y += 2) {
             for (int x = 3; x < pickw && cur_f < num_furniture_types; x++, cur_f++) {
@@ -629,7 +625,6 @@ int editmap::edit_ter(point coords)
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( subch == KEY_ENTER || subch == '\n' || subch == 'g' ) {
-                ter_t tset = terlist[sel_ter];
                 for(int t = 0; t < target_list.size(); t++ ) {
                     g->m.ter_set(target_list[t].x, target_list[t].y, (ter_id)sel_ter);
                 }
@@ -663,7 +658,6 @@ int editmap::edit_ter(point coords)
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( subch == KEY_ENTER || subch == '\n' || subch == 'g' ) {
-                furn_t tset = furnlist[sel_frn];
                 for(int t = 0; t < target_list.size(); t++ ) {
                     g->m.furn_set(target_list[t].x, target_list[t].y, (furn_id)sel_frn);
                 }
@@ -1147,7 +1141,7 @@ int editmap::select_shape(shapetype shape, int mode)
     point orig = target;
     point origor = origin;
     int ch = 0;
-    InputEvent input;
+    InputEvent input = Undefined;
     bool update = false;
     blink = true;
     if ( mode >= 0 ) {
