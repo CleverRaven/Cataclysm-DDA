@@ -1124,7 +1124,6 @@ void complete_vehicle (game *g)
     std::vector<component> tools;
     int welder_charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
     int welder_crude_charges = ((it_tool *) g->itypes["welder_crude"])->charges_per_use;
-    itype_id itm;
     int partnum;
     item used_item;
     bool broken;
