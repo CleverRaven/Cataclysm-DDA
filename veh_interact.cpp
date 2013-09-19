@@ -292,12 +292,11 @@ void veh_interact::do_install(int reason)
     }
     while (true)
     {
-        //sel_part is the currently selected part in the installable parts list
-        sel_part = can_mount[pos];
+        sel_vpart_info = can_mount[pos];
         display_list (pos);
-        itype_id itm = vpart_list[sel_part].item;
+        itype_id itm = vpart_list[sel_vpart_info].item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
-        bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[sel_part].difficulty;
+        bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[sel_vpart_info].difficulty;
         bool has_tools = has_welder && has_wrench;
         werase (w_msg);
         mvwprintz(w_msg, 0, 1, c_ltgray, rm_prefix(_("<veh>Needs ")).c_str());
@@ -307,9 +306,9 @@ void veh_interact::do_install(int reason)
         wprintz(w_msg, c_ltgray, rm_prefix(_("<veh>, a ")).c_str());
         wprintz(w_msg, has_welder? c_ltgreen : c_red, _("powered welder"));
         wprintz(w_msg, c_ltgray, rm_prefix(_("<veh>, and level ")).c_str());
-        wprintz(w_msg, has_skill? c_ltgreen : c_red, "%d", vpart_list[sel_part].difficulty);
+        wprintz(w_msg, has_skill? c_ltgreen : c_red, "%d", vpart_list[sel_vpart_info].difficulty);
         wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> skill in mechanics.")).c_str());
-        bool eng = vpart_list[sel_part].has_flag("ENGINE");
+        bool eng = vpart_list[sel_vpart_info].has_flag("ENGINE");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
         if (engines && eng) // already has engine
         {
@@ -382,20 +381,19 @@ void veh_interact::do_repair(int reason)
     int pos = 0;
     while (true)
     {
-        //sel_part points to a vehicle_part inside of the target vehicle
-        sel_part = parts_here[need_repair[pos]];
+        sel_vehicle_part = parts_here[need_repair[pos]];
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, winw2, cpart, need_repair[pos]);
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
-        int dif = veh->part_info(sel_part).difficulty + (veh->parts[sel_part].hp <= 0? 0 : 2);
+        int dif = veh->part_info(sel_vehicle_part).difficulty + (veh->parts[sel_vehicle_part].hp <= 0? 0 : 2);
         bool has_skill = g->u.skillLevel("mechanics") >= dif;
         mvwprintz(w_msg, 0, 1, c_ltgray, _("You need level %d skill in mechanics."), dif);
         mvwprintz(w_msg, 0, 16, has_skill? c_ltgreen : c_red, "%d", dif); // FIXME: i18n
-        if (veh->parts[sel_part].hp <= 0)
+        if (veh->parts[sel_vehicle_part].hp <= 0)
         {
-            itype_id itm = veh->part_info(sel_part).item;
+            itype_id itm = veh->part_info(sel_vehicle_part).item;
             has_comps = crafting_inv.has_amount(itm, 1);
             mvwprintz(w_msg, 1, 1, c_ltgray, _("You also need a wrench and %s to replace broken one."),
                       g->itypes[itm]->name.c_str());
@@ -408,7 +406,7 @@ void veh_interact::do_repair(int reason)
         get_direction (g, dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && 
                 has_comps &&
-                (veh->parts[sel_part].hp > 0 || has_wrench) && has_skill)
+                (veh->parts[sel_vehicle_part].hp > 0 || has_wrench) && has_skill)
         {
             sel_cmd = 'r';
             return;
@@ -459,7 +457,7 @@ void veh_interact::do_refill(int reason)
         return;
     }
     sel_cmd = 'f';
-    sel_part = ptank;
+    sel_vehicle_part = ptank;
 }
 
 /**
@@ -514,7 +512,7 @@ void veh_interact::do_remove(int reason)
     int pos = first;
     while (true)
     {
-        sel_part = parts_here[pos];
+        sel_vehicle_part = parts_here[pos];
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, winw2, cpart, pos);
         wrefresh (w_parts);
@@ -598,8 +596,8 @@ void veh_interact::do_tirechange(int reason)
     while (true)
     {
         bool is_wheel = false;
-        sel_part = can_mount[pos];
-        switch(sel_part) {
+        sel_vpart_info = can_mount[pos];
+        switch(sel_vpart_info) {
             case vp_wheel:
             case vp_wheel_wide:
             case vp_wheel_bicycle:
@@ -611,7 +609,7 @@ void veh_interact::do_tirechange(int reason)
                 break;
         }
         display_list (pos);
-        itype_id itm = vpart_list[sel_part].item;
+        itype_id itm = vpart_list[sel_vpart_info].item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_tools = has_jack && has_wrench;
         werase (w_msg);
@@ -1120,8 +1118,9 @@ void complete_vehicle (game *g)
     char cmd = (char) g->u.activity.index;
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];
-    int part = g->u.activity.values[6];
-    int type = g->u.activity.values[7];
+    vpart_id part_id = (vpart_id) g->u.activity.values[6]; //Only one of these two is used
+    int vehicle_part = g->u.activity.values[7]; //Only one of these two is used
+    int type = g->u.activity.values[8];
     std::vector<component> tools;
     int welder_charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
     int welder_crude_charges = ((it_tool *) g->itypes["welder_crude"])->charges_per_use;
@@ -1135,19 +1134,19 @@ void complete_vehicle (game *g)
     switch (cmd)
     {
     case 'i':
-        partnum = veh->install_part (dx, dy, (vpart_id) part);
+        partnum = veh->install_part (dx, dy, part_id);
         if(partnum < 0)
         {
-            debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part);
+            debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id);
         }
-        used_item = consume_vpart_item (g, (vpart_id) part);
+        used_item = consume_vpart_item (g, part_id);
         veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
         tools.push_back(component("welder", welder_charges));
         tools.push_back(component("welder_crude", welder_crude_charges));
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
 
-        if ( part == vp_head_light ) {
+        if ( part_id == vp_head_light ) {
             // Need map-relative coordinates to compare to output of look_around.
             int gx, gy;
             // Need to call coord_translate() directly since it's a new part.
@@ -1181,13 +1180,13 @@ void complete_vehicle (game *g)
         }
 
         g->add_msg (_("You install a %s into the %s."),
-                    vpart_list[part].name.c_str(), veh->name.c_str());
-        g->u.practice (g->turn, "mechanics", vpart_list[part].difficulty * 5 + 20);
+                    vpart_list[part_id].name.c_str(), veh->name.c_str());
+        g->u.practice (g->turn, "mechanics", vpart_list[part_id].difficulty * 5 + 20);
         break;
     case 'r':
-        if (veh->parts[part].hp <= 0)
+        if (veh->parts[vehicle_part].hp <= 0)
         {
-            used_item = consume_vpart_item (g, veh->parts[part].id);
+            used_item = consume_vpart_item (g, veh->parts[vehicle_part].id);
             tools.push_back(component("wrench", -1));
             g->consume_tools(&g->u, tools, true);
             tools.clear();
@@ -1198,29 +1197,29 @@ void complete_vehicle (game *g)
         tools.push_back(component("welder_crude", welder_crude_charges));
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
-        veh->parts[part].hp = veh->part_info(part).durability;
+        veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         g->add_msg (_("You repair the %s's %s."),
-                    veh->name.c_str(), veh->part_info(part).name.c_str());
-        g->u.practice (g->turn, "mechanics", (vpart_list[part].difficulty + dd) * 5 + 20);
+                    veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
+        g->u.practice (g->turn, "mechanics", (vpart_list[vehicle_part].difficulty + dd) * 5 + 20);
         break;
     case 'f':
-        if (!g->pl_refill_vehicle(*veh, part, true))
+        if (!g->pl_refill_vehicle(*veh, vehicle_part, true))
         {
             debugmsg ("complete_vehicle refill broken");
         }
-        g->pl_refill_vehicle(*veh, part);
+        g->pl_refill_vehicle(*veh, vehicle_part);
         break;
     case 'o':
         // Dump contents of part at player's feet, if any.
-        for (int i = 0; i < veh->parts[part].items.size(); i++)
+        for (int i = 0; i < veh->parts[vehicle_part].items.size(); i++)
         {
-            g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[part].items[i]);
+            g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[vehicle_part].items[i]);
         }
-        veh->parts[part].items.clear();
+        veh->parts[vehicle_part].items.clear();
 
-        broken = veh->parts[part].hp <= 0;
+        broken = veh->parts[vehicle_part].hp <= 0;
         if (!broken) {
-            used_item = veh->item_from_part( part );
+            used_item = veh->item_from_part( vehicle_part );
             g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
             if(type!=SEL_JACK) // Changing tires won't make you a car mechanic
             {
@@ -1237,14 +1236,14 @@ void complete_vehicle (game *g)
         {
             if (broken) {
                 g->add_msg(_("You remove the broken %s from the %s."),
-                           veh->part_info(part).name.c_str(),
+                           veh->part_info(vehicle_part).name.c_str(),
                            veh->name.c_str());
             } else {
                 g->add_msg(_("You remove the %s from the %s."),
-                           veh->part_info(part).name.c_str(),
+                           veh->part_info(vehicle_part).name.c_str(),
                            veh->name.c_str());
             }
-            veh->remove_part (part);
+            veh->remove_part (vehicle_part);
         }
         break;
     case 's':
@@ -1260,15 +1259,16 @@ void complete_vehicle (game *g)
                 removed_wheel = veh->item_from_part( replaced_wheel );
                 veh->remove_part( replaced_wheel );
                 g->add_msg( _("You replace one of the %s's tires with a %s."),
-                            veh->name.c_str(), vpart_list[part].name.c_str() );
+                            veh->name.c_str(), vpart_list[part_id].name.c_str() );
             } else {
                 debugmsg( "no wheel to remove when changing wheels." );
                 return;
             }
-            partnum = veh->install_part( dx, dy, (vpart_id) part );
-            if( partnum < 0 )
-                debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part);
-            used_item = consume_vpart_item( g, (vpart_id) part );
+            partnum = veh->install_part( dx, dy, (vpart_id) part_id );
+            if( partnum < 0 ) {
+                debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id);
+            }
+            used_item = consume_vpart_item( g, (vpart_id) part_id );
             veh->get_part_properties_from_item( g, partnum, used_item ); //transfer damage, etc.
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {

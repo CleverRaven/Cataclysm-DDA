@@ -6294,7 +6294,8 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
         u.activity.values.push_back (vehint.cursor_y);   // values[3]
         u.activity.values.push_back (-vehint.ddx - vehint.cursor_y);   // values[4]
         u.activity.values.push_back (vehint.cursor_x - vehint.ddy);   // values[5]
-        u.activity.values.push_back (vehint.sel_part); // values[6]
+        u.activity.values.push_back (vehint.sel_vpart_info); // values[6]
+        u.activity.values.push_back (vehint.sel_vehicle_part); // values[7]
         u.activity.values.push_back (vehint.sel_type); // int. might make bitmask
         u.moves = 0;
     }

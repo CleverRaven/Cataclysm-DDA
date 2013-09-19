@@ -19,7 +19,8 @@ public:
     int cursor_y;
     int ddx;
     int ddy;
-    int sel_part; //Sometimes is a vehicle_part, sometimes is vpart_info, should be split
+    int sel_vpart_info;
+    int sel_vehicle_part;
     char sel_cmd; //Command currently being run by the player
     int sel_type;
 private:
