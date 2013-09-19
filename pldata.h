@@ -33,7 +33,7 @@ struct disease
  int side;
  disease() : type("null") { duration = 0; intensity = 0; bp = num_bp; side = -1; }
  disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1) :
-    type(t, part) { duration = d; intensity = i; bp = part; side = s; }
+    type(t) { duration = d; intensity = i; bp = part; side = s; }
 };
 
 struct addiction
