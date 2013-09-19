@@ -8689,17 +8689,17 @@ void game::complete_butcher(int index)
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
- int pieces = 0, pelts = 0, bones = 0, sinews = 0, feathers = 0;
+ int pieces = 0, skins = 0, bones = 0, sinews = 0, feathers = 0;
  double skill_shift = 0.;
 
  int sSkillLevel = u.skillLevel("survival");
 
  switch (corpse->size) {
-  case MS_TINY:   pieces =  1; pelts =  1; bones = 1; sinews = 1; feathers = 2;  break;
-  case MS_SMALL:  pieces =  2; pelts =  3; bones = 4; sinews = 4; feathers = 6;  break;
-  case MS_MEDIUM: pieces =  4; pelts =  6; bones = 9; sinews = 9; feathers = 11; break;
-  case MS_LARGE:  pieces =  8; pelts = 10; bones = 14;sinews = 14; feathers = 17;break;
-  case MS_HUGE:   pieces = 16; pelts = 18; bones = 21;sinews = 21; feathers = 24;break;
+  case MS_TINY:   pieces =  1; skins =  1; bones = 1; sinews = 1; feathers = 2;  break;
+  case MS_SMALL:  pieces =  2; skins =  3; bones = 4; sinews = 4; feathers = 6;  break;
+  case MS_MEDIUM: pieces =  4; skins =  6; bones = 9; sinews = 9; feathers = 11; break;
+  case MS_LARGE:  pieces =  8; skins = 10; bones = 14;sinews = 14; feathers = 17;break;
+  case MS_HUGE:   pieces = 16; skins = 18; bones = 21;sinews = 21; feathers = 24;break;
  }
 
  skill_shift += rng(0, sSkillLevel - 3);
@@ -8715,8 +8715,8 @@ void game::complete_butcher(int index)
  u.practice(turn, "survival", practice);
 
  pieces += int(skill_shift);
- if (skill_shift < 5)  {	// Lose some pelts and bones
-  pelts += (skill_shift - 5);
+ if (skill_shift < 5)  {	// Lose some skins and bones
+  skins += (skill_shift - 5);
   bones += (skill_shift - 2);
   sinews += (skill_shift - 8);
   feathers += (skill_shift - 1);
@@ -8742,24 +8742,35 @@ void game::complete_butcher(int index)
   }
  }
 
- if ((corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER)) &&
-     pelts > 0) {
-  add_msg(_("You manage to skin the %s!"), corpse->name.c_str());
-  int fur = 0;
-  int leather = 0;
+    if ((corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER) ||
+         corpse->has_flag(MF_CHITIN)) && skins > 0) {
+        add_msg(_("You manage to skin the %s!"), corpse->name.c_str());
+        int fur = 0;
+        int leather = 0;
+        int chitin = 0;
 
-  if (corpse->has_flag(MF_FUR) && corpse->has_flag(MF_LEATHER)) {
-   fur = rng(0, pelts);
-   leather = pelts - fur;
-  } else if (corpse->has_flag(MF_FUR)) {
-   fur = pelts;
-  } else {
-   leather = pelts;
-  }
+        while (skins > 0) {
+            if (corpse->has_flag(MF_CHITIN)) {
+                chitin = rng(0, skins);
+                skins -= chitin;
+                skins = std::max(skins, 0);
+            }
+            if (corpse->has_flag(MF_FUR)) {
+                fur = rng(0, skins);
+                skins -= fur;
+                skins = std::max(skins, 0);
+            }
+            if (corpse->has_flag(MF_LEATHER)) {
+                leather = rng(0, skins);
+                skins -= leather;
+                skins = std::max(skins, 0);
+            }
+        }
 
-  if(fur) m.spawn_item(u.posx, u.posy, "fur", age, fur);
-  if(leather) m.spawn_item(u.posx, u.posy, "leather", age, leather);
- }
+        if(chitin) m.spawn_item(u.posx, u.posy, "chitin_piece", age, chitin);
+        if(fur) m.spawn_item(u.posx, u.posy, "fur", age, fur);
+        if(leather) m.spawn_item(u.posx, u.posy, "leather", age, leather);
+    }
 
  if (feathers > 0) {
   if (corpse->has_flag(MF_FEATHER)) {
