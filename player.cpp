@@ -81,7 +81,7 @@ void game::init_morale()
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
 }
 
-player::player()
+player::player() : name("")
 {
  id = 0; // Player is 0. NPCs are different.
  view_offset_x = 0;
@@ -111,7 +111,6 @@ player::player()
  driving_recoil = 0;
  scent = 500;
  health = 0;
- name = "";
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  moves = 100;
@@ -270,6 +269,9 @@ player& player::operator= (const player & rhs)
  for (int i = 0; i < rhs.inv.size(); i++)
   inv.add_stack(rhs.inv.const_stack(i));
 
+ volume = rhs.volume;
+
+ lastrecipe = rhs.lastrecipe;
  last_item = rhs.last_item;
  worn = rhs.worn;
  styles = rhs.styles;
@@ -567,10 +569,10 @@ int player::calc_focus_equilibrium()
     // Factor in pain, since it's harder to rest your mind while your body hurts.
     int eff_morale = morale_level() - pain;
     int focus_gain_rate = 100;
-    it_book* reading;
-    // apply a penalty when improving skills via books
+    
     if (activity.type == ACT_READ)
     {
+        it_book* reading;
         if (this->activity.index == -2)
         {
             reading = dynamic_cast<it_book *>(weapon.type);
@@ -579,7 +581,7 @@ int player::calc_focus_equilibrium()
         {
             reading = dynamic_cast<it_book *>(inv.item_by_letter(activity.invlet).type);
         }
-        // only apply a penalty when we're actually learning something
+        // apply a penalty when we're actually learning something
         if (skillLevel(reading->type) < (int)reading->level)
         {
             focus_gain_rate -= 50;
@@ -2163,7 +2165,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
-  iEnc = iLayers = iArmorEnc = iWarmth = 0;
+  iLayers = iArmorEnc = 0;
   iWarmth = warmth(body_part(i));
   iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
   mvwprintz(w_encumb, i+1, 1, c_ltgray, "%s:", asText[i].c_str());
@@ -2223,7 +2225,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
      sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
  }
  std::sort(sorted.begin(), sorted.end(), skill_display_sort);
- for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin(); i != sorted.end(); i++) {
+ for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin(); i != sorted.end(); ++i) {
      skillslist.push_back((*i).first);
  }
 
@@ -3417,6 +3419,11 @@ float player::active_light()
     }
 
     return lumination;
+}
+
+point player::pos()
+{
+    return point(posx, posy);
 }
 
 int player::sight_range(int light_level) const
@@ -4725,9 +4732,9 @@ void player::suffer(game *g)
  int localRadiation = g->m.radiation(posx, posy);
 
  if (localRadiation) {
-   bool power_armored = false, has_helmet = false;
+   bool has_helmet = false;
 
-   power_armored = is_wearing_power_armor(&has_helmet);
+   bool power_armored = is_wearing_power_armor(&has_helmet);
 
    if (power_armored && has_helmet) {
      radiation += 0; // Power armor protects completely from radiation
@@ -5527,7 +5534,6 @@ item& player::i_of_type(itype_id type)
    return worn[i];
  }
  return inv.item_by_type(type);
- return ret_null;
 }
 
 item player::get_combat_style()
@@ -5978,33 +5984,32 @@ bool player::has_watertight_container()
 
 bool player::has_matching_liquid(itype_id it)
 {
- if (inv.has_liquid(it)) {
-  return true;
- }
- if (weapon.is_container() && !weapon.contents.empty()) {
-  if (weapon.contents[0].type->id == it) { // liquid matches
-    it_container* container = dynamic_cast<it_container*>(weapon.type);
-    int holding_container_charges;
-
-    if (weapon.contents[0].type->is_food()) {
-      it_comest* tmp_comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
-
-      if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
-        holding_container_charges = container->contains * 20;
-      else
-        holding_container_charges = container->contains;
+    if (inv.has_liquid(it)) {
+        return true;
     }
-    else if (weapon.contents[0].type->is_ammo())
-      holding_container_charges = container->contains * 200;
-    else
-      holding_container_charges = container->contains;
+    if (weapon.is_container() && !weapon.contents.empty()) {
+        if (weapon.contents[0].type->id == it) { // liquid matches
+            it_container* container = dynamic_cast<it_container*>(weapon.type);
+            int holding_container_charges;
 
-  if (weapon.contents[0].charges < holding_container_charges)
-    return true;
-  }
-}
+            if (weapon.contents[0].type->is_food()) {
+                it_comest* tmp_comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
 
- return false;
+                if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
+                    holding_container_charges = container->contains * 20;
+                else
+                    holding_container_charges = container->contains;
+            }
+            else if (weapon.contents[0].type->is_ammo())
+                holding_container_charges = container->contains * 200;
+            else
+                holding_container_charges = container->contains;
+
+            if (weapon.contents[0].charges < holding_container_charges)
+                return true;
+        }
+    }
+    return false;
 }
 
 bool player::has_weapon_or_armor(char let) const
@@ -6664,7 +6669,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
     // are we trying to put on power armor? If so, make sure we don't have any other gear on.
     if (armor->is_power_armor())
     {
-        for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); it++)
+        for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it)
         {
             if ((dynamic_cast<it_armor*>(it->type))->covers & armor->covers)
             {
@@ -6682,7 +6687,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
 
             if (worn.size())
             {
-                for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); it++)
+                for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it)
                 {
                     if (dynamic_cast<it_armor*>(it->type)->power_armor)
                     {
@@ -7821,7 +7826,7 @@ void player::read(game *g, char ch)
     {
         g->add_msg(_("The %s-related jargon flies over your head!"),
          tmp->type->name().c_str());
-        if (tmp->recipes.size() == 0)
+        if (tmp->recipes.empty())
         {
             return;
         }
@@ -7842,7 +7847,7 @@ void player::read(game *g, char ch)
         return;
     }
 
-    if (tmp->recipes.size() > 0 && !(activity.continuous))
+    if (!tmp->recipes.empty() && !(activity.continuous))
     {
         if (can_study_recipe(tmp))
         {
@@ -8552,8 +8557,8 @@ bool player::knows_recipe(recipe *rec)
         if(rec->skill_used == NULL || skillLevel(rec->skill_used) >= rec->difficulty){
             meets_requirements = true;
             //If there are required skills, insure their requirements are met, or we can't craft
-            if(rec->required_skills.size()){
-                for(std::map<Skill*,int>::iterator iter=rec->required_skills.begin(); iter!=rec->required_skills.end();iter++){
+            if(!rec->required_skills.empty()){
+                for(std::map<Skill*,int>::iterator iter=rec->required_skills.begin(); iter!=rec->required_skills.end();++iter){
                     if(skillLevel(iter->first) < iter->second){
                         meets_requirements = false;
                     }

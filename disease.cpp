@@ -267,8 +267,6 @@ void dis_remove_memorial(game* g, dis_type type_string) {
 }
 
 void dis_effect(game *g, player &p, disease &dis) {
-    std::stringstream sTemp;
-    mon_id montype;
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
     int bonus, psnChance;
@@ -1106,7 +1104,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             if (dis.duration > 3600) {
                 // 12 teles
                 if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-                    montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
+                    mon_id montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
                     monster beast(g->mtypes[montype]);
                     int x, y;
                     int tries = 0;
@@ -2019,14 +2017,12 @@ condition, and deals massive damage.");
 
 void manage_fire_exposure(player &p, int fireStrength) {
     // TODO: this should be determined by material properties
-    item tmp;
-    bool burnVeggy, burnFabric, burnPlastic;
     p.hurtall(3*fireStrength);
     for (int i = 0; i < p.worn.size(); i++) {
-    tmp = p.worn[i];
-        burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
-        burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
-        burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
+        item tmp = p.worn[i];
+        bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
+        bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
+        bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
         if (burnVeggy || burnFabric || burnPlastic) {
             p.worn.erase(p.worn.begin() + i);
             i--;
@@ -2307,11 +2303,12 @@ void handle_deliriant(game* g, player& p, disease& dis) {
                 default:
                     npcText = "\"Huh?  What was that?\"";
                     break;
-                int loudness = 20 + p.str_cur - p.int_cur;
-                loudness = (loudness > 5 ? loudness : 5);
-                loudness = (loudness < 30 ? loudness : 30);
-                g->sound(p.posx, p.posy, loudness, _(npcText.c_str()));
+
             }
+            int loudness = 20 + p.str_cur - p.int_cur;
+            loudness = (loudness > 5 ? loudness : 5);
+            loudness = (loudness < 30 ? loudness : 30);
+            g->sound(p.posx, p.posy, loudness, _(npcText.c_str()));
         }
     } else if (dis.duration == peakTime) {
         // Visuals start
@@ -2407,7 +2404,7 @@ void handle_insect_parasites(game* g, player& p, disease& dis) {
                 }
             }
         }
-        if (valid_spawns.size() >= 1) {
+        if (!valid_spawns.empty()) {
             p.rem_disease("dermatik"); // No more infection!  yay.
             g->add_msg_player_or_npc( &p,
                 _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
@@ -2415,7 +2412,7 @@ void handle_insect_parasites(game* g, player& p, disease& dis) {
 
             p.moves -= 600;
             monster grub(g->mtypes[mon_dermatik_larva]);
-            while (valid_spawns.size() > 0 && num_insects > 0) {
+            while (!valid_spawns.empty() && num_insects > 0) {
                 num_insects--;
                 // Hurt the player
                 body_part burst = bp_torso;

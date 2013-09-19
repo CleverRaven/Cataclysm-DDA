@@ -30,13 +30,12 @@ struct bionic {
  char invlet;
  bool powered;
  int charge;
- bionic() {
-  id = "bio_batteries";
+ bionic() : id("bio_batteries") {
   invlet = 'a';
   powered = false;
   charge = 0;
  }
- bionic(bionic_id pid, char pinvlet) {
+ bionic(bionic_id pid, char pinvlet) : id(pid) {
   id = pid;
   invlet = pinvlet;
   powered = false;
