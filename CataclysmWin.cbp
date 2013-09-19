@@ -196,6 +196,8 @@
 		<Unit filename="helper.h" />
 		<Unit filename="iexamine.cpp" />
 		<Unit filename="iexamine.h" />
+		<Unit filename="init.cpp" />
+		<Unit filename="init.h" />
 		<Unit filename="input.cpp" />
 		<Unit filename="input.h" />
 		<Unit filename="inventory.cpp" />
@@ -219,6 +221,8 @@
 		<Unit filename="iuse_software_snake.h" />
 		<Unit filename="iuse_software_sokoban.cpp" />
 		<Unit filename="iuse_software_sokoban.h" />
+		<Unit filename="json.cpp" />
+		<Unit filename="json.h" />
 		<Unit filename="keypress.cpp" />
 		<Unit filename="keypress.h" />
 		<Unit filename="lightmap.cpp" />
