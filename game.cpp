@@ -19,7 +19,6 @@
 #include "uistate.h"
 #include "item_factory.h"
 #include "helper.h"
-#include "text_snippets.h"
 #include "catajson.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
@@ -90,7 +89,8 @@ game::game() :
  if(!json_good())
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
-    load_json_dir("data/raw"); // load it, load it all!
+    init_data_structures(); // initialize cata data structures
+    load_json_dir("data/json"); // load it, load it all!
  init_npctalk();
  init_artifacts();
  init_weather();
@@ -100,20 +100,16 @@ game::game() :
  init_morale();
  init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
  init_itypes();               // Set up item types                (SEE itypedef.cpp)
- SNIPPET.load();
  item_controller->init(this); //Item manager
  init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
  init_traps();                // Set up the trap types            (SEE trapdef.cpp)
- init_recipes();              // Set up crafting reciptes         (SEE crafting.cpp)
  init_mongroups();            // Set up monster groupings         (SEE mongroupdef.cpp)
  init_missions();             // Set up mission templates         (SEE missiondef.cpp)
  init_construction();         // Set up constructables            (SEE construction.cpp)
- init_traits_mutations();
  init_vehicle_parts();        // Set up vehicle parts             (SEE veh_typedef.cpp)
  init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();             // Set up autosave
  init_diseases();             // Set up disease lookup table
- init_dreams();               // Set up dreams                    (SEE mutation_data.cpp)
  init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
  } catch(std::string &error_message)
  {

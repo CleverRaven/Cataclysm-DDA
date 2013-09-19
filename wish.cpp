@@ -66,54 +66,54 @@ class wish_mutate_callback: public uimenu_callback
                 mvwprintw(menu->window, i, startx, "%s", padding.c_str() );
             }
 
-            mvwprintw(menu->window, 1, startx, g->mutation_data[vTraits[ entnum ]].valid ? _("Valid") : _("Nonvalid"));
+            mvwprintw(menu->window, 1, startx, mutation_data[vTraits[ entnum ]].valid ? _("Valid") : _("Nonvalid"));
             int line2 = 2;
 
-            if ( g->mutation_data[vTraits[ entnum ]].prereqs.size() > 0 ) {
+            if ( mutation_data[vTraits[ entnum ]].prereqs.size() > 0 ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs:"));
-                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].prereqs.size(); j++) {
-                    std::string mstr=g->mutation_data[vTraits[ entnum ]].prereqs[j];
+                for (int j = 0; j < mutation_data[vTraits[ entnum ]].prereqs.size(); j++) {
+                    std::string mstr=mutation_data[vTraits[ entnum ]].prereqs[j];
                     mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
                     line2++;
                 }
             }
 
-            if ( g->mutation_data[vTraits[ entnum ]].cancels.size() > 0 ) {
+            if ( mutation_data[vTraits[ entnum ]].cancels.size() > 0 ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Cancels:"));
-                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].cancels.size(); j++) {
-                    std::string mstr=g->mutation_data[vTraits[ entnum ]].cancels[j];
+                for (int j = 0; j < mutation_data[vTraits[ entnum ]].cancels.size(); j++) {
+                    std::string mstr=mutation_data[vTraits[ entnum ]].cancels[j];
                     mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
                     line2++;
                 }
             }
 
-            if ( g->mutation_data[vTraits[ entnum ]].replacements.size() > 0 ) {
+            if ( mutation_data[vTraits[ entnum ]].replacements.size() > 0 ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Becomes:"));
-                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].replacements.size(); j++) {
-                    std::string mstr=g->mutation_data[vTraits[ entnum ]].replacements[j];
+                for (int j = 0; j < mutation_data[vTraits[ entnum ]].replacements.size(); j++) {
+                    std::string mstr=mutation_data[vTraits[ entnum ]].replacements[j];
                     mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
                     line2++;
                 }
             }
 
-            if ( g->mutation_data[vTraits[ entnum ]].additions.size() > 0 ) {
+            if ( mutation_data[vTraits[ entnum ]].additions.size() > 0 ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Add-ons:"));
-                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].additions.size(); j++) {
-                    std::string mstr=g->mutation_data[vTraits[ entnum ]].additions[j];
+                for (int j = 0; j < mutation_data[vTraits[ entnum ]].additions.size(); j++) {
+                    std::string mstr=mutation_data[vTraits[ entnum ]].additions[j];
                     mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
                     line2++;
                 }
             }
 
-            if ( g->mutation_data[vTraits[ entnum ]].category.size() > 0 ) {
+            if ( mutation_data[vTraits[ entnum ]].category.size() > 0 ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray,  _("Category:"));
-                for (int j = 0; j < g->mutation_data[vTraits[ entnum ]].category.size(); j++) {
-                    mvwprintw(menu->window, line2, startx + 11, g->mutation_data[vTraits[ entnum ]].category[j].c_str());
+                for (int j = 0; j < mutation_data[vTraits[ entnum ]].category.size(); j++) {
+                    mvwprintw(menu->window, line2, startx + 11, mutation_data[vTraits[ entnum ]].category[j].c_str());
                     line2++;
                 }
             }
@@ -121,7 +121,7 @@ class wish_mutate_callback: public uimenu_callback
             
             mvwprintz(menu->window, line2, startx, c_ltgray, "pts: %d vis: %d ugly: %d",
                       traits[vTraits[ entnum ]].points,
-                      traits[vTraits[ entnum ]].visiblity,
+                      traits[vTraits[ entnum ]].visibility,
                       traits[vTraits[ entnum ]].ugliness
                      );
             line2 += 2;

@@ -7,6 +7,7 @@
 #include "itype.h"
 #include "skill.h"
 #include "rng.h"
+#include "json.h"
 
 #define MAX_DISPLAYED_RECIPES 18
 
@@ -82,8 +83,13 @@ recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &
   }
 };
 
-
 typedef std::vector<recipe*> recipe_list;
 typedef std::map<craft_cat, recipe_list> recipe_map;
+
+void load_recipe_category(JsonObject &jsobj);
+void load_recipe(JsonObject &jsobj);
+recipe* recipe_by_name(std::string name);
+
+extern recipe_map recipes; // The list of valid recipes
 
 #endif

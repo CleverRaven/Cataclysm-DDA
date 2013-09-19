@@ -55,8 +55,8 @@ void player::mutate(game *g)
         // ...that we have...
         if (has_trait(base_mutation)) {
             // ...consider the mutations that replace it.
-            for (int i = 0; i < g->mutation_data[base_mutation].replacements.size(); i++) {
-                std::string mutation = g->mutation_data[base_mutation].replacements[i];
+            for (int i = 0; i < mutation_data[base_mutation].replacements.size(); i++) {
+                std::string mutation = mutation_data[base_mutation].replacements[i];
 
                 if (mutation_ok(g, mutation, force_good, force_bad)) {
                     upgrades.push_back(mutation);
@@ -64,8 +64,8 @@ void player::mutate(game *g)
             }
 
             // ...consider the mutations that add to it.
-            for (int i = 0; i < g->mutation_data[base_mutation].additions.size(); i++) {
-                std::string mutation = g->mutation_data[base_mutation].additions[i];
+            for (int i = 0; i < mutation_data[base_mutation].additions.size(); i++) {
+                std::string mutation = mutation_data[base_mutation].additions[i];
 
                 if (mutation_ok(g, mutation, force_good, force_bad)) {
                     upgrades.push_back(mutation);
@@ -126,7 +126,7 @@ void player::mutate(game *g)
         if (cat == "") {
             // Pull the full list
             for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-                if (g->mutation_data[iter->first].valid) {
+                if (mutation_data[iter->first].valid) {
                     valid.push_back( iter->first );
                 }
             }
@@ -203,8 +203,8 @@ void player::mutate_towards(game *g, std::string mut)
 
     bool has_prereqs = false;
     std::string canceltrait = "";
-    std::vector<std::string> prereq = g->mutation_data[mut].prereqs;
-    std::vector<std::string> cancel = g->mutation_data[mut].cancels;
+    std::vector<std::string> prereq = mutation_data[mut].prereqs;
+    std::vector<std::string> cancel = mutation_data[mut].cancels;
 
     for (int i = 0; i < cancel.size(); i++) {
         if (!has_trait( cancel[i] )) {
@@ -238,12 +238,12 @@ void player::mutate_towards(game *g, std::string mut)
 
     // Check if one of the prereqs that we have TURNS INTO this one
     std::string replacing = "";
-    prereq = g->mutation_data[mut].prereqs; // Reset it
+    prereq = mutation_data[mut].prereqs; // Reset it
     for (int i = 0; i < prereq.size(); i++) {
         if (has_trait(prereq[i])) {
             std::string pre = prereq[i];
-            for (int j = 0; replacing == "" && j < g->mutation_data[pre].replacements.size(); j++) {
-                if (g->mutation_data[pre].replacements[j] == mut) {
+            for (int j = 0; replacing == "" && j < mutation_data[pre].replacements.size(); j++) {
+                if (mutation_data[pre].replacements[j] == mut) {
                     replacing = pre;
                 }
             }
@@ -281,8 +281,8 @@ void player::remove_mutation(game *g, std::string mut)
     std::vector<std::string> dependant;
 
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        for (int i = 0; i < g->mutation_data[iter->first].prereqs.size(); i++) {
-            if (g->mutation_data[iter->first].prereqs[i] == iter->first) {
+        for (int i = 0; i < mutation_data[iter->first].prereqs.size(); i++) {
+            if (mutation_data[iter->first].prereqs[i] == iter->first) {
                 dependant.push_back(iter->first);
                 break;
             }
@@ -296,11 +296,11 @@ void player::remove_mutation(game *g, std::string mut)
 
     // Check if there's a prereq we should shrink back into
     std::string replacing = "";
-    std::vector<std::string> originals = g->mutation_data[mut].prereqs;
+    std::vector<std::string> originals = mutation_data[mut].prereqs;
     for (int i = 0; replacing == "" && i < originals.size(); i++) {
         std::string pre = originals[i];
-        for (int j = 0; replacing == "" && j < g->mutation_data[pre].replacements.size(); j++) {
-            if (g->mutation_data[pre].replacements[j] == mut) {
+        for (int j = 0; replacing == "" && j < mutation_data[pre].replacements.size(); j++) {
+            if (mutation_data[pre].replacements[j] == mut) {
                 replacing = pre;
             }
         }
@@ -314,7 +314,7 @@ void player::remove_mutation(game *g, std::string mut)
             //See if it's in our list of base traits but not active
             if (has_base_trait(iter->first) && !has_trait(iter->first)) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<std::string> traitcheck = g->mutation_data[iter->first].cancels;
+                std::vector<std::string> traitcheck = mutation_data[iter->first].cancels;
                 if (!traitcheck.empty()) {
                     for (int j = 0; replacing == "" && j < traitcheck.size(); j++) {
                         if (traitcheck[j] == mut) {
@@ -345,8 +345,8 @@ void player::remove_mutation(game *g, std::string mut)
 
 bool player::has_child_flag(game *g, std::string flag)
 {
-    for (int i = 0; i < g->mutation_data[flag].replacements.size(); i++) {
-        std::string tmp = g->mutation_data[flag].replacements[i];
+    for (int i = 0; i < mutation_data[flag].replacements.size(); i++) {
+        std::string tmp = mutation_data[flag].replacements[i];
         if (has_trait(tmp) || has_child_flag(g, tmp)) {
             return true;
         }
@@ -356,8 +356,8 @@ bool player::has_child_flag(game *g, std::string flag)
 
 void player::remove_child_flag(game *g, std::string flag)
 {
-    for (int i = 0; i < g->mutation_data[flag].replacements.size(); i++) {
-        std::string tmp = g->mutation_data[flag].replacements[i];
+    for (int i = 0; i < mutation_data[flag].replacements.size(); i++) {
+        std::string tmp = mutation_data[flag].replacements[i];
         if (has_trait(tmp)) {
             remove_mutation(g, tmp);
             return;

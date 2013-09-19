@@ -23,6 +23,7 @@
 #include "catajson.h"
 #include "disease.h"
 #include "get_version.h"
+#include "crafting.h"
 
 #include <ctime>
 
@@ -1335,7 +1336,7 @@ void player::load_info(game *g, std::string data)
  for (int i = 0; i < num_recipes; ++i)
  {
   dump >> rec_name;
-  learned_recipes[rec_name] = g->recipe_by_name(rec_name);
+  learned_recipes[rec_name] = recipe_by_name(rec_name);
  }
 
  int numstyles;
@@ -3172,8 +3173,8 @@ bool player::has_base_trait(const std::string &flag) const
 
 bool player::has_conflicting_trait(const std::string &flag) const
 {
-    if(g->mutation_data[flag].cancels.size() > 0) {
-        std::vector<std::string> cancels = g->mutation_data[flag].cancels;
+    if(mutation_data[flag].cancels.size() > 0) {
+        std::vector<std::string> cancels = mutation_data[flag].cancels;
 
         for (int i = 0; i < cancels.size(); i++) {
             if ( has_trait(cancels[i]) )
@@ -3210,12 +3211,12 @@ void player::toggle_mutation(const std::string &flag)
 void player::set_cat_level_rec(const std::string &sMut)
 {
     if (!has_base_trait(sMut)) { //Skip base traits
-        for (int i = 0; i < g->mutation_data[sMut].category.size(); i++) {
-            mutation_category_level[g->mutation_data[sMut].category[i]] += 8;
+        for (int i = 0; i < mutation_data[sMut].category.size(); i++) {
+            mutation_category_level[mutation_data[sMut].category[i]] += 8;
         }
 
-        for (int i = 0; i < g->mutation_data[sMut].prereqs.size(); i++) {
-            set_cat_level_rec(g->mutation_data[sMut].prereqs[i]);
+        for (int i = 0; i < mutation_data[sMut].prereqs.size(); i++) {
+            set_cat_level_rec(mutation_data[sMut].prereqs[i]);
         }
     }
 }
@@ -3258,8 +3259,8 @@ std::string player::get_category_dream(const std::string &cat, int strength) con
 
     int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
     selected_dream = valid_dreams[index];
-    index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream
-    message = selected_dream.message[index];
+    index = rng(0, selected_dream.messages.size() - 1); // Randomly selected a message from the chosen dream
+    message = selected_dream.messages[index];
     return message;
 }
 
@@ -5018,11 +5019,11 @@ void player::drench_mut_calc()
         good = 0;
 
         for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-            for (int i = 0; i < g->mutation_data[*iter].protection.size(); i++) {
-                if (g->mutation_data[*iter].protection[i].first == it->first) {
-                    ignored += g->mutation_data[*iter].protection[i].second.x;
-                    neutral += g->mutation_data[*iter].protection[i].second.y;
-                    good += g->mutation_data[*iter].protection[i].second.z;
+            for (int i = 0; i < mutation_data[*iter].protection.size(); i++) {
+                if (mutation_data[*iter].protection[i].first == it->first) {
+                    ignored += mutation_data[*iter].protection[i].second.x;
+                    neutral += mutation_data[*iter].protection[i].second.y;
+                    good += mutation_data[*iter].protection[i].second.z;
                 }
             }
         }
@@ -7404,7 +7405,7 @@ hint_rating player::rate_action_unload(item *it) {
 
 //TODO refactor stuff so we don't need to have this code mirroring game::disassemble
 hint_rating player::rate_action_disassemble(item *it, game *g) {
- for (recipe_map::iterator cat_iter = g->recipes.begin(); cat_iter != g->recipes.end(); ++cat_iter)
+ for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
     {
         for (recipe_list::iterator list_iter = cat_iter->second.begin();
              list_iter != cat_iter->second.end();

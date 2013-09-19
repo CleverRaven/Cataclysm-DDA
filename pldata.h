@@ -122,9 +122,9 @@ struct player_activity
 
 struct trait {
     std::string name;
-    int points;		// How many points it costs in character creation
-    int visiblity;		// How visible it is
-    int ugliness;		// How ugly it is
+    int points; // How many points it costs in character creation
+    int visibility; // How visible it is
+    int ugliness; // How ugly it is
     bool startingtrait; // Starting Trait True/False
     std::string description;
 };
