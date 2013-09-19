@@ -2121,7 +2121,7 @@
     "name": "rock in a sock",
     "description": "A sock with a rock tied into the end of it. A true weapon of desperation.",
     "price": 10,
-    "material" : ["cloth", "stone"],
+    "material" : ["cotton", "stone"],
     "weight": 1007,
     "volume": 2,
     "bashing": 16,
