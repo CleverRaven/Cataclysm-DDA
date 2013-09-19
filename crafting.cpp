@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "catajson.h"
+#include "json.h"
 #include "input.h"
 #include "game.h"
 #include "options.h"
@@ -12,147 +12,106 @@
 #include "item_factory.h"
 #include "catacharset.h"
 
-//apparently we can't declare this in crafting.h? Complained about multiple definition.
 std::vector<craft_cat> craft_cat_list;
+std::vector<std::string> recipe_names;
+recipe_map recipes;
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 
-// This function just defines the recipes used throughout the game.
-void game::init_recipes() throw (std::string)
+void load_recipe_category(JsonObject &jsobj)
 {
-    int id = -1;
-    catajson recipeRaw("data/raw/recipes.json");
+    craft_cat_list.push_back(jsobj.get_string("id"));
+}
 
-    if(!json_good())
-    	throw (std::string)"data/raw/recipes.json could not be read";
+void load_recipe(JsonObject &jsobj)
+{
+    JsonArray jsarr;
 
-    catajson craftCats = recipeRaw.get("categories");
-    for (craftCats.set_begin(); craftCats.has_curr(); craftCats.next())
-    {
-        craft_cat_list.push_back(craftCats.curr().as_string());
+    // required
+    std::string result = jsobj.get_string("result");
+    std::string category = jsobj.get_string("category");
+    int difficulty = jsobj.get_int("difficulty");
+    int time = jsobj.get_int("time");
+    bool autolearn = jsobj.get_bool("autolearn");
+    // optional
+    bool reversible = jsobj.get_bool("reversible", false);
+    std::string skill_used = jsobj.get_string("skill_used", "");
+    std::string id_suffix = jsobj.get_string("id_suffix", "");
+    int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
+
+    std::map<std::string, int> requires_skills;
+    jsarr = jsobj.get_array("requires_skills");
+    if (jsarr.size() > 0) {
+        // could be a single requirement, or multiple
+        try {
+            // try to parse as single requirement
+            requires_skills[jsarr.get_string(0)] = jsarr.get_int(1);
+        } catch (std::string e) {
+            // get_string or get_int failed, so assume array of arrays
+            while (jsarr.has_more()) {
+                JsonArray ja = jsarr.next_array();
+                requires_skills[ja.get_string(0)] = ja.get_int(1);
+            }
+        }
     }
 
-    catajson recipeList = recipeRaw.get("recipes");
-    std::vector<std::string> recipeNames;
-    for (recipeList.set_begin(); recipeList.has_curr(); recipeList.next())
+    std::string rec_name = result + id_suffix;
+
+    for (std::vector<std::string>::iterator name_iter = recipe_names.begin();
+         name_iter != recipe_names.end();
+         ++name_iter)
     {
-        catajson curr = recipeList.curr();
-        // required fields
-        std::string result = curr.get("result").as_string();
-        std::string category = curr.get("category").as_string();
-        int difficulty = curr.get("difficulty").as_int();
-        int time = curr.get("time").as_int();
-        bool autolearn = curr.get("autolearn").as_bool();
-        // optional fields
-        bool reversible = curr.has("reversible") ? curr.get("reversible").as_bool() : false;
-        std::string skill_used = curr.has("skill_used") ? curr.get("skill_used").as_string() : "";
-        std::map<std::string, int> requires_skills;
-        //Find skill requirements, if any exist
-        if(curr.has("requires_skills")){
-          catajson skill_list = curr.get("requires_skills");
-          // The json could contain the data for a single requirement, or multiple, but either way its an array
-          if(skill_list.is_array()){
-              skill_list.set_begin();
-              if(skill_list.curr().is_array()){
-                  // If the first element is an array, we have a list of requirements
-                  for(skill_list.set_begin(); skill_list.has_curr(); skill_list.next()){
-                    catajson sub_list = skill_list.curr();
-                    sub_list.set_begin();
-                    std::string skill_name = sub_list.curr().as_string();
-                    sub_list.next();
-                    int skill_level = sub_list.curr().as_int();
-                    requires_skills[skill_name]=skill_level;
-                  }
-              } else {
-                  // If the first element is not an array, we just have a single requirement
-                  std::string skill_name = skill_list.curr().as_string();
-                  skill_list.next();
-                  int skill_level = skill_list.curr().as_int();
-                  requires_skills[skill_name]=skill_level;
-              }
-          }
-          else {
-              debugmsg("Invalid skill requirements: %s", result.c_str());
-          }
-
+        if ((*name_iter) == rec_name) {
+            throw jsobj.line_number() + "Recipe name collision (set a unique value for the id_suffix field to fix): " + rec_name;
         }
-        std::string id_suffix = curr.has("id_suffix") ? curr.get("id_suffix").as_string() : "";
-        int learn_by_disassembly = curr.has("decomp_learn") ? curr.get("decomp_learn").as_int() : -1;
-
-        ++id;
-
-        std::string rec_name = result + id_suffix;
-
-        recipe* last_rec = new recipe(rec_name, id, result, category, skill_used, requires_skills,
-                              difficulty, time, reversible, autolearn,
-                              learn_by_disassembly);
-
-        for (std::vector<std::string>::iterator name_iter = recipeNames.begin();
-             name_iter != recipeNames.end();
-             ++name_iter)
-        {
-            if ((*name_iter) == rec_name)
-            {
-                debugmsg("Recipe name collision (set a unique value for the id_suffix field to fix): %s", rec_name.c_str());
-            }
-        }
-
-        recipeNames.push_back(rec_name);
-
-        catajson compList = curr.get("components");
-        for (compList.set_begin(); compList.has_curr(); compList.next())
-        {
-            std::vector<component> component_choices;
-            catajson comp = compList.curr();
-            // interchangable components
-            for (comp.set_begin(); comp.has_curr(); comp.next())
-            {
-                std::string name = comp.curr().get(0).as_string();
-                int quant = comp.curr().get(1).as_int();
-                component_choices.push_back(component(name, quant));
-            }
-            last_rec->components.push_back(component_choices);
-        }
-
-        if (curr.has("tools"))
-        {
-            catajson toolList = curr.get("tools");
-            for (toolList.set_begin(); toolList.has_curr(); toolList.next())
-            {
-                std::vector<component> tool_choices;
-                catajson tool = toolList.curr();
-                // interchangable tools
-                for (tool.set_begin(); tool.has_curr(); tool.next())
-                {
-                    std::string name = tool.curr().get(0).as_string();
-                    int quant = tool.curr().get(1).as_int();
-                    tool_choices.push_back(component(name, quant));
-                }
-                last_rec->tools.push_back(tool_choices);
-            }
-        }
-
-        if (curr.has("book_learn"))
-        {
-            catajson book_list = curr.get("book_learn");
-            for (book_list.set_begin(); book_list.has_curr(); book_list.next())
-            {
-                catajson book = book_list.curr();
-                std::string book_name = book.get(0).as_string();
-                int book_level = book.get(1).as_int();
-
-                if (item_controller->find_template(book_name)->is_book())
-                {
-                    it_book *book_def = dynamic_cast<it_book*>(item_controller->find_template(book_name));
-                    book_def->recipes[last_rec] = book_level;
-                }
-            }
-        }
-
-        recipes[category].push_back(last_rec);
     }
-    if(!json_good())
-        throw (std::string)"There was an error reading data/raw/recipes.json";
+
+    recipe_names.push_back(rec_name);
+    int id = recipe_names.size();
+
+    recipe* rec = new recipe(rec_name, id, result, category, skill_used,
+                             requires_skills, difficulty, time, reversible,
+                             autolearn, learn_by_disassembly);
+
+
+    jsarr = jsobj.get_array("components");
+    while (jsarr.has_more()) {
+        std::vector<component> component_choices;
+        JsonArray ja = jsarr.next_array();
+        while (ja.has_more()) {
+            JsonArray comp = ja.next_array();
+            std::string name = comp.get_string(0);
+            int quant = comp.get_int(1);
+            component_choices.push_back(component(name, quant));
+        }
+        rec->components.push_back(component_choices);
+    }
+
+    jsarr = jsobj.get_array("tools");
+    while (jsarr.has_more()) {
+        std::vector<component> tool_choices;
+        JsonArray ja = jsarr.next_array();
+        while (ja.has_more()) {
+            JsonArray comp = ja.next_array();
+            std::string name = comp.get_string(0);
+            int quant = comp.get_int(1);
+            tool_choices.push_back(component(name, quant));
+        }
+        rec->tools.push_back(tool_choices);
+    }
+
+    jsarr = jsobj.get_array("book_learn");
+    while (jsarr.has_more()) {
+        JsonArray ja = jsarr.next_array();
+        std::string book_name = ja.get_string(0);
+        int book_level = ja.get_int(1);
+        if (item_controller->find_template(book_name)->is_book()) {
+            it_book* book_def = dynamic_cast<it_book*>(item_controller->find_template(book_name));
+            book_def->recipes[rec] = book_level;
+        }
+    }
+
+    recipes[category].push_back(rec);
 }
 
 bool game::crafting_allowed()
@@ -1657,7 +1616,7 @@ recipe* game::recipe_by_index(int index)
     return NULL;
 }
 
-recipe* game::recipe_by_name(std::string name)
+recipe* recipe_by_name(std::string name)
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
     {
