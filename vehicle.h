@@ -189,7 +189,7 @@ public:
     void use_controls();
 
 // Honk the vehicle's horn, if there are any
-	void honk_horn();
+    void honk_horn();
 
 // get vpart type info for part number (part at given vector index)
     vpart_info& part_info (int index);

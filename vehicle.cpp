@@ -364,7 +364,7 @@ void vehicle::use_controls()
 
  if (select == UIMENU_INVALID)
     return;
- 
+
  switch(options_choice[select]) {
   case toggle_cruise_control:
    cruise_on = !cruise_on;
@@ -423,33 +423,30 @@ void vehicle::use_controls()
 
 void vehicle::honk_horn()
 {
- std::vector<vehicle_part *> horns;
- std::vector<vpart_info *> horn_types;
- for (int p = 0; p < parts.size(); p++) {
-  if (part_flag(p,"HORN")) {
-   horn_types.push_back(&part_info(p));
-   horns.push_back(&parts[p]);
-  }
- }
- for(int h=0;h<horns.size();h++)
- {
-   //Get global position of horn
-   int horn_x=horns[h]->mount_dx,horn_y=horns[h]->mount_dy;
-   coord_translate(horn_x,horn_y,horn_x,horn_y);
-   horn_x+=global_x();
-   horn_y+=global_y();
-   //debugmsg ("Horn: %d,%d Player: %d,%d",hornx,horny,g->u.posx,g->u.posy);
-   //Determine sound
-   if(horn_types[h]->bonus>=40){
-       g->sound(horn_x,horn_y,horn_types[h]->bonus,_("HOOOOORNK!"));
-   }
-   else if(horn_types[h]->bonus>=20){
-       g->sound(horn_x,horn_y,horn_types[h]->bonus,_("BEEEP!"));
-   }
-   else{
-       g->sound(horn_x,horn_y,horn_types[h]->bonus,_("honk."));
-   }
- }
+    std::vector<vehicle_part *> horns;
+    std::vector<vpart_info *> horn_types;
+    for( int p = 0; p < parts.size(); p++ ) {
+        if( part_flag( p,"HORN" ) ) {
+            horn_types.push_back( &part_info(p) );
+            horns.push_back( &parts[p] );
+        }
+    }
+    for(int h = 0; h < horns.size(); h++) {
+        //Get global position of horn
+        int horn_x = horns[h]->mount_dx;
+        int horn_y = horns[h]->mount_dy;
+        coord_translate( horn_x, horn_y, horn_x, horn_y );
+        horn_x += global_x();
+        horn_y += global_y();
+        //Determine sound
+        if( horn_types[h]->bonus >= 40 ){
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("HOOOOORNK!") );
+        } else if( horn_types[h]->bonus >= 20 ){
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("BEEEP!") );
+        } else{
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("honk.") );
+        }
+    }
 }
 
 vpart_info& vehicle::part_info (int index)
