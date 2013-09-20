@@ -81,7 +81,8 @@ game::game() :
 {
  dout() << "Game initialized.";
 mod_factory mfac;
-mfac.refresh_mod_list();
+//mfac.refresh_mod_list();
+mfac.show_mod_layering_ui();
 
  try {
  if(!json_good())
@@ -115,6 +116,7 @@ mfac.refresh_mod_list();
  init_diseases();             // Set up disease lookup table
  init_dreams();               // Set up dreams                    (SEE mutation_data.cpp)
  init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
+
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;

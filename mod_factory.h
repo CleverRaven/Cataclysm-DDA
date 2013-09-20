@@ -2,6 +2,7 @@
 #define MOD_FACTORY_H
 
 #include "catajson.h"
+#include "catacurse.h"
 #include "debug.h"
 
 #include <vector>
@@ -35,6 +36,10 @@ struct MOD_INFORMATION
             default: return "UNKNOWN TYPE"; break;
         }
     }
+    mod_type raw_type()
+    {
+        return _type;
+    }
     std::string ident(){ return _ident;}
     std::string name() { return _name;}
     std::string desc() { return _desc;}
@@ -59,6 +64,16 @@ class mod_factory
     private:
         bool load_mods_from(std::string path);
         bool load_mod_info(MOD_INFORMATION *mod);
+
+        void show_mod_information(WINDOW* win, int sx, int sy, int width, MOD_INFORMATION *mod, std::string note);
+        void draw_layering_ui_lines(WINDOW *win);
+        void try_add(int selection, std::vector<std::string> modlist, std::vector<std::string> &activelist, std::map<std::string, MOD_INFORMATION*> modmap);
+        void try_rem(int selection, std::vector<std::string> &activelist, std::map<std::string, MOD_INFORMATION*> modmap);
+        void try_shift(char direction, int &selection, std::vector<std::string > &activelist, std::map<std::string, MOD_INFORMATION* > modmap);
+        std::vector<std::string> get_mods_dependent_on(std::string dependency, std::vector<std::string> activelist, std::map<std::string, MOD_INFORMATION*> modmap);
+
+        bool can_shift_up(int selection, std::vector<std::string > activelist, std::map<std::string, MOD_INFORMATION* > modmap);
+        bool can_shift_down(int selection, std::vector<std::string > activelist, std::map<std::string, MOD_INFORMATION* > modmap);
 
         void print_debug_mods();
 };
