@@ -195,31 +195,22 @@ double dist(int x1, int y1, int x2, int y2)
 
 bool is_river(oter_id ter)
 {
- if (ter == ot_null || (ter >= ot_bridge_ns && ter <= ot_river_nw))
-  return true;
- return false;
+ return (ter == ot_null || (ter >= ot_bridge_ns && ter <= ot_river_nw));
 }
 
 bool is_building(oter_id ter)
 {
- if (ter == ot_null || (ter >= ot_house_north && ter <= ot_basement) || ter >= ot_ants_ns)
-  return true;
- return false;
+ return (ter == ot_null || (ter >= ot_house_north && ter <= ot_basement) || ter >= ot_ants_ns);
 }
 
 bool is_ground(oter_id ter)
 {
- if (ter <= ot_road_nesw_manhole)
-  return true;
- return false;
+ return (ter <= ot_road_nesw_manhole);
 }
 
 bool is_wall_material(oter_id ter)
 {
- if (is_ground(ter) ||
-     (ter >= ot_house_north && ter <= ot_nuke_plant))
-  return true;
- return false;
+ return (is_ground(ter) || (ter >= ot_house_north && ter <= ot_nuke_plant));
 }
 
 // Likelihood to pick a specific overmap terrain.
@@ -2197,8 +2188,8 @@ void overmap::place_cities()
 {
  int NUM_CITIES = dice(4, 4);
  int start_dir;
- int city_min = OPTIONS["CITY_SIZE"] - 1;
- int city_max = OPTIONS["CITY_SIZE"] + 1;
+ int city_min = int(OPTIONS["CITY_SIZE"] - 1);
+ int city_max = int(OPTIONS["CITY_SIZE"] + 1);
  // Limit number of cities based on how big they are.
  NUM_CITIES = std::min(NUM_CITIES, int(256 / OPTIONS["CITY_SIZE"] * OPTIONS["CITY_SIZE"]));
 
@@ -2753,7 +2744,7 @@ void overmap::place_hiways(std::vector<city> cities, int z, oter_id base)
     for (int i = 0; i < cities.size(); i++) {
         int closest = -1;
         for (int j = i + 1; j < cities.size(); j++) {
-            int distance = dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
+            int distance = (int)dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
             if (distance < closest || closest < 0) {
                 closest = distance;
                 best = cities[j];
