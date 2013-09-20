@@ -354,8 +354,8 @@ void player::json_save_common_variables( std::map<std::string, picojson::value> 
         ptmpmap[ "type" ] = pv ( illness[i].type );
         ptmpmap[ "duration" ] = pv ( illness[i].duration );
         ptmpmap[ "intensity" ] = pv ( illness[i].intensity );
-        ptmpmap[ "bp" ] = pv ( (int)bp );
-        ptmpmap[ "side" ] = pv ( side );
+        ptmpmap[ "bp" ] = pv ( (int)illness[i].bp );
+        ptmpmap[ "side" ] = pv ( illness[i].side );
         ptmpvect.push_back ( pv ( ptmpmap ) );
         ptmpmap.clear();
     }
