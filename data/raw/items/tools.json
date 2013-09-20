@@ -4902,7 +4902,7 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
-  
+
   {
     "id": "char_purifier",
     "type": "TOOL",
@@ -4986,6 +4986,29 @@
     "bashing": 3,
     "cutting": 0,
     "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "NONE"
+  },
+
+  {
+    "id": "jack",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "jack",
+    "description": "A common hydraulic jack, used when changing tires.",
+    "price": 86,
+    "material": "iron",
+    "weight": 11974,
+    "volume": 5,
+    "bashing": 11,
+    "cutting": 0,
+    "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
