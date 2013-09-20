@@ -584,7 +584,7 @@ void computer::activate_function(game *g, computer_action action)
                 }
         }
 
-        g->explosion(g->u.posx +10, g->u.posx +21, 200, 0, true); //Only explode once. But make it large.
+        g->explosion(g->u.posx +10, g->u.posx +21, 200, 0, "fire"); //Only explode once. But make it large.
 
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
@@ -1178,7 +1178,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat)
                 {
                     g->m.ter_set(x, y, t_rubble);
-                    g->explosion(x, y, 40, 0, true);
+                    g->explosion(x, y, 40, 0, "fire");
                 }
                 if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v)
                 {
@@ -1191,7 +1191,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 if (g->m.ter(x, y) == t_sewage_pump)
                 {
                     g->m.ter_set(x, y, t_rubble);
-                    g->explosion(x, y, 50, 0, true);
+                    g->explosion(x, y, 50, 0, "fire");
                 }
             }
         }
@@ -1324,7 +1324,7 @@ void computer::activate_failure(game *g, computer_failure fail)
                 if (g->m.ter(x, y) == t_sewage_pump)
                 {
                     g->m.ter_set(x, y, t_rubble);
-                    g->explosion(x, y, 10, 0, false);
+                    g->explosion(x, y, 10, 0, "no element");
                 }
             }
         }
@@ -1378,8 +1378,8 @@ void computer::activate_failure(game *g, computer_failure fail)
     case COMPFAIL_AMIGARA:
         g->add_event(EVENT_AMIGARA, int(g->turn) + 5, 0, 0, 0);
         g->u.add_disease("amigara", 20);
-        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
-        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
+        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, "no_element");
+        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, "no_element");
         break;
 
     case COMPFAIL_DESTROY_BLOOD:

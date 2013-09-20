@@ -135,8 +135,8 @@ class game
   std::vector<monster*> footsteps_source;
 // visual cue to monsters moving out of the players sight
   void draw_footsteps();
-// Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
-  void explosion(int x, int y, int power, int shrapnel, bool fire);
+// Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel, made of (element)
+  void explosion(int x, int y, int power, int shrapnel, std::string element);
 // Draws an explosion with set radius and color at the given location
   /* Defined later in this file */
   //void draw_explosion(int x, int y, int radius, nc_color col);
