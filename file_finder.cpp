@@ -16,12 +16,6 @@
 #include <dirent.h>
 #endif
 
-
-file_finder::file_finder()
-{
-    //ctor
-}
-
 std::vector<std::string> file_finder::get_files_from_path(std::string extension, std::string root_path, bool recursive_search)
 {
     std::vector<std::string> files;
