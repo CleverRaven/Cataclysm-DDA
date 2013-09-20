@@ -2251,7 +2251,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         if (one_in(2)) 
             add_field(g, x, y, fd_ice_mist, rng(1, 2));
         else
-            add_field(g, x, y, fd_ice_floor, 1);
+            add_field(g, x, y, fd_snow_floor, 1);
     }
 
     if (ammo_effects.count("LIGHTNING"))

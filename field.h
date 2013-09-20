@@ -73,6 +73,7 @@ enum field_id {
  fd_acid_vent,
  fd_ice_mist,
  fd_ice_floor,
+ fd_snow_floor,
  fd_plasma,
  fd_laser,
  num_fields
