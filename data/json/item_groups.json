@@ -3298,23 +3298,15 @@
     ]
   },{
     "type":"item_group",
-    "id":"bugs",
-    "items":[
-      ["chitin_piece", 10]
-    ]
-  },{
-    "type":"item_group",
     "id":"bees",
     "items":[
-      ["bee_sting", 5],
-      ["chitin_piece", 10]
+      ["bee_sting", 5]
     ]
   },{
     "type":"item_group",
     "id":"wasps",
     "items":[
-      ["wasp_sting", 5],
-      ["chitin_piece", 10]
+      ["wasp_sting", 5]
     ]
   },{
     "type":"item_group",
