@@ -189,6 +189,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 {
     bool destroyEngine = false;
     bool destroyTires = false;
+    bool blood_covered = false;
 
     int consistent_bignesses[num_vparts];
     memset (consistent_bignesses, 0, sizeof(consistent_bignesses));
@@ -215,6 +216,11 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
      } else {
       destroyTires = true;
      }
+    }
+
+    //Don't bloodsplatter mint condition vehicles
+    if(veh_status != 0 && one_in(10)) {
+      blood_covered = true;
     }
 
     for (int p = 0; p < parts.size(); p++)
@@ -268,6 +274,21 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
              parts[p].hp= 0;
           }
          }
+
+         /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
+          * the "front" of the vehicle (since the driver's seat is at (0, 0).
+          * We'll be generous with the blood, since some may disappear before
+          * the player gets a chance to see the vehicle. */
+         if(blood_covered && part_flag(p, "EXTERNAL") && parts[p].mount_dx > 0) {
+           if(one_in(3)) {
+             //Loads of blood. (200 = completely red vehicle part)
+             parts[p].blood = rng(200, 600);
+           } else {
+             //Some blood
+             parts[p].blood = rng(50, 200);
+           }
+         }
+
         }
     }
 }
