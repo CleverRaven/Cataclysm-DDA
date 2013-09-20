@@ -14,6 +14,7 @@ enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
  toggle_turrets,
+ activate_horn,
  release_control,
  control_cancel,
  convert_vehicle
@@ -299,7 +300,10 @@ void vehicle::use_controls()
  curent++;
 
  bool has_lights = false;
+ bool has_horn = false;
  bool has_turrets = false;
+ vehicle_part *horn=NULL;
+ vpart_info *horn_type=NULL;
  for (int p = 0; p < parts.size(); p++) {
   if (part_flag(p, "LIGHT")) {
    has_lights = true;
@@ -307,12 +311,25 @@ void vehicle::use_controls()
   else if (part_flag(p, "TURRET")) {
    has_turrets = true;
   }
+  else if (part_flag(p, "HORN")) {
+   has_horn = true;
+   horn_type=&part_info(p);
+   horn=&parts[p];
+  }
  }
+
 
  // Lights if they are there - Note you can turn them on even when damaged, they just don't work
  if (has_lights) {
   options_choice.push_back(toggle_lights);
   options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") : _("Turn on headlights"), 'h'));
+  curent++;
+ }
+ 
+ //Honk the horn!
+ if (has_horn) {
+  options_choice.push_back(activate_horn);
+  options_message.push_back(uimenu_entry("Honk horn", 'o'));
   curent++;
  }
 
@@ -351,7 +368,7 @@ void vehicle::use_controls()
 
  if (select == UIMENU_INVALID)
     return;
-
+ 
  switch(options_choice[select]) {
   case toggle_cruise_control:
    cruise_on = !cruise_on;
@@ -360,6 +377,10 @@ void vehicle::use_controls()
   case toggle_lights:
    lights_on = !lights_on;
    g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
+   break;
+  case activate_horn:
+   g->add_msg(_("You honk the horn!"));
+   honk_horn();
    break;
   case toggle_turrets:
    if (++turret_mode > 1)
@@ -401,6 +422,37 @@ void vehicle::use_controls()
   }
   case control_cancel:
    break;
+ }
+}
+
+void vehicle::honk_horn()
+{
+ std::vector<vehicle_part *> horns;
+ std::vector<vpart_info *> horn_types;
+ for (int p = 0; p < parts.size(); p++) {
+  if (part_flag(p,"HORN")) {
+   horn_types.push_back(&part_info(p));
+   horns.push_back(&parts[p]);
+  }
+ }
+ for(int h=0;h<horns.size();h++)
+ {
+   //Get global position of horn
+   int horn_x=horns[h]->mount_dx,horn_y=horns[h]->mount_dy;
+   coord_translate(horn_x,horn_y,horn_x,horn_y);
+   horn_x+=global_x();
+   horn_y+=global_y();
+   //debugmsg ("Horn: %d,%d Player: %d,%d",hornx,horny,g->u.posx,g->u.posy);
+   //Determine sound
+   if(horn_types[h]->bonus>=40){
+       g->sound(horn_x,horn_y,horn_types[h]->bonus,_("HOOOOORNK!"));
+   }
+   else if(horn_types[h]->bonus>=20){
+       g->sound(horn_x,horn_y,horn_types[h]->bonus,_("BEEEP!"));
+   }
+   else{
+       g->sound(horn_x,horn_y,horn_types[h]->bonus,_("honk."));
+   }
  }
 }
 
