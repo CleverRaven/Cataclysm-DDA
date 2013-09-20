@@ -232,7 +232,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
-            parts[p].open = 0;
+            parts[p].open = one_in(4);
         }
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
