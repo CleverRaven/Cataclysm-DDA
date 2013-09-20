@@ -302,8 +302,6 @@ void vehicle::use_controls()
  bool has_lights = false;
  bool has_horn = false;
  bool has_turrets = false;
- vehicle_part *horn=NULL;
- vpart_info *horn_type=NULL;
  for (int p = 0; p < parts.size(); p++) {
   if (part_flag(p, "LIGHT")) {
    has_lights = true;
@@ -313,9 +311,7 @@ void vehicle::use_controls()
   }
   else if (part_flag(p, "HORN")) {
    has_horn = true;
-   horn_type=&part_info(p);
-   horn=&parts[p];
-  }
+   }
  }
 
 
@@ -325,7 +321,7 @@ void vehicle::use_controls()
   options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") : _("Turn on headlights"), 'h'));
   curent++;
  }
- 
+
  //Honk the horn!
  if (has_horn) {
   options_choice.push_back(activate_horn);

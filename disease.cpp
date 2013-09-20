@@ -1352,8 +1352,9 @@ int disease_speed_boost(disease dis)
  case DI_GRACK:         return +20000;
  case DI_METH:		return (dis.duration > 600 ? 50 : -40);
  case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
- default:		return 0;
+ default:;
  }
+ return 0;
 }
 
 std::string dis_name(disease dis)
@@ -1592,8 +1593,9 @@ std::string dis_name(disease dis)
         else return _("Pus Filled Wound");
     case DI_RECOVER: return _("Recovering From Infection");
 
-    default: return "";
+    default:;
     }
+    return "";
 }
 
 std::string dis_description(disease dis)
@@ -2011,8 +2013,9 @@ condition, and deals massive damage.");
     case DI_INFECTED: return _("You have an infected wound.");
     case DI_RECOVER: return _("You are recovering from an infection.");
 
-    default: return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
+    default:;
     }
+    return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
 }
 
 void manage_fire_exposure(player &p, int fireStrength) {
