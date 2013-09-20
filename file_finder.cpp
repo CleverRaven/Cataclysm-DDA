@@ -1,11 +1,6 @@
 #include "file_finder.h"
-#include "output.h"
-
-#include <sstream>
-
-#include <stdlib.h>
-#include <fstream>
-#include <algorithm>
+#include <cstring>  // for strcmp
+#include <stack>    // for stack (obviously)
 
 // FILE I/O
 #include <sys/stat.h>
@@ -26,69 +21,55 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
         root_path = ".";
     }
 
-    // try to open up the root_path
-    DIR *root = opendir(root_path.c_str());
-    std::vector<std::string> subfolders; // only used if recursive_search is true
+    std::stack<std::string> directories;
+    directories.push(root_path);
+    std::string path = "";
 
-    // make sure that root was opened
-    if (!root)
+    while (!directories.empty())
     {
-        debugmsg("Unable to open up root path: <%s>", root_path.c_str());
-    }
-    else
-    {
-        struct dirent *root_file;
-        struct stat _buff;
-        DIR *subdir;
+        path = directories.top();
+        directories.pop();
 
-        // go through the directory
-        while ((root_file = readdir(root)))
+        DIR *root = opendir(path.c_str());
+
+        if (root)
         {
+            struct dirent *root_file;
+            struct stat _buff;
+            DIR *subdir;
 
-            // check to see if it is a folder!
-            if (stat(root_file->d_name, &_buff) != 0x4)
+            while ((root_file = readdir(root)))
             {
-                // ignore '.' and '..' folder names, which are current and parent folder relative paths
-                if ((strcmp(root_file->d_name, ".") != 0) && (strcmp(root_file->d_name, "..") != 0))
+                // check to see if it is a folder!
+                if (stat(root_file->d_name, &_buff) != 0x4)
                 {
-                    std::string subpath = root_path + "/" + root_file->d_name;
-
-                    subdir = opendir(subpath.c_str());
-                    if (subdir)
+                    // ignore '.' and '..' folder names, which are current and parent folder relative paths
+                    if ((strcmp(root_file->d_name, ".") != 0) && (strcmp(root_file->d_name, "..") != 0))
                     {
-                        subfolders.push_back(subpath);
-                    }
-                    closedir(subdir);
+                        std::string subpath = path + "/" + root_file->d_name;
 
+                        if (recursive_search)
+                        {
+                            subdir = opendir(subpath.c_str());
+                            if (subdir)
+                            {
+                                directories.push(subpath);
+                            }
+                            closedir(subdir);
+                        }
+                    }
                 }
-            }
-            // check to see if it is a file with the appropriate extension
-            //else
-            {
+                // check to see if it is a file with the appropriate extension
                 std::string tmp = root_file->d_name;
                 if (tmp.find(extension.c_str()) != std::string::npos)
                 {
                     // file with extension found! add to files list with full path
-                    std::string fullpath = root_path + "/" + tmp;
+                    std::string fullpath = path + "/" + tmp;
                     files.push_back(fullpath);
                 }
             }
         }
+        closedir(root);
     }
-    // close root
-    closedir(root);
-    if (recursive_search)
-    {
-        for (int i = 0; i < subfolders.size(); ++i)
-        {
-            std::vector<std::string> folder_recursion_search = get_files_from_path(extension, subfolders[i], recursive_search);
-            // add found values to output
-            for (int j = 0; j < folder_recursion_search.size(); ++j)
-            {
-                files.push_back(folder_recursion_search[j]);
-            }
-        }
-    }
-
     return files;
 }
