@@ -1,4 +1,4 @@
-#if ((defined TILES ^ defined SDLTILES) || defined _WIN32 || defined WINDOWS)
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
 #include "output.h"
 #include "color.h"
