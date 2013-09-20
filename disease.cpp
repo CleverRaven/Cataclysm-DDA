@@ -2261,10 +2261,10 @@ void handle_deliriant(game* g, player& p, disease& dis) {
     // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
     static bool puked = false;
     int maxDuration = 3600;
-    int comeupTime = maxDuration*0.9;
-    int noticeTime = comeupTime + (maxDuration-comeupTime)/2;
-    int peakTime = maxDuration*0.8;
-    int comedownTime = maxDuration*0.3;
+    int comeupTime = int(maxDuration*0.9);
+    int noticeTime = int(comeupTime + (maxDuration-comeupTime)/2);
+    int peakTime = int(maxDuration*0.8);
+    int comedownTime = int(maxDuration*0.3);
     // Baseline
     if (dis.duration == noticeTime) {
         g->add_msg_if_player(&p,_("You feel a little strange."));
