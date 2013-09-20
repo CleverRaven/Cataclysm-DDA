@@ -23,6 +23,7 @@
 #include "catacharset.h"
 #include "catajson.h"
 #include "disease.h"
+#include "crafting.h"
 #include "get_version.h"
 
 #include <ctime>
@@ -225,14 +226,10 @@ void player::json_load_common_variables( std::map<std::string, picojson::value> 
                 disease tmpill;
                 if ( picostring(pdata,"type",tmpill.type) && picoint(pdata,"duration",tmpill.duration) ) {
                     picoint(pdata,"intensity",tmpill.intensity);
-/* PENDING PR #2911 MERGE
                     int tmpbp=0;
                     picoint(pdata,"bp", tmpbp);
                     tmpill.bp = (body_part)tmpbp;
                     picoint(pdata,"side", tmpill.side);
-*/
-//FIXME//MISSING// body_part bp; int side; //
-
                     illness.push_back(tmpill);
                 }
             }
@@ -357,11 +354,8 @@ void player::json_save_common_variables( std::map<std::string, picojson::value> 
         ptmpmap[ "type" ] = pv ( illness[i].type );
         ptmpmap[ "duration" ] = pv ( illness[i].duration );
         ptmpmap[ "intensity" ] = pv ( illness[i].intensity );
-/* PENDING PR #2911 MERGE
         ptmpmap[ "bp" ] = pv ( (int)bp );
         ptmpmap[ "side" ] = pv ( side );
-*/
-//FIXME//MISSING// body_part bp; int side; //
         ptmpvect.push_back ( pv ( ptmpmap ) );
         ptmpmap.clear();
     }
@@ -608,7 +602,7 @@ void player::json_load(picojson::value & parsed, game *g) {
         for( picojson::array::iterator pit = parray->begin(); pit != parray->end(); ++pit) {
            if ( (*pit).is<std::string>() ) {
                pstr = (*pit).get<std::string>();
-               learned_recipes[ pstr ] = g->recipe_by_name( pstr );
+               learned_recipes[ pstr ] = recipe_by_name( pstr );
            }
         }
     }   
