@@ -5078,7 +5078,7 @@ void game::explosion(int x, int y, int power, int shrapnel, std::string element)
     m.add_field(this, i, j, fd_fire, dam / 10);
    }
    if (has_ice) {
-    // m.add_field(this, i, j, fd_snow_floor, dam / 10);
+    m.add_field(this, i, j, fd_snow_floor, dam / 10);
     if (one_in(3)) 
      m.add_field(this, i, j, fd_ice_floor, dam / 10);
     if (one_in(2))
