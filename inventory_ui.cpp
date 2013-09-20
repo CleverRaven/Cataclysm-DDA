@@ -13,7 +13,7 @@
 std::string CATEGORIES[iCategorieNum] =
  {_("GROUND:"), _("FIREARMS:"), _("AMMUNITION:"), _("CLOTHING:"),
   _("FOOD/DRINKS:"), _("TOOLS:"), _("BOOKS:"), _("WEAPONS:"),
-  _("MODS/BIONICS"), _("MEDICINE/DRUGS"), _("OTHER:")};
+  _("MODS/BIONICS:"), _("MEDICINE/DRUGS:"), _("OTHER:")};
 
 //TODO: make this function not have issues with items that are classed as multiple things
 std::vector<int> find_firsts(invslice &slice)
@@ -133,7 +133,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
 
  // Print items carried
  for (std::string::const_iterator invlet = inv_chars.begin();
-      invlet != inv_chars.end(); invlet++) {
+      invlet != inv_chars.end(); ++invlet) {
    n_items += ((g->u.inv.item_by_letter(*invlet).is_null()) ? 0 : 1);
  }
  mvwprintw(w_inv, 1, 62, _("Items:  %d/%d "), n_items, inv_chars.size());
@@ -628,7 +628,7 @@ std::vector<item> game::multidrop()
  if (ch != '\n')
   return ret; // Canceled!
 
- for (std::map<char,int>::iterator it = dropping.begin(); it != dropping.end(); it++) {
+ for (std::map<char,int>::iterator it = dropping.begin(); it != dropping.end(); ++it) {
   if (it->second == -1)
    ret.push_back( u.inv.remove_item_by_letter( it->first));
   else if (it->second && u.inv.item_by_letter( it->first).count_by_charges()) {
@@ -662,7 +662,7 @@ void game::compare(int iCompareX, int iCompareY)
  std::vector <item> grounditems;
  int ch = (int)'.';
 
- if (iCompareX != -999 && iCompareX != -999) {
+ if (iCompareX != -999 && iCompareY != -999) {
   examx = u.posx + iCompareX;
   examy = u.posy + iCompareY;
  } else if (!choose_adjacent("Compare",examx,examy)) {

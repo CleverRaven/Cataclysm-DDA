@@ -19,7 +19,6 @@
 #include "uistate.h"
 #include "item_factory.h"
 #include "helper.h"
-#include "text_snippets.h"
 #include "catajson.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
@@ -27,6 +26,7 @@
 #include "mapdata.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "init.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -89,33 +89,27 @@ game::game() :
  if(!json_good())
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
+    init_data_structures(); // initialize cata data structures
+    load_json_dir("data/json"); // load it, load it all!
  init_npctalk();
- init_materials();
  init_artifacts();
  init_weather();
  init_overmap();
  init_fields();
  init_faction_data();
  init_morale();
- init_skills();
- init_professions();
- init_bionics();              // Set up bionics                   (SEE bionics.cpp)
  init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
  init_itypes();               // Set up item types                (SEE itypedef.cpp)
- SNIPPET.load();
  item_controller->init(this); //Item manager
  init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
  init_traps();                // Set up the trap types            (SEE trapdef.cpp)
- init_recipes();              // Set up crafting reciptes         (SEE crafting.cpp)
  init_mongroups();            // Set up monster groupings         (SEE mongroupdef.cpp)
  init_missions();             // Set up mission templates         (SEE missiondef.cpp)
  init_construction();         // Set up constructables            (SEE construction.cpp)
- init_traits_mutations();
  init_vehicle_parts();        // Set up vehicle parts             (SEE veh_typedef.cpp)
  init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();             // Set up autosave
  init_diseases();             // Set up disease lookup table
- init_dreams();               // Set up dreams                    (SEE mutation_data.cpp)
  init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
  } catch(std::string &error_message)
  {
@@ -143,18 +137,6 @@ game::~game()
  delwin(w_location);
  delwin(w_status);
  delwin(w_status2);
-}
-
-void game::init_skills() throw (std::string)
-{
-    try
-    {
-    Skill::skills = Skill::loadSkills();
-    }
-    catch (std::string &error_message)
-    {
-        throw;
-    }
 }
 
 // Fixed window sizes
@@ -257,7 +239,7 @@ void game::init_ui(){
             break;
 
 
-        case 1: // narrow
+        default: // narrow, using default so all variables are assigned something in all cases
 
             // First, figure out how large each element will be.
 
@@ -874,17 +856,14 @@ void game::process_activity()
      reading = dynamic_cast<it_book*>(u.inv.item_by_letter(u.activity.invlet).type);
 
     if (reading->fun != 0) {
-     std::stringstream morale_text;
      u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, 60, 30,
                   true, reading);
     }
 
     no_recipes = true;
-    if (reading->recipes.size() > 0)
+    if (!reading->recipes.empty())
     {
-        bool recipe_learned = false;
-
-        recipe_learned = u.try_study_recipe(this, reading);
+        bool recipe_learned = u.try_study_recipe(this, reading);
         if (!u.studied_all_recipes(reading))
         {
             no_recipes = false;
@@ -1296,7 +1275,6 @@ npc* game::find_npc(int id)
 }
 
 int game::kill_count(mon_id mon){
- std::vector<mtype *> types;
  for (int i = 0; i < num_monsters; i++) {
   if (mtypes[i]-> id == mon)
    return kills[i];
@@ -1953,7 +1931,6 @@ bool game::handle_action()
   case ACTION_INVENTORY: {
    int cMenu = ' ';
    do {
-     const std::string sSpaces = "                              ";
      char chItem = inv(_("Inventory:"));
      cMenu=inventory_item_menu(chItem);
    } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=' );
@@ -2861,9 +2838,9 @@ void game::delete_save()
       SetCurrentDirectory(Buffer);
 #else
      DIR *save_dir = opendir("save");
-     struct dirent *save_dirent = NULL;
      if(save_dir != NULL && 0 == chdir("save"))
      {
+      struct dirent *save_dirent = NULL;
       while ((save_dirent = readdir(save_dir)) != NULL)
        (void)unlink(save_dirent->d_name);
       (void)chdir("..");
@@ -2928,7 +2905,7 @@ void game::write_memorial_file() {
 
     //Cleanup
     memorial_file.close();
-
+    closedir(dir);
 }
 
 void game::advance_nextinv()
@@ -5034,27 +5011,37 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
 
 void game::flashbang(int x, int y, bool player_immune)
 {
- int dist = rl_dist(u.posx, u.posy, x, y), t;
- if (dist <= 8 && !player_immune) {
-  if (!u.has_bionic("bio_ears"))
-   u.add_disease("deaf", 40 - dist * 4);
-  if (m.sees(u.posx, u.posy, x, y, 8, t))
-   u.infect("blind", bp_eyes, (12 - dist) / 2, 10 - dist, this);
- }
- for (int i = 0; i < num_zombies(); i++) {
-  monster &z = _z[i];
-  dist = rl_dist(z.posx(), z.posy(), x, y);
-  if (dist <= 4)
-   z.add_effect(ME_STUNNED, 10 - dist);
-  if (dist <= 8) {
-   if (z.has_flag(MF_SEES) && m.sees(z.posx(), z.posy(), x, y, 8, t))
-    z.add_effect(ME_BLIND, 18 - dist);
-   if (z.has_flag(MF_HEARS))
-    z.add_effect(ME_DEAF, 60 - dist * 4);
-  }
- }
- sound(x, y, 12, _("a huge boom!"));
-// TODO: Blind/deafen NPC
+    g->draw_explosion(x, y, 8, c_white);
+    int dist = rl_dist(u.posx, u.posy, x, y), t;
+    if (dist <= 8 && !player_immune) {
+        if (!u.has_bionic("bio_ears")) {
+            u.add_disease("deaf", 40 - dist * 4);
+        }
+        if (m.sees(u.posx, u.posy, x, y, 8, t)) {
+            int flash_mod = 0;
+            if (u.has_bionic("bio_sunglasses")) {
+                flash_mod = 6;
+            }
+            u.infect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist, this);
+        }
+    }
+    for (int i = 0; i < num_zombies(); i++) {
+        monster &z = _z[i];
+        dist = rl_dist(z.posx(), z.posy(), x, y);
+        if (dist <= 4) {
+            z.add_effect(ME_STUNNED, 10 - dist);
+        }
+        if (dist <= 8) {
+            if (z.has_flag(MF_SEES) && m.sees(z.posx(), z.posy(), x, y, 8, t)) {
+                z.add_effect(ME_BLIND, 18 - dist);
+            }
+            if (z.has_flag(MF_HEARS)) {
+                z.add_effect(ME_DEAF, 60 - dist * 4);
+            }
+        }
+    }
+    sound(x, y, 12, _("a huge boom!"));
+    // TODO: Blind/deafen NPC
 }
 
 void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player)
@@ -5477,13 +5464,13 @@ void game::resonance_cascade(int x, int y)
      for (int l = j - 1; l <= j + 1; l++) {
       field_id type;
       switch (rng(1, 7)) {
-       case 1: type = fd_blood;
-       case 2: type = fd_bile;
+       case 1: type = fd_blood; break;
+       case 2: type = fd_bile; break;
        case 3:
-       case 4: type = fd_slime;
-       case 5: type = fd_fire;
+       case 4: type = fd_slime; break;
+       case 5: type = fd_fire; break;
        case 6:
-       case 7: type = fd_nuke_gas;
+       case 7: type = fd_nuke_gas; break;
       }
       if (!one_in(3))
 	   m.add_field(this, k, l, type, 3);
@@ -5672,9 +5659,9 @@ void game::remove_zombie(const int idx)
     _z.erase(_z.begin() + idx);
 
     // Fix indices in z_at for any zombies that were just moved down 1 place.
-    for (std::map<point, int>::iterator iter = z_at.begin(); iter != z_at.end(); iter++) {
+    for (std::map<point, int>::iterator iter = z_at.begin(); iter != z_at.end(); ++iter) {
         if (iter->second > idx) {
-            iter->second--;
+            --iter->second;
         }
     }
 }
@@ -6003,7 +5990,7 @@ void game::smash()
             corpses.push_back(it);
         }
     }
-    if (corpses.size() > 0)
+    if (!corpses.empty())
     {
         add_msg(ngettext("You swing at the corpse.",
                          "You swing at the corpses.", corpses.size()));
@@ -6776,7 +6763,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     int iLastX = 0;
     int iLastY = 0;
 
-    for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); p_it++) {
+    for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); ++p_it) {
         if (p_it->y >= u.posy - iSearchY && p_it->y <= u.posy + iSearchY &&
             u_see(p_it->x,p_it->y) &&
             (!m.has_flag(container, p_it->x, p_it->y) ||
@@ -7136,7 +7123,6 @@ void game::list_items()
             iFilter = ground_items.size() - filtered_items.size();
             iActiveX = 0;
             iActiveY = 0;
-            std::string sActiveItemName;
             item activeItem;
             std::stringstream sText;
             bool high = true;
@@ -7164,7 +7150,6 @@ void game::list_items()
                         iActiveX = iter->vIG[iThisPage].x;
                         iActiveY = iter->vIG[iThisPage].y;
 
-                        sActiveItemName = iter->example.tname(this);
                         activeItem = iter->example;
                     }
 
@@ -7439,8 +7424,7 @@ void game::pickup(int posx, int posy, int min)
  const int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "narrow");
 
  // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
- int maxmaxitems = TERMY;
- maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
+ int maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
 
  int itemsH = 12;
  int pickupBorderRows = 3;
@@ -7797,7 +7781,7 @@ void game::pickup(int posx, int posy, int min)
  }
 
  if (min == -1) { //Auto pickup item message
-     if (mapPickup.size() > 0) {
+     if (!mapPickup.empty()) {
         std::stringstream sTemp;
 
         for (std::map<std::string, int>::iterator iter = mapPickup.begin(); iter != mapPickup.end(); ++iter) {
@@ -8515,15 +8499,16 @@ void game::plfire(bool burst)
   return;
  }
  if (u.weapon.has_flag("CHARGE") && !u.weapon.active) {
-  if (u.has_charges("UPS_on", 1) || u.has_charges("UPS_off", 1) ||
-      u.has_charges("adv_UPS_on", 1) || u.has_charges("adv_UPS_off", 1)) {
+  if (u.has_charges("UPS_on", 1)  ||
+      u.has_charges("adv_UPS_on", 1) ) {
    add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
    u.weapon.charges = 0;
+   u.weapon.poison = 0;
    u.weapon.curammo = dynamic_cast<it_ammo*>(itypes["charge_shot"]);
    u.weapon.active = true;
    return;
   } else {
-   add_msg(_("You need a charged UPS."));
+   add_msg(_("You need a powered UPS."));
    return;
   }
  }
@@ -8700,17 +8685,17 @@ void game::complete_butcher(int index)
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
- int pieces = 0, pelts = 0, bones = 0, sinews = 0, feathers = 0;
+ int pieces = 0, skins = 0, bones = 0, sinews = 0, feathers = 0;
  double skill_shift = 0.;
 
  int sSkillLevel = u.skillLevel("survival");
 
  switch (corpse->size) {
-  case MS_TINY:   pieces =  1; pelts =  1; bones = 1; sinews = 1; feathers = 2;  break;
-  case MS_SMALL:  pieces =  2; pelts =  3; bones = 4; sinews = 4; feathers = 6;  break;
-  case MS_MEDIUM: pieces =  4; pelts =  6; bones = 9; sinews = 9; feathers = 11; break;
-  case MS_LARGE:  pieces =  8; pelts = 10; bones = 14;sinews = 14; feathers = 17;break;
-  case MS_HUGE:   pieces = 16; pelts = 18; bones = 21;sinews = 21; feathers = 24;break;
+  case MS_TINY:   pieces =  1; skins =  1; bones = 1; sinews = 1; feathers = 2;  break;
+  case MS_SMALL:  pieces =  2; skins =  3; bones = 4; sinews = 4; feathers = 6;  break;
+  case MS_MEDIUM: pieces =  4; skins =  6; bones = 9; sinews = 9; feathers = 11; break;
+  case MS_LARGE:  pieces =  8; skins = 10; bones = 14;sinews = 14; feathers = 17;break;
+  case MS_HUGE:   pieces = 16; skins = 18; bones = 21;sinews = 21; feathers = 24;break;
  }
 
  skill_shift += rng(0, sSkillLevel - 3);
@@ -8726,8 +8711,8 @@ void game::complete_butcher(int index)
  u.practice(turn, "survival", practice);
 
  pieces += int(skill_shift);
- if (skill_shift < 5)  {	// Lose some pelts and bones
-  pelts += (skill_shift - 5);
+ if (skill_shift < 5)  {	// Lose some skins and bones
+  skins += (skill_shift - 5);
   bones += (skill_shift - 2);
   sinews += (skill_shift - 8);
   feathers += (skill_shift - 1);
@@ -8753,24 +8738,35 @@ void game::complete_butcher(int index)
   }
  }
 
- if ((corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER)) &&
-     pelts > 0) {
-  add_msg(_("You manage to skin the %s!"), corpse->name.c_str());
-  int fur = 0;
-  int leather = 0;
+    if ((corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER) ||
+         corpse->has_flag(MF_CHITIN)) && skins > 0) {
+        add_msg(_("You manage to skin the %s!"), corpse->name.c_str());
+        int fur = 0;
+        int leather = 0;
+        int chitin = 0;
 
-  if (corpse->has_flag(MF_FUR) && corpse->has_flag(MF_LEATHER)) {
-   fur = rng(0, pelts);
-   leather = pelts - fur;
-  } else if (corpse->has_flag(MF_FUR)) {
-   fur = pelts;
-  } else {
-   leather = pelts;
-  }
+        while (skins > 0) {
+            if (corpse->has_flag(MF_CHITIN)) {
+                chitin = rng(0, skins);
+                skins -= chitin;
+                skins = std::max(skins, 0);
+            }
+            if (corpse->has_flag(MF_FUR)) {
+                fur = rng(0, skins);
+                skins -= fur;
+                skins = std::max(skins, 0);
+            }
+            if (corpse->has_flag(MF_LEATHER)) {
+                leather = rng(0, skins);
+                skins -= leather;
+                skins = std::max(skins, 0);
+            }
+        }
 
-  if(fur) m.spawn_item(u.posx, u.posy, "fur", age, fur);
-  if(leather) m.spawn_item(u.posx, u.posy, "leather", age, leather);
- }
+        if(chitin) m.spawn_item(u.posx, u.posy, "chitin_piece", age, chitin);
+        if(fur) m.spawn_item(u.posx, u.posy, "fur", age, fur);
+        if(leather) m.spawn_item(u.posx, u.posy, "leather", age, leather);
+    }
 
  if (feathers > 0) {
   if (corpse->has_flag(MF_FEATHER)) {
@@ -9746,7 +9742,8 @@ void game::plmove(int dx, int dy)
       add_msg(_("There are vehicle controls here.  %s to drive."),
               press_x(ACTION_CONTROL_VEHICLE).c_str() );
 
- } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel")) { //probability travel through walls but not water
+  } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
+  //probability travel through walls but not water
   int tunneldist = 0;
   // tile is impassable
   while((m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&
@@ -9894,7 +9891,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
 
     tileray tdir(dir);
     std::string sname, snd;
-    if (p)
+    if (is_player)
     {
         if (is_u)
             sname = std::string (_("You are"));
@@ -10400,7 +10397,7 @@ void game::update_stair_monsters()
        tries++;
       }
       if (tries < 10) {
-       coming_to_stairs[i].mon.setpos(sx, sy);
+       coming_to_stairs[i].mon.setpos(sx, sy, true);
        add_zombie( coming_to_stairs[i].mon );
        if (u_see(sx, sy)) {
         if (m.has_flag(goes_up, sx, sy)) {

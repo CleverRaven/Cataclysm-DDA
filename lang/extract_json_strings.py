@@ -16,9 +16,11 @@ ignore = ["item_groups.json", "monstergroups.json", "recipes.json", "sokoban.txt
 # allow running from main directory, or from script subdirectory
 if os.path.exists("data/raw"):
     raw_folder = "data/raw"
+    json_folder = "data/json"
     to_folder = "lang/json"
 elif os.path.exists("../data/raw"):
     raw_folder = "../data/raw"
+    json_folder = "../data/json"
     to_folder = "../lang/json"
 else:
     print("Error: Couldn't find the 'data/raw' subdirectory.")
@@ -76,42 +78,35 @@ with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
         convert(jsonfile, items_jtl)
 extracted.append("items")
 
-# data/raw/skills.json
+# data/json/skills.json
 with open(os.path.join(to_folder, "json_skills.py"), 'w') as skills_jtl:
-    jsonfile = os.path.join(raw_folder, "skills.json")
-    jsondata = json.loads(open(jsonfile).read())
-    names = [item[1] for item in jsondata]
-    descriptions = [item[2] for item in jsondata]
-    for n, d in zip(names, descriptions):
-        writestr(skills_jtl, n)
-        writestr(skills_jtl, d)
+    jsonfile = os.path.join(json_folder, "skills.json")
+    convert(jsonfile, skills_jtl)
 extracted.append("skills.json")
 
-# data/raw/professions.json
+# data/json/professions.json
 with open(os.path.join(to_folder,"json_professions.py"), 'w') as prof_jtl:
-    prof_json = os.path.join(raw_folder, "professions.json")
+    prof_json = os.path.join(json_folder, "professions.json")
     convert(prof_json, prof_jtl)
 extracted.append("professions.json")
 
-# data/raw/bionics.json
+# data/json/bionics.json
 with open(os.path.join(to_folder,"json_bionics.py"), 'w') as bio_jtl:
-    bio_json = os.path.join(raw_folder, "bionics.json")
+    bio_json = os.path.join(json_folder, "bionics.json")
     convert(bio_json, bio_jtl)
 extracted.append("bionics.json")
 
-# data/raw/snippets.json
+# data/json/snippets.json
 with open(os.path.join(to_folder,"json_snippets.py"), 'w') as snip_jtl:
-    jsonfile = os.path.join(raw_folder, "snippets.json")
+    jsonfile = os.path.join(json_folder, "snippets.json")
     jsondata = json.loads(open(jsonfile).read())
-    snip = jsondata["snippets"]
-    texts = [item["text"] for item in snip]
-    for t in texts:
-        writestr(snip_jtl, t)
+    for item in jsondata:
+        writestr(snip_jtl, item["text"])
 extracted.append("snippets.json")
 
-# data/raw/materials.json
+# data/json/materials.json
 with open(os.path.join(to_folder,"json_materials.py"), 'w') as mat_jtl:
-    jsonfile = os.path.join(raw_folder, "materials.json")
+    jsonfile = os.path.join(json_folder, "materials.json")
     jsondata = json.loads(open(jsonfile).read())
     names = [item["name"] for item in jsondata]
     verb1 = [item["bash_dmg_verb"] for item in jsondata]
@@ -143,21 +138,21 @@ with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
         writestr(name_jtl, "<name>" + item["name"])
 extracted.append("names.json")
 
-# data/raw/mutations.json
+# data/json/mutations.json
 with open(os.path.join(to_folder,"json_mutations.py"), 'w') as mut_jtl:
-    jsonfile = os.path.join(raw_folder, "mutations.json")
+    jsonfile = os.path.join(json_folder, "mutations.json")
     jsondata = json.loads(open(jsonfile).read())
     for item in jsondata:
         writestr(mut_jtl, item["name"])
         writestr(mut_jtl, item["description"])
 extracted.append("mutations.json")
 
-# data/raw/dreams.json
+# data/json/dreams.json
 with open(os.path.join(to_folder,"json_dreams.py"), 'w') as dream_jtl:
-    jsonfile = os.path.join(raw_folder, "dreams.json")
+    jsonfile = os.path.join(json_folder, "dreams.json")
     jsondata = json.loads(open(jsonfile).read())
     for item in jsondata:
-        for message in item["message"]:
+        for message in item["messages"]:
             writestr(dream_jtl, message)
 extracted.append("dreams.json")
 
@@ -190,7 +185,7 @@ extracted.append("vehicles.json")
 
 # SANITY
 
-all_files = os.listdir(raw_folder)
+all_files = os.listdir(raw_folder) + os.listdir(json_folder)
 not_found = []
 for f in all_files:
     if not f in extracted and not f in ignore:

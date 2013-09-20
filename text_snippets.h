@@ -1,6 +1,8 @@
 #ifndef _TEXT_SNIPPET_H_
 #define _TEXT_SNIPPET_H_
 
+#include "json.h"
+
 #include <map>
 #include <string>
 
@@ -9,7 +11,7 @@ class snippet_library
 public:
     snippet_library();
 
-    void load() throw (std::string);
+    void load_snippet(JsonObject &jsobj);
     int assign( const std::string category ) const;
     std::string get( const int index ) const;
 

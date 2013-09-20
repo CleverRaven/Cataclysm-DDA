@@ -3,11 +3,6 @@
 
 void game::init_monitems()
 {
- setvector(&monitems[mon_ant],
-	"bugs",	1, NULL);
- monitems[mon_ant_soldier]	= monitems[mon_ant];
- monitems[mon_ant_queen]	= monitems[mon_ant];
-
 // for zombies only: clothing is generated separately upon mondeath
 // monitems should therefore not include main clothing items but extra items
 // that zombies might be carrying
@@ -64,15 +59,6 @@ void game::init_monitems()
 
  setvector(&monitems[mon_wasp],
 	"wasps",	1, NULL);
-
- setvector(&monitems[mon_dragonfly],
-	"bugs",	1, NULL);
- monitems[mon_centipede]	= monitems[mon_dragonfly];
- monitems[mon_spider_wolf]	= monitems[mon_dragonfly];
- monitems[mon_spider_web]	= monitems[mon_dragonfly];
- monitems[mon_spider_jumping]	= monitems[mon_dragonfly];
- monitems[mon_spider_trapdoor]	= monitems[mon_dragonfly];
- monitems[mon_spider_widow]	= monitems[mon_dragonfly];
 
  setvector(&monitems[mon_eyebot],
            "robots",4, "eyebot", 1,NULL);

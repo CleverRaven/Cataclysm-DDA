@@ -5,6 +5,7 @@
 #include "itype.h"
 #include "mtype.h"
 #include "overmapbuffer.h"
+#include "crafting.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -187,7 +188,7 @@ void defense_game::init_constructions(game *g)
 
 void defense_game::init_recipes(game *g)
 {
-    for (recipe_map::iterator map_iter = g->recipes.begin(); map_iter != g->recipes.end(); ++map_iter)
+    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
     {
         for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
         {
@@ -465,12 +466,9 @@ void defense_game::setup()
     selection--;
    refresh_setup(w, selection);
   } else if (ch == '!') {
-   std::string name = string_input_popup(_("Template Name:"), 20);
+   std::string name = string_input_popup(_("Template Name:"), 20); //TODO: this is NON FUNCTIONAL!!!
    refresh_setup(w, selection);
-  } else if (ch == 'S')
-   return;
-
-  else {
+  } else {
    switch (selection) {
     case 1:	// Scenario selection
      if (ch == 'l') {
@@ -1206,7 +1204,7 @@ void defense_game::spawn_wave(game *g)
     i--;
    }
   }
-  if (valid.size() == 0) {
+  if (valid.empty()) {
    g->add_msg(_("Welcome to Wave %d!"), current_wave);
    g->add_msg("********");
    return;

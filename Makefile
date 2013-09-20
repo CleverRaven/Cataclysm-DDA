@@ -55,7 +55,7 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-VERSION = 0.7.1
+VERSION = 0.8
 
 
 TARGET = cataclysm
@@ -218,7 +218,11 @@ else
       ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Darwin)
         LDFLAGS += -lncurses
       else
-        LDFLAGS += -lncursesw
+        ifeq ($(NATIVE), osx)
+            LDFLAGS += -lncurses
+        else
+            LDFLAGS += -lncursesw
+        endif
       endif
       # Work around Cygwin not including gettext support in glibc
       ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)

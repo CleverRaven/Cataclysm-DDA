@@ -92,7 +92,6 @@ struct mission_type;
 class map;
 class player;
 class calendar;
-struct mutation_branch;
 
 class game
 {
@@ -277,12 +276,10 @@ class game
   std::vector <mtype*> mtypes;
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
-  recipe_map recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions
 
   std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
-  std::map<std::string, mutation_branch> mutation_data; // Mutation data
   std::map<char, action_id> keymap;
   std::map<char, action_id> default_keymap;
 
@@ -328,8 +325,6 @@ class game
  int move_liquid(item &liquid);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
-
- recipe* recipe_by_name(std::string name); // See crafting.cpp
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 
@@ -381,31 +376,23 @@ void load_artifacts(); // Load artifact data
   void load_uistate();
 // Data Initialization
   void init_npctalk();
-  void init_materials();
   void init_fields();
   void init_weather();
   void init_overmap();
   void init_artifacts();
   void init_morale();
   void init_itypes();       // Initializes item types
-  void init_skills() throw (std::string);
-  void init_professions();
   void init_faction_data();
-  void init_bionics() throw (std::string);      // Initializes bionics... for now.
   void init_mtypes();       // Initializes monster types
   void init_mongroups() throw (std::string);    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
   void init_traps();        // Initializes trap types
-  void init_recipes() throw (std::string);      // Initializes crafting recipes
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
-  void init_traits_mutations();    // Initializes mutation "tech tree"
-  void init_mutation_parts(); // Initializes mutation body part data
   void init_vehicle_parts();       // Initializes vehicle part types
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
-  void init_dreams();       // Initializes dreams
   void init_parrot_speech() throw (std::string);  // Initializes Mi-Go parrot speech
 
   void load_keyboard_settings(); // Load keybindings from disk

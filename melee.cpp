@@ -128,7 +128,6 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
   z->add_effect(ME_HIT_BY_PLAYER, 100); // Flag as attacked by us
 
  std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format(_("<Your>%s"), name.c_str()));
  std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
  std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "\003<%2$c%3$c>";
  std::string target = rmp_format(_("<target>the %s"), z->name().c_str());
@@ -230,7 +229,6 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  }
 
  std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format(_("<Your>%s"), name.c_str()));
  std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
  std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "\003<%2$c%3$c>";
 
@@ -817,7 +815,6 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
                                int &stab_dam, int &pain)
 {
  bool mon = (z != NULL);
- std::string You = rm_prefix(is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
  std::string target = rm_prefix(mon ? string_format("<target>the %s",z->name().c_str()) :
                        (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : "<target>you"));
  int tarx = (mon ? z->posx() : p->posx), tary = (mon ? z->posy() : p->posy);
@@ -1001,8 +998,6 @@ void player::perform_defensive_technique(
 
 {
  bool mon = (z != NULL);
- std::string You = rm_prefix(is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
- std::string your = rm_prefix(is_npc() ? (male ? _("<your>his") : _("<your>her")) : _("<your>your"));
  std::string target = rm_prefix(mon ? string_format(_("<target>the %s"),z->name().c_str()) : string_format(_("<target>%s"),p->name.c_str()));
 
  switch (technique) {
@@ -1134,10 +1129,6 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  if (z == NULL && p == NULL)
   return;
  bool mon = (z != NULL);
- bool is_u = (!is_npc());
- std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format(_("<Your>%s's"), name.c_str()));
- std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
  std::string target = rm_prefix(mon ? string_format(_("<target>the %s"),z->name().c_str()) :
                        (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : _("<target>you")));
  std::string target_possessive = rm_prefix(mon ? string_format(_("<target's>the %s's"), z->name().c_str()) :
@@ -1355,7 +1346,6 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
  bool mon = (z != NULL);
  bool is_u = (!is_npc());// Affects how we'll display messages
  std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format("<Your>%s's", name.c_str()));
  std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
  std::string target = rm_prefix(mon ? string_format(_("<target>the %s"), z->name().c_str()) : string_format(_("<target>%s"), p->name.c_str()));
 
@@ -1548,7 +1538,7 @@ void hit_message(game *g, bool is_u, std::string You, std::string your, std::str
                           std::string weapon, std::string target, int dam, bool crit)
 {
     //1$ You 2$ your 3$ weapon 4$ target
-    std::string part1 = string_format(verb.c_str(), You.c_str(), your.c_str(), weapon.c_str(), target.c_str());
+    std::string part1 = string_format(verb, You.c_str(), your.c_str(), weapon.c_str(), target.c_str());
     std::string part2;
     if (dam <= 0) {
         part2 = is_u? _(" but do no damage."): _(" but does no damage.");

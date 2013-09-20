@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "catajson.h"
+#include "json.h"
 #include "input.h"
 #include "game.h"
 #include "options.h"
@@ -12,154 +12,106 @@
 #include "item_factory.h"
 #include "catacharset.h"
 
-//apparently we can't declare this in crafting.h? Complained about multiple definition.
 std::vector<craft_cat> craft_cat_list;
+std::vector<std::string> recipe_names;
+recipe_map recipes;
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 
-// This function just defines the recipes used throughout the game.
-void game::init_recipes() throw (std::string)
+void load_recipe_category(JsonObject &jsobj)
 {
-    int id = -1;
-    int tl, cl;
-    recipe* last_rec = NULL;
+    craft_cat_list.push_back(jsobj.get_string("id"));
+}
 
-    catajson recipeRaw("data/raw/recipes.json");
+void load_recipe(JsonObject &jsobj)
+{
+    JsonArray jsarr;
 
-    if(!json_good())
-    	throw (std::string)"data/raw/recipes.json could not be read";
+    // required
+    std::string result = jsobj.get_string("result");
+    std::string category = jsobj.get_string("category");
+    int difficulty = jsobj.get_int("difficulty");
+    int time = jsobj.get_int("time");
+    bool autolearn = jsobj.get_bool("autolearn");
+    // optional
+    bool reversible = jsobj.get_bool("reversible", false);
+    std::string skill_used = jsobj.get_string("skill_used", "");
+    std::string id_suffix = jsobj.get_string("id_suffix", "");
+    int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
 
-    catajson craftCats = recipeRaw.get("categories");
-    for (craftCats.set_begin(); craftCats.has_curr(); craftCats.next())
-    {
-        craft_cat_list.push_back(craftCats.curr().as_string());
+    std::map<std::string, int> requires_skills;
+    jsarr = jsobj.get_array("requires_skills");
+    if (jsarr.size() > 0) {
+        // could be a single requirement, or multiple
+        try {
+            // try to parse as single requirement
+            requires_skills[jsarr.get_string(0)] = jsarr.get_int(1);
+        } catch (std::string e) {
+            // get_string or get_int failed, so assume array of arrays
+            while (jsarr.has_more()) {
+                JsonArray ja = jsarr.next_array();
+                requires_skills[ja.get_string(0)] = ja.get_int(1);
+            }
+        }
     }
 
-    catajson recipeList = recipeRaw.get("recipes");
-    std::vector<std::string> recipeNames;
-    for (recipeList.set_begin(); recipeList.has_curr(); recipeList.next())
+    std::string rec_name = result + id_suffix;
+
+    for (std::vector<std::string>::iterator name_iter = recipe_names.begin();
+         name_iter != recipe_names.end();
+         ++name_iter)
     {
-        catajson curr = recipeList.curr();
-        // required fields
-        std::string result = curr.get("result").as_string();
-        std::string category = curr.get("category").as_string();
-        int difficulty = curr.get("difficulty").as_int();
-        int time = curr.get("time").as_int();
-        bool autolearn = curr.get("autolearn").as_bool();
-        // optional fields
-        bool reversible = curr.has("reversible") ? curr.get("reversible").as_bool() : false;
-        std::string skill_used = curr.has("skill_used") ? curr.get("skill_used").as_string() : "";
-        std::map<std::string, int> requires_skills;
-        //Find skill requirements, if any exist
-        if(curr.has("requires_skills")){
-          catajson skill_list = curr.get("requires_skills");
-          // The json could contain the data for a single requirement, or multiple, but either way its an array
-          if(skill_list.is_array()){
-              skill_list.set_begin();
-              if(skill_list.curr().is_array()){
-                  // If the first element is an array, we have a list of requirements
-                  for(skill_list.set_begin(); skill_list.has_curr(); skill_list.next()){
-                    catajson sub_list = skill_list.curr();
-                    sub_list.set_begin();
-                    std::string skill_name = sub_list.curr().as_string();
-                    sub_list.next();
-                    int skill_level = sub_list.curr().as_int();
-                    requires_skills[skill_name]=skill_level;
-                  }
-              } else {
-                  // If the first element is not an array, we just have a single requirement
-                  std::string skill_name = skill_list.curr().as_string();
-                  skill_list.next();
-                  int skill_level = skill_list.curr().as_int();
-                  requires_skills[skill_name]=skill_level;
-              }
-          }
-          else {
-              debugmsg("Invalid skill requirements: %s", result.c_str());
-          }
-
+        if ((*name_iter) == rec_name) {
+            throw jsobj.line_number() + "Recipe name collision (set a unique value for the id_suffix field to fix): " + rec_name;
         }
-        std::string id_suffix = curr.has("id_suffix") ? curr.get("id_suffix").as_string() : "";
-        int learn_by_disassembly = curr.has("decomp_learn") ? curr.get("decomp_learn").as_int() : -1;
-
-        tl = -1;
-        cl = -1;
-        ++id;
-
-        std::string rec_name = result + id_suffix;
-
-        last_rec = new recipe(rec_name, id, result, category, skill_used, requires_skills,
-                              difficulty, time, reversible, autolearn,
-                              learn_by_disassembly);
-
-        for (std::vector<std::string>::iterator name_iter = recipeNames.begin();
-             name_iter != recipeNames.end();
-             ++name_iter)
-        {
-            if ((*name_iter) == rec_name)
-            {
-                debugmsg("Recipe name collision (set a unique value for the id_suffix field to fix): %s", rec_name.c_str());
-            }
-        }
-
-        recipeNames.push_back(rec_name);
-
-        catajson compList = curr.get("components");
-        for (compList.set_begin(); compList.has_curr(); compList.next())
-        {
-            ++cl;
-            std::vector<component> component_choices;
-            catajson comp = compList.curr();
-            // interchangable components
-            for (comp.set_begin(); comp.has_curr(); comp.next())
-            {
-                std::string name = comp.curr().get(0).as_string();
-                int quant = comp.curr().get(1).as_int();
-                component_choices.push_back(component(name, quant));
-            }
-            last_rec->components.push_back(component_choices);
-        }
-
-        if (curr.has("tools"))
-        {
-            catajson toolList = curr.get("tools");
-            for (toolList.set_begin(); toolList.has_curr(); toolList.next())
-            {
-                ++tl;
-                std::vector<component> tool_choices;
-                catajson tool = toolList.curr();
-                // interchangable tools
-                for (tool.set_begin(); tool.has_curr(); tool.next())
-                {
-                    std::string name = tool.curr().get(0).as_string();
-                    int quant = tool.curr().get(1).as_int();
-                    tool_choices.push_back(component(name, quant));
-                }
-                last_rec->tools.push_back(tool_choices);
-            }
-        }
-
-        if (curr.has("book_learn"))
-        {
-            catajson book_list = curr.get("book_learn");
-            for (book_list.set_begin(); book_list.has_curr(); book_list.next())
-            {
-                catajson book = book_list.curr();
-                std::string book_name = book.get(0).as_string();
-                int book_level = book.get(1).as_int();
-
-                if (item_controller->find_template(book_name)->is_book())
-                {
-                    it_book *book_def = dynamic_cast<it_book*>(item_controller->find_template(book_name));
-                    book_def->recipes[last_rec] = book_level;
-                }
-            }
-        }
-
-        recipes[category].push_back(last_rec);
     }
-    if(!json_good())
-        throw (std::string)"There was an error reading data/raw/recipes.json";
+
+    recipe_names.push_back(rec_name);
+    int id = recipe_names.size();
+
+    recipe* rec = new recipe(rec_name, id, result, category, skill_used,
+                             requires_skills, difficulty, time, reversible,
+                             autolearn, learn_by_disassembly);
+
+
+    jsarr = jsobj.get_array("components");
+    while (jsarr.has_more()) {
+        std::vector<component> component_choices;
+        JsonArray ja = jsarr.next_array();
+        while (ja.has_more()) {
+            JsonArray comp = ja.next_array();
+            std::string name = comp.get_string(0);
+            int quant = comp.get_int(1);
+            component_choices.push_back(component(name, quant));
+        }
+        rec->components.push_back(component_choices);
+    }
+
+    jsarr = jsobj.get_array("tools");
+    while (jsarr.has_more()) {
+        std::vector<component> tool_choices;
+        JsonArray ja = jsarr.next_array();
+        while (ja.has_more()) {
+            JsonArray comp = ja.next_array();
+            std::string name = comp.get_string(0);
+            int quant = comp.get_int(1);
+            tool_choices.push_back(component(name, quant));
+        }
+        rec->tools.push_back(tool_choices);
+    }
+
+    jsarr = jsobj.get_array("book_learn");
+    while (jsarr.has_more()) {
+        JsonArray ja = jsarr.next_array();
+        std::string book_name = ja.get_string(0);
+        int book_level = ja.get_int(1);
+        if (item_controller->find_template(book_name)->is_book()) {
+            it_book* book_def = dynamic_cast<it_book*>(item_controller->find_template(book_name));
+            book_def->recipes[rec] = book_level;
+        }
+    }
+
+    recipes[category].push_back(rec);
 }
 
 bool game::crafting_allowed()
@@ -235,7 +187,7 @@ bool game::can_make(recipe *r)
     {
         std::vector<component> &set_of_tools = *tool_set_it;
         // if current tool is null(size 0), assume that there is no more after it.
-        if(set_of_tools.size()==0)
+        if(set_of_tools.empty())
         {
             break;
         }
@@ -269,7 +221,7 @@ bool game::can_make(recipe *r)
     while (comp_set_it != components.end())
     {
         std::vector<component> &set_of_components = *comp_set_it;
-        if(set_of_components.size() == 0)
+        if(set_of_components.empty())
         {
             break;
         }
@@ -671,7 +623,7 @@ recipe* game::select_crafting_recipe()
                 }
             }
         }
-        if (current.size() > 0)
+        if (!current.empty())
         {
             nc_color col = (available[line] ? c_white : c_dkgray);
             mvwprintz(w_data, 0, 30, col, _("Skills used: %s"),
@@ -1268,7 +1220,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         }
 
         // unlike with tools, it's a bad thing if there aren't any components available
-        if (options.size() == 0)
+        if (options.empty())
         {
             debugmsg("Attempted a recipe with no available components!");
             return ret;
@@ -1379,12 +1331,13 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
  if (found_nocharge)
   return; // Default to using a tool that doesn't require charges
 
- if (player_has.size() == 1 && map_has.size() == 0)
-  p->use_charges(player_has[0].type, player_has[0].count);
- else if (map_has.size() == 1 && player_has.size() == 0)
-  m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                   map_has[0].type, map_has[0].count);
- else { // Variety of options, list them and pick one
+ if (player_has.size() + map_has.size() == 1){
+     if(map_has.empty()){
+         p->use_charges(player_has[0].type, player_has[0].count);
+     } else {
+         m.use_charges(p->pos(), PICKUP_RANGE, map_has[0].type, map_has[0].count);
+     }
+ } else { // Variety of options, list them and pick one
 // Populate the list
   std::vector<std::string> options;
   for (int i = 0; i < map_has.size(); i++) {
@@ -1394,7 +1347,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
   for (int i = 0; i < player_has.size(); i++)
    options.push_back(item_controller->find_template(player_has[i].type)->name);
 
-  if (options.size() == 0) // This SHOULD only happen if cooking with a fire,
+  if (options.empty()) // This SHOULD only happen if cooking with a fire,
    return;                 // and the fire goes out.
 
 // Get selection via a popup menu
@@ -1446,59 +1399,55 @@ void game::disassemble(char ch)
                 bool have_all_tools = true;
                 for (int j = 0; j < cur_recipe->tools.size(); j++)
                 {
-                    bool have_this_tool = false;
                     if (cur_recipe->tools[j].size() == 0) // no tools required, may change this
                     {
-                        have_this_tool = true;
+                        continue;
                     }
-                    else
+                    bool have_this_tool = false;
+                    for (int k = 0; k < cur_recipe->tools[j].size(); k++)
                     {
-                        for (int k = 0; k < cur_recipe->tools[j].size(); k++)
-                        {
-                            itype_id type = cur_recipe->tools[j][k].type;
-                            int req = cur_recipe->tools[j][k].count;	// -1 => 1
+                        itype_id type = cur_recipe->tools[j][k].type;
+                        int req = cur_recipe->tools[j][k].count;	// -1 => 1
 
-                            if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
-                                (req >  0 && crafting_inv.has_charges(type, req)))
+                        if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                            (req >  0 && crafting_inv.has_charges(type, req)))
+                        {
+                            have_this_tool = true;
+                            k = cur_recipe->tools[j].size();
+                        }
+                        // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
+                        if (type == "welder")
+                        {
+                            if (crafting_inv.has_amount("hacksaw", 1) ||
+                                crafting_inv.has_amount("toolset", 1))
                             {
                                 have_this_tool = true;
-                                k = cur_recipe->tools[j].size();
-                            }
-                            // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
-                            if (type == "welder")
-                            {
-                                if (crafting_inv.has_amount("hacksaw", 1) ||
-                                    crafting_inv.has_amount("toolset", 1))
-                                {
-                                    have_this_tool = true;
-                                }
-                                else
-                                {
-                                    have_this_tool = false;
-                                }
-                            }
-                        }
-
-                        if (!have_this_tool)
-                        {
-                            have_all_tools = false;
-                            int req = cur_recipe->tools[j][0].count;
-                            if (cur_recipe->tools[j][0].type == "welder")
-                            {
-                                add_msg(_("You need a hacksaw to disassemble this."));
                             }
                             else
                             {
-                                if (req <= 0)
-                                {
-                                    add_msg(_("You need a %s to disassemble this."),
-                                    item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str());
-                                }
-                                else
-                                {
-                                    add_msg(_("You need a %s with %d charges to disassemble this."),
-                                    item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str(), req);
-                                }
+                                have_this_tool = false;
+                            }
+                        }
+                    }
+                    if (!have_this_tool)
+                    {
+                        have_all_tools = false;
+                        int req = cur_recipe->tools[j][0].count;
+                        if (cur_recipe->tools[j][0].type == "welder")
+                        {
+                            add_msg(_("You need a hacksaw to disassemble this."));
+                        }
+                        else
+                        {
+                            if (req <= 0)
+                            {
+                                add_msg(_("You need a %s to disassemble this."),
+                                item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str());
+                            }
+                            else
+                            {
+                                add_msg(_("You need a %s with %d charges to disassemble this."),
+                                item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str(), req);
                             }
                         }
                     }
@@ -1578,7 +1527,7 @@ void game::complete_disassemble()
   for (int j = 0; j < dis->tools.size(); j++)
   {
     if (dis->tools[j].size() > 0)
-    consume_tools(&u, dis->tools[j], false);
+        consume_tools(&u, dis->tools[j], false);
   }
 
   // add the components to the map
@@ -1667,7 +1616,7 @@ recipe* game::recipe_by_index(int index)
     return NULL;
 }
 
-recipe* game::recipe_by_name(std::string name)
+recipe* recipe_by_name(std::string name)
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
     {

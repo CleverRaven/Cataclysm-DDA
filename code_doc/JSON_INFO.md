@@ -31,24 +31,28 @@
 
 ###BIONICS
 ```C++
-"id"         :    "bio_batteries",   // Unique ID. Must be one continuous word, use underscores if necessary
-"name"       :    "Battery System",  // In-game name displayed
-"cost"       :    0,                 // How many PUs it costs to use the bionic.
-"time"       :    0,                 // How long, when activated, between drawing cost. If 0, it draws power once.
-"flags"      :    ["POWER"],         // Used to flag the bionic as a specific type.
-"description":    "You have a battery draining attachment, and thus can make use of the energy\ncontained in normal, everyday batteries.  Use 'E' to consume batteries." // In-game description
+"id"           : "bio_batteries",  // Unique ID. Must be one continuous word,
+                                   // use underscores if necessary.
+"name"         : "Battery System", // In-game name displayed
+"active"       : false,  // Whether the bionic is active or passive (default: passive)
+"power_source" : false,  // Whether the bionic provides power (default: false)
+"faulty"       : false,  // Whether it is a faulty type (default: false)
+"cost"         : 0,  // How many PUs it costs to use the bionic. (default: 0)
+"time"         : 0,  // How long, when activated, between drawing cost.
+                     // If 0, it draws power once. (default: 0)
+"description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries." // In-game description
 ```
 ###DREAMS
 ```C++
-"message"		:	[                // List of potential dreams
-	"You have a strange dream about birds.",
-	"Your dreams give you a strange feathered feeling."
-	],
-"category"		:	"MUTCAT_BIRD",   // Mutation category needed to dream
-"strength"		:	1                // Mutation category strength required
-                                          1 = 20 - 34
-                                          2 = 35 - 49
-                                          3 = 50+
+"messages" : [                // List of potential dreams
+    "You have a strange dream about birds.",
+    "Your dreams give you a strange feathered feeling."
+],
+"category" : "MUTCAT_BIRD",   // Mutation category needed to dream
+"strength" : 1                // Mutation category strength required
+                                     1 = 20 - 34
+                                     2 = 35 - 49
+                                     3 = 50+
 ```
 ###ITEM GROUPS
 ```C++
@@ -60,7 +64,8 @@
   ["mushroom_poison", 3],
   ["mushroom_magic", 1],
   ["blueberries", 3]
-]
+],
+"groups":[]               // ?
 ```
 ###MATERIALS
 ```C++
@@ -123,7 +128,7 @@
 "result": "javelin",         // ID of resulting item
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
 "skill_used": "fabrication", // Skill trained and used for success checks
-"requires_skills": [ "survival", 1, "throw", 2 ], // Skills required to unlock recipe
+"requires_skills": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
 "difficulty": 3,             // Difficulty of success check
 "time": 5000,                // Time to perform recipe
 "reversible": false,         // Can be disassembled.
@@ -141,9 +146,8 @@
   [ "toolset", -1 ]
 ],
 [
-  [ "fire", -1 ]
-	]
-],
+    [ "fire", -1 ]
+]],
 "components": [              // Equivalent components are surrounded by a single set of brackets
 [
   [ "spear_wood", 1 ],       // Number of charges/items required
@@ -164,10 +168,10 @@
 ```
 ###SKILLS
 ```C++
-"smg",              // Unique ID. Must be one continuous word, use underscores if necessary
-"submachine guns",  // In-game name displayed
-"Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
-["gun_type"]        // Special flags, most skills will have an empty list "[]"
+"ident" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
+"name" : "submachine guns",  // In-game name displayed
+"description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
+"tags" : ["gun_type"]  // Special flags (default: none)
 ```
 ###SNIPPETS
 ```C++
@@ -179,15 +183,16 @@
 "id": "LIGHTEATER",  // Unique ID
 "name": "Optimist",  // In-game name displayed
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
-"visibility": 0,     // Visibility of the trait for purposes of NPC interaction
-"ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction
+"visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
+"ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
 "description": "Nothing gets you down!" // In-game description
-"starting_trait": true, // Can be selected at character creation
-"valid": false,      // Can be mutated ingame
+"starting_trait": true, // Can be selected at character creation (default: false)
+"valid": false,      // Can be mutated ingame (default: true)
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 "prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
 "cancels": ["ROT1", "ROT2", "ROT3"], // Cancels these mutations when mutating
 "changes_to": ["FASTHEALER2"], // Can change into these mutations when mutating further
+"leads_to": [], // Mutations that add to this one
 "wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 ```
@@ -253,6 +258,7 @@
 "dispersion" : 0,     // Inaccuracy of ammo, measured in quarter-degrees
 "recoil" : 18,        // Recoil caused when firing
 "count" : 25,         // Number of rounds that spawn together
+"stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
 "effects" : ["COOKOFF", "SHOT"] // Special effects
 ```
 ###ARMOR
@@ -329,6 +335,7 @@
 "cutting" : 0,        // Cutting damage caused by using it as a melee weapon
 "phase" : "solid",    // What phase it is
 "charges" : 4,        // Number of uses when spawned
+"stack_size" : 8,     // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "bashing" : 0,        // Bashing damage caused by using it as a melee weapon
 "fun" : 50            // Morale effects when used
 ```
