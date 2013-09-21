@@ -200,9 +200,8 @@ ifdef SDL
   endif
   ifdef TILES
     DEFINES += -DSDLTILES
-  else
-    DEFINES += -DTILES
   endif
+  DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -lgdi32 -ldxguid -lwinmm -ljpeg -lpng
     TARGET = $(W32TILESTARGET)
