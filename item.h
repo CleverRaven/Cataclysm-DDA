@@ -9,6 +9,7 @@
 
 class player;
 class npc;
+class itype;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
@@ -114,11 +115,10 @@ public:
  int damage_bash();
  int damage_cut() const;
  bool has_flag(std::string f) const;
- bool has_technique(technique_id t, player *p = NULL);
+ bool has_technique(std::string t, player *p = NULL);
  int has_gunmod(itype_id type);
  item* active_gunmod();
  item const* inspect_active_gunmod() const;
- std::vector<technique_id> techniques();
  bool goes_bad();
  bool count_by_charges() const;
  int max_charges() const;

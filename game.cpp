@@ -99,7 +99,9 @@ game::game() :
  init_faction_data();
  init_morale();
  init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
+ init_techniques();           // Set up techniques                (SEE martialarts.cpp)
  init_itypes();               // Set up item types                (SEE itypedef.cpp)
+ init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
  item_controller->init(this); //Item manager
  init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
  init_traps();                // Set up the trap types            (SEE trapdef.cpp)
@@ -978,22 +980,19 @@ void game::process_activity()
     break;
 
    case ACT_TRAIN:
-    if (u.activity.index < 0) {
-     add_msg(_("You learn %s."), martial_arts_itype_ids[0 - u.activity.index].c_str());
-     u.styles.push_back( martial_arts_itype_ids[0 - u.activity.index] );
-    } else {
-     Skill* skill = Skill::skill(u.activity.name);
-     int new_skill_level = u.skillLevel(skill) + 1;
-     u.skillLevel(skill).level(new_skill_level);
-     add_msg(_("You finish training %s to level %d."),
-             skill->name().c_str(),
-             new_skill_level);
-     if(new_skill_level % 4 == 0) {
-       u.add_memorial_log(_("Reached skill level %d in %s."),
-                      new_skill_level, skill->name().c_str());
-     }
-
+    {
+    Skill* skill = Skill::skill(u.activity.name);
+    int new_skill_level = u.skillLevel(skill) + 1;
+    u.skillLevel(skill).level(new_skill_level);
+    add_msg(_("You finish training %s to level %d."),
+            skill->name().c_str(),
+            new_skill_level);
+    if(new_skill_level % 4 == 0) {
+      u.add_memorial_log(_("Reached skill level %d in %s."),
+                     new_skill_level, skill->name().c_str());
     }
+    }
+
     break;
 
    case ACT_VEHICLE:
@@ -1975,10 +1974,6 @@ bool game::handle_action()
 
   case ACTION_PICK_STYLE:
    u.pick_style(this);
-   if (u.weapon.type->id == "null" || u.weapon.is_style()) {
-    u.weapon = item(itypes[u.style_selected], 0);
-    u.weapon.invlet = ':';
-   }
    refresh_all();
    break;
 
@@ -3175,11 +3170,13 @@ Current turn: %d; Next spawn %d.\n\
     break;
 
   case 12:
+    /*
     for(std::vector<std::string>::iterator it = martial_arts_itype_ids.begin();
           it != martial_arts_itype_ids.end(); ++it){
         u.styles.push_back(*it);
     }
     add_msg(_("Martial arts gained."));
+    */
    break;
 
   case 13: {
@@ -9191,12 +9188,9 @@ void game::wield(char chInput)
   return;
  }
  char ch;
- if (chInput == '.') {
-  if (u.styles.empty())
-   ch = inv(_("Wield item:"));
-  else
-   ch = inv(_("Wield item: Press - to choose a style"));
- } else
+ if (chInput == '.')
+  ch = inv(_("Wield item:"));
+ else
   ch = chInput;
 
  bool success = false;
@@ -9678,6 +9672,10 @@ void game::plmove(int dx, int dy)
    }
   }
 
+  // apply martial art move bonuses
+  u.ma_onmove_effects();
+
+  // leave the old martial arts stuff in for now
 // Some martial art styles have special effects that trigger when we move
   if(u.weapon.type->id == "style_capoeira"){
     if (u.disease_level("attack_boost") < 2)

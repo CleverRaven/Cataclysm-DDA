@@ -9,6 +9,13 @@
 #include <vector>
 #include <map>
 
+typedef std::string matype_id;
+
+typedef std::string mabuff_id;
+
+typedef std::string matec_id;
+
+
 enum character_type {
  PLTYPE_CUSTOM,
  PLTYPE_RANDOM,
@@ -32,6 +39,18 @@ struct disease
  int duration;
  body_part bp;
  int side;
+
+ // extra stuff for martial arts, kind of a hack for now
+ std::string buff_id;
+ disease(std::string new_buff_id) {
+  type = "ma_buff";
+  buff_id = new_buff_id;
+  intensity = 1;
+ }
+ bool is_mabuff() {
+   return (buff_id != "" && type == "ma_buff");
+ }
+
  disease() : type("null") { duration = 0; intensity = 0; bp = num_bp; side = -1; }
  disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1) :
     type(t) { duration = d; intensity = i; bp = part; side = s; }
