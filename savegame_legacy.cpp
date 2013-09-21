@@ -50,58 +50,123 @@ inline std::stringstream & stream_line(std::ifstream & f, std::stringstream & s,
 bool	 game::unserialize_legacy(std::ifstream & fin) {
 
    switch (savegame_loading_version) {
-/*
-// reserved for pending breakage
+
        case 7:
        case 5:
        case 4: {
    // Format version 4-?: Interim format. Still resembles a hairball, but it's at least a multi-line hairball;
    // Data is segmented for readabilty, stability, and gradual conversion into something closer to sanity.
-        // Header
-        fout << "# version " << savegame_version << std::endl;
-        // First, write out basic game state information.
-        fout << int(turn) << "  " << int(last_target) << " " << int(run_mode) << " " <<
-             mostseen << " " << nextinv << " " << next_npc_id << " " <<
-             next_faction_id << " " << next_mission_id << " " << int(nextspawn) << std::endl;
+            std::string linebuf;
+            std::stringstream linein;
 
-        // future weather (for now)
-        fout << save_weather();
-        fout << std::endl;
+            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
 
-        // current map coordinates
-        fout << levx << " " << levy << " " << levz << " " << cur_om->pos().x <<
-             " " << cur_om->pos().y << " " << std::endl;
+            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+                next_faction_id >> next_mission_id >> tmpspawn;
 
-        // Next, the scent map.
-        for (int i = 0; i < SEEX * MAPSIZE; i++) {
-            for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                fout << grscent[i][j] << " ";
+            getline(fin, linebuf);
+            load_weather(linebuf);
+
+            parseline() >> levx >> levy >> levz >> comx >> comy;
+
+            turn = tmpturn;
+            nextspawn = tmpspawn;
+
+            cur_om = &overmap_buffer.get(this, comx, comy);
+            m.load(this, levx, levy, levz);
+
+            run_mode = tmprun;
+            if (OPTIONS["SAFEMODE"] && run_mode == 0) {
+                run_mode = 1;
             }
-        }
+            autosafemode = OPTIONS["AUTOSAFEMODE"];
+            last_target = tmptar;
 
-        // Now save all monsters.
-        fout << std::endl << num_zombies() << std::endl;
+            // Next, the scent map.
+            parseline();
 
-        for (int i = 0; i < num_zombies(); i++) {
-            fout << _z[i].save_info() << std::endl;
-            fout << _z[i].inv.size() << std::endl;
-            for( std::vector<item>::iterator it = _z[i].inv.begin(); it != _z[i].inv.end(); ++it ) {
-                fout << it->save_info() << std::endl;
+            for (int i = 0; i < SEEX *MAPSIZE; i++) {
+                for (int j = 0; j < SEEY * MAPSIZE; j++) {
+                    linein >> grscent[i][j];
+                }
             }
-        }
+            // Now the number of monsters...
+            int nummon;
+            parseline() >> nummon;
 
-        for (int i = 0; i < num_monsters; i++) { // Save the kill counts, too.
-            fout << kills[i] << " ";
-        }
-        fout << std::endl;
+            // ... and the data on each one.
+            std::string data;
+            clear_zombies();
+            monster montmp;
+            int num_items;
+            for (int i = 0; i < nummon; i++)
+            {
+                getline(fin, data);
+                montmp.load_info(data, &mtypes);
 
-        // And finally the player.
-        fout << u.save_info() << std::endl;
+                fin >> num_items;
+                // Chomp the endline after number of items.
+                getline( fin, data );
+                for (int i = 0; i < num_items; i++) {
+                    getline( fin, data );
+                    montmp.inv.push_back( item( data, this ) );
+                }
 
-        fout << std::endl;
+                add_zombie(montmp);
+            }
+
+            // And the kill counts;
+            parseline();
+            int kk;
+            for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
+                linein >> kills[kk];
+            }
+            if ( kk != num_monsters ) {
+                debugmsg("Warning, number of monsters changed from %d to %d", kk+1, num_monsters );
+            }
+
+            // Finally, the data on the player.
+            getline(fin, data);
+            u.load_info(this, data);
+            u.load_memorial_file( fin );
+
+            // And the player's inventory...
+            u.inv.load_invlet_cache( fin );
+
+            char item_place;
+            std::string itemdata;
+            // We need a temporary vector of items.  Otherwise, when we encounter an item
+            // which is contained in another item, the auto-sort/stacking behavior of the
+            // player's inventory may cause the contained item to be misplaced.
+            std::list<item> tmpinv;
+            while (!fin.eof()) {
+                fin >> item_place;
+                if (!fin.eof()) {
+                    getline(fin, itemdata);
+                    if ( item_place == 'I' || item_place == 'C' || item_place == 'W' ||
+                         item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
+                        item tmpitem(itemdata, this);
+                        if (item_place == 'I') {
+                            tmpinv.push_back(tmpitem);
+                        } else if (item_place == 'C') {
+                            tmpinv.back().contents.push_back(tmpitem);
+                        } else if (item_place == 'W') {
+                            u.worn.push_back(tmpitem);
+                        } else if (item_place == 'S') {
+                            u.worn.back().contents.push_back(tmpitem);
+                        } else if (item_place == 'w') {
+                            u.weapon = tmpitem;
+                        } else if (item_place == 'c') {
+                            u.weapon.contents.push_back(tmpitem);
+                        }
+                    }
+                }
+            }
+            // Now dump tmpinv into the player's inventory
+            u.inv.add_stack(tmpinv);
+            return true;
         ////////
        } break;
-*/
        case 3: {
 
             std::string linebuf;
