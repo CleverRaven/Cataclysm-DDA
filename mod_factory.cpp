@@ -237,34 +237,6 @@ void mod_factory::print_debug_mods()
 // needs to be drawn out for 80x25 screen including border
 void mod_factory::show_mod_layering_ui()
 {
-    /* -- SCREEN at 80x25
-    ********************************************************************************
-    *                                                                              *
-    ********************************************************************************
-    *            AVAILABLE MODS           *****           SELECTED MODS            *
-    ********************************************************************************
-    * (MOD TYPE)[MOD NAME]                *ADD*                                    *
-    *                                     *[+]*                                    *
-    * (MOD TYPE)[MOD NAME]                *   *                                    *
-    *                                     *[<]*                                    *
-    *                                     *   *                                    *
-    *                                     *REM*                                    *
-    *                                     *[-]*                                    *
-    *                                     *****                                    *
-    *                                     *MOV*                                    *
-    *                                     *[+]*                                    *
-    *                                     *---*                                    *
-    *                                     *[-]*                                    *
-    *                                     *****                                    *
-    *                                     *[?]*                                    *
-    *                                     *[>]*                                    *
-    ********************************************************************************
-    * MOD DESCRIPTION SECTION                                                      *
-    *                                                                              *
-    *                                                                              *
-    ********************************************************************************
-    */
-
     // get list of mods, don't assume it has been refreshed lately though.
     refresh_mod_list();
     // build map of mods using their ident strings
@@ -815,35 +787,17 @@ bool mod_factory::can_shift_up(int selection, std::vector<std::string > activeli
     std::string modstring;
     int selshift = 0;
 
-    // shift up (towards 0)
-    if (direction == '+')
+    // figure out if we can move up!
+    if (selection == 0)
     {
-        // figure out if we can move up!
-        if (selection == 0)
-        {
-            // can't move up, don't bother trying
-            return false;
-        }
-        // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
-        newsel = selection - 1;
-        oldsel = selection;
-
-        selshift = -1;
+        // can't move up, don't bother trying
+        return false;
     }
-    // shift down (towards activelist.size()-1)
-    else if (direction == '-')
-    {
-        // figure out if we can move down!
-        if (selection == activelist.size() - 1)
-        {
-            // can't move down, don't bother trying
-            return false;
-        }
-        newsel = selection;
-        oldsel = selection + 1;
+    // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
+    newsel = selection - 1;
+    oldsel = selection;
 
-        selshift = +1;
-    }
+    selshift = -1;
 
     modstring = activelist[newsel];
     selstring = activelist[oldsel];
@@ -886,35 +840,18 @@ bool mod_factory::can_shift_down(int selection, std::vector<std::string > active
     std::string modstring;
     int selshift = 0;
 
-    // shift up (towards 0)
-    if (direction == '+')
-    {
-        // figure out if we can move up!
-        if (selection == 0)
-        {
-            // can't move up, don't bother trying
-            return false;
-        }
-        // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
-        newsel = selection - 1;
-        oldsel = selection;
 
-        selshift = -1;
-    }
-    // shift down (towards activelist.size()-1)
-    else if (direction == '-')
+    // figure out if we can move down!
+    if (selection == activelist.size() - 1)
     {
-        // figure out if we can move down!
-        if (selection == activelist.size() - 1)
-        {
-            // can't move down, don't bother trying
-            return false;
-        }
-        newsel = selection;
-        oldsel = selection + 1;
-
-        selshift = +1;
+        // can't move down, don't bother trying
+        return false;
     }
+    newsel = selection;
+    oldsel = selection + 1;
+
+    selshift = +1;
+
 
     modstring = activelist[newsel];
     selstring = activelist[oldsel];
@@ -931,5 +868,27 @@ bool mod_factory::can_shift_down(int selection, std::vector<std::string > active
         // we can shift!
         // switch values!
         return true;
+    }
+}
+
+bool mod_factory::consolidate_mod_layers(std::vector<std::string > layers)
+{
+    if (layers.empty())
+    {
+        // no layers to consolidate, something horrible happened!
+        return false;
+    }
+
+    // go through layers from core to the last layered supplemental (if exists) and consolildate all of the information together
+    for (std::vector<std::string>::iterator mod_it = layers.begin(); mod_it != layers.end(); ++mod_it)
+    {
+        MOD_INFORMATION *mod = mods[*mod_it];
+
+        // pull all of the files from the raws folder and json folder
+        std::vector<std::string> mod_jsons, mod_raws;
+        const std::string json_folderpath = "/json", raw_folderpath = "/raw";
+        // recursive search to pull files from each folder. Assume that they are already ordered in load-priority order
+        // ** Use file_finder since it's really easy and reduces redundancy of code **
+
     }
 }

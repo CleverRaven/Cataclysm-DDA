@@ -58,6 +58,7 @@ class mod_factory
 
         void refresh_mod_list();
         void show_mod_layering_ui();
+        bool consolidate_mod_layers(std::vector<std::string > layers);
 
         std::vector<MOD_INFORMATION*> mods;
     protected:
