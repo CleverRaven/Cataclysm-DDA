@@ -1113,7 +1113,7 @@ std::string word_rewrap (const std::string &ins, int width){
 		const char* ins = instr+j;
 		int len = ANY_LENGTH;
 		unsigned uc = UTF8_getch(&ins, &len);
-		x += mk_wcwidth((wchar_t)uc);
+		x += mk_wcwidth(uc);
 		j += ANY_LENGTH-len;
 
 		if(x >= width)
