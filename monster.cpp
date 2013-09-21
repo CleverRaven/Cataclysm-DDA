@@ -10,6 +10,7 @@
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
+#include <algorithm>
 #include "cursesdef.h"
 
 #include "picofunc.h"
@@ -40,6 +41,7 @@ monster::monster()
  dead = false;
  made_footstep = false;
  unique_name = "";
+ hallucination = false;
 }
 
 monster::monster(mtype *t)
@@ -67,6 +69,7 @@ monster::monster(mtype *t)
  dead = false;
  made_footstep = false;
  unique_name = "";
+ hallucination = false;
 }
 
 monster::monster(mtype *t, int x, int y)
@@ -94,23 +97,24 @@ monster::monster(mtype *t, int x, int y)
  dead = false;
  made_footstep = false;
  unique_name = "";
+ hallucination = false;
 }
 
 monster::~monster()
 {
 }
 
-bool monster::setpos(const int x, const int y)
+bool monster::setpos(const int x, const int y, const bool level_change)
 {
-    bool ret = g->update_zombie_pos(*this, x, y);
+    bool ret = level_change ? true : g->update_zombie_pos(*this, x, y);
     _posx = x;
     _posy = y;
     return ret;
 }
 
-bool monster::setpos(const point &p)
+bool monster::setpos(const point &p, const bool level_change)
 {
-    return setpos(p.x, p.y);
+    return setpos(p.x, p.y, level_change);
 }
 
 void monster::poly(mtype *t)
@@ -377,10 +381,15 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
     return true;
 }
 
+void monster::json_load(picojson::value parsed, game * g) {
+    std::vector <mtype *> *mt=&(g->mtypes);
+    json_load(parsed, mt);
+}
+
 /*
  * Save, json ed; serialization that won't break as easily. In theory.
  */
-picojson::value monster::json_save()
+picojson::value monster::json_save(bool save_contents)
 {
     std::map<std::string, picojson::value> data;
     data["typeid"] = pv((type->id));
@@ -412,6 +421,14 @@ picojson::value monster::json_save()
         data["plans"] = pv( pvplans );
     }
 
+    if ( save_contents ) {
+        std::vector<picojson::value> pinv;
+        for(int i=0;i<inv.size();i++) {
+            pinv.push_back( pv( inv[i].json_save(true)  ) );
+        }
+        data["inv"] = pv(pinv);
+    }
+
     return picojson::value(data);
 }
 
@@ -421,17 +438,7 @@ picojson::value monster::json_save()
  */
 std::string monster::save_info()
 {
-    // deprecated hairball; useful in testing (?)
-        std::stringstream pack;
-        pack << (type->id) << " " << _posx << " " << _posy << " " << wandx << " " <<
-            wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
-            " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
-            faction_id << " " << mission_id << " " << no_extra_death_drops << " " <<
-            dead << " " << anger << " " << morale;
-        for (int i = 0; i < plans.size(); i++) {
-            pack << " " << plans[i].x << " " << plans[i].y;
-        }
-        return pack.str();
+    return json_save().serialize();
 }
 
 void monster::debug(player &u)
@@ -794,7 +801,13 @@ void monster::die(game *g)
  }
 // Also, perform our death function
  mdeath md;
- (md.*type->dies)(g, this);
+ if(is_hallucination()) {
+   //Hallucinations always just disappear
+   md.disappear(g, this);
+   return;
+ } else {
+   (md.*type->dies)(g, this);
+ }
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;
  for (int i = 0; i < type->anger.size(); i++) {
@@ -823,6 +836,9 @@ void monster::die(game *g)
 
 void monster::drop_items_on_death(game *g)
 {
+    if(is_hallucination()) {
+        return;
+    }
     int total_chance = 0, cur_chance, selected_location;
     bool animal_done = false;
     std::vector<items_location_and_chance> it = g->monitems[type->id];
@@ -960,4 +976,9 @@ void monster::make_friendly()
 void monster::add_item(item it)
 {
  inv.push_back(it);
+}
+
+bool monster::is_hallucination()
+{
+  return hallucination;
 }

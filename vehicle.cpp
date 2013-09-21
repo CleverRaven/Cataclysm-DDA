@@ -14,6 +14,7 @@ enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
  toggle_turrets,
+ activate_horn,
  release_control,
  control_cancel,
  convert_vehicle
@@ -63,6 +64,22 @@ void vehicle::load (std::ifstream &stin)
     int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
     std::string vehicle_tag;
     getline(stin, type);
+
+    if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
+        std::stringstream derp;
+        derp << type;
+        picojson::value pdata;
+        derp >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, g);
+        }
+        return;
+    }
+/////// everything below is for OLD saves
     stin >>
         posx >>
         posy >>
@@ -137,51 +154,9 @@ void vehicle::load (std::ifstream &stin)
 
 void vehicle::save (std::ofstream &stout)
 {
-    stout << type << std::endl;
-    stout <<
-        posx << " " <<
-        posy << " " <<
-        face.dir() << " " <<
-        move.dir() << " " <<
-        turn_dir << " " <<
-        velocity << " " <<
-        cruise_velocity << " " <<
-        (cruise_on? 1 : 0) << " " <<
-        (lights_on? 1 : 0) << " " <<
-        turret_mode << " " <<
-        (skidding? 1 : 0) << " " <<
-        of_turn_carry << " " <<
-        parts.size() << std::endl;
-    stout << name << std::endl;
-
-    for (int p = 0; p < parts.size(); p++)
-    {
-        stout <<
-            parts[p].id << " " <<
-            parts[p].mount_dx << " " <<
-            parts[p].mount_dy << " " <<
-            parts[p].hp << " " <<
-            parts[p].amount << " " <<
-            parts[p].blood << " " <<
-            parts[p].bigness << " " <<
-            parts[p].flags << " " <<
-            parts[p].passenger_id << " " <<
-            parts[p].items.size() << std::endl;
-            for (int i = 0; i < parts[p].items.size(); i++)
-            {
-                stout << parts[p].items[i].save_info() << std::endl;     // item info
-                stout << parts[p].items[i].contents.size() << std::endl; // how many items inside this item
-                for (int l = 0; l < parts[p].items[i].contents.size(); l++)
-                    stout << parts[p].items[i].contents[l].save_info() << std::endl; // contents info
-            }
-    }
-
-    stout << tags.size() << ' ';
-    for( std::set<std::string>::const_iterator it = tags.begin(); it != tags.end(); ++it )
-    {
-        stout << *it << " ";
-    }
+    stout << json_save(true).serialize();
     stout << std::endl;
+    return;
 }
 
 void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
@@ -231,7 +206,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
-            parts[p].open = 0;
+            parts[p].open = one_in(4);
         }
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
@@ -251,7 +226,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
                parts[p].hp= 0;
             else
                parts[p].hp= ((float)(roll-broken) / (unhurt-broken)) * part_info(p).durability;
-         }
+            }
          else // new.
          {
             parts[p].hp= part_info(p).durability;
@@ -271,7 +246,23 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
     }
 }
 
-std::string vehicle::use_controls()
+/**
+ * Smashes up a vehicle that has already been placed; used for generating
+ * very damaged vehicles.
+ */
+void vehicle::smash()
+{
+  for (int part_index = 0; part_index < parts.size(); part_index++) {
+    //Drop by 10-120% of max HP (anything over 100 = broken)
+    int damage = (int) (dice(1, 12) * 0.1 * part_info(part_index).durability);
+    parts[part_index].hp -= damage;
+    if(parts[part_index].hp < 0) {
+      parts[part_index].hp = 0;
+    }
+  }
+}
+
+void vehicle::use_controls()
 {
  std::vector<vehicle_controls> options_choice;
  std::vector<uimenu_entry> options_message;
@@ -283,6 +274,7 @@ std::string vehicle::use_controls()
  curent++;
 
  bool has_lights = false;
+ bool has_horn = false;
  bool has_turrets = false;
  for (int p = 0; p < parts.size(); p++) {
   if (part_flag(p, "LIGHT")) {
@@ -291,12 +283,23 @@ std::string vehicle::use_controls()
   else if (part_flag(p, "TURRET")) {
    has_turrets = true;
   }
+  else if (part_flag(p, "HORN")) {
+   has_horn = true;
+   }
  }
+
 
  // Lights if they are there - Note you can turn them on even when damaged, they just don't work
  if (has_lights) {
   options_choice.push_back(toggle_lights);
   options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") : _("Turn on headlights"), 'h'));
+  curent++;
+ }
+
+ //Honk the horn!
+ if (has_horn) {
+  options_choice.push_back(activate_horn);
+  options_message.push_back(uimenu_entry("Honk horn", 'o'));
   curent++;
  }
 
@@ -333,20 +336,26 @@ std::string vehicle::use_controls()
  int select=selectmenu.ret;
 // int select = menu_vec(true, "Vehicle controls", options_message);
 
- std::string message;
+ if (select == UIMENU_INVALID)
+    return;
+
  switch(options_choice[select]) {
   case toggle_cruise_control:
    cruise_on = !cruise_on;
-   message = (cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off");
+   g->add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
    break;
   case toggle_lights:
    lights_on = !lights_on;
-   message = (lights_on) ? _("Headlights turned on") : _("Headlights turned off");
+   g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
+   break;
+  case activate_horn:
+   g->add_msg(_("You honk the horn!"));
+   honk_horn();
    break;
   case toggle_turrets:
    if (++turret_mode > 1)
     turret_mode = 0;
-   message = (0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode");
+   g->add_msg((0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode"));
    break;
   case release_control:
    g->u.controlling_vehicle = false;
@@ -384,7 +393,34 @@ std::string vehicle::use_controls()
   case control_cancel:
    break;
  }
- return message;
+}
+
+void vehicle::honk_horn()
+{
+    std::vector<vehicle_part *> horns;
+    std::vector<vpart_info *> horn_types;
+    for( int p = 0; p < parts.size(); p++ ) {
+        if( part_flag( p,"HORN" ) ) {
+            horn_types.push_back( &part_info(p) );
+            horns.push_back( &parts[p] );
+        }
+    }
+    for(int h = 0; h < horns.size(); h++) {
+        //Get global position of horn
+        int horn_x = horns[h]->mount_dx;
+        int horn_y = horns[h]->mount_dy;
+        coord_translate( horn_x, horn_y, horn_x, horn_y );
+        horn_x += global_x();
+        horn_y += global_y();
+        //Determine sound
+        if( horn_types[h]->bonus >= 40 ){
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("HOOOOORNK!") );
+        } else if( horn_types[h]->bonus >= 20 ){
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("BEEEP!") );
+        } else{
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("honk.") );
+        }
+    }
 }
 
 vpart_info& vehicle::part_info (int index)
@@ -453,7 +489,7 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
     if (id <= 0 || id >= num_vparts) {
         return false;
     }
-    bool n3ar = parts.size() < 1 || vpart_list[id].has_flag("INTERNAL")
+    bool n3ar = parts.empty() || vpart_list[id].has_flag("INTERNAL")
                                  || vpart_list[id].has_flag("OVER"); // first and internal parts needs no mount point
     if (!n3ar) {
         for (int i = 0; i < 4; i++)
@@ -461,7 +497,7 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
             int ndx = i < 2? (i == 0? -1 : 1) : 0;
             int ndy = i < 2? 0 : (i == 2? - 1: 1);
             std::vector<int> parts_n3ar = parts_at_relative (dx + ndx, dy + ndy);
-            if (parts_n3ar.size() < 1) {
+            if (parts_n3ar.empty()) {
                 continue;
             }
             if (part_flag(parts_n3ar[0], "MOUNT_POINT"))
@@ -477,7 +513,7 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
     }
 
     std::vector<int> parts_here = parts_at_relative (dx, dy);
-    if (parts_here.size() < 1)
+    if (parts_here.empty())
     {
         int res = vpart_list[id].has_flag("EXTERNAL");
         return res; // can be mounted if first and external
@@ -571,7 +607,7 @@ bool vehicle::can_unmount (int p)
                 int jdx = j < 2? (j == 0? -1 : 1) : 0;
                 int jdy = j < 2? 0 : (j == 2? - 1: 1);
                 std::vector<int> pc = parts_at_relative (dx + ndx + jdx, dy + ndy + jdy);
-                if (pc.size() > 0 && part_with_feature (pc[0], "MOUNT_POINT") >= 0)
+                if (!pc.empty() && part_with_feature (pc[0], "MOUNT_POINT") >= 0)
                     cnt++;
             }
             if (cnt < 2) {
@@ -648,10 +684,10 @@ void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
     itype* itemtype = g->itypes[pitmid];
     if(itemtype->is_var_veh_part())
        i.bigness = parts[partnum].bigness;
-       
+
     // remove charges if part is made of a tool
     if(itemtype->is_tool())
-        i.charges = 0;       
+        i.charges = 0;
 
     // translate part damage to item damage.
     // max damage is 4, min damage 0.
@@ -753,7 +789,6 @@ char vehicle::part_sym (int p)
     if (p < 0 || p >= parts.size()) {
         return 0;
     }
-    std::vector<int> ph = internal_parts (p);
     int po = part_with_feature(p, "OVER", false);
     int pd = po < 0? p : po;
     if (part_flag (pd, "OPENABLE") && parts[pd].open) {
@@ -961,7 +996,7 @@ int vehicle::global_y ()
     return smy * SEEY + posy;
 }
 
-int vehicle::total_mass ()
+int vehicle::total_mass()
 {
     int m = 0;
     for (int i = 0; i < parts.size(); i++)
@@ -979,26 +1014,25 @@ int vehicle::total_mass ()
 
 void vehicle::center_of_mass(int &x, int &y)
 {
-	int m_part = 0;
-	float xf = 0, yf = 0;
-	int m_total = total_mass();
-	for (int i = 0; i < parts.size(); i++)
-	{
-		m_part = 0;
-		m_part += g->itypes[part_info(i).item]->weight;
+    float xf = 0, yf = 0;
+    int m_total = total_mass();
+    for (int i = 0; i < parts.size(); i++)
+    {
+        int m_part = 0;
+        m_part += g->itypes[part_info(i).item]->weight;
         for (int j = 0; j < parts[i].items.size(); j++) {
             m_part += parts[i].items[j].type->weight;
         }
         if (part_flag(i,"BOARDABLE") && parts[i].has_flag(vehicle_part::passenger_flag)) {
             m_part += 81500; // TODO: get real weight
         }
-		xf += parts[i].precalc_dx[0] * m_part / 1000;
-		yf += parts[i].precalc_dy[0] * m_part / 1000;
-	}
-	xf /= m_total;
-	yf /= m_total;
-	x = int(xf + 0.5); //round to nearest
-	y = int(yf + 0.5);
+        xf += parts[i].precalc_dx[0] * m_part / 1000;
+        yf += parts[i].precalc_dy[0] * m_part / 1000;
+    }
+    xf /= m_total;
+    yf /= m_total;
+    x = int(xf + 0.5); //round to nearest
+    y = int(yf + 0.5);
 }
 
 int vehicle::fuel_left (ammotype ftype, bool for_engine)
@@ -1373,7 +1407,6 @@ void vehicle::thrust (int thd)
     if (velocity == 0)
     {
         turn_dir = face.dir();
-        last_turn = 0;
         move = face;
         of_turn_carry = 0;
         last_turn = 0;
@@ -1573,15 +1606,15 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     float mass = total_mass();
     float mass2=0;
 	float e= 0.3; // e = 0 -> plastic collision
-	// e = 1 -> inelastic collision	
-	int part_dens = 0; //part density	
+	// e = 1 -> inelastic collision
+	int part_dens = 0; //part density
 
     if (is_body_collision)
     { // then, check any monster/NPC/player on the way
         collision_type = veh_coll_body; // body
 		e=0.30;
 		part_dens = 15;
-        if (z)			
+        if (z)
             switch (z->type->size)
             {
             case MS_TINY:    // Rodent
@@ -1608,7 +1641,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     if (g->m.has_flag_ter_or_furn (thin_obstacle, x, y))
     {
         collision_type = veh_coll_thin_obstacle; // some fence
-        mass2 = 20;
+        mass2 = 10;
 		e=0.30;
 		part_dens = 20;
     }
@@ -1680,10 +1713,10 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 	if ( mass >= mass2 ) weight_factor = -25 * ( log(mass) - log(mass2) ) / log(mass);   //factor = -25 if mass is much greater than mass2
 	else weight_factor = 25 * ( log(mass2) - log(mass) ) / log(mass2) ;   //factor = +25 if mass2 is much greater than mass
 
-	float k = 50 + material_factor + weight_factor; 
-	if(k > 90) k = 90;  //saturation 
-	if(k < 10) k = 10;   
-	
+	float k = 50 + material_factor + weight_factor;
+	if(k > 90) k = 90;  //saturation
+	if(k < 10) k = 10;
+
 	//Damage calculation
 	const float dmg = abs(d_E / k_mvel); //damage dealt overall
 	const float part_dmg = dmg * k / 100;     //damage for vehicle-part
@@ -1692,9 +1725,9 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     bool smashed = true;
     std::string snd;
     if (collision_type == veh_coll_bashable)
-    { // something bashable -- use map::bash to determine outcome	
+    { // something bashable -- use map::bash to determine outcome
         int absorb = -1;
-        g->m.bash(x, y, obj_dmg, snd, &absorb);   
+        g->m.bash(x, y, obj_dmg, snd, &absorb);
         smashed = obj_dmg > absorb;
     }
     else
@@ -1812,7 +1845,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     if (!smashed) // tree, wall, or bear sometimes wins
     {
         cruise_on = false;
-        stop();   
+        stop();
     }
     else
     {
@@ -1822,7 +1855,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             turn_amount = 1;
         turn_amount *= 15;
         if (turn_amount > 120)
-            turn_amount = 120;    
+            turn_amount = 120;
 		int turn_roll = rng (0, 100);
         if (turn_roll < abs(vel1 - vel1_a)*2 ) //probability of skidding increases with higher delta_v
 			//delta_v = vel1 - vel1_a
@@ -1958,10 +1991,10 @@ int vehicle::stored_volume(int part) {
 }
 
 int vehicle::max_volume(int part) {
-	if ( part_flag(part, "CARGO") ){ 
-		return vpart_list[parts[part].id].size;		
+	if ( part_flag(part, "CARGO") ){
+		return vpart_list[parts[part].id].size;
 	}
-	return 0;	
+	return 0;
 }
 
 // free space
@@ -2001,7 +2034,7 @@ bool vehicle::add_item (int part, item itm)
     if (!part_flag(part, "CARGO")) {
         return false;
     }
-    
+
     if (parts[part].items.size() >= max_storage)
         return false;
     it_ammo *ammo = dynamic_cast<it_ammo*> (itm.type);
@@ -2023,7 +2056,7 @@ bool vehicle::add_item (int part, item itm)
           return true;
         }
       }
-    
+
     if ( cur_volume + add_volume > maxvolume ) {
       return false;
     }
@@ -2489,7 +2522,7 @@ rl_vec2d vehicle::move_vec(){
     float mx,my;
     mx = cos (move.dir() * M_PI/180);
     my = sin (move.dir() * M_PI/180);
-    rl_vec2d ret(mx,my); 
+    rl_vec2d ret(mx,my);
     return ret;
 }
 
@@ -2498,14 +2531,14 @@ rl_vec2d vehicle::face_vec(){
     float fx,fy;
     fx = cos (face.dir() * M_PI/180);
     fy = sin (face.dir() * M_PI/180);
-    rl_vec2d ret(fx,fy);   
+    rl_vec2d ret(fx,fy);
     return ret;
 }
 
 float get_collision_factor(float delta_v)
 {
 	if(abs(delta_v) <= 31){
-		return ( 1 - ( 0.9 * abs(delta_v) ) / 31 ); 
+		return ( 1 - ( 0.9 * abs(delta_v) ) / 31 );
 	} else {
 		return 0.1;
 	}

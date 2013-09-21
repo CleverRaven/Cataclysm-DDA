@@ -89,7 +89,7 @@ mon_dementia, mon_homunculus, mon_blood_sacrifice, mon_flesh_angel,
 mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_hazmatbot, mon_copbot, mon_molebot,
  mon_tripod, mon_chickenbot, mon_tankbot, mon_turret, mon_exploder,
 // Hallucinations
-mon_hallu_zom, mon_hallu_bee, mon_hallu_ant, mon_hallu_mom,
+mon_hallu_mom,
 // Special monsters
 mon_generator,
 num_monsters
@@ -185,6 +185,8 @@ MF_HUMAN,	// It's a live human
 MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and poison, and can't drown
 MF_REGENERATES_50, // Monster regenerates very quickly over time
 MF_FLAMMABLE, // Monster catches fire, burns, and passes the fire on to nearby objects
+MF_REVIVES, // Monster corpse will revive after a short period of time
+MF_CHITIN,  // May produce chitin when butchered
 MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
 // no longer used?

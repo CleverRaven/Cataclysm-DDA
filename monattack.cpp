@@ -6,6 +6,7 @@
 #include "bodypart.h"
 #include "material.h"
 #include "catajson.h"
+#include <algorithm>
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -205,6 +206,7 @@ void mattack::resurrect(game *g, monster *z)
    if (g->is_empty(x, y) && g->m.sees(z->posx(), z->posy(), x, y, -1, junk)) {
     for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
      if (g->m.i_at(x, y)[i].type->id == "corpse" &&
+         g->m.i_at(x, y)[i].corpse->has_flag(MF_REVIVES) &&
          g->m.i_at(x, y)[i].corpse->species == species_zombie) {
       corpses.push_back(point(x, y));
       i = g->m.i_at(x, y).size();
@@ -250,7 +252,6 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
  if (dist > 5 || !g->sees_u(z->posx(), z->posy(), t))
   return;	// Out of range
  z->sp_timeout = z->type->sp_freq;	// Reset timer
- std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
  std::vector<point> free;
  for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
   for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {

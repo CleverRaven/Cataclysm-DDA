@@ -210,7 +210,7 @@ CATEGORIES(MC_WILDLIFE);
 
 mon(_("cougar"),	species_mammal, 'C',	c_brown,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 12,  0, 20,180, 14,  2,  3,  4,  4,  1,  0,  0, 15,  5,
+	 12,  0, 20,180, 14,  2,  3,  4,  4,  1,  0,  0, 40,  5,
 	&mdeath::normal,	&mattack::leap, _("\
 A vicious and fast hunter.")
 );
@@ -266,34 +266,34 @@ FLAGS(MF_SMELLS, MF_POISON);
 
 mon(_("giant ant"),species_insect, 'a',	c_brown,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  7, 15, 60,100,  9,  1,  6,  4,  2,  4,  8,-40, 40,  0,
+	  7, 15, 60,100,  9,  1,  6,  4,  2,  4,  8, 0, 40,  0,
 	&mdeath::normal,	&mattack::none, _("\
 A red ant the size of a crocodile. It is\n\
 covered in chitinous armor, and has a pair of\n\
 vicious mandibles.")
 );
-FLAGS(MF_SMELLS);
+FLAGS(MF_SMELLS, MF_CHITIN);
 
 mon(_("soldier ant"),species_insect, 'a',	c_blue,		MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 16, 25,100,115, 12,  2,  4,  6,  2,  5, 10,-50, 80,  0,
+	 16, 25,100,115, 12,  2,  4,  6,  2,  5, 10,0, 80,  0,
 	&mdeath::normal,	&mattack::none, _("\
 Darker in color than the other ants, this\n\
 more aggresive variety has even larger\n\
 mandibles.")
 );
-FLAGS(MF_SMELLS);
+FLAGS(MF_SMELLS, MF_CHITIN);
 
 mon(_("queen ant"),species_insect, 'a',	c_ltred,	MS_LARGE,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-     13,  0,100, 60,  6,  3,  4,  4,  1,  6, 14,-40,180, 1,
+     13,  0,100, 60,  6,  3,  4,  4,  1,  6, 14, 0,180, 1,
 	&mdeath::normal,	&mattack::antqueen, _("\
 This ant has a long, bloated thorax, bulging\n\
 with hundreds of small ant eggs.  It moves\n\
 slowly, tending to nearby eggs and laying\n\
 still more.")
 );
-FLAGS(MF_SMELLS, MF_QUEEN);
+FLAGS(MF_SMELLS, MF_QUEEN, MF_CHITIN);
 
 mon(_("fungal insect"),species_fungus, 'a',c_ltgray,	MS_MEDIUM,	"veggy",
 //  dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -312,7 +312,7 @@ mon(_("giant fly"),species_insect, 'a',	c_ltgray,	MS_SMALL,	"flesh",
 A large housefly the size of a small dog.\n\
 It buzzes around incessantly.")
 );
-FLAGS(MF_SMELLS, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN);
+FLAGS(MF_SMELLS, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN, MF_CHITIN);
 
 mon(_("giant bee"),species_insect, 'a',	c_yellow,	MS_SMALL,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -322,7 +322,7 @@ A honey bee the size of a small dog. It\n\
 buzzes angrily through the air, dagger-\n\
 sized sting pointed forward.")
 );
-FLAGS(MF_SMELLS, MF_VENOM, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN);
+FLAGS(MF_SMELLS, MF_VENOM, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN, MF_CHITIN);
 ANGER(MTRIG_HURT, MTRIG_FRIEND_DIED, MTRIG_PLAYER_CLOSE);
 
 mon(_("giant wasp"),species_insect, 'a', 	c_red,		MS_MEDIUM,	"flesh",
@@ -332,7 +332,7 @@ mon(_("giant wasp"),species_insect, 'a', 	c_red,		MS_MEDIUM,	"flesh",
 An evil-looking, slender-bodied wasp with\n\
 a vicious sting on its abdomen.")
 );
-FLAGS(MF_SMELLS, MF_POISON, MF_VENOM, MF_FLIES);
+FLAGS(MF_SMELLS, MF_POISON, MF_VENOM, MF_FLIES, MF_CHITIN);
 ANGER(MTRIG_HURT, MTRIG_FRIEND_DIED, MTRIG_PLAYER_CLOSE, MTRIG_SOUND);
 
 // GIANT WORMS
@@ -389,7 +389,7 @@ A human body, stumbling slowly forward on\n\
 uncertain legs, possessed with an unstoppable\n\
 rage.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_NO_BREATHE, MF_VIS40);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_NO_BREATHE, MF_VIS40, MF_REVIVES);
 CATEGORIES(MC_CLASSIC);
 
 mon(_("zombie cop"),	species_zombie, 'Z',	c_blue,	MS_MEDIUM,	"flesh",
@@ -400,7 +400,7 @@ A human body, encapsulated in tough riot\n\
 armour, this zombie was clearly a cop gearing\n\
 up to fight the infection.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_NO_BREATHE, MF_VIS30);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_NO_BREATHE, MF_VIS30, MF_REVIVES);
 CATEGORIES(MC_CLASSIC);
 
 mon(_("shrieker zombie"),species_zombie, 'Z',c_magenta,	MS_MEDIUM,	"flesh",
@@ -410,7 +410,7 @@ mon(_("shrieker zombie"),species_zombie, 'Z',c_magenta,	MS_MEDIUM,	"flesh",
 This zombie's jaw has been torn off, leaving\n\
 a gaping hole from mid-neck up.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS50);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS50, MF_REVIVES);
 
 mon(_("spitter zombie"),species_zombie, 'Z',c_yellow,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -421,7 +421,7 @@ spitter, and its body throbs with a dense\n\
 yellow fluid.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
-      MF_ACIDPROOF, MF_NO_BREATHE, MF_VIS40);
+      MF_ACIDPROOF, MF_NO_BREATHE, MF_VIS40, MF_REVIVES);
 
 mon(_("shocker zombie"),species_zombie,'Z',c_ltcyan,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -432,7 +432,7 @@ occasionally crackles with small bolts of\n\
 lightning.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
-      MF_ELECTRIC, MF_CBM, MF_NO_BREATHE,  MF_VIS40);
+      MF_ELECTRIC, MF_CBM, MF_NO_BREATHE,  MF_VIS40, MF_REVIVES);
 
 mon(_("smoker zombie"),species_zombie,'Z',c_ltgray,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -442,7 +442,7 @@ This zombie emits a constant haze of\n\
 thick, obfuscating smoke.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
-      MF_HARDTOSHOOT, MF_FRIENDLY_SPECIAL, MF_NO_BREATHE, MF_VIS40);
+      MF_HARDTOSHOOT, MF_FRIENDLY_SPECIAL, MF_NO_BREATHE, MF_VIS40, MF_REVIVES);
 
 mon(_("swimmer zombie"),species_zombie,'Z',c_ltblue,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -452,7 +452,7 @@ This zombie's hands and feet are\n\
 webbed, and it is clad in swimwear.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
-      MF_NO_BREATHE, MF_VIS40, MF_BLEED, MF_SWIMS);
+      MF_NO_BREATHE, MF_VIS40, MF_BLEED, MF_SWIMS, MF_REVIVES);
 
 mon(_("zombie dog"),species_zombie, 'd',	c_ltgreen,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -463,7 +463,7 @@ the ground, loping forward faster than most\n\
 humans ever could.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
-      MF_HIT_AND_RUN, MF_NO_BREATHE, MF_VIS50);
+      MF_HIT_AND_RUN, MF_NO_BREATHE, MF_VIS50, MF_REVIVES);
 CATEGORIES(MC_CLASSIC);
 
 mon(_("zombie brute"),species_zombie, 'Z',	c_red,		MS_MEDIUM,	"flesh",
@@ -473,7 +473,7 @@ mon(_("zombie brute"),species_zombie, 'Z',	c_red,		MS_MEDIUM,	"flesh",
 A hideous beast of a zombie, bulging with\n\
 distended muscles on both arms and legs.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS40);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS40, MF_REVIVES);
 
 mon(_("zombie hulk"),species_zombie, 'Z',	c_ltred,		MS_HUGE,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -483,7 +483,7 @@ A zombie that has somehow grown to the size of\n\
 6 men, with arms as wide as a trash can.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES,
-      MF_DESTROYS, MF_POISON, MF_ATTACKMON, MF_LEATHER, MF_NO_BREATHE, MF_VIS50);
+      MF_DESTROYS, MF_POISON, MF_ATTACKMON, MF_LEATHER, MF_NO_BREATHE, MF_VIS50, MF_REVIVES);
 
 mon(_("fungal zombie"),species_fungus, 'Z',c_ltgray,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -503,7 +503,7 @@ A bloated zombie sagging with fat. It emits a\n\
 horrible odor, and putrid, pink sludge drips\n\
 from its mouth.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS40);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS40, MF_REVIVES);
 
 mon(_("fungal boomer"),species_fungus, 'B',c_ltgray,	MS_LARGE,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -533,7 +533,7 @@ A zombie with jet black skin and glowing red\n\
 eyes.  As you look at it, you're gripped by a\n\
 feeling of dread and terror.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_NO_BREATHE, MF_VIS50);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_NO_BREATHE, MF_VIS50, MF_REVIVES);
 ANGER(MTRIG_HURT, MTRIG_PLAYER_WEAK);
 
 mon(_("zombie scientist"),species_zombie, 'Z',c_ltgray,	MS_MEDIUM,	"flesh",
@@ -545,7 +545,7 @@ some sort of utility belt.  It looks weaker\n\
 than most zombies, but more resourceful too.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
-      MF_ACIDPROOF, MF_NO_BREATHE, MF_VIS50);
+      MF_ACIDPROOF, MF_NO_BREATHE, MF_VIS50, MF_REVIVES);
 
 mon(_("zombie soldier"),	species_zombie,	'Z',c_ltblue,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -556,7 +556,7 @@ Its tattered armor gives it strong defense,\n\
 and it is much more physically fit than\n\
 most zombies.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_NO_BREATHE, MF_VIS30);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_NO_BREATHE, MF_VIS30, MF_REVIVES);
 CATEGORIES(MC_CLASSIC);
 
 mon(_("grabber zombie"),	species_zombie,	'Z',c_green,	MS_MEDIUM,	"flesh",
@@ -568,7 +568,7 @@ than ordinary arms, and constantly gropes\n\
 at its surroundings as it moves.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
-      MF_GRABS, MF_NO_BREATHE, MF_VIS30);
+      MF_GRABS, MF_NO_BREATHE, MF_VIS30, MF_REVIVES);
 
 mon(_("master zombie"),	species_zombie, 'M',c_yellow,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -578,7 +578,7 @@ This zombie seems to have a cloud of black\n\
 dust surrounding it.  It also seems to have\n\
 a better grasp of movement than most...")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS50);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS50, MF_REVIVES);
 ANGER(MTRIG_HURT, MTRIG_PLAYER_WEAK);
 
 mon(_("scarred zombie"),	species_zombie, 'Z',	c_yellow,	MS_MEDIUM,	"flesh",
@@ -590,7 +590,7 @@ a thick covering of scar tissue, it will be\n\
 much harder to damage than an ordinary zombie\n\
 but moves a bit slower")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS30);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS30, MF_REVIVES);
 
  mon(_("child zombie"),species_zombie, 'z',	c_ltgreen,	MS_SMALL,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -600,7 +600,7 @@ A horrifying child zombie, you feel\n\
 a twinge of remorse looking at it.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_BLEED,
-      MF_POISON, MF_GUILT, MF_NO_BREATHE, MF_VIS30);
+      MF_POISON, MF_GUILT, MF_NO_BREATHE, MF_VIS30, MF_REVIVES);
 CATEGORIES(MC_CLASSIC);
 
 //Somewhere between a zombie and a blob creature
@@ -869,26 +869,26 @@ An enormous mosquito, fluttering erratically,\n\
 its face dominated by a long, spear-tipped\n\
 proboscis.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_STUMBLES, MF_VENOM, MF_FLIES, MF_HIT_AND_RUN);
+FLAGS(MF_SMELLS, MF_HEARS, MF_STUMBLES, MF_VENOM, MF_FLIES, MF_HIT_AND_RUN, MF_CHITIN);
 
 mon(_("giant dragonfly"),species_insect, 'y',c_ltgreen,	MS_SMALL,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 13, 20,100,155, 12,  1,  3,  6,  5,  0,  6,-20, 70, 0,
+	 13, 20,100,155, 12,  1,  3,  6,  5,  0,  6, 0, 70, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A ferocious airborne predator, flying swiftly\n\
 through the air, its mouth a cluster of fangs.")
 );
-FLAGS(MF_SEES, MF_SMELLS, MF_FLIES, MF_HIT_AND_RUN, MF_VIS40);
+FLAGS(MF_SEES, MF_SMELLS, MF_FLIES, MF_HIT_AND_RUN, MF_VIS40, MF_CHITIN);
 
 mon(_("giant centipede"),species_insect, 'a',c_ltgreen,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  9, 20,100,120, 10,  1,  3,  5,  2,  0,  8,-30, 60, 0,
+	  9, 20,100,120, 10,  1,  3,  5,  2,  0,  8, 0, 60, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A meter-long centipede, moving swiftly on\n\
 dozens of thin legs, a pair of venomous\n\
 pincers attached to its head.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_POISON, MF_VENOM);
+FLAGS(MF_SMELLS, MF_HEARS, MF_POISON, MF_VENOM, MF_CHITIN);
 
 mon(_("giant frog"),species_none, 'F',	c_green,	MS_LARGE,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -930,59 +930,59 @@ mutated wasps.  It does not looke very\n\
 threatening, but has a large ovipositor in\n\
 place of a sting.")
 );
-FLAGS(MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_POISON, MF_FLIES);
+FLAGS(MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_POISON, MF_FLIES, MF_CHITIN);
 
 // SPIDERS
 mon(_("wolf spider"),species_insect, 's',	c_brown,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 20, 20,100,110, 7,   1,  1,  8,  6,  2,  8,-70, 40, 0,
+	 20, 20,100,110, 7,   1,  1,  8,  6,  2,  8, 0, 40, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A large, brown spider, which moves quickly\n\
 and aggresively.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_CHITIN);
 
 mon(_("web spider"),species_insect, 's',	c_yellow,	MS_SMALL,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 16, 30, 80,120,  5,  1,  1,  7,  5,  2,  7,-70, 35, 0,
+	 16, 30, 80,120,  5,  1,  1,  7,  5,  2,  7, 0, 35, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A yellow spider the size of a dog.  It lives\n\
 in webs, waiting for prey to become\n\
 entangled before pouncing and biting.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK, MF_CHITIN);
 
 mon(_("jumping spider"),species_insect, 's',c_white,	MS_SMALL,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 14, 40, 80,100,  7,  1,  1,  4,  8,  0,  3,-60, 30, 2,
+	 14, 40, 80,100,  7,  1,  1,  4,  8,  0,  3, 0, 30, 2,
 	&mdeath::normal,	&mattack::leap, _("\
 A small, almost cute-looking spider.  It\n\
 leaps so quickly that it almost appears to\n\
 instantaneously move from one place to\n\
 another.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_HIT_AND_RUN);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_HIT_AND_RUN, MF_CHITIN);
 
 mon(_("trap door spider"),species_insect, 's',c_blue,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 20, 60,100,110,  5,  1,  2,  7,  3,  2,  8,-80, 70, 0,
+	 20, 60,100,110,  5,  1,  2,  7,  3,  2,  8, 0, 70, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A large spider with a bulbous thorax.  It\n\
 creates a subterranean nest and lies in\n\
 wait for prey to fall in and become trapped\n\
 in its webs.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK, MF_CHITIN);
 
 mon(_("black widow"),species_insect, 's',	c_dkgray,	MS_SMALL,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 20,-10,100, 90,  6,  1,  1,  6,  3,  0,  3,-50, 40, 0,
+	 20,-10,100, 90,  6,  1,  1,  6,  3,  0,  3, 0, 40, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A spider with a characteristic red\n\
 hourglass on its black carapace.  It is\n\
 known for its highly toxic venom.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_BADVENOM, MF_WEBWALK);
+FLAGS(MF_SMELLS, MF_HEARS, MF_BADVENOM, MF_WEBWALK, MF_CHITIN);
 ANGER(MTRIG_PLAYER_WEAK, MTRIG_PLAYER_CLOSE, MTRIG_HURT);
 
 // UNEARTHED HORRORS
@@ -1228,7 +1228,7 @@ on the sides of their shaved head.  Some form\n\
 of lobotomy has left it with a partially re-\n\
 animated brain.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_BLEED, MF_HUMAN, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_BLEED, MF_HUMAN, MF_POISON, MF_REVIVES);
 
 mon(_("homunculus"),    species_zombie, 'h',    c_white,    MS_MEDIUM,    "flesh",
 //    dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -1238,7 +1238,7 @@ A pale white man with a physically flawless athletic\n\
 body and shaved head.  His eyes are completely black\n\
 as bloody tears pour forth from them.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_BLEED, MF_HUMAN);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_BLEED, MF_HUMAN, MF_REVIVES);
 
 mon(_("blood sacrifice"),    species_zombie, 'S',    c_red,    MS_MEDIUM,    "flesh",
 //    dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -1248,7 +1248,7 @@ This poor victim was sliced open and bled to\n\
 death long ago.  Yet, chained down it thrashes\n\
 in eternal misery from its tortures.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BLEED, MF_IMMOBILE, MF_GUILT, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BLEED, MF_IMMOBILE, MF_GUILT, MF_POISON, MF_REVIVES);
 
 mon(_("flesh angel"),    species_zombie, 'A',    c_red,    MS_LARGE,    "flesh",
 //    dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -1259,7 +1259,7 @@ any skin yet moves swiftly and gracefully without\n\
 it.  Wings of flesh protrude uselessly from his\n\
 back and a third eye dominates his forehead.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BLEED, MF_HARDTOSHOOT, MF_HUMAN, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BLEED, MF_HARDTOSHOOT, MF_HUMAN, MF_POISON, MF_REVIVES);
 
 // ROBOTS
 mon(_("eyebot"),	species_robot, 'r',	c_ltblue,	MS_SMALL,	"steel",
@@ -1392,36 +1392,6 @@ FLAGS(MF_IMMOBILE, MF_NO_BREATHE);
 
 
 // HALLUCINATIONS
-mon(_("zombie"),	species_hallu, 'Z',	c_ltgreen,	MS_MEDIUM,	"flesh",
-//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  0,100,100, 65,  3,  0,  0,  0,  0,  0,  0,  0,  1,  20,
-	&mdeath::disappear,	&mattack::disappear, _("\
-A human body, stumbling slowly forward on\n\
-uncertain legs, possessed with an\n\
-unstoppable rage.")
-);
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_NO_BREATHE, MF_VIS40);
-
-mon(_("giant bee"),species_hallu, 'a',	c_yellow,	MS_MEDIUM,	"flesh",
-//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  0,100,100,180,  2,  0,  0,  0,  0,  0,  0,  0,  1,  20,
-	&mdeath::disappear,	&mattack::disappear, _("\
-A honey bee the size of a small dog. It\n\
-buzzes angrily through the air, dagger-\n\
-sized sting pointed forward.")
-);
-FLAGS(MF_SMELLS, MF_NO_BREATHE, MF_FLIES);
-
-mon(_("giant ant"),species_hallu, 'a',	c_brown,	MS_MEDIUM,	"flesh",
-//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  0,100,100,100,  3,  0,  0,  0,  0,  0,  0,  0,  1,  20,
-	&mdeath::disappear,	&mattack::disappear, _("\
-A red ant the size of a crocodile. It is\n\
-covered in chitinous armor, and has a\n\
-pair of vicious mandibles.")
-);
-FLAGS(MF_SMELLS, MF_NO_BREATHE);
-
 mon(_("your mother"),species_hallu, '@',	c_white,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  0,100,100,100,  3,  0,  0,  0,  0,  0,  0,  0,  5,  20,

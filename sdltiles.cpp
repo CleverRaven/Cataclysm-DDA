@@ -20,6 +20,9 @@
 
 // SDL headers end up in different places depending on the OS, sadly
 #if (defined _WIN32 || defined WINDOWS)
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <windows.h>
 #include "SDL.h"
 #include "SDL_ttf.h"
@@ -115,7 +118,7 @@ bool WinCreate()
 
 	ClearScreen();
 
-	if(OPTIONS["HIDE_CURSOR"] > 0 && SDL_ShowCursor(-1))
+    if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1))
         SDL_ShowCursor(SDL_DISABLE);
     else
         SDL_ShowCursor(SDL_ENABLE);
@@ -391,7 +394,7 @@ void CheckMessages()
 			case SDL_KEYDOWN:
 			{
                 int lc = 0;
-			    if(OPTIONS["HIDE_CURSOR"] > 0 && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
+			    if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
 				Uint8 *keystate = SDL_GetKeyState(NULL);
 				// manually handle Alt+F4 for older SDL lib, no big deal
 				if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
@@ -456,7 +459,7 @@ void CheckMessages()
             }
             break;
 			case SDL_MOUSEMOTION:
-                if(((int)OPTIONS["HIDE_CURSOR"] == 0 || (int)OPTIONS["HIDE_CURSOR"] == 2) &&
+                if((OPTIONS["HIDE_CURSOR"] == "show" || OPTIONS["HIDE_CURSOR"] == "hidekb") &&
                     !SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_ENABLE);
                 break;
 			case SDL_QUIT:

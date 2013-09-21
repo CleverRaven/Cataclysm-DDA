@@ -9,6 +9,7 @@
 #include "crafting.h" // For the use_comps use_tools functions
 #include "item_factory.h"
 #include "catacharset.h"
+#include <algorithm>
 
 bool will_flood_stop(map *m, bool (&fill)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                      int x, int y);
@@ -504,9 +505,9 @@ void game::construction_menu()
 
     const char* mes;
     if (current_con->stages[n].terrain != t_null)
-      mes = terlist[current_con->stages[n].terrain].name.c_str();
+      mes = _(terlist[current_con->stages[n].terrain].name.c_str()); // FIXME i18n
     else if (current_con->stages[n].furniture != f_null)
-      mes = furnlist[current_con->stages[n].furniture].name.c_str();
+      mes = _(furnlist[current_con->stages[n].furniture].name.c_str()); // FIXME i18n
     else
       mes = "";
     posy++;
@@ -845,8 +846,6 @@ void game::complete_construction()
     int stage_num = u.activity.values[0];
     constructable *built = constructions[u.activity.index];
     construction_stage stage = built->stages[stage_num];
-    std::vector<component> player_use;
-    std::vector<component> map_use;
 
     u.practice(turn, "carpentry", std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < 10; i++) {

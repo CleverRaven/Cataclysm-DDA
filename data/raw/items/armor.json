@@ -71,6 +71,30 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "cleats",
+        "name" : "cleats",
+        "weight": 285,
+        "color": "light_gray",
+        "covers" : ["FEET"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Sport shoes with hard undersides, and studs on the bottom designed to dig into the grass.",
+        "price" : 150,
+        "material" : ["cotton", "leather"],
+        "volume": 6,
+        "cutting" : 0,
+        "warmth": 20,
+        "phase": "solid",
+        "enviromental_protection" : 0,
+        "encumberance": 0,
+        "bashing" : 2,
+        "flags": ["VARSIZE"],
+        "coverage": 50,
+        "material_thickness" : 2
+    },
+    {
+        "type" : "ARMOR",
         "id" : "football_armor",
         "name" : "football armor",
         "weight" : 3310,
@@ -333,7 +357,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 1,
         "bashing" : 1,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 50,
         "material_thickness" : 2
     },
@@ -357,7 +381,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 4,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE", "SUPER_FANCY"],
         "coverage" : 30,
         "material_thickness" : 2
     },
@@ -538,7 +562,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A pair of black leather chaps. Very tough, and light, but doesn't offer any any storage.",
+        "description" : "A pair of black leather chaps. Very tough, and light, but doesn't offer any storage.",
         "price" : 210,
         "material" : ["leather", "null"],
         "volume" : 3,
@@ -716,7 +740,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE"],
         "coverage" : 60,
         "material_thickness" : 1
     },
@@ -787,7 +811,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 3,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 85,
         "material_thickness" : 3
     },
@@ -811,6 +835,7 @@
         "enviromental_protection" : 2,
         "encumberance" : 6,
         "bashing" : 14,
+        "flags" : ["FANCY"],
         "coverage" : 95,
         "material_thickness" : 4
     },
@@ -882,7 +907,7 @@
         "enviromental_protection" : 1,
         "encumberance" : 1,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 80,
         "material_thickness" : 5
     },
@@ -978,7 +1003,7 @@
         "enviromental_protection" : 2,
         "encumberance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
         "coverage" : 90,
         "material_thickness" : 3
     },
@@ -1002,7 +1027,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 3,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 80,
         "material_thickness" : 2
     },
@@ -1026,7 +1051,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 3,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE", "SUPER_FANCY"],
         "coverage" : 80,
         "material_thickness" : 2
     },
@@ -1073,7 +1098,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "MALE_TYPICAL"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -1097,7 +1122,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "MALE_TYPICAL"],
+        "flags" : ["VARSIZE", "SUPER_FANCY"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -1183,7 +1208,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A t-shirt embroided with the pattern of an American flag.",
+        "description" : "A t-shirt embroidered with the pattern of an American flag.",
         "price" : 300,
         "material" : ["cotton", "null"],
         "volume" : 3,
@@ -1241,7 +1266,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "MALE_TYPICAL"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 90,
         "material_thickness" : 1
     },
@@ -1673,7 +1698,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 2,
         "bashing" : -4,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 95,
         "material_thickness" : 4
     },
@@ -2024,7 +2049,7 @@
         "symbol" : "[",
         "description" : "A common belt with pockets widely used by handymen, and electricians.",
         "price" : 200,
-        "material" : ["cotton", "null"],
+        "material" : ["leather", "null"],
         "volume" : 4,
         "cutting" : 0,
         "warmth" : 5,
@@ -2032,7 +2057,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 0,
         "bashing" : -3,
-        "coverage" : 70,
+        "coverage" : 20,
         "material_thickness" : 2
     },
     {
@@ -2045,7 +2070,7 @@
         "to_hit" : 0,
         "storage" : 18,
         "symbol" : "[",
-        "description" : "A light vest covered in webbing, pockets and straps. This variety is favoured by the military.",
+        "description" : "A light vest covered in webbing, pockets and straps. This variety is favored by the military.",
         "price" : 200,
         "material" : ["cotton", "null"],
         "volume" : 4,
@@ -2875,7 +2900,8 @@
         "encumberance" : 0,
         "bashing" : -3,
         "coverage" : 40,
-        "material_thickness" : 2
+        "material_thickness" : 2,
+        "flags" : ["SUPER_FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -2900,8 +2926,8 @@
         "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 1
-    },
-    {
+   },
+   {
         "type" : "ARMOR",
         "id" : "hat_ball",
         "name" : "baseball cap",
@@ -3108,7 +3134,8 @@
         "encumberance" : 1,
         "bashing" : 10,
         "coverage" : 70,
-        "material_thickness" : 3
+        "material_thickness" : 3,
+        "flags" : ["FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3132,7 +3159,8 @@
         "bashing" : -5,
         "flags" : ["WATER_FRIENDLY"],
         "coverage" : 60,
-        "material_thickness" : 2
+        "material_thickness" : 2,
+        "flags" : ["FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3373,7 +3401,7 @@
         "bashing" : -5,
         "coverage" : 60,
         "material_thickness" : 1,
-        "flags": ["MALE_TYPICAL"]
+        "flags": ["SUPER_FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3396,7 +3424,7 @@
         "encumberance" : 0,
         "bashing" : -3,
         "coverage" : 60,
-        "flags": ["MALE_TYPICAL"],
+        "flags": ["FANCY"],
         "material_thickness" : 1
     },
     {
@@ -3513,7 +3541,7 @@
         "bashing" : 2,
         "coverage" : 30,
         "material_thickness" : 2,
-        "flags" : ["FEMALE_TYPICAL"]
+        "flags" : ["FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3716,7 +3744,8 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
-        "phase" : "solid"
+        "phase" : "solid",
+        "flags" : ["FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3739,7 +3768,7 @@
         "warmth" : 0,
         "enviromental_protection" : 0,
         "phase" : "solid",
-        "flags" : ["FEMALE_TYPICAL"]
+        "flags" : ["FANCY"]
     },
     {
         "type" : "ARMOR",
@@ -3761,7 +3790,8 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
-        "phase" : "solid"
+        "phase" : "solid",
+        "flags" : ["FANCY"]
     },
     {
         "type": "TOOL",
@@ -3793,7 +3823,7 @@
         "volume" : 0,
         "material_thickness" : 0,
         "storage" : 0,
-        "description" : "A plastic badge with an embedded film strip.  The film strip changes color as it it is exposed to radiation.  Wear on your lapel so you can notice if it changes.",
+        "description" : "A plastic badge with an embedded film strip.  The film strip changes color as it is exposed to radiation.  Wear on your lapel so you can notice if it changes.",
         "weight" : 20,
         "to_hit" : 0,
         "color" : "light_blue",
@@ -4081,7 +4111,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A heavy leather cloak that is thrown over your body. Provides decent protection",
+        "description" : "A heavy leather cloak that is thrown over your body. Provides decent protection.",
         "price" : 225,
         "material" : ["leather", "null"],
         "volume" : 10,
@@ -4297,7 +4327,7 @@
         "type" : "ARMOR",
         "id" : "arm_splint",
         "name" : "arm splint",
-        "description" : "A tool to help set bones and hold them in place",
+        "description" : "A tool to help set bones and hold them in place.",
         "weight" : 2000,
         "color" : "light_red",
         "covers" : ["ARMS"],
@@ -4321,7 +4351,7 @@
         "type" : "ARMOR",
         "id" : "leg_splint",
         "name" : "leg splint",
-        "description" : "A tool to help set bones and hold them in place",
+        "description" : "A tool to help set bones and hold them in place.",
         "weight" : 3800,
         "color" : "light_red",
         "covers" : ["LEGS"],
@@ -4757,7 +4787,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A medieval helmet that provides excellent protection to head, with a Y shaped opening for the face.",
+        "description" : "A medieval helmet that provides excellent protection for the head, with a Y shaped opening for the face.",
         "price" : 300,
         "material" : ["iron", "null"],
         "volume" : 20,
@@ -4901,7 +4931,7 @@
         "to_hit" : 0,
         "storage" : 18,
         "symbol" : "[",
-        "description" : "A set of pouches that can be worn on the thighs using buckled straps. This variety is favoured by the military.",
+        "description" : "A set of pouches that can be worn on the thighs using buckled straps. This variety is favored by the military.",
         "price" : 200,
         "material" : ["cotton", "null"],
         "volume" : 4,
@@ -4913,5 +4943,137 @@
         "bashing" : -3,
         "coverage" : 20,
         "material_thickness" : 2
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "leather_cat_ears",
+        "name" : "leather cat ears",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A shiny pair of black cat ears on a headband. It does nothing, but there's no reason not to look good even if no one's looking.",
+        "weight" : 20,
+        "to_hit" : 0,
+        "color" : "dark_gray",
+        "encumberance" : 0,
+        "price" : 100,
+        "material" : ["leather", "plastic"],
+        "coverage" : 0,
+        "symbol" : "^",
+        "bashing" : 0,
+        "cutting" : 0,
+        "warmth" : 0,
+        "enviromental_protection" : 0,
+        "phase" : "solid"
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "fur_cat_ears",
+        "name" : "fuzzy cat ears",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A fuzzy pair of brownish cat ears on a headband. It does nothing, but there's no reason not to look good even if no one's looking.",
+        "weight" : 20,
+        "to_hit" : 0,
+        "color" : "brown",
+        "encumberance" : 0,
+        "price" : 100,
+        "material" : ["fur", "plastic"],
+        "coverage" : 0,
+        "symbol" : "^",
+        "bashing" : 0,
+        "cutting" : 0,
+        "warmth" : 0,
+        "enviromental_protection" : 0,
+        "phase" : "solid"
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "leather_cat_tail",
+        "name" : "leather cat tail",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A glossy black leather tail weighted down with tiny beads of plastic. Sways behind you when you walk.",
+        "weight" : 80,
+        "to_hit" : 0,
+        "color" : "dark_gray",
+        "encumberance" : 0,
+        "price" : 100,
+        "material" : ["leather", "plastic"],
+        "coverage" : 0,
+        "symbol" : "s",
+        "bashing" : 4,
+        "cutting" : 0,
+        "warmth" : 0,
+        "enviromental_protection" : 0,
+        "phase" : "solid"
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "fur_cat_tail",
+        "name" : "fuzzy cat tail",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A fuzzy tawny tail weighted down with tiny beads of plastic. Sways behind you when you walk.",
+        "weight" : 80,
+        "to_hit" : 0,
+        "color" : "brown",
+        "encumberance" : 0,
+        "price" : 100,
+        "material" : ["fur", "plastic"],
+        "coverage" : 0,
+        "symbol" : "s",
+        "bashing" : 4,
+        "cutting" : 0,
+        "warmth" : 0,
+        "enviromental_protection" : 0,
+        "phase" : "solid"
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "fur_collar",
+        "name" : "fur kitty collar",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A decorative 'collar' made out of fur. Complete with a little bell hanging from the front.  Don't worry, it's silent.",
+        "weight" : 10,
+        "to_hit" : 0,
+        "color" : "brown",
+        "encumberance" : 0,
+        "price" : 100,
+        "material" : ["fur", "null"],
+        "coverage" : 0,
+        "symbol" : "-",
+        "bashing" : 0,
+        "cutting" : 0,
+        "warmth" : 0,
+        "enviromental_protection" : 0,
+        "phase" : "solid"
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "leather_collar",
+        "name" : "leather collar",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A black leather 'collar' with a bell dangling from the front. Don't worry, the bell is silent.",
+        "weight" : 10,
+        "to_hit" : 0,
+        "color" : "dark_gray",
+        "encumberance" : 0,
+        "price" : 100,
+        "material" : ["leather", "null"],
+        "coverage" : 0,
+        "symbol" : "-",
+        "bashing" : 0,
+        "cutting" : 0,
+        "warmth" : 0,
+        "enviromental_protection" : 0,
+        "phase" : "solid"
     }
 ]

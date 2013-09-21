@@ -62,6 +62,7 @@ public:
  item(itype* it, unsigned int turn, char let);
  void make_corpse(itype* it, mtype* mt, unsigned int turn);	// Corpse
  item(std::string itemdata, game *g);
+ item(picojson::value & parsed, game * g);
  virtual ~item();
  void init();
  void make(itype* it);
@@ -90,8 +91,8 @@ public:
  char pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, char invlet);
  void next_mode();
- bool json_load(picojson::value parsed, game * g);
- virtual picojson::value json_save() const;
+ bool json_load(picojson::value & parsed, game * g);
+ virtual picojson::value json_save(bool save_contents=false) const;
  std::string save_info() const;	// Formatted for save files
  //
  void load_info(std::string data, game *g);
@@ -125,7 +126,11 @@ public:
  int num_charges();
  bool rotten(game *g);
  bool ready_to_revive(game *g); // used for corpses
-
+// light emission, determined by type->light_emission (LIGHT_???) tag (circular),
+// overridden by light.* struct (shaped)
+ bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;
+// for quick iterative loops
+ int getlight_emit(bool calculate_dimming = true) const;
 // Our value as a weapon, given particular skills
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon

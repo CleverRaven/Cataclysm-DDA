@@ -111,7 +111,7 @@ static void begin_alt_code()
     alt_buffer_len = 0;
 }
 
-static int add_alt_code(char c)
+void add_alt_code(char c)
 {
     // not exactly how it works, but acceptable
     if(c>='0' && c<='9')
@@ -230,7 +230,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
 
     case WM_SETCURSOR:
         MouseOver = LOWORD(lParam);
-        if (OPTIONS["HIDE_CURSOR"] == "Hidden")
+        if (OPTIONS["HIDE_CURSOR"] == "hide")
         {
             if (MouseOver==HTCLIENT && CursorVisible)
             {
@@ -413,7 +413,7 @@ WINDOW *curses_init(void)
     inputdelay=-1;
 
     std::string typeface;
-    char * typeface_c;
+    char * typeface_c = 0;
     std::ifstream fin;
     fin.open("data\\FONTDATA");
     if (!fin.is_open()){
@@ -526,7 +526,7 @@ int curses_getch(WINDOW* win)
         CheckMessages();
     };
 
-    if (lastchar!=ERR && OPTIONS["HIDE_CURSOR"] == "HiddenKB" && CursorVisible) {
+    if (lastchar!=ERR && OPTIONS["HIDE_CURSOR"] == "hidekb" && CursorVisible) {
         CursorVisible = false;
         ShowCursor(false);
     }

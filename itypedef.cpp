@@ -140,33 +140,6 @@ color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,pierce,flags,effects,\
 skill,ammo,dmg,range,dispersion,\
 recoil,durability,burst,clip,reload_time)
 
-/* TOOLS
- * MAX is the maximum number of charges help.
- * DEF is the default number of charges--items will be generated with this
- *  many charges.
- * USE is how many charges are used up when 'a'pplying the object.
- * SEC is how many turns will pass before a charge is drained if the item is
- *  active; generally only used in the "<whatever> (on)" forms
- * FUEL is the type of charge the tool uses; set to "NULL" if the item is
- *  unable to be recharged.
- * REVERT is the item type that the tool will revert to once its charges are
- *  drained
- * FUNCTION is a function called when the tool is 'a'pplied, or called once per
- *  turn if the tool is active.  The same function can be used for both.  See
- *  iuse.h and iuse.cpp for functions.
- */
-#define TOOL(id, name,price,sym,color,mat1,mat2,volume,wgt,melee_dam,\
-melee_cut,to_hit,max_charge,def_charge,charge_per_use,charge_per_sec,fuel,\
-revert,func,des) \
-itypes[id]=new it_tool(id,price,name,des,sym,\
-color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,max_charge,\
-def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
-
-TOOL("jack", _("jack"), 86, ';', c_ltgray,	"iron",	"null",
-//	VOL WGT DAM CUT HIT FLAGS
-	 5,11974, 11,  0,  2, 0, 0, 0, 0, "NULL", "null", &iuse::none, _("\
-A common hydraulic jack, used when changing tires."));
-
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
@@ -233,6 +206,7 @@ BIO_SINGLE("bio_targeting", 6500, c_red, 5);
 BIO_SINGLE("bio_ground_sonar", 4500, c_red, 5);
 // hazmat
 BIO_SINGLE("bio_purifier", 4500, c_ltgreen, 4);
+BIO_SINGLE("bio_sunglasses", 4500, c_ltgreen, 4);
 BIO_SINGLE("bio_climate", 3500, c_ltgreen, 3);
 BIO_SINGLE("bio_heatsink", 3500, c_ltgreen, 3);
 BIO_SINGLE("bio_blood_filter", 3500, c_ltgreen, 3);
@@ -602,7 +576,7 @@ std::string ammo_name(ammotype t)
     if( t == "84x246mm" )  return _("84mm recoilless projectile");
     if( t == "m235" )  return _("M235 Incendiary TPA");
     if( t == "gasoline" )	  return _("gasoline");
-    if( t == "THREAD" )return _("thread");
+    if( t == "thread" )return _("thread");
     if( t == "battery" )  return _("batteries");
     if( t == "plutonium" )  return _("plutonium");
     if( t == "muscle" )return _("muscle");
@@ -612,6 +586,8 @@ std::string ammo_name(ammotype t)
     if( t == "water"  )return _("clean water");
     if( t == "8x40mm"  )return _("8x40mm caseless");
     if( t == "charcoal"  )return _("charcoal");
+    if( t == "UPS"  )return _("UPS");
+    if( t == "components"  )return _("components");
     return "XXX";
 }
 
@@ -648,8 +624,10 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "plasma" )return "plasma";
     if( guntype == "plutonium" )	 return "plut_cell";
     if( guntype == "gasoline" )	  return "gasoline";
-    if( guntype == "THREAD" )return "thread";
+    if( guntype == "thread" )return "thread";
     if( guntype == "water" ) return "water_clean";
     if( guntype == "charcoal"  )return "charcoal";
+    if( guntype == "UPS"  )return _("UPS");
+    if( guntype == "components"  )return _("components");
     return "null";
 }

@@ -88,8 +88,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 
     crafting_inv = gm->crafting_inventory(&gm->u);
 
-    int charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
-    int charges_crude = ((it_tool *) g->itypes["welder_crude"])->charges_per_use;
+    int charges = static_cast<it_tool *>(g->itypes["welder"])->charges_per_use;
+    int charges_crude = static_cast<it_tool *>(g->itypes["welder_crude"])->charges_per_use;
     has_wrench = crafting_inv.has_amount("wrench", 1) ||
         crafting_inv.has_amount("toolset", 1);
     has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
@@ -612,7 +612,9 @@ void veh_interact::do_drain(int reason)
 void veh_interact::do_rename(int reason)
 {
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
-    (veh->name = name);
+    if(name.length() > 0) {
+        (veh->name = name);
+    }
     werase(w_stats);
     werase(w_grid);
     display_stats ();
@@ -960,9 +962,8 @@ void complete_vehicle (game *g)
     int part = g->u.activity.values[6];
     int type = g->u.activity.values[7];
     std::vector<component> tools;
-    int welder_charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
-    int welder_crude_charges = ((it_tool *) g->itypes["welder_crude"])->charges_per_use;
-    itype_id itm;
+    int welder_charges = static_cast<it_tool *>(g->itypes["welder"])->charges_per_use;
+    int welder_crude_charges = static_cast<it_tool *>(g->itypes["welder_crude"])->charges_per_use;
     int partnum;
     item used_item;
     bool broken;

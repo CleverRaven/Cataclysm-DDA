@@ -303,7 +303,7 @@ void init_translation()
     monStr2monId["mon_breather"] = mon_breather; monStr2monId["mon_shadow_snake"] = mon_shadow_snake;
     monStr2monId["mon_eyebot"] = mon_eyebot; monStr2monId["mon_manhack"] = mon_manhack; monStr2monId["mon_skitterbot"] = mon_skitterbot; monStr2monId["mon_secubot"] = mon_secubot; monStr2monId["mon_copbot"] = mon_copbot; monStr2monId["mon_molebot"] = mon_molebot;
     monStr2monId["mon_tripod"] = mon_tripod; monStr2monId["mon_chickenbot"] = mon_chickenbot; monStr2monId["mon_tankbot"] = mon_tankbot; monStr2monId["mon_turret"] = mon_turret; monStr2monId["mon_exploder"] = mon_exploder;
-    monStr2monId["mon_hallu_zom"] = mon_hallu_zom; monStr2monId["mon_hallu_bee"] = mon_hallu_bee; monStr2monId["mon_hallu_ant"] = mon_hallu_ant; monStr2monId["mon_hallu_mom"] = mon_hallu_mom;
+    monStr2monId["mon_hallu_mom"] = mon_hallu_mom;
     monStr2monId["mon_generator"] = mon_generator;
 }
 

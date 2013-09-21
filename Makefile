@@ -24,6 +24,9 @@
 #  make TILES=1
 # Disable gettext, on some platforms the dependencies are hard to wrangle.
 #  make LOCALIZE=0
+# Compile localization files for specified languages
+#  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
+#  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 
 # comment these to toggle them as one sees fit.
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
@@ -52,7 +55,7 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-VERSION = 0.7.1
+VERSION = 0.8
 
 
 TARGET = cataclysm
@@ -171,22 +174,31 @@ ifdef SDL
 		-F$(HOME)/Library/Frameworks \
 		-I/Library/Frameworks/SDL.framework/Headers \
 		-I$(HOME)/Library/Frameworks/SDL.framework/Headers \
+		-I/Library/Frameworks/SDL_image.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL_image.framework/Headers \
 		-I/Library/Frameworks/SDL_ttf.framework/Headers \
 		-I$(HOME)/Library/Frameworks/SDL_ttf.framework/Headers
       LDFLAGS += -F/Library/Frameworks \
 		 -F$(HOME)/Library/Frameworks \
-		 -framework SDL -framework SDL_ttf -framework Cocoa
+		 -framework SDL -framework SDL_image -framework SDL_ttf -framework Cocoa
       CXXFLAGS += $(OSX_INC)
-    else
+    else # libsdl build
       DEFINES += -DOSX_SDL_LIBS
-      CXXFLAGS += $(shell sdl-config --cflags)
+      # handle #include "SDL/SDL.h" and "SDL.h"
+      CXXFLAGS += $(shell sdl-config --cflags) \
+		  -I$(shell dirname $(shell sdl-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += $(shell sdl-config --libs) -lSDL_ttf
+      ifdef TILES
+	LDFLAGS += -lSDL_image
+      endif
     endif
-  else
+  else # not osx
     LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+    ifdef TILES
+      LDFLAGS += -lSDL_image
+    endif
   endif
   ifdef TILES
-    LDFLAGS += -lSDL_image
     DEFINES += -DSDLTILES
   else
     DEFINES += -DTILES
@@ -206,7 +218,11 @@ else
       ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Darwin)
         LDFLAGS += -lncurses
       else
-        LDFLAGS += -lncursesw
+        ifeq ($(NATIVE), osx)
+            LDFLAGS += -lncurses
+        else
+            LDFLAGS += -lncursesw
+        endif
       endif
       # Work around Cygwin not including gettext support in glibc
       ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
@@ -235,13 +251,18 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
 endif
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
-ifdef TILES
+ifdef SDL
   ifeq ($(NATIVE),osx)
     OBJS += $(ODIR)/SDLMain.o
   endif
 endif
 
-all: version $(TARGET)
+ifdef LANGUAGES
+  L10N = localization
+  BINDIST_EXTRAS += lang/mo
+endif
+
+all: version $(TARGET) $(L10N)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
@@ -273,18 +294,29 @@ $(ODIR)/SDLMain.o: SDLMain.m
 
 version.cpp: version
 
+localization:
+	lang/compile_mo.sh $(LANGUAGES)
+
 clean: clean-tests
 	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
 	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
 	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -f version.h
 
+distclean:
+	rm -rf $(BINDIST_DIR)
+	rm -rf save
+	rm -rf lang/mo
+	rm -f data/options.txt
+	rm -f data/keymap.txt
+	rm -f data/auto_pickup.txt
+	rm -f data/fontlist.txt
+
 bindist: $(BINDIST)
 
-$(BINDIST): $(TARGET) $(BINDIST_EXTRAS)
-	rm -rf $(BINDIST_DIR)
+$(BINDIST): distclean $(TARGET) $(L10N) $(BINDIST_EXTRAS)
 	mkdir -p $(BINDIST_DIR)
-	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+	cp -R --parents $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 	$(BINDIST_CMD)
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
