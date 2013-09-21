@@ -68,22 +68,6 @@ ma_technique loadTec(catajson& curTec) {
   if (curTec.has("aoe"))
     tec.aoe = curTec.get("aoe").as_string();
 
-  /* // stuff we still need to read from json
-  hit = 0; // flat bonus to hit
-  bash = 0; // flat bonus to bash
-  cut = 0; // flat bonus to cut
-  pain = 0; // causes pain
-
-  bash_mult = 1.0f; // bash damage multiplier
-  cut_mult = 1.0f; // cut damage multiplier
-
-  //defensive
-  block = 0;
-
-  bash_resist = 0.0f; // multiplies bash by this (1 - amount)
-  cut_resist = 0.0f; // "" cut ""
-  */
-
   return tec;
 }
 void loadTecArray(game* g, std::vector<ma_technique>& tecArr, catajson& jsonObj) {

@@ -185,11 +185,9 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 // Handles effects as well; not done in melee_affect_*
  if (tec_id != "tec_none")
   perform_technique(technique, g, z, NULL, bash_dam, cut_dam, stab_dam, pain);
- /*
- if (technique.flaming) { // bypass technique selection, it's on FIRE after all
+ if (weapon.has_flag("FLAMING")) {
    z->add_effect(ME_ONFIRE, rng(3, 4));
  }
- */
  z->speed -= int(pain / 2);
 
 // Mutation-based attacks
@@ -315,11 +313,10 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 // Handles effects as well; not done in melee_affect_*
  if (tec_id != "tec_none")
   perform_technique(technique, g, NULL, &p, bash_dam, cut_dam, stab_dam, pain);
- /*
- if (weapon.has_technique(TEC_FLAMING, this)) { // bypass technique selection, it's on FIRE after all
+
+ if (weapon.has_flag("FLAMING")) {
    p.add_disease("onfire", rng(2, 3));
  }
- */
  p.pain += pain;
 
 // Mutation-based attacks
@@ -886,11 +883,9 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
             if (g->zombie(mondex).hurt(dam)) {
                 g->zombie(mondex).die(g);
             }
-            /*
-            if (weapon.has_technique(TEC_FLAMING, this))  { // Add to wide attacks
+            if (weapon.has_flag("FLAMING"))  { // Add to wide attacks
                 g->zombie(mondex).add_effect(ME_ONFIRE, rng(3, 4));
             }
-            */
             std::string temp_target = rmp_format(_("<target>the %s"), g->zombie(mondex).name().c_str());
             g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
           }
@@ -901,11 +896,9 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
             int dam = roll_bash_damage(NULL, false);
             int cut = roll_cut_damage (NULL, false);
             g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
-            /*
-            if (weapon.has_technique(TEC_FLAMING, this)) {// Add to wide attacks
+            if (weapon.has_flag("FLAMING")) {// Add to wide attacks
                 g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
             }
-            */
             std::string temp_target = rmp_format(_("<target>%s"), g->active_npc[npcdex]->name.c_str());
             g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
 
@@ -972,6 +965,8 @@ void player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &s
     bash_dam -= mabuff_block_bonus();
     bash_dam = bash_dam < 0 ? 0 : bash_dam;
   }
+
+  blocks_left--;
 }
 
 void player::perform_special_attacks(game *g, monster *z, player *p,
@@ -1181,67 +1176,9 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   bash_dam *= mabuff_bash_mult();
   cut_dam *= mabuff_cut_mult();
 
-  // on-hit effects for new martial arts
+  // on-hit effects for martial arts
   ma_onhit_effects();
 
- // the old hard-coded stuff
- if(weapon.typeId() == "style_karate"){
-   dodges_left++;
-   blocks_left += 2;
- } else if(weapon.typeId() == "style_aikido"){
-   bash_dam /= 2;
- } else if(weapon.typeId() == "style_capoeira"){
-   add_disease("dodge_boost", 2, 2);
- } else if(weapon.typeId() == "style_muay_thai"){
-   if ((mon && z->type->size >= MS_LARGE) || (!mon && p->str_max >= 12))
-    bash_dam += rng((mon ? z->type->size : (p->str_max - 8) / 4),
-                    3 * (mon ? z->type->size : (p->str_max - 8) / 4));
- } else if(weapon.typeId() == "style_tiger"){
-   add_disease("damage_boost", 2, 2, 10);
- } else if(weapon.typeId() == "style_centipede"){
-   add_disease("speed_boost", 2, 4, 40);
- } else if(weapon.typeId() == "style_venom_snake"){
-   if (has_disease("viper_combo")) {
-    if (disease_intensity("viper_combo") == 1) {
-     g->add_msg_if_player(p,"Snakebite!");
-     int dambuf = bash_dam;
-     bash_dam = stab_dam;
-     stab_dam = dambuf;
-     add_disease("viper_combo", 2, 1, 2); // Upgrade to Viper Strike
-    } else if (disease_intensity("viper_combo") == 2) {
-     if (hp_cur[hp_arm_l] >= hp_max[hp_arm_l] * .75 &&
-         hp_cur[hp_arm_r] >= hp_max[hp_arm_r] * .75   ) {
-      g->add_msg_if_player(p,"Viper STRIKE!");
-      bash_dam *= 3;
-     } else
-      g->add_msg_if_player(p,_("Your injured arms prevent a viper strike!"));
-     rem_disease("viper_combo");
-    }
-   } else if (crit) {
-    g->add_msg_if_player(p,_("Tail whip!  Viper Combo Intiated!"));
-    bash_dam += 5;
-    add_disease("viper_combo", 2, 1, 2);
-   }
- } else if(weapon.typeId() == "style_scorpion"){
-   if (crit) {
-    g->add_msg_if_player(p,_("Stinger Strike!"));
-    if (mon) {
-     z->add_effect(ME_STUNNED, 3);
-     int zposx = z->posx(), zposy = z->posy();
-     z->knock_back_from(g, posx, posy);
-     if (z->posx() != zposx || z->posy() != zposy)
-      z->knock_back_from(g, posx, posy); // Knock a 2nd time if the first worked
-    } else {
-     p->add_disease("stunned", 2);
-     int pposx = p->posx, pposy = p->posy;
-     p->knock_back_from(g, posx, posy);
-     if (p->posx != pposx || p->posy != pposy)
-      p->knock_back_from(g, posx, posy); // Knock a 2nd time if the first worked
-    }
-   }
- } else if(weapon.typeId() == "style_zui_quan"){
-   dodges_left = 50; // Basically, unlimited.
- }
 }
 
 std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
