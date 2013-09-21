@@ -149,6 +149,8 @@
     "id":"kitchen",
     "items":[
       ["chips", 65],
+      ["hat_chef", 2],
+      ["jacket_chef", 2],
       ["kernels", 35],
       ["pot", 25],
       ["pan", 25],
@@ -498,6 +500,7 @@
     "id":"dresser",
     "items":[
       ["jeans", 90],
+      ["pants_checkered", 5],
       ["shorts", 70],
       ["pants", 75],
       ["pants_leather", 60],
@@ -1534,6 +1537,7 @@
     "id":"pants",
     "items":[
       ["jeans", 90],
+      ["pants_checkered", 5],
       ["shorts", 70],
       ["pants", 75],
       ["pants_leather", 60],
@@ -1604,6 +1608,7 @@
     "id":"allclothes",
     "items":[
       ["jeans", 90],
+      ["pants_checkered", 5],
       ["shorts", 70],
       ["pants", 75],
       ["suit", 60],
@@ -1862,6 +1867,7 @@
     "id":"lab_pants",
     "items":[
       ["jeans", 90],
+      ["pants_checkered", 5],
       ["pants", 75],
       ["pants_cargo", 70],
       ["skirt", 75]
@@ -2153,6 +2159,8 @@
       ["glasses_monocle", 2],
       ["cell_phone", 20],
       ["tophat", 10],
+      ["hat_chef", 5],
+      ["jacket_chef", 5],
       ["pda", 15],
       ["ruger_redhawk", 3],
       ["deagle_44", 2],
@@ -2330,6 +2338,7 @@
       ["boots_hiking", 30],
       ["socks_wool", 30],
       ["jeans", 90],
+      ["pants_checkered", 5],
       ["shorts", 70],
       ["tshirt", 80],
       ["sweatshirt", 75],
