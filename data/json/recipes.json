@@ -4210,7 +4210,42 @@
   ],
   "components": [
     [
+      [ "coffee_raw", 1 ],
+      [ "coffee_syrup", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "coffee_syrup",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
       [ "coffee_raw", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "honeycomb", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -4286,6 +4321,23 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "irish_coffee",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "whiskey", 1 ]
+    ],
+    [
+      [ "coffee_syrup", 1 ]
     ]
   ]
 },{
@@ -4642,6 +4694,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "can_chowder",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_clams", 1 ]
+    ],
+    [
+      [ "potato_raw", 1 ],
+      [ "meat_smoked", 1 ],
+      [ "sausage", 1 ],
+      [ "bacon", 1 ],
+      [ "onion", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bread",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -4856,6 +4945,7 @@
     [
       [ "sugar", 1 ],
       [ "syrup", 1 ],
+      [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "honeycomb", 1 ],
       [ "strawberries", 1 ],
@@ -5110,6 +5200,7 @@
     [
       [ "sugar", 1 ],
       [ "syrup", 1 ],
+      [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "honeycomb", 1 ]
