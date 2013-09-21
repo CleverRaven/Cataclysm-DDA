@@ -401,24 +401,30 @@ void player::activate_bionic(int b, game *g)
  } else if (bio.id == "bio_water_extractor"){
   bool extracted = false;
   for (int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
-   item tmp = g->m.i_at(posx, posy)[i];
-   if (tmp.type->id == "corpse" && query_yn(_("Extract water from the %s"),
-                                              tmp.tname().c_str())) {
-    item water = item(g->itypes["water_clean"], 0);
-    if (g->handle_liquid(water, true, true))
-    {
-        moves -= 100;
-    }
-    else if (query_yn(_("Drink directly from the condensor?")))
-    {
-        inv.push_back(water);
-        water = inv.item_by_type(water.typeId());
-        eat(g, water.invlet);
-        moves -= 350;
-    }
-    extracted = true;
-    break;
-   }
+      item & tmp = g->m.i_at(posx, posy)[i];
+      if (tmp.type->id == "corpse" ) {
+          int avail=0;
+          if ( tmp.item_vars.find("remaining_water") != tmp.item_vars.end() ) {
+              avail = atoi ( tmp.item_vars["remaining_water"].c_str() );
+          } else {
+              avail = tmp.volume() / 2;
+          }
+          if(avail > 0 && query_yn(_("Extract water from the %s"), tmp.tname().c_str())) {
+              item water = item(g->itypes["water_clean"], 0);
+              if (g->handle_liquid(water, true, true)) {
+                  moves -= 100;
+              } else if (query_yn(_("Drink directly from the condensor?"))) {
+                  inv.push_back(water);
+                  water = inv.item_by_type(water.typeId());
+                  eat(g, water.invlet);
+                  moves -= 350;
+              }
+              extracted = true;
+              avail--;
+              tmp.item_vars["remaining_water"] = string_format("%d",avail);
+              break;
+          }
+      }
   }
   if (!extracted)
    power_level += bionics["bio_water_extractor"]->power_cost;
