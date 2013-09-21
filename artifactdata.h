@@ -54,17 +54,6 @@ struct artifact_tool_form_datum
  int weight_min, weight_max;
  artifact_weapon_type base_weapon;
  artifact_weapon_type extra_weapons[3];
-
-/*
- artifact_tool_form_datum
-   (std::string Name, char Sym, nc_color Color, std::string M1, std::string M2,
-    int Volmin, int Volmax, int Wgtmin, int Wgtmax, artifact_weapon_type Base,
-    artifact_weapon_type extra[3])
-   : name (Name), sym (Sym), color (Color), m1 (M1), m2 (M2),
-     volume_min (Volmin), volume_max (Volmax), weight_min (Wgtmin),
-     weight_max (Wgtmax), base_weapon (Base), extra_weapons (extra) { };
-*/
-
 };
 
 enum artifact_tool_form
@@ -121,21 +110,6 @@ struct artifact_armor_form_datum
  unsigned char covers;
  bool plural;
  artifact_armor_mod available_mods[5];
-
-/*
-// Constructor
- artifact_armor_form_datum
-   (std::string Name, nc_color Color, std::string M1, std::string M2, int Volume,
-    int Weight, int Encumb, int Dmg_res, int Cut_res, int Env_res,
-    int Warmth, int Storage, int Bash, int Cut, int Hit, unsigned char Covers,
-    bool Plural, artifact_armor_mod Mods[5])
-   : name (Name), color (Color), m1 (M1), m2 (M2), volume (Volume),
-     weight (Weight), encumb (Encumb), coverage (Coverage),
-     thickness (thickness), env_resist (Env_res), warmth (Warmth),
-     storage (Storage), melee_bash (Bash), melee_cut (Cut), melee_hit (Hit),
-     covers (Covers), plural (Plural), available_mods (Mods) { };
-
-*/
 };
 
 enum artifact_armor_form
