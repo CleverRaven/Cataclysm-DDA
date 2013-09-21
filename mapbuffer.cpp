@@ -88,9 +88,7 @@ void mapbuffer::save()
  std::map<tripoint, submap*, pointcomp>::iterator it;
  std::ofstream fout;
  fout.open("save/maps.txt");
-
  fout << "# version " << savegame_version << std::endl;
-
  fout << submap_list.size() << std::endl;
  int num_saved_submaps = 0;
  int num_total_submaps = submap_list.size();
@@ -222,19 +220,40 @@ void mapbuffer::load()
   debugmsg("Can't load mapbuffer without a master_game");
   return;
  }
- std::map<tripoint, submap*>::iterator it;
  std::ifstream fin;
  fin.open("save/maps.txt");
  if (!fin.is_open())
   return;
+ unserialize(fin);
+ fin.close();
+}
 
+void mapbuffer::unserialize(std::ifstream & fin) {
+ std::map<tripoint, submap*>::iterator it;
  int itx, ity, t, d, a, num_submaps, num_loaded = 0;
  item it_tmp;
  std::string databuff;
- if ( fin.peek() == '#' ) {    // Version header
-   std::string vline;
-   getline(fin, vline);
- }                             // We're the first version with versioning: discard and continue
+
+   if ( fin.peek() == '#' ) {
+       std::string vline;
+       getline(fin, vline);
+       std::string tmphash, tmpver;
+       int savedver=-1;
+       std::stringstream vliness(vline);
+       vliness >> tmphash >> tmpver >> savedver;
+       if ( tmpver == "version" && savedver != -1 ) {
+           savegame_loading_version = savedver;
+       }
+   }
+   if (savegame_loading_version != savegame_version) { // We're version x but this is a save from version y, let's check to see if there's a loader
+       if ( unserialize_legacy(fin) == true ) { // loader returned true, we're done.
+            return;
+       } else { // no unserialize_legacy for version y, continuing onwards towards possible disaster. Or not?
+           popup_nowait(_("Cannot find loader for overmap save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
+       }
+   }
+
+
  fin >> num_submaps;
 
  while (!fin.eof()) {
@@ -266,7 +285,6 @@ void mapbuffer::load()
    }
   }
 // Load irradiation
-
   int radtmp;
   int count = 0;
   for (int j = 0; j < SEEY; j++) {
@@ -349,7 +367,6 @@ void mapbuffer::load()
   submaps[ tripoint(locx, locy, locz) ] = sm;
   num_loaded++;
  }
- fin.close();
 }
 
 int mapbuffer::size()

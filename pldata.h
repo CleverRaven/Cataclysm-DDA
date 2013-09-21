@@ -3,6 +3,7 @@
 
 #include "enums.h"
 #include "translations.h"
+#include "picofunc.h"
 #include "bodypart.h"
 #include <sstream>
 #include <vector>
@@ -92,18 +93,10 @@ struct player_activity
    values.push_back(copy.values[i]);
  }
 
- std::string save_info()
- {
-  std::stringstream ret;
-  // name can be empty, so make sure we prepend something to it
-  ret << type << " " << moves_left << " " << index << " " << (int)invlet << " str:" << name << " "
-         << placement.x << " " << placement.y << " " << values.size();
-  for (int i = 0; i < values.size(); i++)
-   ret << " " << values[i];
-
-  return ret.str();
- }
-
+ picojson::value json_save(); // found in gamesave_json.cpp
+ bool json_load(picojson::value & parsed);
+//std::map<std::string, picojson::value> & data);
+/// this is for OLD saves
  void load_info(std::stringstream &dump)
  {
   int tmp, tmptype, tmpinvlet;

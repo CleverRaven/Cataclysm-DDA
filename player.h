@@ -68,8 +68,14 @@ public:
  virtual bool is_npc() { return false; }	// Overloaded for NPCs in npc.h
  nc_color color();				// What color to draw us as
 
- virtual void load_info(game *g, std::string data);// Load from file 'name.sav'
- virtual std::string save_info();		// Save to file matching name
+ virtual void load_info(game *g, std::string data); // deserialize string when loading
+ virtual std::string save_info();		    // output serialized string for saving
+
+ void json_load_common_variables( std::map<std::string, picojson::value> & data ); 
+ virtual void json_load(picojson::value & parsed, game *g);   // populate variables, inventory items, and misc from json object
+
+ void json_save_common_variables( std::map<std::string, picojson::value> & data );
+ virtual picojson::value json_save(bool save_contents=false);
 
  void memorial( std::ofstream &memorial_file ); // Write out description of player.
  void disp_info(game *g);	// '@' key; extended character info

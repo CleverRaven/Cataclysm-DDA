@@ -155,7 +155,13 @@ class overmap
 
   // Initialise
   void init_layers();
+  // open existing overmap, or generate a new one
   void open(game *g);
+  // parse data in an opened overmap file
+  void unserialize(game *g, std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
+  // parse data in an old overmap file
+  bool unserialize_legacy(game *g, std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
+
   void generate(game *g, overmap* north, overmap* east, overmap* south,
                 overmap* west);
   bool generate_sub(int const z);

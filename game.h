@@ -38,6 +38,29 @@
 #define MAX_VOLUME_IN_SQUARE 4000 // 6.25 dead bears is enough for everybody!
 #define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
 #define MAX_VOLUME_IN_VEHICLE_STORAGE 2000 // todo: variation. semi trailer square could hold more. the real limit would be weight
+////////////////////////////////////////////////////////////////////
+
+extern const int savegame_version;
+extern int save_loading_version;
+
+/* these defines will go away when all of them are complete, which means
+   #define jsonsave_full
+   is a reality.
+*/
+#define jsonsave_item 1 // complete, optimized to skip values if default. Affects: game.sav and maps.txt
+#define jsonsave_monster 1 // complete, unoptimized (not needed): game.sav
+////
+#define jsonsave_player 1 // complete.
+// #define jsonsave_misc 1 // misc stuff in game.sav.
+#define jsonsave_player_inv 1 // complete. save 'inv', worn, weapon etc within player::json_save output
+/* 
+   npcs can be jsonized chunks in overmap, instead of stringsteam chunks
+*/
+#define jsonsave_npc 1 // complete.
+#define jsonsave_npc_inv 1 // complete.
+// #define 
+
+////////////////////////////////////////////////////////////////////
 
 // The reference to the one and only game instance.
 extern game *g;
@@ -107,6 +130,7 @@ class game
   quit_status uquit;    // used in main.cpp to determine what type of quit
   void serialize(std::ofstream & fout); // for save
   void unserialize(std::ifstream & fin); // for load
+  bool unserialize_legacy(std::ifstream & fin); // for old load
   void save();
   void delete_save();
   void write_memorial_file();
