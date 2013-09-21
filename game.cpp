@@ -5855,7 +5855,8 @@ void game::kill_mon(int index, bool u_did_it)
     tmpdeath.guilt(this, &z);
    }
    if (!z.is_hallucination()) {
-    kills[z.type->id]++;	// Increment our kill counter
+    //kills[z.type->id]++;	// Increment our kill counter
+    monkills[z.type->id]++;
    }
   }
   for (int i = 0; i < z.inv.size(); i++)
@@ -10556,7 +10557,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
             tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
         } else {
             // No spawn site, so absorb them back into a group.
-            int group = valid_group((mon_id)(z.type->id), levx + shiftx, levy + shifty, levz);
+            int group = valid_group((z.type->id), levx + shiftx, levy + shifty, levz);
             if (group != -1) {
                 cur_om->zg[group].population++;
                 if (cur_om->zg[group].population /

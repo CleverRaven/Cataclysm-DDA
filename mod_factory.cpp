@@ -879,10 +879,16 @@ bool mod_factory::consolidate_mod_layers(std::vector<std::string > layers)
         return false;
     }
 
+    std::map<std::string, MOD_INFORMATION*> modmap;
+    for (int i = 0; i < mods.size(); ++i)
+    {
+        modmap[mods[i]->ident()] = mods[i];
+    }
+
     // go through layers from core to the last layered supplemental (if exists) and consolildate all of the information together
     for (std::vector<std::string>::iterator mod_it = layers.begin(); mod_it != layers.end(); ++mod_it)
     {
-        MOD_INFORMATION *mod = mods[*mod_it];
+        MOD_INFORMATION *mod = modmap[*mod_it];
 
         // pull all of the files from the raws folder and json folder
         std::vector<std::string> mod_jsons, mod_raws;
@@ -890,5 +896,7 @@ bool mod_factory::consolidate_mod_layers(std::vector<std::string > layers)
         // recursive search to pull files from each folder. Assume that they are already ordered in load-priority order
         // ** Use file_finder since it's really easy and reduces redundancy of code **
 
+        // for now assume that the file names are found
+        // load from mod_jsons using
     }
 }

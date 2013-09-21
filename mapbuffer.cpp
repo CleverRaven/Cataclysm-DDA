@@ -302,6 +302,7 @@ void mapbuffer::unserialize(std::ifstream & fin) {
   }
 // Load items and traps and fields and spawn points and vehicles
   std::string string_identifier;
+  std::string s;
   do {
    fin >> string_identifier; // "----" indicates end of this submap
    t = 0;

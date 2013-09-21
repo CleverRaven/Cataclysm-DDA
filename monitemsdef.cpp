@@ -60,7 +60,7 @@ void game::init_monitems()
  setvector(&monitems["mon_wasp"],
 	"wasps",	1, NULL);
 
- setvector(&monitems[mon_eyebot],
+ setvector(&monitems["mon_eyebot"],
            "robots",4, "eyebot", 1,NULL);
 
  setvector(&monitems["mon_manhack"],
