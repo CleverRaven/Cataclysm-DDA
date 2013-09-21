@@ -1079,7 +1079,7 @@ void game::complete_craft()
     }
     if (used_age_count > 0 && newit.goes_bad())
     {
-        const int average_used_age = (used_age_tally / used_age_count) * dynamic_cast<it_comest*>(newit.type)->spoils;
+        const int average_used_age = int((used_age_tally / used_age_count) * dynamic_cast<it_comest*>(newit.type)->spoils);
         newit.bday = newit.bday - average_used_age;
     }
  // for food items
