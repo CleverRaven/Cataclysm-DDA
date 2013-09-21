@@ -1299,16 +1299,16 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
 void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
 {
   if (effects.count("EXPLOSIVE"))
-    g->explosion(x, y, 24, 0, "no_element");
+    g->explosion(x, y, 24, 0, NO_ELEMENT);
 
   if (effects.count("FRAG"))
-    g->explosion(x, y, 12, 28, "no_element");
+    g->explosion(x, y, 12, 28, NO_ELEMENT);
 
   if (effects.count("NAPALM"))
-    g->explosion(x, y, 18, 0, "fire");
+    g->explosion(x, y, 18, 0, HAS_FIRE);
 
   if (effects.count("NAPALM_BIG"))
-    g->explosion(x, y, 72, 0, "fire");
+    g->explosion(x, y, 72, 0, HAS_FIRE);
 
   if (effects.count("ACIDBOMB")) {
     for (int i = x - 1; i <= x + 1; i++) {
@@ -1318,18 +1318,18 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
     }
   }
   if (effects.count("ICEBOMB")) {
-    g->explosion(x, y, 18, 0, "ice");
+    g->explosion(x, y, 18, 0, HAS_FIRE);
   }
 
   if (effects.count("ICEBOMB_BIG")) {
-    g->explosion(x, y, 72, 0, "ice");
+    g->explosion(x, y, 72, 0, HAS_FIRE);
   }
 
   if (effects.count("EXPLOSIVE_BIG"))
-    g->explosion(x, y, 40, 0, "no_element");
+    g->explosion(x, y, 40, 0, NO_ELEMENT);
 
   if (effects.count("EXPLOSIVE_HUGE"))
-    g->explosion(x, y, 80, 0, "no_element");
+    g->explosion(x, y, 80, 0, NO_ELEMENT);
 
   if (effects.count("TEARGAS")) {
     for (int i = -2; i <= 2; i++) {
@@ -1355,7 +1355,7 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
     g->flashbang(x, y);
 
   if (effects.count("FLAME"))
-    g->explosion(x, y, 4, 0, "fire");
+    g->explosion(x, y, 4, 0, HAS_FIRE);
 
   if (effects.count("LIGHTNING")) {
     for (int i = x - 1; i <= x + 1; i++) {

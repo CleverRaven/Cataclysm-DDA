@@ -164,7 +164,7 @@ void game::init_fields()
         },
 
         { // Ice on the floor
-            {_("frosted floor"),	_("icy floor"), _("ice sheet")},		'#',
+            {_("thin ice"),	_("smooth ice"), _("pristine ice")},		'#',
             {c_ltblue, c_cyan, c_blue},	{true, true, true}, {false, false, true},  10,
             {0,0,0}
         },
@@ -276,6 +276,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
     field_id curtype; //Holds cur->getFieldType() as thats what the old system used before rewrite.
 
     bool skipIterIncr = false; // keep track on when not to increment it[erator]
+
+    // For use with temperature related tiles
+    int temperature = g->get_temperature();
 
     //Loop through all tiles in this submap indicated by gridn
     for (int locx = 0; locx < SEEX; locx++) {
@@ -397,7 +400,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 // cook off ammo instead of just burning it.
                                 for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
                                     //Blow up with half the ammos damage in force, for each bullet.
-                                    g->explosion(x, y, ammo_type->damage / 2, true, "no_element");
+                                    g->explosion(x, y, ammo_type->damage / 2, true, NO_ELEMENT);
                                 }
                                 it->charges -= rounds_exploded; //Get rid of the spent ammo.
                                 if(it->charges == 0) {
@@ -508,7 +511,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 ter_set(x, y, ter_id(int(ter(x, y)) + 1));
                                 cur->setFieldAge(0); //Fresh level 3 fire.
                                 cur->setFieldDensity(3);
-                                g->explosion(x, y, 40, 0, "fire"); //Boom.
+                                g->explosion(x, y, 40, 0, HAS_FIRE); //Boom.
 
                             } else if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
@@ -632,7 +635,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                     if (has_flag("EXPLODES", fx, fy) && one_in(8 - cur->getFieldDensity()) &&
                                         tr_brazier != tr_at(x, y) && (has_flag("FIRE_CONTAINER", x, y) != true ) ) {
                                         ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
-                                        g->explosion(fx, fy, 40, 0, "fire"); //Nearby explodables? blow em up.
+                                        g->explosion(fx, fy, 40, 0, HAS_FIRE); //Nearby explodables? blow em up.
                                     } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance && cur->getFieldAge() < 200 &&
                                                tr_brazier != tr_at(x, y) &&
                                                (has_flag("FIRE_CONTAINER", x, y) != true ) &&
@@ -924,8 +927,26 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         break;
 
                     case fd_ice_mist:
-                        spread_gas( this, cur, x, y, curtype, 80, 50 );
+                        spread_gas( this, cur, x, y, curtype, 40, 50 );
                         break;
+
+                    case fd_ice_floor: {
+                        // 200 is max age
+                        if (cur->getFieldAge() <= 200) {
+                            // If the temperature is less than 32, the age increases -- but not too fast
+                            cur->setFieldAge(cur->getFieldAge() + (32 - temperature)/4);
+                        }
+                    }
+                    break;
+
+                    case fd_snow_floor: {
+                        // 200 is max age
+                        if (cur->getFieldAge() <= 200) {
+                            // If the temperature is less than 32, the age increases -- but not too fast
+                            cur->setFieldAge(cur->getFieldAge() + (32 - temperature)/4);
+                        }
+                    }
+                    break;
 
                 } // switch (curtype)
 

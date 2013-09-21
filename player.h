@@ -505,7 +505,7 @@ protected:
     void setID (int i);
 
 private:
-    bool has_fire(const int quantity);
+    bool HAS_FIRE(const int quantity);
     void use_fire(const int quantity);
 
     int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.

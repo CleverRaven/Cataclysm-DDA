@@ -1216,8 +1216,10 @@ int game::get_temperature()
 
 int game::get_temperature(point location)
 {
+    // Fetch temperature due to weather
     int tmp_temperature = temperature;
 
+    // Add temperature due to submap
     tmp_temperature += m.temperature(u.posx, u.posy);
 
     return tmp_temperature;
@@ -5001,7 +5003,7 @@ void game::draw_footsteps()
  return;
 }
 
-void game::explosion(int x, int y, int power, int shrapnel, std::string element)
+void game::explosion(int x, int y, int power, int shrapnel, int element)
 {
  bool has_fire = false;
  bool has_ice  = false;
@@ -5018,7 +5020,7 @@ void game::explosion(int x, int y, int power, int shrapnel, std::string element)
  int radius = int(sqrt(double(power / 4)));
  int dam;
  std::string junk;
- int noise = power * (has_element ? 2 : 10);
+ int noise = power * (element == NO_ELEMENT ? 2 : 10);
 
  if (power >= 30)
   sound(x, y, noise, _("a huge explosion!"));
@@ -5074,10 +5076,10 @@ void game::explosion(int x, int y, int power, int shrapnel, std::string element)
     u.hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
     u.hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
    }
-   if (has_fire) {
+   if (element == HAS_FIRE) {
     m.add_field(this, i, j, fd_fire, dam / 10);
    }
-   if (has_ice) {
+   if (element == HAS_ICE) {
     m.add_field(this, i, j, fd_snow_floor, dam / 10);
     if (one_in(3)) 
      m.add_field(this, i, j, fd_ice_floor, dam / 10);
@@ -5088,9 +5090,9 @@ void game::explosion(int x, int y, int power, int shrapnel, std::string element)
  }
 
 // Draw the explosion
- if (has_fire)
+ if (element == HAS_FIRE)
   draw_explosion(x, y, radius, c_red);
- if (has_ice)
+ if (element == HAS_ICE)
   draw_explosion(x, y, radius, c_blue);
 
 // The rest of the function is shrapnel
@@ -5636,8 +5638,8 @@ void game::resonance_cascade(int x, int y)
     m.destroy(this, i, j, true);
     break;
    case 19:
-    std::string element = "no_element";
-    if (one_in(4)) element = "fire";
+    int element = NO_ELEMENT;
+    if (one_in(4)) element = HAS_FIRE;
     explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), element);
     break;
    }

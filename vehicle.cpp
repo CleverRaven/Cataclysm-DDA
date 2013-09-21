@@ -1953,7 +1953,7 @@ void vehicle::handle_trap (int x, int y, int part)
     if (wreckit && chance >= rng (1, 100))
         damage (part, 500);
     if (expl > 0)
-        g->explosion(x, y, expl, shrap, "no_element");
+        g->explosion(x, y, expl, shrap, NO_ELEMENT);
 }
 
 // total volume of all the things
@@ -2303,10 +2303,10 @@ int vehicle::damage_direct (int p, int dmg, int type)
                     (one_in (ft == "gasoline" ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
                 {
                     std::string element = "junk";
-                    if (ft == "gasoline") element = "fire";
+                    if (ft == "gasoline") element = HAS_FIRE;
                     g->u.add_memorial_log(_("The fuel tank of the %s exploded!"), name.c_str());
                     g->explosion (global_x() + parts[p].precalc_dx[0], global_y() + parts[p].precalc_dy[0],
-                                pow, 0, "fire");
+                                pow, 0, HAS_FIRE);
                     parts[p].hp = 0;
                 }
             }

@@ -408,7 +408,7 @@ void trapfunc::landmine(game *g, int x, int y)
 {
  g->add_msg(_("You trigger a land mine!"));
  g->u.add_memorial_log(_("Stepped on a lane mine."));
- g->explosion(x, y, 10, 8, "no_element");
+ g->explosion(x, y, 10, 8, NO_ELEMENT);
  g->m.remove_trap(x, y);
 }
 
@@ -420,7 +420,7 @@ void trapfuncm::landmine(game *g, monster *z, int x, int y)
 
  if (g->u_see(x, y))
   g->add_msg(_("The %s steps on a land mine!"), z->name().c_str());
- g->explosion(x, y, 10, 8, "no_element");
+ g->explosion(x, y, 10, 8, NO_ELEMENT);
  g->m.remove_trap(x, y);
 }
 
@@ -428,7 +428,7 @@ void trapfunc::boobytrap(game *g, int x, int y)
 {
  g->add_msg(_("You trigger a booby trap!"));
  g->u.add_memorial_log(_("Triggered a booby trap."));
- g->explosion(x, y, 18, 12, "no_element");
+ g->explosion(x, y, 18, 12, NO_ELEMENT);
  g->m.remove_trap(x, y);
 }
 
@@ -436,7 +436,7 @@ void trapfuncm::boobytrap(game *g, monster *z, int x, int y)
 {
  if (g->u_see(x, y))
   g->add_msg(_("The %s triggers a booby trap!"), z->name().c_str());
- g->explosion(x, y, 18, 12, "no_element");
+ g->explosion(x, y, 18, 12, NO_ELEMENT);
  g->m.remove_trap(x, y);
 }
 
