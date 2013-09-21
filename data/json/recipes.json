@@ -60,9 +60,39 @@
       [ "battery", 200 ]
     ]
   ]
-},
-
-    {
+},{
+        "type" : "recipe",
+  "result": "pda",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "small_lcd_screen", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 2 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "battery", 100 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "binoculars",
   "id_suffix": "uncraft",
@@ -88,9 +118,7 @@
       [ "scrap", 1 ]
     ]
   ]
-},
-
-    {
+},{
         "type" : "recipe",
   "result": "wristwatch",
   "id_suffix": "uncraft",
@@ -154,7 +182,7 @@
       ["battery", 20]
     ]
   ]
-}{
+},{
         "type" : "recipe",
   "result": "fan",
   "id_suffix": "uncraft",
