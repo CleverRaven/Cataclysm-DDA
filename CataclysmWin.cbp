@@ -300,7 +300,6 @@
 		</Unit>
 		<Unit filename="rng.cpp" />
 		<Unit filename="rng.h" />
-		<Unit filename="sdlcurse.cpp" />
 		<Unit filename="sdltiles.cpp" />
 		<Unit filename="settlement.cpp" />
 		<Unit filename="settlement.h" />
