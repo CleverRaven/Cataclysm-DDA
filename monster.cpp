@@ -377,6 +377,17 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
             plans.push_back(ptmp);
         }
     }
+
+    picojson::object::const_iterator pinv_it = data.find("inv");
+    if ( pinv_it != data.end() ) {
+        picojson::array pinv = pinv_it->second.get<picojson::array>();
+        inv.clear();
+        for( picojson::array::iterator pit = pinv.begin(); pit != pinv.end(); ++pit) {
+            if ( (*pit).is<picojson::object>() ) {
+                inv.push_back( item( *pit, g ) );
+            }
+        }
+    }
     return true;
 }
 
@@ -437,7 +448,7 @@ picojson::value monster::json_save(bool save_contents)
  */
 std::string monster::save_info()
 {
-    return json_save().serialize();
+    return json_save(true).serialize();
 }
 
 void monster::debug(player &u)
