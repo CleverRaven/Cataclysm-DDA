@@ -4133,8 +4133,9 @@ void player::add_disease(dis_type type, int duration,
 void player::rem_disease(dis_type type, body_part part, int side)
 {
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type && illness[i].bp == part &&
-            illness[i].side == side) {
+        if (illness[i].type == type &&
+            ( part == num_bp || illness[i].bp == part ) &&
+            ( side == -1 || illness[i].side == side ) ) {
             illness.erase(illness.begin() + i);
             if(!is_npc()) {
                 dis_remove_memorial(g, type);
@@ -4148,8 +4149,9 @@ void player::rem_disease(dis_type type, body_part part, int side)
 bool player::has_disease(dis_type type, body_part part, int side) const
 {
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type && illness[i].bp == part &&
-            illness[i].side == side) {
+        if (illness[i].type == type && 
+            ( part == num_bp || illness[i].bp == part ) &&
+            ( side == -1 || illness[i].side == side ) ) {
             return true;
         }
     }
