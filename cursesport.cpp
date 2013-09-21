@@ -325,7 +325,7 @@ inline int printstring(WINDOW *win, char *fmt)
 			const char* ts = win->line[win->cursory].chars+p;
 			int len = ANY_LENGTH;
 			unsigned tc = UTF8_getch(&ts, &len);
-			int tw = mk_wcwidth((wchar_t)tc);
+			int tw = mk_wcwidth(tc);
 			erease_utf8_by_cw(win->line[win->cursory].chars+p, tw, tw, win->width*4-p-1);
 			x = p+tw-1;
 		}
@@ -334,7 +334,7 @@ inline int printstring(WINDOW *win, char *fmt)
 				const char* utf8str = fmt+j;
 				int len = ANY_LENGTH;
 				unsigned ch = UTF8_getch(&utf8str, &len);
-				int cw = mk_wcwidth((wchar_t)ch);
+				int cw = mk_wcwidth(ch);
 				len = ANY_LENGTH-len;
 				if(cw<1) cw = 1;
 				if(len<1) len = 1;
@@ -642,7 +642,7 @@ int waddch(WINDOW *win, const chtype ch)
 		const char* ts = win->line[cury].chars+p;
 		int len = ANY_LENGTH;
 		unsigned tc = UTF8_getch(&ts, &len);
-		int tw = mk_wcwidth((wchar_t)tc);
+		int tw = mk_wcwidth(tc);
 		win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars+p, tw, tw, win->width*4-p-1);
 		curx = p+tw-1;
 	}

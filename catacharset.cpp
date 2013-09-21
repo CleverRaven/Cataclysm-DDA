@@ -133,7 +133,7 @@ int utf8_width(const char* s)
     {
         unsigned ch = UTF8_getch(&ptr, &len);
         if(ch!=UNKNOWN_UNICODE) {
-            w += mk_wcwidth((wchar_t)ch);
+            w += mk_wcwidth(ch);
         } else {
             continue;
         }
@@ -156,7 +156,7 @@ int cursorx_to_position(const char* line, int cursorx, int* prevpos)
 		const char* utf8str = line+i;
 		int len = ANY_LENGTH;
 		unsigned ch = UTF8_getch(&utf8str, &len);
-		int cw = mk_wcwidth((wchar_t)ch);
+		int cw = mk_wcwidth(ch);
 		len = ANY_LENGTH-len;
         if(len<=0) len=1;
 		i+=len;
@@ -179,7 +179,7 @@ int erease_utf8_by_cw( char* t, int cw, int clen, int maxlen)
 		const char* utf8str = t+i;
 		int len = ANY_LENGTH;
 		unsigned ch = UTF8_getch(&utf8str, &len);
-		int cw = mk_wcwidth((wchar_t)ch);
+		int cw = mk_wcwidth(ch);
 		len = ANY_LENGTH-len;
         if(len<=0) len=1;
 		i+=len;
@@ -218,7 +218,7 @@ std::string utf8_substr(std::string s, int start, int size)
 		const char* ts = buf+pos;
 		int l = ANY_LENGTH;
 		unsigned tc = UTF8_getch(&ts, &l);
-		int tw = mk_wcwidth((wchar_t)tc);
+		int tw = mk_wcwidth(tc);
 		erease_utf8_by_cw(buf+pos, tw, tw, len-pos-1);
     }
 
@@ -230,7 +230,7 @@ std::string utf8_substr(std::string s, int start, int size)
             const char* ts = buf+pos;
             int l = ANY_LENGTH;
             unsigned tc = UTF8_getch(&ts, &l);
-            int tw = mk_wcwidth((wchar_t)tc);
+            int tw = mk_wcwidth(tc);
             erease_utf8_by_cw(buf+pos, tw, tw, len-pos-1);
             end = pos+tw-1;
         }
