@@ -4,10 +4,6 @@
 #include "color.h"
 #include "itype.h"
 
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
-
 /* Flag info:
  * INTERNAL - Can be mounted inside other parts
  * ANCHOR_POINT - Allows secure seatbelt attachment
