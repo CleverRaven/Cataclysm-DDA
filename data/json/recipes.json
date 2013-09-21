@@ -294,6 +294,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "ref_lighter",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "pilot_light", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "tshirt",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
