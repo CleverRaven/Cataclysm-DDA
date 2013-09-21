@@ -1166,6 +1166,7 @@ int editmap::edit_veh(point coords)
     int veh_part = -1;
     vehicle *it = g->m.veh_at(target.x, target.y, veh_part);
     edit_json(it,g);
+    return ret;
 }
 
 
