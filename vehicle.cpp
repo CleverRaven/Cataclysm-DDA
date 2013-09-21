@@ -14,6 +14,7 @@ enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
  toggle_turrets,
+ activate_horn,
  release_control,
  control_cancel,
  convert_vehicle
@@ -63,6 +64,22 @@ void vehicle::load (std::ifstream &stin)
     int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
     std::string vehicle_tag;
     getline(stin, type);
+
+    if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
+        std::stringstream derp;
+        derp << type;
+        picojson::value pdata;
+        derp >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, g);
+        }
+        return;
+    }
+/////// everything below is for OLD saves
     stin >>
         posx >>
         posy >>
@@ -137,51 +154,9 @@ void vehicle::load (std::ifstream &stin)
 
 void vehicle::save (std::ofstream &stout)
 {
-    stout << type << std::endl;
-    stout <<
-        posx << " " <<
-        posy << " " <<
-        face.dir() << " " <<
-        move.dir() << " " <<
-        turn_dir << " " <<
-        velocity << " " <<
-        cruise_velocity << " " <<
-        (cruise_on? 1 : 0) << " " <<
-        (lights_on? 1 : 0) << " " <<
-        turret_mode << " " <<
-        (skidding? 1 : 0) << " " <<
-        of_turn_carry << " " <<
-        parts.size() << std::endl;
-    stout << name << std::endl;
-
-    for (int p = 0; p < parts.size(); p++)
-    {
-        stout <<
-            parts[p].id << " " <<
-            parts[p].mount_dx << " " <<
-            parts[p].mount_dy << " " <<
-            parts[p].hp << " " <<
-            parts[p].amount << " " <<
-            parts[p].blood << " " <<
-            parts[p].bigness << " " <<
-            parts[p].flags << " " <<
-            parts[p].passenger_id << " " <<
-            parts[p].items.size() << std::endl;
-            for (int i = 0; i < parts[p].items.size(); i++)
-            {
-                stout << parts[p].items[i].save_info() << std::endl;     // item info
-                stout << parts[p].items[i].contents.size() << std::endl; // how many items inside this item
-                for (int l = 0; l < parts[p].items[i].contents.size(); l++)
-                    stout << parts[p].items[i].contents[l].save_info() << std::endl; // contents info
-            }
-    }
-
-    stout << tags.size() << ' ';
-    for( std::set<std::string>::const_iterator it = tags.begin(); it != tags.end(); ++it )
-    {
-        stout << *it << " ";
-    }
+    stout << json_save(true).serialize();
     stout << std::endl;
+    return;
 }
 
 void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
@@ -231,7 +206,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
-            parts[p].open = 0;
+            parts[p].open = one_in(4);
         }
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
@@ -299,6 +274,7 @@ void vehicle::use_controls()
  curent++;
 
  bool has_lights = false;
+ bool has_horn = false;
  bool has_turrets = false;
  for (int p = 0; p < parts.size(); p++) {
   if (part_flag(p, "LIGHT")) {
@@ -307,12 +283,23 @@ void vehicle::use_controls()
   else if (part_flag(p, "TURRET")) {
    has_turrets = true;
   }
+  else if (part_flag(p, "HORN")) {
+   has_horn = true;
+   }
  }
+
 
  // Lights if they are there - Note you can turn them on even when damaged, they just don't work
  if (has_lights) {
   options_choice.push_back(toggle_lights);
   options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") : _("Turn on headlights"), 'h'));
+  curent++;
+ }
+
+ //Honk the horn!
+ if (has_horn) {
+  options_choice.push_back(activate_horn);
+  options_message.push_back(uimenu_entry("Honk horn", 'o'));
   curent++;
  }
 
@@ -361,6 +348,10 @@ void vehicle::use_controls()
    lights_on = !lights_on;
    g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
    break;
+  case activate_horn:
+   g->add_msg(_("You honk the horn!"));
+   honk_horn();
+   break;
   case toggle_turrets:
    if (++turret_mode > 1)
     turret_mode = 0;
@@ -402,6 +393,34 @@ void vehicle::use_controls()
   case control_cancel:
    break;
  }
+}
+
+void vehicle::honk_horn()
+{
+    std::vector<vehicle_part *> horns;
+    std::vector<vpart_info *> horn_types;
+    for( int p = 0; p < parts.size(); p++ ) {
+        if( part_flag( p,"HORN" ) ) {
+            horn_types.push_back( &part_info(p) );
+            horns.push_back( &parts[p] );
+        }
+    }
+    for(int h = 0; h < horns.size(); h++) {
+        //Get global position of horn
+        int horn_x = horns[h]->mount_dx;
+        int horn_y = horns[h]->mount_dy;
+        coord_translate( horn_x, horn_y, horn_x, horn_y );
+        horn_x += global_x();
+        horn_y += global_y();
+        //Determine sound
+        if( horn_types[h]->bonus >= 40 ){
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("HOOOOORNK!") );
+        } else if( horn_types[h]->bonus >= 20 ){
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("BEEEP!") );
+        } else{
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("honk.") );
+        }
+    }
 }
 
 vpart_info& vehicle::part_info (int index)

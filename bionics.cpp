@@ -530,9 +530,9 @@ bool player::install_bionics(game *g, it_bionic* type)
    }
  }
 
- practice(g->turn, "electronics", (100 - chance_of_success) * 1.5);
- practice(g->turn, "firstaid", (100 - chance_of_success) * 1.0);
- practice(g->turn, "mechanics", (100 - chance_of_success) * 0.5);
+ practice(g->turn, "electronics", int((100 - chance_of_success) * 1.5));
+ practice(g->turn, "firstaid", int((100 - chance_of_success) * 1.0));
+ practice(g->turn, "mechanics", int((100 - chance_of_success) * 0.5));
  int success = chance_of_success - rng(1, 100);
  if (success > 0) {
      g->u.add_memorial_log(_("Installed bionic: %s."), bionics[type->id]->name.c_str());
@@ -572,7 +572,7 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
  // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
  // difficulties), only minor consequences occur.  At low skill levels, severe consequences
  // are more likely.
- int failure_level = sqrt(success * 4.0 * type->difficulty / float (adjusted_skill));
+ int failure_level = int(sqrt(success * 4.0 * type->difficulty / float (adjusted_skill)));
  int fail_type = (failure_level > 5 ? 5 : failure_level);
 
  if (fail_type <= 0) {

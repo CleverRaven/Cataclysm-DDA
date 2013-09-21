@@ -1365,8 +1365,9 @@ int disease_speed_boost(disease dis)
  case DI_GRACK:         return +20000;
  case DI_METH:		return (dis.duration > 600 ? 50 : -40);
  case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
- default:		return 0;
+ default:;
  }
+ return 0;
 }
 
 std::string dis_name(game* g, disease& dis)
@@ -1617,8 +1618,9 @@ std::string dis_name(game* g, disease& dis)
         } else
           return "Invalid martial arts buff";
 
-    default: return "";
+    default:;
     }
+    return "";
 }
 
 std::string dis_description(game* g,disease& dis)
@@ -2042,8 +2044,9 @@ condition, and deals massive damage.");
         else
           return "This is probably a bug.";
 
-    default: return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
+    default:;
     }
+    return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
 }
 
 void manage_fire_exposure(player &p, int fireStrength) {
@@ -2289,10 +2292,10 @@ void handle_deliriant(game* g, player& p, disease& dis) {
     // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
     static bool puked = false;
     int maxDuration = 3600;
-    int comeupTime = maxDuration*0.9;
-    int noticeTime = comeupTime + (maxDuration-comeupTime)/2;
-    int peakTime = maxDuration*0.8;
-    int comedownTime = maxDuration*0.3;
+    int comeupTime = int(maxDuration*0.9);
+    int noticeTime = int(comeupTime + (maxDuration-comeupTime)/2);
+    int peakTime = int(maxDuration*0.8);
+    int comedownTime = int(maxDuration*0.3);
     // Baseline
     if (dis.duration == noticeTime) {
         g->add_msg_if_player(&p,_("You feel a little strange."));

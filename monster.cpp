@@ -104,17 +104,17 @@ monster::~monster()
 {
 }
 
-bool monster::setpos(const int x, const int y)
+bool monster::setpos(const int x, const int y, const bool level_change)
 {
-    bool ret = g->update_zombie_pos(*this, x, y);
+    bool ret = level_change ? true : g->update_zombie_pos(*this, x, y);
     _posx = x;
     _posy = y;
     return ret;
 }
 
-bool monster::setpos(const point &p)
+bool monster::setpos(const point &p, const bool level_change)
 {
-    return setpos(p.x, p.y);
+    return setpos(p.x, p.y, level_change);
 }
 
 void monster::poly(mtype *t)
@@ -380,10 +380,15 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
     return true;
 }
 
+void monster::json_load(picojson::value parsed, game * g) {
+    std::vector <mtype *> *mt=&(g->mtypes);
+    json_load(parsed, mt);
+}
+
 /*
  * Save, json ed; serialization that won't break as easily. In theory.
  */
-picojson::value monster::json_save()
+picojson::value monster::json_save(bool save_contents)
 {
     std::map<std::string, picojson::value> data;
     data["typeid"] = pv(int(type->id));
@@ -413,6 +418,14 @@ picojson::value monster::json_save()
             pvplans.push_back( pv ( pvpoint ) );
         }
         data["plans"] = pv( pvplans );
+    }
+
+    if ( save_contents ) {
+        std::vector<picojson::value> pinv;
+        for(int i=0;i<inv.size();i++) {
+            pinv.push_back( pv( inv[i].json_save(true)  ) );
+        }
+        data["inv"] = pv(pinv);
     }
 
     return picojson::value(data);

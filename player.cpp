@@ -23,6 +23,7 @@
 #include "catajson.h"
 #include "disease.h"
 #include "get_version.h"
+#include "crafting.h"
 
 #include <ctime>
 
@@ -304,7 +305,12 @@ void player::normalize(game *g)
 }
 
 void player::pick_name() {
-  name = Name::generate(male);
+    name = Name::generate(male);
+    if (OPTIONS["ALLITERATE_NAME"]) {
+        while (name[0] != name[name.find(" ")+1]) {
+            name = Name::generate(male);
+        } 
+    }
 }
 
 void player::reset(game *g)
@@ -1279,6 +1285,24 @@ void player::load_info(game *g, std::string data)
 {
  std::stringstream dump;
  dump << data;
+
+char check=dump.peek();
+if ( check == ' ' ) {
+  // sigh..
+  check=data[1];
+}
+if ( check == '{' ) {
+        picojson::value pdata;
+        dump >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad npc json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, g);
+        }
+        return;
+}
+/////////////////// everything below is for OLD saves. update json_load in gamesave_json.cpp
  int inveh, vctrl;
  matype_id styletmp;
  std::string prof_ident;
@@ -1342,7 +1366,7 @@ void player::load_info(game *g, std::string data)
  for (int i = 0; i < num_recipes; ++i)
  {
   dump >> rec_name;
-  learned_recipes[rec_name] = g->recipe_by_name(rec_name);
+  learned_recipes[rec_name] = recipe_by_name(rec_name);
  }
 
  int numstyles;
@@ -1425,117 +1449,13 @@ void player::load_info(game *g, std::string data)
 
  recalc_sight_limits();
 }
-
 std::string player::save_info()
 {
- std::stringstream dump;
- dump << posx    << " " << posy    << " " << str_cur << " " << str_max << " " <<
-         dex_cur << " " << dex_max << " " << int_cur << " " << int_max << " " <<
-         per_cur << " " << per_max << " " << power_level << " " <<
-         max_power_level << " " << hunger << " " << thirst << " " << fatigue <<
-         " " << stim << " " << pain << " " << pkill << " " << radiation <<
-         " " << cash << " " << recoil << " " << driving_recoil << " " <<
-         (in_vehicle? 1 : 0) << " " << (controlling_vehicle? 1 : 0) << " " <<
-         grab_point.x << " " << grab_point.y << " " <<
-         scent << " " << moves << " " << underwater << " " << dodges_left <<
-         " " << blocks_left << " " << oxygen << " " << active_mission << " " <<
-         focus_pool << " " << male << " " << prof->ident() << " " << health <<
-         " " << style_selected << " " << activity.save_info() << " " <<
-         backlog.save_info() << " ";
-
- for (std::set<std::string>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
-    dump << *iter << " ";
- }
-
- dump << "TRAITS_END" << " ";
-
- for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-    dump << *iter << " ";
- }
-
- dump << "MUTATIONS_END" << " ";
-
- for (int i = 0; i < num_hp_parts; i++)
-  dump << hp_cur[i] << " " << hp_max[i] << " ";
- for (int i = 0; i < num_bp; i++)
-  dump << temp_cur[i] << " " << temp_conv[i] << " " << frostbite_timer[i] << " ";
-
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-   SkillLevel level = skillLevel(*aSkill);
-   dump << level;
- }
-
- dump << learned_recipes.size() << " ";
- for (std::map<std::string, recipe*>::iterator iter = learned_recipes.begin();
-      iter != learned_recipes.end();
-      ++iter)
- {
-  dump << iter->first << " ";
- }
-
- dump << ma_styles.size() << " ";
- for (int i = 0; i < ma_styles.size(); i++)
-  dump << ma_styles[i] << " ";
-
- dump << illness.size() << " ";
- for (int i = 0; i < illness.size();  i++)
-     dump << illness[i].type << " " << illness[i].duration << " "
-          << illness[i].intensity << " " << illness[i].bp << " "
-          << illness[i].side << " " ;
-
- dump << addictions.size() << " ";
- for (int i = 0; i < addictions.size(); i++)
-  dump << int(addictions[i].type) << " " << addictions[i].intensity << " " <<
-          addictions[i].sated << " ";
-
- dump << my_bionics.size() << " ";
- for (int i = 0; i < my_bionics.size(); i++)
-  dump << my_bionics[i].id << " " << my_bionics[i].invlet << " " <<
-          my_bionics[i].powered << " " << my_bionics[i].charge << " ";
-
- dump << morale.size() << " ";
- for (int i = 0; i < morale.size(); i++) {
-  // Output morale properties in structure order.
-  dump << morale[i].type << " ";
-  if (morale[i].item_type == NULL)
-   dump << "0";
-  else
-   dump << morale[i].item_type->id;
-  dump << " " << morale[i].bonus << " " << morale[i].duration << " "
-       << morale[i].decay_start << " " << morale[i].age << " ";
- }
-
- dump << " " << active_missions.size() << " ";
- for (int i = 0; i < active_missions.size(); i++)
-  dump << active_missions[i] << " ";
-
- dump << " " << completed_missions.size() << " ";
- for (int i = 0; i < completed_missions.size(); i++)
-  dump << completed_missions[i] << " ";
-
- dump << " " << failed_missions.size() << " ";
- for (int i = 0; i < failed_missions.size(); i++)
-  dump << failed_missions[i] << " ";
-
- dump << player_stats.squares_walked << " ";
-
- dump << std::endl;
-
- dump << dump_memorial();
-
- dump << inv.save_str_no_quant();
-
- for (int i = 0; i < worn.size(); i++) {
-  dump << "W " << worn[i].save_info() << std::endl;
-  for (int j = 0; j < worn[i].contents.size(); j++)
-   dump << "S " << worn[i].contents[j].save_info() << std::endl;
- }
- if (!weapon.is_null())
-  dump << "w " << weapon.save_info() << std::endl;
- for (int j = 0; j < weapon.contents.size(); j++)
-  dump << "c " << weapon.contents[j].save_info() << std::endl;
-
- return dump.str();
+    std::stringstream dump;
+    dump << json_save(true).serialize();
+    dump << std::endl;
+    dump << dump_memorial();
+    return dump.str();
 }
 
 void player::memorial( std::ofstream &memorial_file )
@@ -3190,8 +3110,8 @@ bool player::has_base_trait(const std::string &flag) const
 
 bool player::has_conflicting_trait(const std::string &flag) const
 {
-    if(g->mutation_data[flag].cancels.size() > 0) {
-        std::vector<std::string> cancels = g->mutation_data[flag].cancels;
+    if(mutation_data[flag].cancels.size() > 0) {
+        std::vector<std::string> cancels = mutation_data[flag].cancels;
 
         for (int i = 0; i < cancels.size(); i++) {
             if ( has_trait(cancels[i]) )
@@ -3228,12 +3148,12 @@ void player::toggle_mutation(const std::string &flag)
 void player::set_cat_level_rec(const std::string &sMut)
 {
     if (!has_base_trait(sMut)) { //Skip base traits
-        for (int i = 0; i < g->mutation_data[sMut].category.size(); i++) {
-            mutation_category_level[g->mutation_data[sMut].category[i]] += 8;
+        for (int i = 0; i < mutation_data[sMut].category.size(); i++) {
+            mutation_category_level[mutation_data[sMut].category[i]] += 8;
         }
 
-        for (int i = 0; i < g->mutation_data[sMut].prereqs.size(); i++) {
-            set_cat_level_rec(g->mutation_data[sMut].prereqs[i]);
+        for (int i = 0; i < mutation_data[sMut].prereqs.size(); i++) {
+            set_cat_level_rec(mutation_data[sMut].prereqs[i]);
         }
     }
 }
@@ -3276,8 +3196,8 @@ std::string player::get_category_dream(const std::string &cat, int strength) con
 
     int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
     selected_dream = valid_dreams[index];
-    index = rng(0, selected_dream.message.size() - 1); // Randomly selected a message from the chosen dream
-    message = selected_dream.message[index];
+    index = rng(0, selected_dream.messages.size() - 1); // Randomly selected a message from the chosen dream
+    message = selected_dream.messages[index];
     return message;
 }
 
@@ -4231,8 +4151,9 @@ void player::add_disease(dis_type type, int duration,
 void player::rem_disease(dis_type type, body_part part, int side)
 {
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type && illness[i].bp == part &&
-            illness[i].side == side) {
+        if (illness[i].type == type &&
+            ( part == num_bp || illness[i].bp == part ) &&
+            ( side == -1 || illness[i].side == side ) ) {
             illness.erase(illness.begin() + i);
             if(!is_npc()) {
                 dis_remove_memorial(g, type);
@@ -4246,8 +4167,9 @@ void player::rem_disease(dis_type type, body_part part, int side)
 bool player::has_disease(dis_type type, body_part part, int side) const
 {
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type && illness[i].bp == part &&
-            illness[i].side == side) {
+        if (illness[i].type == type && 
+            ( part == num_bp || illness[i].bp == part ) &&
+            ( side == -1 || illness[i].side == side ) ) {
             return true;
         }
     }
@@ -5036,11 +4958,11 @@ void player::drench_mut_calc()
         good = 0;
 
         for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-            for (int i = 0; i < g->mutation_data[*iter].protection.size(); i++) {
-                if (g->mutation_data[*iter].protection[i].first == it->first) {
-                    ignored += g->mutation_data[*iter].protection[i].second.x;
-                    neutral += g->mutation_data[*iter].protection[i].second.y;
-                    good += g->mutation_data[*iter].protection[i].second.z;
+            for (int i = 0; i < mutation_data[*iter].protection.size(); i++) {
+                if (mutation_data[*iter].protection[i].first == it->first) {
+                    ignored += mutation_data[*iter].protection[i].second.x;
+                    neutral += mutation_data[*iter].protection[i].second.y;
+                    good += mutation_data[*iter].protection[i].second.z;
                 }
             }
         }
@@ -7406,7 +7328,7 @@ hint_rating player::rate_action_unload(item *it) {
 
 //TODO refactor stuff so we don't need to have this code mirroring game::disassemble
 hint_rating player::rate_action_disassemble(item *it, game *g) {
- for (recipe_map::iterator cat_iter = g->recipes.begin(); cat_iter != g->recipes.end(); ++cat_iter)
+ for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
     {
         for (recipe_list::iterator list_iter = cat_iter->second.begin();
              list_iter != cat_iter->second.end();

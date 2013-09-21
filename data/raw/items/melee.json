@@ -53,7 +53,7 @@
     "price": 20,
     "material": ["leather", "flesh"],
     "weight": 100,
-    "volume": 2,
+    "volume": 1,
     "bashing": -2,
     "cutting": 0,
     "to_hit": -1
@@ -2121,7 +2121,7 @@
     "name": "rock in a sock",
     "description": "A sock with a rock tied into the end of it. A true weapon of desperation.",
     "price": 10,
-    "material" : ["cloth", "stone"],
+    "material" : ["cotton", "stone"],
     "weight": 1007,
     "volume": 2,
     "bashing": 16,

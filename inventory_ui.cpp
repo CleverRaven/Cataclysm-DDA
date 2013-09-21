@@ -13,7 +13,7 @@
 std::string CATEGORIES[iCategorieNum] =
  {_("GROUND:"), _("FIREARMS:"), _("AMMUNITION:"), _("CLOTHING:"),
   _("FOOD/DRINKS:"), _("TOOLS:"), _("BOOKS:"), _("WEAPONS:"),
-  _("MODS/BIONICS"), _("MEDICINE/DRUGS"), _("OTHER:")};
+  _("MODS/BIONICS:"), _("MEDICINE/DRUGS:"), _("OTHER:")};
 
 //TODO: make this function not have issues with items that are classed as multiple things
 std::vector<int> find_firsts(invslice &slice)

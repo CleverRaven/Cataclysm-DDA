@@ -34,15 +34,114 @@
 #define maplim 132
 #define inbounds(x, y) (x >= 0 && x < maplim && y >= 0 && y < maplim)
 #define pinbounds(p) ( p.x >= 0 && p.x < maplim && p.y >= 0 && p.y < maplim)
-/*
-// pending merge of absolute <=> local coordinate conversion functions
-#define has_real_coords 1
-*/
 
-/*
-// pending merge of item.light PR
-#define item_luminance 1
-*/
+#include "picofunc.h"
+
+std::vector<std::string> fld_string ( std::string str, int width ) {
+    std::vector<std::string> lines;
+    if ( width < 1 ) {
+        lines.push_back( str );
+        return lines;
+    }
+
+    int linepos = width;
+    int linestart = 0;
+    int crpos = -2;
+    while( linepos < str.length() || crpos != -1 ) {
+        crpos = str.find('\n', linestart);
+        if (crpos != -1 && crpos <= linepos) {
+            lines.push_back( str.substr( linestart, crpos-linestart ) );
+            linepos = crpos + width + 1;
+            linestart = crpos + 1;
+        } else {
+            int spacepos = str.rfind(' ', linepos);
+            if ( spacepos == -1 ) spacepos = str.find(' ', linepos);
+            if ( spacepos < linestart ) {
+                spacepos = linestart + width;
+                if( spacepos < str.length() ) {
+                    lines.push_back( str.substr( linestart, width ) );
+                    linepos = spacepos + width;
+                    linestart = spacepos;
+                }
+            } else {
+                lines.push_back( str.substr( linestart, spacepos-linestart ) );
+                linepos = spacepos + width + 1;
+                linestart = spacepos + 1;
+            }
+        }
+    }
+    lines.push_back( str.substr( linestart ) );
+    return lines;
+};
+
+
+template<class SAVEOBJ>
+void edit_json( SAVEOBJ *it, game * g )
+{
+
+    int tmret = -1;
+    picojson::value js1=it->json_save(true);
+    std::string save1 = js1.serialize();
+    std::string osave1=save1;
+    std::vector<std::string> fs1 = fld_string(save1, TERMX-10);
+    std::string save2;
+    std::vector<std::string> fs2;
+    do {
+        uimenu tm;
+
+        for(int s = 0; s < fs1.size(); s++) {
+            tm.addentry(-1, true, -2, "%s", fs1[s].c_str() );
+        }
+        if(tmret == 0) {
+            std::stringstream dump;
+            dump << save1;
+            dump >> js1;
+
+            it->json_load(js1, g);
+            picojson::value s2=it->json_save(true);
+            save2 = s2.serialize();
+            fs2 = fld_string(save2, TERMX-10);
+
+            tm.addentry(-1, true, -2, "== Reloaded: =====================" );
+            for(int s = 0; s < fs2.size(); s++) {
+                tm.addentry(-1, true, -2, "%s", fs2[s].c_str() );
+                if ( s < fs1.size() && fs2[s] != fs1[s] ) {
+                    tm.entries[ tm.entries.size()-1 ].text_color = c_ltgreen;
+                    tm.entries[s].text_color = c_ltred;
+                }
+            }
+            fs2.clear();
+        } else if (tmret == 1) {
+            std::string ret = string_input_popup("test", 50240, save1,"", "jsonedit");
+            if ( ret.size() > 0 ) {
+                fs1 = fld_string(save1, TERMX-10);
+                save1 = ret;
+                tmret=-2;
+            }
+        } else if ( tmret == 2 ) {
+            std::ofstream fout;
+            fout.open("save/jtest-1j.txt");
+            fout << osave1;
+            fout.close();
+
+            fout.open("save/jtest-2j.txt");
+            fout << it->json_save(true).serialize();
+            fout.close();
+        } 
+        tm.addentry(0,true,'r',"rehash");
+        tm.addentry(1,true,'e',"edit");
+        tm.addentry(2,true,'d',"dump to save/jtest-*.txt");
+        tm.addentry(3,true,'q',"exit");
+        if ( tmret != -2 ) {
+           tm.query();
+           tmret = tm.ret;
+        } else {
+           tmret = 0;
+        }
+
+    } while(tmret != 3);
+
+}
 
 /*
  * map position to screen position
@@ -170,8 +269,19 @@ point editmap::edit(point coords)
             lastop = 't';
         } else if ( ch == 'v' ) {
             uberdraw = !uberdraw;
+        } else if ( ch == 'm' ) {
+            int mon_index = g->mon_at(target.x, target.y);
+            int npc_index = g->npc_at(target.x, target.y);
+            int veh_part = -1;
+            vehicle *veh = g->m.veh_at(target.x, target.y, veh_part);
+          if(mon_index >= 0) {
+            edit_mon(target);
+          } else if (npc_index >= 0) {
+            edit_npc(target);
+          } else if (veh) {
+            edit_veh(target);
+          }
         } else if ( ch == 'o' ) {
-            apply_mapgen( target );
             lastop = 'o';
             target_list.clear();
             origin = target;
@@ -922,6 +1032,7 @@ int editmap::edit_trp(point coords)
 enum editmap_imenu_ent {
     imenu_bday, imenu_damage, imenu_burnt,
     imenu_sep, imenu_luminance, imenu_direction, imenu_width,
+    imenu_savetest,
     imenu_exit,
 };
 
@@ -939,6 +1050,8 @@ int editmap::edit_itm(point coords)
         ilmenu.addentry(i, true, 0, "%s%s", items[i].tname(g).c_str(), items[i].light.luminance > 0 ? " L" : "" );
     }
     // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
+    ilmenu.addentry(-5, true, 'a', "Add item");
+
     ilmenu.addentry(-10, true, 'q', "Cancel");
     do {
         ilmenu.query();
@@ -956,11 +1069,12 @@ int editmap::edit_itm(point coords)
             imenu.addentry(imenu_luminance, true, -1, "lum: %f", (float)it->light.luminance);
             imenu.addentry(imenu_direction, true, -1, "dir: %d", (int)it->light.direction);
             imenu.addentry(imenu_width, true, -1, "width: %d", (int)it->light.width);
-
+            imenu.addentry(imenu_savetest,true,-1,"savetest");
             imenu.addentry(imenu_exit, true, -1, "exit");
+
             do {
                 imenu.query();
-                if ( imenu.ret >= 0 && imenu.ret < imenu_exit ) {
+                if ( imenu.ret >= 0 && imenu.ret < imenu_savetest ) {
                     int intval = -1;
                     switch(imenu.ret) {
                         case imenu_bday:
@@ -1011,9 +1125,23 @@ int editmap::edit_itm(point coords)
                     wrefresh(ilmenu.window);
                     wrefresh(imenu.window);
                     wrefresh(g->w_terrain);
+                } else if ( imenu.ret == imenu_savetest ) {
+                    edit_json(it,g);
                 }
             } while(imenu.ret != imenu_exit);
             wrefresh(w_info);
+        } else if ( ilmenu.ret == -5 ) {
+            ilmenu.ret = UIMENU_INVALID;
+            g->wishitem(NULL,target.x, target.y);
+            ilmenu.entries.clear();
+            for(int i = 0; i < items.size(); i++) {
+               ilmenu.addentry(i, true, 0, "%s%s", items[i].tname(g).c_str(), items[i].light.luminance > 0 ? " L" : "" );
+            }
+            ilmenu.addentry(-5, true, 'a', "Add item");
+            ilmenu.addentry(-10, true, 'q', "Cancel");
+            update_view(true);
+            ilmenu.setup();
+            ilmenu.refresh();
         }
     } while (ilmenu.ret >= 0 || ilmenu.ret == UIMENU_INVALID);
     return ret;
@@ -1025,8 +1153,22 @@ int editmap::edit_itm(point coords)
 int editmap::edit_mon(point coords)
 {
     int ret = 0;
+    int mon_index = g->mon_at(target.x, target.y);
+    monster * it=&g->zombie(mon_index);
+    edit_json(it,g);
     return ret;
 }
+
+
+int editmap::edit_veh(point coords)
+{
+    int ret = 0;
+    int veh_part = -1;
+    vehicle *it = g->m.veh_at(target.x, target.y, veh_part);
+    edit_json(it,g);
+    return ret;
+}
+
 
 /*
  *  Calculate target_list based on origin and target class variables, and shapetype.
@@ -1130,6 +1272,9 @@ bool editmap::move_target( InputEvent &input, int ch, int moveorigin )
 int editmap::edit_npc(point coords)
 {
     int ret = 0;
+    int npc_index = g->npc_at(target.x, target.y);
+    npc * it=g->active_npc[npc_index];
+    edit_json(it,g);
     return ret;
 }
 
@@ -1242,29 +1387,3 @@ int editmap::select_shape(shapetype shape, int mode)
         return -1;
     }
 }
-
-
-
-#ifndef has_real_coords
-/* stubbing out mapgen functionality */
-int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
-{
-    return 0;
-}
-int editmap::mapgen_retarget ( WINDOW *preview, map *mptr)
-{
-    return 0;
-}
-int editmap::apply_mapgen(point coords)
-{
-    return 0;
-}
-
-#else
-
-/* censored */
-
-
-
-
-#endif

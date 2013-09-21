@@ -1,6 +1,8 @@
-#include "game.h"
-#include "catajson.h"
 #include "mutation.h"
+#include "json.h"
+#include "pldata.h" // traits
+#include "enums.h" // tripoint
+#include "bodypart.h"
 
 #include <vector>
 #include <map>
@@ -12,104 +14,62 @@
 
 std::vector<dream> dreams;
 std::map<std::string, std::vector<std::string> > mutations_category;
+std::map<std::string, mutation_branch> mutation_data;
 std::map<std::string, unsigned> bodyparts_list;
 
-void game::init_traits_mutations()
+void load_mutation(JsonObject &jsobj)
 {
-	catajson cjMutationsRaw("data/raw/mutations.json");
+    trait new_trait;
+    JsonArray jsarr;
+    std::string id = jsobj.get_string("id");
 
-	if (!json_good()) {
-		throw (std::string)"data/raw/mutations.json wasn't found";
-	}
+    new_trait.name = _(jsobj.get_string("name").c_str());
+    new_trait.description = _(jsobj.get_string("description").c_str());
+    new_trait.points = jsobj.get_int("points");
+    new_trait.visibility = jsobj.get_int("visibility", 0);
+    new_trait.ugliness = jsobj.get_int("ugliness", 0);
+    new_trait.startingtrait = jsobj.get_bool("starting_trait", false);
 
-	mutations_category[""].clear(); //dont delete this!
+    traits[id] = new_trait;
 
-	for (cjMutationsRaw.set_begin(); cjMutationsRaw.has_curr(); cjMutationsRaw.next()) {
-		catajson cjMutation = cjMutationsRaw.curr();
+    mutation_data[id].valid = jsobj.get_bool("valid", true);
 
-        std::string sMutation = cjMutation.get("id").as_string();
-
-        trait new_trait;
-        new_trait.name = _(cjMutation.get("name").as_string().c_str());
-        new_trait.points = cjMutation.get("points").as_int();
-        new_trait.visiblity = cjMutation.get("visibility").as_int();
-        new_trait.ugliness = cjMutation.get("ugliness").as_int();
-        new_trait.description = _(cjMutation.get("description").as_string().c_str());
-        new_trait.startingtrait = false;
-
-        if (cjMutation.has("starting_trait")) {
-            new_trait.startingtrait = cjMutation.get("starting_trait").as_bool();
-        }
-
-        traits[sMutation] = new_trait;
-
-		mutation_data[sMutation].valid = cjMutation.get("valid").as_bool();
-
-        if (cjMutation.has("prereqs")) {
-            catajson cjPrereqs = cjMutation.get("prereqs");
-            if (cjPrereqs.is_array()) {
-                for (cjPrereqs.set_begin(); cjPrereqs.has_curr(); cjPrereqs.next()) {
-                    mutation_data[sMutation].prereqs.push_back(cjPrereqs.curr().as_string());
-                }
-            }
-        }
-
-        if (cjMutation.has("cancels")) {
-            catajson cjCancels = cjMutation.get("cancels");
-            if (cjCancels.is_array()) {
-                for (cjCancels.set_begin(); cjCancels.has_curr(); cjCancels.next()) {
-                    mutation_data[sMutation].cancels.push_back(cjCancels.curr().as_string());
-                }
-            }
-		}
-
-        if (cjMutation.has("changes_to")) {
-            catajson cjChangesTo = cjMutation.get("changes_to");
-            if (cjChangesTo.is_array()) {
-                for (cjChangesTo.set_begin(); cjChangesTo.has_curr(); cjChangesTo.next()) {
-                    mutation_data[sMutation].replacements.push_back(cjChangesTo.curr().as_string());
-                }
-            }
-        }
-
-        if (cjMutation.has("leads_to")) {
-            catajson cjLeadsTo = cjMutation.get("leads_to");
-            if (cjLeadsTo.is_array()) {
-                for (cjLeadsTo.set_begin(); cjLeadsTo.has_curr(); cjLeadsTo.next()) {
-                    mutation_data[sMutation].additions.push_back(cjLeadsTo.curr().as_string());
-                }
-            }
-        }
-
-        if (cjMutation.has("category")) {
-            catajson cjCategory = cjMutation.get("category");
-            if (cjCategory.is_array()) {
-                for (cjCategory.set_begin(); cjCategory.has_curr(); cjCategory.next()) {
-                    mutation_data[sMutation].category.push_back(cjCategory.curr().as_string());
-                    mutations_category[cjCategory.curr().as_string()].push_back(sMutation);
-                }
-            }
-        }
-
-        init_mutation_parts();
-
-        if (cjMutation.has("wet_protection")) {
-            catajson wet_pro = cjMutation.get("wet_protection");
-            for (wet_pro.set_begin(); wet_pro.has_curr(); wet_pro.next())
-            {
-                catajson curr_part = wet_pro.curr();
-                std::string part_id = curr_part.get("part").as_string();
-                int ignored = curr_part.has("ignored") ? curr_part.get("ignored").as_int() : 0;
-                int neutral = curr_part.has("neutral") ? curr_part.get("neutral").as_int() : 0;
-                int good = curr_part.has("good") ? curr_part.get("good").as_int() : 0;
-                tripoint protect = tripoint(ignored, neutral, good);
-                mutation_data[sMutation].protection.push_back(mutation_wet(bodyparts_list[part_id], protect));
-            }
-        }
-	}
+    jsarr = jsobj.get_array("prereqs");
+    while (jsarr.has_more()) {
+        mutation_data[id].prereqs.push_back(jsarr.next_string());
+    }
+    jsarr = jsobj.get_array("cancels");
+    while (jsarr.has_more()) {
+        mutation_data[id].cancels.push_back(jsarr.next_string());
+    }
+    jsarr = jsobj.get_array("changes_to");
+    while (jsarr.has_more()) {
+        mutation_data[id].replacements.push_back(jsarr.next_string());
+    }
+    jsarr = jsobj.get_array("leads_to");
+    while (jsarr.has_more()) {
+        mutation_data[id].additions.push_back(jsarr.next_string());
+    }
+    jsarr = jsobj.get_array("category");
+    while (jsarr.has_more()) {
+        std::string s = jsarr.next_string();
+        mutation_data[id].category.push_back(s);
+        mutations_category[s].push_back(id);
+    }
+    jsarr = jsobj.get_array("wet_protection");
+    while (jsarr.has_more()) {
+        JsonObject jo = jsarr.next_object();
+        std::string part_id = jo.get_string("part");
+        int ignored = jo.get_int("ignored", 0);
+        int neutral = jo.get_int("neutral", 0);
+        int good = jo.get_int("good", 0);
+        tripoint protect = tripoint(ignored, neutral, good);
+        mutation_data[id].protection.push_back(
+            mutation_wet(bodyparts_list[part_id], protect));
+    }
 }
 
-void game::init_mutation_parts()
+void init_mutation_parts()
 {
     bodyparts_list["TORSO"] = mfb(bp_torso);
     bodyparts_list["HEAD"] = mfb(bp_head);
@@ -121,29 +81,18 @@ void game::init_mutation_parts()
     bodyparts_list["FEET"] = mfb(bp_feet);
 }
 
-void game::init_dreams()
+void load_dream(JsonObject &jsobj)
 {
-	catajson dreams_file("data/raw/dreams.json");
+    dream newdream;
 
-	if (!json_good())
-	{
-		throw (std::string)"data/raw/dreams.json wasn't found";
-	}
+    newdream.strength = jsobj.get_int("strength");
+    newdream.category = jsobj.get_string("category");
 
-	for (dreams_file.set_begin(); dreams_file.has_curr(); dreams_file.next())
-	{
-		catajson dreamcurr = dreams_file.curr();
+    JsonArray jsarr = jsobj.get_array("messages");
+    while (jsarr.has_more()) {
+        newdream.messages.push_back(_(jsarr.next_string().c_str()));
+    }
 
-		dream newdream;
-
-		catajson messages = dreamcurr.get("message");
-		for (messages.set_begin(); messages.has_curr(); messages.next())
-		{
-			newdream.message.push_back(_(messages.curr().as_string().c_str()));
-		}
-		newdream.strength		= dreamcurr.get("strength").as_int();
-		newdream.category		= dreamcurr.get("category").as_string();
-
-		dreams.push_back(newdream);
-	}
+    dreams.push_back(newdream);
 }
+

@@ -1970,6 +1970,13 @@ void iuse::noise_emitter_off(game *g, player *p, item *it, bool t)
     }
 }
 
+void iuse::horn_bicycle(game *g, player *p, item *it, bool t)
+{
+    point pos = g->find_item(it);
+    g->sound(pos.x, pos.y, 15, _("honk."));
+   	g->add_msg_if_player(p,_("You honk the bicycle horn."));
+}
+
 void iuse::noise_emitter_on(game *g, player *p, item *it, bool t)
 {
     if (t) // Normal use

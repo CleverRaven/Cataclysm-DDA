@@ -73,6 +73,7 @@ class iuse
   void directional_antenna	(game *g, player *p, item *it, bool t);
   void radio_off	(game *g, player *p, item *it, bool t);
   void radio_on		(game *g, player *p, item *it, bool t);
+  void horn_bicycle		(game *g, player *p, item *it, bool t);
   void noise_emitter_off(game *g, player *p, item *it, bool t);
   void noise_emitter_on (game *g, player *p, item *it, bool t);
   void roadmap (game *g, player *p, item *it, bool t);

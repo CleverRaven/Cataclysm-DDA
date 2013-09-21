@@ -140,33 +140,6 @@ color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,pierce,flags,effects,\
 skill,ammo,dmg,range,dispersion,\
 recoil,durability,burst,clip,reload_time)
 
-/* TOOLS
- * MAX is the maximum number of charges help.
- * DEF is the default number of charges--items will be generated with this
- *  many charges.
- * USE is how many charges are used up when 'a'pplying the object.
- * SEC is how many turns will pass before a charge is drained if the item is
- *  active; generally only used in the "<whatever> (on)" forms
- * FUEL is the type of charge the tool uses; set to "NULL" if the item is
- *  unable to be recharged.
- * REVERT is the item type that the tool will revert to once its charges are
- *  drained
- * FUNCTION is a function called when the tool is 'a'pplied, or called once per
- *  turn if the tool is active.  The same function can be used for both.  See
- *  iuse.h and iuse.cpp for functions.
- */
-#define TOOL(id, name,price,sym,color,mat1,mat2,volume,wgt,melee_dam,\
-melee_cut,to_hit,max_charge,def_charge,charge_per_use,charge_per_sec,fuel,\
-revert,func,des) \
-itypes[id]=new it_tool(id,price,name,des,sym,\
-color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,max_charge,\
-def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
-
-TOOL("jack", _("jack"), 86, ';', c_ltgray,	"iron",	"null",
-//	VOL WGT DAM CUT HIT FLAGS
-	 5,11974, 11,  0,  2, 0, 0, 0, 0, "NULL", "null", &iuse::none, _("\
-A common hydraulic jack, used when changing tires."));
-
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
