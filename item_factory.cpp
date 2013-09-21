@@ -203,26 +203,8 @@ void Item_factory::init(){
     iuse_function_list["ARTIFACT"] = &iuse::artifact;
 
     // Offensive Techniques
-    //techniques_list["SWEEP"] = mfb(TEC_SWEEP);
     techniques_list["PRECISE"] = "tec_precise";
-    //techniques_list["BRUTAL"] = mfb(TEC_BRUTAL);
-    //techniques_list["GRAB"] = mfb(TEC_GRAB);
-    //techniques_list["WIDE"] = mfb(TEC_WIDE);
     techniques_list["RAPID"] = "tec_rapid";
-    //techniques_list["FEINT"] = mfb(TEC_FEINT);
-    //techniques_list["THROW"] = mfb(TEC_THROW);
-    //techniques_list["DISARM"] = mfb(TEC_DISARM);
-    //techniques_list["FLAMING"] = mfb(TEC_FLAMING);
-    //// Defensive Techniques
-    //techniques_list["BLOCK"] = mfb(TEC_BLOCK);
-    //techniques_list["BLOCK_LEGS"] = mfb(TEC_BLOCK_LEGS);
-    //techniques_list["WBLOCK_1"] = mfb(TEC_WBLOCK_1);
-    //techniques_list["WBLOCK_2"] = mfb(TEC_WBLOCK_2);
-    //techniques_list["WBLOCK_3"] = mfb(TEC_WBLOCK_3);
-    //techniques_list["COUNTER"] = mfb(TEC_COUNTER);
-    //techniques_list["BREAK"] = mfb(TEC_BREAK);
-    //techniques_list["DEF_THROW"] = mfb(TEC_DEF_THROW);
-    //techniques_list["DEF_DISARM"] = mfb(TEC_DEF_DISARM);
 
     bodyparts_list["TORSO"] = mfb(bp_torso);
     bodyparts_list["HEAD"] = mfb(bp_head);

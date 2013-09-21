@@ -582,13 +582,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     }
     dump->push_back(iteminfo("BASE", _("burn: "), "",  burnt, true, "", true, true));
   }
-  /*
-  if (type->techniques.size() == 0)
-    for( std::set<matec_id>::const_iterator it = techniques.begin();
-          it != techniques.end(); ++it ) {
-        dump->push_back(iteminfo("TECHNIQUE", "+",*it));
-    }
-    */
  }
 
  if (is_food()) {

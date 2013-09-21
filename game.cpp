@@ -3170,13 +3170,8 @@ Current turn: %d; Next spawn %d.\n\
     break;
 
   case 12:
-    /*
-    for(std::vector<std::string>::iterator it = martial_arts_itype_ids.begin();
-          it != martial_arts_itype_ids.end(); ++it){
-        u.styles.push_back(*it);
-    }
-    add_msg(_("Martial arts gained."));
-    */
+      // TODO: Give the player martial arts.
+      add_msg("Martial arts debug disabled.");
    break;
 
   case 13: {
@@ -4962,17 +4957,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    traj = line_to(x, y, sx, sy, 0);
   dam = rng(20, 60);
   for (int j = 0; j < traj.size(); j++) {
-    draw_bullet(u, traj[j].x, traj[j].y, j, traj, '`', ts);
-  /*
-   if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y))
-    m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
-   if (u_see(traj[j].x, traj[j].y)) {
-    mvwputch(w_terrain, traj[j].y + VIEWY - u.posy - u.view_offset_y,
-                        traj[j].x + VIEWX - u.posx - u.view_offset_x, c_red, '`');
-    wrefresh(w_terrain);
-    nanosleep(&ts, NULL);
-   }
-   */
+   draw_bullet(u, traj[j].x, traj[j].y, j, traj, '`', ts);
    tx = traj[j].x;
    ty = traj[j].y;
    const int zid = mon_at(tx, ty);
@@ -7659,10 +7644,7 @@ void game::pickup(int posx, int posy, int min)
     wprintz(w_pickup, c_white, "/%d", u.volume_capacity() - 2);
    }
    wrefresh(w_pickup);
- /* No longer using
-   ch = input();
-    because it pulls a: case KEY_DOWN:  return 'j';
- */
+
    ch = (int)getch();
 
   } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
@@ -9463,23 +9445,6 @@ void game::plmove(int dx, int dy)
 			return;
 	}
 
-
-// no need to query if stepping into 'benign' traps
-/*
-  if (m.tr_at(x, y) != tr_null &&
-      u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility &&
-      !query_yn(_("Really step onto that %s?"),traps[m.tr_at(x, y)]->name.c_str()))
-   return;
-*/
-
-  if (m.tr_at(x, y) != tr_null &&
-      u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility)
-      {
-        if (!traps[m.tr_at(x, y)]->is_benign())
-                  if (!query_yn(_("Really step onto that %s?"),traps[m.tr_at(x, y)]->name.c_str()))
-             return;
-      }
-
   float drag_multiplier = 1.0;
   vehicle *grabbed_vehicle = NULL;
   if( u.grab_point.x != 0 || u.grab_point.y != 0 ) {
@@ -10911,34 +10876,6 @@ void game::init_autosave()
  item_exchanges_since_save = 0;
  last_save_timestamp = time(NULL);
 }
-
-/* Currently unused.
-int game::autosave_timeout()
-{
- if (!OPTIONS["AUTOSAVE"])
-  return -1; // -1 means block instead of timeout
-
- const double upper_limit = 60 * 1000;
- const double lower_limit = 5 * 1000;
- const double range = upper_limit - lower_limit;
-
- // Items exchanged
- const double max_changes = 20.0;
- const double max_moves = 500.0;
-
- double move_multiplier = 0.0;
- double changes_multiplier = 0.0;
-
- if( moves_since_last_save < max_moves )
-  move_multiplier = 1 - (moves_since_last_save / max_moves);
-
- if( item_exchanges_since_save < max_changes )
-  changes_multiplier = 1 - (item_exchanges_since_save / max_changes);
-
- double ret = lower_limit + (range * move_multiplier * changes_multiplier);
- return ret;
-}
-*/
 
 void game::quicksave(){
     if(!moves_since_last_save && !item_exchanges_since_save){return;}//Don't autosave if the player hasn't done anything since the last autosave/quicksave,

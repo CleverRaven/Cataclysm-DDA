@@ -385,11 +385,7 @@ void npc::randomize(game *g, npc_class type)
   per_max += rng(0, 2);
   personality.bravery += rng(0, 3);
   personality.collector -= rng(1, 6);
-  /* TODO: give ninja his styles back
-  do
-   styles.push_back( martial_arts_itype_ids[rng(0, martial_arts_itype_ids.size()-1)] );
-  while (one_in(2));
-  */
+  // TODO: give ninja his styles back
   break;
 
  case NC_COWBOY:

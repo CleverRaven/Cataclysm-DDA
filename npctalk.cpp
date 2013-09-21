@@ -720,15 +720,6 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
       return _("I'm collecting gear and selling it.");
      case NC_NINJA: // TODO: implement this
       return _("I'm a wandering master of martial arts but I'm currently not implemented in the code.");
-      /*
-      if (!p->styles.empty()) {
-       std::stringstream ret;
-       ret << _("I am a wandering master of ") <<
-              g->itypes[p->styles[0]]->name.c_str() << _(".");
-       return ret.str();
-      } else
-       return _("I am looking for a master to train my fighting techniques.");
-       */
      case NC_COWBOY:
       return _("Just looking for some wrongs to right.");
      case NC_SCIENTIST:

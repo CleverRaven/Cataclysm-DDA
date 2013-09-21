@@ -523,8 +523,6 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
 
     p.block_hit(g, this, NULL, bphit, side, dam, cut, stab);
-    //technique_id tech = p.pick_defensive_technique(g, this, NULL);
-    //p.perform_defensive_technique(tech, g, this, NULL, bphit, side, dam, cut, stab);
 
     //110*e^(-.3*[melee skill of monster]) = % chance to miss. *100 to track .01%'s
     //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
@@ -562,18 +560,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             {
                 p.practice(g->turn, "dodge", type->melee_skill);
 
-                /* TODO: replace with block mechanic
-                if (u_see && tech != TEC_BLOCK)
-                {
-                    if (is_npc) {
-                        g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
-                            p.name.c_str(), body_part_name(bphit, side).c_str());
-                    } else {
-                        g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
-                                   body_part_name(bphit, side).c_str());
-                    }
-                }
-                */
+                /* TODO: re-add with block mechanic*/
 
                 // Attempt defensive moves
                 if (!is_npc)
@@ -691,18 +678,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     }
 
                 }
-                /* TODO: replace with counter mechanic
-                //Counter-attack?
-                if (tech == TEC_COUNTER && !is_npc)
-                {
-                    // A counterattack is a free action to avoid stunlocking the player.
-                    int player_moves = p.moves;
-                    if(hurt( p.hit_mon(g, this)) || is_hallucination()) {
-                      die(g);
-                    }
-                    p.moves = player_moves;
-                }
-                */
+                // TODO: readd with counter mechanic
             }
         }
     }

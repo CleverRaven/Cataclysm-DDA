@@ -145,7 +145,6 @@ struct itype
  std::set<std::string> item_tags;
  std::set<std::string> techniques;
  unsigned int light_emission;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
- // unsigned techniques : NUM_TECHNIQUES;
 
  virtual bool is_food()          { return false; }
  virtual bool is_ammo()          { return false; }
