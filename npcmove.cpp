@@ -1466,7 +1466,6 @@ void npc::melee_player(game *g, player &foe)
 void npc::wield_best_melee(game *g)
 {
  item& it = inv.best_for_melee(this);
- int best_score = it.melee_value(this);
  if (it.is_null()) {
   debugmsg("npc::wield_best_melee failed to find a melee weapon.");
   move_pause();
