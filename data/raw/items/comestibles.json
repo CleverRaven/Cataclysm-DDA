@@ -1668,7 +1668,7 @@
         "volume" : 2,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 5,
+        "charges" : 12,
         "bashing" : 0,
         "flags" : [],
         "fun" : 8
