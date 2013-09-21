@@ -376,6 +376,7 @@
       ["manual_business", 40],
       ["manual_computers", 20],
       ["laptop", 10],
+      ["cell_phone", 40],
       ["pda", 3],
       ["lighter", 60],
       ["ref_lighter", 2],
@@ -967,6 +968,8 @@
       ["manual_electronics", 20],
       ["cable", 60],
       ["vac_sealer", 10],
+      ["cell_phone", 50],
+      ["pda", 20],
       ["wristwatch", 15]
     ]
   },{
@@ -2136,6 +2139,7 @@
       ["goggles_welding", 70],
       ["goggles_nv", 1],
       ["glasses_monocle", 2],
+      ["cell_phone", 20],
       ["tophat", 10],
       ["pda", 15],
       ["ruger_redhawk", 3],
@@ -2523,6 +2527,8 @@
       ["manual_electronics", 20],
       ["textbook_electronics", 6],
       ["small_lcd_screen", 20],
+      ["cell_phone", 20],
+      ["pda", 10],
       ["cable", 30],
       ["soldering_iron", 70],
       ["hotplate", 10],
@@ -3168,6 +3174,7 @@
       ["flashlight", 40],
       ["laptop", 20],
       ["pda", 5],
+      ["cell_phone", 30],
       ["rag", 1],
       ["crowbar", 18],
       ["spray_can", 50],
