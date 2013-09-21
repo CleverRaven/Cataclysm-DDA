@@ -95,22 +95,8 @@ struct player_activity
 
  picojson::value json_save(); // found in gamesave_json.cpp
  bool json_load(picojson::value & parsed);
-//std::map<std::string, picojson::value> & data);
-/// this is for OLD saves
- void load_legacy(std::stringstream &dump)
- {
-  int tmp, tmptype, tmpinvlet;
-  std::string tmpname;
-  dump >> tmptype >> moves_left >> index >> tmpinvlet >> tmpname >> placement.x >> placement.y >> tmp;
-  name = tmpname.substr(4);
-  type = activity_type(tmptype);
-  invlet = tmpinvlet;
-  for (int i = 0; i < tmp; i++) {
-   int tmp2;
-   dump >> tmp2;
-   values.push_back(tmp2);
-  }
- }
+
+ void load_legacy(std::stringstream &dump);
 };
 
 struct trait {

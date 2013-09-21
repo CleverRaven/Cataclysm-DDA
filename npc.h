@@ -225,22 +225,7 @@ struct npc_opinion
  picojson::value json_save();
  bool json_load(std::map<std::string, picojson::value> & data );
 
- void load_legacy(std::stringstream &info)
- {
-  int tmpsize;
-  info >> trust >> fear >> value >> anger >> owed >> tmpsize;
-  for (int i = 0; i < tmpsize; i++) {
-   int tmptype, tmpskill;
-   std::string tmpitem;
-   npc_favor tmpfavor;
-   info >> tmptype >> tmpfavor.value >> tmpitem >> tmpskill;
-   tmpfavor.type = npc_favor_type(tmptype);
-   tmpfavor.item_id = tmpitem;
-   tmpfavor.skill = Skill::skill(tmpskill);
-   favors.push_back(tmpfavor);
-  }
- }
-///////////////////////
+ void load_legacy(std::stringstream &info);
 };
 
 enum combat_engagement {
@@ -266,13 +251,8 @@ struct npc_combat_rules
   use_silent = false;
  };
 
- void load_legacy(std::istream &data)
- {
-  int tmpen;
-  data >> tmpen >> use_guns >> use_grenades >> use_silent;
-  engagement = combat_engagement(tmpen);
- }
-////////////////////
+ void load_legacy(std::istream &data);
+
  picojson::value json_save();
  bool json_load(std::map<std::string, picojson::value> & data);
 
@@ -362,26 +342,7 @@ struct npc_chatbin
  picojson::value json_save();
  bool json_load(std::map<std::string, picojson::value> & data);
 
- void load_legacy(std::stringstream &info)
- {
-  int tmpsize_miss, tmpsize_assigned, tmptopic;
-  std::string skill_ident;
-  info >> tmptopic >> mission_selected >> tempvalue >> skill_ident >>
-          tmpsize_miss >> tmpsize_assigned;
-  first_topic = talk_topic(tmptopic);
-  skill = skill_ident == "none" ? NULL : Skill::skill(skill_ident);
-  for (int i = 0; i < tmpsize_miss; i++) {
-   int tmpmiss;
-   info >> tmpmiss;
-   missions.push_back(tmpmiss);
-  }
-  for (int i = 0; i < tmpsize_assigned; i++) {
-   int tmpmiss;
-   info >> tmpmiss;
-   missions_assigned.push_back(tmpmiss);
-  }
- }
-///////////////
+ void load_legacy(std::stringstream &info);
 };
 
 class npc : public player {

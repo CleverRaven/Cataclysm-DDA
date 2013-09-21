@@ -1502,22 +1502,6 @@ void inventory::assign_empty_invlet(item &it)
 }
 
 /*
- * Legacy invcache loader for 0.8
- */
-void inventory::load_invlet_cache( std::ifstream &fin ) {
-    // Lines are of the format "P itemname abcde".
-    while( fin.peek() == 'P' ) {
-        std::string invlet_cache_line;
-        getline( fin, invlet_cache_line );
-        int first_sym = invlet_cache_line.find_first_of(' ', 2);
-        std::string item_type( invlet_cache_line, 2, first_sym - 2 );
-        std::vector<char> symbol_vec( invlet_cache_line.begin() + first_sym + 1,
-                                      invlet_cache_line.end() );
-        invlet_cache[ item_type ] = symbol_vec;
-    }
-}
-
-/*
  * Save invlet cache
  */
 picojson::value inventory::json_save_invcache() const {

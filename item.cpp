@@ -519,47 +519,6 @@ void item::load_info(std::string data, game *g)
     }
 }
 
-void item::load_legacy(game * g, std::stringstream & dump) {
-    clear();
-    std::string idtmp, ammotmp, item_tag;
-    int lettmp, damtmp, acttmp, corp, tag_count;
-    dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
-    for( int i = 0; i < tag_count; ++i )
-    {
-        dump >> item_tag;
-        if( itag2ivar(item_tag, item_vars ) == false ) {
-            item_tags.insert( item_tag );
-        }
-    }
-
-    dump >> burnt >> poison >> ammotmp >> owned >> bday >>
-         mode >> acttmp >> corp >> mission_id >> player_id;
-    if (corp != -1)
-        corpse = g->mtypes[corp];
-    else
-        corpse = NULL;
-    getline(dump, name);
-    if (name == " ''")
-        name = "";
-    else {
-        size_t pos = name.find_first_of("@@");
-        while (pos != std::string::npos)  {
-            name.replace(pos, 2, "\n");
-            pos = name.find_first_of("@@");
-        }
-        name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
-    }
-    make(g->itypes[idtmp]);
-    invlet = char(lettmp);
-    damage = damtmp;
-    active = false;
-    if (acttmp == 1)
-        active = true;
-    if (ammotmp != "null")
-        curammo = dynamic_cast<it_ammo*>(g->itypes[ammotmp]);
-    else
-        curammo = NULL;
-}
 
 std::string item::info(bool showtext)
 {

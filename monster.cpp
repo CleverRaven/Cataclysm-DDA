@@ -323,20 +323,6 @@ void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
     }
 }
 
-void monster::load_legacy(std::vector <mtype *> *mtypes, std::stringstream & dump) {
-    int idtmp, plansize;
-    dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
-         hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
-         no_extra_death_drops >> dead >> anger >> morale;
-    type = (*mtypes)[idtmp];
-    point ptmp;
-    plans.clear();
-    for (int i = 0; i < plansize; i++) {
-        dump >> ptmp.x >> ptmp.y;
-        plans.push_back(ptmp);
-    }
-}
-
 bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
 {
 
