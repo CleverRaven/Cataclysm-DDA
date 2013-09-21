@@ -34,15 +34,8 @@
 #define maplim 132
 #define inbounds(x, y) (x >= 0 && x < maplim && y >= 0 && y < maplim)
 #define pinbounds(p) ( p.x >= 0 && p.x < maplim && p.y >= 0 && p.y < maplim)
-/*
-// pending merge of absolute <=> local coordinate conversion functions
-#define has_real_coords 1
-*/
 
 #include "picofunc.h"
-
-///////////////////////////////////// here be dragons
-///////////////////////////////////////// word_rewrap: buggy 
 
 std::vector<std::string> fld_string ( std::string str, int width ) {
     std::vector<std::string> lines;
@@ -289,7 +282,6 @@ point editmap::edit(point coords)
             edit_veh(target);
           }
         } else if ( ch == 'o' ) {
-            apply_mapgen( target );
             lastop = 'o';
             target_list.clear();
             origin = target;
@@ -1394,29 +1386,3 @@ int editmap::select_shape(shapetype shape, int mode)
         return -1;
     }
 }
-
-
-
-#ifndef has_real_coords
-/* stubbing out mapgen functionality */
-int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
-{
-    return 0;
-}
-int editmap::mapgen_retarget ( WINDOW *preview, map *mptr)
-{
-    return 0;
-}
-int editmap::apply_mapgen(point coords)
-{
-    return 0;
-}
-
-#else
-
-/* censored */
-
-
-
-
-#endif

@@ -29,10 +29,7 @@ class editmap
         int edit_mon(point coords);
         int edit_npc(point coords);
         int edit_veh(point coords);
-        int apply_mapgen(point coords);
-        int mapgen_preview(real_coords &tc, uimenu &gmenu);
         int select_shape(shapetype shape, int mode = -1 );
-        int mapgen_retarget(WINDOW * preview = NULL, map * mptr = NULL);
 
         void update_fmenu_entry(uimenu *fmenu, field *field, int idx);
         void setup_fmenu(uimenu *fmenu, field *field);
