@@ -512,7 +512,7 @@ bool player::install_bionics(game *g, it_bionic* type)
 
  // we will base chance_of_success on a ratio of skill and difficulty
  // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
- float skill_difficulty_parameter = adjusted_skill / (4.0 * type->difficulty);
+ float skill_difficulty_parameter = float(adjusted_skill / (4.0 * type->difficulty));
 
  // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
  // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
