@@ -61,8 +61,6 @@ bool vehicle::player_in_control (player *p)
 
 void vehicle::load (std::ifstream &stin)
 {
-    int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
-    std::string vehicle_tag;
     getline(stin, type);
 
     if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
@@ -78,8 +76,15 @@ void vehicle::load (std::ifstream &stin)
             json_load(pdata, g);
         }
         return;
+    } else {
+        load_legacy(stin);
     }
+}
+
+void vehicle::load_legacy(std::ifstream &stin) {
 /////// everything below is for OLD saves
+    int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
+    std::string vehicle_tag;
     stin >>
         posx >>
         posy >>
