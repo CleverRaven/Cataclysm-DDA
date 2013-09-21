@@ -30,9 +30,9 @@
 
 /*
  * Changes that break backwards compatibility should bump this number, so the game can
- * load a legacy format loader
+ * load a legacy format loader.
  */
-const int savegame_version = 7;
+const int savegame_version = 9;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -49,23 +49,37 @@ int savegame_loading_version = savegame_version;
  */
 void game::serialize(std::ofstream & fout) {
 /*
- * Format version -current-: Interim format. Still resembles a hairball, but it's at least a multi-line hairball;
- * Data is segmented for readabilty, stability, and gradual conversion into something closer to sanity.
+ * Format version 9: Hybrid format. Ordered, line by line mix of json chunks, and stringstream bits that don't
+ * really make sense as json. New data can be added to the basic game state json, or tacked onto the end as a
+ * new line.
+ * To prevent (or encourage) confusion, there is no version 8. (cata 0.8 uses v7)
  */
         // Header
         fout << "# version " << savegame_version << std::endl;
-        // First, write out basic game state information.
-        fout << int(turn) << "  " << int(last_target) << " " << int(run_mode) << " " <<
-             mostseen << " " << nextinv << " " << next_npc_id << " " <<
-             next_faction_id << " " << next_mission_id << " " << int(nextspawn) << std::endl;
 
-        // future weather (for now)
-        fout << save_weather();
+        std::map<std::string, picojson::value> data;
+        // basic game state information.
+        data["turn"] = pv( (int)turn );
+        data["last_target"] = pv( (int)last_target );
+        data["run_mode"] = pv( (int)run_mode );
+        data["mostseen"] = pv( mostseen );
+        data["nextinv"] = pv( (int)nextinv );
+        data["next_npc_id"] = pv( next_npc_id );
+        data["next_faction_id"] = pv( next_faction_id );
+        data["next_mission_id"] = pv( next_mission_id );
+        data["nextspawn"] = pv( (int)nextspawn );
+        // current map coordinates
+        data["levx"] = pv( levx );
+        data["levy"] = pv( levy );
+        data["levz"] = pv( levz );
+        data["om_x"] = pv( cur_om->pos().x );
+        data["om_y"] = pv( cur_om->pos().y );
+        fout << pv(data).serialize();
         fout << std::endl;
 
-        // current map coordinates
-        fout << levx << " " << levy << " " << levz << " " << cur_om->pos().x <<
-             " " << cur_om->pos().y << " " << std::endl;
+        // Weather. todo: move elsewhere
+        fout << save_weather();
+        fout << std::endl;
 
         // Next, the scent map.
         for (int i = 0; i < SEEX * MAPSIZE; i++) {
@@ -74,24 +88,24 @@ void game::serialize(std::ofstream & fout) {
             }
         }
 
-        // Now save all monsters.
+        // Now save all monsters. First the amount
         fout << std::endl << num_zombies() << std::endl;
-
+        // Then each monster + inv in a 1 line json string
         for (int i = 0; i < num_zombies(); i++) {
             fout << _z[i].save_info() << std::endl;
-            fout << _z[i].inv.size() << std::endl;
-            for( std::vector<item>::iterator it = _z[i].inv.begin(); it != _z[i].inv.end(); ++it ) {
-                fout << it->save_info() << std::endl;
-            }
         }
 
-        for (int i = 0; i < num_monsters; i++) { // Save the kill counts, too.
+        // save killcounts.
+        // todo: When monsters get stringid, make a json_save
+        for (int i = 0; i < num_monsters; i++) {
             fout << kills[i] << " ";
         }
         fout << std::endl;
 
         // And finally the player.
-        fout << u.save_info() << std::endl;
+        // u.save_info dumps player + contents in a single json line, followed by memorial log
+        // one entry per line starting with '|'
+        fout << u.save_info() << std::endl; 
 
         fout << std::endl;
         ////////
@@ -135,18 +149,40 @@ void game::unserialize(std::ifstream & fin) {
            popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
        }
    }
+       // Format version 9. After radical compatibility breaking changes, raise savegame_version, cut below and add to
+       // unserialize_legacy in savegame_legacy.cpp
             std::string linebuf;
             std::stringstream linein;
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
 
-            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
-                next_faction_id >> next_mission_id >> tmpspawn;
+            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
+            picojson::value pval;
+            parseline() >> pval;
+            std::string jsonerr = picojson::get_last_error();
+            if ( ! jsonerr.empty() ) {
+                debugmsg("Bad save json\n%s", jsonerr.c_str() );
+            }
+            picojson::object &pdata = pval.get<picojson::object>();
 
-            getline(fin, linebuf);
-            load_weather(linebuf);
+            picoint(pdata,"turn",tmpturn);
+            picoint(pdata,"last_target",tmptar);
+            picoint(pdata,"run_mode", tmprun);
+            picoint(pdata,"mostseen", mostseen);
+            picoint(pdata,"nextinv", tmpinv);
+            nextinv = (char)tmpinv;
+            picoint(pdata,"next_npc_id", next_npc_id);
+            picoint(pdata,"next_faction_id", next_faction_id);
+            picoint(pdata,"next_mission_id", next_mission_id);
+            picoint(pdata,"nextspawn",tmpspawn);
 
-            parseline() >> levx >> levy >> levz >> comx >> comy;
+            getline(fin, linebuf); // Does weather need to be loaded in this order? Probably not,
+            load_weather(linebuf); // but better safe than jackie chan expressions later
+
+            picoint(pdata,"levx",levx);
+            picoint(pdata,"levy",levy);
+            picoint(pdata,"levz",levz);
+            picoint(pdata,"om_x",comx);
+            picoint(pdata,"om_y",comy);
 
             turn = tmpturn;
             nextspawn = tmpspawn;
@@ -169,6 +205,7 @@ void game::unserialize(std::ifstream & fin) {
                     linein >> grscent[i][j];
                 }
             }
+
             // Now the number of monsters...
             int nummon;
             parseline() >> nummon;
@@ -177,20 +214,10 @@ void game::unserialize(std::ifstream & fin) {
             std::string data;
             clear_zombies();
             monster montmp;
-            int num_items;
             for (int i = 0; i < nummon; i++)
             {
                 getline(fin, data);
                 montmp.load_info(data, &mtypes);
-
-                fin >> num_items;
-                // Chomp the endline after number of items.
-                getline( fin, data );
-                for (int i = 0; i < num_items; i++) {
-                    getline( fin, data );
-                    montmp.inv.push_back( item( data, this ) );
-                }
-
                 add_zombie(montmp);
             }
 
@@ -208,41 +235,7 @@ void game::unserialize(std::ifstream & fin) {
             getline(fin, data);
             u.load_info(this, data);
             u.load_memorial_file( fin );
-
-            // And the player's inventory...
-            u.inv.load_invlet_cache( fin );
-
-            char item_place;
-            std::string itemdata;
-            // We need a temporary vector of items.  Otherwise, when we encounter an item
-            // which is contained in another item, the auto-sort/stacking behavior of the
-            // player's inventory may cause the contained item to be misplaced.
-            std::list<item> tmpinv;
-            while (!fin.eof()) {
-                fin >> item_place;
-                if (!fin.eof()) {
-                    getline(fin, itemdata);
-                    if ( item_place == 'I' || item_place == 'C' || item_place == 'W' ||
-                         item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
-                        item tmpitem(itemdata, this);
-                        if (item_place == 'I') {
-                            tmpinv.push_back(tmpitem);
-                        } else if (item_place == 'C') {
-                            tmpinv.back().contents.push_back(tmpitem);
-                        } else if (item_place == 'W') {
-                            u.worn.push_back(tmpitem);
-                        } else if (item_place == 'S') {
-                            u.worn.back().contents.push_back(tmpitem);
-                        } else if (item_place == 'w') {
-                            u.weapon = tmpitem;
-                        } else if (item_place == 'c') {
-                            u.weapon.contents.push_back(tmpitem);
-                        }
-                    }
-                }
-            }
-            // Now dump tmpinv into the player's inventory
-            u.inv.add_stack(tmpinv);
+            // end .sav version 9
 }
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// overmap
