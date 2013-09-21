@@ -11,6 +11,21 @@
 #include <dirent.h>
 #endif
 
+/**
+    Searches the supplied root directory for the extension provided. Can recursively search downward through the directory tree
+    to get all files. It will then return a vector of file paths that fulfill the search requirements.
+    USAGE:
+    extension should be preceeded by the '.' character to denote it as an extension, if it is not then it will return all files
+    and folder names that contain the extension string.
+    root_path can point to any folder relative to the execution directory.
+        Searching from the execution directory -- Supply "." as the root_path
+        Searching from the parent directory of the execution directory -- Supply ".." as the root_path
+        Searching child directories within the execution directory -- Supply "<directory path>" or "./<directory path>", both
+            will provide correct results.
+    recursive_search will:
+        if true, continue searching all child directories from the supplied root_path
+        if false, search only the supplied root_path, and stop when the directory contents have been worked through.
+*/
 std::vector<std::string> file_finder::get_files_from_path(std::string extension, std::string root_path, bool recursive_search)
 {
     std::vector<std::string> files;
