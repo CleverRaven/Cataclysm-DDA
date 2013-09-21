@@ -732,11 +732,13 @@ void veh_interact::move_cursor (int dx, int dy)
     can_mount.clear();
     if (!obstruct)
     {
-        for (int i = 1; i < num_vparts; i++)
-        {
-            if (veh->can_mount (vdx, vdy, (vpart_id) i))
+        for (std::map<std::string, vpart_info>::iterator
+                part_type_iterator = vehicle_part_types.begin();
+                part_type_iterator != vehicle_part_types.end();
+                ++part_type_iterator) {
+            if (veh->can_mount (vdx, vdy, part_type_iterator->first))
             {
-                can_mount.push_back (vehicle_part_types[i]);
+                can_mount.push_back (part_type_iterator->second);
             }
         }
     }
@@ -992,14 +994,14 @@ struct candidate_vpart {
 };
 
 /**
- * Given a vpart type, gives the choice of inventory and nearby items to consume
+ * Given a vpart id, gives the choice of inventory and nearby items to consume
  * for install/repair/etc. Doesn't use consume_items in crafting.cpp, as it got
  * into weird cases and doesn't consider properties like HP and bigness. The
  * item will be removed by this function.
- * @param vpid The vpart type to look for.
+ * @param vpid The id of the vpart type to look for.
  * @return The item that was consumed.
  */
-item consume_vpart_item (game *g, vpart_id vpid)
+item consume_vpart_item (game *g, std::string vpid)
 {
     std::vector<candidate_vpart> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
@@ -1108,9 +1110,9 @@ void complete_vehicle (game *g)
     char cmd = (char) g->u.activity.index;
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];
-    vpart_id part_id = (vpart_id) g->u.activity.values[6]; //Only one of these two is used
-    int vehicle_part = g->u.activity.values[7]; //Only one of these two is used
-    int type = g->u.activity.values[8];
+    int vehicle_part = g->u.activity.values[6]; //Only one of these two is used
+    int type = g->u.activity.values[7];
+    std::string part_id = g->u.activity.str_values[0];
     std::vector<component> tools;
     int welder_charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
     int welder_crude_charges = ((it_tool *) g->itypes["welder_crude"])->charges_per_use;
@@ -1126,7 +1128,7 @@ void complete_vehicle (game *g)
         partnum = veh->install_part (dx, dy, part_id);
         if(partnum < 0)
         {
-            debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id);
+            debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
         }
         used_item = consume_vpart_item (g, part_id);
         veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
@@ -1135,7 +1137,7 @@ void complete_vehicle (game *g)
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
 
-        if ( part_id == vp_head_light ) {
+        if ( part_id == "headlight" ) {
             // Need map-relative coordinates to compare to output of look_around.
             int gx, gy;
             // Need to call coord_translate() directly since it's a new part.
@@ -1189,7 +1191,7 @@ void complete_vehicle (game *g)
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         g->add_msg (_("You repair the %s's %s."),
                     veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
-        g->u.practice (g->turn, "mechanics", (vehicle_part_types[vehicle_part].difficulty + dd) * 5 + 20);
+        g->u.practice (g->turn, "mechanics", (veh->part_info(vehicle_part).difficulty + dd) * 5 + 20);
         break;
     case 'f':
         if (!g->pl_refill_vehicle(*veh, vehicle_part, true))
@@ -1253,11 +1255,11 @@ void complete_vehicle (game *g)
                 debugmsg( "no wheel to remove when changing wheels." );
                 return;
             }
-            partnum = veh->install_part( dx, dy, (vpart_id) part_id );
+            partnum = veh->install_part( dx, dy, part_id );
             if( partnum < 0 ) {
-                debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id);
+                debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
             }
-            used_item = consume_vpart_item( g, (vpart_id) part_id );
+            used_item = consume_vpart_item( g, part_id );
             veh->get_part_properties_from_item( g, partnum, used_item ); //transfer damage, etc.
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {

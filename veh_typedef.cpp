@@ -4,9 +4,6 @@
 #include "catajson.h"
 
 // GENERAL GUIDELINES
-// When adding a new vehicle, you MUST REMEMBER to insert it in the vhtype_id enum
-//  at the bottom of veh_type.h!
-//
 // To determine mount position for parts (dx, dy), check this scheme:
 //         orthogonal dir left: (Y-)
 //                ^
@@ -27,7 +24,7 @@
 // vehicle_parts.json
 // If you use wrong config, installation of part will fail
 
-vpart_info vehicle_part_types[num_vparts];
+std::map<std::string, vpart_info> vehicle_part_types;
 
 // Note on the 'symbol' flag in vehicle parts -
 // the following symbols will be translated:
@@ -44,7 +41,6 @@ void game::init_vehicle_parts()
     throw (std::string)"data/raw/vehicle_parts.json wasn't found";
   }
 
-  unsigned int index = 0;
   for (vehicle_parts_json.set_begin(); vehicle_parts_json.has_curr() && json_good(); vehicle_parts_json.next())
   {
     catajson next_json = vehicle_parts_json.curr();
@@ -92,9 +88,7 @@ void game::init_vehicle_parts()
     next_part.difficulty = next_json.get("difficulty").as_int();
     next_part.flags = next_json.get("flags").as_tags();
 
-    vehicle_part_types[index] = next_part;
-
-    index++;
+    vehicle_part_types[next_part.id] = next_part;
   }
 
   if(!json_good()) {

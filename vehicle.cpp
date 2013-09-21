@@ -88,11 +88,11 @@ void vehicle::load (std::ifstream &stin)
     int itms = 0;
     for (int p = 0; p < prts; p++)
     {
-        int pid, pdx, pdy, php, pam, pbld, pbig, pflag, pass, pnit;
-        stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pflag >> pass >> pnit;
-        getline(stin, databuff); // Clear EoL
         vehicle_part new_part;
-        new_part.id = (vpart_id) pid;
+        getline(stin, new_part.id);
+        int pdx, pdy, php, pam, pbld, pbig, pflag, pass, pnit;
+        stin >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pflag >> pass >> pnit;
+        getline(stin, databuff); // Clear EoL
         new_part.mount_dx = pdx;
         new_part.mount_dy = pdy;
         new_part.hp = php;
@@ -156,8 +156,8 @@ void vehicle::save (std::ofstream &stout)
 
     for (int p = 0; p < parts.size(); p++)
     {
+        stout << parts[p].id << std::endl;
         stout <<
-            parts[p].id << " " <<
             parts[p].mount_dx << " " <<
             parts[p].mount_dy << " " <<
             parts[p].hp << " " <<
@@ -189,8 +189,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
     bool destroyEngine = false;
     bool destroyTires = false;
 
-    int consistent_bignesses[num_vparts];
-    memset (consistent_bignesses, 0, sizeof(consistent_bignesses));
+    std::map<std::string, int> consistent_bignesses;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 1% to 7%
@@ -219,7 +218,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
     for (int p = 0; p < parts.size(); p++)
     {
         if (part_flag(p, "VARIABLE_SIZE")){ // generate its bigness attribute.?
-            if(!consistent_bignesses[parts[p].id]){
+            if(consistent_bignesses.count(parts[p].id) < 1){
                 //generate an item for this type, & cache its bigness
                 item tmp (g->itypes[part_info(p).item], 0);
                 consistent_bignesses[parts[p].id] = tmp.bigness;
@@ -406,14 +405,11 @@ void vehicle::use_controls()
 
 vpart_info& vehicle::part_info (int index)
 {
-    vpart_id id = vp_null;
-    if (index < 0 || index >= parts.size())
-        id = vp_null;
-    else
-        id = parts[index].id;
-    if (id < vp_null || id >= num_vparts)
-        id = vp_null;
-    return vehicle_part_types[id];
+    if (index >= 0 && index < parts.size()) {
+        return vehicle_part_types[parts[index].id];
+    } else {
+        return vehicle_part_types["null"];
+    }
 }
 
 // engines & solar panels all have power.
@@ -465,10 +461,10 @@ bool vehicle::can_stack_vpart_flag(std::string vpart_flag) {
 
 }
 
-bool vehicle::can_mount (int dx, int dy, vpart_id id)
+bool vehicle::can_mount (int dx, int dy, std::string id)
 {
-    if (id <= 0 || id >= num_vparts) {
-        return false;
+    if(vehicle_part_types.count(id) == 0) {
+      return false;
     }
     bool n3ar = parts.size() < 1 || vehicle_part_types[id].has_flag("INTERNAL")
                                  || vehicle_part_types[id].has_flag("OVER"); // first and internal parts needs no mount point
@@ -561,13 +557,16 @@ bool vehicle::can_unmount (int p)
     { // central point
         bool is_ext = false;
         for (int ep = 0; ep < external_parts.size(); ep++)
+        {
             if (external_parts[ep] == p)
             {
                 is_ext = true;
                 break;
             }
-        if (external_parts.size() > 1 && is_ext)
-            return false; // unmounting 0, 0 part anly allowed as last part
+        }
+        if (external_parts.size() > 1 && is_ext) {
+            return false; // unmounting 0, 0 part only allowed as last part
+        }
     }
 
     if (!part_flag (p, "MOUNT_POINT")) {
@@ -600,26 +599,16 @@ bool vehicle::can_unmount (int p)
 }
 
 /**
- * This version of install_part is used -only- to create vehicles being read in
- * from JSON at the start of the program.
+ * Installs a part into this vehicle.
  * @param dx The x coordinate of where to install the part.
  * @param dy The y coordinate of where to install the part.
- * @param vpart_id The string ID of the part to install.
+ * @param id The string ID of the part to install. (see vehicle_parts.json)
+ * @param hp The starting HP of the part. If negative, default to max HP.
+ * @param force true if the part should be installed even if not legal,
+ *              false if illegal part installation should fail.
  * @return false if the part could not be installed, true otherwise.
  */
-bool vehicle::install_part (int dx, int dy, std::string vpart_info_id)
-{
-  //Just find the right enum constant and delegate to the existing install_part
-  for(int vpart_index = 0; vpart_index < num_vparts; vpart_index++) {
-    if(vehicle_part_types[vpart_index].id == vpart_info_id) {
-      install_part(dx, dy, (vpart_id)vpart_index);
-      return true;
-    }
-  }
-  return false;
-}
-
-int vehicle::install_part (int dx, int dy, vpart_id id, int hp, bool force)
+int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
 {
     if (!force && !can_mount (dx, dy, id)) {
         return -1;  // no money -- no ski!

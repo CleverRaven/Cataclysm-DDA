@@ -24,6 +24,8 @@ enum add_type {
  ADD_COKE, ADD_CRACK,
 };
 
+void realDebugmsg(const char* name, const char* line, const char *mes, ...);
+
 struct disease
 {
  dis_type type;
@@ -64,6 +66,7 @@ struct player_activity
  bool continuous;
  bool ignore_trivial;
  std::vector<int> values;
+ std::vector<std::string> str_values;
  point placement;
 
  player_activity() { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
@@ -92,8 +95,12 @@ struct player_activity
   continuous = copy.continuous;
   ignore_trivial = copy.ignore_trivial;
   values.clear();
-  for (int i = 0; i < copy.values.size(); i++)
+  for (int i = 0; i < copy.values.size(); i++) {
    values.push_back(copy.values[i]);
+  }
+  for (int i = 0; i < copy.str_values.size(); i++) {
+   str_values.push_back(copy.str_values[i]);
+  }
  }
 
  std::string save_info()
@@ -102,8 +109,13 @@ struct player_activity
   // name can be empty, so make sure we prepend something to it
   ret << type << " " << moves_left << " " << index << " " << (int)invlet << " str:" << name << " "
          << placement.x << " " << placement.y << " " << values.size();
-  for (int i = 0; i < values.size(); i++)
+  for (int i = 0; i < values.size(); i++) {
    ret << " " << values[i];
+  }
+  ret << " " << str_values.size();
+  for (int i = 0; i < str_values.size(); i++) {
+   ret << " " << str_values[i];
+  }
 
   return ret.str();
  }
@@ -120,6 +132,13 @@ struct player_activity
    int tmp2;
    dump >> tmp2;
    values.push_back(tmp2);
+  }
+  dump >> tmp; //str_values size
+  str_values.clear();
+  for (int i = 0; i < tmp; i++) {
+   std::string next_val;
+   dump >> next_val;
+   str_values.push_back(next_val);
   }
  }
 };
