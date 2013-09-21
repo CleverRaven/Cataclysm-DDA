@@ -1586,9 +1586,9 @@ void player::memorial( std::ofstream &memorial_file )
     bool had_effect = false;
     for(int i = 0; i < illness.size(); i++) {
       disease next_illness = illness[i];
-      if(dis_name(g,next_illness).size() > 0) {
+      if(dis_name(next_illness).size() > 0) {
         had_effect = true;
-        memorial_file << indent << dis_name(g,next_illness) << "\n";
+        memorial_file << indent << dis_name(next_illness) << "\n";
       }
     }
     //Various effects not covered by the illness list - from player.cpp
@@ -1780,9 +1780,9 @@ void player::disp_info(game *g)
  std::vector<std::string> effect_name;
  std::vector<std::string> effect_text;
  for (int i = 0; i < illness.size(); i++) {
-  if (dis_name(g,illness[i]).size() > 0) {
-   effect_name.push_back(dis_name(g,illness[i]));
-   effect_text.push_back(dis_description(g,illness[i]));
+  if (dis_name(illness[i]).size() > 0) {
+   effect_name.push_back(dis_name(illness[i]));
+   effect_text.push_back(dis_description(illness[i]));
   }
  }
  if (abs(morale_level()) >= 100) {
@@ -2276,7 +2276,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   int move_adjust = disease_speed_boost(illness[i]);
   if (move_adjust != 0) {
    nc_color col = (move_adjust > 0 ? c_green : c_red);
-   mvwprintz(w_speed, line,  1, col, dis_name(g, illness[i]).c_str());
+   mvwprintz(w_speed, line,  1, col, dis_name(illness[i]).c_str());
    mvwprintz(w_speed, line, 21, col, (move_adjust > 0 ? "+" : "-"));
    move_adjust = abs(move_adjust);
    mvwprintz(w_speed, line, (move_adjust >= 10 ? 22 : 23), col, "%d%%%%",
@@ -4138,7 +4138,7 @@ void player::add_disease(dis_type type, int duration,
     }
     if (!found) {
         if (!is_npc()) {
-            dis_msg(g, type);
+            dis_msg(type);
         }
         disease tmp(type, duration, intensity, part, side);
         illness.push_back(tmp);
@@ -4156,7 +4156,7 @@ void player::rem_disease(dis_type type, body_part part, int side)
             ( side == -1 || illness[i].side == side ) ) {
             illness.erase(illness.begin() + i);
             if(!is_npc()) {
-                dis_remove_memorial(g, type);
+                dis_remove_memorial(type);
             }
         }
     }
@@ -4167,7 +4167,7 @@ void player::rem_disease(dis_type type, body_part part, int side)
 bool player::has_disease(dis_type type, body_part part, int side) const
 {
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type && 
+        if (illness[i].type == type &&
             ( part == num_bp || illness[i].bp == part ) &&
             ( side == -1 || illness[i].side == side ) ) {
             return true;
@@ -4323,7 +4323,7 @@ void player::suffer(game *g)
     }
     for (int i = 0; i < illness.size(); i++)
     {
-        dis_effect(g, *this, illness[i]);
+        dis_effect(*this, illness[i]);
         illness[i].duration--;
         if (illness[i].duration < MIN_DISEASE_AGE)// Cap permanent disease age
         {

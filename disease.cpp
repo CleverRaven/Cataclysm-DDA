@@ -135,7 +135,7 @@ void game::init_diseases() {
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
 }
 
-void dis_msg(game *g, dis_type type_string) {
+void dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
     case DI_GLARE:
@@ -240,7 +240,7 @@ void dis_msg(game *g, dis_type type_string) {
     }
 }
 
-void dis_remove_memorial(game* g, dis_type type_string) {
+void dis_remove_memorial(dis_type type_string) {
 
   dis_type_enum type = disease_type_lookup[type_string];
 
@@ -270,7 +270,7 @@ void dis_remove_memorial(game* g, dis_type type_string) {
 
 }
 
-void dis_effect(game *g, player &p, disease &dis) {
+void dis_effect(player &p, disease &dis) {
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
     int bonus, psnChance;
@@ -729,7 +729,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_FUNGUS:
-            manage_fungal_infection(g, p, dis);
+            manage_fungal_infection(p, dis);
             break;
 
         case DI_SLIMED:
@@ -788,7 +788,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             }
 
         case DI_SLEEP:
-            manage_sleep(g, p, dis);
+            manage_sleep(p, dis);
             break;
 
         case DI_STEMCELL_TREATMENT:
@@ -846,7 +846,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_DRUNK:
-            handle_alcohol(g, p, dis);
+            handle_alcohol(p, dis);
             break;
 
         case DI_CIG:
@@ -942,7 +942,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_DERMATIK:
-            handle_insect_parasites(g, p, dis);
+            handle_insect_parasites(p, dis);
             break;
 
         case DI_WEBBED:
@@ -993,7 +993,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_HALLU:
-            handle_deliriant(g, p, dis);
+            handle_deliriant(p, dis);
         break;
 
         case DI_ADRENALINE:
@@ -1204,7 +1204,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_BITE:
-            handle_bite_wound(g, p, dis);
+            handle_bite_wound(p, dis);
             break;
 
         case DI_LIGHTSNARE:
@@ -1370,7 +1370,7 @@ int disease_speed_boost(disease dis)
  return 0;
 }
 
-std::string dis_name(game* g, disease& dis)
+std::string dis_name(disease& dis)
 {
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
@@ -1390,7 +1390,7 @@ std::string dis_name(game* g, disease& dis)
                 case 2: return _("Cold face!");
                 case 3: return _("Freezing face!!");}
                 break;
-            case bp_torso: 
+            case bp_torso:
                 switch (dis.intensity) {
                 case 1: return _("Chilly torso");
                 case 2: return _("Cold torso!");
@@ -1623,7 +1623,7 @@ std::string dis_name(game* g, disease& dis)
     return "";
 }
 
-std::string dis_description(game* g,disease& dis)
+std::string dis_description(disease& dis)
 {
     int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
@@ -2064,7 +2064,7 @@ void manage_fire_exposure(player &p, int fireStrength) {
     }
 }
 
-void manage_fungal_infection(game* g, player& p, disease& dis) {
+void manage_fungal_infection(player& p, disease& dis) {
     int bonus = p.has_trait("POISRESIST") ? 100 : 0;
     p.moves -= 10;
     p.str_cur -= 1;
@@ -2134,7 +2134,7 @@ void manage_fungal_infection(game* g, player& p, disease& dis) {
     }
 }
 
-void manage_sleep(game* g, player& p, disease& dis) {
+void manage_sleep(player& p, disease& dis) {
     p.moves = 0;
     if(int(g->turn) % 25 == 0) {
         if (p.fatigue > 0) {
@@ -2221,7 +2221,7 @@ void manage_sleep(game* g, player& p, disease& dis) {
     }
 }
 
-void handle_alcohol(game* g, player& p, disease& dis) {
+void handle_alcohol(player& p, disease& dis) {
     /*  We get 600 turns, or one hour, of DI_DRUNK for each drink we have (on avg).
         Duration of DI_DRUNK is a good indicator of how much alcohol is in our system.
     */
@@ -2243,7 +2243,7 @@ void handle_alcohol(game* g, player& p, disease& dis) {
     }
 }
 
-void handle_bite_wound(game* g, player& p, disease& dis) {
+void handle_bite_wound(player& p, disease& dis) {
     //3600 (6-hour) lifespan
     if (dis.duration > 2400) {
         // First symptoms for 2 hours
@@ -2287,7 +2287,7 @@ void handle_cough(player &p, int loudness) {
     }
 }
 
-void handle_deliriant(game* g, player& p, disease& dis) {
+void handle_deliriant(player& p, disease& dis) {
     // To be redone.
     // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
     static bool puked = false;
@@ -2411,7 +2411,7 @@ void handle_evil(player& p, disease& dis) {
     }
 }
 
-void handle_insect_parasites(game* g, player& p, disease& dis) {
+void handle_insect_parasites(player& p, disease& dis) {
     int formication_chance = 600;
     if (dis.duration > -2400 && dis.duration < 0) {
         formication_chance = 2400 + dis.duration;
