@@ -185,13 +185,6 @@ std::istream& operator>>(std::istream& is, SkillLevel& obj) {
   return is;
 }
 
-std::ostream& operator<<(std::ostream& os, const SkillLevel& obj) {
-  os << obj.level() << " " << obj.exercise(true) << " "
-     << obj.isTraining() << " " << obj.lastPracticed() << " ";
-
-  return os;
-}
-
 SkillLevel& SkillLevel::operator= (const SkillLevel &rhs)
 {
  if (this == &rhs)

@@ -97,7 +97,7 @@ struct player_activity
  bool json_load(picojson::value & parsed);
 //std::map<std::string, picojson::value> & data);
 /// this is for OLD saves
- void load_info(std::stringstream &dump)
+ void load_legacy(std::stringstream &dump)
  {
   int tmp, tmptype, tmpinvlet;
   std::string tmpname;

@@ -150,17 +150,15 @@ std::string npc::save_info()
 
 void npc::load_info(game *g, std::string data)
 {
- std::stringstream dump;
- std::string tmpname;
- int deathtmp, deadtmp, classtmp, npc_id;
- dump << data;
+    std::stringstream dump;
+    dump << data;
 
-char check=dump.peek();
-if ( check == ' ' ) {
-  // sigh..
-  check=data[1];
-} 
-if ( check == '{' ) {
+    char check = dump.peek();
+    if ( check == ' ' ) {
+        // sigh..
+        check = data[1];
+    }
+    if ( check == '{' ) {
         picojson::value pdata;
         dump >> pdata;
         std::string jsonerr = picojson::get_last_error();
@@ -170,8 +168,15 @@ if ( check == '{' ) {
             json_load(pdata, g);
         }
         return;
+    } else {
+        load_legacy(g, dump);
+    }
 }
+
+void npc::load_legacy(game *g, std::stringstream & dump) {
 ////////////////////////////////// everything below is for OLD saves
+    std::string tmpname;
+    int deathtmp, deadtmp, classtmp, npc_id;
  dump >> npc_id;
  setID(npc_id);
 // Standard player stuff
@@ -263,9 +268,9 @@ if ( check == '{' ) {
  flags = flagstmp;
  attitude = npc_attitude(tmpatt);
 
- op_of_u.load_info(dump);
- chatbin.load_info(dump);
- combat_rules.load_info(dump);
+ op_of_u.load_legacy(dump);
+ chatbin.load_legacy(dump);
+ combat_rules.load_legacy(dump);
 }
 
 void npc::randomize(game *g, npc_class type)

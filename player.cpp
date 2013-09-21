@@ -1300,7 +1300,7 @@ void player::load_info(game *g, std::string data)
 }
 
 
-void player::load_legacy(game *g, std::stringstream & dump)
+void player::load_legacy(game *g, std::stringstream & dump) {
 /////////////////// everything below is for OLD saves. update json_load in gamesave_json.cpp
  int inveh, vctrl;
  itype_id styletmp;
@@ -1321,8 +1321,8 @@ void player::load_legacy(game *g, std::stringstream & dump)
   debugmsg("Tried to use non-existent profession '%s'", prof_ident.c_str());
  }
 
- activity.load_info(dump);
- backlog.load_info(dump);
+ activity.load_legacy(dump);
+ backlog.load_legacy(dump);
 
  in_vehicle = inveh != 0;
  controlling_vehicle = vctrl != 0;

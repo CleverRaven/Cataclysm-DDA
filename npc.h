@@ -224,19 +224,8 @@ struct npc_opinion
  };
  picojson::value json_save();
  bool json_load(std::map<std::string, picojson::value> & data );
-///////////////// FIXME: move
- std::string save_info()
- {
-  std::stringstream ret;
-  ret << trust << " " << fear << " " << value << " " << anger << " " << owed <<
-         " " << favors.size();
-  for (int i = 0; i < favors.size(); i++)
-    ret << " " << int(favors[i].type) << " " << favors[i].value << " " <<
-      favors[i].item_id << " " << favors[i].skill->id();
-  return ret.str();
- }
 
- void load_info(std::stringstream &info)
+ void load_legacy(std::stringstream &info)
  {
   int tmpsize;
   info >> trust >> fear >> value >> anger >> owed >> tmpsize;
@@ -276,15 +265,8 @@ struct npc_combat_rules
   use_grenades = true;
   use_silent = false;
  };
-////////////// FIXME:: move
- std::string save_info()
- {
-  std::stringstream dump;
-  dump << engagement << " " << use_guns << " " << use_grenades << " " << use_silent;
-  return dump.str();
- }
 
- void load_info(std::istream &data)
+ void load_legacy(std::istream &data)
  {
   int tmpen;
   data >> tmpen >> use_guns >> use_grenades >> use_silent;
@@ -380,20 +362,7 @@ struct npc_chatbin
  picojson::value json_save();
  bool json_load(std::map<std::string, picojson::value> & data);
 
-///FIXME: move
- std::string save_info()
- {
-  std::stringstream ret;
-  ret << first_topic << " " << mission_selected << " " << tempvalue << " " <<
-          (skill ? skill->ident() : "none") << " " << missions.size() << " " << missions_assigned.size();
-  for (int i = 0; i < missions.size(); i++)
-   ret << " " << missions[i];
-  for (int i = 0; i < missions_assigned.size(); i++)
-   ret << " " << missions_assigned[i];
-  return ret.str();
- }
-
- void load_info(std::stringstream &info)
+ void load_legacy(std::stringstream &info)
  {
   int tmpsize_miss, tmpsize_assigned, tmptopic;
   std::string skill_ident;
@@ -436,6 +405,7 @@ public:
  void starting_weapon(game *g);
 
 // Save & load
+ virtual void load_legacy(game *g, std::stringstream & dump);// Overloaded from player
  virtual void load_info(game *g, std::string data);// Overloaded from player
  virtual std::string save_info();
 

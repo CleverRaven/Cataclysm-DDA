@@ -70,7 +70,7 @@ public:
 
  virtual void load_legacy(game *g, std::stringstream & dump);  // stringstream loader for old data
  virtual void load_info(game *g, std::string data); // deserialize string when loading
- virtual std::string save_info();		    // output serialized string for saving
+ virtual std::string save_info();		    // output serialized json string for saving
 
  void json_load_common_variables( std::map<std::string, picojson::value> & data ); 
  virtual void json_load(picojson::value & parsed, game *g);   // populate variables, inventory items, and misc from json object
