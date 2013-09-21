@@ -150,8 +150,8 @@ void game::init_ui(){
     const int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
-        TERMX = sidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1);
-        TERMY = OPTIONS["VIEWPORT_Y"] * 2 + 1;
+        TERMX = sidebarWidth + ((int)OPTIONS["VIEWPORT_X"] * 2 + 1);
+        TERMY = (int)OPTIONS["VIEWPORT_Y"] * 2 + 1;
         VIEWX = (OPTIONS["VIEWPORT_X"] > 60) ? 60 : OPTIONS["VIEWPORT_X"];
         VIEWY = (OPTIONS["VIEWPORT_Y"] > 60) ? 60 : OPTIONS["VIEWPORT_Y"];
 
@@ -162,8 +162,8 @@ void game::init_ui(){
             VIEWX += 1;
         }
 
-        VIEW_OFFSET_X = (OPTIONS["VIEWPORT_X"] > 60) ? OPTIONS["VIEWPORT_X"]-60 : 0;
-        VIEW_OFFSET_Y = (OPTIONS["VIEWPORT_Y"] > 60) ? OPTIONS["VIEWPORT_Y"]-60 : 0;
+        VIEW_OFFSET_X = (OPTIONS["VIEWPORT_X"] > 60) ? (int)OPTIONS["VIEWPORT_X"]-60 : 0;
+        VIEW_OFFSET_Y = (OPTIONS["VIEWPORT_Y"] > 60) ? (int)OPTIONS["VIEWPORT_Y"]-60 : 0;
         TERRAIN_WINDOW_WIDTH  = (VIEWX * 2) + 1;
         TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
     #else
@@ -326,7 +326,7 @@ void game::setup()
 
  weather = WEATHER_CLEAR; // Start with some nice weather...
  // Weather shift in 30
- nextweather = HOURS(OPTIONS["INITIAL_TIME"]) + MINUTES(30);
+ nextweather = HOURS((int)OPTIONS["INITIAL_TIME"]) + MINUTES(30);
 
  turnssincelastmon = 0; //Auto safe mode init
  autosafemode = OPTIONS["AUTOSAFEMODE"];
@@ -1660,7 +1660,7 @@ bool game::handle_action()
         int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
 
         //x% of the Viewport, only shown on visible areas
-        int dropCount = iEndX * iEndY * fFactor;
+        int dropCount = int(iEndX * iEndY * fFactor);
         //std::vector<std::pair<int, int> > vDrops;
 
         weather_printable wPrint;
@@ -1739,7 +1739,7 @@ bool game::handle_action()
  vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
  bool veh_ctrl = veh && veh->player_in_control (&u);
 
- int soffset = OPTIONS["MOVE_VIEW_OFFSET"];
+ int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
  int soffsetr = 0 - soffset;
 
  int before_action_moves = u.moves;
@@ -3728,14 +3728,14 @@ void game::draw()
         col_temp = c_ltblue;
     }
 
-    wprintz(w_location, col_temp, (std::string(" ") + print_temperature(display_temp)).c_str());
+    wprintz(w_location, col_temp, (std::string(" ") + print_temperature((float)display_temp)).c_str());
     wrefresh(w_location);
 
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"), _(season_name[turn.get_season()].c_str()), turn.days() + 1);
     if (run_mode != 0 || autosafemode != 0) {
-        int iPercent = ((turnssincelastmon*100)/OPTIONS["AUTOSAFEMODETURNS"]);
+        int iPercent = int((turnssincelastmon*100)/OPTIONS["AUTOSAFEMODETURNS"]);
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
         const char *letters[] = {"S", "A", "F", "E"};
         for (int i = 0; i < 4; i++) {
@@ -4057,14 +4057,14 @@ void game::draw_minimap()
    int arrowx = 3, arrowy = 3;
    if (abs(slope) >= 1.) { // y diff is bigger!
     arrowy = (targ.y > cursy ? 6 : 0);
-    arrowx = 3 + 3 * (targ.y > cursy ? slope : (0 - slope));
+    arrowx = int(3 + 3 * (targ.y > cursy ? slope : (0 - slope)));
     if (arrowx < 0)
      arrowx = 0;
     if (arrowx > 6)
      arrowx = 6;
    } else {
     arrowx = (targ.x > cursx ? 6 : 0);
-    arrowy = 3 + 3 * (targ.x > cursx ? slope : (0 - slope));
+    arrowy = int(3 + 3 * (targ.x > cursx ? slope : (0 - slope)));
     if (arrowy < 0)
      arrowy = 0;
     if (arrowy > 6)
@@ -4096,7 +4096,7 @@ float game::natural_light_level() const
  float ret = 0;
 
  if (levz >= 0) {
-  ret = turn.sunlight();
+  ret = (float)turn.sunlight();
   ret += weather_data[weather].light_modifier;
  }
 
@@ -4880,7 +4880,7 @@ void game::draw_footsteps()
 
 void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
 {
- int radius = sqrt(double(power / 4));
+ int radius = int(sqrt(double(power / 4)));
  int dam;
  std::string junk;
  int noise = power * (has_fire ? 2 : 10);
@@ -4905,7 +4905,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
    if (mon_hit != -1) {
     monster &z = _z[mon_hit];
-    if (!z.dead && z.hurt(rng(dam / 2, dam * 1.5))) {
+    if (!z.dead && z.hurt(rng(dam / 2, long(dam * 1.5)))) {
      if (z.hp < 0 - (z.type->size < 2? 1.5:3) * z.type->hp)
       explode_mon(mon_hit); // Explode them if it was big overkill
      else
@@ -4919,7 +4919,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    }
 
    if (npc_hit != -1) {
-    active_npc[npc_hit]->hit(this, bp_torso, 0, rng(dam / 2, dam * 1.5), 0);
+    active_npc[npc_hit]->hit(this, bp_torso, 0, rng(dam / 2, long(dam * 1.5)), 0);
     active_npc[npc_hit]->hit(this, bp_head,  0, rng(dam / 3, dam),       0);
     active_npc[npc_hit]->hit(this, bp_legs,  0, rng(dam / 3, dam),       0);
     active_npc[npc_hit]->hit(this, bp_legs,  1, rng(dam / 3, dam),       0);
@@ -4989,7 +4989,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     if (hit == bp_eyes || hit == bp_mouth || hit == bp_head)
      dam = rng(2 * dam, 5 * dam);
     else if (hit == bp_torso)
-     dam = rng(1.5 * dam, 3 * dam);
+     dam = rng(long(1.5 * dam), 3 * dam);
     int npcdex = npc_at(tx, ty);
     active_npc[npcdex]->hit(this, hit, rng(0, 1), 0, dam);
     if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
@@ -5971,7 +5971,7 @@ void game::close()
 
 void game::smash()
 {
-    const int move_cost = (u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
+    const int move_cost = int(u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
     bool didit = false;
     std::string bashsound, extra;
     int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
@@ -6007,7 +6007,7 @@ void game::smash()
         }
         double pulp_power = sqrt((double)(u.str_cur + u.weapon.type->melee_dam)) * sqrt((double)(cut_power + 1));
         pulp_power *= 20; // constant multiplier to get the chance right
-        int rn = rng(0, pulp_power);
+        int rn = rng(0, (long)pulp_power);
         while (rn > 0 && !corpses.empty())
         {
             item *it = corpses.front();
@@ -6091,7 +6091,7 @@ void game::smash()
             if (u.weapon.volume() > 20)
             {
                 // Hurt left arm too, if it was big
-                u.hit(this, bp_hands, 0, 0, rng(0, u.weapon.volume() * .5));
+                u.hit(this, bp_hands, 0, 0, rng(0, long(u.weapon.volume() * .5)));
             }
             u.remove_weapon();
         }
@@ -8712,10 +8712,10 @@ void game::complete_butcher(int index)
 
  pieces += int(skill_shift);
  if (skill_shift < 5)  {	// Lose some skins and bones
-  skins += (skill_shift - 5);
-  bones += (skill_shift - 2);
-  sinews += (skill_shift - 8);
-  feathers += (skill_shift - 1);
+  skins += ((int)skill_shift - 5);
+  bones += ((int)skill_shift - 2);
+  sinews += ((int)skill_shift - 8);
+  feathers += ((int)skill_shift - 1);
  }
 
  if (bones > 0) {
@@ -9294,7 +9294,7 @@ void game::pldrive(int x, int y) {
  if (veh->skidding && veh->valid_wheel_config()) {
   if (rng (0, 100) < u.dex_cur + u.skillLevel("driving") * 2) {
    add_msg (_("You regain control of the %s."), veh->name.c_str());
-   veh->velocity = veh->forward_velocity();
+   veh->velocity = int(veh->forward_velocity());
    veh->skidding = false;
    veh->move.init (veh->turn_dir);
   }
@@ -9575,8 +9575,7 @@ void game::plmove(int dx, int dy)
 
 // Calculate cost of moving
   bool diag = trigdist && u.posx != x && u.posy != y;
-  u.moves -= u.run_cost(m.combined_movecost(u.posx, u.posy, x, y, grabbed_vehicle), diag) *
-      drag_multiplier;
+  u.moves -= int(u.run_cost(m.combined_movecost(u.posx, u.posy, x, y, grabbed_vehicle), diag) * drag_multiplier);
 
 // Adjust recoil down
   if (u.recoil > 0) {
