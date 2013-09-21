@@ -1536,6 +1536,17 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Kills:") << "\n";
 
     int total_kills = 0;
+
+    std::map<std::string, int> memkills = g->all_kills();
+
+    for (std::map<std::string, int>::iterator monkill = memkills.begin(); monkill != memkills.end(); ++monkill)
+    {
+        // guaranteed to be > 0
+        mtype *mon = monster_controller->mon_templates[monkill->first];
+        memorial_file << " " << (char)mon->sym << " - " << mon->name << " x" << monkill->second << "\n";
+        total_kills += monkill->second;
+    }
+    /*
     for(int i = 0; i < num_monsters; i++) {
         if(g->kill_count( (mon_id)(g->mtypes[i]->id) ) > 0) {
         memorial_file << "  " << (char) g->mtypes[i]->sym << " - " << g->mtypes[i]->name <<
@@ -1543,6 +1554,7 @@ void player::memorial( std::ofstream &memorial_file )
         total_kills += g->kill_count( (mon_id)(g->mtypes[i]->id) );
       }
     }
+    */
     if(total_kills == 0) {
       memorial_file << indent << _("No monsters were killed.") << "\n";
     } else {

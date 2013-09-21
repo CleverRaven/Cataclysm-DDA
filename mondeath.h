@@ -16,7 +16,7 @@ public:
  void fungus		(game *g, monster *z); // Explodes in spores D:
  void fungusawake	(game *g, monster *z); // Turn into live fungaloid
  void disintegrate	(game *g, monster *z); // Falls apart
- void shriek		(game *g, monster *z); // Screams loudly
+ //void shriek		(game *g, monster *z); // Screams loudly -- UNUSED
  void worm		(game *g, monster *z); // Spawns 2 half-worms
  void disappear		(game *g, monster *z); // Hallucination disappears
  void guilt		(game *g, monster *z); // Morale penalty

@@ -267,6 +267,8 @@ void dis_remove_memorial(game* g, dis_type type_string) {
 }
 
 void dis_effect(game *g, player &p, disease &dis) {
+    std::stringstream sTemp;
+    std::string montype;
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
     int bonus, psnChance;
@@ -1104,8 +1106,8 @@ void dis_effect(game *g, player &p, disease &dis) {
             if (dis.duration > 3600) {
                 // 12 teles
                 if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-                    mon_id montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
-                    monster beast(g->mtypes[montype]);
+                    montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
+                    monster beast(monster_controller->mon_templates[montype]);
                     int x, y;
                     int tries = 0;
                     do {
@@ -1171,8 +1173,8 @@ void dis_effect(game *g, player &p, disease &dis) {
 
         case DI_ATTENTION:
             if (one_in(100000 / dis.duration) && one_in(100000 / dis.duration) && one_in(250)) {
-                mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
-                monster beast(g->mtypes[type]);
+                montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
+                monster beast(monster_controller->mon_templates[montype]);
                 int x, y;
                 int tries = 0;
                 do {

@@ -181,7 +181,7 @@ void mapbuffer::save()
   spawn_point tmpsp;
   for (int i = 0; i < sm->spawns.size(); i++) {
    tmpsp = sm->spawns[i];
-   fout << "S " << int(tmpsp.type) << " " << tmpsp.count << " " << tmpsp.posx <<
+   fout << "S \"" << (tmpsp.type) << "\" " << tmpsp.count << " " << tmpsp.posx <<
            " " << tmpsp.posy << " " << tmpsp.faction_id << " " <<
            tmpsp.mission_id << (tmpsp.friendly ? " 1 " : " 0 ") <<
            tmpsp.name << std::endl;
@@ -302,9 +302,11 @@ void mapbuffer::unserialize(std::ifstream & fin) {
   }
 // Load items and traps and fields and spawn points and vehicles
   std::string string_identifier;
+  std::string s;
   do {
    fin >> string_identifier; // "----" indicates end of this submap
    t = 0;
+   s = "";
    if (string_identifier == "I") {
     fin >> itx >> ity;
     getline(fin, databuff); // Clear out the endline
@@ -336,8 +338,8 @@ void mapbuffer::unserialize(std::ifstream & fin) {
     char tmpfriend;
     int tmpfac = -1, tmpmis = -1;
     std::string spawnname;
-    fin >> t >> a >> itx >> ity >> tmpfac >> tmpmis >> tmpfriend >> spawnname;
-    spawn_point tmp(mon_id(t), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
+    fin >> s >> a >> itx >> ity >> tmpfac >> tmpmis >> tmpfriend >> spawnname;
+    spawn_point tmp(s, a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
                     spawnname);
     sm->spawns.push_back(tmp);
    } else if (string_identifier == "V") {

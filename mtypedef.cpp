@@ -7,7 +7,7 @@
 
  // Default constructor
  mtype::mtype () {
-  id = 0;
+  id = "mon_null";
   name = _("human");
   description = "";
   species = species_none;
@@ -34,6 +34,15 @@
   sp_attack = NULL;
   flags.push_back(MF_HUMAN);
  }
+
+ // Non-default (prepares for loading from json!)
+ mtype::mtype (std::string pid)
+ {
+     id = pid;
+     name = "";
+
+ }
+
  // Non-default (messy)
  mtype::mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, std::string pmat,
@@ -74,7 +83,7 @@
   anger = default_anger(species);
   fear = default_fears(species);
  }
-
+// this can stick around, since m_flag is still in use
  bool mtype::has_flag(m_flag flag) const
  {
   return bitflags[flag];
@@ -99,7 +108,8 @@
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 
 void game::init_mtypes ()
-{
+{// pretty much everything after this line should probably be removed :P
+    monster_controller = new monster_factory();
  int id = 0;
 // Null monster named "None".
  mtypes.push_back(new mtype);
@@ -366,7 +376,7 @@ A sluglike creature, eight feet long and the width of a refrigerator, it's black
 body glistens as it oozes it's way along the ground. Eye stalks occassionally push their \
 way out of the oily mass and look around.")
 );
-FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30, 
+FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30,
 MF_SLUDGEPROOF, MF_SLUDGETRAIL, MF_SWIMS, MF_FLAMMABLE);
 
 

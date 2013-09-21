@@ -877,7 +877,7 @@ of pureed bone & LSD."));
                     else // Success!
                     {
                         item *blood = &(g->m.i_at(x, y)[0].contents[0]);
-                        if (blood->corpse == NULL || blood->corpse->id == mon_null)
+                        if (blood->corpse == NULL || blood->corpse->id == "mon_null")
                         {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         }

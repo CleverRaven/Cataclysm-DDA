@@ -51,7 +51,7 @@ void mission_start::place_dog(game *g, mission *miss)
 
  tinymap doghouse(&(g->traps));
  doghouse.load(g, house.x * 2, house.y * 2, 0, false);
- doghouse.add_spawn(mon_dog, 1, SEEX, SEEY, true, -1, miss->uid);
+ doghouse.add_spawn("mon_dog", 1, SEEX, SEEY, true, -1, miss->uid);
  doghouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
 }
 
@@ -69,7 +69,7 @@ void mission_start::place_zombie_mom(game *g, mission *miss)
 
  tinymap zomhouse(&(g->traps));
  zomhouse.load(g, house.x * 2, house.y * 2,  0, false);
- zomhouse.add_spawn(mon_zombie, 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
+ zomhouse.add_spawn("mon_zombie", 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
  zomhouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
 }
 
@@ -85,7 +85,7 @@ void mission_start::place_jabberwock(game *g, mission *miss)
  }
  tinymap grove(&(g->traps));
  grove.load(g, site.x * 2, site.y * 2,  0, false);
- grove.add_spawn(mon_jabberwock, 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
+ grove.add_spawn("mon_jabberwock", 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
  grove.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
 }
 
@@ -93,9 +93,9 @@ void mission_start::kill_100_z(game *g, mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;//npc joins you
- miss->monster_type = mon_zombie;
+ miss->monster_type = "mon_zombie";
  int killed = 0;
- killed += g->kill_count(mon_zombie);
+ killed += g->kill_count("mon_zombie");
  miss->monster_kill_goal = 100+killed;//your kill score must increase by 100
 }
 
@@ -119,18 +119,18 @@ void mission_start::kill_horde_master(game *g, mission *miss)
  }
  tinymap tile(&(g->traps));
  tile.load(g, site.x * 2, site.y * 2,  0, false);
- tile.add_spawn(mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul");
- tile.add_spawn(mon_zombie_brute,3,SEEX,SEEY);
- tile.add_spawn(mon_zombie_fast,3,SEEX,SEEY);
+ tile.add_spawn("mon_zombie_master", 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul");
+ tile.add_spawn("mon_zombie_brute",3,SEEX,SEEY);
+ tile.add_spawn("mon_zombie_fast",3,SEEX,SEEY);
  if (SEEX > 1 && SEEX < OMAPX && SEEY > 1 && SEEY < OMAPY){
  for (int x = SEEX - 1; x <= SEEX + 1; x++) {
   for (int y = SEEY - 1; y <= SEEY + 1; y++)
-   tile.add_spawn(mon_zombie,rng(3,10),x,y);
-   tile.add_spawn(mon_zombie_fast,rng(0,2),SEEX,SEEY);
+   tile.add_spawn("mon_zombie",rng(3,10),x,y);
+   tile.add_spawn("mon_zombie_fast",rng(0,2),SEEX,SEEY);
  }
 }
- tile.add_spawn(mon_zombie_necro,2,SEEX,SEEY);
- tile.add_spawn(mon_zombie_hulk,1,SEEX,SEEY);
+ tile.add_spawn("mon_zombie_necro",2,SEEX,SEEY);
+ tile.add_spawn("mon_zombie_hulk",1,SEEX,SEEY);
  tile.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
 }
 

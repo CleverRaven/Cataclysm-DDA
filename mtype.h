@@ -6,6 +6,7 @@
 #include <bitset>
 #include <string>
 #include <vector>
+#include <set>
 #include <math.h>
 #include "mondeath.h"
 #include "monattack.h"
@@ -131,6 +132,8 @@ std::vector<monster_trigger> default_fears(monster_species spec);
 #endif
 enum m_flag {
 MF_NULL = 0,	// Helps with setvector
+MF_REVIVES,     // Flag to allow revivication, will break the hell out of saves though!
+MF_HALLUCINATION, // lets the monster be displayed as a hallucination!
 MF_SEES,	// It can see you (and will run/follow)
 MF_VIS50, //Vision -10
 MF_VIS40, //Vision -20
@@ -182,11 +185,10 @@ MF_HUMAN,	// It's a live human
 MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and poison, and can't drown
 MF_REGENERATES_50, // Monster regenerates very quickly over time
 MF_FLAMMABLE, // Monster catches fire, burns, and passes the fire on to nearby objects
-MF_REVIVES, // Monster corpse will revive after a short period of time
 MF_CHITIN,  // May produce chitin when butchered
 MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
-
+// no longer used?
 enum m_category {
 MC_NULL = 0, // No category.
 MC_CLASSIC, // Only monsters we expect in a classic zombie movie.
@@ -194,8 +196,26 @@ MC_WILDLIFE, // The natural animals.
 MC_MAX // Size of flag array.
 };
 
+
+struct species_type
+{
+    std::string id;
+
+    std::set<std::string> flags,
+                          anger_triggers,
+                          fear_triggers,
+                          placate_triggers;
+};
+
 struct mtype {
- int id;
+// altered members
+    std::string id;
+    std::set<species_type*> s_species;
+    std::map<std::string, m_flag> s_flags;
+    std::map<std::string, monster_trigger> s_anger, s_placate, s_fear;
+    std::set<std::string> s_categories;
+// /altered members
+ //int id; -- not used anymore, so commenting out to see how much stuff breaks :D
  std::string name;
  std::string description;
  monster_species species;
@@ -234,6 +254,8 @@ struct mtype {
 
  // Default constructor
  mtype ();
+ // Non-default, not super messy!
+ mtype (std::string pid);
  // Non-default (messy)
  mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, std::string pmat,

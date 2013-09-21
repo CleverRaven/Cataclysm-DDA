@@ -3891,7 +3891,7 @@ void map::spawn_monsters(game *g)
     for (int j = 0; j < grid[n]->spawns[i].count; j++) {
      int tries = 0;
      int mx = grid[n]->spawns[i].posx, my = grid[n]->spawns[i].posy;
-     monster tmp(g->mtypes[grid[n]->spawns[i].type]);
+     monster tmp(monster_controller->mon_templates[grid[n]->spawns[i].type]);
      tmp.spawnmapx = g->levx + gx;
      tmp.spawnmapy = g->levy + gy;
      tmp.faction_id = grid[n]->spawns[i].faction_id;

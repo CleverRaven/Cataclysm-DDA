@@ -1010,36 +1010,36 @@ std::string item::tname(game *g)
     else if (burnt > 0)
         burntext = rm_prefix(_("<burnt_adj>burnt "));
 
-    std::string maintext = "";
-    if (corpse != NULL && typeId() == "corpse" ) {
-        if (name != "")
-            maintext = rmp_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
-        else maintext = rmp_format(_("<item_name>%s corpse"), corpse->name.c_str());
-    } else if (typeId() == "blood") {
-        if (corpse == NULL || corpse->id == mon_null)
-            maintext = rm_prefix(_("<item_name>human blood"));
-        else
-            maintext = rmp_format(_("<item_name>%s blood"), corpse->name.c_str());
-    }
-    else if (is_gun() && contents.size() > 0 ) {
-        ret.str("");
-        ret << type->name;
-        for (int i = 0; i < contents.size(); i++)
-            ret << "+";
-        maintext = ret.str();
-    } else if (contents.size() == 1) {
-        maintext = rmp_format(
-                       contents[0].made_of(LIQUID)?
-                       _("<item_name>%s of %s"):
-                       _("<item_name>%s with %s"),
-                       type->name.c_str(), contents[0].tname().c_str()
-                   );
-    }
-    else if (contents.size() > 0) {
-        maintext = rmp_format(_("<item_name>%s, full"), type->name.c_str());
-    } else {
-        maintext = type->name;
-    }
+ std::string maintext = "";
+ if (corpse != NULL && typeId() == "corpse" ) {
+  if (name != "")
+   maintext = rmp_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
+  else maintext = rmp_format(_("<item_name>%s corpse"), corpse->name.c_str());
+ } else if (typeId() == "blood") {
+  if (corpse == NULL || corpse->id == "mon_null")
+   maintext = rm_prefix(_("<item_name>human blood"));
+  else
+   maintext = rmp_format("<item_name>%s blood", corpse->name.c_str());
+ }
+ else if (is_gun() && contents.size() > 0 ) {
+  ret.str("");
+  ret << type->name;
+  for (int i = 0; i < contents.size(); i++)
+   ret << "+";
+  maintext = ret.str();
+ } else if (contents.size() == 1) {
+  maintext = rmp_format(
+      contents[0].made_of(LIQUID)?
+      _("<item_name>%s of %s"):
+      _("<item_name>%s with %s"),
+      type->name.c_str(), contents[0].tname().c_str()
+  );
+ }
+ else if (contents.size() > 0) {
+  maintext = rmp_format("<item_name>%s, full", type->name.c_str());
+ } else {
+  maintext = type->name;
+ }
 
     item* food = NULL;
     it_comest* food_type = NULL;
@@ -2284,7 +2284,7 @@ char item::pick_reload_ammo(player &u, bool interactive)
          ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
          amenu.addentry(i,true,i + 'a',"%s | %-7d | %-7d | %-7d | %-7d",
              std::string(
-                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) + 
+                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) +
                 std::string(namelen,' ')
              ).substr(0,namelen).c_str(),
              ammo_def->damage, ammo_def->pierce, ammo_def->range,
