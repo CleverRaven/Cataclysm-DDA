@@ -2261,11 +2261,12 @@
         "effects" : ["SMOKE_BIG"]
     },
     {
-        "id" : "RPG-7 ammo",
+        "type" : "AMMO",
+        "id" : "RPG-7_ammo",
         "price" : 500,
         "name" : "RPG-7 Ammo",
-        "symbol" : "«",
-        "color" : "gray",
+        "symbol" : "=",
+        "color" : "dark_gray",
         "description" : "Ammunition for the RPG-7.",
         "material" : "steel",
         "volume" : 10,
