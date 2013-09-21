@@ -463,7 +463,7 @@ int faction::response_time(game *g)
  if (abs(mapy - g->levy) > base)
   base = abs(mapy - g->levy);
  if (base > size)	// Out of our sphere of influence
-  (int)base *= 2.5;
+  base *= 2.5;
  base *= 24;	// 24 turns to move one overmap square
  int maxdiv = 10;
  if (goal == FACGOAL_DOMINANCE)
