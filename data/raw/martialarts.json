@@ -1,0 +1,114 @@
+[
+  {
+    "id": "style_none",
+    "name": "No style"
+  },
+  {
+    "id": "style_karate",
+    "name": "Karate",
+    "desc": "Karate is a popular martial art, originating from Japan. It focuses on rapid, precise attacks, blocks, and fluid movement. A successful hit allows you an extra dodge and two extra blocks on the following round.",
+    "static_buffs": [],
+    "onhit_buffs": [
+      {
+        "id": "karate_hit_buff",
+        "name": "Karate Hit",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 3,
+        "desc": "+1 Dodges, +2 Blocks",
+        "bonus_dodges": 1,
+        "bonus_blocks": 2
+      }
+    ],
+    "techniques": ["tec_karate_rapid", "tec_karate_precise"]
+  },
+  {
+    "id": "style_aikido",
+    "name": "Aikido",
+    "desc": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker. It uses defense throws and disarms. Damage done while using this technique is halved, but pain inflicted is doubled.",
+    "static_buffs": [
+      {
+        "id": "aikido_half_damage",
+        "name": "Aikido",
+        "unarmed_allowed": true,
+        "bash_mult": 0.5,
+        "min_unarmed": 0,
+        "buff_duration": 2,
+        "desc": "Half damage to enemies"
+      }
+    ],
+    "onhit_buffs": [],
+    "techniques": ["tec_aikido_feint", "tec_aikido_disarm", "tec_aikido_throw"]
+  },
+  {
+    "id": "style_judo",
+    "name": "Judo",
+    "desc": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive. It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
+    "static_buffs": [
+      {
+        "id": "judo_recovery",
+        "name": "Judo",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 2,
+        "throw_immune": true,
+        "desc": "Immune to throws and knockdowns"
+      }
+    ],
+    "onhit_buffs": [],
+    "techniques": ["tec_judo_grab", "tec_judo_throw"]
+  },
+  {
+    "id": "style_tai_chi",
+    "name": "Tai Chi",
+    "desc": "Though tai chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense. Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
+    "static_buffs": [
+      {
+        "id": "tai_chi_block",
+        "name": "Tai Chi",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 2,
+        "block_per": 0.8,
+        "desc": "Perception decreases damage when blocking"
+      }
+    ],
+    "onhit_buffs": [],
+    "techniques": ["tec_taichi_disarm", "tec_taichi_precise"]
+  },
+  {
+    "id": "style_capoeira",
+    "name": "Capoeira",
+    "can_leg_block": true,
+    "desc": "A dance-like style with its roots in Brazilian slavery, capoeira is focused on fluid movement and sweeping kicks. Moving a tile will boost attack and damage and attacking boosts dodge. These bonuses stack up to three times each.",
+    "onhit_buffs": [
+      {
+        "id": "capoeira_hit_buff",
+        "name": "Capoeira Tempo",
+        "desc": "+1 dodge and +1 blocks per stack",
+        "unarmed_allowed": true,
+        "min_unarmed": 3,
+        "buff_duration": 5,
+        "max_stacks": 3,
+        "bonus_blocks": 1,
+        "dodge": 1
+      }
+
+    ],
+    "onmove_buffs": [
+      {
+        "id": "capoeira_move_buff",
+        "name": "Capoeira Momentum",
+        "desc": "+2 bash and +1 hit per stack",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 3,
+        "max_stacks": 3,
+        "bash": 2,
+        "hit": 1
+      }
+    ],
+    "techniques": ["tec_capoeira_feint"]
+  }
+]
+

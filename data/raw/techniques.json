@@ -1,0 +1,215 @@
+[
+  {
+    "id": "tec_feint",
+    "name": "Feint",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+
+    "miss_recovery": true
+
+  },
+  {
+    "id": "tec_flaming",
+    "name": "Flaming",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+
+    "flaming": true
+  },
+  {
+    "id": "tec_break",
+    "name": "Grab Break",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "id": "tec_precise",
+    "name": "Precise Strike",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+
+    "verb_you": "%1$s jab %2$s %3$s at %4$s",
+    "verb_npc": "%1$s jabs %2$s %3$s at %4$s",
+
+    "stun_dur": 2
+  },
+  {
+    "id": "tec_karate_rapid",
+    "name": "Quick Punch",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+
+    "verb_you": "%1$s quickly punch %4$s",
+    "verb_npc": "%1$s quickly punches %4$s",
+
+    "quick": true
+  },
+  {
+    "id": "tec_karate_precise",
+    "name": "Karate Chop",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+
+    "verb_you": "%1$s karate chop %4$s",
+    "verb_npc": "%1$s karate chops %4$s",
+
+    "stun_dur": 2
+  },
+  {
+    "id": "tec_aikido_throw",
+    "name": "throw",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+
+    "verb_you": "%1$s throw %4$s",
+    "verb_npc": "%1$s throws %4$s"
+  },
+  {
+    "id": "tec_aikido_feint",
+    "name": "feint at",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+
+    "defensive": true,
+    "miss_recovery": true,
+
+    "verb_you": "%1$s feint at %4$s",
+    "verb_npc": "%1$s feints at %4$s"
+  },
+  {
+    "id": "tec_aikido_disarm",
+    "name": "disarm",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "disarms": true,
+
+    "verb_you": "%1$s disarm %4$s",
+    "verb_npc": "%1$s disarms %4$s"
+  },
+  {
+    "id": "tec_judo_throw",
+    "name": "throw",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+
+    "verb_you": "%1$s throw %4$s",
+    "verb_npc": "%1$s throws %4$s"
+  },
+  {
+    "id": "tec_judo_grab",
+    "name": "throw",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+
+    "down_dur": 1,
+
+    "verb_you": "%1$s grab %4$s",
+    "verb_npc": "%1$s grabs %4$s"
+  },
+  {
+    "id": "tec_taichi_disarm",
+    "name": "disarm",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "disarms": true,
+
+    "verb_you": "%1$s disarm %4$s",
+    "verb_npc": "%1$s disarms %4$s"
+  },
+  {
+    "id": "tec_taichi_precise",
+    "name": "Precise Strike",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+
+    "stun_dur": 2,
+
+    "verb_you": "%1$s strike %4$s",
+    "verb_npc": "%1$s strikes %4$s"
+  },
+  {
+    "id": "tec_capoeira_feint",
+    "name": "feint at",
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+
+    "defensive": true,
+    "miss_recovery": true,
+
+    "verb_you": "%1$s feint at %4$s",
+    "verb_npc": "%1$s feints at %4$s"
+  },
+
+  {
+    "id": "WIDE",
+    "name": "Wide Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+
+    "verb_you": "%1$s swing in a wide arc through %4$s",
+    "verb_npc": "%1$s swings in a wide arc through %4$s",
+
+    "aoe": "splash",
+
+    "quick": true
+  },
+  {
+    "id": "BRUTAL",
+    "name": "Wide Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+
+    "stun_dur": 1,
+    "knockback_dist": 1,
+
+    "verb_you":"%1$s slam %2$s %3$s against %4$s",
+    "verb_npc":"%1$s slams %2$s %3$s against %4$s"
+  },
+  {
+    "id": "RAPID",
+    "name": "Rapid Strike",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+
+    "quick": true,
+
+    "verb_you": "%1$s quickly strike with %2$s %3$s at %4$s",
+    "verb_npc": "%1$s quickly strikes with %2$s %3$s at %4$s"
+  },
+  {
+    "id": "WRAP",
+    "name": "Wrap attack",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+
+    "stun_dur": 2,
+
+    "verb_you": "%1$s use %2$s %3$s to wrap up %4$s",
+    "verb_npc": "%1$s uses %2$s %3$s to wrap up %4$s"
+  },
+  {
+    "id": "SWEEP",
+    "name": "Sweep Attack",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+
+    "down_dur": 2,
+
+    "verb_you": "%1$s use %2$s %3$s to sweep %4$s",
+    "verb_npc": "%1$s uses %2$s %3$s to sweep %4$s"
+  }
+]

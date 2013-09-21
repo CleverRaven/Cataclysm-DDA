@@ -143,8 +143,9 @@ struct itype
  signed char m_to_hit;	// To-hit bonus for melee combat; -5 to 5 is reasonable
 
  std::set<std::string> item_tags;
- unsigned techniques : NUM_TECHNIQUES;
+ std::set<std::string> techniques;
  unsigned int light_emission;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
+ // unsigned techniques : NUM_TECHNIQUES;
 
  virtual bool is_food()          { return false; }
  virtual bool is_ammo()          { return false; }
@@ -183,7 +184,6 @@ struct itype
   melee_dam = 0;
   melee_cut = 0;
   m_to_hit = 0;
-  techniques = 0;
   light_emission = 0;
   use = &iuse::none;
  }
@@ -192,8 +192,7 @@ struct itype
        std::string pname, std::string pdes,
        char psym, nc_color pcolor, std::string pm1, std::string pm2, phase_id pphase,
        unsigned short pvolume, unsigned int pweight,
-       signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-       unsigned ptechniques = 0) :
+       signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit) :
     id(pid), name(pname), description(pdes), m1(pm1), m2(pm2) {
   price       = pprice;
   sym         = psym;
@@ -206,7 +205,6 @@ struct itype
   melee_dam   = pmelee_dam;
   melee_cut   = pmelee_cut;
   m_to_hit    = pm_to_hit;
-  techniques  = ptechniques;
   light_emission = 0;
   use         = &iuse::none;
  }
@@ -357,7 +355,7 @@ struct it_ammo : public itype
 	signed char pdispersion, unsigned char precoil, unsigned char prange,
         unsigned char pcount)
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   type = ptype;
   casing = pcasing;
   damage = pdamage;
@@ -774,7 +772,14 @@ struct it_artifact_tool : public it_tool
      }
      data[std::string("item_flags")] = picojson::value(tags_json);
 
-     data[std::string("techniques")] = picojson::value(techniques);
+     std::vector<picojson::value> techniques_json;
+     for(std::set<std::string>::iterator it = techniques.begin();
+         it != techniques.end(); ++it)
+     {
+         techniques_json.push_back(picojson::value(*it));
+     }
+     data[std::string("techniques")] =
+         picojson::value(techniques_json);
 
      // tool data
      data[std::string("ammo")] = picojson::value(ammo);
@@ -887,7 +892,14 @@ struct it_artifact_armor : public it_armor
      }
      data[std::string("item_flags")] = picojson::value(tags_json);
 
-     data[std::string("techniques")] = picojson::value(techniques);
+     std::vector<picojson::value> techniques_json;
+     for(std::set<std::string>::iterator it = techniques.begin();
+         it != techniques.end(); ++it)
+     {
+         techniques_json.push_back(picojson::value(*it));
+     }
+     data[std::string("techniques")] =
+         picojson::value(techniques_json);
 
      // armor data
      data[std::string("covers")] = picojson::value(covers);

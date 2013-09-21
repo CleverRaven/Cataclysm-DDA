@@ -207,12 +207,12 @@ void player::json_load_common_variables( std::map<std::string, picojson::value> 
         debugmsg("Skills[] no bueno");
     }
 
-    styles.clear();
-    parray=pgetarray(data,"styles");
+    ma_styles.clear();
+    parray=pgetarray(data,"ma_styles");
     if ( parray != NULL ) {
         for( picojson::array::const_iterator pt = parray->begin(); pt != parray->end(); ++pt) {
             if ( (*pt).is<std::string>() ) {
-                 styles.push_back( (*pt).get<std::string>() );
+                 ma_styles.push_back( (*pt).get<std::string>() );
             }
         }
     }
@@ -343,10 +343,10 @@ void player::json_save_common_variables( std::map<std::string, picojson::value> 
     ptmpmap.clear();
 
     // martial arts
-    for (int i = 0; i < styles.size(); i++) {
-        ptmpvect.push_back( pv( styles[i] ) );
+    for (int i = 0; i < ma_styles.size(); i++) {
+        ptmpvect.push_back( pv( ma_styles[i] ) );
     }
-    data["styles"] = pv ( ptmpvect );
+    data["ma_styles"] = pv ( ptmpvect );
     ptmpvect.clear();
 
     // disease

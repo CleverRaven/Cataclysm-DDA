@@ -34,11 +34,11 @@ void game::init_itypes ()
 {
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes["null"]=
-  new itype("null", 0, "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
+  new itype("null", 0, "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0);
 // Corpse - a special item
  itypes["corpse"]=
   new itype("corpse", 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
-            0, 0, 1, 0);
+            0, 0, 1);
  itypes["corpse"]->item_tags.insert("NO_UNLOAD");
 // This must -always- be set, or bad mojo in map::drawsq and whereever we check 'typeId() == "corpse" instead of 'corpse != NULL' ....
  itypes["corpse"]->corpse=this->mtypes[mon_null];
@@ -46,17 +46,17 @@ void game::init_itypes ()
  itypes["fire"]=
   new itype("fire", 0, "nearby fire",
             "Some fire - if you are reading this it's a bug! (itypdef:fire)",
-            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
 // Integrated toolset - ditto
  itypes["toolset"]=
   new itype("toolset", 0, "integrated toolset",
             "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
-            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
 // For smoking drugs
  itypes["apparatus"]=
   new itype("apparatus", 0, "a smoking device and a source of flame",
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
-            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
 
 #define VAR_VEH_PART(id, name,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, bigmin, bigmax, bigaspect, des)\
@@ -326,7 +326,7 @@ GUN("bio_lightning", _("Chain Lightning"),	 0,c_magenta,	"steel",	"plastic",
 "", 0, noammo_flags, lightning_effects);
 
 
-
+/*
 // Unarmed Styles
 // TODO: refactor handling of styles see #1771
 #define STYLE(id, name, dam, description, ...) \
@@ -545,6 +545,7 @@ attacks with no penalty."),
 "stumble and leer at", _("%1$s stumble and leer at %4$s"), _("%1$s stumbles and leers at %4$s"), TEC_FEINT, 3,
 "counter-attack", _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 4
 );
+*/
 
 }
 

@@ -582,10 +582,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     }
     dump->push_back(iteminfo("BASE", _("burn: "), "",  burnt, true, "", true, true));
   }
-  if (type->techniques != 0)
-  for (int i = 1; i < NUM_TECHNIQUES; i++)
-   if (type->techniques & mfb(i))
-    dump->push_back(iteminfo("TECHNIQUE", "+",default_technique_name( technique_id(i) )));
+  /*
+  if (type->techniques.size() == 0)
+    for( std::set<matec_id>::const_iterator it = techniques.begin();
+          it != techniques.end(); ++it ) {
+        dump->push_back(iteminfo("TECHNIQUE", "+",*it));
+    }
+    */
  }
 
  if (is_food()) {
@@ -1253,19 +1256,9 @@ bool item::has_flag(std::string f) const
     return ret;
 }
 
-bool item::has_technique(technique_id tech, player *p)
+bool item::has_technique(matec_id tech, player *p)
 {
-    if (is_style()) {
-        it_style *style = dynamic_cast<it_style*>(type);
-        for (int i = 0; i < style->moves.size(); i++) {
-            if (style->moves[i].tech == tech &&
-            (!p || p->skillLevel("unarmed") >= style->moves[i].level))
-                return true;
-        }
-    }
-    if( is_null() )
-        return false;
-    return (type->techniques & mfb(tech));
+    return type->techniques.count(tech);
 }
 
 int item::has_gunmod(itype_id mod_type)
@@ -1276,16 +1269,6 @@ int item::has_gunmod(itype_id mod_type)
         if (contents[i].is_gunmod() && contents[i].typeId() == mod_type)
             return i;
     return -1;
-}
-
-std::vector<technique_id> item::techniques()
-{
-    std::vector<technique_id> ret;
-    for (int i = 0; i < NUM_TECHNIQUES; i++) {
-        if (has_technique( technique_id(i) ))
-            ret.push_back( technique_id(i) );
-    }
-    return ret;
 }
 
 bool item::rotten(game *g)
