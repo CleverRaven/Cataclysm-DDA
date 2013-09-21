@@ -307,7 +307,6 @@ bool monster::made_of(phase_id p)
 void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
 {
     std::stringstream dump;
-    int idtmp, plansize;
     dump << data;
     if ( dump.peek() == '{' ) {
         picojson::value pdata;
@@ -319,8 +318,13 @@ void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
             json_load(pdata, mtypes);
         }
         return;
+    } else {
+        load_legacy(mtypes, dump);
     }
+}
 
+void monster::load_legacy(std::vector <mtype *> *mtypes, std::stringstream & dump) {
+    int idtmp, plansize;
     dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
          hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
          no_extra_death_drops >> dead >> anger >> morale;

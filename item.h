@@ -95,6 +95,7 @@ public:
  virtual picojson::value json_save(bool save_contents=false) const;
  std::string save_info() const;	// Formatted for save files
  //
+ void load_legacy(game * g, std::stringstream & dump);
  void load_info(std::string data, game *g);
  //std::string info(bool showtext = false);	// Formatted for human viewing
  std::string info(bool showtext = false);

@@ -514,7 +514,12 @@ void item::load_info(std::string data, game *g)
             json_load(pdata, g);
         }
         return;
+    } else {
+        load_legacy(g, dump);
     }
+}
+
+void item::load_legacy(game * g, std::stringstream & dump) {
     clear();
     std::string idtmp, ammotmp, item_tag;
     int lettmp, damtmp, acttmp, corp, tag_count;
