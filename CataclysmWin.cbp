@@ -206,6 +206,8 @@
 		<Unit filename="faction.h" />
 		<Unit filename="field.cpp" />
 		<Unit filename="field.h" />
+		<Unit filename="file_finder.cpp" />
+		<Unit filename="file_finder.h" />
 		<Unit filename="game.cpp" />
 		<Unit filename="game.h" />
 		<Unit filename="gamemode.cpp" />
