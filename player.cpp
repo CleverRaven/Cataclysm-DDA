@@ -1276,25 +1276,31 @@ nc_color player::color()
 
 void player::load_info(game *g, std::string data)
 {
- std::stringstream dump;
- dump << data;
+    std::stringstream dump;
+    dump << data;
 
-char check=dump.peek();
-if ( check == ' ' ) {
-  // sigh..
-  check=data[1];
-}
-if ( check == '{' ) {
+    char check = dump.peek();
+    if ( check == ' ' ) {
+        // sigh..
+        check = data[1];
+    }
+    if ( check == '{' ) {
         picojson::value pdata;
         dump >> pdata;
         std::string jsonerr = picojson::get_last_error();
         if ( ! jsonerr.empty() ) {
-            debugmsg("Bad npc json\n%s", jsonerr.c_str() );
+            debugmsg("Bad player json\n%s", jsonerr.c_str() );
         } else {
             json_load(pdata, g);
         }
         return;
+    } else { // old save
+        load_legacy(g, dump);
+    }
 }
+
+
+void player::load_legacy(game *g, std::stringstream & dump)
 /////////////////// everything below is for OLD saves. update json_load in gamesave_json.cpp
  int inveh, vctrl;
  itype_id styletmp;
