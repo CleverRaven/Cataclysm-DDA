@@ -62,6 +62,26 @@
   ]
 },{
         "type" : "recipe",
+  "result": "usb_drive",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "RAM", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pda",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
