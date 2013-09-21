@@ -1,4 +1,4 @@
-#ifndef _ADVANCED_INV_H
+#ifndef _ADVANCED_INV_H_
 #define _ADVANCED_INV_H_
 #include "output.h"
 #include "game.h"
