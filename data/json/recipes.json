@@ -4694,6 +4694,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "can_chowder",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_clams", 1 ]
+    ],
+    [
+      [ "potato_raw", 1 ],
+      [ "meat_smoked", 1 ],
+      [ "sausage", 1 ],
+      [ "bacon", 1 ],
+      [ "onion", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bread",
   "category": "CC_FOOD",
   "skill_used": "cooking",
