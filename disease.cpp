@@ -53,6 +53,21 @@ enum dis_type_enum {
 
 std::map<std::string, dis_type_enum> disease_type_lookup;
 
+// Todo: Move helper functions into a DiseaseHandler Class.
+// Should standardize parameters so we can make function pointers.
+static void manage_fire_exposure(player& p, int fireStrength = 1);
+static void manage_fungal_infection(player& p, disease& dis);
+static void manage_sleep(player& p, disease& dis);
+
+static void handle_alcohol(player& p, disease& dis);
+static void handle_bite_wound(player& p, disease& dis);
+static void handle_cough(player& p, int volume = 12);
+static void handle_deliriant(player& p, disease& dis);
+static void handle_evil(player& p, disease& dis);
+static void handle_insect_parasites(player& p, disease& dis);
+
+static bool will_vomit(player& p, int chance = 1000);
+
 void game::init_diseases() {
     // Initialize the disease lookup table.
 
@@ -2221,7 +2236,7 @@ void manage_sleep(player& p, disease& dis) {
     }
 }
 
-void handle_alcohol(player& p, disease& dis) {
+static void handle_alcohol(player& p, disease& dis) {
     /*  We get 600 turns, or one hour, of DI_DRUNK for each drink we have (on avg).
         Duration of DI_DRUNK is a good indicator of how much alcohol is in our system.
     */
@@ -2243,7 +2258,7 @@ void handle_alcohol(player& p, disease& dis) {
     }
 }
 
-void handle_bite_wound(player& p, disease& dis) {
+static void handle_bite_wound(player& p, disease& dis) {
     //3600 (6-hour) lifespan
     if (dis.duration > 2400) {
         // First symptoms for 2 hours
@@ -2270,7 +2285,7 @@ void handle_bite_wound(player& p, disease& dis) {
     }
 }
 
-void handle_cough(player &p, int loudness) {
+static void handle_cough(player &p, int loudness) {
     if (!p.is_npc()) {
         g->add_msg(_("You cough heavily."));
         g->sound(p.posx, p.posy, loudness, "");
@@ -2287,7 +2302,7 @@ void handle_cough(player &p, int loudness) {
     }
 }
 
-void handle_deliriant(player& p, disease& dis) {
+static void handle_deliriant(player& p, disease& dis) {
     // To be redone.
     // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
     static bool puked = false;
@@ -2367,7 +2382,7 @@ void handle_deliriant(player& p, disease& dis) {
     }
 }
 
-void handle_evil(player& p, disease& dis) {
+static void handle_evil(player& p, disease& dis) {
     bool lesserEvil = false;  // Worn or wielded; diminished effects
     if (p.weapon.is_artifact() && p.weapon.is_tool()) {
         it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
@@ -2411,7 +2426,7 @@ void handle_evil(player& p, disease& dis) {
     }
 }
 
-void handle_insect_parasites(player& p, disease& dis) {
+static void handle_insect_parasites(player& p, disease& dis) {
     int formication_chance = 600;
     if (dis.duration > -2400 && dis.duration < 0) {
         formication_chance = 2400 + dis.duration;
