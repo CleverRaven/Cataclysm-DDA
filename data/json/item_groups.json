@@ -88,6 +88,7 @@
       ["football", 5],
       ["golf_club", 10],
       ["jersey", 10],
+      ["fan", 10],
       ["pipe_glass", 5],
       ["coke", 8],
       ["meth", 2],
@@ -359,6 +360,7 @@
       ["battery", 50],
       ["bb", 8],
       ["bbgun", 10],
+      ["fan", 10],
       ["mag_porn", 20],
       ["mag_tv", 40],
       ["mag_gaming", 20],
@@ -1870,6 +1872,7 @@
       ["medical_tape", 45],
       ["wrapped_rad_badge", 15],
       ["jar_glass", 20],
+      ["fan", 5],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -1932,6 +1935,7 @@
       ["umbrella", 5],
       ["gum", 10],
       ["nic_gum", 4],
+      ["fan", 10],
       ["pocketwatch", 2]
     ]
   },{
@@ -1945,6 +1949,7 @@
       ["sunglasses", 90],
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
+      ["fan", 10],
       ["purse", 40],
       ["mbag", 20],
       ["battery", 50],
@@ -2188,6 +2193,7 @@
       ["SICP", 3],
       ["textbook_robots", 1],
       ["extinguisher", 20],
+      ["fan", 5],
       ["radio", 20],
       ["chainsaw_off", 7],
       ["jackhammer", 2],
