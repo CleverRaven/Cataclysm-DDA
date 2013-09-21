@@ -29,6 +29,8 @@
 
 vpart_info vpart_list[num_vparts];
 
+std::map<std::string, vpart_id> vpart_enums;
+
 // Note on the 'symbol' flag in vehicle parts -
 // the following symbols will be translated:
 // y, u, n, b to NW, NE, SE, SW lines correspondingly
@@ -93,7 +95,7 @@ void game::init_vehicle_parts()
     next_part.flags = next_json.get("flags").as_tags();
 
     vpart_list[index] = next_part;
-
+    vpart_enums[next_part.id] = (vpart_id)index; // temporary for saves, until move to string vpart id
     index++;
   }
 

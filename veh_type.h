@@ -138,5 +138,5 @@ struct vpart_info
 };
 
 extern vpart_info vpart_list[num_vparts];
-
+extern std::map<std::string, vpart_id> vpart_enums;
 #endif

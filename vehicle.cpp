@@ -64,6 +64,22 @@ void vehicle::load (std::ifstream &stin)
     int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
     std::string vehicle_tag;
     getline(stin, type);
+
+    if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
+        std::stringstream derp;
+        derp << type;
+        picojson::value pdata;
+        derp >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, g);
+        }
+        return;
+    }
+/////// everything below is for OLD saves
     stin >>
         posx >>
         posy >>
@@ -138,51 +154,9 @@ void vehicle::load (std::ifstream &stin)
 
 void vehicle::save (std::ofstream &stout)
 {
-    stout << type << std::endl;
-    stout <<
-        posx << " " <<
-        posy << " " <<
-        face.dir() << " " <<
-        move.dir() << " " <<
-        turn_dir << " " <<
-        velocity << " " <<
-        cruise_velocity << " " <<
-        (cruise_on? 1 : 0) << " " <<
-        (lights_on? 1 : 0) << " " <<
-        turret_mode << " " <<
-        (skidding? 1 : 0) << " " <<
-        of_turn_carry << " " <<
-        parts.size() << std::endl;
-    stout << name << std::endl;
-
-    for (int p = 0; p < parts.size(); p++)
-    {
-        stout <<
-            parts[p].id << " " <<
-            parts[p].mount_dx << " " <<
-            parts[p].mount_dy << " " <<
-            parts[p].hp << " " <<
-            parts[p].amount << " " <<
-            parts[p].blood << " " <<
-            parts[p].bigness << " " <<
-            parts[p].flags << " " <<
-            parts[p].passenger_id << " " <<
-            parts[p].items.size() << std::endl;
-            for (int i = 0; i < parts[p].items.size(); i++)
-            {
-                stout << parts[p].items[i].save_info() << std::endl;     // item info
-                stout << parts[p].items[i].contents.size() << std::endl; // how many items inside this item
-                for (int l = 0; l < parts[p].items[i].contents.size(); l++)
-                    stout << parts[p].items[i].contents[l].save_info() << std::endl; // contents info
-            }
-    }
-
-    stout << tags.size() << ' ';
-    for( std::set<std::string>::const_iterator it = tags.begin(); it != tags.end(); ++it )
-    {
-        stout << *it << " ";
-    }
+    stout << json_save(true).serialize();
     stout << std::endl;
+    return;
 }
 
 void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
