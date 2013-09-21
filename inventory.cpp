@@ -1501,6 +1501,9 @@ void inventory::assign_empty_invlet(item &it)
   //debugmsg("Couldn't find empty invlet");
 }
 
+/*
+ * Legacy invcache loader for 0.8
+ */
 void inventory::load_invlet_cache( std::ifstream &fin ) {
     // Lines are of the format "P itemname abcde".
     while( fin.peek() == 'P' ) {
@@ -1514,54 +1517,9 @@ void inventory::load_invlet_cache( std::ifstream &fin ) {
     }
 }
 
-
-std::string inventory::save_str_no_quant() const
-{
-    std::stringstream dump_ss;
-    std::map<std::string, std::vector<char> >::const_iterator invlet_id;
-    for( invlet_id = invlet_cache.begin();
-         invlet_id != invlet_cache.end(); ++invlet_id ) {
-        dump_ss << "P " << invlet_id->first << ' ';
-        for( std::vector<char>::const_iterator sym = invlet_id->second.begin();
-             sym != invlet_id->second.end(); ++sym ) {
-            dump_ss << *sym;
-        }
-        dump_ss << std::endl;
-    }
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        for (std::list<item>::const_iterator stack_iter = iter->begin();
-             stack_iter != iter->end();
-             ++stack_iter)
-        {
-            dump_ss << "I " << stack_iter->save_info() << std::endl;
-            for (int k = 0; k < stack_iter->contents.size(); k++)
-            {
-                dump_ss << "C " << stack_iter->contents[k].save_info() << std::endl;
-            }
-        }
-    }
-    return dump_ss.str();
-}
-
-//////////
 /*
- *
+ * Save invlet cache
  */
-void inventory::json_save_invcache( std::map<std::string, picojson::value> & data) const {
-/*
-    std::vector<picojson::value> pvect;
-    for( std::map<std::string, std::vector<char> >::const_iterator invlet_id = 
-       invlet_cache.begin(); invlet_id != invlet_cache.end(); ++invlet_id ) {
-           pvect.clear();
-           for( std::vector<char>::const_iterator sym = invlet_id->second.begin();
-               sym != invlet_id->second.end(); ++sym ) {
-               pvect.push_back( pv ( int(*sym) ) );
-           }
-       data[invlet_id->first]=pv( pvect );
-    }
-*/
-}
 picojson::value inventory::json_save_invcache() const {
     std::vector<picojson::value> data;
     std::map<std::string, picojson::value> pent; // why? because picojson sorts maps. Derp.
@@ -1576,12 +1534,11 @@ picojson::value inventory::json_save_invcache() const {
        pent[invlet_id->first]=pv( pvect );
        data.push_back( pv ( pent ) );
     }
-
-//    json_save_invcache( data );
     return pv( data );
 }
+
 /*
- *
+ * Invlet cache: player specific, thus not wrapped in inventory::json_load/save
  */
 void inventory::json_load_invcache(picojson::value & parsed) {
     if ( ! parsed.is<picojson::array>() ) {
@@ -1598,18 +1555,18 @@ void inventory::json_load_invcache(picojson::value & parsed) {
                 for( picojson::array::const_iterator pvit = pvect.begin(); pvit != pvect.end(); ++pvit) {
                     vect.push_back ( char((*pvit).get<double>()) );
                 }                
+                invlet_cache[ peit->first ] = vect;
             }
         }
     }
 }
 
-//////////
 /*
- * 
+ * save all items. Just this->items, invlet cache saved seperately
  */
-void inventory::json_save_items(std::vector<picojson::value> & data) const {
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
+picojson::value inventory::json_save_items() const {
+    std::vector<picojson::value> data;
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end();
              ++stack_iter)
@@ -1617,10 +1574,6 @@ void inventory::json_save_items(std::vector<picojson::value> & data) const {
             data.push_back ( stack_iter->json_save(true) );
         }
     }
-}
-picojson::value inventory::json_save_items() const {
-    std::vector<picojson::value> data;
-    json_save_items( data );
     return pv( data );
 }
 
@@ -1635,17 +1588,4 @@ void inventory::json_load_items(picojson::value & parsed, game * g) {
             push_back( item( (*pit), g ) );
         }
     }
-}
-
-/////////
-/*
- *
- */
-void inventory::json_load(picojson::value & parsed, game * g) {
-
-}
-picojson::value inventory::json_save() const {
-    std::map<std::string, picojson::value> data;
-// not sure about this method //
-    return pv( data );
 }
