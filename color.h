@@ -1,5 +1,5 @@
 #ifndef _COLOR_H_
-#define _COLOR_H
+#define _COLOR_H_
 
 #ifndef _COLOR_LIST_
 #define _COLOR_LIST_
