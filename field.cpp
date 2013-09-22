@@ -245,6 +245,15 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
 }
 
 
+/*
+Function: age_ice
+Helper function that returns how much a tile that melts should age due to temperature
+*/
+static int age_ice( int temperature )
+{
+    return (temperature - 32)/4;
+}
+
 bool map::process_fields(game *g)
 {
  bool found_field = false;
@@ -928,22 +937,31 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
                     case fd_ice_mist:
                         spread_gas( this, cur, x, y, curtype, 40, 50 );
+                        // Avoid negative ages, otherwise modify age depending on temperature
+                        if ( cur->getFieldAge() < 1 ) {
+                            cur->setFieldAge(1);
+                        }
+                        else {
+                            cur->setFieldAge(cur->getFieldAge() + age_ice(temperature));
+                        }
                         break;
 
                     case fd_ice_floor: {
-                        // 200 is max age
-                        if (cur->getFieldAge() <= 200) {
-                            // If the temperature is less than 32, the age increases -- but not too fast
-                            cur->setFieldAge(cur->getFieldAge() + (32 - temperature)/4);
+                        if ( cur->getFieldAge() < 1 ) {
+                            cur->setFieldAge(1);
+                        }
+                        else {
+                            cur->setFieldAge(cur->getFieldAge() + age_ice(temperature));
                         }
                     }
                     break;
 
                     case fd_snow_floor: {
-                        // 200 is max age
-                        if (cur->getFieldAge() <= 200) {
-                            // If the temperature is less than 32, the age increases -- but not too fast
-                            cur->setFieldAge(cur->getFieldAge() + (32 - temperature)/4);
+                        if ( cur->getFieldAge() < 1 ) {
+                            cur->setFieldAge(1);
+                        }
+                        else {
+                            cur->setFieldAge(cur->getFieldAge() + age_ice(temperature));
                         }
                     }
                     break;
