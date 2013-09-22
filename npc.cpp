@@ -136,84 +136,16 @@ npc& npc::operator= (const npc & rhs)
 
  copy_skill_levels(&rhs);
 
- styles.clear();
- for (int i = 0; i < rhs.styles.size(); i++)
-  styles.push_back(rhs.styles[i]);
+ ma_styles.clear();
+ for (int i = 0; i < rhs.ma_styles.size(); i++)
+  ma_styles.push_back(rhs.ma_styles[i]);
 
  return *this;
 }
 
 std::string npc::save_info()
 {
- std::stringstream dump;
-// The " || " is what tells npc::load_info() that it's down reading the name
- dump << getID() << " " << name << " || " << posx << " " << posy << " " << str_cur <<
-         " " << str_max << " " << dex_cur << " " << dex_max << " " << int_cur <<
-         " " << int_max << " " << per_cur << " " << per_max << " " << hunger <<
-         " " << thirst << " " << fatigue << " " << stim << " " << pain << " " <<
-         pkill << " " <<  radiation << " " << cash << " " << recoil << " " <<
-         scent << " " << moves << " " << underwater << " " << dodges_left <<
-         " " << oxygen << " " << (marked_for_death ? "1" : "0") << " " <<
-         (dead ? "1" : "0") << " " << myclass << " " << patience << " ";
-
- for (std::set<std::string>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
-    dump << *iter << " ";
- }
-
- dump << "TRAITS_END" << " ";
-
- for (int i = 0; i < num_hp_parts; i++)
-  dump << hp_cur[i] << " " << hp_max[i] << " ";
-
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-   SkillLevel level = skillLevel(*aSkill);
-   dump << level;
- }
-
- dump << styles.size() << " ";
- for (int i = 0; i < styles.size(); i++)
-  dump << itype_id(styles[i]) << " ";
-
- dump << illness.size() << " ";
- for (int i = 0; i < illness.size();  i++)
-  dump << illness[i].type << " " << illness[i].duration << " ";
-
- dump << addictions.size() << " ";
- for (int i = 0; i < addictions.size(); i++)
-  dump << int(addictions[i].type) << " " << addictions[i].intensity << " " <<
-          addictions[i].sated << " ";
-
- dump << my_bionics.size() << " ";
- for (int i = 0; i < my_bionics.size(); i++)
-  dump << bionic_id(my_bionics[i].id) << " " << my_bionics[i].invlet << " " <<
-          int(my_bionics[i].powered) << " " << my_bionics[i].charge << " ";
-
-// NPC-specific stuff
- dump << int(personality.aggression) << " " << int(personality.bravery) <<
-         " " << int(personality.collector) << " " <<
-         int(personality.altruism) << " " << wandx << " " << wandy << " " <<
-         wandf << " " << omx << " " << omy << " " << omz << " " << mapx <<
-         " " << mapy << " " << plx << " " << ply << " " <<  goalx << " " <<
-         goaly << " " << goalz << " " << int(mission) << " " << int(flags) << " ";
- if (my_fac == NULL)
-  dump << -1;
- else
-  dump << my_fac->id;
- dump << " " << attitude << " " << " " << op_of_u.save_info() << " " <<
-         chatbin.save_info() << " ";
-
- dump << combat_rules.save_info();
-
-// Inventory size, plus armor size, plus 1 for the weapon
- dump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
- dump << inv.save_str_no_quant();
- dump << "w " << weapon.save_info() << std::endl;
- for (int i = 0; i < worn.size(); i++)
-  dump << "W " << worn[i].save_info() << std::endl;
- for (int j = 0; j < weapon.contents.size(); j++)
-  dump << "c " << weapon.contents[j].save_info() << std::endl;
-
- return dump.str();
+  return json_save(true).serialize();
 }
 
 void npc::load_info(game *g, std::string data)
@@ -222,6 +154,24 @@ void npc::load_info(game *g, std::string data)
  std::string tmpname;
  int deathtmp, deadtmp, classtmp, npc_id;
  dump << data;
+
+char check=dump.peek();
+if ( check == ' ' ) {
+  // sigh..
+  check=data[1];
+} 
+if ( check == '{' ) {
+        picojson::value pdata;
+        dump >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad npc json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, g);
+        }
+        return;
+}
+////////////////////////////////// everything below is for OLD saves
  dump >> npc_id;
  setID(npc_id);
 // Standard player stuff
@@ -265,12 +215,12 @@ void npc::load_info(game *g, std::string data)
    dump >> skillLevel(*aSkill);
  }
 
- itype_id tmpstyle;
+ matype_id tmpstyle;
  int numstyle;
  dump >> numstyle;
  for (int i = 0; i < numstyle; i++) {
   dump >> tmpstyle;
-  styles.push_back(tmpstyle);
+  ma_styles.push_back(tmpstyle);
  }
 
  int typetmp;
@@ -435,9 +385,7 @@ void npc::randomize(game *g, npc_class type)
   per_max += rng(0, 2);
   personality.bravery += rng(0, 3);
   personality.collector -= rng(1, 6);
-  do
-   styles.push_back( martial_arts_itype_ids[rng(0, martial_arts_itype_ids.size()-1)] );
-  while (one_in(2));
+  // TODO: give ninja his styles back
   break;
 
  case NC_COWBOY:
@@ -1064,12 +1012,6 @@ Skill* npc::best_skill()
 
 void npc::starting_weapon(game *g)
 {
-    if (!styles.empty())
-    {
-        weapon.make(g->itypes[styles[rng(0, styles.size() - 1)]]);
-        return;
-    }
-
     // TODO add throwing weapons
 
     std::list<itype_id> possible_items;
@@ -1173,24 +1115,6 @@ bool npc::wield(game *g, signed char invlet, bool autodrop){
 
 bool npc::wield(game *g, signed char invlet)
 {
- if (invlet < 0) { // Wielding a style
-  int index = 0 - invlet - 1;
-  if (index >= styles.size()) {
-   debugmsg("npc::wield(%d) [styles.size() = %d]", index, styles.size());
-   return false;
-  }
-  if (volume_carried() + weapon.volume() <= volume_capacity()) {
-   i_add(remove_weapon());
-   moves -= 15; // Extra penalty for putting weapon away
-  } else // No room for weapon, so we drop it
-   g->m.add_item_or_charges(posx, posy, remove_weapon());
-  moves -= 15;
-  weapon.make( g->itypes[styles[index]] );
-  if (g->u_see(posx, posy))
-   g->add_msg(_("%1$s assumes a %2$s stance."), name.c_str(), weapon.tname().c_str());
-  return true;
- }
-
  if (volume_carried() + weapon.volume() <= volume_capacity()) {
   i_add(remove_weapon());
   moves -= 15;
@@ -1488,14 +1412,14 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
  std::vector<itype_id> ret;
  if (p == NULL)
   return ret;
- for (int i = 0; i < styles.size(); i++) {
+ for (int i = 0; i < ma_styles.size(); i++) {
   bool found = false;
-  for (int j = 0; j < p->styles.size() && !found; j++) {
-   if (p->styles[j] == styles[i])
+  for (int j = 0; j < p->ma_styles.size() && !found; j++) {
+   if (p->ma_styles[j] == ma_styles[i])
     found = true;
   }
   if (!found)
-   ret.push_back( styles[i] );
+   ret.push_back( ma_styles[i] );
  }
  return ret;
 }
@@ -1605,17 +1529,16 @@ void npc::say(game *g, std::string line, ...)
 
 void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
 {
- int val, price;
  bool found_lighter = false;
  invslice slice = inv.slice(0, inv.size());
  for (int i = 0; i < slice.size(); i++) {
   if (slice[i]->front().type->id == "lighter" && !found_lighter)
    found_lighter = true;
   else {
-   val = value(slice[i]->front()) - (slice[i]->front().price() / 50);
+   int val = value(slice[i]->front()) - (slice[i]->front().price() / 50);
    if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP) {
     items.push_back(&slice[i]->front());
-    price = slice[i]->front().price() / (price_adjustment(skillLevel("barter")));
+    int price = slice[i]->front().price() / (price_adjustment(skillLevel("barter")));
     prices.push_back(price);
    }
   }
@@ -1625,13 +1548,12 @@ void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
 void npc::init_buying(inventory& you, std::vector<item*> &items,
                       std::vector<int> &prices)
 {
- int val, price;
  invslice slice = you.slice(0, you.size());
  for (int i = 0; i < slice.size(); i++) {
-  val = value(slice[i]->front());
+  int val = value(slice[i]->front());
   if (val >= NPC_HI_VALUE) {
    items.push_back(&slice[i]->front());
-   price = slice[i]->front().price();
+   int price = slice[i]->front().price();
    if (val >= NPC_VERY_HI_VALUE)
     price *= 2;
    price *= price_adjustment(skillLevel("barter"));

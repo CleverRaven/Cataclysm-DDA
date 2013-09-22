@@ -6,7 +6,7 @@
 #include "item.h"
 #include "bionics.h"
 #include "line.h"
-#include "catajson.h"
+#include "json.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 
@@ -20,13 +20,12 @@ std::vector<bionic_id> unpowered_bionics;
 void bionics_install_failure(game *g, player *u, it_bionic* type, int success);
 
 bionic_data::bionic_data(std::string new_name, bool new_power_source, bool new_activated,
-                          int new_power_cost, int new_charge_time, std::string new_description, bool new_faulty){
+                          int new_power_cost, int new_charge_time, std::string new_description, bool new_faulty) : description(new_description){
    name = new_name;
    power_source = new_power_source;
    activated = new_activated;
    power_cost = new_power_cost;
    charge_time = new_charge_time;
-   description = new_description;
    faulty = new_faulty;
 }
 
@@ -38,6 +37,7 @@ bionic_id game::random_good_bionic() const
         random_bionic = bionics.begin();
         std::advance(random_bionic,rng(0,bionics.size()-1));
     } while (random_bionic->first == "bio_null" || random_bionic->second->faulty);
+    // TODO: remove bio_null
     return random_bionic->first;
 }
 
@@ -92,7 +92,7 @@ void player::power_bionics(game *g)
    active.push_back(my_bionics[i]);
  }
  nc_color type;
- if (passive.size() > 0) {
+ if (!passive.empty()) {
   mvwprintz(wBio, 3, 1, c_ltblue, _("Passive:"));
   for (int i = 0; i < passive.size(); i++) {
    if (bionics[passive[i].id]->power_source)
@@ -103,7 +103,7 @@ void player::power_bionics(game *g)
    mvwprintz(wBio, 4 + i, 3, type, bionics[passive[i].id]->name.c_str());
   }
  }
- if (active.size() > 0) {
+ if (!active.empty()) {
   mvwprintz(wBio, 3, 33, c_ltblue, _("Active:"));
   for (int i = 0; i < active.size(); i++) {
    if (active[i].powered && !bionics[active[i].id]->power_source)
@@ -215,8 +215,7 @@ void player::activate_bionic(int b, game *g)
  std::vector<point> traj;
  std::vector<std::string> good;
  std::vector<std::string> bad;
- WINDOW* w;
- int dirx, diry, t, l, index;
+ int dirx, diry;
  item tmp_item;
 
  if(bio.id == "bio_painkiller"){
@@ -260,7 +259,7 @@ void player::activate_bionic(int b, game *g)
  }
 // TODO: More stuff here (and bio_blood_filter)
  else if(bio.id == "bio_blood_anal"){
-  w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 10+((TERMX > 80) ? (TERMX-80)/2 : 0));
+  WINDOW* w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 10+((TERMX > 80) ? (TERMX-80)/2 : 0));
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
   if (has_disease("fungus"))
@@ -301,7 +300,7 @@ void player::activate_bionic(int b, game *g)
    good.push_back(_("Antihistamines"));
   if (has_disease("adrenaline"))
    good.push_back(_("Adrenaline Spike"));
-  if (good.size() == 0 && bad.size() == 0)
+  if (good.empty() && bad.empty())
    mvwprintz(w, 1, 1, c_white, _("No effects."));
   else {
    for (int line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
@@ -362,7 +361,7 @@ void player::activate_bionic(int b, game *g)
  } else if(bio.id == "bio_claws"){
   if (weapon.type->id == "bio_claws_weapon") {
    g->add_msg(_("You withdraw your claws."));
-   weapon = get_combat_style();
+   weapon = ret_null;
   } else if(weapon.type->id != "null"){
    g->add_msg(_("Your claws extend, forcing you to drop your %s."),
               weapon.tname().c_str());
@@ -402,24 +401,30 @@ void player::activate_bionic(int b, game *g)
  } else if (bio.id == "bio_water_extractor"){
   bool extracted = false;
   for (int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
-   item tmp = g->m.i_at(posx, posy)[i];
-   if (tmp.type->id == "corpse" && query_yn(_("Extract water from the %s"),
-                                              tmp.tname().c_str())) {
-    item water = item(g->itypes["water_clean"], 0);
-    if (g->handle_liquid(water, true, true))
-    {
-        moves -= 100;
-    }
-    else if (query_yn(_("Drink directly from the condensor?")))
-    {
-        inv.push_back(water);
-        water = inv.item_by_type(water.typeId());
-        eat(g, water.invlet);
-        moves -= 350;
-    }
-    extracted = true;
-    break;
-   }
+      item & tmp = g->m.i_at(posx, posy)[i];
+      if (tmp.type->id == "corpse" ) {
+          int avail=0;
+          if ( tmp.item_vars.find("remaining_water") != tmp.item_vars.end() ) {
+              avail = atoi ( tmp.item_vars["remaining_water"].c_str() );
+          } else {
+              avail = tmp.volume() / 2;
+          }
+          if(avail > 0 && query_yn(_("Extract water from the %s"), tmp.tname().c_str())) {
+              item water = item(g->itypes["water_clean"], 0);
+              if (g->handle_liquid(water, true, true)) {
+                  moves -= 100;
+              } else if (query_yn(_("Drink directly from the condensor?"))) {
+                  inv.push_back(water);
+                  water = inv.item_by_type(water.typeId());
+                  eat(g, water.invlet);
+                  moves -= 350;
+              }
+              extracted = true;
+              avail--;
+              tmp.item_vars["remaining_water"] = string_format("%d",avail);
+              break;
+          }
+      }
   }
   if (!extracted)
    power_level += bionics["bio_water_extractor"]->power_cost;
@@ -427,6 +432,7 @@ void player::activate_bionic(int b, game *g)
   for (int i = posx - 10; i <= posx + 10; i++) {
    for (int j = posy - 10; j <= posy + 10; j++) {
     if (g->m.i_at(i, j).size() > 0) {
+     int t; //not sure why map:sees really needs this, but w/e
      if (g->m.sees(i, j, posx, posy, -1, t))
       traj = line_to(i, j, posx, posy, t);
      else
@@ -435,10 +441,11 @@ void player::activate_bionic(int b, game *g)
     traj.insert(traj.begin(), point(i, j));
     for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
      if (g->m.i_at(i, j)[k].made_of("iron") || g->m.i_at(i, j)[k].made_of("steel")){
+      int l = 0;
       tmp_item = g->m.i_at(i, j)[k];
       g->m.i_rem(i, j, k);
       for (l = 0; l < traj.size(); l++) {
-       index = g->mon_at(traj[l].x, traj[l].y);
+       int index = g->mon_at(traj[l].x, traj[l].y);
        if (index != -1) {
         if (g->zombie(index).hurt(tmp_item.weight() / 225))
          g->kill_mon(index, true);
@@ -511,7 +518,7 @@ bool player::install_bionics(game *g, it_bionic* type)
 
  // we will base chance_of_success on a ratio of skill and difficulty
  // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
- float skill_difficulty_parameter = adjusted_skill / (4.0 * type->difficulty);
+ float skill_difficulty_parameter = float(adjusted_skill / (4.0 * type->difficulty));
 
  // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
  // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
@@ -529,9 +536,9 @@ bool player::install_bionics(game *g, it_bionic* type)
    }
  }
 
- practice(g->turn, "electronics", (100 - chance_of_success) * 1.5);
- practice(g->turn, "firstaid", (100 - chance_of_success) * 1.0);
- practice(g->turn, "mechanics", (100 - chance_of_success) * 0.5);
+ practice(g->turn, "electronics", int((100 - chance_of_success) * 1.5));
+ practice(g->turn, "firstaid", int((100 - chance_of_success) * 1.0));
+ practice(g->turn, "mechanics", int((100 - chance_of_success) * 0.5));
  int success = chance_of_success - rng(1, 100);
  if (success > 0) {
      g->u.add_memorial_log(_("Installed bionic: %s."), bionics[type->id]->name.c_str());
@@ -571,7 +578,7 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
  // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
  // difficulties), only minor consequences occur.  At low skill levels, severe consequences
  // are more likely.
- int failure_level = sqrt(success * 4.0 * type->difficulty / float (adjusted_skill));
+ int failure_level = int(sqrt(success * 4.0 * type->difficulty / float (adjusted_skill)));
  int fail_type = (failure_level > 5 ? 5 : failure_level);
 
  if (fail_type <= 0) {
@@ -628,7 +635,7 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
     valid.push_back(*it);
    }
   }
-  if (valid.size() == 0) { // We've got all the bad bionics!
+  if (valid.empty()) { // We've got all the bad bionics!
    if (u->max_power_level > 0) {
     int old_power = u->max_power_level;
     g->add_msg(_("You lose power capacity!"));
@@ -646,57 +653,22 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
  }
 }
 
-void game::init_bionics() throw (std::string)
+void load_bionic(JsonObject &jsobj)
 {
-    catajson bionics_file("data/raw/bionics.json");
+    std::string id = jsobj.get_string("id");
+    std::string name = _(jsobj.get_string("name").c_str());
+    std::string description = _(jsobj.get_string("description").c_str());
+    int cost = jsobj.get_int("cost", 0);
+    int time = jsobj.get_int("time", 0);
+    bool faulty = jsobj.get_bool("faulty", false);
+    bool power_source = jsobj.get_bool("power_source", false);
+    bool active = jsobj.get_bool("active", false);
 
-    if(!json_good())
-    {
-        throw (std::string)"data/raw/bionics.json was not found";
-    }
+    if (faulty) { faulty_bionics.push_back(id); }
+    if (power_source) { power_source_bionics.push_back(id); }
+    if (!active && id != "bio_null") { unpowered_bionics.push_back(id); }
 
-    for(bionics_file.set_begin(); bionics_file.has_curr(); bionics_file.next())
-    {
-        catajson bio = bionics_file.curr();
-
-        std::set<std::string> tags;
-
-        if(bio.has("flags"))
-        {
-            tags = bio.get("flags").as_tags();
-        }
-
-        // set up all the bionic parameters
-        std::string id          = bio.get("id").as_string();
-        std::string name        = _(bio.get("name").as_string().c_str());
-        int cost                = bio.get("cost").as_int();
-        int time                = bio.get("time").as_int();
-        std::string description = _(bio.get("description").as_string().c_str());
-        bool faulty             = (tags.find("FAULTY") != tags.end());
-        bool powersource        = (tags.find("POWER") != tags.end());
-        bool active             = (tags.find("ACTIVE") != tags.end());
-
-        bionics[id] = new bionic_data(name, powersource, active, cost, time, description, faulty);
-
-        // Don't add bio_null to any vectors.
-        if(id != "bio_null")
-        {
-            if(faulty)
-            {
-                faulty_bionics.push_back(id);
-            }
-            else if(powersource)
-            {
-                power_source_bionics.push_back(id);
-            }
-            else if(!active)
-            {
-                unpowered_bionics.push_back(id);
-            }
-        }
-
-    }
-    if(!json_good())
-        throw (std::string)"There was an error reading data/raw/bionics.json";
+    bionics[id] = new bionic_data(name, power_source, active, cost, time, description, faulty);
+    //dout(D_INFO) << "Loaded bionic: " << name << "\n";
 }
 

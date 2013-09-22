@@ -119,29 +119,19 @@ int main(int argc, char *argv[])
 }
 
 void exit_handler(int s) {
- bool bExit = false;
+     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
+         erase(); // Clear screen
+         endwin(); // End ncurses
+         #if (defined _WIN32 || defined WINDOWS)
+             system("cls"); // Tell the terminal to clear itself
+             system("color 07");
+         #else
+             system("clear"); // Tell the terminal to clear itself
+         #endif
 
- if (s == 2) {
-  if (query_yn(_("Really Quit? All unsaved changes will be lost."))) {
-   bExit = true;
-  }
- } else if (s == -999) {
-  bExit = true;
- } else {
-  //query_yn(g, "Signal received: %d", s);
-  bExit = true;
- }
-
- if (bExit) {
-  erase(); // Clear screen
-  endwin(); // End ncurses
-  #if !(defined _WIN32 || defined WINDOWS)
-   system("clear"); // Tell the terminal to clear itself
-  #endif
-
-  if(g != NULL)
-   if(g->game_error())
-    exit(1);
-  exit(0);
- }
+         if(g != NULL)
+             if(g->game_error())
+                 exit(1);
+         exit(0);
+     }
 }

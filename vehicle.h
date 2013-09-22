@@ -44,7 +44,7 @@ struct veh_collision {
  void* target;  //vehicle
  int target_part; //veh partnum
  std::string target_name;
- veh_collision(){};
+ veh_collision() : part(0), type(veh_coll_nothing), imp(0), target(NULL), target_part(0), target_name("") {};
 };
 
 
@@ -185,8 +185,14 @@ public:
 // Save vehicle data to stream
     void save (std::ofstream &stout);
 
+    void json_load( picojson::value & parsed, game * g );
+
+    picojson::value json_save( bool save_contents = true );
 // Operate vehicle
     void use_controls();
+
+// Honk the vehicle's horn, if there are any
+    void honk_horn();
 
 // get vpart type info for part number (part at given vector index)
     vpart_info& part_info (int index);

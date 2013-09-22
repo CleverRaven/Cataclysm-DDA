@@ -46,7 +46,7 @@ int snake_game::start_game()
     //Snake start position
     vSnakeBody.push_back(std::make_pair(FULL_SCREEN_HEIGHT/2, FULL_SCREEN_WIDTH/2));
     mSnakeBody[FULL_SCREEN_HEIGHT/2][FULL_SCREEN_WIDTH/2] = true;
-    mvwputch(w_snake, vSnakeBody[vSnakeBody.size()-1].first, vSnakeBody[vSnakeBody.size()-1].second, c_white, '#');
+    mvwputch(w_snake, vSnakeBody[vSnakeBody.size()-1].first, vSnakeBody.back().second, c_white, '#');
 
     //Snake start direction
     int iDirY = 0;

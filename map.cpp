@@ -348,8 +348,6 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
                       g->u.posx, g->u.posy);
    continue;
   }
-  int trec = rec -psgs[i]->skillLevel("driving");
-  if (trec < 0) trec = 0;
   // add recoil
   psg->driving_recoil = rec;
   // displace passenger taking in account vehicle movement (dx, dy)
@@ -1175,7 +1173,6 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
  vehicle *veh = veh_at(x, y, vpart);
  if (veh) {
   veh->damage (vpart, str, 1);
-  result = str;
   sound += _("crash!");
   return true;
  }
@@ -2618,13 +2615,18 @@ bool map::is_full(const int x, const int y, const int addvolume, const int addnu
 // overflow_radius > 0: if x,y is full, attempt to drop item up to overflow_radius squares away, if x,y is full
 bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius) {
 
-    if( (new_item.is_style() || !INBOUNDS(x,y) ||
-         (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) ) {
-        debugmsg("%i,%i:is_style %i, liquid %i, destroy_item %i", x, y, new_item.is_style(),
-                 (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)),
-                 has_flag(destroy_item, x, y) );
+    if( new_item.is_style() || !INBOUNDS(x,y) ) {
+        // Complain about things that should never happen.
+        dbg(D_INFO) << x << "," << y << ":is_style "<< new_item.is_style() << ", liquid "<<(new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) <<
+                    ", destroy_item "<<has_flag(destroy_item, x, y);
+
         return false;
     }
+    if( (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) {
+        // Silently fail on mundane things that prevent item spawn.
+        return false;
+    }
+
 
     bool tryaddcharges = (new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo()));
     std::vector<point> ps = closest_points_first(overflow_radius, x, y);
@@ -3171,8 +3173,7 @@ void map::draw(game *g, WINDOW* w, const point center)
    // I've moved this part above loops without even thinking that
    // this must stay here...
    int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
-   int distance_to_look = real_max_sight_range;
-   distance_to_look = DAYLIGHT_LEVEL;
+   int distance_to_look = DAYLIGHT_LEVEL;
 
    bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
    lit_level lit = light_at(realx, realy);
@@ -3647,22 +3648,15 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
    g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
  );
 // Special case of 0-shift; refresh the map
- if (sx == 0 && sy == 0) {
-  return; // Skip this?
-  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-    if (!loadn(g, wx+sx, wy+sy, wz, gridx, gridy))
-     loadn(g, wx+sx, wy+sy, wz, gridx, gridy);
-   }
-  }
-  return;
- }
+    if (sx == 0 && sy == 0) {
+        return; // Skip this?
+    }
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
- if (g->u.in_vehicle && (sx !=0 || sy != 0)) {
-  g->u.posx -= sx * SEEX;
-  g->u.posy -= sy * SEEY;
- }
+    if (g->u.in_vehicle && (sx !=0 || sy != 0)) {
+        g->u.posx -= sx * SEEX;
+        g->u.posy -= sy * SEEY;
+    }
 
     // Forget about traps in submaps that are being unloaded.
     if (sx != 0) {
@@ -3678,78 +3672,58 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
         }
     }
 
- // Clear vehicle list and rebuild after shift
- clear_vehicle_cache();
- vehicle_list.clear();
+// Clear vehicle list and rebuild after shift
+    clear_vehicle_cache();
+    vehicle_list.clear();
 // Shift the map sx submaps to the right and sy submaps down.
 // sx and sy should never be bigger than +/-1.
 // wx and wy are our position in the world, for saving/loading purposes.
- if (sx >= 0) {
-  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-   if (sy >= 0) {
-    for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-/*
-     if (gridx < sx || gridy < sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+    if (sx >= 0) {
+        for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
+            if (sy >= 0) {
+                for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+                    if (gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                                  gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            } else { // sy < 0; work through it backwards
+                for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
+                    if (gridx + sx < my_MAPSIZE && gridy + sy >= 0) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                                  gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            }
+        }
+    } else { // sx < 0; work through it backwards
+        for (int gridx = my_MAPSIZE - 1; gridx >= 0; gridx--) {
+            if (sy >= 0) {
+                for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+                    if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                        gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            } else { // sy < 0; work through it backwards
+                for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
+                    if (gridx + sx >= 0 && gridy + sy >= 0) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                                  gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            }
+        }
     }
-   } else { // sy < 0; work through it backwards
-    for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
-/*
-     if (gridx < sx || gridy - my_MAPSIZE >= sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx < my_MAPSIZE && gridy + sy >= 0) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
-    }
-   }
-  }
- } else { // sx < 0; work through it backwards
-  for (int gridx = my_MAPSIZE - 1; gridx >= 0; gridx--) {
-   if (sy >= 0) {
-    for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-/*
-     if (gridx - my_MAPSIZE >= sx || gridy < sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
-    }
-   } else { // sy < 0; work through it backwards
-    for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
-/*
-     if (gridx - my_MAPSIZE >= sx || gridy - my_MAPSIZE >= sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx >= 0 && gridy + sy >= 0) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
-    }
-   }
-  }
- }
- reset_vehicle_cache();
+    reset_vehicle_cache();
 }
 
 // saven saves a single nonant.  worldx and worldy are used for the file

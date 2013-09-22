@@ -858,7 +858,6 @@ void advanced_inventory::display(game * gp, player * pp) {
             if(panes[src].area == isinventory) {
 
                 int max = (squares[destarea].max_size - squares[destarea].size);
-                int volmax = max;
                 int free_volume = ( squares[ destarea ].vstor >= 0 ?
                     squares[ destarea ].veh->free_volume( squares[ destarea ].vstor ) :
                     m.free_volume ( squares[ destarea ].x, squares[ destarea ].y )
@@ -881,7 +880,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                 }
 
                 if ( volume > 0 && volume * amount > free_volume ) {
-                    volmax = int( free_volume / volume );
+                    int volmax = int( free_volume / volume );
                     if ( volmax == 0 ) {
                         popup(_("Destination area is full. Remove some items first."));
                         continue;
@@ -1089,7 +1088,6 @@ void advanced_inventory::display(game * gp, player * pp) {
             long key = 0;
             int spos = -1;
             std::string filter=panes[src].filter;
-            std::string origfilter = filter;
             filter_edit = true;
 
             do {
@@ -1136,7 +1134,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                 recalc=true;
                 checkshowmsg=true;
             } else {
-                std::vector<iteminfo> vThisItem, vDummy, vMenu;
+                std::vector<iteminfo> vThisItem, vDummy;
                 it->info(true, &vThisItem, g);
                 int rightWidth = w_width / 2 - 2;
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"), "\n"));

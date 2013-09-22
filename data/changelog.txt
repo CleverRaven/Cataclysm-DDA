@@ -1,5 +1,16 @@
 0.8
 
+Highlights:
+---
+Releasing with Russian, Chinese, and bla translations.
+Draggable vhicles, e.g. shopping carts.
+Memorial file listing player history.
+Tiles!
+Basic farming support.
+Support for save backwards compatability.
+Option to adjust city size, make a whole map metropolis!
+Option to adjust monster density, walls of zombies!
+
 Features:
 ---
 Intelligence dependent skill rust option.
@@ -10,7 +21,6 @@ Display option for metric vs imperial vehicle speed.
 Beanbag rounds for shotguns and grenade launchers.
 Added headlights that can be aimed at installation time.
 Active bionics.
-Nearly complete i18n support.
 Throw single items from stacks instead of whole stack.
 Updated many menus to updated menu system that provides acrolling, filtering and more unified hotkeys.
 Crafting overhaul, crafting no longer trains combat skills and vice versa.
@@ -27,7 +37,6 @@ Rework encumbrance to remove nonsensical negative encumbrance.
 Loosen strictness of encumbrance in general.
 Heated melee weapons.
 Plastic item crafting.
-Memorial file records highlights of character achievements.
 Option overhaul with new tabbed menu.
 Swimming now makes you wet.
 Wetness can be a good thing when it's hot and you're properly attired.
@@ -39,14 +48,12 @@ Significant rebalance of fire, emits less smoke, and small fires should burn lon
 Basic farming support.
 Welding rig vehicle component.
 When in a square with clothes and bedding, sleeping players will use them for warmth.
-Tile support.
 Corpse-filled pits cause less or no damage.
 Adrenaline shot item.
 Nerfed Adrenaline rush effect, no more bullettime.
 Small vehicles are draggable and pushable. Added shopping carts.
-Option to adjust monster density, walls of zombies!
 Funnel now directs rain into container in the same square during rain.
-Dreams while player is sleepiong.
+Mutation dreams.
 Siphon water out of vehicles with water tanks.
 Ice labs.
 Vehicle collisions based on SCIENCE!
@@ -57,8 +64,6 @@ Re-enabled mouth encumbrance.
 Caseless ammunition and guns.
 New heavy weapons.
 More features spawning in houses.
-Support for save backwards compatability.
-Option to adjust city size, make a whole map metropolis!
 Significantly reduced map save size.
 Lots of professions.
 Many many items and crafting recipes.
@@ -89,6 +94,8 @@ Use shadowcasting algorithm for fast and accurate fov calculation.
 Vehicles no longer spawn floating above water.
 Loaded ammo, such as nails in a nailgun can be used for crafting.
 Light from items more consistent.
+
+======
 
 0.7.1 (bugfix point release)
 

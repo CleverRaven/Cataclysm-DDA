@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "enums.h"
 #include "catajson.h"
+#include "json.h"
 #include "addiction.h"
 #include "translations.h"
 #include <algorithm>
@@ -88,6 +89,7 @@ void Item_factory::init(){
     iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
     iuse_function_list["RADIO_OFF"] = &iuse::radio_off;
     iuse_function_list["RADIO_ON"] = &iuse::radio_on;
+	   iuse_function_list["HORN_BICYCLE"] = &iuse::horn_bicycle;
     iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
     iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
     iuse_function_list["ROADMAP"] = &iuse::roadmap;
@@ -109,6 +111,8 @@ void Item_factory::init(){
     iuse_function_list["BROADFIRE_ON"] = &iuse::broadfire_on;
     iuse_function_list["FIREKATANA_OFF"] = &iuse::firekatana_off;
     iuse_function_list["FIREKATANA_ON"] = &iuse::firekatana_on;
+    iuse_function_list["ZWEIFIRE_OFF"] = &iuse::zweifire_off;
+    iuse_function_list["ZWEIFIRE_ON"] = &iuse::zweifire_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
     iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
@@ -171,6 +175,8 @@ void Item_factory::init(){
     iuse_function_list["SHELTER"] = &iuse::shelter;
     iuse_function_list["TORCH"] = &iuse::torch;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
+    iuse_function_list["BATTLETORCH"] = &iuse::battletorch;
+    iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
     iuse_function_list["CANDLE"] = &iuse::candle;
     iuse_function_list["CANDLE_LIT"] = &iuse::candle_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
@@ -197,26 +203,8 @@ void Item_factory::init(){
     iuse_function_list["ARTIFACT"] = &iuse::artifact;
 
     // Offensive Techniques
-    techniques_list["SWEEP"] = mfb(TEC_SWEEP);
-    techniques_list["PRECISE"] = mfb(TEC_PRECISE);
-    techniques_list["BRUTAL"] = mfb(TEC_BRUTAL);
-    techniques_list["GRAB"] = mfb(TEC_GRAB);
-    techniques_list["WIDE"] = mfb(TEC_WIDE);
-    techniques_list["RAPID"] = mfb(TEC_RAPID);
-    techniques_list["FEINT"] = mfb(TEC_FEINT);
-    techniques_list["THROW"] = mfb(TEC_THROW);
-    techniques_list["DISARM"] = mfb(TEC_DISARM);
-    techniques_list["FLAMING"] = mfb(TEC_FLAMING);
-    // Defensive Techniques
-    techniques_list["BLOCK"] = mfb(TEC_BLOCK);
-    techniques_list["BLOCK_LEGS"] = mfb(TEC_BLOCK_LEGS);
-    techniques_list["WBLOCK_1"] = mfb(TEC_WBLOCK_1);
-    techniques_list["WBLOCK_2"] = mfb(TEC_WBLOCK_2);
-    techniques_list["WBLOCK_3"] = mfb(TEC_WBLOCK_3);
-    techniques_list["COUNTER"] = mfb(TEC_COUNTER);
-    techniques_list["BREAK"] = mfb(TEC_BREAK);
-    techniques_list["DEF_THROW"] = mfb(TEC_DEF_THROW);
-    techniques_list["DEF_DISARM"] = mfb(TEC_DEF_DISARM);
+    techniques_list["PRECISE"] = "tec_precise";
+    techniques_list["RAPID"] = "tec_rapid";
 
     bodyparts_list["TORSO"] = mfb(bp_torso);
     bodyparts_list["HEAD"] = mfb(bp_head);
@@ -246,8 +234,6 @@ void Item_factory::init(game* main_game) throw(std::string){
     for(std::map<Item_tag, itype*>::iterator iter = new_templates.begin(); iter != new_templates.end(); ++iter) {
       standard_itype_ids.push_back(iter->first);
     }
-    load_item_groups_from(main_game, "data/raw/item_groups.json");
-
 }
 
 //Returns the template with the given identification tag
@@ -417,6 +403,11 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                         comest_template->spoils = entry.get("spoils_in").as_int();
                         comest_template->addict = entry.get("addiction_potential").as_int();
                         comest_template->charges = entry.get("charges").as_int();
+                        if(entry.has("stack_size")) {
+                          comest_template->stack_size = entry.get("stack_size").as_int();
+                        } else {
+                          comest_template->stack_size = comest_template->charges;
+                        }
                         comest_template->stim = entry.get("stim").as_int();
                         comest_template->healthy = entry.get("heal").as_int();
                         comest_template->fun = entry.get("fun").as_int();
@@ -469,6 +460,11 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                             entry.get("dispersion").as_int();
                         ammo_template->recoil = entry.get("recoil").as_int();
                         ammo_template->count = entry.get("count").as_int();
+                        if(entry.has("stack_size")) {
+                          ammo_template->stack_size = entry.get("stack_size").as_int();
+                        } else {
+                          ammo_template->stack_size = ammo_template->count;
+                        }
                         if( entry.has("effects") ) {
                             tags_from_json(entry.get("effects"), ammo_template->ammo_effects);
                         }
@@ -558,8 +554,8 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
                     WATCH - Shows the current time, instead of sun/moon position
                     ALARMCLOCK - Has an alarmclock feature
-                    MALE_TYPICAL - Typically only worn by men.
-                    FEMALE_TYPICAL - Typically only worn by women.
+                    FANCY - Less than practical clothing meant primarily to convey a certain image.
+                    SUPER_FANCY - Clothing suitable for the most posh of events.
                     LIGHT_* - light emission, sets cached int light_emission
                     USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
 
@@ -576,8 +572,8 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     }
                 }
 
-                new_item_template->techniques = (!entry.has("techniques") ? 0 :
-                                                 flags_from_json(entry.get("techniques"), "techniques"));
+                if (entry.has("techniques"))
+                  new_item_template->techniques = entry.get("techniques").as_tags();
                 new_item_template->use = (!entry.has("use_action") ? &iuse::none :
                                           use_from_string(entry.get("use_action").as_string()));
             }
@@ -587,140 +583,29 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
         throw "There was an error reading " + file_name;
 }
 
-// Load values from this data file into m_template_groups
-void Item_factory::load_item_groups_from( game *g, const std::string file_name ) throw ( std::string ) {
-    std::ifstream data_file;
-    picojson::value input_value;
+// Load an item group from JSON
+void Item_factory::load_item_group(JsonObject &jsobj)
+{
+    Item_tag group_id = jsobj.get_string("id");
+    Item_group *current_group = new Item_group(group_id);
+    m_template_groups[group_id] = current_group;
 
-    data_file.open(file_name.c_str());
-
-    if(! data_file.good()) {
-        throw "Could not read " + file_name;
+    JsonArray items = jsobj.get_array("items");
+    while (items.has_more()) {
+        JsonArray pair = items.next_array();
+        current_group->add_entry(pair.get_string(0), pair.get_int(1));
     }
 
-    data_file >> input_value;
-    data_file.close();
-
-    if(! json_good()) {
-        throw "The data in " + file_name + " is not an array";
-    }
-    if (! input_value.is<picojson::array>()) {
-        throw file_name + "is not an array of item groups";
-    }
-
-    //Crawl through once and create an entry for every definition
-    const picojson::array& all_items = input_value.get<picojson::array>();
-    for (picojson::array::const_iterator entry = all_items.begin();
-         entry != all_items.end(); ++entry) {
-        // TODO: Make sure we have at least an item or group child, as otherwise
-        //       later things will bug out.
-
-        if( !(entry->is<picojson::object>()) ){
-            debugmsg("Invalid group definition, entry not a JSON object");
-            continue;
+    JsonArray groups = jsobj.get_array("groups");
+    while (groups.has_more()) {
+        JsonArray pair = groups.next_array();
+        std::string name = pair.get_string(0);
+        int frequency = pair.get_int(1);
+        // we had better have loaded it already!
+        if (m_template_groups.find(name) == m_template_groups.end()) {
+            throw jsobj.line_number() + ": unrecognized group name: " + name;
         }
-        const picojson::value::object& entry_body = entry->get<picojson::object>();
-
-        // The one element we absolutely require for an item definition is an id
-        picojson::value::object::const_iterator key_pair = entry_body.find( "id" );
-        if( key_pair == entry_body.end() || !(key_pair->second.is<std::string>()) ) {
-            debugmsg("Group definition skipped, no id found or id was malformed.");
-            continue;
-        }
-
-        Item_tag group_id = key_pair->second.get<std::string>();
-        m_template_groups[group_id] = new Item_group(group_id);
-    }
-    //Once all the group definitions are set, fill them out
-    for (picojson::array::const_iterator entry = all_items.begin();
-         entry != all_items.end(); ++entry) {
-        const picojson::value::object& entry_body = entry->get<picojson::object>();
-
-        Item_tag group_id = entry_body.find("id")->second.get<std::string>();
-        Item_group *current_group = m_template_groups.find(group_id)->second;
-
-        //Add items
-        picojson::value::object::const_iterator key_pair = entry_body.find("items");
-        if( key_pair != entry_body.end() ) {
-            if( !(key_pair->second.is<picojson::array>()) ) {
-                debugmsg("Invalid item list for group definition '%s', list of items not an array.",
-                         group_id.c_str());
-                // We matched the find above, so we're NOT a group.
-                continue;
-            }
-            //We have confirmed that we have a list of SOMETHING, now let's add them one at a time.
-            const picojson::array& items_to_add = key_pair->second.get<picojson::array>();
-            for (picojson::array::const_iterator item_pair = items_to_add.begin();
-                 item_pair != items_to_add.end(); ++item_pair) {
-                // Before adding, make sure this element is in the right format,
-                // namely ["TAG_NAME", frequency number]
-                if( !(item_pair->is<picojson::array>()) ) {
-                    debugmsg("Invalid item list for group definition '%s', element is not an array.",
-                             group_id.c_str());
-                    continue;
-                }
-                if( item_pair->get<picojson::array>().size() != 2 ) {
-                    debugmsg( "Invalid item list for group definition '%s', element does not have 2 values.",
-                              group_id.c_str() );
-                    continue;
-                }
-                picojson::array item_frequency_array = item_pair->get<picojson::array>();
-                // Insure that the first value is a string, and the second is a number
-                if( !item_frequency_array[0].is<std::string>() ||
-                    !item_frequency_array[1].is<double>() ) {
-                    debugmsg("Invalid item list for group definition '%s', element is not a valid tag/frequency pair.",
-                             group_id.c_str());
-                    continue;
-                }
-                if( m_missing_item == find_template( item_frequency_array[0].get<std::string>() ) &&
-                    0 == g->itypes.count( item_frequency_array[0].get<std::string>() ) ) {
-                    debugmsg( "Item '%s' listed in group '%s' does not exist.",
-                              item_frequency_array[0].get<std::string>().c_str(), group_id.c_str() );
-                    continue;
-                }
-                current_group->add_entry(item_frequency_array[0].get<std::string>(),
-                                         (int)item_frequency_array[1].get<double>());
-            }
-        }
-
-        //Add groups
-        key_pair = entry_body.find("groups");
-        if(key_pair != entry_body.end()){
-            if( !(key_pair->second.is<picojson::array>()) ){
-                debugmsg("Invalid group list for group definition '%s', list of items not an array.",
-                         group_id.c_str());
-                continue;
-            }
-            //We have confirmed that we have a list of SOMETHING, now let's add them one at a time.
-            const picojson::array& items_to_add = key_pair->second.get<picojson::array>();
-            for ( picojson::array::const_iterator item_pair = items_to_add.begin();
-                  item_pair != items_to_add.end(); ++item_pair ) {
-                //Before adding, make sure this element is in the right format, namely ["TAG_NAME", frequency number]
-                if( !(item_pair->is<picojson::array>()) ) {
-                    debugmsg("Invalid group list for group definition '%s', element is not an array.",
-                             group_id.c_str());
-                    continue;
-                }
-                if( item_pair->get<picojson::array>().size() != 2 ) {
-                    debugmsg("Invalid group list for group definition '%s', element does not have 2 values.",
-                             group_id.c_str());
-                    continue;
-                }
-                picojson::array item_frequency_array = item_pair->get<picojson::array>();
-                //Finally, insure that the first value is a string, and the second is a number
-                if(!item_frequency_array[0].is<std::string>() ||
-                   !item_frequency_array[1].is<double>() ){
-                    debugmsg("Invalid group list for group definition '%s', element is not a valid tag/frequency pair.",
-                             group_id.c_str());
-                    continue;
-                }
-                Item_group* subgroup = m_template_groups.find(item_frequency_array[0].get<std::string>())->second;
-                current_group->add_group( subgroup, (int)item_frequency_array[1].get<double>() );
-            }
-        }
-    }
-    if( !json_good() ) {
-        throw "There was an error reading " + file_name;
+        current_group->add_group(m_template_groups[name], frequency);
     }
 }
 
@@ -740,13 +625,11 @@ Use_function Item_factory::use_from_string(std::string function_name){
 void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type)
 {
     std::map<Item_tag, unsigned> flag_map;
-    if(flag_type=="techniques"){
-      flag_map = techniques_list;
-    } else if(flag_type=="bodyparts"){
-        flag_map = bodyparts_list;
+    if(flag_type=="bodyparts"){
+      flag_map = bodyparts_list;
+      set_bitmask_by_string(flag_map, cur_flags, new_flag);
     }
 
-    set_bitmask_by_string(flag_map, cur_flags, new_flag);
 }
 
 void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, unsigned& cur_bitmask, std::string new_flag)

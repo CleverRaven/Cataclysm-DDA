@@ -53,7 +53,7 @@
     "price": 20,
     "material": ["leather", "flesh"],
     "weight": 100,
-    "volume": 2,
+    "volume": 1,
     "bashing": -2,
     "cutting": 0,
     "to_hit": -1
@@ -156,7 +156,7 @@
     "name": "rope - 30 ft",
     "description": "A long nylon rope. Useful for keeping yourself safe from falls.",
     "price": 100,
-    "material": "wood",
+    "material": "cotton",
     "weight": 1080,
     "volume": 10,
     "bashing": 1,
@@ -372,6 +372,21 @@
     "bashing": 16,
     "cutting": 0,
     "to_hit": -5
+  },
+
+  {
+    "id": "reinforced_glass_sheet",
+    "symbol": "]",
+    "color": "light_blue",
+    "name": "sheet of reinforced glass",
+    "description": "A large sheet of glass strengthened with steel wiring.",
+    "price": 1135,
+    "material": [ "glass", "steel" ],
+    "weight": 40123,
+    "volume": 50,
+    "bashing": 18,
+    "cutting": 0,
+    "to_hit": -6
   },
 
   {
@@ -1145,6 +1160,51 @@
         ["HAMMER", 1]
     ]
   },
+  {
+    "id": "baseball",
+    "symbol": "*",
+    "color": "white",
+    "name": "baseball",
+    "description": "A baseball, good for throwing at enemies. Getting hit with one of these hurts a lot more than you might think.",
+    "price": 10,
+    "material": "leather",
+    "weight": 150,
+    "volume": 1,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": 3
+  },
+  {
+    "id": "puck",
+    "symbol": "*",
+    "color": "dark_gray",
+    "name": "hockey puck",
+    "description": "A heavy circular block of solid rubber, normally used for playing hockey. You can throw it to cause some serious harm.",
+    "price": 10,
+    "material": "plastic",
+    "weight": 170,
+    "volume": 1,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": 2,
+    "tool": [
+        ["HAMMER", 1]
+    ]
+  },
+  {
+    "id": "football",
+    "symbol": "*",
+    "color": "red",
+    "name": "football",
+    "description": "An oval made of leather and string, it's easily thrown but does little damage. You could take it apart into leather if you wanted.",
+    "price": 10,
+    "material": "leather",
+    "weight": 400,
+    "volume": 2,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": 5
+  },
   { "id":"fertilizer",
     "symbol": "*",
     "color": "green",
@@ -1252,7 +1312,7 @@
         "to_hit" : 1,
         "color" : "yellow",
         "symbol" : ",",
-        "material" : ["wood", "null"],
+        "material" : ["cotton", "null"],
         "volume" : 2,
         "bashing" : 1,
         "cutting" : 0,
@@ -2041,13 +2101,27 @@
     "to_hit": 2
   },
   {
+    "id": "golf_club",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "golf club",
+    "description": "A long handle with a big metal head, flat on one side, for driving golf balls. Fore!",
+    "price": 130,
+    "material": "steel",
+    "weight": 300,
+    "volume": 4,
+    "bashing": 20,
+    "cutting": 0,
+    "to_hit": 1
+  },
+  {
     "id": "rock_sock",
     "symbol": ";",
     "color": "light_blue",
     "name": "rock in a sock",
     "description": "A sock with a rock tied into the end of it. A true weapon of desperation.",
     "price": 10,
-    "material" : ["cloth", "stone"],
+    "material" : ["cotton", "stone"],
     "weight": 1007,
     "volume": 2,
     "bashing": 16,

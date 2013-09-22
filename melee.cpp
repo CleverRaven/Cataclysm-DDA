@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "game.h"
 #include "keypress.h"
+#include "martialarts.h"
 #include <sstream>
 #include <stdlib.h>
 #include <algorithm>
@@ -15,7 +16,7 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
                     bool bashing, bool cutting, bool stabbing);
 int  attack_speed(player &u, bool missed);
 int  stumble(player &u);
-std::string melee_verb(technique_id tech, player &p, int bash_dam, int cut_dam, int stab_dam);
+std::string melee_verb(matec_id tech, player &p, int bash_dam, int cut_dam, int stab_dam);
 
 /* Melee Functions!
  * These all belong to class player.
@@ -54,6 +55,10 @@ int player::base_to_hit(bool real_life, int stat)
 int player::hit_roll()
 {
  int stat = dex_cur;
+// apply martial arts bonuses
+  stat += mabuff_tohit_bonus();
+
+// keep the old martial arts mechanics for now
 // Some martial arts use something else to determine hits!
  if(weapon.typeId() == "style_tiger"){
    stat = (str_cur * 2 + dex_cur) / 3;
@@ -121,6 +126,7 @@ int player::hit_roll()
  return dice(numdice, sides);
 }
 
+
 int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 {
  bool is_u = (this == &(g->u));	// Affects how we'll display messages
@@ -128,7 +134,6 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
   z->add_effect(ME_HIT_BY_PLAYER, 100); // Flag as attacked by us
 
  std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format(_("<Your>%s"), name.c_str()));
  std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
  std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "\003<%2$c%3$c>";
  std::string target = rmp_format(_("<target>the %s"), z->name().c_str());
@@ -144,7 +149,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  if (missed) {
   int stumble_pen = stumble(*this);
   if (is_u) {	// Only display messages if this is the player
-   if (weapon.has_technique(TEC_FEINT, this))
+   if (has_miss_recovery_tec(g))
     g->add_msg(_("You feint."));
    else if (stumble_pen >= 60)
     g->add_msg(_("You miss and stumble with the momentum."));
@@ -157,7 +162,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                  (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
   move_cost += stumble_pen;
-  if (weapon.has_technique(TEC_FEINT, this))
+  if (has_miss_recovery_tec(g))
    move_cost = rng(move_cost / 3, move_cost);
   moves -= move_cost;
   return 0;
@@ -173,11 +178,14 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  int pain = 0; // Boost to pain; required for perform_technique
 
 // Pick one or more special attacks
- technique_id technique = pick_technique(g, z, NULL, critical_hit, allow_grab);
+ matec_id tec_id = pick_technique(g, z, NULL, critical_hit, allow_grab);
+ ma_technique technique = g->ma_techniques[tec_id];
+
 
 // Handles effects as well; not done in melee_affect_*
- perform_technique(technique, g, z, NULL, bash_dam, cut_dam, stab_dam, pain);
- if (weapon.has_technique(TEC_FLAMING, this)) { // bypass technique selection, it's on FIRE after all
+ if (tec_id != "tec_none")
+  perform_technique(technique, g, z, NULL, bash_dam, cut_dam, stab_dam, pain);
+ if (weapon.has_flag("FLAMING")) {
    z->add_effect(ME_ONFIRE, rng(3, 4));
  }
  z->speed -= int(pain / 2);
@@ -185,7 +193,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 // Mutation-based attacks
  perform_special_attacks(g, z, NULL, bash_dam, cut_dam, stab_dam);
 
-    verb = melee_verb(technique, *this, bash_dam, cut_dam, stab_dam);
+ verb = melee_verb(technique.id, *this, bash_dam, cut_dam, stab_dam);
 
 // Handles speed penalties to monster & us, etc
  melee_special_effects(g, z, NULL, critical_hit, bash_dam, cut_dam, stab_dam);
@@ -205,7 +213,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  bool stabbing = (stab_dam >= 5);
  melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
 
- if (allow_grab && technique == TEC_GRAB) {
+ if (allow_grab && technique.grabs) {
 // Move our weapon to a temp slot, if it's not unarmed
   if (!unarmed_attack()) {
    item tmpweap = remove_weapon();
@@ -230,7 +238,6 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  }
 
  std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format(_("<Your>%s"), name.c_str()));
  std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
  std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "\003<%2$c%3$c>";
 
@@ -244,7 +251,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  if (missed) {
   int stumble_pen = stumble(*this);
   if (is_u) {	// Only display messages if this is the player
-   if (weapon.has_technique(TEC_FEINT, this))
+   if (has_miss_recovery_tec(g))
     g->add_msg(_("You feint."));
    else if (stumble_pen >= 60)
     g->add_msg(_("You miss and stumble with the momentum."));
@@ -257,7 +264,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                  (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
   move_cost += stumble_pen;
-  if (weapon.has_technique(TEC_FEINT, this))
+  if (has_miss_recovery_tec(g))
    move_cost = rng(move_cost / 3, move_cost);
   moves -= move_cost;
   return;
@@ -289,9 +296,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  int cut_dam  = roll_cut_damage(NULL, critical_hit);
  int stab_dam = roll_stab_damage(NULL, critical_hit);
 
- technique_id tech_def = p.pick_defensive_technique(g, NULL, this);
- p.perform_defensive_technique(tech_def, g, NULL, this, bp_hit, side,
-                               bash_dam, cut_dam, stab_dam);
+ p.block_hit(g, NULL, this, bp_hit, side, bash_dam, cut_dam, stab_dam);
 
  if (bash_dam + cut_dam + stab_dam <= 0)
   return; // Defensive technique canceled our attack!
@@ -302,11 +307,14 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  int pain = 0; // Boost to pain; required for perform_technique
 
 // Pick one or more special attacks
- technique_id technique = pick_technique(g, NULL, &p, critical_hit, allow_grab);
+ matec_id tec_id = pick_technique(g, NULL, &p, critical_hit, allow_grab);
+ ma_technique technique = g->ma_techniques[tec_id];
 
 // Handles effects as well; not done in melee_affect_*
- perform_technique(technique, g, NULL, &p, bash_dam, cut_dam, stab_dam, pain);
- if (weapon.has_technique(TEC_FLAMING, this)) { // bypass technique selection, it's on FIRE after all
+ if (tec_id != "tec_none")
+  perform_technique(technique, g, NULL, &p, bash_dam, cut_dam, stab_dam, pain);
+
+ if (weapon.has_flag("FLAMING")) {
    p.add_disease("onfire", rng(2, 3));
  }
  p.pain += pain;
@@ -323,7 +331,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
  p.hit(g, bp_hit, side, bash_dam, (cut_dam > stab_dam ? cut_dam : stab_dam));
 
- verb = melee_verb(technique, *this, bash_dam, cut_dam, stab_dam);
+ verb = melee_verb(technique.id, *this, bash_dam, cut_dam, stab_dam);
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
  hit_message(g, is_u, You, your, verb, weapon.tname(), target, dam, critical_hit);
 
@@ -335,9 +343,9 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
   healall( rng(dam / 10, dam / 5) );
 
- if (allow_grab && technique == TEC_GRAB) {
+ if (allow_grab && technique.grabs) {
 // Move our weapon to a temp slot, if it's not unarmed
-  if (p.weapon.has_technique(TEC_BREAK, &p) &&
+  if (p.has_grab_break_tec(g) &&
       dice(p.dex_cur + p.skillLevel("melee"), 12) >
       dice(dex_cur + skillLevel("melee"), 10)) {
    g->add_msg_player_or_npc(&p, _("%s break the grab!"), _("%s breaks the grab!"), target.c_str());
@@ -348,10 +356,12 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   } else
    hit_player(g, p, false); // False means a second grab isn't allowed
  }
- if (tech_def == TEC_COUNTER) {
+ /*
+ if (tech_def.counters) {
   g->add_msg_if_player(&p, _("Counter-attack!"));
   p.hit_player(g, *this);
  }
+ */
 }
 
 int stumble(player &u)
@@ -392,14 +402,7 @@ bool player::scored_crit(int target_dodge)
 // Dexterity to-hit roll
 // ... except sometimes we don't use dexteiry!
  int stat = dex_cur;
-// Some martial arts use something else to determine hits!
- if(weapon.typeId() == "style_tiger"){
-   stat = (str_cur * 2 + dex_cur) / 3;
- } else if(weapon.typeId() == "style_leopard"){
-   stat = (per_cur + int_cur + dex_cur * 2) / 4;
- } else if(weapon.typeId() == "style_snake"){
-   stat = (per_cur + dex_cur) / 2;
- }
+
  chance = 25;
  if (stat > 8) {
   for (int i = 9; i <= stat; i++)
@@ -463,6 +466,9 @@ int player::dodge(game *g)
     ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
     ret += int(current_speed(g) / 150); //Faster = small dodge advantage
 
+    // add martial arts bonus
+    ret += mabuff_dodge_bonus();
+
     //Mutations
     if (has_trait("TAIL_LONG")) {ret += 2;}
     if (has_trait("TAIL_FLUFFY")) {ret += 4;}
@@ -512,6 +518,9 @@ int player::roll_bash_damage(monster *z, bool crit)
  int ret = 0;
  int stat = str_cur; // Which stat determines damage?
  int skill = skillLevel("bashing"); // Which skill determines damage?
+
+ stat += mabuff_bash_bonus();
+
  if (unarmed_attack())
   skill = skillLevel("unarmed");
 
@@ -590,7 +599,7 @@ int player::roll_cut_damage(monster *z, bool crit)
  if (z_armor_cut < 0)
   z_armor_cut = 0;
 
- double ret = weapon.damage_cut() - z_armor_cut;
+ double ret = mabuff_cut_bonus() + weapon.damage_cut() - z_armor_cut;
 
  if (unarmed_attack() && !wearing_something_on(bp_hands)) {
   if (has_trait("CLAWS"))
@@ -724,359 +733,240 @@ int player::roll_stuck_penalty(monster *z, bool stabbing)
     return stuck_cost;
 }
 
-technique_id player::pick_technique(game *g, monster *z, player *p,
+matec_id player::pick_technique(game *g, monster *z, player *p,
                                     bool crit, bool allowgrab)
 {
  if (z == NULL && p == NULL)
-  return TEC_NULL;
+  return "tec_none";
 
- std::vector<technique_id> possible;
+ std::vector<matec_id> all = get_all_techniques(g);
+
+ std::vector<matec_id> possible;
  bool downed = ((z && !z->has_effect(ME_DOWNED)) ||
                 (p && !p->has_disease("downed"))  );
- int base_str_req = 0;
 
- if (z)
-  base_str_req = z->type->size;
- else if (p)
-  base_str_req = 1 + (2 + p->str_cur) / 4;
+  // first add non-aoe tecs
+  for (std::vector<matec_id>::const_iterator it = all.begin();
+      it != all.end(); ++it) {
+    ma_technique tec = g->ma_techniques[*it];
 
- if (allowgrab) { // Check if grabs AREN'T REALLY ALLOWED
-  if (z && z->has_flag(MF_PLASTIC))
-   allowgrab = false;
- }
+    // skip defensive techniques
+    if (tec.defensive) continue;
 
- if (crit) { // Some are crit-only
+    // if crit then select only from crit tecs
+    if ((crit && !tec.crit_tec) || (!crit && tec.crit_tec)) continue;
 
-  if (weapon.has_technique(TEC_SWEEP, this) &&
-      (!z || !z->has_flag(MF_FLIES)) && !downed)
-   possible.push_back(TEC_SWEEP);
+    // don't apply downing techniques to someone who's already downed
+    if (downed && tec.down_dur > 0) continue;
 
-  if (weapon.has_technique(TEC_PRECISE, this))
-   possible.push_back(TEC_PRECISE);
+    // don't apply disarming techniques to someone without a weapon 
+    //TODO: these are the stat reqs for tec_disarm
+    // dice(   dex_cur +    skillLevel("unarmed"),  8) >
+    // dice(p->dex_cur + p->skillLevel("melee"),   10))
+    if (tec.disarms && !(!z && p->weapon.typeId() != "null")) continue;
 
-  if (weapon.has_technique(TEC_BRUTAL, this) && !downed &&
-      str_cur + skillLevel("melee") >= 4 + base_str_req)
-   possible.push_back(TEC_BRUTAL);
+    // ignore aoe tecs for a bit
+    if (tec.aoe.length() > 0) continue;
 
- }
-
- if (possible.empty()) { // Use non-crits only if any crit-onlies aren't used
-
-  if (weapon.has_technique(TEC_DISARM, this) && !z &&
-      p->weapon.typeId() != "null" && !p->weapon.has_flag("UNARMED_WEAPON") &&
-      dice(   dex_cur +    skillLevel("unarmed"),  8) >
-      dice(p->dex_cur + p->skillLevel("melee"),   10))
-   possible.push_back(TEC_DISARM);
-
-  if (weapon.has_technique(TEC_GRAB, this) && allowgrab)
-   possible.push_back(TEC_GRAB);
-
-  if (weapon.has_technique(TEC_RAPID, this))
-   possible.push_back(TEC_RAPID);
-
-  if (weapon.has_technique(TEC_THROW, this) && !downed &&
-      str_cur + skillLevel("melee") >= 4 + base_str_req * 4 + rng(-4, 4))
-   possible.push_back(TEC_THROW);
-
-  if (weapon.has_technique(TEC_WIDE, this)) { // Count monsters
-   int enemy_count = 0;
-   for (int x = posx - 1; x <= posx + 1; x++) {
-    for (int y = posy - 1; y <= posy + 1; y++) {
-     int mondex = g->mon_at(x, y);
-     if (mondex != -1) {
-      if (g->zombie(mondex).friendly == 0)
-       enemy_count++;
-      else
-       enemy_count -= 2;
-     }
-     int npcdex = g->npc_at(x, y);
-     if (npcdex != -1) {
-      if (g->active_npc[npcdex]->attitude == NPCATT_KILL)
-       enemy_count++;
-      else
-       enemy_count -= 2;
-     }
-    }
-   }
-   if (enemy_count >= (possible.empty() ? 2 : 3)) {
-    possible.push_back(TEC_WIDE);
-   }
+    if (tec.is_valid_player(*this))
+      possible.push_back(tec.id);
   }
- } // if (possible.empty())
 
- if (possible.empty())
-  return TEC_NULL;
+  // now add aoe tecs (since they depend on if we have other tecs or not)
+  for (std::vector<matec_id>::const_iterator it = all.begin();
+      it != all.end(); ++it) {
+    ma_technique tec = g->ma_techniques[*it];
 
- possible.push_back(TEC_NULL); // Always a chance to not use any technique
+    // don't use aoe tecs if there's only one target
+    if (tec.aoe.length() > 0) {
+      int enemy_count = 0;
+      for (int x = posx - 1; x <= posx + 1; x++) {
+        for (int y = posy - 1; y <= posy + 1; y++) {
+          int mondex = g->mon_at(x, y);
+          if (mondex != -1) {
+            if (g->zombie(mondex).friendly == 0)
+            enemy_count++;
+            else
+            enemy_count -= 2;
+          }
+          int npcdex = g->npc_at(x, y);
+          if (npcdex != -1) {
+            if (g->active_npc[npcdex]->attitude == NPCATT_KILL)
+            enemy_count++;
+            else
+            enemy_count -= 2;
+          }
+        }
+      }
+      if (tec.is_valid_player(*this) &&
+          enemy_count >= (possible.empty() ? 1 : 2)) {
+        possible.push_back(tec.id);
+      }
+    }
+  }
 
- return possible[ rng(0, possible.size() - 1) ];
+  if (possible.empty()) return "tec_none";
+
+  return possible[ rng(0, possible.size() - 1) ];
 }
 
-void player::perform_technique(technique_id technique, game *g, monster *z,
+bool player::has_technique(matec_id id, game* g) {
+  return weapon.has_technique(id, this) ||
+    g->martialarts[style_selected].has_technique(*this, id, g);
+}
+
+void player::perform_technique(ma_technique technique, game *g, monster *z,
                                player *p, int &bash_dam, int &cut_dam,
                                int &stab_dam, int &pain)
 {
- bool mon = (z != NULL);
- std::string You = rm_prefix(is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
- std::string target = rm_prefix(mon ? string_format("<target>the %s",z->name().c_str()) :
-                       (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : "<target>you"));
- int tarx = (mon ? z->posx() : p->posx), tary = (mon ? z->posy() : p->posy);
+  bool mon = (z != NULL);
+  std::string You = rm_prefix(is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
+  std::string target = rm_prefix(mon ? string_format("<target>the %s",z->name().c_str()) :
+                        (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : "<target>you"));
+  int tarx = (mon ? z->posx() : p->posx), tary = (mon ? z->posy() : p->posy);
 
- if (technique == TEC_RAPID) {
-  moves += int( attack_speed(*this, false) / 2);
-  return;
- }
- if (technique == TEC_BLOCK) {
-  bash_dam *= .7;
-  return;
- }
+  if (technique.quick) {
+    moves += int( attack_speed(*this, false) / 2);
+    return;
+  }
 // The rest affect our target, and thus depend on z vs. p
- switch (technique) {
 
- case TEC_SWEEP:
-  if (z != NULL && !z->has_flag(MF_FLIES)) {
-   z->add_effect(ME_DOWNED, rng(1, 2));
-   bash_dam += z->fall_damage();
-  } else if (p != NULL && p->weapon.typeId() != "style_judo") {
-   p->add_disease("downed", rng(1, 2));
-   bash_dam += 3;
-  }
-  break;
-
- case TEC_PRECISE:
-  if (z != NULL)
-   z->add_effect(ME_STUNNED, rng(1, 4));
-  else if (p != NULL)
-   p->add_disease("stunned", rng(1, 2));
-  pain += rng(5, 8);
-  break;
-
- case TEC_BRUTAL:
-  if (z != NULL) {
-   z->add_effect(ME_STUNNED, 1);
-   z->knock_back_from(g, posx, posy);
-  } else if (p != NULL) {
-   p->add_disease("stunned", 1);
-   p->knock_back_from(g, posy, posy);
-  }
-  break;
-
- case TEC_THROW:
-// Throws are less predictable than brutal strikes.
-// We knock them back from a tile adjacent to us!
-  if (z != NULL) {
-   z->add_effect(ME_DOWNED, rng(1, 2));
-   z->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
-  } else if (p != NULL) {
-   p->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
-   if (p->weapon.typeId() != "style_judo")
-    p->add_disease("downed", rng(1, 2));
-  }
-  break;
-
- case TEC_WIDE: {
-  int count_hit = 0;
-  for (int x = posx - 1; x <= posx + 1; x++) {
-   for (int y = posy - 1; y <= posy + 1; y++) {
-    if (x != tarx || y != tary) { // Don't double-hit our target
-     int mondex = g->mon_at(x, y);
-     if (mondex != -1 && hit_roll() >= rng(0, 5) + g->zombie(mondex).dodge_roll()) {
-         count_hit++;
-         int dam = roll_bash_damage(&(g->zombie(mondex)), false) +
-             roll_cut_damage (&(g->zombie(mondex)), false);
-         if (g->zombie(mondex).hurt(dam)) {
-             g->zombie(mondex).die(g);
-         }
-         if (weapon.has_technique(TEC_FLAMING, this))  { // Add to wide attacks
-             g->zombie(mondex).add_effect(ME_ONFIRE, rng(3, 4));
-         }
-         std::string temp_target = rmp_format(_("<target>the %s"), g->zombie(mondex).name().c_str());
-         g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
-     }
-     int npcdex = g->npc_at(x, y);
-     if (npcdex != -1 &&
-         hit_roll() >= rng(0, 5) + g->active_npc[npcdex]->dodge_roll(g)) {
-         count_hit++;
-         int dam = roll_bash_damage(NULL, false);
-         int cut = roll_cut_damage (NULL, false);
-         g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
-         if (weapon.has_technique(TEC_FLAMING, this)) {// Add to wide attacks
-             g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
-         }
-         std::string temp_target = rmp_format(_("<target>%s"), g->active_npc[npcdex]->name.c_str());
-         g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
-
-         g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
-     }
+  if (technique.down_dur > 0) {
+    if (z != NULL && !z->has_flag(MF_FLIES)) {
+      z->add_effect(ME_DOWNED, rng(1, 2));
+      bash_dam += z->fall_damage();
+    } else if (p != NULL && p->weapon.typeId() != "style_judo" &&
+      !p->is_throw_immune()) {
+      p->add_disease("downed", rng(1, 2));
+      bash_dam += 3;
     }
-   }
   }
-   g->add_msg_if_player(p, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
- } break;
 
- case TEC_DISARM:
-  g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
-  g->add_msg_player_or_npc( this, _("You disarm %s!"), _("<npcname> disarms %s!"), target.c_str() );
-  break;
+  if (technique.stun_dur > 0) {
+    if (z != NULL)
+      z->add_effect(ME_STUNNED, rng(1, technique.stun_dur));
+    else if (p != NULL)
+      p->add_disease("stunned", rng(1, technique.stun_dur/2));
+  }
 
- } // switch (tech)
+  if (technique.knockback_dist > 0) {
+    int kb_offset = rng(
+      -technique.knockback_spread,
+      technique.knockback_spread
+    );
+    if (z != NULL) {
+      z->knock_back_from(g, posx+kb_offset, posy+kb_offset);
+    } else if (p != NULL) {
+      p->knock_back_from(g, posy+kb_offset, posy+kb_offset);
+    }
+  }
+
+  if (technique.pain > 0) {
+    pain += rng(technique.pain/2, technique.pain);
+  }
+
+  if (technique.disarms) {
+    g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
+    g->add_msg_player_or_npc( this, _("You disarm %s!"), _("<npcname> disarms %s!"), target.c_str() );
+  }
+
+  if (technique.aoe.length() > 0) {
+    int count_hit = 0;
+    for (int x = posx - 1; x <= posx + 1; x++) {
+      for (int y = posy - 1; y <= posy + 1; y++) {
+        if (x != tarx || y != tary) { // Don't double-hit our target
+          int mondex = g->mon_at(x, y);
+          if (mondex != -1 && hit_roll() >= rng(0, 5) + g->zombie(mondex).dodge_roll()) {
+            count_hit++;
+            int dam = roll_bash_damage(&(g->zombie(mondex)), false) +
+                roll_cut_damage (&(g->zombie(mondex)), false);
+            if (g->zombie(mondex).hurt(dam)) {
+                g->zombie(mondex).die(g);
+            }
+            if (weapon.has_flag("FLAMING"))  { // Add to wide attacks
+                g->zombie(mondex).add_effect(ME_ONFIRE, rng(3, 4));
+            }
+            std::string temp_target = rmp_format(_("<target>the %s"), g->zombie(mondex).name().c_str());
+            g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
+          }
+          int npcdex = g->npc_at(x, y);
+          if (npcdex != -1 &&
+              hit_roll() >= rng(0, 5) + g->active_npc[npcdex]->dodge_roll(g)) {
+            count_hit++;
+            int dam = roll_bash_damage(NULL, false);
+            int cut = roll_cut_damage (NULL, false);
+            g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
+            if (weapon.has_flag("FLAMING")) {// Add to wide attacks
+                g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
+            }
+            std::string temp_target = rmp_format(_("<target>%s"), g->active_npc[npcdex]->name.c_str());
+            g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
+
+            g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
+          }
+        }
+      }
+    }
+    g->add_msg_if_player(p, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
+
+  }
+
 }
 
-technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
-{
- if (blocks_left == 0)
-  return TEC_NULL;
 
- int foe_melee_skill = 0;
- if (z != NULL)
-  foe_melee_skill = z->type->melee_skill;
- else if (p != NULL)
-  foe_melee_skill = p->dex_cur + p->skillLevel("melee");
+void player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
+  int &bash_dam, int &cut_dam, int &stab_dam) {
 
- int foe_dodge = 0;
- if (z != NULL)
-  foe_dodge = z->dodge_roll();
- else if (p != NULL)
-  foe_dodge = p->dodge_roll(g);
+  if (blocks_left <= 0) return;
 
- int foe_size = 0;
- if (z)
-  foe_size = 4 + z->type->size * 4;
- else if (p) {
-  foe_size = 12;
-  if (p->str_max <= 5)
-   foe_size -= 3;
-  if (p->str_max >= 12)
-   foe_size += 3;
- }
-
- blocks_left--;
- if (weapon.has_technique(TEC_WBLOCK_3) &&
-     dice(dex_cur + skillLevel("melee"), 12) > dice(foe_melee_skill, 10))
-  return TEC_WBLOCK_3;
-
- if (weapon.has_technique(TEC_WBLOCK_2) &&
-     dice(dex_cur + skillLevel("melee"), 6) > dice(foe_melee_skill, 10))
-  return TEC_WBLOCK_2;
-
- if (weapon.has_technique(TEC_WBLOCK_1) &&
-     dice(dex_cur + skillLevel("melee"), 3) > dice(foe_melee_skill, 10))
-  return TEC_WBLOCK_1;
-
- if (weapon.has_technique(TEC_DEF_DISARM, this) &&
-     z == NULL && p->weapon.typeId() != "null" &&
-     !p->weapon.has_flag("UNARMED_WEAPON") &&
-     dice(   dex_cur +    skillLevel("unarmed"), 8) >
-     dice(p->dex_cur + p->skillLevel("melee"),  10))
-  return TEC_DEF_DISARM;
-
- if (weapon.has_technique(TEC_DEF_THROW, this) &&
-     str_cur + skillLevel("melee") >= foe_size + rng(-4, 4) &&
-     hit_roll() > rng(1, 5) + foe_dodge && !one_in(3))
-  return TEC_DEF_THROW;
-
- if (weapon.has_technique(TEC_COUNTER, this) &&
-     hit_roll() > rng(1, 10) + foe_dodge && !one_in(3))
-  return TEC_COUNTER;
-
- if (weapon.has_technique(TEC_BLOCK_LEGS, this) &&
-     (hp_cur[hp_leg_l] >= 20 || hp_cur[hp_leg_r] >= 20) &&
-     dice(dex_cur + skillLevel("unarmed") + skillLevel("melee"), 13) >
-     dice(8 + foe_melee_skill, 10))
-  return TEC_BLOCK_LEGS;
-
- if (weapon.has_technique(TEC_BLOCK, this) &&
-     (hp_cur[hp_arm_l] >= 20 || hp_cur[hp_arm_r] >= 20) &&
-     dice(dex_cur + skillLevel("unarmed") + skillLevel("melee"), 16) >
-     dice(6 + foe_melee_skill, 10))
-  return TEC_BLOCK;
-
- blocks_left++; // We didn't use any blocks, so give it back!
- return TEC_NULL;
-}
-
-void player::perform_defensive_technique(
-  technique_id technique, game *g, monster *z, player *p,
-  body_part &bp_hit, int &side, int &bash_dam, int &cut_dam, int &stab_dam)
-
-{
- bool mon = (z != NULL);
- std::string You = rm_prefix(is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
- std::string your = rm_prefix(is_npc() ? (male ? _("<your>his") : _("<your>her")) : _("<your>your"));
- std::string target = rm_prefix(mon ? string_format(_("<target>the %s"),z->name().c_str()) : string_format(_("<target>%s"),p->name.c_str()));
-
- switch (technique) {
-  case TEC_BLOCK:
-  case TEC_BLOCK_LEGS: {
-   if (technique == TEC_BLOCK) {
-    bp_hit = bp_arms;
-    if (hp_cur[hp_arm_l] >= hp_cur[hp_arm_r])
-     side = 0;
+  // if weapon, then extra reduction
+  if (!unarmed_attack() ) {
+    float mult = 1.0f;
+    if (weapon.has_technique("WBLOCK_1",this))
+      mult = 0.4;
+    else if (weapon.has_technique("WBLOCK_2",this))
+      mult = 0.15;
+    else if (weapon.has_technique("WBLOCK_3",this))
+      mult = 0.05;
     else
-     side = 1;
-   } else { // Blocking with our legs
-    bp_hit = bp_legs;
-    if (hp_cur[hp_leg_l] >= hp_cur[hp_leg_r])
-     side = 0;
-    else
-     side = 1;
-   }
-   g->add_msg_player_or_npc( this, _("You block with your %s!"), _("<npcname> blocks with their %s!"),
-                             body_part_name(bp_hit, side).c_str() );
+      mult = 0.5; // always at least as good as unarmed
+    g->add_msg_player_or_npc( this, _("You block with your %s!"), _("<npcname> blocks with their %s!"),
+                              weapon.tname().c_str() );
+    bash_dam *= mult;
+    cut_dam *= mult;
+    stab_dam *= mult;
+    // then convert cut/stab into bash
+    bash_dam += cut_dam + stab_dam;
+    cut_dam = stab_dam = 0;
 
-   bash_dam *= .5;
-   double reduction = 1.0;
-// Special reductions for certain styles
-   if (weapon.typeId() == "style_tai_chi")
-    reduction -= double(0.08 * double(per_cur - 6));
-   if (weapon.typeId() == "style_taekwondo")
-    reduction -= double(0.08 * double(str_cur - 6));
-   if (reduction > 1.0)
-    reduction = 1.0;
-   if (reduction < 0.3)
-    reduction = 0.3;
+    bash_dam -= mabuff_block_bonus();
+    bash_dam = bash_dam < 0 ? 0 : bash_dam;
+  } else { // otherwise, unarmed
+  // if you can leg block, randomly select arms or legs
+    if (can_leg_block(g) && one_in(2)) {
+      bp_hit = bp_legs;
+      if (hp_cur[hp_leg_l] >= hp_cur[hp_leg_r])
+        side = 0;
+      else
+        side = 1;
+    // block with arms otherwise
+    } else {
+      bp_hit = bp_arms;
+      if (hp_cur[hp_arm_l] >= hp_cur[hp_arm_r])
+        side = 0;
+      else
+        side = 1;
+    }
+    g->add_msg_player_or_npc( this, _("You block with your %s!"), _("<npcname> blocks with their %s!"),
+                              body_part_name(bp_hit, side).c_str() );
 
-   bash_dam *= reduction;
-  } break;
+    bash_dam *= .5;
 
-  case TEC_WBLOCK_1:
-  case TEC_WBLOCK_2:
-  case TEC_WBLOCK_3:
-// TODO: Cause weapon damage
-   bash_dam = 0;
-   cut_dam = 0;
-   stab_dam = 0;
-   g->add_msg_player_or_npc( this, _("You block with your %s!"), _("<npcname> blocks with their %s!"),
-                             weapon.tname().c_str() );
+    bash_dam -= mabuff_block_bonus();
+    bash_dam = bash_dam < 0 ? 0 : bash_dam;
+  }
 
-  case TEC_COUNTER:
-   break; // Handled elsewhere
-
-  case TEC_DEF_THROW:
-   g->add_msg_player_or_npc( this, _("You throw %s."), _("<npcname> throws %s."), target.c_str() );
-   bash_dam = 0;
-   cut_dam  = 0;
-   stab_dam = 0;
-   if (mon) {
-    z->add_effect(ME_DOWNED, rng(1, 2));
-    z->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
-   } else {
-    p->add_disease("downed", rng(1, 2));
-    p->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
-   }
-   break;
-
-  case TEC_DEF_DISARM:
-   g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
-// Re-roll damage, without our weapon
-   bash_dam = p->roll_bash_damage(NULL, false);
-   cut_dam  = p->roll_cut_damage(NULL, false);
-   stab_dam = p->roll_stab_damage(NULL, false);
-   g->add_msg_player_or_npc( this, _("You disarm %s."), _("<npcname> disarms %s."), target.c_str() );
-
-   break;
-
- } // switch (technique)
+  blocks_left--;
 }
 
 void player::perform_special_attacks(game *g, monster *z, player *p,
@@ -1134,10 +1024,6 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  if (z == NULL && p == NULL)
   return;
  bool mon = (z != NULL);
- bool is_u = (!is_npc());
- std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format(_("<Your>%s's"), name.c_str()));
- std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
  std::string target = rm_prefix(mon ? string_format(_("<target>the %s"),z->name().c_str()) :
                        (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : _("<target>you")));
  std::string target_possessive = rm_prefix(mon ? string_format(_("<target's>the %s's"), z->name().c_str()) :
@@ -1205,7 +1091,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   if (mon) {
    z->hurt( shock * rng(1, 3) );
    z->moves -= shock * 180;
-   g->add_msg_player_or_npc( p, _("You shock %s."), _("<npcname> shocks %s."), target.c_str() );
+   g->add_msg_player_or_npc( this, _("You shock %s."), _("<npcname> shocks %s."), target.c_str() );
   } else {
    p->hurt(g, bp_torso, 0, shock * rng(1, 3));
    p->moves -= shock * 80;
@@ -1214,7 +1100,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
 
  if (drain_them) {
   charge_power(rng(0, 2));
-  g->add_msg_player_or_npc( p, _("You drain %s body heat!"), _("<npcname> drains %s body heat!"),
+  g->add_msg_player_or_npc( this, _("You drain %s body heat!"), _("<npcname> drains %s body heat!"),
                             target_possessive.c_str() );
   if (mon) {
    z->moves -= rng(80, 120);
@@ -1286,63 +1172,13 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  }
 
 // Finally, some special effects for martial arts
- if(weapon.typeId() == "style_karate"){
-   dodges_left++;
-   blocks_left += 2;
- } else if(weapon.typeId() == "style_aikido"){
-   bash_dam /= 2;
- } else if(weapon.typeId() == "style_capoeira"){
-   add_disease("dodge_boost", 2, 2);
- } else if(weapon.typeId() == "style_muay_thai"){
-   if ((mon && z->type->size >= MS_LARGE) || (!mon && p->str_max >= 12))
-    bash_dam += rng((mon ? z->type->size : (p->str_max - 8) / 4),
-                    3 * (mon ? z->type->size : (p->str_max - 8) / 4));
- } else if(weapon.typeId() == "style_tiger"){
-   add_disease("damage_boost", 2, 2, 10);
- } else if(weapon.typeId() == "style_centipede"){
-   add_disease("speed_boost", 2, 4, 40);
- } else if(weapon.typeId() == "style_venom_snake"){
-   if (has_disease("viper_combo")) {
-    if (disease_intensity("viper_combo") == 1) {
-     g->add_msg_if_player(p,"Snakebite!");
-     int dambuf = bash_dam;
-     bash_dam = stab_dam;
-     stab_dam = dambuf;
-     add_disease("viper_combo", 2, 1, 2); // Upgrade to Viper Strike
-    } else if (disease_intensity("viper_combo") == 2) {
-     if (hp_cur[hp_arm_l] >= hp_max[hp_arm_l] * .75 &&
-         hp_cur[hp_arm_r] >= hp_max[hp_arm_r] * .75   ) {
-      g->add_msg_if_player(p,"Viper STRIKE!");
-      bash_dam *= 3;
-     } else
-      g->add_msg_if_player(p,_("Your injured arms prevent a viper strike!"));
-     rem_disease("viper_combo");
-    }
-   } else if (crit) {
-    g->add_msg_if_player(p,_("Tail whip!  Viper Combo Intiated!"));
-    bash_dam += 5;
-    add_disease("viper_combo", 2, 1, 2);
-   }
- } else if(weapon.typeId() == "style_scorpion"){
-   if (crit) {
-    g->add_msg_if_player(p,_("Stinger Strike!"));
-    if (mon) {
-     z->add_effect(ME_STUNNED, 3);
-     int zposx = z->posx(), zposy = z->posy();
-     z->knock_back_from(g, posx, posy);
-     if (z->posx() != zposx || z->posy() != zposy)
-      z->knock_back_from(g, posx, posy); // Knock a 2nd time if the first worked
-    } else {
-     p->add_disease("stunned", 2);
-     int pposx = p->posx, pposy = p->posy;
-     p->knock_back_from(g, posx, posy);
-     if (p->posx != pposx || p->posy != pposy)
-      p->knock_back_from(g, posx, posy); // Knock a 2nd time if the first worked
-    }
-   }
- } else if(weapon.typeId() == "style_zui_quan"){
-   dodges_left = 50; // Basically, unlimited.
- }
+  // multiply damage by style damage_mults
+  bash_dam *= mabuff_bash_mult();
+  cut_dam *= mabuff_cut_mult();
+
+  // on-hit effects for martial arts
+  ma_onhit_effects();
+
 }
 
 std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
@@ -1355,7 +1191,6 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
  bool mon = (z != NULL);
  bool is_u = (!is_npc());// Affects how we'll display messages
  std::string You  = rm_prefix(is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
- std::string Your = rm_prefix(is_u ? _("<Your>Your") : string_format("<Your>%s's", name.c_str()));
  std::string your = rm_prefix(is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
  std::string target = rm_prefix(mon ? string_format(_("<target>the %s"), z->name().c_str()) : string_format(_("<target>%s"), p->name.c_str()));
 
@@ -1470,85 +1305,59 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
  return ret;
 }
 
-std::string melee_verb(technique_id tech, player &p, int bash_dam, int cut_dam, int stab_dam)
+std::string melee_verb(matec_id tec_id, player &p, int bash_dam, int cut_dam, int stab_dam)
 {
- if (tech != TEC_NULL && p.weapon.is_style() &&
-     p.weapon.style_data(tech).name != "")
-  return (p.is_npc()?p.weapon.style_data(tech).verb_npc:p.weapon.style_data(tech).verb_you) + "\003<%2$c%3$c>";
 
- std::stringstream ret;
+  std::stringstream ret;
 
- //1$ You 2$ your 3$ weapon 4$ target
- switch (tech) {
+  if (g->ma_techniques.find(tec_id) != g->ma_techniques.end()) {
+    if (p.is_npc())
+      return g->ma_techniques[tec_id].verb_npc;
+    else
+      return g->ma_techniques[tec_id].verb_you;
+  }
 
-  case TEC_SWEEP:
-   return p.is_npc()? _("%1$s sweeps %2$s %3$s at %4$s") : _("%1$s sweep %2$s %3$s at %4$s");
-   break;
+  // verb should be based on how the weapon is used, and the total damage inflicted
 
-  case TEC_PRECISE:
-   return p.is_npc()? _("%1$s jabs %2$s %3$s at %4$s") : _("%1$s jab %2$s %3$s at %4$s");
-   break;
+  // if it's a stabbing weapon or a spear
+  if (p.weapon.has_flag("SPEAR") || (p.weapon.has_flag("STAB") && stab_dam > cut_dam))
+  {
+      if (bash_dam + stab_dam + cut_dam >= 30)
+          ret << (p.is_npc()?_("%1$s impales %4$s"):_("%1$s impale %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 20)
+          ret << (p.is_npc()?_("%1$s pierces %4$s"):_("%1$s pierce %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 10)
+          ret << (p.is_npc()?_("%1$s stabs %4$s"):_("%1$s stab %4$s"));
+      else ret << (p.is_npc()?_("%1$s pokes %4$s"):_("%1$s poke %4$s"));
+  } else if (p.weapon.is_cutting_weapon())    // if it's a cutting weapon
+  {
+      if (bash_dam + stab_dam + cut_dam >= 30)
+          ret << (p.is_npc()?_("%1$s hacks %4$s"):_("%1$s hack %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 20)
+          ret << (p.is_npc()?_("%1$s slices %4$s"):_("%1$s slice %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 10)
+          ret << (p.is_npc()?_("%1$s cuts %4$s"):_("%1$s cut %4$s"));
+      else ret << (p.is_npc()?_("%1$s nicks %4$s"):_("%1$s nick %4$s"));
+  } else                                      // it must be a bashing weapon
+  {
+      if (bash_dam + stab_dam + cut_dam >= 30)
+          ret << (p.is_npc()?_("%1$s clobbers %4$s"):_("%1$s clobber %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 20)
+          ret << (p.is_npc()?_("%1$s batters %4$s"):_("%1$s batter %4$s"));
+      else if (bash_dam + stab_dam + cut_dam >= 10)
+          ret << (p.is_npc()?_("%1$s whacks %4$s"):_("%1$s whack %4$s"));
+      else ret << (p.is_npc()?_("%1$s hits %4$s"):_("%1$s hit %4$s"));
+  }
+  ret << "\003<%2$c%3$c>";
+  return ret.str();
 
-  case TEC_BRUTAL:
-   return p.is_npc()? _("%1$s slams %2$s %3$s against %4$s") : _("%1$s slam %2$s %3$s against %4$s");
-   break;
-
-  case TEC_GRAB:
-   return p.is_npc()? _("%1$s wraps %2$s %3$s around %4$s") : _("%1$s wrap %2$s %3$s around %4$s");
-   break;
-
-  case TEC_WIDE:
-   return p.is_npc()? _("%1$s swings %2$s %3$s wide at %4$s") : _("%1$s swing %2$s %3$s wide at %4$s");
-   break;
-
-  case TEC_THROW:
-   return p.is_npc()? _("%1$s uses %2$s %3$s to toss %4$s") : _("%1$s use %2$s %3$s to toss %4$s");
-   break;
-
-    default: // No tech, so check our damage levels
-        // verb should be based on how the weapon is used, and the total damage inflicted
-
-        // if it's a stabbing weapon or a spear
-        if (p.weapon.has_flag("SPEAR") || (p.weapon.has_flag("STAB") && stab_dam > cut_dam))
-        {
-            if (bash_dam + stab_dam + cut_dam >= 30)
-                ret << (p.is_npc()?_("%1$s impales %4$s"):_("%1$s impale %4$s"));
-            else if (bash_dam + stab_dam + cut_dam >= 20)
-                ret << (p.is_npc()?_("%1$s pierces %4$s"):_("%1$s pierce %4$s"));
-            else if (bash_dam + stab_dam + cut_dam >= 10)
-                ret << (p.is_npc()?_("%1$s stabs %4$s"):_("%1$s stab %4$s"));
-            else ret << (p.is_npc()?_("%1$s pokes %4$s"):_("%1$s poke %4$s"));
-        } else if (p.weapon.is_cutting_weapon())    // if it's a cutting weapon
-        {
-            if (bash_dam + stab_dam + cut_dam >= 30)
-                ret << (p.is_npc()?_("%1$s hacks %4$s"):_("%1$s hack %4$s"));
-            else if (bash_dam + stab_dam + cut_dam >= 20)
-                ret << (p.is_npc()?_("%1$s slices %4$s"):_("%1$s slice %4$s"));
-            else if (bash_dam + stab_dam + cut_dam >= 10)
-                ret << (p.is_npc()?_("%1$s cuts %4$s"):_("%1$s cut %4$s"));
-            else ret << (p.is_npc()?_("%1$s nicks %4$s"):_("%1$s nick %4$s"));
-        } else                                      // it must be a bashing weapon
-        {
-            if (bash_dam + stab_dam + cut_dam >= 30)
-                ret << (p.is_npc()?_("%1$s clobbers %4$s"):_("%1$s clobber %4$s"));
-            else if (bash_dam + stab_dam + cut_dam >= 20)
-                ret << (p.is_npc()?_("%1$s batters %4$s"):_("%1$s batter %4$s"));
-            else if (bash_dam + stab_dam + cut_dam >= 10)
-                ret << (p.is_npc()?_("%1$s whacks %4$s"):_("%1$s whack %4$s"));
-            else ret << (p.is_npc()?_("%1$s hits %4$s"):_("%1$s hit %4$s"));
-        }
-        ret << "\003<%2$c%3$c>";
-        return ret.str();
- } // switch (tech)
-
- return ret.str();
 }
 
 void hit_message(game *g, bool is_u, std::string You, std::string your, std::string verb,
                           std::string weapon, std::string target, int dam, bool crit)
 {
     //1$ You 2$ your 3$ weapon 4$ target
-    std::string part1 = string_format(verb.c_str(), You.c_str(), your.c_str(), weapon.c_str(), target.c_str());
+    std::string part1 = string_format(verb, You.c_str(), your.c_str(), weapon.c_str(), target.c_str());
     std::string part2;
     if (dam <= 0) {
         part2 = is_u? _(" but do no damage."): _(" but does no damage.");

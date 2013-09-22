@@ -71,9 +71,11 @@ class monster {
  bool made_of(std::string m);	// Returns true if it's made of m
  bool made_of(phase_id p); // Returns true if its phase is p
  bool json_load(picojson::value parsed, std::vector<mtype*> *mtypes);
+ void json_load(picojson::value parsed, game * g);
+
  void load_info(std::string data, std::vector<mtype*> *mtypes);
  
- virtual picojson::value json_save();
+ virtual picojson::value json_save(bool save_contents = false);
  std::string save_info();	// String of all data, for save files
  void debug(player &u); 	// Gives debug info
 
@@ -208,8 +210,8 @@ class monster {
  std::string unique_name; // If we're unique
  bool hallucination;
 
- bool setpos(const int x, const int y);
- bool setpos(const point &p);
+ bool setpos(const int x, const int y, const bool level_change = false);
+ bool setpos(const point &p, const bool level_change = false);
  inline int posx() const { return _posx; }
  inline int posy() const { return _posy; }
 
