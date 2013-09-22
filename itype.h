@@ -390,7 +390,7 @@ struct it_gun : public itype
         char psym, nc_color pcolor, std::string pm1, std::string pm2,
         unsigned short pvolume, unsigned int pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-        signed char pierce,
+        signed char ppierce,
         std::set<std::string> flags,
         std::set<std::string> effects,
 
@@ -402,6 +402,7 @@ struct it_gun : public itype
   skill_used = pskill_used?Skill::skill(pskill_used):NULL;
   ammo = pammo;
   dmg_bonus = pdmg_bonus;
+  pierce = ppierce;
   range = prange;
   dispersion = pdispersion;
   recoil = precoil;
