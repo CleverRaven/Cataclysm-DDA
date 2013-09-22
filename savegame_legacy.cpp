@@ -491,7 +491,7 @@ void player::load_legacy(game *g, std::stringstream & dump) {
  dump >> numstyles;
  for (int i = 0; i < numstyles; i++) {
   dump >> styletype;
-  styles.push_back( styletype );
+  ma_styles.push_back( styletype );
  }
 
  int numill;
@@ -638,7 +638,7 @@ void npc::load_legacy(game *g, std::stringstream & dump) {
  dump >> numstyle;
  for (int i = 0; i < numstyle; i++) {
   dump >> tmpstyle;
-  styles.push_back(tmpstyle);
+  ma_styles.push_back(tmpstyle);
  }
 
  int typetmp;
