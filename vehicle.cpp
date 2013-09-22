@@ -93,6 +93,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 {
     bool destroyEngine = false;
     bool destroyTires = false;
+    bool blood_covered = false;
 
     int consistent_bignesses[num_vparts];
     memset (consistent_bignesses, 0, sizeof(consistent_bignesses));
@@ -119,6 +120,11 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
      } else {
       destroyTires = true;
      }
+    }
+
+    //Don't bloodsplatter mint condition vehicles
+    if(veh_status != 0 && one_in(10)) {
+      blood_covered = true;
     }
 
     for (int p = 0; p < parts.size(); p++)
@@ -172,6 +178,21 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
              parts[p].hp= 0;
           }
          }
+
+         /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
+          * the "front" of the vehicle (since the driver's seat is at (0, 0).
+          * We'll be generous with the blood, since some may disappear before
+          * the player gets a chance to see the vehicle. */
+         if(blood_covered && part_flag(p, "EXTERNAL") && parts[p].mount_dx > 0) {
+           if(one_in(3)) {
+             //Loads of blood. (200 = completely red vehicle part)
+             parts[p].blood = rng(200, 600);
+           } else {
+             //Some blood
+             parts[p].blood = rng(50, 200);
+           }
+         }
+
         }
     }
 }
@@ -2030,7 +2051,16 @@ void vehicle::gain_moves (int mp)
     for (int ep = 0; ep < external_parts.size(); ep++)
     {
         int p = external_parts[ep];
-        if (parts[p].blood > 0) {
+
+        int part_x = global_x() + parts[p].precalc_dx[0];
+        int part_y = global_y() + parts[p].precalc_dy[0];
+
+        /* Only lower blood level if:
+         * - The part is outside.
+         * - The weather is any effect that would cause the player to be wet. */
+        if (parts[p].blood > 0 &&
+                g->m.is_outside(part_x, part_y) && g->levz >= 0 &&
+                g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN) {
             parts[p].blood--;
         }
         int p_eng = part_with_feature (p, "ENGINE", false);
@@ -2038,12 +2068,13 @@ void vehicle::gain_moves (int mp)
             continue;
         }
         parts[p_eng].amount--;
-        int x = global_x() + parts[p_eng].precalc_dx[0];
-        int y = global_y() + parts[p_eng].precalc_dy[0];
-        for (int ix = -1; ix <= 1; ix++)
-            for (int iy = -1; iy <= 1; iy++)
-                if (!rng(0, 2))
-                    g->m.add_field(g, x + ix, y + iy, fd_smoke, rng(2, 4));
+        for (int ix = -1; ix <= 1; ix++) {
+            for (int iy = -1; iy <= 1; iy++) {
+                if (!rng(0, 2)) {
+                    g->m.add_field(g, part_x + ix, part_y + iy, fd_smoke, rng(2, 4));
+                }
+            }
+        }
     }
 
     if (turret_mode) // handle turrets
