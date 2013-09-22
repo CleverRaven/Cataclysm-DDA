@@ -3146,7 +3146,7 @@
     "name": "tent",
     "description": "A small tent, just big enough to fit a person comfortably.",
     "price": 65,
-    "material": "iron",
+    "material": ["plastic", "iron"],
     "weight": 1133,
     "volume": 10,
     "bashing": 4,
