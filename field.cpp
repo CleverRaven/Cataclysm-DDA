@@ -215,7 +215,7 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
 
     std::vector <point> spread;
     // Pick all eligible points to spread to.
-    // Eligible is defined as such : 3 -> (2, 1, 0), 2 -> (1, 0), 1 -> 0
+    // An eligible point must have less density.
     for( int a = -1; a <= 1; a++ ) {
         for( int b = -1; b <= 1; b++ ) {
             // Current field not a candidate.
