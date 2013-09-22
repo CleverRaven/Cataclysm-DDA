@@ -62,6 +62,177 @@
   ]
 },{
         "type" : "recipe",
+  "result": "usb_drive",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "RAM", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "pda",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "small_lcd_screen", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 2 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "battery", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "binoculars",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "lens", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 2 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "wristwatch",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 1 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "battery", 200 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "laptop",
+  "category": "CC_NONCRAFTC",
+  "skill_used": "electronics",
+  "difficulty": 0,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["processor", 1]
+    ],
+    [
+      ["RAM", 4]
+    ],
+    [
+      ["cable", 6]
+    ],
+    [
+      ["amplifier", 1]
+    ],
+    [
+      ["plastic_chunk", 6]
+    ],
+    [
+      ["small_lcd_screen", 1]
+    ],
+    [
+      ["battery", 20]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fan",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 3 ]
+    ],
+    [
+      [ "motor", 1 ]
+    ],
+    [
+      [ "cable", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pocketwatch",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -170,6 +341,23 @@
   "components": [
     [
       [ "pilot_light", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "ref_lighter",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "pilot_light", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
     ]
   ]
 },{
@@ -4069,8 +4257,8 @@
       [ "sugar", 1 ]
     ],
     [
-      [ "water", 5 ],
-      [ "water_clean", 5 ]
+      [ "water", 12 ],
+      [ "water_clean", 12 ]
     ]
   ]
 },{
@@ -4210,7 +4398,42 @@
   ],
   "components": [
     [
+      [ "coffee_raw", 1 ],
+      [ "coffee_syrup", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "coffee_syrup",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
       [ "coffee_raw", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "honeycomb", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -4286,6 +4509,23 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "irish_coffee",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "whiskey", 1 ]
+    ],
+    [
+      [ "coffee_syrup", 1 ]
     ]
   ]
 },{
@@ -4642,6 +4882,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "can_chowder",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_clams", 1 ]
+    ],
+    [
+      [ "potato_raw", 1 ],
+      [ "meat_smoked", 1 ],
+      [ "sausage", 1 ],
+      [ "bacon", 1 ],
+      [ "onion", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bread",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -4856,6 +5133,7 @@
     [
       [ "sugar", 1 ],
       [ "syrup", 1 ],
+      [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "honeycomb", 1 ],
       [ "strawberries", 1 ],
@@ -5110,6 +5388,7 @@
     [
       [ "sugar", 1 ],
       [ "syrup", 1 ],
+      [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "honeycomb", 1 ]
@@ -11321,8 +11600,8 @@
       ["sugar", 1]
     ],
     [
-      ["water", 5],
-      ["water_clean", 5]
+      ["water", 12],
+      ["water_clean", 12]
     ]
   ]
 },{
@@ -14518,5 +14797,5 @@
   ]
 }
 ]
-}
+
 

@@ -10,6 +10,7 @@
 #include "json.h"
 #include "item_group.h"
 #include "iuse.h"
+#include "martialarts.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -75,7 +76,7 @@ private:
     //iuse stuff
     std::map<Item_tag, Use_function> iuse_function_list;
     //techniques stuff
-    std::map<Item_tag, unsigned> techniques_list;
+    std::map<Item_tag, matec_id> techniques_list;
     //bodyparts
     std::map<Item_tag, unsigned> bodyparts_list;
 };

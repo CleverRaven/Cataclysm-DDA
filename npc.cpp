@@ -136,9 +136,9 @@ npc& npc::operator= (const npc & rhs)
 
  copy_skill_levels(&rhs);
 
- styles.clear();
- for (int i = 0; i < rhs.styles.size(); i++)
-  styles.push_back(rhs.styles[i]);
+ ma_styles.clear();
+ for (int i = 0; i < rhs.ma_styles.size(); i++)
+  ma_styles.push_back(rhs.ma_styles[i]);
 
  return *this;
 }
@@ -291,9 +291,7 @@ void npc::randomize(game *g, npc_class type)
   per_max += rng(0, 2);
   personality.bravery += rng(0, 3);
   personality.collector -= rng(1, 6);
-  do
-   styles.push_back( martial_arts_itype_ids[rng(0, martial_arts_itype_ids.size()-1)] );
-  while (one_in(2));
+  // TODO: give ninja his styles back
   break;
 
  case NC_COWBOY:
@@ -920,12 +918,6 @@ Skill* npc::best_skill()
 
 void npc::starting_weapon(game *g)
 {
-    if (!styles.empty())
-    {
-        weapon.make(g->itypes[styles[rng(0, styles.size() - 1)]]);
-        return;
-    }
-
     // TODO add throwing weapons
 
     std::list<itype_id> possible_items;
@@ -1029,24 +1021,6 @@ bool npc::wield(game *g, signed char invlet, bool autodrop){
 
 bool npc::wield(game *g, signed char invlet)
 {
- if (invlet < 0) { // Wielding a style
-  int index = 0 - invlet - 1;
-  if (index >= styles.size()) {
-   debugmsg("npc::wield(%d) [styles.size() = %d]", index, styles.size());
-   return false;
-  }
-  if (volume_carried() + weapon.volume() <= volume_capacity()) {
-   i_add(remove_weapon());
-   moves -= 15; // Extra penalty for putting weapon away
-  } else // No room for weapon, so we drop it
-   g->m.add_item_or_charges(posx, posy, remove_weapon());
-  moves -= 15;
-  weapon.make( g->itypes[styles[index]] );
-  if (g->u_see(posx, posy))
-   g->add_msg(_("%1$s assumes a %2$s stance."), name.c_str(), weapon.tname().c_str());
-  return true;
- }
-
  if (volume_carried() + weapon.volume() <= volume_capacity()) {
   i_add(remove_weapon());
   moves -= 15;
@@ -1344,14 +1318,14 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
  std::vector<itype_id> ret;
  if (p == NULL)
   return ret;
- for (int i = 0; i < styles.size(); i++) {
+ for (int i = 0; i < ma_styles.size(); i++) {
   bool found = false;
-  for (int j = 0; j < p->styles.size() && !found; j++) {
-   if (p->styles[j] == styles[i])
+  for (int j = 0; j < p->ma_styles.size() && !found; j++) {
+   if (p->ma_styles[j] == ma_styles[i])
     found = true;
   }
   if (!found)
-   ret.push_back( styles[i] );
+   ret.push_back( ma_styles[i] );
  }
  return ret;
 }

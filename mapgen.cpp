@@ -556,7 +556,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     else if (rc <= 9)
         add_vehicle (g, "semi_truck", vx, vy, veh_spawn_heading, 0, -1);
     else
-        add_vehicle (g, "armored_vehicle", vx, vy, veh_spawn_heading, 0, -1);
+        add_vehicle (g, "armored_car", vx, vy, veh_spawn_heading, 0, -1);
    }
   }
 
@@ -628,7 +628,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     else if (rc <= 9)
      add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-     add_vehicle (g, "armored_vehicle", vx, vy, one_in(2)? 90 : 180, 0, -1);
+     add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
   }
 
@@ -705,7 +705,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     else if (rc <= 9)
         add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-        add_vehicle (g, "armored_vehicle", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
   }
 
@@ -852,7 +852,7 @@ t   t\n\
     else if (rc <= 9)
         add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-        add_vehicle (g, "armored_vehicle", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
 
   if (terrain_type == ot_bridge_ew)
@@ -892,7 +892,7 @@ t   t\n\
     else if (rc <= 9)
         add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else
-        add_vehicle (g, "armored_vehicle", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
    }
   break;
 
