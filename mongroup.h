@@ -2,11 +2,14 @@
 #define _MONGROUP_H_
 
 #include "mtype.h"
+#include "json.h"
 #include <vector>
 #include <map>
 
 typedef std::map<mon_id, std::pair<int,int> > FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
+
+void init_translation();
 
 struct MonsterGroup
 {
@@ -69,6 +72,8 @@ class MonsterGroupManager
         static std::string Monster2Group(mon_id);
         static std::vector<mon_id> GetMonstersFromGroup(std::string);
         static MonsterGroup GetMonsterGroup(std::string group);
+
+        static void load_monster_group(JsonObject &jo);
 
     private:
         static std::map<std::string, MonsterGroup> monsterGroupMap;

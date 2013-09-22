@@ -27,12 +27,14 @@
 //     monster that makes the point count go over 1000
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
+//void init_translation();
 
 void game::init_mongroups() throw (std::string)
 {
    try
    {
-       MonsterGroupManager::LoadJSONGroups();
+       init_translation();
+       //MonsterGroupManager::LoadJSONGroups();
    }
    catch(std::string &error_message)
    {
@@ -125,7 +127,7 @@ MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
 //json loading
 const char *monGroupFilePath = "data/raw/monstergroups.json";
 std::map<std::string, mon_id> monStr2monId;
-void init_translation();
+
 std::string GetString(std::string, picojson::object *);
 int GetInt(std::string, picojson::object *);
 
@@ -155,6 +157,36 @@ MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
     }
 
     return g;
+}
+
+void MonsterGroupManager::load_monster_group(JsonObject &jo)
+{
+    JsonArray jo_array;
+
+    MonsterGroup g;
+
+    // required
+    std::string name = jo.get_string("name");
+    std::string mon_default = jo.get_string("default");
+
+    g.name = name;
+    g.defaultMonster = monStr2monId[mon_default];
+
+    jo_array = jo.get_array("monsters");
+    if (jo_array.size() > 0)
+    {
+        while (jo_array.has_more())
+        {
+            JsonArray monster_def = jo_array.next_array();
+            std::string mon_name = monster_def.get_string(0);
+            int mon_frequency = monster_def.get_int(1);
+            int mon_multiplier = monster_def.get_int(2);
+
+            g.monsters[monStr2monId[mon_name]] = std::pair<int,int>(mon_frequency, mon_multiplier);
+        }
+    }
+
+    monsterGroupMap[g.name] = g;
 }
 
 void MonsterGroupManager::LoadJSONGroups() throw (std::string)
