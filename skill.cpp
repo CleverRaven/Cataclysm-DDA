@@ -174,24 +174,6 @@ void SkillLevel::readBook(int minimumGain, int maximumGain, const calendar &turn
     practice(turn);
 }
 
-
-std::istream& operator>>(std::istream& is, SkillLevel& obj) {
-  int level; int exercise; bool isTraining; int lastPracticed;
-
-  is >> level >> exercise >> isTraining >> lastPracticed;
-
-  obj = SkillLevel(level, exercise, isTraining, lastPracticed);
-
-  return is;
-}
-
-std::ostream& operator<<(std::ostream& os, const SkillLevel& obj) {
-  os << obj.level() << " " << obj.exercise(true) << " "
-     << obj.isTraining() << " " << obj.lastPracticed() << " ";
-
-  return os;
-}
-
 SkillLevel& SkillLevel::operator= (const SkillLevel &rhs)
 {
  if (this == &rhs)
