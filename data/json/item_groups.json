@@ -558,6 +558,7 @@
       ["flyer", 10],
       ["socks", 70],
       ["socks_wool", 30],
+      ["pocketwatch", 5],
       ["wristwatch", 15]
     ]
   },{
@@ -2177,6 +2178,7 @@
     "items":[
       ["cigar", 5],
       ["television", 10],
+      ["microwave", 5],
       ["katana", 2],
       ["gold", 10],
       ["rapier", 3],
