@@ -143,7 +143,7 @@ void game::init_faction_data()
     {_("rebuilding civilization"),       2,   1, -2,   -2,   -4},
     {_("spreading the fungus"),         -2,   1,  1,    0,    4}
     };
-    // TOTAL:   -5  3 -2  0  7
+    // TOTAL:                           -5    3  -2     0     7
     for(int i=0;i<NUM_FACGOALS;i++) {faction::facgoal_data[i]=tmp_goal[i];} 
 
     faction_value_datum tmp_job[] = {
@@ -165,7 +165,7 @@ void game::init_faction_data()
     {_("drug dealing"),                -2,   0, -1,    2,    0},
     {_("selling manufactured goods"),   1,   0, -1,   -2,    0}
     };
-    // TOTAL:   -5 -3 -5  0 -6
+    // TOTAL:                          -5   -3  -5     0    -6
     for(int i=0;i<NUM_FACJOBS;i++) {faction::facjob_data[i]=tmp_job[i];} 
 
     faction_value_datum tmp_val[] = {
@@ -185,8 +185,8 @@ void game::init_faction_data()
     {_("their adherance to the law"), 2,  -1, -1,   -4,   -1},
     {_("their cruelty"),             -3,   1, -1,    4,    1}
     };
+    // TOTALS:                        5    4   1    -3     4
     for(int i=0;i<NUM_FACVALS;i++) {faction::facval_data[i]=tmp_val[i];} 
-    // TOTALS:    5  4  1 -3  4
     /* Note: It's nice to keep the totals around 0 for Good, and about even for the
      * other four.  It's okay if Good is slightly negative (after all, in a post-
      * apocalyptic world people might be a LITTLE less virtuous), and to keep
