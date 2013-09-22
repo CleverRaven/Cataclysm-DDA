@@ -868,7 +868,7 @@ int monster::move_to(game *g, int x, int y, bool force)
 
   moves -= calc_movecost(g, posx(), posy(), x, y);
 
-  if (has_flag(MF_SLUDGETRAIL)) {
+  if (has_flag(MF_SLUDGETRAIL) && !is_hallucination()) {
     for (int dx = -1; dx <= 1; dx++) {
       for (int dy = -1; dy <= 1; dy++) {
         const int fstr = 3 - (abs(dx) + abs(dy));
