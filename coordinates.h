@@ -18,9 +18,7 @@
  * can be obtained from map.getabs(x, y);
  *   usage: 
  *    real_coords rc( g->m.getabs(g->u.posx, g->u.posy ) );
- *    or rc.fromabs( g->m, 4, -2343 );
  */
-class map; 
 struct real_coords {
   static const int subsize = SEEX;
   static const int subsizen = subsize - 1;
@@ -41,10 +39,6 @@ struct real_coords {
 
   real_coords(point ap) {
     fromabs( ap.x, ap.y );
-  }
-
-  real_coords(map * mptr, relx, rely) {
-    fromabs( mptr->getabs( relx, rely ) );
   }
 
   void fromabs(const int absx, const int absy) {
