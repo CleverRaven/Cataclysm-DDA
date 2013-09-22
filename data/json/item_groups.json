@@ -74,6 +74,7 @@
     "id":"livingroom",
     "items":[
       ["rootbeer", 65],
+      ["television", 30],
       ["cola", 70],
       ["cig", 90],
       ["cigar", 5],
@@ -149,6 +150,8 @@
     "id":"kitchen",
     "items":[
       ["chips", 65],
+      ["toaster", 20],
+      ["microwave", 20],
       ["hat_chef", 2],
       ["jacket_chef", 2],
       ["kernels", 35],
@@ -156,6 +159,8 @@
       ["pan", 25],
       ["knife_butter", 90],
       ["knife_steak", 85],
+      ["fork", 90],
+      ["spoon", 90],
       ["knife_butcher", 10],
       ["cookbook", 35],
       ["rag", 1],
@@ -333,6 +338,7 @@
     "id":"bedroom",
     "items":[
       ["inhaler", 14],
+      ["television", 10],
       ["cig", 90],
       ["cigar", 5],
       ["pipe_tobacco", 5],
@@ -552,6 +558,15 @@
       ["wrapper", 50],
       ["knife_butter", 90],
       ["knife_steak", 85],
+      ["fork", 90],
+      ["spoon", 90],
+      ["spork", 5],
+      ["foon", 5],
+      ["ketchup", 10],
+      ["mustard", 10],
+      ["glass", 90],
+      ["glass_bowl", 90],
+      ["glass_plate", 90],
       ["bottle_glass", 10]
     ]
   },{
@@ -619,6 +634,8 @@
       ["candy", 80],
       ["cookies", 60],
       ["mayonnaise", 60],
+      ["spork", 10],
+      ["foon", 10],
       ["ketchup", 60],
       ["mustard", 60],
       ["pickle", 40],
@@ -1040,6 +1057,7 @@
       ["binoculars", 20],
       ["firecracker_pack", 5],
       ["hotplate", 10],
+      ["tin_plate", 10],
       ["knife_combat", 14],
       ["machete", 5],
       ["vest", 15],
@@ -2149,6 +2167,7 @@
     "id":"pawn",
     "items":[
       ["cigar", 5],
+      ["television", 10],
       ["katana", 2],
       ["gold", 10],
       ["rapier", 3],
