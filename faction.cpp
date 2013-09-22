@@ -129,64 +129,64 @@ void game::init_faction_data()
 
     faction_value_datum tmp_goal[] = {
     // "Their ultimate goal is <name>"
-    //Name				Good	Str	Sneak	Crime	Cult
-    {"Null",		 	 0,	 0,	 0,	 0,	 0},
-    {_("basic survival"),		 0,	 0,	 0,	 0,	 0},
-    {_("financial wealth"),		 0,	-1,	 0,	 2,	-1},
-    {_("dominance of the region"),	-1,	 1,	-1,	 1,	-1},
-    {_("the extermination of monsters"),1,	 3,	-1,	-1,	-1},
-    {_("contact with unseen powers"),	-1,	 0,	 1,	 0,	 4},
-    {_("bringing the apocalypse"),	-5,	 1,	 2,	 0,	 7},
-    {_("general chaos and anarchy"),	-3,	 2,	-3,	 2,	-1},
-    {_("the cultivation of knowledge"), 2,	-3,	 2,	-1,	 0},
-    {_("harmony with nature"),		 2,	-2,	 0,	-1,	 2},
-    {_("rebuilding civilization"),	 2,	 1,	-2,	-2,	-4},
-    {_("spreading the fungus"),	-2,	 1,	 1,	 0,	 4}
+    //Name                               Good Str Sneak Crime Cult
+    {"Null",                             0,   0,  0,    0,    0},
+    {_("basic survival"),                0,   0,  0,    0,    0},
+    {_("financial wealth"),              0,  -1,  0,    2,   -1},
+    {_("dominance of the region"),      -1,   1, -1,    1,   -1},
+    {_("the extermination of monsters"), 1,   3, -1,   -1,   -1},
+    {_("contact with unseen powers"),   -1,   0,  1,    0,    4},
+    {_("bringing the apocalypse"),      -5,   1,  2,    0,    7},
+    {_("general chaos and anarchy"),    -3,   2, -3,    2,   -1},
+    {_("the cultivation of knowledge"),  2,  -3,  2,   -1,    0},
+    {_("harmony with nature"),           2,  -2,  0,   -1,    2},
+    {_("rebuilding civilization"),       2,   1, -2,   -2,   -4},
+    {_("spreading the fungus"),         -2,   1,  1,    0,    4}
     };
-    // TOTAL:			-5	 3	-2	 0	 7
+    // TOTAL:                           -5    3  -2     0     7
     for(int i=0;i<NUM_FACGOALS;i++) {faction::facgoal_data[i]=tmp_goal[i];} 
 
     faction_value_datum tmp_job[] = {
     // "They earn money via <name>"
-    //Name				Good	Str	Sneak	Crime	Cult
-    {"Null",		 	 0,	 0,	 0,	 0,	 0},
-    {_("protection rackets"),		-3,	 2,	-1,	 4,	 0},
-    {_("the sale of information"),	-1,	-1,	 4,	 1,	 0},
-    {_("their bustling trade centers"), 1,	-1,	-2,	-4,	-4},
-    {_("trade caravans"),		 2,	-1,	-1,	-3,	-2},
-    {_("scavenging supplies"),		 0,	-1,	 0,	-1,	-1},
-    {_("mercenary work"),		 0,	 3,	-1,	 1,	-1},
-    {_("assassinations"),		-1,	 2,	 2,	 1,	 1},
-    {_("raiding settlements"),		-4,	 4,	-3,	 3,	-2},
-    {_("the theft of property"),	-3,	-1,	 4,	 4,	 1},
-    {_("gambling parlors"),		-1,	-2,	-1,	 1,	-1},
-    {_("medical aid"),			 4,	-3,	-2,	-3,	 0},
-    {_("farming & selling food"),	 3,	-4,	-2,	-4,	 1},
-    {_("drug dealing"),		-2,	 0,	-1,	 2,	 0},
-    {_("selling manufactured goods"),	 1,	 0,	-1,	-2,	 0}
+    //Name                              Good Str Sneak Crime Cult
+    {"Null",                            0,   0,  0,    0,    0},
+    {_("protection rackets"),          -3,   2, -1,    4,    0},
+    {_("the sale of information"),     -1,  -1,  4,    1,    0},
+    {_("their bustling trade centers"), 1,  -1, -2,   -4,   -4},
+    {_("trade caravans"),               2,  -1, -1,   -3,   -2},
+    {_("scavenging supplies"),          0,  -1,  0,   -1,   -1},
+    {_("mercenary work"),               0,   3, -1,    1,   -1},
+    {_("assassinations"),              -1,   2,  2,    1,    1},
+    {_("raiding settlements"),         -4,   4, -3,    3,   -2},
+    {_("the theft of property"),       -3,  -1,  4,    4,    1},
+    {_("gambling parlors"),            -1,  -2, -1,    1,   -1},
+    {_("medical aid"),                  4,  -3, -2,   -3,    0},
+    {_("farming & selling food"),       3,  -4, -2,   -4,    1},
+    {_("drug dealing"),                -2,   0, -1,    2,    0},
+    {_("selling manufactured goods"),   1,   0, -1,   -2,    0}
     };
-    // TOTAL:			-5	-3	-5	 0	-6
+    // TOTAL:                          -5   -3  -5     0    -6
     for(int i=0;i<NUM_FACJOBS;i++) {faction::facjob_data[i]=tmp_job[i];} 
 
     faction_value_datum tmp_val[] = {
     // "They are known for <name>"
-    //Name				Good	Str	Sneak	Crime	Cult
-    {"Null",		 	 0,	 0,	 0,	 0,	 0},
-    {_("their charitable nature"),	 5,	-1,	-1,	-2,	-2},
-    {_("their isolationism"),		 0,	-2,	 1,	 0,	 2},
-    {_("exploring extensively"),	 1,	 0,	 0,	-1,	-1},
-    {_("collecting rare artifacts"),	 0,	 1,	 1,	 0,	 3},
-    {_("their knowledge of bionics"),	 1,	 2,	 0,	 0,	 0},
-    {_("their libraries"),		 1,	-3,	 0,	-2,	 1},
-    {_("their elite training"),	 0,	 4,	 2,	 0,	 2},
-    {_("their robotics factories"),	 0,	 3,	-1,	 0,	-2},
-    {_("treachery"),			-3,	 0,	 1,	 3,	 0},
-    {_("the avoidance of drugs"),	 1,	 0,	 0,	-1,	 1},
-    {_("their adherance to the law"),	 2,	-1,	-1,	-4,	-1},
-    {_("their cruelty"),		-3,	 1,	-1,	 4,	 1}
+    //Name                            Good Str Sneak Crime Cult
+    {"Null",                          0,   0,  0,    0,    0},
+    {_("their charitable nature"),    5,  -1, -1,   -2,   -2},
+    {_("their isolationism"),         0,  -2,  1,    0,    2},
+    {_("exploring extensively"),      1,   0,  0,   -1,   -1},
+    {_("collecting rare artifacts")   0,   1,  1,    0,    3},
+    {_("their knowledge of bionics"), 1,   2,  0,    0,    0},
+    {_("their libraries"),            1,  -3,  0,   -2,    1},
+    {_("their elite training"),       0,   4,  2,    0,    2},
+    {_("their robotics factories"),   0,   3, -1,    0,   -2},
+    {_("treachery"),                 -3,   0,  1,    3,    0},
+    {_("the avoidance of drugs"),     1,   0,  0,   -1,    1},
+    {_("their adherance to the law"), 2,  -1, -1,   -4,   -1},
+    {_("their cruelty"),             -3,   1, -1,    4,    1}
     };
+    // TOTALS:                        5    4   1    -3     4
     for(int i=0;i<NUM_FACVALS;i++) {faction::facval_data[i]=tmp_val[i];} 
-    // TOTALS:			 5	 4	 1	-3	 4
     /* Note: It's nice to keep the totals around 0 for Good, and about even for the
      * other four.  It's okay if Good is slightly negative (after all, in a post-
      * apocalyptic world people might be a LITTLE less virtuous), and to keep
@@ -243,7 +243,7 @@ void faction::randomize()
 // Pick an overall goal.
  goal = faction_goal(rng(1, NUM_FACGOALS - 1));
  if (one_in(4))
-  goal = FACGOAL_NONE;	// Slightly more likely to not have a real goal
+  goal = FACGOAL_NONE; // Slightly more likely to not have a real goal
  good     = facgoal_data[goal].good;
  strength = facgoal_data[goal].strength;
  sneak    = facgoal_data[goal].sneak;
@@ -398,7 +398,7 @@ bool faction::matches_us(faction_value v)
   if (has_value(faction_value(i)))
    numvals++;
  }
- if (has_job(FACJOB_DRUGS) && v == FACVAL_STRAIGHTEDGE)	// Mutually exclusive
+ if (has_job(FACJOB_DRUGS) && v == FACVAL_STRAIGHTEDGE) // Mutually exclusive
   return false;
  int avggood = (good / numvals + good) / 2;
  int avgstrength = (strength / numvals + strength) / 2;
@@ -462,9 +462,9 @@ int faction::response_time(game *g)
  int base = abs(mapx - g->levx);
  if (abs(mapy - g->levy) > base)
   base = abs(mapy - g->levy);
- if (base > size)	// Out of our sphere of influence
+ if (base > size) // Out of our sphere of influence
   base *= 2.5;
- base *= 24;	// 24 turns to move one overmap square
+ base *= 24; // 24 turns to move one overmap square
  int maxdiv = 10;
  if (goal == FACGOAL_DOMINANCE)
   maxdiv += 2;
@@ -484,7 +484,7 @@ int faction::response_time(game *g)
   maxdiv -= rng(0, 3);
  int mindiv = (maxdiv > 9 ? maxdiv - 9 : 1);
  base /= rng(mindiv, maxdiv);// We might be in the field
- base -= likes_u;	// We'll hurry, if we like you
+ base -= likes_u; // We'll hurry, if we like you
  if (base < 100)
   base = 100;
  return base;
