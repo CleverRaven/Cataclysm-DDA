@@ -239,6 +239,260 @@ void game::unserialize(std::ifstream & fin) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// overmap
+void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename) {
+//
+// DEBUG VARS
+ int nummg = 0;
+ char datatype;
+ int cx, cy, cz, cs, cp, cd, cdying;
+ std::string cstr;
+ city tmp;
+ std::list<item> npc_inventory;
+
+   if ( fin.peek() == '#' ) {
+       std::string vline;
+       getline(fin, vline);
+       std::string tmphash, tmpver;
+       int savedver=-1;
+       std::stringstream vliness(vline);
+       vliness >> tmphash >> tmpver >> savedver;
+       if ( tmpver == "version" && savedver != -1 ) {
+           savegame_loading_version = savedver;
+       }
+   }
+   if (savegame_loading_version != savegame_version) {
+       if ( unserialize_legacy(g, fin, plrfilename, terfilename) == true ) {
+            return;
+       } else {
+           //popup_nowait(_("Cannot find loader for overmap save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
+       }
+   }
+  
+
+  int z = 0; // assumption
+  while (fin >> datatype) {
+   if (datatype == 'L') { 	// Load layer data, and switch to layer
+    fin >> z;
+
+    int tmp_ter;
+    if (z >= 0 && z < OVERMAP_LAYERS) {
+     int count = 0;
+     for (int j = 0; j < OMAPY; j++) {
+      for (int i = 0; i < OMAPX; i++) {
+       if (count == 0) {
+        fin >> tmp_ter >> count;
+        if (tmp_ter < 0 || tmp_ter > num_ter_types) {
+         debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), tmp_ter);
+        }
+       }
+       count--;
+       layer[z].terrain[i][j] = oter_id(tmp_ter);
+       layer[z].visible[i][j] = false;
+      }
+     }
+    } else {
+     debugmsg("Loaded z level out of range (z: %d)", z);
+    }
+   } else if (datatype == 'Z') {	// Monster group
+    fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
+    zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
+    zg.back().diffuse = cd;
+    zg.back().dying = cdying;
+    nummg++;
+   } else if (datatype == 't') {	// City
+    fin >> cx >> cy >> cs;
+    tmp.x = cx; tmp.y = cy; tmp.s = cs;
+    cities.push_back(tmp);
+   } else if (datatype == 'R') {	// Road leading out
+    fin >> cx >> cy;
+    tmp.x = cx; tmp.y = cy; tmp.s = 0;
+    roads_out.push_back(tmp);
+   } else if (datatype == 'T') {	// Radio tower
+    radio_tower tmp;
+    int tmp_type;
+    fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
+    tmp.type = (radio_type)tmp_type;
+    getline(fin, tmp.message);	// Chomp endl
+    getline(fin, tmp.message);
+    radios.push_back(tmp);
+   } else if (datatype == 'n') {	// NPC
+// When we start loading a new NPC, check to see if we've accumulated items for
+//   assignment to an NPC.
+ 
+    if (!npc_inventory.empty() && !npcs.empty()) {
+     npcs.back()->inv.add_stack(npc_inventory);
+     npc_inventory.clear();
+    }
+    std::string npcdata;
+    getline(fin, npcdata);
+    npc * tmp = new npc();
+    tmp->load_info(g, npcdata);
+    npcs.push_back(tmp);
+   } else if (datatype == 'P') {
+       // Chomp the invlet_cache, since the npc doesn't use it.
+       std::string itemdata;
+       getline(fin, itemdata);
+   } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
+              datatype == 'w' || datatype == 'c') {
+    std::string itemdata;
+    getline(fin, itemdata);
+    if (npcs.empty()) {
+     debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!",
+              loc.x, loc.y);
+     debugmsg(itemdata.c_str());
+    } else {
+     item tmp(itemdata, g);
+     npc* last = npcs.back();
+     switch (datatype) {
+      case 'I': npc_inventory.push_back(tmp);                 break;
+      case 'C': npc_inventory.back().contents.push_back(tmp); break;
+      case 'W': last->worn.push_back(tmp);                    break;
+      case 'w': last->weapon = tmp;                           break;
+      case 'c': last->weapon.contents.push_back(tmp);         break;
+     }
+    }
+   }
+  }
+
+// If we accrued an npc_inventory, assign it now
+  if (!npc_inventory.empty() && !npcs.empty())
+   npcs.back()->inv.add_stack(npc_inventory);
+
+  std::ifstream sfin;
+  // Private/per-character data
+  sfin.open(plrfilename.c_str());
+  if ( fin.peek() == '#' ) { // not handling muilti-version seen cache
+     std::string vline;
+     getline(fin, vline);
+  }
+  if (sfin.is_open()) {	// Load private seen data
+   int z = 0; // assumption
+   while (sfin >> datatype) {
+    if (datatype == 'L') {  // Load layer data, and switch to layer
+     sfin >> z;
+
+     std::string dataline;
+     getline(sfin, dataline); // Chomp endl
+
+     int count = 0;
+     int vis;
+     if (z >= 0 && z < OVERMAP_LAYERS) {
+      for (int j = 0; j < OMAPY; j++) {
+       for (int i = 0; i < OMAPX; i++) {
+        if (count == 0) {
+         sfin >> vis >> count;
+        }
+        count--;
+       	layer[z].visible[i][j] = (vis == 1);
+       }
+      }
+     }
+    } else if (datatype == 'N') { // Load notes
+     om_note tmp;
+     sfin >> tmp.x >> tmp.y >> tmp.num;
+     getline(sfin, tmp.text);	// Chomp endl
+     getline(sfin, tmp.text);
+     if (z >= 0 && z < OVERMAP_LAYERS) {
+      layer[z].notes.push_back(tmp);
+     }
+    }
+   }
+   sfin.close();
+  }
+}
+
+
+void overmap::save()
+{
+ if (layer == NULL) {
+  debugmsg("Tried to save a null overmap");
+  return;
+ }
+
+ std::ofstream fout;
+ std::string const plrfilename = player_filename(loc.x, loc.y);
+ std::string const terfilename = terrain_filename(loc.x, loc.y);
+
+ // Player specific data
+ fout.open(plrfilename.c_str());
+
+ fout << "# version " << savegame_version << std::endl;
+
+ for (int z = 0; z < OVERMAP_LAYERS; ++z) {
+  fout << "L " << z << std::endl;
+  int count = 0;
+  int lastvis = -1;
+  for (int j = 0; j < OMAPY; j++) {
+   for (int i = 0; i < OMAPX; i++) {
+    int v = (layer[z].visible[i][j] ? 1 : 0);
+    if (v != lastvis) {
+     if (count) {
+      fout << count << " ";
+     }
+     lastvis = v;
+     fout << v << " ";
+     count = 1;
+    } else {
+     count++;
+    }
+   }
+  }
+  fout << count; 
+  fout << std::endl;
+
+  for (int i = 0; i < layer[z].notes.size(); i++) {
+   fout << "N " << layer[z].notes[i].x << " " << layer[z].notes[i].y << " " << layer[z].notes[i].num <<
+           std::endl << layer[z].notes[i].text << std::endl;
+  }
+ }
+ fout.close();
+
+ // World terrain data
+ fout.open(terfilename.c_str(), std::ios_base::trunc);
+ fout << "# version " << savegame_version << std::endl;
+ for (int z = 0; z < OVERMAP_LAYERS; ++z) {
+  fout << "L " << z << std::endl;
+  int count = 0;
+  int last_tertype = -1;
+  for (int j = 0; j < OMAPY; j++) {
+   for (int i = 0; i < OMAPX; i++) {
+    int t = int(layer[z].terrain[i][j]);
+    if (t != last_tertype) {
+     if (count) {
+      fout << count << " ";
+     }
+     last_tertype = t;
+     fout << t << " ";
+     count = 1;
+    } else {
+     count++;
+    }
+   }
+  }
+  fout << count;
+  fout << std::endl;
+ }
+
+ for (int i = 0; i < zg.size(); i++)
+  fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " << zg[i].posz << " " <<
+    int(zg[i].radius) << " " << zg[i].population << " " << zg[i].diffuse << " " << zg[i].dying <<
+    std::endl;
+ for (int i = 0; i < cities.size(); i++)
+  fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s <<
+          std::endl;
+ for (int i = 0; i < roads_out.size(); i++)
+  fout << "R " << roads_out[i].x << " " << roads_out[i].y << std::endl;
+ for (int i = 0; i < radios.size(); i++)
+  fout << "T " << radios[i].x << " " << radios[i].y << " " <<
+      radios[i].strength << " " << radios[i].type << " " << std::endl << radios[i].message <<
+          std::endl;
+
+ //saving the npcs
+ for (int i = 0; i < npcs.size(); i++)
+  fout << "n " << npcs[i]->save_info() << std::endl;
+
+ fout.close();
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// mapbuffer
