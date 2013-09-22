@@ -1625,16 +1625,29 @@ picojson::value inventory::json_save_items() const {
 }
 
 
-void inventory::json_load_items(picojson::value & parsed, game * g) {
+std::vector<std::string> inventory::json_load_items(picojson::value & parsed, game * g) {
     if ( ! parsed.is<picojson::array>() ) {
          debugmsg(": bad inventory json:\n%s",parsed.serialize().c_str() );
     }
     picojson::array &data = parsed.get<picojson::array>();
+    std::vector<std::string> pseudoitems;
     for( picojson::array::iterator pit = data.begin(); pit != data.end(); ++pit) {
         if ( (*pit).is<picojson::object>() ) {
-            push_back( item( (*pit), g ) );
+            // In versions 7 and earlier, martial arts were pseudoitems.
+            if( savegame_loading_version <= 7 ) {
+                std::string id;
+                picostring( pit->get<picojson::object>(), "typeid", id );
+                if( id.substr( 0, 6) == "style_" ) {
+                    pseudoitems.push_back( id );
+                } else {
+                    push_back( item( (*pit), g ) );
+                }
+            } else {
+                push_back( item( (*pit), g ) );
+            }
         }
     }
+    return pseudoitems;
 }
 
 /////////
