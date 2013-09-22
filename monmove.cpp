@@ -917,15 +917,8 @@ int monster::move_to(game *g, int x, int y, bool force)
    g->m.ter_set(posx(), posy(), t_dirtmound);
   }
 // Acid trail monsters leave... a trail of acid
-  //Why is this being done three times?
-  if (has_flag(MF_ACIDTRAIL)){
-   g->m.add_field(g, posx(), posy(), fd_acid, 1);
-  }
-  if (has_flag(MF_ACIDTRAIL)){
-   g->m.add_field(g, posx(), posy(), fd_acid, 1);
-  }
-  if (has_flag(MF_ACIDTRAIL)){
-   g->m.add_field(g, posx(), posy(), fd_acid, 1);
+  if (has_flag(MF_ACIDTRAIL) && !is_hallucination()){
+   g->m.add_field(g, posx(), posy(), fd_acid, 3);
   }
 
   return 1;
