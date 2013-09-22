@@ -1110,7 +1110,7 @@ void complete_vehicle (game *g)
     char cmd = (char) g->u.activity.index;
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];
-    int vehicle_part = g->u.activity.values[6]; //Only one of these two is used
+    int vehicle_part = g->u.activity.values[6];
     int type = g->u.activity.values[7];
     std::string part_id = g->u.activity.str_values[0];
     std::vector<component> tools;
@@ -1137,7 +1137,7 @@ void complete_vehicle (game *g)
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
 
-        if ( part_id == "headlight" ) {
+        if ( vehicle_part_types[part_id].has_flag("LIGHT") ) {
             // Need map-relative coordinates to compare to output of look_around.
             int gx, gy;
             // Need to call coord_translate() directly since it's a new part.
