@@ -118,7 +118,7 @@ class inventory
   std::string save_str_no_quant() const;
 
   void json_load_invcache(picojson::value & parsed);
-  void json_load_items(picojson::value & parsed, game * g);
+  std::vector<std::string> json_load_items(picojson::value & parsed, game * g);
   void json_load(picojson::value & parsed, game * g);
 
 

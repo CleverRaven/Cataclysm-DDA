@@ -191,8 +191,16 @@ bool	 game::unserialize_legacy(std::ifstream & fin) {
                 fin >> item_place;
                 if (!fin.eof()) {
                     getline(fin, itemdata);
-                    if ( item_place == 'I' || item_place == 'C' || item_place == 'W' ||
-                         item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
+
+                    std::stringstream tempdump;
+                    int inv_let;
+                    std::string item_id;
+                    tempdump << itemdata;
+                    tempdump >> inv_let >> item_id;
+                    if( item_id.substr( 0, 6) == "style_" ) {
+                        u.ma_styles.push_back( item_id );
+                    } else if ( item_place == 'I' || item_place == 'C' || item_place == 'W' ||
+                                item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
                         item tmpitem(itemdata, this);
                         if (item_place == 'I') {
                             tmpinv.push_back(tmpitem);

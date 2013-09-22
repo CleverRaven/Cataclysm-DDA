@@ -504,8 +504,8 @@ picojson::value player::json_save(bool save_contents)
         data["invcache"] = inv.json_save_invcache();
         if (!weapon.is_null()) {
             data["weapon"] = weapon.json_save(true);
-        }       
-//FIXME: seperate function, better still another file       
+        }
+//FIXME: seperate function, better still another file
   /*      for(int i = 0; i < memorial_log.size(); i++) {
             ptmpvect.push_back(pv(memorial_log[i]));
         }
@@ -646,11 +646,18 @@ void player::json_load(picojson::value & parsed, game *g) {
         stats & pstats = *lifetime_stats();
 //        int & wk = pstats.squares_walked;
         picoint(*pmap,"squares_walked", pstats.squares_walked );
-    }   
+    }
 
     inv.clear();
     if ( data.find("inv") != data.end() ) {
-        inv.json_load_items( data.find("inv")->second, g );
+        // Check for the last version where styles are items.
+        std::vector<std::string> pseudoitems;
+
+        pseudoitems = inv.json_load_items( data.find("inv")->second, g );
+        for( std::vector<std::string>::iterator style = pseudoitems.begin();
+             style != pseudoitems.end(); ++style ) {
+            ma_styles.push_back( *style );
+        }
     }
 
     worn.clear();
@@ -1095,4 +1102,3 @@ picojson::value vehicle::json_save( bool save_contents ) {
     ptmpvec.clear();
     return pv( data );
 }
-
