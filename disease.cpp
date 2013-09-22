@@ -14,7 +14,7 @@ enum dis_type_enum {
  DI_NULL,
 // Weather
  DI_GLARE, DI_WET,
-// Temperature, the order is important (dependant on bodypart.h)
+// Temperature
  DI_COLD,
  DI_FROSTBITE,
  DI_HOT,
@@ -23,7 +23,7 @@ enum dis_type_enum {
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
 // Fields
- DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
+ DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING, DI_ONICE,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_DEAF, DI_BLIND,
@@ -89,6 +89,7 @@ void game::init_diseases() {
     disease_type_lookup["teargas"] = DI_TEARGAS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
+    disease_type_lookup["onice"] = DI_ONICE;
     disease_type_lookup["boomered"] = DI_BOOMERED;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
@@ -724,6 +725,16 @@ void dis_effect(player &p, disease &dis) {
                 p.dex_cur = 1;
             }
             break;
+
+        case DI_ONICE:
+            switch(g->u.disease_intensity("onice")) {
+                case 3: p.moves -= 40; break; // Reduce melee, dodge, and send in random direction
+                case 2: p.moves -= 20; break; // Reduce melee and dodge
+                case 1: p.moves -= 10; break;
+                default:
+                    debugmsg("Something went wrong with DI_ONEICE.");
+                    debugmsg("Check disease.cpp");
+            }
 
         case DI_BOOMERED:
             p.per_cur -= 5;

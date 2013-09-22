@@ -1240,14 +1240,14 @@ void map::step_in_field(int x, int y, game *g)
             break;
 
         case fd_ice_floor:
+            g->u.add_disease("onice", 1, cur->getFieldDensity())
+            break;
+
+        case fd_snow_floor:
             switch (cur->getFieldDensity()) {
-                // Check vs foot protection and agility
-                case 3 : 
-                        // g->u.skillLevel("melee") -= 1; g->u.skillLevel("dodge") -= 1; // Pick a random direction
-                case 2 : 
-                        // g->u.skillLevel("melee") -= 1; p.skillLevel("dodge") -= 1;
-                case 1 : 
-                        g->u.moves += 25;
+                case 3: g->u.moves -= 40; break;
+                case 2: g->u.moves -= 20; break;
+                case 1: g->u.moves -= 10; break;
             }
             break;
         }
