@@ -159,19 +159,19 @@ void game::init_fields()
 
         { // Ice mist
             {_("cold mist"),	_("ice mist"), _("ice fog")},		'8',
-            {c_ltblue, c_cyan, c_blue},	{true, true, false},{false, false, true},  300,
+            {c_ltblue, c_cyan, c_blue},	{true, true, false},{false, false, true},  500,
             {0,0,0}
         },
 
         { // Ice on the floor
             {_("thin ice"),	_("smooth ice"), _("pristine ice")},		'#',
-            {c_ltblue, c_cyan, c_blue},	{true, true, true}, {false, false, true},  10,
+            {c_ltblue, c_cyan, c_blue},	{true, true, true}, {false, false, true},  750,
             {0,0,0}
         },
 
         { // Snow on the floor
             {_("frost"),	_("dusting of snow"), _("snow")},		'#',
-            {c_white, c_white, c_white},	{true, true, true}, {false, false, true},  10,
+            {c_white, c_white, c_white},	{true, true, true}, {false, false, false},  600,
             {0,0,0}
         },
 
@@ -215,14 +215,14 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
 
     std::vector <point> spread;
     // Pick all eligible points to spread to.
+    // Eligible is defined as such : 3 -> (2, 1, 0), 2 -> (1, 0), 1 -> 0
     for( int a = -1; a <= 1; a++ ) {
         for( int b = -1; b <= 1; b++ ) {
             // Current field not a candidate.
             if( !(a || b) ) { continue; }
             field_entry* tmpfld = m->field_at( x + a, y + b ).findField( curtype );
-            // Candidates are existing non-max-strength fields or navigable tiles with no field.
-            if( ( tmpfld && tmpfld->getFieldDensity() < 3 ) ||
-                ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
+            if ( ( tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() ) ||
+            ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
                 spread.push_back( point( x + a, y + b ) );
             }
         }
