@@ -209,6 +209,9 @@ void player::json_load_common_variables( std::map<std::string, picojson::value> 
 
     ma_styles.clear();
     parray=pgetarray(data,"ma_styles");
+    if ( parray == NULL ) { // 0.8; same variable & syntax, but was renamed
+        parray=pgetarray(data,"styles");
+    }
     if ( parray != NULL ) {
         for( picojson::array::const_iterator pt = parray->begin(); pt != parray->end(); ++pt) {
             if ( (*pt).is<std::string>() ) {
