@@ -1870,7 +1870,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   mvwprintz(w, 20, om_map_width + 1, c_magenta, _("L - List notes             "));
   mvwprintz(w, 21, om_map_width + 1, c_magenta, _("Esc or q - Return to game  "));
   mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, "%s, %d'%d, %d'%d", string_format(_("LEVEL %i"),z).c_str(),
-  rc.abs_om.x, rc.abs_om_pos.x, rc.abs_om.y, rc.abs_om_pos.y );
+  rc.abs_om.x, rc.om_pos.x, rc.abs_om.y, rc.om_pos.y );
 // Done with all drawing!
   wrefresh(w);
 }
