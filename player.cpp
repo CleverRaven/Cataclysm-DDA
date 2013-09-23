@@ -1542,6 +1542,10 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Lifetime Stats") << "\n";
     memorial_file << indent << _("Distance Walked: ")
                        << player_stats.squares_walked << _(" Squares") << "\n";
+    memorial_file << indent << _("Damage Taken: ")
+                       << player_stats.damage_taken << _(" Damage") << "\n";
+    memorial_file << indent << _("Damage Healed: ")
+                       << player_stats.damage_healed << _(" Damage") << "\n";
     memorial_file << "\n";
 
     //History
@@ -3610,13 +3614,19 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   pain++;
   hp_cur[hp_head] -= dam;
   if (hp_cur[hp_head] < 0)
+  {
+   lifetime_stats()->damage_taken+=hp_cur[hp_head];
    hp_cur[hp_head] = 0;
+  }
  break;
  case bp_torso:
   recoil += int(dam / 5);
   hp_cur[hp_torso] -= dam;
   if (hp_cur[hp_torso] < 0)
+  {
+   lifetime_stats()->damage_taken+=hp_cur[hp_torso];
    hp_cur[hp_torso] = 0;
+  }
  break;
  case bp_hands: // Fall through to arms
  case bp_arms:
@@ -3625,12 +3635,18 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   if (side == 0 || side == 3) {
    hp_cur[hp_arm_l] -= dam;
    if (hp_cur[hp_arm_l] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
     hp_cur[hp_arm_l] = 0;
+   }
   }
   if (side == 1 || side == 3) {
    hp_cur[hp_arm_r] -= dam;
    if (hp_cur[hp_arm_r] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
     hp_cur[hp_arm_r] = 0;
+   }
   }
  break;
  case bp_feet: // Fall through to legs
@@ -3638,12 +3654,18 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   if (side == 0 || side == 3) {
    hp_cur[hp_leg_l] -= dam;
    if (hp_cur[hp_leg_l] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
     hp_cur[hp_leg_l] = 0;
+   }
   }
   if (side == 1 || side == 3) {
    hp_cur[hp_leg_r] -= dam;
    if (hp_cur[hp_leg_r] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
     hp_cur[hp_leg_r] = 0;
+   }
   }
  break;
  default:
@@ -3652,6 +3674,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease("adrenaline", 200);
+ lifetime_stats()->damage_taken+=dam;
 
  return dam;
 }
@@ -3684,24 +3707,36 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
   pain++;
   hp_cur[hp_head] -= dam;
   if (hp_cur[hp_head] < 0)
+  {
+   lifetime_stats()->damage_taken+=hp_cur[hp_head];
    hp_cur[hp_head] = 0;
+  }
  break;
  case bp_torso:
   hp_cur[hp_torso] -= dam;
   if (hp_cur[hp_torso] < 0)
+  {
+   lifetime_stats()->damage_taken+=hp_cur[hp_torso];
    hp_cur[hp_torso] = 0;
+  }
  break;
  case bp_hands:	// Fall through to arms
  case bp_arms:
   if (side == 0 || side == 3) {
    hp_cur[hp_arm_l] -= dam;
    if (hp_cur[hp_arm_l] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
     hp_cur[hp_arm_l] = 0;
+   }
   }
   if (side == 1 || side == 3) {
    hp_cur[hp_arm_r] -= dam;
    if (hp_cur[hp_arm_r] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
     hp_cur[hp_arm_r] = 0;
+   }
   }
  break;
  case bp_feet:	// Fall through to legs
@@ -3709,12 +3744,18 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
   if (side == 0 || side == 3) {
    hp_cur[hp_leg_l] -= dam;
    if (hp_cur[hp_leg_l] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
     hp_cur[hp_leg_l] = 0;
+   }
   }
   if (side == 1 || side == 3) {
    hp_cur[hp_leg_r] -= dam;
    if (hp_cur[hp_leg_r] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
     hp_cur[hp_leg_r] = 0;
+   }
   }
  break;
  default:
@@ -3723,6 +3764,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease("adrenaline", 200);
+  lifetime_stats()->damage_taken+=dam;
 }
 
 void player::heal(body_part healed, int side, int dam)
@@ -3761,14 +3803,22 @@ void player::heal(body_part healed, int side, int dam)
  }
  hp_cur[healpart] += dam;
  if (hp_cur[healpart] > hp_max[healpart])
+ {
+  lifetime_stats()->damage_healed-=hp_cur[healpart]-hp_max[healpart];
   hp_cur[healpart] = hp_max[healpart];
+ }
+ lifetime_stats()->damage_healed+=dam;
 }
 
 void player::heal(hp_part healed, int dam)
 {
  hp_cur[healed] += dam;
  if (hp_cur[healed] > hp_max[healed])
+ {
+  lifetime_stats()->damage_healed-=hp_cur[healed]-hp_max[healed];
   hp_cur[healed] = hp_max[healed];
+ }
+ lifetime_stats()->damage_healed+=dam;
 }
 
 void player::healall(int dam)
@@ -3777,7 +3827,11 @@ void player::healall(int dam)
   if (hp_cur[i] > 0) {
    hp_cur[i] += dam;
    if (hp_cur[i] > hp_max[i])
+   {
+    lifetime_stats()->damage_healed-=hp_cur[i]-hp_max[i];
     hp_cur[i] = hp_max[i];
+   }
+   lifetime_stats()->damage_healed+=dam;
   }
  }
 }
@@ -3788,12 +3842,16 @@ void player::hurtall(int dam)
   int painadd = 0;
   hp_cur[i] -= dam;
    if (hp_cur[i] < 0)
+   {
+     lifetime_stats()->damage_taken+=hp_cur[i];
      hp_cur[i] = 0;
+   }
   if (has_trait("PAINRESIST"))
    painadd = dam / 3;
   else
    painadd = dam / 2;
   pain += painadd;
+  lifetime_stats()->damage_taken+=dam;
  }
 }
 
@@ -3812,12 +3870,16 @@ void player::hitall(game *g, int dam, int vary)
   int painadd = 0;
   hp_cur[i] -= ddam;
    if (hp_cur[i] < 0)
+   {
+     lifetime_stats()->damage_taken+=hp_cur[i];
      hp_cur[i] = 0;
+   }
   if (has_trait("PAINRESIST"))
    painadd = dam / 3 / 4;
   else
    painadd = dam / 2 / 4;
   pain += painadd;
+  lifetime_stats()->damage_taken+=dam;
  }
 }
 

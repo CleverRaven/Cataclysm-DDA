@@ -34,12 +34,18 @@ struct special_attack
  special_attack() { bash = 0; cut = 0; stab = 0; };
 };
 
+//Don't forget to add new memorial counters
+//to the save and load functions in savegame_json.cpp
 struct stats
 {
     int squares_walked;
+	int damage_taken;
+	int damage_healed;
 
     void reset() {
         squares_walked = 0;
+        damage_taken = 0;
+        damage_healed = 0;
     }
 
     stats() {

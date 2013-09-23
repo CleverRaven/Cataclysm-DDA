@@ -499,6 +499,8 @@ picojson::value player::json_save(bool save_contents)
 
     ptmpmap.clear();
     ptmpmap["squares_walked"] = pv( (*lifetime_stats()).squares_walked );
+    ptmpmap["damage_taken"] = pv( (*lifetime_stats()).damage_taken );
+    ptmpmap["damage_healed"] = pv( (*lifetime_stats()).damage_healed );
     data["player_stats"] = pv (ptmpmap);
 
     if ( save_contents ) {
@@ -647,6 +649,8 @@ void player::json_load(picojson::value & parsed, game *g) {
     if ( pmap != NULL ) {
         stats & pstats = *lifetime_stats();
         picoint(*pmap,"squares_walked", pstats.squares_walked );
+        picoint(*pmap,"damage_taken", pstats.damage_taken );
+        picoint(*pmap,"damage_healed", pstats.damage_healed );
     }   
 
     inv.clear();
