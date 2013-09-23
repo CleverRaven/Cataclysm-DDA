@@ -3416,7 +3416,7 @@
       ["steel_chunk", 30],
       ["spring", 50],
       ["steel_lump", 30],
-      ["kevlar_patch", 10],
+      ["kevlar_plate", 10],
       ["motor", 2],
       ["battery", 50],
       ["plut_cell", 10]
@@ -3452,7 +3452,7 @@
     "items":[
       ["baton", 8],
       ["tazer", 3],
-      ["kevlar_patch", 10],
+      ["kevlar_plate", 10],
       ["alloy_plate", 10]
     ]
   },{
@@ -3467,7 +3467,7 @@
     "id":"tripod",
     "items":[
       ["flamethrower", 1],
-      ["kevlar_patch", 10],
+      ["kevlar_plate", 10],
       ["alloy_plate", 10]
     ]
   },{
@@ -3475,7 +3475,7 @@
     "id":"chickenbot",
     "items":[
       ["9mm", 8],
-      ["kevlar_patch", 10],
+      ["kevlar_plate", 10],
       ["alloy_plate", 10]
     ]
   },{
@@ -3486,7 +3486,7 @@
       ["flamethrower", 1],
       ["9mm", 8],
       ["alloy_plate", 10],
-      ["kevlar_patch", 10],
+      ["kevlar_plate", 10],
       ["hard_plate", 30]
     ]
   },{
@@ -3520,7 +3520,7 @@
       ["gloves_tactical", 10],
       ["jumpsuit", 20],
       ["kevlar", 30],
-      ["kevlar_patch", 10],
+      ["kevlar_plate", 10],
       ["mask_gas", 10],
       ["helmet_army", 40],
       ["helmet_liner", 10],
