@@ -3741,7 +3741,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   hp_cur[hp_head] -= dam;
   if (hp_cur[hp_head] < 0)
   {
-   lifetime_stats()->damage_taken+=hp_head;
+   lifetime_stats()->damage_taken+=hp_cur[hp_head];
    hp_cur[hp_head] = 0;
   }
  break;
@@ -3750,7 +3750,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   hp_cur[hp_torso] -= dam;
   if (hp_cur[hp_torso] < 0)
   {
-   lifetime_stats()->damage_taken+=hp_torso;
+   lifetime_stats()->damage_taken+=hp_cur[hp_torso];
    hp_cur[hp_torso] = 0;
   }
  break;
@@ -3762,7 +3762,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
    hp_cur[hp_arm_l] -= dam;
    if (hp_cur[hp_arm_l] < 0)
    {
-    lifetime_stats()->damage_taken+=hp_arm_l;
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
     hp_cur[hp_arm_l] = 0;
    }
   }
@@ -3770,7 +3770,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
    hp_cur[hp_arm_r] -= dam;
    if (hp_cur[hp_arm_r] < 0)
    {
-    lifetime_stats()->damage_taken+=hp_arm_r;
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
     hp_cur[hp_arm_r] = 0;
    }
   }
@@ -3781,7 +3781,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
    hp_cur[hp_leg_l] -= dam;
    if (hp_cur[hp_leg_l] < 0)
    {
-    lifetime_stats()->damage_taken+=hp_leg_l;
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
     hp_cur[hp_leg_l] = 0;
    }
   }
@@ -3789,7 +3789,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
    hp_cur[hp_leg_r] -= dam;
    if (hp_cur[hp_leg_r] < 0)
    {
-    lifetime_stats()->damage_taken+=hp_leg_r;
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
     hp_cur[hp_leg_r] = 0;
    }
   }
@@ -3834,7 +3834,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
   hp_cur[hp_head] -= dam;
   if (hp_cur[hp_head] < 0)
   {
-   lifetime_stats()->damage_taken+=hp_head;
+   lifetime_stats()->damage_taken+=hp_cur[hp_head];
    hp_cur[hp_head] = 0;
   }
  break;
@@ -3842,7 +3842,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
   hp_cur[hp_torso] -= dam;
   if (hp_cur[hp_torso] < 0)
   {
-   lifetime_stats()->damage_taken+=hp_torso;
+   lifetime_stats()->damage_taken+=hp_cur[hp_torso];
    hp_cur[hp_torso] = 0;
   }
  break;
@@ -3852,7 +3852,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
    hp_cur[hp_arm_l] -= dam;
    if (hp_cur[hp_arm_l] < 0)
    {
-    lifetime_stats()->damage_taken+=hp_arm_l;
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
     hp_cur[hp_arm_l] = 0;
    }
   }
@@ -3860,7 +3860,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
    hp_cur[hp_arm_r] -= dam;
    if (hp_cur[hp_arm_r] < 0)
    {
-    lifetime_stats()->damage_taken+=hp_arm_r;
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
     hp_cur[hp_arm_r] = 0;
    }
   }
@@ -3871,7 +3871,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
    hp_cur[hp_leg_l] -= dam;
    if (hp_cur[hp_leg_l] < 0)
    {
-    lifetime_stats()->damage_taken+=hp_leg_l;
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
     hp_cur[hp_leg_l] = 0;
    }
   }
@@ -3879,7 +3879,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
    hp_cur[hp_leg_r] -= dam;
    if (hp_cur[hp_leg_r] < 0)
    {
-    lifetime_stats()->damage_taken+=hp_leg_r;
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
     hp_cur[hp_leg_r] = 0;
    }
   }
