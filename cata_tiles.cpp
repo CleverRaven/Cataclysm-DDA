@@ -1,3 +1,6 @@
+
+#include "veh_type.h"
+
 #if (defined SDLTILES)
 #include <algorithm>
 #include "cata_tiles.h"
@@ -954,11 +957,9 @@ bool cata_tiles::draw_vpart(int x, int y)
     // get the veh part itself
     vehicle_part vpart = veh->parts[veh_part];
     // get the vpart_id
-    int vpid = vpart.id;
+    std::string vpid = vpart.id;
 
-    std::string vp_name = veh_part_names[vpid];
-
-    return draw_from_id_string(vp_name, x, y, 0, veh_dir);
+    return draw_from_id_string(vpid, x, y, 0, veh_dir);
 }
 
 bool cata_tiles::draw_entity(int x, int y)
