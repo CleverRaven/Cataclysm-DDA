@@ -39,5 +39,5 @@ struct vpart_info
 };
 
 extern std::map<std::string, vpart_info> vehicle_part_types;
-
+extern std::vector<std::string> legacy_vpart_id;
 #endif
