@@ -95,8 +95,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
     bool destroyTires = false;
     bool blood_covered = false;
 
-    int consistent_bignesses[num_vparts];
-    memset (consistent_bignesses, 0, sizeof(consistent_bignesses));
+    std::map<std::string, int> consistent_bignesses;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 1% to 7%
@@ -130,7 +129,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
     for (int p = 0; p < parts.size(); p++)
     {
         if (part_flag(p, "VARIABLE_SIZE")){ // generate its bigness attribute.?
-            if(!consistent_bignesses[parts[p].id]){
+            if(consistent_bignesses.count(parts[p].id) < 1){
                 //generate an item for this type, & cache its bigness
                 item tmp (g->itypes[part_info(p).item], 0);
                 consistent_bignesses[parts[p].id] = tmp.bigness;
@@ -376,14 +375,11 @@ void vehicle::honk_horn()
 
 vpart_info& vehicle::part_info (int index)
 {
-    vpart_id id = vp_null;
-    if (index < 0 || index >= parts.size())
-        id = vp_null;
-    else
-        id = parts[index].id;
-    if (id < vp_null || id >= num_vparts)
-        id = vp_null;
-    return vpart_list[id];
+    if (index >= 0 && index < parts.size()) {
+        return vehicle_part_types[parts[index].id];
+    } else {
+        return vehicle_part_types["null"];
+    }
 }
 
 // engines & solar panels all have power.
@@ -435,13 +431,13 @@ bool vehicle::can_stack_vpart_flag(std::string vpart_flag) {
 
 }
 
-bool vehicle::can_mount (int dx, int dy, vpart_id id)
+bool vehicle::can_mount (int dx, int dy, std::string id)
 {
-    if (id <= 0 || id >= num_vparts) {
-        return false;
+    if(vehicle_part_types.count(id) == 0) {
+      return false;
     }
-    bool n3ar = parts.empty() || vpart_list[id].has_flag("INTERNAL")
-                                 || vpart_list[id].has_flag("OVER"); // first and internal parts needs no mount point
+    bool n3ar = parts.size() < 1 || vehicle_part_types[id].has_flag("INTERNAL")
+                                 || vehicle_part_types[id].has_flag("OVER"); // first and internal parts needs no mount point
     if (!n3ar) {
         for (int i = 0; i < 4; i++)
         {
@@ -466,24 +462,24 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
     std::vector<int> parts_here = parts_at_relative (dx, dy);
     if (parts_here.empty())
     {
-        int res = vpart_list[id].has_flag("EXTERNAL");
+        int res = vehicle_part_types[id].has_flag("EXTERNAL");
         return res; // can be mounted if first and external
     }
 
     // Override for replacing a tire.
-    if( vpart_list[id].has_flag("WHEEL") &&
+    if( vehicle_part_types[id].has_flag("WHEEL") &&
         -1 != part_with_feature(parts_here[0], "WHEEL", false) )
     {
         return true;
     }
 
     vpart_info existing_part = part_info(parts_here[0]);
-    if ((vpart_list[id].has_flag("ARMOR")) && existing_part.has_flag("NO_REINFORCE"))
+    if ((vehicle_part_types[id].has_flag("ARMOR")) && existing_part.has_flag("NO_REINFORCE"))
     {
         return false;   // trying to put armor plates on non-reinforcable part
     }
     // Seatbelts require an anchor point
-    if( vpart_list[id].has_flag("SEATBELT") )
+    if( vehicle_part_types[id].has_flag("SEATBELT") )
     {
         bool anchor_found = false;
         for( std::vector<int>::iterator it = parts_here.begin();
@@ -500,7 +496,7 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
         }
     }
 
-    std::set<std::string> vpart_flags = vpart_list[id].flags;
+    std::set<std::string> vpart_flags = vehicle_part_types[id].flags;
     for (std::set<std::string>::iterator flag_iterator = vpart_flags.begin();
             flag_iterator != vpart_flags.end(); ++flag_iterator) {
         std::string next_flag = *flag_iterator;
@@ -512,8 +508,8 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
 
     bool allow_inner = existing_part.has_flag("MOUNT_INNER");
     bool allow_over  = existing_part.has_flag("MOUNT_OVER");
-    bool this_inner  = vpart_list[id].has_flag("INTERNAL");
-    bool this_over   = (vpart_list[id].has_flag("OVER")) || (vpart_list[id].has_flag("ARMOR"));
+    bool this_inner  = vehicle_part_types[id].has_flag("INTERNAL");
+    bool this_over   = (vehicle_part_types[id].has_flag("OVER")) || (vehicle_part_types[id].has_flag("ARMOR"));
     if (allow_inner && (this_inner || this_over)) {
         return true; // can mount as internal part or over it
     }
@@ -531,13 +527,16 @@ bool vehicle::can_unmount (int p)
     { // central point
         bool is_ext = false;
         for (int ep = 0; ep < external_parts.size(); ep++)
+        {
             if (external_parts[ep] == p)
             {
                 is_ext = true;
                 break;
             }
-        if (external_parts.size() > 1 && is_ext)
-            return false; // unmounting 0, 0 part anly allowed as last part
+        }
+        if (external_parts.size() > 1 && is_ext) {
+            return false; // unmounting 0, 0 part only allowed as last part
+        }
     }
 
     if (!part_flag (p, "MOUNT_POINT")) {
@@ -570,26 +569,16 @@ bool vehicle::can_unmount (int p)
 }
 
 /**
- * This version of install_part is used -only- to create vehicles being read in
- * from JSON at the start of the program.
+ * Installs a part into this vehicle.
  * @param dx The x coordinate of where to install the part.
  * @param dy The y coordinate of where to install the part.
- * @param vpart_id The string ID of the part to install.
+ * @param id The string ID of the part to install. (see vehicle_parts.json)
+ * @param hp The starting HP of the part. If negative, default to max HP.
+ * @param force true if the part should be installed even if not legal,
+ *              false if illegal part installation should fail.
  * @return false if the part could not be installed, true otherwise.
  */
-bool vehicle::install_part (int dx, int dy, std::string vpart_info_id)
-{
-  //Just find the right enum constant and delegate to the existing install_part
-  for(int vpart_index = 0; vpart_index < num_vparts; vpart_index++) {
-    if(vpart_list[vpart_index].id == vpart_info_id) {
-      install_part(dx, dy, (vpart_id)vpart_index);
-      return true;
-    }
-  }
-  return false;
-}
-
-int vehicle::install_part (int dx, int dy, vpart_id id, int hp, bool force)
+int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
 {
     if (!force && !can_mount (dx, dy, id)) {
         return -1;  // no money -- no ski!
@@ -601,10 +590,10 @@ int vehicle::install_part (int dx, int dy, vpart_id id, int hp, bool force)
     new_part.id = id;
     new_part.mount_dx = dx;
     new_part.mount_dy = dy;
-    new_part.hp = hp < 0? vpart_list[id].durability : hp;
+    new_part.hp = hp < 0? vehicle_part_types[id].durability : hp;
     new_part.amount = 0;
     new_part.blood = 0;
-    item tmp(g->itypes[vpart_list[id].item], 0);
+    item tmp(g->itypes[vehicle_part_types[id].item], 0);
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
 
@@ -733,6 +722,29 @@ int vehicle::global_part_at(int x, int y)
  int dx = x - global_x();
  int dy = y - global_y();
  return part_at(dx,dy);
+}
+
+/**
+ * Given a vehicle part which is inside of this vehicle, returns the index of
+ * that part. This exists solely because activities relating to vehicle editing
+ * require the index of the vehicle part to be passed around.
+ * @param part The part to find.
+ * @return The part index, -1 if it is not part of this vehicle.
+ */
+int vehicle::index_of_part(vehicle_part *part)
+{
+  if(part != NULL) {
+    for(int index = 0; index < parts.size(); index++) {
+      vehicle_part next_part = parts[index];
+      if(part->id == next_part.id &&
+              part->mount_dx == next_part.mount_dx &&
+              part->mount_dy == next_part.mount_dy &&
+              part->hp == next_part.hp) {
+        return index;
+      }
+    }
+  }
+  return -1;
 }
 
 char vehicle::part_sym (int p)
@@ -1943,7 +1955,7 @@ int vehicle::stored_volume(int part) {
 
 int vehicle::max_volume(int part) {
 	if ( part_flag(part, "CARGO") ){
-		return vpart_list[parts[part].id].size;
+		return vehicle_part_types[parts[part].id].size;
 	}
 	return 0;
 }
