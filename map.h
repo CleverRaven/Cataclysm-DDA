@@ -18,7 +18,7 @@
 #include "vehicle.h"
 #include "graffiti.h"
 #include "lightmap.h"
-
+#include "coordinates.h"
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
 #define CAMPSIZE 1
@@ -38,65 +38,6 @@ struct wrapped_vehicle{
 };
 
 typedef std::vector<wrapped_vehicle> VehicleList;
-
-// translate game.levx/y + game->object.posx/y to submap and submap row/col, and deal with !INBOUND correctly
-// usage: rc real_coords( levx, levy, g->u.posx, g->u.posy );
-//          popup("I'm on submap %d, %d, row %d, column %d.", rc.sub.x, rc.sub.y, rc.sub_pos.x, rc.sub_pos.y );
-//
-//        point rcom=rc.overmap(); point gom=g->om_location();
-//        popup("Oh, and this is really overmap %d,%d, but everything uses %d,%d anyway.",
-//            rcom.x, rcom.y, gom.x, gom.y );
-//
-//        real_coords( lx, ly, px, py, true ); // will precalculate overmap as .true_om (point)
-//
-struct real_coords {
-  point rel_lev; // in: as in game.levx/y. The true coordinate of submap at pos 0,0 in playing area
-                 // (Which is a 11x11 grid of submaps that shifts to ensure player remains in
-                 // the center submap.)
-  point rel_pos; // in: as in game->object.posx/y; Tile offset from position 0,0 of
-                 // game.levx/y (submap 0,0 of playing area, aka rel_lev)
-  point sub;     // out: 'real' levxy; actual submap coordinate (maps.txt: first line of record)
-  point sub_pos; // out: coordinate (0-11) in submap (maps.txt: xy of tile definitions, items, traps,
-                 // spawns)
-  point true_om; // >>>> must initialize with getom=true or use initialized_real_coords.overmap() <<<<
-                 // >>>> this does not handle overmap boundaries yet, check for < 0 || >= OMAPX (180) <<<<
-                 // this is the actual overmap tile of sub.x, sub.y (unlike what game->om_location
-                 // returns; the overmap tile of levx/y aka rel_lev. Most game functions are written
-                 // for the latter.);
-  real_coords(int lx, int ly, int px, int py, bool getom=false ) {
-    rel_lev.x=lx;
-    rel_lev.y=ly;
-    rel_pos.x=px;
-    rel_pos.y=py;
-    sub.x = lx + ( px / SEEX );
-    sub.y = ly + ( py / SEEX );
-    sub_pos.x = px % SEEX;
-    sub_pos.y = py % SEEY;
-    /* deal with !INBOUND (negative) coordinates.
-          if ( px < 0 ) { sub.x += -1; sub_pos.x += 12; };
-       in -some- cases (?) this isn't enough and must be
-       redone @ pos=-24, -48, -96 ....
-    */
-    while( sub_pos.x < 0 ) {
-        sub.x--;
-        sub_pos.x += 12;
-    }
-    while( sub_pos.y < 0 ) {
-        sub.y--;
-        sub_pos.y += 12;
-    }
-
-    if ( getom == true ) { // special case, thus optional
-      true_om.x=int( (sub.x + int(MAPSIZE / 2)) / 2);
-      true_om.y=int( (sub.y + int(MAPSIZE / 2)) / 2);
-    }
-  };
-  point overmap () {
-    true_om.x=int( (sub.x + int(MAPSIZE / 2)) / 2);
-    true_om.y=int( (sub.y + int(MAPSIZE / 2)) / 2);
-    return true_om;
-  };
-};
 
 /**
  * Manage and cache data about a part of the map.
@@ -394,6 +335,16 @@ class map
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
+ point get_abs_sub() {
+   return abs_sub;
+ };
+ point getabs(const int x=0, const int y=0 );
+ point getlocal(const int x, const int y );
+ 
+ bool inboundsabs(const int x, const int y);
+ bool inbounds(const int x, const int y);
+
+ int getmapsize() { return my_MAPSIZE; };
 protected:
  void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
             const int gridx, const int gridy);
@@ -412,7 +363,6 @@ protected:
  void build_seen_cache(game *g);
  void castLight( game *g, int row, float start, float end, int xx, int xy, int yx, int yy );
 
- bool inbounds(const int x, const int y);
  int my_MAPSIZE;
  virtual bool is_tiny() { return false; };
 
@@ -426,6 +376,12 @@ protected:
  std::vector <trap*> *traps;
 
  bool veh_in_active_range;
+
+ point abs_sub; // same as x y in maps.txt, for 0,0 / grid[0]
+ point abs_min; // same as above in absolute coordinates (submap(x,y) * 12)
+ point abs_max; // same as abs_min + ( my_MAPSIZE * 12 )
+ int world_z;   // same as 
+ void set_abs_sub(const int x, const int y, const int z); // set the above vars on map load/shift/etc
 
 private:
  long determine_wall_corner(const int x, const int y, const long orig_sym);

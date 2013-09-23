@@ -54,8 +54,8 @@ std::vector<std::string> fld_string ( std::string str, int width ) {
             linepos = crpos + width + 1;
             linestart = crpos + 1;
         } else {
-            int spacepos = str.rfind(' ', linepos);
-            if ( spacepos == -1 ) spacepos = str.find(' ', linepos);
+            int spacepos = str.rfind(',', linepos);
+            if ( spacepos == -1 ) spacepos = str.find(',', linepos);
             if ( spacepos < linestart ) {
                 spacepos = linestart + width;
                 if( spacepos < str.length() ) {
@@ -65,8 +65,8 @@ std::vector<std::string> fld_string ( std::string str, int width ) {
                 }
             } else {
                 lines.push_back( str.substr( linestart, spacepos-linestart ) );
-                linepos = spacepos + width + 1;
-                linestart = spacepos + 1;
+                linepos = spacepos + width;
+                linestart = spacepos;
             }
         }
     }

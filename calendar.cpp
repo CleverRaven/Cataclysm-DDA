@@ -39,7 +39,7 @@ calendar::calendar(int turn)
  int minute_param = int(turn / 10);
  int hour_param = minute_param / 60;
  int day_param = hour_param / 24;
- int season_param = day_param / OPTIONS["SEASON_LENGTH"];
+ int season_param = int(day_param / OPTIONS["SEASON_LENGTH"]);
  second = 6 * (turn % 10);
  minute = minute_param % 60;
  hour = hour_param % 24;
@@ -90,7 +90,7 @@ calendar& calendar::operator =(int rhs)
  int minute_param = int(rhs / 10);
  int hour_param = minute_param / 60;
  int day_param = hour_param / 24;
- int season_param = day_param / OPTIONS["SEASON_LENGTH"];
+ int season_param = int(day_param / OPTIONS["SEASON_LENGTH"]);
  second = 6 * (rhs % 10);
  minute = minute_param % 60;
  hour = hour_param % 24;
@@ -220,7 +220,7 @@ void calendar::standardize()
  }
  int tmpseason = int(season);
  if (day >= OPTIONS["SEASON_LENGTH"]) {
-  tmpseason += day / OPTIONS["SEASON_LENGTH"];
+  tmpseason += int(day / OPTIONS["SEASON_LENGTH"]);
   day %= (int)OPTIONS["SEASON_LENGTH"];
  }
  if (tmpseason >= 4) {
@@ -239,7 +239,7 @@ int calendar::minutes_past_midnight() const
 
 moon_phase calendar::moon() const
 {
- int phase = day / (OPTIONS["SEASON_LENGTH"] / 4);
+ int phase = int(day / (OPTIONS["SEASON_LENGTH"] / 4));
  //phase %= 4;   Redundant?
  if (phase == 3)
   return MOON_HALF;

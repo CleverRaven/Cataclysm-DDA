@@ -136,9 +136,9 @@ npc& npc::operator= (const npc & rhs)
 
  copy_skill_levels(&rhs);
 
- styles.clear();
- for (int i = 0; i < rhs.styles.size(); i++)
-  styles.push_back(rhs.styles[i]);
+ ma_styles.clear();
+ for (int i = 0; i < rhs.ma_styles.size(); i++)
+  ma_styles.push_back(rhs.ma_styles[i]);
 
  return *this;
 }
@@ -150,17 +150,15 @@ std::string npc::save_info()
 
 void npc::load_info(game *g, std::string data)
 {
- std::stringstream dump;
- std::string tmpname;
- int deathtmp, deadtmp, classtmp, npc_id;
- dump << data;
+    std::stringstream dump;
+    dump << data;
 
-char check=dump.peek();
-if ( check == ' ' ) {
-  // sigh..
-  check=data[1];
-} 
-if ( check == '{' ) {
+    char check = dump.peek();
+    if ( check == ' ' ) {
+        // sigh..
+        check = data[1];
+    }
+    if ( check == '{' ) {
         picojson::value pdata;
         dump >> pdata;
         std::string jsonerr = picojson::get_last_error();
@@ -170,103 +168,11 @@ if ( check == '{' ) {
             json_load(pdata, g);
         }
         return;
-}
-////////////////////////////////// everything below is for OLD saves
- dump >> npc_id;
- setID(npc_id);
-// Standard player stuff
- do {
-  dump >> tmpname;
-  if (tmpname != "||")
-   name += tmpname + " ";
- } while (tmpname != "||");
- name = name.substr(0, name.size() - 1); // Strip off trailing " "
- dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
-         int_cur >> int_max >> per_cur >> per_max >> hunger >> thirst >>
-         fatigue >> stim >> pain >> pkill >> radiation >> cash >> recoil >>
-         scent >> moves >> underwater >> dodges_left >> oxygen >> deathtmp >>
-         deadtmp >> classtmp >> patience;
-
- if (deathtmp == 1)
-  marked_for_death = true;
- else
-  marked_for_death = false;
-
- if (deadtmp == 1)
-  dead = true;
- else
-  dead = false;
-
- myclass = npc_class(classtmp);
-
- std::string sTemp = "";
- for (int i = 0; i < traits.size(); i++) {
-    dump >> sTemp;
-    if (sTemp == "TRAITS_END") {
-        break;
     } else {
-        my_traits.insert(sTemp);
+        load_legacy(g, dump);
     }
- }
-
- for (int i = 0; i < num_hp_parts; i++)
-  dump >> hp_cur[i] >> hp_max[i];
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-   dump >> skillLevel(*aSkill);
- }
-
- itype_id tmpstyle;
- int numstyle;
- dump >> numstyle;
- for (int i = 0; i < numstyle; i++) {
-  dump >> tmpstyle;
-  styles.push_back(tmpstyle);
- }
-
- int typetmp;
- std::string disease_type_tmp;
- int numill;
- dump >> numill;
- disease illtmp;
- for (int i = 0; i < numill; i++) {
-  dump >> disease_type_tmp >> illtmp.duration;
-  illtmp.type = disease_type_tmp;
-  illness.push_back(illtmp);
- }
- int numadd;
- addiction addtmp;
- dump >> numadd;
- for (int i = 0; i < numadd; i++) {
-  dump >> typetmp >> addtmp.intensity >> addtmp.sated;
-  addtmp.type = add_type(typetmp);
-  addictions.push_back(addtmp);
- }
- bionic_id tmpbionic;
- int numbio;
- bionic biotmp;
- dump >> numbio;
- for (int i = 0; i < numbio; i++) {
-  dump >> tmpbionic >> biotmp.invlet >> biotmp.powered >> biotmp.charge;
-  biotmp.id = bionic_id(tmpbionic);
-  my_bionics.push_back(biotmp);
- }
-// Special NPC stuff
- int misstmp, flagstmp, tmpatt, agg, bra, col, alt;
- dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
-         omz >> mapx >> mapy >> plx >> ply >> goalx >> goaly >> goalz >> misstmp >>
-         flagstmp >> fac_id >> tmpatt;
- personality.aggression = agg;
- personality.bravery = bra;
- personality.collector = col;
- personality.altruism = alt;
- mission = npc_mission(misstmp);
- flags = flagstmp;
- attitude = npc_attitude(tmpatt);
-
- op_of_u.load_info(dump);
- chatbin.load_info(dump);
- combat_rules.load_info(dump);
 }
+
 
 void npc::randomize(game *g, npc_class type)
 {
@@ -385,9 +291,7 @@ void npc::randomize(game *g, npc_class type)
   per_max += rng(0, 2);
   personality.bravery += rng(0, 3);
   personality.collector -= rng(1, 6);
-  do
-   styles.push_back( martial_arts_itype_ids[rng(0, martial_arts_itype_ids.size()-1)] );
-  while (one_in(2));
+  // TODO: give ninja his styles back
   break;
 
  case NC_COWBOY:
@@ -1014,12 +918,6 @@ Skill* npc::best_skill()
 
 void npc::starting_weapon(game *g)
 {
-    if (!styles.empty())
-    {
-        weapon.make(g->itypes[styles[rng(0, styles.size() - 1)]]);
-        return;
-    }
-
     // TODO add throwing weapons
 
     std::list<itype_id> possible_items;
@@ -1123,24 +1021,6 @@ bool npc::wield(game *g, signed char invlet, bool autodrop){
 
 bool npc::wield(game *g, signed char invlet)
 {
- if (invlet < 0) { // Wielding a style
-  int index = 0 - invlet - 1;
-  if (index >= styles.size()) {
-   debugmsg("npc::wield(%d) [styles.size() = %d]", index, styles.size());
-   return false;
-  }
-  if (volume_carried() + weapon.volume() <= volume_capacity()) {
-   i_add(remove_weapon());
-   moves -= 15; // Extra penalty for putting weapon away
-  } else // No room for weapon, so we drop it
-   g->m.add_item_or_charges(posx, posy, remove_weapon());
-  moves -= 15;
-  weapon.make( g->itypes[styles[index]] );
-  if (g->u_see(posx, posy))
-   g->add_msg(_("%1$s assumes a %2$s stance."), name.c_str(), weapon.tname().c_str());
-  return true;
- }
-
  if (volume_carried() + weapon.volume() <= volume_capacity()) {
   i_add(remove_weapon());
   moves -= 15;
@@ -1438,14 +1318,14 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
  std::vector<itype_id> ret;
  if (p == NULL)
   return ret;
- for (int i = 0; i < styles.size(); i++) {
+ for (int i = 0; i < ma_styles.size(); i++) {
   bool found = false;
-  for (int j = 0; j < p->styles.size() && !found; j++) {
-   if (p->styles[j] == styles[i])
+  for (int j = 0; j < p->ma_styles.size() && !found; j++) {
+   if (p->ma_styles[j] == ma_styles[i])
     found = true;
   }
   if (!found)
-   ret.push_back( styles[i] );
+   ret.push_back( ma_styles[i] );
  }
  return ret;
 }

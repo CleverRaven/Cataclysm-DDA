@@ -31,6 +31,7 @@ nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
 
 std::map<std::string, trait> traits;
+std::map<std::string, martialart> ma_styles;
 std::vector<std::string> vStartingTraits[2];
 
 std::string morale_data[NUM_MORALE_TYPES];
@@ -123,7 +124,7 @@ player::player() : name("")
  controlling_vehicle = false;
  grab_point.x = 0;
  grab_point.y = 0;
- style_selected = "null";
+ style_selected = "style_none";
  focus_pool = 100;
  last_item = itype_id("null");
  sight_max = 9999;
@@ -274,7 +275,7 @@ player& player::operator= (const player & rhs)
  lastrecipe = rhs.lastrecipe;
  last_item = rhs.last_item;
  worn = rhs.worn;
- styles = rhs.styles;
+ ma_styles = rhs.ma_styles;
  style_selected = rhs.style_selected;
  weapon = rhs.weapon;
 
@@ -292,7 +293,7 @@ void player::normalize(game *g)
 {
  ret_null = item(g->itypes["null"], 0);
  weapon   = item(g->itypes["null"], 0);
- style_selected = "null";
+ style_selected = "style_none";
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
   if (has_trait("TOUGH"))
@@ -403,6 +404,9 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
 
 // Give us our movement points for the turn.
  moves += current_speed(g);
+
+// Apply static martial arts buffs
+  ma_static_effects();
 
 // Floor for our stats.  No stat changes should occur after this!
  if (dex_cur < 0)
@@ -1135,6 +1139,9 @@ int player::current_speed(game *g)
  for (int i = 0; i < illness.size(); i++)
   newmoves += disease_speed_boost(illness[i]);
 
+ // add martial arts speed bonus
+ newmoves += mabuff_speed_bonus();
+
  if (has_trait("QUICK"))
   newmoves = int(newmoves * 1.10);
 
@@ -1276,172 +1283,29 @@ nc_color player::color()
 
 void player::load_info(game *g, std::string data)
 {
- std::stringstream dump;
- dump << data;
+    std::stringstream dump;
+    dump << data;
 
-char check=dump.peek();
-if ( check == ' ' ) {
-  // sigh..
-  check=data[1];
-}
-if ( check == '{' ) {
+    char check = dump.peek();
+    if ( check == ' ' ) {
+        // sigh..
+        check = data[1];
+    }
+    if ( check == '{' ) {
         picojson::value pdata;
         dump >> pdata;
         std::string jsonerr = picojson::get_last_error();
         if ( ! jsonerr.empty() ) {
-            debugmsg("Bad npc json\n%s", jsonerr.c_str() );
+            debugmsg("Bad player json\n%s", jsonerr.c_str() );
         } else {
             json_load(pdata, g);
         }
         return;
-}
-/////////////////// everything below is for OLD saves. update json_load in gamesave_json.cpp
- int inveh, vctrl;
- itype_id styletmp;
- std::string prof_ident;
-
- dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
-         int_cur >> int_max >> per_cur >> per_max >> power_level >>
-         max_power_level >> hunger >> thirst >> fatigue >> stim >>
-         pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
-         inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
-         underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
-         focus_pool >> male >> prof_ident >> health >> styletmp;
-
- if (profession::exists(prof_ident)) {
-  prof = profession::prof(prof_ident);
- } else {
-  prof = profession::generic();
-  debugmsg("Tried to use non-existent profession '%s'", prof_ident.c_str());
- }
-
- activity.load_info(dump);
- backlog.load_info(dump);
-
- in_vehicle = inveh != 0;
- controlling_vehicle = vctrl != 0;
- style_selected = styletmp;
-
- std::string sTemp = "";
- for (int i = 0; i < traits.size(); i++) {
-    dump >> sTemp;
-    if (sTemp == "TRAITS_END") {
-        break;
-    } else {
-        my_traits.insert(sTemp);
+    } else { // old save
+        load_legacy(g, dump);
     }
- }
-
- for (int i = 0; i < traits.size(); i++) {
-    dump >> sTemp;
-    if (sTemp == "MUTATIONS_END") {
-        break;
-    } else {
-        my_mutations.insert(sTemp);
-    }
- }
-
- set_highest_cat_level();
- drench_mut_calc();
-
- for (int i = 0; i < num_hp_parts; i++)
-  dump >> hp_cur[i] >> hp_max[i];
- for (int i = 0; i < num_bp; i++)
-  dump >> temp_cur[i] >> temp_conv[i] >> frostbite_timer[i];
-
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-   dump >> skillLevel(*aSkill);
- }
-
- int num_recipes;
- std::string rec_name;
- dump >> num_recipes;
- for (int i = 0; i < num_recipes; ++i)
- {
-  dump >> rec_name;
-  learned_recipes[rec_name] = recipe_by_name(rec_name);
- }
-
- int numstyles;
- itype_id styletype;
- dump >> numstyles;
- for (int i = 0; i < numstyles; i++) {
-  dump >> styletype;
-  styles.push_back( styletype );
- }
-
- int numill;
- disease illtmp;
- int temp_bpart;
- dump >> numill;
- for (int i = 0; i < numill; i++) {
-     dump >> illtmp.type >> illtmp.duration >> illtmp.intensity
-          >> temp_bpart >> illtmp.side;
-     illtmp.bp = (body_part)temp_bpart;
-     illness.push_back(illtmp);
- }
-
- int numadd = 0;
- int typetmp;
- addiction addtmp;
- dump >> numadd;
- for (int i = 0; i < numadd; i++) {
-  dump >> typetmp >> addtmp.intensity >> addtmp.sated;
-  addtmp.type = add_type(typetmp);
-  addictions.push_back(addtmp);
- }
-
- int numbio = 0;
- bionic_id biotype;
- bionic biotmp;
- dump >> numbio;
- for (int i = 0; i < numbio; i++) {
-  dump >> biotype >> biotmp.invlet >> biotmp.powered >> biotmp.charge;
-  biotmp.id = biotype;
-  my_bionics.push_back(biotmp);
- }
-
- int nummor;
- morale_point mortmp;
- dump >> nummor;
- for (int i = 0; i < nummor; i++) {
-  // Load morale properties in structure order.
-  int mortype;
-  std::string item_id;
-  dump >> mortype >> item_id;
-  mortmp.type = morale_type(mortype);
-  if (g->itypes.find(item_id) == g->itypes.end())
-   mortmp.item_type = NULL;
-  else
-   mortmp.item_type = g->itypes[item_id];
-
-  dump >> mortmp.bonus >> mortmp.duration >> mortmp.decay_start
-       >> mortmp.age;
-  morale.push_back(mortmp);
- }
-
- int nummis = 0;
- int mistmp;
- dump >> nummis;
- for (int i = 0; i < nummis; i++) {
-  dump >> mistmp;
-  active_missions.push_back(mistmp);
- }
- dump >> nummis;
- for (int i = 0; i < nummis; i++) {
-  dump >> mistmp;
-  completed_missions.push_back(mistmp);
- }
- dump >> nummis;
- for (int i = 0; i < nummis; i++) {
-  dump >> mistmp;
-  failed_missions.push_back(mistmp);
- }
-
- dump >> player_stats.squares_walked;
-
- recalc_sight_limits();
 }
+
 std::string player::save_info()
 {
     std::stringstream dump;
@@ -2836,6 +2700,17 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
         }
     }
 
+    // Print currently used style
+    const char *style = NULL;
+    if (style_selected == "style_none")
+      style = _("No Style");
+    else
+      style = g->martialarts[style_selected].name.c_str();
+    if (style) {
+        int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
+        mvwprintz(weapwin, 1, x, c_blue, style);
+    }
+
     // Print the current weapon mode
     const char *mode = NULL;
     if (weapon.mode == "NULL")
@@ -2849,7 +2724,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     }
     if (mode) {
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 1, x, c_red, mode);
+        mvwprintz(weapwin, 3, x, c_red, mode);
     }
 
     wmove(w, sideStyle ? 1 : 2, 0);
@@ -4120,7 +3995,7 @@ void player::add_disease(dis_type type, int duration,
     }
     if (!found) {
         if (!is_npc()) {
-            dis_msg(g, type);
+            dis_msg(type);
         }
         disease tmp(type, duration, intensity, part, side);
         illness.push_back(tmp);
@@ -4138,7 +4013,7 @@ void player::rem_disease(dis_type type, body_part part, int side)
             ( side == -1 || illness[i].side == side ) ) {
             illness.erase(illness.begin() + i);
             if(!is_npc()) {
-                dis_remove_memorial(g, type);
+                dis_remove_memorial(type);
             }
         }
     }
@@ -4149,7 +4024,7 @@ void player::rem_disease(dis_type type, body_part part, int side)
 bool player::has_disease(dis_type type, body_part part, int side) const
 {
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type && 
+        if (illness[i].type == type &&
             ( part == num_bp || illness[i].bp == part ) &&
             ( side == -1 || illness[i].side == side ) ) {
             return true;
@@ -4305,13 +4180,13 @@ void player::suffer(game *g)
     }
     for (int i = 0; i < illness.size(); i++)
     {
-        dis_effect(g, *this, illness[i]);
+        dis_effect(*this, illness[i]);
         illness[i].duration--;
         if (illness[i].duration < MIN_DISEASE_AGE)// Cap permanent disease age
         {
             illness[i].duration = MIN_DISEASE_AGE;
         }
-        if (illness[i].duration == 0)
+        if (illness[i].duration <= 0)
         {
             illness.erase(illness.begin() + i);
             i--;
@@ -5274,7 +5149,7 @@ void player::process_active_items(game *g)
             }
         }
         else if (!process_single_active_item(g, &weapon)) {
-            weapon = get_combat_style();
+            weapon = ret_null;
         }
     }
 
@@ -5374,7 +5249,7 @@ item player::remove_weapon()
   weapon.active = false;
  }
  item tmp = weapon;
- weapon = get_combat_style();
+ weapon = ret_null;
 // We need to remove any boosts related to our style
  rem_disease("attack_boost");
  rem_disease("dodge_boost");
@@ -5408,7 +5283,7 @@ item player::i_rem(char let)
    return ret_null;
   }
   tmp = weapon;
-  weapon = get_combat_style();
+  weapon = ret_null;
   return tmp;
  }
  for (int i = 0; i < worn.size(); i++) {
@@ -5457,16 +5332,15 @@ item& player::i_of_type(itype_id type)
  return inv.item_by_type(type);
 }
 
-item player::get_combat_style()
+martialart player::get_combat_style()
 {
- item tmp;
- bool pickstyle = (!styles.empty());
+ martialart tmp;
+ bool pickstyle = (!ma_styles.empty());
  if (pickstyle) {
-  tmp = item( g->itypes[style_selected], 0 );
-  tmp.invlet = ':';
+  tmp = g->martialarts[style_selected];
   return tmp;
  } else {
-  return ret_null;
+  return g->martialarts["style_none"];
  }
 }
 
@@ -6290,7 +6164,7 @@ bool player::eat(game *g, signed char ch)
     if (eaten->charges <= 0)
     {
         if (which == -1)
-            weapon = get_combat_style();
+            weapon = ret_null;
         else if (which == -2)
         {
             weapon.contents.erase(weapon.contents.begin());
@@ -6346,34 +6220,19 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   return false;
  }
  if (ch == -3) {
-  bool pickstyle = (!styles.empty());
-  if (weapon.is_style())
-   remove_weapon();
-  else if (!is_armed()) {
-   if (!pickstyle) {
-    g->add_msg(_("You are already wielding nothing."));
-    return false;
-   }
-  } else if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
+  if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
    inv.add_item_keep_invlet(remove_weapon());
    inv.unsort();
    moves -= 20;
    recoil = 0;
-   if (!pickstyle)
-    return true;
+   return true;
   } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                       weapon.tname(g).c_str())) {
    g->m.add_item_or_charges(posx, posy, remove_weapon());
    recoil = 0;
-   if (!pickstyle)
-    return true;
+   return true;
   } else
    return false;
-
-  if (pickstyle) {
-   weapon = get_combat_style();
-   return true;
-  }
  }
  if (ch == 0) {
   g->add_msg(_("You're already wielding that!"));
@@ -6434,18 +6293,18 @@ void player::pick_style(game *g) // Style selection menu
 {
  std::vector<std::string> options;
  options.push_back(_("No style"));
- for (int i = 0; i < styles.size(); i++) {
-  if(!g->itypes[styles[i]]) {
-    debugmsg ("Bad hand to hand style: %d",i);
+ for (int i = 0; i < ma_styles.size(); i++) {
+  if(g->martialarts.find(ma_styles[i]) == g->martialarts.end()) {
+   debugmsg ("Bad hand to hand style: %s",ma_styles[i].c_str());
   } else {
-    options.push_back( g->itypes[styles[i]]->name );
+   options.push_back( g->martialarts[ma_styles[i]].name );
   }
  }
  int selection = menu_vec(false, _("Select a style"), options);
  if (selection >= 2)
-  style_selected = styles[selection - 2];
+  style_selected = ma_styles[selection - 2];
  else
-  style_selected = "null";
+  style_selected = "style_none";
 }
 
 hint_rating player::rate_action_wear(item *it)
@@ -6563,7 +6422,7 @@ bool player::wear(game *g, char let, bool interactive)
 
     if (index == -2)
     {
-        weapon = get_combat_style();
+        weapon = ret_null;
     }
     else
     {

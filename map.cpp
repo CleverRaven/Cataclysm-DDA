@@ -3644,6 +3644,9 @@ void map::forget_traps(int gridx, int gridy)
 
 void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
 {
+ set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx, 
+   g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
+ );
 // Special case of 0-shift; refresh the map
     if (sx == 0 && sy == 0) {
         return; // Skip this?
@@ -3769,6 +3772,11 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
             << "  gridn: " << gridn;
 
  submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, worldz);
+
+ if ( gridx == 0 && gridy == 0 ) {
+     set_abs_sub(absx, absy, worldz);
+ }
+
  if (tmpsub) {
   grid[gridn] = tmpsub;
 
@@ -4199,6 +4207,33 @@ std::vector<point> closest_points_first(int radius, int center_x, int center_y)
     }
     return points;
 }
+//////////
+///// coordinate helpers
+/*
+ * return absolute coordinates of local-to-map's x,y
+ */
+point map::getabs(const int x, const int y ) {
+    int ax=( abs_sub.x * SEEX ) + x;
+    int ay=( abs_sub.y * SEEY ) + y;
+    return point(ax,ay);
+}
+/*
+ * Convert absolute (submap*12) x,y to map's x,y
+ */
+point map::getlocal(const int x, const int y) {
+  return point ( x - ( abs_min.x ), y - ( abs_min.y ) );
+}
+
+/*
+ * set map coordinates based off grid[0] submap coords
+ */
+void map::set_abs_sub( const int x, const int y, const int z ) {
+  abs_sub=point(x, y);
+  world_z = z;
+  abs_min=point(x*SEEX, y*SEEY);
+  abs_max=point(x*SEEX + (SEEX * my_MAPSIZE), y*SEEY + (SEEY * my_MAPSIZE) );
+}
+
 
 tinymap::tinymap()
 {

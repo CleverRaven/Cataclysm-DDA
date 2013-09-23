@@ -256,6 +256,125 @@
   ]
 },{
         "type" : "recipe",
+  "result": "television",
+  "category": "CC_NONCRAFTC",
+  "skill_used": "electronics",
+  "difficulty": 0,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["processor", 1]
+    ],
+    [
+      ["RAM", 2]
+    ],
+    [
+      ["cable", 8]
+    ],
+    [
+      ["amplifier", 4]
+    ],
+    [
+      [ "power_supply", 2 ]
+    ],
+    [
+      ["plastic_chunk", 8]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "microwave",
+  "category": "CC_NONCRAFTC",
+  "skill_used": "electronics",
+  "difficulty": 0,
+  "time": 80000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["processor", 1]
+    ],
+    [
+      ["cable", 4]
+    ],
+    [
+      ["amplifier", 1]
+    ],
+    [
+      [ "power_supply", 4 ]
+    ],
+    [
+      ["plastic_chunk", 8]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "toaster",
+  "category": "CC_NONCRAFTC",
+  "skill_used": "electronics",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["cable", 2]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      ["scrap", 2]
+    ],
+    [
+      ["element", 4]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "clock",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "scrap", 3 ]
+    ],
+    [
+      [ "clockworks", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "knife_steak",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -4257,8 +4376,8 @@
       [ "sugar", 1 ]
     ],
     [
-      [ "water", 5 ],
-      [ "water_clean", 5 ]
+      [ "water", 12 ],
+      [ "water_clean", 12 ]
     ]
   ]
 },{
@@ -7890,7 +8009,9 @@
   ],
   "components": [
     [
-      [ "leather", 7 ],
+      [ "leather", 7 ]
+    ],
+    [
       [ "fur", 7 ]
     ]
   ]
@@ -8075,7 +8196,9 @@
   ],
   "components": [
     [
-      [ "rag", 10 ],
+      [ "rag", 10 ]
+    ],
+    [
       [ "fur", 6 ]
     ]
   ]
@@ -11600,8 +11723,8 @@
       ["sugar", 1]
     ],
     [
-      ["water", 5],
-      ["water_clean", 5]
+      ["water", 12],
+      ["water_clean", 12]
     ]
   ]
 },{
@@ -14797,5 +14920,5 @@
   ]
 }
 ]
-}
+
 

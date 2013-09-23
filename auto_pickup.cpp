@@ -147,7 +147,7 @@ void game::show_auto_pickup()
             wrefresh(w_auto_pickup_options);
         }
 
-        ch = input();
+        ch = (char)input();
 
         if (iCurrentPage == 3) {
             switch(ch) {
@@ -380,7 +380,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 
         wrefresh(w_test_rule_content);
 
-        ch = input();
+        ch = (char)input();
 
         switch(ch) {
             case 'j': //move down

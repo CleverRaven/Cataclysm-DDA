@@ -98,9 +98,7 @@ class SkillLevel {
   operator int() const { return _level; }
 };
 
-std::istream& operator>>(std::istream& is, SkillLevel& obj);
-std::ostream& operator<<(std::ostream& os, const SkillLevel& obj);
-
+std::istream& operator>>(std::istream& is, SkillLevel& obj); // see savegame_legacy.cpp
 
 double price_adjustment(int);
 

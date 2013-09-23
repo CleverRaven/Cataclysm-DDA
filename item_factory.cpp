@@ -203,26 +203,8 @@ void Item_factory::init(){
     iuse_function_list["ARTIFACT"] = &iuse::artifact;
 
     // Offensive Techniques
-    techniques_list["SWEEP"] = mfb(TEC_SWEEP);
-    techniques_list["PRECISE"] = mfb(TEC_PRECISE);
-    techniques_list["BRUTAL"] = mfb(TEC_BRUTAL);
-    techniques_list["GRAB"] = mfb(TEC_GRAB);
-    techniques_list["WIDE"] = mfb(TEC_WIDE);
-    techniques_list["RAPID"] = mfb(TEC_RAPID);
-    techniques_list["FEINT"] = mfb(TEC_FEINT);
-    techniques_list["THROW"] = mfb(TEC_THROW);
-    techniques_list["DISARM"] = mfb(TEC_DISARM);
-    techniques_list["FLAMING"] = mfb(TEC_FLAMING);
-    // Defensive Techniques
-    techniques_list["BLOCK"] = mfb(TEC_BLOCK);
-    techniques_list["BLOCK_LEGS"] = mfb(TEC_BLOCK_LEGS);
-    techniques_list["WBLOCK_1"] = mfb(TEC_WBLOCK_1);
-    techniques_list["WBLOCK_2"] = mfb(TEC_WBLOCK_2);
-    techniques_list["WBLOCK_3"] = mfb(TEC_WBLOCK_3);
-    techniques_list["COUNTER"] = mfb(TEC_COUNTER);
-    techniques_list["BREAK"] = mfb(TEC_BREAK);
-    techniques_list["DEF_THROW"] = mfb(TEC_DEF_THROW);
-    techniques_list["DEF_DISARM"] = mfb(TEC_DEF_DISARM);
+    techniques_list["PRECISE"] = "tec_precise";
+    techniques_list["RAPID"] = "tec_rapid";
 
     bodyparts_list["TORSO"] = mfb(bp_torso);
     bodyparts_list["HEAD"] = mfb(bp_head);
@@ -590,8 +572,8 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     }
                 }
 
-                new_item_template->techniques = (!entry.has("techniques") ? 0 :
-                                                 flags_from_json(entry.get("techniques"), "techniques"));
+                if (entry.has("techniques"))
+                  new_item_template->techniques = entry.get("techniques").as_tags();
                 new_item_template->use = (!entry.has("use_action") ? &iuse::none :
                                           use_from_string(entry.get("use_action").as_string()));
             }
@@ -643,13 +625,11 @@ Use_function Item_factory::use_from_string(std::string function_name){
 void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type)
 {
     std::map<Item_tag, unsigned> flag_map;
-    if(flag_type=="techniques"){
-      flag_map = techniques_list;
-    } else if(flag_type=="bodyparts"){
-        flag_map = bodyparts_list;
+    if(flag_type=="bodyparts"){
+      flag_map = bodyparts_list;
+      set_bitmask_by_string(flag_map, cur_flags, new_flag);
     }
 
-    set_bitmask_by_string(flag_map, cur_flags, new_flag);
 }
 
 void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, unsigned& cur_bitmask, std::string new_flag)
