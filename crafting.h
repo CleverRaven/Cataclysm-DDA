@@ -7,6 +7,7 @@
 #include "itype.h"
 #include "skill.h"
 #include "rng.h"
+#include "json.h"
 
 #define MAX_DISPLAYED_RECIPES 18
 
@@ -42,7 +43,7 @@ struct recipe {
   // Format: skill_name(amount), skill_name(amount)
   std::string required_skills_string(){
       std::ostringstream skills_as_stream;
-      if(required_skills.size()){
+      if(!required_skills.empty()){
           for(std::map<Skill*,int>::iterator iter=required_skills.begin(); iter!=required_skills.end();){
             skills_as_stream << iter->first->name() << "(" << iter->second << ")";
             ++iter;
@@ -65,6 +66,7 @@ struct recipe {
     time = 0;
     reversible = false;
     autolearn = false;
+    learn_by_disassembly = -1;
   }
 
 recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &to_use,
@@ -73,7 +75,7 @@ recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &
   ident (pident), id (pid), result (pres), cat(pcat), difficulty (pdiff), time (ptime),
   reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis) {
     skill_used = to_use.size()?Skill::skill(to_use):NULL;
-    if(to_require.size()){
+    if(!to_require.empty()){
         for(std::map<std::string,int>::iterator iter=to_require.begin(); iter!=to_require.end(); ++iter){
             required_skills[Skill::skill(iter->first)] = iter->second;
         }
@@ -81,8 +83,13 @@ recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &
   }
 };
 
-
 typedef std::vector<recipe*> recipe_list;
 typedef std::map<craft_cat, recipe_list> recipe_map;
+
+void load_recipe_category(JsonObject &jsobj);
+void load_recipe(JsonObject &jsobj);
+recipe* recipe_by_name(std::string name);
+
+extern recipe_map recipes; // The list of valid recipes
 
 #endif

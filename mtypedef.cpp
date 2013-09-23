@@ -256,34 +256,34 @@ FLAGS(MF_SMELLS, MF_POISON);
 
 mon(_("giant ant"),species_insect, 'a',	c_brown,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  7, 15, 60,100,  9,  1,  6,  4,  2,  4,  8,-40, 40,  0,
+	  7, 15, 60,100,  9,  1,  6,  4,  2,  4,  8, 0, 40,  0,
 	&mdeath::normal,	&mattack::none, _("\
 A red ant the size of a crocodile. It is\n\
 covered in chitinous armor, and has a pair of\n\
 vicious mandibles.")
 );
-FLAGS(MF_SMELLS);
+FLAGS(MF_SMELLS, MF_CHITIN);
 
 mon(_("soldier ant"),species_insect, 'a',	c_blue,		MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 16, 25,100,115, 12,  2,  4,  6,  2,  5, 10,-50, 80,  0,
+	 16, 25,100,115, 12,  2,  4,  6,  2,  5, 10,0, 80,  0,
 	&mdeath::normal,	&mattack::none, _("\
 Darker in color than the other ants, this\n\
 more aggresive variety has even larger\n\
 mandibles.")
 );
-FLAGS(MF_SMELLS);
+FLAGS(MF_SMELLS, MF_CHITIN);
 
 mon(_("queen ant"),species_insect, 'a',	c_ltred,	MS_LARGE,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-     13,  0,100, 60,  6,  3,  4,  4,  1,  6, 14,-40,180, 1,
+     13,  0,100, 60,  6,  3,  4,  4,  1,  6, 14, 0,180, 1,
 	&mdeath::normal,	&mattack::antqueen, _("\
 This ant has a long, bloated thorax, bulging\n\
 with hundreds of small ant eggs.  It moves\n\
 slowly, tending to nearby eggs and laying\n\
 still more.")
 );
-FLAGS(MF_SMELLS, MF_QUEEN);
+FLAGS(MF_SMELLS, MF_QUEEN, MF_CHITIN);
 
 mon(_("fungal insect"),species_fungus, 'a',c_ltgray,	MS_MEDIUM,	"veggy",
 //  dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -302,7 +302,7 @@ mon(_("giant fly"),species_insect, 'a',	c_ltgray,	MS_SMALL,	"flesh",
 A large housefly the size of a small dog.\n\
 It buzzes around incessantly.")
 );
-FLAGS(MF_SMELLS, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN);
+FLAGS(MF_SMELLS, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN, MF_CHITIN);
 
 mon(_("giant bee"),species_insect, 'a',	c_yellow,	MS_SMALL,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -312,7 +312,7 @@ A honey bee the size of a small dog. It\n\
 buzzes angrily through the air, dagger-\n\
 sized sting pointed forward.")
 );
-FLAGS(MF_SMELLS, MF_VENOM, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN);
+FLAGS(MF_SMELLS, MF_VENOM, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN, MF_CHITIN);
 ANGER(MTRIG_HURT, MTRIG_FRIEND_DIED, MTRIG_PLAYER_CLOSE);
 
 mon(_("giant wasp"),species_insect, 'a', 	c_red,		MS_MEDIUM,	"flesh",
@@ -322,7 +322,7 @@ mon(_("giant wasp"),species_insect, 'a', 	c_red,		MS_MEDIUM,	"flesh",
 An evil-looking, slender-bodied wasp with\n\
 a vicious sting on its abdomen.")
 );
-FLAGS(MF_SMELLS, MF_POISON, MF_VENOM, MF_FLIES);
+FLAGS(MF_SMELLS, MF_POISON, MF_VENOM, MF_FLIES, MF_CHITIN);
 ANGER(MTRIG_HURT, MTRIG_FRIEND_DIED, MTRIG_PLAYER_CLOSE, MTRIG_SOUND);
 
 // GIANT WORMS
@@ -859,26 +859,26 @@ An enormous mosquito, fluttering erratically,\n\
 its face dominated by a long, spear-tipped\n\
 proboscis.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_STUMBLES, MF_VENOM, MF_FLIES, MF_HIT_AND_RUN);
+FLAGS(MF_SMELLS, MF_HEARS, MF_STUMBLES, MF_VENOM, MF_FLIES, MF_HIT_AND_RUN, MF_CHITIN);
 
 mon(_("giant dragonfly"),species_insect, 'y',c_ltgreen,	MS_SMALL,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 13, 20,100,155, 12,  1,  3,  6,  5,  0,  6,-20, 70, 0,
+	 13, 20,100,155, 12,  1,  3,  6,  5,  0,  6, 0, 70, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A ferocious airborne predator, flying swiftly\n\
 through the air, its mouth a cluster of fangs.")
 );
-FLAGS(MF_SEES, MF_SMELLS, MF_FLIES, MF_HIT_AND_RUN, MF_VIS40);
+FLAGS(MF_SEES, MF_SMELLS, MF_FLIES, MF_HIT_AND_RUN, MF_VIS40, MF_CHITIN);
 
 mon(_("giant centipede"),species_insect, 'a',c_ltgreen,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  9, 20,100,120, 10,  1,  3,  5,  2,  0,  8,-30, 60, 0,
+	  9, 20,100,120, 10,  1,  3,  5,  2,  0,  8, 0, 60, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A meter-long centipede, moving swiftly on\n\
 dozens of thin legs, a pair of venomous\n\
 pincers attached to its head.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_POISON, MF_VENOM);
+FLAGS(MF_SMELLS, MF_HEARS, MF_POISON, MF_VENOM, MF_CHITIN);
 
 mon(_("giant frog"),species_none, 'F',	c_green,	MS_LARGE,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -920,59 +920,59 @@ mutated wasps.  It does not looke very\n\
 threatening, but has a large ovipositor in\n\
 place of a sting.")
 );
-FLAGS(MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_POISON, MF_FLIES);
+FLAGS(MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_POISON, MF_FLIES, MF_CHITIN);
 
 // SPIDERS
 mon(_("wolf spider"),species_insect, 's',	c_brown,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 20, 20,100,110, 7,   1,  1,  8,  6,  2,  8,-70, 40, 0,
+	 20, 20,100,110, 7,   1,  1,  8,  6,  2,  8, 0, 40, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A large, brown spider, which moves quickly\n\
 and aggresively.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_CHITIN);
 
 mon(_("web spider"),species_insect, 's',	c_yellow,	MS_SMALL,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 16, 30, 80,120,  5,  1,  1,  7,  5,  2,  7,-70, 35, 0,
+	 16, 30, 80,120,  5,  1,  1,  7,  5,  2,  7, 0, 35, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A yellow spider the size of a dog.  It lives\n\
 in webs, waiting for prey to become\n\
 entangled before pouncing and biting.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK, MF_CHITIN);
 
 mon(_("jumping spider"),species_insect, 's',c_white,	MS_SMALL,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 14, 40, 80,100,  7,  1,  1,  4,  8,  0,  3,-60, 30, 2,
+	 14, 40, 80,100,  7,  1,  1,  4,  8,  0,  3, 0, 30, 2,
 	&mdeath::normal,	&mattack::leap, _("\
 A small, almost cute-looking spider.  It\n\
 leaps so quickly that it almost appears to\n\
 instantaneously move from one place to\n\
 another.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_HIT_AND_RUN);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_HIT_AND_RUN, MF_CHITIN);
 
 mon(_("trap door spider"),species_insect, 's',c_blue,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 20, 60,100,110,  5,  1,  2,  7,  3,  2,  8,-80, 70, 0,
+	 20, 60,100,110,  5,  1,  2,  7,  3,  2,  8, 0, 70, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A large spider with a bulbous thorax.  It\n\
 creates a subterranean nest and lies in\n\
 wait for prey to fall in and become trapped\n\
 in its webs.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK, MF_CHITIN);
 
 mon(_("black widow"),species_insect, 's',	c_dkgray,	MS_SMALL,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 20,-10,100, 90,  6,  1,  1,  6,  3,  0,  3,-50, 40, 0,
+	 20,-10,100, 90,  6,  1,  1,  6,  3,  0,  3, 0, 40, 0,
 	&mdeath::normal,	&mattack::none, _("\
 A spider with a characteristic red\n\
 hourglass on its black carapace.  It is\n\
 known for its highly toxic venom.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_BADVENOM, MF_WEBWALK);
+FLAGS(MF_SMELLS, MF_HEARS, MF_BADVENOM, MF_WEBWALK, MF_CHITIN);
 ANGER(MTRIG_PLAYER_WEAK, MTRIG_PLAYER_CLOSE, MTRIG_HURT);
 
 // UNEARTHED HORRORS

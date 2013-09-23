@@ -282,6 +282,7 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
  */
 void map::build_seen_cache( game *g ) {
     memset(seen_cache, false, sizeof(seen_cache));
+    seen_cache[g->u.posx][g->u.posy] = true;
 
     castLight( g, 1, 1.0f, 0.0f, 0, 1, 1, 0 );
     castLight( g, 1, 1.0f, 0.0f, 1, 0, 0, 1 );

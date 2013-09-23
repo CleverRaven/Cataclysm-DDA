@@ -195,31 +195,22 @@ double dist(int x1, int y1, int x2, int y2)
 
 bool is_river(oter_id ter)
 {
- if (ter == ot_null || (ter >= ot_bridge_ns && ter <= ot_river_nw))
-  return true;
- return false;
+ return (ter == ot_null || (ter >= ot_bridge_ns && ter <= ot_river_nw));
 }
 
 bool is_building(oter_id ter)
 {
- if (ter == ot_null || (ter >= ot_house_north && ter <= ot_basement) || ter >= ot_ants_ns)
-  return true;
- return false;
+ return (ter == ot_null || (ter >= ot_house_north && ter <= ot_basement) || ter >= ot_ants_ns);
 }
 
 bool is_ground(oter_id ter)
 {
- if (ter <= ot_road_nesw_manhole)
-  return true;
- return false;
+ return (ter <= ot_road_nesw_manhole);
 }
 
 bool is_wall_material(oter_id ter)
 {
- if (is_ground(ter) ||
-     (ter >= ot_house_north && ter <= ot_nuke_plant))
-  return true;
- return false;
+ return (is_ground(ter) || (ter >= ot_house_north && ter <= ot_nuke_plant));
 }
 
 // Likelihood to pick a specific overmap terrain.
@@ -260,52 +251,58 @@ private:
 
 oter_id shop(int dir)
 {
- oter_id ret = ot_s_lot;
+// TODO: adjust weights based on area, maybe using JSON
+//       (implies we have area types first)
+    oter_weight_list weightlist;
+    weightlist.add_item(ot_s_gas_north, 5);
+    weightlist.add_item(ot_s_pharm_north, 3);
+    weightlist.add_item(ot_s_grocery_north, 15);
+    weightlist.add_item(ot_s_hardware_north, 5);
+    weightlist.add_item(ot_s_sports_north, 5);
+    weightlist.add_item(ot_s_liquor_north, 5);
+    weightlist.add_item(ot_s_gun_north, 5);
+    weightlist.add_item(ot_s_clothes_north, 5);
+    weightlist.add_item(ot_s_library_north, 4);
+    weightlist.add_item(ot_s_restaurant_north, 5);
+    weightlist.add_item(ot_sub_station_north, 5);
+    weightlist.add_item(ot_bank_north, 3);
+    weightlist.add_item(ot_bar_north, 5);
+    weightlist.add_item(ot_s_electronics_north, 5);
+    weightlist.add_item(ot_pawn_north, 3);
+    weightlist.add_item(ot_mil_surplus_north, 2);
+    weightlist.add_item(ot_s_garage_north, 5);
+    weightlist.add_item(ot_station_radio_north, 5);
+    weightlist.add_item(ot_office_doctor_north, 2);
+    weightlist.add_item(ot_s_restaurant_fast_north, 3);
+    weightlist.add_item(ot_s_restaurant_coffee_north, 3);
+    weightlist.add_item(ot_church_north, 2);
+    weightlist.add_item(ot_office_cubical_north, 2);
+    weightlist.add_item(ot_furniture_north, 2);
+    weightlist.add_item(ot_abstorefront_north, 2);
+    weightlist.add_item(ot_police_north, 1);
+    weightlist.add_item(ot_s_lot, 4);
 
- // TODO: adjust weights based on area, maybe using JSON
- //       (implies we have area types first)
- oter_weight_list weightlist;
- weightlist.add_item(ot_s_gas_north, 5);
- weightlist.add_item(ot_s_pharm_north, 3);
- weightlist.add_item(ot_s_grocery_north, 15);
- weightlist.add_item(ot_s_hardware_north, 5);
- weightlist.add_item(ot_s_sports_north, 5);
- weightlist.add_item(ot_s_liquor_north, 5);
- weightlist.add_item(ot_s_gun_north, 5);
- weightlist.add_item(ot_s_clothes_north, 5);
- weightlist.add_item(ot_s_library_north, 4);
- weightlist.add_item(ot_s_restaurant_north, 5);
- weightlist.add_item(ot_sub_station_north, 5);
- weightlist.add_item(ot_bank_north, 3);
- weightlist.add_item(ot_bar_north, 5);
- weightlist.add_item(ot_s_electronics_north, 5);
- weightlist.add_item(ot_pawn_north, 3);
- weightlist.add_item(ot_mil_surplus_north, 2);
- weightlist.add_item(ot_s_garage_north, 5);
- weightlist.add_item(ot_station_radio_north, 5);
- weightlist.add_item(ot_office_doctor_north, 2);
- weightlist.add_item(ot_s_restaurant_fast_north, 3);
- weightlist.add_item(ot_s_restaurant_coffee_north, 3);
- weightlist.add_item(ot_church_north, 2);
- weightlist.add_item(ot_office_cubical_north, 2);
- weightlist.add_item(ot_furniture_north, 2);
- weightlist.add_item(ot_abstorefront_north, 2);
- weightlist.add_item(ot_police_north, 1);
- weightlist.add_item(ot_s_lot, 4);
-
- ret = weightlist.pick();
-
- if (ret == ot_s_lot)
-  return ret;
- if (dir < 0) dir += 4;
- switch (dir) {
-  case 0:                         break;
-  case 1: ret = oter_id(ret + 1); break;
-  case 2: ret = oter_id(ret + 2); break;
-  case 3: ret = oter_id(ret + 3); break;
-  default: debugmsg("Bad rotation of shop."); return ot_null;
- }
- return ret;
+    oter_id ret = weightlist.pick();
+    if (ret != ot_s_lot) { //then we need to rotate the shop
+        if (dir < 0) dir += 4;
+        switch (dir) {
+        case 0:
+            break;
+        case 1:
+            ret = oter_id(ret + 1);
+            break;
+        case 2:
+            ret = oter_id(ret + 2);
+            break;
+        case 3:
+            ret = oter_id(ret + 3);
+            break;
+        default:
+            debugmsg("Bad rotation of shop.");
+            return ot_null;
+        }
+    }
+    return ret;
 }
 
 oter_id house(int dir)
@@ -1131,9 +1128,8 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
 // Now actually place those rivers.
  if (river_start.size() > river_end.size() && river_end.size() > 0) {
   std::vector<point> river_end_copy = river_end;
-  int index;
   while (!river_start.empty()) {
-   index = rng(0, river_start.size() - 1);
+   int index = rng(0, river_start.size() - 1);
    if (!river_end.empty()) {
     place_river(river_start[index], river_end[0]);
     river_end.erase(river_end.begin());
@@ -1144,9 +1140,8 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
   }
  } else if (river_end.size() > river_start.size() && river_start.size() > 0) {
   std::vector<point> river_start_copy = river_start;
-  int index;
   while (!river_end.empty()) {
-   index = rng(0, river_end.size() - 1);
+   int index = rng(0, river_end.size() - 1);
    if (!river_start.empty()) {
     place_river(river_start[0], river_end[index]);
     river_start.erase(river_start.begin());
@@ -1849,6 +1844,9 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwputch(w, j, i, c_black, ' ');
   }
 
+  real_coords rc;
+  rc.fromomap( g->cur_om->pos().x, g->cur_om->pos().y, cursx, cursy );
+
   if (csee) {
    mvwputch(w, 1, om_map_width + 1, oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
    std::vector<std::string> name = foldstring(oterlist[ccur_ter].name,25);
@@ -1871,7 +1869,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   mvwprintz(w, 19, om_map_width + 1, c_magenta, _("D - Delete a note          "));
   mvwprintz(w, 20, om_map_width + 1, c_magenta, _("L - List notes             "));
   mvwprintz(w, 21, om_map_width + 1, c_magenta, _("Esc or q - Return to game  "));
-  mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, string_format(_("LEVEL %i"),z).c_str());
+  mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, "%s, %d'%d, %d'%d", string_format(_("LEVEL %i"),z).c_str(),
+  rc.abs_om.x, rc.om_pos.x, rc.abs_om.y, rc.om_pos.y );
 // Done with all drawing!
   wrefresh(w);
 }
@@ -2039,16 +2038,12 @@ void overmap::process_mongroups()
 
 void overmap::place_forest()
 {
- int x, y;
- int forx;
- int fory;
- int fors;
  for (int i = 0; i < NUM_FOREST; i++) {
   // forx and fory determine the epicenter of the forest
-  forx = rng(0, OMAPX - 1);
-  fory = rng(0, OMAPY - 1);
-// fors determinds its basic size
-  fors = rng(15, 40);
+  int forx = rng(0, OMAPX - 1);
+  int fory = rng(0, OMAPY - 1);
+  // fors determinds its basic size
+  int fors = rng(15, 40);
   int outer_tries = 1000;
   int inner_tries = 1000;
   for (int j = 0; j < cities.size(); j++) {
@@ -2068,8 +2063,8 @@ void overmap::place_forest()
   }
   if( 0 == outer_tries || 0 == inner_tries ) { break; }
   int swamps = SWAMPINESS;	// How big the swamp may be...
-  x = forx;
-  y = fory;
+  int x = forx;
+  int y = fory;
 // Depending on the size on the forest...
   for (int j = 0; j < fors; j++) {
    int swamp_chance = 0;
@@ -2196,24 +2191,23 @@ spawns happen at... <cue Clue music>
 void overmap::place_cities()
 {
  int NUM_CITIES = dice(4, 4);
- int cx, cy, cs;
  int start_dir;
- int city_min = OPTIONS["CITY_SIZE"] - 1;
- int city_max = OPTIONS["CITY_SIZE"] + 1;
+ int city_min = int(OPTIONS["CITY_SIZE"] - 1);
+ int city_max = int(OPTIONS["CITY_SIZE"] + 1);
  // Limit number of cities based on how big they are.
  NUM_CITIES = std::min(NUM_CITIES, int(256 / OPTIONS["CITY_SIZE"] * OPTIONS["CITY_SIZE"]));
 
  while (cities.size() < NUM_CITIES) {
-  cx = rng(12, OMAPX - 12);
-  cy = rng(12, OMAPY - 12);
-  cs = dice(city_min, city_max) ;
+  int cx = rng(12, OMAPX - 12);
+  int cy = rng(12, OMAPY - 12);
+  int size = dice(city_min, city_max) ;
   if (ter(cx, cy, 0) == ot_field) {
    ter(cx, cy, 0) = ot_road_nesw;
-   city tmp; tmp.x = cx; tmp.y = cy; tmp.s = cs;
+   city tmp; tmp.x = cx; tmp.y = cy; tmp.s = size;
    cities.push_back(tmp);
    start_dir = rng(0, 3);
    for (int j = 0; j < 4; j++)
-    make_road(cx, cy, cs, (start_dir + j) % 4, tmp);
+    make_road(cx, cy, size, (start_dir + j) % 4, tmp);
   }
  }
 }
@@ -2742,12 +2736,6 @@ void overmap::building_on_hiway(int x, int y, int dir)
   if (!is_river(ter(x + xdif, y + ydif, 0)))
    ter(x + xdif, y + ydif, 0) = ot_radio_tower;
   break;
-/*
- case 5:
-  if (!is_river(ter(x + xdif, y + ydif)))
-   ter(x + xdir, y + ydif) = ot_sewage_treatment;
-  break;
-*/
  }
 }
 
@@ -2757,12 +2745,10 @@ void overmap::place_hiways(std::vector<city> cities, int z, oter_id base)
         return;
     }
     city best;
-    int closest = -1;
-    int distance;
     for (int i = 0; i < cities.size(); i++) {
-        closest = -1;
+        int closest = -1;
         for (int j = i + 1; j < cities.size(); j++) {
-            distance = dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
+            int distance = (int)dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
             if (distance < closest || closest < 0) {
                 closest = distance;
                 best = cities[j];
@@ -3439,251 +3425,17 @@ void overmap::place_radios()
  }
 }
 
-void overmap::save()
-{
- if (layer == NULL) {
-  debugmsg("Tried to save a null overmap");
-  return;
- }
-
- std::ofstream fout;
- std::string const plrfilename = player_filename(loc.x, loc.y);
- std::string const terfilename = terrain_filename(loc.x, loc.y);
-
- // Player specific data
- fout.open(plrfilename.c_str());
-
- fout << "# version " << savegame_version << std::endl;
-
- for (int z = 0; z < OVERMAP_LAYERS; ++z) {
-  fout << "L " << z << std::endl;
-  int count = 0;
-  int lastvis = -1;
-  for (int j = 0; j < OMAPY; j++) {
-   for (int i = 0; i < OMAPX; i++) {
-    int v = (layer[z].visible[i][j] ? 1 : 0);
-    if (v != lastvis) {
-     if (count) {
-      fout << count << " ";
-     }
-     lastvis = v;
-     fout << v << " ";
-     count = 1;
-    } else {
-     count++;
-    }
-   }
-  }
-  fout << count; 
-  fout << std::endl;
-
-  for (int i = 0; i < layer[z].notes.size(); i++) {
-   fout << "N " << layer[z].notes[i].x << " " << layer[z].notes[i].y << " " << layer[z].notes[i].num <<
-           std::endl << layer[z].notes[i].text << std::endl;
-  }
- }
- fout.close();
-
- // World terrain data
- fout.open(terfilename.c_str(), std::ios_base::trunc);
-
- fout << "# version " << savegame_version << std::endl;
-
- for (int z = 0; z < OVERMAP_LAYERS; ++z) {
-  fout << "L " << z << std::endl;
-  int count = 0;
-  int last_tertype = -1;
-  for (int j = 0; j < OMAPY; j++) {
-   for (int i = 0; i < OMAPX; i++) {
-    int t = int(layer[z].terrain[i][j]);
-    if (t != last_tertype) {
-     if (count) {
-      fout << count << " ";
-     }
-     last_tertype = t;
-     fout << t << " ";
-     count = 1;
-    } else {
-     count++;
-    }
-   }
-  }
-  fout << count;
-  fout << std::endl;
- }
-
- for (int i = 0; i < zg.size(); i++)
-  fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " << zg[i].posz << " " <<
-    int(zg[i].radius) << " " << zg[i].population << " " << zg[i].diffuse << " " << zg[i].dying <<
-    std::endl;
- for (int i = 0; i < cities.size(); i++)
-  fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s <<
-          std::endl;
- for (int i = 0; i < roads_out.size(); i++)
-  fout << "R " << roads_out[i].x << " " << roads_out[i].y << std::endl;
- for (int i = 0; i < radios.size(); i++)
-  fout << "T " << radios[i].x << " " << radios[i].y << " " <<
-      radios[i].strength << " " << radios[i].type << " " << std::endl << radios[i].message <<
-          std::endl;
-
- //saving the npcs
- for (int i = 0; i < npcs.size(); i++)
-  fout << "n " << npcs[i]->save_info() << std::endl;
-
- fout.close();
-}
 
 void overmap::open(game *g)
 {
  std::string const plrfilename = player_filename(loc.x, loc.y);
  std::string const terfilename = terrain_filename(loc.x, loc.y);
- std::ifstream fin;
- char datatype;
- int cx, cy, cz, cs, cp, cd, cdying;
- std::string cstr;
- city tmp;
- std::list<item> npc_inventory;
-
+  std::ifstream fin;
 // Set position IDs
  fin.open(terfilename.c_str());
-// DEBUG VARS
- int nummg = 0;
  if (fin.is_open()) {
-  if ( fin.peek() == '#' ) {    // Version header
-    std::string vline;
-    getline(fin, vline);
-  }                             // We're the first version with versioning: discard and continue
-  int z = 0; // assumption
-  while (fin >> datatype) {
-   if (datatype == 'L') { 	// Load layer data, and switch to layer
-    fin >> z;
-
-    int tmp_ter;
-
-    if (z >= 0 && z < OVERMAP_LAYERS) {
-     int count = 0;
-     for (int j = 0; j < OMAPY; j++) {
-      for (int i = 0; i < OMAPX; i++) {
-       if (count == 0) {
-        fin >> tmp_ter >> count;
-        if (tmp_ter < 0 || tmp_ter > num_ter_types) {
-         debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), tmp_ter);
-        }
-       }
-       count--;
-       layer[z].terrain[i][j] = oter_id(tmp_ter);
-       layer[z].visible[i][j] = false;
-      }
-     }
-    } else {
-     debugmsg("Loaded z level out of range (z: %d)", z);
-    }
-   } else if (datatype == 'Z') {	// Monster group
-    fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
-    zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
-    zg.back().diffuse = cd;
-    zg.back().dying = cdying;
-    nummg++;
-   } else if (datatype == 't') {	// City
-    fin >> cx >> cy >> cs;
-    tmp.x = cx; tmp.y = cy; tmp.s = cs;
-    cities.push_back(tmp);
-   } else if (datatype == 'R') {	// Road leading out
-    fin >> cx >> cy;
-    tmp.x = cx; tmp.y = cy; tmp.s = 0;
-    roads_out.push_back(tmp);
-   } else if (datatype == 'T') {	// Radio tower
-    radio_tower tmp;
-    int tmp_type;
-    fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
-    tmp.type = (radio_type)tmp_type;
-    getline(fin, tmp.message);	// Chomp endl
-    getline(fin, tmp.message);
-    radios.push_back(tmp);
-   } else if (datatype == 'n') {	// NPC
-/* When we start loading a new NPC, check to see if we've accumulated items for
-   assignment to an NPC.
- */
-    if (!npc_inventory.empty() && !npcs.empty()) {
-     npcs.back()->inv.add_stack(npc_inventory);
-     npc_inventory.clear();
-    }
-    std::string npcdata;
-    getline(fin, npcdata);
-    npc * tmp = new npc();
-    tmp->load_info(g, npcdata);
-    npcs.push_back(tmp);
-   } else if (datatype == 'P') {
-       // Chomp the invlet_cache, since the npc doesn't use it.
-       std::string itemdata;
-       getline(fin, itemdata);
-   } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
-              datatype == 'w' || datatype == 'c') {
-    std::string itemdata;
-    getline(fin, itemdata);
-    if (npcs.empty()) {
-     debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!",
-              loc.x, loc.y);
-     debugmsg(itemdata.c_str());
-    } else {
-     item tmp(itemdata, g);
-     npc* last = npcs.back();
-     switch (datatype) {
-      case 'I': npc_inventory.push_back(tmp);                 break;
-      case 'C': npc_inventory.back().contents.push_back(tmp); break;
-      case 'W': last->worn.push_back(tmp);                    break;
-      case 'w': last->weapon = tmp;                           break;
-      case 'c': last->weapon.contents.push_back(tmp);         break;
-     }
-    }
-   }
-  }
-// If we accrued an npc_inventory, assign it now
-  if (!npc_inventory.empty() && !npcs.empty())
-   npcs.back()->inv.add_stack(npc_inventory);
-
-  fin.close();
-
-  // Private/per-character data
-  fin.open(plrfilename.c_str());
-  if (fin.is_open()) {	// Load private seen data
-   if ( fin.peek() == '#' ) {    // Version header
-     std::string vline;
-     getline(fin, vline);
-   }                             // We're the first version with versioning: discard and continue
-   int z = 0; // assumption
-   while (fin >> datatype) {
-    if (datatype == 'L') {  // Load layer data, and switch to layer
-     fin >> z;
-
-     std::string dataline;
-     getline(fin, dataline); // Chomp endl
-
-     int count = 0;
-     int vis;
-     if (z >= 0 && z < OVERMAP_LAYERS) {
-      for (int j = 0; j < OMAPY; j++) {
-       for (int i = 0; i < OMAPX; i++) {
-        if (count == 0) {
-         fin >> vis >> count;
-        }
-        count--;
-       	layer[z].visible[i][j] = (vis == 1);
-       }
-      }
-     }
-    } else if (datatype == 'N') { // Load notes
-     om_note tmp;
-     fin >> tmp.x >> tmp.y >> tmp.num;
-     getline(fin, tmp.text);	// Chomp endl
-     getline(fin, tmp.text);
-     if (z >= 0 && z < OVERMAP_LAYERS) {
-      layer[z].notes.push_back(tmp);
-     }
-    }
-   }
+   unserialize(g, fin, plrfilename, terfilename);
    fin.close();
-  }
  } else {	// No map exists!  Prepare neighbors, and generate one.
   std::vector<overmap*> pointers;
 // Fetch north and south

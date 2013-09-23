@@ -9,6 +9,7 @@
 
 class player;
 class npc;
+struct itype;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
@@ -62,6 +63,7 @@ public:
  item(itype* it, unsigned int turn, char let);
  void make_corpse(itype* it, mtype* mt, unsigned int turn);	// Corpse
  item(std::string itemdata, game *g);
+ item(picojson::value & parsed, game * g);
  virtual ~item();
  void init();
  void make(itype* it);
@@ -90,10 +92,11 @@ public:
  char pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, char invlet);
  void next_mode();
- bool json_load(picojson::value parsed, game * g);
- virtual picojson::value json_save() const;
+ bool json_load(picojson::value & parsed, game * g);
+ virtual picojson::value json_save(bool save_contents=false) const;
  std::string save_info() const;	// Formatted for save files
  //
+ void load_legacy(game * g, std::stringstream & dump);
  void load_info(std::string data, game *g);
  //std::string info(bool showtext = false);	// Formatted for human viewing
  std::string info(bool showtext = false);
@@ -113,11 +116,10 @@ public:
  int damage_bash();
  int damage_cut() const;
  bool has_flag(std::string f) const;
- bool has_technique(technique_id t, player *p = NULL);
+ bool has_technique(std::string t, player *p = NULL);
  int has_gunmod(itype_id type);
  item* active_gunmod();
  item const* inspect_active_gunmod() const;
- std::vector<technique_id> techniques();
  bool goes_bad();
  bool count_by_charges() const;
  int max_charges() const;

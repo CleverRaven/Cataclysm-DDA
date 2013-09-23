@@ -1970,6 +1970,13 @@ void iuse::noise_emitter_off(game *g, player *p, item *it, bool t)
     }
 }
 
+void iuse::horn_bicycle(game *g, player *p, item *it, bool t)
+{
+    point pos = g->find_item(it);
+    g->sound(pos.x, pos.y, 15, _("honk."));
+   	g->add_msg_if_player(p,_("You honk the bicycle horn."));
+}
+
 void iuse::noise_emitter_on(game *g, player *p, item *it, bool t)
 {
     if (t) // Normal use
@@ -2091,6 +2098,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
 
  std::string door_name;
  ter_id new_type;
+ std::string open_message = _("With a satisfying click, the lock on the %s opens.");
  if (type == t_chaingate_l) {
    door_name = rm_prefix(_("<door_name>gate"));
    new_type = t_chaingate_c;
@@ -2100,7 +2108,8 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  } else if (type == t_door_bar_locked) {
    door_name = rm_prefix(_("<door_name>door"));
    new_type = t_door_bar_o;
-   g->add_msg_if_player(p, _("The door swings open..."));
+   //Bar doors auto-open (and lock if closed again) so show a different message)
+   open_message = _("The %s swings open...");
  } else if (type == t_door_c) {
    g->add_msg(_("That door isn't locked."));
    return;
@@ -2115,7 +2124,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  int door_roll = dice(4, 30);
  if (pick_roll >= door_roll) {
   p->practice(g->turn, "mechanics", 1);
-  g->add_msg_if_player(p,_("With a satisfying click, the lock on the %s opens."), door_name.c_str());
+  g->add_msg_if_player(p, open_message.c_str(), door_name.c_str());
   g->m.ter_set(dirx, diry, new_type);
  } else if (door_roll > (1.5 * pick_roll) && it->damage < 100) {
   it->damage++;
@@ -2661,7 +2670,7 @@ void iuse::zweifire_on(game *g, player *p, item *it, bool t)
     else
     {
         int choice = menu(true,
-                          _("Was willst du tun?"), _("Die Flamme erlöschen."), _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
+                          _("Was willst du tun?"), _("Die Flamme erlï¿½schen."), _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
         switch (choice)
         {
             if (choice == 2)

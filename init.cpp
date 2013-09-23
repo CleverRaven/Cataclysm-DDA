@@ -6,6 +6,10 @@
 #include "bionics.h"
 #include "profession.h"
 #include "skill.h"
+#include "mutation.h"
+#include "text_snippets.h"
+#include "item_factory.h"
+#include "crafting.h"
 
 #include <string>
 #include <vector>
@@ -18,30 +22,43 @@
 std::vector<std::string> listfiles(std::string const &dirname)
 {
     std::vector<std::string> ret;
-    ret.push_back("data/raw/materials.json");
-    ret.push_back("data/raw/bionics.json");
-    ret.push_back("data/raw/professions.json");
-    ret.push_back("data/raw/skills.json");
+    ret.push_back("data/json/materials.json");
+    ret.push_back("data/json/bionics.json");
+    ret.push_back("data/json/professions.json");
+    ret.push_back("data/json/skills.json");
+    ret.push_back("data/json/dreams.json");
+    ret.push_back("data/json/mutations.json");
+    ret.push_back("data/json/snippets.json");
+    ret.push_back("data/json/item_groups.json");
+    ret.push_back("data/json/recipes.json");
     return ret;
 }
 
 void load_object(JsonObject &jo)
 {
     std::string type = jo.get_string("type");
-    if (type == "material") {
-        material_type::load_material(jo);
-    } else if (type == "bionic") {
-        load_bionic(jo);
-    } else if (type == "profession") {
-        profession::load_profession(jo);
-    } else if (type == "skill") {
-        Skill::load_skill(jo);
-    } else {
+    if (type == "material") { material_type::load_material(jo);}
+    else if (type == "bionic") { load_bionic(jo); }
+    else if (type == "profession") { profession::load_profession(jo); }
+    else if (type == "skill") { Skill::load_skill(jo); }
+    else if (type == "dream") { load_dream(jo); }
+    else if (type == "mutation") { load_mutation(jo); }
+    else if (type == "snippet") { SNIPPET.load_snippet(jo); }
+    else if (type == "item_group") { item_controller->load_item_group(jo); }
+    else if (type == "recipe_category") { load_recipe_category(jo); }
+    else if (type == "recipe") { load_recipe(jo); }
+    else {
         std::stringstream err;
         err << jo.line_number() << ": ";
         err << "unrecognized JSON object, type: \"" << type << "\"";
         throw err.str();
     }
+}
+
+void init_data_structures()
+{
+    mutations_category[""].clear();
+    init_mutation_parts();
 }
 
 void load_json_dir(std::string const &dirname)

@@ -115,6 +115,29 @@
 					<Add directory="3rdparty/lib/x86" />
 				</Linker>
 			</Target>
+			<Target title="Debug - Tile Support">
+				<Option output="Cataclysm-Tiles" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/TilesRelease/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DSDLTILES" />
+					<Add directory="3rdparty/include/SDL" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="3rdparty\lib\libSDL.dll.a" />
+					<Add library="3rdparty\lib\libSDLmain.a" />
+					<Add library="3rdparty\lib\x86\SDL_image.lib" />
+					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
+					<Add directory="3rdparty/lib" />
+					<Add directory="3rdparty/lib/x86" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wextra" />
@@ -183,6 +206,8 @@
 		<Unit filename="faction.h" />
 		<Unit filename="field.cpp" />
 		<Unit filename="field.h" />
+		<Unit filename="file_finder.cpp" />
+		<Unit filename="file_finder.h" />
 		<Unit filename="game.cpp" />
 		<Unit filename="game.h" />
 		<Unit filename="gamemode.cpp" />
@@ -196,6 +221,8 @@
 		<Unit filename="helper.h" />
 		<Unit filename="iexamine.cpp" />
 		<Unit filename="iexamine.h" />
+		<Unit filename="init.cpp" />
+		<Unit filename="init.h" />
 		<Unit filename="input.cpp" />
 		<Unit filename="input.h" />
 		<Unit filename="inventory.cpp" />
@@ -219,6 +246,8 @@
 		<Unit filename="iuse_software_snake.h" />
 		<Unit filename="iuse_software_sokoban.cpp" />
 		<Unit filename="iuse_software_sokoban.h" />
+		<Unit filename="json.cpp" />
+		<Unit filename="json.h" />
 		<Unit filename="keypress.cpp" />
 		<Unit filename="keypress.h" />
 		<Unit filename="lightmap.cpp" />
@@ -247,6 +276,8 @@
 		<Unit filename="mission_place.cpp" />
 		<Unit filename="mission_start.cpp" />
 		<Unit filename="missiondef.cpp" />
+		<Unit filename="mod_factory.cpp" />
+		<Unit filename="mod_factory.h" />
 		<Unit filename="monattack.cpp" />
 		<Unit filename="monattack.h" />
 		<Unit filename="mondeath.cpp" />
@@ -257,6 +288,7 @@
 		<Unit filename="monmove.cpp" />
 		<Unit filename="monster.cpp" />
 		<Unit filename="monster.h" />
+		<Unit filename="monster_factory.h" />
 		<Unit filename="morale.h" />
 		<Unit filename="moraledata.h" />
 		<Unit filename="mtype.h" />
@@ -296,7 +328,6 @@
 		</Unit>
 		<Unit filename="rng.cpp" />
 		<Unit filename="rng.h" />
-		<Unit filename="sdlcurse.cpp" />
 		<Unit filename="sdltiles.cpp" />
 		<Unit filename="settlement.cpp" />
 		<Unit filename="settlement.h" />
@@ -325,7 +356,6 @@
 		<Unit filename="vehicle.cpp" />
 		<Unit filename="vehicle.h" />
 		<Unit filename="version.cpp" />
-		<Unit filename="version.h" />
 		<Unit filename="wcwidth.c">
 			<Option compilerVar="CC" />
 		</Unit>

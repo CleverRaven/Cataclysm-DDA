@@ -112,15 +112,13 @@ class inventory
   // vector rather than list because it's NOT an item stack
   std::vector<item*> active_items();
 
-  void load_invlet_cache( std::ifstream &fin );
+  void load_invlet_cache( std::ifstream &fin ); // see savegame_legacy.cpp
 
-  // hack to account for players saving inventory data (including weapon, etc.)
-  std::string save_str_no_quant() const;
+  void json_load_invcache(picojson::value & parsed);
+  void json_load_items(picojson::value & parsed, game * g);
 
-/* TODO: This stuff, I guess?
-  std::string save();
-  void load(std::string data);
-*/
+  picojson::value json_save_invcache() const;
+  picojson::value json_save_items() const;
 
   item nullitem;
   std::list<item> nullstack;

@@ -2499,5 +2499,31 @@
     "burst": 4,
     "clip_size": 4,
     "reload": 600
+  },
+  {
+    "id": "RPG",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "RPG-7",
+    "description": "The famous RPG-7 rocket launcher. This ubiquitous rocket launcher is cheap to maufacture and is easy to handle. Often used by terrorists, it's not as precise as other weapons.",
+    "price": 6000,
+    "material": "wood",
+    "flags": ["BACKBLAST", "RELOAD_ONE"],
+    "skill": "launcher",
+    "ammo": "RPG-7",
+    "weight": 7000,
+    "volume": 12,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 0,
+    "ranged_damage": 0,
+    "range": 0,
+    "dispersion": 4,
+    "recoil": 4,
+    "durability": 10,
+    "burst": 0,
+    "clip_size": 1,
+    "reload": 150
   }
 ]
