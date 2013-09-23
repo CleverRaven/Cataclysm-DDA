@@ -8008,10 +8008,8 @@
     ]
   ],
   "components": [
-    [
       [ "leather", 7 ],
       [ "fur", 7 ]
-    ]
   ]
 },{
         "type" : "recipe",
@@ -8193,10 +8191,8 @@
     ]
   ],
   "components": [
-    [
       [ "rag", 10 ],
       [ "fur", 6 ]
-    ]
   ]
 },{
         "type" : "recipe",
