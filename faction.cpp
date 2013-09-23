@@ -175,7 +175,7 @@ void game::init_faction_data()
     {_("their charitable nature"),    5,  -1, -1,   -2,   -2},
     {_("their isolationism"),         0,  -2,  1,    0,    2},
     {_("exploring extensively"),      1,   0,  0,   -1,   -1},
-    {_("collecting rare artifacts")   0,   1,  1,    0,    3},
+    {_("collecting rare artifacts"),   0,   1,  1,    0,    3},
     {_("their knowledge of bionics"), 1,   2,  0,    0,    0},
     {_("their libraries"),            1,  -3,  0,   -2,    1},
     {_("their elite training"),       0,   4,  2,    0,    2},
