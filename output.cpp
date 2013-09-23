@@ -1098,22 +1098,63 @@ long special_symbol (long sym)
     }
 }
 
+// find the position of each non-printing tag in a string
+std::vector<size_t> get_tag_positions(std::string &s)
+{
+    std::vector<size_t> ret;
+    size_t pos = s.find("<color_", 0, 7);
+    while (pos != std::string::npos) {
+        ret.push_back(pos);
+        pos = s.find("<color_", pos+1, 7);
+    }
+    pos = s.find("</color>", 0, 8);
+    while (pos != std::string::npos) {
+        ret.push_back(pos);
+        pos = s.find("</color>", pos+1, 8);
+    }
+    std::sort(ret.begin(), ret.end());
+    return ret;
+}
+
 // utf-8 version
 std::string word_rewrap (const std::string &ins, int width){
     std::ostringstream o;
     std::string in = ins;
     std::replace(in.begin(), in.end(), '\n', ' ');
 
+    // find non-printing tags
+    std::vector<size_t> tag_positions = get_tag_positions(in);
+
     int lastwb  = 0; //last word break
     int lastout = 0;
     const char *instr = in.c_str();
+    bool skipping_tag = false;
 
     for (int j=0, x=0; j<in.size(); ) {
         const char* ins = instr+j;
         int len = ANY_LENGTH;
         unsigned uc = UTF8_getch(&ins, &len);
-        x += mk_wcwidth((wchar_t)uc);
+
+        if (uc == '<') { // maybe skip non-printing tag
+            std::vector<size_t>::iterator it;
+            for (it = tag_positions.begin(); it != tag_positions.end(); ++it) {
+                if (*it == j) {
+                    skipping_tag = true;
+                    break;
+                }
+            }
+        }
+
         j += ANY_LENGTH-len;
+
+        if (skipping_tag) {
+            if (uc == '>') {
+                skipping_tag = false;
+            }
+            continue;
+        }
+
+        x += mk_wcwidth((wchar_t)uc);
 
         if (x >= width) {
             if (lastwb == lastout) {
