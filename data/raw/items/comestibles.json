@@ -5954,7 +5954,7 @@
         "stack_size" : 100,
         "bashing" : 0,
         "fun" : 15
-    },    
+    },
     {
         "type" : "COMESTIBLE",
         "id" : "seed_weed",

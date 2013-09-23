@@ -2234,19 +2234,16 @@ int vehicle::damage (int p, int dmg, int type, bool aimed)
     return dres;
 }
 
-void vehicle::damage_all (int dmg1, int dmg2, int type)
+void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
 {
-    if (dmg2 < dmg1)
-    {
-        int t = dmg2;
-        dmg2 = dmg1;
-        dmg1 = t;
+    if (dmg2 < dmg1) { std::swap(dmg1, dmg2); }
+    if (dmg1 < 1) { return; }
+    for (int p = 0; p < parts.size(); p++) {
+        int distance = 1 + square_dist( parts[p].mount_dx, parts[p].mount_dy, impact.x, impact.y );
+        if( distance > 1 && one_in( distance ) ) {
+            damage_direct (p, rng( dmg1, dmg2 ) / (distance * distance), type);
+        }
     }
-    if (dmg1 < 1)
-        return;
-    for (int p = 0; p < parts.size(); p++)
-        if (!one_in(4))
-            damage_direct (p, rng (dmg1, dmg2), type);
 }
 
 int vehicle::damage_direct (int p, int dmg, int type)
