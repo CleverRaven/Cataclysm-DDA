@@ -9,7 +9,7 @@
 
 class player;
 class npc;
-class itype;
+struct itype;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
