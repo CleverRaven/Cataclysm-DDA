@@ -5386,7 +5386,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "1st_aid",
-        "name" : "first aid",
+        "name" : "first aid kit",
         "weight" : 340,
         "color" : "red",
         "addiction_type" : "none",

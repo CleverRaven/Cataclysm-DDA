@@ -414,7 +414,7 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 3, 1, 4, _("Bandage"), ""))
+    if (use_healing_item(g, p, it, 3, 1, 4, it->name, ""))
     {
         g->add_msg_if_player(p,_("You stopped the bleeding."));
         p->rem_disease("bleed");
@@ -423,7 +423,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
 
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 14, 10, 18, _("First Aid"), p->has_disease("bite") ? _("Clean Wound") : ""))
+    if (use_healing_item(g, p, it, 14, 10, 18, it->name, p->has_disease("bite") ? _("Clean Wound") : ""))
     {
         g->add_msg_if_player(p,_("You clean the bite wound."));
         p->rem_disease("bite");
@@ -433,7 +433,7 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
 void iuse::disinfectant(game *g, player *p, item *it, bool t)
 {
 
-    if (use_healing_item(g, p, it, 6, 5, 9, _("Disinfectant"), p->has_disease("bite") ? _("Clean Wound") : ""))
+    if (use_healing_item(g, p, it, 6, 5, 9, it->name, p->has_disease("bite") ? _("Clean Wound") : ""))
     {
         g->add_msg_if_player(p,_("You disinfect the bite wound."));
         p->rem_disease("bite");
