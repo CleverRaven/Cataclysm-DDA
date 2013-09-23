@@ -2011,7 +2011,7 @@ point overmap::draw_overmap(game *g, int zlevel)
   }
   else if (action == "ERROR") // Hit timeout on input, so make characters blink
    blink = !blink;
- } while (action != "QUIT");
+ } while (action != "QUIT" && action != "CONFIRM");
  timeout(-1);
  werase(w_map);
  wrefresh(w_map);

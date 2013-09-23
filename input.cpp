@@ -246,6 +246,7 @@ void input_manager::init_keycode_mapping() {
     add_keycode_pair(KEY_NPAGE,     "PGUP");
     add_keycode_pair(KEY_PPAGE,     "PGDWN");
     add_keycode_pair(KEY_ESCAPE,    "ESC");
+    add_keycode_pair('\n',          "RETURN");
 
     add_gamepad_keycode_pair(JOY_LEFT,      "JOY_LEFT");
     add_gamepad_keycode_pair(JOY_RIGHT,     "JOY_RIGHT");
