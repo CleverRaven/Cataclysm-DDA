@@ -130,6 +130,7 @@ player::player() : name("")
  sight_max = 9999;
  sight_boost = 0;
  sight_boost_cap = 0;
+ lastrecipe = NULL;
 
  for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
     my_traits.erase(iter->first);
