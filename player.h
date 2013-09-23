@@ -13,6 +13,7 @@
 #include "mutation.h"
 #include "crafting.h"
 #include "vehicle.h"
+#include "martialarts.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -68,8 +69,15 @@ public:
  virtual bool is_npc() { return false; }	// Overloaded for NPCs in npc.h
  nc_color color();				// What color to draw us as
 
- virtual void load_info(game *g, std::string data);// Load from file 'name.sav'
- virtual std::string save_info();		// Save to file matching name
+ virtual void load_legacy(game *g, std::stringstream & dump);  // stringstream loader for old data
+ virtual void load_info(game *g, std::string data); // deserialize string when loading
+ virtual std::string save_info();		    // output serialized json string for saving
+
+ void json_load_common_variables( std::map<std::string, picojson::value> & data ); 
+ virtual void json_load(picojson::value & parsed, game *g);   // populate variables, inventory items, and misc from json object
+
+ void json_save_common_variables( std::map<std::string, picojson::value> & data );
+ virtual picojson::value json_save(bool save_contents=false);
 
  void memorial( std::ofstream &memorial_file ); // Write out description of player.
  void disp_info(game *g);	// '@' key; extended character info
@@ -118,6 +126,7 @@ public:
  bool has_child_flag(game *g, std::string mut);
  void remove_child_flag(game *g, std::string mut);
 
+ point pos();
  int  sight_range(int light_level) const;
  void recalc_sight_limits();
  int  unimpaired_range();
@@ -134,9 +143,34 @@ public:
 
  void pause(game *g); // '.' command; pauses & reduces recoil
 
+// martialarts.cpp
+ void ma_onmove_effects(); // fires all move-triggered martial arts events
+ void ma_onhit_effects(); // fires all hit-triggered martial arts events
+ void ma_ondodge_effects(); // fires all dodge-triggered martial arts events
+ void ma_static_effects(); // fires all non-triggered martial arts events
+
+ bool has_mabuff(mabuff_id buff_id); // checks if a player has any martial arts buffs attached
+
+ int mabuff_tohit_bonus(); // martial arts to-hit bonus
+ int mabuff_dodge_bonus(); // martial arts dodge bonus
+ int mabuff_block_bonus(); // martial arts block bonus
+ int mabuff_speed_bonus(); // martial arts to-hit bonus
+ float mabuff_bash_mult(); // martial arts bash damage multiplier
+ int mabuff_bash_bonus(); // martial arts bash damage bonus, applied after mult
+ float mabuff_cut_mult(); // martial arts bash damage multiplier
+ int mabuff_cut_bonus(); // martial arts bash damage bonus, applied after mult
+ bool is_throw_immune(); // martial arts throw immunity
+
+ bool has_miss_recovery_tec(game* g); // technique-based miss recovery, like tec_feint
+ bool has_grab_break_tec(game* g); // technique-based miss recovery, like tec_feint
+ bool can_leg_block(game* g); // technique-based miss recovery, like tec_feint
+
 // melee.cpp
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
+
+ void block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
+    int &bash_dam, int &cut_dam, int &stab_dam);
 
  int base_damage(bool real_life = true, int stat = -999);
  int base_to_hit(bool real_life = true, int stat = -999);
@@ -149,16 +183,13 @@ public:
  int roll_stab_damage(monster *z, bool crit);
  int roll_stuck_penalty(monster *z, bool stabbing);
 
- technique_id pick_technique(game *g, monster *z, player *p,
+ std::vector<matec_id> get_all_techniques(game* g);
+
+ bool has_technique(matec_id tec, game *g);
+ matec_id pick_technique(game *g, monster *z, player *p,
                              bool crit, bool allowgrab);
- void perform_technique(technique_id technique, game *g, monster *z, player *p,
+ void perform_technique(ma_technique technique, game *g, monster *z, player *p,
                        int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
-
- technique_id pick_defensive_technique(game *g, monster *z, player *p);
-
- void perform_defensive_technique(technique_id technique, game *g, monster *z,
-                                  player *p, body_part &bp_hit, int &side,
-                                  int &bash_dam, int &cut_dam, int &stab_dam);
 
  void perform_special_attacks(game *g, monster *z, player *p,
                         int &bash_dam, int &cut_dam, int &pierce_dam);
@@ -307,7 +338,7 @@ public:
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let);	// Returns the item with inventory letter let
  item &i_of_type(itype_id type); // Returns the first item with this type
- item get_combat_style(); // Returns the combat style item
+ martialart get_combat_style(); // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor();	// Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
@@ -419,8 +450,9 @@ public:
  inventory inv;
  itype_id last_item;
  std::vector<item> worn;
- std::vector<itype_id> styles;
- itype_id style_selected;
+ std::vector<matype_id> ma_styles;
+ matype_id style_selected;
+
  item weapon;
  item ret_null;	// Null item, sometimes returns by weapon() etc
 

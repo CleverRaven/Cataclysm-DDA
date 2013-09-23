@@ -821,7 +821,6 @@
     <ClCompile Include="..\profession.cpp" />
     <ClCompile Include="..\ranged.cpp" />
     <ClCompile Include="..\rng.cpp" />
-    <ClCompile Include="..\sdlcurse.cpp" />
     <ClCompile Include="..\sdltiles.cpp" />
     <ClCompile Include="..\settlement.cpp" />
     <ClCompile Include="..\setvector.cpp" />

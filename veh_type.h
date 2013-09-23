@@ -26,7 +26,7 @@ struct vpart_info
         int power;      // engine (top spd), solar panel (% of 1 fuel per turn, can be > 100)
         int size;       // fuel tank, trunk
         int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
-        int bonus;      // seatbelt (str), muffler (%)
+        int bonus;      // seatbelt (str), muffler (%), horn (vol)
     };
     std::string fuel_type;  // engine, fuel tank
     itype_id item;      // corresponding item
@@ -39,5 +39,5 @@ struct vpart_info
 };
 
 extern std::map<std::string, vpart_info> vehicle_part_types;
-
+extern std::vector<std::string> legacy_vpart_id;
 #endif

@@ -26,6 +26,8 @@
 
 std::map<std::string, vpart_info> vehicle_part_types;
 
+std::vector<std::string> legacy_vpart_id; // potential FIXME: provide -static- hardcoded enum if vpart order shifts
+
 // Note on the 'symbol' flag in vehicle parts -
 // the following symbols will be translated:
 // y, u, n, b to NW, NE, SE, SW lines correspondingly
@@ -89,6 +91,7 @@ void game::init_vehicle_parts()
     next_part.flags = next_json.get("flags").as_tags();
 
     vehicle_part_types[next_part.id] = next_part;
+    legacy_vpart_id.push_back(next_part.id);
   }
 
   if(!json_good()) {

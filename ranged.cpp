@@ -151,8 +151,6 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
  }
  if (firing->skill_used == Skill::skill("rifle") && trange > LONG_RANGE)
   trange = LONG_RANGE + .6 * (trange - LONG_RANGE);
- std::string message = "";
-
  bool missed = false;
  int tart;
 
@@ -187,7 +185,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
          radius++
        ) {                                      /* iterate from last target's position: makes sense for burst fire.*/
 
-           for (std::vector<monster>::iterator it = _z.begin(); it != _z.end(); it++) {
+           for (std::vector<monster>::iterator it = _z.begin(); it != _z.end(); ++it) {
                int nt_range_to_me = rl_dist(p.posx, p.posy, it->posx(), it->posy());
                int dummy;
                if (nt_range_to_me == 0 || nt_range_to_me > weaponrange ||
@@ -658,7 +656,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  int tarx, tary, junk, tart;
  int range=(hix-u.posx);
 // First, decide on a target among the monsters, if there are any in range
- if (t.size() > 0) {
+ if (!t.empty()) {
 // Check for previous target
   if (target == -1) {
 // If no previous target, target the closest there is
