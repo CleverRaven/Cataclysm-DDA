@@ -24,6 +24,7 @@
 #include "gamemode.h"
 #include "action.h"
 #include "translations.h"
+#include "json.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -358,6 +359,11 @@ void load_artifacts(); // Load artifact data
   void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
+
+// JSON loading functions
+  void load_parrot_phrase(JsonObject &jo);
+  void load_vehicle_part(JsonObject &jo);
+  void load_vehicle(JsonObject &jo);
 
  private:
 // Game-start procedures

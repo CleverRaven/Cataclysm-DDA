@@ -1,7 +1,7 @@
 #include "init.h"
 
 #include "json.h"
-
+#include "game.h" // because mi-go parrot requires it!
 #include "material.h"
 #include "bionics.h"
 #include "profession.h"
@@ -33,6 +33,10 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/item_groups.json");
     ret.push_back("data/json/recipes.json");
     ret.push_back("data/json/monstergroups.json");
+    ret.push_back("data/json/names.json");
+    ret.push_back("data/json/migo_speech.json");
+    ret.push_back("data/json/vehicle_parts.json");
+    ret.push_back("data/json/vehicles.json");
     ret.push_back("data/json/items/ammo.json");
     ret.push_back("data/json/items/archery.json");
     ret.push_back("data/json/items/armor.json");
@@ -70,6 +74,10 @@ void load_object(JsonObject &jo)
     else if (type == "ITEM_TOOL"){item_controller->load_tool(jo);}
     else if (type == "ITEM_GUN"){item_controller->load_gun(jo);}
     else if (type == "ITEM_ARMOR"){item_controller->load_armor(jo);}
+    else if (type == "NAME"){}//NameGenerator::generator().load_name_from_json(jo);}
+    else if (type == "PARROT"){}//g->load_parrot_phrase(jo);}
+    else if (type == "vehicle_part"){}//g->load_vehicle_part(jo);}
+    else if (type == "vehicle"){}//g->load_vehicle(jo);}
     else {
         std::stringstream err;
         err << jo.line_number() << ": ";

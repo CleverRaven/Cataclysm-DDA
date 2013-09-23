@@ -1590,3 +1590,12 @@ void game::init_parrot_speech() throw (std::string)
     }
 }
 
+void game::load_parrot_phrase(JsonObject &jo)
+{
+    std::string sound = _(jo.get_string("sound").c_str());
+    int volume = jo.get_int("volume");
+
+    SpeechBubble speech = {sound, volume};
+
+    parrotVector.push_back(speech);
+}

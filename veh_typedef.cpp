@@ -105,6 +105,70 @@ void game::init_vehicle_parts()
 
 }
 
+void game::load_vehicle_part(JsonObject &jo)
+{
+    static unsigned int index = 0;
+
+    vpart_info next_part;
+
+    next_part.id = jo.get_string("id");
+    next_part.name = _(jo.get_string("name").c_str());
+    next_part.sym = jo.get_string("symbol")[0];
+    next_part.color = color_from_string(jo.get_string("color"));
+    next_part.sym_broken = jo.get_string("broken_symbol")[0];
+    next_part.color_broken = color_from_string(jo.get_string("broken_color"));
+    next_part.dmg_mod = jo.has_member("damage_modifier") ? jo.get_int("damage_modifier") : 100;
+    next_part.durability = jo.get_int("durability");
+    //Handle the par1 union as best we can by accepting any ONE of its elements
+    int element_count = (jo.has_member("par1") ? 1 : 0)
+                      + (jo.has_member("power") ? 1 : 0)
+                      + (jo.has_member("size") ? 1 : 0)
+                      + (jo.has_member("wheel_width") ? 1 : 0)
+                      + (jo.has_member("bonus") ? 1 : 0);
+    if(element_count == 0) {
+      //If not specified, assume 0
+      next_part.par1 = 0;
+    } else if(element_count == 1) {
+      if(jo.has_member("par1")) {
+        next_part.par1 = jo.get_int("par1");
+      } else if(jo.has_member("power")) {
+        next_part.par1 = jo.get_int("power");
+      } else if(jo.has_member("size")) {
+        next_part.par1 = jo.get_int("size");
+      } else if(jo.has_member("wheel_width")) {
+        next_part.par1 = jo.get_int("wheel_width");
+      } else { //bonus
+        next_part.par1 = jo.get_int("bonus");
+      }
+    } else {
+      //Too many
+      debugmsg("Error parsing vehicle part '%s': \
+               Use AT MOST one of: par1, power, size, wheel_width, bonus",
+               next_part.name.c_str());
+      //Keep going to produce more messages if other parts are wrong
+      next_part.par1 = 0;
+    }
+    next_part.fuel_type = jo.has_member("fuel_type") ? jo.get_string("fuel_type") : "NULL";
+    next_part.item = jo.get_string("item");
+    next_part.difficulty = jo.get_int("difficulty");
+    // TODO: Condense this into a method as part of JsonArray's functionality!
+    JsonArray ja = jo.get_array("flags");
+    std::set<std::string> flagset;
+    if (ja.size() > 0)
+    {
+        while (ja.has_more())
+        {
+            flagset.insert(ja.next_string());
+        }
+    }
+    // /End Condense Note
+    next_part.flags = flagset;//jo.get("flags").as_tags(); // needs changing
+
+    vpart_list[index] = next_part;
+    vpart_enums[next_part.id] = (vpart_id)index; // temporary for saves, until move to string vpart id
+    index++;
+}
+
 void game::init_vehicles()
 {
   catajson vehicles_json("data/raw/vehicles.json", true);
@@ -126,7 +190,7 @@ void game::init_vehicles()
     catajson parts_list = next_json.get("parts");
 
     for(parts_list.set_begin(); parts_list.has_curr() && json_good(); parts_list.next()) {
-      
+
       //See vehicle_parts.json for a list of part ids
       catajson next_part = parts_list.curr();
       part_x = next_part.get("x").as_int();
@@ -137,7 +201,7 @@ void game::init_vehicles()
                     next_vehicle->name.c_str(), part_id.c_str(),
                     next_vehicle->parts.size(), part_x, part_y);
       }
-      
+
     }
 
     vtypes[next_vehicle->type] = next_vehicle;
@@ -145,3 +209,33 @@ void game::init_vehicles()
   }
 }
 
+void game::load_vehicle(JsonObject &jo)
+{
+    vehicle *next_vehicle;
+    std::string part_id = "";
+    int part_x = 0, part_y = 0;
+
+    next_vehicle = new vehicle(this, jo.get_string("id").c_str());
+    next_vehicle->name = _(jo.get_string("name").c_str());
+    JsonArray parts_list = jo.get_array("parts");
+
+    if (parts_list.size() > 0)
+    {
+        while (parts_list.has_more())
+        {
+            JsonObject next_part = parts_list.next_object();
+
+            part_x = next_part.get_int("x");
+            part_y = next_part.get_int("y");
+            part_id = next_part.get_string("id");
+            if (next_vehicle->install_part(part_x, part_y, part_id) < 0)
+            {
+                debugmsg("load_vehicle: '%s' part '%s'(%d) can't be installed to %d,%d",
+                        next_vehicle->name.c_str(), part_id.c_str(),
+                        next_vehicle->parts.size(), part_x, part_y);
+            }
+        }
+    }
+
+    vtypes[next_vehicle->type] = next_vehicle;
+}
