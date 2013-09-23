@@ -7,8 +7,10 @@
 #include "color.h"
 #include "picojson.h"
 #include "catajson.h"
+#include "json.h"
 #include "item_group.h"
 #include "iuse.h"
+#include "martialarts.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -28,6 +30,8 @@ public:
     Item_factory();
     void init();
     void init(game* main_game) throw (std::string);
+
+    void load_item_group(JsonObject &jsobj);
 
     //Intermediary Methods - Will probably be removed at final stage
     itype* find_template(Item_tag id);
@@ -53,7 +57,6 @@ private:
     //json data handlers
     void load_item_templates() throw (std::string);
     void load_item_templates_from(const std::string file_name) throw (std::string);
-    void load_item_groups_from(game *g, const std::string file_name) throw (std::string);
 
     Use_function use_from_string(std::string name);
     void tags_from_json(catajson tag_list, std::set<std::string> &tags);
@@ -73,7 +76,7 @@ private:
     //iuse stuff
     std::map<Item_tag, Use_function> iuse_function_list;
     //techniques stuff
-    std::map<Item_tag, unsigned> techniques_list;
+    std::map<Item_tag, matec_id> techniques_list;
     //bodyparts
     std::map<Item_tag, unsigned> bodyparts_list;
 };

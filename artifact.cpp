@@ -770,7 +770,7 @@ std::string artifact_name(std::string type)
  const char *fmtstr = _("<artifact_name>%1$s of %2$s");
  std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
  std::string adj = artifact_adj[rng(0, NUM_ART_ADJS - 1)];
- ret = string_format(noun.c_str(), adj.c_str());
+ ret = string_format(noun, adj.c_str());
  ret = rmp_format(fmtstr, type.c_str(),ret.c_str());
  return ret;
 }

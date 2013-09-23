@@ -183,6 +183,7 @@ MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and po
 MF_REGENERATES_50, // Monster regenerates very quickly over time
 MF_FLAMMABLE, // Monster catches fire, burns, and passes the fire on to nearby objects
 MF_REVIVES, // Monster corpse will revive after a short period of time
+MF_CHITIN,  // May produce chitin when butchered
 MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
 

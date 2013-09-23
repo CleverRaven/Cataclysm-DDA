@@ -372,7 +372,6 @@ int sokoban_game::start_game()
                     }
 
                     if (bUndoSkip) {
-                        bUndoSkip = false;
                         iPlayerY = iPlayerYNew;
                         iPlayerX = iPlayerXNew;
                     }

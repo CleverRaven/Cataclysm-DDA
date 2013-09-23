@@ -14,6 +14,7 @@ enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
  toggle_turrets,
+ activate_horn,
  release_control,
  control_cancel,
  convert_vehicle
@@ -60,134 +61,39 @@ bool vehicle::player_in_control (player *p)
 
 void vehicle::load (std::ifstream &stin)
 {
-    int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
-    std::string vehicle_tag;
     getline(stin, type);
-    stin >>
-        posx >>
-        posy >>
-        fdir >>
-        mdir >>
-        turn_dir >>
-        velocity >>
-        cruise_velocity >>
-        cr_on >>
-        li_on >>
-        turret_mode >>
-        skd >>
-        of_turn_carry >>
-        prts;
-    face.init (fdir);
-    move.init (mdir);
-    skidding = skd != 0;
-    cruise_on = cr_on != 0;
-    lights_on = li_on != 0;
-    std::string databuff;
-    getline(stin, databuff); // Clear EoL
-    getline(stin, name); // read name
-    int itms = 0;
-    for (int p = 0; p < prts; p++)
-    {
-        vehicle_part new_part;
-        getline(stin, new_part.id);
-        int pdx, pdy, php, pam, pbld, pbig, pflag, pass, pnit;
-        stin >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pflag >> pass >> pnit;
-        getline(stin, databuff); // Clear EoL
-        new_part.mount_dx = pdx;
-        new_part.mount_dy = pdy;
-        new_part.hp = php;
-        new_part.blood = pbld;
-        new_part.bigness = pbig;
-        new_part.flags = pflag;
-        new_part.passenger_id = pass;
-        new_part.amount = pam;
-        for (int j = 0; j < pnit; j++)
-        {
-            itms++;
-            getline(stin, databuff);
-            item itm;
-            itm.load_info (databuff, g);
-            new_part.items.push_back (itm);
-            int ncont;
-            stin >> ncont; // how many items inside container
-            getline(stin, databuff); // Clear EoL
-            for (int k = 0; k < ncont; k++)
-            {
-                getline(stin, databuff);
-                item citm;
-                citm.load_info (databuff, g);
-                new_part.items[new_part.items.size()-1].put_in (citm);
-            }
-        }
-        parts.push_back (new_part);
-    }
-    find_external_parts ();
-    find_exhaust ();
-    insides_dirty = true;
-    precalc_mounts (0, face.dir());
 
-    stin >> tag_count;
-    for( int i = 0; i < tag_count; ++i )
-    {
-        stin >> vehicle_tag;
-        tags.insert( vehicle_tag );
+    if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
+        std::stringstream derp;
+        derp << type;
+        picojson::value pdata;
+        derp >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, g);
+        }
+        return;
+    } else {
+        load_legacy(stin);
     }
-    getline(stin, databuff); // Clear EoL
 }
+
 
 void vehicle::save (std::ofstream &stout)
 {
-    stout << type << std::endl;
-    stout <<
-        posx << " " <<
-        posy << " " <<
-        face.dir() << " " <<
-        move.dir() << " " <<
-        turn_dir << " " <<
-        velocity << " " <<
-        cruise_velocity << " " <<
-        (cruise_on? 1 : 0) << " " <<
-        (lights_on? 1 : 0) << " " <<
-        turret_mode << " " <<
-        (skidding? 1 : 0) << " " <<
-        of_turn_carry << " " <<
-        parts.size() << std::endl;
-    stout << name << std::endl;
-
-    for (int p = 0; p < parts.size(); p++)
-    {
-        stout << parts[p].id << std::endl;
-        stout <<
-            parts[p].mount_dx << " " <<
-            parts[p].mount_dy << " " <<
-            parts[p].hp << " " <<
-            parts[p].amount << " " <<
-            parts[p].blood << " " <<
-            parts[p].bigness << " " <<
-            parts[p].flags << " " <<
-            parts[p].passenger_id << " " <<
-            parts[p].items.size() << std::endl;
-            for (int i = 0; i < parts[p].items.size(); i++)
-            {
-                stout << parts[p].items[i].save_info() << std::endl;     // item info
-                stout << parts[p].items[i].contents.size() << std::endl; // how many items inside this item
-                for (int l = 0; l < parts[p].items[i].contents.size(); l++)
-                    stout << parts[p].items[i].contents[l].save_info() << std::endl; // contents info
-            }
-    }
-
-    stout << tags.size() << ' ';
-    for( std::set<std::string>::const_iterator it = tags.begin(); it != tags.end(); ++it )
-    {
-        stout << *it << " ";
-    }
+    stout << json_save(true).serialize();
     stout << std::endl;
+    return;
 }
 
 void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 {
     bool destroyEngine = false;
     bool destroyTires = false;
+    bool blood_covered = false;
 
     std::map<std::string, int> consistent_bignesses;
 
@@ -215,6 +121,11 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
      }
     }
 
+    //Don't bloodsplatter mint condition vehicles
+    if(veh_status != 0 && one_in(10)) {
+      blood_covered = true;
+    }
+
     for (int p = 0; p < parts.size(); p++)
     {
         if (part_flag(p, "VARIABLE_SIZE")){ // generate its bigness attribute.?
@@ -230,7 +141,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
-            parts[p].open = 0;
+            parts[p].open = one_in(4);
         }
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
@@ -266,6 +177,21 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
              parts[p].hp= 0;
           }
          }
+
+         /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
+          * the "front" of the vehicle (since the driver's seat is at (0, 0).
+          * We'll be generous with the blood, since some may disappear before
+          * the player gets a chance to see the vehicle. */
+         if(blood_covered && part_flag(p, "EXTERNAL") && parts[p].mount_dx > 0) {
+           if(one_in(3)) {
+             //Loads of blood. (200 = completely red vehicle part)
+             parts[p].blood = rng(200, 600);
+           } else {
+             //Some blood
+             parts[p].blood = rng(50, 200);
+           }
+         }
+
         }
     }
 }
@@ -298,6 +224,7 @@ void vehicle::use_controls()
  curent++;
 
  bool has_lights = false;
+ bool has_horn = false;
  bool has_turrets = false;
  for (int p = 0; p < parts.size(); p++) {
   if (part_flag(p, "LIGHT")) {
@@ -306,12 +233,23 @@ void vehicle::use_controls()
   else if (part_flag(p, "TURRET")) {
    has_turrets = true;
   }
+  else if (part_flag(p, "HORN")) {
+   has_horn = true;
+   }
  }
+
 
  // Lights if they are there - Note you can turn them on even when damaged, they just don't work
  if (has_lights) {
   options_choice.push_back(toggle_lights);
   options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") : _("Turn on headlights"), 'h'));
+  curent++;
+ }
+
+ //Honk the horn!
+ if (has_horn) {
+  options_choice.push_back(activate_horn);
+  options_message.push_back(uimenu_entry("Honk horn", 'o'));
   curent++;
  }
 
@@ -360,6 +298,10 @@ void vehicle::use_controls()
    lights_on = !lights_on;
    g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
    break;
+  case activate_horn:
+   g->add_msg(_("You honk the horn!"));
+   honk_horn();
+   break;
   case toggle_turrets:
    if (++turret_mode > 1)
     turret_mode = 0;
@@ -401,6 +343,34 @@ void vehicle::use_controls()
   case control_cancel:
    break;
  }
+}
+
+void vehicle::honk_horn()
+{
+    std::vector<vehicle_part *> horns;
+    std::vector<vpart_info *> horn_types;
+    for( int p = 0; p < parts.size(); p++ ) {
+        if( part_flag( p,"HORN" ) ) {
+            horn_types.push_back( &part_info(p) );
+            horns.push_back( &parts[p] );
+        }
+    }
+    for(int h = 0; h < horns.size(); h++) {
+        //Get global position of horn
+        int horn_x = horns[h]->mount_dx;
+        int horn_y = horns[h]->mount_dy;
+        coord_translate( horn_x, horn_y, horn_x, horn_y );
+        horn_x += global_x();
+        horn_y += global_y();
+        //Determine sound
+        if( horn_types[h]->bonus >= 40 ){
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("HOOOOORNK!") );
+        } else if( horn_types[h]->bonus >= 20 ){
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("BEEEP!") );
+        } else{
+            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("honk.") );
+        }
+    }
 }
 
 vpart_info& vehicle::part_info (int index)
@@ -474,7 +444,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
             int ndx = i < 2? (i == 0? -1 : 1) : 0;
             int ndy = i < 2? 0 : (i == 2? - 1: 1);
             std::vector<int> parts_n3ar = parts_at_relative (dx + ndx, dy + ndy);
-            if (parts_n3ar.size() < 1) {
+            if (parts_n3ar.empty()) {
                 continue;
             }
             if (part_flag(parts_n3ar[0], "MOUNT_POINT"))
@@ -490,7 +460,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     std::vector<int> parts_here = parts_at_relative (dx, dy);
-    if (parts_here.size() < 1)
+    if (parts_here.empty())
     {
         int res = vehicle_part_types[id].has_flag("EXTERNAL");
         return res; // can be mounted if first and external
@@ -587,7 +557,7 @@ bool vehicle::can_unmount (int p)
                 int jdx = j < 2? (j == 0? -1 : 1) : 0;
                 int jdy = j < 2? 0 : (j == 2? - 1: 1);
                 std::vector<int> pc = parts_at_relative (dx + ndx + jdx, dy + ndy + jdy);
-                if (pc.size() > 0 && part_with_feature (pc[0], "MOUNT_POINT") >= 0)
+                if (!pc.empty() && part_with_feature (pc[0], "MOUNT_POINT") >= 0)
                     cnt++;
             }
             if (cnt < 2) {
@@ -782,7 +752,6 @@ char vehicle::part_sym (int p)
     if (p < 0 || p >= parts.size()) {
         return 0;
     }
-    std::vector<int> ph = internal_parts (p);
     int po = part_with_feature(p, "OVER", false);
     int pd = po < 0? p : po;
     if (part_flag (pd, "OPENABLE") && parts[pd].open) {
@@ -990,7 +959,7 @@ int vehicle::global_y ()
     return smy * SEEY + posy;
 }
 
-int vehicle::total_mass ()
+int vehicle::total_mass()
 {
     int m = 0;
     for (int i = 0; i < parts.size(); i++)
@@ -1008,26 +977,25 @@ int vehicle::total_mass ()
 
 void vehicle::center_of_mass(int &x, int &y)
 {
-	int m_part = 0;
-	float xf = 0, yf = 0;
-	int m_total = total_mass();
-	for (int i = 0; i < parts.size(); i++)
-	{
-		m_part = 0;
-		m_part += g->itypes[part_info(i).item]->weight;
+    float xf = 0, yf = 0;
+    int m_total = total_mass();
+    for (int i = 0; i < parts.size(); i++)
+    {
+        int m_part = 0;
+        m_part += g->itypes[part_info(i).item]->weight;
         for (int j = 0; j < parts[i].items.size(); j++) {
             m_part += parts[i].items[j].type->weight;
         }
         if (part_flag(i,"BOARDABLE") && parts[i].has_flag(vehicle_part::passenger_flag)) {
             m_part += 81500; // TODO: get real weight
         }
-		xf += parts[i].precalc_dx[0] * m_part / 1000;
-		yf += parts[i].precalc_dy[0] * m_part / 1000;
-	}
-	xf /= m_total;
-	yf /= m_total;
-	x = int(xf + 0.5); //round to nearest
-	y = int(yf + 0.5);
+        xf += parts[i].precalc_dx[0] * m_part / 1000;
+        yf += parts[i].precalc_dy[0] * m_part / 1000;
+    }
+    xf /= m_total;
+    yf /= m_total;
+    x = int(xf + 0.5); //round to nearest
+    y = int(yf + 0.5);
 }
 
 int vehicle::fuel_left (ammotype ftype, bool for_engine)
@@ -1402,7 +1370,6 @@ void vehicle::thrust (int thd)
     if (velocity == 0)
     {
         turn_dir = face.dir();
-        last_turn = 0;
         move = face;
         of_turn_carry = 0;
         last_turn = 0;
@@ -2096,7 +2063,16 @@ void vehicle::gain_moves (int mp)
     for (int ep = 0; ep < external_parts.size(); ep++)
     {
         int p = external_parts[ep];
-        if (parts[p].blood > 0) {
+
+        int part_x = global_x() + parts[p].precalc_dx[0];
+        int part_y = global_y() + parts[p].precalc_dy[0];
+
+        /* Only lower blood level if:
+         * - The part is outside.
+         * - The weather is any effect that would cause the player to be wet. */
+        if (parts[p].blood > 0 &&
+                g->m.is_outside(part_x, part_y) && g->levz >= 0 &&
+                g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN) {
             parts[p].blood--;
         }
         int p_eng = part_with_feature (p, "ENGINE", false);
@@ -2104,12 +2080,13 @@ void vehicle::gain_moves (int mp)
             continue;
         }
         parts[p_eng].amount--;
-        int x = global_x() + parts[p_eng].precalc_dx[0];
-        int y = global_y() + parts[p_eng].precalc_dy[0];
-        for (int ix = -1; ix <= 1; ix++)
-            for (int iy = -1; iy <= 1; iy++)
-                if (!rng(0, 2))
-                    g->m.add_field(g, x + ix, y + iy, fd_smoke, rng(2, 4));
+        for (int ix = -1; ix <= 1; ix++) {
+            for (int iy = -1; iy <= 1; iy++) {
+                if (!rng(0, 2)) {
+                    g->m.add_field(g, part_x + ix, part_y + iy, fd_smoke, rng(2, 4));
+                }
+            }
+        }
     }
 
     if (turret_mode) // handle turrets

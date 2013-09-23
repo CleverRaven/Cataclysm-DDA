@@ -26,6 +26,8 @@
 
 std::map<std::string, vpart_info> vehicle_part_types;
 
+std::map<std::string, vpart_id> vpart_enums;
+
 // Note on the 'symbol' flag in vehicle parts -
 // the following symbols will be translated:
 // y, u, n, b to NW, NE, SE, SW lines correspondingly

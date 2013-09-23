@@ -3,10 +3,18 @@
 
 #include "enums.h"
 #include "translations.h"
+#include "picofunc.h"
 #include "bodypart.h"
 #include <sstream>
 #include <vector>
 #include <map>
+
+typedef std::string matype_id;
+
+typedef std::string mabuff_id;
+
+typedef std::string matec_id;
+
 
 enum character_type {
  PLTYPE_CUSTOM,
@@ -33,9 +41,21 @@ struct disease
  int duration;
  body_part bp;
  int side;
- disease() { type = "null"; duration = 0; intensity = 0; bp = num_bp; side = -1;}
- disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1)
-        { type = t; duration = d; intensity = i; bp = part; side = s;}
+
+ // extra stuff for martial arts, kind of a hack for now
+ std::string buff_id;
+ disease(std::string new_buff_id) {
+  type = "ma_buff";
+  buff_id = new_buff_id;
+  intensity = 1;
+ }
+ bool is_mabuff() {
+   return (buff_id != "" && type == "ma_buff");
+ }
+
+ disease() : type("null") { duration = 0; intensity = 0; bp = num_bp; side = -1; }
+ disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1) :
+    type(t) { duration = d; intensity = i; bp = part; side = s; }
 };
 
 struct addiction
@@ -69,29 +89,25 @@ struct player_activity
  std::vector<std::string> str_values;
  point placement;
 
- player_activity() { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
-                     name = ""; placement = point(-1, -1); continuous = false; }
+ player_activity() : name(""), placement(point(-1,-1)) { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
+                     continuous = false; ignore_trivial = true; }
 
- player_activity(activity_type t, int turns, int Index, char ch, std::string name_in)
+ player_activity(activity_type t, int turns, int Index, char ch, std::string name_in) : name(name_in), placement(point(-1,-1))
  {
   type = t;
   moves_left = turns;
   index = Index;
   invlet = ch;
-  name = name_in;
-  placement = point(-1, -1);
   continuous = false;
   ignore_trivial = false;
  }
 
- player_activity(const player_activity &copy)
+ player_activity(const player_activity &copy) : name(copy.name), placement(copy.placement)
  {
   type = copy.type;
   moves_left = copy.moves_left;
   index = copy.index;
   invlet = copy.invlet;
-  name = copy.name;
-  placement = copy.placement;
   continuous = copy.continuous;
   ignore_trivial = copy.ignore_trivial;
   values.clear();
@@ -103,51 +119,17 @@ struct player_activity
   }
  }
 
- std::string save_info()
- {
-  std::stringstream ret;
-  // name can be empty, so make sure we prepend something to it
-  ret << type << " " << moves_left << " " << index << " " << (int)invlet << " str:" << name << " "
-         << placement.x << " " << placement.y << " " << values.size();
-  for (int i = 0; i < values.size(); i++) {
-   ret << " " << values[i];
-  }
-  ret << " " << str_values.size();
-  for (int i = 0; i < str_values.size(); i++) {
-   ret << " " << str_values[i];
-  }
+ picojson::value json_save(); // found in gamesave_json.cpp
+ bool json_load(picojson::value & parsed);
 
-  return ret.str();
- }
-
- void load_info(std::stringstream &dump)
- {
-  int tmp, tmptype, tmpinvlet;
-  std::string tmpname;
-  dump >> tmptype >> moves_left >> index >> tmpinvlet >> tmpname >> placement.x >> placement.y >> tmp;
-  name = tmpname.substr(4);
-  type = activity_type(tmptype);
-  invlet = tmpinvlet;
-  for (int i = 0; i < tmp; i++) {
-   int tmp2;
-   dump >> tmp2;
-   values.push_back(tmp2);
-  }
-  dump >> tmp; //str_values size
-  str_values.clear();
-  for (int i = 0; i < tmp; i++) {
-   std::string next_val;
-   dump >> next_val;
-   str_values.push_back(next_val);
-  }
- }
+ void load_legacy(std::stringstream &dump);
 };
 
 struct trait {
     std::string name;
-    int points;		// How many points it costs in character creation
-    int visiblity;		// How visible it is
-    int ugliness;		// How ugly it is
+    int points; // How many points it costs in character creation
+    int visibility; // How visible it is
+    int ugliness; // How ugly it is
     bool startingtrait; // Starting Trait True/False
     std::string description;
 };

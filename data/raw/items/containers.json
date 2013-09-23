@@ -233,7 +233,7 @@
         "cutting": 0,
         "to_hit": 1,
         "material": "glass",
-        "contains": 1,
+        "contains": 2,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
     {
@@ -250,7 +250,7 @@
         "cutting": 0,
         "to_hit": 1,
         "material": "glass",
-        "contains": 5,
+        "contains": 12,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
     {

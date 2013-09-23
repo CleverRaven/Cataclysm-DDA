@@ -41,7 +41,7 @@ void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
     // Give each funnel on the map a chance to collect the rain.
     std::set<point> funnel_locs = g->m.trap_locations(t);
     std::set<point>::iterator i;
-    for (i = funnel_locs.begin(); i != funnel_locs.end(); i++) {
+    for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
         point loc = *i;
         std::vector<item>& items = g->m.i_at(loc.x, loc.y);
         if (one_in(turns_per_charge)) {
@@ -317,7 +317,7 @@ std::string weather_forecast(game *g, radio_tower tower)
     int period_start = g->turn.hours();
     // TODO wind direction and speed
     for( std::list<weather_segment>::iterator period = g->future_weather.begin();
-         period != g->future_weather.end(); period++ )
+         period != g->future_weather.end(); ++period )
     {
         int period_deadline = period->deadline.hours();
         signed char period_temperature = period->temperature;

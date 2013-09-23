@@ -59,7 +59,7 @@ uimenu::uimenu(bool cancancel, const char *mes, ...) {  // here we emulate the o
 
 uimenu::uimenu(bool cancelable, const char *mes, std::vector<std::string> options) { // exact usage as menu_vec
     init();
-    if (options.size() == 0) {
+    if (options.empty()) {
         debugmsg("0-length menu (\"%s\")", mes);
         ret = -1;
     } else {
@@ -189,7 +189,7 @@ void uimenu::filterlist()
     if ( fselected == -1 ) {
         fselected = 0;
         vshift = 0;
-        if ( fentries.size() < 1 ) {
+        if ( fentries.empty() ) {
             selected = -1;
         } else {
             selected = fentries [ 0 ];
@@ -252,7 +252,6 @@ std::string uimenu::inputfilter()
 void uimenu::setup() {
     bool w_auto = (w_width == -1 || w_width == -2 );
     bool w_autofold = ( w_width == -2);
-    int realtextwidth = 0;
 
     if ( w_auto ) {
         w_width = 4;
@@ -294,7 +293,7 @@ void uimenu::setup() {
         }
         fentries.push_back( i );
     }
-    if ( autoassign.size() > 0 ) {
+    if ( !autoassign.empty() ) {
         for ( int a = 0; a < autoassign.size(); a++ ) {
             int palloc = autoassign[ a ];
             int setkey=-1;
@@ -321,6 +320,7 @@ void uimenu::setup() {
     if(text.size() > 0 ) {
         int twidth = utf8_width(text.c_str());
         bool formattxt=true;
+        int realtextwidth = 0;
         if ( textwidth == -1 ) {
             if ( w_autofold || !w_auto ) {
                realtextwidth = w_width - 4;
@@ -394,18 +394,6 @@ void uimenu::setup() {
         wprintz(window, border_color, " >");
     }
     fselected = selected;
-/* pending completion of string_input refactor
-
-    if ( filtering ) {
-        filter_input = new ui_element_input( this );
-        filter_input->max_length = 256;
-        filter_input->starty = w_height - 1;
-        filter_input->startx = 4;
-        filter_input->endx = w_width - 4;
-        filter_input->loop = false;
-    }
-*/
-
     started = true;
 }
 
@@ -421,7 +409,7 @@ void uimenu::apply_scrollbar()
         int sbside = ( scrollbar_side == 0 ? 0 : w_width );
         int estart = textformatted.size() + 1;
 
-        if ( fentries.size() > 0 && vmax < fentries.size() ) {
+        if ( !fentries.empty() && vmax < fentries.size() ) {
             wattron(window, border_color);
             mvwaddch(window, estart, sbside, '^');
             wattroff(window, border_color);
@@ -634,7 +622,7 @@ bool uimenu::scrollby(int scrollby, const int key) {
  */
 void uimenu::query(bool loop) {
     keypress = 0;
-    if ( entries.size() < 1 ) {
+    if ( entries.empty() ) {
         return;
     }
     int startret = UIMENU_INVALID;
@@ -651,7 +639,7 @@ void uimenu::query(bool loop) {
             /* nothing */
         } else if ( filtering && ( keypress == '/' || keypress == '.' ) ) {
             inputfilter();
-        } else if ( fentries.size() > 0 && ( keypress == '\n' || keypress == KEY_ENTER || keymap.find(keypress) != keymap.end() ) ) {
+        } else if ( !fentries.empty() && ( keypress == '\n' || keypress == KEY_ENTER || keymap.find(keypress) != keymap.end() ) ) {
             if ( keymap.find(keypress) != keymap.end() ) {
                 selected = keymap[ keypress ];//fixme ?
             }
@@ -672,7 +660,7 @@ void uimenu::query(bool loop) {
         }
 
         if ( skiprefresh==false ) {
-        show();
+            show();
         }
     } while ( loop && (ret == startret ) );
 }
@@ -681,7 +669,6 @@ void uimenu::query(bool loop) {
  * cleanup
  */
 uimenu::~uimenu() {
-    //dprint(3,"death: ret=%d, w_x=%d, w_y=%d, w_width=%d, w_height=%d", ret, w_x, w_y, w_width, w_height );
     werase(window);
     wrefresh(window);
     delwin(window);
@@ -737,4 +724,3 @@ void uimenu::settext(const char *format, ...) {
    }
    text = std::string(buf);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////

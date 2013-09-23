@@ -51,330 +51,257 @@ void save_template(player *u);
 
 bool player::create(game *g, character_type type, std::string tempname)
 {
- weapon = item(g->itypes["null"], 0);
+    weapon = item(g->itypes["null"], 0);
 
- g->u.prof = profession::generic();
+    g->u.prof = profession::generic();
 
- WINDOW* w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW* w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
- int tab = 0, points = 38, max_trait_points = 12;
- if (type != PLTYPE_CUSTOM) {
-  switch (type) {
-   case PLTYPE_NOW:
-    g->u.male = (rng(1,100)>50);
-    g->u.pick_name();
-   case PLTYPE_RANDOM:
-   {
-    str_max = rng(6, 12);
-    dex_max = rng(6, 12);
-    int_max = rng(6, 12);
-    per_max = rng(6, 12);
-    points = points - str_max - dex_max - int_max - per_max;
-    if (str_max > HIGH_STAT)
-     points -= (str_max - HIGH_STAT);
-    if (dex_max > HIGH_STAT)
-     points -= (dex_max - HIGH_STAT);
-    if (int_max > HIGH_STAT)
-     points -= (int_max - HIGH_STAT);
-    if (per_max > HIGH_STAT)
-     points -= (per_max - HIGH_STAT);
+    int tab = 0, points = 38, max_trait_points = 12;
+    if (type != PLTYPE_CUSTOM) {
+        switch (type) {
+        case PLTYPE_NOW:
+            g->u.male = (rng(1,100)>50);
+            g->u.pick_name();
+        case PLTYPE_RANDOM:
+        {
+            str_max = rng(6, 12);
+            dex_max = rng(6, 12);
+            int_max = rng(6, 12);
+            per_max = rng(6, 12);
+            points = points - str_max - dex_max - int_max - per_max;
+            if (str_max > HIGH_STAT)
+                points -= (str_max - HIGH_STAT);
+            if (dex_max > HIGH_STAT)
+                points -= (dex_max - HIGH_STAT);
+            if (int_max > HIGH_STAT)
+                points -= (int_max - HIGH_STAT);
+            if (per_max > HIGH_STAT)
+                points -= (per_max - HIGH_STAT);
 
-    int num_gtraits = 0, num_btraits = 0, tries = 0;
-    std::string rn = "";
+            int num_gtraits = 0, num_btraits = 0, tries = 0;
+            std::string rn = "";
 
-    while (points < 0 || rng(-3, 20) > points) {
-     if (num_btraits < max_trait_points && one_in(3)) {
-      tries = 0;
-      do {
-       rn = random_bad_trait();
-       tries++;
-      } while ((has_trait(rn) || num_btraits - traits[rn].points > max_trait_points) && tries < 5);
+            while (points < 0 || rng(-3, 20) > points) {
+                if (num_btraits < max_trait_points && one_in(3)) {
+                    tries = 0;
+                    do {
+                        rn = random_bad_trait();
+                        tries++;
+                    } while ((has_trait(rn) || num_btraits - traits[rn].points > max_trait_points) &&
+                             tries < 5);
 
-      if (tries < 5 && !has_conflicting_trait(rn)) {
-       toggle_trait(rn);
-       points -= traits[rn].points;
-       num_btraits -= traits[rn].points;
-      }
-     } else {
-      switch (rng(1, 4)) {
-       case 1: if (str_max > 5) { str_max--; points++; } break;
-       case 2: if (dex_max > 5) { dex_max--; points++; } break;
-       case 3: if (int_max > 5) { int_max--; points++; } break;
-       case 4: if (per_max > 5) { per_max--; points++; } break;
-      }
-     }
+                    if (tries < 5 && !has_conflicting_trait(rn)) {
+                        toggle_trait(rn);
+                        points -= traits[rn].points;
+                        num_btraits -= traits[rn].points;
+                    }
+                } else {
+                    switch (rng(1, 4)) {
+                    case 1: if (str_max > 5) { str_max--; points++; } break;
+                    case 2: if (dex_max > 5) { dex_max--; points++; } break;
+                    case 3: if (int_max > 5) { int_max--; points++; } break;
+                    case 4: if (per_max > 5) { per_max--; points++; } break;
+                    }
+                }
+            }
+            while (points > 0) {
+                switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    rn = random_good_trait();
+                    if (!has_trait(rn) && points >= traits[rn].points &&
+                        num_gtraits + traits[rn].points <= max_trait_points &&
+                        !has_conflicting_trait(rn)) {
+                        toggle_trait(rn);
+                        points -= traits[rn].points;
+                        num_gtraits += traits[rn].points;
+                    }
+                    break;
+                case 5:
+                    switch (rng(1, 4)) {
+                    case 1: if (str_max < HIGH_STAT) { str_max++; points--; } break;
+                    case 2: if (dex_max < HIGH_STAT) { dex_max++; points--; } break;
+                    case 3: if (int_max < HIGH_STAT) { int_max++; points--; } break;
+                    case 4: if (per_max < HIGH_STAT) { per_max++; points--; } break;
+                    }
+                    break;
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    rn = random_skill();
+
+                    Skill *aSkill = Skill::skill(rn);
+                    int level = skillLevel(aSkill);
+
+                    if (level < points) {
+                        points -= level + 1;
+                        skillLevel(aSkill).level(level + 2);
+                    }
+                    break;
+                }
+            }
+        } break;
+        case PLTYPE_TEMPLATE: {
+            std::ifstream fin;
+            std::stringstream filename;
+            filename << "data/" << tempname << ".template";
+            fin.open(filename.str().c_str());
+            if (!fin.is_open()) {
+                debugmsg("Couldn't open %s!", filename.str().c_str());
+                return false;
+            }
+            std::string(data);
+            getline(fin, data);
+            load_info(g, data);
+            points = 0;
+        } break;
+        }
+        tab = NEWCHAR_TAB_MAX;
+    } else
+        points = OPTIONS["INITIAL_POINTS"];
+    max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
+
+    do {
+        werase(w);
+        wrefresh(w);
+        switch (tab) {
+        case 0: tab += set_stats      (w, g, this, type, points); break;
+        case 1: tab += set_traits     (w, g, this, type, points, max_trait_points); break;
+        case 2: tab += set_profession (w, g, this, type, points); break;
+        case 3: tab += set_skills     (w, g, this, type, points); break;
+        case 4: tab += set_description(w, g, this, type, points); break;
+        }
+    } while (tab >= 0 && tab <= NEWCHAR_TAB_MAX);
+    delwin(w);
+
+    if (tab < 0)
+        return false;
+
+// Character is finalized.  Now just set up HP, &c
+    for (int i = 0; i < num_hp_parts; i++) {
+        hp_max[i] = calc_HP(str_max, has_trait("TOUGH"));
+        hp_cur[i] = hp_max[i];
     }
-    while (points > 0) {
-     switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
-     case 1:
-     case 2:
-     case 3:
-     case 4:
-      rn = random_good_trait();
-      if (!has_trait(rn) && points >= traits[rn].points &&
-          num_gtraits + traits[rn].points <= max_trait_points && !has_conflicting_trait(rn)) {
-       toggle_trait(rn);
-       points -= traits[rn].points;
-       num_gtraits += traits[rn].points;
-      }
-      break;
-     case 5:
-      switch (rng(1, 4)) {
-       case 1: if (str_max < HIGH_STAT) { str_max++; points--; } break;
-       case 2: if (dex_max < HIGH_STAT) { dex_max++; points--; } break;
-       case 3: if (int_max < HIGH_STAT) { int_max++; points--; } break;
-       case 4: if (per_max < HIGH_STAT) { per_max++; points--; } break;
-      }
-      break;
-     case 6:
-     case 7:
-     case 8:
-     case 9:
-      rn = random_skill();
-
-      Skill *aSkill = Skill::skill(rn);
-      int level = skillLevel(aSkill);
-
-      if (level < points) {
-        points -= level + 1;
-        skillLevel(aSkill).level(level + 2);
-      }
-      break;
-     }
+    if (has_trait("HARDCORE")) {
+        for (int i = 0; i < num_hp_parts; i++) {
+            hp_max[i] = int(hp_max[i] * .25);
+            hp_cur[i] = hp_max[i];
+        }
+    } if (has_trait("GLASSJAW")) {
+        hp_max[hp_head] = int(hp_max[hp_head] * .80);
+        hp_cur[hp_head] = hp_max[hp_head];
     }
-   } break;
-   case PLTYPE_TEMPLATE: {
-    std::ifstream fin;
-    std::stringstream filename;
-    filename << "data/" << tempname << ".template";
-    fin.open(filename.str().c_str());
-    if (!fin.is_open()) {
-     debugmsg("Couldn't open %s!", filename.str().c_str());
-     return false;
+    if (has_trait("SMELLY"))
+        scent = 800;
+    if (has_trait("ANDROID")) {
+        bionic_id first_bio;
+        do {
+            first_bio = g->random_good_bionic();
+        } while (bionics[first_bio]->power_cost > 10);
+        add_bionic(first_bio);
+        // Power Source
+        add_bionic( bionic_id(power_source_bionics[rng(0,power_source_bionics.size()-1)]) );
+        max_power_level = 10;
+        power_level = 10;
     }
-    std::string(data);
-    getline(fin, data);
-    load_info(g, data);
-    points = 0;
-   } break;
-  }
-  tab = NEWCHAR_TAB_MAX;
- } else
-  points = OPTIONS["INITIAL_POINTS"];
-  max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
 
- do {
-  werase(w);
-  wrefresh(w);
-  switch (tab) {
-   case 0: tab += set_stats      (w, g, this, type, points); break;
-   case 1: tab += set_traits     (w, g, this, type, points, max_trait_points); break;
-   case 2: tab += set_profession (w, g, this, type, points); break;
-   case 3: tab += set_skills     (w, g, this, type, points); break;
-   case 4: tab += set_description(w, g, this, type, points); break;
-  }
- } while (tab >= 0 && tab <= NEWCHAR_TAB_MAX);
- delwin(w);
+    if (has_trait("MARTIAL_ARTS")) {
+        matype_id ma_type;
+        do {
+            int choice = (PLTYPE_NOW==type)? rng(1, 5) :
+                menu(false, _("Pick your style:"), _("Karate"), _("Judo"), _("Aikido"),
+                     _("Tai Chi"), _("Capoeira"), NULL);
+            if (choice == 1)
+                ma_type = "style_karate";
+            if (choice == 2)
+                ma_type = "style_judo";
+            if (choice == 3)
+                ma_type = "style_aikido";
+            if (choice == 4)
+                ma_type = "style_tai_chi";
+            if (choice == 5)
+                ma_type = "style_capoeira";
+        } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
+        ma_styles.push_back(ma_type);
+        style_selected=ma_type;
+    }
 
- if (tab < 0)
-  return false;
-
- // Character is finalized.  Now just set up HP, &c
- for (int i = 0; i < num_hp_parts; i++) {
-  hp_max[i] = calc_HP(str_max, has_trait("TOUGH"));
-  hp_cur[i] = hp_max[i];
- }
- if (has_trait("HARDCORE")) {
-  for (int i = 0; i < num_hp_parts; i++) {
-   hp_max[i] = int(hp_max[i] * .25);
-   hp_cur[i] = hp_max[i];
-  }
- } if (has_trait("GLASSJAW")) {
-  hp_max[hp_head] = int(hp_max[hp_head] * .80);
-  hp_cur[hp_head] = hp_max[hp_head];
- }
- if (has_trait("SMELLY"))
-  scent = 800;
- if (has_trait("ANDROID")) {
-  bionic_id first_bio;
-  do {
-   first_bio = g->random_good_bionic();
-  } while (bionics[first_bio]->power_cost > 10);
-  add_bionic(first_bio);
-  add_bionic(bionic_id(power_source_bionics[rng(0,power_source_bionics.size()-1)]));	// Power Source
-  max_power_level = 10;
-  power_level = 10;
- }
-
- if (has_trait("MARTIAL_ARTS")) {
-  itype_id ma_type;
-  do {
-   int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
-                     _("Karate"), _("Judo"), _("Aikido"), _("Tai Chi"),
-                     _("Taekwondo"), NULL);
-   if (choice == 1)
-    ma_type = "style_karate";
-   if (choice == 2)
-    ma_type = "style_judo";
-   if (choice == 3)
-    ma_type = "style_aikido";
-   if (choice == 4)
-    ma_type = "style_tai_chi";
-   if (choice == 5)
-    ma_type = "style_taekwondo";
-   item tmpitem = item(g->itypes[ma_type], 0);
-   if(PLTYPE_NOW!=type) {
-       full_screen_popup(tmpitem.info(true).c_str());
-   }
-  } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
-  styles.push_back(ma_type);
-  style_selected=ma_type;
- }
-
-    if (has_trait("MARTIAL_ARTS2")) {
-  itype_id ma_type;
-  do {
-   int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
-                     _("Capoeira"), _("Krav Maga"), _("Muay Thai"),
-                     _("Ninjutsu"), _("Zui Quan"), NULL);
-   if (choice == 1)
-    ma_type = "style_capoeira";
-   if (choice == 2)
-    ma_type = "style_krav_maga";
-   if (choice == 3)
-    ma_type = "style_muay_thai";
-   if (choice == 4)
-    ma_type = "style_ninjutsu";
-   if (choice == 5)
-    ma_type = "style_zui_quan";
-   item tmpitem = item(g->itypes[ma_type], 0);
-   if(PLTYPE_NOW!=type) {
-     full_screen_popup(tmpitem.info(true).c_str());
-   }
-  } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
-  styles.push_back(ma_type);
-  style_selected=ma_type;
- }
- if (has_trait("MARTIAL_ARTS3")) {
-  itype_id ma_type;
-  do {
-   int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
-                     _("Tiger"), _("Crane"), _("Leopard"), _("Snake"),
-                     _("Dragon"), NULL);
-   if (choice == 1)
-    ma_type = "style_tiger";
-   if (choice == 2)
-    ma_type = "style_crane";
-   if (choice == 3)
-    ma_type = "style_leopard";
-   if (choice == 4)
-    ma_type = "style_snake";
-   if (choice == 5)
-    ma_type = "style_dragon";
-   item tmpitem = item(g->itypes[ma_type], 0);
-   if(PLTYPE_NOW!=type) {
-     full_screen_popup(tmpitem.info(true).c_str());
-   }
-  } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
-  styles.push_back(ma_type);
-  style_selected=ma_type;
- }
- if (has_trait("MARTIAL_ARTS4")) {
-  itype_id ma_type;
-  do {
-   int choice = (PLTYPE_NOW==type)? rng(1, 5) : menu(false, _("Pick your style:"),
-                     _("Centipede"), _("Viper"), _("Scorpion"), _("Lizard"),
-                     _("Toad"), NULL);
-   if (choice == 1)
-    ma_type = "style_centipede";
-   if (choice == 2)
-    ma_type = "style_venom_snake";
-   if (choice == 3)
-    ma_type = "style_scorpion";
-   if (choice == 4)
-    ma_type = "style_lizard";
-   if (choice == 5)
-    ma_type = "style_toad";
-   item tmpitem = item(g->itypes[ma_type], 0);
-   if(PLTYPE_NOW!=type) {
-     full_screen_popup(tmpitem.info(true).c_str());
-   }
-  } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
-  styles.push_back(ma_type);
-  style_selected=ma_type;
- }
- ret_null = item(g->itypes["null"], 0);
- weapon = get_combat_style();
+    ret_null = item(g->itypes["null"], 0);
+    weapon = ret_null;
 
 
- item tmp; //gets used several times
+    item tmp; //gets used several times
 
- std::vector<std::string> prof_items = g->u.prof->items();
- for (std::vector<std::string>::const_iterator iter = prof_items.begin();
-      iter != prof_items.end(); ++iter)
- {
-    tmp = item(item_controller->find_template(*iter), 0);
-    tmp = tmp.in_its_container(&(g->itypes));
-    inv.push_back(tmp);
- }
+    std::vector<std::string> prof_items = g->u.prof->items();
+    for (std::vector<std::string>::const_iterator iter = prof_items.begin();
+         iter != prof_items.end(); ++iter)
+    {
+        tmp = item(item_controller->find_template(*iter), 0);
+        tmp = tmp.in_its_container(&(g->itypes));
+        inv.push_back(tmp);
+    }
 
- std::vector<addiction> prof_addictions = g->u.prof->addictions();
- for (std::vector<addiction>::const_iterator iter = prof_addictions.begin();
-      iter != prof_addictions.end(); ++iter)
- {
-     g->u.addictions.push_back(*iter);
- }
+    std::vector<addiction> prof_addictions = g->u.prof->addictions();
+    for (std::vector<addiction>::const_iterator iter = prof_addictions.begin();
+         iter != prof_addictions.end(); ++iter)
+    {
+        g->u.addictions.push_back(*iter);
+    }
 
- // Grab the skills from the profession, if there are any
- profession::StartingSkillList prof_skills = g->u.prof->skills();
- for (profession::StartingSkillList::const_iterator iter = prof_skills.begin();
-      iter != prof_skills.end(); ++iter)
- {
-     assert(Skill::skill(iter->first));
-     if (Skill::skill(iter->first))
-     {
-        g->u.boost_skill_level(iter->first, iter->second);
-     }
- }
+    // Grab the skills from the profession, if there are any
+    profession::StartingSkillList prof_skills = g->u.prof->skills();
+    for (profession::StartingSkillList::const_iterator iter = prof_skills.begin();
+         iter != prof_skills.end(); ++iter)
+    {
+        assert(Skill::skill(iter->first));
+        if (Skill::skill(iter->first))
+        {
+            g->u.boost_skill_level(iter->first, iter->second);
+        }
+    }
 
- // Those who are both near-sighted and far-sighted start with bifocal glasses.
- if (has_trait("HYPEROPIC") && has_trait("MYOPIC"))
- {
-    tmp = item(g->itypes["glasses_bifocal"], 0);
-    inv.push_back(tmp);
- }
- // The near-sighted start with eyeglasses.
- else if (has_trait("MYOPIC"))
- {
-    tmp = item(g->itypes["glasses_eye"], 0);
-    inv.push_back(tmp);
- }
- // The far-sighted start with reading glasses.
- else if (has_trait("HYPEROPIC"))
- {
-    tmp = item(g->itypes["glasses_reading"], 0);
-    inv.push_back(tmp);
- }
+    // Those who are both near-sighted and far-sighted start with bifocal glasses.
+    if (has_trait("HYPEROPIC") && has_trait("MYOPIC"))
+    {
+        tmp = item(g->itypes["glasses_bifocal"], 0);
+        inv.push_back(tmp);
+    }
+    // The near-sighted start with eyeglasses.
+    else if (has_trait("MYOPIC"))
+    {
+        tmp = item(g->itypes["glasses_eye"], 0);
+        inv.push_back(tmp);
+    }
+    // The far-sighted start with reading glasses.
+    else if (has_trait("HYPEROPIC"))
+    {
+        tmp = item(g->itypes["glasses_reading"], 0);
+        inv.push_back(tmp);
+    }
 
 // Likewise, the asthmatic start with their medication.
- if (has_trait("ASTHMA")) {
-  tmp = item(g->itypes["inhaler"], 0);
-  inv.push_back(tmp);
- }
+    if (has_trait("ASTHMA")) {
+        tmp = item(g->itypes["inhaler"], 0);
+        inv.push_back(tmp);
+    }
 // Basic starter gear, added independently of profession.
- tmp = item(g->itypes["pockknife"], 0);
-  inv.push_back(tmp);
- tmp = item(g->itypes["matches"], 0);
-  inv.push_back(tmp);
+    tmp = item(g->itypes["pockknife"], 0);
+    inv.push_back(tmp);
+    tmp = item(g->itypes["matches"], 0);
+    inv.push_back(tmp);
 // make sure we have no mutations
- for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
-  if (!has_base_trait(iter->first))
-   my_mutations.erase(iter->first);
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
+        if (!has_base_trait(iter->first))
+            my_mutations.erase(iter->first);
 
-	// Equip any armor from our inventory.
- // If we are unable to wear some of it due to encumberance, it will silently fail.
+    // Equip any armor from our inventory.
+    // If we are unable to wear some of it due to encumberance, it will silently fail.
     std::vector<item*> tmp_inv;
     inv.dump(tmp_inv);
 
@@ -392,44 +319,44 @@ bool player::create(game *g, character_type type, std::string tempname)
         }
     }
 
- // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
- apply_persistent_morale();
- return true;
+    // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
+    apply_persistent_morale();
+    return true;
 }
 
 void draw_tabs(WINDOW* w, std::string sTab)
 {
- for (int i = 1; i < 79; i++) {
-  mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
-  mvwputch(w, 4, i, c_ltgray, LINE_OXOX);
-  mvwputch(w, 24, i, c_ltgray, LINE_OXOX);
+    for (int i = 1; i < 79; i++) {
+        mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
+        mvwputch(w, 4, i, c_ltgray, LINE_OXOX);
+        mvwputch(w, 24, i, c_ltgray, LINE_OXOX);
 
-  if (i > 2 && i < 24) {
-   mvwputch(w, i, 0, c_ltgray, LINE_XOXO);
-   mvwputch(w, i, 79, c_ltgray, LINE_XOXO);
-  }
- }
+        if (i > 2 && i < 24) {
+            mvwputch(w, i, 0, c_ltgray, LINE_XOXO);
+            mvwputch(w, i, 79, c_ltgray, LINE_XOXO);
+        }
+    }
 
- int x = 2;
- // TODO: align prettily, find how much space will be free and distribute
- draw_tab(w, x, _("STATS"), (sTab == "STATS") ? true : false);
- x += utf8_width(_("STATS")) + 5;
- draw_tab(w, x, _("TRAITS"), (sTab == "TRAITS") ? true : false);
- x += utf8_width(_("TRAITS")) + 5;
- draw_tab(w, x, _("PROFESSION"), (sTab == "PROFESSION") ? true : false);
- x += utf8_width(_("PROFESSION")) + 5;
- draw_tab(w, x, _("SKILLS"), (sTab == "SKILLS") ? true : false);
- x += utf8_width(_("SKILLS")) + 5;
- draw_tab(w, x, _("DESCRIPTION"), (sTab == "DESCRIPTION") ? true : false);
+    int x = 2;
+    // TODO: align prettily, find how much space will be free and distribute
+    draw_tab(w, x, _("STATS"), (sTab == "STATS") ? true : false);
+    x += utf8_width(_("STATS")) + 5;
+    draw_tab(w, x, _("TRAITS"), (sTab == "TRAITS") ? true : false);
+    x += utf8_width(_("TRAITS")) + 5;
+    draw_tab(w, x, _("PROFESSION"), (sTab == "PROFESSION") ? true : false);
+    x += utf8_width(_("PROFESSION")) + 5;
+    draw_tab(w, x, _("SKILLS"), (sTab == "SKILLS") ? true : false);
+    x += utf8_width(_("SKILLS")) + 5;
+    draw_tab(w, x, _("DESCRIPTION"), (sTab == "DESCRIPTION") ? true : false);
 
- mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
- mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
+    mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
 
- mvwputch(w, 4, 0, c_ltgray, LINE_XXXO); // |-
- mvwputch(w, 4, 79, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w, 4, 0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w, 4, 79, c_ltgray, LINE_XOXX); // -|
 
- mvwputch(w, 24, 0, c_ltgray, LINE_XXOO); // |_
- mvwputch(w, 24, 79, c_ltgray, LINE_XOOX); // _|
+    mvwputch(w, 24, 0, c_ltgray, LINE_XXOO); // |_
+    mvwputch(w, 24, 79, c_ltgray, LINE_XOOX); // _|
 }
 
 int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
@@ -664,7 +591,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                 hi_off  = hilite(col_off_act);
             }
 
-            calcStartPos(iStartPos[iCurrentPage], iCurrentLine[iCurrentPage], iContentHeight, vStartingTraits[iCurrentPage].size());
+            calcStartPos(iStartPos[iCurrentPage], iCurrentLine[iCurrentPage], iContentHeight,
+                         vStartingTraits[iCurrentPage].size());
 
             //Draw Traits
             for (int i = iStartPos[iCurrentPage]; i < vStartingTraits[iCurrentPage].size(); i++) {
@@ -672,7 +600,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                     ((iContentHeight > vStartingTraits[iCurrentPage].size()) ?
                      vStartingTraits[iCurrentPage].size() : iContentHeight)) {
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
-                        mvwprintz(w,  3, 33, c_ltgray, "                                              ");
+                        mvwprintz(w,  3, 33, c_ltgray,
+                                  "                                              ");
                         mvwprintz(w,  3, 33, col_tr, _("%s earns %d points"),
                                   traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
                                   traits[vStartingTraits[iCurrentPage][i]].points * -1);
@@ -706,7 +635,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                         cLine = c_ltgray;
                     }
 
-                    mvwprintz(w, 5 + i - iStartPos[iCurrentPage], (iCurrentPage == 0) ? 2 : 40, c_ltgray, "\
+                    mvwprintz(w, 5 + i - iStartPos[iCurrentPage],
+                              (iCurrentPage == 0) ? 2 : 40, c_ltgray, "\
                                   ");	// Clear the line
                     mvwprintz(w, 5 + i - iStartPos[iCurrentPage], (iCurrentPage == 0) ? 2 : 40, cLine,
                               traits[vStartingTraits[iCurrentPage][i]].name.c_str());
@@ -717,7 +647,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
             draw_scrollbar(w, iCurrentLine[0], iContentHeight, vStartingTraits[0].size(), 5);
 
             //Draw Scrollbar Bad Traits
-            draw_scrollbar(w, iCurrentLine[1], iContentHeight, vStartingTraits[1].size(), 5, getmaxx(w)-1);
+            draw_scrollbar(w, iCurrentLine[1], iContentHeight,
+                           vStartingTraits[1].size(), 5, getmaxx(w)-1);
         }
 
         wrefresh(w);

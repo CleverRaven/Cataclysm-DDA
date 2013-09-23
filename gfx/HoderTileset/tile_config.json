@@ -177,8 +177,8 @@
         },
         {
             "id":"t_rubble",
-            "fg":83,
             "bg":2,
+            "fg":83,
             "rotates":false
         },
         {
@@ -188,6 +188,8 @@
         },
         {
             "id":"t_metal",
+            "bg":0,
+            "fg":415,
             "rotates":false
         },
         {
@@ -232,6 +234,36 @@
         },
         {
             "id":"t_metal_floor",
+            "bg":0,
+            "fg":501,
+            "multitile":false,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 496
+                },
+                {
+                    "id": "corner",
+                    "fg": 497
+                },
+                {
+                    "id": "edge",
+                    "fg": 498
+                },
+                {
+                    "id": "t_connection",
+                    "fg": 499
+                },
+                {
+                    "id": "end_piece",
+                    "fg": 500
+                },
+                {
+                    "id": "unconnected",
+                    "fg": 501
+                }
+            ],
             "rotates":false
         },
         {
@@ -1455,6 +1487,36 @@
         },
         {
             "id":"t_missile",
+            "bg":0,
+            "fg":623,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 618
+                },
+                {
+                    "id": "corner",
+                    "fg": 619
+                },
+                {
+                    "id": "edge",
+                    "fg": 620
+                },
+                {
+                    "id": "t_connection",
+                    "fg": 621
+                },
+                {
+                    "id": "end_piece",
+                    "fg": 622
+                },
+                {
+                    "id": "unconnected",
+                    "fg": 623
+                }
+            ],
             "rotates":false
         },
         {
@@ -1569,6 +1631,7 @@
         },
         {
             "id":"t_centrifuge",
+		"bg":60,
 		"fg":63,
             "rotates":false
         },
@@ -1675,30 +1738,44 @@
         },
          {
             "id":"t_pedestal_temple",
-            "rotates":false
+            "bg":2,
+            "fg":446,
+           "rotates":false
         },
         {
             "id":"t_rock_red",
+            "bg":3,
+            "fg":429,
             "rotates":false
         },
         {
             "id":"t_rock_green",
+            "bg":3,
+            "fg":430,
             "rotates":false
         },
         {
             "id":"t_rock_blue",
+            "bg":3,
+            "fg":431,
             "rotates":false
         },
         {
             "id":"t_floor_red",
+            "bg":11,
+            "fg":429,
             "rotates":false
         },
         {
             "id":"t_floor_green",
+            "bg":11,
+            "fg":430,
             "rotates":false
         },
         {
             "id":"t_floor_blue",
+            "bg":11,
+            "fg":431,
             "rotates":false
         },
         {
@@ -1737,13 +1814,13 @@
             "fg":1610,
             "rotates":false
         },
-		{
-			"id": "tr_makeshift_funnel",
-			"fg":1611,
-			"bg":-1,
-			"rotates":false,
-			"multitile":false
-		},
+	{
+		"id": "tr_makeshift_funnel",
+		"fg":1611,
+		"bg":-1,
+		"rotates":false,
+		"multitile":false
+	},
         {
             "id":"tr_rollmat",
  		"fg":1578,
@@ -1826,14 +1903,17 @@
         },
         {
             "id":"tr_telepad",
+  		"fg":206,
             "rotates":false
         },
         {
             "id":"tr_goo",
+		"fg":187,
             "rotates":false
         },
         {
             "id":"tr_dissector",
+  		"fg":207,
             "rotates":false
         },
         {
@@ -1857,6 +1937,7 @@
         },
         {
             "id":"tr_portal",
+  		"fg":206,
             "rotates":false
         },
         {
@@ -1872,11 +1953,13 @@
         },
         {
             "id":"tr_temple_flood",
-            "rotates":false
+ 		"fg":175,
+           "rotates":false
         },
         {
             "id":"tr_temple_toggle",
-            "rotates":false
+ 		"fg":175,
+           "rotates":false
         },
         {
             "id":"tr_glow",
@@ -1884,10 +1967,11 @@
         },
         {
             "id":"tr_hum",
-            "rotates":false
+           "rotates":false
         },
         {
             "id":"tr_shadow",
+		"fg":199,
             "rotates":false
         },
         {
@@ -1896,6 +1980,7 @@
         },
         {
             "id":"tr_snake",
+		"fg":199,
             "rotates":false
         },
         {
@@ -2047,6 +2132,8 @@
         },
         {
             "id":"fd_flame_burst",
+            "bg":198,
+            "fg":182,
             "rotates":false
         },
         {
@@ -2979,7 +3066,7 @@
         },
         {
             "id":"f_desk",
-            "fg":440,
+            "fg":445,
             "multitile":true,
             "additional_tiles":
             [
@@ -3034,7 +3121,7 @@
         },
         {
             "id":"f_table",
-            "fg":440,
+            "fg":445,
             "multitile":true,
             "additional_tiles":
             [
@@ -3084,7 +3171,7 @@
         },
         {
             "id":"f_counter",
-            "fg":55,
+            "fg":60,
             "multitile":true,
             "additional_tiles":
             [
