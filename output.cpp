@@ -1099,7 +1099,7 @@ long special_symbol (long sym)
 }
 
 // find the position of each non-printing tag in a string
-std::vector<size_t> get_tag_positions(std::string &s)
+std::vector<size_t> get_tag_positions(const std::string &s)
 {
     std::vector<size_t> ret;
     size_t pos = s.find("<color_", 0, 7);
