@@ -31,24 +31,24 @@ int TERRAIN_WINDOW_HEIGHT;
 
 nc_color hilite(nc_color c)
 {
- switch (c) {
-  case c_white:		return h_white;
-  case c_ltgray:	return h_ltgray;
-  case c_dkgray:	return h_dkgray;
-  case c_red:		return h_red;
-  case c_green:		return h_green;
-  case c_blue:		return h_blue;
-  case c_cyan:		return h_cyan;
-  case c_magenta:	return h_magenta;
-  case c_brown:		return h_brown;
-  case c_ltred:		return h_ltred;
-  case c_ltgreen:	return h_ltgreen;
-  case c_ltblue:	return h_ltblue;
-  case c_ltcyan:	return h_ltcyan;
-  case c_pink:		return h_pink;
-  case c_yellow:	return h_yellow;
- }
- return h_white;
+    switch (c) {
+    case c_white:   return h_white;
+    case c_ltgray:  return h_ltgray;
+    case c_dkgray:  return h_dkgray;
+    case c_red:     return h_red;
+    case c_green:   return h_green;
+    case c_blue:    return h_blue;
+    case c_cyan:    return h_cyan;
+    case c_magenta: return h_magenta;
+    case c_brown:   return h_brown;
+    case c_ltred:   return h_ltred;
+    case c_ltgreen: return h_ltgreen;
+    case c_ltblue:  return h_ltblue;
+    case c_ltcyan:  return h_ltcyan;
+    case c_pink:    return h_pink;
+    case c_yellow:  return h_yellow;
+    }
+    return h_white;
 }
 
 nc_color invert_color(nc_color c)
@@ -95,24 +95,24 @@ nc_color invert_color(nc_color c)
 
 nc_color red_background(nc_color c)
 {
- switch (c) {
-  case c_white:		return c_white_red;
-  case c_ltgray:	return c_ltgray_red;
-  case c_dkgray:	return c_dkgray_red;
-  case c_red:		return c_red_red;
-  case c_green:		return c_green_red;
-  case c_blue:		return c_blue_red;
-  case c_cyan:		return c_cyan_red;
-  case c_magenta:	return c_magenta_red;
-  case c_brown:		return c_brown_red;
-  case c_ltred:		return c_ltred_red;
-  case c_ltgreen:	return c_ltgreen_red;
-  case c_ltblue:	return c_ltblue_red;
-  case c_ltcyan:	return c_ltcyan_red;
-  case c_pink:		return c_pink_red;
-  case c_yellow:	return c_yellow_red;
- }
- return c_white_red;
+    switch (c) {
+    case c_white:   return c_white_red;
+    case c_ltgray:  return c_ltgray_red;
+    case c_dkgray:  return c_dkgray_red;
+    case c_red:     return c_red_red;
+    case c_green:   return c_green_red;
+    case c_blue:    return c_blue_red;
+    case c_cyan:    return c_cyan_red;
+    case c_magenta: return c_magenta_red;
+    case c_brown:   return c_brown_red;
+    case c_ltred:   return c_ltred_red;
+    case c_ltgreen: return c_ltgreen_red;
+    case c_ltblue:  return c_ltblue_red;
+    case c_ltcyan:  return c_ltcyan_red;
+    case c_pink:    return c_pink_red;
+    case c_yellow:  return c_yellow_red;
+    }
+    return c_white_red;
 }
 /// colors need to be totally redone, really..
 nc_color white_background(nc_color c) {
@@ -225,19 +225,19 @@ nc_color white_background(nc_color c) {
 ///
 nc_color rand_color()
 {
- switch (rng(0, 9)) {
-  case 0:	return c_white;
-  case 1:	return c_ltgray;
-  case 2:	return c_green;
-  case 3:	return c_red;
-  case 4:	return c_yellow;
-  case 5:	return c_blue;
-  case 6:	return c_ltblue;
-  case 7:	return c_pink;
-  case 8:	return c_magenta;
-  case 9:	return c_brown;
- }
- return c_dkgray;
+    switch (rng(0, 9)) {
+    case 0: return c_white;
+    case 1: return c_ltgray;
+    case 2: return c_green;
+    case 3: return c_red;
+    case 4: return c_yellow;
+    case 5: return c_blue;
+    case 6: return c_ltblue;
+    case 7: return c_pink;
+    case 8: return c_magenta;
+    case 9: return c_brown;
+    }
+    return c_dkgray;
 }
 
 // utf8 version
@@ -626,7 +626,7 @@ std::string string_input_win(WINDOW * w, std::string input, int max_length, int 
     lastshift=shift;
     if (dorefresh) wrefresh(w);
     ch = getch();
-    if (ch == 27) {	// Escape
+    if (ch == 27) { // Escape
       return "";
     } else if (ch == '\n') {
       if(identifier.size() > 0 && ret.size() > 0 ) {
@@ -971,11 +971,11 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
    }
   } else if (vItemDisplay[i].sType == "DESCRIPTION") {
     std::string sText = word_rewrap(vItemDisplay[i].sName, iWidth-4);
-	std::stringstream ss(sText);
-	std::string l;
+    std::stringstream ss(sText);
+    std::string l;
     while (std::getline(ss, l, '\n')) {
       line_num++;
-	  mvwprintz(w, line_num, 2, c_white, l.c_str());
+      mvwprintz(w, line_num, 2, c_white, l.c_str());
     }
   } else {
    if (bStartNewLine) {
@@ -1066,19 +1066,19 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
 
 char rand_char()
 {
- switch (rng(0, 9)) {
-  case 0:	return '|';
-  case 1:	return '-';
-  case 2:	return '#';
-  case 3:	return '?';
-  case 4:	return '&';
-  case 5:	return '.';
-  case 6:	return '%';
-  case 7:	return '{';
-  case 8:	return '*';
-  case 9:	return '^';
- }
- return '?';
+    switch (rng(0, 9)) {
+    case 0: return '|';
+    case 1: return '-';
+    case 2: return '#';
+    case 3: return '?';
+    case 4: return '&';
+    case 5: return '.';
+    case 6: return '%';
+    case 7: return '{';
+    case 8: return '*';
+    case 9: return '^';
+    }
+    return '?';
 }
 
 // this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
@@ -1101,37 +1101,39 @@ long special_symbol (long sym)
 // utf-8 version
 std::string word_rewrap (const std::string &ins, int width){
     std::ostringstream o;
-	std::string in = ins;
-	std::replace(in.begin(), in.end(), '\n', ' ');
+    std::string in = ins;
+    std::replace(in.begin(), in.end(), '\n', ' ');
 
-	int lastwb  = 0; //last word break
-	int lastout = 0;
-	const char *instr = in.c_str();
+    int lastwb  = 0; //last word break
+    int lastout = 0;
+    const char *instr = in.c_str();
 
-	for (int j=0, x=0; j<in.size(); )
-	{
-		const char* ins = instr+j;
-		int len = ANY_LENGTH;
-		unsigned uc = UTF8_getch(&ins, &len);
-		x += mk_wcwidth((wchar_t)uc);
-		j += ANY_LENGTH-len;
+    for (int j=0, x=0; j<in.size(); ) {
+        const char* ins = instr+j;
+        int len = ANY_LENGTH;
+        unsigned uc = UTF8_getch(&ins, &len);
+        x += mk_wcwidth((wchar_t)uc);
+        j += ANY_LENGTH-len;
 
-		if(x >= width)
-		{
-		    if (lastwb == lastout)
+        if (x >= width) {
+            if (lastwb == lastout) {
                 lastwb = j;
-			for(int k=lastout; k<lastwb; k++)
-				o << in[k];
-			o << '\n';
-			x = 0;
-			lastout = j = lastwb;
-		}
+            }
+            for(int k=lastout; k<lastwb; k++) {
+                o << in[k];
+            }
+            o << '\n';
+            x = 0;
+            lastout = j = lastwb;
+        }
 
-		if (uc==' ' || uc>=0x2E80)
-			lastwb = j;
-	}
-	for(int k=lastout; k<in.size(); k++)
-		o << in[k];
+        if (uc==' ' || uc>=0x2E80) {
+            lastwb = j;
+        }
+    }
+    for (int k=lastout; k<in.size(); k++) {
+        o << in[k];
+    }
 
     return o.str();
 }
