@@ -62,7 +62,7 @@ static void manage_sleep(player& p, disease& dis);
 static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
-static void handle_recover(player& p, disease& dis);
+static void handle_recovery(player& p, disease& dis);
 static void handle_cough(player& p, int volume = 12);
 static void handle_deliriant(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
@@ -1239,11 +1239,11 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_INFECTED:
-            handle_infected_wound(g, p, dis);
+            handle_infected_wound(p, dis);
             break;
 
         case DI_RECOVER:
-            handle_recovery(g, p, dis);
+            handle_recovery(p, dis);
             break;
 
         case DI_MA_BUFF:
