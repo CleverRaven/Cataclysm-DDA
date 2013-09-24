@@ -5444,7 +5444,7 @@ void game::resonance_cascade(int x, int y)
    case 5:
     for (int k = i - 1; k <= i + 1; k++) {
      for (int l = j - 1; l <= j + 1; l++) {
-      field_id type;
+      field_id type = fd_null;
       switch (rng(1, 7)) {
        case 1: type = fd_blood; break;
        case 2: type = fd_bile; break;
@@ -6138,93 +6138,99 @@ bool game::vehicle_near ()
  return false;
 }
 
+bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
+{
+  vpart_info part_info = vehicle_part_types[part->id];
+  if (!part_info.has_flag("FUEL_TANK")) {
+    return false;
+  }
+  item* it = NULL;
+  item *p_itm = NULL;
+  int min_charges = -1;
+  bool in_container = false;
+
+  std::string ftype = part_info.fuel_type;
+  itype_id itid = default_ammo(ftype);
+  if (u.weapon.is_container() && u.weapon.contents.size() > 0 &&
+          u.weapon.contents[0].type->id == itid) {
+    it = &u.weapon;
+    p_itm = &u.weapon.contents[0];
+    min_charges = u.weapon.contents[0].charges;
+    in_container = true;
+  } else if (u.weapon.type->id == itid) {
+    it = &u.weapon;
+    p_itm = it;
+    min_charges = u.weapon.charges;
+  } else {
+    it = &u.inv.item_or_container(itid);
+    if (!it->is_null()) {
+      if (it->type->id == itid) {
+        p_itm = it;
+      } else {
+        //ah, must be a container of the thing
+        p_itm = &(it->contents[0]);
+        in_container = true;
+      }
+      min_charges = p_itm->charges;
+    }
+  }
+  if (it->is_null()) {
+    return false;
+  } else if (test) {
+    return true;
+  }
+
+  int fuel_per_charge = 1; //default for gasoline
+  if (ftype == "plutonium") {
+    fuel_per_charge = 1000;
+  } else if (ftype == "plasma") {
+    fuel_per_charge = 100;
+  }
+  int max_fuel = part_info.size;
+  int charge_difference = (max_fuel - part->amount) / fuel_per_charge;
+  if (charge_difference < 1) {
+    charge_difference = 1;
+  }
+  bool rem_itm = min_charges <= charge_difference;
+  int used_charges = rem_itm ? min_charges : charge_difference;
+  part->amount += used_charges * fuel_per_charge;
+  if (part->amount > max_fuel) {
+    part->amount = max_fuel;
+  }
+
+  if (ftype == "battery") {
+    add_msg(_("You recharge %s's battery."), veh.name.c_str());
+    if (part->amount == max_fuel) {
+      add_msg(_("The battery is fully charged."));
+    }
+  } else if (ftype == "gasoline") {
+    add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
+    if (part->amount == max_fuel) {
+      add_msg(_("The tank is full."));
+    }
+  } else if (ftype == "plutonium") {
+    add_msg(_("You refill %s's reactor."), veh.name.c_str());
+    if (part->amount == max_fuel) {
+      add_msg(_("The reactor is full."));
+    }
+  }
+
+  p_itm->charges -= used_charges;
+  if (rem_itm) {
+    if (in_container) {
+      it->contents.erase(it->contents.begin());
+    } else if (&u.weapon == it) {
+      u.remove_weapon();
+    } else {
+      u.inv.remove_item_by_letter(it->invlet);
+    }
+  }
+  return true;
+}
+
 bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
 {
-    if (!veh.part_flag(part, "FUEL_TANK"))
-        return false;
-    item* it = NULL;
-    item *p_itm = NULL;
-    int min_charges = -1;
-    bool i_cont = false;
-
-    std::string ftype = veh.part_info(part).fuel_type;
-    itype_id itid = default_ammo(ftype);
-    if (u.weapon.is_container() && u.weapon.contents.size() > 0 &&
-        u.weapon.contents[0].type->id == itid)
-    {
-        it = &u.weapon;
-        p_itm = &u.weapon.contents[0];
-        min_charges = u.weapon.contents[0].charges;
-        i_cont = true;
-    }
-    else if (u.weapon.type->id == itid)
-    {
-        it = &u.weapon;
-        p_itm = it;
-        min_charges = u.weapon.charges;
-    }
-    else
-    {
-        it = &u.inv.item_or_container(itid);
-        if (!it->is_null()) {
-            if (it->type->id == itid) {
-                p_itm = it;
-            } else {
-                //ah, must be a container of the thing
-                p_itm = &(it->contents[0]);
-                i_cont = true;
-            }
-            min_charges = p_itm->charges;
-        }
-    }
-    if (it->is_null()) {
-        return false;
-    } else if (test) {
-        return true;
-    }
-
-    int fuel_per_charge = 1;
-    if( ftype == "plutonium" ) { fuel_per_charge = 1000; }
-    else if( ftype == "plasma" ) { fuel_per_charge = 100; }
-    int max_fuel = veh.part_info(part).size;
-    int dch = (max_fuel - veh.parts[part].amount) / fuel_per_charge;
-    if (dch < 1)
-        dch = 1;
-    bool rem_itm = min_charges <= dch;
-    int used_charges = rem_itm? min_charges : dch;
-    veh.parts[part].amount += used_charges * fuel_per_charge;
-    if (veh.parts[part].amount > max_fuel) {
-        veh.parts[part].amount = max_fuel;
-    }
-
-    if (ftype == "battery") {
-        add_msg(_("You recharge %s's battery."), veh.name.c_str());
-        if (veh.parts[part].amount == max_fuel) {
-            add_msg(_("The battery is fully charged."));
-        }
-    } else if (ftype == "gasoline") {
-        add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
-        if (veh.parts[part].amount == max_fuel) {
-            add_msg(_("The tank is full."));
-        }
-    } else if (ftype == "plutonium") {
-        add_msg(_("You refill %s's reactor."), veh.name.c_str());
-        if (veh.parts[part].amount == max_fuel) {
-            add_msg(_("The reactor is full."));
-        }
-    }
-
-    p_itm->charges -= used_charges;
-    if (rem_itm) {
-        if (i_cont) {
-            it->contents.erase(it->contents.begin());
-        } else if (&u.weapon == it) {
-            u.remove_weapon();
-        } else {
-            u.inv.remove_item_by_letter(it->invlet);
-        }
-    }
-    return true;
+  return refill_vehicle_part(veh, &veh.parts[part], test);
 }
 
 void game::handbrake ()
@@ -6251,8 +6257,8 @@ void game::handbrake ()
 void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 {
     veh_interact vehint;
-    vehint.cx = cx;
-    vehint.cy = cy;
+    vehint.cursor_x = cx;
+    vehint.cursor_y = cy;
     vehint.exec(this, &veh, examx, examy);
 //    debugmsg ("exam_vehicle cmd=%c %d", vehint.sel_cmd, (int) vehint.sel_cmd);
     if (vehint.sel_cmd != ' ')
@@ -6263,12 +6269,17 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
                                      (int) vehint.sel_cmd, 0, "");
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
-        u.activity.values.push_back (vehint.cx);   // values[2]
-        u.activity.values.push_back (vehint.cy);   // values[3]
-        u.activity.values.push_back (-vehint.ddx - vehint.cy);   // values[4]
-        u.activity.values.push_back (vehint.cx - vehint.ddy);   // values[5]
-        u.activity.values.push_back (vehint.sel_part); // values[6]
+        u.activity.values.push_back (vehint.cursor_x);   // values[2]
+        u.activity.values.push_back (vehint.cursor_y);   // values[3]
+        u.activity.values.push_back (-vehint.ddx - vehint.cursor_y);   // values[4]
+        u.activity.values.push_back (vehint.cursor_x - vehint.ddy);   // values[5]
+        u.activity.values.push_back (veh.index_of_part(vehint.sel_vehicle_part)); // values[6]
         u.activity.values.push_back (vehint.sel_type); // int. might make bitmask
+        if(vehint.sel_vpart_info != NULL) {
+          u.activity.str_values.push_back(vehint.sel_vpart_info->id);
+        } else {
+          u.activity.str_values.push_back("null");
+        }
         u.moves = 0;
     }
     refresh_all();

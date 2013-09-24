@@ -32,6 +32,8 @@ enum add_type {
  ADD_COKE, ADD_CRACK,
 };
 
+void realDebugmsg(const char* name, const char* line, const char *mes, ...);
+
 struct disease
 {
  dis_type type;
@@ -84,6 +86,7 @@ struct player_activity
  bool continuous;
  bool ignore_trivial;
  std::vector<int> values;
+ std::vector<std::string> str_values;
  point placement;
 
  player_activity() : name(""), placement(point(-1,-1)) { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
@@ -108,8 +111,12 @@ struct player_activity
   continuous = copy.continuous;
   ignore_trivial = copy.ignore_trivial;
   values.clear();
-  for (int i = 0; i < copy.values.size(); i++)
+  for (int i = 0; i < copy.values.size(); i++) {
    values.push_back(copy.values[i]);
+  }
+  for (int i = 0; i < copy.str_values.size(); i++) {
+   str_values.push_back(copy.str_values[i]);
+  }
  }
 
  picojson::value json_save(); // found in gamesave_json.cpp

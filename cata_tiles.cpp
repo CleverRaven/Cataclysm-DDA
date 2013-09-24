@@ -1,3 +1,6 @@
+
+#include "veh_type.h"
+
 #if (defined SDLTILES)
 #include <algorithm>
 #include "cata_tiles.h"
@@ -860,10 +863,10 @@ bool cata_tiles::draw_furniture(int x, int y)
     // for rotation inforomation
     const int neighborhood[4] =
     {
-        g->m.furn(x, y+1), // south
-        g->m.furn(x+1, y), // east
-        g->m.furn(x-1, y), // west
-        g->m.furn(x, y-1)  // north
+        static_cast<int> (g->m.furn(x, y+1)), // south
+        static_cast<int> (g->m.furn(x+1, y)), // east
+        static_cast<int> (g->m.furn(x-1, y)), // west
+        static_cast<int> (g->m.furn(x, y-1))  // north
     };
 
     int subtile = 0, rotation = 0;
@@ -884,10 +887,10 @@ bool cata_tiles::draw_trap(int x, int y)
 
     const int neighborhood[4] =
     {
-        g->m.tr_at(x, y+1), // south
-        g->m.tr_at(x+1, y), // east
-        g->m.tr_at(x-1, y), // west
-        g->m.tr_at(x, y-1)  // north
+        static_cast<int> (g->m.tr_at(x, y+1)), // south
+        static_cast<int> (g->m.tr_at(x+1, y)), // east
+        static_cast<int> (g->m.tr_at(x-1, y)), // west
+        static_cast<int> (g->m.tr_at(x, y-1))  // north
     };
 
     int subtile = 0, rotation = 0;
@@ -911,10 +914,10 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         // for rotation inforomation
         const int neighborhood[4] =
         {
-            g->m.field_at(x, y+1).fieldSymbol(), // south
-            g->m.field_at(x+1, y).fieldSymbol(), // east
-            g->m.field_at(x-1, y).fieldSymbol(), // west
-            g->m.field_at(x, y-1).fieldSymbol()  // north
+            static_cast<int> (g->m.field_at(x, y+1).fieldSymbol()), // south
+            static_cast<int> (g->m.field_at(x+1, y).fieldSymbol()), // east
+            static_cast<int> (g->m.field_at(x-1, y).fieldSymbol()), // west
+            static_cast<int> (g->m.field_at(x, y-1).fieldSymbol())  // north
         };
 
         int subtile = 0, rotation = 0;
@@ -954,11 +957,9 @@ bool cata_tiles::draw_vpart(int x, int y)
     // get the veh part itself
     vehicle_part vpart = veh->parts[veh_part];
     // get the vpart_id
-    int vpid = vpart.id;
+    std::string vpid = vpart.id;
 
-    std::string vp_name = veh_part_names[vpid];
-
-    return draw_from_id_string(vp_name, x, y, 0, veh_dir);
+    return draw_from_id_string(vpid, x, y, 0, veh_dir);
 }
 
 bool cata_tiles::draw_entity(int x, int y)
