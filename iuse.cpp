@@ -5401,7 +5401,7 @@ void iuse::towel(game *g, player *p, item *it, bool t)
 
 void iuse::unfold_bicycle(game *g, player *p, item *it, bool t)
 {
-    vehicle *bicycle = g->m.add_vehicle( g, "bicycle", p->posx, p->posy, 0, 0, 0);
+    vehicle *bicycle = g->m.add_vehicle( g, "bicycle", p->posx, p->posy, 0, 0, 0, false);
     if( bicycle ) {
         // Mark the vehicle as foldable.
         bicycle->tags.insert("convertible");

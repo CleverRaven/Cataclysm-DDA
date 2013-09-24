@@ -12627,7 +12627,7 @@ void map::add_spawn(monster *mon)
 }
 
 vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, const int dir,
-                          const int veh_fuel, const int veh_status)
+                          const int veh_fuel, const int veh_status, const bool merge_wrecks)
 {
  if(g->vtypes.count(type) == 0) {
    debugmsg("Nonexistant vehicle type: \"%s\"", type.c_str());
@@ -12653,7 +12653,7 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
 // veh->init_veh_fuel = 50;
 // veh->init_veh_status = 0;
 
- vehicle *placed_vehicle = add_vehicle_to_map(veh, x, y);
+ vehicle *placed_vehicle = add_vehicle_to_map(veh, x, y, merge_wrecks);
 
  if(placed_vehicle != NULL) {
   const int nonant = placed_vehicle->smx + placed_vehicle->smy * my_MAPSIZE;
@@ -12675,7 +12675,7 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
  * @param veh The vehicle to place on the map.
  * @return The vehicle that was finally placed.
  */
-vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
+vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks)
 {
   for (std::vector<int>::const_iterator part = veh->external_parts.begin();
           part != veh->external_parts.end(); part++) {
@@ -12701,6 +12701,10 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
     //For other vehicles, simulate collisions with (non-shopping cart) stuff
     vehicle *other_veh = veh_at(px, py);
     if (other_veh != NULL && other_veh->type != "shopping cart") {
+        if( !merge_wrecks ) {
+            delete veh;
+            return NULL;
+        }
 
       /* There's a vehicle here, so let's fuse them together into wreckage and
        * smash them up. It'll look like a nasty collision has occurred.
@@ -12721,12 +12725,12 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
       const int global_y = wreckage->smy * SEEY + wreckage->posy;
 
       for (int part_index = 0; part_index < veh->parts.size(); part_index++) {
-        
+
         const int local_x = (veh->smx * SEEX + veh->posx)
                        + veh->parts[part_index].precalc_dx[0]
                        - global_x;
         const int local_y = (veh->smy * SEEY + veh->posy)
-                       + veh->parts[part_index].precalc_dy[0] 
+                       + veh->parts[part_index].precalc_dy[0]
                        - global_y;
 
         wreckage->install_part(local_x, local_y, veh->parts[part_index].id, -1, true);
@@ -12756,6 +12760,10 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
       return add_vehicle_to_map(wreckage, global_x, global_y);
 
     } else if (move_cost(px, py) == 0) {
+        if( !merge_wrecks ) {
+            delete veh;
+            return NULL;
+        }
 
       //There's a wall or other obstacle here; destroy it
       destroy(g, px, py, false);
