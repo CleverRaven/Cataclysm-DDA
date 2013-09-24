@@ -5334,7 +5334,7 @@ void iuse::hotplate(game *g, player *p, item *it, bool t)
     if(heat_item(g, p)) {
       it->charges--;
     }
-  } else {
+  } else if(choice == 2) {
     cauterize_elec(g, p, it, t);
   }
 }
