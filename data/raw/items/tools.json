@@ -958,7 +958,7 @@
     "type": "TOOL",
     "symbol": ";",
     "color": "light_cyan",
-    "name": "bubblewrap",
+    "name": "bubble wrap",
     "description": "A sheet of plastic covered with air-filled bubbles. Use it to set it on the ground, creating a trap that will warn you with noise when something steps on it.",
     "price": 40,
     "material": "plastic",

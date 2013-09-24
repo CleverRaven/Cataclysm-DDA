@@ -357,7 +357,7 @@ are all required for certain items."),
             mvwprintz(w_help, 0, 0, c_white, _("\
 While sleeping in dangerous territory, it may be wise to set traps to ward\n\
 off unwanted intrusions. There are a few traps to be found in the world,\n\
-most notably bubblewrap (which will make a loud noise if stepped on, helping\n\
+most notably bubble wrap (which will make a loud noise if stepped on, helping\n\
 to wake you up) and bear traps (which make noise AND damage and trap anything\n\
 that steps on them). Others need to be crafted; this requires the Traps skill\n\
 and possibly Mechanics.\n\
