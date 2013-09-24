@@ -77,6 +77,40 @@
     "techniques": ["tec_taichi_disarm", "tec_taichi_precise"]
   },
   {
+    "id": "style_capoeira",
+    "name": "Capoeira",
+    "can_leg_block": true,
+    "desc": "A dance-like style with its roots in Brazilian slavery, capoeira is focused on fluid movement and sweeping kicks. Moving a tile will boost attack and damage and attacking boosts dodge. These bonuses stack up to three times each.",
+    "onhit_buffs": [
+      {
+        "id": "capoeira_hit_buff",
+        "name": "Capoeira Tempo",
+        "desc": "+1 dodge and +1 blocks per stack",
+        "unarmed_allowed": true,
+        "min_unarmed": 3,
+        "buff_duration": 5,
+        "max_stacks": 3,
+        "bonus_blocks": 1,
+        "dodge": 1
+      }
+
+    ],
+    "onmove_buffs": [
+      {
+        "id": "capoeira_move_buff",
+        "name": "Capoeira Momentum",
+        "desc": "+2 bash and +1 hit per stack",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 3,
+        "max_stacks": 3,
+        "bash": 2,
+        "hit": 1
+      }
+    ],
+    "techniques": ["tec_capoeira_feint"]
+  },
+  {
     "id": "style_krav_maga",
     "name": "Krav Maga",
     "can_leg_block": true,
