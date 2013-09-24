@@ -185,7 +185,8 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 
 // returns true if we want to use the special action
 bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_power,
-                      int torso_power, std::string item_name, std::string special_action)
+                      int torso_power, std::string item_name, bool bleed,
+                      bool bite, bool infect)
 {
     int bonus = p->skillLevel("firstaid");
     hp_part healed = num_hp_parts;
@@ -204,41 +205,43 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(11, 22, (TERMY-10)/2, (TERMX-22)/2);
+        WINDOW* hp_window = newwin(10, 22, (TERMY-10)/2, (TERMX-22)/2);
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
         mvwprintz(hp_window, 1, 1, c_ltred,  _("Use %s:"), item_name.c_str());
+        nc_color color;
         if(p->hp_cur[hp_head] < p->hp_max[hp_head])
         {
+            color = limb_color(p, bp_head, -1, bleed, bite, infect)
             mvwprintz(hp_window, 2, 1, p->has_disease("bleed", bp_head) ? c_red : c_ltgray, _("1: Head"));
         }
         if(p->hp_cur[hp_torso] < p->hp_max[hp_torso])
         {
+            color = limb_color(p, bp_torso, -1, bleed, bite, infect)
             mvwprintz(hp_window, 3, 1, p->has_disease("bleed", bp_torso) ? c_red : c_ltgray, _("2: Torso"));
         }
         if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l])
         {
+            color = limb_color(p, bp_arm, 0, bleed, bite, infect)
             mvwprintz(hp_window, 4, 1, p->has_disease("bleed", bp_arms, 0) ? c_red : c_ltgray, _("3: Left Arm"));
         }
         if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r])
         {
+            color = limb_color(p, bp_arm, 1, bleed, bite, infect)
             mvwprintz(hp_window, 5, 1, p->has_disease("bleed", bp_arms, 1) ? c_red : c_ltgray, _("4: Right Arm"));
         }
         if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l])
         {
-            mvwprintz(hp_window, 6, 1, p->has_disease("bleed", bp_legs, 0) ? c_red : c_ltgray, _("5: Left Leg"));
+            color = limb_color(p, bp_leg, 0, bleed, bite, infect)
+            mvwprintz(hp_window, 6, 1,  ? c_red : c_ltgray, _("5: Left Leg"));
         }
         if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r])
         {
+            color = limb_color(p, bp_leg, 1, bleed, bite, infect)
             mvwprintz(hp_window, 7, 1, p->has_disease("bleed", bp_legs, 1) ? c_red : c_ltgray, _("6: Right Leg"));
         }
-        if(special_action != "")
-        {
-            mvwprintz(hp_window, 8, 1, c_ltgray, _("7: %s"), special_action.c_str());
-        }
-        mvwprintz(hp_window, 9, 1, c_ltgray, _("8: Exit"));
-        nc_color color;
+        mvwprintz(hp_window, 8, 1, c_ltgray, _("7: Exit"));
         std::string asterisks = "";
         for (int i = 0; i < num_hp_parts; i++)
         {
@@ -358,14 +361,13 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
                 } else {
                     healed = hp_leg_r;
                 }
-            } else if (ch == '8' || special_action == "") {
+            } else if (ch == '7' || (spec_1 == "" && spec_2 == "" &&
+                       spec_3 == "")) {
                 g->add_msg_if_player(p,_("Never mind."));
                 add_or_drop_item(g, p, it);
                 return false;
-            } else if (ch == '7') {
-                return true;
             }
-        } while (ch < '1' || ch > '8');
+        } while (ch < '1' || ch > '7');
         werase(hp_window);
         wrefresh(hp_window);
         delwin(hp_window);
@@ -412,9 +414,16 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
     return false;
 }
 
+nc_color limb_color(player *p, body_part bp, int side, bool bleed, bool bite, bool infect)
+{
+    bool bleeding = p->has_disease("bleed", bp, side)
+    bool bitten = p->has_disease("bite", bp, side)
+    bool infected = p->has_disease("infected", bp, side)
+}
+
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 3, 1, 4, _("Bandage"), ""))
+    if (use_healing_item(g, p, it, 3, 1, 4, _("Bandage"), true, false, false))
     {
         g->add_msg_if_player(p,_("You stopped the bleeding."));
         p->rem_disease("bleed");
@@ -423,7 +432,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
 
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 14, 10, 18, _("First Aid"), p->has_disease("bite") ? _("Clean Wound") : ""))
+    if (use_healing_item(g, p, it, 14, 10, 18, _("First Aid"), true, true, true))
     {
         g->add_msg_if_player(p,_("You clean the bite wound."));
         p->rem_disease("bite");
@@ -433,7 +442,7 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
 void iuse::disinfectant(game *g, player *p, item *it, bool t)
 {
 
-    if (use_healing_item(g, p, it, 6, 5, 9, _("Disinfectant"), p->has_disease("bite") ? _("Clean Wound") : ""))
+    if (use_healing_item(g, p, it, 6, 5, 9, _("Disinfectant"), false, true, false)
     {
         g->add_msg_if_player(p,_("You disinfect the bite wound."));
         p->rem_disease("bite");
