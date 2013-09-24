@@ -2805,11 +2805,11 @@ if(it->type->id == "cot"){
   type = tr_brazier;
   practice = 0;
  } else if(it->type->id == "boobytrap"){
-  message << _("You set the boobytrap up and activate the grenade.");
+  message << _("You set the booby trap up and activate the grenade.");
   type = tr_boobytrap;
   practice = 4;
  } else if(it->type->id == "bubblewrap"){
-  message << _("You set the bubblewrap on the ground, ready to be popped.");
+  message << _("You set the bubble wrap on the ground, ready to be popped.");
   type = tr_bubblewrap;
   practice = 2;
  } else if(it->type->id == "beartrap"){
@@ -2905,9 +2905,9 @@ if(it->type->id == "cot"){
  } else if(it->type->id == "landmine"){
   buried = (p->has_amount("shovel", 1) &&
             g->m.has_flag(diggable, posx, posy) &&
-            query_yn(_("Bury the landmine?")));
+            query_yn(_("Bury the land mine?")));
   type = (buried ? tr_landmine_buried : tr_landmine);
-  message << (buried ? _("You bury the landmine.") : _("You set the landmine."));
+  message << (buried ? _("You bury the land mine.") : _("You set the land mine."));
   practice = (buried ? 7 : 4);
  } else {
   g->add_msg_if_player(p,_("Tried to set a trap.  But got confused! %s"), it->tname().c_str());
