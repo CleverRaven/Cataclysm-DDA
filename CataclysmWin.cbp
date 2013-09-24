@@ -103,6 +103,7 @@
 					<Add option="-O2" />
 					<Add option="-pg" />
 					<Add option="-DSDLTILES" />
+					<Add option="-DTILES" />
 					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
 				<Linker>
@@ -300,7 +301,8 @@
 		</Unit>
 		<Unit filename="rng.cpp" />
 		<Unit filename="rng.h" />
-		<Unit filename="sdlcurse.cpp" />
+		<Unit filename="savegame_json.cpp" />
+		<Unit filename="savegame_legacy.cpp" />
 		<Unit filename="sdltiles.cpp" />
 		<Unit filename="settlement.cpp" />
 		<Unit filename="settlement.h" />
