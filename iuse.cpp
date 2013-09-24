@@ -5285,33 +5285,58 @@ void iuse::spray_can(game *g, player *p, item *it, bool t)
     }
 }
 
+/**
+ * Heats up a food item.
+ * @return true if an item was heated, false if nothing was heated.
+ */
+bool iuse::heat_item(game *g, player *p)
+{
+    char ch = g->inv(_("Heat up what?"));
+    item* heat = &(p->i_at(ch));
+    if (heat->type->id == "null") {
+        g->add_msg(_("You do not have that item!"));
+        return false;
+    }
+    item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
+    if (target->type->is_food()) {
+        p->moves -= 300;
+        g->add_msg(_("You heat up the food."));
+        target->item_tags.insert("HOT");
+        target->active = true;
+        target->item_counter = 600;		// sets the hot food flag for 60 minutes
+        return true;
+    }
+    g->add_msg(_("You can't heat that up!"));
+    return false;
+}
+
 void iuse::heatpack(game *g, player *p, item *it, bool t)
 {
-	char ch = g->inv(_("Heat up what?"));
-	item* heat = &(p->i_at(ch));
-	if (heat->type->id == "null") {
-		g->add_msg(_("You do not have that item!"));
-		return;
-	}
-	if (heat->type->is_food()) {
-		p->moves -= 300;
-		g->add_msg(_("You heat up the food."));
-		heat->item_tags.insert("HOT");
-		heat->active = true;
-		heat->item_counter = 600;		// sets the hot food flag for 60 minutes
-		it->make(g->itypes["heatpack_used"]);
-		return;
-  } else 	if (heat->is_food_container()) {
-		p->moves -= 300;
-		g->add_msg(_("You heat up the food."));
-		heat->contents[0].item_tags.insert("HOT");
-		heat->contents[0].active = true;
-		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes
-		it->make(g->itypes["heatpack_used"]);
-		return;
-	}
-  { g->add_msg(_("You can't heat that up!"));
- } return;
+  if(heat_item(g, p)) {
+    it->make(g->itypes["heatpack_used"]);
+  }
+}
+
+void iuse::hotplate(game *g, player *p, item *it, bool t)
+{
+  if(it->charges == 0) {
+    g->add_msg_if_player(p, _("The %s's batteries are dead."), it->name.c_str());
+    return;
+  }
+
+  int choice = 1;
+  if (p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ) {
+    //Might want to cauterize
+    choice = menu(true, ("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
+  }
+
+  if(choice == 1) {
+    if(heat_item(g, p)) {
+      it->charges--;
+    }
+  } else {
+    cauterize_elec(g, p, it, t);
+  }
 }
 
 void iuse::dejar(game *g, player *p, item *it, bool t)
