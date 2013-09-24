@@ -1636,19 +1636,6 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 
     int degree = rng (70, 100);
 
-    //Calculate Impulse of car
-    const float vel1 = velocity/100; //Velocity of car
-
-    //Impulse of object
-    //Assumption: velocitiy of hit object = 0 mph
-    const float vel2 = 0;
-    //lost energy at collision -> deformation energy -> damage
-    const float d_E = ((mass*mass2)*(1-e)*(1-e)*(vel1-vel2)*(vel1-vel2)) / (2*mass + 2*mass2);
-    //velocity of car after collision
-    const float vel1_a = (mass2*vel2*(1+e) + vel1*(mass - e*mass2)) / (mass + mass2);
-    //velocity of object after collision
-    const float vel2_a = (mass*vel1*(1+e) + vel2*(mass2 - e*mass)) / (mass + mass2);
-
     //Calculate damage resulting from d_E
     material_type* vpart_item_mat1 = material_type::find_material(g->itypes[part_info(parm).item]->m1);
     material_type* vpart_item_mat2 = material_type::find_material(g->itypes[part_info(parm).item]->m2);
@@ -1674,42 +1661,117 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     if(k > 90) k = 90;  //saturation
     if(k < 10) k = 10;
 
-    //Damage calculation
-    const float dmg = abs(d_E / k_mvel); //damage dealt overall
-    const float part_dmg = dmg * k / 100;     //damage for vehicle-part
-    const float obj_dmg  = dmg * (100-k)/100;  //damage for object
-
     bool smashed = true;
     std::string snd;
-    if (collision_type == veh_coll_bashable) {
-        // something bashable -- use map::bash to determine outcome
-        int absorb = -1;
-        g->m.bash(x, y, obj_dmg, snd, &absorb);
-        smashed = obj_dmg > absorb;
-    } else if (collision_type >= veh_coll_thin_obstacle) {
-        // some other terrain
-        smashed = obj_dmg > mass2;
-        if (smashed) {
-            switch (collision_type) // destroy obstacle
-            {
-            case veh_coll_thin_obstacle:
-                if (g->m.has_furn(x, y))
-                    g->m.furn_set(x, y, f_null);
-                else
-                    g->m.ter_set(x, y, t_dirt);
-                break;
-            case veh_coll_destructable:
-                g->m.destroy(g, x, y, false);
-                snd = _("crash!");
-                break;
-            case veh_coll_other:
-                smashed = false;
-                break;
-            default:;
+    float part_dmg = 0.0;
+    float dmg = 0.0;
+    //Calculate Impulse of car
+    const float prev_velocity = velocity / 100;
+    int turns_stunned = 0;
+
+    do {
+        //Impulse of object
+        const float vel1 = velocity / 100;
+
+        //Assumption: velocitiy of hit object = 0 mph
+        const float vel2 = 0;
+        //lost energy at collision -> deformation energy -> damage
+        const float d_E = ((mass*mass2)*(1-e)*(1-e)*(vel1-vel2)*(vel1-vel2)) / (2*mass + 2*mass2);
+        //velocity of car after collision
+        const float vel1_a = (mass2*vel2*(1+e) + vel1*(mass - e*mass2)) / (mass + mass2);
+        //velocity of object after collision
+        const float vel2_a = (mass*vel1*(1+e) + vel2*(mass2 - e*mass)) / (mass + mass2);
+
+        //Damage calculation
+        //damage dealt overall
+        dmg += abs(d_E / k_mvel);
+        //damage for vehicle-part
+        part_dmg = dmg * k / 100;
+        //damage for object
+        const float obj_dmg  = dmg * (100-k)/100;
+
+        if (collision_type == veh_coll_bashable) {
+            // something bashable -- use map::bash to determine outcome
+            int absorb = -1;
+            g->m.bash(x, y, obj_dmg, snd, &absorb);
+            smashed = obj_dmg > absorb;
+        } else if (collision_type >= veh_coll_thin_obstacle) {
+            // some other terrain
+            smashed = obj_dmg > mass2;
+            if (smashed) {
+                // destroy obstacle
+                switch (collision_type) {
+                case veh_coll_thin_obstacle:
+                    if (g->m.has_furn(x, y)) {
+                        g->m.furn_set(x, y, f_null);
+                    } else {
+                        g->m.ter_set(x, y, t_dirt);
+                    }
+                    break;
+                case veh_coll_destructable:
+                    g->m.destroy(g, x, y, false);
+                    snd = _("crash!");
+                    break;
+                case veh_coll_other:
+                    smashed = false;
+                    break;
+                default:;
+                }
             }
         }
-        g->sound (x, y, smashed? 80 : 50, "");
-    }
+        if (collision_type == veh_coll_body) {
+            int dam = obj_dmg*dmg_mod/100;
+            if (z) {
+                int z_armor = part_flag(part, "SHARP")? z->type->armor_cut : z->type->armor_bash;
+                if (z_armor < 0) {
+                    z_armor = 0;
+                }
+                if (z) {
+                    dam -= z_armor;
+                }
+            }
+            if (dam < 0) { dam = 0; }
+
+            if (part_flag(part, "SHARP")) {
+                parts[part].blood += (20 + dam) * 5;
+            } else if (dam > rng (10, 30)) {
+                parts[part].blood += (10 + dam / 2) * 5;
+            }
+
+            turns_stunned = rng (0, dam) > 10? rng (1, 2) + (dam > 40? rng (1, 2) : 0) : 0;
+            if (part_flag(part, "SHARP")) {
+                turns_stunned = 0;
+            }
+            if (turns_stunned > 6) {
+                turns_stunned = 6;
+            }
+            if (turns_stunned > 0 && z) {
+                z->add_effect(ME_STUNNED, turns_stunned);
+            }
+
+            int angle = (100 - degree) * 2 * (one_in(2)? 1 : -1);
+            if (z) {
+                z->hurt(dam);
+
+                if (vel2_a > rng (10, 20)) {
+                    g->fling_player_or_monster (0, z, move.dir() + angle, vel2_a);
+                }
+                if (z->hp < 1) {
+                    g->kill_mon (mondex, pl_ctrl);
+                }
+            } else {
+                ph->hitall (g, dam, 40);
+                if (vel2_a > rng (10, 20)) {
+                    g->fling_player_or_monster (ph, 0, move.dir() + angle, vel2_a);
+                }
+            }
+        }
+
+        velocity = vel1_a*100;
+
+    } while( !smashed && velocity != 0 );
+
+    // Apply special effects from collision.
     if (!is_body_collision) {
         if (pl_ctrl) {
             if (snd.length() > 0) {
@@ -1722,37 +1784,8 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else if (snd.length() > 0) {
             g->add_msg (_("You hear a %s"), snd.c_str());
         }
-    }
-    if (collision_type == veh_coll_body) {
-        int dam = obj_dmg*dmg_mod/100;
-        if (z) {
-            int z_armor = part_flag(part, "SHARP")? z->type->armor_cut : z->type->armor_bash;
-            if (z_armor < 0) {
-                z_armor = 0;
-            }
-            if (z) {
-                dam -= z_armor;
-            }
-        }
-        if (dam < 0) { dam = 0; }
-
-        if (part_flag(part, "SHARP")) {
-            parts[part].blood += (20 + dam) * 5;
-        } else if (dam > rng (10, 30)) {
-            parts[part].blood += (10 + dam / 2) * 5;
-        }
-
-        int turns_stunned = rng (0, dam) > 10? rng (1, 2) + (dam > 40? rng (1, 2) : 0) : 0;
-        if (part_flag(part, "SHARP")) {
-            turns_stunned = 0;
-        }
-        if (turns_stunned > 6) {
-            turns_stunned = 6;
-        }
-        if (turns_stunned > 0 && z) {
-            z->add_effect(ME_STUNNED, turns_stunned);
-        }
-
+        g->sound (x, y, smashed? 80 : 50, "");
+    } else {
         std::string dname;
         if (z) {
             dname = z->name().c_str();
@@ -1760,26 +1793,9 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             dname = ph->name;
         }
         if (pl_ctrl) {
-            g->add_msg (_("Your %s's %s rams into %s, inflicting %d damage%s!"),
-                    name.c_str(), part_info(part).name.c_str(), dname.c_str(), dam,
-                    turns_stunned > 0 && z? _(" and stunning it") : "");
-        }
-
-        int angle = (100 - degree) * 2 * (one_in(2)? 1 : -1);
-        if (z) {
-            z->hurt(dam);
-
-            if (vel2_a > rng (10, 20)) {
-                g->fling_player_or_monster (0, z, move.dir() + angle, vel2_a);
-            }
-            if (z->hp < 1) {
-                g->kill_mon (mondex, pl_ctrl);
-            }
-        } else {
-            ph->hitall (g, dam, 40);
-            if (vel2_a > rng (10, 20)) {
-                g->fling_player_or_monster (ph, 0, move.dir() + angle, vel2_a);
-            }
+            g->add_msg (_("Your %s's %s rams into %s%s!"),
+                        name.c_str(), part_info(part).name.c_str(), dname.c_str(),
+                        turns_stunned > 0 && z? _(" and stuns it") : "");
         }
 
         if (part_flag(part, "SHARP")) {
@@ -1796,13 +1812,8 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         }
     }
 
-    velocity = vel1_a*100;
+    if( smashed ) {
 
-    // tree, wall, or bear sometimes wins
-    if (!smashed) {
-        cruise_on = false;
-        stop();
-    } else {
         int turn_amount = rng (1, 3) * sqrt ((double)dmg);
         turn_amount /= 15;
         if (turn_amount < 1) {
@@ -1814,7 +1825,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         }
         int turn_roll = rng (0, 100);
         //probability of skidding increases with higher delta_v
-        if (turn_roll < abs(vel1 - vel1_a)*2 ) {
+        if (turn_roll < abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
             //delta_v = vel1 - vel1_a
             //delta_v = 50 mph -> 100% probability of skidding
             //delta_v = 25 mph -> 50% probability of skidding
