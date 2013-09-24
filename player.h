@@ -166,6 +166,7 @@ public:
  float mabuff_cut_mult(); // martial arts bash damage multiplier
  int mabuff_cut_bonus(); // martial arts bash damage bonus, applied after mult
  bool is_throw_immune(); // martial arts throw immunity
+ bool is_quiet(); // martial arts quiet melee
 
  bool has_miss_recovery_tec(game* g); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(game* g); // technique-based miss recovery, like tec_feint
