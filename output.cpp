@@ -261,7 +261,7 @@ std::vector<std::string> foldstring ( std::string str, int width ) {
 }
 
 // returns number of printed lines
-int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...)
+int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color base_color, const char *mes, ...)
 {
     va_list ap;
     va_start(ap,mes);
@@ -269,14 +269,56 @@ int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color colo
     vsprintf(buff, mes, ap);
     va_end(ap);
 
+    nc_color color = base_color;
     std::vector<std::string> textformatted;
     textformatted = foldstring(buff, width);
     for (int line_num=0; line_num<textformatted.size(); line_num++)
     {
-        mvwprintz(w, line_num+begin_y, begin_x, color, "%s", textformatted[line_num].c_str());
+        wmove(w, line_num+begin_y, begin_x);
+        // split into colourable sections
+        std::vector<std::string> color_segments = split_by_color(textformatted[line_num]);
+        // for each section, get the colour, and print it
+        std::vector<std::string>::iterator it;
+        for (it = color_segments.begin(); it != color_segments.end(); ++it) {
+            if (!it->empty() && it->at(0) == '<') {
+                color = get_color_from_tag(*it, base_color);
+            }
+            wprintz(w, color, "%s", rm_prefix(*it).c_str());
+        }
     }
     return textformatted.size();
 };
+
+std::vector<std::string> split_by_color(const std::string &s)
+{
+    std::vector<std::string> ret;
+    std::vector<size_t> tag_positions = get_tag_positions(s);
+    size_t last_pos = 0;
+    std::vector<size_t>::iterator it;
+    for (it = tag_positions.begin(); it != tag_positions.end(); ++it) {
+        ret.push_back(s.substr(last_pos, *it-last_pos));
+        last_pos = *it;
+    }
+    // and the last (or only) one
+    ret.push_back(s.substr(last_pos, std::string::npos));
+    return ret;
+}
+
+nc_color get_color_from_tag(const std::string &s, const nc_color base_color)
+{
+    if (s.empty() || s[0] != '<' || s.substr(0,8) == "</color>") {
+        return base_color;
+    }
+    if (s.substr(0,7) != "<color_") {
+        return base_color;
+    }
+    size_t tag_close = s.find('>');
+    if (tag_close == std::string::npos) {
+        return base_color;
+    }
+    std::string color_name = s.substr(7,tag_close-7);
+    return color_from_string(color_name);
+}
 
 void mvputch(int y, int x, nc_color FG, long ch)
 {

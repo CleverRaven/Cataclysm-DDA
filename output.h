@@ -60,9 +60,12 @@ void mvprintz(int y, int x, nc_color FG, const char *mes, ...);
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
-std::vector<size_t> get_tag_positions(const std::string &s);
 std::string word_rewrap (const std::string &ins, int width);
 void draw_tabs(WINDOW *w, int active_tab, ...);
+
+std::vector<size_t> get_tag_positions(const std::string &s);
+std::vector<std::string> split_by_color(const std::string &s);
+nc_color get_color_from_tag(const std::string &s, const nc_color base_color);
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
