@@ -384,7 +384,7 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
         dam = normal_power + bonus;
     }
     p->heal(healed, dam);
-    body_part bp_healed;
+    body_part bp_healed = bp_torso;
     int side = -1;
     switch(healed) {
         case hp_head:
@@ -423,7 +423,7 @@ nc_color limb_color(player *p, body_part bp, int side, bool bleed, bool bite, bo
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 3, 1, 4, _("Bandage"), true, false, false))
+    if (use_healing_item(g, p, it, 3, 1, 4, it->name, true, false, false))
     {
         g->add_msg_if_player(p,_("You stopped the bleeding."));
         p->rem_disease("bleed");
@@ -432,7 +432,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
 
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 14, 10, 18, _("First Aid"), true, true, true))
+    if (use_healing_item(g, p, it, 14, 10, 18, it->name, true, true, true))
     {
         g->add_msg_if_player(p,_("You clean the bite wound."));
         p->rem_disease("bite");
@@ -441,8 +441,7 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
 
 void iuse::disinfectant(game *g, player *p, item *it, bool t)
 {
-
-    if (use_healing_item(g, p, it, 6, 5, 9, _("Disinfectant"), false, true, false)
+    if (use_healing_item(g, p, it, 6, 5, 9, it->name, false, true, false)
     {
         g->add_msg_if_player(p,_("You disinfect the bite wound."));
         p->rem_disease("bite");
@@ -1979,6 +1978,13 @@ void iuse::noise_emitter_off(game *g, player *p, item *it, bool t)
     }
 }
 
+void iuse::horn_bicycle(game *g, player *p, item *it, bool t)
+{
+    point pos = g->find_item(it);
+    g->sound(pos.x, pos.y, 15, _("honk."));
+   	g->add_msg_if_player(p,_("You honk the bicycle horn."));
+}
+
 void iuse::noise_emitter_on(game *g, player *p, item *it, bool t)
 {
     if (t) // Normal use
@@ -2100,6 +2106,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
 
  std::string door_name;
  ter_id new_type;
+ std::string open_message = _("With a satisfying click, the lock on the %s opens.");
  if (type == t_chaingate_l) {
    door_name = rm_prefix(_("<door_name>gate"));
    new_type = t_chaingate_c;
@@ -2109,7 +2116,8 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  } else if (type == t_door_bar_locked) {
    door_name = rm_prefix(_("<door_name>door"));
    new_type = t_door_bar_o;
-   g->add_msg_if_player(p, _("The door swings open..."));
+   //Bar doors auto-open (and lock if closed again) so show a different message)
+   open_message = _("The %s swings open...");
  } else if (type == t_door_c) {
    g->add_msg(_("That door isn't locked."));
    return;
@@ -2124,7 +2132,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  int door_roll = dice(4, 30);
  if (pick_roll >= door_roll) {
   p->practice(g->turn, "mechanics", 1);
-  g->add_msg_if_player(p,_("With a satisfying click, the lock on the %s opens."), door_name.c_str());
+  g->add_msg_if_player(p, open_message.c_str(), door_name.c_str());
   g->m.ter_set(dirx, diry, new_type);
  } else if (door_roll > (1.5 * pick_roll) && it->damage < 100) {
   it->damage++;
@@ -2670,7 +2678,7 @@ void iuse::zweifire_on(game *g, player *p, item *it, bool t)
     else
     {
         int choice = menu(true,
-                          _("Was willst du tun?"), _("Die Flamme erlöschen."), _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
+                          _("Was willst du tun?"), _("Die Flamme erlï¿½schen."), _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
         switch (choice)
         {
             if (choice == 2)

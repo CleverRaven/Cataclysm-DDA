@@ -28,10 +28,8 @@ class editmap
         int edit_itm(point coords);
         int edit_mon(point coords);
         int edit_npc(point coords);
-        int apply_mapgen(point coords);
-        int mapgen_preview(real_coords &tc, uimenu &gmenu);
+        int edit_veh(point coords);
         int select_shape(shapetype shape, int mode = -1 );
-        int mapgen_retarget(WINDOW * preview = NULL, map * mptr = NULL);
 
         void update_fmenu_entry(uimenu *fmenu, field *field, int idx);
         void setup_fmenu(uimenu *fmenu, field *field);
@@ -88,11 +86,15 @@ class editmap
         editmap(game *gptr) {
             g = gptr;
             width = TERMX - TERRAIN_WINDOW_WIDTH;
+            height = TERMY - TERRAIN_WINDOW_HEIGHT;
+            infoHeight = 0;
             sel_ter = -1;
             target_ter = -1;
             sel_frn = -1;
             target_frn = -1;
             ter_frn_mode = 0;
+            cur_field = 0;
+            cur_trap = tr_null;
             sel_field = -1;
             sel_fdensity = -1;
             sel_trap = -1;
@@ -102,6 +104,7 @@ class editmap
             trsel = -1;
             trset = -1;
             w_info = 0;
+            w_help = 0;
             lastop = 0;
             padding = std::string(width - 2, ' ');
             blink = false;

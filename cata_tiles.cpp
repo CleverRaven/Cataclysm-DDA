@@ -1,3 +1,6 @@
+
+#include "veh_type.h"
+
 #if (defined SDLTILES)
 #include <algorithm>
 #include "cata_tiles.h"
@@ -24,9 +27,15 @@ cata_tiles::cata_tiles()
     //ctor
     buffer = NULL;
     tile_atlas = NULL;
+    display_screen = NULL;
     tile_values = NULL;
     tile_ids = NULL;
     screen_tiles = NULL;
+
+    tile_height = 0;
+    tile_width = 0;
+    screentile_height = 0;
+    screentile_width = 0;
 
     in_animation = false;
     do_draw_explosion = false;
@@ -34,6 +43,9 @@ cata_tiles::cata_tiles()
     do_draw_hit = false;
     do_draw_line = false;
     do_draw_weather = false;
+    boomered = false;
+    sight_impaired = false;
+    bionight_bionic_active = false;
 }
 
 cata_tiles::~cata_tiles()
@@ -216,8 +228,6 @@ DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->
 
         sx *= tile_width;
         sy *= tile_height;
-
-        std::string output = "";
 
         /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
         int tilecount = 0;
@@ -853,10 +863,10 @@ bool cata_tiles::draw_furniture(int x, int y)
     // for rotation inforomation
     const int neighborhood[4] =
     {
-        g->m.furn(x, y+1), // south
-        g->m.furn(x+1, y), // east
-        g->m.furn(x-1, y), // west
-        g->m.furn(x, y-1)  // north
+        static_cast<int> (g->m.furn(x, y+1)), // south
+        static_cast<int> (g->m.furn(x+1, y)), // east
+        static_cast<int> (g->m.furn(x-1, y)), // west
+        static_cast<int> (g->m.furn(x, y-1))  // north
     };
 
     int subtile = 0, rotation = 0;
@@ -877,10 +887,10 @@ bool cata_tiles::draw_trap(int x, int y)
 
     const int neighborhood[4] =
     {
-        g->m.tr_at(x, y+1), // south
-        g->m.tr_at(x+1, y), // east
-        g->m.tr_at(x-1, y), // west
-        g->m.tr_at(x, y-1)  // north
+        static_cast<int> (g->m.tr_at(x, y+1)), // south
+        static_cast<int> (g->m.tr_at(x+1, y)), // east
+        static_cast<int> (g->m.tr_at(x-1, y)), // west
+        static_cast<int> (g->m.tr_at(x, y-1))  // north
     };
 
     int subtile = 0, rotation = 0;
@@ -904,10 +914,10 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         // for rotation inforomation
         const int neighborhood[4] =
         {
-            g->m.field_at(x, y+1).fieldSymbol(), // south
-            g->m.field_at(x+1, y).fieldSymbol(), // east
-            g->m.field_at(x-1, y).fieldSymbol(), // west
-            g->m.field_at(x, y-1).fieldSymbol()  // north
+            static_cast<int> (g->m.field_at(x, y+1).fieldSymbol()), // south
+            static_cast<int> (g->m.field_at(x+1, y).fieldSymbol()), // east
+            static_cast<int> (g->m.field_at(x-1, y).fieldSymbol()), // west
+            static_cast<int> (g->m.field_at(x, y-1).fieldSymbol())  // north
         };
 
         int subtile = 0, rotation = 0;
@@ -917,7 +927,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
     }
     else
     {
-        if (g->m.has_flag(container, x, y) || items.size() == 0)
+        if (g->m.has_flag(container, x, y) || items.empty())
         {
             return false;
         }
@@ -947,11 +957,9 @@ bool cata_tiles::draw_vpart(int x, int y)
     // get the veh part itself
     vehicle_part vpart = veh->parts[veh_part];
     // get the vpart_id
-    int vpid = vpart.id;
+    std::string vpid = vpart.id;
 
-    std::string vp_name = veh_part_names[vpid];
-
-    return draw_from_id_string(vp_name, x, y, 0, veh_dir);
+    return draw_from_id_string(vpid, x, y, 0, veh_dir);
 }
 
 bool cata_tiles::draw_entity(int x, int y)
@@ -979,7 +987,6 @@ bool cata_tiles::draw_entity(int x, int y)
             entity_here = true;
         }
     }
-    int subtile = corner;
     // check for PC (least common, only ever 1)
     if (!entity_here && g->u.posx == x && g->u.posy == y)
     {
@@ -988,6 +995,7 @@ bool cata_tiles::draw_entity(int x, int y)
     }
     if (entity_here)
     {
+        int subtile = corner;
         return draw_from_id_string(ent_name, x, y, subtile, 0);
     }
     return false;
@@ -1268,8 +1276,6 @@ void cata_tiles::get_terrain_orientation(int x, int y, int& rota, int& subtile)
         rota = 0;
         return;
     }
-    std::string tname = terrain_names[tid]; // base name of the terrain
-
 
     // get terrain neighborhood
     const ter_id neighborhood[4] =
@@ -1285,18 +1291,18 @@ void cata_tiles::get_terrain_orientation(int x, int y, int& rota, int& subtile)
     int num_connects = 0;
 
     // populate connection information
-	for (int i = 0; i < 4; ++i)
-	{
-		connects[i] = (neighborhood[i] == tid);
+    for (int i = 0; i < 4; ++i)
+    {
+        connects[i] = (neighborhood[i] == tid);
 
-		if (connects[i])
-		{
-		    ++num_connects;
-			val += 1 << i;
-		}
-	}
+        if (connects[i])
+        {
+            ++num_connects;
+            val += 1 << i;
+        }
+    }
 
-	get_rotation_and_subtile(val, num_connects, rota, subtile);
+    get_rotation_and_subtile(val, num_connects, rota, subtile);
 }
 void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects, int &rotation, int &subtile)
 {

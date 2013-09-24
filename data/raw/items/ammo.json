@@ -2171,7 +2171,7 @@
         "stack_size" : 50,
         "effects" : ["COOKOFF"]
     },
-	{   "type" : "AMMO",
+    {   "type" : "AMMO",
         "id" : "8mm_inc",
         "price" : 500,
         "name" : "8x40mm incendiary caseless",
@@ -2260,6 +2260,30 @@
         "count" : 1,
         "effects" : ["SMOKE_BIG"]
     },
+    {
+        "type" : "AMMO",
+        "id" : "RPG-7_ammo",
+        "price" : 500,
+        "name" : "RPG-7 Ammo",
+        "symbol" : "=",
+        "color" : "dark_gray",
+        "description" : "Ammunition for the RPG-7.",
+        "material" : "steel",
+        "volume" : 10,
+        "weight" : 3000,
+        "bashing" : 10,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "RPG-7",
+        "casing" : "NULL",
+        "damage" : 10,
+        "pierce" : 0,
+        "range" : 60,
+        "dispersion" : 5,
+        "recoil" : 30,
+        "count" : 1,
+        "effects" : ["EXPLOSIVE_BIG", "TRAIL"]
+    },
     {   "type" : "AMMO",
         "id" : "m235tpa",
         "price" : 800,
@@ -2327,5 +2351,4 @@
         "recoil" : 0,
         "count" : 5
     }
-
 ]

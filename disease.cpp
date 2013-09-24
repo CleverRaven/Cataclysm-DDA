@@ -4,6 +4,7 @@
 #include "disease.h"
 #include "weather.h"
 #include "translations.h"
+#include "martialarts.h"
 #include <stdlib.h>
 #include <sstream>
 #include <algorithm>
@@ -44,11 +45,30 @@ enum dis_type_enum {
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_INFECTED,
 // Inflicted by an NPC
  DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
+// Martial arts-related buffs
+ DI_MA_BUFF,
 // NPC-only
  DI_CATCH_UP
 };
 
 std::map<std::string, dis_type_enum> disease_type_lookup;
+
+// Todo: Move helper functions into a DiseaseHandler Class.
+// Should standardize parameters so we can make function pointers.
+static void manage_fire_exposure(player& p, int fireStrength = 1);
+static void manage_fungal_infection(player& p, disease& dis);
+static void manage_sleep(player& p, disease& dis);
+
+static void handle_alcohol(player& p, disease& dis);
+static void handle_bite_wound(player& p, disease& dis);
+static void handle_infected_wound(player& p, disease& dis);
+static void handle_recover(player& p, disease& dis);
+static void handle_cough(player& p, int volume = 12);
+static void handle_deliriant(player& p, disease& dis);
+static void handle_evil(player& p, disease& dis);
+static void handle_insect_parasites(player& p, disease& dis);
+
+static bool will_vomit(player& p, int chance = 1000);
 
 void game::init_diseases() {
     // Initialize the disease lookup table.
@@ -129,9 +149,10 @@ void game::init_diseases() {
     disease_type_lookup["asked_for_item"] = DI_ASKED_FOR_ITEM;
     disease_type_lookup["catch_up"] = DI_CATCH_UP;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
+    disease_type_lookup["ma_buff"] = DI_MA_BUFF;
 }
 
-void dis_msg(game *g, dis_type type_string) {
+void dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
     case DI_GLARE:
@@ -236,7 +257,7 @@ void dis_msg(game *g, dis_type type_string) {
     }
 }
 
-void dis_remove_memorial(game* g, dis_type type_string) {
+void dis_remove_memorial(dis_type type_string) {
 
   dis_type_enum type = disease_type_lookup[type_string];
 
@@ -266,9 +287,7 @@ void dis_remove_memorial(game* g, dis_type type_string) {
 
 }
 
-void dis_effect(game *g, player &p, disease &dis) {
-    std::stringstream sTemp;
-    mon_id montype;
+void dis_effect(player &p, disease &dis) {
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
     int bonus, psnChance;
@@ -727,7 +746,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_FUNGUS:
-            manage_fungal_infection(g, p, dis);
+            manage_fungal_infection(p, dis);
             break;
 
         case DI_SLIMED:
@@ -786,7 +805,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             }
 
         case DI_SLEEP:
-            manage_sleep(g, p, dis);
+            manage_sleep(p, dis);
             break;
 
         case DI_STEMCELL_TREATMENT:
@@ -844,7 +863,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_DRUNK:
-            handle_alcohol(g, p, dis);
+            handle_alcohol(p, dis);
             break;
 
         case DI_CIG:
@@ -940,7 +959,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_DERMATIK:
-            handle_insect_parasites(g, p, dis);
+            handle_insect_parasites(p, dis);
             break;
 
         case DI_WEBBED:
@@ -991,7 +1010,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_HALLU:
-            handle_deliriant(g, p, dis);
+            handle_deliriant(p, dis);
         break;
 
         case DI_ADRENALINE:
@@ -1106,7 +1125,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             if (dis.duration > 3600) {
                 // 12 teles
                 if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-                    montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
+                    mon_id montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
                     monster beast(g->mtypes[montype]);
                     int x, y;
                     int tries = 0;
@@ -1202,7 +1221,7 @@ void dis_effect(game *g, player &p, disease &dis) {
             break;
 
         case DI_BITE:
-            handle_bite_wound(g, p, dis);
+            handle_bite_wound(p, dis);
             break;
 
         case DI_LIGHTSNARE:
@@ -1225,6 +1244,15 @@ void dis_effect(game *g, player &p, disease &dis) {
 
         case DI_RECOVER:
             handle_recovery(g, p, dis);
+            break;
+
+        case DI_MA_BUFF:
+            if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end()) {
+              ma_buff b = g->ma_buffs[dis.buff_id];
+              if (b.is_valid_player(p)) {
+                b.apply_player(p);
+              }
+            }
             break;
     }
 }
@@ -1287,11 +1315,12 @@ int disease_speed_boost(disease dis)
  case DI_GRACK:         return +20000;
  case DI_METH:		return (dis.duration > 600 ? 50 : -40);
  case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
- default:		return 0;
+ default:;
  }
+ return 0;
 }
 
-std::string dis_name(disease dis)
+std::string dis_name(disease& dis)
 {
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
@@ -1309,7 +1338,7 @@ std::string dis_name(disease dis)
                 case 1: return _("Chilly face");
                 case 2: return _("Cold face!");
                 case 3: return _("Freezing face!!");}
-            case bp_torso: 
+            case bp_torso:
                 switch (dis.intensity) {
                 case 1: return _("Chilly torso");
                 case 2: return _("Cold torso!");
@@ -1561,11 +1590,24 @@ std::string dis_name(disease dis)
     }
     case DI_RECOVER: return _("Recovering From Infection");
 
-    default: return "";
+    case DI_MA_BUFF:
+        if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end()) {
+          if (g->ma_buffs[dis.buff_id].max_stacks > 1) {
+            std::stringstream buf;
+            buf << g->ma_buffs[dis.buff_id].name
+              << " (" << dis.intensity << ")";
+            return buf.str().c_str();
+          } else
+            return g->ma_buffs[dis.buff_id].name.c_str();
+        } else
+          return "Invalid martial arts buff";
+
+    default:;
     }
+    return "";
 }
 
-std::string dis_description(disease dis)
+std::string dis_description(disease& dis)
 {
     int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
@@ -1950,20 +1992,25 @@ condition, and deals massive damage.");
     case DI_INFECTED: return _("You have an infected wound.");
     case DI_RECOVER: return _("You are recovering from an infection.");
 
-    default: return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
+    case DI_MA_BUFF:
+        if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end())
+          return g->ma_buffs[dis.buff_id].desc.c_str();
+        else
+          return "This is probably a bug.";
+
+    default:;
     }
+    return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
 }
 
 void manage_fire_exposure(player &p, int fireStrength) {
     // TODO: this should be determined by material properties
-    item tmp;
-    bool burnVeggy, burnFabric, burnPlastic;
     p.hurtall(3*fireStrength);
     for (int i = 0; i < p.worn.size(); i++) {
-    tmp = p.worn[i];
-        burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
-        burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
-        burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
+        item tmp = p.worn[i];
+        bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
+        bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
+        bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
         if (burnVeggy || burnFabric || burnPlastic) {
             p.worn.erase(p.worn.begin() + i);
             i--;
@@ -1971,7 +2018,7 @@ void manage_fire_exposure(player &p, int fireStrength) {
     }
 }
 
-void manage_fungal_infection(game* g, player& p, disease& dis) {
+void manage_fungal_infection(player& p, disease& dis) {
     int bonus = p.has_trait("POISRESIST") ? 100 : 0;
     p.moves -= 10;
     p.str_cur -= 1;
@@ -2041,7 +2088,7 @@ void manage_fungal_infection(game* g, player& p, disease& dis) {
     }
 }
 
-void manage_sleep(game* g, player& p, disease& dis) {
+void manage_sleep(player& p, disease& dis) {
     p.moves = 0;
     if(int(g->turn) % 25 == 0) {
         if (p.fatigue > 0) {
@@ -2128,7 +2175,7 @@ void manage_sleep(game* g, player& p, disease& dis) {
     }
 }
 
-void handle_alcohol(game* g, player& p, disease& dis) {
+static void handle_alcohol(player& p, disease& dis) {
     /*  We get 600 turns, or one hour, of DI_DRUNK for each drink we have (on avg).
         Duration of DI_DRUNK is a good indicator of how much alcohol is in our system.
     */
@@ -2150,7 +2197,7 @@ void handle_alcohol(game* g, player& p, disease& dis) {
     }
 }
 
-void handle_bite_wound(game* g, player& p, disease& dis) {
+static void handle_bite_wound(player& p, disease& dis) {
     // Recovery chance
     if(int(g->turn) % 10 == 1) {
         int recover_factor = 100;
@@ -2198,7 +2245,7 @@ void handle_bite_wound(game* g, player& p, disease& dis) {
     }
 }
 
-void handle_infected_wound(game* g, player& p, disease& dis) {
+static void handle_infected_wound(player& p, disease& dis) {
     // Recovery chance
     if(int(g->turn) % 10 == 1) {
         int recover_factor = 100;
@@ -2289,7 +2336,7 @@ void handle_infected_wound(game* g, player& p, disease& dis) {
     }
 }
 
-void handle_recovery(game* g, player& p, disease& dis) {
+static void handle_recovery(player& p, disease& dis) {
     if (dis.duration > 52800) {
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
@@ -2358,7 +2405,7 @@ void handle_recovery(game* g, player& p, disease& dis) {
     }
 }
 
-void handle_cough(player &p, int loudness) {
+static void handle_cough(player &p, int loudness) {
     if (!p.is_npc()) {
         g->add_msg(_("You cough heavily."));
         g->sound(p.posx, p.posy, loudness, "");
@@ -2375,15 +2422,15 @@ void handle_cough(player &p, int loudness) {
     }
 }
 
-void handle_deliriant(game* g, player& p, disease& dis) {
+static void handle_deliriant(player& p, disease& dis) {
     // To be redone.
     // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
     static bool puked = false;
     int maxDuration = 3600;
-    int comeupTime = maxDuration*0.9;
-    int noticeTime = comeupTime + (maxDuration-comeupTime)/2;
-    int peakTime = maxDuration*0.8;
-    int comedownTime = maxDuration*0.3;
+    int comeupTime = int(maxDuration*0.9);
+    int noticeTime = int(comeupTime + (maxDuration-comeupTime)/2);
+    int peakTime = int(maxDuration*0.8);
+    int comedownTime = int(maxDuration*0.3);
     // Baseline
     if (dis.duration == noticeTime) {
         g->add_msg_if_player(&p,_("You feel a little strange."));
@@ -2425,11 +2472,12 @@ void handle_deliriant(game* g, player& p, disease& dis) {
                 default:
                     npcText = "\"Huh?  What was that?\"";
                     break;
-                int loudness = 20 + p.str_cur - p.int_cur;
-                loudness = (loudness > 5 ? loudness : 5);
-                loudness = (loudness < 30 ? loudness : 30);
-                g->sound(p.posx, p.posy, loudness, _(npcText.c_str()));
+
             }
+            int loudness = 20 + p.str_cur - p.int_cur;
+            loudness = (loudness > 5 ? loudness : 5);
+            loudness = (loudness < 30 ? loudness : 30);
+            g->sound(p.posx, p.posy, loudness, _(npcText.c_str()));
         }
     } else if (dis.duration == peakTime) {
         // Visuals start
@@ -2454,7 +2502,7 @@ void handle_deliriant(game* g, player& p, disease& dis) {
     }
 }
 
-void handle_evil(player& p, disease& dis) {
+static void handle_evil(player& p, disease& dis) {
     bool lesserEvil = false;  // Worn or wielded; diminished effects
     if (p.weapon.is_artifact() && p.weapon.is_tool()) {
         it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
@@ -2498,7 +2546,7 @@ void handle_evil(player& p, disease& dis) {
     }
 }
 
-void handle_insect_parasites(game* g, player& p, disease& dis) {
+static void handle_insect_parasites(player& p, disease& dis) {
     int formication_chance = 600;
     if (dis.duration > -2400 && dis.duration < 0) {
         formication_chance = 2400 + dis.duration;
@@ -2525,7 +2573,7 @@ void handle_insect_parasites(game* g, player& p, disease& dis) {
                 }
             }
         }
-        if (valid_spawns.size() >= 1) {
+        if (!valid_spawns.empty()) {
             p.rem_disease("dermatik"); // No more infection!  yay.
             g->add_msg_player_or_npc( &p,
                 _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
@@ -2533,7 +2581,7 @@ void handle_insect_parasites(game* g, player& p, disease& dis) {
 
             p.moves -= 600;
             monster grub(g->mtypes[mon_dermatik_larva]);
-            while (valid_spawns.size() > 0 && num_insects > 0) {
+            while (!valid_spawns.empty() && num_insects > 0) {
                 num_insects--;
                 // Hurt the player
                 body_part burst = bp_torso;

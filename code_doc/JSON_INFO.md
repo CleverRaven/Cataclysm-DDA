@@ -44,15 +44,15 @@
 ```
 ###DREAMS
 ```C++
-"message"		:	[                // List of potential dreams
-	"You have a strange dream about birds.",
-	"Your dreams give you a strange feathered feeling."
-	],
-"category"		:	"MUTCAT_BIRD",   // Mutation category needed to dream
-"strength"		:	1                // Mutation category strength required
-                                          1 = 20 - 34
-                                          2 = 35 - 49
-                                          3 = 50+
+"messages" : [                // List of potential dreams
+    "You have a strange dream about birds.",
+    "Your dreams give you a strange feathered feeling."
+],
+"category" : "MUTCAT_BIRD",   // Mutation category needed to dream
+"strength" : 1                // Mutation category strength required
+                                     1 = 20 - 34
+                                     2 = 35 - 49
+                                     3 = 50+
 ```
 ###ITEM GROUPS
 ```C++
@@ -64,7 +64,8 @@
   ["mushroom_poison", 3],
   ["mushroom_magic", 1],
   ["blueberries", 3]
-]
+],
+"groups":[]               // ?
 ```
 ###MATERIALS
 ```C++
@@ -127,7 +128,7 @@
 "result": "javelin",         // ID of resulting item
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
 "skill_used": "fabrication", // Skill trained and used for success checks
-"requires_skills": [ "survival", 1, "throw", 2 ], // Skills required to unlock recipe
+"requires_skills": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
 "difficulty": 3,             // Difficulty of success check
 "time": 5000,                // Time to perform recipe
 "reversible": false,         // Can be disassembled.
@@ -145,9 +146,8 @@
   [ "toolset", -1 ]
 ],
 [
-  [ "fire", -1 ]
-	]
-],
+    [ "fire", -1 ]
+]],
 "components": [              // Equivalent components are surrounded by a single set of brackets
 [
   [ "spear_wood", 1 ],       // Number of charges/items required
@@ -183,15 +183,16 @@
 "id": "LIGHTEATER",  // Unique ID
 "name": "Optimist",  // In-game name displayed
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
-"visibility": 0,     // Visibility of the trait for purposes of NPC interaction
-"ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction
+"visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
+"ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
 "description": "Nothing gets you down!" // In-game description
-"starting_trait": true, // Can be selected at character creation
-"valid": false,      // Can be mutated ingame
+"starting_trait": true, // Can be selected at character creation (default: false)
+"valid": false,      // Can be mutated ingame (default: true)
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 "prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
 "cancels": ["ROT1", "ROT2", "ROT3"], // Cancels these mutations when mutating
 "changes_to": ["FASTHEALER2"], // Can change into these mutations when mutating further
+"leads_to": [], // Mutations that add to this one
 "wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 ```

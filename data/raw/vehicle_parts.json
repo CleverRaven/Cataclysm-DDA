@@ -414,21 +414,6 @@
         ]
     },
     {
-        "id": "reinforced_windshield",
-        "name": "reinforced windshield",
-        "symbol": "\"",
-        "color": "light_blue",
-        "broken_symbol": "0",
-        "broken_color": "light_gray",
-        "damage_modifier": 80,
-        "durability": 300,
-        "item": "reinforced_glass_sheet",
-        "difficulty": 6,
-        "flags": [
-            "OVER", "OBSTACLE", "NO_REINFORCE"
-        ]
-    },
-    {
         "id": "blade_horizontal",
         "name": "blade",
         "symbol": "-",
@@ -1084,6 +1069,69 @@
         "difficulty": 1,
         "flags": [
             "INTERNAL", "LIGHT"
+        ]
+    },
+    {
+        "id": "reinforced_windshield",
+        "name": "reinforced windshield",
+        "symbol": "\"",
+        "color": "light_blue",
+        "broken_symbol": "0",
+        "broken_color": "light_gray",
+        "damage_modifier": 80,
+        "durability": 300,
+        "item": "reinforced_glass_sheet",
+        "difficulty": 6,
+        "flags": [
+            "OVER", "OBSTACLE", "NO_REINFORCE"
+        ]
+    },
+    {
+        "id": "horn_bicycle",
+        "name": "bicycle horn",
+        "symbol": "*",
+        "color": "light_gray",
+        "broken_symbol": "*",
+        "broken_color": "red",
+        "damage_modifier": 10,
+        "durability": 250,
+        "bonus": 15,
+        "item": "horn_bicycle",
+        "difficulty": 1,
+        "flags": [
+            "INTERNAL","HORN"
+        ]
+    },
+    {
+        "id": "horn_car",
+        "name": "car horn",
+        "symbol": "*",
+        "color": "light_gray",
+        "broken_symbol": "*",
+        "broken_color": "red",
+        "damage_modifier": 10,
+        "durability": 260,
+        "bonus": 30,
+        "item": "horn_car",
+        "difficulty": 3,
+        "flags": [
+            "INTERNAL","HORN"
+        ]
+    },
+    {
+        "id": "horn_big",
+        "name": "truck horn",
+        "symbol": "*",
+        "color": "light_gray",
+        "broken_symbol": "*",
+        "broken_color": "red",
+        "damage_modifier": 10,
+        "durability": 270,
+        "bonus": 45,
+        "item": "horn_big",
+        "difficulty": 3,
+        "flags": [
+            "INTERNAL","HORN"
         ]
     }
 ]

@@ -77,11 +77,11 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  bool is_bolt = false;
  std::set<std::string> effects;
  std::set<std::string> *curammo_effects = &curammo->ammo_effects;
- std::set<std::string> *gun_effects = &dynamic_cast<it_gun*>(weapon->type)->ammo_effects;
+ if(gunmod == NULL){
+     std::set<std::string> *gun_effects = &dynamic_cast<it_gun*>(weapon->type)->ammo_effects;
+     effects.insert(gun_effects->begin(),gun_effects->end());
+ }
  effects.insert(curammo_effects->begin(),curammo_effects->end());
- effects.insert(gun_effects->begin(),gun_effects->end());
-
- // Add weapon ammo_effect flags
 
  // Bolts and arrows are silent
  if (curammo->type == "bolt" || curammo->type == "arrow")
@@ -151,8 +151,6 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
  }
  if (firing->skill_used == Skill::skill("rifle") && trange > LONG_RANGE)
   trange = LONG_RANGE + .6 * (trange - LONG_RANGE);
- std::string message = "";
-
  bool missed = false;
  int tart;
 
@@ -187,7 +185,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
          radius++
        ) {                                      /* iterate from last target's position: makes sense for burst fire.*/
 
-           for (std::vector<monster>::iterator it = _z.begin(); it != _z.end(); it++) {
+           for (std::vector<monster>::iterator it = _z.begin(); it != _z.end(); ++it) {
                int nt_range_to_me = rl_dist(p.posx, p.posy, it->posx(), it->posy());
                int dummy;
                if (nt_range_to_me == 0 || nt_range_to_me > weaponrange ||
@@ -658,7 +656,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  int tarx, tary, junk, tart;
  int range=(hix-u.posx);
 // First, decide on a target among the monsters, if there are any in range
- if (t.size() > 0) {
+ if (!t.empty()) {
 // Check for previous target
   if (target == -1) {
 // If no previous target, target the closest there is
@@ -970,6 +968,10 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
  std::string gunsound;
  // noise() doesn't suport gunmods, but it does return the right value
  int noise = p.weapon.noise();
+ if(weapon->is_gunmod()){ //TODO make this produce the correct sound
+  g->sound(p.posx, p.posy, noise, "Whatever sound this gunmod should make");
+  return;
+ }
 
  it_gun* weapontype = dynamic_cast<it_gun*>(weapon->type);
  if (weapontype->ammo_effects.count("LASER") || weapontype->ammo_effects.count("PLASMA")) {

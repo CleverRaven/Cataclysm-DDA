@@ -348,8 +348,6 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
                       g->u.posx, g->u.posy);
    continue;
   }
-  int trec = rec -psgs[i]->skillLevel("driving");
-  if (trec < 0) trec = 0;
   // add recoil
   psg->driving_recoil = rec;
   // displace passenger taking in account vehicle movement (dx, dy)
@@ -406,395 +404,421 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
 
 void map::vehmove(game *g)
 {
-   // give vehicles movement points
-   {
-      VehicleList vehs = g->m.get_vehicles();
-      for(int v = 0; v < vehs.size(); ++v) {
-         vehicle* veh = vehs[v].v;
-         veh->gain_moves (abs (veh->velocity));
-      }
-   }
+    // give vehicles movement points
+    {
+        VehicleList vehs = g->m.get_vehicles();
+        for(int v = 0; v < vehs.size(); ++v) {
+            vehicle* veh = vehs[v].v;
+            veh->gain_moves (abs (veh->velocity));
+        }
+    }
 
-   int count = 0;
-   while(vehproceed(g)){
-      count++;// lots of movement stuff. maybe 10 is low for collisions.
-      if (count > 10)
-         break;
-   }
+    int count = 0;
+    while(vehproceed(g)) {
+        count++;// lots of movement stuff. maybe 10 is low for collisions.
+        if (count > 10)
+            break;
+    }
 }
 
 // find veh with the most amt of turn remaining, and move it a bit.
 // proposal:
 //  move it at most, a tenth of a turn, and at least one square.
 bool map::vehproceed(game* g){
-   VehicleList vehs = g->m.get_vehicles();
-   vehicle* veh = NULL;
-   float max_of_turn = 0;
-   int x; int y;
-   for(int v = 0; v < vehs.size(); ++v) {
-      if(vehs[v].v->of_turn > max_of_turn){
-         veh = vehs[v].v;
-         x = vehs[v].x;
-         y = vehs[v].y;
-         max_of_turn = veh->of_turn;
-      }
-   }
-   if(!veh)
-      return false;
+    VehicleList vehs = g->m.get_vehicles();
+    vehicle* veh = NULL;
+    float max_of_turn = 0;
+    int x; int y;
+    for(int v = 0; v < vehs.size(); ++v) {
+        if(vehs[v].v->of_turn > max_of_turn) {
+            veh = vehs[v].v;
+            x = vehs[v].x;
+            y = vehs[v].y;
+            max_of_turn = veh->of_turn;
+        }
+    }
+    if(!veh) { return false; }
 
-   if (!inbounds(x, y)){
-    if (g->debugmon)
-     debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)",x,y);
-      veh->stop();
-      veh->of_turn = 0;
-      return true;
-   }
+    if (!inbounds(x, y)) {
+        if (g->debugmon) { debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)",x,y); }
+        veh->stop();
+        veh->of_turn = 0;
+        return true;
+    }
 
-   bool pl_ctrl = veh->player_in_control(&g->u);
+    bool pl_ctrl = veh->player_in_control(&g->u);
 
-   // k slowdown first.
-   int slowdown = veh->skidding? 200 : 20; // mph lost per tile when coasting
-   float kslw = (0.1 + veh->k_dynamics()) / ((0.1) + veh->k_mass());
-   slowdown = (int) ceil(kslw * slowdown);
-   if (abs(slowdown) > abs(veh->velocity))
-      veh->stop();
-   else if (veh->velocity < 0)
+    // k slowdown first.
+    int slowdown = veh->skidding? 200 : 20; // mph lost per tile when coasting
+    float kslw = (0.1 + veh->k_dynamics()) / ((0.1) + veh->k_mass());
+    slowdown = (int) ceil(kslw * slowdown);
+    if (abs(slowdown) > abs(veh->velocity)) {
+        veh->stop();
+    } else if (veh->velocity < 0) {
       veh->velocity += slowdown;
-   else
+    } else {
       veh->velocity -= slowdown;
+    }
 
-   if (veh->velocity && abs(veh->velocity) < 20) //low enough for bicycles to go in reverse.
-      veh->stop();
+    //low enough for bicycles to go in reverse.
+    if (veh->velocity && abs(veh->velocity) < 20) {
+        veh->stop();
+    }
 
-   if(veh->velocity == 0) {
-      veh->of_turn -= .321f;
-      return true;
-   }
+    if(veh->velocity == 0) {
+        veh->of_turn -= .321f;
+        return true;
+    }
 
-   { // sink in water?
-      int num_wheels = 0, submerged_wheels = 0;
-      for (int ep = 0; ep < veh->external_parts.size(); ep++) {
-         const int p = veh->external_parts[ep];
-         if (veh->part_flag(p, "WHEEL")){
-            num_wheels++;
+    { // sink in water?
+        int num_wheels = 0, submerged_wheels = 0;
+        for (int ep = 0; ep < veh->external_parts.size(); ep++) {
+            const int p = veh->external_parts[ep];
+            if (veh->part_flag(p, "WHEEL")) {
+                num_wheels++;
+                const int px = x + veh->parts[p].precalc_dx[0];
+                const int py = y + veh->parts[p].precalc_dy[0];
+                // deep water
+                if(move_cost_ter_furn(px, py) == 0) {
+                    submerged_wheels++;
+                }
+            }
+        }
+        // submerged wheels threshold is 2/3.
+        if (num_wheels &&  (float)submerged_wheels / num_wheels > .666) {
+            g->add_msg(_("Your %s sank."), veh->name.c_str());
+            if (pl_ctrl)
+                veh->unboard_all ();
+            // destroy vehicle (sank to nowhere)
+            destroy_vehicle(veh);
+            return true;
+        }
+    }
+    // One-tile step take some of movement
+    //  terrain cost is 1000 on roads.
+    // This is stupid btw, it makes veh magically seem
+    //  to accelerate when exiting rubble areas.
+    float ter_turn_cost = 500.0 * move_cost_ter_furn (x,y) / abs(veh->velocity);
+
+    //can't afford it this turn?
+    if(ter_turn_cost >= veh->of_turn) {
+        veh->of_turn_carry = veh->of_turn;
+        veh->of_turn = 0;
+        return true;
+    }
+
+    veh->of_turn -= ter_turn_cost;
+
+    // if not enough wheels, mess up the ground a bit.
+    if (!veh->valid_wheel_config()) {
+        veh->velocity += veh->velocity < 0 ? 2000 : -2000;
+        for (int ep = 0; ep < veh->external_parts.size(); ep++) {
+            const int p = veh->external_parts[ep];
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
-            if(move_cost_ter_furn(px, py) == 0) // deep water
-               submerged_wheels++;
-         }
-      }
-      // submerged wheels threshold is 2/3.
-      if (num_wheels &&  (float)submerged_wheels / num_wheels > .666){
-         g->add_msg(_("Your %s sank."), veh->name.c_str());
-         if (pl_ctrl)
-            veh->unboard_all ();
-         // destroy vehicle (sank to nowhere)
-         destroy_vehicle(veh);
-         return true;
-      }
-   }
-   // One-tile step take some of movement
-   //  terrain cost is 1000 on roads.
-   // This is stupid btw, it makes veh magically seem
-   //  to accelerate when exiting rubble areas.
-   float ter_turn_cost = 500.0 * move_cost_ter_furn (x,y) / abs(veh->velocity);
+            const ter_id &pter = ter(px, py);
+            if (pter == t_dirt || pter == t_grass) {
+                ter_set(px, py, t_dirtmound);
+            }
+        }
+    }
 
-   //can't afford it this turn?
-   if(ter_turn_cost >= veh->of_turn){
-      veh->of_turn_carry = veh->of_turn;
-      veh->of_turn = 0;
-      return true;
-   }
-
-   veh->of_turn -= ter_turn_cost;
-
-   // if not enough wheels, mess up the ground a bit.
-   if (!veh->valid_wheel_config()) {
-      veh->velocity += veh->velocity < 0 ? 2000 : -2000;
-      for (int ep = 0; ep < veh->external_parts.size(); ep++) {
-         const int p = veh->external_parts[ep];
-         const int px = x + veh->parts[p].precalc_dx[0];
-         const int py = y + veh->parts[p].precalc_dy[0];
-         const ter_id &pter = ter(px, py);
-         if (pter == t_dirt || pter == t_grass)
-            ter_set(px, py, t_dirtmound);
-      }
-   }
-
-   if (veh->skidding){
-      if (one_in(4)){ // might turn uncontrollably while skidding
-          veh->turn (one_in(2) ? -15 : 15);
-      }
-   }
-   else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20)) {
-      g->add_msg(_("You fumble with the %s's controls."), veh->name.c_str());
-      veh->turn (one_in(2) ? -15 : 15);
-   }
-   // eventually send it skidding if no control
-   if (!veh->boarded_parts().size() && one_in (10))
-      veh->skidding = true;
-   tileray mdir; // the direction we're moving
-   if (veh->skidding) // if skidding, it's the move vector
-      mdir = veh->move;
-   else if (veh->turn_dir != veh->face.dir())
-      mdir.init (veh->turn_dir); // driver turned vehicle, get turn_dir
-   else
+    if (veh->skidding) {
+        if (one_in(4)) { // might turn uncontrollably while skidding
+            veh->turn (one_in(2) ? -15 : 15);
+        }
+    }
+    else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20)) {
+        g->add_msg(_("You fumble with the %s's controls."), veh->name.c_str());
+        veh->turn (one_in(2) ? -15 : 15);
+    }
+    // eventually send it skidding if no control
+    if (!veh->boarded_parts().size() && one_in (10)) {
+        veh->skidding = true;
+    }
+    tileray mdir; // the direction we're moving
+    if (veh->skidding) { // if skidding, it's the move vector
+        mdir = veh->move;
+    } else if (veh->turn_dir != veh->face.dir()) {
+        mdir.init (veh->turn_dir); // driver turned vehicle, get turn_dir
+    } else {
       mdir = veh->face;          // not turning, keep face.dir
-   mdir.advance (veh->velocity < 0? -1 : 1);
-   const int dx = mdir.dx();           // where do we go
-   const int dy = mdir.dy();           // where do we go
-   bool can_move = true;
-   // calculate parts' mount points @ next turn (put them into precalc[1])
-   veh->precalc_mounts(1, veh->skidding ? veh->turn_dir : mdir.dir());
+    }
+    mdir.advance (veh->velocity < 0? -1 : 1);
+    const int dx = mdir.dx();           // where do we go
+    const int dy = mdir.dy();           // where do we go
+    bool can_move = true;
+    // calculate parts' mount points @ next turn (put them into precalc[1])
+    veh->precalc_mounts(1, veh->skidding ? veh->turn_dir : mdir.dir());
 
-   int dmg_1 = 0;
+    int dmg_1 = 0;
 
-   std::vector<veh_collision> veh_veh_colls;
+    std::vector<veh_collision> veh_veh_colls;
 
-   if (veh->velocity == 0)
-      can_move = false;
-   // find collisions
-   int vel1 = veh->velocity/100; //velocity of car before collision
-   veh->collision( veh_veh_colls, dx, dy, can_move, dmg_1 );
+    if (veh->velocity == 0) { can_move = false; }
+    // find collisions
+    int vel1 = veh->velocity/100; //velocity of car before collision
+    veh->collision( veh_veh_colls, dx, dy, can_move, dmg_1 );
 
-   bool veh_veh_coll_flag = false;
-   if(veh_veh_colls.size()){ // we have dynamic crap!
-      // effects of colliding with another vehicle:
-      // transfers of momentum, skidding,
-      // parts are damaged/broken on both sides,
-      // remaining times are normalized,
-	  veh_veh_coll_flag = true;
-      veh_collision c = veh_veh_colls[0]; //Note: What´s with collisions with more than 2 vehicles?
-      vehicle* veh2 = (vehicle*) c.target;
-      g->add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
-                 veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
-                veh2->name.c_str(), veh2->part_info(c.target_part).name.c_str());
+    bool veh_veh_coll_flag = false;
+    // Used to calculate the epicenter of the collision.
+    point epicenter1(0, 0);
+    point epicenter2(0, 0);
 
-      // for reference, a cargo truck weighs ~25300, a bicycle 690,
-      //  and 38mph is 3800 'velocity'
-      rl_vec2d velo_veh1 = veh->velo_vec();
-      rl_vec2d velo_veh2 = veh2->velo_vec();
-      float m1 = veh->total_mass();
-      float m2 = veh2->total_mass();
-	  //Energy of vehicle1 annd vehicle2 before collision
-	  float E = 0.5 * m1 * velo_veh1.norm() * velo_veh1.norm() + 0.5 * m2 * velo_veh2.norm() * velo_veh2.norm();
+    if(veh_veh_colls.size()) { // we have dynamic crap!
+        // effects of colliding with another vehicle:
+        // transfers of momentum, skidding,
+        // parts are damaged/broken on both sides,
+        // remaining times are normalized,
+        veh_veh_coll_flag = true;
+        veh_collision c = veh_veh_colls[0]; //Note: What´s with collisions with more than 2 vehicles?
+        vehicle* veh2 = (vehicle*) c.target;
+        g->add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
+                   veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
+                   veh2->name.c_str(), veh2->part_info(c.target_part).name.c_str());
 
-	  //collision_axis
-	  int x_cof1 = 0, y_cof1 = 0, x_cof2 = 0, y_cof2 = 0;
-	  veh ->center_of_mass(x_cof1, y_cof1);
-	  veh2->center_of_mass(x_cof2, y_cof2);
-	  rl_vec2d collision_axis_y;
+        // for reference, a cargo truck weighs ~25300, a bicycle 690,
+        //  and 38mph is 3800 'velocity'
+        rl_vec2d velo_veh1 = veh->velo_vec();
+        rl_vec2d velo_veh2 = veh2->velo_vec();
+        float m1 = veh->total_mass();
+        float m2 = veh2->total_mass();
+        //Energy of vehicle1 annd vehicle2 before collision
+        float E = 0.5 * m1 * velo_veh1.norm() * velo_veh1.norm() +
+            0.5 * m2 * velo_veh2.norm() * velo_veh2.norm();
 
-	  collision_axis_y.x = ( veh->global_x() + x_cof1 ) -  ( veh2->global_x() + x_cof2 );
-	  collision_axis_y.y = ( veh->global_y() + y_cof1 ) -  ( veh2->global_y() + y_cof2 );
-	  collision_axis_y = collision_axis_y.normalized();
-	  rl_vec2d collision_axis_x = collision_axis_y.get_vertical();
-      // imp? & delta? & final? reworked:
-      // newvel1 =( vel1 * ( mass1 - mass2 ) + ( 2 * mass2 * vel2 ) ) / ( mass1 + mass2 )
-      // as per http://en.wikipedia.org/wiki/Elastic_collision
-	  float vel1_y = collision_axis_y.dot_product(velo_veh1); //velocity of veh1 before collision in the direction of collision_axis_y
-	  float vel1_x = collision_axis_x.dot_product(velo_veh1);
-	  float vel2_y = collision_axis_y.dot_product(velo_veh2); //velocity of veh2 before collision in the direction of collision_axis_y
-	  float vel2_x = collision_axis_x.dot_product(velo_veh2);
-	  float e = get_collision_factor(vel1_y/100 - vel2_y/100); // e = 0 -> inelastic collision
-	  // e = 1 -> elastic collision
+        //collision_axis
+        int x_cof1 = 0, y_cof1 = 0, x_cof2 = 0, y_cof2 = 0;
+        veh ->center_of_mass(x_cof1, y_cof1);
+        veh2->center_of_mass(x_cof2, y_cof2);
+        rl_vec2d collision_axis_y;
 
-	  float vel1_x_a = vel1_x; //velocity after collision
-	  // vel1_x_a = vel1_x, because in x-direction we have no transmission of force
-	  float vel2_x_a = vel2_x;
-	  //transmission of force only in direction of collision_axix_y
-	  float vel1_y_a = ( m2 * vel2_y * ( 1 + e ) + vel1_y * ( m1 - m2 * e) ) / ( m1 + m2);  //equation: partially elastic collision
-	  float vel2_y_a = ( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e) ) / ( m1 + m2);  //equation: partially elastic collision
-	  rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a; //add both components; Note: collision_axis is normalized
-	  rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a; //add both components; Note: collision_axis is normalized
+        collision_axis_y.x = ( veh->global_x() + x_cof1 ) -  ( veh2->global_x() + x_cof2 );
+        collision_axis_y.y = ( veh->global_y() + y_cof1 ) -  ( veh2->global_y() + y_cof2 );
+        collision_axis_y = collision_axis_y.normalized();
+        rl_vec2d collision_axis_x = collision_axis_y.get_vertical();
+        // imp? & delta? & final? reworked:
+        // newvel1 =( vel1 * ( mass1 - mass2 ) + ( 2 * mass2 * vel2 ) ) / ( mass1 + mass2 )
+        // as per http://en.wikipedia.org/wiki/Elastic_collision
+        //velocity of veh1 before collision in the direction of collision_axis_y
+        float vel1_y = collision_axis_y.dot_product(velo_veh1);
+        float vel1_x = collision_axis_x.dot_product(velo_veh1);
+        //velocity of veh2 before collision in the direction of collision_axis_y
+        float vel2_y = collision_axis_y.dot_product(velo_veh2);
+        float vel2_x = collision_axis_x.dot_product(velo_veh2);
+        // e = 0 -> inelastic collision
+        // e = 1 -> elastic collision
+        float e = get_collision_factor(vel1_y/100 - vel2_y/100);
 
-	  //Energy after collision
-	  float E_a = 0.5 * m1 * final1.norm() * final1.norm() + 0.5 * m2 * final2.norm() * final2.norm();
-	  float d_E = E - E_a;  //Lost energy at collision -> deformation energy
-	  float dmg = abs( d_E / 1000 / 2000 );  //adjust to balance damage
-	  float dmg_veh1 = dmg * 0.5;
-	  float dmg_veh2 = dmg * 0.5;
+        //velocity after collision
+        float vel1_x_a = vel1_x;
+        // vel1_x_a = vel1_x, because in x-direction we have no transmission of force
+        float vel2_x_a = vel2_x;
+        //transmission of force only in direction of collision_axix_y
+        //equation: partially elastic collision
+        float vel1_y_a = ( m2 * vel2_y * ( 1 + e ) + vel1_y * ( m1 - m2 * e) ) / ( m1 + m2);
+        //equation: partially elastic collision
+        float vel2_y_a = ( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e) ) / ( m1 + m2);
+        //add both components; Note: collision_axis is normalized
+        rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a;
+        //add both components; Note: collision_axis is normalized
+        rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
 
-	  //Debugging
-	  /*
-	  g->add_msg(_("Veh1: x: %d y: %d"), veh->global_x() + x_cof1, veh->global_y() + y_cof1);
-	  g->add_msg(_("Veh2: x: %d y: %d"), veh2->global_x() + x_cof2, veh2->global_y() + y_cof2);
-	  g->add_msg(_("Coll_X: %f Coll_Y: %f e: %f"), collision_axis_y.x, collision_axis_y.y, e);
-	  g->add_msg(_("Vel1_y: %f Vel1_x: %f"), vel1_y, vel1_x);
-	  g->add_msg(_("Vel2_y: %f Vel2_x: %f"), vel2_y, vel2_x);
-	  g->add_msg(_("Vel1_y_a: %f Vel1_x_a: %f"), vel1_y_a, vel1_x_a);
-	  g->add_msg(_("Vel2_y_a: %f Vel2_x_a: %f"), vel2_y_a, vel2_x_a);
-	  g->add_msg(_("DMG1: %f DMG2:: %f"), dmg_veh1, dmg_veh2);
-	  */
+        //Energy after collision
+        float E_a = 0.5 * m1 * final1.norm() * final1.norm() +
+            0.5 * m2 * final2.norm() * final2.norm();
+        float d_E = E - E_a;  //Lost energy at collision -> deformation energy
+        float dmg = abs( d_E / 1000 / 2000 );  //adjust to balance damage
+        float dmg_veh1 = dmg * 0.5;
+        float dmg_veh2 = dmg * 0.5;
 
-	  int coll_parts_cnt=0; //quantity of colliding parts between veh1 and veh2
-	  for(int i = 0; i < veh_veh_colls.size(); i++) {
-		  veh_collision tmp_c = veh_veh_colls[i];
-		  if(veh2 == (vehicle*) tmp_c.target) coll_parts_cnt++;
-	  }
+        int coll_parts_cnt = 0; //quantity of colliding parts between veh1 and veh2
+        for(int i = 0; i < veh_veh_colls.size(); i++) {
+            veh_collision tmp_c = veh_veh_colls[i];
+            if(veh2 == (vehicle*) tmp_c.target) { coll_parts_cnt++; }
+        }
 
-	  float dmg1_part = dmg_veh1 / coll_parts_cnt;
-	  float dmg2_part = dmg_veh2 / coll_parts_cnt;
+        float dmg1_part = dmg_veh1 / coll_parts_cnt;
+        float dmg2_part = dmg_veh2 / coll_parts_cnt;
 
-	  //damage colliding parts (only veh1 and veh2 parts)
-	  for(int i = 0; i < veh_veh_colls.size(); i++) {
-		  veh_collision tmp_c = veh_veh_colls[i];
+        //damage colliding parts (only veh1 and veh2 parts)
+        for(int i = 0; i < veh_veh_colls.size(); i++) {
+            veh_collision tmp_c = veh_veh_colls[i];
 
-		  if(veh2 == (vehicle*) tmp_c.target) {
-			int parm1 = veh->part_with_feature (tmp_c.part, "ARMOR");
-			if (parm1 < 0) {
-				parm1 = tmp_c.part;
-			}
-			int parm2 = veh2->part_with_feature (tmp_c.target_part, "ARMOR");
-			if (parm2 < 0) {
-				parm2 = tmp_c.target_part;
-			}
-			veh->damage(parm1, dmg1_part, 1);
-			veh2->damage(parm2, dmg2_part, 1);
-		  }
-	  }
+            if(veh2 == (vehicle*) tmp_c.target) {
+                int parm1 = veh->part_with_feature (tmp_c.part, "ARMOR");
+                if (parm1 < 0) {
+                    parm1 = tmp_c.part;
+                }
+                int parm2 = veh2->part_with_feature (tmp_c.target_part, "ARMOR");
+                if (parm2 < 0) {
+                    parm2 = tmp_c.target_part;
+                }
+                epicenter1.x += veh->parts[parm1].mount_dx;
+                epicenter1.y += veh->parts[parm1].mount_dy;
+                veh->damage(parm1, dmg1_part, 1);
 
-	  if (dmg2_part > 100)
-         veh2->damage_all(dmg2_part / 20, dmg2_part / 10, 1);// shake veh because of collision
-
-	  dmg_1 += dmg1_part;
-
-      veh->move.init (final1.x, final1.y);
-      veh->velocity = final1.norm();
-      // shrug it off if the change is less than 8mph.
-      if(dmg_veh1 > 800) {
-         veh->skidding = 1;
-      }
-      veh2->move.init(final2.x, final2.y);
-      veh2->velocity = final2.norm();
-      if(dmg_veh2 > 800) {
-         veh2->skidding = 1;
-      }
-      //give veh2 the initiative to proceed next before veh1
-      float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
-      if(avg_of_turn < .1f)
-         avg_of_turn = .1f;
-      veh->of_turn = avg_of_turn * .9;
-      veh2->of_turn = avg_of_turn * 1.1;
-   }
-
-   int coll_turn = 0;
-   if (dmg_1 > 0) {
-      // debugmsg ("collision imp=%d dam=%d-%d", imp, imp/10, imp/6);
-	  int vel1_a = veh->velocity/100; //velocity of car after collision
-	  int d_vel = abs(vel1 - vel1_a);
-
-      if (dmg_1 > 100)
-         veh->damage_all(dmg_1 / 20, dmg_1 / 10, 1);// shake veh because of collision
-      std::vector<int> ppl = veh->boarded_parts();
-
-      for (int ps = 0; ps < ppl.size(); ps++) {
-         player *psg = veh->get_passenger (ppl[ps]);
-         if (!psg) {
-            debugmsg ("throw passenger: empty passenger at part %d", ppl[ps]);
-            continue;
-         }
-
-		 bool throw_from_seat = 0;
-		 if (veh->part_with_feature (ppl[ps], "SEATBELT") == -1) throw_from_seat = d_vel * rng(80, 120) / 100 > (psg->str_cur * 1.5 + 5);
-
-		  //damage passengers if d_vel is too high
-		 if(d_vel > 60* rng(50,100)/100 && !throw_from_seat) {
-			int dmg = d_vel/4*rng(70,100)/100;
-			psg->hurtall(dmg);
-			if (psg == &g->u)
-                g->add_msg(_("You take %d damage by the power of the impact!"), dmg);
-            else if (psg->name.length())
-                g->add_msg(_("%s takes %d damage by the power of the impact!"), psg->name.c_str(), dmg);
-		 }
-
-         if (throw_from_seat) {
-            if (psg == &g->u) {
-                g->add_msg(_("You are hurled from the %s's seat by the power of the impact!"), veh->name.c_str());
-            } else if (psg->name.length()) {
-                g->add_msg(_("%s is hurled from the %s's seat by the power of the impact!"), psg->name.c_str(), veh->name.c_str());
+                epicenter2.x += veh2->parts[parm2].mount_dx;
+                epicenter2.y += veh2->parts[parm2].mount_dy;
+                veh2->damage(parm2, dmg2_part, 1);
             }
-            g->m.unboard_vehicle(g, x + veh->parts[ppl[ps]].precalc_dx[0],
-                  y + veh->parts[ppl[ps]].precalc_dy[0]);
-            g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
-                  (vel1 - psg->str_cur < 10 ? 10 :
-                   vel1 - psg->str_cur));
-         } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {
-            // FIXME: should actually check if passenger is in control,
-            // not just if there are controls there.
-            const int lose_ctrl_roll = rng (0, dmg_1);
-            if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3) {
-               if (psg == &g->u) {
-                   g->add_msg(_("You lose control of the %s."), veh->name.c_str());
-               } else if (psg->name.length()) {
-                   g->add_msg(_("%s loses control of the %s."), psg->name.c_str());
-               }
-               int turn_amount = (rng (1, 3) * sqrt((double)vel1_a) / 2) / 15;
-               if (turn_amount < 1)
-                  turn_amount = 1;
-               turn_amount *= 15;
-               if (turn_amount > 120)
-                  turn_amount = 120;
-               //veh->skidding = true;
-               //veh->turn (one_in (2)? turn_amount : -turn_amount);
-               coll_turn = one_in (2)? turn_amount : -turn_amount;
+        }
+        epicenter1.x /= coll_parts_cnt;
+        epicenter1.y /= coll_parts_cnt;
+        epicenter2.x /= coll_parts_cnt;
+        epicenter2.y /= coll_parts_cnt;
+
+
+        if (dmg2_part > 100) {
+            // shake veh because of collision
+            veh2->damage_all(dmg2_part / 2, dmg2_part, 1, epicenter2);
+        }
+
+        dmg_1 += dmg1_part;
+
+        veh->move.init (final1.x, final1.y);
+        veh->velocity = final1.norm();
+        // shrug it off if the change is less than 8mph.
+        if(dmg_veh1 > 800) {
+            veh->skidding = 1;
+        }
+        veh2->move.init(final2.x, final2.y);
+        veh2->velocity = final2.norm();
+        if(dmg_veh2 > 800) {
+            veh2->skidding = 1;
+        }
+        //give veh2 the initiative to proceed next before veh1
+        float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
+        if(avg_of_turn < .1f)
+            avg_of_turn = .1f;
+        veh->of_turn = avg_of_turn * .9;
+        veh2->of_turn = avg_of_turn * 1.1;
+    }
+
+    int coll_turn = 0;
+    if (dmg_1 > 0) {
+        int vel1_a = veh->velocity / 100; //velocity of car after collision
+        int d_vel = abs(vel1 - vel1_a);
+
+        if (dmg_1 > 100) {
+            // shake veh because of collision
+            veh->damage_all(dmg_1 / 2, dmg_1, 1, epicenter1);
+        }
+        std::vector<int> ppl = veh->boarded_parts();
+
+        for (int ps = 0; ps < ppl.size(); ps++) {
+            player *psg = veh->get_passenger (ppl[ps]);
+            if (!psg) {
+                debugmsg ("throw passenger: empty passenger at part %d", ppl[ps]);
+                continue;
             }
-         }
-      }
-   }
-   if(veh_veh_coll_flag) return true;
 
-   // now we're gonna handle traps we're standing on (if we're still moving).
-   // this is done here before displacement because
-   // after displacement veh reference would be invdalid.
-   // damn references!
-   if (can_move) {
-      for (int ep = 0; ep < veh->external_parts.size(); ep++) {
-         const int p = veh->external_parts[ep];
-         if (veh->part_flag(p, "WHEEL") && one_in(2))
-            if (displace_water (x + veh->parts[p].precalc_dx[0], y + veh->parts[p].precalc_dy[0]) && pl_ctrl)
-               g->add_msg(_("You hear a splash!"));
-         veh->handle_trap(x + veh->parts[p].precalc_dx[0],
-               y + veh->parts[p].precalc_dy[0], p);
-      }
-   }
+            bool throw_from_seat = 0;
+            if (veh->part_with_feature (ppl[ps], "SEATBELT") == -1) {
+                throw_from_seat = d_vel * rng(80, 120) / 100 > (psg->str_cur * 1.5 + 5);
+            }
 
-   int last_turn_dec = 1;
-   if (veh->last_turn < 0) {
-      veh->last_turn += last_turn_dec;
-      if (veh->last_turn > -last_turn_dec)
-         veh->last_turn = 0;
-   } else if (veh->last_turn > 0) {
-      veh->last_turn -= last_turn_dec;
-      if (veh->last_turn < last_turn_dec)
-         veh->last_turn = 0;
-   }
+            //damage passengers if d_vel is too high
+            if(d_vel > 60* rng(50,100)/100 && !throw_from_seat) {
+                int dmg = d_vel/4*rng(70,100)/100;
+                psg->hurtall(dmg);
+                if (psg == &g->u) {
+                    g->add_msg(_("You take %d damage by the power of the impact!"), dmg);
+                } else if (psg->name.length()) {
+                    g->add_msg(_("%s takes %d damage by the power of the impact!"),
+                               psg->name.c_str(), dmg);
+                }
+            }
 
-   if (can_move) {
-      // accept new direction
-      if (veh->skidding){
-         veh->face.init (veh->turn_dir);
-         if(pl_ctrl)
-         {
-             veh->possibly_recover_from_skid();
-         }
-      }
-      else
-         veh->face = mdir;
-      veh->move = mdir;
-      if (coll_turn) {
-         veh->skidding = true;
-         veh->turn (coll_turn);
-      }
-      // accept new position
-      // if submap changed, we need to process grid from the beginning.
-	  displace_vehicle (g, x, y, dx, dy);
-   } else { // can_move
-      veh->stop();
-   }
-   // redraw scene
-   g->draw();
-   return true;
+            if (throw_from_seat) {
+                if (psg == &g->u) {
+                    g->add_msg(_("You are hurled from the %s's seat by the power of the impact!"),
+                               veh->name.c_str());
+                } else if (psg->name.length()) {
+                    g->add_msg(_("%s is hurled from the %s's seat by the power of the impact!"),
+                               psg->name.c_str(), veh->name.c_str());
+                }
+                g->m.unboard_vehicle(g, x + veh->parts[ppl[ps]].precalc_dx[0],
+                                     y + veh->parts[ppl[ps]].precalc_dy[0]);
+                g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
+                                           (vel1 - psg->str_cur < 10 ? 10 :
+                                            vel1 - psg->str_cur));
+            } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {
+                // FIXME: should actually check if passenger is in control,
+                // not just if there are controls there.
+                const int lose_ctrl_roll = rng (0, dmg_1);
+                if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3) {
+                    if (psg == &g->u) {
+                        g->add_msg(_("You lose control of the %s."), veh->name.c_str());
+                    } else if (psg->name.length()) {
+                        g->add_msg(_("%s loses control of the %s."), psg->name.c_str());
+                    }
+                    int turn_amount = (rng (1, 3) * sqrt((double)vel1_a) / 2) / 15;
+                    if (turn_amount < 1) {
+                        turn_amount = 1;
+                    }
+                    turn_amount *= 15;
+                    if (turn_amount > 120) {
+                        turn_amount = 120;
+                    }
+                    coll_turn = one_in (2)? turn_amount : -turn_amount;
+                }
+            }
+        }
+    }
+    if(veh_veh_coll_flag) return true;
+
+    // now we're gonna handle traps we're standing on (if we're still moving).
+    // this is done here before displacement because
+    // after displacement veh reference would be invdalid.
+    // damn references!
+    if (can_move) {
+        for (int ep = 0; ep < veh->external_parts.size(); ep++) {
+            const int p = veh->external_parts[ep];
+            if (veh->part_flag(p, "WHEEL") && one_in(2)) {
+                if (displace_water (x + veh->parts[p].precalc_dx[0],
+                                    y + veh->parts[p].precalc_dy[0]) && pl_ctrl) {
+                    g->add_msg(_("You hear a splash!"));
+                }
+            }
+            veh->handle_trap( x + veh->parts[p].precalc_dx[0],
+                              y + veh->parts[p].precalc_dy[0], p );
+        }
+    }
+
+    int last_turn_dec = 1;
+    if (veh->last_turn < 0) {
+        veh->last_turn += last_turn_dec;
+        if (veh->last_turn > -last_turn_dec) { veh->last_turn = 0; }
+    } else if (veh->last_turn > 0) {
+        veh->last_turn -= last_turn_dec;
+        if (veh->last_turn < last_turn_dec) { veh->last_turn = 0; }
+    }
+
+    if (can_move) {
+        // accept new direction
+        if (veh->skidding) {
+            veh->face.init (veh->turn_dir);
+            if(pl_ctrl) {
+                veh->possibly_recover_from_skid();
+            }
+        } else {
+            veh->face = mdir;
+        }
+        veh->move = mdir;
+        if (coll_turn) {
+            veh->skidding = true;
+            veh->turn (coll_turn);
+        }
+        // accept new position
+        // if submap changed, we need to process grid from the beginning.
+        displace_vehicle (g, x, y, dx, dy);
+    } else { // can_move
+        veh->stop();
+    }
+    // redraw scene
+    g->draw();
+    return true;
 }
 
 bool map::displace_water (const int x, const int y)
@@ -1175,7 +1199,6 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
  vehicle *veh = veh_at(x, y, vpart);
  if (veh) {
   veh->damage (vpart, str, 1);
-  result = str;
   sound += _("crash!");
   return true;
  }
@@ -3176,8 +3199,7 @@ void map::draw(game *g, WINDOW* w, const point center)
    // I've moved this part above loops without even thinking that
    // this must stay here...
    int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
-   int distance_to_look = real_max_sight_range;
-   distance_to_look = DAYLIGHT_LEVEL;
+   int distance_to_look = DAYLIGHT_LEVEL;
 
    bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
    lit_level lit = light_at(realx, realy);
@@ -3648,23 +3670,19 @@ void map::forget_traps(int gridx, int gridy)
 
 void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
 {
+ set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx, 
+   g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
+ );
 // Special case of 0-shift; refresh the map
- if (sx == 0 && sy == 0) {
-  return; // Skip this?
-  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-    if (!loadn(g, wx+sx, wy+sy, wz, gridx, gridy))
-     loadn(g, wx+sx, wy+sy, wz, gridx, gridy);
-   }
-  }
-  return;
- }
+    if (sx == 0 && sy == 0) {
+        return; // Skip this?
+    }
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
- if (g->u.in_vehicle && (sx !=0 || sy != 0)) {
-  g->u.posx -= sx * SEEX;
-  g->u.posy -= sy * SEEY;
- }
+    if (g->u.in_vehicle && (sx !=0 || sy != 0)) {
+        g->u.posx -= sx * SEEX;
+        g->u.posy -= sy * SEEY;
+    }
 
     // Forget about traps in submaps that are being unloaded.
     if (sx != 0) {
@@ -3680,78 +3698,58 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
         }
     }
 
- // Clear vehicle list and rebuild after shift
- clear_vehicle_cache();
- vehicle_list.clear();
+// Clear vehicle list and rebuild after shift
+    clear_vehicle_cache();
+    vehicle_list.clear();
 // Shift the map sx submaps to the right and sy submaps down.
 // sx and sy should never be bigger than +/-1.
 // wx and wy are our position in the world, for saving/loading purposes.
- if (sx >= 0) {
-  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-   if (sy >= 0) {
-    for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-/*
-     if (gridx < sx || gridy < sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+    if (sx >= 0) {
+        for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
+            if (sy >= 0) {
+                for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+                    if (gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                                  gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            } else { // sy < 0; work through it backwards
+                for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
+                    if (gridx + sx < my_MAPSIZE && gridy + sy >= 0) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                                  gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            }
+        }
+    } else { // sx < 0; work through it backwards
+        for (int gridx = my_MAPSIZE - 1; gridx >= 0; gridx--) {
+            if (sy >= 0) {
+                for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+                    if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                        gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            } else { // sy < 0; work through it backwards
+                for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
+                    if (gridx + sx >= 0 && gridy + sy >= 0) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                                  gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+            }
+        }
     }
-   } else { // sy < 0; work through it backwards
-    for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
-/*
-     if (gridx < sx || gridy - my_MAPSIZE >= sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx < my_MAPSIZE && gridy + sy >= 0) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
-    }
-   }
-  }
- } else { // sx < 0; work through it backwards
-  for (int gridx = my_MAPSIZE - 1; gridx >= 0; gridx--) {
-   if (sy >= 0) {
-    for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-/*
-     if (gridx - my_MAPSIZE >= sx || gridy < sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
-    }
-   } else { // sy < 0; work through it backwards
-    for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
-/*
-     if (gridx - my_MAPSIZE >= sx || gridy - my_MAPSIZE >= sy) {
-      saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     }
-*/
-     if (gridx + sx >= 0 && gridy + sy >= 0) {
-      copy_grid(gridx + gridy * my_MAPSIZE,
-                gridx + sx + (gridy + sy) * my_MAPSIZE);
-      update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
-    }
-   }
-  }
- }
- reset_vehicle_cache();
+    reset_vehicle_cache();
 }
 
 // saven saves a single nonant.  worldx and worldy are used for the file
@@ -3800,6 +3798,11 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
             << "  gridn: " << gridn;
 
  submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, worldz);
+
+ if ( gridx == 0 && gridy == 0 ) {
+     set_abs_sub(absx, absy, worldz);
+ }
+
  if (tmpsub) {
   grid[gridn] = tmpsub;
 
@@ -4230,6 +4233,33 @@ std::vector<point> closest_points_first(int radius, int center_x, int center_y)
     }
     return points;
 }
+//////////
+///// coordinate helpers
+/*
+ * return absolute coordinates of local-to-map's x,y
+ */
+point map::getabs(const int x, const int y ) {
+    int ax=( abs_sub.x * SEEX ) + x;
+    int ay=( abs_sub.y * SEEY ) + y;
+    return point(ax,ay);
+}
+/*
+ * Convert absolute (submap*12) x,y to map's x,y
+ */
+point map::getlocal(const int x, const int y) {
+  return point ( x - ( abs_min.x ), y - ( abs_min.y ) );
+}
+
+/*
+ * set map coordinates based off grid[0] submap coords
+ */
+void map::set_abs_sub( const int x, const int y, const int z ) {
+  abs_sub=point(x, y);
+  world_z = z;
+  abs_min=point(x*SEEX, y*SEEY);
+  abs_max=point(x*SEEX + (SEEX * my_MAPSIZE), y*SEEY + (SEEY * my_MAPSIZE) );
+}
+
 
 tinymap::tinymap()
 {
