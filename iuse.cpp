@@ -185,9 +185,35 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 
 nc_color limb_color(player *p, body_part bp, int side, bool bleed, bool bite, bool infect)
 {
-    bool bleeding = p->has_disease("bleed", bp, side);
-    bool bitten = p->has_disease("bite", bp, side);
-    bool infected = p->has_disease("infected", bp, side);
+    int color_bit = 0;
+    nc_color i_color = c_ltgray;
+    if (bleed && p->has_disease("bleed", bp, side)) {
+        color_bit += 1;
+    }
+    if (bite && p->has_disease("bite", bp, side)) {
+        color_bit += 10;
+    }
+    if (infect && p->has_disease("infected", bp, side)) {
+        color_bit += 100;
+    }
+    switch (color_bit) {
+        case 1:
+            i_color = c_red;
+            break;
+        case 10:
+            i_color = c_blue;
+            break;
+        case 100:
+            i_color = c_green;
+            break;
+        case 11:
+            i_color = c_magenta;
+            break;
+        case 101:
+            i_color = c_yellow;
+            break;
+    }
+    return i_color;
 }
 
 // returns true if we want to use the special action
@@ -417,7 +443,15 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
             side = 1;
             break;
     }
-    p->rem_disease("bleed", bp_healed, side);
+    if (bleed && p->has_disease("bleed", bp_healed, side)) {
+        p->rem_disease("bleed", bp_healed, side);
+    }
+    if (bite && p->has_disease("bite", bp_healed, side)) {
+        p->rem_disease("bite", bp_healed, side);
+    }
+    if (infect && p->has_disease("infected", bp_healed, side)) {
+        p->rem_disease("infected", bp_healed, side);
+    }
     return false;
 }
 
