@@ -1058,7 +1058,13 @@
     {
         "id": "armored_car",
         "name": "Armored Car",
-        "blueprint": "Too awesome (seriously, it was crashing the game)",
+        "blueprint": [
+            ["O-++-O>"],
+            ["|H##'|>"],
+            ["t###'t>"],
+            ["|H##'|>"],
+            ["O-++-O>"]
+        ],
         "parts": [
             {"x": 0, "y": 0, "part": "frame_vertical_2"},
             {"x": 0, "y": 0, "part": "engine_v6"},
