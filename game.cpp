@@ -5444,7 +5444,7 @@ void game::resonance_cascade(int x, int y)
    case 5:
     for (int k = i - 1; k <= i + 1; k++) {
      for (int l = j - 1; l <= j + 1; l++) {
-      field_id type;
+      field_id type = fd_null;
       switch (rng(1, 7)) {
        case 1: type = fd_blood; break;
        case 2: type = fd_bile; break;

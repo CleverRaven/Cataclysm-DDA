@@ -382,7 +382,7 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
         dam = normal_power + bonus;
     }
     p->heal(healed, dam);
-    body_part bp_healed;
+    body_part bp_healed = bp_torso;
     int side = -1;
     switch(healed) {
         case hp_head:
