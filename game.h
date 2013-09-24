@@ -153,6 +153,7 @@ class game
 // Move the player vertically, if (force) then they fell
   void vertical_move(int z, bool force);
   void use_computer(int x, int y);
+  bool refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test=false);
   bool pl_refill_vehicle (vehicle &veh, int part, bool test=false);
   void resonance_cascade(int x, int y);
   void scrambler_blast(int x, int y);

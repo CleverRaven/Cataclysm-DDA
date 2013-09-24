@@ -4,105 +4,6 @@
 #include "color.h"
 #include "itype.h"
 
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
-
-/*
-  On altering any entries in this enum please add or remove the appropriate entry to the veh_part_names array in tile_id_data.h
-*/
-enum vpart_id
-{
-    vp_null = 0,
-
-// external parts
-    vp_seat,
-    vp_saddle,
-    vp_bed,
-    vp_frame_h,
-    vp_frame_v,
-    vp_frame_c,
-    vp_frame_y,
-    vp_frame_u,
-    vp_frame_n,
-    vp_frame_b,
-    vp_frame_h2,
-    vp_frame_v2,
-    vp_frame_cover,
-    vp_frame_handle,
-    vp_board_h,
-    vp_board_v,
-    vp_board_y,
-    vp_board_u,
-    vp_board_n,
-    vp_board_b,
-    vp_aisle_h2,
-    vp_aisle_v2,
-    vp_floor_trunk,
-    vp_roof,
-    vp_door,
-    vp_door_o,
-    vp_door_i,
-    vp_window,
-    vp_blade_h,
-    vp_blade_v,
-    vp_spike_h,
-    vp_spike_v = vp_spike_h,
-
-    vp_wheel,
-    vp_wheel_wide,
-    vp_wheel_wide_under,
-    vp_wheel_bicycle,
-    vp_wheel_motorbike,
-    vp_wheel_small,
-    vp_wheel_caster,
-
-    vp_engine_gas_1cyl,
-    vp_engine_gas_v2,
-    vp_engine_gas_i4,
-    vp_engine_gas_v6,
-    vp_engine_gas_v8,
-    vp_engine_motor,
-    vp_engine_motor_large,
-    vp_engine_plasma,
-    vp_engine_foot_crank,
-    vp_fuel_tank_gas,
-    vp_fuel_tank_batt,
-    vp_fuel_tank_plut,
-    vp_fuel_tank_hydrogen,
-    vp_fuel_tank_water,
-    vp_cargo_trunk, // over
-    vp_cargo_box,   // over
-
-// pure internal parts
-    vp_controls,
-    vp_muffler,
-    vp_seatbelt,
-    vp_solar_panel,
-    vp_kitchen_unit,
-    vp_weldrig,
-    vp_m249,
-    vp_flamethrower,
-    vp_plasmagun,
-    vp_fusiongun,
-
-// plating -- special case. mounted as internal, work as first line
-// of defence and gives color to external part
-    vp_steel_plate,
-    vp_superalloy_plate,
-    vp_spiked_plate,
-    vp_hard_plate,
-
-    vp_head_light,
-// added after 0.8
-    vp_reinforced_window,
-    vp_horn_car,
-    vp_horn_bicycle,
-    vp_horn_big,
-
-    num_vparts
-};
-
 /* Flag info:
  * INTERNAL - Can be mounted inside other parts
  * ANCHOR_POINT - Allows secure seatbelt attachment
@@ -137,6 +38,6 @@ struct vpart_info
     }
 };
 
-extern vpart_info vpart_list[num_vparts];
-extern std::map<std::string, vpart_id> vpart_enums;
+extern std::map<std::string, vpart_info> vehicle_part_types;
+extern std::vector<std::string> legacy_vpart_id;
 #endif

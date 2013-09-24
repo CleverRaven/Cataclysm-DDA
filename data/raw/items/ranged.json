@@ -2525,5 +2525,32 @@
     "burst": 0,
     "clip_size": 1,
     "reload": 150
-  }
+  },
+  {
+    "id": "unbio_blaster_gun",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "magenta",
+    "name": "Fusion blaster rifle",
+    "description": "A cyborg's fusion blaster arm, cannibalized and converted into a rifle. This improvised weapon is powered by a standard UPS connection.",
+    "price": 6200,
+    "material": ["steel", "plastic"],
+    "ammo_effects": ["PLASMA"],
+    "flags": ["USE_UPS_40","NO_AMMO"],
+    "skill": "rifle",
+    "ammo": "UPS",
+    "weight": 2680,
+    "volume": 10,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": 1,
+    "ranged_damage": 22,
+    "range": 30,
+    "dispersion": 4,
+    "recoil": 0,
+    "durability": 6,
+    "burst": 0,
+    "clip_size": 40,
+    "reload": 600
+   }
 ]
