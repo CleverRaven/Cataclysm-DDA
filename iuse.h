@@ -69,6 +69,7 @@ class iuse
   void cauterize_elec	(game *g, player *p, item *it, bool t);
   void solder_weld	    (game *g, player *p, item *it, bool t);
   void water_purifier	(game *g, player *p, item *it, bool t);
+  void charcoal_purifier	(game *g, player *p, item *it, bool t);
   void two_way_radio	(game *g, player *p, item *it, bool t);
   void directional_antenna	(game *g, player *p, item *it, bool t);
   void radio_off	(game *g, player *p, item *it, bool t);

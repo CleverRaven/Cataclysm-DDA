@@ -1732,6 +1732,34 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
  pure->poison = 0;
 }
 
+void iuse::charcoal_purifier(game *g, player *p, item *it, bool t)
+{
+  it->charges++;
+ char ch = g->inv_type(_("Purify what?"), IC_COMESTIBLE);
+ if (!p->has_item(ch)) {
+  g->add_msg_if_player(p,_("You do not have that item!"));
+  return;
+ }
+ if (p->i_at(ch).contents.size() == 0) {
+  g->add_msg_if_player(p,_("You can only purify water."));
+  return;
+ }
+ item *pure = &(p->i_at(ch).contents[0]);
+ if (pure->type->id != "water" && pure->type->id != "salt_water") {
+  g->add_msg_if_player(p,_("You can only purify water."));
+  return;
+ }
+ if (pure->charges > it->charges)
+ {
+  g->add_msg_if_player(p,_("You don't have enough charcoal to purify all the water."));
+  return;
+ }
+ it->charges -= pure->charges;
+ p->moves -= 150;
+ pure->make(g->itypes["water_clean"]);
+ pure->poison = 0;
+}
+
 void iuse::two_way_radio(game *g, player *p, item *it, bool t)
 {
  WINDOW* w = newwin(6, 36, (TERMY-6)/2, (TERMX-36)/2);
