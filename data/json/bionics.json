@@ -582,6 +582,7 @@
     "type"       :    "bionic",
     "id"         :    "bio_stiff",
     "name"       :    "Wire-induced Stiffness",
+    "faulty"     :    true,
     "description":    "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance."
 }
 ]
