@@ -4117,7 +4117,7 @@ void player::add_disease(dis_type type, int duration,
                          body_part part, int side, bool main_parts_only, 
                          int additive)
 {
-    if (duration == 0) {
+    if (duration <= 0) {
         return;
     }
 
@@ -4207,15 +4207,20 @@ bool player::has_disease(dis_type type, body_part part, int side) const
     return false;
 }
 
-int player::disease_duration(dis_type type, body_part part, int side)
+int player::disease_duration(dis_type type, bool all, body_part part, int side)
 {
+    int tmp = 0;
     for (int i = 0; i < illness.size(); i++) {
         if (illness[i].type == type && illness[i].bp == part &&
             illness[i].side == side) {
-            return illness[i].duration;
+            if (all = false) {
+                return illness[i].duration;
+            } else {
+                tmp += illness[i].duration;
+            }
         }
     }
-    return 0;
+    return tmp;
 }
 
 int player::disease_intensity(dis_type type, body_part part, int side)
