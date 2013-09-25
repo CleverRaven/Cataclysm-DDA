@@ -173,6 +173,7 @@ class iuse
   void pda_flashlight   (game *g, player *p, item *it, bool t);
   void LAW              (game *g, player *p, item *it, bool t);
   void heatpack         (game *g, player *p, item *it, bool t);
+  void hotplate         (game *g, player *p, item *it, bool t);
   void dejar            (game *g, player *p, item *it, bool t);
   void rad_badge        (game *g, player *p, item *it, bool t);
   void boots            (game *g, player *p, item *it, bool t);
@@ -187,6 +188,8 @@ class iuse
 // See artifact.h for a list
   void artifact         (game *g, player *p, item *it, bool t);
 
+private:
+  bool heat_item(game *g, player *p);
 };
 
 #endif

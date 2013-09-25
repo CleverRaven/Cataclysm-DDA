@@ -22,15 +22,15 @@ float pit_effectiveness(game *g, int x, int y)
 
 void trapfunc::bubble(game *g, int x, int y)
 {
- g->add_msg(_("You step on some bubblewrap!"));
- g->u.add_memorial_log(_("Stepped on bubblewrap."));
+ g->add_msg(_("You step on some bubble wrap!"));
+ g->u.add_memorial_log(_("Stepped on bubble wrap."));
  g->sound(x, y, 18, _("Pop!"));
  g->m.remove_trap(x, y);
 }
 
 void trapfuncm::bubble(game *g, monster *z, int x, int y)
 {
-    // tiny animals don't trigger bubblewrap
+    // tiny animals don't trigger bubble wrap
     if (z->type->size == MS_TINY)
         return;
 
@@ -406,28 +406,28 @@ void trapfuncm::snare_heavy(game *g, monster *z, int x, int y)
 
 void trapfunc::landmine(game *g, int x, int y)
 {
- g->add_msg(_("You trigger a landmine!"));
- g->u.add_memorial_log(_("Stepped on a lane mine."));
+ g->add_msg(_("You trigger a land mine!"));
+ g->u.add_memorial_log(_("Stepped on a land mine."));
  g->explosion(x, y, 10, 8, false);
  g->m.remove_trap(x, y);
 }
 
 void trapfuncm::landmine(game *g, monster *z, int x, int y)
 {
-    // tiny animals are too light to trigger landmines
+    // tiny animals are too light to trigger land mines
     if (z->type->size == MS_TINY)
         return;
 
  if (g->u_see(x, y))
-  g->add_msg(_("The %s steps on a landmine!"), z->name().c_str());
+  g->add_msg(_("The %s steps on a land mine!"), z->name().c_str());
  g->explosion(x, y, 10, 8, false);
  g->m.remove_trap(x, y);
 }
 
 void trapfunc::boobytrap(game *g, int x, int y)
 {
- g->add_msg(_("You trigger a boobytrap!"));
- g->u.add_memorial_log(_("Triggered a boobytrap."));
+ g->add_msg(_("You trigger a booby trap!"));
+ g->u.add_memorial_log(_("Triggered a booby trap."));
  g->explosion(x, y, 18, 12, false);
  g->m.remove_trap(x, y);
 }
@@ -435,7 +435,7 @@ void trapfunc::boobytrap(game *g, int x, int y)
 void trapfuncm::boobytrap(game *g, monster *z, int x, int y)
 {
  if (g->u_see(x, y))
-  g->add_msg(_("The %s triggers a boobytrap!"), z->name().c_str());
+  g->add_msg(_("The %s triggers a booby trap!"), z->name().c_str());
  g->explosion(x, y, 18, 12, false);
  g->m.remove_trap(x, y);
 }

@@ -2758,10 +2758,10 @@ case ot_church_west:{
    place_items("church", 85,  12,  2, 14,  2, false, 0);
    place_items("office", 60,  6,  2, 8,  3, false, 0);
    place_items("jackets", 85,  7,  18, 8,  18, false, 0);
-   tmpcomp = add_computer(11, 2, "Church Bells 1.2", 0);
-   tmpcomp->add_option("Gathering Toll", COMPACT_TOLL, 0);
-   tmpcomp->add_option("Wedding Toll", COMPACT_TOLL, 0);
-   tmpcomp->add_option("Funeral Toll", COMPACT_TOLL, 0);
+   tmpcomp = add_computer(11, 2, _("Church Bells 1.2"), 0);
+   tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
+   tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
+   tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
   }
   else {
    //Gothic Style, unreachable high stained glass windows, stone construction
@@ -2800,10 +2800,10 @@ ssssssssssssssssssssssss\n",
    place_items("church", 60,  6,  7, 17,  16, false, 0);
    place_items("cleaning", 60,  3,  18, 4,  21, false, 0);
    place_items("jackets", 85,  14,  18, 16,  18, false, 0);
-   tmpcomp = add_computer(19, 20, "Church Bells 1.2", 0);
-   tmpcomp->add_option("Gathering Toll", COMPACT_TOLL, 0);
-   tmpcomp->add_option("Wedding Toll", COMPACT_TOLL, 0);
-   tmpcomp->add_option("Funeral Toll", COMPACT_TOLL, 0);
+   tmpcomp = add_computer(19, 20, _("Church Bells 1.2"), 0);
+   tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
+   tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
+   tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
   }
   if (terrain_type == ot_church_east)
    rotate(3);
@@ -4072,8 +4072,8 @@ case ot_shelter: {
 |----:-++-:----|\n",
   mapf::basic_bind("- | + : 6 x >", t_wall_h, t_wall_v, t_door_c, t_window_domestic,  t_console, t_console_broken, t_stairs_down),
   mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
-  tmpcomp = add_computer(SEEX+6, 5, "Evac shelter computer", 0);
-  tmpcomp->add_option("Emergency Message", COMPACT_EMERG_MESS, 0);
+  tmpcomp = add_computer(SEEX+6, 5, _("Evac shelter computer"), 0);
+  tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
  }
 
   break;
@@ -4336,10 +4336,10 @@ case ot_lmoe_under:
      }
     }
      computer *tmpcomp2 = NULL;
-     tmpcomp2 = add_computer(10, 21, "Barracks Entrance", 4);
-     tmpcomp2->add_option("UNLOCK ENTRANCE", COMPACT_UNLOCK, 6);
-     tmpcomp = add_computer(15, 12, "Magazine Entrance", 6);
-     tmpcomp->add_option("UNLOCK ENTRANCE", COMPACT_UNLOCK, 7);
+     tmpcomp2 = add_computer(10, 21, _("Barracks Entrance"), 4);
+     tmpcomp2->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 6);
+     tmpcomp = add_computer(15, 12, _("Magazine Entrance"), 6);
+     tmpcomp->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 7);
    if (one_in(2)) add_spawn(mon_zombie_soldier, rng(1,4), 12, 12);
   } else{ //human containment
    mapf::formatted_set_simple(this, 0, 0,
@@ -4388,10 +4388,10 @@ case ot_lmoe_under:
        }
     }
     computer *tmpcomp2 = NULL;
-    tmpcomp2 = add_computer(13, 20, "Prisoner Containment Entrance", 4);
-    tmpcomp2->add_option("UNLOCK ENTRANCE", COMPACT_UNLOCK, 4);
-    tmpcomp = add_computer(5, 11, "Containment Control", 4);
-    tmpcomp->add_option("EMERGENCY CONTAINMENT RELEASE", COMPACT_OPEN, 5);
+    tmpcomp2 = add_computer(13, 20, _("Prisoner Containment Entrance"), 4);
+    tmpcomp2->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 4);
+    tmpcomp = add_computer(5, 11, _("Containment Control"), 4);
+    tmpcomp->add_option(_("EMERGENCY CONTAINMENT RELEASE"), COMPACT_OPEN, 5);
     add_trap(19, 19, tr_dissector);
     item body;
     body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
@@ -4661,11 +4661,11 @@ case ot_lmoe_under:
       }
      }
     computer *tmpcomp2 = NULL;
-    tmpcomp2 = add_computer(6, 1, "Containment Terminal", 4);
-    tmpcomp2->add_option("EMERGENCY CONTAINMENT UNLOCK", COMPACT_UNLOCK, 4);
-    tmpcomp = add_computer(12, 16, "Containment Control", 4);
-    tmpcomp->add_option("EMERGENCY CONTAINMENT UNLOCK", COMPACT_UNLOCK, 4);
-    tmpcomp->add_option("EMERGENCY CLEANSE", COMPACT_DISCONNECT, 7);
+    tmpcomp2 = add_computer(6, 1, _("Containment Terminal"), 4);
+    tmpcomp2->add_option(_("EMERGENCY CONTAINMENT UNLOCK"), COMPACT_UNLOCK, 4);
+    tmpcomp = add_computer(12, 16, _("Containment Control"), 4);
+    tmpcomp->add_option(_("EMERGENCY CONTAINMENT UNLOCK"), COMPACT_UNLOCK, 4);
+    tmpcomp->add_option(_("EMERGENCY CLEANSE"), COMPACT_DISCONNECT, 7);
    } else if (one_in(3)){ //operations or utility
    mapf::formatted_set_simple(this, 0, 0,
 "\
@@ -4802,10 +4802,10 @@ ff.......|....|WWWWWWWW|\n\
        if (one_in(400) && this->ter(i,j) == t_rock_floor) add_item(i, j, body);
       }
      }
-     tmpcomp = add_computer(11, 8, "Mk IV Algorithmic Data Analyzer", 4);
-     tmpcomp->add_option("Run Decryption Algorithm", COMPACT_DATA_ANAL, 4);
-     tmpcomp->add_option("Upload Data to Melchior", COMPACT_DISCONNECT, 7);
-     tmpcomp->add_option("Access Melchior", COMPACT_DISCONNECT, 12);
+     tmpcomp = add_computer(11, 8, _("Mk IV Algorithmic Data Analyzer"), 4);
+     tmpcomp->add_option(_("Run Decryption Algorithm"), COMPACT_DATA_ANAL, 4);
+     tmpcomp->add_option(_("Upload Data to Melchior"), COMPACT_DISCONNECT, 7);
+     tmpcomp->add_option(_("Access Melchior"), COMPACT_DISCONNECT, 12);
      tmpcomp->add_failure(COMPFAIL_DESTROY_DATA);
     }
 
@@ -4986,11 +4986,11 @@ ff.......|....|WWWWWWWW|\n\
      }
     }
    }
-   tmpcomp = add_computer(SEEX, 8, "Sub-prime contact console", 7);
-   tmpcomp->add_option("Terminate Specimens", COMPACT_TERMINATE, 2);
-   tmpcomp->add_option("Release Specimens", COMPACT_RELEASE, 3);
-   tmpcomp->add_option("Toggle Portal", COMPACT_PORTAL, 8);
-   tmpcomp->add_option("Activate Resonance Cascade", COMPACT_CASCADE, 10);
+   tmpcomp = add_computer(SEEX, 8, _("Sub-prime contact console"), 7);
+   tmpcomp->add_option(_("Terminate Specimens"), COMPACT_TERMINATE, 2);
+   tmpcomp->add_option(_("Release Specimens"), COMPACT_RELEASE, 3);
+   tmpcomp->add_option(_("Toggle Portal"), COMPACT_PORTAL, 8);
+   tmpcomp->add_option(_("Activate Resonance Cascade"), COMPACT_CASCADE, 10);
    tmpcomp->add_failure(COMPFAIL_MANHACKS);
    tmpcomp->add_failure(COMPFAIL_SECUBOTS);
    ter_set(SEEX - 2, 4, t_radio_tower);
@@ -5019,9 +5019,9 @@ ff.......|....|WWWWWWWW|\n\
    line(this, t_reinforced_glass_v, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
    line(this, t_reinforced_glass_v, SEEX + 1, SEEY - 1, SEEX + 1, SEEY);
    ter_set(SEEX - 3, SEEY - 3, t_console);
-   tmpcomp = add_computer(SEEX - 3, SEEY - 3, "Bionic access", 3);
-   tmpcomp->add_option("Manifest", COMPACT_LIST_BIONICS, 0);
-   tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 5);
+   tmpcomp = add_computer(SEEX - 3, SEEY - 3, _("Bionic access"), 3);
+   tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+   tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 5);
    tmpcomp->add_failure(COMPFAIL_MANHACKS);
    tmpcomp->add_failure(COMPFAIL_SECUBOTS);
    break;
@@ -5364,9 +5364,9 @@ ff.......|....|WWWWWWWW|\n\
    }
   }
   ter_set(0, 0, t_stairs_up);
-  tmpcomp = add_computer(4, 5, "Missile Controls", 8);
-  tmpcomp->add_option("Launch Missile", COMPACT_MISS_LAUNCH, 10);
-  tmpcomp->add_option("Disarm Missile", COMPACT_MISS_DISARM,  8);
+  tmpcomp = add_computer(4, 5, _("Missile Controls"), 8);
+  tmpcomp->add_option(_("Launch Missile"), COMPACT_MISS_LAUNCH, 10);
+  tmpcomp->add_option(_("Disarm Missile"), COMPACT_MISS_DISARM,  8);
   tmpcomp->add_failure(COMPFAIL_SECUBOTS);
   tmpcomp->add_failure(COMPFAIL_DAMAGE);
   } break;
@@ -5626,12 +5626,12 @@ ff.......|....|WWWWWWWW|\n\
   ter_set(2, 19, t_console);
   ter_set(6, 19, t_console);
 // Computers to unlock stair room, and items
-  tmpcomp = add_computer(2, 19, "EnviroCom OS v2.03", 1);
-  tmpcomp->add_option("Unlock stairs", COMPACT_OPEN, 0);
+  tmpcomp = add_computer(2, 19, _("EnviroCom OS v2.03"), 1);
+  tmpcomp->add_option(_("Unlock stairs"), COMPACT_OPEN, 0);
   tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
 
-  tmpcomp = add_computer(6, 19, "EnviroCom OS v2.03", 1);
-  tmpcomp->add_option("Unlock stairs", COMPACT_OPEN, 0);
+  tmpcomp = add_computer(6, 19, _("EnviroCom OS v2.03"), 1);
+  tmpcomp->add_option(_("Unlock stairs"), COMPACT_OPEN, 0);
   tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
   place_items("sewage_plant", 80, 1, 6, 1, 13, false, 0);
 
@@ -5763,9 +5763,9 @@ ff.......|....|WWWWWWWW|\n\
    ter_set(1, 6, t_sewage_pump);
    furn_set(2, 6, f_counter);
    ter_set(1, 2, t_console);
-   tmpcomp = add_computer(1, 2, "EnviroCom OS v2.03", 0);
-   tmpcomp->add_option("Download Sewer Maps", COMPACT_MAP_SEWER, 0);
-   tmpcomp->add_option("Divert sample", COMPACT_SAMPLE, 3);
+   tmpcomp = add_computer(1, 2, _("EnviroCom OS v2.03"), 0);
+   tmpcomp->add_option(_("Download Sewer Maps"), COMPACT_MAP_SEWER, 0);
+   tmpcomp->add_option(_("Divert sample"), COMPACT_SAMPLE, 3);
    tmpcomp->add_failure(COMPFAIL_PUMP_EXPLODE);
    tmpcomp->add_failure(COMPFAIL_PUMP_LEAK);
 // Lower right...
@@ -5788,9 +5788,9 @@ ff.......|....|WWWWWWWW|\n\
    ter_set(20, 23, t_sewage_pump);
    furn_set(20, 22, f_counter);
    ter_set(16, 23, t_console);
-   tmpcomp = add_computer(16, 23, "EnviroCom OS v2.03", 0);
-   tmpcomp->add_option("Download Sewer Maps", COMPACT_MAP_SEWER, 0);
-   tmpcomp->add_option("Divert sample", COMPACT_SAMPLE, 3);
+   tmpcomp = add_computer(16, 23, _("EnviroCom OS v2.03"), 0);
+   tmpcomp->add_option(_("Download Sewer Maps"), COMPACT_MAP_SEWER, 0);
+   tmpcomp->add_option(_("Divert sample"), COMPACT_SAMPLE, 3);
    tmpcomp->add_failure(COMPFAIL_PUMP_EXPLODE);
    tmpcomp->add_failure(COMPFAIL_PUMP_LEAK);
   }
@@ -6240,9 +6240,9 @@ ff.......|....|WWWWWWWW|\n\
     }
 
     ter_set(SEEX, SEEY, t_console);
-    tmpcomp = add_computer(SEEX, SEEY, "NEPowerOS", 0);
-    tmpcomp->add_option("Read Logs", COMPACT_AMIGARA_LOG, 0);
-    tmpcomp->add_option("Initiate Tremors", COMPACT_AMIGARA_START, 4);
+    tmpcomp = add_computer(SEEX, SEEY, _("NEPowerOS"), 0);
+    tmpcomp->add_option(_("Read Logs"), COMPACT_AMIGARA_LOG, 0);
+    tmpcomp->add_option(_("Initiate Tremors"), COMPACT_AMIGARA_START, 4);
     tmpcomp->add_failure(COMPFAIL_AMIGARA);
    } break;
   }
@@ -6380,8 +6380,8 @@ ff.......|....|WWWWWWWW|\n\
                 ss      \n",
    mapf::basic_bind(". - | 6 a r + = D W w t S e o h c d x l F f _ & G s", t_floor, t_wall_h, t_wall_v, t_console, t_floor,    t_floor,    t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_window_alarm, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_console_broken, t_floor,  t_chainfence_v, t_chainfence_h, t_pavement, t_radio_tower, t_chaingate_l, t_sidewalk),
    mapf::basic_bind(". - | 6 a r + = D W w t S e o h c d x l F f _ & G s", f_null,  f_null,   f_null,   f_null,    f_armchair, f_trashcan, f_null,   f_null,              f_null,        f_null,   f_null,         f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_null,           f_locker, f_null,         f_null,         f_null,     f_null,        f_null,        f_null));
-   tmpcomp = add_computer(17, 13, "Broadcasting Control", 0);
-   tmpcomp->add_option("ERROR:  SIGNAL DISCONNECT", COMPACT_TOWER_UNRESPONSIVE, 0);
+   tmpcomp = add_computer(17, 13, _("Broadcasting Control"), 0);
+   tmpcomp->add_option(_("ERROR:  SIGNAL DISCONNECT"), COMPACT_TOWER_UNRESPONSIVE, 0);
    spawn_item(18, 13, "record_weather", 0);
    place_items("novels", 70,  5,  12, 6,  12, false, 0);
    place_items("novels", 70,  2,  21, 2,  19, false, 0);
@@ -8565,14 +8565,14 @@ tth.............^|..|###\n\
      ss                 \n",
    mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s", t_floor, t_wall_h, t_wall_v, t_console, t_door_metal_locked, t_floor, t_floor,    t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
    mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s", f_null,  f_null,   f_null,   f_null,    f_null,              f_bench, f_trashcan, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-   tmpcomp = add_computer(20, 4, "Medical Supply Access", 2);
-   tmpcomp->add_option("Lock Door", COMPACT_LOCK, 2);
-   tmpcomp->add_option("Unlock Door", COMPACT_UNLOCK, 2);
+   tmpcomp = add_computer(20, 4, _("Medical Supply Access"), 2);
+   tmpcomp->add_option(_("Lock Door"), COMPACT_LOCK, 2);
+   tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
    tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
    tmpcomp->add_failure(COMPFAIL_ALARM);
 
-   tmpcomp = add_computer(20, 6, "Medical Supply Access", 2);
-   tmpcomp->add_option("Unlock Door", COMPACT_UNLOCK, 2);
+   tmpcomp = add_computer(20, 6, _("Medical Supply Access"), 2);
+   tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
    tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
    tmpcomp->add_failure(COMPFAIL_ALARM);
 
@@ -8823,17 +8823,17 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
        for (int y = 0; y <= 23; y++)
          radiation(x, y) += rng(10, 30);
      }
-    tmpcomp = add_computer(2, 23, "SRCF Security Terminal ", 0);
-        tmpcomp->add_option("Security Reminder [1055]", COMPACT_SR1_MESS, 0);
-        tmpcomp->add_option("Security Reminder [1056]", COMPACT_SR2_MESS, 0);
-        tmpcomp->add_option("Security Reminder [1057]", COMPACT_SR3_MESS, 0);
-        //tmpcomp->add_option("Security Reminder [1058]", COMPACT_SR4_MESS, 0); limited to 9 computer options
-        tmpcomp->add_option("EPA: Report All Potential Containment Breaches [3873643]", COMPACT_SRCF_1_MESS, 2);
-        tmpcomp->add_option("SRCF: Internal Memo, EPA [2918024]", COMPACT_SRCF_2_MESS, 2);
-        tmpcomp->add_option("CDC: Internal Memo, Standby [2918115]", COMPACT_SRCF_3_MESS, 2);
-        tmpcomp->add_option("USARMY: SEAL SRCF [987167]", COMPACT_SRCF_SEAL_ORDER, 4);
-        tmpcomp->add_option("COMMAND: REACTIVATE ELEVATOR", COMPACT_SRCF_ELEVATOR, 0);
-        tmpcomp->add_option("COMMAND: SEAL SRCF [4423]", COMPACT_SRCF_SEAL, 5);
+    tmpcomp = add_computer(2, 23, _("SRCF Security Terminal"), 0);
+        tmpcomp->add_option(_("Security Reminder [1055]"), COMPACT_SR1_MESS, 0);
+        tmpcomp->add_option(_("Security Reminder [1056]"), COMPACT_SR2_MESS, 0);
+        tmpcomp->add_option(_("Security Reminder [1057]"), COMPACT_SR3_MESS, 0);
+        //tmpcomp->add_option(_("Security Reminder [1058]"), COMPACT_SR4_MESS, 0); limited to 9 computer options
+        tmpcomp->add_option(_("EPA: Report All Potential Containment Breaches [3873643]"), COMPACT_SRCF_1_MESS, 2);
+        tmpcomp->add_option(_("SRCF: Internal Memo, EPA [2918024]"), COMPACT_SRCF_2_MESS, 2);
+        tmpcomp->add_option(_("CDC: Internal Memo, Standby [2918115]"), COMPACT_SRCF_3_MESS, 2);
+        tmpcomp->add_option(_("USARMY: SEAL SRCF [987167]"), COMPACT_SRCF_SEAL_ORDER, 4);
+        tmpcomp->add_option(_("COMMAND: REACTIVATE ELEVATOR"), COMPACT_SRCF_ELEVATOR, 0);
+        tmpcomp->add_option(_("COMMAND: SEAL SRCF [4423]"), COMPACT_SRCF_SEAL, 5);
         tmpcomp->add_failure(COMPFAIL_ALARM);
      if (t_west == ot_haz_sar && t_north == ot_haz_sar)
             rotate(1);
@@ -9105,16 +9105,16 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         }
        }
      }
-    tmpcomp = add_computer(16, 21, "SRCF Security Terminal ", 0);
-        tmpcomp->add_option("Security Reminder [1055]", COMPACT_SR1_MESS, 0);
-        tmpcomp->add_option("Security Reminder [1056]", COMPACT_SR2_MESS, 0);
-        tmpcomp->add_option("Security Reminder [1057]", COMPACT_SR3_MESS, 0);
-        //tmpcomp->add_option("Security Reminder [1058]", COMPACT_SR4_MESS, 0); limited to 9 computer options
-        tmpcomp->add_option("EPA: Report All Potential Containment Breaches [3873643]", COMPACT_SRCF_1_MESS, 2);
-        tmpcomp->add_option("SRCF: Internal Memo, EPA [2918024]", COMPACT_SRCF_2_MESS, 2);
-        tmpcomp->add_option("CDC: Internal Memo, Standby [2918115]", COMPACT_SRCF_3_MESS, 2);
-        tmpcomp->add_option("USARMY: SEAL SRCF [987167]", COMPACT_SRCF_SEAL_ORDER, 4);
-        tmpcomp->add_option("COMMAND: REACTIVATE ELEVATOR", COMPACT_SRCF_ELEVATOR, 0);
+    tmpcomp = add_computer(16, 21, _("SRCF Security Terminal"), 0);
+        tmpcomp->add_option(_("Security Reminder [1055]"), COMPACT_SR1_MESS, 0);
+        tmpcomp->add_option(_("Security Reminder [1056]"), COMPACT_SR2_MESS, 0);
+        tmpcomp->add_option(_("Security Reminder [1057]"), COMPACT_SR3_MESS, 0);
+        //tmpcomp->add_option(_("Security Reminder [1058]"), COMPACT_SR4_MESS, 0); limited to 9 computer options
+        tmpcomp->add_option(_("EPA: Report All Potential Containment Breaches [3873643]"), COMPACT_SRCF_1_MESS, 2);
+        tmpcomp->add_option(_("SRCF: Internal Memo, EPA [2918024]"), COMPACT_SRCF_2_MESS, 2);
+        tmpcomp->add_option(_("CDC: Internal Memo, Standby [2918115]"), COMPACT_SRCF_3_MESS, 2);
+        tmpcomp->add_option(_("USARMY: SEAL SRCF [987167]"), COMPACT_SRCF_SEAL_ORDER, 4);
+        tmpcomp->add_option(_("COMMAND: REACTIVATE ELEVATOR"), COMPACT_SRCF_ELEVATOR, 0);
         tmpcomp->add_failure(COMPFAIL_ALARM);
      if (t_west == ot_haz_sar_b1 && t_north == ot_haz_sar_b1)
             rotate(1);
@@ -9843,8 +9843,8 @@ case ot_farm_field:
   ter_set(rng( 6,  9), 12, t_door_c);
   ter_set(rng(11, 15), 12, t_door_c);
   ter_set(21, 12, t_door_metal_locked);
-  tmpcomp = add_computer(22, 13, "PolCom OS v1.47", 3);
-  tmpcomp->add_option("Open Supply Room", COMPACT_OPEN, 3);
+  tmpcomp = add_computer(22, 13, _("PolCom OS v1.47"), 3);
+  tmpcomp->add_option(_("Open Supply Room"), COMPACT_OPEN, 3);
   tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
   tmpcomp->add_failure(COMPFAIL_ALARM);
   tmpcomp->add_failure(COMPFAIL_MANHACKS);
@@ -9853,8 +9853,8 @@ case ot_farm_field:
   ter_set(15, 14, t_door_c);
   ter_set(rng(20, 22), 15, t_door_c);
   ter_set(2, 17, t_door_metal_locked);
-  tmpcomp = add_computer(22, 13, "PolCom OS v1.47", 3);
-  tmpcomp->add_option("Open Evidence Locker", COMPACT_OPEN, 3);
+  tmpcomp = add_computer(22, 13, _("PolCom OS v1.47"), 3);
+  tmpcomp->add_option(_("Open Evidence Locker"), COMPACT_OPEN, 3);
   tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
   tmpcomp->add_failure(COMPFAIL_ALARM);
   tmpcomp->add_failure(COMPFAIL_MANHACKS);
@@ -9940,8 +9940,8 @@ case ot_farm_field:
   line(this, f_counter,  2,  4,  14,  4);
   ter_set(13, 17, t_door_metal_locked);
   ter_set(13, 18, t_door_metal_locked);
-  tmpcomp = add_computer(14, 16, "First United Bank", 3);
-  tmpcomp->add_option("Open Vault", COMPACT_OPEN, 3);
+  tmpcomp = add_computer(14, 16, _("First United Bank"), 3);
+  tmpcomp->add_option(_("Open Vault"), COMPACT_OPEN, 3);
   tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
   tmpcomp->add_failure(COMPFAIL_ALARM);
 // Front wall--glass or windows?
@@ -10597,8 +10597,8 @@ case ot_farm_field:
    square(this, f_counter, 4, 17, 6, 19);
    ter_set(4, 18, t_centrifuge);
    line(this, t_floor, 5, 18, 6, rng(17, 19)); // Clear path to console
-   tmpcomp = add_computer(5, 18, "Centrifuge", 0);
-   tmpcomp->add_option("Analyze blood", COMPACT_BLOOD_ANAL, 4);
+   tmpcomp = add_computer(5, 18, _("Centrifuge"), 0);
+   tmpcomp->add_option(_("Analyze blood"), COMPACT_BLOOD_ANAL, 4);
    tmpcomp->add_failure(COMPFAIL_DESTROY_BLOOD);
 // Sample storage
    line(this, t_wall_h, 13, 13, 23, 13);
@@ -10783,8 +10783,8 @@ case ot_farm_field:
     place_items("surgery", 60, 15, 14, 17, 14, false, 0);
     square(this, f_bed, 18, 18, 19, 19);
     // computer to begin healing broken bones,
-    tmpcomp = add_computer(16, 16, "Mr. Stem Cell", 3);
-    tmpcomp->add_option("Stem Cell Treatment", COMPACT_STEMCELL_TREATMENT, 3);
+    tmpcomp = add_computer(16, 16, _("Mr. Stem Cell"), 3);
+    tmpcomp->add_option(_("Stem Cell Treatment"), COMPACT_STEMCELL_TREATMENT, 3);
     tmpcomp->add_failure(COMPFAIL_ALARM);
 
     break;
@@ -13330,9 +13330,9 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     for (int x = x1 + int(width / 4); x < x2 - int(width / 4); x++)
      m->furn_set(x, desk, f_counter);
     computer* tmpcomp = m->add_computer(x2 - int(width / 4), desk,
-                                        "Log Console", 3);
-    tmpcomp->add_option("View Research Logs", COMPACT_RESEARCH, 0);
-    tmpcomp->add_option("Download Map Data", COMPACT_MAPS, 0);
+                                        _("Log Console"), 3);
+    tmpcomp->add_option(_("View Research Logs"), COMPACT_RESEARCH, 0);
+    tmpcomp->add_option(_("Download Map Data"), COMPACT_MAPS, 0);
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);
     tmpcomp->add_failure(COMPFAIL_DAMAGE);
@@ -13342,9 +13342,9 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     for (int y = y1 + int(width / 4); y < y2 - int(width / 4); y++)
      m->furn_set(desk, y, f_counter);
     computer* tmpcomp = m->add_computer(desk, y2 - int(width / 4),
-                                        "Log Console", 3);
-    tmpcomp->add_option("View Research Logs", COMPACT_RESEARCH, 0);
-    tmpcomp->add_option("Download Map Data", COMPACT_MAPS, 0);
+                                        _("Log Console"), 3);
+    tmpcomp->add_option(_("View Research Logs"), COMPACT_RESEARCH, 0);
+    tmpcomp->add_option(_("Download Map Data"), COMPACT_MAPS, 0);
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);
     tmpcomp->add_failure(COMPFAIL_DAMAGE);
@@ -13461,9 +13461,9 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
 
     int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
     m->ter_set(compx, compy, t_console);
-    computer* tmpcomp = m->add_computer(compx, compy, "Bionic access", 2);
-    tmpcomp->add_option("Manifest", COMPACT_LIST_BIONICS, 0);
-    tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 3);
+    computer* tmpcomp = m->add_computer(compx, compy, _("Bionic access"), 2);
+    tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+    tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 3);
     tmpcomp->add_failure(COMPFAIL_MANHACKS);
     tmpcomp->add_failure(COMPFAIL_SECUBOTS);
    } else {
@@ -13489,9 +13489,9 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
 
     int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
     m->ter_set(compx, compy, t_console);
-    computer* tmpcomp = m->add_computer(compx, compy, "Bionic access", 2);
-    tmpcomp->add_option("Manifest", COMPACT_LIST_BIONICS, 0);
-    tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 3);
+    computer* tmpcomp = m->add_computer(compx, compy, _("Bionic access"), 2);
+    tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+    tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 3);
     tmpcomp->add_failure(COMPFAIL_MANHACKS);
     tmpcomp->add_failure(COMPFAIL_SECUBOTS);
    }
@@ -13811,8 +13811,8 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    line(m, t_wall_h, x2 - 2, y1 + 2, x2 - 1, y1 + 2);
    m->ter_set(x2 - 2, y1 + 1, t_elevator);
    m->ter_set(x2 - 1, y1 + 1, t_elevator_control_off);
-   computer* tmpcomp = m->add_computer(x1 + 1, y1 + 1, "NEPowerOS", 2);
-   tmpcomp->add_option("Divert power to elevator", COMPACT_ELEVATOR_ON, 0);
+   computer* tmpcomp = m->add_computer(x1 + 1, y1 + 1, _("NEPowerOS"), 2);
+   tmpcomp->add_option(_("Divert power to elevator"), COMPACT_ELEVATOR_ON, 0);
    tmpcomp->add_failure(COMPFAIL_ALARM);
   } break;
 

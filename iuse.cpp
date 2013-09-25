@@ -2774,11 +2774,11 @@ if(it->type->id == "cot"){
   type = tr_brazier;
   practice = 0;
  } else if(it->type->id == "boobytrap"){
-  message << _("You set the boobytrap up and activate the grenade.");
+  message << _("You set the booby trap up and activate the grenade.");
   type = tr_boobytrap;
   practice = 4;
  } else if(it->type->id == "bubblewrap"){
-  message << _("You set the bubblewrap on the ground, ready to be popped.");
+  message << _("You set the bubble wrap on the ground, ready to be popped.");
   type = tr_bubblewrap;
   practice = 2;
  } else if(it->type->id == "beartrap"){
@@ -2874,9 +2874,9 @@ if(it->type->id == "cot"){
  } else if(it->type->id == "landmine"){
   buried = (p->has_amount("shovel", 1) &&
             g->m.has_flag(diggable, posx, posy) &&
-            query_yn(_("Bury the landmine?")));
+            query_yn(_("Bury the land mine?")));
   type = (buried ? tr_landmine_buried : tr_landmine);
-  message << (buried ? _("You bury the landmine.") : _("You set the landmine."));
+  message << (buried ? _("You bury the land mine.") : _("You set the land mine."));
   practice = (buried ? 7 : 4);
  } else {
   g->add_msg_if_player(p,_("Tried to set a trap.  But got confused! %s"), it->tname().c_str());
@@ -5253,34 +5253,58 @@ void iuse::spray_can(game *g, player *p, item *it, bool t)
     }
 }
 
-void iuse::heatpack(game *g, player *p, item *it, bool t)
+/**
+ * Heats up a food item.
+ * @return true if an item was heated, false if nothing was heated.
+ */
+bool iuse::heat_item(game *g, player *p)
 {
     char ch = g->inv(_("Heat up what?"));
     item* heat = &(p->i_at(ch));
     if (heat->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
-        return;
+        return false;
     }
-    if (heat->type->is_food()) {
+    item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
+    if (target->type->is_food()) {
         p->moves -= 300;
         g->add_msg(_("You heat up the food."));
-        heat->item_tags.insert("HOT");
-        heat->active = true;
-        heat->item_counter = 600; // sets the hot food flag for 60 minutes
-        it->make(g->itypes["heatpack_used"]);
-        return;
-    } else if (heat->is_food_container()) {
-        p->moves -= 300;
-        g->add_msg(_("You heat up the food."));
-        heat->contents[0].item_tags.insert("HOT");
-        heat->contents[0].active = true;
-        heat->contents[0].item_counter = 600; // sets the hot food flag for 60 minutes
-        it->make(g->itypes["heatpack_used"]);
-        return;
-    } else {
-        g->add_msg(_("You can't heat that up!"));
-        return;
+        target->item_tags.insert("HOT");
+        target->active = true;
+        target->item_counter = 600; // sets the hot food flag for 60 minutes
+        return true;
     }
+    g->add_msg(_("You can't heat that up!"));
+    return false;
+}
+
+void iuse::heatpack(game *g, player *p, item *it, bool t)
+{
+  if(heat_item(g, p)) {
+    it->make(g->itypes["heatpack_used"]);
+  }
+}
+
+void iuse::hotplate(game *g, player *p, item *it, bool t)
+{
+  if(it->charges == 0) {
+    g->add_msg_if_player(p, _("The %s's batteries are dead."), it->name.c_str());
+    return;
+  }
+
+  int choice = 1;
+  if (p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ) {
+    //Might want to cauterize
+    choice = menu(true, ("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
+  }
+
+  if(choice == 1) {
+    if(heat_item(g, p)) {
+      it->charges--;
+    }
+  } else if(choice == 2) {
+    cauterize_elec(g, p, it, t);
+  }
 }
 
 void iuse::dejar(game *g, player *p, item *it, bool t)

@@ -201,43 +201,43 @@ inventory inventory::operator+ (const item &rhs)
  return inventory(*this) += rhs;
 }
 
-
 inventory inventory::filter_by_category(item_cat cat, const player& u) const
 {
     inventory reduced_inv;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         const item& it = iter->front();
+
         switch (cat)
         {
         case IC_COMESTIBLE: // food
             if (it.is_food(&u) || it.is_food_container(&u))
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_AMMO: // ammo
             if (it.is_ammo() || it.is_ammo_container())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_ARMOR: // armour
             if (it.is_armor())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_BOOK: // books
             if (it.is_book())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_TOOL: // tools
             if (it.is_tool())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_CONTAINER: // containers for liquid handling
@@ -245,14 +245,14 @@ inventory inventory::filter_by_category(item_cat cat, const player& u) const
             {
                 if (it.ammo_type() == "gasoline")
                 {
-                    reduced_inv += *iter;
+                    reduced_inv.clone_stack(*iter);
                 }
             }
             else
             {
                 if (it.is_container())
                 {
-                    reduced_inv += *iter;
+                    reduced_inv.clone_stack(*iter);
                 }
             }
             break;
@@ -289,6 +289,18 @@ void inventory::add_stack(const std::list<item> newits)
     {
         add_item(*iter, true);
     }
+}
+
+/*
+ *  Bypass troublesome add_item for situations where we want an -exact- copy.
+ */
+void inventory::clone_stack (const std::list<item> & rhs) {
+    std::list<item> newstack;
+    for (std::list<item>::const_iterator iter = rhs.begin(); iter != rhs.end(); ++iter) {
+       newstack.push_back(*iter);
+    }
+    items.push_back(newstack);
+//    return *this;    
 }
 
 void inventory::push_back(std::list<item> newits)
@@ -365,7 +377,8 @@ item& inventory::add_item(item newit, bool keep_invlet)
     {
         return nullitem; // Styles never belong in our inventory.
     }
-
+//dprint("inv.add_item(%d): [%c] %s", keep_invlet, newit.invlet, newit.typeId().c_str()  );
+ 
     bool reuse_cached_letter = false;
 
     // Check how many stacks of this type already are in our inventory.

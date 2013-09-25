@@ -1048,19 +1048,25 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
   bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
   int ch=(int)' ';
 
-  std::string verbs[NUM_ACTIVITIES] = {
-    _("whatever"),
-    _("reloading"), _("reading"), _("playing"), _("waiting"), _("crafting"), _("crafting"),
-    _("disassembly"), _("butchering"), _("foraging"), _("construction"), _("construction"), _("pumping gas"),
-    _("training")
-  };
-  do {
-    ch=popup_getkey(_("%s Stop %s? (Y)es, (N)o, (I)gnore further distractions and finish."),
-      s.c_str(), verbs[u.activity.type].c_str() );
-  } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
-    ch != 'Y' && ch != 'N' && ch != 'I' &&
-    (force_uc || (ch != 'y' && ch != 'n' && ch != 'i'))
-  );
+    std::string stop_phrase[NUM_ACTIVITIES] = {
+        _(" Stop?"), _(" Stop reloading?"),
+        _(" Stop reading?"), _(" Stop playing?"),
+        _(" Stop waiting?"), _(" Stop crafting?"),
+        _(" Stop crafting?"), _(" Stop disassembly?"),
+        _(" Stop butchering?"), _(" Stop foraging?"),
+        _(" Stop construction?"), _(" Stop construction?"),
+        _(" Stop pumping gas?"), _(" Stop training?")
+    };
+
+    std::string stop_message = s + stop_phrase[u.activity.type] +
+            _(" (Y)es, (N)o, (I)gnore further distractions and finish.");
+
+    do {
+        ch = popup_getkey(stop_message.c_str());
+    } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
+             ch != 'Y' && ch != 'N' && ch != 'I' &&
+             (force_uc || (ch != 'y' && ch != 'n' && ch != 'i')));
+
   if (ch == 'Y' || ch == 'y') {
     u.cancel_activity();
   } else if (ch == 'I' || ch == 'i' ) {
@@ -1079,22 +1085,24 @@ void game::cancel_activity_query(const char* message, ...)
  std::string s(buff);
 
  bool doit = false;;
- std::string verbs[NUM_ACTIVITIES] = {
-    _("whatever"),
-    _("reloading"), _("reading"), _("playing"), _("waiting"), _("crafting"), _("crafting"),
-    _("disassembly"), _("butchering"), _("foraging"), _("construction"), _("construction"), _("pumping gas"),
-    _("training")
- };
 
- if(ACT_NULL==u.activity.type)
- {
-  doit = false;
- }
- else
- {
-   if (query_yn(_("%s Stop %s?"), s.c_str(), verbs[u.activity.type].c_str()))
-    doit = true;
- }
+    std::string stop_phrase[NUM_ACTIVITIES] = {
+        _(" Stop?"), _(" Stop reloading?"),
+        _(" Stop reading?"), _(" Stop playing?"),
+        _(" Stop waiting?"), _(" Stop crafting?"),
+        _(" Stop crafting?"), _(" Stop disassembly?"),
+        _(" Stop butchering?"), _(" Stop foraging?"),
+        _(" Stop construction?"), _(" Stop construction?"),
+        _(" Stop pumping gas?"), _(" Stop training?")
+    };
+
+    std::string stop_message = s + stop_phrase[u.activity.type];
+
+    if (ACT_NULL == u.activity.type) {
+        doit = false;
+    } else if (query_yn(stop_message.c_str())) {
+        doit = true;
+    }
 
  if (doit)
   u.cancel_activity();

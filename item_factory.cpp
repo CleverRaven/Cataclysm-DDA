@@ -194,6 +194,7 @@ void Item_factory::init(){
     iuse_function_list["ABSORBENT"] = &iuse::towel;
     iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
+    iuse_function_list["HOTPLATE"] = &iuse::hotplate;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS

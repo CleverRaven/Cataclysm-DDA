@@ -1519,8 +1519,8 @@ void player::memorial( std::ofstream &memorial_file )
 
     //Inventory
     memorial_file << _("Inventory:") << "\n";
-    inv.sort();
     inv.restack(this);
+    inv.sort();
     for(int i = 0; i < inv.size(); i++) {
       invslice slice = inv.slice(i, 1);
       item& next_item = slice[0]->front();
