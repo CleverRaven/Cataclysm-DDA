@@ -1148,5 +1148,20 @@
         "flags": [
             "EXTERNAL", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"
         ]
+    },
+    {
+        "id": "door_shutter",
+        "name": "shutter door",
+        "symbol": "+",
+        "color": "white",
+        "broken_symbol": "&",
+        "broken_color": "white",
+        "damage_modifier": 80,
+        "durability": 200,
+        "item": "steel_plate",
+        "difficulty": 3,
+        "flags": [
+            "EXTERNAL", "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"
+        ]
     }
 ]
