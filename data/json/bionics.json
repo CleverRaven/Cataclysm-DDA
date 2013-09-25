@@ -307,7 +307,7 @@
     "name"       :    "Repair Nanobots",
     "active"     :    true,
     "cost"       :    5,
-    "description":    "Inside your body is a fleet of tiny dormant robots.  Once charged from your energy banks, they will flit about your body, repairing any damage."
+    "description":    "Inside your body is a fleet of tiny dormant robots.  Once charged from your energy banks, they will flit about your body, repairing damage and stopping bleeding."
 },
 {
     "type"       :    "bionic",

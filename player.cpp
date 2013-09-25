@@ -3767,6 +3767,38 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
   lifetime_stats()->damage_taken+=dam;
 }
 
+void player::hurt(hp_part hurt, int dam)
+{
+    int painadd = 0;
+    if (has_disease("sleep") && rng(0, dam) > 2) {
+        g->add_msg(_("You wake up!"));
+        rem_disease("sleep");
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
+
+    if (dam <= 0)
+        return;
+
+    if (!is_npc()) {
+        g->cancel_activity_query(_("You were hurt!"));
+    }
+
+    if (has_trait("PAINRESIST")) {
+        painadd = dam / 3;
+    } else {
+        painadd = dam / 2;
+    }
+        pain += painadd;
+
+    hp_cur[hurt] -= dam;
+    if (hp_cur[hurt] < 0) {
+        lifetime_stats()->damage_taken+=hp_cur[hurt];
+        hp_cur[hurt] = 0;
+    }
+    lifetime_stats()->damage_taken+=dam;
+}
+
 void player::heal(body_part healed, int side, int dam)
 {
  hp_part healpart;
@@ -3948,6 +3980,63 @@ void player::knock_back_from(game *g, int x, int y)
  }
 }
 
+void player::bp_convert(hp_part &hpart, body_part bp, int side)
+{
+    hpart =  num_hp_parts;
+    switch(bp) {
+        case bp_head:
+            hpart = hp_head;
+            break;
+        case bp_torso:
+            hpart = hp_torso;
+            break;
+        case bp_arms:
+            if (side == 0) {
+                hpart = hp_arm_l;
+            } else {
+                hpart = hp_arm_r;
+            }
+            break;
+        case bp_legs:
+            if (side == 0) {
+                hpart = hp_leg_l;
+            } else {
+                hpart = hp_leg_r;
+            }
+            break;
+    }
+}
+
+void player::hp_convert(hp_part hpart, body_part &bp, int &side)
+{
+    bp =  num_bp;
+    side = -1;
+    switch(hpart) {
+        case hp_head:
+            bp = bp_head;
+            break;
+        case hp_torso:
+            bp = bp_torso;
+            break;
+        case hp_arm_l:
+            bp = bp_arms;
+            side = 0;
+            break;
+        case hp_arm_r:
+            bp = bp_arms;
+            side = 1;
+            break;
+        case hp_leg_l:
+            bp = bp_legs;
+            side = 0;
+            break;
+        case hp_leg_r:
+            bp = bp_legs;
+            side = 1;
+            break;
+    }
+}
+
 int player::hp_percentage()
 {
  int total_cur = 0, total_max = 0;
@@ -4025,10 +4114,25 @@ void player::infect(dis_type type, body_part vector, int strength,
 
 void player::add_disease(dis_type type, int duration,
                          int intensity, int max_intensity,
-                         body_part part, int side)
+                         body_part part, int side, bool main_parts_only, 
+                         int additive)
 {
     if (duration == 0) {
         return;
+    }
+
+    if (hp_cur[part] == 0) {
+        return;
+    }
+
+    if (main_parts_only) {
+        if (part == bp_eyes || part == bp_mouth) {
+            part = bp_head;
+        } else if (part == bp_hands) {
+            part = bp_arms;
+        } else if (part == bp_feet) {
+            part = bp_legs;
+        }
     }
 
     bool found = false;
@@ -4046,7 +4150,14 @@ void player::add_disease(dis_type type, int duration,
                 return;
             }
             if (illness[i].bp == part && illness[i].side == side) {
-                illness[i].duration += duration;
+                if (additive > 0) {
+                    illness[i].duration += duration;
+                } else if (additive < 0) {
+                    illness[i].duration -= duration;
+                    if (illness[i].duration <= 0) {
+                        illness[i].duration = 1;
+                    }
+                }
                 illness[i].intensity += intensity;
                 if (max_intensity != -1 && illness[i].intensity > max_intensity) {
                     illness[i].intensity = max_intensity;
@@ -4203,13 +4314,6 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     } else {
         return false;
     }
-}
-
-void player::cauterize(game *g) {
- rem_disease("bleed");
- rem_disease("bite");
- pain += 15;
- g->add_msg_if_player(this,_("You cauterize yourself. It hurts like hell!"));
 }
 
 void player::suffer(game *g)

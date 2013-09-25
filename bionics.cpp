@@ -224,7 +224,8 @@ void player::activate_bionic(int b, game *g)
   if (pkill > pain)
    pkill = pain;
  } else if (bio.id == "bio_nanobots"){
-  healall(4);
+    rem_disease("bleed");
+    healall(4);
  } else if (bio.id == "bio_night"){
   if (g->turn % 5)
     g->add_msg(_("Artificial night generator active!"));
