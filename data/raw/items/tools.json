@@ -4921,7 +4921,7 @@
     "turns_per_charge": 0,
     "ammo": "charcoal",
     "revert_to": "null",
-    "use_action": "WATER_PURIFIER"
+    "use_action": "CHARCOAL_PURIFIER"
   },
 
   {
