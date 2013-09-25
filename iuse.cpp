@@ -610,19 +610,20 @@ void iuse::cig(game *g, player *p, item *it, bool t) {
     p->thirst += 2;
     p->hunger -= 3;
     p->add_disease("cig", 200);
-    if (p->disease_level("cig") > 600) {
+    if (p->disease_duration("cig") > 600) {
         g->add_msg_if_player(p,_("Ugh, too much smoke... you feel nasty."));
     }
 }
 
 void iuse::antibiotic(game *g, player *p, item *it, bool t) {
     g->add_msg_if_player(p,_("You take some antibiotics."));
-    // cheap model of antibiotic resistance, but it's something.
-    int resistChance = 5;
-    bool resisted = (rng(1,100) < resistChance);
-    if (p->has_disease("infected") && !resisted) {
-        p->rem_disease("infected");
-        p->add_disease("recover", 1200);
+    if (p->has_disease("infected")) {
+        // cheap model of antibiotic resistance, but it's something.
+        if (x_in_y(95, 100)) {
+            int infected_dur = p->disease_duration("infected", true);
+            p->rem_disease("infected");
+            p->add_disease("recover", std::max((14401 - infected_dur + 3600) - 4800, 0) );
+        }
     }
 }
 
