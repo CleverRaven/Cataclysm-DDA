@@ -5887,8 +5887,7 @@ void game::open()
             add_msg(_("That door is already open."));
             u.moves += 100;
         } else {
-            veh->parts[vpart].open = 1;
-            veh->insides_dirty = true;
+            veh->open(vpart);
         }
         return;
     }
@@ -5934,8 +5933,7 @@ void game::close()
     }
     else if (veh && veh->part_flag(vpart, "OPENABLE") &&
              veh->parts[vpart].open) {
-        veh->parts[vpart].open = 0;
-        veh->insides_dirty = true;
+        veh->close(vpart);
         didit = true;
     } else if (m.furn(closex, closey) != f_safe_o && m.i_at(closex, closey).size() > 0)
         add_msg(_("There's %s in the way!"), m.i_at(closex, closey).size() == 1 ?
@@ -9767,8 +9765,7 @@ void game::plmove(int dx, int dy)
   }
 
  } else if (veh_closed_door) { // move_cost <= 0
-  veh1->parts[dpart].open = 1;
-  veh1->insides_dirty = true;
+   veh1->open(dpart);
   u.moves -= 100;
   add_msg (_("You open the %s's %s."), veh1->name.c_str(),
                                     veh1->part_info(dpart).name.c_str());

@@ -179,8 +179,8 @@
             {"x": -2, "y": -1, "part": "gas_tank"},
             {"x": -2, "y": 2, "part": "board_vertical"},
             {"x": -3, "y": -1, "part": "wheel"},
-            {"x": -3, "y": 0, "part": "door"},
-            {"x": -3, "y": 1, "part": "door"},
+            {"x": -3, "y": 0, "part": "door_trunk"},
+            {"x": -3, "y": 1, "part": "door_trunk"},
             {"x": -3, "y": 2, "part": "wheel"}
         ]
     },
@@ -215,7 +215,8 @@
             {"x": -3, "y": -1, "part": "wheel"},
             {"x": -3, "y": 2, "part": "wheel"}
         ]
-    }, {
+    },
+    {
         "id": "flatbed_truck",
         "name": "Flatbed Truck",
         "blueprint": [
@@ -283,6 +284,78 @@
             {"x": -3, "y": 1, "part": "trunk"},
             {"x": -3, "y": -2, "part": "wheel_wide"},
             {"x": -3, "y": 2, "part": "wheel_wide"}
+        ]
+    },
+    {
+        "id": "cube_van",
+        "name": "Cube Van",
+        "blueprint": [
+            ["O---+-O"],
+            ["+==|#'|"],
+            ["+==|o'>"],
+            ["+==|#'|"],
+            ["O---+-O"]
+        ],
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical"},
+            {"x": 0, "y": 0, "part": "box"},
+            {"x": 0, "y": 0, "part": "roof"},
+            {"x": 0, "y": -1, "part": "frame_vertical_2"},
+            {"x": 0, "y": -1, "part": "seat"},
+            {"x": 0, "y": -1, "part": "seatbelt"},
+            {"x": 0, "y": -1, "part": "roof"},
+            {"x": 0, "y": 1, "part": "frame_vertical_2"},
+            {"x": 0, "y": 1, "part": "seat"},
+            {"x": 0, "y": 1, "part": "seatbelt"},
+            {"x": 0, "y": 1, "part": "roof"},
+            {"x": 0, "y": -2, "part": "door"},
+            {"x": 0, "y": 2, "part": "door"},
+            {"x": 0, "y": -1, "part": "controls"},
+            {"x": 0, "y": -1, "part": "horn_car"},
+            {"x": 1, "y": 0, "part": "frame_horizontal"},
+            {"x": 1, "y": 0, "part": "windshield"},
+            {"x": 1, "y": -1, "part": "frame_horizontal"},
+            {"x": 1, "y": -1, "part": "windshield"},
+            {"x": 1, "y": -1, "part": "headlight"},
+            {"x": 1, "y": 1, "part": "frame_horizontal"},
+            {"x": 1, "y": 1, "part": "windshield"},
+            {"x": 1, "y": 1, "part": "headlight"},
+            {"x": 1, "y": -2, "part": "frame_vertical"},
+            {"x": 1, "y": 2, "part": "frame_vertical"},
+            {"x": 2, "y": -1, "part": "frame_horizontal"},
+            {"x": 2, "y": 0, "part": "frame_cover"},
+            {"x": 2, "y": 0, "part": "engine_v6"},
+            {"x": 2, "y": 1, "part": "frame_horizontal"},
+            {"x": 2, "y": -2, "part": "wheel_wide"},
+            {"x": 2, "y": 2, "part": "wheel_wide"},
+            {"x": -1, "y": -1, "part": "board_horizontal"},
+            {"x": -1, "y": 0, "part": "board_horizontal"},
+            {"x": -1, "y": 1, "part": "board_horizontal"},
+            {"x": -1, "y": -2, "part": "board_sw"},
+            {"x": -1, "y": -2, "part": "gas_tank"},
+            {"x": -1, "y": 2, "part": "board_se"},
+            {"x": -1, "y": 2, "part": "gas_tank"},
+            {"x": -2, "y": -1, "part": "frame_vertical"},
+            {"x": -2, "y": -1, "part": "trunk"},
+            {"x": -2, "y": 0, "part": "frame_vertical"},
+            {"x": -2, "y": 0, "part": "trunk"},
+            {"x": -2, "y": 1, "part": "frame_vertical"},
+            {"x": -2, "y": 1, "part": "trunk"},
+            {"x": -2, "y": -2, "part": "board_vertical"},
+            {"x": -2, "y": 2, "part": "board_vertical"},
+            {"x": -3, "y": -1, "part": "frame_horizontal"},
+            {"x": -3, "y": -1, "part": "trunk"},
+            {"x": -3, "y": 0, "part": "frame_horizontal"},
+            {"x": -3, "y": 0, "part": "trunk"},
+            {"x": -3, "y": 1, "part": "frame_horizontal"},
+            {"x": -3, "y": 1, "part": "trunk"},
+            {"x": -3, "y": -2, "part": "board_vertical"},
+            {"x": -3, "y": 2, "part": "board_vertical"},
+            {"x": -4, "y": -1, "part": "door_shutter"},
+            {"x": -4, "y": 0, "part": "door_shutter"},
+            {"x": -4, "y": 1, "part": "door_shutter"},
+            {"x": -4, "y": -2, "part": "wheel_wide"},
+            {"x": -4, "y": 2, "part": "wheel_wide"}
         ]
     },
     {
@@ -450,8 +523,8 @@
             {"x": 4, "y": -2, "part": "frame_horizontal"},
             {"x": 4, "y": 2, "part": "board_vertical"},
             {"x": 4, "y": -3, "part": "board_vertical"},
-            {"x": -4, "y": 0, "part": "door_opaque"},
-            {"x": -4, "y": -1, "part": "door_opaque"},
+            {"x": -4, "y": 0, "part": "door_shutter"},
+            {"x": -4, "y": -1, "part": "door_shutter"},
             {"x": -4, "y": 1, "part": "board_horizontal"},
             {"x": -4, "y": -2, "part": "board_horizontal"},
             {"x": -4, "y": 2, "part": "board_se"},
@@ -939,8 +1012,8 @@
             {"x": -2, "y": 2, "part": "storage_battery"},
             {"x": -2, "y": 2, "part": "solar_panel"},
             {"x": -3, "y": -1, "part": "wheel"},
-            {"x": -3, "y": 0, "part": "door"},
-            {"x": -3, "y": 1, "part": "door"},
+            {"x": -3, "y": 0, "part": "door_trunk"},
+            {"x": -3, "y": 1, "part": "door_trunk"},
             {"x": -3, "y": 2, "part": "wheel"}
         ]
     },
@@ -1058,7 +1131,13 @@
     {
         "id": "armored_car",
         "name": "Armored Car",
-        "blueprint": "Too awesome (seriously, it was crashing the game)",
+        "blueprint": [
+            ["O-++-O>"],
+            ["|H##'|>"],
+            ["t###'t>"],
+            ["|H##'|>"],
+            ["O-++-O>"]
+        ],
         "parts": [
             {"x": 0, "y": 0, "part": "frame_vertical_2"},
             {"x": 0, "y": 0, "part": "engine_v6"},
