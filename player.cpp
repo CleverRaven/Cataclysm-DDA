@@ -6505,7 +6505,8 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
     }
     else
     {
-        g->add_msg(_("Putting on a %s would be tricky."), to_wear->tname(g).c_str());
+        if (!to_wear->is_null())
+            g->add_msg(_("Putting on a %s would be tricky."), to_wear->tname(g).c_str());
         return false;
     }
 
