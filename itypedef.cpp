@@ -37,24 +37,24 @@ void game::init_itypes ()
   new itype("null", 0, "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0);
 // Corpse - a special item
  itypes["corpse"]=
-  new itype("corpse", 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
+  new itype("corpse", 0, _("corpse"), _("A dead body."), '%', c_white, "null", "null", PNULL, 0, 0,
             0, 0, 1);
  itypes["corpse"]->item_tags.insert("NO_UNLOAD");
 // This must -always- be set, or bad mojo in map::drawsq and whereever we check 'typeId() == "corpse" instead of 'corpse != NULL' ....
  itypes["corpse"]->corpse=this->mtypes[mon_null];
 // Fire - only appears in crafting recipes
  itypes["fire"]=
-  new itype("fire", 0, "nearby fire",
+  new itype("fire", 0, _("nearby fire"),
             "Some fire - if you are reading this it's a bug! (itypdef:fire)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
 // Integrated toolset - ditto
  itypes["toolset"]=
-  new itype("toolset", 0, "integrated toolset",
+  new itype("toolset", 0, _("integrated toolset"),
             "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
 // For smoking drugs
  itypes["apparatus"]=
-  new itype("apparatus", 0, "a smoking device and a source of flame",
+  new itype("apparatus", 0, _("a smoking device and a source of flame"),
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
 
