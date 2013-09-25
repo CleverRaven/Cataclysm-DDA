@@ -7891,6 +7891,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "reinforced_solar_panel",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 35 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "solar_panel", 1 ]
+    ],
+    [
+      [ "reinforced_glass_sheet", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "teleporter",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
