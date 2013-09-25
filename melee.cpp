@@ -199,7 +199,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  melee_special_effects(g, z, NULL, critical_hit, bash_dam, cut_dam, stab_dam);
 
 // Make a rather quiet sound, to alert any nearby monsters
- if (weapon.typeId() != "style_ninjutsu") // Ninjutsu is silent!
+ if (!is_quiet()) // check martial arts silence
   g->sound(posx, posy, 8, "");
 
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
@@ -326,7 +326,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  melee_special_effects(g, NULL, &p, critical_hit, bash_dam, cut_dam, stab_dam);
 
 // Make a rather quiet sound, to alert any nearby monsters
- if (weapon.typeId() != "style_ninjutsu") // Ninjutsu is silent!
+ if (!is_quiet()) // check martial arts silence
   g->sound(posx, posy, 8, "");
 
  p.hit(g, bp_hit, side, bash_dam, (cut_dam > stab_dam ? cut_dam : stab_dam));

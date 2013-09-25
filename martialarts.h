@@ -139,6 +139,7 @@ class ma_buff {
 
     // returns various boolean flags
     bool is_throw_immune();
+    bool is_quiet();
 
     std::string id;
     std::string name;
@@ -189,6 +190,7 @@ class ma_buff {
     float block_int; // "" int point
     float block_per; // "" per point
 
+    bool quiet;
     bool throw_immune; // are we immune to throws/grabs?
 };
 
