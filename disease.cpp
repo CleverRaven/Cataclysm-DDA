@@ -2241,7 +2241,7 @@ static void handle_bite_wound(player& p, disease& dis) {
     } else {
         // Infection starts
         p.add_disease("infected", 14401, 1, 1, dis.bp, dis.side, true, 0); // 1 day of timer + 1 tick
-        p.rem_disease("bite");
+        p.rem_disease("bite", dis.bp, dis.side);
     }
 }
 
