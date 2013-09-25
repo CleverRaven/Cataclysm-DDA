@@ -423,15 +423,15 @@ nc_color color_from_string(std::string new_color){
         return c_blue;
     } else if("green"==new_color){
         return c_green;
-    } else if("light_cyan"==new_color){
+    } else if("light_cyan"==new_color || "ltcyan"==new_color){
         return c_ltcyan;
     } else if("brown"==new_color){
         return c_brown;
-    } else if("light_red"==new_color){
+    } else if("light_red"==new_color || "ltred"==new_color){
         return c_ltred;
     } else if("white"==new_color){
         return c_white;
-    } else if("light_blue"==new_color){
+    } else if("light_blue"==new_color || "ltblue"==new_color){
         return c_ltblue;
     } else if("yellow"==new_color){
         return c_yellow;
@@ -439,11 +439,11 @@ nc_color color_from_string(std::string new_color){
         return c_magenta;
     } else if("cyan"==new_color){
         return c_cyan;
-    } else if("light_gray"==new_color){
+    } else if("light_gray"==new_color || "ltgray"==new_color){
         return c_ltgray;
-    } else if("dark_gray"==new_color){
+    } else if("dark_gray"==new_color || "dkgray"==new_color){
         return c_dkgray;
-    } else if("light_green"==new_color){
+    } else if("light_green"==new_color || "ltgreen"==new_color){
         return c_ltgreen;
     } else if("pink"==new_color){
         return c_pink;

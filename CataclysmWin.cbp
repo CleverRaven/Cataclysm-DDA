@@ -187,6 +187,7 @@
 		<Unit filename="computer.h" />
 		<Unit filename="construction.cpp" />
 		<Unit filename="construction.h" />
+		<Unit filename="coordinates.h" />
 		<Unit filename="crafting.cpp" />
 		<Unit filename="crafting.h" />
 		<Unit filename="cursesdef.h" />
@@ -266,6 +267,8 @@
 		<Unit filename="mapgenformat.cpp" />
 		<Unit filename="mapgenformat.h" />
 		<Unit filename="mapitems.h" />
+		<Unit filename="martialarts.cpp" />
+		<Unit filename="martialarts.h" />
 		<Unit filename="material.cpp" />
 		<Unit filename="material.h" />
 		<Unit filename="melee.cpp" />
@@ -276,7 +279,6 @@
 		<Unit filename="mission_place.cpp" />
 		<Unit filename="mission_start.cpp" />
 		<Unit filename="missiondef.cpp" />
-		<Unit filename="mod_factory.cpp" />
 		<Unit filename="mod_factory.h" />
 		<Unit filename="monattack.cpp" />
 		<Unit filename="monattack.h" />
@@ -328,6 +330,8 @@
 		</Unit>
 		<Unit filename="rng.cpp" />
 		<Unit filename="rng.h" />
+		<Unit filename="savegame_json.cpp" />
+		<Unit filename="savegame_legacy.cpp" />
 		<Unit filename="sdltiles.cpp" />
 		<Unit filename="settlement.cpp" />
 		<Unit filename="settlement.h" />

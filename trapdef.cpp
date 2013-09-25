@@ -15,7 +15,7 @@ traps.push_back(new trap(id, "NONE", "none", c_white, '?',  20, 0,
 keys.clear();
 id++;
 keys.push_back("bubblewrap");
-traps.push_back(new trap(id, "BUBBLEWRAP", _("bubblewrap"), c_ltcyan, '_',  0, 8,
+traps.push_back(new trap(id, "BUBBLEWRAP", _("bubble wrap"), c_ltcyan, '_',  0, 8,
     0, &trapfunc::bubble, &trapfuncm::bubble, keys));;
 
 keys.clear();
@@ -201,7 +201,7 @@ traps.push_back(new trap(id, "", _("ledge"), c_black, ' ',  0, 99,
 keys.clear();
 id++;
 keys.push_back("null");
-traps.push_back(new trap(id, "", _("boobytrap"), c_ltcyan, '^',  5, 4,
+traps.push_back(new trap(id, "", _("booby trap"), c_ltcyan, '^',  5, 4,
     7, &trapfunc::boobytrap, &trapfuncm::boobytrap, keys));;
 
 keys.clear();

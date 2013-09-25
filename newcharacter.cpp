@@ -17,18 +17,18 @@
 #include <vector>
 
 // Colors used in this file: (Most else defaults to c_ltgray)
-#define COL_STAT_ACT		c_ltred    // Selected stat
-#define COL_TR_GOOD		c_green    // Good trait descriptive text
-#define COL_TR_GOOD_OFF_ACT		c_ltgray  // A toggled-off good trait
-#define COL_TR_GOOD_ON_ACT		c_ltgreen    // A toggled-on good trait
-#define COL_TR_GOOD_OFF_PAS		c_dkgray  // A toggled-off good trait
-#define COL_TR_GOOD_ON_PAS		c_green    // A toggled-on good trait
-#define COL_TR_BAD		c_red      // Bad trait descriptive text
-#define COL_TR_BAD_OFF_ACT		c_ltgray    // A toggled-off bad trait
-#define COL_TR_BAD_ON_ACT		c_ltred      // A toggled-on bad trait
-#define COL_TR_BAD_OFF_PAS		c_dkgray    // A toggled-off bad trait
-#define COL_TR_BAD_ON_PAS		c_red      // A toggled-on bad trait
-#define COL_SKILL_USED		c_green    // A skill with at least one point
+#define COL_STAT_ACT        c_ltred   // Selected stat
+#define COL_TR_GOOD         c_green   // Good trait descriptive text
+#define COL_TR_GOOD_OFF_ACT c_ltgray  // A toggled-off good trait
+#define COL_TR_GOOD_ON_ACT  c_ltgreen // A toggled-on good trait
+#define COL_TR_GOOD_OFF_PAS c_dkgray  // A toggled-off good trait
+#define COL_TR_GOOD_ON_PAS  c_green   // A toggled-on good trait
+#define COL_TR_BAD          c_red     // Bad trait descriptive text
+#define COL_TR_BAD_OFF_ACT  c_ltgray  // A toggled-off bad trait
+#define COL_TR_BAD_ON_ACT   c_ltred   // A toggled-on bad trait
+#define COL_TR_BAD_OFF_PAS  c_dkgray  // A toggled-off bad trait
+#define COL_TR_BAD_ON_PAS   c_red     // A toggled-on bad trait
+#define COL_SKILL_USED      c_green   // A skill with at least one point
 
 #define HIGH_STAT 14 // The point after which stats cost double
 
@@ -231,6 +231,25 @@ bool player::create(game *g, character_type type, std::string tempname)
         ma_styles.push_back(ma_type);
         style_selected=ma_type;
     }
+    if (has_trait("MARTIAL_ARTS2")) {
+        matype_id ma_type;
+        do {
+            int choice = (PLTYPE_NOW==type)? rng(1, 4) :
+                menu(false, _("Pick your style:"), _("Krav Maga"), _("Muay Thai"), _("Ninjutsu"),
+                     _("Taekwondo"), NULL);
+            if (choice == 1)
+                ma_type = "style_krav_maga";
+            if (choice == 2)
+                ma_type = "style_muay_thai";
+            if (choice == 3)
+                ma_type = "style_ninjutsu";
+            if (choice == 4)
+                ma_type = "style_taekwondo";
+        } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
+        ma_styles.push_back(ma_type);
+        style_selected=ma_type;
+    }
+
 
     ret_null = item(g->itypes["null"], 0);
     weapon = ret_null;
@@ -637,7 +656,7 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
 
                     mvwprintz(w, 5 + i - iStartPos[iCurrentPage],
                               (iCurrentPage == 0) ? 2 : 40, c_ltgray, "\
-                                  ");	// Clear the line
+                                  "); // Clear the line
                     mvwprintz(w, 5 + i - iStartPos[iCurrentPage], (iCurrentPage == 0) ? 2 : 40, cLine,
                               traits[vStartingTraits[iCurrentPage][i]].name.c_str());
                 }
@@ -814,7 +833,7 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
         //Draw options
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > profession::count()) ? profession::count() : iContentHeight); i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
-                                             ");	// Clear the line
+                                             "); // Clear the line
 
             if (u->prof != sorted_profs[i]) {
                 mvwprintz(w, 5 + i - iStartPos, 2, (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
@@ -915,7 +934,7 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
     Skill *thisSkill = sorted_skills[i];
 
     mvwprintz(w, 5 + i, 2, c_ltgray, "\
-                                             ");	// Clear the line
+                                             "); // Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 5 + i, 2, (i == cur_pos ? h_ltgray : c_ltgray),
                thisSkill->name().c_str());
@@ -931,7 +950,7 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
    for (int i = num_skills - 16; i < num_skills; i++) {
     Skill *thisSkill = sorted_skills[i];
     mvwprintz(w, 21 + i - num_skills, 2, c_ltgray, "\
-                                             ");	// Clear the line
+                                             "); // Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 21 + i - num_skills, 2,
                (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
@@ -947,7 +966,7 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
    for (int i = cur_pos - 7; i < cur_pos + 9; i++) {
     Skill *thisSkill = sorted_skills[i];
     mvwprintz(w, 12 + i - cur_pos, 2, c_ltgray, "\
-                                             ");	// Clear the line
+                                             "); // Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 12 + i - cur_pos, 2, (i == cur_pos ? h_ltgray : c_ltgray),
                thisSkill->name().c_str());
@@ -1061,7 +1080,7 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
   if (ch == '>') {
    if (points < 0) {
     popup(_("Too many points allocated, change some features and try again."));
-	continue;
+    continue;
    } else if (points > 0 &&
               !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
     continue;

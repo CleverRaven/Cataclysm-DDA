@@ -303,7 +303,7 @@ void game::init_construction()
 
 // Base stuff
  CONSTRUCT(_("Build Bulletin Board"), 0, &construct::able_empty,
- 		                                   &construct::done_nothing);
+                                         &construct::done_nothing);
   STAGE(f_bulletin, 10)
    TOOL("saw");
    TOOL("hammer");
@@ -393,6 +393,10 @@ void game::init_construction()
  CONSTRUCT(_("Start vehicle construction"), 0, &construct::able_empty, &construct::done_vehicle);
   STAGE(10);
    COMP("frame", 1);
+   
+ CONSTRUCT(_("Start cart construction"), 0, &construct::able_empty, &construct::done_cart);
+  STAGE(10);
+   COMP("wheel_caster", 1);
 
  CONSTRUCT(_("Fence Posts"), 0, &construct::able_dig,
                              &construct::done_nothing);
@@ -409,14 +413,14 @@ void game::init_construction()
    COMPCONT("spear_wood", 2);
 
  CONSTRUCT(_("Build Wood Stove"), 0, &construct::able_empty,
- 		                                   &construct::done_nothing);
+                                     &construct::done_nothing);
   STAGE(f_woodstove, 10);
    TOOL("hacksaw");
    COMP("metal_tank", 1);
    COMP("pipe", 1);
 
  CONSTRUCT(_("Build Stone Fireplace"), 0, &construct::able_empty,
- 		                                   &construct::done_nothing);
+                                          &construct::done_nothing);
   STAGE(f_fireplace, 40);
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
@@ -501,7 +505,7 @@ void game::construction_menu()
    int posx = 33, posy = 2;
    for (int n = 0; n < current_con->stages.size(); n++) {
      nc_color color_stage = (player_can_build(u, total_inv, current_con, n,
-					      false, true) ? c_white : c_dkgray);
+                             false, true) ? c_white : c_dkgray);
 
     const char* mes;
     if (current_con->stages[n].terrain != t_null)
@@ -718,8 +722,8 @@ bool game::player_can_build(player &p, inventory pinv, constructable* con,
     has_component = false;
     for (int k = 0; k < stage->components[j].size(); k++) {
      if (( item_controller->find_template(stage->components[j][k].type)->is_ammo() &&
-	   pinv.has_charges(stage->components[j][k].type,
-			   stage->components[j][k].count)    ) ||
+           pinv.has_charges(stage->components[j][k].type,
+                            stage->components[j][k].count)    ) ||
          (!item_controller->find_template(stage->components[j][k].type)->is_ammo() &&
           pinv.has_amount (stage->components[j][k].type,
                           stage->components[j][k].count)    ))
@@ -741,7 +745,7 @@ bool game::player_can_build(player &p, inventory pinv, constructable* con,
     (has_tool || !tools_required);
   if (exact_level && (i == level)) {
       return ((has_component || !components_required) &&
-	      (has_tool || !tools_required));
+              (has_tool || !tools_required));
   }
  }  // stage[i]
  return can_build_any;
@@ -1071,6 +1075,27 @@ void construct::done_vehicle(game *g, point p)
     if (!veh)
     {
         debugmsg ("error constructing vehicle");
+        return;
+    }
+    veh->name = name;
+
+    //Update the vehicle cache immediately, or the vehicle will be invisible for the first couple of turns.
+    g->m.update_vehicle_cache(veh, true);
+
+}
+
+void construct::done_cart(game *g, point p)
+{
+    std::string name = string_input_popup(_("Enter new cart name:"), 20);
+    if(name.empty())
+    {
+        name = _("Cart");
+    }
+
+    vehicle *veh = g->m.add_vehicle (g, "custom_cart", p.x, p.y, 270, 0, 0);
+    if (!veh)
+    {
+        debugmsg ("error constructing cart");
         return;
     }
     veh->name = name;

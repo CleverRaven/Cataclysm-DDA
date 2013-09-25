@@ -172,6 +172,8 @@ ma_buff loadBuff(catajson& curBuff) {
   if (curBuff.has("block_per"))
     buff.block_per = curBuff.get("block_per").as_double();
 
+  if (curBuff.has("quiet"))
+    buff.quiet = curBuff.get("quiet").as_bool();
   if (curBuff.has("throw_immune"))
     buff.throw_immune = curBuff.get("throw_immune").as_bool();
 
@@ -430,8 +432,9 @@ int ma_buff::cut_bonus(player& u) {
 bool ma_buff::is_throw_immune() {
   return throw_immune;
 }
-
-
+bool ma_buff::is_quiet() {
+  return quiet;
+}
 
 
 
@@ -645,6 +648,16 @@ bool player::is_throw_immune() {
     if (it->is_mabuff() &&
         g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
       if (g->ma_buffs[it->buff_id].is_throw_immune()) return true;
+    }
+  }
+  return false;
+}
+bool player::is_quiet() {
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      if (g->ma_buffs[it->buff_id].is_quiet()) return true;
     }
   }
   return false;

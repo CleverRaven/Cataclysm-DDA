@@ -258,6 +258,7 @@ int veh_interact::cant_do (char mode)
 void veh_interact::do_install(int reason)
 {
     werase (w_msg);
+    int msg_width = getmaxx(w_msg);
     if (g->u.morale_level() < MIN_MORALE_CRAFT)
     { // See morale.h
         mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
@@ -271,15 +272,14 @@ void veh_interact::do_install(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, rm_prefix(_("<veh>You need a ")).c_str());
-        wprintz(w_msg, has_wrench? c_ltgreen : c_red, _("wrench"));
-        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> and a ")).c_str());
-        wprintz(w_msg, has_welder? c_ltgreen : c_red, _("powered welder"));
-        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> to install parts.")).c_str());
+        fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
+                       _("You need a <color_%1$s>wrench</color> and a <color_%2$s>powered welder</color> to install parts."),
+                       has_wrench ? "ltgreen" : "red",
+                       has_welder ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
     }
-    mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:      "));
+    mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
     wrefresh (w_mode);
     int pos = 0;
     int engines = 0;
@@ -300,24 +300,25 @@ void veh_interact::do_install(int reason)
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
         bool has_tools = has_welder && has_wrench;
-        werase (w_msg);
-        mvwprintz(w_msg, 0, 1, c_ltgray, rm_prefix(_("<veh>Needs ")).c_str());
-        wprintz(w_msg, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
-        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh>, a ")).c_str());
-        wprintz(w_msg, has_wrench? c_ltgreen : c_red, _("wrench"));
-        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh>, a ")).c_str());
-        wprintz(w_msg, has_welder? c_ltgreen : c_red, _("powered welder"));
-        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh>, and level ")).c_str());
-        wprintz(w_msg, has_skill? c_ltgreen : c_red, "%d", sel_vpart_info->difficulty);
-        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> skill in mechanics.")).c_str());
         bool eng = sel_vpart_info->has_flag("ENGINE");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
+        std::string engine_string = "";
         if (engines && eng) // already has engine
         {
-            wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> You also need level ")).c_str());
-            wprintz(w_msg, has_skill2? c_ltgreen : c_red, "%d", dif_eng);
-            wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> skill in mechanics to install additional engine.")).c_str());
+            engine_string = string_format(_("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
+                                          has_skill2 ? "ltgreen" : "red",
+                                          dif_eng);
         }
+        werase (w_msg);
+        fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
+                       _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, a <color_%4$s>powered_welder</color>, and level <color_%5$s>%6$d</color> skill in mechanics.%7$s"),
+                       has_comps ? "ltgreen" : "red",
+                       g->itypes[itm]->name.c_str(),
+                       has_wrench ? "ltgreen" : "red",
+                       has_welder ? "ltgreen" : "red",
+                       has_skill ? "ltgreen" : "red",
+                       sel_vpart_info->difficulty,
+                       engine_string.c_str());
         wrefresh (w_msg);
         char ch = input(); // See keypress.h
         int dx, dy;
@@ -360,6 +361,7 @@ void veh_interact::do_install(int reason)
 void veh_interact::do_repair(int reason)
 {
     werase (w_msg);
+    int msg_width = getmaxx(w_msg);
     if (g->u.morale_level() < MIN_MORALE_CRAFT)
     { // See morale.h
         mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
@@ -373,8 +375,9 @@ void veh_interact::do_repair(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, _("You need a powered welder to repair."));
-        mvwprintz(w_msg, 0, 12, has_welder? c_ltgreen : c_red, _("powered welder")); // FIXME: i18n
+        fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
+                       _("You need a <color_%s>powered welder</color> to repair."),
+                       has_welder ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
     }
@@ -391,16 +394,19 @@ void veh_interact::do_repair(int reason)
         bool has_comps = true;
         int dif = vehicle_part_types[sel_vehicle_part->id].difficulty + (sel_vehicle_part->hp <= 0? 0 : 2);
         bool has_skill = g->u.skillLevel("mechanics") >= dif;
-        mvwprintz(w_msg, 0, 1, c_ltgray, _("You need level %d skill in mechanics."), dif);
-        mvwprintz(w_msg, 0, 16, has_skill? c_ltgreen : c_red, "%d", dif); // FIXME: i18n
+        fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
+                       _("You need level <color_%1$s>%2$d</color> skill in mechanics."),
+                       has_skill ? "ltgreen" : "red",
+                       dif);
         if (sel_vehicle_part->hp <= 0)
         {
             itype_id itm = vehicle_part_types[sel_vehicle_part->id].item;
             has_comps = crafting_inv.has_amount(itm, 1);
-            mvwprintz(w_msg, 1, 1, c_ltgray, _("You also need a wrench and %s to replace broken one."),
-                      g->itypes[itm]->name.c_str());
-            mvwprintz(w_msg, 1, 17, has_wrench? c_ltgreen : c_red, _("wrench"));
-            mvwprintz(w_msg, 1, 28, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
+            fold_and_print(w_msg, 1, 1, msg_width-2, c_ltgray,
+                           _("You also need a <color_%1$s>wrench</color> and <color_%2$s>%3$s</color> to replace broken one."),
+                           has_wrench ? "ltgreen" : "red",
+                           has_comps ? "ltgreen" : "red",
+                           g->itypes[itm]->name.c_str());
         }
         wrefresh (w_msg);
         char ch = input(); // See keypress.h
@@ -445,6 +451,7 @@ void veh_interact::do_repair(int reason)
 void veh_interact::do_refill(int reason)
 {
     werase (w_msg);
+    int msg_width = getmaxx(w_msg);
     switch (reason)
     {
     case 1:
@@ -452,9 +459,9 @@ void veh_interact::do_refill(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, _("You need %s."),
-                  ammo_name(vehicle_part_types[ptank->id].fuel_type).c_str());
-        mvwprintz(w_msg, 0, 10, c_red, ammo_name(vehicle_part_types[ptank->id].fuel_type).c_str());
+        fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
+                       _("You need <color_red>%s</color>."),
+                       ammo_name(vehicle_part_types[ptank->id].fuel_type).c_str());
         wrefresh (w_msg);
         return;
     }
@@ -472,6 +479,7 @@ void veh_interact::do_refill(int reason)
 void veh_interact::do_remove(int reason)
 {
     werase (w_msg);
+    int msg_width = getmaxx(w_msg);
     if (g->u.morale_level() < MIN_MORALE_CRAFT)
     { // See morale.h
         mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
@@ -485,16 +493,15 @@ void veh_interact::do_remove(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, rm_prefix(_("<veh>You need a ")).c_str());
-        wprintz(w_msg, has_wrench? c_ltgreen : c_red, _("wrench"));
-        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> and a ")).c_str());
-        wprintz(w_msg, has_hacksaw? c_ltgreen : c_red, _("hacksaw"));
-        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> to remove parts.")).c_str());
+        fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
+                       _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw</color> to remove parts."),
+                       has_wrench ? "ltgreen" : "red",
+                       has_hacksaw ? "ltgreen" : "red");
         if(wheel) {
-            mvwprintz(w_msg, 1, 1, c_ltgray, rm_prefix(_("<veh>To change a wheel you need a ")).c_str());
-            wprintz(w_msg, has_wrench? c_ltgreen : c_red, _("wrench"));
-            wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> and a ")).c_str());
-            wprintz(w_msg, has_jack? c_ltgreen : c_red, _("jack"));
+            fold_and_print(w_msg, 1, 1, msg_width-2, c_ltgray,
+                           _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>."),
+                           has_wrench ? "ltgreen" : "red",
+                           has_jack ? "ltgreen" : "red");
         }
         wrefresh (w_msg);
         return;
@@ -557,6 +564,7 @@ void veh_interact::do_remove(int reason)
 void veh_interact::do_siphon(int reason)
 {
     werase (w_msg);
+    int msg_width = getmaxx(w_msg);
     switch (reason)
     {
     case 1:
@@ -564,8 +572,8 @@ void veh_interact::do_siphon(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, _("You need a hose to siphon fuel."));
-        mvwprintz(w_msg, 0, 12, c_red, _("hose")); //FIXME: i18n
+        fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
+                       _("You need a <color_red>hose</color> to siphon fuel."));
         wrefresh (w_msg);
         return;
     }
@@ -580,19 +588,20 @@ void veh_interact::do_siphon(int reason)
 void veh_interact::do_tirechange(int reason)
 {
     werase( w_msg );
+    int msg_width = getmaxx(w_msg);
     switch( reason ) {
     case 1:
         mvwprintz(w_msg, 0, 1, c_ltred, _("There is no wheel to change here."));
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 1, 1, c_ltgray, rm_prefix(_("<veh>To change a wheel you need a ")).c_str());
-        wprintz(w_msg, has_wrench? c_ltgreen : c_red, _("wrench"));
-        wprintz(w_msg, c_ltgray, rm_prefix(_("<veh> and a ")).c_str());
-        wprintz(w_msg, has_jack? c_ltgreen : c_red, _("jack"));
+        fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
+                       _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>."),
+                       has_wrench ? "ltgreen" : "red",
+                       has_jack ? "ltgreen" : "red");
         return;
     }
-    mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose wheel to use as replacement:      "));
+    mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose wheel to use as replacement:"));
     wrefresh (w_mode);
     int pos = 0;
     while (true)
@@ -645,6 +654,7 @@ void veh_interact::do_tirechange(int reason)
 void veh_interact::do_drain(int reason)
 {
     werase (w_msg);
+    int msg_width = getmaxx(w_msg);
     switch (reason)
     {
     case 1:
@@ -652,8 +662,8 @@ void veh_interact::do_drain(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, _("You need a hose to siphon water.") );
-        mvwprintz(w_msg, 0, 12, c_red, _("hose") ); // FIXME: i18n
+        fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
+                       _("You need a <color_red>hose</color> to siphon water.") );
         wrefresh (w_msg);
         return;
     }
@@ -849,61 +859,65 @@ void veh_interact::display_veh ()
 void veh_interact::display_stats ()
 {
     bool conf = veh->valid_wheel_config();
+    int stat_width = getmaxx(w_stats);
     mvwprintz(w_stats, 0, 1, c_ltgray, _("Name: "));
     mvwprintz(w_stats, 0, 1+utf8_width(_("Name: ")), c_ltgreen, veh->name.c_str());
     if(OPTIONS["USE_METRIC_SPEEDS"] == "km/h") {
-        mvwprintz(w_stats, 1, 1, c_ltgray, _("Safe speed:      Km/h"));
-        mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", int(veh->safe_velocity(false) * 0.0161f));
-        mvwprintz(w_stats, 2, 1, c_ltgray, _("Top speed:       Km/h"));
-        mvwprintz(w_stats, 2, 14, c_ltred, "%3d", int(veh->max_velocity(false) * 0.0161f));
-        mvwprintz(w_stats, 3, 1, c_ltgray, _("Accel.:          Kmh/t"));
-        mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", int(veh->acceleration(false) * 0.0161f));
+        fold_and_print(w_stats, 1, 1, stat_width-2, c_ltgray,
+                       _("Safe speed: <color_ltgreen>%3d</color> km/h"),
+                       int(veh->safe_velocity(false) * 0.0161f));
+        fold_and_print(w_stats, 2, 1, stat_width-2, c_ltgray,
+                       _("Top speed:  <color_ltred>%3d</color> km/h"),
+                       int(veh->max_velocity(false) * 0.0161f));
+        fold_and_print(w_stats, 3, 1, stat_width-2, c_ltgray,
+                       _("Accel.:     <color_ltblue>%3d</color> kmh/t"),
+                       int(veh->acceleration(false) * 0.0161f));
     } else {
-        mvwprintz(w_stats, 1, 1, c_ltgray, _("Safe speed:      mph"));
-        mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", veh->safe_velocity(false) / 100);
-        mvwprintz(w_stats, 2, 1, c_ltgray, _("Top speed:       mph"));
-        mvwprintz(w_stats, 2, 14, c_ltred, "%3d", veh->max_velocity(false) / 100);
-        mvwprintz(w_stats, 3, 1, c_ltgray, _("Accel.:          mph/t"));
-        mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", veh->acceleration(false) / 100);
+        fold_and_print(w_stats, 1, 1, stat_width-2, c_ltgray,
+                       _("Safe speed: <color_ltgreen>%3d</color> mph"),
+                       veh->safe_velocity(false) / 100);
+        fold_and_print(w_stats, 2, 1, stat_width-2, c_ltgray,
+                       _("Top speed:  <color_ltred>%3d</color> mph"),
+                       veh->max_velocity(false) / 100);
+        fold_and_print(w_stats, 3, 1, stat_width-2, c_ltgray,
+                       _("Accel.:     <color_ltblue>%3d</color> mph/t"),
+                       veh->acceleration(false) / 100);
     }
     if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg"){
-        mvwprintz(w_stats, 4, 1, c_ltgray, _("Mass:            kg"));
-        mvwprintz(w_stats, 4, 12, c_ltblue,"%5d", (int) (veh->total_mass()));
+        fold_and_print(w_stats, 4, 1, stat_width-2, c_ltgray,
+                       _("Mass:     <color_ltblue>%5d</color> kg"),
+                       int(veh->total_mass()));
     } else {
-        mvwprintz(w_stats, 4, 1, c_ltgray, _("Mass:            lbs"));
-        mvwprintz(w_stats, 4, 12, c_ltblue,"%5d", (int) (veh->total_mass() * 2.2));
+        fold_and_print(w_stats, 4, 1, stat_width-2, c_ltgray,
+                       _("Mass:     <color_ltblue>%5d</color> lbs"),
+                       int(veh->total_mass() * 2.2));
     }
-    mvwprintz(w_stats, 5, 26, c_ltgray, _("K dynamics:        "));
-    mvwprintz(w_stats, 5, 41, c_ltblue, "%3d", (int) (veh->k_dynamics() * 100));
-    mvwputch (w_stats, 5, 45, c_ltgray, '%');
-    mvwprintz(w_stats, 6, 26, c_ltgray, _("K mass:            "));
-    mvwprintz(w_stats, 6, 41, c_ltblue, "%3d", (int) (veh->k_mass() * 100));
-    mvwputch (w_stats, 6, 45, c_ltgray, '%');
-    mvwprintz(w_stats, 5, 1, c_ltgray, _("Wheels: "));
     if (conf) {
-        mvwprintz(w_stats, 5, 1+utf8_width(_("Wheels: ")), c_ltgreen,
-                  rm_prefix(_("<wheels>enough")).c_str());
+        fold_and_print(w_stats, 5, 1, stat_width-2, c_ltgray,
+                       _("Wheels:  <color_ltgreen>enough</color>"));
     } else {
-        mvwprintz(w_stats, 5, 1+utf8_width(_("Wheels: ")), c_ltgreen,
-                  rm_prefix(_("<wheels>  lack")).c_str());
+        fold_and_print(w_stats, 5, 1, stat_width-2, c_ltgray,
+                       _("Wheels:  <color_ltred>  lack</color>"));
     }
-    mvwprintz(w_stats, 6, 1, c_ltgray,  _("Fuel usage (safe):        "));
-    int fuel_usage_x = 20;
+    fold_and_print(w_stats, 3, 26, stat_width-2, c_ltgray,
+                   _("K dynamics:    <color_ltblue>%3d</color> %%"),
+                   int(veh->k_dynamics() * 100));
+    fold_and_print(w_stats, 4, 26, stat_width-2, c_ltgray,
+                   _("K mass:        <color_ltblue>%3d</color> %%"),
+                   int(veh->k_mass() * 100));
+    mvwprintz(w_stats, 6, 1, c_ltgray,  _("Fuel usage (safe): "));
+    int fuel_usage_x = 1 + utf8_width(_("Fuel usage (safe): "));
     ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
     nc_color fuel_colors[3] = { c_ltred, c_yellow, c_ltblue };
     bool first = true;
-    for (int i = 0; i < 3; i++)
-    {
+    for (int i = 0; i < 3; ++i) {
         int fuel_usage = veh->basic_consumption (fuel_types[i]);
-        if (fuel_usage > 0)
-        {
+        if (fuel_usage > 0) {
             fuel_usage = fuel_usage / 100;
-            if (fuel_usage < 1)
-            {
+            if (fuel_usage < 1) {
                 fuel_usage = 1;
             }
-            if (!first)
-            {
+            if (!first) {
                 mvwprintz(w_stats, 6, fuel_usage_x++, c_ltgray, "/");
             }
             mvwprintz(w_stats, 6, fuel_usage_x++, fuel_colors[i], "%d", fuel_usage);

@@ -43,6 +43,7 @@ class inventory
   void sort();
   void clear();
   void add_stack(std::list<item> newits);
+  void clone_stack(const std::list<item> &rhs);
   void push_back(std::list<item> newits);
   char get_invlet_for_item( std::string item_type );
   item& add_item (item newit, bool keep_invlet = false); //returns a ref to the added item
