@@ -121,6 +121,11 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
      }
     }
 
+    //Turn on lights on some non-mint vehicles
+    if(veh_status != 0 && one_in(20)) {
+        lights_on = true;
+    }
+
     //Don't bloodsplatter mint condition vehicles
     if(veh_status != 0 && one_in(10)) {
       blood_covered = true;
