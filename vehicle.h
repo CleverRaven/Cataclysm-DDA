@@ -377,6 +377,10 @@ public:
     void stop ();
 
     void find_external_parts ();
+	
+	void find_horns ();
+
+	void find_lights ();
 
     void find_exhaust ();
 
@@ -411,6 +415,9 @@ public:
     // internal procedure of turret firing
     bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges);
 
+	//Set all headlights on/off
+	void set_lights(bool on);
+
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
 
@@ -424,7 +431,9 @@ public:
     std::string name;   // vehicle name
     std::string type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
-    std::vector<int> external_parts;   // List of external parts indeces
+    std::vector<int> external_parts;   // List of external parts indices
+	std::vector<int> horns;            // List of horn part indices
+	std::vector<int> lights;            // List of light part indices
     std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
     int exhaust_dy;
@@ -450,6 +459,7 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
+	int power_needed;   // amount of current power drain
 };
 
 #endif

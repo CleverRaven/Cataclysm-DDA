@@ -1350,6 +1350,7 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
     picobool(data, "lights_on", lights_on);
     picobool(data, "skidding", skidding);
     picoint(data, "turret_mode", turret_mode);
+    picoint(data, "power_needed", power_needed);
     picojson::object::const_iterator oftcit = data.find("of_turn_carry");
     if(oftcit != data.end() && oftcit->second.is<double>() ) {
         of_turn_carry = (float)oftcit->second.get<double>();
@@ -1396,13 +1397,15 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                             new_part.items.push_back( item( *pit, g ) );
                         }
                     }
-                }           
+                }
                 parts.push_back (new_part);
             }
         }
         parray = NULL;
     }
     find_external_parts ();
+    find_horns ();
+    find_lights ();
     find_exhaust ();
     insides_dirty = true;
     precalc_mounts (0, face.dir());
@@ -1431,8 +1434,9 @@ picojson::value vehicle::json_save( bool save_contents ) {
 
     data["cruise_on"] = pv ( cruise_on );
     data["lights_on"] = pv ( lights_on );
-    data["turret_mode"] = pv ( turret_mode );
     data["skidding"] = pv ( skidding );
+    data["turret_mode"] = pv ( turret_mode );
+	data["power_needed"] = pv ( power_needed );
 
     data["of_turn_carry"] = pv ( of_turn_carry );
     data["name"] = pv ( name );

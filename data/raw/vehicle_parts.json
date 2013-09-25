@@ -1064,6 +1064,7 @@
         "broken_color": "white",
         "damage_modifier": 10,
         "durability": 20,
+		"power_needed": 3,
         "par1": 480,
         "item": "flashlight",
         "difficulty": 1,

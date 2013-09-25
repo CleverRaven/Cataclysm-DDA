@@ -30,6 +30,7 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     of_turn_carry = 0;
     turret_mode = 0;
     cruise_velocity = 0;
+	power_needed = 0;
     skidding = false;
     cruise_on = true;
     lights_on = false;
@@ -296,7 +297,7 @@ void vehicle::use_controls()
    g->add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
    break;
   case toggle_lights:
-   lights_on = !lights_on;
+   set_lights(!lights_on);
    g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
    break;
   case activate_horn:
@@ -348,28 +349,21 @@ void vehicle::use_controls()
 
 void vehicle::honk_horn()
 {
-    std::vector<vehicle_part *> horns;
-    std::vector<vpart_info *> horn_types;
-    for( int p = 0; p < parts.size(); p++ ) {
-        if( part_flag( p,"HORN" ) ) {
-            horn_types.push_back( &part_info(p) );
-            horns.push_back( &parts[p] );
-        }
-    }
     for(int h = 0; h < horns.size(); h++) {
         //Get global position of horn
-        int horn_x = horns[h]->mount_dx;
-        int horn_y = horns[h]->mount_dy;
+        int horn_x = parts[horns[h]].mount_dx;
+        int horn_y = parts[horns[h]].mount_dy;
         coord_translate( horn_x, horn_y, horn_x, horn_y );
         horn_x += global_x();
         horn_y += global_y();
         //Determine sound
-        if( horn_types[h]->bonus >= 40 ){
-            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("HOOOOORNK!") );
-        } else if( horn_types[h]->bonus >= 20 ){
-            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("BEEEP!") );
+		vpart_info &horn_type=vpart_list[parts[horns[h]].id];
+        if( horn_type.bonus >= 40 ){
+            g->sound( horn_x, horn_y, horn_type.bonus, _("HOOOOORNK!") );
+        } else if( horn_type.bonus >= 20 ){
+            g->sound( horn_x, horn_y, horn_type.bonus, _("BEEEP!") );
         } else{
-            g->sound( horn_x, horn_y, horn_types[h]->bonus, _("honk.") );
+            g->sound( horn_x, horn_y, horn_type.bonus, _("honk.") );
         }
     }
 }
@@ -655,6 +649,8 @@ void vehicle::remove_part (int p)
 {
     parts.erase(parts.begin() + p);
     find_external_parts ();
+	find_horns ();
+	find_lights ();
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
@@ -2100,6 +2096,30 @@ void vehicle::find_external_parts ()
     }
 }
 
+void vehicle::find_horns ()
+{
+    horns.clear();
+    for (int p = 0; p < parts.size(); p++)
+    {
+		if(part_flag( p,"HORN" ))
+		{
+			horns.push_back(p);
+		}
+    }
+}
+
+void vehicle::find_lights ()
+{
+    lights.clear();
+    for (int p = 0; p < parts.size(); p++)
+    {
+		if(part_flag( p,"LIGHT" ))
+		{
+			lights.push_back(p);
+		}
+    }
+}
+
 void vehicle::find_exhaust ()
 {
     int en = -1;
@@ -2435,6 +2455,24 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     }
 
     return true;
+}
+
+void vehicle::set_lights(bool on)
+{
+	if(lights_on != on)
+	{
+		if(on){
+			for (int l = 0; l < lights.size(); l++) {
+				power_needed += vpart_list[parts[lights[l]].id].power_needed;
+			}
+		}
+		else {
+			for (int l = 0; l < lights.size(); l++) {
+				power_needed -= vpart_list[parts[lights[l]].id].power_needed;
+			}
+		}
+	}
+	lights_on = on;
 }
 
 // a chance to stop skidding if moving in roughly the faced direction

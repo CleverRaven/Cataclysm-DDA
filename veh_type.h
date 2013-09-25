@@ -119,6 +119,7 @@ struct vpart_info
     nc_color color_broken;  // color of broken part
     int dmg_mod;            // damage modifier, percent
     int durability;         // durability
+	int power_needed;       // power required to run (1 turn)
     union
     {
         int par1;
