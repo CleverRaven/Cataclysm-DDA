@@ -967,6 +967,22 @@
         ]
     },
     {
+        "id": "reinforced_welding_rig",
+        "name": "USACE repair rig",
+        "symbol": "&",
+        "color": "light_red",
+        "broken_symbol": "x",
+        "broken_color": "light_red",
+        "damage_modifier": 50,
+        "durability": 200,
+        "size": 400,
+        "item": "reinforced_weldrig",
+        "difficulty": 4,
+        "flags": [
+            "OVER", "CARGO", "NO_REINFORCE", "OBSTACLE", "WELDRIG"
+        ]
+    },
+    {
         "id": "m249",
         "name": "mounted M249",
         "symbol": "t",

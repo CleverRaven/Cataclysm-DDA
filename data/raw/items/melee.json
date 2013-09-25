@@ -1967,6 +1967,20 @@
         "price" : 400
     },
     {
+        "id" : "reinforced_weldrig",
+        "name" : "USACE repair rig",
+        "description" : "A heavy-duty welding rig made to run off a vehicle's storage battery.  Designed for use by the United States Army Corps of Engineers, but a survivor of the apocalypse can appreciate the quality too.",
+        "weight" : 152058,
+        "to_hit" : -2,
+        "color" : "light_red",
+        "symbol" : "&",
+        "material" : ["steel", "null"],
+        "volume" : 90,
+        "bashing" : 0,
+        "cutting" : 0,
+        "price" : 400
+    },
+    {
         "id" : "poppy_flower",
         "name" : "poppy flower",
         "description" : "A poppy stalk with some petals.",
