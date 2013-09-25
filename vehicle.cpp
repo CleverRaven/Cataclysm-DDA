@@ -146,7 +146,9 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
-            parts[p].open = one_in(4);
+            if(!parts[p].open && one_in(4)) {
+              open(p);
+            }
         }
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
@@ -2453,6 +2455,58 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     }
 
     return true;
+}
+
+/**
+ * Opens an openable part at the specified index. If it's a multipart, opens
+ * all attached parts as well.
+ * @param part_index The index in the parts list of the part to open.
+ */
+void vehicle::open(int part_index)
+{
+  if(!part_info(part_index).has_flag("OPENABLE")) {
+    debugmsg("Attempted to open non-openable part %d (%s) on a %s!", part_index,
+               vehicle_part_types[parts[part_index].id].name.c_str(), name.c_str());
+  } else {
+    open_or_close(part_index, true);
+  }
+}
+
+/**
+ * Opens an openable part at the specified index. If it's a multipart, opens
+ * all attached parts as well.
+ * @param part_index The index in the parts list of the part to open.
+ */
+void vehicle::close(int part_index)
+{
+  if(!part_info(part_index).has_flag("OPENABLE")) {
+    debugmsg("Attempted to close non-closeable part %d (%s) on a %s!", part_index,
+               vehicle_part_types[parts[part_index].id].name.c_str(), name.c_str());
+  } else {
+    open_or_close(part_index, false);
+  }
+}
+
+void vehicle::open_or_close(int part_index, bool opening)
+{
+  parts[part_index].open = opening ? 1 : 0;
+  insides_dirty = true;
+
+  if(part_info(part_index).has_flag("MULTISQUARE")) {
+    /* Find all other closed parts with the same ID in adjacent squares.
+     * This is a tighter restriction than just looking for other Multisquare
+     * Openable parts, and stops trunks from opening side doors and the like. */
+    for(int next_index = 0; next_index < parts.size(); next_index++) {
+      //Look for parts 1 square off in any cardinal direction
+      int xdiff = parts[next_index].mount_dx - parts[part_index].mount_dx;
+      int ydiff = parts[next_index].mount_dy - parts[part_index].mount_dy;
+      if(((xdiff * xdiff == 1) != (ydiff * ydiff == 1)) && // != used as XOR
+              (part_info(next_index).id == part_info(part_index).id) &&
+              (parts[next_index].open == opening ? 0 : 1)) {
+        open_or_close(next_index, opening);
+      }
+    }
+  }
 }
 
 // a chance to stop skidding if moving in roughly the faced direction
