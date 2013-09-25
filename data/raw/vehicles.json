@@ -9,6 +9,14 @@
         ]
     },
     {
+        "id": "custom_cart",
+        "name": "custom",
+        "blueprint": "#",
+        "parts": [
+            {"x": 0, "y": 0, "part": "wheel_caster"}
+        ]
+    },
+    {
         "id": "bicycle",
         "name": "Bicycle",
         "blueprint": "o#o",

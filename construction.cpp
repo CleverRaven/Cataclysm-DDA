@@ -393,6 +393,10 @@ void game::init_construction()
  CONSTRUCT(_("Start vehicle construction"), 0, &construct::able_empty, &construct::done_vehicle);
   STAGE(10);
    COMP("frame", 1);
+   
+ CONSTRUCT(_("Start cart construction"), 0, &construct::able_empty, &construct::done_cart);
+  STAGE(10);
+   COMP("wheel_caster", 1);
 
  CONSTRUCT(_("Fence Posts"), 0, &construct::able_dig,
                              &construct::done_nothing);
@@ -1071,6 +1075,27 @@ void construct::done_vehicle(game *g, point p)
     if (!veh)
     {
         debugmsg ("error constructing vehicle");
+        return;
+    }
+    veh->name = name;
+
+    //Update the vehicle cache immediately, or the vehicle will be invisible for the first couple of turns.
+    g->m.update_vehicle_cache(veh, true);
+
+}
+
+void construct::done_cart(game *g, point p)
+{
+    std::string name = string_input_popup(_("Enter new cart name:"), 20);
+    if(name.empty())
+    {
+        name = _("Cart");
+    }
+
+    vehicle *veh = g->m.add_vehicle (g, "custom_cart", p.x, p.y, 270, 0, 0);
+    if (!veh)
+    {
+        debugmsg ("error constructing cart");
         return;
     }
     veh->name = name;
