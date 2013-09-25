@@ -129,7 +129,7 @@ int player::hit_roll()
 
 int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 {
- bool is_u = (this == &(g->u));	// Affects how we'll display messages
+ bool is_u = (this == &(g->u)); // Affects how we'll display messages
  if (is_u)
   z->add_effect(ME_HIT_BY_PLAYER, 100); // Flag as attacked by us
 
@@ -148,7 +148,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
  if (missed) {
   int stumble_pen = stumble(*this);
-  if (is_u) {	// Only display messages if this is the player
+  if (is_u) { // Only display messages if this is the player
    if (has_miss_recovery_tec(g))
     g->add_msg(_("You feint."));
    else if (stumble_pen >= 60)
@@ -230,7 +230,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
 void player::hit_player(game *g, player &p, bool allow_grab)
 {
- bool is_u = (this == &(g->u));	// Affects how we'll display messages
+ bool is_u = (this == &(g->u)); // Affects how we'll display messages
 
  if (is_u && p.is_npc()) {
   npc* npcPtr = dynamic_cast<npc*>(&p);
@@ -250,7 +250,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
  if (missed) {
   int stumble_pen = stumble(*this);
-  if (is_u) {	// Only display messages if this is the player
+  if (is_u) { // Only display messages if this is the player
    if (has_miss_recovery_tec(g))
     g->add_msg(_("You feint."));
    else if (stumble_pen >= 60)
@@ -1080,7 +1080,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  bool drain_them = (has_active_bionic("bio_heat_absorb") && power_level >= 1 &&
                     !is_armed() && (!mon || z->has_flag(MF_WARM)));
 
- drain_them &= one_in(2);	// Only works half the time
+ drain_them &= one_in(2); // Only works half the time
 
  if (drain_them)
   power_level--;

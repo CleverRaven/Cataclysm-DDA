@@ -58,25 +58,25 @@ NUM_SOFTWARE_TYPES
 enum technique_id {
 TEC_NULL,
 // Offensive Techniques
-TEC_SWEEP,	// Crits may make your enemy fall & miss a turn
-TEC_PRECISE,	// Crits are painful and stun
-TEC_BRUTAL,	// Crits knock the target back
-TEC_GRAB,	// Hit may allow a second unarmed attack attempt
-TEC_WIDE,	// Attacks adjacent oppoents
-TEC_RAPID,	// Hits faster
-TEC_FEINT,	// Misses take less time
-TEC_THROW,	// Attacks may throw your opponent
-TEC_DISARM,	// Remove an NPC's weapon
+TEC_SWEEP,      // Crits may make your enemy fall & miss a turn
+TEC_PRECISE,    // Crits are painful and stun
+TEC_BRUTAL,     // Crits knock the target back
+TEC_GRAB,       // Hit may allow a second unarmed attack attempt
+TEC_WIDE,       // Attacks adjacent oppoents
+TEC_RAPID,      // Hits faster
+TEC_FEINT,      // Misses take less time
+TEC_THROW,      // Attacks may throw your opponent
+TEC_DISARM,     // Remove an NPC's weapon
 TEC_FLAMING,    // Sets victim on fire
 // Defensive Techniques
-TEC_BLOCK,	// Block attacks, reducing them to 25% damage
+TEC_BLOCK,      // Block attacks, reducing them to 25% damage
 TEC_BLOCK_LEGS, // Block attacks, but with your legs
-TEC_WBLOCK_1,	// Weapon block, poor chance -- e.g. pole
-TEC_WBLOCK_2,	// Weapon block, moderate chance -- weapon made for blocking
-TEC_WBLOCK_3,	// Weapon block, good chance -- shield
-TEC_COUNTER,	// Counter-attack on a block or dodge
-TEC_BREAK,	// Break from a grab
-TEC_DEF_THROW,	// Throw an enemy that attacks you
+TEC_WBLOCK_1,   // Weapon block, poor chance -- e.g. pole
+TEC_WBLOCK_2,   // Weapon block, moderate chance -- weapon made for blocking
+TEC_WBLOCK_3,   // Weapon block, good chance -- shield
+TEC_COUNTER,    // Counter-attack on a block or dodge
+TEC_BREAK,      // Break from a grab
+TEC_DEF_THROW,  // Throw an enemy that attacks you
 TEC_DEF_DISARM, // Disarm an enemy
 
 NUM_TECHNIQUES
@@ -116,31 +116,31 @@ itype_id default_ammo(ammotype guntype);
 
 struct itype
 {
- itype_id id;		// ID # that matches its place in master itype list
- 			// Used for save files; aligns to itype_id above.
- unsigned int  price;	// Its value
+    itype_id id; // ID # that matches its place in master itype list
+                 // Used for save files; aligns to itype_id above.
+    unsigned int  price; // Its value
 
- std::string name;	// Proper name
- std::string description;// Flavor text
+    std::string name;        // Proper name
+    std::string description; // Flavor text
 
- char sym;		// Symbol on the map
- nc_color color;	// Color on the map (color.h)
+    char sym;       // Symbol on the map
+    nc_color color; // Color on the map (color.h)
 
- std::string m1;		// Main material
- std::string m2;		// Secondary material -- "null" if made of just 1 thing
+    std::string m1; // Main material
+    std::string m2; // Secondary material -- "null" if made of just 1 thing
 
- phase_id phase;      //e.g. solid, liquid, gas
+    phase_id phase; //e.g. solid, liquid, gas
 
- unsigned int volume;	// Space taken up by this item
- int stack_size;        // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
- unsigned int weight;	// Weight in grams. Assumes positive weight. No helium, guys!
- bigness_property_aspect bigness_aspect;
+    unsigned int volume; // Space taken up by this item
+    int stack_size;      // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
+    unsigned int weight; // Weight in grams. Assumes positive weight. No helium, guys!
+    bigness_property_aspect bigness_aspect;
 
  mtype*   corpse;
 
- signed char melee_dam;	// Bonus for melee damage; may be a penalty
- signed char melee_cut;	// Cutting damage in melee
- signed char m_to_hit;	// To-hit bonus for melee combat; -5 to 5 is reasonable
+ signed char melee_dam; // Bonus for melee damage; may be a penalty
+ signed char melee_cut; // Cutting damage in melee
+ signed char m_to_hit;  // To-hit bonus for melee combat; -5 to 5 is reasonable
 
  std::set<std::string> item_tags;
  std::set<std::string> techniques;
@@ -212,19 +212,19 @@ struct itype
 // Includes food drink and drugs
 struct it_comest : public itype
 {
-    signed char quench;	// Many things make you thirstier!
-    unsigned char nutr;	// Nutrition imparted
-    unsigned char spoils;	// How long it takes to spoil (hours / 600 turns)
-    unsigned char addict;	// Addictiveness potential
-    unsigned char charges;	// Defaults # of charges (drugs, loaf of bread? etc)
+    signed char quench;     // Many things make you thirstier!
+    unsigned char nutr;     // Nutrition imparted
+    unsigned char spoils;   // How long it takes to spoil (hours / 600 turns)
+    unsigned char addict;   // Addictiveness potential
+    unsigned char charges;  // Defaults # of charges (drugs, loaf of bread? etc)
     signed char stim;
     signed char healthy;
     std::string comesttype; //FOOD, DRINK, MED
 
-    signed char fun;	// How fun its use is
+    signed char fun;    // How fun its use is
 
-    itype_id container;	// The container it comes in
-    itype_id tool;		// Tool needed to consume (e.g. lighter for cigarettes)
+    itype_id container; // The container it comes in
+    itype_id tool;      // Tool needed to consume (e.g. lighter for cigarettes)
 
     virtual bool is_food() { return true; }
     // virtual bool count_by_charges() { return charges >= 1 ; }
@@ -238,7 +238,7 @@ struct it_comest : public itype
         }
     }
 
-    add_type add;				// Effects of addiction
+    add_type add; // Effects of addiction
 
     it_comest(std::string pid, unsigned int pprice,
     std::string pname, std::string pdes,
@@ -316,14 +316,14 @@ struct it_var_veh_part: public itype
 
 struct it_ammo : public itype
 {
- ammotype type;		// Enum of varieties (e.g. 9mm, shot, etc)
- itype_id casing;       // Casing produced by the ammo, if any
- unsigned char damage;	// Average damage done
- unsigned char pierce;	// Armor piercing; static reduction in armor
- unsigned char range;	// Maximum range
- signed char dispersion;// Dispersion (low is good)
- unsigned char recoil;	// Recoil; modified by strength
- unsigned char count;	// Default charges
+ ammotype type;          // Enum of varieties (e.g. 9mm, shot, etc)
+ itype_id casing;        // Casing produced by the ammo, if any
+ unsigned char damage;   // Average damage done
+ unsigned char pierce;   // Armor piercing; static reduction in armor
+ unsigned char range;    // Maximum range
+ signed char dispersion; // Dispersion (low is good)
+ unsigned char recoil;   // Recoil; modified by strength
+ unsigned char count;    // Default charges
 
  std::set<std::string> ammo_effects;
 
@@ -348,10 +348,10 @@ struct it_ammo : public itype
         char psym, nc_color pcolor, std::string pm1, phase_id pphase,
         unsigned short pvolume, unsigned int pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-         std::set<std::string> effects,
-
-        ammotype ptype, itype_id pcasing, unsigned char pdamage, unsigned char ppierce,
-	signed char pdispersion, unsigned char precoil, unsigned char prange,
+        std::set<std::string> effects,
+        ammotype ptype, itype_id pcasing,
+        unsigned char pdamage, unsigned char ppierce,
+        signed char pdispersion, unsigned char precoil, unsigned char prange,
         unsigned char pcount)
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
@@ -393,9 +393,9 @@ struct it_gun : public itype
         signed char ppierce,
         std::set<std::string> flags,
         std::set<std::string> effects,
-
-	const char *pskill_used, ammotype pammo, signed char pdmg_bonus, signed char prange,
-	signed char pdispersion, signed char precoil, unsigned char pdurability,
+        const char *pskill_used, ammotype pammo,
+        signed char pdmg_bonus, signed char prange,
+        signed char pdispersion, signed char precoil, unsigned char pdurability,
         unsigned char pburst, int pclip, int preload_time)
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
@@ -548,13 +548,13 @@ struct recipe;
 
 struct it_book : public itype
 {
- Skill *type;		// Which skill it upgrades
- unsigned char level;	// The value it takes the skill to
- unsigned char req;	// The skill level required to understand it
- signed char fun;	// How fun reading this is
- unsigned char intel;	// Intelligence required to read, at all
- unsigned char time;	// How long, in 10-turns (aka minutes), it takes to read
-			// "To read" means getting 1 skill point, not all of em
+ Skill *type;         // Which skill it upgrades
+ unsigned char level; // The value it takes the skill to
+ unsigned char req;   // The skill level required to understand it
+ signed char fun;     // How fun reading this is
+ unsigned char intel; // Intelligence required to read, at all
+ unsigned char time;  // How long, in 10-turns (aka minutes), it takes to read
+                      // "To read" means getting 1 skill point, not all of em
  std::map<recipe*, int> recipes; //what recipes can be learned from this book
  virtual bool is_book() { return true; }
  it_book() {}
@@ -564,8 +564,8 @@ struct it_book : public itype
          unsigned short pvolume, unsigned int pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
-	 const char *ptype, unsigned char plevel, unsigned char preq,
-	 signed char pfun, unsigned char pintel, unsigned char ptime)
+         const char *ptype, unsigned char plevel, unsigned char preq,
+         signed char pfun, unsigned char pintel, unsigned char ptime)
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   type = ptype?Skill::skill(ptype):NULL;
@@ -579,7 +579,7 @@ struct it_book : public itype
 
 struct it_container : public itype
 {
- unsigned char contains;	// Internal volume
+ unsigned char contains; // Internal volume
  virtual bool is_container() { return true; }
  it_container() : contains(0) {};
 };
@@ -617,7 +617,7 @@ struct it_tool : public itype
          unsigned int pmax_charges, unsigned int pdef_charges,
          unsigned char pcharges_per_use, unsigned char pturns_per_charge,
          ammotype pammo, itype_id prevert_to,
-	 void (iuse::*puse)(game *, player *, item *, bool))
+         void (iuse::*puse)(game *, player *, item *, bool))
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, pphase,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   max_charges = pmax_charges;
@@ -847,8 +847,8 @@ struct it_artifact_tool : public it_tool
 
 :it_tool(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
          pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit,
-	 pmax_charges, pdef_charges, pcharges_per_use, pturns_per_charge,
-	 pammo, prevert_to, &iuse::artifact)
+         pmax_charges, pdef_charges, pcharges_per_use, pturns_per_charge,
+         pammo, prevert_to, &iuse::artifact)
  {
      charge_type = ARTC_NULL;
      item_tags = pitem_tags;

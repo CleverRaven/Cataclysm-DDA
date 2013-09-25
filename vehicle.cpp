@@ -1958,10 +1958,10 @@ int vehicle::stored_volume(int part) {
 }
 
 int vehicle::max_volume(int part) {
-	if ( part_flag(part, "CARGO") ){
-		return vehicle_part_types[parts[part].id].size;
-	}
-	return 0;
+    if (part_flag(part, "CARGO")) {
+        return vehicle_part_types[parts[part].id].size;
+    }
+    return 0;
 }
 
 // free space
@@ -2511,11 +2511,11 @@ rl_vec2d vehicle::face_vec(){
 
 float get_collision_factor(float delta_v)
 {
-	if(abs(delta_v) <= 31){
-		return ( 1 - ( 0.9 * abs(delta_v) ) / 31 );
-	} else {
-		return 0.1;
-	}
+    if (abs(delta_v) <= 31) {
+        return ( 1 - ( 0.9 * abs(delta_v) ) / 31 );
+    } else {
+        return 0.1;
+    }
 }
 
 

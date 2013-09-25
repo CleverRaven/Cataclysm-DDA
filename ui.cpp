@@ -23,7 +23,7 @@ int getfoldedwidth (std::vector<std::string> foldedstring) {
     for ( int i=0; i < foldedstring.size() ; i++ ) {
         int width = utf8_width(foldedstring[i].c_str());
         if ( width > ret ) {
-	    ret=width;
+            ret=width;
         }
     }
     return ret;

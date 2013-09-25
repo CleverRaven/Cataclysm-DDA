@@ -246,7 +246,7 @@ class map
  void mop_spills(const int x, const int y);
 
 // Radiation
- int& radiation(const int x, const int y);	// Amount of radiation at (x, y);
+ int& radiation(const int x, const int y); // Amount of radiation at (x, y);
 
 // Temperature
  int& temperature(const int x, const int y);    // Temperature for submap
@@ -287,10 +287,10 @@ class map
  bool add_field(game *g, const point p, const field_id t, unsigned int density, const int age);
  bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
- bool process_fields(game *g);				// See fields.cpp
- bool process_fields_in_submap(game *g, const int gridn);	// See fields.cpp
- void step_in_field(const int x, const int y, game *g);		// See fields.cpp
- void mon_in_field(const int x, const int y, game *g, monster *z);	// See fields.cpp
+ bool process_fields(game *g); // See fields.cpp
+ bool process_fields_in_submap(game *g, const int gridn); // See fields.cpp
+ void step_in_field(const int x, const int y, game *g); // See fields.cpp
+ void mon_in_field(const int x, const int y, game *g, monster *z); // See fields.cpp
  void field_effect(int x, int y, game *g); //See fields.cpp
 
 // Computers
@@ -356,7 +356,7 @@ protected:
                game *g, const float density, const int zlevel);
  void add_extra(map_extra type, game *g);
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
-			// Useful for houses, shops, etc
+            // Useful for houses, shops, etc
  void build_transparency_cache();
  void build_outside_cache(const game *g);
  void generate_lightmap(game *g);
@@ -367,10 +367,10 @@ protected:
  virtual bool is_tiny() { return false; };
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
- ter_id nulter;	// Returned when &ter() is asked for an OOB value
+ ter_id nulter;  // Returned when &ter() is asked for an OOB value
  field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
- int nulrad;	// OOB &radiation()
+ int nulrad;     // OOB &radiation()
  int null_temperature;  // Because radiation does it too
 
  std::vector <trap*> *traps;

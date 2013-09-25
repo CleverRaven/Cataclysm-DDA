@@ -152,18 +152,18 @@ private:
 // DATA
  int current_wave;
 
- defense_style style;	// What type of game is it?
+ defense_style style;       // What type of game is it?
  defense_location location; // Where are we?
 
  int initial_difficulty; // Total "level" of monsters in first wave
- int wave_difficulty; // Increased "level" of monsters per wave
+ int wave_difficulty;    // Increased "level" of monsters per wave
 
- int time_between_waves; // Cooldown / building / healing time
+ int time_between_waves;     // Cooldown / building / healing time
  int waves_between_caravans; // How many waves until we get to trade?
 
- int initial_cash;	// How much cash do we start with?
- int cash_per_wave;	// How much cash do we get per wave?
- int cash_increase;	// How much does the above increase per wave?
+ int initial_cash;  // How much cash do we start with?
+ int cash_per_wave; // How much cash do we get per wave?
+ int cash_increase; // How much does the above increase per wave?
 
  bool zombies;
  bool specials;
@@ -172,11 +172,11 @@ private:
  bool robots;
  bool subspace;
 
- bool hunger;		// Do we hunger?
- bool thirst;		// Do we thirst?
- bool sleep;		// Do we need to sleep?
+ bool hunger; // Do we hunger?
+ bool thirst; // Do we thirst?
+ bool sleep;  // Do we need to sleep?
 
- bool mercenaries;	// Do caravans offer the option of hiring a mercenary?
+ bool mercenaries; // Do caravans offer the option of hiring a mercenary?
 
 };
 

@@ -863,9 +863,9 @@ std::vector<item*> inventory::all_ammo(ammotype type)
             }
             // Handle gasoline nested in containers
             else if (type == "gasoline" && stack_iter->is_container() &&
-	                 !stack_iter->contents.empty() && stack_iter->contents[0].is_ammo() &&
-	                 dynamic_cast<it_ammo*>(stack_iter->contents[0].type)->type == type)
-	        {
+                     !stack_iter->contents.empty() && stack_iter->contents[0].is_ammo() &&
+                     dynamic_cast<it_ammo*>(stack_iter->contents[0].type)->type == type)
+            {
                 ret.push_back(&*stack_iter);
                 return ret;
             }

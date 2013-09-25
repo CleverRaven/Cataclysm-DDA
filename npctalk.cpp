@@ -43,39 +43,39 @@ std::string talk_catch_up[10];
 #define NUM_STATIC_TAGS 26
 
 tag_data talk_tags[NUM_STATIC_TAGS] = {
-{"<okay>",		&talk_okay},
-{"<no>",		&talk_no},
-{"<name_b>",		&talk_bad_names},
-{"<name_g>",		&talk_good_names},
-{"<swear>",		&talk_swear},
-{"<swear!>",		&talk_swear_interjection},
-{"<fuck_you>",		&talk_fuck_you},
-{"<very>",		&talk_very},
-{"<really>",		&talk_really},
-{"<happy>",		&talk_happy},
-{"<sad>",		&talk_sad},
-{"<greet>",		&talk_greeting_gen},
-{"<ill_die>",		&talk_ill_die},
-{"<ill_kill_you>",	&talk_ill_kill_you},
-{"<drop_it>",		&talk_drop_weapon},
-{"<hands_up>",		&talk_hands_up},
-{"<no_faction>",	&talk_no_faction},
-{"<come_here>",		&talk_come_here},
-{"<keep_up>",		&talk_keep_up},
-{"<lets_talk>",		&talk_come_here},
-{"<wait>",		&talk_wait},
-{"<let_me_pass>",	&talk_let_me_pass},
-{"<move>",		&talk_move},
-{"<done_mugging>",	&talk_done_mugging},
-{"<catch_up>",		&talk_catch_up},
-{"<im_leaving_you>",	&talk_leaving}
+{"<okay>",          &talk_okay},
+{"<no>",            &talk_no},
+{"<name_b>",        &talk_bad_names},
+{"<name_g>",        &talk_good_names},
+{"<swear>",         &talk_swear},
+{"<swear!>",        &talk_swear_interjection},
+{"<fuck_you>",      &talk_fuck_you},
+{"<very>",          &talk_very},
+{"<really>",        &talk_really},
+{"<happy>",         &talk_happy},
+{"<sad>",           &talk_sad},
+{"<greet>",         &talk_greeting_gen},
+{"<ill_die>",       &talk_ill_die},
+{"<ill_kill_you>",  &talk_ill_kill_you},
+{"<drop_it>",       &talk_drop_weapon},
+{"<hands_up>",      &talk_hands_up},
+{"<no_faction>",    &talk_no_faction},
+{"<come_here>",     &talk_come_here},
+{"<keep_up>",       &talk_keep_up},
+{"<lets_talk>",     &talk_come_here},
+{"<wait>",          &talk_wait},
+{"<let_me_pass>",   &talk_let_me_pass},
+{"<move>",          &talk_move},
+{"<done_mugging>",  &talk_done_mugging},
+{"<catch_up>",      &talk_catch_up},
+{"<im_leaving_you>",&talk_leaving}
 };
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
 #define OWED_VAL 250
 
 // Some aliases to help with gen_responses
-#define RESPONSE(txt)	   ret.push_back(talk_response());\
+#define RESPONSE(txt)      ret.push_back(talk_response());\
                            ret.back().text = txt
 
 #define SELECT_MISS(txt, index)  ret.push_back(talk_response());\
@@ -165,13 +165,13 @@ void game::init_npctalk()
     for(int j=0; j<10; j++) {talk_no[j] = tmp_talk_no[j];}
 
     std::string tmp_talk_bad_names[10] = {
-    _("punk"),		_("bitch"),	_("dickhead"),	_("asshole"),	_("fucker"),
-    _("sucker"),	_("fuckwad"),	_("cocksucker"),	_("motherfucker"),	_("shithead")};
+    _("punk"),  _("bitch"), _("dickhead"), _("asshole"), _("fucker"),
+    _("sucker"), _("fuckwad"), _("cocksucker"), _("motherfucker"), _("shithead")};
     for(int j=0; j<10; j++) {talk_bad_names[j] = tmp_talk_bad_names[j];}
 
     std::string tmp_talk_good_names[10] = {
-    _("stranger"),	_("friend"),	_("pilgrim"),	_("traveler"),	_("pal"),
-    _("fella"),	_("you"),		_("dude"),		_("buddy"),	_("man")};
+    _("stranger"), _("friend"), _("pilgrim"), _("traveler"), _("pal"),
+    _("fella"), _("you"),  _("dude"),  _("buddy"), _("man")};
     for(int j=0; j<10; j++) {talk_good_names[j] = tmp_talk_good_names[j];}
 
     std::string tmp_talk_swear[10] = { // e.g. _("drop the <swear> weapon")
@@ -1677,16 +1677,16 @@ void talk_function::start_trade(game *g, npc *p)
 
 void talk_function::assign_base(game *g, npc *p)
 {
-	// TODO: decide what to do upon assign? maybe pathing required
-	basecamp* camp = g->m.camp_at(g->u.posx, g->u.posy);
-	if(!camp) {
-		dbg(D_ERROR) << "talk_function::assign_base: Assigned to base but no base here.";
-		return;
-	}
+    // TODO: decide what to do upon assign? maybe pathing required
+    basecamp* camp = g->m.camp_at(g->u.posx, g->u.posy);
+    if(!camp) {
+        dbg(D_ERROR) << "talk_function::assign_base: Assigned to base but no base here.";
+        return;
+    }
 
-	g->add_msg(_("%s waits at %s"), p->name.c_str(), camp->camp_name().c_str());
-	p->mission = NPC_MISSION_BASE;
-	p->attitude = NPCATT_NULL;
+    g->add_msg(_("%s waits at %s"), p->name.c_str(), camp->camp_name().c_str());
+    p->mission = NPC_MISSION_BASE;
+    p->attitude = NPCATT_NULL;
 }
 
 void talk_function::give_equipment(game *g, npc *p)
@@ -2133,13 +2133,13 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
  }
 
  int  cash = cost;// How much cash you get in the deal (negative = losing money)
- bool focus_them = true;	// Is the focus on them?
- bool update = true;		// Re-draw the screen?
+ bool focus_them = true; // Is the focus on them?
+ bool update = true;  // Re-draw the screen?
  int  them_off = 0, you_off = 0;// Offset from the start of the list
  signed char ch, help;
 
  do {
-  if (update) {	// Time to re-draw
+  if (update) { // Time to re-draw
    update = false;
 // Draw borders, one of which is highlighted
    werase(w_them);
@@ -2191,7 +2191,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    wrefresh(w_head);
    wrefresh(w_them);
    wrefresh(w_you);
-  }	// Done updating the screen
+  } // Done updating the screen
   ch = getch();
   switch (ch) {
   case '\t':
@@ -2244,7 +2244,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
      popup(theirs[help]->info().c_str());
    }
    break;
-  case '\n':	// Check if we have enough cash...
+  case '\n': // Check if we have enough cash...
    if (cash < 0 && g->u.cash < cash * -1) {
     popup(_("Not enough cash!  You have $%d, price is $%d."), g->u.cash, cash);
     update = true;
@@ -2252,7 +2252,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    } else if (cash > 0 && p->cash < cash)
     p->op_of_u.owed += cash;
    break;
-  default:	// Letters & such
+  default: // Letters & such
    if (ch >= 'a' && ch <= 'z') {
     ch -= 'a';
     if (focus_them) {
@@ -2264,7 +2264,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
        cash += their_price[ch];
       update = true;
      }
-    } else {	// Focus is on the player's inventory
+    } else { // Focus is on the player's inventory
      if (ch < yours.size()) {
       getting_yours[ch] = !getting_yours[ch];
       if (getting_yours[ch])
@@ -2303,7 +2303,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
      if (tmp.invlet == 'z')
       tmp.invlet = 'A';
      else if (tmp.invlet == 'Z')
-      return false;	// TODO: Do something else with these.
+      return false; // TODO: Do something else with these.
      else
       tmp.invlet++;
     }

@@ -83,7 +83,7 @@ static bool fontblending = false;
 
 void ClearScreen()
 {
-	SDL_FillRect(screen, NULL, 0);
+    SDL_FillRect(screen, NULL, 0);
 }
 
 
@@ -96,34 +96,32 @@ bool fexists(const char *filename)
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
-	int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
+    int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
 
-	if(SDL_Init(init_flags) < 0)
-	{
-		return false;
-	}
+    if (SDL_Init(init_flags) < 0) {
+        return false;
+    }
 
-	if(TTF_Init()<0)
-	{
-		return false;
-	}
+    if (TTF_Init() < 0) {
+        return false;
+    }
 
-	SDL_EnableUNICODE(1);
-	SDL_EnableKeyRepeat(500, 60);
+    SDL_EnableUNICODE(1);
+    SDL_EnableKeyRepeat(500, 60);
 
-	atexit(SDL_Quit);
+    atexit(SDL_Quit);
 
     std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
     SDL_WM_SetCaption(version.c_str(), NULL);
 
     char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
     SDL_putenv(center_string);
-	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
-	//SDL_SetColors(screen,windowsPalette,0,256);
+    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
+    //SDL_SetColors(screen,windowsPalette,0,256);
 
-	if(screen==NULL) return false;
+    if (screen == NULL) return false;
 
-	ClearScreen();
+    ClearScreen();
 
     if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1))
         SDL_ShowCursor(SDL_DISABLE);
@@ -135,36 +133,36 @@ bool WinCreate()
 
 void WinDestroy()
 {
-	if(screen) SDL_FreeSurface(screen);
-	screen = NULL;
+    if (screen) SDL_FreeSurface(screen);
+    screen = NULL;
 };
 
 //The following 3 methods use mem functions for fast drawing
 inline void VertLineDIB(int x, int y, int y2, int thickness, unsigned char color)
 {
-	SDL_Rect rect;
-	rect.x = x;
-	rect.y = y;
-	rect.w = thickness;
-	rect.h = y2-y;
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = thickness;
+    rect.h = y2-y;
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
 inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color)
 {
-	SDL_Rect rect;
-	rect.x = x;
-	rect.y = y;
-	rect.w = x2-x;
-	rect.h = thickness;
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = x2-x;
+    rect.h = thickness;
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
 inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
 {
-	SDL_Rect rect;
-	rect.x = x;
-	rect.y = y;
-	rect.w = width;
-	rect.h = height;
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = width;
+    rect.h = height;
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
 
@@ -205,16 +203,16 @@ static void OutputChar(Uint16 t, int x, int y, unsigned char color)
 
     if(glyph)
     {
-		int minx=0, maxy=0, dx=0, dy = 0;
-		if( 0==TTF_GlyphMetrics(font, t, &minx, NULL, NULL, &maxy, NULL))
-		{
-			dx = minx;
-			dy = TTF_FontAscent(font)-maxy+ttf_height_hack;
-			SDL_Rect rect;
-			rect.x = x+dx; rect.y = y+dy; rect.w = fontwidth; rect.h = fontheight;
-			SDL_BlitSurface(glyph, NULL, screen, &rect);
-		}
-		if(t>=0x80) SDL_FreeSurface(glyph);
+        int minx=0, maxy=0, dx=0, dy = 0;
+        if( 0==TTF_GlyphMetrics(font, t, &minx, NULL, NULL, &maxy, NULL))
+        {
+            dx = minx;
+            dy = TTF_FontAscent(font)-maxy+ttf_height_hack;
+            SDL_Rect rect;
+            rect.x = x+dx; rect.y = y+dy; rect.w = fontwidth; rect.h = fontheight;
+            SDL_BlitSurface(glyph, NULL, screen, &rect);
+        }
+        if(t>=0x80) SDL_FreeSurface(glyph);
     }
 }
 
@@ -222,17 +220,14 @@ static void OutputChar(Uint16 t, int x, int y, unsigned char color)
 // only update if the set interval has elapsed
 void try_update()
 {
-	unsigned long now=SDL_GetTicks();
-	if(now-lastupdate>=interval)
-	{
-		SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
-		needupdate = false;
-		lastupdate = now;
-	}
-	else
-	{
-		needupdate = true;
-	}
+    unsigned long now = SDL_GetTicks();
+    if (now - lastupdate >= interval) {
+        SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
+        needupdate = false;
+        lastupdate = now;
+    } else {
+        needupdate = true;
+    }
 }
 
 void curses_drawwindow(WINDOW *win)
@@ -254,9 +249,9 @@ void curses_drawwindow(WINDOW *win)
             if (update_rect.y == 9999)
             {
                 update_rect.y = (win->y+j)*fontheight;
-				jr=j;
+                jr=j;
             }
-			update_rect.h = (j-jr+1)*fontheight;
+            update_rect.h = (j-jr+1)*fontheight;
 
             needupdate = true;
 
@@ -266,25 +261,25 @@ void curses_drawwindow(WINDOW *win)
                 drawx=((win->x+w)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
                 if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
-				const char* utf8str = win->line[j].chars+i;
-				int len = ANY_LENGTH;
+                const char* utf8str = win->line[j].chars+i;
+                int len = ANY_LENGTH;
                 tmp = UTF8_getch(&utf8str, &len);
                 int FG = win->line[j].FG[w];
                 int BG = win->line[j].BG[w];
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
                 if ( tmp != UNKNOWN_UNICODE){
-					int cw = mk_wcwidth((wchar_t)tmp);
-					len = ANY_LENGTH-len;
-					if(cw>1)
-					{
-						FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
-						w+=cw-1;
-					}
-					if(len>1)
-					{
-						i+=len-1;
-					}
+                    int cw = mk_wcwidth((wchar_t)tmp);
+                    len = ANY_LENGTH-len;
+                    if(cw>1)
+                    {
+                        FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
+                        w+=cw-1;
+                    }
+                    if(len>1)
+                    {
+                        i+=len-1;
+                    }
                     if(tmp) OutputChar(tmp, drawx,drawy,FG);
                 } else {
                     switch ((unsigned char)win->line[j].chars[i]) {
@@ -343,14 +338,14 @@ void curses_drawwindow(WINDOW *win)
     if (g && win == g->w_terrain && use_tiles)
     {
         update_rect.y = win->y*fontheight;
-		update_rect.h = win->height*fontheight;
-		//GfxDraw(thegame, win->x*fontwidth, win->y*fontheight, thegame->terrain_view_x, thegame->terrain_view_y, win->width*fontwidth, win->height*fontheight);
-		tilecontext->draw(win->x * fontwidth, win->y * fontheight, g->ter_view_x, g->ter_view_y, win->width * fontwidth, win->height * fontheight);
+        update_rect.h = win->height*fontheight;
+        //GfxDraw(thegame, win->x*fontwidth, win->y*fontheight, thegame->terrain_view_x, thegame->terrain_view_y, win->width*fontwidth, win->height*fontheight);
+        tilecontext->draw(win->x * fontwidth, win->y * fontheight, g->ter_view_x, g->ter_view_y, win->width * fontwidth, win->height * fontheight);
     }
 //*/
     if (update_rect.y != 9999)
     {
-		SDL_UpdateRect(screen, update_rect.x, update_rect.y, update_rect.w, update_rect.h);
+        SDL_UpdateRect(screen, update_rect.x, update_rect.y, update_rect.w, update_rect.h);
     }
     if (needupdate) try_update();
 }
@@ -510,71 +505,71 @@ static int end_alt_code()
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
-	SDL_Event ev;
+    SDL_Event ev;
     bool quit = false;
-	while(SDL_PollEvent(&ev))
-	{
-		switch(ev.type)
-		{
-			case SDL_KEYDOWN:
-			{
-				int lc = 0;
-				if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
-				Uint8 *keystate = SDL_GetKeyState(NULL);
-				// manually handle Alt+F4 for older SDL lib, no big deal
-				if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
-				{
-					quit = true;
-					break;
-				}
-				else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT ||
-					ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || ev.key.keysym.sym==SDLK_RALT )
-				{
-					break; // temporary fix for unwanted keys
-				}
+    while(SDL_PollEvent(&ev))
+    {
+        switch(ev.type)
+        {
+            case SDL_KEYDOWN:
+            {
+                int lc = 0;
+                if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
+                Uint8 *keystate = SDL_GetKeyState(NULL);
+                // manually handle Alt+F4 for older SDL lib, no big deal
+                if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
+                {
+                    quit = true;
+                    break;
+                }
+                else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT ||
+                    ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || ev.key.keysym.sym==SDLK_RALT )
+                {
+                    break; // temporary fix for unwanted keys
+                }
                 else if(ev.key.keysym.sym==SDLK_LALT)
                 {
                     begin_alt_code();
                     break;
                 }
-				else if (ev.key.keysym.unicode != 0) {
-					lc = ev.key.keysym.unicode;
-					switch (lc){
-						case 13:            //Reroute ENTER key for compatilbity purposes
-							lc=10;
-							break;
-						case 8:             //Reroute BACKSPACE key for compatilbity purposes
-							lc=127;
-							break;
-					}
-				}
-				if(ev.key.keysym.sym==SDLK_LEFT) {
-					lc = KEY_LEFT;
-				}
-				else if(ev.key.keysym.sym==SDLK_RIGHT) {
-					lc = KEY_RIGHT;
-				}
-				else if(ev.key.keysym.sym==SDLK_UP) {
-					lc = KEY_UP;
-				}
-				else if(ev.key.keysym.sym==SDLK_DOWN) {
-					lc = KEY_DOWN;
-				}
-				else if(ev.key.keysym.sym==SDLK_PAGEUP) {
-					lc = KEY_PPAGE;
-				}
-				else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
-					lc = KEY_NPAGE;
+                else if (ev.key.keysym.unicode != 0) {
+                    lc = ev.key.keysym.unicode;
+                    switch (lc){
+                        case 13:            //Reroute ENTER key for compatilbity purposes
+                            lc=10;
+                            break;
+                        case 8:             //Reroute BACKSPACE key for compatilbity purposes
+                            lc=127;
+                            break;
+                    }
+                }
+                if(ev.key.keysym.sym==SDLK_LEFT) {
+                    lc = KEY_LEFT;
+                }
+                else if(ev.key.keysym.sym==SDLK_RIGHT) {
+                    lc = KEY_RIGHT;
+                }
+                else if(ev.key.keysym.sym==SDLK_UP) {
+                    lc = KEY_UP;
+                }
+                else if(ev.key.keysym.sym==SDLK_DOWN) {
+                    lc = KEY_DOWN;
+                }
+                else if(ev.key.keysym.sym==SDLK_PAGEUP) {
+                    lc = KEY_PPAGE;
+                }
+                else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
+                    lc = KEY_NPAGE;
 
-				}
+                }
                 if(!lc) break;
                 if(alt_down) {
                     add_alt_code(lc);
                 }else {
                     lastchar = lc;
                 }
-			}
-			break;
+            }
+            break;
             case SDL_KEYUP:
             {
                 if(ev.key.keysym.sym==SDLK_LALT) {
@@ -583,19 +578,19 @@ void CheckMessages()
                 }
             }
             break;
-			case SDL_MOUSEMOTION:
+            case SDL_MOUSEMOTION:
                 if((OPTIONS["HIDE_CURSOR"] == "show" || OPTIONS["HIDE_CURSOR"] == "hidekb") &&
                     !SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_ENABLE);
                 break;
-			case SDL_QUIT:
+            case SDL_QUIT:
                 quit = true;
-				break;
+                break;
 
-		}
-	}
-	#ifdef SDLTILES
-	if (needupdate) try_update();
-	#endif
+        }
+    }
+#ifdef SDLTILES
+    if (needupdate) try_update();
+#endif
     if(quit)
     {
         endwin();
@@ -673,68 +668,65 @@ static void font_folder_list(std::ofstream& fout, std::string path)
 
 static void save_font_list()
 {
-	std::ofstream fout("data/fontlist.txt", std::ios_base::trunc);
+    std::ofstream fout("data/fontlist.txt", std::ios_base::trunc);
 
-	font_folder_list(fout, "data");
-	font_folder_list(fout, "data/font");
+    font_folder_list(fout, "data");
+    font_folder_list(fout, "data/font");
 
 #if (defined _WIN32 || defined WINDOWS)
-	char buf[256];
-	GetSystemWindowsDirectory(buf, 256);
-	strcat(buf, "\\fonts");
-	font_folder_list(fout, buf);
+    char buf[256];
+    GetSystemWindowsDirectory(buf, 256);
+    strcat(buf, "\\fonts");
+    font_folder_list(fout, buf);
 #elif (defined _APPLE_ && defined _MACH_)
 
-	/*
-	// Well I don't know how osx actually works ....
-	font_folder_list(fout, "/System/Library/Fonts");
-	font_folder_list(fout, "/Library/Fonts");
+    /*
+    // Well I don't know how osx actually works ....
+    font_folder_list(fout, "/System/Library/Fonts");
+    font_folder_list(fout, "/Library/Fonts");
 
-	wordexp_t exp;
-	wordexp("~/Library/Fonts", &exp, 0);
-	font_folder_list(fout, exp.we_wordv[0]);
-	wordfree(&exp);*/
+    wordexp_t exp;
+    wordexp("~/Library/Fonts", &exp, 0);
+    font_folder_list(fout, exp.we_wordv[0]);
+    wordfree(&exp);*/
 #elif (defined linux || defined __linux)
-	font_folder_list(fout, "/usr/share/fonts");
-	font_folder_list(fout, "/usr/local/share/fonts");
-	wordexp_t exp;
-	wordexp("~/.fonts", &exp, 0);
-	font_folder_list(fout, exp.we_wordv[0]);
-	wordfree(&exp);
+    font_folder_list(fout, "/usr/share/fonts");
+    font_folder_list(fout, "/usr/local/share/fonts");
+    wordexp_t exp;
+    wordexp("~/.fonts", &exp, 0);
+    font_folder_list(fout, exp.we_wordv[0]);
+    wordfree(&exp);
 #endif
-	//TODO: other systems
+    //TODO: other systems
 
-	fout << "end of list" << std::endl;
+    fout << "end of list" << std::endl;
 
 }
 
 static std::string find_system_font(std::string name, int& faceIndex)
 {
-	if(!fexists("data/fontlist.txt")) save_font_list();
+    if(!fexists("data/fontlist.txt")) save_font_list();
 
-	std::ifstream fin("data/fontlist.txt");
-	if(fin)
-	{
-		std::string fname;
-		std::string fpath;
-		std::string iline;
-		int index = 0;
-		do
-		{
-			getline(fin, fname);
-			if(fname=="end of list") break;
-			getline(fin, fpath);
-			getline(fin, iline);
-			index = atoi(iline.c_str());
-            if(0==strcasecmp(fname.c_str(), name.c_str()))
-			{
-				faceIndex = index;
-				return fpath;
-			}
-		}while(true);
-	}
+    std::ifstream fin("data/fontlist.txt");
+    if (fin) {
+        std::string fname;
+        std::string fpath;
+        std::string iline;
+        int index = 0;
+        do {
+            getline(fin, fname);
+            if (fname == "end of list") break;
+            getline(fin, fpath);
+            getline(fin, iline);
+            index = atoi(iline.c_str());
+            if (0 == strcasecmp(fname.c_str(), name.c_str())) {
+                faceIndex = index;
+                return fpath;
+            }
+        } while (true);
+    }
 
-	return "";
+    return "";
 }
 
 // bitmap font font size test
@@ -843,17 +835,16 @@ WINDOW *curses_init(void)
     // I can only guess by check a certain tall character...
     cache_glyphs();
 
-	#ifdef SDLTILES
-	// Should NOT be doing this for every damned window I think... keeping too much in memory is wasteful of the tiles.
-	// Most definitely should not be doing this multiple times...
+#ifdef SDLTILES
+    // Should NOT be doing this for every damned window I think... keeping too much in memory is wasteful of the tiles.  // Most definitely should not be doing this multiple times...
     mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)),0,0);
     DebugLog() << "Initializing SDL Tiles context\n";
     IMG_Init(IMG_INIT_PNG);
     tilecontext = new cata_tiles;
     tilecontext->init(screen, "data/gfx.txt");
-	#else
+#else
     mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
-	#endif
+#endif
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
@@ -862,38 +853,30 @@ WINDOW *curses_init(void)
 //but jday helped to figure most of it out
 int curses_getch(WINDOW* win)
 {
-	// standards note: getch is sometimes required to call refresh
-	// see, e.g., http://linux.die.net/man/3/getch
-	// so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
-	wrefresh(win);
-	lastchar=ERR;//ERR=-1
-    if (inputdelay < 0)
-	{
-        do
-        {
+    // standards note: getch is sometimes required to call refresh
+    // see, e.g., http://linux.die.net/man/3/getch
+    // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
+    wrefresh(win);
+    lastchar=ERR;//ERR=-1
+    if (inputdelay < 0) {
+        do {
             CheckMessages();
             if (lastchar!=ERR) break;
             SDL_Delay(1);
-        }
-        while (lastchar==ERR);
-	}
-    else if (inputdelay > 0)
-	{
+        } while (lastchar==ERR);
+    } else if (inputdelay > 0) {
         unsigned long starttime=SDL_GetTicks();
         unsigned long endtime;
-        do
-        {
+        do {
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;
             SDL_Delay(1);
         }
         while (endtime<(starttime+inputdelay));
-	}
-	else
-	{
-		CheckMessages();
-	}
+    } else {
+        CheckMessages();
+    }
     return lastchar;
 }
 
@@ -901,15 +884,15 @@ int curses_getch(WINDOW* win)
 //Ends the terminal, destroy everything
 int curses_destroy(void)
 {
-	TTF_CloseFont(font);
-	for(int i=0; i<128; i++)
-	{
-		for(int j=0; j<16; j++)
-		{
-			if(glyph_cache[i][j]) SDL_FreeSurface(glyph_cache[i][j]);
-			glyph_cache[i][j] = NULL;
-		}
-	}
+    TTF_CloseFont(font);
+    for (int i=0; i<128; i++) {
+        for (int j=0; j<16; j++) {
+            if (glyph_cache[i][j]) {
+                SDL_FreeSurface(glyph_cache[i][j]);
+            }
+            glyph_cache[i][j] = NULL;
+        }
+    }
     WinDestroy();
     return 1;
 }
@@ -927,25 +910,25 @@ inline SDL_Color BGR(int b, int g, int r)
 
 int curses_start_color(void)
 {
-	colorpairs=new pairs[100];
-	windowsPalette[0]= BGR(0,0,0); // Black
-	windowsPalette[1]= BGR(0, 0, 255); // Red
-	windowsPalette[2]= BGR(0,110,0); // Green
-	windowsPalette[3]= BGR(23,51,92); // Brown???
-	windowsPalette[4]= BGR(200, 0, 0); // Blue
-	windowsPalette[5]= BGR(98, 58, 139); // Purple
-	windowsPalette[6]= BGR(180, 150, 0); // Cyan
-	windowsPalette[7]= BGR(150, 150, 150);// Gray
-	windowsPalette[8]= BGR(99, 99, 99);// Dark Gray
-	windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
-	windowsPalette[10]= BGR(0, 255, 0); // Bright Green
-	windowsPalette[11]= BGR(0, 255, 255); // Yellow
-	windowsPalette[12]= BGR(255, 100, 100); // Light Blue
-	windowsPalette[13]= BGR(240, 0, 255); // Pink
-	windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
-	windowsPalette[15]= BGR(255, 255, 255); //White
-	//SDL_SetColors(screen,windowsPalette,0,256);
-	return 0;
+    colorpairs=new pairs[100];
+    windowsPalette[0]= BGR(0,0,0); // Black
+    windowsPalette[1]= BGR(0, 0, 255); // Red
+    windowsPalette[2]= BGR(0,110,0); // Green
+    windowsPalette[3]= BGR(23,51,92); // Brown???
+    windowsPalette[4]= BGR(200, 0, 0); // Blue
+    windowsPalette[5]= BGR(98, 58, 139); // Purple
+    windowsPalette[6]= BGR(180, 150, 0); // Cyan
+    windowsPalette[7]= BGR(150, 150, 150);// Gray
+    windowsPalette[8]= BGR(99, 99, 99);// Dark Gray
+    windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
+    windowsPalette[10]= BGR(0, 255, 0); // Bright Green
+    windowsPalette[11]= BGR(0, 255, 255); // Yellow
+    windowsPalette[12]= BGR(255, 100, 100); // Light Blue
+    windowsPalette[13]= BGR(240, 0, 255); // Pink
+    windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
+    windowsPalette[15]= BGR(255, 255, 255); //White
+    //SDL_SetColors(screen,windowsPalette,0,256);
+    return 0;
 }
 
 void curses_timeout(int t)

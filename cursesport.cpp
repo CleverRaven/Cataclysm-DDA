@@ -255,7 +255,7 @@ int getch(void)
 
 int wgetch(WINDOW* win)
 {
-	return curses_getch(win);
+    return curses_getch(win);
 }
 
 int mvgetch(int y, int x)
@@ -315,59 +315,59 @@ int getnstr(char *str, int size)
 inline int printstring(WINDOW *win, char *fmt)
 {
     int size = strlen(fmt);
-	if(size>0)
-	{
-		int j, i, p=win->cursorx;
-		int x = (win->line[win->cursory].width_in_bytes==win->width)?win->cursorx:cursorx_to_position(win->line[win->cursory].chars, win->cursorx, &p);
+    if(size>0)
+    {
+        int j, i, p=win->cursorx;
+        int x = (win->line[win->cursory].width_in_bytes==win->width)?win->cursorx:cursorx_to_position(win->line[win->cursory].chars, win->cursorx, &p);
 
-		if(p!=x)//so we start inside a wide character, erase it for good
-		{
-			const char* ts = win->line[win->cursory].chars+p;
-			int len = ANY_LENGTH;
-			unsigned tc = UTF8_getch(&ts, &len);
-			int tw = mk_wcwidth((wchar_t)tc);
-			erease_utf8_by_cw(win->line[win->cursory].chars+p, tw, tw, win->width*4-p-1);
-			x = p+tw-1;
-		}
-		for (j=0; j<size; j++){
-			if (!(fmt[j]==10)){//check that this isnt a newline char
-				const char* utf8str = fmt+j;
-				int len = ANY_LENGTH;
-				unsigned ch = UTF8_getch(&utf8str, &len);
-				int cw = mk_wcwidth((wchar_t)ch);
-				len = ANY_LENGTH-len;
-				if(cw<1) cw = 1;
-				if(len<1) len = 1;
-				if (win->cursorx+cw <= win->width && win->cursory <= win->height - 1) {
-					win->line[win->cursory].width_in_bytes += erease_utf8_by_cw(win->line[win->cursory].chars+x, cw, len, win->width*4-x-1);
-					for(i=0; i<len; i++)
-					{
-						win->line[win->cursory].chars[x+i]=fmt[j+i];
-					}
-					for(i=0; i<cw; i++)
-					{
-						win->line[win->cursory].FG[win->cursorx]=win->FG;
-						win->line[win->cursory].BG[win->cursorx]=win->BG;
-						addedchar(win);
-					}
-					win->line[win->cursory].touched=true;
-					j += len-1;
-					x+=len;
-				} else if (win->cursory <= win->height - 1) {
-					// don't write outside the window, but don't abort if there are still lines to write.
-					//j += len-1;
-					//x+=len;
-				} else {
-					return 0; //if we try and write anything outside the window, abort completely
-				}
-			} else {// if the character is a newline, make sure to move down a line
-				if (newline(win)==0){
-					return 0;
-				}
-				x = 0;
-			}
-		}
-	}
+        if(p!=x)//so we start inside a wide character, erase it for good
+        {
+            const char* ts = win->line[win->cursory].chars+p;
+            int len = ANY_LENGTH;
+            unsigned tc = UTF8_getch(&ts, &len);
+            int tw = mk_wcwidth((wchar_t)tc);
+            erease_utf8_by_cw(win->line[win->cursory].chars+p, tw, tw, win->width*4-p-1);
+            x = p+tw-1;
+        }
+        for (j=0; j<size; j++){
+            if (!(fmt[j]==10)){//check that this isnt a newline char
+                const char* utf8str = fmt+j;
+                int len = ANY_LENGTH;
+                unsigned ch = UTF8_getch(&utf8str, &len);
+                int cw = mk_wcwidth((wchar_t)ch);
+                len = ANY_LENGTH-len;
+                if(cw<1) cw = 1;
+                if(len<1) len = 1;
+                if (win->cursorx+cw <= win->width && win->cursory <= win->height - 1) {
+                    win->line[win->cursory].width_in_bytes += erease_utf8_by_cw(win->line[win->cursory].chars+x, cw, len, win->width*4-x-1);
+                    for(i=0; i<len; i++)
+                    {
+                        win->line[win->cursory].chars[x+i]=fmt[j+i];
+                    }
+                    for(i=0; i<cw; i++)
+                    {
+                        win->line[win->cursory].FG[win->cursorx]=win->FG;
+                        win->line[win->cursory].BG[win->cursorx]=win->BG;
+                        addedchar(win);
+                    }
+                    win->line[win->cursory].touched=true;
+                    j += len-1;
+                    x+=len;
+                } else if (win->cursory <= win->height - 1) {
+                    // don't write outside the window, but don't abort if there are still lines to write.
+                    //j += len-1;
+                    //x+=len;
+                } else {
+                    return 0; //if we try and write anything outside the window, abort completely
+                }
+            } else {// if the character is a newline, make sure to move down a line
+                if (newline(win)==0){
+                    return 0;
+                }
+                x = 0;
+            }
+        }
+    }
     win->draw=true;
     return 1;
 }
@@ -480,7 +480,7 @@ int clear(void)
 //Ends the terminal, destroy everything
 int endwin(void)
 {
-	return curses_destroy();
+    return curses_destroy();
 }
 
 //adds a character to the window
@@ -537,7 +537,7 @@ int getbegy(WINDOW *win)
 
 int start_color(void)
 {
-	return curses_start_color();
+    return curses_start_color();
 }
 
 int keypad(WINDOW *faux, bool bf)
@@ -633,23 +633,23 @@ int waddch(WINDOW *win, const chtype ch)
         }
 
 
-	int cury=win->cursory;
-	int p = win->cursorx;
-	int curx=(win->line[cury].width_in_bytes==win->width)?win->cursorx:cursorx_to_position(win->line[cury].chars, win->cursorx, &p);
+    int cury=win->cursory;
+    int p = win->cursorx;
+    int curx=(win->line[cury].width_in_bytes==win->width)?win->cursorx:cursorx_to_position(win->line[cury].chars, win->cursorx, &p);
 
-	if(curx!=p)
-	{
-		const char* ts = win->line[cury].chars+p;
-		int len = ANY_LENGTH;
-		unsigned tc = UTF8_getch(&ts, &len);
-		int tw = mk_wcwidth((wchar_t)tc);
-		win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars+p, tw, tw, win->width*4-p-1);
-		curx = p+tw-1;
-	}
-	else if(win->line[cury].width_in_bytes!=win->width)
-	{
-		win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars+p, 1, 1, win->width*4-p-1);
-	}
+    if(curx!=p)
+    {
+        const char* ts = win->line[cury].chars+p;
+        int len = ANY_LENGTH;
+        unsigned tc = UTF8_getch(&ts, &len);
+        int tw = mk_wcwidth((wchar_t)tc);
+        win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars+p, tw, tw, win->width*4-p-1);
+        curx = p+tw-1;
+    }
+    else if(win->line[cury].width_in_bytes!=win->width)
+    {
+        win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars+p, 1, 1, win->width*4-p-1);
+    }
 
 //if (win2 > -1){
    win->line[cury].chars[curx]=charcode;

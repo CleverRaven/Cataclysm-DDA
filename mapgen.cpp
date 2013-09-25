@@ -512,7 +512,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
       (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
       (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
       (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
-   rn = 1;	// rn = 1 if this road has sidewalks
+   rn = 1; // rn = 1 if this road has sidewalks
   else
    rn = 0;
 
@@ -590,7 +590,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
       (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
       (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
       (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
-   rn = 1;	// rn = 1 if this road has sidewalks
+   rn = 1; // rn = 1 if this road has sidewalks
   else
    rn = 0;
 
@@ -601,7 +601,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vx = rng (0, 3) * 4 + 5;
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
-	if (rc <= 50)
+    if (rc <= 50)
      add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 70)
      add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, 1);
@@ -621,7 +621,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vx = rng (10, 12);
     int vy = rng (10, 12);
     int rc = rng(1, 10);
-	if (rc <= 5)
+    if (rc <= 5)
      add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
     else if (rc <= 8)
      add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
@@ -667,7 +667,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
       (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
       (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
       (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
-   rn = 1;	// rn = 1 if this road has sidewalks
+   rn = 1; // rn = 1 if this road has sidewalks
   else
    rn = 0;
 
@@ -742,9 +742,9 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
       (t_east  == ot_road_nesw || t_east  == ot_road_nesw_manhole) &&
       (t_north == ot_road_nesw || t_north == ot_road_nesw_manhole) &&
       (t_south == ot_road_nesw || t_south == ot_road_nesw_manhole)   )
-   rn = 2;	// rn = 2 if this is actually a plaza
+   rn = 2; // rn = 2 if this is actually a plaza
   else
-   rn = 1;	// rn = 1 if this road has sidewalks
+   rn = 1; // rn = 1 if this road has sidewalks
 
   // spawn city car wrecks
   if (rn > 0) {
@@ -788,14 +788,14 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     }
    }
   }
-  if (rn == 2) {	// Special embellishments for a plaza
-   if (one_in(10)) {	// Fountain
+  if (rn == 2) { // Special embellishments for a plaza
+   if (one_in(10)) { // Fountain
     for (int i = SEEX - 2; i <= SEEX + 2; i++) {
      ter_set(i, i, t_water_sh);
      ter_set(i, SEEX * 2 - i, t_water_sh);
     }
    }
-   if (one_in(10)) {	// Small trees in center
+   if (one_in(10)) { // Small trees in center
     mapf::formatted_set_terrain(this, SEEX-2, SEEY-2,
 "\
  t t\n\
@@ -805,7 +805,7 @@ t   t\n\
  t t\n\
 ", mapf::basic_bind("t", t_tree_young), mapf::end());
    }
-   if (one_in(14)) {	// Rows of small trees
+   if (one_in(14)) { // Rows of small trees
     int gap = rng(2, 4);
     int start = rng(0, 4);
     for (int i = 2; i < SEEX * 2 - start; i += gap) {
@@ -969,12 +969,12 @@ t   t\n\
  case ot_house_south:
  case ot_house_west:
 
-  lw = rng(0, 4);		// West external wall
-  mw = lw + rng(7, 10);		// Middle wall between bedroom & kitchen/bath
-  rw = SEEX * 2 - rng(1, 5);	// East external wall
-  tw = rng(1, 6);		// North external wall
-  bw = SEEX * 2 - rng(2, 5);	// South external wall
-  cw = tw + rng(4, 7);		// Middle wall between living room & kitchen/bed
+  lw = rng(0, 4);  // West external wall
+  mw = lw + rng(7, 10);  // Middle wall between bedroom & kitchen/bath
+  rw = SEEX * 2 - rng(1, 5); // East external wall
+  tw = rng(1, 6);  // North external wall
+  bw = SEEX * 2 - rng(2, 5); // South external wall
+  cw = tw + rng(4, 7);  // Middle wall between living room & kitchen/bed
   actual_house_height=bw-rng(4,6); //reserving some space for backyard. Actual south external wall.
   bw_old = bw;
 
@@ -991,11 +991,11 @@ t   t\n\
    }
   }
   switch(rng(1, 3)) {
-  case 1:	// Quadrants, essentially
+  case 1: // Quadrants, essentially
    mw = rng(lw + 5, rw - 5);
    cw = tw + rng(4, 7);
-   house_room(this, room_living,	mw, tw, rw, cw);
-   house_room(this, room_kitchen,	lw, tw, mw, cw);
+   house_room(this, room_living, mw, tw, rw, cw);
+   house_room(this, room_kitchen, lw, tw, mw, cw);
    ter_set(mw, rng(tw + 2, cw - 2), (one_in(3) ? t_door_c : t_floor));
    rn = rng(lw + 1, mw - 2);
    ter_set(rn    , tw, t_window_domestic);
@@ -1105,17 +1105,17 @@ t   t\n\
    }
    ter_set(rn    , bw, t_window_domestic);
    ter_set(rn + 1, bw, t_window_domestic);
-   if (!one_in(3) && rw < SEEX * 2 - 1) {	// Potential side windows
+   if (!one_in(3) && rw < SEEX * 2 - 1) { // Potential side windows
     rn = rng(tw + 2, bw - 6);
     ter_set(rw, rn    , t_window_domestic);
     ter_set(rw, rn + 4, t_window_domestic);
    }
-   if (!one_in(3) && lw > 0) {	// Potential side windows
+   if (!one_in(3) && lw > 0) { // Potential side windows
     rn = rng(tw + 2, bw - 6);
     ter_set(lw, rn    , t_window_domestic);
     ter_set(lw, rn + 4, t_window_domestic);
    }
-   if (one_in(2)) {	// Placement of the main door
+   if (one_in(2)) { // Placement of the main door
     ter_set(rng(lw + 2, mw - 1), tw, (one_in(6) ? t_door_c : t_door_locked));
     if (one_in(5)) // Placement of side door
      ter_set(rw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
@@ -1126,7 +1126,7 @@ t   t\n\
    }
    break;
 
-  case 2:	// Old-style; simple;
+  case 2: // Old-style; simple;
             //Modified by Jovan in 28 Aug 2013
             //Long narrow living room in front, big kitchen and HUGE bedroom
    bw = SEEX*2-2;
@@ -1160,12 +1160,12 @@ t   t\n\
    ter_set(rw - rn + 1, tw, t_window_domestic);
 // Front door
    ter_set(rng(lw + 4, rw - 4), tw, (one_in(6) ? t_door_c : t_door_locked));
-   if (one_in(3)) {	// Kitchen windows
+   if (one_in(3)) { // Kitchen windows
     rn = rng(cw + 1, actual_house_height - 5);
     ter_set(rw, rn    , t_window_domestic);
     ter_set(rw, rn + 1, t_window_domestic);
    }
-   if (one_in(3)) {	// Bedroom windows
+   if (one_in(3)) { // Bedroom windows
     rn = rng(cw + 1, actual_house_height - 2);
     ter_set(lw, rn    , t_window_domestic);
     ter_set(lw, rn + 1, t_window_domestic);
@@ -1188,7 +1188,7 @@ t   t\n\
    ter_set(rn, actual_house_height, t_window_domestic);
    break;
 
-  case 3:	// Long center hallway, kitchen, living room and office
+  case 3: // Long center hallway, kitchen, living room and office
    mw = int((lw + rw) / 2);
    cw = bw - rng(5, 7);
 // Hallway doors and windows
@@ -1197,11 +1197,11 @@ t   t\n\
     ter_set(mw - 1, tw, t_window_domestic);
     ter_set(mw + 1, tw, t_window_domestic);
    }
-   for (int i = tw + 1; i < cw; i++) {	// Hallway walls
+   for (int i = tw + 1; i < cw; i++) { // Hallway walls
     ter_set(mw - 2, i, t_wall_v);
     ter_set(mw + 2, i, t_wall_v);
    }
-   if (one_in(2)) {	// Front rooms are kitchen or living room
+   if (one_in(2)) { // Front rooms are kitchen or living room
     house_room(this, room_living, lw, tw, mw - 2, cw);
     house_room(this, room_kitchen, mw + 2, tw, rw, cw);
    } else {
@@ -1215,17 +1215,17 @@ t   t\n\
    rn = rng(mw + 3, rw - 2);
    ter_set(rn    , tw, t_window_domestic);
    ter_set(rn + 1, tw, t_window_domestic);
-   if (one_in(3) && lw > 0) {	// Side windows?
+   if (one_in(3) && lw > 0) { // Side windows?
     rn = rng(tw + 1, cw - 2);
     ter_set(lw, rn    , t_window_domestic);
     ter_set(lw, rn + 1, t_window_domestic);
    }
-   if (one_in(3) && rw < SEEX * 2 - 1) {	// Side windows?
+   if (one_in(3) && rw < SEEX * 2 - 1) { // Side windows?
     rn = rng(tw + 1, cw - 2);
     ter_set(rw, rn    , t_window_domestic);
     ter_set(rw, rn + 1, t_window_domestic);
    }
-   if (one_in(2)) {	// Bottom rooms are bedroom or bathroom
+   if (one_in(2)) { // Bottom rooms are bedroom or bathroom
        //bathroom to the left (eastern wall), study to the right
     //house_room(this, room_bedroom, lw, cw, rw - 3, bw);
     house_room(this, room_bedroom, mw-2, cw, rw-3, bw);
@@ -1237,10 +1237,10 @@ t   t\n\
         furn_set(lw+1, cw+2, f_table);
         ter_set(lw+1, cw+3, t_console_broken);
         furn_set(lw+3, bw-1, f_bookcase);
-            place_items("magazines",	30,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
-            place_items("novels",	40,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
-            place_items("alcohol",	20,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
-            place_items("manuals",	30,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
+            place_items("magazines", 30,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
+            place_items("novels", 40,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
+            place_items("alcohol", 20,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
+            place_items("manuals", 30,  lw+3,  bw-1, lw+3,  bw-1, false, 0);
         //=========================
     ter_set(rng(lw + 2, mw - 3), cw, t_door_c);
     if (one_in(4))
@@ -1267,10 +1267,10 @@ t   t\n\
         furn_set(rw-1, cw+2, f_table);
         ter_set(rw-1, cw+3, t_console_broken);
         furn_set(rw-3, bw-1, f_bookcase);
-            place_items("magazines",	40,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
-            place_items("novels",	40,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
-            place_items("alcohol",	20,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
-            place_items("manuals",	20,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
+            place_items("magazines", 40,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
+            place_items("novels", 40,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
+            place_items("alcohol", 20,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
+            place_items("manuals", 20,  rw-3,  bw-1, rw-3,  bw-1, false, 0);
         //=========================
 
     if (one_in(4))
@@ -1291,9 +1291,9 @@ t   t\n\
    ter_set(mw + 2, rng(tw + 3, cw - 3), t_door_c);
    ter_set(mw, cw, t_door_c);
    break;
-  }	// Done with the various house structures
+  } // Done with the various house structures
 
-  if (rng(2, 7) < tw) {	// Big front yard has a chance for a fence
+  if (rng(2, 7) < tw) { // Big front yard has a chance for a fence
    for (int i = lw; i <= rw; i++)
     ter_set(i, 0, t_fence_h);
    for (int i = 1; i < tw; i++) {
@@ -1405,22 +1405,22 @@ t   t\n\
           } else if (ra <= 20) { vt = "schoolbus";
           } else {               vt = "quad_bike";
           }
-      }	else if (r <= 15) { //commercial
+      } else if (r <= 15) { //commercial
           int rb = rng(1, 100);
           if (rb <= 25) {        vt = "truck_trailer";
           } else if (rb <= 35) { vt = "semi_truck";
           } else {               vt = "flatbed_truck";
           }
-      }	else if (r < 50) { //commons
+      } else if (r < 50) { //commons
           int rc = rng(1, 100);
-          if (rc <= 4) { 				    vt = "golf_cart";
-          }	else if (rc <= 11) {	vt = "scooter";
-          } else if (rc <= 21) {	vt = "beetle";
-          } else if (rc <= 50) {    vt = "car";
-          } else if (rc <= 60) {	vt = "electric_car";
-          } else if (rc <= 75) {	vt = "bicycle";
-          } else if (rc <= 90) {    vt = "motorcycle";
-          } else {                  vt = "motorcycle_sidecart";
+          if (rc <= 4) {         vt = "golf_cart";
+          } else if (rc <= 11) { vt = "scooter";
+          } else if (rc <= 21) { vt = "beetle";
+          } else if (rc <= 50) { vt = "car";
+          } else if (rc <= 60) { vt = "electric_car";
+          } else if (rc <= 75) { vt = "bicycle";
+          } else if (rc <= 90) { vt = "motorcycle";
+          } else {               vt = "motorcycle_sidecart";
           }
       } else {
           vt = "shopping_cart";
@@ -1551,7 +1551,7 @@ t   t\n\
   lw = rng(0, 3);
   rw = SEEX * 2 - rng(1, 4);
   cw = rng(lw + 4, rw - 5);
-  rn = rng(3, 6);	// Frequency of gas pumps
+  rn = rng(3, 6); // Frequency of gas pumps
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEX * 2; j++) {
     if (j < tw && (tw - j) % 4 == 0 && i > lw && i < rw &&
@@ -1590,14 +1590,14 @@ t   t\n\
    ter_set(rng(lw + 1, cw - 1), bw, (one_in(4) ? t_door_c : t_door_locked));
   for (int i = lw + (lw % 2 == 0 ? 3 : 4); i < cw && i < lw + 12; i += 2) {
    if (!one_in(3))
-    place_items("snacks",	74, i, tw + 2, i, mw - 2, false, 0);
+    place_items("snacks", 74, i, tw + 2, i, mw - 2, false, 0);
    else
-    place_items("magazines",	74, i, tw + 2, i, mw - 2, false, 0);
+    place_items("magazines", 74, i, tw + 2, i, mw - 2, false, 0);
   }
-  place_items("fridgesnacks",	82, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
-  place_items("road",		12, 0,      0,  SEEX*2 - 1, tw - 1, false, 0);
-  place_items("behindcounter",	70, rw - 4, tw + 1, rw - 1, tw + 2, false, 0);
-  place_items("softdrugs",	12, rw - 1, bw - 2, rw - 1, bw - 2, false, 0);
+  place_items("fridgesnacks", 82, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
+  place_items("road",  12, 0,      0,  SEEX*2 - 1, tw - 1, false, 0);
+  place_items("behindcounter", 70, rw - 4, tw + 1, rw - 1, tw + 2, false, 0);
+  place_items("softdrugs", 12, rw - 1, bw - 2, rw - 1, bw - 2, false, 0);
   if (terrain_type == ot_s_gas_east)
    rotate(1);
   if (terrain_type == ot_s_gas_south)
@@ -1613,10 +1613,10 @@ t   t\n\
  case ot_s_pharm_west:
   tw = rng(0, 4);
   bw = SEEY * 2 - rng(1, 5);
-  mw = bw - rng(3, 4);	// Top of the storage room
+  mw = bw - rng(3, 4); // Top of the storage room
   lw = rng(0, 4);
   rw = SEEX * 2 - rng(1, 5);
-  cw = rng(13, rw - 5);	// Left side of the storage room
+  cw = rng(13, rw - 5); // Left side of the storage room
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if (j == tw && ((i > lw + 2 && i < lw + 6) || (i > rw - 6 && i < rw - 2)))
@@ -1656,29 +1656,29 @@ t   t\n\
   }
 
   if (one_in(3))
-   place_items("snacks",	74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
+   place_items("snacks", 74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
   else if (one_in(4))
-   place_items("cleaning",	74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
+   place_items("cleaning", 74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
   else
-   place_items("magazines",	74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
+   place_items("magazines", 74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
   if (one_in(5))
-   place_items("softdrugs",	84, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
+   place_items("softdrugs", 84, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
   else if (one_in(4))
-   place_items("cleaning",	74, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
+   place_items("cleaning", 74, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
   else
-   place_items("snacks",	74, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
+   place_items("snacks", 74, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
   if (one_in(5))
-   place_items("softdrugs",	84, rw - 4, tw + 4, rw - 4, mw - 3, false, 0);
+   place_items("softdrugs", 84, rw - 4, tw + 4, rw - 4, mw - 3, false, 0);
   else
-   place_items("snacks",	74, rw - 4, tw + 4, rw - 4, mw - 3, false, 0);
+   place_items("snacks", 74, rw - 4, tw + 4, rw - 4, mw - 3, false, 0);
   if (one_in(3))
-   place_items("snacks",	70, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
+   place_items("snacks", 70, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
   else
-   place_items("softdrugs",	80, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
-  place_items("fridgesnacks",	74, lw + 1, tw + 9, lw + 1, mw - 2, false, 0);
-  place_items("fridgesnacks",	74, cw + 2, mw - 1, rw - 1, mw - 1, false, 0);
-  place_items("harddrugs",	88, lw + 2, bw - 1, cw - 2, bw - 1, false, 0);
-  place_items("behindcounter",	78, lw + 1, tw + 1, lw + 4, tw + 5, false, 0);
+   place_items("softdrugs", 80, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
+  place_items("fridgesnacks", 74, lw + 1, tw + 9, lw + 1, mw - 2, false, 0);
+  place_items("fridgesnacks", 74, cw + 2, mw - 1, rw - 1, mw - 1, false, 0);
+  place_items("harddrugs", 88, lw + 2, bw - 1, cw - 2, bw - 1, false, 0);
+  place_items("behindcounter", 78, lw + 1, tw + 1, lw + 4, tw + 5, false, 0);
   if (terrain_type == ot_s_pharm_east)
    rotate(1);
   if (terrain_type == ot_s_pharm_south)
@@ -1722,18 +1722,18 @@ case ot_office_cubical_west: {
            ss           \n",
    mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk, t_null),
    mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null, f_safe_l));
-   place_items("fridge",	50,  2,  12, 2,  13, false, 0);
-   place_items("cleaning",	50,  2,  15, 3,  16, false, 0);
-   place_items("office",	80, 11,  7, 13,  7, false, 0);
-   place_items("office",	80,  10,  3, 12,  3, false, 0);
-   place_items("cubical_office",	60,  2,  3, 3,  3, false, 0);
-   place_items("cubical_office",	60,  3,  6, 4,  6, false, 0);
-   place_items("cubical_office",	60,  3,  9, 4,  9, false, 0);
-   place_items("cubical_office",	60,  21,  3, 21,  4, false, 0);
-   place_items("cubical_office",	60,  20,  6, 21,  6, false, 0);
-   place_items("cubical_office",	60,  19,  9, 20,  9, false, 0);
-   place_items("cubical_office",	60,  18,  17, 19,  20, false, 0);
-   place_items("novels",	70,  2,  19, 2,  21, false, 0);
+   place_items("fridge", 50,  2,  12, 2,  13, false, 0);
+   place_items("cleaning", 50,  2,  15, 3,  16, false, 0);
+   place_items("office", 80, 11,  7, 13,  7, false, 0);
+   place_items("office", 80,  10,  3, 12,  3, false, 0);
+   place_items("cubical_office", 60,  2,  3, 3,  3, false, 0);
+   place_items("cubical_office", 60,  3,  6, 4,  6, false, 0);
+   place_items("cubical_office", 60,  3,  9, 4,  9, false, 0);
+   place_items("cubical_office", 60,  21,  3, 21,  4, false, 0);
+   place_items("cubical_office", 60,  20,  6, 21,  6, false, 0);
+   place_items("cubical_office", 60,  19,  9, 20,  9, false, 0);
+   place_items("cubical_office", 60,  18,  17, 19,  20, false, 0);
+   place_items("novels", 70,  2,  19, 2,  21, false, 0);
    if (terrain_type == ot_office_cubical_east)
     rotate(3);
    if (terrain_type == ot_office_cubical_north)
@@ -1775,24 +1775,24 @@ case ot_apartments_con_tower_1_entrance:{
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser)
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_rack){
-            place_items("dresser",	30,  i,  j, i,  j, false, 0);
-            place_items("jackets",	60,  i,  j, i,  j, false, 0);}
+            place_items("dresser", 30,  i,  j, i,  j, false, 0);
+            place_items("jackets", 60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
-            place_items("fridge",	70,  i,  j, i,  j, false, 0);
+            place_items("fridge", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_oven)
-            place_items("oven",	70,  i,  j, i,  j, false, 0);
+            place_items("oven", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
-            place_items("cleaning",	50,  i,  j, i,  j, false, 0);
-            place_items("home_hw",	30,  i,  j, i,  j, false, 0);
-            place_items("cannedfood",	50,  i,  j, i,  j, false, 0);
-            place_items("pasta",	50,  i,  j, i,  j, false, 0);}
+            place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+            place_items("home_hw", 30,  i,  j, i,  j, false, 0);
+            place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
+            place_items("pasta", 50,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_bookcase){
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
-            place_items("novels",	40,  i,  j, i,  j, false, 0);
-            place_items("alcohol",	30,  i,  j, i,  j, false, 0);
-            place_items("manuals",	20,  i,  j, i,  j, false, 0);}
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
+            place_items("novels", 40,  i,  j, i,  j, false, 0);
+            place_items("alcohol", 30,  i,  j, i,  j, false, 0);
+            place_items("manuals", 20,  i,  j, i,  j, false, 0);}
        }
      }
   if (density > 1)
@@ -1845,24 +1845,24 @@ case ot_apartments_con_tower_1:{
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser)
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_rack){
-            place_items("dresser",	30,  i,  j, i,  j, false, 0);
-            place_items("jackets",	60,  i,  j, i,  j, false, 0);}
+            place_items("dresser", 30,  i,  j, i,  j, false, 0);
+            place_items("jackets", 60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
-            place_items("fridge",	70,  i,  j, i,  j, false, 0);
+            place_items("fridge", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_oven)
-            place_items("oven",	70,  i,  j, i,  j, false, 0);
+            place_items("oven", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
-            place_items("cleaning",	50,  i,  j, i,  j, false, 0);
-            place_items("home_hw",	30,  i,  j, i,  j, false, 0);
-            place_items("cannedfood",	50,  i,  j, i,  j, false, 0);
-            place_items("pasta",	50,  i,  j, i,  j, false, 0);}
+            place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+            place_items("home_hw", 30,  i,  j, i,  j, false, 0);
+            place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
+            place_items("pasta", 50,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_bookcase){
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
-            place_items("novels",	40,  i,  j, i,  j, false, 0);
-            place_items("alcohol",	30,  i,  j, i,  j, false, 0);
-            place_items("manuals",	20,  i,  j, i,  j, false, 0);}
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
+            place_items("novels", 40,  i,  j, i,  j, false, 0);
+            place_items("alcohol", 30,  i,  j, i,  j, false, 0);
+            place_items("manuals", 20,  i,  j, i,  j, false, 0);}
        }
      }
      if (density > 1)
@@ -1910,24 +1910,24 @@ ss                      \n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser)
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_rack){
-            place_items("dresser",	30,  i,  j, i,  j, false, 0);
-            place_items("jackets",	60,  i,  j, i,  j, false, 0);}
+            place_items("dresser", 30,  i,  j, i,  j, false, 0);
+            place_items("jackets", 60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
-            place_items("fridge",	70,  i,  j, i,  j, false, 0);
+            place_items("fridge", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_oven)
-            place_items("oven",	70,  i,  j, i,  j, false, 0);
+            place_items("oven", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
-            place_items("cleaning",	50,  i,  j, i,  j, false, 0);
-            place_items("home_hw",	30,  i,  j, i,  j, false, 0);
-            place_items("cannedfood",	50,  i,  j, i,  j, false, 0);
-            place_items("pasta",	50,  i,  j, i,  j, false, 0);}
+            place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+            place_items("home_hw", 30,  i,  j, i,  j, false, 0);
+            place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
+            place_items("pasta", 50,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_bookcase){
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
-            place_items("novels",	40,  i,  j, i,  j, false, 0);
-            place_items("alcohol",	30,  i,  j, i,  j, false, 0);
-            place_items("manuals",	20,  i,  j, i,  j, false, 0);}
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
+            place_items("novels", 40,  i,  j, i,  j, false, 0);
+            place_items("alcohol", 30,  i,  j, i,  j, false, 0);
+            place_items("manuals", 20,  i,  j, i,  j, false, 0);}
        }
      }
      if (density > 1)
@@ -1974,26 +1974,26 @@ ss                      \n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_locker)
-            place_items("office",	70,  i,  j, i,  j, false, 0);
+            place_items("office", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_dresser)
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_rack){
-            place_items("dresser",	30,  i,  j, i,  j, false, 0);
-            place_items("jackets",	60,  i,  j, i,  j, false, 0);}
+            place_items("dresser", 30,  i,  j, i,  j, false, 0);
+            place_items("jackets", 60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
-            place_items("fridge",	70,  i,  j, i,  j, false, 0);
+            place_items("fridge", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_oven)
-            place_items("oven",	70,  i,  j, i,  j, false, 0);
+            place_items("oven", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
-            place_items("cleaning",	50,  i,  j, i,  j, false, 0);
-            place_items("home_hw",	30,  i,  j, i,  j, false, 0);
-            place_items("cannedfood",	50,  i,  j, i,  j, false, 0);
-            place_items("pasta",	50,  i,  j, i,  j, false, 0);}
+            place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+            place_items("home_hw", 30,  i,  j, i,  j, false, 0);
+            place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
+            place_items("pasta", 50,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_bookcase){
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
-            place_items("novels",	40,  i,  j, i,  j, false, 0);
-            place_items("alcohol",	30,  i,  j, i,  j, false, 0);
-            place_items("manuals",	20,  i,  j, i,  j, false, 0);}
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
+            place_items("novels", 40,  i,  j, i,  j, false, 0);
+            place_items("alcohol", 30,  i,  j, i,  j, false, 0);
+            place_items("manuals", 20,  i,  j, i,  j, false, 0);}
        }
      }
      if (density > 1)
@@ -2042,24 +2042,24 @@ case ot_apartments_mod_tower_1_entrance:{
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser)
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_rack){
-            place_items("dresser",	30,  i,  j, i,  j, false, 0);
-            place_items("jackets",	60,  i,  j, i,  j, false, 0);}
+            place_items("dresser", 30,  i,  j, i,  j, false, 0);
+            place_items("jackets", 60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
-            place_items("fridge",	70,  i,  j, i,  j, false, 0);
+            place_items("fridge", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_oven)
-            place_items("oven",	70,  i,  j, i,  j, false, 0);
+            place_items("oven", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
-            place_items("cleaning",	50,  i,  j, i,  j, false, 0);
-            place_items("home_hw",	30,  i,  j, i,  j, false, 0);
-            place_items("cannedfood",	50,  i,  j, i,  j, false, 0);
-            place_items("pasta",	50,  i,  j, i,  j, false, 0);}
+            place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+            place_items("home_hw", 30,  i,  j, i,  j, false, 0);
+            place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
+            place_items("pasta", 50,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_bookcase){
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
-            place_items("novels",	40,  i,  j, i,  j, false, 0);
-            place_items("alcohol",	30,  i,  j, i,  j, false, 0);
-            place_items("manuals",	20,  i,  j, i,  j, false, 0);}
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
+            place_items("novels", 40,  i,  j, i,  j, false, 0);
+            place_items("alcohol", 30,  i,  j, i,  j, false, 0);
+            place_items("manuals", 20,  i,  j, i,  j, false, 0);}
        }
      }
   if (density > 1)
@@ -2112,24 +2112,24 @@ case ot_apartments_mod_tower_1:{
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser)
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_rack){
-            place_items("dresser",	30,  i,  j, i,  j, false, 0);
-            place_items("jackets",	60,  i,  j, i,  j, false, 0);}
+            place_items("dresser", 30,  i,  j, i,  j, false, 0);
+            place_items("jackets", 60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
-            place_items("fridge",	70,  i,  j, i,  j, false, 0);
+            place_items("fridge", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_oven)
-            place_items("oven",	70,  i,  j, i,  j, false, 0);
+            place_items("oven", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
-            place_items("cleaning",	50,  i,  j, i,  j, false, 0);
-            place_items("home_hw",	30,  i,  j, i,  j, false, 0);
-            place_items("cannedfood",	50,  i,  j, i,  j, false, 0);
-            place_items("pasta",	50,  i,  j, i,  j, false, 0);}
+            place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+            place_items("home_hw", 30,  i,  j, i,  j, false, 0);
+            place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
+            place_items("pasta", 50,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_bookcase){
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
-            place_items("novels",	40,  i,  j, i,  j, false, 0);
-            place_items("alcohol",	30,  i,  j, i,  j, false, 0);
-            place_items("manuals",	20,  i,  j, i,  j, false, 0);}
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
+            place_items("novels", 40,  i,  j, i,  j, false, 0);
+            place_items("alcohol", 30,  i,  j, i,  j, false, 0);
+            place_items("manuals", 20,  i,  j, i,  j, false, 0);}
        }
      }
      if (density > 1)
@@ -2177,24 +2177,24 @@ ss                      \n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser)
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_rack){
-            place_items("dresser",	30,  i,  j, i,  j, false, 0);
-            place_items("jackets",	60,  i,  j, i,  j, false, 0);}
+            place_items("dresser", 30,  i,  j, i,  j, false, 0);
+            place_items("jackets", 60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
-            place_items("fridge",	70,  i,  j, i,  j, false, 0);
+            place_items("fridge", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_oven)
-            place_items("oven",	70,  i,  j, i,  j, false, 0);
+            place_items("oven", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
-            place_items("cleaning",	50,  i,  j, i,  j, false, 0);
-            place_items("home_hw",	30,  i,  j, i,  j, false, 0);
-            place_items("cannedfood",	50,  i,  j, i,  j, false, 0);
-            place_items("pasta",	50,  i,  j, i,  j, false, 0);}
+            place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+            place_items("home_hw", 30,  i,  j, i,  j, false, 0);
+            place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
+            place_items("pasta", 50,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_bookcase){
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
-            place_items("novels",	40,  i,  j, i,  j, false, 0);
-            place_items("alcohol",	30,  i,  j, i,  j, false, 0);
-            place_items("manuals",	20,  i,  j, i,  j, false, 0);}
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
+            place_items("novels", 40,  i,  j, i,  j, false, 0);
+            place_items("alcohol", 30,  i,  j, i,  j, false, 0);
+            place_items("manuals", 20,  i,  j, i,  j, false, 0);}
        }
      }
      if (density > 1)
@@ -2241,26 +2241,26 @@ EE|.+..........e|ssR    \n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_locker)
-            place_items("office",	70,  i,  j, i,  j, false, 0);
+            place_items("office", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_dresser)
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_rack){
-            place_items("dresser",	30,  i,  j, i,  j, false, 0);
-            place_items("jackets",	60,  i,  j, i,  j, false, 0);}
+            place_items("dresser", 30,  i,  j, i,  j, false, 0);
+            place_items("jackets", 60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
-            place_items("fridge",	70,  i,  j, i,  j, false, 0);
+            place_items("fridge", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_oven)
-            place_items("oven",	70,  i,  j, i,  j, false, 0);
+            place_items("oven", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
-            place_items("cleaning",	50,  i,  j, i,  j, false, 0);
-            place_items("home_hw",	30,  i,  j, i,  j, false, 0);
-            place_items("cannedfood",	50,  i,  j, i,  j, false, 0);
-            place_items("pasta",	50,  i,  j, i,  j, false, 0);}
+            place_items("cleaning", 50,  i,  j, i,  j, false, 0);
+            place_items("home_hw", 30,  i,  j, i,  j, false, 0);
+            place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
+            place_items("pasta", 50,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_bookcase){
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
-            place_items("novels",	40,  i,  j, i,  j, false, 0);
-            place_items("alcohol",	30,  i,  j, i,  j, false, 0);
-            place_items("manuals",	20,  i,  j, i,  j, false, 0);}
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
+            place_items("novels", 40,  i,  j, i,  j, false, 0);
+            place_items("alcohol", 30,  i,  j, i,  j, false, 0);
+            place_items("manuals", 20,  i,  j, i,  j, false, 0);}
        }
      }
      if (density > 1)
@@ -2306,9 +2306,9 @@ ssssss__,,__ss__,,__ssss\n\
 ssssss______ss______ssss\n",
      mapf::basic_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,   t_pavement_y, t_pavement, t_floor, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_door_c, t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_null,     f_null,        f_null,      f_null,      f_null, f_null,              f_null,         f_crate_c, f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-  place_items("office",	75, 4, 2, 6, 2, false, 0);
-  place_items("office",	75, 19, 6, 19, 6, false, 0);
-  place_items("office",	75, 12, 8, 14, 8, false, 0);
+  place_items("office", 75, 4, 2, 6, 2, false, 0);
+  place_items("office", 75, 19, 6, 19, 6, false, 0);
+  place_items("office", 75, 12, 8, 14, 8, false, 0);
   if (density > 1)
     place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 12, 3, density);
   else {
@@ -2365,18 +2365,18 @@ ss%|rrrr|...|.R.|EEED...\n",
         add_spawn(mon_zombie, rng(0,5), 15, 7);
         if (x_in_y(1,1)){add_spawn(mon_zombie, 2, 5, 20);}
       }
-     place_items("office",	75, 4, 23, 7, 23, false, 0);
-     place_items("office",	75, 4, 19, 7, 19, false, 0);
-     place_items("office",	75, 4, 14, 7, 14, false, 0);
-     place_items("office",	75, 5, 16, 7, 16, false, 0);
-     place_items("fridge",	80, 14, 17, 14, 17, false, 0);
-     place_items("cleaning",	75, 19, 17, 20, 17, false, 0);
-     place_items("cubical_office",	75, 6, 12, 7, 12, false, 0);
-     place_items("cubical_office",	75, 12, 11, 12, 12, false, 0);
-     place_items("cubical_office",	75, 16, 11, 17, 12, false, 0);
-     place_items("cubical_office",	75, 4, 5, 5, 5, false, 0);
-     place_items("cubical_office",	75, 11, 5, 12, 5, false, 0);
-     place_items("cubical_office",	75, 14, 5, 16, 5, false, 0);
+     place_items("office", 75, 4, 23, 7, 23, false, 0);
+     place_items("office", 75, 4, 19, 7, 19, false, 0);
+     place_items("office", 75, 4, 14, 7, 14, false, 0);
+     place_items("office", 75, 5, 16, 7, 16, false, 0);
+     place_items("fridge", 80, 14, 17, 14, 17, false, 0);
+     place_items("cleaning", 75, 19, 17, 20, 17, false, 0);
+     place_items("cubical_office", 75, 6, 12, 7, 12, false, 0);
+     place_items("cubical_office", 75, 12, 11, 12, 12, false, 0);
+     place_items("cubical_office", 75, 16, 11, 17, 12, false, 0);
+     place_items("cubical_office", 75, 4, 5, 5, 5, false, 0);
+     place_items("cubical_office", 75, 11, 5, 12, 5, false, 0);
+     place_items("cubical_office", 75, 14, 5, 16, 5, false, 0);
      if (t_west == ot_office_tower_1_entrance)
             rotate(1);
      if (t_north == ot_office_tower_1_entrance)
@@ -2415,11 +2415,11 @@ ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n",
      mapf::basic_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,   t_pavement_y, t_pavement, t_floor, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_door_c, t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_null,     f_null,        f_null,      f_null,      f_null, f_null,              f_null,         f_crate_c, f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     place_items("office",	75, 19, 1, 19, 3, false, 0);
-     place_items("office",	75, 17, 3, 18, 3, false, 0);
-     place_items("office",	90, 8, 7, 9, 7, false, 0);
-     place_items("cubical_office",	75, 19, 5, 19, 7, false, 0);
-     place_items("cleaning",	80, 1, 7, 2, 7, false, 0);
+     place_items("office", 75, 19, 1, 19, 3, false, 0);
+     place_items("office", 75, 17, 3, 18, 3, false, 0);
+     place_items("office", 90, 8, 7, 9, 7, false, 0);
+     place_items("cubical_office", 75, 19, 5, 19, 7, false, 0);
+     place_items("cleaning", 80, 1, 7, 2, 7, false, 0);
      if (density > 1)
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 14, 10, density);
      else {
@@ -2464,14 +2464,14 @@ ssssssssssssssssssssssss\n\
      mapf::basic_bind("E > R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_elevator, t_stairs_down, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,   t_pavement_y, t_pavement, t_floor, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_door_c, t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("E > R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_null,     f_null,        f_null,      f_null, f_null,              f_null,         f_crate_c, f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
      spawn_item(18, 15, "record_accounting", 0);
-     place_items("cleaning",	75, 3, 5, 5, 5, false, 0);
-     place_items("office",	75, 10, 7, 16, 8, false, 0);
-     place_items("cubical_office",	75, 15, 15, 19, 15, false, 0);
-     place_items("cubical_office",	75, 16, 12, 16, 13, false, 0);
-     place_items("cubical_office",	75, 17, 19, 19, 19, false, 0);
-     place_items("office",	75, 17, 21, 19, 21, false, 0);
-     place_items("office",	75, 16, 11, 17, 12, false, 0);
-     place_items("cleaning",	75, 8, 20, 10, 20, false, 0);
+     place_items("cleaning", 75, 3, 5, 5, 5, false, 0);
+     place_items("office", 75, 10, 7, 16, 8, false, 0);
+     place_items("cubical_office", 75, 15, 15, 19, 15, false, 0);
+     place_items("cubical_office", 75, 16, 12, 16, 13, false, 0);
+     place_items("cubical_office", 75, 17, 19, 19, 19, false, 0);
+     place_items("office", 75, 17, 21, 19, 21, false, 0);
+     place_items("office", 75, 16, 11, 17, 12, false, 0);
+     place_items("cleaning", 75, 8, 20, 10, 20, false, 0);
      if (density > 1)
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 9, 15, density);
      else {
@@ -2753,18 +2753,18 @@ case ot_church_west:{
    mapf::basic_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", f_null,   f_null,    f_null,  f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
    spawn_item(9, 6, "brazier", 0);
    spawn_item(14, 6, "brazier", 0);
-   place_items("church",	40,  5,  5, 8,  16, false, 0);
-   place_items("church",	40,  5,  5, 8,  16, false, 0);
-   place_items("church",	85,  12,  2, 14,  2, false, 0);
-   place_items("office",	60,  6,  2, 8,  3, false, 0);
-   place_items("jackets",	85,  7,  18, 8,  18, false, 0);
+   place_items("church", 40,  5,  5, 8,  16, false, 0);
+   place_items("church", 40,  5,  5, 8,  16, false, 0);
+   place_items("church", 85,  12,  2, 14,  2, false, 0);
+   place_items("office", 60,  6,  2, 8,  3, false, 0);
+   place_items("jackets", 85,  7,  18, 8,  18, false, 0);
    tmpcomp = add_computer(11, 2, "Church Bells 1.2", 0);
    tmpcomp->add_option("Gathering Toll", COMPACT_TOLL, 0);
    tmpcomp->add_option("Wedding Toll", COMPACT_TOLL, 0);
    tmpcomp->add_option("Funeral Toll", COMPACT_TOLL, 0);
   }
   else {
-  	//Gothic Style, unreachable high stained glass windows, stone construction
+   //Gothic Style, unreachable high stained glass windows, stone construction
        mapf::formatted_set_simple(this, 0, 0,
 "\
  $$    W        W    $$ \n\
@@ -2795,11 +2795,11 @@ ssssssssssssssssssssssss\n",
    mapf::basic_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", f_crate_c, f_null,               f_null,                 f_null,                f_null, f_null,      f_null,      f_null,    f_null,  f_null,       f_null,   f_null,   f_bench,      f_table,      f_null,   f_null,         f_toilet,     f_sink,       f_chair,      f_counter,    f_locker,     f_null));
    spawn_item(8, 4, "brazier", 0);
    spawn_item(15, 4, "brazier", 0);
-   place_items("church",	70,  6,  7, 17,  16, false, 0);
-   place_items("church",	70,  6,  7, 17,  16, false, 0);
-   place_items("church",	60,  6,  7, 17,  16, false, 0);
-   place_items("cleaning",	60,  3,  18, 4,  21, false, 0);
-   place_items("jackets",	85,  14,  18, 16,  18, false, 0);
+   place_items("church", 70,  6,  7, 17,  16, false, 0);
+   place_items("church", 70,  6,  7, 17,  16, false, 0);
+   place_items("church", 60,  6,  7, 17,  16, false, 0);
+   place_items("cleaning", 60,  3,  18, 4,  21, false, 0);
+   place_items("jackets", 85,  14,  18, 16,  18, false, 0);
    tmpcomp = add_computer(19, 20, "Church Bells 1.2", 0);
    tmpcomp->add_option("Gathering Toll", COMPACT_TOLL, 0);
    tmpcomp->add_option("Wedding Toll", COMPACT_TOLL, 0);
@@ -2846,14 +2846,15 @@ ssssssssssssssssssssssss\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bench)
-            place_items("church",	10,  i,  j, i,  j, false, 0);
+            place_items("church", 10,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_locker)
-            place_items("jackets",	60,  i,  j, i,  j, false, 0);
+            place_items("jackets", 60,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_window_stained_red){
-            if (one_in(3))
-            	ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3))
-            	ter_set(i,j,t_window_stained_green);
+            if (one_in(3)) {
+                ter_set(i,j,t_window_stained_blue);
+            } else if (one_in(3)) {
+                ter_set(i,j,t_window_stained_green);
+            }
         }
        }
      }
@@ -2909,14 +2910,15 @@ ss          #bbbb...bbbb\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bench)
-            place_items("church",	10,  i,  j, i,  j, false, 0);
+            place_items("church", 10,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_locker)
-            place_items("jackets",	60,  i,  j, i,  j, false, 0);
+            place_items("jackets", 60,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_window_stained_red){
-            if (one_in(3))
-            	ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3))
-            	ter_set(i,j,t_window_stained_green);
+            if (one_in(3)) {
+                ter_set(i,j,t_window_stained_blue);
+            } else if (one_in(3)) {
+                ter_set(i,j,t_window_stained_green);
+            }
         }
        }
      }
@@ -2966,14 +2968,15 @@ ssssssssssssssssssssssss\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bench)
-            place_items("church",	10,  i,  j, i,  j, false, 0);
+            place_items("church", 10,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_locker)
-            place_items("jackets",	60,  i,  j, i,  j, false, 0);
+            place_items("jackets", 60,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_window_stained_red){
-            if (one_in(3))
-            	ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3))
-            	ter_set(i,j,t_window_stained_green);
+            if (one_in(3)) {
+                ter_set(i,j,t_window_stained_blue);
+            } else if (one_in(3)) {
+                ter_set(i,j,t_window_stained_green);
+            }
         }
        }
      }
@@ -3023,12 +3026,13 @@ bbb...bbbb#           ss\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bench)
-            place_items("church",	10,  i,  j, i,  j, false, 0);
+            place_items("church", 10,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_window_stained_red){
-            if (one_in(3))
-            	ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3))
-            	ter_set(i,j,t_window_stained_green);
+            if (one_in(3)) {
+                ter_set(i,j,t_window_stained_blue);
+            } else if (one_in(3)) {
+                ter_set(i,j,t_window_stained_green);
+            }
         }
        }
      }
@@ -3079,11 +3083,11 @@ bbb...bbbb#           ss\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
-            place_items("school",	50,  i,  j, i,  j, false, 0);
+            place_items("school", 50,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_rack)
-            place_items("cleaning",	70,  i,  j, i,  j, false, 0);
+            place_items("cleaning", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_rack)
-            place_items("cleaning",	50,  i,  j, i,  j, false, 0);
+            place_items("cleaning", 50,  i,  j, i,  j, false, 0);
        }
      }
   if (density > 1)
@@ -3137,13 +3141,13 @@ case ot_cathedral_b:{
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_fridge)
-            place_items("fridge",	70,  i,  j, i,  j, false, 0);
+            place_items("fridge", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_oven)
-            place_items("oven",	70,  i,  j, i,  j, false, 0);
+            place_items("oven", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_table)
-            place_items("fridgesnacks",	40,  i,  j, i,  j, false, 0);
+            place_items("fridgesnacks", 40,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_rack)
-            place_items("cannedfood",	40,  i,  j, i,  j, false, 0);
+            place_items("cannedfood", 40,  i,  j, i,  j, false, 0);
        }
      }
      add_spawn(mon_blank, rng(1,3), 23, 5);
@@ -3188,11 +3192,11 @@ cc-|-D----|#############\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
-            place_items("office",	70,  i,  j, i,  j, false, 0);
+            place_items("office", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_locker)
-            place_items("office",	70,  i,  j, i,  j, false, 0);
+            place_items("office", 70,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_table)
-            place_items("office",	30,  i,  j, i,  j, false, 0);
+            place_items("office", 30,  i,  j, i,  j, false, 0);
        }
      }
   if (density > 1)
@@ -3300,19 +3304,19 @@ C..C..C...|hhh|#########\n\
       }
   }
 
-  place_items("fridgesnacks",	65,  3, 10,  3, 15, false, 0);
-  place_items("fridge",	70,  8, 20, 14, 20, false, 0);
-  place_items("fridge",	50, 19, 20, 20, 20, false, 0);
-  place_items("softdrugs",	55,  6, 10,  6, 15, false, 0);
-  place_items("cleaning",	88,  7, 10,  7, 15, false, 0);
-  place_items("kitchen",	75, 10, 10, 10, 15, false, 0);
-  place_items("snacks",	78, 11, 10, 11, 15, false, 0);
-  place_items("cannedfood",	80, 14, 10, 14, 15, false, 0);
-  place_items("pasta",		74, 15, 10, 15, 15, false, 0);
-  place_items("produce",	60, 20, 10, 20, 15, false, 0);
-  place_items("produce",	50, 18, 11, 19, 11, false, 0);
-  place_items("produce",	50, 18, 10, 20, 15, false, 0);
-  for (int i = 8; i < 21; i +=4) {	// Checkout snacks & magazines
+  place_items("fridgesnacks", 65,  3, 10,  3, 15, false, 0);
+  place_items("fridge", 70,  8, 20, 14, 20, false, 0);
+  place_items("fridge", 50, 19, 20, 20, 20, false, 0);
+  place_items("softdrugs", 55,  6, 10,  6, 15, false, 0);
+  place_items("cleaning", 88,  7, 10,  7, 15, false, 0);
+  place_items("kitchen", 75, 10, 10, 10, 15, false, 0);
+  place_items("snacks", 78, 11, 10, 11, 15, false, 0);
+  place_items("cannedfood", 80, 14, 10, 14, 15, false, 0);
+  place_items("pasta",  74, 15, 10, 15, 15, false, 0);
+  place_items("produce", 60, 20, 10, 20, 15, false, 0);
+  place_items("produce", 50, 18, 11, 19, 11, false, 0);
+  place_items("produce", 50, 18, 10, 20, 15, false, 0);
+  for (int i = 8; i < 21; i +=4) { // Checkout snacks & magazines
    place_items("snacks",    50, i, 5, i, 6, false, 0);
    place_items("magazines", 70, i, 7, i, 7, false, 0);
   }
@@ -3331,11 +3335,11 @@ C..C..C...|hhh|#########\n\
  case ot_s_hardware_west:
   fill_background(this, &grass_or_dirt);
   square(this, t_floor, 3, 3, SEEX * 2 - 4, SEEX * 2 - 4);
-  rn = 0;	// No back door
+  rn = 0; // No back door
 //  if (!one_in(3))
-//   rn = 1;	// Old-style back door
+//   rn = 1; // Old-style back door
   if (!one_in(6))
-   rn = 2;	// Paved back area
+   rn = 2; // Paved back area
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if (j == 3 && ((i > 5 && i < 9) || (i > 14 && i < 18)))
@@ -3375,7 +3379,7 @@ C..C..C...|hhh|#########\n\
    if (one_in(5))
     place_gas_pump(rng(4, 10), 16, rng(500, 5000));
       else ter_set(rng(4, 10), 16, t_recycler);
-   if (one_in(3)) {	// Place a dumpster
+   if (one_in(3)) { // Place a dumpster
     int startx = rng(2, 11), starty = rng(18, 19);
     if (startx == 11)
      starty = 18;
@@ -3392,56 +3396,56 @@ C..C..C...|hhh|#########\n\
    place_items("road", 30, 2, 16, 12, SEEY * 2 - 3, false, 0);
   }
 
-  place_items("magazines",	70,  9,  7,  9,  7, false, 0);
+  place_items("magazines", 70,  9,  7,  9,  7, false, 0);
   if (one_in(4))
-   place_items("snacks",	70,  9,  7,  9,  7, false, 0);
+   place_items("snacks", 70,  9,  7,  9,  7, false, 0);
 
   if (!one_in(3))
-   place_items("hardware",	80,  3,  9,  3, 14, false, 0);
+   place_items("hardware", 80,  3,  9,  3, 14, false, 0);
   else if (!one_in(3))
-   place_items("tools",	80,  3,  9,  3, 14, false, 0);
+   place_items("tools", 80,  3,  9,  3, 14, false, 0);
   else
-   place_items("bigtools",	80,  3,  9,  3, 14, false, 0);
+   place_items("bigtools", 80,  3,  9,  3, 14, false, 0);
 
   if (!one_in(3))
-   place_items("hardware",	80,  6,  9,  6, 14, false, 0);
+   place_items("hardware", 80,  6,  9,  6, 14, false, 0);
   else if (!one_in(3))
-   place_items("tools",	80,  6,  9,  6, 14, false, 0);
+   place_items("tools", 80,  6,  9,  6, 14, false, 0);
   else
-   place_items("bigtools",	80,  6,  9,  6, 14, false, 0);
+   place_items("bigtools", 80,  6,  9,  6, 14, false, 0);
 
   if (!one_in(4))
-   place_items("tools",	80,  7,  9,  7, 14, false, 0);
+   place_items("tools", 80,  7,  9,  7, 14, false, 0);
   else if (one_in(4))
-   place_items("mischw",	80,  7,  9,  7, 14, false, 0);
+   place_items("mischw", 80,  7,  9,  7, 14, false, 0);
   else
-   place_items("hardware",	80,  7,  9,  7, 14, false, 0);
+   place_items("hardware", 80,  7,  9,  7, 14, false, 0);
   if (!one_in(4))
-   place_items("tools",	80, 10,  9, 10, 14, false, 0);
+   place_items("tools", 80, 10,  9, 10, 14, false, 0);
   else if (one_in(4))
-   place_items("mischw",	80, 10,  9, 10, 14, false, 0);
+   place_items("mischw", 80, 10,  9, 10, 14, false, 0);
   else
-   place_items("hardware",	80, 10,  9, 10, 14, false, 0);
+   place_items("hardware", 80, 10,  9, 10, 14, false, 0);
 
   if (!one_in(3))
-   place_items("bigtools",	75, 11,  9, 11, 14, false, 0);
+   place_items("bigtools", 75, 11,  9, 11, 14, false, 0);
   else if (one_in(2))
-   place_items("cleaning",	75, 11,  9, 11, 14, false, 0);
+   place_items("cleaning", 75, 11,  9, 11, 14, false, 0);
   else
-   place_items("tools",	75, 11,  9, 11, 14, false, 0);
+   place_items("tools", 75, 11,  9, 11, 14, false, 0);
   if (one_in(2))
-   place_items("cleaning",	65, 15,  8, 17,  8, false, 0);
+   place_items("cleaning", 65, 15,  8, 17,  8, false, 0);
   else
-   place_items("snacks",	65, 15,  8, 17,  8, false, 0);
+   place_items("snacks", 65, 15,  8, 17,  8, false, 0);
   if (one_in(4))
-   place_items("hardware",	74, 15,  9, 17,  9, false, 0);
+   place_items("hardware", 74, 15,  9, 17,  9, false, 0);
   else
-   place_items("cleaning",	74, 15,  9, 17,  9, false, 0);
+   place_items("cleaning", 74, 15,  9, 17,  9, false, 0);
   if (one_in(4))
-   place_items("hardware",	74, 15, 12, 17, 12, false, 0);
+   place_items("hardware", 74, 15, 12, 17, 12, false, 0);
   else
-   place_items("cleaning",	74, 15, 12, 17, 12, false, 0);
-  place_items("mischw",	90, 20,  4, 20, 19, false, 0);
+   place_items("cleaning", 74, 15, 12, 17, 12, false, 0);
+  place_items("mischw", 90, 20,  4, 20, 19, false, 0);
   if (terrain_type == ot_s_hardware_east)
    rotate(1);
   if (terrain_type == ot_s_hardware_south)
@@ -3536,11 +3540,11 @@ C..C..C...|hhh|#########\n\
     furn_set(i    , rn    , f_rack);
     furn_set(i + 1, rn + 1, f_rack);
     furn_set(i + 1, rn    , f_rack);
-    place_items("camping",	86, i, rn, i + 1, rn + 1, false, 0);
+    place_items("camping", 86, i, rn, i + 1, rn + 1, false, 0);
    } else if (cw - 5 > tw + 1) {
     furn_set(i    , cw - 5, f_rack);
     furn_set(i + 1, cw - 5, f_rack);
-    place_items("camping",	80, i, cw - 5, i + 1, cw - 5, false, 0);
+    place_items("camping", 80, i, cw - 5, i + 1, cw - 5, false, 0);
    }
   }
   ter_set(rw - rng(2, 3), cw, t_door_c);
@@ -3552,11 +3556,11 @@ C..C..C...|hhh|#########\n\
   ter_set(rng(lw + 3 + rn, rw - 3 - rn), tw, t_door_c);
   if (one_in(4))
    ter_set(rng(lw + 2, rw - 2), bw, t_door_locked);
-  place_items("allsporting",	90, lw + 1, cw - 1, rw - 5, cw - 1, false, 0);
-  place_items("sports",	82, lw + 1, tw + 1, lw + 1, cw - 4, false, 0);
-  place_items("sports",	82, rw - 1, tw + 1, rw - 1, cw - 4, false, 0);
+  place_items("allsporting", 90, lw + 1, cw - 1, rw - 5, cw - 1, false, 0);
+  place_items("sports", 82, lw + 1, tw + 1, lw + 1, cw - 4, false, 0);
+  place_items("sports", 82, rw - 1, tw + 1, rw - 1, cw - 4, false, 0);
   if (!one_in(4))
-   place_items("allsporting",	92, lw + 1, cw + 1, rw - 1, bw - 1, false, 0);
+   place_items("allsporting", 92, lw + 1, cw + 1, rw - 1, bw - 1, false, 0);
 
   if (terrain_type == ot_s_sports_east)
    rotate(1);
@@ -3596,16 +3600,16 @@ C..C..C...|hhh|#########\n\
   ter_set(rng(4, 6), 9, t_door_c);
   ter_set(rng(9, 16), 12, t_door_c);
 
-  place_items("alcohol",	96,  4,  3,  4,  7, false, 0);
-  place_items("alcohol",	96,  7,  3, 11,  3, false, 0);
-  place_items("alcohol",	96,  7,  4,  8,  7, false, 0);
-  place_items("alcohol",	96, 11,  8, 15,  9, false, 0);
-  place_items("snacks",	85, 11,  5, 12,  6, false, 0);
-  place_items("fridgesnacks",	90, 19,  7, 19, 10, false, 0);
-  place_items("fridgesnacks",	90, 17, 11, 19, 11, false, 0);
-  place_items("behindcounter",	80, 17,  3, 19,  4, false, 0);
-  place_items("trash",		30,  5, 14,  7, 14, false, 0);
-  place_items("trash",		30, 18, 15, 18, 17, false, 0);
+  place_items("alcohol", 96,  4,  3,  4,  7, false, 0);
+  place_items("alcohol", 96,  7,  3, 11,  3, false, 0);
+  place_items("alcohol", 96,  7,  4,  8,  7, false, 0);
+  place_items("alcohol", 96, 11,  8, 15,  9, false, 0);
+  place_items("snacks", 85, 11,  5, 12,  6, false, 0);
+  place_items("fridgesnacks", 90, 19,  7, 19, 10, false, 0);
+  place_items("fridgesnacks", 90, 17, 11, 19, 11, false, 0);
+  place_items("behindcounter", 80, 17,  3, 19,  4, false, 0);
+  place_items("trash",  30,  5, 14,  7, 14, false, 0);
+  place_items("trash",  30, 18, 15, 18, 17, false, 0);
 
   {
       int num_carts = rng(0, 3);
@@ -3660,14 +3664,14 @@ C..C..C...|hhh|#########\n\
   }
   ter_set(rng(11, 14), 6, t_door_c);
   ter_set(rng(5, 14), 14, t_door_c);
-  place_items("pistols",	70, 12,  9, 13, 11, false, 0);
-  place_items("shotguns",	60, 16,  9, 16, 11, false, 0);
-  place_items("rifles",	80, 20,  7, 20, 12, false, 0);
-  place_items("smg",		25,  3,  7,  3,  8, false, 0);
-  place_items("assault",	18,  3,  9,  3, 10, false, 0);
-  place_items("ammo",		93,  3, 11,  3, 13, false, 0);
-  place_items("allguns",	12,  5, 16, 17, 16, false, 0);
-  place_items("gunxtras",	67, 16, 13, 19, 13, false, 0);
+  place_items("pistols", 70, 12,  9, 13, 11, false, 0);
+  place_items("shotguns", 60, 16,  9, 16, 11, false, 0);
+  place_items("rifles", 80, 20,  7, 20, 12, false, 0);
+  place_items("smg",  25,  3,  7,  3,  8, false, 0);
+  place_items("assault", 18,  3,  9,  3, 10, false, 0);
+  place_items("ammo",  93,  3, 11,  3, 13, false, 0);
+  place_items("allguns", 12,  5, 16, 17, 16, false, 0);
+  place_items("gunxtras", 67, 16, 13, 19, 13, false, 0);
   if (terrain_type == ot_s_gun_east)
    rotate(1);
   if (terrain_type == ot_s_gun_south)
@@ -3728,35 +3732,35 @@ C..C..C...|hhh|#########\n\
       }
   }
 
-  place_items("shoes",		70,  7, 10, 12, 10, false, 0);
-  place_items("pants",		88,  5, 14, 12, 14, false, 0);
-  place_items("shirts",	88,  7, 11, 12, 11, false, 0);
-  place_items("jackets",	80,  3,  5,  3, 12, false, 0);
-  place_items("winter",	60,  5, 15, 12, 15, false, 0);
-  place_items("bags",		70, 15, 11, 15, 17, false, 0);
-  place_items("dresser",	50, 12, 21, 17, 21, false, 0);
-  place_items("allclothes",	20,  3, 21, 10, 21, false, 0);
-  place_items("allclothes",	20,  3, 18, 10, 18, false, 0);
+  place_items("shoes",  70,  7, 10, 12, 10, false, 0);
+  place_items("pants",  88,  5, 14, 12, 14, false, 0);
+  place_items("shirts", 88,  7, 11, 12, 11, false, 0);
+  place_items("jackets", 80,  3,  5,  3, 12, false, 0);
+  place_items("winter", 60,  5, 15, 12, 15, false, 0);
+  place_items("bags",  70, 15, 11, 15, 17, false, 0);
+  place_items("dresser", 50, 12, 21, 17, 21, false, 0);
+  place_items("allclothes", 20,  3, 21, 10, 21, false, 0);
+  place_items("allclothes", 20,  3, 18, 10, 18, false, 0);
   switch (rng(0, 2)) {
    case 0:
-    place_items("pants",	70, 16, 11, 16, 17, false, 0);
+    place_items("pants", 70, 16, 11, 16, 17, false, 0);
     break;
    case 1:
-    place_items("shirts",	70, 16, 11, 16, 17, false, 0);
+    place_items("shirts", 70, 16, 11, 16, 17, false, 0);
     break;
    case 2:
-    place_items("bags",	70, 16, 11, 16, 17, false, 0);
+    place_items("bags", 70, 16, 11, 16, 17, false, 0);
     break;
   }
   switch (rng(0, 2)) {
    case 0:
-    place_items("pants",	75, 20, 10, 20, 19, false, 0);
+    place_items("pants", 75, 20, 10, 20, 19, false, 0);
     break;
    case 1:
-    place_items("shirts",	75, 20, 10, 20, 19, false, 0);
+    place_items("shirts", 75, 20, 10, 20, 19, false, 0);
     break;
    case 2:
-    place_items("jackets",	75, 20, 10, 20, 19, false, 0);
+    place_items("jackets", 75, 20, 10, 20, 19, false, 0);
     break;
   }
 
@@ -3814,12 +3818,12 @@ C..C..C...|hhh|#########\n\
   }
   if (!one_in(3))
    ter_set(18, 17, t_door_c);
-  place_items("magazines", 	70,  3,  4,  9,  4, false, 0);
-  place_items("magazines",	70, 20,  8, 20, 16, false, 0);
-  place_items("novels", 	96,  3,  5,  9,  5, false, 0);
-  place_items("novels",	96,  3,  8, 15,  9, false, 0);
-  place_items("manuals",	92,  3, 12, 15, 13, false, 0);
-  place_items("textbooks",	88,  3, 16, 15, 16, false, 0);
+  place_items("magazines",  70,  3,  4,  9,  4, false, 0);
+  place_items("magazines", 70, 20,  8, 20, 16, false, 0);
+  place_items("novels",  96,  3,  5,  9,  5, false, 0);
+  place_items("novels", 96,  3,  8, 15,  9, false, 0);
+  place_items("manuals", 92,  3, 12, 15, 13, false, 0);
+  place_items("textbooks", 88,  3, 16, 15, 16, false, 0);
   if (terrain_type == ot_s_library_east)
    rotate(1);
   if (terrain_type == ot_s_library_south)
@@ -3987,9 +3991,9 @@ case ot_s_restaurant_fast_west:{
 ,_____ssssssssssss_____,\n",
    mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s", t_floor,    t_wall_glass_h, t_wall_glass_v, t_floor, t_pavement_y, t_pavement, t_floor, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_shrub, t_floor, t_door_glass_c, t_door_locked_alarm, t_door_locked, t_window_domestic, t_floor,  t_floor, t_floor,  t_floor, t_floor,   t_floor,  t_sidewalk),
    mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s", f_dumpster, f_null,         f_null,         f_oven,  f_null,       f_null,     f_rack,  f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null,  f_table, f_null,         f_null,              f_null,        f_null,            f_toilet, f_sink,  f_fridge, f_chair, f_counter, f_locker, f_null));
-   place_items("fast_food",	80,  8,  7, 8,  7, false, 0);
-   place_items("fast_food",	70,  7,  9, 7,  9, false, 0);
-   place_items("fast_food",	60,  11,  7, 11,  7, false, 0);
+   place_items("fast_food", 80,  8,  7, 8,  7, false, 0);
+   place_items("fast_food", 70,  7,  9, 7,  9, false, 0);
+   place_items("fast_food", 60,  11,  7, 11,  7, false, 0);
   if (terrain_type == ot_s_restaurant_fast_east)
    rotate(3);
   if (terrain_type == ot_s_restaurant_fast_north)
@@ -4032,9 +4036,9 @@ case ot_s_restaurant_coffee_west:{
 ########ss,,,,,,,_______\n",
    mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s", t_floor,    t_wall_glass_h, t_wall_glass_v, t_floor, t_pavement_y, t_pavement, t_floor, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_shrub, t_floor, t_door_glass_c, t_door_locked_alarm, t_door_locked, t_window_domestic, t_floor,  t_floor, t_floor,  t_floor, t_floor,   t_floor,  t_sidewalk),
    mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s", f_dumpster, f_null,         f_null,         f_oven,  f_null,       f_null,     f_rack,  f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null,  f_table, f_null,         f_null,              f_null,        f_null,            f_toilet, f_sink,  f_fridge, f_chair, f_counter, f_locker, f_null));
-   place_items("coffee_shop",	85,  4,  1, 8,  1, false, 0);
-   place_items("coffee_shop",	85,  11,  1, 11,  1, false, 0);
-   place_items("cleaning",	60,  14,  1, 15,  1, false, 0);
+   place_items("coffee_shop", 85,  4,  1, 8,  1, false, 0);
+   place_items("coffee_shop", 85,  11,  1, 11,  1, false, 0);
+   place_items("cleaning", 60,  14,  1, 15,  1, false, 0);
   if (terrain_type == ot_s_restaurant_coffee_east)
    rotate(3);
   if (terrain_type == ot_s_restaurant_coffee_north)
@@ -4069,54 +4073,50 @@ case ot_shelter: {
   mapf::basic_bind("- | + : 6 x >", t_wall_h, t_wall_v, t_door_c, t_window_domestic,  t_console, t_console_broken, t_stairs_down),
   mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
   tmpcomp = add_computer(SEEX+6, 5, "Evac shelter computer", 0);
- 	tmpcomp->add_option("Emergency Message", COMPACT_EMERG_MESS, 0);
+  tmpcomp->add_option("Emergency Message", COMPACT_EMERG_MESS, 0);
  }
 
   break;
 //....
 
- case ot_shelter_under:
-  square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-  square(this, t_rock_floor, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9);
-  line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
-  place_items("shelter", 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
-  break;
+case ot_shelter_under:
+    square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+    square(this, t_rock_floor, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9);
+    line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
+    place_items("shelter", 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
+    break;
 
-  //....
-case ot_lmoe: {
-// Init to grass & dirt;
-  fill_background(this, &grass_or_dirt);
-	square(this, t_shrub, 7, 6, 16, 12);
-	square(this, t_rock, 10, 9, 13, 12);
-	square(this, t_rock_floor, 11, 10, 12, 11);
-	line(this, t_stairs_down, 11, 10, 12, 10);
-	ter_set(11, 12, t_door_metal_c);
-	line(this, t_tree, 9, 8, 14, 8);
-	line(this, t_tree, 9, 8, 9, 12);
-	line(this, t_tree, 14, 8, 14, 12);
-	square(this, t_shrub, 13, 13, 15, 14);
-	square(this, t_shrub, 8, 13, 10, 14);
-	ter_set(10, 6, t_tree_young);
-	ter_set(14, 6, t_tree_young);
-	line(this, t_tree_young, 9, 7, 10, 7);
-	ter_set(12, 7, t_tree_young);
-	ter_set(14, 7, t_tree_young);
-	ter_set(8, 9, t_tree_young);
-	line(this, t_tree_young, 7, 11, 8, 11);
-	line(this, t_tree_young, 15, 10, 15, 11);
-	ter_set(16, 12, t_tree_young);
-	ter_set(9, 13, t_tree_young);
-	ter_set(12, 13, t_tree_young);
-	ter_set(16, 12, t_tree_young);
-	line(this, t_tree_young, 14, 13, 15, 13);
-	ter_set(10, 14, t_tree_young);
-	ter_set(13, 14, t_tree_young);
-        }
+case ot_lmoe:
+    // Init to grass & dirt;
+    fill_background(this, &grass_or_dirt);
+    square(this, t_shrub, 7, 6, 16, 12);
+    square(this, t_rock, 10, 9, 13, 12);
+    square(this, t_rock_floor, 11, 10, 12, 11);
+    line(this, t_stairs_down, 11, 10, 12, 10);
+    ter_set(11, 12, t_door_metal_c);
+    line(this, t_tree, 9, 8, 14, 8);
+    line(this, t_tree, 9, 8, 9, 12);
+    line(this, t_tree, 14, 8, 14, 12);
+    square(this, t_shrub, 13, 13, 15, 14);
+    square(this, t_shrub, 8, 13, 10, 14);
+    ter_set(10, 6, t_tree_young);
+    ter_set(14, 6, t_tree_young);
+    line(this, t_tree_young, 9, 7, 10, 7);
+    ter_set(12, 7, t_tree_young);
+    ter_set(14, 7, t_tree_young);
+    ter_set(8, 9, t_tree_young);
+    line(this, t_tree_young, 7, 11, 8, 11);
+    line(this, t_tree_young, 15, 10, 15, 11);
+    ter_set(16, 12, t_tree_young);
+    ter_set(9, 13, t_tree_young);
+    ter_set(12, 13, t_tree_young);
+    ter_set(16, 12, t_tree_young);
+    line(this, t_tree_young, 14, 13, 15, 13);
+    ter_set(10, 14, t_tree_young);
+    ter_set(13, 14, t_tree_young);
+    break;
 
-  break;
-//....
-
- case ot_lmoe_under:
+case ot_lmoe_under:
   fill_background(this, t_rock);
   square(this, t_rock_floor, 3, 3, 20, 20);
   line(this, t_stairs_up, 11, 20, 12, 20);
@@ -4205,7 +4205,7 @@ case ot_lmoe: {
    bw = SEEY * 2;
   if (t_west >=ot_sewer_ns && t_west <=ot_sewer_nesw && connects_to(t_west, 1))
    lw = SEEX * 2;
-  if (t_above == ot_null) {	// We're on ground level
+  if (t_above == ot_null) { // We're on ground level
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEY * 2; j++) {
      if (i <= 1 || i >= SEEX * 2 - 2 ||
@@ -4239,7 +4239,7 @@ case ot_lmoe: {
     rotate(2);
    else if (t_west > ot_road_null && t_west <= ot_road_nesw_manhole)
     rotate(3);
-  } else if (tw != 0 || rw != 0 || lw != 0 || bw != 0) {	// Sewers!
+  } else if (tw != 0 || rw != 0 || lw != 0 || bw != 0) { // Sewers!
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEY * 2; j++) {
      ter_set(i, j, t_rock_floor);
@@ -4322,16 +4322,16 @@ case ot_lmoe: {
     for (int i = 0; i <= 23; i++) {
      for (int j = 0; j <= 23; j++) {
       if (this->furn(i,j) == f_locker){
-         place_items("mil_surplus",	50,  i,  j, i,  j, false, 0);
+         place_items("mil_surplus", 50,  i,  j, i,  j, false, 0);
        }
       else if (this->furn(i,j) == f_desk){
-         place_items("office",	50,  i,  j, i,  j, false, 0);
+         place_items("office", 50,  i,  j, i,  j, false, 0);
        }
       else if (this->furn(i,j) == f_rack){
-         if (one_in(3)) place_items("mil_surplus",	30,  i,  j, i,  j, false, 0);
-         else if (one_in(2)) place_items("ammo",	30,  i,  j, i,  j, false, 0);
-         else if (one_in(3)) place_items("military",	30,  i,  j, i,  j, false, 0);
-         else place_items("mil_rifles",	30,  i,  j, i,  j, false, 0);
+         if (one_in(3)) place_items("mil_surplus", 30,  i,  j, i,  j, false, 0);
+         else if (one_in(2)) place_items("ammo", 30,  i,  j, i,  j, false, 0);
+         else if (one_in(3)) place_items("military", 30,  i,  j, i,  j, false, 0);
+         else place_items("mil_rifles", 30,  i,  j, i,  j, false, 0);
          }
      }
     }
@@ -4373,17 +4373,17 @@ case ot_lmoe: {
      for (int i = 0; i <= 23; i++) {
       for (int j = 0; j <= 23; j++) {
        if (this->furn(i,j) == f_locker){
-          place_items("science",	60,  i,  j, i,  j, false, 0);
+          place_items("science", 60,  i,  j, i,  j, false, 0);
         }
        if (this->furn(i,j) == f_desk){
-          place_items("office",	60,  i,  j, i,  j, false, 0);
+          place_items("office", 60,  i,  j, i,  j, false, 0);
         }
        if (this->furn(i,j) == f_counter){
-          place_items("office",	40,  i,  j, i,  j, false, 0);
+          place_items("office", 40,  i,  j, i,  j, false, 0);
         }
        if (this->furn(i,j) == f_rack || this->furn(i,j) == f_crate_c){
-          place_items("softdrugs",	40,  i,  j, i,  j, false, 0);
-          place_items("harddrugs",	30,  i,  j, i,  j, false, 0);
+          place_items("softdrugs", 40,  i,  j, i,  j, false, 0);
+          place_items("harddrugs", 30,  i,  j, i,  j, false, 0);
         }
        }
     }
@@ -4429,8 +4429,8 @@ case ot_lmoe: {
      ter_set(sx, sy, t_stairs_down);
     }
    }
-   else switch (rng(1, 4)) {	// Pick a random lab layout
-   case 1:	// Cross shaped
+   else switch (rng(1, 4)) { // Pick a random lab layout
+   case 1: // Cross shaped
     for (int i = 0; i < SEEX * 2; i++) {
      for (int j = 0; j < SEEY * 2; j++) {
       if ((i < lw || i > SEEX * 2 - 1 - rw) ||
@@ -4485,7 +4485,7 @@ case ot_lmoe: {
      ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
      ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
     }
-    if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs) {	// Stairs going down
+    if (terrain_type == ot_lab_stairs || terrain_type == ot_ice_lab_stairs) { // Stairs going down
      std::vector<point> stair_points;
      if (tw != 0) {
       stair_points.push_back(point(SEEX - 1, 2));
@@ -4525,7 +4525,7 @@ case ot_lmoe: {
 
     break;
 
-   case 2:	// tic-tac-toe # layout
+   case 2: // tic-tac-toe # layout
     for (int i = 0; i < SEEX * 2; i++) {
      for (int j = 0; j < SEEY * 2; j++) {
       if (i < lw || i > SEEX * 2 - 1 - rw || i == SEEX - 4 || i == SEEX + 3)
@@ -4574,7 +4574,7 @@ case ot_lmoe: {
      ter_set(SEEX - 3 + 5 * rng(0, 1), SEEY - 3 + 5 * rng(0, 1), t_stairs_down);
     break;
 
-   case 3:	// Big room
+   case 3: // Big room
     for (int i = 0; i < SEEX * 2; i++) {
      for (int j = 0; j < SEEY * 2; j++) {
       if (i < lw || i >= SEEX * 2 - 1 - rw)
@@ -4612,7 +4612,7 @@ case ot_lmoe: {
     }
     break;
 
-       case 4:	// alien containment
+       case 4: // alien containment
     fill_background(this, t_rock_floor);
     if (one_in(4)){
   mapf::formatted_set_simple(this, 0, 0,
@@ -4652,9 +4652,9 @@ case ot_lmoe: {
     for (int i = 0; i <= 23; i++) {
       for (int j = 0; j <= 23; j++) {
       if (this->furn(i,j) == f_counter)
-          place_items("office",	30,  i,  j, i,  j, false, 0);
+          place_items("office", 30,  i,  j, i,  j, false, 0);
       else if (this->furn(i,j) == f_locker)
-          place_items("science",	60,  i,  j, i,  j, false, 0);
+          place_items("science", 60,  i,  j, i,  j, false, 0);
       item body;
       body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
       if (one_in(500) && this->ter(i,j) == t_rock_floor)add_item(i, j, body);
@@ -4699,16 +4699,16 @@ A......D.........|dh...|\n\
     for (int j = 0; j <= 23; j++) {
      if (this->furn(i,j) == f_crate_c){
          if (one_in(2))
-            place_items("robots",	60,  i,  j, i,  j, false, 0);
+            place_items("robots", 60,  i,  j, i,  j, false, 0);
          else if (one_in(2))
-            place_items("science",	60,  i,  j, i,  j, false, 0);
+            place_items("science", 60,  i,  j, i,  j, false, 0);
          else
-            place_items("sewage_plant",	30,  i,  j, i,  j, false, 0);
+            place_items("sewage_plant", 30,  i,  j, i,  j, false, 0);
       }
      else if (this->furn(i,j) == f_locker)
-         place_items("cleaning",	60,  i,  j, i,  j, false, 0);
+         place_items("cleaning", 60,  i,  j, i,  j, false, 0);
      else if (this->furn(i,j) == f_rack)
-         place_items("mine_equipment",	30,  i,  j, i,  j, false, 0);
+         place_items("mine_equipment", 30,  i,  j, i,  j, false, 0);
      if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn(mon_zombie, 1, i, j);
      item body;
      body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
@@ -4748,9 +4748,9 @@ ff.......|....|WWWWWWWW|\n\
    for (int i = 0; i <= 23; i++) {
     for (int j = 0; j <= 23; j++) {
      if (this->furn(i,j) == f_locker)
-         place_items("science",	60,  i,  j, i,  j, false, 0);
+         place_items("science", 60,  i,  j, i,  j, false, 0);
      else if (this->furn(i,j) == f_fridge)
-         place_items("fridge",	50,  i,  j, i,  j, false, 0);
+         place_items("fridge", 50,  i,  j, i,  j, false, 0);
      if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn(mon_zombie, 1, i, j);
     }
    }
@@ -4794,7 +4794,7 @@ ff.......|....|WWWWWWWW|\n\
     for (int i = 0; i <= 23; i++) {
       for (int j = 0; j <= 23; j++) {
        if (this->furn(i,j) == f_counter){
-         place_items("cubical_office",	30,  i,  j, i,  j, false, 0);
+         place_items("cubical_office", 30,  i,  j, i,  j, false, 0);
        }
        if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn(mon_zombie, 1, i, j);
        item body;
@@ -4927,7 +4927,7 @@ ff.......|....|WWWWWWWW|\n\
   }
 
   switch (rng(1, 3)) {
-  case 1:	// Weapons testing
+  case 1: // Weapons testing
    add_spawn(mon_secubot, 1,            6,            6);
    add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
    add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
@@ -4962,8 +4962,8 @@ ff.......|....|WWWWWWWW|\n\
    }
    break;
 
-  case 2: {	// Netherworld access
-   if (!one_in(4)) {	// Trapped netherworld monsters
+  case 2: { // Netherworld access
+   if (!one_in(4)) { // Trapped netherworld monsters
     tw = rng(SEEY + 3, SEEY + 5);
     bw = tw + 4;
     lw = rng(SEEX - 6, SEEX - 2);
@@ -4979,7 +4979,7 @@ ff.......|....|WWWWWWWW|\n\
        ter_set(i, j, t_concrete_v);
       else if (j == tw + 2)
        ter_set(i, j, t_concrete_h);
-      else {	// Empty space holds monsters!
+      else { // Empty space holds monsters!
        mon_id type = mon_id(rng(mon_flying_polyp, mon_gozu));
        add_spawn(type, 1, i, j);
       }
@@ -5029,7 +5029,7 @@ ff.......|....|WWWWWWWW|\n\
   break;
 
  case ot_bunker:
-  if (t_above == ot_null) {	// We're on ground level
+  if (t_above == ot_null) { // We're on ground level
    fill_background(this, &grass_or_dirt);
    //chainlink fence that surrounds bunker
         line(this, t_chainfence_v, 1, 1, 1, SEEY*2-1);
@@ -5288,7 +5288,7 @@ ff.......|....|WWWWWWWW|\n\
  } break;
 
  case ot_silo:
-  if (t_above == ot_null) {	// We're on ground level
+  if (t_above == ot_null) { // We're on ground level
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEY * 2; j++) {
      if (trig_dist(i, j, SEEX, SEEY) <= 6)
@@ -5297,7 +5297,7 @@ ff.......|....|WWWWWWWW|\n\
       ter_set(i, j, grass_or_dirt());
     }
    }
-   switch (rng(1, 4)) {	// Placement of stairs
+   switch (rng(1, 4)) { // Placement of stairs
    case 1:
     lw = 3;
     mw = 5;
@@ -5329,7 +5329,7 @@ ff.......|....|WWWWWWWW|\n\
    ter_set(mw    , tw + 1, t_door_metal_locked);
    ter_set(mw    , tw + 2, t_card_military);
 
-  } else {	// We are NOT above ground.
+  } else { // We are NOT above ground.
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEY * 2; j++) {
      if (trig_dist(i, j, SEEX, SEEY) > 7)
@@ -5337,7 +5337,7 @@ ff.......|....|WWWWWWWW|\n\
      else if (trig_dist(i, j, SEEX, SEEY) > 5) {
       ter_set(i, j, t_metal_floor);
       if (one_in(30))
-       add_field(NULL, i, j, fd_nuke_gas, 2);	// NULL game; no messages
+       add_field(NULL, i, j, fd_nuke_gas, 2); // NULL game; no messages
      } else if (trig_dist(i, j, SEEX, SEEY) == 5) {
       ter_set(i, j, t_hole);
       add_trap(i, j, tr_ledge);
@@ -6341,7 +6341,7 @@ ff.......|....|WWWWWWWW|\n\
    ter_set(rng(rw + 2, rw + 8), bw + 5, t_door_c);
    ter_set(rng(rw + 2, rw + 8), bw + 1, t_radio_controls);
    place_items("radio", 60, rw + 1, bw + 2, rw + 10, bw + 4, true, 0);
-  } else	// No control room... simple controls near the tower
+  } else // No control room... simple controls near the tower
    ter_set(rng(lw, lw + 3), tw + 4, t_radio_controls);
   break;
 
@@ -6383,14 +6383,14 @@ ff.......|....|WWWWWWWW|\n\
    tmpcomp = add_computer(17, 13, "Broadcasting Control", 0);
    tmpcomp->add_option("ERROR:  SIGNAL DISCONNECT", COMPACT_TOWER_UNRESPONSIVE, 0);
    spawn_item(18, 13, "record_weather", 0);
-   place_items("novels",	70,  5,  12, 6,  12, false, 0);
-   place_items("novels",	70,  2,  21, 2,  19, false, 0);
-   place_items("novels",	70,  12,  19, 12,  20, false, 0);
-   place_items("fridge",	70,  5,  9, 7,  9, false, 0);
-   place_items("fridge",	20,  5,  9, 7,  9, false, 0);
-   place_items("fridge",	10,  5,  9, 7,  9, false, 0);
-   place_items("cleaning",	70,  2,  16, 2,  17, false, 0);
-   place_items("electronics",	80,  6,  5, 7,  5, false, 0);
+   place_items("novels", 70,  5,  12, 6,  12, false, 0);
+   place_items("novels", 70,  2,  21, 2,  19, false, 0);
+   place_items("novels", 70,  12,  19, 12,  20, false, 0);
+   place_items("fridge", 70,  5,  9, 7,  9, false, 0);
+   place_items("fridge", 20,  5,  9, 7,  9, false, 0);
+   place_items("fridge", 10,  5,  9, 7,  9, false, 0);
+   place_items("cleaning", 70,  2,  16, 2,  17, false, 0);
+   place_items("electronics", 80,  6,  5, 7,  5, false, 0);
   if (terrain_type == ot_station_radio_east)
    rotate(3);
   if (terrain_type == ot_station_radio_north)
@@ -6430,9 +6430,9 @@ case ot_public_works_entrance:{
     ____________________\n",
   mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,   t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_door_c, t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
   mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table, f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-  place_items("bigtools",	80,  18, 7, 21,  7, false, 0);
-  place_items("office",	80,  18,  11, 20,  11, false, 0);
-  place_items("office",	60,  18,  13, 18,  13, false, 0);
+  place_items("bigtools", 80,  18, 7, 21,  7, false, 0);
+  place_items("office", 80,  18,  11, 20,  11, false, 0);
+  place_items("office", 60,  18,  13, 18,  13, false, 0);
   place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.2);
   if (t_north == ot_public_works && t_west == ot_public_works)
    rotate(3);
@@ -6477,8 +6477,8 @@ case ot_public_works:{
  f  ____________________\n",
      mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,   t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_door_c, t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table, f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     place_items("hardware",	85,  2, 3, 2,  8, false, 0);
-     place_items("hardware",	85,  6,  2, 13,  2, false, 0);
+     place_items("hardware", 85,  2, 3, 2,  8, false, 0);
+     place_items("hardware", 85,  6,  2, 13,  2, false, 0);
      spawn_item(21, 2, "log", 0, rng(1, 3));
      spawn_item(15, 2, "pipe", 0, rng(1, 10));
      spawn_item(4, 2, "glass_sheet", 0, rng(1, 7));
@@ -6525,11 +6525,11 @@ ____sss                 \n\
 ____sss                 \n",
      mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,   t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_door_c, t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table, f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     place_items("fridge",	80,  5, 8, 5,  8, false, 0);
-     place_items("pool_table",	80,  13,  6, 15,  7, false, 0);
-     place_items("construction_worker",	90,  3, 10, 10,  10, false, 0);
-     place_items("office",	80,  15,  19, 17,  19, false, 0);
-     place_items("cleaning",	80,  17,  16, 17,  16, false, 0);
+     place_items("fridge", 80,  5, 8, 5,  8, false, 0);
+     place_items("pool_table", 80,  13,  6, 15,  7, false, 0);
+     place_items("construction_worker", 90,  3, 10, 10,  10, false, 0);
+     place_items("office", 80,  15,  19, 17,  19, false, 0);
+     place_items("cleaning", 80,  17,  16, 17,  16, false, 0);
      place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.3);
      if (t_north == ot_public_works_entrance)
             rotate(1);
@@ -6568,14 +6568,14 @@ __________ |--ww--|  f  \n\
 __________           f  \n",
      mapf::basic_bind("O P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_column, t_floor,      t_floor,   t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_door_c, t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("O P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_null,   f_pool_table, f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     place_items("tools",	85,  14, 18, 17,  18, false, 0);
-     place_items("tools",	85,  17,  20, 17,  21, false, 0);
-     place_items("tools",	85,  12,  20, 12,  21, false, 0);
-     place_items("mechanics",	85,  21, 12, 21,  15, false, 0);
-     place_items("mechanics",	85,  21,  4, 21,  7, false, 0);
-     place_items("mechanics",	85,  14,  9, 16,  9, false, 0);
-     place_items("electronics",	80,  16,  2, 18,  2, false, 0);
-     place_items("cleaning",	85,  12,  2, 13,  2, false, 0);
+     place_items("tools", 85,  14, 18, 17,  18, false, 0);
+     place_items("tools", 85,  17,  20, 17,  21, false, 0);
+     place_items("tools", 85,  12,  20, 12,  21, false, 0);
+     place_items("mechanics", 85,  21, 12, 21,  15, false, 0);
+     place_items("mechanics", 85,  21,  4, 21,  7, false, 0);
+     place_items("mechanics", 85,  14,  9, 16,  9, false, 0);
+     place_items("electronics", 80,  16,  2, 18,  2, false, 0);
+     place_items("cleaning", 85,  12,  2, 13,  2, false, 0);
      spawn_item(3, 2, "log", 0, rng(1, 3));
      place_spawns(g, "GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
      if (t_west == ot_public_works && t_north == ot_public_works){
@@ -6672,9 +6672,9 @@ ssssssssssssssssssssssss\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
-            place_items("office",	50,  i,  j, i,  j, false, 0);
+            place_items("office", 50,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_locker)
-            place_items("school",	60,  i,  j, i,  j, false, 0);
+            place_items("school", 60,  i,  j, i,  j, false, 0);
        }
      }
   if (t_north == ot_school_5)
@@ -6767,9 +6767,9 @@ sssssssss_______ssssssss\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
-            place_items("school",	50,  i,  j, i,  j, false, 0);
+            place_items("school", 50,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_locker)
-            place_items("school",	60,  i,  j, i,  j, false, 0);
+            place_items("school", 60,  i,  j, i,  j, false, 0);
        }
      }
   if (t_north == ot_school_5)
@@ -6817,13 +6817,13 @@ sssssssss_______ssssssss\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
-            place_items("school",	50,  i,  j, i,  j, false, 0);
+            place_items("school", 50,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_locker)
-            place_items("school",	60,  i,  j, i,  j, false, 0);
+            place_items("school", 60,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_bookcase){
-            place_items("novels",	50,  i,  j, i,  j, false, 0);
-            place_items("manuals",	40,  i,  j, i,  j, false, 0);
-            place_items("textbooks",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 50,  i,  j, i,  j, false, 0);
+            place_items("manuals", 40,  i,  j, i,  j, false, 0);
+            place_items("textbooks", 30,  i,  j, i,  j, false, 0);
         }
        }
      }
@@ -6872,9 +6872,9 @@ ssssssssssssssssssssssss\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
-            place_items("school",	50,  i,  j, i,  j, false, 0);
+            place_items("school", 50,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_locker)
-            place_items("school",	60,  i,  j, i,  j, false, 0);
+            place_items("school", 60,  i,  j, i,  j, false, 0);
        }
      }
   if (t_north == ot_school_5)
@@ -6922,9 +6922,9 @@ ssssssssssssssssssssssss\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
-            place_items("school",	50,  i,  j, i,  j, false, 0);
+            place_items("school", 50,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_locker)
-            place_items("chemistry",	60,  i,  j, i,  j, false, 0);
+            place_items("chemistry", 60,  i,  j, i,  j, false, 0);
        }
      }
   if (t_north == ot_school_8)
@@ -6969,7 +6969,7 @@ w                       \n\
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
      add_spawn(mon_zombie_child, rng(0, 4), SEEX, SEEY);
      add_spawn(mon_zombie, rng(0, 1), SEEX, SEEY);
-  place_items("cleaning",	80,  22, 23, 23,  23, false, 0);
+  place_items("cleaning", 80,  22, 23, 23,  23, false, 0);
   spawn_item(12, 15, "american_flag", 0);
   if (t_north == ot_school_5)
    rotate(2);
@@ -7012,17 +7012,17 @@ wd.d.d.d.|....|----|-|-|\n\
      mapf::basic_bind("e r _ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_fridge, f_rack,  f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
      add_spawn(mon_zombie_child, rng(0, 20), SEEX, SEEY);
      add_spawn(mon_zombie, rng(3, 10), SEEX, SEEY);
-     place_items("cleaning",	80,  15,  15, 15,  15, false, 0);
-     place_items("cannedfood",	95,  17,  15, 17,  15, false, 0);
-     place_items("fast_food",	95,  18,  11, 19,  12, false, 0);
+     place_items("cleaning", 80,  15,  15, 15,  15, false, 0);
+     place_items("cannedfood", 95,  17,  15, 17,  15, false, 0);
+     place_items("fast_food", 95,  18,  11, 19,  12, false, 0);
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
-            place_items("school",	50,  i,  j, i,  j, false, 0);
+            place_items("school", 50,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_locker)
-            place_items("school",	60,  i,  j, i,  j, false, 0);
+            place_items("school", 60,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_fridge)
-            place_items("fridge",	90,  i,  j, i,  j, false, 0);
+            place_items("fridge", 90,  i,  j, i,  j, false, 0);
        }
      }
   if (t_north == ot_school_8)
@@ -7069,7 +7069,7 @@ wd.d.d.d.|....|----|-|-|\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bed){
-            place_items("novels",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
                 add_spawn(mon_zombie, rng(0, 1), i, j);
             else
@@ -7120,7 +7120,7 @@ fffffffffHHHHHHfffffffff\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bed){
-            place_items("novels",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
                 add_spawn(mon_zombie, rng(0, 1), i, j);
             else
@@ -7172,7 +7172,7 @@ fffffffffffffffff|,,| % \n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bed){
-            place_items("novels",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
                 add_spawn(mon_zombie, rng(0, 1), i, j);
             else
@@ -7223,15 +7223,15 @@ fffffffffffffffff|,,| % \n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bed){
-            place_items("novels",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
                 add_spawn(mon_zombie, rng(0, 1), i, j);
             else
                 add_spawn(mon_zombie_brute, rng(0, 1), i, j);
         }
         if (this->furn(i,j) == f_desk){
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
-            place_items("office",	30,  i,  j, i,  j, false, 0);
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
+            place_items("office", 30,  i,  j, i,  j, false, 0);
         }
        }
      }
@@ -7277,20 +7277,20 @@ bb| ss____________ss |bb\n\
      mapf::basic_bind("< # E g r + = h c l w s _ o d x T b G , B - | % f F S", f_null,        f_bench, f_exercise, f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,  f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
      add_spawn(mon_secubot, rng(1, 2), 11, 7);
      add_spawn(mon_zombie_cop, rng(0, 3), rng(12,18), rng(4,19));
-     place_items("pistols",	30,  11,  1, 12,  1, false, 0);
-     place_items("ammo",	50,  11,  1, 12,  1, false, 0);
+     place_items("pistols", 30,  11,  1, 12,  1, false, 0);
+     place_items("ammo", 50,  11,  1, 12,  1, false, 0);
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bed){
-            place_items("novels",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
                 add_spawn(mon_zombie, rng(0, 1), i, j);
             else
                 add_spawn(mon_zombie_brute, rng(0, 1), i, j);
        }
         if (this->furn(i,j) == f_desk){
-            place_items("magazines",	40,  i,  j, i,  j, false, 0);
-            place_items("office",	40,  i,  j, i,  j, false, 0);
+            place_items("magazines", 40,  i,  j, i,  j, false, 0);
+            place_items("office", 40,  i,  j, i,  j, false, 0);
         }
        }
      }
@@ -7337,15 +7337,15 @@ bb| ss____________ss |bb\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bed){
-            place_items("novels",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
                 add_spawn(mon_zombie, rng(0, 1), i, j);
             else
                 add_spawn(mon_zombie_brute, rng(0, 1), i, j);
         }
         if (this->furn(i,j) == f_desk){
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
-            place_items("office",	30,  i,  j, i,  j, false, 0);
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
+            place_items("office", 30,  i,  j, i,  j, false, 0);
         }
        }
      }
@@ -7392,7 +7392,7 @@ bb| ss____________ss |bb\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bed){
-            place_items("novels",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
                 add_spawn(mon_zombie, rng(0, 1), i, j);
             else
@@ -7443,7 +7443,7 @@ bb|o,,,,|,,,,,l|,,,,,|bb\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bed){
-            place_items("novels",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
                 add_spawn(mon_zombie, rng(0, 1), i, j);
             else
@@ -7458,11 +7458,11 @@ bb|o,,,,|,,,,,l|,,,,,|bb\n",
             }
         }
         if (this->furn(i,j) == f_locker){
-            place_items("softdrugs",	40,  i,  j, i,  j, false, 0);
-            place_items("harddrugs",	40,  i,  j, i,  j, false, 0);
+            place_items("softdrugs", 40,  i,  j, i,  j, false, 0);
+            place_items("harddrugs", 40,  i,  j, i,  j, false, 0);
         }
         if (this->furn(i,j) == f_bookcase){
-            place_items("novels",	70,  i,  j, i,  j, false, 0);
+            place_items("novels", 70,  i,  j, i,  j, false, 0);
         }
        }
      }
@@ -7509,7 +7509,7 @@ fffffffffffffffff|,,| % \n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_bed){
-            place_items("novels",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
                 add_spawn(mon_zombie, rng(0, 1), i, j);
             else
@@ -7560,7 +7560,7 @@ bb|#####################\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_toilet){
-            place_items("novels",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
                 add_spawn(mon_zombie, rng(0, 1), i, j);
             else
@@ -7720,8 +7720,8 @@ bb|,,,,,,,,,,,,,,,,,,|##\n\
     mapf::basic_bind("t > O # E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_table, f_null,      f_null,   f_null, f_exercise, f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,  f_null,  f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
     add_spawn(mon_zombie_cop, rng(0, 2), 2, 0);
     add_spawn(mon_zombie_cop, rng(0, 2), 2, 23);
-    place_items("pistols",	30,  11,  1, 12,  1, false, 0);
-    place_items("ammo",	40,  11,  1, 12,  1, false, 0);
+    place_items("pistols", 30,  11,  1, 12,  1, false, 0);
+    place_items("ammo", 40,  11,  1, 12,  1, false, 0);
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_chair){
@@ -7775,8 +7775,8 @@ h,h,g,,,|###############\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_locker || this->furn(i,j) == f_rack ){
-            place_items("science",	30,  i,  j, i,  j, false, 0);
-            place_items("cleaning",	30,  i,  j, i,  j, false, 0);
+            place_items("science", 30,  i,  j, i,  j, false, 0);
+            place_items("cleaning", 30,  i,  j, i,  j, false, 0);
         }
        }
      }
@@ -7820,7 +7820,7 @@ h,h,g,,,|###############\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_locker || this->furn(i,j) == f_rack ){
-            place_items("cleaning",	60,  i,  j, i,  j, false, 0);
+            place_items("cleaning", 60,  i,  j, i,  j, false, 0);
         }
        }
      }
@@ -7900,8 +7900,8 @@ ee|,,,,,,r|#############\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_rack){
-            place_items("cannedfood",	40,  i,  j, i,  j, false, 0);
-            place_items("pasta",	40,  i,  j, i,  j, false, 0);
+            place_items("cannedfood", 40,  i,  j, i,  j, false, 0);
+            place_items("pasta", 40,  i,  j, i,  j, false, 0);
         }
        }
      }
@@ -7921,14 +7921,14 @@ ee|,,,,,,r|#############\n\
             else add_spawn(mon_zombie, rng(0, 1), i, j);
             }
         if (this->furn(i,j) == f_bed)
-            place_items("novels",	30,  i,  j, i,  j, false, 0);
+            place_items("novels", 30,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_fridge)
-            place_items("fridge",	60,  i,  j, i,  j, false, 0);
+            place_items("fridge", 60,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_locker){
-            place_items("cop_weapons",	20,  i,  j, i,  j, false, 0);
-            place_items("cop_torso",	20,  i,  j, i,  j, false, 0);
-            place_items("cop_pants",	20,  i,  j, i,  j, false, 0);
-            place_items("cop_shoes",	20,  i,  j, i,  j, false, 0);
+            place_items("cop_weapons", 20,  i,  j, i,  j, false, 0);
+            place_items("cop_torso", 20,  i,  j, i,  j, false, 0);
+            place_items("cop_pants", 20,  i,  j, i,  j, false, 0);
+            place_items("cop_shoes", 20,  i,  j, i,  j, false, 0);
         }
         if (this->furn(i,j) == f_washer || this->furn(i,j) == f_dryer){
             if (one_in(4))
@@ -8108,9 +8108,9 @@ s_____,_____,_____,_____\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser && x_in_y(1,2))
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_counter && x_in_y(1,5))
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
        }
      }
   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
@@ -8157,9 +8157,9 @@ ________________________\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser && x_in_y(1,2))
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_counter && x_in_y(1,5))
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
        }
      }
   if (density > 1)
@@ -8211,9 +8211,9 @@ ____,_____,_____,_____s\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser && x_in_y(1,2))
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_counter && x_in_y(1,5))
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
        }
      }
   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
@@ -8260,9 +8260,9 @@ s    |c....|c....|c....|\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser && x_in_y(1,2))
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_counter && x_in_y(1,5))
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
        }
      }
   if (density > 1)
@@ -8313,9 +8313,9 @@ c...d|t.........t|....c|\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser && x_in_y(1,2))
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_counter && x_in_y(1,5))
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
        }
      }
   if (density > 1)
@@ -8366,9 +8366,9 @@ h....|h....|h....|    s \n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_dresser && x_in_y(1,2))
-            place_items("dresser",	70,  i,  j, i,  j, false, 0);
+            place_items("dresser", 70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_counter && x_in_y(1,5))
-            place_items("magazines",	30,  i,  j, i,  j, false, 0);
+            place_items("magazines", 30,  i,  j, i,  j, false, 0);
        }
      }
   if (density > 1)
@@ -8416,7 +8416,7 @@ h....|h....|h....|    s \n\
 #######################|\n",
   mapf::basic_bind("E < H V G C x ^ . - | # t + = D w T S e o h c d l s", t_floor,    t_stairs_up, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_console_broken, t_floor,        t_floor, t_wall_h, t_wall_v, t_rock, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,   t_floor,  t_sidewalk),
   mapf::basic_bind("E < H V G C x ^ . - | # t + = D w T S e o h c d l s", f_exercise, f_null,      f_null,         f_null,         f_null,         f_null,   f_null,           f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_dresser, f_locker, f_null));
-  place_items("snacks",	60,  15,  2, 16,  2, false, 0);
+  place_items("snacks", 60,  15,  2, 16,  2, false, 0);
   add_spawn(mon_sewer_snake, rng(0, 3), SEEX, SEEY);
   if (t_north == ot_hotel_tower_b_2)
    rotate(3);
@@ -8461,7 +8461,7 @@ T+...|l..l...rrr.|...+T|\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_locker)
-            place_items("cleaning",	60,  i,  j, i,  j, false, 0);
+            place_items("cleaning", 60,  i,  j, i,  j, false, 0);
        }
      }
      add_spawn(mon_sewer_snake, rng(0, 10), SEEX, SEEY);
@@ -8508,7 +8508,7 @@ tth.............^|..|###\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_rack)
-            place_items("home_hw",	80,  i,  j, i,  j, false, 0);
+            place_items("home_hw", 80,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_washer || this->furn(i,j) == f_dryer){
           if (x_in_y(1,2)){
             spawn_item(i, j, "blanket", 0);
@@ -8516,7 +8516,7 @@ tth.............^|..|###\n\
             spawn_item(i, j, "blanket", 0);
           }
           else if (x_in_y(1,3))
-            place_items("dresser",	80,  i,  j, i,  j, false, 0);
+            place_items("dresser", 80,  i,  j, i,  j, false, 0);
        }
       }
     }
@@ -8577,17 +8577,17 @@ tth.............^|..|###\n\
    tmpcomp->add_failure(COMPFAIL_ALARM);
 
    if (one_in(2)) spawn_item(7, 6, "record_patient", 0);
-   place_items("dissection",	60,  4,  9, 4,  11, false, 0);
-   place_items("dissection",	60,  9,  9, 10,  9, false, 0);
-   place_items("dissection",	60,  20,  11, 20,  13, false, 0);
-   place_items("dissection",	60,  17,  14, 18,  14, false, 0);
-   place_items("fridge",	50,  15,  2, 15,  2, false, 0);
-   place_items("surgery",	30,  4,  9, 11,  11, false, 0);
-   place_items("surgery",	30,  16,  11, 20, 4, false, 0);
-   place_items("harddrugs",	60,  16,  6, 16, 9, false, 0);
-   place_items("harddrugs",	60,  17,  9, 19, 9, false, 0);
-   place_items("softdrugs",	60,  20,  9, 20, 7, false, 0);
-   place_items("cleaning",	50,  4,  2, 6,  3, false, 0);
+   place_items("dissection", 60,  4,  9, 4,  11, false, 0);
+   place_items("dissection", 60,  9,  9, 10,  9, false, 0);
+   place_items("dissection", 60,  20,  11, 20,  13, false, 0);
+   place_items("dissection", 60,  17,  14, 18,  14, false, 0);
+   place_items("fridge", 50,  15,  2, 15,  2, false, 0);
+   place_items("surgery", 30,  4,  9, 11,  11, false, 0);
+   place_items("surgery", 30,  16,  11, 20, 4, false, 0);
+   place_items("harddrugs", 60,  16,  6, 16, 9, false, 0);
+   place_items("harddrugs", 60,  17,  9, 19, 9, false, 0);
+   place_items("softdrugs", 60,  20,  9, 20, 7, false, 0);
+   place_items("cleaning", 50,  4,  2, 6,  3, false, 0);
 
   if (terrain_type == ot_office_doctor_east)
    rotate(3);
@@ -8659,10 +8659,10 @@ case ot_haz_sar_entrance:{
   mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s", t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass_h, t_wall_glass_v, t_sewage, t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_rock, t_floor, t_door_c, t_door_metal_c, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
   mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s", f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,   f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table, f_null,   f_null,         f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
   spawn_item(19, 3, "hazmat_suit", 0);
-  place_items("office",	80,  4, 19, 6, 19, false, 0);
-  place_items("cleaning",	90,  7,  3, 7,  5, false, 0);
-  place_items("toxic_dump_equipment",	85,  19,  1, 19,  3, false, 0);
-  place_items("toxic_dump_equipment",	85,  19,  5, 19,  7, false, 0);
+  place_items("office", 80,  4, 19, 6, 19, false, 0);
+  place_items("cleaning", 90,  7,  3, 7,  5, false, 0);
+  place_items("toxic_dump_equipment", 85,  19,  1, 19,  3, false, 0);
+  place_items("toxic_dump_equipment", 85,  19,  5, 19,  7, false, 0);
   if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 10, 5);}
 //lazy radiation mapping
   for (int x = 0; x <= 23; x++) {
@@ -8712,9 +8712,9 @@ case ot_haz_sar:{
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s", t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass_h, t_wall_glass_v, t_sewage, t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_rock, t_floor, t_door_c, t_door_metal_c, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s", f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,   f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table, f_null,   f_null,         f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
      spawn_item(19, 22, "hazmat_suit", 0);
-     place_items("cleaning",	85,  6,  11, 6,  14, false, 0);
-     place_items("tools",	85,  10,  6, 13,  6, false, 0);
-     place_items("toxic_dump_equipment",	85,  22,  14, 23,  15, false, 0);
+     place_items("cleaning", 85,  6,  11, 6,  14, false, 0);
+     place_items("tools", 85,  10,  6, 13,  6, false, 0);
+     place_items("toxic_dump_equipment", 85,  22,  14, 23,  15, false, 0);
      if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 22, 12);}
      if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 23, 18);}
      //lazy radiation mapping
@@ -8768,9 +8768,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F V H 6 x $ ^ . - | # t + = D w T S e o h c d l s", t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass_h, t_wall_glass_v, t_sewage, t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_rock, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F V H 6 x $ ^ . - | # t + = D w T S e o h c d l s", f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,   f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,         f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
      spawn_item(1, 2, "id_military", 0);
-     place_items("office",	85,  1,  1, 1,  3, false, 0);
-     place_items("office",	85,  11,  3, 13,  3, false, 0);
-     place_items("office",	85,  17,  3, 19,  3, false, 0);
+     place_items("office", 85,  1,  1, 1,  3, false, 0);
+     place_items("office", 85,  11,  3, 13,  3, false, 0);
+     place_items("office", 85,  17,  3, 19,  3, false, 0);
      //lazy radiation mapping
      for (int x = 0; x <= 23; x++) {
        for (int y = 0; y <= 23; y++)
@@ -8813,9 +8813,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
 .x6x..|S.T|l.|^.ddd.| f \n",
      mapf::basic_bind("R 1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s", t_elevator_control_off, t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass_h, t_wall_glass_v, t_sewage, t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_rock, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("R 1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s", f_null,                 f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,   f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     place_items("office",	85,  16,  23, 18,  23, false, 0);
-     place_items("cleaning",	85,  11,  23, 12,  23, false, 0);
-     place_items("robots",	90,  2,  11, 3,  11, false, 0);
+     place_items("office", 85,  16,  23, 18,  23, false, 0);
+     place_items("cleaning", 85,  11,  23, 12,  23, false, 0);
+     place_items("robots", 90,  2,  11, 3,  11, false, 0);
      if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 7, 10);}
      if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 11, 16);}
      //lazy radiation mapping
@@ -8891,8 +8891,8 @@ case ot_haz_sar_entrance_b1:{
             if (one_in(2)) ter_set(i,j,t_dirtfloor);
             if (one_in(4)) ter_set(i,j,t_dirtmound);
             if (one_in(2)) ter_set(i,j,t_wreckage);
-            place_items("trash",	50,  i,  j, i,  j, false, 0);
-            place_items("sewer",	50,  i,  j, i,  j, false, 0);
+            place_items("trash", 50,  i,  j, i,  j, false, 0);
+            place_items("sewer", 50,  i,  j, i,  j, false, 0);
             if (one_in(5)){
                 if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
                 else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
@@ -8946,7 +8946,7 @@ case ot_haz_sar_b1:{
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_rack)
-            place_items("mechanics",	60,  i,  j, i,  j, false, 0);
+            place_items("mechanics", 60,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_rock_floor){
             if (one_in(250)){
                 item body;
@@ -8961,8 +8961,8 @@ case ot_haz_sar_b1:{
             if (one_in(2)) ter_set(i,j,t_dirtfloor);
             if (one_in(4)) ter_set(i,j,t_dirtmound);
             if (one_in(2)) ter_set(i,j,t_wreckage);
-            place_items("trash",	50,  i,  j, i,  j, false, 0);
-            place_items("sewer",	50,  i,  j, i,  j, false, 0);
+            place_items("trash", 50,  i,  j, i,  j, false, 0);
+            place_items("sewer", 50,  i,  j, i,  j, false, 0);
             if (one_in(5)){
                 if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
                 else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
@@ -9025,8 +9025,8 @@ case ot_haz_sar_b1:{
             if (one_in(2)) ter_set(i,j,t_dirtfloor);
             if (one_in(4)) ter_set(i,j,t_dirtmound);
             if (one_in(2)) ter_set(i,j,t_wreckage);
-            place_items("trash",	50,  i,  j, i,  j, false, 0);
-            place_items("sewer",	50,  i,  j, i,  j, false, 0);
+            place_items("trash", 50,  i,  j, i,  j, false, 0);
+            place_items("sewer", 50,  i,  j, i,  j, false, 0);
             if (one_in(5)){
                 if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
                 else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
@@ -9076,11 +9076,11 @@ $$$$-|-|=HH-|-HHHH-|####\n",
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_locker)
-            place_items("cleaning",	60,  i,  j, i,  j, false, 0);
+            place_items("cleaning", 60,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_desk)
-            place_items("cubical_office",	60,  i,  j, i,  j, false, 0);
+            place_items("cubical_office", 60,  i,  j, i,  j, false, 0);
         if (this->furn(i,j) == f_rack)
-            place_items("sewage_plant",	60,  i,  j, i,  j, false, 0);
+            place_items("sewage_plant", 60,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_rock_floor){
             if (one_in(250)){
                 item body;
@@ -9095,8 +9095,8 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             if (one_in(2)) ter_set(i,j,t_dirtfloor);
             if (one_in(4)) ter_set(i,j,t_dirtmound);
             if (one_in(2)) ter_set(i,j,t_wreckage);
-            place_items("trash",	50,  i,  j, i,  j, false, 0);
-            place_items("sewer",	50,  i,  j, i,  j, false, 0);
+            place_items("trash", 50,  i,  j, i,  j, false, 0);
+            place_items("sewer", 50,  i,  j, i,  j, false, 0);
             if (one_in(5)){
                 if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
                 else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
@@ -9350,134 +9350,132 @@ case ot_s_garage_north:
   }
   break;
 
- case ot_cabin:
-	{
-	fill_background(this, t_grass);
+case ot_cabin:
+    fill_background(this, t_grass);
 
-	//Cabin design 1 Quad
-	if(one_in(2)){
-	square(this, t_wall_log, 2, 3, 21, 20);
-	square(this, t_floor, 2, 17, 21, 20);//Front porch
-	line(this, t_fence_v, 2, 17, 2, 20);
-	line(this, t_fence_v, 21, 17, 21, 20);
-	line(this, t_fence_h, 2, 20, 21, 20);
-	ter_set(2, 17, t_column);
-	ter_set(2, 20, t_column);
-	ter_set(21, 17, t_column);
-	ter_set(21, 20, t_column);
-	ter_set(10, 20, t_column);
-	ter_set(13, 20, t_column);
-	line(this, t_fencegate_c, 11, 20, 12, 20);
-	line(this, f_bench, 4, 17, 7, 17);
-	square(this, t_rubble, 19, 18, 20, 19);
-	ter_set(20, 17, t_rubble);
-	ter_set(18, 19, t_rubble); //Porch done
-	line(this, t_door_c, 11, 16, 12, 16);//Interior
-	square(this, t_floor, 3, 4, 9, 9);
-	square(this, t_floor, 3, 11, 9, 15);
-	square(this, t_floor, 11, 4, 12, 15);
-	square(this, t_floor, 14, 4, 20, 9);
-	square(this, t_floor, 14, 11, 20, 15);
-	line(this, t_wall_log, 7, 4, 7, 8);
-	square(this, t_wall_log, 8, 8, 9, 9);
-	line(this, f_rack, 3, 4, 3, 9); //Pantry Racks
-	line(this, t_curtains, 2, 6, 2, 7); //Windows start
-	line(this, t_curtains, 2, 12, 2, 13);
-	line(this, t_window_domestic, 5, 16, 6, 16);
-	line(this, t_window_domestic, 17, 16, 18, 16);
-	line(this, t_curtains, 21, 12, 21, 13);
-	line(this, t_window_empty, 21, 6, 21, 7);
-	ter_set(8, 3, t_curtains);//Windows End
-	line(this, t_door_c, 11, 3, 12, 3);//Rear Doors
-	square(this, t_rubble, 20, 3, 21, 4);
-	ter_set(19, 3, t_rubble);
-	ter_set(21, 5, t_rubble);
-	furn_set(6, 4, f_desk);
-	furn_set(6, 5, f_chair);
-	furn_set(7, 9, f_locker);
-	ter_set(6, 10, t_door_c);
-	ter_set(10, 6, t_door_c);
-	square(this, f_table, 3, 11, 4, 12);
-	line(this, f_bench, 5, 11, 5, 12);
-	line(this, f_bench, 3, 13, 4, 13);
-	line(this, f_cupboard, 3, 15, 7, 15);
-	furn_set(4, 15, f_fridge);
-	furn_set(5, 15, f_sink);
-	furn_set(6, 15, f_oven);
-	ter_set(10, 13, t_door_c);
-	ter_set(13, 13, t_door_c);
-	furn_set(14, 11, f_armchair);
-	line(this, f_sofa, 16, 11, 18, 11);
-	square(this, t_rock_floor, 18, 13, 20, 15);
-	furn_set(19, 14, f_woodstove);
-	ter_set(19, 10, t_door_c);
-	line(this, f_bookcase, 14, 9, 17, 9);
-	square(this, f_bed, 17, 4, 18, 5);
-	furn_set(16, 4, f_dresser);
-	furn_set(19, 4, f_dresser);
-	ter_set(13, 6, t_door_c);
-	place_toilet(9, 4);
-	line(this, f_bathtub, 8, 7, 9, 7);
-	furn_set(8, 5, f_sink);
-	place_items("fridge", 65, 4, 15, 4, 15, false, 0);
-	place_items("homeguns", 30, 7, 9, 7, 9, false, 0);
-	place_items("home_hw", 60, 7, 9, 7, 9, false, 0);
-	place_items("kitchen", 60, 3, 15, 3, 15, false, 0);
-	place_items("kitchen", 60, 7, 15, 7, 15, false, 0);
-	place_items("dining", 60, 3, 11, 4, 12, false, 0);
-	place_items("trash", 60, 0, 0, 23, 23, false, 0);
-	place_items("survival_tools", 30, 3, 4, 3, 9, false, 0);
-	place_items("cannedfood", 50, 3, 4, 3, 9, false, 0);
-	place_items("camping", 50, 4, 4, 6, 9, false, 0);
-	place_items("magazines", 60, 14, 9, 17, 9, false, 0);
-	place_items("manuals", 30, 14, 9, 17, 9, false, 0);
-	place_items("dresser", 50, 16, 4, 16, 4, false, 0);
-	place_items("dresser", 50, 19, 4, 19, 4, false, 0);
-	place_items("softdrugs", 60, 8, 4, 9, 7, false, 0);
-	place_items("livingroom", 50, 14, 12, 17, 15, false, 0);
-	add_spawn(mon_zombie, rng(1, 5), 11, 12);
-	}
-	else {
+    //Cabin design 1 Quad
+    if (one_in(2)) {
+        square(this, t_wall_log, 2, 3, 21, 20);
+        square(this, t_floor, 2, 17, 21, 20);//Front porch
+        line(this, t_fence_v, 2, 17, 2, 20);
+        line(this, t_fence_v, 21, 17, 21, 20);
+        line(this, t_fence_h, 2, 20, 21, 20);
+        ter_set(2, 17, t_column);
+        ter_set(2, 20, t_column);
+        ter_set(21, 17, t_column);
+        ter_set(21, 20, t_column);
+        ter_set(10, 20, t_column);
+        ter_set(13, 20, t_column);
+        line(this, t_fencegate_c, 11, 20, 12, 20);
+        line(this, f_bench, 4, 17, 7, 17);
+        square(this, t_rubble, 19, 18, 20, 19);
+        ter_set(20, 17, t_rubble);
+        ter_set(18, 19, t_rubble); //Porch done
+        line(this, t_door_c, 11, 16, 12, 16);//Interior
+        square(this, t_floor, 3, 4, 9, 9);
+        square(this, t_floor, 3, 11, 9, 15);
+        square(this, t_floor, 11, 4, 12, 15);
+        square(this, t_floor, 14, 4, 20, 9);
+        square(this, t_floor, 14, 11, 20, 15);
+        line(this, t_wall_log, 7, 4, 7, 8);
+        square(this, t_wall_log, 8, 8, 9, 9);
+        line(this, f_rack, 3, 4, 3, 9); //Pantry Racks
+        line(this, t_curtains, 2, 6, 2, 7); //Windows start
+        line(this, t_curtains, 2, 12, 2, 13);
+        line(this, t_window_domestic, 5, 16, 6, 16);
+        line(this, t_window_domestic, 17, 16, 18, 16);
+        line(this, t_curtains, 21, 12, 21, 13);
+        line(this, t_window_empty, 21, 6, 21, 7);
+        ter_set(8, 3, t_curtains);//Windows End
+        line(this, t_door_c, 11, 3, 12, 3);//Rear Doors
+        square(this, t_rubble, 20, 3, 21, 4);
+        ter_set(19, 3, t_rubble);
+        ter_set(21, 5, t_rubble);
+        furn_set(6, 4, f_desk);
+        furn_set(6, 5, f_chair);
+        furn_set(7, 9, f_locker);
+        ter_set(6, 10, t_door_c);
+        ter_set(10, 6, t_door_c);
+        square(this, f_table, 3, 11, 4, 12);
+        line(this, f_bench, 5, 11, 5, 12);
+        line(this, f_bench, 3, 13, 4, 13);
+        line(this, f_cupboard, 3, 15, 7, 15);
+        furn_set(4, 15, f_fridge);
+        furn_set(5, 15, f_sink);
+        furn_set(6, 15, f_oven);
+        ter_set(10, 13, t_door_c);
+        ter_set(13, 13, t_door_c);
+        furn_set(14, 11, f_armchair);
+        line(this, f_sofa, 16, 11, 18, 11);
+        square(this, t_rock_floor, 18, 13, 20, 15);
+        furn_set(19, 14, f_woodstove);
+        ter_set(19, 10, t_door_c);
+        line(this, f_bookcase, 14, 9, 17, 9);
+        square(this, f_bed, 17, 4, 18, 5);
+        furn_set(16, 4, f_dresser);
+        furn_set(19, 4, f_dresser);
+        ter_set(13, 6, t_door_c);
+        place_toilet(9, 4);
+        line(this, f_bathtub, 8, 7, 9, 7);
+        furn_set(8, 5, f_sink);
+        place_items("fridge", 65, 4, 15, 4, 15, false, 0);
+        place_items("homeguns", 30, 7, 9, 7, 9, false, 0);
+        place_items("home_hw", 60, 7, 9, 7, 9, false, 0);
+        place_items("kitchen", 60, 3, 15, 3, 15, false, 0);
+        place_items("kitchen", 60, 7, 15, 7, 15, false, 0);
+        place_items("dining", 60, 3, 11, 4, 12, false, 0);
+        place_items("trash", 60, 0, 0, 23, 23, false, 0);
+        place_items("survival_tools", 30, 3, 4, 3, 9, false, 0);
+        place_items("cannedfood", 50, 3, 4, 3, 9, false, 0);
+        place_items("camping", 50, 4, 4, 6, 9, false, 0);
+        place_items("magazines", 60, 14, 9, 17, 9, false, 0);
+        place_items("manuals", 30, 14, 9, 17, 9, false, 0);
+        place_items("dresser", 50, 16, 4, 16, 4, false, 0);
+        place_items("dresser", 50, 19, 4, 19, 4, false, 0);
+        place_items("softdrugs", 60, 8, 4, 9, 7, false, 0);
+        place_items("livingroom", 50, 14, 12, 17, 15, false, 0);
+        add_spawn(mon_zombie, rng(1, 5), 11, 12);
 
-	square(this, t_wall_log, 4, 2, 10, 6);
-	square(this, t_floor, 5, 3, 9, 5);
-	square(this, t_wall_log, 3, 9, 20, 20);
-	square(this, t_floor, 4, 10, 19, 19);
-	line(this, t_fence_h, 0, 0, 23, 0);
-	line(this, t_fence_v, 0, 0, 0, 22);
-	line(this, t_fence_v, 23, 0, 23, 22);
-	line(this, t_fence_h, 0, 23, 23, 23);
-	line(this, t_fencegate_c, 11, 23, 12, 23);
-	line(this, f_locker, 5, 3, 9, 3);
-	line(this, f_counter, 6, 3, 8, 3);
-	ter_set(4, 4, t_window_boarded);
-	ter_set(10, 4, t_window_boarded);
-	ter_set(7, 6, t_door_c);
-	ter_set(9, 9, t_door_c);
-	line(this, t_window_domestic, 13, 9, 14, 9);
-	square(this, t_rock, 5, 10, 7, 11);
-	line(this, t_rock_floor, 5, 12, 7, 12);
-	set(6, 11, t_rock_floor, f_woodstove);
-	line(this, f_dresser, 16, 10, 19, 10);
-	square(this, f_bed, 17, 10, 18, 11);
-	line(this, t_window_domestic, 3, 14, 3, 15);
-	line(this, f_sofa, 5, 16, 7, 16);
-	square(this, f_chair, 10, 14, 13, 15);
-	square(this, f_table, 11, 14, 12, 15);
-	line(this, t_window_domestic, 20, 14, 20, 15);
-	line(this, t_window_domestic, 7, 20, 8, 20);
-	line(this, t_window_domestic, 16, 20, 17, 20);
-	ter_set(12, 20, t_door_c);
-	place_items("livingroom", 60, 4, 13, 8, 18, false, 0);
-	place_items("dining", 60, 11, 14, 12, 15, false, 0);
-	place_items("camping", 70, 19, 16, 19, 19, false, 0);
-	place_items("dresser", 70, 16, 10, 16, 10, false, 0);
-	place_items("dresser", 70, 19, 10, 19, 10, false, 0);
-	place_items("tools", 70, 5, 3, 9, 3, false, 0);
-	add_spawn(mon_zombie, rng(1, 5), 7, 4);
-	}
-}
-break;
+    } else {
+        square(this, t_wall_log, 4, 2, 10, 6);
+        square(this, t_floor, 5, 3, 9, 5);
+        square(this, t_wall_log, 3, 9, 20, 20);
+        square(this, t_floor, 4, 10, 19, 19);
+        line(this, t_fence_h, 0, 0, 23, 0);
+        line(this, t_fence_v, 0, 0, 0, 22);
+        line(this, t_fence_v, 23, 0, 23, 22);
+        line(this, t_fence_h, 0, 23, 23, 23);
+        line(this, t_fencegate_c, 11, 23, 12, 23);
+        line(this, f_locker, 5, 3, 9, 3);
+        line(this, f_counter, 6, 3, 8, 3);
+        ter_set(4, 4, t_window_boarded);
+        ter_set(10, 4, t_window_boarded);
+        ter_set(7, 6, t_door_c);
+        ter_set(9, 9, t_door_c);
+        line(this, t_window_domestic, 13, 9, 14, 9);
+        square(this, t_rock, 5, 10, 7, 11);
+        line(this, t_rock_floor, 5, 12, 7, 12);
+        set(6, 11, t_rock_floor, f_woodstove);
+        line(this, f_dresser, 16, 10, 19, 10);
+        square(this, f_bed, 17, 10, 18, 11);
+        line(this, t_window_domestic, 3, 14, 3, 15);
+        line(this, f_sofa, 5, 16, 7, 16);
+        square(this, f_chair, 10, 14, 13, 15);
+        square(this, f_table, 11, 14, 12, 15);
+        line(this, t_window_domestic, 20, 14, 20, 15);
+        line(this, t_window_domestic, 7, 20, 8, 20);
+        line(this, t_window_domestic, 16, 20, 17, 20);
+        ter_set(12, 20, t_door_c);
+        place_items("livingroom", 60, 4, 13, 8, 18, false, 0);
+        place_items("dining", 60, 11, 14, 12, 15, false, 0);
+        place_items("camping", 70, 19, 16, 19, 19, false, 0);
+        place_items("dresser", 70, 16, 10, 16, 10, false, 0);
+        place_items("dresser", 70, 19, 10, 19, 10, false, 0);
+        place_items("tools", 70, 5, 3, 9, 3, false, 0);
+        add_spawn(mon_zombie, rng(1, 5), 7, 4);
+    }
+
+    break;
 
 
  case ot_cabin_strange: {
@@ -9579,7 +9577,7 @@ break;
  } break;
 
  case ot_farm:{
-    if (!one_in(10)){
+    if (!one_in(10)) {
         fill_background(this, &grass_or_dirt);
         mapf::formatted_set_simple(this, 0, 0,
 "\
@@ -9610,19 +9608,19 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         mapf::basic_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d", t_dirt, t_fence_barbed, t_floor, t_dirtfloor, t_floor,    t_floor,    t_floor,  t_floor, t_floor,  t_floor, t_floor,   t_floor,  t_wall_wood, t_shrub, t_column, t_dirtmound, t_door_c, t_wall_h, t_wall_v, t_window_domestic, t_floor, t_floor, t_floor, t_floor),
         mapf::basic_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d", f_null, f_null,         f_null,  f_null,      f_armchair, f_cupboard, f_fridge, f_sink,  f_toilet, f_oven,  f_bathtub, f_locker, f_null,      f_null,  f_null,   f_null,      f_null,   f_null,   f_null,   f_null,            f_desk,  f_chair, f_bed,   f_dresser));
         place_items("fridge", 65, 12, 11, 12, 11, false, 0);
-		place_items("kitchen", 70, 10, 11, 14, 3, false, 0);
-		place_items("livingroom", 65, 15, 11, 22, 13, false, 0);
-		place_items("dresser", 80, 19, 18, 19, 18, false, 0);
-		place_items("dresser", 80, 22, 18, 22, 18, false, 0);
-		place_items("bedroom", 65, 15, 15, 22, 18, false, 0);
-		place_items("softdrugs", 70, 11, 16, 12, 17, false, 0);
-		place_items("bigtools", 50, 1, 11, 6, 18, true, 0);
-		place_items("homeguns", 20, 1, 11, 6, 18, true, 0);
-		if(one_in(2)){
-		add_spawn(mon_zombie, rng(1, 6), 4, 14);}
-		else {
-		add_spawn(mon_zombie, rng(1, 6), 12, 17);
-		}
+        place_items("kitchen", 70, 10, 11, 14, 3, false, 0);
+        place_items("livingroom", 65, 15, 11, 22, 13, false, 0);
+        place_items("dresser", 80, 19, 18, 19, 18, false, 0);
+        place_items("dresser", 80, 22, 18, 22, 18, false, 0);
+        place_items("bedroom", 65, 15, 15, 22, 18, false, 0);
+        place_items("softdrugs", 70, 11, 16, 12, 17, false, 0);
+        place_items("bigtools", 50, 1, 11, 6, 18, true, 0);
+        place_items("homeguns", 20, 1, 11, 6, 18, true, 0);
+        if (one_in(2)) {
+         add_spawn(mon_zombie, rng(1, 6), 4, 14);
+        } else {
+         add_spawn(mon_zombie, rng(1, 6), 12, 17);
+        }
     } else {
         fill_background(this, &grass_or_dirt);
         mapf::formatted_set_simple(this, 0, 0,
@@ -9654,23 +9652,23 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         mapf::basic_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d", t_floor,         t_dirt, t_fence_barbed, t_floor, t_dirtfloor, t_floor,    t_floor,    t_floor,  t_floor, t_floor,  t_floor, t_floor,   t_floor,  t_wall_wood, t_shrub, t_column, t_dirtmound, t_door_c, t_wall_h, t_wall_v, t_window_domestic, t_floor, t_floor, t_floor, t_floor),
         mapf::basic_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d", f_makeshift_bed, f_null, f_null,         f_null,  f_null,      f_armchair, f_cupboard, f_fridge, f_sink,  f_toilet, f_oven,  f_bathtub, f_locker, f_null,      f_null,  f_null,   f_null,      f_null,   f_null,   f_null,   f_null,            f_desk,  f_chair, f_bed,   f_dresser));
         place_items("cannedfood", 65, 12, 11, 12, 11, false, 0);
-		place_items("bigtools", 50, 1, 11, 6, 18, true, 0);
-		place_items("homeguns", 20, 1, 11, 6, 18, true, 0);
+        place_items("bigtools", 50, 1, 11, 6, 18, true, 0);
+        place_items("homeguns", 20, 1, 11, 6, 18, true, 0);
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i,j) == f_dresser)
-                    place_items("dresser",	50,  i,  j, i,  j, false, 0);
+                    place_items("dresser", 50,  i,  j, i,  j, false, 0);
                 if (this->ter(i,j) == t_floor)
-                    place_items("trash",	20,  i,  j, i,  j, false, 0);
+                    place_items("trash", 20,  i,  j, i,  j, false, 0);
                 if (this->furn(i,j) == f_cupboard){
-                    place_items("kitchen",	70,  i,  j, i,  j, false, 0);
-                    place_items("softdrugs",	40,  i,  j, i,  j, false, 0);
-                    place_items("cannedfood",	40,  i,  j, i,  j, false, 0);}
+                    place_items("kitchen", 70,  i,  j, i,  j, false, 0);
+                    place_items("softdrugs", 40,  i,  j, i,  j, false, 0);
+                    place_items("cannedfood", 40,  i,  j, i,  j, false, 0);}
                 if (this->furn(i,j) == f_makeshift_bed || this->furn(i,j) == f_bed){
-                    place_items("livingroom",	20,  i,  j, i,  j, false, 0);
-                    place_items("survival_armor",	20,  i,  j, i,  j, false, 0);
-                    place_items("camping",	20,  i,  j, i,  j, false, 0);
-                    place_items("survival_tools",	20,  i,  j, i,  j, false, 0);}
+                    place_items("livingroom", 20,  i,  j, i,  j, false, 0);
+                    place_items("survival_armor", 20,  i,  j, i,  j, false, 0);
+                    place_items("camping", 20,  i,  j, i,  j, false, 0);
+                    place_items("survival_tools", 20,  i,  j, i,  j, false, 0);}
                 if (this->ter(i,j) == t_grass){
                     if (one_in(20)) add_trap(i, j, tr_beartrap);
                     if (one_in(20)) add_trap(i, j, tr_tripwire);
@@ -9681,43 +9679,43 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
     }
     break;
 
-    case ot_farm_field:
-        //build barn
-		if(t_east == ot_farm){
-		fill_background(this, &grass_or_dirt);
-		square(this, t_wall_wood, 3, 3, 20, 20);
-		square(this, t_dirtfloor, 4, 4, 19, 19);
-		line(this, t_door_metal_locked, 8, 20, 15, 20);
-				ter_set(16, 19, t_barndoor);
-				ter_set(16, 21, t_barndoor);
-		line(this, t_door_metal_locked, 8, 3, 15, 3);
-				ter_set(16, 2, t_barndoor);
-				ter_set(16, 4, t_barndoor);
-		square(this, f_hay, 4, 4, 6, 6);
-		line(this, t_fence_h, 4, 8, 6, 8);
-		line(this, t_fence_v, 6, 9, 6, 14);
-		line(this, t_fence_h, 4, 15, 6, 15);
-		line(this, t_fencegate_c, 6, 11, 6, 12);
+case ot_farm_field:
+    //build barn
+    if (t_east == ot_farm) {
+        fill_background(this, &grass_or_dirt);
+        square(this, t_wall_wood, 3, 3, 20, 20);
+        square(this, t_dirtfloor, 4, 4, 19, 19);
+        line(this, t_door_metal_locked, 8, 20, 15, 20);
+        ter_set(16, 19, t_barndoor);
+        ter_set(16, 21, t_barndoor);
+        line(this, t_door_metal_locked, 8, 3, 15, 3);
+        ter_set(16, 2, t_barndoor);
+        ter_set(16, 4, t_barndoor);
+        square(this, f_hay, 4, 4, 6, 6);
+        line(this, t_fence_h, 4, 8, 6, 8);
+        line(this, t_fence_v, 6, 9, 6, 14);
+        line(this, t_fence_h, 4, 15, 6, 15);
+        line(this, t_fencegate_c, 6, 11, 6, 12);
 
-		line(this, t_fence_h, 17, 8, 19, 8);
-		line(this, t_fence_v, 17, 9, 17, 14);
-		line(this, t_fence_h, 17, 15, 19, 15);
-		line(this, t_fencegate_c, 17, 11, 17, 12);
-		line(this, f_locker, 4, 19, 7, 19);
-		ter_set(7, 7, t_column);
-		ter_set(16, 7, t_column);
-		ter_set(7, 16, t_column);
-		ter_set(16, 16, t_column);
-		ter_set(5, 3, t_window_boarded);
-		ter_set(18, 3, t_window_boarded);
-		line(this, t_window_boarded, 3, 5, 3, 6);
-		line(this, t_window_boarded, 3, 11, 3, 12);
-		line(this, t_window_boarded, 3, 17, 3, 18);
-		line(this, t_window_boarded, 20, 5, 20, 6);
-		line(this, t_window_boarded, 20, 11, 20, 12);
-		line(this, t_window_boarded, 20, 17, 20, 18);
-		ter_set(5, 20, t_window_boarded);
-		ter_set(18, 20, t_window_boarded);
+        line(this, t_fence_h, 17, 8, 19, 8);
+        line(this, t_fence_v, 17, 9, 17, 14);
+        line(this, t_fence_h, 17, 15, 19, 15);
+        line(this, t_fencegate_c, 17, 11, 17, 12);
+        line(this, f_locker, 4, 19, 7, 19);
+        ter_set(7, 7, t_column);
+        ter_set(16, 7, t_column);
+        ter_set(7, 16, t_column);
+        ter_set(16, 16, t_column);
+        ter_set(5, 3, t_window_boarded);
+        ter_set(18, 3, t_window_boarded);
+        line(this, t_window_boarded, 3, 5, 3, 6);
+        line(this, t_window_boarded, 3, 11, 3, 12);
+        line(this, t_window_boarded, 3, 17, 3, 18);
+        line(this, t_window_boarded, 20, 5, 20, 6);
+        line(this, t_window_boarded, 20, 11, 20, 12);
+        line(this, t_window_boarded, 20, 17, 20, 18);
+        ter_set(5, 20, t_window_boarded);
+        ter_set(18, 20, t_window_boarded);
 
         if(t_south == ot_farm_field){
             square(this, t_fence_barbed, 1, 20, 1, 23);
@@ -9732,78 +9730,78 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             square(this, t_dirt, 22, 23, 23, 23);
             ter_set(16, 21, t_barndoor);
         }
-		place_items("bigtools", 60, 4, 4, 7, 19, true, 0);
-		place_items("bigtools", 60, 16, 5, 19, 19, true, 0);
-		place_items("mechanics", 40, 8, 4, 15, 19, true, 0);
-		place_items("home_hw", 50, 4, 19, 7, 19, true, 0);
-		place_items("tools", 50, 4, 19, 7, 19, true, 0);
-		if(one_in(10)){
-			add_spawn(mon_zombie, rng(3, 6), 12, 12);
-			}
+        place_items("bigtools", 60, 4, 4, 7, 19, true, 0);
+        place_items("bigtools", 60, 16, 5, 19, 19, true, 0);
+        place_items("mechanics", 40, 8, 4, 15, 19, true, 0);
+        place_items("home_hw", 50, 4, 19, 7, 19, true, 0);
+        place_items("tools", 50, 4, 19, 7, 19, true, 0);
+        if (one_in(10)) {
+            add_spawn(mon_zombie, rng(3, 6), 12, 12);
+        }
 
-		}else{
-		fill_background(this, t_grass); // basic lot
-		square(this, t_fence_barbed, 1, 1, 22, 22);
-		square(this, t_dirt, 2, 2, 21, 21);
-		ter_set(1, 1, t_fence_post);
-		ter_set(22, 1, t_fence_post);
-		ter_set(1, 22, t_fence_post);
-		ter_set(22, 22, t_fence_post);
+    } else {
+        fill_background(this, t_grass); // basic lot
+        square(this, t_fence_barbed, 1, 1, 22, 22);
+        square(this, t_dirt, 2, 2, 21, 21);
+        ter_set(1, 1, t_fence_post);
+        ter_set(22, 1, t_fence_post);
+        ter_set(1, 22, t_fence_post);
+        ter_set(22, 22, t_fence_post);
 
-		int xStart = 4;
-		int xEnd = 19;
-		//acidia, connecting fields
-		if(t_east == ot_farm_field){
+        int xStart = 4;
+        int xEnd = 19;
+        //acidia, connecting fields
+        if(t_east == ot_farm_field){
             square(this, t_fence_barbed, 22, 1, 23, 22);
             square(this, t_dirt, 21, 2, 23, 21);
             xEnd = 22;
-		}
+        }
         if(t_west == ot_farm_field){
             square(this, t_fence_barbed, 0, 1, 1, 22);
             square(this, t_dirt, 0, 2, 2, 21);
             xStart = 1;
-		}
+        }
         if(t_south == ot_farm_field){
             square(this, t_fence_barbed, 1, 22, 22, 23);
             square(this, t_dirt, 2, 21, 21, 23);
             line(this, t_dirtmound, xStart, 21, xEnd, 21);
             if(t_east == ot_farm_field){square(this, t_dirt, 20, 20, 23, 23);}
             if(t_west == ot_farm_field){square(this, t_dirt, 0, 20, 3, 23);}
-		}
+        }
         if(t_north == ot_farm_field || t_north == ot_farm){
             square(this, t_fence_barbed, 1, 0, 22, 1);
             square(this, t_dirt, 2, 0, 21, 2);
             line(this, t_dirtmound, xStart, 1, xEnd, 1);
             if(t_east == ot_farm_field){square(this, t_dirt, 20, 0, 23, 3);}
             if(t_west == ot_farm_field){square(this, t_dirt, 0, 0, 3, 3);}
-		}
+        }
         if(t_west == ot_farm){
             square(this, t_fence_barbed, 0, 22, 1, 22);
             square(this, t_dirt, 0, 23, 2, 23);
             ter_set(1, 22, t_fence_post);
-		}
-		//standard field
-		line(this, t_dirtmound, xStart, 3, xEnd, 3); //Crop rows
-		line(this, t_dirtmound, xStart, 5, xEnd, 5);
-		line(this, t_dirtmound, xStart, 7, xEnd, 7);
-		line(this, t_dirtmound, xStart, 9, xEnd, 9);
-		line(this, t_dirtmound, xStart, 11, xEnd, 11);
-		line(this, t_dirtmound, xStart, 13, xEnd, 13);
-		line(this, t_dirtmound, xStart, 15, xEnd, 15);
-		line(this, t_dirtmound, xStart, 17, xEnd, 17);
-		line(this, t_dirtmound, xStart, 19, xEnd, 19);
+        }
+        //standard field
+        line(this, t_dirtmound, xStart, 3, xEnd, 3); //Crop rows
+        line(this, t_dirtmound, xStart, 5, xEnd, 5);
+        line(this, t_dirtmound, xStart, 7, xEnd, 7);
+        line(this, t_dirtmound, xStart, 9, xEnd, 9);
+        line(this, t_dirtmound, xStart, 11, xEnd, 11);
+        line(this, t_dirtmound, xStart, 13, xEnd, 13);
+        line(this, t_dirtmound, xStart, 15, xEnd, 15);
+        line(this, t_dirtmound, xStart, 17, xEnd, 17);
+        line(this, t_dirtmound, xStart, 19, xEnd, 19);
 
-		place_items("hydro", 70, xStart, 3, xEnd, 3, true, turn); //Spawn crops
-		place_items("hydro", 70, xStart, 5, xEnd, 5, true, turn);
-		place_items("hydro", 70, xStart, 7, xEnd, 7, true, turn);
-		place_items("hydro", 70, xStart, 9, xEnd, 9, true, turn);
-		place_items("hydro", 70, xStart, 11, xEnd, 11, true, turn);
-		place_items("hydro", 70, xStart, 13, xEnd, 13, true, turn);
-		place_items("hydro", 70, xStart, 15, xEnd, 15, true, turn);
-		place_items("hydro", 70, xStart, 17, xEnd, 17, true, turn);
-		place_items("hydro", 70, xStart, 19, xEnd, 19, true, turn);
-		}
-		break;
+        place_items("hydro", 70, xStart, 3, xEnd, 3, true, turn); //Spawn crops
+        place_items("hydro", 70, xStart, 5, xEnd, 5, true, turn);
+        place_items("hydro", 70, xStart, 7, xEnd, 7, true, turn);
+        place_items("hydro", 70, xStart, 9, xEnd, 9, true, turn);
+        place_items("hydro", 70, xStart, 11, xEnd, 11, true, turn);
+        place_items("hydro", 70, xStart, 13, xEnd, 13, true, turn);
+        place_items("hydro", 70, xStart, 15, xEnd, 15, true, turn);
+        place_items("hydro", 70, xStart, 17, xEnd, 17, true, turn);
+        place_items("hydro", 70, xStart, 19, xEnd, 19, true, turn);
+    }
+    break;
 
  case ot_police_north:
  case ot_police_east:
@@ -11441,7 +11439,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
      ter_set(i, j, t_slope_down);
    }
   }
-  switch (rng(0, 4)) {	// Randomly chosen "altar" design
+  switch (rng(0, 4)) { // Randomly chosen "altar" design
   case 0:
    for (int i = 7; i <= 16; i += 3) {
     ter_set(i, 6, t_rock);
@@ -11721,9 +11719,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
      ter_set(i, j, t_rock_floor);
    }
   }
-  switch (rng(0, 4)) {	// TODO: More types!
+  switch (rng(0, 4)) { // TODO: More types!
 
-  case 0:	// Junk!
+  case 0: // Junk!
    ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
    ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
    place_items("bedroom", 60, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
@@ -11732,7 +11730,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
    break;
 
 
-  case 1:	// Weapons cache
+  case 1: // Weapons cache
    for (int i = 2; i < SEEX * 2 - 2; i++) {
     furn_set(i, 1, f_rack);
     furn_set(i, 5, f_rack);
@@ -11746,7 +11744,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
    ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
    break;
 
-  case 2:	// Survival Bunker
+  case 2: // Survival Bunker
    furn_set(1, 1, f_bed);
    furn_set(1, 2, f_bed);
    furn_set(SEEX * 2 - 2, 1, f_bed);
@@ -11755,30 +11753,30 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
     furn_set(SEEX - 1, i, f_rack);
     furn_set(SEEX    , i, f_rack);
    }
-   place_items("softdrugs",	 86, SEEX - 1,  1, SEEX,  2, false, 0);
-   place_items("cannedfood",	 92, SEEX - 1,  3, SEEX,  6, false, 0);
-   place_items("homeguns",	 72, SEEX - 1,  7, SEEX,  7, false, 0);
+   place_items("softdrugs",  86, SEEX - 1,  1, SEEX,  2, false, 0);
+   place_items("cannedfood",  92, SEEX - 1,  3, SEEX,  6, false, 0);
+   place_items("homeguns",  72, SEEX - 1,  7, SEEX,  7, false, 0);
    place_items("survival_tools",83, SEEX - 1,  8, SEEX, 10, false, 0);
-   place_items("manuals",	 60, SEEX - 1, 11, SEEX, 11, false, 0);
+   place_items("manuals",  60, SEEX - 1, 11, SEEX, 11, false, 0);
    ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
    ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
    break;
 
-  case 3:	// Chem lab
+  case 3: // Chem lab
    for (int i = 1; i < SEEY + 4; i++) {
     furn_set(1           , i, f_counter);
     furn_set(SEEX * 2 - 2, i, f_counter);
    }
-   place_items("chemistry",	90,        1, 1,        1, SEEY + 3, false, 0);
+   place_items("chemistry", 90,        1, 1,        1, SEEY + 3, false, 0);
    if (one_in(3))
-    place_items("chemistry",	90, SEEX*2-2, 1, SEEX*2-2, SEEY + 3, false, 0);
+    place_items("chemistry", 90, SEEX*2-2, 1, SEEX*2-2, SEEY + 3, false, 0);
    else
-    place_items("electronics",	90, SEEX*2-2, 1, SEEX*2-2, SEEY + 3, false, 0);
+    place_items("electronics", 90, SEEX*2-2, 1, SEEX*2-2, SEEY + 3, false, 0);
    ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
    ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
    break;
 
-  case 4:	// Weed grow
+  case 4: // Weed grow
    line(this, f_counter, 1, 1, 1, SEEY * 2 - 2);
    line(this, f_counter, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY * 2 - 2);
    ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
@@ -12268,7 +12266,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
    }
   }
 
-  rn = rng(0, 2) * rng(0, 3) + rng(0, 1);	// Number of pillars
+  rn = rng(0, 2) * rng(0, 3) + rng(0, 1); // Number of pillars
   for (int n = 0; n < rn; n++) {
    int px = rng(5, SEEX * 2 - 6);
    int py = rng(5, SEEY * 2 - 6);
@@ -12303,7 +12301,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
    }
   }
   place_items("cavern", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0);
-  if (one_in(6)) {	// Miner remains
+  if (one_in(6)) { // Miner remains
    int x, y;
    do {
     x = rng(0, SEEX * 2 - 1);
@@ -12925,7 +12923,7 @@ void map::rotate(int turns)
    furn_set(i, j, furnrot[i][j]);
    i_at (i, j) = itrot  [i][j];
    add_trap(i, j, traprot[i][j]);
-   if (turns % 2 == 1) { 	// Rotate things like walls 90 degrees
+   if (turns % 2 == 1) {  // Rotate things like walls 90 degrees
     if (ter(i, j) == t_wall_v)
      ter_set(i, j, t_wall_h);
     else if (ter(i, j) == t_wall_h)
@@ -13153,7 +13151,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
        oven_x     = x1 + 3;
        cupboard_x = x1 + 4;
        oven_y = cupboard_y = y1 + 1;
-	}
+   }
 
    break;
   case 2:
@@ -13285,7 +13283,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
 {
  int height = y2 - y1;
  int width  = x2 - x1;
- if (rotate % 2 == 1) {	// Swamp width & height if we're a lateral room
+ if (rotate % 2 == 1) { // Swamp width & height if we're a lateral room
   int tmp = height;
   height  = width;
   width   = tmp;
@@ -13327,7 +13325,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
    m->place_items("cleaning", 80, x1, y1, x2, y2, false, 0);
    break;
   case room_lobby:
-   if (rotate % 2 == 0)	{	// Vertical
+   if (rotate % 2 == 0) { // Vertical
     int desk = y1 + rng(int(height / 2) - int(height / 4), int(height / 2) + 1);
     for (int x = x1 + int(width / 4); x < x2 - int(width / 4); x++)
      m->furn_set(x, desk, f_counter);
@@ -13354,7 +13352,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
    }
    break;
   case room_chemistry:
-   if (rotate % 2 == 0) {	// Vertical
+   if (rotate % 2 == 0) { // Vertical
     for (int x = x1; x <= x2; x++) {
      if (x % 3 == 0) {
       for (int y = y1 + 1; y <= y2 - 1; y++) {
@@ -13557,7 +13555,7 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
  int x2 = x1 + 7;
  int y2 = y1 + 4;
  switch (type) {
- case 0:	// Empty!
+ case 0: // Empty!
   return;
  case 1: // Chemistry.
 // #######.
@@ -13571,9 +13569,9 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
      m->set(i, j, t_floor, f_counter);
    }
   }
-  m->place_items("chemistry",	85, x1 + 1, y1, x2 - 1, y1, false, 0);
-  m->place_items("chemistry",	85, x1 + 1, y2, x2 - 1, y2, false, 0);
-  m->place_items("chemistry",	85, x1, y1 + 1, x1, y2 - 1, false, 0);
+  m->place_items("chemistry", 85, x1 + 1, y1, x2 - 1, y1, false, 0);
+  m->place_items("chemistry", 85, x1 + 1, y2, x2 - 1, y2, false, 0);
+  m->place_items("chemistry", 85, x1, y1 + 1, x1, y2 - 1, false, 0);
   break;
 
  case 2: // Hydroponics.
@@ -13590,9 +13588,9 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
      m->ter_set(i, j, t_water_sh);
    }
   }
-  m->place_items("chemistry",	80, x1, y1, x1, y2, false, turn - 50);
-  m->place_items("hydro",	92, x1 + 1, y1 + 1, x2 - 1, y1 + 1, false,turn);
-  m->place_items("hydro",	92, x1 + 1, y2 - 1, x2 - 1, y2 - 1, false,turn);
+  m->place_items("chemistry", 80, x1, y1, x1, y2, false, turn - 50);
+  m->place_items("hydro", 92, x1 + 1, y1 + 1, x2 - 1, y1 + 1, false,turn);
+  m->place_items("hydro", 92, x1 + 1, y2 - 1, x2 - 1, y2 - 1, false,turn);
   break;
 
  case 3: // Electronics.
@@ -13629,8 +13627,8 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
    }
   }
 // TODO: Place a monster in the sealed areas.
-  m->place_items("monparts",	70, x1 + 3, y1, 2 - 1, y1, false, turn - 100);
-  m->place_items("monparts",	70, x1 + 3, y2, 2 - 1, y2, false, turn - 100);
+  m->place_items("monparts", 70, x1 + 3, y1, 2 - 1, y1, false, turn - 100);
+  m->place_items("monparts", 70, x1 + 3, y2, 2 - 1, y2, false, turn - 100);
   break;
  }
 
@@ -13659,26 +13657,26 @@ void silo_rooms(map *m)
  bool okay = true;
  do {
   int x, y, height, width;
-  if (one_in(2)) {	// True = top/bottom, False = left/right
+  if (one_in(2)) { // True = top/bottom, False = left/right
    x = rng(0, SEEX * 2 - 6);
    y = rng(0, 4);
    if (one_in(2))
-    y = SEEY * 2 - 2 - y;	// Bottom of the screen, not the top
+    y = SEEY * 2 - 2 - y; // Bottom of the screen, not the top
    width  = rng(2, 5);
    height = 2;
    if (x + width >= SEEX * 2 - 1)
-    width = SEEX * 2 - 2 - x;	// Make sure our room isn't too wide
+    width = SEEX * 2 - 2 - x; // Make sure our room isn't too wide
   } else {
    x = rng(0, 4);
    y = rng(0, SEEY * 2 - 6);
    if (one_in(2))
-    x = SEEX * 2 - 3 - x;	// Right side of the screen, not the left
+    x = SEEX * 2 - 3 - x; // Right side of the screen, not the left
    width  = 2;
    height = rng(2, 5);
    if (y + height >= SEEY * 2 - 1)
-    height = SEEY * 2 - 2 - y;	// Make sure our room isn't too tall
+    height = SEEY * 2 - 2 - y; // Make sure our room isn't too tall
   }
-  if (!rooms.empty() &&	// We need at least one room!
+  if (!rooms.empty() && // We need at least one room!
       (m->ter(x, y) != t_rock || m->ter(x + width, y + height) != t_rock))
    okay = false;
   else {
@@ -13691,23 +13689,23 @@ void silo_rooms(map *m)
     }
    }
    items_location used1 = "none", used2 = "none";
-   switch (rng(1, 14)) {	// What type of items go here?
+   switch (rng(1, 14)) { // What type of items go here?
     case  1:
     case  2: used1 = "cannedfood";
-             used2 = "fridge";		break;
+             used2 = "fridge"; break;
     case  3:
-    case  4: used1 = "tools";		break;
+    case  4: used1 = "tools"; break;
     case  5:
     case  6: used1 = "allguns";
-             used2 = "ammo";		break;
-    case  7: used1 = "allclothes";	break;
-    case  8: used1 = "manuals";	break;
+             used2 = "ammo"; break;
+    case  7: used1 = "allclothes"; break;
+    case  8: used1 = "manuals"; break;
     case  9:
     case 10:
-    case 11: used1 = "electronics";	break;
-    case 12: used1 = "survival_tools";	break;
+    case 11: used1 = "electronics"; break;
+    case 12: used1 = "survival_tools"; break;
     case 13:
-    case 14: used1 = "radio";		break;
+    case 14: used1 = "radio"; break;
    }
    if (used1 != "none")
     m->place_items(used1, 78, x, y, x + width, y + height, false, 0);
@@ -14312,10 +14310,10 @@ void map::add_extra(map_extra type, game *g)
       ter_set(x, y, t_wreckage);
      else if (has_flag(bashable, x, y)) {
       std::string junk;
-      bash(x, y, 500, junk);	// Smash the fuck out of it
-      bash(x, y, 500, junk);	// Smash the fuck out of it some more
+      bash(x, y, 500, junk); // Smash the fuck out of it
+      bash(x, y, 500, junk); // Smash the fuck out of it some more
      }
-    } else if (one_in(10))	// 1 in 10 chance of being wreckage anyway
+    } else if (one_in(10)) // 1 in 10 chance of being wreckage anyway
      ter_set(x, y, t_wreckage);
    }
   }
@@ -14325,10 +14323,10 @@ void map::add_extra(map_extra type, game *g)
   place_items("helicopter", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
   items_location extra_items = "helicopter";
   switch (rng(1, 4)) {
-   case 1: extra_items = "military";	break;
-   case 2: extra_items = "science";	break;
-   case 3: extra_items = "allguns";	break;
-   case 4: extra_items = "bionics";	break;
+   case 1: extra_items = "military"; break;
+   case 2: extra_items = "science"; break;
+   case 3: extra_items = "allguns"; break;
+   case 4: extra_items = "bionics"; break;
   }
   place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
   place_items(extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
@@ -14340,13 +14338,13 @@ void map::add_extra(map_extra type, game *g)
   int num_bodies = dice(2, 6);
   for (int i = 0; i < num_bodies; i++) {
    int x, y, tries = 0;;
-   do {	// Loop until we find a valid spot to dump a body, or we give up
+   do { // Loop until we find a valid spot to dump a body, or we give up
     x = rng(0, SEEX * 2 - 1);
     y = rng(0, SEEY * 2 - 1);
     tries++;
    } while (tries < 10 && move_cost(x, y) == 0);
 
-   if (tries < 10) {	// We found a valid spot!
+   if (tries < 10) { // We found a valid spot!
     add_item(x, y, body);
     place_items("military", 86, x, y, x, y, true, 0);
     if (one_in(8))
@@ -14363,13 +14361,13 @@ void map::add_extra(map_extra type, game *g)
   int num_bodies = dice(2, 5);
   for (int i = 0; i < num_bodies; i++) {
    int x, y, tries = 0;
-   do {	// Loop until we find a valid spot to dump a body, or we give up
+   do { // Loop until we find a valid spot to dump a body, or we give up
     x = rng(0, SEEX * 2 - 1);
     y = rng(0, SEEY * 2 - 1);
     tries++;
    } while (tries < 10 && move_cost(x, y) == 0);
 
-   if (tries < 10) {	// We found a valid spot!
+   if (tries < 10) { // We found a valid spot!
     add_item(x, y, body);
     spawn_item(x, y, "id_science", 0);
     place_items("science", 84, x, y, x, y, true, 0);
@@ -14387,13 +14385,13 @@ void map::add_extra(map_extra type, game *g)
 
   int size = 0;
   items_location stash;
-  switch (rng(1, 6)) {	// What kind of stash?
-   case 1: stash = "stash_food";	size = 90;	break;
-   case 2: stash = "stash_ammo";	size = 80;	break;
-   case 3: stash = "rare";		size = 70;	break;
-   case 4: stash = "stash_wood";	size = 90;	break;
-   case 5: stash = "stash_drugs";	size = 85;	break;
-   case 6: stash = "trash";		size = 92;	break;
+  switch (rng(1, 6)) { // What kind of stash?
+   case 1: stash = "stash_food";  size = 90; break;
+   case 2: stash = "stash_ammo";  size = 80; break;
+   case 3: stash = "rare";        size = 70; break;
+   case 4: stash = "stash_wood";  size = 90; break;
+   case 5: stash = "stash_drugs"; size = 85; break;
+   case 6: stash = "trash";       size = 92; break;
   }
 
   if (move_cost(x, y) == 0)
@@ -14408,11 +14406,11 @@ void map::add_extra(map_extra type, game *g)
      switch (rng(1, 7)) {
       case 1:
       case 2:
-      case 3: placed = tr_beartrap;	break;
+      case 3: placed = tr_beartrap; break;
       case 4:
-      case 5: placed = tr_nailboard;	break;
-      case 6: placed = tr_crossbow;	break;
-      case 7: placed = tr_shotgun_2;	break;
+      case 5: placed = tr_nailboard; break;
+      case 6: placed = tr_crossbow; break;
+      case 7: placed = tr_shotgun_2; break;
      }
      if (placed == tr_beartrap && has_flag(diggable, i, j)) {
       if (one_in(8))
@@ -14462,7 +14460,7 @@ void map::add_extra(map_extra type, game *g)
 
   for (int i = 0; i < num_bodies_a; i++) {
     int x, y, x_offset, y_offset, tries = 0;
-   do {	// Loop until we find a valid spot to dump a body, or we give up
+   do { // Loop until we find a valid spot to dump a body, or we give up
     if (north_south) {
      x = rng(0, SEEX * 2 - 1);
      y = rng(0, SEEY - 4);
@@ -14477,7 +14475,7 @@ void map::add_extra(map_extra type, game *g)
     tries++;
    } while (tries < 10 && move_cost(x, y) == 0);
 
-   if (tries < 10) {	// We found a valid spot!
+   if (tries < 10) { // We found a valid spot!
     add_item(x, y, body);
     int splatter_range = rng(1, 3);
     for (int j = 0; j <= splatter_range; j++) {
@@ -14496,7 +14494,7 @@ void map::add_extra(map_extra type, game *g)
   }
   for (int i = 0; i < num_bodies_b; i++) {
     int x, y, x_offset, y_offset, tries = 0;
-   do {	// Loop until we find a valid spot to dump a body, or we give up
+   do { // Loop until we find a valid spot to dump a body, or we give up
     if (north_south) {
      x = rng(0, SEEX * 2 - 1);
      y = rng(SEEY + 3, SEEY * 2 - 1);
@@ -14511,7 +14509,7 @@ void map::add_extra(map_extra type, game *g)
     tries++;
    } while (tries < 10 && move_cost(x, y) == 0);
 
-   if (tries < 10) {	// We found a valid spot!
+   if (tries < 10) { // We found a valid spot!
     add_item(x, y, body);
     int splatter_range = rng(1, 3);
     for (int j = 0; j <= splatter_range; j++) {
@@ -14534,7 +14532,7 @@ void map::add_extra(map_extra type, game *g)
   int num_crates = rng(1, 5);
   for (int i = 0; i < num_crates; i++) {
    int x, y, tries = 0;
-   do {	// Loop until we find a valid spot to dump a body, or we give up
+   do { // Loop until we find a valid spot to dump a body, or we give up
     x = rng(0, SEEX * 2 - 1);
     y = rng(0, SEEY * 2 - 1);
     tries++;

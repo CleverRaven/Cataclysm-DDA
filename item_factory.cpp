@@ -89,7 +89,7 @@ void Item_factory::init(){
     iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
     iuse_function_list["RADIO_OFF"] = &iuse::radio_off;
     iuse_function_list["RADIO_ON"] = &iuse::radio_on;
-	   iuse_function_list["HORN_BICYCLE"] = &iuse::horn_bicycle;
+    iuse_function_list["HORN_BICYCLE"] = &iuse::horn_bicycle;
     iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
     iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
     iuse_function_list["ROADMAP"] = &iuse::roadmap;
@@ -304,12 +304,12 @@ Item_list Item_factory::create_random(int created_at, int quantity){
 }
 
 bool Item_factory::group_contains_item(Item_tag group_tag, Item_tag item) {
-	Item_group *current_group = m_template_groups.find(group_tag)->second;
-	if(current_group) {
-		return current_group->has_item(item);
-	} else {
-		return 0;
-	}
+    Item_group *current_group = m_template_groups.find(group_tag)->second;
+    if(current_group) {
+        return current_group->has_item(item);
+    } else {
+        return 0;
+    }
 }
 
 ///////////////////////
@@ -339,7 +339,7 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
     catajson all_items(file_name);
 
     if(! json_good())
-    	throw (std::string)"Could not open " + file_name;
+        throw (std::string)"Could not open " + file_name;
 
     if (! all_items.is_array())
         throw file_name + (std::string)"is not an array of item_templates";
