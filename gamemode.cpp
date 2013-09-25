@@ -5,10 +5,10 @@ std::string special_game_name(special_game_id id)
 {
  switch (id) {
   case SGAME_NULL:
-  case NUM_SPECIAL_GAMES:	return "Bug (gamemode.cpp:special_game_name)";
-  case SGAME_TUTORIAL:		return _("Tutorial");
-  case SGAME_DEFENSE:		return _("Defense");
-  default:			return "Uncoded (gamemode.cpp:special_game_name)";
+  case NUM_SPECIAL_GAMES:   return "Bug (gamemode.cpp:special_game_name)";
+  case SGAME_TUTORIAL:      return _("Tutorial");
+  case SGAME_DEFENSE:       return _("Defense");
+  default:                  return "Uncoded (gamemode.cpp:special_game_name)";
  }
 }
 

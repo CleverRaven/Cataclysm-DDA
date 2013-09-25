@@ -162,7 +162,7 @@ void player::power_bionics(game *g)
 You can not activate %s!  To read a description of \
 %s, press '!', then '%c'."), bionics[tmp->id]->name.c_str(),
                             bionics[tmp->id]->name.c_str(), tmp->invlet);
-    } else {	// Describing bionics, not activating them!
+    } else { // Describing bionics, not activating them!
 // Clear the lines first
      ch = 0;
      werase(w_description);
@@ -233,7 +233,7 @@ void player::activate_bionic(int b, game *g)
   for (int i = posx - 1; i <= posx + 1; i++) {
    for (int j = posy - 1; j <= posy + 1; j++) {
     g->m.bash(i, j, 40, junk);
-    g->m.bash(i, j, 40, junk);	// Multibash effect, so that doors &c will fall
+    g->m.bash(i, j, 40, junk); // Multibash effect, so that doors &c will fall
     g->m.bash(i, j, 40, junk);
     if (g->m.is_destructable(i, j) && rng(1, 10) >= 4)
      g->m.ter_set(i, j, t_rubble);

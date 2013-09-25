@@ -294,7 +294,7 @@ public:
     int total_mass ();
 
 // get center of mass of vehicle; coordinates are precalc_dx[0] and precalc_dy[0]
-	void center_of_mass(int &x, int &y);
+    void center_of_mass(int &x, int &y);
 
 // Get combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted

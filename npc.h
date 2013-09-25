@@ -32,36 +32,36 @@ void parse_tags(std::string &phrase, player *u, npc *me);
 
 // Attitude is how we feel about the player, what we do around them
 enum npc_attitude {
- NPCATT_NULL = 0,	// Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
- NPCATT_TALK,		// Move to and talk to player
- NPCATT_TRADE,		// Move to and trade with player
- NPCATT_FOLLOW,		// Follow the player
- NPCATT_FOLLOW_RUN,	// Follow the player, don't shoot monsters
- NPCATT_LEAD,		// Lead the player, wait for them if they're behind
- NPCATT_WAIT,		// Waiting for the player
- NPCATT_DEFEND,		// Kill monsters that threaten the player
- NPCATT_MUG,		// Mug the player
- NPCATT_WAIT_FOR_LEAVE,	// Attack the player if our patience runs out
- NPCATT_KILL,		// Kill the player
- NPCATT_FLEE,		// Get away from the player
- NPCATT_SLAVE,		// Following the player under duress
- NPCATT_HEAL,		// Get to the player and heal them
+ NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
+ NPCATT_TALK,  // Move to and talk to player
+ NPCATT_TRADE,  // Move to and trade with player
+ NPCATT_FOLLOW,  // Follow the player
+ NPCATT_FOLLOW_RUN, // Follow the player, don't shoot monsters
+ NPCATT_LEAD,  // Lead the player, wait for them if they're behind
+ NPCATT_WAIT,  // Waiting for the player
+ NPCATT_DEFEND,  // Kill monsters that threaten the player
+ NPCATT_MUG,  // Mug the player
+ NPCATT_WAIT_FOR_LEAVE, // Attack the player if our patience runs out
+ NPCATT_KILL,  // Kill the player
+ NPCATT_FLEE,  // Get away from the player
+ NPCATT_SLAVE,  // Following the player under duress
+ NPCATT_HEAL,  // Get to the player and heal them
 
- NPCATT_MISSING,	// Special; missing NPC as part of mission
- NPCATT_KIDNAPPED,	// Special; kidnapped NPC as part of mission
+ NPCATT_MISSING, // Special; missing NPC as part of mission
+ NPCATT_KIDNAPPED, // Special; kidnapped NPC as part of mission
  NPCATT_MAX
 };
 
 std::string npc_attitude_name(npc_attitude);
 
 enum npc_mission {
- NPC_MISSION_NULL = 0,	// Nothing in particular
- NPC_MISSION_RESCUE_U,	// Find the player and aid them
- NPC_MISSION_SHELTER,	// Stay in shelter, introduce player to game
- NPC_MISSION_SHOPKEEP,	// Stay still unless combat or something and sell stuff
+ NPC_MISSION_NULL = 0, // Nothing in particular
+ NPC_MISSION_RESCUE_U, // Find the player and aid them
+ NPC_MISSION_SHELTER, // Stay in shelter, introduce player to game
+ NPC_MISSION_SHOPKEEP, // Stay still unless combat or something and sell stuff
 
- NPC_MISSION_MISSING,	// Special; following player to finish mission
- NPC_MISSION_KIDNAPPED,	// Special; was kidnapped, to be rescued by player
+ NPC_MISSION_MISSING, // Special; following player to finish mission
+ NPC_MISSION_KIDNAPPED, // Special; was kidnapped, to be rescued by player
 
  NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
 
@@ -72,13 +72,13 @@ enum npc_mission {
 
 enum npc_class {
  NC_NONE,
- NC_SHOPKEEP,	// Found in towns.  Stays in his shop mostly.
- NC_HACKER,	// Weak in combat but has hacking skills and equipment
- NC_DOCTOR,	// Found in towns, or roaming.  Stays in the clinic.
- NC_TRADER,	// Roaming trader, journeying between towns.
- NC_NINJA,	// Specializes in unarmed combat, carries few items
- NC_COWBOY,	// Gunslinger and survivalist
- NC_SCIENTIST,	// Uses intelligence-based skills and high-tech items
+ NC_SHOPKEEP, // Found in towns.  Stays in his shop mostly.
+ NC_HACKER, // Weak in combat but has hacking skills and equipment
+ NC_DOCTOR, // Found in towns, or roaming.  Stays in the clinic.
+ NC_TRADER, // Roaming trader, journeying between towns.
+ NC_NINJA, // Specializes in unarmed combat, carries few items
+ NC_COWBOY, // Gunslinger and survivalist
+ NC_SCIENTIST, // Uses intelligence-based skills and high-tech items
  NC_BOUNTY_HUNTER, // Resourceful and well-armored
  NC_MAX
 };
@@ -119,9 +119,9 @@ enum npc_flag {
 
 enum npc_favor_type {
  FAVOR_NULL,
- FAVOR_GENERAL,	// We owe you... a favor?
- FAVOR_CASH,	// We owe cash (or goods of equivalent value)
- FAVOR_ITEM,	// We owe a specific item
+ FAVOR_GENERAL, // We owe you... a favor?
+ FAVOR_CASH, // We owe cash (or goods of equivalent value)
+ FAVOR_ITEM, // We owe a specific item
  FAVOR_TRAINING,// We owe skill or style training
  NUM_FAVOR_TYPES
 };
@@ -259,8 +259,8 @@ struct npc_combat_rules
 };
 
 enum talk_topic {
- TALK_NONE = 0,	// Used to go back to last subject
- TALK_DONE,	// Used to end the conversation
+ TALK_NONE = 0, // Used to go back to last subject
+ TALK_DONE, // Used to end the conversation
  TALK_MISSION_LIST, // List available missions. Intentionally placed above START
  TALK_MISSION_LIST_ASSIGNED, // Same, but for assigned missions.
 
@@ -412,7 +412,7 @@ public:
  void told_to_help(game *g);
  void told_to_wait(game *g);
  void told_to_leave(game *g);
- int  follow_distance();	// How closely do we follow the player?
+ int  follow_distance(); // How closely do we follow the player?
  int  speed_estimate(int speed); // Estimate of a target's speed, usually player
 
 
@@ -463,12 +463,12 @@ public:
 // Functions which choose an action for a particular goal
  void choose_monster_target(game *g, int &enemy, int &danger,
                             int &total_danger);
- npc_action method_of_fleeing	(game *g, int target);
- npc_action method_of_attack	(game *g, int enemy, int danger);
- npc_action address_needs	(game *g, int danger);
- npc_action address_player	(game *g);
+ npc_action method_of_fleeing (game *g, int target);
+ npc_action method_of_attack (game *g, int enemy, int danger);
+ npc_action address_needs (game *g, int danger);
+ npc_action address_player (game *g);
  npc_action long_term_goal_action(game *g);
- bool alt_attack_available(game *g);	// Do we have grenades, molotov, etc?
+ bool alt_attack_available(game *g); // Do we have grenades, molotov, etc?
  signed char  choose_escape_item(); // Returns index of our best escape aid
 
 // Helper functions for ranged combat
@@ -479,37 +479,37 @@ public:
  bool enough_time_to_reload(game *g, int target, item &gun);
 
 // Physical movement from one tile to the next
- void update_path	(game *g, int x, int y);
- bool can_move_to	(game *g, int x, int y);
- void move_to		(game *g, int x, int y);
- void move_to_next	(game *g); // Next in <path>
+ void update_path (game *g, int x, int y);
+ bool can_move_to (game *g, int x, int y);
+ void move_to  (game *g, int x, int y);
+ void move_to_next (game *g); // Next in <path>
  void avoid_friendly_fire(game *g, int target); // Maneuver so we won't shoot u
- void move_away_from	(game *g, int x, int y);
- void move_pause	(); // Same as if the player pressed '.'
+ void move_away_from (game *g, int x, int y);
+ void move_pause (); // Same as if the player pressed '.'
 
 // Item discovery and fetching
- void find_item		(game *g); // Look around and pick an item
- void pick_up_item	(game *g); // Move to, or grab, our targeted item
- void drop_items	(game *g, int weight, int volume); // Drop wgt and vol
+ void find_item  (game *g); // Look around and pick an item
+ void pick_up_item (game *g); // Move to, or grab, our targeted item
+ void drop_items (game *g, int weight, int volume); // Drop wgt and vol
  npc_action scan_new_items(game *g, int target);
 
 // Combat functions and player interaction functions
- void melee_monster	(game *g, int target);
- void melee_player	(game *g, player &foe);
- void wield_best_melee	(game *g);
- void alt_attack	(game *g, int target);
- void use_escape_item	(game *g, signed char invlet, int target);
- void heal_player	(game *g, player &patient);
- void heal_self		(game *g);
- void take_painkiller	(game *g);
- void pick_and_eat	(game *g);
- void mug_player	(game *g, player &mark);
- void look_for_player	(game *g, player &sought);
+ void melee_monster (game *g, int target);
+ void melee_player (game *g, player &foe);
+ void wield_best_melee (game *g);
+ void alt_attack (game *g, int target);
+ void use_escape_item (game *g, signed char invlet, int target);
+ void heal_player (game *g, player &patient);
+ void heal_self  (game *g);
+ void take_painkiller (game *g);
+ void pick_and_eat (game *g);
+ void mug_player (game *g, player &mark);
+ void look_for_player (game *g, player &sought);
  bool saw_player_recently();// Do we have an idea of where u are?
 
 // Movement on the overmap scale
- bool has_destination();	// Do we have a long-term destination?
- void set_destination(game *g);	// Pick a place to go
+ bool has_destination(); // Do we have a long-term destination?
+ void set_destination(game *g); // Pick a place to go
  void go_to_destination(game *g); // Move there; on the micro scale
  void reach_destination(game *g); // We made it!
 
@@ -519,26 +519,26 @@ public:
 
 // #############   VALUES   ################
 
- npc_attitude attitude;	// What we want to do to the player
+ npc_attitude attitude; // What we want to do to the player
  npc_class myclass; // What's our archetype?
- int wandx, wandy, wandf;	// Location of heard sound, etc.
+ int wandx, wandy, wandf; // Location of heard sound, etc.
 
 // Location:
- int omx, omy, omz;	// Which overmap (e.g., o.0.0.0)
+ int omx, omy, omz; // Which overmap (e.g., o.0.0.0)
  int mapx, mapy;// Which square in that overmap (e.g., m.0.0)
  int plx, ply, plt;// Where we last saw the player, timeout to forgetting
- int itx, ity;	// The square containing an item we want
+ int itx, ity; // The square containing an item we want
  int goalx, goaly, goalz;// Which mapx:mapy square we want to get to
 
  bool fetching_item;
  bool has_new_items; // If true, we have something new and should re-equip
  int  worst_item_value; // The value of our least-wanted item
 
- std::vector<point> path;	// Our movement plans
+ std::vector<point> path; // Our movement plans
 
 
 // Personality & other defining characteristics
- int fac_id;	// A temp variable used to inform the game which faction to link
+ int fac_id; // A temp variable used to inform the game which faction to link
  faction *my_fac;
  npc_mission mission;
  npc_personality personality;
@@ -547,7 +547,7 @@ public:
  int patience; // Used when we expect the player to leave the area
  npc_combat_rules combat_rules;
  bool marked_for_death; // If true, we die as soon as we respawn!
- bool dead;		// If true, we need to be cleaned up
+ bool dead;  // If true, we need to be cleaned up
  bool hit_by_player;
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;

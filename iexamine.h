@@ -18,7 +18,7 @@ class map;
 class iexamine
 {
 public:
- void none		(game *g, player *p, map *m, int examx, int examy);
+ void none (game *g, player *p, map *m, int examx, int examy);
 
  void gaspump (game *g, player *p, map *m, int examx, int examy);
  void toilet (game *g, player *p, map *m, int examx, int examy);
