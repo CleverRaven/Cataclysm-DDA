@@ -154,7 +154,7 @@
     "id": "style_ninjutsu",
     "name": "Ninjutsu",
     "can_leg_block": true,
-    "desc": "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively. It focuses on applicable attacks rather than showy or complex moves. Popular among police and armed forces everywhere.",
+    "desc": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan. It focuses on rapid, precise, silent strikes. Ninjutsu is entirely silent. It also provides small combat bonuses the turn after moving a tile.",
     "static_buffs": [
       {
         "id": "ninjutsu_static",
