@@ -315,6 +315,21 @@
   },
 
   {
+    "id": "circuit",
+    "symbol": ",",
+    "color": "green",
+    "name": "circuit board",
+    "description": "A printed card that supports and electrically connects electronic components on a non-conductive substrate.",
+    "price": 80,
+    "material": "steel",
+    "weight": 68,
+    "volume": 1,
+    "bashing": -6,
+    "cutting": 0,
+    "to_hit": 2
+  },
+
+  {
     "id": "steel_chunk",
     "symbol": ",",
     "color": "light_blue",
