@@ -3630,9 +3630,9 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  break;
  case bp_hands: // Fall through to arms
  case bp_arms:
-  if (side == 1 || side == 3 || weapon.is_two_handed(this))
+  if (side == 1 || weapon.is_two_handed(this))
    recoil += int(dam / 3);
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_arm_l] -= dam;
    if (hp_cur[hp_arm_l] < 0)
    {
@@ -3640,7 +3640,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
     hp_cur[hp_arm_l] = 0;
    }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_arm_r] -= dam;
    if (hp_cur[hp_arm_r] < 0)
    {
@@ -3651,7 +3651,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  break;
  case bp_feet: // Fall through to legs
  case bp_legs:
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_leg_l] -= dam;
    if (hp_cur[hp_leg_l] < 0)
    {
@@ -3659,7 +3659,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
     hp_cur[hp_leg_l] = 0;
    }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_leg_r] -= dam;
    if (hp_cur[hp_leg_r] < 0)
    {
@@ -3722,7 +3722,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  break;
  case bp_hands: // Fall through to arms
  case bp_arms:
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_arm_l] -= dam;
    if (hp_cur[hp_arm_l] < 0)
    {
@@ -3730,7 +3730,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
     hp_cur[hp_arm_l] = 0;
    }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_arm_r] -= dam;
    if (hp_cur[hp_arm_r] < 0)
    {
@@ -3741,7 +3741,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  break;
  case bp_feet: // Fall through to legs
  case bp_legs:
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_leg_l] -= dam;
    if (hp_cur[hp_leg_l] < 0)
    {
@@ -3749,7 +3749,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
     hp_cur[hp_leg_l] = 0;
    }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_leg_r] -= dam;
    if (hp_cur[hp_leg_r] < 0)
    {
@@ -4117,7 +4117,7 @@ void player::add_disease(dis_type type, int duration,
                          body_part part, int side, bool main_parts_only, 
                          int additive)
 {
-    if (duration == 0) {
+    if (duration <= 0) {
         return;
     }
 
@@ -4207,15 +4207,20 @@ bool player::has_disease(dis_type type, body_part part, int side) const
     return false;
 }
 
-int player::disease_level(dis_type type, body_part part, int side)
+int player::disease_duration(dis_type type, bool all, body_part part, int side)
 {
+    int tmp = 0;
     for (int i = 0; i < illness.size(); i++) {
         if (illness[i].type == type && illness[i].bp == part &&
             illness[i].side == side) {
-            return illness[i].duration;
+            if (all = false) {
+                return illness[i].duration;
+            } else {
+                tmp += illness[i].duration;
+            }
         }
     }
-    return 0;
+    return tmp;
 }
 
 int player::disease_intensity(dis_type type, body_part part, int side)
