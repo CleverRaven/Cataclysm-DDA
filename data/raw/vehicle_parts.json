@@ -935,6 +935,22 @@
         ]
     },
     {
+        "id": "reinforced_kitchen_unit",
+        "name": "heavy-duty kitchen unit",
+        "symbol": "&",
+        "color": "light_cyan",
+        "broken_symbol": "x",
+        "broken_color": "light_cyan",
+        "damage_modifier": 50,
+        "durability": 200,
+        "size": 400,
+        "item": "reinforced_kitchen_unit",
+        "difficulty": 4,
+        "flags": [
+            "OVER", "CARGO", "NO_REINFORCE", "OBSTACLE", "KITCHEN"
+        ]
+    },
+    {
         "id": "welding_rig",
         "name": "welding rig",
         "symbol": "&",

@@ -1939,6 +1939,20 @@
         "price" : 400
     },
     {
+        "id" : "reinforced_kitchen_unit",
+        "name" : "mil-spec kitchen unit",
+        "description" : "A vehicle mountable electric range and sink unit with integrated tool storage for cooking utensils.  A heavy-duty version used by the military in hostile territory.  After all, the troops can't eat bullets.",
+        "weight" : 152058,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : "&",
+        "material" : ["steel", "null"],
+        "volume" : 80,
+        "bashing" : 0,
+        "cutting" : 0,
+        "price" : 400
+    },
+    {
         "id" : "weldrig",
         "name" : "vehicle welding rig",
         "description" : "A welding rig made to run off a vehicle's storage battery.  It has a soldering iron attachment for delicate work, and a compartment to store your extra tools in.",
