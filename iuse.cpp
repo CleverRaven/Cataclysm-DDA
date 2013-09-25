@@ -881,7 +881,7 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
  if(!p->is_npc()) {
   p->add_memorial_log(_("Consumed purifier."));
  }
- std::vector<std::string> valid;	// Which flags the player has
+ std::vector<std::string> valid; // Which flags the player has
  for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
   if (p->has_trait(iter->first) && !p->has_base_trait(iter->first))  //Looks for active mutation
    valid.push_back(iter->first);
@@ -948,8 +948,9 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,_("This berry makes you feel better all over."));
   p->pkill += 30;
   this->purifier(g, p, it, t);
-	 if (effect == 6)
-	  p->radiation = 0;
+  if (effect == 6) {
+   p->radiation = 0;
+  }
  } else if (effect == 7) {
   g->add_msg_if_player(p,_("This berry is delicious, and very filling!"));
   p->hunger = -100;
@@ -1011,10 +1012,9 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 
 void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
 {
-				if (g->m.add_field(g, point(posx, posy), fd_fire, 1, 100))
-				{
-								g->add_msg_if_player(p, _("You successfully light a fire."));
-				}
+    if (g->m.add_field(g, point(posx, posy), fd_fire, 1, 100)) {
+        g->add_msg_if_player(p, _("You successfully light a fire."));
+    }
 }
 
 void iuse::lighter(game *g, player *p, item *it, bool t)
@@ -1052,22 +1052,19 @@ void iuse::primitive_fire(game *g, player *p, item *it, bool t)
 
 void iuse::sew(game *g, player *p, item *it, bool t)
 {
-    if(p->fine_detail_vision_mod(g) > 2.5)
-	{
+    if (p->fine_detail_vision_mod(g) > 2.5) {
         g->add_msg(_("You can't see to sew!"));
         it->charges++;
         return;
     }
     char ch = g->inv_type(_("Repair what?"), IC_ARMOR);
     item* fix = &(p->i_at(ch));
-    if (fix == NULL || fix->is_null())
-	{
+    if (fix == NULL || fix->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
         it->charges++;
         return;
     }
-    if (!fix->is_armor())
-	{
+    if (!fix->is_armor()) {
         g->add_msg_if_player(p,_("That isn't clothing!"));
         it->charges++;
         return;
@@ -1078,23 +1075,19 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     std::vector<itype_id> repair_items;
     std::string plural = "";
     //translation note: add <plural> tag to keep them unique
-    if (fix->made_of("cotton") || fix->made_of("wool"))
-    {
+    if (fix->made_of("cotton") || fix->made_of("wool")) {
         repair_items.push_back("rag");
         plurals.push_back(rm_prefix(_("<plural>rags")));
     }
-    if (fix->made_of("leather"))
-    {
+    if (fix->made_of("leather")) {
         repair_items.push_back("leather");
         plurals.push_back(rm_prefix(_("<plural>leather")));
     }
-    if (fix->made_of("fur"))
-    {
+    if (fix->made_of("fur")) {
         repair_items.push_back("fur");
         plurals.push_back(rm_prefix(_("<plural>fur")));
     }
-    if(repair_items.empty())
-	{
+    if(repair_items.empty()) {
         g->add_msg_if_player(p,_("Your %s is not made of cotton, wool, leather or fur."), fix->tname().c_str());
         it->charges++;
         return;
@@ -1107,26 +1100,21 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     inventory crafting_inv = g->crafting_inventory(p);
     bool bFound = false;
     //go through all discovered repair items and see if we have any of them available
-    for(unsigned int i = 0; i< repair_items.size(); i++)
-    {
-        if (crafting_inv.has_amount(repair_items[i], items_needed))
-        {
+    for(unsigned int i = 0; i< repair_items.size(); i++) {
+        if (crafting_inv.has_amount(repair_items[i], items_needed)) {
            //we've found enough of a material, use this one
            repair_item = repair_items[i];
            bFound = true;
         }
     }
-    if (!bFound)
-    {
-        for(unsigned int i = 0; i< repair_items.size(); i++)
-        {
+    if (!bFound) {
+        for(unsigned int i = 0; i< repair_items.size(); i++) {
             g->add_msg_if_player(p,_("You don't have enough %s to do that."), plurals[i].c_str());
         }
         it->charges++;
         return;
     }
-    if (fix->damage < 0)
-	{
+    if (fix->damage < 0) {
         g->add_msg_if_player(p,_("Your %s is already enhanced."), fix->tname().c_str());
         it->charges++;
         return;
@@ -1137,8 +1125,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     comps.back().available = true;
 
 
-    if (fix->damage == 0)
-    {
+    if (fix->damage == 0) {
         p->moves -= 500 * p->fine_detail_vision_mod(g);
         p->practice(g->turn, "tailor", 10);
         int rn = dice(4, 2 + p->skillLevel("tailor"));
@@ -1148,29 +1135,20 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             {rn += rng(2, 6);}
         if (p->dex_cur > 16)
             {rn += rng(0, p->dex_cur - 16);}
-        if (rn <= 4)
-	    {
+        if (rn <= 4) {
             g->add_msg_if_player(p,_("You damage your %s!"), fix->tname().c_str());
             fix->damage++;
-        }
-        else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT"))
-	    {
+        } else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT")) {
             g->add_msg_if_player(p,_("You take your %s in, improving the fit."), fix->tname().c_str());
             (p->i_at(ch).item_tags.insert("FIT"));
-        }
-        else if (rn >= 12 && (p->i_at(ch).has_flag("FIT") || !p->i_at(ch).has_flag("VARSIZE")))
-	    {
+        } else if (rn >= 12 && (p->i_at(ch).has_flag("FIT") || !p->i_at(ch).has_flag("VARSIZE"))) {
             g->add_msg_if_player(p, _("You make your %s extra sturdy."), fix->tname().c_str());
             fix->damage--;
             g->consume_items(p, comps);
-        }
-        else
-		{
+        } else {
             g->add_msg_if_player(p,_("You practice your sewing."));
-		}
-    }
-    else
-	{
+        }
+    } else {
         p->moves -= 500 * p->fine_detail_vision_mod(g);
         p->practice(g->turn, "tailor", 8);
         int rn = dice(4, 2 + p->skillLevel("tailor"));
@@ -1181,44 +1159,35 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             {rn += rng(2, 6);}
         if (p->dex_cur > 16)
             {rn += rng(0, p->dex_cur - 16);}
-        if (rn <= 4)
-	    {
+        if (rn <= 4) {
             g->add_msg_if_player(p,_("You damage your %s further!"), fix->tname().c_str());
             fix->damage++;
-            if (fix->damage >= 5)
-		    {
+            if (fix->damage >= 5) {
                 g->add_msg_if_player(p,_("You destroy it!"));
                 p->i_rem(ch);
             }
-        }
-	    else if (rn <= 6)
-	    {
+        } else if (rn <= 6) {
             g->add_msg_if_player(p,_("You don't repair your %s, but you waste lots of thread."), fix->tname().c_str());
             int waste = rng(1, 8);
             if (waste > it->charges)
                 {it->charges = 1;}
             else
                 {it->charges -= waste;}
-        }
-        else if (rn <= 8)
-	    {
+        } else if (rn <= 8) {
             g->add_msg_if_player(p,_("You repair your %s, but waste lots of thread."), fix->tname().c_str());
             if (fix->damage>=3) {g->consume_items(p, comps);}
             fix->damage--;
             int waste = rng(1, 8);
-        if (waste > it->charges)
-            {it->charges = 1;}
-        else
-            {it->charges -= waste;}
-        }
-	    else if (rn <= 16)
-	    {
+            if (waste > it->charges) {
+                it->charges = 1;
+            } else {
+                it->charges -= waste;
+            }
+        } else if (rn <= 16) {
             g->add_msg_if_player(p,_("You repair your %s!"), fix->tname().c_str());
             if (fix->damage>=3) {g->consume_items(p, comps);}
             fix->damage--;
-        }
-	    else
-	    {
+        } else {
             g->add_msg_if_player(p,_("You repair your %s completely!"), fix->tname().c_str());
             if (fix->damage>=3) {g->consume_items(p, comps);}
             fix->damage = 0;
@@ -1479,11 +1448,11 @@ void iuse::gasoline_lantern_off(game *g, player *p, item *it, bool t)
 
 void iuse::gasoline_lantern_on(game *g, player *p, item *it, bool t)
 {
-    if (t)  	// Normal use
+    if (t)  // Normal use
     {
 // Do nothing... player::active_light and the lightmap::generate deal with this
     }
-    else  	// Turning it off
+    else  // Turning it off
     {
         g->add_msg_if_player(p,_("The lantern is extinguished."));
         it->make(g->itypes["gasoline_lantern"]);
@@ -1505,9 +1474,9 @@ void iuse::light_off(game *g, player *p, item *it, bool t)
 
 void iuse::light_on(game *g, player *p, item *it, bool t)
 {
- if (t) {	// Normal use
+ if (t) { // Normal use
 // Do nothing... player::active_light and the lightmap::generate deal with this
- } else {	// Turning it off
+ } else { // Turning it off
   g->add_msg_if_player(p,_("The flashlight flicks off."));
   it->make(g->itypes["flashlight"]);
   it->active = false;
@@ -1526,11 +1495,11 @@ void iuse::lightstrip(game *g, player *p, item *it, bool t)
 void iuse::lightstrip_active(game *g, player *p, item *it, bool t)
 {
     if (t)
-    {	// Normal use
+    { // Normal use
         // Do nothing... player::active_light and the lightmap::generate deal with this
     }
     else
-    {	// Turning it off
+    { // Turning it off
         g->add_msg_if_player(p,_("The lightstrip dies."));
         it->make(g->itypes["lightstrip_dead"]);
         it->active = false;
@@ -1547,7 +1516,7 @@ void iuse::glowstick(game *g, player *p, item *it, bool t)
 void iuse::glowstick_active(game *g, player *p, item *it, bool t)
 {
     if (t)
-    {	// Normal use
+    { // Normal use
         // Do nothing... player::active_light and the lightmap::generate deal with this
     }
     else
@@ -1866,9 +1835,9 @@ _(
    fac->respects_u -= rng(1, 8);
   }
 
- } else if (ch == '2') {	// Call Acquaintance
+ } else if (ch == '2') { // Call Acquaintance
 // TODO: Implement me!
- } else if (ch == '3') {	// General S.O.S.
+ } else if (ch == '3') { // General S.O.S.
   p->moves -= 150;
   std::vector<npc*> in_range;
   for (int i = 0; i < g->cur_om->npcs.size(); i++) {
@@ -1886,7 +1855,7 @@ _(
   } else
    popup(_("No-one seems to reply..."));
  } else
-  it->charges++;	// Canceled the call, get our charge back
+  it->charges++; // Canceled the call, get our charge back
  werase(w);
  wrefresh(w);
  delwin(w);
@@ -1944,7 +1913,7 @@ void iuse::directional_antenna(game *g, player *p, item *it, bool t)
 void iuse::radio_on(game *g, player *p, item *it, bool t)
 {
     if (t)
-    {	// Normal use
+    { // Normal use
         std::string message = _("Radio: Kssssssssssssh.");
         radio_tower *selected_tower = find_radio_station( g, it->frequency );
         if( selected_tower != NULL )
@@ -1984,7 +1953,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
         }
         point pos = g->find_item(it);
         g->sound(pos.x, pos.y, 6, message.c_str());
-    } else {	// Activated
+    } else { // Activated
         int ch = 2;
         if (it->charges > 0)
              ch = menu( true, _("Radio:"), _("Scan"), _("Turn off"), NULL );
@@ -2056,7 +2025,7 @@ void iuse::horn_bicycle(game *g, player *p, item *it, bool t)
 {
     point pos = g->find_item(it);
     g->sound(pos.x, pos.y, 15, _("honk."));
-   	g->add_msg_if_player(p,_("You honk the bicycle horn."));
+    g->add_msg_if_player(p,_("You honk the bicycle horn."));
 }
 
 void iuse::noise_emitter_on(game *g, player *p, item *it, bool t)
@@ -2407,10 +2376,10 @@ void iuse::chainsaw_off(game *g, player *p, item *it, bool t)
 
 void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
 {
- if (t) {	// Effects while simply on
+ if (t) { // Effects while simply on
   if (one_in(15))
    g->sound(p->posx, p->posy, 12, _("Your chainsaw rumbles."));
- } else {	// Toggling
+ } else { // Toggling
   g->add_msg_if_player(p,_("Your chainsaw dies."));
   it->make(g->itypes["chainsaw_off"]);
   it->active = false;
@@ -2448,7 +2417,7 @@ void iuse::shishkebab_off(game *g, player *p, item *it, bool t)
 }
 void iuse::shishkebab_on(game *g, player *p, item *it, bool t)
 {
-    if (t)   	// Effects while simply on
+    if (t)    // Effects while simply on
     {
         if (one_in(25))
             g->sound(p->posx, p->posy, 10, _("Your shishkebab crackles!"));
@@ -2525,7 +2494,7 @@ void iuse::firemachete_off(game *g, player *p, item *it, bool t)
 }
 void iuse::firemachete_on(game *g, player *p, item *it, bool t)
 {
-    if (t)   	// Effects while simply on
+    if (t)    // Effects while simply on
     {
         if (one_in(25))
             g->sound(p->posx, p->posy, 5, _("Your No. 9 hisses."));
@@ -2599,7 +2568,7 @@ void iuse::broadfire_off(game *g, player *p, item *it, bool t)
 }
 void iuse::broadfire_on(game *g, player *p, item *it, bool t)
 {
-    if (t)   	// Effects while simply on
+    if (t)    // Effects while simply on
     {
         if (one_in(35))
             g->add_msg_if_player(p,_("Your blade burns for combat!"));
@@ -2668,7 +2637,7 @@ void iuse::firekatana_off(game *g, player *p, item *it, bool t)
 }
 void iuse::firekatana_on(game *g, player *p, item *it, bool t)
 {
-    if (t)   	// Effects while simply on
+    if (t)    // Effects while simply on
     {
         if (one_in(35))
             g->add_msg_if_player(p,_("The Sun shines brightly."));
@@ -2738,7 +2707,7 @@ void iuse::zweifire_off(game *g, player *p, item *it, bool t)
 
 void iuse::zweifire_on(game *g, player *p, item *it, bool t)
 {
-    if (t)   	// Effects while simply on
+    if (t)    // Effects while simply on
     {
         if (one_in(35))
             g->add_msg_if_player(p,_("Das Feuer um deine Schwertklinge leuchtet hell!"));
@@ -2887,11 +2856,11 @@ if(it->type->id == "cot"){
   type = tr_brazier;
   practice = 0;
  } else if(it->type->id == "boobytrap"){
-  message << _("You set the boobytrap up and activate the grenade.");
+  message << _("You set the booby trap up and activate the grenade.");
   type = tr_boobytrap;
   practice = 4;
  } else if(it->type->id == "bubblewrap"){
-  message << _("You set the bubblewrap on the ground, ready to be popped.");
+  message << _("You set the bubble wrap on the ground, ready to be popped.");
   type = tr_bubblewrap;
   practice = 2;
  } else if(it->type->id == "beartrap"){
@@ -2987,9 +2956,9 @@ if(it->type->id == "cot"){
  } else if(it->type->id == "landmine"){
   buried = (p->has_amount("shovel", 1) &&
             g->m.has_flag(diggable, posx, posy) &&
-            query_yn(_("Bury the landmine?")));
+            query_yn(_("Bury the land mine?")));
   type = (buried ? tr_landmine_buried : tr_landmine);
-  message << (buried ? _("You bury the landmine.") : _("You set the landmine."));
+  message << (buried ? _("You bury the land mine.") : _("You set the land mine."));
   practice = (buried ? 7 : 4);
  } else {
   g->add_msg_if_player(p,_("Tried to set a trap.  But got confused! %s"), it->tname().c_str());
@@ -3058,7 +3027,7 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
  switch (ch) {
   case 1: g->add_msg_if_player(p,_("Your radiation level: %d"), p->radiation); break;
   case 2: g->add_msg_if_player(p,_("The ground's radiation level: %d"),
-                     g->m.radiation(p->posx, p->posy));		break;
+                     g->m.radiation(p->posx, p->posy)); break;
   case 3:
    g->add_msg_if_player(p,_("The geiger counter's scan LED flicks on."));
    it->make(g->itypes["geiger_on"]);
@@ -3140,8 +3109,8 @@ void iuse::pipebomb_act(game *g, player *p, item *it, bool t)
   return;
  if (t) // Simple timer effects
   //~ the sound of a lit fuse
-  g->sound(pos.x, pos.y, 0, _("ssss..."));	// Vol 0 = only heard if you hold it
- else {	// The timer has run down
+  g->sound(pos.x, pos.y, 0, _("ssss...")); // Vol 0 = only heard if you hold it
+ else { // The timer has run down
   if (one_in(10) && g->u_see(pos.x, pos.y))
    g->add_msg(_("The pipe bomb fizzles out."));
   else
@@ -3163,8 +3132,8 @@ void iuse::grenade_act(game *g, player *p, item *it, bool t)
  if (pos.x == -999 || pos.y == -999)
   return;
  if (t) // Simple timer effects
-  g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
- else	// When that timer runs down...
+  g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+ else // When that timer runs down...
   g->explosion(pos.x, pos.y, 12, 28, false);
 }
 
@@ -3306,8 +3275,8 @@ void iuse::flashbang_act(game *g, player *p, item *it, bool t)
  if (pos.x == -999 || pos.y == -999)
   return;
  if (t) // Simple timer effects
-  g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
- else	// When that timer runs down...
+  g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+ else // When that timer runs down...
   g->flashbang(pos.x, pos.y);
 }
 
@@ -3330,8 +3299,8 @@ void iuse::c4armed(game *g, player *p, item *it, bool t)
  if (pos.x == -999 || pos.y == -999)
   return;
  if (t) // Simple timer effects
-  g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
- else	// When that timer runs down...
+  g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+ else // When that timer runs down...
   g->explosion(pos.x, pos.y, 40, 3, false);
 }
 
@@ -3348,9 +3317,9 @@ void iuse::EMPbomb_act(game *g, player *p, item *it, bool t)
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
   return;
- if (t)	// Simple timer effects
-  g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
- else {	// When that timer runs down...
+ if (t) // Simple timer effects
+  g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+ else { // When that timer runs down...
   g->draw_explosion(pos.x, pos.y, 4, c_ltblue);
   for (int x = pos.x - 4; x <= pos.x + 4; x++) {
    for (int y = pos.y - 4; y <= pos.y + 4; y++)
@@ -3372,9 +3341,9 @@ void iuse::scrambler_act(game *g, player *p, item *it, bool t)
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
   return;
- if (t)	// Simple timer effects
-  g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
- else {	// When that timer runs down...
+ if (t) // Simple timer effects
+  g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+ else { // When that timer runs down...
   g->draw_explosion(pos.x, pos.y, 4, c_cyan);
   for (int x = pos.x - 4; x <= pos.x + 4; x++) {
    for (int y = pos.y - 4; y <= pos.y + 4; y++)
@@ -3398,7 +3367,7 @@ void iuse::gasbomb_act(game *g, player *p, item *it, bool t)
   return;
  if (t) {
   if (it->charges > 15)
-   g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
+   g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
   else {
    int junk;
    for (int i = -2; i <= 2; i++) {
@@ -3428,7 +3397,7 @@ void iuse::smokebomb_act(game *g, player *p, item *it, bool t)
   return;
  if (t) {
   if (it->charges > 17)
-   g->sound(pos.x, pos.y, 0, _("Tick."));	// Vol 0 = only heard if you hold it
+   g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
   else {
    int junk;
    for (int i = -2; i <= 2; i++) {
@@ -3553,7 +3522,7 @@ void iuse::matchbomb_act(game *g, player *p, item *it, bool t) {
     if (pos.x == -999 || pos.y == -999) { return; }
     // Simple timer effects
     if (t) { g->sound(pos.x, pos.y, 0, _("ssss..."));
-    	// When that timer runs down...
+     // When that timer runs down...
     } else { g->explosion(pos.x, pos.y, 24, 0, false); }
 }
 
@@ -3694,9 +3663,9 @@ void iuse::mininuke_act(game *g, player *p, item *it, bool t)
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
   return;
- if (t) 	// Simple timer effects
+ if (t)  // Simple timer effects
   g->sound(pos.x, pos.y, 2, _("Tick."));
- else {	// When that timer runs down...
+ else { // When that timer runs down...
   g->explosion(pos.x, pos.y, 200, 0, false);
   int junk;
   for (int i = -4; i <= 4; i++) {
@@ -3751,14 +3720,14 @@ void iuse::portal(game *g, player *p, item *it, bool t)
 
 void iuse::manhack(game *g, player *p, item *it, bool t)
 {
- std::vector<point> valid;	// Valid spawn locations
+ std::vector<point> valid; // Valid spawn locations
  for (int x = p->posx - 1; x <= p->posx + 1; x++) {
   for (int y = p->posy - 1; y <= p->posy + 1; y++) {
    if (g->is_empty(x, y))
     valid.push_back(point(x, y));
   }
  }
- if (valid.size() == 0) {	// No valid points!
+ if (valid.size() == 0) { // No valid points!
   g->add_msg_if_player(p,_("There is no adjacent square to release the manhack in!"));
   return;
  }
@@ -3812,7 +3781,7 @@ void iuse::UPS_off(game *g, player *p, item *it, bool t)
 
 void iuse::UPS_on(game *g, player *p, item *it, bool t)
 {
- if (t) {	// Normal use
+ if (t) { // Normal use
    if (p->worn.size() && p->worn[0].type->is_power_armor() &&
        !p->has_active_bionic("bio_power_armor_interface") &&
        !p->has_active_bionic("bio_power_armor_interface_mkII") &&
@@ -3823,7 +3792,7 @@ void iuse::UPS_on(game *g, player *p, item *it, bool t)
        it->charges = 0;
      }
    }
- } else {	// Turning it off
+ } else { // Turning it off
   g->add_msg_if_player(p,_("The UPS powers off with a soft hum."));
   if (p->worn.size() && p->worn[0].type->is_power_armor())
     g->add_msg_if_player(p, _("Your power armor disengages."));
@@ -3849,7 +3818,7 @@ void iuse::adv_UPS_off(game *g, player *p, item *it, bool t)
 
 void iuse::adv_UPS_on(game *g, player *p, item *it, bool t)
 {
- if (t) {	// Normal use
+ if (t) { // Normal use
    if (p->worn.size() && p->worn[0].type->is_power_armor() &&
        !p->has_active_bionic("bio_power_armor_interface") &&
        !p->has_active_bionic("bio_power_armor_interface_mkII")) {
@@ -3859,7 +3828,7 @@ void iuse::adv_UPS_on(game *g, player *p, item *it, bool t)
        it->charges = 0;
      }
    }
- } else {	// Turning it off
+ } else { // Turning it off
   g->add_msg_if_player(p,_("The advanced UPS powers off with a soft hum."));
   if (p->worn.size() && p->worn[0].type->is_power_armor())
     g->add_msg_if_player(p, _("Your power armor disengages."));
@@ -3900,7 +3869,7 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
    case MS_HUGE:  numdice += 4; break;
   }
   int mondice = z->dodge();
-  if (dice(numdice, 10) < dice(mondice, 10)) {	// A miss!
+  if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
    g->add_msg_if_player(p,_("You attempt to shock the %s, but miss."), z->name().c_str());
    return;
   }
@@ -3917,9 +3886,9 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
   if (foe->attitude != NPCATT_FLEE)
    foe->attitude = NPCATT_KILL;
   if (foe->str_max >= 17)
-    numdice++;	// Minor bonus against huge people
+    numdice++; // Minor bonus against huge people
   else if (foe->str_max <= 5)
-   numdice--;	// Minor penalty against tiny people
+   numdice--; // Minor penalty against tiny people
   if (dice(numdice, 10) <= dice(foe->dodge(g), 6)) {
    g->add_msg_if_player(p,_("You attempt to shock %s, but miss."), foe->name.c_str());
    return;
@@ -3951,28 +3920,28 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 
 void iuse::mp3_on(game *g, player *p, item *it, bool t)
 {
- if (t) {	// Normal use
+ if (t) { // Normal use
   if (!p->has_item(it) || p->has_disease("deaf") )
-   return;	// We're not carrying it, or we're deaf.
+   return; // We're not carrying it, or we're deaf.
   p->add_morale(MORALE_MUSIC, 1, 50);
 
-  if (int(g->turn) % 10 == 0) {	// Every 10 turns, describe the music
+  if (int(g->turn) % 10 == 0) { // Every 10 turns, describe the music
    std::string sound = "";
    if (one_in(50))
      sound = _("some bass-heavy post-glam speed polka");
    switch (rng(1, 10)) {
-    case 1: sound = _("a sweet guitar solo!");	p->stim++;	break;
-    case 2: sound = _("a funky bassline.");			break;
-    case 3: sound = _("some amazing vocals.");			break;
-    case 4: sound = _("some pumping bass.");			break;
+    case 1: sound = _("a sweet guitar solo!"); p->stim++; break;
+    case 2: sound = _("a funky bassline."); break;
+    case 3: sound = _("some amazing vocals."); break;
+    case 4: sound = _("some pumping bass."); break;
     case 5: sound = _("dramatic classical music.");
             if (p->int_cur >= 10)
-             p->add_morale(MORALE_MUSIC, 1, 100);		break;
+             p->add_morale(MORALE_MUSIC, 1, 100); break;
    }
    if (sound.length() > 0)
     g->add_msg_if_player(p,_("You listen to %s"), sound.c_str());
   }
- } else {	// Turning it off
+ } else { // Turning it off
   g->add_msg_if_player(p,_("The mp3 player turns off."));
   it->make(g->itypes["mp3"]);
   it->active = false;
@@ -4469,7 +4438,7 @@ void iuse::torch_lit(game *g, player *p, item *it, bool t)
             it->active = false;
         }
     }
-    else  	// Turning it off
+    else   // Turning it off
     {
         int choice = menu(true,
                           _("torch (lit)"), _("extinguish"), _("light something"), _("cancel"), NULL);
@@ -4525,7 +4494,7 @@ void iuse::battletorch_lit(game *g, player *p, item *it, bool t)
             it->active = false;
         }
     }
-    else  	// Turning it off
+    else   // Turning it off
     {
         int choice = menu(true,
                           _("Louieville Slaughterer (lit)"), _("extinguish"), _("light something"), _("cancel"), NULL);
@@ -4571,9 +4540,9 @@ void iuse::candle(game *g, player *p, item *it, bool t)
 
 void iuse::candle_lit(game *g, player *p, item *it, bool t)
 {
- if (t) {	// Normal use
+ if (t) { // Normal use
 // Do nothing... player::active_light and the lightmap::generate deal with this
- } else {	// Turning it off
+ } else { // Turning it off
   g->add_msg_if_player(p,_("The candle winks out"));
   it->make(g->itypes["candle"]);
   it->active = false;
@@ -4919,9 +4888,9 @@ void iuse::pda(game *g, player *p, item *it, bool t)
 
 void iuse::pda_flashlight(game *g, player *p, item *it, bool t)
 {
- if (t) {	// Normal use
+ if (t) { // Normal use
 // Do nothing... player::active_light and the lightmap::generate deal with this
- } else {	// Turning it off
+ } else { // Turning it off
   g->add_msg_if_player(p,_("The PDA screen goes blank."));
   it->make(g->itypes["pda"]);
   it->active = false;
@@ -5221,17 +5190,16 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    p->moves -= rng(50, 200);
    break;
 
-  case AEA_FIRESTORM: {
-   g->add_msg_if_player(p,_("Fire rains down around you!"));
-		 std::vector<point> ps = closest_points_first(3, p->posx, p->posy);
-   for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
-			{
-				if (!one_in(3)) {
-					g->m.add_field(g, *p_it, fd_fire, 1 + rng(0, 1) * rng(0, 1), 30);
-				}
-			}
-   break;
-		}
+        case AEA_FIRESTORM: {
+            g->add_msg_if_player(p,_("Fire rains down around you!"));
+            std::vector<point> ps = closest_points_first(3, p->posx, p->posy);
+            for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++) {
+                if (!one_in(3)) {
+                    g->m.add_field(g, *p_it, fd_fire, 1 + rng(0, 1) * rng(0, 1), 30);
+                }
+            }
+            break;
+        }
 
   case AEA_ATTENTION:
    g->add_msg_if_player(p,_("You feel like your action has attracted attention."));
@@ -5367,33 +5335,58 @@ void iuse::spray_can(game *g, player *p, item *it, bool t)
     }
 }
 
+/**
+ * Heats up a food item.
+ * @return true if an item was heated, false if nothing was heated.
+ */
+bool iuse::heat_item(game *g, player *p)
+{
+    char ch = g->inv(_("Heat up what?"));
+    item* heat = &(p->i_at(ch));
+    if (heat->type->id == "null") {
+        g->add_msg(_("You do not have that item!"));
+        return false;
+    }
+    item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
+    if (target->type->is_food()) {
+        p->moves -= 300;
+        g->add_msg(_("You heat up the food."));
+        target->item_tags.insert("HOT");
+        target->active = true;
+        target->item_counter = 600; // sets the hot food flag for 60 minutes
+        return true;
+    }
+    g->add_msg(_("You can't heat that up!"));
+    return false;
+}
+
 void iuse::heatpack(game *g, player *p, item *it, bool t)
 {
-	char ch = g->inv(_("Heat up what?"));
-	item* heat = &(p->i_at(ch));
-	if (heat->type->id == "null") {
-		g->add_msg(_("You do not have that item!"));
-		return;
-	}
-	if (heat->type->is_food()) {
-		p->moves -= 300;
-		g->add_msg(_("You heat up the food."));
-		heat->item_tags.insert("HOT");
-		heat->active = true;
-		heat->item_counter = 600;		// sets the hot food flag for 60 minutes
-		it->make(g->itypes["heatpack_used"]);
-		return;
-  } else 	if (heat->is_food_container()) {
-		p->moves -= 300;
-		g->add_msg(_("You heat up the food."));
-		heat->contents[0].item_tags.insert("HOT");
-		heat->contents[0].active = true;
-		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes
-		it->make(g->itypes["heatpack_used"]);
-		return;
-	}
-  { g->add_msg(_("You can't heat that up!"));
- } return;
+  if(heat_item(g, p)) {
+    it->make(g->itypes["heatpack_used"]);
+  }
+}
+
+void iuse::hotplate(game *g, player *p, item *it, bool t)
+{
+  if(it->charges == 0) {
+    g->add_msg_if_player(p, _("The %s's batteries are dead."), it->name.c_str());
+    return;
+  }
+
+  int choice = 1;
+  if (p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ) {
+    //Might want to cauterize
+    choice = menu(true, ("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
+  }
+
+  if(choice == 1) {
+    if(heat_item(g, p)) {
+      it->charges--;
+    }
+  } else if(choice == 2) {
+    cauterize_elec(g, p, it, t);
+  }
 }
 
 void iuse::dejar(game *g, player *p, item *it, bool t)

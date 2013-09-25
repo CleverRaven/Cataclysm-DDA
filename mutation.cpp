@@ -327,7 +327,7 @@ void player::remove_mutation(game *g, std::string mut)
     }
 
     // This should revert back to a removed base trait rather than simply removing the mutation
-	toggle_mutation(mut);
+    toggle_mutation(mut);
 
     if (replacing != "") {
         g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(), traits[replacing].name.c_str());

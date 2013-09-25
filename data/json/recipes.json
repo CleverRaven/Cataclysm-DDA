@@ -1639,7 +1639,7 @@
       [ "superglue", 1 ]
     ],
     [
-      [ "shot_slug", 4 ]
+      [ "shot_slug", 5 ]
     ],
     [
       [ "gasoline", 200 ]
@@ -5159,8 +5159,7 @@
       [ "milk", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
-      [ "cooking_oil", 1 ],
-      [ "powder_eggs", 5 ]
+      [ "cooking_oil", 1 ]
     ]
   ]
 },{

@@ -470,7 +470,7 @@ void defense_game::setup()
    refresh_setup(w, selection);
   } else {
    switch (selection) {
-    case 1:	// Scenario selection
+    case 1: // Scenario selection
      if (ch == 'l') {
       if (style == defense_style(NUM_DEFENSE_STYLES - 1))
        style = defense_style(1);
@@ -486,7 +486,7 @@ void defense_game::setup()
      init_to_style(style);
      break;
 
-    case 2:	// Location selection
+    case 2: // Location selection
      if (ch == 'l') {
       if (location == defense_location(NUM_DEFENSE_LOCATIONS - 1))
        location = defense_location(1);
@@ -506,7 +506,7 @@ void defense_game::setup()
                defense_location_description(location).c_str());
      break;
 
-    case 3:	// Difficulty of the first wave
+    case 3: // Difficulty of the first wave
      if (ch == 'h' && initial_difficulty > 10)
       initial_difficulty -= 5;
      if (ch == 'l' && initial_difficulty < 995)
@@ -516,7 +516,7 @@ void defense_game::setup()
                initial_difficulty);
      break;
 
-    case 4:	// Wave Difficulty
+    case 4: // Wave Difficulty
      if (ch == 'h' && wave_difficulty > 10)
       wave_difficulty -= 5;
      if (ch == 'l' && wave_difficulty < 995)
@@ -705,17 +705,17 @@ std::string defense_style_name(defense_style style)
 {
 // 24 Characters Max!
  switch (style) {
-  case DEFENSE_CUSTOM:		return _("Custom");
-  case DEFENSE_EASY:		return _("Easy");
-  case DEFENSE_MEDIUM:		return _("Medium");
-  case DEFENSE_HARD:		return _("Hard");
-  case DEFENSE_SHAUN:		return _("Shaun of the Dead");
-  case DEFENSE_DAWN:		return _("Dawn of the Dead");
-  case DEFENSE_SPIDERS:		return _("Eight-Legged Freaks");
-  case DEFENSE_TRIFFIDS:	return _("Day of the Triffids");
-  case DEFENSE_SKYNET:		return _("Skynet");
-  case DEFENSE_LOVECRAFT:	return _("The Call of Cthulhu");
-  default:			return "Bug! (bug in defense.cpp:defense_style_name)";
+  case DEFENSE_CUSTOM:      return _("Custom");
+  case DEFENSE_EASY:        return _("Easy");
+  case DEFENSE_MEDIUM:      return _("Medium");
+  case DEFENSE_HARD:        return _("Hard");
+  case DEFENSE_SHAUN:       return _("Shaun of the Dead");
+  case DEFENSE_DAWN:        return _("Dawn of the Dead");
+  case DEFENSE_SPIDERS:     return _("Eight-Legged Freaks");
+  case DEFENSE_TRIFFIDS:    return _("Day of the Triffids");
+  case DEFENSE_SKYNET:      return _("Skynet");
+  case DEFENSE_LOVECRAFT:   return _("The Call of Cthulhu");
+  default:                  return "Bug! (bug in defense.cpp:defense_style_name)";
  }
 }
 
@@ -751,12 +751,12 @@ std::string defense_style_description(defense_style style)
 std::string defense_location_name(defense_location location)
 {
  switch (location) {
- case DEFLOC_NULL:	return "Nowhere?! (bug in defense.cpp:defense_location_name)";
- case DEFLOC_HOSPITAL:	return _("Hospital");
- case DEFLOC_MALL:	return _("Megastore");
- case DEFLOC_BAR:	return _("Bar");
- case DEFLOC_MANSION:	return _("Mansion");
- default:		return "a ghost's house (bug in defense.cpp:defense_location_name)";
+ case DEFLOC_NULL:      return "Nowhere?! (bug in defense.cpp:defense_location_name)";
+ case DEFLOC_HOSPITAL:  return _("Hospital");
+ case DEFLOC_MALL:      return _("Megastore");
+ case DEFLOC_BAR:       return _("Bar");
+ case DEFLOC_MANSION:   return _("Mansion");
+ default:               return "a ghost's house (bug in defense.cpp:defense_location_name)";
  }
 }
 
@@ -1014,13 +1014,13 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
 std::string caravan_category_name(caravan_category cat)
 {
  switch (cat) {
-  case CARAVAN_CART:		return _("Shopping Cart");
-  case CARAVAN_MELEE:		return _("Melee Weapons");
-  case CARAVAN_GUNS:		return _("Firearms & Ammo");
-  case CARAVAN_COMPONENTS:	return _("Crafting & Construction Components");
-  case CARAVAN_FOOD:		return _("Food & Drugs");
-  case CARAVAN_CLOTHES:		return _("Clothing & Armor");
-  case CARAVAN_TOOLS:		return _("Tools, Traps & Grenades");
+  case CARAVAN_CART:        return _("Shopping Cart");
+  case CARAVAN_MELEE:       return _("Melee Weapons");
+  case CARAVAN_GUNS:        return _("Firearms & Ammo");
+  case CARAVAN_COMPONENTS:  return _("Crafting & Construction Components");
+  case CARAVAN_FOOD:        return _("Food & Drugs");
+  case CARAVAN_CLOTHES:     return _("Clothing & Armor");
+  case CARAVAN_TOOLS:       return _("Tools, Traps & Grenades");
  }
  return "BUG (defense.cpp:caravan_category_name)";
 }

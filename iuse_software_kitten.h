@@ -14,10 +14,10 @@
 
 struct kobject
 {
-	int x;
-	int y;
-	nc_color color;
-	int character;
+    int x;
+    int y;
+    nc_color color;
+    int character;
 };
 
 #define MAXMESSAGES 1200

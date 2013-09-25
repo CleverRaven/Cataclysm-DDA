@@ -1519,8 +1519,8 @@ void player::memorial( std::ofstream &memorial_file )
 
     //Inventory
     memorial_file << _("Inventory:") << "\n";
-    inv.sort();
     inv.restack(this);
+    inv.sort();
     for(int i = 0; i < inv.size(); i++) {
       invslice slice = inv.slice(i, 1);
       item& next_item = slice[0]->front();
@@ -2171,7 +2171,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  do {
   werase(w_info);
   switch (curtab) {
-  case 1:	// Stats tab
+  case 1: // Stats tab
    mvwprintz(w_stats, 0, 0, h_ltgray, _("                          "));
    mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, h_ltgray, title_STATS);
    if (line == 0) {
@@ -2264,7 +2264,7 @@ detecting traps and other things of interest."));
    mvwprintz(w_stats, 5, 2, c_ltgray, _("Perception:"));
    wrefresh(w_stats);
    break;
-  case 2:	// Encumberment tab
+  case 2: // Encumberment tab
    mvwprintz(w_encumb, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
    if (line == 0) {
@@ -2345,7 +2345,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
    mvwprintz(w_encumb, 8, 1, c_ltgray, _("Feet"));
    wrefresh(w_encumb);
    break;
-  case 4:	// Traits tab
+  case 4: // Traits tab
    mvwprintz(w_traits, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, h_ltgray, title_TRAITS);
    if (line <= (trait_win_size_y-1)/2) {
@@ -2419,7 +2419,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
    }
    break;
 
-  case 5:	// Effects tab
+  case 5: // Effects tab
    mvwprintz(w_effects, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, h_ltgray, title_EFFECTS);
    if (line <= (effect_win_size_y-1)/2) {
@@ -2474,7 +2474,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
    }
    break;
 
-  case 3:	// Skills tab
+  case 3: // Skills tab
    mvwprintz(w_skills, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, h_ltgray, title_SKILLS);
    if (line <= (skill_win_size_y-1)/2) {
@@ -3121,7 +3121,7 @@ void player::add_bionic(bionic_id b)
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
-   return;	// No duplicates!
+   return; // No duplicates!
  }
  char newinv;
  if (my_bionics.size() == 0)
@@ -3701,8 +3701,8 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  pain += painadd;
 
  switch (bphurt) {
- case bp_eyes:	// Fall through to head damage
- case bp_mouth:	// Fall through to head damage
+ case bp_eyes: // Fall through to head damage
+ case bp_mouth: // Fall through to head damage
  case bp_head:
   pain++;
   hp_cur[hp_head] -= dam;
@@ -3720,7 +3720,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
    hp_cur[hp_torso] = 0;
   }
  break;
- case bp_hands:	// Fall through to arms
+ case bp_hands: // Fall through to arms
  case bp_arms:
   if (side == 0 || side == 3) {
    hp_cur[hp_arm_l] -= dam;
@@ -3739,7 +3739,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
    }
   }
  break;
- case bp_feet:	// Fall through to legs
+ case bp_feet: // Fall through to legs
  case bp_legs:
   if (side == 0 || side == 3) {
    hp_cur[hp_leg_l] -= dam;
@@ -3771,8 +3771,8 @@ void player::heal(body_part healed, int side, int dam)
 {
  hp_part healpart;
  switch (healed) {
- case bp_eyes:	// Fall through to head damage
- case bp_mouth:	// Fall through to head damage
+ case bp_eyes: // Fall through to head damage
+ case bp_mouth: // Fall through to head damage
  case bp_head:
   healpart = hp_head;
  break;
@@ -4150,7 +4150,7 @@ void player::add_addiction(add_type type, int strength)
    if (addictions[i].sated < 0) {
     addictions[i].sated = timer;
    } else if (addictions[i].sated < 600) {
-    addictions[i].sated += timer;	// TODO: Make this variable?
+    addictions[i].sated += timer; // TODO: Make this variable?
    } else {
     addictions[i].sated += int((3000 - addictions[i].sated) / 2);
    }
@@ -4487,9 +4487,9 @@ void player::suffer(game *g)
   }
 
   if (has_trait("MOODSWINGS") && one_in(3600)) {
-   if (rng(1, 20) > 9)	// 55% chance
+   if (rng(1, 20) > 9) // 55% chance
     add_morale(MORALE_MOODSWING, -100, -500);
-   else			// 45% chance
+   else   // 45% chance
     add_morale(MORALE_MOODSWING, 100, 500);
   }
 
@@ -4502,7 +4502,7 @@ void player::suffer(game *g)
    g->sound(posx, posy, 15 + 3 * str_cur, _("You scream loudly!"));
   if (has_trait("SHOUT3") && one_in(1800))
    g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
- }	// Done with while-awake-only effects
+ } // Done with while-awake-only effects
 
  if (has_trait("ASTHMA") && one_in(3600 - stim * 50)) {
   bool auto_use = has_charges("inhaler", 1);
@@ -4598,7 +4598,7 @@ void player::suffer(game *g)
    g->m.radiation(posx, posy)++;
  }
 
- if (has_trait("UNSTABLE") && one_in(28800))	// Average once per 2 days
+ if (has_trait("UNSTABLE") && one_in(28800)) // Average once per 2 days
   mutate(g);
  if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800))
   mutate(g);
@@ -4944,7 +4944,7 @@ int player::weight_capacity(bool real_life)
 
 int player::volume_capacity()
 {
- int ret = 2;	// A small bonus (the overflow)
+ int ret = 2; // A small bonus (the overflow)
  it_armor *armor;
  for (int i = 0; i < worn.size(); i++) {
   armor = dynamic_cast<it_armor*>(worn[i].type);
@@ -5664,7 +5664,7 @@ int player::butcher_factor()
 {
  int lowest_factor = 999;
  if (has_bionic("bio_tools"))
- 	lowest_factor=100;
+  lowest_factor=100;
  int inv_factor = inv.butcher_factor();
  if (inv_factor < lowest_factor) {
   lowest_factor = inv_factor;
@@ -7291,7 +7291,7 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
                         for (int k = 0; k < cur_recipe->tools[j].size(); k++)
                         {
                             itype_id type = cur_recipe->tools[j][k].type;
-                            int req = cur_recipe->tools[j][k].count;	// -1 => 1
+                            int req = cur_recipe->tools[j][k].count; // -1 => 1
 
                             if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
                                 (req >  0 && crafting_inv.has_charges(type, req)))
@@ -7490,8 +7490,8 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
      inv.add_item_keep_invlet(copy);
     return;
    } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
-	      !gun->contents[i].has_flag("MODE_AUX") &&
-	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
+       !gun->contents[i].has_flag("MODE_AUX") &&
+       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
     g->add_msg(_("Your %s's caliber has already been modified."),
                gun->tname(g).c_str());
     if (replace_item)
@@ -7723,7 +7723,7 @@ void player::read(game *g, char ch)
         }
     }
 
-	// Base read_speed() is 1000 move points (1 minute per tmp->time)
+ // Base read_speed() is 1000 move points (1 minute per tmp->time)
     time = tmp->time * read_speed() * fine_detail_vision_mod(g);
     if (tmp->intel > int_cur)
     {
@@ -7921,9 +7921,9 @@ float player::fine_detail_vision_mod(game *g)
 
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
     else if (has_trait("NIGHTVISION2")) { vision_ii -= 1.5; }
-    else if (has_trait("NIGHTVISION3"))	{ vision_ii -= 2.5; }
+    else if (has_trait("NIGHTVISION3")) { vision_ii -= 2.5; }
 
-    if (vision_ii < 1)	{ vision_ii = 1; }
+    if (vision_ii < 1) { vision_ii = 1; }
     return vision_ii;
 }
 

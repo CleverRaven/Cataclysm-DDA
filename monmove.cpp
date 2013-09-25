@@ -97,7 +97,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
     int dist = 1000;
     int tc, stc;
     bool fleeing = false;
-    if (friendly != 0) {	// Target monsters, not the player!
+    if (friendly != 0) { // Target monsters, not the player!
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
             monster *tmp = &(g->zombie(i));
             if (tmp->friendly == 0) {
@@ -308,7 +308,7 @@ void monster::move(game *g)
 
 // Finished logic section.  By this point, we should have chosen a square to
 //  move to (moved = true).
- if (moved) {	// Actual effects of moving to the square we've chosen
+ if (moved) { // Actual effects of moving to the square we've chosen
   // Note: The below works because C++ in A() || B() won't call B() if A() is true
   int& x = next.x; int& y = next.y; // Define alias for x and y
   bool did_something = attack_at(x, y) || bash_at(x, y) || move_to(g, x, y);
@@ -364,30 +364,30 @@ The per-turn movement and action calculation of any friendly monsters.
 */
 void monster::friendly_move(game *g)
 {
-	point next;
-	bool moved = false;
-	//If we sucessfully calculated a plan in the generic monster movement function, begin executing it.
-	if (plans.size() > 0 && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
-		(can_move_to(g, plans[0].x, plans[0].y) ||
-		(g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
-			next = plans[0];
-			plans.erase(plans.begin());
-			moved = true;
-	} else {
-		//Otherwise just stumble around randomly until we formulate a plan.
-		moves -= 100;
-		stumble(g, moved);
-	}
-	if (moved) {
+    point next;
+    bool moved = false;
+    //If we sucessfully calculated a plan in the generic monster movement function, begin executing it.
+    if (plans.size() > 0 && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
+            (can_move_to(g, plans[0].x, plans[0].y) ||
+             (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))) {
+        next = plans[0];
+        plans.erase(plans.begin());
+        moved = true;
+    } else {
+        //Otherwise just stumble around randomly until we formulate a plan.
+        moves -= 100;
+        stumble(g, moved);
+    }
+    if (moved) {
         int& x = next.x; int& y = next.y; // Define alias for x and y
         bool did_something = attack_at(x, y) || bash_at(x, y) || move_to(g, x, y);
 
-		//If all else fails in our plan (an issue with pathfinding maybe) stumble around instead.
-		if(!did_something) {
-			stumble(g, moved);
-			moves -= 100;
-		}
-	}
+        //If all else fails in our plan (an issue with pathfinding maybe) stumble around instead.
+        if(!did_something) {
+            stumble(g, moved);
+            moves -= 100;
+        }
+    }
 }
 
 point monster::scent_move(game *g)
