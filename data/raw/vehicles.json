@@ -179,8 +179,8 @@
             {"x": -2, "y": -1, "part": "gas_tank"},
             {"x": -2, "y": 2, "part": "board_vertical"},
             {"x": -3, "y": -1, "part": "wheel"},
-            {"x": -3, "y": 0, "part": "door"},
-            {"x": -3, "y": 1, "part": "door"},
+            {"x": -3, "y": 0, "part": "door_trunk"},
+            {"x": -3, "y": 1, "part": "door_trunk"},
             {"x": -3, "y": 2, "part": "wheel"}
         ]
     },
@@ -939,8 +939,8 @@
             {"x": -2, "y": 2, "part": "storage_battery"},
             {"x": -2, "y": 2, "part": "solar_panel"},
             {"x": -3, "y": -1, "part": "wheel"},
-            {"x": -3, "y": 0, "part": "door"},
-            {"x": -3, "y": 1, "part": "door"},
+            {"x": -3, "y": 0, "part": "door_trunk"},
+            {"x": -3, "y": 1, "part": "door_trunk"},
             {"x": -3, "y": 2, "part": "wheel"}
         ]
     },
