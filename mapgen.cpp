@@ -528,18 +528,21 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vx = rng (0, 3) * 4 + 5;
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
-    if (rc <= 50)
+    if (rc <= 40) {
         add_vehicle (g, "car_chassis", vx, vy, veh_spawn_heading, -1, 1);
-    else if (rc <= 70)
+    } else if (rc <= 60) {
         add_vehicle (g, "car", vx, vy, veh_spawn_heading, -1, 1);
-    else if (rc <= 80)
+    } else if (rc <= 70) {
+        add_vehicle (g, "cube_van", vx, vy, veh_spawn_heading, -1, 1);
+    } else if (rc <= 80) {
         add_vehicle (g, "electric_car", vx, vy, veh_spawn_heading, -1, 1);
-    else if (rc <= 90)
+    } else if (rc <= 90) {
         add_vehicle (g, "flatbed_truck", vx, vy, veh_spawn_heading, -1, 1);
-    else if (rc <= 95)
+    } else if (rc <= 95) {
         add_vehicle (g, "rv", vx, vy, veh_spawn_heading, -1, 1);
-    else
+    } else {
         add_vehicle (g, "motorcycle", vx, vy, veh_spawn_heading, -1, 1);
+    }
    }
   }
 
@@ -1409,6 +1412,7 @@ t   t\n\
           int rb = rng(1, 100);
           if (rb <= 25) {        vt = "truck_trailer";
           } else if (rb <= 35) { vt = "semi_truck";
+          } else if (rb <= 50) { vt = "cube_van";
           } else {               vt = "flatbed_truck";
           }
       }	else if (r < 50) { //commons
@@ -2691,25 +2695,25 @@ ___DEEE|.R.|...,,...|sss\n",
       }
      if (t_west == ot_office_tower_b && t_north == ot_office_tower_b){
             rotate(1);
-            if (x_in_y(1,5)){add_vehicle (g, "car", 17, 4, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "cube_van", 17, 4, 180);}
             if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 17, 10, 180);}
             if (x_in_y(1,3)){add_vehicle (g, "car", 17, 17, 180);}
             }
      else if (t_east == ot_office_tower_b && t_north == ot_office_tower_b){
             rotate(2);
-            if (x_in_y(1,5)){add_vehicle (g, "car", 6, 17, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "cube_van", 6, 17, 270);}
             if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 12, 17, 270);}
             if (x_in_y(1,3)){add_vehicle (g, "car", 18, 17, 270);}
             }
      else if (t_east == ot_office_tower_b && t_south == ot_office_tower_b){
             rotate(3);
-            if (x_in_y(1,5)){add_vehicle (g, "car", 6, 6, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "cube_van", 6, 6, 0);}
             if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 6, 13, 0);}
             if (x_in_y(1,3)){add_vehicle (g, "car", 5, 19, 180);}
             }
      else{
             if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 16, 6, 90);}
-            if (x_in_y(1,5)){add_vehicle (g, "car", 10, 6, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "cube_van", 10, 6, 90);}
             if (x_in_y(1,3)){add_vehicle (g, "car", 4, 6, 90);}
             }
      }
@@ -3373,7 +3377,7 @@ C..C..C...|hhh|#########\n\
    ter_set(13, rng(16, 19), (one_in(3) ? t_door_c : t_door_locked));
   if (rn == 2) {
    if (one_in(5))
-    place_gas_pump(rng(4, 10), 16, rng(500, 5000));
+     place_gas_pump(rng(4, 10), 16, rng(500, 5000));
       else ter_set(rng(4, 10), 16, t_recycler);
    if (one_in(3)) {	// Place a dumpster
     int startx = rng(2, 11), starty = rng(18, 19);
