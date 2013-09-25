@@ -308,30 +308,28 @@ void curses_drawwindow(WINDOW *win)
                 drawx=((win->x+w)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
                 if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
-				const char* utf8str = win->line[j].chars+i;
-				int len = ANY_LENGTH;
+                const char* utf8str = win->line[j].chars+i;
+                int len = ANY_LENGTH;
                 tmp = UTF8_getch(&utf8str, &len);
                 int FG = win->line[j].FG[w];
                 int BG = win->line[j].BG[w];
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
-                if ( tmp != UNKNOWN_UNICODE){
+                if (tmp != UNKNOWN_UNICODE) {
 
                     int color = RGB(windowsPalette[FG].rgbRed,windowsPalette[FG].rgbGreen,windowsPalette[FG].rgbBlue);
                     SetTextColor(backbuffer,color);
 
-					int cw = mk_wcwidth((wchar_t)tmp);
-					len = ANY_LENGTH-len;
-					if(cw>1)
-					{
-						FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
-						w+=cw-1;
-					}
-					if(len>1)
-					{
-						i+=len-1;
-					}
-                    if(tmp) ExtTextOutW (backbuffer,drawx,drawy,0,NULL,(WCHAR*)&tmp,1,NULL);
+                    int cw = mk_wcwidth((wchar_t)tmp);
+                    len = ANY_LENGTH-len;
+                    if (cw > 1) {
+                        FillRectDIB(drawx+fontwidth*(cw-1), drawy, fontwidth, fontheight, BG);
+                        w += cw - 1;
+                    }
+                    if (len > 1) {
+                        i += len - 1;
+                    }
+                    if (tmp) ExtTextOutW (backbuffer, drawx, drawy, 0, NULL, (WCHAR*)&tmp, 1, NULL);
                 } else {
                     switch ((unsigned char)win->line[j].chars[i]) {
                     case LINE_OXOX_C://box bottom/top side (horizontal line)

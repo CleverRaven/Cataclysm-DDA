@@ -865,7 +865,7 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_CIG:
-            if (dis.duration >= 600) {	// Smoked too much
+            if (dis.duration >= 600) { // Smoked too much
                 p.str_cur--;
                 p.dex_cur--;
                 if (dis.duration >= 1200 && (one_in(50) || will_vomit(p, 10))) {
@@ -1368,19 +1368,19 @@ int disease_speed_boost(disease dis)
      }
      break;
 
- case DI_INFECTION:	return -80;
- case DI_SAP:		return -25;
- case DI_SPORES:	return -15;
- case DI_SLIMED:	return -25;
- case DI_BADPOISON:	return -10;
- case DI_FOODPOISON:	return -20;
- case DI_WEBBED:	return -25;
- case DI_ADRENALINE:	return (dis.duration > 150 ? 40 : -10);
- case DI_ASTHMA:	return 0 - int(dis.duration / 5);
- case DI_GRACK:         return +20000;
- case DI_METH:		return (dis.duration > 600 ? 50 : -40);
- case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
- default:;
+    case DI_INFECTION:  return -80;
+    case DI_SAP:        return -25;
+    case DI_SPORES:     return -15;
+    case DI_SLIMED:     return -25;
+    case DI_BADPOISON:  return -10;
+    case DI_FOODPOISON: return -20;
+    case DI_WEBBED:     return -25;
+    case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
+    case DI_ASTHMA:     return 0 - int(dis.duration / 5);
+    case DI_GRACK:      return +20000;
+    case DI_METH:       return (dis.duration > 600 ? 50 : -40);
+    case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
+    default:;
  }
  return 0;
 }
@@ -2084,7 +2084,7 @@ void manage_fungal_infection(player& p, disease& dis) {
     p.moves -= 10;
     p.str_cur -= 1;
     p.dex_cur -= 1;
-    if (dis.duration > -600) {	// First hour symptoms
+    if (dis.duration > -600) { // First hour symptoms
         if (one_in(160 + bonus)) {
             handle_cough(p);
         }
@@ -2094,7 +2094,7 @@ void manage_fungal_infection(player& p, disease& dis) {
         if (one_in(100 + bonus)) {
             g->add_msg_if_player(&p,_("You smell and taste mushrooms."));
         }
-    } else if (dis.duration > -3600) {	// One to six hours
+    } else if (dis.duration > -3600) { // One to six hours
         if (one_in(600 + bonus * 3)) {
             g->add_msg_if_player(&p,_("You spasm suddenly!"));
             p.moves -= 100;
@@ -2183,13 +2183,13 @@ void manage_sleep(player& p, disease& dis) {
     int highest = p.mutation_category_level[highcat];
 
     // Determine the strength of effects or dreams based upon category strength
-    int strength = 0;	// Category too weak for any effect or dream
+    int strength = 0; // Category too weak for any effect or dream
     if (highest >= 20 && highest < 35) {
-        strength = 1;	// Low strength
+        strength = 1; // Low strength
     } else if (highest >= 35 && highest < 50) {
-        strength = 2;	// Medium strength
+        strength = 2; // Medium strength
     } else if (highest >= 50) {
-        strength = 3;	// High strength
+        strength = 3; // High strength
     }
 
     // Get a dream if category strength is high enough.

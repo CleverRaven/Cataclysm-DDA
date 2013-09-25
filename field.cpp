@@ -26,86 +26,86 @@ void game::init_fields()
             {0,0,0}
         },
         {
-            {_("bile splatter"), _("bile stain"), _("puddle of bile")},	'%',
-            {c_pink, c_pink, c_pink},	{true, true, true}, {false, false, false},2500,
+            {_("bile splatter"), _("bile stain"), _("puddle of bile")}, '%',
+            {c_pink, c_pink, c_pink}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
         },
 
         {
-            {_("scraps of flesh"),	_("bloody meat chunks"),	_("heap of gore")},			'~',
-            {c_brown, c_ltred, c_red},	{true, true, true}, {false, false, false},	   2500,
+            {_("scraps of flesh"), _("bloody meat chunks"), _("heap of gore")}, '~',
+            {c_brown, c_ltred, c_red}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
         },
 
         {
-            {_("shredded leaves and twigs"),	_("shattered branches and leaves"),	_("broken vegetation tangle")},			'~',
-            {c_ltgreen, c_ltgreen, c_green},	{true, true, true}, {false, false, false},	   2500,
+            {_("shredded leaves and twigs"), _("shattered branches and leaves"), _("broken vegetation tangle")}, '~',
+            {c_ltgreen, c_ltgreen, c_green}, {true, true, true}, {false, false, false}, 2500,
             {0,0,0}
         },
 
         {
-            {_("cobwebs"),_("webs"), _("thick webs")},			'}',
-            {c_white, c_white, c_white},	{true, true, false},{false, false, false},   0,
+            {_("cobwebs"),_("webs"), _("thick webs")}, '}',
+            {c_white, c_white, c_white}, {true, true, false},{false, false, false}, 0,
             {0,0,0}
         },
 
         {
-            {_("slime trail"), _("slime stain"), _("puddle of slime")},	'%',
-            {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false},2500,
+            {_("slime trail"), _("slime stain"), _("puddle of slime")}, '%',
+            {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false}, 2500,
             {0,0,0}
         },
 
         {
-            {_("acid splatter"), _("acid streak"), _("pool of acid")},	'5',
-            {c_ltgreen, c_green, c_green},	{true, true, true}, {true, true, true},	    10,
+            {_("acid splatter"), _("acid streak"), _("pool of acid")}, '5',
+            {c_ltgreen, c_green, c_green}, {true, true, true}, {true, true, true}, 10,
             {0,0,0}
         },
 
         {
-            {_("sap splatter"), _("glob of sap"), _("pool of sap")},	'5',
-            {c_yellow, c_brown, c_brown},	{true, true, true}, {true, true, true},     20,
+            {_("sap splatter"), _("glob of sap"), _("pool of sap")}, '5',
+            {c_yellow, c_brown, c_brown}, {true, true, true}, {true, true, true}, 20,
             {0,0,0}
         },
 
         {
-            {_("thin sludge trail"), _("sludge trail"), _("thick sludge trail")},	'5',
-            {c_ltgray, c_dkgray, c_black},	{true, true, true}, {false, false, false}, 900,
+            {_("thin sludge trail"), _("sludge trail"), _("thick sludge trail")}, '5',
+            {c_ltgray, c_dkgray, c_black}, {true, true, true}, {false, false, false}, 900,
             {0,0,0}
         },
 
         {
-            {_("small fire"),	_("fire"),	_("raging fire")},			'4',
-            {c_yellow, c_ltred, c_red},	{true, true, true}, {true, true, true},	   800,
+            {_("small fire"), _("fire"), _("raging fire")}, '4',
+            {c_yellow, c_ltred, c_red}, {true, true, true}, {true, true, true}, 800,
             {0,0,0}
         },
 
         {
-            {_("rubble heap"),	_("rubble pile"), _("mountain of rubble")},		'#',
-            {c_dkgray, c_dkgray, c_dkgray},	{true, true, false},{false, false, false},  0,
+            {_("rubble heap"), _("rubble pile"), _("mountain of rubble")}, '#',
+            {c_dkgray, c_dkgray, c_dkgray}, {true, true, false},{false, false, false},  0,
             {0,0,0}
         },
 
         {
-            {_("thin smoke"),	_("smoke"), _("thick smoke")},		'8',
-            {c_white, c_ltgray, c_dkgray},	{true, false, false},{false, true, true},  300,
+            {_("thin smoke"), _("smoke"), _("thick smoke")}, '8',
+            {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true},  300,
             {0,0,0}
         },
 
         {
-            {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")},		'8',
+            {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")}, '8',
             {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true},  900,
             {0,0,0}
         },
 
         {
-            {_("hazy cloud"),_("tear gas"),_("thick tear gas")},		'8',
-            {c_white, c_yellow, c_brown},	{true, false, false},{true, true, true},   600,
+            {_("hazy cloud"),_("tear gas"),_("thick tear gas")}, '8',
+            {c_white, c_yellow, c_brown}, {true, false, false},{true, true, true},   600,
             {0,0,0}
         },
 
         {
             {_("hazy cloud"),_("radioactive gas"), _("thick radioactive gas")}, '8',
-            {c_white, c_ltgreen, c_green},	{true, true, false}, {true, true, true},  1000,
+            {c_white, c_ltgreen, c_green}, {true, true, false}, {true, true, true},  1000,
             {0,0,0}
         },
 
@@ -128,13 +128,13 @@ void game::init_fields()
         },
 
         {
-            {_("sparks"), _("electric crackle"), _("electric cloud")},	'9',
-            {c_white, c_cyan, c_blue},	{true, true, true}, {true, true, true},	     2,
+            {_("sparks"), _("electric crackle"), _("electric cloud")}, '9',
+            {c_white, c_cyan, c_blue}, {true, true, true}, {true, true, true}, 2,
             {0,0,0}
         },
 
         {
-            {_("odd ripple"), _("swirling air"), _("tear in reality")},	'*',
+            {_("odd ripple"), _("swirling air"), _("tear in reality")}, '*',
             {c_ltgray, c_dkgray, c_magenta},{true, true, false},{false, false, false},  0,
             {0,0,0}
         },
@@ -158,14 +158,14 @@ void game::init_fields()
         },
 
         { // plasma glow (for plasma weapons)
-            {_("faint plasma"), _("glowing plasma"), _("burning plasma")},	'9',
-            {c_magenta, c_pink, c_white},	{true, true, true}, {false, false, false},	     2,
+            {_("faint plasma"), _("glowing plasma"), _("burning plasma")}, '9',
+            {c_magenta, c_pink, c_white}, {true, true, true}, {false, false, false}, 2,
             {0,0,0}
         },
 
         { // laser beam (for laser weapons)
-            {_("faint glimmer"), _("beam of light"), _("intense beam of light")},	'#',
-            {c_blue, c_ltblue, c_white},	{true, true, true}, {false, false, false},	     1,
+            {_("faint glimmer"), _("beam of light"), _("intense beam of light")}, '#',
+            {c_blue, c_ltblue, c_white}, {true, true, true}, {false, false, false}, 1,
             {0,0,0}
         }
     };
@@ -182,14 +182,14 @@ Helper function that encapsulates the logic involved in gas spread.
 static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype,
                         int percent_spread, int outdoor_age_speedup )
 {
-				// Reset nearby scents to zero
-				for (int i = -1; i <= 1; i++) {
+    // Reset nearby scents to zero
+    for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             g->scent( x + i, y + j ) = 0;
         }
     }
     // Dissapate faster outdoors.
-    if (m->is_outside(x, y)) {	cur->setFieldAge( cur->getFieldAge() + outdoor_age_speedup ); }
+    if (m->is_outside(x, y)) { cur->setFieldAge( cur->getFieldAge() + outdoor_age_speedup ); }
 
     // Bail out if we don't meet the spread chance.
     if( rng(1, 100) > percent_spread ) { return; }
@@ -978,8 +978,8 @@ void map::step_in_field(int x, int y, game *g)
         //Do things based on what field effect we are currently in.
         switch (cur->getFieldType()) {
         case fd_null:
-        case fd_blood:	// It doesn't actually do anything
-        case fd_bile:		// Ditto
+        case fd_blood: // It doesn't actually do anything
+        case fd_bile:  // Ditto
             //break instead of return in the event of post-processing in the future;
             // also we're in a loop now!
             break;
@@ -1185,7 +1185,7 @@ void map::step_in_field(int x, int y, game *g)
 void map::mon_in_field(int x, int y, game *g, monster *z)
 {
     if (z->has_flag(MF_DIGS)) {
-        return;	// Digging monsters are immune to fields
+        return; // Digging monsters are immune to fields
     }
     field &curfield = field_at(x, y);
     field_entry *cur = NULL;
@@ -1199,8 +1199,8 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 
         switch (cur->getFieldType()) {
         case fd_null:
-        case fd_blood:	// It doesn't actually do anything
-        case fd_bile:		// Ditto
+        case fd_blood: // It doesn't actually do anything
+        case fd_bile:  // Ditto
             break;
 
         case fd_web:
@@ -1292,7 +1292,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                 if (cur->getFieldDensity() == 3) {
                     z->moves -= rng(10, 20);
                 }
-                if (z->made_of("veggy")) {	// Plants suffer from smoke even worse
+                if (z->made_of("veggy")) { // Plants suffer from smoke even worse
                     z->moves -= rng(1, cur->getFieldDensity() * 12);
                 }
             }
@@ -1418,13 +1418,14 @@ bool vector_has(std::vector <item> vec, itype_id type)
  return false;
 }
 
+// TODO FIXME XXX: oh god the horror
 void map::field_effect(int x, int y, game *g) //Applies effect of field immediately
 {
-	field_entry *cur = NULL;
+ field_entry *cur = NULL;
  field &curfield = field_at(x, y);
  for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-	   cur = field_list_it->second;
-	   if(cur == NULL) continue;
+ cur = field_list_it->second;
+ if(cur == NULL) continue;
 
  switch (cur->getFieldType()) {                        //Can add independent code for different types of fields to apply different effects
   case fd_rubble:
@@ -1510,61 +1511,61 @@ int field_entry::move_cost() const{
 }
 
 field_id field_entry::getFieldType() const{
-	return type;
+    return type;
 }
 
 
 signed char field_entry::getFieldDensity() const{
-	return density;
+    return density;
 }
 
 
 int field_entry::getFieldAge() const{
-	return age;
+    return age;
 }
 
 field_id field_entry::setFieldType(const field_id new_field_id){
 
-	//TODO: Better bounds checking.
-	if(new_field_id >= 0 && new_field_id < num_fields){
-		type = new_field_id;
-	} else {
-		type = fd_null;
-	}
+    //TODO: Better bounds checking.
+    if(new_field_id >= 0 && new_field_id < num_fields){
+        type = new_field_id;
+    } else {
+        type = fd_null;
+    }
 
-	return type;
+    return type;
 
 }
 
 signed char field_entry::setFieldDensity(const signed char new_density){
 
-	if(new_density > 3)
-		density = 3;
-	else if (new_density < 1){
-		density = 1;
-		is_alive = false;
-}
-	else
-		density = new_density;
+    if(new_density > 3)
+        density = 3;
+    else if (new_density < 1){
+        density = 1;
+        is_alive = false;
+    }
+    else
+        density = new_density;
 
-	return density;
+    return density;
 
 }
 
 int field_entry::setFieldAge(const int new_age){
 
-	age = new_age;
+    age = new_age;
 
-	return age;
+    return age;
 }
 
 field::field(){
-	draw_symbol = fd_null;
-	dirty = false;
+    draw_symbol = fd_null;
+    dirty = false;
 };
 
 field::~field(){
-	if(dirty) return;
+    if(dirty) return;
 };
 
 /*
@@ -1649,7 +1650,7 @@ Function: fieldCount
 Returns the number of fields existing on the current tile.
 */
 unsigned int field::fieldCount() const{
-	return field_list.size();
+    return field_list.size();
 };
 
 std::map<field_id, field_entry*>& field::getEntries() {
@@ -1658,13 +1659,13 @@ std::map<field_id, field_entry*>& field::getEntries() {
 
 std::map<field_id, field_entry*>::iterator field::getFieldStart(){
 
-	return field_list.begin();
+    return field_list.begin();
 
 };
 
 std::map<field_id, field_entry*>::iterator field::getFieldEnd(){
 
-	return field_list.end();
+    return field_list.end();
 
 };
 
@@ -1673,7 +1674,7 @@ Function: fieldSymbol
 Returns the last added field from the tile for drawing purposes.
 */
 field_id field::fieldSymbol() const{
-	return draw_symbol;
+    return draw_symbol;
 }
 
 std::map<field_id, field_entry*>::iterator field::replaceField(field_id old_field, field_id new_field)

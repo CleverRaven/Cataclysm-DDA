@@ -160,32 +160,32 @@ void addict_effect(game *g, addiction &add)
  */
 std::string addiction_type_name(add_type cur)
 {
-  switch(cur) {
-    case ADD_CIG:		return _("nicotine");
-    case ADD_CAFFEINE:	return _("caffeine");
-    case ADD_ALCOHOL:	return _("alcohol");
-    case ADD_SLEEP:	return _("sleeping pills");
-    case ADD_PKILLER:	return _("opiates");
-    case ADD_SPEED:	return _("amphetamine");
-    case ADD_COKE:	return _("cocaine");
-    case ADD_CRACK:       return _("crack cocaine");
-    default:		return "bugs in addiction.cpp";
-  }
+    switch(cur) {
+    case ADD_CIG:       return _("nicotine");
+    case ADD_CAFFEINE:  return _("caffeine");
+    case ADD_ALCOHOL:   return _("alcohol");
+    case ADD_SLEEP:     return _("sleeping pills");
+    case ADD_PKILLER:   return _("opiates");
+    case ADD_SPEED:     return _("amphetamine");
+    case ADD_COKE:      return _("cocaine");
+    case ADD_CRACK:     return _("crack cocaine");
+    default:            return "bugs in addiction.cpp";
+    }
 }
 
 std::string addiction_name(addiction cur)
 {
- switch (cur.type) {
-  case ADD_CIG:		return _("Nicotine Withdrawal");
-  case ADD_CAFFEINE:	return _("Caffeine Withdrawal");
-  case ADD_ALCOHOL:	return _("Alcohol Withdrawal");
-  case ADD_SLEEP:	return _("Sleeping Pill Dependance");
-  case ADD_PKILLER:	return _("Opiate Withdrawal");
-  case ADD_SPEED:	return _("Amphetamine Withdrawal");
-  case ADD_COKE:	return _("Cocaine Withdrawal");
-  case ADD_CRACK:       return _("Crack Cocaine Withdrawal");
-  default:		return "Erroneous addiction";
- }
+    switch (cur.type) {
+    case ADD_CIG:       return _("Nicotine Withdrawal");
+    case ADD_CAFFEINE:  return _("Caffeine Withdrawal");
+    case ADD_ALCOHOL:   return _("Alcohol Withdrawal");
+    case ADD_SLEEP:     return _("Sleeping Pill Dependance");
+    case ADD_PKILLER:   return _("Opiate Withdrawal");
+    case ADD_SPEED:     return _("Amphetamine Withdrawal");
+    case ADD_COKE:      return _("Cocaine Withdrawal");
+    case ADD_CRACK:     return _("Crack Cocaine Withdrawal");
+    default:            return "Erroneous addiction";
+    }
 }
 
 morale_type addiction_craving(add_type cur)
@@ -205,23 +205,23 @@ morale_type addiction_craving(add_type cur)
 add_type addiction_type(std::string name)
 {
     if (name == "nicotine")
-	return ADD_CIG;
+        return ADD_CIG;
     else if (name == "caffeine")
-	return ADD_CAFFEINE;
+        return ADD_CAFFEINE;
     else if (name == "alcohol")
-	return ADD_ALCOHOL;
+        return ADD_ALCOHOL;
     else if (name == "sleeping pill")
-	return ADD_SLEEP;
+        return ADD_SLEEP;
     else if (name == "opiate")
-	return ADD_PKILLER;
+        return ADD_PKILLER;
     else if (name == "amphetamine")
-	return ADD_SPEED;
+        return ADD_SPEED;
     else if (name == "cocaine")
-	return ADD_COKE;
+        return ADD_COKE;
     else if (name == "crack")
-	return ADD_CRACK;
+        return ADD_CRACK;
     else
-	return ADD_NULL;
+        return ADD_NULL;
 }
 
 std::string addiction_text(addiction cur)

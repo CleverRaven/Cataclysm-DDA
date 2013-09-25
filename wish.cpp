@@ -543,5 +543,5 @@ void game::wishskill(player * p) {
         }
       } while ( skmenu.ret != -1 && ( skmenu.keypress != 'q' && skmenu.keypress != ' ' &&
                                       skmenu.keypress != KEY_ESCAPE ) );
-	  delete[] origskills;
+      delete[] origskills;
 }

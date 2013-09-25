@@ -36,7 +36,7 @@ struct field_t {
  bool dangerous[3];
 
  //Controls, albeit randomly, how long a field of a given type will last before going down in density.
- int halflife;	// In turns
+ int halflife; // In turns
 
  //cost of moving into and out of this field
  int move_cost[3];

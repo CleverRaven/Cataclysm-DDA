@@ -818,24 +818,24 @@ bool cata_tiles::draw_lighting(int x, int y, LIGHTING l)
 bool cata_tiles::draw_terrain(int x, int y)
 {
     int t = g->m.ter(x, y); // get the ter_id value at this point
-	// check for null, if null return false
-	if (t == t_null) return false;
+    // check for null, if null return false
+    if (t == t_null) return false;
 
-	// need to check for walls, and then deal with wallfication details!
-	int s = terlist[t].sym;
-	//bool wallchange = false;
+    // need to check for walls, and then deal with wallfication details!
+    int s = terlist[t].sym;
+    //bool wallchange = false;
 
-	//char alteration = 0;
-	int subtile = 0, rotation = 0;
+    //char alteration = 0;
+    int subtile = 0, rotation = 0;
 
     // check walls
-	if (s == LINE_XOXO /*vertical*/ || s == LINE_OXOX /*horizontal*/)
-	{
-		get_wall_values(x, y, LINE_XOXO, LINE_OXOX, subtile, rotation);
-		//wallchange = true;
-	}
-	// check windows and doors for wall connections, may or may not have a subtile available, but should be able to rotate to some extent
-	else if (s == '"' || s == '+' || s == '\'')
+    if (s == LINE_XOXO /*vertical*/ || s == LINE_OXOX /*horizontal*/)
+    {
+        get_wall_values(x, y, LINE_XOXO, LINE_OXOX, subtile, rotation);
+        //wallchange = true;
+    }
+    // check windows and doors for wall connections, may or may not have a subtile available, but should be able to rotate to some extent
+    else if (s == '"' || s == '+' || s == '\'')
     {
         get_wall_values(x, y, LINE_XOXO, LINE_OXOX, subtile, rotation);
     }
@@ -845,7 +845,7 @@ bool cata_tiles::draw_terrain(int x, int y)
         // do something to get other terrain orientation values
     }
 
-	std::string tname;
+    std::string tname;
 
     tname = terrain_names[t];
 
@@ -863,10 +863,10 @@ bool cata_tiles::draw_furniture(int x, int y)
     // for rotation inforomation
     const int neighborhood[4] =
     {
-        g->m.furn(x, y+1), // south
-        g->m.furn(x+1, y), // east
-        g->m.furn(x-1, y), // west
-        g->m.furn(x, y-1)  // north
+        static_cast<int> (g->m.furn(x, y+1)), // south
+        static_cast<int> (g->m.furn(x+1, y)), // east
+        static_cast<int> (g->m.furn(x-1, y)), // west
+        static_cast<int> (g->m.furn(x, y-1))  // north
     };
 
     int subtile = 0, rotation = 0;
@@ -887,10 +887,10 @@ bool cata_tiles::draw_trap(int x, int y)
 
     const int neighborhood[4] =
     {
-        g->m.tr_at(x, y+1), // south
-        g->m.tr_at(x+1, y), // east
-        g->m.tr_at(x-1, y), // west
-        g->m.tr_at(x, y-1)  // north
+        static_cast<int> (g->m.tr_at(x, y+1)), // south
+        static_cast<int> (g->m.tr_at(x+1, y)), // east
+        static_cast<int> (g->m.tr_at(x-1, y)), // west
+        static_cast<int> (g->m.tr_at(x, y-1))  // north
     };
 
     int subtile = 0, rotation = 0;
@@ -914,10 +914,10 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         // for rotation inforomation
         const int neighborhood[4] =
         {
-            g->m.field_at(x, y+1).fieldSymbol(), // south
-            g->m.field_at(x+1, y).fieldSymbol(), // east
-            g->m.field_at(x-1, y).fieldSymbol(), // west
-            g->m.field_at(x, y-1).fieldSymbol()  // north
+            static_cast<int> (g->m.field_at(x, y+1).fieldSymbol()), // south
+            static_cast<int> (g->m.field_at(x+1, y).fieldSymbol()), // east
+            static_cast<int> (g->m.field_at(x-1, y).fieldSymbol()), // west
+            static_cast<int> (g->m.field_at(x, y-1).fieldSymbol())  // north
         };
 
         int subtile = 0, rotation = 0;
@@ -1306,7 +1306,7 @@ void cata_tiles::get_terrain_orientation(int x, int y, int& rota, int& subtile)
 }
 void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects, int &rotation, int &subtile)
 {
-	switch(num_connects)
+    switch(num_connects)
     {
         case 0: rotation = 0; subtile = unconnected; break;
         case 4: rotation = 0; subtile = center; break;
@@ -1348,29 +1348,29 @@ void cata_tiles::get_wall_values(const int x, const int y, const long vertical_w
 {
     // makes the assumption that x,y is a wall | window | door of some sort
     const long neighborhood[4] = {
-		terlist[g->m.ter(x, y+1)].sym, // south
-		terlist[g->m.ter(x+1, y)].sym, // east
-		terlist[g->m.ter(x-1, y)].sym, // west
-		terlist[g->m.ter(x, y-1)].sym  // north
-	};
+        terlist[g->m.ter(x, y+1)].sym, // south
+        terlist[g->m.ter(x+1, y)].sym, // east
+        terlist[g->m.ter(x-1, y)].sym, // west
+        terlist[g->m.ter(x, y-1)].sym  // north
+    };
 
-	bool connects[4];
+    bool connects[4];
 
-	char val = 0;
-	int num_connects = 0;
+    char val = 0;
+    int num_connects = 0;
 
-	// populate connection information
-	for (int i = 0; i < 4; ++i)
-	{
-		connects[i] = (neighborhood[i] == vertical_wall_symbol || neighborhood[i] == horizontal_wall_symbol) || (neighborhood[i] == '"' || neighborhood[i] == '+' || neighborhood[i] == '\'');
+    // populate connection information
+    for (int i = 0; i < 4; ++i)
+    {
+        connects[i] = (neighborhood[i] == vertical_wall_symbol || neighborhood[i] == horizontal_wall_symbol) || (neighborhood[i] == '"' || neighborhood[i] == '+' || neighborhood[i] == '\'');
 
-		if (connects[i])
-		{
-		    ++num_connects;
-			val += 1 << i;
-		}
-	}
-	get_rotation_and_subtile(val, num_connects, rotation, subtile);
+        if (connects[i])
+        {
+            ++num_connects;
+            val += 1 << i;
+        }
+    }
+    get_rotation_and_subtile(val, num_connects, rotation, subtile);
     //DebugLog() << "Expected Wall Tile: <" << multitile_keys[subtile] << "-" << rotation << "> at <" << x << ", " << y << ">\n";
 }
 

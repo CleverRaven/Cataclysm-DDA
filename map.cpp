@@ -859,8 +859,8 @@ bool map::displace_water (const int x, const int y)
 
 void map::set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture)
 {
- furn_set(x, y, new_furniture);
-	ter_set(x, y, new_terrain);
+    furn_set(x, y, new_furniture);
+    ter_set(x, y, new_terrain);
 }
 
 std::string map::name(const int x, const int y)
@@ -1011,20 +1011,20 @@ bool map::trans(const int x, const int y)
   tertr = terlist[ter(x, y)].flags & mfb(transparent);
  if( tertr ){
   // Fields may obscure the view, too
-	 field &curfield = field_at(x,y);
-	 if(curfield.fieldCount() > 0){
-	 field_entry *cur = NULL;
-	  for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+  field &curfield = field_at(x,y);
+  if(curfield.fieldCount() > 0){
+  field_entry *cur = NULL;
+   for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
        field_list_it != curfield.getFieldEnd(); ++field_list_it){
-			 cur = field_list_it->second;
-			 if(cur == NULL) continue;
-			 //If ANY field blocks vision, the tile does.
-			 if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]){
-				 return false;
-			 }
-	  }
-	 }
-	 return true; //no blockers found, this is transparent
+    cur = field_list_it->second;
+    if(cur == NULL) continue;
+    //If ANY field blocks vision, the tile does.
+    if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]){
+     return false;
+    }
+   }
+  }
+  return true; //no blockers found, this is transparent
  }
  return false; //failsafe block vision
 }
@@ -1989,7 +1989,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         case t_wall_log_broken:
         case t_door_b:
             if (hit_items || one_in(8))
-            {	// 1 in 8 chance of hitting the door
+            { // 1 in 8 chance of hitting the door
                 dam -= rng(20, 40);
                 if (dam > 0)
                 {
@@ -2163,7 +2163,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
 
         default:
             if (move_cost(x, y) == 0 && !trans(x, y))
-                dam = 0;	// TODO: Bullets can go through some walls?
+                dam = 0; // TODO: Bullets can go through some walls?
             else
                 dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
     }
@@ -2189,8 +2189,8 @@ void map::shoot(game *g, const int x, const int y, int &dam,
    // switch (fieldhit->type)
    // {
         //case fd_web:
-	//Removed switch for now as web is the only relevant choice to avoid a currently redundant for loop declaration for all the field types.
-	if(fieldhit){
+    //Removed switch for now as web is the only relevant choice to avoid a currently redundant for loop declaration for all the field types.
+    if(fieldhit){
             if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"))
                 add_field(g, x, y, fd_fire, fieldhit->getFieldDensity() - 1);
             else if (dam > 5 + fieldhit->getFieldDensity() * 5 &&
@@ -2199,13 +2199,13 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                 dam -= rng(1, 2 + fieldhit->getFieldDensity() * 2);
                 remove_field(x, y,fd_web);
             }
-	}
+    }
         //break;
     //}
 
     // Now, destroy items on that tile.
     if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y))
-        return;	// Items on floor-type spaces won't be shot up.
+        return; // Items on floor-type spaces won't be shot up.
 
     for (int i = 0; i < i_at(x, y).size(); i++)
     {
@@ -2720,77 +2720,74 @@ void map::process_active_items(game *g)
 
 void map::process_active_items_in_submap(game *g, const int nonant)
 {
-	it_tool* tmp;
-	iuse use;
-	for (int i = 0; i < SEEX; i++) {
-		for (int j = 0; j < SEEY; j++) {
-			std::vector<item> *items = &(grid[nonant]->itm[i][j]);
-			for (int n = 0; n < items->size(); n++) {
-				if ((*items)[n].active ||
-				((*items)[n].is_container() && (*items)[n].contents.size() > 0 && (*items)[n].contents[0].active))
-				{
-					if ((*items)[n].is_food()) {	// food items
-						if ((*items)[n].has_flag("HOT")) {
-							(*items)[n].item_counter--;
-							if ((*items)[n].item_counter == 0) {
-								(*items)[n].item_tags.erase("HOT");
-								(*items)[n].active = false;
-								grid[nonant]->active_item_count--;
-							}
-						}
-					} else if ((*items)[n].is_food_container()) {	// food in containers
-						if ((*items)[n].contents[0].has_flag("HOT")) {
-							(*items)[n].contents[0].item_counter--;
-							if ((*items)[n].contents[0].item_counter == 0) {
-								(*items)[n].contents[0].item_tags.erase("HOT");
-								(*items)[n].contents[0].active = false;
-								grid[nonant]->active_item_count--;
-							}
-						}
-					} else if ((*items)[n].type->id == "corpse") { // some corpses rez over time
-					    if ((*items)[n].ready_to_revive(g))
-					    {
-             if (rng(0,(*items)[n].volume()) > (*items)[n].burnt)
-             {
-                 int mapx = (nonant % my_MAPSIZE) * SEEX + i;
-                 int mapy = (nonant / my_MAPSIZE) * SEEY + j;
-                 if (g->u_see(mapx, mapy))
-                 {
-                     g->add_msg(_("A nearby corpse rises and moves towards you!"));
-                 }
-                 g->revive_corpse(mapx, mapy, n);
-             } else {
-                 (*items)[n].active = false;
-             }
-					    }
-					} else if	(!(*items)[n].is_tool()) { // It's probably a charger gun
-						(*items)[n].active = false;
-						(*items)[n].charges = 0;
-					} else {
-						tmp = dynamic_cast<it_tool*>((*items)[n].type);
-						if (tmp->use != &iuse::none)
-						{
-						    (use.*tmp->use)(g, &(g->u), &((*items)[n]), true);
-						}
-						if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge ==0)
-						(*items)[n].charges--;
-						if ((*items)[n].charges <= 0) {
-						    if (tmp->use != &iuse::none)
-						    {
-							    (use.*tmp->use)(g, &(g->u), &((*items)[n]), false);
-							}
-							if (tmp->revert_to == "null" || (*items)[n].charges == -1) {
-								items->erase(items->begin() + n);
-								grid[nonant]->active_item_count--;
-								n--;
-							} else
-								(*items)[n].type = g->itypes[tmp->revert_to];
-						}
-					}
-				}
-			}
-		}
-	}
+    it_tool* tmp;
+    iuse use;
+    for (int i = 0; i < SEEX; i++) {
+        for (int j = 0; j < SEEY; j++) {
+            std::vector<item> *items = &(grid[nonant]->itm[i][j]);
+            for (int n = 0; n < items->size(); n++) {
+                if ((*items)[n].active ||
+                        ((*items)[n].is_container() && (*items)[n].contents.size() > 0 && (*items)[n].contents[0].active))
+                {
+                    if ((*items)[n].is_food()) { // food items
+                        if ((*items)[n].has_flag("HOT")) {
+                            (*items)[n].item_counter--;
+                            if ((*items)[n].item_counter == 0) {
+                                (*items)[n].item_tags.erase("HOT");
+                                (*items)[n].active = false;
+                                grid[nonant]->active_item_count--;
+                            }
+                        }
+                    } else if ((*items)[n].is_food_container()) { // food in containers
+                        if ((*items)[n].contents[0].has_flag("HOT")) {
+                            (*items)[n].contents[0].item_counter--;
+                            if ((*items)[n].contents[0].item_counter == 0) {
+                                (*items)[n].contents[0].item_tags.erase("HOT");
+                                (*items)[n].contents[0].active = false;
+                                grid[nonant]->active_item_count--;
+                            }
+                        }
+                    } else if ((*items)[n].type->id == "corpse") { // some corpses rez over time
+                        if ((*items)[n].ready_to_revive(g)) {
+                            if (rng(0,(*items)[n].volume()) > (*items)[n].burnt) {
+                                int mapx = (nonant % my_MAPSIZE) * SEEX + i;
+                                int mapy = (nonant / my_MAPSIZE) * SEEY + j;
+                                if (g->u_see(mapx, mapy)) {
+                                    g->add_msg(_("A nearby corpse rises and moves towards you!"));
+                                }
+                                g->revive_corpse(mapx, mapy, n);
+                            } else {
+                                (*items)[n].active = false;
+                            }
+                        }
+                    } else if (!(*items)[n].is_tool()) { // It's probably a charger gun
+                        (*items)[n].active = false;
+                        (*items)[n].charges = 0;
+                    } else {
+                        tmp = dynamic_cast<it_tool*>((*items)[n].type);
+                        if (tmp->use != &iuse::none)
+                        {
+                            (use.*tmp->use)(g, &(g->u), &((*items)[n]), true);
+                        }
+                        if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge ==0)
+                        (*items)[n].charges--;
+                        if ((*items)[n].charges <= 0) {
+                            if (tmp->use != &iuse::none)
+                            {
+                                (use.*tmp->use)(g, &(g->u), &((*items)[n]), false);
+                            }
+                            if (tmp->revert_to == "null" || (*items)[n].charges == -1) {
+                                items->erase(items->begin() + n);
+                                grid[nonant]->active_item_count--;
+                                n--;
+                            } else
+                                (*items)[n].type = g->itypes[tmp->revert_to];
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 std::list<item> map::use_amount(const point origin, const int range, const itype_id type, const int amount,
@@ -2944,7 +2941,7 @@ trap_id map::tr_at(const int x, const int y)
  const int ly = y % SEEY;
  if (lx < 0 || lx >= SEEX || ly < 0 || ly >= SEEY) {
   debugmsg("tr_at contained bad x:y %d:%d", lx, ly);
-  return tr_null;	// Out-of-bounds, return our null trap
+  return tr_null; // Out-of-bounds, return our null trap
  }
 
  if (terlist[ grid[nonant]->ter[lx][ly] ].trap != tr_null) {
@@ -3054,27 +3051,27 @@ field& map::field_at(const int x, const int y)
 
 bool map::add_field(game *g, const point p, const field_id t, unsigned int density, const int age)
 {
-	if (!INBOUNDS(p.x, p.y))
-		return false;
+    if (!INBOUNDS(p.x, p.y))
+        return false;
 
-	if (density > 3)
-		density = 3;
-	if (density <= 0)
-		return false;
-	const int nonant = int(p.x / SEEX) + int(p.y / SEEY) * my_MAPSIZE;
+    if (density > 3)
+        density = 3;
+    if (density <= 0)
+        return false;
+    const int nonant = int(p.x / SEEX) + int(p.y / SEEY) * my_MAPSIZE;
 
-	const int lx = p.x % SEEX;
-	const int ly = p.y % SEEY;
-	if (!grid[nonant]->fld[lx][ly].findField(t)) //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
-		grid[nonant]->field_count++; //Only adding it to the count if it doesn't exist.
-	grid[nonant]->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
-	if(g != NULL && p.x == g->u.posx && p.y == g->u.posy)
-		step_in_field(p.x,p.y,g); //Hit the player with the field if it spawned on top of them.
-	return true;
+    const int lx = p.x % SEEX;
+    const int ly = p.y % SEEY;
+    if (!grid[nonant]->fld[lx][ly].findField(t)) //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
+        grid[nonant]->field_count++; //Only adding it to the count if it doesn't exist.
+    grid[nonant]->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
+    if(g != NULL && p.x == g->u.posx && p.y == g->u.posy)
+        step_in_field(p.x,p.y,g); //Hit the player with the field if it spawned on top of them.
+    return true;
 }
 
 bool map::add_field(game *g, const int x, const int y,
-					const field_id t, const unsigned char new_density)
+                    const field_id t, const unsigned char new_density)
 {
  return this->add_field(g,point(x,y),t,new_density,0);
 }
@@ -3106,45 +3103,43 @@ computer* map::computer_at(const int x, const int y)
 
 bool map::allow_camp(const int x, const int y, const int radius)
 {
-	return camp_at(x, y, radius) == NULL;
+    return camp_at(x, y, radius) == NULL;
 }
 
 basecamp* map::camp_at(const int x, const int y, const int radius)
 {
-	// locate the nearest camp in a CAMPSIZE radius
- if (!INBOUNDS(x, y))
-  return NULL;
+    // locate the nearest camp in a CAMPSIZE radius
+    if (!INBOUNDS(x, y)) {
+        return NULL;
+    }
 
- const int sx = std::max(0, x / SEEX - CAMPSIZE);
- const int sy = std::max(0, y / SEEY - CAMPSIZE);
- const int ex = std::min(MAPSIZE - 1, x / SEEX + CAMPSIZE);
- const int ey = std::min(MAPSIZE - 1, y / SEEY + CAMPSIZE);
+    const int sx = std::max(0, x / SEEX - CAMPSIZE);
+    const int sy = std::max(0, y / SEEY - CAMPSIZE);
+    const int ex = std::min(MAPSIZE - 1, x / SEEX + CAMPSIZE);
+    const int ey = std::min(MAPSIZE - 1, y / SEEY + CAMPSIZE);
 
- for( int ly = sy; ly < ey; ++ly )
- {
- 	for( int lx = sx; lx < ex; ++lx )
- 	{
- 		int nonant = lx + ly * my_MAPSIZE;
- 		if (grid[nonant]->camp.is_valid())
- 		{
- 			// we only allow on camp per size radius, kinda
- 			return &(grid[nonant]->camp);
- 		}
- 	}
- }
+    for (int ly = sy; ly < ey; ++ly) {
+        for (int lx = sx; lx < ex; ++lx) {
+            int nonant = lx + ly * my_MAPSIZE;
+            if (grid[nonant]->camp.is_valid()) {
+                // we only allow on camp per size radius, kinda
+                return &(grid[nonant]->camp);
+            }
+        }
+    }
 
- return NULL;
+    return NULL;
 }
 
 void map::add_camp(const std::string& name, const int x, const int y)
 {
-	if (!allow_camp(x, y)) {
-		dbg(D_ERROR) << "map::add_camp: Attempting to add camp when one in local area.";
-		return;
-	}
+    if (!allow_camp(x, y)) {
+        dbg(D_ERROR) << "map::add_camp: Attempting to add camp when one in local area.";
+        return;
+    }
 
-	const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-	grid[nonant]->camp = basecamp(name, x, y);
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    grid[nonant]->camp = basecamp(name, x, y);
 }
 
 void map::debug()
@@ -3228,9 +3223,9 @@ void map::draw(game *g, WINDOW* w, const point center)
        (dist > light_sight_range &&
          (lit == LL_DARK ||
          (u_sight_impaired && lit != LL_BRIGHT) ||
-	  !can_see))) {
+          !can_see))) {
     if (u_is_boomered)
-   	 mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_magenta, '#');
+     mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_magenta, '#');
     else
          mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_dkgray, '#');
    } else if (dist > light_sight_range && u_sight_impaired && lit == LL_BRIGHT) {
@@ -3243,7 +3238,7 @@ void map::draw(game *g, WINDOW* w, const point center)
      g->mapRain[realy + getmaxy(w)/2 - center.y][realx + getmaxx(w)/2 - center.x] = true;
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > low_sight_range && LL_LIT > lit) ||
-	   (dist > sight_range && LL_LOW == lit),
+           (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
    } else {
     mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,' ');
@@ -3266,7 +3261,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  int cx = view_center_x_arg;
  int cy = view_center_y_arg;
  if (!INBOUNDS(x, y))
-  return;	// Out of bounds
+  return; // Out of bounds
  if (cx == -1)
   cx = u.posx;
  if (cy == -1)
@@ -3299,7 +3294,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  else
   normal_tercol = true;
  if (move_cost(x, y) == 0 && has_flag(swimmable, x, y) && !u.is_underwater())
-  show_items = false;	// Can only see underwater items if WE are underwater
+  show_items = false; // Can only see underwater items if WE are underwater
 // If there's a trap here, and we have sufficient perception, draw that instead
  if (curr_trap != tr_null &&
      u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility) {
@@ -3318,7 +3313,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
 // If there's a field here, draw that instead (unless its symbol is %)
  if (curr_field.fieldCount() > 0 && curr_field.findField(curr_field.fieldSymbol()) &&
      fieldlist[curr_field.fieldSymbol()].sym != '&') {
-		 tercol = fieldlist[curr_field.fieldSymbol()].color[curr_field.findField(curr_field.fieldSymbol())->getFieldDensity() - 1];
+  tercol = fieldlist[curr_field.fieldSymbol()].color[curr_field.findField(curr_field.fieldSymbol())->getFieldDensity() - 1];
   drew_field = true;
   if (fieldlist[curr_field.fieldSymbol()].sym == '*') {
    switch (rng(1, 5)) {
@@ -3390,7 +3385,7 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
  int st;
 
  if (range >= 0 && (abs(dx) > range || abs(dy) > range))
-  return false;	// Out of range!
+  return false; // Out of range!
  if (ax > ay) { // Mostly-horizontal line
   st = SGN(ay - (ax >> 1));
 // Doing it "backwards" prioritizes straight lines before diagonal.
@@ -3453,7 +3448,7 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
  int st;
 
  if (range >= 0 && (abs(dx) > range || abs(dy) > range))
-  return false;	// Out of range!
+  return false; // Out of range!
  if (ax > ay) { // Mostly-horizontal line
   st = SGN(ay - (ax >> 1));
 // Doing it "backwards" prioritizes straight lines before diagonal.
@@ -3533,9 +3528,9 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
 */
  std::vector<point> open;
  astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE];
- int score	[SEEX * MAPSIZE][SEEY * MAPSIZE];
- int gscore	[SEEX * MAPSIZE][SEEY * MAPSIZE];
- point parent	[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ int score[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ int gscore[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ point parent[SEEX * MAPSIZE][SEEY * MAPSIZE];
  int startx = Fx - 4, endx = Tx + 4, starty = Fy - 4, endy = Ty + 4;
  if (Tx < Fx) {
   startx = Tx - 4;
@@ -3580,28 +3575,28 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
   for (int x = open[index].x - 1; x <= open[index].x + 1; x++) {
    for (int y = open[index].y - 1; y <= open[index].y + 1; y++) {
     if (x == open[index].x && y == open[index].y)
-     y++;	// Skip the current square
+     y++; // Skip the current square
     if (x == Tx && y == Ty) {
      done = true;
      parent[x][y] = open[index];
     } else if (x >= startx && x <= endx && y >= starty && y <= endy &&
                (move_cost(x, y) > 0 || (can_bash && has_flag(bashable, x, y)))) {
-     if (list[x][y] == ASL_NONE) {	// Not listed, so make it open
+     if (list[x][y] == ASL_NONE) { // Not listed, so make it open
       list[x][y] = ASL_OPEN;
       open.push_back(point(x, y));
       parent[x][y] = open[index];
       gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y);
       if (ter(x, y) == t_door_c)
-       gscore[x][y] += 4;	// A turn to open it and a turn to move there
+       gscore[x][y] += 4; // A turn to open it and a turn to move there
       else if (move_cost(x, y) == 0 && (can_bash && has_flag(bashable, x, y)))
-       gscore[x][y] += 18;	// Worst case scenario with damage penalty
+       gscore[x][y] += 18; // Worst case scenario with damage penalty
       score[x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
      } else if (list[x][y] == ASL_OPEN) { // It's open, but make it our child
       int newg = gscore[open[index].x][open[index].y] + move_cost(x, y);
       if (ter(x, y) == t_door_c)
-       newg += 4;	// A turn to open it and a turn to move there
+       newg += 4; // A turn to open it and a turn to move there
       else if (move_cost(x, y) == 0 && (can_bash && has_flag(bashable, x, y)))
-       newg += 18;	// Worst case scenario with damage penalty
+       newg += 18; // Worst case scenario with damage penalty
       if (newg < gscore[x][y]) {
        gscore[x][y] = newg;
        parent[x][y] = open[index];
@@ -4142,33 +4137,33 @@ void map::build_transparency_cache()
    //Quoted to see if this works!
    field &curfield = field_at(x,y);
    if(curfield.fieldCount() > 0){
-	   field_entry *cur = NULL;
-	   for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-		   cur = field_list_it->second;
-		   if(cur == NULL) continue;
+    field_entry *cur = NULL;
+    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+     cur = field_list_it->second;
+     if(cur == NULL) continue;
 
-		   if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
-			   // Fields are either transparent or not, however we want some to be translucent
-			   switch(cur->getFieldType()) {
-			   case fd_smoke:
-			   case fd_toxic_gas:
-			   case fd_tear_gas:
-				   if(cur->getFieldDensity() == 3)
-					   transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-				   if(cur->getFieldDensity() == 2)
-					   transparency_cache[x][y] *= 0.5;
-				   break;
-			   case fd_nuke_gas:
-				   transparency_cache[x][y] *= 0.5;
-				   break;
-			   default:
-				   transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-				   break;
-			   }
-		   }
+     if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
+      // Fields are either transparent or not, however we want some to be translucent
+      switch(cur->getFieldType()) {
+      case fd_smoke:
+      case fd_toxic_gas:
+      case fd_tear_gas:
+       if(cur->getFieldDensity() == 3)
+        transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+       if(cur->getFieldDensity() == 2)
+        transparency_cache[x][y] *= 0.5;
+       break;
+      case fd_nuke_gas:
+       transparency_cache[x][y] *= 0.5;
+       break;
+      default:
+       transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+       break;
+      }
+     }
 
-		   // TODO: [lightmap] Have glass reduce light as well
-	   }
+     // TODO: [lightmap] Have glass reduce light as well
+    }
    }
   }
  }

@@ -82,26 +82,26 @@ std::ostream & operator<<(std::ostream & out, const std::vector<C,A> & elm)
 
 struct DebugLog
 {
-	DebugLog() {
-		fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
-	}
-	~DebugLog() {
-		fout.close();
-	}
+    DebugLog() {
+        fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
+    }
+    ~DebugLog() {
+        fout.close();
+    }
 
-	template <class T>
-	DebugLog& operator<<(T& t) {
-		fout << t;
-		return *this;
-	}
-	template <class T>
-	DebugLog& operator<<(const T& t){
+    template <class T>
+    DebugLog& operator<<(T& t) {
         fout << t;
         return *this;
-	}
+    }
+    template <class T>
+    DebugLog& operator<<(const T& t){
+        fout << t;
+        return *this;
+    }
 
 private:
-	std::ofstream fout;
+    std::ofstream fout;
 };
 
 

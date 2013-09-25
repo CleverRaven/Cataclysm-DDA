@@ -4,28 +4,28 @@
 #include <string>
 
 enum InputEvent {
-	Confirm,
-	Cancel,
-	Close,
-	Help,
+    Confirm,
+    Cancel,
+    Close,
+    Help,
 
-	DirectionN,
-	DirectionS,
-	DirectionE,
-	DirectionW,
-	DirectionNW,
-	DirectionNE,
-	DirectionSE,
-	DirectionSW,
-	DirectionNone,
+    DirectionN,
+    DirectionS,
+    DirectionE,
+    DirectionW,
+    DirectionNW,
+    DirectionNE,
+    DirectionSE,
+    DirectionSW,
+    DirectionNone,
 
-	DirectionDown, /* Think stairs */
-	DirectionUp,
+    DirectionDown, /* Think stairs */
+    DirectionUp,
     Filter,
     Reset,
-	Pickup,
-	Nothing,
-	Undefined
+    Pickup,
+    Nothing,
+    Undefined
 };
 
 InputEvent get_input(int ch = '\0');

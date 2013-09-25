@@ -204,8 +204,8 @@ void npc::randomize(game *g, npc_class type)
   type = NC_NONE;
 
  myclass = type;
- switch (type) {	// Type of character
- case NC_NONE:	// Untyped; no particular specialization
+ switch (type) { // Type of character
+ case NC_NONE: // Untyped; no particular specialization
   for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    int level = 0;
    if (one_in(3))
@@ -452,9 +452,9 @@ void npc::randomize_from_faction(game *g, faction *fac)
  if (fac->has_job(FACJOB_MERCENARIES)) {
   if (!one_in(3)) {
    switch (rng(1, 3)) {
-    case 1: randomize(g, NC_NINJA);		break;
-    case 2: randomize(g, NC_COWBOY);		break;
-    case 3: randomize(g, NC_BOUNTY_HUNTER);	break;
+    case 1: randomize(g, NC_NINJA);  break;
+    case 2: randomize(g, NC_COWBOY);  break;
+    case 3: randomize(g, NC_BOUNTY_HUNTER); break;
    }
   }
   personality.aggression += rng(0, 2);
@@ -513,10 +513,10 @@ void npc::randomize_from_faction(game *g, faction *fac)
   personality.aggression -= rng(0, 2);
   personality.bravery -= rng(0, 2);
   switch (rng(1, 4)) {
-   case 1: boost_skill_level("mechanics", dice(2, 4));		break;
-   case 2: boost_skill_level("electronics", dice(2, 4));	break;
-   case 3: boost_skill_level("cooking", dice(2, 4));		break;
-   case 4: boost_skill_level("tailor", dice(2,  4));		break;
+   case 1: boost_skill_level("mechanics", dice(2, 4));   break;
+   case 2: boost_skill_level("electronics", dice(2, 4)); break;
+   case 3: boost_skill_level("cooking", dice(2, 4));     break;
+   case 4: boost_skill_level("tailor", dice(2,  4));     break;
   }
  }
 
@@ -796,7 +796,7 @@ std::list<item> starting_inv(npc *me, npc_class type, game *g)
    total_space -= ret.back().volume();
   }
  }
- if (type == NC_TRADER) {	// Traders just have tons of random junk
+ if (type == NC_TRADER) { // Traders just have tons of random junk
   while (total_space > 0 && !one_in(50)) {
    tmp = standard_itype_ids[rng(0,standard_itype_ids.size()-1)];
    if (total_space >= g->itypes[tmp]->volume) {
@@ -878,7 +878,7 @@ void npc::spawn_at(overmap *o, int x, int y, int z)
 
 void npc::place_near(game *g, int potentialX, int potentialY)
 {
-	//places the npc at the nearest empty spot near (potentialX, potentialY). Searches in a spiral pattern for a suitable location.
+    //places the npc at the nearest empty spot near (potentialX, potentialY). Searches in a spiral pattern for a suitable location.
     int x = 0, y = 0, dx = 0, dy = -1;
     int temp;
     while(!g->is_empty(potentialX + x, potentialY + y))
@@ -1051,8 +1051,8 @@ void npc::perform_mission(game *g)
   }
   break;
  case NPC_MISSION_SHOPKEEP:
-  break;	// Just stay where we are
- default:	// Random Walk
+  break; // Just stay where we are
+ default: // Random Walk
   if (int(g->turn) % 24 == 0) {
    mapx += rng(-1, 1);
    mapy += rng(-1, 1);
@@ -1070,7 +1070,7 @@ void npc::form_opinion(player *u)
    op_of_u.fear += 6;
  } else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
   op_of_u.fear += 2;
- else if (u->unarmed_attack())	// Unarmed
+ else if (u->unarmed_attack()) // Unarmed
   op_of_u.fear -= 3;
 
  if (u->str_max >= 16)
@@ -1202,10 +1202,10 @@ int npc::player_danger(player *u)
    ret += 8;
  } else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
   ret++;
- else if (u->weapon.type->id == "null")	// Unarmed
+ else if (u->weapon.type->id == "null") // Unarmed
   ret -= 3;
 
- if (u->str_cur > 20)	// Superhuman strength!
+ if (u->str_cur > 20) // Superhuman strength!
   ret += 4;
  if (u->str_max >= 16)
   ret += 2;
@@ -1237,7 +1237,7 @@ int npc::player_danger(player *u)
 
 int npc::vehicle_danger(game *g, int radius)
 {
-	VehicleList vehicles = g->m.get_vehicles(posx - radius, posy - radius, posx + radius, posy + radius);
+    VehicleList vehicles = g->m.get_vehicles(posx - radius, posy - radius, posx + radius, posy + radius);
 
  int danger = 0;
 
@@ -1260,7 +1260,7 @@ int npc::vehicle_danger(game *g, int radius)
    int closest = abs((posx - ax) * (by - ay) - (posy - ay) * (bx - ax)) / normal;
 
    if (size > closest)
-   	danger = i;
+    danger = i;
   }
 
  return danger;
@@ -1338,7 +1338,7 @@ int npc::minutes_to_u(game *g)
   ret = abs(mapy - g->levy);
  ret *= 24;
  ret /= 10;
- while (ret % 5 != 0)	// Round up to nearest five-minute interval
+ while (ret % 5 != 0) // Round up to nearest five-minute interval
   ret++;
  return ret;
 }
@@ -1616,7 +1616,7 @@ int npc::danger_assessment(game *g)
  }
  ret /= 10;
  if (ret <= 2)
-  ret = -10 + 5 * ret;	// Low danger if no monsters around
+  ret = -10 + 5 * ret; // Low danger if no monsters around
 
 // Mod for the player
  if (is_enemy()) {
@@ -1965,38 +1965,38 @@ void npc::die(game *g, bool your_fault)
 std::string npc_attitude_name(npc_attitude att)
 {
  switch (att) {
- case NPCATT_NULL:	// Don't care/ignoring player
+ case NPCATT_NULL:          // Don't care/ignoring player
   return _("Ignoring");
- case NPCATT_TALK:		// Move to and talk to player
+ case NPCATT_TALK:          // Move to and talk to player
   return _("Wants to talk");
- case NPCATT_TRADE:		// Move to and trade with player
+ case NPCATT_TRADE:         // Move to and trade with player
   return _("Wants to trade");
- case NPCATT_FOLLOW:		// Follow the player
+ case NPCATT_FOLLOW:        // Follow the player
   return _("Following");
- case NPCATT_FOLLOW_RUN:	// Follow the player, don't shoot monsters
+ case NPCATT_FOLLOW_RUN:    // Follow the player, don't shoot monsters
   return _("Following & ignoring monsters");
- case NPCATT_LEAD:		// Lead the player, wait for them if they're behind
+ case NPCATT_LEAD:          // Lead the player, wait for them if they're behind
   return _("Leading");
- case NPCATT_WAIT:		// Waiting for the player
+ case NPCATT_WAIT:          // Waiting for the player
   return _("Waiting for you");
- case NPCATT_DEFEND:		// Kill monsters that threaten the player
+ case NPCATT_DEFEND:        // Kill monsters that threaten the player
   return _("Defending you");
- case NPCATT_MUG:		// Mug the player
+ case NPCATT_MUG:           // Mug the player
   return _("Mugging you");
- case NPCATT_WAIT_FOR_LEAVE:	// Attack the player if our patience runs out
+ case NPCATT_WAIT_FOR_LEAVE:// Attack the player if our patience runs out
   return _("Waiting for you to leave");
- case NPCATT_KILL:		// Kill the player
+ case NPCATT_KILL:          // Kill the player
   return _("Attacking to kill");
- case NPCATT_FLEE:		// Get away from the player
+ case NPCATT_FLEE:          // Get away from the player
   return _("Fleeing");
- case NPCATT_SLAVE:		// Following the player under duress
+ case NPCATT_SLAVE:         // Following the player under duress
   return _("Enslaved");
- case NPCATT_HEAL:		// Get to the player and heal them
+ case NPCATT_HEAL:          // Get to the player and heal them
   return _("Healing you");
 
- case NPCATT_MISSING:	// Special; missing NPC as part of mission
+ case NPCATT_MISSING:       // Special; missing NPC as part of mission
   return _("Missing NPC");
- case NPCATT_KIDNAPPED:	// Special; kidnapped NPC as part of mission
+ case NPCATT_KIDNAPPED:     // Special; kidnapped NPC as part of mission
   return _("Kidnapped");
  default:
   return _("Unknown");

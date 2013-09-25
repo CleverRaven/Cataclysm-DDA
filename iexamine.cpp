@@ -18,7 +18,7 @@
 #include <sstream>
 #include <algorithm>
 
-void iexamine::none	(game *g, player *p, map *m, int examx, int examy) {
+void iexamine::none(game *g, player *p, map *m, int examx, int examy) {
  g->add_msg(_("That is a %s."), m->name(examx, examy).c_str());
 };
 
@@ -438,7 +438,7 @@ void iexamine::slot_machine(game *g, player *p, map *m, int examx, int examy) {
     popup(_("Three cherries... you get your money back!"));
    else if (one_in(20)) {
     popup(_("Three bells... you win $50!"));
-    p->cash += 40;	// Minus the $10 we wagered
+    p->cash += 40; // Minus the $10 we wagered
    } else if (one_in(50)) {
     popup(_("Three stars... you win $200!"));
     p->cash += 190;
@@ -486,11 +486,11 @@ void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) 
   if (create_camp)
    options.push_back(_("Create camp"));
   options.push_back(_("Cancel"));
- 		// TODO: Other Bulletin Boards
+  // TODO: Other Bulletin Boards
   int choice = menu_vec(true, _("Bulletin Board"), options) - 1;
   if (choice >= 0 && choice < options.size()) {
    if (options[choice] == _("Create camp")) {
-  			// TODO: Allow text entry for name
+    // TODO: Allow text entry for name
     m->add_camp(_("Home"), examx, examy);
    }
   }

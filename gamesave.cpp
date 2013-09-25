@@ -268,7 +268,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
 
     int z = 0; // assumption
     while (fin >> datatype) {
-        if (datatype == 'L') { 	// Load layer data, and switch to layer
+        if (datatype == 'L') { // Load layer data, and switch to layer
             fin >> z;
 
             int tmp_ter;
@@ -290,29 +290,29 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
             } else {
                 debugmsg("Loaded z level out of range (z: %d)", z);
             }
-        } else if (datatype == 'Z') {	// Monster group
+        } else if (datatype == 'Z') { // Monster group
             fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
             zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
             zg.back().diffuse = cd;
             zg.back().dying = cdying;
             nummg++;
-        } else if (datatype == 't') {	// City
+        } else if (datatype == 't') { // City
             fin >> cx >> cy >> cs;
             tmp.x = cx; tmp.y = cy; tmp.s = cs;
             cities.push_back(tmp);
-        } else if (datatype == 'R') {	// Road leading out
+        } else if (datatype == 'R') { // Road leading out
             fin >> cx >> cy;
             tmp.x = cx; tmp.y = cy; tmp.s = 0;
             roads_out.push_back(tmp);
-        } else if (datatype == 'T') {	// Radio tower
+        } else if (datatype == 'T') { // Radio tower
             radio_tower tmp;
             int tmp_type;
             fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
             tmp.type = (radio_type)tmp_type;
-            getline(fin, tmp.message);	// Chomp endl
+            getline(fin, tmp.message); // Chomp endl
             getline(fin, tmp.message);
             radios.push_back(tmp);
-        } else if (datatype == 'n') {	// NPC
+        } else if (datatype == 'n') { // NPC
 // When we start loading a new NPC, check to see if we've accumulated items for
 //   assignment to an NPC.
 
@@ -363,7 +363,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
         std::string vline;
         getline(fin, vline);
     }
-    if (sfin.is_open()) {	// Load private seen data
+    if (sfin.is_open()) { // Load private seen data
         int z = 0; // assumption
         while (sfin >> datatype) {
             if (datatype == 'L') {  // Load layer data, and switch to layer
@@ -388,7 +388,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
             } else if (datatype == 'N') { // Load notes
                 om_note tmp;
                 sfin >> tmp.x >> tmp.y >> tmp.num;
-                getline(sfin, tmp.text);	// Chomp endl
+                getline(sfin, tmp.text); // Chomp endl
                 getline(sfin, tmp.text);
                 if (z >= 0 && z < OVERMAP_LAYERS) {
                     layer[z].notes.push_back(tmp);

@@ -146,8 +146,8 @@ char game::inv(std::string title)
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int ch = (int)'.';
  int start = 0, cur_it = 0, max_it;
- u.inv.sort();
  u.inv.restack(&u);
+ u.inv.sort();
  invslice slice = u.inv.slice(0, u.inv.size());
  std::vector<char> null_vector;
  print_inv_statics(this, w_inv, title, null_vector);
@@ -264,8 +264,9 @@ char game::inv_type(std::string title, item_cat inv_item_type)
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int ch = (int)'.';
  int start = 0, cur_it = 0, max_it;
- u.inv.sort();
  u.inv.restack(&u);
+ u.inv.sort();
+
  std::vector<char> null_vector;
  print_inv_statics(this, w_inv, title, null_vector);
 // Gun, ammo, weapon, armor, food, tool, book, other
@@ -376,8 +377,8 @@ char game::inv_type(std::string title, item_cat inv_item_type)
 
 std::vector<item> game::multidrop()
 {
- u.inv.sort();
  u.inv.restack(&u);
+ u.inv.sort();
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? FULL_SCREEN_WIDTH : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  int drp_line_width=getmaxx(w_inv)-90;
  const std::string drp_line_padding = ( drp_line_width > 1 ? std::string(drp_line_width, ' ') : " ");
@@ -680,8 +681,8 @@ void game::compare(int iCompareX, int iCompareY)
  }
  //Only the first 10 Items due to numbering 0-9
  const int groundsize = (grounditems.size() > 10 ? 10 : grounditems.size());
- u.inv.sort();
  u.inv.restack(&u);
+ u.inv.sort();
 
  invslice stacks = u.inv.slice(0, u.inv.size());
 

@@ -59,7 +59,7 @@ inline std::stringstream & stream_line(std::ifstream & f, std::stringstream & s,
 /*
  * Parse an open .sav file in an old, now broken format to preserve a game across versions
  */
-bool	 game::unserialize_legacy(std::ifstream & fin) {
+bool game::unserialize_legacy(std::ifstream & fin) {
 
    switch (savegame_loading_version) {
 
