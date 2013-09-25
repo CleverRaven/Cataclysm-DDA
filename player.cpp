@@ -3980,6 +3980,63 @@ void player::knock_back_from(game *g, int x, int y)
  }
 }
 
+void player::bp_convert(hp_part &hpart, body_part bp, int side)
+{
+    hpart =  num_hp_parts;
+    switch(bp) {
+        case bp_head:
+            hpart = hp_head;
+            break;
+        case bp_torso:
+            hpart = hp_torso;
+            break;
+        case bp_arms:
+            if (side == 0) {
+                hpart = hp_arm_l;
+            } else {
+                hpart = hp_arm_r;
+            }
+            break;
+        case bp_legs:
+            if (side == 0) {
+                hpart = hp_leg_l;
+            } else {
+                hpart = hp_leg_r;
+            }
+            break;
+    }
+}
+
+void player::hp_convert(hp_part hpart, body_part &bp, int &side)
+{
+    bp =  num_bp;
+    side = -1;
+    switch(hpart) {
+        case hp_head:
+            bp = bp_head;
+            break;
+        case hp_torso:
+            bp = bp_torso;
+            break;
+        case hp_arm_l:
+            bp = bp_arms;
+            side = 0;
+            break;
+        case hp_arm_r:
+            bp = bp_arms;
+            side = 1;
+            break;
+        case hp_leg_l:
+            bp = bp_legs;
+            side = 0;
+            break;
+        case hp_leg_r:
+            bp = bp_legs;
+            side = 1;
+            break;
+    }
+}
+
 int player::hp_percentage()
 {
  int total_cur = 0, total_max = 0;
@@ -4058,7 +4115,7 @@ void player::infect(dis_type type, body_part vector, int strength,
 void player::add_disease(dis_type type, int duration,
                          int intensity, int max_intensity,
                          body_part part, int side, bool main_parts_only, 
-                         bool additive)
+                         int additive)
 {
     if (duration == 0) {
         return;
@@ -4093,8 +4150,13 @@ void player::add_disease(dis_type type, int duration,
                 return;
             }
             if (illness[i].bp == part && illness[i].side == side) {
-                if (additive) {
+                if (additive > 0) {
                     illness[i].duration += duration;
+                } else if (additive < 0) {
+                    illness[i].duration -= duration;
+                    if (illness[i].duration <= 0) {
+                        illness[i].duration = 1;
+                    }
                 }
                 illness[i].intensity += intensity;
                 if (max_intensity != -1 && illness[i].intensity > max_intensity) {
@@ -4252,13 +4314,6 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     } else {
         return false;
     }
-}
-
-void player::cauterize(game *g) {
- rem_disease("bleed");
- rem_disease("bite");
- pain += 15;
- g->add_msg_if_player(this,_("You cauterize yourself. It hurts like hell!"));
 }
 
 void player::suffer(game *g)

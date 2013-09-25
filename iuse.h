@@ -190,6 +190,7 @@ class iuse
 
 private:
   bool heat_item(game *g, player *p);
+  void cauterize_effect(player *p, item *it);
 };
 
 #endif

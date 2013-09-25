@@ -431,7 +431,7 @@ static hp_part body_window(player *p, item *it, std::string item_name, int norma
 }
 
 // returns true if we want to use the special action
-static bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_power,
+static hp_part use_healing_item(game *g, player *p, item *it, int normal_power, int head_power,
                       int torso_power, std::string item_name, int bleed,
                       int bite, int infect)
 {
@@ -473,7 +473,7 @@ static bool use_healing_item(game *g, player *p, item *it, int normal_power, int
         healed = body_window(p, it, item_name, normal_bonus, head_bonus, 
                              torso_bonus, bleed, bite, infect);
         if (healed == num_hp_parts) {
-            return false;
+            return healed;
         }
     }
     p->practice(g->turn, "firstaid", 8);
@@ -493,43 +493,33 @@ static bool use_healing_item(game *g, player *p, item *it, int normal_power, int
 
     body_part bp_healed = bp_torso;
     int side = -1;
-    switch(healed) {
-        case hp_head:
-            bp_healed = bp_head;
-            break;
-        case hp_torso:
-            bp_healed = bp_torso;
-            break;
-        case hp_arm_l:
-            bp_healed = bp_arms;
-            side = 0;
-            break;
-        case hp_arm_r:
-            bp_healed = bp_arms;
-            side = 1;
-            break;
-        case hp_leg_l:
-            bp_healed = bp_legs;
-            side = 0;
-            break;
-        case hp_leg_r:
-            bp_healed = bp_legs;
-            side = 1;
-            break;
+    p->hp_convert(healed, bp_healed, side);
+
+    if (p->has_disease("bleed", bp_healed, side)) {
+        if (x_in_y(bleed, 100)) {
+            p->rem_disease("bleed", bp_healed, side);
+            g->add_msg_if_player(p,_("You stop the bleeding."));
+        } else {
+            g->add_msg_if_player(p,_("You fail to stop the bleeding."));
+        }
     }
-    if (x_in_y(bleed, 100) && p->has_disease("bleed", bp_healed, side)) {
-        p->rem_disease("bleed", bp_healed, side);
-        g->add_msg_if_player(p,_("You stop the bleeding."));
+    if (p->has_disease("bite", bp_healed, side)) {
+        if (x_in_y(bite, 100)) {
+            p->rem_disease("bite", bp_healed, side);
+            g->add_msg_if_player(p,_("You clean the wound."));
+        } else {
+            g->add_msg_if_player(p,_("Your wound still aches."));
+        }
     }
-    if (x_in_y(bite, 100) && p->has_disease("bite", bp_healed, side)) {
-        p->rem_disease("bite", bp_healed, side);
-        g->add_msg_if_player(p,_("You clean the wound."));
+    if (p->has_disease("infected", bp_healed, side)) {
+        if (x_in_y(infect, 100)) {
+            p->rem_disease("infected", bp_healed, side);
+            g->add_msg_if_player(p,_("You disinfect the wound."));
+        } else {
+            g->add_msg_if_player(p,_("Your wound still hurts."));
+        }
     }
-    if (x_in_y(infect, 100) && p->has_disease("infected", bp_healed, side)) {
-        p->rem_disease("infected", bp_healed, side);
-        g->add_msg_if_player(p,_("You disinfect the wound."));
-    }
-    return true;
+    return healed;
 }
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
@@ -540,6 +530,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
     use_healing_item(g, p, it, 14, 10, 18, it->name, 95, 99, 95);
+    pkill(g, p, it, t);
 }
 
 void iuse::disinfectant(game *g, player *p, item *it, bool t)
@@ -1556,6 +1547,22 @@ void iuse::glowstick_active(game *g, player *p, item *it, bool t)
         }
     }
 }
+
+void iuse::cauterize_effect(player *p, item *it)
+{
+    hp_part hpart = use_healing_item(g, p, it, -2, -2, -2, it->name, 100, 50, 0);
+    if (hpart != num_hp_parts) {
+        p->pain += 15;
+        g->add_msg_if_player(p, _("You cauterize yourself. It hurts like hell!"));
+        body_part bp =  num_bp;
+        int side = -1;
+        p->hp_convert(hpart, bp, side);
+        if (p->has_disease("bite", bp, side)) {
+            g->u.add_disease("bite", 2600, 1, 1, bp, side, true, -1);
+        }
+    }
+}
+
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)
@@ -1564,7 +1571,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
     else if (!p->has_disease("bite") && !p->has_disease("bleed")) {
         if (p->has_trait("MASOCHIST") && query_yn(_("Cauterize yourself for fun?"))) {
             it->charges -= 1;
-            p->cauterize(g);
+            cauterize_effect(p, it);
         }
         else
             g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
@@ -1572,7 +1579,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
     else if (p->is_npc() || query_yn(_("Cauterize any open wounds?")))
     {
         it->charges -= 1;
-        p->cauterize(g);
+        cauterize_effect(p, it);
     }
 }
 
@@ -4143,7 +4150,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     }
 
     if ( choice == cauterize) {
-        p->cauterize(g);
+        cauterize_effect(p, it);
         return;
     } else if (choice == cut_fabric) {
         ch = g->inv(_("Chop up what?"));
@@ -4886,7 +4893,7 @@ void iuse::mop(game *g, player *p, item *it, bool t)
 void iuse::rag(game *g, player *p, item *it, bool t)
 {
     if (p->has_disease("bleed")){
-        if (use_healing_item(g, p, it, 0, 0, 0, it->name, 50, 0, 0)) {
+        if (use_healing_item(g, p, it, 0, 0, 0, it->name, 50, 0, 0) != num_hp_parts) {
             p->use_charges("rag", 1);
             it->make(g->itypes["rag_bloody"]);
         }

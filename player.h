@@ -237,8 +237,12 @@ public:
  void hurtall(int dam);
  // checks armor. if vary > 0, then damage to parts are random within 'vary' percent (1-100)
  void hitall(game *g, int dam, int vary = 0);
-// Sends us flying one tile
+ // Sends us flying one tile
  void knock_back_from(game *g, int x, int y);
+
+ //Converts bp/side to hp_part and back again
+ void bp_convert(hp_part &hpart, body_part bp, int side);
+ void hp_convert(hp_part hpart, body_part &bp, int &side);
 
  int hp_percentage(); // % of HP remaining, overall
  void recalc_hp(); // Change HP after a change to max strength
@@ -253,7 +257,7 @@ public:
 // -1 indicates that side of body is irrelevant
  void add_disease(dis_type type, int duration, int intensity = 0,
                   int max_intensity = -1, body_part part = num_bp,
-                  int side = -1, bool main_parts_only = false, bool additive = true);
+                  int side = -1, bool main_parts_only = false, int additive = 1);
  void rem_disease(dis_type type, body_part part = num_bp, int side = -1);
  bool has_disease(dis_type type, body_part part = num_bp, int side = -1) const;
  int  disease_level(dis_type type, body_part part = num_bp, int side = -1);
@@ -265,7 +269,6 @@ public:
  int  addiction_level(add_type type);
 
  bool siphon(game *g, vehicle *veh, ammotype desired_liquid);
- void cauterize(game *g);
  void suffer(game *g);
  void mend(game *g);
  void vomit(game *g);
