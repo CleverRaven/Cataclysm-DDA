@@ -217,8 +217,8 @@ static nc_color limb_color(player *p, body_part bp, int side, bool bleed, bool b
 }
 
 static hp_part body_window(player *p, item *it, std::string item_name, int normal_bonus,
-                           int head_bonus, int torso_bonus, bool bleed,
-                           bool bite, bool infect)
+                           int head_bonus, int torso_bonus, int bleed,
+                           int bite, int infect)
 {
     WINDOW* hp_window = newwin(10, 31, (TERMY-10)/2, (TERMX-31)/2);
     wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -326,6 +326,8 @@ static hp_part body_window(player *p, item *it, std::string item_name, int norma
                 }
                 if (current_hp > p->hp_max[i]) {
                     current_hp = p->hp_max[i];
+                } else if (current_hp < 0) {
+                    current_hp = 0;
                 }
 
                 if (current_hp == p->hp_max[i]){
@@ -414,8 +416,7 @@ static hp_part body_window(player *p, item *it, std::string item_name, int norma
             } else {
                 healed_part = hp_leg_r;
             }
-        } else if (ch == '7' || (bleed == false && bite == false && infect == false) ||
-                   ch == KEY_ESCAPE) {
+        } else if (ch == '7' || ch == KEY_ESCAPE) {
             g->add_msg_if_player(p,_("Never mind."));
             add_or_drop_item(g, p, it);
             return num_hp_parts;
@@ -430,12 +431,30 @@ static hp_part body_window(player *p, item *it, std::string item_name, int norma
 }
 
 // returns true if we want to use the special action
-static void use_healing_item(game *g, player *p, item *it, int normal_power, int head_power,
-                      int torso_power, std::string item_name, bool bleed,
-                      bool bite, bool infect)
+static bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_power,
+                      int torso_power, std::string item_name, int bleed,
+                      int bite, int infect)
 {
-    int bonus = p->skillLevel("firstaid");
     hp_part healed = num_hp_parts;
+    int bonus = p->skillLevel("firstaid");
+    int head_bonus = 0;
+    int normal_bonus = 0;
+    int torso_bonus = 0;
+    if (head_power > 0) {
+        head_bonus = bonus * .8 + head_power;
+    } else {
+        head_bonus = head_power;
+    }
+    if (normal_power > 0) {
+        normal_bonus = bonus + normal_power;
+    } else {
+        normal_bonus = normal_power;
+    }
+    if (torso_power > 0) {
+        torso_bonus = bonus * 1.5 + torso_power;
+    } else {
+    torso_bonus = torso_power;
+    }
 
     if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
         int highest_damage = 0;
@@ -451,23 +470,27 @@ static void use_healing_item(game *g, player *p, item *it, int normal_power, int
             }
         }
     } else { // Player--present a menu
-        healed = body_window(p, it, item_name, bonus + normal_power, 
-                             bonus * .8 + head_power, bonus * 1.5 + torso_power, bleed,
-                             bite, infect);
+        healed = body_window(p, it, item_name, normal_bonus, head_bonus, 
+                             torso_bonus, bleed, bite, infect);
         if (healed == num_hp_parts) {
-            return;
+            return false;
         }
     }
     p->practice(g->turn, "firstaid", 8);
     int dam = 0;
     if (healed == hp_head){
-        dam = head_power + bonus * .8;
+        dam = head_bonus;
     } else if (healed == hp_torso){
-        dam = torso_power + bonus * 1.5;
+        dam = torso_bonus;
     } else {
-        dam = normal_power + bonus;
+        dam = normal_bonus;
     }
-    p->heal(healed, dam);
+    if (dam > 0) {
+        p->heal(healed, dam);
+    } else if (dam < 0) {
+        p->hurt(healed, dam);
+    }
+
     body_part bp_healed = bp_torso;
     int side = -1;
     switch(healed) {
@@ -494,33 +517,34 @@ static void use_healing_item(game *g, player *p, item *it, int normal_power, int
             side = 1;
             break;
     }
-    if (bleed && p->has_disease("bleed", bp_healed, side)) {
+    if (x_in_y(bleed, 100) && p->has_disease("bleed", bp_healed, side)) {
         p->rem_disease("bleed", bp_healed, side);
         g->add_msg_if_player(p,_("You stop the bleeding."));
     }
-    if (bite && p->has_disease("bite", bp_healed, side)) {
+    if (x_in_y(bite, 100) && p->has_disease("bite", bp_healed, side)) {
         p->rem_disease("bite", bp_healed, side);
         g->add_msg_if_player(p,_("You clean the wound."));
     }
-    if (infect && p->has_disease("infected", bp_healed, side)) {
+    if (x_in_y(infect, 100) && p->has_disease("infected", bp_healed, side)) {
         p->rem_disease("infected", bp_healed, side);
         g->add_msg_if_player(p,_("You disinfect the wound."));
     }
+    return true;
 }
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
-    use_healing_item(g, p, it, 3, 1, 4, it->name, true, false, false);
+    use_healing_item(g, p, it, 3, 1, 4, it->name, 90, 0, 0);
 }
 
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
-    use_healing_item(g, p, it, 14, 10, 18, it->name, true, true, true);
+    use_healing_item(g, p, it, 14, 10, 18, it->name, 95, 99, 95);
 }
 
 void iuse::disinfectant(game *g, player *p, item *it, bool t)
 {
-    use_healing_item(g, p, it, 6, 5, 9, it->name, false, true, false);
+    use_healing_item(g, p, it, 6, 5, 9, it->name, 0, 95, 0);
 }
 
 void iuse::pkill(game *g, player *p, item *it, bool t)
@@ -4862,13 +4886,10 @@ void iuse::mop(game *g, player *p, item *it, bool t)
 void iuse::rag(game *g, player *p, item *it, bool t)
 {
     if (p->has_disease("bleed")){
-        if (one_in(2)){
-            use_healing_item(g, p, it, 0, 0, 0, it->name, true, false, false);
-        } else {
-            g->add_msg_if_player(p,_("You couldn't stop the bleeding."));
+        if (use_healing_item(g, p, it, 0, 0, 0, it->name, 50, 0, 0)) {
+            p->use_charges("rag", 1);
+            it->make(g->itypes["rag_bloody"]);
         }
-        p->use_charges("rag", 1);
-        it->make(g->itypes["rag_bloody"]);
     } else {
         g->add_msg_if_player(p,_("You're not bleeding enough to need your %s."), it->type->name.c_str());
     }

@@ -3767,6 +3767,38 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
   lifetime_stats()->damage_taken+=dam;
 }
 
+void player::hurt(hp_part hurt, int dam)
+{
+    int painadd = 0;
+    if (has_disease("sleep") && rng(0, dam) > 2) {
+        g->add_msg(_("You wake up!"));
+        rem_disease("sleep");
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
+
+    if (dam <= 0)
+        return;
+
+    if (!is_npc()) {
+        g->cancel_activity_query(_("You were hurt!"));
+    }
+
+    if (has_trait("PAINRESIST")) {
+        painadd = dam / 3;
+    } else {
+        painadd = dam / 2;
+    }
+        pain += painadd;
+
+    hp_cur[hurt] -= dam;
+    if (hp_cur[hurt] < 0) {
+        lifetime_stats()->damage_taken+=hp_cur[hurt];
+        hp_cur[hurt] = 0;
+    }
+    lifetime_stats()->damage_taken+=dam;
+}
+
 void player::heal(body_part healed, int side, int dam)
 {
  hp_part healpart;

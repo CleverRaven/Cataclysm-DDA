@@ -228,7 +228,8 @@ public:
 // absorb() reduces dam and cut by your armor (and bionics, traits, etc)
  void absorb(game *g, body_part bp,               int &dam, int &cut);
 // hurt() doesn't--effects of disease, what have you
- void hurt  (game *g, body_part bphurt, int side, int  dam);
+ void hurt (game *g, body_part bphurt, int side, int  dam);
+ void hurt (hp_part hurt, int dam);
 
  void heal(body_part healed, int side, int dam);
  void heal(hp_part healed, int dam);
