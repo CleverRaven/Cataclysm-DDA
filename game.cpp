@@ -9660,9 +9660,9 @@ void game::plmove(int dx, int dy)
   // leave the old martial arts stuff in for now
 // Some martial art styles have special effects that trigger when we move
   if(u.weapon.type->id == "style_capoeira"){
-    if (u.disease_level("attack_boost") < 2)
+    if (u.disease_duration("attack_boost") < 2)
      u.add_disease("attack_boost", 2, 2, 2);
-    if (u.disease_level("dodge_boost") < 2)
+    if (u.disease_duration("dodge_boost") < 2)
      u.add_disease("dodge_boost", 2, 2, 2);
   } else if(u.weapon.type->id == "style_ninjutsu"){
     u.add_disease("attack_boost", 2, 1, 3);

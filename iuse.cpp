@@ -610,7 +610,7 @@ void iuse::cig(game *g, player *p, item *it, bool t) {
     p->thirst += 2;
     p->hunger -= 3;
     p->add_disease("cig", 200);
-    if (p->disease_level("cig") > 600) {
+    if (p->disease_duration("cig") > 600) {
         g->add_msg_if_player(p,_("Ugh, too much smoke... you feel nasty."));
     }
 }

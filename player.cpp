@@ -4207,7 +4207,7 @@ bool player::has_disease(dis_type type, body_part part, int side) const
     return false;
 }
 
-int player::disease_level(dis_type type, body_part part, int side)
+int player::disease_duration(dis_type type, body_part part, int side)
 {
     for (int i = 0; i < illness.size(); i++) {
         if (illness[i].type == type && illness[i].bp == part &&

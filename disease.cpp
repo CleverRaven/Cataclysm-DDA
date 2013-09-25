@@ -2202,7 +2202,7 @@ static void handle_bite_wound(player& p, disease& dis) {
     if(int(g->turn) % 10 == 1) {
         int recover_factor = 100;
         if (p.has_disease("recover")) {
-            recover_factor -= std::min(p.disease_level("recover") / 720, 100);
+            recover_factor -= std::min(p.disease_duration("recover") / 720, 100);
         }
         recover_factor += p.health; // Health still helps if factor is zero
         recover_factor = std::max(recover_factor, 0); // but can't hurt
@@ -2250,7 +2250,7 @@ static void handle_infected_wound(player& p, disease& dis) {
     if(int(g->turn) % 10 == 1) {
         int recover_factor = 100;
         if (p.has_disease("recover")) {
-            recover_factor -= std::min(p.disease_level("recover") / 720, 100);
+            recover_factor -= std::min(p.disease_duration("recover") / 720, 100);
         }
         recover_factor += p.health; // Health still helps if factor is zero
         recover_factor = std::max(recover_factor, 0); // but can't hurts

@@ -107,9 +107,9 @@ int player::hit_roll()
 // Drunken master makes us hit better
  if (has_trait("DRUNKEN")) {
   if (unarmed_attack())
-   numdice += int(disease_level("drunk") / 300);
+   numdice += int(disease_duration("drunk") / 300);
   else
-   numdice += int(disease_level("drunk") / 400);
+   numdice += int(disease_duration("drunk") / 400);
  }
 
 // Farsightedness makes us hit worse
@@ -539,11 +539,11 @@ int player::roll_bash_damage(monster *z, bool crit)
 // Remember, a single drink gives 600 levels of "drunk"
   int mindrunk, maxdrunk;
   if (unarmed_attack()) {
-   mindrunk = disease_level("drunk") / 600;
-   maxdrunk = disease_level("drunk") / 250;
+   mindrunk = disease_duration("drunk") / 600;
+   maxdrunk = disease_duration("drunk") / 250;
   } else {
-   mindrunk = disease_level("drunk") / 900;
-   maxdrunk = disease_level("drunk") / 400;
+   mindrunk = disease_duration("drunk") / 900;
+   maxdrunk = disease_duration("drunk") / 400;
   }
   ret += rng(mindrunk, maxdrunk);
  }
