@@ -4394,7 +4394,7 @@ void iuse::battletorch(game *g, player *p, item *it, bool t)
     }
     else
     {
-        g->add_msg_if_player(p,_("You light the Louieville Slaughterer."));
+        g->add_msg_if_player(p,_("You light the Louisville Slaughterer."));
         it->make(g->itypes["battletorch_lit"]);
         it->active = true;
     }
@@ -4407,7 +4407,7 @@ void iuse::battletorch_lit(game *g, player *p, item *it, bool t)
     {
         if (it->charges == 0)
         {
-            g->add_msg_if_player(p,_("The Louieville Slaughterer burns out."));
+            g->add_msg_if_player(p,_("The Louisville Slaughterer burns out."));
             it->make(g->itypes["bat"]);
             it->active = false;
         }
@@ -4415,14 +4415,14 @@ void iuse::battletorch_lit(game *g, player *p, item *it, bool t)
     else   // Turning it off
     {
         int choice = menu(true,
-                          _("Louieville Slaughterer (lit)"), _("extinguish"), _("light something"), _("cancel"), NULL);
+                          _("Louisville Slaughterer (lit)"), _("extinguish"), _("light something"), _("cancel"), NULL);
         switch (choice)
         {
             if (choice == 2)
                 break;
         case 1:
         {
-            g->add_msg_if_player(p,_("The Louieville Slaughterer is extinguished"));
+            g->add_msg_if_player(p,_("The Louisville Slaughterer is extinguished"));
             it->charges -= 1;
             it->make(g->itypes["battletorch"]);
             it->active = false;
