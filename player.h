@@ -423,12 +423,12 @@ public:
  int str_max, dex_max, int_max, per_max;
  int power_level, max_power_level;
  int hunger, thirst, fatigue, health;
- int oxygen;
  unsigned int recoil;
  unsigned int driving_recoil;
  unsigned int scent;
  int dodges_left, blocks_left;
  int stim, pain, pkill, radiation;
+ int blood_oxygen;
  int cash;
  int moves;
  int movecounter;

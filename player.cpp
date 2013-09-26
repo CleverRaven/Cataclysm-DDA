@@ -226,7 +226,8 @@ player& player::operator= (const player & rhs)
  health = rhs.health;
 
  underwater = rhs.underwater;
- oxygen = rhs.oxygen;
+ bloodoxygen = rhs.oxygen;
+
  next_climate_control_check=rhs.next_climate_control_check;
  last_climate_control_ret=rhs.last_climate_control_ret;
 
@@ -4334,19 +4335,18 @@ void player::suffer(game *g)
     {
         if (!has_trait("GILLS"))
         {
-            oxygen--;
+            blood_oxygen--;
         }
-        if (oxygen < 0)
+        if (blood_oxygen < 95)
         {
             if (has_bionic("bio_gills") && power_level > 0)
             {
-                oxygen += 5;
+                blood_oxygen = min(95, blood_oxygen++);
                 power_level--;
             }
             else
             {
                 g->add_msg(_("You're drowning!"));
-                hurt(g, bp_torso, 0, rng(1, 4));
             }
         }
     }

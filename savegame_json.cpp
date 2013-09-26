@@ -169,7 +169,7 @@ void player::json_load_common_variables( std::map<std::string, picojson::value> 
     picoint(data,"moves",moves);
     picoint(data,"dodges_left",dodges_left);
     picobool(data,"underwater",underwater);
-    picoint(data,"oxygen",oxygen);
+    picoint(data,"blood_oxygen", blood_oxygen);
     picobool(data,"male",male);
     picoint(data,"cash",cash);
     picouint(data,"recoil",recoil);
@@ -330,7 +330,7 @@ void player::json_save_common_variables( std::map<std::string, picojson::value> 
     data["moves"] = pv( moves );               data["dodges_left"] = pv( dodges_left );
 
     // breathing
-    data["underwater"] = pv( underwater );     data["oxygen"] = pv( oxygen );
+    data["underwater"] = pv( underwater );     data["blood_oxygen"] = pv( blood_oxygen );
 
     // gender
     data["male"] = pv( male );

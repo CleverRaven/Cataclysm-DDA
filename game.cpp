@@ -9820,10 +9820,9 @@ void game::plswim(int x, int y)
   if (!u.is_underwater()) {
     add_msg(_("You sink like a rock!"));
    u.set_underwater(true);
-   u.oxygen = 30 + 2 * u.str_cur;
   }
  }
- if (u.oxygen <= 5 && u.is_underwater()) {
+ if (u.blood_oxygen <= 900 && u.is_underwater()) {
   if (movecost < 500)
     popup(_("You need to breathe! (%s to surface.)"),
           press_x(ACTION_MOVE_UP).c_str());
@@ -10000,7 +9999,6 @@ void game::vertical_move(int movez, bool force)
     return;
    }
    u.set_underwater(true);
-   u.oxygen = 30 + 2 * u.str_cur;
    add_msg(_("You dive underwater!"));
   } else {
    if (u.swim_speed() < 500) {
