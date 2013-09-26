@@ -7280,14 +7280,18 @@ void game::pickup(int posx, int posy, int min)
     //Either no cargo to grab, or we declined; what about water?
     bool got_water = false;
     if (k_part >= 0) {
-      if (veh->fuel_left("water")) {
+      if (veh->fuel_left("water") > 0) { //Will be -1 if no water at all
         if (query_yn(_("Fill a container?"))) {
           int amt = veh->drain("water", veh->fuel_left("water"));
           item fill_water(g->itypes[default_ammo("water")], g->turn);
           fill_water.charges = amt;
           int back = g->move_liquid(fill_water);
-          veh->refill("water", back);
-          got_water = true;
+          if(back >= 0) {
+            veh->refill("water", back);
+            got_water = true;
+          } else {
+            veh->refill("water", amt);
+          }
         }
         if (query_yn(_("Have a drink?"))) {
           veh->drain("water", 1);
@@ -10422,8 +10426,8 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
                     ((stairs || shiftx != 0 || shifty != 0) && z.friendly != 0 ) ) {
             // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
             real_coords rc( m.getabs(z.posx(), z.posy() ) ); // still madness, bud handles straddling omap and -/+
-            z.spawnmapx = rc.abs_sub.x;
-            z.spawnmapy = rc.abs_sub.y;
+            z.spawnmapx = rc.om_sub.x;
+            z.spawnmapy = rc.om_sub.y;
             z.spawnposx = rc.sub_pos.x;
             z.spawnposy = rc.sub_pos.y;
 

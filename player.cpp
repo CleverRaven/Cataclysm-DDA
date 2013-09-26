@@ -4213,7 +4213,7 @@ int player::disease_duration(dis_type type, bool all, body_part part, int side)
     for (int i = 0; i < illness.size(); i++) {
         if (illness[i].type == type && illness[i].bp == part &&
             illness[i].side == side) {
-            if (all = false) {
+            if (all == false) {
                 return illness[i].duration;
             } else {
                 tmp += illness[i].duration;
