@@ -63,7 +63,7 @@ static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
-static void handle_cough(player& p, int volume = 12);
+static void handle_cough(player& p);
 static void handle_deliriant(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
 static void handle_insect_parasites(player& p, disease& dis);
@@ -2405,14 +2405,24 @@ static void handle_recovery(player& p, disease& dis) {
     }
 }
 
-static void handle_cough(player &p, int loudness) {
+static void handle_cough(player &p) {
+    int loudness = rng(4, 20);
     if (!p.is_npc()) {
-        g->add_msg(_("You cough heavily."));
+        if (loudness < 5) { 
+            g->add_msg(_("You cough discreetly."));
+        } else if (loudness < 11) {
+            g->add_msg(_("You cough."));
+        } else if (loudness < 18) {
+           g->add_msg(_("You cough heavily."));
+        } else {
+            g->add_msg(_("You have a coughing fit."));
+            p.moves -= 80;
+        } 
         g->sound(p.posx, p.posy, loudness, "");
     } else {
         g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
     }
-    p.moves -= 80;
+    p.moves -= 6 * loudness;
     if (one_in(10) && p.has_disease("sleep")) {
         p.rem_disease("sleep");
         g->add_msg_if_player(&p,_("You wake up coughing."));
