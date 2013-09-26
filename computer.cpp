@@ -691,6 +691,7 @@ void computer::activate_function(game *g, computer_action action)
         break;
 
     case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
+        reset_terminal();
         print_line(_("NEPower Mine(%d:%d) Log"), g->levx, g->levy);
         print_line(_("\
 ENTRY 47:\n\
