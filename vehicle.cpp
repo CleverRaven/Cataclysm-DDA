@@ -29,8 +29,8 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     last_turn = 0;
     of_turn_carry = 0;
     turret_mode = 0;
+	lights_power = 0;
     cruise_velocity = 0;
-	power_needed = 0;
     skidding = false;
     cruise_on = true;
     lights_on = false;
@@ -297,8 +297,10 @@ void vehicle::use_controls()
    g->add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
    break;
   case toggle_lights:
-   set_lights(!lights_on);
-   g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
+   if(set_lights(!lights_on))
+	   g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
+   else
+	   g->add_msg(_("The headlights won't come on!"));
    break;
   case activate_horn:
    g->add_msg(_("You honk the horn!"));
@@ -602,6 +604,15 @@ int vehicle::install_part (int dx, int dy, vpart_id id, int hp, bool force)
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
 
+	if(part_flag(parts.size()-1,"HORN"))
+		horns.push_back(parts.size()-1);
+	if(part_flag(parts.size()-1,"LIGHT"))
+	{
+		lights.push_back(parts.size()-1);
+		lights_power += part_info(parts.size()-1).power;
+	}
+	if(part_flag(parts.size()-1,"FUEL_TANK"))
+		fuel.push_back(parts.size()-1);
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
@@ -647,10 +658,13 @@ void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
 
 void vehicle::remove_part (int p)
 {
+	if(part_flag(p,"LIGHT"))
+		lights_power -= part_info(parts.size()-1).power;
     parts.erase(parts.begin() + p);
     find_external_parts ();
 	find_horns ();
 	find_lights ();
+	find_fuel_tanks ();
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
@@ -1033,15 +1047,16 @@ int vehicle::refill (ammotype ftype, int amount)
 int vehicle::drain (ammotype ftype, int amount) {
   int drained = 0;
 
-  for (int p = 0; p < parts.size(); p++) {
-    if (part_flag(p, "FUEL_TANK") && part_info(p).fuel_type == ftype && parts[p].amount > 0) {
-      if (parts[p].amount > (amount - drained)) {
-        parts[p].amount -= (amount - drained);
+  for (int p = 0; p < fuel.size(); p++) {
+	vehicle_part &tank=parts[fuel[p]];
+    if (part_info(fuel[p]).fuel_type == ftype && tank.amount > 0) {
+      if (tank.amount > (amount - drained)) {
+        tank.amount -= (amount - drained);
         drained = amount;
         break;
       } else {
-        drained += parts[p].amount;
-        parts[p].amount = 0;
+        drained += tank.amount;
+        tank.amount = 0;
       }
     }
   }
@@ -1347,6 +1362,33 @@ void vehicle::consume_fuel ()
                 break;
         }
     }
+}
+
+void vehicle::power_parts ()//TODO: more categories of powered part!
+{
+	int power=0;
+	if(lights_on)power += lights_power;
+	if(!power)return;
+	for(int f=0;f<fuel.size() && power > 0;f++)
+	{
+		if(part_info(fuel[f]).fuel_type == "battery")
+		{
+			if(parts[fuel[f]].amount < power)
+			{
+				power -= parts[fuel[f]].amount;
+				parts[fuel[f]].amount = 0;
+			}
+			else
+			{
+				parts[fuel[f]].amount -= power;
+				power = 0;
+			}
+		}
+	}
+	if(power)
+	{
+		set_lights(false);
+	}
 }
 
 void vehicle::thrust (int thd)
@@ -2116,6 +2158,19 @@ void vehicle::find_lights ()
 		if(part_flag( p,"LIGHT" ))
 		{
 			lights.push_back(p);
+			lights_power += part_info(p).power;
+		}
+    }
+}
+
+void vehicle::find_fuel_tanks ()
+{
+    fuel.clear();
+    for (int p = 0; p < parts.size(); p++)
+    {
+		if(part_flag( p,"FUEL_TANK" ))
+		{
+			fuel.push_back(p);
 		}
     }
 }
@@ -2457,22 +2512,34 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     return true;
 }
 
-void vehicle::set_lights(bool on)
+bool vehicle::set_lights(bool on)
 {
-	if(lights_on != on)
+	bool found=false;
+	if(on)
 	{
-		if(on){
-			for (int l = 0; l < lights.size(); l++) {
-				power_needed += vpart_list[parts[lights[l]].id].power_needed;
-			}
-		}
-		else {
-			for (int l = 0; l < lights.size(); l++) {
-				power_needed -= vpart_list[parts[lights[l]].id].power_needed;
+		for(int p=0;p<parts.size();p++)
+		{
+			if(part_flag(p, "FUEL_TANK") && (part_info(p).fuel_type == "battery" || part_info(p).fuel_type == "plutonium") && parts[p].amount > 0)
+			{
+				found = true;
+				break;
 			}
 		}
 	}
-	lights_on = on;
+	if(found)
+	{
+		lights_on = on;
+		return true;
+	}
+	else if(lights_on)
+	{
+		return true;
+	}
+	else
+	{
+		lights_on = false;
+		return false;
+	}
 }
 
 // a chance to stop skidding if moving in roughly the faced direction

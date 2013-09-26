@@ -60,14 +60,13 @@ void game::init_vehicle_parts()
     next_part.color_broken = color_from_string(next_json.get("broken_color").as_string());
     next_part.dmg_mod = next_json.has("damage_modifier") ? next_json.get("damage_modifier").as_int() : 100;
     next_part.durability = next_json.get("durability").as_int();
-	if(next_json.has("power_needed")) {
-		next_part.power_needed = next_json.get("power_needed").as_int();
+	if(next_json.has("power")) {
+		next_part.power = next_json.get("power").as_int();
 	} else {//defaults to 0
-		next_part.power_needed=0;
+		next_part.power=0;
 	}
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (next_json.has("par1") ? 1 : 0)
-                      + (next_json.has("power") ? 1 : 0)
                       + (next_json.has("size") ? 1 : 0)
                       + (next_json.has("wheel_width") ? 1 : 0)
                       + (next_json.has("bonus") ? 1 : 0);
@@ -77,8 +76,6 @@ void game::init_vehicle_parts()
     } else if(element_count == 1) {
       if(next_json.has("par1")) {
         next_part.par1 = next_json.get("par1").as_int();
-      } else if(next_json.has("power")) {
-        next_part.par1 = next_json.get("power").as_int();
       } else if(next_json.has("size")) {
         next_part.par1 = next_json.get("size").as_int();
       } else if(next_json.has("wheel_width")) {

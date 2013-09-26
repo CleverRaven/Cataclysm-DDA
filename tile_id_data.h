@@ -545,7 +545,13 @@ const std::string veh_part_names[num_vparts] =
     toString(vp_spiked_plate),
     toString(vp_hard_plate),
 
-    toString(vp_head_light)
+    toString(vp_head_light),
+    toString(vp_reinforced_window),
+    toString(vp_horn_car),
+    toString(vp_horn_bicycle),
+    toString(vp_horn_big),
+
+	toString(car_battery)
 };
 
 const std::string multitile_keys[] =

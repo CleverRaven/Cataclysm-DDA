@@ -78,7 +78,7 @@ struct vehicle_part
     int passenger_id;       // carrying passenger
     union
     {
-        int amount;         // amount of fuel for tank
+        int amount;         // amount of fuel for tank/charge in battery
         int open;           // door is open
         int direction;      // direction the part is facing
     };
@@ -290,6 +290,8 @@ public:
 
     void consume_fuel ();
 
+	void power_parts ();
+
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
 
@@ -382,6 +384,8 @@ public:
 
 	void find_lights ();
 
+	void find_fuel_tanks ();
+
     void find_exhaust ();
 
     void refresh_insides ();
@@ -416,7 +420,7 @@ public:
     bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges);
 
 	//Set all headlights on/off
-	void set_lights(bool on);
+	bool set_lights(bool on);
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
@@ -433,7 +437,8 @@ public:
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     std::vector<int> external_parts;   // List of external parts indices
 	std::vector<int> horns;            // List of horn part indices
-	std::vector<int> lights;            // List of light part indices
+	std::vector<int> lights;           // List of light part indices
+	std::vector<int> fuel;             // List of fuel tank indices
     std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
     int exhaust_dy;
@@ -459,7 +464,7 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
-	int power_needed;   // amount of current power drain
+	int lights_power;   // total power of components with LIGHT flag
 };
 
 #endif

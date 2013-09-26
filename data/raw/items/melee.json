@@ -1784,6 +1784,20 @@
         "price" : 80
     },
     {
+        "id" : "car_battery",
+        "name" : "car battery",
+        "description" : "A 12v lead-acid battery used to power car electrical systems.",
+        "weight" : 17640,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : ":",
+        "material" : ["iron", "null"],
+        "volume" : 4,
+        "bashing" : 3,
+        "cutting" : 0,
+        "price" : 40
+    },
+    {
         "id" : "minireactor",
         "name" : "minireactor",
         "description" : "A small portable plutonium reactor. Handle with great care!",

@@ -100,6 +100,8 @@ enum vpart_id
     vp_horn_bicycle,
     vp_horn_big,
 
+	car_battery,
+
     num_vparts
 };
 
@@ -119,11 +121,10 @@ struct vpart_info
     nc_color color_broken;  // color of broken part
     int dmg_mod;            // damage modifier, percent
     int durability;         // durability
-	int power_needed;       // power required to run (1 turn)
+    int power;		        // engine (top spd), solar panel/powered component (% of 1 fuel per turn, can be > 100)
     union
     {
         int par1;
-        int power;      // engine (top spd), solar panel (% of 1 fuel per turn, can be > 100)
         int size;       // fuel tank, trunk
         int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
         int bonus;      // seatbelt (str), muffler (%), horn (vol)
