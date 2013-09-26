@@ -88,7 +88,8 @@ void computer::use(game *g)
                             (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
     }
     if (w_terminal == NULL) {
-        w_terminal = subwin(w_border, getmaxy(w_border)-2, getmaxx(w_border)-2, 1, 1);
+        w_terminal = newwin(getmaxy(w_border)-2, getmaxx(w_border)-2,
+                            getbegy(w_border)+1, getbegx(w_border)+1);
     }
     wborder(w_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
