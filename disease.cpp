@@ -186,6 +186,9 @@ void dis_msg(dis_type type_string) {
     case DI_BOULDERING:
         g->add_msg(_("You are slowed by the rubble."));
         break;
+    case DI_ONICE:
+        g->add_msg(_("You are careful on the ice."));
+        break;
     case DI_BOOMERED:
         g->add_msg(_("You're covered in bile!"));
         break;
@@ -728,13 +731,14 @@ void dis_effect(player &p, disease &dis) {
 
         case DI_ONICE:
             switch(g->u.disease_intensity("onice")) {
-                case 3: p.moves -= 40; break; // Reduce melee, dodge, and send in random direction
-                case 2: p.moves -= 20; break; // Reduce melee and dodge
+                case 3: p.moves -= 40; break; // Reduces melee and dodge by 2, and send in random direction
+                case 2: p.moves -= 20; break; // Reduce melee and dodge by 1
                 case 1: p.moves -= 10; break;
                 default:
-                    debugmsg("Something went wrong with DI_ONEICE.");
+                    debugmsg("Something went wrong with DI_ONICE.");
                     debugmsg("Check disease.cpp");
             }
+            break;
 
         case DI_BOOMERED:
             p.per_cur -= 5;
@@ -1453,6 +1457,7 @@ std::string dis_name(disease& dis)
     case DI_SMOKE: return _("Smoke");
     case DI_TEARGAS: return _("Tear gas");
     case DI_ONFIRE: return _("On Fire");
+    case DI_ONICE: return _("On ice");
     case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
     case DI_SPORES: return _("Spores");
@@ -1825,6 +1830,22 @@ Your feet are blistering from the intense heat. It is extremely painful.");
             stream << _(
             "Dexterity - 5;   Speed -30%\n"
             "You are being slowed by climbing over a mountain of rubble.");
+        }
+        return stream.str();
+
+    case DI_ONICE:
+        switch (dis.intensity){
+        case 1:
+            stream << _(
+            "Your footing is uneasy on this thin ice.");
+        case 2:
+            stream << _(
+            "Melee - 1;   Dodge - 1\n"
+            "The ice bellow your feet is slippery.");
+        case 3:
+            stream << _(
+            "Melee - 2;   Dodge -2\n"
+            "You have a hard time keeping your balance on this ice!");
         }
         return stream.str();
 

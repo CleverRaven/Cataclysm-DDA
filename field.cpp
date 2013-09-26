@@ -1240,7 +1240,7 @@ void map::step_in_field(int x, int y, game *g)
             break;
 
         case fd_ice_floor:
-            g->u.add_disease("onice", 1, cur->getFieldDensity())
+            g->u.add_disease("onice", 1, cur->getFieldDensity(), 3);
             break;
 
         case fd_snow_floor:
