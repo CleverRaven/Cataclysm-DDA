@@ -702,5 +702,43 @@
           "golf_club"
       ],
       "points": 1
+    },
+    {
+      "type" : "profession",
+      "ident": "android",
+      "name": "Android",
+      "description": "At some point in the past you had a bionic upgrade installed in your body. You start the game with a power system, and one random bionic enhancement.",
+      "CBMs":[
+        "random bionic",
+        "random power source",
+        "bio_power_storage_mkII"
+      ],
+      "points": 4
+    },
+    {
+      "type" : "profession",
+      "ident": "super_human",
+      "name": "Super Human",
+      "description": "You are centuries of technology. You are a God among ants.",
+      "CBMs":[
+        "bio_memory",
+        "bio_ears",
+        "bio_eye_enhancer",
+        "bio_dex_enhancer",
+        "bio_tools",
+        "bio_night_vision",
+        "bio_nanobots",
+        "bio_painkiller",
+        "bio_blaster",
+        "bio_railgun",
+        "bio_solar",
+        "bio_torsionratchet",
+        "bio_batteries",
+        "bio_power_storage_mkII",
+        "bio_power_storage_mkII",
+        "bio_power_storage_mkII",
+        "bio_power_storage_mkII"
+      ],
+      "points": 14
     }
 ]

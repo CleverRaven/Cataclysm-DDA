@@ -344,7 +344,32 @@ bool player::create(game *g, character_type type, std::string tempname)
  for (std::vector<std::string>::const_iterator iter = prof_CBMs.begin();
       iter != prof_CBMs.end(); ++iter)
  {
-     add_bionic(*iter);
+     if (*iter == "random bionic")
+     {
+          bionic_id first_bio;
+          do {
+           first_bio = g->random_good_bionic();
+          } while (bionics[first_bio]->power_cost > 10);
+          add_bionic(first_bio);
+     }
+     else if (*iter == "random power source")
+     {
+        add_bionic(bionic_id(power_source_bionics[rng(0,power_source_bionics.size()-1)]));	// Power Source
+     }
+     else if (*iter == "bio_power_storage")
+     {
+        max_power_level += 4;
+        power_level += 4;
+     }
+     else if (*iter == "bio_power_storage_mkII")
+     {
+        max_power_level += 10;
+        power_level += 10;
+     }
+     else
+     {
+        add_bionic(*iter);
+     }
  }
 
  // Those who are both near-sighted and far-sighted start with bifocal glasses.
