@@ -474,12 +474,7 @@ void computer::activate_function(game *g, computer_action action)
             log = lab_notes[rng(0, lab_notes.size()-1)];
         }
 
-        // pretty indent
-        int y = getcury(w_terminal);
-        int w = getmaxx(w_terminal) - 2;
-        fold_and_print(w_terminal, y, 1, w, c_green, log.c_str());
-        print_newline();
-        print_newline();
+        print_text(log.c_str());
         query_any(_("Press any key..."));
     }
     break;
@@ -1551,6 +1546,23 @@ void computer::print_error(const char *mes, ...)
     va_end(ap);
     // Print the line.
     wprintz(w_terminal, c_red, buff);
+    print_newline();
+    wrefresh(w_terminal);
+}
+
+void computer::print_text(const char *mes, ...)
+{
+    // Translate the printf flags
+    va_list ap;
+    va_start(ap, mes);
+    char buff[6000];
+    vsprintf(buff, mes, ap);
+    va_end(ap);
+    // Print the text.
+    int y = getcury(w_terminal);
+    int w = getmaxx(w_terminal) - 2;
+    fold_and_print(w_terminal, y, 1, w, c_green, buff);
+    print_newline();
     print_newline();
     wrefresh(w_terminal);
 }

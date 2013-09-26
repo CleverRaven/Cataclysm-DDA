@@ -128,6 +128,8 @@ private:
     void print_line(const char *text, ...);
 // For now, the same as print_line but in red (TODO: change this?)
     void print_error(const char *text, ...);
+    // Wraps and prints a block of text with a 1-space indent
+    void print_text(const char* text, ...);
 // Prints code-looking gibberish
     void print_gibberish_line();
 // Prints a line and waits for Y/N/Q
