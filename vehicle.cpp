@@ -1692,8 +1692,10 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         //Damage calculation
         //damage dealt overall
         dmg += abs(d_E / k_mvel);
-        //damage for vehicle-part
-        part_dmg = dmg * k / 100;
+        //damage for vehicle-part - only if not a hallucination
+        if(z && !z->is_hallucination()) {
+            part_dmg = dmg * k / 100;
+        }
         //damage for object
         const float obj_dmg  = dmg * (100-k)/100;
 
@@ -1733,16 +1735,17 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                 if (z_armor < 0) {
                     z_armor = 0;
                 }
-                if (z) {
-                    dam -= z_armor;
-                }
+                dam -= z_armor;
             }
             if (dam < 0) { dam = 0; }
 
-            if (part_flag(part, "SHARP")) {
-                parts[part].blood += (20 + dam) * 5;
-            } else if (dam > rng (10, 30)) {
-                parts[part].blood += (10 + dam / 2) * 5;
+            //No blood from hallucinations
+            if(z && !z->is_hallucination()) {
+                if (part_flag(part, "SHARP")) {
+                    parts[part].blood += (20 + dam) * 5;
+                } else if (dam > rng (10, 30)) {
+                    parts[part].blood += (10 + dam / 2) * 5;
+                }
             }
 
             turns_stunned = rng (0, dam) > 10? rng (1, 2) + (dam > 40? rng (1, 2) : 0) : 0;
@@ -1763,7 +1766,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                 if (vel2_a > rng (10, 20)) {
                     g->fling_player_or_monster (0, z, move.dir() + angle, vel2_a);
                 }
-                if (z->hp < 1) {
+                if (z->hp < 1 || z->is_hallucination()) {
                     g->kill_mon (mondex, pl_ctrl);
                 }
             } else {
