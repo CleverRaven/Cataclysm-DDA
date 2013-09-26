@@ -5,6 +5,10 @@
 #include "keypress.h"
 #include "options.h"
 #include "output.h"
+#include "rng.h"
+#include "translations.h"
+
+std::vector<std::string> hints;
 
 void display_help()
 {
@@ -1000,3 +1004,18 @@ A: Ask the helpful people on the forum at smf.cataclysmdda.com or email\n\
     delwin(w_help);
     delwin(w_help_border);
 }
+
+void load_hint(JsonObject &jsobj)
+{
+    hints.push_back(_(jsobj.get_string("text").c_str()));
+}
+
+std::string get_hint()
+{
+    if (hints.empty()) {
+        return "???";
+    } else {
+        return hints[rng(0, hints.size()-1)];
+    }
+}
+
