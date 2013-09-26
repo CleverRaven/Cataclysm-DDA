@@ -304,9 +304,11 @@ void computer::activate_function(game *g, computer_action action)
         query_any(_("Doors opened.  Press any key..."));
         break;
 
-        //LOCK AND UNLOCK are used to build more complex buildings that can have multiple doors that can be locked and
-        //unlocked by different computers.  Simply uses translate_radius which take a given radius and player position
-        //to determine which terrain tiles to edit.
+        //LOCK AND UNLOCK are used to build more complex buildings
+        // that can have multiple doors that can be locked and be
+        // unlocked by different computers.
+        //Simply uses translate_radius which take a given radius and
+        // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
         g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx, g->u.posy);
         query_any(_("Lock enabled.  Press any key..."));
@@ -1464,16 +1466,16 @@ void computer::activate_failure(game *g, computer_failure fail)
 
 bool computer::query_bool(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
-// Append with (Y/N/Q)
+    // Append with (Y/N/Q)
     std::string full_line = buff;
     full_line += " (Y/N/Q)";
-// Print the resulting text
+    // Print the resulting text
     print_line(full_line.c_str());
     char ret;
     do
@@ -1487,14 +1489,14 @@ bool computer::query_bool(const char *mes, ...)
 
 bool computer::query_any(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
     std::string full_line = buff;
-// Print the resulting text
+    // Print the resulting text
     print_line(full_line.c_str());
     getch();
     return true;
@@ -1502,16 +1504,16 @@ bool computer::query_any(const char *mes, ...)
 
 char computer::query_ynq(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
-// Append with (Y/N/Q)
+    // Append with (Y/N/Q)
     std::string full_line = buff;
     full_line += " (Y/N/Q)";
-// Print the resulting text
+    // Print the resulting text
     print_line(full_line.c_str());
     char ret;
     do
