@@ -113,6 +113,7 @@ game::game() :
  init_autosave();             // Set up autosave
  init_diseases();             // Set up disease lookup table
  init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
+ inp_mngr.init();            // Load input config JSON
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;
