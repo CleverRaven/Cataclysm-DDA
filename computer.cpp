@@ -3,9 +3,12 @@
 #include "monster.h"
 #include "overmap.h"
 #include "output.h"
+#include "json.h"
 #include <fstream>
 #include <string>
 #include <sstream>
+
+std::vector<std::string> computer::lab_notes;
 
 computer::computer(): name(DEFAULT_COMPUTER_NAME)
 {
@@ -453,51 +456,18 @@ void computer::activate_function(game *g, computer_action action)
 
     case COMPACT_RESEARCH:
     {
-        int lines = 0, notes = 0;
-        std::string log, tmp;
-        std::ifstream fin;
-        fin.open("data/LAB_NOTES");
-        if (!fin.is_open())
-        {
-            debugmsg("Couldn't open ./data/LAB_NOTES for reading");
-            return;
-        }
-        while (fin.good())
-        {
-            int ch = fin.get();
-            if (ch == '%')
-            {
-                notes++;
-            }
+        std::string log;
+        if (lab_notes.empty()) {
+            log = _("No data found.");
+        } else {
+            log = lab_notes[rng(0, lab_notes.size()-1)];
         }
 
-        while (lines < 10)
-        {
-            fin.clear();
-            fin.seekg(0, std::ios::beg);
-            fin.clear();
-            int choice = rng(1, notes);
-            while (choice > 0)
-            {
-                getline(fin, tmp);
-                if (tmp.find_first_of('%') == 0)
-                {
-                    choice--;
-                }
-            }
-            getline(fin, tmp);
-            do
-            {
-                lines++;
-                if (lines < 15 && tmp.find_first_of('%') != 0)
-                {
-                    log.append(tmp);
-                    log.append("\n");
-                }
-            }
-            while(tmp.find_first_of('%') != 0 && getline(fin, tmp));
-        }
-        print_line(" %s", log.c_str());
+        int y = getcury(w_terminal);
+        int w = getmaxx(w_terminal) - 2;
+        fold_and_print(w_terminal, y, 1, w, c_green, log.c_str());
+        print_line("");
+        print_line("");
         query_any(_("Press any key..."));
     }
     break;
@@ -1623,5 +1593,10 @@ void computer::reset_terminal()
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wmove(w_terminal, 1, 1);
     wrefresh(w_terminal);
+}
+
+void computer::load_lab_note(JsonObject &jsobj)
+{
+    lab_notes.push_back(_(jsobj.get_string("text").c_str()));
 }
 

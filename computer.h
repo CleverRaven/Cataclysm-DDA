@@ -2,6 +2,7 @@
 #define _COMPUTER_H_
 
 #include "output.h"
+#include "json.h"
 #include <vector>
 #include <string>
 
@@ -104,6 +105,8 @@ public:
     std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
     int mission_id; // Linked to a mission?
 
+    static void load_lab_note(JsonObject &jsobj);
+
 private:
     int security; // Difficulty of simply logging in
     std::vector<computer_option> options;   // Things we can do
@@ -132,6 +135,9 @@ private:
     bool query_bool(const char *text, ...);
 // Simply wait for any key, returns True
     bool query_any(const char *text, ...);
+
+    // misc research notes from json
+    static std::vector<std::string> lab_notes;
 };
 
 #endif
