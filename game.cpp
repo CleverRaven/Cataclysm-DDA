@@ -7280,7 +7280,7 @@ void game::pickup(int posx, int posy, int min)
     //Either no cargo to grab, or we declined; what about water?
     bool got_water = false;
     if (k_part >= 0) {
-      if (veh->fuel_left("water")) {
+      if (veh->fuel_left("water") > 0) { //Will be -1 if no water at all
         if (query_yn(_("Fill a container?"))) {
           int amt = veh->drain("water", veh->fuel_left("water"));
           item fill_water(g->itypes[default_ammo("water")], g->turn);
