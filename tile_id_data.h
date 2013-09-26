@@ -551,7 +551,9 @@ const std::string veh_part_names[num_vparts] =
     toString(vp_horn_bicycle),
     toString(vp_horn_big),
 
-	toString(car_battery)
+	toString(battery_motorbike),
+	toString(battery_car),
+	toString(battery_truck)
 };
 
 const std::string multitile_keys[] =

@@ -292,6 +292,8 @@ public:
 
 	void power_parts ();
 
+	void charge_battery (int amount);
+
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
 

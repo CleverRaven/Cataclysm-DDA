@@ -584,7 +584,7 @@
         "item": "1cyl_combustion",
         "difficulty": 2,
         "flags": [
-            "INTERNAL", "ENGINE", "VARIABLE_SIZE"
+            "INTERNAL", "ENGINE", "VARIABLE_SIZE", "ALTERNATOR"
         ]
     },
     {
@@ -601,7 +601,7 @@
         "item": "v2_combustion",
         "difficulty": 2,
         "flags": [
-            "INTERNAL", "ENGINE", "VARIABLE_SIZE"
+            "INTERNAL", "ENGINE", "VARIABLE_SIZE", "ALTERNATOR"
         ]
     },
     {
@@ -617,7 +617,7 @@
         "item": "i4_combustion",
         "difficulty": 3,
         "flags": [
-            "INTERNAL", "ENGINE", "VARIABLE_SIZE"
+            "INTERNAL", "ENGINE", "VARIABLE_SIZE", "ALTERNATOR"
         ]
     },
     {
@@ -634,7 +634,7 @@
         "item": "v6_combustion",
         "difficulty": 4,
         "flags": [
-            "INTERNAL", "ENGINE", "VARIABLE_SIZE"
+            "INTERNAL", "ENGINE", "VARIABLE_SIZE", "ALTERNATOR"
         ]
     },
     {
@@ -651,7 +651,7 @@
         "item": "v8_combustion",
         "difficulty": 4,
         "flags": [
-            "INTERNAL", "ENGINE", "VARIABLE_SIZE"
+            "INTERNAL", "ENGINE", "VARIABLE_SIZE", "ALTERNATOR"
         ]
     },
     {
@@ -702,7 +702,7 @@
         "item": "plasma_engine",
         "difficulty": 6,
         "flags": [
-            "INTERNAL", "ENGINE"
+            "INTERNAL", "ENGINE", "ALTERNATOR"
         ]
     },
     {
@@ -1136,17 +1136,51 @@
         ]
     },
     {
-        "id": "car_battery",
+        "id": "battery_motorbike",
+        "name": "motorbike battery",
+        "symbol": "o",
+        "color": "yellow",
+        "broken_symbol": "#",
+        "broken_color": "red",
+        "damage_modifier": 30,
+        "durability": 280,
+        "size": 12000,
+        "fuel_type": "battery",
+        "item": "battery_motorbike",
+        "difficulty": 2,
+        "flags": [
+            "INTERNAL", "FUEL_TANK"
+        ]
+    },
+    {
+        "id": "battery_car",
         "name": "car battery",
         "symbol": "o",
         "color": "yellow",
         "broken_symbol": "#",
         "broken_color": "red",
         "damage_modifier": 50,
-        "durability": 250,
-        "size": 20000,
+        "durability": 300,
+        "size": 30000,
         "fuel_type": "battery",
-        "item": "car_battery",
+        "item": "battery_car",
+        "difficulty": 2,
+        "flags": [
+            "INTERNAL", "FUEL_TANK"
+        ]
+    },
+    {
+        "id": "battery_truck",
+        "name": "truck battery",
+        "symbol": "o",
+        "color": "yellow",
+        "broken_symbol": "#",
+        "broken_color": "red",
+        "damage_modifier": 60,
+        "durability": 320,
+        "size": 50000,
+        "fuel_type": "battery",
+        "item": "battery_truck",
         "difficulty": 2,
         "flags": [
             "INTERNAL", "FUEL_TANK"

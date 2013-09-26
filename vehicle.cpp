@@ -1368,7 +1368,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
 {
 	int power=0;
 	if(lights_on)power += lights_power;
-	if(!power)return;
+	if(power <= 0)return;
 	for(int f=0;f<fuel.size() && power > 0;f++)
 	{
 		if(part_info(fuel[f]).fuel_type == "battery")
@@ -1388,6 +1388,29 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
 	if(power)
 	{
 		set_lights(false);
+		if(player_in_control(&g->u))
+			g->add_msg("The %s's battery dies!",name.c_str());
+	}
+}
+
+void vehicle::charge_battery (int amount)
+{
+	for(int f=0;f<fuel.size() && amount > 0;f++)
+	{
+		if(part_info(fuel[f]).fuel_type == "battery")
+		{
+			int empty = part_info(fuel[f]).size - parts[fuel[f]].amount;
+			if(empty < amount)
+			{
+				amount -= empty;
+				parts[fuel[f]].amount = part_info(fuel[f]).size;
+			}
+			else
+			{
+				parts[fuel[f]].amount += amount;
+				amount = 0;
+			}
+		}
 	}
 }
 
@@ -1440,17 +1463,25 @@ void vehicle::thrust (int thd)
         int strn = (int) (strain () * strain() * 100);
 
         for (int p = 0; p < parts.size(); p++)
-            if (part_flag(p, "ENGINE") &&
-                (fuel_left (part_info(p).fuel_type, true)) && parts[p].hp > 0 &&
-                rng (1, 100) < strn)
+		{
+            if (part_flag(p, "ENGINE"))
             {
-                int dmg = rng (strn * 2, strn * 4);
-                damage_direct (p, dmg, 0);
-                if(one_in(2))
-                 g->add_msg(_("Your engine emits a high pitched whine."));
-                else
-                 g->add_msg(_("Your engine emits a loud grinding sound."));
+				//Charge the battery if the engine has an alternator
+				if(part_flag(p,"ALTERNATOR"))
+				{
+					charge_battery(part_info(p).power * 0.3);
+				}
+				if(fuel_left(part_info(p).fuel_type, true) && parts[p].hp > 0 && rng (1, 100) < strn)
+				{
+					int dmg = rng (strn * 2, strn * 4);
+					damage_direct (p, dmg, 0);
+					if(one_in(2))
+					 g->add_msg(_("Your engine emits a high pitched whine."));
+					else
+					 g->add_msg(_("Your engine emits a loud grinding sound."));
+				}
             }
+		}
         // add sound and smoke
         int smk = noise (true, true);
         if (smk > 0)
@@ -2526,12 +2557,8 @@ bool vehicle::set_lights(bool on)
 			}
 		}
 	}
-	if(found)
-	{
-		lights_on = on;
-		return true;
-	}
-	else if(lights_on)
+	lights_on = on;
+	if(found || !lights_on)
 	{
 		return true;
 	}

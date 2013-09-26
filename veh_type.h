@@ -100,7 +100,9 @@ enum vpart_id
     vp_horn_bicycle,
     vp_horn_big,
 
-	car_battery,
+	battery_motorbike,
+	battery_car,
+	battery_truck,
 
     num_vparts
 };
