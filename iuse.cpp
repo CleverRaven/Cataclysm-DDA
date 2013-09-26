@@ -1806,7 +1806,7 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
  }
  if (pure->charges > it->charges)
  {
-  g->add_msg_if_player(p,_("You don't have enough battery power to purify all the water."));
+  g->add_msg_if_player(p,_("You don't have enough charges in your purifier to purify all of the water."));
   return;
  }
  it->charges -= pure->charges;
