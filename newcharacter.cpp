@@ -339,6 +339,14 @@ bool player::create(game *g, character_type type, std::string tempname)
      }
  }
 
+ // Get CBMs
+ std::vector<std::string> prof_CBMs = g->u.prof->CBMs();
+ for (std::vector<std::string>::const_iterator iter = prof_CBMs.begin();
+      iter != prof_CBMs.end(); ++iter)
+ {
+     add_bionic(*iter);
+ }
+
  // Those who are both near-sighted and far-sighted start with bifocal glasses.
  if (has_trait("HYPEROPIC") && has_trait("MYOPIC"))
  {
