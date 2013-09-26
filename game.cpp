@@ -10422,8 +10422,8 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
                     ((stairs || shiftx != 0 || shifty != 0) && z.friendly != 0 ) ) {
             // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
             real_coords rc( m.getabs(z.posx(), z.posy() ) ); // still madness, bud handles straddling omap and -/+
-            z.spawnmapx = rc.abs_sub.x;
-            z.spawnmapy = rc.abs_sub.y;
+            z.spawnmapx = rc.om_sub.x;
+            z.spawnmapy = rc.om_sub.y;
             z.spawnposx = rc.sub_pos.x;
             z.spawnposy = rc.sub_pos.y;
 
