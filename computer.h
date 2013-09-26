@@ -112,6 +112,7 @@ private:
     std::vector<computer_option> options;   // Things we can do
     std::vector<computer_failure> failures; // Things that happen if we fail a hack
     WINDOW *w_terminal; // Output window
+    WINDOW *w_border; // Pretty border
 
 // Called by use()
     void activate_function      (game *g, computer_action action);
@@ -135,6 +136,8 @@ private:
     bool query_bool(const char *text, ...);
 // Simply wait for any key, returns True
     bool query_any(const char *text, ...);
+    // Move the cursor to the beginning of the next line
+    void print_newline();
 
     // misc research notes from json
     static std::vector<std::string> lab_notes;
