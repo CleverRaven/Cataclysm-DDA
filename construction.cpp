@@ -9,6 +9,7 @@
 #include "crafting.h" // For the use_comps use_tools functions
 #include "item_factory.h"
 #include "catacharset.h"
+#include "action.h"
 #include <algorithm>
 
 bool will_flood_stop(map *m, bool (&fill)[SEEX * MAPSIZE][SEEY * MAPSIZE],
@@ -1008,7 +1009,7 @@ void construct::done_move(game *g, point p)
     int x = 0, y = 0;
     //Keep looping until we get a valid direction or a cancel.
     while (true) {
-        do get_direction(g, x, y, input());
+        do get_direction(x, y, input());
         while (x == -2 || y == -2);
         if (x == 0 && y == 0) { return; }
         x += p.x;
@@ -1037,7 +1038,7 @@ void construct::done_tree(game *g, point p)
 {
     mvprintz(0, 0, c_red, _("Press a direction for the tree to fall in:"));
     int x = 0, y = 0;
-    do get_direction(g, x, y, input());
+    do get_direction(x, y, input());
     while (x == -2 || y == -2);
     x = p.x + x * 3 + rng(-1, 1);
     y = p.y + y * 3 + rng(-1, 1);

@@ -10,6 +10,7 @@
 #include "player.h"
 #include "vehicle.h"
 #include "uistate.h"
+#include "action.h"
 #include <sstream>
 #include <algorithm>
 
@@ -2812,7 +2813,7 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
  int dirx, diry;
  g->draw();
  mvprintw(0, 0, _("Percer dans quelle direction?"));
- get_direction(g, dirx, diry, input());
+ get_direction(dirx, diry, input());
  if (dirx == -2) {
   g->add_msg_if_player(p,_("Direction invalide"));
   return;

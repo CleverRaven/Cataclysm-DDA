@@ -128,7 +128,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     {
         char ch = input(); // See keypress.h
         int dx, dy;
-        get_direction (gm, dx, dy, ch);
+        get_direction (dx, dy, ch);
         if (ch == KEY_ESCAPE || ch == 'q' )
         {
             finish = true;
@@ -322,7 +322,7 @@ void veh_interact::do_install(int reason)
         wrefresh (w_msg);
         char ch = input(); // See keypress.h
         int dx, dy;
-        get_direction (g, dx, dy, ch);
+        get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2)
         {
             sel_cmd = 'i';
@@ -411,7 +411,7 @@ void veh_interact::do_repair(int reason)
         wrefresh (w_msg);
         char ch = input(); // See keypress.h
         int dx, dy;
-        get_direction (g, dx, dy, ch);
+        get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && 
                 has_comps &&
                 (sel_vehicle_part->hp > 0 || has_wrench) && has_skill)
@@ -527,7 +527,7 @@ void veh_interact::do_remove(int reason)
         wrefresh (w_parts);
         char ch = input(); // See keypress.h
         int dx, dy;
-        get_direction (g, dx, dy, ch);
+        get_direction (dx, dy, ch);
         if (ch == '\n' || ch == ' ')
         {
             sel_cmd = 'o';
@@ -616,7 +616,7 @@ void veh_interact::do_tirechange(int reason)
         wrefresh (w_msg);
         char ch = input(); // See keypress.h
         int dx, dy;
-        get_direction (g, dx, dy, ch);
+        get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && is_wheel)
         {
             sel_cmd = 'c';

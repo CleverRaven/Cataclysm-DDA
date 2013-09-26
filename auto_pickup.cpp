@@ -5,6 +5,7 @@
 #include "keypress.h"
 #include "item_factory.h"
 #include "catacharset.h"
+#include "translations.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -13,7 +14,7 @@
 std::map<std::string, std::string> mapAutoPickupItems;
 std::vector<cPickupRules> vAutoPickupRules[5];
 
-void game::show_auto_pickup()
+void show_auto_pickup()
 {
     save_reset_changes(false);
 
