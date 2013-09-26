@@ -197,16 +197,6 @@ bool player::create(game *g, character_type type, std::string tempname)
  }
  if (has_trait("SMELLY"))
   scent = 800;
- if (has_trait("ANDROID")) {
-  bionic_id first_bio;
-  do {
-   first_bio = g->random_good_bionic();
-  } while (bionics[first_bio]->power_cost > 10);
-  add_bionic(first_bio);
-  add_bionic(bionic_id(power_source_bionics[rng(0,power_source_bionics.size()-1)]));	// Power Source
-  max_power_level = 10;
-  power_level = 10;
- }
 
  if (has_trait("MARTIAL_ARTS")) {
   itype_id ma_type;
