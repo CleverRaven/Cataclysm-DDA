@@ -2413,10 +2413,7 @@ static void handle_cough(player &p, int loudness) {
         g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
     }
     p.moves -= 80;
-    if (!one_in(4)) {
-        p.hurt(g, bp_torso, 0, 1);
-    }
-    if (p.has_disease("sleep")) {
+    if (one_in(10) && p.has_disease("sleep")) {
         p.rem_disease("sleep");
         g->add_msg_if_player(&p,_("You wake up coughing."));
     }
