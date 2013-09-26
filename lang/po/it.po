@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdda\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-16 11:50+1200\n"
+"POT-Creation-Date: 2013-09-27 09:27+1200\n"
 "PO-Revision-Date: 2013-08-28 07:56+0000\n"
 "Last-Translator: Shadenight123 <thebbooo@yahoo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -8046,7 +8046,7 @@ msgstr ""
 msgid "You release the %s."
 msgstr ""
 
-#: game.cpp:7842 item.cpp:2441
+#: game.cpp:7842 item.cpp:2436
 msgid "Grab"
 msgstr ""
 
@@ -10783,75 +10783,75 @@ msgstr ""
 msgid " (owned)"
 msgstr ""
 
-#: item.cpp:2438
+#: item.cpp:2433
 msgid "Sweep attack"
 msgstr ""
 
-#: item.cpp:2439
+#: item.cpp:2434
 msgid "Precision attack"
 msgstr ""
 
-#: item.cpp:2440
+#: item.cpp:2435
 msgid "Knock-back attack"
 msgstr ""
 
-#: item.cpp:2442
+#: item.cpp:2437
 msgid "Hit all adjacent monsters"
 msgstr ""
 
-#: item.cpp:2443
+#: item.cpp:2438
 msgid "Rapid attack"
 msgstr ""
 
-#: item.cpp:2444
+#: item.cpp:2439
 msgid "Feint"
 msgstr ""
 
-#: item.cpp:2445
+#: item.cpp:2440
 msgid "Throw"
 msgstr ""
 
-#: item.cpp:2446
+#: item.cpp:2441
 msgid "Block"
 msgstr ""
 
-#: item.cpp:2447
+#: item.cpp:2442
 msgid "Leg block"
 msgstr ""
 
-#: item.cpp:2448
+#: item.cpp:2443
 msgid "Weak block"
 msgstr ""
 
-#: item.cpp:2449
+#: item.cpp:2444
 msgid "Parry"
 msgstr ""
 
-#: item.cpp:2450
+#: item.cpp:2445
 msgid "Shield"
 msgstr ""
 
-#: item.cpp:2451
+#: item.cpp:2446
 msgid "Counter-attack"
 msgstr ""
 
-#: item.cpp:2452
+#: item.cpp:2447
 msgid "Grab break"
 msgstr ""
 
-#: item.cpp:2453
+#: item.cpp:2448
 msgid "Disarm"
 msgstr ""
 
-#: item.cpp:2454
+#: item.cpp:2449
 msgid "Defensive throw"
 msgstr ""
 
-#: item.cpp:2455
+#: item.cpp:2450
 msgid "Defense disarm"
 msgstr ""
 
-#: item.cpp:2456
+#: item.cpp:2451
 msgid "FLAMING"
 msgstr ""
 
@@ -10863,6 +10863,26 @@ msgstr ""
 msgid ""
 "There is only the space where an object should be, but isn't. No item "
 "template of this type exists."
+msgstr ""
+
+#: itypedef.cpp:40
+msgid "A dead body."
+msgstr ""
+
+#: itypedef.cpp:40
+msgid "corpse"
+msgstr ""
+
+#: itypedef.cpp:47
+msgid "nearby fire"
+msgstr ""
+
+#: itypedef.cpp:52
+msgid "integrated toolset"
+msgstr ""
+
+#: itypedef.cpp:57
+msgid "a smoking device and a source of flame"
 msgstr ""
 
 #: itypedef.cpp:68 lang/json/json_vehicle_parts.py:33
@@ -11751,10 +11771,6 @@ msgid "That leg is broken.  It needs surgical attention."
 msgstr ""
 
 #: iuse.cpp:390
-msgid "Bandage"
-msgstr ""
-
-#: iuse.cpp:390
 msgid "Stop Bleeding"
 msgstr ""
 
@@ -11766,16 +11782,8 @@ msgstr ""
 msgid "Clean Wound"
 msgstr ""
 
-#: iuse.cpp:399
-msgid "First Aid"
-msgstr ""
-
 #: iuse.cpp:401
 msgid "You clean the bite wound."
-msgstr ""
-
-#: iuse.cpp:409
-msgid "Disinfectant"
 msgstr ""
 
 #: iuse.cpp:411
@@ -22259,8 +22267,8 @@ msgstr ""
 msgid "Simple cloth bandages. Used for healing small amounts of damage."
 msgstr ""
 
-#: lang/json/json_items.py:1632 lang/json/json_skills.py:15
-msgid "first aid"
+#: lang/json/json_items.py:1632
+msgid "first aid kit"
 msgstr ""
 
 #: lang/json/json_items.py:1633
@@ -35957,6 +35965,10 @@ msgid ""
 "objects. This skill plays an important role in the crafting of many objects."
 msgstr ""
 
+#: lang/json/json_skills.py:15
+msgid "first aid"
+msgstr ""
+
 #: lang/json/json_skills.py:16
 msgid ""
 "Your skill in effecting emergency medical treatment. Higher levels allow "
@@ -36627,7 +36639,7 @@ msgstr ""
 msgid "NW"
 msgstr ""
 
-#: main.cpp:125
+#: main.cpp:127
 msgid "Really Quit? All unsaved changes will be lost."
 msgstr ""
 
@@ -37664,8 +37676,271 @@ msgstr ""
 msgid "harvestable plant"
 msgstr ""
 
+#: mapgen.cpp:2751 mapgen.cpp:2793
+msgid "Church Bells 1.2"
+msgstr ""
+
+#: mapgen.cpp:2752 mapgen.cpp:2794
+msgid "Gathering Toll"
+msgstr ""
+
+#: mapgen.cpp:2753 mapgen.cpp:2795
+msgid "Wedding Toll"
+msgstr ""
+
+#: mapgen.cpp:2754 mapgen.cpp:2796
+msgid "Funeral Toll"
+msgstr ""
+
+#: mapgen.cpp:4061
+msgid "Evac shelter computer"
+msgstr ""
+
+#: mapgen.cpp:4062
+msgid "Emergency Message"
+msgstr ""
+
+#: mapgen.cpp:4329
+msgid "Barracks Entrance"
+msgstr ""
+
+#: mapgen.cpp:4330 mapgen.cpp:4332 mapgen.cpp:4382
+msgid "UNLOCK ENTRANCE"
+msgstr ""
+
+#: mapgen.cpp:4331
+msgid "Magazine Entrance"
+msgstr ""
+
+#: mapgen.cpp:4381
+msgid "Prisoner Containment Entrance"
+msgstr ""
+
+#: mapgen.cpp:4383 mapgen.cpp:4656
+msgid "Containment Control"
+msgstr ""
+
+#: mapgen.cpp:4384
+msgid "EMERGENCY CONTAINMENT RELEASE"
+msgstr ""
+
+#: mapgen.cpp:4654
+msgid "Containment Terminal"
+msgstr ""
+
+#: mapgen.cpp:4655 mapgen.cpp:4657
+msgid "EMERGENCY CONTAINMENT UNLOCK"
+msgstr ""
+
+#: mapgen.cpp:4658
+msgid "EMERGENCY CLEANSE"
+msgstr ""
+
+#: mapgen.cpp:4795
+msgid "Mk IV Algorithmic Data Analyzer"
+msgstr ""
+
+#: mapgen.cpp:4796
+msgid "Run Decryption Algorithm"
+msgstr ""
+
+#: mapgen.cpp:4797
+msgid "Upload Data to Melchior"
+msgstr ""
+
+#: mapgen.cpp:4798
+msgid "Access Melchior"
+msgstr ""
+
+#: mapgen.cpp:4979
+msgid "Sub-prime contact console"
+msgstr ""
+
+#: mapgen.cpp:4980
+msgid "Terminate Specimens"
+msgstr ""
+
+#: mapgen.cpp:4981
+msgid "Release Specimens"
+msgstr ""
+
+#: mapgen.cpp:4982
+msgid "Toggle Portal"
+msgstr ""
+
+#: mapgen.cpp:4983
+msgid "Activate Resonance Cascade"
+msgstr ""
+
+#: mapgen.cpp:5012 mapgen.cpp:13456 mapgen.cpp:13484
+msgid "Bionic access"
+msgstr ""
+
+#: mapgen.cpp:5013 mapgen.cpp:13457 mapgen.cpp:13485
+msgid "Manifest"
+msgstr ""
+
+#: mapgen.cpp:5014 mapgen.cpp:13458 mapgen.cpp:13486
+msgid "Open Chambers"
+msgstr ""
+
+#: mapgen.cpp:5357
+msgid "Missile Controls"
+msgstr ""
+
+#: mapgen.cpp:5358
+msgid "Launch Missile"
+msgstr ""
+
+#: mapgen.cpp:5359
+msgid "Disarm Missile"
+msgstr ""
+
+#: mapgen.cpp:5619 mapgen.cpp:5623 mapgen.cpp:5756 mapgen.cpp:5781
+msgid "EnviroCom OS v2.03"
+msgstr ""
+
+#: mapgen.cpp:5620 mapgen.cpp:5624
+msgid "Unlock stairs"
+msgstr ""
+
+#: mapgen.cpp:5757 mapgen.cpp:5782
+msgid "Download Sewer Maps"
+msgstr ""
+
+#: mapgen.cpp:5758 mapgen.cpp:5783
+msgid "Divert sample"
+msgstr ""
+
+#: mapgen.cpp:6233 mapgen.cpp:13806
+msgid "NEPowerOS"
+msgstr ""
+
+#: mapgen.cpp:6234
+msgid "Read Logs"
+msgstr ""
+
+#: mapgen.cpp:6235
+msgid "Initiate Tremors"
+msgstr ""
+
+#: mapgen.cpp:6373
+msgid "Broadcasting Control"
+msgstr ""
+
+#: mapgen.cpp:6374
+msgid "ERROR:  SIGNAL DISCONNECT"
+msgstr ""
+
+#: mapgen.cpp:8558 mapgen.cpp:8564
+msgid "Medical Supply Access"
+msgstr ""
+
+#: mapgen.cpp:8559
+#, fuzzy
+msgid "Lock Door"
+msgstr "Chiudi Porta"
+
+#: mapgen.cpp:8560 mapgen.cpp:8565
+#, fuzzy
+msgid "Unlock Door"
+msgstr "Chiudi Porta"
+
+#: mapgen.cpp:8816 mapgen.cpp:9098
+msgid "SRCF Security Terminal"
+msgstr ""
+
+#: mapgen.cpp:8817 mapgen.cpp:9099
+msgid "Security Reminder [1055]"
+msgstr ""
+
+#: mapgen.cpp:8818 mapgen.cpp:9100
+msgid "Security Reminder [1056]"
+msgstr ""
+
+#: mapgen.cpp:8819 mapgen.cpp:9101
+msgid "Security Reminder [1057]"
+msgstr ""
+
+#: mapgen.cpp:8821 mapgen.cpp:9103
+msgid "EPA: Report All Potential Containment Breaches [3873643]"
+msgstr ""
+
+#: mapgen.cpp:8822 mapgen.cpp:9104
+msgid "SRCF: Internal Memo, EPA [2918024]"
+msgstr ""
+
+#: mapgen.cpp:8823 mapgen.cpp:9105
+msgid "CDC: Internal Memo, Standby [2918115]"
+msgstr ""
+
+#: mapgen.cpp:8824 mapgen.cpp:9106
+msgid "USARMY: SEAL SRCF [987167]"
+msgstr ""
+
+#: mapgen.cpp:8825 mapgen.cpp:9107
+msgid "COMMAND: REACTIVATE ELEVATOR"
+msgstr ""
+
+#: mapgen.cpp:8826
+msgid "COMMAND: SEAL SRCF [4423]"
+msgstr ""
+
+#: mapgen.cpp:9838 mapgen.cpp:9848
+msgid "PolCom OS v1.47"
+msgstr ""
+
+#: mapgen.cpp:9839
+msgid "Open Supply Room"
+msgstr ""
+
+#: mapgen.cpp:9849
+msgid "Open Evidence Locker"
+msgstr ""
+
+#: mapgen.cpp:9935
+msgid "First United Bank"
+msgstr ""
+
+#: mapgen.cpp:9936
+msgid "Open Vault"
+msgstr ""
+
+#: mapgen.cpp:10592
+#, fuzzy
+msgid "Centrifuge"
+msgstr "Centra Vista"
+
+#: mapgen.cpp:10593
+msgid "Analyze blood"
+msgstr ""
+
+#: mapgen.cpp:10778
+msgid "Mr. Stem Cell"
+msgstr ""
+
+#: mapgen.cpp:10779
+msgid "Stem Cell Treatment"
+msgstr ""
+
 #: mapgen.cpp:12738
 msgid "Wreckage"
+msgstr ""
+
+#: mapgen.cpp:13325 mapgen.cpp:13337
+msgid "Log Console"
+msgstr ""
+
+#: mapgen.cpp:13326 mapgen.cpp:13338
+msgid "View Research Logs"
+msgstr ""
+
+#: mapgen.cpp:13327 mapgen.cpp:13339
+msgid "Download Map Data"
+msgstr ""
+
+#: mapgen.cpp:13807
+msgid "Divert power to elevator"
 msgstr ""
 
 #: material.cpp:17 material.cpp:18

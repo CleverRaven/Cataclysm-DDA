@@ -42,6 +42,8 @@ int main(int argc, char *argv[])
 
 // set locale to system default
  setlocale(LC_ALL, "");
+// except for LC_NUMERIC because picojson
+ setlocale(LC_NUMERIC, "C");
 #ifdef LOCALIZE
  bindtextdomain("cataclysm-dda", "lang/mo");
  bind_textdomain_codeset("cataclysm-dda", "UTF-8");
