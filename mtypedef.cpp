@@ -358,12 +358,12 @@ A portion of a giant worm that is still alive.")
 FLAGS(MF_DIGS, MF_HEARS, MF_GOODHEARING, MF_WARM, MF_LEATHER);
 
 // Wild Mutants
-mon(_("sludge crawler"),species_none, 'S', c_dkgray,  MS_LARGE, "none",
+mon(_("sludge crawler"),species_none, 'S', c_dkgray,  MS_LARGE, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
    15, 100, 100, 60,  7,  3,  5,  0,  12,  4,  0,  0, 300,  0,
  &mdeath::melt, &mattack::none, _("\
-A sluglike creature, eight feet long and the width of a refrigerator, it's black \
-body glistens as it oozes it's way along the ground. Eye stalks occassionally push their \
+A sluglike creature, eight feet long and the width of a refrigerator, its black \
+body glistens as it oozes its way along the ground. Eye stalks occassionally push their \
 way out of the oily mass and look around.")
 );
 FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30, 
@@ -505,7 +505,7 @@ and it dribbles a gray sludge from its mouth.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS30);
 
-mon(_("skeleton"), species_zombie, 'Z', c_white, MS_MEDIUM, "stone",
+mon(_("skeleton"), species_zombie, 'Z', c_white, MS_MEDIUM, "bone",
 //  dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
       8,100,100, 90, 10,  1,  5,  3,  2,  0, 15,  0, 40, 5,
  &mdeath::zombie, &mattack::bite, _("\
