@@ -349,7 +349,7 @@
             "tool_belt"
         ],
         "name": "Electrician",
-        "points": 3,
+        "points": 2,
         "skills": [
             {
                 "level": 1,
@@ -454,7 +454,7 @@
             "sneakers"
         ],
         "name": "Tinkerer",
-        "points": 4,
+        "points": 3,
         "skills": [
             {
                 "level": 1,
@@ -487,7 +487,7 @@
             "coke"
         ],
         "name": "Drug Dealer",
-        "points": 1
+        "points": 2
     },
     {
         "type": "profession",
@@ -516,27 +516,47 @@
         "ident": "punkgirl",
         "name": "Punk Rock Girl",
         "description": "The apocalypse has been your psychotic dream come true. Now that the system is dead, it's time to party among the bones of the world!",
-        "points": 2,
-        "items": ["skirt", "corset", "trenchcoat", "gloves_fingerless", "boots_combat",
-            "weed", "rolling_paper", "cig", "mp3", "ref_lighter"]
+        "points": 4,
+        "items": [
+            "skirt",
+            "corset",
+            "trenchcoat",
+            "gloves_fingerless",
+            "boots_combat",
+            "weed",
+            "rolling_paper",
+            "cig",
+            "mp3",
+            "ref_lighter"
+        ]
     },
     {
         "type": "profession",
         "ident": "junkie",
         "name": "Junkie",
         "description": "Before the Apocalypse, you turned to Heroin to soothe your many problems. Now, your habit is your only comfort and your only drive.",
-        "points": -1,
+        "points": -2,
         "items": ["pants", "dress_shirt", "dress_shoes", "heroin", "syringe"],
-        "addictions": [{"type": "opiate", "intensity": 10}]
+        "addictions": [
+            {
+                "type": "opiate",
+                "intensity": 10
+            }
+        ]
     },
     {
         "type": "profession",
         "ident": "chef",
         "name": "Chef",
         "description": "Bork bork! Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
-        "points": 2,
+        "points": 3,
         "items": ["knife_butcher", "hat_chef", "jacket_chef", "pants_checkered", "dress_shoes"],
-        "skills": [{"name": "cooking", "level": 3}]
+        "skills": [
+            {
+                "name": "cooking",
+                "level": 3
+            }
+        ]
     },
     {
         "type": "profession",
@@ -605,7 +625,10 @@
         "name": "Clown",
         "description": "All you ever wanted was to make people laugh. Dropping out of school and performing at kids' parties was a dream come true until the world ended. There's precious few balloon animals in your future now.",
         "points": 0,
-        "items": ["clown_suit", "clownshoes"]
+        "items": [
+            "clown_suit",
+            "clownshoes"
+        ]
     },
     {
         "type": "profession",
@@ -613,7 +636,11 @@
         "name": "Lost Submissive",
         "description": "Early in the rush to safety, you were separated from your master by cruel fate. Now you are on your own with nothing to your name but a suit of really kinky black leather. Unfortunately, there's no safewords in the apocalypse.",
         "points": 0,
-        "items": ["bondage_suit", "bondage_mask", "boots"]
+        "items": [
+            "bondage_suit",
+            "bondage_mask",
+            "boots"
+        ]
     },
     {
         "type": "profession",
@@ -621,7 +648,13 @@
         "name": "Senior Citizen",
         "description": "You haven't seen this much blood since the war. The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done.",
         "points": 1,
-        "items": ["dress_shirt", "pants_checkered", "dress_shoes", "cane", "pocketwatch"]
+        "items": [
+            "dress_shirt",
+            "pants_checkered",
+            "dress_shoes",
+            "cane",
+            "pocketwatch"
+        ]
     },
     {
         "type": "profession",
@@ -648,8 +681,18 @@
         "ident": "cosplay",
         "name": "Otaku",
         "description": "Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
-        "items": ["shorts", "sneakers", "tank_top", "sewing_kit", "mbag", "fur_cat_ears", "fur_cat_tail", "fur_collar", "cheeseburger"],
-        "points": 2
+        "items": [
+            "shorts",
+            "sneakers",
+            "tank_top",
+            "sewing_kit",
+            "mbag",
+            "fur_cat_ears",
+            "fur_cat_tail",
+            "fur_collar",
+            "cheeseburger"
+        ],
+        "points": 4
     },
     {
         "type": "profession",
