@@ -2235,9 +2235,13 @@ bool game::handle_action()
  gamemode->post_action(this, act);
 
  u.movecounter = before_action_moves - u.moves;
-
+ if (u.movecounter > 0) 
+ {
+    u.breath(this, u.movecounter / 100);
+ }
  return true;
 }
+
 
 #define SCENT_RADIUS 40
 
@@ -9842,6 +9846,8 @@ void game::plswim(int x, int y)
    drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_hands);
 
  u.drench(this, 100, drenchFlags);
+
+ u.exhaust(this, 5);
 }
 
 void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled)
