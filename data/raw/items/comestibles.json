@@ -1771,7 +1771,7 @@
         "spoils_in" : 0,
         "use_action" : "CAFF",
         "stim" : 4,
-        "container" : "bottle_plastic",
+        "container" : "can_drink",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
         "symbol" : "~",
