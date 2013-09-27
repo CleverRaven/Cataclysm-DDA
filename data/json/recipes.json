@@ -8791,7 +8791,7 @@
   "result": "needle_bone",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "difficulty": 3,
+  "difficulty": 1,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
