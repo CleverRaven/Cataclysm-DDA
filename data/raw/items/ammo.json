@@ -2338,7 +2338,7 @@
         "description" : "Charcoal is a flammable carbon based material obtained by removing water and other volatile constituents from animal and vegetation substances. It is produced by slowly heating wood or other substances in the absence of oxygen.",
         "material" : "wood",
         "volume" : 0,
-        "weight" : 200,
+        "weight" : 160,
         "phase" : "solid",
         "bashing" : 1,
         "cutting" : 0,
@@ -2349,6 +2349,6 @@
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
-        "count" : 5
+        "count" : 10
     }
 ]
