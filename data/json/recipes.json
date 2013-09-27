@@ -6420,11 +6420,21 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 4 ],
+      [ "toolset", 1 ]
     ]
   ],
   "components": [
     [
-      [ "transponder", 2 ]
+      [ "circuit", 1 ]
+    ],
+    [
+      [ "e_scrap", 3 ]
+    ],
+    [
+      [ "cable", 1 ]
     ]
   ]
 },{
@@ -6475,10 +6485,13 @@
   ],
   "components": [
     [
-      [ "amplifier", 2 ]
+      [ "circuit", 2 ]
     ],
     [
-      [ "cable", 10 ]
+      [ "e_scrap", 5 ]
+    ],
+    [
+      [ "cable", 2 ]
     ]
   ]
 },{
@@ -6486,7 +6499,7 @@
   "result": "transponder",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "difficulty": 2,
+  "difficulty": 3,
   "time": 14000,
   "reversible": true,
   "autolearn": true,
@@ -6502,10 +6515,13 @@
   ],
   "components": [
     [
-      [ "receiver", 3 ]
+      [ "circuit", 3 ]
     ],
     [
-      [ "cable", 5 ]
+      [ "e_scrap", 7 ]
+    ],
+    [
+      [ "cable", 3 ]
     ]
   ]
 },{
