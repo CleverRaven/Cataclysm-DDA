@@ -589,7 +589,7 @@ bool game::do_turn()
   
     // we can do a check here to figure out if there are negative effects of our
     // oxygen level
-    if (u.blood_oxygen < 880) 
+    if (u.blood_oxygen < 890) 
     {
         if(one_in(20) && !u.has_disease("sleep")) 
         {
@@ -1064,6 +1064,13 @@ void game::process_activity()
    }
   }
  }
+ else {
+    // Null activity, probably sleeping. 
+    if (u.has_disease("sleep")) {
+        u.exhaust(this, 5);
+        u.breath(this);
+    }
+ }
 
  // for every 100 turns, exhaust and breath.
  for (int i = previous_moves_left; i > u.activity.moves_left; i-=100)
@@ -1071,6 +1078,8 @@ void game::process_activity()
     u.exhaust(this, 5);
     u.breath(this);
  }
+
+
 }
 
 void game::cancel_activity()

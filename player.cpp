@@ -4332,7 +4332,7 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 void player::reset_bloodoxygen(game *g) 
 {
     //FIXME - also ignore if in smoke
-    if (underwater)
+    if (underwater || smoke_density > 0)
     {
         return;
     }
