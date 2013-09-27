@@ -4796,7 +4796,7 @@
         "bashing" : 8,
         "flags" : ["VARSIZE"],
         "coverage" : 100,
-        "material_thickness" : 4
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
