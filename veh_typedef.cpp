@@ -4,9 +4,6 @@
 #include "catajson.h"
 
 // GENERAL GUIDELINES
-// When adding a new vehicle, you MUST REMEMBER to insert it in the vhtype_id enum
-//  at the bottom of veh_type.h!
-//
 // To determine mount position for parts (dx, dy), check this scheme:
 //         orthogonal dir left: (Y-)
 //                ^
@@ -27,9 +24,9 @@
 // vehicle_parts.json
 // If you use wrong config, installation of part will fail
 
-vpart_info vpart_list[num_vparts];
+std::map<std::string, vpart_info> vehicle_part_types;
 
-std::map<std::string, vpart_id> vpart_enums;
+std::vector<std::string> legacy_vpart_id; // potential FIXME: provide -static- hardcoded enum if vpart order shifts
 
 // Note on the 'symbol' flag in vehicle parts -
 // the following symbols will be translated:
@@ -46,7 +43,6 @@ void game::init_vehicle_parts()
     throw (std::string)"data/raw/vehicle_parts.json wasn't found";
   }
 
-  unsigned int index = 0;
   for (vehicle_parts_json.set_begin(); vehicle_parts_json.has_curr() && json_good(); vehicle_parts_json.next())
   {
     catajson next_json = vehicle_parts_json.curr();
@@ -96,9 +92,8 @@ void game::init_vehicle_parts()
     next_part.difficulty = next_json.get("difficulty").as_int();
     next_part.flags = next_json.get("flags").as_tags();
 
-    vpart_list[index] = next_part;
-    vpart_enums[next_part.id] = (vpart_id)index; // temporary for saves, until move to string vpart id
-    index++;
+    vehicle_part_types[next_part.id] = next_part;
+    legacy_vpart_id.push_back(next_part.id);
   }
 
   if(!json_good()) {

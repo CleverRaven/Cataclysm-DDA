@@ -130,6 +130,7 @@ player::player() : name("")
  sight_max = 9999;
  sight_boost = 0;
  sight_boost_cap = 0;
+ lastrecipe = NULL;
 
  for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
     my_traits.erase(iter->first);
@@ -1518,8 +1519,8 @@ void player::memorial( std::ofstream &memorial_file )
 
     //Inventory
     memorial_file << _("Inventory:") << "\n";
-    inv.sort();
     inv.restack(this);
+    inv.sort();
     for(int i = 0; i < inv.size(); i++) {
       invslice slice = inv.slice(i, 1);
       item& next_item = slice[0]->front();
@@ -1541,6 +1542,10 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Lifetime Stats") << "\n";
     memorial_file << indent << _("Distance Walked: ")
                        << player_stats.squares_walked << _(" Squares") << "\n";
+    memorial_file << indent << _("Damage Taken: ")
+                       << player_stats.damage_taken << _(" Damage") << "\n";
+    memorial_file << indent << _("Damage Healed: ")
+                       << player_stats.damage_healed << _(" Damage") << "\n";
     memorial_file << "\n";
 
     //History
@@ -2166,7 +2171,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  do {
   werase(w_info);
   switch (curtab) {
-  case 1:	// Stats tab
+  case 1: // Stats tab
    mvwprintz(w_stats, 0, 0, h_ltgray, _("                          "));
    mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, h_ltgray, title_STATS);
    if (line == 0) {
@@ -2259,7 +2264,7 @@ detecting traps and other things of interest."));
    mvwprintz(w_stats, 5, 2, c_ltgray, _("Perception:"));
    wrefresh(w_stats);
    break;
-  case 2:	// Encumberment tab
+  case 2: // Encumberment tab
    mvwprintz(w_encumb, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
    if (line == 0) {
@@ -2340,7 +2345,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
    mvwprintz(w_encumb, 8, 1, c_ltgray, _("Feet"));
    wrefresh(w_encumb);
    break;
-  case 4:	// Traits tab
+  case 4: // Traits tab
    mvwprintz(w_traits, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, h_ltgray, title_TRAITS);
    if (line <= (trait_win_size_y-1)/2) {
@@ -2414,7 +2419,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
    }
    break;
 
-  case 5:	// Effects tab
+  case 5: // Effects tab
    mvwprintz(w_effects, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, h_ltgray, title_EFFECTS);
    if (line <= (effect_win_size_y-1)/2) {
@@ -2469,7 +2474,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
    }
    break;
 
-  case 3:	// Skills tab
+  case 3: // Skills tab
    mvwprintz(w_skills, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, h_ltgray, title_SKILLS);
    if (line <= (skill_win_size_y-1)/2) {
@@ -3116,7 +3121,7 @@ void player::add_bionic(bionic_id b)
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
-   return;	// No duplicates!
+   return; // No duplicates!
  }
  char newinv;
  if (my_bionics.size() == 0)
@@ -3609,40 +3614,58 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   pain++;
   hp_cur[hp_head] -= dam;
   if (hp_cur[hp_head] < 0)
+  {
+   lifetime_stats()->damage_taken+=hp_cur[hp_head];
    hp_cur[hp_head] = 0;
+  }
  break;
  case bp_torso:
   recoil += int(dam / 5);
   hp_cur[hp_torso] -= dam;
   if (hp_cur[hp_torso] < 0)
+  {
+   lifetime_stats()->damage_taken+=hp_cur[hp_torso];
    hp_cur[hp_torso] = 0;
+  }
  break;
  case bp_hands: // Fall through to arms
  case bp_arms:
-  if (side == 1 || side == 3 || weapon.is_two_handed(this))
+  if (side == 1 || weapon.is_two_handed(this))
    recoil += int(dam / 3);
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_arm_l] -= dam;
    if (hp_cur[hp_arm_l] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
     hp_cur[hp_arm_l] = 0;
+   }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_arm_r] -= dam;
    if (hp_cur[hp_arm_r] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
     hp_cur[hp_arm_r] = 0;
+   }
   }
  break;
  case bp_feet: // Fall through to legs
  case bp_legs:
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_leg_l] -= dam;
    if (hp_cur[hp_leg_l] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
     hp_cur[hp_leg_l] = 0;
+   }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_leg_r] -= dam;
    if (hp_cur[hp_leg_r] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
     hp_cur[hp_leg_r] = 0;
+   }
   }
  break;
  default:
@@ -3651,6 +3674,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease("adrenaline", 200);
+ lifetime_stats()->damage_taken+=dam;
 
  return dam;
 }
@@ -3677,43 +3701,61 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  pain += painadd;
 
  switch (bphurt) {
- case bp_eyes:	// Fall through to head damage
- case bp_mouth:	// Fall through to head damage
+ case bp_eyes: // Fall through to head damage
+ case bp_mouth: // Fall through to head damage
  case bp_head:
   pain++;
   hp_cur[hp_head] -= dam;
   if (hp_cur[hp_head] < 0)
+  {
+   lifetime_stats()->damage_taken+=hp_cur[hp_head];
    hp_cur[hp_head] = 0;
+  }
  break;
  case bp_torso:
   hp_cur[hp_torso] -= dam;
   if (hp_cur[hp_torso] < 0)
+  {
+   lifetime_stats()->damage_taken+=hp_cur[hp_torso];
    hp_cur[hp_torso] = 0;
+  }
  break;
- case bp_hands:	// Fall through to arms
+ case bp_hands: // Fall through to arms
  case bp_arms:
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_arm_l] -= dam;
    if (hp_cur[hp_arm_l] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
     hp_cur[hp_arm_l] = 0;
+   }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_arm_r] -= dam;
    if (hp_cur[hp_arm_r] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
     hp_cur[hp_arm_r] = 0;
+   }
   }
  break;
- case bp_feet:	// Fall through to legs
+ case bp_feet: // Fall through to legs
  case bp_legs:
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_leg_l] -= dam;
    if (hp_cur[hp_leg_l] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
     hp_cur[hp_leg_l] = 0;
+   }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_leg_r] -= dam;
    if (hp_cur[hp_leg_r] < 0)
+   {
+    lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
     hp_cur[hp_leg_r] = 0;
+   }
   }
  break;
  default:
@@ -3722,14 +3764,47 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease("adrenaline", 200);
+  lifetime_stats()->damage_taken+=dam;
+}
+
+void player::hurt(hp_part hurt, int dam)
+{
+    int painadd = 0;
+    if (has_disease("sleep") && rng(0, dam) > 2) {
+        g->add_msg(_("You wake up!"));
+        rem_disease("sleep");
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
+
+    if (dam <= 0)
+        return;
+
+    if (!is_npc()) {
+        g->cancel_activity_query(_("You were hurt!"));
+    }
+
+    if (has_trait("PAINRESIST")) {
+        painadd = dam / 3;
+    } else {
+        painadd = dam / 2;
+    }
+        pain += painadd;
+
+    hp_cur[hurt] -= dam;
+    if (hp_cur[hurt] < 0) {
+        lifetime_stats()->damage_taken+=hp_cur[hurt];
+        hp_cur[hurt] = 0;
+    }
+    lifetime_stats()->damage_taken+=dam;
 }
 
 void player::heal(body_part healed, int side, int dam)
 {
  hp_part healpart;
  switch (healed) {
- case bp_eyes:	// Fall through to head damage
- case bp_mouth:	// Fall through to head damage
+ case bp_eyes: // Fall through to head damage
+ case bp_mouth: // Fall through to head damage
  case bp_head:
   healpart = hp_head;
  break;
@@ -3760,14 +3835,22 @@ void player::heal(body_part healed, int side, int dam)
  }
  hp_cur[healpart] += dam;
  if (hp_cur[healpart] > hp_max[healpart])
+ {
+  lifetime_stats()->damage_healed-=hp_cur[healpart]-hp_max[healpart];
   hp_cur[healpart] = hp_max[healpart];
+ }
+ lifetime_stats()->damage_healed+=dam;
 }
 
 void player::heal(hp_part healed, int dam)
 {
  hp_cur[healed] += dam;
  if (hp_cur[healed] > hp_max[healed])
+ {
+  lifetime_stats()->damage_healed-=hp_cur[healed]-hp_max[healed];
   hp_cur[healed] = hp_max[healed];
+ }
+ lifetime_stats()->damage_healed+=dam;
 }
 
 void player::healall(int dam)
@@ -3776,7 +3859,11 @@ void player::healall(int dam)
   if (hp_cur[i] > 0) {
    hp_cur[i] += dam;
    if (hp_cur[i] > hp_max[i])
+   {
+    lifetime_stats()->damage_healed-=hp_cur[i]-hp_max[i];
     hp_cur[i] = hp_max[i];
+   }
+   lifetime_stats()->damage_healed+=dam;
   }
  }
 }
@@ -3787,12 +3874,16 @@ void player::hurtall(int dam)
   int painadd = 0;
   hp_cur[i] -= dam;
    if (hp_cur[i] < 0)
+   {
+     lifetime_stats()->damage_taken+=hp_cur[i];
      hp_cur[i] = 0;
+   }
   if (has_trait("PAINRESIST"))
    painadd = dam / 3;
   else
    painadd = dam / 2;
   pain += painadd;
+  lifetime_stats()->damage_taken+=dam;
  }
 }
 
@@ -3811,12 +3902,16 @@ void player::hitall(game *g, int dam, int vary)
   int painadd = 0;
   hp_cur[i] -= ddam;
    if (hp_cur[i] < 0)
+   {
+     lifetime_stats()->damage_taken+=hp_cur[i];
      hp_cur[i] = 0;
+   }
   if (has_trait("PAINRESIST"))
    painadd = dam / 3 / 4;
   else
    painadd = dam / 2 / 4;
   pain += painadd;
+  lifetime_stats()->damage_taken+=dam;
  }
 }
 
@@ -3883,6 +3978,63 @@ void player::knock_back_from(game *g, int x, int y)
   posx = to.x;
   posy = to.y;
  }
+}
+
+void player::bp_convert(hp_part &hpart, body_part bp, int side)
+{
+    hpart =  num_hp_parts;
+    switch(bp) {
+        case bp_head:
+            hpart = hp_head;
+            break;
+        case bp_torso:
+            hpart = hp_torso;
+            break;
+        case bp_arms:
+            if (side == 0) {
+                hpart = hp_arm_l;
+            } else {
+                hpart = hp_arm_r;
+            }
+            break;
+        case bp_legs:
+            if (side == 0) {
+                hpart = hp_leg_l;
+            } else {
+                hpart = hp_leg_r;
+            }
+            break;
+    }
+}
+
+void player::hp_convert(hp_part hpart, body_part &bp, int &side)
+{
+    bp =  num_bp;
+    side = -1;
+    switch(hpart) {
+        case hp_head:
+            bp = bp_head;
+            break;
+        case hp_torso:
+            bp = bp_torso;
+            break;
+        case hp_arm_l:
+            bp = bp_arms;
+            side = 0;
+            break;
+        case hp_arm_r:
+            bp = bp_arms;
+            side = 1;
+            break;
+        case hp_leg_l:
+            bp = bp_legs;
+            side = 0;
+            break;
+        case hp_leg_r:
+            bp = bp_legs;
+            side = 1;
+            break;
+    }
 }
 
 int player::hp_percentage()
@@ -3962,10 +4114,25 @@ void player::infect(dis_type type, body_part vector, int strength,
 
 void player::add_disease(dis_type type, int duration,
                          int intensity, int max_intensity,
-                         body_part part, int side)
+                         body_part part, int side, bool main_parts_only, 
+                         int additive)
 {
-    if (duration == 0) {
+    if (duration <= 0) {
         return;
+    }
+
+    if (hp_cur[part] == 0) {
+        return;
+    }
+
+    if (main_parts_only) {
+        if (part == bp_eyes || part == bp_mouth) {
+            part = bp_head;
+        } else if (part == bp_hands) {
+            part = bp_arms;
+        } else if (part == bp_feet) {
+            part = bp_legs;
+        }
     }
 
     bool found = false;
@@ -3983,7 +4150,14 @@ void player::add_disease(dis_type type, int duration,
                 return;
             }
             if (illness[i].bp == part && illness[i].side == side) {
-                illness[i].duration += duration;
+                if (additive > 0) {
+                    illness[i].duration += duration;
+                } else if (additive < 0) {
+                    illness[i].duration -= duration;
+                    if (illness[i].duration <= 0) {
+                        illness[i].duration = 1;
+                    }
+                }
                 illness[i].intensity += intensity;
                 if (max_intensity != -1 && illness[i].intensity > max_intensity) {
                     illness[i].intensity = max_intensity;
@@ -4033,15 +4207,20 @@ bool player::has_disease(dis_type type, body_part part, int side) const
     return false;
 }
 
-int player::disease_level(dis_type type, body_part part, int side)
+int player::disease_duration(dis_type type, bool all, body_part part, int side)
 {
+    int tmp = 0;
     for (int i = 0; i < illness.size(); i++) {
         if (illness[i].type == type && illness[i].bp == part &&
             illness[i].side == side) {
-            return illness[i].duration;
+            if (all == false) {
+                return illness[i].duration;
+            } else {
+                tmp += illness[i].duration;
+            }
         }
     }
-    return 0;
+    return tmp;
 }
 
 int player::disease_intensity(dis_type type, body_part part, int side)
@@ -4070,7 +4249,7 @@ void player::add_addiction(add_type type, int strength)
    if (addictions[i].sated < 0) {
     addictions[i].sated = timer;
    } else if (addictions[i].sated < 600) {
-    addictions[i].sated += timer;	// TODO: Make this variable?
+    addictions[i].sated += timer; // TODO: Make this variable?
    } else {
     addictions[i].sated += int((3000 - addictions[i].sated) / 2);
    }
@@ -4140,13 +4319,6 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     } else {
         return false;
     }
-}
-
-void player::cauterize(game *g) {
- rem_disease("bleed");
- rem_disease("bite");
- pain += 15;
- g->add_msg_if_player(this,_("You cauterize yourself. It hurts like hell!"));
 }
 
 void player::suffer(game *g)
@@ -4407,9 +4579,9 @@ void player::suffer(game *g)
   }
 
   if (has_trait("MOODSWINGS") && one_in(3600)) {
-   if (rng(1, 20) > 9)	// 55% chance
+   if (rng(1, 20) > 9) // 55% chance
     add_morale(MORALE_MOODSWING, -100, -500);
-   else			// 45% chance
+   else   // 45% chance
     add_morale(MORALE_MOODSWING, 100, 500);
   }
 
@@ -4422,7 +4594,7 @@ void player::suffer(game *g)
    g->sound(posx, posy, 15 + 3 * str_cur, _("You scream loudly!"));
   if (has_trait("SHOUT3") && one_in(1800))
    g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
- }	// Done with while-awake-only effects
+ } // Done with while-awake-only effects
 
  if (has_trait("ASTHMA") && one_in(3600 - stim * 50)) {
   bool auto_use = has_charges("inhaler", 1);
@@ -4518,7 +4690,7 @@ void player::suffer(game *g)
    g->m.radiation(posx, posy)++;
  }
 
- if (has_trait("UNSTABLE") && one_in(28800))	// Average once per 2 days
+ if (has_trait("UNSTABLE") && one_in(28800)) // Average once per 2 days
   mutate(g);
  if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800))
   mutate(g);
@@ -4864,7 +5036,7 @@ int player::weight_capacity(bool real_life)
 
 int player::volume_capacity()
 {
- int ret = 2;	// A small bonus (the overflow)
+ int ret = 2; // A small bonus (the overflow)
  it_armor *armor;
  for (int i = 0; i < worn.size(); i++) {
   armor = dynamic_cast<it_armor*>(worn[i].type);
@@ -5584,7 +5756,7 @@ int player::butcher_factor()
 {
  int lowest_factor = 999;
  if (has_bionic("bio_tools"))
- 	lowest_factor=100;
+  lowest_factor=100;
  int inv_factor = inv.butcher_factor();
  if (inv_factor < lowest_factor) {
   lowest_factor = inv_factor;
@@ -7211,7 +7383,7 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
                         for (int k = 0; k < cur_recipe->tools[j].size(); k++)
                         {
                             itype_id type = cur_recipe->tools[j][k].type;
-                            int req = cur_recipe->tools[j][k].count;	// -1 => 1
+                            int req = cur_recipe->tools[j][k].count; // -1 => 1
 
                             if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
                                 (req >  0 && crafting_inv.has_charges(type, req)))
@@ -7410,8 +7582,8 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
      inv.add_item_keep_invlet(copy);
     return;
    } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
-	      !gun->contents[i].has_flag("MODE_AUX") &&
-	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
+       !gun->contents[i].has_flag("MODE_AUX") &&
+       (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
     g->add_msg(_("Your %s's caliber has already been modified."),
                gun->tname(g).c_str());
     if (replace_item)
@@ -7643,7 +7815,7 @@ void player::read(game *g, char ch)
         }
     }
 
-	// Base read_speed() is 1000 move points (1 minute per tmp->time)
+ // Base read_speed() is 1000 move points (1 minute per tmp->time)
     time = tmp->time * read_speed() * fine_detail_vision_mod(g);
     if (tmp->intel > int_cur)
     {
@@ -7841,9 +8013,9 @@ float player::fine_detail_vision_mod(game *g)
 
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
     else if (has_trait("NIGHTVISION2")) { vision_ii -= 1.5; }
-    else if (has_trait("NIGHTVISION3"))	{ vision_ii -= 2.5; }
+    else if (has_trait("NIGHTVISION3")) { vision_ii -= 2.5; }
 
-    if (vision_ii < 1)	{ vision_ii = 1; }
+    if (vision_ii < 1) { vision_ii = 1; }
     return vision_ii;
 }
 

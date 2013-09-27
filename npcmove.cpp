@@ -72,7 +72,7 @@ void npc::move(game *g)
  int vehicle = vehicle_danger(g, avoidance_vehicles_radius);
  if (vehicle) {
   // TODO: Think about how this actually needs to work, for now assume flee from player
- 	target = TARGET_PLAYER;
+  target = TARGET_PLAYER;
  }
 
  // TODO: morale breaking when surrounded by hostiles
@@ -84,7 +84,7 @@ void npc::move(game *g)
  else if (danger > 0 || (target == TARGET_PLAYER && attitude == NPCATT_KILL))
   action = method_of_attack(g, target, danger);
 
- else {	// No present danger
+ else { // No present danger
   action = address_needs(g, danger);
   if (g->debugmon)
    debugmsg("address_needs %s", npc_action_name(action).c_str());
@@ -104,11 +104,11 @@ void npc::move(game *g)
    // check if in vehicle before rushing off to fetch things
    if (is_following() && g->u.in_vehicle)
     action = npc_follow_embarked;
-   else if (fetching_item)		// Set to true if find_item() found something
+   else if (fetching_item) // Set to true if find_item() found something
     action = npc_pickup;
-   else if (is_following())	// No items, so follow the player?
+   else if (is_following()) // No items, so follow the player?
     action = npc_follow_player;
-   else				// Do our long-term action
+   else // Do our long-term action
     action = long_term_goal_action(g);
    if (g->debugmon)
     debugmsg("long_term_goal_action %s", npc_action_name(action).c_str());
@@ -291,7 +291,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
  case npc_heal_player:
   update_path(g, g->u.posx, g->u.posy);
-  if (path.size() == 1)	// We're adjacent to u, and thus can heal u
+  if (path.size() == 1) // We're adjacent to u, and thus can heal u
    heal_player(g, g->u);
   else if (path.size() > 0)
    move_to_next(g);
@@ -301,7 +301,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
  case npc_follow_player:
   update_path(g, g->u.posx, g->u.posy);
-  if (path.size() <= follow_distance())	// We're close enough to u.
+  if (path.size() <= follow_distance()) // We're close enough to u.
    move_pause();
   else if (path.size() > 0)
    move_to_next(g);
@@ -349,7 +349,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
  case npc_mug_player:
   update_path(g, g->u.posx, g->u.posy);
-  if (path.size() == 1)	// We're adjacent to u, and thus can mug u
+  if (path.size() == 1) // We're adjacent to u, and thus can mug u
    mug_player(g, g->u);
   else if (path.size() > 0)
    move_to_next(g);
@@ -366,9 +366,9 @@ void npc::execute_action(game *g, npc_action action, int target)
   break;
 
  case npc_base_idle:
- 	// TODO: patrol or sleep or something?
- 	move_pause();
- 	break;
+  // TODO: patrol or sleep or something?
+  move_pause();
+  break;
 
  default:
   debugmsg("Unknown NPC action (%d)", action);
@@ -667,12 +667,12 @@ npc_action npc::long_term_goal_action(game *g)
  path.clear();
 
  if (mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER)
-  return npc_pause;	// Shopkeeps just stay put.
+  return npc_pause; // Shopkeeps just stay put.
 
 // TODO: Follow / look for player
 
  if (mission == NPC_MISSION_BASE)
- 	return npc_base_idle;
+  return npc_base_idle;
 
  if (!has_destination())
   set_destination(g);
@@ -787,7 +787,7 @@ int npc::confident_range(char invlet)
 
   deviation += 2 * encumb(bp_arms) + 4 * encumb(bp_eyes);
 
-  if (weapon.curammo == NULL)	// This shouldn't happen, but it does sometimes
+  if (weapon.curammo == NULL) // This shouldn't happen, but it does sometimes
    debugmsg("%s has NULL curammo!", name.c_str()); // TODO: investigate this bug
   else {
    deviation += weapon.curammo->dispersion;
@@ -948,7 +948,7 @@ void npc::move_to(game *g, int x, int y)
   if (moves < 0)
    moves = 0;
  }
- if (recoil > 0) {	// Start by dropping recoil a little
+ if (recoil > 0) { // Start by dropping recoil a little
   if (int(str_cur / 2) + skillLevel("gun") >= recoil)
    recoil = 0;
   else {
@@ -973,9 +973,9 @@ void npc::move_to(game *g, int x, int y)
   x = newpath[0].x;
   y = newpath[0].y;
  }
- if (x == posx && y == posy)	{ // We're just pausing!
+ if (x == posx && y == posy) { // We're just pausing!
   moves -= 100;
- } else if (g->mon_at(x, y) != -1) {	// Shouldn't happen, but it might.
+ } else if (g->mon_at(x, y) != -1) { // Shouldn't happen, but it might.
   //monster *m = &(g->zombie(g->mon_at(x, y)));
   //debugmsg("Bumped into a monster, %d, a %s",g->mon_at(x, y),m->name().c_str());
   melee_monster(g, g->mon_at(x, y));
@@ -1990,26 +1990,26 @@ void npc::set_destination(game *g)
   needs.push_back(need_none);
  std::vector<oter_id> options;
  switch(needs[0]) {
-  case need_ammo:	options.push_back(ot_house_north);
-  case need_gun:	options.push_back(ot_s_gun_north); break;
+  case need_ammo:   options.push_back(ot_house_north);
+  case need_gun:    options.push_back(ot_s_gun_north); break;
 
-  case need_weapon:	options.push_back(ot_s_gun_north);
-			options.push_back(ot_s_sports_north);
-			options.push_back(ot_s_hardware_north); break;
+  case need_weapon: options.push_back(ot_s_gun_north);
+                    options.push_back(ot_s_sports_north);
+                    options.push_back(ot_s_hardware_north); break;
 
-  case need_drink:	options.push_back(ot_s_gas_north);
-			options.push_back(ot_s_pharm_north);
-			options.push_back(ot_s_liquor_north);
-  case need_food:	options.push_back(ot_s_grocery_north); break;
+  case need_drink:  options.push_back(ot_s_gas_north);
+                    options.push_back(ot_s_pharm_north);
+                    options.push_back(ot_s_liquor_north);
+  case need_food:   options.push_back(ot_s_grocery_north); break;
 
-  default:		options.push_back(ot_house_north);
-			options.push_back(ot_s_gas_north);
-			options.push_back(ot_s_pharm_north);
-			options.push_back(ot_s_hardware_north);
-			options.push_back(ot_s_sports_north);
-			options.push_back(ot_s_liquor_north);
-			options.push_back(ot_s_gun_north);
-			options.push_back(ot_s_library_north);
+  default:      options.push_back(ot_house_north);
+                options.push_back(ot_s_gas_north);
+                options.push_back(ot_s_pharm_north);
+                options.push_back(ot_s_hardware_north);
+                options.push_back(ot_s_sports_north);
+                options.push_back(ot_s_liquor_north);
+                options.push_back(ot_s_gun_north);
+                options.push_back(ot_s_library_north);
  }
 
  oter_id dest_type = options[rng(0, options.size() - 1)];
@@ -2024,7 +2024,7 @@ void npc::set_destination(game *g)
 void npc::go_to_destination(game *g)
 {
  int sx = (goalx > mapx ? 1 : -1), sy = (goaly > mapy ? 1 : -1);
- if (goalx == mapx && goaly == mapy) {	// We're at our desired map square!
+ if (goalx == mapx && goaly == mapy) { // We're at our desired map square!
   move_pause();
   reach_destination(g);
  } else {
@@ -2061,32 +2061,32 @@ void npc::go_to_destination(game *g)
 std::string npc_action_name(npc_action action)
 {
  switch (action) {
-  case npc_undecided:		return _("Undecided");
-  case npc_pause:		return _("Pause");
-  case npc_reload:		return _("Reload");
-  case npc_sleep:		return _("Sleep");
-  case npc_pickup:		return _("Pick up items");
-  case npc_escape_item:		return _("Use escape item");
-  case npc_wield_melee:		return _("Wield melee weapon");
-  case npc_wield_loaded_gun:	return _("Wield loaded gun");
-  case npc_wield_empty_gun:	return _("Wield empty gun");
-  case npc_heal:		return _("Heal self");
-  case npc_use_painkiller:	return _("Use painkillers");
-  case npc_eat:			return _("Eat");
-  case npc_drop_items:		return _("Drop items");
-  case npc_flee:		return _("Flee");
-  case npc_melee:		return _("Melee");
-  case npc_shoot:		return _("Shoot");
-  case npc_shoot_burst:		return _("Fire a burst");
-  case npc_alt_attack:		return _("Use alternate attack");
-  case npc_look_for_player:	return _("Look for player");
-  case npc_heal_player:		return _("Heal player");
-  case npc_follow_player:	return _("Follow player");
-  case npc_follow_embarked: return _("Follow player (embarked)");
-  case npc_talk_to_player:	return _("Talk to player");
-  case npc_mug_player:		return _("Mug player");
-  case npc_goto_destination:	return _("Go to destination");
-  case npc_avoid_friendly_fire:	return _("Avoid friendly fire");
-  default: 			return "Unnamed action";
+  case npc_undecided:           return _("Undecided");
+  case npc_pause:               return _("Pause");
+  case npc_reload:              return _("Reload");
+  case npc_sleep:               return _("Sleep");
+  case npc_pickup:              return _("Pick up items");
+  case npc_escape_item:         return _("Use escape item");
+  case npc_wield_melee:         return _("Wield melee weapon");
+  case npc_wield_loaded_gun:    return _("Wield loaded gun");
+  case npc_wield_empty_gun:     return _("Wield empty gun");
+  case npc_heal:                return _("Heal self");
+  case npc_use_painkiller:      return _("Use painkillers");
+  case npc_eat:                 return _("Eat");
+  case npc_drop_items:          return _("Drop items");
+  case npc_flee:                return _("Flee");
+  case npc_melee:               return _("Melee");
+  case npc_shoot:               return _("Shoot");
+  case npc_shoot_burst:         return _("Fire a burst");
+  case npc_alt_attack:          return _("Use alternate attack");
+  case npc_look_for_player:     return _("Look for player");
+  case npc_heal_player:         return _("Heal player");
+  case npc_follow_player:       return _("Follow player");
+  case npc_follow_embarked:     return _("Follow player (embarked)");
+  case npc_talk_to_player:      return _("Talk to player");
+  case npc_mug_player:          return _("Mug player");
+  case npc_goto_destination:    return _("Go to destination");
+  case npc_avoid_friendly_fire: return _("Avoid friendly fire");
+  default:    return "Unnamed action";
  }
 }

@@ -195,7 +195,7 @@ void mdeath::fungus(game *g, monster *z)
    sporex = z->posx() + i;
    sporey = z->posy() + j;
    if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
-    if (g->mon_at(sporex, sporey) >= 0) {	// Spores hit a monster
+    if (g->mon_at(sporex, sporey) >= 0) { // Spores hit a monster
      if (g->u_see(sporex, sporey))
       g->add_msg(_("The %s is covered in tiny spores!"),
                  g->zombie(g->mon_at(sporex, sporey)).name().c_str());
@@ -260,11 +260,11 @@ void mdeath::disappear(game *g, monster *z)
 void mdeath::guilt(game *g, monster *z)
 {
  if (g->u.has_trait("CANNIBAL"))
-  return;	// We don't give a shit!
+  return; // We don't give a shit!
  if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 5)
-  return;	// Too far away, we can deal with it
+  return; // Too far away, we can deal with it
  if (z->hp >= 0)
-  return;	// It probably didn't die from damage
+  return; // It probably didn't die from damage
  g->add_msg(_("You feel terrible for killing %s!"), z->name().c_str());
  if(z->type->id == mon_hallu_mom)
  {

@@ -21,14 +21,14 @@ class game;
 class monster;
 
 //More importantly: SEEX defines the size of a nonant, or grid. Same with SEEY.
-#ifndef SEEX 	// SEEX is how far the player can see in the X direction (at
-#define SEEX 12	// least, without scrolling).  All map segments will need to be
-#endif		// at least this wide. The map therefore needs to be 3x as wide.
+#ifndef SEEX    // SEEX is how far the player can see in the X direction (at
+#define SEEX 12 // least, without scrolling).  All map segments will need to be
+#endif          // at least this wide. The map therefore needs to be 3x as wide.
 
-#ifndef SEEY	// Same as SEEX
+#ifndef SEEY    // Same as SEEX
 #define SEEY 12 // Requires 2*SEEY+1= 25 vertical squares
-#endif	        // Nuts to 80x24 terms. Mostly exists in graphical clients, and
-	        // those fatcats can resize.
+#endif          // Nuts to 80x24 terms. Mostly exists in graphical clients, and
+                // those fatcats can resize.
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -823,21 +823,21 @@ struct spawn_point {
 };
 
 struct submap {
- ter_id			ter[SEEX][SEEY]; // Terrain on each square
- std::vector<item>	itm[SEEX][SEEY]; // Items on each square
- furn_id        frn[SEEX][SEEY]; // Furniture on each square
- trap_id		trp[SEEX][SEEY]; // Trap on each square
- field			fld[SEEX][SEEY]; // Field on each square
- int			rad[SEEX][SEEY]; // Irradiation of each square
- graffiti graf[SEEX][SEEY]; // Graffiti on each square
- int active_item_count;
- int field_count;
- int turn_last_touched;
- int temperature;
- std::vector<spawn_point> spawns;
- std::vector<vehicle*> vehicles;
- computer comp;
- basecamp camp;  // only allowing one basecamp per submap
+    ter_id             ter[SEEX][SEEY];  // Terrain on each square
+    std::vector<item>  itm[SEEX][SEEY];  // Items on each square
+    furn_id            frn[SEEX][SEEY];  // Furniture on each square
+    trap_id            trp[SEEX][SEEY];  // Trap on each square
+    field              fld[SEEX][SEEY];  // Field on each square
+    int                rad[SEEX][SEEY];  // Irradiation of each square
+    graffiti           graf[SEEX][SEEY]; // Graffiti on each square
+    int active_item_count;
+    int field_count;
+    int turn_last_touched;
+    int temperature;
+    std::vector<spawn_point> spawns;
+    std::vector<vehicle*> vehicles;
+    computer comp;
+    basecamp camp;  // only allowing one basecamp per submap
 };
 
 std::ostream & operator<<(std::ostream &, const submap *);

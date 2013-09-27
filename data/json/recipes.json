@@ -1639,7 +1639,7 @@
       [ "superglue", 1 ]
     ],
     [
-      [ "shot_slug", 4 ]
+      [ "shot_slug", 5 ]
     ],
     [
       [ "gasoline", 200 ]
@@ -5159,8 +5159,7 @@
       [ "milk", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
-      [ "cooking_oil", 1 ],
-      [ "powder_eggs", 5 ]
+      [ "cooking_oil", 1 ]
     ]
   ]
 },{
@@ -11938,7 +11937,8 @@
         ["toolset", -1]
       ],
       [
-        ["screwdriver", -1]
+        ["screwdriver", -1],
+        ["toolset", -1]
       ]
     ],
     "components": [
@@ -14916,6 +14916,43 @@
     ],
     [
       [ "string_6", 3 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "unbio_blaster_gun",
+  "category": "CC_WEAPON",
+  "skill_used": "electronics",
+  "requires_skills": [ "fabrication", 4, "gun", 2 ],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bio_blaster", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ],
+    [
+      ["cable", 3]
+    ],
+    [
+      ["plastic_chunk", 3]
     ]
   ]
 }

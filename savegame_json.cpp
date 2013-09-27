@@ -57,6 +57,13 @@ picojson::value player_activity::json_save() {
         pvector.push_back( pv( values[i] ) );
     }
     data["values"] = pv ( pvector );
+    pvector.clear();
+
+    for (int i = 0; i < str_values.size(); i++) {
+        pvector.push_back( pv( str_values[i] ) );
+    }
+    data["values"] = pv ( pvector );
+    pvector.clear();
 
     return pv ( data );
 }
@@ -84,6 +91,16 @@ bool player_activity::json_load(picojson::value & parsed) {
                 }
             }
         }
+
+        parray = pgetarray(data, "str_values");
+        if ( parray != NULL ) {
+            for( picojson::array::const_iterator pt = parray->begin(); pt != parray->end(); ++pt) {
+                if ( (*pt).is<std::string>() ) {
+                    str_values.push_back( (*pt).get<std::string>() );
+                }
+            }
+        }
+
         return true;
     } else {
         debugmsg("Bad activity data:\n%s", parsed.serialize().c_str() );
@@ -499,6 +516,8 @@ picojson::value player::json_save(bool save_contents)
 
     ptmpmap.clear();
     ptmpmap["squares_walked"] = pv( (*lifetime_stats()).squares_walked );
+    ptmpmap["damage_taken"] = pv( (*lifetime_stats()).damage_taken );
+    ptmpmap["damage_healed"] = pv( (*lifetime_stats()).damage_healed );
     data["player_stats"] = pv (ptmpmap);
 
     if ( save_contents ) {
@@ -647,6 +666,8 @@ void player::json_load(picojson::value & parsed, game *g) {
     if ( pmap != NULL ) {
         stats & pstats = *lifetime_stats();
         picoint(*pmap,"squares_walked", pstats.squares_walked );
+        picoint(*pmap,"damage_taken", pstats.damage_taken );
+        picoint(*pmap,"damage_healed", pstats.damage_healed );
     }   
 
     inv.clear();
@@ -1365,17 +1386,15 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
         for( picojson::array::iterator pt = parray->begin(); pt != parray->end(); ++pt) {
             if ( (*pt).is<picojson::object>() ) {
                 std::map<std::string, picojson::value> & pdata = (*pt).get<picojson::object>();
-                int pid, pflag;
- // FIXME: this is temporary until migration to string id (?)
-                std::string tmpid;
-                if ( picostring(pdata,"id",tmpid) && vpart_enums.find(tmpid) != vpart_enums.end() ) {
-                    pid = vpart_enums[tmpid];
+                int intpid, pflag;
+                std::string pid;
+                if ( picoint(pdata, "id_enum", intpid) && legacy_vpart_id.size() < intpid ) {
+                    pid = legacy_vpart_id[intpid];
                 } else {
-                    // FIXME: stash int to stringid array in _legacy, for 0.8
-                    picoint(pdata, "id_enum", pid);
+                    picostring(pdata,"id",pid);
                 }
                 vehicle_part new_part;
-                new_part.id = (vpart_id) pid;
+                new_part.id = pid;
                
                 picoint(pdata, "mount_dx", new_part.mount_dx);
                 picoint(pdata, "mount_dy", new_part.mount_dy);
@@ -1444,7 +1463,7 @@ picojson::value vehicle::json_save( bool save_contents ) {
     std::map<std::string, picojson::value> pdata;
     std::vector<picojson::value> pitms;
     for (int p = 0; p < parts.size(); p++) {
-        pdata["id"] = pv ( vpart_list[ parts[p].id ].id ); // FIXME; after vpart enum is dropped
+        pdata["id"] = pv ( parts[p].id );
         pdata["mount_dx"] = pv ( parts[p].mount_dx );
         pdata["mount_dy"] = pv ( parts[p].mount_dy );
         pdata["hp"] = pv ( parts[p].hp );

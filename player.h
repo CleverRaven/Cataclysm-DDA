@@ -34,12 +34,18 @@ struct special_attack
  special_attack() { bash = 0; cut = 0; stab = 0; };
 };
 
+//Don't forget to add new memorial counters
+//to the save and load functions in savegame_json.cpp
 struct stats
 {
     int squares_walked;
+    int damage_taken;
+    int damage_healed;
 
     void reset() {
         squares_walked = 0;
+        damage_taken = 0;
+        damage_healed = 0;
     }
 
     stats() {
@@ -61,17 +67,17 @@ public:
  bool create(game *g, character_type type, std::string tempname = "");
  std::string random_good_trait();
  std::string random_bad_trait();
- void normalize(game *g);	// Starting set up of HP and inventory
+ void normalize(game *g); // Starting set up of HP and inventory
 // </newcharacter.cpp>
 
  void pick_name(); // Picks a name from NAMES_*
 
- virtual bool is_npc() { return false; }	// Overloaded for NPCs in npc.h
- nc_color color();				// What color to draw us as
+ virtual bool is_npc() { return false; } // Overloaded for NPCs in npc.h
+ nc_color color(); // What color to draw us as
 
  virtual void load_legacy(game *g, std::stringstream & dump);  // stringstream loader for old data
  virtual void load_info(game *g, std::string data); // deserialize string when loading
- virtual std::string save_info();		    // output serialized json string for saving
+ virtual std::string save_info(); // output serialized json string for saving
 
  void json_load_common_variables( std::map<std::string, picojson::value> & data ); 
  virtual void json_load(picojson::value & parsed, game *g);   // populate variables, inventory items, and misc from json object
@@ -80,20 +86,20 @@ public:
  virtual picojson::value json_save(bool save_contents=false);
 
  void memorial( std::ofstream &memorial_file ); // Write out description of player.
- void disp_info(game *g);	// '@' key; extended character info
- void disp_morale(game *g);		// '%' key; morale info
+ void disp_info(game *g); // '@' key; extended character info
+ void disp_morale(game *g); // '%' key; morale info
  void disp_status(WINDOW* w, WINDOW *w2, game *g = NULL);// On-screen data
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
  void action_taken(); // Called after every action, invalidates player caches.
- void update_morale();	// Ticks down morale counters and removes them
+ void update_morale(); // Ticks down morale counters and removes them
  void apply_persistent_morale(); // Ensure persistent morale effects are up-to-date.
  void update_mental_focus();
  int calc_focus_equilibrium();
  void update_bodytemp(game *g);  // Maintains body temperature
  int  current_speed(game *g = NULL); // Number of movement points we get a turn
  int  run_cost(int base_cost, bool diag = false); // Adjust base_cost
- int  swim_speed();	// Our speed when swimming
+ int  swim_speed(); // Our speed when swimming
 
  bool has_trait(const std::string &flag) const;
  bool has_base_trait(const std::string &flag) const;
@@ -135,7 +141,7 @@ public:
  bool sight_impaired(); // vision impaired between sight_range and max_range
  bool has_two_arms() const;
  bool can_wear_boots();
- bool is_armed();	// True if we're wielding something; true for bionics
+ bool is_armed(); // True if we're wielding something; true for bionics
  bool unarmed_attack(); // False if we're wielding something; true for bionics
  bool avoid_trap(trap *tr);
 
@@ -160,6 +166,7 @@ public:
  float mabuff_cut_mult(); // martial arts bash damage multiplier
  int mabuff_cut_bonus(); // martial arts bash damage bonus, applied after mult
  bool is_throw_immune(); // martial arts throw immunity
+ bool is_quiet(); // martial arts quiet melee
 
  bool has_miss_recovery_tec(game* g); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(game* g); // technique-based miss recovery, like tec_feint
@@ -206,13 +213,13 @@ public:
 
 // ranged.cpp
  int throw_range(signed char invlet); // Range of throwing item; -1:ERR 0:Can't throw
- int ranged_dex_mod	(bool real_life = true);
- int ranged_per_mod	(bool real_life = true);
- int throw_dex_mod	(bool real_life = true);
+ int ranged_dex_mod (bool real_life = true);
+ int ranged_per_mod (bool real_life = true);
+ int throw_dex_mod  (bool real_life = true);
 
 // Mental skills and stats
- int read_speed		(bool real_life = true);
- int rust_rate		(bool real_life = true);
+ int read_speed     (bool real_life = true);
+ int rust_rate      (bool real_life = true);
  int talk_skill(); // Skill at convincing NPCs of stuff
  int intimidation(); // Physical intimidation
 
@@ -222,7 +229,8 @@ public:
 // absorb() reduces dam and cut by your armor (and bionics, traits, etc)
  void absorb(game *g, body_part bp,               int &dam, int &cut);
 // hurt() doesn't--effects of disease, what have you
- void hurt  (game *g, body_part bphurt, int side, int  dam);
+ void hurt (game *g, body_part bphurt, int side, int  dam);
+ void hurt (hp_part hurt, int dam);
 
  void heal(body_part healed, int side, int dam);
  void heal(hp_part healed, int dam);
@@ -230,13 +238,17 @@ public:
  void hurtall(int dam);
  // checks armor. if vary > 0, then damage to parts are random within 'vary' percent (1-100)
  void hitall(game *g, int dam, int vary = 0);
-// Sends us flying one tile
+ // Sends us flying one tile
  void knock_back_from(game *g, int x, int y);
 
- int hp_percentage();	// % of HP remaining, overall
+ //Converts bp/side to hp_part and back again
+ void bp_convert(hp_part &hpart, body_part bp, int side);
+ void hp_convert(hp_part hpart, body_part &bp, int &side);
+
+ int hp_percentage(); // % of HP remaining, overall
  void recalc_hp(); // Change HP after a change to max strength
 
- void get_sick(game *g);	// Process diseases
+ void get_sick(game *g); // Process diseases
 // infect() gives us a chance to save (mostly from armor)
  void infect(dis_type type, body_part vector, int strength, int duration,
              game *g);
@@ -246,10 +258,10 @@ public:
 // -1 indicates that side of body is irrelevant
  void add_disease(dis_type type, int duration, int intensity = 0,
                   int max_intensity = -1, body_part part = num_bp,
-                  int side = -1);
+                  int side = -1, bool main_parts_only = false, int additive = 1);
  void rem_disease(dis_type type, body_part part = num_bp, int side = -1);
  bool has_disease(dis_type type, body_part part = num_bp, int side = -1) const;
- int  disease_level(dis_type type, body_part part = num_bp, int side = -1);
+ int  disease_duration(dis_type type, bool all = false, body_part part = num_bp, int side = -1);
  int  disease_intensity(dis_type type, body_part part = num_bp, int side = -1);
 
  void add_addiction(add_type type, int strength);
@@ -258,7 +270,6 @@ public:
  int  addiction_level(add_type type);
 
  bool siphon(game *g, vehicle *veh, ammotype desired_liquid);
- void cauterize(game *g);
  void suffer(game *g);
  void mend(game *g);
  void vomit(game *g);
@@ -267,19 +278,19 @@ public:
  void drench_mut_calc(); //Recalculate mutation drench protection for all bodyparts (ignored/good/neutral stats)
 
  char lookup_item(char let);
- bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
+ bool eat(game *g, signed char invlet); // Eat item; returns false on fail
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(game *g); // Pick a style
- bool wear(game *g, char let, bool interactive = true);	// Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+ bool wear(game *g, char let, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
  bool wear_item(game *g, item *to_wear, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
  bool takeoff(game *g, char let, bool autodrop = false);// Take off item; returns false on fail
  void sort_armor(game *g);      // re-order armor layering
- void use(game *g, char let);	// Use a tool
+ void use(game *g, char let); // Use a tool
  void use_wielded(game *g);
- bool install_bionics(game *g, it_bionic* type);	// Install bionics
- void read(game *g, char let);	// Read a book
- void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
- bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN
+ bool install_bionics(game *g, it_bionic* type); // Install bionics
+ void read(game *g, char let); // Read a book
+ void try_to_sleep(game *g); // '$' command; adds DIS_LYING_DOWN
+ bool can_sleep(game *g); // Checked each turn during DIS_LYING_DOWN
  std::string is_snuggling(game *g);    // Check to see if the player is using floor items to keep warm. If so, return one such item
  float fine_detail_vision_mod(game *g); // Used for things like reading and sewing, checks light level
 
@@ -293,12 +304,12 @@ public:
  hint_rating rate_action_unload(item *it);
  hint_rating rate_action_disassemble(item *it, game *g);
 
- int warmth(body_part bp);	// Warmth provided by armor &c
- int encumb(body_part bp);	// Encumberance from armor &c
+ int warmth(body_part bp); // Warmth provided by armor &c
+ int encumb(body_part bp); // Encumberance from armor &c
  int encumb(body_part bp, int &layers, int &armorenc);
- int armor_bash(body_part bp);	// Bashing resistance
- int armor_cut(body_part bp);	// Cutting  resistance
- int resist(body_part bp);	// Infection &c resistance
+ int armor_bash(body_part bp); // Bashing resistance
+ int armor_cut(body_part bp); // Cutting  resistance
+ int resist(body_part bp); // Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
@@ -317,7 +328,7 @@ public:
  bool can_pickVolume(int volume);
  bool can_pickWeight(int weight, bool safe = true);
  int net_morale(morale_point effect);
- int morale_level();	// Modified by traits, &c
+ int morale_level(); // Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
                  int duration = 60, int decay_start = 30,
                  bool cap_existing = false, itype* item_type = NULL);
@@ -331,18 +342,18 @@ public:
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);
  bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
- item i_rem(char let);	// Remove item from inventory; returns ret_null on fail
+ item i_rem(char let); // Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
  void remove_mission_items(int mission_id);
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
- item &i_at(char let);	// Returns the item with inventory letter let
+ item &i_at(char let); // Returns the item with inventory letter let
  item &i_of_type(itype_id type); // Returns the first item with this type
  martialart get_combat_style(); // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
- int  butcher_factor();	// Automatically picks our best butchering tool
+ int  butcher_factor(); // Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
- bool is_wearing(itype_id it);	// Are we wearing a specific itype?
+ bool is_wearing(itype_id it); // Are we wearing a specific itype?
  bool has_artifact_with(art_effect_passive effect);
  bool worn_with_flag( std::string flag ) const;
 
@@ -363,11 +374,11 @@ public:
 
  bool has_watertight_container();
  bool has_matching_liquid(itype_id it);
- bool has_weapon_or_armor(char let) const;	// Has an item with invlet let
+ bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
- bool has_item(char let);		// Has an item with invlet let
- bool has_item(item *it);		// Has a specific item
- bool has_mission_item(int mission_id);	// Has item with mission_id
+ bool has_item(char let);  // Has an item with invlet let
+ bool has_item(item *it);  // Has a specific item
+ bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 
  bool knows_recipe(recipe *rec);
@@ -454,7 +465,7 @@ public:
  matype_id style_selected;
 
  item weapon;
- item ret_null;	// Null item, sometimes returns by weapon() etc
+ item ret_null; // Null item, sometimes returns by weapon() etc
 
  std::vector <addiction> addictions;
 
@@ -496,7 +507,7 @@ private:
     bool has_fire(const int quantity);
     void use_fire(const int quantity);
 
-    int id;	// A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
+    int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
     //NPCs also use this ID value. Values should never be reused.
 };
 

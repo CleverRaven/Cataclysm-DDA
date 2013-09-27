@@ -3,17 +3,17 @@
 #include "options.h"
 
 #ifndef LINE_XOXO
-	#define LINE_XOXO 4194424
-	#define LINE_OXOX 4194417
-	#define LINE_XXOO 4194413
-	#define LINE_OXXO 4194412
-	#define LINE_OOXX 4194411
-	#define LINE_XOOX 4194410
-	#define LINE_XXXO 4194420
-	#define LINE_XXOX 4194422
-	#define LINE_XOXX 4194421
-	#define LINE_OXXX 4194423
-	#define LINE_XXXX 4194414
+    #define LINE_XOXO 4194424
+    #define LINE_OXOX 4194417
+    #define LINE_XXOO 4194413
+    #define LINE_OXXO 4194412
+    #define LINE_OOXX 4194411
+    #define LINE_XOOX 4194410
+    #define LINE_XXXO 4194420
+    #define LINE_XXOX 4194422
+    #define LINE_XOXX 4194421
+    #define LINE_OXXX 4194423
+    #define LINE_XXXX 4194414
 #endif
 
 void game::help()
@@ -357,7 +357,7 @@ are all required for certain items."),
             mvwprintz(w_help, 0, 0, c_white, _("\
 While sleeping in dangerous territory, it may be wise to set traps to ward\n\
 off unwanted intrusions. There are a few traps to be found in the world,\n\
-most notably bubblewrap (which will make a loud noise if stepped on, helping\n\
+most notably bubble wrap (which will make a loud noise if stepped on, helping\n\
 to wake you up) and bear traps (which make noise AND damage and trap anything\n\
 that steps on them). Others need to be crafted; this requires the Traps skill\n\
 and possibly Mechanics.\n\

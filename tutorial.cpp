@@ -7,7 +7,7 @@
 
 bool tutorial_game::init(game *g)
 {
-	// TODO: clean up old tutorial
+    // TODO: clean up old tutorial
 
  g->turn = HOURS(12); // Start at noon
  for (int i = 0; i < NUM_LESSONS; i++)
@@ -210,9 +210,9 @@ void tutorial_game::add_message(game *g, tut_lesson lesson)
  if (lesson == LESSON_INTRO) {
   while (lesson != NUM_LESSONS && tutorials_seen[lesson]) {
    switch (lesson) {
-    case LESSON_INTRO:	lesson = LESSON_MOVE; break;
-    case LESSON_MOVE:	lesson = LESSON_LOOK; break;
-    case LESSON_LOOK:	lesson = NUM_LESSONS; break;
+    case LESSON_INTRO: lesson = LESSON_MOVE; break;
+    case LESSON_MOVE:  lesson = LESSON_LOOK; break;
+    case LESSON_LOOK:  lesson = NUM_LESSONS; break;
    }
   }
   if (lesson == NUM_LESSONS)

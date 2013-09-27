@@ -59,7 +59,7 @@ inline std::stringstream & stream_line(std::ifstream & f, std::stringstream & s,
 /*
  * Parse an open .sav file in an old, now broken format to preserve a game across versions
  */
-bool	 game::unserialize_legacy(std::ifstream & fin) {
+bool game::unserialize_legacy(std::ifstream & fin) {
 
    switch (savegame_loading_version) {
 
@@ -848,7 +848,7 @@ void vehicle::load_legacy(std::ifstream &stin) {
         stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pflag >> pass >> pnit;
         getline(stin, databuff); // Clear EoL
         vehicle_part new_part;
-        new_part.id = (vpart_id) pid;
+        new_part.id = legacy_vpart_id[ pid ];
         new_part.mount_dx = pdx;
         new_part.mount_dy = pdy;
         new_part.hp = php;

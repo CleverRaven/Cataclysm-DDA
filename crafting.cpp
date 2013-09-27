@@ -117,7 +117,7 @@ void load_recipe(JsonObject &jsobj)
 bool game::crafting_allowed()
 {
     if (u.morale_level() < MIN_MORALE_CRAFT)
-    {	// See morale.h
+    { // See morale.h
         add_msg(_("Your morale is too low to craft..."));
         return false;
     }
@@ -142,7 +142,7 @@ bool game::making_would_work(recipe *making)
 {
     if (!crafting_allowed())
     {
-    	return false;
+        return false;
     }
 
     if(can_make(making))
@@ -437,7 +437,7 @@ void game::craft()
 {
     if (!crafting_allowed())
     {
-    	return;
+        return;
     }
 
     recipe *rec = select_crafting_recipe();
@@ -451,7 +451,7 @@ void game::long_craft()
 {
     if (!crafting_allowed())
     {
-    	return;
+        return;
     }
 
     recipe *rec = select_crafting_recipe();
@@ -559,7 +559,7 @@ recipe* game::select_crafting_recipe()
             {
                 for (int i = recmin; i < recmin + dataLines; i++)
                 {
-                    mvwprintz(w_data, i - recmin, 2, c_dkgray, "");	// Clear the line
+                    mvwprintz(w_data, i - recmin, 2, c_dkgray, ""); // Clear the line
                     if (i == line)
                     {
                         mvwprintz(w_data, i - recmin, 2, (available[i] ? h_white : h_dkgray),
@@ -576,7 +576,7 @@ recipe* game::select_crafting_recipe()
             {
                 for (int i = recmax - dataLines; i < recmax; i++)
                 {
-                    mvwprintz(w_data, dataLines + i - recmax, 2, c_ltgray, "");	// Clear the line
+                    mvwprintz(w_data, dataLines + i - recmax, 2, c_ltgray, ""); // Clear the line
                     if (i == line)
                     {
                         mvwprintz(w_data, dataLines + i - recmax, 2, (available[i] ? h_white : h_dkgray),
@@ -593,7 +593,7 @@ recipe* game::select_crafting_recipe()
             {
                 for (int i = line - dataHalfLines; i < line + dataHalfLines; i++)
                 {
-                    mvwprintz(w_data, dataHalfLines + i - line, 2, c_ltgray, "");	// Clear the line
+                    mvwprintz(w_data, dataHalfLines + i - line, 2, c_ltgray, ""); // Clear the line
                     if (i == line)
                     {
                         mvwprintz(w_data, dataHalfLines + i - line, 2, (available[i] ? h_white : h_dkgray),
@@ -1011,7 +1011,7 @@ void game::complete_craft()
  int skill_sides = 16 + u.int_cur;
 
  int diff_dice = making->difficulty * 4; // Since skill level is * 4 also
- int diff_sides = 24;	// 16 + 8 (default intelligence)
+ int diff_sides = 24; // 16 + 8 (default intelligence)
 
  int skill_roll = dice(skill_dice, skill_sides);
  int diff_roll  = dice(diff_dice,  diff_sides);
@@ -1085,14 +1085,14 @@ void game::complete_craft()
  // for food items
  if (newit.is_food())
   {
-    int bday_tmp = newit.bday % 3600;		// fuzzy birthday for stacking reasons
+    int bday_tmp = newit.bday % 3600; // fuzzy birthday for stacking reasons
     newit.bday = int(newit.bday) + 3600 - bday_tmp;
 
-		if (newit.has_flag("EATEN_HOT")) {	// hot foods generated
-			newit.item_tags.insert("HOT");
-			newit.active = true;
-			newit.item_counter = 600;
-		}
+        if (newit.has_flag("EATEN_HOT")) { // hot foods generated
+            newit.item_tags.insert("HOT");
+            newit.active = true;
+            newit.item_counter = 600;
+        }
   }
  if (!newit.craft_has_charges())
   newit.charges = 0;
@@ -1407,7 +1407,7 @@ void game::disassemble(char ch)
                     for (int k = 0; k < cur_recipe->tools[j].size(); k++)
                     {
                         itype_id type = cur_recipe->tools[j][k].type;
-                        int req = cur_recipe->tools[j][k].count;	// -1 => 1
+                        int req = cur_recipe->tools[j][k].count; // -1 => 1
 
                         if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
                             (req >  0 && crafting_inv.has_charges(type, req)))
@@ -1540,7 +1540,7 @@ void game::complete_disassemble()
    int skill_sides = 16 + u.int_cur;
 
    int diff_dice = dis->difficulty;
-   int diff_sides = 24;	// 16 + 8 (default intelligence)
+   int diff_sides = 24; // 16 + 8 (default intelligence)
 
    // disassembly only nets a bit of practice
    if (dis->skill_used)

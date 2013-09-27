@@ -197,7 +197,7 @@ void mapbuffer::save()
 
  // Output base camp if any
   if (sm->camp.is_valid())
-  	fout << "B " << sm->camp.save_data() << std::endl;
+   fout << "B " << sm->camp.save_data() << std::endl;
 
  // Output the graffiti
  for (int j = 0; j < SEEY; j++) {
@@ -291,7 +291,7 @@ void mapbuffer::unserialize(std::ifstream & fin) {
    for (int i = 0; i < SEEX; i++) {
     if (count == 0) {
      fin >> radtmp >> count;
-     radtmp -= int(turndif / 100);	// Radiation slowly decays
+     radtmp -= int(turndif / 100); // Radiation slowly decays
      if (radtmp < 0) {
       radtmp = 0;
      }
@@ -329,8 +329,8 @@ void mapbuffer::unserialize(std::ifstream & fin) {
     sm->frn[itx][ity] = furn_id(t);
    } else if (string_identifier == "F") {
     fin >> itx >> ity >> t >> d >> a;
-	if(!sm->fld[itx][ity].findField(field_id(t)))
-		sm->field_count++;
+    if(!sm->fld[itx][ity].findField(field_id(t)))
+     sm->field_count++;
     sm->fld[itx][ity].addField(field_id(t), d, a);
    } else if (string_identifier == "S") {
     char tmpfriend;

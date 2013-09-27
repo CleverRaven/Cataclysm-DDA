@@ -1981,7 +1981,7 @@ char item::pick_reload_ammo(player &u, bool interactive)
  }
  int has_spare_mag = has_gunmod ("spare_mag");
 
- std::vector<item*> am;	// List of valid ammo
+ std::vector<item*> am; // List of valid ammo
 
  if (type->is_gun()) {
   if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
@@ -2154,7 +2154,7 @@ bool item::reload(player &u, char ammo_invlet)
    }
    reload_target->curammo = dynamic_cast<it_ammo*>((ammo_to_use->type));
   }
-  if (single_load || max_load == 1) {	// Only insert one cartridge!
+  if (single_load || max_load == 1) { // Only insert one cartridge!
    reload_target->charges++;
    ammo_to_use->charges--;
   }

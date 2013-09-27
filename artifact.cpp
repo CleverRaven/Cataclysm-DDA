@@ -10,47 +10,47 @@ std::vector<art_effect_active>  fill_good_active();
 std::vector<art_effect_active>  fill_bad_active();
 
 int passive_effect_cost[NUM_AEPS] = {
-0,	// AEP_NULL
+0, // AEP_NULL
 
-3,	// AEP_STR_UP
-3,	// AEP_DEX_UP
-3,	// AEP_PER_UP
-3,	// AEP_INT_UP
-5,	// AEP_ALL_UP
-4,	// AEP_SPEED_UP
-2,	// AEP_IODINE
-4,	// AEP_SNAKES
-7,	// AEP_INVISIBLE
-5,	// AEP_CLAIRVOYANCE
-50,	// AEP_SUPER_CLAIRVOYANCE
-2,	// AEP_STEALTH
-2,	// AEP_EXTINGUISH
-1,	// AEP_GLOW
-1,	// AEP_PSYSHIELD
-3,	// AEP_RESIST_ELECTRICITY
-3,	// AEP_CARRY_MORE
-5,	// AEP_SAP_LIFE
+3, // AEP_STR_UP
+3, // AEP_DEX_UP
+3, // AEP_PER_UP
+3, // AEP_INT_UP
+5, // AEP_ALL_UP
+4, // AEP_SPEED_UP
+2, // AEP_IODINE
+4, // AEP_SNAKES
+7, // AEP_INVISIBLE
+5, // AEP_CLAIRVOYANCE
+50,// AEP_SUPER_CLAIRVOYANCE
+2, // AEP_STEALTH
+2, // AEP_EXTINGUISH
+1, // AEP_GLOW
+1, // AEP_PSYSHIELD
+3, // AEP_RESIST_ELECTRICITY
+3, // AEP_CARRY_MORE
+5, // AEP_SAP_LIFE
 
-0,	// AEP_SPLIT
+0, // AEP_SPLIT
 
--2,	// AEP_HUNGER
--2,	// AEP_THIRST
--1,	// AEP_SMOKE
--5,	// AEP_EVIL
--3,	// AEP_SCHIZO
--5,	// AEP_RADIOACTIVE
--3,	// AEP_MUTAGENIC
--5,	// AEP_ATTENTION
--2,	// AEP_STR_DOWN
--2,	// AEP_DEX_DOWN
--2,	// AEP_PER_DOWN
--2,	// AEP_INT_DOWN
--5,	// AEP_ALL_DOWN
--4,	// AEP_SPEED_DOWN
--5,	// AEP_FORCE_TELEPORT
--3,	// AEP_MOVEMENT_NOISE
--2,	// AEP_BAD_WEATHER
--1	// AEP_SICK
+-2, // AEP_HUNGER
+-2, // AEP_THIRST
+-1, // AEP_SMOKE
+-5, // AEP_EVIL
+-3, // AEP_SCHIZO
+-5, // AEP_RADIOACTIVE
+-3, // AEP_MUTAGENIC
+-5, // AEP_ATTENTION
+-2, // AEP_STR_DOWN
+-2, // AEP_DEX_DOWN
+-2, // AEP_PER_DOWN
+-2, // AEP_INT_DOWN
+-5, // AEP_ALL_DOWN
+-4, // AEP_SPEED_DOWN
+-5, // AEP_FORCE_TELEPORT
+-3, // AEP_MOVEMENT_NOISE
+-2, // AEP_BAD_WEATHER
+-1  // AEP_SICK
 };
 
 int active_effect_cost[NUM_AEAS] = {
@@ -261,18 +261,13 @@ void game::init_artifacts()
     for(int i=0;i<NUM_ARTTOOLFORMS;i++) {artifact_tool_form_data[i]=tmp_artifact_tool_form_data[i];}
 
     artifact_weapon_datum tmp_artifact_weapon_data[NUM_ARTWEAPS] = {
-    {"", 0, 0, 0, 0, 0, 0, 0, 0, ""},
-    // Adjective	Vol,wgt		Bash		Cut		To-Hit  tags
-    {_("Heavy"),	 0,1400,	10, 20,		 0,  0,		-2,  0,
-     ""},
-    {_("Knobbed"),	 1,250,		14, 30,		 0,  0,		-1,  1,
-     ""},
-    {_("Spiked"),	 1,100,		 0,  0,		20, 40,		-1,  1,
-     "SPEAR"},
-    {_("Edged"),	 2,450,		 0,  0,		20, 50,		-1,  2,
-     ""},
-    {_("Bladed"),	 1,2250,	 0,  0,		12, 30,		-1,  1,
-     "STAB"}
+        {"", 0, 0, 0, 0, 0, 0, 0, 0, ""},
+        // Adjective     Vol,wgt   Bash       Cut     To-Hit   tags
+        {_("Heavy"),     0,1400,  10, 20,    0,  0,   -2,  0,  ""},
+        {_("Knobbed"),   1,250,   14, 30,    0,  0,   -1,  1,  ""},
+        {_("Spiked"),    1,100,    0,  0,   20, 40,   -1,  1,  "SPEAR"},
+        {_("Edged"),     2,450,    0,  0,   20, 50,   -1,  2,  ""},
+        {_("Bladed"),    1,2250,   0,  0,   12, 30,   -1,  1,  "STAB"}
     };
     for(int i=0;i<NUM_ARTWEAPS;i++) {artifact_weapon_data[i]=tmp_artifact_weapon_data[i];}
 

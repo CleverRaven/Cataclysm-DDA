@@ -246,7 +246,7 @@ class map
  void mop_spills(const int x, const int y);
 
 // Radiation
- int& radiation(const int x, const int y);	// Amount of radiation at (x, y);
+ int& radiation(const int x, const int y); // Amount of radiation at (x, y);
 
 // Temperature
  int& temperature(const int x, const int y);    // Temperature for submap
@@ -287,10 +287,10 @@ class map
  bool add_field(game *g, const point p, const field_id t, unsigned int density, const int age);
  bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
- bool process_fields(game *g);				// See fields.cpp
- bool process_fields_in_submap(game *g, const int gridn);	// See fields.cpp
- void step_in_field(const int x, const int y, game *g);		// See fields.cpp
- void mon_in_field(const int x, const int y, game *g, monster *z);	// See fields.cpp
+ bool process_fields(game *g); // See fields.cpp
+ bool process_fields_in_submap(game *g, const int gridn); // See fields.cpp
+ void step_in_field(const int x, const int y, game *g); // See fields.cpp
+ void mon_in_field(const int x, const int y, game *g, monster *z); // See fields.cpp
  void field_effect(int x, int y, game *g); //See fields.cpp
 
 // Computers
@@ -324,7 +324,8 @@ class map
  void add_spawn(monster *mon);
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, std::string type, const int x, const int y, const int dir,
-                      const int init_veh_fuel = -1, const int init_veh_status = -1 );
+                      const int init_veh_fuel = -1, const int init_veh_status = -1,
+                      const bool merge_wrecks = true);
  computer* add_computer(const int x, const int y, std::string name, const int security);
  float light_transparency(const int x, const int y) const;
  void build_map_cache(game *g);
@@ -356,7 +357,7 @@ protected:
                game *g, const float density, const int zlevel);
  void add_extra(map_extra type, game *g);
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
-			// Useful for houses, shops, etc
+            // Useful for houses, shops, etc
  void build_transparency_cache();
  void build_outside_cache(const game *g);
  void generate_lightmap(game *g);
@@ -367,10 +368,10 @@ protected:
  virtual bool is_tiny() { return false; };
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
- ter_id nulter;	// Returned when &ter() is asked for an OOB value
+ ter_id nulter;  // Returned when &ter() is asked for an OOB value
  field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
- int nulrad;	// OOB &radiation()
+ int nulrad;     // OOB &radiation()
  int null_temperature;  // Because radiation does it too
 
  std::vector <trap*> *traps;
@@ -396,7 +397,7 @@ private:
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
- vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y);
+ vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

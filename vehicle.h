@@ -53,8 +53,8 @@ struct veh_collision {
  */
 struct vehicle_part
 {
-    vehicle_part() : id(vp_null), mount_dx(0), mount_dy(0), hp(0),
-      blood(0), bigness(0), inside(false), flags(0), passenger_id(0)
+    vehicle_part() : id("null"), mount_dx(0), mount_dy(0), hp(0),
+      blood(0), bigness(0), inside(false), flags(0), passenger_id(0), amount(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
@@ -65,7 +65,7 @@ struct vehicle_part
 
     static const int passenger_flag = 1;
 
-    vpart_id id;            // id in list of parts (vpart_list index)
+    std::string id;         // id in map of parts (vehicle_part_types key)
     int mount_dx;           // mount point on the forward/backward axis
     int mount_dy;           // mount point on the left/right axis
     int precalc_dx[2];      // mount_dx translated to face.dir [0] and turn_dir [1]
@@ -165,6 +165,7 @@ private:
     game *g;
 
     bool can_stack_vpart_flag(std::string vpart_flag);
+    void open_or_close(int part_index, bool opening);
 
 public:
     vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
@@ -202,16 +203,13 @@ public:
     int part_power (int index);
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
-    bool can_mount (int dx, int dy, vpart_id id);
+    bool can_mount (int dx, int dy, std::string id);
 
 // check if certain external part can be unmounted
     bool can_unmount (int p);
 
-// install a new part to a vehicle - initialization only
-    bool install_part (int dx, int dy, std::string vpart_info_id);
-
 // install a new part to vehicle (force to skip possibility check)
-    int install_part (int dx, int dy, vpart_id id, int hp = -1, bool force = false);
+    int install_part (int dx, int dy, std::string id, int hp = -1, bool force = false);
 
     void remove_part (int p);
 
@@ -245,6 +243,9 @@ public:
 // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at (int dx, int dy);
     int global_part_at (int x, int y);
+
+// Given a part, finds its index in the vehicle
+    int index_of_part(vehicle_part *part);
 
 // get symbol for map
     char part_sym (int p);
@@ -298,7 +299,7 @@ public:
     int total_mass ();
 
 // get center of mass of vehicle; coordinates are precalc_dx[0] and precalc_dy[0]
-	void center_of_mass(int &x, int &y);
+    void center_of_mass(int &x, int &y);
 
 // Get combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
@@ -407,7 +408,7 @@ public:
     int damage (int p, int dmg, int type = 1, bool aimed = true);
 
     // damage all parts (like shake from strong collision), range from dmg1 to dmg2
-    void damage_all (int dmg1, int dmg2, int type = 1);
+    void damage_all (int dmg1, int dmg2, int type, const point &impact);
 
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
@@ -423,6 +424,10 @@ public:
 
 	//Set all headlights on/off
 	bool set_lights(bool on);
+
+    // opens/closes doors or multipart doors
+    void open(int part_index);
+    void close(int part_index);
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
