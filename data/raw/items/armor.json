@@ -2082,7 +2082,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 0,
         "bashing" : -3,
-        "coverage" : 70,
+        "coverage" : 20,
         "material_thickness" : 2
     },
     {
