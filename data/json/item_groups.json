@@ -77,6 +77,7 @@
       ["television", 30],
       ["clock", 10],
       ["cola", 70],
+      ["choc_drink", 10],
       ["cig", 90],
       ["cigar", 5],
       ["pipe_tobacco", 5],
@@ -263,6 +264,7 @@
       ["sports_drink", 30],
       ["lemonade", 50],
       ["cola", 70],
+      ["choc_drink", 30],
       ["rootbeer", 65],
       ["milk", 50],
       ["V8", 15],
@@ -417,6 +419,7 @@
       ["firecracker", 5],
       ["chips", 65],
       ["cola", 70],
+      ["choc_drink", 10],
       ["picklocks", 10],
       ["wolfsuit", 4],
       ["glowstick", 60],
@@ -617,6 +620,7 @@
       ["lemonade", 50],
       ["energy_drink", 55],
       ["cola", 70],
+      ["choc_drink", 30],
       ["rootbeer", 65],
       ["milk", 50],
       ["V8", 15],
@@ -636,6 +640,7 @@
     "items":[
       ["water_clean", 90],
       ["cola", 70],
+      ["choc_drink", 30],
       ["rootbeer", 65],
       ["sandwich_t", 30],
       ["sandwich_t", 30],
@@ -666,6 +671,7 @@
     "items":[
       ["water_clean", 90],
       ["cola", 70],
+      ["choc_drink", 40],
       ["rootbeer", 65],
       ["sandwich_t", 30],
       ["pizza_veggy", 8],
@@ -1971,6 +1977,7 @@
     "id":"office",
     "items":[
       ["cola", 70],
+      ["choc_drink", 20],
       ["aspirin", 85],
       ["cigar", 5],
       ["glasses_eye", 90],
@@ -2004,6 +2011,7 @@
     "id":"cubical_office",
     "items":[
       ["cola", 70],
+      ["choc_drink", 30],
       ["aspirin", 85],
       ["cigar", 5],
       ["glasses_eye", 90],
@@ -3167,6 +3175,7 @@
     "id":"radio",
     "items":[
       ["cola", 70],
+      ["choc_drink", 20],
       ["caffeine", 25],
       ["cig", 90],
       ["pipe_tobacco", 5],
@@ -3782,6 +3791,7 @@
     "items":[
       ["water_clean", 90],
       ["cola", 70],
+      ["choc_drink", 30],
       ["jerky", 55],
       ["ravioli", 25],
       ["can_beans", 40],
