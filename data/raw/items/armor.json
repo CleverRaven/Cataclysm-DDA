@@ -1168,7 +1168,7 @@
         "warmth" : 35,
         "phase" : "solid",
         "enviromental_protection" : 9,
-        "encumberance" : 4,
+        "encumberance" : 5,
         "bashing" : -5,
         "flags" : ["VARSIZE","WATERPROOF"],
         "coverage" : 100,
