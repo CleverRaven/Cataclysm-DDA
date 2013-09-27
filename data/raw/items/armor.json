@@ -4820,7 +4820,7 @@
         "encumberance" : 3,
         "bashing" : 10,
         "coverage" : 95,
-        "material_thickness" : 4
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
