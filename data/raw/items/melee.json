@@ -315,6 +315,36 @@
   },
 
   {
+    "id": "circuit",
+    "symbol": ",",
+    "color": "green",
+    "name": "circuit board",
+    "description": "A printed card that supports and electrically connects electronic components on a non-conductive substrate.",
+    "price": 50,
+    "material": "steel",
+    "weight": 26,
+    "volume": 0,
+    "bashing": -6,
+    "cutting": 0,
+    "to_hit": 2
+  },
+
+  {
+    "id": "e_scrap",
+    "symbol": ",",
+    "color": "green",
+    "name": "electronic scrap",
+    "description": "A random collection of resistors, capacitors, and diodes which have been stripped from printed circuits.",
+    "price": 30,
+    "material": "steel",
+    "weight": 14,
+    "volume": 0,
+    "bashing": -6,
+    "cutting": 0,
+    "to_hit": 2
+  },
+
+  {
     "id": "steel_chunk",
     "symbol": ",",
     "color": "light_blue",

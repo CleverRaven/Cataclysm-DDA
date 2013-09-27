@@ -424,6 +424,7 @@ bool vehicle::can_stack_vpart_flag(std::string vpart_flag) {
           vpart_flag == "MOUNT_INNER" ||
           vpart_flag == "MOUNT_OVER" ||
           vpart_flag == "ANCHOR_POINT" ||
+          vpart_flag == "VARIABLE_SIZE" ||
           vpart_flag == "OPAQUE" ||
           vpart_flag == "OBSTACLE" ||
           vpart_flag == "OPENABLE" ||

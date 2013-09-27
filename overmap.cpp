@@ -18,6 +18,7 @@
 #include "options.h"
 #include "catacharset.h"
 #include "overmapbuffer.h"
+#include "action.h"
 #include <queue>
 
 #ifdef _MSC_VER
@@ -1897,7 +1898,7 @@ point overmap::draw_overmap(game *g, int zlevel)
   int dirx, diry;
   if (ch != ERR)
    blink = true; // If any input is detected, make the blinkies on
-  get_direction(g, dirx, diry, ch);
+  get_direction(dirx, diry, ch);
   if (dirx != -2 && diry != -2) {
    cursx += dirx;
    cursy += diry;

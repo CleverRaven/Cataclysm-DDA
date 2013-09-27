@@ -535,6 +535,20 @@ int getbegy(WINDOW *win)
     return win->y;
 }
 
+//gets the current cursor x position in a window
+int getcurx(WINDOW *win)
+{
+    if (win==0) return mainwin->cursorx;     //StdScr
+    return win->cursorx;
+}
+
+//gets the current cursor y position in a window
+int getcury(WINDOW *win)
+{
+    if (win==0) return mainwin->cursory;     //StdScr
+    return win->cursory;
+}
+
 int start_color(void)
 {
     return curses_start_color();
