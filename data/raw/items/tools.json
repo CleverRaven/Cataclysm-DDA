@@ -748,7 +748,7 @@
     "name": "crowbar",
     "description": "A prying tool. Use it to open locked doors without destroying them, or to lift manhole covers.",
     "price": 130,
-    "material": "iron",
+    "material": "steel",
     "weight": 500,
     "volume": 4,
     "bashing": 16,
