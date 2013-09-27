@@ -14013,6 +14013,53 @@
   ]
 },{
         "type" : "recipe",
+  "result": "survivor_vest",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 1],
+  "difficulty": 3,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+      ],
+	  [
+      [ "needle_bone", 100 ],
+      [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rag", 6 ]
+      ],
+      [
+      [ "leather", 6 ]
+      ],
+      [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "fanny", 2 ]
+      ],
+      [
+      [ "duct_tape", 50 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
   "result": "lsurvivor_suit",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
