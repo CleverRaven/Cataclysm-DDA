@@ -611,7 +611,7 @@
       ["water_clean", 90],
       ["oj", 50],
       ["cranberry_juice", 50],
-      ["sports_drink", 30],
+      ["sports_drink", 50],
       ["apple_cider", 50],
       ["lemonade", 50],
       ["energy_drink", 55],
@@ -3861,6 +3861,7 @@
     "id":"drugdealer",
     "items":[
       ["energy_drink", 55],
+      ["sports_drink", 35],
       ["whiskey", 16],
       ["jerky", 55],
       ["bandages", 50],
