@@ -9844,7 +9844,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "sewing_kit", 50 ]
+    [ "needle_bone", 50 ],
+    [ "sewing_kit", 50 ]
     ]
   ],
   "components": [
