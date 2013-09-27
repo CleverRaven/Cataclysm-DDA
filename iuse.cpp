@@ -5482,7 +5482,7 @@ void iuse::boots(game *g, player *p, item *it, bool t)
    return;
   }
   if (put->type->use != &iuse::knife) {
-   g->add_msg_if_player(p, _("That isn't knife!"));
+   g->add_msg_if_player(p, _("That isn't a knife!"));
    return;
   }
   if (put->type->volume > 5) {
