@@ -19,6 +19,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 0,
         "bashing" : -5,
+        "flags" : ["VARSIZE"],
         "coverage" : 80,
         "material_thickness" : 1
     },
@@ -42,6 +43,7 @@
         "enviromental_protection" : 0,
         "encumberance" : 0,
         "bashing" : -5,
+        "flags" : ["VARSIZE"],
         "coverage" : 95,
         "material_thickness" : 2
     },
@@ -4650,7 +4652,7 @@
         "encumberance" : 2,
         "bashing" : 6,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS"],
-        "coverage" : 95,
+        "coverage" : 100,
         "material_thickness" : 5
     },
     {
@@ -4705,7 +4707,7 @@
         "type" : "ARMOR",
         "id" : "hsurvivor_suit",
         "name" : "heavy survivor suit",
-        "weight" : 7500,
+        "weight" : 8500,
         "color" : "dark_gray",
         "covers" : ["LEGS", "TORSO", "ARMS"],
         "to_hit" : -3,
@@ -4722,7 +4724,7 @@
         "encumberance" : 3,
         "bashing" : 6,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS"],
-        "coverage" : 95,
+        "coverage" : 100,
         "material_thickness" : 6
     },
     {
