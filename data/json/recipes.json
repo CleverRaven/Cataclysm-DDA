@@ -3068,40 +3068,6 @@
   ]
 },{
         "type" : "recipe",
-  "result": "45_jhp",
-  "category": "CC_AMMO",
-  "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
-  "difficulty": 5,
-  "time": 25000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 1 ],
-      [ "press", 2 ]
-        ]
-  ],
-  "components": [
-    [
-      [ "45_casing", 25 ]
-    ],
-    [
-      [ "lgpistol_primer", 25 ]
-    ],
-    [
-      [ "gunpowder", 250 ]
-    ],
-    [
-      [ "lead", 500 ]
-    ]
-  ]
-},{
-        "type" : "recipe",
   "result": "454_Casull",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
