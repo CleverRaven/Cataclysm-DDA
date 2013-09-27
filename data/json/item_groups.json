@@ -74,9 +74,11 @@
     "id":"livingroom",
     "items":[
       ["rootbeer", 65],
+      ["purple_drink", 35],
       ["television", 30],
       ["clock", 10],
       ["cola", 70],
+      ["choc_drink", 10],
       ["cig", 90],
       ["cigar", 5],
       ["pipe_tobacco", 5],
@@ -176,6 +178,11 @@
       ["flashlight", 40],
       ["extinguisher", 20],
       ["whiskey", 16],
+      ["bum_wine", 10],
+      ["wine_riesling", 6],
+      ["wine_chardonnay", 10],
+      ["wine_cabernet", 10],
+      ["wine_noir", 2],
       ["syrup", 20],
       ["coffee_syrup", 10],
       ["bacon", 25],
@@ -259,9 +266,12 @@
       ["water_clean", 90],
       ["oj", 50],
       ["cranberry_juice", 50],
+      ["sports_drink", 30],
       ["lemonade", 50],
       ["cola", 70],
+      ["choc_drink", 30],
       ["rootbeer", 65],
+      ["purple_drink", 35],
       ["milk", 50],
       ["V8", 15],
       ["apple", 70],
@@ -415,6 +425,7 @@
       ["firecracker", 5],
       ["chips", 65],
       ["cola", 70],
+      ["choc_drink", 10],
       ["picklocks", 10],
       ["wolfsuit", 4],
       ["glowstick", 60],
@@ -610,11 +621,14 @@
       ["water_clean", 90],
       ["oj", 50],
       ["cranberry_juice", 50],
+      ["sports_drink", 50],
       ["apple_cider", 50],
       ["lemonade", 50],
       ["energy_drink", 55],
       ["cola", 70],
+      ["choc_drink", 30],
       ["rootbeer", 65],
+      ["purple_drink", 45],
       ["milk", 50],
       ["V8", 15],
       ["sandwich_t", 30],
@@ -633,7 +647,9 @@
     "items":[
       ["water_clean", 90],
       ["cola", 70],
+      ["choc_drink", 30],
       ["rootbeer", 65],
+      ["purple_drink", 45],
       ["sandwich_t", 30],
       ["sandwich_t", 30],
       ["sandwich_t", 30],
@@ -663,7 +679,9 @@
     "items":[
       ["water_clean", 90],
       ["cola", 70],
+      ["choc_drink", 40],
       ["rootbeer", 65],
+      ["purple_drink", 35],
       ["sandwich_t", 30],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
@@ -801,6 +819,7 @@
       ["vinegar", 15],
       ["cooking_oil", 30],
       ["jar_veggy_pickled", 8],
+      ["sports_drink", 10],
       ["jar_meat_pickled", 6]
     ]
   },{
@@ -1136,6 +1155,7 @@
     "id":"allsporting",
     "items":[
       ["aspirin", 85],
+      ["sports_drink", 20],
       ["bat", 60],
       ["bat_metal", 60],
       ["baseball", 60],
@@ -1241,6 +1261,11 @@
       ["rum", 14],
       ["tequila", 12],
       ["triple_sec", 12],
+      ["bum_wine", 20],
+      ["wine_riesling", 6],
+      ["wine_chardonnay", 10],
+      ["wine_cabernet", 10],
+      ["wine_noir", 2],
       ["beer", 60]
     ]
   },{
@@ -1255,6 +1280,7 @@
     "id":"trash",
     "items":[
       ["iodine", 5],
+      ["bum_wine", 5],
       ["meth", 2],
       ["heroin", 1],
       ["wrapper", 50],
@@ -1964,6 +1990,7 @@
     "id":"office",
     "items":[
       ["cola", 70],
+      ["choc_drink", 20],
       ["aspirin", 85],
       ["cigar", 5],
       ["glasses_eye", 90],
@@ -1997,6 +2024,7 @@
     "id":"cubical_office",
     "items":[
       ["cola", 70],
+      ["choc_drink", 30],
       ["aspirin", 85],
       ["cigar", 5],
       ["glasses_eye", 90],
@@ -2021,6 +2049,7 @@
       ["coffee_raw", 15],
       ["usb_drive", 5],
       ["rootbeer", 65],
+      ["purple_drink", 55],
       ["cig", 90],
       ["coat_rain", 50],
       ["poncho", 15],
@@ -2885,6 +2914,7 @@
       ["mre_veggy", 50],
       ["1st_aid", 35],
       ["con_milk", 10],
+      ["sports_drink", 40],
       ["water_clean", 90]
     ]
   },{
@@ -3160,6 +3190,7 @@
     "id":"radio",
     "items":[
       ["cola", 70],
+      ["choc_drink", 20],
       ["caffeine", 25],
       ["cig", 90],
       ["pipe_tobacco", 5],
@@ -3775,6 +3806,7 @@
     "items":[
       ["water_clean", 90],
       ["cola", 70],
+      ["choc_drink", 30],
       ["jerky", 55],
       ["ravioli", 25],
       ["can_beans", 40],
@@ -3857,7 +3889,10 @@
     "id":"drugdealer",
     "items":[
       ["energy_drink", 55],
+      ["sports_drink", 35],
+      ["purple_drink", 15],
       ["whiskey", 16],
+      ["bum_wine", 10],
       ["jerky", 55],
       ["bandages", 50],
       ["caffeine", 25],
