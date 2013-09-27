@@ -1149,7 +1149,7 @@
         "item": "battery_motorbike",
         "difficulty": 2,
         "flags": [
-            "INTERNAL", "FUEL_TANK"
+            "INTERNAL", "FUEL_TANK", "SMALL"
         ]
     },
     {
@@ -1166,7 +1166,7 @@
         "item": "battery_car",
         "difficulty": 2,
         "flags": [
-            "INTERNAL", "FUEL_TANK"
+            "INTERNAL", "FUEL_TANK", "SMALL"
         ]
     },
     {
@@ -1183,7 +1183,7 @@
         "item": "battery_truck",
         "difficulty": 2,
         "flags": [
-            "INTERNAL", "FUEL_TANK"
+            "INTERNAL", "FUEL_TANK", "SMALL"
         ]
     },
     {

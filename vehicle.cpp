@@ -504,12 +504,15 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     std::set<std::string> vpart_flags = vehicle_part_types[id].flags;
-    for (std::set<std::string>::iterator flag_iterator = vpart_flags.begin();
-            flag_iterator != vpart_flags.end(); ++flag_iterator) {
-        std::string next_flag = *flag_iterator;
-        if(part_with_feature(parts_here[0], next_flag, false) >= 0
-                && !can_stack_vpart_flag(next_flag)) {
-            return false;   // this part already has inner part with same unique feature
+    // Skip stacking check entirely for small parts.
+    if( !vpart_flags.count("SMALL") ) {
+        for (std::set<std::string>::iterator flag_iterator = vpart_flags.begin();
+             flag_iterator != vpart_flags.end(); ++flag_iterator) {
+            std::string next_flag = *flag_iterator;
+            if(part_with_feature(parts_here[0], next_flag, false) >= 0 &&
+               !can_stack_vpart_flag(next_flag) ) {
+                return false;   // this part already has inner part with same unique feature
+            }
         }
     }
 
