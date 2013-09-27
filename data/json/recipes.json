@@ -8890,6 +8890,10 @@
       [ "mask_gas", 1 ]
       ],
       [
+      [ "glasses_safety", 2 ],
+      [ "glasses_bal", 1 ]
+      ],
+      [
       [ "duct_tape", 100 ],
       [ "superglue", 1 ]
       ],
