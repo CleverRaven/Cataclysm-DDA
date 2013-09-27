@@ -35,7 +35,7 @@ num_species
 enum mon_id {
 mon_null = 0,
 // Wildlife
-mon_squirrel, mon_rabbit, mon_deer, mon_moose, mon_wolf, mon_coyote, mon_turkey, mon_bear, mon_cougar, mon_crow,
+mon_squirrel, mon_rabbit, mon_deer, mon_moose, mon_wolf, mon_coyote, mon_turkey, mon_raccoon, mon_bear, mon_cougar, mon_crow,
 // Friendly animals
 mon_dog, mon_cat,
 // Ants

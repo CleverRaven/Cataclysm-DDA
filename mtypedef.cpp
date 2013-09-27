@@ -188,13 +188,24 @@ CATEGORIES(MC_WILDLIFE);
 
 mon(_("turkey"), species_mammal, 't', c_brown, MS_MEDIUM, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-  10,-99, -8,140,  0,  1,  1,  0,  4,  0,  0,  0,  4,  0,
+  10,-99, -8,140,  0,  1,  1,  0,  3,  0,  0,  0,  4,  0,
  &mdeath::normal, &mattack::none, _("\
 A large and colorful game bird native to the forests of North America.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FLIES, MF_VIS50, MF_BONES, MF_FEATHER);
 CATEGORIES(MC_WILDLIFE);
 
+mon(_("raccoon"), species_mammal, 'r', c_dkgray, MS_TINY, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+  10,  -99, 10,130, 1,  1,  3,  1,  3,  0,  0,  0, 3,  0,
+ &mdeath::normal, &mattack::none, _("\
+A small mammal native to North America, distinctive for its dexterous front paws and facial markings.")
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED, MF_ATTACKMON, MF_BONES, MF_VIS50);
+ANGER(MTRIG_PLAYER_CLOSE, MTRIG_FRIEND_ATTACKED, MTRIG_PLAYER_WEAK, MTRIG_HURT);
+PLACATE(MTRIG_MEAT);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
+CATEGORIES(MC_WILDLIFE);
 
 mon(_("bear"), species_mammal, 'B', c_dkgray, MS_LARGE, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
