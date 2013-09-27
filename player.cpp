@@ -6468,7 +6468,7 @@ bool player::wear(game *g, char let, bool interactive)
         to_wear = &inv.item_by_letter(let);
     }
 
-    if (to_wear == NULL)
+    if (to_wear->is_null())
     {
         if(interactive)
         {
@@ -6505,8 +6505,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
     }
     else
     {
-        if (!to_wear->is_null())
-            g->add_msg(_("Putting on a %s would be tricky."), to_wear->tname(g).c_str());
+        g->add_msg(_("Putting on a %s would be tricky."), to_wear->tname(g).c_str());
         return false;
     }
 
