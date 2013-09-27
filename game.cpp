@@ -586,6 +586,37 @@ bool game::do_turn()
             add_msg(_("You haven't eaten in over a week!"));
         }
     }
+  
+    // we can do a check here to figure out if there are negative effects of our
+    // oxygen level
+    if (u.blood_oxygen < 880) 
+    {
+        if(one_in(20) && !u.has_disease("sleep")) 
+        {
+            // fall unconcious 
+            int time = rng(3, 600);
+            u.add_disease("sleep", time+10);
+            u.add_disease("unconscious", time);
+            
+            // if you are underwater, you surface 
+            if (u.is_underwater())
+            {
+                u.set_underwater(false);
+                add_msg(_("You float to the surface"));
+            }
+        }
+    }
+    if (u.blood_oxygen < 800)
+    {
+        // below 800 blood oxygen level every turn is playing dice with death
+        if (one_in(10))
+        {
+            // die
+            add_msg(_("You have died from a low blood oxygen level"));
+            u.add_memorial_log(_("Died from lack of oxygen"));
+            u.hp_cur[hp_torso] = 0;
+        }
+    }
 
     // Check if we're dying of thirst
     if (u.thirst >= 600){

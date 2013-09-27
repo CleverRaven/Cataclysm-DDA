@@ -4324,6 +4324,17 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 }
 
 // handles logic todo with breathing and blood oxygen
+void player::reset_bloodoxygen(game *g) 
+{
+    //FIXME - also ignore if in smoke
+    if (underwater)
+    {
+        return;
+    }
+
+    blood_oxygen = 950;
+}
+
 void player::breath(game *g, int times)
 {
     int inhaled = 0;
@@ -4369,18 +4380,25 @@ void player::breath(game *g, int times)
             // dust masks and the like are different than a motorbike helmet. 
             if (encumb(bp_mouth)) 
             {
+                if (one_in(50))
+                {
+                    // remind the player about ecumberment causing breathing problems
+                    g->add_msg(_("You have difficulty breathing."));
+                }
                 inhaled = inhaled * 0.75;
             }
         }
+
+        blood_oxygen += inhaled;
+        blood_oxygen = std::min(blood_oxygen, 950);
+
     }
 
     int prev = blood_oxygen;
     blood_oxygen += inhaled;
     blood_oxygen = std::min(blood_oxygen, 950);
 
-    g->add_msg(_("Breathing"));
-
-    debugmsg("player:breath: From (%d%%) to (%d%%)", prev, blood_oxygen);
+    //debugmsg("player:breath: From (%d%%) to (%d%%)", prev, blood_oxygen);
 
 }
 
