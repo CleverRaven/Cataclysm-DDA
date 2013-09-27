@@ -178,6 +178,10 @@
       ["extinguisher", 20],
       ["whiskey", 16],
       ["bum_wine", 10],
+      ["wine_riesling", 6],
+      ["wine_chardonnay", 10],
+      ["wine_cabernet", 10],
+      ["wine_noir", 2],
       ["syrup", 20],
       ["coffee_syrup", 10],
       ["bacon", 25],
@@ -1253,6 +1257,10 @@
       ["tequila", 12],
       ["triple_sec", 12],
       ["bum_wine", 20],
+      ["wine_riesling", 6],
+      ["wine_chardonnay", 10],
+      ["wine_cabernet", 10],
+      ["wine_noir", 2],
       ["beer", 60]
     ]
   },{
