@@ -1209,6 +1209,7 @@
         ]
     },
     {
+        "type":"vehicle_part",
         "id": "door_trunk",
         "name": "trunk door",
         "symbol": "+",
@@ -1224,6 +1225,7 @@
         ]
     },
     {
+        "type":"vehicle_part",
         "id": "door_shutter",
         "name": "shutter door",
         "symbol": "+",

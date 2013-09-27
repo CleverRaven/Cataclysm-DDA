@@ -1,5 +1,7 @@
 #include "init.h"
 
+#include "debug.h""
+
 #include "json.h"
 #include "game.h" // because mi-go parrot requires it!
 #include "material.h"
@@ -58,6 +60,8 @@ std::vector<std::string> listfiles(std::string const &dirname)
 void load_object(JsonObject &jo)
 {
     std::string type = jo.get_string("type");
+    json_objects[type].push_back(jo);
+
     if (type == "material") { material_type::load_material(jo);}
     else if (type == "NAME"){}//NameGenerator::generator().load_name_from_json(jo);}
     else if (type == "recipe") { load_recipe(jo); }
@@ -84,6 +88,7 @@ void load_object(JsonObject &jo)
 	else if (type == "lab_note") { computer::load_lab_note(jo); }
     else if (type == "hint") { load_hint(jo); }
     else if (type == "vehicle"){}//g->load_vehicle(jo);}
+    else if (type == "monster"){}
     else {
         std::stringstream err;
         err << jo.line_number() << ": ";
@@ -116,6 +121,18 @@ void load_json_dir(std::string const &dirname)
             throw *(it) + ": " + e;
         }
     }
+
+    std::string separator = std::string(80, '*');
+    DebugLog() << separator << "\n";
+    int numObjects = 0;
+    for (std::map<std::string, std::vector<JsonObject> >::iterator it = json_objects.begin(); it != json_objects.end(); ++it)
+    {
+        numObjects += it->second.size();
+        DebugLog() << "Type: ["<<it->first<<"] Count: "<<it->second.size()<<"\n";
+    }
+    DebugLog() << separator << "\n";
+    DebugLog() << "Total Objects: " << numObjects << "\n";
+    DebugLog() << separator << "\n";
 }
 
 void load_all_from_json(JsonIn &jsin)

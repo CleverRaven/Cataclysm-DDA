@@ -1,6 +1,6 @@
 [
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "socks",
         "name" : "socks",
         "weight" : 350,
@@ -23,7 +23,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "socks_wool",
         "name" : "wool socks",
         "weight" : 350,
@@ -46,7 +46,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "sneakers",
         "name" : "sneakers",
         "weight" : 1133,
@@ -70,7 +70,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "cleats",
         "name" : "cleats",
         "weight": 285,
@@ -94,7 +94,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "football_armor",
         "name" : "football armor",
         "weight" : 3310,
@@ -117,7 +117,7 @@
         "material_thickness" : 8
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_football",
         "name" : "football helmet",
         "weight" : 3310,
@@ -141,7 +141,7 @@
         "material_thickness" : 10
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "boots",
         "name" : "boots",
         "weight" : 1360,
@@ -166,7 +166,7 @@
         "use_action" : "BOOTS"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "boots_fur",
         "name" : "fur boots",
         "weight" : 1500,
@@ -191,7 +191,7 @@
         "use_action" : "BOOTS"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "boots_steel",
         "name" : "steeltoed boots",
         "weight" : 2000,
@@ -216,7 +216,7 @@
         "use_action" : "BOOTS"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "boots_combat",
         "name" : "combat boots",
         "weight" : 1660,
@@ -241,7 +241,7 @@
         "use_action" : "BOOTS"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "boots_hiking",
         "name" : "hiking boots",
         "weight" : 960,
@@ -266,7 +266,7 @@
         "use_action" : "BOOTS"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "boots_winter",
         "name" : "winter boots",
         "weight" : 1740,
@@ -291,7 +291,7 @@
         "use_action" : "BOOTS"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "mocassins",
         "name" : "mocassins",
         "weight" : 230,
@@ -314,7 +314,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "flip_flops",
         "name" : "flip-flops",
         "weight" : 368,
@@ -338,7 +338,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "dress_shoes",
         "name" : "dress shoes",
         "weight" : 1130,
@@ -362,7 +362,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "heels",
         "name" : "heels",
         "weight" : 1130,
@@ -386,7 +386,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "boots_chitin",
         "name" : "chitinous boots",
         "weight" : 1020,
@@ -409,7 +409,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "trunks",
         "name" : "swimming trunks",
         "weight" : 300,
@@ -433,7 +433,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "shorts",
         "name" : "shorts",
         "weight" : 400,
@@ -457,7 +457,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "shorts_cargo",
         "name" : "cargo shorts",
         "weight" : 450,
@@ -481,7 +481,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "jeans",
         "name" : "jeans",
         "weight" : 600,
@@ -505,7 +505,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "pants",
         "name" : "pants",
         "weight" : 640,
@@ -529,7 +529,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "pants_leather",
         "name" : "leather pants",
         "weight" : 980,
@@ -553,7 +553,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "chaps_leather",
         "name" : "leather chaps",
         "weight" : 1814,
@@ -577,7 +577,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "pants_cargo",
         "name" : "cargo pants",
         "weight" : 730,
@@ -601,7 +601,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "pants_army",
         "name" : "army pants",
         "weight" : 840,
@@ -625,7 +625,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "jacket_army",
         "name" : "army jacket",
         "weight" : 860,
@@ -649,7 +649,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "pants_ski",
         "name" : "ski pants",
         "weight" : 900,
@@ -673,7 +673,7 @@
         "material_thickness" : 6
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "pants_fur",
         "name" : "fur pants",
         "weight" : 684,
@@ -697,7 +697,7 @@
         "material_thickness" : 10
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "long_underpants",
         "name" : "long underwear",
         "weight" : 153,
@@ -721,7 +721,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "skirt",
         "name" : "skirt",
         "weight" : 181,
@@ -745,7 +745,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "jumpsuit",
         "name" : "jumpsuit",
         "weight" : 725,
@@ -769,7 +769,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "wolfsuit",
         "name" : "wolf suit",
         "weight" : 1133,
@@ -792,7 +792,7 @@
         "material_thickness" : 10
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "clown_suit",
         "name" : "clown suit",
         "weight" : 1420,
@@ -816,7 +816,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "clownshoes",
         "name" : "clown shoes",
         "weight" : 1140,
@@ -840,7 +840,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "bondage_suit",
         "name" : "bondage suit",
         "weight" : 1800,
@@ -864,7 +864,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "bondage_mask",
         "name" : "bondage mask",
         "weight" : 420,
@@ -888,7 +888,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "corset",
         "name" : "leather corset",
         "weight" : 1800,
@@ -912,7 +912,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "wetsuit",
         "name" : "wetsuit",
         "weight" : 2110,
@@ -936,7 +936,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "wetsuit_booties",
         "name" : "swimming booties",
         "weight" : 200,
@@ -960,7 +960,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "wetsuit_gloves",
         "name" : "swimming gloves",
         "weight" : 63,
@@ -984,7 +984,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "wetsuit_spring",
         "name" : "spring suit",
         "weight" : 1620,
@@ -1008,7 +1008,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "dress",
         "name" : "dress",
         "weight" : 680,
@@ -1032,7 +1032,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "dress_wedding",
         "name" : "wedding dress",
         "weight" : 3333,
@@ -1056,7 +1056,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "armor_chitin",
         "name" : "chitinous armor",
         "weight" : 2032,
@@ -1079,7 +1079,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "suit",
         "name" : "suit",
         "weight" : 1587,
@@ -1103,7 +1103,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "tux",
         "name" : "tuxedo",
         "weight" : 1587,
@@ -1127,7 +1127,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hazmat_suit",
         "name" : "hazmat suit",
         "weight" : 8000,
@@ -1151,7 +1151,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "armor_plate",
         "name" : "plate mail",
         "weight" : 20000,
@@ -1175,7 +1175,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "tshirt",
         "name" : "t shirt",
         "weight" : 156,
@@ -1199,7 +1199,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "flag_shirt",
         "name" : "flag shirt",
         "weight" : 158,
@@ -1223,7 +1223,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "polo_shirt",
         "name" : "polo shirt",
         "weight" : 220,
@@ -1247,7 +1247,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "dress_shirt",
         "name" : "dress shirt",
         "weight" : 450,
@@ -1271,7 +1271,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "sheriffshirt",
         "name" : "sheriff's shirt",
         "weight" : 550,
@@ -1295,7 +1295,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "army_top",
         "name" : "camo tank top",
         "weight" : 113,
@@ -1319,7 +1319,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "tank_top",
         "name" : "tank top",
         "weight" : 113,
@@ -1343,7 +1343,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "bikini_top",
         "name" : "bikini top",
         "weight" : 60,
@@ -1367,7 +1367,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "bikini_top_leather",
         "name" : "leather bikini top",
         "weight" : 80,
@@ -1391,7 +1391,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "bikini_top_fur",
         "name" : "fur bikini top",
         "weight" : 70,
@@ -1415,7 +1415,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hot_pants",
         "name" : "hot pants",
         "weight" : 150,
@@ -1439,7 +1439,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hot_pants_leather",
         "name" : "leather hot pants",
         "weight" : 225,
@@ -1463,7 +1463,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hot_pants_fur",
         "name" : "fur hot pants",
         "weight" : 200,
@@ -1487,7 +1487,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "sweatshirt",
         "name" : "sweatshirt",
         "weight" : 284,
@@ -1511,7 +1511,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "sweater",
         "name" : "sweater",
         "weight" : 544,
@@ -1535,7 +1535,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hoodie",
         "name" : "hoodie",
         "weight" : 600,
@@ -1559,7 +1559,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "jersey",
         "name" : "sports jersey",
         "weight" : 480,
@@ -1583,7 +1583,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "under_armor",
         "name" : "under armor",
         "weight" : 204,
@@ -1607,7 +1607,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "jacket_light",
         "name" : "light jacket",
         "weight" : 227,
@@ -1631,7 +1631,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "jacket_jean",
         "name" : "jean jacket",
         "weight" : 1000,
@@ -1655,7 +1655,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "jacket_flannel",
         "name" : "flannel jacket",
         "weight" : 1058,
@@ -1679,7 +1679,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "blazer",
         "name" : "blazer",
         "weight" : 680,
@@ -1703,7 +1703,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "jacket_leather",
         "name" : "leather jacket",
         "weight" : 2450,
@@ -1727,7 +1727,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "kevlar",
         "name" : "kevlar vest",
         "weight" : 2721,
@@ -1751,7 +1751,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "coat_rain",
         "name" : "rain coat",
         "weight" : 1360,
@@ -1775,7 +1775,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "fishing_waders",
         "name" : "fishing waders",
         "weight" : 1360,
@@ -1799,7 +1799,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "poncho",
         "name" : "wool poncho",
         "weight" : 907,
@@ -1823,7 +1823,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "trenchcoat",
         "name" : "trenchcoat",
         "weight" : 1630,
@@ -1847,7 +1847,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "flotation_vest",
         "name" : "flotation vest",
         "weight" : 1451,
@@ -1871,7 +1871,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "trenchcoat_leather",
         "name" : "leather trenchcoat",
         "weight" : 2267,
@@ -1895,7 +1895,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "trenchcoat_fur",
         "name" : "fur trenchcoat",
         "weight" : 1950,
@@ -1919,7 +1919,7 @@
         "material_thickness" : 6
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "coat_winter",
         "name" : "winter coat",
         "weight" : 2540,
@@ -1943,7 +1943,7 @@
         "material_thickness" : 8
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "coat_fur",
         "name" : "fur coat",
         "weight" : 2177,
@@ -1967,7 +1967,7 @@
         "material_thickness" : 8
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "peacoat",
         "name" : "peacoat",
         "weight" : 2200,
@@ -1991,7 +1991,7 @@
         "material_thickness" : 8
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "vest",
         "name" : "utility vest",
         "weight" : 816,
@@ -2014,7 +2014,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "vest_leather",
         "name" : "leather vest",
         "weight" : 997,
@@ -2038,7 +2038,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "tool_belt",
         "name" : "tool belt",
         "weight" : 1360,
@@ -2061,7 +2061,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "chestrig",
         "name" : "chest rig",
         "weight" : 725,
@@ -2084,7 +2084,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "coat_lab",
         "name" : "lab coat",
         "weight" : 680,
@@ -2108,7 +2108,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "armguard_soft",
         "name" : "soft arm sleeves",
         "weight" : 258,
@@ -2131,7 +2131,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "armguard_hard",
         "name" : "hard arm guards",
         "weight" : 350,
@@ -2154,7 +2154,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "elbow_pads",
         "name" : "elbow pads",
         "weight" : 210,
@@ -2178,7 +2178,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "armguard_chitin",
         "name" : "chitin arm guards",
         "weight" : 392,
@@ -2201,7 +2201,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "armguard_metal",
         "name" : "metal arm guards",
         "weight" : 680,
@@ -2224,7 +2224,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gloves_liner",
         "name" : "glove liners",
         "weight" : 63,
@@ -2248,7 +2248,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gloves_light",
         "name" : "light gloves",
         "weight" : 198,
@@ -2272,7 +2272,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "mittens",
         "name" : "mittens",
         "weight" : 364,
@@ -2295,7 +2295,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gloves_fur",
         "name" : "fur gloves",
         "weight" : 248,
@@ -2318,7 +2318,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gloves_wool",
         "name" : "wool gloves",
         "weight" : 240,
@@ -2341,7 +2341,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gloves_winter",
         "name" : "winter gloves",
         "weight" : 218,
@@ -2364,7 +2364,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gloves_leather",
         "name" : "leather gloves",
         "weight" : 220,
@@ -2387,7 +2387,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gloves_tactical",
         "name" : "tactical gloves",
         "weight" : 220,
@@ -2411,7 +2411,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gloves_fingerless",
         "name" : "fingerless gloves",
         "weight" : 180,
@@ -2434,7 +2434,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gloves_rubber",
         "name" : "rubber gloves",
         "weight" : 140,
@@ -2458,7 +2458,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gloves_medical",
         "name" : "medical gloves",
         "weight" : 100,
@@ -2482,7 +2482,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "fire_gauntlets",
         "name" : "fire gauntlets",
         "weight" : 272,
@@ -2505,7 +2505,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gauntlets_chitin",
         "name" : "chitinous gauntlets",
         "weight" : 360,
@@ -2528,7 +2528,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "mask_dust",
         "name" : "dust mask",
         "weight" : 168,
@@ -2551,7 +2551,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "bandana",
         "name" : "bandana",
         "weight" : 42,
@@ -2574,7 +2574,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "scarf",
         "name" : "scarf",
         "weight" : 180,
@@ -2597,7 +2597,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "scarf_fur",
         "name" : "scarf",
         "weight" : 240,
@@ -2620,7 +2620,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "mask_filter",
         "name" : "filter mask",
         "weight" : 360,
@@ -2643,7 +2643,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "mask_gas",
         "name" : "gas mask",
         "weight" : 1097,
@@ -2666,7 +2666,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "glasses_eye",
         "name" : "eyeglasses",
         "weight" : 30,
@@ -2690,7 +2690,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "glasses_reading",
         "name" : "reading glasses",
         "weight" : 30,
@@ -2714,7 +2714,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "glasses_bifocal",
         "name" : "bifocal glasses",
         "weight" : 30,
@@ -2739,7 +2739,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "glasses_safety",
         "name" : "safety glasses",
         "weight" : 60,
@@ -2763,7 +2763,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "goggles_swim",
         "name" : "swim goggles",
         "weight" : 141,
@@ -2787,7 +2787,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "goggles_ski",
         "name" : "ski goggles",
         "weight" : 354,
@@ -2810,7 +2810,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "goggles_welding",
         "name" : "welding goggles",
         "weight" : 453,
@@ -2833,7 +2833,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "goggles_nv",
         "name" : "light amp goggles",
         "weight" : 1020,
@@ -2856,7 +2856,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "glasses_bal",
         "name" : "ballistic glasses",
         "weight" : 354,
@@ -2880,7 +2880,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "glasses_monocle",
         "name" : "monocle",
         "weight" : 46,
@@ -2904,7 +2904,7 @@
         "flags" : ["SUPER_FANCY"]
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "sunglasses",
         "name" : "sunglasses",
         "weight" : 35,
@@ -2928,7 +2928,7 @@
         "material_thickness" : 1
    },
    {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hat_ball",
         "name" : "baseball cap",
         "weight" : 110,
@@ -2951,7 +2951,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hat_boonie",
         "name" : "boonie hat",
         "weight" : 116,
@@ -2974,7 +2974,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hat_cotton",
         "name" : "cotton hat",
         "weight" : 120,
@@ -2997,7 +2997,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hat_knit",
         "name" : "knit hat",
         "weight" : 120,
@@ -3020,7 +3020,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hat_hunting",
         "name" : "hunting cap",
         "weight" : 146,
@@ -3043,7 +3043,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hat_fur",
         "name" : "fur hat",
         "weight" : 146,
@@ -3066,7 +3066,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "balclava",
         "name" : "balaclava",
         "weight" : 80,
@@ -3089,7 +3089,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hat_hard",
         "name" : "hard hat",
         "weight" : 396,
@@ -3114,7 +3114,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "pickelhaube",
         "name" : "pickelhaube",
         "weight" : 150,
@@ -3138,7 +3138,7 @@
         "flags" : ["FANCY"]
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "beret",
         "name" : "beret",
         "weight" : 120,
@@ -3163,7 +3163,7 @@
         "flags" : ["FANCY"]
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_bike",
         "name" : "bike helmet",
         "weight" : 270,
@@ -3187,7 +3187,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_skid",
         "name" : "skid lid",
         "weight" : 1315,
@@ -3211,7 +3211,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_ball",
         "name" : "baseball helmet",
         "weight" : 453,
@@ -3235,7 +3235,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_army",
         "name" : "army helmet",
         "weight" : 1383,
@@ -3260,7 +3260,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_liner",
         "name" : "helmet liner",
         "weight" : 1383,
@@ -3283,7 +3283,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_riot",
         "name" : "riot helmet",
         "weight" : 1360,
@@ -3308,7 +3308,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_motor",
         "name" : "motorcycle helmet",
         "weight" : 1587,
@@ -3332,7 +3332,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_chitin",
         "name" : "chitinous helmet",
         "weight" : 1147,
@@ -3356,7 +3356,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_plate",
         "name" : "great helm",
         "weight" : 3175,
@@ -3380,7 +3380,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "tophat",
         "name" : "top hat",
         "weight" : 1133,
@@ -3404,7 +3404,7 @@
         "flags": ["SUPER_FANCY"]
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "bowhat",
         "name" : "bowler hat",
         "weight" : 453,
@@ -3428,7 +3428,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "backpack",
         "name" : "backpack",
         "weight" : 1133,
@@ -3451,7 +3451,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "backpack_leather",
         "name" : "leather backpack",
         "weight" : 2118,
@@ -3474,7 +3474,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "rucksack",
         "name" : "military rucksack",
         "weight" : 3640,
@@ -3497,7 +3497,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "duffelbag",
         "name" : "duffel bag",
         "weight" : 1133,
@@ -3520,7 +3520,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "purse",
         "name" : "purse",
         "weight" : 1097,
@@ -3544,7 +3544,7 @@
         "flags" : ["FANCY"]
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "mbag",
         "name" : "messenger bag",
         "weight" : 1360,
@@ -3567,7 +3567,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "fanny",
         "name" : "fanny pack",
         "volume" : 3,
@@ -3589,7 +3589,7 @@
         "phase" : "solid"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "dump_pouch",
         "name" : "tactical dump pouch",
         "volume" : 3,
@@ -3611,7 +3611,7 @@
         "phase" : "solid"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "holster",
         "name" : "holster",
         "volume" : 2,
@@ -3633,7 +3633,7 @@
         "phase" : "solid"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "bootstrap",
         "name" : "bootstrap",
         "weight" : 190,
@@ -3656,7 +3656,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "quiver",
         "name" : "quiver",
         "weight" : 260,
@@ -3678,7 +3678,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "quiver_large",
         "name" : "large quiver",
         "weight" : 1120,
@@ -3701,7 +3701,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "ragpouch",
         "name" : "pouch",
         "weight" : 560,
@@ -3724,7 +3724,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "leather_pouch",
         "name" : "leather pouch",
         "weight" : 610,
@@ -3747,7 +3747,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "ring",
         "name" : "gold ring",
         "volume" : 0,
@@ -3770,7 +3770,7 @@
         "flags" : ["FANCY"]
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "necklace",
         "name" : "silver necklace",
         "volume" : 0,
@@ -3793,7 +3793,7 @@
         "flags" : ["FANCY"]
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "small_relic",
         "name" : "small relic",
         "volume" : 0,
@@ -3816,7 +3816,7 @@
         "flags" : ["FANCY"]
     },
     {
-        "type": "TOOL",
+        "type": "ITEM_TOOL",
         "id" : "wrapped_rad_badge",
         "name" : "wrapped radiation badge",
         "price" : 1000,
@@ -3839,7 +3839,7 @@
         "use_action" : "RAD_BADGE"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "rad_badge",
         "name" : "radiation badge",
         "volume" : 0,
@@ -3861,7 +3861,7 @@
         "phase" : "solid"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "badge_deputy",
         "name" : "deputy badge",
         "volume" : 0,
@@ -3884,7 +3884,7 @@
         "phase" : "solid"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "american_flag",
         "name" : "american flag",
         "weight" : 2404,
@@ -3908,7 +3908,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "blanket",
         "name" : "blanket",
         "weight" : 1723,
@@ -3932,7 +3932,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "fur_blanket",
         "name" : "fur blanket",
         "weight" : 2086,
@@ -3956,7 +3956,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "emer_blanket",
         "name" : "emergency blanket",
         "weight" : 1133,
@@ -3980,7 +3980,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "sleeping_bag",
         "name" : "sleeping bag",
         "weight" : 1451,
@@ -4004,7 +4004,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "sleeping_bag_fur",
         "name" : "fur sleeping bag",
         "weight" : 2175,
@@ -4028,7 +4028,7 @@
         "material_thickness" : 6
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "house_coat",
         "name" : "housecoat",
         "weight" : 680,
@@ -4052,7 +4052,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "snuggie",
         "name" : "snuggie",
         "weight" : 725,
@@ -4076,7 +4076,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "cloak",
         "name" : "cloak",
         "weight" : 3175,
@@ -4100,7 +4100,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "cloak_fur",
         "name" : "fur cloak",
         "weight" : 4535,
@@ -4124,7 +4124,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "cloak_leather",
         "name" : "leather cloak",
         "weight" : 6060,
@@ -4148,7 +4148,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "jedi_cloak",
         "name" : "jedi cloak",
         "weight" : 1587,
@@ -4172,7 +4172,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "power_armor_basic",
         "name" : "basic power armor",
         "description" : "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.",
@@ -4197,7 +4197,7 @@
         "material_thickness" : 10
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "power_armor_helmet_basic",
         "name" : "basic power armor helmet",
         "description" : "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I. Offers excellent protection from both attacks and environmental hazards.",
@@ -4222,7 +4222,7 @@
         "flags" : ["WATCH","WATERPROOF"]
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "power_armor_light",
         "name" : "light power armor",
         "description" : "A suit of DoubleTech Power Armor, Mk. II-L. This model offers several improvements over the Mk. I, most notably the weight.",
@@ -4247,7 +4247,7 @@
         "material_thickness" : 9
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "power_armor_helmet_light",
         "name" : "light power armor helmet",
         "description" : "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-L. This improved design is lighter and cooler than the Mk. I helmet.",
@@ -4272,7 +4272,7 @@
         "flags" : ["WATCH","WATERPROOF"]
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "power_armor_heavy",
         "name" : "heavy power armor",
         "description" : "A suit of DoubleTech Power Armor, Mk. II-H. This model offers several improvements over the Mk. I, most notably the its environmental protection.",
@@ -4297,7 +4297,7 @@
         "material_thickness" : 13
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "power_armor_helmet_heavy",
         "name" : "heavy power armor helmet",
         "description" : "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-H. This improved design is heavier than the Mk. I helmet, but cooler, and offers better environmental protection.",
@@ -4322,7 +4322,7 @@
         "flags" : ["WATCH","WATERPROOF"]
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "power_armor_frame",
         "name" : "power armor hauling frame",
         "description" : "A heavy duty hauling frame designed to interface with power armor.",
@@ -4346,7 +4346,7 @@
         "material_thickness" : 10
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "arm_splint",
         "name" : "arm splint",
         "description" : "A tool to help set bones and hold them in place.",
@@ -4370,7 +4370,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "leg_splint",
         "name" : "leg splint",
         "description" : "A tool to help set bones and hold them in place.",
@@ -4394,7 +4394,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "legguard_hard",
         "name" : "hard leg guards",
         "weight" : 725,
@@ -4417,7 +4417,7 @@
         "material_thickness" : 4
   },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "knee_pads",
         "name" : "knee pads",
         "weight" : 260,
@@ -4441,7 +4441,7 @@
         "material_thickness" : 5
     },
   {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "legguard_metal",
         "name" : "metal leg guards",
         "weight" : 1360,
@@ -4464,7 +4464,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "wristwatch",
         "name" : "wrist watch",
         "volume" : 0,
@@ -4487,7 +4487,7 @@
         "phase" : "solid"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hat_chef",
         "name" : "toque",
         "weight" : 140,
@@ -4510,7 +4510,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "jacket_chef",
         "name" : "chefs jacket",
         "weight" : 200,
@@ -4534,7 +4534,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "pants_checkered",
         "name" : "checkered pants",
         "weight" : 630,
@@ -4558,7 +4558,7 @@
         "material_thickness" : 1
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "armor_scrapsuit",
         "name" : "scrap suit",
         "weight" : 3534,
@@ -4583,7 +4583,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "bookplate",
         "name" : "bookplate",
         "weight" : 1090,
@@ -4606,7 +4606,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "lsurvivor_suit",
         "name" : "light survivor suit",
         "weight" : 5000,
@@ -4630,7 +4630,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "survivor_suit",
         "name" : "survivor suit",
         "weight" : 6000,
@@ -4654,7 +4654,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "boots_plate",
         "name" : "plate armor boots",
         "weight" : 3400,
@@ -4678,7 +4678,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "gloves_plate",
         "name" : "plate armor gauntlets",
         "weight" : 2600,
@@ -4702,7 +4702,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "hsurvivor_suit",
         "name" : "heavy survivor suit",
         "weight" : 7500,
@@ -4726,7 +4726,7 @@
         "material_thickness" : 6
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "swat_armor",
         "name" : "SWAT armor",
         "weight" : 6000,
@@ -4750,7 +4750,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "tac_helmet",
         "name" : "tactical helmet",
         "weight" : 1200,
@@ -4775,7 +4775,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "armor_lightplate",
         "name" : "light plate mail",
         "weight" : 12000,
@@ -4799,7 +4799,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_barbute",
         "name" : "barbute helm",
         "weight" : 1975,
@@ -4823,7 +4823,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "armor_samurai",
         "name" : "Ō-yoroi",
         "weight" : 9220,
@@ -4848,7 +4848,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "helmet_kabuto",
         "name" : "kabuto",
         "weight" : 1625,
@@ -4872,7 +4872,7 @@
         "material_thickness" : 3
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "apron_leather",
         "name" : "leather apron",
         "weight" : 2450,
@@ -4896,7 +4896,7 @@
         "material_thickness" : 6
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "mask_bal",
         "name" : "ballistic mask",
         "weight" : 912,
@@ -4920,7 +4920,7 @@
         "material_thickness" : 5
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "mask_hockey",
         "name" : "hockey mask",
         "weight" : 228,
@@ -4944,7 +4944,7 @@
         "material_thickness" : 4
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "legrig",
         "name" : "drop leg pouches",
         "weight" : 605,
@@ -4967,7 +4967,7 @@
         "material_thickness" : 2
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "leather_cat_ears",
         "name" : "leather cat ears",
         "volume" : 1,
@@ -4989,7 +4989,7 @@
         "phase" : "solid"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "fur_cat_ears",
         "name" : "fuzzy cat ears",
         "volume" : 1,
@@ -5011,7 +5011,7 @@
         "phase" : "solid"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "leather_cat_tail",
         "name" : "leather cat tail",
         "volume" : 1,
@@ -5033,7 +5033,7 @@
         "phase" : "solid"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "fur_cat_tail",
         "name" : "fuzzy cat tail",
         "volume" : 1,
@@ -5055,7 +5055,7 @@
         "phase" : "solid"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "fur_collar",
         "name" : "fur kitty collar",
         "volume" : 1,
@@ -5077,7 +5077,7 @@
         "phase" : "solid"
     },
     {
-        "type" : "ARMOR",
+        "type" : "ITEM_ARMOR",
         "id" : "leather_collar",
         "name" : "leather collar",
         "volume" : 1,

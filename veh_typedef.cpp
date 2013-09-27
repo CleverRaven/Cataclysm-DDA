@@ -102,8 +102,6 @@ void game::init_vehicle_parts()
 
 void game::load_vehicle_part(JsonObject &jo)
 {
-    static unsigned int index = 0;
-
     vpart_info next_part;
 
     next_part.id = jo.get_string("id");
@@ -159,9 +157,8 @@ void game::load_vehicle_part(JsonObject &jo)
     // /End Condense Note
     next_part.flags = flagset;//jo.get("flags").as_tags(); // needs changing
 
-    vpart_list[index] = next_part;
-    vpart_enums[next_part.id] = (vpart_id)index; // temporary for saves, until move to string vpart id
-    index++;
+    vehicle_part_types[next_part.id] = next_part;
+    legacy_vpart_id.push_back(next_part.id);
 }
 
 void game::init_vehicles()

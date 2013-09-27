@@ -1059,8 +1059,10 @@ void Item_factory::load_generic_information(JsonObject& entry, itype* new_item_t
         }
     }
 
-    new_item_template->techniques = (!entry.has_member("techniques") ? 0 : // flags_from_json needs fixed
-                                     flags_from_json(entry, "techniques", "techniques"));
+    if (entry.has_member("techniques"))
+    {
+        tags_from_json(entry, "techniques", new_item_template->techniques);
+    }
     new_item_template->use = (!entry.has_member("use_action") ? &iuse::none :
                               use_from_string(entry.get_string("use_action")));
 }
