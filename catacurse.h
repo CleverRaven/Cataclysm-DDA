@@ -169,6 +169,8 @@ int getmaxx(WINDOW *win);
 int getmaxy(WINDOW *win);
 int getbegx(WINDOW *win);
 int getbegy(WINDOW *win);
+int getcurx(WINDOW *win);
+int getcury(WINDOW *win);
 int move(int y, int x);
 void timeout(int delay);//PORTABILITY, DUMMY FUNCTION
 void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
