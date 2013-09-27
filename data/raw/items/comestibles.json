@@ -247,7 +247,7 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 2,
-        "description" : "Containing of a special blend of electrolytes and simple sugars, this beverage tastes like bottled sweat but rehydrates the body faster than water.",
+        "description" : "Consisting of a special blend of electrolytes and simple sugars, this beverage tastes like bottled sweat but rehydrates the body faster than water.",
         "price" : 50,
         "material" : "null",
         "tool" : "null",
