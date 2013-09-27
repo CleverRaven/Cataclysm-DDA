@@ -621,8 +621,8 @@ const furn_t furnlist[num_furniture_types] = { // MUST match enum furn_id above!
     mfb(transparent)|mfb(bashable)|mfb(l_flammable)|
     mfb(container)|mfb(place_item), &iexamine::none},
 {_("oven"),                '#', c_dkgray,  2, 10,
-    mfb(transparent)|mfb(bashable)|mfb(l_flammable)|
-    mfb(container)|mfb(place_item), &iexamine::none},
+    mfb(bashable)|mfb(deconstruct)|mfb(place_item)|
+    mfb(transparent)|mfb(fire_container)|mfb(container), &iexamine::none},
 {_("wood stove"),          '#', i_red,     2, 10,
     mfb(transparent)|mfb(container)|mfb(fire_container)|
     mfb(suppress_smoke)|mfb(place_item), &iexamine::none},
