@@ -138,7 +138,7 @@
         "bashing" : -2,
         "flags" : ["WATER_FRIENDLY"],
         "coverage" : 90,
-        "material_thickness" : 10
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
