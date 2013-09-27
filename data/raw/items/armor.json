@@ -1200,7 +1200,7 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "survivor_harness",
+        "id" : "survivor_vest",
         "name" : "survivor vest",
         "weight" : 925,
         "color" : "light_red",
