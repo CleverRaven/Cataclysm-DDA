@@ -10,6 +10,7 @@
       { "monster" : "mon_coyote", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_turkey", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_raccoon", "freq" : 40, "multiplier" : 5 },
+      { "monster" : "mon_opossum", "freq" : 20, "multiplier" : 5 },
       { "monster" : "mon_bear", "freq" : 20, "multiplier" : 10 },
       { "monster" : "mon_cougar", "freq" : 20, "multiplier" : 10 },
       { "monster" : "mon_spider_wolf", "freq" : 30, "multiplier" : 10 },

@@ -199,7 +199,18 @@ mon(_("raccoon"), species_mammal, 'r', c_dkgray, MS_TINY, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
   10,  -99, 10,130, 1,  1,  3,  1,  3,  0,  0,  0, 3,  0,
  &mdeath::normal, &mattack::none, _("\
-A small mammal native to North America, distinctive for its dexterous front paws and facial markings.")
+A small mammal native to North America, distinctive for its dexterous paws and facial markings.")
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_KEENNOSE, MF_BLEED, MF_BONES, MF_VIS50);
+ANGER(MTRIG_FRIEND_ATTACKED, MTRIG_HURT);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
+CATEGORIES(MC_WILDLIFE);
+
+mon(_("opossum"), species_mammal, 'o', c_white, MS_TINY, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+  10,  -99, 10,110, 0,  1,  3,  1,  2,  0,  0,  0, 2,  0,
+ &mdeath::normal, &mattack::none, _("\
+A small, omnivorous marsupial native to North America.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_KEENNOSE, MF_BLEED, MF_BONES, MF_VIS50);
 ANGER(MTRIG_FRIEND_ATTACKED, MTRIG_HURT);
