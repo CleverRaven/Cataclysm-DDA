@@ -348,7 +348,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "purple_drink",
-        "name" : "purple drink",
+        "name" : "grape drink",
         "weight" : 260,
         "color" : "magenta",
         "addiction_type" : "none",
