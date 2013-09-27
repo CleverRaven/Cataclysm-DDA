@@ -1234,6 +1234,7 @@ switch (furn(x, y)) {
    spawn_item(x, y, "element", 0, rng(1, 3));
    spawn_item(x, y, "sheet_metal", 0, 0, rng(2, 6));
    spawn_item(x, y, "cable", 0, 0, rng(1,3));
+   spawn_item(x, y, "pilot_light", 0);
 
    return true;
   } else {
