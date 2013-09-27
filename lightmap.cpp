@@ -104,13 +104,13 @@ void map::generate_lightmap(game* g)
 
    field_entry *cur = NULL;
    for(std::map<field_id, field_entry*>::iterator field_list_it = current_field.getFieldStart(); field_list_it != current_field.getFieldEnd(); ++field_list_it){
-       cur = field_list_it->second;
+    cur = field_list_it->second;
 
-		if(cur == NULL) continue;
-   // TODO: [lightmap] Attach light brightness to fields
-		switch(cur->getFieldType()) {
+    if(cur == NULL) continue;
+    // TODO: [lightmap] Attach light brightness to fields
+    switch(cur->getFieldType()) {
     case fd_fire:
-		if (3 == cur->getFieldDensity())
+     if (3 == cur->getFieldDensity())
       add_light_source(sx, sy, 160);
      else if (2 == cur->getFieldDensity())
       add_light_source(sx, sy, 60);
@@ -133,8 +133,8 @@ void map::generate_lightmap(game* g)
     case fd_laser:
      apply_light_source(sx, sy, 1, trigdist);
      break;
+    }
    }
-	}
   }
  }
 
@@ -282,6 +282,7 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
  */
 void map::build_seen_cache( game *g ) {
     memset(seen_cache, false, sizeof(seen_cache));
+    seen_cache[g->u.posx][g->u.posy] = true;
 
     castLight( g, 1, 1.0f, 0.0f, 0, 1, 1, 0 );
     castLight( g, 1, 1.0f, 0.0f, 1, 0, 0, 1 );

@@ -1,6 +1,10 @@
 #ifndef _ACTION_H_
 #define _ACTION_H_
 
+#include <vector>
+#include <map>
+#include <string>
+
 enum action_id {
 ACTION_NULL = 0,
 // Movement
@@ -91,8 +95,30 @@ ACTION_TOGGLE_DEBUGMON,
 NUM_ACTIONS
 };
 
+extern std::map<char, action_id> keymap;
+
+// Load keybindings from disk
+void load_keyboard_settings();
+std::string default_keymap_txt();
+// Save keybindings to disk
+void save_keymap();
+// All keys bound to act
+std::vector<char> keys_bound_to(action_id act);
+// Delete all keys bound to act
+void clear_bindings(action_id act);
 action_id look_up_action(std::string ident);
 std::string action_ident(action_id);
 std::string action_name(action_id);
+// Use the keymap to figure out direction properly
+void get_direction(int &x, int &y, char ch);
+// (Press X (or Y)|Try) to Z
+std::string press_x(action_id act);
+std::string press_x(action_id act, std::string key_bound,
+                                   std::string key_unbound);
+std::string press_x(action_id act, std::string key_bound_pre,
+        std::string key_bound_suf, std::string key_unbound);
+ // ('Z'ing|zing) (X( or Y)))
+std::string press_x(action_id act, std::string act_desc);
+
 
 #endif

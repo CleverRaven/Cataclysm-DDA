@@ -10,6 +10,8 @@
 #include "text_snippets.h"
 #include "item_factory.h"
 #include "crafting.h"
+#include "computer.h"
+#include "help.h"
 #include "mongroup.h"
 
 #include <string>
@@ -37,6 +39,8 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/migo_speech.json");
     ret.push_back("data/json/vehicle_parts.json");
     ret.push_back("data/json/vehicles.json");
+    ret.push_back("data/json/lab_notes.json");
+    ret.push_back("data/json/hints.json");
     ret.push_back("data/json/items/ammo.json");
     ret.push_back("data/json/items/archery.json");
     ret.push_back("data/json/items/armor.json");
@@ -77,6 +81,8 @@ void load_object(JsonObject &jo)
     else if (type == "monster_group") {MonsterGroupManager::load_monster_group(jo);}
     else if (type == "PARROT"){}//g->load_parrot_phrase(jo);}
     else if (type == "vehicle_part"){}//g->load_vehicle_part(jo);}
+	else if (type == "lab_note") { computer::load_lab_note(jo); }
+    else if (type == "hint") { load_hint(jo); }
     else if (type == "vehicle"){}//g->load_vehicle(jo);}
     else {
         std::stringstream err;

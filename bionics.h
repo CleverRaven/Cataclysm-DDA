@@ -16,11 +16,11 @@ public:
 
      std::string name;
      bool power_source;
-     bool activated;	// If true, then the below function only happens when
-          // activated; otherwise, it happens every turn
+     bool activated; // If true, then the below function only happens when
+                     // activated; otherwise, it happens every turn
      int power_cost;
-     int charge_time;	// How long, when activated, between drawing power_cost
-          // If 0, it draws power once
+     int charge_time; // How long, when activated, between drawing power_cost
+                      // If 0, it draws power once
      std::string description;
      bool faulty; // Whether or not the bionic is faulty
 };

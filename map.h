@@ -18,7 +18,7 @@
 #include "vehicle.h"
 #include "graffiti.h"
 #include "lightmap.h"
-
+#include "coordinates.h"
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
 #define CAMPSIZE 1
@@ -38,65 +38,6 @@ struct wrapped_vehicle{
 };
 
 typedef std::vector<wrapped_vehicle> VehicleList;
-
-// translate game.levx/y + game->object.posx/y to submap and submap row/col, and deal with !INBOUND correctly
-// usage: rc real_coords( levx, levy, g->u.posx, g->u.posy );
-//          popup("I'm on submap %d, %d, row %d, column %d.", rc.sub.x, rc.sub.y, rc.sub_pos.x, rc.sub_pos.y );
-//
-//        point rcom=rc.overmap(); point gom=g->om_location();
-//        popup("Oh, and this is really overmap %d,%d, but everything uses %d,%d anyway.",
-//            rcom.x, rcom.y, gom.x, gom.y );
-//
-//        real_coords( lx, ly, px, py, true ); // will precalculate overmap as .true_om (point)
-//
-struct real_coords {
-  point rel_lev; // in: as in game.levx/y. The true coordinate of submap at pos 0,0 in playing area
-                 // (Which is a 11x11 grid of submaps that shifts to ensure player remains in
-                 // the center submap.)
-  point rel_pos; // in: as in game->object.posx/y; Tile offset from position 0,0 of
-                 // game.levx/y (submap 0,0 of playing area, aka rel_lev)
-  point sub;     // out: 'real' levxy; actual submap coordinate (maps.txt: first line of record)
-  point sub_pos; // out: coordinate (0-11) in submap (maps.txt: xy of tile definitions, items, traps,
-                 // spawns)
-  point true_om; // >>>> must initialize with getom=true or use initialized_real_coords.overmap() <<<<
-                 // >>>> this does not handle overmap boundaries yet, check for < 0 || >= OMAPX (180) <<<<
-                 // this is the actual overmap tile of sub.x, sub.y (unlike what game->om_location
-                 // returns; the overmap tile of levx/y aka rel_lev. Most game functions are written
-                 // for the latter.);
-  real_coords(int lx, int ly, int px, int py, bool getom=false ) {
-    rel_lev.x=lx;
-    rel_lev.y=ly;
-    rel_pos.x=px;
-    rel_pos.y=py;
-    sub.x = lx + ( px / SEEX );
-    sub.y = ly + ( py / SEEX );
-    sub_pos.x = px % SEEX;
-    sub_pos.y = py % SEEY;
-    /* deal with !INBOUND (negative) coordinates.
-          if ( px < 0 ) { sub.x += -1; sub_pos.x += 12; };
-       in -some- cases (?) this isn't enough and must be
-       redone @ pos=-24, -48, -96 ....
-    */
-    while( sub_pos.x < 0 ) {
-        sub.x--;
-        sub_pos.x += 12;
-    }
-    while( sub_pos.y < 0 ) {
-        sub.y--;
-        sub_pos.y += 12;
-    }
-
-    if ( getom == true ) { // special case, thus optional
-      true_om.x=int( (sub.x + int(MAPSIZE / 2)) / 2);
-      true_om.y=int( (sub.y + int(MAPSIZE / 2)) / 2);
-    }
-  };
-  point overmap () {
-    true_om.x=int( (sub.x + int(MAPSIZE / 2)) / 2);
-    true_om.y=int( (sub.y + int(MAPSIZE / 2)) / 2);
-    return true_om;
-  };
-};
 
 /**
  * Manage and cache data about a part of the map.
@@ -305,7 +246,7 @@ class map
  void mop_spills(const int x, const int y);
 
 // Radiation
- int& radiation(const int x, const int y);	// Amount of radiation at (x, y);
+ int& radiation(const int x, const int y); // Amount of radiation at (x, y);
 
 // Temperature
  int& temperature(const int x, const int y);    // Temperature for submap
@@ -346,10 +287,10 @@ class map
  bool add_field(game *g, const point p, const field_id t, unsigned int density, const int age);
  bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
- bool process_fields(game *g);				// See fields.cpp
- bool process_fields_in_submap(game *g, const int gridn);	// See fields.cpp
- void step_in_field(const int x, const int y, game *g);		// See fields.cpp
- void mon_in_field(const int x, const int y, game *g, monster *z);	// See fields.cpp
+ bool process_fields(game *g); // See fields.cpp
+ bool process_fields_in_submap(game *g, const int gridn); // See fields.cpp
+ void step_in_field(const int x, const int y, game *g); // See fields.cpp
+ void mon_in_field(const int x, const int y, game *g, monster *z); // See fields.cpp
  void field_effect(int x, int y, game *g); //See fields.cpp
 
 // Computers
@@ -383,7 +324,8 @@ class map
  void add_spawn(monster *mon);
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, std::string type, const int x, const int y, const int dir,
-                      const int init_veh_fuel = -1, const int init_veh_status = -1 );
+                      const int init_veh_fuel = -1, const int init_veh_status = -1,
+                      const bool merge_wrecks = true);
  computer* add_computer(const int x, const int y, std::string name, const int security);
  float light_transparency(const int x, const int y) const;
  void build_map_cache(game *g);
@@ -394,6 +336,16 @@ class map
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
+ point get_abs_sub() {
+   return abs_sub;
+ };
+ point getabs(const int x=0, const int y=0 );
+ point getlocal(const int x, const int y );
+ 
+ bool inboundsabs(const int x, const int y);
+ bool inbounds(const int x, const int y);
+
+ int getmapsize() { return my_MAPSIZE; };
 protected:
  void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
             const int gridx, const int gridy);
@@ -405,27 +357,32 @@ protected:
                game *g, const float density, const int zlevel);
  void add_extra(map_extra type, game *g);
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
-			// Useful for houses, shops, etc
+            // Useful for houses, shops, etc
  void build_transparency_cache();
  void build_outside_cache(const game *g);
  void generate_lightmap(game *g);
  void build_seen_cache(game *g);
  void castLight( game *g, int row, float start, float end, int xx, int xy, int yx, int yy );
 
- bool inbounds(const int x, const int y);
  int my_MAPSIZE;
  virtual bool is_tiny() { return false; };
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
- ter_id nulter;	// Returned when &ter() is asked for an OOB value
+ ter_id nulter;  // Returned when &ter() is asked for an OOB value
  field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
- int nulrad;	// OOB &radiation()
+ int nulrad;     // OOB &radiation()
  int null_temperature;  // Because radiation does it too
 
  std::vector <trap*> *traps;
 
  bool veh_in_active_range;
+
+ point abs_sub; // same as x y in maps.txt, for 0,0 / grid[0]
+ point abs_min; // same as above in absolute coordinates (submap(x,y) * 12)
+ point abs_max; // same as abs_min + ( my_MAPSIZE * 12 )
+ int world_z;   // same as 
+ void set_abs_sub(const int x, const int y, const int z); // set the above vars on map load/shift/etc
 
 private:
  long determine_wall_corner(const int x, const int y, const long orig_sym);
@@ -440,7 +397,7 @@ private:
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
- vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y);
+ vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

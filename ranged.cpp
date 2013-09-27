@@ -8,6 +8,7 @@
 #include "rng.h"
 #include "item.h"
 #include "options.h"
+#include "action.h"
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
@@ -673,7 +674,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   x = t[target].posx();
   y = t[target].posy();
  } else
-  target = -1;	// No monsters in range, don't use target, reset to -1
+  target = -1; // No monsters in range, don't use target, reset to -1
 
  int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "narrow");
  int height = 13;
@@ -803,9 +804,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   wrefresh(w_status);
   refresh();
   ch = input();
-  get_direction(this, tarx, tary, ch);
+  get_direction(tarx, tary, ch);
   /* More drawing to terrain */
-  if (tarx != -2 && tary != -2 && ch != '.') {	// Direction character pressed
+  if (tarx != -2 && tary != -2 && ch != '.') { // Direction character pressed
    int mondex = mon_at(x, y), npcdex = npc_at(x, y);
    if (mondex != -1 && u_see(&(zombie(mondex))))
     zombie(mondex).draw(w_terrain, center.x, center.y, false);

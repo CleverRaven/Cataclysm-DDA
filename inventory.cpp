@@ -201,43 +201,43 @@ inventory inventory::operator+ (const item &rhs)
  return inventory(*this) += rhs;
 }
 
-
 inventory inventory::filter_by_category(item_cat cat, const player& u) const
 {
     inventory reduced_inv;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         const item& it = iter->front();
+
         switch (cat)
         {
         case IC_COMESTIBLE: // food
             if (it.is_food(&u) || it.is_food_container(&u))
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_AMMO: // ammo
             if (it.is_ammo() || it.is_ammo_container())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_ARMOR: // armour
             if (it.is_armor())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_BOOK: // books
             if (it.is_book())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_TOOL: // tools
             if (it.is_tool())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_CONTAINER: // containers for liquid handling
@@ -245,14 +245,14 @@ inventory inventory::filter_by_category(item_cat cat, const player& u) const
             {
                 if (it.ammo_type() == "gasoline")
                 {
-                    reduced_inv += *iter;
+                    reduced_inv.clone_stack(*iter);
                 }
             }
             else
             {
                 if (it.is_container())
                 {
-                    reduced_inv += *iter;
+                    reduced_inv.clone_stack(*iter);
                 }
             }
             break;
@@ -289,6 +289,18 @@ void inventory::add_stack(const std::list<item> newits)
     {
         add_item(*iter, true);
     }
+}
+
+/*
+ *  Bypass troublesome add_item for situations where we want an -exact- copy.
+ */
+void inventory::clone_stack (const std::list<item> & rhs) {
+    std::list<item> newstack;
+    for (std::list<item>::const_iterator iter = rhs.begin(); iter != rhs.end(); ++iter) {
+       newstack.push_back(*iter);
+    }
+    items.push_back(newstack);
+//    return *this;    
 }
 
 void inventory::push_back(std::list<item> newits)
@@ -365,7 +377,8 @@ item& inventory::add_item(item newit, bool keep_invlet)
     {
         return nullitem; // Styles never belong in our inventory.
     }
-
+//dprint("inv.add_item(%d): [%c] %s", keep_invlet, newit.invlet, newit.typeId().c_str()  );
+ 
     bool reuse_cached_letter = false;
 
     // Check how many stacks of this type already are in our inventory.
@@ -863,9 +876,9 @@ std::vector<item*> inventory::all_ammo(ammotype type)
             }
             // Handle gasoline nested in containers
             else if (type == "gasoline" && stack_iter->is_container() &&
-	                 !stack_iter->contents.empty() && stack_iter->contents[0].is_ammo() &&
-	                 dynamic_cast<it_ammo*>(stack_iter->contents[0].type)->type == type)
-	        {
+                     !stack_iter->contents.empty() && stack_iter->contents[0].is_ammo() &&
+                     dynamic_cast<it_ammo*>(stack_iter->contents[0].type)->type == type)
+            {
                 ret.push_back(&*stack_iter);
                 return ret;
             }
@@ -1501,151 +1514,3 @@ void inventory::assign_empty_invlet(item &it)
   //debugmsg("Couldn't find empty invlet");
 }
 
-void inventory::load_invlet_cache( std::ifstream &fin ) {
-    // Lines are of the format "P itemname abcde".
-    while( fin.peek() == 'P' ) {
-        std::string invlet_cache_line;
-        getline( fin, invlet_cache_line );
-        int first_sym = invlet_cache_line.find_first_of(' ', 2);
-        std::string item_type( invlet_cache_line, 2, first_sym - 2 );
-        std::vector<char> symbol_vec( invlet_cache_line.begin() + first_sym + 1,
-                                      invlet_cache_line.end() );
-        invlet_cache[ item_type ] = symbol_vec;
-    }
-}
-
-
-std::string inventory::save_str_no_quant() const
-{
-    std::stringstream dump_ss;
-    std::map<std::string, std::vector<char> >::const_iterator invlet_id;
-    for( invlet_id = invlet_cache.begin();
-         invlet_id != invlet_cache.end(); ++invlet_id ) {
-        dump_ss << "P " << invlet_id->first << ' ';
-        for( std::vector<char>::const_iterator sym = invlet_id->second.begin();
-             sym != invlet_id->second.end(); ++sym ) {
-            dump_ss << *sym;
-        }
-        dump_ss << std::endl;
-    }
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        for (std::list<item>::const_iterator stack_iter = iter->begin();
-             stack_iter != iter->end();
-             ++stack_iter)
-        {
-            dump_ss << "I " << stack_iter->save_info() << std::endl;
-            for (int k = 0; k < stack_iter->contents.size(); k++)
-            {
-                dump_ss << "C " << stack_iter->contents[k].save_info() << std::endl;
-            }
-        }
-    }
-    return dump_ss.str();
-}
-
-//////////
-/*
- *
- */
-void inventory::json_save_invcache( std::map<std::string, picojson::value> & data) const {
-/*
-    std::vector<picojson::value> pvect;
-    for( std::map<std::string, std::vector<char> >::const_iterator invlet_id = 
-       invlet_cache.begin(); invlet_id != invlet_cache.end(); ++invlet_id ) {
-           pvect.clear();
-           for( std::vector<char>::const_iterator sym = invlet_id->second.begin();
-               sym != invlet_id->second.end(); ++sym ) {
-               pvect.push_back( pv ( int(*sym) ) );
-           }
-       data[invlet_id->first]=pv( pvect );
-    }
-*/
-}
-picojson::value inventory::json_save_invcache() const {
-    std::vector<picojson::value> data;
-    std::map<std::string, picojson::value> pent; // why? because picojson sorts maps. Derp.
-    std::vector<picojson::value> pvect;
-    for( std::map<std::string, std::vector<char> >::const_iterator invlet_id =  invlet_cache.begin(); invlet_id != invlet_cache.end(); ++invlet_id ) {
-       pent.clear();
-       pvect.clear();
-       for( std::vector<char>::const_iterator sym = invlet_id->second.begin();
-           sym != invlet_id->second.end(); ++sym ) {
-           pvect.push_back( pv ( int(*sym) ) );
-       }
-       pent[invlet_id->first]=pv( pvect );
-       data.push_back( pv ( pent ) );
-    }
-
-//    json_save_invcache( data );
-    return pv( data );
-}
-/*
- *
- */
-void inventory::json_load_invcache(picojson::value & parsed) {
-    if ( ! parsed.is<picojson::array>() ) {
-         debugmsg(": bad invcache json:\n%s",parsed.serialize().c_str() );
-    }
-    picojson::array &data = parsed.get<picojson::array>();
-    for( picojson::array::const_iterator pit = data.begin(); pit != data.end(); ++pit) {
-        if ( (*pit).is<picojson::object>() ) {
-            picojson::object pent = (*pit).get<picojson::object>();
-            picojson::object::const_iterator peit = pent.begin();
-            if ( peit->second.is<picojson::array>() ) {
-                picojson::array pvect = peit->second.get<picojson::array>();
-                std::vector<char> vect;
-                for( picojson::array::const_iterator pvit = pvect.begin(); pvit != pvect.end(); ++pvit) {
-                    vect.push_back ( char((*pvit).get<double>()) );
-                }                
-            }
-        }
-    }
-}
-
-//////////
-/*
- * 
- */
-void inventory::json_save_items(std::vector<picojson::value> & data) const {
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        for (std::list<item>::const_iterator stack_iter = iter->begin();
-             stack_iter != iter->end();
-             ++stack_iter)
-        {
-            data.push_back ( stack_iter->json_save(true) );
-        }
-    }
-}
-picojson::value inventory::json_save_items() const {
-    std::vector<picojson::value> data;
-    json_save_items( data );
-    return pv( data );
-}
-
-
-void inventory::json_load_items(picojson::value & parsed, game * g) {
-    if ( ! parsed.is<picojson::array>() ) {
-         debugmsg(": bad inventory json:\n%s",parsed.serialize().c_str() );
-    }
-    picojson::array &data = parsed.get<picojson::array>();
-    for( picojson::array::iterator pit = data.begin(); pit != data.end(); ++pit) {
-        if ( (*pit).is<picojson::object>() ) {
-            push_back( item( (*pit), g ) );
-        }
-    }
-}
-
-/////////
-/*
- *
- */
-void inventory::json_load(picojson::value & parsed, game * g) {
-
-}
-picojson::value inventory::json_save() const {
-    std::map<std::string, picojson::value> data;
-// not sure about this method //
-    return pv( data );
-}

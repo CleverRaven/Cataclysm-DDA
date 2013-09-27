@@ -1,7 +1,7 @@
 [
     {
         "id": "water",
-        "type": "ITEM_COMESTIBLE",
+        "type": "COMESTIBLE",
         "symbol": "~",
         "color": "light_cyan",
         "name": "water",
@@ -27,7 +27,7 @@
         "phase": "liquid"
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "water_clean",
         "name" : "clean water",
         "weight" : 250,
@@ -46,7 +46,7 @@
         "nutrition" : 0,
         "description" : "Fresh, clean water. Truly the best thing to quench your thirst.",
         "price" : 50,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -56,7 +56,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "sewage",
         "name" : "sewage sample",
         "weight" : 260,
@@ -75,7 +75,7 @@
         "nutrition" : 0,
         "description" : "A sample of sewage from a treatment plant. Gross.",
         "price" : 5,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -85,7 +85,7 @@
         "fun" : -20
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "salt_water",
         "name" : "salt water",
         "weight" : 260,
@@ -104,7 +104,7 @@
         "nutrition" : 0,
         "description" : "Water with salt added. Not good for drinking.",
         "price" : 5,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -114,7 +114,7 @@
         "fun" : -1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "oj",
         "name" : "orange juice",
         "weight" : 263,
@@ -133,7 +133,7 @@
         "nutrition" : 4,
         "description" : "Freshly-squeezed from real oranges! Tasty and nutritious.",
         "price" : 38,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -143,7 +143,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "apple_cider",
         "name" : "apple cider",
         "weight" : 263,
@@ -162,7 +162,7 @@
         "nutrition" : 4,
         "description" : "Pressed from fresh apples. Tasty and nutritious.",
         "price" : 38,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -172,7 +172,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "lemonade",
         "name" : "lemonade",
         "weight" : 263,
@@ -191,7 +191,7 @@
         "nutrition" : 4,
         "description" : "Lemon juice mixed with water and sugar to dull the sourness. Delicious and refreshing.",
         "price" : 38,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -201,7 +201,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cranberry_juice",
         "name" : "cranberry juice",
         "weight" : 263,
@@ -220,7 +220,7 @@
         "nutrition" : 3,
         "description" : "Made from real Massachusetts cranberries. Delicious and nutritious.",
         "price" : 38,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -230,7 +230,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "energy_drink",
         "name" : "energy drink",
         "weight" : 262,
@@ -249,7 +249,7 @@
         "nutrition" : 1,
         "description" : "Popular among those who need to stay up late working.",
         "price" : 45,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -259,7 +259,7 @@
         "fun" : 5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cola",
         "name" : "cola",
         "weight" : 260,
@@ -278,7 +278,7 @@
         "nutrition" : 3,
         "description" : "Things go better with cola. Sugar water with caffeine added.",
         "price" : 35,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -288,7 +288,7 @@
         "fun" : 5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "rootbeer",
         "name" : "root beer",
         "weight" : 260,
@@ -307,7 +307,7 @@
         "nutrition" : 3,
         "description" : "Like cola, but without caffeine. Still not that healthy.",
         "price" : 30,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -317,7 +317,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "milk",
         "name" : "milk",
         "weight" : 258,
@@ -336,7 +336,7 @@
         "nutrition" : 8,
         "description" : "Baby cow food, appropriated for adult humans. Spoils rapidly.",
         "price" : 35,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -346,7 +346,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "con_milk",
         "name" : "condensed milk",
         "weight" : 258,
@@ -365,7 +365,7 @@
         "nutrition" : 11,
         "description" : "Baby cow food, appropriated for adult humans. Having been canned, this milk should last for a very long time.",
         "price" : 70,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -375,7 +375,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "V8",
         "name" : "V8",
         "weight" : 258,
@@ -394,7 +394,7 @@
         "nutrition" : 68,
         "description" : "Contains up to 8 vegetables! Nutritious and tasty.",
         "price" : 35,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -404,7 +404,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "broth",
         "name" : "broth",
         "weight" : 256,
@@ -423,7 +423,7 @@
         "nutrition" : 30,
         "description" : "Vegetable stock. Tasty and fairly nutritious.",
         "price" : 35,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -434,7 +434,7 @@
         "fun" : 1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "broth_bone",
         "name" : "bone broth",
         "weight" : 254,
@@ -453,7 +453,7 @@
         "nutrition" : 20,
         "description" : "A tasty and nutritious broth made from bones.",
         "price" : 35,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -465,7 +465,7 @@
     },
 
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "soup_veggy",
         "name" : "vegetable soup",
         "weight" : 258,
@@ -484,7 +484,7 @@
         "nutrition" : 90,
         "description" : "A nutritious and delicious hearty vegetable soup.",
         "price" : 60,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -495,7 +495,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "soup_meat",
         "name" : "meat soup",
         "weight" : 259,
@@ -514,7 +514,7 @@
         "nutrition" : 160,
         "description" : "A nutritious and delicious hearty meat soup.",
         "price" : 60,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -525,7 +525,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "soup_woods",
         "name" : "woods soup",
         "weight" : 258,
@@ -544,7 +544,7 @@
         "nutrition" : 140,
         "description" : "A nutritious and delicious soup, made of gifts of nature.",
         "price" : 50,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -555,7 +555,7 @@
         "fun" : 1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "soup_human",
         "name" : "sap soup",
         "weight" : 259,
@@ -574,7 +574,7 @@
         "nutrition" : 160,
         "description" : "A soup made from someone who is a far better meal than person.",
         "price" : 60,
-        "material" : ["hflesh"],
+        "material" : "hflesh",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -585,7 +585,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "wine_riesling",
         "name" : "riesling",
         "weight" : 50,
@@ -604,7 +604,7 @@
         "nutrition" : 4,
         "description" : "Sparkling white wine, made from the world's noblest grape.", 
         "price" : 85,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -614,7 +614,7 @@
         "fun" : 15
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "wine_chardonnay",
         "name" : "chardonnay",
         "weight" : 50,
@@ -633,7 +633,7 @@
         "nutrition" : 4,
         "description" : "America's most popular wine, and for good reason.",
         "price" : 85,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -643,7 +643,7 @@
         "fun" : 15
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "wine_cabernet",
         "name" : "cabernet sauvignon",
         "weight" : 50,
@@ -662,7 +662,7 @@
         "nutrition" : 4,
         "description" : "The heavily disputed king of red wines. Pairs well red meats and pasta.",
         "price" : 85,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -672,7 +672,7 @@
         "fun" : 15
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "wine_noir",
         "name" : "pinot noir",
         "weight" : 50,
@@ -691,7 +691,7 @@
         "nutrition" : 4,
         "description" : "Prized by collectors and adored by critics, it is one of the rarer and more elegant wines.",
         "price" : 85,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -701,7 +701,7 @@
         "fun" : 16
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "whiskey",
         "name" : "whiskey",
         "weight" : 33,
@@ -720,7 +720,7 @@
         "nutrition" : 4,
         "description" : "Made from, by, and for real Southern colonels!",
         "price" : 85,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -730,7 +730,7 @@
         "fun" : 15
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "vodka",
         "name" : "vodka",
         "weight" : 33,
@@ -749,7 +749,7 @@
         "nutrition" : 2,
         "description" : "In Soviet Russia, vodka drinks you!",
         "price" : 78,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -759,7 +759,7 @@
         "fun" : 15
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "gin",
         "name" : "gin",
         "weight" : 33,
@@ -778,7 +778,7 @@
         "nutrition" : 2,
         "description" : "Smells faintly of elderberries, but mostly booze.",
         "price" : 78,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -788,7 +788,7 @@
         "fun" : 15
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "rum",
         "name" : "rum",
         "weight" : 33,
@@ -807,7 +807,7 @@
         "nutrition" : 2,
         "description" : "Drinking this might make you feel like a pirate. Or not.",
         "price" : 85,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -817,7 +817,7 @@
         "fun" : 15
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "tequila",
         "name" : "tequila",
         "weight" : 38,
@@ -836,7 +836,7 @@
         "nutrition" : 2,
         "description" : "Don't eat the worm! Wait, there's no worm in this bottle.",
         "price" : 88,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -846,7 +846,7 @@
         "fun" : 18
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "triple_sec",
         "name" : "triple sec",
         "weight" : 33,
@@ -865,7 +865,7 @@
         "nutrition" : 2,
         "description" : "An orange flavored liquor used in many mixed drinks.",
         "price" : 55,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -875,9 +875,9 @@
         "fun" : 10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
-        "id" : "Irish coffee",
-        "name" : "irish_coffee",
+        "type" : "COMESTIBLE",
+        "id" : "irish_coffee",
+        "name" : "Irish coffee",
         "weight" : 33,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -894,7 +894,7 @@
         "nutrition" : 2,
         "description" : "Sweetened coffee and whiskey. Start your day the closeted alcoholic way!",
         "price" : 85,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -904,7 +904,7 @@
         "fun" : 20
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "long_island",
         "name" : "long island iced tea",
         "weight" : 42,
@@ -923,7 +923,7 @@
         "nutrition" : 2,
         "description" : "A blend of incredibly strong-flavored liquors that somehow tastes like none of them.",
         "price" : 100,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -933,7 +933,7 @@
         "fun" : 20
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "drink_screwdriver",
         "name" : "screwdriver",
         "weight" : 250,
@@ -952,7 +952,7 @@
         "nutrition" : 6,
         "description" : "The surreptitious drunkard mechanic's drink of choice.",
         "price" : 100,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -962,7 +962,7 @@
         "fun" : 20
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "drink_wild_apple",
         "name" : "wild apple",
         "weight" : 248,
@@ -981,7 +981,7 @@
         "nutrition" : 6,
         "description" : "Like apple cider, only with vodka.",
         "price" : 100,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -991,7 +991,7 @@
         "fun" : 20
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "beer",
         "name" : "beer",
         "weight" : 249,
@@ -1010,7 +1010,7 @@
         "nutrition" : 4,
         "description" : "Best served cold, in a glass, and with a lime - but you're not that lucky.",
         "price" : 35,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1020,7 +1020,7 @@
         "fun" : 10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "bleach",
         "name" : "bleach",
         "weight" : 277,
@@ -1039,7 +1039,7 @@
         "nutrition" : 0,
         "description" : "Don't drink it. Mixing it with ammonia produces toxic gas.",
         "price" : 18,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1049,7 +1049,7 @@
         "fun" : -30
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "ammonia",
         "name" : "ammonia",
         "weight" : 19,
@@ -1068,7 +1068,7 @@
         "nutrition" : 0,
         "description" : "Don't drink it. Mixing it with bleach produces toxic gas.",
         "price" : 30,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1078,7 +1078,7 @@
         "fun" : -30
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "fertilizer_liquid",
         "name" : "plant food",
         "weight" : 19,
@@ -1098,7 +1098,7 @@
         "nutrition" : 30,
         "description" : "Don't drink it; feed it to your plants!",
         "price" : 30,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1108,7 +1108,7 @@
         "fun" : -30
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "water_acid",
         "name" : "acid water",
         "weight" : 260,
@@ -1127,7 +1127,7 @@
         "nutrition" : 0,
         "description" : "Water collected during an acid rainstorm. Don't drink it. Boiling it concentrates the acid.",
         "price" : 30,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1137,7 +1137,7 @@
         "fun" : -30
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "water_acid_weak",
         "name" : "weak acid water",
         "weight" : 255,
@@ -1156,7 +1156,7 @@
         "nutrition" : 0,
         "description" : "A mixture of rain and acid rain. Don't drink it. Boiling it concentrates the acid.",
         "price" : 15,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1166,7 +1166,7 @@
         "fun" : -15
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "acid",
         "name" : "concentrated acid",
         "weight" : 460,
@@ -1185,7 +1185,7 @@
         "nutrition" : 0,
         "description" : "Concentrated acid from an acid rainstorm. Don't drink it.",
         "price" : 30,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1195,7 +1195,7 @@
         "fun" : -30
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen",
         "name" : "mutagen",
         "weight" : 250,
@@ -1215,7 +1215,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1225,7 +1225,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_plant",
         "name" : "plant mutagen",
         "weight" : 250,
@@ -1245,7 +1245,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1255,7 +1255,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_insect",
         "name" : "insect mutagen",
         "weight" : 250,
@@ -1275,7 +1275,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1285,7 +1285,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_spider",
         "name" : "spider mutagen",
         "weight" : 250,
@@ -1305,7 +1305,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1315,7 +1315,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_slime",
         "name" : "slime mutagen",
         "weight" : 250,
@@ -1335,7 +1335,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1345,7 +1345,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_fish",
         "name" : "fish mutagen",
         "weight" : 250,
@@ -1365,7 +1365,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1375,7 +1375,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_rat",
         "name" : "rat mutagen",
         "weight" : 250,
@@ -1395,7 +1395,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1405,7 +1405,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_beast",
         "name" : "beast mutagen",
         "weight" : 250,
@@ -1425,7 +1425,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1435,7 +1435,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_cattle",
         "name" : "cattle mutagen",
         "weight" : 250,
@@ -1455,7 +1455,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1465,7 +1465,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_cephalopod",
         "name" : "cephalopod mutagen",
         "weight" : 250,
@@ -1485,7 +1485,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1495,7 +1495,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_bird",
         "name" : "bird mutagen",
         "weight" : 250,
@@ -1515,7 +1515,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1525,7 +1525,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_lizard",
         "name" : "lizard mutagen",
         "weight" : 250,
@@ -1545,7 +1545,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1555,7 +1555,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mutagen_troglobite",
         "name" : "troglobite mutagen",
         "weight" : 250,
@@ -1575,7 +1575,7 @@
         "nutrition" : 0,
         "description" : "A rare substance of uncertain origins. Causes you to mutate.",
         "price" : 1000,
-        "material" : ["NULL"],
+        "material" : "NULL",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1585,7 +1585,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "purifier",
         "name" : "purifier",
         "weight" : 250,
@@ -1604,7 +1604,7 @@
         "nutrition" : 0,
         "description" : "A rare stem-cell treatment that causes mutations and other genetic defects to fade away.",
         "price" : 6000,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1614,7 +1614,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "tea",
         "name" : "tea",
         "weight" : 250,
@@ -1633,7 +1633,7 @@
         "nutrition" : 3,
         "description" : "Tea, the beverage of gentlemen everywhere.",
         "price" : 50,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1644,7 +1644,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "kompot",
         "name" : "kompot",
         "weight" : 52,
@@ -1663,18 +1663,18 @@
         "nutrition" : 5,
         "description" : "Clear juice obtained by cooking fruit in a large volume of water",
         "price" : 70,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 5,
+        "charges" : 12,
         "bashing" : 0,
         "flags" : [],
         "fun" : 8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "coffee",
         "name" : "coffee",
         "weight" : 324,
@@ -1693,7 +1693,7 @@
         "nutrition" : 3,
         "description" : "Coffee. The morning ritual of the pre-apocalypse world.",
         "price" : 50,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1704,7 +1704,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "blood",
         "name" : "blood",
         "weight" : 265,
@@ -1723,7 +1723,7 @@
         "nutrition" : 5,
         "description" : "Blood, possibly that of a human. Disgusting!",
         "price" : 0,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -1733,7 +1733,7 @@
         "fun" : -50
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "bone",
         "name" : "bone",
         "weight" : 375,
@@ -1752,7 +1752,7 @@
         "nutrition" : 4,
         "description" : "A bone from some creature or other, could be eaten or used to make some stuff, like needles.",
         "price" : 50,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -1762,7 +1762,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "plant_sac",
         "name" : "fluid sac",
         "weight" : 260,
@@ -1781,7 +1781,7 @@
         "nutrition" : 4,
         "description" : "A fluid bladder from a plant based lifeform, not very nutritious, but fine to eat anyway.",
         "price" : 50,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -1791,7 +1791,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "meat",
         "name" : "chunk of meat",
         "weight" : 238,
@@ -1810,7 +1810,7 @@
         "nutrition" : 20,
         "description" : "Freshly butchered meat. You could eat it raw, but cooking it is better.",
         "price" : 50,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -1820,7 +1820,7 @@
         "fun" : -10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "veggy",
         "name" : "plant marrow",
         "weight" : 240,
@@ -1839,7 +1839,7 @@
         "nutrition" : 20,
         "description" : "A nutrient rich chunk of plant matter, could be eaten raw or cooked.",
         "price" : 60,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -1849,7 +1849,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "human_flesh",
         "name" : "human flesh",
         "weight" : 238,
@@ -1868,7 +1868,7 @@
         "nutrition" : 20,
         "description" : "Freshly butchered from a human body.",
         "price" : 50,
-        "material" : ["hflesh"],
+        "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -1878,7 +1878,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "veggy_wild",
         "name" : "wild vegetables",
         "weight" : 240,
@@ -1897,7 +1897,7 @@
         "nutrition" : 20,
         "description" : "An assortment of edible-looking wild plants.  Most are quite bitter-tasting.",
         "price" : 60,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -1907,7 +1907,7 @@
         "fun" : -10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "meat_tainted",
         "name" : "tainted meat",
         "weight" : 238,
@@ -1926,7 +1926,7 @@
         "nutrition" : 20,
         "description" : "Meat that's obviously unhealthy. You could eat it, but it will poison you.",
         "price" : 4,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -1936,7 +1936,7 @@
         "fun" : -10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "veggy_tainted",
         "name" : "tainted veggy",
         "weight" : 240,
@@ -1955,7 +1955,7 @@
         "nutrition" : 20,
         "description" : "Vegetable that looks poisonous. You could eat it, but it will poison you.",
         "price" : 5,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -1965,7 +1965,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "meat_cooked",
         "name" : "cooked meat",
         "weight" : 238,
@@ -1984,7 +1984,7 @@
         "nutrition" : 50,
         "description" : "Freshly cooked meat. Very nutritious.",
         "price" : 75,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -1995,7 +1995,7 @@
         "fun" : 8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "meat_smoked",
         "name" : "smoked meat",
         "weight" : 162,
@@ -2014,7 +2014,7 @@
         "nutrition" : 42,
         "description" : "Tasty meat that has been heavily smoked for long term preservation.",
         "price" : 100,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2025,7 +2025,7 @@
         "fun" : 5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "sausage",
         "name" : "sausage",
         "weight" : 420,
@@ -2044,7 +2044,7 @@
         "nutrition" : 64,
         "description" : "A hefty sausage that has been cured for long term storage.",
         "price" : 160,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2055,7 +2055,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "human_cooked",
         "name" : "cooked creep",
         "weight" : 238,
@@ -2074,7 +2074,7 @@
         "nutrition" : 50,
         "description" : "A freshly cooked slice of some unpleasant person. Tastes great.",
         "price" : 75,
-        "material" : ["hflesh"],
+        "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2085,7 +2085,7 @@
         "fun" : 8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "human_smoked",
         "name" : "smoked sucker",
         "weight" : 162,
@@ -2104,7 +2104,7 @@
         "nutrition" : 42,
         "description" : "A heavily smoked portion of human flesh. Lasts for a very long time and tastes pretty good, if you like that sort of thing.",
         "price" : 100,
-        "material" : ["hflesh"],
+        "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2115,7 +2115,7 @@
         "fun" : 5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mannwurst",
         "name" : "Mannwurst",
         "weight" : 420,
@@ -2134,7 +2134,7 @@
         "nutrition" : 64,
         "description" : "A hefty long pork sausage that has been cured for long term storage. Very tasty, if you're in the market for human flesh.",
         "price" : 160,
-        "material" : ["hflesh"],
+        "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2145,7 +2145,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "veggy_cooked",
         "name" : "cooked plant marrow",
         "weight" : 240,
@@ -2164,7 +2164,7 @@
         "nutrition" : 40,
         "description" : "A freshly cooked chunk of plant matter, tasty and nutritious.",
         "price" : 70,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2175,7 +2175,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "veggy_wild_cooked",
         "name" : "cooked wild vegetables",
         "weight" : 240,
@@ -2194,7 +2194,7 @@
         "nutrition" : 40,
         "description" : "Cooked wild edible plants.  An interesting mix of flavours.",
         "price" : 70,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2205,7 +2205,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "apple",
         "name" : "apple",
         "weight" : 150,
@@ -2224,7 +2224,7 @@
         "nutrition" : 16,
         "description" : "An apple a day keeps the doctor away.",
         "price" : 16,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2234,7 +2234,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "banana",
         "name" : "banana",
         "weight" : 125,
@@ -2253,7 +2253,7 @@
         "nutrition" : 12,
         "description" : "A long, curved yellow fruit in a peel. Some people like using them in desserts. Those people are probably dead.",
         "price" : 12,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2263,7 +2263,7 @@
         "fun" : 5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "orange",
         "name" : "orange",
         "weight" : 200,
@@ -2282,7 +2282,7 @@
         "nutrition" : 14,
         "description" : "Sweet citrus fruit. Also comes in juice form.",
         "price" : 18,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2292,7 +2292,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "lemon",
         "name" : "lemon",
         "weight" : 58,
@@ -2311,7 +2311,7 @@
         "nutrition" : 5,
         "description" : "Very sour citrus. Can be eaten if you really want.",
         "price" : 12,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2321,7 +2321,7 @@
         "fun" : -4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "fruit_leather",
         "name" : "fruit leather",
         "weight" : 200,
@@ -2334,13 +2334,13 @@
         "to_hit" : 0,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 8,
+        "quench" : 0,
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 18,
         "description" : "Dried strips of sugary fruit paste.",
         "price" : 18,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2350,7 +2350,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "chips",
         "name" : "potato chips",
         "weight" : 85,
@@ -2369,7 +2369,7 @@
         "nutrition" : 8,
         "description" : "Betcha can't eat just one.",
         "price" : 12,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -2379,7 +2379,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "chips2",
         "name" : "potato chips",
         "weight" : 85,
@@ -2398,7 +2398,7 @@
         "nutrition" : 8,
         "description" : "A bag of cheap, own-brand chips.",
         "price" : 12,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -2408,7 +2408,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "chips3",
         "name" : "potato chips",
         "weight" : 85,
@@ -2427,7 +2427,7 @@
         "nutrition" : 8,
         "description" : "Oh man, you love these chips! Score!",
         "price" : 12,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -2437,7 +2437,7 @@
         "fun" : 12
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "kernels",
         "name" : "popcorn kernels",
         "weight" : 85,
@@ -2455,7 +2455,7 @@
         "nutrition" : 2,
         "description" : "Dried kernels from a particular type of corn. Practically inedible raw, they can be cooked to make a tasty snack.",
         "price" : 4,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "phase" : "solid",
@@ -2465,7 +2465,7 @@
         "fun" : -6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "popcorn",
         "name" : "popcorn",
         "weight" : 85,
@@ -2484,7 +2484,7 @@
         "nutrition" : 10,
         "description" : "Plain and unseasoned popcorn. Not as tasty as other kinds, but healthier as a result.",
         "price": 12,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "phase" : "solid",
@@ -2495,7 +2495,7 @@
         "fun" : 4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "popcorn2",
         "name" : "salted popcorn",
         "weight" : 85,
@@ -2514,7 +2514,7 @@
         "nutrition" : 10,
         "description" : "Popcorn with salt added for extra flavor.",
         "price": 12,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "phase" : "solid",
@@ -2525,7 +2525,7 @@
         "fun" : 8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "popcorn3",
         "name" : "buttered popcorn",
         "weight" : 85,
@@ -2544,7 +2544,7 @@
         "nutrition" : 10,
         "description" : "Popcorn with a light covering of butter for extra flavor.",
         "price": 12,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "phase" : "solid",
@@ -2555,7 +2555,7 @@
         "fun" : 10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "pretzels",
         "name" : "pretzels",
         "weight" : 85,
@@ -2574,7 +2574,7 @@
         "nutrition" : 9,
         "description" : "A salty treat of a snack.",
         "price" : 13,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -2584,7 +2584,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "chocolate",
         "name" : "chocolate bar",
         "weight" : 60,
@@ -2603,7 +2603,7 @@
         "nutrition" : 8,
         "description" : "Chocolate isn't very healthy, but it does make a delicious treat.",
         "price" : 20,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2613,7 +2613,7 @@
         "fun" : 8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "jerky",
         "name" : "beef jerky",
         "weight" : 40,
@@ -2632,7 +2632,7 @@
         "nutrition" : 12,
         "description" : "Salty dried meat that never goes bad, but will make you thirsty.",
         "price" : 24,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2642,7 +2642,7 @@
         "fun" : 4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "jerky_human",
         "name" : "jerk jerky",
         "weight" : 40,
@@ -2661,7 +2661,7 @@
         "nutrition" : 12,
         "description" : "Salty dried human flesh that never goes bad, but will make you thirsty.",
         "price" : 24,
-        "material" : ["hflesh"],
+        "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2671,7 +2671,7 @@
         "fun" : 4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "sandwich_t",
         "name" : "meat sandwich",
         "weight" : 226,
@@ -2690,7 +2690,7 @@
         "nutrition" : 50,
         "description" : "Bread and turkey, that's it.",
         "price" : 60,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2701,7 +2701,7 @@
         "fun" : 5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "candy",
         "name" : "candy",
         "weight" : 46,
@@ -2720,7 +2720,7 @@
         "nutrition" : 2,
         "description" : "A big bag of peanut butter cups... your favorite!",
         "price" : 14,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 0,
         "cutting" : 0,
@@ -2730,7 +2730,7 @@
         "fun" : 4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mushroom",
         "name" : "mushroom",
         "weight" : 159,
@@ -2749,7 +2749,7 @@
         "nutrition" : 14,
         "description" : "Mushrooms are tasty, but be careful. Some can poison you, while others are hallucinogenic.",
         "price" : 14,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2760,7 +2760,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mushroom_poison",
         "name" : "mushroom",
         "weight" : 159,
@@ -2779,7 +2779,7 @@
         "nutrition" : 10,
         "description" : "Mushrooms are tasty, but be careful. Some can poison you, while others are hallucinogenic.",
         "price" : 14,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2790,7 +2790,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mushroom_magic",
         "name" : "mushroom",
         "weight" : 159,
@@ -2809,7 +2809,7 @@
         "nutrition" : 10,
         "description" : "Mushrooms are tasty, but be careful. Some can poison you, while others are hallucinogenic.",
         "price" : 14,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2820,7 +2820,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "blueberries",
         "name" : "blueberries",
         "weight" : 200,
@@ -2839,7 +2839,7 @@
         "nutrition" : 16,
         "description" : "They're blue, but that doesn't mean they're sad.",
         "price" : 20,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2848,14 +2848,14 @@
         "bashing" : 0,
         "fun" : 0
     },
-    {   "type" : "ITEM_AMMO",
+    {   "type" : "AMMO",
         "id" : "seed_blueberries",
         "price" : 120,
         "name" : "blueberry seeds",
         "symbol" : ".",
         "color" : "blue",
         "description" : "Some blueberry seeds.",
-        "material" : ["veggy"],
+        "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
         "bashing" : 0,
@@ -2871,7 +2871,7 @@
         "flags": ["SEED"]
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "strawberries",
         "name" : "strawberries",
         "weight" : 200,
@@ -2890,7 +2890,7 @@
         "nutrition" : 18,
         "description" : "Tasty juicy berry, often found growing wild in fields.",
         "price" : 10,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -2899,14 +2899,14 @@
         "bashing" : 0,
         "fun" : 0
     },
-    {   "type" : "ITEM_AMMO",
+    {   "type" : "AMMO",
         "id" : "seed_strawberries",
         "price" : 120,
         "name" : "strawberry seeds",
         "symbol" : ".",
         "color" : "red",
         "description" : "Some strawberry seeds.",
-        "material" : ["veggy"],
+        "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
         "bashing" : 0,
@@ -2922,7 +2922,7 @@
         "flags": ["SEED"]
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "wheat",
         "name" : "wheat",
         "weight" : 132,
@@ -2941,7 +2941,7 @@
         "nutrition" : 20,
         "description" : "Raw wheat, not very tasty.",
         "price" : 40,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 70,
         "cutting" : 0,
@@ -2950,14 +2950,14 @@
         "bashing" : 0,
         "fun" : -10
     },
-    {   "type" : "ITEM_AMMO",
+    {   "type" : "AMMO",
         "id" : "seed_wheat",
         "price" : 120,
         "name" : "wheat seeds",
         "symbol" : ".",
         "color" : "brown",
         "description" : "Some wheat seeds.",
-        "material" : ["veggy"],
+        "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
         "bashing" : 0,
@@ -2973,7 +2973,7 @@
         "flags": ["SEED"]
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "tomato",
         "name" : "tomato",
         "weight" : 283,
@@ -2992,7 +2992,7 @@
         "nutrition" : 18,
         "description" : "Juicy red tomato. It gained popularity in Italy after being brought back from the New World.",
         "price" : 25,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3002,7 +3002,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "broccoli",
         "name" : "broccoli",
         "weight" : 170,
@@ -3021,7 +3021,7 @@
         "nutrition" : 30,
         "description" : "It's a bit tough, but quite delicious.",
         "price" : 40,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -3032,7 +3032,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "zucchini",
         "name" : "zucchini",
         "weight" : 180,
@@ -3051,7 +3051,7 @@
         "nutrition" : 20,
         "description" : "A tasty summer squash.",
         "price" : 30,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -3062,7 +3062,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "onion",
         "name" : "onion",
         "weight" : 314,
@@ -3081,7 +3081,7 @@
         "nutrition" : 5,
         "description" : "An aromatic onion used in cooking. Cutting these up can make your eyes sting!",
         "price" : 25,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3092,7 +3092,7 @@
         "fun_comment" : "Raw onions probably aren't all that tasty to most people."
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "carrot",
         "name" : "carrot",
         "weight" : 100,
@@ -3111,7 +3111,7 @@
         "nutrition" : 5,
         "description" : "A healthy root vegetable. Rich in vitamin A!",
         "price" : 25,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3121,7 +3121,7 @@
         "fun" : -1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "corn",
         "name" : "corn",
         "weight" : 283,
@@ -3140,7 +3140,7 @@
         "nutrition" : 20,
         "description" : "Delicious golden kernels.",
         "price" : 30,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -3151,7 +3151,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "frozen_dinner",
         "name" : "frozen dinner",
         "weight" : 453,
@@ -3170,7 +3170,7 @@
         "nutrition" : 60,
         "description" : "Now with ONE POUND of meat and ONE POUND of carbs! Not as appetizing or nutritious as it would be if heated up.",
         "price" : 80,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 5,
         "cutting" : 0,
@@ -3180,7 +3180,7 @@
         "fun" : -3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cooked_dinner",
         "name" : "cooked TV dinner",
         "weight" : 453,
@@ -3199,7 +3199,7 @@
         "nutrition" : 72,
         "description" : "Now with ONE POUND of meat and ONE POUND of carbs! Nice and heated up. It's tastier and more filling, but will also spoil quickly.",
         "price" : 0,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 5,
         "cutting" : 0,
@@ -3210,7 +3210,7 @@
         "fun" : 5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "spaghetti_raw",
         "name" : "raw spaghetti",
         "weight" : 453,
@@ -3229,7 +3229,7 @@
         "nutrition" : 6,
         "description" : "It could be eaten raw if you're desperate, but is much better cooked.",
         "price" : 12,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 6,
         "cutting" : 0,
@@ -3239,7 +3239,7 @@
         "fun" : -8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "spaghetti_cooked",
         "name" : "cooked spaghetti",
         "weight" : 681,
@@ -3258,7 +3258,7 @@
         "nutrition" : 60,
         "description" : "Fresh wet noodles. Fairly bland, but fills you up.",
         "price" : 28,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 10,
         "cutting" : 0,
@@ -3269,7 +3269,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "macaroni_raw",
         "name" : "raw macaroni",
         "weight" : 680,
@@ -3288,7 +3288,7 @@
         "nutrition" : 3,
         "description" : "It could be eaten raw if you're desperate, but is much better cooked.",
         "price" : 15,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 3,
         "cutting" : 0,
@@ -3298,7 +3298,7 @@
         "fun" : -8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "macaroni_cooked",
         "name" : "mac & cheese",
         "weight" : 1023,
@@ -3317,7 +3317,7 @@
         "nutrition" : 60,
         "description" : "When the cheese starts flowing, Kraft gets your noodle going.",
         "price" : 38,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 4,
         "cutting" : 0,
@@ -3328,7 +3328,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "ravioli",
         "name" : "ravioli",
         "weight" : 452,
@@ -3347,7 +3347,7 @@
         "nutrition" : 48,
         "description" : "Meat encased in little dough satchels. Tastes fine raw.",
         "price" : 75,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3358,7 +3358,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "sauce_red",
         "name" : "red sauce",
         "weight" : 259,
@@ -3377,7 +3377,7 @@
         "nutrition" : 20,
         "description" : "Tomato sauce, yum yum.",
         "price" : 24,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -3388,7 +3388,7 @@
         "fun" : 1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "sauce_pesto",
         "name" : "pesto",
         "weight" : 258,
@@ -3407,7 +3407,7 @@
         "nutrition" : 18,
         "description" : "Olive oil, basil, garlic, pine nuts. Simple and delicious.",
         "price" : 20,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -3417,7 +3417,7 @@
         "fun" : 4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_beans",
         "name" : "beans",
         "weight" : 667,
@@ -3436,7 +3436,7 @@
         "nutrition" : 40,
         "description" : "Canned beans. A staple for hobos.",
         "price" : 55,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3447,7 +3447,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_corn",
         "name" : "corn",
         "weight" : 670,
@@ -3466,7 +3466,7 @@
         "nutrition" : 30,
         "description" : "Canned corn in water. Eat up!",
         "price" : 40,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3477,7 +3477,7 @@
         "fun" : -2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_spam",
         "name" : "SPAM",
         "weight" : 500,
@@ -3496,7 +3496,7 @@
         "nutrition" : 48,
         "description" : "Yuck, not very tasty, but it is quite filling.",
         "price" : 50,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3507,7 +3507,7 @@
         "fun" : -8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_pineapple",
         "name" : "pineapple",
         "weight" : 674,
@@ -3526,7 +3526,7 @@
         "nutrition" : 26,
         "description" : "Canned pineapple rings in water. Quite tasty.",
         "price" : 50,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3536,7 +3536,7 @@
         "fun" : 7
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_coconut",
         "name" : "coconut milk",
         "weight" : 638,
@@ -3555,7 +3555,7 @@
         "nutrition" : 30,
         "description" : "A dense, sweet creamy sauce, often used in curries.",
         "price" : 45,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3565,7 +3565,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_sardine",
         "name" : "sardines",
         "weight" : 557,
@@ -3584,7 +3584,7 @@
         "nutrition" : 14,
         "description" : "Salty little fish. They'll make you thirsty.",
         "price" : 25,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3595,7 +3595,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_tuna",
         "name" : "tuna fish",
         "weight" : 554,
@@ -3614,7 +3614,7 @@
         "nutrition" : 24,
         "description" : "Now with 95 percent less dolphins!",
         "price" : 35,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3624,7 +3624,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_salmon",
         "name" : "canned salmon",
         "weight" : 554,
@@ -3643,7 +3643,7 @@
         "nutrition" : 44,
         "description" : "Bright pink fish-paste in a can!",
         "price" : 50,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3653,7 +3653,7 @@
         "fun" : 1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_herring",
         "name" : "pickled herring",
         "weight" : 554,
@@ -3672,7 +3672,7 @@
         "nutrition" : 38,
         "description" : "A jar of fish fillets pickled in some sort of tangy white sauce.",
         "price" : 45,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3682,7 +3682,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_clams",
         "name" : "clams",
         "weight" : 554,
@@ -3701,7 +3701,7 @@
         "nutrition" : 34,
         "description" : "Canned, chopped quahog clams in water.",
         "price" : 45,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3711,7 +3711,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_chowder",
         "name" : "clam chowder",
         "weight" : 554,
@@ -3730,7 +3730,7 @@
         "nutrition" : 64,
         "description" : "Lumpy white soup made of clams and potatoes.",
         "price" : 50,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3740,7 +3740,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_catfood",
         "name" : "cat food",
         "weight" : 554,
@@ -3759,7 +3759,7 @@
         "nutrition" : 10,
         "description" : "Blech, so gross. Save it for when you're about to die of starvation.",
         "price" : 8,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3769,7 +3769,7 @@
         "fun" : -24
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "honeycomb",
         "name" : "honey comb",
         "weight" : 340,
@@ -3788,7 +3788,7 @@
         "nutrition" : 20,
         "description" : "A large chunk of wax, filled with honey. Very tasty.",
         "price" : 35,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3798,7 +3798,7 @@
         "fun" : 9
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "wax",
         "name" : "wax",
         "weight" : 97,
@@ -3817,7 +3817,7 @@
         "nutrition" : 4,
         "description" : "A large chunk of beeswax. Not very tasty or nourishing, but ok in an emergency.",
         "price" : 35,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3827,7 +3827,7 @@
         "fun" : -5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "royal_jelly",
         "name" : "royal jelly",
         "weight" : 340,
@@ -3846,7 +3846,7 @@
         "nutrition" : 10,
         "description" : "A large chunk of wax, filled with dense, dark honey.  Useful for curing all sorts of afflictions.",
         "price" : 200,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -3856,7 +3856,7 @@
         "fun" : 7
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "fetus",
         "name" : "misshapen fetus",
         "weight" : 760,
@@ -3875,7 +3875,7 @@
         "nutrition" : 8,
         "description" : "A deformed human fetus, eating this would be very nasty, and cause your DNA to mutate.",
         "price" : 150,
-        "material" : ["hflesh"],
+        "material" : "hflesh",
         "tool" : "null",
         "volume" : 4,
         "cutting" : 0,
@@ -3885,7 +3885,7 @@
         "fun" : -60
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "arm",
         "name" : "mutated arm",
         "weight" : 2267,
@@ -3904,7 +3904,7 @@
         "nutrition" : 12,
         "description" : "A misshapen human arm, eating this would be pretty disgusting and cause your DNA to mutate.",
         "price" : 250,
-        "material" : ["hflesh"],
+        "material" : "hflesh",
         "tool" : "null",
         "volume" : 8,
         "cutting" : 0,
@@ -3914,7 +3914,7 @@
         "fun" : -20
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "leg",
         "name" : "mutated leg",
         "weight" : 9071,
@@ -3933,7 +3933,7 @@
         "nutrition" : 16,
         "description" : "A malformed human leg, this would be gross to eat, and cause mutations.",
         "price" : 250,
-        "material" : ["hflesh"],
+        "material" : "hflesh",
         "tool" : "null",
         "volume" : 12,
         "cutting" : 0,
@@ -3943,7 +3943,7 @@
         "fun" : -20
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "ant_egg",
         "name" : "ant egg",
         "weight" : 220,
@@ -3962,7 +3962,7 @@
         "nutrition" : 100,
         "description" : "A large ant egg, the size of a softball. Extremely nutritious, but gross.",
         "price" : 80,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 4,
         "cutting" : 0,
@@ -3972,7 +3972,7 @@
         "fun" : -10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "marloss_berry",
         "name" : "marloss berry",
         "weight" : 177,
@@ -3991,7 +3991,7 @@
         "nutrition" : 40,
         "description" : "This looks like a blueberry the size of your fist, but pinkish in color. It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
         "price" : 600,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -4001,7 +4001,7 @@
         "fun" : 30
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "flour",
         "name" : "flour",
         "weight" : 33,
@@ -4020,7 +4020,7 @@
         "nutrition" : 1,
         "description" : "This white flour is useful for baking.",
         "price" : 25,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4030,7 +4030,7 @@
         "fun" : -5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cornmeal",
         "name" : "cornmeal",
         "weight" : 37,
@@ -4049,7 +4049,7 @@
         "nutrition" : 2,
         "description" : "This yellow cornmeal is useful for baking.",
         "price" : 25,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4059,7 +4059,7 @@
         "fun" : -5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "oatmeal",
         "name" : "oatmeal",
         "weight" : 14,
@@ -4078,7 +4078,7 @@
         "nutrition" : 3,
         "description" : "Dry flakes of flattened grain. Tasty and nutritious when cooked, it also doubles as food for horses while dry.",
         "price" : 75,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4088,7 +4088,7 @@
         "fun" : -2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "oatmeal_cooked",
         "name" : "cooked oatmeal",
         "weight" : 46,
@@ -4107,7 +4107,7 @@
         "nutrition" : 48,
         "description" : "A filling and nutritious New England classic that has sustained pioneers and captains of industry alike.",
         "price" : 50,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 4,
         "cutting" : 0,
@@ -4118,7 +4118,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "oatmeal_deluxe",
         "name" : "deluxe cooked oatmeal",
         "weight" : 46,
@@ -4137,7 +4137,7 @@
         "nutrition" : 64,
         "description" : "A filling and nutritious New England classic that has been improved with the addition of extra wholesome ingredients.",
         "price" : 50,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 4,
         "cutting" : 0,
@@ -4148,7 +4148,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "sugar",
         "name" : "sugar",
         "weight" : 59,
@@ -4167,7 +4167,7 @@
         "nutrition" : 3,
         "description" : "Sweet, sweet sugar. Bad for your teeth and surprisingly not very tasty on its own.",
         "price" : 25,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4177,7 +4177,7 @@
         "fun" : 1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "salt",
         "name" : "salt",
         "weight" : 77,
@@ -4196,7 +4196,7 @@
         "nutrition" : 0,
         "description" : "Yuck, you surely wouldn't want to eat this. It's good for preserving meat and cooking with, though.",
         "price" : 18,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4206,7 +4206,7 @@
         "fun" : -8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "meal_bone",
         "name" : "bone meal",
         "weight" : 60,
@@ -4225,7 +4225,7 @@
         "nutrition" : 0,
         "description" : "This bone meal is useful for fertilizing plants.",
         "price" : 25,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 16,
         "cutting" : 0,
@@ -4235,7 +4235,7 @@
         "fun" : -10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "meal_chitin_piece",
         "name" : "chitin powder",
         "weight" : 60,
@@ -4254,7 +4254,7 @@
         "nutrition" : 0,
         "description" : "This chitin powder is useful for fertilizing plants.",
         "price" : 25,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 16,
         "cutting" : 0,
@@ -4264,7 +4264,7 @@
         "fun" : -10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "seasoning_italian",
         "name" : "Italian seasoning",
         "weight" : 5,
@@ -4283,7 +4283,7 @@
         "nutrition" : 0,
         "description" : "A fragrant mix of dried oregano, basil, thyme and other spices.",
         "price" : 40,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 0,
         "cutting" : 0,
@@ -4293,7 +4293,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "seasoning_salt",
         "name" : "seasoned salt",
         "weight" : 5,
@@ -4312,7 +4312,7 @@
         "nutrition" : 0,
         "description" : "Salt mixed with a fragrant blend of secret herbs and spices.",
         "price" : 40,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 0,
         "cutting" : 0,
@@ -4322,7 +4322,7 @@
         "fun" : -1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "pepper",
         "name" : "black pepper",
         "weight" : 5,
@@ -4341,7 +4341,7 @@
         "nutrition" : 0,
         "description" : "Ground black spice berries with a pungent aroma.",
         "price" : 50,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 0,
         "cutting" : 0,
@@ -4351,7 +4351,7 @@
         "fun" : -2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "powder_eggs",
         "name" : "powdered eggs",
         "weight" : 5,
@@ -4370,7 +4370,7 @@
         "nutrition" : 3,
         "description" : "Whole fresh eggs, dehydrated into an easy to store powder.",
         "price" : 50,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 0,
         "cutting" : 0,
@@ -4380,7 +4380,7 @@
         "fun" : -4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "scrambled_eggs",
         "name" : "scrambled eggs",
         "weight" : 46,
@@ -4399,7 +4399,7 @@
         "nutrition" : 76,
         "description" : "Fluffy and delicious scrambled eggs.",
         "price" : 50,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4410,7 +4410,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "deluxe_eggs",
         "name" : "deluxe scrambled eggs",
         "weight" : 46,
@@ -4429,7 +4429,7 @@
         "nutrition" : 98,
         "description" : "Fluffy and delicious scrambled eggs made more delicious with the addition of other tasty ingredients.",
         "price" : 80,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4440,7 +4440,7 @@
         "fun" : 10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "bacon",
         "name" : "bacon",
         "weight" : 420,
@@ -4459,7 +4459,7 @@
         "nutrition" : 62,
         "description" : "A thick slab of salty cured bacon.",
         "price" : 190,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -4470,7 +4470,7 @@
         "fun" : 8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "potato_raw",
         "name" : "raw potato",
         "weight" : 300,
@@ -4489,7 +4489,7 @@
         "nutrition" : 8,
         "description" : "Mildly toxic and not very tasty raw. When cooked, it is delicious.",
         "price" : 10,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -4499,7 +4499,7 @@
         "fun" : -3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "potato_baked",
         "name" : "baked potato",
         "weight" : 180,
@@ -4518,7 +4518,7 @@
         "nutrition" : 20,
         "description" : "A delicious baked potato. Got any sour cream?",
         "price" : 30,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -4529,7 +4529,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "bread",
         "name" : "bread",
         "weight" : 56,
@@ -4548,7 +4548,7 @@
         "nutrition" : 20,
         "description" : "Healthy and filling.",
         "price" : 50,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 4,
         "cutting" : 0,
@@ -4559,7 +4559,7 @@
         "fun" : 1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cornbread",
         "name" : "cornbread",
         "weight" : 64,
@@ -4578,7 +4578,7 @@
         "nutrition" : 18,
         "description" : "Healthy and filling cornbread.",
         "price" : 50,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 5,
         "cutting" : 0,
@@ -4589,7 +4589,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "johnnycake",
         "name" : "johnnycake",
         "weight" : 46,
@@ -4608,7 +4608,7 @@
         "nutrition" : 20,
         "description" : "A tasty and nutritious fried bread treat.",
         "price" : 50,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 4,
         "cutting" : 0,
@@ -4619,7 +4619,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "pancakes",
         "name" : "pancakes",
         "weight" : 46,
@@ -4638,7 +4638,7 @@
         "nutrition" : 88,
         "description" : "Fluffy and delicious pancakes with real maple syrup.",
         "price" : 50,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4649,7 +4649,7 @@
         "fun" : 10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "fruit_pancakes",
         "name" : "fruit pancakes",
         "weight" : 54,
@@ -4668,7 +4668,7 @@
         "nutrition" : 100,
         "description" : "Fluffy and delicious pancakes with real maple syrup, made sweeter and healthier with the addition of wholesome fruit.",
         "price" : 60,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4679,7 +4679,7 @@
         "fun" : 12
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "crackers",
         "name" : "crackers",
         "weight" : 12,
@@ -4698,7 +4698,7 @@
         "nutrition" : 8,
         "description" : "Dry and salty, these crackers will leave you quite thirsty.",
         "price" : 30,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 3,
         "cutting" : 0,
@@ -4708,7 +4708,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cookies",
         "name" : "cookies",
         "weight" : 16,
@@ -4727,7 +4727,7 @@
         "nutrition" : 12,
         "description" : "Sweet and delicious cookies, just like grandma used to bake.",
         "price" : 30,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 3,
         "cutting" : 0,
@@ -4737,7 +4737,7 @@
         "fun" : 4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "syrup",
         "name" : "maple syrup",
         "weight" : 12,
@@ -4756,7 +4756,7 @@
         "nutrition" : 6,
         "description" : "Sweet and delicious, real Vermont maple syrup.",
         "price" : 90,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4766,7 +4766,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "hardtack",
         "name" : "hardtack",
         "weight" : 28,
@@ -4785,7 +4785,7 @@
         "nutrition" : 16,
         "description" : "A dry and tasteless bread product capable of remaining edible without spoilage for vast lengths of time.",
         "price" : 50,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 4,
         "cutting" : 0,
@@ -4795,7 +4795,7 @@
         "fun" : -1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "biscuit",
         "name" : "biscuit",
         "weight" : 36,
@@ -4814,7 +4814,7 @@
         "nutrition" : 28,
         "description" : "Delicious and filling, this home made biscuit is good, and good for you!",
         "price" : 50,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 4,
         "cutting" : 0,
@@ -4825,7 +4825,7 @@
         "fun" : 4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "pie",
         "name" : "fruit pie",
         "weight" : 552,
@@ -4844,7 +4844,7 @@
         "nutrition" : 16,
         "description" : "A delicious baked pie with a sweet fruit filling.",
         "price" : 80,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 6,
         "cutting" : 0,
@@ -4855,7 +4855,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "pizza_veggy",
         "name" : "vegetable pizza",
         "weight" : 175,
@@ -4874,7 +4874,7 @@
         "nutrition" : 40,
         "description" : "A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its smell brings back great memories.",
         "price" : 80,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 8,
         "cutting" : 0,
@@ -4885,7 +4885,7 @@
         "fun" : 10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "pizza_meat",
         "name" : "meat pizza",
         "weight" : 175,
@@ -4904,7 +4904,7 @@
         "nutrition" : 50,
         "description" : "A meat pizza, for all the carnivores out there.  Chock full of minced meat and heavily seasoned.",
         "price" : 80,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 8,
         "cutting" : 0,
@@ -4915,7 +4915,7 @@
         "fun" : 10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mre_beef",
         "name" : "MRE - beef",
         "weight" : 1000,
@@ -4934,7 +4934,7 @@
         "nutrition" : 110,
         "description" : "Meal Ready to Eat. A military ration. Though not very tasty, it is very filling and will not spoil.",
         "price" : 100,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4945,7 +4945,7 @@
         "fun" : -4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "mre_veggy",
         "name" : "MRE - vegetable",
         "weight" : 1000,
@@ -4964,7 +4964,7 @@
         "nutrition" : 120,
         "description" : "Meal Ready to Eat.  A military ration.  Though not very tasty, it is very filling and will not spoil.",
         "price" : 100,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -4975,7 +4975,7 @@
         "fun" : -4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "tea_raw",
         "name" : "tea leaves",
         "weight" : 11,
@@ -4994,7 +4994,7 @@
         "nutrition" : 2,
         "description" : "Dried leaves of a tropical plant. You can boil them into tea, or you can just eat them raw. They aren't too filling though.",
         "price" : 13,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -5004,7 +5004,7 @@
         "fun" : -1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "coffee_raw",
         "name" : "coffee powder",
         "weight" : 162,
@@ -5023,7 +5023,7 @@
         "nutrition" : 0,
         "description" : "Ground coffee beans. You can boil it into a mediocre stimulant, or swallow it raw for a lesser stimulative boost.",
         "price" : 13,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -5033,7 +5033,7 @@
         "fun" : -5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "coffee_syrup",
         "name" : "coffee syrup",
         "weight" : 20,
@@ -5052,7 +5052,7 @@
         "nutrition" : 1,
         "description" : "A thick syrup made of water and sugar strained through coffee grounds. Can be used to flavor many foods and beverages.",
         "price" : 13,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -5062,7 +5062,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "jihelucake",
         "name" : "cake",
         "weight" : 420,
@@ -5081,7 +5081,7 @@
         "nutrition" : 25,
         "description" : "Delicious sponge cake with buttercream icing, it says happy birthday on it.",
         "price" : 0,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -5091,7 +5091,7 @@
         "fun" : 20
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "meat_canned",
         "name" : "canned meat",
         "weight" : 502,
@@ -5110,7 +5110,7 @@
         "nutrition" : 50,
         "description" : "Low-sodium preserved meat.  It was boiled and canned. Contains all of the nutrition, but little of the savor of cooked meat. ",
         "price" : 25,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5120,7 +5120,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "veggy_canned",
         "name" : "canned veggy",
         "weight" : 504,
@@ -5139,7 +5139,7 @@
         "nutrition" : 40,
         "description" : "This mushy pile of vegetable matter was boiled and canned in an earlier life. Better eat it before it oozes through your fingers.",
         "price" : 150,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5149,7 +5149,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "apple_canned",
         "name" : "canned apple slices",
         "weight" : 414,
@@ -5168,7 +5168,7 @@
         "nutrition" : 16,
         "description" : "Sealed glass jar containing preserved apples.  Bland, mushy and losing color.",
         "price" : 32,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5178,7 +5178,7 @@
         "fun" : 1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "human_canned",
         "name" : "soylent slices",
         "weight" : 502,
@@ -5197,7 +5197,7 @@
         "nutrition" : 50,
         "description" : "Low-sodium preserved human meat.  It was boiled and canned. Contains all of the nutrition, but little of the savor of cooked meat. ",
         "price" : 25,
-        "material" : ["hflesh"],
+        "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5207,7 +5207,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "meat_vac",
         "name" : "salted meat slices",
         "weight" : 120,
@@ -5226,7 +5226,7 @@
         "nutrition" : 25,
         "description" : "Meat slices cured in brine and vacuum-packed.  Salty but tasty in a pinch. ",
         "price" : 50,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5236,7 +5236,7 @@
         "fun" : 2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "veggy_vac",
         "name" : "salted veggy chunks",
         "weight" : 121,
@@ -5255,7 +5255,7 @@
         "nutrition" : 20,
         "description" : "Vegetable chunks pickled in a salt bath.  Goes well with burgers, if only you can find one.",
         "price" : 50,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5265,7 +5265,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "apple_vac",
         "name" : "apple slices",
         "weight" : 53,
@@ -5284,7 +5284,7 @@
         "nutrition" : 16,
         "description" : "Apple slices soaked in a sugar syrup, to preserve freshness and appearance",
         "price" : 50,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5294,7 +5294,7 @@
         "fun" : 3
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "spaghetti_bolognese",
         "name" : "spaghetti bolognese",
         "weight" : 350,
@@ -5313,7 +5313,7 @@
         "nutrition" : 100,
         "description" : "Spaghetti covered with a thick meat sauce.  Yum! ",
         "price" : 100,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -5324,7 +5324,7 @@
         "fun" : 15
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "spaghetti_pesto",
         "name" : "spaghetti al pesto",
         "weight" : 350,
@@ -5343,7 +5343,7 @@
         "nutrition" : 50,
         "description" : "Spaghetti, with a generous helping of pesto on top.  Yum! ",
         "price" : 100,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -5354,7 +5354,7 @@
         "fun" : 15
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "bandages",
         "name" : "bandages",
         "weight" : 100,
@@ -5373,7 +5373,7 @@
         "nutrition" : 0,
         "description" : "Simple cloth bandages. Used for healing small amounts of damage.",
         "price" : 60,
-        "material" : ["cotton"],
+        "material" : "cotton",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5384,14 +5384,15 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "1st_aid",
-        "name" : "first aid",
+        "name" : "first aid kit",
         "weight" : 340,
         "color" : "red",
         "addiction_type" : "none",
         "spoils_in" : 0,
         "use_action" : "FIRSTAID",
+        "flags" : "PKILL_1",
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -5403,7 +5404,7 @@
         "nutrition" : 0,
         "description" : "A full medical kit, with bandages, local anaesthetics, and rapid healing agents. Used for healing large amounts of damage.",
         "price" : 350,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5414,7 +5415,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "vitamins",
         "name" : "vitamins",
         "weight" : 1,
@@ -5433,7 +5434,7 @@
         "nutrition" : 0,
         "description" : "Essential dietary nutrients conveniently packaged in pill form.  Take frequently to help regulate your body's health and immune functions.",
         "price" : 45,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5444,7 +5445,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "vaccine_shot",
         "name" : "flu shot",
         "weight" : 10,
@@ -5463,7 +5464,7 @@
         "nutrition" : 0,
         "description" : "Pharmaceutical flu shot designed for mass vaccinations, still in the packaging. Purported to provide some kind of immunity.",
         "price" : 500,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5473,7 +5474,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "aspirin",
         "name" : "aspirin",
         "weight" : 1,
@@ -5481,7 +5482,7 @@
         "addiction_type" : "none",
         "spoils_in" : 0,
         "use_action" : "PKILL",
-        "flags" : ["PKILL_1"],
+        "flags" : "PKILL_1",
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -5493,7 +5494,7 @@
         "nutrition" : 0,
         "description" : "Acetylsalicylic acid, a mild anti-inflammatory. Take to relieve pain and swelling. Best to avoid ingesting with alcohol or other painkillers.",
         "price" : 30,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5504,7 +5505,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "caffeine",
         "name" : "caffeine pills",
         "weight" : 1,
@@ -5523,7 +5524,7 @@
         "nutrition" : 0,
         "description" : "No-doz brand caffeine pills, maximum strength. Useful in pulling an all-nighter, one pill is about equivalent to a strong cup of coffee.",
         "price" : 60,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5534,7 +5535,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "pills_sleep",
         "name" : "Ambien",
         "weight" : 1,
@@ -5553,7 +5554,7 @@
         "nutrition" : 0,
         "description" : "A habit-forming tranquilizer with a variety of psychoactive side effects. Used in the treatment of insomnia.",
         "price" : 50,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5564,7 +5565,7 @@
         "fun" : 5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "iodine",
         "name" : "iodine tablets",
         "weight" : 1,
@@ -5583,7 +5584,7 @@
         "nutrition" : 0,
         "description" : "Potassium iodide tablets. They might help mitigate some of the detrimental effects caused by irradiation.",
         "price" : 140,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5594,7 +5595,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "dayquil",
         "name" : "Dayquil",
         "weight" : 1,
@@ -5613,7 +5614,7 @@
         "nutrition" : 0,
         "description" : "Daytime cold and flu medication. Non-drowsy formula. Will suppress coughing, aching, headaches and runny noses, but you'll still need lots of fluids and rest.",
         "price" : 75,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5624,7 +5625,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "nyquil",
         "name" : "Nyquil",
         "weight" : 1,
@@ -5643,7 +5644,7 @@
         "nutrition" : 0,
         "description" : "Nighttime cold and flu medication. Useful when trying to sleep with a head full of virions. Will cause drowsiness.",
         "price" : 85,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5654,7 +5655,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "inhaler",
         "name" : "inhaler",
         "weight" : 10,
@@ -5673,7 +5674,7 @@
         "nutrition" : 0,
         "description" : "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
         "price" : 500,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5683,7 +5684,7 @@
         "fun" : -2
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "codeine",
         "name" : "codeine",
         "weight" : 1,
@@ -5691,7 +5692,7 @@
         "addiction_type" : "opiate",
         "spoils_in" : 0,
         "use_action" : "PKILL",
-        "flags" : ["PKILL_2"],
+        "flags" : "PKILL_2",
         "stim" : -2,
         "container" : "null",
         "to_hit" : 0,
@@ -5703,7 +5704,7 @@
         "nutrition" : 0,
         "description" : "A mild opiate used in the suppression of pain, cough, and other ailments.  While relatively weak for a narcotic, it is still addictive, with a potential for overdose.",
         "price" : 400,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5714,7 +5715,7 @@
         "fun" : 10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "oxycodone",
         "name" : "oxycodone",
         "weight" : 1,
@@ -5722,7 +5723,7 @@
         "addiction_type" : "opiate",
         "spoils_in" : 0,
         "use_action" : "PKILL",
-        "flags" : ["PKILL_3"],
+        "flags" : "PKILL_3",
         "stim" : -4,
         "container" : "null",
         "to_hit" : 0,
@@ -5734,7 +5735,7 @@
         "nutrition" : 0,
         "description" : "A strong semi-synthetic narcotic used in the treatment of intense pain.  Highly addictive.",
         "price" : 900,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5745,7 +5746,7 @@
         "fun" : 18
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "tramadol",
         "name" : "tramadol",
         "weight" : 1,
@@ -5753,7 +5754,7 @@
         "addiction_type" : "opiate",
         "spoils_in" : 0,
         "use_action" : "PKILL",
-        "flags" : ["PKILL_L"],
+        "flags" : "PKILL_L",
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -5765,7 +5766,7 @@
         "nutrition" : 0,
         "description" : "A painkiller used to manage moderate pain.  The effects last for several hours, but are relatively subdued for an opioid.",
         "price" : 300,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5776,7 +5777,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "xanax",
         "name" : "Xanax",
         "weight" : 1,
@@ -5795,7 +5796,7 @@
         "nutrition" : 0,
         "description" : "Antianxiety agent with a powerful sedative effect.  May cause dissociation and loss of memory.  It is dangerously addictive, and withdrawal from regular use should be gradual.",
         "price" : 600,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5806,7 +5807,7 @@
         "fun" : 20
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "adderall",
         "name" : "Adderall",
         "weight" : 1,
@@ -5825,7 +5826,7 @@
         "nutrition" : 0,
         "description" : "Medical grade amphetamine salts, commonly prescribed to treat hyperactive attention deficits.  It suppresses the appetite, and is quite addictive.",
         "price" : 450,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5836,7 +5837,7 @@
         "fun" : 10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "thorazine",
         "name" : "Thorazine",
         "weight" : 1,
@@ -5855,7 +5856,7 @@
         "nutrition" : 0,
         "description" : "Antipsychotic medication. Used to stabilize brain chemistry, it can arrest hallucinations and other symptoms of psychosis. Carries a sedative effect.",
         "price" : 500,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5866,7 +5867,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "prozac",
         "name" : "Prozac",
         "weight" : 1,
@@ -5885,7 +5886,7 @@
         "nutrition" : 0,
         "description" : "A common and popular antidepressant. It will elevate mood, and can profoundly affect the action of other drugs.  It is only rarely habit-forming, though adverse reactions are not uncommon.",
         "price" : 300,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5896,7 +5897,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cig",
         "name" : "cigarettes",
         "weight" : 2,
@@ -5915,7 +5916,7 @@
         "nutrition" : 0,
         "description" : "A mixture of dried tobacco leaf, pesticides and chemical additives, rolled into a filtered paper tube. Stimulates mental acuity and reduces appetite. Highly addictive and hazardous to health.",
         "price" : 120,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5926,7 +5927,7 @@
         "fun" : 5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "weed",
         "name" : "cannabis",
         "weight" : 1,
@@ -5945,7 +5946,7 @@
         "nutrition" : 0,
         "description" : "The dried flower buds and leaves harvested from a psychoactive variety of hemp plant. Used to reduce nausea, stimulate appetite and elevate mood. It can be habit-forming, and adverse reactions are possible.",
         "price" : 250,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5954,9 +5955,9 @@
         "stack_size" : 100,
         "bashing" : 0,
         "fun" : 15
-    },    
+    },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "seed_weed",
         "name" : "hemp seeds",
         "weight" : 1,
@@ -5976,7 +5977,7 @@
         "nutrition" : 2,
         "description" : "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
         "price" : 150,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -5987,7 +5988,7 @@
         "fun" : 1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "coke",
         "name" : "cocaine",
         "weight" : 1,
@@ -6006,7 +6007,7 @@
         "nutrition" : 0,
         "description" : "Crystalline extract of the coca leaf, or at least, a white powder with some of that in it. A topical analgesic, it is more commonly used for its stimulatory properties. Highly addictive.",
         "price" : 700,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6017,7 +6018,7 @@
         "fun" : 25
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "meth",
         "name" : "methamphetamine",
         "weight" : 1,
@@ -6036,7 +6037,7 @@
         "nutrition" : 0,
         "description" : "A profoundly addictive and powerful stimulant. While extremely effective at enhancing alertness, it is hazardous to health and the risk of an adverse reaction is great.",
         "price" : 800,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6047,7 +6048,7 @@
         "fun" : 30
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "heroin",
         "name" : "heroin",
         "weight" : 1,
@@ -6055,7 +6056,7 @@
         "addiction_type" : "opiate",
         "spoils_in" : 0,
         "use_action" : "PKILL",
-        "flags" : ["PKILL_4"],
+        "flags" : "PKILL_4",
         "stim" : -10,
         "container" : "null",
         "to_hit" : 0,
@@ -6067,7 +6068,7 @@
         "nutrition" : 0,
         "description" : "An extremely strong opioid narcotic derived from morphine.  Incredibly addictive, the risk of overdose is extreme, and the drug is contraindicated for nearly all medical purposes.",
         "price" : 1000,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "syringe",
         "volume" : 1,
         "cutting" : 0,
@@ -6078,7 +6079,7 @@
         "fun" : 50
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cigar",
         "name" : "cigars",
         "weight" : 3,
@@ -6097,7 +6098,7 @@
         "nutrition" : 0,
         "description" : "Rolled, cured tobacco leaf, addictive and hazardous to health.  A gentleman's vice, cigars set the civil man apart from the savage.",
         "price" : 220,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6107,7 +6108,7 @@
         "fun" : 15
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "antibiotics",
         "name" : "antibiotics",
         "weight" : 1,
@@ -6126,7 +6127,7 @@
         "nutrition" : 0,
         "description" : "Antibacterial medication designed to prevent or stop the spread of infection, in exchange for making future infections harder to stop or prevent.",
         "price" : 900,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6137,7 +6138,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "poppy_sleep",
         "name" : "poppy sleep",
         "weight" : 1,
@@ -6156,7 +6157,7 @@
         "nutrition" : 0,
         "description" : "A potent sleep aid extracted from mutated poppy seeds.  Effective, but as an opiate, it may be addictive.",
         "price" : 200,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6167,7 +6168,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "poppy_pain",
         "name" : "poppy painkillers",
         "weight" : 1,
@@ -6175,7 +6176,7 @@
         "addiction_type" : "opiate",
         "spoils_in" : 0,
         "use_action" : "PKILL",
-        "flags" : ["PKILL_2"],
+        "flags" : "PKILL_2",
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -6187,7 +6188,7 @@
         "nutrition" : 0,
         "description" : "Potent opioid palliative produced by the refining of the mutated poppy.  Notably devoid of euphoric or sedative effects, as an opiate it may still be addictive.",
         "price" : 300,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6198,7 +6199,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "crack",
         "name" : "crack",
         "weight" : 1,
@@ -6217,7 +6218,7 @@
         "nutrition" : 0,
         "description" : "Deprotonated cocaine crystals, incredibly addictive and deleterious to brain chemistry.",
         "price" : 720,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "apparatus",
         "volume" : 1,
         "cutting" : 0,
@@ -6228,7 +6229,7 @@
         "fun" : 50
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "disinfectant",
         "name" : "disinfectant",
         "weight" : 5,
@@ -6247,7 +6248,7 @@
         "nutrition" : 0,
         "description" : "A powerful disinfectant commonly used for contaminated wounds.",
         "price" : 350,
-        "material" : ["plastic"],
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6258,7 +6259,7 @@
     },
     {
         "id": "mayonnaise",
-        "type": "ITEM_COMESTIBLE",
+        "type": "COMESTIBLE",
         "symbol": "~",
         "color": "white",
         "name": "mayonnaise",
@@ -6285,7 +6286,7 @@
     },
     {
         "id": "ketchup",
-        "type": "ITEM_COMESTIBLE",
+        "type": "COMESTIBLE",
         "symbol": "~",
         "color": "red",
         "name": "ketchup",
@@ -6312,7 +6313,7 @@
     },
     {
         "id": "mustard",
-        "type": "ITEM_COMESTIBLE",
+        "type": "COMESTIBLE",
         "symbol": "~",
         "color": "yellow",
         "name": "mustard",
@@ -6338,7 +6339,7 @@
         "phase": "liquid"
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "pickle",
         "name" : "pickle",
         "weight" : 163,
@@ -6357,7 +6358,7 @@
         "nutrition" : 25,
         "description" : "A pickled cucumber, rather sour but good and basically lasts forever.",
         "price" : 25,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6367,7 +6368,7 @@
         "fun" : 5
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "paper",
         "name" : "paper",
         "weight" : 3,
@@ -6386,7 +6387,7 @@
         "nutrition" : 1,
         "description" : "A piece of paper. Can be used for fires.",
         "price" : 25,
-        "material" : ["paper"],
+        "material" : "paper",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6396,7 +6397,7 @@
         "fun" : -20
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "fried_spam",
         "name" : "fried SPAM",
         "weight" : 500,
@@ -6415,7 +6416,7 @@
         "nutrition" : 48,
         "description" : "Having been fried, this SPAM is actually pretty tasty.",
         "price" : 50,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6426,7 +6427,7 @@
         "fun" : 8
   },
   {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "drink_strawberry_surprise",
         "name" : "strawberry surprise",
         "weight" : 36,
@@ -6445,7 +6446,7 @@
         "nutrition" : 8,
         "description" : "Strawberries left to ferment with a few other choice ingredients offer up a surprisingly platable mixture; you barely even have to force yourself to drink it after the first few gulps.",
         "price" : 100,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -6455,7 +6456,7 @@
         "fun" : 8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "drink_boozeberry",
         "name" : "boozeberry",
         "weight" : 36,
@@ -6475,7 +6476,7 @@
         "nutrition" : 30,
         "description" : "This fermented blueberry mixture is surprisingly hearty, though the soup-like consistency is slightly unsettling no matter how much you drink.",
         "price" : 100,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -6485,7 +6486,7 @@
         "fun" : -12
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cola_meth",
         "name" : "methacola",
         "weight" : 261,
@@ -6504,7 +6505,7 @@
         "nutrition" : 0,
         "description" : "A potent cocktail of amphetamines, caffeine and corn syrup, this stuff puts a spring in your step, a fire in your eye, and a bad case of tachycardia tremors in your somersaulting heart.",
         "price" : 60,
-        "material" : ["glass"],
+        "material" : "glass",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6514,7 +6515,7 @@
         "fun" : 30
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "taint_tornado",
         "name" : "tainted tornado",
         "weight" : 100,
@@ -6533,7 +6534,7 @@
         "nutrition" : 10,
         "description" : "A frothing slurry of alcohol-soaked zombie flesh and rotten blood, it smells almost as bad as it looks.  The mixture has sterilized, in theory, but that doesn't make it safe to drink.",
         "price" : 100,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -6543,7 +6544,7 @@
         "fun" : -40
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "strawberries_cooked",
         "name" : "cooked strawberries",
         "weight" : 100,
@@ -6562,7 +6563,7 @@
         "nutrition" : 18,
         "description" : "It's like strawberry jam, only without sugar.",
         "price" : 10,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6573,7 +6574,7 @@
         "flags" : ["USE_EAT_VERB"]
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "blueberries_cooked",
         "name" : "cooked blueberries",
         "weight" : 100,
@@ -6592,7 +6593,7 @@
         "nutrition" : 18,
         "description" : "It's like blueberry jam, only without sugar.",
         "price" : 10,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6603,7 +6604,7 @@
         "flags" : ["USE_EAT_VERB"]
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "jam_strawberries",
         "name" : "strawberry jam",
         "weight" : 150,
@@ -6611,7 +6612,7 @@
         "addiction_type" : "none",
         "spoils_in" : 240,
         "use_action" : "NONE",
-        "stim" : -24,
+        "stim" : 0,
         "container" : "jar_3l_glass",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
@@ -6622,7 +6623,7 @@
         "nutrition" : 30,
         "description" : "Fresh strawberries, cooked with sugar to make them last longer.",
         "price" : 10,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6633,7 +6634,7 @@
         "flags" : ["USE_EAT_VERB"]
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "jam_blueberries",
         "name" : "blueberry jam",
         "weight" : 150,
@@ -6641,7 +6642,7 @@
         "addiction_type" : "none",
         "spoils_in" : 240,
         "use_action" : "NONE",
-        "stim" : -24,
+        "stim" : 0,
         "container" : "jar_3l_glass",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
@@ -6652,7 +6653,7 @@
         "nutrition" : 30,
         "description" : "Fresh blueberries, cooked with sugar to make them last longer.",
         "price" : 10,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6663,7 +6664,7 @@
         "flags" : ["USE_EAT_VERB"]
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cheeseburger",
         "name" : "cheeseburger",
         "weight" : 340,
@@ -6682,7 +6683,7 @@
         "nutrition" : 120,
         "description" : "A sandwich of minced meat and cheese with condiments. The apex of pre-cataclysm culinary achievement.",
         "price" : 100,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6693,7 +6694,7 @@
         "fun" : 12
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "hamburger",
         "name" : "hamburger",
         "weight" : 300,
@@ -6712,7 +6713,7 @@
         "nutrition" : 110,
         "description" : "A sandwich of minced meat with condiments.",
         "price" : 90,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6723,7 +6724,7 @@
         "fun" : 10
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cheese",
         "name" : "cheese",
         "weight" : 120,
@@ -6742,7 +6743,7 @@
         "nutrition" : 30,
         "description" : "A block of yellow processed cheese.",
         "price" : 70,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6752,7 +6753,7 @@
         "fun" : 7
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "can_cheese",
         "name" : "cheese spread",
         "weight" : 460,
@@ -6771,7 +6772,7 @@
         "nutrition" : 50,
         "description" : "A can of processed cheese spread.",
         "price" : 65,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6782,7 +6783,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "lsd",
         "name" : "pink tablets",
         "weight" : 5,
@@ -6801,7 +6802,7 @@
         "nutrition" : 0,
         "description" : "Tiny pink candies shaped like hearts, already dosed with some sort of drug. Really only useful for entertainment. Will cause hallucinations.",
         "price" : 180,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6812,7 +6813,7 @@
         "fun" : 20
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "gum",
         "name" : "chewing gum",
         "weight" : 2,
@@ -6831,7 +6832,7 @@
         "nutrition" : 0,
         "description" : "Bright pink chewing gum. Sugary, sweet and bad for your teeth.",
         "price" : 120,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6842,7 +6843,7 @@
         "fun" : 4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "nic_gum",
         "name" : "nicotine gum",
         "weight" : 2,
@@ -6861,7 +6862,7 @@
         "nutrition" : 0,
         "description" : "Mint flavored nicotine chewing gum. For smokers who desire to quit.",
         "price" : 200,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6872,7 +6873,7 @@
         "fun" : 1
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "vinegar",
         "name" : "vinegar",
         "weight" : 277,
@@ -6891,7 +6892,7 @@
         "nutrition" : 0,
         "description" : "Shockingly tart white vinegar.",
         "price" : 40,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -6901,7 +6902,7 @@
         "fun" : -4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "cooking_oil",
         "name" : "cooking oil",
         "weight" : 277,
@@ -6920,7 +6921,7 @@
         "nutrition" : 1,
         "description" : "Thin yellow vegetable oil used for cooking.",
         "price" : 40,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
@@ -6930,7 +6931,7 @@
         "fun" : -4
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "veggy_pickled",
         "name" : "pickled veggy",
         "weight" : 526,
@@ -6949,7 +6950,7 @@
         "nutrition" : 20,
         "description" : "This is a serving of crisply brined and canned vegetable matter. Tasty and nutritious.",
         "price" : 150,
-        "material" : ["veggy"],
+        "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6959,7 +6960,7 @@
         "fun" : 6
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "meat_pickled",
         "name" : "pickled meat",
         "weight" : 526,
@@ -6978,7 +6979,7 @@
         "nutrition" : 50,
         "description" : "This is a serving of crisply brined and canned meat. Tasty and nutritious.",
         "price" : 150,
-        "material" : ["flesh"],
+        "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6988,7 +6989,7 @@
         "fun" : 8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "human_pickled",
         "name" : "pickled punk",
         "weight" : 526,
@@ -7007,7 +7008,7 @@
         "nutrition" : 50,
         "description" : "This is a serving of crisply brined and canned human flesh. Tasty and nutritious if you're into that sort of thing.",
         "price" : 50,
-        "material" : ["hflesh"],
+        "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -7017,7 +7018,7 @@
         "fun" : 8
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "pur_tablets",
         "name" : "water purification tablets",
         "weight" : 1,
@@ -7036,7 +7037,7 @@
         "nutrition" : 0,
         "description" : "Intended for the clarification and disinfection of unsafe drinking water, these halazone-based purification tablets remove dangerous contaminants using powerful chemicals.",
         "price" : 1000,
-        "material" : ["null"],
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -7047,7 +7048,7 @@
         "fun" : 0
     },
     {
-        "type" : "ITEM_COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "quikclot",
         "name" : "hemostatic powder",
         "weight" : 20,
@@ -7066,7 +7067,7 @@
         "nutrition" : 0,
         "description" : "A powdered antihemorrhagic compound which reacts with blood to immediately form a gel-like substance which stops bleeding.",
         "price" : 90,
-        "material" : ["powder"],
+        "material" : "powder",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,

@@ -88,5 +88,6 @@ extern std::map<std::string, cOpt> OPTIONS;
 void initOptions();
 void load_options();
 void save_options();
+void show_options();
 
 #endif

@@ -162,7 +162,7 @@ void player::power_bionics(game *g)
 You can not activate %s!  To read a description of \
 %s, press '!', then '%c'."), bionics[tmp->id]->name.c_str(),
                             bionics[tmp->id]->name.c_str(), tmp->invlet);
-    } else {	// Describing bionics, not activating them!
+    } else { // Describing bionics, not activating them!
 // Clear the lines first
      ch = 0;
      werase(w_description);
@@ -224,7 +224,8 @@ void player::activate_bionic(int b, game *g)
   if (pkill > pain)
    pkill = pain;
  } else if (bio.id == "bio_nanobots"){
-  healall(4);
+    rem_disease("bleed");
+    healall(4);
  } else if (bio.id == "bio_night"){
   if (g->turn % 5)
     g->add_msg(_("Artificial night generator active!"));
@@ -233,7 +234,7 @@ void player::activate_bionic(int b, game *g)
   for (int i = posx - 1; i <= posx + 1; i++) {
    for (int j = posy - 1; j <= posy + 1; j++) {
     g->m.bash(i, j, 40, junk);
-    g->m.bash(i, j, 40, junk);	// Multibash effect, so that doors &c will fall
+    g->m.bash(i, j, 40, junk); // Multibash effect, so that doors &c will fall
     g->m.bash(i, j, 40, junk);
     if (g->m.is_destructable(i, j) && rng(1, 10) >= 4)
      g->m.ter_set(i, j, t_rubble);
@@ -361,7 +362,7 @@ void player::activate_bionic(int b, game *g)
  } else if(bio.id == "bio_claws"){
   if (weapon.type->id == "bio_claws_weapon") {
    g->add_msg(_("You withdraw your claws."));
-   weapon = get_combat_style();
+   weapon = ret_null;
   } else if(weapon.type->id != "null"){
    g->add_msg(_("Your claws extend, forcing you to drop your %s."),
               weapon.tname().c_str());
@@ -401,24 +402,30 @@ void player::activate_bionic(int b, game *g)
  } else if (bio.id == "bio_water_extractor"){
   bool extracted = false;
   for (int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
-   item tmp = g->m.i_at(posx, posy)[i];
-   if (tmp.type->id == "corpse" && query_yn(_("Extract water from the %s"),
-                                              tmp.tname().c_str())) {
-    item water = item(g->itypes["water_clean"], 0);
-    if (g->handle_liquid(water, true, true))
-    {
-        moves -= 100;
-    }
-    else if (query_yn(_("Drink directly from the condensor?")))
-    {
-        inv.push_back(water);
-        water = inv.item_by_type(water.typeId());
-        eat(g, water.invlet);
-        moves -= 350;
-    }
-    extracted = true;
-    break;
-   }
+      item & tmp = g->m.i_at(posx, posy)[i];
+      if (tmp.type->id == "corpse" ) {
+          int avail=0;
+          if ( tmp.item_vars.find("remaining_water") != tmp.item_vars.end() ) {
+              avail = atoi ( tmp.item_vars["remaining_water"].c_str() );
+          } else {
+              avail = tmp.volume() / 2;
+          }
+          if(avail > 0 && query_yn(_("Extract water from the %s"), tmp.tname().c_str())) {
+              item water = item(g->itypes["water_clean"], 0);
+              if (g->handle_liquid(water, true, true)) {
+                  moves -= 100;
+              } else if (query_yn(_("Drink directly from the condensor?"))) {
+                  inv.push_back(water);
+                  water = inv.item_by_type(water.typeId());
+                  eat(g, water.invlet);
+                  moves -= 350;
+              }
+              extracted = true;
+              avail--;
+              tmp.item_vars["remaining_water"] = string_format("%d",avail);
+              break;
+          }
+      }
   }
   if (!extracted)
    power_level += bionics["bio_water_extractor"]->power_cost;
@@ -512,7 +519,7 @@ bool player::install_bionics(game *g, it_bionic* type)
 
  // we will base chance_of_success on a ratio of skill and difficulty
  // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
- float skill_difficulty_parameter = adjusted_skill / (4.0 * type->difficulty);
+ float skill_difficulty_parameter = float(adjusted_skill / (4.0 * type->difficulty));
 
  // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
  // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the

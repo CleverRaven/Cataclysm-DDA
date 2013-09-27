@@ -97,7 +97,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
     int dist = 1000;
     int tc, stc;
     bool fleeing = false;
-    if (friendly != 0) {	// Target monsters, not the player!
+    if (friendly != 0) { // Target monsters, not the player!
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
             monster *tmp = &(g->zombie(i));
             if (tmp->friendly == 0) {
@@ -308,7 +308,7 @@ void monster::move(game *g)
 
 // Finished logic section.  By this point, we should have chosen a square to
 //  move to (moved = true).
- if (moved) {	// Actual effects of moving to the square we've chosen
+ if (moved) { // Actual effects of moving to the square we've chosen
   // Note: The below works because C++ in A() || B() won't call B() if A() is true
   int& x = next.x; int& y = next.y; // Define alias for x and y
   bool did_something = attack_at(x, y) || bash_at(x, y) || move_to(g, x, y);
@@ -364,30 +364,30 @@ The per-turn movement and action calculation of any friendly monsters.
 */
 void monster::friendly_move(game *g)
 {
-	point next;
-	bool moved = false;
-	//If we sucessfully calculated a plan in the generic monster movement function, begin executing it.
-	if (plans.size() > 0 && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
-		(can_move_to(g, plans[0].x, plans[0].y) ||
-		(g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
-			next = plans[0];
-			plans.erase(plans.begin());
-			moved = true;
-	} else {
-		//Otherwise just stumble around randomly until we formulate a plan.
-		moves -= 100;
-		stumble(g, moved);
-	}
-	if (moved) {
+    point next;
+    bool moved = false;
+    //If we sucessfully calculated a plan in the generic monster movement function, begin executing it.
+    if (plans.size() > 0 && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
+            (can_move_to(g, plans[0].x, plans[0].y) ||
+             (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))) {
+        next = plans[0];
+        plans.erase(plans.begin());
+        moved = true;
+    } else {
+        //Otherwise just stumble around randomly until we formulate a plan.
+        moves -= 100;
+        stumble(g, moved);
+    }
+    if (moved) {
         int& x = next.x; int& y = next.y; // Define alias for x and y
         bool did_something = attack_at(x, y) || bash_at(x, y) || move_to(g, x, y);
 
-		//If all else fails in our plan (an issue with pathfinding maybe) stumble around instead.
-		if(!did_something) {
-			stumble(g, moved);
-			moves -= 100;
-		}
-	}
+        //If all else fails in our plan (an issue with pathfinding maybe) stumble around instead.
+        if(!did_something) {
+            stumble(g, moved);
+            moves -= 100;
+        }
+    }
 }
 
 point monster::scent_move(game *g)
@@ -521,8 +521,8 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     body_part bphit;
     int side = rng(0, 1);
     int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
-    technique_id tech = p.pick_defensive_technique(g, this, NULL);
-    p.perform_defensive_technique(tech, g, this, NULL, bphit, side, dam, cut, stab);
+
+    p.block_hit(g, this, NULL, bphit, side, dam, cut, stab);
 
     //110*e^(-.3*[melee skill of monster]) = % chance to miss. *100 to track .01%'s
     //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
@@ -559,16 +559,8 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             else if (dam > 0)
             {
                 p.practice(g->turn, "dodge", type->melee_skill);
-                if (u_see && tech != TEC_BLOCK)
-                {
-                    if (is_npc) {
-                        g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
-                            p.name.c_str(), body_part_name(bphit, side).c_str());
-                    } else {
-                        g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
-                                   body_part_name(bphit, side).c_str());
-                    }
-                }
+
+                /* TODO: re-add with block mechanic*/
 
                 // Attempt defensive moves
                 if (!is_npc)
@@ -655,14 +647,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         if (!is_npc) {
                             g->add_msg(_("You're Bleeding!"));
                         }
-                        if (bphit == bp_mouth || bphit == bp_eyes ||
-                            bphit == bp_head) {
-                            p.add_disease("bleed", 60, 1, 3, bp_head, -1);
-                        } else if (bphit == bp_torso) {
-                            p.add_disease("bleed", 60, 1, 3, bp_torso, -1);
-                        } else {
-                            p.add_disease("bleed", 60, 1, 3, bphit, side);
-                        }
+                        p.add_disease("bleed", 60, 1, 3, bphit, side, true);
                     }
 
                     //Same as monster's chance to not miss
@@ -673,7 +658,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         {
                             g->add_msg(_("The %s grabs you!"), name().c_str());
                         }
-                        if (p.weapon.has_technique(TEC_BREAK, &p) &&
+                        if (p.has_grab_break_tec(g) &&
                             dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
                         {
                             if (!is_npc)
@@ -686,16 +671,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     }
 
                 }
-                //Counter-attack?
-                if (tech == TEC_COUNTER && !is_npc)
-                {
-                    // A counterattack is a free action to avoid stunlocking the player.
-                    int player_moves = p.moves;
-                    if(hurt( p.hit_mon(g, this)) || is_hallucination()) {
-                      die(g);
-                    }
-                    p.moves = player_moves;
-                }
+                // TODO: readd with counter mechanic
             }
         }
     }
@@ -885,7 +861,7 @@ int monster::move_to(game *g, int x, int y, bool force)
 
   moves -= calc_movecost(g, posx(), posy(), x, y);
 
-  if (has_flag(MF_SLUDGETRAIL)) {
+  if (has_flag(MF_SLUDGETRAIL) && !is_hallucination()) {
     for (int dx = -1; dx <= 1; dx++) {
       for (int dy = -1; dy <= 1; dy++) {
         const int fstr = 3 - (abs(dx) + abs(dy));
@@ -934,15 +910,8 @@ int monster::move_to(game *g, int x, int y, bool force)
    g->m.ter_set(posx(), posy(), t_dirtmound);
   }
 // Acid trail monsters leave... a trail of acid
-  //Why is this being done three times?
-  if (has_flag(MF_ACIDTRAIL)){
-   g->m.add_field(g, posx(), posy(), fd_acid, 1);
-  }
-  if (has_flag(MF_ACIDTRAIL)){
-   g->m.add_field(g, posx(), posy(), fd_acid, 1);
-  }
-  if (has_flag(MF_ACIDTRAIL)){
-   g->m.add_field(g, posx(), posy(), fd_acid, 1);
+  if (has_flag(MF_ACIDTRAIL) && !is_hallucination()){
+   g->m.add_field(g, posx(), posy(), fd_acid, 3);
   }
 
   return 1;

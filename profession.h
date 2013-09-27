@@ -25,7 +25,7 @@ private:
     signed int _point_cost;
     std::vector<std::string> _starting_items;
     std::vector<addiction> _starting_addictions;
-    std::set<std::string> flags;		// flags for some special properties of the profession
+    std::set<std::string> flags; // flags for some special properties of the profession
     StartingSkillList  _starting_skills;
 
     void add_item(std::string item);

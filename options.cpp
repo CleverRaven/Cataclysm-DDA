@@ -582,7 +582,7 @@ void initOptions() {
     }
 }
 
-void game::show_options()
+void show_options()
 {
     std::map<std::string, cOpt> OPTIONS_OLD = OPTIONS;
 

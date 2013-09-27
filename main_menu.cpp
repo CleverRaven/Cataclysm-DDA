@@ -8,6 +8,8 @@
 #include "translations.h"
 #include "catacharset.h"
 #include "get_version.h"
+#include "help.h"
+#include "options.h"
 
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -187,13 +189,13 @@ bool game::opening_screen()
         if (layer == 1) {
             print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
 
-            if (sel1 == 0) {	// Print the MOTD.
+            if (sel1 == 0) { // Print the MOTD.
                 for (int i = 0; i < motd.size() && i < 16; i++)
                     mvwprintz(w_open, i + 7, 8, c_ltred, motd[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
-            } else if (sel1 == 7) {	// Print the Credits.
+            } else if (sel1 == 7) { // Print the Credits.
                 for (int i = 0; i < credits.size() && i < 16; i++)
                     mvwprintz(w_open, i + 7, 8, c_ltred, credits[i].c_str());
 
@@ -246,7 +248,7 @@ bool game::opening_screen()
                 if (sel1 == 5) {
                     show_options();
                 } else if (sel1 == 6) {
-                    help();
+                    display_help();
                 } else if (sel1 == 8) {
                     uquit = QUIT_MENU;
                     return false;
@@ -257,7 +259,7 @@ bool game::opening_screen()
                 }
             }
         } else if (layer == 2) {
-            if (sel1 == 1) {	// New Character
+            if (sel1 == 1) { // New Character
                 print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY-2, iMenuOffsetX);
                 wrefresh(w_open);
                 refresh();
@@ -306,7 +308,7 @@ bool game::opening_screen()
                         sel1 = 0;
                     }
                 }
-            } else if (sel1 == 2) {	// Load Character
+            } else if (sel1 == 2) { // Load Character
                 if (savegames.size() == 0)
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + iMenuOffsetX, c_red, _("No save games found!"));
                 else {
@@ -351,7 +353,7 @@ bool game::opening_screen()
                 }
 
                 layer = 1;
-            } else if (sel1 == 4) {	// Special game
+            } else if (sel1 == 4) { // Special game
                 for (int i = 1; i < NUM_SPECIAL_GAMES; i++) {
                     mvwprintz(w_open, iMenuOffsetY-i-1, 34 + iMenuOffsetX, (sel2 == i-1 ? h_white : c_white),
                     special_game_name( special_game_id(i) ).c_str());
@@ -387,7 +389,7 @@ bool game::opening_screen()
                     }
                 }
             }
-        } else if (layer == 3) {	// Character Templates
+        } else if (layer == 3) { // Character Templates
             if (templates.size() == 0)
                 mvwprintz(w_open, iMenuOffsetY-4, iMenuOffsetX+20, c_red, _("No templates found!"));
             else {

@@ -9,6 +9,7 @@
 
 class player;
 class npc;
+struct itype;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
@@ -60,7 +61,7 @@ public:
  item();
  item(itype* it, unsigned int turn);
  item(itype* it, unsigned int turn, char let);
- void make_corpse(itype* it, mtype* mt, unsigned int turn);	// Corpse
+ void make_corpse(itype* it, mtype* mt, unsigned int turn); // Corpse
  item(std::string itemdata, game *g);
  item(picojson::value & parsed, game * g);
  virtual ~item();
@@ -93,10 +94,11 @@ public:
  void next_mode();
  bool json_load(picojson::value & parsed, game * g);
  virtual picojson::value json_save(bool save_contents=false) const;
- std::string save_info() const;	// Formatted for save files
+ std::string save_info() const; // Formatted for save files
  //
+ void load_legacy(game * g, std::stringstream & dump);
  void load_info(std::string data, game *g);
- //std::string info(bool showtext = false);	// Formatted for human viewing
+ //std::string info(bool showtext = false); // Formatted for human viewing
  std::string info(bool showtext = false);
  std::string info(bool showtext, std::vector<iteminfo> *dump, game *g = NULL, bool debug = false);
  char symbol() const;
@@ -114,11 +116,10 @@ public:
  int damage_bash();
  int damage_cut() const;
  bool has_flag(std::string f) const;
- bool has_technique(technique_id t, player *p = NULL);
+ bool has_technique(std::string t, player *p = NULL);
  int has_gunmod(itype_id type);
  item* active_gunmod();
  item const* inspect_active_gunmod() const;
- std::vector<technique_id> techniques();
  bool goes_bad();
  bool count_by_charges() const;
  int max_charges() const;
@@ -192,22 +193,22 @@ public:
  int charges;
  bool active;           // If true, it has active effects to be processed
  signed char damage;    // How much damage it's sustained; generally, max is 5
- int burnt;	         // How badly we're burnt
+ int burnt;             // How badly we're burnt
  int bday;              // The turn on which it was created
- int owned;	            // UID of NPC owner; 0 = player, -1 = unowned
+ int owned;             // UID of NPC owner; 0 = player, -1 = unowned
  light_emission light;
  union{
-   int poison;	         // How badly poisoned is it?
+   int poison;          // How badly poisoned is it?
    int bigness;         // engine power, wheel size
    int frequency;       // Radio frequency
    int note;            // Associated dynamic text snippet.
    int irridation;      // Tracks radiation dosage.
  };
  std::string mode;    // Mode of operation, can be changed by the player.
- std::set<std::string> item_tags;		// generic item specific flags
- unsigned item_counter;	// generic counter to be used with item flags
- int mission_id;// Refers to a mission in game's master list
- int player_id;	// Only give a mission to the right player!
+ std::set<std::string> item_tags; // generic item specific flags
+ unsigned item_counter; // generic counter to be used with item flags
+ int mission_id; // Refers to a mission in game's master list
+ int player_id; // Only give a mission to the right player!
  std::map<std::string, std::string> item_vars;
  static itype * nullitem();
 

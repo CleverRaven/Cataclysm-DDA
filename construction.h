@@ -74,6 +74,7 @@ struct construct // Construction functions.
  void done_nothing(game *, point) { }
  void done_window_pane(game *, point);
  void done_vehicle(game *, point);
+ void done_cart(game *, point);
  void done_tree(game *, point);
  void done_trunk_log(game *, point);
  void done_trunk_plank(game *, point);

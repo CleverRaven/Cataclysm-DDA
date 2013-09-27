@@ -9,6 +9,13 @@
 #include <vector>
 #include <map>
 
+typedef std::string matype_id;
+
+typedef std::string mabuff_id;
+
+typedef std::string matec_id;
+
+
 enum character_type {
  PLTYPE_CUSTOM,
  PLTYPE_RANDOM,
@@ -25,6 +32,8 @@ enum add_type {
  ADD_COKE, ADD_CRACK,
 };
 
+void realDebugmsg(const char* name, const char* line, const char *mes, ...);
+
 struct disease
 {
  dis_type type;
@@ -32,6 +41,18 @@ struct disease
  int duration;
  body_part bp;
  int side;
+
+ // extra stuff for martial arts, kind of a hack for now
+ std::string buff_id;
+ disease(std::string new_buff_id) {
+  type = "ma_buff";
+  buff_id = new_buff_id;
+  intensity = 1;
+ }
+ bool is_mabuff() {
+   return (buff_id != "" && type == "ma_buff");
+ }
+
  disease() : type("null") { duration = 0; intensity = 0; bp = num_bp; side = -1; }
  disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1) :
     type(t) { duration = d; intensity = i; bp = part; side = s; }
@@ -65,6 +86,7 @@ struct player_activity
  bool continuous;
  bool ignore_trivial;
  std::vector<int> values;
+ std::vector<std::string> str_values;
  point placement;
 
  player_activity() : name(""), placement(point(-1,-1)) { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
@@ -89,28 +111,18 @@ struct player_activity
   continuous = copy.continuous;
   ignore_trivial = copy.ignore_trivial;
   values.clear();
-  for (int i = 0; i < copy.values.size(); i++)
+  for (int i = 0; i < copy.values.size(); i++) {
    values.push_back(copy.values[i]);
+  }
+  for (int i = 0; i < copy.str_values.size(); i++) {
+   str_values.push_back(copy.str_values[i]);
+  }
  }
 
  picojson::value json_save(); // found in gamesave_json.cpp
  bool json_load(picojson::value & parsed);
-//std::map<std::string, picojson::value> & data);
-/// this is for OLD saves
- void load_info(std::stringstream &dump)
- {
-  int tmp, tmptype, tmpinvlet;
-  std::string tmpname;
-  dump >> tmptype >> moves_left >> index >> tmpinvlet >> tmpname >> placement.x >> placement.y >> tmp;
-  name = tmpname.substr(4);
-  type = activity_type(tmptype);
-  invlet = tmpinvlet;
-  for (int i = 0; i < tmp; i++) {
-   int tmp2;
-   dump >> tmp2;
-   values.push_back(tmp2);
-  }
- }
+
+ void load_legacy(std::stringstream &dump);
 };
 
 struct trait {
