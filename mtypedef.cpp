@@ -193,6 +193,7 @@ mon(_("turkey"), species_mammal, 't', c_brown, MS_MEDIUM, "flesh",
 A large and colorful game bird native to the forests of North America.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FLIES, MF_VIS50, MF_BONES, MF_FEATHER);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED, MTRIG_HURT);
 CATEGORIES(MC_WILDLIFE);
 
 mon(_("raccoon"), species_mammal, 'r', c_dkgray, MS_TINY, "flesh",
@@ -214,7 +215,7 @@ A small, omnivorous marsupial native to North America.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_KEENNOSE, MF_BLEED, MF_BONES, MF_VIS50);
 ANGER(MTRIG_FRIEND_ATTACKED, MTRIG_HURT);
-FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED, MTRIG_HURT);
 CATEGORIES(MC_WILDLIFE);
 
 mon(_("rattlesnake"),species_none, 's', c_brown, MS_TINY, "flesh",
