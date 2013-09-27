@@ -8,6 +8,10 @@
       { "monster" : "mon_moose", "freq" : 10, "multiplier" : 3 },
       { "monster" : "mon_wolf", "freq" : 30, "multiplier" : 5 },
       { "monster" : "mon_coyote", "freq" : 30, "multiplier" : 5 },
+      { "monster" : "mon_turkey", "freq" : 30, "multiplier" : 5 },
+      { "monster" : "mon_raccoon", "freq" : 40, "multiplier" : 5 },
+      { "monster" : "mon_opossum", "freq" : 20, "multiplier" : 5 },
+      { "monster" : "mon_rattlesnake", "freq" : 5, "multiplier" : 5 },
       { "monster" : "mon_bear", "freq" : 20, "multiplier" : 10 },
       { "monster" : "mon_cougar", "freq" : 20, "multiplier" : 10 },
       { "monster" : "mon_spider_wolf", "freq" : 30, "multiplier" : 10 },
@@ -117,7 +121,8 @@
       { "monster" : "mon_frog", "freq" : 100, "multiplier" : 0 },
       { "monster" : "mon_slug", "freq" : 85, "multiplier" : 0 },
       { "monster" : "mon_dermatik_larva", "freq" : 0, "multiplier" : 0 },
-      { "monster" : "mon_dermatik", "freq" : 65, "multiplier" : 0 }
+      { "monster" : "mon_dermatik", "freq" : 65, "multiplier" : 0 },
+      { "monster" : "mon_giant_crayfish", "freq" : 100, "multiplier" : 0 }
     ]
   },
   {

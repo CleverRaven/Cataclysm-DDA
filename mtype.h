@@ -35,7 +35,7 @@ num_species
 enum mon_id {
 mon_null = 0,
 // Wildlife
-mon_squirrel, mon_rabbit, mon_deer, mon_moose, mon_wolf, mon_coyote, mon_bear, mon_cougar, mon_crow,
+mon_squirrel, mon_rabbit, mon_deer, mon_moose, mon_wolf, mon_coyote, mon_bear, mon_cougar, mon_crow, mon_turkey, mon_raccoon, mon_opossum, mon_rattlesnake,
 // Friendly animals
 mon_dog, mon_cat,
 // Ants
@@ -69,7 +69,7 @@ mon_chud, mon_one_eye, mon_crawler,
 mon_sewer_fish, mon_sewer_snake, mon_sewer_rat, mon_rat_king,
 // Swamp monsters
 mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug,
- mon_dermatik_larva, mon_dermatik,
+ mon_dermatik_larva, mon_dermatik, mon_giant_crayfish,
 // SPIDERS
 mon_spider_wolf, mon_spider_web, mon_spider_jumping, mon_spider_trapdoor,
  mon_spider_widow,

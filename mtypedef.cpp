@@ -186,6 +186,49 @@ PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
 CATEGORIES(MC_WILDLIFE);
 
+mon(_("turkey"), species_mammal, 't', c_brown, MS_MEDIUM, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+  10,-99, -8,140,  0,  1,  1,  0,  3,  0,  0,  0,  4,  0,
+ &mdeath::normal, &mattack::none, _("\
+A large and colorful game bird native to the forests of North America.")
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FLIES, MF_VIS50, MF_BONES, MF_FEATHER);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED, MTRIG_HURT);
+CATEGORIES(MC_WILDLIFE);
+
+mon(_("raccoon"), species_mammal, 'r', c_dkgray, MS_TINY, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+  10,  -99, 10,130, 1,  1,  3,  1,  3,  0,  0,  0, 3,  0,
+ &mdeath::normal, &mattack::none, _("\
+A small mammal native to North America, distinctive for its dexterous paws and facial markings.")
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_KEENNOSE, MF_BLEED, MF_BONES, MF_VIS50);
+ANGER(MTRIG_FRIEND_ATTACKED, MTRIG_HURT);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
+CATEGORIES(MC_WILDLIFE);
+
+mon(_("opossum"), species_mammal, 'o', c_white, MS_TINY, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+  10,  -99, 10,110, 0,  1,  3,  1,  2,  0,  0,  0, 2,  0,
+ &mdeath::normal, &mattack::none, _("\
+A small, omnivorous marsupial native to North America.")
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_KEENNOSE, MF_BLEED, MF_BONES, MF_VIS50);
+ANGER(MTRIG_FRIEND_ATTACKED, MTRIG_HURT);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED, MTRIG_HURT);
+CATEGORIES(MC_WILDLIFE);
+
+mon(_("rattlesnake"),species_none, 's', c_brown, MS_TINY, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+   2, 0, 40, 90, 12,  1,  2,  5,  1,  0,  0,  0, 2, 0,
+ &mdeath::normal, &mattack::none, _("\
+An eastern timber rattlesnake, one of New England's most poisonous snakes.")
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_BADVENOM, MF_HARDTOSHOOT, MF_SWIMS, MF_LEATHER, MF_VIS30, MF_BONES);
+ANGER(MTRIG_PLAYER_CLOSE, MTRIG_HURT);
+FEARS(MTRIG_FIRE, MTRIG_HURT);
+CATEGORIES(MC_WILDLIFE);
+
 mon(_("bear"), species_mammal, 'B', c_dkgray, MS_LARGE, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
   10,-10, 40,140, 10,  3,  4,  6,  3,  2,  0,  0, 90, 0,
@@ -921,6 +964,17 @@ threatening, but has a large ovipositor in\n\
 place of a sting.")
 );
 FLAGS(MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_POISON, MF_FLIES, MF_CHITIN);
+
+mon(_("giant crayfish"),species_none, 'c',c_red, MS_MEDIUM, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+   9, 0,100,130, 10,  1,  3,  5,  2,  0,  8, 0, 50, 0,
+ &mdeath::normal, &mattack::none, _("\
+A massive, mutated freshwater shellfish,\n\
+resembling a humongous lobster.")
+);
+FLAGS(MF_SMELLS, MF_HEARS, MF_SEES, MF_CHITIN, MF_SWIMS, MF_ATTACKMON, MF_GRABS);
+ANGER(MTRIG_PLAYER_CLOSE, MTRIG_HURT);
+FEARS(MTRIG_FIRE);
 
 // SPIDERS
 mon(_("wolf spider"),species_insect, 's', c_brown, MS_MEDIUM, "flesh",
