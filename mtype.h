@@ -69,7 +69,7 @@ mon_chud, mon_one_eye, mon_crawler,
 mon_sewer_fish, mon_sewer_snake, mon_sewer_rat, mon_rat_king,
 // Swamp monsters
 mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug,
- mon_dermatik_larva, mon_dermatik,
+ mon_dermatik_larva, mon_dermatik, mon_giant_crayfish,
 // SPIDERS
 mon_spider_wolf, mon_spider_web, mon_spider_jumping, mon_spider_trapdoor,
  mon_spider_widow,

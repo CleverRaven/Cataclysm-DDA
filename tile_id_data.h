@@ -363,6 +363,7 @@ const std::string monster_names[num_monsters] =
     toString(mon_slug),
     toString(mon_dermatik_larva),
     toString(mon_dermatik),
+    toString(mon_giant_crayfish),
 
     toString(mon_spider_wolf),
     toString(mon_spider_web),

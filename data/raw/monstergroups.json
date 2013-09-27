@@ -121,7 +121,8 @@
       { "monster" : "mon_frog", "freq" : 100, "multiplier" : 0 },
       { "monster" : "mon_slug", "freq" : 85, "multiplier" : 0 },
       { "monster" : "mon_dermatik_larva", "freq" : 0, "multiplier" : 0 },
-      { "monster" : "mon_dermatik", "freq" : 65, "multiplier" : 0 }
+      { "monster" : "mon_dermatik", "freq" : 65, "multiplier" : 0 },
+      { "monster" : "mon_giant_crayfish", "freq" : 100, "multiplier" : 0 }
     ]
   },
   {

@@ -246,7 +246,7 @@ void init_translation()
     monStr2monId["mon_chud"] = mon_chud; monStr2monId["mon_one_eye"] = mon_one_eye; monStr2monId["mon_crawler"] = mon_crawler;
     monStr2monId["mon_sewer_fish"] = mon_sewer_fish; monStr2monId["mon_sewer_snake"] = mon_sewer_snake; monStr2monId["mon_sewer_rat"] = mon_sewer_rat; monStr2monId["mon_rat_king"] = mon_rat_king;
     monStr2monId["mon_mosquito"] = mon_mosquito; monStr2monId["mon_dragonfly"] = mon_dragonfly; monStr2monId["mon_centipede"] = mon_centipede; monStr2monId["mon_frog"] = mon_frog; monStr2monId["mon_slug"] = mon_slug;
-    monStr2monId["mon_dermatik_larva"] = mon_dermatik_larva; monStr2monId["mon_dermatik"] = mon_dermatik;
+    monStr2monId["mon_dermatik_larva"] = mon_dermatik_larva; monStr2monId["mon_dermatik"] = mon_dermatik; monStr2monId["mon_giant_crayfish"] = mon_giant_crayfish;
     monStr2monId["mon_jabberwock"] = mon_jabberwock;
     monStr2monId["mon_spider_wolf"] = mon_spider_wolf; monStr2monId["mon_spider_web"] = mon_spider_web; monStr2monId["mon_spider_jumping"] = mon_spider_jumping; monStr2monId["mon_spider_trapdoor"] = mon_spider_trapdoor;
     monStr2monId["mon_spider_widow"] = mon_spider_widow;
