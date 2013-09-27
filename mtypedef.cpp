@@ -967,12 +967,14 @@ FLAGS(MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_POISON, MF_FLIES, MF_CHITIN);
 
 mon(_("giant crayfish"),species_none, 'c',c_red, MS_MEDIUM, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-   9, 20,100,130, 10,  1,  3,  5,  2,  0,  8, 0, 50, 0,
+   9, 0,100,130, 10,  1,  3,  5,  2,  0,  8, 0, 50, 0,
  &mdeath::normal, &mattack::none, _("\
 A massive, mutated freshwater shellfish,\n\
 resembling a humongous lobster.")
 );
 FLAGS(MF_SMELLS, MF_HEARS, MF_SEES, MF_CHITIN, MF_SWIMS, MF_ATTACKMON, MF_GRABS);
+ANGER(MTRIG_PLAYER_CLOSE, MTRIG_HURT);
+FEARS(MTRIG_FIRE);
 
 // SPIDERS
 mon(_("wolf spider"),species_insect, 's', c_brown, MS_MEDIUM, "flesh",
