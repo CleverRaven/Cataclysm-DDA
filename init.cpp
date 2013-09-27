@@ -10,11 +10,8 @@
 #include "text_snippets.h"
 #include "item_factory.h"
 #include "crafting.h"
-<<<<<<< .merge_file_h1y1sC
 #include "computer.h"
-=======
 #include "help.h"
->>>>>>> .merge_file_cqSJwA
 
 #include <string>
 #include <vector>
