@@ -190,7 +190,7 @@ void dis_msg(dis_type type_string) {
         g->add_msg(_("You're covered in bile!"));
         break;
     case DI_UNCONSCIOUS:
-        g->add_msg(_("The your vision dulls and you fall unconscious."));
+        g->add_msg(_("Your vision dulls and you fall unconscious."));
         break;
     case DI_SAP:
         g->add_msg(_("You're coated in sap!"));
