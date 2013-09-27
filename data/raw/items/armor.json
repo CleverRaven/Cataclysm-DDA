@@ -1208,9 +1208,9 @@
         "to_hit" : 0,
         "storage" : 28,
         "symbol" : "[",
-        "description" : "A custom-built vest covered with pockets and pouches. Durable and carefully crafted to be comfortable to wear.",
+        "description" : "A custom-built light vest covered with pockets and pouches. Durable and carefully crafted to be comfortable to wear.",
         "price" : 200,
-        "material" : ["cotton", "leather"],
+        "material" : ["leather", "cotton"],
         "volume" : 4,
         "cutting" : 0,
         "warmth" : 5,
@@ -1219,8 +1219,8 @@
         "encumberance" : 0,
         "bashing" : -3,
         "flags" : ["VARSIZE"],
-        "coverage" : 85,
-        "material_thickness" : 2
+        "coverage" : 75,
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
