@@ -176,6 +176,7 @@
       ["flashlight", 40],
       ["extinguisher", 20],
       ["whiskey", 16],
+      ["bum_wine", 10],
       ["syrup", 20],
       ["coffee_syrup", 10],
       ["bacon", 25],
@@ -1245,6 +1246,7 @@
       ["rum", 14],
       ["tequila", 12],
       ["triple_sec", 12],
+      ["bum_wine", 20],
       ["beer", 60]
     ]
   },{
@@ -1259,6 +1261,7 @@
     "id":"trash",
     "items":[
       ["iodine", 5],
+      ["bum_wine", 5],
       ["meth", 2],
       ["heroin", 1],
       ["wrapper", 50],
@@ -3863,6 +3866,7 @@
       ["energy_drink", 55],
       ["sports_drink", 35],
       ["whiskey", 16],
+      ["bum_wine", 10],
       ["jerky", 55],
       ["bandages", 50],
       ["caffeine", 25],
