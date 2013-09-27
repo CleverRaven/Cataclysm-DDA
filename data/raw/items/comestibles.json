@@ -888,7 +888,7 @@
         "to_hit" : 0,
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : 28,
+        "quench" : 20,
         "heal" : -2,
         "addiction_potential" : 5,
         "nutrition" : 2,
@@ -899,7 +899,7 @@
         "volume" : 2,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 6,
+        "charges" : 1,
         "bashing" : 0,
         "fun" : 20
     },
