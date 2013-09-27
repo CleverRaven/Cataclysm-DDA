@@ -2329,7 +2329,7 @@
     "skill": "rifle",
     "ammo": "pebble",
     "weight": 6000,
-    "volume": 25,
+    "volume": 20,
     "bashing": 8,
     "cutting": 0,
     "to_hit": 1,
