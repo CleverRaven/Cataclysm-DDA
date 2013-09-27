@@ -117,7 +117,7 @@ player::player() : name("")
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  moves = 100;
  movecounter = 0;
- blood_oxygen = 95;
+ blood_oxygen = 950;
  next_climate_control_check=0;
  last_climate_control_ret=false;
  active_mission = -1;
@@ -1266,6 +1266,11 @@ void player::set_underwater(bool u)
         underwater = u;
         recalc_sight_limits();
     }
+}
+
+void player::set_smoke(int intensity)
+{
+    smoke_density = intensity;
 }
 
 
@@ -4366,9 +4371,17 @@ void player::breath(game *g, int times)
                 inhaled += 25;
                 g->add_msg(_("You yawn."));
             }
-            else if (has_disease("smoke"))
+            else if (smoke_density > 0)
             {
-                inhaled += 7;
+                // for now, limit inhaled amount if we would 'infect'
+                int smoke_chance = dice(smoke_density, 3) && (smoke_density == 1) ? one_in(2) : 1;
+                if (smoke_chance > dice(resist(bp_mouth), 3)) {
+                    inhaled += 3;
+                }
+                else {
+                    inhaled += 5;
+                }
+                
             }
             else
             {
@@ -4394,29 +4407,24 @@ void player::breath(game *g, int times)
 
     }
 
-    int prev = blood_oxygen;
-    blood_oxygen += inhaled;
-    blood_oxygen = std::min(blood_oxygen, 950);
-
-    //debugmsg("player:breath: From (%d%%) to (%d%%)", prev, blood_oxygen);
-
+    //g->add_msg("player:breath: Inhaled (%d) to (%d%%)", inhaled, blood_oxygen);
 }
 
 // basically just shorthand for removing blood oxygen 
 void player::exhaust(game *g, int amount)
 {
-    if (blood_oxygen > 90 && blood_oxygen - amount < 90)
+    if (blood_oxygen > 920 && blood_oxygen - amount < 920)
     {
         g->add_msg(_("You feel lightheaded.")); // intentionally confusing.
     }
-    if (blood_oxygen > 88 && blood_oxygen - amount <= 88)
+    if (blood_oxygen > 900 && blood_oxygen - amount <= 900)
     {
-        // below 85 you can pass out.
         g->add_msg(_("You feel faint. Maybe you should take a breather"));
     }
 
     blood_oxygen -= amount;
     blood_oxygen = std::min(blood_oxygen, 950);
+    //g->add_msg("exhasting: %d -> %d", amount, blood_oxygen);
 }
 
 void player::suffer(game *g)

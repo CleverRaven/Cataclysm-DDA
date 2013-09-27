@@ -795,6 +795,9 @@ void game::process_activity()
 {
  it_book* reading;
  bool no_recipes;
+
+ int previous_moves_left = u.activity.moves_left;
+
  if (u.activity.type != ACT_NULL) {
   if (int(turn) % 150 == 0) {
    draw();
@@ -857,6 +860,7 @@ void game::process_activity()
    }
    u.pause(this);
   } else {
+   u.exhaust(this, 2);
    u.activity.moves_left -= u.moves;
    u.moves = 0;
   }
@@ -1059,6 +1063,13 @@ void game::process_activity()
      make_all_craft(u.lastrecipe);
    }
   }
+ }
+
+ // for every 100 turns, exhaust and breath.
+ for (int i = previous_moves_left; i > u.activity.moves_left; i-=100)
+ {
+    u.exhaust(this, 5);
+    u.breath(this);
  }
 }
 
@@ -2264,12 +2275,15 @@ bool game::handle_action()
  }
 
  gamemode->post_action(this, act);
-
  u.movecounter = before_action_moves - u.moves;
- if (u.movecounter > 0) 
+
+ for (int i = u.movecounter ; i > 0; i-=100)
  {
-    u.breath(this, u.movecounter / 100);
+    // for every 100 turns, breath and exhaust the standard amounts
+    u.exhaust(this, 5);
+    u.breath(this);
  }
+ 
  return true;
 }
 
@@ -6116,6 +6130,7 @@ void game::smash()
             }
             u.remove_weapon();
         }
+        u.exhaust(this, 2);
     }
     else
     {
@@ -9370,6 +9385,7 @@ void game::plmove(int dx, int dy)
              kill_mon(mondex, true);
          }
          draw_hit_mon(x,y,z,z.dead);
+         //exhaust on attack
          return;
      } else {
          displace = true;

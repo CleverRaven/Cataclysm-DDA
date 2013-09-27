@@ -225,6 +225,9 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
  if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
   healall( rng(dam / 10, dam / 5) );
+
+  // perfom exhaustion for doing a difficult activity
+  exhaust(g, 2);
  return dam;
 }
 
@@ -362,6 +365,8 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   p.hit_player(g, *this);
  }
  */
+
+ exhaust(g, 2);
 }
 
 int stumble(player &u)

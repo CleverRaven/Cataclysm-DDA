@@ -492,6 +492,8 @@ public:
  bool is_underwater() const;
  void set_underwater(bool);
 
+ void set_smoke(int density);
+ 
  void environmental_revert_effect();
 
 protected:
@@ -500,6 +502,8 @@ protected:
     std::vector<bionic> my_bionics;
     std::vector<disease> illness;
     bool underwater;
+
+    int smoke_density;
 
     int sight_max;
     int sight_boost;
