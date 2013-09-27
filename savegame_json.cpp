@@ -1388,7 +1388,7 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                 std::map<std::string, picojson::value> & pdata = (*pt).get<picojson::object>();
                 int intpid, pflag;
                 std::string pid;
-                if ( picoint(pdata, "id_enum", intpid) && legacy_vpart_id.size() < intpid ) {
+                if ( picoint(pdata, "id_enum", intpid) && intpid < 74 ) {
                     pid = legacy_vpart_id[intpid];
                 } else {
                     picostring(pdata,"id",pid);
