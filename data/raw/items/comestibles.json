@@ -1778,7 +1778,7 @@
         "quench" : 36,
         "heal" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 3,
+        "nutrition" : 4,
         "description" : "A chocolate flavored beverage made of artifical flavoring and milk byproducts. Shelf stable and vaguely appetizing even when lukewarm.",
         "price" : 50,
         "material" : "null",
@@ -1788,7 +1788,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : 6
+        "fun" : 7
     },
     {
         "type" : "COMESTIBLE",
