@@ -8870,6 +8870,40 @@
   ]
 },{
         "type" : "recipe",
+  "result": "mask_survivor",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+      [
+      [ "welder", 56 ],
+      [ "soldering_iron", 56 ],
+      [ "toolset", 4 ]
+      ]
+  ],
+  "components": [
+      [
+      [ "mask_filter", 2 ],
+      [ "mask_gas", 1 ]
+      ],
+      [
+      [ "glasses_safety", 2 ],
+      [ "glasses_bal", 1 ]
+      ],
+      [
+      [ "duct_tape", 100 ],
+      [ "superglue", 1 ]
+      ],
+      [
+      [ "mask_bal", 1 ],
+      [ "kevlar_plate", 4 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
   "result": "goggles_nv",
   "category": "CC_ARMOR",
   "skill_used": "electronics",
@@ -13984,6 +14018,53 @@
   ]
 },{
         "type" : "recipe",
+  "result": "survivor_vest",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 1],
+  "difficulty": 3,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+      ],
+	  [
+      [ "needle_bone", 100 ],
+      [ "sewing_kit", 100 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rag", 6 ]
+      ],
+      [
+      [ "leather", 6 ]
+      ],
+      [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "fanny", 2 ]
+      ],
+      [
+      [ "duct_tape", 50 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
   "result": "lsurvivor_suit",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -14157,6 +14238,47 @@
       ],
       [
       [ "duct_tape", 300 ]
+      ],
+      [
+      [ "kevlar", 1 ],
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "aep_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "skills_required" : ["tailor", 1],
+  "difficulty": 6,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "welder", 112 ],
+      [ "soldering_iron", 112 ],
+      [ "toolset", 8 ]
+      ]
+  ],
+  "components": [
+      [
+      [ "hazmat_suit", 1 ]
+      ],
+      [
+      [ "duct_tape", 600 ]
       ],
       [
       [ "kevlar", 1 ],
