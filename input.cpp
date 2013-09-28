@@ -243,8 +243,8 @@ void input_manager::init_keycode_mapping() {
     add_keycode_pair(KEY_DOWN,      "DOWN");
     add_keycode_pair(KEY_LEFT,      "LEFT");
     add_keycode_pair(KEY_RIGHT,     "RIGHT");
-    add_keycode_pair(KEY_NPAGE,     "PGUP");
-    add_keycode_pair(KEY_PPAGE,     "PGDWN");
+    add_keycode_pair(KEY_NPAGE,     "NPAGE");
+    add_keycode_pair(KEY_PPAGE,     "PPAGE");
     add_keycode_pair(KEY_ESCAPE,    "ESC");
     add_keycode_pair('\n',          "RETURN");
 
