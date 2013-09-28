@@ -9294,6 +9294,27 @@
   ]
 },{
         "type" : "recipe",
+  "result": "sleeping_bag",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "requires_skills": [ "survival", 1 ],
+  "difficulty": 4,
+  "time": 75000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 30 ],
+      [ "sewing_kit", 30 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 30 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "sleeping_bag_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
