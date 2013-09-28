@@ -452,3 +452,47 @@ nc_color color_from_string(std::string new_color){
         return c_white;
     }
 }
+
+/**
+ * Given the name of a background color (that is, one of the i_xxxxx colors),
+ * returns the nc_color constant that matches. If no match is found, i_white is
+ * returned.
+ * @param new_color The color to get, as a std::string.
+ * @return The nc_color constant that matches the input.
+ */
+nc_color bgcolor_from_string(std::string new_color) {
+  if("black" == new_color) {
+    return i_black;
+  } else if("white" == new_color) {
+    return i_white;
+  } else if("light_gray" == new_color || "ltgray" == new_color) {
+    return i_ltgray;
+  } else if("dark_gray" == new_color || "dkgray" == new_color) {
+    return i_dkgray;
+  } else if("red" == new_color) {
+    return i_red;
+  } else if("green" == new_color) {
+    return i_green;
+  } else if("blue" == new_color) {
+    return i_blue;
+  } else if("cyan" == new_color) {
+    return i_cyan;
+  } else if("magenta" == new_color) {
+    return i_magenta;
+  } else if("brown" == new_color) {
+    return i_brown;
+  } else if("light_red" == new_color || "ltred" == new_color) {
+    return i_ltred;
+  } else if("light_blue" == new_color || "ltblue" == new_color) {
+    return i_ltblue;
+  } else if("light_cyan" == new_color || "ltcyan" == new_color) {
+    return i_ltcyan;
+  } else if("pink" == new_color) {
+    return i_pink;
+  } else if("yellow" == new_color) {
+    return i_yellow;
+  } else {
+    debugmsg("Received invalid bgcolor property %s. Color is required.", new_color.c_str());
+    return i_white;
+  }
+}
