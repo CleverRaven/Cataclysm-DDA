@@ -926,34 +926,21 @@ int inventory::amount_of(itype_id it) const
 int inventory::charges_of(itype_id it) const
 {
     int count = 0;
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
-             stack_iter != iter->end();
-             ++stack_iter)
-        {
-            //Check for ammo used in construction (such as nails in nailguns)
-            if (stack_iter->type->id == it || stack_iter->ammo_type() == it)
-            {
-                if (stack_iter->charges < 0)
-                {
+             stack_iter != iter->end(); ++stack_iter) {
+            if (stack_iter->type->id == it || stack_iter->ammo_type() == it) {
+                if (stack_iter->charges < 0) {
                     count++;
-                }
-                else
-                {
+                } else {
                     count += stack_iter->charges;
                 }
             }
-            for (int k = 0; k < stack_iter->contents.size(); k++)
-            {
-                if (stack_iter->contents[k].type->id == it)
-                {
-                    if (stack_iter->contents[k].charges < 0)
-                    {
+            for (int k = 0; k < stack_iter->contents.size(); k++) {
+                if (stack_iter->contents[k].type->id == it) {
+                    if (stack_iter->contents[k].charges < 0) {
                         count++;
-                    }
-                    else
-                    {
+                    } else {
                         count += stack_iter->contents[k].charges;
                     }
                 }

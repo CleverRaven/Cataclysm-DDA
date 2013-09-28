@@ -2791,8 +2791,8 @@ void map::process_active_items_in_submap(game *g, const int nonant)
     }
 }
 
-std::list<item> map::use_amount(const point origin, const int range, const itype_id type, const int amount,
-                     const bool use_container)
+std::list<item> map::use_amount(const point origin, const int range, const itype_id type,
+                                const int amount, const bool use_container)
 {
  std::list<item> ret;
  int quantity = amount;
