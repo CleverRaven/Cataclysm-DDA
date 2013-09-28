@@ -2815,7 +2815,7 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
       if (use_container && used_contents) {
        i_rem(x, y, n);
        n--;
-      } else if (curit->type->id == type && quantity > 0) {
+      } else if (curit->type->id == type && quantity > 0 && curit->contents.size() == 0) {
        ret.push_back(*curit);
        quantity--;
        i_rem(x, y, n);
