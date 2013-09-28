@@ -13309,6 +13309,34 @@
 	]
 },{
         "type" : "recipe",
+  "result": "pot",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+	  ["forge", 50], ["char_forge", 10]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 2 ],
+	 [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ]
+	]
+},{
+        "type" : "recipe",
   "result": "wrench",
   "category": "CC_MISC",
   "skill_used": "fabrication",
