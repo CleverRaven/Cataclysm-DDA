@@ -8726,6 +8726,37 @@
   ]
 },{
         "type" : "recipe",
+  "result": "gloves_fingerless_mod",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "requires_skills": [ "fabrication", 1 ],
+  "difficulty": 1,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gloves_fingerless", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "gloves_leather",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
