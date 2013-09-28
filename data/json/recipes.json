@@ -2716,8 +2716,37 @@
       [ "bee_sting", 1 ]
     ]
   ]
+},{        
+         "type" : "recipe",
+  "result": "bolt_metal",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": ["archery", 3],
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        ["hacksaw", -1],
+        ["toolset", -1]
+    ],
+    [
+      ["rock", -1],
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+      [
+        ["scrap", 6],
+        ["steel_chunk", 2]
+      ]
+  ]
 },{
-        "type" : "recipe",
+         "type" : "recipe",
   "result": "9mm",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
@@ -4364,13 +4393,13 @@
   ],
   "components": [
     [
-      [ "blueberries", 3 ],
-      [ "apple", 1 ],
-      [ "apple_canned", 1 ],
-      [ "apple_vac", 1 ],
-      [ "strawberries", 3 ],
-      [ "orange", 1 ],
-      [ "lemon", 1 ]
+      ["blueberries", 4],
+      ["apple", 4],
+      ["apple_canned", 4],
+      ["apple_vac", 4],
+      ["strawberries", 4],
+      ["orange", 4],
+      ["lemon", 4]
     ],
     [
       [ "sugar", 1 ]
@@ -12177,6 +12206,18 @@
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1] ] ],
   "components": [ [ ["wheat", 2] ] ]
+},{
+        "type" : "recipe",
+  "result": "cornmeal",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
+                [ ["rock_quern", -1] ] ],
+  "components": [ [ ["corn", 2] ] ]
 },{
         "type" : "recipe",
   "result": "meal_bone",
