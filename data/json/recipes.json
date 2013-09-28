@@ -13312,8 +13312,8 @@
   "result": "pot",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 60000,
+  "difficulty": 2,
+  "time": 90000,
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
@@ -13324,7 +13324,7 @@
       ["anvil", -1]  
       ],
       [
-	  ["forge", 50], ["char_forge", 10]
+	  ["forge", 100], ["char_forge", 20]
       ]
       ],
   "components": 
