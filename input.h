@@ -66,9 +66,9 @@ std::string get_input_string_from_file(std::string fname="input.txt");
 #define JOY_LEFTDOWN    256 + 8
 
 enum input_event_t {
-    INPUT_ERROR,
-    INPUT_KEYBOARD,
-    INPUT_GAMEPAD
+    CATA_INPUT_ERROR,
+    CATA_INPUT_KEYBOARD,
+    CATA_INPUT_GAMEPAD
 };
 
 /**

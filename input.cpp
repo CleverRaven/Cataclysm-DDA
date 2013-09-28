@@ -188,9 +188,9 @@ void input_manager::init() {
             const std::string& input_method = keybinding.get("input_method").get<std::string>();
             input_event new_event;
             if(input_method == "keyboard") {
-                new_event.type = INPUT_KEYBOARD;
+                new_event.type = CATA_INPUT_KEYBOARD;
             } else if(input_method == "gamepad") {
-                new_event.type = INPUT_GAMEPAD;
+                new_event.type = CATA_INPUT_GAMEPAD;
             }
 
             if(keybinding.get("key").is<std::string>()) {
@@ -272,7 +272,7 @@ long input_manager::get_keycode(std::string name) {
 }
 
 std::string input_manager::get_keyname(long ch, input_event_t inp_type) {
-    if(inp_type == INPUT_KEYBOARD) {
+    if(inp_type == CATA_INPUT_KEYBOARD) {
         return keycode_to_keyname[ch];
     } else {
         return gamepad_keycode_to_keyname[ch];
@@ -479,9 +479,9 @@ void input_context::display_help() {
         input_event rval;
 
         if(key == ERR) {
-            rval.type = INPUT_ERROR;
+            rval.type = CATA_INPUT_ERROR;
         } else {
-            rval.type = INPUT_KEYBOARD;
+            rval.type = CATA_INPUT_KEYBOARD;
             rval.sequence.push_back(key);
         }
 
