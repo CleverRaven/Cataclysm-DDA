@@ -8184,6 +8184,27 @@
   ]
 },{
         "type" : "recipe",
+  "result": "union_suit",
+  "category": "CC_MISC",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "long_underpants", 1 ],
+      [ "long_undertop", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "arm_warmers",
   "category": "CC_MISC",
   "skill_used": "tailor",
