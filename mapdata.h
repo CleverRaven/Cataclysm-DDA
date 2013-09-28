@@ -567,7 +567,7 @@ struct furn_t {
  std::string name;
  long sym;
  nc_color color;
- char movecost; // Penalty to terrain
+ int movecost; // Penalty to terrain
  int move_str_req; //The amount of strength requried to move through this terrain easily.
  unsigned long flags;// : num_t_flags;
  void (iexamine::*examine)(game *, player *, map *m, int examx, int examy);
