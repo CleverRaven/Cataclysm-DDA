@@ -264,4 +264,11 @@ private:
     std::string category; // The input category this context uses.
 };
 
+/**
+ * Check whether a gamepad is plugged in/available.
+ * 
+ * Always false in non-SDL versions.
+ */
+bool gamepad_available();
+
 #endif

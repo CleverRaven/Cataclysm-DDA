@@ -148,6 +148,8 @@ bool WinCreate()
 
     if(numjoy >= 1) {
         joystick = SDL_JoystickOpen(0);
+    } else {
+        joystick = NULL;
     }
 
     SDL_JoystickEventState(SDL_ENABLE);
@@ -1088,6 +1090,10 @@ input_event input_manager::get_input_event(WINDOW *win) {
     }
 
     return rval;
+}
+
+bool gamepad_available() {
+    return joystick != NULL;
 }
 
 #endif // TILES
