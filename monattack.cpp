@@ -147,19 +147,37 @@ void mattack::shockstorm(game *g, monster *z)
 
 void mattack::smokecloud(game *g, monster *z)
 {
-  z->sp_timeout = z->type->sp_freq; // Reset timer
-  for (int i = -3; i <= 3; i++) {
-    for (int j = -3; j <=3; j++) {
-      g->m.add_field(g, z->posx() + i, z->posy() + j, fd_smoke, 2);
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    const int monx = z->posx();
+    const int mony = z->posy();
+    int junk = 0;
+    for (int i = -3; i <= 3; i++) {
+        for (int j = -3; j <=3; j++) {
+            if( g->m.move_cost( monx + i, mony + j ) != 0 &&
+                g->m.clear_path(monx, mony, monx + i, mony + j, 3, 1, 100, junk) ) {
+                g->m.add_field(g, monx + i, mony + j, fd_smoke, 2);
+            }
+        }
     }
-  }
-  //Round it out a bit
-  for (int i = -2; i <= 2; i++){
-      g->m.add_field(g, z->posx() + i, z->posy() + 4, fd_smoke, 2);
-      g->m.add_field(g, z->posx() + i, z->posy() - 4, fd_smoke, 2);
-      g->m.add_field(g, z->posx() + 4, z->posy() + i, fd_smoke, 2);
-      g->m.add_field(g, z->posx() - 4, z->posy() + i, fd_smoke, 2);
-  }
+    //Round it out a bit
+    for (int i = -2; i <= 2; i++){
+        if( g->m.move_cost( monx + i, mony + 4 ) != 0 &&
+            g->m.clear_path(monx, mony, monx + i, mony + 4, 3, 1, 100, junk) ) {
+            g->m.add_field(g, monx + i, mony + 4, fd_smoke, 2);
+        }
+        if( g->m.move_cost( monx + i, mony - 4 ) != 0 &&
+            g->m.clear_path(monx, mony, monx + i, mony - 4, 3, 1, 100, junk) ) {
+            g->m.add_field(g, monx + i, mony - 4, fd_smoke, 2);
+        }
+        if( g->m.move_cost( monx + 4, mony + i ) != 0 &&
+            g->m.clear_path(monx, mony, monx + 4, mony + i, 3, 1, 100, junk) ) {
+            g->m.add_field(g, monx + 4, mony + i, fd_smoke, 2);
+        }
+        if( g->m.move_cost( monx - 4, mony + i ) != 0 &&
+            g->m.clear_path(monx, mony, monx - 4, mony + i, 3, 1, 100, junk) ) {
+            g->m.add_field(g, monx - 4, mony + i, fd_smoke, 2);
+        }
+    }
 }
 
 void mattack::boomer(game *g, monster *z)

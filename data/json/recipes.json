@@ -10249,7 +10249,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ],
+    [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
@@ -10262,6 +10268,55 @@
     [
       [ "bleach", 1 ],
       [ "ant_egg", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "duct_tape",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ],
+      [ "hatchet", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ],
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "superglue", 1 ]
+    ],
+    [
+      [ "rag", 6 ]
+    ],
+    [
+      [ "plant_fibre", 50 ],
+      [ "sinew", 50 ],
+      [ "thread", 50 ]
+    ],
+    [
+      [ "plastic_chunk", 1 ]
     ]
   ]
 },{
@@ -14027,6 +14082,44 @@
   ]
 },{
         "type" : "recipe",
+   "result": "blt",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 2,
+   "time": 6000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ],
+    [
+      [ "knife_steak", -1 ],[ "knife_combat", -1 ],[ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],[ "scalpel", -1 ],[ "machete", -1 ],[ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bread", 2 ]
+    ],
+    [
+      [ "bacon", 1 ]
+    ],
+    [
+      [ "lettuce", 1 ]
+    ],
+    [
+      [ "tomato", 1 ]
+    ]
+  ]
+},{
+   "type" : "recipe",
    "result": "ketchup",
    "category": "CC_FOOD",
    "skill_used": "cooking",
