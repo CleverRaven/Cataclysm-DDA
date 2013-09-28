@@ -858,7 +858,7 @@ of pureed bone & LSD."));
                     else // Success!
                     {
                         item *blood = &(g->m.i_at(x, y)[0].contents[0]);
-                        if (blood->corpse == NULL || blood->corpse->id == mon_null)
+                        if (blood->corpse == NULL || blood->corpse->id == "mon_null")
                         {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         }
@@ -1278,7 +1278,7 @@ void computer::activate_failure(game *g, computer_failure fail)
             if (tries != 10)
             {
                 g->add_msg(_("Manhacks drop from compartments in the ceiling."));
-                monster robot(g->mtypes[mon_manhack]);
+                monster robot(GetMon("mon_manhack"));
                 robot.spawn(mx, my);
                 g->add_zombie(robot);
             }
@@ -1302,7 +1302,7 @@ void computer::activate_failure(game *g, computer_failure fail)
             if (tries != 10)
             {
                 g->add_msg(_("Secubots emerge from compartments in the floor."));
-                monster robot(g->mtypes[mon_secubot]);
+                monster robot(GetMon("mon_secubot"));
                 robot.spawn(mx, my);
                 g->add_zombie(robot);
             }

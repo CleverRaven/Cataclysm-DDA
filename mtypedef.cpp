@@ -7,7 +7,7 @@
 
  // Default constructor
  mtype::mtype () {
-  id = 0;
+  id = "mon_null";
   name = _("human");
   description = "";
   species = species_none;
@@ -36,7 +36,7 @@
  }
  mtype::mtype(std::string pid)
  {
-     s_id = pid;
+     id = pid;
  }
  // Non-default (messy)
  mtype::mtype (int pid, std::string pname, monster_species pspecies, char psym,
@@ -50,7 +50,7 @@
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
         std::string pdescription ) {
-  id = pid;
+  id = "mon_null"; // just don't use pid for now, get rid of this entire ctor later
   name = pname;
   species = pspecies;
   sym = psym;
@@ -104,6 +104,7 @@
 
 void game::init_mtypes ()
 {
+/*
  int id = 0;
 // Null monster named "None".
  mtypes.push_back(new mtype);
@@ -1402,7 +1403,7 @@ Your precious generator, noisily humming\n\
 away.  Defend it at all costs!")
 );
 FLAGS(MF_NOHEAD, MF_ACIDPROOF, MF_IMMOBILE);
-
+*/
     // The flag vectors are slow, given how often has_flags() is called,
     // so instead we'll use bitsets and initialize them here.
     const int num_mtypes = mtypes.size();

@@ -1,7 +1,10 @@
-#include "vehicle.h"
 #include "game.h"
+#include "vehicle.h"
 #include "item_factory.h"
 #include "catajson.h"
+
+#include "debug.h"
+#include <exception>
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:
@@ -206,28 +209,39 @@ void game::load_vehicle(JsonObject &jo)
     vehicle *next_vehicle;
     std::string part_id = "";
     int part_x = 0, part_y = 0;
-
+DebugLog() << "Parsing Vehicle!\n";
+DebugLog() << "Current game:" << "" << "\n";
     next_vehicle = new vehicle(this, jo.get_string("id").c_str());
+DebugLog() << "--Vehicle Initialized\n";
     next_vehicle->name = _(jo.get_string("name").c_str());
+DebugLog() << "--Name Obtained\n";
     JsonArray parts_list = jo.get_array("parts");
-
+DebugLog() << "--ID: "<<next_vehicle->type << "\n--NAME: "<<next_vehicle->name << "\n--#Parts: "<<parts_list.size()<<"\n";
     if (parts_list.size() > 0)
     {
+DebugLog() << "--Working through Parts!\n";
         while (parts_list.has_more())
         {
+DebugLog() << "---::Parsing Part!\n";
             JsonObject next_part = parts_list.next_object();
-
+DebugLog() << "---::Part Obtained\n";
             part_x = next_part.get_int("x");
             part_y = next_part.get_int("y");
-            part_id = next_part.get_string("id");
+            part_id = next_part.get_string("part");
+DebugLog() << "---::Part info <"<<part_x<<", "<<part_y<<", \""<<part_id<<"\">\n";
+            next_vehicle->part_cache.push(std::make_pair<point, std::string>(point(part_x, part_y), part_id));
+            /*
             if (next_vehicle->install_part(part_x, part_y, part_id) < 0)
             {
                 debugmsg("load_vehicle: '%s' part '%s'(%d) can't be installed to %d,%d",
                         next_vehicle->name.c_str(), part_id.c_str(),
                         next_vehicle->parts.size(), part_x, part_y);
             }
+            */
         }
     }
-
-    vtypes[next_vehicle->type] = next_vehicle;
+DebugLog() << "--Adding Vehicle to vtypes! Veh is Real? "<<(next_vehicle != NULL ? "YES":"NO") << "\n";
+DebugLog() << "--Game is still real? "<<(this != NULL ? "YES":"NO") << "\n";
+    //vtypes[next_vehicle->type] = next_vehicle;
 }
+

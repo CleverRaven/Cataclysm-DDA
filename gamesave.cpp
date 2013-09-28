@@ -97,15 +97,18 @@ void game::serialize(std::ofstream & fout) {
 
         // save killcounts.
         // todo: When monsters get stringid, make a json_save
-        for (int i = 0; i < num_monsters; i++) {
-            fout << kills[i] << " ";
+        // only save the killcounts for the monsters we have actually killed at least one of as "string-id count "
+        for (std::map<std::string, int>::iterator it = killcount.begin(); it != killcount.end(); ++it)
+        {
+            fout << it->first << " " << it->second << " ";
         }
+
         fout << std::endl;
 
         // And finally the player.
         // u.save_info dumps player + contents in a single json line, followed by memorial log
         // one entry per line starting with '|'
-        fout << u.save_info() << std::endl; 
+        fout << u.save_info() << std::endl;
 
         fout << std::endl;
         ////////
@@ -223,12 +226,26 @@ void game::unserialize(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kk;
-            for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                linein >> kills[kk];
-            }
-            if ( kk != num_monsters ) {
-                debugmsg("Warning, number of monsters changed from %d to %d", kk+1, num_monsters );
+
+            while (true) // just keep going until we can't anymore!
+            {
+                if (!linein.eof())
+                {
+                    std::string id;
+                    int id_kills;
+                    if (linein >> id >> id_kills)
+                    {
+                        killcount[id] = id_kills;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
             }
 
             // Finally, the data on the player.

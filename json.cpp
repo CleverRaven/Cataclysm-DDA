@@ -1,6 +1,7 @@
 #include "json.h"
 
 #include "catacharset.h" // utf32_to_utf8
+#include "debug.h"
 
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp
@@ -614,6 +615,7 @@ std::string JsonIn::get_string()
     if (ch != '"') {
         std::stringstream err;
         err << line_number(-1) << ": expecting string but got '" << ch << "'";
+        DebugLog() << err.str() << "\n";
         throw err.str();
     }
     // add chars to the string, one at a time, converting:

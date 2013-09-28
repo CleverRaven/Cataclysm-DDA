@@ -8,6 +8,8 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 
+#include "debug.h"
+
 const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
 
 enum vehicle_controls {
@@ -34,15 +36,29 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     cruise_on = true;
     lights_on = false;
     insides_dirty = true;
-
+DebugLog() << "---Initializing Vehicle\n";
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
-      if(ag->vtypes.count(type) > 0) {
+DebugLog() << "---::Type != NULL\n---::Testing for Template Existance with Type=["<<type<<"]\n";
+bool agnull = ag == NULL;
+bool gnull = g == NULL;
+DebugLog() << "---::AGame=NULL? "<< (!agnull?"TRUE":"FALSE") << "\n";
+DebugLog() << "---:: Game=NULL? "<< (!gnull?"TRUE":"FALSE") << "\n";
+      if (ag && ag->vtypes.find(type) != ag->vtypes.end())
+      {
+DebugLog() << "---::Template Exists! Copying\n";
         //If this template already exists, copy it
         *this = *(ag->vtypes[type]);
         init_state(ag, init_veh_fuel, init_veh_status);
-      }
+      }/*
+      if(ag->vtypes.count(type) > 0) {
+DebugLog() << "---::Template Exists! Copying\n";
+        //If this template already exists, copy it
+        *this = *(ag->vtypes[type]);
+        init_state(ag, init_veh_fuel, init_veh_status);
+      }*/
     }
+DebugLog() << "---Precalculating Mounts\n";
     precalc_mounts(0, face.dir());
 }
 
@@ -609,6 +625,17 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     precalc_mounts (0, face.dir());
     insides_dirty = true;
     return parts.size() - 1;
+}
+
+void vehicle::finalize_template()
+{
+    while (part_cache.size() > 0)
+    {
+        std::pair<point, std::string> part = part_cache.top();
+        part_cache.pop();
+
+        install_part(part.first.x, part.first.y, part.second);
+    }
 }
 
 // share damage & bigness betwixt veh_parts & items.

@@ -33,6 +33,7 @@ num_species
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
 */
+/*
 enum mon_id {
 mon_null = 0,
 // Wildlife
@@ -94,7 +95,7 @@ mon_hallu_mom,
 mon_generator,
 num_monsters
 };
-
+*/
 enum m_size {
 MS_TINY = 0, // Rodent
 MS_SMALL, // Half human
@@ -208,12 +209,11 @@ struct species_type
 };
 
 struct mtype {
-    std::string s_id;
+    std::string id;
     std::set<species_type*> s_species;
     std::map<std::string, m_flag> s_flags;
     std::map<std::string, monster_trigger> s_anger, s_placate, s_fear;
     std::set<std::string> s_categories;
- int id;
  std::string name;
  std::string description;
  monster_species species;
@@ -254,6 +254,7 @@ struct mtype {
  mtype ();
  mtype (std::string pid);
  // Non-default (messy)
+
  mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, std::string pmat,
         unsigned int pdiff, signed char pagro,

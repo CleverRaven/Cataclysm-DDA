@@ -267,6 +267,7 @@ const std::string field_names[num_fields] =
     toString(fd_plasma),
     toString(fd_laser)
 };
+/*
 const std::string monster_names[num_monsters] =
 {
     toString(mon_null),
@@ -408,11 +409,12 @@ const std::string monster_names[num_monsters] =
     toString(mon_tankbot),
     toString(mon_turret),
     toString(mon_exploder),
-    
+
     toString(mon_hallu_mom),
 
     toString(mon_generator)
 };
+*/
 const std::string furn_names[num_furniture_types] =
 {
     toString(f_null),

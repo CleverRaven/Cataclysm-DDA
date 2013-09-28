@@ -130,7 +130,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
      }
   }
   for (int i = 0; i < g->num_zombies(); i++) {
-   if (g->zombie(i).type->id == mon_turret) {
+   if (g->zombie(i).type->id == "mon_turret") {
     g->remove_zombie(i);
     i--;
    }

@@ -6,15 +6,13 @@
 #include <vector>
 #include <map>
 
-typedef std::map<mon_id, std::pair<int,int> > FreqDef;
+typedef std::map<std::string, std::pair<int,int> > FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
-
-void init_translation();
 
 struct MonsterGroup
 {
     std::string name;
-    mon_id defaultMonster;
+    std::string defaultMonster;
     FreqDef  monsters;
 };
 
@@ -66,11 +64,11 @@ class MonsterGroupManager
 {
     public:
         static void LoadJSONGroups() throw (std::string);
-        static mon_id GetMonsterFromGroup(std::string, std::vector <mtype*> *,
+        static std::string GetMonsterFromGroup(std::string, std::vector <mtype*> *,
                                           int *quantity = 0, int turn = -1);
-        static bool IsMonsterInGroup(std::string, mon_id);
-        static std::string Monster2Group(mon_id);
-        static std::vector<mon_id> GetMonstersFromGroup(std::string);
+        static bool IsMonsterInGroup(std::string, std::string);
+        static std::string Monster2Group(std::string);
+        static std::vector<std::string> GetMonstersFromGroup(std::string);
         static MonsterGroup GetMonsterGroup(std::string group);
 
         static void load_monster_group(JsonObject &jo);

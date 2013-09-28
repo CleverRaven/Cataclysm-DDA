@@ -32,6 +32,7 @@ std::vector<std::string> pseudo_itype_ids;
 //  any appropriate lists.
 void game::init_itypes ()
 {
+
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes["null"]=
   new itype("null", 0, "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0);
@@ -41,7 +42,7 @@ void game::init_itypes ()
             0, 0, 1);
  itypes["corpse"]->item_tags.insert("NO_UNLOAD");
 // This must -always- be set, or bad mojo in map::drawsq and whereever we check 'typeId() == "corpse" instead of 'corpse != NULL' ....
- itypes["corpse"]->corpse=this->mtypes[mon_null];
+ //itypes["corpse"]->corpse=GetMon("mon_null"); // <- move to directly after jsons load?
 // Fire - only appears in crafting recipes
  itypes["fire"]=
   new itype("fire", 0, _("nearby fire"),

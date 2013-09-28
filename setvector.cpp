@@ -9,7 +9,7 @@ void setvector(std::vector<int> *vec, ... )
   vec->push_back(tmp);
  va_end(ap);
 }
-
+/*
 void setvector(std::vector<mon_id> *vec, ... )
 {
  va_list ap;
@@ -19,7 +19,7 @@ void setvector(std::vector<mon_id> *vec, ... )
   vec->push_back(tmp);
  va_end(ap);
 }
-
+*/
 void setvector(std::vector<items_location_and_chance> *vec, ... )
 {
  va_list ap;

@@ -3665,7 +3665,7 @@ void map::forget_traps(int gridx, int gridy)
 
 void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
 {
- set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx, 
+ set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx,
    g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
  );
 // Special case of 0-shift; refresh the map
@@ -3920,7 +3920,7 @@ void map::spawn_monsters(game *g)
     for (int j = 0; j < grid[n]->spawns[i].count; j++) {
      int tries = 0;
      int mx = grid[n]->spawns[i].posx, my = grid[n]->spawns[i].posy;
-     monster tmp(g->mtypes[grid[n]->spawns[i].type]);
+     monster tmp(GetMon(grid[n]->spawns[i].type));
      tmp.spawnmapx = g->levx + gx;
      tmp.spawnmapy = g->levy + gy;
      tmp.faction_id = grid[n]->spawns[i].faction_id;

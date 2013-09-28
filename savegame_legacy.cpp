@@ -129,6 +129,12 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
+
+            // NOTE: Chomp Killcount line
+            parseline();
+            // NOTE: Not sure what to do with this, since keeping it in breaks everything. Don't see a way for it to coexist with JSON monsters
+            // at all.
+            /*
             int kk;
             for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
                 linein >> kills[kk];
@@ -136,7 +142,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             if ( kk != num_monsters ) {
                 debugmsg("Warning, number of monsters changed from %d to %d", kk+1, num_monsters );
             }
-
+            */
             // Finally, the data on the player.
             getline(fin, data);
             u.load_info(this, data);
@@ -242,6 +248,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
+            // NOTE: Chomp killcount line
+            parseline();
+            /*
             int kk;
             for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
                 linein >> kills[kk];
@@ -249,6 +258,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             if ( kk != num_monsters ) {
                 debugmsg("Warning, number of monsters changed from %d to %d", kk+1, num_monsters );
             }
+            */
 
             // Finally, the data on the player.
             getline(fin, data);
@@ -351,8 +361,13 @@ original 'structure', which globs game/weather/location & killcount/player data 
         // And the kill counts;
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
+
+         // NOTE: Chomp line
+         getline(fin, data);
+         /*
          for (int i = 0; i < num_monsters; i++)
           fin >> kills[i];
+         */
         // Finally, the data on the player.
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
