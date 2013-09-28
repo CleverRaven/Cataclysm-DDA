@@ -10309,6 +10309,11 @@
       [ "rag", 6 ]
     ],
     [
+      [ "plant_fibre", 50 ],
+      [ "sinew", 50 ],
+      [ "thread", 50 ]
+    ],
+    [
       [ "plastic_chunk", 1 ]
     ]
   ]
