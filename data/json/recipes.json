@@ -1050,8 +1050,9 @@
     ],
     [
       [ "gasoline", 200 ],
+      [ "gunpowder", 72 ],
       [ "shot_bird", 6 ],
-      [ "shot_00", 2 ],
+      [ "shot_00", 3 ],
       [ "shot_slug", 2 ]
     ],
     [
