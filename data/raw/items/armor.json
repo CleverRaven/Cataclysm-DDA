@@ -1988,7 +1988,7 @@
         "enviromental_protection" : 1,
         "encumberance" : 0,
         "bashing" : -4,
-        "flags" : ["VARSIZE","WATERPROOF"],
+        "flags" : ["WATERPROOF"],
         "coverage" : 95,
         "material_thickness" : 2
     },
