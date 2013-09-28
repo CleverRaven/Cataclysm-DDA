@@ -1649,6 +1649,7 @@
       ["hat_fur", 15],
       ["pants_ski", 60],
       ["long_underpants", 40],
+      ["long_undertop", 40],
       ["balclava", 15]
     ]
   },{
@@ -1705,6 +1706,7 @@
       ["balclava", 15],
       ["pants_ski", 60],
       ["long_underpants", 40],
+      ["long_undertop", 40],
       ["trenchcoat_leather", 25],
       ["cloak", 5],
       ["house_coat", 25],
@@ -3023,6 +3025,7 @@
       ["legguard_hard", 15],
       ["under_armor", 20],
       ["long_underpants", 40],
+      ["long_undertop", 40],
       ["helmet_ball", 45],
       ["helmet_riot", 25],
       ["helmet_motor", 40],
