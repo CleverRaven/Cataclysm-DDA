@@ -1,0 +1,1324 @@
+[
+    {
+        "name": "nothing",
+        "symbol": " ",
+        "color": "white",
+        "move_cost": 2,
+        "flags": ["transparent", "diggable"],
+    },
+    {
+        "name": "empty space",
+        "symbol": " ",
+        "color": "black",
+        "move_cost": 2,
+        "trap": "ledge",
+        "flags": ["transparent"],
+    },
+    {
+        "name": "dirt",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["transparent", "diggable", "flat"],
+    },
+    {
+        "name": "sand",
+        "symbol": ".",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["transparent", "diggable", "flat"],
+    },
+    {
+        "name": "mound of dirt",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": ["transparent", "diggable"],
+        "examine_action": "dirtmound"
+    },
+    {
+        "name": "shallow pit",
+        "symbol": "0",
+        "color": "yellow",
+        "move_cost": 8,
+        "flags": ["transparent", "diggable"],
+    },
+    {
+        "name": "pit",
+        "symbol": "0",
+        "color": "brown",
+        "move_cost": 10,
+        "trap": "pit",
+        "flags": ["transparent", "diggable"],
+        "examine_action": "pit"
+    },
+    {
+        "name": "corpse filled pit",
+        "symbol": "#",
+        "color": "green",
+        "move_cost": 5,
+        "flags": ["transparent", "diggable"],
+    },
+    {
+        "name": "covered pit",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 2,
+        "flags": ["transparent"],
+        "examine_action": "pit_covered"
+    },
+    {
+        "name": "spiked pit",
+        "symbol": "0",
+        "color": "ltred",
+        "move_cost": 10,
+        "trap": "spike_pit",
+        "flags": ["transparent", "diggable"],
+        "examine_action": "pit"
+    },
+    {
+        "name": "covered spiked pit",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 2,
+        "flags": ["transparent"],
+        "examine_action": "pit_covered"
+    },
+    {
+        "name": "rock floor",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["transparent", "indoors", "flat"],
+    },
+    {
+        "name": "pile of rubble",
+        "symbol": "^",
+        "color": "ltgray",
+        "move_cost": 4,
+        "flags": ["transparent", "rough", "diggable"],
+        "examine_action": "rubble"
+    },
+    {
+        "name": "pile of ash",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["transparent", "diggable"],
+        "examine_action": "rubble"
+    },
+    {
+        "name": "twisted metal",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 5,
+        "flags": ["transparent", "rough", "sharp", "place_item"],
+        "examine_action": "wreckage"
+    },
+    {
+        "name": "metal wreckage",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 5,
+        "flags": ["transparent", "rough", "sharp", "place_item"],
+        "examine_action": "wreckage"
+    },
+    {
+        "name": "grass",
+        "symbol": ".",
+        "color": "green",
+        "move_cost": 2,
+        "flags": ["transparent", "diggable", "flat"],
+    },
+    {
+        "name": "metal floor",
+        "symbol": ".",
+        "color": "ltcyan",
+        "move_cost": 2,
+        "flags": ["transparent", "indoors", "flat"],
+    },
+    {
+        "name": "pavement",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["transparent", "flat"],
+    },
+    {
+        "name": "yellow pavement",
+        "symbol": ".",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["transparent", "flat"],
+    },
+    {
+        "name": "sidewalk",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["transparent", "flat"],
+    },
+    {
+        "name": "concrete",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["transparent", "flat"],
+    },
+    {
+        "name": "floor",
+        "symbol": ".",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": [
+            "transparent", "l_flammable", "supports_roof", "collapses", "indoors", "flat"
+        ],
+    },
+    {
+        "name": "dirt floor",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": [
+            "transparent", "diggable", "supports_roof", "collapses", "indoors", "flat"
+        ],
+    },
+    {
+        "name": "metal grate",
+        "symbol": "#",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["transparent"],
+    },
+    {
+        "name": "slime",
+        "symbol": "~",
+        "color": "green",
+        "move_cost": 6,
+        "flags": ["transparent", "container", "flammable2", "place_item"],
+    },
+    {
+        "name": "walkway",
+        "symbol": "#",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["transparent"],
+    },
+    {
+        "name": "floor",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": [
+            "transparent", "l_flammable", "supports_roof", "collapses", "flat"
+        ],
+    },
+    {
+        "name": "floor",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": [
+            "transparent", "l_flammable", "supports_roof", "collapses", "indoors", "flat"
+        ],
+    },
+    {
+        "name": "floor",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": [
+            "transparent", "l_flammable", "supports_roof", "collapses", "indoors", "flat"
+        ],
+    },
+    {
+        "name": "half-built wall",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 4,
+        "flags": ["transparent", "bashable", "flammable2", "noitem"],
+    },
+    {
+        "name": "log wall",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["bashable", "flammable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "chipped log wall",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["bashable", "flammable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "broken log wall",
+        "symbol": "&",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "transparent", "bashable", "flammable2", "noitem", "supports_roof"
+        ],
+    },
+    {
+        "name": "palisade wall",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "bashable", "flammable", "noitem", "supports_roof", "transparent"],
+    },
+    {
+        "name": "palisade gate",
+        "symbol": "+",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": [
+            "bashable", "flammable", "noitem", "supports_roof", "door", "transparent"
+        ],
+    },
+    {
+        "name": "dirt",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["transparent", "flammable", "supports_roof", "flat"],
+    },
+    {
+        "name": "half-built wall",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 4,
+        "flags": ["transparent", "bashable", "flammable2", "noitem"],
+    },
+    {
+        "name": "wooden wall",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": ["bashable", "flammable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "chipped wood wall",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": ["bashable", "flammable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "broken wood wall",
+        "symbol": "&",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": [
+            "transparent", "bashable", "flammable2", "noitem", "supports_roof"
+        ],
+    },
+    {
+        "name": "wall",
+        "symbol": "LINE_XOXO",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["flammable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "wall",
+        "symbol": "LINE_OXOX",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["flammable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "concrete wall",
+        "symbol": "LINE_XOXO",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["noitem", "supports_roof"],
+    },
+    {
+        "name": "concrete wall",
+        "symbol": "LINE_OXOX",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["noitem", "supports_roof"],
+    },
+    {
+        "name": "metal wall",
+        "symbol": "LINE_XOXO",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["noitem", "noitem", "supports_roof"],
+    },
+    {
+        "name": "metal wall",
+        "symbol": "LINE_OXOX",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["noitem", "noitem", "supports_roof"],
+    },
+    {
+        "name": "glass wall",
+        "symbol": "LINE_XOXO",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["transparent", "bashable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "glass wall",
+        "symbol": "LINE_OXOX",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["transparent", "bashable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "glass wall",
+        "symbol": "LINE_XOXO",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "transparent", "bashable", "alarmed", "noitem", "supports_roof"],
+    },
+    {
+        "name": "glass wall",
+        "symbol": "LINE_OXOX",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "transparent", "bashable", "alarmed", "noitem", "supports_roof"],
+    },
+    {
+        "name": "reinforced glass",
+        "symbol": "LINE_XOXO",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["transparent", "bashable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "reinforced glass",
+        "symbol": "LINE_OXOX",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["transparent", "bashable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "metal bars",
+        "symbol": "\"",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["transparent", "noitem"],
+    },
+    {
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["bashable", "flammable2", "door", "noitem", "supports_roof"],
+    },
+    {
+        "name": "damaged wood door",
+        "symbol": "&",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "transparent", "bashable", "flammable2", "noitem", "supports_roof"
+        ],
+    },
+    {
+        "name": "open wood door",
+        "symbol": "\"",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["flammable2", "transparent", "supports_roof", "flat"],
+    },
+    {
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["bashable", "flammable2", "noitem", "supports_roof"],
+    },
+    {
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["bashable", "flammable2", "noitem", "supports_roof"],
+    },
+    {
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "bashable", "flammable2", "alarmed", "noitem", "supports_roof"],
+    },
+    {
+        "name": "empty door frame",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["transparent", "supports_roof", "flat"],
+    },
+    {
+        "name": "locked wire gate",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["transparent", "supports_roof"],
+    },
+    {
+        "name": "closed wooden gate",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": ["transparent", "supports_roof", "bashable", "flammable2"],
+    },
+    {
+        "name": "open wooden gate",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": [
+            "transparent", "supports_roof", "bashable", "flammable2", "flat"],
+    },
+    {
+        "name": "closed wire gate",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["transparent", "supports_roof"],
+    },
+    {
+        "name": "open wire gate",
+        "symbol": ".",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": ["transparent", "supports_roof", "flat"],
+    },
+    {
+        "name": "boarded up door",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["bashable", "flammable2", "noitem", "supports_roof"],
+    },
+    {
+        "name": "closed metal door",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["noitem", "supports_roof"],
+    },
+    {
+        "name": "open metal door",
+        "symbol": "\"",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": ["transparent", "supports_roof", "flat"],
+    },
+    {
+        "name": "closed metal door",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["noitem", "supports_roof"],
+    },
+    {
+        "name": "closed bar door",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["transparent", "noitem", "supports_roof"],
+    },
+    {
+        "name": "open bar door",
+        "symbol": "\"",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": ["transparent", "supports_roof", "flat"],
+    },
+    {
+        "name": "closed bar door",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["transparent", "noitem", "supports_roof"],
+    },
+    {
+        "name": "closed glass door",
+        "symbol": "+",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["transparent", "bashable", "door", "noitem", "supports_roof"
+        ],
+    },
+    {
+        "name": "open glass door",
+        "symbol": "\"",
+        "color": "ltcyan",
+        "move_cost": 2,
+        "flags": ["transparent", "supports_roof", "flat"],
+    },
+    {
+        "name": "makeshift portcullis",
+        "symbol": "&",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["noitem"],
+    },
+    {
+        "name": "steel compactor",
+        "symbol": "&",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["transparent"],
+        "examine_action": "recycler"
+    },
+    {
+        "name": "window",
+        "symbol": "\"",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "transparent", "bashable", "flammable", "noitem", "supports_roof", "deconstruct"
+        ],
+    },
+    {
+        "name": "taped window",
+        "symbol": "\"",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "bashable", "flammable", "noitem", "supports_roof", "reduce_scent"
+        ],
+    },
+    {
+        "name": "window",
+        "symbol": "\"",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "transparent", "bashable", "flammable", "noitem", "supports_roof", "deconstruct"
+        ],
+    },
+    {
+        "name": "taped window",
+        "symbol": "\"",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "bashable", "flammable", "noitem", "supports_roof", "reduce_scent"
+        ],
+    },
+    {
+        "name": "open window",
+        "symbol": "\"",
+        "color": "ltcyan",
+        "move_cost": 4,
+        "flags": ["transparent", "flammable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "closed curtains",
+        "symbol": "\"",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "bashable", "flammable", "noitem", "supports_roof", "deconstruct"],
+    },
+    {
+        "name": "window",
+        "symbol": "\"",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "transparent", "bashable", "flammable", "alarmed", "noitem", "supports_roof"
+        ],
+    },
+    {
+        "name": "taped window",
+        "symbol": "\"",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "bashable", "flammable", "noitem", "supports_roof", "alarmed", "reduce_scent"
+        ],
+    },
+    {
+        "name": "empty window",
+        "symbol": "0",
+        "color": "yellow",
+        "move_cost": 8,
+        "flags": ["transparent", "flammable", "supports_roof"],
+    },
+    {
+        "name": "window frame",
+        "symbol": "0",
+        "color": "ltcyan",
+        "move_cost": 8,
+        "flags": [
+            "transparent", "sharp", "flammable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "boarded up window",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["bashable", "flammable", "noitem", "supports_roof"],
+    },
+    {
+        "name": "high stained glass window",
+        "symbol": "\"",
+        "color": "ltgreen",
+        "move_cost": 0,
+        "flags": ["noitem", "supports_roof"],
+    },
+    {
+        "name": "high stained glass window",
+        "symbol": "\"",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": ["noitem", "supports_roof"],
+    },
+    {
+        "name": "high stained glass window",
+        "symbol": "\"",
+        "color": "ltblue",
+        "move_cost": 0,
+        "flags": ["noitem", "supports_roof"],
+    },
+    {
+        "name": "solid rock",
+        "symbol": "#",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["noitem", "supports_roof"],
+    },
+    {
+        "name": "odd fault",
+        "symbol": "#",
+        "color": "magenta",
+        "move_cost": 0,
+        "flags": ["noitem", "supports_roof"],
+        "examine_action": "fault"
+    },
+    {
+        "name": "paper wall",
+        "symbol": "#",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["bashable", "flammable2", "noitem"],
+    },
+    {
+        "name": "tree",
+        "symbol": "7",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["flammable2", "noitem", "supports_roof"],
+    },
+    {
+        "name": "young tree",
+        "symbol": "1",
+        "color": "green",
+        "move_cost": 4,
+        "flags": ["transparent", "bashable", "flammable2", "noitem"],
+    },
+    {
+        "name": "apple tree",
+        "symbol": "7",
+        "color": "ltgreen",
+        "move_cost": 0,
+        "flags": ["flammable2", "noitem", "supports_roof"],
+        "examine_action": "tree_apple"
+    },
+    {
+        "name": "underbrush",
+        "symbol": "#",
+        "color": "ltgreen",
+        "move_cost": 6,
+        "flags": [
+            "transparent", "bashable", "diggable", "container", "flammable2", "thin_obstacle", "place_item"
+        ],
+        "examine_action": "shrub_wildveggies"
+    },
+    {
+        "name": "shrub",
+        "symbol": "#",
+        "color": "green",
+        "move_cost": 8,
+        "flags": [
+            "transparent", "bashable", "container", "flammable2", "thin_obstacle", "place_item"
+        ],
+    },
+    {
+        "name": "blueberry bush",
+        "symbol": "#",
+        "color": "ltgreen",
+        "move_cost": 8,
+        "flags": [
+            "transparent", "bashable", "container", "flammable2", "thin_obstacle"
+        ],
+        "examine_action": "shrub_blueberry"
+    },
+    {
+        "name": "strawberry bush",
+        "symbol": "#",
+        "color": "ltgreen",
+        "move_cost": 8,
+        "flags": [
+            "transparent", "bashable", "container", "flammable2", "thin_obstacle"
+        ],
+        "examine_action": "shrub_strawberry"
+    },
+    {
+        "name": "tree trunk",
+        "symbol": "1",
+        "color": "brown",
+        "move_cost": 4,
+        "flags": ["transparent", "flammable2", "diggable"],
+    },
+    {
+        "name": "root wall",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["noitem", "supports_roof"],
+    },
+    {
+        "name": "wax wall",
+        "symbol": "#",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["flammable2", "noitem", "supports_roof", "place_item"],
+    },
+    {
+        "name": "wax floor",
+        "symbol": ".",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["transparent", "l_flammable", "indoors", "flat"],
+    },
+    {
+        "name": "picket fence",
+        "symbol": ", ",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": [
+            "bashable", "transparent", "diggable", "flammable2", "noitem", "thin_obstacle"
+        ],
+    },
+    {
+        "name": "picket fence",
+        "symbol": "-",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": [
+            "bashable", "transparent", "diggable", "flammable2", "noitem", "thin_obstacle"
+        ],
+    },
+    {
+        "name": "chain link fence",
+        "symbol": ", ",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": [
+            "transparent", "bashable", "noitem", "thin_obstacle", "supports_roof"
+        ],
+        "examine_action": "chainfence"
+    },
+    {
+        "name": "chain link fence",
+        "symbol": "-",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": [
+            "transparent", "bashable", "noitem", "thin_obstacle", "supports_roof"
+        ],
+        "examine_action": "chainfence"
+    },
+    {
+        "name": "metal post",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": ["transparent", "thin_obstacle"],
+    },
+    {
+        "name": "fence post",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["transparent", "thin_obstacle"],
+        "examine_action": "fence_post"
+    },
+    {
+        "name": "wire fence",
+        "symbol": "$",
+        "color": "blue",
+        "move_cost": 4,
+        "flags": ["transparent", "thin_obstacle"],
+        "examine_action": "remove_fence_wire"
+    },
+    {
+        "name": "barbed wire fence",
+        "symbol": "$",
+        "color": "blue",
+        "move_cost": 4,
+        "flags": ["transparent", "sharp", "thin_obstacle"],
+        "examine_action": "remove_fence_barbed"
+    },
+    {
+        "name": "rope fence",
+        "symbol": "$",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": ["transparent", "thin_obstacle"],
+        "examine_action": "remove_fence_rope"
+    },
+    {
+        "name": "railing",
+        "symbol": ", ",
+        "color": "yellow",
+        "move_cost": 3,
+        "flags": ["transparent", "noitem", "thin_obstacle"],
+    },
+    {
+        "name": "railing",
+        "symbol": "-",
+        "color": "yellow",
+        "move_cost": 3,
+        "flags": ["transparent", "noitem", "thin_obstacle"],
+    },
+    {
+        "name": "marloss bush",
+        "symbol": "1",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["transparent", "bashable", "flammable2"],
+    },
+    {
+        "name": "fungal bed",
+        "symbol": "#",
+        "color": "dkgray",
+        "move_cost": 3,
+        "flags": ["transparent", "flammable2", "diggable"],
+    },
+    {
+        "name": "fungal tree",
+        "symbol": "7",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["flammable2", "noitem"],
+    },
+    {
+        "name": "shallow water",
+        "symbol": "~",
+        "color": "ltblue",
+        "move_cost": 5,
+        "flags": ["transparent", "liquid", "swimmable"],
+        "examine_action": "water_source"
+    },
+    {
+        "name": "deep water",
+        "symbol": "~",
+        "color": "blue",
+        "move_cost": 0,
+        "flags": ["transparent", "liquid", "swimmable"],
+        "examine_action": "water_source"
+    },
+    {
+        "name": "pool water",
+        "symbol": "~",
+        "color": "ltblue",
+        "move_cost": 5,
+        "flags": ["transparent", "liquid", "swimmable", "indoors"],
+        "examine_action": "water_source"
+    },
+    {
+        "name": "sewage",
+        "symbol": "~",
+        "color": "ltgreen",
+        "move_cost": 6,
+        "flags": ["transparent", "swimmable"],
+        "examine_action": "water_source"
+    },
+    {
+        "name": "lava",
+        "symbol": "~",
+        "color": "red",
+        "move_cost": 4,
+        "trap": "lava",
+        "flags": ["transparent", "liquid", "destroy_item"],
+    },
+    {
+        "name": "sandbox",
+        "symbol": "#",
+        "color": "yellow",
+        "move_cost": 3,
+        "flags": ["transparent", "deconstruct"],
+    },
+    {
+        "name": "slide",
+        "symbol": "#",
+        "color": "ltcyan",
+        "move_cost": 4,
+        "flags": ["transparent", "deconstruct"],
+    },
+    {
+        "name": "monkey bars",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost": 4,
+        "flags": ["transparent", "deconstruct"],
+    },
+    {
+        "name": "backboard",
+        "symbol": "7",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["transparent", "deconstruct"],
+    },
+    {
+        "name": "gasoline pump",
+        "symbol": "&",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["transparent", "explodes", "noitem", "sealed", "container"],
+        "examine_action": "gaspump"
+    },
+    {
+        "name": "smashed gas pump",
+        "symbol": "&",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": ["transparent", "noitem"],
+    },
+    {
+        "name": "broken generator",
+        "symbol": "&",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["transparent", "noitem"],
+    },
+    {
+        "name": "missile",
+        "symbol": "#",
+        "color": "ltblue",
+        "move_cost": 0,
+        "flags": ["explodes", "noitem"],
+    },
+    {
+        "name": "blown-out missile",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["noitem"],
+    },
+    {
+        "name": "radio tower",
+        "symbol": "&",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["noitem"],
+    },
+    {
+        "name": "radio controls",
+        "symbol": "6",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["transparent", "bashable", "noitem"],
+    },
+    {
+        "name": "broken console",
+        "symbol": "6",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["transparent", "noitem", "collapses", "indoors"],
+    },
+    {
+        "name": "computer console",
+        "symbol": "6",
+        "color": "blue",
+        "move_cost": 0,
+        "flags": ["transparent", "console", "noitem", "collapses", "indoors"],
+    },
+    {
+        "name": "mechanical winch",
+        "symbol": "6",
+        "color": "cyan_red",
+        "move_cost": 0,
+        "flags": ["transparent", "noitem", "collapses"],
+        "examine_action": "controls_gate"
+    },
+    {
+        "name": "mechanical winch",
+        "symbol": "6",
+        "color": "cyan_red",
+        "move_cost": 0,
+        "flags": ["transparent", "noitem", "collapses"],
+        "examine_action": "controls_gate"
+    },
+    {
+        "name": "rope and pulley",
+        "symbol": ", ",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["transparent", "noitem", "collapses"],
+        "examine_action": "controls_gate"
+    },
+    {
+        "name": "rope and pulley",
+        "symbol": ", ",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["transparent", "noitem", "collapses"],
+        "examine_action": "controls_gate"
+    },
+    {
+        "name": "sewage pipe",
+        "symbol": "1",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["transparent"],
+    },
+    {
+        "name": "sewage pump",
+        "symbol": "&",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["noitem"],
+    },
+    {
+        "name": "centrifuge",
+        "symbol": "{",
+        "color": "magenta",
+        "move_cost": 0,
+        "flags": ["transparent"],
+    },
+    {
+        "name": "column",
+        "symbol": "1",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["flammable"],
+    },
+    {
+        "name": "cloning vat",
+        "symbol": "0",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["transparent", "bashable", "sealed", "place_item"],
+    },
+    {
+        "name": "stairs down",
+        "symbol": ">",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["transparent", "goes_down", "place_item"],
+    },
+    {
+        "name": "stairs up",
+        "symbol": "<",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["transparent", "goes_up", "place_item"],
+    },
+    {
+        "name": "manhole",
+        "symbol": ">",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["transparent", "goes_down", "place_item"],
+    },
+    {
+        "name": "ladder",
+        "symbol": "<",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["transparent", "goes_up", "place_item"],
+    },
+    {
+        "name": "ladder",
+        "symbol": ">",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["transparent", "goes_down", "place_item"],
+    },
+    {
+        "name": "downward slope",
+        "symbol": ">",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["transparent", "goes_down", "place_item"],
+    },
+    {
+        "name": "upward slope",
+        "symbol": "<",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": ["transparent", "goes_up", "place_item"],
+    },
+    {
+        "name": "rope leading up",
+        "symbol": "<",
+        "color": "white",
+        "move_cost": 2,
+        "flags": ["transparent", "goes_up"],
+    },
+    {
+        "name": "manhole cover",
+        "symbol": "0",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["transparent"],
+    },
+    {
+        "name": "card reader",
+        "symbol": "6",
+        "color": "pink",
+        "move_cost": 0,
+        "flags": ["noitem"],
+        "examine_action": "cardreader"
+    },
+    {
+        "name": "card reader",
+        "symbol": "6",
+        "color": "pink",
+        "move_cost": 0,
+        "flags": ["noitem"],
+        "examine_action": "cardreader"
+    },
+    {
+        "name": "broken card reader",
+        "symbol": "6",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["noitem"],
+    },
+    {
+        "name": "slot machine",
+        "symbol": "6",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["bashable", "noitem", "indoors"],
+        "examine_action": "slot_machine"
+    },
+    {
+        "name": "elevator controls",
+        "symbol": "6",
+        "color": "ltblue",
+        "move_cost": 0,
+        "flags": ["noitem", "indoors"],
+        "examine_action": "elevator"
+    },
+    {
+        "name": "powerless controls",
+        "symbol": "6",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["noitem", "indoors"],
+    },
+    {
+        "name": "elevator",
+        "symbol": ".",
+        "color": "magenta",
+        "move_cost": 2,
+        "flags": ["indoors", "transparent"],
+    },
+    {
+        "name": "dark pedestal",
+        "symbol": "&",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["transparent"],
+        "examine_action": "pedestal_wyrm"
+    },
+    {
+        "name": "light pedestal",
+        "symbol": "&",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["transparent"],
+        "examine_action": "pedestal_temple"
+    },
+    {
+        "name": "red stone",
+        "symbol": "#",
+        "color": "red",
+        "move_cost": 0,
+        "move_cost": 0,
+        "flags": [
+        ],
+    },
+    {
+        "name": "green stone",
+        "symbol": "#",
+        "color": "green",
+        "move_cost": 0,
+        "move_cost": 0,
+        "flags": [
+        ],
+    },
+    {
+        "name": "blue stone",
+        "symbol": "#",
+        "color": "blue",
+        "move_cost": 0,
+        "move_cost": 0,
+        "flags": [
+        ],
+    },
+    {
+        "name": "red floor",
+        "symbol": ".",
+        "color": "red",
+        "move_cost": 2,
+        "flags": ["transparent", "flat"],
+    },
+    {
+        "name": "green floor",
+        "symbol": ".",
+        "color": "green",
+        "move_cost": 2,
+        "flags": ["transparent", "flat"],
+    },
+    {
+        "name": "blue floor",
+        "symbol": ".",
+        "color": "blue",
+        "move_cost": 2,
+        "flags": ["transparent", "flat"],
+    },
+    {
+        "name": "yellow switch",
+        "symbol": "6",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["transparent"],
+        "examine_action": "fswitch"
+    },
+    {
+        "name": "cyan switch",
+        "symbol": "6",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["transparent"],
+        "examine_action": "fswitch"
+    },
+    {
+        "name": "purple switch",
+        "symbol": "6",
+        "color": "magenta",
+        "move_cost": 0,
+        "flags": ["transparent"],
+        "examine_action": "fswitch"
+    },
+    {
+        "name": "checkered switch",
+        "symbol": "6",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["transparent"],
+        "examine_action": "fswitch"
+    }
+]
