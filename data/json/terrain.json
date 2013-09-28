@@ -1,5 +1,6 @@
 [
     {
+        "type": "terrain",
         "name": "nothing",
         "symbol": " ",
         "color": "white",
@@ -7,6 +8,7 @@
         "flags": ["transparent", "diggable"],
     },
     {
+        "type": "terrain",
         "name": "empty space",
         "symbol": " ",
         "color": "black",
@@ -15,6 +17,7 @@
         "flags": ["transparent"],
     },
     {
+        "type": "terrain",
         "name": "dirt",
         "symbol": ".",
         "color": "brown",
@@ -22,6 +25,7 @@
         "flags": ["transparent", "diggable", "flat"],
     },
     {
+        "type": "terrain",
         "name": "sand",
         "symbol": ".",
         "color": "yellow",
@@ -29,6 +33,7 @@
         "flags": ["transparent", "diggable", "flat"],
     },
     {
+        "type": "terrain",
         "name": "mound of dirt",
         "symbol": "#",
         "color": "brown",
@@ -37,6 +42,7 @@
         "examine_action": "dirtmound"
     },
     {
+        "type": "terrain",
         "name": "shallow pit",
         "symbol": "0",
         "color": "yellow",
@@ -44,6 +50,7 @@
         "flags": ["transparent", "diggable"],
     },
     {
+        "type": "terrain",
         "name": "pit",
         "symbol": "0",
         "color": "brown",
@@ -53,6 +60,7 @@
         "examine_action": "pit"
     },
     {
+        "type": "terrain",
         "name": "corpse filled pit",
         "symbol": "#",
         "color": "green",
@@ -60,6 +68,7 @@
         "flags": ["transparent", "diggable"],
     },
     {
+        "type": "terrain",
         "name": "covered pit",
         "symbol": "#",
         "color": "ltred",
@@ -68,6 +77,7 @@
         "examine_action": "pit_covered"
     },
     {
+        "type": "terrain",
         "name": "spiked pit",
         "symbol": "0",
         "color": "ltred",
@@ -77,6 +87,7 @@
         "examine_action": "pit"
     },
     {
+        "type": "terrain",
         "name": "covered spiked pit",
         "symbol": "#",
         "color": "ltred",
@@ -85,6 +96,7 @@
         "examine_action": "pit_covered"
     },
     {
+        "type": "terrain",
         "name": "rock floor",
         "symbol": ".",
         "color": "ltgray",
@@ -92,6 +104,7 @@
         "flags": ["transparent", "indoors", "flat"],
     },
     {
+        "type": "terrain",
         "name": "pile of rubble",
         "symbol": "^",
         "color": "ltgray",
@@ -100,6 +113,7 @@
         "examine_action": "rubble"
     },
     {
+        "type": "terrain",
         "name": "pile of ash",
         "symbol": "#",
         "color": "ltgray",
@@ -108,6 +122,7 @@
         "examine_action": "rubble"
     },
     {
+        "type": "terrain",
         "name": "twisted metal",
         "symbol": "#",
         "color": "cyan",
@@ -116,6 +131,7 @@
         "examine_action": "wreckage"
     },
     {
+        "type": "terrain",
         "name": "metal wreckage",
         "symbol": "#",
         "color": "cyan",
@@ -124,6 +140,7 @@
         "examine_action": "wreckage"
     },
     {
+        "type": "terrain",
         "name": "grass",
         "symbol": ".",
         "color": "green",
@@ -131,6 +148,7 @@
         "flags": ["transparent", "diggable", "flat"],
     },
     {
+        "type": "terrain",
         "name": "metal floor",
         "symbol": ".",
         "color": "ltcyan",
@@ -138,6 +156,7 @@
         "flags": ["transparent", "indoors", "flat"],
     },
     {
+        "type": "terrain",
         "name": "pavement",
         "symbol": ".",
         "color": "dkgray",
@@ -145,6 +164,7 @@
         "flags": ["transparent", "flat"],
     },
     {
+        "type": "terrain",
         "name": "yellow pavement",
         "symbol": ".",
         "color": "yellow",
@@ -152,6 +172,7 @@
         "flags": ["transparent", "flat"],
     },
     {
+        "type": "terrain",
         "name": "sidewalk",
         "symbol": ".",
         "color": "ltgray",
@@ -159,6 +180,7 @@
         "flags": ["transparent", "flat"],
     },
     {
+        "type": "terrain",
         "name": "concrete",
         "symbol": ".",
         "color": "ltgray",
@@ -166,6 +188,7 @@
         "flags": ["transparent", "flat"],
     },
     {
+        "type": "terrain",
         "name": "floor",
         "symbol": ".",
         "color": "cyan",
@@ -175,6 +198,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "dirt floor",
         "symbol": ".",
         "color": "brown",
@@ -184,6 +208,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "metal grate",
         "symbol": "#",
         "color": "dkgray",
@@ -191,6 +216,7 @@
         "flags": ["transparent"],
     },
     {
+        "type": "terrain",
         "name": "slime",
         "symbol": "~",
         "color": "green",
@@ -198,6 +224,7 @@
         "flags": ["transparent", "container", "flammable2", "place_item"],
     },
     {
+        "type": "terrain",
         "name": "walkway",
         "symbol": "#",
         "color": "yellow",
@@ -205,6 +232,7 @@
         "flags": ["transparent"],
     },
     {
+        "type": "terrain",
         "name": "floor",
         "symbol": ".",
         "color": "white",
@@ -214,6 +242,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "floor",
         "symbol": ".",
         "color": "white",
@@ -223,6 +252,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "floor",
         "symbol": ".",
         "color": "white",
@@ -232,6 +262,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "half-built wall",
         "symbol": "#",
         "color": "brown",
@@ -239,6 +270,7 @@
         "flags": ["transparent", "bashable", "flammable2", "noitem"],
     },
     {
+        "type": "terrain",
         "name": "log wall",
         "symbol": "#",
         "color": "brown",
@@ -246,6 +278,7 @@
         "flags": ["bashable", "flammable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "chipped log wall",
         "symbol": "#",
         "color": "brown",
@@ -253,6 +286,7 @@
         "flags": ["bashable", "flammable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "broken log wall",
         "symbol": "&",
         "color": "brown",
@@ -262,6 +296,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "palisade wall",
         "symbol": "#",
         "color": "brown",
@@ -270,6 +305,7 @@
             "bashable", "flammable", "noitem", "supports_roof", "transparent"],
     },
     {
+        "type": "terrain",
         "name": "palisade gate",
         "symbol": "+",
         "color": "ltred",
@@ -279,6 +315,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "dirt",
         "symbol": ".",
         "color": "brown",
@@ -286,6 +323,7 @@
         "flags": ["transparent", "flammable", "supports_roof", "flat"],
     },
     {
+        "type": "terrain",
         "name": "half-built wall",
         "symbol": "#",
         "color": "ltred",
@@ -293,6 +331,7 @@
         "flags": ["transparent", "bashable", "flammable2", "noitem"],
     },
     {
+        "type": "terrain",
         "name": "wooden wall",
         "symbol": "#",
         "color": "ltred",
@@ -300,6 +339,7 @@
         "flags": ["bashable", "flammable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "chipped wood wall",
         "symbol": "#",
         "color": "ltred",
@@ -307,6 +347,7 @@
         "flags": ["bashable", "flammable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "broken wood wall",
         "symbol": "&",
         "color": "ltred",
@@ -316,6 +357,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "wall",
         "symbol": "LINE_XOXO",
         "color": "ltgray",
@@ -323,6 +365,7 @@
         "flags": ["flammable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "wall",
         "symbol": "LINE_OXOX",
         "color": "ltgray",
@@ -330,6 +373,7 @@
         "flags": ["flammable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "concrete wall",
         "symbol": "LINE_XOXO",
         "color": "dkgray",
@@ -337,6 +381,7 @@
         "flags": ["noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "concrete wall",
         "symbol": "LINE_OXOX",
         "color": "dkgray",
@@ -344,6 +389,7 @@
         "flags": ["noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "metal wall",
         "symbol": "LINE_XOXO",
         "color": "cyan",
@@ -351,6 +397,7 @@
         "flags": ["noitem", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "metal wall",
         "symbol": "LINE_OXOX",
         "color": "cyan",
@@ -358,6 +405,7 @@
         "flags": ["noitem", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "glass wall",
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
@@ -365,6 +413,7 @@
         "flags": ["transparent", "bashable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "glass wall",
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
@@ -372,6 +421,7 @@
         "flags": ["transparent", "bashable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "glass wall",
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
@@ -380,6 +430,7 @@
             "transparent", "bashable", "alarmed", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "glass wall",
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
@@ -388,6 +439,7 @@
             "transparent", "bashable", "alarmed", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "reinforced glass",
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
@@ -395,6 +447,7 @@
         "flags": ["transparent", "bashable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "reinforced glass",
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
@@ -402,6 +455,7 @@
         "flags": ["transparent", "bashable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "metal bars",
         "symbol": "\"",
         "color": "ltgray",
@@ -409,6 +463,7 @@
         "flags": ["transparent", "noitem"],
     },
     {
+        "type": "terrain",
         "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
@@ -416,6 +471,7 @@
         "flags": ["bashable", "flammable2", "door", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "damaged wood door",
         "symbol": "&",
         "color": "brown",
@@ -425,6 +481,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "open wood door",
         "symbol": "\"",
         "color": "brown",
@@ -432,6 +489,7 @@
         "flags": ["flammable2", "transparent", "supports_roof", "flat"],
     },
     {
+        "type": "terrain",
         "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
@@ -439,6 +497,7 @@
         "flags": ["bashable", "flammable2", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
@@ -446,6 +505,7 @@
         "flags": ["bashable", "flammable2", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
@@ -454,6 +514,7 @@
             "bashable", "flammable2", "alarmed", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "empty door frame",
         "symbol": ".",
         "color": "brown",
@@ -461,6 +522,7 @@
         "flags": ["transparent", "supports_roof", "flat"],
     },
     {
+        "type": "terrain",
         "name": "locked wire gate",
         "symbol": "+",
         "color": "cyan",
@@ -468,6 +530,7 @@
         "flags": ["transparent", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "closed wooden gate",
         "symbol": "+",
         "color": "brown",
@@ -475,6 +538,7 @@
         "flags": ["transparent", "supports_roof", "bashable", "flammable2"],
     },
     {
+        "type": "terrain",
         "name": "open wooden gate",
         "symbol": ".",
         "color": "brown",
@@ -483,6 +547,7 @@
             "transparent", "supports_roof", "bashable", "flammable2", "flat"],
     },
     {
+        "type": "terrain",
         "name": "closed wire gate",
         "symbol": "+",
         "color": "cyan",
@@ -490,6 +555,7 @@
         "flags": ["transparent", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "open wire gate",
         "symbol": ".",
         "color": "cyan",
@@ -497,6 +563,7 @@
         "flags": ["transparent", "supports_roof", "flat"],
     },
     {
+        "type": "terrain",
         "name": "boarded up door",
         "symbol": "#",
         "color": "brown",
@@ -504,6 +571,7 @@
         "flags": ["bashable", "flammable2", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "closed metal door",
         "symbol": "+",
         "color": "cyan",
@@ -511,6 +579,7 @@
         "flags": ["noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "open metal door",
         "symbol": "\"",
         "color": "cyan",
@@ -518,6 +587,7 @@
         "flags": ["transparent", "supports_roof", "flat"],
     },
     {
+        "type": "terrain",
         "name": "closed metal door",
         "symbol": "+",
         "color": "cyan",
@@ -525,6 +595,7 @@
         "flags": ["noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "closed bar door",
         "symbol": "+",
         "color": "cyan",
@@ -532,6 +603,7 @@
         "flags": ["transparent", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "open bar door",
         "symbol": "\"",
         "color": "cyan",
@@ -539,6 +611,7 @@
         "flags": ["transparent", "supports_roof", "flat"],
     },
     {
+        "type": "terrain",
         "name": "closed bar door",
         "symbol": "+",
         "color": "cyan",
@@ -546,6 +619,7 @@
         "flags": ["transparent", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "closed glass door",
         "symbol": "+",
         "color": "ltcyan",
@@ -554,6 +628,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "open glass door",
         "symbol": "\"",
         "color": "ltcyan",
@@ -561,6 +636,7 @@
         "flags": ["transparent", "supports_roof", "flat"],
     },
     {
+        "type": "terrain",
         "name": "makeshift portcullis",
         "symbol": "&",
         "color": "cyan",
@@ -568,6 +644,7 @@
         "flags": ["noitem"],
     },
     {
+        "type": "terrain",
         "name": "steel compactor",
         "symbol": "&",
         "color": "green",
@@ -576,6 +653,7 @@
         "examine_action": "recycler"
     },
     {
+        "type": "terrain",
         "name": "window",
         "symbol": "\"",
         "color": "ltcyan",
@@ -585,6 +663,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "taped window",
         "symbol": "\"",
         "color": "dkgray",
@@ -594,6 +673,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "window",
         "symbol": "\"",
         "color": "ltcyan",
@@ -603,6 +683,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "taped window",
         "symbol": "\"",
         "color": "dkgray",
@@ -612,6 +693,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "open window",
         "symbol": "\"",
         "color": "ltcyan",
@@ -619,6 +701,7 @@
         "flags": ["transparent", "flammable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "closed curtains",
         "symbol": "\"",
         "color": "dkgray",
@@ -627,6 +710,7 @@
             "bashable", "flammable", "noitem", "supports_roof", "deconstruct"],
     },
     {
+        "type": "terrain",
         "name": "window",
         "symbol": "\"",
         "color": "ltcyan",
@@ -636,6 +720,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "taped window",
         "symbol": "\"",
         "color": "dkgray",
@@ -645,6 +730,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "empty window",
         "symbol": "0",
         "color": "yellow",
@@ -652,6 +738,7 @@
         "flags": ["transparent", "flammable", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "window frame",
         "symbol": "0",
         "color": "ltcyan",
@@ -660,6 +747,7 @@
             "transparent", "sharp", "flammable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "boarded up window",
         "symbol": "#",
         "color": "brown",
@@ -667,6 +755,7 @@
         "flags": ["bashable", "flammable", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "high stained glass window",
         "symbol": "\"",
         "color": "ltgreen",
@@ -674,6 +763,7 @@
         "flags": ["noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "high stained glass window",
         "symbol": "\"",
         "color": "ltred",
@@ -681,6 +771,7 @@
         "flags": ["noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "high stained glass window",
         "symbol": "\"",
         "color": "ltblue",
@@ -688,6 +779,7 @@
         "flags": ["noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "solid rock",
         "symbol": "#",
         "color": "white",
@@ -695,6 +787,7 @@
         "flags": ["noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "odd fault",
         "symbol": "#",
         "color": "magenta",
@@ -703,6 +796,7 @@
         "examine_action": "fault"
     },
     {
+        "type": "terrain",
         "name": "paper wall",
         "symbol": "#",
         "color": "white",
@@ -710,6 +804,7 @@
         "flags": ["bashable", "flammable2", "noitem"],
     },
     {
+        "type": "terrain",
         "name": "tree",
         "symbol": "7",
         "color": "green",
@@ -717,6 +812,7 @@
         "flags": ["flammable2", "noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "young tree",
         "symbol": "1",
         "color": "green",
@@ -724,6 +820,7 @@
         "flags": ["transparent", "bashable", "flammable2", "noitem"],
     },
     {
+        "type": "terrain",
         "name": "apple tree",
         "symbol": "7",
         "color": "ltgreen",
@@ -732,6 +829,7 @@
         "examine_action": "tree_apple"
     },
     {
+        "type": "terrain",
         "name": "underbrush",
         "symbol": "#",
         "color": "ltgreen",
@@ -742,6 +840,7 @@
         "examine_action": "shrub_wildveggies"
     },
     {
+        "type": "terrain",
         "name": "shrub",
         "symbol": "#",
         "color": "green",
@@ -751,6 +850,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "blueberry bush",
         "symbol": "#",
         "color": "ltgreen",
@@ -761,6 +861,7 @@
         "examine_action": "shrub_blueberry"
     },
     {
+        "type": "terrain",
         "name": "strawberry bush",
         "symbol": "#",
         "color": "ltgreen",
@@ -771,6 +872,7 @@
         "examine_action": "shrub_strawberry"
     },
     {
+        "type": "terrain",
         "name": "tree trunk",
         "symbol": "1",
         "color": "brown",
@@ -778,6 +880,7 @@
         "flags": ["transparent", "flammable2", "diggable"],
     },
     {
+        "type": "terrain",
         "name": "root wall",
         "symbol": "#",
         "color": "brown",
@@ -785,6 +888,7 @@
         "flags": ["noitem", "supports_roof"],
     },
     {
+        "type": "terrain",
         "name": "wax wall",
         "symbol": "#",
         "color": "yellow",
@@ -792,6 +896,7 @@
         "flags": ["flammable2", "noitem", "supports_roof", "place_item"],
     },
     {
+        "type": "terrain",
         "name": "wax floor",
         "symbol": ".",
         "color": "yellow",
@@ -799,6 +904,7 @@
         "flags": ["transparent", "l_flammable", "indoors", "flat"],
     },
     {
+        "type": "terrain",
         "name": "picket fence",
         "symbol": ", ",
         "color": "brown",
@@ -808,6 +914,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "picket fence",
         "symbol": "-",
         "color": "brown",
@@ -817,6 +924,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "chain link fence",
         "symbol": ", ",
         "color": "cyan",
@@ -827,6 +935,7 @@
         "examine_action": "chainfence"
     },
     {
+        "type": "terrain",
         "name": "chain link fence",
         "symbol": "-",
         "color": "cyan",
@@ -837,6 +946,7 @@
         "examine_action": "chainfence"
     },
     {
+        "type": "terrain",
         "name": "metal post",
         "symbol": "#",
         "color": "cyan",
@@ -844,6 +954,7 @@
         "flags": ["transparent", "thin_obstacle"],
     },
     {
+        "type": "terrain",
         "name": "fence post",
         "symbol": "#",
         "color": "brown",
@@ -852,6 +963,7 @@
         "examine_action": "fence_post"
     },
     {
+        "type": "terrain",
         "name": "wire fence",
         "symbol": "$",
         "color": "blue",
@@ -860,6 +972,7 @@
         "examine_action": "remove_fence_wire"
     },
     {
+        "type": "terrain",
         "name": "barbed wire fence",
         "symbol": "$",
         "color": "blue",
@@ -868,6 +981,7 @@
         "examine_action": "remove_fence_barbed"
     },
     {
+        "type": "terrain",
         "name": "rope fence",
         "symbol": "$",
         "color": "brown",
@@ -876,6 +990,7 @@
         "examine_action": "remove_fence_rope"
     },
     {
+        "type": "terrain",
         "name": "railing",
         "symbol": ", ",
         "color": "yellow",
@@ -883,6 +998,7 @@
         "flags": ["transparent", "noitem", "thin_obstacle"],
     },
     {
+        "type": "terrain",
         "name": "railing",
         "symbol": "-",
         "color": "yellow",
@@ -890,6 +1006,7 @@
         "flags": ["transparent", "noitem", "thin_obstacle"],
     },
     {
+        "type": "terrain",
         "name": "marloss bush",
         "symbol": "1",
         "color": "dkgray",
@@ -897,6 +1014,7 @@
         "flags": ["transparent", "bashable", "flammable2"],
     },
     {
+        "type": "terrain",
         "name": "fungal bed",
         "symbol": "#",
         "color": "dkgray",
@@ -904,6 +1022,7 @@
         "flags": ["transparent", "flammable2", "diggable"],
     },
     {
+        "type": "terrain",
         "name": "fungal tree",
         "symbol": "7",
         "color": "dkgray",
@@ -911,6 +1030,7 @@
         "flags": ["flammable2", "noitem"],
     },
     {
+        "type": "terrain",
         "name": "shallow water",
         "symbol": "~",
         "color": "ltblue",
@@ -919,6 +1039,7 @@
         "examine_action": "water_source"
     },
     {
+        "type": "terrain",
         "name": "deep water",
         "symbol": "~",
         "color": "blue",
@@ -927,6 +1048,7 @@
         "examine_action": "water_source"
     },
     {
+        "type": "terrain",
         "name": "pool water",
         "symbol": "~",
         "color": "ltblue",
@@ -935,6 +1057,7 @@
         "examine_action": "water_source"
     },
     {
+        "type": "terrain",
         "name": "sewage",
         "symbol": "~",
         "color": "ltgreen",
@@ -943,6 +1066,7 @@
         "examine_action": "water_source"
     },
     {
+        "type": "terrain",
         "name": "lava",
         "symbol": "~",
         "color": "red",
@@ -951,6 +1075,7 @@
         "flags": ["transparent", "liquid", "destroy_item"],
     },
     {
+        "type": "terrain",
         "name": "sandbox",
         "symbol": "#",
         "color": "yellow",
@@ -958,6 +1083,7 @@
         "flags": ["transparent", "deconstruct"],
     },
     {
+        "type": "terrain",
         "name": "slide",
         "symbol": "#",
         "color": "ltcyan",
@@ -965,6 +1091,7 @@
         "flags": ["transparent", "deconstruct"],
     },
     {
+        "type": "terrain",
         "name": "monkey bars",
         "symbol": "#",
         "color": "cyan",
@@ -972,6 +1099,7 @@
         "flags": ["transparent", "deconstruct"],
     },
     {
+        "type": "terrain",
         "name": "backboard",
         "symbol": "7",
         "color": "red",
@@ -979,6 +1107,7 @@
         "flags": ["transparent", "deconstruct"],
     },
     {
+        "type": "terrain",
         "name": "gasoline pump",
         "symbol": "&",
         "color": "red",
@@ -987,6 +1116,7 @@
         "examine_action": "gaspump"
     },
     {
+        "type": "terrain",
         "name": "smashed gas pump",
         "symbol": "&",
         "color": "ltred",
@@ -994,6 +1124,7 @@
         "flags": ["transparent", "noitem"],
     },
     {
+        "type": "terrain",
         "name": "broken generator",
         "symbol": "&",
         "color": "ltgray",
@@ -1001,6 +1132,7 @@
         "flags": ["transparent", "noitem"],
     },
     {
+        "type": "terrain",
         "name": "missile",
         "symbol": "#",
         "color": "ltblue",
@@ -1008,6 +1140,7 @@
         "flags": ["explodes", "noitem"],
     },
     {
+        "type": "terrain",
         "name": "blown-out missile",
         "symbol": "#",
         "color": "ltgray",
@@ -1015,6 +1148,7 @@
         "flags": ["noitem"],
     },
     {
+        "type": "terrain",
         "name": "radio tower",
         "symbol": "&",
         "color": "ltgray",
@@ -1022,6 +1156,7 @@
         "flags": ["noitem"],
     },
     {
+        "type": "terrain",
         "name": "radio controls",
         "symbol": "6",
         "color": "green",
@@ -1029,6 +1164,7 @@
         "flags": ["transparent", "bashable", "noitem"],
     },
     {
+        "type": "terrain",
         "name": "broken console",
         "symbol": "6",
         "color": "ltgray",
@@ -1036,6 +1172,7 @@
         "flags": ["transparent", "noitem", "collapses", "indoors"],
     },
     {
+        "type": "terrain",
         "name": "computer console",
         "symbol": "6",
         "color": "blue",
@@ -1043,6 +1180,7 @@
         "flags": ["transparent", "console", "noitem", "collapses", "indoors"],
     },
     {
+        "type": "terrain",
         "name": "mechanical winch",
         "symbol": "6",
         "color": "cyan_red",
@@ -1051,6 +1189,7 @@
         "examine_action": "controls_gate"
     },
     {
+        "type": "terrain",
         "name": "mechanical winch",
         "symbol": "6",
         "color": "cyan_red",
@@ -1059,6 +1198,7 @@
         "examine_action": "controls_gate"
     },
     {
+        "type": "terrain",
         "name": "rope and pulley",
         "symbol": ", ",
         "color": "brown",
@@ -1067,6 +1207,7 @@
         "examine_action": "controls_gate"
     },
     {
+        "type": "terrain",
         "name": "rope and pulley",
         "symbol": ", ",
         "color": "brown",
@@ -1075,6 +1216,7 @@
         "examine_action": "controls_gate"
     },
     {
+        "type": "terrain",
         "name": "sewage pipe",
         "symbol": "1",
         "color": "ltgray",
@@ -1082,6 +1224,7 @@
         "flags": ["transparent"],
     },
     {
+        "type": "terrain",
         "name": "sewage pump",
         "symbol": "&",
         "color": "ltgray",
@@ -1089,6 +1232,7 @@
         "flags": ["noitem"],
     },
     {
+        "type": "terrain",
         "name": "centrifuge",
         "symbol": "{",
         "color": "magenta",
@@ -1096,6 +1240,7 @@
         "flags": ["transparent"],
     },
     {
+        "type": "terrain",
         "name": "column",
         "symbol": "1",
         "color": "ltgray",
@@ -1103,6 +1248,7 @@
         "flags": ["flammable"],
     },
     {
+        "type": "terrain",
         "name": "cloning vat",
         "symbol": "0",
         "color": "ltcyan",
@@ -1110,6 +1256,7 @@
         "flags": ["transparent", "bashable", "sealed", "place_item"],
     },
     {
+        "type": "terrain",
         "name": "stairs down",
         "symbol": ">",
         "color": "yellow",
@@ -1117,6 +1264,7 @@
         "flags": ["transparent", "goes_down", "place_item"],
     },
     {
+        "type": "terrain",
         "name": "stairs up",
         "symbol": "<",
         "color": "yellow",
@@ -1124,6 +1272,7 @@
         "flags": ["transparent", "goes_up", "place_item"],
     },
     {
+        "type": "terrain",
         "name": "manhole",
         "symbol": ">",
         "color": "dkgray",
@@ -1131,6 +1280,7 @@
         "flags": ["transparent", "goes_down", "place_item"],
     },
     {
+        "type": "terrain",
         "name": "ladder",
         "symbol": "<",
         "color": "dkgray",
@@ -1138,6 +1288,7 @@
         "flags": ["transparent", "goes_up", "place_item"],
     },
     {
+        "type": "terrain",
         "name": "ladder",
         "symbol": ">",
         "color": "dkgray",
@@ -1145,6 +1296,7 @@
         "flags": ["transparent", "goes_down", "place_item"],
     },
     {
+        "type": "terrain",
         "name": "downward slope",
         "symbol": ">",
         "color": "brown",
@@ -1152,6 +1304,7 @@
         "flags": ["transparent", "goes_down", "place_item"],
     },
     {
+        "type": "terrain",
         "name": "upward slope",
         "symbol": "<",
         "color": "brown",
@@ -1159,6 +1312,7 @@
         "flags": ["transparent", "goes_up", "place_item"],
     },
     {
+        "type": "terrain",
         "name": "rope leading up",
         "symbol": "<",
         "color": "white",
@@ -1166,6 +1320,7 @@
         "flags": ["transparent", "goes_up"],
     },
     {
+        "type": "terrain",
         "name": "manhole cover",
         "symbol": "0",
         "color": "dkgray",
@@ -1173,6 +1328,7 @@
         "flags": ["transparent"],
     },
     {
+        "type": "terrain",
         "name": "card reader",
         "symbol": "6",
         "color": "pink",
@@ -1181,6 +1337,7 @@
         "examine_action": "cardreader"
     },
     {
+        "type": "terrain",
         "name": "card reader",
         "symbol": "6",
         "color": "pink",
@@ -1189,6 +1346,7 @@
         "examine_action": "cardreader"
     },
     {
+        "type": "terrain",
         "name": "broken card reader",
         "symbol": "6",
         "color": "ltgray",
@@ -1196,6 +1354,7 @@
         "flags": ["noitem"],
     },
     {
+        "type": "terrain",
         "name": "slot machine",
         "symbol": "6",
         "color": "green",
@@ -1204,6 +1363,7 @@
         "examine_action": "slot_machine"
     },
     {
+        "type": "terrain",
         "name": "elevator controls",
         "symbol": "6",
         "color": "ltblue",
@@ -1212,6 +1372,7 @@
         "examine_action": "elevator"
     },
     {
+        "type": "terrain",
         "name": "powerless controls",
         "symbol": "6",
         "color": "ltgray",
@@ -1219,6 +1380,7 @@
         "flags": ["noitem", "indoors"],
     },
     {
+        "type": "terrain",
         "name": "elevator",
         "symbol": ".",
         "color": "magenta",
@@ -1226,6 +1388,7 @@
         "flags": ["indoors", "transparent"],
     },
     {
+        "type": "terrain",
         "name": "dark pedestal",
         "symbol": "&",
         "color": "dkgray",
@@ -1234,6 +1397,7 @@
         "examine_action": "pedestal_wyrm"
     },
     {
+        "type": "terrain",
         "name": "light pedestal",
         "symbol": "&",
         "color": "white",
@@ -1242,6 +1406,7 @@
         "examine_action": "pedestal_temple"
     },
     {
+        "type": "terrain",
         "name": "red stone",
         "symbol": "#",
         "color": "red",
@@ -1251,6 +1416,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "green stone",
         "symbol": "#",
         "color": "green",
@@ -1260,6 +1426,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "blue stone",
         "symbol": "#",
         "color": "blue",
@@ -1269,6 +1436,7 @@
         ],
     },
     {
+        "type": "terrain",
         "name": "red floor",
         "symbol": ".",
         "color": "red",
@@ -1276,6 +1444,7 @@
         "flags": ["transparent", "flat"],
     },
     {
+        "type": "terrain",
         "name": "green floor",
         "symbol": ".",
         "color": "green",
@@ -1283,6 +1452,7 @@
         "flags": ["transparent", "flat"],
     },
     {
+        "type": "terrain",
         "name": "blue floor",
         "symbol": ".",
         "color": "blue",
@@ -1290,6 +1460,7 @@
         "flags": ["transparent", "flat"],
     },
     {
+        "type": "terrain",
         "name": "yellow switch",
         "symbol": "6",
         "color": "yellow",
@@ -1298,6 +1469,7 @@
         "examine_action": "fswitch"
     },
     {
+        "type": "terrain",
         "name": "cyan switch",
         "symbol": "6",
         "color": "cyan",
@@ -1306,6 +1478,7 @@
         "examine_action": "fswitch"
     },
     {
+        "type": "terrain",
         "name": "purple switch",
         "symbol": "6",
         "color": "magenta",
@@ -1314,6 +1487,7 @@
         "examine_action": "fswitch"
     },
     {
+        "type": "terrain",
         "name": "checkered switch",
         "symbol": "6",
         "color": "white",

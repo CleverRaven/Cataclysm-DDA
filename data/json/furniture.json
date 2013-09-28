@@ -1,5 +1,6 @@
 [
     {
+        "type": "furniture",
         "name": "nothing",
         "symbol": " ",
         "color": "white",
@@ -8,6 +9,7 @@
         "flags": ["TRANSPARENT"],
     },
     {
+        "type": "furniture",
         "name": "hay",
         "symbol": "#",
         "bgcolor": "brown",
@@ -16,6 +18,7 @@
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH"],
     },
     {
+        "type": "furniture",
         "name": "bulletin board",
         "symbol": "6",
         "color": "blue",
@@ -25,6 +28,7 @@
         "examine_action": "bulletin_board"
     },
     {
+        "type": "furniture",
         "name": "indoor plant",
         "symbol": "^",
         "color": "green",
@@ -33,6 +37,7 @@
         "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "bed",
         "symbol": "#",
         "color": "magenta",
@@ -41,6 +46,7 @@
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "DECONSTRUCT", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "toilet",
         "symbol": "&",
         "color": "white",
@@ -50,6 +56,7 @@
         "examine_action": "toilet"
     },
     {
+        "type": "furniture",
         "name": "makeshift bed",
         "symbol": "#",
         "color": "magenta",
@@ -58,6 +65,7 @@
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "DECONSTRUCT"],
     },
     {
+        "type": "furniture",
         "name": "sink",
         "symbol": "&",
         "color": "white",
@@ -66,6 +74,7 @@
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "oven",
         "symbol": "#",
         "color": "dkgray",
@@ -74,6 +83,7 @@
         "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER"],
     },
     {
+        "type": "furniture",
         "name": "wood stove",
         "symbol": "#",
         "bgcolor": "red",
@@ -82,6 +92,7 @@
         "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "fireplace",
         "symbol": "#",
         "bgcolor": "white",
@@ -90,6 +101,7 @@
         "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "bathtub",
         "symbol": "~",
         "color": "white",
@@ -98,6 +110,7 @@
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "chair",
         "symbol": "#",
         "color": "brown",
@@ -106,6 +119,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"],
     },
     {
+        "type": "furniture",
         "name": "arm chair",
         "symbol": "H",
         "color": "green",
@@ -114,6 +128,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"],
     },
     {
+        "type": "furniture",
         "name": "sofa",
         "symbol": "H",
         "bgcolor": "red",
@@ -122,6 +137,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"],
     },
     {
+        "type": "furniture",
         "name": "cupboard",
         "symbol": "#",
         "color": "blue",
@@ -130,6 +146,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "trash can",
         "symbol": "&",
         "color": "ltcyan",
@@ -138,6 +155,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "desk",
         "symbol": "#",
         "color": "ltred",
@@ -146,6 +164,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "exercise machine",
         "symbol": "T",
         "color": "dkgray",
@@ -154,6 +173,7 @@
         "flags": ["TRANSPARENT", "DECONSTRUCT"],
     },
     {
+        "type": "furniture",
         "name": "bench",
         "symbol": "#",
         "color": "brown",
@@ -162,6 +182,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"],
     },
     {
+        "type": "furniture",
         "name": "table",
         "symbol": "#",
         "color": "red",
@@ -170,6 +191,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"],
     },
     {
+        "type": "furniture",
         "name": "pool table",
         "symbol": "#",
         "color": "green",
@@ -178,6 +200,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"],
     },
     {
+        "type": "furniture",
         "name": "counter",
         "symbol": "#",
         "color": "blue",
@@ -186,6 +209,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"],
     },
     {
+        "type": "furniture",
         "name": "refrigerator",
         "symbol": "{",
         "color": "ltcyan",
@@ -194,6 +218,7 @@
         "flags": ["CONTAINER", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "glass door fridge",
         "symbol": "{",
         "color": "ltcyan",
@@ -202,6 +227,7 @@
         "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "dresser",
         "symbol": "{",
         "color": "brown",
@@ -210,6 +236,7 @@
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "locker",
         "symbol": "{",
         "color": "ltgray",
@@ -218,6 +245,7 @@
         "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "DECONSTRUCT"],
     },
     {
+        "type": "furniture",
         "name": "display rack",
         "symbol": "{",
         "color": "ltgray",
@@ -226,6 +254,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "DECONSTRUCT"],
     },
     {
+        "type": "furniture",
         "name": "book case",
         "symbol": "{",
         "color": "brown",
@@ -234,6 +263,7 @@
         "flags": ["FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "washing machine",
         "symbol": "{",
         "bgcolor": "white",
@@ -242,6 +272,7 @@
         "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "dryer",
         "symbol": "{",
         "bgcolor": "white",
@@ -250,6 +281,7 @@
         "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "dumpster",
         "symbol": "{",
         "color": "green",
@@ -258,6 +290,7 @@
         "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "diving block",
         "symbol": "O",
         "color": "ltgray",
@@ -266,6 +299,7 @@
         "flags": ["TRANSPARENT"],
     },
     {
+        "type": "furniture",
         "name": "crate",
         "symbol": "X",
         "bgcolor": "brown",
@@ -274,6 +308,7 @@
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "DECONSTRUCT", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "open crate",
         "symbol": "O",
         "bgcolor": "brown",
@@ -282,6 +317,7 @@
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "canvas wall",
         "symbol": "#",
         "color": "blue",
@@ -290,6 +326,7 @@
         "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
     },
     {
+        "type": "furniture",
         "name": "canvas flap",
         "symbol": "+",
         "color": "blue",
@@ -298,6 +335,7 @@
         "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
     },
     {
+        "type": "furniture",
         "name": "open canvas flap",
         "symbol": ".",
         "color": "blue",
@@ -306,6 +344,7 @@
         "flags": ["TRANSPARENT"],
     },
     {
+        "type": "furniture",
         "name": "groundsheet",
         "symbol": ";",
         "color": "green",
@@ -315,6 +354,7 @@
         "examine_action": "tent"
     },
     {
+        "type": "furniture",
         "name": "groundsheet",
         "symbol": ";",
         "color": "green",
@@ -323,6 +363,7 @@
         "flags": ["TRANSPARENT", "INDOORS"],
     },
     {
+        "type": "furniture",
         "name": "animalskin wall",
         "symbol": "#",
         "color": "brown",
@@ -331,6 +372,7 @@
         "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
     },
     {
+        "type": "furniture",
         "name": "animalskin flap",
         "symbol": "+",
         "color": "white",
@@ -339,6 +381,7 @@
         "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
     },
     {
+        "type": "furniture",
         "name": "open animalskin flap",
         "symbol": ".",
         "color": "white",
@@ -347,6 +390,7 @@
         "flags": ["TRANSPARENT"],
     },
     {
+        "type": "furniture",
         "name": "animalskin floor",
         "symbol": ";",
         "color": "brown",
@@ -356,6 +400,7 @@
         "examine_action": "shelter"
     },
     {
+        "type": "furniture",
         "name": "mutated poppy flower",
         "symbol": "f",
         "color": "red",
@@ -365,6 +410,7 @@
         "examine_action": "flower_poppy"
     },
     {
+        "type": "furniture",
         "name": "safe",
         "symbol": "X",
         "color": "ltgray",
@@ -373,6 +419,7 @@
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "safe",
         "symbol": "X",
         "color": "ltgray",
@@ -382,6 +429,7 @@
         "examine_action": "safe"
     },
     {
+        "type": "furniture",
         "name": "open safe",
         "symbol": "O",
         "color": "ltgray",
@@ -390,6 +438,7 @@
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "PLACE_ITEM"],
     },
     {
+        "type": "furniture",
         "name": "seed",
         "symbol": "^",
         "color": "brown",
@@ -399,6 +448,7 @@
         "examine_action": "aggie_plant"
     },
     {
+        "type": "furniture",
         "name": "seedling",
         "symbol": "^",
         "color": "green",
@@ -408,6 +458,7 @@
         "examine_action": "aggie_plant"
     },
     {
+        "type": "furniture",
         "name": "mature plant",
         "symbol": "#",
         "color": "green",
@@ -417,6 +468,7 @@
         "examine_action": "aggie_plant"
     },
     {
+        "type": "furniture",
         "name": "harvestable plant",
         "symbol": "#",
         "color": "ltgreen",
