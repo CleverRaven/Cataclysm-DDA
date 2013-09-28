@@ -8144,6 +8144,26 @@
   ]
 },{
         "type" : "recipe",
+  "result": "long_undertop",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "sewing_kit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "long_underpants",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -8160,6 +8180,46 @@
   "components": [
     [
       [ "rag", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "arm_warmers",
+  "category": "CC_MISC",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "leg_warmers",
+  "category": "CC_MISC",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 6 ]
     ]
   ]
 },{
