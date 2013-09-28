@@ -9,6 +9,10 @@
             },
             {
                 "input_method":"keyboard",
+                "key":"8"
+            },
+            {
+                "input_method":"keyboard",
                 "key":"UP"
             },
             {
@@ -30,6 +34,10 @@
                 "key":"DOWN"
             },
             {
+                "input_method":"keyboard",
+                "key":"2"
+            },
+            {
                 "input_method":"gamepad",
                 "key":"JOY_DOWN"
             }
@@ -46,6 +54,10 @@
             {
                 "input_method":"keyboard",
                 "key":"LEFT"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"4"
             },
             {
                 "input_method":"gamepad",
@@ -66,6 +78,10 @@
                 "key":"RIGHT"
             },
             {
+                "input_method":"keyboard",
+                "key":"6"
+            },
+            {
                 "input_method":"gamepad",
                 "key":"JOY_RIGHT"
             }
@@ -78,6 +94,10 @@
             {
                 "input_method":"keyboard",
                 "key":"u"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"7"
             },
             {
                 "input_method":"gamepad",
@@ -94,6 +114,10 @@
                 "key":"i"
             },
             {
+                "input_method":"keyboard",
+                "key":"9"
+            },
+            {
                 "input_method":"gamepad",
                 "key":"JOY_RIGHTUP"
             }
@@ -108,6 +132,10 @@
                 "key":"n"
             },
             {
+                "input_method":"keyboard",
+                "key":"1"
+            },
+            {
                 "input_method":"gamepad",
                 "key":"JOY_LEFTDOWN"
             }
@@ -120,6 +148,10 @@
             {
                 "input_method":"keyboard",
                 "key":"m"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"3"
             },
             {
                 "input_method":"gamepad",
@@ -218,16 +250,6 @@
             {
                 "input_method":"keyboard",
                 "key":"/"
-            }
-        ]
-    },
-    {
-        "id":"QUIT",
-        "name":"Exit Screen",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"ESC"
             }
         ]
     },
