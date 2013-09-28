@@ -295,7 +295,7 @@ const std::string& input_manager::get_action_name(const std::string& action) {
     return actionID_to_name[action];
 }
 
-const std::string ERROR = "ERROR";
+const std::string CATA_ERROR = "ERROR";
 const std::string UNDEFINED = "UNDEFINED";
 const std::string ANY_INPUT = "ANY_INPUT";
 
@@ -311,7 +311,7 @@ const std::string& input_context::input_to_action(input_event& inp) {
             }
         }
     }
-    return ERROR;
+    return CATA_ERROR;
 }
 
 void input_context::register_action(const std::string& action_descriptor) {
@@ -358,7 +358,7 @@ const std::string& input_context::handle_input() {
             continue;
         }
 
-        if(action != ERROR) {
+        if(action != CATA_ERROR) {
             return action;
         }
         // If we registered to receive any input, return ANY_INPUT
