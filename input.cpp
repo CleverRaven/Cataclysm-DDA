@@ -333,12 +333,22 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
         return UNDEFINED;
     }
 
-    std::stringstream rval;
-    for(int i=0; i < events.size(); i++) {
-        for(int j=0; j<events[i].sequence.size(); j++) {
-            rval << inp_mngr.get_keyname(events[i].sequence[j], events[i].type);
+    std::vector<input_event> inputs_to_show;
+    for(int i=0; i<events.size(); i++) {
+        const input_event& event = events[i];
+
+        // Only display gamepad buttons if a gamepad is available.
+        if(gamepad_available() || event.type != CATA_INPUT_GAMEPAD) {
+            inputs_to_show.push_back(event);
         }
-        if(i + 1 < events.size()) {
+    }
+
+    std::stringstream rval;
+    for(int i=0; i < inputs_to_show.size(); i++) {
+        for(int j=0; j<inputs_to_show[i].sequence.size(); j++) {
+            rval << inp_mngr.get_keyname(inputs_to_show[i].sequence[j], inputs_to_show[i].type);
+        }
+        if(i + 1 < inputs_to_show.size()) {
             // We're generating a list separated by or
             rval << " or ";
         }
@@ -486,5 +496,10 @@ void input_context::display_help() {
         }
 
         return rval;
+    }
+
+    // Also specify that we don't have a gamepad plugged in.
+    bool gamepad_available() {
+        return false;
     }
 #endif
