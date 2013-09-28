@@ -1602,6 +1602,7 @@
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["skirt", 75],
+      ["tights", 20],
       ["dress", 70],
       ["dress_wedding", 1]
     ]
@@ -1651,6 +1652,7 @@
       ["long_underpants", 40],
       ["long_undertop", 40],
       ["union_suit", 40],
+      ["tights", 20],
       ["balclava", 15]
     ]
   },{
@@ -1704,6 +1706,7 @@
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["under_armor", 20],
+      ["tights", 20],
       ["balclava", 15],
       ["pants_ski", 60],
       ["long_underpants", 40],
