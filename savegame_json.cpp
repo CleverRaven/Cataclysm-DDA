@@ -26,6 +26,8 @@
 #include "crafting.h"
 #include "get_version.h"
 
+#include "savegame.h"
+#include "tile_id_data.h" // for monster::json_save
 #include <ctime>
 
 #include "picofunc.h"
@@ -1052,10 +1054,15 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
 
     const picojson::object &data = parsed.get<picojson::object>();
 
-    int idtmp;
-    picoint(data, "typeid", idtmp);
-    type = (*mtypes)[idtmp];
-
+    int iidtmp;
+    std::string sidtmp;
+    // load->str->int
+    if ( ! picostring(data, "typeid", sidtmp) ) {
+        // or load->int->str->possibly_shifted_int
+        picoint(data, "typeid", iidtmp);
+        sidtmp = legacy_mon_id[ iidtmp ];
+    }
+    type = (*mtypes)[ monster_ints[sidtmp] ];
     picoint(data, "posx", _posx);
     picoint(data, "posy", _posy);
     picoint(data, "wandx", wandx);
@@ -1116,7 +1123,8 @@ void monster::json_load(picojson::value parsed, game * g) {
 picojson::value monster::json_save(bool save_contents)
 {
     std::map<std::string, picojson::value> data;
-    data["typeid"] = pv(int(type->id));
+
+    data["typeid"] = pv( monster_names[ type->id ] );
     data["posx"] = pv(_posx);
     data["posy"] = pv(_posy);
     data["wandx"] = pv(wandx);
