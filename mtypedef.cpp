@@ -1435,8 +1435,8 @@ CATEGORIES(MC_WILDLIFE);
 
 mon(_("rattlesnake"),species_none, 's', c_brown, MS_TINY, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-   2, 0, 40, 90, 12,  1,  2,  5,  1,  0,  0,  0, 2, 0,
- &mdeath::normal, &mattack::none, _("\
+   2, 0, 40, 90, 12,  1,  2,  5,  1,  0,  0,  0, 2, 6,
+ &mdeath::normal, &mattack::rattle, _("\
 An eastern timber rattlesnake, one of New England's most poisonous snakes.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_BADVENOM, MF_HARDTOSHOOT, MF_SWIMS, MF_LEATHER, MF_VIS30, MF_BONES);

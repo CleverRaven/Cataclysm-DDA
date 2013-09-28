@@ -15,6 +15,7 @@ public:
     void none               (game *g, monster *z){};
     void antqueen           (game *g, monster *z);
     void shriek             (game *g, monster *z);
+    void rattle             (game *g, monster *z);
     void acid               (game *g, monster *z);
     void shockstorm         (game *g, monster *z);
     void smokecloud         (game *g, monster *z);
