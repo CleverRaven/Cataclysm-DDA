@@ -616,7 +616,6 @@ void CheckMessages()
     while(SDL_PollEvent(&ev))
     {
         SDL_JoyAxisEvent *jaxis;
-        SDL_JoyHatEvent *jhat;
         switch(ev.type)
         {
             case SDL_KEYDOWN:
@@ -972,7 +971,7 @@ WINDOW *curses_init(void)
 int curses_getch(WINDOW* win)
 {
     input_event evt = inp_mngr.get_input_event(win);
-    if(evt.type != INPUT_KEYBOARD) {
+    if(evt.type != CATA_INPUT_KEYBOARD) {
         return ERR;
     } else {
         return evt.sequence[0];
@@ -1079,12 +1078,12 @@ input_event input_manager::get_input_event(WINDOW *win) {
     input_event rval;
 
     if(lastchar == ERR) {
-        rval.type = INPUT_ERROR;
+        rval.type = CATA_INPUT_ERROR;
     } else if(!lastchar_isbutton) {
-        rval.type = INPUT_KEYBOARD;
+        rval.type = CATA_INPUT_KEYBOARD;
         rval.sequence.push_back(lastchar);
     } else {
-        rval.type = INPUT_GAMEPAD;
+        rval.type = CATA_INPUT_GAMEPAD;
         rval.sequence.push_back(lastchar);
     }
 
