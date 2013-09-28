@@ -348,9 +348,12 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
         for(int j=0; j<inputs_to_show[i].sequence.size(); j++) {
             rval << inp_mngr.get_keyname(inputs_to_show[i].sequence[j], inputs_to_show[i].type);
         }
-        if(i + 1 < inputs_to_show.size()) {
-            // We're generating a list separated by or
+
+        // We're generating a list separated by "," and "or"
+        if(i + 2 == inputs_to_show.size()) {
             rval << " or ";
+        } else if(i + 1 < inputs_to_show.size()) {
+            rval << ", ";
         }
     }
     return rval.str();
