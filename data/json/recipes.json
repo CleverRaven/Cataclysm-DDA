@@ -4364,13 +4364,13 @@
   ],
   "components": [
     [
-      [ "blueberries", 3 ],
-      [ "apple", 1 ],
-      [ "apple_canned", 1 ],
-      [ "apple_vac", 1 ],
-      [ "strawberries", 3 ],
-      [ "orange", 1 ],
-      [ "lemon", 1 ]
+      ["blueberries", 4],
+      ["apple", 4],
+      ["apple_canned", 4],
+      ["apple_vac", 4],
+      ["strawberries", 4],
+      ["orange", 4],
+      ["lemon", 4]
     ],
     [
       [ "sugar", 1 ]
