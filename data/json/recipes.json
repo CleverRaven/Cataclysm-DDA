@@ -12179,6 +12179,18 @@
   "components": [ [ ["wheat", 2] ] ]
 },{
         "type" : "recipe",
+  "result": "cornmeal",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
+                [ ["rock_quern", -1] ] ],
+  "components": [ [ ["corn", 2] ] ]
+},{
+        "type" : "recipe",
   "result": "meal_bone",
   "category": "CC_FOOD",
   "skill_used": "cooking",
