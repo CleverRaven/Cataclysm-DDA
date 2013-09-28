@@ -10249,7 +10249,12 @@
   "autolearn": true,
   "tools": [
     [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
@@ -10286,7 +10291,12 @@
       [ "hatchet", -1 ]
     ],
     [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
