@@ -1650,6 +1650,7 @@
       ["pants_ski", 60],
       ["long_underpants", 40],
       ["long_undertop", 40],
+      ["union_suit", 40],
       ["balclava", 15]
     ]
   },{
@@ -1707,6 +1708,7 @@
       ["pants_ski", 60],
       ["long_underpants", 40],
       ["long_undertop", 40],
+      ["union_suit", 20],
       ["trenchcoat_leather", 25],
       ["cloak", 5],
       ["house_coat", 25],
@@ -3026,6 +3028,7 @@
       ["under_armor", 20],
       ["long_underpants", 40],
       ["long_undertop", 40],
+      ["union_suit", 20],
       ["helmet_ball", 45],
       ["helmet_riot", 25],
       ["helmet_motor", 40],
