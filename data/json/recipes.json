@@ -10250,7 +10250,8 @@
   "tools": [
     [
       [ "pot", -1 ],
-      [ "rock_pot", -1 ]
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
     ],
     [
       [ "hotplate", 5 ],
@@ -10292,7 +10293,8 @@
     ],
     [
       [ "pot", -1 ],
-      [ "rock_pot", -1 ]
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
     ],
     [
       [ "hotplate", 5 ],
