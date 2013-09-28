@@ -2663,7 +2663,7 @@
         "symbol" : "[",
         "description" : "A pair of leather gloves with no fingers, allowing greater manual dexterity. These have been crudely reinforced with steel guards across the back.",
         "price" : 90,
-        "material" : ["leather", "steel"],
+        "material" : ["steel", "leather"],
         "volume" : 1,
         "cutting" : 0,
         "warmth" : 5,
@@ -2672,7 +2672,7 @@
         "encumberance" : 0,
         "bashing" : -3,
         "coverage" : 40,
-        "material_thickness" : 2
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
