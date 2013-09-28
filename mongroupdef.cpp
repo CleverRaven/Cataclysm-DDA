@@ -227,7 +227,7 @@ int GetInt(std::string key, picojson::object *obj)
 void init_translation()
 {
     monStr2monId["mon_null"] = mon_null;
-    monStr2monId["mon_squirrel"] = mon_squirrel; monStr2monId["mon_rabbit"] = mon_rabbit; monStr2monId["mon_deer"] = mon_deer; monStr2monId["mon_moose"] = mon_moose; monStr2monId["mon_wolf"] = mon_wolf; monStr2monId["mon_coyote"] = mon_coyote; monStr2monId["mon_bear"] = mon_bear; monStr2monId["mon_cougar"] = mon_cougar; monStr2monId["mon_crow"] = mon_crow; monStr2monId["mon_turkey"] = mon_turkey; monStr2monId["mon_raccoon"] = mon_raccoon; monStr2monId["mon_opossumn"] = mon_opossum; monStr2monId["mon_rattlesnake"] = mon_rattlesnake;
+    monStr2monId["mon_squirrel"] = mon_squirrel; monStr2monId["mon_rabbit"] = mon_rabbit; monStr2monId["mon_deer"] = mon_deer; monStr2monId["mon_moose"] = mon_moose; monStr2monId["mon_wolf"] = mon_wolf; monStr2monId["mon_coyote"] = mon_coyote; monStr2monId["mon_bear"] = mon_bear; monStr2monId["mon_cougar"] = mon_cougar; monStr2monId["mon_crow"] = mon_crow;
     monStr2monId["mon_dog"] = mon_dog; monStr2monId["mon_cat"] = mon_cat;
     monStr2monId["mon_ant_larva"] = mon_ant_larva; monStr2monId["mon_ant"] = mon_ant; monStr2monId["mon_ant_soldier"] = mon_ant_soldier; monStr2monId["mon_ant_queen"] = mon_ant_queen; monStr2monId["mon_ant_fungus"] = mon_ant_fungus;
     monStr2monId["mon_fly"] = mon_fly; monStr2monId["mon_bee"] = mon_bee; monStr2monId["mon_wasp"] = mon_wasp;
@@ -246,7 +246,7 @@ void init_translation()
     monStr2monId["mon_chud"] = mon_chud; monStr2monId["mon_one_eye"] = mon_one_eye; monStr2monId["mon_crawler"] = mon_crawler;
     monStr2monId["mon_sewer_fish"] = mon_sewer_fish; monStr2monId["mon_sewer_snake"] = mon_sewer_snake; monStr2monId["mon_sewer_rat"] = mon_sewer_rat; monStr2monId["mon_rat_king"] = mon_rat_king;
     monStr2monId["mon_mosquito"] = mon_mosquito; monStr2monId["mon_dragonfly"] = mon_dragonfly; monStr2monId["mon_centipede"] = mon_centipede; monStr2monId["mon_frog"] = mon_frog; monStr2monId["mon_slug"] = mon_slug;
-    monStr2monId["mon_dermatik_larva"] = mon_dermatik_larva; monStr2monId["mon_dermatik"] = mon_dermatik; monStr2monId["mon_giant_crayfish"] = mon_giant_crayfish;
+    monStr2monId["mon_dermatik_larva"] = mon_dermatik_larva; monStr2monId["mon_dermatik"] = mon_dermatik;
     monStr2monId["mon_jabberwock"] = mon_jabberwock;
     monStr2monId["mon_spider_wolf"] = mon_spider_wolf; monStr2monId["mon_spider_web"] = mon_spider_web; monStr2monId["mon_spider_jumping"] = mon_spider_jumping; monStr2monId["mon_spider_trapdoor"] = mon_spider_trapdoor;
     monStr2monId["mon_spider_widow"] = mon_spider_widow;
@@ -260,5 +260,7 @@ void init_translation()
     monStr2monId["mon_tripod"] = mon_tripod; monStr2monId["mon_chickenbot"] = mon_chickenbot; monStr2monId["mon_tankbot"] = mon_tankbot; monStr2monId["mon_turret"] = mon_turret; monStr2monId["mon_exploder"] = mon_exploder;
     monStr2monId["mon_hallu_mom"] = mon_hallu_mom;
     monStr2monId["mon_generator"] = mon_generator;
+    monStr2monId["mon_turkey"] = mon_turkey; monStr2monId["mon_raccoon"] = mon_raccoon; monStr2monId["mon_opossumn"] = mon_opossum; monStr2monId["mon_rattlesnake"] = mon_rattlesnake;
+    monStr2monId["mon_giant_crayfish"] = mon_giant_crayfish;
 }
 
