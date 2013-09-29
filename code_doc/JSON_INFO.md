@@ -27,6 +27,10 @@
 * melee.json         - anything that doesn't go in the other item jsons, melee weapons
 * mods.json          - gunmods
 
+##json
+* furniture.json     - furniture, and features treated like furniture
+* terrain.json       - terrain types and definitions
+
 #raw jsons
 
 ###BIONICS
@@ -424,4 +428,33 @@
 "ammo": "NULL",       // Ammo type used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "TORCH_LIT" // Action performed when tool is used
+```
+#json jsons
+
+###FURNITURE
+```C++
+"type": "furniture",      //Must always be 'furniture'
+"name": "toilet",         //Displayed name of the furniture
+"symbol": "&",            //Symbol displayed
+"color": "white",         //Glyph color. Alternately use 'bgcolor' to use a solid background color.
+                          //You must use EXACTLY ONE of 'color' or 'bgcolor'.
+"move_cost_mod": 2,       //Movement cost modifier (-10 = impassable, 0 = no change)
+"required_str": 18,       //Strength required to move past the terrain easily
+"flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD"],    //Furniture flags
+"examine_action": "toilet" //(OPTIONAL) Function called when examined, see iexamine.cpp.
+                           //If omitted, defaults to iexamine::none.
+```
+
+###TERRAIN
+```C++
+"type": "terrain",         //Must always be 'terrain'
+"name": "spiked pit",      //Displayed name of the terrain
+"symbol": "0",             //Symbol used
+"color": "ltred",          //Color of the symbol
+"move_cost": 10,           //Move cost to move through. 2 = normal speed, 0 = impassable
+"trap": "spike_pit",       //(OPTIONAL) trap_id minus the tr_ prefix of the trap type.
+                           //If omitted, defaults to tr_null.
+"flags": ["TRANSPARENT", "DIGGABLE"],   //Terrain flags
+"examine_action": "pit"    //(OPTIONAL) Function called when examined, see iexamine.cpp.
+                           //If omitted, defaults to iexamine::none.
 ```
