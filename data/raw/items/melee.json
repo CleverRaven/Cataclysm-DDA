@@ -2135,7 +2135,7 @@
     "symbol" : "3",
     "color": "red",
     "name": "cestus",
-    "description": "A heavy metal guard that covers the fist, with padding underneath to protect the wearers knuckles. A good, quick weapon - but you have to get within punching range to use it.",
+    "description": "A heavy metal guard that covers the fist and increases striking power, with stout padding underneath to protect the wearers hand.",
     "material": ["steel","leather"],
     "price": 0,
     "volume": 2,
