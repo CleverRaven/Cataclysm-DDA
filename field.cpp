@@ -484,7 +484,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         // If the flames are in a brazier, they're fully contained, so skip consuming terrain
                         if((tr_brazier != tr_at(x, y)) && (has_flag("FIRE_CONTAINER", x, y) != true )) {
                             // Consume the terrain we're on
-                            if (has_flag("EXPLODSE", x, y)) {
+                            if (has_flag("EXPLODES", x, y)) {
                                 //This is what destroys houses so fast.
                                 ter_set(x, y, ter_id(int(ter(x, y)) + 1));
                                 cur->setFieldAge(0); //Fresh level 3 fire.
