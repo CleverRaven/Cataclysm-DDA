@@ -1,6 +1,7 @@
 [
     {
         "type": "terrain",
+        "id": "t_null = 0",
         "name": "nothing",
         "symbol": " ",
         "color": "white",
@@ -9,6 +10,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_hole",
         "name": "empty space",
         "symbol": " ",
         "color": "black",
@@ -18,6 +20,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_dirt",
         "name": "dirt",
         "symbol": ".",
         "color": "brown",
@@ -26,6 +29,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_sand",
         "name": "sand",
         "symbol": ".",
         "color": "yellow",
@@ -34,6 +38,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_dirtmound",
         "name": "mound of dirt",
         "symbol": "#",
         "color": "brown",
@@ -43,6 +48,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_pit_shallow",
         "name": "shallow pit",
         "symbol": "0",
         "color": "yellow",
@@ -51,6 +57,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_pit",
         "name": "pit",
         "symbol": "0",
         "color": "brown",
@@ -61,6 +68,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_pit_corpsed",
         "name": "corpse filled pit",
         "symbol": "#",
         "color": "green",
@@ -69,6 +77,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_pit_covered",
         "name": "covered pit",
         "symbol": "#",
         "color": "ltred",
@@ -78,6 +87,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_pit_spiked",
         "name": "spiked pit",
         "symbol": "0",
         "color": "ltred",
@@ -88,6 +98,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_pit_spiked_covered",
         "name": "covered spiked pit",
         "symbol": "#",
         "color": "ltred",
@@ -97,6 +108,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_rock_floor",
         "name": "rock floor",
         "symbol": ".",
         "color": "ltgray",
@@ -105,6 +117,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_rubble",
         "name": "pile of rubble",
         "symbol": "^",
         "color": "ltgray",
@@ -114,6 +127,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_ash",
         "name": "pile of ash",
         "symbol": "#",
         "color": "ltgray",
@@ -123,6 +137,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_metal",
         "name": "twisted metal",
         "symbol": "#",
         "color": "cyan",
@@ -132,6 +147,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wreckage",
         "name": "metal wreckage",
         "symbol": "#",
         "color": "cyan",
@@ -141,6 +157,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_grass",
         "name": "grass",
         "symbol": ".",
         "color": "green",
@@ -149,6 +166,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_metal_floor",
         "name": "metal floor",
         "symbol": ".",
         "color": "ltcyan",
@@ -157,6 +175,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_pavement",
         "name": "pavement",
         "symbol": ".",
         "color": "dkgray",
@@ -165,6 +184,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_pavement_y",
         "name": "yellow pavement",
         "symbol": ".",
         "color": "yellow",
@@ -173,6 +193,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_sidewalk",
         "name": "sidewalk",
         "symbol": ".",
         "color": "ltgray",
@@ -181,6 +202,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_concrete",
         "name": "concrete",
         "symbol": ".",
         "color": "ltgray",
@@ -189,6 +211,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_floor",
         "name": "floor",
         "symbol": ".",
         "color": "cyan",
@@ -199,6 +222,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_dirtfloor",
         "name": "dirt floor",
         "symbol": ".",
         "color": "brown",
@@ -209,6 +233,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_grate",
         "name": "metal grate",
         "symbol": "#",
         "color": "dkgray",
@@ -217,6 +242,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_slime",
         "name": "slime",
         "symbol": "~",
         "color": "green",
@@ -225,6 +251,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_bridge",
         "name": "walkway",
         "symbol": "#",
         "color": "yellow",
@@ -233,6 +260,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_skylight",
         "name": "floor",
         "comment": "Skylight",
         "symbol": ".",
@@ -244,6 +272,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_emergency_light_flicker",
         "name": "floor",
         "comment": "Emergency Light",
         "symbol": ".",
@@ -255,6 +284,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_emergency_light",
         "name": "floor",
         "comment": "Regular Light",
         "symbol": ".",
@@ -266,6 +296,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_log_half",
         "name": "half-built wall",
         "symbol": "#",
         "color": "brown",
@@ -274,6 +305,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_log",
         "name": "log wall",
         "symbol": "#",
         "color": "brown",
@@ -282,6 +314,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_log_chipped",
         "name": "chipped log wall",
         "symbol": "#",
         "color": "brown",
@@ -290,6 +323,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_log_broken",
         "name": "broken log wall",
         "symbol": "&",
         "color": "brown",
@@ -300,6 +334,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_palisade",
         "name": "palisade wall",
         "symbol": "#",
         "color": "brown",
@@ -309,6 +344,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_palisade_gate",
         "name": "palisade gate",
         "symbol": "+",
         "color": "ltred",
@@ -319,6 +355,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_palisade_gate_o",
         "name": "dirt",
         "comment": "Open palisade gate",
         "symbol": ".",
@@ -328,6 +365,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_half",
         "name": "half-built wall",
         "symbol": "#",
         "color": "ltred",
@@ -336,6 +374,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_wood",
         "name": "wooden wall",
         "symbol": "#",
         "color": "ltred",
@@ -344,6 +383,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_wood_chipped",
         "name": "chipped wood wall",
         "symbol": "#",
         "color": "ltred",
@@ -352,6 +392,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_wood_broken",
         "name": "broken wood wall",
         "symbol": "&",
         "color": "ltred",
@@ -362,6 +403,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_v",
         "name": "wall",
         "symbol": "LINE_XOXO",
         "color": "ltgray",
@@ -370,6 +412,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_h",
         "name": "wall",
         "symbol": "LINE_OXOX",
         "color": "ltgray",
@@ -378,6 +421,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_concrete_v",
         "name": "concrete wall",
         "symbol": "LINE_XOXO",
         "color": "dkgray",
@@ -386,6 +430,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_concrete_h",
         "name": "concrete wall",
         "symbol": "LINE_OXOX",
         "color": "dkgray",
@@ -394,6 +439,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_metal_v",
         "name": "metal wall",
         "symbol": "LINE_XOXO",
         "color": "cyan",
@@ -402,6 +448,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_metal_h",
         "name": "metal wall",
         "symbol": "LINE_OXOX",
         "color": "cyan",
@@ -410,6 +457,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_glass_v",
         "name": "glass wall",
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
@@ -418,6 +466,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_glass_h",
         "name": "glass wall",
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
@@ -426,6 +475,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_glass_v_alarm",
         "name": "glass wall",
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
@@ -435,6 +485,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wall_glass_h_alarm",
         "name": "glass wall",
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
@@ -444,6 +495,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_reinforced_glass_v",
         "name": "reinforced glass",
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
@@ -452,6 +504,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_reinforced_glass_h",
         "name": "reinforced glass",
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
@@ -460,6 +513,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_bars",
         "name": "metal bars",
         "symbol": "\"",
         "color": "ltgray",
@@ -468,6 +522,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_c",
         "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
@@ -476,6 +531,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_b",
         "name": "damaged wood door",
         "symbol": "&",
         "color": "brown",
@@ -486,6 +542,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_o",
         "name": "open wood door",
         "symbol": "'",
         "color": "brown",
@@ -494,6 +551,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_locked_interior",
         "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
@@ -502,6 +560,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_locked",
         "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
@@ -510,6 +569,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_locked_alarm",
         "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
@@ -519,6 +579,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_frame",
         "name": "empty door frame",
         "symbol": ".",
         "color": "brown",
@@ -527,6 +588,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_chaingate_l",
         "name": "locked wire gate",
         "symbol": "+",
         "color": "cyan",
@@ -535,6 +597,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_fencegate_c",
         "name": "closed wooden gate",
         "symbol": "+",
         "color": "brown",
@@ -543,6 +606,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_fencegate_o",
         "name": "open wooden gate",
         "symbol": ".",
         "color": "brown",
@@ -552,6 +616,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_chaingate_c",
         "name": "closed wire gate",
         "symbol": "+",
         "color": "cyan",
@@ -560,6 +625,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_chaingate_o",
         "name": "open wire gate",
         "symbol": ".",
         "color": "cyan",
@@ -568,6 +634,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_boarded",
         "name": "boarded up door",
         "symbol": "#",
         "color": "brown",
@@ -576,6 +643,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_metal_c",
         "name": "closed metal door",
         "symbol": "+",
         "color": "cyan",
@@ -584,6 +652,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_metal_o",
         "name": "open metal door",
         "symbol": "'",
         "color": "cyan",
@@ -592,6 +661,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_metal_locked",
         "name": "closed metal door",
         "comment": "Actually locked",
         "symbol": "+",
@@ -601,6 +671,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_bar_c",
         "name": "closed bar door",
         "comment": "Unlocked, only created at map gen",
         "symbol": "+",
@@ -610,6 +681,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_bar_o",
         "name": "open bar door",
         "symbol": "'",
         "color": "cyan",
@@ -618,6 +690,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_bar_locked",
         "name": "closed bar door",
         "comment": "Locked",
         "symbol": "+",
@@ -627,6 +700,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_glass_c",
         "name": "closed glass door",
         "symbol": "+",
         "color": "ltcyan",
@@ -636,6 +710,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_door_glass_o",
         "name": "open glass door",
         "symbol": "'",
         "color": "ltcyan",
@@ -644,6 +719,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_portcullis",
         "name": "makeshift portcullis",
         "symbol": "&",
         "color": "cyan",
@@ -652,6 +728,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_recycler",
         "name": "steel compactor",
         "symbol": "&",
         "color": "green",
@@ -661,6 +738,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window",
         "name": "window",
         "symbol": "\"",
         "color": "ltcyan",
@@ -671,6 +749,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_taped",
         "name": "taped window",
         "symbol": "\"",
         "color": "dkgray",
@@ -681,6 +760,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_domestic",
         "name": "window",
         "symbol": "\"",
         "color": "ltcyan",
@@ -691,6 +771,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_domestic_taped",
         "name": "taped window",
         "comment": "Taped window with curtains",
         "symbol": "\"",
@@ -702,6 +783,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_open",
         "name": "open window",
         "symbol": "'",
         "color": "ltcyan",
@@ -710,6 +792,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_curtains",
         "name": "closed curtains",
         "symbol": "\"",
         "color": "dkgray",
@@ -719,6 +802,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_alarm",
         "name": "window",
         "symbol": "\"",
         "color": "ltcyan",
@@ -729,6 +813,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_alarm_taped",
         "name": "taped window",
         "symbol": "\"",
         "color": "dkgray",
@@ -739,6 +824,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_empty",
         "name": "empty window",
         "symbol": "0",
         "color": "yellow",
@@ -747,6 +833,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_frame",
         "name": "window frame",
         "symbol": "0",
         "color": "ltcyan",
@@ -756,6 +843,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_boarded",
         "name": "boarded up window",
         "symbol": "#",
         "color": "brown",
@@ -764,6 +852,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_stained_green",
         "name": "high stained glass window",
         "symbol": "\"",
         "color": "ltgreen",
@@ -772,6 +861,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_stained_red",
         "name": "high stained glass window",
         "symbol": "\"",
         "color": "ltred",
@@ -780,6 +870,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_window_stained_blue",
         "name": "high stained glass window",
         "symbol": "\"",
         "color": "ltblue",
@@ -788,6 +879,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_rock",
         "name": "solid rock",
         "symbol": "#",
         "color": "white",
@@ -796,6 +888,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_fault",
         "name": "odd fault",
         "symbol": "#",
         "color": "magenta",
@@ -805,6 +898,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_paper",
         "name": "paper wall",
         "symbol": "#",
         "color": "white",
@@ -813,6 +907,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_tree",
         "name": "tree",
         "symbol": "7",
         "color": "green",
@@ -821,6 +916,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_tree_young",
         "name": "young tree",
         "symbol": "1",
         "color": "green",
@@ -829,6 +925,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_tree_apple",
         "name": "apple tree",
         "symbol": "7",
         "color": "ltgreen",
@@ -838,6 +935,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_underbrush",
         "name": "underbrush",
         "symbol": "#",
         "color": "ltgreen",
@@ -849,6 +947,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_shrub",
         "name": "shrub",
         "symbol": "#",
         "color": "green",
@@ -859,6 +958,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_shrub_blueberry",
         "name": "blueberry bush",
         "symbol": "#",
         "color": "ltgreen",
@@ -870,6 +970,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_shrub_strawberry",
         "name": "strawberry bush",
         "symbol": "#",
         "color": "ltgreen",
@@ -881,6 +982,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_trunk",
         "name": "tree trunk",
         "symbol": "1",
         "color": "brown",
@@ -889,6 +991,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_root_wall",
         "name": "root wall",
         "symbol": "#",
         "color": "brown",
@@ -897,6 +1000,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_wax",
         "name": "wax wall",
         "symbol": "#",
         "color": "yellow",
@@ -905,6 +1009,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_floor_wax",
         "name": "wax floor",
         "symbol": ".",
         "color": "yellow",
@@ -913,6 +1018,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_fence_v",
         "name": "picket fence",
         "symbol": ", ",
         "color": "brown",
@@ -923,6 +1029,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_fence_h",
         "name": "picket fence",
         "symbol": "-",
         "color": "brown",
@@ -933,6 +1040,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_chainfence_v",
         "name": "chain link fence",
         "symbol": ", ",
         "color": "cyan",
@@ -944,6 +1052,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_chainfence_h",
         "name": "chain link fence",
         "symbol": "-",
         "color": "cyan",
@@ -955,6 +1064,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_chainfence_posts",
         "name": "metal post",
         "symbol": "#",
         "color": "cyan",
@@ -963,6 +1073,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_fence_post",
         "name": "fence post",
         "symbol": "#",
         "color": "brown",
@@ -972,6 +1083,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_fence_wire",
         "name": "wire fence",
         "symbol": "$",
         "color": "blue",
@@ -981,6 +1093,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_fence_barbed",
         "name": "barbed wire fence",
         "symbol": "$",
         "color": "blue",
@@ -990,6 +1103,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_fence_rope",
         "name": "rope fence",
         "symbol": "$",
         "color": "brown",
@@ -999,6 +1113,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_railing_v",
         "name": "railing",
         "symbol": ", ",
         "color": "yellow",
@@ -1007,6 +1122,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_railing_h",
         "name": "railing",
         "symbol": "-",
         "color": "yellow",
@@ -1015,6 +1131,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_marloss",
         "name": "marloss bush",
         "symbol": "1",
         "color": "dkgray",
@@ -1023,6 +1140,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_fungus",
         "name": "fungal bed",
         "symbol": "#",
         "color": "dkgray",
@@ -1031,6 +1149,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_tree_fungal",
         "name": "fungal tree",
         "symbol": "7",
         "color": "dkgray",
@@ -1039,6 +1158,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_water_sh",
         "name": "shallow water",
         "symbol": "~",
         "color": "ltblue",
@@ -1048,6 +1168,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_water_dp",
         "name": "deep water",
         "symbol": "~",
         "color": "blue",
@@ -1057,6 +1178,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_water_pool",
         "name": "pool water",
         "symbol": "~",
         "color": "ltblue",
@@ -1066,6 +1188,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_sewage",
         "name": "sewage",
         "symbol": "~",
         "color": "ltgreen",
@@ -1075,6 +1198,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_lava",
         "name": "lava",
         "symbol": "~",
         "color": "red",
@@ -1084,6 +1208,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_sandbox",
         "name": "sandbox",
         "symbol": "#",
         "color": "yellow",
@@ -1092,6 +1217,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_slide",
         "name": "slide",
         "symbol": "#",
         "color": "ltcyan",
@@ -1100,6 +1226,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_monkey_bars",
         "name": "monkey bars",
         "symbol": "#",
         "color": "cyan",
@@ -1108,6 +1235,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_backboard",
         "name": "backboard",
         "symbol": "7",
         "color": "red",
@@ -1116,6 +1244,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_gas_pump",
         "name": "gasoline pump",
         "symbol": "&",
         "color": "red",
@@ -1125,6 +1254,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_gas_pump_smashed",
         "name": "smashed gas pump",
         "symbol": "&",
         "color": "ltred",
@@ -1133,6 +1263,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_generator_broken",
         "name": "broken generator",
         "symbol": "&",
         "color": "ltgray",
@@ -1141,6 +1272,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_missile",
         "name": "missile",
         "symbol": "#",
         "color": "ltblue",
@@ -1149,6 +1281,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_missile_exploded",
         "name": "blown-out missile",
         "symbol": "#",
         "color": "ltgray",
@@ -1157,6 +1290,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_radio_tower",
         "name": "radio tower",
         "symbol": "&",
         "color": "ltgray",
@@ -1165,6 +1299,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_radio_controls",
         "name": "radio controls",
         "symbol": "6",
         "color": "green",
@@ -1173,6 +1308,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_console_broken",
         "name": "broken console",
         "symbol": "6",
         "color": "ltgray",
@@ -1181,6 +1317,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_console",
         "name": "computer console",
         "symbol": "6",
         "color": "blue",
@@ -1189,6 +1326,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_gates_mech_control",
         "name": "mechanical winch",
         "symbol": "6",
         "color": "cyan_red",
@@ -1198,6 +1336,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_gates_control_concrete",
         "name": "mechanical winch",
         "symbol": "6",
         "color": "cyan_red",
@@ -1207,6 +1346,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_barndoor",
         "name": "rope and pulley",
         "symbol": ", ",
         "color": "brown",
@@ -1216,6 +1356,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_palisade_pulley",
         "name": "rope and pulley",
         "symbol": ", ",
         "color": "brown",
@@ -1225,6 +1366,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_sewage_pipe",
         "name": "sewage pipe",
         "symbol": "1",
         "color": "ltgray",
@@ -1233,6 +1375,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_sewage_pump",
         "name": "sewage pump",
         "symbol": "&",
         "color": "ltgray",
@@ -1241,6 +1384,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_centrifuge",
         "name": "centrifuge",
         "symbol": "{",
         "color": "magenta",
@@ -1249,6 +1393,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_column",
         "name": "column",
         "symbol": "1",
         "color": "ltgray",
@@ -1257,6 +1402,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_vat",
         "name": "cloning vat",
         "symbol": "0",
         "color": "ltcyan",
@@ -1265,6 +1411,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_stairs_down",
         "name": "stairs down",
         "symbol": ">",
         "color": "yellow",
@@ -1273,6 +1420,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_stairs_up",
         "name": "stairs up",
         "symbol": "<",
         "color": "yellow",
@@ -1281,6 +1429,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_manhole",
         "name": "manhole",
         "symbol": ">",
         "color": "dkgray",
@@ -1289,6 +1438,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_ladder_up",
         "name": "ladder",
         "symbol": "<",
         "color": "dkgray",
@@ -1297,6 +1447,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_ladder_down",
         "name": "ladder",
         "symbol": ">",
         "color": "dkgray",
@@ -1305,6 +1456,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_slope_down",
         "name": "downward slope",
         "symbol": ">",
         "color": "brown",
@@ -1313,6 +1465,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_slope_up",
         "name": "upward slope",
         "symbol": "<",
         "color": "brown",
@@ -1321,6 +1474,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_rope_up",
         "name": "rope leading up",
         "symbol": "<",
         "color": "white",
@@ -1329,6 +1483,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_manhole_cover",
         "name": "manhole cover",
         "symbol": "0",
         "color": "dkgray",
@@ -1337,6 +1492,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_card_science",
         "name": "card reader",
         "comment": "Science",
         "symbol": "6",
@@ -1347,6 +1503,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_card_military",
         "name": "card reader",
         "comment": "Military",
         "symbol": "6",
@@ -1357,6 +1514,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_card_reader_broken",
         "name": "broken card reader",
         "symbol": "6",
         "color": "ltgray",
@@ -1365,6 +1523,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_slot_machine",
         "name": "slot machine",
         "symbol": "6",
         "color": "green",
@@ -1374,6 +1533,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_elevator_control",
         "name": "elevator controls",
         "symbol": "6",
         "color": "ltblue",
@@ -1383,6 +1543,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_elevator_control_off",
         "name": "powerless controls",
         "symbol": "6",
         "color": "ltgray",
@@ -1391,6 +1552,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_elevator",
         "name": "elevator",
         "symbol": ".",
         "color": "magenta",
@@ -1399,6 +1561,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_pedestal_wyrm",
         "name": "dark pedestal",
         "symbol": "&",
         "color": "dkgray",
@@ -1408,6 +1571,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_pedestal_temple",
         "name": "light pedestal",
         "symbol": "&",
         "color": "white",
@@ -1417,6 +1581,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_rock_red",
         "name": "red stone",
         "symbol": "#",
         "color": "red",
@@ -1426,6 +1591,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_rock_green",
         "name": "green stone",
         "symbol": "#",
         "color": "green",
@@ -1435,6 +1601,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_rock_blue",
         "name": "blue stone",
         "symbol": "#",
         "color": "blue",
@@ -1444,6 +1611,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_floor_red",
         "name": "red floor",
         "symbol": ".",
         "color": "red",
@@ -1452,6 +1620,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_floor_green",
         "name": "green floor",
         "symbol": ".",
         "color": "green",
@@ -1460,6 +1629,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_floor_blue",
         "name": "blue floor",
         "symbol": ".",
         "color": "blue",
@@ -1468,6 +1638,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_switch_rg",
         "name": "yellow switch",
         "symbol": "6",
         "color": "yellow",
@@ -1477,6 +1648,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_switch_gb",
         "name": "cyan switch",
         "symbol": "6",
         "color": "cyan",
@@ -1486,6 +1658,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_switch_rb",
         "name": "purple switch",
         "symbol": "6",
         "color": "magenta",
@@ -1495,6 +1668,7 @@
     },
     {
         "type": "terrain",
+        "id": "t_switch_even",
         "name": "checkered switch",
         "symbol": "6",
         "color": "white",

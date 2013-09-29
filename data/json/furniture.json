@@ -1,6 +1,7 @@
 [
     {
         "type": "furniture",
+        "id": "f_null",
         "name": "nothing",
         "symbol": " ",
         "color": "white",
@@ -10,6 +11,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_hay",
         "name": "hay",
         "symbol": "#",
         "bgcolor": "brown",
@@ -19,6 +21,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_bulletin",
         "name": "bulletin board",
         "symbol": "6",
         "color": "blue",
@@ -29,6 +32,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_indoor_plant",
         "name": "indoor plant",
         "symbol": "^",
         "color": "green",
@@ -38,6 +42,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_bed",
         "name": "bed",
         "symbol": "#",
         "color": "magenta",
@@ -47,6 +52,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_toilet",
         "name": "toilet",
         "symbol": "&",
         "color": "white",
@@ -57,6 +63,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_makeshift_bed",
         "name": "makeshift bed",
         "symbol": "#",
         "color": "magenta",
@@ -66,6 +73,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_sink",
         "name": "sink",
         "symbol": "&",
         "color": "white",
@@ -75,6 +83,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_oven",
         "name": "oven",
         "symbol": "#",
         "color": "dkgray",
@@ -84,6 +93,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_woodstove",
         "name": "wood stove",
         "symbol": "#",
         "bgcolor": "red",
@@ -93,6 +103,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_fireplace",
         "name": "fireplace",
         "symbol": "#",
         "bgcolor": "white",
@@ -102,6 +113,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_bathtub",
         "name": "bathtub",
         "symbol": "~",
         "color": "white",
@@ -111,6 +123,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_chair",
         "name": "chair",
         "symbol": "#",
         "color": "brown",
@@ -120,6 +133,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_armchair",
         "name": "arm chair",
         "symbol": "H",
         "color": "green",
@@ -129,6 +143,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_sofa",
         "name": "sofa",
         "symbol": "H",
         "bgcolor": "red",
@@ -138,6 +153,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_cupboard",
         "name": "cupboard",
         "symbol": "#",
         "color": "blue",
@@ -147,6 +163,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_trashcan",
         "name": "trash can",
         "symbol": "&",
         "color": "ltcyan",
@@ -156,6 +173,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_desk",
         "name": "desk",
         "symbol": "#",
         "color": "ltred",
@@ -165,6 +183,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_exercise",
         "name": "exercise machine",
         "symbol": "T",
         "color": "dkgray",
@@ -174,6 +193,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_bench",
         "name": "bench",
         "symbol": "#",
         "color": "brown",
@@ -183,6 +203,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_table",
         "name": "table",
         "symbol": "#",
         "color": "red",
@@ -192,6 +213,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_pool_table",
         "name": "pool table",
         "symbol": "#",
         "color": "green",
@@ -201,6 +223,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_counter",
         "name": "counter",
         "symbol": "#",
         "color": "blue",
@@ -210,6 +233,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_fridge",
         "name": "refrigerator",
         "symbol": "{",
         "color": "ltcyan",
@@ -219,6 +243,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_glass_fridge",
         "name": "glass door fridge",
         "symbol": "{",
         "color": "ltcyan",
@@ -228,6 +253,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_dresser",
         "name": "dresser",
         "symbol": "{",
         "color": "brown",
@@ -237,6 +263,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_locker",
         "name": "locker",
         "symbol": "{",
         "color": "ltgray",
@@ -246,6 +273,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_rack",
         "name": "display rack",
         "symbol": "{",
         "color": "ltgray",
@@ -255,6 +283,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_bookcase",
         "name": "book case",
         "symbol": "{",
         "color": "brown",
@@ -264,6 +293,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_washer",
         "name": "washing machine",
         "symbol": "{",
         "bgcolor": "white",
@@ -273,6 +303,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_dryer",
         "name": "dryer",
         "symbol": "{",
         "bgcolor": "white",
@@ -282,6 +313,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_dumpster",
         "name": "dumpster",
         "symbol": "{",
         "color": "green",
@@ -291,6 +323,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_dive_block",
         "name": "diving block",
         "symbol": "O",
         "color": "ltgray",
@@ -300,6 +333,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_crate_c",
         "name": "crate",
         "symbol": "X",
         "bgcolor": "brown",
@@ -309,6 +343,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_crate_o",
         "name": "open crate",
         "symbol": "O",
         "bgcolor": "brown",
@@ -318,6 +353,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_canvas_wall",
         "name": "canvas wall",
         "symbol": "#",
         "color": "blue",
@@ -327,6 +363,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_canvas_door",
         "name": "canvas flap",
         "symbol": "+",
         "color": "blue",
@@ -336,6 +373,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_canvas_door_o",
         "name": "open canvas flap",
         "symbol": ".",
         "color": "blue",
@@ -345,6 +383,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_groundsheet",
         "name": "groundsheet",
         "symbol": ";",
         "color": "green",
@@ -355,6 +394,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_fema_groundsheet",
         "name": "groundsheet",
         "symbol": ";",
         "color": "green",
@@ -364,6 +404,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_skin_wall",
         "name": "animalskin wall",
         "symbol": "#",
         "color": "brown",
@@ -373,6 +414,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_skin_door",
         "name": "animalskin flap",
         "symbol": "+",
         "color": "white",
@@ -382,6 +424,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_skin_door_o",
         "name": "open animalskin flap",
         "symbol": ".",
         "color": "white",
@@ -391,6 +434,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_skin_groundsheet",
         "name": "animalskin floor",
         "symbol": ";",
         "color": "brown",
@@ -401,6 +445,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_mutpoppy",
         "name": "mutated poppy flower",
         "symbol": "f",
         "color": "red",
@@ -411,6 +456,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_safe_c",
         "name": "safe",
         "symbol": "X",
         "color": "ltgray",
@@ -420,6 +466,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_safe_l",
         "name": "safe",
         "symbol": "X",
         "color": "ltgray",
@@ -430,6 +477,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_safe_o",
         "name": "open safe",
         "symbol": "O",
         "color": "ltgray",
@@ -439,6 +487,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_plant_seed",
         "name": "seed",
         "symbol": "^",
         "color": "brown",
@@ -449,6 +498,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_plant_seedling",
         "name": "seedling",
         "symbol": "^",
         "color": "green",
@@ -459,6 +509,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_plant_mature",
         "name": "mature plant",
         "symbol": "#",
         "color": "green",
@@ -469,6 +520,7 @@
     },
     {
         "type": "furniture",
+        "id": "f_plant_harvest",
         "name": "harvestable plant",
         "symbol": "#",
         "color": "ltgreen",
