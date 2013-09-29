@@ -2216,6 +2216,7 @@
       ["microwave", 5],
       ["katana", 2],
       ["cestus", 1],
+      ["brass_knuckles", 15],
       ["gold", 10],
       ["rapier", 3],
       ["cane", 10],
@@ -2979,6 +2980,7 @@
     "id":"weapons",
     "items":[
       ["chain", 20],
+      ["brass_knuckles", 20],
       ["hammer", 35],
       ["wrench", 30],
       ["hammer_sledge", 6],
@@ -3588,6 +3590,7 @@
     "id":"military",
     "items":[
       ["water_clean", 90],
+      ["brass_knuckles", 15],
       ["mre_beef", 50],
       ["mre_veggy", 50],
       ["bandages", 50],
@@ -3894,6 +3897,7 @@
     "id":"drugdealer",
     "items":[
       ["energy_drink", 55],
+      ["brass_knuckles", 30],
       ["sports_drink", 35],
       ["purple_drink", 15],
       ["whiskey", 16],

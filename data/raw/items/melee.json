@@ -2145,6 +2145,19 @@
     "flags" : ["UNARMED_WEAPON"],
     "to_hit": 0
   },
+  { "id": "knuckle_brass",
+    "symbol" : "3",
+    "color": "red",
+    "name": "brass knuckles",
+    "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage. A good, quick weapon - but you have to get within punching range to use it.",
+    "material": "steel",
+    "price": 0,
+    "volume": 1,
+    "weight": 300,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 0
+  },
   {
     "id": "hockey_stick",
     "symbol": ";",
