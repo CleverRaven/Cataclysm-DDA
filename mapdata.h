@@ -89,7 +89,7 @@ struct ter_t {
  unsigned char movecost; //The amount of movement points required to pass this terrain by default.
  trap_id trap; //The id of the trap located at this terrain. Limit one trap per tile currently.
  std::set<std::string> flags;// : num_t_flags; This refers to enum t_flag defined above.
- void (iexamine::*examine)(game *, player *, map *m, int examx, int examy); //What happens when the terrain is examined
+ iexamine_function examine; //What happens when the terrain is examined
 
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;
@@ -192,7 +192,7 @@ struct furn_t {
  int movecost; // Penalty to terrain
  int move_str_req; //The amount of strength required to move through this terrain easily.
  std::set<std::string> flags;
- void (iexamine::*examine)(game *, player *, map *m, int examx, int examy);
+ iexamine_function examine;
 
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;
