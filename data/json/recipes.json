@@ -2717,7 +2717,7 @@
       [ "bee_sting", 1 ]
     ]
   ]
-},{        
+},{
          "type" : "recipe",
   "result": "bolt_metal",
   "category": "CC_AMMO",
@@ -4338,7 +4338,7 @@
       ],
       [
           [ "salt", 1 ],
-          [ "seasoning_salt", 10 ] 
+          [ "seasoning_salt", 10 ]
       ]
   ]
 },{
@@ -12781,8 +12781,8 @@
       [ "toolset", 20 ],
       [ "soldering_iron", 200 ]
       ] ],
-  "components": 
-    [ 
+  "components":
+    [
      [ ["element", 8] ],
      [
      [ "steel_lump", 1 ],
@@ -12792,7 +12792,7 @@
      [ ["cable", 4]
      ],
      [ ["power_supply", 1]
-     ] 
+     ]
     ]
 },{
         "type" : "recipe",
@@ -12806,15 +12806,15 @@
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       [ "forge", 150],
       [ "char_forge", 30]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [[ "steel_lump", 40 ]]
     ]
 },{
@@ -12833,8 +12833,8 @@
       [ "char_forge", 20]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "frame", 1 ]
      ],
@@ -12854,15 +12854,15 @@
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
       [ "forge", 150],
       [ "char_forge", 30]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
@@ -12882,10 +12882,10 @@
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ]
       ,
       [
@@ -12893,8 +12893,8 @@
       [ "char_forge", 40]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
@@ -12913,13 +12913,13 @@
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ]
       ,
       [
@@ -12927,8 +12927,8 @@
       [ "char_forge", 50]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
@@ -12947,24 +12947,24 @@
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       [ "forge", 250],
       [ "char_forge", 50]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
@@ -12989,7 +12989,7 @@
     [ ["chisel", -1] ],
     [ ["swage", -1]  ],
     [ ["anvil", -1]  ],
-    [ ["forge", 50], [ "char_forge", 10]  ] 
+    [ ["forge", 50], [ "char_forge", 10]  ]
            ],
   "components": [
     [
@@ -13008,24 +13008,24 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 300],
       [ "char_forge", 60]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
@@ -13048,24 +13048,24 @@
   "book_learn": [[ "textbook_weapwest", 6 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 350],
       [ "char_forge", 70]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
@@ -13092,24 +13092,24 @@
   "book_learn": [[ "textbook_weapwest", 7 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 400],
       [ "char_forge", 80]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 3 ],
      [ "steel_chunk", 12 ],
@@ -13136,24 +13136,24 @@
   "book_learn": [[ "textbook_weapwest", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 450],
       [ "char_forge", 90]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
@@ -13180,24 +13180,24 @@
   "book_learn": [[ "textbook_weapwest", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 450],
       [ "char_forge", 90]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 4 ],
      [ "steel_chunk", 16 ],
@@ -13224,24 +13224,24 @@
   "book_learn": [[ "textbook_weapeast", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 450],
       [ "char_forge", 90]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
@@ -13268,23 +13268,23 @@
   "book_learn": [[ "textbook_weapeast", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 500], ["char_forge", 100]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 5 ],
      [ "steel_chunk", 20 ],
@@ -13310,20 +13310,20 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
       ["forge", 200], ["char_forge", 40]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 3 ],
      [ "steel_chunk", 12 ],
@@ -13350,23 +13350,23 @@
   "book_learn": [[ "textbook_weapwest", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 300], ["char_forge", 60]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 4 ],
      [ "steel_chunk", 16 ],
@@ -13392,23 +13392,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 200], ["char_forge", 40]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
@@ -13434,23 +13434,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 200], ["char_forge", 40]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
@@ -13472,23 +13472,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 300], ["char_forge", 60]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
@@ -13513,8 +13513,8 @@
       [ ["anvil", -1] ],
       [ ["forge", 100], ["char_forge", 20] ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
@@ -13532,23 +13532,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 200], ["char_forge", 40]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
@@ -13566,23 +13566,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       ["forge", 200], ["char_forge", 40]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
@@ -13600,23 +13600,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 200], ["char_forge", 40]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
@@ -13637,23 +13637,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       ["forge", 300], ["char_forge", 60]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
@@ -13674,23 +13674,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       ["forge", 200], ["char_forge", 40]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
@@ -13712,23 +13712,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       ["forge", 250], ["char_forge", 50]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
@@ -13750,23 +13750,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       ["forge", 300], ["char_forge", 60]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 3 ],
      [ "steel_chunk", 12 ],
@@ -13788,23 +13788,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       ["forge", 350], ["char_forge", 70]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
@@ -13826,23 +13826,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       ["forge", 300], ["char_forge", 60]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 8 ],
      [ "steel_chunk", 32 ]
@@ -13863,26 +13863,26 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 450], ["char_forge", 90]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 8 ],
      [ "steel_chunk", 32 ]
@@ -13899,23 +13899,23 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       ["forge", 20], ["char_forge", 4]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_chunk", 1 ],
      [ "scrap", 3 ]
@@ -13933,23 +13933,23 @@
   "book_learn": [[ "textbook_armwest", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 450], ["char_forge", 90]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 30 ]
      ],
@@ -13970,23 +13970,23 @@
   "book_learn": [[ "textbook_armwest", 7 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 400], ["char_forge", 80]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 20 ],
      [ "steel_chunk", 80 ]
@@ -14008,23 +14008,23 @@
   "book_learn": [[ "textbook_armwest", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 300], ["char_forge", 60]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 6 ],
      [ "steel_chunk", 48 ],
@@ -14047,23 +14047,23 @@
   "book_learn": [[ "textbook_armwest", 4 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 250], ["char_forge", 50]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 8 ],
      [ "steel_chunk", 32 ],
@@ -14086,23 +14086,23 @@
   "book_learn": [[ "textbook_armwest", 6 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       ["forge", 350], ["char_forge", 70]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 14 ],
      [ "steel_chunk", 56 ]
@@ -14124,23 +14124,23 @@
   "book_learn": [[ "textbook_armwest", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       ["forge", 300], ["char_forge", 60]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 10 ],
      [ "steel_chunk", 40 ]
@@ -14162,23 +14162,23 @@
   "book_learn": [[ "textbook_armeast", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 450], ["char_forge", 90]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 16 ],
      [ "steel_chunk", 64 ]
@@ -14203,23 +14203,23 @@
   "book_learn": [[ "textbook_armeast", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["crucible", -1]  
+      ["crucible", -1]
       ],
       [
       ["forge", 450], ["char_forge", 90]
       ]
       ],
-  "components": 
-    [ 
+  "components":
+    [
      [
      [ "steel_lump", 12 ]
      ],
@@ -14262,16 +14262,16 @@
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
-      ["tongs", -1]  
+      ["tongs", -1]
       ],
       [
-      ["chisel", -1]  
+      ["chisel", -1]
       ],
       [
-      ["anvil", -1]  
+      ["anvil", -1]
       ],
       [
-      ["swage", -1]  
+      ["swage", -1]
       ],
       [
       ["forge", 350], ["char_forge", 70]
@@ -15478,5 +15478,3 @@
   ]
 }
 ]
-
-
