@@ -2154,7 +2154,7 @@
     "price": 0,
     "volume": 1,
     "weight": 300,
-    "bashing": 8,
+    "bashing": 6,
     "cutting": 0,
     "flags" : ["UNARMED_WEAPON"],
     "to_hit": 0
