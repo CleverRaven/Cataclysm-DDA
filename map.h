@@ -219,9 +219,9 @@ class map
  void ter_set(const int x, const int y, const ter_id new_terrain);
  std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
- bool has_flag(const t_flag flag, const int x, const int y);  // checks terrain, furniture and vehicles
- bool has_flag_ter_or_furn(const t_flag flag, const int x, const int y); // checks terrain or furniture
- bool has_flag_ter_and_furn(const t_flag flag, const int x, const int y); // checks terrain and furniture
+ bool has_flag(std::string flag, const int x, const int y);  // checks terrain, furniture and vehicles
+ bool has_flag_ter_or_furn(std::string flag, const int x, const int y); // checks terrain or furniture
+ bool has_flag_ter_and_furn(std::string flag, const int x, const int y); // checks terrain and furniture
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
  bool is_divable(const int x, const int y);

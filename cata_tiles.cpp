@@ -927,7 +927,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
     }
     else
     {
-        if (g->m.has_flag(container, x, y) || items.empty())
+        if (g->m.has_flag("CONTAINER", x, y) || items.empty())
         {
             return false;
         }

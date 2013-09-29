@@ -932,10 +932,8 @@ void npc::update_path(game *g, int x, int y)
 
 bool npc::can_move_to(game *g, int x, int y)
 {
- if ((g->m.move_cost(x, y) > 0 || g->m.has_flag(bashable, x, y)) &&
-     rl_dist(posx, posy, x, y) <= 1)
-  return true;
- return false;
+ return ((g->m.move_cost(x, y) > 0 || g->m.has_flag("BASHABLE", x, y)) &&
+     rl_dist(posx, posy, x, y) <= 1);
 }
 
 void npc::move_to(game *g, int x, int y)
@@ -1009,7 +1007,7 @@ void npc::move_to(game *g, int x, int y)
   moves -= run_cost(g->m.combined_movecost(posx, posy, x, y), diag);
  } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor)))
   moves -= 100;
- else if (g->m.has_flag(bashable, x, y)) {
+ else if (g->m.has_flag("BASHABLE", x, y)) {
   moves -= 110;
   std::string bashsound;
   int smashskill = int(str_cur / 2 + weapon.type->melee_dam);
@@ -2041,7 +2039,7 @@ void npc::go_to_destination(game *g)
    for (int dx = 0 - i; dx <= i; dx++) {
     for (int dy = 0 - i; dy <= i; dy++) {
      if ((g->m.move_cost(x + dx, y + dy) > 0 ||
-          g->m.has_flag(bashable, x + dx, y + dy) ||
+          g->m.has_flag("BASHABLE", x + dx, y + dy) ||
           g->m.ter(x + dx, y + dy) == t_door_c) &&
          g->m.sees(posx, posy, x + dx, y + dy, light, linet)) {
       path = g->m.route(posx, posy, x + dx, y + dy);

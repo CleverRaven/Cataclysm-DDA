@@ -51,7 +51,6 @@ Format: File with definition : Name of enum
 * lightmap.h : lit_level
 * line.h : direction
 * map.cpp : astar_list
-* mapdata.h : t_flag
 * mapdata.h : ter_id
 * mapdata.h : furn_id
 * mapdata.h : map_extra
