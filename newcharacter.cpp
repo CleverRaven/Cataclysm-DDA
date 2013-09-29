@@ -320,7 +320,7 @@ bool player::create(game *g, character_type type, std::string tempname)
             my_mutations.erase(iter->first);
 
     // Equip any armor from our inventory.
-    // If we are unable to wear some of it due to encumberance, it will silently fail.
+    // If we are unable to wear some of it due to encumbrance, it will silently fail.
     std::vector<item*> tmp_inv;
     inv.dump(tmp_inv);
 

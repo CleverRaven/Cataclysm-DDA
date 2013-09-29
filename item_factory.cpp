@@ -476,7 +476,7 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     {
                         it_armor* armor_template = new it_armor();
 
-                        armor_template->encumber = entry.get("encumberance").as_int();
+                        armor_template->encumber = entry.get("encumbrance").as_int();
                         armor_template->coverage = entry.get("coverage").as_int();
                         armor_template->thickness = entry.get("material_thickness").as_int();
                         armor_template->env_resist = entry.get("enviromental_protection").as_int();
@@ -548,9 +548,9 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     new_item_template->item_tags = entry.get("flags").as_tags();
                     /*
                     List of current flags
-                    FIT - Reduces encumberance by one
+                    FIT - Reduces encumbrance by one
                     VARSIZE - Can be made to fit via tailoring
-                    OVERSIZE - Can always be worn no matter encumberance/mutations/bionics/etc
+                    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc
                     HOOD - Will increase warmth for head if head is cold and player is not wearing a helmet (headwear of material that is not wool or cotton)
                     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
                     WATCH - Shows the current time, instead of sun/moon position
