@@ -1528,6 +1528,7 @@
       ["holster", 8],
       ["bootstrap", 3],
       ["mag_guns", 20],
+      ["mag_survival", 20],
       ["mag_archery", 20],
       ["flashlight", 40],
       ["UPS_off", 5],
