@@ -431,6 +431,8 @@ nc_color color_from_string(std::string new_color){
         return c_ltred;
     } else if("white"==new_color){
         return c_white;
+    } else if("black"==new_color){
+        return c_black;
     } else if("light_blue"==new_color || "ltblue"==new_color){
         return c_ltblue;
     } else if("yellow"==new_color){
@@ -447,6 +449,8 @@ nc_color color_from_string(std::string new_color){
         return c_ltgreen;
     } else if("pink"==new_color){
         return c_pink;
+    } else if("cyan_red"==new_color){
+        return c_cyan_red;
     } else {
         debugmsg("Received invalid color property %s. Color is required.", new_color.c_str());
         return c_white;
