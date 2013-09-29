@@ -340,7 +340,7 @@
         "id" : "mag_smg",
         "name" : "Submachine Gun Enthusiast",
         "max_level" : 1,
-        "description" : "An in-depth magazine all about submachine guns and shooting. There is an exhaustive article about close quarter combat techniques in the front.",
+        "description" : "An in-depth magazine about submachine guns and shooting. There is an exhaustive article about close quarter combat techniques in the front.",
         "weight" : 90,
         "to_hit" : 1,
         "color" : "light_gray",
