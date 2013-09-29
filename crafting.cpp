@@ -15,6 +15,9 @@
 std::vector<craft_cat> craft_cat_list;
 std::vector<std::string> recipe_names;
 recipe_map recipes;
+bool show_expanded_tools=false;
+
+std::vector<tool_group> tool_groups;
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 
@@ -114,6 +117,54 @@ void load_recipe(JsonObject &jsobj)
     recipes[category].push_back(rec);
 }
 
+// Load a tool group from JSON
+void load_tool_group(JsonObject &jsobj)
+{
+    tool_groups.push_back(tool_group());
+    tool_group &tg = tool_groups[tool_groups.size()-1];
+    tg.id = jsobj.get_string("id");
+    tg.name = jsobj.get_string("name");
+
+    JsonArray items = jsobj.get_array("items");
+    while (items.has_more()) {
+        JsonArray info = items.next_array();
+        tg.tools.push_back(component(info.get_string(0),info.get_int(1)));
+    }
+}
+
+tool_group *get_tool_group(std::string name)
+{
+    for(int g=0;g<tool_groups.size();g++)
+    {
+        if(name == tool_groups[g].id)
+            return &tool_groups[g];
+    }
+    return NULL;
+}
+
+// This function scans through a vector of components,
+// replacing tool_groups with their contents
+void expand_tool_list(std::vector<component> &dest,std::vector<component> &src)
+{
+    for(int j=0;j<src.size();j++)
+    {
+        if(src[j].is_tool_group())
+        {
+            tool_group &tg = *get_tool_group(src[j].type);
+            for(int t=0;t<tg.tools.size();t++)
+            {
+                dest.push_back(tg.tools[t]);
+                if(src[j].count > 0)
+                    dest[dest.size()-1].count *= src[j].count;
+            }
+        }
+        else
+        {
+            dest.push_back(src[j]);
+        }
+    }
+}
+
 bool game::crafting_allowed()
 {
     if (u.morale_level() < MIN_MORALE_CRAFT)
@@ -195,17 +246,25 @@ bool game::can_make(recipe *r)
         std::vector<component>::iterator tool_it = set_of_tools.begin();
         while(tool_it != set_of_tools.end())
         {
-            component &tool = *tool_it;
-            itype_id type = tool.type;
-            int req = tool.count;
-            if((req<= 0 && crafting_inv.has_amount(type,1)) || (req > 0 && crafting_inv.has_charges(type,req)))
+            //Defaults to tool group containing only the current tool
+            tool_group *tg = &tool_group();
+            tg->tools.push_back(*tool_it);
+            //If the tool is pointing to a tool group, switch to that instead
+            if(tool_it->is_tool_group())
+                tg = get_tool_group(tool_it->type);
+            for(int t=0;t<tg->tools.size();t++)
             {
-                has_tool_in_set = true;
-                tool.available = 1;
-            }
-            else
-            {
-                tool.available = -1;
+                component &tool = tg->tools[t];
+                if((tool.count<= 0 && crafting_inv.has_amount(tool.type,1)) || (tool.count > 0 && crafting_inv.has_charges(tool.type,tool.count)))
+                {
+                    has_tool_in_set = true;
+                    tool_it->available = 1;
+                    tg->tools[t].available = 1;
+                }
+                else
+                {
+                    tg->tools[t].available = -1;
+                }
             }
             ++tool_it;
         }
@@ -532,11 +591,17 @@ recipe* game::select_crafting_recipe()
         werase(w_data);
         if(filterstring != "")
         {
-            mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
+            if(show_expanded_tools)
+                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [T]: Collapse Tools, [F]ind, [R]eset"));
+            else
+                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [T]: Expand Tools, [F]ind, [R]eset"));
         }
         else
         {
-            mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind"));
+            if(show_expanded_tools)
+                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [T]: Collapse Tools, [F]ind"));
+            else
+                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [T]: Expand Tools, [F]ind"));
         }
         mvwprintz(w_data, dataLines+2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
         for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
@@ -669,31 +734,66 @@ recipe* game::select_crafting_recipe()
                     ypos++;
                     xpos = 32;
                     mvwputch(w_data, ypos, 30, col, '>');
-                    for (int j = 0; j < current[line]->tools[i].size(); j++)
+                    std::vector<component> tool_list;
+                    if(show_expanded_tools)
+                        expand_tool_list(tool_list,current[line]->tools[i]);
+                    else
+                        tool_list = current[line]->tools[i];
+                    for (int j = 0; j < tool_list.size(); j++)
                     {
-                        itype_id type = current[line]->tools[i][j].type;
-                        int charges = current[line]->tools[i][j].count;
+                        itype_id type = tool_list[j].type;
+                        int charges = tool_list[j].count;
                         nc_color toolcol = c_red;
-
-                        if (current[line]->tools[i][j].available == 0)
+                        if(tool_list[j].is_tool_group())
                         {
-                            toolcol = c_brown;
+                            if (tool_list[j].available == 0)
+                            {
+                                toolcol = c_brown;
+                            }
+                            else
+                            {
+                                tool_group &tg = *get_tool_group(type);
+                                for(int t=0;t<tg.tools.size();t++)
+                                {
+                                    if (tg.tools[t].count < 0 && crafting_inv.has_amount(tg.tools[t].type, 1))
+                                    {
+                                        toolcol = c_green;
+                                        break;
+                                    }
+                                    else if (tg.tools[t].count > 0 && crafting_inv.has_charges(tg.tools[t].type, charges * tg.tools[t].count))
+                                    {
+                                        toolcol = c_green;
+                                        break;
+                                    }
+                                }
+                            }
                         }
-                        else if (charges < 0 && crafting_inv.has_amount(type, 1))
+                        else
                         {
-                            toolcol = c_green;
-                        }
-                        else if (charges > 0 && crafting_inv.has_charges(type, charges))
-                        {
-                            toolcol = c_green;
+                            if (tool_list[j].available == 0)
+                            {
+                                toolcol = c_brown;
+                            }
+                            else if (charges < 0 && crafting_inv.has_amount(type, 1))
+                            {
+                                toolcol = c_green;
+                            }
+                            else if (charges > 0 && crafting_inv.has_charges(type, charges))
+                            {
+                                toolcol = c_green;
+                            }
                         }
 
                         std::stringstream toolinfo;
-                        toolinfo << item_controller->find_template(type)->name << " ";
-
-                        if (charges > 0)
+                        if(tool_list[j].is_tool_group())
+                            toolinfo << get_tool_group(tool_list[j].type)->name << " ";
+                        else
                         {
-                            toolinfo << string_format(_("(%d charges) "), charges);
+                            toolinfo << item_controller->find_template(type)->name << " ";
+                            if (charges > 0)
+                            {
+                                toolinfo << string_format(_("(%d charges) "), charges);
+                            }
                         }
                         std::string toolname = toolinfo.str();
                         if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH)
@@ -703,7 +803,7 @@ recipe* game::select_crafting_recipe()
                         }
                         mvwprintz(w_data, ypos, xpos, toolcol, toolname.c_str());
                         xpos += utf8_width(toolname.c_str());
-                        if (j < current[line]->tools[i].size() - 1)
+                        if (j < tool_list.size() - 1)
                         {
                             if (xpos >= FULL_SCREEN_WIDTH-3)
                             {
@@ -851,7 +951,10 @@ recipe* game::select_crafting_recipe()
                 filterstring = "";
                 redraw = true;
                 break;
-
+            case Undefined:
+                if(ch=='t'||ch=='T')
+                    show_expanded_tools = !show_expanded_tools;
+                break;
         }
         if (line < 0)
         {
@@ -991,6 +1094,11 @@ void game::complete_craft()
 {
  recipe* making = recipe_by_index(u.activity.index); // Which recipe is it?
 
+// Create a list of tools from tool groups, if there are any
+ for(int t=0;t<making->tools.size();t++)
+ {
+ }
+
 // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
  int skill_dice = u.skillLevel(making->skill_used) * 4;
 
@@ -1029,10 +1137,16 @@ void game::complete_craft()
         consume_items(&u, making->components[i]);
     }
 
-  for (int i = 0; i < making->tools.size(); i++) {
+  for (int i = 0; i < making->tools.size(); i++)
+  {
    if (making->tools[i].size() > 0)
-    consume_tools(&u, making->tools[i], false);
+   {
+    std::vector<component> tools_e;
+    expand_tool_list(tools_e,making->tools[i]);
+    consume_tools(&u, tools_e, false);
+   }
   }
+
   u.activity.type = ACT_NULL;
   return;
   // Messed up slightly; no components wasted.
@@ -1053,10 +1167,16 @@ void game::complete_craft()
    used.splice(used.end(), tmp);
   }
  }
- for (int i = 0; i < making->tools.size(); i++) {
-  if (making->tools[i].size() > 0)
-   consume_tools(&u, making->tools[i], false);
- }
+
+  for (int i = 0; i < making->tools.size(); i++)
+  {
+   if (making->tools[i].size() > 0)
+   {
+    std::vector<component> tools_e;
+    expand_tool_list(tools_e,making->tools[i]);
+    consume_tools(&u, tools_e, false);
+   }
+  }
 
   // Set up the new item, and pick an inventory letter
  int iter = 0;

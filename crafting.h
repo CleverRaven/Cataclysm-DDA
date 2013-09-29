@@ -12,6 +12,8 @@
 #define MAX_DISPLAYED_RECIPES 18
 
 typedef std::string craft_cat;
+struct tool_group;
+extern tool_group *get_tool_group(std::string name);
 
 struct component
 {
@@ -21,6 +23,8 @@ struct component
             // 0 means they have item but not enough for both tool and component
  component() { type = "null"; count = 0; available = -1;}
  component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT), available(-1) {}
+ component(const component &c) : type (c.type), count (c.count), available(c.available) {}
+ bool is_tool_group(){return get_tool_group(type);}
 };
 
 struct recipe {
@@ -83,13 +87,24 @@ recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &
   }
 };
 
+struct tool_group
+{
+    std::string id;
+    std::string name;
+    std::vector<component> tools;
+};
+
 typedef std::vector<recipe*> recipe_list;
 typedef std::map<craft_cat, recipe_list> recipe_map;
 
 void load_recipe_category(JsonObject &jsobj);
 void load_recipe(JsonObject &jsobj);
+void load_tool_group(JsonObject &jsobj);
 recipe* recipe_by_name(std::string name);
 
 extern recipe_map recipes; // The list of valid recipes
+
+extern std::vector<tool_group> tool_groups;
+extern void expand_tool_list(std::vector<component> &dest,std::vector<component> &src);
 
 #endif
