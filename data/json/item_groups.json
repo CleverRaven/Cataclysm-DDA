@@ -74,6 +74,7 @@
     "id":"livingroom",
     "items":[
       ["rootbeer", 65],
+      ["mag_computer", 35],
       ["purple_drink", 35],
       ["television", 30],
       ["clock", 10],
@@ -736,6 +737,7 @@
     "items":[
       ["mag_tv", 40],
       ["mag_barter", 35],
+      ["mag_computer", 35],
       ["mag_news", 35],
       ["mag_cars", 40],
       ["mag_cooking", 30],
@@ -1995,6 +1997,7 @@
     "items":[
       ["cola", 70],
       ["mag_barter", 35],
+      ["mag_computer", 35],
       ["choc_drink", 20],
       ["aspirin", 85],
       ["cigar", 5],
@@ -2031,6 +2034,7 @@
       ["cola", 70],
       ["choc_drink", 30],
       ["mag_barter", 15],
+      ["mag_computer", 35],
       ["aspirin", 85],
       ["cigar", 5],
       ["glasses_eye", 90],
@@ -3977,6 +3981,7 @@
     "id":"npc_hacker",
     "items":[
       ["energy_drink", 55],
+      ["mag_computer", 45],
       ["adderall", 10],
       ["electrohack", 3],
       ["usb_drive", 5],
