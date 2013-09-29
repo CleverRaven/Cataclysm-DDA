@@ -8550,6 +8550,27 @@
   ]
 },{
         "type" : "recipe",
+  "result": "hood_rain",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ ],
+  "components": [
+    [
+      [ "duct_tape", 20 ]
+    ],
+    [
+      [ "bag_plastic", 2 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "trenchcoat_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
