@@ -751,6 +751,7 @@
       ["mag_stabbing", 10],
       ["mag_melee", 10],
       ["mag_unarmed", 20],
+      ["mag_launcher", 10],
       ["mag_news", 35],
       ["mag_cars", 40],
       ["mag_cooking", 30],
@@ -1551,6 +1552,7 @@
       ["mag_melee", 10],
       ["mag_traps", 10],
       ["mag_archery", 20],
+      ["mag_launcher", 10],
       ["flashlight", 40],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -2405,6 +2407,7 @@
       ["manual_knives", 12],
       ["manual_fabrication", 12],
       ["mag_melee", 20],
+      ["mag_launcher", 20],
       ["cot", 40],
       ["manual_mechanics", 35],
       ["manual_first_aid", 40],
@@ -3751,6 +3754,7 @@
       ["pur_tablets", 10],
       ["hazmat_suit", 5],
       ["mag_melee", 2],
+      ["mag_launcher", 10],
       ["quikclot", 20]
     ]
   },{

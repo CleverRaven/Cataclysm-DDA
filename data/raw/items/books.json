@@ -251,6 +251,27 @@
         "price" : 45,
         "required_level" : 0
     },
+	{
+        "type" : "BOOK",
+        "id" : "mag_launcher",
+        "name" : "High Explosives Quarterly",
+        "max_level" : 1,
+        "description" : "An interesting quarterly report about rocket launchers and recoilless rifles. There are lots of large, exciting photos of explosions and weaponry.",
+        "weight" : 90,
+        "to_hit" : 1,
+        "color" : "green",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 8,
+        "fun" : 1,
+        "skill" : "launcher",
+        "price" : 45,
+        "required_level" : 0
+    },
     {
         "type" : "BOOK",
         "id" : "mag_tv",
