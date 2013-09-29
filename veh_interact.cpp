@@ -860,15 +860,15 @@ void veh_interact::display_stats ()
 {
     bool conf = veh->valid_wheel_config();
     int stat_width = getmaxx(w_stats);
-    const int second_column = 28;    // was 26
-    std::string speed_units = (OPTIONS["USE_METRIC_SPEEDS"].getMenuText()).c_str();
+    const int second_column = 28;
+    std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
     float speed_factor;
     if (OPTIONS["USE_METRIC_SPEEDS"] == "km/h"){
         speed_factor = float(1.61/100);
     } else {
         speed_factor = float(1/100);
     }
-    std::string weight_units = (OPTIONS["USE_METRIC_WEIGHTS"].getMenuText()).c_str();
+    std::string weight_units = OPTIONS["USE_METRIC_WEIGHTS"].getValue();
     float weight_factor;
     if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg"){
         weight_factor = 1;
