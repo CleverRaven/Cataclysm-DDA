@@ -94,6 +94,13 @@ struct ter_t {
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;
  }
+
+ void set_flag(std::string flag) {
+     flags.insert(flag);
+     if("TRANSPARENT" == flag) {
+         transparent = true;
+     }
+ }
  bool transparent;
 };
 
@@ -197,6 +204,13 @@ struct furn_t {
 
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;
+ }
+
+ void set_flag(std::string flag) {
+     flags.insert(flag);
+     if("TRANSPARENT" == flag) {
+         transparent = true;
+     }
  }
  bool transparent;
 };

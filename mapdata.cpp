@@ -50,18 +50,6 @@ std::ostream & operator<<(std::ostream & out, const submap & sm)
  return out;
 }
 
-void furn_set_flag_variable(furn_t & furn, const std::string str) {
-    if ( str == "TRANSPARENT" ) {
-        furn.transparent = true;
-    }
-}
-
-void ter_set_flag_variable(ter_t & ter, const std::string str) {
-    if ( str == "TRANSPARENT" ) {
-        ter.transparent = true;
-    }
-}
-
 void load_furniture(JsonObject &jsobj)
 {
   furn_t new_furniture;
@@ -88,9 +76,7 @@ void load_furniture(JsonObject &jsobj)
   new_furniture.transparent = false;
   JsonArray flags = jsobj.get_array("flags");
   while(flags.has_more()) {
-    std::string flag = flags.next_string();
-    new_furniture.flags.insert(flag);
-    furn_set_flag_variable(new_furniture, flag);
+    new_furniture.set_flag(flags.next_string());
   }
 
   if(jsobj.has_member("examine_action")) {
@@ -133,9 +119,7 @@ void load_terrain(JsonObject &jsobj)
   new_terrain.transparent = false;
   JsonArray flags = jsobj.get_array("flags");
   while(flags.has_more()) {
-    std::string flag = flags.next_string();
-    new_terrain.flags.insert(flag);
-    ter_set_flag_variable(new_terrain, flag);
+    new_terrain.set_flag(flags.next_string());
   }
 
   if(jsobj.has_member("examine_action")) {
