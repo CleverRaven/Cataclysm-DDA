@@ -878,7 +878,6 @@ void veh_interact::display_veh ()
 void veh_interact::display_stats ()
 {
     bool conf = veh->valid_wheel_config();
-    int stat_width = getmaxx(w_stats);
     const int second_column = 28;
     const int third_column = 56;
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
