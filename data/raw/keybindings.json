@@ -5,7 +5,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"j"
+                "key":"k"
             },
             {
                 "input_method":"keyboard",
@@ -27,7 +27,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"k"
+                "key":"j"
             },
             {
                 "input_method":"keyboard",
@@ -71,7 +71,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"k"
+                "key":"l"
             },
             {
                 "input_method":"keyboard",
@@ -93,7 +93,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"u"
+                "key":"y"
             },
             {
                 "input_method":"keyboard",
@@ -111,7 +111,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"i"
+                "key":"u"
             },
             {
                 "input_method":"keyboard",
@@ -129,7 +129,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"n"
+                "key":"b"
             },
             {
                 "input_method":"keyboard",
@@ -147,7 +147,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"m"
+                "key":"n"
             },
             {
                 "input_method":"keyboard",
@@ -186,6 +186,10 @@
         "bindings":[
             {
                 "input_method":"keyboard",
+                "key":"PPAGE"
+            },
+            {
+                "input_method":"keyboard",
                 "key":"<"
             }
         ]
@@ -194,6 +198,10 @@
         "id":"LEVEL_DOWN",
         "name":"Go Down",
         "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            },
             {
                 "input_method":"keyboard",
                 "key":">"
@@ -269,6 +277,10 @@
             {
                 "input_method":"keyboard",
                 "key":"Q"
+            },
+            {
+                "input_method":"keyboard",
+                "key":" "
             },
             {
                 "input_method":"gamepad",

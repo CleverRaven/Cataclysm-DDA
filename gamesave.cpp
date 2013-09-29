@@ -28,6 +28,9 @@
 #include "artifactdata.h"
 #include "weather.h"
 
+#include "savegame.h"
+#include "tile_id_data.h"
+
 /*
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
@@ -41,6 +44,16 @@ const int savegame_version = 9;
  */
 int savegame_loading_version = savegame_version;
 
+////////////////////////////////////////////////////////////////////////////////////////
+///// on runtime populate lookup tables. This is temporary: monster_ints
+std::map<std::string, int> monster_ints;
+
+void game::init_savedata_translation_tables() {
+    monster_ints.clear();
+    for(int i=0; i < num_monsters; i++) {
+        monster_ints[ monster_names[i] ] = i;
+    }
+}
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// game.sav
 
@@ -96,11 +109,13 @@ void game::serialize(std::ofstream & fout) {
         }
 
         // save killcounts.
-        // todo: When monsters get stringid, make a json_save
+        std::map<std::string, picojson::value> killmap;
         for (int i = 0; i < num_monsters; i++) {
-            fout << kills[i] << " ";
+            if ( kills[i] > 0 ) {
+                killmap[ monster_names[ i ] ] = pv ( kills[i] );
+            }
         }
-        fout << std::endl;
+        fout << pv( killmap ).serialize() << std::endl;
 
         // And finally the player.
         // u.save_info dumps player + contents in a single json line, followed by memorial log
@@ -223,14 +238,32 @@ void game::unserialize(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kk;
-            for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                linein >> kills[kk];
+            int kk; int kscrap;
+            if ( linein.peek() == '{' ) {
+                picojson::value kdata;
+                linein >> kdata;
+                std::string jsonerr = picojson::get_last_error();
+                if ( ! jsonerr.empty() ) {
+                    debugmsg("Bad killcount json\n%s", jsonerr.c_str() );
+                } else {
+                    picojson::object &pkdata = kdata.get<picojson::object>();
+                    for( picojson::object::const_iterator it = pkdata.begin(); it != pkdata.end(); ++it) {
+                        if ( monster_ints.find(it->first) != monster_ints.end() && it->second.is<double>() ) {
+                            kills[ monster_ints[it->first] ] = (int)it->second.get<double>();
+                        }
+                    }
+                }
+            } else {
+                for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
+                    if ( kk < 120 ) { // see legacy_mon_id
+                        // load->int->str->int (possibly shifted)
+                        kk = monster_ints[ legacy_mon_id[ kk ] ];
+                        linein >> kills[kk];
+                    } else {
+                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id. 
+                    }
+                }
             }
-            if ( kk != num_monsters ) {
-                debugmsg("Warning, number of monsters changed from %d to %d", kk+1, num_monsters );
-            }
-
             // Finally, the data on the player.
             getline(fin, data);
             u.load_info(this, data);
