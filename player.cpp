@@ -1950,7 +1950,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
 
- const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
+ const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
   iLayers = iArmorEnc = 0;
@@ -2277,7 +2277,7 @@ Melee attacks cost %+d movement points"), -encumb(bp_torso), -encumb(bp_torso),
    } else if (line == 1) {
     mvwprintz(w_encumb, 2, 1, h_ltgray, _("Head"));
     mvwprintz(w_info, 0, 0, c_magenta, _("\
-Head encumberance has no effect; it simply limits how much you can put on."));
+Head encumbrance has no effect; it simply limits how much you can put on."));
    } else if (line == 2) {
     mvwprintz(w_encumb, 3, 1, h_ltgray, _("Eyes"));
     mvwprintz(w_info, 0, 0, c_magenta, _("\
@@ -8085,7 +8085,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
                 armorenc += armor->encumber - 4;
             } else {
                 armorenc += armor->encumber;
-                // Fitted clothes will either reduce encumberance or negate layering.
+                // Fitted clothes will either reduce encumbrance or negate layering.
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( armor->encumber > 0 ) {
                         armorenc--;
