@@ -15574,7 +15574,7 @@
 
   {
     "type" : "recipe",
-    "result": "38_special",
+    "result": "38_fmj",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
     "requires_skills": [ "gun", 4 ],

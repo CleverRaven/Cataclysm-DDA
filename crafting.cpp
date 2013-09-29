@@ -62,7 +62,7 @@ void load_recipe(JsonObject &jsobj)
          ++name_iter)
     {
         if ((*name_iter) == rec_name) {
-            throw jsobj.line_number() + "Recipe name collision (set a unique value for the id_suffix field to fix): " + rec_name;
+            throw jsobj.line_number() + ": Recipe name collision (set a unique value for the id_suffix field to fix): " + rec_name;
         }
     }
 
