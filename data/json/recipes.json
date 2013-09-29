@@ -10562,6 +10562,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pistol_bayonet",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "spike", 1 ]
+    ],
+    [
+      [ "string_6", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "tripwire",
   "category": "CC_MISC",
   "skill_used": "traps",
