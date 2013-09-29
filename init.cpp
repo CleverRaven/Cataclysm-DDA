@@ -12,6 +12,7 @@
 #include "crafting.h"
 #include "computer.h"
 #include "help.h"
+#include "mapdata.h"
 
 #include <string>
 #include <vector>
@@ -35,6 +36,8 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/recipes.json");
     ret.push_back("data/json/lab_notes.json");
     ret.push_back("data/json/hints.json");
+    ret.push_back("data/json/furniture.json");
+    ret.push_back("data/json/terrain.json");
     return ret;
 }
 
@@ -53,6 +56,8 @@ void load_object(JsonObject &jo)
     else if (type == "recipe") { load_recipe(jo); }
     else if (type == "lab_note") { computer::load_lab_note(jo); }
     else if (type == "hint") { load_hint(jo); }
+    else if (type == "furniture") { load_furniture(jo); }
+    else if (type == "terrain") { load_terrain(jo); }
     else {
         std::stringstream err;
         err << jo.line_number() << ": ";

@@ -57,4 +57,7 @@ public:
  void acid_source (game *g, player *p, map *m, const int examx, const int examy);
 };
 
+//Doing this without a typedef is ugly as hell, but I can't make it work otherwise :(
+void (iexamine::*iexamine_function_from_string(std::string function_name))(game*, player*, map*, int, int);
+
 #endif /* defined(__Cataclysmic__iexamine__) */

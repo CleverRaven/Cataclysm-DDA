@@ -1016,7 +1016,7 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
      return false;
    }
 
-   if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy)))
+   if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag("FLAMMABLE", posx, posy) || g->m.has_flag("FLAMMABLE_ASH", posx, posy)))
    {
      g->add_msg_if_player(p,_("There's nothing to light there."));
      it->charges++;
@@ -2359,7 +2359,7 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
 
 void iuse::makemound(game *g, player *p, item *it, bool t)
 {
- if (g->m.has_flag(diggable, p->posx, p->posy) && !g->m.has_flag(plant, p->posx, p->posy)) {
+ if (g->m.has_flag("DIGGABLE", p->posx, p->posy) && !g->m.has_flag("PLANT", p->posx, p->posy)) {
   g->add_msg_if_player(p,_("You churn up the earth here."));
   p->moves = -300;
   g->m.ter_set(p->posx, p->posy, t_dirtmound);
@@ -2791,7 +2791,7 @@ void iuse::jackhammer(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,_("Don't do anything rash.."));
   return;
  }
- if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
+ if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
@@ -2825,7 +2825,7 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
  }
  dirx += p->posx;
  diry += p->posy;
- if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
+ if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
@@ -2899,7 +2899,7 @@ if(it->type->id == "cot"){
   practice = 2;
  } else if(it->type->id == "beartrap"){
   buried = (p->has_amount("shovel", 1) &&
-            g->m.has_flag(diggable, posx, posy) &&
+            g->m.has_flag("DIGGABLE", posx, posy) &&
             query_yn(_("Bury the beartrap?")));
   type = (buried ? tr_beartrap_buried : tr_beartrap);
   message << (buried ? _("You bury the beartrap.") : _("You set the beartrap.")) ;
@@ -2989,7 +2989,7 @@ if(it->type->id == "cot"){
   }
  } else if(it->type->id == "landmine"){
   buried = (p->has_amount("shovel", 1) &&
-            g->m.has_flag(diggable, posx, posy) &&
+            g->m.has_flag("DIGGABLE", posx, posy) &&
             query_yn(_("Bury the land mine?")));
   type = (buried ? tr_landmine_buried : tr_landmine);
   message << (buried ? _("You bury the land mine.") : _("You set the land mine."));
@@ -3002,7 +3002,7 @@ if(it->type->id == "cot"){
   if (!p->has_amount("shovel", 1)) {
    g->add_msg_if_player(p,_("You need a shovel."));
    return;
-  } else if (!g->m.has_flag(diggable, posx, posy)) {
+  } else if (!g->m.has_flag("DIGGABLE", posx, posy)) {
    g->add_msg_if_player(p,_("You can't dig in that %s"), g->m.tername(posx, posy).c_str());
    return;
   }
@@ -4406,7 +4406,7 @@ void iuse::tent(game *g, player *p, item *it, bool t)
  posy = posy*2 + p->posy;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   if (!g->m.has_flag(flat, posx + i, posy + j) ||
+   if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
         g->m.has_furn(posx + i, posy + j)) {
     g->add_msg(_("You need a 3x3 flat space to place a tent"));
     return;
@@ -4437,7 +4437,7 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
  posy = posy*2 + p->posy;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   if (!g->m.has_flag(flat, posx + i, posy + j) ||
+   if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
         g->m.has_furn(posx + i, posy + j)) {
     g->add_msg(_("You need a 3x3 flat space to place a shelter"));
     return;

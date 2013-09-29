@@ -2265,7 +2265,7 @@ void game::update_scent()
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    const int move_cost = m.move_cost_ter_furn(x, y);
    field &field_at = m.field_at(x, y);
-   const bool is_bashable = m.has_flag(bashable, x, y);
+   const bool is_bashable = m.has_flag("BASHABLE", x, y);
    newscent[x][y] = 0;
    scale[x][y] = 1;
    if (move_cost != 0 || is_bashable) {
@@ -2315,7 +2315,7 @@ void game::update_scent()
     //Greatly reduce scent for bashable barriers, even more for ductaped barriers
     if( move_cost == 0 && is_bashable)
     {
-        if( m.has_flag(reduce_scent, x, y))
+        if( m.has_flag("REDUCE_SCENT", x, y))
         {
             scale[x][y] *= 12;
         } else {
@@ -4896,9 +4896,9 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     dam = 3 * power;
    else
     dam = 3 * power / (rl_dist(x, y, i, j));
-   if (m.has_flag(bashable, i, j))
+   if (m.has_flag("BASHABLE", i, j))
     m.bash(i, j, dam, junk);
-   if (m.has_flag(bashable, i, j)) // Double up for tough doors, etc.
+   if (m.has_flag("BASHABLE", i, j)) // Double up for tough doors, etc.
     m.bash(i, j, dam, junk);
    if (m.is_destructable(i, j) && rng(25, 100) < dam)
     m.destroy(this, i, j, false);
@@ -5137,7 +5137,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag("LIQUID", traj[i].x, traj[i].y)) // oops, we hit a wall!
             {
                 targ->setpos(traj[i-1]);
                 force_remaining = traj.size() - i;
@@ -5211,13 +5211,13 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 break;
             }
             targ->setpos(traj[i]);
-            if(m.has_flag(liquid, targ->posx(), targ->posy()) && !targ->can_drown() && !targ->dead)
+            if(m.has_flag("LIQUID", targ->posx(), targ->posy()) && !targ->can_drown() && !targ->dead)
             {
                 targ->hurt(9999);
                 if (u_see(targ))
                     add_msg(_("The %s drowns!"), targ->name().c_str());
             }
-            if(!m.has_flag(liquid, targ->posx(), targ->posy()) && targ->has_flag(MF_AQUATIC) && !targ->dead)
+            if(!m.has_flag("LIQUID", targ->posx(), targ->posy()) && targ->has_flag(MF_AQUATIC) && !targ->dead)
             {
                 targ->hurt(9999);
                 if (u_see(targ))
@@ -5237,7 +5237,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag("LIQUID", traj[i].x, traj[i].y)) // oops, we hit a wall!
             {
                 targ->posx = traj[i-1].x;
                 targ->posy = traj[i-1].y;
@@ -5330,7 +5330,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag("LIQUID", traj[i].x, traj[i].y)) // oops, we hit a wall!
             {
                 u.posx = traj[i-1].x;
                 u.posy = traj[i-1].y;
@@ -5388,7 +5388,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
-            if(m.has_flag(liquid, u.posx, u.posy) && force_remaining < 1)
+            if(m.has_flag("LIQUID", u.posx, u.posy) && force_remaining < 1)
             {
                 plswim(u.posx, u.posy);
             }
@@ -5514,7 +5514,7 @@ void game::scrambler_blast(int x, int y)
 void game::emp_blast(int x, int y)
 {
  int rn;
- if (m.has_flag(console, x, y)) {
+ if (m.has_flag("CONSOLE", x, y)) {
   add_msg(_("The %s is rendered non-functional!"), m.tername(x, y).c_str());
   m.ter_set(x, y, t_console_broken);
   return;
@@ -5706,7 +5706,7 @@ void game::rebuild_mon_at_cache()
 
 bool game::is_empty(const int x, const int y)
 {
- return ((m.move_cost(x, y) > 0 || m.has_flag(liquid, x, y)) &&
+ return ((m.move_cost(x, y) > 0 || m.has_flag("LIQUID", x, y)) &&
          npc_at(x, y) == -1 && mon_at(x, y) == -1 &&
          (u.posx != x || u.posy != y));
 }
@@ -6055,7 +6055,7 @@ void game::smash()
         }
         sound(smashx, smashy, 18, bashsound);
         // TODO: Move this elsewhere, like maybe into the map on-break code
-        if (m.has_flag(alarmed, smashx, smashy) &&
+        if (m.has_flag("ALARMED", smashx, smashy) &&
             !event_queued(EVENT_WANTED))
         {
             sound(smashx, smashy, 40, _("An alarm sounds!"));
@@ -6428,7 +6428,7 @@ void game::moving_vehicle_dismount(int tox, int toy)
     // Dive three tiles in the direction of tox and toy
     fling_player_or_monster(&u, 0, d, 30, true);
     // Hit the ground according to vehicle speed
-    if (!m.has_flag(swimmable, u.posx, u.posy)) {
+    if (!m.has_flag("SWIMMABLE", u.posx, u.posy)) {
         if (veh->velocity > 0)
             fling_player_or_monster(&u, 0, veh->face.dir(), veh->velocity / (float)100);
         else
@@ -6486,7 +6486,7 @@ void game::examine()
    exam_vehicle (*veh, examx, examy);
  }
 
- if (m.has_flag(console, examx, examy)) {
+ if (m.has_flag("CONSOLE", examx, examy)) {
   use_computer(examx, examy);
   return;
  }
@@ -6503,11 +6503,11 @@ void game::examine()
  if (xter_t->examine != &iexamine::none || xfurn_t->examine != &iexamine::none)
    none = false;
 
- if (m.has_flag(sealed, examx, examy)) {
+ if (m.has_flag("SEALED", examx, examy)) {
    if (none) add_msg(_("The %s is firmly sealed."), m.name(examx, examy).c_str());
  } else {
    //examx,examy has no traps, is a container and doesn't have a special examination function
-  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) && none)
+  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag("CONTAINER", examx, examy) && none)
    add_msg(_("It is empty."));
   else
    if (!veh)pickup(examx, examy, 0);
@@ -6623,7 +6623,7 @@ point game::look_around()
    {
        zombie(dex).draw(w_terrain, lx, ly, true);
        zombie(dex).print_info(this, w_look);
-       if (!m.has_flag(container, lx, ly))
+       if (!m.has_flag("CONTAINER", lx, ly))
        {
            if (m.i_at(lx, ly).size() > 1)
            {
@@ -6641,7 +6641,7 @@ point game::look_around()
    {
        active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
        active_npc[npc_at(lx, ly)]->print_info(w_look);
-       if (!m.has_flag(container, lx, ly))
+       if (!m.has_flag("CONTAINER", lx, ly))
        {
            if (m.i_at(lx, ly).size() > 1)
            {
@@ -6661,7 +6661,7 @@ point game::look_around()
        veh->print_part_desc(w_look, ++off, 48, veh_part);
        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    }
-   else if (!m.has_flag(container, lx, ly) && m.i_at(lx, ly).size() > 0)
+   else if (!m.has_flag("CONTAINER", lx, ly) && m.i_at(lx, ly).size() > 0)
    {
        mvwprintw(w_look, 3, 1, _("There is a %s there."),
                  m.i_at(lx, ly)[0].tname(this).c_str());
@@ -6670,7 +6670,7 @@ point game::look_around()
            mvwprintw(w_look, ++off, 1, _("There are other items there as well."));
        }
        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   } else if (m.has_flag(container, lx, ly)) {
+   } else if (m.has_flag("CONTAINER", lx, ly)) {
        mvwprintw(w_look, 3, 1, _("You cannot see what is inside of it."));
        m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
    }
@@ -6766,8 +6766,8 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); ++p_it) {
         if (p_it->y >= u.posy - iSearchY && p_it->y <= u.posy + iSearchY &&
             u_see(p_it->x,p_it->y) &&
-            (!m.has_flag(container, p_it->x, p_it->y) ||
-            (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag(sealed, p_it->x, p_it->y)))) {
+            (!m.has_flag("CONTAINER", p_it->x, p_it->y) ||
+            (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag("SEALED", p_it->x, p_it->y)))) {
 
             here.clear();
             here = m.i_at(p_it->x, p_it->y);
@@ -7251,7 +7251,7 @@ void game::pickup(int posx, int posy, int min)
 {
  //min == -1 is Autopickup
 
- if (m.has_flag(sealed, posx, posy)) return;
+ if (m.has_flag("SEALED", posx, posy)) return;
 
  item_exchanges_since_save += 1; // Keeping this simple.
  write_msg();
@@ -7887,8 +7887,9 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     // Ask to pour rotten liquid (milk!) from the get-go
     if (!from_ground && liquid.rotten(this) &&
             query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
-        if (!m.has_flag(swimmable, u.posx, u.posy))
+        if (!m.has_flag("SWIMMABLE", u.posx, u.posy)) {
             m.add_item_or_charges(u.posx, u.posy, liquid, 1);
+        }
 
         return true;
     }
@@ -7901,7 +7902,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         // we asked to pour rotten already
         if (!from_ground && !liquid.rotten(this) &&
                 query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
-            if (!m.has_flag(swimmable, u.posx, u.posy))
+            if (!m.has_flag("SWIMMABLE", u.posx, u.posy))
                 m.add_item_or_charges(u.posx, u.posy, liquid, 1);
             return true;
         }
@@ -7914,7 +7915,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         // we asked to pour rotten already
         if (!from_ground && !liquid.rotten(this) &&
                 query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
-            if (!m.has_flag(swimmable, u.posx, u.posy))
+            if (!m.has_flag("SWIMMABLE", u.posx, u.posy))
                 m.add_item_or_charges(u.posx, u.posy, liquid, 1);
             return true;
         }
@@ -8315,7 +8316,7 @@ void game::drop_in_direction()
         to_veh = veh_part >= 0;
     }
 
-    if (m.has_flag(noitem, dirx, diry) || m.has_flag(sealed, dirx, diry)) {
+    if (m.has_flag("NOITEM", dirx, diry) || m.has_flag("SEALED", dirx, diry)) {
         add_msg(_("You can't place items there!"));
         return;
     }
@@ -9575,14 +9576,14 @@ void game::plmove(int dx, int dy)
    else
     add_msg(_("Moving past this %s is slow!"), m.name(x, y).c_str());
   }
-  if (m.has_flag(rough, x, y) && (!u.in_vehicle)) {
+  if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
    if (one_in(5) && u.armor_bash(bp_feet) < rng(2, 5)) {
     add_msg(_("You hurt your feet on the %s!"), m.tername(x, y).c_str());
     u.hit(this, bp_feet, 0, 0, 1);
     u.hit(this, bp_feet, 1, 0, 1);
    }
   }
-  if (m.has_flag(sharp, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
+  if (m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
       && (!u.in_vehicle)) {
    if (!u.has_trait("PARKOUR") || one_in(4)) {
     body_part bp = random_body_part();
@@ -9600,7 +9601,7 @@ void game::plmove(int dx, int dy)
   if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE))
    sound(x, y, 40, _("You emit a rattling sound."));
 // If we moved out of the nonant, we need update our map data
-  if (m.has_flag(swimmable, x, y) && u.has_disease("onfire")) {
+  if (m.has_flag("SWIMMABLE", x, y) && u.has_disease("onfire")) {
    add_msg(_("The water puts out the flames!"));
    u.rem_disease("onfire");
   }
@@ -9683,7 +9684,7 @@ void game::plmove(int dx, int dy)
     bool wall = false;
     for (int wallx = x - 1; wallx <= x + 1 && !wall; wallx++) {
      for (int wally = y - 1; wally <= y + 1 && !wall; wally++) {
-      if (m.has_flag(supports_roof, wallx, wally))
+      if (m.has_flag("SUPPORTS_ROOF", wallx, wally))
        wall = true;
      }
     }
@@ -9694,11 +9695,11 @@ void game::plmove(int dx, int dy)
   }
 
   // Drench the player if swimmable
-  if (m.has_flag(swimmable, x, y))
+  if (m.has_flag("SWIMMABLE", x, y))
     u.drench(this, 40, mfb(bp_feet) | mfb(bp_legs));
 
   // List items here
-  if (!m.has_flag(sealed, x, y)) {
+  if (!m.has_flag("SEALED", x, y)) {
     if (!u.has_disease("blind") && m.i_at(x, y).size() <= 3 && m.i_at(x, y).size() != 0) {
       // TODO: Rewrite to be localizable
       std::string buff = _("You see here ");
@@ -9726,13 +9727,13 @@ void game::plmove(int dx, int dy)
       add_msg(_("There are vehicle controls here.  %s to drive."),
               press_x(ACTION_CONTROL_VEHICLE).c_str() );
 
-  } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
+  } else if (!m.has_flag("SWIMMABLE", x, y) && u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
   //probability travel through walls but not water
   int tunneldist = 0;
   // tile is impassable
   while((m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&
          // but allow water tiles
-         !m.has_flag(swimmable, x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy))) ||
+         !m.has_flag("SWIMMABLE", x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy))) ||
          // a monster is there
          ((mon_at(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) != -1 ||
            // so keep tunneling
@@ -9777,9 +9778,9 @@ void game::plmove(int dx, int dy)
   add_msg (_("You open the %s's %s."), veh1->name.c_str(),
                                     veh1->part_info(dpart).name.c_str());
 
- } else if (m.has_flag(swimmable, x, y)) { // Dive into water!
+ } else if (m.has_flag("SWIMMABLE", x, y)) { // Dive into water!
 // Requires confirmation if we were on dry land previously
-  if ((m.has_flag(swimmable, u.posx, u.posy) &&
+  if ((m.has_flag("SWIMMABLE", u.posx, u.posy) &&
       m.move_cost(u.posx, u.posy) == 0) || query_yn(_("Dive into the water?"))) {
    if (m.move_cost(u.posx, u.posy) > 0 && u.swim_speed() < 500)
      add_msg(_("You start swimming.  %s to dive underwater."),
@@ -9811,7 +9812,7 @@ void game::plswim(int x, int y)
   update_map(x, y);
  u.posx = x;
  u.posy = y;
- if (!m.has_flag(swimmable, x, y)) {
+ if (!m.has_flag("SWIMMABLE", x, y)) {
   dbg(D_ERROR) << "game:plswim: Tried to swim in "
                << m.tername(x, y).c_str() << "!";
   debugmsg("Tried to swim in %s!", m.tername(x, y).c_str());
@@ -9912,15 +9913,16 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
              p->hitall (this, dam1, 40);
             else
                 zz->hurt(dam1);
-        } else if (m.move_cost(x, y) == 0 && !m.has_flag(swimmable, x, y)) {
+        } else if (m.move_cost(x, y) == 0 && !m.has_flag("SWIMMABLE", x, y)) {
             slam = true;
             int vpart;
             vehicle *veh = m.veh_at(x, y, vpart);
             dname = veh ? veh->part_info(vpart).name : m.tername(x, y).c_str();
-            if (m.has_flag(bashable, x, y))
+            if (m.has_flag("BASHABLE", x, y)) {
                 thru = m.bash(x, y, flvel, snd);
-            else
+            } else {
                 thru = false;
+            }
             if (snd.length() > 0)
                 add_msg (_("You hear a %s"), snd.c_str());
             if (is_player)
@@ -9953,7 +9955,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
         nanosleep (&ts, 0);
     }
 
-    if (!m.has_flag(swimmable, x, y))
+    if (!m.has_flag("SWIMMABLE", x, y))
     {
         // fall on ground
         dam1 = rng (flvel / 3, flvel * 2 / 3) / 2;
@@ -9996,7 +9998,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
 void game::vertical_move(int movez, bool force)
 {
 // > and < are used for diving underwater.
- if (m.move_cost(u.posx, u.posy) == 0 && m.has_flag(swimmable, u.posx, u.posy)){
+ if (m.move_cost(u.posx, u.posy) == 0 && m.has_flag("SWIMMABLE", u.posx, u.posy)){
   if (movez == -1) {
    if (u.is_underwater()) {
     add_msg(_("You are already underwater!"));
@@ -10020,8 +10022,8 @@ void game::vertical_move(int movez, bool force)
  }
 // Force means we're going down, even if there's no staircase, etc.
 // This happens with sinkholes and the like.
- if (!force && ((movez == -1 && !m.has_flag(goes_down, u.posx, u.posy)) ||
-                (movez ==  1 && !m.has_flag(goes_up,   u.posx, u.posy))) &&
+ if (!force && ((movez == -1 && !m.has_flag("GOES_DOWN", u.posx, u.posy)) ||
+                (movez ==  1 && !m.has_flag("GOES_UP",   u.posx, u.posy))) &&
                 !(m.ter(u.posx, u.posy) == t_elevator)) {
   if (movez == -1) {
     add_msg(_("You can't go down here!"));
@@ -10054,8 +10056,8 @@ void game::vertical_move(int movez, bool force)
    for (int i = u.posx - SEEX * 2; i <= u.posx + SEEX * 2; i++) {
     for (int j = u.posy - SEEY * 2; j <= u.posy + SEEY * 2; j++) {
     if (rl_dist(u.posx, u.posy, i, j) <= best &&
-        ((movez == -1 && tmpmap.has_flag(goes_up, i, j)) ||
-         (movez == 1 && (tmpmap.has_flag(goes_down, i, j) ||
+        ((movez == -1 && tmpmap.has_flag("GOES_UP", i, j)) ||
+         (movez == 1 && (tmpmap.has_flag("GOES_DOWN", i, j) ||
                          tmpmap.ter(i, j) == t_manhole_cover)) ||
          ((movez == 2 || movez == -2) && tmpmap.ter(i, j) == t_elevator))) {
      stairx = i;
@@ -10370,7 +10372,7 @@ void game::update_stair_monsters()
     for (int y = 0; y < SEEY * MAPSIZE && !found_stairs; y++) {
      int sx = (startx + x) % (SEEX * MAPSIZE),
          sy = (starty + y) % (SEEY * MAPSIZE);
-     if (m.has_flag(goes_up, sx, sy) || m.has_flag(goes_down, sx, sy)) {
+     if (m.has_flag("GOES_UP", sx, sy) || m.has_flag("GOES_DOWN", sx, sy)) {
       found_stairs = true;
       int mposx = sx, mposy = sy;
       int tries = 0;
@@ -10383,7 +10385,7 @@ void game::update_stair_monsters()
        coming_to_stairs[i].mon.setpos(sx, sy, true);
        add_zombie( coming_to_stairs[i].mon );
        if (u_see(sx, sy)) {
-        if (m.has_flag(goes_up, sx, sy)) {
+        if (m.has_flag("GOES_UP", sx, sy)) {
             add_msg(_("A %s comes down the %s!"), coming_to_stairs[i].mon.name().c_str(),
                 m.tername(sx, sy).c_str());
         } else {

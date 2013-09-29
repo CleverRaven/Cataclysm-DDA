@@ -242,7 +242,7 @@ void weather_effect::acid(game *g)
     if (g->levz >= 0) {
         for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
             for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
-                if (!g->m.has_flag(diggable, x, y) && !g->m.has_flag(noitem, x, y) &&
+                if (!g->m.has_flag("DIGGABLE", x, y) && !g->m.has_flag("NOITEM", x, y) &&
                       g->m.move_cost(x, y) > 0 && g->m.is_outside(x, y) && one_in(400)) {
                     g->m.add_field(g, x, y, fd_acid, 1);
                 }
