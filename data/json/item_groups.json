@@ -746,6 +746,7 @@
       ["mag_traps", 20],
       ["mag_bashing", 10],
       ["mag_cutting", 10],
+      ["mag_melee", 10],
       ["mag_news", 35],
       ["mag_cars", 40],
       ["mag_cooking", 30],
@@ -1225,6 +1226,7 @@
       ["crossbow", 2],
       ["mag_survival", 40],
       ["mag_cutting", 10],
+      ["mag_melee", 10],
       ["mag_traps", 10],
       ["hand_crossbow", 1],
       ["manual_knives", 12],
@@ -1539,6 +1541,7 @@
       ["bootstrap", 3],
       ["mag_guns", 20],
       ["mag_survival", 20],
+      ["mag_melee", 10],
       ["mag_traps", 10],
       ["mag_archery", 20],
       ["flashlight", 40],
@@ -2391,6 +2394,7 @@
       ["manual_brawl", 30],
       ["manual_knives", 12],
       ["manual_fabrication", 12],
+      ["mag_melee", 20],
       ["cot", 40],
       ["manual_mechanics", 35],
       ["manual_first_aid", 40],
@@ -3736,6 +3740,7 @@
       ["improve_sights", 10],
       ["pur_tablets", 10],
       ["hazmat_suit", 5],
+      ["mag_melee", 2],
       ["quikclot", 20]
     ]
   },{
@@ -3932,6 +3937,7 @@
       ["energy_drink", 55],
       ["sports_drink", 35],
       ["purple_drink", 15],
+      ["mag_melee", 30],
       ["whiskey", 16],
       ["bum_wine", 10],
       ["jerky", 55],
