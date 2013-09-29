@@ -2156,6 +2156,7 @@
     "weight": 300,
     "bashing": 8,
     "cutting": 0,
+    "flags" : ["UNARMED_WEAPON"],
     "to_hit": 0
   },
   {
