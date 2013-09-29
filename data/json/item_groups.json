@@ -735,6 +735,7 @@
     "id":"magazines",
     "items":[
       ["mag_tv", 40],
+      ["mag_barter", 35],
       ["mag_news", 35],
       ["mag_cars", 40],
       ["mag_cooking", 30],
@@ -1993,6 +1994,7 @@
     "id":"office",
     "items":[
       ["cola", 70],
+      ["mag_barter", 35],
       ["choc_drink", 20],
       ["aspirin", 85],
       ["cigar", 5],
@@ -2028,6 +2030,7 @@
     "items":[
       ["cola", 70],
       ["choc_drink", 30],
+      ["mag_barter", 15],
       ["aspirin", 85],
       ["cigar", 5],
       ["glasses_eye", 90],
