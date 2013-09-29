@@ -314,6 +314,27 @@
         "price" : 45,
         "required_level" : 0
     },
+	{
+        "type" : "BOOK",
+        "id" : "mag_shotgune",
+        "name" : "Trap and Field",
+        "max_level" : 1,
+        "description" : "An in-depth magazine all about shotguns and shooting. There is an informative article about proper shooting stance in the back pages.",
+        "weight" : 90,
+        "to_hit" : 1,
+        "color" : "green",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 8,
+        "fun" : 1,
+        "skill" : "shotgun",
+        "price" : 45,
+        "required_level" : 0
+    },
     {
         "type" : "BOOK",
         "id" : "mag_tv",
