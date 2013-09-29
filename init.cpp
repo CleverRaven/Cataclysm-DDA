@@ -19,6 +19,10 @@
 #include <fstream>
 #include <sstream> // for throwing errors
 
+
+typedef std::string type_string;
+std::map<type_string, TFunctor*> type_function_map;
+
 /* Currently just for loading JSON data from files in data/raw */
 
 // TODO: make this actually load files from the named directory
@@ -44,20 +48,10 @@ std::vector<std::string> listfiles(std::string const &dirname)
 void load_object(JsonObject &jo)
 {
     std::string type = jo.get_string("type");
-    if (type == "material") { material_type::load_material(jo);}
-    else if (type == "bionic") { load_bionic(jo); }
-    else if (type == "profession") { profession::load_profession(jo); }
-    else if (type == "skill") { Skill::load_skill(jo); }
-    else if (type == "dream") { load_dream(jo); }
-    else if (type == "mutation") { load_mutation(jo); }
-    else if (type == "snippet") { SNIPPET.load_snippet(jo); }
-    else if (type == "item_group") { item_controller->load_item_group(jo); }
-    else if (type == "recipe_category") { load_recipe_category(jo); }
-    else if (type == "recipe") { load_recipe(jo); }
-    else if (type == "lab_note") { computer::load_lab_note(jo); }
-    else if (type == "hint") { load_hint(jo); }
-    else if (type == "furniture") { load_furniture(jo); }
-    else if (type == "terrain") { load_terrain(jo); }
+    if (type_function_map.find(type) != type_function_map.end())
+    {
+        (*type_function_map[type])(jo);
+    }
     else {
         std::stringstream err;
         err << jo.line_number() << ": ";
@@ -68,6 +62,26 @@ void load_object(JsonObject &jo)
 
 void init_data_structures()
 {
+    // all of the applicable types that can be loaded, along with their loading functions
+    // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
+    // Static Function Access
+    type_function_map["material"] = new StaticFunctionAccessor(&material_type::load_material);
+    type_function_map["bionic"] = new StaticFunctionAccessor(&load_bionic);
+    type_function_map["profession"] = new StaticFunctionAccessor(&profession::load_profession);
+    type_function_map["skill"] = new StaticFunctionAccessor(&Skill::load_skill);
+    type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
+    type_function_map["mutation"] = new StaticFunctionAccessor(&load_mutation);
+    type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
+    type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
+    type_function_map["lab_note"] = new StaticFunctionAccessor(&computer::load_lab_note);
+    type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
+    type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
+    type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
+
+    // Non Static Function Access
+    type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
+    type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_group);
+
     mutations_category[""].clear();
     init_mutation_parts();
 }
