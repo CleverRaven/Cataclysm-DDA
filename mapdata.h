@@ -37,7 +37,7 @@ class monster;
 
 /*
  * List of known flags, used in both terrain.json and furniture.json.
- * TRANSPARENT - Players and monsters can see through/past it
+ * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
  * FLAT - Player can build and move furniture on
  * BASHABLE - Players + Monsters can bash this
  * CONTAINER - Items on this square are hidden until looted by the player
@@ -94,6 +94,7 @@ struct ter_t {
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;
  }
+ bool transparent;
 };
 
 /*
@@ -197,6 +198,7 @@ struct furn_t {
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;
  }
+ bool transparent;
 };
 
 /*
