@@ -33,71 +33,93 @@ veh_interact::veh_interact ()
  */
 void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 {
-    g = gm;
     veh = v;
-    //        x1      x2
-    // y1 ----+------+--
-    //        |      |
-    // y2 ----+------+
-    //               |
-    //               |
-    winw1 = 12;
-    winw2 = 35;
-    winh1 = 3;
-    winh2 = 12;
-    winw12 = winw1 + winw2 + 1;
-    winw3 = FULL_SCREEN_WIDTH - winw1 - winw2 - 2;
-    winh3 = FULL_SCREEN_HEIGHT - winh1 - winh2 - 2;
-    winh23 = winh2 + winh3 + 1;
-    winx1 = winw1;
-    winx2 = winw1 + winw2 + 1;
-    winy1 = winh1;
-    winy2 = winh1 + winh2 + 1;
+    //        winw1   winw2   winw3
+    //  winh1       |       |
+    //        ------+-------+------
+    //  winh2       |       |
+    //        ------+-------+------
+    //  winh3       |       |
+    //
+    // +-------------------------+
+    // |         w_mode          |
+    // |         w_msg           |
+    // +-------+---------+-------+
+    // |w_disp | w_parts | w_list|
+    // +-------+---------+-------+
+    // |         w_stats         |
+    // +-------------------------+
+    int winw1 = 12;
+    int winw2 = 35;
+    int winh1 = 3;
+    int winh2 = 12;
+    int winw3 = FULL_SCREEN_WIDTH - winw1 - winw2 - 4;
+    int winh3 = FULL_SCREEN_HEIGHT - winh1 - winh2 - 2;
+    int winx1 = winw1;
+    int winx2 = winw1 + winw2 + 1;
+    int winy1 = winh1;
+    int winy2 = winh1 + winh2 + 1;
+
+    mode_h = 1;
+    mode_w = FULL_SCREEN_WIDTH - 2;
+    msg_h = winh1 - 1;
+    msg_w = FULL_SCREEN_WIDTH - 2;
+    disp_h = winh2 - 1;
+    disp_w = winw1;
+    parts_h = winh2 - 1;
+    parts_w = winw2;
+    stats_h = winh3 - 1;
+    stats_w = FULL_SCREEN_WIDTH - 2;
+    list_h = winh2 - 1;
+    list_w = winw3;
 
     // changed FALSE value to 1, to keep w_border from starting at a negative x,y
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 1;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 1;
 
-    page_size = winh23;
+    page_size = list_h;
 
     //               h   w    y     x
-    WINDOW *w_border= newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,  -1 + iOffsetY,    -1 + iOffsetX);
-    w_grid  = newwin(FULL_SCREEN_HEIGHT -2, FULL_SCREEN_WIDTH-2,  iOffsetY,    iOffsetX);
-    w_mode  = newwin(1,  FULL_SCREEN_WIDTH-2, iOffsetY,    iOffsetX);
-    w_msg   = newwin(winh1 - 1, FULL_SCREEN_WIDTH-2, 1 + iOffsetY,    iOffsetX);
-    w_disp  = newwin(winh2-1, winw1,  winy1 + 1 + iOffsetY, iOffsetX);
-    w_parts = newwin(winh2-1, winw2,  winy1 + 1 + iOffsetY, winx1 + 1 + iOffsetX);
-    w_stats = newwin(winh3-1, winw12, winy2 + iOffsetY, iOffsetX);
-    w_list  = newwin(winh23, winw3, winy1 + 1 + iOffsetY, winx2 + 1 + iOffsetX);
+    WINDOW *w_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, -1 + iOffsetY, -1 + iOffsetX );
+    w_grid  = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2, iOffsetY, iOffsetX );
+    w_mode  = newwin( mode_h,  mode_w,   iOffsetY,                           iOffsetX );
+    w_msg   = newwin( msg_h,   msg_w,    mode_h + iOffsetY,                  iOffsetX );
+    w_disp  = newwin( disp_h,  disp_w,   mode_h + msg_h + 1 + iOffsetY,  iOffsetX );
+    w_parts = newwin( parts_h, parts_w,  mode_h + msg_h + 1 + iOffsetY,  disp_w + 1 + iOffsetX );
+    w_list  = newwin( list_h,  list_w,   mode_h + msg_h + 1 + iOffsetY,
+                      disp_w + 1 + parts_w + 1 + iOffsetX );
+    w_stats = newwin( stats_h, stats_w,  mode_h + msg_h + 1 + disp_h + 1 + iOffsetY, iOffsetX );
+
 
     wborder(w_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                       LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
-    mvwputch(w_border, 16, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_border, 4, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_border, 4, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXX); // -|
-    mvwputch(w_border, 24, 49, c_ltgray, LINE_XXOX);
+    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, 0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_border, mode_h + msg_h + 1, 0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXX);
+    mvwputch(w_border, mode_h + msg_h + 1, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXX);
 
     wrefresh(w_border);
 
-    for (int i = 0; i < FULL_SCREEN_HEIGHT; i++)
-    {
-        mvwputch(w_grid, i, winx2, c_ltgray, i == winy1 || i == winy2-1? LINE_XOXX : LINE_XOXO);
-        if (i >= winy1 && i < winy2) {
-            mvwputch(w_grid, i, winx1, c_ltgray, LINE_XOXO);
-        }
+    // Two lines dividing the three middle sections.
+    for (int i = winy1; i < winy2; i++) {
+        mvwputch(w_grid, i, winx2, c_ltgray, LINE_XOXO);
+        mvwputch(w_grid, i, winx1, c_ltgray, LINE_XOXO);
     }
-    for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
-    {
-        mvwputch(w_grid, winy1, i, c_ltgray,
-                 i == winx1? LINE_OXXX : (i == winx2? LINE_OXXX : LINE_OXOX));
-        if (i < winx2) {
-            mvwputch(w_grid, winy2-1, i, c_ltgray, i == winx1? LINE_XXOX : LINE_OXOX);
-        }
+    // Two lines dividing the vertical menu sections.
+    for (int i = 0; i < FULL_SCREEN_WIDTH; i++) {
+        mvwputch( w_grid, winy1, i, c_ltgray, LINE_OXOX );
+        mvwputch( w_grid, winy2-1, i, c_ltgray, LINE_OXOX );
     }
+    // Fix up the line intersections.
+    mvwputch( w_grid, winy1, winx1, c_ltgray, LINE_OXXX );
+    mvwputch( w_grid, winy1, winx2, c_ltgray, LINE_OXXX );
+    mvwputch( w_grid, winy2 - 1, winx1, c_ltgray, LINE_XXOX );
+    mvwputch( w_grid, winy2 - 1, winx2, c_ltgray, LINE_XXOX );
+
     wrefresh(w_grid);
 
-    crafting_inv = gm->crafting_inventory(&gm->u);
+    crafting_inv = g->crafting_inventory(&g->u);
 
     int charges = static_cast<it_tool *>(g->itypes["welder"])->charges_per_use;
     int charges_crude = static_cast<it_tool *>(g->itypes["welder_crude"])->charges_per_use;
@@ -388,7 +410,7 @@ void veh_interact::do_repair(int reason)
     {
         sel_vehicle_part = &veh->parts[parts_here[need_repair[pos]]];
         werase (w_parts);
-        veh->print_part_desc (w_parts, 0, winw2, cpart, need_repair[pos]);
+        veh->print_part_desc (w_parts, 0, parts_w, cpart, need_repair[pos]);
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
@@ -423,7 +445,7 @@ void veh_interact::do_repair(int reason)
             if (ch == KEY_ESCAPE || ch == 'q' )
             {
                 werase (w_parts);
-                veh->print_part_desc (w_parts, 0, winw2, cpart, -1);
+                veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
                 wrefresh (w_parts);
                 werase (w_msg);
                 break;
@@ -523,7 +545,7 @@ void veh_interact::do_remove(int reason)
     {
         sel_vehicle_part = &veh->parts[parts_here[pos]];
         werase (w_parts);
-        veh->print_part_desc (w_parts, 0, winw2, cpart, pos);
+        veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
         char ch = input(); // See keypress.h
         int dx, dy;
@@ -537,7 +559,7 @@ void veh_interact::do_remove(int reason)
             if (ch == KEY_ESCAPE || ch == 'q' )
             {
                 werase (w_parts);
-                veh->print_part_desc (w_parts, 0, winw2, cpart, -1);
+                veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
                 wrefresh (w_parts);
                 werase (w_msg);
                 break;
@@ -736,7 +758,7 @@ void veh_interact::move_cursor (int dx, int dy)
               special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
     wrefresh (w_disp);
     werase (w_parts);
-    veh->print_part_desc (w_parts, 0, winw2, cpart, -1);
+    veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
     wrefresh (w_parts);
 
     can_mount.clear();
