@@ -2148,6 +2148,34 @@
     "flags" : ["UNARMED_WEAPON"],
     "techniques": ["WBLOCK_1"]
   },
+  { "id": "cestus",
+    "symbol" : "3",
+    "color": "red",
+    "name": "cestus",
+    "description": "A heavy metal guard that covers the fist and increases striking power, with stout padding underneath to protect the wearers hand.",
+    "material": ["steel","leather"],
+    "price": 0,
+    "volume": 2,
+    "weight": 970,
+    "bashing": 14,
+    "cutting": 0,
+    "flags" : ["UNARMED_WEAPON"],
+    "to_hit": 0
+  },
+  { "id": "knuckle_brass",
+    "symbol" : "3",
+    "color": "red",
+    "name": "brass knuckles",
+    "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage. A good, quick weapon - but you have to get within punching range to use it.",
+    "material": "steel",
+    "price": 0,
+    "volume": 0,
+    "weight": 320,
+    "bashing": 6,
+    "cutting": 0,
+    "flags" : ["UNARMED_WEAPON"],
+    "to_hit": 0
+  },
   {
     "id": "hockey_stick",
     "symbol": ";",
@@ -2203,5 +2231,20 @@
     "bashing": 10,
     "cutting": 0,
     "to_hit": -2
+  },
+  {
+    "id" : "cu_pipe",
+    "name" : "copper tubing",
+    "description" : "A copper tube, makes a pretty good melee weapon. Useful in a few crafting recipes.",
+    "weight" : 890,
+    "to_hit" : 3,
+    "color" : "yellow",
+    "symbol" : "/",
+    "material" : ["steel", "null"],
+    "techniques" : ["WBLOCK_1"],
+    "volume" : 4,
+    "bashing" : 10,
+    "cutting" : 0,
+    "price" : 150
   }
 ]
