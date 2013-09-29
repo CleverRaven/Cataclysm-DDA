@@ -468,7 +468,7 @@
     },
     {
         "type": "terrain",
-        "name": "closed wood DOOR",
+        "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
@@ -476,7 +476,7 @@
     },
     {
         "type": "terrain",
-        "name": "damaged wood DOOR",
+        "name": "damaged wood door",
         "symbol": "&",
         "color": "brown",
         "move_cost": 0,
@@ -486,7 +486,7 @@
     },
     {
         "type": "terrain",
-        "name": "open wood DOOR",
+        "name": "open wood door",
         "symbol": "'",
         "color": "brown",
         "move_cost": 2,
@@ -494,7 +494,7 @@
     },
     {
         "type": "terrain",
-        "name": "closed wood DOOR",
+        "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
@@ -502,7 +502,7 @@
     },
     {
         "type": "terrain",
-        "name": "closed wood DOOR",
+        "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
@@ -510,7 +510,7 @@
     },
     {
         "type": "terrain",
-        "name": "closed wood DOOR",
+        "name": "closed wood door",
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
@@ -519,7 +519,7 @@
     },
     {
         "type": "terrain",
-        "name": "empty DOOR frame",
+        "name": "empty door frame",
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
@@ -568,7 +568,7 @@
     },
     {
         "type": "terrain",
-        "name": "boarded up DOOR",
+        "name": "boarded up door",
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
@@ -576,7 +576,7 @@
     },
     {
         "type": "terrain",
-        "name": "closed metal DOOR",
+        "name": "closed metal door",
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
@@ -584,7 +584,7 @@
     },
     {
         "type": "terrain",
-        "name": "open metal DOOR",
+        "name": "open metal door",
         "symbol": "'",
         "color": "cyan",
         "move_cost": 2,
@@ -592,7 +592,7 @@
     },
     {
         "type": "terrain",
-        "name": "closed metal DOOR",
+        "name": "closed metal door",
         "comment": "Actually locked",
         "symbol": "+",
         "color": "cyan",
@@ -601,7 +601,7 @@
     },
     {
         "type": "terrain",
-        "name": "closed bar DOOR",
+        "name": "closed bar door",
         "comment": "Unlocked, only created at map gen",
         "symbol": "+",
         "color": "cyan",
@@ -610,7 +610,7 @@
     },
     {
         "type": "terrain",
-        "name": "open bar DOOR",
+        "name": "open bar door",
         "symbol": "'",
         "color": "cyan",
         "move_cost": 2,
@@ -618,7 +618,7 @@
     },
     {
         "type": "terrain",
-        "name": "closed bar DOOR",
+        "name": "closed bar door",
         "comment": "Locked",
         "symbol": "+",
         "color": "cyan",
@@ -627,7 +627,7 @@
     },
     {
         "type": "terrain",
-        "name": "closed glass DOOR",
+        "name": "closed glass door",
         "symbol": "+",
         "color": "ltcyan",
         "move_cost": 0,
@@ -636,7 +636,7 @@
     },
     {
         "type": "terrain",
-        "name": "open glass DOOR",
+        "name": "open glass door",
         "symbol": "'",
         "color": "ltcyan",
         "move_cost": 2,
