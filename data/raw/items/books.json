@@ -230,6 +230,27 @@
         "price" : 45,
         "required_level" : 0
     },
+	{
+        "type" : "BOOK",
+        "id" : "mag_unarmed",
+        "name" : "Boxing Monthly",
+        "max_level" : 1,
+        "description" : "An exciting monthly magazine about boxing. There are lots of large, colorful photos of pugilistic exploits.",
+        "weight" : 90,
+        "to_hit" : 1,
+        "color" : "yellow",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 8,
+        "fun" : 1,
+        "skill" : "unarmed",
+        "price" : 45,
+        "required_level" : 0
+    },
     {
         "type" : "BOOK",
         "id" : "mag_tv",
