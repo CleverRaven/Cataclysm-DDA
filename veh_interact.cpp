@@ -860,38 +860,35 @@ void veh_interact::display_stats ()
 {
     bool conf = veh->valid_wheel_config();
     int stat_width = getmaxx(w_stats);
+    const int second_column = 28;    // was 26
+    std::string speed_units = (OPTIONS["USE_METRIC_SPEEDS"].getMenuText()).c_str();
+    float speed_factor;
+    if (OPTIONS["USE_METRIC_SPEEDS"] == "km/h"){
+        speed_factor = float(1.61/100);
+    } else {
+        speed_factor = float(1/100);
+    }
+    std::string weight_units = (OPTIONS["USE_METRIC_WEIGHTS"].getMenuText()).c_str();
+    float weight_factor;
+    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg"){
+        weight_factor = 1;
+    } else {
+        weight_factor = 2.2f;
+    }
     mvwprintz(w_stats, 0, 1, c_ltgray, _("Name: "));
     mvwprintz(w_stats, 0, 1+utf8_width(_("Name: ")), c_ltgreen, veh->name.c_str());
-    if(OPTIONS["USE_METRIC_SPEEDS"] == "km/h") {
-        fold_and_print(w_stats, 1, 1, stat_width-2, c_ltgray,
-                       _("Safe speed: <color_ltgreen>%3d</color> km/h"),
-                       int(veh->safe_velocity(false) * 0.0161f));
-        fold_and_print(w_stats, 2, 1, stat_width-2, c_ltgray,
-                       _("Top speed:  <color_ltred>%3d</color> km/h"),
-                       int(veh->max_velocity(false) * 0.0161f));
-        fold_and_print(w_stats, 3, 1, stat_width-2, c_ltgray,
-                       _("Accel.:     <color_ltblue>%3d</color> kmh/t"),
-                       int(veh->acceleration(false) * 0.0161f));
-    } else {
-        fold_and_print(w_stats, 1, 1, stat_width-2, c_ltgray,
-                       _("Safe speed: <color_ltgreen>%3d</color> mph"),
-                       veh->safe_velocity(false) / 100);
-        fold_and_print(w_stats, 2, 1, stat_width-2, c_ltgray,
-                       _("Top speed:  <color_ltred>%3d</color> mph"),
-                       veh->max_velocity(false) / 100);
-        fold_and_print(w_stats, 3, 1, stat_width-2, c_ltgray,
-                       _("Accel.:     <color_ltblue>%3d</color> mph/t"),
-                       veh->acceleration(false) / 100);
-    }
-    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg"){
-        fold_and_print(w_stats, 4, 1, stat_width-2, c_ltgray,
-                       _("Mass:     <color_ltblue>%5d</color> kg"),
-                       int(veh->total_mass()));
-    } else {
-        fold_and_print(w_stats, 4, 1, stat_width-2, c_ltgray,
-                       _("Mass:     <color_ltblue>%5d</color> lbs"),
-                       int(veh->total_mass() * 2.2));
-    }
+    fold_and_print(w_stats, 1, 1, stat_width-2, c_ltgray,
+                   _("Safe speed:    <color_ltgreen>%3d</color> %s"),
+                   int(veh->safe_velocity(false) * speed_factor), speed_units.c_str());
+    fold_and_print(w_stats, 2, 1, stat_width-2, c_ltgray,
+                   _("Top speed:     <color_ltred>%3d</color> %s"),
+                   int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
+    fold_and_print(w_stats, 3, 1, stat_width-2, c_ltgray,
+                   _("Acceleration:  <color_ltblue>%3d</color> %s/t"),
+                   int(veh->acceleration(false) * speed_factor), speed_units.c_str());
+    fold_and_print(w_stats, 4, 1, stat_width-2, c_ltgray,
+                   _("Mass:     <color_ltblue>%5d</color> %s"),
+                   int(veh->total_mass() * weight_factor), weight_units.c_str());
     if (conf) {
         fold_and_print(w_stats, 5, 1, stat_width-2, c_ltgray,
                        _("Wheels:  <color_ltgreen>enough</color>"));
@@ -899,11 +896,11 @@ void veh_interact::display_stats ()
         fold_and_print(w_stats, 5, 1, stat_width-2, c_ltgray,
                        _("Wheels:  <color_ltred>  lack</color>"));
     }
-    fold_and_print(w_stats, 3, 26, stat_width-2, c_ltgray,
-                   _("K dynamics:    <color_ltblue>%3d</color> %%"),
+    fold_and_print(w_stats, 4, second_column, stat_width-2, c_ltgray,
+                   _("K dynamics:  <color_ltblue>%3d</color>%%"),
                    int(veh->k_dynamics() * 100));
-    fold_and_print(w_stats, 4, 26, stat_width-2, c_ltgray,
-                   _("K mass:        <color_ltblue>%3d</color> %%"),
+    fold_and_print(w_stats, 5, second_column, stat_width-2, c_ltgray,
+                   _("K mass:      <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
     mvwprintz(w_stats, 6, 1, c_ltgray,  _("Fuel usage (safe): "));
     int fuel_usage_x = 1 + utf8_width(_("Fuel usage (safe): "));
@@ -930,7 +927,7 @@ void veh_interact::display_stats ()
             first = false;
         }
     }
-    veh->print_fuel_indicator (w_stats, 0, 26, true, true);
+    veh->print_fuel_indicator (w_stats, 1, second_column, true, true);
     wrefresh (w_stats);
 }
 
@@ -963,7 +960,7 @@ void veh_interact::display_mode (char mode)
     std::string backstr = _("<ESC>-back");
     int w = utf8_width(backstr.c_str())-2;
     x = 78-w; // right text align
-    shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, _("<ESC>-back"));
+    shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, backstr.c_str());
     wrefresh (w_mode);
 }
 
@@ -1171,7 +1168,7 @@ void complete_vehicle (game *g)
             int delta_y = headlight_target.y - (veh->global_y() + gy);
 
             const double PI = 3.14159265358979f;
-            int dir = (atan2(delta_y, delta_x) * 180.0 / PI);
+            int dir = int(atan2(delta_y, delta_x) * 180.0 / PI);
             dir -= veh->face.dir();
             while(dir < 0)
             {
