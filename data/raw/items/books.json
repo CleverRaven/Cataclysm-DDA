@@ -486,7 +486,7 @@
         "type" : "BOOK",
         "id" : "manual_knives",
         "name" : "Spetsnaz Knife Techniques",
-        "max_level" : 4,
+        "max_level" : 3,
         "description" : "A classic Soviet text on the art of attacking with a blade.",
         "weight" : 454,
         "to_hit" : 0,
@@ -501,7 +501,7 @@
         "fun" : 0,
         "skill" : "cutting",
         "price" : 200,
-        "required_level" : 1
+        "required_level" : 0
     },
     {
         "type" : "BOOK",
@@ -612,7 +612,7 @@
         "type" : "BOOK",
         "id" : "manual_computers",
         "name" : "How to Browse the Web",
-        "max_level" : 2,
+        "max_level" : 3,
         "description" : "Very beginner-level information about computers.",
         "weight" : 454,
         "to_hit" : 0,
@@ -780,7 +780,7 @@
         "type" : "BOOK",
         "id" : "manual_traps",
         "name" : "How to Trap Anything",
-        "max_level" : 4,
+        "max_level" : 3,
         "description" : "A worn manual that describes how to set and disarm a wide variety of traps.",
         "weight" : 454,
         "to_hit" : 0,
@@ -822,7 +822,7 @@
         "type" : "BOOK",
         "id" : "textbook_computers",
         "name" : "Computer Science 301",
-        "max_level" : 5,
+        "max_level" : 6,
         "description" : "A college textbook on computer science.",
         "weight" : 1587,
         "to_hit" : 1,
@@ -837,13 +837,13 @@
         "fun" : -2,
         "skill" : "computer",
         "price" : 500,
-        "required_level" : 2
+        "required_level" : 3
     },
     {
         "type" : "BOOK",
         "id" : "textbook_electronics",
         "name" : "Advanced Electronics",
-        "max_level" : 5,
+        "max_level" : 6,
         "description" : "A college textbook on circuit design.",
         "weight" : 1587,
         "to_hit" : 1,
@@ -858,13 +858,13 @@
         "fun" : -1,
         "skill" : "electronics",
         "price" : 520,
-        "required_level" : 2
+        "required_level" : 3
     },
     {
         "type" : "BOOK",
         "id" : "textbook_business",
         "name" : "Advanced Economics",
-        "max_level" : 5,
+        "max_level" : 6,
         "description" : "A college textbook on economics.",
         "weight" : 1587,
         "to_hit" : 1,
@@ -948,7 +948,7 @@
         "type" : "BOOK",
         "id" : "SICP",
         "name" : "SICP",
-        "max_level" : 8,
+        "max_level" : 10,
         "description" : "A classic text, \"The Structure and Interpretation of Computer Programs.\" Written with examples in LISP, but applicable to any language.",
         "weight" : 1587,
         "to_hit" : 0,
@@ -963,7 +963,7 @@
         "fun" : -1,
         "skill" : "computer",
         "price" : 780,
-        "required_level" : 4
+        "required_level" : 5
     },
     {
         "type" : "BOOK",
@@ -1179,7 +1179,7 @@
         "type" : "BOOK",
         "id" : "textbook_weapwest",
         "name" : "The Historic Weaponsmith",
-        "max_level" : 8,
+        "max_level" : 10,
         "description" : "This in-depth and technical text details various forms of ancient European weaponsmithing, and is well illustrated with step by step photo instructions.",
         "weight" : 654,
         "to_hit" : 0,
@@ -1194,13 +1194,13 @@
         "fun" : -1,
         "skill" : "fabrication",
         "price" : 300,
-        "required_level" : 3
+        "required_level" : 5
     },
     {
         "type" : "BOOK",
         "id" : "textbook_weapeast",
         "name" : "The Swords of the Samurai",
-        "max_level" : 8,
+        "max_level" : 10,
         "description" : "This in-depth and technical text details various forms of ancient Japanese swordsmithing, and is well illustrated with step by step photo instructions.",
         "weight" : 654,
         "to_hit" : 0,
@@ -1215,13 +1215,13 @@
         "fun" : -1,
         "skill" : "fabrication",
         "price" : 300,
-        "required_level" : 3
+        "required_level" : 5
     },
     {
         "type" : "BOOK",
         "id" : "textbook_armwest",
         "name" : "Studies in Historic Armorsmithing",
-        "max_level" : 8,
+        "max_level" : 10,
         "description" : "This in-depth and technical text details various forms of ancient European armor crafting, and is well illustrated with lots of photos.",
         "weight" : 654,
         "to_hit" : 0,
@@ -1236,13 +1236,13 @@
         "fun" : -1,
         "skill" : "fabrication",
         "price" : 300,
-        "required_level" : 3
+        "required_level" : 5
     },
     {
         "type" : "BOOK",
         "id" : "textbook_armeast",
         "name" : "The Art of Japenese Armormaking",
-        "max_level" : 8,
+        "max_level" : 10,
         "description" : "This in-depth and technical text details various forms of ancient Japanese armor crafting, and is well illustrated with lots of photos.",
         "weight" : 654,
         "to_hit" : 0,
@@ -1257,6 +1257,6 @@
         "fun" : -1,
         "skill" : "fabrication",
         "price" : 300,
-        "required_level" : 3
+        "required_level" : 5
     }
 ]
