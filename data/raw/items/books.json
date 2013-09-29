@@ -146,6 +146,27 @@
         "price" : 45,
         "required_level" : 0
     },
+	{
+        "type" : "BOOK",
+        "id" : "mag_bashing",
+        "name" : "Hockey Fight Review",
+        "max_level" : 1,
+        "description" : "A glossy magazine that recaps recent hockey fights. There are lots of brutal, full-page photos of athletes striking each other with hockey sticks.",
+        "weight" : 80,
+        "to_hit" : 1,
+        "color" : "pink",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 8,
+        "fun" : 0,
+        "skill" : "bashing",
+        "price" : 45,
+        "required_level" : 0
+    },
     {
         "type" : "BOOK",
         "id" : "mag_tv",
