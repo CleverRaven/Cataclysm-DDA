@@ -52,7 +52,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     int winw1 = 12;
     int winw2 = 35;
     int winh1 = 3;
-    int winh2 = 12;
+    int winh2 = 13;
     int winw3 = FULL_SCREEN_WIDTH - winw1 - winw2 - 4;
     int winh3 = FULL_SCREEN_HEIGHT - winh1 - winh2 - 2;
     int winx1 = winw1;
@@ -151,12 +151,9 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
         char ch = input(); // See keypress.h
         int dx, dy;
         get_direction (dx, dy, ch);
-        if (ch == KEY_ESCAPE || ch == 'q' )
-        {
+        if (ch == KEY_ESCAPE || ch == 'q' ) {
             finish = true;
-        } 
-        else
-        {
+        } else {
             if (dx != -2 && (dx || dy) &&
                 cursor_x + dx >= -6 && cursor_x + dx < 6 &&
                 cursor_y + dy >= -6 && cursor_y + dy < 6)
@@ -883,6 +880,7 @@ void veh_interact::display_stats ()
     bool conf = veh->valid_wheel_config();
     int stat_width = getmaxx(w_stats);
     const int second_column = 28;
+    const int third_column = 56;
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
     float speed_factor;
     if (OPTIONS["USE_METRIC_SPEEDS"] == "km/h"){
@@ -899,33 +897,34 @@ void veh_interact::display_stats ()
     }
     mvwprintz(w_stats, 0, 1, c_ltgray, _("Name: "));
     mvwprintz(w_stats, 0, 1+utf8_width(_("Name: ")), c_ltgreen, veh->name.c_str());
-    fold_and_print(w_stats, 1, 1, stat_width-2, c_ltgray,
+    fold_and_print(w_stats, 1, 1, second_column, c_ltgray,
                    _("Safe speed:    <color_ltgreen>%3d</color> %s"),
                    int(veh->safe_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, 2, 1, stat_width-2, c_ltgray,
+    fold_and_print(w_stats, 2, 1, second_column, c_ltgray,
                    _("Top speed:     <color_ltred>%3d</color> %s"),
                    int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, 3, 1, stat_width-2, c_ltgray,
+    fold_and_print(w_stats, 3, 1, second_column, c_ltgray,
                    _("Acceleration:  <color_ltblue>%3d</color> %s/t"),
                    int(veh->acceleration(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, 4, 1, stat_width-2, c_ltgray,
+    fold_and_print(w_stats, 4, 1, second_column, c_ltgray,
                    _("Mass:     <color_ltblue>%5d</color> %s"),
                    int(veh->total_mass() * weight_factor), weight_units.c_str());
     if (conf) {
-        fold_and_print(w_stats, 5, 1, stat_width-2, c_ltgray,
+        fold_and_print(w_stats, 5, 1, second_column, c_ltgray,
                        _("Wheels:  <color_ltgreen>enough</color>"));
     } else {
-        fold_and_print(w_stats, 5, 1, stat_width-2, c_ltgray,
+        fold_and_print(w_stats, 5, 1, second_column, c_ltgray,
                        _("Wheels:  <color_ltred>  lack</color>"));
     }
-    fold_and_print(w_stats, 4, second_column, stat_width-2, c_ltgray,
+
+    fold_and_print(w_stats, 2, second_column, third_column, c_ltgray,
                    _("K dynamics:  <color_ltblue>%3d</color>%%"),
                    int(veh->k_dynamics() * 100));
-    fold_and_print(w_stats, 5, second_column, stat_width-2, c_ltgray,
+    fold_and_print(w_stats, 3, second_column, third_column, c_ltgray,
                    _("K mass:      <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
-    mvwprintz(w_stats, 6, 1, c_ltgray,  _("Fuel usage (safe): "));
-    int fuel_usage_x = 1 + utf8_width(_("Fuel usage (safe): "));
+    mvwprintz(w_stats, 1, second_column, c_ltgray,  _("Fuel usage (safe): "));
+    int fuel_usage_x = 1 + second_column + utf8_width(_("Fuel usage (safe): "));
     ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
     nc_color fuel_colors[3] = { c_ltred, c_yellow, c_ltblue };
     bool first = true;
@@ -937,9 +936,9 @@ void veh_interact::display_stats ()
                 fuel_usage = 1;
             }
             if (!first) {
-                mvwprintz(w_stats, 6, fuel_usage_x++, c_ltgray, "/");
+                mvwprintz(w_stats, 1, fuel_usage_x++, c_ltgray, "/");
             }
-            mvwprintz(w_stats, 6, fuel_usage_x++, fuel_colors[i], "%d", fuel_usage);
+            mvwprintz(w_stats, 1, fuel_usage_x++, fuel_colors[i], "%d", fuel_usage);
             if (fuel_usage > 9) {
               fuel_usage_x++;
             }
@@ -949,7 +948,7 @@ void veh_interact::display_stats ()
             first = false;
         }
     }
-    veh->print_fuel_indicator (w_stats, 1, second_column, true, true);
+    veh->print_fuel_indicator (w_stats, 1, third_column, true, true);
     wrefresh (w_stats);
 }
 
