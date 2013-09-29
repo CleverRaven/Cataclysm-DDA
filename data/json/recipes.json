@@ -1050,8 +1050,9 @@
     ],
     [
       [ "gasoline", 200 ],
+      [ "gunpowder", 72 ],
       [ "shot_bird", 6 ],
-      [ "shot_00", 2 ],
+      [ "shot_00", 3 ],
       [ "shot_slug", 2 ]
     ],
     [
@@ -8144,6 +8145,26 @@
   ]
 },{
         "type" : "recipe",
+  "result": "long_undertop",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "sewing_kit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "long_underpants",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -8160,6 +8181,67 @@
   "components": [
     [
       [ "rag", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "union_suit",
+  "category": "CC_MISC",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "long_underpants", 1 ],
+      [ "long_undertop", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "arm_warmers",
+  "category": "CC_MISC",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "leg_warmers",
+  "category": "CC_MISC",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 6 ]
     ]
   ]
 },{
@@ -8304,6 +8386,26 @@
   "components": [
     [
       [ "rag", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "longshirt",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 42000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 7 ]
     ]
   ]
 },{
@@ -8465,6 +8567,27 @@
     ],
     [
       [ "rag", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "hood_rain",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ ],
+  "components": [
+    [
+      [ "duct_tape", 20 ]
+    ],
+    [
+      [ "bag_plastic", 2 ]
+    ],
+    [
+      [ "rag", 2 ]
     ]
   ]
 },{
@@ -8641,6 +8764,37 @@
   "components": [
     [
       [ "gloves_leather", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_fingerless_mod",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "requires_skills": [ "fabrication", 1 ],
+  "difficulty": 1,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gloves_fingerless", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
     ]
   ]
 },{
@@ -9209,6 +9363,27 @@
   "components": [
     [
       [ "leather", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sleeping_bag",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "requires_skills": [ "survival", 1 ],
+  "difficulty": 4,
+  "time": 75000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 30 ],
+      [ "sewing_kit", 30 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 30 ]
     ]
   ]
 },{
@@ -10249,7 +10424,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ],
+    [
       [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
@@ -10262,6 +10443,55 @@
     [
       [ "bleach", 1 ],
       [ "ant_egg", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "duct_tape",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ],
+      [ "hatchet", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "pan", -1 ]
+    ],
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "superglue", 1 ]
+    ],
+    [
+      [ "rag", 6 ]
+    ],
+    [
+      [ "plant_fibre", 50 ],
+      [ "sinew", 50 ],
+      [ "thread", 50 ]
+    ],
+    [
+      [ "plastic_chunk", 1 ]
     ]
   ]
 },{
@@ -10503,6 +10733,23 @@
     ],
     [
       [ "string_36", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "pistol_bayonet",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "spike", 1 ]
+    ],
+    [
+      [ "string_6", 2 ]
     ]
   ]
 },{
@@ -13254,6 +13501,68 @@
 	]
 },{
         "type" : "recipe",
+  "result": "pot",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+	  ["forge", 100], ["char_forge", 20]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 2 ],
+	 [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "punch_dagger",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]  
+      ],
+      [
+      ["chisel", -1]  
+      ],
+      [
+      ["anvil", -1]  
+      ],
+      [
+      ["swage", -1]  
+      ],
+      [
+	  ["forge", 200], ["char_forge", 40]
+      ]
+      ],
+  "components": 
+    [ 
+     [
+	 [ "steel_lump", 1 ],
+	 [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
+	]
+},{
+        "type" : "recipe",
   "result": "wrench",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -14027,6 +14336,44 @@
   ]
 },{
         "type" : "recipe",
+   "result": "blt",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 2,
+   "time": 6000,
+   "reversible": false,
+   "autolearn": true,
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ],
+    [
+      [ "knife_steak", -1 ],[ "knife_combat", -1 ],[ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],[ "scalpel", -1 ],[ "machete", -1 ],[ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bread", 2 ]
+    ],
+    [
+      [ "bacon", 1 ]
+    ],
+    [
+      [ "lettuce", 1 ]
+    ],
+    [
+      [ "tomato", 1 ]
+    ]
+  ]
+},{
+   "type" : "recipe",
    "result": "ketchup",
    "category": "CC_FOOD",
    "skill_used": "cooking",
