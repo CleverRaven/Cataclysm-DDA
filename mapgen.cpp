@@ -4074,7 +4074,14 @@ case ot_shelter: {
   mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
   tmpcomp = add_computer(SEEX+6, 5, _("Evac shelter computer"), 0);
   tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
- }
+  if(OPTIONS["BLACK_ROAD"]) {
+      //place zombies outside
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, 0, SEEX * 2 - 1, 3, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, 4, 3, SEEX * 2 - 4, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], SEEX * 2 - 3, 4, SEEX * 2 - 1, SEEX * 2 - 4, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, SEEX * 2 - 3, SEEX * 2 - 1, SEEX * 2 - 1, 0.4f);
+  }
+  }
 
   break;
 //....
