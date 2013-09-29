@@ -2011,6 +2011,21 @@
         "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD"],
         "price" : 0
     },
+    {
+        "id" : "punch_dagger",
+        "name" : "punch dagger",
+        "description" : "A short and sharp double edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",
+        "weight" : 0,
+        "to_hit" : 4,
+        "color" : "dark_gray",
+        "symbol" : "{",
+        "material" : ["steel", "null"],
+        "volume" : 1,
+        "bashing" : 2,
+        "cutting" : 12,
+        "flags" : ["STAB", "UNARMED_WEAPON"],
+        "price" : 0
+    },
   {
     "id": "bag_bundle_10",
     "symbol": ",",
@@ -2114,6 +2129,7 @@
     "weight": 430,
     "bashing": 8,
     "cutting": 0,
+    "flags" : ["UNARMED_WEAPON"],
     "to_hit": 0
   },
 
@@ -2129,6 +2145,7 @@
     "bashing": 0,
     "cutting": 16,
     "to_hit": 1,
+    "flags" : ["UNARMED_WEAPON"],
     "techniques": ["WBLOCK_1"]
   },
   {
