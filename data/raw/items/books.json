@@ -23,9 +23,9 @@
 	{
         "type" : "BOOK",
         "id" : "mag_barter",
-        "name" : "Investor's Quarterly",
+        "name" : "Barter and Trade",
         "max_level" : 1,
-        "description" : "An informative yet dry quarterly magazine about investments and market values.",
+        "description" : "An informative yet dry magazine about how negotiate for the best deals.",
         "weight" : 90,
         "to_hit" : 1,
         "color" : "white",
@@ -149,9 +149,9 @@
 	{
         "type" : "BOOK",
         "id" : "mag_bashing",
-        "name" : "Hockey Fight Review",
+        "name" : "Blunt Force Monthly",
         "max_level" : 1,
-        "description" : "A glossy magazine that recaps recent hockey fights. There are lots of brutal, full-page photos of athletes striking each other with hockey sticks.",
+        "description" : "A martial arts magazine that focuses on the usage of blunt weaponry. There are lots of brutal, full-page photos of practitioners striking each other with staves and batons.",
         "weight" : 80,
         "to_hit" : 1,
         "color" : "pink",
