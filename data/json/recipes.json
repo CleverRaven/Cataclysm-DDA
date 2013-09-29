@@ -3027,7 +3027,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "45_acp",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
@@ -3044,7 +3044,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3062,7 +3062,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "45_super",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
@@ -3079,7 +3079,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3097,7 +3097,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "45_jhp",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
@@ -3114,7 +3114,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -15630,7 +15630,7 @@
         [ "fire", -1 ],
         [ "toolset", 1 ],
         [ "press", 2 ]
-          ]
+      ]
     ],
     "components": [
       [
@@ -15670,7 +15670,7 @@
         [ "fire", -1 ],
         [ "toolset", 1 ],
         [ "press", 2 ]
-          ]
+      ]
     ],
     "components": [
       [

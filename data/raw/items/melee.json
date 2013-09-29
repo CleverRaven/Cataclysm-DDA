@@ -2235,16 +2235,16 @@
   {
     "id" : "cu_pipe",
     "name" : "copper tubing",
-    "description" : "A copper tube, makes a pretty good melee weapon. Useful in a few crafting recipes.",
-    "weight" : 890,
-    "to_hit" : 3,
+    "description" : "A copper tube, too thin to be much use ad a melee weapon, but will do if nothing else is available. Useful in a few crafting recipes.",
+    "weight" : 345,
+    "to_hit" : -1,
     "color" : "yellow",
     "symbol" : "/",
     "material" : ["steel", "null"],
     "techniques" : ["WBLOCK_1"],
-    "volume" : 4,
-    "bashing" : 10,
+    "volume" : 2,
+    "bashing" : 5,
     "cutting" : 0,
-    "price" : 150
+    "price" : 75
   }
 ]
