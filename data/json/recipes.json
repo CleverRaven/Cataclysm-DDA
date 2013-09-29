@@ -8389,6 +8389,26 @@
   ]
 },{
         "type" : "recipe",
+  "result": "longshirt",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 42000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 7 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bikini_top_leather",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
