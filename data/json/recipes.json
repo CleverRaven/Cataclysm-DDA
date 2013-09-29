@@ -12503,6 +12503,22 @@
     [ ["rebar", 5] ] ]
 },{
         "type" : "recipe",
+  "result": "cestus",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "skills_required": ["bashing",1],
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
+    [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1],
+    ["toolset", -1] ] ],
+  "components": [ [ ["rag", 4] ],
+    [ ["scrap", 8] ] ]
+},{
+        "type" : "recipe",
   "result": "taint_tornado",
   "category": "CC_DRINK",
   "skill_used": "cooking",

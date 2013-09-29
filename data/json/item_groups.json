@@ -2165,6 +2165,7 @@
     "id":"medieval",
     "items":[
       ["katana", 2],
+      ["cestus", 2],
       ["mace", 20],
       ["morningstar", 10],
       ["rapier", 3],
