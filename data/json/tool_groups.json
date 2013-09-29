@@ -1,0 +1,14 @@
+[
+  {
+    "type":"tool_group",
+    "id":"tool_pounding",
+	"name":"pounding tool"
+    "items":[
+      ["rock", -1],
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1]
+    ]
+  }
+]

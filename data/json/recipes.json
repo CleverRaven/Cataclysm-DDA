@@ -962,11 +962,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
         ]
   ],
   "components": [
@@ -988,11 +984,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
         ]
   ],
   "components": [
@@ -1154,11 +1146,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
@@ -1242,11 +1230,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
@@ -1301,11 +1285,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
         ]
   ],
   "components": [
@@ -1447,11 +1427,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
         ]
   ],
   "components": [
@@ -1485,11 +1461,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
         ]
   ],
   "components": [
@@ -1749,11 +1721,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "wrench", -1 ],
@@ -1962,11 +1930,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
         ]
   ],
   "components": [
@@ -2053,11 +2017,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
         ]
   ],
   "components" : [
@@ -2078,11 +2038,7 @@
   "autolearn" : true,
   "tools" : [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
         ]
   ],
   "components" : [
@@ -2178,11 +2134,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
         ]
   ],
   "components" : [
@@ -2388,11 +2340,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
         ]
   ],
   "components" : [
@@ -2532,11 +2480,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
         ]
   ],
   "components" : [
@@ -2600,11 +2544,7 @@
       [ "toolset", 1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
@@ -2669,11 +2609,7 @@
       [ "sewing_kit", 8 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -2733,11 +2669,7 @@
         ["toolset", -1]
     ],
     [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -5780,11 +5712,7 @@
       [ "fire", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "pot", -1 ],
@@ -6416,11 +6344,7 @@
       [ "hacksaw", -1 ], [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -7585,9 +7509,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "soldering_iron", 20 ],
@@ -7624,9 +7546,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "soldering_iron", 20 ],
@@ -7663,9 +7583,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "soldering_iron", 20 ],
@@ -7702,9 +7620,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "soldering_iron", 20 ],
@@ -8778,11 +8694,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "needle_bone", 10 ],
@@ -8867,11 +8779,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -8894,11 +8802,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -9421,11 +9325,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -9559,11 +9459,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -9588,11 +9484,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -9620,11 +9512,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -9852,11 +9740,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "goggles_welding", -1 ]
@@ -9904,11 +9788,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "goggles_welding", -1 ]
@@ -9954,11 +9834,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -9983,11 +9859,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "goggles_welding", -1 ]
@@ -10106,11 +9978,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "goggles_welding", -1 ]
@@ -10248,8 +10116,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -10348,11 +10215,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -10372,11 +10235,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -10397,12 +10256,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "toolset", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -10683,11 +10537,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -10706,11 +10556,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -10780,11 +10626,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -10961,11 +10803,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -10984,11 +10822,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "goggles_welding", -1 ]
@@ -11757,11 +11591,7 @@
       ["toolset", -1]
     ],
     [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -11784,11 +11614,7 @@
   "autolearn": true,
   "tools": [
     [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
+      [ "tool_pounding", -1 ]
     ]
   ],
   "components": [
@@ -11810,11 +11636,7 @@
   "autolearn": false,
   "tools": [
     [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
+      [ "tool_pounding", -1 ]
     ],
     [
       ["toolset", 10],
@@ -12237,8 +12059,7 @@
   "autolearn": false,
   "tools": [
     [
-      ["hammer", -1],
-      ["toolset", -1]
+      [ "tool_pounding", -1 ]
     ],
     [
       ["screwdriver", -1]
@@ -12260,8 +12081,7 @@
     "autolearn": false,
     "tools": [
       [
-        ["hammer", -1],
-        ["toolset", -1]
+        [ "tool_pounding", -1 ]
       ],
       [
         ["screwdriver", -1],
@@ -12542,8 +12362,11 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
+  "tools": [
+    [
+      [ "tool_pounding", -1 ]
+    ]
+  ],
   "components": [ [ ["stick", 2] ], [ ["rock", 6] ] ]
 },{
         "type" : "recipe",
@@ -12554,8 +12377,11 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
+  "tools": [
+    [
+      [ "tool_pounding", -1 ]
+    ]
+  ],
   "components": [ [ ["element", 3] ],
     [ ["scrap", 2] ],
     [ ["cable", 8] ] ]
@@ -12598,13 +12424,16 @@
   "time": 200000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["knife_steak", -1], ["knife_combat", -1],
+  "tools": [
+    [ ["knife_steak", -1], ["knife_combat", -1],
     ["knife_butcher", -1], ["pockknife", -1],
     ["scalpel", -1], ["machete", -1],
     ["broadsword", -1], ["toolset", -1],
     ["screwdriver", -1] ],
-    [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
+    [
+      [ "tool_pounding", -1 ]
+    ]
+  ],
   "components": [ [ ["pot", 1] ],
     [ ["hose", 2] ],
     [ ["metal_tank", 1] ] ]
@@ -12673,10 +12502,10 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
-    [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1],
-    ["toolset", -1] ] ],
+  "tools": [
+    [ ["hacksaw", -1], ["toolset", -1] ],
+    [ [ "tool_pounding", -1 ] ],
+	]
   "components": [ [ ["rag", 4] ],
     [ ["scrap", 4] ] ]
 },{
@@ -12761,8 +12590,8 @@
   "time": 180000,
   "reversible": true,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+  "tools": [
+      [ [ "tool_pounding", -1 ] ],
       [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -12803,8 +12632,8 @@
   "time": 240000,
   "reversible": true,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "tools": [
+      [ [ "tool_pounding", -1 ] ],
       [
       ["crucible", -1]
       ],
@@ -12826,13 +12655,13 @@
   "time": 240000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "tools": [
+      [ [ "tool_pounding", -1 ] ],
       [
       [ "forge", 100],
       [ "char_forge", 20]
       ]
-      ],
+  ],
   "components":
     [
      [
@@ -12851,8 +12680,8 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "tools": [
+      [ [ "tool_pounding", -1 ] ],
       [
       ["anvil", -1]
       ],
@@ -12879,8 +12708,8 @@
   "time": 45000,
   "reversible": true,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "tools": [
+      [ [ "tool_pounding", -1 ] ],
       [
       ["tongs", -1]
       ],
@@ -12910,8 +12739,8 @@
   "time": 120000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "tools": [
+      [ [ "tool_pounding", -1 ] ],
       [
       ["tongs", -1]
       ],
@@ -12944,8 +12773,8 @@
   "time": 120000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "tools": [
+      [ [ "tool_pounding", -1 ] ],
       [
       ["tongs", -1]
       ],
@@ -14683,11 +14512,7 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
+      [ "tool_pounding", -1 ]
     ],
     [
       [ "wrench", -1 ],
@@ -14996,8 +14821,7 @@
   "time": 120000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+  "tools": [ [ [ "tool_pounding", -1 ] ] ,
       [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -15039,8 +14863,7 @@
   "time": 70000,
   "reversible": true,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+  "tools": [ [ [ "tool_pounding", -1 ] ] ,
       [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -15077,8 +14900,7 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+  "tools": [ [ [ "tool_pounding", -1 ] ] ,
       [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
