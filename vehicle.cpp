@@ -10,6 +10,9 @@
 
 #include "debug.h"
 
+extern std::map<std::string, vehicle*> vtypes;
+extern std::vector<vehicle_prototype> vtype_cache;
+
 const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
 
 enum vehicle_controls {
@@ -22,8 +25,11 @@ enum vehicle_controls {
  convert_vehicle
 };
 
-vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
+vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_status)//: g(ag), type(type_id)
 {
+    g = ag;
+    type = type_id;
+//DebugLog() << "vehicle::ctor -- game is real? "/*<<(g?"Yes":"No")*/<<"\n";
     posx = 0;
     posy = 0;
     velocity = 0;
@@ -36,29 +42,14 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     cruise_on = true;
     lights_on = false;
     insides_dirty = true;
-DebugLog() << "---Initializing Vehicle\n";
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
-DebugLog() << "---::Type != NULL\n---::Testing for Template Existance with Type=["<<type<<"]\n";
-bool agnull = ag == NULL;
-bool gnull = g == NULL;
-DebugLog() << "---::AGame=NULL? "<< (!agnull?"TRUE":"FALSE") << "\n";
-DebugLog() << "---:: Game=NULL? "<< (!gnull?"TRUE":"FALSE") << "\n";
-      if (ag && ag->vtypes.find(type) != ag->vtypes.end())
-      {
-DebugLog() << "---::Template Exists! Copying\n";
+      if(vtypes.count(type) > 0) {
         //If this template already exists, copy it
-        *this = *(ag->vtypes[type]);
+        *this = *(vtypes[type]);
         init_state(ag, init_veh_fuel, init_veh_status);
-      }/*
-      if(ag->vtypes.count(type) > 0) {
-DebugLog() << "---::Template Exists! Copying\n";
-        //If this template already exists, copy it
-        *this = *(ag->vtypes[type]);
-        init_state(ag, init_veh_fuel, init_veh_status);
-      }*/
+      }
     }
-DebugLog() << "---Precalculating Mounts\n";
     precalc_mounts(0, face.dir());
 }
 
@@ -617,7 +608,13 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     new_part.hp = hp < 0? vehicle_part_types[id].durability : hp;
     new_part.amount = 0;
     new_part.blood = 0;
-    item tmp(g->itypes[vehicle_part_types[id].item], 0);
+
+    vpart_info part = vehicle_part_types[id];
+    std::string part_item = part.item;
+    // is g real?
+    itype* item_type = g->itypes[part_item]; // Fails on this line
+
+    item tmp(item_type, 0);
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
 
@@ -629,12 +626,14 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
 
 void vehicle::finalize_template()
 {
-    while (part_cache.size() > 0)
-    {
-        std::pair<point, std::string> part = part_cache.top();
-        part_cache.pop();
 
-        install_part(part.first.x, part.first.y, part.second);
+}
+void game::finalize_vehicles()
+{
+DebugLog() << "game::finalize_vehicles -- game is real? "<<(g?"Yes":"No") << "\n";
+    for (int i = 0; i < vtype_cache.size(); ++i)
+    {
+        load_vehicle(vtype_cache[i]);
     }
 }
 

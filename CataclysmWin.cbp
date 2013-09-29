@@ -127,6 +127,7 @@
 					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-DSDLTILES" />
+					<Add option="-DTILES" />
 					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
 				<Linker>

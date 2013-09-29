@@ -87,6 +87,12 @@ struct vehicle_part
 
 };
 
+struct vehicle_prototype
+{
+    std::string id, name;
+    std::vector<std::pair<point, std::string> > parts;
+};
+
 /**
  * A vehicle as a whole with all its components.
  *

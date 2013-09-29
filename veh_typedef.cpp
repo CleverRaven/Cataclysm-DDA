@@ -28,6 +28,8 @@
 // If you use wrong config, installation of part will fail
 
 std::map<std::string, vpart_info> vehicle_part_types;
+std::map<std::string, vehicle*> vtypes;
+std::vector<vehicle_prototype> vtype_cache;
 
 std::vector<std::string> legacy_vpart_id; // potential FIXME: provide -static- hardcoded enum if vpart order shifts
 
@@ -204,44 +206,90 @@ void game::init_vehicles()
   }
 }
 
-void game::load_vehicle(JsonObject &jo)
+void game::cache_vehicles(JsonObject &jo)
+{
+    std::string part_id = "";
+    int part_x = 0, part_y = 0;
+
+    vehicle_prototype vproto;
+    vproto.id = jo.get_string("id");
+    vproto.name = jo.get_string("name");
+
+    JsonArray parts_list = jo.get_array("parts");
+
+    if (parts_list.size() > 0)
+    {
+        while (parts_list.has_more())
+        {
+            JsonObject next_part = parts_list.next_object();
+            part_x = next_part.get_int("x");
+            part_y = next_part.get_int("y");
+            part_id = next_part.get_string("part");
+
+            vproto.parts.push_back(std::make_pair<point, std::string>(point(part_x, part_y), part_id));
+        }
+    }
+
+
+    vtype_cache.push_back(vproto); // load into memory, keep them here until time to finalize them.
+}
+
+void game::load_vehicle(vehicle_prototype &prototype)
 {
     vehicle *next_vehicle;
     std::string part_id = "";
     int part_x = 0, part_y = 0;
-DebugLog() << "Parsing Vehicle!\n";
-DebugLog() << "Current game:" << "" << "\n";
-    next_vehicle = new vehicle(this, jo.get_string("id").c_str());
-DebugLog() << "--Vehicle Initialized\n";
-    next_vehicle->name = _(jo.get_string("name").c_str());
-DebugLog() << "--Name Obtained\n";
-    JsonArray parts_list = jo.get_array("parts");
-DebugLog() << "--ID: "<<next_vehicle->type << "\n--NAME: "<<next_vehicle->name << "\n--#Parts: "<<parts_list.size()<<"\n";
-    if (parts_list.size() > 0)
+
+    next_vehicle = new vehicle(this, prototype.id);
+    next_vehicle->name = _(prototype.name.c_str());
+    if (prototype.parts.size() > 0)
     {
-DebugLog() << "--Working through Parts!\n";
-        while (parts_list.has_more())
+        for (int i = 0; i < prototype.parts.size(); ++i)
         {
-DebugLog() << "---::Parsing Part!\n";
-            JsonObject next_part = parts_list.next_object();
-DebugLog() << "---::Part Obtained\n";
-            part_x = next_part.get_int("x");
-            part_y = next_part.get_int("y");
-            part_id = next_part.get_string("part");
-DebugLog() << "---::Part info <"<<part_x<<", "<<part_y<<", \""<<part_id<<"\">\n";
-            next_vehicle->part_cache.push(std::make_pair<point, std::string>(point(part_x, part_y), part_id));
-            /*
+            part_x = prototype.parts[i].first.x;
+            part_y = prototype.parts[i].first.y;
+            part_id = prototype.parts[i].second;
+
             if (next_vehicle->install_part(part_x, part_y, part_id) < 0)
             {
                 debugmsg("load_vehicle: '%s' part '%s'(%d) can't be installed to %d,%d",
                         next_vehicle->name.c_str(), part_id.c_str(),
                         next_vehicle->parts.size(), part_x, part_y);
             }
-            */
         }
     }
-DebugLog() << "--Adding Vehicle to vtypes! Veh is Real? "<<(next_vehicle != NULL ? "YES":"NO") << "\n";
-DebugLog() << "--Game is still real? "<<(this != NULL ? "YES":"NO") << "\n";
-    //vtypes[next_vehicle->type] = next_vehicle;
+    vtypes[next_vehicle->type] = next_vehicle;
+}
+
+void game::load_vehicle(JsonObject &jo)
+{
+DebugLog() << "game::load_vehicle -- g-> is real? " << (g?"Yes":"No") << "\n";
+    vehicle *next_vehicle;
+    std::string part_id = "";
+    int part_x = 0, part_y = 0;
+    next_vehicle = new vehicle(this, jo.get_string("id"));
+    next_vehicle->name = _(jo.get_string("name").c_str());
+    JsonArray parts_list = jo.get_array("parts");
+
+    if (parts_list.size() > 0)
+    {
+        while (parts_list.has_more())
+        {
+            JsonObject next_part = parts_list.next_object();
+            part_x = next_part.get_int("x");
+            part_y = next_part.get_int("y");
+            part_id = next_part.get_string("part");
+
+            //next_vehicle->part_cache.push(std::make_pair<point, std::string>(point(part_x, part_y), part_id));
+
+            if (next_vehicle->install_part(part_x, part_y, part_id) < 0)
+            {
+                debugmsg("load_vehicle: '%s' part '%s'(%d) can't be installed to %d,%d",
+                        next_vehicle->name.c_str(), part_id.c_str(),
+                        next_vehicle->parts.size(), part_x, part_y);
+            }
+        }
+    }
+    vtypes[next_vehicle->type] = next_vehicle;
 }
 

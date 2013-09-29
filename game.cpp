@@ -69,6 +69,8 @@ nc_color sev(int a); // Right now, ONLY used for scent debugging....
 //The one and only game instance
 game *g;
 
+extern std::map<std::string, vehicle*> vtypes;
+
 uistatedata uistate;
 
 // This is the main game set-up process.
@@ -87,7 +89,6 @@ game::game() :
 {
  dout() << "Game initialized.";
 
-vtypes["null"] = NULL;
  try {
  if(!json_good())
   throw (std::string)"Failed to initialize a static variable";
@@ -96,6 +97,7 @@ vtypes["null"] = NULL;
     init_data_structures(); // initialize cata data structures
     load_json_dir("data/json"); // load it, load it all!
  init_itypes();               // Set up item types                (SEE itypedef.cpp)
+
  init_npctalk();
  init_artifacts();
  init_weather();
@@ -117,6 +119,7 @@ vtypes["null"] = NULL;
  init_autosave();             // Set up autosave
  init_diseases();             // Set up disease lookup table
  //init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
+ //finalize_vehicles();
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;
@@ -150,6 +153,9 @@ game::~game()
 #define MINIMAP_WIDTH 7
 
 void game::init_ui(){
+vehicle *testveh = new vehicle(this, "null");
+DebugLog() << "game::init_ui -- game is real? "<<(this?"Yes":"No") << "\n";
+finalize_vehicles();
     clear(); // Clear the screen
     intro(); // Print an intro screen, make sure we're at least 80x25
 

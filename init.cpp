@@ -61,18 +61,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
 
 void load_object(JsonObject &jo)
 {
-    static std::string last_type = "";
     std::string type = jo.get_string("type");
-
-    if (last_type != type)
-    {
-        DebugLog() << "Changing type parsed to ["<<type<<"]\n";
-        last_type = type;
-    }
-    else
-    {
-        //DebugLog() << ".";
-    }
 
     json_objects[type].push_back(jo);
 
@@ -98,7 +87,7 @@ void load_object(JsonObject &jo)
     else if (type == "ITEM_GUNMOD"){item_controller->load_gunmod(jo);}
     else if (type == "dream") { load_dream(jo); }
     else if (type == "skill") { Skill::load_skill(jo); }
-    else if (type == "vehicle"){ g->load_vehicle(jo);}
+    else if (type == "vehicle"){ g->cache_vehicles(jo);} // for now don't load vehicles...
     else if (type == "monster_group") {MonsterGroupManager::load_monster_group(jo);}
     else if (type == "snippet") { SNIPPET.load_snippet(jo); }
     else if (type == "ITEM_CONTAINER"){item_controller->load_container(jo);}

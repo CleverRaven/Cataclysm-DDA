@@ -274,7 +274,7 @@ class game
 
   std::map<std::string, itype*> itypes;
   std::vector <mtype*> mtypes;
-  std::map<std::string, vehicle*> vtypes;
+//  std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   std::vector<constructable*> constructions; // The list of constructions
 
@@ -361,6 +361,8 @@ void load_artifacts(); // Load artifact data
   void load_parrot_phrase(JsonObject &jo);
   void load_vehicle_part(JsonObject &jo);
   void load_vehicle(JsonObject &jo);
+  void load_vehicle(vehicle_prototype &prototype);
+  void cache_vehicles(JsonObject &jo);
 
   std::map<std::string, int> killcount; // Player's killcount for all entities that are killed at least once!
  private:
@@ -406,6 +408,9 @@ void load_artifacts(); // Load artifact data
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
   void init_parrot_speech() throw (std::string);  // Initializes Mi-Go parrot speech
+
+  void finalize_vehicles();
+
 
   void create_factions(); // Creates new factions (for a new game world)
   void load_npcs(); //Make any nearby NPCs from the overmap active.
