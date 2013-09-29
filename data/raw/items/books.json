@@ -62,6 +62,27 @@
         "price" : 45,
         "required_level" : 0
     },
+	{
+        "type" : "BOOK",
+        "id" : "mag_electronics",
+        "name" : "Ham Radio Illustrated",
+        "max_level" : 1,
+        "description" : "An amusing magazine about ham radio, with lots of diagrams and illustrations for making your own electronic devices.",
+        "weight" : 45,
+        "to_hit" : 1,
+        "color" : "pink",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 8,
+        "fun" : 1,
+        "skill" : "electronics",
+        "price" : 40,
+        "required_level" : 0
+    },
     {
         "type" : "BOOK",
         "id" : "mag_tv",
