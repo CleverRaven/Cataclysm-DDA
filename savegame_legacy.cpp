@@ -39,7 +39,7 @@
 #include "skill.h"
 #include "vehicle.h"
 //
-
+#include "savegame.h"
 /*
  * Properly reuse a stringstream object for line by line parsing
  */
@@ -129,12 +129,15 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kk;
+            int kk; int kscrap;
             for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                linein >> kills[kk];
-            }
-            if ( kk != num_monsters ) {
-                debugmsg("Warning, number of monsters changed from %d to %d", kk+1, num_monsters );
+                if ( kk < 120 ) { // see legacy_mon_id
+                    // load->int->str->int (possibly shifted)
+                    kk = monster_ints[ legacy_mon_id[ kk ] ];
+                    linein >> kills[kk];
+                } else {
+                    linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
+                }
             }
 
             // Finally, the data on the player.
@@ -242,12 +245,15 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kk;
+            int kk; int kscrap;
             for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                linein >> kills[kk];
-            }
-            if ( kk != num_monsters ) {
-                debugmsg("Warning, number of monsters changed from %d to %d", kk+1, num_monsters );
+                if ( kk < 120 ) { // see legacy_mon_id
+                    // load->int->str->int (possibly shifted)
+                    kk = monster_ints[ legacy_mon_id[ kk ] ];
+                    linein >> kills[kk];
+                } else {
+                    linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
+                }
             }
 
             // Finally, the data on the player.
@@ -755,12 +761,17 @@ std::istream& operator>>(std::istream& is, SkillLevel& obj) {
 }
 
 ///// monster.h
+
+
 void monster::load_legacy(std::vector <mtype *> *mtypes, std::stringstream & dump) {
     int idtmp, plansize;
     dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
          hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
          no_extra_death_drops >> dead >> anger >> morale;
-    type = (*mtypes)[idtmp];
+
+    // load->int->str->int (possibly shifted)
+    type = (*mtypes)[ monster_ints[ legacy_mon_id[ idtmp ] ] ];
+
     point ptmp;
     plans.clear();
     for (int i = 0; i < plansize; i++) {

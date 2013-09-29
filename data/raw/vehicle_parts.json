@@ -1163,5 +1163,20 @@
         "flags": [
             "EXTERNAL", "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"
         ]
+    },
+    {
+        "id": "door_sliding",
+        "name": "sliding door",
+        "symbol": "+",
+        "color": "light_cyan",
+        "broken_symbol": "&",
+        "broken_color": "light_cyan",
+        "damage_modifier": 80,
+        "durability": 200,
+        "item": "frame",
+        "difficulty": 2,
+        "flags": [
+            "EXTERNAL", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"
+        ]
     }
 ]

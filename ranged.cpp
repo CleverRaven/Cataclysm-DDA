@@ -250,9 +250,16 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
     if( weapon->has_gunmod("brass_catcher") != -1 ) {
         p.i_add( casing );
     } else {
-       int x = p.posx - 1 + rng(0, 2);
-       int y = p.posy - 1 + rng(0, 2);
-       m.add_item_or_charges(x, y, casing);
+        int x = 0;
+        int y = 0;
+        int count = 0;
+        do {
+            x = p.posx - 1 + rng(0, 2);
+            y = p.posy - 1 + rng(0, 2);
+            count++;
+            // Try not to drop the casing on a wall if at all possible.
+        } while( g->m.move_cost( x, y ) == 0 && count < 10 );
+        m.add_item_or_charges(x, y, casing);
     }
    }
 

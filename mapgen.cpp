@@ -528,10 +528,12 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vx = rng (0, 3) * 4 + 5;
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
-    if (rc <= 40) {
+    if (rc <= 35) {
         add_vehicle (g, "car_chassis", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 60) {
+    } else if (rc <= 55) {
         add_vehicle (g, "car", vx, vy, veh_spawn_heading, -1, 1);
+    } else if (rc <= 65) {
+        add_vehicle (g, "hippie_van", vx, vy, veh_spawn_heading, -1, 1);
     } else if (rc <= 70) {
         add_vehicle (g, "cube_van", vx, vy, veh_spawn_heading, -1, 1);
     } else if (rc <= 80) {
@@ -1422,6 +1424,7 @@ t   t\n\
           } else if (rc <= 21) { vt = "beetle";
           } else if (rc <= 50) { vt = "car";
           } else if (rc <= 60) { vt = "electric_car";
+          } else if (rc <= 65) { vt = "hippie_van";
           } else if (rc <= 75) { vt = "bicycle";
           } else if (rc <= 90) { vt = "motorcycle";
           } else {               vt = "motorcycle_sidecart";

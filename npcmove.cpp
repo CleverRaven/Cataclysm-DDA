@@ -513,6 +513,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
     else
      return npc_melee;
    }
+   int junk = 0;
    if (!wont_hit_friend(g, tarx, tary))
     if (in_vehicle)
      if (can_reload())
@@ -521,9 +522,10 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
       return npc_pause; // wait for clear shot
     else
      return npc_avoid_friendly_fire;
-   else if (rl_dist(posx,posy,tarx,tary) > weapon.range())
+   else if (rl_dist(posx,posy,tarx,tary) > weapon.range() &&
+            g->m.sees( posx, posy, tarx, tary, weapon.range(), junk )) {
        return npc_melee; // If out of range, move closer to the target
-   else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
+   } else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
             gun->burst > 1 &&
             ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) || emergency(danger * 2)))
     return npc_shoot_burst;

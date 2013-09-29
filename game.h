@@ -397,7 +397,7 @@ void load_artifacts(); // Load artifact data
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
   void init_parrot_speech() throw (std::string);  // Initializes Mi-Go parrot speech
-
+  void init_savedata_translation_tables();
   void create_factions(); // Creates new factions (for a new game world)
   void load_npcs(); //Make any nearby NPCs from the overmap active.
   void create_starting_npcs(); // Creates NPCs that start near you
