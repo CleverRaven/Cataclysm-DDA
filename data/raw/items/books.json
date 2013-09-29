@@ -83,6 +83,27 @@
         "price" : 40,
         "required_level" : 0
     },
+	{
+        "type" : "BOOK",
+        "id" : "mag_mechanics",
+        "name" : "Popular Mechanics",
+        "max_level" : 1,
+        "description" : "A magazine about mechanical innovations. Full of entertaining articles and advertisements for esoteric gadgets.",
+        "weight" : 70,
+        "to_hit" : 1,
+        "color" : "white",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 8,
+        "fun" : 2,
+        "skill" : "mechanics",
+        "price" : 45,
+        "required_level" : 0
+    },
     {
         "type" : "BOOK",
         "id" : "mag_tv",
