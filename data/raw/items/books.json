@@ -293,6 +293,27 @@
         "price" : 45,
         "required_level" : 0
     },
+	{
+        "type" : "BOOK",
+        "id" : "mag_rifle",
+        "name" : "Modern Rifleman",
+        "max_level" : 1,
+        "description" : "An informative magazine all about rifles and shooting. There is an excellent article about proper maintenance in this issue.",
+        "weight" : 100,
+        "to_hit" : 1,
+        "color" : "green",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 8,
+        "fun" : 1,
+        "skill" : "rifle",
+        "price" : 45,
+        "required_level" : 0
+    },
     {
         "type" : "BOOK",
         "id" : "mag_tv",
