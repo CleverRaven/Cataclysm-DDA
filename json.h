@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <istream>
+#include <ostream>
 #include <map>
 #include <set>
 
@@ -198,8 +199,9 @@
 class JsonIn;
 class JsonObject;
 class JsonArray;
+class JsonOut;
 
-bool is_whitespace(char ch);
+bool is_whitespace(char ch); // TODO: move this elsewhere
 
 class JsonObject {
 private:
@@ -379,6 +381,38 @@ public:
 
     // raw read of string, for dump_input
     void read(char * str, int len);
+};
+
+class JsonOut {
+private:
+    std::ostream *stream;
+    bool need_separator;
+
+public:
+    JsonOut(std::ostream *stream); // TODO: pretty-printing
+
+    // punctuation
+    void write_separator();
+    void write_member_separator();
+    void start_object();
+    void end_object();
+    void start_array();
+    void end_array();
+
+    // write data to the output stream as JSON
+    void write_null();
+    void write_bool(const bool b);
+    void write_int(const int i);
+    void write_float(const double f);
+    void write_string(const std::string s);
+
+    // convenience methods for writing named object members
+    void write_member_name(const std::string &name);
+    void write_null_member(const std::string &name);
+    void write_bool_member(const std::string &name, const bool b);
+    void write_int_member(const std::string &name, const int i);
+    void write_float_member(const std::string &name, const double f);
+    void write_string_member(const std::string &name, const std::string &s);
 };
 
 #endif // _JSON_H_
