@@ -186,7 +186,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
          radius++
        ) {                                      /* iterate from last target's position: makes sense for burst fire.*/
 
-           for (std::vector<monster>::iterator it = _z.begin(); it != _z.end(); ++it) {
+           for (std::vector<monster>::iterator it = _active_monsters.begin(); it != _active_monsters.end(); ++it) {
                int nt_range_to_me = rl_dist(p.posx, p.posy, it->posx(), it->posy());
                int dummy;
                if (nt_range_to_me == 0 || nt_range_to_me > weaponrange ||
