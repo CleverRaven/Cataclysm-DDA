@@ -1,7 +1,7 @@
 [
     {
         "type": "terrain",
-        "id": "t_null = 0",
+        "id": "t_null",
         "name": "nothing",
         "symbol": " ",
         "color": "white",
