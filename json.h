@@ -4,13 +4,15 @@
 #include <string>
 #include <vector>
 #include <istream>
+#include <ostream>
 #include <map>
 
-class JsonIn;
-class JsonObject;
-class JsonArray;
+class JsonIn; // JSON input
+class JsonObject; // convenience interface for a JSON object inside a JsonIn
+class JsonArray; // convenience interface for a JSON array inside a JsonIn
+class JsonOut; // JSON output
 
-bool is_whitespace(char ch);
+bool is_whitespace(char ch); // TODO: move this elsewhere
 
 class JsonObject {
 private:
@@ -117,6 +119,38 @@ public:
 
     // useful debug info
     std::string line_number(int offset_modifier=0); // for occasional use only
+};
+
+class JsonOut {
+private:
+    std::ostream *stream;
+    bool need_separator;
+
+public:
+    JsonOut(std::ostream *stream); // TODO: pretty-printing
+
+    // punctuation
+    void write_separator();
+    void write_member_separator();
+    void start_object();
+    void end_object();
+    void start_array();
+    void end_array();
+
+    // write data to the output stream as JSON
+    void write_null();
+    void write_bool(const bool b);
+    void write_int(const int i);
+    void write_float(const double f);
+    void write_string(const std::string s);
+
+    // convenience methods for writing named object members
+    void write_member_name(const std::string &name);
+    void write_null_member(const std::string &name);
+    void write_bool_member(const std::string &name, const bool b);
+    void write_int_member(const std::string &name, const int i);
+    void write_float_member(const std::string &name, const double f);
+    void write_string_member(const std::string &name, const std::string &s);
 };
 
 #endif // _JSON_H_
