@@ -473,10 +473,10 @@ void editmap::update_view(bool update_info)
         if(veh_in >= 0) {
             extras += _(" [vehicle]");
         }
-        if(g->m.has_flag(indoors, target.x, target.y)) {
+        if(g->m.has_flag("INDOORS", target.x, target.y)) {
             extras += _(" [indoors]");
         }
-        if(g->m.has_flag(supports_roof, target.x, target.y)) {
+        if(g->m.has_flag("SUPPORTS_ROOF", target.x, target.y)) {
             extras += _(" [roof]");
         }
 
@@ -517,7 +517,7 @@ void editmap::update_view(bool update_info)
             off += 6;
         }
 
-        if (!g->m.has_flag(container, target.x, target.y) && g->m.i_at(target.x, target.y).size() > 0) {
+        if (!g->m.has_flag("CONTAINER", target.x, target.y) && g->m.i_at(target.x, target.y).size() > 0) {
             mvwprintw(w_info, off, 1, _("There is a %s there."),
                       g->m.i_at(target.x, target.y)[0].tname(g).c_str());
             off++;
@@ -638,10 +638,10 @@ int editmap::edit_ter(point coords)
             mvwprintw(w_pickter, 0, 2, "< %d: %s >-----------", sel_ter, pttype.name.c_str());
             mvwprintz(w_pickter, off, 2, c_white, _("movecost %d"), pttype.movecost);
             std::string extras = "";
-            if(pttype.flags & mfb(indoors)) {
+            if(pttype.has_flag("INDOORS")) {
                 extras += _("[indoors] ");
             }
-            if(pttype.flags & mfb(supports_roof)) {
+            if(pttype.has_flag("SUPPORTS_ROOF")) {
                 extras += _("[roof] ");
             }
             wprintw(w_pickter, " %s", extras.c_str());
@@ -689,10 +689,10 @@ int editmap::edit_ter(point coords)
             mvwprintw(w_pickter, 0, 2, "< %d: %s >-----------", sel_frn, pftype.name.c_str());
             mvwprintz(w_pickter, off, 2, c_white, _("movecost %d"), pftype.movecost);
             std::string fextras = "";
-            if(pftype.flags & mfb(indoors)) {
+            if(pftype.has_flag("INDOORS")) {
                 fextras += _("[indoors] ");
             }
-            if(pftype.flags & mfb(supports_roof)) {
+            if(pftype.has_flag("SUPPORTS_ROOF")) {
                 fextras += _("[roof] ");
             }
             wprintw(w_pickter, " %s", fextras.c_str());

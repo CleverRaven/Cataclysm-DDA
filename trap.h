@@ -153,4 +153,6 @@ struct trap {
  };
 };
 
+trap_id trap_id_from_string(std::string trap_name);
+
 #endif

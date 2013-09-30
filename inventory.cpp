@@ -553,9 +553,11 @@ void inventory::form_from_map(game *g, point origin, int range)
  for (int x = origin.x - range; x <= origin.x + range; x++) {
   for (int y = origin.y - range; y <= origin.y + range; y++) {
    int junk;
-   if (g->m.has_flag(sealed, x, y) ||
-       !g->m.clear_path( origin.x, origin.y, x, y, range, 1, 100, junk ))
+   if (g->m.has_flag("SEALED", x, y) ||
+       ((origin.x != x || origin.y != y) &&
+        !g->m.clear_path( origin.x, origin.y, x, y, range, 1, 100, junk ) ) ) {
      continue;
+   }
    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
     if (!g->m.i_at(x, y)[i].made_of(LIQUID))
      add_item(g->m.i_at(x, y)[i]);

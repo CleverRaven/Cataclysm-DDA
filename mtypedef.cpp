@@ -597,7 +597,7 @@ CATEGORIES(MC_CLASSIC);
 //Somewhere between a zombie and a blob creature
 mon(_("jabberwock"), species_none, 'J', c_dkgray_red, MS_HUGE, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-     50,100,100,140,  9,  4,  8,  3,  3, 12,  8,  0,400,  0,
+     50,100,100,140,  9,  4,  8,  3,  3, 12,  8,  0,400,  5,
  &mdeath::normal, &mattack::flesh_golem, _("\
 An amalgamation of putrid human and animal\n\
 parts that have become fused in this golem\n\

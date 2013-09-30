@@ -57,4 +57,7 @@ public:
  void acid_source (game *g, player *p, map *m, const int examx, const int examy);
 };
 
+typedef void (iexamine::*iexamine_function)(game*, player*, map*, int, int);
+iexamine_function iexamine_function_from_string(std::string function_name);
+
 #endif /* defined(__Cataclysmic__iexamine__) */

@@ -367,7 +367,7 @@ void mattack::growplants(game *g, monster *z)
   for (int j = -3; j <= 3; j++) {
    if (i == 0 && j == 0)
     j++;
-   if (!g->m.has_flag(diggable, z->posx() + i, z->posy() + j) && one_in(4))
+   if (!g->m.has_flag("DIGGABLE", z->posx() + i, z->posy() + j) && one_in(4))
     g->m.ter_set(z->posx() + i, z->posy() + j, t_dirt);
    else if (one_in(3) && g->m.is_destructable(z->posx() + i, z->posy() + j))
     g->m.ter_set(z->posx() + i, z->posy() + j, t_dirtmound); // Destroy walls, &c
@@ -836,7 +836,7 @@ void mattack::dermatik(game *g, monster *z)
 void mattack::plant(game *g, monster *z)
 {
 // Spores taking seed and growing into a fungaloid
- if (g->m.has_flag(diggable, z->posx(), z->posy())) {
+ if (g->m.has_flag("DIGGABLE", z->posx(), z->posy())) {
   if (g->u_see(z->posx(), z->posy()))
    g->add_msg(_("The %s takes seed and becomes a young fungaloid!"),
               z->name().c_str());

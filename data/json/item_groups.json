@@ -526,6 +526,7 @@
       ["laser_sight", 15],
       ["rifle_scope", 17],
       ["improve_sights", 20],
+      ["cu_pipe", 10],
       ["u_shotgun", 5]
     ]
   },{
@@ -928,6 +929,7 @@
       ["apron_leather", 10],
       ["tool_belt", 30],
       ["knee_pads", 20],
+      ["cu_pipe", 50],
       ["charcoal", 5]
     ]
   },{
@@ -1590,6 +1592,7 @@
       ["red_dot_sight", 18],
       ["holo_sight", 20],
       ["rifle_scope", 16],
+      ["cu_pipe", 10],
       ["improve_sights", 20]
     ]
   },{
@@ -2197,6 +2200,7 @@
     "id":"medieval",
     "items":[
       ["katana", 2],
+      ["cestus", 2],
       ["mace", 20],
       ["morningstar", 10],
       ["rapier", 3],
@@ -2246,6 +2250,8 @@
       ["television", 10],
       ["microwave", 5],
       ["katana", 2],
+      ["cestus", 1],
+      ["knuckle_brass", 15],
       ["gold", 10],
       ["rapier", 3],
       ["cane", 10],
@@ -2374,6 +2380,7 @@
       ["gloves_tactical", 1],
       ["glasses_bal", 5],
       ["elbow_pads", 10],
+      ["cu_pipe", 5],
       ["knee_pads", 10]
     ]
   },{
@@ -2527,6 +2534,7 @@
       ["jack", 10],
       ["anvil", 5],
       ["chisel", 10],
+      ["cu_pipe", 15],
       ["apron_leather", 5]
     ]
   },{
@@ -3012,6 +3020,7 @@
     "id":"weapons",
     "items":[
       ["chain", 20],
+      ["knuckle_brass", 20],
       ["hammer", 35],
       ["wrench", 30],
       ["hammer_sledge", 6],
@@ -3626,6 +3635,7 @@
     "id":"military",
     "items":[
       ["water_clean", 90],
+      ["knuckle_brass", 15],
       ["mre_beef", 50],
       ["mre_veggy", 50],
       ["bandages", 50],
@@ -3896,6 +3906,7 @@
       ["8mm_caseless", 6],
       ["8mm_jhp", 2],
       ["8mm_fmj", 2],
+      ["cu_pipe", 5],
       ["8mm_inc", 2]
     ]
   },{
@@ -3934,6 +3945,7 @@
     "id":"drugdealer",
     "items":[
       ["energy_drink", 55],
+      ["knuckle_brass", 30],
       ["sports_drink", 35],
       ["purple_drink", 15],
       ["whiskey", 16],
@@ -4010,6 +4022,7 @@
       ["spring", 50],
       ["steel_lump", 30],
       ["frame", 20],
+      ["cu_pipe", 50],
       ["rock", 40]
     ]
   },{
