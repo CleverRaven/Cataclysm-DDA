@@ -945,6 +945,7 @@
         "durability": 400,
         "fuel_type": "223",
         "item": "m249",
+        "size" : 40,
         "difficulty": 6,
         "flags": [
             "OVER", "TURRET", "CARGO"
