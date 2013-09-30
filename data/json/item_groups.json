@@ -1805,6 +1805,7 @@
       ["manual_traps", 12],
       ["manual_carpentry", 10],
       ["manual_fabrication", 20],
+      ["manual_driving", 15],
       ["manual_survival", 20]
     ]
   },{
@@ -2162,6 +2163,7 @@
       ["manual_tailor", 15],
       ["manual_carpentry", 10],
       ["mag_mechanics", 35],
+      ["manual_driving", 20],
       ["novel_romance", 30],
       ["novel_spy", 28],
       ["novel_scifi", 20],
