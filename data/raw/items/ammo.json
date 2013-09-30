@@ -918,7 +918,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "46",
-        "casing" : "46_casing",
+        "casing" : "46mm_casing",
         "damage" : 13,
         "pierce" : 35,
         "range" : 14,
