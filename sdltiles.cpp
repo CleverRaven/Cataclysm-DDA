@@ -1008,25 +1008,110 @@ inline SDL_Color BGR(int b, int g, int r)
     return result;
 }
 
+int colorget[48];
+void get_colors(std::string color_path)
+{
+    DebugLog() << "Loading color information from [" << color_path << "]\n";
+
+    std::fstream fin;
+    fin.open(color_path.c_str(),std::ios::in);
+    if(!fin.is_open()) {
+        fin.close();
+        DebugLog() << "\tCould not read ."<<color_path<<", creating default file\n";
+		fin.open(color_path.c_str(),std::ios::out);
+		fin << "BLACK: 0,0,0\nRED: 255,0,0\nGREEN: 0,100,0\nBROWN: 92,51,23\nBLUE: 0,0,200\nMAGENTA: 139,58,98\nCYAN: 0,150,180\nGRAY: 150,150,150\nDGRAY: 99,99,99\nLRED: 255,150,150\nLGREEN: 0,255,0\nYELLOW: 255,255,0\nLBLUE: 100,100,255\nLMAGENTA: 255,0,240\nLCYAN: 0,240,255\nWHITE: 255,255,255";
+		fin.close();
+		fin.open(color_path.c_str(),std::ios::in);
+    }
+	
+	int index=-1;
+
+    while(!fin.eof()) {
+        std::string sOption;
+        fin >> sOption;
+		index=-1;
+        if(sOption == "") {
+            getline(fin, sOption);    // Empty line, chomp it
+        } else if(sOption[0] == '#') { // # indicates a comment
+            getline(fin, sOption);
+        } else {
+			if (sOption.find("BLACK") != std::string::npos)
+				index=0;
+			else if (sOption.find("DGRAY") != std::string::npos || sOption.find("DGREY") != std::string::npos)
+				index=8;
+			else if (sOption.find("LRED") != std::string::npos)
+				index=9;
+			else if (sOption.find("LGREEN") != std::string::npos)
+				index=10;
+			else if (sOption.find("LBROWN") != std::string::npos || sOption.find("YELLOW") != std::string::npos)
+				index=11;
+			else if (sOption.find("LBLUE") != std::string::npos)
+				index=12;
+			else if (sOption.find("LMAGENTA") != std::string::npos)
+				index=13;
+			else if (sOption.find("LCYAN") != std::string::npos)
+				index=14;
+			else if (sOption.find("RED") != std::string::npos)
+				index=1;
+			else if (sOption.find("GREEN") != std::string::npos)
+				index=2;
+			else if (sOption.find("BROWN") != std::string::npos)
+				index=3;
+			else if (sOption.find("BLUE") != std::string::npos)
+				index=4;
+			else if (sOption.find("MAGENTA") != std::string::npos)
+				index=5;
+			else if (sOption.find("CYAN") != std::string::npos)
+				index=6;
+			else if (sOption.find("GRAY") != std::string::npos || sOption.find("GREY") != std::string::npos)
+				index=7;
+			else if (sOption.find("WHITE") != std::string::npos)
+				index=15;
+			index*=3;
+			if(index>=0 && index<=47)
+			{
+				std::string rgb;
+				fin >> rgb;
+				int c=-1;
+				int cnum,pos;
+				for(cnum=0,pos=0;pos<rgb.size()&&cnum<3;pos++)
+				{
+					if(rgb[pos]==',')
+					{
+						colorget[index+cnum]=atoi(rgb.substr(c+1,pos).c_str());
+						c=pos;
+						cnum++;
+					}
+				}
+				if(pos<=rgb.size())
+					colorget[index+cnum]=atoi(rgb.substr(c+1,pos).c_str());
+			}
+        }
+    }
+
+    fin.close();
+}
+
 int curses_start_color(void)
 {
+	get_colors("data/colors.txt");
     colorpairs=new pairs[100];
-    windowsPalette[0]= BGR(0,0,0); // Black
-    windowsPalette[1]= BGR(0, 0, 255); // Red
-    windowsPalette[2]= BGR(0,110,0); // Green
-    windowsPalette[3]= BGR(23,51,92); // Brown???
-    windowsPalette[4]= BGR(200, 0, 0); // Blue
-    windowsPalette[5]= BGR(98, 58, 139); // Purple
-    windowsPalette[6]= BGR(180, 150, 0); // Cyan
-    windowsPalette[7]= BGR(150, 150, 150);// Gray
-    windowsPalette[8]= BGR(99, 99, 99);// Dark Gray
-    windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
-    windowsPalette[10]= BGR(0, 255, 0); // Bright Green
-    windowsPalette[11]= BGR(0, 255, 255); // Yellow
-    windowsPalette[12]= BGR(255, 100, 100); // Light Blue
-    windowsPalette[13]= BGR(240, 0, 255); // Pink
-    windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
-    windowsPalette[15]= BGR(255, 255, 255); //White
+    windowsPalette[0]= BGR(colorget[2],colorget[1],colorget[0]); // Black
+    windowsPalette[1]= BGR(colorget[5],colorget[4],colorget[3]); // Red
+    windowsPalette[2]= BGR(colorget[8],colorget[7],colorget[6]); // Green
+    windowsPalette[3]= BGR(colorget[11],colorget[10],colorget[9]); // Brown???
+    windowsPalette[4]= BGR(colorget[14],colorget[13],colorget[12]); // Blue
+    windowsPalette[5]= BGR(colorget[17],colorget[16],colorget[15]); // Purple
+    windowsPalette[6]= BGR(colorget[20],colorget[19],colorget[18]); // Cyan
+    windowsPalette[7]= BGR(colorget[23],colorget[22],colorget[21]);// Gray
+    windowsPalette[8]= BGR(colorget[26],colorget[25],colorget[24]);// Dark Gray
+    windowsPalette[9]= BGR(colorget[29],colorget[28],colorget[27]); // Light Red/Salmon?
+    windowsPalette[10]= BGR(colorget[32],colorget[31],colorget[30]); // Bright Green
+    windowsPalette[11]= BGR(colorget[35],colorget[34],colorget[33]); // Yellow
+    windowsPalette[12]= BGR(colorget[38],colorget[37],colorget[36]); // Light Blue
+    windowsPalette[13]= BGR(colorget[41],colorget[40],colorget[39]); // Pink
+    windowsPalette[14]= BGR(colorget[44],colorget[43],colorget[42]); // Light Cyan?
+    windowsPalette[15]= BGR(colorget[47],colorget[46],colorget[45]); //White
     //SDL_SetColors(screen,windowsPalette,0,256);
     return 0;
 }
