@@ -20,7 +20,11 @@ typedef void (mdeath::*MonDeathFunction)(game*, monster*);
 typedef void (mattack::*MonAttackFunction)(game*, monster*);
 typedef std::string Mon_Tag;
 
+// just to make sure that this doesn't accidentally get defined elsewhere multiple times
+// The called method monster_factory::factory().get_mon(x) will return "mon_null" if the monster is not valid
+#ifndef DEF_GET_MONSTER
 #define GetMon(x) monster_factory::factory().get_mon(x)
+#endif
 
 class monster_factory
 {
@@ -46,7 +50,22 @@ class monster_factory
 
             return factory().get_mon(valid_random_types[rng(0, valid_random_types.size())]);
         }
-
+        static mtype *get_monster(Mon_Tag tag)
+        {
+            return factory().get_mon(tag);
+        }
+        static void finalize()
+        {
+            factory().finalize_monsters();
+        }
+        static mtype *missing_type()
+        {
+            return factory().missing_monster_type;
+        }
+        static species_type *missing_species()
+        {
+            return factory().missing_species_type;
+        }
 
         // Load a monster definition "type":"monster"
         void load_monster(JsonObject &jo);
@@ -60,6 +79,10 @@ class monster_factory
         std::map<Mon_Tag, mtype*> monsters;
         std::map<std::string, species_type*> species;
         std::set<std::string> categories;
+        void finalize_monsters();
+        // Defaults
+        mtype *missing_monster_type;
+        species_type *missing_species_type;
     private:
         /** Default Constructor */
         monster_factory();
@@ -77,7 +100,6 @@ class monster_factory
             return ret;
         }
 
-        void finalize_monsters();
 
         // Data Initializers
         void init(); // from which all other general initializers are called
@@ -96,8 +118,8 @@ class monster_factory
         void set_mon_functions(JsonObject &jo, mtype *mon); // death and special attack functions
         void set_mon_flags(JsonObject &jo, mtype *mon); // m_flags
 
-        void set_species_triggers(JsonObject &jo, species_type &type); // species default anger, placate, fear triggers
-        void set_species_flags(JsonObject &jo, species_type &type); // categorical informations
+        void set_species_triggers(JsonObject &jo, species_type *type); // species default anger, placate, fear triggers
+        void set_species_flags(JsonObject &jo, species_type *type); // categorical informations
 
         // Information manipulation Woo!
         void get_tags(JsonObject &jo, std::string membername, std::set<std::string> &data);
@@ -106,12 +128,6 @@ class monster_factory
         // Tag->Enum conversion
 
         template <typename T>  T convert_tag(std::string tag, std::map<Mon_Tag, T> tag_map, T fallback);
-
-        // probably no longer needed?
-        phase_id convert_tag(std::string tag, phase_id fallback);
-        m_size convert_tag(std::string tag, m_size fallback);
-        m_flag convert_tag(std::string tag, m_flag fallback);
-        monster_trigger convert_tag(std::string tag, monster_trigger fallback);
 
         // Data
             // death function and special attack function string->function map
@@ -124,9 +140,6 @@ class monster_factory
         std::map<Mon_Tag, phase_id> phase_tags;
             // monster storage
 
-        // Defaults
-        mtype *missing_monster_type;
-        species_type *missing_species_type;
 };
 
 extern monster_factory *monster_controller;

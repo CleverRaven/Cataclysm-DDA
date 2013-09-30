@@ -103,6 +103,7 @@ class game
  public:
   game();
   ~game();
+  void init_game_data();
   void init_ui();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp

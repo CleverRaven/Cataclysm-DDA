@@ -49,7 +49,7 @@ std::string MonsterGroupManager::GetMonsterFromGroup( std::string group, std::ve
     MonsterGroup g = monsterGroupMap[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
-        mtype *mon = monster_factory::factory().get_mon(it->first);
+        mtype *mon = GetMon(it->first);
         if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS(mon->difficulty))) &&
            (!OPTIONS["CLASSIC_ZOMBIES"] ||
             mon->in_category(MC_CLASSIC) ||
@@ -63,7 +63,7 @@ std::string MonsterGroupManager::GetMonsterFromGroup( std::string group, std::ve
             else { roll -= it->second.first; }
         }
     }
-    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(monster_factory::factory().get_mon(g.defaultMonster)->difficulty))
+    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMon(g.defaultMonster)->difficulty))
         && (!OPTIONS["STATIC_SPAWN"]))
     {
         return "mon_null";

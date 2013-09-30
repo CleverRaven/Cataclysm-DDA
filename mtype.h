@@ -202,7 +202,8 @@ struct species_type
 {
     std::string id;
 
-    std::set<std::string> flags,
+    std::set<m_flag> flags;
+    std::set<monster_trigger>
                           anger_triggers,
                           fear_triggers,
                           placate_triggers;
@@ -210,13 +211,11 @@ struct species_type
 
 struct mtype {
     std::string id;
-    std::set<species_type*> s_species;
-    std::map<std::string, m_flag> s_flags;
-    std::map<std::string, monster_trigger> s_anger, s_placate, s_fear;
+    std::set<std::string> s_species; // temporary container to store species strings
+    std::set<species_type*> species;
     std::set<std::string> s_categories;
  std::string name;
  std::string description;
- monster_species species;
  long sym; // Symbol on the map
  nc_color color;// Color of symbol (see color.h)
 
@@ -269,6 +268,8 @@ struct mtype {
 
  bool has_flag(m_flag flag) const;
  bool in_category(m_category category) const;
+ void finalize_monster();
+ bool member_of_species(std::string species_id) const;
 };
 
 #endif

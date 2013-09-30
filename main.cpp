@@ -77,7 +77,9 @@ int main(int argc, char *argv[])
 
  bool quit_game = false;
  bool delete_world = false;
- g = new game;
+ g = new game; // now empty constructor, inits basic information and leaves actual initialization to game::init_game_data which follows immediately
+ g->init_game_data();
+
  if(g->game_error())
   exit_handler(-999);
  g->init_ui();

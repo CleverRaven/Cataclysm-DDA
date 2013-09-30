@@ -1053,8 +1053,10 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
     const picojson::object &data = parsed.get<picojson::object>();
 
     int idtmp;
-    picoint(data, "typeid", idtmp);
-    type = (*mtypes)[idtmp];
+    std::string idstr;
+    picostring(data, "typeid", idstr);
+    //picoint(data, "typeid", idtmp);
+    type = GetMon(idstr);// (*mtypes)[idtmp];
 
     picoint(data, "posx", _posx);
     picoint(data, "posy", _posy);

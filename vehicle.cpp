@@ -29,7 +29,6 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
 {
     g = ag;
     type = type_id;
-//DebugLog() << "vehicle::ctor -- game is real? "/*<<(g?"Yes":"No")*/<<"\n";
     posx = 0;
     posy = 0;
     velocity = 0;
@@ -630,7 +629,6 @@ void vehicle::finalize_template()
 }
 void game::finalize_vehicles()
 {
-DebugLog() << "game::finalize_vehicles -- game is real? "<<(g?"Yes":"No") << "\n";
     for (int i = 0; i < vtype_cache.size(); ++i)
     {
         load_vehicle(vtype_cache[i]);

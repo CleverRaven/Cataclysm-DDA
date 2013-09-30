@@ -615,7 +615,6 @@ std::string JsonIn::get_string()
     if (ch != '"') {
         std::stringstream err;
         err << line_number(-1) << ": expecting string but got '" << ch << "'";
-        DebugLog() << err.str() << "\n";
         throw err.str();
     }
     // add chars to the string, one at a time, converting:

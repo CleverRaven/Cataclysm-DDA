@@ -14,14 +14,38 @@ monster_factory::monster_factory()
     monsters["mon_null"] = missing_monster_type;
 
     missing_species_type = new species_type();
-    missing_species_type->id = "NULL";
+    missing_species_type->id = "NULL_SPECIES";
     species["NULL_SPECIES"] = missing_species_type;
 }
 
 void monster_factory::finalize_monsters()
 {
-    // matches up species temp values in mtypes, and sets bitflags
 
+    for (std::map<std::string, mtype*>::iterator mon = monsters.begin(); mon != monsters.end(); ++mon)
+    {
+        // matches up species temp values in mtypes, and sets bitflags
+        for (std::set<std::string>::iterator mon_species = mon->second->s_species.begin(); mon_species != mon->second->s_species.end(); ++mon_species)
+        {
+            if (species.find(*mon_species) != species.end()) // valid species id
+            {
+                mon->second->species.insert(species[*mon_species]);
+            }
+            else
+            {
+                mon->second->species.insert(missing_species_type);
+            }
+        }
+
+        // finalize this monster type's species flags and triggers
+        mon->second->finalize_monster();
+
+        // set bitflags
+        const int num_flags = mon->second->flags.size();
+        for (int j = 0; j < num_flags; ++j)
+        {
+            mon->second->bitflags[mon->second->flags[j]] = true;
+        }
+    }
 }
 
 // Initializers
@@ -202,6 +226,7 @@ void monster_factory::load_monster(JsonObject &jo)
         {
             set_mon_information(jo, newmon);
             set_mon_data(jo, newmon);
+            set_mon_flags(jo, newmon);
             set_mon_triggers(jo, newmon);
             set_mon_categories(jo, newmon);
             set_mon_functions(jo, newmon);
@@ -221,7 +246,27 @@ void monster_factory::load_monster(JsonObject &jo)
 }
 void monster_factory::load_species(JsonObject &jo)
 {
+    if (jo.has_member("id"))
+    {
+        species_type *newspecies = new species_type();
 
+        try
+        {
+            // species ID
+            newspecies->id = jo.get_string("id");
+
+            // species triggers/flags
+            set_species_flags(jo, newspecies);
+            set_species_triggers(jo, newspecies);
+
+            // load into map!
+            species[newspecies->id] = newspecies;
+        }
+        catch(std::string err)
+        {
+            delete newspecies;
+        }
+    }
 }
 // Data Loaders
 // -- MONSTERS
@@ -263,14 +308,12 @@ void monster_factory::set_mon_information(JsonObject& jo, mtype* mon)
         // monsters can have multiple species available to them
         if (m_speciess.size() > 0)
         {
-            for (it = m_speciess.begin(); it != m_speciess.end(); ++it)
-            {
-                // need to change mon->s_species over to set<string> so that the details can be finalized later
-            }
+            mon->s_species = m_speciess;
         }
         else
         {
             // species = NULL_SPECIES
+            mon->s_species.insert(missing_species_type->id);
         }
     }
     catch (std::string err)
@@ -385,7 +428,7 @@ void monster_factory::set_mon_functions(JsonObject& jo, mtype* mon)
 }
 
 // -- SPECIES
-void monster_factory::set_species_triggers(JsonObject& jo, species_type& type)
+void monster_factory::set_species_triggers(JsonObject& jo, species_type* type)
 {
     std::set<std::string> anger, fear, placate;
     get_tags(jo, "anger_triggers", anger);
@@ -398,7 +441,7 @@ void monster_factory::set_species_triggers(JsonObject& jo, species_type& type)
         temp = convert_tag(*it, trigger_tags, MTRIG_NULL);
         if (temp != MTRIG_NULL)
         {
-            type.anger_triggers.insert(*it);
+            type->anger_triggers.insert(temp);
         }
     }
     for (std::set<std::string>::iterator it = fear.begin(); it != fear.end(); ++it)
@@ -406,7 +449,7 @@ void monster_factory::set_species_triggers(JsonObject& jo, species_type& type)
         temp = convert_tag(*it, trigger_tags, MTRIG_NULL);
         if (temp != MTRIG_NULL)
         {
-            type.fear_triggers.insert(*it);
+            type->fear_triggers.insert(temp);
         }
     }
     for (std::set<std::string>::iterator it = placate.begin(); it != placate.end(); ++it)
@@ -414,12 +457,12 @@ void monster_factory::set_species_triggers(JsonObject& jo, species_type& type)
         temp = convert_tag(*it, trigger_tags, MTRIG_NULL);
         if (temp != MTRIG_NULL)
         {
-            type.placate_triggers.insert(*it);
+            type->placate_triggers.insert(temp);
         }
     }
 }
 
-void monster_factory::set_species_flags(JsonObject& jo, species_type& type)
+void monster_factory::set_species_flags(JsonObject& jo, species_type *type)
 {
     std::set<std::string> t_flags;
 
@@ -431,12 +474,10 @@ void monster_factory::set_species_flags(JsonObject& jo, species_type& type)
         temp = convert_tag(*it, flag_tags, MF_NULL);
         if (temp != MF_NULL)
         {
-            type.flags.insert(*it);
+            type->flags.insert(temp);
         }
     }
 }
-
-
 
 // Data Extractors
 // Will not alter the dataset if there JsonArray is empty.
@@ -470,43 +511,6 @@ T monster_factory::convert_tag(std::string tag, std::map<Mon_Tag, T> tag_map, T 
     if (tag_map.find(tag) != tag_map.end())
     {
         return tag_map[tag];
-    }
-    return fallback;
-}
-
-
-phase_id monster_factory::convert_tag(std::string tag, phase_id fallback)
-{
-    if (phase_tags.find(tag) != phase_tags.end())
-    {
-        return phase_tags[tag];
-    }
-    return fallback;
-}
-
-m_size monster_factory::convert_tag(std::string tag, m_size fallback)
-{
-    if (size_tags.find(tag) != size_tags.end())
-    {
-        return size_tags[tag];
-    }
-    return fallback;
-}
-
-m_flag monster_factory::convert_tag(std::string tag, m_flag fallback)
-{
-    if (flag_tags.find(tag) != flag_tags.end())
-    {
-        return flag_tags[tag];
-    }
-    return fallback;
-}
-
-monster_trigger monster_factory::convert_tag(std::string tag, monster_trigger fallback)
-{
-    if (trigger_tags.find(tag) != trigger_tags.end())
-    {
-        return trigger_tags[tag];
     }
     return fallback;
 }

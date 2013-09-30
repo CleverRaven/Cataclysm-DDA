@@ -1,6 +1,6 @@
 #include "init.h"
 
-#include "debug.h""
+#include "debug.h"
 
 #include "json.h"
 #include "game.h" // because mi-go parrot requires it!
@@ -124,7 +124,7 @@ void load_json_dir(std::string const &dirname)
             throw *(it) + ": " + e;
         }
     }
-
+/*
     std::string separator = std::string(80, '*');
     DebugLog() << separator << "\n";
     int numObjects = 0;
@@ -136,6 +136,7 @@ void load_json_dir(std::string const &dirname)
     DebugLog() << separator << "\n";
     DebugLog() << "Total Objects: " << numObjects << "\n";
     DebugLog() << separator << "\n";
+*/
 }
 
 void load_all_from_json(JsonIn &jsin)

@@ -87,50 +87,8 @@ game::game() :
  om_diag(NULL),
  gamemode(NULL)
 {
- dout() << "Game initialized.";
-
- try {
- if(!json_good())
-  throw (std::string)"Failed to initialize a static variable";
- // Gee, it sure is init-y around here!
- // setup itypes first, because otherwise vehicle[_part] loading may fail
-    init_data_structures(); // initialize cata data structures
-    load_json_dir("data/json"); // load it, load it all!
- init_itypes();               // Set up item types                (SEE itypedef.cpp)
-
- init_npctalk();
- init_artifacts();
- init_weather();
- init_overmap();
- init_fields();
- init_faction_data();
- init_morale();
- init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
- init_techniques();           // Set up techniques                (SEE martialarts.cpp)
- init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
- item_controller->init(this); //Item manager
- init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
- init_traps();                // Set up the trap types            (SEE trapdef.cpp)
-// init_mongroups();            // Set up monster groupings         (SEE mongroupdef.cpp)
- init_missions();             // Set up mission templates         (SEE missiondef.cpp)
- init_construction();         // Set up constructables            (SEE construction.cpp)
-// init_vehicle_parts();        // Set up vehicle parts             (SEE veh_typedef.cpp)
-// init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
- init_autosave();             // Set up autosave
- init_diseases();             // Set up disease lookup table
- //init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
- //finalize_vehicles();
- } catch(std::string &error_message)
- {
-     uquit = QUIT_ERROR;
-     if(!error_message.empty())
-        debugmsg(error_message.c_str());
-     return;
- }
- load_keyboard_settings();
- moveCount = 0;
-
- gamemode = new special_game; // Nothing, basically.
+    // empty so that game *g will become a real object and not cause shennanigans during data finalization
+    // functionality moved to game::init_game_data()
 }
 
 game::~game()
@@ -152,10 +110,61 @@ game::~game()
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
 
+void game::init_game_data()
+{
+    dout() << "Game initialized.";
+
+    try {
+        if(!json_good())
+        {
+            throw (std::string)"Failed to initialize a static variable";
+        }
+        // Gee, it sure is init-y around here!
+        // setup itypes first, because otherwise vehicle[_part] loading may fail
+        init_data_structures(); // initialize cata data structures
+        load_json_dir("data/json"); // load it, load it all!
+        init_itypes();               // Set up item types                (SEE itypedef.cpp)
+
+        init_npctalk();
+        init_artifacts();
+        init_weather();
+        init_overmap();
+        init_fields();
+        init_faction_data();
+        init_morale();
+        init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
+        init_techniques();           // Set up techniques                (SEE martialarts.cpp)
+        init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
+        item_controller->init(this); //Item manager
+        init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
+        init_traps();                // Set up the trap types            (SEE trapdef.cpp)
+        // init_mongroups();            // Set up monster groupings         (SEE mongroupdef.cpp)
+        init_missions();             // Set up mission templates         (SEE missiondef.cpp)
+        init_construction();         // Set up constructables            (SEE construction.cpp)
+        // init_vehicle_parts();        // Set up vehicle parts             (SEE veh_typedef.cpp)
+        // init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
+        init_autosave();             // Set up autosave
+        init_diseases();             // Set up disease lookup table
+        //init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
+
+        // deal with late data initializers that cannot be initialized during load_json_dir
+        finalize_vehicles();
+        monster_factory::finalize();
+    }
+    catch(std::string &error_message)
+    {
+        uquit = QUIT_ERROR;
+        if(!error_message.empty())
+        debugmsg(error_message.c_str());
+        return;
+    }
+    load_keyboard_settings();
+    moveCount = 0;
+
+    gamemode = new special_game; // Nothing, basically.
+}
+
 void game::init_ui(){
-vehicle *testveh = new vehicle(this, "null");
-DebugLog() << "game::init_ui -- game is real? "<<(this?"Yes":"No") << "\n";
-finalize_vehicles();
     clear(); // Clear the screen
     intro(); // Print an intro screen, make sure we're at least 80x25
 
@@ -4492,15 +4501,14 @@ int game::mon_info(WINDOW *w)
 
         // The list of symbols needs a space on each end.
         symroom = (width / 3) - widths[i] - 2;
-        const int total_required_space = unique_npc[i].size() + unique_mon[i].size();
 
         // print Monsters
         int space_used = 0;
+        nc_color c;
+        char sym;
         std::set<std::string>::iterator monit = unique_mon[i].begin();
         for (int j = 0; j < unique_mon[i].size() && j < symroom; j++) {
             s_buff = *monit;
-            nc_color c;
-            char sym;
 
             if (symroom < unique_mon[i].size() && j == symroom - 1) {
                 // We've run out of room!
@@ -4523,8 +4531,6 @@ int game::mon_info(WINDOW *w)
         for (int j = 0; j < unique_npc[i].size() && j < symroom; ++j)
         {
             buff = *npcit;
-            nc_color c;
-            char sym;
 
             if (symroom < unique_npc[i].size() && j == symroom - 1) {
                 // We've run out of room!
@@ -4539,6 +4545,11 @@ int game::mon_info(WINDOW *w)
                 }
                 sym = '@';
             }
+            mvwputch(w, pr.y, pr.x, c, sym);
+
+            pr.x++;
+            ++space_used;
+
             ++npcit;
         }
     } // for (int i = 0; i < 8; i++)
@@ -4550,6 +4561,7 @@ int game::mon_info(WINDOW *w)
 
     int lastrowprinted = 2 + startrow;
 
+    std::set<std::string> consolidated_mon_list;
     std::set<std::string>::iterator monit;
     // Print monster names, starting with those at location 8 (nearby).
     for (int j = 8; j >= 0 && pr.y < maxheight; j--) {
@@ -4559,7 +4571,15 @@ int game::mon_info(WINDOW *w)
         for (int i = 0; i < unique_mon[j].size() && pr.y < maxheight; i++) {
             s_buff = *monit;
             ++monit;
-            mtype *monat = monster_factory::factory().get_mon(s_buff);
+            if (consolidated_mon_list.find(s_buff) == consolidated_mon_list.end())
+            {
+                consolidated_mon_list.insert(s_buff);
+            }
+            else
+            {
+                continue;
+            }
+            mtype *monat = GetMon(s_buff);
             std::string name = monat->name;//mtypes[buff]->name;
 
             // Move to the next row if necessary. (The +2 is for the "Z ").

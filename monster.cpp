@@ -150,7 +150,7 @@ std::string monster::name()
 std::string monster::name_with_armor()
 {
  std::string ret;
- if (type->species == species_insect) {
+ if (type->member_of_species("INSECT")) {
      ret = string_format(_("%s's carapace"), type->name.c_str());
  }
  else {
@@ -377,8 +377,8 @@ monster_attitude monster::attitude(player *u)
 
  if (u != NULL) {
 
-  if (((type->species == species_mammal && u->has_trait("PHEROMONE_MAMMAL")) ||
-       (type->species == species_insect && u->has_trait("PHEROMONE_INSECT")))&&
+  if (((type->member_of_species("MAMMAL") && u->has_trait("PHEROMONE_MAMMAL")) ||
+       (type->member_of_species("INSECT") && u->has_trait("PHEROMONE_INSECT")))&&
       effective_anger >= 10)
    effective_anger -= 20;
 

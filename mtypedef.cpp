@@ -4,13 +4,15 @@
 #include "itype.h"
 #include "setvector.h"
 
+#include <algorithm>
+
 
  // Default constructor
  mtype::mtype () {
   id = "mon_null";
   name = _("human");
   description = "";
-  species = species_none;
+  s_species.insert("NULL_SPECIES");
   sym = ' ';
   color = c_white;
   size = MS_MEDIUM;
@@ -38,6 +40,19 @@
  {
      id = pid;
  }
+ bool mtype::member_of_species(std::string id) const
+ {
+     for (std::set<species_type*>::iterator it = species.begin(); it != species.end(); ++it)
+     {
+         species_type *spec = *it;
+
+         if (spec->id == id)
+         {
+             return true;
+         }
+     }
+     return false;
+ }
  // Non-default (messy)
  mtype::mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, std::string pmat,
@@ -52,7 +67,7 @@
         std::string pdescription ) {
   id = "mon_null"; // just don't use pid for now, get rid of this entire ctor later
   name = pname;
-  species = pspecies;
+  //species = pspecies;
   sym = psym;
   color = pcolor;
   size = psize;
@@ -75,8 +90,8 @@
   sp_attack = psp_attack;
   description = pdescription;
 
-  anger = default_anger(species);
-  fear = default_fears(species);
+  //anger = default_anger(species);
+  //fear = default_fears(species);
  }
 
  bool mtype::has_flag(m_flag flag) const
@@ -91,6 +106,55 @@
     return true;
   }
   return false;
+ }
+
+ void mtype::finalize_monster()
+ {
+     // apply all species flags and triggers
+     // finalize flags
+     std::set<m_flag> spec_flags;
+     std::set<monster_trigger> spec_triggerset;
+     std::set<m_flag>::iterator flag_it;
+     std::set<monster_trigger>::iterator trigger_it;
+
+     for (std::set<species_type*>::iterator spec = species.begin(); spec != species.end(); ++spec)
+     {
+         species_type *tempspec = *spec;
+
+         spec_flags = tempspec->flags;
+         for (flag_it = spec_flags.begin(); flag_it != spec_flags.end(); ++flag_it)
+         {
+             if (std::find(flags.begin(), flags.end(), *flag_it) == flags.end()) // only add if we don't already have this flag
+             {
+                 flags.push_back(*flag_it);
+             }
+         }
+
+         spec_triggerset = tempspec->anger_triggers;
+         for (trigger_it = spec_triggerset.begin(); trigger_it != spec_triggerset.end(); ++trigger_it)
+         {
+             if (std::find(anger.begin(), anger.end(), *trigger_it) == anger.end())
+             {
+                 anger.push_back(*trigger_it);
+             }
+         }
+         spec_triggerset = tempspec->fear_triggers;
+         for (trigger_it = spec_triggerset.begin(); trigger_it != spec_triggerset.end(); ++trigger_it)
+         {
+             if (std::find(fear.begin(), fear.end(), *trigger_it) == fear.end())
+             {
+                 fear.push_back(*trigger_it);
+             }
+         }
+         spec_triggerset = tempspec->placate_triggers;
+         for (trigger_it = spec_triggerset.begin(); trigger_it != spec_triggerset.end(); ++trigger_it)
+         {
+             if (std::find(placate.begin(), placate.end(), *trigger_it) == placate.end())
+             {
+                 placate.push_back(*trigger_it);
+             }
+         }
+     }
  }
 
 // This function populates the master list of monster types.

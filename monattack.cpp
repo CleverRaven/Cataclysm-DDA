@@ -207,7 +207,7 @@ void mattack::resurrect(game *g, monster *z)
     for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
      if (g->m.i_at(x, y)[i].type->id == "corpse" &&
          g->m.i_at(x, y)[i].corpse->has_flag(MF_REVIVES) &&
-         g->m.i_at(x, y)[i].corpse->species == species_zombie) {
+         g->m.i_at(x, y)[i].corpse->member_of_species("ZOMBIE")) {
       corpses.push_back(point(x, y));
       i = g->m.i_at(x, y).size();
      }
