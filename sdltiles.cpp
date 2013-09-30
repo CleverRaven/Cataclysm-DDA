@@ -1019,7 +1019,7 @@ void get_colors(std::string color_path)
         fin.close();
         DebugLog() << "\tCould not read ."<<color_path<<", creating default file\n";
 		fin.open(color_path.c_str(),std::ios::out);
-		fin << "BLACK: 0,0,0\nRED: 255,0,0\nGREEN: 0,100,0\nBROWN: 92,51,23\nBLUE: 0,0,200\nMAGENTA: 139,58,98\nCYAN: 0,150,180\nGRAY: 150,150,150\nDGRAY: 99,99,99\nLRED: 255,150,150\nLGREEN: 0,255,0\nYELLOW: 255,255,0\nLBLUE: 100,100,255\nLMAGENTA: 255,0,240\nLCYAN: 0,240,255\nWHITE: 255,255,255";
+		fin << "BLACK: 0,0,0\nRED: 255,0,0\nGREEN: 0,100,0\nBROWN: 92,51,23\nBLUE: 0,0,200\nMAGENTA: 139,58,98\nCYAN: 0,150,180\nGRAY: 150,150,150\nDGRAY: 99,99,99\nLRED: 255,150,150\nLGREEN: 0,255,0\nYELLOW: 255,255,0\nLBLUE: 100,100,255\nLMAGENTA: 255,0,240\nLCYAN: 0,240,255\nWHITE: 255,255,255\n";
 		fin.close();
 		fin.open(color_path.c_str(),std::ios::in);
     }
