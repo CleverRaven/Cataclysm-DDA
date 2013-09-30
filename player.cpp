@@ -307,11 +307,6 @@ void player::normalize(game *g)
 
 void player::pick_name() {
     name = Name::generate(male);
-    if (OPTIONS["ALLITERATE_NAME"]) {
-        while (name[0] != name[name.find(" ")+1]) {
-            name = Name::generate(male);
-        } 
-    }
 }
 
 void player::reset(game *g)
