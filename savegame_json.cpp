@@ -64,7 +64,7 @@ picojson::value player_activity::json_save() {
     for (int i = 0; i < str_values.size(); i++) {
         pvector.push_back( pv( str_values[i] ) );
     }
-    data["values"] = pv ( pvector );
+    data["str_values"] = pv ( pvector );
     pvector.clear();
 
     return pv ( data );
