@@ -461,6 +461,7 @@ void load_artifacts(); // Load artifact data
   void complete_butcher(int index); // Finish the butchering process
   void forage(); // Foraging ('a' on underbrush)
   void eat(char chInput = '.'); // Eat food or fuel  'E' (or 'a')
+  void autoeat(); // Eat until full
   void use_item(char chInput = '.'); // Use item; also tries E,R,W  'a'
   void use_wielded_item();
   void wear(char chInput = '.'); // Wear armor  'W' (or 'a')
