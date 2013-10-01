@@ -1123,6 +1123,7 @@
       ["bbgun", 10],
       ["crossbow", 2],
       ["mag_survival", 40],
+      ["textbook_survival", 20],
       ["mag_rifle", 30],
       ["mag_shotgun", 20],
       ["mag_traps", 20],
@@ -1557,6 +1558,7 @@
       ["bootstrap", 3],
       ["mag_guns", 20],
       ["mag_survival", 20],
+      ["textbook_survival", 2],
       ["mag_melee", 10],
       ["mag_traps", 10],
       ["mag_archery", 20],
@@ -1826,6 +1828,7 @@
       ["textbook_weapeast", 3],
       ["textbook_armwest", 3],
       ["textbook_firstaid", 8],
+      ["textbook_survival", 8],
       ["textbook_speech", 12],
       ["textbook_armeast", 3]
     ]
