@@ -412,6 +412,7 @@ void load_artifacts(); // Load artifact data
   void load_npcs(); //Make any nearby NPCs from the overmap active.
   void create_starting_npcs(); // Creates NPCs that start near you
   void finalize_vehicles();
+  void finalize_initializations();
 // Player actions
   void wishitem( player * p=NULL, int x=-1, int y=-1 );
   void wishmonster( int x=-1, int y=-1 );

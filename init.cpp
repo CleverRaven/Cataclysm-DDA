@@ -58,17 +58,6 @@ void load_null(JsonObject &jo) {} // empty, just used as a route for unimplement
 
 void init_data_structures()
 {
-/* -- Keep around temporarily until all necessary additions are made. Don't want to forget something!
-    else if (type == "ITEM_COMESTIBLE"){item_controller->load_comestible(jo);}
-    else if (type == "ITEM_TOOL"){item_controller->load_tool(jo);}
-    else if (type == "ITEM_ARMOR"){item_controller->load_armor(jo);}
-    else if (type == "ITEM_GENERIC"){item_controller->load_generic(jo);}
-    else if (type == "ITEM_AMMO") {item_controller->load_ammo(jo);}
-    else if (type == "ITEM_GUN"){item_controller->load_gun(jo);}
-    else if (type == "ITEM_BOOK"){item_controller->load_book(jo);}
-	else if (type == "ITEM_GUNMOD"){item_controller->load_gunmod(jo);}
-    else if (type == "ITEM_CONTAINER"){item_controller->load_container(jo);}
-*/
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access

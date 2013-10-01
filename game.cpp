@@ -181,20 +181,15 @@ void game::init_game_data()
         item_controller->init(this); //Item manager
         init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
         init_traps();                // Set up the trap types            (SEE trapdef.cpp)
-        // init_mongroups();            // Set up monster groupings         (SEE mongroupdef.cpp)
         init_missions();             // Set up mission templates         (SEE missiondef.cpp)
         init_construction();         // Set up constructables            (SEE construction.cpp)
-        // init_vehicle_parts();        // Set up vehicle parts             (SEE veh_typedef.cpp)
-        // init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
         init_autosave();             // Set up autosave
         init_diseases();             // Set up disease lookup table
-        //init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
         init_savedata_translation_tables();
         inp_mngr.init();            // Load input config JSON
 
         // deal with late data initializers that cannot be initialized during load_json_dir
-        finalize_vehicles();
-        monster_factory::finalize();
+        finalize_initializations();
     }
     catch(std::string &error_message)
     {
@@ -207,6 +202,12 @@ void game::init_game_data()
     moveCount = 0;
 
     gamemode = new special_game; // Nothing, basically.
+}
+
+void game::finalize_initializations()
+{
+    finalize_vehicles();
+    monster_factory::finalize();
 }
 
 void game::init_ui(){
@@ -1347,7 +1348,7 @@ npc* game::find_npc(int id)
 
 int game::kill_count(mon_id mon){
  for (int i = 0; i < num_monsters; i++) {
-  if (mtypes[i]-> m_id == mon)
+  if (mtypes[i]-> legacy_id == mon)
    return kills[i];
  }
  return 0;
@@ -2787,7 +2788,9 @@ void game::load(std::string name)
  u.name = base64_decode(name);
  u.ret_null = item(itypes["null"], 0);
  u.weapon = item(itypes["null"], 0);
+ DebugLog() << "Deserializing Save Game!\n";
  unserialize(fin);
+ DebugLog() << "--DONE\n";
  fin.close();
 
  // Now that the player's worn items are updated, their sight limits need to be

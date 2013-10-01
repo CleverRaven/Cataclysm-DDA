@@ -218,7 +218,8 @@ struct mtype {
     std::set<std::string> s_species; // temporary container to store species strings
     std::set<species_type*> species;
     std::set<std::string> s_categories;
- mon_id m_id;
+ mon_id legacy_id;
+ monster_species legacy_species;
  std::string name;
  std::string description;
  long sym; // Symbol on the map

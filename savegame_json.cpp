@@ -1062,7 +1062,21 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
         picoint(data, "typeid", iidtmp);
         sidtmp = legacy_mon_id[ iidtmp ];
     }
-    type = (*mtypes)[ monster_ints[sidtmp] ];
+    // get the int id, make sure that it exists in the monster_ints map
+    int mondex = -1;
+    if (monster_ints.find(sidtmp) != monster_ints.end())
+    {
+        mondex = monster_ints[sidtmp];
+    }
+
+    if (mondex != -1)
+    {
+        type = (*mtypes)[ monster_ints[sidtmp] ];
+    }
+    else
+    {
+        type = GetMon(sidtmp); // fetch from monster_factory
+    }
     picoint(data, "posx", _posx);
     picoint(data, "posy", _posy);
     picoint(data, "wandx", wandx);
@@ -1124,14 +1138,8 @@ picojson::value monster::json_save(bool save_contents)
 {
     std::map<std::string, picojson::value> data;
 
-    if (type->m_id < num_monsters)
-    {
-        data["typeid"] = pv( monster_names[ type->m_id ] );
-    }
-    else
-    {
-        data["typeid"] = pv( type->id );
-    }
+    data["typeid"] = pv( type->id );
+
     data["posx"] = pv(_posx);
     data["posy"] = pv(_posy);
     data["wandx"] = pv(wandx);

@@ -3,9 +3,11 @@
 #include "monattack.h"
 #include "itype.h"
 #include "setvector.h"
+#include "tile_id_data.h"
 
 #include <algorithm>
 
+extern std::map<std::string, int> monster_ints;
 
  // Default constructor
  mtype::mtype () {
@@ -39,6 +41,10 @@
  mtype::mtype(std::string pid)
  {
      id = pid;
+     if (monster_ints.find(id) != monster_ints.end())
+     {
+         legacy_id = mon_id(monster_ints[id]);
+     }
  }
  bool mtype::member_of_species(std::string id) const
  {
@@ -55,7 +61,7 @@
  }
 
  /* NOTE: Not sure if should remove for save compatability reasons */
- /*
+
  // Non-default (messy)
  mtype::mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, std::string pmat,
@@ -68,9 +74,10 @@
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
         std::string pdescription ) {
-  id = "mon_null"; // just don't use pid for now, get rid of this entire ctor later
+  id = monster_names[pid];
+  legacy_id = mon_id(pid);
   name = pname;
-  //species = pspecies;
+  legacy_species = pspecies;
   sym = psym;
   color = pcolor;
   size = psize;
@@ -93,8 +100,8 @@
   sp_attack = psp_attack;
   description = pdescription;
 
-  //anger = default_anger(species);
-  //fear = default_fears(species);
+  anger = default_anger(legacy_species);
+  fear = default_fears(legacy_species);
  }
 //*/
  bool mtype::has_flag(m_flag flag) const
@@ -171,8 +178,8 @@
 
 void game::init_mtypes ()
 {
-/* Not sure if should remove for save compatability reasons
-/*
+/* Not sure if should remove for save compatability reasons */
+
  int id = 0;
 // Null monster named "None".
  mtypes.push_back(new mtype);
