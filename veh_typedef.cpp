@@ -86,6 +86,7 @@ void game::init_vehicle_parts()
     next_part.fuel_type = next_json.has("fuel_type") ? next_json.get("fuel_type").as_string() : "NULL";
     next_part.item = next_json.get("item").as_string();
     next_part.difficulty = next_json.get("difficulty").as_int();
+    next_part.location = next_json.has("location") ? next_json.get("location").as_string() : "";
     next_part.flags = next_json.get("flags").as_tags();
 
     vehicle_part_types[next_part.id] = next_part;

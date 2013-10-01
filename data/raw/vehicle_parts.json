@@ -23,6 +23,7 @@
         "size": 400,
         "item": "seat",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "OVER", "SEAT", "BOARDABLE", "CARGO", "NO_REINFORCE", "ANCHOR_POINT"
         ]
@@ -38,6 +39,7 @@
         "durability": 200,
         "item": "saddle",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "OVER", "SEAT", "BOARDABLE", "NO_REINFORCE"
         ]
@@ -54,6 +56,7 @@
         "size": 400,
         "item": "seat",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "OVER", "BED", "BOARDABLE", "CARGO", "NO_REINFORCE"
         ]
@@ -68,6 +71,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "structure",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
         ]
@@ -82,6 +86,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "structure",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
         ]
@@ -96,6 +101,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "structure",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
         ]
@@ -110,6 +116,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "structure",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
         ]
@@ -124,6 +131,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "structure",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
         ]
@@ -138,6 +146,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "structure",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
         ]
@@ -152,6 +161,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "structure",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
         ]
@@ -166,6 +176,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "structure",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
         ]
@@ -180,6 +191,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "structure",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
         ]
@@ -194,6 +206,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "structure",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
         ]
@@ -208,6 +221,7 @@
         "durability": 300,
         "item": "frame",
         "difficulty": 1,
+        "location": "structure",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
         ]
@@ -222,6 +236,7 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
         ]
@@ -236,6 +251,7 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
         ]
@@ -250,6 +266,7 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
         ]
@@ -264,6 +281,7 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
         ]
@@ -278,6 +296,7 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
         ]
@@ -292,6 +311,7 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
         ]
@@ -306,6 +326,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "INTERNAL", "OVER", "NO_REINFORCE", "AISLE", "BOARDABLE"
         ]
@@ -320,6 +341,7 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "INTERNAL", "OVER", "NO_REINFORCE", "AISLE", "BOARDABLE"
         ]
@@ -335,6 +357,7 @@
         "size": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "INTERNAL", "OVER", "NO_REINFORCE", "AISLE", "BOARDABLE", "CARGO"
         ]
@@ -349,6 +372,7 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
+        "location": "roof",
         "flags": [
             "INTERNAL", "ROOF"
         ]
@@ -364,6 +388,7 @@
         "durability": 200,
         "item": "frame",
         "difficulty": 2,
+        "location": "center",
         "flags": [
             "EXTERNAL", "OBSTACLE", "OPENABLE", "BOARDABLE"
         ]
@@ -379,6 +404,7 @@
         "durability": 200,
         "item": "frame",
         "difficulty": 2,
+        "location": "center",
         "flags": [
             "EXTERNAL", "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"
         ]
@@ -394,6 +420,7 @@
         "durability": 75,
         "item": "frame",
         "difficulty": 2,
+        "location": "center",
         "flags": [
             "EXTERNAL", "OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "NO_REINFORCE", "BOARDABLE"
         ]
@@ -409,6 +436,7 @@
         "durability": 50,
         "item": "glass_sheet",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "OVER", "OBSTACLE", "NO_REINFORCE"
         ]
@@ -424,6 +452,7 @@
         "durability": 100,
         "item": "blade",
         "difficulty": 2,
+        "location": "external",
         "flags": [
             "EXTERNAL", "UNMOUNT_ON_DAMAGE", "SHARP", "NO_REINFORCE"
         ]
@@ -439,6 +468,7 @@
         "durability": 100,
         "item": "blade",
         "difficulty": 2,
+        "location": "external",
         "flags": [
             "EXTERNAL", "UNMOUNT_ON_DAMAGE", "SHARP", "NO_REINFORCE"
         ]
@@ -454,6 +484,7 @@
         "durability": 100,
         "item": "spike",
         "difficulty": 2,
+        "location": "external",
         "flags": [
             "EXTERNAL", "UNMOUNT_ON_DAMAGE", "SHARP", "NO_REINFORCE"
         ]
@@ -470,6 +501,7 @@
         "wheel_width": 9,
         "item": "wheel",
         "difficulty": 4,
+        "location": "under",
         "flags": [
             "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
         ]
@@ -486,6 +518,7 @@
         "wheel_width": 14,
         "item": "wheel_wide",
         "difficulty": 5,
+        "location": "under",
         "flags": [
             "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
         ]
@@ -502,6 +535,7 @@
         "wheel_width": 14,
         "item": "wheel_wide",
         "difficulty": 6,
+        "location": "under",
         "flags": [
             "EXTERNAL", "MOUNT_INNER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
         ]
@@ -518,6 +552,7 @@
         "wheel_width": 2,
         "item": "wheel_bicycle",
         "difficulty": 1,
+        "location": "under",
         "flags": [
             "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
         ]
@@ -534,6 +569,7 @@
         "wheel_width": 4,
         "item": "wheel_motorbike",
         "difficulty": 2,
+        "location": "under",
         "flags": [
             "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
         ]
@@ -550,6 +586,7 @@
         "wheel_width": 6,
         "item": "wheel_small",
         "difficulty": 2,
+        "location": "under",
         "flags": [
             "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
         ]
@@ -566,6 +603,7 @@
         "wheel_width": 6,
         "item": "wheel_caster",
         "difficulty": 1,
+        "location": "under",
         "flags": [
             "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "WHEEL", "VARIABLE_SIZE"
         ]
@@ -583,6 +621,7 @@
         "fuel_type": "gasoline",
         "item": "1cyl_combustion",
         "difficulty": 2,
+        "location": "engine_block",
         "flags": [
             "INTERNAL", "ENGINE", "VARIABLE_SIZE"
         ]
@@ -600,6 +639,7 @@
         "fuel_type": "gasoline",
         "item": "v2_combustion",
         "difficulty": 2,
+        "location": "engine_block",
         "flags": [
             "INTERNAL", "ENGINE", "VARIABLE_SIZE"
         ]
@@ -616,6 +656,7 @@
         "fuel_type": "gasoline",
         "item": "i4_combustion",
         "difficulty": 3,
+        "location": "engine_block",
         "flags": [
             "INTERNAL", "ENGINE", "VARIABLE_SIZE"
         ]
@@ -633,6 +674,7 @@
         "fuel_type": "gasoline",
         "item": "v6_combustion",
         "difficulty": 4,
+        "location": "engine_block",
         "flags": [
             "INTERNAL", "ENGINE", "VARIABLE_SIZE"
         ]
@@ -650,6 +692,7 @@
         "fuel_type": "gasoline",
         "item": "v8_combustion",
         "difficulty": 4,
+        "location": "engine_block",
         "flags": [
             "INTERNAL", "ENGINE", "VARIABLE_SIZE"
         ]
@@ -667,6 +710,7 @@
         "fuel_type": "battery",
         "item": "motor",
         "difficulty": 3,
+        "location": "engine_block",
         "flags": [
             "INTERNAL", "ENGINE"
         ]
@@ -684,6 +728,7 @@
         "fuel_type": "battery",
         "item": "motor_large",
         "difficulty": 4,
+        "location": "engine_block",
         "flags": [
             "INTERNAL", "ENGINE"
         ]
@@ -701,6 +746,7 @@
         "fuel_type": "plasma",
         "item": "plasma_engine",
         "difficulty": 6,
+        "location": "engine_block",
         "flags": [
             "INTERNAL", "ENGINE"
         ]
@@ -718,6 +764,7 @@
         "fuel_type": "muscle",
         "item": "foot_crank",
         "difficulty": 1,
+        "location": "engine_block",
         "flags": [
             "INTERNAL", "ENGINE"
         ]
@@ -735,6 +782,7 @@
         "fuel_type": "gasoline",
         "item": "metal_tank",
         "difficulty": 1,
+        "location": "fuel_source",
         "flags": [
             "INTERNAL", "FUEL_TANK"
         ]
@@ -752,6 +800,7 @@
         "fuel_type": "battery",
         "item": "storage_battery",
         "difficulty": 2,
+        "location": "fuel_source",
         "flags": [
             "INTERNAL", "FUEL_TANK"
         ]
@@ -769,6 +818,7 @@
         "fuel_type": "plutonium",
         "item": "minireactor",
         "difficulty": 7,
+        "location": "fuel_source",
         "flags": [
             "INTERNAL", "FUEL_TANK"
         ]
@@ -786,6 +836,7 @@
         "fuel_type": "plasma",
         "item": "metal_tank",
         "difficulty": 1,
+        "location": "fuel_source",
         "flags": [
             "INTERNAL", "FUEL_TANK"
         ]
@@ -803,6 +854,7 @@
         "fuel_type": "water",
         "item": "metal_tank",
         "difficulty": 1,
+        "location": "fuel_source",
         "flags": [
             "INTERNAL", "FUEL_TANK"
         ]
@@ -819,6 +871,7 @@
         "size": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "OVER", "CARGO"
         ]
@@ -835,6 +888,7 @@
         "size": 400,
         "item": "frame",
         "difficulty": 1,
+        "location": "center",
         "flags": [
             "OVER", "CARGO", "BOARDABLE"
         ]
@@ -882,6 +936,7 @@
         "bonus": 25,
         "item": "rope_6",
         "difficulty": 1,
+        "location": "on_seat",
         "flags": [
             "INTERNAL", "SEATBELT"
         ]
@@ -898,6 +953,7 @@
         "power": 30,
         "item": "solar_panel",
         "difficulty": 6,
+        "location": "on_roof",
         "flags": [
             "OVER", "SOLAR_PANEL"
         ]
@@ -914,6 +970,7 @@
         "size": 400,
         "item": "kitchen_unit",
         "difficulty": 4,
+        "location": "center",
         "flags": [
             "OVER", "CARGO", "NO_REINFORCE", "OBSTACLE", "KITCHEN"
         ]
@@ -930,6 +987,7 @@
         "size": 400,
         "item": "weldrig",
         "difficulty": 4,
+        "location": "center",
         "flags": [
             "OVER", "CARGO", "NO_REINFORCE", "OBSTACLE", "WELDRIG"
         ]
@@ -946,6 +1004,7 @@
         "fuel_type": "223",
         "item": "m249",
         "difficulty": 6,
+        "location": "external",
         "flags": [
             "OVER", "TURRET", "CARGO"
         ]
@@ -962,6 +1021,7 @@
         "fuel_type": "gasoline",
         "item": "flamethrower",
         "difficulty": 7,
+        "location": "external",
         "flags": [
             "OVER", "TURRET"
         ]
@@ -978,6 +1038,7 @@
         "fuel_type": "plasma",
         "item": "plasma_rifle",
         "difficulty": 7,
+        "location": "external",
         "flags": [
             "OVER", "TURRET"
         ]
@@ -994,6 +1055,7 @@
         "fuel_type": "battery",
         "item": "ftk93",
         "difficulty": 7,
+        "location": "external",
         "flags": [
             "OVER", "TURRET"
         ]
@@ -1008,6 +1070,7 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 3,
+        "location": "center",
         "flags": [
             "INTERNAL", "ARMOR"
         ]
@@ -1022,6 +1085,7 @@
         "durability": 900,
         "item": "alloy_plate",
         "difficulty": 4,
+        "location": "center",
         "flags": [
             "INTERNAL", "ARMOR"
         ]
@@ -1037,6 +1101,7 @@
         "durability": 900,
         "item": "spiked_plate",
         "difficulty": 3,
+        "location": "center",
         "flags": [
             "INTERNAL", "ARMOR", "SHARP"
         ]
@@ -1051,6 +1116,7 @@
         "durability": 2300,
         "item": "hard_plate",
         "difficulty": 4,
+        "location": "center",
         "flags": [
             "INTERNAL", "ARMOR"
         ]
@@ -1082,6 +1148,7 @@
         "durability": 300,
         "item": "reinforced_glass_sheet",
         "difficulty": 6,
+        "location": "center",
         "flags": [
             "OVER", "OBSTACLE", "NO_REINFORCE"
         ]
@@ -1145,6 +1212,7 @@
         "durability": 200,
         "item": "frame",
         "difficulty": 2,
+        "location": "center",
         "flags": [
             "EXTERNAL", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"
         ]
@@ -1160,6 +1228,7 @@
         "durability": 200,
         "item": "steel_plate",
         "difficulty": 3,
+        "location": "center",
         "flags": [
             "EXTERNAL", "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"
         ]
@@ -1175,6 +1244,7 @@
         "durability": 200,
         "item": "frame",
         "difficulty": 2,
+        "location": "center",
         "flags": [
             "EXTERNAL", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"
         ]
