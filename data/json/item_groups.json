@@ -1825,6 +1825,7 @@
       ["textbook_weapwest", 3],
       ["textbook_weapeast", 3],
       ["textbook_armwest", 3],
+      ["textbook_firstaid", 8],
       ["textbook_armeast", 3]
     ]
   },{
@@ -2428,6 +2429,7 @@
       ["cot", 40],
       ["manual_mechanics", 35],
       ["manual_first_aid", 40],
+      ["textbook_firstaid", 20],
       ["manual_traps", 12],
       ["flashlight", 40],
       ["water_purifier", 5],
@@ -2630,6 +2632,7 @@
     "id":"dissection",
     "items":[
       ["iodine", 5],
+      ["textbook_firstaid", 1],
       ["bleach", 20],
       ["bandages", 50],
       ["string_6", 2],
