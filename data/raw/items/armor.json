@@ -3774,7 +3774,7 @@
         "description" : "A huge duffel bag, provides plenty of storage but severely encumbering.",
         "price" : 210,
         "material" : ["cotton", "plastic"],
-        "volume" : 50,
+        "volume" : 80,
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
