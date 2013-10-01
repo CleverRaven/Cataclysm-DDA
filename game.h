@@ -448,7 +448,7 @@ void load_artifacts(); // Load artifact data
   void advanced_inv();
   // open vehicle interaction screen
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
-  void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
+  void pickup(int posx, int posy, int min, game *g, player *p, item *it, bool t);// Pickup items; ',' or via examine()
   // Establish a grab on something.
   void grab();
 // Pick where to put liquid; false if it's left where it was
