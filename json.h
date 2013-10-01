@@ -401,22 +401,40 @@ public:
 
     // write data to the output stream as JSON
     void write_null();
-    void write_bool(const bool b);
-    void write_int(const int i);
-    void write_float(const double f);
-    void write_string(const std::string s);
-    void write_array(const std::vector<int> &v);
-    void write_array(const std::vector<std::string> &v);
+    void write(const bool &b);
+    void write(const int &i);
+    void write(const unsigned &u);
+    void write(const double &f);
+    void write(const std::string &s);
+    // vector ~> array
+    template <typename T> void write(const std::vector<T> &v)
+    {
+        start_array();
+        for (int i = 0; i < v.size(); ++i) {
+            write(v[i]);
+        }
+        end_array();
+    }
+    // set ~> array
+    template <typename T> void write(const std::set<T> &v)
+    {
+        start_array();
+        typename std::set<T>::iterator it;
+        for (it = v.begin(); it != v.end(); ++it) {
+            write(*it);
+        }
+        end_array();
+    }
 
     // convenience methods for writing named object members
-    void write_member_name(const std::string &name);
-    void write_null_member(const std::string &name);
-    void write_bool_member(const std::string &name, const bool b);
-    void write_int_member(const std::string &name, const int i);
-    void write_float_member(const std::string &name, const double f);
-    void write_string_member(const std::string &name, const std::string &s);
-    void write_array_member(const std::string &name, const std::vector<int> &v);
-    void write_array_member(const std::string &name, const std::vector<std::string> &v);
+    void member(const std::string &name); // TODO: enforce value after
+    void null_member(const std::string &name);
+    template <typename T> void member(const std::string &name, const T &value)
+    {
+        member(name);
+        write(value);
+    }
+    // map ~> object?
 };
 
 #endif // _JSON_H_

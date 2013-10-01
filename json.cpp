@@ -1371,7 +1371,7 @@ void JsonOut::write_null()
     need_separator = true;
 }
 
-void JsonOut::write_bool(const bool b)
+void JsonOut::write(const bool &b)
 {
     if (need_separator) {
         write_separator();
@@ -1384,7 +1384,7 @@ void JsonOut::write_bool(const bool b)
     need_separator = true;
 }
 
-void JsonOut::write_int(const int i)
+void JsonOut::write(const int &i)
 {
     if (need_separator) {
         write_separator();
@@ -1394,7 +1394,17 @@ void JsonOut::write_int(const int i)
     need_separator = true;
 }
 
-void JsonOut::write_float(const double f)
+void JsonOut::write(const unsigned &u)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    // format specified in constructor, let's hope it hasn't changed
+    *stream << u;
+    need_separator = true;
+}
+
+void JsonOut::write(const double &f)
 {
     if (need_separator) {
         write_separator();
@@ -1404,7 +1414,7 @@ void JsonOut::write_float(const double f)
     need_separator = true;
 }
 
-void JsonOut::write_string(const std::string s)
+void JsonOut::write(const std::string &s)
 {
     if (need_separator) {
         write_separator();
@@ -1438,69 +1448,15 @@ void JsonOut::write_string(const std::string s)
     need_separator = true;
 }
 
-void JsonOut::write_array(const std::vector<int> &v)
+void JsonOut::member(const std::string &name)
 {
-    start_array();
-    for (int i = 0; i < v.size(); ++i) {
-        write_int(v[i]);
-    }
-    end_array();
-}
-
-void JsonOut::write_array(const std::vector<std::string> &v)
-{
-    start_array();
-    for (int i = 0; i < v.size(); ++i) {
-        write_string(v[i]);
-    }
-    end_array();
-}
-
-void JsonOut::write_member_name(const std::string &name)
-{
-    write_string(name);
+    write(name);
     write_member_separator();
 }
 
-void JsonOut::write_null_member(const std::string &name)
+void JsonOut::null_member(const std::string &name)
 {
-    write_member_name(name);
+    member(name);
     write_null();
-}
-
-void JsonOut::write_bool_member(const std::string &name, const bool b)
-{
-    write_member_name(name);
-    write_bool(b);
-}
-
-void JsonOut::write_int_member(const std::string &name, const int i)
-{
-    write_member_name(name);
-    write_int(i);
-}
-
-void JsonOut::write_float_member(const std::string &name, const double f)
-{
-    write_member_name(name);
-    write_float(f);
-}
-
-void JsonOut::write_string_member(const std::string &name, const std::string &s)
-{
-    write_member_name(name);
-    write_string(s);
-}
-
-void JsonOut::write_array_member(const std::string &name, const std::vector<int> &v)
-{
-    write_member_name(name);
-    write_array(v);
-}
-
-void JsonOut::write_array_member(const std::string &name, const std::vector<std::string> &v)
-{
-    write_member_name(name);
-    write_array(v);
 }
 
