@@ -14,6 +14,7 @@
 #include "crafting.h"
 #include "vehicle.h"
 #include "martialarts.h"
+#include "json.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -83,7 +84,9 @@ public:
  virtual void json_load(picojson::value & parsed, game *g);   // populate variables, inventory items, and misc from json object
 
  void json_save_common_variables( std::map<std::string, picojson::value> & data );
- virtual picojson::value json_save(bool save_contents=false);
+ virtual picojson::value json_save(bool save_contents=false) {return pv(0);};
+    void json_save_common_variables(JsonOut &jsout);
+    virtual void json_save(JsonOut &jsout, bool save_contents=false);
 
  void memorial( std::ofstream &memorial_file ); // Write out description of player.
  void disp_info(game *g); // '@' key; extended character info

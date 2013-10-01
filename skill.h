@@ -93,6 +93,8 @@ class SkillLevel {
   picojson::value json_save();
   bool json_load(picojson::value & parsed);
   bool json_load(std::map<std::string, picojson::value> & data );
+    void json_save(JsonOut &jsout); // savegame_json.cpp
+    void json_load(JsonObject &jsobj); // savegame_json.cpp
 
   // Make skillLevel act like a raw level by default.
   operator int() const { return _level; }

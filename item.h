@@ -5,6 +5,7 @@
 #include <vector>
 #include "itype.h"
 #include "mtype.h"
+#include "json.h"
 //#include "npc.h"
 
 class player;
@@ -94,6 +95,7 @@ public:
  void next_mode();
  bool json_load(picojson::value & parsed, game * g);
  virtual picojson::value json_save(bool save_contents=false) const;
+    virtual void json_save(JsonOut &jsout, bool save_contents=false) const;
  std::string save_info() const; // Formatted for save files
  //
  void load_legacy(game * g, std::stringstream & dump);

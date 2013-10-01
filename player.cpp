@@ -20,10 +20,10 @@
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "catajson.h"
 #include "disease.h"
 #include "get_version.h"
 #include "crafting.h"
+#include "json.h"
 
 #include <ctime>
 
@@ -1310,7 +1310,8 @@ void player::load_info(game *g, std::string data)
 std::string player::save_info()
 {
     std::stringstream dump;
-    dump << json_save(true).serialize();
+    JsonOut jsout(&dump);
+    json_save(jsout, true);
     dump << std::endl;
     dump << dump_memorial();
     return dump.str();
