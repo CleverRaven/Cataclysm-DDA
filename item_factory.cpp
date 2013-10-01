@@ -11,6 +11,8 @@
 #include <fstream>
 #include <stdio.h>
 
+#include "debug.h"
+
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
 #define mfb(n) static_cast <unsigned long> (1 << (n))
@@ -921,6 +923,7 @@ void Item_factory::load_ammo(JsonObject& entry)
 {
     it_ammo* ammo_template = new it_ammo();
     ammo_template->type = entry.get_string("ammo_type", "");
+
     if(entry.has_member("casing")) {
         ammo_template->casing = entry.get_string("casing");
     }
@@ -949,12 +952,12 @@ void Item_factory::load_armor(JsonObject& entry)
 {
     it_armor* armor_template = new it_armor();
 
-    armor_template->encumber = entry.get_int("encumberance");
-    armor_template->coverage = entry.get_int("coverage");
-    armor_template->thickness = entry.get_int("material_thickness");
-    armor_template->env_resist = entry.get_int("enviromental_protection");
-    armor_template->warmth = entry.get_int("warmth");
-    armor_template->storage = entry.get_int("storage");
+    armor_template->encumber = entry.get_int("encumberance", 0);
+    armor_template->coverage = entry.get_int("coverage", 0);
+    armor_template->thickness = entry.get_int("material_thickness", 0);
+    armor_template->env_resist = entry.get_int("enviromental_protection", 0);
+    armor_template->warmth = entry.get_int("warmth", 0);
+    armor_template->storage = entry.get_int("storage", 0);
     armor_template->power_armor = entry.has_member("power_armor") ? entry.get_bool("power_armor") : false;
     armor_template->covers = entry.has_member("covers") ?
       flags_from_json(entry, "covers", "bodyparts") : 0; // flags_from_json needs fixing!
@@ -1000,26 +1003,28 @@ void Item_factory::load_generic(JsonObject& entry)
 void Item_factory::load_generic_information(JsonObject& entry, itype* new_item_template)
 {
     Item_tag new_id = entry.get_string("id");
-
     new_item_template->id = new_id;
     m_templates[new_id] = new_item_template;
 
     // And then proceed to assign the correct field
-    new_item_template->price = entry.get_int("price");
+    new_item_template->price = entry.get_int("price", 0);
     new_item_template->name = _(entry.get_string("name").c_str());
     new_item_template->sym = entry.get_string("symbol")[0];
     new_item_template->color = color_from_string(entry.get_string("color"));
     new_item_template->description = _(entry.get_string("description").c_str());
+
     if(entry.has_member("material")){
       set_material_from_json(entry, "material", new_id); // needs changing
     } else {
       new_item_template->m1 = "null";
       new_item_template->m2 = "null";
     }
+
     Item_tag new_phase = "solid";
     if(entry.has_member("phase")){
         new_phase = entry.get_string("phase");
     }
+
     new_item_template->phase = phase_from_tag(new_phase);
     new_item_template->volume = entry.get_int("volume");
     new_item_template->weight = entry.get_int("weight");

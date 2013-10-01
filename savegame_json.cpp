@@ -1124,7 +1124,14 @@ picojson::value monster::json_save(bool save_contents)
 {
     std::map<std::string, picojson::value> data;
 
-    data["typeid"] = pv( monster_names[ type->id ] );
+    if (type->m_id < num_monsters)
+    {
+        data["typeid"] = pv( monster_names[ type->m_id ] );
+    }
+    else
+    {
+        data["typeid"] = pv( type->id );
+    }
     data["posx"] = pv(_posx);
     data["posy"] = pv(_posy);
     data["wandx"] = pv(wandx);
@@ -1366,9 +1373,9 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
     picojson::object &data = parsed.get<picojson::object>();
 
     int fdir, mdir;
-   
+
     picostring(data,"type",type);
-    picoint(data, "posx", posx);   
+    picoint(data, "posx", posx);
     picoint(data, "posy", posy);
     picoint(data, "faceDir", fdir);
     picoint(data, "moveDir", mdir);
@@ -1403,7 +1410,7 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                 }
                 vehicle_part new_part;
                 new_part.id = pid;
-               
+
                 picoint(pdata, "mount_dx", new_part.mount_dx);
                 picoint(pdata, "mount_dy", new_part.mount_dy);
                 picoint(pdata, "hp", new_part.hp );
@@ -1412,9 +1419,9 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                 picoint(pdata, "bigness", new_part.bigness );
                 if ( picoint(pdata, "flags", pflag ) ) {
                     new_part.flags = pflag;
-                }               
+                }
                 picoint(pdata, "passenger_id", new_part.passenger_id );
-               
+
                 picojson::array * piarray=pgetarray(pdata,"items");
                 new_part.items.clear();
                 if ( piarray != NULL ) {
@@ -1423,7 +1430,7 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                             new_part.items.push_back( item( *pit, g ) );
                         }
                     }
-                }           
+                }
                 parts.push_back (new_part);
             }
         }

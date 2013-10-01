@@ -10,7 +10,6 @@
 
 #include "debug.h"
 
-extern std::map<std::string, vehicle*> vtypes;
 extern std::vector<vehicle_prototype> vtype_cache;
 
 const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
@@ -25,10 +24,8 @@ enum vehicle_controls {
  convert_vehicle
 };
 
-vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_status)//: g(ag), type(type_id)
+vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
 {
-    g = ag;
-    type = type_id;
     posx = 0;
     posy = 0;
     velocity = 0;
@@ -43,9 +40,9 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     insides_dirty = true;
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
-      if(vtypes.count(type) > 0) {
+      if(g->vtypes.count(type) > 0) {
         //If this template already exists, copy it
-        *this = *(vtypes[type]);
+        *this = *(g->vtypes[type]);
         init_state(ag, init_veh_fuel, init_veh_status);
       }
     }

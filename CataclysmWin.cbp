@@ -333,6 +333,7 @@
 		</Unit>
 		<Unit filename="rng.cpp" />
 		<Unit filename="rng.h" />
+		<Unit filename="savegame.h" />
 		<Unit filename="savegame_json.cpp" />
 		<Unit filename="savegame_legacy.cpp" />
 		<Unit filename="sdltiles.cpp" />

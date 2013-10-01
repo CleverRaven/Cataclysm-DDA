@@ -1241,6 +1241,7 @@
         ]
     },
     {
+        "type":"vehicle_part",
         "id": "door_sliding",
         "name": "sliding door",
         "symbol": "+",

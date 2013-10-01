@@ -201,6 +201,7 @@ class game
                              int npc_id = -1);
   npc* find_npc(int id);
   int kill_count(mon_id mon);       // Return the number of kills of a given mon_id
+  int kill_count(std::string mon);  // Return the number of kills of a given monster id-string
   mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
   mission_type* find_mission_type(int id); // Same, but returns its type
   bool mission_complete(int id, int npc_id); // True if we made it
@@ -282,7 +283,8 @@ class game
   std::map<mabuff_id, ma_buff> ma_buffs;
   std::map<matec_id, ma_technique> ma_techniques;
 
-  std::vector <items_location_and_chance> monitems[num_monsters];
+  std::map<std::string, std::vector<items_location_and_chance> > monitems;
+  //std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
 
   calendar turn;
@@ -496,6 +498,7 @@ void load_artifacts(); // Load artifact data
   void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(mon_id type, int x, int y, int z);// Picks a group from cur_om
+  int valid_group(std::string type, int x, int y, int z);
   void set_adjacent_overmaps(bool from_scratch = false);
   void rebuild_mon_at_cache();
 

@@ -34,7 +34,7 @@ num_species
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
 */
-/*
+
 enum mon_id {
 mon_null = 0,
 // Wildlife
@@ -99,7 +99,7 @@ mon_turkey, mon_raccoon, mon_opossum, mon_rattlesnake,
 mon_giant_crayfish,
 num_monsters
 };
-*/
+
 enum m_size {
 MS_TINY = 0, // Rodent
 MS_SMALL, // Half human
@@ -218,6 +218,7 @@ struct mtype {
     std::set<std::string> s_species; // temporary container to store species strings
     std::set<species_type*> species;
     std::set<std::string> s_categories;
+ mon_id m_id;
  std::string name;
  std::string description;
  long sym; // Symbol on the map

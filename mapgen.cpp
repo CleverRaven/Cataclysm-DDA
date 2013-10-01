@@ -25,8 +25,6 @@
 
 #define MON_RADIUS 3
 
-extern std::map<std::string, vehicle*> vtypes;
-
 enum room_type {
  room_null,
  room_closet,
@@ -12650,7 +12648,7 @@ void map::add_spawn(monster *mon)
 vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, const int dir,
                           const int veh_fuel, const int veh_status, const bool merge_wrecks)
 {
- if(vtypes.count(type) == 0) {
+ if(g->vtypes.count(type) == 0) {
    debugmsg("Nonexistant vehicle type: \"%s\"", type.c_str());
    return NULL;
  }

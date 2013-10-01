@@ -189,6 +189,8 @@ void game::init_game_data()
         init_autosave();             // Set up autosave
         init_diseases();             // Set up disease lookup table
         //init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
+        init_savedata_translation_tables();
+        inp_mngr.init();            // Load input config JSON
 
         // deal with late data initializers that cannot be initialized during load_json_dir
         finalize_vehicles();
@@ -1345,10 +1347,18 @@ npc* game::find_npc(int id)
 
 int game::kill_count(mon_id mon){
  for (int i = 0; i < num_monsters; i++) {
-  if (mtypes[i]-> id == mon)
+  if (mtypes[i]-> m_id == mon)
    return kills[i];
  }
  return 0;
+}
+int game::kill_count(std::string mon)
+{
+    if (killcount.find(mon) != killcount.end())
+    {
+        return killcount[mon];
+    }
+    return 0;
 }
 
 mission* game::find_mission(int id)
@@ -3406,6 +3416,7 @@ void game::disp_kills()
    types.push_back(mtypes[i]);
    count.push_back(kills[i]);
   }
+ }
  /*
  for (std::map<std::string, int>::iterator it = killcount.begin(); it != killcount.end(); ++it)
  {

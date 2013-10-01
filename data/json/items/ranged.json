@@ -1,7 +1,7 @@
 [
   {
     "id": "nailgun",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_blue",
     "name": "nail gun",
@@ -27,7 +27,7 @@
   },
         {
         "id": "nailrifle",
-        "type": "ITEM_GUN",
+        "type": "GUN",
         "symbol": "(",
         "color": "light_blue",
         "name": "nail rifle",
@@ -53,7 +53,7 @@
       },
   {
     "id": "bbgun",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_blue",
     "name": "BB gun",
@@ -79,7 +79,7 @@
 
   {
     "id": "sling",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "sling",
@@ -106,7 +106,7 @@
 
   {
     "id": "slingshot",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "yellow",
     "name": "slingshot",
@@ -133,7 +133,7 @@
 
   {
     "id": "blowgun",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "|",
     "color": "yellow",
     "name": "blowgun",
@@ -160,7 +160,7 @@
 
   {
     "id": "rifle_22",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_blue",
     "name": "pipe rifle: .22",
@@ -186,7 +186,7 @@
 
   {
     "id": "rifle_9mm",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_blue",
     "name": "pipe rifle: 9mm",
@@ -212,7 +212,7 @@
 
   {
     "id": "smg_9mm",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_blue",
     "name": "pipe SMG: 9mm",
@@ -239,7 +239,7 @@
 
   {
     "id": "smg_45",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_blue",
     "name": "pipe SMG: .45",
@@ -266,7 +266,7 @@
 
   {
     "id": "sig_mosquito",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "SIG Mosquito",
@@ -292,7 +292,7 @@
 
   {
     "id": "sw_22",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "S&W 22A",
@@ -318,7 +318,7 @@
 
   {
     "id": "glock_19",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "Glock 19",
@@ -344,7 +344,7 @@
 
   {
     "id": "usp_9mm",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "USP 9mm",
@@ -370,7 +370,7 @@
 
   {
     "id": "sw_619",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "S&W 619",
@@ -397,7 +397,7 @@
 
   {
     "id": "taurus_38",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "Taurus Pro .38",
@@ -423,7 +423,7 @@
 
   {
     "id": "sig_40",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "SIG Pro .40",
@@ -449,7 +449,7 @@
 
   {
     "id": "sw_610",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "S&W 610",
@@ -476,7 +476,7 @@
 
   {
     "id": "sw_500",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "pink",
     "name": "S&W 500",
@@ -503,7 +503,7 @@
 
   {
     "id": "raging_bull",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "Taurus Raging Bull",
@@ -530,7 +530,7 @@
 
   {
     "id": "ruger_redhawk",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "Ruger Redhawk",
@@ -557,7 +557,7 @@
 
   {
     "id": "deagle_44",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "Desert Eagle .44",
@@ -583,7 +583,7 @@
 
   {
     "id": "usp_45",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "USP .45",
@@ -609,7 +609,7 @@
 
   {
     "id": "m1911",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_gray",
     "name": "M1911",
@@ -635,7 +635,7 @@
 
   {
     "id": "fn57",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_gray",
     "name": "FN Five-Seven",
@@ -661,7 +661,7 @@
 
   {
     "id": "hk_ucp",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_gray",
     "name": "H&K UCP",
@@ -687,7 +687,7 @@
 
   {
     "id": "tokarev",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "Tokarev TT-30",
@@ -713,7 +713,7 @@
 
   {
     "id": "shotgun_sawn",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "sawn-off shotgun",
@@ -740,7 +740,7 @@
 
   {
     "id": "saiga_sawn",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "sawn-off Saiga 12",
@@ -767,7 +767,7 @@
 
   {
     "id": "shotgun_s",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "single barrel shotgun",
@@ -793,7 +793,7 @@
 
   {
     "id": "shotgun_d",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "double barrel shotgun",
@@ -820,7 +820,7 @@
 
   {
     "id": "remington_870",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "Remington 870",
@@ -847,7 +847,7 @@
 
   {
     "id": "mossberg_500",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "Mossberg 500",
@@ -874,7 +874,7 @@
 
   {
     "id": "saiga_12",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "Saiga-12",
@@ -901,7 +901,7 @@
 
   {
     "id": "american_180",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "cyan",
     "name": "American-180",
@@ -928,7 +928,7 @@
 
   {
     "id": "uzi",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "cyan",
     "name": "Uzi 9mm",
@@ -955,7 +955,7 @@
 
   {
     "id": "tec9",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "cyan",
     "name": "TEC-9",
@@ -982,7 +982,7 @@
 
   {
     "id": "calico",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "cyan",
     "name": "Calico M960",
@@ -1009,7 +1009,7 @@
 
   {
     "id": "hk_mp5",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "cyan",
     "name": "H&K MP5",
@@ -1036,7 +1036,7 @@
 
   {
     "id": "mac_10",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "cyan",
     "name": "MAC-10",
@@ -1063,7 +1063,7 @@
 
   {
     "id": "hk_ump45",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "cyan",
     "name": "H&K UMP45",
@@ -1090,7 +1090,7 @@
 
   {
     "id": "TDI",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "cyan",
     "name": "TDI Vector",
@@ -1117,7 +1117,7 @@
 
   {
     "id": "fn_p90",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "cyan",
     "name": "FN P90",
@@ -1144,7 +1144,7 @@
 
   {
     "id": "hk_mp7",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "cyan",
     "name": "H&K MP7",
@@ -1171,7 +1171,7 @@
 
   {
     "id": "ppsh",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "cyan",
     "name": "PPSh-41",
@@ -1198,7 +1198,7 @@
 
   {
     "id": "marlin_9a",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "brown",
     "name": "Marlin 39A",
@@ -1225,7 +1225,7 @@
 
   {
     "id": "ruger_1022",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "brown",
     "name": "Ruger 10/22",
@@ -1251,7 +1251,7 @@
 
   {
     "id": "cx4",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "brown",
     "name": "Cx4 Storm",
@@ -1277,7 +1277,7 @@
 
   {
     "id": "browning_blr",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "brown",
     "name": "Browning BLR",
@@ -1304,7 +1304,7 @@
 
   {
     "id": "remington_700",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "brown",
     "name": "Remington 700",
@@ -1331,7 +1331,7 @@
 
   {
     "id": "sks",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "brown",
     "name": "SKS",
@@ -1357,7 +1357,7 @@
 
   {
     "id": "m14a",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "brown",
     "name": "M14",
@@ -1383,7 +1383,7 @@
 
   {
     "id": "ruger_mini",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "brown",
     "name": "Ruger Mini-14",
@@ -1409,7 +1409,7 @@
 
   {
     "id": "savage_111f",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "brown",
     "name": "Savage 111F",
@@ -1436,7 +1436,7 @@
 
   {
     "id": "hk_g3",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "blue",
     "name": "H&K G3",
@@ -1463,7 +1463,7 @@
 
   {
     "id": "hk_g36",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "blue",
     "name": "H&K G36",
@@ -1490,7 +1490,7 @@
 
   {
     "id": "ak47",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "blue",
     "name": "AK-47",
@@ -1517,7 +1517,7 @@
 
   {
     "id": "fn_fal",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "blue",
     "name": "FN FAL",
@@ -1544,7 +1544,7 @@
 
   {
     "id": "acr",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "blue",
     "name": "Bushmaster ACR",
@@ -1571,7 +1571,7 @@
 
   {
     "id": "ar15",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "blue",
     "name": "AR-15",
@@ -1598,7 +1598,7 @@
 
   {
     "id": "m4a1",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "blue",
     "name": "M4A1",
@@ -1625,7 +1625,7 @@
 
   {
     "id": "scar_l",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "blue",
     "name": "FN SCAR-L",
@@ -1652,7 +1652,7 @@
 
   {
     "id": "scar_h",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "blue",
     "name": "FN SCAR-H",
@@ -1679,7 +1679,7 @@
 
   {
     "id": "steyr_aug",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "blue",
     "name": "Steyr AUG",
@@ -1706,7 +1706,7 @@
 
   {
     "id": "m249",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_red",
     "name": "M249",
@@ -1733,7 +1733,7 @@
 
   {
     "id": "v29",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "magenta",
     "name": "V29 laser pistol",
@@ -1762,7 +1762,7 @@
 
   {
     "id": "ftk93",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "magenta",
     "name": "FTK-93 fusion gun",
@@ -1790,7 +1790,7 @@
 
   {
     "id": "nx17",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "magenta",
     "name": "NX-17 charge rifle",
@@ -1817,7 +1817,7 @@
 
   {
     "id": "flamethrower_simple",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "pink",
     "name": "simple flamethr.",
@@ -1844,7 +1844,7 @@
 
   {
     "id": "flamethrower",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "pink",
     "name": "flamethrower",
@@ -1871,7 +1871,7 @@
 
   {
     "id": "launcher_simple",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_red",
     "name": "tube 40mm launcher",
@@ -1897,7 +1897,7 @@
 
   {
     "id": "m79",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_red",
     "name": "M79 launcher",
@@ -1923,7 +1923,7 @@
 
   {
     "id": "m320",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_red",
     "name": "M320 launcher",
@@ -1949,7 +1949,7 @@
 
   {
     "id": "mgl",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_red",
     "name": "Milkor MGL",
@@ -1976,7 +1976,7 @@
 
   {
     "id": "LAW",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_red",
     "name": "M72 LAW",
@@ -2003,7 +2003,7 @@
 
   {
     "id": "coilgun",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_blue",
     "name": "coilgun",
@@ -2030,7 +2030,7 @@
 
   {
     "id": "hk_g80",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_blue",
     "name": "H&K G80 Railgun",
@@ -2057,7 +2057,7 @@
 
   {
     "id": "plasma_rifle",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_blue",
     "name": "Boeing XM-P plasma rifle",
@@ -2085,7 +2085,7 @@
 
   {
     "id": "revolver_shotgun",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "shotgun revolver",
@@ -2111,7 +2111,7 @@
   },
   {
     "id": "pipe_shotgun",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "pipe shotgun",
@@ -2136,7 +2136,7 @@
   },
   {
     "id": "pipe_shotgunsawn",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "sawn pipe shotgun",
@@ -2161,7 +2161,7 @@
   },
   {
     "id": "v29_cheap",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "magenta",
     "name": "LACP laser pistol",
@@ -2189,7 +2189,7 @@
   },
   {
     "id": "rm51_assault_rifle",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "RM51 assault rifle",
@@ -2215,7 +2215,7 @@
   },
   {
     "id": "rm88_battle_rifle",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "RM88 battle rifle",
@@ -2241,7 +2241,7 @@
   },
   {
     "id": "rm2000_smg",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "red",
     "name": "RM2000 submachine gun",
@@ -2267,7 +2267,7 @@
   },
   {
     "id": "rm99_pistol",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_red",
     "name": "RM99 revolver",
@@ -2293,7 +2293,7 @@
   },
   {
     "id": "rm103a_pistol",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_red",
     "name": "RM103A automagnum",
@@ -2318,7 +2318,7 @@
   },
   {
     "id": "tihar",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "light_gray",
     "name": "pneumatic assault rifle",
@@ -2344,7 +2344,7 @@
   },
   {
     "id": "helsing",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "pneumatic bolt driver",
@@ -2370,7 +2370,7 @@
   },
   {
     "id": "ashot",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "brown",
     "name": "12 gauge pistol",
@@ -2396,7 +2396,7 @@
   },
   {
     "id": "laser_rifle",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "yellow",
     "name": "A7 laser rifle",
@@ -2424,7 +2424,7 @@
   },
   {
     "id": "flamethrower_crude",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "pink",
     "name": "spraycan flamethrower",
@@ -2450,7 +2450,7 @@
   },
   {
     "id": "m3_carlgustav",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "green",
     "name": "M3 recoilless rifle",
@@ -2476,7 +2476,7 @@
   },
   {
     "id": "m202_flash",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": "M202 FLASH",
@@ -2502,7 +2502,7 @@
   },
   {
     "id": "RPG",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "brown",
     "name": "RPG-7",
@@ -2528,7 +2528,7 @@
   },
   {
     "id": "unbio_blaster_gun",
-    "type": "ITEM_GUN",
+    "type": "GUN",
     "symbol": "(",
     "color": "magenta",
     "name": "Fusion blaster rifle",
