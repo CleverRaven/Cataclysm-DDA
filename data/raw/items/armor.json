@@ -2533,6 +2533,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 8,
         "bashing" : -5,
+        "flags" : ["OVERSIZE"],
         "coverage" : 75,
         "material_thickness" : 3
     },
