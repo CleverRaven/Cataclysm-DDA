@@ -7895,25 +7895,29 @@
   "category": "CC_ELECTRONIC",
   "skill_used": "fabrication",
   "difficulty": 2,
-  "time": 1000,
-  "reversible": true,
+  "time": 20000,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "screwdriver", -1 ],
+      [ "hacksaw", -1 ],
       [ "toolset", -1 ]
     ],
     [
-      [ "soldering_iron", 35 ],
+      [ "welder", 35 ],
+      [ "welder_crude", 52 ],
       [ "toolset", 2 ]
     ]
   ],
   "components": [
     [
-      [ "solar_panel", 1 ]
+      [ "solar_panel", 4 ]
     ],
     [
       [ "reinforced_glass_sheet", 1 ]
+    ],
+    [
+      [ "scrap", 4 ]
     ]
   ]
 },{
