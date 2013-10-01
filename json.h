@@ -405,6 +405,8 @@ public:
     void write_int(const int i);
     void write_float(const double f);
     void write_string(const std::string s);
+    void write_array(const std::vector<int> &v);
+    void write_array(const std::vector<std::string> &v);
 
     // convenience methods for writing named object members
     void write_member_name(const std::string &name);
@@ -413,6 +415,8 @@ public:
     void write_int_member(const std::string &name, const int i);
     void write_float_member(const std::string &name, const double f);
     void write_string_member(const std::string &name, const std::string &s);
+    void write_array_member(const std::string &name, const std::vector<int> &v);
+    void write_array_member(const std::string &name, const std::vector<std::string> &v);
 };
 
 #endif // _JSON_H_

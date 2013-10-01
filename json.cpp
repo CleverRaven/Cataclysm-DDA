@@ -1438,6 +1438,24 @@ void JsonOut::write_string(const std::string s)
     need_separator = true;
 }
 
+void JsonOut::write_array(const std::vector<int> &v)
+{
+    start_array();
+    for (int i = 0; i < v.size(); ++i) {
+        write_int(v[i]);
+    }
+    end_array();
+}
+
+void JsonOut::write_array(const std::vector<std::string> &v)
+{
+    start_array();
+    for (int i = 0; i < v.size(); ++i) {
+        write_string(v[i]);
+    }
+    end_array();
+}
+
 void JsonOut::write_member_name(const std::string &name)
 {
     write_string(name);
@@ -1472,5 +1490,17 @@ void JsonOut::write_string_member(const std::string &name, const std::string &s)
 {
     write_member_name(name);
     write_string(s);
+}
+
+void JsonOut::write_array_member(const std::string &name, const std::vector<int> &v)
+{
+    write_member_name(name);
+    write_array(v);
+}
+
+void JsonOut::write_array_member(const std::string &name, const std::vector<std::string> &v)
+{
+    write_member_name(name);
+    write_array(v);
 }
 
