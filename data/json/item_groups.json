@@ -74,9 +74,11 @@
     "id":"livingroom",
     "items":[
       ["rootbeer", 65],
+      ["purple_drink", 35],
       ["television", 30],
       ["clock", 10],
       ["cola", 70],
+      ["choc_drink", 10],
       ["cig", 90],
       ["cigar", 5],
       ["pipe_tobacco", 5],
@@ -103,6 +105,7 @@
       ["dress_shoes", 50],
       ["heels", 50],
       ["coat_rain", 50],
+      ["hood_rain", 20],
       ["wetsuit", 2],
       ["wetsuit_spring", 2],
       ["wetsuit_gloves", 3],
@@ -176,6 +179,11 @@
       ["flashlight", 40],
       ["extinguisher", 20],
       ["whiskey", 16],
+      ["bum_wine", 10],
+      ["wine_riesling", 6],
+      ["wine_chardonnay", 10],
+      ["wine_cabernet", 10],
+      ["wine_noir", 2],
       ["syrup", 20],
       ["coffee_syrup", 10],
       ["bacon", 25],
@@ -250,6 +258,7 @@
       ["knife_butcher", 10],
       ["knife_combat", 14],
       ["pockknife", 14],
+      ["punch_dagger", 2],
       ["tongs", 28]
     ]
   },{
@@ -259,9 +268,12 @@
       ["water_clean", 90],
       ["oj", 50],
       ["cranberry_juice", 50],
+      ["sports_drink", 30],
       ["lemonade", 50],
       ["cola", 70],
+      ["choc_drink", 30],
       ["rootbeer", 65],
+      ["purple_drink", 35],
       ["milk", 50],
       ["V8", 15],
       ["apple", 70],
@@ -269,6 +281,7 @@
       ["mushroom", 4],
       ["blueberries", 3],
       ["strawberries", 2],
+      ["lettuce",11],
       ["tomato", 9],
       ["broccoli", 9],
       ["zucchini", 7],
@@ -285,6 +298,7 @@
       ["pizza_veggy", 8],
       ["cheeseburger", 8],
       ["hamburger", 8],
+      ["blt", 8],
       ["cheese", 10],
       ["orange", 65],
       ["banana", 40],
@@ -415,6 +429,7 @@
       ["firecracker", 5],
       ["chips", 65],
       ["cola", 70],
+      ["choc_drink", 10],
       ["picklocks", 10],
       ["wolfsuit", 4],
       ["glowstick", 60],
@@ -463,6 +478,8 @@
       ["mac_10", 14],
       ["shotgun_sawn", 1],
       ["suppressor", 15],
+      ["bayonet", 5],
+      ["pistol_bayonet", 2],
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
@@ -509,6 +526,7 @@
       ["laser_sight", 15],
       ["rifle_scope", 17],
       ["improve_sights", 20],
+      ["cu_pipe", 10],
       ["u_shotgun", 5]
     ]
   },{
@@ -526,6 +544,7 @@
       ["dress", 70],
       ["dress_wedding", 1],
       ["tshirt", 80],
+      ["longshirt", 70],
       ["polo_shirt", 65],
       ["dress_shirt", 60],
       ["tank_top", 50],
@@ -610,11 +629,14 @@
       ["water_clean", 90],
       ["oj", 50],
       ["cranberry_juice", 50],
+      ["sports_drink", 50],
       ["apple_cider", 50],
       ["lemonade", 50],
       ["energy_drink", 55],
       ["cola", 70],
+      ["choc_drink", 30],
       ["rootbeer", 65],
+      ["purple_drink", 45],
       ["milk", 50],
       ["V8", 15],
       ["sandwich_t", 30],
@@ -633,7 +655,9 @@
     "items":[
       ["water_clean", 90],
       ["cola", 70],
+      ["choc_drink", 30],
       ["rootbeer", 65],
+      ["purple_drink", 45],
       ["sandwich_t", 30],
       ["sandwich_t", 30],
       ["sandwich_t", 30],
@@ -663,12 +687,15 @@
     "items":[
       ["water_clean", 90],
       ["cola", 70],
+      ["choc_drink", 40],
       ["rootbeer", 65],
+      ["purple_drink", 35],
       ["sandwich_t", 30],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
       ["hamburger", 40],
       ["cheeseburger", 40],
+      ["blt", 40],
       ["pretzels", 55],
       ["chocolate", 50],
       ["jerky", 55],
@@ -801,6 +828,7 @@
       ["vinegar", 15],
       ["cooking_oil", 30],
       ["jar_veggy_pickled", 8],
+      ["sports_drink", 10],
       ["jar_meat_pickled", 6]
     ]
   },{
@@ -901,6 +929,7 @@
       ["apron_leather", 10],
       ["tool_belt", 30],
       ["knee_pads", 20],
+      ["cu_pipe", 50],
       ["charcoal", 5]
     ]
   },{
@@ -1023,9 +1052,14 @@
       ["sneakers", 80],
       ["socks", 70],
       ["tshirt", 80],
+      ["longshirt", 70],
       ["tank_top", 50],
       ["trunks", 50],
       ["bikini_top", 50],
+      ["arm_warmers", 20],
+      ["leg_warmers", 20],
+      ["tights", 20],
+      ["under_armor", 20],
       ["towel", 40],
       ["gloves_fingerless", 20],
       ["mask_hockey", 25],
@@ -1123,6 +1157,7 @@
       ["gasoline_lantern", 5],
       ["folding_bicycle", 1],
       ["coat_rain",10],
+      ["hood_rain", 5],
       ["umbrella",12],
       ["blowgun", 5],
       ["dart", 5],
@@ -1136,6 +1171,7 @@
     "id":"allsporting",
     "items":[
       ["aspirin", 85],
+      ["sports_drink", 20],
       ["bat", 60],
       ["bat_metal", 60],
       ["baseball", 60],
@@ -1145,6 +1181,7 @@
       ["sneakers", 80],
       ["socks", 70],
       ["tshirt", 80],
+      ["longshirt", 50],
       ["tank_top", 50],
       ["trunks", 50],
       ["bikini_top", 50],
@@ -1223,6 +1260,7 @@
       ["glowstick", 60],
       ["folding_bicycle", 1],
       ["coat_rain", 5],
+      ["hood_rain", 5],
       ["blowgun", 5],
       ["dart", 5],
       ["elbow_pads", 40],
@@ -1241,6 +1279,11 @@
       ["rum", 14],
       ["tequila", 12],
       ["triple_sec", 12],
+      ["bum_wine", 20],
+      ["wine_riesling", 6],
+      ["wine_chardonnay", 10],
+      ["wine_cabernet", 10],
+      ["wine_noir", 2],
       ["beer", 60]
     ]
   },{
@@ -1255,6 +1298,7 @@
     "id":"trash",
     "items":[
       ["iodine", 5],
+      ["bum_wine", 5],
       ["meth", 2],
       ["heroin", 1],
       ["wrapper", 50],
@@ -1489,6 +1533,8 @@
       ["holster", 8],
       ["bootstrap", 3],
       ["mag_guns", 20],
+      ["bayonet", 10],
+      ["pistol_bayonet", 4],
       ["mag_archery", 20],
       ["flashlight", 40],
       ["UPS_off", 5],
@@ -1546,6 +1592,7 @@
       ["red_dot_sight", 18],
       ["holo_sight", 20],
       ["rifle_scope", 16],
+      ["cu_pipe", 10],
       ["improve_sights", 20]
     ]
   },{
@@ -1573,6 +1620,7 @@
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["skirt", 75],
+      ["tights", 20],
       ["dress", 70],
       ["dress_wedding", 1]
     ]
@@ -1581,6 +1629,7 @@
     "id":"shirts",
     "items":[
       ["tshirt", 80],
+      ["longshirt", 80],
       ["polo_shirt", 65],
       ["dress_shirt", 60],
       ["tank_top", 50],
@@ -1620,6 +1669,11 @@
       ["hat_fur", 15],
       ["pants_ski", 60],
       ["long_underpants", 40],
+      ["long_undertop", 40],
+      ["union_suit", 40],
+      ["tights", 20],
+      ["arm_warmers", 20],
+      ["leg_warmers", 20],
       ["balclava", 15]
     ]
   },{
@@ -1648,6 +1702,7 @@
       ["shorts_cargo", 50],
       ["skirt", 75],
       ["tshirt", 80],
+      ["longshirt", 80],
       ["polo_shirt", 65],
       ["dress_shirt", 60],
       ["tank_top", 50],
@@ -1673,9 +1728,14 @@
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["under_armor", 20],
+      ["tights", 20],
       ["balclava", 15],
       ["pants_ski", 60],
       ["long_underpants", 40],
+      ["long_undertop", 40],
+      ["union_suit", 20],
+      ["arm_warmers", 20],
+      ["leg_warmers", 20],
       ["trenchcoat_leather", 25],
       ["cloak", 5],
       ["house_coat", 25],
@@ -1818,6 +1878,7 @@
       ["syringe", 8],
       ["electrohack", 3],
       ["knife_combat", 14],
+      ["punch_dagger", 12],
       ["crowbar", 18],
       ["tazer", 3],
       ["software_hacking", 10],
@@ -1884,6 +1945,7 @@
       ["coat_lab", 20],
       ["coat_lab", 20],
       ["tshirt", 80],
+      ["longshirt", 80],
       ["polo_shirt", 65],
       ["dress_shirt", 60],
       ["dress", 70],
@@ -1964,6 +2026,7 @@
     "id":"office",
     "items":[
       ["cola", 70],
+      ["choc_drink", 20],
       ["aspirin", 85],
       ["cigar", 5],
       ["glasses_eye", 90],
@@ -1997,6 +2060,7 @@
     "id":"cubical_office",
     "items":[
       ["cola", 70],
+      ["choc_drink", 30],
       ["aspirin", 85],
       ["cigar", 5],
       ["glasses_eye", 90],
@@ -2021,8 +2085,10 @@
       ["coffee_raw", 15],
       ["usb_drive", 5],
       ["rootbeer", 65],
+      ["purple_drink", 55],
       ["cig", 90],
       ["coat_rain", 50],
+      ["hood_rain", 10],
       ["poncho", 15],
       ["mag_tv", 40],
       ["mag_news", 35],
@@ -2099,6 +2165,7 @@
       ["ref_lighter", 4],
       ["matches", 60],
       ["coat_rain", 50],
+      ["hood_rain", 30],
       ["cane", 10],
       ["candlestick", 80],
       ["umbrella", 50],
@@ -2133,6 +2200,7 @@
     "id":"medieval",
     "items":[
       ["katana", 2],
+      ["cestus", 2],
       ["mace", 20],
       ["morningstar", 10],
       ["rapier", 3],
@@ -2182,6 +2250,8 @@
       ["television", 10],
       ["microwave", 5],
       ["katana", 2],
+      ["cestus", 1],
+      ["knuckle_brass", 15],
       ["gold", 10],
       ["rapier", 3],
       ["cane", 10],
@@ -2218,6 +2288,7 @@
       ["ax", 8],
       ["knife_butcher", 10],
       ["knife_combat", 14],
+      ["punch_dagger", 12],
       ["bat", 60],
       ["petrified_eye", 1],
       ["binoculars", 20],
@@ -2309,6 +2380,7 @@
       ["gloves_tactical", 1],
       ["glasses_bal", 5],
       ["elbow_pads", 10],
+      ["cu_pipe", 5],
       ["knee_pads", 10]
     ]
   },{
@@ -2316,6 +2388,7 @@
     "id":"mil_surplus",
     "items":[
       ["knife_combat", 14],
+      ["duffelbag", 25],
       ["binoculars", 20],
       ["bolt_steel", 7],
       ["crossbow", 2],
@@ -2374,6 +2447,7 @@
       ["pants_checkered", 5],
       ["shorts", 70],
       ["tshirt", 80],
+      ["longshirt", 70],
       ["sweatshirt", 75],
       ["sweater", 75],
       ["coat_winter", 50],
@@ -2417,6 +2491,7 @@
       ["flotation_vest", 1],
       ["vaccine_shot", 10],
       ["coat_rain", 5],
+      ["hood_rain", 5],
       ["umbrella", 7],
       ["apron_leather", 5],
       ["pocketwatch", 5],
@@ -2460,6 +2535,7 @@
       ["jack", 10],
       ["anvil", 5],
       ["chisel", 10],
+      ["cu_pipe", 15],
       ["apron_leather", 5]
     ]
   },{
@@ -2789,6 +2865,7 @@
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["chestrig", 10],
+      ["duffelbag", 15],
       ["dump_pouch", 20],
       ["legrig", 10],
       ["under_armor", 20],
@@ -2813,6 +2890,7 @@
     "id":"mil_accessories",
     "items":[
       ["mask_gas", 10],
+      ["duffelbag", 15],
       ["goggles_nv", 1],
       ["backpack", 38],
       ["UPS_off", 5],
@@ -2885,6 +2963,7 @@
       ["mre_veggy", 50],
       ["1st_aid", 35],
       ["con_milk", 10],
+      ["sports_drink", 40],
       ["water_clean", 90]
     ]
   },{
@@ -2944,12 +3023,14 @@
     "id":"weapons",
     "items":[
       ["chain", 20],
+      ["knuckle_brass", 20],
       ["hammer", 35],
       ["wrench", 30],
       ["hammer_sledge", 6],
       ["hatchet", 10],
       ["ax", 8],
       ["knife_combat", 14],
+      ["punch_dagger", 6],
       ["pipe", 20],
       ["bat", 60],
       ["machete", 5],
@@ -2990,6 +3071,8 @@
       ["legguard_hard", 15],
       ["under_armor", 20],
       ["long_underpants", 40],
+      ["long_undertop", 40],
+      ["union_suit", 20],
       ["helmet_ball", 45],
       ["helmet_riot", 25],
       ["helmet_motor", 40],
@@ -3160,6 +3243,7 @@
     "id":"radio",
     "items":[
       ["cola", 70],
+      ["choc_drink", 20],
       ["caffeine", 25],
       ["cig", 90],
       ["pipe_tobacco", 5],
@@ -3297,6 +3381,8 @@
       ["laptop", 5],
       ["pda", 3],
       ["id_military", 3],
+      ["bayonet", 10],
+      ["pistol_bayonet", 4],
       ["rope_30", 35],
       ["stick", 95],
       ["hatchet", 10],
@@ -3552,6 +3638,8 @@
     "id":"military",
     "items":[
       ["water_clean", 90],
+      ["knuckle_brass", 15],
+      ["duffelbag", 15],
       ["mre_beef", 50],
       ["mre_veggy", 50],
       ["bandages", 50],
@@ -3584,6 +3672,8 @@
       ["backpack", 38],
       ["holster", 8],
       ["bootstrap", 3],
+      ["bayonet", 10],
+      ["pistol_bayonet", 4],
       ["9mm", 8],
       ["9mmfmj", 4],
       ["45_acp", 7],
@@ -3775,6 +3865,7 @@
     "items":[
       ["water_clean", 90],
       ["cola", 70],
+      ["choc_drink", 30],
       ["jerky", 55],
       ["ravioli", 25],
       ["can_beans", 40],
@@ -3819,6 +3910,7 @@
       ["8mm_caseless", 6],
       ["8mm_jhp", 2],
       ["8mm_fmj", 2],
+      ["cu_pipe", 5],
       ["8mm_inc", 2]
     ]
   },{
@@ -3857,7 +3949,11 @@
     "id":"drugdealer",
     "items":[
       ["energy_drink", 55],
+      ["knuckle_brass", 30],
+      ["sports_drink", 35],
+      ["purple_drink", 15],
       ["whiskey", 16],
+      ["bum_wine", 10],
       ["jerky", 55],
       ["bandages", 50],
       ["caffeine", 25],
@@ -3874,6 +3970,7 @@
       ["hatchet", 10],
       ["nailboard", 5],
       ["knife_combat", 14],
+      ["punch_dagger", 12],
       ["bat", 60],
       ["machete", 5],
       ["katana", 2],
@@ -3929,6 +4026,7 @@
       ["spring", 50],
       ["steel_lump", 30],
       ["frame", 20],
+      ["cu_pipe", 50],
       ["rock", 40]
     ]
   },{

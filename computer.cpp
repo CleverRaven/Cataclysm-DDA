@@ -1245,7 +1245,7 @@ void computer::activate_failure(game *g, computer_failure fail)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
             {
-                if (g->m.has_flag(console, x, y))
+                if (g->m.has_flag("CONSOLE", x, y))
                 {
                     g->m.ter_set(x, y, t_console_broken);
                 }

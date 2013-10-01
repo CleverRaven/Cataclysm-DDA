@@ -530,10 +530,12 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vx = rng (0, 3) * 4 + 5;
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
-    if (rc <= 40) {
+    if (rc <= 35) {
         add_vehicle (g, "car_chassis", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 60) {
+    } else if (rc <= 55) {
         add_vehicle (g, "car", vx, vy, veh_spawn_heading, -1, 1);
+    } else if (rc <= 65) {
+        add_vehicle (g, "hippie_van", vx, vy, veh_spawn_heading, -1, 1);
     } else if (rc <= 70) {
         add_vehicle (g, "cube_van", vx, vy, veh_spawn_heading, -1, 1);
     } else if (rc <= 80) {
@@ -1424,6 +1426,7 @@ t   t\n\
           } else if (rc <= 21) { vt = "beetle";
           } else if (rc <= 50) { vt = "car";
           } else if (rc <= 60) { vt = "electric_car";
+          } else if (rc <= 65) { vt = "hippie_van";
           } else if (rc <= 75) { vt = "bicycle";
           } else if (rc <= 90) { vt = "motorcycle";
           } else {               vt = "motorcycle_sidecart";
@@ -12569,7 +12572,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
    tries++;
 // Only place on valid terrain
   } while (((terlist[ter(px, py)].movecost == 0 &&
-             !(terlist[ter(px, py)].flags & mfb(place_item))) ||
+             !(terlist[ter(px, py)].has_flag("PLACE_ITEM"))) ||
             (!ongrass && (ter(px, py) == t_dirt || ter(px, py) == t_grass))) &&
            tries < 20);
   if (tries < 20) {
@@ -14336,7 +14339,7 @@ void map::add_extra(map_extra type, game *g)
     if (x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4) {
      if (!one_in(5))
       ter_set(x, y, t_wreckage);
-     else if (has_flag(bashable, x, y)) {
+     else if (has_flag("BASHABLE", x, y)) {
       std::string junk;
       bash(x, y, 500, junk); // Smash the fuck out of it
       bash(x, y, 500, junk); // Smash the fuck out of it some more
@@ -14440,7 +14443,7 @@ void map::add_extra(map_extra type, game *g)
       case 6: placed = tr_crossbow; break;
       case 7: placed = tr_shotgun_2; break;
      }
-     if (placed == tr_beartrap && has_flag(diggable, i, j)) {
+     if (placed == tr_beartrap && has_flag("DIGGABLE", i, j)) {
       if (one_in(8))
        placed = tr_landmine_buried;
       else
@@ -14625,8 +14628,9 @@ void map::add_extra(map_extra type, game *g)
   }
   for (int i = 0; i < num_mines; i++) {
    int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-   if (!has_flag(diggable, x, y) || one_in(8))
+   if (!has_flag("DIGGABLE", x, y) || one_in(8)) {
     ter_set(x, y, t_dirtmound);
+   }
    add_trap(x, y, tr_landmine_buried);
   }
  }

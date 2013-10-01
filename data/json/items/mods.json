@@ -1,12 +1,12 @@
 [
   { "id":"retool_45",
-    "type": "ITEM_GUNMOD",
+    "type": "GUNMOD",
     "symbol": ":",
     "color": "green",
     "name":".45 caliber retool",
     "description":"Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to a .45 firearm.  The conversion results in reduced accuracy and increased recoil.",
     "price": 480,
-    "material": ["steel"],
+    "material": "steel",
     "weight": 226,
     "volume": 2,
     "bashing": 3,
@@ -23,7 +23,7 @@
     "acceptable_ammo": ["9mm", "38", "40", "44"]
   },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "suppressor",
         "name" : "suppressor",
         "clip_size_modifier" : 0,
@@ -46,7 +46,7 @@
         "loudness_modifier" : -25
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "grip",
         "name" : "enhanced grip",
         "clip_size_modifier" : 0,
@@ -69,7 +69,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "barrel_big",
         "name" : "barrel extension",
         "clip_size_modifier" : 0,
@@ -92,7 +92,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "barrel_small",
         "name" : "shortened barrel",
         "clip_size_modifier" : 0,
@@ -115,7 +115,7 @@
         "loudness_modifier" : 2
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "barrel_rifled",
         "name" : "rifled barrel",
         "clip_size_modifier" : 0,
@@ -138,7 +138,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "clip",
         "name" : "extended magazine",
         "clip_size_modifier" : 50,
@@ -161,7 +161,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "clip2",
         "name" : "double magazine",
         "clip_size_modifier" : 100,
@@ -184,7 +184,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "spare_mag",
         "name" : "spare magazine",
         "clip_size_modifier" : 0,
@@ -207,7 +207,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "brass_catcher",
         "name" : "brass catcher",
         "clip_size_modifier" : 0,
@@ -230,7 +230,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "stabilizer",
         "name" : "gyroscopic stabilizer",
         "clip_size_modifier" : -10,
@@ -253,7 +253,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "blowback",
         "name" : "rapid blowback",
         "clip_size_modifier" : 0,
@@ -276,7 +276,7 @@
         "loudness_modifier" : 4
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "autofire",
         "name" : "auto-fire mechanism",
         "weight" : 226,
@@ -300,7 +300,7 @@
         "ammo_modifier" : "NULL"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "retool_9mm",
         "name" : "9mm caliber retool",
         "weight" : 114,
@@ -324,7 +324,7 @@
         "ammo_modifier" : "9mm"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "retool_22",
         "name" : ".22 caliber retool",
         "weight" : 114,
@@ -348,7 +348,7 @@
         "ammo_modifier" : "22"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "retool_57",
         "name" : "5.7mm caliber retool",
         "weight" : 114,
@@ -372,7 +372,7 @@
         "ammo_modifier" : "57"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "retool_46",
         "name" : "4.6mm caliber retool",
         "weight" : 114,
@@ -396,7 +396,7 @@
         "ammo_modifier" : "46"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "retool_308",
         "name" : ".308 caliber retool",
         "weight" : 114,
@@ -420,7 +420,7 @@
         "ammo_modifier" : "308"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "retool_223",
         "name" : ".223 caliber retool",
         "weight" : 114,
@@ -444,7 +444,7 @@
         "ammo_modifier" : "223"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "conversion_battle",
         "name" : "battle rifle conversion",
         "clip_size_modifier" : 20,
@@ -467,7 +467,7 @@
         "loudness_modifier" : 4
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "conversion_sniper",
         "name" : "sniper conversion",
         "clip_size_modifier" : -15,
@@ -490,7 +490,7 @@
         "loudness_modifier" : 3
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "m203",
         "name" : "M203",
         "weight" : 1360,
@@ -514,7 +514,7 @@
         "ammo_modifier" : "40mm"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "pipe_launcher40mm",
         "name" : "40mm pipe launcher",
         "weight" : 2080,
@@ -538,7 +538,7 @@
         "ammo_modifier" : "40mm"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "bayonet",
         "name" : "bayonet",
         "weight" : 387,
@@ -562,7 +562,31 @@
         "ammo_modifier" : "NULL"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
+        "id" : "pistol_bayonet",
+        "name" : "pistol bayonet",
+        "weight" : 122,
+        "color" : "light_cyan",
+        "burst_modifier" : 0,
+        "loudness_modifier" : 0,
+        "to_hit" : -4,
+        "dispersion_modifier" : 1,
+        "price" : 400,
+        "clip_size_modifier" : 0,
+        "description" : "A pistol bayonet is a stabbing weapon that can be attached to the front of a handgun, allowing a melee attack to deal piercing damage. The added length reduces the gun's overall handling somewhat.",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "volume" : 1,
+        "cutting" : 6,
+        "recoil_modifier" : 3,
+        "damage_modifier" : 0,
+        "mod_targets" : ["pistol"],
+        "bashing" : 0,
+        "flags" : ["STAB"],
+        "ammo_modifier" : "NULL"
+    },
+    {
+        "type" : "GUNMOD",
         "id" : "u_shotgun",
         "name" : "underslung shotgun",
         "weight" : 1500,
@@ -586,7 +610,7 @@
         "ammo_modifier" : "shot"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "masterkey",
         "name" : "masterkey shotgun",
         "weight" : 2600,
@@ -610,7 +634,7 @@
         "ammo_modifier" : "shot"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "gun_crossbow",
         "name" : "rail-mounted crossbow",
         "weight" : 1450,
@@ -634,7 +658,7 @@
         "ammo_modifier" : "bolt"
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "laser_sight",
         "name" : "laser sight",
         "clip_size_modifier" : 0,
@@ -657,7 +681,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "improve_sights",
         "name" : "improved iron sights",
         "clip_size_modifier" : 0,
@@ -680,7 +704,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "red_dot_sight",
         "name" : "red dot sight",
         "clip_size_modifier" : 0,
@@ -703,7 +727,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "holo_sight",
         "name" : "holographic sight",
         "clip_size_modifier" : 0,
@@ -726,7 +750,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "rifle_scope",
         "name" : "rifle scope",
         "clip_size_modifier" : 0,
@@ -749,7 +773,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "barrel_ported",
         "name" : "ported barrel",
         "clip_size_modifier" : 0,
@@ -772,7 +796,7 @@
         "loudness_modifier" : 6
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "pistol_grip",
         "name" : "ergonomic grip",
         "clip_size_modifier" : 0,
@@ -795,7 +819,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "adjustable_stock",
         "name" : "adjustable stock",
         "clip_size_modifier" : 0,
@@ -818,7 +842,7 @@
         "loudness_modifier" : 0
     },
     {
-        "type" : "ITEM_GUNMOD",
+        "type" : "GUNMOD",
         "id" : "pistol_stock",
         "name" : "pistol stock",
         "clip_size_modifier" : 0,

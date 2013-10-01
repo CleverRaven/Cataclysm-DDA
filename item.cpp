@@ -1012,7 +1012,7 @@ bool item::has_flag(std::string f) const
         } else {
             for (int i = 0; i < contents.size(); i++) {
                 // Don't report flags from active gunmods for the gun.
-                if (contents[i].has_flag(f) && contents[i].has_flag("MODE_AUX")) {
+                if (contents[i].has_flag(f) && !contents[i].has_flag("MODE_AUX")) {
                     ret = true;
                     return ret;
                 }

@@ -62,7 +62,7 @@ void load_recipe(JsonObject &jsobj)
          ++name_iter)
     {
         if ((*name_iter) == rec_name) {
-            throw jsobj.line_number() + "Recipe name collision (set a unique value for the id_suffix field to fix): " + rec_name;
+            throw jsobj.line_number() + ": Recipe name collision (set a unique value for the id_suffix field to fix): " + rec_name;
         }
     }
 
@@ -1496,7 +1496,7 @@ void game::complete_disassemble()
   recipe* dis = recipe_by_index(u.activity.index); // Which recipe is it?
   item* dis_item = &u.i_at(u.activity.values[0]);
 
-  add_msg(_("You disassemble the item into its components."));
+  add_msg(_("You disassemble the %s into its components."), dis_item->name.c_str());
   // remove any batteries or ammo first
     if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL")
     {

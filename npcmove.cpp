@@ -513,6 +513,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
     else
      return npc_melee;
    }
+   int junk = 0;
    if (!wont_hit_friend(g, tarx, tary))
     if (in_vehicle)
      if (can_reload())
@@ -521,9 +522,10 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
       return npc_pause; // wait for clear shot
     else
      return npc_avoid_friendly_fire;
-   else if (rl_dist(posx,posy,tarx,tary) > weapon.range())
+   else if (rl_dist(posx,posy,tarx,tary) > weapon.range() &&
+            g->m.sees( posx, posy, tarx, tary, weapon.range(), junk )) {
        return npc_melee; // If out of range, move closer to the target
-   else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
+   } else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
             gun->burst > 1 &&
             ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) || emergency(danger * 2)))
     return npc_shoot_burst;
@@ -930,10 +932,8 @@ void npc::update_path(game *g, int x, int y)
 
 bool npc::can_move_to(game *g, int x, int y)
 {
- if ((g->m.move_cost(x, y) > 0 || g->m.has_flag(bashable, x, y)) &&
-     rl_dist(posx, posy, x, y) <= 1)
-  return true;
- return false;
+ return ((g->m.move_cost(x, y) > 0 || g->m.has_flag("BASHABLE", x, y)) &&
+     rl_dist(posx, posy, x, y) <= 1);
 }
 
 void npc::move_to(game *g, int x, int y)
@@ -1007,7 +1007,7 @@ void npc::move_to(game *g, int x, int y)
   moves -= run_cost(g->m.combined_movecost(posx, posy, x, y), diag);
  } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor)))
   moves -= 100;
- else if (g->m.has_flag(bashable, x, y)) {
+ else if (g->m.has_flag("BASHABLE", x, y)) {
   moves -= 110;
   std::string bashsound;
   int smashskill = int(str_cur / 2 + weapon.type->melee_dam);
@@ -2039,7 +2039,7 @@ void npc::go_to_destination(game *g)
    for (int dx = 0 - i; dx <= i; dx++) {
     for (int dy = 0 - i; dy <= i; dy++) {
      if ((g->m.move_cost(x + dx, y + dy) > 0 ||
-          g->m.has_flag(bashable, x + dx, y + dy) ||
+          g->m.has_flag("BASHABLE", x + dx, y + dy) ||
           g->m.ter(x + dx, y + dy) == t_door_c) &&
          g->m.sees(posx, posy, x + dx, y + dy, light, linet)) {
       path = g->m.route(posx, posy, x + dx, y + dy);

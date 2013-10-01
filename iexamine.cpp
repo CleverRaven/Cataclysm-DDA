@@ -921,3 +921,124 @@ void iexamine::acid_source(game *g, player *p, map *m, const int examx, const in
         p->moves -= 100;
     }
 }
+
+/**
+ * Given then name of one of the above functions, returns the matching function
+ * pointer. If no match is found, defaults to iexamine::none but prints out a
+ * debug message as a warning.
+ * @param function_name The name of the function to get.
+ * @return A function pointer to the specified function.
+ */
+void (iexamine::*iexamine_function_from_string(std::string function_name))(game*, player*, map*, int, int) {
+  if ("none" == function_name) {
+    return &iexamine::none;
+  }
+  if ("gaspump" == function_name) {
+    return &iexamine::gaspump;
+  }
+  if ("toilet" == function_name) {
+    return &iexamine::toilet;
+  }
+  if ("elevator" == function_name) {
+    return &iexamine::elevator;
+  }
+  if ("controls_gate" == function_name) {
+    return &iexamine::controls_gate;
+  }
+  if ("cardreader" == function_name) {
+    return &iexamine::cardreader;
+  }
+  if ("rubble" == function_name) {
+    return &iexamine::rubble;
+  }
+  if ("chainfence" == function_name) {
+    return &iexamine::chainfence;
+  }
+  if ("tent" == function_name) {
+    return &iexamine::tent;
+  }
+  if ("shelter" == function_name) {
+    return &iexamine::shelter;
+  }
+  if ("wreckage" == function_name) {
+    return &iexamine::wreckage;
+  }
+  if ("pit" == function_name) {
+    return &iexamine::pit;
+  }
+  if ("pit_covered" == function_name) {
+    return &iexamine::pit_covered;
+  }
+  if ("fence_post" == function_name) {
+    return &iexamine::fence_post;
+  }
+  if ("remove_fence_rope" == function_name) {
+    return &iexamine::remove_fence_rope;
+  }
+  if ("remove_fence_wire" == function_name) {
+    return &iexamine::remove_fence_wire;
+  }
+  if ("remove_fence_barbed" == function_name) {
+    return &iexamine::remove_fence_barbed;
+  }
+  if ("slot_machine" == function_name) {
+    return &iexamine::slot_machine;
+  }
+  if ("safe" == function_name) {
+    return &iexamine::safe;
+  }
+  if ("bulletin_board" == function_name) {
+    return &iexamine::bulletin_board;
+  }
+  if ("fault" == function_name) {
+    return &iexamine::fault;
+  }
+  if ("pedestal_wyrm" == function_name) {
+    return &iexamine::pedestal_wyrm;
+  }
+  if ("pedestal_temple" == function_name) {
+    return &iexamine::pedestal_temple;
+  }
+  if ("fswitch" == function_name) {
+    return &iexamine::fswitch;
+  }
+  if ("flower_poppy" == function_name) {
+    return &iexamine::flower_poppy;
+  }
+  if ("dirtmound" == function_name) {
+    return &iexamine::dirtmound;
+  }
+  if ("aggie_plant" == function_name) {
+    return &iexamine::aggie_plant;
+  }
+  //pick_plant deliberately missing due to different function signature
+  if ("tree_apple" == function_name) {
+    return &iexamine::tree_apple;
+  }
+  if ("shrub_blueberry" == function_name) {
+    return &iexamine::shrub_blueberry;
+  }
+  if ("shrub_strawberry" == function_name) {
+    return &iexamine::shrub_strawberry;
+  }
+  if ("shrub_wildveggies" == function_name) {
+    return &iexamine::shrub_wildveggies;
+  }
+  if ("recycler" == function_name) {
+    return &iexamine::recycler;
+  }
+  if ("trap" == function_name) {
+    return &iexamine::trap;
+  }
+  if ("water_source" == function_name) {
+    return &iexamine::water_source;
+  }
+  if ("acid_source" == function_name) {
+    return &iexamine::acid_source;
+  }
+
+  //No match found
+  debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());
+  return &iexamine::none;
+
+}

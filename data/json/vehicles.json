@@ -1,6 +1,5 @@
 [
     {
-        "type":"vehicle",
         "id": "custom",
         "name": "custom",
         "blueprint": "H",
@@ -10,7 +9,6 @@
         ]
     },
     {
-    	"type":"vehicle",
         "id": "custom_cart",
         "name": "custom",
         "blueprint": "#",
@@ -19,7 +17,6 @@
         ]
     },
     {
-    	"type":"vehicle",
         "id": "bicycle",
         "name": "Bicycle",
         "blueprint": "o#o",
@@ -35,7 +32,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "motorcycle_chassis",
         "name": "Motorcycle Chassis",
         "blueprint": "o#>",
@@ -48,7 +44,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "motorcycle",
         "name": "Motorcycle",
         "blueprint": "o#>o",
@@ -67,7 +62,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "motorcycle_sidecart",
         "name": "Motorcycle",
         "blueprint": [
@@ -93,7 +87,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "quad_bike",
         "name": "Quad Bike",
         "blueprint": [
@@ -121,7 +114,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "quad_bike_chassis",
         "name": "Quad Bike Chassis",
         "blueprint": [
@@ -140,7 +132,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "car",
         "name": "Car",
         "blueprint": [
@@ -202,7 +193,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "car_chassis",
         "name": "Car Chassis",
         "blueprint": [
@@ -235,7 +225,75 @@
         ]
     },
     {
-    	"type":"vehicle",
+        "id": "hippie_van",
+        "name": "Hippie Van",
+        "blueprint": [
+            ["o---+-o"],
+            ["+=###'|"],
+            ["+===#'|"],
+            ["o-+++-o"]
+        ],
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "seat"},
+            {"x": 0, "y": 0, "part": "seatbelt"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "horn_car"},
+            {"x": 0, "y": 0, "part": "roof"},
+            {"x": 0, "y": 1, "part": "frame_vertical_2"},
+            {"x": 0, "y": 1, "part": "seat"},
+            {"x": 0, "y": 1, "part": "seatbelt"},
+            {"x": 0, "y": 1, "part": "roof"},
+            {"x": 0, "y": -1, "part": "door"},
+            {"x": 0, "y": 2, "part": "door"},
+            {"x": -1, "y": 0, "part": "frame_vertical_2"},
+            {"x": -1, "y": 0, "part": "seat"},
+            {"x": -1, "y": 0, "part": "seatbelt"},
+            {"x": -1, "y": 0, "part": "roof"},
+            {"x": -1, "y": 1, "part": "frame_vertical_2"},
+            {"x": -1, "y": 1, "part": "aisle_vertical"},
+            {"x": -1, "y": 1, "part": "roof"},
+            {"x": -1, "y": -1, "part": "board_vertical"},
+            {"x": -1, "y": 2, "part": "door_sliding"},
+            {"x": -2, "y": 0, "part": "frame_vertical_2"},
+            {"x": -2, "y": 0, "part": "seat"},
+            {"x": -2, "y": 0, "part": "seatbelt"},
+            {"x": -2, "y": 0, "part": "roof"},
+            {"x": -2, "y": 1, "part": "frame_vertical_2"},
+            {"x": -2, "y": 1, "part": "aisle_vertical"},
+            {"x": -2, "y": 1, "part": "roof"},
+            {"x": -2, "y": -1, "part": "board_vertical"},
+            {"x": -2, "y": 2, "part": "door_sliding"},
+            {"x": 1, "y": 0, "part": "frame_horizontal"},
+            {"x": 1, "y": 0, "part": "windshield"},
+            {"x": 1, "y": 0, "part": "headlight"},
+            {"x": 1, "y": 1, "part": "frame_horizontal"},
+            {"x": 1, "y": 1, "part": "windshield"},
+            {"x": 1, "y": 1, "part": "headlight"},
+            {"x": 1, "y": -1, "part": "frame_vertical"},
+            {"x": 1, "y": 2, "part": "frame_vertical"},
+            {"x": 2, "y": 0, "part": "frame_horizontal"},
+            {"x": 2, "y": 0, "part": "engine_v6"},
+            {"x": 2, "y": 1, "part": "frame_horizontal"},
+            {"x": 2, "y": -1, "part": "wheel"},
+            {"x": 2, "y": 2, "part": "wheel"},
+            {"x": -3, "y": 0, "part": "frame_vertical"},
+            {"x": -3, "y": 0, "part": "trunk"},
+            {"x": -3, "y": 0, "part": "muffler"},
+            {"x": -3, "y": 0, "part": "roof"},
+            {"x": -3, "y": 1, "part": "frame_vertical"},
+            {"x": -3, "y": 1, "part": "trunk"},
+            {"x": -3, "y": 1, "part": "roof"},
+            {"x": -3, "y": -1, "part": "board_vertical"},
+            {"x": -3, "y": -1, "part": "gas_tank"},
+            {"x": -3, "y": 2, "part": "board_vertical"},
+            {"x": -4, "y": -1, "part": "wheel"},
+            {"x": -4, "y": 0, "part": "door_trunk"},
+            {"x": -4, "y": 1, "part": "door_trunk"},
+            {"x": -4, "y": 2, "part": "wheel"}
+        ]
+    },
+    {
         "id": "flatbed_truck",
         "name": "Flatbed Truck",
         "blueprint": [
@@ -306,7 +364,6 @@
         ]
     },
     {
-    	"type":"vehicle",
         "id": "cube_van",
         "name": "Cube Van",
         "blueprint": [
@@ -385,7 +442,6 @@
         ]
     },
     {
-    	"type":"vehicle",
         "id": "semi_truck",
         "name": "Semi Truck",
         "blueprint": [
@@ -491,7 +547,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "truck_trailer",
         "name": "Truck Trailer",
         "blueprint": [
@@ -566,7 +621,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "wagon",
         "name": "Wagon",
         "blueprint": [
@@ -587,7 +641,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "beetle",
         "name": "Beetle",
         "blueprint": [
@@ -631,7 +684,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "bubble_car",
         "name": "Bubble Car",
         "blueprint": [
@@ -698,7 +750,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "golf_cart",
         "name": "Golf Cart",
         "blueprint": [
@@ -722,7 +773,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "scooter",
         "name": "Scooter",
         "blueprint": "o>o",
@@ -738,7 +788,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "military_cargo_truck",
         "name": "Military Cargo Truck",
         "blueprint": [
@@ -844,7 +893,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "schoolbus",
         "name": "Schoolbus",
         "blueprint": [
@@ -990,7 +1038,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "electric_car",
         "name": "Electric Car",
         "blueprint": [
@@ -1054,7 +1101,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "rv",
         "name": "RV",
         "blueprint": [
@@ -1157,7 +1203,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "shopping_cart",
         "name": "Shopping Cart",
         "blueprint": "#",
@@ -1167,7 +1212,6 @@
         ]
     },
     {
-        "type":"vehicle",
         "id": "armored_car",
         "name": "Armored Car",
         "blueprint": [

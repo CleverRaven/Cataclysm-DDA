@@ -28,10 +28,7 @@
 // If you use wrong config, installation of part will fail
 
 std::map<std::string, vpart_info> vehicle_part_types;
-std::map<std::string, vehicle*> vtypes;
 std::vector<vehicle_prototype> vtype_cache;
-
-std::vector<std::string> legacy_vpart_id; // potential FIXME: provide -static- hardcoded enum if vpart order shifts
 
 // Note on the 'symbol' flag in vehicle parts -
 // the following symbols will be translated:
@@ -99,7 +96,6 @@ void game::load_vehicle_part(JsonObject &jo)
     next_part.flags = flagset;//jo.get("flags").as_tags(); // needs changing
 
     vehicle_part_types[next_part.id] = next_part;
-    legacy_vpart_id.push_back(next_part.id);
 }
 
 void game::cache_vehicles(JsonObject &jo)

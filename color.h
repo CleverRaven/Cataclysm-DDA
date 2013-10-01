@@ -171,6 +171,7 @@ c_unset       = COLOR_PAIR(31),
 int color_to_int(nc_color col);
 nc_color int_to_color(int key);
 nc_color color_from_string(std::string color);
+nc_color bgcolor_from_string(std::string color);
 
 void setattr(nc_color &col, col_attribute attr);
 

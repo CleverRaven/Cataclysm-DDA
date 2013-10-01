@@ -26,6 +26,8 @@
 #include "crafting.h"
 #include "get_version.h"
 
+#include "savegame.h"
+#include "tile_id_data.h" // for monster::json_save
 #include <ctime>
 
 #include "picofunc.h"
@@ -62,7 +64,7 @@ picojson::value player_activity::json_save() {
     for (int i = 0; i < str_values.size(); i++) {
         pvector.push_back( pv( str_values[i] ) );
     }
-    data["values"] = pv ( pvector );
+    data["str_values"] = pv ( pvector );
     pvector.clear();
 
     return pv ( data );
@@ -1052,12 +1054,15 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
 
     const picojson::object &data = parsed.get<picojson::object>();
 
-    int idtmp;
-    std::string idstr;
-    picostring(data, "typeid", idstr);
-    //picoint(data, "typeid", idtmp);
-    type = GetMon(idstr);// (*mtypes)[idtmp];
-
+    int iidtmp;
+    std::string sidtmp;
+    // load->str->int
+    if ( ! picostring(data, "typeid", sidtmp) ) {
+        // or load->int->str->possibly_shifted_int
+        picoint(data, "typeid", iidtmp);
+        sidtmp = legacy_mon_id[ iidtmp ];
+    }
+    type = (*mtypes)[ monster_ints[sidtmp] ];
     picoint(data, "posx", _posx);
     picoint(data, "posy", _posy);
     picoint(data, "wandx", wandx);
@@ -1118,7 +1123,8 @@ void monster::json_load(picojson::value parsed, game * g) {
 picojson::value monster::json_save(bool save_contents)
 {
     std::map<std::string, picojson::value> data;
-    data["typeid"] = pv((type->id));
+
+    data["typeid"] = pv( monster_names[ type->id ] );
     data["posx"] = pv(_posx);
     data["posy"] = pv(_posy);
     data["wandx"] = pv(wandx);
@@ -1360,9 +1366,9 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
     picojson::object &data = parsed.get<picojson::object>();
 
     int fdir, mdir;
-
+   
     picostring(data,"type",type);
-    picoint(data, "posx", posx);
+    picoint(data, "posx", posx);   
     picoint(data, "posy", posy);
     picoint(data, "faceDir", fdir);
     picoint(data, "moveDir", mdir);
@@ -1390,14 +1396,14 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                 std::map<std::string, picojson::value> & pdata = (*pt).get<picojson::object>();
                 int intpid, pflag;
                 std::string pid;
-                if ( picoint(pdata, "id_enum", intpid) && legacy_vpart_id.size() < intpid ) {
+                if ( picoint(pdata, "id_enum", intpid) && intpid < 74 ) {
                     pid = legacy_vpart_id[intpid];
                 } else {
                     picostring(pdata,"id",pid);
                 }
                 vehicle_part new_part;
                 new_part.id = pid;
-
+               
                 picoint(pdata, "mount_dx", new_part.mount_dx);
                 picoint(pdata, "mount_dy", new_part.mount_dy);
                 picoint(pdata, "hp", new_part.hp );
@@ -1406,9 +1412,9 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                 picoint(pdata, "bigness", new_part.bigness );
                 if ( picoint(pdata, "flags", pflag ) ) {
                     new_part.flags = pflag;
-                }
+                }               
                 picoint(pdata, "passenger_id", new_part.passenger_id );
-
+               
                 picojson::array * piarray=pgetarray(pdata,"items");
                 new_part.items.clear();
                 if ( piarray != NULL ) {
@@ -1417,7 +1423,7 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                             new_part.items.push_back( item( *pit, g ) );
                         }
                     }
-                }
+                }           
                 parts.push_back (new_part);
             }
         }
