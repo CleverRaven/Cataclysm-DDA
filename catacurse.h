@@ -113,8 +113,7 @@ typedef struct {
 
 /* Curses external declarations. */
 
-#define stdscr 0
-//WINDOW *stdscr; //Define this for portability, strscr will basically be window[0] anyways
+extern WINDOW *stdscr;
 
 #define getmaxyx(w, y, x)  (y = getmaxy(w), x = getmaxx(w))
 
