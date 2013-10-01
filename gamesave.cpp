@@ -105,7 +105,7 @@ void game::serialize(std::ofstream & fout) {
         fout << std::endl << num_zombies() << std::endl;
         // Then each monster + inv in a 1 line json string
         for (int i = 0; i < num_zombies(); i++) {
-            fout << _z[i].save_info() << std::endl;
+            fout << _active_monsters[i].save_info() << std::endl;
         }
 
         // save killcounts.
@@ -255,7 +255,7 @@ void game::unserialize(std::ifstream & fin) {
                 }
             } else {
                 for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                    if ( kk < 120 ) { // see legacy_mon_id
+                    if ( kk < 126 ) { // see legacy_mon_id
                         // load->int->str->int (possibly shifted)
                         kk = monster_ints[ legacy_mon_id[ kk ] ];
                         linein >> kills[kk];

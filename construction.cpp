@@ -882,7 +882,7 @@ void game::complete_construction()
 
 bool construct::able_empty(game *g, point p)
 {
- return (g->m.has_flag(flat, p.x, p.y) && !g->m.has_furn(p.x, p.y) &&
+ return (g->m.has_flag("FLAT", p.x, p.y) && !g->m.has_furn(p.x, p.y) &&
          g->is_empty(p.x, p.y) && g->m.tr_at(p.x, p.y) == tr_null);
 }
 
@@ -964,7 +964,7 @@ bool construct::able_wall_wood(game *g, point p)
 
 bool construct::able_dig(game *g, point p)
 {
- return (g->m.has_flag(diggable, p.x, p.y));
+ return (g->m.has_flag("DIGGABLE", p.x, p.y));
 }
 
 bool construct::able_chainlink(game *g, point p)
@@ -984,7 +984,7 @@ bool construct::able_between_walls(game *g, point p)
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
                 if (((dx == 0) ^ (dy == 0))
-                        && g->m.has_flag(supports_roof, p.x + dx, p.y + dy)) {
+                        && g->m.has_flag("SUPPORTS_ROOF", p.x + dx, p.y + dy)) {
                     num_supports++;
                 }
             }
@@ -995,7 +995,7 @@ bool construct::able_between_walls(game *g, point p)
 
 bool construct::able_deconstruct(game *g, point p)
 {
-  return (g->m.has_flag(deconstruct, p.x, p.y));
+  return (g->m.has_flag("DECONSTRUCT", p.x, p.y));
 }
 
 void construct::done_window_pane(game *g, point p)
@@ -1165,6 +1165,8 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(p.x, p.y, "scrap", 0, rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
         g->m.spawn_item(p.x, p.y, "hose", 0, 1);
+        g->m.spawn_item(p.x, p.y, "cu_pipe", 0, rng(3, 6));
+
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case f_glass_fridge:
@@ -1172,6 +1174,7 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
         g->m.spawn_item(p.x, p.y, "hose", 0, 1);
         g->m.spawn_item(p.x, p.y, "glass_sheet", 0, 1);
+        g->m.spawn_item(p.x, p.y, "cu_pipe", 0, rng(3, 6));
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case f_counter:

@@ -302,13 +302,13 @@ bool map::process_fields_in_submap(game *g, int gridn)
                     case fd_bile:
                     case fd_gibs_flesh:
                     case fd_gibs_veggy:
-                        if (has_flag(swimmable, x, y)) { // Dissipate faster in water
+                        if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
                             cur->setFieldAge(cur->getFieldAge() + 250);
                         }
                         break;
 
                     case fd_acid:
-                        if (has_flag(swimmable, x, y)) { // Dissipate faster in water
+                        if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
                             cur->setFieldAge(cur->getFieldAge() + 20);
                         }
                         for (int i = 0; i < i_at(x, y).size(); i++) {
@@ -482,16 +482,16 @@ bool map::process_fields_in_submap(game *g, int gridn)
                             veh->damage (part, cur->getFieldDensity() * 10, false);    //Damage the vehicle in the fire.
                         }
                         // If the flames are in a brazier, they're fully contained, so skip consuming terrain
-                        if((tr_brazier != tr_at(x, y)) && (has_flag(fire_container, x, y) != true )) {
+                        if((tr_brazier != tr_at(x, y)) && (has_flag("FIRE_CONTAINER", x, y) != true )) {
                             // Consume the terrain we're on
-                            if (has_flag(explodes, x, y)) {
+                            if (has_flag("EXPLODES", x, y)) {
                                 //This is what destroys houses so fast.
                                 ter_set(x, y, ter_id(int(ter(x, y)) + 1));
                                 cur->setFieldAge(0); //Fresh level 3 fire.
                                 cur->setFieldDensity(3);
                                 g->explosion(x, y, 40, 0, true); //Boom.
 
-                            } else if (has_flag(flammable, x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
+                            } else if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
                                 cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 40);
                                 smoke += 15;
@@ -499,7 +499,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                     g->m.destroy(g, x, y, false);
                                 }
 
-                            } else if (has_flag(flammable2, x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
+                            } else if (has_flag("FLAMMABLE_ASH", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
                                 cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 40);
                                 smoke += 15;
@@ -510,7 +510,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                     }
                                 }
 
-                            } else if (has_flag(l_flammable, x, y) && one_in(62 - cur->getFieldDensity() * 10)) {
+                            } else if (has_flag("FLAMMABLE_HARD", x, y) && one_in(62 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
                                 cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 30);
                                 smoke += 10;
@@ -518,7 +518,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                     g->m.destroy(g, x, y, false);
                                 }
 
-                            } else if (terlist[ter(x, y)].flags & mfb(swimmable)) {
+                            } else if (terlist[ter(x, y)].has_flag("SWIMMABLE")) {
                                 cur->setFieldAge(cur->getFieldAge() + 800);    // Flames die quickly on water
                             }
                         }
@@ -528,7 +528,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
                         // If the flames are REALLY big, they contribute to adjacent flames
                         if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y) &&
-                            (has_flag(fire_container, x, y) != true  ) ) {
+                            (has_flag("FIRE_CONTAINER", x, y) != true  ) ) {
                             if(cur->getFieldDensity() == 3) {
                                 // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
                                 int starti = rng(0, 2);
@@ -610,21 +610,21 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                     if (nearwebfld) {
                                         spread_chance = 50 + spread_chance / 2;
                                     }
-                                    if (has_flag(explodes, fx, fy) && one_in(8 - cur->getFieldDensity()) &&
-                                        tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != true ) ) {
+                                    if (has_flag("EXPLODES", fx, fy) && one_in(8 - cur->getFieldDensity()) &&
+                                        tr_brazier != tr_at(x, y) && (has_flag("FIRE_CONTAINER", x, y) != true ) ) {
                                         ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
                                         g->explosion(fx, fy, 40, 0, true); //Nearby explodables? blow em up.
                                     } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance && cur->getFieldAge() < 200 &&
                                                tr_brazier != tr_at(x, y) &&
-                                               (has_flag(fire_container, x, y) != true ) &&
+                                               (has_flag("FIRE_CONTAINER", x, y) != true ) &&
                                                (in_pit == (ter(fx, fy) == t_pit)) &&
                                                (
                                                    (cur->getFieldDensity() >= 2 &&
-                                                    (has_flag(flammable, fx, fy) && one_in(20))) ||
+                                                    (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
                                                    (cur->getFieldDensity() >= 2  &&
-                                                    (has_flag(flammable2, fx, fy) && one_in(10))) ||
+                                                    (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
                                                    (cur->getFieldDensity() == 3  &&
-                                                    (has_flag(l_flammable, fx, fy) && one_in(10))) ||
+                                                    (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
                                                    flammable_items_at(fx, fy) ||
                                                    nearwebfld )) {
                                         add_field(g, fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
@@ -664,7 +664,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                         if (move_cost(fx, fy) > 0 &&
                                             (rng(0, 100) <= smoke || (nosmoke && one_in(40))) &&
                                             rng(3, 35) < cur->getFieldDensity() * 5 && cur->getFieldAge() < 1000 &&
-                                            (has_flag(suppress_smoke, x, y) != true )) {
+                                            (has_flag("SUPPRESS_SMOKE", x, y) != true )) {
                                             smoke--;
                                             add_field(g, fx, fy, fd_smoke, rng(1, cur->getFieldDensity())); //Add smoke!
                                         }

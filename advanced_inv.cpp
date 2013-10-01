@@ -324,7 +324,7 @@ void advanced_inv_update_area( advanced_inv_area &area, game *g ) {
             area.max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
             area.max_volume = area.veh->max_volume(area.vstor);
         } else {
-            area.canputitems=(!(g->m.has_flag(noitem,u.posx+area.offx,u.posy+area.offy)) && !(g->m.has_flag(sealed,u.posx+area.offx,u.posy+area.offy) ));
+            area.canputitems=(!(g->m.has_flag("NOITEM",u.posx+area.offx,u.posy+area.offy)) && !(g->m.has_flag("SEALED",u.posx+area.offx,u.posy+area.offy) ));
             area.size = g->m.i_at(u.posx+area.offx,u.posy+area.offy).size();
             area.max_size = MAX_ITEM_IN_SQUARE;
             area.max_volume = g->m.max_volume(u.posx+area.offx,u.posy+area.offy);

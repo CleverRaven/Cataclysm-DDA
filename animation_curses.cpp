@@ -84,9 +84,9 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
             npcdex = npc_at(ret[i].x, ret[i].y);
 
             // NPCs and monsters get drawn with inverted colors
-            if (mondex != -1 && u_see(&(_z[mondex])))
+            if (mondex != -1 && u_see(&(_active_monsters[mondex])))
             {
-                _z[mondex].draw(w_terrain, center_point.x, center_point.y, true);
+                _active_monsters[mondex].draw(w_terrain, center_point.x, center_point.y, true);
             }
             else if (npcdex != -1)
             {

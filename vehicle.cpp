@@ -1121,7 +1121,7 @@ int vehicle::solar_power ()
             int part_x = global_x() + parts[p].precalc_dx[0];
             int part_y = global_y() + parts[p].precalc_dy[0];
             // Can't use g->in_sunlight() because it factors in vehicle roofs.
-            if( !g->m.has_flag_ter_or_furn( indoors, part_x, part_y ) ) {
+            if( !g->m.has_flag_ter_or_furn( "INDOORS", part_x, part_y ) ) {
                 pwr += (part_power(p) * g->natural_light_level()) / DAYLIGHT_LEVEL;
             }
         }
@@ -1609,13 +1609,13 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else {
             mass2 = 82;// player or NPC
         }
-    } else if (g->m.has_flag_ter_or_furn (thin_obstacle, x, y)) {
+    } else if (g->m.has_flag_ter_or_furn ("THIN_OBSTACLE", x, y)) {
         // if all above fails, go for terrain which might obstruct moving
         collision_type = veh_coll_thin_obstacle; // some fence
         mass2 = 10;
         e=0.30;
         part_dens = 20;
-    } else if (g->m.has_flag_ter_or_furn(bashable, x, y)) {
+    } else if (g->m.has_flag_ter_or_furn("BASHABLE", x, y)) {
         collision_type = veh_coll_bashable; // (door, window)
         mass2 = 50;
         e=0.30;
@@ -1625,7 +1625,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         mass2 = 200;
         e=0.30;
         part_dens = 60;
-    } else if (g->m.move_cost_ter_furn(x, y) == 0 && !g->m.has_flag_ter_or_furn(swimmable, x, y)) {
+    } else if (g->m.move_cost_ter_furn(x, y) == 0 && !g->m.has_flag_ter_or_furn("SWIMMABLE", x, y)) {
         collision_type = veh_coll_other; // not destructible
         mass2 = 1000;
         e=0.10;

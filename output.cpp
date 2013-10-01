@@ -497,15 +497,13 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
  char buff[1024];
  vsprintf(buff, mes, ap);
  va_end(ap);
- attron(c_red);
- mvprintw(0, 0, "DEBUG: %s                \n  Press spacebar...", buff);
+    fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", buff);
  std::ofstream fout;
  fout.open("debug.log", std::ios_base::app | std::ios_base::out);
  fout << filename << "[" << line << "]: " << buff << "\n";
  fout.close();
  while(getch() != ' ') ;
 ;
- attroff(c_red);
 }
 
 bool query_yn(const char *mes, ...)

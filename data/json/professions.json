@@ -92,6 +92,29 @@
     },
     {
         "type": "profession",
+        "description": "Your time spent fighting in back-alley brawls just might serve you well in the rough-and-tumble world left behind after the apocalypse.",
+        "ident": "brawler",
+        "items": [
+            "tank_top",
+            "pants_cargo",
+            "boots",
+            "knuckle_brass"
+        ],
+        "name": "Back Alley Brawler",
+        "points": 2,
+        "skills": [
+            {
+                "level": 1,
+                "name": "unarmed"
+            },
+            {
+                "level": 1,
+                "name": "dodge"
+            }
+        ]
+    },
+    {
+        "type": "profession",
         "description": "You were a high school drop-out with one goal in mind: to join the military. You finally got in, and now it's hell on Earth in cataclysmic proportions. You start out with some military gear, and a level in survival and firearms.",
         "ident": "soldier",
         "items": [
