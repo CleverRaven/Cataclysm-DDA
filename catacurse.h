@@ -113,7 +113,7 @@ typedef struct {
 
 /* Curses external declarations. */
 
-WINDOW *stdscr;
+extern WINDOW *stdscr;
 
 #define getmaxyx(w, y, x)  (y = getmaxy(w), x = getmaxx(w))
 
