@@ -75,31 +75,20 @@ void player_activity::json_save(JsonOut &jsout)
 {
     jsout.start_object();
 
-    jsout.write_int_member("moves_left", moves_left);
-    jsout.write_int_member("type", type);
-    jsout.write_int_member("index", index);
-    jsout.write_int_member("invlet", (int)invlet);
-    jsout.write_string_member("name", name);
+    jsout.member("moves_left", moves_left);
+    jsout.member("type", type);
+    jsout.member("index", index);
+    jsout.member("invlet", (int)invlet);
+    jsout.member("name", name);
 
-    jsout.write_member_name("placement");
+    jsout.member("placement");
     jsout.start_array();
-    jsout.write_int(placement.x);
-    jsout.write_int(placement.y);
+    jsout.write(placement.x);
+    jsout.write(placement.y);
     jsout.end_array();
 
-    jsout.write_member_name("values");
-    jsout.start_array();
-    for (int i = 0; i < values.size(); i++) {
-        jsout.write_int(values[i]);
-    }
-    jsout.end_array();
-
-    jsout.write_member_name("str_values");
-    jsout.start_array();
-    for (int i = 0; i < str_values.size(); i++) {
-        jsout.write_string(str_values[i]);
-    }
-    jsout.end_array();
+    jsout.member("values", values);
+    jsout.member("str_values", str_values);
 
     jsout.end_object();
 }
@@ -159,10 +148,10 @@ void SkillLevel::json_save(JsonOut &jsout)
 {
     // TODO: skip default values? 0, 0, true, 0 || initial_time
     jsout.start_object();
-    jsout.write_int_member("level", level());
-    jsout.write_int_member("exercise", exercise(true));
-    jsout.write_bool_member("istraining", isTraining());
-    jsout.write_int_member("lastpracticed", int(lastPracticed()));
+    jsout.member("level", level());
+    jsout.member("exercise", exercise(true));
+    jsout.member("istraining", isTraining());
+    jsout.member("lastpracticed", int(lastPracticed()));
     jsout.end_object();
 }
 
@@ -471,126 +460,105 @@ void player::json_save_common_variables(JsonOut &jsout)
     // no need to start one
 
     // positional data
-    jsout.write_int_member("posx", posx);
-    jsout.write_int_member("posy", posy);
+    jsout.member("posx", posx);
+    jsout.member("posy", posy);
 
     // attributes, current / max levels
-    jsout.write_int_member("str_cur", str_cur);
-    jsout.write_int_member("str_max", str_max);
-    jsout.write_int_member("dex_cur", dex_cur);
-    jsout.write_int_member("dex_max", dex_max);
-    jsout.write_int_member("int_cur", int_cur);
-    jsout.write_int_member("int_max", int_max);
-    jsout.write_int_member("per_cur", per_cur);
-    jsout.write_int_member("per_max", per_max);
+    jsout.member("str_cur", str_cur);
+    jsout.member("str_max", str_max);
+    jsout.member("dex_cur", dex_cur);
+    jsout.member("dex_max", dex_max);
+    jsout.member("int_cur", int_cur);
+    jsout.member("int_max", int_max);
+    jsout.member("per_cur", per_cur);
+    jsout.member("per_max", per_max);
 
     // om-noms or lack thereof
-    jsout.write_int_member("hunger", hunger);
-    jsout.write_int_member("thirst", thirst);
+    jsout.member("hunger", hunger);
+    jsout.member("thirst", thirst);
     // energy
-    jsout.write_int_member("fatigue", fatigue);
-    jsout.write_int_member("stim", stim);
+    jsout.member("fatigue", fatigue);
+    jsout.member("stim", stim);
     // pain
-    jsout.write_int_member("pain", pain);
-    jsout.write_int_member("pkill", pkill);
+    jsout.member("pain", pain);
+    jsout.member("pkill", pkill);
     // misc levels
-    jsout.write_int_member("radiation", radiation);
-    jsout.write_int_member("scent", scent);
+    jsout.member("radiation", radiation);
+    jsout.member("scent", scent);
 
     // initiative type stuff
-    jsout.write_int_member("moves", moves);
-    jsout.write_int_member("dodges_left", dodges_left);
+    jsout.member("moves", moves);
+    jsout.member("dodges_left", dodges_left);
 
     // breathing
-    jsout.write_bool_member("underwater", underwater);
-    jsout.write_int_member("oxygen", oxygen);
+    jsout.member("underwater", underwater);
+    jsout.member("oxygen", oxygen);
 
     // gender
-    jsout.write_bool_member("male", male);
+    jsout.member("male", male);
 
-    jsout.write_int_member("cash", cash);
-    jsout.write_int_member("recoil", recoil);
+    jsout.member("cash", cash);
+    jsout.member("recoil", recoil);
 
     // potential incompatibility with future expansion
     // todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
-    jsout.write_member_name("hp_cur");
-    jsout.start_array();
-    for (int i = 0; i < num_hp_parts; ++i) {
-        jsout.write_int(hp_cur[i]);
-    }
-    jsout.end_array();
-    jsout.write_member_name("hp_max");
-    jsout.start_array();
-    for (int i = 0; i < num_hp_parts; ++i) {
-        jsout.write_int(hp_max[i]);
-    }
-    jsout.end_array();
+    jsout.member("hp_cur", std::vector<int>(hp_cur, hp_cur+num_hp_parts));
+    jsout.member("hp_max", std::vector<int>(hp_max, hp_max+num_hp_parts));
 
     // npc; unimplemented
-    jsout.write_int_member("power_level", power_level);
-    jsout.write_int_member("max_power_level", max_power_level);
-
+    jsout.member("power_level", power_level);
+    jsout.member("max_power_level", max_power_level);
 
     // traits: permanent 'mutations' more or less
-    jsout.write_member_name("traits");
-    jsout.start_array();
-    for (std::set<std::string>::iterator iter = my_traits.begin(); iter != my_traits.end(); ++iter) {
-        jsout.write_string(*iter);
-    }
-    jsout.end_array();
+    jsout.member("traits", my_traits);
 
     // skills
-    jsout.write_member_name("skills");
+    jsout.member("skills");
     jsout.start_object();
     for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-        jsout.write_member_name((*aSkill)->ident());
+        jsout.member((*aSkill)->ident());
         skillLevel(*aSkill).json_save(jsout);
     }
     jsout.end_object();
 
     // martial arts
-    jsout.write_member_name("ma_styles");
-    jsout.start_array();
-    for (int i = 0; i < ma_styles.size(); i++) {
-        jsout.write_string(ma_styles[i]);
-    }
-    jsout.end_array();
+    jsout.member("ma_styles", ma_styles);
 
     // disease
-    jsout.write_member_name("illness");
+    jsout.member("illness");
     jsout.start_array();
     for (int i = 0; i < illness.size();  i++) {
         jsout.start_object();
-        jsout.write_string_member("type", illness[i].type);
-        jsout.write_int_member("duration", illness[i].duration);
-        jsout.write_int_member("intensity", illness[i].intensity);
-        jsout.write_int_member("bp", illness[i].bp);
-        jsout.write_int_member("side", illness[i].side);
+        jsout.member("type", illness[i].type);
+        jsout.member("duration", illness[i].duration);
+        jsout.member("intensity", illness[i].intensity);
+        jsout.member("bp", illness[i].bp);
+        jsout.member("side", illness[i].side);
         jsout.end_object();
     }
     jsout.end_array();
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
-    jsout.write_member_name("addictions");
+    jsout.member("addictions");
     jsout.start_array();
     for (int i = 0; i < addictions.size();  i++) {
         jsout.start_object();
-        jsout.write_int_member("type_enum", addictions[i].type);
-        jsout.write_int_member("intensity", addictions[i].intensity);
-        jsout.write_int_member("sated", addictions[i].sated);
+        jsout.member("type_enum", addictions[i].type);
+        jsout.member("intensity", addictions[i].intensity);
+        jsout.member("sated", addictions[i].sated);
         jsout.end_object();
     }
     jsout.end_array();
 
     // "Fracking Toasters" - Saul Tigh, toaster
-    jsout.write_member_name("my_bionics");
+    jsout.member("my_bionics");
     jsout.start_array();
     for (int i = 0; i < my_bionics.size();  i++) {
         jsout.start_object();
-        jsout.write_string_member("id", my_bionics[i].id);
-        jsout.write_int_member("invlet", my_bionics[i].invlet);
-        jsout.write_bool_member("powered", my_bionics[i].powered);
-        jsout.write_int_member("charge", my_bionics[i].charge);
+        jsout.member("id", my_bionics[i].id);
+        jsout.member("invlet", my_bionics[i].invlet);
+        jsout.member("powered", my_bionics[i].powered);
+        jsout.member("charge", my_bionics[i].charge);
         jsout.end_object();
     }
     jsout.end_array();
@@ -647,103 +615,98 @@ void player::json_save(JsonOut &jsout, bool save_contents)
     json_save_common_variables(jsout);
 
     // player-specific specifics
-    jsout.write_string_member("profession", prof->ident());
+    jsout.member("profession", prof->ident());
 
     // someday, npcs may drive
-    jsout.write_int_member("driving_recoil", int(driving_recoil));
-    jsout.write_bool_member("in_vehicle", in_vehicle);
-    jsout.write_bool_member("controlling_vehicle", controlling_vehicle);
+    jsout.member("driving_recoil", int(driving_recoil));
+    jsout.member("in_vehicle", in_vehicle);
+    jsout.member("controlling_vehicle", controlling_vehicle);
 
     // shopping carts etc
-    jsout.write_member_name("grab_point");
+    jsout.member("grab_point");
     jsout.start_array();
-    jsout.write_int(grab_point.x);
-    jsout.write_int(grab_point.y);
+    jsout.write(grab_point.x);
+    jsout.write(grab_point.y);
     jsout.end_array();
 
     // misc player specific stuff
-    jsout.write_int_member("blocks_left", blocks_left);
-    jsout.write_int_member("focus_pool", focus_pool);
-    jsout.write_string_member("style_selected", style_selected);
+    jsout.member("blocks_left", blocks_left);
+    jsout.member("focus_pool", focus_pool);
+    jsout.member("style_selected", style_selected);
 
     // possibly related to illness[] ?
-    jsout.write_int_member("health", health);
+    jsout.member("health", health);
 
     // crafting etc
-    jsout.write_member_name("activity");
+    jsout.member("activity");
     activity.json_save(jsout);
-    jsout.write_member_name("backlog");
+    jsout.member("backlog");
     activity.json_save(jsout);
 
     // mutations; just like traits but can be removed.
-    jsout.write_member_name("mutations");
-    jsout.start_array();
-    for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-        jsout.write_string(*iter);
-    }
-    jsout.end_array();
+    jsout.member("mutations", my_mutations);
 
     // "The cold wakes you up."
-    jsout.write_array_member("temp_cur", std::vector<int>(temp_cur, temp_cur + num_bp));
-    jsout.write_array_member("temp_conv", std::vector<int>(temp_conv, temp_conv + num_bp));
-    jsout.write_array_member("frostbite_timer", std::vector<int>(frostbite_timer, frostbite_timer + num_bp));
+    jsout.member("temp_cur", std::vector<int>(temp_cur, temp_cur + num_bp));
+    jsout.member("temp_conv", std::vector<int>(temp_conv, temp_conv + num_bp));
+    jsout.member("frostbite_timer", std::vector<int>(frostbite_timer, frostbite_timer + num_bp));
 
     // npc: unimplemented, potentially useful
-    jsout.write_member_name("learned_recipes");
+    jsout.member("learned_recipes");
     jsout.start_array();
     for (std::map<std::string, recipe*>::iterator iter = learned_recipes.begin(); iter != learned_recipes.end(); ++iter) {
-        jsout.write_string(iter->first);
+        jsout.write(iter->first);
     }
     jsout.end_array();
 
     // :(
-    jsout.write_member_name("morale");
+    jsout.member("morale");
     jsout.start_array();
     for (int i = 0; i < morale.size();  i++) {
         jsout.start_object();
-        jsout.write_int_member("type_enum", morale[i].type);
+        jsout.member("type_enum", morale[i].type);
         if (morale[i].item_type != NULL) {
-            jsout.write_string_member("item_type", morale[i].item_type->id);
+            jsout.member("item_type", morale[i].item_type->id);
         }
-        jsout.write_int_member("bonus", morale[i].bonus);
-        jsout.write_int_member("duration", morale[i].duration);
-        jsout.write_int_member("decay_start", morale[i].decay_start);
-        jsout.write_int_member("age", morale[i].age);
+        jsout.member("bonus", morale[i].bonus);
+        jsout.member("duration", morale[i].duration);
+        jsout.member("decay_start", morale[i].decay_start);
+        jsout.member("age", morale[i].age);
         jsout.end_object();
     }
     jsout.end_array();
 
     // mission stuff
-    jsout.write_int_member("active_mission", active_mission);
+    jsout.member("active_mission", active_mission);
 
-    jsout.write_array_member("active_missions", active_missions);
-    jsout.write_array_member("completed_missions", completed_missions);
-    jsout.write_array_member("failed_missions", failed_missions);
+    jsout.member("active_missions", active_missions);
+    jsout.member("completed_missions", completed_missions);
+    jsout.member("failed_missions", failed_missions);
 
     // player stats
-    jsout.write_member_name("player_stats");
+    jsout.member("player_stats");
     jsout.start_object();
-    jsout.write_int_member("squares_walked", (*lifetime_stats()).squares_walked);
-    jsout.write_int_member("damage_taken", (*lifetime_stats()).damage_taken);
-    jsout.write_int_member("damage_healed", (*lifetime_stats()).damage_healed);
+    jsout.member("squares_walked", (*lifetime_stats()).squares_walked);
+    jsout.member("damage_taken", (*lifetime_stats()).damage_taken);
+    jsout.member("damage_healed", (*lifetime_stats()).damage_healed);
     jsout.end_object();
 
     if (save_contents) {
-        jsout.write_member_name("worn");
+        jsout.member("worn");
         json_save_worn(jsout, this);
-        jsout.write_member_name("inv");
+        jsout.member("inv");
         inv.json_save_items(jsout);
-        jsout.write_member_name("invcache");
+        jsout.member("invcache");
         inv.json_save_invcache(jsout);
         if (!weapon.is_null()) {
-            jsout.write_member_name("weapon");
+            jsout.member("weapon");
             weapon.json_save(jsout, true);
         }
 //FIXME: seperate function, better still another file
-  /*      jsout.write_member_name("memorial");
+  /*      jsout.member("memorial");
         jsout.start_array();
         for(int i = 0; i < memorial_log.size(); i++) {
-            jsout.write_string(memorial_log[i]);
+            jsout.write(memorial_log[i]);
         }
         jsout.end_array();
 */
@@ -1192,10 +1155,10 @@ void inventory::json_save_invcache(JsonOut &jsout) const
     jsout.start_array();
     for (std::map<std::string, std::vector<char> >::const_iterator invlet_id =  invlet_cache.begin(); invlet_id != invlet_cache.end(); ++invlet_id) {
         jsout.start_object();
-        jsout.write_member_name(invlet_id->first);
+        jsout.member(invlet_id->first);
         jsout.start_array();
         for (std::vector<char>::const_iterator sym = invlet_id->second.begin(); sym != invlet_id->second.end(); ++sym) {
-            jsout.write_int(int(*sym));
+            jsout.write(int(*sym));
         }
         jsout.end_array();
         jsout.end_object();
@@ -1536,56 +1499,56 @@ void item::json_save(JsonOut &jsout, bool save_contents) const
     }
 
     /////
-    jsout.write_int_member("invlet", int(invlet));
-    jsout.write_string_member("typeid", typeId());
-    jsout.write_int_member("bday", bday);
+    jsout.member("invlet", int(invlet));
+    jsout.member("typeid", typeId());
+    jsout.member("bday", bday);
 
-    if (charges != -1)     jsout.write_int_member("charges", int(charges));
-    if (damage != 0)       jsout.write_int_member("damage", int(damage));
-    if (burnt != 0)        jsout.write_int_member("burnt", burnt);
-    if (poison != 0)       jsout.write_int_member("poison", poison);
-    if (ammotmp != "null") jsout.write_string_member("curammo", ammotmp);
-    if (mode != "NULL")    jsout.write_string_member("mode", mode);
-    if (active == true)    jsout.write_bool_member("active", true);
-    if (corpse != NULL)    jsout.write_int_member("corpse", corpse->id);
+    if (charges != -1)     jsout.member("charges", int(charges));
+    if (damage != 0)       jsout.member("damage", int(damage));
+    if (burnt != 0)        jsout.member("burnt", burnt);
+    if (poison != 0)       jsout.member("poison", poison);
+    if (ammotmp != "null") jsout.member("curammo", ammotmp);
+    if (mode != "NULL")    jsout.member("mode", mode);
+    if (active == true)    jsout.member("active", true);
+    if (corpse != NULL)    jsout.member("corpse", corpse->id);
 
-    if (owned != -1)       jsout.write_int_member("owned", owned);
-    if (player_id != -1)   jsout.write_int_member("player_id", player_id);
-    if (mission_id != -1)  jsout.write_int_member("mission_id", mission_id);
+    if (owned != -1)       jsout.member("owned", owned);
+    if (player_id != -1)   jsout.member("player_id", player_id);
+    if (mission_id != -1)  jsout.member("mission_id", mission_id);
 
     if (!item_tags.empty()) {
-        jsout.write_member_name("item_tags");
+        jsout.member("item_tags");
         jsout.start_array();
         for( std::set<std::string>::const_iterator it = item_tags.begin();
              it != item_tags.end(); ++it ) {
-            jsout.write_string(*it);
+            jsout.write(*it);
         }
         jsout.end_array();
     }
 
     if (!item_vars.empty()) {
-        jsout.write_member_name("item_vars");
+        jsout.member("item_vars");
         jsout.start_object();
         for( std::map<std::string, std::string>::const_iterator it = item_vars.begin(); it != item_vars.end(); ++it ) {
-            jsout.write_string_member(it->first, it->second);
+            jsout.member(it->first, it->second);
         }
         jsout.end_object();
     }
 
     if ( name != type->name ) {
-        jsout.write_string_member("name", name);
+        jsout.member("name", name);
     }
 
     if ( light.luminance != 0 ) {
-        jsout.write_int_member("light", int(light.luminance));
+        jsout.member("light", int(light.luminance));
         if ( light.width != 0 ) {
-            jsout.write_int_member("light_width", int(light.width));
-            jsout.write_int_member("light_dir", int(light.direction));
+            jsout.member("light_width", int(light.width));
+            jsout.member("light_dir", int(light.direction));
         }
     }
 
     if (save_contents && contents.size() > 0) {
-        jsout.write_member_name("contents");
+        jsout.member("contents");
         jsout.start_array();
         for (int k = 0; k < contents.size(); k++) {
             contents[k].json_save(jsout, false); // no matryoshka dolls
