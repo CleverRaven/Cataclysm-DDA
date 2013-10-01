@@ -1826,6 +1826,7 @@
       ["textbook_weapeast", 3],
       ["textbook_armwest", 3],
       ["textbook_firstaid", 8],
+      ["textbook_speech", 12],
       ["textbook_armeast", 3]
     ]
   },{
@@ -2060,6 +2061,7 @@
       ["mag_news", 35],
       ["manual_business", 40],
       ["textbook_business", 12],
+      ["textbook_speech", 8],
       ["lighter", 60],
       ["ref_lighter", 5],
       ["matches", 60],
@@ -2091,6 +2093,7 @@
       ["mag_cutting", 10],
       ["mag_stabbing", 5],
       ["mag_unarmed", 20],
+      ["textbook_speech", 6],
       ["aspirin", 85],
       ["cigar", 5],
       ["glasses_eye", 90],
@@ -2165,6 +2168,7 @@
       ["manual_carpentry", 10],
       ["mag_mechanics", 35],
       ["manual_driving", 20],
+      ["textbook_speech", 12],
       ["novel_romance", 30],
       ["novel_spy", 28],
       ["novel_scifi", 20],
@@ -3806,6 +3810,7 @@
       ["textbook_computers", 8],
       ["textbook_electronics", 6],
       ["textbook_chemistry", 11],
+      ["textbook_firstaid", 6],
       ["SICP", 3],
       ["textbook_robots", 1],
       ["soldering_iron", 70],
