@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.7-git\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-16 11:50+1200\n"
-"PO-Revision-Date: 2013-08-31 22:23+0000\n"
+"POT-Creation-Date: 2013-09-27 09:27+1200\n"
+"PO-Revision-Date: 2013-09-25 03:44+0000\n"
 "Last-Translator: Argasm <argasm@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2013-09-03 08:25+0000\n"
-"X-Generator: Launchpad (build 16753)\n"
+"X-Launchpad-Export-Date: 2013-09-26 18:07+0000\n"
+"X-Generator: Launchpad (build 16771)\n"
 
 #: action.cpp:311 npcmove.cpp:2072
 msgid "Pause"
@@ -429,40 +429,36 @@ msgid "You have a craving for crack."
 msgstr "Vous êtes en manque de crack."
 
 #: addiction.cpp:176
-#, fuzzy
 msgid "nicotine"
-msgstr "Nicotine"
+msgstr "nicotine"
 
 #: addiction.cpp:177
 msgid "caffeine"
-msgstr ""
+msgstr "caféine"
 
 #: addiction.cpp:178
-#, fuzzy
 msgid "alcohol"
-msgstr "Alcool"
+msgstr "alcool"
 
 #: addiction.cpp:179
 msgid "sleeping pills"
-msgstr ""
+msgstr "somnifères"
 
 #: addiction.cpp:180
 msgid "opiates"
-msgstr ""
+msgstr "opiacés"
 
 #: addiction.cpp:181
-#, fuzzy
 msgid "amphetamine"
-msgstr "Méthamphetamines"
+msgstr "amphétamine"
 
 #: addiction.cpp:182 lang/json/json_items.py:1672
 msgid "cocaine"
-msgstr ""
+msgstr "cocaïne"
 
 #: addiction.cpp:183
-#, fuzzy
 msgid "crack cocaine"
-msgstr "crépitant"
+msgstr "crack"
 
 #: addiction.cpp:191
 msgid "Nicotine Withdrawal"
@@ -551,21 +547,21 @@ msgstr ""
 #. ~ advanced inventory; "amount", "weight", "volume"; 14 letters
 #: advanced_inv.cpp:150
 msgid "amt weight vol"
-msgstr ""
+msgstr "qtt poid volume"
 
 #. ~ advanced inventory; "source", "weight", "volume"; 14 letters
 #: advanced_inv.cpp:153
 msgid "src weight vol"
-msgstr ""
+msgstr "src poid vol"
 
 #. ~ advanced inventory; "weight", "volume"; 14 letters, right-aligned
 #: advanced_inv.cpp:156
 msgid "    weight vol"
-msgstr ""
+msgstr "    poid vol."
 
 #: advanced_inv.cpp:339
 msgid "All 9 squares"
-msgstr ""
+msgstr "Les 9 cases"
 
 #: advanced_inv.cpp:378
 msgid "Inventory"
@@ -625,7 +621,7 @@ msgstr "vêtements"
 
 #: advanced_inv.cpp:462
 msgid "drugs"
-msgstr ""
+msgstr "drogues"
 
 #: advanced_inv.cpp:462
 msgid "food"
@@ -653,7 +649,7 @@ msgstr "armes"
 
 #: advanced_inv.cpp:601 advanced_inv.cpp:691
 msgid "category"
-msgstr ""
+msgstr "catégorie"
 
 #: advanced_inv.cpp:601 advanced_inv.cpp:691
 msgid "charges"
@@ -661,11 +657,11 @@ msgstr ""
 
 #: advanced_inv.cpp:601 advanced_inv.cpp:691
 msgid "name"
-msgstr ""
+msgstr "Nom"
 
 #: advanced_inv.cpp:601 advanced_inv.cpp:691
 msgid "none"
-msgstr ""
+msgstr "aucun"
 
 #: advanced_inv.cpp:601 advanced_inv.cpp:691
 msgid "volume"
@@ -678,16 +674,16 @@ msgstr "poids"
 #: advanced_inv.cpp:646
 #, c-format
 msgid "[<] page %d of %d [>]"
-msgstr ""
+msgstr "[<] page %d sur %d [>]"
 
 #: advanced_inv.cpp:654
 #, c-format
 msgid "< [s]ort: %s >"
-msgstr ""
+msgstr "< [s]trier : %s >"
 
 #: advanced_inv.cpp:661
 msgid "[F]ilter"
-msgstr ""
+msgstr "[F]iltrer"
 
 #: advanced_inv.cpp:748
 msgid "< [?] show log >"
@@ -696,117 +692,128 @@ msgstr "< [?] montrer le journal >"
 #: advanced_inv.cpp:749
 msgid "hjkl or arrow keys to move cursor, [m]ove item between panes,"
 msgstr ""
+"hjkl ou les fleches pour déplacer le curseur, [m]déplace l'objet entre les "
+"panneaux,"
 
 #: advanced_inv.cpp:750
 msgid "1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"
 msgstr ""
+"1-9 (ou GHJKLYUBNI) pour selectionner la case pour le tableau actif, 0 pour "
+"l'inventaire,"
 
 #: advanced_inv.cpp:751
 msgid "[e]xamine item,  [s]ort display, toggle auto[p]ickup, [q]uit."
 msgstr ""
+"[e]xaminer l'objet,  [s]trier l'affichage, [p] bascule ramassage auto, [q]"
+"uitte."
 
 #: advanced_inv.cpp:753
-#, fuzzy
 msgid "< [?] show help >"
-msgstr "< [?] montrer le journal >"
+msgstr "<[?] voir l'aide>"
 
 #: advanced_inv.cpp:792
 msgid "same square!"
-msgstr ""
+msgstr "même case !"
 
 #: advanced_inv.cpp:803
 msgid "You can't put items there"
-msgstr ""
+msgstr "Vous ne pouvez pas mettre d'objets ici"
 
 #: advanced_inv.cpp:819
 msgid "Select destination"
-msgstr ""
+msgstr "Sélectionnez la destination"
 
 #: advanced_inv.cpp:826
 msgid " (FULL)"
-msgstr ""
+msgstr " (PLEIN)"
 
 #: advanced_inv.cpp:846
 msgid "Can't move stuff to the same place."
-msgstr ""
+msgstr "Impossible de deplacer le matos au même endroit."
 
 #: advanced_inv.cpp:848
 msgid "Invalid. Like the menu said."
-msgstr ""
+msgstr "Invalide comme précisé dans le menu."
 
 #: advanced_inv.cpp:886
 msgid "Destination area is full. Remove some items first."
-msgstr ""
+msgstr "L'emplacement de destination est plein. Retirez des objets."
 
 #: advanced_inv.cpp:898
 msgid "Destination area has too many items. Remove some first."
-msgstr ""
+msgstr "L'emplacement de destination a trop d'objets. Retirez en."
 
 #: advanced_inv.cpp:902
 msgid "How many do you want to move? (0 to cancel)"
-msgstr ""
+msgstr "Combien voulez vous en déplacer ? (0 pour annuler)"
 
 #: advanced_inv.cpp:904
 #, c-format
 msgid "Destination can only hold %d! Move how many? (0 to cancel) "
 msgstr ""
+"La destination ne peu encore contenir que %d ! En déplacer combien ? (0 pour "
+"annuler) "
 
 #: advanced_inv.cpp:933 advanced_inv.cpp:940
 #, c-format
 msgid ""
 "Destination full. %d / %d moved. Please report a bug if items have vanished."
 msgstr ""
+"Destination pleine. %d / %d déplacé. Veuillez faire un rapport de bug si des "
+"objets on disparu."
 
 #: advanced_inv.cpp:957 advanced_inv.cpp:964 advanced_inv.cpp:976
 #: advanced_inv.cpp:983
 msgid "Destination full. Please report a bug if items have vanished."
 msgstr ""
+"Destination pleine. Veuillez faire un rapport de bug si des objets on "
+"disparu."
 
 #: advanced_inv.cpp:1004
 #, c-format
 msgid "Source area is the same as destination (%s)."
-msgstr ""
+msgstr "L'emplacement source est la même que la zone de destination (%s)."
 
 #: advanced_inv.cpp:1013
 msgid "You can't pick up a liquid."
-msgstr ""
+msgstr "Vous ne pouvez pas ramasser un liquide."
 
 #: advanced_inv.cpp:1022
 msgid "There's no room in your inventory."
-msgstr ""
+msgstr "Il n'y a pas de place dans votre inventaire."
 
 #: advanced_inv.cpp:1027
 msgid "This is too heavy!"
-msgstr ""
+msgstr "C'est trop lourd !"
 
 #: advanced_inv.cpp:1032
 msgid "Too many itens"
-msgstr ""
+msgstr "Trop d'objets"
 
 #: advanced_inv.cpp:1047 advanced_inv.cpp:1052
 msgid "Destination area is full. Remove some items first"
-msgstr ""
+msgstr "L'emplacement de destination est plein. Retirez des objets."
 
 #: advanced_inv.cpp:1070
 msgid "Sort by... "
-msgstr ""
+msgstr "Trier par... "
 
 #: advanced_inv.cpp:1071
 msgid "Unsorted (recently added first)"
-msgstr ""
+msgstr "Non trié (objets ajoutés récemment en premier)"
 
 #: advanced_inv.cpp:1142 advanced_inv.cpp:1143 advanced_inv.cpp:1144
 #: newcharacter.cpp:422
 msgid "DESCRIPTION"
-msgstr ""
+msgstr "DESCRIPTION"
 
 #: advanced_inv.cpp:1143
 msgid "[up / page up] previous"
-msgstr ""
+msgstr "[haut / page haut] précédent"
 
 #: advanced_inv.cpp:1144
 msgid "[down / page down] next"
-msgstr ""
+msgstr "[bas/ page bas] suivant"
 
 #: advanced_inv.h:57
 msgid "Initializing..."
@@ -1448,7 +1455,7 @@ msgstr "Vous êtes pressé de tenir le %s."
 
 #: artifact.cpp:959
 msgid "Your skin feels slithery."
-msgstr ""
+msgstr "Votre peau deviens serpentine."
 
 #: artifact.cpp:963
 msgid "You fade into invisibility!"
@@ -1480,7 +1487,7 @@ msgstr ""
 
 #: artifact.cpp:991
 msgid "Your back feels strengthened."
-msgstr ""
+msgstr "Votre dos semble renforcé."
 
 #: artifact.cpp:995
 msgid "You feel hungry."
@@ -1549,7 +1556,7 @@ msgstr "Vitesse %s%d! "
 
 #: auto_pickup.cpp:50
 msgid " AUTO PICKUP MANAGER "
-msgstr ""
+msgstr " UTILITAIRE DE RAMASSAGE AUTOMATIQUE "
 
 #: auto_pickup.cpp:54
 msgid "<A>dd"
@@ -1664,7 +1671,7 @@ msgstr "Allumer : %d/%d"
 
 #: bionics.cpp:70
 msgid "BIONICS -"
-msgstr ""
+msgstr "BIONIQUE -"
 
 #: bionics.cpp:71 bionics.cpp:136
 msgid "Activating.  Press '!' to examine your implants."
@@ -1781,7 +1788,7 @@ msgstr "Produit toxique : Autre."
 
 #: bionics.cpp:291
 msgid "THC Intoxication"
-msgstr ""
+msgstr "Intoxication au THC"
 
 #: bionics.cpp:293
 msgid "Magic Mushroom"
@@ -1913,7 +1920,7 @@ msgstr "L'installation échoue sans incident."
 
 #: bionics.cpp:583
 msgid "You flub the installation."
-msgstr ""
+msgstr "L'installation a raté."
 
 #: bionics.cpp:584
 msgid "You mess up the installation."
@@ -1960,9 +1967,9 @@ msgid "You lose power capacity!"
 msgstr "Vous perdez de la puissance!"
 
 #: bionics.cpp:636
-#, fuzzy, c-format
+#, c-format
 msgid "Lost %d units of power capacity."
-msgstr "Vous perdez de la puissance!"
+msgstr ""
 
 #: bionics.cpp:642
 #, c-format
@@ -2288,16 +2295,15 @@ msgstr "Lancement du missile nucléaire interompu."
 #: computer.cpp:631
 #, c-format
 msgid "Launched a nuke at a %s."
-msgstr ""
+msgstr "Missile nucléaire lancé sur un %s."
 
 #: computer.cpp:647
 msgid "Disarm missile."
 msgstr "Missile neutralisé."
 
 #: computer.cpp:649
-#, fuzzy
 msgid "Disarmed a nuclear missile."
-msgstr "Missile neutralisé."
+msgstr ""
 
 #: computer.cpp:650
 msgid "Nuclear missile disarmed!"
@@ -2901,9 +2907,8 @@ msgid "Sealed a Hazardous Material Sarcophagus."
 msgstr ""
 
 #: computer.cpp:1196
-#, fuzzy
 msgid "Evacuate Immediately!"
-msgstr "EVACUEZ IMMEDIATEMENT !"
+msgstr "Evacuez immediatement !"
 
 #: computer.cpp:1226
 msgid "Access code required!"
@@ -2940,7 +2945,7 @@ msgstr "La pompe explose!"
 
 #: computer.cpp:1357
 msgid "Sewage leaks!"
-msgstr ""
+msgstr "Fuite d'eaux usées !"
 
 #: computer.cpp:1409
 msgid "ERROR: Disruptive Spin"
@@ -3040,7 +3045,7 @@ msgstr "Réaligner cloture"
 
 #: construction.cpp:263
 msgid "Build Wire Gate"
-msgstr ""
+msgstr "Construire porte en fil de fer"
 
 #: construction.cpp:281
 msgid "Build Roof"
@@ -3349,7 +3354,7 @@ msgstr "Démonter un objet:"
 #: iuse.cpp:362 npctalk.cpp:835 npctalk.cpp:843 npctalk.cpp:1348
 #: npctalk.cpp:1378
 msgid "Never mind."
-msgstr ""
+msgstr "RAS"
 
 #: crafting.cpp:1425 game.cpp:8888
 #, c-format
@@ -3476,7 +3481,7 @@ msgstr "Nourriture"
 
 #: defense.cpp:629 defense.cpp:700
 msgid "Water"
-msgstr ""
+msgstr "Eau"
 
 #: defense.cpp:641 defense.cpp:702
 msgid "Mercenaries"
@@ -3945,32 +3950,28 @@ msgid "Got over the cold."
 msgstr ""
 
 #: disease.cpp:381
-#, fuzzy
 msgid "Got over the flu."
-msgstr "Vous attrapez la grippe."
+msgstr ""
 
 #: disease.cpp:384
 msgid "Put out the fire."
 msgstr ""
 
 #: disease.cpp:387
-#, fuzzy
 msgid "Cured the fungal infection."
-msgstr "Vous contractez une infection fongique."
+msgstr ""
 
 #: disease.cpp:390
 msgid "Dermatik eggs hatched."
 msgstr "Les œuf dermiques ont éclos."
 
 #: disease.cpp:393
-#, fuzzy
 msgid "Cleaned the bite wound."
-msgstr "Vous êtes profondement mordu."
+msgstr ""
 
 #: disease.cpp:396
-#, fuzzy
 msgid "Sterilized the infection... this time."
-msgstr "Vous avez contracté l'infection."
+msgstr ""
 
 #: disease.cpp:426
 msgid "Your thoughts are unclear."
@@ -3991,24 +3992,20 @@ msgid "Your arms are shivering."
 msgstr "Vos bras tremblent."
 
 #: disease.cpp:476
-#, fuzzy
 msgid "Your hands feel like ice."
-msgstr "Vous ne sentez plus vos mains."
+msgstr ""
 
 #: disease.cpp:487
-#, fuzzy
 msgid "Your legs tremble against the relentless cold."
-msgstr "Vos jambes tremblent à cause de l'incroyable froid."
+msgstr ""
 
 #: disease.cpp:504
-#, fuzzy
 msgid "Your feet feel frigid."
-msgstr "Vos pieds sont chauds."
+msgstr ""
 
 #: disease.cpp:518
-#, fuzzy
 msgid "Your fingers itch."
-msgstr "Votre visage est dangereusement froid."
+msgstr ""
 
 #: disease.cpp:531
 msgid "Your toes itch."
@@ -4047,9 +4044,8 @@ msgid "loud coughing."
 msgstr "Grosse toux."
 
 #: disease.cpp:809 disease.cpp:833
-#, fuzzy
 msgid "You gag and retch."
-msgstr "Vous êtes piégé."
+msgstr ""
 
 #: disease.cpp:841
 msgid "You fall asleep."
@@ -4083,14 +4079,12 @@ msgid "beep-beep-beep!"
 msgstr "bip-bip-bip !"
 
 #: disease.cpp:874
-#, fuzzy
 msgid "You wake up to the ringing of an alarm-clock."
-msgstr "Vous vous réveillez a la sonnerie de votre réveil."
+msgstr ""
 
 #: disease.cpp:892
-#, fuzzy
 msgid "Your bones feel like rubber as they melt and remend."
-msgstr "Vous sentez vos os fondus et réparés."
+msgstr ""
 
 #: disease.cpp:895
 msgid "Your bones feel like they're crumbling."
@@ -4135,35 +4129,30 @@ msgid "Your adrenaline rush wears off.  You feel AWFUL!"
 msgstr "Votre poussée d'adrenaline se dissipe, vous vous sentez MISERABLE !"
 
 #: disease.cpp:1112
-#, fuzzy
 msgid ""
 "Your asthma overcomes you.\n"
 "You asphixiate."
-msgstr "Votre asthme vous dépasse. Vous cessez de respirez et mourrez..."
+msgstr ""
 
 #: disease.cpp:1113
 msgid "Succumbed to an asthma attack."
 msgstr "Sucommbé à une crise d'asthme."
 
 #: disease.cpp:1117
-#, fuzzy
 msgid "You wheeze and gasp for air."
-msgstr "Vous êtes en manque de cocaïne."
+msgstr ""
 
 #: disease.cpp:1143
-#, fuzzy
 msgid "Your head aches."
-msgstr "Vos mains tremblent."
+msgstr ""
 
 #: disease.cpp:1146
-#, fuzzy
 msgid "You feel completely rundown."
-msgstr "Vous démontez complètement le/la %s."
+msgstr ""
 
 #: disease.cpp:1150
-#, fuzzy
 msgid "You feel an urge to take more meth."
-msgstr "Vous être pressé d'enfiler le %s"
+msgstr ""
 
 #: disease.cpp:1183
 msgid "Glowing lights surround you, and you teleport."
@@ -4593,7 +4582,7 @@ msgstr "Coincé dans la fosse"
 
 #: disease.cpp:1572
 msgid "Clambering Over Rubble"
-msgstr ""
+msgstr "Se hissant au dessus des décombres"
 
 #: disease.cpp:1574
 msgid "Stem cell treatment"
@@ -4668,10 +4657,8 @@ msgid "Your head is very exposed to the cold. It is hard to concentrate."
 msgstr "Votre crâne est très exposé au froid. Se concentrer est difficile."
 
 #: disease.cpp:1616
-#, fuzzy
 msgid "Your head is extremely cold.  You can barely think straight."
 msgstr ""
-"Vos mains sont dangereusement froides. vos mains tremblent incontrolablement."
 
 #: disease.cpp:1621
 msgid "Your face is exposed to the cold."
@@ -4690,16 +4677,12 @@ msgid "Your torso is exposed to the cold."
 msgstr "Votre torse est exposé au froid"
 
 #: disease.cpp:1629
-#, fuzzy
 msgid "Your torso is very cold, and your actions are incoordinated."
-msgstr "Votre torse est exposé au froid. Vous coordonnez mal vos actions."
+msgstr ""
 
 #: disease.cpp:1630
-#, fuzzy
 msgid "Your torso is dangerously cold. Your actions are very incoordinated."
 msgstr ""
-"Votre torse est dangereusement froid. Vos actions sont incroyablement mal "
-"coordonnées."
 
 #: disease.cpp:1635
 msgid "Your arms are exposed to the cold."
@@ -4719,14 +4702,12 @@ msgid "Your hands are exposed to the cold."
 msgstr "Vos mains sont exposées au froid."
 
 #: disease.cpp:1643
-#, fuzzy
 msgid "Your hands are shivering from the cold."
-msgstr "Vos mains sont exposées au froid."
+msgstr ""
 
 #: disease.cpp:1644
-#, fuzzy
 msgid "Your hands are shivering uncontrollably from the extreme cold."
-msgstr "Vos jambes tremblent à cause de l'incroyable froid."
+msgstr ""
 
 #: disease.cpp:1649
 msgid "Your legs are exposed to the cold."
@@ -4885,14 +4866,12 @@ msgid "Your hands feel warm."
 msgstr "Vos mains sont chaudes."
 
 #: disease.cpp:1723
-#, fuzzy
 msgid "Your hands feel hot and uncoordinated."
-msgstr "Vos mains sont chaudes et malhabiles."
+msgstr ""
 
 #: disease.cpp:1724
-#, fuzzy
 msgid "Your hands feel disgustinly hot and are very uncoordinated."
-msgstr "Vos mains sont clairement brulantes et très malhabiles."
+msgstr ""
 
 #: disease.cpp:1729
 msgid "Your legs feel warm."
@@ -5314,9 +5293,8 @@ msgstr ""
 "la bouffissure !"
 
 #: disease.cpp:2078
-#, fuzzy
 msgid "You feel well rested."
-msgstr "Vous sentez une présence maléfique."
+msgstr ""
 
 #: disease.cpp:2115
 msgid "The light wakes you up."
@@ -5355,9 +5333,8 @@ msgid "a hacking cough."
 msgstr "une toux hachée."
 
 #: disease.cpp:2209
-#, fuzzy
 msgid "You wake up coughing."
-msgstr "Vous vous reveillez."
+msgstr ""
 
 #: disease.cpp:2224
 msgid "You feel a little strange."
@@ -5368,9 +5345,8 @@ msgid "The world takes on a dreamlike quality."
 msgstr ""
 
 #: disease.cpp:2230
-#, fuzzy
 msgid "You have a sudden nostalgic feeling."
-msgstr "Vous êtes en manque de nicotine."
+msgstr ""
 
 #: disease.cpp:2232
 msgid "Everything around you is starting to breathe."
@@ -5381,9 +5357,8 @@ msgid "Something feels very, very wrong."
 msgstr ""
 
 #: disease.cpp:2238
-#, fuzzy
 msgid "You feel sick to your stomach."
-msgstr "Vous sentez une tempête arriver."
+msgstr ""
 
 #: disease.cpp:2271
 msgid "Fractal patterns dance across your vision."
@@ -5517,9 +5492,8 @@ msgid "Water fills nearly to the ceiling!"
 msgstr "L'eau à inondé presque jusqu'au plafond !"
 
 #: event.cpp:189
-#, fuzzy
 msgid "Water level reached the ceiling."
-msgstr "L'eau à inondé presque jusqu'au plafond !"
+msgstr ""
 
 #: event.cpp:242
 msgid "An eyebot swoops down nearby!"
@@ -5991,11 +5965,11 @@ msgstr ""
 
 #: faction.cpp:126
 msgid "Kingdom"
-msgstr ""
+msgstr "Royaume"
 
 #: faction.cpp:126
 msgid "Nation"
-msgstr ""
+msgstr "Nation"
 
 #: faction.cpp:126
 msgid "Party"
@@ -6003,39 +5977,39 @@ msgstr ""
 
 #: faction.cpp:126
 msgid "Republic"
-msgstr ""
+msgstr "République"
 
 #: faction.cpp:126
 msgid "State"
-msgstr ""
+msgstr "État"
 
 #: faction.cpp:134
 msgid "basic survival"
-msgstr ""
+msgstr "rudiments de survie"
 
 #: faction.cpp:135
 msgid "financial wealth"
-msgstr ""
+msgstr "aisance financière"
 
 #: faction.cpp:136
 msgid "dominance of the region"
-msgstr ""
+msgstr "domination de la région"
 
 #: faction.cpp:137
 msgid "the extermination of monsters"
-msgstr ""
+msgstr "l'extermination des monstres"
 
 #: faction.cpp:138
 msgid "contact with unseen powers"
-msgstr ""
+msgstr "contact avec des forces cachées"
 
 #: faction.cpp:139
 msgid "bringing the apocalypse"
-msgstr ""
+msgstr "cause l'apocalypse"
 
 #: faction.cpp:140
 msgid "general chaos and anarchy"
-msgstr ""
+msgstr "chaos généralisé et anarchie"
 
 #: faction.cpp:141
 msgid "the cultivation of knowledge"
@@ -6043,7 +6017,7 @@ msgstr ""
 
 #: faction.cpp:142
 msgid "harmony with nature"
-msgstr ""
+msgstr "harmonie avec la nature"
 
 #: faction.cpp:143
 msgid "rebuilding civilization"
@@ -6063,31 +6037,31 @@ msgstr ""
 
 #: faction.cpp:155
 msgid "their bustling trade centers"
-msgstr ""
+msgstr "leurs centres commerciaux animés"
 
 #: faction.cpp:156
 msgid "trade caravans"
-msgstr ""
+msgstr "caravane marchande"
 
 #: faction.cpp:157
 msgid "scavenging supplies"
-msgstr ""
+msgstr "chercher des vivres"
 
 #: faction.cpp:158
 msgid "mercenary work"
-msgstr ""
+msgstr "travail mercenaire"
 
 #: faction.cpp:159
 msgid "assassinations"
-msgstr ""
+msgstr "assassinats"
 
 #: faction.cpp:160
 msgid "raiding settlements"
-msgstr ""
+msgstr "piller des campements"
 
 #: faction.cpp:161
 msgid "the theft of property"
-msgstr ""
+msgstr "le vol de la propriété"
 
 #: faction.cpp:162
 msgid "gambling parlors"
@@ -6095,27 +6069,27 @@ msgstr ""
 
 #: faction.cpp:163
 msgid "medical aid"
-msgstr ""
+msgstr "aide médicale"
 
 #: faction.cpp:164
 msgid "farming & selling food"
-msgstr ""
+msgstr "faire pousser et vendre de la nourriture"
 
 #: faction.cpp:165
 msgid "drug dealing"
-msgstr ""
+msgstr "faire du trafic de drogues"
 
 #: faction.cpp:166
 msgid "selling manufactured goods"
-msgstr ""
+msgstr "vendre des biens manufacturés"
 
 #: faction.cpp:175
 msgid "their charitable nature"
-msgstr ""
+msgstr "leur nature charitable"
 
 #: faction.cpp:176
 msgid "their isolationism"
-msgstr ""
+msgstr "leur isolationnism"
 
 #: faction.cpp:177
 msgid "exploring extensively"
@@ -6127,15 +6101,15 @@ msgstr ""
 
 #: faction.cpp:179
 msgid "their knowledge of bionics"
-msgstr ""
+msgstr "leur connaissance des bionics"
 
 #: faction.cpp:180
 msgid "their libraries"
-msgstr ""
+msgstr "leurs bibliothèques"
 
 #: faction.cpp:181
 msgid "their elite training"
-msgstr ""
+msgstr "leur entrainement d'élite"
 
 #: faction.cpp:182
 msgid "their robotics factories"
@@ -6143,7 +6117,7 @@ msgstr ""
 
 #: faction.cpp:183
 msgid "treachery"
-msgstr ""
+msgstr "trahison"
 
 #: faction.cpp:184
 msgid "the avoidance of drugs"
@@ -6151,11 +6125,11 @@ msgstr ""
 
 #: faction.cpp:185
 msgid "their adherance to the law"
-msgstr ""
+msgstr "leur respect de la loi"
 
 #: faction.cpp:186
 msgid "their cruelty"
-msgstr ""
+msgstr "leur cruauté"
 
 #: faction.cpp:324
 #, c-format
@@ -6191,20 +6165,20 @@ msgstr ""
 
 #: faction.cpp:442
 msgid ", but they are also involved in "
-msgstr ""
+msgstr ", mais ils aussi aussi impliqués dans "
 
 #: faction.cpp:444
 msgid " They are known for "
-msgstr ""
+msgstr " Ils sont connus pour "
 
 #: faction.cpp:447 faction.cpp:450 faction.cpp:452 faction.cpp:453
 #: faction.cpp:455 game.cpp:9730 npc.cpp:1966 npc.cpp:1990 options.cpp:160
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: faction.cpp:455 game.cpp:9732
 msgid ", and "
-msgstr ""
+msgstr ", et "
 
 #: faction.cpp:504
 msgid "<fac_name>ab"
@@ -6672,31 +6646,31 @@ msgstr ""
 
 #: field.cpp:24
 msgid "blood splatter"
-msgstr ""
+msgstr "éclaboussure de sang"
 
 #: field.cpp:24
 msgid "blood stain"
-msgstr ""
+msgstr "tâche de sang"
 
 #: field.cpp:24
 msgid "puddle of blood"
-msgstr ""
+msgstr "flaque de sang"
 
 #: field.cpp:29
 msgid "bile splatter"
-msgstr ""
+msgstr "éclaboussure de bile"
 
 #: field.cpp:29
 msgid "bile stain"
-msgstr ""
+msgstr "tâche de bile"
 
 #: field.cpp:29
 msgid "puddle of bile"
-msgstr ""
+msgstr "flaque de bile"
 
 #: field.cpp:35
 msgid "bloody meat chunks"
-msgstr ""
+msgstr "morceau de viande ensanglanté"
 
 #: field.cpp:35
 msgid "heap of gore"
@@ -6704,7 +6678,7 @@ msgstr ""
 
 #: field.cpp:35
 msgid "scraps of flesh"
-msgstr ""
+msgstr "bouts de chair"
 
 #: field.cpp:41
 msgid "broken vegetation tangle"
@@ -6712,15 +6686,15 @@ msgstr ""
 
 #: field.cpp:41
 msgid "shattered branches and leaves"
-msgstr ""
+msgstr "branches et feuilles brisées"
 
 #: field.cpp:41
 msgid "shredded leaves and twigs"
-msgstr ""
+msgstr "des branches et des feuilles déchiquetées"
 
 #: field.cpp:47
 msgid "cobwebs"
-msgstr ""
+msgstr "toiles d'araignée"
 
 #: field.cpp:47
 msgid "thick webs"
@@ -6728,7 +6702,7 @@ msgstr ""
 
 #: field.cpp:47
 msgid "webs"
-msgstr ""
+msgstr "toile épaisse"
 
 #: field.cpp:53
 msgid "puddle of slime"
@@ -6744,43 +6718,43 @@ msgstr ""
 
 #: field.cpp:59
 msgid "acid splatter"
-msgstr ""
+msgstr "éclaboussure d'acide"
 
 #: field.cpp:59
 msgid "acid streak"
-msgstr ""
+msgstr "trace d'acide"
 
 #: field.cpp:59
 msgid "pool of acid"
-msgstr ""
+msgstr "flaque d'acide"
 
 #: field.cpp:65
 msgid "glob of sap"
-msgstr ""
+msgstr "goutte de sève"
 
 #: field.cpp:65
 msgid "pool of sap"
-msgstr ""
+msgstr "flaque de sève"
 
 #: field.cpp:65
 msgid "sap splatter"
-msgstr ""
+msgstr "éclaboussure de sève"
 
 #: field.cpp:71
 msgid "sludge trail"
-msgstr ""
+msgstr "trace de vase"
 
 #: field.cpp:71
 msgid "thick sludge trail"
-msgstr ""
+msgstr "épaisse trace de vase"
 
 #: field.cpp:71
 msgid "thin sludge trail"
-msgstr ""
+msgstr "fine trace de vase"
 
 #: field.cpp:77 field.cpp:125
 msgid "fire"
-msgstr ""
+msgstr "feu"
 
 #: field.cpp:77
 msgid "raging fire"
@@ -6788,7 +6762,7 @@ msgstr ""
 
 #: field.cpp:77
 msgid "small fire"
-msgstr ""
+msgstr "petit feu"
 
 #: field.cpp:83
 msgid "mountain of rubble"
@@ -6796,23 +6770,23 @@ msgstr ""
 
 #: field.cpp:83
 msgid "rubble heap"
-msgstr ""
+msgstr "bosse de débris"
 
 #: field.cpp:83
 msgid "rubble pile"
-msgstr ""
+msgstr "pile de débris"
 
 #: field.cpp:89
 msgid "smoke"
-msgstr ""
+msgstr "fumée"
 
 #: field.cpp:89
 msgid "thick smoke"
-msgstr ""
+msgstr "nuage épais de fumée"
 
 #: field.cpp:89
 msgid "thin smoke"
-msgstr ""
+msgstr "nuage ténu de fumée"
 
 #: field.cpp:95 field.cpp:101 field.cpp:107
 msgid "hazy cloud"
@@ -6820,27 +6794,27 @@ msgstr ""
 
 #: field.cpp:95
 msgid "thick toxic gas"
-msgstr ""
+msgstr "brume épaisse de gaz toxique"
 
 #: field.cpp:95
 msgid "toxic gas"
-msgstr ""
+msgstr "gaz toxique"
 
 #: field.cpp:101
 msgid "tear gas"
-msgstr ""
+msgstr "gaz lacrymogène"
 
 #: field.cpp:101
 msgid "thick tear gas"
-msgstr ""
+msgstr "brume épaisse de gaz lacrymogène"
 
 #: field.cpp:107
 msgid "radioactive gas"
-msgstr ""
+msgstr "gaz radioactif"
 
 #: field.cpp:107
 msgid "thick radioactive gas"
-msgstr ""
+msgstr "épais nuage de gaz radioactif"
 
 #: field.cpp:113
 msgid "gas vent"
@@ -6848,15 +6822,15 @@ msgstr ""
 
 #: field.cpp:131
 msgid "electric cloud"
-msgstr ""
+msgstr "nuage électrique"
 
 #: field.cpp:131
 msgid "electric crackle"
-msgstr ""
+msgstr "rayon électrique"
 
 #: field.cpp:131
 msgid "sparks"
-msgstr ""
+msgstr "étincelles"
 
 #: field.cpp:137
 msgid "odd ripple"
@@ -6871,23 +6845,20 @@ msgid "tear in reality"
 msgstr ""
 
 #: field.cpp:161
-#, fuzzy
 msgid "burning plasma"
-msgstr "Autour de vous"
+msgstr ""
 
 #: field.cpp:161
 msgid "faint plasma"
 msgstr ""
 
 #: field.cpp:161
-#, fuzzy
 msgid "glowing plasma"
-msgstr "rayonnant"
+msgstr ""
 
 #: field.cpp:167
-#, fuzzy
 msgid "beam of light"
-msgstr "Portée du regard : 0"
+msgstr "faisceau de lumière"
 
 #: field.cpp:167
 msgid "faint glimmer"
@@ -6895,7 +6866,7 @@ msgstr ""
 
 #: field.cpp:167
 msgid "intense beam of light"
-msgstr ""
+msgstr "faisceau de lumière intense"
 
 #: field.cpp:814
 #, c-format
@@ -6914,31 +6885,31 @@ msgstr ""
 
 #: field.cpp:1008
 msgid "The acid burns your legs and feet!"
-msgstr ""
+msgstr "L'acide brûle vos jambes et pieds!"
 
 #: field.cpp:1029
 msgid "The sap sticks to you!"
-msgstr ""
+msgstr "La sève se colle à vous!"
 
 #: field.cpp:1040
 msgid "The sludge is thick and sticky."
-msgstr ""
+msgstr "La boue est épaisse et collante"
 
 #: field.cpp:1055
 msgid "You burn your legs and feet!"
-msgstr ""
+msgstr "Vous vous brûlez vos jambes et pieds!"
 
 #: field.cpp:1061
 msgid "You're burning up!"
-msgstr ""
+msgstr "Vous êtes en feu!"
 
 #: field.cpp:1066
 msgid "You're set ablaze!"
-msgstr ""
+msgstr "Vous vous embrasez!"
 
 #: field.cpp:1124
 msgid "This radioactive gas burns!"
-msgstr ""
+msgstr "Ce gaz radioactif brûle!"
 
 #: field.cpp:1133
 msgid "You're torched by flames!"
@@ -6946,7 +6917,7 @@ msgstr ""
 
 #: field.cpp:1138
 msgid "These flames do not burn you."
-msgstr ""
+msgstr "Ces flammes ne vous brûlent pas."
 
 #: field.cpp:1143
 msgid "The electricity flows around you."
@@ -6954,11 +6925,11 @@ msgstr ""
 
 #: field.cpp:1145
 msgid "You're electrocuted!"
-msgstr ""
+msgstr "Vous êtes électrocuté!"
 
 #: field.cpp:1150 iuse.cpp:4948 monattack.cpp:282
 msgid "You're paralyzed!"
-msgstr ""
+msgstr "Vous êtes paralysé!"
 
 #: field.cpp:1159
 msgid "You're violently teleported!"
@@ -6971,15 +6942,15 @@ msgstr ""
 
 #: field.cpp:1454
 msgid "You are hit by the falling debris!"
-msgstr ""
+msgstr "Vous êtes atteint par les débris en chute!"
 
 #: field.cpp:1464
 msgid "You trip as you evade the falling debris!"
-msgstr ""
+msgstr "Vous trébuchez alors que vous fuyez les débris!"
 
 #: game.cpp:389
 msgid "Please wait as we build your world"
-msgstr ""
+msgstr "Merci d'attendre, nous façonnons votre monde"
 
 #: game.cpp:439
 #, c-format
@@ -6988,27 +6959,27 @@ msgstr ""
 
 #: game.cpp:540
 msgid "Game over! Press spacebar..."
-msgstr ""
+msgstr "Game over! Appuyez sur espace..."
 
 #: game.cpp:546
 msgid "committed suicide."
-msgstr ""
+msgstr "s'est suicidé."
 
 #: game.cpp:546
 msgid "was killed."
-msgstr ""
+msgstr "a été tué."
 
 #: game.cpp:550
 msgid "Delete saved world?"
-msgstr ""
+msgstr "Supprimer le monde sauvegardé?"
 
 #: game.cpp:583
 msgid "You have a sudden heart attack!"
-msgstr ""
+msgstr "Soudain, vous avez une crise cardiaque!"
 
 #: game.cpp:584 game.cpp:588
 msgid "Died of a drug overdose."
-msgstr ""
+msgstr "Mort d'une overdose."
 
 #: game.cpp:587
 msgid "Your breathing stops completely."
@@ -7016,11 +6987,11 @@ msgstr ""
 
 #: game.cpp:594
 msgid "You have starved to death."
-msgstr ""
+msgstr "Vous êtes mort de faim."
 
 #: game.cpp:595
 msgid "Died of starvation."
-msgstr ""
+msgstr "Mort de faim."
 
 #: game.cpp:598
 msgid "Food..."
@@ -7028,19 +6999,19 @@ msgstr ""
 
 #: game.cpp:600
 msgid "You are STARVING!"
-msgstr ""
+msgstr "Vous êtes AFFAMÉ!"
 
 #: game.cpp:602
 msgid "You haven't eaten in over a week!"
-msgstr ""
+msgstr "Vous n'avez rien mangé depuis une semaine!"
 
 #: game.cpp:609
 msgid "You have died of dehydration."
-msgstr ""
+msgstr "Vous êtes mort de soif."
 
 #: game.cpp:610
 msgid "Died of thirst."
-msgstr ""
+msgstr "Mort de soif."
 
 #: game.cpp:613
 msgid "4 days... no water.."
@@ -7048,11 +7019,11 @@ msgstr ""
 
 #: game.cpp:615
 msgid "You are THIRSTY!"
-msgstr ""
+msgstr "Vous êtes ASSOIFÉ!"
 
 #: game.cpp:617
 msgid "You haven't had anything to drink in 2 days!"
-msgstr ""
+msgstr "Vous n'avez rien bu depuis 2 jours!"
 
 #: game.cpp:624
 msgid "Survivor sleep now."
@@ -7064,20 +7035,20 @@ msgstr ""
 
 #: game.cpp:629
 msgid "Anywhere would be a good place to sleep..."
-msgstr ""
+msgstr "Vous pourriez dormir n'importe où..."
 
 #: game.cpp:631
 msgid "You haven't slept in 2 days!"
-msgstr ""
+msgstr "Vous n'avez pas dormi depuis 2 jours!"
 
 #: game.cpp:646
 #, c-format
 msgid "You're feeling tired.  %s to lie down for sleep."
-msgstr ""
+msgstr "Vous êtes fatigué.  %s se couche pour dormir."
 
 #: game.cpp:649
 msgid "You're feeling tired."
-msgstr ""
+msgstr "Vous êtes fatigué."
 
 #: game.cpp:761
 #, c-format
@@ -7087,7 +7058,7 @@ msgstr ""
 #: game.cpp:806
 #, c-format
 msgid "The %s runs out of batteries."
-msgstr ""
+msgstr "Le %s n'a plus de batterie."
 
 #: game.cpp:831
 msgid "With a clang and a shudder, the gasoline pump goes silent."
@@ -7096,7 +7067,7 @@ msgstr ""
 #: game.cpp:856
 #, c-format
 msgid "You insert a cartridge into your %s."
-msgstr ""
+msgstr "Vous insérez une cartouche dans votre %s."
 
 #: game.cpp:863
 #, c-format
@@ -7106,7 +7077,7 @@ msgstr ""
 #: game.cpp:867
 #, c-format
 msgid "Can't reload your %s."
-msgstr ""
+msgstr "Impossible d recharger votre %s."
 
 #: game.cpp:898
 msgid "The rest of the book is currently still beyond your understanding."
@@ -7115,32 +7086,32 @@ msgstr ""
 #: game.cpp:929
 #, c-format
 msgid "You learn a little about %s! (%d%%%%)"
-msgstr ""
+msgstr "Vous en apprenez un peu sur %s! (%d%%%%)"
 
 #: game.cpp:932
 #, c-format
 msgid "Study %s?"
-msgstr ""
+msgstr "Etudier %s?"
 
 #: game.cpp:935
 #, c-format
 msgid "Now studying %s, %s to stop early."
-msgstr ""
+msgstr "Vous étudiez maintenant %s, %s pour arrêter en avance."
 
 #: game.cpp:955
 #, c-format
 msgid "You increase %s to level %d."
-msgstr ""
+msgstr "Vous augmentez votre %s au niveau %d."
 
 #: game.cpp:960 game.cpp:1013
 #, c-format
 msgid "Reached skill level %d in %s."
-msgstr ""
+msgstr "Vous avez atteint le niveau %d en %s."
 
 #: game.cpp:967
 #, c-format
 msgid "You can no longer learn from %s."
-msgstr ""
+msgstr "Vous ne pouvez plus apprendre à partir de %s."
 
 #: game.cpp:969
 #, c-format
@@ -7149,17 +7120,17 @@ msgstr ""
 
 #: game.cpp:977
 msgid "You finish waiting."
-msgstr ""
+msgstr "Vous arrêtez d'attendre."
 
 #: game.cpp:1003
 #, c-format
 msgid "You learn %s."
-msgstr ""
+msgstr "Vous apprenez %s."
 
 #: game.cpp:1009
 #, c-format
 msgid "You finish training %s to level %d."
-msgstr ""
+msgstr "Vous avez terminé de vous entraîner en %s au niveau %d."
 
 #: game.cpp:1074 game.cpp:1105
 msgid "whatever"
@@ -7217,12 +7188,12 @@ msgstr ""
 #: game.cpp:1117
 #, c-format
 msgid "%s Stop %s?"
-msgstr ""
+msgstr "%s Arrêter %s?"
 
 #: game.cpp:1216
 #, c-format
 msgid "The weather changed to %s!"
-msgstr ""
+msgstr "la météo est passée à %s!"
 
 #: game.cpp:1497
 msgid "Confirm:"
@@ -7297,7 +7268,7 @@ msgstr ""
 #: game.cpp:1751
 #, c-format
 msgid "Unknown command: '%c'"
-msgstr ""
+msgstr "Commande inconnue: '%c'"
 
 #: game.cpp:1773
 #, c-format
@@ -7306,15 +7277,15 @@ msgstr ""
 
 #: game.cpp:1957 game.cpp:10670 player.cpp:1723
 msgid "Inventory:"
-msgstr ""
+msgstr "Inventaire:"
 
 #: game.cpp:2073
 msgid "You can't disassemble items while in vehicle."
-msgstr ""
+msgstr "Vous ne pouvez pas démonter d'objet lorsque vous êtes en véhicule."
 
 #: game.cpp:2080
 msgid "You can't construct while in vehicle."
-msgstr ""
+msgstr "Vous ne pouvez pas construire d'objet lorsque vous êtes en véhicule."
 
 #: game.cpp:2088
 #, c-format
@@ -7331,67 +7302,67 @@ msgstr ""
 
 #: game.cpp:2095
 msgid "Are you sure you want to sleep?"
-msgstr ""
+msgstr "Voulez-vous vraiment dormir?"
 
 #: game.cpp:2096
 msgid "Yes."
-msgstr ""
+msgstr "Oui."
 
 #: game.cpp:2103
 msgid "Yes, and save game before sleeping."
-msgstr ""
+msgstr "Oui, et sauvegarder avant de dormir."
 
 #: game.cpp:2106
 msgid "No."
-msgstr ""
+msgstr "Non."
 
 #: game.cpp:2110
 msgid "Set alarm to wake up in 3 hours."
-msgstr ""
+msgstr "Régler l'alarme pour se réveiller dans 3 heures."
 
 #: game.cpp:2111
 msgid "Set alarm to wake up in 4 hours."
-msgstr ""
+msgstr "Régler l'alarme pour se réveiller dans 4 heures."
 
 #: game.cpp:2112
 msgid "Set alarm to wake up in 5 hours."
-msgstr ""
+msgstr "Régler l'alarme pour se réveiller dans 5 heures."
 
 #: game.cpp:2113
 msgid "Set alarm to wake up in 6 hours."
-msgstr ""
+msgstr "Régler l'alarme pour se réveiller dans 6 heures."
 
 #: game.cpp:2114
 msgid "Set alarm to wake up in 7 hours."
-msgstr ""
+msgstr "Régler l'alarme pour se réveiller dans 7 heures."
 
 #: game.cpp:2115
 msgid "Set alarm to wake up in 8 hours."
-msgstr ""
+msgstr "Régler l'alarme pour se réveiller dans 8 heures."
 
 #: game.cpp:2116
 msgid "Set alarm to wake up in 9 hours."
-msgstr ""
+msgstr "Régler l'alarme pour se réveiller dans 9 heures."
 
 #: game.cpp:2153
 msgid "Safe mode ON!"
-msgstr ""
+msgstr "Mode prudence ACTIVÉ!"
 
 #: game.cpp:2158
 msgid "Safe mode OFF! (Auto safe mode still enabled!)"
-msgstr ""
+msgstr "Mode prudence DÉSACTIVÉ! (Mode prudence auto toujours activé)"
 
 #: game.cpp:2160
 msgid "Safe mode OFF!"
-msgstr ""
+msgstr "Mode prudence DÉSACTIVÉ!"
 
 #: game.cpp:2166
 msgid "Auto safe mode OFF!"
-msgstr ""
+msgstr "Mode prudence DÉSACTIVÉ!"
 
 #: game.cpp:2169
 msgid "Auto safe mode ON"
-msgstr ""
+msgstr "Mode prudence ACTIVÉ!"
 
 #: game.cpp:2176
 msgid "Ignoring enemy!"
@@ -7399,15 +7370,15 @@ msgstr ""
 
 #: game.cpp:2182
 msgid "Save and quit?"
-msgstr ""
+msgstr "Sauvegarder et quitter?"
 
 #: game.cpp:2195
 msgid "Commit suicide?"
-msgstr ""
+msgstr "Se suicider?"
 
 #: game.cpp:2220
 msgid "FACTIONS:"
-msgstr ""
+msgstr "FACTIONS:"
 
 #: game.cpp:2248
 msgid "Debug messages ON!"
@@ -7419,7 +7390,7 @@ msgstr ""
 
 #: game.cpp:2445
 msgid "GAME OVER - Press Spacebar to Quit"
-msgstr ""
+msgstr "GAME OVER - Appuyer sur espace pour quitter"
 
 #: game.cpp:3046
 msgid "Debug Functions - Using these is CHEATING!"
@@ -7427,27 +7398,27 @@ msgstr ""
 
 #: game.cpp:3047
 msgid "Wish for an item"
-msgstr ""
+msgstr "Vœu d'objet"
 
 #: game.cpp:3048
 msgid "Teleport - Short Range"
-msgstr ""
+msgstr "Téléportation - Courte distance"
 
 #: game.cpp:3049
 msgid "Teleport - Long Range"
-msgstr ""
+msgstr "Teleportation - Longue distance"
 
 #: game.cpp:3050
 msgid "Reveal map"
-msgstr ""
+msgstr "Révéler la carte"
 
 #: game.cpp:3051
 msgid "Spawn NPC"
-msgstr ""
+msgstr "Créer PNJ"
 
 #: game.cpp:3052
 msgid "Spawn Monster"
-msgstr ""
+msgstr "Créer Monstre"
 
 #: game.cpp:3053
 msgid "Check game state..."
@@ -7455,15 +7426,15 @@ msgstr ""
 
 #: game.cpp:3054
 msgid "Kill NPCs"
-msgstr ""
+msgstr "Tuer des PNJs"
 
 #: game.cpp:3055
 msgid "Mutate"
-msgstr ""
+msgstr "Muter"
 
 #: game.cpp:3056
 msgid "Spawn a vehicle"
-msgstr ""
+msgstr "Créer un véhicule"
 
 #: game.cpp:3057
 msgid "Increase all skills"
@@ -8376,7 +8347,7 @@ msgstr ""
 msgid "You release the %s."
 msgstr ""
 
-#: game.cpp:7842 item.cpp:2441
+#: game.cpp:7842 item.cpp:2436
 msgid "Grab"
 msgstr ""
 
@@ -9803,6 +9774,42 @@ msgid ""
 "\n"
 "Press any key for more..."
 msgstr ""
+"La première chose à faire est de fouiller votre maison pour des objets "
+"utiles. Au début\n"
+"vous ne pourrez pas transporter beaucoup d'affaires, c'est pour cela que les "
+"sacs à dos, \n"
+"trench-coats ou autres moyens de stockage vous\n"
+"permettront d'avoir beaucoup plus d'affaires. Il est important de trouver "
+"une arme; les poêles, couteaux de boucher\n"
+"sont nombreux dans les maisons et peut-être dans les quincailleries.\n"
+"A moins que vous ne prévoyiez de vous concentrer sur le combat au corps à "
+"corps, cherchez les magasins d'armes\n"
+"dès que possible et servez vous généreusement.\n"
+"\n"
+"Il est aussi important d'emporter avec vous quelques médicaments.; les "
+"analgésiques sont impératifs,\n"
+"et les drogues comme les cigarettes vous rendront la vie plus facile (mais "
+"attention aux addictions).\n"
+"Quittez les villes dès que vous avez amassé pas mal d'équipement. La "
+"concentration\n"
+"élevée des zombies font d'elles des coupe-gorges - mais elles sont "
+"nécessaires pour\n"
+"s'approvisionner en nourriture et munitions.\n"
+"\n"
+"Les combats sont beaucoup plus faciles si vous affrontez un ennemi isolé. "
+"Utilisez les seuils\n"
+"comme points d'étranglement, ou attendez derrière une fenêtre pour frapper "
+"les zombies\n"
+"qui y passent lentement. N'hésitez pas à fuir si vous pouvez distancer vos "
+"ennemis.\n"
+"Les terrains irréguliers, comme les forêts, aident à semer les monstres.\n"
+"\n"
+"Les armes à feu sont le moyen le plus sûr pour tuer un ennemi mais le son "
+"attirera\n"
+"une attention non désirée. Gardez les pistolets pour les urgences, et restez "
+"au corps à corps lorsque vous pouvez.\n"
+"\n"
+"Pressez une touche pour continuer..."
 
 #: help.cpp:546
 msgid ""
@@ -9814,6 +9821,16 @@ msgid ""
 "you don't have a warm place to rest your head. Be sure to protect your\n"
 "extremities from frostbite and to keep your distance from large fires."
 msgstr ""
+"Essayez de garder votre inventaire aussi plein que possible, sans toutefois "
+"être surchargé.\n"
+"On ne sait jamais lorsqu'on va avoir besoin de tel item et la plupart "
+"peuvent toujours se vendre;\n"
+"vous pouvez aussi simplement poser les objets qui vous intéressent le "
+"moins.\n"
+"\n"
+"Gardez un oeil sur la météo. Il est plus facile de s'endormir\n"
+"lorsqu'on on a un endroit chaud où se reposer. Assurez vous de protéger\n"
+"vos extrémités des gelures et de vous tenir éloigné des grands feux."
 
 #: help.cpp:573
 msgid "Use the arrow keys"
@@ -10551,18 +10568,16 @@ msgid "It is too cold to plant anything now."
 msgstr ""
 
 #: iexamine.cpp:644
-#, fuzzy
 msgid "You have no seeds to plant."
-msgstr "Vous êtes en manque de stimulants."
+msgstr ""
 
 #: iexamine.cpp:648
 msgid "Something's lying there..."
 msgstr ""
 
 #: iexamine.cpp:671
-#, fuzzy
 msgid "Use which seed?"
-msgstr "Utiliser quel outil?"
+msgstr ""
 
 #: iexamine.cpp:675
 #, c-format
@@ -10570,9 +10585,8 @@ msgid "Plant %s here?"
 msgstr ""
 
 #: iexamine.cpp:681
-#, fuzzy
 msgid "You saved your seeds for later."
-msgstr "Vous utilisez votre pile de vêtements pour avoir plus de chaleur."
+msgstr ""
 
 #: iexamine.cpp:697
 #, c-format
@@ -11077,9 +11091,9 @@ msgid "<item_name>human blood"
 msgstr ""
 
 #: item.cpp:999
-#, fuzzy, c-format
+#, c-format
 msgid "<item_name>%s blood"
-msgstr "<name>Wood"
+msgstr ""
 
 #: item.cpp:1010
 #, c-format
@@ -11116,75 +11130,75 @@ msgstr ""
 msgid " (owned)"
 msgstr ""
 
-#: item.cpp:2438
+#: item.cpp:2433
 msgid "Sweep attack"
 msgstr ""
 
-#: item.cpp:2439
+#: item.cpp:2434
 msgid "Precision attack"
 msgstr ""
 
-#: item.cpp:2440
+#: item.cpp:2435
 msgid "Knock-back attack"
 msgstr ""
 
-#: item.cpp:2442
+#: item.cpp:2437
 msgid "Hit all adjacent monsters"
 msgstr ""
 
-#: item.cpp:2443
+#: item.cpp:2438
 msgid "Rapid attack"
 msgstr ""
 
-#: item.cpp:2444
+#: item.cpp:2439
 msgid "Feint"
 msgstr ""
 
-#: item.cpp:2445
+#: item.cpp:2440
 msgid "Throw"
 msgstr ""
 
-#: item.cpp:2446
+#: item.cpp:2441
 msgid "Block"
 msgstr ""
 
-#: item.cpp:2447
+#: item.cpp:2442
 msgid "Leg block"
 msgstr ""
 
-#: item.cpp:2448
+#: item.cpp:2443
 msgid "Weak block"
 msgstr ""
 
-#: item.cpp:2449
+#: item.cpp:2444
 msgid "Parry"
 msgstr ""
 
-#: item.cpp:2450
+#: item.cpp:2445
 msgid "Shield"
 msgstr ""
 
-#: item.cpp:2451
+#: item.cpp:2446
 msgid "Counter-attack"
 msgstr ""
 
-#: item.cpp:2452
+#: item.cpp:2447
 msgid "Grab break"
 msgstr ""
 
-#: item.cpp:2453
+#: item.cpp:2448
 msgid "Disarm"
 msgstr ""
 
-#: item.cpp:2454
+#: item.cpp:2449
 msgid "Defensive throw"
 msgstr ""
 
-#: item.cpp:2455
+#: item.cpp:2450
 msgid "Defense disarm"
 msgstr ""
 
-#: item.cpp:2456
+#: item.cpp:2451
 msgid "FLAMING"
 msgstr ""
 
@@ -11196,6 +11210,27 @@ msgstr ""
 msgid ""
 "There is only the space where an object should be, but isn't. No item "
 "template of this type exists."
+msgstr ""
+
+#: itypedef.cpp:40
+msgid "A dead body."
+msgstr ""
+
+#: itypedef.cpp:40
+msgid "corpse"
+msgstr ""
+
+#: itypedef.cpp:47
+#, fuzzy
+msgid "nearby fire"
+msgstr "Allumer un feu"
+
+#: itypedef.cpp:52
+msgid "integrated toolset"
+msgstr ""
+
+#: itypedef.cpp:57
+msgid "a smoking device and a source of flame"
 msgstr ""
 
 #: itypedef.cpp:68 lang/json/json_vehicle_parts.py:33
@@ -11971,14 +12006,12 @@ msgid "UPS"
 msgstr ""
 
 #: itypedef.cpp:616 itypedef.cpp:657
-#, fuzzy
 msgid "components"
-msgstr "Composants requis:"
+msgstr ""
 
 #: iuse.cpp:58
-#, fuzzy
 msgid "You need a source of flame!"
-msgstr "Vous sentez une poussée d'adrénaline."
+msgstr ""
 
 #: iuse.cpp:70
 #, c-format
@@ -12086,10 +12119,6 @@ msgid "That leg is broken.  It needs surgical attention."
 msgstr ""
 
 #: iuse.cpp:390
-msgid "Bandage"
-msgstr ""
-
-#: iuse.cpp:390
 msgid "Stop Bleeding"
 msgstr ""
 
@@ -12101,16 +12130,8 @@ msgstr ""
 msgid "Clean Wound"
 msgstr ""
 
-#: iuse.cpp:399
-msgid "First Aid"
-msgstr ""
-
 #: iuse.cpp:401
 msgid "You clean the bite wound."
-msgstr ""
-
-#: iuse.cpp:409
-msgid "Disinfectant"
 msgstr ""
 
 #: iuse.cpp:411
@@ -12139,28 +12160,24 @@ msgid "Ugh, too much smoke... you feel nasty."
 msgstr ""
 
 #: iuse.cpp:493
-#, fuzzy
 msgid "You take some antibiotics."
-msgstr "Vous perdez du sang."
+msgstr ""
 
 #: iuse.cpp:509
-#, fuzzy
 msgid "You haven't got anything to smoke out of."
-msgstr "Vous n'avez pas de récipient pour ce liquide!"
+msgstr ""
 
 #: iuse.cpp:523
 msgid "You smoke some weed.  Good stuff, man!"
 msgstr ""
 
 #: iuse.cpp:525
-#, fuzzy
 msgid "You smoke some more weed."
-msgstr "Vous perdez du sang."
+msgstr ""
 
 #: iuse.cpp:530
-#, fuzzy
 msgid "You need something to light it."
-msgstr "Vous avez besoin d'un tuyau pour siphonner de l'eau."
+msgstr ""
 
 #: iuse.cpp:537
 msgid "You snort a bump of coke."
@@ -12179,38 +12196,32 @@ msgid "You smoke your meth.  The world seems to sharpen."
 msgstr ""
 
 #: iuse.cpp:578
-#, fuzzy
 msgid "You snort some crystal meth."
-msgstr "Vous voulez de la cafféine."
+msgstr ""
 
 #: iuse.cpp:591
 msgid "You take some vitamins."
 msgstr ""
 
 #: iuse.cpp:602
-#, fuzzy
 msgid "You inject the vaccine."
-msgstr "Vous voulez de la cafféine."
+msgstr ""
 
 #: iuse.cpp:603
-#, fuzzy
 msgid "You feel tough."
-msgstr "Vous avez faim."
+msgstr ""
 
 #: iuse.cpp:634
-#, fuzzy
 msgid "You feel completely exhausted."
-msgstr "Votre %s est complètement détruit!"
+msgstr ""
 
 #: iuse.cpp:637
-#, fuzzy
 msgid "You feel a bit wobbly."
-msgstr "Vous avez soif."
+msgstr ""
 
 #: iuse.cpp:648
-#, fuzzy
 msgid "You suddenly feel hollow inside."
-msgstr "Vous vous arrêtez soudainement, abasourdi."
+msgstr ""
 
 #: iuse.cpp:654 iuse.cpp:671
 msgid "You feel very sleepy..."
@@ -12685,9 +12696,9 @@ msgid "They reply, \"Help is on the way!\""
 msgstr ""
 
 #: iuse.cpp:1748 iuse.cpp:1775
-#, fuzzy, c-format
+#, c-format
 msgid "Called for help from %s."
-msgstr "Vous n'apprenez pas de recettes en lisant %s."
+msgstr ""
 
 #: iuse.cpp:1753
 msgid "They reply, \"Sorry, you're on your own!\""
@@ -13776,18 +13787,16 @@ msgid "Carve writing on what?"
 msgstr ""
 
 #: iuse.cpp:3980 options.cpp:410 options.cpp:433
-#, fuzzy
 msgid "No"
-msgstr "Aucun"
+msgstr ""
 
 #: iuse.cpp:3980 options.cpp:434
 msgid "Yes"
 msgstr ""
 
 #: iuse.cpp:3980
-#, fuzzy
 msgid "You're wearing that, are you sure?"
-msgstr "Vous ne pouvez pas croire tout ce que vous voyez."
+msgstr ""
 
 #: iuse.cpp:3985
 msgid "Carve"
@@ -13811,11 +13820,11 @@ msgid "Material of this item is not applicable for cutting up."
 msgstr ""
 
 #: iuse.cpp:4042
-#, fuzzy, c-format
+#, c-format
 msgid "You %4$s the %1$s into %2$i %3$s."
 msgid_plural "You %4$s the %1$s into %2$i %3$ss."
-msgstr[0] "De votre %s, un/une %s entre en collision avec un %s"
-msgstr[1] "De votre %s, un/une %s entre en collision avec un %s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: iuse.cpp:4072
 msgid "You cut the log into planks."
@@ -13976,9 +13985,9 @@ msgid "You pull the activating lever, readying the LAW to fire."
 msgstr ""
 
 #: iuse.cpp:4729
-#, fuzzy, c-format
+#, c-format
 msgid "Activated the %s."
-msgstr "Vous scotchez le %s."
+msgstr ""
 
 #: iuse.cpp:4744
 msgid "Ka-BOOM!"
@@ -19545,9 +19554,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py:923
-#, fuzzy
 msgid "hockey stick"
-msgstr "gros baton"
+msgstr ""
 
 #: lang/json/json_items.py:924
 msgid ""
@@ -21661,9 +21669,8 @@ msgid "The surreptitious drunkard mechanic's drink of choice."
 msgstr ""
 
 #: lang/json/json_items.py:1388
-#, fuzzy
 msgid "wild apple"
-msgstr "ananas"
+msgstr ""
 
 #: lang/json/json_items.py:1389
 msgid "Like apple cider, only with vodka."
@@ -22663,8 +22670,8 @@ msgstr ""
 msgid "Simple cloth bandages. Used for healing small amounts of damage."
 msgstr ""
 
-#: lang/json/json_items.py:1632 lang/json/json_skills.py:15
-msgid "first aid"
+#: lang/json/json_items.py:1632
+msgid "first aid kit"
 msgstr ""
 
 #: lang/json/json_items.py:1633
@@ -22714,9 +22721,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py:1642
-#, fuzzy
 msgid "Ambien"
-msgstr "Zombies"
+msgstr ""
 
 #: lang/json/json_items.py:1643
 msgid ""
@@ -22924,9 +22930,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py:1684
-#, fuzzy
 msgid "poppy painkillers"
-msgstr "Antalgique faible"
+msgstr ""
 
 #: lang/json/json_items.py:1685
 msgid ""
@@ -23002,9 +23007,8 @@ msgid "Having been fried, this SPAM is actually pretty tasty."
 msgstr ""
 
 #: lang/json/json_items.py:1702
-#, fuzzy
 msgid "strawberry surprise"
-msgstr "fraises"
+msgstr ""
 
 #: lang/json/json_items.py:1703
 msgid ""
@@ -23035,9 +23039,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py:1708
-#, fuzzy
 msgid "tainted tornado"
-msgstr "baguette pointue"
+msgstr ""
 
 #: lang/json/json_items.py:1709
 msgid ""
@@ -23123,27 +23126,24 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py:1728
-#, fuzzy
 msgid "chewing gum"
-msgstr "En train de vomir."
+msgstr ""
 
 #: lang/json/json_items.py:1729
 msgid "Bright pink chewing gum. Sugary, sweet and bad for your teeth."
 msgstr ""
 
 #: lang/json/json_items.py:1730
-#, fuzzy
 msgid "nicotine gum"
-msgstr "Nicotine"
+msgstr ""
 
 #: lang/json/json_items.py:1731
 msgid "Mint flavored nicotine chewing gum. For smokers who desire to quit."
 msgstr ""
 
 #: lang/json/json_items.py:1732
-#, fuzzy
 msgid "vinegar"
-msgstr "Divin"
+msgstr ""
 
 #: lang/json/json_items.py:1733
 msgid "Shockingly tart white vinegar."
@@ -25090,9 +25090,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py:2132
-#, fuzzy
 msgid "electric forge"
-msgstr "électrique"
+msgstr ""
 
 #: lang/json/json_items.py:2133
 msgid ""
@@ -25141,9 +25140,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py:2142
-#, fuzzy
 msgid "swage and die set"
-msgstr "Sauvegarder et Quitter"
+msgstr ""
 
 #: lang/json/json_items.py:2143
 msgid ""
@@ -25194,9 +25192,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py:2152
-#, fuzzy
 msgid "charcoal forge"
-msgstr "électrique"
+msgstr ""
 
 #: lang/json/json_items.py:2153
 msgid ""
@@ -25811,9 +25808,8 @@ msgid "Silver"
 msgstr ""
 
 #: lang/json/json_materials.py:141
-#, fuzzy
 msgid "Gold"
-msgstr "Doré"
+msgstr ""
 
 #: lang/json/json_mutations.py:1
 msgid "Fleet-Footed"
@@ -27771,15 +27767,13 @@ msgstr "<name>Aiden"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:20
-#, fuzzy
 msgid "<name>Aizawa"
-msgstr "<name>Ariana"
+msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:22
-#, fuzzy
 msgid "<name>Akiko"
-msgstr "<name>Atkinson"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:24
@@ -28151,9 +28145,8 @@ msgstr "<name>Cox"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:174
-#, fuzzy
 msgid "<name>Daisuki"
-msgstr "<name>Davis"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:176
@@ -28303,9 +28296,8 @@ msgstr "<name>Gavin"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:234
-#, fuzzy
 msgid "<name>Gendo"
-msgstr "<name>Green"
+msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:236
@@ -28385,9 +28377,8 @@ msgstr "<name>Hayes"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:266
-#, fuzzy
 msgid "<name>Heather"
-msgstr "<name>Hunter"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:268
@@ -28406,9 +28397,8 @@ msgstr "<name>Hernandez"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:274
-#, fuzzy
 msgid "<name>Hikari"
-msgstr "<name>Harris"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #. ~ proper name; usage=city
@@ -28618,9 +28608,8 @@ msgstr "<name>Kaden"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:360
-#, fuzzy
 msgid "<name>Kaiko"
-msgstr "<name>Katie"
+msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:362
@@ -28649,9 +28638,8 @@ msgstr "<name>Kaylee"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:372
-#, fuzzy
 msgid "<name>Keita"
-msgstr "<name>Kevin"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:374
@@ -28680,9 +28668,8 @@ msgstr "<name>King"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:384
-#, fuzzy
 msgid "<name>Kira"
-msgstr "<name>Kim"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:386
@@ -28696,9 +28683,8 @@ msgstr "<name>Kylie"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:390
-#, fuzzy
 msgid "<name>Kyosuki"
-msgstr "<name>Kylie"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:392
@@ -28894,9 +28880,8 @@ msgstr "<name>Murphy"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:468
-#, fuzzy
 msgid "<name>Nakiya"
-msgstr "<name>Maya"
+msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:470
@@ -28915,9 +28900,8 @@ msgstr "<name>Nathaniel"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:476
-#, fuzzy
 msgid "<name>Natsuki"
-msgstr "<name>Natalie"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #. ~ proper name; usage=city
@@ -28942,9 +28926,8 @@ msgstr "<name>Noah"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:486
-#, fuzzy
 msgid "<name>Nuku"
-msgstr "<name>Luke"
+msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:488
@@ -29161,9 +29144,8 @@ msgstr "<name>Sydney"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:572
-#, fuzzy
 msgid "<name>Takeuchi"
-msgstr "<name>Baker"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:574
@@ -29215,9 +29197,8 @@ msgstr "<name>Valeria"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:594
-#, fuzzy
 msgid "<name>Van Wilde"
-msgstr "<name>Bailey"
+msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:596
@@ -29257,9 +29238,8 @@ msgstr "<name>White"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:610
-#, fuzzy
 msgid "<name>West"
-msgstr "<name>Destiny"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:612
@@ -29303,9 +29283,8 @@ msgstr "<name>Young"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:628
-#, fuzzy
 msgid "<name>Yuki"
-msgstr "<name>Luis"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:630
@@ -36319,9 +36298,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_skills.py:1
-#, fuzzy
 msgid "bartering"
-msgstr "scintillant(e)"
+msgstr ""
 
 #: lang/json/json_skills.py:2
 msgid ""
@@ -36388,6 +36366,10 @@ msgstr ""
 msgid ""
 "Your skill in working with raw materials and shaping them into useful "
 "objects. This skill plays an important role in the crafting of many objects."
+msgstr ""
+
+#: lang/json/json_skills.py:15
+msgid "first aid"
 msgstr ""
 
 #: lang/json/json_skills.py:16
@@ -36519,9 +36501,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_skills.py:39
-#, fuzzy
 msgid "launchers"
-msgstr "Dépecer un corps"
+msgstr ""
 
 #: lang/json/json_skills.py:40
 msgid ""
@@ -36915,9 +36896,8 @@ msgid "head light"
 msgstr ""
 
 #: lang/json/json_vehicles.py:1
-#, fuzzy
 msgid "custom"
-msgstr "Personnalisé"
+msgstr ""
 
 #: lang/json/json_vehicles.py:2
 msgid "Bicycle"
@@ -36984,9 +36964,8 @@ msgid "Schoolbus"
 msgstr "Autobus scolaire"
 
 #: lang/json/json_vehicles.py:20
-#, fuzzy
 msgid "Electric Car"
-msgstr "Électrique"
+msgstr ""
 
 #: lang/json/json_vehicles.py:21
 msgid "RV"
@@ -36994,43 +36973,36 @@ msgstr ""
 
 #. ~ used for "to the north" etc
 #: line.cpp:155
-#, fuzzy
 msgid "north"
-msgstr "Nord"
+msgstr ""
 
 #: line.cpp:156
-#, fuzzy
 msgid "northeast"
-msgstr "Nord-Ouest"
+msgstr ""
 
 #: line.cpp:157
-#, fuzzy
 msgid "east"
-msgstr "%s Bêtes"
+msgstr ""
 
 #: line.cpp:158
-#, fuzzy
 msgid "southeast"
-msgstr "Sud-Ouest"
+msgstr ""
 
 #: line.cpp:159
-#, fuzzy
 msgid "south"
-msgstr "Sud"
+msgstr ""
 
 #: line.cpp:160
-#, fuzzy
 msgid "southwest"
-msgstr "Sud-Ouest"
+msgstr ""
 
 #: line.cpp:161
 msgid "west"
 msgstr ""
 
 #: line.cpp:162
-#, fuzzy
 msgid "northwest"
-msgstr "Nord-Ouest"
+msgstr ""
 
 #. ~ abbreviated direction names
 #: line.cpp:171
@@ -37038,9 +37010,8 @@ msgid "N "
 msgstr ""
 
 #: line.cpp:172
-#, fuzzy
 msgid "NE"
-msgstr "AUCUN"
+msgstr ""
 
 #: line.cpp:173
 msgid "E "
@@ -37066,7 +37037,7 @@ msgstr ""
 msgid "NW"
 msgstr ""
 
-#: main.cpp:125
+#: main.cpp:127
 msgid "Really Quit? All unsaved changes will be lost."
 msgstr ""
 
@@ -37340,9 +37311,8 @@ msgid "Please wait as the map loads [%d/%d]"
 msgstr ""
 
 #: mapdata.h:192
-#, fuzzy
 msgid "empty space"
-msgstr "<empty rule>"
+msgstr ""
 
 #: mapdata.h:194 mapdata.h:269
 msgid "dirt"
@@ -37357,9 +37327,8 @@ msgid "mound of dirt"
 msgstr ""
 
 #: mapdata.h:200
-#, fuzzy
 msgid "shallow pit"
-msgstr "tube creux"
+msgstr ""
 
 #: mapdata.h:202 trapdef.cpp:173
 msgid "pit"
@@ -37370,18 +37339,16 @@ msgid "corpse filled pit"
 msgstr ""
 
 #: mapdata.h:206
-#, fuzzy
 msgid "covered pit"
-msgstr "couvert de poche."
+msgstr ""
 
 #: mapdata.h:208 trapdef.cpp:179
 msgid "spiked pit"
 msgstr ""
 
 #: mapdata.h:210
-#, fuzzy
 msgid "covered spiked pit"
-msgstr "couvert de poche."
+msgstr ""
 
 #: mapdata.h:212
 msgid "rock floor"
@@ -37440,9 +37407,8 @@ msgid "metal grate"
 msgstr ""
 
 #: mapdata.h:242
-#, fuzzy
 msgid "slime"
-msgstr "visqueux"
+msgstr ""
 
 #: mapdata.h:244
 msgid "walkway"
@@ -37465,14 +37431,12 @@ msgid "broken log wall"
 msgstr ""
 
 #: mapdata.h:263
-#, fuzzy
 msgid "palisade wall"
-msgstr "Construire une palissade"
+msgstr ""
 
 #: mapdata.h:266
-#, fuzzy
 msgid "palisade gate"
-msgstr "Fabriquer une porte de palissade"
+msgstr ""
 
 #: mapdata.h:273
 msgid "wooden wall"
@@ -37499,9 +37463,8 @@ msgid "metal wall"
 msgstr ""
 
 #: mapdata.h:292 mapdata.h:294 mapdata.h:296 mapdata.h:299
-#, fuzzy
 msgid "glass wall"
-msgstr "Pot en verre de 3l"
+msgstr ""
 
 #: mapdata.h:302 mapdata.h:304
 msgid "reinforced glass"
@@ -37512,18 +37475,16 @@ msgid "metal bars"
 msgstr ""
 
 #: mapdata.h:308 mapdata.h:315 mapdata.h:317 mapdata.h:319
-#, fuzzy
 msgid "closed wood door"
-msgstr "Fermer la Porte"
+msgstr ""
 
 #: mapdata.h:310
 msgid "damaged wood door"
 msgstr ""
 
 #: mapdata.h:313
-#, fuzzy
 msgid "open wood door"
-msgstr "Ouvrir la Porte"
+msgstr ""
 
 #: mapdata.h:321
 msgid "empty door frame"
@@ -37550,9 +37511,8 @@ msgid "open wire gate"
 msgstr ""
 
 #: mapdata.h:333
-#, fuzzy
 msgid "boarded up door"
-msgstr "Barricader une porte"
+msgstr ""
 
 #: mapdata.h:335 mapdata.h:339
 msgid "closed metal door"
@@ -37563,19 +37523,16 @@ msgid "open metal door"
 msgstr ""
 
 #: mapdata.h:341 mapdata.h:345
-#, fuzzy
 msgid "closed bar door"
-msgstr "Fermer la Porte"
+msgstr ""
 
 #: mapdata.h:343
-#, fuzzy
 msgid "open bar door"
-msgstr "Ouvrir la Porte"
+msgstr ""
 
 #: mapdata.h:347
-#, fuzzy
 msgid "closed glass door"
-msgstr "Pot en verre de 3l"
+msgstr ""
 
 #: mapdata.h:349
 msgid "open glass door"
@@ -37590,37 +37547,32 @@ msgid "steel compactor"
 msgstr ""
 
 #: mapdata.h:355 mapdata.h:361 mapdata.h:372
-#, fuzzy
 msgid "window"
-msgstr "Masquer une fenêtre"
+msgstr ""
 
 #: mapdata.h:358 mapdata.h:364 mapdata.h:375
-#, fuzzy
 msgid "taped window"
-msgstr "Masquer une fenêtre"
+msgstr ""
 
 #: mapdata.h:367
-#, fuzzy
 msgid "open window"
-msgstr "Masquer une fenêtre"
+msgstr ""
 
 #: mapdata.h:369
 msgid "closed curtains"
 msgstr ""
 
 #: mapdata.h:378
-#, fuzzy
 msgid "empty window"
-msgstr "Masquer une fenêtre"
+msgstr ""
 
 #: mapdata.h:380
 msgid "window frame"
 msgstr ""
 
 #: mapdata.h:383
-#, fuzzy
 msgid "boarded up window"
-msgstr "Masquer une fenêtre"
+msgstr ""
 
 #: mapdata.h:385 mapdata.h:387 mapdata.h:389
 msgid "high stained glass window"
@@ -37659,14 +37611,12 @@ msgid "shrub"
 msgstr ""
 
 #: mapdata.h:409
-#, fuzzy
 msgid "blueberry bush"
-msgstr "myrtilles"
+msgstr ""
 
 #: mapdata.h:412
-#, fuzzy
 msgid "strawberry bush"
-msgstr "fraises"
+msgstr ""
 
 #: mapdata.h:415
 msgid "tree trunk"
@@ -37689,57 +37639,48 @@ msgid "picket fence"
 msgstr ""
 
 #: mapdata.h:429 mapdata.h:431
-#, fuzzy
 msgid "chain link fence"
-msgstr "Réaligner cloture"
+msgstr ""
 
 #: mapdata.h:433
 msgid "metal post"
 msgstr ""
 
 #: mapdata.h:435
-#, fuzzy
 msgid "fence post"
-msgstr "Poteau de Clôture"
+msgstr ""
 
 #: mapdata.h:437
-#, fuzzy
 msgid "wire fence"
-msgstr "Construire une clôture"
+msgstr ""
 
 #: mapdata.h:439
-#, fuzzy
 msgid "barbed wire fence"
-msgstr "Construire une clôture"
+msgstr ""
 
 #: mapdata.h:441
 msgid "rope fence"
 msgstr ""
 
 #: mapdata.h:443 mapdata.h:445
-#, fuzzy
 msgid "railing"
-msgstr "cliquetant"
+msgstr ""
 
 #: mapdata.h:447
-#, fuzzy
 msgid "marloss bush"
-msgstr "baie de marloss"
+msgstr ""
 
 #: mapdata.h:449
-#, fuzzy
 msgid "fungal bed"
-msgstr "Champigneux"
+msgstr ""
 
 #: mapdata.h:451
-#, fuzzy
 msgid "fungal tree"
-msgstr "Parasite fongique"
+msgstr ""
 
 #: mapdata.h:453
-#, fuzzy
 msgid "shallow water"
-msgstr "tube creux"
+msgstr ""
 
 #: mapdata.h:455
 msgid "deep water"
@@ -37786,9 +37727,8 @@ msgid "broken generator"
 msgstr ""
 
 #: mapdata.h:478
-#, fuzzy
 msgid "missile"
-msgstr "Missile neutralisé."
+msgstr ""
 
 #: mapdata.h:480
 msgid "blown-out missile"
@@ -37799,9 +37739,8 @@ msgid "radio tower"
 msgstr ""
 
 #: mapdata.h:484
-#, fuzzy
 msgid "radio controls"
-msgstr "Contrôles de véhicule"
+msgstr ""
 
 #: mapdata.h:486
 msgid "broken console"
@@ -37832,9 +37771,8 @@ msgid "centrifuge"
 msgstr ""
 
 #: mapdata.h:504
-#, fuzzy
 msgid "column"
-msgstr "volume"
+msgstr ""
 
 #: mapdata.h:506
 msgid "cloning vat"
@@ -37881,14 +37819,12 @@ msgid "slot machine"
 msgstr ""
 
 #: mapdata.h:534
-#, fuzzy
 msgid "elevator controls"
-msgstr "Contrôles de véhicule"
+msgstr ""
 
 #: mapdata.h:536
-#, fuzzy
 msgid "powerless controls"
-msgstr "Contrôles de véhicule"
+msgstr ""
 
 #: mapdata.h:538
 msgid "elevator"
@@ -37903,14 +37839,12 @@ msgid "light pedestal"
 msgstr ""
 
 #: mapdata.h:544
-#, fuzzy
 msgid "red stone"
-msgstr "sauce tomate"
+msgstr ""
 
 #: mapdata.h:546
-#, fuzzy
 msgid "green stone"
-msgstr "pierre en forme de croissant"
+msgstr ""
 
 #: mapdata.h:548
 msgid "blue stone"
@@ -37945,14 +37879,12 @@ msgid "checkered switch"
 msgstr ""
 
 #: mapdata.h:605
-#, fuzzy
 msgid "hay"
-msgstr "Ombreux"
+msgstr ""
 
 #: mapdata.h:607
-#, fuzzy
 msgid "bulletin board"
-msgstr "Construire un tableau d'affichage"
+msgstr ""
 
 #: mapdata.h:610
 msgid "indoor plant"
@@ -37963,9 +37895,8 @@ msgid "toilet"
 msgstr ""
 
 #: mapdata.h:617
-#, fuzzy
 msgid "makeshift bed"
-msgstr "Construire un Lit Improvisé"
+msgstr ""
 
 #: mapdata.h:620
 msgid "sink"
@@ -37976,9 +37907,8 @@ msgid "oven"
 msgstr ""
 
 #: mapdata.h:626
-#, fuzzy
 msgid "wood stove"
-msgstr "Construire un Poêle à Bois"
+msgstr ""
 
 #: mapdata.h:629
 msgid "fireplace"
@@ -38021,18 +37951,16 @@ msgid "bench"
 msgstr ""
 
 #: mapdata.h:654
-#, fuzzy
 msgid "table"
-msgstr "<E>mettre en service"
+msgstr ""
 
 #: mapdata.h:656
 msgid "pool table"
 msgstr ""
 
 #: mapdata.h:658
-#, fuzzy
 msgid "counter"
-msgstr "Hiver"
+msgstr ""
 
 #: mapdata.h:660
 msgid "refrigerator"
@@ -38043,23 +37971,20 @@ msgid "glass door fridge"
 msgstr ""
 
 #: mapdata.h:665
-#, fuzzy
 msgid "dresser"
-msgstr "Fabriquer une armoire"
+msgstr ""
 
 #: mapdata.h:668
-#, fuzzy
 msgid "locker"
-msgstr "Construire un Placard"
+msgstr ""
 
 #: mapdata.h:671
 msgid "display rack"
 msgstr ""
 
 #: mapdata.h:674
-#, fuzzy
 msgid "book case"
-msgstr "livres"
+msgstr ""
 
 #: mapdata.h:677
 msgid "washing machine"
@@ -38118,9 +38043,8 @@ msgid "animalskin floor"
 msgstr ""
 
 #: mapdata.h:709
-#, fuzzy
 msgid "mutated poppy flower"
-msgstr "jambe mutée"
+msgstr ""
 
 #: mapdata.h:711 mapdata.h:714
 msgid "safe"
@@ -38135,9 +38059,8 @@ msgid "seed"
 msgstr ""
 
 #: mapdata.h:722
-#, fuzzy
 msgid "seedling"
-msgstr "fronde"
+msgstr ""
 
 #: mapdata.h:724
 msgid "mature plant"
@@ -38147,8 +38070,279 @@ msgstr ""
 msgid "harvestable plant"
 msgstr ""
 
+#: mapgen.cpp:2751 mapgen.cpp:2793
+msgid "Church Bells 1.2"
+msgstr ""
+
+#: mapgen.cpp:2752 mapgen.cpp:2794
+msgid "Gathering Toll"
+msgstr ""
+
+#: mapgen.cpp:2753 mapgen.cpp:2795
+msgid "Wedding Toll"
+msgstr ""
+
+#: mapgen.cpp:2754 mapgen.cpp:2796
+msgid "Funeral Toll"
+msgstr ""
+
+#: mapgen.cpp:4061
+msgid "Evac shelter computer"
+msgstr ""
+
+#: mapgen.cpp:4062
+msgid "Emergency Message"
+msgstr ""
+
+#: mapgen.cpp:4329
+msgid "Barracks Entrance"
+msgstr ""
+
+#: mapgen.cpp:4330 mapgen.cpp:4332 mapgen.cpp:4382
+msgid "UNLOCK ENTRANCE"
+msgstr ""
+
+#: mapgen.cpp:4331
+msgid "Magazine Entrance"
+msgstr ""
+
+#: mapgen.cpp:4381
+msgid "Prisoner Containment Entrance"
+msgstr ""
+
+#: mapgen.cpp:4383 mapgen.cpp:4656
+msgid "Containment Control"
+msgstr ""
+
+#: mapgen.cpp:4384
+msgid "EMERGENCY CONTAINMENT RELEASE"
+msgstr ""
+
+#: mapgen.cpp:4654
+msgid "Containment Terminal"
+msgstr ""
+
+#: mapgen.cpp:4655 mapgen.cpp:4657
+msgid "EMERGENCY CONTAINMENT UNLOCK"
+msgstr ""
+
+#: mapgen.cpp:4658
+msgid "EMERGENCY CLEANSE"
+msgstr ""
+
+#: mapgen.cpp:4795
+msgid "Mk IV Algorithmic Data Analyzer"
+msgstr ""
+
+#: mapgen.cpp:4796
+msgid "Run Decryption Algorithm"
+msgstr ""
+
+#: mapgen.cpp:4797
+msgid "Upload Data to Melchior"
+msgstr ""
+
+#: mapgen.cpp:4798
+msgid "Access Melchior"
+msgstr ""
+
+#: mapgen.cpp:4979
+msgid "Sub-prime contact console"
+msgstr ""
+
+#: mapgen.cpp:4980
+msgid "Terminate Specimens"
+msgstr ""
+
+#: mapgen.cpp:4981
+msgid "Release Specimens"
+msgstr ""
+
+#: mapgen.cpp:4982
+msgid "Toggle Portal"
+msgstr ""
+
+#: mapgen.cpp:4983
+msgid "Activate Resonance Cascade"
+msgstr ""
+
+#: mapgen.cpp:5012 mapgen.cpp:13456 mapgen.cpp:13484
+#, fuzzy
+msgid "Bionic access"
+msgstr "Accès aux implants - Manifeste:"
+
+#: mapgen.cpp:5013 mapgen.cpp:13457 mapgen.cpp:13485
+msgid "Manifest"
+msgstr ""
+
+#: mapgen.cpp:5014 mapgen.cpp:13458 mapgen.cpp:13486
+msgid "Open Chambers"
+msgstr ""
+
+#: mapgen.cpp:5357
+#, fuzzy
+msgid "Missile Controls"
+msgstr "Contrôles de véhicule"
+
+#: mapgen.cpp:5358
+msgid "Launch Missile"
+msgstr ""
+
+#: mapgen.cpp:5359
+#, fuzzy
+msgid "Disarm Missile"
+msgstr "Missile neutralisé."
+
+#: mapgen.cpp:5619 mapgen.cpp:5623 mapgen.cpp:5756 mapgen.cpp:5781
+msgid "EnviroCom OS v2.03"
+msgstr ""
+
+#: mapgen.cpp:5620 mapgen.cpp:5624
+msgid "Unlock stairs"
+msgstr ""
+
+#: mapgen.cpp:5757 mapgen.cpp:5782
+#, fuzzy
+msgid "Download Sewer Maps"
+msgstr "Télécharger les données?"
+
+#: mapgen.cpp:5758 mapgen.cpp:5783
+msgid "Divert sample"
+msgstr ""
+
+#: mapgen.cpp:6233 mapgen.cpp:13806
+msgid "NEPowerOS"
+msgstr ""
+
+#: mapgen.cpp:6234
+#, fuzzy
+msgid "Read Logs"
+msgstr "Lire"
+
+#: mapgen.cpp:6235
+msgid "Initiate Tremors"
+msgstr ""
+
+#: mapgen.cpp:6373
+msgid "Broadcasting Control"
+msgstr ""
+
+#: mapgen.cpp:6374
+msgid "ERROR:  SIGNAL DISCONNECT"
+msgstr ""
+
+#: mapgen.cpp:8558 mapgen.cpp:8564
+msgid "Medical Supply Access"
+msgstr ""
+
+#: mapgen.cpp:8559
+#, fuzzy
+msgid "Lock Door"
+msgstr "Fermer la Porte"
+
+#: mapgen.cpp:8560 mapgen.cpp:8565
+#, fuzzy
+msgid "Unlock Door"
+msgstr "Fermer la Porte"
+
+#: mapgen.cpp:8816 mapgen.cpp:9098
+msgid "SRCF Security Terminal"
+msgstr ""
+
+#: mapgen.cpp:8817 mapgen.cpp:9099
+msgid "Security Reminder [1055]"
+msgstr ""
+
+#: mapgen.cpp:8818 mapgen.cpp:9100
+msgid "Security Reminder [1056]"
+msgstr ""
+
+#: mapgen.cpp:8819 mapgen.cpp:9101
+msgid "Security Reminder [1057]"
+msgstr ""
+
+#: mapgen.cpp:8821 mapgen.cpp:9103
+msgid "EPA: Report All Potential Containment Breaches [3873643]"
+msgstr ""
+
+#: mapgen.cpp:8822 mapgen.cpp:9104
+msgid "SRCF: Internal Memo, EPA [2918024]"
+msgstr ""
+
+#: mapgen.cpp:8823 mapgen.cpp:9105
+msgid "CDC: Internal Memo, Standby [2918115]"
+msgstr ""
+
+#: mapgen.cpp:8824 mapgen.cpp:9106
+msgid "USARMY: SEAL SRCF [987167]"
+msgstr ""
+
+#: mapgen.cpp:8825 mapgen.cpp:9107
+msgid "COMMAND: REACTIVATE ELEVATOR"
+msgstr ""
+
+#: mapgen.cpp:8826
+msgid "COMMAND: SEAL SRCF [4423]"
+msgstr ""
+
+#: mapgen.cpp:9838 mapgen.cpp:9848
+msgid "PolCom OS v1.47"
+msgstr ""
+
+#: mapgen.cpp:9839
+msgid "Open Supply Room"
+msgstr ""
+
+#: mapgen.cpp:9849
+msgid "Open Evidence Locker"
+msgstr ""
+
+#: mapgen.cpp:9935
+msgid "First United Bank"
+msgstr ""
+
+#: mapgen.cpp:9936
+msgid "Open Vault"
+msgstr ""
+
+#: mapgen.cpp:10592
+#, fuzzy
+msgid "Centrifuge"
+msgstr "Centrer la vue"
+
+#: mapgen.cpp:10593
+msgid "Analyze blood"
+msgstr ""
+
+#: mapgen.cpp:10778
+msgid "Mr. Stem Cell"
+msgstr ""
+
+#: mapgen.cpp:10779
+#, fuzzy
+msgid "Stem Cell Treatment"
+msgstr "Traitement par cellules souches."
+
 #: mapgen.cpp:12738
 msgid "Wreckage"
+msgstr ""
+
+#: mapgen.cpp:13325 mapgen.cpp:13337
+msgid "Log Console"
+msgstr ""
+
+#: mapgen.cpp:13326 mapgen.cpp:13338
+#, fuzzy
+msgid "View Research Logs"
+msgstr "Voir le Journal de Messages"
+
+#: mapgen.cpp:13327 mapgen.cpp:13339
+#, fuzzy
+msgid "Download Map Data"
+msgstr "Télécharger les données?"
+
+#: mapgen.cpp:13807
+msgid "Divert power to elevator"
 msgstr ""
 
 #: material.cpp:17 material.cpp:18
@@ -40673,6 +40867,9 @@ msgid ""
 "uncertain legs, possessed with an unstoppable\n"
 "rage."
 msgstr ""
+"Un corps humain titubant lentement son chemin\n"
+"avec des jambes incertaines, possédé par une rage\n"
+"implacable."
 
 #: mtypedef.cpp:385
 msgid "zombie cop"
@@ -40694,6 +40891,8 @@ msgid ""
 "This zombie's jaw has been torn off, leaving\n"
 "a gaping hole from mid-neck up."
 msgstr ""
+"La mâchoire de ce zombie a été arraché, ne laissant\n"
+"qu'un trou béant au bas de son visage."
 
 #: mtypedef.cpp:405
 msgid "spitter zombie"
@@ -40789,6 +40988,9 @@ msgid ""
 "horrible odor, and putrid, pink sludge drips\n"
 "from its mouth."
 msgstr ""
+"Un zombie boursouflé. Des bourrelets de gras pendent de son corps\n"
+"qui dégage une horrible odeur. De sa bouche s'écoule une\n"
+"excrétion rose et putride."
 
 #: mtypedef.cpp:498
 msgid "fungal boomer"
@@ -44923,14 +45125,12 @@ msgstr ""
 
 #. ~ containers
 #: options.cpp:412
-#, fuzzy
 msgid "Watertight"
-msgstr "<name>Wright"
+msgstr ""
 
 #: options.cpp:413 player.cpp:6933
-#, fuzzy
 msgid "All"
-msgstr "Alcool"
+msgstr ""
 
 #: options.cpp:414
 msgid "Drop empty containers"
@@ -44949,9 +45149,8 @@ msgstr ""
 
 #. ~ capped at a value
 #: options.cpp:422
-#, fuzzy
 msgid "Capped"
-msgstr "appendice"
+msgstr ""
 
 #. ~ based on intelligence
 #: options.cpp:424
@@ -45015,9 +45214,8 @@ msgid "A scaling factor that determines density of monster spawns."
 msgstr ""
 
 #: options.cpp:456
-#, fuzzy
 msgid "Size of cities"
-msgstr "Ascension du %s !"
+msgstr ""
 
 #: options.cpp:457
 msgid ""
@@ -45059,9 +45257,8 @@ msgstr ""
 
 #. ~ sidebar style
 #: options.cpp:478
-#, fuzzy
 msgid "Narrow"
-msgstr "carrotte"
+msgstr ""
 
 #: options.cpp:479
 msgid "Sidebar style"
@@ -45150,15 +45347,13 @@ msgstr ""
 
 #. ~ hide mouse cursor
 #: options.cpp:527
-#, fuzzy
 msgid "Hide"
-msgstr "Hideux"
+msgstr ""
 
 #. ~ hide mouse cursor when keyboard is used
 #: options.cpp:529
-#, fuzzy
 msgid "HideKB"
-msgstr "Hideux"
+msgstr ""
 
 #: options.cpp:530
 msgid "Hide Mouse Cursor"
@@ -46196,9 +46391,9 @@ msgid ""
 msgstr ""
 
 #: player.cpp:2063
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Male"
-msgstr "%s - ON"
+msgstr ""
 
 #: player.cpp:2065
 #, c-format
@@ -46808,9 +47003,8 @@ msgid "Your %s has started to mend!"
 msgstr ""
 
 #: player.cpp:4866
-#, fuzzy
 msgid "Threw up."
-msgstr "En train de vomir."
+msgstr ""
 
 #: player.cpp:5279
 #, c-format
@@ -47001,9 +47195,9 @@ msgid "You can't wear %s with power armor!"
 msgstr ""
 
 #: player.cpp:6677
-#, fuzzy, c-format
+#, c-format
 msgid "You can't wear more than two %ss at once."
-msgstr "Vous ne pouvez pas déverouiller ce %s."
+msgstr ""
 
 #: player.cpp:6686
 msgid "You can't wear that, it's made of wool!"
@@ -47104,14 +47298,12 @@ msgid "You are not wearing that item."
 msgstr ""
 
 #: player.cpp:6965
-#, fuzzy
 msgid "Sort Armor"
-msgstr "Vêtements & Armures"
+msgstr ""
 
 #: player.cpp:6967
-#, fuzzy
 msgid "Press '?' for help"
-msgstr "Pressez ? pour consulter l'aide."
+msgstr ""
 
 #: player.cpp:6986
 msgid "(Innermost)"
@@ -47130,9 +47322,8 @@ msgid "<more>"
 msgstr ""
 
 #: player.cpp:7012
-#, fuzzy
 msgid "<empty>"
-msgstr "<empty rule>"
+msgstr ""
 
 #: player.cpp:7020
 msgid "Encumbrance: "
@@ -47412,9 +47603,9 @@ msgid "Your %s is damaged!"
 msgstr "Votre %s est abimé!"
 
 #: player.cpp:8259
-#, fuzzy, c-format
+#, c-format
 msgid "Worn %s was completely destroyed."
-msgstr "Votre %s est complètement détruit!"
+msgstr ""
 
 #: player.cpp:8260
 #, c-format
@@ -47926,9 +48117,8 @@ msgid "You step in a puddle of thick goo."
 msgstr ""
 
 #: trapfunc.cpp:484
-#, fuzzy
 msgid "Stepped into thick goo."
-msgstr "Vous êtes couvert d'un gel épais!"
+msgstr ""
 
 #: trapfunc.cpp:487
 msgid "The acidic goo eats away at your feet."
@@ -47952,9 +48142,8 @@ msgid "You fall in a pit!"
 msgstr "Vous tombez dans une fosse !"
 
 #: trapfunc.cpp:535
-#, fuzzy
 msgid "Fell in a pit."
-msgstr "Vous tombez dans une fosse !"
+msgstr ""
 
 #: trapfunc.cpp:543
 msgid "You hurt yourself!"
@@ -47970,9 +48159,8 @@ msgid "The %s falls in a pit!"
 msgstr "Le %s tombe dans une fosse !"
 
 #: trapfunc.cpp:574
-#, fuzzy
 msgid "Fell into a spiked pit."
-msgstr "Le %s tombe dans une fosse pleine de piques !"
+msgstr ""
 
 #: trapfunc.cpp:580
 msgid "You avoid the spikes within."
@@ -48396,6 +48584,12 @@ msgid ""
 "good\n"
 "in most combat situations, but if you've got some fire power..."
 msgstr ""
+"Vous avez activez une grenade et désirez certainement la lancer ! Pour\n"
+"lancer un objet,  appuyez sur 't' et sélectionnez l'objet a lancer.  La "
+"distance\n"
+"maximum dépend de votre force, de la taille et du poids de l'objet. Le "
+"lancer\n"
+"est rarement efficace en combat, mais si vous avez de la puissance de feu..."
 
 #: tutorial.h:148
 msgid ""
@@ -48403,6 +48597,10 @@ msgid ""
 "important defensive tactic, particularly when sleeping in unsafe territory.\n"
 "Try stepping on that _ -- don't worry, it's a harmless bubblewrap trap."
 msgstr ""
+"Vous venez de placer un piège. Les pièges sont permanents jusqu'à \n"
+"désamorcage et constituent une importante tactique défensive, surtout\n"
+"lorsque vous dormez dans un territoire dangereux. Essayez de marcher\n"
+"sur le _ -- aucune inquiétude, c'est une piège a bulle sans danger."
 
 #: tutorial.h:152
 msgid ""
@@ -48414,6 +48612,16 @@ msgid ""
 "something--\n"
 "the object you are wielding does not take up inventory space."
 msgstr ""
+"Vous transportez un volume trop important pour la place dont vous disposez, "
+"cela\n"
+"signifie que vous tenez des objets calés sous les aisselles ou d'autres "
+"manières \n"
+"inconfortables. Quand vous êtes encombré de la sorte, vous souffrez de "
+"pénalités\n"
+"d'encombrement SEVERES, cela rend le combat dangereux. Abandonnez un objet\n"
+"ou équipez vous en si c'est possible -- il ne comptera plus comme occupant "
+"de \n"
+"l'espace dans votre inventaire."
 
 #: tutorial.h:158
 msgid ""
@@ -48422,6 +48630,10 @@ msgid ""
 "the 'r' key, assuming you have the proper ammo.  If you wish to unload your\n"
 "gun, possibly to change ammunition types, press 'U'."
 msgstr ""
+"Pour utiliser une arme a feu, equipez vous en avec la touche 'w'. Ensuite \n"
+"rechargez la en utilisant 'r', en partant du principe que vous avez les\n"
+"bonnes munitions. Si vous voulez decharger votre arme, par exemple \n"
+"pour changer de munitions, appuyez sur 'U'."
 
 #: tutorial.h:162
 msgid ""
@@ -48561,11 +48773,11 @@ msgstr ""
 #: veh_interact.cpp:411
 #, c-format
 msgid "You need %s."
-msgstr ""
+msgstr "Vous avez besoin d'un %s."
 
 #: veh_interact.cpp:434
 msgid "No parts here."
-msgstr ""
+msgstr "il n'y a pas de pièce ici."
 
 #: veh_interact.cpp:442
 msgid "<veh> to remove parts."
@@ -48625,11 +48837,11 @@ msgstr "Vitesse sûre: Km/h"
 
 #: veh_interact.cpp:755
 msgid "Top speed:       Km/h"
-msgstr ""
+msgstr "Vitesse max. : Km/H"
 
 #: veh_interact.cpp:757
 msgid "Accel.:          Kmh/t"
-msgstr ""
+msgstr "Accel.:          Kmh/t"
 
 #: veh_interact.cpp:761
 msgid "Safe speed:      mph"
@@ -48641,7 +48853,7 @@ msgstr "Vitesse max: mph"
 
 #: veh_interact.cpp:765
 msgid "Accel.:          mph/t"
-msgstr ""
+msgstr "Accel.:          mph/t"
 
 #: veh_interact.cpp:769
 msgid "Mass:            kg"
@@ -48669,7 +48881,7 @@ msgstr "<roues>assez"
 
 #: veh_interact.cpp:787
 msgid "<wheels>  lack"
-msgstr ""
+msgstr "<roues>manquante(s)"
 
 #: veh_interact.cpp:789
 msgid "Fuel usage (safe):        "
@@ -48685,19 +48897,19 @@ msgstr "<r>éparer"
 
 #: veh_interact.cpp:828
 msgid "re<f>ill"
-msgstr ""
+msgstr "<f>refaire le plein"
 
 #: veh_interact.cpp:829
 msgid "rem<o>ve"
-msgstr ""
+msgstr "<o>Enlever"
 
 #: veh_interact.cpp:830
 msgid "<s>iphon"
-msgstr ""
+msgstr "<s>iphoner"
 
 #: veh_interact.cpp:831
 msgid "<d>rain water"
-msgstr ""
+msgstr "<d>rainer l'eau"
 
 #: veh_interact.cpp:832
 msgid "<c>hange tire"
@@ -48720,9 +48932,8 @@ msgid "Use which gizmo?"
 msgstr "Utiliser quel composant?"
 
 #: veh_interact.cpp:997
-#, fuzzy
 msgid "Choose a facing direction for the new headlight."
-msgstr "Indiquez la direction de la chute de l'arbre :"
+msgstr "Choisissez l'orientation du nouveau phare."
 
 #: veh_interact.cpp:1015
 #, c-format
@@ -48735,24 +48946,24 @@ msgid "You repair the %s's %s."
 msgstr "Du %s vous réparez le/la %s."
 
 #: veh_interact.cpp:1058
-#, fuzzy, c-format
+#, c-format
 msgid "You completely dismantle the %s."
-msgstr "Vous démontez complètement le/la %s."
+msgstr "Vous démontez completement le %s."
 
 #: veh_interact.cpp:1065
-#, fuzzy, c-format
+#, c-format
 msgid "You remove the broken %s from the %s."
-msgstr "Vous retirez le/la %s%s du %s."
+msgstr "Vous retirez le %s endommagé du %s."
 
 #: veh_interact.cpp:1069
-#, fuzzy, c-format
+#, c-format
 msgid "You remove the %s from the %s."
-msgstr "Vous retirez le/la %s%s du %s."
+msgstr "vous retirez le %s du %s."
 
 #: veh_interact.cpp:1088
-#, fuzzy, c-format
+#, c-format
 msgid "You replace one of the %s's tires with a %s."
-msgstr "Du %s vous réparez le/la %s."
+msgstr "Vous remplacez un des pneus du %s avec un %s."
 
 #: vehicle.cpp:298
 msgid "Disable cruise control"
@@ -48830,25 +49041,25 @@ msgstr ""
 
 #. ~ 2.8-Liter engine
 #: vehicle.cpp:844
-#, fuzzy, c-format
+#, c-format
 msgid "%4.2f-Liter %s"
-msgstr "<veh_adj>%4.2f-Litres "
+msgstr ""
 
 #. ~ 14" wheel
 #: vehicle.cpp:849
 #, c-format
 msgid "%d\" %s"
-msgstr ""
+msgstr "%d\" %s"
 
 #. ~ indicates that a vehicle part is inside
 #: vehicle.cpp:864
 msgid "In"
-msgstr ""
+msgstr "Interieur"
 
 #. ~ indicates that a vehicle part is outside
 #: vehicle.cpp:867
 msgid "Out"
-msgstr ""
+msgstr "Exterieur"
 
 #: vehicle.cpp:1408
 #, c-format
@@ -48908,9 +49119,9 @@ msgid "Clank!"
 msgstr "Cling!"
 
 #: vehicle.cpp:2304
-#, fuzzy, c-format
+#, c-format
 msgid "The fuel tank of the %s exploded!"
-msgstr "Le jour du %s !"
+msgstr "Le réservoir du %s a explosé."
 
 #: vehicle.cpp:2438
 #, c-format
@@ -48936,18 +49147,17 @@ msgid "You hear a rumble of thunder from above."
 msgstr "Vous entendez un roulement de tonnère."
 
 #: weather.cpp:204
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s protects you from the acidic drizzle."
-msgstr "Votre parapluie vous protège de la pluie acide."
+msgstr "Votre %s vous protege du crachin acide."
 
 #: weather.cpp:207
 msgid "Your raincoat protects you from the acidic drizzle."
 msgstr "Votre imperméable vous protège de la pluie acide."
 
 #: weather.cpp:211 weather.cpp:232
-#, fuzzy
 msgid "Your power armor protects you from the acidic drizzle."
-msgstr "Votre imperméable vous protège de la pluie acide."
+msgstr "Votre armure énergétique vous protège du crachin acide."
 
 #: weather.cpp:213
 msgid "The acid rain stings, but is mostly harmless for now..."
@@ -48972,6 +49182,8 @@ msgid ""
 "The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The "
 "temperature was %s"
 msgstr ""
+"Le fuseau horaire actuel est %s EST. A %s en %s, il était %s. La température "
+"était de %s"
 
 #: weather.cpp:340
 msgid "Today"
@@ -48994,12 +49206,12 @@ msgstr ""
 #: weather.cpp:394
 #, c-format
 msgid "<Celsius>%sC"
-msgstr ""
+msgstr "<Celsius>%sC"
 
 #: weather.cpp:399
 #, c-format
 msgid "<Fahrenheit>%sF"
-msgstr ""
+msgstr "<Fahrenheit>%sF"
 
 #: weather_data.cpp:103
 msgid "Autumn"
@@ -49055,7 +49267,7 @@ msgstr "Pluie acide"
 
 #: weather_data.cpp:138
 msgid "Flurries"
-msgstr ""
+msgstr "Bourrasques"
 
 #: weather_data.cpp:141
 msgid "Snowing"
@@ -49090,21 +49302,20 @@ msgid "Add-ons:"
 msgstr "Extensions:"
 
 #: wish.cpp:115
-#, fuzzy
 msgid "Category:"
-msgstr "Catégorie : "
+msgstr "Catégorie:"
 
 #: wish.cpp:323
 msgid "Monster spawned, choose another or 'q' to quit."
-msgstr ""
+msgstr "Monstre engendré, choisissez en un autre ou 'q' pour quitter."
 
 #: wish.cpp:438
 msgid "How many?"
-msgstr ""
+msgstr "Combien ?"
 
 #: wish.cpp:455
 msgid "Item granted, choose another or 'q' to quit."
-msgstr ""
+msgstr "Objet obtenu, choisissez en un autre ou 'q' pour quitter."
 
 #, fuzzy
 #~ msgid "Part: %s"
