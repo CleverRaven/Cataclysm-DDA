@@ -13,7 +13,4 @@ void init_data_structures();
 
 void load_json_dir(std::string const &dirname);
 void load_all_from_json(JsonIn &jsin);
-
-static std::map<std::string, std::vector<JsonObject> > json_objects;
-
 #endif // _INIT_H_

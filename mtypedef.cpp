@@ -53,6 +53,9 @@
      }
      return false;
  }
+
+ /* NOTE: Not sure if should remove for save compatability reasons */
+ /*
  // Non-default (messy)
  mtype::mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, std::string pmat,
@@ -93,7 +96,7 @@
   //anger = default_anger(species);
   //fear = default_fears(species);
  }
-
+//*/
  bool mtype::has_flag(m_flag flag) const
  {
   return bitflags[flag];
@@ -168,6 +171,7 @@
 
 void game::init_mtypes ()
 {
+/* Not sure if should remove for save compatability reasons
 /*
  int id = 0;
 // Null monster named "None".
@@ -1467,7 +1471,7 @@ Your precious generator, noisily humming\n\
 away.  Defend it at all costs!")
 );
 FLAGS(MF_NOHEAD, MF_ACIDPROOF, MF_IMMOBILE);
-*/
+
     // The flag vectors are slow, given how often has_flags() is called,
     // so instead we'll use bitsets and initialize them here.
     const int num_mtypes = mtypes.size();
@@ -1477,6 +1481,7 @@ FLAGS(MF_NOHEAD, MF_ACIDPROOF, MF_IMMOBILE);
             mtypes[i]->bitflags[mtypes[i]->flags[j]] = true;
         }
     }
+//*/
 }
 
 

@@ -30,6 +30,7 @@ species_hallu,
 num_species
 };
 
+/* NOTE: Not sure if should remove for save compatability reasons */
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
 */

@@ -1571,30 +1571,6 @@ void mattack::parrot(game *g, monster *z) {
     }
 }
 
-void game::init_parrot_speech() throw (std::string)
-{
-    catajson parrot_file("data/raw/parrot.json");
-
-    if (!json_good()) {
-        throw (std::string) "data/raw/parrot.json was not found";
-    }
-
-    for (parrot_file.set_begin(); parrot_file.has_curr(); parrot_file.next()) {
-        catajson parrot = parrot_file.curr();
-
-        std::string sound   = _(parrot.get("sound").as_string().c_str());
-        int volume          = parrot.get("volume").as_int();
-
-        SpeechBubble speech = {sound, volume};
-
-        parrotVector.push_back(speech);
-    }
-
-    if (!json_good()) {
-        throw (std::string) "There was an error reading data/raw/parrot.json";
-    }
-}
-
 void game::load_parrot_phrase(JsonObject &jo)
 {
     std::string sound = _(jo.get_string("sound").c_str());

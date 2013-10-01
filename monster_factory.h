@@ -2,7 +2,6 @@
 #define MONSTER_FACTORY_H
 
 #include "json.h"       // JsonObject|JsonArray loading
-#include "translations.h"
 #include "rng.h"
 
 #include "monattack.h"  // Monster Special Attack Functions
@@ -62,10 +61,6 @@ class monster_factory
         {
             return factory().missing_monster_type;
         }
-        static species_type *missing_species()
-        {
-            return factory().missing_species_type;
-        }
 
         // Load a monster definition "type":"monster"
         void load_monster(JsonObject &jo);
@@ -76,6 +71,7 @@ class monster_factory
         mtype *get_mon(Mon_Tag tag);
 
     protected:
+        // monster storage
         std::map<Mon_Tag, mtype*> monsters;
         std::map<std::string, species_type*> species;
         std::set<std::string> categories;
@@ -126,7 +122,7 @@ class monster_factory
 
         // Data Accessors
         // Tag->Enum conversion
-
+        // Really really like this function, as it removes the need for individual functions for different enums
         template <typename T>  T convert_tag(std::string tag, std::map<Mon_Tag, T> tag_map, T fallback);
 
         // Data
@@ -138,7 +134,6 @@ class monster_factory
         std::map<Mon_Tag, m_flag> flag_tags;
         std::map<Mon_Tag, monster_trigger> trigger_tags;
         std::map<Mon_Tag, phase_id> phase_tags;
-            // monster storage
 
 };
 

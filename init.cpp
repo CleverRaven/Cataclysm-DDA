@@ -1,7 +1,5 @@
 #include "init.h"
 
-#include "debug.h"
-
 #include "json.h"
 #include "game.h" // because mi-go parrot requires it!
 #include "material.h"
@@ -16,6 +14,7 @@
 #include "help.h"
 #include "mongroup.h"
 #include "monster_factory.h"
+#include "file_finder.h"
 
 #include <string>
 #include <vector>
@@ -27,34 +26,7 @@
 // TODO: make this actually load files from the named directory
 std::vector<std::string> listfiles(std::string const &dirname)
 {
-    std::vector<std::string> ret;
-    ret.push_back("data/json/materials.json");
-    ret.push_back("data/json/bionics.json");
-    ret.push_back("data/json/professions.json");
-    ret.push_back("data/json/skills.json");
-    ret.push_back("data/json/dreams.json");
-    ret.push_back("data/json/mutations.json");
-    ret.push_back("data/json/snippets.json");
-    ret.push_back("data/json/item_groups.json");
-    ret.push_back("data/json/recipes.json");
-    ret.push_back("data/json/monstergroups.json");
-    ret.push_back("data/json/names.json");
-    ret.push_back("data/json/migo_speech.json");
-    ret.push_back("data/json/vehicle_parts.json");
-    ret.push_back("data/json/vehicles.json");
-    ret.push_back("data/json/lab_notes.json");
-    ret.push_back("data/json/monsters.json");
-    ret.push_back("data/json/hints.json");
-    ret.push_back("data/json/items/ammo.json");
-    ret.push_back("data/json/items/archery.json");
-    ret.push_back("data/json/items/armor.json");
-    ret.push_back("data/json/items/books.json");
-    ret.push_back("data/json/items/comestibles.json");
-    ret.push_back("data/json/items/containers.json");
-    ret.push_back("data/json/items/melee.json");
-    ret.push_back("data/json/items/mods.json");
-    ret.push_back("data/json/items/ranged.json");
-    ret.push_back("data/json/items/tools.json");
+    std::vector<std::string> ret = file_finder::get_files_from_path(".json", dirname, true);
 
     return ret;
 }
@@ -62,8 +34,6 @@ std::vector<std::string> listfiles(std::string const &dirname)
 void load_object(JsonObject &jo)
 {
     std::string type = jo.get_string("type");
-
-    json_objects[type].push_back(jo);
 
     if (type == "material") { material_type::load_material(jo);}
     else if (type == "NAME"){NameGenerator::generator().load_name_from_json(jo);}
@@ -93,6 +63,7 @@ void load_object(JsonObject &jo)
     else if (type == "ITEM_CONTAINER"){item_controller->load_container(jo);}
     else if (type == "recipe_category") { load_recipe_category(jo); }
     else if (type == "MONSTER_SPECIES"){monster_factory::factory().load_species(jo);}
+    else if (type == "ITEM_INSTRUMENT"){/* DO NOTHING!!! MWAHAHA */}
     else {
         std::stringstream err;
         err << jo.line_number() << ": ";
@@ -124,19 +95,6 @@ void load_json_dir(std::string const &dirname)
             throw *(it) + ": " + e;
         }
     }
-/*
-    std::string separator = std::string(80, '*');
-    DebugLog() << separator << "\n";
-    int numObjects = 0;
-    for (std::map<std::string, std::vector<JsonObject> >::iterator it = json_objects.begin(); it != json_objects.end(); ++it)
-    {
-        numObjects += it->second.size();
-        DebugLog() << "Type: ["<<it->first<<"] Count: "<<it->second.size()<<"\n";
-    }
-    DebugLog() << separator << "\n";
-    DebugLog() << "Total Objects: " << numObjects << "\n";
-    DebugLog() << separator << "\n";
-*/
 }
 
 void load_all_from_json(JsonIn &jsin)

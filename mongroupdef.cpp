@@ -27,20 +27,6 @@
 //     monster that makes the point count go over 1000
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
-//void init_translation();
-
-void game::init_mongroups() throw (std::string)
-{
-   try
-   {
-       //init_translation();
-       //MonsterGroupManager::LoadJSONGroups();
-   }
-   catch(std::string &error_message)
-   {
-       throw;
-   }
-}
 
 std::string MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
                                                  int *quantity, int turn )

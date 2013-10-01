@@ -1,6 +1,5 @@
 #include "monster_factory.h"
-
-#include "debug.h"
+#include "translations.h"
 
 // Constructor
 monster_factory::monster_factory()
@@ -259,6 +258,10 @@ void monster_factory::load_species(JsonObject &jo)
             set_species_flags(jo, newspecies);
             set_species_triggers(jo, newspecies);
 
+            if (species.find(newspecies->id) != species.end())
+            {
+                delete species[newspecies->id];
+            }
             // load into map!
             species[newspecies->id] = newspecies;
         }
@@ -318,7 +321,6 @@ void monster_factory::set_mon_information(JsonObject& jo, mtype* mon)
     }
     catch (std::string err)
     {
-        DebugLog() << "set_mon_information: "<< err << "\n";
         throw err;
     }
 }

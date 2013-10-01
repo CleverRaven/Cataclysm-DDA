@@ -361,9 +361,9 @@ void load_artifacts(); // Load artifact data
 // JSON loading functions
   void load_parrot_phrase(JsonObject &jo);
   void load_vehicle_part(JsonObject &jo);
-  void load_vehicle(JsonObject &jo);
-  void load_vehicle(vehicle_prototype &prototype);
   void cache_vehicles(JsonObject &jo);
+// Prototype-Structure loading functions
+  void load_vehicle(vehicle_prototype &prototype);
 
   std::map<std::string, int> killcount; // Player's killcount for all entities that are killed at least once!
  private:
@@ -399,16 +399,12 @@ void load_artifacts(); // Load artifact data
   void init_professions();
   void init_faction_data();
   void init_mtypes();       // Initializes monster types
-  void init_mongroups() throw (std::string);    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
   void init_traps();        // Initializes trap types
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
-  void init_vehicle_parts();       // Initializes vehicle part types
-  void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
-  void init_parrot_speech() throw (std::string);  // Initializes Mi-Go parrot speech
 
   void finalize_vehicles();
 

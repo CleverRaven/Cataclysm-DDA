@@ -63,7 +63,6 @@ struct mongroup {
 class MonsterGroupManager
 {
     public:
-        static void LoadJSONGroups() throw (std::string);
         static std::string GetMonsterFromGroup(std::string, std::vector <mtype*> *,
                                           int *quantity = 0, int turn = -1);
         static bool IsMonsterInGroup(std::string, std::string);

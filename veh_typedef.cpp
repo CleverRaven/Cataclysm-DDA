@@ -40,70 +40,6 @@ std::vector<std::string> legacy_vpart_id; // potential FIXME: provide -static- h
 /**
  * Reads in the vehicle parts from a json file.
  */
-void game::init_vehicle_parts()
-{
-  catajson vehicle_parts_json("data/raw/vehicle_parts.json", true);
-
-  if (!json_good()) {
-    throw (std::string)"data/raw/vehicle_parts.json wasn't found";
-  }
-
-  for (vehicle_parts_json.set_begin(); vehicle_parts_json.has_curr() && json_good(); vehicle_parts_json.next())
-  {
-    catajson next_json = vehicle_parts_json.curr();
-    vpart_info next_part;
-
-    next_part.id = next_json.get("id").as_string();
-    next_part.name = _(next_json.get("name").as_string().c_str());
-    next_part.sym = next_json.get("symbol").as_char();
-    next_part.color = color_from_string(next_json.get("color").as_string());
-    next_part.sym_broken = next_json.get("broken_symbol").as_char();
-    next_part.color_broken = color_from_string(next_json.get("broken_color").as_string());
-    next_part.dmg_mod = next_json.has("damage_modifier") ? next_json.get("damage_modifier").as_int() : 100;
-    next_part.durability = next_json.get("durability").as_int();
-    //Handle the par1 union as best we can by accepting any ONE of its elements
-    int element_count = (next_json.has("par1") ? 1 : 0)
-                      + (next_json.has("power") ? 1 : 0)
-                      + (next_json.has("size") ? 1 : 0)
-                      + (next_json.has("wheel_width") ? 1 : 0)
-                      + (next_json.has("bonus") ? 1 : 0);
-    if(element_count == 0) {
-      //If not specified, assume 0
-      next_part.par1 = 0;
-    } else if(element_count == 1) {
-      if(next_json.has("par1")) {
-        next_part.par1 = next_json.get("par1").as_int();
-      } else if(next_json.has("power")) {
-        next_part.par1 = next_json.get("power").as_int();
-      } else if(next_json.has("size")) {
-        next_part.par1 = next_json.get("size").as_int();
-      } else if(next_json.has("wheel_width")) {
-        next_part.par1 = next_json.get("wheel_width").as_int();
-      } else { //bonus
-        next_part.par1 = next_json.get("bonus").as_int();
-      }
-    } else {
-      //Too many
-      debugmsg("Error parsing vehicle part '%s': \
-               Use AT MOST one of: par1, power, size, wheel_width, bonus",
-               next_part.name.c_str());
-      //Keep going to produce more messages if other parts are wrong
-      next_part.par1 = 0;
-    }
-    next_part.fuel_type = next_json.has("fuel_type") ? next_json.get("fuel_type").as_string() : "NULL";
-    next_part.item = next_json.get("item").as_string();
-    next_part.difficulty = next_json.get("difficulty").as_int();
-    next_part.flags = next_json.get("flags").as_tags();
-
-    vehicle_part_types[next_part.id] = next_part;
-    legacy_vpart_id.push_back(next_part.id);
-  }
-
-  if(!json_good()) {
-    exit(1);
-  }
-
-}
 
 void game::load_vehicle_part(JsonObject &jo)
 {
@@ -166,46 +102,6 @@ void game::load_vehicle_part(JsonObject &jo)
     legacy_vpart_id.push_back(next_part.id);
 }
 
-void game::init_vehicles()
-{
-  catajson vehicles_json("data/raw/vehicles.json", true);
-
-  if (!json_good()) {
-    throw (std::string)"data/raw/vehicles.json wasn't found";
-  }
-
-  int part_x = 0;
-  int part_y = 0;
-  std::string part_id;
-  vehicle *next_vehicle;
-  for (vehicles_json.set_begin(); vehicles_json.has_curr() && json_good(); vehicles_json.next())
-  {
-    catajson next_json = vehicles_json.curr();
-
-    next_vehicle = new vehicle(this, next_json.get("id").as_string().c_str());
-    next_vehicle->name = _(next_json.get("name").as_string().c_str());
-    catajson parts_list = next_json.get("parts");
-
-    for(parts_list.set_begin(); parts_list.has_curr() && json_good(); parts_list.next()) {
-
-      //See vehicle_parts.json for a list of part ids
-      catajson next_part = parts_list.curr();
-      part_x = next_part.get("x").as_int();
-      part_y = next_part.get("y").as_int();
-      part_id = next_part.get("part").as_string();
-      if(next_vehicle->install_part(part_x, part_y, part_id) < 0) {
-        debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
-                    next_vehicle->name.c_str(), part_id.c_str(),
-                    next_vehicle->parts.size(), part_x, part_y);
-      }
-
-    }
-
-    vtypes[next_vehicle->type] = next_vehicle;
-
-  }
-}
-
 void game::cache_vehicles(JsonObject &jo)
 {
     std::string part_id = "";
@@ -260,36 +156,3 @@ void game::load_vehicle(vehicle_prototype &prototype)
     }
     vtypes[next_vehicle->type] = next_vehicle;
 }
-
-void game::load_vehicle(JsonObject &jo)
-{
-DebugLog() << "game::load_vehicle -- g-> is real? " << (g?"Yes":"No") << "\n";
-    vehicle *next_vehicle;
-    std::string part_id = "";
-    int part_x = 0, part_y = 0;
-    next_vehicle = new vehicle(this, jo.get_string("id"));
-    next_vehicle->name = _(jo.get_string("name").c_str());
-    JsonArray parts_list = jo.get_array("parts");
-
-    if (parts_list.size() > 0)
-    {
-        while (parts_list.has_more())
-        {
-            JsonObject next_part = parts_list.next_object();
-            part_x = next_part.get_int("x");
-            part_y = next_part.get_int("y");
-            part_id = next_part.get_string("part");
-
-            //next_vehicle->part_cache.push(std::make_pair<point, std::string>(point(part_x, part_y), part_id));
-
-            if (next_vehicle->install_part(part_x, part_y, part_id) < 0)
-            {
-                debugmsg("load_vehicle: '%s' part '%s'(%d) can't be installed to %d,%d",
-                        next_vehicle->name.c_str(), part_id.c_str(),
-                        next_vehicle->parts.size(), part_x, part_y);
-            }
-        }
-    }
-    vtypes[next_vehicle->type] = next_vehicle;
-}
-

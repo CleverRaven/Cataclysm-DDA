@@ -3361,7 +3361,7 @@ void game::disp_kills()
  std::vector<int> count;
  for (std::map<std::string, int>::iterator it = killcount.begin(); it != killcount.end(); ++it)
  {
-     types.push_back(monster_factory::factory().get_mon(it->first));
+     types.push_back(GetMon(it->first));
      count.push_back(it->second);
  }
 
@@ -4516,8 +4516,8 @@ int game::mon_info(WINDOW *w)
                 sym = '+';
             }
             else { // It's a monster!
-                c   = monster_factory::factory().get_mon(s_buff)->color;
-                sym = monster_factory::factory().get_mon(s_buff)->sym;
+                c   = GetMon(s_buff)->color;
+                sym = GetMon(s_buff)->sym;
             }
             mvwputch(w, pr.y, pr.x, c, sym);
 
