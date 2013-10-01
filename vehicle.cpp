@@ -2451,7 +2451,14 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
-    g->fire(tmp, target->posx(), target->posy(), traj, true);
+    // Spawn a fake UPS to power any turreted weapons that need electricity.
+    item tmp_ups(g->itypes["UPS_on"], 0);
+    // Drain a ton of power
+    tmp_ups.charges = drain( "battery", 1000 );
+    item &ups_ref = tmp.i_add(tmp_ups);
+    g->fire( tmp, target->posx(), target->posy(), traj, true );
+    // Rturn whatever is left.
+    refill( "battery", ups_ref.charges );
     if (ammo.type == "gasoline")
     {
         for (int i = 0; i < traj.size(); i++)
