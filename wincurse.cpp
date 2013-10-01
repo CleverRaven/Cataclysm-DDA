@@ -556,18 +556,18 @@ inline RGBQUAD BGR(int b, int g, int r)
 
 void load_colors(JsonObject &jsobj)
 {
-	std::string colors[16]={"BLACK","RED","GREEN","BROWN","BLUE","MAGENTA","CYAN","GRAY",
-	"DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE"};
-	JsonArray jsarr;
-	for(int c=0;c<16;c++)
-	{
-		jsarr = jsobj.get_array(colors[c]);
-		if(jsarr.size()<3)continue;
-		consolecolors[colors[c]].clear();
-		consolecolors[colors[c]].push_back(jsarr.get_int(2));
-		consolecolors[colors[c]].push_back(jsarr.get_int(1));
-		consolecolors[colors[c]].push_back(jsarr.get_int(0));
-	}
+    std::string colors[16]={"BLACK","RED","GREEN","BROWN","BLUE","MAGENTA","CYAN","GRAY",
+    "DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE"};
+    JsonArray jsarr;
+    for(int c=0;c<16;c++)
+    {
+        jsarr = jsobj.get_array(colors[c]);
+        if(jsarr.size()<3)continue;
+        consolecolors[colors[c]].clear();
+        consolecolors[colors[c]].push_back(jsarr.get_int(2));
+        consolecolors[colors[c]].push_back(jsarr.get_int(1));
+        consolecolors[colors[c]].push_back(jsarr.get_int(0));
+    }
 }
 
 #define ccolor(s) consolecolors[s][0],consolecolors[s][1],consolecolors[s][2]
@@ -575,16 +575,16 @@ int curses_start_color(void)
 {
     colorpairs = new pairs[100];
     windowsPalette = new RGBQUAD[16];
-	//Load the console colors from colors.json
-	std::ifstream colorfile("data/json/colors.json", std::ifstream::in | std::ifstream::binary);
-	try{
-		JsonIn jsin(&colorfile);
-		load_all_from_json(jsin);
-	}
-	catch(std::string e){
-		throw "data/json/colors.json: " + e;
-	}
-	if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
+    //Load the console colors from colors.json
+    std::ifstream colorfile("data/json/colors.json", std::ifstream::in | std::ifstream::binary);
+    try{
+        JsonIn jsin(&colorfile);
+        load_all_from_json(jsin);
+    }
+    catch(std::string e){
+        throw "data/json/colors.json: " + e;
+    }
+    if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
     windowsPalette[0]  = BGR(ccolor("BLACK"));
     windowsPalette[1]  = BGR(ccolor("RED"));
     windowsPalette[2]  = BGR(ccolor("GREEN"));

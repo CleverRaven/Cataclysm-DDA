@@ -36,7 +36,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/recipes.json");
     ret.push_back("data/json/lab_notes.json");
     ret.push_back("data/json/hints.json");
-	//data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
+    //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     return ret;
 }
 
