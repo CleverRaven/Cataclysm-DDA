@@ -992,11 +992,12 @@
         "broken_color": "magenta",
         "damage_modifier": 80,
         "durability": 400,
-        "fuel_type": "battery",
+        "fuel_type": "fusion",
         "item": "ftk93",
         "difficulty": 7,
+	"size": 10,
         "flags": [
-            "OVER", "TURRET"
+            "OVER", "TURRET", "CARGO"
         ]
     },
     {
