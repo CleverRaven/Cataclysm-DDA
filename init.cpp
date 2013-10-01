@@ -12,6 +12,7 @@
 #include "crafting.h"
 #include "computer.h"
 #include "help.h"
+#include "catacurse.h"
 
 #include <string>
 #include <vector>
@@ -35,6 +36,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/recipes.json");
     ret.push_back("data/json/lab_notes.json");
     ret.push_back("data/json/hints.json");
+	//data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     return ret;
 }
 
@@ -53,6 +55,7 @@ void load_object(JsonObject &jo)
     else if (type == "recipe") { load_recipe(jo); }
     else if (type == "lab_note") { computer::load_lab_note(jo); }
     else if (type == "hint") { load_hint(jo); }
+    else if (type == "colordef") { load_colors(jo); }
     else {
         std::stringstream err;
         err << jo.line_number() << ": ";

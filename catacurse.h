@@ -11,6 +11,9 @@
 #include "mmsystem.h"
 #endif
 #include <stdio.h>
+#include <map>
+#include <vector>
+#include "json.h"
 typedef int chtype;
 typedef unsigned short attr_t;
 typedef unsigned int u_int32_t;
@@ -179,6 +182,7 @@ int noecho(void);
 //non-curses functions, Do not call these in the main game code
 extern WINDOW* mainwin;
 extern pairs *colorpairs;
+extern std::map<std::string,std::vector<int>> consolecolors;
 WINDOW* curses_init();
 int curses_destroy();
 void curses_drawwindow(WINDOW* win);
@@ -186,4 +190,5 @@ void curses_delay(int delay);
 void curses_timeout(int t);
 int curses_getch(WINDOW* win);
 int curses_start_color();
+void load_colors(JsonObject &jo);
 #endif
