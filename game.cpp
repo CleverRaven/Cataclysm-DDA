@@ -7279,45 +7279,75 @@ void game::pickup(int posx, int posy, int min)
     }
   }
 
-  if(!from_veh) {
+        if(!from_veh)
+        {
 
-    //Either no cargo to grab, or we declined; what about water?
-    bool got_water = false;
-    if (k_part >= 0) {
-      if (veh->fuel_left("water") > 0) { //Will be -1 if no water at all
-        if (query_yn(_("Fill a container?"))) {
-          int amt = veh->drain("water", veh->fuel_left("water"));
-          item fill_water(g->itypes[default_ammo("water")], g->turn);
-          fill_water.charges = amt;
-          int back = g->move_liquid(fill_water);
-          if(back >= 0) {
-            veh->refill("water", back);
-            got_water = true;
-          } else {
-            veh->refill("water", amt);
-          }
-        }
-        if (veh->fuel_left("battery") > 0) { //Will be -1 if no battery at all
-          if (query_yn(_("Use hotplate?"))) {
-          item tmp = hotplate, 1;
-          tmp.charges = veh->drain(battery, quantity);
-          quantity -= tmp.charges;
-          ret.push_back(tmp);
-          use_item hotplate
+            //Either no cargo to grab, or we declined; what about RV kitchen?
+            bool got_water = false;
+            if (k_part >= 0)
+            {
+                int choice = menu(true,
+                _("RV kitchen:"), _("Use the hotplate"), _("Get water"), _("Examine vehicle"), NULL);
+                switch (choice)
+                {
+                    if (choice == 2)
+                        break;
+                case 1:
+                {
+                    if (veh->fuel_left("battery") > 0)   //Will be -1 if no battery at all
+                    {
+                        if (query_yn(_("Use hotplate?")))
+                        {
+                            item tmp_hotplate( g->itypes["hotplate"], 0 );
+                            // Drain a ton of power
+                            tmp_hotplate.charges = drain( "battery", 1000 );
+                            item &hotplate_ref = tmp.i_add(tmp_hotplate);
+                            iuse::hotplate;
+                            // Return whatever is left.
+                            refill( "battery", hotplate_ref.charges );
+                        }
+                    }
+                    else
+                    {
+                        add_msg(_("The battery is dead."));
+                    }
+                }
+                break;
+                case 2:
+                    if (veh->fuel_left("water") > 0)   //Will be -1 if no water at all
+                    {
+                        if (query_yn(_("Fill a container?")))
+                        {
+                            int amt = veh->drain("water", veh->fuel_left("water"));
+                            item fill_water(g->itypes[default_ammo("water")], g->turn);
+                            fill_water.charges = amt;
+                            int back = g->move_liquid(fill_water);
+                            if(back >= 0)
+                            {
+                                veh->refill("water", back);
+                                got_water = true;
+                            }
+                            else
+                            {
+                                veh->refill("water", amt);
+                            }
+                        }
+                        if (query_yn(_("Have a drink?")))
+                        {
+                            veh->drain("water", 1);
+
+                            item water(itypes["water_clean"], 0);
+                            u.eat(this, u.inv.add_item(water).invlet);
+                            u.moves -= 250;
+                            got_water = true;
+                        }
+                    }
+                    else
+                    {
+                        add_msg(_("The water tank is empty."));
+                    }
+                }
             }
-          }
-        if (query_yn(_("Have a drink?"))) {
-          veh->drain("water", 1);
-
-          item water(itypes["water_clean"], 0);
-          u.eat(this, u.inv.add_item(water).invlet);
-          u.moves -= 250;
-          got_water = true;
-        }
-      } else {
-        add_msg(_("The water tank is empty."));
-      }
-    }
 
     //If we still haven't done anything, we probably want to examine the vehicle
     if(!got_water) {
