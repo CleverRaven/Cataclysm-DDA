@@ -3805,6 +3805,40 @@
   ]
 },{
         "type" : "recipe",
+  "result": "shot_flechette",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12500,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "shot_hull", 25 ]
+    ],
+    [
+      [ "shotgun_primer", 25 ]
+    ],
+    [
+      [ "gunpowder", 300 ]
+    ],
+    [
+      [ "nail", 200 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "water_clean",
   "category": "CC_DRINK",
   "skill_used": "cooking",
