@@ -65,7 +65,6 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 
 std::vector<size_t> get_tag_positions(const std::string &s);
 std::vector<std::string> split_by_color(const std::string &s);
-nc_color get_color_from_tag(const std::string &s, const nc_color base_color);
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -88,15 +87,6 @@ void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected=-1);
 
-nc_color hilite(nc_color c);
-nc_color invert_color(nc_color c);
-nc_color red_background(nc_color c);
-nc_color white_background(nc_color c);
-nc_color green_background(nc_color c);
-nc_color yellow_background(nc_color c);
-nc_color magenta_background(nc_color c);
-nc_color cyan_background(nc_color c);
-nc_color rand_color();
 char rand_char();
 long special_symbol (long sym);
 

@@ -29,217 +29,6 @@ int VIEW_OFFSET_Y;
 int TERRAIN_WINDOW_WIDTH;
 int TERRAIN_WINDOW_HEIGHT;
 
-nc_color hilite(nc_color c)
-{
-    switch (c) {
-    case c_white:   return h_white;
-    case c_ltgray:  return h_ltgray;
-    case c_dkgray:  return h_dkgray;
-    case c_red:     return h_red;
-    case c_green:   return h_green;
-    case c_blue:    return h_blue;
-    case c_cyan:    return h_cyan;
-    case c_magenta: return h_magenta;
-    case c_brown:   return h_brown;
-    case c_ltred:   return h_ltred;
-    case c_ltgreen: return h_ltgreen;
-    case c_ltblue:  return h_ltblue;
-    case c_ltcyan:  return h_ltcyan;
-    case c_pink:    return h_pink;
-    case c_yellow:  return h_yellow;
-    }
-    return h_white;
-}
-
-nc_color invert_color(nc_color c)
-{
- if (OPTIONS["NO_BRIGHT_BACKGROUNDS"]) {
-  switch (c) {
-   case c_white:
-   case c_ltgray:
-   case c_dkgray:  return i_ltgray;
-   case c_red:
-   case c_ltred:   return i_red;
-   case c_green:
-   case c_ltgreen: return i_green;
-   case c_blue:
-   case c_ltblue:  return i_blue;
-   case c_cyan:
-   case c_ltcyan:  return i_cyan;
-   case c_magenta:
-   case c_pink:    return i_magenta;
-   case c_brown:
-   case c_yellow:  return i_brown;
-  }
- }
- switch (c) {
-  case c_white:   return i_white;
-  case c_ltgray:  return i_ltgray;
-  case c_dkgray:  return i_dkgray;
-  case c_red:     return i_red;
-  case c_green:   return i_green;
-  case c_blue:    return i_blue;
-  case c_cyan:    return i_cyan;
-  case c_magenta: return i_magenta;
-  case c_brown:   return i_brown;
-  case c_yellow:  return i_yellow;
-  case c_ltred:   return i_ltred;
-  case c_ltgreen: return i_ltgreen;
-  case c_ltblue:  return i_ltblue;
-  case c_ltcyan:  return i_ltcyan;
-  case c_pink:    return i_pink;
- }
-
- return c_pink;
-}
-
-nc_color red_background(nc_color c)
-{
-    switch (c) {
-    case c_white:   return c_white_red;
-    case c_ltgray:  return c_ltgray_red;
-    case c_dkgray:  return c_dkgray_red;
-    case c_red:     return c_red_red;
-    case c_green:   return c_green_red;
-    case c_blue:    return c_blue_red;
-    case c_cyan:    return c_cyan_red;
-    case c_magenta: return c_magenta_red;
-    case c_brown:   return c_brown_red;
-    case c_ltred:   return c_ltred_red;
-    case c_ltgreen: return c_ltgreen_red;
-    case c_ltblue:  return c_ltblue_red;
-    case c_ltcyan:  return c_ltcyan_red;
-    case c_pink:    return c_pink_red;
-    case c_yellow:  return c_yellow_red;
-    }
-    return c_white_red;
-}
-/// colors need to be totally redone, really..
-nc_color white_background(nc_color c) {
-  switch(c) {
-     case c_black: return c_black_white;
-     case c_dkgray: return c_dkgray_white;
-     case c_ltgray: return c_ltgray_white;
-     case c_white: return c_white_white;
-     case c_red: return c_red_white;
-     case c_ltred: return c_ltred_white;
-     case c_green: return c_green_white;
-     case c_ltgreen: return c_ltgreen_white;
-     case c_brown: return c_brown_white;
-     case c_yellow: return c_yellow_white;
-     case c_blue: return c_blue_white;
-     case c_ltblue: return c_ltblue_white;
-     case c_magenta: return c_magenta_white;
-     case c_pink: return c_pink_white;
-     case c_cyan: return c_cyan_white;
-     case c_ltcyan: return c_ltcyan_white;
-     default: return c_black_white;
-   }
-}
- nc_color green_background(nc_color c) {
-  switch(c) {
-     case c_black: return c_black_green;
-     case c_dkgray: return c_dkgray_green;
-     case c_ltgray: return c_ltgray_green;
-     case c_white: return c_white_green;
-     case c_red: return c_red_green;
-     case c_ltred: return c_ltred_green;
-     case c_green: return c_green_green;
-     case c_ltgreen: return c_ltgreen_green;
-     case c_brown: return c_brown_green;
-     case c_yellow: return c_yellow_green;
-     case c_blue: return c_blue_green;
-     case c_ltblue: return c_ltblue_green;
-     case c_magenta: return c_magenta_green;
-     case c_pink: return c_pink_green;
-     case c_cyan: return c_cyan_green;
-     case c_ltcyan: return c_ltcyan_green;
-     default: return c_black_green;
-   }
-}
- nc_color yellow_background(nc_color c) {
-  switch(c) {
-     case c_black: return c_black_yellow;
-     case c_dkgray: return c_dkgray_yellow;
-     case c_ltgray: return c_ltgray_yellow;
-     case c_white: return c_white_yellow;
-     case c_red: return c_red_yellow;
-     case c_ltred: return c_ltred_yellow;
-     case c_green: return c_green_yellow;
-     case c_ltgreen: return c_ltgreen_yellow;
-     case c_brown: return c_brown_yellow;
-     case c_yellow: return c_yellow_yellow;
-     case c_blue: return c_blue_yellow;
-     case c_ltblue: return c_ltblue_yellow;
-     case c_magenta: return c_magenta_yellow;
-     case c_pink: return c_pink_yellow;
-     case c_cyan: return c_cyan_yellow;
-     case c_ltcyan: return c_ltcyan_yellow;
-     default: return c_black_yellow;
-   }
-}
- nc_color magenta_background(nc_color c) {
-  switch(c) {
-     case c_black: return c_black_magenta;
-     case c_dkgray: return c_dkgray_magenta;
-     case c_ltgray: return c_ltgray_magenta;
-     case c_white: return c_white_magenta;
-     case c_red: return c_red_magenta;
-     case c_ltred: return c_ltred_magenta;
-     case c_green: return c_green_magenta;
-     case c_ltgreen: return c_ltgreen_magenta;
-     case c_brown: return c_brown_magenta;
-     case c_yellow: return c_yellow_magenta;
-     case c_blue: return c_blue_magenta;
-     case c_ltblue: return c_ltblue_magenta;
-     case c_magenta: return c_magenta_magenta;
-     case c_pink: return c_pink_magenta;
-     case c_cyan: return c_cyan_magenta;
-     case c_ltcyan: return c_ltcyan_magenta;
-     default: return c_black_magenta;
-   }
-}
- nc_color cyan_background(nc_color c) {
-  switch(c) {
-     case c_black: return c_black_cyan;
-     case c_dkgray: return c_dkgray_cyan;
-     case c_ltgray: return c_ltgray_cyan;
-     case c_white: return c_white_cyan;
-     case c_red: return c_red_cyan;
-     case c_ltred: return c_ltred_cyan;
-     case c_green: return c_green_cyan;
-     case c_ltgreen: return c_ltgreen_cyan;
-     case c_brown: return c_brown_cyan;
-     case c_yellow: return c_yellow_cyan;
-     case c_blue: return c_blue_cyan;
-     case c_ltblue: return c_ltblue_cyan;
-     case c_magenta: return c_magenta_cyan;
-     case c_pink: return c_pink_cyan;
-     case c_cyan: return c_cyan_cyan;
-     case c_ltcyan: return c_ltcyan_cyan;
-     default: return c_black_cyan;
-   }
-}
-
-
-///
-nc_color rand_color()
-{
-    switch (rng(0, 9)) {
-    case 0: return c_white;
-    case 1: return c_ltgray;
-    case 2: return c_green;
-    case 3: return c_red;
-    case 4: return c_yellow;
-    case 5: return c_blue;
-    case 6: return c_ltblue;
-    case 7: return c_pink;
-    case 8: return c_magenta;
-    case 9: return c_brown;
-    }
-    return c_dkgray;
-}
-
 // utf8 version
 std::vector<std::string> foldstring ( std::string str, int width ) {
     std::vector<std::string> lines;
@@ -258,6 +47,21 @@ std::vector<std::string> foldstring ( std::string str, int width ) {
         }
     }
     return lines;
+}
+
+std::vector<std::string> split_by_color(const std::string &s)
+{
+    std::vector<std::string> ret;
+    std::vector<size_t> tag_positions = get_tag_positions(s);
+    size_t last_pos = 0;
+    std::vector<size_t>::iterator it;
+    for (it = tag_positions.begin(); it != tag_positions.end(); ++it) {
+        ret.push_back(s.substr(last_pos, *it-last_pos));
+        last_pos = *it;
+    }
+    // and the last (or only) one
+    ret.push_back(s.substr(last_pos, std::string::npos));
+    return ret;
 }
 
 // returns number of printed lines
@@ -288,37 +92,6 @@ int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color base
     }
     return textformatted.size();
 };
-
-std::vector<std::string> split_by_color(const std::string &s)
-{
-    std::vector<std::string> ret;
-    std::vector<size_t> tag_positions = get_tag_positions(s);
-    size_t last_pos = 0;
-    std::vector<size_t>::iterator it;
-    for (it = tag_positions.begin(); it != tag_positions.end(); ++it) {
-        ret.push_back(s.substr(last_pos, *it-last_pos));
-        last_pos = *it;
-    }
-    // and the last (or only) one
-    ret.push_back(s.substr(last_pos, std::string::npos));
-    return ret;
-}
-
-nc_color get_color_from_tag(const std::string &s, const nc_color base_color)
-{
-    if (s.empty() || s[0] != '<' || s.substr(0,8) == "</color>") {
-        return base_color;
-    }
-    if (s.substr(0,7) != "<color_") {
-        return base_color;
-    }
-    size_t tag_close = s.find('>');
-    if (tag_close == std::string::npos) {
-        return base_color;
-    }
-    std::string color_name = s.substr(7,tag_close-7);
-    return color_from_string(color_name);
-}
 
 void mvputch(int y, int x, nc_color FG, long ch)
 {
