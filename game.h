@@ -284,7 +284,6 @@ class game
   std::map<matec_id, ma_technique> ma_techniques;
 
   std::map<std::string, std::vector<items_location_and_chance> > monitems;
-  //std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
 
   calendar turn;

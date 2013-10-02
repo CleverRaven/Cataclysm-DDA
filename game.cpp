@@ -110,51 +110,6 @@ game::~game()
 
 void game::init_game_data()
 {
-/*
-  dout() << "Game initialized.";
-
- try {
- if(!json_good())
-  throw (std::string)"Failed to initialize a static variable";
- // Gee, it sure is init-y around here!
-    init_data_structures(); // initialize cata data structures
-    load_json_dir("data/json"); // load it, load it all!
- init_npctalk();
- init_artifacts();
- init_weather();
- init_overmap();
- init_fields();
- init_faction_data();
- init_morale();
- init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
- init_techniques();           // Set up techniques                (SEE martialarts.cpp)
- init_itypes();               // Set up item types                (SEE itypedef.cpp)
- init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
- item_controller->init(this); //Item manager
- init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
- init_traps();                // Set up the trap types            (SEE trapdef.cpp)
- init_mongroups();            // Set up monster groupings         (SEE mongroupdef.cpp)
- init_missions();             // Set up mission templates         (SEE missiondef.cpp)
- init_construction();         // Set up constructables            (SEE construction.cpp)
- init_vehicle_parts();        // Set up vehicle parts             (SEE veh_typedef.cpp)
- init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
- init_autosave();             // Set up autosave
- init_diseases();             // Set up disease lookup table
- init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
- init_savedata_translation_tables();
- inp_mngr.init();            // Load input config JSON
- } catch(std::string &error_message)
- {
-     uquit = QUIT_ERROR;
-     if(!error_message.empty())
-        debugmsg(error_message.c_str());
-     return;
- }
- load_keyboard_settings();
- moveCount = 0;
-
- gamemode = new special_game; // Nothing, basically.
-*/
     dout() << "Game initialized.";
 
     try {
@@ -3420,13 +3375,6 @@ void game::disp_kills()
    count.push_back(kills[i]);
   }
  }
- /*
- for (std::map<std::string, int>::iterator it = killcount.begin(); it != killcount.end(); ++it)
- {
-     types.push_back(GetMon(it->first));
-     count.push_back(it->second);
- }
- */
 
  mvwprintz(w, 1, 32, c_white, "KILL COUNT:");
 
@@ -4491,7 +4439,6 @@ int game::mon_info(WINDOW *w)
                 }
             }
 
-            //if (!vector_has(unique_types[dir_to_mon], z.type->id))
             unique_mon[index].insert(z.type->id);
         }
     }
@@ -4634,16 +4581,13 @@ int game::mon_info(WINDOW *w)
         for (int i = 0; i < unique_mon[j].size() && pr.y < maxheight; i++) {
             s_buff = *monit;
             ++monit;
-            if (consolidated_mon_list.find(s_buff) == consolidated_mon_list.end())
-            {
+            if (consolidated_mon_list.find(s_buff) == consolidated_mon_list.end()) {
                 consolidated_mon_list.insert(s_buff);
-            }
-            else
-            {
+            } else {
                 continue;
             }
             mtype *monat = GetMon(s_buff);
-            std::string name = monat->name;//mtypes[buff]->name;
+            std::string name = monat->name;
 
             // Move to the next row if necessary. (The +2 is for the "Z ").
             if (pr.x + 2 + name.length() >= width) {

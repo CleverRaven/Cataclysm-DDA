@@ -4573,7 +4573,6 @@
     "revert_to": "null",
     "ammo": "NULL"
   },
-  
   {
     "id": "pipe_tobacco",
     "type": "TOOL",
@@ -4596,7 +4595,6 @@
     "revert_to": "null",
     "ammo": "NULL"
   },
-
   {
     "id": "forge",
     "type": "TOOL",

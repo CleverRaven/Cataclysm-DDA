@@ -38,22 +38,20 @@ extern std::map<std::string, int> monster_ints;
   sp_attack = NULL;
   flags.push_back(MF_HUMAN);
  }
- mtype::mtype(std::string pid)
- {
+
+ mtype::mtype(std::string pid) {
      id = pid;
      if (monster_ints.find(id) != monster_ints.end())
      {
          legacy_id = mon_id(monster_ints[id]);
      }
  }
- bool mtype::member_of_species(std::string id) const
- {
-     for (std::set<species_type*>::iterator it = species.begin(); it != species.end(); ++it)
-     {
+
+ bool mtype::member_of_species(std::string id) const {
+     for (std::set<species_type*>::iterator it = species.begin(); it != species.end(); ++it) {
          species_type *spec = *it;
 
-         if (spec->id == id)
-         {
+         if (spec->id == id) {
              return true;
          }
      }
@@ -103,14 +101,12 @@ extern std::map<std::string, int> monster_ints;
   anger = default_anger(legacy_species);
   fear = default_fears(legacy_species);
  }
-//*/
- bool mtype::has_flag(m_flag flag) const
- {
+
+ bool mtype::has_flag(m_flag flag) const {
   return bitflags[flag];
  }
 
- bool mtype::in_category(m_category category) const
- {
+ bool mtype::in_category(m_category category) const {
   for (int i = 0; i < categories.size(); i++) {
    if (categories[i] == category)
     return true;
@@ -118,8 +114,7 @@ extern std::map<std::string, int> monster_ints;
   return false;
  }
 
- void mtype::finalize_monster()
- {
+ void mtype::finalize_monster() {
      // apply all species flags and triggers
      // finalize flags
      std::set<m_flag> spec_flags;
@@ -127,40 +122,35 @@ extern std::map<std::string, int> monster_ints;
      std::set<m_flag>::iterator flag_it;
      std::set<monster_trigger>::iterator trigger_it;
 
-     for (std::set<species_type*>::iterator spec = species.begin(); spec != species.end(); ++spec)
-     {
+     for (std::set<species_type*>::iterator spec = species.begin(); spec != species.end(); ++spec) {
          species_type *tempspec = *spec;
 
          spec_flags = tempspec->flags;
-         for (flag_it = spec_flags.begin(); flag_it != spec_flags.end(); ++flag_it)
-         {
-             if (std::find(flags.begin(), flags.end(), *flag_it) == flags.end()) // only add if we don't already have this flag
-             {
+         for (flag_it = spec_flags.begin(); flag_it != spec_flags.end(); ++flag_it) {
+             // only add if we don't already have this flag
+             if (std::find(flags.begin(), flags.end(), *flag_it) == flags.end()) {
                  flags.push_back(*flag_it);
              }
          }
 
          spec_triggerset = tempspec->anger_triggers;
-         for (trigger_it = spec_triggerset.begin(); trigger_it != spec_triggerset.end(); ++trigger_it)
-         {
-             if (std::find(anger.begin(), anger.end(), *trigger_it) == anger.end())
-             {
+         for (trigger_it = spec_triggerset.begin();
+              trigger_it != spec_triggerset.end(); ++trigger_it){
+             if (std::find(anger.begin(), anger.end(), *trigger_it) == anger.end()) {
                  anger.push_back(*trigger_it);
              }
          }
          spec_triggerset = tempspec->fear_triggers;
-         for (trigger_it = spec_triggerset.begin(); trigger_it != spec_triggerset.end(); ++trigger_it)
-         {
-             if (std::find(fear.begin(), fear.end(), *trigger_it) == fear.end())
-             {
+         for (trigger_it = spec_triggerset.begin();
+              trigger_it != spec_triggerset.end(); ++trigger_it) {
+             if (std::find(fear.begin(), fear.end(), *trigger_it) == fear.end()) {
                  fear.push_back(*trigger_it);
              }
          }
          spec_triggerset = tempspec->placate_triggers;
-         for (trigger_it = spec_triggerset.begin(); trigger_it != spec_triggerset.end(); ++trigger_it)
-         {
-             if (std::find(placate.begin(), placate.end(), *trigger_it) == placate.end())
-             {
+         for (trigger_it = spec_triggerset.begin();
+              trigger_it != spec_triggerset.end(); ++trigger_it) {
+             if (std::find(placate.begin(), placate.end(), *trigger_it) == placate.end()) {
                  placate.push_back(*trigger_it);
              }
          }
@@ -176,8 +166,7 @@ extern std::map<std::string, int> monster_ints;
 //                      spawns with the proper group
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 
-void game::init_mtypes ()
-{
+void game::init_mtypes () {
 /* Not sure if should remove for save compatability reasons */
 
  int id = 0;

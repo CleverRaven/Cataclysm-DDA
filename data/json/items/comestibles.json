@@ -5638,7 +5638,7 @@
         "nutrition" : 0,
         "description" : "A syringe filled with one shot of adrenaline. It serves as a powerful stimulant when you inject yourself with it. Asthmatics can use it in an emergency to clear their asthma.",
         "price" : 600,
-        "material" : "plastic",
+        "material" : ["plastic"],
         "tool" : "null",
         "volume" : 1,
         "cutting" : 6,
@@ -5646,7 +5646,7 @@
         "charges" : 1,
         "bashing" : -4,
         "fun" : 0,
-        "flags" : "SPEAR"
+        "flags" : ["SPEAR"]
     },
     {
         "type" : "COMESTIBLE",
