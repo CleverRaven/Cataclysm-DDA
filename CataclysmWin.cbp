@@ -117,8 +117,8 @@
 				</Linker>
 			</Target>
 			<Target title="Debug - Tile Support">
-				<Option output="Cataclysm-Tiles" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/TilesRelease/" />
+				<Option output="Cataclysm-Tiles-Debug" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/TilesDebug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
