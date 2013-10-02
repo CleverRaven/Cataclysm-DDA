@@ -782,8 +782,19 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         if (cur->getFieldDensity() < 3 && int(g->turn) % 3600 == 0 && one_in(10)) {
                             cur->setFieldDensity(cur->getFieldDensity() + 1);
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
-                            mon_id type = mon_id(rng(mon_flying_polyp, mon_blank));
-                            monster creature(g->mtypes[type]);
+                            std::vector<std::string> validmons;
+
+                            validmons.push_back("mon_flying_polyp");
+                            validmons.push_back("mon_hunting_horror");
+                            validmons.push_back("mon_mi_go");
+                            validmons.push_back("mon_yugg");
+                            validmons.push_back("mon_gelatin");
+                            validmons.push_back("mon_flaming_eye");
+                            validmons.push_back("mon_kreck");
+                            validmons.push_back("mon_gracke");
+                            validmons.push_back("mon_blank");
+
+                            monster creature(GetMon(validmons[rng(0,validmons.size())]));
                             creature.spawn(x + rng(-3, 3), y + rng(-3, 3));
                             g->add_zombie(creature);
                         }

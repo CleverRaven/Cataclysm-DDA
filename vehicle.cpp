@@ -8,6 +8,10 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 
+#include "debug.h"
+
+extern std::vector<vehicle_prototype> vtype_cache;
+
 const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
 
 enum vehicle_controls {
@@ -34,12 +38,11 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     cruise_on = true;
     lights_on = false;
     insides_dirty = true;
-
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
-      if(ag->vtypes.count(type) > 0) {
+      if(g->vtypes.count(type) > 0) {
         //If this template already exists, copy it
-        *this = *(ag->vtypes[type]);
+        *this = *(g->vtypes[type]);
         init_state(ag, init_veh_fuel, init_veh_status);
       }
     }
@@ -601,7 +604,13 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     new_part.hp = hp < 0? vehicle_part_types[id].durability : hp;
     new_part.amount = 0;
     new_part.blood = 0;
-    item tmp(g->itypes[vehicle_part_types[id].item], 0);
+
+    vpart_info part = vehicle_part_types[id];
+    std::string part_item = part.item;
+    // is g real?
+    itype* item_type = g->itypes[part_item]; // Fails on this line
+
+    item tmp(item_type, 0);
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
 
@@ -609,6 +618,18 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     precalc_mounts (0, face.dir());
     insides_dirty = true;
     return parts.size() - 1;
+}
+
+void vehicle::finalize_template()
+{
+
+}
+void game::finalize_vehicles()
+{
+    for (int i = 0; i < vtype_cache.size(); ++i)
+    {
+        load_vehicle(vtype_cache[i]);
+    }
 }
 
 // share damage & bigness betwixt veh_parts & items.

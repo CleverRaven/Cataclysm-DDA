@@ -1,7 +1,7 @@
 #include "init.h"
 
 #include "json.h"
-
+#include "game.h" // because mi-go parrot requires it!
 #include "material.h"
 #include "bionics.h"
 #include "profession.h"
@@ -12,12 +12,17 @@
 #include "crafting.h"
 #include "computer.h"
 #include "help.h"
+#include "mongroup.h"
+#include "monster_factory.h"
+#include "file_finder.h"
 #include "mapdata.h"
 
 #include <string>
 #include <vector>
 #include <fstream>
 #include <sstream> // for throwing errors
+
+#include "debug.h"
 
 
 typedef std::string type_string;
@@ -28,27 +33,16 @@ std::map<type_string, TFunctor*> type_function_map;
 // TODO: make this actually load files from the named directory
 std::vector<std::string> listfiles(std::string const &dirname)
 {
-    std::vector<std::string> ret;
-    ret.push_back("data/json/materials.json");
-    ret.push_back("data/json/bionics.json");
-    ret.push_back("data/json/professions.json");
-    ret.push_back("data/json/skills.json");
-    ret.push_back("data/json/dreams.json");
-    ret.push_back("data/json/mutations.json");
-    ret.push_back("data/json/snippets.json");
-    ret.push_back("data/json/item_groups.json");
-    ret.push_back("data/json/recipes.json");
-    ret.push_back("data/json/lab_notes.json");
-    ret.push_back("data/json/hints.json");
-    ret.push_back("data/json/furniture.json");
-    ret.push_back("data/json/terrain.json");
+    std::vector<std::string> ret = file_finder::get_files_from_path(".json", dirname, true);
+
     return ret;
 }
 
 void load_object(JsonObject &jo)
 {
-    std::string type = jo.get_string("type");
-    if (type_function_map.find(type) != type_function_map.end())
+    std::string type = jo.get_string("type", "");
+
+	if ((type_function_map.find(type) != type_function_map.end()))
     {
         (*type_function_map[type])(jo);
     }
@@ -59,6 +53,8 @@ void load_object(JsonObject &jo)
         throw err.str();
     }
 }
+
+void load_null(JsonObject &jo) {} // empty, just used as a route for unimplemented types
 
 void init_data_structures()
 {
@@ -77,10 +73,30 @@ void init_data_structures()
     type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
+    type_function_map["monster_group"] = new StaticFunctionAccessor(&MonsterGroupManager::load_monster_group);
+
 
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_group);
+    type_function_map["NAME"] = new ClassFunctionAccessor<NameGenerator>(&NameGenerator::generator(), &NameGenerator::load_name_from_json);
+    type_function_map["MONSTER_SPECIES"] = new ClassFunctionAccessor<monster_factory>(&monster_factory::factory(), &monster_factory::load_species);
+    type_function_map["MONSTER"] = new ClassFunctionAccessor<monster_factory>(&monster_factory::factory(), &monster_factory::load_monster);
+    type_function_map["PARROT"] = new ClassFunctionAccessor<game>(g, &game::load_parrot_phrase);
+    type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::cache_vehicles);
+    type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle_part);
+    type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_ammo);
+    type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_generic);
+    type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gun);
+    type_function_map["ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_armor);
+    type_function_map["BOOK"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_book);
+    type_function_map["TOOL"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_tool);
+    type_function_map["COMESTIBLE"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_comestible);
+    type_function_map["CONTAINER"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_container);
+    type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gunmod);
+
+    // Not currently implemented types
+    type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_null);
 
     mutations_category[""].clear();
     init_mutation_parts();

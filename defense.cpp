@@ -167,14 +167,15 @@ void defense_game::init_itypes(game *g)
 
 void defense_game::init_mtypes(game *g)
 {
- for (int i = 0; i < num_monsters; i++) {
-  g->mtypes[i]->difficulty *= 1.5;
-  g->mtypes[i]->difficulty += int(g->mtypes[i]->difficulty / 5);
-  g->mtypes[i]->flags.push_back(MF_BASHES);
-  g->mtypes[i]->flags.push_back(MF_SMELLS);
-  g->mtypes[i]->flags.push_back(MF_HEARS);
-  g->mtypes[i]->flags.push_back(MF_SEES);
- }
+    for (std::map<std::string, mtype*>::iterator it = monster_factory::get_mon_begin(); it != monster_factory::get_mon_end(); ++it)
+    {
+        it->second->difficulty *= 1.5;
+        it->second->difficulty += (int)(it->second->difficulty / 5);
+        it->second->flags.push_back(MF_BASHES);
+        it->second->flags.push_back(MF_SMELLS);
+        it->second->flags.push_back(MF_HEARS);
+        it->second->flags.push_back(MF_SEES);
+    }
 }
 
 void defense_game::init_constructions(game *g)
@@ -268,7 +269,7 @@ void defense_game::init_map(game *g)
  g->m.load(g, g->levx, g->levy, g->levz, true);
 
  g->update_map(g->u.posx, g->u.posy);
- monster generator(g->mtypes[mon_generator], g->u.posx + 1, g->u.posy + 1);
+ monster generator(GetMon("mon_generator"), g->u.posx + 1, g->u.posy + 1);
 // Find a valid spot to spawn the generator
  std::vector<point> valid;
  for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
@@ -1194,12 +1195,12 @@ void defense_game::spawn_wave(game *g)
  int diff = initial_difficulty + current_wave * wave_difficulty;
  bool themed_wave = one_in(SPECIAL_WAVE_CHANCE); // All a single monster type
  g->u.cash += cash_per_wave + (current_wave - 1) * cash_increase;
- std::vector<mon_id> valid;
+ std::vector<std::string> valid;
  valid = pick_monster_wave(g);
  while (diff > 0) {
 // Clear out any monsters that exceed our remaining difficulty
   for (int i = 0; i < valid.size(); i++) {
-   if (g->mtypes[valid[i]]->difficulty > diff) {
+   if (GetMon(valid[i])->difficulty > diff) {
     valid.erase(valid.begin() + i);
     i--;
    }
@@ -1210,7 +1211,7 @@ void defense_game::spawn_wave(game *g)
    return;
   }
   int rn = rng(0, valid.size() - 1);
-  mtype *type = g->mtypes[valid[rn]];
+  mtype *type = GetMon(valid[rn]);
   if (themed_wave) {
    int num = diff / type->difficulty;
    if (num >= SPECIAL_WAVE_MIN) {
@@ -1230,10 +1231,10 @@ void defense_game::spawn_wave(game *g)
  g->add_msg("********");
 }
 
-std::vector<mon_id> defense_game::pick_monster_wave(game *g)
+std::vector<std::string> defense_game::pick_monster_wave(game *g)
 {
  std::vector<std::string> valid;
- std::vector<mon_id> ret;
+ std::vector<std::string> ret;
 
  if (zombies || specials) {
   if (specials)

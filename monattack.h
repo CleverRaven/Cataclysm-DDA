@@ -4,6 +4,7 @@
 //#include "game.h"
 
 class game;
+class monster;
 
 struct SpeechBubble {
     std::string text;

@@ -1944,7 +1944,7 @@ void npc::die(game *g, bool your_fault)
     }
 
     item my_body;
-    my_body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
+    my_body.make_corpse(g->itypes["corpse"], GetMon("mon_null"), g->turn);
     my_body.name = name;
     g->m.add_item_or_charges(posx, posy, my_body);
     std::vector<item *> dump;

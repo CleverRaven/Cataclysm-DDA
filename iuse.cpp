@@ -472,7 +472,7 @@ static hp_part use_healing_item(game *g, player *p, item *it, int normal_power, 
             }
         }
     } else { // Player--present a menu
-        healed = body_window(p, it, item_name, normal_bonus, head_bonus, 
+        healed = body_window(p, it, item_name, normal_bonus, head_bonus,
                              torso_bonus, bleed, bite, infect, force);
         if (healed == num_hp_parts) {
             return healed;
@@ -929,7 +929,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,_("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
   p->add_morale(MORALE_MARLOSS, 100, 1000);
   p->hunger = -100;
-  monster goo(g->mtypes[mon_blob]);
+  monster goo(GetMon("mon_blob"));
   goo.friendly = -1;
   int goo_spawned = 0;
   for (int x = p->posx - 4; x <= p->posx + 4; x++) {
@@ -989,7 +989,7 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
  p->moves -= 15;
  int mon_dex = g->mon_at(dirx,diry);
  if (mon_dex != -1) {
-  if (g->zombie(mon_dex).type->id == mon_dog) {
+  if (g->zombie(mon_dex).type->id == "mon_dog") {
    g->add_msg_if_player(p,_("The dog seems to like you!"));
    g->zombie(mon_dex).friendly = -1;
   } else
@@ -3095,13 +3095,13 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
   if (g->u_see(goox, gooy))
    g->add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
               g->zombie(mondex).name().c_str());
-  g->zombie(mondex).poly(g->mtypes[mon_blob]);
+  g->zombie(mondex).poly(GetMon("mon_blob"));
   g->zombie(mondex).speed -= rng(5, 25);
   g->zombie(mondex).hp = g->zombie(mondex).speed;
  } else {
   if (g->u_see(goox, gooy))
    g->add_msg(_("Living black goo emerges from the canister!"));
-  monster goo(g->mtypes[mon_blob]);
+  monster goo(GetMon("mon_blob"));
   goo.friendly = -1;
   goo.spawn(goox, gooy);
   g->add_zombie(goo);
@@ -3198,7 +3198,7 @@ void iuse::granade_act(game *g, player *p, item *it, bool t)
                     for (int j = -10; j <= 10; j++) {
                         const int zid = g->mon_at(pos.x + i, pos.y + j);
                         if (zid != -1 &&
-                              (g->zombie(zid).type->species == species_insect ||
+                              (g->zombie(zid).type->member_of_species("INSECT") ||
                                g->zombie(zid).is_hallucination()) ) {
                             g->explode_mon(zid);
                         }
@@ -3768,7 +3768,7 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
  int index = rng(0, valid.size() - 1);
  p->moves -= 60;
  it->invlet = 0; // Remove the manhack from the player's inv
- monster m_manhack(g->mtypes[mon_manhack], valid[index].x, valid[index].y);
+ monster m_manhack(GetMon("mon_manhack"), valid[index].x, valid[index].y);
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
      p->skillLevel("computer") < rng(0, 4))
   g->add_msg_if_player(p,_("You misprogram the manhack; it's hostile!"));
@@ -3789,7 +3789,7 @@ void iuse::turret(game *g, player *p, item *it, bool t)
 
  p->moves -= 100;
  it->invlet = 0; // Remove the turret from the player's inv
- monster mturret(g->mtypes[mon_turret], dirx, diry);
+ monster mturret(GetMon("mon_turret"), dirx, diry);
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
      p->skillLevel("computer") < rng(0, 6))
   g->add_msg_if_player(p,_("You misprogram the turret; it's hostile!"));
@@ -4068,7 +4068,7 @@ void iuse::vortex(game *g, player *p, item *it, bool t)
  int index = rng(0, spawn.size() - 1);
  p->moves -= 100;
  it->make(g->itypes["spiral_stone"]);
- monster mvortex(g->mtypes[mon_vortex], spawn[index].x, spawn[index].y);
+ monster mvortex(GetMon("mon_vortex"), spawn[index].x, spawn[index].y);
  mvortex.friendly = -1;
  g->add_zombie(mvortex);
 }
@@ -4077,7 +4077,7 @@ void iuse::dog_whistle(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,_("You blow your dog whistle."));
  for (int i = 0; i < g->num_zombies(); i++) {
-  if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == mon_dog) {
+  if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == "mon_dog") {
    bool u_see = g->u_see(&(g->zombie(i)));
    if (g->zombie(i).has_effect(ME_DOCILE)) {
     if (u_see)
@@ -5145,7 +5145,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
   case AEA_BUGS: {
    int roll = rng(1, 10);
-   mon_id bug = mon_null;
+   std::string bug = "mon_null";
    int num = 0;
    std::vector<point> empty;
    for (int x = p->posx - 1; x <= p->posx + 1; x++) {
@@ -5158,19 +5158,19 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
     g->add_msg_if_player(p,_("Flies buzz around you."));
    else if (roll <= 7) {
     g->add_msg_if_player(p,_("Giant flies appear!"));
-    bug = mon_fly;
+    bug = "mon_fly";
     num = rng(2, 4);
    } else if (roll <= 9) {
     g->add_msg_if_player(p,_("Giant bees appear!"));
-    bug = mon_bee;
+    bug = "mon_bee";
     num = rng(1, 3);
    } else {
     g->add_msg_if_player(p,_("Giant wasps appear!"));
-    bug = mon_wasp;
+    bug = "mon_wasp";
     num = rng(1, 2);
    }
-   if (bug != mon_null) {
-    monster spawned(g->mtypes[bug]);
+   if (bug != "mon_null") {
+    monster spawned(GetMon(bug));
     spawned.friendly = -1;
     for (int j = 0; j < num && !empty.empty(); j++) {
      int index_inner = rng(0, empty.size() - 1);
@@ -5192,7 +5192,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    break;
 
   case AEA_GROWTH: {
-   monster tmptriffid(g->mtypes[0], p->posx, p->posy);
+   monster tmptriffid(GetMon("mon_null"), p->posx, p->posy);
    mattack tmpattack;
    tmpattack.growplants(g, &tmptriffid);
   } break;
@@ -5274,7 +5274,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
   case AEA_SHADOWS: {
    int num_shadows = rng(4, 8);
-   monster spawned(g->mtypes[mon_shadow]);
+   monster spawned(GetMon("mon_shadow"));
    int num_spawned = 0;
    for (int j = 0; j < num_shadows; j++) {
     int tries = 0, monx, mony, junk;

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <stdint.h>
+#include "json.h"
 
 typedef enum {
   nameIsMaleName = 1,
@@ -48,6 +49,7 @@ class NameGenerator {
     return generator;
   }
 
+  void load_name_from_json(JsonObject &jo);
   std::string generateName(bool male);
 
   std::vector<std::string> filteredNames(uint32_t searchFlags);

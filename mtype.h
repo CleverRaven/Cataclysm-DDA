@@ -6,6 +6,7 @@
 #include <bitset>
 #include <string>
 #include <vector>
+#include <set>
 #include <math.h>
 #include "mondeath.h"
 #include "monattack.h"
@@ -29,9 +30,11 @@ species_hallu,
 num_species
 };
 
+/* NOTE: Not sure if should remove for save compatability reasons */
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
 */
+
 enum mon_id {
 mon_null = 0,
 // Wildlife
@@ -186,6 +189,7 @@ MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and po
 MF_REGENERATES_50, // Monster regenerates very quickly over time
 MF_FLAMMABLE, // Monster catches fire, burns, and passes the fire on to nearby objects
 MF_REVIVES, // Monster corpse will revive after a short period of time
+MF_HALLUCINATION,
 MF_CHITIN,  // May produce chitin when butchered
 MF_MAX  // Sets the length of the flags - obviously MUST be last
 };
@@ -197,11 +201,27 @@ MC_WILDLIFE, // The natural animals.
 MC_MAX // Size of flag array.
 };
 
+
+struct species_type
+{
+    std::string id;
+
+    std::set<m_flag> flags;
+    std::set<monster_trigger>
+                          anger_triggers,
+                          fear_triggers,
+                          placate_triggers;
+};
+
 struct mtype {
- int id;
+    std::string id;
+    std::set<std::string> s_species; // temporary container to store species strings
+    std::set<species_type*> species;
+    std::set<std::string> s_categories;
+ mon_id legacy_id;
+ monster_species legacy_species;
  std::string name;
  std::string description;
- monster_species species;
  long sym; // Symbol on the map
  nc_color color;// Color of symbol (see color.h)
 
@@ -237,7 +257,9 @@ struct mtype {
 
  // Default constructor
  mtype ();
+ mtype (std::string pid);
  // Non-default (messy)
+
  mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, std::string pmat,
         unsigned int pdiff, signed char pagro,
@@ -252,6 +274,8 @@ struct mtype {
 
  bool has_flag(m_flag flag) const;
  bool in_category(m_category category) const;
+ void finalize_monster();
+ bool member_of_species(std::string species_id) const;
 };
 
 #endif

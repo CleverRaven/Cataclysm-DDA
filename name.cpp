@@ -7,6 +7,7 @@
 #include "rng.h"
 
 NameGenerator::NameGenerator() {
+    /*
     catajson name_records("data/raw/names.json");
 
     for (name_records.set_begin(); name_records.has_curr() && json_good(); name_records.next())
@@ -58,6 +59,45 @@ NameGenerator::NameGenerator() {
     {
         picojson::set_last_error("");
     }
+    */
+}
+
+void NameGenerator::load_name_from_json(JsonObject &jo)
+{
+    // single entry
+    std::string name = jo.get_string("name");
+    std::string usage = jo.get_string("usage");
+    uint32_t flags = 0;
+
+    name = rm_prefix(_(("<name>"+name).c_str()));
+
+    if (usage == "given") {
+        flags |= nameIsGivenName;
+    } else if (usage == "family") {
+        flags |= nameIsFamilyName;
+    } else if (usage == "universal") {
+        flags |= nameIsGivenName | nameIsFamilyName;
+    } else if (usage == "city") {
+        flags |= nameIsTownName;
+    }
+
+    // Gender is optional
+    if(jo.has_member("gender"))
+    {
+        std::string gender = jo.get_string("gender");
+
+        if (gender == "male") {
+            flags |= nameIsMaleName;
+        } else if (gender == "female") {
+            flags |= nameIsFemaleName;
+        } else if (gender == "unisex") {
+            flags |= nameIsUnisexName;
+        }
+    }
+
+    Name aName(name, flags);
+
+    names.push_back(aName);
 }
 
 std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags) {

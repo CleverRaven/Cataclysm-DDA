@@ -150,7 +150,7 @@ std::string monster::name()
 std::string monster::name_with_armor()
 {
  std::string ret;
- if (type->species == species_insect) {
+ if (type->member_of_species("INSECT")) {
      ret = string_format(_("%s's carapace"), type->name.c_str());
  }
  else {
@@ -325,7 +325,7 @@ void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
 
 /*
  * save serialized monster data to a line.
- * This is useful after player.sav is fully jsonized, to save full static spawns in maps.txt 
+ * This is useful after player.sav is fully jsonized, to save full static spawns in maps.txt
  */
 std::string monster::save_info()
 {
@@ -377,8 +377,8 @@ monster_attitude monster::attitude(player *u)
 
  if (u != NULL) {
 
-  if (((type->species == species_mammal && u->has_trait("PHEROMONE_MAMMAL")) ||
-       (type->species == species_insect && u->has_trait("PHEROMONE_INSECT")))&&
+  if (((type->member_of_species("MAMMAL") && u->has_trait("PHEROMONE_MAMMAL")) ||
+       (type->member_of_species("INSECT") && u->has_trait("PHEROMONE_INSECT")))&&
       effective_anger >= 10)
    effective_anger -= 20;
 
@@ -675,7 +675,7 @@ void monster::die(game *g)
                      g->cur_om->monsters_at(g->levx+x, g->levy+y, z);
                  for (int i = 0; i < groups.size(); i++) {
                      if (MonsterGroupManager::IsMonsterInGroup
-                         (groups[i]->type, mon_id(type->id)))
+                         (groups[i]->type, (type->id)))
                          groups[i]->dying = true;
                  }
           }
@@ -834,36 +834,36 @@ void monster::process_effects(game *g)
 
 bool monster::make_fungus(game *g)
 {
- switch (mon_id(type->id)) {
- case mon_ant:
- case mon_ant_soldier:
- case mon_ant_queen:
- case mon_fly:
- case mon_bee:
- case mon_dermatik:
-  poly(g->mtypes[mon_ant_fungus]);
-  return true;
- case mon_zombie:
- case mon_zombie_shrieker:
- case mon_zombie_electric:
- case mon_zombie_spitter:
- case mon_zombie_fast:
- case mon_zombie_brute:
- case mon_zombie_hulk:
-  poly(g->mtypes[mon_zombie_fungus]);
-  return true;
- case mon_boomer:
-  poly(g->mtypes[mon_boomer_fungus]);
-  return true;
- case mon_triffid:
- case mon_triffid_young:
- case mon_triffid_queen:
-  poly(g->mtypes[mon_fungaloid]);
-  return true;
- default:
-  return true;
- }
- return false;
+    std::string monid = type->id;
+
+    if( monid == "mon_ant" || monid == "mon_ant_soldier" ||
+        monid == "mon_ant_queen" || monid == "mon_fly" ||
+        monid == "mon_bee" || monid == "mon_dermatik")
+    {
+        poly(GetMon("mon_ant_fungus"));
+        return true;
+    }
+    else if( monid == "mon_zombie" || monid == "mon_zombie_shrieker" ||
+             monid == "mon_zombie_electric" || monid == "mon_zombie_spitter" ||
+             monid == "mon_zombie_fast" || monid == "mon_zombie_brute" ||
+             monid == "mon_zombie_hulk")
+    {
+        poly(GetMon("mon_zombie_fungus"));
+        return true;
+    }
+    else if( monid == "mon_boomer")
+    {
+        poly(GetMon("mon_boomer_fungus"));
+        return true;
+    }
+    else if( monid == "mon_triffid" || monid == "mon_triffid_young" ||
+             monid == "mon_triffid_queen")
+    {
+        poly(GetMon("mon_fungaloid"));
+        return true;
+    }
+
+    return false;
 }
 
 void monster::make_friendly()

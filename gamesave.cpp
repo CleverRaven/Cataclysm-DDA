@@ -120,7 +120,7 @@ void game::serialize(std::ofstream & fout) {
         // And finally the player.
         // u.save_info dumps player + contents in a single json line, followed by memorial log
         // one entry per line starting with '|'
-        fout << u.save_info() << std::endl; 
+        fout << u.save_info() << std::endl;
 
         fout << std::endl;
         ////////
@@ -157,6 +157,7 @@ void game::unserialize(std::ifstream & fin) {
            savegame_loading_version = savedver;
        }
    }
+DebugLog() << "\tSavegame Loading Version: ["<<savegame_loading_version<<"]\n";
    if (savegame_loading_version != savegame_version) {
        if ( unserialize_legacy(fin) == true ) {
             return;
@@ -169,7 +170,7 @@ void game::unserialize(std::ifstream & fin) {
             std::string linebuf;
             std::stringstream linein;
 
-
+DebugLog() << "\tDeserializing Current Version savegame\n";
             int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
             picojson::value pval;
             parseline() >> pval;
@@ -178,7 +179,7 @@ void game::unserialize(std::ifstream & fin) {
                 debugmsg("Bad save json\n%s", jsonerr.c_str() );
             }
             picojson::object &pdata = pval.get<picojson::object>();
-
+DebugLog() << "\tDeserializing: Turn, Last_Target, Run_Mode, Most Seen, Next Inventory, Next NPCID, Next FactionID, Next MissID, NextSpawn\n";
             picoint(pdata,"turn",tmpturn);
             picoint(pdata,"last_target",tmptar);
             picoint(pdata,"run_mode", tmprun);
@@ -189,7 +190,7 @@ void game::unserialize(std::ifstream & fin) {
             picoint(pdata,"next_faction_id", next_faction_id);
             picoint(pdata,"next_mission_id", next_mission_id);
             picoint(pdata,"nextspawn",tmpspawn);
-
+DebugLog() << "\tDeserializing: Weather, LevX|Y|Z, OM_X|Y\n";
             getline(fin, linebuf); // Does weather need to be loaded in this order? Probably not,
             load_weather(linebuf); // but better safe than jackie chan expressions later
 
@@ -211,7 +212,7 @@ void game::unserialize(std::ifstream & fin) {
             }
             autosafemode = OPTIONS["AUTOSAFEMODE"];
             last_target = tmptar;
-
+DebugLog() << "\tDeserializing: Scent Map\n";
             // Next, the scent map.
             parseline();
 
@@ -220,7 +221,7 @@ void game::unserialize(std::ifstream & fin) {
                     linein >> grscent[i][j];
                 }
             }
-
+DebugLog() << "\tDeserializing: Monsters\n";
             // Now the number of monsters...
             int nummon;
             parseline() >> nummon;
@@ -235,7 +236,7 @@ void game::unserialize(std::ifstream & fin) {
                 montmp.load_info(data, &mtypes);
                 add_zombie(montmp);
             }
-
+DebugLog() << "\tDeserializing: Kill Counts\n";
             // And the kill counts;
             parseline();
             int kk; int kscrap;
@@ -260,10 +261,11 @@ void game::unserialize(std::ifstream & fin) {
                         kk = monster_ints[ legacy_mon_id[ kk ] ];
                         linein >> kills[kk];
                     } else {
-                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id. 
+                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
                     }
                 }
             }
+DebugLog() << "\tDeserializing: Player Information\n";
             // Finally, the data on the player.
             getline(fin, data);
             u.load_info(this, data);
