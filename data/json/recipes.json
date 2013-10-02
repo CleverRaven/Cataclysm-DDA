@@ -13637,6 +13637,7 @@
   "result": "q_staff",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
+  "requires_skills": [ "bashing", 2 ],
   "difficulty": 2,
   "time": 18000,
   "reversible": false,
