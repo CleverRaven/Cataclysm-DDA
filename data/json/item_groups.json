@@ -1103,6 +1103,7 @@
       ["glowstick", 60],
       ["elbow_pads", 40],
       ["knee_pads", 40],
+      ["manual_throw", 12],
       ["boots_hiking", 10]
     ]
   },{
@@ -1233,6 +1234,7 @@
       ["puck", 30],
       ["golf_club", 35],
       ["manual_brawl", 30],
+      ["manual_throw", 12],
       ["rope_30", 35],
       ["hatchet", 10],
       ["pot", 25],
@@ -1809,6 +1811,7 @@
     "id":"manuals",
     "items":[
       ["manual_brawl", 30],
+      ["manual_throw", 12],
       ["manual_knives", 12],
       ["spetsnaz_knives", 8],
       ["manual_gun", 8],
