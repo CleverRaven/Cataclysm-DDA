@@ -1309,7 +1309,7 @@ picojson::value item::json_save(bool save_contents) const
     if ( active == true )    data["active"]     = pv( true );
     if ( corpse != NULL )    data["corpse"]     = pv( corpse->id );
 
-    if ( owned != -1 )       data["owned"]      = pv( player_id );
+    if ( owned != -1 )       data["owned"]      = pv( owned );
     if ( player_id != -1 )   data["player_id"]  = pv( player_id );
     if ( mission_id != -1 )  data["mission_id"] = pv( mission_id );
 
