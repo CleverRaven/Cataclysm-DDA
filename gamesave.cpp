@@ -170,7 +170,6 @@ DebugLog() << "\tSavegame Loading Version: ["<<savegame_loading_version<<"]\n";
             std::string linebuf;
             std::stringstream linein;
 
-DebugLog() << "\tDeserializing Current Version savegame\n";
             int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
             picojson::value pval;
             parseline() >> pval;
@@ -179,7 +178,6 @@ DebugLog() << "\tDeserializing Current Version savegame\n";
                 debugmsg("Bad save json\n%s", jsonerr.c_str() );
             }
             picojson::object &pdata = pval.get<picojson::object>();
-DebugLog() << "\tDeserializing: Turn, Last_Target, Run_Mode, Most Seen, Next Inventory, Next NPCID, Next FactionID, Next MissID, NextSpawn\n";
             picoint(pdata,"turn",tmpturn);
             picoint(pdata,"last_target",tmptar);
             picoint(pdata,"run_mode", tmprun);
@@ -190,7 +188,6 @@ DebugLog() << "\tDeserializing: Turn, Last_Target, Run_Mode, Most Seen, Next Inv
             picoint(pdata,"next_faction_id", next_faction_id);
             picoint(pdata,"next_mission_id", next_mission_id);
             picoint(pdata,"nextspawn",tmpspawn);
-DebugLog() << "\tDeserializing: Weather, LevX|Y|Z, OM_X|Y\n";
             getline(fin, linebuf); // Does weather need to be loaded in this order? Probably not,
             load_weather(linebuf); // but better safe than jackie chan expressions later
 
@@ -212,7 +209,6 @@ DebugLog() << "\tDeserializing: Weather, LevX|Y|Z, OM_X|Y\n";
             }
             autosafemode = OPTIONS["AUTOSAFEMODE"];
             last_target = tmptar;
-DebugLog() << "\tDeserializing: Scent Map\n";
             // Next, the scent map.
             parseline();
 
@@ -221,7 +217,6 @@ DebugLog() << "\tDeserializing: Scent Map\n";
                     linein >> grscent[i][j];
                 }
             }
-DebugLog() << "\tDeserializing: Monsters\n";
             // Now the number of monsters...
             int nummon;
             parseline() >> nummon;
@@ -236,7 +231,6 @@ DebugLog() << "\tDeserializing: Monsters\n";
                 montmp.load_info(data, &mtypes);
                 add_zombie(montmp);
             }
-DebugLog() << "\tDeserializing: Kill Counts\n";
             // And the kill counts;
             parseline();
             int kk; int kscrap;
