@@ -1301,7 +1301,6 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
         case fd_tear_gas:
             if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy")) &&
                 !z->has_flag(MF_NO_BREATHE)) {
-                z->add_effect(ME_BLIND, cur->getFieldDensity() * 8);
                 if (cur->getFieldDensity() == 3) {
                     z->add_effect(ME_STUNNED, rng(10, 20));
                     dam += rng(4, 10);
@@ -1314,6 +1313,9 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                 if (z->made_of("veggy")) {
                     z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
                     dam += cur->getFieldDensity() * rng(8, 14);
+                }
+                if (z->has_flag(MF_SEES)) {
+                     z->add_effect(ME_BLIND, cur->getFieldDensity() * 8);
                 }
             }
             break;
