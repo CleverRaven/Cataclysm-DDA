@@ -2271,7 +2271,7 @@
         "name" : "8x40mm HVP",
         "symbol" : "=",
         "color" : "light_red",
-        "description" : "8x40mm caseless rounds, saboted high-velocity penetrator type. Advanced military grade armor-piercing ammunition for Rivtech firearms. Being caseless rounds, these cannot be disassembled or reloaded.",
+        "description" : "8x40mm caseless rounds, saboted high-velocity penetrator type. Advanced military grade, armor-piercing ammunition that fires a single depleted uranium flechette. Being caseless rounds, these cannot be disassembled or reloaded.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 9,
