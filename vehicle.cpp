@@ -2386,23 +2386,22 @@ void vehicle::fire_turret (int p, bool burst)
                 }
             }
         }
-    }
-    else
-    {
-        if (parts[p].items.size() > 0)
-        {
+    } else {
+        if (parts[p].items.size() > 0) {
             it_ammo *ammo = dynamic_cast<it_ammo*> (parts[p].items[0].type);
-            if (!ammo || ammo->type != amt ||
-                parts[p].items[0].charges < 1)
+            if (!ammo || ammo->type != amt || parts[p].items[0].charges < 1) {
                 return;
-            if (charges > parts[p].items[0].charges)
+            }
+            if (charges > parts[p].items[0].charges) {
                 charges = parts[p].items[0].charges;
-            if (fire_turret_internal (p, *gun, *ammo, charges))
-            { // consume ammo
-                if (charges >= parts[p].items[0].charges)
+            }
+            if (fire_turret_internal (p, *gun, *ammo, charges)) {
+                // consume ammo
+                if (charges >= parts[p].items[0].charges) {
                     parts[p].items.erase (parts[p].items.begin());
-                else
+                } else {
                     parts[p].items[0].charges -= charges;
+                }
             }
         }
     }
@@ -2417,23 +2416,22 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     monster *target = 0;
     int range = ammo.type == "gasoline" ? 5 : 12;
     int closest = range + 1;
-    for (int i = 0; i < g->num_zombies(); i++)
-    {
-        int dist = rl_dist(x, y, g->zombie(i).posx(), g->zombie(i).posy());
-        if (g->zombie(i).friendly == 0 && dist < closest &&
-            g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t))
-        {
+    for (int i = 0; i < g->num_zombies(); i++) {
+        int dist = rl_dist( x, y, g->zombie(i).posx(), g->zombie(i).posy() );
+        if( g->zombie(i).friendly == 0 && dist < closest &&
+            g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t) ) {
             target = &(g->zombie(i));
             closest = dist;
             fire_t = t;
         }
     }
-    if (!target)
+    if( !target ) {
         return false;
+    }
 
-    std::vector<point> traj = line_to(x, y, target->posx(), target->posy(), fire_t);
-    for (int i = 0; i < traj.size(); i++)
-        if (traj[i].x == g->u.posx && traj[i].y == g->u.posy)
+    std::vector<point> traj = line_to( x, y, target->posx(), target->posy(), fire_t );
+    for( int i = 0; i < traj.size(); i++ ) {
+        if( traj[i].x == g->u.posx && traj[i].y == g->u.posy ) {
             return false; // won't shoot at player
         }
     }
@@ -2465,17 +2463,17 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
     // Spawn a fake UPS to power any turreted weapons that need electricity.
-    item tmp_ups(g->itypes["UPS_on"], 0);
+    item tmp_ups( g->itypes["UPS_on"], 0 );
     // Drain a ton of power
     tmp_ups.charges = drain( "battery", 1000 );
     item &ups_ref = tmp.i_add(tmp_ups);
     g->fire( tmp, target->posx(), target->posy(), traj, true );
     // Rturn whatever is left.
     refill( "battery", ups_ref.charges );
-    if (ammo.type == "gasoline")
-    {
-        for (int i = 0; i < traj.size(); i++)
+    if( ammo.type == "gasoline" ) {
+        for( int i = 0; i < traj.size(); i++ ) {
             g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
+        }
     }
 
     return true;
