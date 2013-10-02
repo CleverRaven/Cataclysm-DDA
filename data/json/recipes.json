@@ -3808,7 +3808,7 @@
   "result": "shot_flechette",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "requires_skills": [ "gun", 2 ],
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
