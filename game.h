@@ -530,7 +530,7 @@ void load_artifacts(); // Load artifact data
 
 // ########################## DATA ################################
 
-  std::vector<monster> _z;
+  std::vector<monster> _active_monsters;
   std::map<point, int> z_at;
 
   signed char last_target; // The last monster targeted

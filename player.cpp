@@ -307,11 +307,6 @@ void player::normalize(game *g)
 
 void player::pick_name() {
     name = Name::generate(male);
-    if (OPTIONS["ALLITERATE_NAME"]) {
-        while (name[0] != name[name.find(" ")+1]) {
-            name = Name::generate(male);
-        } 
-    }
 }
 
 void player::reset(game *g)
@@ -1948,7 +1943,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 // Next, draw encumberment.
  std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
- int iEnc, iLayers, iArmorEnc, iWarmth;
+ int iEnc, iArmorEnc, iWarmth;
+ double iLayers;
 
  const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
@@ -5550,7 +5546,7 @@ std::list<item> player::use_amount(itype_id it, int quantity, bool use_container
  if (use_container && used_weapon_contents)
   remove_weapon();
 
- if (weapon.type->id == it) {
+ if (weapon.type->id == it && weapon.contents.size() == 0) {
   quantity--;
   ret.push_back(remove_weapon());
  }
@@ -7098,7 +7094,8 @@ void player::sort_armor(game *g)
         // Player encumbrance - altered copy of '@' screen
         mvwprintz(w_sort_middle, cont_h - 9, 1, c_white, _("Encumbrance and Warmth"));
         for (int i = 0; i < num_bp; i++) {
-            int enc, layers, armorenc;
+            int enc, armorenc;
+            double layers;
             layers = armorenc = 0;
             enc = encumb(body_part(i), layers, armorenc);
             if (leftListSize && (each_armor->covers & mfb(i))) {
@@ -8061,11 +8058,12 @@ int player::warmth(body_part bp)
 }
 
 int player::encumb(body_part bp) {
- int iLayers = 0, iArmorEnc = 0;
+ int iArmorEnc = 0;
+ double iLayers = 0;
  return encumb(bp, iLayers, iArmorEnc);
 }
 
-int player::encumb(body_part bp, int &layers, int &armorenc)
+int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
     it_armor* armor;
@@ -8091,7 +8089,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
                     if( armor->encumber > 0 ) {
                         armorenc--;
                     } else {
-                        layers--;
+                        layers -= .5;
                     }
                 }
             }
@@ -8101,7 +8099,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
     ret += armorenc;
 
     if (layers > 1) {
-        ret += (layers - 1) * (bp == bp_torso ? .5 : 1);// Easier to layer on torso
+        ret += (int(layers) - 1) * (bp == bp_torso ? .75 : 1);// Easier to layer on torso
     }
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
         ret += 3;

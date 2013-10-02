@@ -2388,6 +2388,7 @@
     "id":"mil_surplus",
     "items":[
       ["knife_combat", 14],
+      ["duffelbag", 25],
       ["binoculars", 20],
       ["bolt_steel", 7],
       ["crossbow", 2],
@@ -2864,6 +2865,7 @@
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["chestrig", 10],
+      ["duffelbag", 15],
       ["dump_pouch", 20],
       ["legrig", 10],
       ["under_armor", 20],
@@ -2888,6 +2890,7 @@
     "id":"mil_accessories",
     "items":[
       ["mask_gas", 10],
+      ["duffelbag", 15],
       ["goggles_nv", 1],
       ["backpack", 38],
       ["UPS_off", 5],
@@ -3636,6 +3639,7 @@
     "items":[
       ["water_clean", 90],
       ["knuckle_brass", 15],
+      ["duffelbag", 15],
       ["mre_beef", 50],
       ["mre_veggy", 50],
       ["bandages", 50],

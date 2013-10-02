@@ -9281,6 +9281,28 @@
   ]
 },{
         "type" : "recipe",
+  "result": "duffelbag",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 30 ],
+      [ "sewing_kit", 30 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 40 ],
+      [ "fur", 32 ],
+      [ "leather", 24 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "blanket",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
