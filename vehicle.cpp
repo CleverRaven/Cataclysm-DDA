@@ -483,8 +483,10 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     for(int index = 0; index < parts_in_square.size(); index++) {
 
         vpart_info other_part = vehicle_part_types[parts[parts_in_square[index]].id];
-        
-        if(part.id == other_part.id || part.location == other_part.location) {
+
+        //Parts with no location can stack with each other (but not themselves)
+        if(part.id == other_part.id || 
+                (!part.location.empty() && part.location == other_part.location)) {
             return false;
         }
 
