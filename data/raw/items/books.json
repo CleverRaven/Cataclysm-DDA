@@ -146,6 +146,27 @@
         "price" : 45,
         "required_level" : 0
     },
+    {
+        "type" : "BOOK",
+        "id" : "trappers_companion",
+        "name" : "The Trapper's Companion",
+        "max_level" : 8,
+        "description" : "A folksy guide to trapping wild game using time-tested methods. A bit in-depth for the beginner, it can provide a wealth of information to a knowledgeable trapper.",
+        "weight" : 1920,
+        "to_hit" : 1,
+        "color" : "brown",
+        "intelligence" : 10,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 8,
+        "bashing" : 8,
+        "cutting" : 0,
+        "time" : 55,
+        "fun" : 0,
+        "skill" : "survival",
+        "price" : 920,
+        "required_level" : 5
+    },
 	{
         "type" : "BOOK",
         "id" : "mag_bashing",
@@ -1276,7 +1297,7 @@
         "cutting" : 0,
         "time" : 55,
         "fun" : -1,
-        "skill" : "firstaid",
+        "skill" : "tailor",
         "price" : 920,
         "required_level" : 5
     },
