@@ -5546,7 +5546,7 @@ std::list<item> player::use_amount(itype_id it, int quantity, bool use_container
  if (use_container && used_weapon_contents)
   remove_weapon();
 
- if (weapon.type->id == it) {
+ if (weapon.type->id == it && weapon.contents.size() == 0) {
   quantity--;
   ret.push_back(remove_weapon());
  }
