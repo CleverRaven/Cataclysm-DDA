@@ -170,13 +170,14 @@ public:
 
  bool has_miss_recovery_tec(game* g); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(game* g); // technique-based miss recovery, like tec_feint
- bool can_leg_block(game* g); // technique-based miss recovery, like tec_feint
+ bool can_leg_block(); // technique-based miss recovery, like tec_feint
+ bool can_arm_block(); // technique-based miss recovery, like tec_feint
 
 // melee.cpp
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
- void block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
+ bool block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
     int &bash_dam, int &cut_dam, int &stab_dam);
 
  int base_damage(bool real_life = true, int stat = -999);
