@@ -614,12 +614,9 @@ void CheckMessages()
     if(HandleDPad()) {
         return;
     }
-    
-    while(SDL_PollEvent(&ev))
-    {
-        SDL_JoyAxisEvent *jaxis;
-        switch(ev.type)
-        {
+
+    while(SDL_PollEvent(&ev)) {
+        switch(ev.type) {
             case SDL_KEYDOWN:
             {
                 int lc = 0;
@@ -694,8 +691,6 @@ void CheckMessages()
             break;
             case SDL_JOYAXISMOTION: // on gamepads, the axes are the analog sticks
                 // TODO: somehow get the "digipad" values from the axes
-                jaxis = &ev.jaxis;
-                //DebugLog() << "AXIS: " << (int) jaxis->axis << " " << jaxis->value << "\n";
             break;
             case SDL_MOUSEMOTION:
                 if((OPTIONS["HIDE_CURSOR"] == "show" || OPTIONS["HIDE_CURSOR"] == "hidekb") &&
