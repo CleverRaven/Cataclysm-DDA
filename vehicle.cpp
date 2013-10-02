@@ -2435,8 +2435,21 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     for (int i = 0; i < traj.size(); i++)
         if (traj[i].x == g->u.posx && traj[i].y == g->u.posy)
             return false; // won't shoot at player
-    if (g->u_see(x, y))
+        }
+    }
+
+    // Check for available power for turrets that use it.
+    const int power = fuel_left("battery");
+    if( gun.item_tags.count( "USE_UPS" ) ) {
+        if( power < 5 ) { return false; }
+    } else if( gun.item_tags.count( "USE_UPS_20" ) ) {
+        if( power < 20 ) { return false; }
+    } else if( gun.item_tags.count( "USE_UPS_40" ) ) {
+        if( power < 40 ) { return false; }
+    }
+    if( g->u_see(x, y) ) {
         g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
+    }
     player tmp;
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
     tmp.skillLevel(gun.skill_used).level(1);
