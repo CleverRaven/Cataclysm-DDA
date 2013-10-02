@@ -93,7 +93,7 @@ int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color base
     return textformatted.size();
 };
 
-void centre_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
+void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap,mes);

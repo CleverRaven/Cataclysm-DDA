@@ -49,7 +49,7 @@ extern int TERRAIN_WINDOW_HEIGHT;
 
 std::vector<std::string> foldstring ( std::string str, int width );
 int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
-void centre_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
+void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW* w, nc_color FG, long ch);
 void mvwputch(WINDOW* w, int y, int x, nc_color FG, long ch);
