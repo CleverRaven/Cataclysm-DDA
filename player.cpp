@@ -4407,8 +4407,6 @@ void player::breath(game *g, int times)
         blood_oxygen = std::min(blood_oxygen, 950);
 
     }
-
-    //g->add_msg("player:breath: Inhaled (%d) to (%d%%)", inhaled, blood_oxygen);
 }
 
 // basically just shorthand for removing blood oxygen 
@@ -4425,7 +4423,6 @@ void player::exhaust(game *g, int amount)
 
     blood_oxygen -= amount;
     blood_oxygen = std::min(blood_oxygen, 950);
-    //g->add_msg("exhasting: %d -> %d", amount, blood_oxygen);
 }
 
 void player::suffer(game *g)
