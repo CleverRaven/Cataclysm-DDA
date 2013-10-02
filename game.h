@@ -68,7 +68,6 @@ enum quit_status {
  QUIT_SUICIDE, // Quit with 'Q'
  QUIT_SAVED,   // Saved and quit
  QUIT_DIED,     // Actual death
- QUIT_DELETE_WORLD,  // Quit and delete world
  QUIT_ERROR
 };
 
