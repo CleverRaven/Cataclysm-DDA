@@ -3818,6 +3818,9 @@
       [ "press", -1 ]
     ],
     [
+      [ "boltcutters", -1 ]
+    ],
+    [
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
