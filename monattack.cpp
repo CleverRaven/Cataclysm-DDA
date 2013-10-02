@@ -130,29 +130,34 @@ void mattack::acid(game *g, monster *z)
 
 void mattack::shockstorm(game *g, monster *z)
 {
- int t;
- if (!g->sees_u(z->posx(), z->posy(), t) ||
-     rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 12)
-  return; // Can't see you, no attack
- z->moves = -50;   // It takes a while
- z->sp_timeout = z->type->sp_freq; // Reset timer
- g->add_msg(_("A bolt of electricity arcs towards you!"));
- int tarx = g->u.posx + rng(-1, 1) + rng(-1, 1),// 3 in 9 chance of direct hit,
-     tary = g->u.posy + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
- if (!g->m.sees(z->posx(), z->posy(), tarx, tary, -1, t))
-  t = 0;
- std::vector<point> bolt = line_to(z->posx(), z->posy(), tarx, tary, t);
- for (int i = 0; i < bolt.size(); i++) { // Fill the LOS with electricity
-  if (!one_in(4))
-   g->m.add_field(g, bolt[i].x, bolt[i].y, fd_electricity, rng(1, 3));
- }
-// 5x5 cloud of electricity at the square hit
- for (int i = tarx - 2; i <= tarx + 2; i++) {
-  for (int j = tary - 2; j <= tary + 2; j++) {
-   if (!one_in(4) || (i == 0 && j == 0))
-    g->m.add_field(g, i, j, fd_electricity, rng(1, 3));
-  }
- }
+    int t;
+    int junk = 0;
+    if (!g->sees_u(z->posx(), z->posy(), t) ||
+       !g->m.clear_path(z->posx(), z->posy(), g->u.posx, g->u.posy, 12, 1, 100, junk)) {
+        return; // Can't see/reach you, no attack
+    }
+    z->moves = -50;   // It takes a while
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    g->add_msg(_("A bolt of electricity arcs towards you!"));
+    int tarx = g->u.posx + rng(-1, 1) + rng(-1, 1);// 3 in 9 chance of direct hit,
+    int tary = g->u.posy + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
+    if (!g->m.sees(z->posx(), z->posy(), tarx, tary, -1, t)) {
+        t = 0;
+    }
+    std::vector<point> bolt = line_to(z->posx(), z->posy(), tarx, tary, t);
+    for (int i = 0; i < bolt.size(); i++) { // Fill the LOS with electricity
+        if (!one_in(4)) {
+            g->m.add_field(g, bolt[i].x, bolt[i].y, fd_electricity, rng(1, 3));
+        }
+    }
+    // 5x5 cloud of electricity at the square hit
+    for (int i = tarx - 2; i <= tarx + 2; i++) {
+        for (int j = tary - 2; j <= tary + 2; j++) {
+            if (!one_in(4) || (i == 0 && j == 0)) {
+                g->m.add_field(g, i, j, fd_electricity, rng(1, 3));
+            }
+        }
+    }
 }
 
 
