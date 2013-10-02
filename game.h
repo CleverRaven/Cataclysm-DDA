@@ -110,6 +110,7 @@ class game
   bool unserialize_legacy(std::ifstream & fin); // for old load
   void save();
   void delete_save();
+  int count_saves(); // how many saved characters are there?
   void write_memorial_file();
   void cleanup_at_end();
   bool do_turn();

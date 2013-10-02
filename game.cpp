@@ -534,8 +534,8 @@ void game::cleanup_at_end(){
                 uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
         write_memorial_file();
         u.memorial_log.clear();
-        if (OPTIONS["DELETE_WORLD"] == "yes" ||
-            (OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?"))))
+        if (count_saves() == 0 && (OPTIONS["DELETE_WORLD"] == "yes" ||
+            (OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?")))))
         {
             delete_save();
             MAPBUFFER.reset();
@@ -2849,6 +2849,24 @@ void game::delete_save()
       (void)closedir(save_dir);
      }
 #endif
+}
+
+int game::count_saves()
+{
+    int n;
+    dirent *dp;
+    DIR *dir = opendir("save");
+    if (!dir) {
+        return 0;
+    }
+    while ((dp = readdir(dir))) {
+        std::string tmp = dp->d_name;
+        if (tmp.find(".sav") != std::string::npos) {
+            ++n;
+        }
+    }
+    closedir(dir);
+    return n;
 }
 
 /**

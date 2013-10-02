@@ -434,7 +434,7 @@ void initOptions() {
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
     OPTIONS["DELETE_WORLD"] =           cOpt("general", _("Delete world"),
-                                             _("Delete world upon player death."),
+                                             _("Delete the world when the last active character dies."),
                                              "no,yes,query", "no"
                                             );
 
