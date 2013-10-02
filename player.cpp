@@ -8575,83 +8575,8 @@ std::string player::weapname(bool charges)
    dump << ")";
   }
   return dump.str();
- } else if (weapon.is_null())
+ } else if (weapon.is_null()) {
   return _("fists");
-
- else if (weapon.is_style()) { // Styles get bonus-bars!
-  std::stringstream dump;
-  dump << weapon.tname();
-
-  if(weapon.typeId() == "style_capoeira"){
-   if (has_disease("dodge_boost"))
-    dump << _(" +Dodge");
-   if (has_disease("attack_boost"))
-    dump << _(" +Attack");
-  } else if(weapon.typeId() == "style_ninjutsu"){
-  } else if(weapon.typeId() == "style_leopard"){
-   if (has_disease("attack_boost"))
-    dump << _(" +Attack");
-  } else if(weapon.typeId() == "style_crane"){
-   if (has_disease("dodge_boost"))
-    dump << _(" +Dodge");
-  } else if(weapon.typeId() == "style_dragon"){
-   if (has_disease("damage_boost"))
-    dump << _(" +Damage");
-  } else if(weapon.typeId() == "style_tiger"){
-   dump << " [";
-   int intensity = disease_intensity("damage_boost");
-   for (int i = 1; i <= 5; i++) {
-    if (intensity >= i * 2)
-     dump << "*";
-    else
-     dump << ".";
-   }
-   dump << "]";
-  } else if(weapon.typeId() == "style_centipede"){
-   dump << " [";
-   int intensity = disease_intensity("speed_boost");
-   for (int i = 1; i <= 8; i++) {
-    if (intensity >= i * 4)
-     dump << "*";
-    else
-     dump << ".";
-   }
-   dump << "]";
-  } else if(weapon.typeId() == "style_venom_snake"){
-   dump << " [";
-   int intensity = disease_intensity("viper_combo");
-   for (int i = 1; i <= 2; i++) {
-    if (intensity >= i)
-     dump << "C";
-    else
-     dump << ".";
-   }
-   dump << "]";
-  } else if(weapon.typeId() == "style_lizard"){
-   dump << " [";
-   int intensity = disease_intensity("attack_boost");
-   for (int i = 1; i <= 4; i++) {
-    if (intensity >= i)
-     dump << "*";
-    else
-     dump << ".";
-   }
-   dump << "]";
-  } else if(weapon.typeId() == "style_toad"){
-   dump << " [";
-   int intensity = disease_intensity("armor_boost");
-   for (int i = 1; i <= 5; i++) {
-    if (intensity >= 5 + i)
-     dump << "!";
-    else if (intensity >= i)
-     dump << "*";
-    else
-     dump << ".";
-    }
-    dump << "]";
-  }
-
-  return dump.str();
  } else
   return weapon.tname();
 }

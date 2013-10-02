@@ -373,10 +373,6 @@ char inventory::get_invlet_for_item( std::string item_type ) {
 
 item& inventory::add_item(item newit, bool keep_invlet)
 {
-    if (newit.is_style())
-    {
-        return nullitem; // Styles never belong in our inventory.
-    }
 //dprint("inv.add_item(%d): [%c] %s", keep_invlet, newit.invlet, newit.typeId().c_str()  );
  
     bool reuse_cached_letter = false;
