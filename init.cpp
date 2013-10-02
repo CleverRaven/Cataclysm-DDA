@@ -12,7 +12,7 @@
 #include "crafting.h"
 #include "computer.h"
 #include "help.h"
-#include "catacurse.h"
+#include "color.h"
 
 #include <string>
 #include <vector>

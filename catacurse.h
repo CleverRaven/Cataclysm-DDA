@@ -190,5 +190,4 @@ void curses_delay(int delay);
 void curses_timeout(int t);
 int curses_getch(WINDOW* win);
 int curses_start_color();
-void load_colors(JsonObject &jo);
 #endif

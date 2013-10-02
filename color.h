@@ -173,6 +173,7 @@ nc_color int_to_color(int key);
 nc_color color_from_string(std::string color);
 
 void setattr(nc_color &col, col_attribute attr);
+void load_colors(JsonObject &jo);
 
 #endif
 
