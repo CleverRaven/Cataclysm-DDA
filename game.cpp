@@ -7248,7 +7248,7 @@ void game::list_items()
 }
 
 // Pick up items at (posx, posy).
-void game::pickup(int posx, int posy, int min)
+void game::pickup(int posx, int posy, int min, game *g, player *p, item *it, bool t)
 {
  //min == -1 is Autopickup
 
@@ -7299,18 +7299,17 @@ void game::pickup(int posx, int posy, int min)
         }
                     if (query_yn(_("Use hotplate?")))
                     {
-                    int pwr = veh->drain("battery", veh->fuel_left("battery"));
                         {
-                            if(pwr ->charges == 0)
+                            if(it->charges == 0)
                             {
-                                g->add_msg_if_player(p, _("The %s's batteries are dead."), pwr->name.c_str());
+                                g->add_msg_if_player(p, _("The %s's batteries are dead."), it->name.c_str());
                                 return;
                             }
 
                             int choice = 1;
                             if (p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") )
                             {
-//Might want to cauterize
+                                //Might want to cauterize
                                 choice = menu(true, ("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
                             }
 
@@ -7318,12 +7317,12 @@ void game::pickup(int posx, int posy, int min)
                             {
                                 if(heat_item(g, p))
                                 {
-                                    pwr ->charges--;
+                                    it->charges--;
                                 }
                             }
                             else if(choice == 2)
                             {
-                                cauterize_elec(g, p, pwr, t);
+                                cauterize_elec(g, p, it, t);
                             }
                         }
                     }
