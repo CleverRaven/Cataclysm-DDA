@@ -28,37 +28,30 @@ typedef std::string Mon_Tag;
 class monster_factory
 {
     public:
-        static monster_factory &factory()
-        {
+        static monster_factory &factory() {
             static monster_factory _factory;
 
             return _factory;
         }
 
-        static std::map<Mon_Tag, mtype*>::iterator get_mon_begin()
-        {
+        static std::map<Mon_Tag, mtype*>::iterator get_mon_begin() {
             return factory().monsters.begin();
         }
-        static std::map<Mon_Tag, mtype*>::iterator get_mon_end()
-        {
+        static std::map<Mon_Tag, mtype*>::iterator get_mon_end() {
             return factory().monsters.end();
         }
-        static mtype *get_random_mon()
-        {
+        static mtype *get_random_mon() {
             static std::vector<std::string> valid_random_types = factory().rnd_types();
 
             return factory().get_mon(valid_random_types[rng(0, valid_random_types.size())]);
         }
-        static mtype *get_monster(Mon_Tag tag)
-        {
+        static mtype *get_monster(Mon_Tag tag) {
             return factory().get_mon(tag);
         }
-        static void finalize()
-        {
+        static void finalize() {
             factory().finalize_monsters();
         }
-        static mtype *missing_type()
-        {
+        static mtype *missing_type() {
             return factory().missing_monster_type;
         }
 
@@ -82,13 +75,11 @@ class monster_factory
     private:
         /** Default Constructor */
         monster_factory();
-        std::vector<std::string> rnd_types()
-        {
+        std::vector<std::string> rnd_types() {
             std::vector<std::string> ret;
-            for (std::map<std::string, mtype*>::iterator it = monsters.begin(); it != monsters.end(); ++it)
-            {
-                if (it->first != "mon_null" && it->first != "mon_generator")
-                {
+            for (std::map<std::string, mtype*>::iterator it = monsters.begin();
+                 it != monsters.end(); ++it) {
+                if (it->first != "mon_null" && it->first != "mon_generator") {
                     ret.push_back(it->first);
                 }
             }
