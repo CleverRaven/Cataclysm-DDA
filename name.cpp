@@ -77,6 +77,8 @@ void NameGenerator::load_name_from_json(JsonObject &jo)
         flags |= nameIsFamilyName;
     } else if (usage == "universal") {
         flags |= nameIsGivenName | nameIsFamilyName;
+    } else if (usage == "backer") {
+        flags |= nameIsFullName;
     } else if (usage == "city") {
         flags |= nameIsTownName;
     }
