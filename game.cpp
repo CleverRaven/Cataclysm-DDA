@@ -10933,17 +10933,30 @@ void intro()
  const int minWidth = FULL_SCREEN_WIDTH;
  WINDOW* tmp = newwin(minHeight, minWidth, 0, 0);
  while (maxy < minHeight || maxx < minWidth) {
-  werase(tmp);
-  wprintw(tmp, _("\
-Whoa. Whoa. Hey. This game requires a minimum terminal size of %dx%d. I'm\n\
-sorry if your graphical terminal emulator went with the woefully-diminutive\n\
-%dx%d as its default size, but that just won't work here.  Now stretch the\n\
-window until you've got it at the right size (or bigger).\n"),
-          minWidth, minHeight, maxx, maxy);
-  wgetch(tmp);
-  getmaxyx(stdscr, maxy, maxx);
+        werase(tmp);
+        if (maxy < minHeight && maxx < minWidth) {
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
+Whoa! Your terminal is tiny! This game requires a minimum terminal size of \
+%dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?"),
+                           minWidth, minHeight, maxx, maxy);
+        } else if (maxx < minWidth) {
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
+Oh! Hey, look at that. Your terminal is just a little too narrow. This game \
+requires a minimum terminal size of %dx%d to function. It just won't work \
+with only %dx%d. Can you stretch it out sideways a bit?"),
+                           minWidth, minHeight, maxx, maxy);
+        } else {
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
+Woah that is one wide... okay, so, this game requires a minimum terminal size \
+of %dx%d to run. %dx%d isn't quite enough! How about dragging the bottom edge \
+down just a smidgen?"),
+                           minWidth, minHeight, maxx, maxy);
+        }
+        wgetch(tmp);
+        getmaxyx(stdscr, maxy, maxx);
  }
  werase(tmp);
+ mvwprintz(tmp, 0, 0, c_ltblue, ":)");
  wrefresh(tmp);
  delwin(tmp);
  erase();
