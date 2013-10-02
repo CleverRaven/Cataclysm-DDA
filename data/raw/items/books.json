@@ -314,6 +314,27 @@
         "price" : 45,
         "required_level" : 0
     },
+    {
+        "type" : "BOOK",
+        "id" : "manual_pistol",
+        "name" : "The Tao of the Handgun",
+        "max_level" : 3,
+        "description" : "This introspective volume covers proper usage of handguns, from safety and stance, to maintenance and proper sighting technique.",
+        "weight" : 440,
+        "to_hit" : 0,
+        "color" : "green",
+        "intelligence" : 3,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 2,
+        "bashing" : -4,
+        "cutting" : 0,
+        "time" : 15,
+        "fun" : 0,
+        "skill" : "pistol",
+        "price" : 180,
+        "required_level" : 0
+    },
 	{
         "type" : "BOOK",
         "id" : "mag_rifle",
