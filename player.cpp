@@ -848,7 +848,7 @@ void player::update_bodytemp(game *g)
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if (blister_count - 10*resist(body_part(i)) > 20)
         {
-            add_disease("blisters", 1, 0, -1, (body_part)i, -1);
+            add_disease("blisters", 1, 1, 1, (body_part)i, -1);
         }
         // BLOOD LOSS : Loss of blood results in loss of body heat
         int blood_loss = 0;
@@ -4091,21 +4091,21 @@ void player::get_sick(game *g)
  if (!has_disease("flu") && !has_disease("common_cold") &&
      one_in(900 + 10 * health + (has_trait("DISRESISTANT") ? 300 : 0))) {
   if (one_in(6))
-   infect("flu", bp_mouth, 3, rng(40000, 80000), g);
+   infect("flu", bp_mouth, 3, rng(40000, 80000), 1, 1);
   else
-   infect("common_cold", bp_mouth, 3, rng(20000, 60000), g);
+   infect("common_cold", bp_mouth, 3, rng(20000, 60000), 1, 1);
  }
 }
 
 void player::infect(dis_type type, body_part vector, int strength,
-                    int duration, game *g)
+                    int duration, int intensity, int max_intensity)
 {
     if (strength <= 0) {
         return;
     }
 
     if (dice(strength, 3) > dice(resist(vector), 3)) {
-        add_disease(type, duration);
+        add_disease(type, duration, intensity, max_intensity);
     }
 }
 
@@ -4118,7 +4118,7 @@ void player::add_disease(dis_type type, int duration,
         return;
     }
 
-    if (hp_cur[part] == 0) {
+    if (part !=  num_bp && hp_cur[part] == 0) {
         return;
     }
 

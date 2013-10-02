@@ -707,7 +707,7 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_BOULDERING:
-            switch(g->u.disease_intensity("bouldering")) {
+            switch(dis.intensity) {
                 case 3:
                     p.dex_cur -= 2;
                 case 2:
@@ -738,7 +738,7 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_SPORES:
-            if (one_in(10)) {
+            if (x_in_y(dis.intensity, 10)) {
                 p.add_disease("fungus", -1);
                 g->u.add_memorial_log(_("Contracted a fungal infection."));
             }
@@ -1258,53 +1258,59 @@ void dis_effect(player &p, disease &dis) {
 
 int disease_speed_boost(disease dis)
 {
- dis_type_enum type = disease_type_lookup[dis.type];
- switch (type) {
- case DI_COLD:
-     switch (dis.bp) {
-         case bp_torso:
-             switch (dis.intensity) {
-             case 1 : return  -2;
-             case 2 : return  -5;
-             case 3 : return -20;}
-         case bp_legs:
-             switch (dis.intensity) {
-             case 1 : return  -2;
-             case 2 : return  -5;
-             case 3 : return -20;}
-         default:
-             return 0;
-     }
-     break;
- case DI_FROSTBITE:
-     switch (dis.bp) {
-         case bp_feet:
-             switch (dis.intensity) {
-             case 2 : return -4;}
-         default:
-             return 0;
-     }
-     break;
- case DI_HOT:
-     switch(dis.bp) {
-         case bp_head:
-             switch (dis.intensity) {
-             case 1 : return  -2;
-             case 2 : return  -5;
-             case 3 : return -20;}
-         case bp_torso:
-             switch (dis.intensity) {
-             case 1 : return  -2;
-             case 2 : return  -5;
-             case 3 : return -20;}
-         default:
-             return 0;
-     }
-     break;
+    dis_type_enum type = disease_type_lookup[dis.type];
+    switch (type) {
+    case DI_COLD:
+        switch (dis.bp) {
+            case bp_torso:
+                switch (dis.intensity) {
+                case 1 : return  -2;
+                case 2 : return  -5;
+                case 3 : return -20;}
+            case bp_legs:
+                switch (dis.intensity) {
+                case 1 : return  -2;
+                case 2 : return  -5;
+                case 3 : return -20;}
+            default:
+                return 0;
+        }
+        break;
+    case DI_FROSTBITE:
+        switch (dis.bp) {
+            case bp_feet:
+                switch (dis.intensity) {
+                case 2 : return -4;}
+            default:
+                return 0;
+        }
+        break;
+    case DI_HOT:
+        switch(dis.bp) {
+            case bp_head:
+                switch (dis.intensity) {
+                case 1 : return  -2;
+                case 2 : return  -5;
+                case 3 : return -20;}
+            case bp_torso:
+                switch (dis.intensity) {
+                case 1 : return  -2;
+                case 2 : return  -5;
+                case 3 : return -20;}
+            default:
+                return 0;
+        }
+        break;
+
+    case DI_SPORES:
+        switch (dis.intensity) {
+            case 1 : return -15;
+            case 2 : return -30;
+            case 3 : return -45;}
+        break;
 
     case DI_INFECTION:  return -80;
     case DI_SAP:        return -25;
-    case DI_SPORES:     return -15;
     case DI_SLIMED:     return -25;
     case DI_BADPOISON:  return -10;
     case DI_FOODPOISON: return -20;
@@ -1827,9 +1833,20 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         return _("Dexterity - 3;   Speed - 25");
 
     case DI_SPORES:
-        return _(
-        "Speed -40%\n"
-        "You can feel the tiny spores sinking directly into your flesh.");
+        switch (dis.intensity) {
+            case 1:
+                return _(
+                "Speed -15%\n"
+                "You can feel the tiny spores sinking directly into your flesh.");
+            case 2:
+                return _(
+                "Speed -30%\n"
+                "You can feel the tiny spores sinking directly into your flesh.");
+            case 3:
+                return _(
+                "Speed -45%\n"
+                "You can feel the tiny spores sinking directly into your flesh.");
+        }
 
     case DI_SLIMED:
         return _("Speed -40%;   Dexterity - 2");

@@ -224,7 +224,7 @@ void mattack::boomer(game *g, monster *z)
  }
  if (!g->u.uncanny_dodge()) {
   if (rng(0, 10) > g->u.dodge(g) || one_in(g->u.dodge(g)))
-   g->u.infect("boomered", bp_eyes, 3, 12, g);
+   g->u.infect("boomered", bp_eyes, 3, 12, 1, 1);
   else if (u_see)
    g->add_msg(_("You dodge it!"));
   g->u.practice(g->turn, "dodge", 10);
@@ -695,7 +695,7 @@ void mattack::fungus(game *g, monster *z)
                         g->kill_mon(mondex, (z->friendly != 0));
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
-                    g->u.infect("spores", bp_mouth, 4, 30, g); // Spores hit the player
+                    g->u.infect("spores", bp_mouth, 4, 30, 1, 3); // Spores hit the player
                 } else if (one_in(16)) { // Spawn a spore
                     spore.spawn(sporex, sporey);
                     g->add_zombie(spore);

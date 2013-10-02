@@ -482,7 +482,7 @@ void trapfunc::goo(game *g, int x, int y)
 {
  g->add_msg(_("You step in a puddle of thick goo."));
  g->u.add_memorial_log(_("Stepped into thick goo."));
- g->u.infect("slimed", bp_feet, 6, 20, g);
+ g->u.infect("slimed", bp_feet, 6, 20, 1, 1);
  if (one_in(3)) {
   g->add_msg(_("The acidic goo eats away at your feet."));
   g->u.hit(g, bp_feet, 0, 0, 5);

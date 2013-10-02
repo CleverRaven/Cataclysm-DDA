@@ -1081,11 +1081,11 @@ void map::step_in_field(int x, int y, game *g)
             //Get smoke disease from standing in smoke.
             if (cur->getFieldDensity() == 3 && !inside)
             {
-                g->u.infect("smoke", bp_mouth, 4, 15, g);
+                g->u.infect("smoke", bp_mouth, 4, 15, 1, 1);
             } else if (cur->getFieldDensity() == 2 && !inside){
-                g->u.infect("smoke", bp_mouth, 2, 7, g);
+                g->u.infect("smoke", bp_mouth, 2, 7, 1, 1);
             } else if (cur->getFieldDensity() == 1 && !inside && one_in(2)) {
-                g->u.infect("smoke", bp_mouth, 1, 2, g);
+                g->u.infect("smoke", bp_mouth, 1, 2, 1, 1);
             }
             break;
 
@@ -1093,11 +1093,11 @@ void map::step_in_field(int x, int y, game *g)
             //Tear gas will both give you teargas disease and/or blind you.
             if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
-                g->u.infect("teargas", bp_mouth, 5, 20, g);
+                g->u.infect("teargas", bp_mouth, 5, 20, 1, 1);
             }
             if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
             {
-                g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10, g);
+                g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10, 1, 1);
             }
             break;
 
@@ -1105,13 +1105,13 @@ void map::step_in_field(int x, int y, game *g)
             // Toxic gas at low levels poisons you.
             // Toxic gas at high levels will cause very nasty poison.
             if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside))) {
-                g->u.infect("poison", bp_mouth, 5, 30, g);
+                g->u.infect("poison", bp_mouth, 5, 30, 1, 1);
             }
             else if (cur->getFieldDensity() == 3 && !inside)
             {
-                g->u.infect("badpoison", bp_mouth, 5, 30, g);
+                g->u.infect("badpoison", bp_mouth, 5, 30, 1, 1);
             } else if (cur->getFieldDensity() == 1 && (!inside)) {
-                g->u.infect("poison", bp_mouth, 2, 10, g);
+                g->u.infect("poison", bp_mouth, 2, 10, 1, 1);
             }
             break;
 
