@@ -693,7 +693,7 @@ FLAGS(MF_NOHEAD, MF_IMMOBILE, MF_QUEEN);
 
 mon(_("fungaloid"),species_fungus, 'F', c_ltgray, MS_MEDIUM, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-  12,  0,100, 45,  8,  3,  3,  0,  0,  4,  0,  0, 80, 200,
+  12,  0,100, 45,  8,  3,  3,  0,  0,  4,  0,  0, 80, 25,
  &mdeath::fungus, &mattack::fungus, _("\
 A pale white fungus, one meaty gray stalk\n\
 supporting a bloom at the top. A few\n\

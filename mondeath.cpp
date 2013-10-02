@@ -186,30 +186,34 @@ void mdeath::triffid_heart(game *g, monster *z)
 
 void mdeath::fungus(game *g, monster *z)
 {
- monster spore(g->mtypes[mon_spore]);
- int sporex, sporey;
- //~ the sound of a fungus dying
- g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
- for (int i = -1; i <= 1; i++) {
-  for (int j = -1; j <= 1; j++) {
-   sporex = z->posx() + i;
-   sporey = z->posy() + j;
-   if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
-    if (g->mon_at(sporex, sporey) >= 0) { // Spores hit a monster
-     if (g->u_see(sporex, sporey))
-      g->add_msg(_("The %s is covered in tiny spores!"),
-                 g->zombie(g->mon_at(sporex, sporey)).name().c_str());
-     if (!g->zombie(g->mon_at(sporex, sporey)).make_fungus(g))
-      g->kill_mon(g->mon_at(sporex, sporey), (z->friendly != 0));
-    } else if (g->u.posx == sporex && g->u.posy == sporey)
-     g->u.infect("spores", bp_mouth, 4, 30, g);
-    else {
-     spore.spawn(sporex, sporey);
-     g->add_zombie(spore);
+    monster spore(g->mtypes[mon_spore]);
+    int sporex, sporey;
+    int mondex;
+    //~ the sound of a fungus dying
+    g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            sporex = z->posx() + i;
+            sporey = z->posy() + j;
+            mondex = g->mon_at(sporex, sporey);
+            if (g->m.move_cost(sporex, sporey) > 0 && one_in(2)) {
+                if (mondex != -1) { // Spores hit a monster
+                    if (g->u_see(sporex, sporey)) {
+                        g->add_msg(_("The %s is covered in tiny spores!"),
+                                        g->zombie(mondex).name().c_str());
+                    }
+                    if (!g->zombie(mondex).make_fungus(g)) {
+                        g->kill_mon(mondex, (z->friendly != 0));
+                    }
+                } else if (g->u.posx == sporex && g->u.posy == sporey) {
+                    g->u.infect("spores", bp_mouth, 4, 30, g); // Spores hit the player
+                } else if (one_in(16)) { // Spawn a spore
+                    spore.spawn(sporex, sporey);
+                    g->add_zombie(spore);
+                }
+            }
+        }
     }
-   }
-  }
- }
 }
 
 void mdeath::fungusawake(game *g, monster *z)

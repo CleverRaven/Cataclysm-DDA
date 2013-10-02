@@ -666,9 +666,6 @@ void mattack::triffid_heartbeat(game *g, monster *z)
 
 void mattack::fungus(game *g, monster *z)
 {
-    if (g->num_zombies() > 100) {
-        return; // Prevent crowding the monster list.
-    }
     // TODO: Infect NPCs?
     z->moves = -200;   // It takes a while
     z->sp_timeout = z->type->sp_freq; // Reset timer
@@ -688,7 +685,7 @@ void mattack::fungus(game *g, monster *z)
             sporex = z->posx() + i;
             sporey = z->posy() + j;
             mondex = g->mon_at(sporex, sporey);
-            if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
+            if (g->m.move_cost(sporex, sporey) > 0 && one_in(2)) {
                 if (mondex != -1) { // Spores hit a monster
                     if (g->u_see(sporex, sporey)) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
@@ -699,7 +696,7 @@ void mattack::fungus(game *g, monster *z)
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     g->u.infect("spores", bp_mouth, 4, 30, g); // Spores hit the player
-                } else { // Spawn a spore
+                } else if (one_in(16)) { // Spawn a spore
                     spore.spawn(sporex, sporey);
                     g->add_zombie(spore);
                 }

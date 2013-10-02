@@ -193,7 +193,6 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_SPORES:
         g->add_msg(_("You're covered in tiny spores!"));
-        g->u.add_memorial_log(_("Contracted a fungal infection."));
         break;
     case DI_SLIMED:
         g->add_msg(_("You're covered in thick goo!"));
@@ -271,7 +270,7 @@ void dis_remove_memorial(dis_type type_string) {
     case DI_ONFIRE:
       g->u.add_memorial_log(_("Put out the fire."));
       break;
-    case DI_SPORES:
+    case DI_FUNGUS:
       g->u.add_memorial_log(_("Cured the fungal infection."));
       break;
     case DI_DERMATIK:
@@ -739,9 +738,9 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_SPORES:
-            if (one_in(30)) {
-            // if (one_in(50-p.health)) {  ?
+            if (one_in(10)) {
                 p.add_disease("fungus", -1);
+                g->u.add_memorial_log(_("Contracted a fungal infection."));
             }
             break;
 
@@ -2059,9 +2058,12 @@ void manage_fungal_infection(player& p, disease& dis) {
         monster spore(g->mtypes[mon_spore]);
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) {
+                    continue;
+                }
                 sporex = p.posx + i;
                 sporey = p.posy + j;
-                if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
+                if (g->m.move_cost(sporex, sporey) > 0 && one_in(2)) {
                     const int zid = g->mon_at(sporex, sporey);
                     if (zid >= 0) {  // Spores hit a monster
                         if (g->u_see(sporex, sporey)) {
@@ -2071,7 +2073,7 @@ void manage_fungal_infection(player& p, disease& dis) {
                         if (!g->zombie(zid).make_fungus(g)) {
                             g->kill_mon(zid);
                         }
-                    } else {
+                    } else if (one_in(16)){
                         spore.spawn(sporex, sporey);
                         g->add_zombie(spore);
                     }
