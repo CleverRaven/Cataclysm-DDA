@@ -6,12 +6,12 @@
 
 #DEON's TILESET
 #JSON Path - Default of gfx/tile_config.json
-JSON: gfx/DeonTileset/tile_config.json
+#JSON: gfx/DeonTileset/tile_config.json
 #Tileset Path - Default of gfx/tinytile.png
-TILESET: gfx/DeonTileset/deontiles.png
+#TILESET: gfx/DeonTileset/deontiles.png
 
 #HODER'S TILESET -- Commented out
 #JSON Path - Default of gfx/tile_config.json
-#JSON: gfx/HoderTileset/tile_config.json
+JSON: gfx/HoderTileset/tile_config.json
 #Tileset Path - Default of gfx/tinytile.png
-#TILESET: gfx/HoderTileset/hodertiles.png
+TILESET: gfx/HoderTileset/hodertiles.png
