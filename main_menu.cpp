@@ -26,8 +26,9 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     //Clear Lines
     werase(w_open);
 
-    for (int i = 1; i < 79; i++)
+    for (int i = 1; i < FULL_SCREEN_WIDTH-1; ++i) {
         mvwputch(w_open, FULL_SCREEN_HEIGHT-2, i, c_white, LINE_OXOX);
+    }
 
     mvwprintz(w_open, FULL_SCREEN_HEIGHT-1, 5, c_red, _("Please report bugs to kevin.granade@gmail.com or post on the forums."));
 
