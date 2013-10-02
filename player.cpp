@@ -6574,7 +6574,7 @@ bool player::wear(game *g, char let, bool interactive)
         to_wear = &inv.item_by_letter(let);
     }
 
-    if (to_wear == NULL)
+    if (to_wear->is_null())
     {
         if(interactive)
         {
