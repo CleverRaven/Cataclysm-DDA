@@ -100,32 +100,35 @@ void mattack::rattle(game *g, monster *z)
 
 void mattack::acid(game *g, monster *z)
 {
- int junk;
- if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 10 ||
-     !g->sees_u(z->posx(), z->posy(), junk))
-  return; // Out of range
- z->moves = -300;   // It takes a while
- z->sp_timeout = z->type->sp_freq; // Reset timer
- g->sound(z->posx(), z->posy(), 4, _("a spitting noise."));
- int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
- std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
- for (int i = 0; i < line.size(); i++) {
-  if (g->m.hit_with_acid(g, line[i].x, line[i].y)) {
-   if (g->u_see(line[i].x, line[i].y))
-    g->add_msg(_("A glob of acid hits the %s!"),
-               g->m.tername(line[i].x, line[i].y).c_str());
-   return;
-  }
- }
- for (int i = -3; i <= 3; i++) {
-  for (int j = -3; j <= 3; j++) {
-   if (g->m.move_cost(hitx + i, hity +j) > 0 &&
-       g->m.sees(hitx + i, hity + j, hitx, hity, 6, junk) &&
-       ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
-     g->m.add_field(g, hitx + i, hity + j, fd_acid, 2);
-   }
-  }
- }
+    int t;
+    int junk = 0;
+    if (!g->sees_u(z->posx(), z->posy(), t) ||
+       !g->m.clear_path(z->posx(), z->posy(), g->u.posx, g->u.posy, 10, 1, 100, junk)) {
+        return; // Can't see/reach you, no attack
+    }
+    z->moves = -300;   // It takes a while
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    g->sound(z->posx(), z->posy(), 4, _("a spitting noise."));
+    int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
+    std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
+    for (int i = 0; i < line.size(); i++) {
+        if (g->m.hit_with_acid(g, line[i].x, line[i].y)) {
+            if (g->u_see(line[i].x, line[i].y)) {
+                g->add_msg(_("A glob of acid hits the %s!"),
+                              g->m.tername(line[i].x, line[i].y).c_str());
+            }
+            return;
+        }
+    }
+    for (int i = -3; i <= 3; i++) {
+        for (int j = -3; j <= 3; j++) {
+            if (g->m.move_cost(hitx + i, hity +j) > 0 &&
+                 g->m.sees(hitx + i, hity + j, hitx, hity, 6, junk) &&
+                 ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
+                g->m.add_field(g, hitx + i, hity + j, fd_acid, 2);
+            }
+        }
+    }
 }
 
 void mattack::shockstorm(game *g, monster *z)
