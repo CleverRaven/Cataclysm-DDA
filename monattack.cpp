@@ -820,7 +820,7 @@ void mattack::dermatik(game *g, monster *z)
   targeted = bp_hands;
  else if (one_in(5))
   targeted = bp_feet;
- if (g->u.armor_cut(targeted) >= 2) {
+ if (one_in(g->u.armor_cut(targeted) / 3)) {
   g->add_msg(_("The %s lands on your %s, but can't penetrate your armor."),
              z->name().c_str(), body_part_name(targeted, rng(0, 1)).c_str());
   z->moves -= 150; // Attemped laying takes a while
