@@ -2274,7 +2274,7 @@
         "description" : "8x40mm caseless rounds, saboted high-velocity penetrator type. Advanced military grade, armor-piercing ammunition that fires a single depleted uranium flechette. Being caseless rounds, these cannot be disassembled or reloaded.",
         "material" : "steel",
         "volume" : 1,
-        "weight" : 9,
+        "weight" : 13,
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
