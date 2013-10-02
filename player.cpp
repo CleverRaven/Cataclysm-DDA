@@ -4374,7 +4374,8 @@ void player::breath(game *g, int times)
             else if (smoke_density > 0)
             {
                 // for now, limit inhaled amount if we would 'infect'
-                int smoke_chance = dice(smoke_density, 3) && (smoke_density == 1) ? one_in(2) : 1;
+                // if we are in very light smoke, low chance of very small inhale. 
+                int smoke_chance = (smoke_density == 1 && one_in(2)) ? 1 : dice(smoke_density, 3);
                 if (smoke_chance > dice(resist(bp_mouth), 3)) {
                     inhaled += 3;
                 }
