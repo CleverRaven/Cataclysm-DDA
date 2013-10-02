@@ -4358,7 +4358,7 @@ void player::breath(game *g, int times)
                     inhaled += 10;
                     power_level--;
                 }
-                else
+                else if (blood-oxygen < 900)
                 {
                     g->add_msg(_("You're drowning!"));
                 }
