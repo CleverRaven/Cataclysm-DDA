@@ -7297,6 +7297,15 @@ void game::pickup(int posx, int posy, int min)
             veh->refill("water", amt);
           }
         }
+        if (veh->fuel_left("battery") > 0) { //Will be -1 if no battery at all
+          if (query_yn(_("Use hotplate?"))) {
+          item tmp = hotplate, 1;
+          tmp.charges = veh->drain(battery, quantity);
+          quantity -= tmp.charges;
+          ret.push_back(tmp);
+          use_item hotplate
+            }
+          }
         if (query_yn(_("Have a drink?"))) {
           veh->drain("water", 1);
 
