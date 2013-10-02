@@ -93,6 +93,25 @@ int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color base
     return textformatted.size();
 };
 
+void centre_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
+{
+    va_list ap;
+    va_start(ap,mes);
+    char buff[6000];    //TODO replace Magic Number
+    vsprintf(buff, mes, ap);
+    va_end(ap);
+
+    int window_width = getmaxx(w);
+    int string_width = utf8_width(buff);
+    int x;
+    if (string_width >= window_width) {
+        x = 0;
+    } else {
+        x = (window_width - string_width) / 2;
+    }
+    mvwprintz(w, y, x, FG, buff);
+}
+
 void mvputch(int y, int x, nc_color FG, long ch)
 {
  attron(FG);
