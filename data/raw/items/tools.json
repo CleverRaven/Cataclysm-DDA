@@ -18,7 +18,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LIGHTER"
+    "use_action": "LIGHTER",
+    "qualities": [["FIRE_SOURCE", 1]]
   },
 
   {

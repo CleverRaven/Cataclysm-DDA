@@ -1028,6 +1028,19 @@ bool item::has_flag(std::string f) const
     return ret;
 }
 
+bool item::has_quality(std::string quality_name) const {
+    return has_quality(quality_name, 1);
+}
+
+bool item::has_quality(std::string quality_name, int quality_value) const {
+    bool ret = false;
+
+    if(type->qualities.size() > 0){
+      ret = true;
+    }
+    return ret;
+}
+
 bool item::has_technique(matec_id tech, player *p)
 {
     return type->techniques.count(tech);
