@@ -439,92 +439,85 @@ bool vehicle::can_stack_vpart_flag(std::string vpart_flag) {
 
 }
 
+bool vehicle::has_structural_part(int dx, int dy)
+{
+    std::vector<int> parts_here = parts_at_relative(dx, dy);
+
+    for( std::vector<int>::iterator it = parts_here.begin(); it != parts_here.end(); ++it ) {
+        if(part_info(*it).location == "structure" && !part_info(*it).has_flag("PROTRUSION")) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Returns whether or not the vehicle part with the given id can be mounted in
+ * the specified square.
+ * @param dx The local x-coordinate to mount in.
+ * @param dy The local y-coordinate to mount in.
+ * @param id The id of the part to install.
+ * @return true if the part can be mounted, false if not.
+ */
 bool vehicle::can_mount (int dx, int dy, std::string id)
 {
+    //The part has to actually exist.
     if(vehicle_part_types.count(id) == 0) {
-      return false;
+        return false;
     }
-    bool n3ar = parts.size() < 1 || vehicle_part_types[id].has_flag("INTERNAL")
-                                 || vehicle_part_types[id].has_flag("OVER"); // first and internal parts needs no mount point
-    if (!n3ar) {
-        for (int i = 0; i < 4; i++)
-        {
-            int ndx = i < 2? (i == 0? -1 : 1) : 0;
-            int ndy = i < 2? 0 : (i == 2? - 1: 1);
-            std::vector<int> parts_n3ar = parts_at_relative (dx + ndx, dy + ndy);
-            if (parts_n3ar.empty()) {
-                continue;
-            }
-            if (part_flag(parts_n3ar[0], "MOUNT_POINT"))
-            {
-                n3ar = true;
-                break;
-            }
+
+    //It also has to be a real part, not the null part
+    vpart_info part = vehicle_part_types[id];
+    if(part.has_flag("NOINSTALL")) {
+        return false;
+    }
+
+    std::vector<int> parts_in_square = parts_at_relative(dx, dy);
+
+    //First part in an empty square MUST be a structural part
+    if(parts_in_square.empty() && part.location != "structure") {
+        return false;
+    }
+
+    //No part type can stack with itself, or any other part in the same slot
+    for(int index = 0; index < parts_in_square.size(); index++) {
+
+        vpart_info other_part = vehicle_part_types[parts[parts_in_square[index]].id];
+        
+        if(part.id == other_part.id || part.location == other_part.location) {
+            return false;
         }
-    }
-    if (!n3ar)
-    {
-        return false; // no point to mount
+
     }
 
-    std::vector<int> parts_here = parts_at_relative (dx, dy);
-    if (parts_here.empty())
-    {
-        int res = vehicle_part_types[id].has_flag("EXTERNAL");
-        return res; // can be mounted if first and external
-    }
-
-    // Override for replacing a tire.
-    if( vehicle_part_types[id].has_flag("WHEEL") &&
-        -1 != part_with_feature(parts_here[0], "WHEEL", false) )
-    {
-        return true;
-    }
-
-    vpart_info existing_part = part_info(parts_here[0]);
-    if ((vehicle_part_types[id].has_flag("ARMOR")) && existing_part.has_flag("NO_REINFORCE"))
-    {
-        return false;   // trying to put armor plates on non-reinforcable part
-    }
-    // Seatbelts require an anchor point
-    if( vehicle_part_types[id].has_flag("SEATBELT") )
-    {
-        bool anchor_found = false;
-        for( std::vector<int>::iterator it = parts_here.begin();
-             it != parts_here.end(); ++it )
-        {
-            if( part_info(*it).has_flag("ANCHOR_POINT") )
-            {
-                anchor_found = true;
-            }
-        }
-        if( anchor_found == false)
-        {
+    //All parts after the first must be installed on or next to an existing part
+    if(parts.size() > 0) {
+        if(!has_structural_part(dx, dy) &&
+                !has_structural_part(dx+1, dy) &&
+                !has_structural_part(dx, dy+1) &&
+                !has_structural_part(dx-1, dy) &&
+                !has_structural_part(dx, dy-1)) {
             return false;
         }
     }
 
-    std::set<std::string> vpart_flags = vehicle_part_types[id].flags;
-    for (std::set<std::string>::iterator flag_iterator = vpart_flags.begin();
-            flag_iterator != vpart_flags.end(); ++flag_iterator) {
-        std::string next_flag = *flag_iterator;
-        if(part_with_feature(parts_here[0], next_flag, false) >= 0
-                && !can_stack_vpart_flag(next_flag)) {
-            return false;   // this part already has inner part with same unique feature
+    //Seatbelts must be installed on a seat
+    if(vehicle_part_types[id].has_flag("SEATBELT")) {
+        bool anchor_found = false;
+        std::vector<int> parts_here = parts_at_relative(dx, dy);
+        for( std::vector<int>::iterator it = parts_here.begin();
+             it != parts_here.end(); ++it ) {
+            if(part_info(*it).has_flag("BELTABLE")) {
+                anchor_found = true;
+            }
+        }
+        if(!anchor_found) {
+            return false;
         }
     }
 
-    bool allow_inner = existing_part.has_flag("MOUNT_INNER");
-    bool allow_over  = existing_part.has_flag("MOUNT_OVER");
-    bool this_inner  = vehicle_part_types[id].has_flag("INTERNAL");
-    bool this_over   = (vehicle_part_types[id].has_flag("OVER")) || (vehicle_part_types[id].has_flag("ARMOR"));
-    if (allow_inner && (this_inner || this_over)) {
-        return true; // can mount as internal part or over it
-    }
-    if (allow_over && this_over) {
-        return true; // can mount as part over
-    }
-    return false;
+    //Anything not explicitly denied is permitted
+    return true;
 }
 
 bool vehicle::can_unmount (int p)
