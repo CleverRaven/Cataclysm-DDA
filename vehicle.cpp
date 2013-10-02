@@ -2450,7 +2450,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     if( g->u_see(x, y) ) {
         g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
-    player tmp;
+    npc tmp;
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
     tmp.skillLevel(gun.skill_used).level(1);
     tmp.skillLevel("gun").level(0);
