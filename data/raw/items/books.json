@@ -377,6 +377,27 @@
         "price" : 45,
         "required_level" : 0
     },
+    {
+        "type" : "BOOK",
+        "id" : "manual_rifle",
+        "name" : "FM 23-16 Army marksmanship manual",
+        "max_level" : 3,
+        "description" : "A hefty military field manual about automatic rifle usage and techniques which improve marksmanship and proper weapons-handling.",
+        "weight" : 454,
+        "to_hit" : 0,
+        "color" : "green",
+        "intelligence" : 4,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -5,
+        "cutting" : 0,
+        "time" : 18,
+        "fun" : 0,
+        "skill" : "rifle",
+        "price" : 200,
+        "required_level" : 0
+    },
 	{
         "type" : "BOOK",
         "id" : "mag_shotgun",
