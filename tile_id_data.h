@@ -411,7 +411,13 @@ const std::string monster_names[num_monsters] =
     
     toString(mon_hallu_mom),
 
-    toString(mon_generator)
+    toString(mon_generator),
+// post 0.8
+    toString(mon_turkey),
+    toString(mon_raccoon),
+    toString(mon_opossum),
+    toString(mon_rattlesnake),
+    toString(mon_giant_crayfish)
 };
 const std::string furn_names[num_furniture_types] =
 {

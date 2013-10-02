@@ -22,8 +22,6 @@
 #include "artifact.h"
 #include "mutation.h"
 #include "gamemode.h"
-#include "action.h"
-#include "translations.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -126,12 +124,6 @@ class game
   void add_msg_if_player(player *p, const char* msg, ...);
   void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
   std::vector<game_message> recent_messages(const int count); //Retrieves the last X messages
-  std::string press_x(action_id act); // (Press X (or Y)|Try) to Z
-  std::string press_x(action_id act, std::string key_bound,
-                                     std::string key_unbound);
-  std::string press_x(action_id act, std::string key_bound_pre,
-          std::string key_bound_suf, std::string key_unbound);
-  std::string press_x(action_id act, std::string act_desc); // ('Z'ing|zing) (X( or Y)))
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
@@ -289,8 +281,6 @@ class game
 
   std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
-  std::map<char, action_id> keymap;
-  std::map<char, action_id> default_keymap;
 
   calendar turn;
   signed char temperature;              // The air temperature
@@ -407,13 +397,7 @@ void load_artifacts(); // Load artifact data
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
   void init_parrot_speech() throw (std::string);  // Initializes Mi-Go parrot speech
-
-  void load_keyboard_settings(); // Load keybindings from disk
-
-  void save_keymap(); // Save keybindings to disk
-  std::vector<char> keys_bound_to(action_id act); // All keys bound to act
-  void clear_bindings(action_id act); // Deletes all keys bound to act
-
+  void init_savedata_translation_tables();
   void create_factions(); // Creates new factions (for a new game world)
   void load_npcs(); //Make any nearby NPCs from the overmap active.
   void create_starting_npcs(); // Creates NPCs that start near you
@@ -489,9 +473,6 @@ void load_artifacts(); // Load artifact data
   void read(); // Read a book  'R' (or 'a')
   void chat(); // Talk to a nearby NPC  'C'
   void plthrow(char chInput = '.'); // Throw an item  't'
-  void help(); // Help screen  '?'
-  void show_options(); // Options screen  '?1'
-  void show_auto_pickup(); // Auto pickup manage screen  '?3'
 
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
@@ -549,7 +530,7 @@ void load_artifacts(); // Load artifact data
 
 // ########################## DATA ################################
 
-  std::vector<monster> _z;
+  std::vector<monster> _active_monsters;
   std::map<point, int> z_at;
 
   signed char last_target; // The last monster targeted

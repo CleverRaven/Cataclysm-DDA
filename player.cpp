@@ -307,11 +307,6 @@ void player::normalize(game *g)
 
 void player::pick_name() {
     name = Name::generate(male);
-    if (OPTIONS["ALLITERATE_NAME"]) {
-        while (name[0] != name[name.find(" ")+1]) {
-            name = Name::generate(male);
-        } 
-    }
 }
 
 void player::reset(game *g)
@@ -1948,9 +1943,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 // Next, draw encumberment.
  std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
- int iEnc, iLayers, iArmorEnc, iWarmth;
+ int iEnc, iArmorEnc, iWarmth;
+ double iLayers;
 
- const char *title_ENCUMB = _("ENCUMBERANCE AND WARMTH");
+ const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
  mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
  for (int i=0; i < 8; i++) {
   iLayers = iArmorEnc = 0;
@@ -2277,7 +2273,7 @@ Melee attacks cost %+d movement points"), -encumb(bp_torso), -encumb(bp_torso),
    } else if (line == 1) {
     mvwprintz(w_encumb, 2, 1, h_ltgray, _("Head"));
     mvwprintz(w_info, 0, 0, c_magenta, _("\
-Head encumberance has no effect; it simply limits how much you can put on."));
+Head encumbrance has no effect; it simply limits how much you can put on."));
    } else if (line == 2) {
     mvwprintz(w_encumb, 3, 1, h_ltgray, _("Eyes"));
     mvwprintz(w_info, 0, 0, c_magenta, _("\
@@ -3630,9 +3626,9 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  break;
  case bp_hands: // Fall through to arms
  case bp_arms:
-  if (side == 1 || side == 3 || weapon.is_two_handed(this))
+  if (side == 1 || weapon.is_two_handed(this))
    recoil += int(dam / 3);
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_arm_l] -= dam;
    if (hp_cur[hp_arm_l] < 0)
    {
@@ -3640,7 +3636,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
     hp_cur[hp_arm_l] = 0;
    }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_arm_r] -= dam;
    if (hp_cur[hp_arm_r] < 0)
    {
@@ -3651,7 +3647,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  break;
  case bp_feet: // Fall through to legs
  case bp_legs:
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_leg_l] -= dam;
    if (hp_cur[hp_leg_l] < 0)
    {
@@ -3659,7 +3655,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
     hp_cur[hp_leg_l] = 0;
    }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_leg_r] -= dam;
    if (hp_cur[hp_leg_r] < 0)
    {
@@ -3722,7 +3718,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  break;
  case bp_hands: // Fall through to arms
  case bp_arms:
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_arm_l] -= dam;
    if (hp_cur[hp_arm_l] < 0)
    {
@@ -3730,7 +3726,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
     hp_cur[hp_arm_l] = 0;
    }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_arm_r] -= dam;
    if (hp_cur[hp_arm_r] < 0)
    {
@@ -3741,7 +3737,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  break;
  case bp_feet: // Fall through to legs
  case bp_legs:
-  if (side == 0 || side == 3) {
+  if (side == 0) {
    hp_cur[hp_leg_l] -= dam;
    if (hp_cur[hp_leg_l] < 0)
    {
@@ -3749,7 +3745,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
     hp_cur[hp_leg_l] = 0;
    }
   }
-  if (side == 1 || side == 3) {
+  if (side == 1) {
    hp_cur[hp_leg_r] -= dam;
    if (hp_cur[hp_leg_r] < 0)
    {
@@ -3765,6 +3761,38 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease("adrenaline", 200);
   lifetime_stats()->damage_taken+=dam;
+}
+
+void player::hurt(hp_part hurt, int dam)
+{
+    int painadd = 0;
+    if (has_disease("sleep") && rng(0, dam) > 2) {
+        g->add_msg(_("You wake up!"));
+        rem_disease("sleep");
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
+
+    if (dam <= 0)
+        return;
+
+    if (!is_npc()) {
+        g->cancel_activity_query(_("You were hurt!"));
+    }
+
+    if (has_trait("PAINRESIST")) {
+        painadd = dam / 3;
+    } else {
+        painadd = dam / 2;
+    }
+        pain += painadd;
+
+    hp_cur[hurt] -= dam;
+    if (hp_cur[hurt] < 0) {
+        lifetime_stats()->damage_taken+=hp_cur[hurt];
+        hp_cur[hurt] = 0;
+    }
+    lifetime_stats()->damage_taken+=dam;
 }
 
 void player::heal(body_part healed, int side, int dam)
@@ -3931,9 +3959,10 @@ void player::knock_back_from(game *g, int x, int y)
 // If we're still in the function at this point, we're actually moving a tile!
  if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
 
-  if (g->m.has_flag(liquid, to.x, to.y)) {
-   if (!is_npc())
+  if (g->m.has_flag("LIQUID", to.x, to.y)) {
+   if (!is_npc()) {
     g->plswim(to.x, to.y);
+   }
 // TODO: NPCs can't swim!
   } else { // It's some kind of wall.
    hurt(g, bp_torso, 0, 3);
@@ -3946,6 +3975,63 @@ void player::knock_back_from(game *g, int x, int y)
   posx = to.x;
   posy = to.y;
  }
+}
+
+void player::bp_convert(hp_part &hpart, body_part bp, int side)
+{
+    hpart =  num_hp_parts;
+    switch(bp) {
+        case bp_head:
+            hpart = hp_head;
+            break;
+        case bp_torso:
+            hpart = hp_torso;
+            break;
+        case bp_arms:
+            if (side == 0) {
+                hpart = hp_arm_l;
+            } else {
+                hpart = hp_arm_r;
+            }
+            break;
+        case bp_legs:
+            if (side == 0) {
+                hpart = hp_leg_l;
+            } else {
+                hpart = hp_leg_r;
+            }
+            break;
+    }
+}
+
+void player::hp_convert(hp_part hpart, body_part &bp, int &side)
+{
+    bp =  num_bp;
+    side = -1;
+    switch(hpart) {
+        case hp_head:
+            bp = bp_head;
+            break;
+        case hp_torso:
+            bp = bp_torso;
+            break;
+        case hp_arm_l:
+            bp = bp_arms;
+            side = 0;
+            break;
+        case hp_arm_r:
+            bp = bp_arms;
+            side = 1;
+            break;
+        case hp_leg_l:
+            bp = bp_legs;
+            side = 0;
+            break;
+        case hp_leg_r:
+            bp = bp_legs;
+            side = 1;
+            break;
+    }
 }
 
 int player::hp_percentage()
@@ -4025,10 +4111,25 @@ void player::infect(dis_type type, body_part vector, int strength,
 
 void player::add_disease(dis_type type, int duration,
                          int intensity, int max_intensity,
-                         body_part part, int side)
+                         body_part part, int side, bool main_parts_only, 
+                         int additive)
 {
-    if (duration == 0) {
+    if (duration <= 0) {
         return;
+    }
+
+    if (hp_cur[part] == 0) {
+        return;
+    }
+
+    if (main_parts_only) {
+        if (part == bp_eyes || part == bp_mouth) {
+            part = bp_head;
+        } else if (part == bp_hands) {
+            part = bp_arms;
+        } else if (part == bp_feet) {
+            part = bp_legs;
+        }
     }
 
     bool found = false;
@@ -4046,7 +4147,14 @@ void player::add_disease(dis_type type, int duration,
                 return;
             }
             if (illness[i].bp == part && illness[i].side == side) {
-                illness[i].duration += duration;
+                if (additive > 0) {
+                    illness[i].duration += duration;
+                } else if (additive < 0) {
+                    illness[i].duration -= duration;
+                    if (illness[i].duration <= 0) {
+                        illness[i].duration = 1;
+                    }
+                }
                 illness[i].intensity += intensity;
                 if (max_intensity != -1 && illness[i].intensity > max_intensity) {
                     illness[i].intensity = max_intensity;
@@ -4096,15 +4204,20 @@ bool player::has_disease(dis_type type, body_part part, int side) const
     return false;
 }
 
-int player::disease_level(dis_type type, body_part part, int side)
+int player::disease_duration(dis_type type, bool all, body_part part, int side)
 {
+    int tmp = 0;
     for (int i = 0; i < illness.size(); i++) {
         if (illness[i].type == type && illness[i].bp == part &&
             illness[i].side == side) {
-            return illness[i].duration;
+            if (all == false) {
+                return illness[i].duration;
+            } else {
+                tmp += illness[i].duration;
+            }
         }
     }
-    return 0;
+    return tmp;
 }
 
 int player::disease_intensity(dis_type type, body_part part, int side)
@@ -4203,13 +4316,6 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     } else {
         return false;
     }
-}
-
-void player::cauterize(game *g) {
- rem_disease("bleed");
- rem_disease("bite");
- pain += 15;
- g->add_msg_if_player(this,_("You cauterize yourself. It hurts like hell!"));
 }
 
 void player::suffer(game *g)
@@ -4597,7 +4703,7 @@ void player::suffer(game *g)
 
    if (power_armored && has_helmet) {
      radiation += 0; // Power armor protects completely from radiation
-   } else if (power_armored || is_wearing("hazmat_suit")) {
+   } else if (power_armored || is_wearing("hazmat_suit")|| is_wearing("aep_suit")) {
      radiation += rng(0, localRadiation / 40);
    } else {
      radiation += rng(0, localRadiation / 16);
@@ -5440,7 +5546,7 @@ std::list<item> player::use_amount(itype_id it, int quantity, bool use_container
  if (use_container && used_weapon_contents)
   remove_weapon();
 
- if (weapon.type->id == it) {
+ if (weapon.type->id == it && weapon.contents.size() == 0) {
   quantity--;
   ret.push_back(remove_weapon());
  }
@@ -6988,7 +7094,8 @@ void player::sort_armor(game *g)
         // Player encumbrance - altered copy of '@' screen
         mvwprintz(w_sort_middle, cont_h - 9, 1, c_white, _("Encumbrance and Warmth"));
         for (int i = 0; i < num_bp; i++) {
-            int enc, layers, armorenc;
+            int enc, armorenc;
+            double layers;
             layers = armorenc = 0;
             enc = encumb(body_part(i), layers, armorenc);
             if (leftListSize && (each_armor->covers & mfb(i))) {
@@ -7951,11 +8058,12 @@ int player::warmth(body_part bp)
 }
 
 int player::encumb(body_part bp) {
- int iLayers = 0, iArmorEnc = 0;
+ int iArmorEnc = 0;
+ double iLayers = 0;
  return encumb(bp, iLayers, iArmorEnc);
 }
 
-int player::encumb(body_part bp, int &layers, int &armorenc)
+int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
     it_armor* armor;
@@ -7976,12 +8084,12 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
                 armorenc += armor->encumber - 4;
             } else {
                 armorenc += armor->encumber;
-                // Fitted clothes will either reduce encumberance or negate layering.
+                // Fitted clothes will either reduce encumbrance or negate layering.
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( armor->encumber > 0 ) {
                         armorenc--;
                     } else {
-                        layers--;
+                        layers -= .5;
                     }
                 }
             }
@@ -7991,7 +8099,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
     ret += armorenc;
 
     if (layers > 1) {
-        ret += (layers - 1) * (bp == bp_torso ? .5 : 1);// Easier to layer on torso
+        ret += (int(layers) - 1) * (bp == bp_torso ? .75 : 1);// Easier to layer on torso
     }
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
         ret += 3;
@@ -8467,83 +8575,8 @@ std::string player::weapname(bool charges)
    dump << ")";
   }
   return dump.str();
- } else if (weapon.is_null())
+ } else if (weapon.is_null()) {
   return _("fists");
-
- else if (weapon.is_style()) { // Styles get bonus-bars!
-  std::stringstream dump;
-  dump << weapon.tname();
-
-  if(weapon.typeId() == "style_capoeira"){
-   if (has_disease("dodge_boost"))
-    dump << _(" +Dodge");
-   if (has_disease("attack_boost"))
-    dump << _(" +Attack");
-  } else if(weapon.typeId() == "style_ninjutsu"){
-  } else if(weapon.typeId() == "style_leopard"){
-   if (has_disease("attack_boost"))
-    dump << _(" +Attack");
-  } else if(weapon.typeId() == "style_crane"){
-   if (has_disease("dodge_boost"))
-    dump << _(" +Dodge");
-  } else if(weapon.typeId() == "style_dragon"){
-   if (has_disease("damage_boost"))
-    dump << _(" +Damage");
-  } else if(weapon.typeId() == "style_tiger"){
-   dump << " [";
-   int intensity = disease_intensity("damage_boost");
-   for (int i = 1; i <= 5; i++) {
-    if (intensity >= i * 2)
-     dump << "*";
-    else
-     dump << ".";
-   }
-   dump << "]";
-  } else if(weapon.typeId() == "style_centipede"){
-   dump << " [";
-   int intensity = disease_intensity("speed_boost");
-   for (int i = 1; i <= 8; i++) {
-    if (intensity >= i * 4)
-     dump << "*";
-    else
-     dump << ".";
-   }
-   dump << "]";
-  } else if(weapon.typeId() == "style_venom_snake"){
-   dump << " [";
-   int intensity = disease_intensity("viper_combo");
-   for (int i = 1; i <= 2; i++) {
-    if (intensity >= i)
-     dump << "C";
-    else
-     dump << ".";
-   }
-   dump << "]";
-  } else if(weapon.typeId() == "style_lizard"){
-   dump << " [";
-   int intensity = disease_intensity("attack_boost");
-   for (int i = 1; i <= 4; i++) {
-    if (intensity >= i)
-     dump << "*";
-    else
-     dump << ".";
-   }
-   dump << "]";
-  } else if(weapon.typeId() == "style_toad"){
-   dump << " [";
-   int intensity = disease_intensity("armor_boost");
-   for (int i = 1; i <= 5; i++) {
-    if (intensity >= 5 + i)
-     dump << "!";
-    else if (intensity >= i)
-     dump << "*";
-    else
-     dump << ".";
-    }
-    dump << "]";
-  }
-
-  return dump.str();
  } else
   return weapon.tname();
 }

@@ -9,6 +9,7 @@
 #include "crafting.h" // For the use_comps use_tools functions
 #include "item_factory.h"
 #include "catacharset.h"
+#include "action.h"
 #include <algorithm>
 
 bool will_flood_stop(map *m, bool (&fill)[SEEX * MAPSIZE][SEEY * MAPSIZE],
@@ -393,6 +394,10 @@ void game::init_construction()
  CONSTRUCT(_("Start vehicle construction"), 0, &construct::able_empty, &construct::done_vehicle);
   STAGE(10);
    COMP("frame", 1);
+   
+ CONSTRUCT(_("Start cart construction"), 0, &construct::able_empty, &construct::done_cart);
+  STAGE(10);
+   COMP("wheel_caster", 1);
 
  CONSTRUCT(_("Fence Posts"), 0, &construct::able_dig,
                              &construct::done_nothing);
@@ -877,7 +882,7 @@ void game::complete_construction()
 
 bool construct::able_empty(game *g, point p)
 {
- return (g->m.has_flag(flat, p.x, p.y) && !g->m.has_furn(p.x, p.y) &&
+ return (g->m.has_flag("FLAT", p.x, p.y) && !g->m.has_furn(p.x, p.y) &&
          g->is_empty(p.x, p.y) && g->m.tr_at(p.x, p.y) == tr_null);
 }
 
@@ -959,7 +964,7 @@ bool construct::able_wall_wood(game *g, point p)
 
 bool construct::able_dig(game *g, point p)
 {
- return (g->m.has_flag(diggable, p.x, p.y));
+ return (g->m.has_flag("DIGGABLE", p.x, p.y));
 }
 
 bool construct::able_chainlink(game *g, point p)
@@ -979,7 +984,7 @@ bool construct::able_between_walls(game *g, point p)
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
                 if (((dx == 0) ^ (dy == 0))
-                        && g->m.has_flag(supports_roof, p.x + dx, p.y + dy)) {
+                        && g->m.has_flag("SUPPORTS_ROOF", p.x + dx, p.y + dy)) {
                     num_supports++;
                 }
             }
@@ -990,7 +995,7 @@ bool construct::able_between_walls(game *g, point p)
 
 bool construct::able_deconstruct(game *g, point p)
 {
-  return (g->m.has_flag(deconstruct, p.x, p.y));
+  return (g->m.has_flag("DECONSTRUCT", p.x, p.y));
 }
 
 void construct::done_window_pane(game *g, point p)
@@ -1004,7 +1009,7 @@ void construct::done_move(game *g, point p)
     int x = 0, y = 0;
     //Keep looping until we get a valid direction or a cancel.
     while (true) {
-        do get_direction(g, x, y, input());
+        do get_direction(x, y, input());
         while (x == -2 || y == -2);
         if (x == 0 && y == 0) { return; }
         x += p.x;
@@ -1033,7 +1038,7 @@ void construct::done_tree(game *g, point p)
 {
     mvprintz(0, 0, c_red, _("Press a direction for the tree to fall in:"));
     int x = 0, y = 0;
-    do get_direction(g, x, y, input());
+    do get_direction(x, y, input());
     while (x == -2 || y == -2);
     x = p.x + x * 3 + rng(-1, 1);
     y = p.y + y * 3 + rng(-1, 1);
@@ -1071,6 +1076,27 @@ void construct::done_vehicle(game *g, point p)
     if (!veh)
     {
         debugmsg ("error constructing vehicle");
+        return;
+    }
+    veh->name = name;
+
+    //Update the vehicle cache immediately, or the vehicle will be invisible for the first couple of turns.
+    g->m.update_vehicle_cache(veh, true);
+
+}
+
+void construct::done_cart(game *g, point p)
+{
+    std::string name = string_input_popup(_("Enter new cart name:"), 20);
+    if(name.empty())
+    {
+        name = _("Cart");
+    }
+
+    vehicle *veh = g->m.add_vehicle (g, "custom_cart", p.x, p.y, 270, 0, 0);
+    if (!veh)
+    {
+        debugmsg ("error constructing cart");
         return;
     }
     veh->name = name;
@@ -1133,11 +1159,14 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(p.x, p.y, "scrap",       0, rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
         g->m.spawn_item(p.x, p.y, "element",     0, rng(1,4));
+        g->m.spawn_item(p.x, p.y, "pilot_light", 0, 1);
         g->m.furn_set(p.x, p.y, f_null);
       case f_fridge:
         g->m.spawn_item(p.x, p.y, "scrap", 0, rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
         g->m.spawn_item(p.x, p.y, "hose", 0, 1);
+        g->m.spawn_item(p.x, p.y, "cu_pipe", 0, rng(3, 6));
+
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case f_glass_fridge:
@@ -1145,6 +1174,7 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
         g->m.spawn_item(p.x, p.y, "hose", 0, 1);
         g->m.spawn_item(p.x, p.y, "glass_sheet", 0, 1);
+        g->m.spawn_item(p.x, p.y, "cu_pipe", 0, rng(3, 6));
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case f_counter:

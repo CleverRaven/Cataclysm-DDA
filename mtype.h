@@ -91,6 +91,9 @@ mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_hazmatbot, mon_copbot,
 mon_hallu_mom,
 // Special monsters
 mon_generator,
+// added post 0.8
+mon_turkey, mon_raccoon, mon_opossum, mon_rattlesnake,
+mon_giant_crayfish,
 num_monsters
 };
 

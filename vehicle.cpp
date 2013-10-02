@@ -146,7 +146,9 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
-            parts[p].open = one_in(4);
+            if(!parts[p].open && one_in(4)) {
+              open(p);
+            }
         }
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
@@ -422,6 +424,7 @@ bool vehicle::can_stack_vpart_flag(std::string vpart_flag) {
           vpart_flag == "MOUNT_INNER" ||
           vpart_flag == "MOUNT_OVER" ||
           vpart_flag == "ANCHOR_POINT" ||
+          vpart_flag == "VARIABLE_SIZE" ||
           vpart_flag == "OPAQUE" ||
           vpart_flag == "OBSTACLE" ||
           vpart_flag == "OPENABLE" ||
@@ -1118,7 +1121,7 @@ int vehicle::solar_power ()
             int part_x = global_x() + parts[p].precalc_dx[0];
             int part_y = global_y() + parts[p].precalc_dy[0];
             // Can't use g->in_sunlight() because it factors in vehicle roofs.
-            if( !g->m.has_flag_ter_or_furn( indoors, part_x, part_y ) ) {
+            if( !g->m.has_flag_ter_or_furn( "INDOORS", part_x, part_y ) ) {
                 pwr += (part_power(p) * g->natural_light_level()) / DAYLIGHT_LEVEL;
             }
         }
@@ -1606,13 +1609,13 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else {
             mass2 = 82;// player or NPC
         }
-    } else if (g->m.has_flag_ter_or_furn (thin_obstacle, x, y)) {
+    } else if (g->m.has_flag_ter_or_furn ("THIN_OBSTACLE", x, y)) {
         // if all above fails, go for terrain which might obstruct moving
         collision_type = veh_coll_thin_obstacle; // some fence
         mass2 = 10;
         e=0.30;
         part_dens = 20;
-    } else if (g->m.has_flag_ter_or_furn(bashable, x, y)) {
+    } else if (g->m.has_flag_ter_or_furn("BASHABLE", x, y)) {
         collision_type = veh_coll_bashable; // (door, window)
         mass2 = 50;
         e=0.30;
@@ -1622,7 +1625,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         mass2 = 200;
         e=0.30;
         part_dens = 60;
-    } else if (g->m.move_cost_ter_furn(x, y) == 0 && !g->m.has_flag_ter_or_furn(swimmable, x, y)) {
+    } else if (g->m.move_cost_ter_furn(x, y) == 0 && !g->m.has_flag_ter_or_furn("SWIMMABLE", x, y)) {
         collision_type = veh_coll_other; // not destructible
         mass2 = 1000;
         e=0.10;
@@ -1690,8 +1693,10 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         //Damage calculation
         //damage dealt overall
         dmg += abs(d_E / k_mvel);
-        //damage for vehicle-part
-        part_dmg = dmg * k / 100;
+        //damage for vehicle-part - only if not a hallucination
+        if(z && !z->is_hallucination()) {
+            part_dmg = dmg * k / 100;
+        }
         //damage for object
         const float obj_dmg  = dmg * (100-k)/100;
 
@@ -1731,16 +1736,17 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                 if (z_armor < 0) {
                     z_armor = 0;
                 }
-                if (z) {
-                    dam -= z_armor;
-                }
+                dam -= z_armor;
             }
             if (dam < 0) { dam = 0; }
 
-            if (part_flag(part, "SHARP")) {
-                parts[part].blood += (20 + dam) * 5;
-            } else if (dam > rng (10, 30)) {
-                parts[part].blood += (10 + dam / 2) * 5;
+            //No blood from hallucinations
+            if(z && !z->is_hallucination()) {
+                if (part_flag(part, "SHARP")) {
+                    parts[part].blood += (20 + dam) * 5;
+                } else if (dam > rng (10, 30)) {
+                    parts[part].blood += (10 + dam / 2) * 5;
+                }
             }
 
             turns_stunned = rng (0, dam) > 10? rng (1, 2) + (dam > 40? rng (1, 2) : 0) : 0;
@@ -1761,7 +1767,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                 if (vel2_a > rng (10, 20)) {
                     g->fling_player_or_monster (0, z, move.dir() + angle, vel2_a);
                 }
-                if (z->hp < 1) {
+                if (z->hp < 1 || z->is_hallucination()) {
                     g->kill_mon (mondex, pl_ctrl);
                 }
             } else {
@@ -2380,23 +2386,22 @@ void vehicle::fire_turret (int p, bool burst)
                 }
             }
         }
-    }
-    else
-    {
-        if (parts[p].items.size() > 0)
-        {
+    } else {
+        if (parts[p].items.size() > 0) {
             it_ammo *ammo = dynamic_cast<it_ammo*> (parts[p].items[0].type);
-            if (!ammo || ammo->type != amt ||
-                parts[p].items[0].charges < 1)
+            if (!ammo || ammo->type != amt || parts[p].items[0].charges < 1) {
                 return;
-            if (charges > parts[p].items[0].charges)
+            }
+            if (charges > parts[p].items[0].charges) {
                 charges = parts[p].items[0].charges;
-            if (fire_turret_internal (p, *gun, *ammo, charges))
-            { // consume ammo
-                if (charges >= parts[p].items[0].charges)
+            }
+            if (fire_turret_internal (p, *gun, *ammo, charges)) {
+                // consume ammo
+                if (charges >= parts[p].items[0].charges) {
                     parts[p].items.erase (parts[p].items.begin());
-                else
+                } else {
                     parts[p].items[0].charges -= charges;
+                }
             }
         }
     }
@@ -2411,27 +2416,39 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     monster *target = 0;
     int range = ammo.type == "gasoline" ? 5 : 12;
     int closest = range + 1;
-    for (int i = 0; i < g->num_zombies(); i++)
-    {
-        int dist = rl_dist(x, y, g->zombie(i).posx(), g->zombie(i).posy());
-        if (g->zombie(i).friendly == 0 && dist < closest &&
-            g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t))
-        {
+    for (int i = 0; i < g->num_zombies(); i++) {
+        int dist = rl_dist( x, y, g->zombie(i).posx(), g->zombie(i).posy() );
+        if( g->zombie(i).friendly == 0 && dist < closest &&
+            g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t) ) {
             target = &(g->zombie(i));
             closest = dist;
             fire_t = t;
         }
     }
-    if (!target)
+    if( !target ) {
         return false;
+    }
 
-    std::vector<point> traj = line_to(x, y, target->posx(), target->posy(), fire_t);
-    for (int i = 0; i < traj.size(); i++)
-        if (traj[i].x == g->u.posx && traj[i].y == g->u.posy)
+    std::vector<point> traj = line_to( x, y, target->posx(), target->posy(), fire_t );
+    for( int i = 0; i < traj.size(); i++ ) {
+        if( traj[i].x == g->u.posx && traj[i].y == g->u.posy ) {
             return false; // won't shoot at player
-    if (g->u_see(x, y))
+        }
+    }
+
+    // Check for available power for turrets that use it.
+    const int power = fuel_left("battery");
+    if( gun.item_tags.count( "USE_UPS" ) ) {
+        if( power < 5 ) { return false; }
+    } else if( gun.item_tags.count( "USE_UPS_20" ) ) {
+        if( power < 20 ) { return false; }
+    } else if( gun.item_tags.count( "USE_UPS_40" ) ) {
+        if( power < 40 ) { return false; }
+    }
+    if( g->u_see(x, y) ) {
         g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
-    player tmp;
+    }
+    npc tmp;
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
     tmp.skillLevel(gun.skill_used).level(1);
     tmp.skillLevel("gun").level(0);
@@ -2445,14 +2462,73 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
-    g->fire(tmp, target->posx(), target->posy(), traj, true);
-    if (ammo.type == "gasoline")
-    {
-        for (int i = 0; i < traj.size(); i++)
+    // Spawn a fake UPS to power any turreted weapons that need electricity.
+    item tmp_ups( g->itypes["UPS_on"], 0 );
+    // Drain a ton of power
+    tmp_ups.charges = drain( "battery", 1000 );
+    item &ups_ref = tmp.i_add(tmp_ups);
+    g->fire( tmp, target->posx(), target->posy(), traj, true );
+    // Rturn whatever is left.
+    refill( "battery", ups_ref.charges );
+    if( ammo.type == "gasoline" ) {
+        for( int i = 0; i < traj.size(); i++ ) {
             g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
+        }
     }
 
     return true;
+}
+
+/**
+ * Opens an openable part at the specified index. If it's a multipart, opens
+ * all attached parts as well.
+ * @param part_index The index in the parts list of the part to open.
+ */
+void vehicle::open(int part_index)
+{
+  if(!part_info(part_index).has_flag("OPENABLE")) {
+    debugmsg("Attempted to open non-openable part %d (%s) on a %s!", part_index,
+               vehicle_part_types[parts[part_index].id].name.c_str(), name.c_str());
+  } else {
+    open_or_close(part_index, true);
+  }
+}
+
+/**
+ * Opens an openable part at the specified index. If it's a multipart, opens
+ * all attached parts as well.
+ * @param part_index The index in the parts list of the part to open.
+ */
+void vehicle::close(int part_index)
+{
+  if(!part_info(part_index).has_flag("OPENABLE")) {
+    debugmsg("Attempted to close non-closeable part %d (%s) on a %s!", part_index,
+               vehicle_part_types[parts[part_index].id].name.c_str(), name.c_str());
+  } else {
+    open_or_close(part_index, false);
+  }
+}
+
+void vehicle::open_or_close(int part_index, bool opening)
+{
+  parts[part_index].open = opening ? 1 : 0;
+  insides_dirty = true;
+
+  if(part_info(part_index).has_flag("MULTISQUARE")) {
+    /* Find all other closed parts with the same ID in adjacent squares.
+     * This is a tighter restriction than just looking for other Multisquare
+     * Openable parts, and stops trunks from opening side doors and the like. */
+    for(int next_index = 0; next_index < parts.size(); next_index++) {
+      //Look for parts 1 square off in any cardinal direction
+      int xdiff = parts[next_index].mount_dx - parts[part_index].mount_dx;
+      int ydiff = parts[next_index].mount_dy - parts[part_index].mount_dy;
+      if(((xdiff * xdiff == 1) != (ydiff * ydiff == 1)) && // != used as XOR
+              (part_info(next_index).id == part_info(part_index).id) &&
+              (parts[next_index].open == opening ? 0 : 1)) {
+        open_or_close(next_index, opening);
+      }
+    }
+  }
 }
 
 // a chance to stop skidding if moving in roughly the faced direction

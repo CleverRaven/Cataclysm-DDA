@@ -224,7 +224,8 @@ void player::activate_bionic(int b, game *g)
   if (pkill > pain)
    pkill = pain;
  } else if (bio.id == "bio_nanobots"){
-  healall(4);
+    rem_disease("bleed");
+    healall(4);
  } else if (bio.id == "bio_night"){
   if (g->turn % 5)
     g->add_msg(_("Artificial night generator active!"));
@@ -615,7 +616,7 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
   } else {
     g->add_msg(_("Some of your existing bionics are lost!"));
   }
-  for (int i = 0; i < failure_level && u->remove_random_bionic(); i++);
+  for (int i = 0; i < failure_level && u->remove_random_bionic(); i++) ;
   break;
 
  case 4:

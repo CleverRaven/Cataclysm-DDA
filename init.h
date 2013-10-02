@@ -6,6 +6,58 @@
 #include <string>
 #include <vector>
 
+//********** Functor Base, Static and Class member accessors
+class TFunctor
+{
+public:
+    virtual void operator ()(JsonObject &jo) = 0; // virtual () operator
+    virtual void Call(JsonObject &jo) = 0; // what will be getting called
+};
+
+class StaticFunctionAccessor : public TFunctor
+{
+private:
+    void (*_fptr)(JsonObject &jo);
+
+public:
+    virtual void operator()(JsonObject &jo)
+    {
+        (*_fptr)(jo);
+    }
+    virtual void Call(JsonObject &jo)
+    {
+        (*_fptr)(jo);
+    }
+
+    StaticFunctionAccessor(void (*fptr)(JsonObject &jo))
+    {
+        _fptr = fptr;
+    }
+};
+template <class TClass> class ClassFunctionAccessor : public TFunctor
+{
+private:
+    void (TClass::*_fptr)(JsonObject &jo);
+    TClass *ptr_to_obj;
+
+public:
+    virtual void operator()(JsonObject &jo)
+    {
+        (*ptr_to_obj.*_fptr)(jo);
+    }
+    virtual void Call(JsonObject &jo)
+    {
+        (*ptr_to_obj.*_fptr)(jo);
+    }
+
+    ClassFunctionAccessor(TClass *ptr2obj, void (TClass::*fptr)(JsonObject &jo))
+    {
+        ptr_to_obj = ptr2obj;
+        _fptr = fptr;
+    }
+};
+//********** END - Functor Base, Static and Class member accessors
+
 std::vector<std::string> listfiles(std::string const &dirname);
 void load_object(JsonObject &jsobj);
 void init_data_structures();

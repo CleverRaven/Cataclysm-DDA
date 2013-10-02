@@ -373,10 +373,6 @@ char inventory::get_invlet_for_item( std::string item_type ) {
 
 item& inventory::add_item(item newit, bool keep_invlet)
 {
-    if (newit.is_style())
-    {
-        return nullitem; // Styles never belong in our inventory.
-    }
 //dprint("inv.add_item(%d): [%c] %s", keep_invlet, newit.invlet, newit.typeId().c_str()  );
  
     bool reuse_cached_letter = false;
@@ -552,8 +548,12 @@ void inventory::form_from_map(game *g, point origin, int range)
  items.clear();
  for (int x = origin.x - range; x <= origin.x + range; x++) {
   for (int y = origin.y - range; y <= origin.y + range; y++) {
-   if (g->m.has_flag(sealed, x, y))
+   int junk;
+   if (g->m.has_flag("SEALED", x, y) ||
+       ((origin.x != x || origin.y != y) &&
+        !g->m.clear_path( origin.x, origin.y, x, y, range, 1, 100, junk ) ) ) {
      continue;
+   }
    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
     if (!g->m.i_at(x, y)[i].made_of(LIQUID))
      add_item(g->m.i_at(x, y)[i]);
@@ -926,34 +926,24 @@ int inventory::amount_of(itype_id it) const
 int inventory::charges_of(itype_id it) const
 {
     int count = 0;
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
-             stack_iter != iter->end();
-             ++stack_iter)
-        {
-            //Check for ammo used in construction (such as nails in nailguns)
-            if (stack_iter->type->id == it || stack_iter->ammo_type() == it)
-            {
-                if (stack_iter->charges < 0)
-                {
-                    count++;
-                }
-                else
-                {
-                    count += stack_iter->charges;
+             stack_iter != iter->end(); ++stack_iter) {
+            if (stack_iter->type->id == it || stack_iter->ammo_type() == it) {
+                // If we're specifically looking for a container, only say we have it if it's empty.
+                if( stack_iter->contents.size() == 0 ) {
+                    if (stack_iter->charges < 0) {
+                        count++;
+                    } else {
+                        count += stack_iter->charges;
+                    }
                 }
             }
-            for (int k = 0; k < stack_iter->contents.size(); k++)
-            {
-                if (stack_iter->contents[k].type->id == it)
-                {
-                    if (stack_iter->contents[k].charges < 0)
-                    {
+            for (int k = 0; k < stack_iter->contents.size(); k++) {
+                if (stack_iter->contents[k].type->id == it) {
+                    if (stack_iter->contents[k].charges < 0) {
                         count++;
-                    }
-                    else
-                    {
+                    } else {
                         count += stack_iter->contents[k].charges;
                     }
                 }
@@ -1001,7 +991,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                     --stack_iter;
                 }
             }
-            else if (stack_iter->type->id == it && quantity > 0)
+            else if (stack_iter->type->id == it && quantity > 0 && stack_iter->contents.size() == 0)
             {
                 ret.push_back(*stack_iter);
                 quantity--;

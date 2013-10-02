@@ -528,18 +528,23 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vx = rng (0, 3) * 4 + 5;
     int vy = rng (0, 3) * 4 + 5;
     int rc = rng(1, 100);
-    if (rc <= 50)
+    if (rc <= 35) {
         add_vehicle (g, "car_chassis", vx, vy, veh_spawn_heading, -1, 1);
-    else if (rc <= 70)
+    } else if (rc <= 55) {
         add_vehicle (g, "car", vx, vy, veh_spawn_heading, -1, 1);
-    else if (rc <= 80)
+    } else if (rc <= 65) {
+        add_vehicle (g, "hippie_van", vx, vy, veh_spawn_heading, -1, 1);
+    } else if (rc <= 70) {
+        add_vehicle (g, "cube_van", vx, vy, veh_spawn_heading, -1, 1);
+    } else if (rc <= 80) {
         add_vehicle (g, "electric_car", vx, vy, veh_spawn_heading, -1, 1);
-    else if (rc <= 90)
+    } else if (rc <= 90) {
         add_vehicle (g, "flatbed_truck", vx, vy, veh_spawn_heading, -1, 1);
-    else if (rc <= 95)
+    } else if (rc <= 95) {
         add_vehicle (g, "rv", vx, vy, veh_spawn_heading, -1, 1);
-    else
+    } else {
         add_vehicle (g, "motorcycle", vx, vy, veh_spawn_heading, -1, 1);
+    }
    }
   }
 
@@ -1409,6 +1414,7 @@ t   t\n\
           int rb = rng(1, 100);
           if (rb <= 25) {        vt = "truck_trailer";
           } else if (rb <= 35) { vt = "semi_truck";
+          } else if (rb <= 50) { vt = "cube_van";
           } else {               vt = "flatbed_truck";
           }
       } else if (r < 50) { //commons
@@ -1418,6 +1424,7 @@ t   t\n\
           } else if (rc <= 21) { vt = "beetle";
           } else if (rc <= 50) { vt = "car";
           } else if (rc <= 60) { vt = "electric_car";
+          } else if (rc <= 65) { vt = "hippie_van";
           } else if (rc <= 75) { vt = "bicycle";
           } else if (rc <= 90) { vt = "motorcycle";
           } else {               vt = "motorcycle_sidecart";
@@ -2691,25 +2698,25 @@ ___DEEE|.R.|...,,...|sss\n",
       }
      if (t_west == ot_office_tower_b && t_north == ot_office_tower_b){
             rotate(1);
-            if (x_in_y(1,5)){add_vehicle (g, "car", 17, 4, 180);}
+            if (x_in_y(1,5)){add_vehicle (g, "cube_van", 17, 4, 180);}
             if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 17, 10, 180);}
             if (x_in_y(1,3)){add_vehicle (g, "car", 17, 17, 180);}
             }
      else if (t_east == ot_office_tower_b && t_north == ot_office_tower_b){
             rotate(2);
-            if (x_in_y(1,5)){add_vehicle (g, "car", 6, 17, 270);}
+            if (x_in_y(1,5)){add_vehicle (g, "cube_van", 6, 17, 270);}
             if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 12, 17, 270);}
             if (x_in_y(1,3)){add_vehicle (g, "car", 18, 17, 270);}
             }
      else if (t_east == ot_office_tower_b && t_south == ot_office_tower_b){
             rotate(3);
-            if (x_in_y(1,5)){add_vehicle (g, "car", 6, 6, 0);}
+            if (x_in_y(1,5)){add_vehicle (g, "cube_van", 6, 6, 0);}
             if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 6, 13, 0);}
             if (x_in_y(1,3)){add_vehicle (g, "car", 5, 19, 180);}
             }
      else{
             if (x_in_y(1,5)){add_vehicle (g, "flatbed_truck", 16, 6, 90);}
-            if (x_in_y(1,5)){add_vehicle (g, "car", 10, 6, 90);}
+            if (x_in_y(1,5)){add_vehicle (g, "cube_van", 10, 6, 90);}
             if (x_in_y(1,3)){add_vehicle (g, "car", 4, 6, 90);}
             }
      }
@@ -3377,7 +3384,7 @@ C..C..C...|hhh|#########\n\
    ter_set(13, rng(16, 19), (one_in(3) ? t_door_c : t_door_locked));
   if (rn == 2) {
    if (one_in(5))
-    place_gas_pump(rng(4, 10), 16, rng(500, 5000));
+     place_gas_pump(rng(4, 10), 16, rng(500, 5000));
       else ter_set(rng(4, 10), 16, t_recycler);
    if (one_in(3)) { // Place a dumpster
     int startx = rng(2, 11), starty = rng(18, 19);
@@ -12553,7 +12560,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
    tries++;
 // Only place on valid terrain
   } while (((terlist[ter(px, py)].movecost == 0 &&
-             !(terlist[ter(px, py)].flags & mfb(place_item))) ||
+             !(terlist[ter(px, py)].has_flag("PLACE_ITEM"))) ||
             (!ongrass && (ter(px, py) == t_dirt || ter(px, py) == t_grass))) &&
            tries < 20);
   if (tries < 20) {
@@ -12625,7 +12632,7 @@ void map::add_spawn(monster *mon)
 }
 
 vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, const int dir,
-                          const int veh_fuel, const int veh_status)
+                          const int veh_fuel, const int veh_status, const bool merge_wrecks)
 {
  if(g->vtypes.count(type) == 0) {
    debugmsg("Nonexistant vehicle type: \"%s\"", type.c_str());
@@ -12651,7 +12658,7 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
 // veh->init_veh_fuel = 50;
 // veh->init_veh_status = 0;
 
- vehicle *placed_vehicle = add_vehicle_to_map(veh, x, y);
+ vehicle *placed_vehicle = add_vehicle_to_map(veh, x, y, merge_wrecks);
 
  if(placed_vehicle != NULL) {
   const int nonant = placed_vehicle->smx + placed_vehicle->smy * my_MAPSIZE;
@@ -12673,7 +12680,7 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
  * @param veh The vehicle to place on the map.
  * @return The vehicle that was finally placed.
  */
-vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
+vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks)
 {
   for (std::vector<int>::const_iterator part = veh->external_parts.begin();
           part != veh->external_parts.end(); part++) {
@@ -12699,6 +12706,10 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
     //For other vehicles, simulate collisions with (non-shopping cart) stuff
     vehicle *other_veh = veh_at(px, py);
     if (other_veh != NULL && other_veh->type != "shopping cart") {
+        if( !merge_wrecks ) {
+            delete veh;
+            return NULL;
+        }
 
       /* There's a vehicle here, so let's fuse them together into wreckage and
        * smash them up. It'll look like a nasty collision has occurred.
@@ -12719,12 +12730,12 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
       const int global_y = wreckage->smy * SEEY + wreckage->posy;
 
       for (int part_index = 0; part_index < veh->parts.size(); part_index++) {
-        
+
         const int local_x = (veh->smx * SEEX + veh->posx)
                        + veh->parts[part_index].precalc_dx[0]
                        - global_x;
         const int local_y = (veh->smy * SEEY + veh->posy)
-                       + veh->parts[part_index].precalc_dy[0] 
+                       + veh->parts[part_index].precalc_dy[0]
                        - global_y;
 
         wreckage->install_part(local_x, local_y, veh->parts[part_index].id, -1, true);
@@ -12754,6 +12765,10 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y)
       return add_vehicle_to_map(wreckage, global_x, global_y);
 
     } else if (move_cost(px, py) == 0) {
+        if( !merge_wrecks ) {
+            delete veh;
+            return NULL;
+        }
 
       //There's a wall or other obstacle here; destroy it
       destroy(g, px, py, false);
@@ -14308,7 +14323,7 @@ void map::add_extra(map_extra type, game *g)
     if (x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4) {
      if (!one_in(5))
       ter_set(x, y, t_wreckage);
-     else if (has_flag(bashable, x, y)) {
+     else if (has_flag("BASHABLE", x, y)) {
       std::string junk;
       bash(x, y, 500, junk); // Smash the fuck out of it
       bash(x, y, 500, junk); // Smash the fuck out of it some more
@@ -14412,7 +14427,7 @@ void map::add_extra(map_extra type, game *g)
       case 6: placed = tr_crossbow; break;
       case 7: placed = tr_shotgun_2; break;
      }
-     if (placed == tr_beartrap && has_flag(diggable, i, j)) {
+     if (placed == tr_beartrap && has_flag("DIGGABLE", i, j)) {
       if (one_in(8))
        placed = tr_landmine_buried;
       else
@@ -14591,8 +14606,9 @@ void map::add_extra(map_extra type, game *g)
   }
   for (int i = 0; i < num_mines; i++) {
    int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-   if (!has_flag(diggable, x, y) || one_in(8))
+   if (!has_flag("DIGGABLE", x, y) || one_in(8)) {
     ter_set(x, y, t_dirtmound);
+   }
    add_trap(x, y, tr_landmine_buried);
   }
  }

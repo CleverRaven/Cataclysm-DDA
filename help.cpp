@@ -1,22 +1,16 @@
-#include "game.h"
+#include "help.h"
+
+#include "action.h"
+#include "auto_pickup.h"
 #include "keypress.h"
 #include "options.h"
+#include "output.h"
+#include "rng.h"
+#include "translations.h"
 
-#ifndef LINE_XOXO
-    #define LINE_XOXO 4194424
-    #define LINE_OXOX 4194417
-    #define LINE_XXOO 4194413
-    #define LINE_OXXO 4194412
-    #define LINE_OOXX 4194411
-    #define LINE_XOOX 4194410
-    #define LINE_XXXO 4194420
-    #define LINE_XXOX 4194422
-    #define LINE_XOXX 4194421
-    #define LINE_OXXX 4194423
-    #define LINE_XXXX 4194414
-#endif
+std::vector<std::string> hints;
 
-void game::help()
+void display_help()
 {
     WINDOW* w_help_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
@@ -608,7 +602,7 @@ extremities from frostbite and to keep your distance from large fires."));
                 refresh();
                 remapch = input();
                 int sx = 0, sy = 0;
-                get_direction(this, sx, sy, remapch);
+                get_direction(sx, sy, remapch);
                 if (sy == -1 && offset > 1)
                     offset--;
                 if (sy == 1 && offset + 20 < NUM_ACTIONS)
@@ -1010,3 +1004,18 @@ A: Ask the helpful people on the forum at smf.cataclysmdda.com or email\n\
     delwin(w_help);
     delwin(w_help_border);
 }
+
+void load_hint(JsonObject &jsobj)
+{
+    hints.push_back(_(jsobj.get_string("text").c_str()));
+}
+
+std::string get_hint()
+{
+    if (hints.empty()) {
+        return "???";
+    } else {
+        return hints[rng(0, hints.size()-1)];
+    }
+}
+

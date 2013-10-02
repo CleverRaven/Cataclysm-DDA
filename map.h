@@ -219,9 +219,9 @@ class map
  void ter_set(const int x, const int y, const ter_id new_terrain);
  std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
- bool has_flag(const t_flag flag, const int x, const int y);  // checks terrain, furniture and vehicles
- bool has_flag_ter_or_furn(const t_flag flag, const int x, const int y); // checks terrain or furniture
- bool has_flag_ter_and_furn(const t_flag flag, const int x, const int y); // checks terrain and furniture
+ bool has_flag(std::string flag, const int x, const int y);  // checks terrain, furniture and vehicles
+ bool has_flag_ter_or_furn(std::string flag, const int x, const int y); // checks terrain or furniture
+ bool has_flag_ter_and_furn(std::string flag, const int x, const int y); // checks terrain and furniture
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
  bool is_divable(const int x, const int y);
@@ -324,7 +324,8 @@ class map
  void add_spawn(monster *mon);
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, std::string type, const int x, const int y, const int dir,
-                      const int init_veh_fuel = -1, const int init_veh_status = -1 );
+                      const int init_veh_fuel = -1, const int init_veh_status = -1,
+                      const bool merge_wrecks = true);
  computer* add_computer(const int x, const int y, std::string name, const int security);
  float light_transparency(const int x, const int y) const;
  void build_map_cache(game *g);
@@ -396,7 +397,7 @@ private:
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
- vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y);
+ vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

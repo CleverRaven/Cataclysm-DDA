@@ -39,7 +39,7 @@
 #include "skill.h"
 #include "vehicle.h"
 //
-
+#include "savegame.h"
 /*
  * Properly reuse a stringstream object for line by line parsing
  */
@@ -129,12 +129,15 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kk;
+            int kk; int kscrap;
             for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                linein >> kills[kk];
-            }
-            if ( kk != num_monsters ) {
-                debugmsg("Warning, number of monsters changed from %d to %d", kk+1, num_monsters );
+                if ( kk < 126 ) { // see legacy_mon_id
+                    // load->int->str->int (possibly shifted)
+                    kk = monster_ints[ legacy_mon_id[ kk ] ];
+                    linein >> kills[kk];
+                } else {
+                    linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
+                }
             }
 
             // Finally, the data on the player.
@@ -242,12 +245,15 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kk;
+            int kk; int kscrap;
             for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                linein >> kills[kk];
-            }
-            if ( kk != num_monsters ) {
-                debugmsg("Warning, number of monsters changed from %d to %d", kk+1, num_monsters );
+                if ( kk < 126 ) { // see legacy_mon_id
+                    // load->int->str->int (possibly shifted)
+                    kk = monster_ints[ legacy_mon_id[ kk ] ];
+                    linein >> kills[kk];
+                } else {
+                    linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
+                }
             }
 
             // Finally, the data on the player.
@@ -755,12 +761,17 @@ std::istream& operator>>(std::istream& is, SkillLevel& obj) {
 }
 
 ///// monster.h
+
+
 void monster::load_legacy(std::vector <mtype *> *mtypes, std::stringstream & dump) {
     int idtmp, plansize;
     dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
          hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
          no_extra_death_drops >> dead >> anger >> morale;
-    type = (*mtypes)[idtmp];
+
+    // load->int->str->int (possibly shifted)
+    type = (*mtypes)[ monster_ints[ legacy_mon_id[ idtmp ] ] ];
+
     point ptmp;
     plans.clear();
     for (int i = 0; i < plansize; i++) {
@@ -815,6 +826,20 @@ void item::load_legacy(game * g, std::stringstream & dump) {
 }
 
 ///// vehicle.h
+// Matches vpart_id integers from old saves (ranging from 72260f0 2013-08-22 onward, including 0.8)
+// This never changes, unless things get renamed / removed.
+//
+const std::string legacy_vpart_id[74] = {"null", "seat", "saddle", "bed", "frame_horizontal", "frame_vertical",
+    "frame_cross", "frame_nw", "frame_ne", "frame_se", "frame_sw", "frame_horizontal_2", "frame_vertical_2",
+    "frame_cover", "frame_handle", "board_horizontal", "board_vertical", "board_nw", "board_ne", "board_se",
+    "board_sw", "aisle_horizontal", "aisle_vertical", "trunk_floor", "roof", "door", "door_opaque",
+    "door_internal", "windshield", "blade_horizontal", "blade_vertical", "spike", "wheel", "wheel_wide",
+    "wheel_underbody", "wheel_bicycle", "wheel_motorbike", "wheel_small", "wheel_caster", "engine_1cyl",
+    "engine_vtwin", "engine_inline4", "engine_v6", "engine_v8", "engine_electric", "engine_electric_large",
+    "engine_plasma", "foot_pedals", "gas_tank", "storage_battery", "minireactor", "hydrogen_tank", "water_tank",
+    "trunk", "box", "controls", "muffler", "seatbelt", "solar_panel", "kitchen_unit", "welding_rig", "m249",
+    "flamethrower", "plasma_gun", "fusion_gun", "plating_steel", "plating_superalloy", "plating_spiked",
+    "plating_hard", "headlight", "reinforced_windshield", "horn_bicycle", "horn_car", "horn_big"};
 
 void vehicle::load_legacy(std::ifstream &stin) {
     int fdir, mdir, skd, prts, cr_on, li_on, tag_count;

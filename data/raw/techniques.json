@@ -1,5 +1,64 @@
 [
   {
+    "id": "WIDE",
+    "name": "Wide Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+
+    "verb_you": "%1$s swing in a wide arc through %4$s",
+    "verb_npc": "%1$s swings in a wide arc through %4$s",
+
+    "aoe": "wide",
+
+    "quick": true
+  },
+  {
+    "id": "BRUTAL",
+    "name": "Wide Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+
+    "stun_dur": 1,
+    "knockback_dist": 1,
+
+    "verb_you":"%1$s slam %2$s %3$s against %4$s",
+    "verb_npc":"%1$s slams %2$s %3$s against %4$s"
+  },
+  {
+    "id": "RAPID",
+    "name": "Rapid Strike",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+
+    "quick": true,
+
+    "verb_you": "%1$s quickly strike with %2$s %3$s at %4$s",
+    "verb_npc": "%1$s quickly strikes with %2$s %3$s at %4$s"
+  },
+  {
+    "id": "WRAP",
+    "name": "Wrap attack",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+
+    "stun_dur": 2,
+
+    "verb_you": "%1$s use %2$s %3$s to wrap up %4$s",
+    "verb_npc": "%1$s uses %2$s %3$s to wrap up %4$s"
+  },
+  {
+    "id": "SWEEP",
+    "name": "Sweep Attack",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+
+    "down_dur": 2,
+
+    "verb_you": "%1$s use %2$s %3$s to sweep %4$s",
+    "verb_npc": "%1$s uses %2$s %3$s to sweep %4$s"
+  },
+  {
     "id": "tec_feint",
     "name": "Feint",
     "unarmed_allowed": true,
@@ -8,14 +67,6 @@
 
     "miss_recovery": true
 
-  },
-  {
-    "id": "tec_flaming",
-    "name": "Flaming",
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-
-    "flaming": true
   },
   {
     "id": "tec_break",
@@ -32,6 +83,7 @@
     "min_unarmed": 0,
     "unarmed_allowed": true,
     "melee_allowed": true,
+    "crit_tec": true,
 
     "verb_you": "%1$s jab %2$s %3$s at %4$s",
     "verb_npc": "%1$s jabs %2$s %3$s at %4$s",
@@ -40,7 +92,7 @@
   },
   {
     "id": "tec_karate_rapid",
-    "name": "Quick Punch",
+    "name": "quick punch",
     "min_unarmed": 0,
     "unarmed_allowed": true,
 
@@ -51,9 +103,10 @@
   },
   {
     "id": "tec_karate_precise",
-    "name": "Karate Chop",
+    "name": "karate chop",
     "min_unarmed": 4,
     "unarmed_allowed": true,
+    "crit_tec": true,
 
     "verb_you": "%1$s karate chop %4$s",
     "verb_npc": "%1$s karate chops %4$s",
@@ -110,7 +163,7 @@
   },
   {
     "id": "tec_judo_grab",
-    "name": "throw",
+    "name": "grab",
     "min_unarmed": 2,
     "unarmed_allowed": true,
 
@@ -131,9 +184,10 @@
   },
   {
     "id": "tec_taichi_precise",
-    "name": "Precise Strike",
+    "name": "precise strike",
     "min_unarmed": 4,
     "unarmed_allowed": true,
+    "crit_tec": true,
 
     "stun_dur": 2,
 
@@ -152,64 +206,155 @@
     "verb_you": "%1$s feint at %4$s",
     "verb_npc": "%1$s feints at %4$s"
   },
-
   {
-    "id": "WIDE",
-    "name": "Wide Strike",
+    "id": "tec_muay_thai_elbow",
+    "name": "elbow",
+    "min_unarmed": 2,
     "unarmed_allowed": true,
-    "melee_allowed": true,
 
-    "verb_you": "%1$s swing in a wide arc through %4$s",
-    "verb_npc": "%1$s swings in a wide arc through %4$s",
+    "verb_you": "%1$s elbow %4$s",
+    "verb_npc": "%1$s elbows %4$s",
 
-    "aoe": "splash",
+    "quick": true,
+    "stun_dur": 1
+  },
+  {
+    "id": "tec_muay_thai_kick",
+    "name": "kick",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+
+    "verb_you": "%1$s power-kick %4$s",
+    "verb_npc": "%1$s power-kicks %4$s",
+
+    "stun_dur": 1
+  },
+  {
+    "id": "tec_muay_thai_knee",
+    "name": "flying knee",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+
+    "verb_you": "%1$s flying knee %4$s",
+    "verb_npc": "%1$s flying knees %4$s",
+
+    "stun_dur": 1
+  },
+  {
+    "id": "tec_krav_maga_rapid",
+    "name": "quick punch",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+
+    "verb_you": "%1$s quickly punch %4$s",
+    "verb_npc": "%1$s quickly punches %4$s",
 
     "quick": true
   },
   {
-    "id": "BRUTAL",
-    "name": "Wide Strike",
+    "id": "tec_krav_maga_feint",
+    "name": "feint at",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+
+    "defensive": true,
+    "miss_recovery": true,
+
+    "verb_you": "%1$s feint at %4$s",
+    "verb_npc": "%1$s feints at %4$s"
+  },
+  {
+    "id": "tec_krav_maga_precise",
+    "name": "precise strike",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+
+    "verb_you": "%1$s jab %4$s",
+    "verb_npc": "%1$s jabs %4$s",
+
+    "stun_dur": 2
+  },
+  {
+    "id": "tec_krav_maga_disarm",
+    "name": "disarm",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "disarms": true,
+
+    "verb_you": "%1$s disarm %4$s",
+    "verb_npc": "%1$s disarms %4$s"
+  },
+  {
+    "id": "tec_krav_maga_grab",
+    "name": "grab",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+
+    "down_dur": 1,
+
+    "verb_you": "%1$s grab %4$s",
+    "verb_npc": "%1$s grabs %4$s"
+  },
+  {
+    "id": "tec_krav_maga_break",
+    "name": "grab break",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "id": "tec_ninjutsu_precise",
+    "name": "surprise attack",
+    "min_unarmed": 3,
+    "min_melee": 3,
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
 
-    "stun_dur": 1,
-    "knockback_dist": 1,
-
-    "verb_you":"%1$s slam %2$s %3$s against %4$s",
-    "verb_npc":"%1$s slams %2$s %3$s against %4$s"
-  },
-  {
-    "id": "RAPID",
-    "name": "Rapid Strike",
-    "min_unarmed": 0,
-    "unarmed_allowed": true,
-
-    "quick": true,
-
-    "verb_you": "%1$s quickly strike with %2$s %3$s at %4$s",
-    "verb_npc": "%1$s quickly strikes with %2$s %3$s at %4$s"
-  },
-  {
-    "id": "WRAP",
-    "name": "Wrap attack",
-    "min_unarmed": 0,
-    "unarmed_allowed": true,
+    "verb_you": "%1$s surprise attack %4$s",
+    "verb_npc": "%1$s surprise attacks %4$s",
 
     "stun_dur": 2,
-
-    "verb_you": "%1$s use %2$s %3$s to wrap up %4$s",
-    "verb_npc": "%1$s uses %2$s %3$s to wrap up %4$s"
+    "bash_mult": 1.4,
+    "cut_mult": 2
   },
   {
-    "id": "SWEEP",
-    "name": "Sweep Attack",
-    "min_unarmed": 0,
+    "id": "tec_taekwondo_precise",
+    "name": "",
+    "min_unarmed": 2,
     "unarmed_allowed": true,
 
-    "down_dur": 2,
+    "verb_you": "%1$s quickly punch %4$s",
+    "verb_npc": "%1$s quickly punches %4$s",
 
-    "verb_you": "%1$s use %2$s %3$s to sweep %4$s",
-    "verb_npc": "%1$s uses %2$s %3$s to sweep %4$s"
+    "quick": true
+  },
+  {
+    "id": "tec_taekwondo_push",
+    "name": "side kick",
+    "min_unarmed":32,
+    "unarmed_allowed": true,
+
+    "verb_you": "%1$s side-kick %4$s",
+    "verb_npc": "%1$s side-kicks %4$s",
+
+    "stun_dur": 1,
+    "knockback_dist": 1
+  },
+  {
+    "id": "tec_taekwondo_sweep",
+    "name": "sweep kick",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+
+    "verb_you": "%1$s sweep-kick %4$s",
+    "verb_npc": "%1$s sweep-kicks %4$s",
+
+    "down_dur": 2
   }
 ]

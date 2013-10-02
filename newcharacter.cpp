@@ -231,6 +231,25 @@ bool player::create(game *g, character_type type, std::string tempname)
         ma_styles.push_back(ma_type);
         style_selected=ma_type;
     }
+    if (has_trait("MARTIAL_ARTS2")) {
+        matype_id ma_type;
+        do {
+            int choice = (PLTYPE_NOW==type)? rng(1, 4) :
+                menu(false, _("Pick your style:"), _("Krav Maga"), _("Muay Thai"), _("Ninjutsu"),
+                     _("Taekwondo"), NULL);
+            if (choice == 1)
+                ma_type = "style_krav_maga";
+            if (choice == 2)
+                ma_type = "style_muay_thai";
+            if (choice == 3)
+                ma_type = "style_ninjutsu";
+            if (choice == 4)
+                ma_type = "style_taekwondo";
+        } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
+        ma_styles.push_back(ma_type);
+        style_selected=ma_type;
+    }
+
 
     ret_null = item(g->itypes["null"], 0);
     weapon = ret_null;
@@ -301,7 +320,7 @@ bool player::create(game *g, character_type type, std::string tempname)
             my_mutations.erase(iter->first);
 
     // Equip any armor from our inventory.
-    // If we are unable to wear some of it due to encumberance, it will silently fail.
+    // If we are unable to wear some of it due to encumbrance, it will silently fail.
     std::vector<item*> tmp_inv;
     inv.dump(tmp_inv);
 

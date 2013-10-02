@@ -823,7 +823,7 @@ bool map::vehproceed(game* g){
 
 bool map::displace_water (const int x, const int y)
 {
-    if (move_cost_ter_furn(x, y) > 0 && has_flag(swimmable, x, y)) // shallow water
+    if (move_cost_ter_furn(x, y) > 0 && has_flag("SWIMMABLE", x, y)) // shallow water
     { // displace it
         int dis_places = 0, sel_place = 0;
         for (int pass = 0; pass < 2; pass++)
@@ -942,15 +942,15 @@ std::string map::features(const int x, const int y)
 // FIXME: can't control length of localized text.
 // Make the caller wrap properly, if it does not already.
  std::string ret;
- if (has_flag(bashable, x, y))
+ if (has_flag("BASHABLE", x, y))
   ret += _("Smashable. ");
- if (has_flag(diggable, x, y))
+ if (has_flag("DIGGABLE", x, y))
   ret += _("Diggable. ");
- if (has_flag(rough, x, y))
+ if (has_flag("ROUGH", x, y))
   ret += _("Rough. ");
- if (has_flag(sharp, x, y))
+ if (has_flag("SHARP", x, y))
   ret += _("Sharp. ");
- if (has_flag(flat, x, y))
+ if (has_flag("FLAT", x, y))
   ret += _("Flat. ");
  return ret;
 }
@@ -1008,7 +1008,7 @@ bool map::trans(const int x, const int y)
     tertr = true; // open opaque door
   }
  } else
-  tertr = terlist[ter(x, y)].flags & mfb(transparent);
+  tertr = terlist[ter(x, y)].transparent;
  if( tertr ){
   // Fields may obscure the view, too
   field &curfield = field_at(x,y);
@@ -1029,9 +1029,9 @@ bool map::trans(const int x, const int y)
  return false; //failsafe block vision
 }
 
-bool map::has_flag(const t_flag flag, const int x, const int y)
+bool map::has_flag(std::string flag, const int x, const int y)
 {
- if (flag == bashable) {
+ if ("BASHABLE" == flag) {
   int vpart;
   vehicle *veh = veh_at(x, y, vpart);
   if (veh && veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
@@ -1041,29 +1041,29 @@ bool map::has_flag(const t_flag flag, const int x, const int y)
     return true;
   }
  }
- return (terlist[ter(x, y)].flags & mfb(flag)) | (furnlist[furn(x, y)].flags & mfb(flag));
+ return (terlist[ter(x, y)].has_flag(flag) || (furnlist[furn(x, y)].has_flag(flag)));
 }
 
-bool map::has_flag_ter_or_furn(const t_flag flag, const int x, const int y)
+bool map::has_flag_ter_or_furn(std::string flag, const int x, const int y)
 {
- return (terlist[ter(x, y)].flags & mfb(flag)) | (furnlist[furn(x, y)].flags & mfb(flag));
+ return (terlist[ter(x, y)].has_flag(flag) || (furnlist[furn(x, y)].has_flag(flag)));
 }
 
-bool map::has_flag_ter_and_furn(const t_flag flag, const int x, const int y)
+bool map::has_flag_ter_and_furn(std::string flag, const int x, const int y)
 {
- return terlist[ter(x, y)].flags & furnlist[furn(x, y)].flags & mfb(flag);
+ return terlist[ter(x, y)].has_flag(flag) && furnlist[furn(x, y)].has_flag(flag);
 }
 
 bool map::is_destructable(const int x, const int y)
 {
- return (has_flag(bashable, x, y) ||
-         (move_cost(x, y) == 0 && !has_flag(liquid, x, y)));
+ return (has_flag("BASHABLE", x, y) ||
+         (move_cost(x, y) == 0 && !has_flag("LIQUID", x, y)));
 }
 
 bool map::is_destructable_ter_furn(const int x, const int y)
 {
- return (has_flag_ter_or_furn(bashable, x, y) ||
-         (move_cost_ter_furn(x, y) == 0 && !has_flag(liquid, x, y)));
+ return (has_flag_ter_or_furn("BASHABLE", x, y) ||
+         (move_cost_ter_furn(x, y) == 0 && !has_flag("LIQUID", x, y)));
 }
 
 /**
@@ -1075,7 +1075,7 @@ bool map::is_destructable_ter_furn(const int x, const int y)
  */
 bool map::is_divable(const int x, const int y)
 {
-  return has_flag(swimmable, x, y) && move_cost(x, y) == 0;
+  return has_flag("SWIMMABLE", x, y) && move_cost(x, y) == 0;
 }
 
 bool map::is_outside(const int x, const int y)
@@ -1234,6 +1234,7 @@ switch (furn(x, y)) {
    spawn_item(x, y, "element", 0, rng(1, 3));
    spawn_item(x, y, "sheet_metal", 0, 0, rng(2, 6));
    spawn_item(x, y, "cable", 0, 0, rng(1,3));
+   spawn_item(x, y, "pilot_light", 0);
 
    return true;
   } else {
@@ -1250,6 +1251,7 @@ switch (furn(x, y)) {
   if (str >= result) {
    sound += _("porcelain breaking!");
    furn_set(x, y, f_null);
+   if(one_in(2)) { spawn_item(x, y, "cu_pipe", 0); }
    return true;
   } else {
    sound += _("whunk!");
@@ -1290,6 +1292,7 @@ switch (furn(x, y)) {
    for (int i = 0; i < num_boards; i++)
     spawn_item(x, y, "steel_chunk", 0);
    spawn_item(x, y, "hose", 0);
+   spawn_item(x, y, "cu_pipe", 0, rng(2, 5));
    return true;
   } else {
    sound += _("clang!");
@@ -1436,6 +1439,7 @@ switch (ter(x, y)) {
    spawn_item(x, y, "2x4", 0, rng(2, 5));
    spawn_item(x, y, "nail", 0, 0, rng(4, 10));
    spawn_item(x, y, "splinter", 0);
+   if(one_in(10)) { spawn_item(x, y, "cu_pipe", 0); }
    return true;
   } else {
    sound += _("whump!");
@@ -1837,19 +1841,17 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(5)) spawn_item(i, j, "splinter", 0);
-       if (one_in(6)) spawn_item(i, j, "nail", 0, 0, 3);
+       if (one_in(5)) { spawn_item(i, j, "splinter", 0); }
+       if (one_in(6)) { spawn_item(i, j, "nail", 0, 0, 3); }
+       if (one_in(100)) { spawn_item(x, y, "cu_pipe", 0); }
    }
   }
   ter_set(x, y, t_rubble);
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
     if (one_in(2)) {
-     //debugmsg("1");
-      if (!g->m.has_flag(noitem, x, y)) {
-       //debugmsg("2");
+      if (!g->m.has_flag("NOITEM", x, y)) {
        if (!(g->m.field_at(i, j).findField(fd_rubble))) {
-        //debugmsg("Rubble spawned!");
         g->m.add_field(g, i, j, fd_rubble, rng(1,3));
         g->m.field_effect(i, j, g);
        }
@@ -1860,16 +1862,16 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    //TODO: Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
-    if ((i == x && j == y) || !has_flag(collapses, i, j))
+    if ((i == x && j == y) || !has_flag("COLLAPSES", i, j))
       continue;
      int num_supports = -1;
      for (int k = i - 1; k <= i + 1; k++)
        for (int l = j - 1; l <= j + 1; l++) {
        if (k == i && l == j)
         continue;
-       if (has_flag(collapses, k, l))
+       if (has_flag("COLLAPSES", k, l))
         num_supports++;
-       else if (has_flag(supports_roof, k, l))
+       else if (has_flag("SUPPORTS_ROOF", k, l))
         num_supports += 2;
        }
      if (one_in(num_supports))
@@ -1895,11 +1897,8 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
     if (one_in(2)) {
-     //debugmsg("1");
-      if (!g->m.has_flag(noitem, x, y)) {
-       //debugmsg("2");
+      if (!g->m.has_flag("NOITEM", x, y)) {
        if (!(g->m.field_at(i, j).findField(fd_rubble))) {
-        //debugmsg("Rubble spawned!");
         g->m.add_field(g, i, j, fd_rubble, rng(1,3));
         g->m.field_effect(i, j, g);
       }
@@ -1910,20 +1909,20 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   //TODO: Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
-    if ((i == x && j == y) || !has_flag(supports_roof, i, j))
+    if ((i == x && j == y) || !has_flag("SUPPORTS_ROOF", i, j))
       continue;
      int num_supports = 0;
      for (int k = i - 1; k <= i + 1; k++)
       for (int l = j - 1; l <= j + 1; l++) {
        if (k == i && l == j)
         continue;
-       if (has_flag(collapses, i, j)) {
-        if (has_flag(collapses, k, l))
+       if (has_flag("COLLAPSES", i, j)) {
+        if (has_flag("COLLAPSES", k, l))
          num_supports++;
-        else if (has_flag(supports_roof, k, l))
+        else if (has_flag("SUPPORTS_ROOF", k, l))
          num_supports += 2;
-       } else if (has_flag(supports_roof, i, j))
-        if (has_flag(supports_roof, k, l) && !has_flag(collapses, k, l))
+       } else if (has_flag("SUPPORTS_ROOF", i, j))
+        if (has_flag("SUPPORTS_ROOF", k, l) && !has_flag("COLLAPSES", k, l))
          num_supports += 3;
       }
      if (one_in(num_supports))
@@ -1951,8 +1950,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
       break;
 
  default:
-  if (makesound && has_flag(explodes, x, y) && one_in(2))
+  if (makesound && has_flag("EXPLODES", x, y) && one_in(2)) {
    g->explosion(x, y, 40, 0, true);
+  }
   ter_set(x, y, t_rubble);
  }
 
@@ -1968,7 +1968,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         return;
     }
 
-    if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED))
+    if (has_flag("ALARMED", x, y) && !g->event_queued(EVENT_WANTED))
     {
         g->sound(x, y, 30, _("An alarm sounds!"));
         g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
@@ -2296,7 +2296,7 @@ bool map::hit_with_fire(game *g, const int x, const int y)
         return false; // Didn't hit the tile!
 
     // non passable but flammable terrain, set it on fire
-    if (has_flag(flammable, x, y) || has_flag(flammable2, x, y))
+    if (has_flag("FLAMMABLE", x, y) || has_flag("FLAMMABLE_ASH", x, y))
     {
         add_field(g, x, y, fd_fire, 3);
     }
@@ -2544,8 +2544,8 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container(&(g->itypes));
-    if ((new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ||
-        has_flag(destroy_item, x, y))
+    if ((new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) ||
+        has_flag("DESTROY_ITEM", x, y))
     {
         return;
     }
@@ -2619,7 +2619,7 @@ bool map::is_full(const int x, const int y, const int addvolume, const int addnu
    const int maxitems = MAX_ITEM_IN_SQUARE; // (game.h) 1024
    const int maxvolume = this->max_volume(x, y);
 
-   if( ! (INBOUNDS(x, y) && move_cost(x, y) > 0 && !has_flag(noitem, x, y) ) ) {
+   if( ! (INBOUNDS(x, y) && move_cost(x, y) > 0 && !has_flag("NOITEM", x, y) ) ) {
        return true;
    }
 
@@ -2641,14 +2641,15 @@ bool map::is_full(const int x, const int y, const int addvolume, const int addnu
 // overflow_radius > 0: if x,y is full, attempt to drop item up to overflow_radius squares away, if x,y is full
 bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius) {
 
-    if( new_item.is_style() || !INBOUNDS(x,y) ) {
+    if(!INBOUNDS(x,y) ) {
         // Complain about things that should never happen.
-        dbg(D_INFO) << x << "," << y << ":is_style "<< new_item.is_style() << ", liquid "<<(new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) <<
-                    ", destroy_item "<<has_flag(destroy_item, x, y);
+        dbg(D_INFO) << x << "," << y << ", liquid "
+                    <<(new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) <<
+                    ", destroy_item "<<has_flag("DESTROY_ITEM", x, y);
 
         return false;
     }
-    if( (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) {
+    if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) || has_flag("DESTROY_ITEM", x, y) ) {
         // Silently fail on mundane things that prevent item spawn.
         return false;
     }
@@ -2660,7 +2661,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
     {
         itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
         if (!INBOUNDS(p_it->x, p_it->x) || new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
-                has_flag(destroy_item, p_it->x, p_it->y) || has_flag(noitem, p_it->x, p_it->y)){
+                has_flag("DESTROY_ITEM", p_it->x, p_it->y) || has_flag("NOITEM", p_it->x, p_it->y)){
             continue;
         }
 
@@ -2688,14 +2689,11 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 // map::add_item_or_charges
 void map::add_item(const int x, const int y, item new_item, const int maxitems)
 {
-
- if (new_item.is_style())
-     return;
- if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
+ if (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y))
      return;
  if (!INBOUNDS(x, y))
      return;
- if (has_flag(destroy_item, x, y) || (i_at(x,y).size() >= maxitems))
+ if (has_flag("DESTROY_ITEM", x, y) || (i_at(x,y).size() >= maxitems))
  {
      return;
  }
@@ -2790,8 +2788,8 @@ void map::process_active_items_in_submap(game *g, const int nonant)
     }
 }
 
-std::list<item> map::use_amount(const point origin, const int range, const itype_id type, const int amount,
-                     const bool use_container)
+std::list<item> map::use_amount(const point origin, const int range, const itype_id type,
+                                const int amount, const bool use_container)
 {
  std::list<item> ret;
  int quantity = amount;
@@ -2814,7 +2812,7 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
       if (use_container && used_contents) {
        i_rem(x, y, n);
        n--;
-      } else if (curit->type->id == type && quantity > 0) {
+      } else if (curit->type->id == type && quantity > 0 && curit->contents.size() == 0) {
        ret.push_back(*curit);
        quantity--;
        i_rem(x, y, n);
@@ -3293,7 +3291,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   tercol = c_dkgray;
  else
   normal_tercol = true;
- if (move_cost(x, y) == 0 && has_flag(swimmable, x, y) && !u.is_underwater())
+ if (move_cost(x, y) == 0 && has_flag("SWIMMABLE", x, y) && !u.is_underwater())
   show_items = false; // Can only see underwater items if WE are underwater
 // If there's a trap here, and we have sufficient perception, draw that instead
  if (curr_trap != tr_null &&
@@ -3330,7 +3328,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   }
  }
 // If there's items here, draw those instead
- if (show_items && !has_flag(container, x, y) && curr_items.size() > 0 && !drew_field) {
+ if (show_items && !has_flag("CONTAINER", x, y) && curr_items.size() > 0 && !drew_field) {
   if (sym != '.' && sym != '%')
    hi = true;
   else {
@@ -3580,7 +3578,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
      done = true;
      parent[x][y] = open[index];
     } else if (x >= startx && x <= endx && y >= starty && y <= endy &&
-               (move_cost(x, y) > 0 || (can_bash && has_flag(bashable, x, y)))) {
+               (move_cost(x, y) > 0 || (can_bash && has_flag("BASHABLE", x, y)))) {
      if (list[x][y] == ASL_NONE) { // Not listed, so make it open
       list[x][y] = ASL_OPEN;
       open.push_back(point(x, y));
@@ -3588,14 +3586,14 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
       gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y);
       if (ter(x, y) == t_door_c)
        gscore[x][y] += 4; // A turn to open it and a turn to move there
-      else if (move_cost(x, y) == 0 && (can_bash && has_flag(bashable, x, y)))
+      else if (move_cost(x, y) == 0 && (can_bash && has_flag("BASHABLE", x, y)))
        gscore[x][y] += 18; // Worst case scenario with damage penalty
       score[x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
      } else if (list[x][y] == ASL_OPEN) { // It's open, but make it our child
       int newg = gscore[open[index].x][open[index].y] + move_cost(x, y);
       if (ter(x, y) == t_door_c)
        newg += 4; // A turn to open it and a turn to move there
-      else if (move_cost(x, y) == 0 && (can_bash && has_flag(bashable, x, y)))
+      else if (move_cost(x, y) == 0 && (can_bash && has_flag("BASHABLE", x, y)))
        newg += 18; // Worst case scenario with damage penalty
       if (newg < gscore[x][y]) {
        gscore[x][y] = newg;
@@ -3850,7 +3848,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
   for (int x = 0; x < SEEX; x++) {
     for (int y = 0; y < SEEY; y++) {
       furn_id furn = tmpsub->frn[x][y];
-      if (furn && (furnlist[furn].flags & mfb(plant))) {
+      if (furn && furnlist[furn].has_flag("PLANT")) {
         item seed = tmpsub->itm[x][y][0];
 
         while (g->turn > seed.bday + plantEpoch && furn < f_plant_harvest) {
@@ -4103,7 +4101,7 @@ void map::build_outside_cache(const game *g)
     {
         for(int y = 0; y < SEEY * my_MAPSIZE; y++)
         {
-            if( has_flag_ter_or_furn(indoors, x, y))
+            if( has_flag_ter_or_furn("INDOORS", x, y))
             {
                 for( int dx = -1; dx <= 1; dx++ )
                 {
@@ -4129,7 +4127,7 @@ void map::build_transparency_cache()
    // Default to fully transparent.
    transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
 
-   if (!has_flag_ter_and_furn(transparent, x, y)) {
+   if (!terlist[ter(x, y)].transparent) {
     transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
     continue;
    }

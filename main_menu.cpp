@@ -8,6 +8,8 @@
 #include "translations.h"
 #include "catacharset.h"
 #include "get_version.h"
+#include "help.h"
+#include "options.h"
 
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -246,7 +248,7 @@ bool game::opening_screen()
                 if (sel1 == 5) {
                     show_options();
                 } else if (sel1 == 6) {
-                    help();
+                    display_help();
                 } else if (sel1 == 8) {
                     uquit = QUIT_MENU;
                     return false;

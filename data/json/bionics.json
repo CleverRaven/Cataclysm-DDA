@@ -307,7 +307,7 @@
     "name"       :    "Repair Nanobots",
     "active"     :    true,
     "cost"       :    5,
-    "description":    "Inside your body is a fleet of tiny dormant robots.  Once charged from your energy banks, they will flit about your body, repairing any damage."
+    "description":    "Inside your body is a fleet of tiny dormant robots.  Once charged from your energy banks, they will flit about your body, repairing damage and stopping bleeding."
 },
 {
     "type"       :    "bionic",
@@ -582,6 +582,7 @@
     "type"       :    "bionic",
     "id"         :    "bio_stiff",
     "name"       :    "Wire-induced Stiffness",
+    "faulty"     :    true,
     "description":    "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance."
 }
 ]

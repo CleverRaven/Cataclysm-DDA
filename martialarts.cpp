@@ -172,6 +172,8 @@ ma_buff loadBuff(catajson& curBuff) {
   if (curBuff.has("block_per"))
     buff.block_per = curBuff.get("block_per").as_double();
 
+  if (curBuff.has("quiet"))
+    buff.quiet = curBuff.get("quiet").as_bool();
   if (curBuff.has("throw_immune"))
     buff.throw_immune = curBuff.get("throw_immune").as_bool();
 
@@ -253,8 +255,12 @@ void game::init_martialarts() {
       ma.techniques = curMartialArt.get("techniques").as_tags();
     }
 
-    if( curMartialArt.has("can_leg_block") ) {
-      ma.has_leg_block = curMartialArt.get("can_leg_block").as_bool();
+    if( curMartialArt.has("leg_block") ) {
+      ma.leg_block = curMartialArt.get("leg_block").as_int();
+    }
+
+    if( curMartialArt.has("arm_block") ) {
+      ma.arm_block = curMartialArt.get("arm_block").as_int();
     }
 
     martialarts[ma.id] = ma;
@@ -430,13 +436,15 @@ int ma_buff::cut_bonus(player& u) {
 bool ma_buff::is_throw_immune() {
   return throw_immune;
 }
-
-
+bool ma_buff::is_quiet() {
+  return quiet;
+}
 
 
 
 martialart::martialart() {
-  has_leg_block = false;
+  leg_block = -1;
+  arm_block = -1;
 }
 
 // simultaneously check and add all buffs. this is so that buffs that have
@@ -531,8 +539,16 @@ bool player::has_grab_break_tec(game* g) {
   return false;
 }
 
-bool player::can_leg_block(game* g) {
-  return g->martialarts[style_selected].has_leg_block;
+bool player::can_leg_block() {
+  return (skillLevel("unarmed") >= g->martialarts[style_selected].leg_block &&
+          g->martialarts[style_selected].leg_block > -1 && 
+          (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_l] > 0));
+}
+
+bool player::can_arm_block() {
+  return (skillLevel("unarmed") >= g->martialarts[style_selected].arm_block &&
+          g->martialarts[style_selected].arm_block > -1 && 
+          (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_l] > 0));
 }
 
 // event handlers
@@ -645,6 +661,16 @@ bool player::is_throw_immune() {
     if (it->is_mabuff() &&
         g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
       if (g->ma_buffs[it->buff_id].is_throw_immune()) return true;
+    }
+  }
+  return false;
+}
+bool player::is_quiet() {
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        g->ma_buffs.find(it->buff_id) != g->ma_buffs.end()) {
+      if (g->ma_buffs[it->buff_id].is_quiet()) return true;
     }
   }
   return false;

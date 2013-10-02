@@ -62,7 +62,7 @@ void load_recipe(JsonObject &jsobj)
          ++name_iter)
     {
         if ((*name_iter) == rec_name) {
-            throw jsobj.line_number() + "Recipe name collision (set a unique value for the id_suffix field to fix): " + rec_name;
+            throw jsobj.line_number() + ": Recipe name collision (set a unique value for the id_suffix field to fix): " + rec_name;
         }
     }
 
@@ -140,17 +140,14 @@ void game::recraft()
 //TODO clean up this function to give better status messages (e.g., "no fire available")
 bool game::making_would_work(recipe *making)
 {
-    if (!crafting_allowed())
-    {
+    if (!crafting_allowed()) {
         return false;
     }
 
-    if(can_make(making))
-    {
-        if (item_controller->find_template((making->result))->phase == LIQUID)
-        {
-            if (u.has_watertight_container() || u.has_matching_liquid(item_controller->find_template(making->result)->id))
-            {
+    if(can_make(making)) {
+        if (item_controller->find_template((making->result))->phase == LIQUID) {
+            if (u.has_watertight_container() ||
+                u.has_matching_liquid(item_controller->find_template(making->result)->id)) {
                 return true;
             }
             else
@@ -178,7 +175,8 @@ bool game::can_make(recipe *r)
     {
         return false;
     }
-    // under the assumption that all comp and tool's array contains all the required stuffs at the start of the array
+    // under the assumption that all comp and tool's array contains
+    // all the required stuffs at the start of the array
 
     // check all tools
     std::vector<std::vector<component> > &tools = r->tools;
@@ -198,7 +196,8 @@ bool game::can_make(recipe *r)
             component &tool = *tool_it;
             itype_id type = tool.type;
             int req = tool.count;
-            if((req<= 0 && crafting_inv.has_amount(type,1)) || (req > 0 && crafting_inv.has_charges(type,req)))
+            if((req<= 0 && crafting_inv.has_amount(type, 1)) ||
+               (req > 0 && crafting_inv.has_charges(type, req)))
             {
                 has_tool_in_set = true;
                 tool.available = 1;
@@ -1496,7 +1495,7 @@ void game::complete_disassemble()
   recipe* dis = recipe_by_index(u.activity.index); // Which recipe is it?
   item* dis_item = &u.i_at(u.activity.values[0]);
 
-  add_msg(_("You disassemble the item into its components."));
+  add_msg(_("You disassemble the %s into its components."), dis_item->name.c_str());
   // remove any batteries or ammo first
     if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL")
     {

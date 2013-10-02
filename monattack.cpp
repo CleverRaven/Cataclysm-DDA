@@ -87,79 +87,116 @@ void mattack::shriek(game *g, monster *z)
  g->sound(z->posx(), z->posy(), 50, _("a terrible shriek!"));
 }
 
+void mattack::rattle(game *g, monster *z)
+{
+ int j;
+ if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
+     !g->sees_u(z->posx(), z->posy(), j))
+  return; // Out of range
+ z->moves = -20;   // It takes a very short while
+ z->sp_timeout = z->type->sp_freq; // Reset timer
+ g->sound(z->posx(), z->posy(), 10, _("a sibilant rattling sound!"));
+}
+
 void mattack::acid(game *g, monster *z)
 {
- int junk;
- if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 10 ||
-     !g->sees_u(z->posx(), z->posy(), junk))
-  return; // Out of range
- z->moves = -300;   // It takes a while
- z->sp_timeout = z->type->sp_freq; // Reset timer
- g->sound(z->posx(), z->posy(), 4, _("a spitting noise."));
- int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
- std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
- for (int i = 0; i < line.size(); i++) {
-  if (g->m.hit_with_acid(g, line[i].x, line[i].y)) {
-   if (g->u_see(line[i].x, line[i].y))
-    g->add_msg(_("A glob of acid hits the %s!"),
-               g->m.tername(line[i].x, line[i].y).c_str());
-   return;
-  }
- }
- for (int i = -3; i <= 3; i++) {
-  for (int j = -3; j <= 3; j++) {
-   if (g->m.move_cost(hitx + i, hity +j) > 0 &&
-       g->m.sees(hitx + i, hity + j, hitx, hity, 6, junk) &&
-       ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
-     g->m.add_field(g, hitx + i, hity + j, fd_acid, 2);
-   }
-  }
- }
+    int t;
+    int junk = 0;
+    if (!g->sees_u(z->posx(), z->posy(), t) ||
+       !g->m.clear_path(z->posx(), z->posy(), g->u.posx, g->u.posy, 10, 1, 100, junk)) {
+        return; // Can't see/reach you, no attack
+    }
+    z->moves = -300;   // It takes a while
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    g->sound(z->posx(), z->posy(), 4, _("a spitting noise."));
+    int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
+    std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
+    for (int i = 0; i < line.size(); i++) {
+        if (g->m.hit_with_acid(g, line[i].x, line[i].y)) {
+            if (g->u_see(line[i].x, line[i].y)) {
+                g->add_msg(_("A glob of acid hits the %s!"),
+                              g->m.tername(line[i].x, line[i].y).c_str());
+            }
+            return;
+        }
+    }
+    for (int i = -3; i <= 3; i++) {
+        for (int j = -3; j <= 3; j++) {
+            if (g->m.move_cost(hitx + i, hity +j) > 0 &&
+                 g->m.sees(hitx + i, hity + j, hitx, hity, 6, junk) &&
+                 ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
+                g->m.add_field(g, hitx + i, hity + j, fd_acid, 2);
+            }
+        }
+    }
 }
 
 void mattack::shockstorm(game *g, monster *z)
 {
- int t;
- if (!g->sees_u(z->posx(), z->posy(), t) ||
-     rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 12)
-  return; // Can't see you, no attack
- z->moves = -50;   // It takes a while
- z->sp_timeout = z->type->sp_freq; // Reset timer
- g->add_msg(_("A bolt of electricity arcs towards you!"));
- int tarx = g->u.posx + rng(-1, 1) + rng(-1, 1),// 3 in 9 chance of direct hit,
-     tary = g->u.posy + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
- if (!g->m.sees(z->posx(), z->posy(), tarx, tary, -1, t))
-  t = 0;
- std::vector<point> bolt = line_to(z->posx(), z->posy(), tarx, tary, t);
- for (int i = 0; i < bolt.size(); i++) { // Fill the LOS with electricity
-  if (!one_in(4))
-   g->m.add_field(g, bolt[i].x, bolt[i].y, fd_electricity, rng(1, 3));
- }
-// 5x5 cloud of electricity at the square hit
- for (int i = tarx - 2; i <= tarx + 2; i++) {
-  for (int j = tary - 2; j <= tary + 2; j++) {
-   if (!one_in(4) || (i == 0 && j == 0))
-    g->m.add_field(g, i, j, fd_electricity, rng(1, 3));
-  }
- }
+    int t;
+    int junk = 0;
+    if (!g->sees_u(z->posx(), z->posy(), t) ||
+       !g->m.clear_path(z->posx(), z->posy(), g->u.posx, g->u.posy, 12, 1, 100, junk)) {
+        return; // Can't see/reach you, no attack
+    }
+    z->moves = -50;   // It takes a while
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    g->add_msg(_("A bolt of electricity arcs towards you!"));
+    int tarx = g->u.posx + rng(-1, 1) + rng(-1, 1);// 3 in 9 chance of direct hit,
+    int tary = g->u.posy + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
+    if (!g->m.sees(z->posx(), z->posy(), tarx, tary, -1, t)) {
+        t = 0;
+    }
+    std::vector<point> bolt = line_to(z->posx(), z->posy(), tarx, tary, t);
+    for (int i = 0; i < bolt.size(); i++) { // Fill the LOS with electricity
+        if (!one_in(4)) {
+            g->m.add_field(g, bolt[i].x, bolt[i].y, fd_electricity, rng(1, 3));
+        }
+    }
+    // 5x5 cloud of electricity at the square hit
+    for (int i = tarx - 2; i <= tarx + 2; i++) {
+        for (int j = tary - 2; j <= tary + 2; j++) {
+            if (!one_in(4) || (i == 0 && j == 0)) {
+                g->m.add_field(g, i, j, fd_electricity, rng(1, 3));
+            }
+        }
+    }
 }
 
 
 void mattack::smokecloud(game *g, monster *z)
 {
-  z->sp_timeout = z->type->sp_freq; // Reset timer
-  for (int i = -3; i <= 3; i++) {
-    for (int j = -3; j <=3; j++) {
-      g->m.add_field(g, z->posx() + i, z->posy() + j, fd_smoke, 2);
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    const int monx = z->posx();
+    const int mony = z->posy();
+    int junk = 0;
+    for (int i = -3; i <= 3; i++) {
+        for (int j = -3; j <=3; j++) {
+            if( g->m.move_cost( monx + i, mony + j ) != 0 &&
+                g->m.clear_path(monx, mony, monx + i, mony + j, 3, 1, 100, junk) ) {
+                g->m.add_field(g, monx + i, mony + j, fd_smoke, 2);
+            }
+        }
     }
-  }
-  //Round it out a bit
-  for (int i = -2; i <= 2; i++){
-      g->m.add_field(g, z->posx() + i, z->posy() + 4, fd_smoke, 2);
-      g->m.add_field(g, z->posx() + i, z->posy() - 4, fd_smoke, 2);
-      g->m.add_field(g, z->posx() + 4, z->posy() + i, fd_smoke, 2);
-      g->m.add_field(g, z->posx() - 4, z->posy() + i, fd_smoke, 2);
-  }
+    //Round it out a bit
+    for (int i = -2; i <= 2; i++){
+        if( g->m.move_cost( monx + i, mony + 4 ) != 0 &&
+            g->m.clear_path(monx, mony, monx + i, mony + 4, 3, 1, 100, junk) ) {
+            g->m.add_field(g, monx + i, mony + 4, fd_smoke, 2);
+        }
+        if( g->m.move_cost( monx + i, mony - 4 ) != 0 &&
+            g->m.clear_path(monx, mony, monx + i, mony - 4, 3, 1, 100, junk) ) {
+            g->m.add_field(g, monx + i, mony - 4, fd_smoke, 2);
+        }
+        if( g->m.move_cost( monx + 4, mony + i ) != 0 &&
+            g->m.clear_path(monx, mony, monx + 4, mony + i, 3, 1, 100, junk) ) {
+            g->m.add_field(g, monx + 4, mony + i, fd_smoke, 2);
+        }
+        if( g->m.move_cost( monx - 4, mony + i ) != 0 &&
+            g->m.clear_path(monx, mony, monx - 4, mony + i, 3, 1, 100, junk) ) {
+            g->m.add_field(g, monx - 4, mony + i, fd_smoke, 2);
+        }
+    }
 }
 
 void mattack::boomer(game *g, monster *z)
@@ -338,7 +375,7 @@ void mattack::growplants(game *g, monster *z)
   for (int j = -3; j <= 3; j++) {
    if (i == 0 && j == 0)
     j++;
-   if (!g->m.has_flag(diggable, z->posx() + i, z->posy() + j) && one_in(4))
+   if (!g->m.has_flag("DIGGABLE", z->posx() + i, z->posy() + j) && one_in(4))
     g->m.ter_set(z->posx() + i, z->posy() + j, t_dirt);
    else if (one_in(3) && g->m.is_destructable(z->posx() + i, z->posy() + j))
     g->m.ter_set(z->posx() + i, z->posy() + j, t_dirtmound); // Destroy walls, &c
@@ -629,43 +666,50 @@ void mattack::triffid_heartbeat(game *g, monster *z)
 
 void mattack::fungus(game *g, monster *z)
 {
- if (g->num_zombies() > 100)
-  return; // Prevent crowding the monster list.
-// TODO: Infect NPCs?
- z->moves = -200;   // It takes a while
- z->sp_timeout = z->type->sp_freq; // Reset timer
- monster spore(g->mtypes[mon_spore]);
- int sporex, sporey;
- int moncount = 0, mondex;
- //~ the sound of a fungus releasing spores
- g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
- if (g->u_see(z->posx(), z->posy()))
-  g->add_msg(_("Spores are released from the %s!"), z->name().c_str());
- for (int i = -1; i <= 1; i++) {
-  for (int j = -1; j <= 1; j++) {
-   if (i == 0 && j == 0)
-    j++; // No need to check 0, 0
-   sporex = z->posx() + i;
-   sporey = z->posy() + j;
-   mondex = g->mon_at(sporex, sporey);
-   if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
-    if (mondex != -1) { // Spores hit a monster
-     if (g->u_see(sporex, sporey))
-      g->add_msg(_("The %s is covered in tiny spores!"),
-                 g->zombie(mondex).name().c_str());
-     if (!g->zombie(mondex).make_fungus(g))
-      g->kill_mon(mondex, (z->friendly != 0));
-    } else if (g->u.posx == sporex && g->u.posy == sporey)
-     g->u.infect("spores", bp_mouth, 4, 30, g); // Spores hit the player
-    else { // Spawn a spore
-     spore.spawn(sporex, sporey);
-     g->add_zombie(spore);
+    if (g->num_zombies() > 100) {
+        return; // Prevent crowding the monster list.
     }
-   }
-  }
- }
- if (moncount >= 7) // If we're surrounded by monsters, go dormant
-  z->poly(g->mtypes[mon_fungaloid_dormant]);
+    // TODO: Infect NPCs?
+    z->moves = -200;   // It takes a while
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    monster spore(g->mtypes[mon_spore]);
+    int sporex, sporey;
+    int moncount = 0, mondex;
+    //~ the sound of a fungus releasing spores
+    g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
+    if (g->u_see(z->posx(), z->posy())) {
+        g->add_msg(_("Spores are released from the %s!"), z->name().c_str());
+    }
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            if (i == 0 && j == 0) {
+                continue;
+            }
+            sporex = z->posx() + i;
+            sporey = z->posy() + j;
+            mondex = g->mon_at(sporex, sporey);
+            if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
+                if (mondex != -1) { // Spores hit a monster
+                    if (g->u_see(sporex, sporey)) {
+                        g->add_msg(_("The %s is covered in tiny spores!"),
+                                        g->zombie(mondex).name().c_str());
+                    }
+                    if (!g->zombie(mondex).make_fungus(g)) {
+                        g->kill_mon(mondex, (z->friendly != 0));
+                    }
+                } else if (g->u.posx == sporex && g->u.posy == sporey) {
+                    g->u.infect("spores", bp_mouth, 4, 30, g); // Spores hit the player
+                } else { // Spawn a spore
+                    spore.spawn(sporex, sporey);
+                    g->add_zombie(spore);
+                }
+            }
+        }
+    }
+
+    if (moncount >= 7) { // If we're surrounded by monsters, go dormant
+        z->poly(g->mtypes[mon_fungaloid_dormant]);
+    }
 }
 
 void mattack::fungus_sprout(game *g, monster *z)
@@ -791,7 +835,7 @@ void mattack::dermatik(game *g, monster *z)
   targeted = bp_hands;
  else if (one_in(5))
   targeted = bp_feet;
- if (g->u.armor_cut(targeted) >= 2) {
+ if (one_in(g->u.armor_cut(targeted) / 3)) {
   g->add_msg(_("The %s lands on your %s, but can't penetrate your armor."),
              z->name().c_str(), body_part_name(targeted, rng(0, 1)).c_str());
   z->moves -= 150; // Attemped laying takes a while
@@ -807,7 +851,7 @@ void mattack::dermatik(game *g, monster *z)
 void mattack::plant(game *g, monster *z)
 {
 // Spores taking seed and growing into a fungaloid
- if (g->m.has_flag(diggable, z->posx(), z->posy())) {
+ if (g->m.has_flag("DIGGABLE", z->posx(), z->posy())) {
   if (g->u_see(z->posx(), z->posy()))
    g->add_msg(_("The %s takes seed and becomes a young fungaloid!"),
               z->name().c_str());
@@ -1475,39 +1519,45 @@ void mattack::breathe(game *g, monster *z)
 }
 
 void mattack::bite(game *g, monster *z) {
-  if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
-    return;
-  }
-
-  z->sp_timeout = z->type->sp_freq; // Reset timer
-  g->add_msg(_("The %s lunges forward attempting to bite you!"), z->name().c_str());
-  z->moves -= 100;
-
-  if (g->u.uncanny_dodge()) { return; }
-
-  // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-  int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
-  if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
-    g->add_msg(_("You dodge it!"));
-    g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
-    return;
-  }
-
-  body_part hit = random_body_part();
-  int dam = rng(5, 10), side = rng(0, 1);
-  dam = g->u.hit(g, hit, side, dam, 0);
-
-  if (dam > 0) {
-    g->add_msg(_("Your %s is bitten!"), body_part_name(hit, side).c_str());
-
-    if(one_in(14 - dam)) {
-      g->u.add_disease("bite", 3600);
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+        return;
     }
-  } else {
-    g->add_msg(_("Your %s is bitten, but your armor protects you."), body_part_name(hit, side).c_str());
-  }
 
-  g->u.practice(g->turn, "dodge", z->type->melee_skill);
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    g->add_msg(_("The %s lunges forward attempting to bite you!"), z->name().c_str());
+    z->moves -= 100;
+
+    if (g->u.uncanny_dodge()) { return; }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        g->add_msg(_("You dodge it!"));
+        g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+        return;
+    }
+
+    body_part hit = random_body_part();
+    int dam = rng(5, 10), side = rng(0, 1);
+    dam = g->u.hit(g, hit, side, dam, 0);
+
+    if (dam > 0) {
+        g->add_msg(_("Your %s is bitten!"), body_part_name(hit, side).c_str());
+
+        if(one_in(14 - dam)) {
+            if (g->u.has_disease("bite", hit, side)) {
+                g->u.add_disease("bite", 400, 1, 1, hit, side, true, -1);
+            } else if (g->u.has_disease("infected", hit, side)) {
+                g->u.add_disease("infected", 250, 1, 1, hit, side, true, -1);
+            } else {
+                g->u.add_disease("bite", 3601, 1, 1, hit, side, true, 0); //6 hours + 1 "tick"
+            }
+        }
+    } else {
+        g->add_msg(_("Your %s is bitten, but your armor protects you."), body_part_name(hit, side).c_str());
+    }
+
+    g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
 
 void mattack::flesh_golem(game *g, monster *z)

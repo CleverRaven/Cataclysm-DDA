@@ -98,13 +98,13 @@ You just put on an article of clothing that provides ample storage space.\n\
 This will allow you to carry much more stuff, but be aware that there is also\n\
 a limit on the weight you can carry which depends on strength.  The item you\n\
 put on also encumbered your torso.  This will make combat a little more\n\
-difficult.  To check encumberance, press @."),
+difficult.  To check encumbrance, press @."),
 _("\
 You just put on an article of clothing that protects against the environment.\n\
 The most common and imporant are respiratory devices, which will protect you\n\
 against smoke, air-born toxins or organisms, and other common hazards.\n\
 However, they also make it a little harder to breath when running, so you'll\n\
-move more slowly.  To check encumberance, press @."),
+move more slowly.  To check encumbrance, press @."),
 _("\
 If you press 'i' and then the letter of your weapon, you'll see its combat\n\
 stats.  Bashing damage ignores most armor, but varies greatly and requires\n\

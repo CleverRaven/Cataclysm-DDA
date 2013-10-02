@@ -9,6 +9,7 @@
 //***********************************
 
 WINDOW *mainwin;
+WINDOW *stdscr;
 pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
 int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
 
@@ -19,7 +20,8 @@ int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-n
 //Basic Init, create the font, backbuffer, etc
 WINDOW *initscr(void)
 {
-    return curses_init();
+    stdscr = curses_init();
+    return stdscr;
 }
 
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
@@ -236,13 +238,12 @@ int mvwvline(WINDOW *win, int y, int x, chtype ch, int n)
 //Refreshes a window, causing it to redraw on top.
 int wrefresh(WINDOW *win)
 {
-    if (win==0) win=mainwin;
     if (win->draw)
         curses_drawwindow(win);
     return 1;
 }
 
-//Refreshes window 0 (stdscr), causing it to redraw on top.
+//Refreshes the main window, causing it to redraw on top.
 int refresh(void)
 {
     return wrefresh(mainwin);
@@ -395,7 +396,7 @@ int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
     return printstring(win,printbuf);
 }
 
-//Prints a formatted string to window 0 (stdscr), moves the cursor
+//Prints a formatted string to the main window, moves the cursor
 int mvprintw(int y, int x, const char *fmt, ...)
 {
     va_list args;
@@ -407,7 +408,7 @@ int mvprintw(int y, int x, const char *fmt, ...)
     return printstring(mainwin,printbuf);
 }
 
-//Prints a formatted string to window 0 (stdscr) at the current cursor
+//Prints a formatted string to the main window at the current cursor
 int printw(const char *fmt, ...)
 {
     va_list args;
@@ -441,7 +442,7 @@ int werase(WINDOW *win)
     return 1;
 }
 
-//erases window 0 (stdscr) of all text and attributes
+//erases the main window of all text and attributes
 int erase(void)
 {
     return werase(mainwin);
@@ -471,7 +472,7 @@ int wmove(WINDOW *win, int y, int x)
     return 1;
 }
 
-//Clears windows 0 (stdscr)     I'm not sure if its suppose to do this?
+//Clears the main window     I'm not sure if its suppose to do this?
 int clear(void)
 {
     return wclear(mainwin);
@@ -510,29 +511,37 @@ int clearok(WINDOW *win)
 //gets the max x of a window (the width)
 int getmaxx(WINDOW *win)
 {
-    if (win==0) return mainwin->width;     //StdScr
     return win->width;
 }
 
 //gets the max y of a window (the height)
 int getmaxy(WINDOW *win)
 {
-    if (win==0) return mainwin->height;     //StdScr
     return win->height;
 }
 
 //gets the beginning x of a window (the x pos)
 int getbegx(WINDOW *win)
 {
-    if (win==0) return mainwin->x;     //StdScr
     return win->x;
 }
 
 //gets the beginning y of a window (the y pos)
 int getbegy(WINDOW *win)
 {
-    if (win==0) return mainwin->y;     //StdScr
     return win->y;
+}
+
+//gets the current cursor x position in a window
+int getcurx(WINDOW *win)
+{
+    return win->cursorx;
+}
+
+//gets the current cursor y position in a window
+int getcury(WINDOW *win)
+{
+    return win->cursory;
 }
 
 int start_color(void)
@@ -665,7 +674,7 @@ int waddch(WINDOW *win, const chtype ch)
 
 }
 
-//Move the cursor of windows 0 (stdscr)
+//Move the cursor of the main window
 int move(int y, int x)
 {
     return wmove(mainwin,y,x);

@@ -37,13 +37,13 @@ bool monster::can_move_to(game *g, int x, int y)
 {
     if (g->m.move_cost(x, y) == 0 &&
      (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y)) &&
-     (!can_submerge() || !g->m.has_flag(swimmable, x, y))) {
+     (!can_submerge() || !g->m.has_flag("SWIMMABLE", x, y))) {
         return false;
     }
-    if (has_flag(MF_DIGS) && !g->m.has_flag(diggable, x, y)) {
+    if (has_flag(MF_DIGS) && !g->m.has_flag("DIGGABLE", x, y)) {
         return false;
     }
-    if (has_flag(MF_AQUATIC) && !g->m.has_flag(swimmable, x, y)) {
+    if (has_flag(MF_AQUATIC) && !g->m.has_flag("SWIMMABLE", x, y)) {
         return false;
     }
 
@@ -51,7 +51,7 @@ bool monster::can_move_to(game *g, int x, int y)
     if (has_flag(MF_ANIMAL))
     {
         // don't enter sharp terrain unless tiny, or attacking
-        if (g->m.has_flag(sharp, x, y) && !(attitude(&(g->u)) == MATT_ATTACK || type->size == MS_TINY))
+        if (g->m.has_flag("SHARP", x, y) && !(attitude(&(g->u)) == MATT_ATTACK || type->size == MS_TINY))
             return false;
 
         // don't enter open pits ever unless tiny or can fly
@@ -283,7 +283,7 @@ void monster::move(game *g)
      (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
      (can_move_to(g, plans[0].x, plans[0].y) ||
       (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
-     (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
+     (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
   // CONCRETE PLANS - Most likely based on sight
   next = plans[0];
   moved = true;
@@ -369,7 +369,7 @@ void monster::friendly_move(game *g)
     //If we sucessfully calculated a plan in the generic monster movement function, begin executing it.
     if (plans.size() > 0 && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
             (can_move_to(g, plans[0].x, plans[0].y) ||
-             (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))) {
+             (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))) {
         next = plans[0];
         plans.erase(plans.begin());
         moved = true;
@@ -412,7 +412,7 @@ point monster::scent_move(game *g)
    if ((mon == -1 || g->zombie(mon).friendly != 0 || has_flag(MF_ATTACKMON)) &&
        (can_move_to(g, nx, ny) ||
         (nx == g->u.posx && ny == g->u.posy) ||
-        (g->m.has_flag(bashable, nx, ny) && has_flag(MF_BASHES)))) {
+        (g->m.has_flag("BASHABLE", nx, ny) && has_flag(MF_BASHES)))) {
     if ((!fleeing && smell > maxsmell) ||
         ( fleeing && smell < minsmell)   ) {
      smoves.clear();
@@ -453,45 +453,45 @@ point monster::wander_next(game *g)
  if (wandy > posy()) { y++; y2++; y3 -= 2; }
  if (xbest) {
   if (can_move_to(g, x, y) || (x == g->u.posx && y == g->u.posy) ||
-      (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y))) {
+      (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y))) {
    next.x = x;
    next.y = y;
   } else if (can_move_to(g, x, y2) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y2))) {
+             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y2))) {
    next.x = x;
    next.y = y2;
   } else if (can_move_to(g, x2, y) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag(bashable, x2, y))) {
+             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x2, y))) {
    next.x = x2;
    next.y = y;
   } else if (can_move_to(g, x, y3) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y3))) {
+             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y3))) {
    next.x = x;
    next.y = y3;
   } else if (can_move_to(g, x3, y) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag(bashable, x3, y))) {
+             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x3, y))) {
    next.x = x3;
    next.y = y;
   }
  } else {
   if (can_move_to(g, x, y) || (x == g->u.posx && y == g->u.posy) ||
-      (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y))) {
+      (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y))) {
    next.x = x;
    next.y = y;
   } else if (can_move_to(g, x2, y) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag(bashable, x2, y))) {
+             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x2, y))) {
    next.x = x2;
    next.y = y;
   } else if (can_move_to(g, x, y2) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y2))) {
+             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y2))) {
    next.x = x;
    next.y = y2;
   } else if (can_move_to(g, x3, y) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag(bashable, x3, y))) {
+             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x3, y))) {
    next.x = x3;
    next.y = y;
   } else if (can_move_to(g, x, y3) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y3))) {
+             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y3))) {
    next.x = x;
    next.y = y3;
   }
@@ -521,8 +521,6 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     body_part bphit;
     int side = rng(0, 1);
     int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
-
-    p.block_hit(g, this, NULL, bphit, side, dam, cut, stab);
 
     //110*e^(-.3*[melee skill of monster]) = % chance to miss. *100 to track .01%'s
     //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
@@ -560,7 +558,15 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             {
                 p.practice(g->turn, "dodge", type->melee_skill);
 
-                /* TODO: re-add with block mechanic*/
+                if(!p.block_hit(g, this, NULL, bphit, side, dam, cut, stab) && u_see) {
+                    if (is_npc) {
+                        g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
+                            p.name.c_str(), body_part_name(bphit, side).c_str());
+                    } else {
+                        g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
+                                   body_part_name(bphit, side).c_str());
+                    }
+                }
 
                 // Attempt defensive moves
                 if (!is_npc)
@@ -647,14 +653,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         if (!is_npc) {
                             g->add_msg(_("You're Bleeding!"));
                         }
-                        if (bphit == bp_mouth || bphit == bp_eyes ||
-                            bphit == bp_head) {
-                            p.add_disease("bleed", 60, 1, 3, bp_head, -1);
-                        } else if (bphit == bp_torso) {
-                            p.add_disease("bleed", 60, 1, 3, bp_torso, -1);
-                        } else {
-                            p.add_disease("bleed", 60, 1, 3, bphit, side);
-                        }
+                        p.add_disease("bleed", 60, 1, 3, bphit, side, true);
                     }
 
                     //Same as monster's chance to not miss
@@ -742,12 +741,12 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
         movecost = 100 * diag_mult;
     // Swimming monsters move super fast in water
     } else if (has_flag(MF_SWIMS)) {
-        if (g->m.has_flag(swimmable, x1, y1)) {
+        if (g->m.has_flag("SWIMMABLE", x1, y1)) {
             movecost += 25;
         } else {
             movecost += 50 * g->m.move_cost(x1, y1);
         }
-        if (g->m.has_flag(swimmable, x2, y2)) {
+        if (g->m.has_flag("SWIMMABLE", x2, y2)) {
             movecost += 25;
         } else {
             movecost += 50 * g->m.move_cost(x2, y2);
@@ -755,12 +754,12 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
         movecost *= diag_mult;
     // No-breathe monsters have to walk underwater slowly
     } else if (can_submerge()) {
-        if (g->m.has_flag(swimmable, x1, y1)) {
+        if (g->m.has_flag("SWIMMABLE", x1, y1)) {
             movecost += 150;
         } else {
             movecost += 50 * g->m.move_cost(x1, y1);
         }
-        if (g->m.has_flag(swimmable, x2, y2)) {
+        if (g->m.has_flag("SWIMMABLE", x2, y2)) {
             movecost += 150;
         } else {
             movecost += 50 * g->m.move_cost(x2, y2);
@@ -780,7 +779,7 @@ int monster::bash_at(int x, int y) {
       return 0;
     }
     bool try_bash = !can_move_to(g, x, y) || one_in(3);
-    bool can_bash = g->m.has_flag(bashable, x, y) && has_flag(MF_BASHES);
+    bool can_bash = g->m.has_flag("BASHABLE", x, y) && has_flag(MF_BASHES);
     if(try_bash && can_bash) {
         std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
         int bashskill = int(type->melee_dice * type->melee_sides);
@@ -900,9 +899,9 @@ int monster::move_to(game *g, int x, int y, bool force)
     //Hallucinations don't do any of the stuff after this point
     return 1;
   }
-  if (type->size != MS_TINY && g->m.has_flag(sharp, posx(), posy()) && !one_in(4))
+  if (type->size != MS_TINY && g->m.has_flag("SHARP", posx(), posy()) && !one_in(4))
      hurt(rng(2, 3));
-  if (type->size != MS_TINY && g->m.has_flag(rough, posx(), posy()) && one_in(6))
+  if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6))
      hurt(rng(1, 2));
   if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
       g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
@@ -948,8 +947,8 @@ void monster::stumble(game *g, bool moved)
        //(Unless they can swim/are aquatic)
        //But let them wander OUT of water if they are there.
        !(has_flag(MF_NO_BREATHE) && !has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)
-           && g->m.has_flag(swimmable, nx, ny)
-           && !g->m.has_flag(swimmable, posx(), posy())) &&
+           && g->m.has_flag("SWIMMABLE", nx, ny)
+           && !g->m.has_flag("SWIMMABLE", posx(), posy())) &&
        (g->u.posx != nx || g->u.posy != ny) &&
        (g->mon_at(nx, ny) == -1)) {
     point tmp(nx, ny);
@@ -1035,7 +1034,7 @@ void monster::knock_back_from(game *g, int x, int y)
 // If we're still in the function at this point, we're actually moving a tile!
  if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
 
-  if (g->m.has_flag(liquid, to.x, to.y) && can_drown()) {
+  if (g->m.has_flag("LIQUID", to.x, to.y) && can_drown()) {
    hurt(9999);
    if (u_see) {
     g->add_msg(_("The %s drowns!"), name().c_str());

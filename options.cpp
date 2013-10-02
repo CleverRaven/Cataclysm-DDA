@@ -566,11 +566,6 @@ void initOptions() {
                                              _("If true, replaces some TTF rendered text with Tiles. Only applicable on SDL builds. Requires restart."),
                                              true
                                              );
-    OPTIONS["ALLITERATE_NAME"] =              cOpt("general", _("Alliterate player name"),
-                                             _("Generated name for player is alliterative. That's important theatrically, you know."),
-                                             true
-                                             );
-
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         for (int i=0; i < vPages.size(); ++i) {
@@ -582,7 +577,7 @@ void initOptions() {
     }
 }
 
-void game::show_options()
+void show_options()
 {
     std::map<std::string, cOpt> OPTIONS_OLD = OPTIONS;
 

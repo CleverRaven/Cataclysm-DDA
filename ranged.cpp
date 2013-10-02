@@ -8,6 +8,7 @@
 #include "rng.h"
 #include "item.h"
 #include "options.h"
+#include "action.h"
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
@@ -185,7 +186,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
          radius++
        ) {                                      /* iterate from last target's position: makes sense for burst fire.*/
 
-           for (std::vector<monster>::iterator it = _z.begin(); it != _z.end(); ++it) {
+           for (std::vector<monster>::iterator it = _active_monsters.begin(); it != _active_monsters.end(); ++it) {
                int nt_range_to_me = rl_dist(p.posx, p.posy, it->posx(), it->posy());
                int dummy;
                if (nt_range_to_me == 0 || nt_range_to_me > weaponrange ||
@@ -249,9 +250,16 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
     if( weapon->has_gunmod("brass_catcher") != -1 ) {
         p.i_add( casing );
     } else {
-       int x = p.posx - 1 + rng(0, 2);
-       int y = p.posy - 1 + rng(0, 2);
-       m.add_item_or_charges(x, y, casing);
+        int x = 0;
+        int y = 0;
+        int count = 0;
+        do {
+            x = p.posx - 1 + rng(0, 2);
+            y = p.posy - 1 + rng(0, 2);
+            count++;
+            // Try not to drop the casing on a wall if at all possible.
+        } while( g->m.move_cost( x, y ) == 0 && count < 10 );
+        m.add_item_or_charges(x, y, casing);
     }
    }
 
@@ -803,7 +811,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   wrefresh(w_status);
   refresh();
   ch = input();
-  get_direction(this, tarx, tary, ch);
+  get_direction(tarx, tary, ch);
   /* More drawing to terrain */
   if (tarx != -2 && tary != -2 && ch != '.') { // Direction character pressed
    int mondex = mon_at(x, y), npcdex = npc_at(x, y);

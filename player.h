@@ -166,16 +166,18 @@ public:
  float mabuff_cut_mult(); // martial arts bash damage multiplier
  int mabuff_cut_bonus(); // martial arts bash damage bonus, applied after mult
  bool is_throw_immune(); // martial arts throw immunity
+ bool is_quiet(); // martial arts quiet melee
 
  bool has_miss_recovery_tec(game* g); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(game* g); // technique-based miss recovery, like tec_feint
- bool can_leg_block(game* g); // technique-based miss recovery, like tec_feint
+ bool can_leg_block(); // technique-based miss recovery, like tec_feint
+ bool can_arm_block(); // technique-based miss recovery, like tec_feint
 
 // melee.cpp
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
- void block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
+ bool block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
     int &bash_dam, int &cut_dam, int &stab_dam);
 
  int base_damage(bool real_life = true, int stat = -999);
@@ -228,7 +230,8 @@ public:
 // absorb() reduces dam and cut by your armor (and bionics, traits, etc)
  void absorb(game *g, body_part bp,               int &dam, int &cut);
 // hurt() doesn't--effects of disease, what have you
- void hurt  (game *g, body_part bphurt, int side, int  dam);
+ void hurt (game *g, body_part bphurt, int side, int  dam);
+ void hurt (hp_part hurt, int dam);
 
  void heal(body_part healed, int side, int dam);
  void heal(hp_part healed, int dam);
@@ -236,8 +239,12 @@ public:
  void hurtall(int dam);
  // checks armor. if vary > 0, then damage to parts are random within 'vary' percent (1-100)
  void hitall(game *g, int dam, int vary = 0);
-// Sends us flying one tile
+ // Sends us flying one tile
  void knock_back_from(game *g, int x, int y);
+
+ //Converts bp/side to hp_part and back again
+ void bp_convert(hp_part &hpart, body_part bp, int side);
+ void hp_convert(hp_part hpart, body_part &bp, int &side);
 
  int hp_percentage(); // % of HP remaining, overall
  void recalc_hp(); // Change HP after a change to max strength
@@ -252,10 +259,10 @@ public:
 // -1 indicates that side of body is irrelevant
  void add_disease(dis_type type, int duration, int intensity = 0,
                   int max_intensity = -1, body_part part = num_bp,
-                  int side = -1);
+                  int side = -1, bool main_parts_only = false, int additive = 1);
  void rem_disease(dis_type type, body_part part = num_bp, int side = -1);
  bool has_disease(dis_type type, body_part part = num_bp, int side = -1) const;
- int  disease_level(dis_type type, body_part part = num_bp, int side = -1);
+ int  disease_duration(dis_type type, bool all = false, body_part part = num_bp, int side = -1);
  int  disease_intensity(dis_type type, body_part part = num_bp, int side = -1);
 
  void add_addiction(add_type type, int strength);
@@ -264,7 +271,6 @@ public:
  int  addiction_level(add_type type);
 
  bool siphon(game *g, vehicle *veh, ammotype desired_liquid);
- void cauterize(game *g);
  void suffer(game *g);
  void mend(game *g);
  void vomit(game *g);
@@ -300,8 +306,8 @@ public:
  hint_rating rate_action_disassemble(item *it, game *g);
 
  int warmth(body_part bp); // Warmth provided by armor &c
- int encumb(body_part bp); // Encumberance from armor &c
- int encumb(body_part bp, int &layers, int &armorenc);
+ int encumb(body_part bp); // Encumbrance from armor &c
+ int encumb(body_part bp, double &layers, int &armorenc);
  int armor_bash(body_part bp); // Bashing resistance
  int armor_cut(body_part bp); // Cutting  resistance
  int resist(body_part bp); // Infection &c resistance

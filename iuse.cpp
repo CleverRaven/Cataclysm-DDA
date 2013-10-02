@@ -10,6 +10,7 @@
 #include "player.h"
 #include "vehicle.h"
 #include "uistate.h"
+#include "action.h"
 #include <sstream>
 #include <algorithm>
 
@@ -183,12 +184,279 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,message.c_str());
 }
 
-// returns true if we want to use the special action
-bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_power,
-                      int torso_power, std::string item_name, std::string special_action)
+static nc_color limb_color(player *p, body_part bp, int side, bool bleed, bool bite, bool infect)
 {
-    int bonus = p->skillLevel("firstaid");
+    int color_bit = 0;
+    nc_color i_color = c_ltgray;
+    if (bleed && p->has_disease("bleed", bp, side)) {
+        color_bit += 1;
+    }
+    if (bite && p->has_disease("bite", bp, side)) {
+        color_bit += 10;
+    }
+    if (infect && p->has_disease("infected", bp, side)) {
+        color_bit += 100;
+    }
+    switch (color_bit) {
+        case 1:
+            i_color = c_red;
+            break;
+        case 10:
+            i_color = c_blue;
+            break;
+        case 100:
+            i_color = c_green;
+            break;
+        case 11:
+            i_color = c_magenta;
+            break;
+        case 101:
+            i_color = c_yellow;
+            break;
+    }
+    return i_color;
+}
+
+static hp_part body_window(player *p, item *it, std::string item_name, int normal_bonus,
+                           int head_bonus, int torso_bonus, int bleed,
+                           int bite, int infect, bool force)
+{
+    WINDOW* hp_window = newwin(10, 31, (TERMY-10)/2, (TERMX-31)/2);
+    wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                       LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+    mvwprintz(hp_window, 1, 1, c_ltred, _("Use %s:"), item_name.c_str());
+    nc_color color = c_ltgray;
+    if(p->hp_cur[hp_head] < p->hp_max[hp_head] || force) {
+        color = limb_color(p, bp_head, -1, bleed, bite, infect);
+        if (color != c_ltgray || head_bonus != 0 ) {
+            mvwprintz(hp_window, 2, 1, color, _("1: Head"));
+        }
+    }
+    if(p->hp_cur[hp_torso] < p->hp_max[hp_torso] || force) {
+        color = limb_color(p, bp_torso, -1, bleed, bite, infect);
+        if (color != c_ltgray || torso_bonus != 0) {
+            mvwprintz(hp_window, 3, 1, color, _("2: Torso"));
+        }
+    }
+    if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l] || force) {
+        color = limb_color(p, bp_arms, 0, bleed, bite, infect);
+        if (color != c_ltgray || normal_bonus != 0) {
+            mvwprintz(hp_window, 4, 1, color, _("3: Left Arm"));
+        }
+    }
+    if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r] || force) {
+        color = limb_color(p, bp_arms, 1, bleed, bite, infect);
+        if (color != c_ltgray || normal_bonus != 0) {
+            mvwprintz(hp_window, 5, 1, color, _("4: Right Arm"));
+        }
+    }
+    if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l] || force) {
+        color = limb_color(p, bp_legs, 0, bleed, bite, infect);
+        if (color != c_ltgray || normal_bonus != 0) {
+            mvwprintz(hp_window, 6, 1, color, _("5: Left Leg"));
+        }
+    }
+    if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r] || force) {
+        color = limb_color(p, bp_legs, 1, bleed, bite, infect);
+        if (color != c_ltgray || normal_bonus != 0) {
+            mvwprintz(hp_window, 7, 1, color, _("6: Right Leg"));
+        }
+    }
+    mvwprintz(hp_window, 8, 1, c_ltgray, _("7: Exit"));
+    std::string health_bar = "";
+    for (int i = 0; i < num_hp_parts; i++) {
+        if (p->hp_cur[i] < p->hp_max[i] || force ||
+            (head_bonus < 0 || torso_bonus < 0 || normal_bonus < 0)) {
+            int current_hp = p->hp_cur[i];
+            if (current_hp != 0) {
+                if (current_hp == p->hp_max[i]){
+                  color = c_green;
+                  health_bar = "|||||";
+                } else if (current_hp > p->hp_max[i] * .9) {
+                  color = c_green;
+                  health_bar = "||||\\";
+                } else if (current_hp > p->hp_max[i] * .8) {
+                  color = c_ltgreen;
+                  health_bar = "|||| ";
+                } else if (current_hp > p->hp_max[i] * .7) {
+                  color = c_ltgreen;
+                  health_bar = "|||\\";
+                } else if (current_hp > p->hp_max[i] * .6) {
+                  color = c_yellow;
+                  health_bar = "|||  ";
+                } else if (current_hp > p->hp_max[i] * .5) {
+                  color = c_yellow;
+                  health_bar = "||\\ ";
+                } else if (current_hp > p->hp_max[i] * .4) {
+                  color = c_ltred;
+                  health_bar = "||   ";
+                } else if (current_hp > p->hp_max[i] * .3) {
+                  color = c_ltred;
+                  health_bar = "|\\  ";
+                } else if (current_hp > p->hp_max[i] * .2) {
+                  color = c_red;
+                  health_bar = "|    ";
+                } else if (current_hp > p->hp_max[i] * .1) {
+                  color = c_red;
+                  health_bar = "\\   ";
+                } else {
+                  color = c_red;
+                  health_bar = ":    ";
+                }
+                if (p->has_trait("SELFAWARE")) {
+                    mvwprintz(hp_window, i + 2, 15, color, "%5d", current_hp);
+                } else {
+                    mvwprintz(hp_window, i + 2, 15, color, health_bar.c_str());
+                }
+            } else {
+                // curhp is 0; requires surgical attention
+                mvwprintz(hp_window, i + 2, 15, c_dkgray, "-----");
+            }
+            mvwprintz(hp_window, i + 2, 20, c_dkgray, " -> ");
+            if (current_hp != 0) {
+                switch (hp_part(i)) {
+                    case hp_head:
+                        current_hp += head_bonus;
+                        break;
+                    case hp_torso:
+                        current_hp += torso_bonus;
+                        break;
+                    default:
+                        current_hp += normal_bonus;
+                        break;
+                }
+                if (current_hp > p->hp_max[i]) {
+                    current_hp = p->hp_max[i];
+                } else if (current_hp < 0) {
+                    current_hp = 0;
+                }
+
+                if (current_hp == p->hp_max[i]){
+                  color = c_green;
+                  health_bar = "|||||";
+                } else if (current_hp > p->hp_max[i] * .9) {
+                  color = c_green;
+                  health_bar = "||||\\";
+                } else if (current_hp > p->hp_max[i] * .8) {
+                  color = c_ltgreen;
+                  health_bar = "|||| ";
+                } else if (current_hp > p->hp_max[i] * .7) {
+                  color = c_ltgreen;
+                  health_bar = "|||\\";
+                } else if (current_hp > p->hp_max[i] * .6) {
+                  color = c_yellow;
+                  health_bar = "|||  ";
+                } else if (current_hp > p->hp_max[i] * .5) {
+                  color = c_yellow;
+                  health_bar = "||\\ ";
+                } else if (current_hp > p->hp_max[i] * .4) {
+                  color = c_ltred;
+                  health_bar = "||   ";
+                } else if (current_hp > p->hp_max[i] * .3) {
+                  color = c_ltred;
+                  health_bar = "|\\  ";
+                } else if (current_hp > p->hp_max[i] * .2) {
+                  color = c_red;
+                  health_bar = "|    ";
+                } else if (current_hp > p->hp_max[i] * .1) {
+                  color = c_red;
+                  health_bar = "\\   ";
+                } else {
+                  color = c_red;
+                  health_bar = ":    ";
+                }
+                if (p->has_trait("SELFAWARE")) {
+                    mvwprintz(hp_window, i + 2, 24, color, "%5d", current_hp);
+                } else {
+                    mvwprintz(hp_window, i + 2, 24, color, health_bar.c_str());
+                }
+            } else {
+                // curhp is 0; requires surgical attention
+                mvwprintz(hp_window, i + 2, 24, c_dkgray, "-----");
+            }
+        }
+    }
+    wrefresh(hp_window);
+    char ch;
+    hp_part healed_part = num_hp_parts;
+    do {
+        ch = getch();
+        if (ch == '1'){
+            healed_part = hp_head;
+        } else if (ch == '2'){
+            healed_part = hp_torso;
+        } else if (ch == '3') {
+            if (p->hp_cur[hp_arm_l] == 0) {
+                g->add_msg_if_player(p,_("That arm is broken.  It needs surgical attention."));
+                add_or_drop_item(g, p, it);
+                return num_hp_parts;
+            } else {
+                healed_part = hp_arm_l;
+            }
+        } else if (ch == '4') {
+            if (p->hp_cur[hp_arm_r] == 0) {
+                g->add_msg_if_player(p,_("That arm is broken.  It needs surgical attention."));
+                add_or_drop_item(g, p, it);
+                return num_hp_parts;
+            } else {
+                healed_part = hp_arm_r;
+            }
+        } else if (ch == '5') {
+            if (p->hp_cur[hp_leg_l] == 0) {
+                g->add_msg_if_player(p,_("That leg is broken.  It needs surgical attention."));
+                add_or_drop_item(g, p, it);
+                return num_hp_parts;
+            } else {
+                healed_part = hp_leg_l;
+            }
+        } else if (ch == '6') {
+            if (p->hp_cur[hp_leg_r] == 0) {
+                g->add_msg_if_player(p,_("That leg is broken.  It needs surgical attention."));
+                add_or_drop_item(g, p, it);
+                return num_hp_parts;
+            } else {
+                healed_part = hp_leg_r;
+            }
+        } else if (ch == '7' || ch == KEY_ESCAPE) {
+            g->add_msg_if_player(p,_("Never mind."));
+            add_or_drop_item(g, p, it);
+            return num_hp_parts;
+        }
+    } while (ch < '1' || ch > '7');
+    werase(hp_window);
+    wrefresh(hp_window);
+    delwin(hp_window);
+    refresh();
+
+    return healed_part;
+}
+
+// returns true if we want to use the special action
+static hp_part use_healing_item(game *g, player *p, item *it, int normal_power, int head_power,
+                      int torso_power, std::string item_name, int bleed,
+                      int bite, int infect, bool force)
+{
     hp_part healed = num_hp_parts;
+    int bonus = p->skillLevel("firstaid");
+    int head_bonus = 0;
+    int normal_bonus = 0;
+    int torso_bonus = 0;
+    if (head_power > 0) {
+        head_bonus = bonus * .8 + head_power;
+    } else {
+        head_bonus = head_power;
+    }
+    if (normal_power > 0) {
+        normal_bonus = bonus + normal_power;
+    } else {
+        normal_bonus = normal_power;
+    }
+    if (torso_power > 0) {
+        torso_bonus = bonus * 1.5 + torso_power;
+    } else {
+    torso_bonus = torso_power;
+    }
 
     if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
         int highest_damage = 0;
@@ -204,240 +472,80 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(11, 22, (TERMY-10)/2, (TERMX-22)/2);
-        wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                           LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-
-        mvwprintz(hp_window, 1, 1, c_ltred,  _("Use %s:"), item_name.c_str());
-        if(p->hp_cur[hp_head] < p->hp_max[hp_head])
-        {
-            mvwprintz(hp_window, 2, 1, p->has_disease("bleed", bp_head) ? c_red : c_ltgray, _("1: Head"));
+        healed = body_window(p, it, item_name, normal_bonus, head_bonus, 
+                             torso_bonus, bleed, bite, infect, force);
+        if (healed == num_hp_parts) {
+            return healed;
         }
-        if(p->hp_cur[hp_torso] < p->hp_max[hp_torso])
-        {
-            mvwprintz(hp_window, 3, 1, p->has_disease("bleed", bp_torso) ? c_red : c_ltgray, _("2: Torso"));
-        }
-        if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l])
-        {
-            mvwprintz(hp_window, 4, 1, p->has_disease("bleed", bp_arms, 0) ? c_red : c_ltgray, _("3: Left Arm"));
-        }
-        if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r])
-        {
-            mvwprintz(hp_window, 5, 1, p->has_disease("bleed", bp_arms, 1) ? c_red : c_ltgray, _("4: Right Arm"));
-        }
-        if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l])
-        {
-            mvwprintz(hp_window, 6, 1, p->has_disease("bleed", bp_legs, 0) ? c_red : c_ltgray, _("5: Left Leg"));
-        }
-        if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r])
-        {
-            mvwprintz(hp_window, 7, 1, p->has_disease("bleed", bp_legs, 1) ? c_red : c_ltgray, _("6: Right Leg"));
-        }
-        if(special_action != "")
-        {
-            mvwprintz(hp_window, 8, 1, c_ltgray, _("7: %s"), special_action.c_str());
-        }
-        mvwprintz(hp_window, 9, 1, c_ltgray, _("8: Exit"));
-        nc_color color;
-        std::string asterisks = "";
-        for (int i = 0; i < num_hp_parts; i++)
-        {
-            if (p->hp_cur[i] < p->hp_max[i])
-            {
-                int current_hp = p->hp_cur[i];
-                int temporary_bonus = bonus;
-                if (current_hp != 0)
-                {
-                    switch (hp_part(i)) {
-                        case hp_head:
-                            current_hp += head_power;
-                            temporary_bonus *=  .8;
-                            break;
-                        case hp_torso:
-                            current_hp += torso_power;
-                            temporary_bonus *= 1.5;
-                            break;
-                        default:
-                            current_hp += normal_power;
-                            break;
-                    }
-                    current_hp += temporary_bonus;
-                    if (current_hp > p->hp_max[i])
-                    {
-                        current_hp = p->hp_max[i];
-                    }
-                    if (current_hp == p->hp_max[i])
-                    {
-                        color = c_green;
-                        asterisks = "***";
-                    }
-                    else if (current_hp > p->hp_max[i] * .8)
-                    {
-                        color = c_ltgreen;
-                        asterisks = "***";
-                    }
-                    else if (current_hp > p->hp_max[i] * .5)
-                    {
-                        color = c_yellow;
-                        asterisks = "** ";
-                    }
-                    else if (current_hp > p->hp_max[i] * .3)
-                    {
-                        color = c_ltred;
-                        asterisks = "** ";
-                    }
-                    else
-                    {
-                        color = c_red;
-                        asterisks = "*  ";
-                    }
-                    if (p->has_trait("SELFAWARE"))
-                    {
-                        if (current_hp >= 100)
-                        {
-                            mvwprintz(hp_window, i + 2, 16, color, "%d", current_hp);
-                        }
-                        else if (current_hp >= 10)
-                        {
-                            mvwprintz(hp_window, i + 2, 17, color, "%d", current_hp);
-                        }
-                        else
-                        {
-                            mvwprintz(hp_window, i + 2, 19, color, "%d", current_hp);
-                        }
-                    }
-                    else
-                    {
-                        mvwprintz(hp_window, i + 2, 16, color, asterisks.c_str());
-                    }
-                }
-                else
-                {
-                    // curhp is 0; requires surgical attention
-                    mvwprintz(hp_window, i + 2, 16, c_dkgray, "---");
-                }
-            }
-        }
-        wrefresh(hp_window);
-        char ch;
-        do {
-            ch = getch();
-            if (ch == '1'){
-                healed = hp_head;
-            } else if (ch == '2'){
-                healed = hp_torso;
-            } else if (ch == '3') {
-                if (p->hp_cur[hp_arm_l] == 0) {
-                    g->add_msg_if_player(p,_("That arm is broken.  It needs surgical attention."));
-                    add_or_drop_item(g, p, it);
-                    return false;
-                } else {
-                    healed = hp_arm_l;
-                }
-            } else if (ch == '4') {
-                if (p->hp_cur[hp_arm_r] == 0) {
-                    g->add_msg_if_player(p,_("That arm is broken.  It needs surgical attention."));
-                    add_or_drop_item(g, p, it);
-                    return false;
-                } else {
-                    healed = hp_arm_r;
-                }
-            } else if (ch == '5') {
-                if (p->hp_cur[hp_leg_l] == 0) {
-                    g->add_msg_if_player(p,_("That leg is broken.  It needs surgical attention."));
-                    add_or_drop_item(g, p, it);
-                    return false;
-                } else {
-                    healed = hp_leg_l;
-                }
-            } else if (ch == '6') {
-                if (p->hp_cur[hp_leg_r] == 0) {
-                    g->add_msg_if_player(p,_("That leg is broken.  It needs surgical attention."));
-                    add_or_drop_item(g, p, it);
-                    return false;
-                } else {
-                    healed = hp_leg_r;
-                }
-            } else if (ch == '8' || special_action == "") {
-                g->add_msg_if_player(p,_("Never mind."));
-                add_or_drop_item(g, p, it);
-                return false;
-            } else if (ch == '7') {
-                return true;
-            }
-        } while (ch < '1' || ch > '8');
-        werase(hp_window);
-        wrefresh(hp_window);
-        delwin(hp_window);
-        refresh();
     }
-
     p->practice(g->turn, "firstaid", 8);
     int dam = 0;
     if (healed == hp_head){
-        dam = head_power + bonus * .8;
+        dam = head_bonus;
     } else if (healed == hp_torso){
-        dam = torso_power + bonus * 1.5;
+        dam = torso_bonus;
     } else {
-        dam = normal_power + bonus;
+        dam = normal_bonus;
     }
-    p->heal(healed, dam);
+    if (dam > 0) {
+        p->heal(healed, dam);
+    } else if (dam < 0) {
+        p->hurt(healed, -dam); //hurt takes + damage
+    }
+
     body_part bp_healed = bp_torso;
     int side = -1;
-    switch(healed) {
-        case hp_head:
-            bp_healed = bp_head;
-            break;
-        case hp_torso:
-            bp_healed = bp_torso;
-            break;
-        case hp_arm_l:
-            bp_healed = bp_arms;
-            side = 0;
-            break;
-        case hp_arm_r:
-            bp_healed = bp_arms;
-            side = 1;
-            break;
-        case hp_leg_l:
-            bp_healed = bp_legs;
-            side = 0;
-            break;
-        case hp_leg_r:
-            bp_healed = bp_legs;
-            side = 1;
-            break;
+    p->hp_convert(healed, bp_healed, side);
+
+    if (p->has_disease("bleed", bp_healed, side)) {
+        if (x_in_y(bleed, 100)) {
+            p->rem_disease("bleed", bp_healed, side);
+            g->add_msg_if_player(p,_("You stop the bleeding."));
+        } else {
+            g->add_msg_if_player(p,_("You fail to stop the bleeding."));
+        }
     }
-    p->rem_disease("bleed", bp_healed, side);
-    return false;
+    if (p->has_disease("bite", bp_healed, side)) {
+        if (x_in_y(bite, 100)) {
+            int bite_dur = p->disease_duration("bite", false, bp_healed, side);
+            p->rem_disease("bite", bp_healed, side);
+            p.add_disease("recover", 2 * (3601 - bite_dur) - 4800);
+            g->add_msg_if_player(p,_("You clean the wound."));
+        } else {
+            g->add_msg_if_player(p,_("Your wound still aches."));
+        }
+    }
+    if (p->has_disease("infected", bp_healed, side)) {
+        if (x_in_y(infect, 100)) {
+            int infected_dur = p->disease_duration("infected", false, bp_healed, side);
+            p->rem_disease("infected", bp_healed, side);
+            if (infected_dur > 8401) {
+                p.add_disease("recover", 3 * (14401 - infected_dur + 3600) - 4800);
+            } else {
+                p.add_disease("recover", 4 * (14401 - infected_dur + 3600) - 4800);
+            }
+            g->add_msg_if_player(p,_("You disinfect the wound."));
+        } else {
+            g->add_msg_if_player(p,_("Your wound still hurts."));
+        }
+    }
+    return healed;
 }
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 3, 1, 4, it->name, ""))
-    {
-        g->add_msg_if_player(p,_("You stopped the bleeding."));
-        p->rem_disease("bleed");
-    }
+    use_healing_item(g, p, it, 3, 1, 4, it->name, 90, 0, 0, false);
 }
 
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 14, 10, 18, it->name, p->has_disease("bite") ? _("Clean Wound") : ""))
-    {
-        g->add_msg_if_player(p,_("You clean the bite wound."));
-        p->rem_disease("bite");
-    }
+    use_healing_item(g, p, it, 14, 10, 18, it->name, 95, 99, 95, false);
+    pkill(g, p, it, t);
 }
 
 void iuse::disinfectant(game *g, player *p, item *it, bool t)
 {
-
-    if (use_healing_item(g, p, it, 6, 5, 9, it->name, p->has_disease("bite") ? _("Clean Wound") : ""))
-    {
-        g->add_msg_if_player(p,_("You disinfect the bite wound."));
-        p->rem_disease("bite");
-    }
+    use_healing_item(g, p, it, 6, 5, 9, it->name, 0, 95, 0, false);
 }
 
 void iuse::pkill(game *g, player *p, item *it, bool t)
@@ -511,19 +619,20 @@ void iuse::cig(game *g, player *p, item *it, bool t) {
     p->thirst += 2;
     p->hunger -= 3;
     p->add_disease("cig", 200);
-    if (p->disease_level("cig") > 600) {
+    if (p->disease_duration("cig") > 600) {
         g->add_msg_if_player(p,_("Ugh, too much smoke... you feel nasty."));
     }
 }
 
 void iuse::antibiotic(game *g, player *p, item *it, bool t) {
     g->add_msg_if_player(p,_("You take some antibiotics."));
-    // cheap model of antibiotic resistance, but it's something.
-    int resistChance = 5;
-    bool resisted = (rng(1,100) < resistChance);
-    if (p->has_disease("infected") && !resisted) {
-        p->rem_disease("infected");
-        p->add_disease("recover", 1200);
+    if (p->has_disease("infected")) {
+        // cheap model of antibiotic resistance, but it's something.
+        if (x_in_y(95, 100)) {
+            int infected_dur = p->disease_duration("infected", true);
+            p->rem_disease("infected");
+            p->add_disease("recover", std::max((14401 - infected_dur + 3600) - 4800, 0) );
+        }
     }
 }
 
@@ -915,7 +1024,7 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
      return false;
    }
 
-   if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy)))
+   if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag("FLAMMABLE", posx, posy) || g->m.has_flag("FLAMMABLE_ASH", posx, posy)))
    {
      g->add_msg_if_player(p,_("There's nothing to light there."));
      it->charges++;
@@ -1449,6 +1558,22 @@ void iuse::glowstick_active(game *g, player *p, item *it, bool t)
         }
     }
 }
+
+void iuse::cauterize_effect(player *p, item *it, bool force)
+{
+    hp_part hpart = use_healing_item(g, p, it, -2, -2, -2, it->name, 100, 50, 0, force);
+    if (hpart != num_hp_parts) {
+        p->pain += 15;
+        g->add_msg_if_player(p, _("You cauterize yourself. It hurts like hell!"));
+        body_part bp =  num_bp;
+        int side = -1;
+        p->hp_convert(hpart, bp, side);
+        if (p->has_disease("bite", bp, side)) {
+            g->u.add_disease("bite", 2600, 1, 1, bp, side, true, -1);
+        }
+    }
+}
+
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)
@@ -1457,7 +1582,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
     else if (!p->has_disease("bite") && !p->has_disease("bleed")) {
         if (p->has_trait("MASOCHIST") && query_yn(_("Cauterize yourself for fun?"))) {
             it->charges -= 1;
-            p->cauterize(g);
+            cauterize_effect(p, it, true);
         }
         else
             g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
@@ -1465,7 +1590,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
     else if (p->is_npc() || query_yn(_("Cauterize any open wounds?")))
     {
         it->charges -= 1;
-        p->cauterize(g);
+        cauterize_effect(p, it);
     }
 }
 
@@ -1478,8 +1603,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
         // One does not check for open wounds with a soldering iron.
     if (p->has_disease("bite") || p->has_disease("bleed")) {
         choice = menu(true, ("Using soldering item:"), _("Cauterize wound"), _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
-    }
-    else if (p->has_trait("MASOCHIST")) {   // Masochists might be wounded too, let's not ask twice.
+    } else if (p->has_trait("MASOCHIST")) {   // Masochists might be wounded too, let's not ask twice.
         choice = menu(true, ("Using soldering item:"), _("Cauterize yourself for fun"), _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     }
 
@@ -1692,7 +1816,7 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
  }
  if (pure->charges > it->charges)
  {
-  g->add_msg_if_player(p,_("You don't have enough battery power to purify all the water."));
+  g->add_msg_if_player(p,_("You don't have enough charges in your purifier to purify all of the water."));
   return;
  }
  it->charges -= pure->charges;
@@ -2243,7 +2367,7 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
 
 void iuse::makemound(game *g, player *p, item *it, bool t)
 {
- if (g->m.has_flag(diggable, p->posx, p->posy) && !g->m.has_flag(plant, p->posx, p->posy)) {
+ if (g->m.has_flag("DIGGABLE", p->posx, p->posy) && !g->m.has_flag("PLANT", p->posx, p->posy)) {
   g->add_msg_if_player(p,_("You churn up the earth here."));
   p->moves = -300;
   g->m.ter_set(p->posx, p->posy, t_dirtmound);
@@ -2675,7 +2799,7 @@ void iuse::jackhammer(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,_("Don't do anything rash.."));
   return;
  }
- if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
+ if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
@@ -2697,7 +2821,7 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
  int dirx, diry;
  g->draw();
  mvprintw(0, 0, _("Percer dans quelle direction?"));
- get_direction(g, dirx, diry, input());
+ get_direction(dirx, diry, input());
  if (dirx == -2) {
   g->add_msg_if_player(p,_("Direction invalide"));
   return;
@@ -2709,7 +2833,7 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
  }
  dirx += p->posx;
  diry += p->posy;
- if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
+ if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
@@ -2783,7 +2907,7 @@ if(it->type->id == "cot"){
   practice = 2;
  } else if(it->type->id == "beartrap"){
   buried = (p->has_amount("shovel", 1) &&
-            g->m.has_flag(diggable, posx, posy) &&
+            g->m.has_flag("DIGGABLE", posx, posy) &&
             query_yn(_("Bury the beartrap?")));
   type = (buried ? tr_beartrap_buried : tr_beartrap);
   message << (buried ? _("You bury the beartrap.") : _("You set the beartrap.")) ;
@@ -2873,7 +2997,7 @@ if(it->type->id == "cot"){
   }
  } else if(it->type->id == "landmine"){
   buried = (p->has_amount("shovel", 1) &&
-            g->m.has_flag(diggable, posx, posy) &&
+            g->m.has_flag("DIGGABLE", posx, posy) &&
             query_yn(_("Bury the land mine?")));
   type = (buried ? tr_landmine_buried : tr_landmine);
   message << (buried ? _("You bury the land mine.") : _("You set the land mine."));
@@ -2886,7 +3010,7 @@ if(it->type->id == "cot"){
   if (!p->has_amount("shovel", 1)) {
    g->add_msg_if_player(p,_("You need a shovel."));
    return;
-  } else if (!g->m.has_flag(diggable, posx, posy)) {
+  } else if (!g->m.has_flag("DIGGABLE", posx, posy)) {
    g->add_msg_if_player(p,_("You can't dig in that %s"), g->m.tername(posx, posy).c_str());
    return;
   }
@@ -4037,7 +4161,11 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     }
 
     if ( choice == cauterize) {
-        p->cauterize(g);
+        if (!(p->has_disease("bite") || p->has_disease("bleed"))) {
+            cauterize_effect(p, it, true);
+        } else {
+            cauterize_effect(p, it);
+        }
         return;
     } else if (choice == cut_fabric) {
         ch = g->inv(_("Chop up what?"));
@@ -4286,7 +4414,7 @@ void iuse::tent(game *g, player *p, item *it, bool t)
  posy = posy*2 + p->posy;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   if (!g->m.has_flag(flat, posx + i, posy + j) ||
+   if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
         g->m.has_furn(posx + i, posy + j)) {
     g->add_msg(_("You need a 3x3 flat space to place a tent"));
     return;
@@ -4317,7 +4445,7 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
  posy = posy*2 + p->posy;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   if (!g->m.has_flag(flat, posx + i, posy + j) ||
+   if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
         g->m.has_furn(posx + i, posy + j)) {
     g->add_msg(_("You need a 3x3 flat space to place a shelter"));
     return;
@@ -4394,7 +4522,7 @@ void iuse::battletorch(game *g, player *p, item *it, bool t)
     }
     else
     {
-        g->add_msg_if_player(p,_("You light the Louieville Slaughterer."));
+        g->add_msg_if_player(p,_("You light the Louisville Slaughterer."));
         it->make(g->itypes["battletorch_lit"]);
         it->active = true;
     }
@@ -4407,7 +4535,7 @@ void iuse::battletorch_lit(game *g, player *p, item *it, bool t)
     {
         if (it->charges == 0)
         {
-            g->add_msg_if_player(p,_("The Louieville Slaughterer burns out."));
+            g->add_msg_if_player(p,_("The Louisville Slaughterer burns out."));
             it->make(g->itypes["bat"]);
             it->active = false;
         }
@@ -4415,14 +4543,14 @@ void iuse::battletorch_lit(game *g, player *p, item *it, bool t)
     else   // Turning it off
     {
         int choice = menu(true,
-                          _("Louieville Slaughterer (lit)"), _("extinguish"), _("light something"), _("cancel"), NULL);
+                          _("Louisville Slaughterer (lit)"), _("extinguish"), _("light something"), _("cancel"), NULL);
         switch (choice)
         {
             if (choice == 2)
                 break;
         case 1:
         {
-            g->add_msg_if_player(p,_("The Louieville Slaughterer is extinguished"));
+            g->add_msg_if_player(p,_("The Louisville Slaughterer is extinguished"));
             it->charges -= 1;
             it->make(g->itypes["battletorch"]);
             it->active = false;
@@ -4739,7 +4867,7 @@ void iuse::boltcutters(game *g, player *p, item *it, bool t)
   return;
 
 if (dirx == p->posx && diry == p->posy) {
-  g->add_msg_if_player(p, _("You neatly sever all of the veins\nand arteries in your body. Oh wait,\nNever mind."));
+  g->add_msg_if_player(p, _("You neatly sever all of the veins and arteries in your body. Oh wait, Never mind."));
   return;
 }
  if (g->m.ter(dirx, diry) == t_chaingate_l) {
@@ -4776,20 +4904,17 @@ void iuse::mop(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,_("There's nothing to mop there."));
  }
 }
+
 void iuse::rag(game *g, player *p, item *it, bool t)
 {
- if (p->has_disease("bleed")){
-  if (one_in(2)){
-   g->add_msg_if_player(p,_("You managed to stop the bleeding."));
-   p->rem_disease("bleed");
-  } else {
-   g->add_msg_if_player(p,_("You couldn't stop the bleeding."));
-  }
-  p->use_charges("rag", 1);
-  it->make(g->itypes["rag_bloody"]);
- } else {
-  g->add_msg_if_player(p,_("You're not bleeding enough to need your %s."), it->type->name.c_str());
- }
+    if (p->has_disease("bleed")){
+        if (use_healing_item(g, p, it, 0, 0, 0, it->name, 50, 0, 0, false) != num_hp_parts) {
+            p->use_charges("rag", 1);
+            it->make(g->itypes["rag_bloody"]);
+        }
+    } else {
+        g->add_msg_if_player(p,_("You're not bleeding enough to need your %s."), it->type->name.c_str());
+    }
 }
 
 void iuse::pda(game *g, player *p, item *it, bool t)
@@ -5365,7 +5490,7 @@ void iuse::boots(game *g, player *p, item *it, bool t)
    return;
   }
   if (put->type->use != &iuse::knife) {
-   g->add_msg_if_player(p, _("That isn't knife!"));
+   g->add_msg_if_player(p, _("That isn't a knife!"));
    return;
   }
   if (put->type->volume > 5) {
@@ -5394,7 +5519,7 @@ void iuse::towel(game *g, player *p, item *it, bool t)
 
 void iuse::unfold_bicycle(game *g, player *p, item *it, bool t)
 {
-    vehicle *bicycle = g->m.add_vehicle( g, "bicycle", p->posx, p->posy, 0, 0, 0);
+    vehicle *bicycle = g->m.add_vehicle( g, "bicycle", p->posx, p->posy, 0, 0, 0, false);
     if( bicycle ) {
         // Mark the vehicle as foldable.
         bicycle->tags.insert("convertible");
@@ -5420,7 +5545,7 @@ void iuse::adrenaline_injector(game *g, player *p, item *it, bool t)
   p->moves -= 100;
   g->add_msg_if_player(p, "You inject yourself with adrenaline.");
 
-  it->make(g->itypes["syringe"]);
+  p->inv.add_item_by_type(g->itypes["syringe"]->id);
   if(p->has_disease("adrenaline")) {
     //Increase current surge by 3 minutes (if not on comedown)
     p->add_disease("adrenaline", 30);

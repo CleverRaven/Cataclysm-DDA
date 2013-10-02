@@ -186,6 +186,7 @@ PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
 CATEGORIES(MC_WILDLIFE);
 
+
 mon(_("bear"), species_mammal, 'B', c_dkgray, MS_LARGE, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
   10,-10, 40,140, 10,  3,  4,  6,  3,  2,  0,  0, 90, 0,
@@ -358,12 +359,12 @@ A portion of a giant worm that is still alive.")
 FLAGS(MF_DIGS, MF_HEARS, MF_GOODHEARING, MF_WARM, MF_LEATHER);
 
 // Wild Mutants
-mon(_("sludge crawler"),species_none, 'S', c_dkgray,  MS_LARGE, "none",
+mon(_("sludge crawler"),species_none, 'S', c_dkgray,  MS_LARGE, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
    15, 100, 100, 60,  7,  3,  5,  0,  12,  4,  0,  0, 300,  0,
  &mdeath::melt, &mattack::none, _("\
-A sluglike creature, eight feet long and the width of a refrigerator, it's black \
-body glistens as it oozes it's way along the ground. Eye stalks occassionally push their \
+A sluglike creature, eight feet long and the width of a refrigerator, its black \
+body glistens as it oozes its way along the ground. Eye stalks occassionally push their \
 way out of the oily mass and look around.")
 );
 FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30, 
@@ -505,7 +506,7 @@ and it dribbles a gray sludge from its mouth.")
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS30);
 
-mon(_("skeleton"), species_zombie, 'Z', c_white, MS_MEDIUM, "stone",
+mon(_("skeleton"), species_zombie, 'Z', c_white, MS_MEDIUM, "bone",
 //  dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
       8,100,100, 90, 10,  1,  5,  3,  2,  0, 15,  0, 40, 5,
  &mdeath::zombie, &mattack::bite, _("\
@@ -596,7 +597,7 @@ CATEGORIES(MC_CLASSIC);
 //Somewhere between a zombie and a blob creature
 mon(_("jabberwock"), species_none, 'J', c_dkgray_red, MS_HUGE, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-     50,100,100,140,  9,  4,  8,  3,  3, 12,  8,  0,400,  0,
+     50,100,100,140,  9,  4,  8,  3,  3, 12,  8,  0,400,  5,
  &mdeath::normal, &mattack::flesh_golem, _("\
 An amalgamation of putrid human and animal\n\
 parts that have become fused in this golem\n\
@@ -921,6 +922,7 @@ threatening, but has a large ovipositor in\n\
 place of a sting.")
 );
 FLAGS(MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_POISON, MF_FLIES, MF_CHITIN);
+
 
 // SPIDERS
 mon(_("wolf spider"),species_insect, 's', c_brown, MS_MEDIUM, "flesh",
@@ -1398,6 +1400,60 @@ Your precious generator, noisily humming\n\
 away.  Defend it at all costs!")
 );
 FLAGS(MF_NOHEAD, MF_ACIDPROOF, MF_IMMOBILE);
+
+mon(_("turkey"), species_mammal, 't', c_brown, MS_MEDIUM, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+  10,-99, -8,140,  0,  1,  1,  0,  3,  0,  0,  0,  4,  0,
+ &mdeath::normal, &mattack::none, _("\
+A large and colorful game bird native to the forests of North America.")
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FLIES, MF_VIS50, MF_BONES, MF_FEATHER);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED, MTRIG_HURT);
+CATEGORIES(MC_WILDLIFE);
+
+mon(_("raccoon"), species_mammal, 'r', c_dkgray, MS_TINY, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+  10,  -99, 10,130, 1,  1,  3,  1,  3,  0,  0,  0, 3,  0,
+ &mdeath::normal, &mattack::none, _("\
+A small mammal native to North America, distinctive for its dexterous paws and facial markings.")
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_KEENNOSE, MF_BLEED, MF_BONES, MF_VIS50);
+ANGER(MTRIG_FRIEND_ATTACKED, MTRIG_HURT);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
+CATEGORIES(MC_WILDLIFE);
+
+mon(_("opossum"), species_mammal, 'o', c_white, MS_TINY, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+  10,  -99, 10,110, 0,  1,  3,  1,  2,  0,  0,  0, 2,  0,
+ &mdeath::normal, &mattack::none, _("\
+A small, omnivorous marsupial native to North America.")
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_KEENNOSE, MF_BLEED, MF_BONES, MF_VIS50);
+ANGER(MTRIG_FRIEND_ATTACKED, MTRIG_HURT);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED, MTRIG_HURT);
+CATEGORIES(MC_WILDLIFE);
+
+mon(_("rattlesnake"),species_none, 's', c_brown, MS_TINY, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+   2, 0, 40, 90, 12,  1,  2,  5,  1,  0,  0,  0, 2, 6,
+ &mdeath::normal, &mattack::rattle, _("\
+An eastern timber rattlesnake, one of New England's most poisonous snakes.")
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_BADVENOM, MF_HARDTOSHOOT, MF_SWIMS, MF_LEATHER, MF_VIS30, MF_BONES);
+ANGER(MTRIG_PLAYER_CLOSE, MTRIG_HURT);
+FEARS(MTRIG_FIRE, MTRIG_HURT);
+CATEGORIES(MC_WILDLIFE);
+
+mon(_("giant crayfish"),species_none, 'c',c_red, MS_MEDIUM, "flesh",
+// dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+   9, 0,100,130, 10,  1,  3,  5,  2,  0,  8, 0, 50, 0,
+ &mdeath::normal, &mattack::none, _("\
+A massive, mutated freshwater shellfish,\n\
+resembling a humongous lobster.")
+);
+FLAGS(MF_SMELLS, MF_HEARS, MF_SEES, MF_CHITIN, MF_SWIMS, MF_ATTACKMON, MF_GRABS);
+ANGER(MTRIG_PLAYER_CLOSE, MTRIG_HURT);
+FEARS(MTRIG_FIRE);
 
     // The flag vectors are slow, given how often has_flags() is called,
     // so instead we'll use bitsets and initialize them here.

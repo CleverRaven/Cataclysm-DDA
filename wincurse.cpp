@@ -47,7 +47,7 @@ bool WinCreate()
     std::string title = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
 
     // Register window class
-    WNDCLASSEXA WindowClassType   = {};
+    WNDCLASSEXA WindowClassType   = WNDCLASSEXA();
     WindowClassType.cbSize        = sizeof(WNDCLASSEXA);
     WindowClassType.lpfnWndProc   = ProcessMessages;//the procedure that gets msgs
     WindowClassType.hInstance     = WindowINST;// hInstance
@@ -87,7 +87,7 @@ bool WinCreate()
 //Unregisters, releases the DC if needed, and destroys the window.
 void WinDestroy()
 {
-    if ((WindowDC > 0) && (ReleaseDC(WindowHandle, WindowDC) == 0)){
+    if ((WindowDC != NULL) && (ReleaseDC(WindowHandle, WindowDC) == 0)){
         WindowDC = 0;
     }
     if ((!WindowHandle == 0) && (!(DestroyWindow(WindowHandle)))){
@@ -443,7 +443,7 @@ WINDOW *curses_init(void)
     WindowDC   = GetDC(WindowHandle);
     backbuffer = CreateCompatibleDC(WindowDC);
 
-    BITMAPINFO bmi = {0};
+    BITMAPINFO bmi = BITMAPINFO();
     bmi.bmiHeader.biSize         = sizeof(BITMAPINFOHEADER);
     bmi.bmiHeader.biWidth        = WindowWidth;
     bmi.bmiHeader.biHeight       = -WindowHeight;

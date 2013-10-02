@@ -113,8 +113,7 @@ typedef struct {
 
 /* Curses external declarations. */
 
-#define stdscr 0
-//WINDOW *stdscr; //Define this for portability, strscr will basically be window[0] anyways
+extern WINDOW *stdscr;
 
 #define getmaxyx(w, y, x)  (y = getmaxy(w), x = getmaxx(w))
 
@@ -169,6 +168,8 @@ int getmaxx(WINDOW *win);
 int getmaxy(WINDOW *win);
 int getbegx(WINDOW *win);
 int getbegy(WINDOW *win);
+int getcurx(WINDOW *win);
+int getcury(WINDOW *win);
 int move(int y, int x);
 void timeout(int delay);//PORTABILITY, DUMMY FUNCTION
 void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION

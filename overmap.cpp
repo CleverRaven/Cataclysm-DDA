@@ -18,6 +18,8 @@
 #include "options.h"
 #include "catacharset.h"
 #include "overmapbuffer.h"
+#include "action.h"
+#include "input.h"
 #include <queue>
 
 #ifdef _MSC_VER
@@ -1644,7 +1646,7 @@ int overmap::dist_from_city(point p)
 
 void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
                    int &origx, int &origy, signed char &ch, bool blink,
-                   overmap &hori, overmap &vert, overmap &diag)
+                   overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt)
 {
  bool note_here = false, npc_here = false;
  std::string note_text;
@@ -1863,14 +1865,22 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
   }
   mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan.  "));
-  mvwprintz(w, 16, om_map_width + 1, c_magenta, _("0 - Center map on character"));
-  mvwprintz(w, 17, om_map_width + 1, c_magenta, _("/ - Search                 "));
-  mvwprintz(w, 18, om_map_width + 1, c_magenta, _("N - Add/Edit a note        "));
-  mvwprintz(w, 19, om_map_width + 1, c_magenta, _("D - Delete a note          "));
-  mvwprintz(w, 20, om_map_width + 1, c_magenta, _("L - List notes             "));
-  mvwprintz(w, 21, om_map_width + 1, c_magenta, _("Esc or q - Return to game  "));
-  mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, "%s, %d'%d, %d'%d", string_format(_("LEVEL %i"),z).c_str(),
-  rc.abs_om.x, rc.om_pos.x, rc.abs_om.y, rc.om_pos.y );
+  mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
+                                                 _(" - Center map on character")).c_str());
+  mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
+                                                 _(" - Search                 ")).c_str());
+  mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
+                                                 _(" - Add/Edit a note        ")).c_str());
+  mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
+                                                 _(" - Delete a note          ")).c_str());
+  mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
+                                                 _(" - List notes             ")).c_str());
+  fold_and_print(w, 21, om_map_width + 1, 27, c_magenta, (inp_ctxt->get_desc("QUIT") +
+                                                          _(" - Return to game  ")).c_str());
+  mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, string_format(_("LEVEL %i"),z).c_str());
+  mvwprintz( w, getmaxy(w) - 1, om_map_width + 1, c_red, "%s, %d'%d, %d'%d",
+                  string_format(_("LEVEL %i"),z).c_str(), rc.abs_om.x, rc.om_pos.x,
+                  rc.abs_om.y, rc.om_pos.y );
 // Done with all drawing!
   wrefresh(w);
 }
@@ -1889,36 +1899,54 @@ point overmap::draw_overmap(game *g, int zlevel)
  point ret(-1, -1);
  overmap hori, vert, diag; // Adjacent maps
 
+ // Configure input context for navigating the map.
+ input_context ictxt("OVERMAP");
+ ictxt.register_action("ANY_INPUT");
+ ictxt.register_directions();
+ ictxt.register_action("CONFIRM");
+ ictxt.register_action("LEVEL_UP");
+ ictxt.register_action("LEVEL_DOWN");
+ ictxt.register_action("HELP_KEYBINDINGS");
+
+ // Actions whose keys we want to display.
+ ictxt.register_action("CENTER");
+ ictxt.register_action("CREATE_NOTE");
+ ictxt.register_action("DELETE_NOTE");
+ ictxt.register_action("SEARCH");
+ ictxt.register_action("LIST_NOTES");
+ ictxt.register_action("QUIT");
+ std::string action;
  do {
-     draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
-  ch = input();
-  timeout(BLINK_SPEED); // Enable blinking!
+     draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
+     action = ictxt.handle_input();
+     timeout(BLINK_SPEED); // Enable blinking!
 
   int dirx, diry;
-  if (ch != ERR)
+  if (action != "ERROR")
    blink = true; // If any input is detected, make the blinkies on
-  get_direction(g, dirx, diry, ch);
+  ictxt.get_direction(dirx, diry, action);
   if (dirx != -2 && diry != -2) {
    cursx += dirx;
    cursy += diry;
-  } else if (ch == '0') {
+  } else if (action == "CENTER") {
    cursx = origx;
    cursy = origy;
    zlevel = origz;
-  } else if (ch == '>' && zlevel > -OVERMAP_DEPTH) {
+  } else if (action == "LEVEL_DOWN" && zlevel > -OVERMAP_DEPTH) {
       zlevel -= 1;
-  } else if (ch == '<' && zlevel < OVERMAP_HEIGHT) {
+  } else if (action == "LEVEL_UP" && zlevel < OVERMAP_HEIGHT) {
       zlevel += 1;
   }
-  else if (ch == '\n')
+  else if (action == "CONFIRM")
    ret = point(cursx, cursy);
-  else if (ch == KEY_ESCAPE || ch == 'q' || ch == 'Q' || ch == 'm')
+  else if (action == "QUIT")
    ret = point(-1, -1);
-  else if (ch == 'N') {
+  else if (action == "CREATE_NOTE") {
    timeout(-1);
-   add_note(cursx, cursy, zlevel, string_input_popup(_("Note (X:TEXT for custom symbol):"), 45, note(cursx, cursy, zlevel))); // 45 char max
+   add_note(cursx, cursy, zlevel, string_input_popup(_("Note (X:TEXT for custom symbol):"),
+                                                     45, note(cursx, cursy, zlevel))); // 45 char max
    timeout(BLINK_SPEED);
-  } else if(ch == 'D'){
+  } else if(action == "DELETE_NOTE"){
    timeout(-1);
    if (has_note(cursx, cursy, zlevel)){
     bool res = query_yn(_("Really delete note?"));
@@ -1926,7 +1954,7 @@ point overmap::draw_overmap(game *g, int zlevel)
      delete_note(cursx, cursy, zlevel);
    }
    timeout(BLINK_SPEED);
-  } else if (ch == 'L'){
+  } else if (action == "LIST_NOTES"){
    timeout(-1);
    point p = display_notes(g, zlevel);
    if (p.x != -1){
@@ -1935,12 +1963,12 @@ point overmap::draw_overmap(game *g, int zlevel)
    }
    timeout(BLINK_SPEED);
    wrefresh(w_map);
-  } else if (ch == '/') {
+  } else if (action == "SEARCH") {
    int tmpx = cursx, tmpy = cursy;
    timeout(-1);
    std::string term = string_input_popup(_("Search term:"));
    timeout(BLINK_SPEED);
-   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
+   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
    point found = find_note(cursx, cursy, zlevel, term);
    if (found.x == -1) { // Didn't find a note
     std::vector<point> terlist;
@@ -1973,7 +2001,7 @@ point overmap::draw_overmap(game *g, int zlevel)
       }
       cursx = terlist[i].x;
       cursy = terlist[i].y;
-      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
+      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
       wrefresh(w_search);
       timeout(BLINK_SPEED);
      } while(ch != '\n' && ch != ' ' && ch != 'q');
@@ -1990,10 +2018,9 @@ point overmap::draw_overmap(game *g, int zlevel)
     cursy = found.y;
    }
   }
-  else if (ch == ERR) // Hit timeout on input, so make characters blink
+  else if (action == "ERROR") // Hit timeout on input, so make characters blink
    blink = !blink;
- } while (ch != KEY_ESCAPE && ch != 'q' && ch != 'Q' && ch != ' ' &&
-          ch != '\n');
+ } while (action != "QUIT" && action != "CONFIRM");
  timeout(-1);
  werase(w_map);
  wrefresh(w_map);
