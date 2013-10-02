@@ -11,6 +11,8 @@
 #include <fstream>
 #include <stdio.h>
 
+#include "debug.h"
+
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
 #define mfb(n) static_cast <unsigned long> (1 << (n))
@@ -219,12 +221,6 @@ void Item_factory::init(){
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
 void Item_factory::init(game* main_game) throw(std::string){
-    try {
-        load_item_templates(); // this one HAS to be called after game is created
-    }
-    catch (std::string &error_message) {
-        throw;
-    }
     // Make a copy of our items loaded from JSON
     std::map<Item_tag, itype*> new_templates = m_templates;
     //Copy the hardcoded template pointers to the factory list
@@ -661,6 +657,18 @@ void Item_factory::tags_from_json(catajson tag_list, std::set<std::string> &tags
         tags.insert( tag_list.as_string() );
     }
 }
+void Item_factory::tags_from_json(JsonObject jo, std::string member, std::set<std::string> &tags)
+{
+    JsonArray tag_list = jo.get_array(member);
+    if (tag_list.size() > 0)
+    {
+        while (tag_list.has_more())
+        {
+            //JsonArray ja = tag_list.next_array();
+            tags.insert(tag_list.next_string());
+        }
+    }
+}
 
 unsigned Item_factory::flags_from_json(catajson flag_list, std::string flag_type){
     //If none is found, just use the standard none action
@@ -678,6 +686,22 @@ unsigned Item_factory::flags_from_json(catajson flag_list, std::string flag_type
         //we should have gotten a string, if not an array, and catajson will do error checking
         set_flag_by_string(flag, flag_list.as_string(), flag_type);
     }
+    return flag;
+}
+unsigned Item_factory::flags_from_json(JsonObject jo, std::string member, std::string flag_type)
+{
+    unsigned flag = 0;
+
+    JsonArray flag_list = jo.get_array(member);
+    if (flag_list.size() > 0)
+    {
+        while (flag_list.has_more())
+        {
+            //JsonArray ja = flag_list.next_array();
+            set_flag_by_string(flag, flag_list.next_string(), flag_type);
+        }
+    }
+
     return flag;
 }
 
@@ -698,6 +722,32 @@ bool Item_factory::is_mod_target(catajson targets, std::string weapon){
     {
         if(targets.as_string() == weapon){
           is_included=true;
+        }
+    }
+    return is_included;
+}
+bool Item_factory::is_mod_target(JsonObject jo, std::string member, std::string weapon)
+{
+    unsigned is_included = false;
+
+    JsonArray targets = jo.get_array(member);
+    if (targets.size() == 0)
+    {
+        if (jo.get_string(member) == weapon)
+        {
+            is_included = true;
+        }
+    }
+    else if (targets.size() > 0)
+    {
+        while (targets.has_more())
+        {
+            //JsonArray ja = targets.next_array();
+            if (targets.next_string() == weapon)
+            {
+                is_included = true;
+                break;
+            }
         }
     }
     return is_included;
@@ -726,6 +776,28 @@ void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
     temp->m2 = material_list[1];
 }
 
+void Item_factory::set_material_from_json(JsonObject jo, std::string member, Item_tag new_id)
+{
+    std::string material_list[2] = {"null", "null"};
+
+    JsonArray mat_list = jo.get_array(member);
+    if (mat_list.size() == 0)
+    {
+        material_list[0] = jo.get_string(member);
+    }
+    if (mat_list.size() > 0)
+    {
+        int index = 0;
+        while (mat_list.has_more() && index < 2)
+        {
+            //JsonArray ja = mat_list.next_array();
+            material_list[index++] = mat_list.next_string();
+        }
+    }
+    itype *temp = find_template(new_id);
+    temp->m1 = material_list[0];
+    temp->m2 = material_list[1];
+}
 
 phase_id Item_factory::phase_from_tag(Item_tag name){
     if(name == "liquid"){
@@ -749,3 +821,246 @@ void Item_factory::set_intvar(std::string tag, unsigned int & var, int min, int 
         }
     }
 }
+
+// JSON loading functions
+void Item_factory::load_comestible(JsonObject& entry)
+{
+    it_comest* comest_template = new it_comest();
+
+    comest_template->comesttype = entry.get_string("comestible_type");
+    comest_template->tool = entry.get_string("tool");
+    comest_template->container = entry.get_string("container");
+    comest_template->quench = entry.get_int("quench");
+    comest_template->nutr = entry.get_int("nutrition");
+    comest_template->spoils = entry.get_int("spoils_in");
+    comest_template->addict = entry.get_int("addiction_potential");
+    comest_template->charges = entry.get_int("charges");
+    if(entry.has_member("stack_size")) {
+        comest_template->stack_size = entry.get_int("stack_size");
+    } else {
+        comest_template->stack_size = comest_template->charges;
+    }
+    comest_template->stim = entry.get_int("stim");
+    comest_template->healthy = entry.get_int("heal");
+    comest_template->fun = entry.get_int("fun");
+    comest_template->add = addiction_type(entry.get_string("addiction_type"));
+
+    itype *new_item_template = comest_template;
+
+    load_generic_information(entry, new_item_template);
+}
+
+void Item_factory::load_gunmod(JsonObject& entry)
+{
+    it_gunmod* gunmod_template = new it_gunmod();
+    gunmod_template->damage = entry.get_int("damage_modifier");
+    gunmod_template->loudness = entry.get_int("loudness_modifier");
+    gunmod_template->newtype = entry.get_string("ammo_modifier");
+    gunmod_template->dispersion = entry.get_int("dispersion_modifier");
+    gunmod_template->recoil = entry.get_int("recoil_modifier");
+    gunmod_template->burst = entry.get_int("burst_modifier");
+    gunmod_template->clip = entry.get_int("clip_size_modifier");
+    gunmod_template->used_on_pistol = is_mod_target(entry, "mod_targets", "pistol"); // is_mod_target needs rewrite to work correctly
+    gunmod_template->used_on_shotgun = is_mod_target(entry, "mod_targets", "shotgun");
+    gunmod_template->used_on_smg = is_mod_target(entry, "mod_targets", "smg");
+    gunmod_template->used_on_rifle = is_mod_target(entry, "mod_targets", "rifle");
+    if( entry.has_member("acceptable_ammo") ) { // tags_from_json needs rewrite?
+        tags_from_json( entry, "acceptable_ammo",
+                        gunmod_template->acceptible_ammo_types );
+    }
+    itype *new_item_template = gunmod_template;
+
+    load_generic_information(entry, new_item_template);
+}
+
+void Item_factory::load_gun(JsonObject& entry)
+{
+    it_gun* gun_template = new it_gun();
+    gun_template->ammo = entry.get_string("ammo");
+    gun_template->skill_used = Skill::skill(entry.get_string("skill"));
+    gun_template->dmg_bonus = entry.get_int("ranged_damage");
+    gun_template->range = entry.get_int("range");
+    gun_template->dispersion = entry.get_int("dispersion");
+    gun_template->recoil = entry.get_int("recoil");
+    gun_template->durability = entry.get_int("durability");
+    gun_template->burst = entry.get_int("burst");
+    gun_template->clip = entry.get_int("clip_size");
+    gun_template->reload_time = entry.get_int("reload");
+    gun_template->pierce = entry.has_member("pierce") ? entry.get_int("pierce") : 0;
+    if( entry.has_member("ammo_effects") ) { // tags_from_json needs rewrite for this to work
+        tags_from_json(entry, "ammo_effects", gun_template->ammo_effects);
+    }
+
+    itype *new_item_template = gun_template;
+
+    load_generic_information(entry, new_item_template);
+}
+
+void Item_factory::load_tool(JsonObject& entry)
+{
+    it_tool* tool_template = new it_tool();
+    tool_template->ammo = entry.get_string("ammo");
+    tool_template->max_charges = entry.get_int("max_charges");
+    tool_template->def_charges = entry.get_int("initial_charges");
+    tool_template->charges_per_use = entry.get_int("charges_per_use");
+    tool_template->turns_per_charge = entry.get_int("turns_per_charge");
+    tool_template->revert_to = entry.get_string("revert_to");
+
+    itype *new_item_template = tool_template;
+
+    load_generic_information(entry, new_item_template);
+}
+
+void Item_factory::load_ammo(JsonObject& entry)
+{
+    it_ammo* ammo_template = new it_ammo();
+    ammo_template->type = entry.get_string("ammo_type", "");
+
+    if(entry.has_member("casing")) {
+        ammo_template->casing = entry.get_string("casing");
+    }
+    ammo_template->damage = entry.get_int("damage", 0);
+    ammo_template->pierce = entry.get_int("pierce", 0);
+    ammo_template->range = entry.get_int("range", 0);
+    ammo_template->dispersion =
+        entry.get_int("dispersion", 0);
+    ammo_template->recoil = entry.get_int("recoil", 0);
+    ammo_template->count = entry.get_int("count", 0);
+    if(entry.has_member("stack_size")) {
+      ammo_template->stack_size = entry.get_int("stack_size");
+    } else {
+      ammo_template->stack_size = ammo_template->count;
+    }
+    if( entry.has_member("effects") ) { // tags_from_json needs rewrite for this to work
+        tags_from_json(entry, "effects", ammo_template->ammo_effects);
+    }
+
+    itype *new_item_template = ammo_template;
+
+    load_generic_information(entry, new_item_template);
+}
+
+void Item_factory::load_armor(JsonObject& entry)
+{
+    it_armor* armor_template = new it_armor();
+
+    armor_template->encumber = entry.get_int("encumberance", 0);
+    armor_template->coverage = entry.get_int("coverage", 0);
+    armor_template->thickness = entry.get_int("material_thickness", 0);
+    armor_template->env_resist = entry.get_int("enviromental_protection", 0);
+    armor_template->warmth = entry.get_int("warmth", 0);
+    armor_template->storage = entry.get_int("storage", 0);
+    armor_template->power_armor = entry.has_member("power_armor") ? entry.get_bool("power_armor") : false;
+    armor_template->covers = entry.has_member("covers") ?
+      flags_from_json(entry, "covers", "bodyparts") : 0; // flags_from_json needs fixing!
+
+    itype *new_item_template = armor_template;
+
+    load_generic_information(entry, new_item_template);
+}
+
+void Item_factory::load_book(JsonObject& entry)
+{
+    it_book* book_template = new it_book();
+
+    book_template->level = entry.get_int("max_level");
+    book_template->req = entry.get_int("required_level");
+    book_template->fun = entry.get_int("fun");
+    book_template->intel = entry.get_int("intelligence");
+    book_template->time = entry.get_int("time");
+    book_template->type = Skill::skill(entry.get_string("skill"));
+
+    itype *new_item_template = book_template;
+
+    load_generic_information(entry, new_item_template);
+}
+
+void Item_factory::load_container(JsonObject& entry)
+{
+    it_container* container_template = new it_container();
+
+    container_template->contains = entry.get_int("contains");
+    itype *new_item_template = container_template;
+
+    load_generic_information(entry, new_item_template);
+}
+
+void Item_factory::load_generic(JsonObject& entry)
+{
+    itype *new_item_template = new itype;
+
+    load_generic_information(entry, new_item_template);
+}
+
+void Item_factory::load_generic_information(JsonObject& entry, itype* new_item_template)
+{
+    Item_tag new_id = entry.get_string("id");
+    new_item_template->id = new_id;
+    m_templates[new_id] = new_item_template;
+
+    // And then proceed to assign the correct field
+    new_item_template->price = entry.get_int("price", 0);
+    new_item_template->name = _(entry.get_string("name").c_str());
+    new_item_template->sym = entry.get_string("symbol")[0];
+    new_item_template->color = color_from_string(entry.get_string("color"));
+    new_item_template->description = _(entry.get_string("description").c_str());
+
+    if(entry.has_member("material")){
+      set_material_from_json(entry, "material", new_id); // needs changing
+    } else {
+      new_item_template->m1 = "null";
+      new_item_template->m2 = "null";
+    }
+
+    Item_tag new_phase = "solid";
+    if(entry.has_member("phase")){
+        new_phase = entry.get_string("phase");
+    }
+
+    new_item_template->phase = phase_from_tag(new_phase);
+    new_item_template->volume = entry.get_int("volume");
+    new_item_template->weight = entry.get_int("weight");
+    new_item_template->melee_dam = entry.get_int("bashing");
+    new_item_template->melee_cut = entry.get_int("cutting");
+    new_item_template->m_to_hit = entry.get_int("to_hit");
+
+    new_item_template->light_emission = 0;
+    if( entry.has_member("flags") )
+    {
+        tags_from_json(entry, "flags", new_item_template->item_tags);
+        //new_item_template->item_tags = entry.get("flags").as_tags(); // needs changing
+        /*
+        List of current flags
+        FIT - Reduces encumberance by one
+        VARSIZE - Can be made to fit via tailoring
+        OVERSIZE - Can always be worn no matter encumberance/mutations/bionics/etc
+        HOOD - Will increase warmth for head if head is cold and player is not wearing a helmet (headwear of material that is not wool or cotton)
+        POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
+        WATCH - Shows the current time, instead of sun/moon position
+        ALARMCLOCK - Has an alarmclock feature
+        FANCY - Less than practical clothing meant primarily to convey a certain image.
+        SUPER_FANCY - Clothing suitable for the most posh of events.
+        LIGHT_* - light emission, sets cached int light_emission
+        USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
+
+        Container-only flags:
+        SEALS
+        RIGID
+        WATERTIGHT
+        */
+        if ( new_item_template->item_tags.size() > 0 ) {
+            for( std::set<std::string>::const_iterator it = new_item_template->item_tags.begin();
+            it != new_item_template->item_tags.end(); ++it ) {
+                set_intvar(std::string(*it), new_item_template->light_emission, 1, 10000);
+            }
+        }
+    }
+
+    if (entry.has_member("techniques"))
+    {
+        tags_from_json(entry, "techniques", new_item_template->techniques);
+    }
+    new_item_template->use = (!entry.has_member("use_action") ? &iuse::none :
+                              use_from_string(entry.get_string("use_action")));
+}
+

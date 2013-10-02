@@ -13,6 +13,8 @@
 #include <stdio.h>
 #include <math.h>
 
+#include "debug.h"
+
 #ifndef SGN
 #define SGN(a) (((a)<0) ? -1 : 1)
 #endif
@@ -221,7 +223,15 @@ void monster::move(game *g)
  if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
    mattack ma;
    if(!is_hallucination()) {
-     (ma.*type->sp_attack)(g, this);
+       if (type->sp_attack) // if special attack is null we don't want it freaking out and dieing.
+       {
+           (ma.*type->sp_attack)(g, this);
+       }
+       else
+       {
+           std::string dbgout = "Monster with NULL special attack tried to use it! [" + type->id + "]";
+           debugmsg(dbgout.c_str());
+       }
    }
  }
  if (moves < 0)

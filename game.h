@@ -3,6 +3,7 @@
 
 #include "mtype.h"
 #include "monster.h"
+#include "monster_factory.h"
 #include "map.h"
 #include "lightmap.h"
 #include "player.h"
@@ -22,6 +23,7 @@
 #include "artifact.h"
 #include "mutation.h"
 #include "gamemode.h"
+#include "json.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -101,6 +103,7 @@ class game
  public:
   game();
   ~game();
+  void init_game_data();
   void init_ui();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp
@@ -198,6 +201,7 @@ class game
                              int npc_id = -1);
   npc* find_npc(int id);
   int kill_count(mon_id mon);       // Return the number of kills of a given mon_id
+  int kill_count(std::string mon);  // Return the number of kills of a given monster id-string
   mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
   mission_type* find_mission_type(int id); // Same, but returns its type
   bool mission_complete(int id, int npc_id); // True if we made it
@@ -279,7 +283,7 @@ class game
   std::map<mabuff_id, ma_buff> ma_buffs;
   std::map<matec_id, ma_technique> ma_techniques;
 
-  std::vector <items_location_and_chance> monitems[num_monsters];
+  std::map<std::string, std::vector<items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
 
   calendar turn;
@@ -354,6 +358,14 @@ void load_artifacts(); // Load artifact data
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
 
+// JSON loading functions
+  void load_parrot_phrase(JsonObject &jo);
+  void load_vehicle_part(JsonObject &jo);
+  void cache_vehicles(JsonObject &jo);
+// Prototype-Structure loading functions
+  void load_vehicle(vehicle_prototype &prototype);
+
+  std::map<std::string, int> killcount; // Player's killcount for all entities that are killed at least once!
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -387,13 +399,10 @@ void load_artifacts(); // Load artifact data
   void init_professions();
   void init_faction_data();
   void init_mtypes();       // Initializes monster types
-  void init_mongroups() throw (std::string);    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
   void init_traps();        // Initializes trap types
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
-  void init_vehicle_parts();       // Initializes vehicle part types
-  void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
   void init_parrot_speech() throw (std::string);  // Initializes Mi-Go parrot speech
@@ -401,7 +410,8 @@ void load_artifacts(); // Load artifact data
   void create_factions(); // Creates new factions (for a new game world)
   void load_npcs(); //Make any nearby NPCs from the overmap active.
   void create_starting_npcs(); // Creates NPCs that start near you
-
+  void finalize_vehicles();
+  void finalize_initializations();
 // Player actions
   void wishitem( player * p=NULL, int x=-1, int y=-1 );
   void wishmonster( int x=-1, int y=-1 );
@@ -488,6 +498,7 @@ void load_artifacts(); // Load artifact data
   void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(mon_id type, int x, int y, int z);// Picks a group from cur_om
+  int valid_group(std::string type, int x, int y, int z);
   void set_adjacent_overmaps(bool from_scratch = false);
   void rebuild_mon_at_cache();
 

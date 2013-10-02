@@ -1,6 +1,7 @@
 #include "json.h"
 
 #include "catacharset.h" // utf32_to_utf8
+#include "debug.h"
 
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp

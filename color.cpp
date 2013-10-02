@@ -449,6 +449,8 @@ nc_color color_from_string(std::string new_color){
         return c_ltgreen;
     } else if("pink"==new_color){
         return c_pink;
+    } else if("dark_gray_red" == new_color){
+        return c_dkgray_red;
     } else if("cyan_red"==new_color){
         return c_cyan_red;
     } else {

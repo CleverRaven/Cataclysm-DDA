@@ -32,9 +32,9 @@ void event::actualize(game *g)
 
   case EVENT_ROBOT_ATTACK: {
    if (rl_dist(g->levx, g->levy, map_point.x, map_point.y) <= 4) {
-    mtype *robot_type = g->mtypes[mon_tripod];
+    mtype *robot_type = GetMon("mon_tripod");
     if (faction_id == 0) { // The cops!
-     robot_type = g->mtypes[mon_copbot];
+     robot_type = GetMon("mon_copbot");
      g->u.add_memorial_log(_("Became wanted by the police!"));
     }
     monster robot(robot_type);
@@ -49,7 +49,7 @@ void event::actualize(game *g)
    if (g->levz >= 0)
     return;
    g->u.add_memorial_log(_("Awoke a group of dark wyrms!"));
-   monster wyrm(g->mtypes[mon_dark_wyrm]);
+   monster wyrm(GetMon("mon_dark_wyrm"));
    int num_wyrms = rng(1, 4);
    for (int i = 0; i < num_wyrms; i++) {
     int tries = 0;
@@ -86,7 +86,7 @@ void event::actualize(game *g)
      }
     }
    }
-   monster horror(g->mtypes[mon_amigara_horror]);
+   monster horror(GetMon("mon_amigara_horror"));
    for (int i = 0; i < num_horrors; i++) {
     int tries = 0;
     int monx = -1, mony = -1;
@@ -199,14 +199,14 @@ void event::actualize(game *g)
   } break;
 
   case EVENT_TEMPLE_SPAWN: {
-   mon_id montype = mon_null;
+   std::string montype = "mon_null";
    switch (rng(1, 4)) {
-    case 1: montype = mon_sewer_snake;  break;
-    case 2: montype = mon_centipede;    break;
-    case 3: montype = mon_dermatik;     break;
-    case 4: montype = mon_spider_widow; break;
+    case 1: montype = "mon_sewer_snake";  break;
+    case 2: montype = "mon_centipede";    break;
+    case 3: montype = "mon_dermatik";     break;
+    case 4: montype = "mon_spider_widow"; break;
    }
-   monster spawned( g->mtypes[montype] );
+   monster spawned( GetMon(montype) );
    int tries = 0, x, y;
    do {
     x = rng(g->u.posx - 5, g->u.posx + 5);
@@ -231,7 +231,7 @@ void event::per_turn(game *g)
   case EVENT_WANTED: {
    // About once every 10 minutes. Suppress in classic zombie mode.
    if (g->levz >= 0 && one_in(100) && !OPTIONS["CLASSIC_ZOMBIES"]) {
-    monster eyebot(g->mtypes[mon_eyebot]);
+    monster eyebot(GetMon("mon_eyebot"));
     eyebot.faction_id = faction_id;
     point place = g->m.random_outdoor_tile();
     if (place.x == -1 && place.y == -1)

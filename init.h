@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 //********** Functor Base, Static and Class member accessors
 class TFunctor
@@ -64,5 +65,4 @@ void init_data_structures();
 
 void load_json_dir(std::string const &dirname);
 void load_all_from_json(JsonIn &jsin);
-
 #endif // _INIT_H_

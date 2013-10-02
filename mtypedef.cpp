@@ -3,14 +3,18 @@
 #include "monattack.h"
 #include "itype.h"
 #include "setvector.h"
+#include "tile_id_data.h"
 
+#include <algorithm>
+
+extern std::map<std::string, int> monster_ints;
 
  // Default constructor
  mtype::mtype () {
-  id = 0;
+  id = "mon_null";
   name = _("human");
   description = "";
-  species = species_none;
+  s_species.insert("NULL_SPECIES");
   sym = ' ';
   color = c_white;
   size = MS_MEDIUM;
@@ -34,6 +38,28 @@
   sp_attack = NULL;
   flags.push_back(MF_HUMAN);
  }
+
+ mtype::mtype(std::string pid) {
+     id = pid;
+     if (monster_ints.find(id) != monster_ints.end())
+     {
+         legacy_id = mon_id(monster_ints[id]);
+     }
+ }
+
+ bool mtype::member_of_species(std::string id) const {
+     for (std::set<species_type*>::iterator it = species.begin(); it != species.end(); ++it) {
+         species_type *spec = *it;
+
+         if (spec->id == id) {
+             return true;
+         }
+     }
+     return false;
+ }
+
+ /* NOTE: Not sure if should remove for save compatability reasons */
+
  // Non-default (messy)
  mtype::mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, std::string pmat,
@@ -46,9 +72,10 @@
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
         std::string pdescription ) {
-  id = pid;
+  id = monster_names[pid];
+  legacy_id = mon_id(pid);
   name = pname;
-  species = pspecies;
+  legacy_species = pspecies;
   sym = psym;
   color = pcolor;
   size = psize;
@@ -71,22 +98,63 @@
   sp_attack = psp_attack;
   description = pdescription;
 
-  anger = default_anger(species);
-  fear = default_fears(species);
+  anger = default_anger(legacy_species);
+  fear = default_fears(legacy_species);
  }
 
- bool mtype::has_flag(m_flag flag) const
- {
+ bool mtype::has_flag(m_flag flag) const {
   return bitflags[flag];
  }
 
- bool mtype::in_category(m_category category) const
- {
+ bool mtype::in_category(m_category category) const {
   for (int i = 0; i < categories.size(); i++) {
    if (categories[i] == category)
     return true;
   }
   return false;
+ }
+
+ void mtype::finalize_monster() {
+     // apply all species flags and triggers
+     // finalize flags
+     std::set<m_flag> spec_flags;
+     std::set<monster_trigger> spec_triggerset;
+     std::set<m_flag>::iterator flag_it;
+     std::set<monster_trigger>::iterator trigger_it;
+
+     for (std::set<species_type*>::iterator spec = species.begin(); spec != species.end(); ++spec) {
+         species_type *tempspec = *spec;
+
+         spec_flags = tempspec->flags;
+         for (flag_it = spec_flags.begin(); flag_it != spec_flags.end(); ++flag_it) {
+             // only add if we don't already have this flag
+             if (std::find(flags.begin(), flags.end(), *flag_it) == flags.end()) {
+                 flags.push_back(*flag_it);
+             }
+         }
+
+         spec_triggerset = tempspec->anger_triggers;
+         for (trigger_it = spec_triggerset.begin();
+              trigger_it != spec_triggerset.end(); ++trigger_it){
+             if (std::find(anger.begin(), anger.end(), *trigger_it) == anger.end()) {
+                 anger.push_back(*trigger_it);
+             }
+         }
+         spec_triggerset = tempspec->fear_triggers;
+         for (trigger_it = spec_triggerset.begin();
+              trigger_it != spec_triggerset.end(); ++trigger_it) {
+             if (std::find(fear.begin(), fear.end(), *trigger_it) == fear.end()) {
+                 fear.push_back(*trigger_it);
+             }
+         }
+         spec_triggerset = tempspec->placate_triggers;
+         for (trigger_it = spec_triggerset.begin();
+              trigger_it != spec_triggerset.end(); ++trigger_it) {
+             if (std::find(placate.begin(), placate.end(), *trigger_it) == placate.end()) {
+                 placate.push_back(*trigger_it);
+             }
+         }
+     }
  }
 
 // This function populates the master list of monster types.
@@ -98,8 +166,9 @@
 //                      spawns with the proper group
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 
-void game::init_mtypes ()
-{
+void game::init_mtypes () {
+/* Not sure if should remove for save compatability reasons */
+
  int id = 0;
 // Null monster named "None".
  mtypes.push_back(new mtype);
@@ -367,7 +436,7 @@ A sluglike creature, eight feet long and the width of a refrigerator, its black 
 body glistens as it oozes its way along the ground. Eye stalks occassionally push their \
 way out of the oily mass and look around.")
 );
-FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30, 
+FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30,
 MF_SLUDGEPROOF, MF_SLUDGETRAIL, MF_SWIMS, MF_FLAMMABLE);
 
 
@@ -1464,6 +1533,7 @@ FEARS(MTRIG_FIRE);
             mtypes[i]->bitflags[mtypes[i]->flags[j]] = true;
         }
     }
+//*/
 }
 
 

@@ -7,6 +7,7 @@
 #include "line.h"
 #include "veh_type.h"
 #include <vector>
+#include <stack>
 #include <string>
 #include <fstream>
 
@@ -84,6 +85,12 @@ struct vehicle_part
     };
     std::vector<item> items;// inventory
 
+};
+
+struct vehicle_prototype
+{
+    std::string id, name;
+    std::vector<std::pair<point, std::string> > parts;
 };
 
 /**
@@ -167,9 +174,14 @@ private:
     bool can_stack_vpart_flag(std::string vpart_flag);
     void open_or_close(int part_index, bool opening);
 
+
 public:
     vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
+
+    // temporary fix to get around itype init requirements (after bionics loaded, before vehicles loaded)
+    void finalize_template();
+    std::stack<std::pair<point, std::string> > part_cache;
 
 // check if given player controls this vehicle
     bool player_in_control (player *p);
@@ -455,6 +467,8 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
+
+
 };
 
 #endif
