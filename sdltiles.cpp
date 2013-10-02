@@ -558,12 +558,12 @@ int HandleDPad()
         } else if(button == SDL_HAT_RIGHTDOWN) {
             lc = JOY_RIGHTDOWN;
         }
-        
+
         if(delaydpad == -1) {
             delaydpad = SDL_GetTicks() + dpad_delay;
             queued_dpad = lc;
         }
-        
+
         // Okay it seems we're ready to process.
         if(SDL_GetTicks() > delaydpad) {
 
@@ -574,12 +574,12 @@ int HandleDPad()
                     lastdpad = lc;
                     return 0;
                 }
-                
+
                 lastchar_isbutton = true;
                 lastchar = lc;
                 lastdpad = lc;
                 queued_dpad = ERR;
-                
+
                 if(dpad_continuous == false) {
                     delaydpad = SDL_GetTicks() + 200;
                     dpad_continuous = true;
@@ -592,7 +592,7 @@ int HandleDPad()
     } else {
         dpad_continuous = false;
         delaydpad = -1;
-        
+
         // If we didn't hold it down for a while, just
         // fire the last registered press.
         if(queued_dpad != ERR) {
@@ -602,7 +602,7 @@ int HandleDPad()
             return 1;
         }
     }
-    
+
     return 0;
 }
 
@@ -614,34 +614,28 @@ void CheckMessages()
     if(HandleDPad()) {
         return;
     }
-    
-    while(SDL_PollEvent(&ev))
-    {
-        SDL_JoyAxisEvent *jaxis;
-        switch(ev.type)
-        {
+
+    while(SDL_PollEvent(&ev)) {
+        switch(ev.type) {
             case SDL_KEYDOWN:
             {
                 int lc = 0;
-                if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
+                //hide mouse cursor on keyboard input
+                if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) { SDL_ShowCursor(SDL_DISABLE); }
                 Uint8 *keystate = SDL_GetKeyState(NULL);
                 // manually handle Alt+F4 for older SDL lib, no big deal
-                if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
-                {
+                if( ev.key.keysym.sym == SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) ) {
                     quit = true;
                     break;
                 }
-                else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT ||
-                    ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || ev.key.keysym.sym==SDLK_RALT )
-                {
+                else if( ev.key.keysym.sym == SDLK_RSHIFT || ev.key.keysym.sym == SDLK_LSHIFT ||
+                         ev.key.keysym.sym == SDLK_RCTRL || ev.key.keysym.sym == SDLK_LCTRL ||
+                         ev.key.keysym.sym == SDLK_RALT ) {
                     break; // temporary fix for unwanted keys
-                }
-                else if(ev.key.keysym.sym==SDLK_LALT)
-                {
+                } else if( ev.key.keysym.sym == SDLK_LALT ) {
                     begin_alt_code();
                     break;
-                }
-                else if (ev.key.keysym.unicode != 0) {
+                } else if( ev.key.keysym.unicode != 0 ) {
                     lc = ev.key.keysym.unicode;
                     switch (lc){
                         case 13:            //Reroute ENTER key for compatilbity purposes
@@ -652,29 +646,29 @@ void CheckMessages()
                             break;
                     }
                 }
-                if(ev.key.keysym.sym==SDLK_LEFT) {
+                if( ev.key.keysym.sym == SDLK_LEFT ) {
                     lc = KEY_LEFT;
                 }
-                else if(ev.key.keysym.sym==SDLK_RIGHT) {
+                else if( ev.key.keysym.sym == SDLK_RIGHT ) {
                     lc = KEY_RIGHT;
                 }
-                else if(ev.key.keysym.sym==SDLK_UP) {
+                else if( ev.key.keysym.sym == SDLK_UP ) {
                     lc = KEY_UP;
                 }
-                else if(ev.key.keysym.sym==SDLK_DOWN) {
+                else if( ev.key.keysym.sym == SDLK_DOWN ) {
                     lc = KEY_DOWN;
                 }
-                else if(ev.key.keysym.sym==SDLK_PAGEUP) {
+                else if( ev.key.keysym.sym == SDLK_PAGEUP ) {
                     lc = KEY_PPAGE;
                 }
-                else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
+                else if( ev.key.keysym.sym == SDLK_PAGEDOWN ) {
                     lc = KEY_NPAGE;
 
                 }
-                if(!lc) break;
-                if(alt_down) {
-                    add_alt_code(lc);
-                }else {
+                if( !lc ) { break; }
+                if( alt_down ) {
+                    add_alt_code( lc );
+                } else {
                     lastchar = lc;
                 }
                 lastchar_isbutton = false;
@@ -682,9 +676,9 @@ void CheckMessages()
             break;
             case SDL_KEYUP:
             {
-                if(ev.key.keysym.sym==SDLK_LALT) {
+                if( ev.key.keysym.sym == SDLK_LALT ) {
                     int code = end_alt_code();
-                    if(code) lastchar = code;
+                    if( code ) { lastchar = code; }
                 }
             }
             break;
@@ -694,12 +688,12 @@ void CheckMessages()
             break;
             case SDL_JOYAXISMOTION: // on gamepads, the axes are the analog sticks
                 // TODO: somehow get the "digipad" values from the axes
-                jaxis = &ev.jaxis;
-                //DebugLog() << "AXIS: " << (int) jaxis->axis << " " << jaxis->value << "\n";
             break;
             case SDL_MOUSEMOTION:
-                if((OPTIONS["HIDE_CURSOR"] == "show" || OPTIONS["HIDE_CURSOR"] == "hidekb") &&
-                    !SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_ENABLE);
+                if( (OPTIONS["HIDE_CURSOR"] == "show" || OPTIONS["HIDE_CURSOR"] == "hidekb") &&
+                    !SDL_ShowCursor(-1)) {
+                    SDL_ShowCursor(SDL_ENABLE);
+                }
                 break;
             case SDL_QUIT:
                 quit = true;
@@ -708,10 +702,9 @@ void CheckMessages()
         }
     }
 #ifdef SDLTILES
-    if (needupdate) try_update();
+    if (needupdate) { try_update(); }
 #endif
-    if(quit)
-    {
+    if(quit) {
         endwin();
         exit(0);
     }

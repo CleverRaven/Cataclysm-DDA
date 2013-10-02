@@ -140,17 +140,14 @@ void game::recraft()
 //TODO clean up this function to give better status messages (e.g., "no fire available")
 bool game::making_would_work(recipe *making)
 {
-    if (!crafting_allowed())
-    {
+    if (!crafting_allowed()) {
         return false;
     }
 
-    if(can_make(making))
-    {
-        if (item_controller->find_template((making->result))->phase == LIQUID)
-        {
-            if (u.has_watertight_container() || u.has_matching_liquid(item_controller->find_template(making->result)->id))
-            {
+    if(can_make(making)) {
+        if (item_controller->find_template((making->result))->phase == LIQUID) {
+            if (u.has_watertight_container() ||
+                u.has_matching_liquid(item_controller->find_template(making->result)->id)) {
                 return true;
             }
             else
@@ -178,7 +175,8 @@ bool game::can_make(recipe *r)
     {
         return false;
     }
-    // under the assumption that all comp and tool's array contains all the required stuffs at the start of the array
+    // under the assumption that all comp and tool's array contains
+    // all the required stuffs at the start of the array
 
     // check all tools
     std::vector<std::vector<component> > &tools = r->tools;
@@ -198,7 +196,8 @@ bool game::can_make(recipe *r)
             component &tool = *tool_it;
             itype_id type = tool.type;
             int req = tool.count;
-            if((req<= 0 && crafting_inv.has_amount(type,1)) || (req > 0 && crafting_inv.has_charges(type,req)))
+            if((req<= 0 && crafting_inv.has_amount(type, 1)) ||
+               (req > 0 && crafting_inv.has_charges(type, req)))
             {
                 has_tool_in_set = true;
                 tool.available = 1;

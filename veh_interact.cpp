@@ -878,18 +878,16 @@ void veh_interact::display_veh ()
 void veh_interact::display_stats ()
 {
     bool conf = veh->valid_wheel_config();
-    const int second_column = 28;
+    const int second_column = 29;
     const int third_column = 56;
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
-    float speed_factor;
-    if (OPTIONS["USE_METRIC_SPEEDS"] == "km/h"){
-        speed_factor = float(1.61/100);
-    } else {
-        speed_factor = float(1/100);
+    float speed_factor = 0.01f;
+    if (OPTIONS["USE_METRIC_SPEEDS"] == "km/h") {
+        speed_factor *= 1.61;
     }
     std::string weight_units = OPTIONS["USE_METRIC_WEIGHTS"].getValue();
     float weight_factor;
-    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg"){
+    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg") {
         weight_factor = 1;
     } else {
         weight_factor = 2.2f;
@@ -917,10 +915,10 @@ void veh_interact::display_stats ()
     }
 
     fold_and_print(w_stats, 2, second_column, third_column, c_ltgray,
-                   _("K dynamics:  <color_ltblue>%3d</color>%%"),
+                   _("K dynamics:        <color_ltblue>%3d</color>%%"),
                    int(veh->k_dynamics() * 100));
     fold_and_print(w_stats, 3, second_column, third_column, c_ltgray,
-                   _("K mass:      <color_ltblue>%3d</color>%%"),
+                   _("K mass:            <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
     mvwprintz(w_stats, 1, second_column, c_ltgray,  _("Fuel usage (safe): "));
     int fuel_usage_x = 1 + second_column + utf8_width(_("Fuel usage (safe): "));
