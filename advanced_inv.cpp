@@ -433,7 +433,7 @@ void advanced_inventory::init(game *gp, player *pp)
 
     src = left; // the active screen , 0 for left , 1 for right.
     dest = right;
-    max_inv = inv_chars.size() - p->worn.size() - ( p->is_armed() || p->weapon.is_style() ? 1 : 0 );
+    max_inv = inv_chars.size() - p->worn.size() - ( p->is_armed() ? 1 : 0 );
     examineScroll = false;
     filter_edit = false;
 }
@@ -712,7 +712,7 @@ void advanced_inventory::display(game * gp, player * pp) {
 
         if(redraw || panes[0].redraw || panes[1].redraw ) // any redraw = redraw everything except opposite
         {
-            max_inv = inv_chars.size() - u.worn.size() - ( u.is_armed() || u.weapon.is_style() ? 1 : 0 );
+            max_inv = inv_chars.size() - u.worn.size() - ( u.is_armed() ? 1 : 0 );
             for (int i = 0; i < 2; i++) {
                 if ( redraw || panes[i].redraw ) {
                    redraw_pane( i );

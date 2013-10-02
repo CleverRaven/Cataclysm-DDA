@@ -36,13 +36,12 @@ std::string melee_verb(matec_id tech, player &p, int bash_dam, int cut_dam, int 
 
 bool player::is_armed()
 {
- return (weapon.typeId() != "null" && !weapon.is_style());
+ return (weapon.typeId() != "null");
 }
 
 bool player::unarmed_attack()
 {
- return (weapon.typeId() == "null" || weapon.is_style() ||
-         weapon.has_flag("UNARMED_WEAPON"));
+ return (weapon.typeId() == "null" || weapon.has_flag("UNARMED_WEAPON"));
 }
 
 int player::base_to_hit(bool real_life, int stat)
