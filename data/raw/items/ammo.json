@@ -1446,7 +1446,7 @@
         "name" : "40mm flechette",
         "symbol" : "=",
         "color" : "light_red",
-        "description" : "A 40mm grenade with an armor-piercing  flechette load.",
+        "description" : "A 40mm grenade with an armor-piercing flechette load.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 210,
