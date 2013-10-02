@@ -1114,7 +1114,7 @@
     },
     {
         "type" : "BOOK",
-        "id" : "spetsnaz_knives",
+        "id" : "manual_knives",
         "name" : "Spetsnaz Knife Techniques",
         "max_level" : 4,
         "description" : "A classic Soviet text on the art of attacking with a blade.",
