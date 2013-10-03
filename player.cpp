@@ -1727,41 +1727,32 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   }
  }
 
- int maxy = (VIEWY*2)+1;
- if (maxy < 25)
-  maxy = 25;
+    int maxy = TERRAIN_WINDOW_HEIGHT;
 
- int effect_win_size_y = 0;
- int trait_win_size_y = 0;
- int skill_win_size_y = 0;
- int infooffsetytop = 11;
- int infooffsetybottom = 15;
- std::vector<std::string> traitslist;
+    int infooffsetytop = 11;
+    int infooffsetybottom = 15;
+    std::vector<std::string> traitslist;
 
- effect_win_size_y = effect_name.size()+1;
+    for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        traitslist.push_back(*iter);
+    }
 
- for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-  traitslist.push_back(*iter);
- }
+    int effect_win_size_y = 1 + effect_name.size();
+    int trait_win_size_y = 1 + traitslist.size();
+    int skill_win_size_y = 1 + Skill::skill_count();
 
- trait_win_size_y = traitslist.size()+1;
- if (trait_win_size_y + infooffsetybottom > maxy ) {
-  trait_win_size_y = maxy - infooffsetybottom;
- }
+    if (trait_win_size_y + infooffsetybottom > maxy) {
+        trait_win_size_y = maxy - infooffsetybottom;
+    }
 
- skill_win_size_y = Skill::skill_count() + 1;
- if (skill_win_size_y + infooffsetybottom > maxy ) {
-  skill_win_size_y = maxy - infooffsetybottom;
- }
-/*
- std::stringstream ssTemp;
- ssTemp  << skill_win_size_y << " - " << trait_win_size_y << " - " << effect_win_size_y;
- debugmsg((ssTemp.str()).c_str());
-*/
- WINDOW* w_grid_top    = newwin(infooffsetybottom, 81,  VIEW_OFFSET_Y,  VIEW_OFFSET_X);
- WINDOW* w_grid_skill  = newwin(skill_win_size_y + 1, 27, infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X);
- WINDOW* w_grid_trait  = newwin(trait_win_size_y + 1, 27, infooffsetybottom + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X);
- WINDOW* w_grid_effect = newwin(effect_win_size_y+ 1, 28, infooffsetybottom + VIEW_OFFSET_Y, 53 + VIEW_OFFSET_X);
+    if (skill_win_size_y + infooffsetybottom > maxy) {
+        skill_win_size_y = maxy - infooffsetybottom;
+    }
+
+    WINDOW* w_grid_top    = newwin(infooffsetybottom, FULL_SCREEN_WIDTH+1, VIEW_OFFSET_Y, VIEW_OFFSET_X);
+    WINDOW* w_grid_skill  = newwin(skill_win_size_y + 1, 27, infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X);
+    WINDOW* w_grid_trait  = newwin(trait_win_size_y + 1, 27, infooffsetybottom + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X);
+    WINDOW* w_grid_effect = newwin(effect_win_size_y+ 1, 28, infooffsetybottom + VIEW_OFFSET_Y, 53 + VIEW_OFFSET_X);
 
  WINDOW* w_tip     = newwin(1, FULL_SCREEN_WIDTH,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
  WINDOW* w_stats   = newwin(9, 26,  1 + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
@@ -1772,7 +1763,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  WINDOW* w_skills  = newwin(skill_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X);
  WINDOW* w_info    = newwin(3, FULL_SCREEN_WIDTH, infooffsetytop + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
 
- for (int i = 0; i < 81; i++) {
+ for (int i = 0; i < FULL_SCREEN_WIDTH+1; i++) {
   //Horizontal line top grid
   mvwputch(w_grid_top, 10, i, c_ltgray, LINE_OXOX);
   mvwputch(w_grid_top, 14, i, c_ltgray, LINE_OXOX);
@@ -2161,6 +2152,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  int min, max;
  line = 0;
  bool done = false;
+ int half_y = 0;
 
 // Initial printing is DONE.  Now we give the player a chance to scroll around
 // and "hover" over different items for more info.
@@ -2418,17 +2410,18 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
   case 5: // Effects tab
    mvwprintz(w_effects, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, h_ltgray, title_EFFECTS);
-   if (line <= (effect_win_size_y-1)/2) {
+   half_y = effect_win_size_y / 2;
+   if (line <= half_y) {
     min = 0;
     max = effect_win_size_y;
     if (effect_name.size() < max)
      max = effect_name.size();
-   } else if (line >= effect_name.size() - (effect_win_size_y+1)/2) {
+   } else if (line >= effect_name.size() - half_y) {
     min = (effect_name.size() < effect_win_size_y ? 0 : effect_name.size() - effect_win_size_y);
     max = effect_name.size();
    } else {
-    min = line - (effect_win_size_y-1)/2;
-    max = line + (effect_win_size_y+1)/2;
+    min = line - half_y;
+    max = line - half_y + effect_win_size_y;
     if (effect_name.size() < max)
      max = effect_name.size();
     if (min < 0)
@@ -2473,17 +2466,18 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
   case 3: // Skills tab
    mvwprintz(w_skills, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, h_ltgray, title_SKILLS);
-   if (line <= (skill_win_size_y-1)/2) {
+   half_y = skill_win_size_y / 2;
+   if (line <= half_y) {
     min = 0;
     max = skill_win_size_y;
     if (skillslist.size() < max)
      max = skillslist.size();
-   } else if (line >= skillslist.size() - (skill_win_size_y+1)/2) {
+   } else if (line >= skillslist.size() - half_y) {
     min = (skillslist.size() < skill_win_size_y ? 0 : skillslist.size() - skill_win_size_y);
     max = skillslist.size();
    } else {
-    min = line - (skill_win_size_y-1)/2;
-    max = line + (skill_win_size_y+1)/2;
+    min = line - half_y;
+    max = line - half_y + skill_win_size_y;
     if (skillslist.size() < max)
      max = skillslist.size();
     if (min < 0)
