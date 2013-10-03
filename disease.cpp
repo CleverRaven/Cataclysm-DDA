@@ -2083,7 +2083,8 @@ void manage_fungal_infection(player& p, disease& dis) {
                 if (g->m.move_cost(sporex, sporey) > 0 && one_in(2)) {
                     const int zid = g->mon_at(sporex, sporey);
                     if (zid >= 0) {  // Spores hit a monster
-                        if (g->u_see(sporex, sporey)) {
+                        if (g->u_see(sporex, sporey) &&
+                              g->zombie(zid).type->species != species_fungus) {
                             g->add_msg(_("The %s is covered in tiny spores!"),
                                        g->zombie(zid).name().c_str());
                         }
