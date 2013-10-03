@@ -890,7 +890,7 @@
         "fuel_type": "223",
         "item": "m249",
         "difficulty": 6,
-        "location": "external",
+        "location": "on_roof",
         "flags": ["TURRET"]
     },
     {
@@ -905,7 +905,7 @@
         "fuel_type": "gasoline",
         "item": "flamethrower",
         "difficulty": 7,
-        "location": "external",
+        "location": "on_roof",
         "flags": ["TURRET"]
     },
     {
@@ -920,7 +920,7 @@
         "fuel_type": "plasma",
         "item": "plasma_rifle",
         "difficulty": 7,
-        "location": "external",
+        "location": "on_roof",
         "flags": ["TURRET"]
     },
     {
@@ -935,7 +935,7 @@
         "fuel_type": "battery",
         "item": "ftk93",
         "difficulty": 7,
-        "location": "external",
+        "location": "on_roof",
         "flags": ["TURRET"]
     },
     {
