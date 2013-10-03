@@ -2181,7 +2181,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  }
 
  int pick_quality = 1;
- if( it->typeId() == "picklock" ) {
+ if( it->typeId() == "picklocks" ) {
      pick_quality = 5;
  }
  else if( it->typeId() == "crude_picklock" ) {
