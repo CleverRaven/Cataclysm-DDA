@@ -232,6 +232,8 @@ public:
  void hurt (game *g, body_part bphurt, int side, int  dam);
  void hurt (hp_part hurt, int dam);
 
+ void damage_lungs(int dam);
+
  void heal(body_part healed, int side, int dam);
  void heal(hp_part healed, int dam);
  void healall(int dam);
@@ -436,6 +438,7 @@ public:
  int moves;
  int movecounter;
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
+ int lung_damage;   // seperate from hp_parts because you can't repair lungs with bandages
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
  bool nv_cached;

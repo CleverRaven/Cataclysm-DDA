@@ -117,6 +117,7 @@ player::player() : name("")
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  moves = 100;
  movecounter = 0;
+ lung_damage = 0;
  blood_oxygen = 950;
  next_climate_control_check=0;
  last_climate_control_ret=false;
@@ -227,6 +228,7 @@ player& player::operator= (const player & rhs)
  health = rhs.health;
 
  underwater = rhs.underwater;
+ lung_damage = rhs.lung_damage;
  blood_oxygen = rhs.blood_oxygen;
 
  next_climate_control_check=rhs.next_climate_control_check;
@@ -4328,6 +4330,12 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     }
 }
 
+void player::damage_lungs(int dam)
+{
+    lung_damage += dam;
+}
+
+
 void player::breath(game *g, int times)
 {
     int inhaled = 0;
@@ -4346,7 +4354,7 @@ void player::breath(game *g, int times)
                     inhaled += 10;
                     power_level--;
                 }
-                else if (blood-oxygen < 900)
+                else if (blood_oxygen < 900)
                 {
                     g->add_msg(_("You're drowning!"));
                 }
@@ -4389,11 +4397,18 @@ void player::breath(game *g, int times)
                 }
                 inhaled = inhaled * 0.75;
             }
+
+            // apply lung damage, the more lung damage, less you inhale
+            inhaled = inhaled * std::max(1.0 - (lung_damage / 100.0), 0.0);
+
+            if (lung_damage > 50 && one_in(50)) 
+            {
+                g->add_msg(_("You have difficulty breathing."));
+            }
         }
 
         blood_oxygen += inhaled;
         blood_oxygen = std::min(blood_oxygen, 950);
-
     }
 }
 
@@ -4409,7 +4424,7 @@ void player::exhaust(game *g, int amount)
         g->add_msg(_("You feel faint. Maybe you should take a breather"));
     }
 
-    blood_oxygen -= amount;
+    blood_oxygen -= amount; 
     blood_oxygen = std::min(blood_oxygen, 950);
 }
 
