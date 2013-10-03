@@ -891,6 +891,11 @@ int map::oldfurn(const int x, const int y) const {
     return reverse_legacy_furn_id[ nfurn ];
 }
 
+furn_t & map::furn_at(const int x, const int y) const
+{
+    return furnlist[ furn(x,y) ];
+}
+
 furn_id map::furn(const int x, const int y) const
 {
  if (!INBOUNDS(x, y)) {
