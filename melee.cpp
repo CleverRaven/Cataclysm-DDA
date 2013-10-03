@@ -1155,7 +1155,8 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
    }
   }
  }
- if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20)) {
+ if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) &&
+         !z->is_hallucination()) {
    g->add_msg_if_player(p,_("Your %s gets stuck in %s, pulling it out of your hands!"),
               weapon.tname().c_str(), target.c_str());
   if (mon) {
@@ -1173,9 +1174,10 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   }
   if (cutting_penalty > 0)
    moves -= cutting_penalty;
-  if (cutting_penalty >= 50)
+  if (cutting_penalty >= 50 && !z->is_hallucination()) {
    g->add_msg_if_player(p,_("Your %s gets stuck in %s, but you yank it free."),
               weapon.tname().c_str(), target.c_str());
+  }
   if (mon && (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")))
    z->speed *= .9;
  }
