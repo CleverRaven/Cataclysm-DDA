@@ -1974,7 +1974,36 @@
       [ "rock", 1 ]
     ]
   ]
-},{
+},
+  {
+    "type" : "recipe",
+    "result": "bearing",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 4 ],
+    "difficulty": 2,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+      [ "press", -1 ]
+      ],
+      [
+      ["crucible", -1]
+      ],
+      [
+      ["forge", 100], ["char_forge", 20]
+      ]
+    ],
+    "components": [
+      [
+        [ "scrap", 5 ]
+        [ "lead", 50 ],
+        [ "gold_small", 50 ]
+      ]
+    ]
+  },{
         "type" : "recipe",
   "result" : "shaft_wood",
   "category" : "CC_AMMO",
