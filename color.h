@@ -174,6 +174,7 @@ nc_color color_from_string(std::string color);
 nc_color bgcolor_from_string(std::string color);
 
 void setattr(nc_color &col, col_attribute attr);
+void load_colors(JsonObject &jo);
 
 #endif
 

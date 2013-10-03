@@ -7,6 +7,7 @@
 #include "get_version.h"
 #include <cstdlib>
 #include <fstream>
+#include "init.h"
 
 //***********************************
 //Globals                           *
@@ -32,6 +33,7 @@ HFONT font;             //Handle to the font created by CreateFont
 RGBQUAD *windowsPalette;  //The coor palette, 16 colors emulates a terminal
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 bool CursorVisible = true; // Showcursor is a somewhat weird function
+std::map<std::string,std::vector<int>> consolecolors;
 
 //***********************************
 //Non-curses, Window functions      *
@@ -552,26 +554,53 @@ inline RGBQUAD BGR(int b, int g, int r)
     return result;
 }
 
+void load_colors(JsonObject &jsobj)
+{
+    std::string colors[16]={"BLACK","RED","GREEN","BROWN","BLUE","MAGENTA","CYAN","GRAY",
+    "DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE"};
+    JsonArray jsarr;
+    for(int c=0;c<16;c++)
+    {
+        jsarr = jsobj.get_array(colors[c]);
+        if(jsarr.size()<3)continue;
+        consolecolors[colors[c]].clear();
+        consolecolors[colors[c]].push_back(jsarr.get_int(2));
+        consolecolors[colors[c]].push_back(jsarr.get_int(1));
+        consolecolors[colors[c]].push_back(jsarr.get_int(0));
+    }
+}
+
+#define ccolor(s) consolecolors[s][0],consolecolors[s][1],consolecolors[s][2]
 int curses_start_color(void)
 {
     colorpairs = new pairs[100];
     windowsPalette = new RGBQUAD[16];
-    windowsPalette[0]  = BGR(0,0,0);         // Black
-    windowsPalette[1]  = BGR(0, 0, 255);     // Red
-    windowsPalette[2]  = BGR(0,110,0);       // Green
-    windowsPalette[3]  = BGR(23,51,92);      // Brown???
-    windowsPalette[4]  = BGR(200, 0, 0);     // Blue
-    windowsPalette[5]  = BGR(98, 58, 139);   // Purple
-    windowsPalette[6]  = BGR(180, 150, 0);   // Cyan
-    windowsPalette[7]  = BGR(150, 150, 150); // Gray
-    windowsPalette[8]  = BGR(99, 99, 99);    // Dark Gray
-    windowsPalette[9]  = BGR(150, 150, 255); // Light Red/Salmon?
-    windowsPalette[10] = BGR(0, 255, 0);     // Bright Green
-    windowsPalette[11] = BGR(0, 255, 255);   // Yellow
-    windowsPalette[12] = BGR(255, 100, 100); // Light Blue
-    windowsPalette[13] = BGR(240, 0, 255);   // Pink
-    windowsPalette[14] = BGR(255, 240, 0);   // Light Cyan?
-    windowsPalette[15] = BGR(255, 255, 255); //White
+    //Load the console colors from colors.json
+    std::ifstream colorfile("data/json/colors.json", std::ifstream::in | std::ifstream::binary);
+    try{
+        JsonIn jsin(&colorfile);
+        load_all_from_json(jsin);
+    }
+    catch(std::string e){
+        throw "data/json/colors.json: " + e;
+    }
+    if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
+    windowsPalette[0]  = BGR(ccolor("BLACK"));
+    windowsPalette[1]  = BGR(ccolor("RED"));
+    windowsPalette[2]  = BGR(ccolor("GREEN"));
+    windowsPalette[3]  = BGR(ccolor("BROWN"));
+    windowsPalette[4]  = BGR(ccolor("BLUE"));
+    windowsPalette[5]  = BGR(ccolor("MAGENTA"));
+    windowsPalette[6]  = BGR(ccolor("CYAN"));
+    windowsPalette[7]  = BGR(ccolor("GRAY"));
+    windowsPalette[8]  = BGR(ccolor("DGRAY"));
+    windowsPalette[9]  = BGR(ccolor("LRED"));
+    windowsPalette[10] = BGR(ccolor("LGREEN"));
+    windowsPalette[11] = BGR(ccolor("YELLOW"));
+    windowsPalette[12] = BGR(ccolor("LBLUE"));
+    windowsPalette[13] = BGR(ccolor("LMAGENTA"));
+    windowsPalette[14] = BGR(ccolor("LCYAN"));
+    windowsPalette[15] = BGR(ccolor("WHITE"));
     return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
 }
 
