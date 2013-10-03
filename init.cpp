@@ -43,7 +43,6 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/hints.json");
     ret.push_back("data/json/furniture.json");
     ret.push_back("data/json/terrain.json");
-    //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     return ret;
 }
 
@@ -78,7 +77,8 @@ void init_data_structures()
     type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
-    type_function_map["colordef"] = new StaticFunctionAccessor(&load_colors);
+    //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
+
 
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
