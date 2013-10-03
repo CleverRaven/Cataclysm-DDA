@@ -3027,7 +3027,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "45_acp",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
@@ -3044,7 +3044,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3062,7 +3062,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "45_super",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
@@ -3079,7 +3079,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3097,7 +3097,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "45_jhp",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
@@ -3114,7 +3114,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3127,7 +3127,11 @@
       [ "gunpowder", 250 ]
     ],
     [
-      [ "lead", 500 ]
+      [ "lead", 400 ],
+      [ "gold_small", 400]
+    ],
+    [
+      [ "cu_pipe", 3]
     ]
   ]
 },{
@@ -3161,7 +3165,11 @@
       [ "gunpowder", 200 ]
     ],
     [
-      [ "lead", 200 ]
+      [ "lead", 400 ],
+      [ "gold_small", 400 ]
+    ],
+    [
+      [ "cu_pipe", 2 ]
     ]
   ]
 },{
@@ -3195,7 +3203,11 @@
       [ "gunpowder", 240 ]
     ],
     [
-      [ "lead", 240 ]
+      [ "lead", 450 ],
+      [ "gold_small", 450]
+    ],
+    [
+      [ "cu_pipe", 2 ]
     ]
   ]
 },{
@@ -3301,6 +3313,9 @@
     [
       [ "lead", 400 ],
       [ "gold_small", 400 ]
+    ],
+    [
+      [ "cu_pipe", 4 ]
     ]
   ]
 },{
@@ -3336,6 +3351,9 @@
     [
       [ "lead", 400 ],
       [ "gold_small", 400 ]
+    ],
+    [
+      [ "cu_pipe", 4 ]
     ]
   ]
 },{
@@ -3369,7 +3387,8 @@
       [ "gunpowder", 160 ]
     ],
     [
-      ["22_casing", 40 ]
+      ["22_casing", 40 ],
+      ["cu_pipe", 2]
     ],
     [
       [ "lead", 80 ],
@@ -3407,7 +3426,8 @@
       [ "gunpowder", 240 ]
     ],
     [
-      [ "22_casing", 40 ]
+      [ "22_casing", 40 ],
+      [ "cu_pipe", 4]
     ],
     [
       [ "lead", 80 ],
@@ -3445,7 +3465,8 @@
       [ "gunpowder", 180 ]
     ],
     [
-      [ "22_casing", 40 ]
+      [ "22_casing", 30 ],
+      [ "cu_pipe", 3]
     ],
     [
       [ "incendiary", 60 ]
@@ -3484,6 +3505,9 @@
     [
       [ "lead", 100 ],
       [ "gold_small", 100 ]
+    ],
+    [
+      [ "cu_pipe", 3 ]
     ]
   ]
 },{
@@ -3519,6 +3543,9 @@
     [
       [ "lead", 80 ],
       [ "gold_small", 80 ]
+    ],
+    [
+      [ "cu_pipe", 3 ]
     ]
   ]
 },{
@@ -3553,6 +3580,9 @@
     ],
     [
       [ "incendiary", 40 ]
+    ],
+    [
+      [ "cu_pipe", 3 ]
     ]
   ]
 },{
@@ -3588,6 +3618,9 @@
     [
       [ "lead", 120 ],
       [ "gold_small", 120 ]
+    ],
+    [
+      [ "cu_pipe", 3 ]
     ]
   ]
 },{
@@ -3623,6 +3656,9 @@
     [
       [ "lead", 120 ],
       [ "gold_small", 120 ]
+    ],
+    [
+      [ "cu_pipe", 3 ]
     ]
   ]
 },{
@@ -3657,6 +3693,9 @@
     ],
     [
       [ "incendiary", 60 ]
+    ],
+    [
+      [ "cu_pipe", 1 ]
     ]
   ]
 },{
@@ -9242,6 +9281,28 @@
   ]
 },{
         "type" : "recipe",
+  "result": "duffelbag",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 30 ],
+      [ "sewing_kit", 30 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 40 ],
+      [ "fur", 32 ],
+      [ "leather", 24 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "blanket",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -12695,6 +12756,22 @@
     [ ["rebar", 5] ] ]
 },{
         "type" : "recipe",
+  "result": "cestus",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "skills_required": ["bashing",1],
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
+    [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1],
+    ["toolset", -1] ] ],
+  "components": [ [ ["leather", 4] ],
+    [ ["scrap", 8] ] ]
+},{
+        "type" : "recipe",
   "result": "taint_tornado",
   "category": "CC_DRINK",
   "skill_used": "cooking",
@@ -15476,5 +15553,164 @@
       ["plastic_chunk", 3]
     ]
   ]
-}
+},
+  {
+    "type" : "recipe",
+    "result": "9mmfmj",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 4 ],
+    "difficulty": 4,
+    "time": 30000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "press", -1 ]
+      ],
+      [
+        [ "fire", -1 ],
+        [ "toolset", 1 ],
+        [ "press", 2 ]
+          ]
+    ],
+    "components": [
+      [
+        [ "9mm_casing", 50 ]
+      ],
+      [
+        [ "smpistol_primer", 50 ]
+      ],
+      [
+        [ "gunpowder", 200 ]
+      ],
+      [
+        [ "lead", 150 ],
+        [ "gold_small", 150 ]
+      ],
+      [
+        [ "cu_pipe", 2 ]
+      ]
+    ]
+  },
+
+  {
+    "type" : "recipe",
+    "result": "38_fmj",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 4 ],
+    "difficulty": 4,
+    "time": 30000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "press", -1 ]
+      ],
+      [
+        [ "fire", -1 ],
+        [ "toolset", 1 ],
+        [ "press", 2 ]
+          ]
+    ],
+    "components": [
+      [
+        [ "38_casing", 50 ]
+      ],
+      [
+        [ "smpistol_primer", 50 ]
+      ],
+      [
+        [ "gunpowder", 250 ]
+      ],
+      [
+        [ "lead", 200 ],
+        [ "gold_small", 200 ]
+      ],
+      [
+        [ "cu_pipe", 2 ]
+      ]
+    ]
+  },
+
+  {
+    "type" : "recipe",
+    "result": "40fmj",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 4 ],
+    "difficulty": 4,
+    "time": 35000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "press", -1 ]
+      ],
+      [
+        [ "fire", -1 ],
+        [ "toolset", 1 ],
+        [ "press", 2 ]
+      ]
+    ],
+    "components": [
+      [
+        [ "40_casing", 50 ]
+      ],
+      [
+        [ "smpistol_primer", 50 ]
+      ],
+      [
+        [ "gunpowder", 300 ]
+      ],
+      [
+        [ "lead", 250 ],
+        [ "gold_small", 250 ]
+      ],
+      [
+        [ "cu_pipe", 2 ]
+      ]
+    ]
+  },
+
+  {
+    "type" : "recipe",
+    "result": "44fmj",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 4 ],
+    "difficulty": 5,
+    "time": 25000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "press", -1 ]
+      ],
+      [
+        [ "fire", -1 ],
+        [ "toolset", 1 ],
+        [ "press", 2 ]
+      ]
+    ],
+    "components": [
+      [
+        [ "44_casing", 50 ]
+      ],
+      [
+        [ "lgpistol_primer", 50 ]
+      ],
+      [
+        [ "gunpowder", 500 ]
+      ],
+      [
+        [ "lead", 400 ],
+        [ "gold_small", 400 ]
+      ],
+      [
+        [ "cu_pipe", 3 ]
+      ]
+    ]
+  }
 ]

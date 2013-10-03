@@ -314,7 +314,7 @@ void game::setup()
 {
  u = player();
  m = map(&traps); // Init the root map with our vectors
- _z.reserve(1000); // Reserve some space
+ _active_monsters.reserve(1000); // Reserve some space
 
 // Even though we may already have 'd', nextinv will be incremented as needed
  nextinv = 'd';
@@ -3316,7 +3316,7 @@ void game::mondebug()
 {
  int tc;
  for (int i = 0; i < num_zombies(); i++) {
-  monster &z = _z[i];
+  monster &z = _active_monsters[i];
   z.debug(u);
   if (z.has_flag(MF_SEES) &&
       m.sees(z.posx(), z.posy(), u.posx, u.posy, -1, tc))
@@ -3799,7 +3799,7 @@ void game::draw_ter(int posx, int posy)
  // Draw monsters
  int distx, disty;
  for (int i = 0; i < num_zombies(); i++) {
-  monster &z = _z[i];
+  monster &z = _active_monsters[i];
   disty = abs(z.posy() - posy);
   distx = abs(z.posx() - posx);
   if (distx <= VIEWX && disty <= VIEWY && u_see(&z)) {
@@ -4242,7 +4242,7 @@ bool game::sees_u(int x, int y, int &t)
 
  int mondex = mon_at(x,y);
  if (mondex != -1) {
-  monster &z = _z[mondex];
+  monster &z = _active_monsters[mondex];
   if(z.has_flag(MF_VIS10))
    range -= 50;
   else if(z.has_flag(MF_VIS20))
@@ -4404,7 +4404,7 @@ int game::mon_info(WINDOW *w)
     int viewx = u.posx + u.view_offset_x;
     int viewy = u.posy + u.view_offset_y;
     for (int i = 0; i < num_zombies(); i++) {
-        monster &z = _z[i];
+        monster &z = _active_monsters[i];
         if (u_see(&z)) {
             dir_to_mon = direction_from(viewx, viewy, z.posx(), z.posy());
             int index = (abs(viewx - z.posx()) <= VIEWX &&
@@ -4583,7 +4583,7 @@ int game::mon_info(WINDOW *w)
 void game::cleanup_dead()
 {
     for( int i = 0; i < num_zombies(); i++ ) {
-        monster &z = _z[i];
+        monster &z = _active_monsters[i];
         if( z.dead || z.hp <= 0 ) {
             dbg (D_INFO) << string_format( "cleanup_dead: z[%d] %d,%d dead:%c hp:%d %s",
                                            i, z.posx(), z.posy(), (z.dead?'1':'0'),
@@ -4627,7 +4627,7 @@ void game::monmove()
     }
 
  for (int i = 0; i < num_zombies(); i++) {
-  monster &z = _z[i];
+  monster &z = _active_monsters[i];
   while (!z.dead && !z.can_move_to(this, z.posx(), z.posy())) {
 // If we can't move to our current position, assign us to a new one
    if (debugmon)
@@ -4739,7 +4739,7 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
-        monster &z = _z[i];
+        monster &z = _active_monsters[i];
         // rl_dist() is faster than z.has_flag() or z.can_hear(), so we'll check it first.
         int dist = rl_dist(x, y, z.posx(), z.posy());
         int vol_goodhearing = vol - int(dist / 2);
@@ -4924,7 +4924,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
 
    int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
    if (mon_hit != -1) {
-    monster &z = _z[mon_hit];
+    monster &z = _active_monsters[mon_hit];
     if (!z.dead && z.hurt(rng(dam / 2, long(dam * 1.5)))) {
      if (z.hp < 0 - (z.type->size < 2? 1.5:3) * z.type->hp)
       explode_mon(mon_hit); // Explode them if it was big overkill
@@ -4990,7 +4990,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    ty = traj[j].y;
    const int zid = mon_at(tx, ty);
    if (zid != -1) {
-    monster &z = _z[zid];
+    monster &z = _active_monsters[zid];
     dam -= z.armor_cut();
     if (z.hurt(dam))
      kill_mon(zid);
@@ -5036,7 +5036,7 @@ void game::flashbang(int x, int y, bool player_immune)
         }
     }
     for (int i = 0; i < num_zombies(); i++) {
-        monster &z = _z[i];
+        monster &z = _active_monsters[i];
         dist = rl_dist(z.posx(), z.posy(), x, y);
         if (dist <= 4) {
             z.add_effect(ME_STUNNED, 10 - dist);
@@ -5087,7 +5087,7 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
     sound(x, y, force*force*dam_mult/2, _("Crack!"));
     for (int i = 0; i < num_zombies(); i++)
     {
-        monster &z = _z[i];
+        monster &z = _active_monsters[i];
         if (rl_dist(z.posx(), z.posy(), x, y) <= radius)
         {
             add_msg(_("%s is caught in the shockwave!"), z.name().c_str());
@@ -5146,7 +5146,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
     int force_remaining = 0;
     if (zid != -1)
     {
-        monster *targ = &_z[zid];
+        monster *targ = &_active_monsters[zid];
         if (stun > 0)
         {
             targ->add_effect(ME_STUNNED, stun);
@@ -5522,7 +5522,7 @@ void game::scrambler_blast(int x, int y)
 {
     int mondex = mon_at(x, y);
     if (mondex != -1) {
-        monster &z = _z[mondex];
+        monster &z = _active_monsters[mondex];
         if (z.has_flag(MF_ELECTRONIC)) {
             z.make_friendly();
         }
@@ -5562,7 +5562,7 @@ void game::emp_blast(int x, int y)
  }
  int mondex = mon_at(x, y);
  if (mondex != -1) {
-  monster &z = _z[mondex];
+  monster &z = _active_monsters[mondex];
   if (z.has_flag(MF_ELECTRONIC)) {
    add_msg(_("The EMP blast fries the %s!"), z.name().c_str());
    int dam = dice(10, 10);
@@ -5614,19 +5614,19 @@ bool game::add_zombie(monster& m)
         debugmsg("add_zombie: there's already a monster at %d,%d", m.posx(), m.posy());
         return false;
     }
-    z_at[point(m.posx(), m.posy())] = _z.size();
-    _z.push_back(m);
+    z_at[point(m.posx(), m.posy())] = _active_monsters.size();
+    _active_monsters.push_back(m);
     return true;
 }
 
 size_t game::num_zombies() const
 {
-    return _z.size();
+    return _active_monsters.size();
 }
 
 monster& game::zombie(const int idx)
 {
-    return _z[idx];
+    return _active_monsters[idx];
 }
 
 bool game::update_zombie_pos(const monster &m, const int newx, const int newy)
@@ -5634,11 +5634,11 @@ bool game::update_zombie_pos(const monster &m, const int newx, const int newy)
     bool success = false;
     const int zid = mon_at(m.posx(), m.posy());
     const int newzid = mon_at(newx, newy);
-    if (newzid >= 0 && !_z[newzid].dead) {
+    if (newzid >= 0 && !_active_monsters[newzid].dead) {
         debugmsg("update_zombie_pos: new location %d,%d already has zombie %d",
                 newx, newy, newzid);
     } else if (zid >= 0) {
-        if (&m == &_z[zid]) {
+        if (&m == &_active_monsters[zid]) {
             z_at.erase(point(m.posx(), m.posy()));
             z_at[point(newx, newy)] = zid;
             success = true;
@@ -5657,7 +5657,7 @@ bool game::update_zombie_pos(const monster &m, const int newx, const int newy)
 
 void game::remove_zombie(const int idx)
 {
-    monster& m = _z[idx];
+    monster& m = _active_monsters[idx];
     const point oldloc(m.posx(), m.posy());
     const std::map<point, int>::const_iterator i = z_at.find(oldloc);
     const int prev = (i == z_at.end() ? -1 : i->second);
@@ -5666,7 +5666,7 @@ void game::remove_zombie(const int idx)
         z_at.erase(oldloc);
     }
 
-    _z.erase(_z.begin() + idx);
+    _active_monsters.erase(_active_monsters.begin() + idx);
 
     // Fix indices in z_at for any zombies that were just moved down 1 place.
     for (std::map<point, int>::iterator iter = z_at.begin(); iter != z_at.end(); ++iter) {
@@ -5678,7 +5678,7 @@ void game::remove_zombie(const int idx)
 
 void game::clear_zombies()
 {
-    _z.clear();
+    _active_monsters.clear();
     z_at.clear();
 }
 
@@ -5707,7 +5707,7 @@ int game::mon_at(const int x, const int y) const
     std::map<point, int>::const_iterator i = z_at.find(point(x, y));
     if (i != z_at.end()) {
         const int zid = i->second;
-        if (!_z[zid].dead) {
+        if (!_active_monsters[zid].dead) {
             return zid;
         }
     }
@@ -5718,7 +5718,7 @@ void game::rebuild_mon_at_cache()
 {
     z_at.clear();
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
-        monster &m = _z[i];
+        monster &m = _active_monsters[i];
         z_at[point(m.posx(), m.posy())] = i;
     }
 }
@@ -5757,7 +5757,7 @@ void game::kill_mon(int index, bool u_did_it)
   if (debugmon)  debugmsg("Tried to kill monster %d! (%d in play)", index, num_zombies());
   return;
  }
- monster &z = _z[index];
+ monster &z = _active_monsters[index];
  if (!z.dead) {
   z.dead = true;
   if (u_did_it) {
@@ -5783,7 +5783,7 @@ void game::explode_mon(int index)
   debugmsg("Tried to explode monster %d! (%d in play)", index, num_zombies());
   return;
  }
- monster &z = _z[index];
+ monster &z = _active_monsters[index];
  if(z.is_hallucination()) {
    //Can't gib hallucinations
    return;
@@ -5950,7 +5950,7 @@ void game::close()
     vehicle *veh = m.veh_at(closex, closey, vpart);
     int zid = mon_at(closex, closey);
     if (zid != -1) {
-        monster &z = _z[zid];
+        monster &z = _active_monsters[zid];
         add_msg(_("There's a %s in the way!"), z.name().c_str());
     }
     else if (veh && veh->part_flag(vpart, "OPENABLE") &&
@@ -8470,7 +8470,7 @@ void game::plthrow(char chInput)
  std::vector <int> targetindices;
  int passtarget = -1;
  for (int i = 0; i < num_zombies(); i++) {
-   monster &z = _z[i];
+   monster &z = _active_monsters[i];
    if (u_see(&z)) {
      z.draw(w_terrain, u.posx, u.posy, true);
      if(rl_dist( u.posx, u.posy, z.posx(), z.posy() ) <= range) {
@@ -8593,7 +8593,7 @@ void game::plfire(bool burst)
  std::vector <int> targetindices;
  int passtarget = -1;
  for (int i = 0; i < num_zombies(); i++) {
-   monster &z = _z[i];
+   monster &z = _active_monsters[i];
    if (u_see(&z)) {
      z.draw(w_terrain, u.posx, u.posy, true);
      if(rl_dist( u.posx, u.posy, z.posx(), z.posy() ) <= range) {

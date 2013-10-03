@@ -1334,6 +1334,7 @@ switch (oldfurn(x, y)) {
   if (str >= result) {
    sound += _("porcelain breaking!");
    furn_set(x, y, f_null);
+   if(one_in(2)) { spawn_item(x, y, "cu_pipe", 0); }
    return true;
   } else {
    sound += _("whunk!");
@@ -1374,6 +1375,7 @@ switch (oldfurn(x, y)) {
    for (int i = 0; i < num_boards; i++)
     spawn_item(x, y, "steel_chunk", 0);
    spawn_item(x, y, "hose", 0);
+   spawn_item(x, y, "cu_pipe", 0, rng(2, 5));
    return true;
   } else {
    sound += _("clang!");
@@ -1520,6 +1522,7 @@ switch (oldter(x, y)) {
    spawn_item(x, y, "2x4", 0, rng(2, 5));
    spawn_item(x, y, "nail", 0, 0, rng(4, 10));
    spawn_item(x, y, "splinter", 0);
+   if(one_in(10)) { spawn_item(x, y, "cu_pipe", 0); }
    return true;
   } else {
    sound += _("whump!");
@@ -1921,8 +1924,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(5)) spawn_item(i, j, "splinter", 0);
-       if (one_in(6)) spawn_item(i, j, "nail", 0, 0, 3);
+       if (one_in(5)) { spawn_item(i, j, "splinter", 0); }
+       if (one_in(6)) { spawn_item(i, j, "nail", 0, 0, 3); }
+       if (one_in(100)) { spawn_item(x, y, "cu_pipe", 0); }
    }
   }
   ter_set(x, y, t_rubble);
@@ -2874,8 +2878,8 @@ void map::process_active_items_in_submap(game *g, const int nonant)
     }
 }
 
-std::list<item> map::use_amount(const point origin, const int range, const itype_id type, const int amount,
-                     const bool use_container)
+std::list<item> map::use_amount(const point origin, const int range, const itype_id type,
+                                const int amount, const bool use_container)
 {
  std::list<item> ret;
  int quantity = amount;
@@ -2898,7 +2902,7 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
       if (use_container && used_contents) {
        i_rem(x, y, n);
        n--;
-      } else if (curit->type->id == type && quantity > 0) {
+      } else if (curit->type->id == type && quantity > 0 && curit->contents.size() == 0) {
        ret.push_back(*curit);
        quantity--;
        i_rem(x, y, n);

@@ -34,21 +34,20 @@ private:
     WINDOW *w_stats;
     WINDOW *w_list;
 
-    int winw1;
-    int winw2;
-    int winh1;
-    int winh2;
-    int winw12;
-    int winw3;
-    int winh3;
-    int winh23;
-    int winx1;
-    int winx2;
-    int winy1;
-    int winy2;
+    int mode_h;
+    int mode_w;
+    int msg_h;
+    int msg_w;
+    int disp_h;
+    int disp_w;
+    int parts_h;
+    int parts_w;
+    int stats_h;
+    int stats_w;
+    int list_h;
+    int list_w;
 
     vehicle *veh;
-    game *g;
     bool has_wrench;
     bool has_welder;
     bool has_hacksaw;
