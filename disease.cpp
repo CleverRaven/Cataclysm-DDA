@@ -2435,9 +2435,11 @@ static void handle_cough(player &p) {
             g->add_msg(_("You cough."));
         } else if (loudness < 18) {
            g->add_msg(_("You cough heavily."));
+           p.damage_lungs(2);
         } else {
             g->add_msg(_("You have a coughing fit."));
             p.moves -= 80;
+            p.damage_lungs(4);
         } 
         g->sound(p.posx, p.posy, loudness, "");
     } else {
