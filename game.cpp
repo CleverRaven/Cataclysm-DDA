@@ -5569,7 +5569,6 @@ void game::emp_blast(int x, int y)
   }
   if (rn >= 40 && rn <= 80)
    add_msg(_("Nothing happens."));
-  break;
  }
  int mondex = mon_at(x, y);
  if (mondex != -1) {
@@ -5931,7 +5930,7 @@ void game::open()
         didit = m.open_door(openx, openy, true);
 
     if (!didit) {
-        const std::string terid = m.ter_get(openx, openy);
+        const std::string terid = m.get_ter(openx, openy);
         if ( terid.find("t_door") != std::string::npos ) {
             if ( terid.find("_locked") != std::string::npos ) {
                 add_msg(_("The door is locked!"));
