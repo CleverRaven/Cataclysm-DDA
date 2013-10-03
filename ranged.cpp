@@ -428,7 +428,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   ammo_effects(this, tx, ty, effects);
   if (effects.count("BOUNCE"))
   {
-    for (int i = 0; i < num_zombies(); i++)
+    for (unsigned long int i = 0; i < num_zombies(); i++)
     {
         monster &z = zombie(i);
         // search for monsters in radius 4 around impact site
