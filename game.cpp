@@ -151,9 +151,9 @@ game::~game()
 
 void game::init_ui(){
     clear(); // Clear the screen
-    intro(); // Print an intro screen, make sure we're at least 80x25
+    intro(); // Print an intro screen, make sure we're at least 80x24
 
-    const int sidebarWidth = use_narrow_sidebar() ? 45 : 55;
+    int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = sidebarWidth + ((int)OPTIONS["VIEWPORT_X"] * 2 + 1);
@@ -174,6 +174,10 @@ void game::init_ui(){
         TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
     #else
         getmaxyx(stdscr, TERMY, TERMX);
+
+        // now that TERMX and TERMY are set,
+        // check if sidebar style needs to be overridden
+        sidebarWidth = use_narrow_sidebar() ? 45 : 55;
 
         TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
         TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
