@@ -434,6 +434,8 @@ json_value_type JsonIn::get_next_type()
     // it's either a string '"'
     if (ch == '"') {
         jvt = JVT_STRING;
+        std::string s = get_string();
+        if (s.size() == 1) { jvt = JVT_CHAR; }
     // or an object '{'
     } else if (ch == '{') {
         jvt = JVT_OBJECT;
