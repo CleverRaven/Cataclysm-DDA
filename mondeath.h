@@ -14,7 +14,6 @@ public:
     void vine_cut       (game *g, monster *z); // Kill adjacent vine if it's cut
     void triffid_heart  (game *g, monster *z); // Destroy all roots
     void fungus         (game *g, monster *z); // Explodes in spores D:
-    void fungusawake    (game *g, monster *z); // Turn into live fungaloid
     void disintegrate   (game *g, monster *z); // Falls apart
     void shriek         (game *g, monster *z); // Screams loudly
     void rattle         (game *g, monster *z); // Rattles like a rattlesnake

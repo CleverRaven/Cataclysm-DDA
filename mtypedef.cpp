@@ -42,7 +42,7 @@
         unsigned char pml_dice, unsigned char pml_sides, unsigned char pml_cut,
         unsigned char pdodge, unsigned char parmor_bash,
         unsigned char parmor_cut, signed char pitem_chance, int php,
-        unsigned char psp_freq,
+        unsigned int psp_freq,
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
         std::string pdescription ) {
@@ -693,7 +693,7 @@ FLAGS(MF_NOHEAD, MF_IMMOBILE, MF_QUEEN);
 
 mon(_("fungaloid"),species_fungus, 'F', c_ltgray, MS_MEDIUM, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-  12,  0,100, 45,  8,  3,  3,  0,  0,  4,  0,  0, 80, 25,
+  12,  0,100, 45,  4,  1,  2,  0,  0,  4,  0,  0, 80, 25,
  &mdeath::fungus, &mattack::fungus, _("\
 A pale white fungus, one meaty gray stalk\n\
 supporting a bloom at the top. A few\n\
@@ -703,11 +703,11 @@ mobility and a weak attack.")
 ANGER(MTRIG_PLAYER_CLOSE, MTRIG_PLAYER_WEAK);
 FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD);
 
-// This is a "dormant" fungaloid that doesn't waste CPU cycles ;)
+//TODO: Remove dormant fungaloid when it won't break save compatibility
 mon(_("fungaloid"),species_fungus, 'F', c_ltgray, MS_MEDIUM, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-   0,  0,100,  1,  8,  2,  4,  0,  0,  4,  0,  0,  1, 0,
- &mdeath::fungusawake, &mattack::none, _("\
+   0,  0,100,  1,  4,  1,  2,  0,  0,  4,  0,  0,  1, 0,
+ &mdeath::fungus, &mattack::none, _("\
 A pale white fungus, one meaty gray stalk\n\
 supporting a bloom at the top. A few\n\
 tendrils extend from the base, allowing\n\
@@ -717,8 +717,8 @@ FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD);
 
 mon(_("young fungaloid"),species_fungus, 'f',c_ltgray, MS_SMALL, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-   6,100,100, 65,  8,  1,  4,  6,  0,  4,  4,  0, 70, 0,
- &mdeath::normal, &mattack::none, _("\
+   6,100,100, 65,  6,  1,  2,  5,  0,  4,  4,  0, 70, 100,
+ &mdeath::normal, &mattack::fungus_growth, _("\
 A fungal tendril just a couple feet tall.  Its\n\
 exterior is hardened into a leathery bark and\n\
 covered in thorns; it also moves faster than\n\
@@ -728,7 +728,7 @@ FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD);
 
 mon(_("spore"), species_fungus, 'o', c_ltgray, MS_TINY, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-   1,-50,100,100,  0,  0,  0,  0,  6,  0,  0,  0,  5, 50,
+   1,-50,100,100,  0,  0,  0,  0,  6,  0,  0,  0,  5, 1000,
  &mdeath::disintegrate, &mattack::plant, _("\
 A wispy spore, about the size of a fist,\n\
 wafting on the breeze.")

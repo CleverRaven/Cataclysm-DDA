@@ -186,6 +186,7 @@ void mdeath::triffid_heart(game *g, monster *z)
 
 void mdeath::fungus(game *g, monster *z)
 {
+    mdeath::normal(g, z);
     monster spore(g->mtypes[mon_spore]);
     int sporex, sporey;
     int mondex;
@@ -207,20 +208,13 @@ void mdeath::fungus(game *g, monster *z)
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     g->u.infect("spores", bp_mouth, 4, 30, 1, 1); // Spores hit the player
-                } else if (one_in(16)) { // Spawn a spore
+                } else { // Spawn a spore
                     spore.spawn(sporex, sporey);
                     g->add_zombie(spore);
                 }
             }
         }
     }
-}
-
-void mdeath::fungusawake(game *g, monster *z)
-{
- monster newfung(g->mtypes[mon_fungaloid]);
- newfung.spawn(z->posx(), z->posy());
- g->add_zombie(newfung);
 }
 
 void mdeath::disintegrate(game *g, monster *z)

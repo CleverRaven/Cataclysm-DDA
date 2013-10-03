@@ -28,6 +28,7 @@ public:
     void spit_sap           (game *g, monster *z);
     void triffid_heartbeat  (game *g, monster *z);
     void fungus             (game *g, monster *z);
+    void fungus_growth      (game *g, monster *z);
     void fungus_sprout      (game *g, monster *z);
     void leap               (game *g, monster *z);
     void dermatik           (game *g, monster *z);

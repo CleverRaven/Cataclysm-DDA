@@ -671,7 +671,7 @@ void mattack::fungus(game *g, monster *z)
     z->sp_timeout = z->type->sp_freq; // Reset timer
     monster spore(g->mtypes[mon_spore]);
     int sporex, sporey;
-    int moncount = 0, mondex;
+    int mondex;
     //~ the sound of a fungus releasing spores
     g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
     if (g->u_see(z->posx(), z->posy())) {
@@ -696,17 +696,23 @@ void mattack::fungus(game *g, monster *z)
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     g->u.infect("spores", bp_mouth, 4, 30, 1, 3); // Spores hit the player
-                } else if (one_in(16)) { // Spawn a spore
+                } else if (one_in(4)) { // Spawn a spore
                     spore.spawn(sporex, sporey);
                     g->add_zombie(spore);
                 }
             }
         }
     }
+}
 
-    if (moncount >= 7) { // If we're surrounded by monsters, go dormant
-        z->poly(g->mtypes[mon_fungaloid_dormant]);
+void mattack::fungus_growth(game *g, monster *z)
+{
+    // Young fungaloid growing into an adult
+    if (g->u_see(z->posx(), z->posy())) {
+        g->add_msg(_("The %s young fungaloid grows into an adult!"),
+                      z->name().c_str());
     }
+    z->poly(g->mtypes[mon_fungaloid]);
 }
 
 void mattack::fungus_sprout(game *g, monster *z)
@@ -847,14 +853,15 @@ void mattack::dermatik(game *g, monster *z)
 
 void mattack::plant(game *g, monster *z)
 {
-// Spores taking seed and growing into a fungaloid
- if (g->m.has_flag("DIGGABLE", z->posx(), z->posy())) {
-  if (g->u_see(z->posx(), z->posy()))
-   g->add_msg(_("The %s takes seed and becomes a young fungaloid!"),
-              z->name().c_str());
-  z->poly(g->mtypes[mon_fungaloid_young]);
-  z->moves = -1000; // It takes a while
- }
+    // Spores taking seed and growing into a fungaloid
+    if (g->m.has_flag("DIGGABLE", z->posx(), z->posy())) {
+        if (g->u_see(z->posx(), z->posy())) {
+            g->add_msg(_("The %s takes seed and becomes a young fungaloid!"),
+                          z->name().c_str());
+        }
+        z->poly(g->mtypes[mon_fungaloid_young]);
+        z->moves = -1000; // It takes a while
+    }
 }
 
 void mattack::disappear(game *g, monster *z)

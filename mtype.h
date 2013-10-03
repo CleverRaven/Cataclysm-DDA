@@ -58,7 +58,7 @@ mon_sludge_crawler,
 // Triffids
 mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
  mon_creeper_vine, mon_biollante, mon_vinebeast, mon_triffid_heart,
-// Fungaloids
+// Fungaloids TODO: Remove dormant fungaloid when it won't break save compatibility
 mon_fungaloid, mon_fungaloid_dormant, mon_fungaloid_young, mon_spore,
  mon_fungaloid_queen, mon_fungal_wall,
 // Blobs
@@ -230,7 +230,7 @@ struct mtype {
     signed char item_chance;   // Higher # means higher chance of loot
                                // Negative # means one item gen'd, tops
     int hp;
-    unsigned char sp_freq;     // How long sp_attack takes to charge
+    unsigned int sp_freq;     // How long sp_attack takes to charge
     void (mdeath::*dies)(game *, monster *); // What happens when this monster dies
     void (mattack::*sp_attack)(game *, monster *); // This monster's special attack
 
@@ -245,7 +245,7 @@ struct mtype {
         unsigned char pml_dice, unsigned char pml_sides, unsigned char pml_cut,
         unsigned char pdodge, unsigned char parmor_bash,
         unsigned char parmor_cut, signed char pitem_chance, int php,
-        unsigned char psp_freq,
+        unsigned int psp_freq,
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
         std::string pdescription );
