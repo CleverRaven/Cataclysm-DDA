@@ -432,25 +432,28 @@ void game::init_construction()
 
 void game::construction_menu()
 {
- int iMaxY = TERMY;
- if (constructions.size()+2 < iMaxY)
-  iMaxY = constructions.size()+2;
- if (iMaxY < 25)
-  iMaxY = 25;
+    int iMaxY = TERMY;
+    if (constructions.size()+2 < iMaxY) {
+        iMaxY = constructions.size()+2;
+    }
+    if (iMaxY < FULL_SCREEN_HEIGHT) {
+        iMaxY = FULL_SCREEN_HEIGHT;
+    }
 
- WINDOW *w_con = newwin(iMaxY, 80, (TERMY > iMaxY) ? (TERMY-iMaxY)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
- wborder(w_con, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w_con, 0, 8, c_ltred, _(" Construction "));
+    WINDOW *w_con = newwin(iMaxY, FULL_SCREEN_WIDTH, (TERMY > iMaxY) ? (TERMY-iMaxY)/2 : 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    wborder(w_con, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    mvwprintz(w_con, 0, 8, c_ltred, _(" Construction "));
 
- mvwputch(w_con,  0, 30, c_ltgray, LINE_OXXX);
- mvwputch(w_con, iMaxY-1, 30, c_ltgray, LINE_XXOX);
- for (int i = 1; i < iMaxY-1; i++)
-  mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
+    mvwputch(w_con,  0, 30, c_ltgray, LINE_OXXX);
+    mvwputch(w_con, iMaxY-1, 30, c_ltgray, LINE_XXOX);
+    for (int i = 1; i < iMaxY-1; ++i) {
+        mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
+    }
 
- mvwprintz(w_con,  1, 31, c_white, _("Difficulty:"));
+    mvwprintz(w_con,  1, 31, c_white, _("Difficulty:"));
 
- wrefresh(w_con);
+    wrefresh(w_con);
 
  bool update_info = true;
  int select = 0;
@@ -541,14 +544,14 @@ void game::construction_menu()
        col = c_green;
       }
       int length = utf8_width(item_controller->find_template(tool)->name.c_str());
-      if (posx + length > 79) {
+      if (posx + length > FULL_SCREEN_WIDTH-1) {
        posy++;
        posx = 33;
       }
       mvwprintz(w_con, posy, posx, col, item_controller->find_template(tool)->name.c_str());
       posx += length + 1; // + 1 for an empty space
       if (j < stage.tools[i].size() - 1) { // "OR" if there's more
-       if (posx > 77) {
+       if (posx > FULL_SCREEN_WIDTH-3) {
         posy++;
         posx = 33;
        }
@@ -586,7 +589,7 @@ void game::construction_menu()
        col = c_green;
       }
       int length = utf8_width(item_controller->find_template(comp.type)->name.c_str());
-      if (posx + length > 79) {
+      if (posx + length > FULL_SCREEN_WIDTH-1) {
        posy++;
        posx = 33;
       }
@@ -602,7 +605,7 @@ void game::construction_menu()
        posx += 3;
 
       if (j < stage.components[i].size() - 1) { // "OR" if there's more
-       if (posx > 77) {
+       if (posx > FULL_SCREEN_WIDTH-3) {
         posy++;
         posx = 33;
        }
@@ -666,10 +669,11 @@ void game::construction_menu()
   }
  } while (!exit);
 
- for (int i = iMaxY-25; i < iMaxY+1; i++) {
-  for (int j = TERRAIN_WINDOW_WIDTH; j < 81; j++)
-   mvwputch(w_con, i, j, c_black, ' ');
- }
+    for (int i = iMaxY-FULL_SCREEN_HEIGHT; i <= iMaxY; ++i) {
+        for (int j = TERRAIN_WINDOW_WIDTH; j <= FULL_SCREEN_WIDTH; ++j) {
+            mvwputch(w_con, i, j, c_black, ' ');
+        }
+    }
 
  wrefresh(w_con);
  refresh_all();
