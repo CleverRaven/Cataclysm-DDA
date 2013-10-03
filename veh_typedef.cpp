@@ -89,6 +89,30 @@ void game::init_vehicle_parts()
     next_part.location = next_json.has("location") ? next_json.get("location").as_string() : "";
     next_part.flags = next_json.get("flags").as_tags();
 
+    //Calculate and cache z-ordering based off of location
+    if(next_part.location == "on_roof") {
+        next_part.z_order = 8;
+    } else if(next_part.location == "center") {
+        next_part.z_order = 7;
+    } else if(next_part.location == "under") {
+        //Have wheels show up over frames
+        next_part.z_order = 6;
+    } else if(next_part.location == "structure") {
+        next_part.z_order = 5;
+    } else if(next_part.location == "engine_block") {
+        //Should be hidden by frames
+        next_part.z_order = 4;
+    } else if(next_part.location == "fuel_source") {
+        //Should be hidden by frames
+        next_part.z_order = 3;
+    } else if(next_part.location == "roof") {
+        //Shouldn't be displayed
+        next_part.z_order = -1;
+    } else {
+        //Everything else
+        next_part.z_order = 0;
+    }
+
     vehicle_part_types[next_part.id] = next_part;
   }
 

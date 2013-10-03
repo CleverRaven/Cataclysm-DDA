@@ -189,7 +189,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
           * the "front" of the vehicle (since the driver's seat is at (0, 0).
           * We'll be generous with the blood, since some may disappear before
           * the player gets a chance to see the vehicle. */
-         if(blood_covered && part_flag(p, "EXTERNAL") && parts[p].mount_dx > 0) {
+         if(blood_covered && parts[p].mount_dx > 0) {
            if(one_in(3)) {
              //Loads of blood. (200 = completely red vehicle part)
              parts[p].blood = rng(200, 600);
@@ -750,17 +750,43 @@ int vehicle::index_of_part(vehicle_part *part)
   return -1;
 }
 
+/**
+ * Returns which part (as an index into the parts list) is the one that will be
+ * displayed for the given square. Must not be called if there are no parts in
+ * that square (check with parts_at_relative(x,y).empty() first).
+ * @param local_x The local x-coordinate.
+ * @param local_y The local y-coordinate.
+ * @return The index of the part that will be displayed.
+ */
+int vehicle::part_displayed_at(int local_x, int local_y)
+{
+    std::vector<int> parts_in_square = parts_at_relative(local_x, local_y);
+
+    int top_part = 0;
+    for(int index = 1; index < parts_in_square.size(); index++) {
+        if(part_info(parts_in_square[top_part]).z_order <
+                part_info(parts_in_square[index]).z_order) {
+            top_part = index;
+        }
+    }
+
+    return parts_in_square[top_part];
+}
+
 char vehicle::part_sym (int p)
 {
     if (p < 0 || p >= parts.size()) {
-        return 0;
+        return ' ';
     }
-    int po = part_with_feature(p, "OVER", false);
-    int pd = po < 0? p : po;
-    if (part_flag (pd, "OPENABLE") && parts[pd].open) {
+
+    int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
+    
+    if (part_flag (displayed_part, "OPENABLE") && parts[displayed_part].open) {
         return '\''; // open door
+    } else {
+        return parts[displayed_part].hp <= 0 ?
+            part_info(displayed_part).sym_broken : part_info(displayed_part).sym;
     }
-    return parts[pd].hp <= 0? part_info(pd).sym_broken : part_info(pd).sym;
 }
 
 nc_color vehicle::part_color (int p)
@@ -768,29 +794,26 @@ nc_color vehicle::part_color (int p)
     if (p < 0 || p >= parts.size()) {
         return c_black;
     }
+
+    //If armoring is present, it colors the visible part
     int parm = part_with_feature(p, "ARMOR", false);
-    int po = part_with_feature(p, "OVER", false);
-    int pd = po < 0? p : po;
-    if (parts[p].blood > 200) {
-        return c_red;
-    }
-    else if (parts[p].blood > 0) {
-        return c_ltred;
-    }
-
-    if (parts[pd].hp <= 0) {
-        return part_info(pd).color_broken;
-    }
-
-    // first, check if there's a part over. then, if armor here (projects its color on part)
-    if (po >= 0) {
-        return part_info(po).color;
-    }
-    else if (parm >= 0) {
+    if (parm >= 0) {
         return part_info(parm).color;
     }
 
-    return part_info(pd).color;
+    int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
+
+    if (parts[displayed_part].blood > 200) {
+        return c_red;
+    } else if (parts[displayed_part].blood > 0) {
+        return c_ltred;
+    }
+
+    if (parts[displayed_part].hp <= 0) {
+        return part_info(displayed_part).color_broken;
+    } else {
+        return part_info(displayed_part).color;
+    }
 }
 
 void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
