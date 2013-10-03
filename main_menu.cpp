@@ -67,15 +67,15 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     }
 
     std::vector<std::string> vMenuItems;
-    vMenuItems.push_back(_("<M>OTD"));
-    vMenuItems.push_back(_("<N>ew Game"));
-    vMenuItems.push_back(_("<L>oad"));
-    vMenuItems.push_back(_("<R>eset"));
-    vMenuItems.push_back(_("<S>pecial"));
-    vMenuItems.push_back(_("<O>ptions"));
-    vMenuItems.push_back(_("<H>elp"));
-    vMenuItems.push_back(_("<C>redits"));
-    vMenuItems.push_back(_("<Q>uit"));
+    vMenuItems.push_back(pgettext("Main Menu", "<M>OTD"));
+    vMenuItems.push_back(pgettext("Main Menu", "<N>ew Game"));
+    vMenuItems.push_back(pgettext("Main Menu", "<L>oad"));
+    vMenuItems.push_back(pgettext("Main Menu", "<R>eset"));
+    vMenuItems.push_back(pgettext("Main Menu", "<S>pecial"));
+    vMenuItems.push_back(pgettext("Main Menu", "<O>ptions"));
+    vMenuItems.push_back(pgettext("Main Menu", "<H>elp"));
+    vMenuItems.push_back(pgettext("Main Menu", "<C>redits"));
+    vMenuItems.push_back(pgettext("Main Menu", "<Q>uit"));
 
     print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX);
 
@@ -113,10 +113,10 @@ bool game::opening_screen()
     int iMenuOffsetY = FULL_SCREEN_HEIGHT-3;
 
     std::vector<std::string> vSubItems;
-    vSubItems.push_back(_("<C>ustom Character"));
-    vSubItems.push_back(_("<P>reset Character"));
-    vSubItems.push_back(_("<R>andom Character"));
-    vSubItems.push_back(_("Play <N>ow!"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<P>reset Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
 
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
 
