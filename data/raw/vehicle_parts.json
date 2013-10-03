@@ -949,7 +949,7 @@
         "item": "steel_plate",
         "difficulty": 3,
         "location": "center",
-        "flags": ["ARMOR"]
+        "flags": ["ARMOR", "OBSTACLE"]
     },
     {
         "id": "plating_superalloy",
@@ -962,7 +962,7 @@
         "item": "alloy_plate",
         "difficulty": 4,
         "location": "center",
-        "flags": ["ARMOR"]
+        "flags": ["ARMOR", "OBSTACLE"]
     },
     {
         "id": "plating_spiked",
@@ -976,7 +976,7 @@
         "item": "spiked_plate",
         "difficulty": 3,
         "location": "center",
-        "flags": ["ARMOR", "SHARP"]
+        "flags": ["ARMOR", "SHARP", "OBSTACLE"]
     },
     {
         "id": "plating_hard",
@@ -989,7 +989,7 @@
         "item": "hard_plate",
         "difficulty": 4,
         "location": "center",
-        "flags": ["ARMOR"]
+        "flags": ["ARMOR", "OBSTACLE"]
     },
     {
         "id": "headlight",
