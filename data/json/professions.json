@@ -776,5 +776,82 @@
             "golf_club"
         ],
         "points": 1
+    },
+    {
+        "type" : "profession",
+        "ident": "bionic_thief",
+        "name": "Bionic Thief",
+        "description": "You have done many high profile heists, but your gains mean nothing in this world. All you have left is your bionic lockpick that you keep powered via batteries.",
+        "items":[
+            "sunglasses",
+            "jeans",
+            "dress_shirt",
+            "dress_shoes",
+        ],
+        "CBMs":[
+            "bio_batteries",
+            "bio_lockpick",
+            "bio_power_storage_mkII"
+        ],
+        "points": 4
+    },
+    {
+        "type" : "profession",
+        "ident": "bionic_patient",
+        "name": "Bionic Patient",
+        "description": "Medical advances have saved your body from certain death. You are augmented with bionic muscles and sensors monitoring your blood powered by your own metabolism. Make the most of your second chance at life.",
+        "items":[
+            "jeans",
+            "tshirt",
+            "sneakers"
+        ]
+        "CBMs":[
+            "bio_metabolics",
+            "bio_hydraulics",
+            "bio_blood_anal",
+            "bio_power_storage_mkII"
+        ],
+        "points": 4
+    },
+    {
+        "type" : "profession",
+        "ident": "bionic_spy",
+        "name": "Bionic Spy",
+        "description": "Your body has bionics worth millions payed by public taxes. The government employed you as a spy: you have night vision and a hacking module powered by your own metabolism.",
+        "items":[
+            "boots",
+            "pants_army",
+            "jacket_army",
+            "mask_bal"
+        ]
+        "CBMs":[
+            "bio_fingerhack",
+            "bio_alarm",
+            "bio_night_vision",
+            "bio_batteries",
+            "bio_power_storage_mkII"
+        ],
+        "points": 5
+    },
+    {
+        "type" : "profession",
+        "ident": "faulty_bionic",
+        "name": "Failed Android",
+        "description": "Your body is a wreck of bionic parts. You have a large capacity for power, but are filled with broken bionics. At least your ethanol power supply still works.",
+        "items":[
+            "sneakers",
+            "jeans",
+            "tshirt",
+        ]
+        "CBMs":[
+            "bio_drain",
+            "bio_noise",
+            "bio_dis_acid",
+            "bio_dis_shock",
+            "bio_ethanol",
+            "bio_power_storage_mkII",
+            "bio_power_storage_mkII"
+        ],
+        "points": 0
     }
 ]
