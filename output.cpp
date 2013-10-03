@@ -28,6 +28,8 @@ int VIEW_OFFSET_X;
 int VIEW_OFFSET_Y;
 int TERRAIN_WINDOW_WIDTH;
 int TERRAIN_WINDOW_HEIGHT;
+int FULL_SCREEN_WIDTH;
+int FULL_SCREEN_HEIGHT;
 
 // utf8 version
 std::vector<std::string> foldstring ( std::string str, int width ) {

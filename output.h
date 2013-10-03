@@ -34,9 +34,6 @@
 #define LINE_OXXX_C 0xa9
 #define LINE_XXXX_C 0xaa
 
-#define FULL_SCREEN_WIDTH 80  // Width of full Screen popup
-#define FULL_SCREEN_HEIGHT 24 // Height of full Screen popup
-
 // Display data
 extern int TERMX;
 extern int TERMY;
@@ -46,6 +43,8 @@ extern int VIEW_OFFSET_X;
 extern int VIEW_OFFSET_Y;
 extern int TERRAIN_WINDOW_WIDTH;
 extern int TERRAIN_WINDOW_HEIGHT;
+extern int FULL_SCREEN_WIDTH;  // Width of full Screen popup
+extern int FULL_SCREEN_HEIGHT; // Height of full Screen popup
 
 std::vector<std::string> foldstring ( std::string str, int width );
 int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);

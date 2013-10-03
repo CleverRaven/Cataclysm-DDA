@@ -150,8 +150,13 @@ game::~game()
 #define MINIMAP_WIDTH 7
 
 void game::init_ui(){
-    clear(); // Clear the screen
-    intro(); // Print an intro screen, make sure we're at least 80x24
+    // clear the screen
+    clear();
+    // set minimum FULL_SCREEN sizes
+    FULL_SCREEN_WIDTH = 80;
+    FULL_SCREEN_HEIGHT = 24;
+    // print an intro screen, making sure the terminal is the correct size
+    intro();
 
     int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
 
@@ -160,6 +165,8 @@ void game::init_ui(){
         TERMY = (int)OPTIONS["VIEWPORT_Y"] * 2 + 1;
         VIEWX = (OPTIONS["VIEWPORT_X"] > 60) ? 60 : OPTIONS["VIEWPORT_X"];
         VIEWY = (OPTIONS["VIEWPORT_Y"] > 60) ? 60 : OPTIONS["VIEWPORT_Y"];
+        // TERMY is always odd, so make FULL_SCREEN_HEIGHT odd too
+        FULL_SCREEN_HEIGHT = 25;
 
         // If we've chosen the narrow sidebar, we might need to make the
         // viewport wider to fill an 80-column window.
@@ -174,6 +181,13 @@ void game::init_ui(){
         TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
     #else
         getmaxyx(stdscr, TERMY, TERMX);
+
+        // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
+        if (TERMY % 2) {
+            FULL_SCREEN_HEIGHT = 25;
+        } else {
+            FULL_SCREEN_HEIGHT = 24;
+        }
 
         // now that TERMX and TERMY are set,
         // check if sidebar style needs to be overridden
