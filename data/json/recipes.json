@@ -10764,7 +10764,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "crowbar",
+  "result": "makeshift_crowbar",
   "category": "CC_MISC",
   "skill_used": "fabrication",
   "difficulty": 0,
