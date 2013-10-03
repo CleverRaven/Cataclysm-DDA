@@ -738,7 +738,7 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_SPORES:
-            if (x_in_y(dis.intensity, 10)) {
+            if (x_in_y(dis.intensity, 20)) {
                 p.add_disease("fungus", -1);
                 g->u.add_memorial_log(_("Contracted a fungal infection."));
             }
