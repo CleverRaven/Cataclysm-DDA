@@ -1224,6 +1224,7 @@
       ["mag_firstaid", 15],
       ["mag_throwing", 20],
       ["mag_swimming", 20],
+      ["manual_swimming", 10],
       ["mag_bashing", 20],
       ["manual_bashing", 1],
       ["mag_cutting", 10],
@@ -1877,6 +1878,7 @@
       ["textbook_firstaid", 8],
       ["textbook_survival", 8],
       ["manual_survival", 3],
+      ["manual_swimming", 5],
       ["textbook_speech", 12],
       ["textbook_armeast", 3]
     ]
