@@ -87,6 +87,26 @@ void load_recipe(JsonObject &jsobj)
         rec->components.push_back(component_choices);
     }
 
+    jsarr = jsobj.get_array("tool_groups");
+    while(jsarr.has_more()){
+        std::vector<quality_requirement> tool_choices;
+        JsonObject quality_data = jsarr.next_object();
+        std::string name = quality_data.get_string("name");
+        int level=1;
+        int amount=1;
+        int consumed=-1;
+        if(quality_data.has_member("level")){
+          level = quality_data.get_int("level");
+        }
+        if(quality_data.has_member("amount")){
+          amount = quality_data.get_int("amount");
+        }
+        if(quality_data.has_member("consumed")){
+          consumed = quality_data.get_int("consumed");
+        }
+        rec->qualities.push_back(quality_requirement(name, level, amount, consumed));
+    }
+
     jsarr = jsobj.get_array("tools");
     while (jsarr.has_more()) {
         std::vector<component> tool_choices;

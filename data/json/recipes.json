@@ -585,6 +585,9 @@
   "time": 800,
   "reversible": false,
   "autolearn": true,
+  "tool_groups":[
+    {"name":"CUT","level":1,"amount":1, "consumed":-1},
+  ]
   "tools": [
     [
       [ "hatchet", -1 ],
