@@ -863,6 +863,11 @@ void map::set(const int x, const int y, const ter_id new_terrain, const furn_id 
     ter_set(x, y, new_terrain);
 }
 
+void map::set(const int x, const int y, const std::string new_terrain, const std::string new_furniture) {
+    furn_set(x, y, new_furniture);
+    ter_set(x, y, new_terrain);
+}
+
 std::string map::name(const int x, const int y)
 {
  return has_furn(x, y) ? _(furnlist[furn(x, y)].name.c_str()) : _(terlist[ter(x, y)].name.c_str()); // FIXME i18n
@@ -873,7 +878,20 @@ bool map::has_furn(const int x, const int y)
   return furn(x, y) != f_null;
 }
 
-furn_id map::furn(const int x, const int y)
+
+std::string map::get_furn(const int x, const int y) const {
+    return furnlist[ furn(x,y) ].id;
+}
+
+int map::oldfurn(const int x, const int y) const {
+    const int nfurn = furn(x, y);
+    if ( reverse_legacy_furn_id.find(nfurn) == reverse_legacy_furn_id.end() ) {
+        return t_null;
+    }
+    return reverse_legacy_furn_id[ nfurn ];
+}
+
+furn_id map::furn(const int x, const int y) const
 {
  if (!INBOUNDS(x, y)) {
   return f_null;
@@ -885,6 +903,7 @@ furn_id map::furn(const int x, const int y)
  const int ly = y % SEEY;
  return grid[nonant]->frn[lx][ly];
 }
+
 
 void map::furn_set(const int x, const int y, const furn_id new_furniture)
 {
@@ -899,13 +918,27 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
  grid[nonant]->frn[lx][ly] = new_furniture;
 }
 
-std::string map::furnname(const int x, const int y)
-{
- return _(furnlist[furn(x, y)].name.c_str()); // FIXME i18n
+void map::furn_set(const int x, const int y, const std::string new_furniture) {
+    if ( furnmap.find(new_furniture) == furnmap.end() ) {
+        return;
+    }
+    furn_set(x, y, (furn_id)furnmap[ new_furniture ].loadid );
 }
 
-ter_id map::ter(const int x, const int y) const
-{
+
+std::string map::furnname(const int x, const int y) {
+ return _(furnlist[furn(x, y)].name.c_str()); // FIXME i18n
+}
+/*
+ * Get the terrain integer id. This is -not- a number guaranteed to remain
+ * the same across revisions; it is a load order, and can change when mods
+ * are loaded or removed. The old t_floor style constants will still work but
+ * are -not- guaranteed; if a mod removes t_lava, t_lava will equal t_null;
+ * New terrains added to the core game generally do not need this, it's 
+ * retained for high performance comparisons, save/load, and gradual transition
+ * to string terrain.id
+ */
+ter_id map::ter(const int x, const int y) const {
  if (!INBOUNDS(x, y)) {
   return t_null;
  }
@@ -916,18 +949,68 @@ ter_id map::ter(const int x, const int y) const
  const int ly = y % SEEY;
  return grid[nonant]->ter[lx][ly];
 }
+/*
+ * -temporary- for non-rewritten switch statements
+ */
+int map::oldter(const int x, const int y) const {
+    const int nter = ter(x, y);
+    if ( reverse_legacy_ter_id.find(nter) == reverse_legacy_ter_id.end() ) {
+        return t_null;
+    }
+    return reverse_legacy_ter_id[ nter ];
+}
 
-void map::ter_set(const int x, const int y, const ter_id new_terrain)
+
+/*
+ * Get the terrain string id. This will remain the same across revisions,
+ * unless a mod eliminates or changes it. Generally this is less efficient
+ * than ter_id, but only an issue if thousands of comparisons are made.
+ */
+std::string map::get_ter(const int x, const int y) const {
+    return terlist[ ter(x,y) ].id;
+}
+
+/*
+ * Get a reference to the actual terrain struct.
+ */
+ter_t & map::ter_at(const int x, const int y) const
 {
- if (!INBOUNDS(x, y)) {
-  return;
+ return terlist[ ter(x,y) ];
+/* if (!INBOUNDS(x, y)) {
+  return terlist[t_null];
  }
 
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  const int lx = x % SEEX;
  const int ly = y % SEEY;
- grid[nonant]->ter[lx][ly] = new_terrain;
+ if (grid[nonant]->tter[lx][ly] == NULL) return terlist[t_null];
+ return (*grid[nonant]->tter[lx][ly]);
+*/
+}
+
+/*
+ * set terrain via string; this works for -any- terrain id
+ */
+void map::ter_set(const int x, const int y, const std::string new_terrain) {
+    if ( termap.find(new_terrain) == termap.end() ) {
+        return;
+    }
+    ter_set(x, y, (ter_id)termap[ new_terrain ].loadid );
+}
+
+/*
+ * set terrain via builtin t_keyword; only if defined, and will not work
+ * for mods
+ */
+void map::ter_set(const int x, const int y, const ter_id new_terrain) {
+    if (!INBOUNDS(x, y)) {
+        return;
+    }
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    const int lx = x % SEEX;
+    const int ly = y % SEEY;
+    grid[nonant]->ter[lx][ly] = new_terrain;
 }
 
 std::string map::tername(const int x, const int y) const
@@ -1144,14 +1227,14 @@ bool map::has_adjacent_furniture(const int x, const int y)
         const int adj_x = x + cx[i];
         const int adj_y = y + cy[i];
 
-        switch( furn(adj_x, adj_y) )
+        switch( oldfurn(adj_x, adj_y) )
         {
-        case f_fridge:
-        case f_glass_fridge:
-        case f_dresser:
-        case f_rack:
-        case f_bookcase:
-        case f_locker:
+        case old_f_fridge:
+        case old_f_glass_fridge:
+        case old_f_dresser:
+        case old_f_rack:
+        case old_f_bookcase:
+        case old_f_locker:
             return true;
         }
     }
@@ -1203,9 +1286,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   return true;
  }
 
-switch (furn(x, y)) {
- case f_locker:
- case f_rack:
+switch (oldfurn(x, y)) {
+ case old_f_locker:
+ case old_f_rack:
   result = rng(0, 30);
   if (res) *res = result;
   if (str >= result) {
@@ -1223,7 +1306,7 @@ switch (furn(x, y)) {
   }
   break;
 
- case f_oven:
+ case old_f_oven:
   result = rng(0, 30);
   if (res) *res = result;
   if (str >= result) {
@@ -1243,9 +1326,9 @@ switch (furn(x, y)) {
   }
  break;
 
- case f_sink:
- case f_toilet:
- case f_bathtub:
+ case old_f_sink:
+ case old_f_toilet:
+ case old_f_bathtub:
   result = dice(8, 4) - 8;
   if (res) *res = result;
   if (str >= result) {
@@ -1258,12 +1341,12 @@ switch (furn(x, y)) {
   }
   break;
 
- case f_pool_table:
- case f_bulletin:
- case f_dresser:
- case f_bookcase:
- case f_counter:
- case f_table:
+ case old_f_pool_table:
+ case old_f_bulletin:
+ case old_f_dresser:
+ case old_f_bookcase:
+ case old_f_counter:
+ case old_f_table:
   result = rng(0, 45);
   if (res) *res = result;
   if (str >= result) {
@@ -1279,8 +1362,8 @@ switch (furn(x, y)) {
   }
   break;
 
- case f_fridge:
- case f_glass_fridge:
+ case old_f_fridge:
+ case old_f_glass_fridge:
   result = rng(0, 30);
   if (res) *res = result;
   if (str >= result) {
@@ -1298,10 +1381,10 @@ switch (furn(x, y)) {
   }
   break;
 
- case f_bench:
- case f_chair:
- case f_desk:
- case f_cupboard:
+ case old_f_bench:
+ case old_f_chair:
+ case old_f_desk:
+ case old_f_cupboard:
   result = rng(0, 30);
   if (res) *res = result;
   if (str >= result) {
@@ -1317,8 +1400,8 @@ switch (furn(x, y)) {
   }
   break;
 
- case f_crate_c:
- case f_crate_o:
+ case old_f_crate_c:
+ case old_f_crate_o:
   result = rng(4, 20);
   if (res) *res = result;
   if (str >= result) {
@@ -1333,14 +1416,14 @@ switch (furn(x, y)) {
   }
   break;
 
- case f_skin_wall:
- case f_skin_door:
- case f_skin_door_o:
- case f_skin_groundsheet:
- case f_canvas_wall:
- case f_canvas_door:
- case f_canvas_door_o:
- case f_groundsheet:
+ case old_f_skin_wall:
+ case old_f_skin_door:
+ case old_f_skin_door_o:
+ case old_f_skin_groundsheet:
+ case old_f_canvas_wall:
+ case old_f_canvas_door:
+ case old_f_canvas_door_o:
+ case old_f_groundsheet:
   result = rng(0, 6);
   if (res) *res = result;
   if (str >= result)
@@ -1379,9 +1462,9 @@ switch (furn(x, y)) {
   break;
 }
 
-switch (ter(x, y)) {
- case t_chainfence_v:
- case t_chainfence_h:
+switch (oldter(x, y)) {
+ case old_t_chainfence_v:
+ case old_t_chainfence_h:
   result = rng(0, 50);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 50)) {
@@ -1395,7 +1478,7 @@ switch (ter(x, y)) {
   }
   break;
 
- case t_wall_wood:
+ case old_t_wall_wood:
   result = rng(0, 120);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 120)) {
@@ -1412,7 +1495,7 @@ switch (ter(x, y)) {
   }
   break;
 
- case t_wall_wood_chipped:
+ case old_t_wall_wood_chipped:
   result = rng(0, 100);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 100)) {
@@ -1428,7 +1511,7 @@ switch (ter(x, y)) {
   }
   break;
 
- case t_wall_wood_broken:
+ case old_t_wall_wood_broken:
   result = rng(0, 80);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 80)) {
@@ -1444,8 +1527,8 @@ switch (ter(x, y)) {
   }
   break;
 
-case t_palisade:
-case t_palisade_gate:
+case old_t_palisade:
+case old_t_palisade_gate:
   result = rng(0, 120);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 120)) {
@@ -1460,7 +1543,7 @@ case t_palisade_gate:
   }
   break;
 
-case t_wall_log:
+case old_t_wall_log:
   result = rng(0, 120);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 120)) {
@@ -1475,7 +1558,7 @@ case t_wall_log:
   }
   break;
 
- case t_wall_log_chipped:
+ case old_t_wall_log_chipped:
   result = rng(0, 100);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 100)) {
@@ -1489,7 +1572,7 @@ case t_wall_log:
   }
   break;
 
- case t_wall_log_broken:
+ case old_t_wall_log_broken:
   result = rng(0, 80);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 80)) {
@@ -1504,8 +1587,8 @@ case t_wall_log:
   break;
 
 
- case t_chaingate_c:
- case t_chaingate_l:
+ case old_t_chaingate_c:
+ case old_t_chaingate_l:
   result = rng(0, has_adjacent_furniture(x, y) ? 80 : 100);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 80)) {
@@ -1520,7 +1603,7 @@ case t_wall_log:
   }
   break;
 
-  case t_fencegate_c:
+  case old_t_fencegate_c:
   result = rng(0, has_adjacent_furniture(x, y) ? 30 : 40);
   if (res) *res = result;
   if (str >= result) {
@@ -1536,9 +1619,9 @@ case t_wall_log:
   }
   break;
 
- case t_door_c:
- case t_door_locked:
- case t_door_locked_alarm:
+ case old_t_door_c:
+ case old_t_door_locked:
+ case old_t_door_locked_alarm:
   result = rng(0, has_adjacent_furniture(x, y) ? 40 : 50);
   if (res) *res = result;
   if (str >= result) {
@@ -1551,7 +1634,7 @@ case t_wall_log:
   }
   break;
 
- case t_door_b:
+ case old_t_door_b:
   result = rng(0, has_adjacent_furniture(x, y) ? 30 : 40);
   if (res) *res = result;
   if (str >= result) {
@@ -1567,9 +1650,9 @@ case t_wall_log:
   }
   break;
 
- case t_window_domestic:
- case t_curtains:
- case t_window_domestic_taped:
+ case old_t_window_domestic:
+ case old_t_curtains:
+ case old_t_window_domestic_taped:
   result = rng(0, 6);
   if (res) *res = result;
   if (str >= result) {
@@ -1585,10 +1668,10 @@ case t_wall_log:
   }
   break;
 
- case t_window:
- case t_window_alarm:
- case t_window_alarm_taped:
- case t_window_taped:
+ case old_t_window:
+ case old_t_window_alarm:
+ case old_t_window_alarm_taped:
+ case old_t_window_taped:
   result = rng(0, 6);
   if (res) *res = result;
   if (str >= result) {
@@ -1601,7 +1684,7 @@ case t_wall_log:
   }
   break;
 
- case t_door_boarded:
+ case old_t_door_boarded:
   result = rng(0, has_adjacent_furniture(x, y) ? 50 : 60);
   if (res) *res = result;
   if (str >= result) {
@@ -1617,7 +1700,7 @@ case t_wall_log:
   }
   break;
 
- case t_window_boarded:
+ case old_t_window_boarded:
   result = rng(0, 30);
   if (res) *res = result;
   if (str >= result) {
@@ -1633,7 +1716,7 @@ case t_wall_log:
   }
   break;
 
- case t_paper:
+ case old_t_paper:
   result = dice(1, 6) - 2;
   if (res) *res = result;
   if (str >= result) {
@@ -1646,8 +1729,8 @@ case t_wall_log:
   }
   break;
 
- case t_fence_v:
- case t_fence_h:
+ case old_t_fence_v:
+ case old_t_fence_h:
   result = rng(0, 10);
   if (res) *res = result;
   if (str >= result) {
@@ -1663,7 +1746,7 @@ case t_wall_log:
   }
   break;
 
- case t_fence_post:
+ case old_t_fence_post:
   result = rng(0, 10);
   if (res) *res = result;
   if (str >= result) {
@@ -1677,11 +1760,11 @@ case t_wall_log:
   }
   break;
 
- case t_wall_glass_h:
- case t_wall_glass_v:
- case t_wall_glass_h_alarm:
- case t_wall_glass_v_alarm:
- case t_door_glass_c:
+ case old_t_wall_glass_h:
+ case old_t_wall_glass_v:
+ case old_t_wall_glass_h_alarm:
+ case old_t_wall_glass_v_alarm:
+ case old_t_door_glass_c:
   result = rng(0, 20);
   if (res) *res = result;
   if (str >= result) {
@@ -1694,8 +1777,8 @@ case t_wall_log:
   }
   break;
 
- case t_reinforced_glass_h:
- case t_reinforced_glass_v:
+ case old_t_reinforced_glass_h:
+ case old_t_reinforced_glass_v:
   result = rng(60, 100);
   if (res) *res = result;
   if (str >= result) {
@@ -1708,7 +1791,7 @@ case t_wall_log:
   }
   break;
 
- case t_tree_young:
+ case old_t_tree_young:
   result = rng(0, 50);
   if (res) *res = result;
   if (str >= result) {
@@ -1724,7 +1807,7 @@ case t_wall_log:
   }
   break;
 
- case t_underbrush:
+ case old_t_underbrush:
   result = rng(0, 30);
   if (res) *res = result;
   if (str >= result && !one_in(4)) {
@@ -1737,7 +1820,7 @@ case t_wall_log:
   }
   break;
 
- case t_shrub:
+ case old_t_shrub:
   result = rng(0, 30);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 30) && one_in(2)){
@@ -1750,7 +1833,7 @@ case t_wall_log:
   }
   break;
 
- case t_marloss:
+ case old_t_marloss:
   result = rng(0, 40);
   if (res) *res = result;
   if (str >= result) {
@@ -1763,7 +1846,7 @@ case t_wall_log:
   }
   break;
 
- case t_vat:
+ case old_t_vat:
   result = dice(2, 20);
   if (res) *res = result;
   if (str >= result) {
@@ -1790,9 +1873,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
  if (has_furn(x, y))
   furn_set(x, y, f_null);
 
- switch (ter(x, y)) {
+ switch (oldter(x, y)) {
 
- case t_gas_pump:
+ case old_t_gas_pump:
   if (makesound && one_in(3))
    g->explosion(x, y, 40, 0, true);
   else {
@@ -1807,10 +1890,10 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   ter_set(x, y, t_rubble);
   break;
 
- case t_door_c:
- case t_door_b:
- case t_door_locked:
- case t_door_boarded:
+ case old_t_door_c:
+ case old_t_door_b:
+ case old_t_door_locked:
+ case old_t_door_boarded:
   ter_set(x, y, t_door_frame);
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1821,9 +1904,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   }
   break;
 
- case t_pavement:
- case t_pavement_y:
- case t_sidewalk:
+ case old_t_pavement:
+ case old_t_pavement_y:
+ case old_t_sidewalk:
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
@@ -1833,7 +1916,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   }
   break;
 
- case t_floor:
+ case old_t_floor:
  g->sound(x, y, 20, _("SMASH!!"));
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1875,10 +1958,10 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   break;
 
- case t_concrete_v:
- case t_concrete_h:
- case t_wall_v:
- case t_wall_h:
+ case old_t_concrete_v:
+ case old_t_concrete_h:
+ case old_t_wall_v:
+ case old_t_wall_h:
  g->sound(x, y, 20, _("SMASH!!"));
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1926,8 +2009,8 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   break;
 
-  case t_palisade:
-  case t_palisade_gate:
+  case old_t_palisade:
+  case old_t_palisade_gate:
       g->sound(x, y, 16, _("CRUNCH!!"));
       for (int i = x - 1; i <= x + 1; i++)
       {
@@ -1978,12 +2061,12 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         dam = veh->damage (vpart, dam, inc? 2 : 0, hit_items);
     }
 
-    switch (ter(x, y))
+    switch (oldter(x, y))
     {
 
-        case t_wall_wood_broken:
-        case t_wall_log_broken:
-        case t_door_b:
+        case old_t_wall_wood_broken:
+        case old_t_wall_log_broken:
+        case old_t_door_b:
             if (hit_items || one_in(8))
             { // 1 in 8 chance of hitting the door
                 dam -= rng(20, 40);
@@ -1998,9 +2081,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         break;
 
 
-        case t_door_c:
-        case t_door_locked:
-        case t_door_locked_alarm:
+        case old_t_door_c:
+        case old_t_door_locked:
+        case old_t_door_locked_alarm:
             dam -= rng(15, 30);
             if (dam > 0)
             {
@@ -2009,7 +2092,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
             }
         break;
 
-        case t_door_boarded:
+        case old_t_door_boarded:
             dam -= rng(15, 35);
             if (dam > 0)
             {
@@ -2019,11 +2102,11 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         break;
 
         // Fall-through intended
-        case t_window_domestic_taped:
-        case t_curtains:
+        case old_t_window_domestic_taped:
+        case old_t_curtains:
             if (ammo_effects.count("LASER"))
                 dam -= rng(1, 5);
-        case t_window_domestic:
+        case old_t_window_domestic:
             if (ammo_effects.count("LASER"))
                 dam -= rng(0, 5);
             else
@@ -2041,12 +2124,12 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         break;
 
         // Fall-through intended
-        case t_window_taped:
-        case t_window_alarm_taped:
+        case old_t_window_taped:
+        case old_t_window_alarm_taped:
             if (ammo_effects.count("LASER"))
                 dam -= rng(1, 5);
-        case t_window:
-        case t_window_alarm:
+        case old_t_window:
+        case old_t_window_alarm:
             if (ammo_effects.count("LASER"))
                 dam -= rng(0, 5);
             else
@@ -2060,7 +2143,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
             }
         break;
 
-        case t_window_boarded:
+        case old_t_window_boarded:
             dam -= rng(10, 30);
             if (dam > 0)
             {
@@ -2069,10 +2152,10 @@ void map::shoot(game *g, const int x, const int y, int &dam,
             }
         break;
 
-        case t_wall_glass_h:
-        case t_wall_glass_v:
-        case t_wall_glass_h_alarm:
-        case t_wall_glass_v_alarm:
+        case old_t_wall_glass_h:
+        case old_t_wall_glass_v:
+        case old_t_wall_glass_h_alarm:
+        case old_t_wall_glass_v_alarm:
             if (ammo_effects.count("LASER"))
                 dam -= rng(0,5);
             else
@@ -2089,8 +2172,8 @@ void map::shoot(game *g, const int x, const int y, int &dam,
 
         // reinforced glass stops most bullets
         // laser beams are attenuated
-        case t_reinforced_glass_v:
-        case t_reinforced_glass_h:
+        case old_t_reinforced_glass_v:
+        case old_t_reinforced_glass_h:
             if (ammo_effects.count("LASER"))
             {
                 dam -= rng(0, 8);
@@ -2111,7 +2194,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
             }
         break;
 
-        case t_paper:
+        case old_t_paper:
             dam -= rng(4, 16);
             if (dam > 0)
             {
@@ -2122,7 +2205,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                 add_field(g, x, y, fd_fire, 1);
         break;
 
-        case t_gas_pump:
+        case old_t_gas_pump:
             if (hit_items || one_in(3))
             {
                 if (dam > 15)
@@ -2147,7 +2230,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
             }
         break;
 
-        case t_vat:
+        case old_t_vat:
             if (dam >= 10)
             {
                 g->sound(x, y, 20, _("ke-rash!"));
@@ -2232,52 +2315,52 @@ bool map::hit_with_acid(game *g, const int x, const int y)
  if (move_cost(x, y) != 0)
   return false; // Didn't hit the tile!
 
- switch (ter(x, y)) {
-  case t_wall_glass_v:
-  case t_wall_glass_h:
-  case t_wall_glass_v_alarm:
-  case t_wall_glass_h_alarm:
-  case t_vat:
+ switch (oldter(x, y)) {
+  case old_t_wall_glass_v:
+  case old_t_wall_glass_h:
+  case old_t_wall_glass_v_alarm:
+  case old_t_wall_glass_h_alarm:
+  case old_t_vat:
    ter_set(x, y, t_floor);
    break;
 
-  case t_door_c:
-  case t_door_locked:
-  case t_door_locked_alarm:
+  case old_t_door_c:
+  case old_t_door_locked:
+  case old_t_door_locked_alarm:
    if (one_in(3))
     ter_set(x, y, t_door_b);
    break;
 
-  case t_door_bar_c:
-  case t_door_bar_o:
-  case t_door_bar_locked:
-  case t_bars:
+  case old_t_door_bar_c:
+  case old_t_door_bar_o:
+  case old_t_door_bar_locked:
+  case old_t_bars:
    ter_set(x, y, t_floor);
    g->add_msg(_("The metal bars melt!"));
    break;
 
-  case t_door_b:
+  case old_t_door_b:
    if (one_in(4))
     ter_set(x, y, t_door_frame);
    else
     return false;
    break;
 
-  case t_window:
-  case t_window_alarm:
+  case old_t_window:
+  case old_t_window_alarm:
    ter_set(x, y, t_window_empty);
    break;
 
-  case t_wax:
+  case old_t_wax:
    ter_set(x, y, t_floor_wax);
    break;
 
-  case t_gas_pump:
-  case t_gas_pump_smashed:
+  case old_t_gas_pump:
+  case old_t_gas_pump_smashed:
    return false;
 
-  case t_card_science:
-  case t_card_military:
+  case old_t_card_science:
+  case old_t_card_military:
    ter_set(x, y, t_card_reader_broken);
    break;
  }
@@ -2317,7 +2400,11 @@ void map::marlossify(const int x, const int y)
 
 bool map::open_door(const int x, const int y, const bool inside)
 {
- if (ter(x, y) == t_door_c) {
+ const std::string terid = get_ter(x,y);
+ const std::string furnid = furnlist[furn(x,y)].id;
+
+// if (ter(x, y) == t_door_c) {
+ if( ter(x,y) == t_door_c ) {
   ter_set(x, y, t_door_o);
   return true;
  } else if (furn(x, y) == f_canvas_door) {
@@ -3275,10 +3362,26 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  bool hi = false;
  bool graf = false;
  bool normal_tercol = false, drew_field = false;
+
+
+ const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ // grid[nonant]->ter[lx][ly];
+
+
  if (has_furn(x, y)) {
   sym = furnlist[curr_furn].sym;
   tercol = furnlist[curr_furn].color;
+/*
+  sym = grid[nonant]->ffrn[lx][ly]->sym;
+  tercol = grid[nonant]->ffrn[lx][ly]->color;
+*/
  } else {
+/*  sym = grid[nonant]->tter[lx][ly]->sym;
+  tercol = grid[nonant]->tter[lx][ly]->color;
+*/
   sym = terlist[curr_ter].sym;
   tercol = terlist[curr_ter].color;
  }

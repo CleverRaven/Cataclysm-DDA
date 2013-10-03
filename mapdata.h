@@ -70,14 +70,17 @@ class monster;
  * SUPPRESS_SMOKE - Prevents smoke from fires, used by ventilated wood stoves etc
  * PLANT - A "furniture" that grows and fruits
  */
-
+typedef int ter_id;
+typedef int furn_id;
 /*
 Struct ter_t:
 Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 
 */
 struct ter_t {
- std::string name; //The plaintext name of the terrain type the user would see (IE: dirt)
+ std::string id;   // The terrain's ID. Must be set, must be unique.
+ int loadid;       // This is akin to the old ter_id, however it is set at runtime.
+ std::string name; // The plaintext name of the terrain type the user would see (IE: dirt)
 
  /*
  The symbol drawn on the screen for the terrain. Please note that there are extensive rules as to which
@@ -104,96 +107,20 @@ struct ter_t {
  bool transparent;
 };
 
-/*
-enum: ter_id
-Terrain id refers to a position in the terlist[] area describing, in the order of the enum, the terrain in question
-through the use of a ter_t struct.
-*/
-/*
-  On altering any entries in this enum please add or remove the appropriate entry to the terrain_names array in tile_id_data.h
-*/
-enum ter_id {
-t_null = 0,
-t_hole, // Real nothingness; makes you fall a z-level
-// Ground
-t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
-t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
-t_rock_floor, t_rubble, t_ash, t_metal, t_wreckage,
-t_grass,
-t_metal_floor,
-t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-t_floor,
-t_dirtfloor,//Dirt floor(Has roof)
-t_grate,
-t_slime,
-t_bridge,
-// Lighting related
-t_skylight, t_emergency_light_flicker, t_emergency_light,
-// Walls
-t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
-t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
-t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
-t_wall_metal_v, t_wall_metal_h,
-t_wall_glass_v, t_wall_glass_h,
-t_wall_glass_v_alarm, t_wall_glass_h_alarm,
-t_reinforced_glass_v, t_reinforced_glass_h,
-t_bars,
-t_door_c, t_door_b, t_door_o, t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
-t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
-t_door_metal_c, t_door_metal_o, t_door_metal_locked,
-t_door_bar_c, t_door_bar_o, t_door_bar_locked,
-t_door_glass_c, t_door_glass_o,
-t_portcullis,
-t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
-t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
-t_window_stained_green, t_window_stained_red, t_window_stained_blue,
-t_rock, t_fault,
-t_paper,
-// Tree
-t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
-t_root_wall,
-t_wax, t_floor_wax,
-t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
-t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
-t_railing_v, t_railing_h,
-// Nether
-t_marloss, t_fungus, t_tree_fungal,
-// Water, lava, etc.
-t_water_sh, t_water_dp, t_water_pool, t_sewage,
-t_lava,
-// More embellishments than you can shake a stick at.
-t_sandbox, t_slide, t_monkey_bars, t_backboard,
-t_gas_pump, t_gas_pump_smashed,
-t_generator_broken,
-t_missile, t_missile_exploded,
-t_radio_tower, t_radio_controls,
-t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_barndoor, t_palisade_pulley,
-t_sewage_pipe, t_sewage_pump,
-t_centrifuge,
-t_column,
-t_vat,
-// Staircases etc.
-t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
- t_slope_up, t_rope_up,
-t_manhole_cover,
-// Special
-t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
- t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
- t_pedestal_temple,
-// Temple tiles
-t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
- t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
-
-num_terrain_types
-};
+void set_ter_ids();
+void set_furn_ids();
 
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
- * Must match the order of the constants in the ter_list enum above!
  */
 extern std::vector<ter_t> terlist;
+extern std::map<std::string, ter_t> termap;
+extern std::map<int,int> reverse_legacy_ter_id;
+
 
 struct furn_t {
+ std::string id;
+ int loadid;
  std::string name;
  long sym;
  nc_color color;
@@ -215,34 +142,10 @@ struct furn_t {
  bool transparent;
 };
 
-/*
-  On altering any entries in this enum please add or remove the appropriate entry to the furn_names array in tile_id_data.h
-*/
-enum furn_id {
-f_null,
-f_hay,
-f_bulletin,
-f_indoor_plant,
-f_bed, f_toilet, f_makeshift_bed,
-f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
-f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
-f_bench, f_table, f_pool_table,
-f_counter,
-f_fridge, f_glass_fridge, f_dresser, f_locker,
-f_rack, f_bookcase,
-f_washer, f_dryer,
-f_dumpster, f_dive_block,
-f_crate_c, f_crate_o,
-f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
-f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
-f_mutpoppy,
-f_safe_c, f_safe_l, f_safe_o,
-f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
-num_furniture_types
-};
 
-//Must match enum furn_id order above!
 extern std::vector<furn_t> furnlist;
+extern std::map<std::string, furn_t> furnmap;
+extern std::map<int,int> reverse_legacy_furn_id;
 
 /*
 enum: map_extra
@@ -347,6 +250,7 @@ struct submap {
     field              fld[SEEX][SEEY];  // Field on each square
     int                rad[SEEX][SEEY];  // Irradiation of each square
     graffiti           graf[SEEX][SEEY]; // Graffiti on each square
+
     int active_item_count;
     int field_count;
     int turn_last_touched;
@@ -362,5 +266,216 @@ std::ostream & operator<<(std::ostream &, const submap &);
 
 void load_furniture(JsonObject &jsobj);
 void load_terrain(JsonObject &jsobj);
+
+
+
+/*
+runtime index: ter_id
+ter_id refers to a position in the terlist[] where the ter_t struct is stored. These global
+ints are a drop-in replacement to the old enum, however they are -not- required (save for areas in
+the code that can use the perormance boost and refer to core terrain types), and they are -not-
+provided for terrains added by mods. A string equivalent is always present, ie;
+t_basalt
+"t_basalt"
+*/
+extern ter_id t_null,
+    t_hole, // Real nothingness; makes you fall a z-level
+    // Ground
+    t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
+    t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
+    t_rock_floor, t_rubble, t_ash, t_metal, t_wreckage,
+    t_grass,
+    t_metal_floor,
+    t_pavement, t_pavement_y, t_sidewalk, t_concrete,
+    t_floor,
+    t_dirtfloor,//Dirt floor(Has roof)
+    t_grate,
+    t_slime,
+    t_bridge,
+    // Lighting related
+    t_skylight, t_emergency_light_flicker, t_emergency_light,
+    // Walls
+    t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
+    t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
+    t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
+    t_wall_metal_v, t_wall_metal_h,
+    t_wall_glass_v, t_wall_glass_h,
+    t_wall_glass_v_alarm, t_wall_glass_h_alarm,
+    t_reinforced_glass_v, t_reinforced_glass_h,
+    t_bars,
+    t_door_c, t_door_b, t_door_o, t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
+    t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
+    t_door_metal_c, t_door_metal_o, t_door_metal_locked,
+    t_door_bar_c, t_door_bar_o, t_door_bar_locked,
+    t_door_glass_c, t_door_glass_o,
+    t_portcullis,
+    t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
+    t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
+    t_window_stained_green, t_window_stained_red, t_window_stained_blue,
+    t_rock, t_fault,
+    t_paper,
+    // Tree
+    t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_root_wall,
+    t_wax, t_floor_wax,
+    t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
+    t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
+    t_railing_v, t_railing_h,
+    // Nether
+    t_marloss, t_fungus, t_tree_fungal,
+    // Water, lava, etc.
+    t_water_sh, t_water_dp, t_water_pool, t_sewage,
+    t_lava,
+    // More embellishments than you can shake a stick at.
+    t_sandbox, t_slide, t_monkey_bars, t_backboard,
+    t_gas_pump, t_gas_pump_smashed,
+    t_generator_broken,
+    t_missile, t_missile_exploded,
+    t_radio_tower, t_radio_controls,
+    t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_barndoor, t_palisade_pulley,
+    t_sewage_pipe, t_sewage_pump,
+    t_centrifuge,
+    t_column,
+    t_vat,
+    // Staircases etc.
+    t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
+     t_slope_up, t_rope_up,
+    t_manhole_cover,
+    // Special
+    t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
+     t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
+     t_pedestal_temple,
+    // Temple tiles
+    t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
+     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
+    num_terrain_types;
+
+
+/*
+runtime index: furn_id
+furn_id refers to a position in the furnlist[] where the furn_t struct is stored. See note
+about ter_id above.
+*/
+extern furn_id f_null,
+    f_hay,
+    f_bulletin,
+    f_indoor_plant,
+    f_bed, f_toilet, f_makeshift_bed,
+    f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
+    f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
+    f_bench, f_table, f_pool_table,
+    f_counter,
+    f_fridge, f_glass_fridge, f_dresser, f_locker,
+    f_rack, f_bookcase,
+    f_washer, f_dryer,
+    f_dumpster, f_dive_block,
+    f_crate_c, f_crate_o,
+    f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
+    f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
+    f_mutpoppy,
+    f_safe_c, f_safe_l, f_safe_o,
+    f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
+    num_furniture_types;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//// These are on their way OUT and only used in certain switch statements until they are rewritten.
+
+enum old_ter_id {
+old_t_null = 0,
+old_t_hole, // Real nothingness; makes you fall a z-level
+// Ground
+old_t_dirt, old_t_sand, old_t_dirtmound, old_t_pit_shallow, old_t_pit,
+old_t_pit_corpsed, old_t_pit_covered, old_t_pit_spiked, old_t_pit_spiked_covered,
+old_t_rock_floor, old_t_rubble, old_t_ash, old_t_metal, old_t_wreckage,
+old_t_grass,
+old_t_metal_floor,
+old_t_pavement, old_t_pavement_y, old_t_sidewalk, old_t_concrete,
+old_t_floor,
+old_t_dirtfloor,//Dirt floor(Has roof)
+old_t_grate,
+old_t_slime,
+old_t_bridge,
+// Lighting related
+old_t_skylight, old_t_emergency_light_flicker, old_t_emergency_light,
+// Walls
+old_t_wall_log_half, old_t_wall_log, old_t_wall_log_chipped, old_t_wall_log_broken, old_t_palisade, old_t_palisade_gate, old_t_palisade_gate_o,
+old_t_wall_half, old_t_wall_wood, old_t_wall_wood_chipped, old_t_wall_wood_broken,
+old_t_wall_v, old_t_wall_h, old_t_concrete_v, old_t_concrete_h,
+old_t_wall_metal_v, old_t_wall_metal_h,
+old_t_wall_glass_v, old_t_wall_glass_h,
+old_t_wall_glass_v_alarm, old_t_wall_glass_h_alarm,
+old_t_reinforced_glass_v, old_t_reinforced_glass_h,
+old_t_bars,
+old_t_door_c, old_t_door_b, old_t_door_o, old_t_door_locked_interior, old_t_door_locked, old_t_door_locked_alarm, old_t_door_frame,
+old_t_chaingate_l, old_t_fencegate_c, old_t_fencegate_o, old_t_chaingate_c, old_t_chaingate_o, old_t_door_boarded,
+old_t_door_metal_c, old_t_door_metal_o, old_t_door_metal_locked,
+old_t_door_bar_c, old_t_door_bar_o, old_t_door_bar_locked,
+old_t_door_glass_c, old_t_door_glass_o,
+old_t_portcullis,
+old_t_recycler, old_t_window, old_t_window_taped, old_t_window_domestic, old_t_window_domestic_taped, old_t_window_open, old_t_curtains,
+old_t_window_alarm, old_t_window_alarm_taped, old_t_window_empty, old_t_window_frame, old_t_window_boarded,
+old_t_window_stained_green, old_t_window_stained_red, old_t_window_stained_blue,
+old_t_rock, old_t_fault,
+old_t_paper,
+// Tree
+old_t_tree, old_t_tree_young, old_t_tree_apple, old_t_underbrush, old_t_shrub, old_t_shrub_blueberry, old_t_shrub_strawberry, old_t_trunk,
+old_t_root_wall,
+old_t_wax, old_t_floor_wax,
+old_t_fence_v, old_t_fence_h, old_t_chainfence_v, old_t_chainfence_h, old_t_chainfence_posts,
+old_t_fence_post, old_t_fence_wire, old_t_fence_barbed, old_t_fence_rope,
+old_t_railing_v, old_t_railing_h,
+// Nether
+old_t_marloss, old_t_fungus, old_t_tree_fungal,
+// Water, lava, etc.
+old_t_water_sh, old_t_water_dp, old_t_water_pool, old_t_sewage,
+old_t_lava,
+// More embellishments than you can shake a stick at.
+old_t_sandbox, old_t_slide, old_t_monkey_bars, old_t_backboard,
+old_t_gas_pump, old_t_gas_pump_smashed,
+old_t_generator_broken,
+old_t_missile, old_t_missile_exploded,
+old_t_radio_tower, old_t_radio_controls,
+old_t_console_broken, old_t_console, old_t_gates_mech_control, old_t_gates_control_concrete, old_t_barndoor, old_t_palisade_pulley,
+old_t_sewage_pipe, old_t_sewage_pump,
+old_t_centrifuge,
+old_t_column,
+old_t_vat,
+// Staircases etc.
+old_t_stairs_down, old_t_stairs_up, old_t_manhole, old_t_ladder_up, old_t_ladder_down, old_t_slope_down,
+ old_t_slope_up, old_t_rope_up,
+old_t_manhole_cover,
+// Special
+old_t_card_science, old_t_card_military, old_t_card_reader_broken, old_t_slot_machine,
+ old_t_elevator_control, old_t_elevator_control_off, old_t_elevator, old_t_pedestal_wyrm,
+ old_t_pedestal_temple,
+// Temple tiles
+old_t_rock_red, old_t_rock_green, old_t_rock_blue, old_t_floor_red, old_t_floor_green, old_t_floor_blue,
+ old_t_switch_rg, old_t_switch_gb, old_t_switch_rb, old_t_switch_even,
+old_num_terrain_types,
+};
+
+enum old_furn_id {
+old_f_null,
+old_f_hay,
+old_f_bulletin,
+old_f_indoor_plant,
+old_f_bed, old_f_toilet, old_f_makeshift_bed,
+old_f_sink, old_f_oven, old_f_woodstove, old_f_fireplace, old_f_bathtub,
+old_f_chair, old_f_armchair, old_f_sofa, old_f_cupboard, old_f_trashcan, old_f_desk, old_f_exercise,
+old_f_bench, old_f_table, old_f_pool_table,
+old_f_counter,
+old_f_fridge, old_f_glass_fridge, old_f_dresser, old_f_locker,
+old_f_rack, old_f_bookcase,
+old_f_washer, old_f_dryer,
+old_f_dumpster, old_f_dive_block,
+old_f_crate_c, old_f_crate_o,
+old_f_canvas_wall, old_f_canvas_door, old_f_canvas_door_o, old_f_groundsheet, old_f_fema_groundsheet,
+old_f_skin_wall, old_f_skin_door, old_f_skin_door_o, old_f_skin_groundsheet,
+old_f_mutpoppy,
+old_f_safe_c, old_f_safe_l, old_f_safe_o,
+old_f_plant_seed, old_f_plant_seedling, old_f_plant_mature, old_f_plant_harvest,
+old_num_furniture_types
+};
+
 
 #endif
