@@ -188,6 +188,27 @@
         "price" : 45,
         "required_level" : 0
     },
+    {
+        "type" : "BOOK",
+        "id" : "manual_bashing",
+        "name" : "Basic Stick Fighting for Combat",
+        "max_level" : 3,
+        "description" : "A beginner's guide to blunt weapon combat, filled with useful tips for improving your speed and form.",
+        "weight" : 454,
+        "to_hit" : 0,
+        "color" : "green",
+        "intelligence" : 4,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -5,
+        "cutting" : 0,
+        "time" : 18,
+        "fun" : 0,
+        "skill" : "bashing",
+        "price" : 200,
+        "required_level" : 0
+    },
 	{
         "type" : "BOOK",
         "id" : "mag_cutting",
