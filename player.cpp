@@ -4332,6 +4332,11 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 
 void player::damage_lungs(int dam)
 {
+    if (one_in(20)) 
+    {
+        g->add_msg(_("You have chest pains."));
+    }
+
     lung_damage += dam;
 }
 
