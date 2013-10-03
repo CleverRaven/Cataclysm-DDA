@@ -110,6 +110,22 @@ std::string JsonObject::line_number()
     return jsin->line_number();
 }
 
+bool JsonObject::is_member_X(std::string member, json_value_type jvt)
+{
+    int pos = positions[member];
+    if (pos <= start){
+        jsin->seek(start);
+        return false;
+    }
+    jsin->seek(pos);
+    return (jvt == jsin->get_next_type());
+}
+
+bool JsonObject::is_bool(std::string member)
+{
+    return is_member_X(member, JVT_BOOL);
+}
+
 bool JsonObject::get_bool(std::string name)
 {
     int pos = positions[name];
@@ -129,6 +145,11 @@ bool JsonObject::get_bool(std::string name, bool fallback)
     }
     jsin->seek(pos);
     return jsin->get_bool();
+}
+
+bool JsonObject::is_number(std::string member)
+{
+    return is_member_X(member, JVT_NUMBER);
 }
 
 int JsonObject::get_int(std::string name)
@@ -173,6 +194,10 @@ double JsonObject::get_float(std::string name, double fallback)
     return jsin->get_float();
 }
 
+bool JsonObject::is_string(std::string member)
+{
+    return is_member_X(member, JVT_STRING);
+}
 std::string JsonObject::get_string(std::string name)
 {
     int pos = positions[name];
@@ -192,6 +217,11 @@ std::string JsonObject::get_string(std::string name, std::string fallback)
     }
     jsin->seek(pos);
     return jsin->get_string();
+}
+
+bool JsonObject::is_array(std::string member)
+{
+    return is_member_X(member, JVT_ARRAY);
 }
 
 JsonArray JsonObject::get_array(std::string name)
@@ -393,6 +423,45 @@ void JsonIn::skip_string()
     skip_separator();
 }
 
+json_value_type JsonIn::get_next_type()
+{
+    json_value_type jvt = JVT_UNKNOWN;
+
+    char ch;
+    eat_whitespace();
+    ch = peek();
+
+    // it's either a string '"'
+    if (ch == '"') {
+        jvt = JVT_STRING;
+    // or an object '{'
+    } else if (ch == '{') {
+        jvt = JVT_OBJECT;
+    // or an array '['
+    } else if (ch == '[') {
+        jvt = JVT_ARRAY;
+    // or a number (-0123456789)
+    } else if (ch == '-' || (ch >= '0' && ch <= '9')) {
+        jvt = JVT_NUMBER;
+    // or "true", "false" or "null"
+    } else if (ch == 't' || ch == 'f') {
+        try{
+            bool b = get_bool();
+            jvt = JVT_BOOL;
+        }catch(std::string ex){
+            // nothing to do, jvt is still JVT_UNKNOWN
+        }
+    } else if (ch == 'n') {
+        try{
+            skip_null();
+            jvt = JVT_NULL;
+        }catch(std::string ex){
+            // nothing to do, jvt is still JVT_UNKNOWN
+        }
+    }
+
+    return jvt;
+}
 void JsonIn::skip_value()
 {
     char ch;
