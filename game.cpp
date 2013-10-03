@@ -153,7 +153,7 @@ void game::init_ui(){
     clear(); // Clear the screen
     intro(); // Print an intro screen, make sure we're at least 80x25
 
-    const int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    const int sidebarWidth = use_narrow_sidebar() ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = sidebarWidth + ((int)OPTIONS["VIEWPORT_X"] * 2 + 1);
@@ -213,79 +213,60 @@ void game::init_ui(){
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
 
-    switch ((int)(OPTIONS["SIDEBAR_STYLE"] == "narrow")) {
-        case 0: // standard
-            minimapX = 0;
-            minimapY = 0;
-            messX = MINIMAP_WIDTH;
-            messY = 0;
-            messW = sidebarWidth - messX;
-            messH = 20;
-            hpX = 0;
-            hpY = MINIMAP_HEIGHT;
-            hpH = 14;
-            hpW = 7;
-            locX = MINIMAP_WIDTH;
-            locY = messY + messH;
-            locH = 1;
-            locW = sidebarWidth - locX;
-            statX = 0;
-            statY = locY + locH;
-            statH = 4;
-            statW = sidebarWidth;
+    if (use_narrow_sidebar()) {
+        // First, figure out how large each element will be.
+        hpH         = 7;
+        hpW         = 14;
+        statH       = 7;
+        statW       = sidebarWidth - MINIMAP_WIDTH - hpW;
+        locH        = 1;
+        locW        = sidebarWidth;
+        stat2H      = 2;
+        stat2W      = sidebarWidth;
+        messH       = TERMY - (statH + locH + stat2H);
+        messW       = sidebarWidth;
 
-            // The default style only uses one status window.
-            // The second status window needs to consume the void at the bottom
-            // of the sidebar.
-            stat2X = 0;
-            stat2Y = statY + statH;
-            stat2H = TERMY - stat2Y;
-            stat2W = sidebarWidth;
+        // Now position the elements relative to each other.
+        minimapX = 0;
+        minimapY = 0;
+        hpX = minimapX + MINIMAP_WIDTH;
+        hpY = 0;
+        locX = 0;
+        locY = minimapY + MINIMAP_HEIGHT;
+        statX = hpX + hpW;
+        statY = 0;
+        stat2X = 0;
+        stat2Y = locY + locH;
+        messX = 0;
+        messY = stat2Y + stat2H;
+    } else {
+        // standard sidebar style
+        minimapX = 0;
+        minimapY = 0;
+        messX = MINIMAP_WIDTH;
+        messY = 0;
+        messW = sidebarWidth - messX;
+        messH = 20;
+        hpX = 0;
+        hpY = MINIMAP_HEIGHT;
+        hpH = 14;
+        hpW = 7;
+        locX = MINIMAP_WIDTH;
+        locY = messY + messH;
+        locH = 1;
+        locW = sidebarWidth - locX;
+        statX = 0;
+        statY = locY + locH;
+        statH = 4;
+        statW = sidebarWidth;
 
-            break;
-
-
-        default: // narrow, using default so all variables are assigned something in all cases
-
-            // First, figure out how large each element will be.
-
-            hpH         = 7;
-            hpW         = 14;
-
-            statH       = 7;
-            statW       = sidebarWidth - MINIMAP_WIDTH - hpW;
-
-            locH        = 1;
-            locW        = sidebarWidth;
-
-            stat2H      = 2;
-            stat2W      = sidebarWidth;
-
-            messH       = TERMY - (statH + locH + stat2H);
-            messW       = sidebarWidth;
-
-
-            // Now position the elements relative to each other.
-
-            minimapX = 0;
-            minimapY = 0;
-
-            hpX = minimapX + MINIMAP_WIDTH;
-            hpY = 0;
-
-            locX = 0;
-            locY = minimapY + MINIMAP_HEIGHT;
-
-            statX = hpX + hpW;
-            statY = 0;
-
-            stat2X = 0;
-            stat2Y = locY + locH;
-
-            messX = 0;
-            messY = stat2Y + stat2H;
-
-            break;
+        // The default style only uses one status window.
+        // The second status window needs to consume the void at the bottom
+        // of the sidebar.
+        stat2X = 0;
+        stat2Y = statY + statH;
+        stat2H = TERMY - stat2Y;
+        stat2W = sidebarWidth;
     }
 
     int _y = VIEW_OFFSET_Y;
@@ -3642,7 +3623,7 @@ void game::draw()
     werase(w_status2);
     u.disp_status(w_status, w_status2, this);
 
-    const int sideStyle = (int)(OPTIONS["SIDEBAR_STYLE"] == "narrow");
+    bool sideStyle = use_narrow_sidebar();
 
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
@@ -4366,7 +4347,7 @@ int game::mon_info(WINDOW *w)
 {
     const int width = getmaxx(w);
     const int maxheight = 12;
-    const int startrow = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 1 : 0;
+    const int startrow = use_narrow_sidebar() ? 1 : 0;
 
     int buff;
     int newseen = 0;
@@ -6868,7 +6849,7 @@ void game::draw_trail_to_square(int x, int y)
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state(WINDOW* window, int height)
 {
-    const int width = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    const int width = use_narrow_sidebar() ? 45 : 55;
     for (int i = 1; i < TERMX; i++)
     {
         if (i < width)
@@ -6969,7 +6950,7 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
 void game::list_items()
 {
     int iInfoHeight = 12;
-    const int width = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
     WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
     WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
@@ -7426,7 +7407,7 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 
- const int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "narrow");
+ bool sideStyle = use_narrow_sidebar();
 
  // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
  int maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;

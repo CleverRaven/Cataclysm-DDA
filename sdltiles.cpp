@@ -907,7 +907,7 @@ WINDOW *curses_init(void)
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
 
-    const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    const int SidebarWidth = use_narrow_sidebar() ? 45 : 55;
     WindowWidth= (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
     if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
     WindowWidth *= fontwidth;

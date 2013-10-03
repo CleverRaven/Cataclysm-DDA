@@ -2681,7 +2681,7 @@ void player::disp_morale(game *g)
 
 void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
-    int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "narrow");
+    bool sideStyle = use_narrow_sidebar();
 
     WINDOW *weapwin = sideStyle ? w2 : w;
     mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
