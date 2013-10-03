@@ -586,9 +586,6 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     if (!force && !can_mount (dx, dy, id)) {
         return -1;  // no money -- no ski!
     }
-    // if this is first part, add this part to list of external parts
-    if (parts_at_relative (dx, dy).size () < 1)
-        external_parts.push_back (parts.size());
     vehicle_part new_part;
     new_part.id = id;
     new_part.mount_dx = dx;
@@ -599,6 +596,7 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     item tmp(g->itypes[vehicle_part_types[id].item], 0);
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
+    find_external_parts();
 
     find_exhaust ();
     precalc_mounts (0, face.dir());
@@ -2127,21 +2125,36 @@ void vehicle::gain_moves (int mp)
             fire_turret (p);
 }
 
+/**
+ * Rebuilds the list of external parts. Should be called any time a part is
+ * installed or removed. The "external" part in any given square is the one
+ * with the highest z-order.
+ */
 void vehicle::find_external_parts ()
 {
     external_parts.clear();
-    for (int p = 0; p < parts.size(); p++)
-    {
-        bool ex = false;
-        for (int i = 0; i < external_parts.size(); i++)
-            if (parts[external_parts[i]].mount_dx == parts[p].mount_dx &&
-                parts[external_parts[i]].mount_dy == parts[p].mount_dy)
-            {
-                ex = true;
-                break;
+
+    std::map<std::pair<int, int>, int> external_parts_found;
+
+    for(int part_index = 0; part_index < parts.size(); part_index++) {
+
+        std::pair<int, int> point(parts[part_index].mount_dx, parts[part_index].mount_dy);
+
+        if(external_parts_found.count(point) > 0) {
+            //Is this part higher than the old one?
+            if(part_info(external_parts_found[point]).z_order <
+                    part_info(part_index).z_order) {
+                external_parts_found[point] = part_index;
             }
-        if (!ex)
-            external_parts.push_back (p);
+        } else {
+            //First part found for the square
+            external_parts_found[point] = part_index;
+        }
+    }
+
+    for(std::map<std::pair<int, int>, int>::iterator part_iterator = external_parts_found.begin();
+            part_iterator != external_parts_found.end(); part_iterator++) {
+        external_parts.push_back(part_iterator->second);
     }
 }
 
