@@ -4420,6 +4420,7 @@ void player::breath(game *g, int times)
 // basically just shorthand for removing blood oxygen 
 void player::exhaust(game *g, int amount)
 {
+    // message the user about changes in blood oxygen level when we cross thresholds
     if (blood_oxygen > 920 && blood_oxygen - amount <= 920)
     {
         g->add_msg(_("You feel lightheaded.")); // intentionally confusing.
