@@ -5552,9 +5552,7 @@ void game::emp_blast(int x, int y)
   return;
  }
 // TODO: More terrain effects.
- switch (m.oldter(x, y)) {
- case old_t_card_science:
- case old_t_card_military:
+ if ( m.ter(x,y) == t_card_science || m.ter(x,y) == t_card_military ) {
   rn = rng(1, 100);
   if (rn > 92 || rn < 40) {
    add_msg(_("The card reader is rendered non-functional."));
@@ -6333,7 +6331,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 //
 // The terrain type of the handle is passed in, and that is used to determine the type of
 // the wall and gate.
-void game::open_gate( game *g, const int examx, const int examy, const old_ter_id handle_type ) {
+void game::open_gate( game *g, const int examx, const int examy, const ter_id handle_type ) {
 
  ter_id v_wall_type;
  ter_id h_wall_type;
@@ -6343,8 +6341,7 @@ void game::open_gate( game *g, const int examx, const int examy, const old_ter_i
  const char *open_message;
  const char *close_message;
 
- switch(handle_type) {
- case old_t_gates_mech_control:
+ if ( handle_type == t_gates_mech_control ) {
   v_wall_type = t_wall_v;
   h_wall_type = t_wall_h;
   door_type   = t_door_metal_locked;
@@ -6352,9 +6349,7 @@ void game::open_gate( game *g, const int examx, const int examy, const old_ter_i
   pull_message = _("You turn the handle...");
   open_message = _("The gate is opened!");
   close_message = _("The gate is closed!");
-  break;
-
- case old_t_gates_control_concrete:
+ } else if ( handle_type == t_gates_control_concrete ) {
   v_wall_type = t_concrete_v;
   h_wall_type = t_concrete_h;
   door_type   = t_door_metal_locked;
@@ -6362,9 +6357,8 @@ void game::open_gate( game *g, const int examx, const int examy, const old_ter_i
   pull_message = _("You turn the handle...");
   open_message = _("The gate is opened!");
   close_message = _("The gate is closed!");
-  break;
 
- case old_t_barndoor:
+ } else if ( handle_type == t_barndoor ) {
   v_wall_type = t_wall_wood;
   h_wall_type = t_wall_wood;
   door_type   = t_door_metal_locked;
@@ -6372,9 +6366,8 @@ void game::open_gate( game *g, const int examx, const int examy, const old_ter_i
   pull_message = _("You pull the rope...");
   open_message = _("The barn doors opened!");
   close_message = _("The barn doors closed!");
-  break;
 
- case old_t_palisade_pulley:
+ } else if ( handle_type == t_palisade_pulley ) {
   v_wall_type = t_palisade;
   h_wall_type = t_palisade;
   door_type   = t_palisade_gate;
@@ -6382,9 +6375,8 @@ void game::open_gate( game *g, const int examx, const int examy, const old_ter_i
   pull_message = _("You pull the rope...");
   open_message = _("The palisade gate swings open!");
   close_message = _("The palisade gate swings closed with a crash!");
-  break;
-
-  default: return; // No matching gate type
+ } else {
+   return;
  }
 
  g->add_msg(pull_message);
