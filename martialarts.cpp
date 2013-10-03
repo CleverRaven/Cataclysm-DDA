@@ -255,8 +255,12 @@ void game::init_martialarts() {
       ma.techniques = curMartialArt.get("techniques").as_tags();
     }
 
-    if( curMartialArt.has("can_leg_block") ) {
-      ma.has_leg_block = curMartialArt.get("can_leg_block").as_bool();
+    if( curMartialArt.has("leg_block") ) {
+      ma.leg_block = curMartialArt.get("leg_block").as_int();
+    }
+
+    if( curMartialArt.has("arm_block") ) {
+      ma.arm_block = curMartialArt.get("arm_block").as_int();
     }
 
     martialarts[ma.id] = ma;
@@ -439,7 +443,8 @@ bool ma_buff::is_quiet() {
 
 
 martialart::martialart() {
-  has_leg_block = false;
+  leg_block = -1;
+  arm_block = -1;
 }
 
 // simultaneously check and add all buffs. this is so that buffs that have
@@ -534,8 +539,16 @@ bool player::has_grab_break_tec(game* g) {
   return false;
 }
 
-bool player::can_leg_block(game* g) {
-  return g->martialarts[style_selected].has_leg_block;
+bool player::can_leg_block() {
+  return (skillLevel("unarmed") >= g->martialarts[style_selected].leg_block &&
+          g->martialarts[style_selected].leg_block > -1 && 
+          (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_l] > 0));
+}
+
+bool player::can_arm_block() {
+  return (skillLevel("unarmed") >= g->martialarts[style_selected].arm_block &&
+          g->martialarts[style_selected].arm_block > -1 && 
+          (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_l] > 0));
 }
 
 // event handlers

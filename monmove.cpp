@@ -522,8 +522,6 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     int side = rng(0, 1);
     int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
 
-    p.block_hit(g, this, NULL, bphit, side, dam, cut, stab);
-
     //110*e^(-.3*[melee skill of monster]) = % chance to miss. *100 to track .01%'s
     //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
     if (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill))
@@ -560,7 +558,15 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             {
                 p.practice(g->turn, "dodge", type->melee_skill);
 
-                /* TODO: re-add with block mechanic*/
+                if(!p.block_hit(g, this, NULL, bphit, side, dam, cut, stab) && u_see) {
+                    if (is_npc) {
+                        g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
+                            p.name.c_str(), body_part_name(bphit, side).c_str());
+                    } else {
+                        g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
+                                   body_part_name(bphit, side).c_str());
+                    }
+                }
 
                 // Attempt defensive moves
                 if (!is_npc)

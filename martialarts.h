@@ -209,16 +209,14 @@ class martialart {
 
     // determines if a technique is valid or not for this style
     bool has_technique(player& u, matec_id tech, game* g);
-
-    bool can_leg_block(game* g);
-
     // gets custom melee string for a technique under this style
     std::string melee_verb(matec_id tech, player& u, game* g);
 
     std::string id;
     std::string name;
     std::string desc;
-    bool has_leg_block;
+    int arm_block;
+    int leg_block;
     std::set<matec_id> techniques; // all available techniques
     std::vector<ma_buff> static_buffs; // all buffs triggered by each condition
     std::vector<ma_buff> onmove_buffs;

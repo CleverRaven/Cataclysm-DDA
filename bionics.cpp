@@ -616,7 +616,7 @@ void bionics_install_failure(game *g, player *u, it_bionic* type, int success)
   } else {
     g->add_msg(_("Some of your existing bionics are lost!"));
   }
-  for (int i = 0; i < failure_level && u->remove_random_bionic(); i++);
+  for (int i = 0; i < failure_level && u->remove_random_bionic(); i++) ;
   break;
 
  case 4:

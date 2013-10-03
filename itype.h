@@ -158,7 +158,6 @@ struct itype
  virtual bool is_container()     { return false; }
  virtual bool is_software()      { return false; }
  virtual bool is_macguffin()     { return false; }
- virtual bool is_style()         { return false; }
  virtual bool is_stationary()    { return false; }
  virtual bool is_artifact()      { return false; }
  virtual bool is_var_veh_part()  { return false; }
@@ -698,7 +697,6 @@ struct it_software : public itype
 
 struct it_style : public itype
 {
- virtual bool is_style()         { return true; }
 
  std::vector<style_move> moves;
 
