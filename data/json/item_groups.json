@@ -1818,6 +1818,7 @@
     "id":"manuals",
     "items":[
       ["manual_brawl", 30],
+      ["manual_dodge", 1],
       ["manual_melee", 6],
       ["manual_throw", 12],
       ["manual_cutting", 12],
@@ -2328,6 +2329,7 @@
       ["ring", 12],
       ["necklace", 14],
       ["nodachi", 1],
+      ["manual_dodge", 1],
       ["pocketwatch", 5]
     ]
   },{
@@ -2563,6 +2565,7 @@
       ["novel_scifi", 20],
       ["novel_drama", 40],
       ["mag_dodge", 20],
+      ["manual_dodge", 2],
       ["manual_first_aid", 40],
       ["manual_tailor", 15],
       ["textbook_tailor", 5],
