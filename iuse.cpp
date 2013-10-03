@@ -507,7 +507,9 @@ static hp_part use_healing_item(game *g, player *p, item *it, int normal_power, 
     }
     if (p->has_disease("bite", bp_healed, side)) {
         if (x_in_y(bite, 100)) {
+            int bite_dur = p->disease_duration("bite", false, bp_healed, side);
             p->rem_disease("bite", bp_healed, side);
+            p->add_disease("recover", 2 * (3601 - bite_dur) - 4800);
             g->add_msg_if_player(p,_("You clean the wound."));
         } else {
             g->add_msg_if_player(p,_("Your wound still aches."));
@@ -515,7 +517,13 @@ static hp_part use_healing_item(game *g, player *p, item *it, int normal_power, 
     }
     if (p->has_disease("infected", bp_healed, side)) {
         if (x_in_y(infect, 100)) {
+            int infected_dur = p->disease_duration("infected", false, bp_healed, side);
             p->rem_disease("infected", bp_healed, side);
+            if (infected_dur > 8401) {
+                p->add_disease("recover", 3 * (14401 - infected_dur + 3600) - 4800);
+            } else {
+                p->add_disease("recover", 4 * (14401 - infected_dur + 3600) - 4800);
+            }
             g->add_msg_if_player(p,_("You disinfect the wound."));
         } else {
             g->add_msg_if_player(p,_("Your wound still hurts."));
