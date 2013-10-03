@@ -975,18 +975,7 @@ std::string map::get_ter(const int x, const int y) const {
  */
 ter_t & map::ter_at(const int x, const int y) const
 {
- return terlist[ ter(x,y) ];
-/* if (!INBOUNDS(x, y)) {
-  return terlist[t_null];
- }
-
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- if (grid[nonant]->tter[lx][ly] == NULL) return terlist[t_null];
- return (*grid[nonant]->tter[lx][ly]);
-*/
+    return terlist[ ter(x,y) ];
 }
 
 /*
@@ -3365,24 +3354,10 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  bool normal_tercol = false, drew_field = false;
 
 
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- // grid[nonant]->ter[lx][ly];
-
-
  if (has_furn(x, y)) {
   sym = furnlist[curr_furn].sym;
   tercol = furnlist[curr_furn].color;
-/*
-  sym = grid[nonant]->ffrn[lx][ly]->sym;
-  tercol = grid[nonant]->ffrn[lx][ly]->color;
-*/
  } else {
-/*  sym = grid[nonant]->tter[lx][ly]->sym;
-  tercol = grid[nonant]->tter[lx][ly]->color;
-*/
   sym = terlist[curr_ter].sym;
   tercol = terlist[curr_ter].color;
  }
