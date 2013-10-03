@@ -534,15 +534,23 @@ void game::cleanup_at_end(){
                 uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
         write_memorial_file();
         u.memorial_log.clear();
-        if (OPTIONS["DELETE_WORLD"] == "yes" ||
-            (OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?"))))
-        {
-            delete_save();
-            MAPBUFFER.reset();
-            MAPBUFFER.make_volatile();
+        std::vector<std::string> characters = list_active_characters();
+        if (characters.empty()) {
+            if (OPTIONS["DELETE_WORLD"] == "yes" ||
+                (OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?")))) {
+                delete_save();
+                MAPBUFFER.reset();
+                MAPBUFFER.make_volatile();
+            }
+        } else if (OPTIONS["DELETE_WORLD"] != "no") {
+            std::stringstream message;
+            message << _("World retained. Characters remaining:");
+            for (int i = 0; i < characters.size(); ++i) {
+                message << "\n  " << characters[i];
+            }
+            popup(message.str().c_str());
         }
-        if(gamemode)
-        {
+        if (gamemode) {
             delete gamemode;
             gamemode = new special_game; // null gamemode or something..
         }
@@ -2849,6 +2857,23 @@ void game::delete_save()
       (void)closedir(save_dir);
      }
 #endif
+}
+
+std::vector<std::string> game::list_active_characters()
+{
+    std::vector<std::string> saves;
+    dirent *dp;
+    DIR *dir = opendir("save");
+    if (!dir) {
+        return saves;
+    }
+    while ((dp = readdir(dir))) {
+        std::string tmp = dp->d_name;
+        if (tmp.find(".sav") != std::string::npos)
+            saves.push_back(base64_decode(tmp.substr(0, tmp.find(".sav"))));
+    }
+    closedir(dir);
+    return saves;
 }
 
 /**
