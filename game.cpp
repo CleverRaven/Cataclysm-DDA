@@ -2853,7 +2853,7 @@ void game::delete_save()
 
 int game::count_saves()
 {
-    int n;
+    int n = 0;
     dirent *dp;
     DIR *dir = opendir("save");
     if (!dir) {
