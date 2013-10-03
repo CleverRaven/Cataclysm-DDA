@@ -10928,9 +10928,9 @@ with only %dx%d. Can you stretch it out sideways a bit?"),
                            minWidth, minHeight, maxx, maxy);
         } else {
             fold_and_print(tmp, 0, 0, maxx, c_white, _("\
-Woah that is one wide... okay, so, this game requires a minimum terminal size \
-of %dx%d to run. %dx%d isn't quite enough! How about dragging the bottom edge \
-down just a smidgen?"),
+Woah, woah, we're just a little short on space here. The game requires a \
+minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you \
+make the terminal just a smidgen taller?"),
                            minWidth, minHeight, maxx, maxy);
         }
         wgetch(tmp);
