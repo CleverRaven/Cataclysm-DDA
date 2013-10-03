@@ -69,6 +69,7 @@ class monster;
  * FIRE_CONTAINER - Stops fire from spreading (brazier, wood stove, etc)
  * SUPPRESS_SMOKE - Prevents smoke from fires, used by ventilated wood stoves etc
  * PLANT - A "furniture" that grows and fruits
+ * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  */
 typedef int ter_id;
 typedef int furn_id;
@@ -93,7 +94,8 @@ struct ter_t {
  trap_id trap; //The id of the trap located at this terrain. Limit one trap per tile currently.
  std::set<std::string> flags;// : num_t_flags; This refers to enum t_flag defined above.
  iexamine_function examine; //What happens when the terrain is examined
-
+ std::string open;          // open action: transform into terrain with matching id
+ std::string close;         // close action: transform into terrain with matching id
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;
  }
@@ -128,6 +130,8 @@ struct furn_t {
  int move_str_req; //The amount of strength required to move through this terrain easily.
  std::set<std::string> flags;
  iexamine_function examine;
+ std::string open;
+ std::string close;
 
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;

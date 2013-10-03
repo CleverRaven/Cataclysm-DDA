@@ -89,8 +89,18 @@ void load_furniture(JsonObject &jsobj)
     //If not specified, default to no action
     new_furniture.examine = iexamine_function_from_string("none");
   }
+
+  new_furniture.open = "";
+  if ( jsobj.has_member("open") ) {
+      new_furniture.open = jsobj.get_string("open");
+  }
+  new_furniture.close = "";
+  if ( jsobj.has_member("close") ) {
+      new_furniture.close = jsobj.get_string("close");
+  }
+
   new_furniture.loadid = furnlist.size();
-  furnmap[new_furniture.id] = new_furniture;//.loadid;
+  furnmap[new_furniture.id] = new_furniture;
   furnlist.push_back(new_furniture);
 }
 
@@ -133,8 +143,18 @@ void load_terrain(JsonObject &jsobj)
     //If not specified, default to no action
     new_terrain.examine = iexamine_function_from_string("none");
   }
+
+  new_furniture.open = "";
+  if ( jsobj.has_member("open") ) {
+      new_furniture.open = jsobj.get_string("open");
+  }
+  new_furniture.close = "";
+  if ( jsobj.has_member("close") ) {
+      new_furniture.close = jsobj.get_string("close");
+  }
+
   new_terrain.loadid=terlist.size();
-  termap[new_terrain.id]=new_terrain;//.loadid;
+  termap[new_terrain.id]=new_terrain;
   terlist.push_back(new_terrain);
 }
 

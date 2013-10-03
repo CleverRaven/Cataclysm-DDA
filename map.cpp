@@ -2395,45 +2395,26 @@ bool map::open_door(const int x, const int y, const bool inside)
 {
  const std::string terid = get_ter(x,y);
  const std::string furnid = furnlist[furn(x,y)].id;
-
-// if (ter(x, y) == t_door_c) {
- if( ter(x,y) == t_door_c ) {
-  ter_set(x, y, t_door_o);
-  return true;
- } else if (furn(x, y) == f_canvas_door) {
-  furn_set(x, y, f_canvas_door_o);
-  return true;
- } else if (furn(x, y) == f_skin_door) {
-  furn_set(x, y, f_skin_door_o);
-  return true;
- } else if (furn(x, y) == f_safe_c) {
-  furn_set(x, y, f_safe_o);
-  return true;
- } else if (inside && ter(x, y) == t_curtains) {
-  ter_set(x, y, t_window_domestic);
-  return true;
- } else if (inside && ter(x, y) == t_window_domestic) {
-  ter_set(x, y, t_window_open);
-  return true;
- } else if (ter(x, y) == t_chaingate_c) {
-  ter_set(x, y, t_chaingate_o);
-  return true;
- } else if (ter(x, y) == t_fencegate_c) {
-  ter_set(x, y, t_fencegate_o);
-  return true;
- } else if (ter(x, y) == t_door_metal_c) {
-  ter_set(x, y, t_door_metal_o);
-  return true;
- } else if (ter(x, y) == t_door_bar_c) {
-  ter_set(x, y, t_door_bar_o);
-  return true;
- } else if (ter(x, y) == t_door_glass_c) {
-  ter_set(x, y, t_door_glass_o);
-  return true;
- } else if (inside &&
-            (ter(x, y) == t_door_locked || ter(x, y) == t_door_locked_alarm)) {
-  ter_set(x, y, t_door_o);
-  return true;
+ if ( termap[ terid ].open.size() > 0 && termap[ terid ].open != "t_null" ) {
+     if ( termap.find( termap[ terid ].open ) == termap.end() {
+         debugmsg("terrain %s.open == non existant terrain '%s'\n", termap[ terid ].id, termap[ terid ].open );
+         return false;
+     }
+     if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+         return false;
+     }
+     ter_set(x, y, termap[ terid ].open );
+     return true;
+ } else if ( furnmap[ furnid ].open.size() > 0 && furnmap[ furnid ].open != "t_null" ) {
+     if ( furnmap.find( furnmap[ furnid ].open ) == furnmap.end() {
+         debugmsg("terrain %s.open == non existant terrain '%s'\n", furnmap[ furnid ].id, furnmap[ furnid ].open );
+         return false;
+     }
+     if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+         return false;
+     }
+     furn_set(x, y, furnmap[ furnid ].open );
+     return true;
  }
  return false;
 }
@@ -2475,38 +2456,28 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, int u
 
 bool map::close_door(const int x, const int y, const bool inside)
 {
- if (ter(x, y) == t_door_o) {
-  ter_set(x, y, t_door_c);
-  return true;
- } else if (inside && ter(x, y) == t_window_domestic) {
-  ter_set(x, y, t_curtains);
-  return true;
- } else if (furn(x, y) == f_canvas_door_o) {
-  furn_set(x, y, f_canvas_door);
-  return true;
- } else if (furn(x, y) == f_skin_door_o) {
-  furn_set(x, y, f_skin_door);
-  return true;
- } else if (furn(x, y) == f_safe_o) {
-  furn_set(x, y, f_safe_c);
-  return true;
- } else if (inside && ter(x, y) == t_window_open) {
-  ter_set(x, y, t_window_domestic);
-  return true;
- } else if (ter(x, y) == t_chaingate_o) {
-  ter_set(x, y, t_chaingate_c);
-  return true;
-  } else if (ter(x, y) == t_fencegate_o) {
-  ter_set(x, y, t_fencegate_c);
- } else if (ter(x, y) == t_door_metal_o) {
-  ter_set(x, y, t_door_metal_c);
-  return true;
- } else if (ter(x, y) == t_door_bar_o) {
-  ter_set(x, y, t_door_bar_locked);//jail doors lock behind you
-  return true;
- } else if (ter(x, y) == t_door_glass_o) {
-  ter_set(x, y, t_door_glass_c);
-  return true;
+ const std::string terid = get_ter(x,y);
+ const std::string furnid = furnlist[furn(x,y)].id;
+ if ( termap[ terid ].close.size() > 0 && termap[ terid ].close != "t_null" ) {
+     if ( termap.find( termap[ terid ].close ) == termap.end() {
+         debugmsg("terrain %s.close == non existant terrain '%s'\n", termap[ terid ].id, termap[ terid ].close );
+         return false;
+     }
+     if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+         return false;
+     }
+     ter_set(x, y, termap[ terid ].close );
+     return true;
+ } else if ( furnmap[ furnid ].close.size() > 0 && furnmap[ furnid ].close != "t_null" ) {
+     if ( furnmap.find( furnmap[ furnid ].close ) == furnmap.end() {
+         debugmsg("terrain %s.close == non existant terrain '%s'\n", furnmap[ furnid ].id, furnmap[ furnid ].close );
+         return false;
+     }
+     if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+         return false;
+     }
+     furn_set(x, y, furnmap[ furnid ].close );
+     return true;
  }
  return false;
 }

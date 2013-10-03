@@ -3010,6 +3010,19 @@ void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
  events.push_back(tmp);
 }
 
+struct terrain {
+   ter_id ter;
+   terrain(ter_id tid) : ter(tid) {};
+   terrain(std::string sid) {
+       ter = t_null;
+       if ( termap.find(sid) == termap.end() ) {
+           debugmsg("terrain '%s' does not exist.",sid.c_str() );
+       } else {
+           ter = termap[ sid ].loadid;
+       }
+   };
+};
+
 bool game::event_queued(event_type type)
 {
  for (int i = 0; i < events.size(); i++) {
@@ -5920,21 +5933,20 @@ void game::open()
         didit = m.open_door(openx, openy, true);
 
     if (!didit) {
-        switch(m.oldter(openx, openy)) {
-        case old_t_door_locked:
-        case old_t_door_locked_interior:
-        case old_t_door_locked_alarm:
-        case old_t_door_bar_locked:
-            add_msg(_("The door is locked!"));
-            break; // Trying to open a locked door uses the full turn's movement
-        case old_t_door_o:
-            add_msg(_("That door is already open."));
-            u.moves += 100;
-            break;
-        default:
-            add_msg("No door there. %d==%d %s",m.oldter(openx,openy),m.ter(openx,openy), m.get_ter(openx,openy).c_str() );
-            u.moves += 100;
+        const std::string terid = m.ter_get(openx, openy);
+        if ( terid.find("t_door") != std::string::npos ) {
+            if ( terid.find("_locked") != std::string::npos ) {
+                add_msg(_("The door is locked!"));
+                return;
+            } else if ( termap[ terid ].close.size() > 0 && termap[ terid ].close != "t_null" ) {
+                // if the following message appears unexpectedly, the prior check was for t_door_o
+                add_msg(_("That door is already open."));
+                u.moves += 100;
+                return;
+            }
         }
+        add_msg(_("No door there."));
+        u.moves += 100;
     }
 }
 
@@ -5965,10 +5977,7 @@ void game::close()
     else if (m.ter(closex, closey) == t_window_domestic &&
              m.is_outside(u.posx, u.posy))  {
         add_msg(_("You cannot close the curtains from outside. You must be inside the building."));
-    } else if (m.has_furn(closex, closey) &&
-               m.furn(closex, closey) != f_canvas_door_o &&
-               m.furn(closex, closey) != f_skin_door_o &&
-               m.furn(closex, closey) != f_safe_o) {
+    } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.size() == 0 ) {
        add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
     } else
         didit = m.close_door(closex, closey, true);
