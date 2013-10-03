@@ -36,13 +36,12 @@ std::string melee_verb(matec_id tech, player &p, int bash_dam, int cut_dam, int 
 
 bool player::is_armed()
 {
- return (weapon.typeId() != "null" && !weapon.is_style());
+ return (weapon.typeId() != "null");
 }
 
 bool player::unarmed_attack()
 {
- return (weapon.typeId() == "null" || weapon.is_style() ||
-         weapon.has_flag("UNARMED_WEAPON"));
+ return (weapon.typeId() == "null" || weapon.has_flag("UNARMED_WEAPON"));
 }
 
 int player::base_to_hit(bool real_life, int stat)
@@ -914,59 +913,69 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
 }
 
 
-void player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
-  int &bash_dam, int &cut_dam, int &stab_dam) {
+bool player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
+    int &bash_dam, int &cut_dam, int &stab_dam)
+{
 
-  if (blocks_left <= 0) return;
+    if (blocks_left <= 0) return false;
 
-  // if weapon, then extra reduction
-  if (!unarmed_attack() ) {
-    float mult = 1.0f;
-    if (weapon.has_technique("WBLOCK_1",this))
-      mult = 0.4;
-    else if (weapon.has_technique("WBLOCK_2",this))
-      mult = 0.15;
-    else if (weapon.has_technique("WBLOCK_3",this))
-      mult = 0.05;
-    else
-      mult = 0.5; // always at least as good as unarmed
-    g->add_msg_player_or_npc( this, _("You block with your %s!"), _("<npcname> blocks with their %s!"),
-                              weapon.tname().c_str() );
-    bash_dam *= mult;
-    cut_dam *= mult;
-    stab_dam *= mult;
-    // then convert cut/stab into bash
-    bash_dam += cut_dam + stab_dam;
-    cut_dam = stab_dam = 0;
+    // if weapon, then extra reduction
+    if (!unarmed_attack() && can_arm_block()) {
+        float mult = 1.0f;
+        if (weapon.has_technique("WBLOCK_1",this)) {
+            mult = 0.4;
+        } else if (weapon.has_technique("WBLOCK_2",this)) {
+            mult = 0.15;
+        } else if (weapon.has_technique("WBLOCK_3",this)) {
+            mult = 0.05;
+        } else {
+            mult = 0.5; // always at least as good as unarmed
+        }
+        g->add_msg_player_or_npc( this, _("You block with your %s!"),
+                _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
+        bash_dam *= mult;
+        cut_dam *= mult;
+        stab_dam *= mult;
+        // then convert cut/stab into bash
+        bash_dam += cut_dam + stab_dam;
+        cut_dam = stab_dam = 0;
 
-    bash_dam -= mabuff_block_bonus();
-    bash_dam = bash_dam < 0 ? 0 : bash_dam;
-  } else { // otherwise, unarmed
-  // if you can leg block, randomly select arms or legs
-    if (can_leg_block(g) && one_in(2)) {
-      bp_hit = bp_legs;
-      if (hp_cur[hp_leg_l] >= hp_cur[hp_leg_r])
-        side = 0;
-      else
-        side = 1;
-    // block with arms otherwise
-    } else {
-      bp_hit = bp_arms;
-      if (hp_cur[hp_arm_l] >= hp_cur[hp_arm_r])
-        side = 0;
-      else
-        side = 1;
+        bash_dam -= mabuff_block_bonus();
+        bash_dam = bash_dam < 0 ? 0 : bash_dam;
+    } else { // otherwise, unarmed
+        if (!can_arm_block() && !can_leg_block()) {
+            return false;
+        }
+
+        //Block with our arms
+        if (can_arm_block()) {
+            bp_hit = bp_arms;
+            if (hp_cur[hp_arm_l] >= hp_cur[hp_arm_r])
+                side = 0;
+            else
+                side = 1;
+        }
+
+        // if you can both leg & arm block, randomly select arms or legs
+        if (can_leg_block() && (!can_arm_block() || one_in(2))) {
+            bp_hit = bp_legs;
+            if (hp_cur[hp_leg_l] >= hp_cur[hp_leg_r])
+                side = 0;
+            else
+                side = 1;
+        }
+        g->add_msg_player_or_npc( this, _("You block with your %s!"),
+                                 _("<npcname> blocks with their %s!"),
+                                 body_part_name(bp_hit, side).c_str());
+
+        bash_dam *= .5;
+
+        bash_dam -= mabuff_block_bonus();
+        bash_dam = bash_dam < 0 ? 0 : bash_dam;
     }
-    g->add_msg_player_or_npc( this, _("You block with your %s!"), _("<npcname> blocks with their %s!"),
-                              body_part_name(bp_hit, side).c_str() );
 
-    bash_dam *= .5;
-
-    bash_dam -= mabuff_block_bonus();
-    bash_dam = bash_dam < 0 ? 0 : bash_dam;
-  }
-
-  blocks_left--;
+    blocks_left--;
+    return true;
 }
 
 void player::perform_special_attacks(game *g, monster *z, player *p,
@@ -1146,7 +1155,8 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
    }
   }
  }
- if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20)) {
+ if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) &&
+         !z->is_hallucination()) {
    g->add_msg_if_player(p,_("Your %s gets stuck in %s, pulling it out of your hands!"),
               weapon.tname().c_str(), target.c_str());
   if (mon) {
@@ -1164,9 +1174,10 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   }
   if (cutting_penalty > 0)
    moves -= cutting_penalty;
-  if (cutting_penalty >= 50)
+  if (cutting_penalty >= 50 && !z->is_hallucination()) {
    g->add_msg_if_player(p,_("Your %s gets stuck in %s, but you yank it free."),
               weapon.tname().c_str(), target.c_str());
+  }
   if (mon && (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")))
    z->speed *= .9;
  }

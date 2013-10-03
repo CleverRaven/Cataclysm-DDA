@@ -905,9 +905,36 @@ bool cata_tiles::draw_field_or_item(int x, int y)
     field f = g->m.field_at(x,y);
     // check for items
     std::vector<item> items = g->m.i_at(x, y);
-    bool do_item = f.fieldSymbol() == fd_null;
-
-    if (!do_item)
+	field_id f_id = f.fieldSymbol();
+	bool is_draw_field;
+	bool do_item;
+	switch(f_id){
+	case fd_null:
+		//only draw items
+		is_draw_field = false;
+		do_item = true;
+		break;
+	case fd_blood:
+	case fd_gibs_flesh:
+	case fd_bile:
+	case fd_slime:
+	case fd_acid:
+	case fd_gibs_veggy:
+	case fd_sap:
+	case fd_sludge:
+		//need to draw fields and items both
+		is_draw_field = true;
+		do_item = true;
+		break;
+	default:
+		//only draw fields
+		do_item = false;
+		is_draw_field = true;
+		break;
+	}
+	bool ret_draw_field = true;
+	bool ret_draw_item = true;
+    if (is_draw_field)
     {
         std::string fd_name = field_names[f.fieldSymbol()];
 
@@ -923,9 +950,9 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         int subtile = 0, rotation = 0;
         get_tile_values(f.fieldSymbol(), neighborhood, subtile, rotation);
 
-        return draw_from_id_string(fd_name, x, y, subtile, rotation);
+        ret_draw_field = draw_from_id_string(fd_name, x, y, subtile, rotation);
     }
-    else
+    if(do_item)
     {
         if (g->m.has_flag("CONTAINER", x, y) || items.empty())
         {
@@ -936,8 +963,9 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         // get the item's name, as that is the key used to find it in the map
         std::string it_name = display_item.type->id;
 
-        return draw_from_id_string(it_name, x, y, 0, 0);
+        ret_draw_item = draw_from_id_string(it_name, x, y, 0, 0);
     }
+	return ret_draw_field && ret_draw_item;
 }
 /** Deprecated: combined with field drawing as they are mutex */
 bool cata_tiles::draw_item(int x, int y)

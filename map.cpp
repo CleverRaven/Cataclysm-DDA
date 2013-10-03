@@ -2728,10 +2728,10 @@ bool map::is_full(const int x, const int y, const int addvolume, const int addnu
 // overflow_radius > 0: if x,y is full, attempt to drop item up to overflow_radius squares away, if x,y is full
 bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius) {
 
-    if( new_item.is_style() || !INBOUNDS(x,y) ) {
+    if(!INBOUNDS(x,y) ) {
         // Complain about things that should never happen.
-        dbg(D_INFO) << x << "," << y << ":is_style "<< new_item.is_style() 
-                    << ", liquid "<<(new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) <<
+        dbg(D_INFO) << x << "," << y << ", liquid "
+                    <<(new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) <<
                     ", destroy_item "<<has_flag("DESTROY_ITEM", x, y);
 
         return false;
@@ -2776,9 +2776,6 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 // map::add_item_or_charges
 void map::add_item(const int x, const int y, item new_item, const int maxitems)
 {
-
- if (new_item.is_style())
-     return;
  if (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y))
      return;
  if (!INBOUNDS(x, y))

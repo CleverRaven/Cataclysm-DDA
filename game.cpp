@@ -8916,7 +8916,7 @@ void game::wear(char chInput)
  else
   ch = chInput;
 
- if (ch == ' ') {
+ if (inv_chars.find(ch) == std::string::npos) {
   add_msg(_("Never mind."));
   return;
  }

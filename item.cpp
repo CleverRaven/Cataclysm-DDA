@@ -599,14 +599,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL")?_("Maximum <num> charges."):string_format(_("Maximum <num> charges of %s."), ammo_name(tool->ammo).c_str())), tool->max_charges));
    }
   }
-
- } else if (is_style()) {
-  it_style* style = dynamic_cast<it_style*>(type);
-  dump->push_back(iteminfo("STYLE", ""));
-  for (int i = 0; i < style->moves.size(); i++) {
-   dump->push_back(iteminfo("STYLE", default_technique_name(style->moves[i].tech), _(". Requires Unarmed Skill of <num>"), style->moves[i].level));
-  }
-
  }
 
  if ( showtext && !is_null() ) {
@@ -1168,9 +1160,6 @@ int item::melee_value(player *p)
 
  my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
 
- if (is_style())
-  my_value += 15 * p->skillLevel("unarmed") + 8 * p->skillLevel("melee");
-
  return my_value;
 }
 
@@ -1283,9 +1272,6 @@ int item::acid_resist() const
 style_move item::style_data(technique_id tech)
 {
     style_move ret;
-
-    if (!is_style())
-        return ret;
 
     it_style* style = dynamic_cast<it_style*>(type);
 
@@ -1528,14 +1514,6 @@ bool item::is_macguffin() const
         return false;
 
     return type->is_macguffin();
-}
-
-bool item::is_style() const
-{
-    if( is_null() )
-        return false;
-
-    return type->is_style();
 }
 
 bool item::is_stationary() const
