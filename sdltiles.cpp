@@ -82,7 +82,7 @@ int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
-std::map<std::string,std::vector<int>> consolecolors;
+std::map< std::string,std::vector<int> > consolecolors;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 

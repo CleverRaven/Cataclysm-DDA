@@ -181,7 +181,7 @@ int noecho(void);
 //non-curses functions, Do not call these in the main game code
 extern WINDOW* mainwin;
 extern pairs *colorpairs;
-extern std::map<std::string,std::vector<int>> consolecolors;
+extern std::map< std::string,std::vector<int> > consolecolors;
 WINDOW* curses_init();
 int curses_destroy();
 void curses_drawwindow(WINDOW* win);
