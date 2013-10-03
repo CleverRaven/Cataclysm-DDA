@@ -1,7 +1,6 @@
  bool able_window(game *, point); // Any window tile#include <vector>
 #include <string>
 #include "crafting.h"
-
 struct construct;
 
 struct construction_stage
@@ -14,8 +13,8 @@ struct construction_stage
 
  construction_stage(ter_id Terrain, int Time) :
     terrain (Terrain), furniture(f_null), time (Time) { };
- construction_stage(furn_id Furniture, int Time) :
-    terrain (t_null), furniture (Furniture), time (Time) { };
+ construction_stage(furn_t Furniture, int Time) :
+    terrain (t_null), furniture (Furniture.loadid), time (Time) { };
  construction_stage(int Time) :
     terrain (t_null), furniture (f_null), time (Time) { };
 };
