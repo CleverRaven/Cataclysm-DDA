@@ -269,7 +269,6 @@ public:
  bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
- void reset_bloodoxygen(game *g);
  void breath(game *g, int times=1);
  void exhaust(game *g, int amount);
 

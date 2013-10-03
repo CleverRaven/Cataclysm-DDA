@@ -4328,18 +4328,6 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     }
 }
 
-// handles logic todo with breathing and blood oxygen
-void player::reset_bloodoxygen(game *g) 
-{
-    //FIXME - also ignore if in smoke
-    if (underwater || smoke_density > 0)
-    {
-        return;
-    }
-
-    blood_oxygen = 950;
-}
-
 void player::breath(game *g, int times)
 {
     int inhaled = 0;

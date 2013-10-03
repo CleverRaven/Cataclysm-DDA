@@ -793,7 +793,6 @@ void dis_effect(player &p, disease &dis) {
             if (p.has_disease("sleep")) {
                 if (dis.duration == 1) {
                     p.rem_disease("sleep");
-                    p.reset_bloodoxygen(g);
                     g->add_msg(_("You regain consciousness some time later."));
                 }
             }
