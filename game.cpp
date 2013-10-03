@@ -3018,7 +3018,7 @@ bool game::event_queued(event_type type)
   }
   return false;
 }
-
+#include "savegame.h"
 void game::debug()
 {
  int action = menu(true, // cancelable
@@ -3268,6 +3268,24 @@ Current turn: %d; Next spawn %d.\n\
   break;
 
   case 17: {
+uimenu tm;
+for(int i=0; i<terlist.size();i++) {
+int rev=0;
+if ( reverse_legacy_ter_id.find(i) != reverse_legacy_ter_id.end() ) {
+rev=reverse_legacy_ter_id[i];
+}
+   tm.addentry("%d %d %-20s %s",i,rev,terlist[i].id.c_str(),
+      legacy_ter_id[rev].c_str()
+);
+}
+tm.addentry("-------- %d / %d--------",terlist.size(),reverse_legacy_ter_id.size());
+tm.addentry("%s",terlist[t_switch_even].id.c_str());
+
+/*for(int i=0; i<reverse_legacy_ter_id.size();i++) {
+   tm.addentry("%d = %d",i,reverse_legacy_ter_id[ i ]);
+}*/
+tm.query();
+return;
       const int weather_offset = 1;
       uimenu weather_menu;
       weather_menu.text = "Select new weather pattern:";
@@ -5521,9 +5539,9 @@ void game::emp_blast(int x, int y)
   return;
  }
 // TODO: More terrain effects.
- switch (m.ter(x, y)) {
- case t_card_science:
- case t_card_military:
+ switch (m.oldter(x, y)) {
+ case old_t_card_science:
+ case old_t_card_military:
   rn = rng(1, 100);
   if (rn > 92 || rn < 40) {
    add_msg(_("The card reader is rendered non-functional."));
@@ -5902,19 +5920,19 @@ void game::open()
         didit = m.open_door(openx, openy, true);
 
     if (!didit) {
-        switch(m.ter(openx, openy)) {
-        case t_door_locked:
-        case t_door_locked_interior:
-        case t_door_locked_alarm:
-        case t_door_bar_locked:
+        switch(m.oldter(openx, openy)) {
+        case old_t_door_locked:
+        case old_t_door_locked_interior:
+        case old_t_door_locked_alarm:
+        case old_t_door_bar_locked:
             add_msg(_("The door is locked!"));
             break; // Trying to open a locked door uses the full turn's movement
-        case t_door_o:
+        case old_t_door_o:
             add_msg(_("That door is already open."));
             u.moves += 100;
             break;
         default:
-            add_msg(_("No door there."));
+            add_msg("No door there. %d==%d %s",m.oldter(openx,openy),m.ter(openx,openy), m.get_ter(openx,openy).c_str() );
             u.moves += 100;
         }
     }
@@ -6306,18 +6324,18 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 //
 // The terrain type of the handle is passed in, and that is used to determine the type of
 // the wall and gate.
-void game::open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type ) {
+void game::open_gate( game *g, const int examx, const int examy, const old_ter_id handle_type ) {
 
- enum ter_id v_wall_type;
- enum ter_id h_wall_type;
- enum ter_id door_type;
- enum ter_id floor_type;
+ ter_id v_wall_type;
+ ter_id h_wall_type;
+ ter_id door_type;
+ ter_id floor_type;
  const char *pull_message;
  const char *open_message;
  const char *close_message;
 
  switch(handle_type) {
- case t_gates_mech_control:
+ case old_t_gates_mech_control:
   v_wall_type = t_wall_v;
   h_wall_type = t_wall_h;
   door_type   = t_door_metal_locked;
@@ -6327,7 +6345,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   close_message = _("The gate is closed!");
   break;
 
- case t_gates_control_concrete:
+ case old_t_gates_control_concrete:
   v_wall_type = t_concrete_v;
   h_wall_type = t_concrete_h;
   door_type   = t_door_metal_locked;
@@ -6337,7 +6355,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   close_message = _("The gate is closed!");
   break;
 
- case t_barndoor:
+ case old_t_barndoor:
   v_wall_type = t_wall_wood;
   h_wall_type = t_wall_wood;
   door_type   = t_door_metal_locked;
@@ -6347,7 +6365,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   close_message = _("The barn doors closed!");
   break;
 
- case t_palisade_pulley:
+ case old_t_palisade_pulley:
   v_wall_type = t_palisade;
   h_wall_type = t_palisade;
   door_type   = t_palisade_gate;
