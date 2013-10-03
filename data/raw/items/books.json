@@ -356,6 +356,27 @@
         "price" : 45,
         "required_level" : 0
     },
+    {
+        "type" : "BOOK",
+        "id" : "manual_launcher",
+        "name" : "Jane's Mortars and Rocket Launchers",
+        "max_level" : 3,
+        "description" : "An incredibly detailed guide to modern rockets, mortars, grenade launchers, and recoilless weaponry. Lavishly illustrated with color photographs, it contains a wealth of information.",
+        "weight" : 734,
+        "to_hit" : 0,
+        "color" : "brown",
+        "intelligence" : 4,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : -5,
+        "cutting" : 0,
+        "time" : 18,
+        "fun" : 0,
+        "skill" : "launcher",
+        "price" : 200,
+        "required_level" : 0
+    },
 	{
         "type" : "BOOK",
         "id" : "mag_pistol",
