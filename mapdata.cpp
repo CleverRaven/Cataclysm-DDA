@@ -144,13 +144,13 @@ void load_terrain(JsonObject &jsobj)
     new_terrain.examine = iexamine_function_from_string("none");
   }
 
-  new_furniture.open = "";
+  new_terrain.open = "";
   if ( jsobj.has_member("open") ) {
-      new_furniture.open = jsobj.get_string("open");
+      new_terrain.open = jsobj.get_string("open");
   }
-  new_furniture.close = "";
+  new_terrain.close = "";
   if ( jsobj.has_member("close") ) {
-      new_furniture.close = jsobj.get_string("close");
+      new_terrain.close = jsobj.get_string("close");
   }
 
   new_terrain.loadid=terlist.size();

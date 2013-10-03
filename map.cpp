@@ -2396,8 +2396,8 @@ bool map::open_door(const int x, const int y, const bool inside)
  const std::string terid = get_ter(x,y);
  const std::string furnid = furnlist[furn(x,y)].id;
  if ( termap[ terid ].open.size() > 0 && termap[ terid ].open != "t_null" ) {
-     if ( termap.find( termap[ terid ].open ) == termap.end() {
-         debugmsg("terrain %s.open == non existant terrain '%s'\n", termap[ terid ].id, termap[ terid ].open );
+     if ( termap.find( termap[ terid ].open ) == termap.end() ) {
+         debugmsg("terrain %s.open == non existant terrain '%s'\n", termap[ terid ].id.c_str(), termap[ terid ].open.c_str() );
          return false;
      }
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
@@ -2406,8 +2406,8 @@ bool map::open_door(const int x, const int y, const bool inside)
      ter_set(x, y, termap[ terid ].open );
      return true;
  } else if ( furnmap[ furnid ].open.size() > 0 && furnmap[ furnid ].open != "t_null" ) {
-     if ( furnmap.find( furnmap[ furnid ].open ) == furnmap.end() {
-         debugmsg("terrain %s.open == non existant terrain '%s'\n", furnmap[ furnid ].id, furnmap[ furnid ].open );
+     if ( furnmap.find( furnmap[ furnid ].open ) == furnmap.end() ) {
+         debugmsg("terrain %s.open == non existant furniture '%s'\n", furnmap[ furnid ].id.c_str(), furnmap[ furnid ].open.c_str() );
          return false;
      }
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
@@ -2459,8 +2459,8 @@ bool map::close_door(const int x, const int y, const bool inside)
  const std::string terid = get_ter(x,y);
  const std::string furnid = furnlist[furn(x,y)].id;
  if ( termap[ terid ].close.size() > 0 && termap[ terid ].close != "t_null" ) {
-     if ( termap.find( termap[ terid ].close ) == termap.end() {
-         debugmsg("terrain %s.close == non existant terrain '%s'\n", termap[ terid ].id, termap[ terid ].close );
+     if ( termap.find( termap[ terid ].close ) == termap.end() ) {
+         debugmsg("terrain %s.close == non existant terrain '%s'\n", termap[ terid ].id.c_str(), termap[ terid ].close.c_str() );
          return false;
      }
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
@@ -2469,8 +2469,8 @@ bool map::close_door(const int x, const int y, const bool inside)
      ter_set(x, y, termap[ terid ].close );
      return true;
  } else if ( furnmap[ furnid ].close.size() > 0 && furnmap[ furnid ].close != "t_null" ) {
-     if ( furnmap.find( furnmap[ furnid ].close ) == furnmap.end() {
-         debugmsg("terrain %s.close == non existant terrain '%s'\n", furnmap[ furnid ].id, furnmap[ furnid ].close );
+     if ( furnmap.find( furnmap[ furnid ].close ) == furnmap.end() ) {
+         debugmsg("terrain %s.close == non existant furniture '%s'\n", furnmap[ furnid ].id.c_str(), furnmap[ furnid ].close.c_str() );
          return false;
      }
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
