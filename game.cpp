@@ -175,15 +175,6 @@ void game::init_ui(){
     #else
         getmaxyx(stdscr, TERMY, TERMX);
 
-        //make sure TERRAIN_WINDOW_WIDTH and TERRAIN_WINDOW_HEIGHT are uneven
-        if (TERMX%2 == 1) {
-            TERMX--;
-        }
-
-        if (TERMY%2 == 0) {
-            TERMY--;
-        }
-
         TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
         TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
 
