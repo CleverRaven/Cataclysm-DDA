@@ -110,11 +110,17 @@ void game::serialize(std::ofstream & fout) {
 
         // save killcounts.
         std::map<std::string, picojson::value> killmap;
+        for (std::map<std::string, int>::iterator killit = killcount.begin(); killit != killcount.end(); ++killit)
+        {
+            killmap[killit->first] = pv(killit->second);
+        }
+        /*
         for (int i = 0; i < num_monsters; i++) {
             if ( kills[i] > 0 ) {
                 killmap[ monster_names[ i ] ] = pv ( kills[i] );
             }
         }
+        */
         fout << pv( killmap ).serialize() << std::endl;
 
         // And finally the player.
@@ -157,7 +163,6 @@ void game::unserialize(std::ifstream & fin) {
            savegame_loading_version = savedver;
        }
    }
-DebugLog() << "\tSavegame Loading Version: ["<<savegame_loading_version<<"]\n";
    if (savegame_loading_version != savegame_version) {
        if ( unserialize_legacy(fin) == true ) {
             return;
@@ -243,9 +248,8 @@ DebugLog() << "\tSavegame Loading Version: ["<<savegame_loading_version<<"]\n";
                 } else {
                     picojson::object &pkdata = kdata.get<picojson::object>();
                     for( picojson::object::const_iterator it = pkdata.begin(); it != pkdata.end(); ++it) {
-                        if ( monster_ints.find(it->first) != monster_ints.end() && it->second.is<double>() ) {
-                            kills[ monster_ints[it->first] ] = (int)it->second.get<double>();
-                        }
+                        // don't care about monster_ints in this case since it's pulling in string data as the monster's id
+                        killcount[it->first] = (int)it->second.get<double>();
                     }
                 }
             } else {
@@ -253,13 +257,12 @@ DebugLog() << "\tSavegame Loading Version: ["<<savegame_loading_version<<"]\n";
                     if ( kk < 126 ) { // see legacy_mon_id
                         // load->int->str->int (possibly shifted)
                         kk = monster_ints[ legacy_mon_id[ kk ] ];
-                        linein >> kills[kk];
+                        linein >> killcount[legacy_mon_id[kk]]; // load into killcount instead of kills
                     } else {
                         linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
                     }
                 }
             }
-DebugLog() << "\tDeserializing: Player Information\n";
             // Finally, the data on the player.
             getline(fin, data);
             u.load_info(this, data);

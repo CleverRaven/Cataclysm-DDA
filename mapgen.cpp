@@ -4971,6 +4971,18 @@ ff.......|....|WWWWWWWW|\n\
 
   case 2: { // Netherworld access
    if (!one_in(4)) { // Trapped netherworld monsters
+    std::vector<std::string> validmons;
+    validmons.push_back("mon_flying_polyp");
+    validmons.push_back("mon_hunting_horror");
+    validmons.push_back("mon_mi_go");
+    validmons.push_back("mon_yugg");
+    validmons.push_back("mon_gelatin");
+    validmons.push_back("mon_flaming_eye");
+    validmons.push_back("mon_kreck");
+    validmons.push_back("mon_gracke");
+    validmons.push_back("mon_blank");
+    validmons.push_back("mon_gozu");
+
     tw = rng(SEEY + 3, SEEY + 5);
     bw = tw + 4;
     lw = rng(SEEX - 6, SEEX - 2);
@@ -4987,17 +4999,6 @@ ff.......|....|WWWWWWWW|\n\
       else if (j == tw + 2)
        ter_set(i, j, t_concrete_h);
       else { // Empty space holds monsters!
-       std::vector<std::string> validmons;
-       validmons.push_back("mon_flying_polyp");
-       validmons.push_back("mon_hunting_horror");
-       validmons.push_back("mon_mi_go");
-       validmons.push_back("mon_yugg");
-       validmons.push_back("mon_gelatin");
-       validmons.push_back("mon_flaming_eye");
-       validmons.push_back("mon_kreck");
-       validmons.push_back("mon_gracke");
-       validmons.push_back("mon_blank");
-       validmons.push_back("mon_gozu");
        add_spawn(validmons[rng(0, validmons.size()-1)], 1, i, j);
       }
      }

@@ -1062,21 +1062,9 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
         picoint(data, "typeid", iidtmp);
         sidtmp = legacy_mon_id[ iidtmp ];
     }
-    // get the int id, make sure that it exists in the monster_ints map
-    int mondex = -1;
-    if (monster_ints.find(sidtmp) != monster_ints.end())
-    {
-        mondex = monster_ints[sidtmp];
-    }
+    // since we are loading from a string anyway, just try to load the monster from factory. Will return as a mon_null if the string is not found
+    type = GetMon(sidtmp);
 
-    if (mondex != -1)
-    {
-        type = (*mtypes)[ monster_ints[sidtmp] ];
-    }
-    else
-    {
-        type = GetMon(sidtmp); // fetch from monster_factory
-    }
     picoint(data, "posx", _posx);
     picoint(data, "posy", _posy);
     picoint(data, "wandx", wandx);
@@ -1125,7 +1113,7 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
     }
     return true;
 }
-
+// Not used anywhere?
 void monster::json_load(picojson::value parsed, game * g) {
     std::vector <mtype *> *mt=&(g->mtypes);
     json_load(parsed, mt);

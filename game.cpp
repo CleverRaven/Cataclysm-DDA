@@ -365,9 +365,10 @@ void game::setup()
  events.clear();
 
  turn.set_season(SUMMER);    // ... with winter conveniently a long ways off
-
+/* NOTE: REMOVE THIS!
  for (int i = 0; i < num_monsters; i++) // Reset kill counts to 0
   kills[i] = 0;
+*/
 // Set the scent map to 0
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEX * MAPSIZE; j++)
@@ -2743,9 +2744,7 @@ void game::load(std::string name)
  u.name = base64_decode(name);
  u.ret_null = item(itypes["null"], 0);
  u.weapon = item(itypes["null"], 0);
- DebugLog() << "Deserializing Save Game!\n";
  unserialize(fin);
- DebugLog() << "--DONE\n";
  fin.close();
 
  // Now that the player's worn items are updated, their sight limits need to be
@@ -3369,12 +3368,18 @@ void game::disp_kills()
 
  std::vector<mtype *> types;
  std::vector<int> count;
+ for (std::map<std::string, int>::iterator it = killcount.begin(); it != killcount.end(); ++it)
+ {
+     types.push_back(GetMon(it->first));
+     count.push_back(it->second);
+ }
+ /*
  for (int i = 0; i < num_monsters; i++) {
   if (kills[i] > 0) {
    types.push_back(mtypes[i]);
    count.push_back(kills[i]);
   }
- }
+ }*/
 
  mvwprintz(w, 1, 32, c_white, "KILL COUNT:");
 

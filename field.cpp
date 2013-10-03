@@ -258,6 +258,20 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
     bool skipIterIncr = false; // keep track on when not to increment it[erator]
 
+    // used by fd_fatigue
+    std::vector<std::string> validmons;
+
+    validmons.push_back("mon_flying_polyp");
+    validmons.push_back("mon_hunting_horror");
+    validmons.push_back("mon_mi_go");
+    validmons.push_back("mon_yugg");
+    validmons.push_back("mon_gelatin");
+    validmons.push_back("mon_flaming_eye");
+    validmons.push_back("mon_kreck");
+    validmons.push_back("mon_gracke");
+    validmons.push_back("mon_blank");
+    // end: used by fd_fatigue
+
     //Loop through all tiles in this submap indicated by gridn
     for (int locx = 0; locx < SEEX; locx++) {
         for (int locy = 0; locy < SEEY; locy++) {
@@ -782,17 +796,6 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         if (cur->getFieldDensity() < 3 && int(g->turn) % 3600 == 0 && one_in(10)) {
                             cur->setFieldDensity(cur->getFieldDensity() + 1);
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
-                            std::vector<std::string> validmons;
-
-                            validmons.push_back("mon_flying_polyp");
-                            validmons.push_back("mon_hunting_horror");
-                            validmons.push_back("mon_mi_go");
-                            validmons.push_back("mon_yugg");
-                            validmons.push_back("mon_gelatin");
-                            validmons.push_back("mon_flaming_eye");
-                            validmons.push_back("mon_kreck");
-                            validmons.push_back("mon_gracke");
-                            validmons.push_back("mon_blank");
 
                             monster creature(GetMon(validmons[rng(0,validmons.size())]));
                             creature.spawn(x + rng(-3, 3), y + rng(-3, 3));
