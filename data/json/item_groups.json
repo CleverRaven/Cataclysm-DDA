@@ -2223,6 +2223,8 @@
       ["textbook_weapeast", 5],
       ["textbook_armwest", 5],
       ["textbook_armeast", 5],
+      ["q_staff", 10],
+      ["i_staff", 5],
       ["apron_leather", 1]
     ]
   },{
