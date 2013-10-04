@@ -90,6 +90,17 @@ JsonObject::JsonObject(JsonIn *j)
     end = jsin->tell();
 }
 
+JsonObject JsonObject::get_object(std::string name)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        jsin->seek(start);
+        throw jsin->line_number() + ": member not found: " + name;
+    }
+    jsin->seek(pos);
+    return jsin->get_object();
+}
+
 void JsonObject::finish()
 {
     jsin->seek(end);
@@ -119,6 +130,16 @@ bool JsonObject::is_member_X(std::string member, json_value_type jvt)
     }
     jsin->seek(pos);
     return (jvt == jsin->get_next_type());
+}
+json_value_type JsonObject::get_member_type(std::string member)
+{
+    int pos = positions[member];
+    if (pos <= start){
+        jsin->seek(start);
+        return JVT_UNKNOWN;
+    }
+    jsin->seek(pos);
+    return jsin->get_next_type();
 }
 
 bool JsonObject::is_bool(std::string member)
@@ -234,6 +255,11 @@ JsonArray JsonObject::get_array(std::string name)
     return JsonArray(jsin);
 }
 
+bool JsonObject::is_object(std::string member)
+{
+    return is_member_X(member, JVT_OBJECT);
+}
+
 
 /* class JsonArray
  * represents a JSON array,
@@ -273,6 +299,13 @@ void JsonArray::verify_index(int i)
         err << "bad index value: " << i;
         throw err.str();
     }
+}
+
+json_value_type JsonArray::get_next_type()
+{
+    verify_index(index);
+    jsin->seek(positions[index++]);
+    return jsin->get_next_type();
 }
 
 bool JsonArray::next_bool()
@@ -315,6 +348,13 @@ JsonObject JsonArray::next_object()
     verify_index(index);
     jsin->seek(positions[index++]);
     return jsin->get_object();
+}
+
+json_value_type JsonArray::get_index_type(int i)
+{
+    verify_index(i);
+    jsin->seek(positions[i]);
+    return jsin->get_next_type();
 }
 
 bool JsonArray::get_bool(int i)
@@ -434,8 +474,6 @@ json_value_type JsonIn::get_next_type()
     // it's either a string '"'
     if (ch == '"') {
         jvt = JVT_STRING;
-        std::string s = get_string();
-        if (s.size() == 1) { jvt = JVT_CHAR; }
     // or an object '{'
     } else if (ch == '{') {
         jvt = JVT_OBJECT;

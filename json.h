@@ -11,7 +11,6 @@ enum json_value_type
     JVT_UNKNOWN = 0, // used to handle errors
     JVT_BOOL,
     JVT_STRING,
-    JVT_CHAR,
     JVT_NUMBER,
     JVT_ARRAY,
     JVT_OBJECT,
@@ -55,9 +54,12 @@ public:
     bool is_number(std::string member);
     bool is_string(std::string member);
     bool is_array(std::string member);
+    bool is_object(std::string member);
+
+    json_value_type get_member_type(std::string member);
 
     JsonArray get_array(std::string name); // returns empty array if not found
-    //JsonObject get_object(std::string name);
+    JsonObject get_object(std::string name);
 
     // useful debug info
     std::string line_number(); // for occasional use only
@@ -94,6 +96,10 @@ public:
     std::string get_string(int index);
     JsonArray get_array(int index);
     JsonObject get_object(int index);
+
+    // type acquisition
+    json_value_type get_next_type();
+    json_value_type get_index_type(int index);
 };
 
 class JsonIn {
