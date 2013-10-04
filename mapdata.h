@@ -69,6 +69,10 @@ class monster;
  * FIRE_CONTAINER - Stops fire from spreading (brazier, wood stove, etc)
  * SUPPRESS_SMOKE - Prevents smoke from fires, used by ventilated wood stoves etc
  * PLANT - A "furniture" that grows and fruits
+ * SHRUB - This terrain is a shrub
+ * TREE - This terrain is a tree
+ * YOUNG - This terrain is a tree
+ * FUNGUS - Fungal covered
  */
 
 /*

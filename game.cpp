@@ -10839,6 +10839,32 @@ void game::nuke(int x, int y)
             cur_om->npcs[i]->marked_for_death = true;
 }
 
+bool game::spread_fungus(int x, int y)
+{
+    int growth = 0;
+    for (int i = x - 1; i <= x + 1; i++) {
+        for (int j = y - 1; j <= y + 1; j++) {
+            if (m.has_flag("FUNGUS", i, j)) {
+                growth += 1;
+            }
+        }
+    }
+
+    if (!m.has_flag("FUNGUS", x, y)) {
+        if (m.has_flag("DIGGABLE", x, y)) {
+            if (x_in_y(growth, 100)) {
+                m.ter_set(x, y, t_fungus);
+                return true;
+            }
+        } else if (m.has_flag("SHRUB", x, y) {
+            if (x_in_y(growth, 200)) {
+                m.ter_set(x, y, t_shrub_fungal);
+            } else if (x_in_y(growth, 1000)) {
+                m.ter_set(x, y, t_marloss);
+            return true;
+    return false;
+}
+
 std::vector<faction *> game::factions_at(int x, int y)
 {
  std::vector<faction *> ret;

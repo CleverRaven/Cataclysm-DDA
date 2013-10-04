@@ -213,6 +213,7 @@ class game
   void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled = false);
 
   void nuke(int x, int y);
+  bool spread_fungus(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
   int& scent(int x, int y);
   float natural_light_level() const;

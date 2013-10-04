@@ -941,7 +941,7 @@
         "color": "ltgreen",
         "move_cost": 6,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM"
+            "TRANSPARENT", "BASHABLE", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
         ],
         "examine_action": "shrub_wildveggies"
     },
@@ -953,7 +953,7 @@
         "color": "green",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM"
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
         ],
     },
     {
@@ -964,7 +964,7 @@
         "color": "ltgreen",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE"
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB"
         ],
         "examine_action": "shrub_blueberry"
     },
@@ -976,7 +976,7 @@
         "color": "ltgreen",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE"
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB"
         ],
         "examine_action": "shrub_strawberry"
     },
@@ -1136,7 +1136,7 @@
         "symbol": "1",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "FUNGUS", "SHRUB"],
     },
     {
         "type": "terrain",
@@ -1145,7 +1145,18 @@
         "symbol": "#",
         "color": "dkgray",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS"],
+    },
+    {
+        "type": "terrain",
+        "id": "t_shrub_fungal",
+        "name": "fungal shrub",
+        "symbol": "#",
+        "color": "dkgray",
+        "move_cost": 8,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
+        ],
     },
     {
         "type": "terrain",
@@ -1154,7 +1165,16 @@
         "symbol": "7",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "FUNGUS"],
+    },
+    {
+        "type": "terrain",
+        "id": "t_tree_fungal_young",
+        "name": "young fungal tree",
+        "symbol": "1",
+        "color": "dkgray",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "FUNGUS"],
     },
     {
         "type": "terrain",

@@ -491,9 +491,12 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  case ot_fungal_bloom:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
-    if (one_in(10))
+    if (one_in(10)) {
+     if (one_in(3)) {
      ter_set(i, j, t_tree_fungal);
-    else if (one_in(300)) {
+     }
+     ter_set(i, j, t_tree_fungal_young);
+    } else if (one_in(300)) {
      ter_set(i, j, t_marloss);
      spawn_item(i, j, "marloss_berry", turn);
     } else if (one_in(3))
