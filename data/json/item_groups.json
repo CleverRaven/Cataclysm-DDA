@@ -1028,6 +1028,7 @@
       ["foot_crank", 10],
       ["cable", 60],
       ["textbook_mechanics", 12],
+      ["book_icef", 8],
       ["textbook_fabrication", 12],
       ["vac_sealer", 10],
       ["tool_belt", 30]
@@ -1858,6 +1859,7 @@
     "items":[
       ["textbook_computers", 4],
       ["computer_science", 8],
+      ["book_icef", 8],
       ["textbook_electronics", 6],
       ["advanced_electronics", 6],
       ["textbook_business", 12],
