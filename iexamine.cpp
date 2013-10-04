@@ -538,12 +538,11 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
-
+ ter_id terid = m->ter(examx, examy);
   p->moves -= 100;
   for (int y = examy; y <= examy + 5; y++) {
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
-    switch (m->oldter(examx, examy)) {
-     case old_t_switch_rg:
+     if ( terid == t_switch_rg ) {
       if (m->ter(x, y) == t_rock_red)
        m->ter_set(x, y, t_floor_red);
        else if (m->ter(x, y) == t_floor_red)
@@ -552,8 +551,7 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
          m->ter_set(x, y, t_floor_green);
          else if (m->ter(x, y) == t_floor_green)
           m->ter_set(x, y, t_rock_green);
-          break;
-     case old_t_switch_gb:
+     } else if ( terid == t_switch_gb ) {
       if (m->ter(x, y) == t_rock_blue)
        m->ter_set(x, y, t_floor_blue);
        else if (m->ter(x, y) == t_floor_blue)
@@ -562,8 +560,7 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
          m->ter_set(x, y, t_floor_green);
          else if (m->ter(x, y) == t_floor_green)
           m->ter_set(x, y, t_rock_green);
-          break;
-     case old_t_switch_rb:
+     } else if ( terid == t_switch_rb ) {
       if (m->ter(x, y) == t_rock_blue)
        m->ter_set(x, y, t_floor_blue);
        else if (m->ter(x, y) == t_floor_blue)
@@ -572,8 +569,7 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
          m->ter_set(x, y, t_floor_red);
          else if (m->ter(x, y) == t_floor_red)
           m->ter_set(x, y, t_rock_red);
-          break;
-     case old_t_switch_even:
+     } else if ( terid == t_switch_even ) {
       if ((y - examy) % 2 == 1) {
        if (m->ter(x, y) == t_rock_red)
         m->ter_set(x, y, t_floor_red);
@@ -588,8 +584,7 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
             else if (m->ter(x, y) == t_floor_blue)
              m->ter_set(x, y, t_rock_blue);
              }
-      break;
-    }
+      }
    }
   }
   g->add_msg(_("You hear the rumble of rock shifting."));
