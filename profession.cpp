@@ -48,6 +48,10 @@ void profession::load_profession(JsonObject &jsobj)
         prof.add_addiction(addiction_type(jo.get_string("type")),
                            jo.get_int("intensity"));
     }
+    jsarr = jsobj.get_array("CBMs");
+    while (jsarr.has_more()) {
+        prof.add_CBM(jsarr.next_string());
+    }
     jsarr = jsobj.get_array("flags");
     while (jsarr.has_more()) {
         prof.flags.insert(jsarr.next_string());
@@ -106,6 +110,11 @@ void profession::add_item(std::string item)
     _starting_items.push_back(item);
 }
 
+void profession::add_CBM(std::string CBM)
+{
+    _starting_CBMs.push_back(CBM);
+}
+
 void profession::add_addiction(add_type type,int intensity)
 {
     _starting_addictions.push_back(addiction(type,intensity));
@@ -144,6 +153,12 @@ std::vector<addiction> profession::addictions() const
 {
     return _starting_addictions;
 }
+
+std::vector<std::string> profession::CBMs() const
+{
+    return _starting_CBMs;
+}
+
 const profession::StartingSkillList profession::skills() const
 {
     return _starting_skills;

@@ -233,14 +233,6 @@
         "category": ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
-        "id": "ANDROID",
-        "name": "Android",
-        "points": 4,
-        "description": "At some point in the past you had a bionic upgrade installed in your body. You start the game with a power system, and one random bionic enhancement.",
-        "starting_trait": true,
-        "valid": false
-    },{
-        "type" : "mutation",
         "id": "ROBUST",
         "name": "Robust Genetics",
         "points": 2,
