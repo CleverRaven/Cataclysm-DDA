@@ -687,7 +687,7 @@ recipe* game::select_crafting_recipe()
                 int(current[line]->time / 100));
             }
             mvwprintz(w_data, 5, 30, col, _("Tools required:"));
-            if (current[line]->tools.size() == 0)
+            if (current[line]->tools.size() == 0 && current[line]->qualities.size() == 0)
             {
                 mvwputch(w_data, 6, 30, col, '>');
                 mvwprintz(w_data, 6, 32, c_green, _("NONE"));
@@ -696,6 +696,21 @@ recipe* game::select_crafting_recipe()
             else
             {
                 ypos = 5;
+                // Loop to print the required tool qualities
+                for(std::vector<quality_requirement>::const_iterator iter = current[line]->qualities.begin(); 
+                        iter != current[line]->qualities.end(); ++iter){
+                    ypos++;
+                    xpos = 32;
+                    mvwputch(w_data, ypos, 30, col, '>');
+                    nc_color toolcol = c_red;
+                    if(iter->available){
+                        toolcol = c_green;
+                    }
+                    
+                    std::stringstream qualinfo;
+                    qualinfo << "Requires " << iter->count << " tools with " << iter->name << " of " << iter->level << " or more.";
+                    mvwprintz(w_data, ypos, xpos, toolcol, qualinfo.str().c_str());
+                }
                 // Loop to print the required tools
                 for (int i = 0; i < current[line]->tools.size() && current[line]->tools[i].size() > 0; i++)
                 {
