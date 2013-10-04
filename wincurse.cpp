@@ -33,7 +33,7 @@ HFONT font;             //Handle to the font created by CreateFont
 RGBQUAD *windowsPalette;  //The coor palette, 16 colors emulates a terminal
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 bool CursorVisible = true; // Showcursor is a somewhat weird function
-std::map<std::string,std::vector<int>> consolecolors;
+std::map< std::string, std::vector<int> > consolecolors;
 
 //***********************************
 //Non-curses, Window functions      *
