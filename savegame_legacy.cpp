@@ -418,6 +418,166 @@ bool overmap::unserialize_legacy(game *g, std::ifstream & fin, std::string const
  * Parse an open, obsolete maps.txt.
  */
 bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
+   switch (savegame_loading_version) {
+       case 9:
+       case 7:
+       case 6:
+       case 5:
+       case 4:
+       case 3:
+       case 0: {
+
+        std::map<tripoint, submap*>::iterator it;
+        int itx, ity, t, d, a, num_submaps, num_loaded = 0;
+        item it_tmp;
+        std::string databuff;
+        // While later revisions have an int ter_t association, it is non-static and generated
+        // at runtime, wholly dependant on json ordering. The definitive association is a
+        // string ID. legacy_ter_id translates the saved ints to a string, and like the
+        // current loader, instead of doing string lookups while parsing a potentially huge
+        // amount of tiles, we do so beforehand.
+
+        std::map<int, int> ter_key;
+        std::string tstr;
+        for(int i=0; i < num_legacy_ter; i++) {
+           tstr = legacy_ter_id[i];
+           if ( termap.find(tstr) == termap.end() ) {
+              debugmsg("Can't find terrain '%s' (%d)",tstr.c_str(), i );
+              ter_key[i] = termap["t_null"].loadid;
+           } else {
+              ter_key[i] = termap[tstr].loadid;
+           }
+        }
+        // Ditto for furniture
+        std::map<int, int> furn_key;
+        std::string fstr;
+        for(int i=0; i < num_legacy_furn; i++) {
+           fstr = legacy_furn_id[i];
+           if ( furnmap.find(fstr) == furnmap.end() ) {
+              debugmsg("Can't find furniture '%s' (%d)",fstr.c_str(), i );
+              furn_key[i] = furnmap["f_null"].loadid;
+           } else {
+              furn_key[i] = furnmap[fstr].loadid;
+           }
+        }
+
+         fin >> num_submaps;
+
+         while (!fin.eof()) {
+          if (num_loaded % 100 == 0)
+           popup_nowait(_("Please wait as the map loads [%d/%d]"),
+                        num_loaded, num_submaps);
+          int locx, locy, locz, turn, temperature;
+          submap* sm = new submap();
+          fin >> locx >> locy >> locz >> turn >> temperature;
+          if(fin.eof()) {
+              break;
+          }
+          sm->turn_last_touched = turn;
+          sm->temperature = temperature;
+          int turndif = (master_game ? int(master_game->turn) - turn : 0);
+          if (turndif < 0)
+           turndif = 0;
+        // Load terrain
+          for (int j = 0; j < SEEY; j++) {
+           for (int i = 0; i < SEEX; i++) {
+            int tmpter;
+            fin >> tmpter;
+            tmpter = ter_key[tmpter];
+            sm->ter[i][j] = ter_id(tmpter);
+            sm->frn[i][j] = f_null;
+            sm->itm[i][j].clear();
+            sm->trp[i][j] = tr_null;
+            //sm->fld[i][j] = field(); //not needed now
+            sm->graf[i][j] = graffiti();
+           }
+          }
+        // Load irradiation
+          int radtmp;
+          int count = 0;
+          for (int j = 0; j < SEEY; j++) {
+           for (int i = 0; i < SEEX; i++) {
+            if (count == 0) {
+             fin >> radtmp >> count;
+             radtmp -= int(turndif / 100); // Radiation slowly decays
+             if (radtmp < 0) {
+              radtmp = 0;
+             }
+            }
+            count--;
+            sm->rad[i][j] = radtmp;
+           }
+          }
+        // Load items and traps and fields and spawn points and vehicles
+          std::string string_identifier;
+          do {
+           fin >> string_identifier; // "----" indicates end of this submap
+           t = 0;
+           if (string_identifier == "I") {
+            fin >> itx >> ity;
+            getline(fin, databuff); // Clear out the endline
+            getline(fin, databuff);
+            it_tmp.load_info(databuff, master_game);
+            sm->itm[itx][ity].push_back(it_tmp);
+            if (it_tmp.active)
+             sm->active_item_count++;
+           } else if (string_identifier == "C") {
+            getline(fin, databuff); // Clear out the endline
+            getline(fin, databuff);
+            int index = sm->itm[itx][ity].size() - 1;
+            it_tmp.load_info(databuff, master_game);
+            sm->itm[itx][ity][index].put_in(it_tmp);
+            if (it_tmp.active)
+             sm->active_item_count++;
+           } else if (string_identifier == "T") {
+            fin >> itx >> ity >> t;
+            sm->trp[itx][ity] = trap_id(t);
+           } else if (string_identifier == "f") {
+            fin >> itx >> ity >> t;
+            sm->frn[itx][ity] = furn_id(furn_key[t]);
+           } else if (string_identifier == "F") {
+            fin >> itx >> ity >> t >> d >> a;
+            if(!sm->fld[itx][ity].findField(field_id(t)))
+             sm->field_count++;
+            sm->fld[itx][ity].addField(field_id(t), d, a);
+           } else if (string_identifier == "S") {
+            char tmpfriend;
+            int tmpfac = -1, tmpmis = -1;
+            std::string spawnname;
+            fin >> t >> a >> itx >> ity >> tmpfac >> tmpmis >> tmpfriend >> spawnname;
+            spawn_point tmp(mon_id(t), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
+                            spawnname);
+            sm->spawns.push_back(tmp);
+           } else if (string_identifier == "V") {
+            vehicle * veh = new vehicle(master_game);
+            veh->load (fin);
+            //veh.smx = gridx;
+            //veh.smy = gridy;
+            master_game->m.vehicle_list.insert(veh);
+            sm->vehicles.push_back(veh);
+           } else if (string_identifier == "c") {
+            getline(fin, databuff);
+            sm->comp.load_data(databuff);
+           } else if (string_identifier == "B") {
+            getline(fin, databuff);
+            sm->camp.load_data(databuff);
+           } else if (string_identifier == "G") {
+             std::string s;
+            int j;
+            int i;
+            fin >> j >> i;
+            getline(fin,s);
+            sm->graf[j][i] = graffiti(s);
+           }
+          } while (string_identifier != "----" && !fin.eof());
+
+          submap_list.push_back(sm);
+          submaps[ tripoint(locx, locy, locz) ] = sm;
+          num_loaded++;
+         }
+         return true;
+       } break;
+     }
    return false;
 }
 

@@ -13,15 +13,53 @@
 #include "computer.h"
 #include "help.h"
 #include "mapdata.h"
+#include "color.h"
 
 #include <string>
 #include <vector>
 #include <fstream>
 #include <sstream> // for throwing errors
 
+#include "savegame.h"
 
 typedef std::string type_string;
 std::map<type_string, TFunctor*> type_function_map;
+
+std::map<int,int> reverse_legacy_ter_id;
+std::map<int,int> reverse_legacy_furn_id;
+/*
+ * Populate optional ter_id and furn_id variables
+ */
+void init_data_mappings() {
+    set_ter_ids();
+    set_furn_ids();
+
+// temporary (reliable) kludge until switch statements are rewritten
+    std::map<std::string, int> legacy_lookup;
+    for(int i=0; i< num_legacy_ter;i++) {
+         legacy_lookup[ legacy_ter_id[i] ] = i;
+    }
+    reverse_legacy_ter_id.clear();
+    for( int i=0; i < terlist.size(); i++ ) {
+        if ( legacy_lookup.find(terlist[i].id) != legacy_lookup.end() ) {
+             reverse_legacy_ter_id[ i ] = legacy_lookup[ terlist[i].id ];
+        } else {
+             reverse_legacy_ter_id[ i ] = 0;
+        }
+    }
+    legacy_lookup.clear();
+    for(int i=0; i< num_legacy_furn;i++) {
+         legacy_lookup[ legacy_furn_id[i] ] = i;
+    }
+    reverse_legacy_furn_id.clear();
+    for( int i=0; i < furnlist.size(); i++ ) {
+        if ( legacy_lookup.find(furnlist[i].id) != legacy_lookup.end() ) {
+             reverse_legacy_furn_id[ i ] = legacy_lookup[ furnlist[i].id ];
+        } else {
+             reverse_legacy_furn_id[ i ] = 0;
+        }
+    }
+}
 
 /* Currently just for loading JSON data from files in data/raw */
 
@@ -51,8 +89,7 @@ void load_object(JsonObject &jo)
     if (type_function_map.find(type) != type_function_map.end())
     {
         (*type_function_map[type])(jo);
-    }
-    else {
+    } else {
         std::stringstream err;
         err << jo.line_number() << ": ";
         err << "unrecognized JSON object, type: \"" << type << "\"";
@@ -77,6 +114,8 @@ void init_data_structures()
     type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
+    //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
+
 
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
@@ -103,6 +142,7 @@ void load_json_dir(std::string const &dirname)
             throw *(it) + ": " + e;
         }
     }
+    init_data_mappings();
 }
 
 void load_all_from_json(JsonIn &jsin)

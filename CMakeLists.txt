@@ -39,7 +39,7 @@ ADD_EXECUTABLE(cataclysm ${CataclysmDDA_SRCS} ${CataclysmDDA_HDRS})
 ADD_CUSTOM_COMMAND(
     TARGET cataclysm PRE_BUILD 
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data $<TARGET_FILE_DIR:cataclysm>/data
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/LICENSE $<TARGET_FILE_DIR:cataclysm> # Don't forget the license :)
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/LICENSE.txt $<TARGET_FILE_DIR:cataclysm> # Don't forget the license :)
 )
 
 IF(MINGW)
@@ -75,7 +75,7 @@ IF(SDL OR TILES)
     
         Include(FindSDL_image)
         TARGET_LINK_LIBRARIES(cataclysm ${SDLIMAGE_LIBRARY})
-        ADD_DEFINITIONS(-DSDLTILES)
+        ADD_DEFINITIONS(-DSDLTILES -DTILES)
     ELSE()
         ADD_DEFINITIONS(-DTILES)
     ENDIF()

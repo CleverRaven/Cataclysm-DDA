@@ -534,15 +534,23 @@ void game::cleanup_at_end(){
                 uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
         write_memorial_file();
         u.memorial_log.clear();
-        if (OPTIONS["DELETE_WORLD"] == "yes" ||
-            (OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?"))))
-        {
-            delete_save();
-            MAPBUFFER.reset();
-            MAPBUFFER.make_volatile();
+        std::vector<std::string> characters = list_active_characters();
+        if (characters.empty()) {
+            if (OPTIONS["DELETE_WORLD"] == "yes" ||
+                (OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?")))) {
+                delete_save();
+                MAPBUFFER.reset();
+                MAPBUFFER.make_volatile();
+            }
+        } else if (OPTIONS["DELETE_WORLD"] != "no") {
+            std::stringstream message;
+            message << _("World retained. Characters remaining:");
+            for (int i = 0; i < characters.size(); ++i) {
+                message << "\n  " << characters[i];
+            }
+            popup(message.str().c_str());
         }
-        if(gamemode)
-        {
+        if (gamemode) {
             delete gamemode;
             gamemode = new special_game; // null gamemode or something..
         }
@@ -2851,6 +2859,23 @@ void game::delete_save()
 #endif
 }
 
+std::vector<std::string> game::list_active_characters()
+{
+    std::vector<std::string> saves;
+    dirent *dp;
+    DIR *dir = opendir("save");
+    if (!dir) {
+        return saves;
+    }
+    while ((dp = readdir(dir))) {
+        std::string tmp = dp->d_name;
+        if (tmp.find(".sav") != std::string::npos)
+            saves.push_back(base64_decode(tmp.substr(0, tmp.find(".sav"))));
+    }
+    closedir(dir);
+    return saves;
+}
+
 /**
  * Writes information about the character out to a text file timestamped with
  * the time of the file was made. This serves as a record of the character's
@@ -3010,6 +3035,19 @@ void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
  events.push_back(tmp);
 }
 
+struct terrain {
+   ter_id ter;
+   terrain(ter_id tid) : ter(tid) {};
+   terrain(std::string sid) {
+       ter = t_null;
+       if ( termap.find(sid) == termap.end() ) {
+           debugmsg("terrain '%s' does not exist.",sid.c_str() );
+       } else {
+           ter = termap[ sid ].loadid;
+       }
+   };
+};
+
 bool game::event_queued(event_type type)
 {
  for (int i = 0; i < events.size(); i++) {
@@ -3018,7 +3056,7 @@ bool game::event_queued(event_type type)
   }
   return false;
 }
-
+#include "savegame.h"
 void game::debug()
 {
  int action = menu(true, // cancelable
@@ -3222,11 +3260,11 @@ Current turn: %d; Next spawn %d.\n\
 
   case 14:
   {
-   point center = look_around();
-   artifact_natural_property prop =
-    artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
-   m.create_anomaly(center.x, center.y, prop);
-   m.spawn_artifact(center.x, center.y, new_natural_artifact(prop), 0);
+      point center = look_around();
+      artifact_natural_property prop =
+          artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
+      m.create_anomaly(center.x, center.y, prop);
+      m.spawn_artifact(center.x, center.y, new_natural_artifact(prop), 0);
   }
   break;
 
@@ -3273,9 +3311,7 @@ Current turn: %d; Next spawn %d.\n\
       weather_menu.text = "Select new weather pattern:";
       weather_menu.return_invalid = true;
       for(int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
-
         weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
-
       }
 
       weather_menu.query();
@@ -3285,7 +3321,6 @@ Current turn: %d; Next spawn %d.\n\
 
         int selected_weather = weather_menu.selected + 1;
         weather = (weather_type) selected_weather;
-
       }
   }
   break;
@@ -5521,9 +5556,7 @@ void game::emp_blast(int x, int y)
   return;
  }
 // TODO: More terrain effects.
- switch (m.ter(x, y)) {
- case t_card_science:
- case t_card_military:
+ if ( m.ter(x,y) == t_card_science || m.ter(x,y) == t_card_military ) {
   rn = rng(1, 100);
   if (rn > 92 || rn < 40) {
    add_msg(_("The card reader is rendered non-functional."));
@@ -5540,7 +5573,6 @@ void game::emp_blast(int x, int y)
   }
   if (rn >= 40 && rn <= 80)
    add_msg(_("Nothing happens."));
-  break;
  }
  int mondex = mon_at(x, y);
  if (mondex != -1) {
@@ -5902,21 +5934,20 @@ void game::open()
         didit = m.open_door(openx, openy, true);
 
     if (!didit) {
-        switch(m.ter(openx, openy)) {
-        case t_door_locked:
-        case t_door_locked_interior:
-        case t_door_locked_alarm:
-        case t_door_bar_locked:
-            add_msg(_("The door is locked!"));
-            break; // Trying to open a locked door uses the full turn's movement
-        case t_door_o:
-            add_msg(_("That door is already open."));
-            u.moves += 100;
-            break;
-        default:
-            add_msg(_("No door there."));
-            u.moves += 100;
+        const std::string terid = m.get_ter(openx, openy);
+        if ( terid.find("t_door") != std::string::npos ) {
+            if ( terid.find("_locked") != std::string::npos ) {
+                add_msg(_("The door is locked!"));
+                return;
+            } else if ( termap[ terid ].close.size() > 0 && termap[ terid ].close != "t_null" ) {
+                // if the following message appears unexpectedly, the prior check was for t_door_o
+                add_msg(_("That door is already open."));
+                u.moves += 100;
+                return;
+            }
         }
+        add_msg(_("No door there."));
+        u.moves += 100;
     }
 }
 
@@ -5947,10 +5978,7 @@ void game::close()
     else if (m.ter(closex, closey) == t_window_domestic &&
              m.is_outside(u.posx, u.posy))  {
         add_msg(_("You cannot close the curtains from outside. You must be inside the building."));
-    } else if (m.has_furn(closex, closey) &&
-               m.furn(closex, closey) != f_canvas_door_o &&
-               m.furn(closex, closey) != f_skin_door_o &&
-               m.furn(closex, closey) != f_safe_o) {
+    } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.size() == 0 ) {
        add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
     } else
         didit = m.close_door(closex, closey, true);
@@ -6306,18 +6334,17 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 //
 // The terrain type of the handle is passed in, and that is used to determine the type of
 // the wall and gate.
-void game::open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type ) {
+void game::open_gate( game *g, const int examx, const int examy, const ter_id handle_type ) {
 
- enum ter_id v_wall_type;
- enum ter_id h_wall_type;
- enum ter_id door_type;
- enum ter_id floor_type;
+ ter_id v_wall_type;
+ ter_id h_wall_type;
+ ter_id door_type;
+ ter_id floor_type;
  const char *pull_message;
  const char *open_message;
  const char *close_message;
 
- switch(handle_type) {
- case t_gates_mech_control:
+ if ( handle_type == t_gates_mech_control ) {
   v_wall_type = t_wall_v;
   h_wall_type = t_wall_h;
   door_type   = t_door_metal_locked;
@@ -6325,9 +6352,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   pull_message = _("You turn the handle...");
   open_message = _("The gate is opened!");
   close_message = _("The gate is closed!");
-  break;
-
- case t_gates_control_concrete:
+ } else if ( handle_type == t_gates_control_concrete ) {
   v_wall_type = t_concrete_v;
   h_wall_type = t_concrete_h;
   door_type   = t_door_metal_locked;
@@ -6335,9 +6360,8 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   pull_message = _("You turn the handle...");
   open_message = _("The gate is opened!");
   close_message = _("The gate is closed!");
-  break;
 
- case t_barndoor:
+ } else if ( handle_type == t_barndoor ) {
   v_wall_type = t_wall_wood;
   h_wall_type = t_wall_wood;
   door_type   = t_door_metal_locked;
@@ -6345,9 +6369,8 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   pull_message = _("You pull the rope...");
   open_message = _("The barn doors opened!");
   close_message = _("The barn doors closed!");
-  break;
 
- case t_palisade_pulley:
+ } else if ( handle_type == t_palisade_pulley ) {
   v_wall_type = t_palisade;
   h_wall_type = t_palisade;
   door_type   = t_palisade_gate;
@@ -6355,9 +6378,8 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   pull_message = _("You pull the rope...");
   open_message = _("The palisade gate swings open!");
   close_message = _("The palisade gate swings closed with a crash!");
-  break;
-
-  default: return; // No matching gate type
+ } else {
+   return;
  }
 
  g->add_msg(pull_message);

@@ -4,6 +4,7 @@
 #ifndef _COLOR_LIST_
 #define _COLOR_LIST_
 
+#include "json.h"
 #include "cursesdef.h"
 #include <string>
 
@@ -174,6 +175,7 @@ nc_color color_from_string(std::string color);
 nc_color bgcolor_from_string(std::string color);
 
 void setattr(nc_color &col, col_attribute attr);
+void load_colors(JsonObject &jo);
 
 #endif
 
