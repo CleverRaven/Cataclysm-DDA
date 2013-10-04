@@ -85,6 +85,13 @@ ifdef RELEASE
   DEBUG =
 endif
 
+ifdef CLANG
+  CXX = $(CROSS)clang++
+  LD  = $(CROSS)clang++
+  OTHERS = --std=c++98
+  WARNINGS = -Weverything
+endif
+
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
 BINDIST_EXTRAS = README.md data
