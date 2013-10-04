@@ -455,7 +455,7 @@ void initOptions() {
 
     OPTIONS["CITY_SIZE"] =              cOpt("general", _("Size of cities"),
                                              _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
-                                             4, 16, 4
+                                             1, 16, 4
                                             );
 
     OPTIONS["INITIAL_TIME"] =           cOpt("debug", _("Initial time"),
