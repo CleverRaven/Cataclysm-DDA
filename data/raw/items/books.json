@@ -1681,6 +1681,27 @@
     },
     {
         "type" : "BOOK",
+        "id" : "101_carpentry",
+        "name" : "101 Home Repairs",
+        "max_level" : 2,
+        "description" : "A paperback book detailing 101 home repair projects the novice carpenter.",
+        "weight" : 454,
+        "to_hit" : 0,
+        "color" : "yellow",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 2,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 16,
+        "fun" : 0,
+        "skill" : "carpentry",
+        "price" : 220,
+        "required_level" : 0
+    },
+    {
+        "type" : "BOOK",
         "id" : "manual_driving",
         "name" : "The Rules of the Road",
         "max_level" : 3,
@@ -1845,7 +1866,7 @@
         "fun" : -1,
         "skill" : "mechanics",
         "price" : 495,
-        "required_level" : 5
+        "required_level" : 4
     },
     {
         "type" : "BOOK",
