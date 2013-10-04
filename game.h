@@ -323,7 +323,7 @@ class game
  //otherwise returns sentinel -1, signifies transaction fail.
  int move_liquid(item &liquid);
 
- void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
+ void open_gate( game *g, const int examx, const int examy, const ter_id handle_type );
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 

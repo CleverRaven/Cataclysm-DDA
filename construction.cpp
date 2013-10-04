@@ -305,7 +305,7 @@ void game::init_construction()
 // Base stuff
  CONSTRUCT(_("Build Bulletin Board"), 0, &construct::able_empty,
                                          &construct::done_nothing);
-  STAGE(f_bulletin, 10)
+  STAGE(furnlist[f_bulletin], 10)
    TOOL("saw");
    TOOL("hammer");
    TOOLCONT("hatchet");
@@ -316,7 +316,7 @@ void game::init_construction()
 // Household stuff
  CONSTRUCT(_("Build Dresser"), 1, &construct::able_empty,
                                 &construct::done_nothing);
-  STAGE(f_dresser, 20);
+  STAGE(furnlist[f_dresser], 20);
    TOOL("saw");
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
@@ -327,7 +327,7 @@ void game::init_construction()
 
  CONSTRUCT(_("Build Bookcase"), 1, &construct::able_empty,
                                 &construct::done_nothing);
-  STAGE(f_bookcase, 20);
+  STAGE(furnlist[f_bookcase], 20);
    TOOL("saw");
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
@@ -338,7 +338,7 @@ void game::init_construction()
 
  CONSTRUCT(_("Build Locker"), 1, &construct::able_empty,
                                 &construct::done_nothing);
-  STAGE(f_locker, 20);
+  STAGE(furnlist[f_locker], 20);
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
    TOOLCONT("hatchet");
@@ -348,7 +348,7 @@ void game::init_construction()
 
  CONSTRUCT(_("Build Metal Rack"), 1, &construct::able_empty,
                                 &construct::done_nothing);
-  STAGE(f_rack, 20);
+  STAGE(furnlist[f_rack], 20);
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
    TOOLCONT("hatchet");
@@ -357,7 +357,7 @@ void game::init_construction()
 
  CONSTRUCT(_("Build Counter"), 0, &construct::able_empty,
                                 &construct::done_nothing);
-  STAGE(f_counter, 20);
+  STAGE(furnlist[f_counter], 20);
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
    TOOLCONT("hatchet");
@@ -367,7 +367,7 @@ void game::init_construction()
 
  CONSTRUCT(_("Build Makeshift Bed"), 0, &construct::able_empty,
                                 &construct::done_nothing);
-  STAGE(f_makeshift_bed, 20);
+  STAGE(furnlist[f_makeshift_bed], 20);
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
    TOOLCONT("hatchet");
@@ -415,14 +415,14 @@ void game::init_construction()
 
  CONSTRUCT(_("Build Wood Stove"), 0, &construct::able_empty,
                                      &construct::done_nothing);
-  STAGE(f_woodstove, 10);
+  STAGE(furnlist[f_woodstove], 10);
    TOOL("hacksaw");
    COMP("metal_tank", 1);
    COMP("pipe", 1);
 
  CONSTRUCT(_("Build Stone Fireplace"), 0, &construct::able_empty,
                                           &construct::done_nothing);
-  STAGE(f_fireplace, 40);
+  STAGE(furnlist[f_fireplace], 40);
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
    TOOLCONT("shovel");
@@ -1109,15 +1109,15 @@ void construct::done_cart(game *g, point p)
 void construct::done_tape(game *g, point p)
 {
   g->add_msg(_("You tape up the %s."), g->m.tername(p.x, p.y).c_str());
-  switch (g->m.ter(p.x, p.y))
+  switch ( g->m.oldter(p.x, p.y) )
   {
-    case t_window_alarm:
+    case old_t_window_alarm:
       g->m.ter_set(p.x, p.y, t_window_alarm_taped);
 
-    case t_window_domestic:
+    case old_t_window_domestic:
       g->m.ter_set(p.x, p.y, t_window_domestic_taped);
 
-    case t_window:
+    case old_t_window:
       g->m.ter_set(p.x, p.y, t_window_taped);
   }
 
@@ -1127,41 +1127,41 @@ void construct::done_deconstruct(game *g, point p)
 {
   if (g->m.has_furn(p.x, p.y)) {
     g->add_msg(_("You disassemble the %s."), g->m.furnname(p.x, p.y).c_str());
-    switch (g->m.furn(p.x, p.y)){
-      case f_makeshift_bed:
-      case f_bed:
-      case f_armchair:
+    switch (g->m.oldfurn(p.x, p.y)){
+      case old_f_makeshift_bed:
+      case old_f_bed:
+      case old_f_armchair:
         g->m.spawn_item(p.x, p.y, "2x4", 0, 10);
         g->m.spawn_item(p.x, p.y, "rag", 0, rng(10,15));
         g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,8));
         g->m.furn_set(p.x, p.y, f_null);
-      case f_bench:
-      case f_crate_o:
-      case f_crate_c:
-      case f_chair:
-      case f_cupboard:
-      case f_desk:
-      case f_bulletin:
+      case old_f_bench:
+      case old_f_crate_o:
+      case old_f_crate_c:
+      case old_f_chair:
+      case old_f_cupboard:
+      case old_f_desk:
+      case old_f_bulletin:
         g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
         g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
         g->m.furn_set(p.x, p.y, f_null);
       break;
-      case f_locker:
+      case old_f_locker:
         g->m.spawn_item(p.x, p.y, "sheet_metal", 0, rng(1,2));
         g->m.spawn_item(p.x, p.y, "pipe", 0, rng(4,8));
         g->m.furn_set(p.x, p.y, f_null);
       break;
-      case f_rack:
+      case old_f_rack:
         g->m.spawn_item(p.x, p.y, "pipe", 0, rng(6,12));
         g->m.furn_set(p.x, p.y, f_null);
       break;
-      case f_oven:
+      case old_f_oven:
         g->m.spawn_item(p.x, p.y, "scrap",       0, rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
         g->m.spawn_item(p.x, p.y, "element",     0, rng(1,4));
         g->m.spawn_item(p.x, p.y, "pilot_light", 0, 1);
         g->m.furn_set(p.x, p.y, f_null);
-      case f_fridge:
+      case old_f_fridge:
         g->m.spawn_item(p.x, p.y, "scrap", 0, rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
         g->m.spawn_item(p.x, p.y, "hose", 0, 1);
@@ -1169,7 +1169,7 @@ void construct::done_deconstruct(game *g, point p)
 
         g->m.furn_set(p.x, p.y, f_null);
       break;
-      case f_glass_fridge:
+      case old_f_glass_fridge:
         g->m.spawn_item(p.x, p.y, "scrap", 0, rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
         g->m.spawn_item(p.x, p.y, "hose", 0, 1);
@@ -1177,20 +1177,20 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(p.x, p.y, "cu_pipe", 0, rng(3, 6));
         g->m.furn_set(p.x, p.y, f_null);
       break;
-      case f_counter:
-      case f_dresser:
-      case f_table:
+      case old_f_counter:
+      case old_f_dresser:
+      case old_f_table:
         g->m.spawn_item(p.x, p.y, "2x4", 0, 6);
         g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,8));
         g->m.furn_set(p.x, p.y, f_null);
       break;
-      case f_pool_table:
+      case old_f_pool_table:
         g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
         g->m.spawn_item(p.x, p.y, "rag", 0, 4);
         g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
         g->m.furn_set(p.x, p.y, f_null);
       break;
-      case f_bookcase:
+      case old_f_bookcase:
         g->m.spawn_item(p.x, p.y, "2x4", 0, 12);
         g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(12,16));
         g->m.furn_set(p.x, p.y, f_null);
@@ -1201,16 +1201,16 @@ void construct::done_deconstruct(game *g, point p)
     }
   } else {
     g->add_msg(_("You disassemble the %s."), g->m.tername(p.x, p.y).c_str());
-    switch (g->m.ter(p.x, p.y))
+    switch (g->m.oldter(p.x, p.y))
     {
-      case t_door_c:
-      case t_door_o:
+      case old_t_door_c:
+      case old_t_door_o:
         g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
         g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,12));
         g->m.ter_set(p.x, p.y, t_door_frame);
       break;
-      case t_curtains:
-      case t_window_domestic:
+      case old_t_curtains:
+      case old_t_window_domestic:
         g->m.spawn_item(g->u.posx, g->u.posy, "stick", 0);
         g->m.spawn_item(g->u.posx, g->u.posy, "sheet", 0, 2);
         g->m.spawn_item(g->u.posx, g->u.posy, "glass_sheet", 0);
@@ -1218,26 +1218,26 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(g->u.posx, g->u.posy, "string_36", 0, 0, 1);
         g->m.ter_set(p.x, p.y, t_window_empty);
       break;
-      case t_window:
+      case old_t_window:
         g->m.spawn_item(p.x, p.y, "glass_sheet", 0);
         g->m.ter_set(p.x, p.y, t_window_empty);
       break;
-      case t_backboard:
+      case old_t_backboard:
         g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
         g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
         g->m.ter_set(p.x, p.y, t_pavement);
       break;
-      case t_sandbox:
+      case old_t_sandbox:
         g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
         g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
         g->m.ter_set(p.x, p.y, t_floor);
       break;
-      case t_slide:
+      case old_t_slide:
         g->m.spawn_item(p.x, p.y, "sheet_metal", 0);
         g->m.spawn_item(p.x, p.y, "pipe", 0, rng(4,8));
         g->m.ter_set(p.x, p.y, t_grass);
       break;
-      case t_monkey_bars:
+      case old_t_monkey_bars:
         g->m.spawn_item(p.x, p.y, "pipe", 0, rng(6,12));
         g->m.ter_set(p.x, p.y, t_grass);
       break;

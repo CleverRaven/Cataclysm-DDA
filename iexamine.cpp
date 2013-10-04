@@ -115,7 +115,7 @@ void iexamine::controls_gate(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
- g->open_gate(g,examx,examy, m->ter(examx,examy));
+ g->open_gate(g,examx,examy, (old_ter_id)m->oldter(examx,examy));
 }
 
 void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
@@ -542,8 +542,8 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
   p->moves -= 100;
   for (int y = examy; y <= examy + 5; y++) {
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
-    switch (m->ter(examx, examy)) {
-     case t_switch_rg:
+    switch (m->oldter(examx, examy)) {
+     case old_t_switch_rg:
       if (m->ter(x, y) == t_rock_red)
        m->ter_set(x, y, t_floor_red);
        else if (m->ter(x, y) == t_floor_red)
@@ -553,7 +553,7 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
          else if (m->ter(x, y) == t_floor_green)
           m->ter_set(x, y, t_rock_green);
           break;
-     case t_switch_gb:
+     case old_t_switch_gb:
       if (m->ter(x, y) == t_rock_blue)
        m->ter_set(x, y, t_floor_blue);
        else if (m->ter(x, y) == t_floor_blue)
@@ -563,7 +563,7 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
          else if (m->ter(x, y) == t_floor_green)
           m->ter_set(x, y, t_rock_green);
           break;
-     case t_switch_rb:
+     case old_t_switch_rb:
       if (m->ter(x, y) == t_rock_blue)
        m->ter_set(x, y, t_floor_blue);
        else if (m->ter(x, y) == t_floor_blue)
@@ -573,7 +573,7 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
          else if (m->ter(x, y) == t_floor_red)
           m->ter_set(x, y, t_rock_red);
           break;
-     case t_switch_even:
+     case old_t_switch_even:
       if ((y - examy) % 2 == 1) {
        if (m->ter(x, y) == t_rock_red)
         m->ter_set(x, y, t_floor_red);

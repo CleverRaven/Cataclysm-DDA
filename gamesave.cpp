@@ -35,7 +35,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 9;
+const int savegame_version = 10;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -53,6 +53,7 @@ void game::init_savedata_translation_tables() {
     for(int i=0; i < num_monsters; i++) {
         monster_ints[ monster_names[i] ] = i;
     }
+
 }
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// game.sav

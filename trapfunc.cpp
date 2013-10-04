@@ -763,25 +763,25 @@ void trapfunc::temple_flood(game *g, int x, int y)
 void trapfunc::temple_toggle(game *g, int x, int y)
 {
  g->add_msg(_("You hear the grinding of shifting rock."));
- ter_id type = g->m.ter(x, y);
+ ter_id type = g->m.oldter(x, y);
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEY * MAPSIZE; j++) {
    switch (type) {
-    case t_floor_red:
+    case old_t_floor_red:
      if (g->m.ter(i, j) == t_rock_green)
       g->m.ter_set(i, j, t_floor_green);
      else if (g->m.ter(i, j) == t_floor_green)
       g->m.ter_set(i, j, t_rock_green);
      break;
 
-    case t_floor_green:
+    case old_t_floor_green:
      if (g->m.ter(i, j) == t_rock_blue)
       g->m.ter_set(i, j, t_floor_blue);
      else if (g->m.ter(i, j) == t_floor_blue)
       g->m.ter_set(i, j, t_rock_blue);
      break;
 
-    case t_floor_blue:
+    case old_t_floor_blue:
      if (g->m.ter(i, j) == t_rock_red)
       g->m.ter_set(i, j, t_floor_red);
      else if (g->m.ter(i, j) == t_floor_red)

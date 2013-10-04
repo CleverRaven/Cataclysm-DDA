@@ -847,7 +847,7 @@ bool cata_tiles::draw_terrain(int x, int y)
 
     std::string tname;
 
-    tname = terrain_names[t];
+    tname = terlist[t].id;
 
     return draw_from_id_string(tname, x, y, subtile, rotation);
 }
@@ -873,7 +873,7 @@ bool cata_tiles::draw_furniture(int x, int y)
     get_tile_values(f_id, neighborhood, subtile, rotation);
 
     // get the name of this furniture piece
-    std::string f_name = furn_names[f_id]; // replace with furniture names array access
+    std::string f_name = furnlist[f_id].id; // replace with furniture names array access
 
     return draw_from_id_string(f_name, x, y, subtile, rotation); // for now just draw it normally, add in rotations later
 }
