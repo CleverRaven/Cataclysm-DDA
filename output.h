@@ -34,9 +34,6 @@
 #define LINE_OXXX_C 0xa9
 #define LINE_XXXX_C 0xaa
 
-#define FULL_SCREEN_WIDTH 80  // Width of full Screen popup
-#define FULL_SCREEN_HEIGHT 25 // Height of full Screen popup
-
 // Display data
 extern int TERMX;
 extern int TERMY;
@@ -46,9 +43,12 @@ extern int VIEW_OFFSET_X;
 extern int VIEW_OFFSET_Y;
 extern int TERRAIN_WINDOW_WIDTH;
 extern int TERRAIN_WINDOW_HEIGHT;
+extern int FULL_SCREEN_WIDTH;  // Width of full Screen popup
+extern int FULL_SCREEN_HEIGHT; // Height of full Screen popup
 
 std::vector<std::string> foldstring ( std::string str, int width );
 int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
+void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW* w, nc_color FG, long ch);
 void mvwputch(WINDOW* w, int y, int x, nc_color FG, long ch);
@@ -65,7 +65,6 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 
 std::vector<size_t> get_tag_positions(const std::string &s);
 std::vector<std::string> split_by_color(const std::string &s);
-nc_color get_color_from_tag(const std::string &s, const nc_color base_color);
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -88,15 +87,6 @@ void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected=-1);
 
-nc_color hilite(nc_color c);
-nc_color invert_color(nc_color c);
-nc_color red_background(nc_color c);
-nc_color white_background(nc_color c);
-nc_color green_background(nc_color c);
-nc_color yellow_background(nc_color c);
-nc_color magenta_background(nc_color c);
-nc_color cyan_background(nc_color c);
-nc_color rand_color();
 char rand_char();
 long special_symbol (long sym);
 

@@ -150,16 +150,23 @@ game::~game()
 #define MINIMAP_WIDTH 7
 
 void game::init_ui(){
-    clear(); // Clear the screen
-    intro(); // Print an intro screen, make sure we're at least 80x25
+    // clear the screen
+    clear();
+    // set minimum FULL_SCREEN sizes
+    FULL_SCREEN_WIDTH = 80;
+    FULL_SCREEN_HEIGHT = 24;
+    // print an intro screen, making sure the terminal is the correct size
+    intro();
 
-    const int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    int sidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = sidebarWidth + ((int)OPTIONS["VIEWPORT_X"] * 2 + 1);
         TERMY = (int)OPTIONS["VIEWPORT_Y"] * 2 + 1;
         VIEWX = (OPTIONS["VIEWPORT_X"] > 60) ? 60 : OPTIONS["VIEWPORT_X"];
         VIEWY = (OPTIONS["VIEWPORT_Y"] > 60) ? 60 : OPTIONS["VIEWPORT_Y"];
+        // TERMY is always odd, so make FULL_SCREEN_HEIGHT odd too
+        FULL_SCREEN_HEIGHT = 25;
 
         // If we've chosen the narrow sidebar, we might need to make the
         // viewport wider to fill an 80-column window.
@@ -175,14 +182,16 @@ void game::init_ui(){
     #else
         getmaxyx(stdscr, TERMY, TERMX);
 
-        //make sure TERRAIN_WINDOW_WIDTH and TERRAIN_WINDOW_HEIGHT are uneven
-        if (TERMX%2 == 1) {
-            TERMX--;
+        // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
+        if (TERMY % 2) {
+            FULL_SCREEN_HEIGHT = 25;
+        } else {
+            FULL_SCREEN_HEIGHT = 24;
         }
 
-        if (TERMY%2 == 0) {
-            TERMY--;
-        }
+        // now that TERMX and TERMY are set,
+        // check if sidebar style needs to be overridden
+        sidebarWidth = use_narrow_sidebar() ? 45 : 55;
 
         TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
         TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
@@ -213,79 +222,60 @@ void game::init_ui(){
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
 
-    switch ((int)(OPTIONS["SIDEBAR_STYLE"] == "narrow")) {
-        case 0: // standard
-            minimapX = 0;
-            minimapY = 0;
-            messX = MINIMAP_WIDTH;
-            messY = 0;
-            messW = sidebarWidth - messX;
-            messH = 20;
-            hpX = 0;
-            hpY = MINIMAP_HEIGHT;
-            hpH = 14;
-            hpW = 7;
-            locX = MINIMAP_WIDTH;
-            locY = messY + messH;
-            locH = 1;
-            locW = sidebarWidth - locX;
-            statX = 0;
-            statY = locY + locH;
-            statH = 4;
-            statW = sidebarWidth;
+    if (use_narrow_sidebar()) {
+        // First, figure out how large each element will be.
+        hpH         = 7;
+        hpW         = 14;
+        statH       = 7;
+        statW       = sidebarWidth - MINIMAP_WIDTH - hpW;
+        locH        = 1;
+        locW        = sidebarWidth;
+        stat2H      = 2;
+        stat2W      = sidebarWidth;
+        messH       = TERMY - (statH + locH + stat2H);
+        messW       = sidebarWidth;
 
-            // The default style only uses one status window.
-            // The second status window needs to consume the void at the bottom
-            // of the sidebar.
-            stat2X = 0;
-            stat2Y = statY + statH;
-            stat2H = TERMY - stat2Y;
-            stat2W = sidebarWidth;
+        // Now position the elements relative to each other.
+        minimapX = 0;
+        minimapY = 0;
+        hpX = minimapX + MINIMAP_WIDTH;
+        hpY = 0;
+        locX = 0;
+        locY = minimapY + MINIMAP_HEIGHT;
+        statX = hpX + hpW;
+        statY = 0;
+        stat2X = 0;
+        stat2Y = locY + locH;
+        messX = 0;
+        messY = stat2Y + stat2H;
+    } else {
+        // standard sidebar style
+        minimapX = 0;
+        minimapY = 0;
+        messX = MINIMAP_WIDTH;
+        messY = 0;
+        messW = sidebarWidth - messX;
+        messH = 20;
+        hpX = 0;
+        hpY = MINIMAP_HEIGHT;
+        hpH = 14;
+        hpW = 7;
+        locX = MINIMAP_WIDTH;
+        locY = messY + messH;
+        locH = 1;
+        locW = sidebarWidth - locX;
+        statX = 0;
+        statY = locY + locH;
+        statH = 4;
+        statW = sidebarWidth;
 
-            break;
-
-
-        default: // narrow, using default so all variables are assigned something in all cases
-
-            // First, figure out how large each element will be.
-
-            hpH         = 7;
-            hpW         = 14;
-
-            statH       = 7;
-            statW       = sidebarWidth - MINIMAP_WIDTH - hpW;
-
-            locH        = 1;
-            locW        = sidebarWidth;
-
-            stat2H      = 2;
-            stat2W      = sidebarWidth;
-
-            messH       = TERMY - (statH + locH + stat2H);
-            messW       = sidebarWidth;
-
-
-            // Now position the elements relative to each other.
-
-            minimapX = 0;
-            minimapY = 0;
-
-            hpX = minimapX + MINIMAP_WIDTH;
-            hpY = 0;
-
-            locX = 0;
-            locY = minimapY + MINIMAP_HEIGHT;
-
-            statX = hpX + hpW;
-            statY = 0;
-
-            stat2X = 0;
-            stat2Y = locY + locH;
-
-            messX = 0;
-            messY = stat2Y + stat2H;
-
-            break;
+        // The default style only uses one status window.
+        // The second status window needs to consume the void at the bottom
+        // of the sidebar.
+        stat2X = 0;
+        stat2Y = statY + statH;
+        stat2H = TERMY - stat2Y;
+        stat2W = sidebarWidth;
     }
 
     int _y = VIEW_OFFSET_Y;
@@ -534,15 +524,23 @@ void game::cleanup_at_end(){
                 uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
         write_memorial_file();
         u.memorial_log.clear();
-        if (OPTIONS["DELETE_WORLD"] == "yes" ||
-            (OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?"))))
-        {
-            delete_save();
-            MAPBUFFER.reset();
-            MAPBUFFER.make_volatile();
+        std::vector<std::string> characters = list_active_characters();
+        if (characters.empty()) {
+            if (OPTIONS["DELETE_WORLD"] == "yes" ||
+                (OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?")))) {
+                delete_save();
+                MAPBUFFER.reset();
+                MAPBUFFER.make_volatile();
+            }
+        } else if (OPTIONS["DELETE_WORLD"] != "no") {
+            std::stringstream message;
+            message << _("World retained. Characters remaining:");
+            for (int i = 0; i < characters.size(); ++i) {
+                message << "\n  " << characters[i];
+            }
+            popup(message.str().c_str());
         }
-        if(gamemode)
-        {
+        if (gamemode) {
             delete gamemode;
             gamemode = new special_game; // null gamemode or something..
         }
@@ -2851,6 +2849,23 @@ void game::delete_save()
 #endif
 }
 
+std::vector<std::string> game::list_active_characters()
+{
+    std::vector<std::string> saves;
+    dirent *dp;
+    DIR *dir = opendir("save");
+    if (!dir) {
+        return saves;
+    }
+    while ((dp = readdir(dir))) {
+        std::string tmp = dp->d_name;
+        if (tmp.find(".sav") != std::string::npos)
+            saves.push_back(base64_decode(tmp.substr(0, tmp.find(".sav"))));
+    }
+    closedir(dir);
+    return saves;
+}
+
 /**
  * Writes information about the character out to a text file timestamped with
  * the time of the file was made. This serves as a record of the character's
@@ -3010,6 +3025,19 @@ void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
  events.push_back(tmp);
 }
 
+struct terrain {
+   ter_id ter;
+   terrain(ter_id tid) : ter(tid) {};
+   terrain(std::string sid) {
+       ter = t_null;
+       if ( termap.find(sid) == termap.end() ) {
+           debugmsg("terrain '%s' does not exist.",sid.c_str() );
+       } else {
+           ter = termap[ sid ].loadid;
+       }
+   };
+};
+
 bool game::event_queued(event_type type)
 {
  for (int i = 0; i < events.size(); i++) {
@@ -3018,7 +3046,7 @@ bool game::event_queued(event_type type)
   }
   return false;
 }
-
+#include "savegame.h"
 void game::debug()
 {
  int action = menu(true, // cancelable
@@ -3222,11 +3250,11 @@ Current turn: %d; Next spawn %d.\n\
 
   case 14:
   {
-   point center = look_around();
-   artifact_natural_property prop =
-    artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
-   m.create_anomaly(center.x, center.y, prop);
-   m.spawn_artifact(center.x, center.y, new_natural_artifact(prop), 0);
+      point center = look_around();
+      artifact_natural_property prop =
+          artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
+      m.create_anomaly(center.x, center.y, prop);
+      m.spawn_artifact(center.x, center.y, new_natural_artifact(prop), 0);
   }
   break;
 
@@ -3273,9 +3301,7 @@ Current turn: %d; Next spawn %d.\n\
       weather_menu.text = "Select new weather pattern:";
       weather_menu.return_invalid = true;
       for(int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
-
         weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
-
       }
 
       weather_menu.query();
@@ -3285,7 +3311,6 @@ Current turn: %d; Next spawn %d.\n\
 
         int selected_weather = weather_menu.selected + 1;
         weather = (weather_type) selected_weather;
-
       }
   }
   break;
@@ -3642,7 +3667,7 @@ void game::draw()
     werase(w_status2);
     u.disp_status(w_status, w_status2, this);
 
-    const int sideStyle = (int)(OPTIONS["SIDEBAR_STYLE"] == "narrow");
+    bool sideStyle = use_narrow_sidebar();
 
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
@@ -4366,7 +4391,7 @@ int game::mon_info(WINDOW *w)
 {
     const int width = getmaxx(w);
     const int maxheight = 12;
-    const int startrow = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 1 : 0;
+    const int startrow = use_narrow_sidebar() ? 1 : 0;
 
     int buff;
     int newseen = 0;
@@ -5521,9 +5546,7 @@ void game::emp_blast(int x, int y)
   return;
  }
 // TODO: More terrain effects.
- switch (m.ter(x, y)) {
- case t_card_science:
- case t_card_military:
+ if ( m.ter(x,y) == t_card_science || m.ter(x,y) == t_card_military ) {
   rn = rng(1, 100);
   if (rn > 92 || rn < 40) {
    add_msg(_("The card reader is rendered non-functional."));
@@ -5540,7 +5563,6 @@ void game::emp_blast(int x, int y)
   }
   if (rn >= 40 && rn <= 80)
    add_msg(_("Nothing happens."));
-  break;
  }
  int mondex = mon_at(x, y);
  if (mondex != -1) {
@@ -5902,21 +5924,20 @@ void game::open()
         didit = m.open_door(openx, openy, true);
 
     if (!didit) {
-        switch(m.ter(openx, openy)) {
-        case t_door_locked:
-        case t_door_locked_interior:
-        case t_door_locked_alarm:
-        case t_door_bar_locked:
-            add_msg(_("The door is locked!"));
-            break; // Trying to open a locked door uses the full turn's movement
-        case t_door_o:
-            add_msg(_("That door is already open."));
-            u.moves += 100;
-            break;
-        default:
-            add_msg(_("No door there."));
-            u.moves += 100;
+        const std::string terid = m.get_ter(openx, openy);
+        if ( terid.find("t_door") != std::string::npos ) {
+            if ( terid.find("_locked") != std::string::npos ) {
+                add_msg(_("The door is locked!"));
+                return;
+            } else if ( termap[ terid ].close.size() > 0 && termap[ terid ].close != "t_null" ) {
+                // if the following message appears unexpectedly, the prior check was for t_door_o
+                add_msg(_("That door is already open."));
+                u.moves += 100;
+                return;
+            }
         }
+        add_msg(_("No door there."));
+        u.moves += 100;
     }
 }
 
@@ -5947,10 +5968,7 @@ void game::close()
     else if (m.ter(closex, closey) == t_window_domestic &&
              m.is_outside(u.posx, u.posy))  {
         add_msg(_("You cannot close the curtains from outside. You must be inside the building."));
-    } else if (m.has_furn(closex, closey) &&
-               m.furn(closex, closey) != f_canvas_door_o &&
-               m.furn(closex, closey) != f_skin_door_o &&
-               m.furn(closex, closey) != f_safe_o) {
+    } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.size() == 0 ) {
        add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
     } else
         didit = m.close_door(closex, closey, true);
@@ -6306,18 +6324,17 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 //
 // The terrain type of the handle is passed in, and that is used to determine the type of
 // the wall and gate.
-void game::open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type ) {
+void game::open_gate( game *g, const int examx, const int examy, const ter_id handle_type ) {
 
- enum ter_id v_wall_type;
- enum ter_id h_wall_type;
- enum ter_id door_type;
- enum ter_id floor_type;
+ ter_id v_wall_type;
+ ter_id h_wall_type;
+ ter_id door_type;
+ ter_id floor_type;
  const char *pull_message;
  const char *open_message;
  const char *close_message;
 
- switch(handle_type) {
- case t_gates_mech_control:
+ if ( handle_type == t_gates_mech_control ) {
   v_wall_type = t_wall_v;
   h_wall_type = t_wall_h;
   door_type   = t_door_metal_locked;
@@ -6325,9 +6342,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   pull_message = _("You turn the handle...");
   open_message = _("The gate is opened!");
   close_message = _("The gate is closed!");
-  break;
-
- case t_gates_control_concrete:
+ } else if ( handle_type == t_gates_control_concrete ) {
   v_wall_type = t_concrete_v;
   h_wall_type = t_concrete_h;
   door_type   = t_door_metal_locked;
@@ -6335,9 +6350,8 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   pull_message = _("You turn the handle...");
   open_message = _("The gate is opened!");
   close_message = _("The gate is closed!");
-  break;
 
- case t_barndoor:
+ } else if ( handle_type == t_barndoor ) {
   v_wall_type = t_wall_wood;
   h_wall_type = t_wall_wood;
   door_type   = t_door_metal_locked;
@@ -6345,9 +6359,8 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   pull_message = _("You pull the rope...");
   open_message = _("The barn doors opened!");
   close_message = _("The barn doors closed!");
-  break;
 
- case t_palisade_pulley:
+ } else if ( handle_type == t_palisade_pulley ) {
   v_wall_type = t_palisade;
   h_wall_type = t_palisade;
   door_type   = t_palisade_gate;
@@ -6355,9 +6368,8 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   pull_message = _("You pull the rope...");
   open_message = _("The palisade gate swings open!");
   close_message = _("The palisade gate swings closed with a crash!");
-  break;
-
-  default: return; // No matching gate type
+ } else {
+   return;
  }
 
  g->add_msg(pull_message);
@@ -6868,7 +6880,7 @@ void game::draw_trail_to_square(int x, int y)
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state(WINDOW* window, int height)
 {
-    const int width = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    const int width = use_narrow_sidebar() ? 45 : 55;
     for (int i = 1; i < TERMX; i++)
     {
         if (i < width)
@@ -6969,7 +6981,7 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
 void game::list_items()
 {
     int iInfoHeight = 12;
-    const int width = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
     WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
     WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
@@ -7426,7 +7438,7 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 
- const int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "narrow");
+ bool sideStyle = use_narrow_sidebar();
 
  // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
  int maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
@@ -10959,17 +10971,30 @@ void intro()
  const int minWidth = FULL_SCREEN_WIDTH;
  WINDOW* tmp = newwin(minHeight, minWidth, 0, 0);
  while (maxy < minHeight || maxx < minWidth) {
-  werase(tmp);
-  wprintw(tmp, _("\
-Whoa. Whoa. Hey. This game requires a minimum terminal size of %dx%d. I'm\n\
-sorry if your graphical terminal emulator went with the woefully-diminutive\n\
-%dx%d as its default size, but that just won't work here.  Now stretch the\n\
-window until you've got it at the right size (or bigger).\n"),
-          minWidth, minHeight, maxx, maxy);
-  wgetch(tmp);
-  getmaxyx(stdscr, maxy, maxx);
+        werase(tmp);
+        if (maxy < minHeight && maxx < minWidth) {
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
+Whoa! Your terminal is tiny! This game requires a minimum terminal size of \
+%dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?"),
+                           minWidth, minHeight, maxx, maxy);
+        } else if (maxx < minWidth) {
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
+Oh! Hey, look at that. Your terminal is just a little too narrow. This game \
+requires a minimum terminal size of %dx%d to function. It just won't work \
+with only %dx%d. Can you stretch it out sideways a bit?"),
+                           minWidth, minHeight, maxx, maxy);
+        } else {
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
+Woah, woah, we're just a little short on space here. The game requires a \
+minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you \
+make the terminal just a smidgen taller?"),
+                           minWidth, minHeight, maxx, maxy);
+        }
+        wgetch(tmp);
+        getmaxyx(stdscr, maxy, maxx);
  }
  werase(tmp);
+ mvwprintz(tmp, 0, 0, c_ltblue, ":)");
  wrefresh(tmp);
  delwin(tmp);
  erase();

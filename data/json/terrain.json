@@ -528,6 +528,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM", "SUPPORTS_ROOF"],
+        "open": "t_door_o",
     },
     {
         "type": "terrain",
@@ -548,6 +549,7 @@
         "color": "brown",
         "move_cost": 2,
         "flags": ["FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "close": "t_door_c",
     },
     {
         "type": "terrain",
@@ -565,7 +567,8 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE"],
+        "open": "t_door_o",
     },
     {
         "type": "terrain",
@@ -576,6 +579,7 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF"],
+        "open": "t_door_o",
     },
     {
         "type": "terrain",
@@ -603,6 +607,7 @@
         "color": "brown",
         "move_cost": 3,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH"],
+        "open": "t_fencegate_o",
     },
     {
         "type": "terrain",
@@ -613,6 +618,7 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "FLAT"],
+        "close": "t_fencegate_c",
     },
     {
         "type": "terrain",
@@ -622,6 +628,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF"],
+        "open": "t_chaingate_o",
     },
     {
         "type": "terrain",
@@ -631,6 +638,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "close": "t_chaingate_c",
     },
     {
         "type": "terrain",
@@ -649,6 +657,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "open": "t_door_metal_o",
     },
     {
         "type": "terrain",
@@ -658,6 +667,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "close": "t_door_metal_c",
     },
     {
         "type": "terrain",
@@ -678,6 +688,8 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF"],
+        "open": "t_door_bar_o",
+        "close": "t_door_bar_locked",
     },
     {
         "type": "terrain",
@@ -687,6 +699,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "close": "t_door_bar_c",
     },
     {
         "type": "terrain",
@@ -707,6 +720,7 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "BASHABLE", "DOOR", "NOITEM", "SUPPORTS_ROOF"
         ],
+        "open": "t_door_glass_o",
     },
     {
         "type": "terrain",
@@ -716,6 +730,7 @@
         "color": "ltcyan",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "close": "t_door_glass_c",
     },
     {
         "type": "terrain",
@@ -766,8 +781,10 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE"
         ],
+        "close": "t_window_curtains",
+        "open": "t_window_open",
     },
     {
         "type": "terrain",
@@ -788,7 +805,8 @@
         "symbol": "'",
         "color": "ltcyan",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE" ],
+        "close": "t_window_domestic",
     },
     {
         "type": "terrain",
@@ -798,7 +816,8 @@
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT"],
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE" ],
+        "open": "t_window_domestic",
     },
     {
         "type": "terrain",
@@ -1020,7 +1039,7 @@
         "type": "terrain",
         "id": "t_fence_v",
         "name": "picket fence",
-        "symbol": ", ",
+        "symbol": "|",
         "color": "brown",
         "move_cost": 3,
         "flags": [
@@ -1042,7 +1061,7 @@
         "type": "terrain",
         "id": "t_chainfence_v",
         "name": "chain link fence",
-        "symbol": ", ",
+        "symbol": "|",
         "color": "cyan",
         "move_cost": 0,
         "flags": [
@@ -1115,7 +1134,7 @@
         "type": "terrain",
         "id": "t_railing_v",
         "name": "railing",
-        "symbol": ", ",
+        "symbol": "|",
         "color": "yellow",
         "move_cost": 3,
         "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE"],
@@ -1368,7 +1387,7 @@
         "type": "terrain",
         "id": "t_barndoor",
         "name": "rope and pulley",
-        "symbol": ", ",
+        "symbol": "|",
         "color": "brown",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],
@@ -1378,7 +1397,7 @@
         "type": "terrain",
         "id": "t_palisade_pulley",
         "name": "rope and pulley",
-        "symbol": ", ",
+        "symbol": "|",
         "color": "brown",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],

@@ -1421,22 +1421,22 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
 
     int nails = 0, boards = 0;
     ter_id newter;
-    switch (g->m.ter(x, y))
+    switch (g->m.oldter(x, y))
     {
-        case t_fence_h:
-        case t_fence_v:
+        case old_t_fence_h:
+        case old_t_fence_v:
         nails = 6;
         boards = 3;
         newter = t_fence_post;
         break;
 
-        case t_window_boarded:
+        case old_t_window_boarded:
         nails =  8;
         boards = 4;
         newter = t_window_empty;
         break;
 
-        case t_door_boarded:
+        case old_t_door_boarded:
         nails = 12;
         boards = 4;
         newter = t_door_b;
@@ -2181,7 +2181,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  }
 
  int pick_quality = 1;
- if( it->typeId() == "picklock" ) {
+ if( it->typeId() == "picklocks" ) {
      pick_quality = 5;
  }
  else if( it->typeId() == "crude_picklock" ) {
@@ -2291,23 +2291,23 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
   } else {
    int nails = 0, boards = 0;
    ter_id newter;
-   switch (g->m.ter(dirx, diry)) {
-   case t_window_boarded:
+   switch (g->m.oldter(dirx, diry)) {
+   case old_t_window_boarded:
     nails =  8;
     boards = 4;
     newter = t_window_empty;
     break;
-   case t_door_boarded:
+   case old_t_door_boarded:
     nails = 12;
     boards = 4;
     newter = t_door_b;
     break;
-   case t_fence_h:
+   case old_t_fence_h:
     nails = 6;
     boards = 3;
     newter = t_fence_post;
     break;
-   case t_fence_v:
+   case old_t_fence_v:
     nails = 6;
     boards = 3;
     newter = t_fence_post;
@@ -4356,11 +4356,11 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
         return;
     }
 
-    switch (g->m.ter(dirx, diry))
+    switch (g->m.oldter(dirx, diry))
     {
-    case t_chainfence_v:
-    case t_chainfence_h:
-    case t_chaingate_c:
+    case old_t_chainfence_v:
+    case old_t_chainfence_h:
+    case old_t_chaingate_c:
         p->moves -= 500;
         g->m.ter_set(dirx, diry, t_dirt);
         g->sound(dirx, diry, 15,_("grnd grnd grnd"));
@@ -4368,14 +4368,14 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
         g->m.spawn_item(dirx, diry, "wire", 0, 20);
         break;
 
-    case t_chainfence_posts:
+    case old_t_chainfence_posts:
         p->moves -= 500;
         g->m.ter_set(dirx, diry, t_dirt);
         g->sound(dirx, diry, 15,_("grnd grnd grnd"));
         g->m.spawn_item(dirx, diry, "pipe", 0, 6);
         break;
 
-    case t_bars:
+    case old_t_bars:
         if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
             g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage)
         {

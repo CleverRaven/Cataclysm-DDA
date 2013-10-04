@@ -4,6 +4,8 @@
 #include "debug.h"
 #include "translations.h"
 #include <fstream>
+#include "savegame.h"
+#include "picofunc.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -89,7 +91,26 @@ void mapbuffer::save()
  std::ofstream fout;
  fout.open("save/maps.txt");
  fout << "# version " << savegame_version << std::endl;
- fout << submap_list.size() << std::endl;
+
+ std::map<std::string, picojson::value> metadata;
+ metadata["listsize"] = pv ( submap_list.size() );
+
+ // To keep load speedy, we're saving ints, but since these are ints that will change with
+ // revisions and loaded mods, we're also including a rosetta stone.
+ std::vector<picojson::value> ter_key;
+ for( int i=0; i < terlist.size(); i++ ) {
+     ter_key.push_back( pv( terlist[i].id ) );
+ }
+ metadata["terrain_key"] = pv( ter_key );
+
+ std::vector<picojson::value> furn_key;
+ for( int i=0; i < furnlist.size(); i++ ) {
+     furn_key.push_back( pv( furnlist[i].id ) );
+ }
+ metadata["furniture_key"] = pv( furn_key );
+
+ fout << pv( metadata ).serialize() << std::endl;
+
  int num_saved_submaps = 0;
  int num_total_submaps = submap_list.size();
 
@@ -253,8 +274,50 @@ void mapbuffer::unserialize(std::ifstream & fin) {
        }
    }
 
+ std::stringstream jsonbuff;
+ getline(fin, databuff); 
+ jsonbuff.str(databuff);
+ picojson::value jdata;
+ jsonbuff >> jdata;
+ std::string jsonerr = picojson::get_last_error();
+ if ( ! jsonerr.empty() ) {
+     popup("Bad mapbuffer metadata\n%s", jsonerr.c_str() );
+ }
+ picojson::object &metadata = jdata.get<picojson::object>();
 
- fin >> num_submaps;
+ picoint(metadata,"listsize",num_submaps);
+
+ std::map<int, int> ter_key;
+ std::string tstr;
+ picojson::array * pvect = pgetarray(metadata,"terrain_key");
+ int ind=0;
+ for( picojson::array::const_iterator pt = pvect->begin(); pt != pvect->end(); ++pt) {
+     if ( (*pt).is<std::string>() ) {
+         tstr=(*pt).get<std::string>();
+         if ( termap.find(tstr) == termap.end() ) {
+            debugmsg("Can't find terrain '%s' (%d)",tstr.c_str(), ind );
+         } else {
+            ter_key[ind] = termap[tstr].loadid;
+         }
+     }
+     ind++;
+ }
+
+ std::map<int, int> furn_key;
+ std::string fstr;
+ pvect = pgetarray(metadata,"furniture_key");
+ ind=0;
+ for( picojson::array::const_iterator pt = pvect->begin(); pt != pvect->end(); ++pt) {
+     if ( (*pt).is<std::string>() ) {
+         fstr=(*pt).get<std::string>();
+         if ( furnmap.find(fstr) == furnmap.end() ) {
+            debugmsg("Can't find furniture '%s' (%d)",fstr.c_str(), ind );
+         } else {
+            furn_key[ind] = furnmap[fstr].loadid;
+         }
+     }
+     ind++;
+ }
 
  while (!fin.eof()) {
   if (num_loaded % 100 == 0)
@@ -276,7 +339,9 @@ void mapbuffer::unserialize(std::ifstream & fin) {
    for (int i = 0; i < SEEX; i++) {
     int tmpter;
     fin >> tmpter;
+    tmpter = ter_key[tmpter];
     sm->ter[i][j] = ter_id(tmpter);
+
     sm->frn[i][j] = f_null;
     sm->itm[i][j].clear();
     sm->trp[i][j] = tr_null;
@@ -326,7 +391,7 @@ void mapbuffer::unserialize(std::ifstream & fin) {
     sm->trp[itx][ity] = trap_id(t);
    } else if (string_identifier == "f") {
     fin >> itx >> ity >> t;
-    sm->frn[itx][ity] = furn_id(t);
+    sm->frn[itx][ity] = furn_id(furn_key[t]);
    } else if (string_identifier == "F") {
     fin >> itx >> ity >> t >> d >> a;
     if(!sm->fld[itx][ity].findField(field_id(t)))

@@ -79,12 +79,12 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2);
 void mansion_room(map *m, int x1, int y1, int x2, int y2); // pick & build
 
 void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
-void line(map *m, furn_id type, int x1, int y1, int x2, int y2);
+void line_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void fill_background(map *m, ter_id type);
 void fill_background(map *m, ter_id (*f)());
 void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
 void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
-void square(map *m, furn_id type, int x1, int y1, int x2, int y2);
+void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void add_corpse(game *g, map *m, int x, int y);
 
@@ -3480,15 +3480,15 @@ C..C..C...|hhh|#########\n\
   line(this, t_window, 16, 3, 18, 3);
   line(this, t_window, SEEX * 2 - 3, 9,  SEEX * 2 - 3, 11);
   line(this, t_window, SEEX * 2 - 3, 14,  SEEX * 2 - 3, 16);
-  line(this, f_counter, 4, SEEY * 2 - 4, SEEX * 2 - 4, SEEY * 2 - 4);
-  line(this, f_counter, 4, SEEY * 2 - 5, 4, SEEY * 2 - 9);
-  line(this, f_counter, SEEX * 2 - 4, SEEY * 2 - 5, SEEX * 2 - 4, SEEY * 2 - 9);
-  line(this, f_counter, SEEX * 2 - 7, 4, SEEX * 2 - 7, 6);
-  line(this, f_counter, SEEX * 2 - 7, 7, SEEX * 2 - 5, 7);
-  line(this, f_rack, 9, SEEY * 2 - 5, 9, SEEY * 2 - 9);
-  line(this, f_rack, SEEX * 2 - 9, SEEY * 2 - 5, SEEX * 2 - 9, SEEY * 2 - 9);
-  line(this, f_rack, 4, 4, 4, SEEY * 2 - 10);
-  line(this, f_rack, 5, 4, 8, 4);
+  line_furn(this, f_counter, 4, SEEY * 2 - 4, SEEX * 2 - 4, SEEY * 2 - 4);
+  line_furn(this, f_counter, 4, SEEY * 2 - 5, 4, SEEY * 2 - 9);
+  line_furn(this, f_counter, SEEX * 2 - 4, SEEY * 2 - 5, SEEX * 2 - 4, SEEY * 2 - 9);
+  line_furn(this, f_counter, SEEX * 2 - 7, 4, SEEX * 2 - 7, 6);
+  line_furn(this, f_counter, SEEX * 2 - 7, 7, SEEX * 2 - 5, 7);
+  line_furn(this, f_rack, 9, SEEY * 2 - 5, 9, SEEY * 2 - 9);
+  line_furn(this, f_rack, SEEX * 2 - 9, SEEY * 2 - 5, SEEX * 2 - 9, SEEY * 2 - 9);
+  line_furn(this, f_rack, 4, 4, 4, SEEY * 2 - 10);
+  line_furn(this, f_rack, 5, 4, 8, 4);
   place_items("consumer_electronics", 85, 4, SEEY * 2 - 4, SEEX * 2 - 4,
               SEEY * 2 - 4, false, turn - 50);
   place_items("consumer_electronics", 85, 4, SEEY * 2 - 5, 4, SEEY * 2 - 9,
@@ -3603,8 +3603,8 @@ C..C..C...|hhh|#########\n\
 ------------------\n",
   mapf::basic_bind("- | :", t_wall_h, t_wall_v, t_window),
   mapf::basic_bind("# c &", f_rack, f_counter, f_glass_fridge));
-  square(this, f_dumpster, 5, 13, 7, 14);
-  square(this, f_dumpster, SEEX*2-6, 15, SEEX*2-5, 17);
+  square_furn(this, f_dumpster, 5, 13, 7, 14);
+  square_furn(this, f_dumpster, SEEX*2-6, 15, SEEX*2-5, 17);
 
   ter_set(rng(13, 15), 2, t_door_c);
   ter_set(rng(4, 6), 9, t_door_c);
@@ -3915,7 +3915,7 @@ C..C..C...|hhh|#########\n\
   furn_set(lw + 1, mw + 1, f_fridge);
   furn_set(lw + 2, mw + 1, f_fridge);
   place_items("fridge", 80, lw + 1, mw + 1, lw + 2, mw + 1, false, 0);
-  line(this, f_counter, lw + 3, mw + 1, cw - 1, mw + 1);
+  line_furn(this, f_counter, lw + 3, mw + 1, cw - 1, mw + 1);
   place_items("kitchen", 70, lw + 3, mw + 1, cw - 1, mw + 1, false, 0);
 // Place a door to the kitchen
   if (cw != rw - 1 && one_in(2)) // side door
@@ -3944,7 +3944,7 @@ C..C..C...|hhh|#########\n\
            i += table_spacing + 2) {
    for (int j = tw + table_spacing + 1; j <= mw - 1 - table_spacing;
             j += table_spacing + 2) {
-    square(this, f_table, i, j, i + 1, j + 1);
+    square_furn(this, f_table, i, j, i + 1, j + 1);
     place_items("dining", 70, i, j, i + 1, j + 1, false, 0);
    }
   }
@@ -3952,7 +3952,7 @@ C..C..C...|hhh|#########\n\
   if (rng(18, 21) > bw) {
    square(this, t_pavement, lw, bw + 1, rw, 24);
    rn = rng(lw + 1, rw - 4);
-   square(this, f_dumpster, rn, 22, rn + 2, 23);
+   square_furn(this, f_dumpster, rn, 22, rn + 2, 23);
    place_items("trash",  40, rn, 22, rn + 3, 23, false, 0);
    place_items("fridge", 50, rn, 22, rn + 3, 23, false, 0);
   }
@@ -4152,20 +4152,20 @@ case ot_lmoe_under:
   furn_set(17, 16, f_woodstove);
   furn_set(14, 13, f_chair);
   furn_set(14, 18, f_chair);
-  square(this, f_crate_c, 18, 13, 20, 14);
-  line(this, f_crate_c, 17, 13, 19, 15);
-  line(this, f_counter, 3, 13, 3, 20);
-  line(this, f_counter, 3, 20, 9, 20);
-  line(this, f_bookcase, 5, 13, 8, 13);
-  square(this, f_table, 5, 15, 6, 17);
+  square_furn(this, f_crate_c, 18, 13, 20, 14);
+  line_furn(this, f_crate_c, 17, 13, 19, 15);
+  line_furn(this, f_counter, 3, 13, 3, 20);
+  line_furn(this, f_counter, 3, 20, 9, 20);
+  line_furn(this, f_bookcase, 5, 13, 8, 13);
+  square_furn(this, f_table, 5, 15, 6, 17);
   furn_set(7, 16, f_chair);
-  line(this, f_rack, 3, 11, 7, 11);
-  line(this, f_rack, 3, 9, 7, 9);
-  line(this, f_rack, 3, 3, 6, 3);
+  line_furn(this, f_rack, 3, 11, 7, 11);
+  line_furn(this, f_rack, 3, 9, 7, 9);
+  line_furn(this, f_rack, 3, 3, 6, 3);
   ter_set(10, 7, t_column);
   ter_set(13, 7, t_column);
-  line(this, f_bookcase, 16, 3, 16, 5);
-  square(this, f_bed, 19, 3, 20, 4);
+  line_furn(this, f_bookcase, 16, 3, 16, 5);
+  square_furn(this, f_bed, 19, 3, 20, 4);
   furn_set(19, 7, f_chair);
   furn_set(20, 7, f_desk);
   line(this, t_rubble, 15, 10, 16, 10);
@@ -5018,7 +5018,7 @@ ff.......|....|WWWWWWWW|\n\
    add_trap(SEEX + 1, SEEY - 2, tr_dissector);
    add_trap(SEEX - 2, SEEY + 1, tr_dissector);
    add_trap(SEEX + 1, SEEY + 1, tr_dissector);
-   square(this, f_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
+   square_furn(this, f_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
    int item_count = 0;
    while (item_count < 5)
    {
@@ -5176,16 +5176,16 @@ ff.......|....|WWWWWWWW|\n\
     switch (rng(1, 3)) {  // What type of building?
     case 1: // Barracks
      for (int i = by1 + 1; i <= by2 - 1; i += 2) {
-      line(this, f_bed, bx1 + 1, i, bx1 + 2, i);
-      line(this, f_bed, bx2 - 2, i, bx2 - 1, i);
+      line_furn(this, f_bed, bx1 + 1, i, bx1 + 2, i);
+      line_furn(this, f_bed, bx2 - 2, i, bx2 - 1, i);
      }
      place_items("bedroom", 84, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0);
      break;
     case 2: // Armory
-     line(this, f_counter, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1);
-     line(this, f_counter, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1);
-     line(this, f_counter, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2);
-     line(this, f_counter, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2);
+     line_furn(this, f_counter, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1);
+     line_furn(this, f_counter, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1);
+     line_furn(this, f_counter, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2);
+     line_furn(this, f_counter, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2);
      place_items("mil_rifles", 40, bx1+1, by1+1, bx2-1, by1+1, false, 0);
      place_items("launchers",  40, bx1+1, by2-1, bx2-1, by2-1, false, 0);
      place_items("grenades",   40, bx1+1, by1+2, bx1+1, by2-2, false, 0);
@@ -5193,7 +5193,7 @@ ff.......|....|WWWWWWWW|\n\
      break;
     case 3: // Supplies
      for (int i = by1 + 1; i <= by2 - 1; i += 3) {
-      line(this, f_rack, bx1 + 2, i, bx2 - 2, i);
+      line_furn(this, f_rack, bx1 + 2, i, bx2 - 2, i);
       place_items("mil_food", 78, bx1 + 2, i, bx2 - 2, i, false, 0);
      }
      break;
@@ -5605,8 +5605,8 @@ ff.......|....|WWWWWWWW|\n\
   line(this, t_wall_v, 14, 15, 14, 20); // Interior wall (tank)
   line(this, t_wall_glass_v,  7,  6,  7, 13); // Interior glass (equipment)
   line(this, t_wall_glass_h,  8, 20, 13, 20); // Interior glass (flow)
-  line(this, f_counter,  1,  3,  3,  3); // Desk (front office);
-  line(this, f_counter,  1,  6,  1, 13); // Counter (equipment);
+  line_furn(this, f_counter,  1,  3,  3,  3); // Desk (front office);
+  line_furn(this, f_counter,  1,  6,  1, 13); // Counter (equipment);
 // Central tanks:
   square(this, t_sewage, 10,  3, 13,  6);
   square(this, t_sewage, 17,  3, 20,  6);
@@ -5665,7 +5665,7 @@ ff.......|....|WWWWWWWW|\n\
   line(this, t_wall_glass_h, rng(1, 3), 14, rng(5, 8), 14);
   line(this, t_wall_v,  9, 14,  9, 23);
   line(this, t_wall_glass_v, 9, 16, 9, 19);
-  square(this, f_counter, 5, 16, 6, 20);
+  square_furn(this, f_counter, 5, 16, 6, 20);
   place_items("sewage_plant", 80, 5, 16, 6, 20, false, 0);
   ter_set(0, 20, t_door_c);
   ter_set(9, 20, t_door_c);
@@ -5757,7 +5757,7 @@ ff.......|....|WWWWWWWW|\n\
   line(this, t_bridge, 10, 20, 13, 20);
 // Possibility of extra equipment shelves
   if (!one_in(3)) {
-   line(this, f_rack, 23, 1, 23, 4);
+   line_furn(this, f_rack, 23, 1, 23, 4);
    place_items("sewage_plant", 60, 23, 1, 23, 4, false, 0);
   }
 
@@ -5779,15 +5779,15 @@ ff.......|....|WWWWWWWW|\n\
    tmpcomp->add_failure(COMPFAIL_PUMP_EXPLODE);
    tmpcomp->add_failure(COMPFAIL_PUMP_LEAK);
 // Lower right...
-   line(this, f_counter, 15, 23, 22, 23);
+   line_furn(this, f_counter, 15, 23, 22, 23);
    place_items("sewer", 65, 15, 23, 22, 23, false, 0);
-   line(this, f_counter, 23, 15, 23, 19);
+   line_furn(this, f_counter, 23, 15, 23, 19);
    place_items("sewer", 65, 23, 15, 23, 19, false, 0);
   } else { // Upper left is valuable finds, lower right is sampling
 // Upper left...
-   line(this, f_counter,     1, 1, 1, 7);
+   line_furn(this, f_counter,     1, 1, 1, 7);
    place_items("sewer", 65, 1, 1, 1, 7, false, 0);
-   line(this, f_counter,     7, 1, 7, 7);
+   line_furn(this, f_counter,     7, 1, 7, 7);
    place_items("sewer", 65, 7, 1, 7, 7, false, 0);
 // Lower right...
    line(this, t_wall_v, 17, 22, 17, 23);
@@ -5935,7 +5935,7 @@ ff.......|....|WWWWWWWW|\n\
    ter_set(10, 10, t_elevator_control);
    ter_set(11, 10, t_elevator);
    ter_set(10, 12, t_ladder_up);
-   line(this, f_counter, 10, 15, 15, 15);
+   line_furn(this, f_counter, 10, 15, 15, 15);
    place_items("mine_equipment", 86, 10, 15, 15, 15, false, 0);
    if (one_in(2))
     ter_set(9, 12, t_door_c);
@@ -8628,7 +8628,7 @@ tth.............^|..|###\n\
   line(this, t_wall_h, buildx - 4, buildy + 4, buildx + 4, buildy + 4);
   line(this, t_wall_v, buildx - 4, buildy - 4, buildx - 4, buildy + 4);
   line(this, t_wall_v, buildx + 4, buildy - 4, buildx + 4, buildy + 4);
-  line(this, f_counter, buildx - 3, buildy - 3, buildx + 3, buildy - 3);
+  line_furn(this, f_counter, buildx - 3, buildy - 3, buildx + 3, buildy - 3);
   place_items("toxic_dump_equipment", 80,
               buildx - 3, buildy - 3, buildx + 3, buildy - 3, false, 0);
   spawn_item(buildx, buildy, "id_military", 0);
@@ -9299,20 +9299,20 @@ case ot_s_garage_north:
         line(this, t_wall_h, 0, yard_wdth, 2, yard_wdth);
         line(this, t_wall_h, 8, yard_wdth, 13, yard_wdth);
         line(this, t_wall_h, 20, yard_wdth, 21, yard_wdth);
-        line(this, f_counter, 1, yard_wdth+1, 1, yard_wdth+7);
+        line_furn(this, f_counter, 1, yard_wdth+1, 1, yard_wdth+7);
         line(this, t_wall_h, 1, SEEY*2-9, 3, SEEY*2-9);
         line(this, t_wall_v, 3, SEEY*2-8, 3, SEEY*2-5);
         ter_set(3, SEEY*2-7, t_door_frame);
         ter_set(21, SEEY*2-7, t_door_c);
-        line(this, f_counter,4, SEEY*2-5, 15, SEEY*2-5);
+        line_furn(this, f_counter,4, SEEY*2-5, 15, SEEY*2-5);
         //office
         line(this, t_wall_glass_h, 16, SEEY*2-9 ,20, SEEY*2-9);
         line(this, t_wall_glass_v, 16, SEEY*2-8, 16, SEEY*2-5);
         ter_set(16, SEEY*2-7, t_door_glass_c);
-        line(this, f_bench, SEEX*2-6, SEEY*2-8, SEEX*2-4, SEEY*2-8);
+        line_furn(this, f_bench, SEEX*2-6, SEEY*2-8, SEEX*2-4, SEEY*2-8);
         ter_set(SEEX*2-6, SEEY*2-6, t_console_broken);
         furn_set(SEEX*2-5, SEEY*2-6, f_bench);
-        line(this, f_locker, SEEX*2-6, SEEY*2-5, SEEX*2-4, SEEY*2-5);
+        line_furn(this, f_locker, SEEX*2-6, SEEY*2-5, SEEX*2-4, SEEY*2-5);
         //gates
         line(this, t_door_metal_locked, 3, yard_wdth, 8, yard_wdth);
         ter_set(2, yard_wdth+1, t_gates_mech_control);
@@ -9377,7 +9377,7 @@ case ot_cabin:
         ter_set(10, 20, t_column);
         ter_set(13, 20, t_column);
         line(this, t_fencegate_c, 11, 20, 12, 20);
-        line(this, f_bench, 4, 17, 7, 17);
+        line_furn(this, f_bench, 4, 17, 7, 17);
         square(this, t_rubble, 19, 18, 20, 19);
         ter_set(20, 17, t_rubble);
         ter_set(18, 19, t_rubble); //Porch done
@@ -9389,7 +9389,7 @@ case ot_cabin:
         square(this, t_floor, 14, 11, 20, 15);
         line(this, t_wall_log, 7, 4, 7, 8);
         square(this, t_wall_log, 8, 8, 9, 9);
-        line(this, f_rack, 3, 4, 3, 9); //Pantry Racks
+        line_furn(this, f_rack, 3, 4, 3, 9); //Pantry Racks
         line(this, t_curtains, 2, 6, 2, 7); //Windows start
         line(this, t_curtains, 2, 12, 2, 13);
         line(this, t_window_domestic, 5, 16, 6, 16);
@@ -9406,27 +9406,27 @@ case ot_cabin:
         furn_set(7, 9, f_locker);
         ter_set(6, 10, t_door_c);
         ter_set(10, 6, t_door_c);
-        square(this, f_table, 3, 11, 4, 12);
-        line(this, f_bench, 5, 11, 5, 12);
-        line(this, f_bench, 3, 13, 4, 13);
-        line(this, f_cupboard, 3, 15, 7, 15);
+        square_furn(this, f_table, 3, 11, 4, 12);
+        line_furn(this, f_bench, 5, 11, 5, 12);
+        line_furn(this, f_bench, 3, 13, 4, 13);
+        line_furn(this, f_cupboard, 3, 15, 7, 15);
         furn_set(4, 15, f_fridge);
         furn_set(5, 15, f_sink);
         furn_set(6, 15, f_oven);
         ter_set(10, 13, t_door_c);
         ter_set(13, 13, t_door_c);
         furn_set(14, 11, f_armchair);
-        line(this, f_sofa, 16, 11, 18, 11);
+        line_furn(this, f_sofa, 16, 11, 18, 11);
         square(this, t_rock_floor, 18, 13, 20, 15);
         furn_set(19, 14, f_woodstove);
         ter_set(19, 10, t_door_c);
-        line(this, f_bookcase, 14, 9, 17, 9);
-        square(this, f_bed, 17, 4, 18, 5);
+        line_furn(this, f_bookcase, 14, 9, 17, 9);
+        square_furn(this, f_bed, 17, 4, 18, 5);
         furn_set(16, 4, f_dresser);
         furn_set(19, 4, f_dresser);
         ter_set(13, 6, t_door_c);
         place_toilet(9, 4);
-        line(this, f_bathtub, 8, 7, 9, 7);
+        line_furn(this, f_bathtub, 8, 7, 9, 7);
         furn_set(8, 5, f_sink);
         place_items("fridge", 65, 4, 15, 4, 15, false, 0);
         place_items("homeguns", 30, 7, 9, 7, 9, false, 0);
@@ -9456,8 +9456,8 @@ case ot_cabin:
         line(this, t_fence_v, 23, 0, 23, 22);
         line(this, t_fence_h, 0, 23, 23, 23);
         line(this, t_fencegate_c, 11, 23, 12, 23);
-        line(this, f_locker, 5, 3, 9, 3);
-        line(this, f_counter, 6, 3, 8, 3);
+        line_furn(this, f_locker, 5, 3, 9, 3);
+        line_furn(this, f_counter, 6, 3, 8, 3);
         ter_set(4, 4, t_window_boarded);
         ter_set(10, 4, t_window_boarded);
         ter_set(7, 6, t_door_c);
@@ -9466,12 +9466,12 @@ case ot_cabin:
         square(this, t_rock, 5, 10, 7, 11);
         line(this, t_rock_floor, 5, 12, 7, 12);
         set(6, 11, t_rock_floor, f_woodstove);
-        line(this, f_dresser, 16, 10, 19, 10);
-        square(this, f_bed, 17, 10, 18, 11);
+        line_furn(this, f_dresser, 16, 10, 19, 10);
+        square_furn(this, f_bed, 17, 10, 18, 11);
         line(this, t_window_domestic, 3, 14, 3, 15);
-        line(this, f_sofa, 5, 16, 7, 16);
-        square(this, f_chair, 10, 14, 13, 15);
-        square(this, f_table, 11, 14, 12, 15);
+        line_furn(this, f_sofa, 5, 16, 7, 16);
+        square_furn(this, f_chair, 10, 14, 13, 15);
+        square_furn(this, f_table, 11, 14, 12, 15);
         line(this, t_window_domestic, 20, 14, 20, 15);
         line(this, t_window_domestic, 7, 20, 8, 20);
         line(this, t_window_domestic, 16, 20, 17, 20);
@@ -9701,7 +9701,7 @@ case ot_farm_field:
         line(this, t_door_metal_locked, 8, 3, 15, 3);
         ter_set(16, 2, t_barndoor);
         ter_set(16, 4, t_barndoor);
-        square(this, f_hay, 4, 4, 6, 6);
+        square_furn(this, f_hay, 4, 4, 6, 6);
         line(this, t_fence_h, 4, 8, 6, 8);
         line(this, t_fence_v, 6, 9, 6, 14);
         line(this, t_fence_h, 4, 15, 6, 15);
@@ -9711,7 +9711,7 @@ case ot_farm_field:
         line(this, t_fence_v, 17, 9, 17, 14);
         line(this, t_fence_h, 17, 15, 19, 15);
         line(this, t_fencegate_c, 17, 11, 17, 12);
-        line(this, f_locker, 4, 19, 7, 19);
+        line_furn(this, f_locker, 4, 19, 7, 19);
         ter_set(7, 7, t_column);
         ter_set(16, 7, t_column);
         ter_set(7, 16, t_column);
@@ -9947,7 +9947,7 @@ case ot_farm_field:
   line(this, t_wall_metal_v,  2, 14,  2, 21);
   line(this, t_wall_metal_v, 12, 14, 12, 16);
   line(this, t_wall_metal_v, 12, 19, 12, 21);
-  line(this, f_counter,  2,  4,  14,  4);
+  line_furn(this, f_counter,  2,  4,  14,  4);
   ter_set(13, 17, t_door_metal_locked);
   ter_set(13, 18, t_door_metal_locked);
   tmpcomp = add_computer(14, 16, _("First United Bank"), 3);
@@ -10108,19 +10108,19 @@ case ot_farm_field:
    line(this, t_door_locked_alarm, SEEX, tw, SEEX + 1, tw);
   }
 // Some display racks by the left and right walls
-  line(this, f_rack, lw + 1, tw + 1, lw + 1, bw - 1);
+  line_furn(this, f_rack, lw + 1, tw + 1, lw + 1, bw - 1);
   place_items("pawn", 86, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
-  line(this, f_rack, rw - 1, tw + 1, rw - 1, bw - 1);
+  line_furn(this, f_rack, rw - 1, tw + 1, rw - 1, bw - 1);
   place_items("pawn", 86, rw - 1, tw + 1, rw - 1, bw - 1, false, 0);
 // Some display counters
-  line(this, f_counter, lw + 4, tw + 2, lw + 4, bw - 3);
+  line_furn(this, f_counter, lw + 4, tw + 2, lw + 4, bw - 3);
   place_items("pawn", 80, lw + 4, tw + 2, lw + 4, bw - 3, false, 0);
-  line(this, f_counter, rw - 4, tw + 2, rw - 4, bw - 3);
+  line_furn(this, f_counter, rw - 4, tw + 2, rw - 4, bw - 3);
   place_items("pawn", 80, rw - 4, tw + 2, rw - 4, bw - 3, false, 0);
 // More display counters, if there's room for them
   if (rw - lw >= 18 && one_in(rw - lw - 17)) {
    for (int j = tw + rng(3, 5); j <= bw - 3; j += 3) {
-    line(this, f_counter, lw + 6, j, rw - 6, j);
+    line_furn(this, f_counter, lw + 6, j, rw - 6, j);
     place_items("pawn", 75, lw + 6, j, rw - 6, j, false, 0);
    }
   }
@@ -10196,11 +10196,11 @@ case ot_farm_field:
   line(this, t_window, rw - rn, tw, rw - 2, tw);
   line(this, t_door_c, SEEX, tw, SEEX + 1, tw);
   if (one_in(2)) // counter on left
-   line(this, f_counter, lw + 2, tw + 1, lw + 2, tw + rng(3, 4));
+   line_furn(this, f_counter, lw + 2, tw + 1, lw + 2, tw + rng(3, 4));
   else // counter on right
-   line(this, f_counter, rw - 2, tw + 1, rw - 2, tw + rng(3, 4));
+   line_furn(this, f_counter, rw - 2, tw + 1, rw - 2, tw + rng(3, 4));
   for (int i = lw + 1; i <= SEEX; i += 2) {
-   line(this, f_rack, i, tw + 5, i, bw - 2);
+   line_furn(this, f_rack, i, tw + 5, i, bw - 2);
    items_location loc;
    if (one_in(3))
     loc = "mil_armor";
@@ -10211,7 +10211,7 @@ case ot_farm_field:
    place_items(loc, 70, i, tw + 5, i, bw - 2, false, 0);
   }
   for (int i = rw - 1; i >= SEEX + 1; i -= 2) {
-   line(this, f_rack, i, tw + 5, i, bw - 2);
+   line_furn(this, f_rack, i, tw + 5, i, bw - 2);
    items_location loc;
    if (one_in(3))
     loc = "mil_armor";
@@ -10337,8 +10337,8 @@ case ot_farm_field:
   ter_set(SEEX + 1, 0, t_door_glass_c);
 // Long checkout lanes
   for (int x = 2; x <= 18; x += 4) {
-   line(this, f_counter, x, 4, x, 14);
-   line(this, f_rack, x + 3, 4, x + 3, 14);
+   line_furn(this, f_counter, x, 4, x, 14);
+   line_furn(this, f_rack, x + 3, 4, x + 3, 14);
    place_items("snacks",    80, x + 3, 4, x + 3, 14, false, 0);
    place_items("magazines", 70, x + 3, 4, x + 3, 14, false, 0);
   }
@@ -10369,13 +10369,13 @@ case ot_farm_field:
      if (one_in(3))
       fridge = !fridge;
      if (fridge) {
-      line(this, f_glass_fridge, x, y, x, y + SEEY - 4);
+      line_furn(this, f_glass_fridge, x, y, x, y + SEEY - 4);
       if (one_in(3))
        place_items("fridgesnacks", 80, x, y, x, y + SEEY - 4, false, 0);
       else
        place_items("fridge",       70, x, y, x, y + SEEY - 4, false, 0);
      } else {
-      line(this, f_rack, x, y, x, y + SEEY - 4);
+      line_furn(this, f_rack, x, y, x, y + SEEY - 4);
       if (one_in(3))
        place_items("cannedfood", 78, x, y, x, y + SEEY - 4, false, 0);
       else if (one_in(2))
@@ -10390,7 +10390,7 @@ case ot_farm_field:
   } break;
   case 2: // Hardware
    for (int x = 2; x <= 22; x += 4) {
-    line(this, f_rack, x, 4, x, SEEY * 2 - 5);
+    line_furn(this, f_rack, x, 4, x, SEEY * 2 - 5);
     if (one_in(3))
      place_items("tools",    70, x, 4, x, SEEY * 2 - 5, false, 0);
     else if (one_in(2))
@@ -10404,7 +10404,7 @@ case ot_farm_field:
   case 3: // Clothing
    for (int x = 2; x < SEEX * 2; x += 6) {
     for (int y = 3; y <= 9; y += 6) {
-     square(this, f_rack, x, y, x + 1, y + 1);
+     square_furn(this, f_rack, x, y, x + 1, y + 1);
      if (one_in(2))
       place_items("shirts",  75, x, y, x + 1, y + 1, false, 0);
      else if (one_in(2))
@@ -10416,7 +10416,7 @@ case ot_farm_field:
     }
    }
    for (int y = 13; y <= SEEY * 2 - 2; y += 3) {
-    line(this, f_rack, 2, y, SEEX * 2 - 3, y);
+    line_furn(this, f_rack, 2, y, SEEX * 2 - 3, y);
     if (one_in(3))
      place_items("shirts",     75, 2, y, SEEX * 2 - 3, y, false, 0);
     else if (one_in(2))
@@ -10430,7 +10430,7 @@ case ot_farm_field:
   case 4: // Cleaning and soft drugs and novels and junk
    for (int x = rng(2, 3); x < SEEX * 2 - 1; x += 3) {
     for (int y = 2; y <= SEEY; y += SEEY - 2) {
-     line(this, f_rack, x, y, x, y + SEEY - 4);
+     line_furn(this, f_rack, x, y, x, y + SEEY - 4);
      if (one_in(3))
       place_items("cleaning",  78, x, y, x, y + SEEY - 4, false, 0);
      else if (one_in(2))
@@ -10443,7 +10443,7 @@ case ot_farm_field:
   case 5: // Sporting goods
    for (int x = rng(2, 3); x < SEEX * 2 - 1; x += 3) {
     for (int y = 2; y <= SEEY; y += SEEY - 2) {
-     line(this, f_rack, x, y, x, y + SEEY - 4);
+     line_furn(this, f_rack, x, y, x, y + SEEY - 4);
      if (one_in(2))
       place_items("sports",  72, x, y, x, y + SEEY - 4, false, 0);
      else if (one_in(10))
@@ -10490,13 +10490,13 @@ case ot_farm_field:
   line(this, t_wall_v, 0, 0, 0, SEEY * 2 - 1);
   line(this, t_floor, 0, 11, 0, 12);
 // Waiting area
-  line(this, f_bench,  8, 7, 11,  7);
-  line(this, f_bench, 13, 7, 17,  7);
-  line(this, f_bench, 20, 7, 22,  7);
-  line(this, f_bench, 22, 8, 22, 10);
+  line_furn(this, f_bench,  8, 7, 11,  7);
+  line_furn(this, f_bench, 13, 7, 17,  7);
+  line_furn(this, f_bench, 20, 7, 22,  7);
+  line_furn(this, f_bench, 22, 8, 22, 10);
   place_items("magazines", 70, 8, 7, 22, 10, false, 0);
 // Reception and examination rooms
-  line(this, f_counter, 8, 13, 9, 13);
+  line_furn(this, f_counter, 8, 13, 9, 13);
   line(this, t_wall_h, 10, 13, SEEX * 2 - 1, 13);
   line(this, t_door_c, 15, 13, 16, 13);
   line(this, t_wall_h,  8, 17, 13, 17);
@@ -10506,12 +10506,12 @@ case ot_farm_field:
   line(this, t_wall_v,  7, 13,  7, 22);
   line(this, t_wall_v, 14, 15, 14, 20);
   line(this, t_wall_v, 17, 14, 17, 22);
-  line(this, f_bed,  8, 19,  9, 19);
-  line(this, f_bed, 21, 19, 22, 19);
-  line(this, f_bed, 21, 22, 22, 22);
-  line(this, f_rack, 18, 14, 22, 14);
+  line_furn(this, f_bed,  8, 19,  9, 19);
+  line_furn(this, f_bed, 21, 19, 22, 19);
+  line_furn(this, f_bed, 21, 22, 22, 22);
+  line_furn(this, f_rack, 18, 14, 22, 14);
   place_items("harddrugs", 80, 18, 14, 22, 14, false, 0);
-  line(this, f_rack, 8, 21, 8, 22);
+  line_furn(this, f_rack, 8, 21, 8, 22);
   place_items("softdrugs", 70, 8, 21, 8, 22, false, 0);
   ter_set(14, rng(18, 19), t_door_c);
   ter_set(17, rng(15, 16), t_door_locked); // Hard drugs room is locked
@@ -10520,8 +10520,8 @@ case ot_farm_field:
 // ER and bottom wall
   line(this, t_wall_h, 0, 16, 6, 16);
   line(this, t_door_c, 3, 16, 4, 16);
-  square(this, f_bed, 3, 19, 4, 20);
-  line(this, f_counter, 1, 22, 6, 22);
+  square_furn(this, f_bed, 3, 19, 4, 20);
+  line_furn(this, f_counter, 1, 22, 6, 22);
   place_items("surgery", 78, 1, 22, 6, 22, false, 0);
   line(this, t_wall_h, 1, 23, 22, 23);
   line(this, t_floor, 11, 23, 12, 23);
@@ -10577,21 +10577,21 @@ case ot_farm_field:
    line(this, t_wall_h,  1,  2, 21,  2);
    line(this, t_wall_h,  1, 10, 21, 10);
    line(this, t_wall_v, 21,  3, 21,  9);
-   line(this, f_counter, 2,  3,  2,  9);
+   line_furn(this, f_counter, 2,  3,  2,  9);
    place_items("hospital_lab", 70, 2, 3, 2, 9, false, 0);
-   square(this, f_counter,  5,  4,  6,  8);
+   square_furn(this, f_counter,  5,  4,  6,  8);
    place_items("hospital_lab", 74, 5, 4, 6, 8, false, 0);
-   square(this, f_counter, 10,  4, 11,  8);
+   square_furn(this, f_counter, 10,  4, 11,  8);
    spawn_item(5, 17, "record_patient", 0);
    place_items("hospital_lab", 74, 10, 4, 11, 8, false, 0);
-   square(this, f_counter, 15,  4, 16,  8);
+   square_furn(this, f_counter, 15,  4, 16,  8);
    place_items("hospital_lab", 74, 15, 4, 16, 8, false, 0);
    ter_set(rng(3, 18),  2, t_door_c);
    ter_set(rng(3, 18), 10, t_door_c);
    if (one_in(4)) // Door on the right side
     ter_set(21, rng(4, 8), t_door_c);
    else { // Counter on the right side
-    line(this, f_counter, 20, 3, 20, 9);
+    line_furn(this, f_counter, 20, 3, 20, 9);
     place_items("hospital_lab", 70, 20, 3, 20, 9, false, 0);
    }
 // Blood testing facility
@@ -10602,9 +10602,9 @@ case ot_farm_field:
     ter_set(rng(3, 8), 13, t_door_c);
    if (rn == 2 || rn == 3)
     ter_set(10, rng(15, 21), t_door_c);
-   line(this, f_counter, 2, 14,  2, 22);
+   line_furn(this, f_counter, 2, 14,  2, 22);
    place_items("hospital_lab", 60, 2, 14, 2, 22, false, 0);
-   square(this, f_counter, 4, 17, 6, 19);
+   square_furn(this, f_counter, 4, 17, 6, 19);
    ter_set(4, 18, t_centrifuge);
    line(this, t_floor, 5, 18, 6, rng(17, 19)); // Clear path to console
    tmpcomp = add_computer(5, 18, _("Centrifuge"), 0);
@@ -10618,11 +10618,11 @@ case ot_farm_field:
     ter_set(rng(14, 22), 13, t_door_c);
    if (rn == 2 || rn == 3)
     ter_set(13, rng(14, 21), t_door_c);
-   square(this, f_rack, 16, 16, 21, 17);
+   square_furn(this, f_rack, 16, 16, 21, 17);
    place_items("hospital_samples", 68, 16, 16, 21, 17, false, 0);
-   square(this, f_rack, 16, 19, 21, 20);
+   square_furn(this, f_rack, 16, 19, 21, 20);
    place_items("hospital_samples", 68, 16, 19, 21, 20, false, 0);
-   line(this, f_rack, 14, 22, 23, 22);
+   line_furn(this, f_rack, 14, 22, 23, 22);
    place_items("hospital_samples", 62, 14, 22, 23, 22, false, 0);
 
   } else { // We're NOT in the center; a random hospital type!
@@ -10632,35 +10632,35 @@ case ot_farm_field:
 // Upper left rooms
     line(this, t_wall_h, 1, 5, 9, 5);
     for (int i = 1; i <= 7; i += 3) {
-     line(this, f_bed, i, 1, i, 2);
+     line_furn(this, f_bed, i, 1, i, 2);
      line(this, t_wall_v, i + 2, 0, i + 2, 4);
      ter_set(rng(i, i + 1), 5, t_door_c);
     }
 // Upper right rooms
     line(this, t_wall_h, 14, 5, 23, 5);
     line(this, t_wall_v, 14, 0, 14, 4);
-    line(this, f_bed, 15, 1, 15, 2);
+    line_furn(this, f_bed, 15, 1, 15, 2);
     ter_set(rng(15, 16), 5, t_door_c);
     line(this, t_wall_v, 17, 0, 17, 4);
-    line(this, f_bed, 18, 1, 18, 2);
+    line_furn(this, f_bed, 18, 1, 18, 2);
     ter_set(rng(18, 19), 5, t_door_c);
     line(this, t_wall_v, 20, 0, 20, 4);
-    line(this, f_bed, 21, 1, 21, 2);
+    line_furn(this, f_bed, 21, 1, 21, 2);
     ter_set(rng(21, 22), 5, t_door_c);
 // Waiting area
     for (int i = 1; i <= 9; i += 4)
-     line(this, f_bench, i, 7, i, 10);
-    line(this, f_table, 3, 8, 3, 9);
+     line_furn(this, f_bench, i, 7, i, 10);
+    line_furn(this, f_table, 3, 8, 3, 9);
     place_items("magazines", 50, 3, 8, 3, 9, false, 0);
-    line(this, f_table, 7, 8, 7, 9);
+    line_furn(this, f_table, 7, 8, 7, 9);
     place_items("magazines", 50, 7, 8, 7, 9, false, 0);
 // Middle right rooms
     line(this, t_wall_v, 14, 7, 14, 10);
     line(this, t_wall_h, 15, 7, 23, 7);
     line(this, t_wall_h, 15, 10, 23, 10);
     line(this, t_wall_v, 19, 8, 19, 9);
-    line(this, f_bed, 18, 8, 18, 9);
-    line(this, f_bed, 20, 8, 20, 9);
+    line_furn(this, f_bed, 18, 8, 18, 9);
+    line_furn(this, f_bed, 20, 8, 20, 9);
     if (one_in(3)) { // Doors to north
      ter_set(rng(15, 16), 7, t_door_c);
      ter_set(rng(21, 22), 7, t_door_c);
@@ -10672,8 +10672,8 @@ case ot_farm_field:
     line(this, t_wall_h, 15, 13, 23, 13);
     line(this, t_wall_h, 15, 16, 23, 16);
     line(this, t_wall_v, 19, 14, 19, 15);
-    line(this, f_bed, 18, 14, 18, 15);
-    line(this, f_bed, 20, 14, 20, 15);
+    line_furn(this, f_bed, 18, 14, 18, 15);
+    line_furn(this, f_bed, 20, 14, 20, 15);
     if (one_in(3)) { // Doors to south
      ter_set(rng(15, 16), 16, t_door_c);
      ter_set(rng(21, 22), 16, t_door_c);
@@ -10684,11 +10684,11 @@ case ot_farm_field:
 // Lower left rooms
     line(this, t_wall_v, 5, 13, 5, 22);
     line(this, t_wall_h, 1, 13, 4, 13);
-    line(this, f_bed, 1, 14, 1, 15);
+    line_furn(this, f_bed, 1, 14, 1, 15);
     line(this, t_wall_h, 1, 17, 4, 17);
-    line(this, f_bed, 1, 18, 1, 19);
+    line_furn(this, f_bed, 1, 18, 1, 19);
     line(this, t_wall_h, 1, 20, 4, 20);
-    line(this, f_bed, 1, 21, 1, 22);
+    line_furn(this, f_bed, 1, 21, 1, 22);
     ter_set(5, rng(14, 16), t_door_c);
     ter_set(5, rng(18, 19), t_door_c);
     ter_set(5, rng(21, 22), t_door_c);
@@ -10696,8 +10696,8 @@ case ot_farm_field:
     line(this, t_wall_v, 7, 14, 7, 22);
     line(this, t_wall_v, 10, 14, 10, 22);
     line(this, t_wall_h, 8, 18, 9, 18);
-    line(this, f_bed, 8, 17, 9, 17);
-    line(this, f_bed, 8, 22, 9, 22);
+    line_furn(this, f_bed, 8, 17, 9, 17);
+    line_furn(this, f_bed, 8, 22, 9, 22);
     if (one_in(3)) { // Doors to west
      ter_set(7, rng(14, 16), t_door_c);
      ter_set(7, rng(19, 21), t_door_c);
@@ -10709,7 +10709,7 @@ case ot_farm_field:
     line(this, t_wall_h, 14, 18, 23, 18);
     for (int i = 14; i <= 20; i += 3) {
      line(this, t_wall_v, i, 19, i, 22);
-     line(this, f_bed, i + 1, 21, i + 1, 22);
+     line_furn(this, f_bed, i + 1, 21, i + 1, 22);
      ter_set(rng(i + 1, i + 2), 18, t_door_c);
     }
     break;
@@ -10722,10 +10722,10 @@ case ot_farm_field:
     line(this, t_wall_h, 14, 5, 23, 5);
     line(this, t_wall_h,  1, 9, 23, 9);
     line(this, t_door_c, 11, 9, 12, 9);
-    line(this, f_table,  3, 3,  7, 3);
-    line(this, f_table, 16, 3, 20, 3);
-    line(this, f_table,  3, 8,  7, 8);
-    line(this, f_table, 16, 8, 20, 8);
+    line_furn(this, f_table,  3, 3,  7, 3);
+    line_furn(this, f_table, 16, 3, 20, 3);
+    line_furn(this, f_table,  3, 8,  7, 8);
+    line_furn(this, f_table, 16, 8, 20, 8);
     ter_set(10, rng(2, 3), t_door_c);
     ter_set(13, rng(2, 3), t_door_c);
     ter_set(10, rng(6, 7), t_door_c);
@@ -10739,14 +10739,14 @@ case ot_farm_field:
     line(this, t_wall_h, 15, 14, 23, 14);
     for (int i = 16; i <= 19; i += 3) {
      for (int j = 17; j <= 20; j += 3) {
-      square(this, f_table, i, j, i + 1, j + 1);
+      square_furn(this, f_table, i, j, i + 1, j + 1);
       place_items("snacks",  60, i, j, i + 1, j + 1, false, 0);
       place_items("produce", 65, i, j, i + 1, j + 1, false, 0);
      }
     }
     for (int i = 3; i <= 6; i += 3) {
      for (int j = 17; j <= 20; j += 3) {
-      square(this, f_table, i, j, i + 1, j + 1);
+      square_furn(this, f_table, i, j, i + 1, j + 1);
       place_items("snacks",  60, i, j, i + 1, j + 1, false, 0);
       place_items("produce", 65, i, j, i + 1, j + 1, false, 0);
      }
@@ -10773,25 +10773,25 @@ case ot_farm_field:
     line(this, t_wall_h, 13, 13, 23, 13);
     line(this, t_door_c, 18, 13, 19, 13);
 // Next, the contents of each operating room
-    line(this, f_counter, 1, 0, 1, 9);
+    line_furn(this, f_counter, 1, 0, 1, 9);
     place_items("surgery", 70, 1, 1, 1, 9, false, 0);
-    square(this, f_bed, 5, 4, 6, 5);
+    square_furn(this, f_bed, 5, 4, 6, 5);
 
-    line(this, f_counter, 1, 14, 1, 22);
+    line_furn(this, f_counter, 1, 14, 1, 22);
     place_items("surgery", 70, 1, 14, 1, 22, false, 0);
-    square(this, f_bed, 5, 18, 6, 19);
+    square_furn(this, f_bed, 5, 18, 6, 19);
 
-    line(this, f_counter, 14, 6, 14, 9);
+    line_furn(this, f_counter, 14, 6, 14, 9);
     place_items("surgery", 60, 14, 6, 14, 9, false, 0);
-    line(this, f_counter, 15, 9, 17, 9);
+    line_furn(this, f_counter, 15, 9, 17, 9);
     place_items("surgery", 60, 15, 9, 17, 9, false, 0);
-    square(this, f_bed, 18, 4, 19, 5);
+    square_furn(this, f_bed, 18, 4, 19, 5);
 
-    line(this, f_counter, 14, 14, 14, 17);
+    line_furn(this, f_counter, 14, 14, 14, 17);
     place_items("surgery", 60, 14, 14, 14, 17, false, 0);
-    line(this, f_counter, 15, 14, 17, 14);
+    line_furn(this, f_counter, 15, 14, 17, 14);
     place_items("surgery", 60, 15, 14, 17, 14, false, 0);
-    square(this, f_bed, 18, 18, 19, 19);
+    square_furn(this, f_bed, 18, 18, 19, 19);
     // computer to begin healing broken bones,
     tmpcomp = add_computer(16, 16, _("Mr. Stem Cell"), 3);
     tmpcomp->add_option(_("Stem Cell Treatment"), COMPACT_STEMCELL_TREATMENT, 3);
@@ -10805,27 +10805,27 @@ case ot_farm_field:
     line(this, t_wall_h, 3, 10, 12, 10);
     line(this, t_wall_v, 3,  3,  3,  9);
     ter_set(3, 6, t_door_c);
-    line(this, f_rack,   4,  3, 11,  3);
+    line_furn(this, f_rack,   4,  3, 11,  3);
     place_items("softdrugs", 90, 4, 3, 11, 3, false, 0);
-    line(this, f_rack,   4,  9, 11,  9);
+    line_furn(this, f_rack,   4,  9, 11,  9);
     place_items("softdrugs", 90, 4, 9, 11, 9, false, 0);
-    line(this, f_rack, 6, 5, 10, 5);
+    line_furn(this, f_rack, 6, 5, 10, 5);
     place_items("softdrugs", 80, 6, 5, 10, 5, false, 0);
-    line(this, f_rack, 6, 7, 10, 7);
+    line_furn(this, f_rack, 6, 7, 10, 7);
     place_items("softdrugs", 80, 6, 7, 10, 7, false, 0);
 // Hard drug storage
     line(this, t_wall_v, 13, 0, 13, 19);
     ter_set(13, 6, t_door_locked);
-    line(this, f_rack, 14, 0, 14, 4);
+    line_furn(this, f_rack, 14, 0, 14, 4);
     place_items("harddrugs", 78, 14, 1, 14, 4, false, 0);
-    line(this, f_rack, 17, 0, 17, 7);
+    line_furn(this, f_rack, 17, 0, 17, 7);
     place_items("harddrugs", 85, 17, 0, 17, 7, false, 0);
-    line(this, f_rack, 20, 0, 20, 7);
+    line_furn(this, f_rack, 20, 0, 20, 7);
     place_items("harddrugs", 85, 20, 0, 20, 7, false, 0);
     line(this, t_wall_h, 20, 10, 23, 10);
-    line(this, f_rack, 16, 10, 19, 10);
+    line_furn(this, f_rack, 16, 10, 19, 10);
     place_items("harddrugs", 78, 16, 10, 19, 10, false, 0);
-    line(this, f_rack, 16, 12, 19, 12);
+    line_furn(this, f_rack, 16, 12, 19, 12);
     place_items("harddrugs", 78, 16, 12, 19, 12, false, 0);
     line(this, t_wall_h, 14, 14, 19, 14);
     ter_set(rng(14, 15), 14, t_door_locked);
@@ -10838,10 +10838,10 @@ case ot_farm_field:
     ter_set(rng(3, 8), 13, t_door_c);
     line(this, t_wall_v, 10, 14, 10, 22);
     ter_set(10, rng(16, 20), t_door_c);
-    line(this, f_counter, 1, 14, 1, 22);
+    line_furn(this, f_counter, 1, 14, 1, 22);
     place_items("allclothes", 70, 1, 14, 1, 22, false, 0);
     for (int j = 15; j <= 21; j += 3) {
-     line(this, f_rack, 4, j, 7, j);
+     line_furn(this, f_rack, 4, j, 7, j);
      if (one_in(2))
       place_items("cleaning", 92, 4, j, 7, j, false, 0);
      else if (one_in(5))
@@ -11139,10 +11139,10 @@ case ot_farm_field:
   line(this, t_reinforced_glass_h, 5, 21, 6, 21);
   line(this, t_reinforced_glass_v, 9, 15, 9, 18);
   line(this, t_door_c, 9, 16, 9, 17);
-  line(this, f_locker, 3, 16, 3, 18);
-  line(this, f_chair, 5, 16, 5, 18);
-  line(this, f_desk, 6, 16, 6, 18);
-  line(this, f_chair, 7, 16, 7, 18);
+  line_furn(this, f_locker, 3, 16, 3, 18);
+  line_furn(this, f_chair, 5, 16, 5, 18);
+  line_furn(this, f_desk, 6, 16, 6, 18);
+  line_furn(this, f_chair, 7, 16, 7, 18);
   place_items("office", 80, 3, 16, 3, 18, false, 0);
   place_items("office", 80, 6, 16, 6, 18, false, 0);
   add_spawn(mon_zombie_soldier, rng(1, 6), 4, 17);
@@ -11180,19 +11180,19 @@ case ot_farm_field:
   line(this, t_concrete_v, 4, 5, 4, 18);
   line(this, t_concrete_v, 19, 5, 19, 18);
   line(this, t_door_metal_c, 11, 4, 12, 4);
-  line(this, f_glass_fridge, 6, 5, 9, 5);
-  line(this, f_glass_fridge, 14, 5, 17, 5);
+  line_furn(this, f_glass_fridge, 6, 5, 9, 5);
+  line_furn(this, f_glass_fridge, 14, 5, 17, 5);
   square(this, t_grate, 6, 8, 8, 9);
-  line(this, f_table, 7, 8, 7, 9);
+  line_furn(this, f_table, 7, 8, 7, 9);
   square(this, t_grate, 6, 12, 8, 13);
-  line(this, f_table, 7, 12, 7, 13);
+  line_furn(this, f_table, 7, 12, 7, 13);
   square(this, t_grate, 6, 16, 8, 17);
-  line(this, f_table, 7, 16, 7, 17);
-  line(this, f_counter, 10, 8, 10, 17);
-  square(this, f_chair, 14, 8, 17, 10);
+  line_furn(this, f_table, 7, 16, 7, 17);
+  line_furn(this, f_counter, 10, 8, 10, 17);
+  square_furn(this, f_chair, 14, 8, 17, 10);
   square(this, t_console_broken, 15, 8, 16, 10);
-  line(this, f_desk, 15, 11, 16, 11);
-  line(this, f_chair, 15, 12, 16, 12);
+  line_furn(this, f_desk, 15, 11, 16, 11);
+  line_furn(this, f_chair, 15, 12, 16, 12);
   line(this, t_reinforced_glass_h, 13, 14, 18, 14);
   line(this, t_reinforced_glass_v, 13, 14, 13, 18);
   ter_set(15, 14, t_door_metal_locked);
@@ -11209,13 +11209,13 @@ case ot_farm_field:
   else if (t_west == ot_fema_entrance) {
 
   square(this, t_dirt, 1, 1, 22, 22);
-  square(this, f_canvas_wall, 4, 4, 19, 19); //Supply tent
-  square(this, f_fema_groundsheet, 5, 5, 18, 18);
-  line(this, f_canvas_door, 11, 4, 12, 4);
-  line(this, f_canvas_door, 11, 19, 12, 19);
-  square(this, f_crate_c, 5, 6, 7, 7);
-  square(this, f_crate_c, 5, 11, 7, 12);
-  square(this, f_crate_c, 5, 16, 7, 17);
+  square_furn(this, f_canvas_wall, 4, 4, 19, 19); //Supply tent
+  square_furn(this, f_fema_groundsheet, 5, 5, 18, 18);
+  line_furn(this, f_canvas_door, 11, 4, 12, 4);
+  line_furn(this, f_canvas_door, 11, 19, 12, 19);
+  square_furn(this, f_crate_c, 5, 6, 7, 7);
+  square_furn(this, f_crate_c, 5, 11, 7, 12);
+  square_furn(this, f_crate_c, 5, 16, 7, 17);
   line(this, t_chainfence_h, 9, 6, 14, 6);
   line(this, t_chainfence_h, 9, 17, 14, 17);
   ter_set(9, 5, t_chaingate_c);
@@ -11224,14 +11224,14 @@ case ot_farm_field:
   ter_set(9, 18, t_chainfence_h);
   furn_set(12, 17, f_counter);
   furn_set(11, 6, f_counter);
-  line(this, f_chair, 10, 10, 13, 10);
-  square(this, f_desk, 10, 11, 13, 12);
-  line(this, f_chair, 10, 13, 13, 13);
+  line_furn(this, f_chair, 10, 10, 13, 10);
+  square_furn(this, f_desk, 10, 11, 13, 12);
+  line_furn(this, f_chair, 10, 13, 13, 13);
   line(this, t_chainfence_h, 15, 8, 18, 8);
   line(this, t_chainfence_h, 15, 15, 18, 15);
   line(this, t_chainfence_v, 15, 9, 15, 14);
   line(this, t_chaingate_c, 15, 11, 15, 12);
-  line(this, f_locker, 18, 9, 18, 14);
+  line_furn(this, f_locker, 18, 9, 18, 14);
   place_items("allclothes", 90, 5, 6, 7, 7, false, 0);
   place_items("softdrugs", 90, 5, 11, 7, 12, false, 0);
   place_items("hardware", 90, 5, 16, 7, 17, false, 0);
@@ -11249,29 +11249,29 @@ case ot_farm_field:
   case 2:
   case 3:
   square(this, t_dirt, 1, 1, 22, 22);
-  square(this, f_canvas_wall, 4, 4, 19, 19); //Lodging
-  square(this, f_fema_groundsheet, 5, 5, 18, 18);
-  line(this, f_canvas_door, 11, 4, 12, 4);
-  line(this, f_canvas_door, 11, 19, 12, 19);
-  line(this, f_makeshift_bed, 6, 6, 6, 17);
-  line(this, f_makeshift_bed, 8, 6, 8, 17);
-  line(this, f_makeshift_bed, 10, 6, 10, 17);
-  line(this, f_makeshift_bed, 13, 6, 13, 17);
-  line(this, f_makeshift_bed, 15, 6, 15, 17);
-  line(this, f_makeshift_bed, 17, 6, 17, 17);
-  line(this, f_fema_groundsheet, 6, 8, 17, 8);
-  line(this, f_fema_groundsheet, 6, 8, 17, 8);
-  square(this, f_fema_groundsheet, 6, 11, 17, 12);
-  line(this, f_fema_groundsheet, 6, 15, 17, 15);
-  line(this, f_crate_o, 6, 7, 17, 7);
-  line(this, f_crate_o, 6, 10, 17, 10);
-  line(this, f_crate_o, 6, 14, 17, 14);
-  line(this, f_crate_o, 6, 17, 17, 17);
-  line(this, f_fema_groundsheet, 7, 5, 7, 18);
-  line(this, f_fema_groundsheet, 9, 5, 9, 18);
-  square(this, f_fema_groundsheet, 11, 5, 12, 18);
-  line(this, f_fema_groundsheet, 14, 5, 14, 18);
-  line(this, f_fema_groundsheet, 16, 5, 16, 18);
+  square_furn(this, f_canvas_wall, 4, 4, 19, 19); //Lodging
+  square_furn(this, f_fema_groundsheet, 5, 5, 18, 18);
+  line_furn(this, f_canvas_door, 11, 4, 12, 4);
+  line_furn(this, f_canvas_door, 11, 19, 12, 19);
+  line_furn(this, f_makeshift_bed, 6, 6, 6, 17);
+  line_furn(this, f_makeshift_bed, 8, 6, 8, 17);
+  line_furn(this, f_makeshift_bed, 10, 6, 10, 17);
+  line_furn(this, f_makeshift_bed, 13, 6, 13, 17);
+  line_furn(this, f_makeshift_bed, 15, 6, 15, 17);
+  line_furn(this, f_makeshift_bed, 17, 6, 17, 17);
+  line_furn(this, f_fema_groundsheet, 6, 8, 17, 8);
+  line_furn(this, f_fema_groundsheet, 6, 8, 17, 8);
+  square_furn(this, f_fema_groundsheet, 6, 11, 17, 12);
+  line_furn(this, f_fema_groundsheet, 6, 15, 17, 15);
+  line_furn(this, f_crate_o, 6, 7, 17, 7);
+  line_furn(this, f_crate_o, 6, 10, 17, 10);
+  line_furn(this, f_crate_o, 6, 14, 17, 14);
+  line_furn(this, f_crate_o, 6, 17, 17, 17);
+  line_furn(this, f_fema_groundsheet, 7, 5, 7, 18);
+  line_furn(this, f_fema_groundsheet, 9, 5, 9, 18);
+  square_furn(this, f_fema_groundsheet, 11, 5, 12, 18);
+  line_furn(this, f_fema_groundsheet, 14, 5, 14, 18);
+  line_furn(this, f_fema_groundsheet, 16, 5, 16, 18);
   place_items("livingroom", 80, 5, 5, 18, 18, false, 0);
   add_spawn(mon_zombie, rng(1, 5), 11, 12);
 
@@ -11282,33 +11282,33 @@ case ot_farm_field:
 
   case 4:
   square(this, t_dirt, 1, 1, 22, 22);
-  square(this, f_canvas_wall, 4, 4, 19, 19); //Mess hall/tent
-  square(this, f_fema_groundsheet, 5, 5, 18, 18);
-  line(this, f_canvas_door, 11, 4, 12, 4);
-  line(this, f_canvas_door, 11, 19, 12, 19);
-  line(this, f_crate_c, 5, 5, 5, 6);
-  square(this, f_counter, 6, 6, 10, 8);
+  square_furn(this, f_canvas_wall, 4, 4, 19, 19); //Mess hall/tent
+  square_furn(this, f_fema_groundsheet, 5, 5, 18, 18);
+  line_furn(this, f_canvas_door, 11, 4, 12, 4);
+  line_furn(this, f_canvas_door, 11, 19, 12, 19);
+  line_furn(this, f_crate_c, 5, 5, 5, 6);
+  square_furn(this, f_counter, 6, 6, 10, 8);
   square(this, t_rock_floor, 6, 5, 9, 7);
   furn_set(7, 6, f_woodstove);
-  line(this, f_bench, 13, 6, 17, 6);
-  line(this, f_table, 13, 7, 17, 7);
-  line(this, f_bench, 13, 8, 17, 8);
+  line_furn(this, f_bench, 13, 6, 17, 6);
+  line_furn(this, f_table, 13, 7, 17, 7);
+  line_furn(this, f_bench, 13, 8, 17, 8);
 
-  line(this, f_bench, 13, 11, 17, 11);
-  line(this, f_table, 13, 12, 17, 12);
-  line(this, f_bench, 13, 13, 17, 13);
+  line_furn(this, f_bench, 13, 11, 17, 11);
+  line_furn(this, f_table, 13, 12, 17, 12);
+  line_furn(this, f_bench, 13, 13, 17, 13);
 
-  line(this, f_bench, 13, 15, 17, 15);
-  line(this, f_table, 13, 16, 17, 16);
-  line(this, f_bench, 13, 17, 17, 17);
+  line_furn(this, f_bench, 13, 15, 17, 15);
+  line_furn(this, f_table, 13, 16, 17, 16);
+  line_furn(this, f_bench, 13, 17, 17, 17);
 
-  line(this, f_bench, 6, 11, 10, 11);
-  line(this, f_table, 6, 12, 10, 12);
-  line(this, f_bench, 6, 13, 10, 13);
+  line_furn(this, f_bench, 6, 11, 10, 11);
+  line_furn(this, f_table, 6, 12, 10, 12);
+  line_furn(this, f_bench, 6, 13, 10, 13);
 
-  line(this, f_bench, 6, 15, 10, 15);
-  line(this, f_table, 6, 16, 10, 16);
-  line(this, f_bench, 6, 17, 10, 17);
+  line_furn(this, f_bench, 6, 15, 10, 15);
+  line_furn(this, f_table, 6, 16, 10, 16);
+  line_furn(this, f_bench, 6, 17, 10, 17);
 
   place_items("mil_food_nodrugs", 80, 5, 5, 5, 6, false, 0);
   place_items("snacks", 80, 5, 5, 18, 18, false, 0);
@@ -11787,8 +11787,8 @@ case ot_farm_field:
    break;
 
   case 4: // Weed grow
-   line(this, f_counter, 1, 1, 1, SEEY * 2 - 2);
-   line(this, f_counter, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY * 2 - 2);
+   line_furn(this, f_counter, 1, 1, 1, SEEY * 2 - 2);
+   line_furn(this, f_counter, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY * 2 - 2);
    ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
    ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
    line(this, t_rock, SEEX - 2, SEEY * 2 - 4, SEEX - 2, SEEY * 2 - 2);
@@ -14804,7 +14804,7 @@ void line(map *m, ter_id type, int x1, int y1, int x2, int y2)
  m->ter_set(x1, y1, type);
 }
 
-void line(map *m, furn_id type, int x1, int y1, int x2, int y2)
+void line_furn(map *m, furn_id type, int x1, int y1, int x2, int y2)
 {
  std::vector<point> line = line_to(x1, y1, x2, y2, 0);
  for (int i = 0; i < line.size(); i++)
@@ -14829,7 +14829,7 @@ void square(map *m, ter_id type, int x1, int y1, int x2, int y2)
    m->ter_set(x, y, type);
 }
 
-void square(map *m, furn_id type, int x1, int y1, int x2, int y2)
+void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2)
 {
  for (int x = x1; x <= x2; x++)
   for (int y = y1; y <= y2; y++)

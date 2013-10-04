@@ -635,7 +635,7 @@ int editmap::edit_ter(point coords)
         if( ter_frn_mode == 0 ) { // unless furniture is selected
             ter_t pttype = terlist[sel_ter];
 
-            mvwprintw(w_pickter, 0, 2, "< %d: %s >-----------", sel_ter, pttype.name.c_str());
+            mvwprintw(w_pickter, 0, 2, "< %s[%d]: %s >-----------", pttype.id.c_str(), sel_ter, pttype.name.c_str());
             mvwprintz(w_pickter, off, 2, c_white, _("movecost %d"), pttype.movecost);
             std::string extras = "";
             if(pttype.has_flag("INDOORS")) {

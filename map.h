@@ -209,15 +209,31 @@ class map
 
 // Furniture
  void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
+ void set(const int x, const int y, const std::string new_terrain, const std::string new_furniture);
+
  std::string name(const int x, const int y);
  bool has_furn(const int x, const int y);
- furn_id furn(const int x, const int y); // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+
+ furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ int oldfurn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ std::string get_furn(const int x, const int y) const;
+ furn_t & furn_at(const int x, const int y) const;
+
  void furn_set(const int x, const int y, const furn_id new_furniture);
+ void furn_set(const int x, const int y, const std::string new_furniture);
+
  std::string furnname(const int x, const int y);
 // Terrain
- ter_id ter(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ int oldter(const int x, const int y) const; // Temporary; the game is riddled with case statements requiring enum
+ std::string get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+
  void ter_set(const int x, const int y, const ter_id new_terrain);
+ void ter_set(const int x, const int y, const std::string new_terrain);
+
  std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
+
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(std::string flag, const int x, const int y);  // checks terrain, furniture and vehicles
  bool has_flag_ter_or_furn(std::string flag, const int x, const int y); // checks terrain or furniture
@@ -230,6 +246,8 @@ class map
  bool moppable_items_at(const int x, const int y);
  point random_outdoor_tile();
 
+ void translate(const std::string terfrom, const std::string terto); // Change all instances of $from->$to
+ void translate_radius(const std::string terfrom, const std::string terto, const float radi, const int uX, const int uY);
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
  void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY);
  bool close_door(const int x, const int y, const bool inside);

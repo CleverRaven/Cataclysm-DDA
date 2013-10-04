@@ -345,14 +345,14 @@ bool player::create(game *g, character_type type, std::string tempname)
 
 void draw_tabs(WINDOW* w, std::string sTab)
 {
-    for (int i = 1; i < 79; i++) {
+    for (int i = 1; i < FULL_SCREEN_WIDTH-1; i++) {
         mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
         mvwputch(w, 4, i, c_ltgray, LINE_OXOX);
-        mvwputch(w, 24, i, c_ltgray, LINE_OXOX);
+        mvwputch(w, FULL_SCREEN_HEIGHT-1, i, c_ltgray, LINE_OXOX);
 
-        if (i > 2 && i < 24) {
+        if (i > 2 && i < FULL_SCREEN_HEIGHT-1) {
             mvwputch(w, i, 0, c_ltgray, LINE_XOXO);
-            mvwputch(w, i, 79, c_ltgray, LINE_XOXO);
+            mvwputch(w, i, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXO);
         }
     }
 
@@ -369,13 +369,13 @@ void draw_tabs(WINDOW* w, std::string sTab)
     draw_tab(w, x, _("DESCRIPTION"), (sTab == "DESCRIPTION") ? true : false);
 
     mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w, 2, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_OOXX); // ^|
 
     mvwputch(w, 4, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w, 4, 79, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w, 4, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXX); // -|
 
-    mvwputch(w, 24, 0, c_ltgray, LINE_XXOO); // |_
-    mvwputch(w, 24, 79, c_ltgray, LINE_XOOX); // _|
+    mvwputch(w, FULL_SCREEN_HEIGHT-1, 0, c_ltgray, LINE_XXOO); // |_
+    mvwputch(w, FULL_SCREEN_HEIGHT-1, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOOX); // _|
 }
 
 int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
@@ -542,7 +542,7 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
 {
     draw_tabs(w, "TRAITS");
 
-    WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
+    WINDOW* w_description = newwin(3, FULL_SCREEN_WIDTH-2, FULL_SCREEN_HEIGHT-4 + getbegy(w), 1 + getbegx(w));
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0, num_bad = 0;
 
@@ -572,7 +572,7 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
 
     nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
 
-    const int iContentHeight = 16;
+    const int iContentHeight = FULL_SCREEN_HEIGHT-9;
     int iCurWorkingPage = 0;
 
     int iStartPos[2];
@@ -624,7 +624,8 @@ int set_traits(WINDOW* w, game* g, player *u, character_type type, int &points, 
                         mvwprintz(w,  3, 33, col_tr, _("%s earns %d points"),
                                   traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
                                   traits[vStartingTraits[iCurrentPage][i]].points * -1);
-                        fold_and_print(w_description, 0, 0, 78, col_tr, "%s",
+                        fold_and_print(w_description, 0, 0,
+                                       FULL_SCREEN_WIDTH-2, col_tr, "%s",
                                        traits[vStartingTraits[iCurrentPage][i]].description.c_str());
                     }
 
@@ -786,11 +787,11 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
 {
     draw_tabs(w, "PROFESSION");
 
-    WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
+    WINDOW* w_description = newwin(3, FULL_SCREEN_WIDTH-2, FULL_SCREEN_HEIGHT-4 + getbegy(w), 1 + getbegx(w));
 
     int cur_id = 0;
     int retval = 0;
-    const int iContentHeight = 16;
+    const int iContentHeight = FULL_SCREEN_HEIGHT-9;
     int iStartPos = 0;
 
     WINDOW* w_items = newwin(iContentHeight, 50, 5 + getbegy(w), 27 + getbegx(w));
@@ -826,7 +827,8 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
                       sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
-        fold_and_print(w_description, 0, 0, 78, c_green, sorted_profs[cur_id]->description().c_str());
+        fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH-2, c_green,
+                       sorted_profs[cur_id]->description().c_str());
 
         calcStartPos(iStartPos, cur_id, iContentHeight, profession::count());
 
@@ -908,13 +910,16 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
 {
  draw_tabs(w, "SKILLS");
 
- WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
+ WINDOW* w_description = newwin(3, FULL_SCREEN_WIDTH-2, FULL_SCREEN_HEIGHT-4 + getbegy(w), 1 + getbegx(w));
 
  std::vector<Skill *> sorted_skills = Skill::skills;
  std::sort(sorted_skills.begin(), sorted_skills.end(), skill_display_sort);
  const int num_skills = Skill::skills.size();
  int cur_pos = 0;
  Skill *currentSkill = sorted_skills[cur_pos];
+
+    const int iContentHeight = FULL_SCREEN_HEIGHT-9;
+    const int iHalf = iContentHeight / 2;
 
  do {
   mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
@@ -927,10 +932,11 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
   else
    mvwprintz(w,  3, 30, c_ltred, _("Upgrading %s costs %d points"),
              currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
-  fold_and_print(w_description, 0, 0, 78, COL_SKILL_USED, currentSkill->description().c_str());
+  fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH-2, COL_SKILL_USED,
+                 currentSkill->description().c_str());
 
-  if (cur_pos <= 7) {
-   for (int i = 0; i < 17; i++) {
+  if (cur_pos < iHalf) {
+   for (int i = 0; i < iContentHeight; ++i) {
     Skill *thisSkill = sorted_skills[i];
 
     mvwprintz(w, 5 + i, 2, c_ltgray, "\
@@ -946,16 +952,16 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
       wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
    }
-  } else if (cur_pos >= num_skills - 9) {
-   for (int i = num_skills - 16; i < num_skills; i++) {
+  } else if (cur_pos > num_skills - iContentHeight + iHalf) {
+   for (int i = num_skills - iContentHeight; i < num_skills; ++i) {
     Skill *thisSkill = sorted_skills[i];
-    mvwprintz(w, 21 + i - num_skills, 2, c_ltgray, "\
+    mvwprintz(w, FULL_SCREEN_HEIGHT-4 + i - num_skills, 2, c_ltgray, "\
                                              "); // Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 21 + i - num_skills, 2,
+     mvwprintz(w, FULL_SCREEN_HEIGHT-4 + i - num_skills, 2,
                (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
     } else {
-     mvwprintz(w, 21 + i - num_skills, 2,
+     mvwprintz(w, FULL_SCREEN_HEIGHT-4 + i - num_skills, 2,
                (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
                thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
@@ -963,15 +969,15 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
     }
    }
   } else {
-   for (int i = cur_pos - 7; i < cur_pos + 9; i++) {
+   for (int i = cur_pos - iHalf; i < cur_pos + iContentHeight - iHalf; ++i) {
     Skill *thisSkill = sorted_skills[i];
-    mvwprintz(w, 12 + i - cur_pos, 2, c_ltgray, "\
+    mvwprintz(w, 5 + iHalf + i - cur_pos, 2, c_ltgray, "\
                                              "); // Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 12 + i - cur_pos, 2, (i == cur_pos ? h_ltgray : c_ltgray),
+     mvwprintz(w, 5 + iHalf + i - cur_pos, 2, (i == cur_pos ? h_ltgray : c_ltgray),
                thisSkill->name().c_str());
     } else {
-     mvwprintz(w, 12 + i - cur_pos, 2,
+     mvwprintz(w, 5 + iHalf + i - cur_pos, 2,
                (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                "%s ", thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
@@ -981,7 +987,7 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
   }
 
   //Draw Scrollbar
-  draw_scrollbar(w, cur_pos, 16, num_skills, 5);
+  draw_scrollbar(w, cur_pos, iContentHeight, num_skills, 5);
 
   wrefresh(w);
   wrefresh(w_description);
@@ -1041,11 +1047,14 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
  female_pos = 1 + male_pos + utf8_width(_("Male"));
  mvwprintz(w, 8, female_pos, c_ltgray, _("Female"));
  mvwprintz(w, 8, namebar_pos + 31, c_ltgray, _("(Press spacebar to toggle)"));
- fold_and_print(w, 10, 2, 76, c_ltgray,
+ fold_and_print(w, 10, 2, FULL_SCREEN_WIDTH-4, c_ltgray,
                 _("When your character is finished and you're ready to start playing, press >"));
- fold_and_print(w, 12, 2, 76, c_ltgray, _("To go back and review your character, press <"));
- fold_and_print(w, 14, 2, 76, c_green, _("To pick a random name for your character, press ?."));
- fold_and_print(w, 16, 2, 76, c_green, _("To save this character as a template, press !."));
+ fold_and_print(w, 12, 2, FULL_SCREEN_WIDTH-4, c_ltgray,
+                _("To go back and review your character, press <"));
+ fold_and_print(w, 14, 2, FULL_SCREEN_WIDTH-4, c_green,
+                _("To pick a random name for your character, press ?."));
+ fold_and_print(w, 16, 2, FULL_SCREEN_WIDTH-4, c_green,
+                _("To save this character as a template, press !."));
 
  int line = 1;
  bool noname = false;

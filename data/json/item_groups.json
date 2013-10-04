@@ -500,6 +500,7 @@
       ["arrow_wood", 7],
       ["arrow_cf", 5],
       ["masterkey", 2],
+      ["shot_flechette", 1],
       ["shot_hull", 10],
       ["9mm_casing", 10],
       ["38_casing", 10],
@@ -1338,6 +1339,7 @@
     "items":[
       ["shot_bird", 8],
       ["shot_00", 8],
+      ["shot_flechette", 3],
       ["shot_slug", 6],
       ["22_fmj", 3],
       ["22_lr", 9],
@@ -1375,6 +1377,7 @@
       ["8mm_jhp", 2],
       ["8mm_fmj", 2],
       ["8mm_caseless", 4],
+      ["8mm_hvp", 2],
       ["8mm_inc", 2]
     ]
   },{
@@ -2223,6 +2226,8 @@
       ["textbook_weapeast", 5],
       ["textbook_armwest", 5],
       ["textbook_armeast", 5],
+      ["q_staff", 10],
+      ["i_staff", 5],
       ["apron_leather", 1]
     ]
   },{
@@ -2801,6 +2806,8 @@
       ["84x246mm_hedp", 4],
       ["84x246mm_smoke", 9],
       ["m202_flash", 4],
+      ["40mm_shot", 12],
+      ["40mm_flechette", 6],
       ["m235tpa", 6]
     ]
   },{
@@ -3396,6 +3403,7 @@
       ["helmet_riot", 25],
       ["bolt_steel", 7],
       ["shot_00", 8],
+      ["shot_flechette", 3],
       ["762_m87", 7],
       ["556", 6],
       ["556_incendiary", 2],
@@ -3689,6 +3697,8 @@
       ["40mm_teargas", 5],
       ["40mm_smoke", 4],
       ["40mm_flashbang", 8],
+      ["40mm_shot", 12],
+      ["40mm_flechette", 6],
       ["usp_9mm", 6],
       ["usp_45", 6],
       ["m4a1", 7],
@@ -3720,6 +3730,7 @@
       ["flamethrower", 1],
       ["binoculars", 20],
       ["masterkey", 2],
+      ["shot_flechette", 5],
       ["chestrig", 10],
       ["legrig", 10],
       ["power_armor_basic", 5],
@@ -3754,6 +3765,7 @@
       ["improve_sights", 10],
       ["pur_tablets", 10],
       ["hazmat_suit", 5],
+      ["8mm_hvp", 2],
       ["quikclot", 20]
     ]
   },{
@@ -3884,6 +3896,7 @@
     "items":[
       ["bolt_steel", 7],
       ["shot_00", 8],
+      ["shot_flechette", 2],
       ["shot_slug", 6],
       ["22_lr", 9],
       ["9mm", 8],
@@ -3911,6 +3924,7 @@
       ["8mm_jhp", 2],
       ["8mm_fmj", 2],
       ["cu_pipe", 5],
+      ["8mm_hvp", 2],
       ["8mm_inc", 2]
     ]
   },{
