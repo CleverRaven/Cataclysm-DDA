@@ -3306,24 +3306,6 @@ Current turn: %d; Next spawn %d.\n\
   break;
 
   case 17: {
-uimenu tm;
-for(int i=0; i<terlist.size();i++) {
-int rev=0;
-if ( reverse_legacy_ter_id.find(i) != reverse_legacy_ter_id.end() ) {
-rev=reverse_legacy_ter_id[i];
-}
-   tm.addentry("%d %d %-20s %s",i,rev,terlist[i].id.c_str(),
-      legacy_ter_id[rev].c_str()
-);
-}
-tm.addentry("-------- %d / %d--------",terlist.size(),reverse_legacy_ter_id.size());
-tm.addentry("%s",terlist[t_switch_even].id.c_str());
-
-/*for(int i=0; i<reverse_legacy_ter_id.size();i++) {
-   tm.addentry("%d = %d",i,reverse_legacy_ter_id[ i ]);
-}*/
-tm.query();
-return;
       const int weather_offset = 1;
       uimenu weather_menu;
       weather_menu.text = "Select new weather pattern:";
