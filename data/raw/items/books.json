@@ -44,9 +44,9 @@
 	{
         "type" : "BOOK",
         "id" : "mag_barter",
-        "name" : "Barter and Trade",
+        "name" : "car buyer's guide",
         "max_level" : 1,
-        "description" : "An informative yet dry magazine about how to shop for and negotiate the best deals.",
+        "description" : "Normally this glossy, add-filled magazine about cars would be pointless, but it has a series of articles on haggling techniques.",
         "weight" : 90,
         "to_hit" : 1,
         "color" : "white",
