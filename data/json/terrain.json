@@ -931,7 +931,7 @@
         "symbol": "7",
         "color": "green",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE"],
     },
     {
         "type": "terrain",
@@ -940,7 +940,7 @@
         "symbol": "1",
         "color": "green",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "YOUNG"],
     },
     {
         "type": "terrain",
@@ -949,7 +949,7 @@
         "symbol": "7",
         "color": "ltgreen",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE"],
         "examine_action": "tree_apple"
     },
     {
@@ -1184,7 +1184,7 @@
         "symbol": "7",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "FUNGUS"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE"],
     },
     {
         "type": "terrain",
@@ -1193,7 +1193,7 @@
         "symbol": "1",
         "color": "dkgray",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "FUNGUS"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "FUNGUS", "YOUNG"],
     },
     {
         "type": "terrain",

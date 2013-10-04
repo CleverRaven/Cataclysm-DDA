@@ -72,7 +72,7 @@ class monster;
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  * SHRUB - This terrain is a shrub
  * TREE - This terrain is a tree
- * YOUNG - This terrain is a tree
+ * YOUNG - This terrain is a young tree
  * FUNGUS - Fungal covered
  */
 typedef int ter_id;
