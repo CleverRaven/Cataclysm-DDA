@@ -768,6 +768,7 @@
       ["novel_romance", 30],
       ["novel_spy", 28],
       ["novel_thriller", 18],
+      ["novel_crime", 20],
       ["mag_carpentry", 30],
       ["mag_comic", 20],
       ["mag_guns", 20],
@@ -1823,6 +1824,7 @@
       ["novel_fantasy", 20],
       ["novel_erotic", 4],
       ["novel_thriller", 18],
+      ["novel_crime", 20],
       ["novel_horror", 18],
       ["ZSG", 5]
     ]
@@ -2249,6 +2251,7 @@
       ["novel_romance", 30],
       ["novel_spy", 28],
       ["novel_thriller", 18],
+      ["novel_crime", 20],
       ["novel_scifi", 20],
       ["novel_drama", 40],
       ["novel_mystery", 25],
@@ -2433,6 +2436,7 @@
       ["novel_romance", 30],
       ["novel_spy", 28],
       ["novel_thriller", 18],
+      ["novel_crime", 20],
       ["novel_scifi", 20],
       ["novel_drama", 40],
       ["survival_book", 10],
