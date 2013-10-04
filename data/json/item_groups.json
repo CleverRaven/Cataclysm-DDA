@@ -11,6 +11,7 @@
       ["backpack", 38],
       ["pockknife", 14],
       ["umbrella", 5],
+      ["novel_coa", 10],
       ["mag_comic", 20]
     ]
   },{
@@ -768,6 +769,7 @@
       ["novel_romance", 30],
       ["novel_spy", 28],
       ["novel_thriller", 18],
+      ["novel_coa", 10],
       ["novel_crime", 20],
       ["mag_carpentry", 30],
       ["mag_comic", 20],
@@ -1824,6 +1826,7 @@
       ["novel_fantasy", 20],
       ["novel_erotic", 4],
       ["novel_thriller", 18],
+      ["novel_coa", 10],
       ["novel_crime", 20],
       ["novel_horror", 18],
       ["ZSG", 5]
@@ -2251,6 +2254,7 @@
       ["novel_romance", 30],
       ["novel_spy", 28],
       ["novel_thriller", 18],
+      ["novel_coa", 10],
       ["novel_crime", 20],
       ["novel_scifi", 20],
       ["novel_drama", 40],
@@ -2436,6 +2440,7 @@
       ["novel_romance", 30],
       ["novel_spy", 28],
       ["novel_thriller", 18],
+      ["novel_coa", 10],
       ["novel_crime", 20],
       ["novel_scifi", 20],
       ["novel_drama", 40],
