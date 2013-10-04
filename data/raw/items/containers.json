@@ -254,6 +254,23 @@
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
     {
+        "id": "flask_hip",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_gray",
+        "name": "hip flask",
+        "description": "A 250 ml metal flask with a hinged screw-on lid, commonly used to discretely transport alcohol.",
+        "price": 2500,
+        "weight": 120,
+        "volume": 1,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "steel",
+        "contains": 1,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+    },
+    {
         "id":"bowl_plastic",
         "type":"CONTAINER",
         "color":"light_cyan",
