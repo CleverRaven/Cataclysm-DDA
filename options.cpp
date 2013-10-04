@@ -826,3 +826,10 @@ void save_options()
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
 }
 
+bool use_narrow_sidebar()
+{
+    if (TERMY < 25 || OPTIONS["SIDEBAR_STYLE"] == "narrow") {
+        return true;
+    }
+    return false;
+}

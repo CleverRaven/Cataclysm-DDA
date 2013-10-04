@@ -490,12 +490,14 @@ craft_cat game::prev_craft_cat(craft_cat cat)
 
 recipe* game::select_crafting_recipe()
 {
-    const int dataHalfLines=(int)((TERMY-3-4)/2);
-    const int dataLines=(int)(dataHalfLines*2);      // old: 18
-    const int dataHeight=dataLines+4;                // old: 22
+    const int headHeight = 3;
+    const int tailHeight = 4;
+    const int dataLines = TERMY - headHeight - tailHeight;
+    const int dataHalfLines = dataLines / 2;
+    const int dataHeight = TERMY - headHeight;
 
-    WINDOW *w_head = newwin( 3, FULL_SCREEN_WIDTH, 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
-    WINDOW *w_data = newwin(dataHeight, FULL_SCREEN_WIDTH, 3, (TERMX  > FULL_SCREEN_WIDTH) ? (TERMX -FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW *w_head = newwin(headHeight, FULL_SCREEN_WIDTH, 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW *w_data = newwin(dataHeight, FULL_SCREEN_WIDTH, headHeight, (TERMX  > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
 
     craft_cat tab = "CC_WEAPON";
@@ -529,94 +531,66 @@ recipe* game::select_crafting_recipe()
 
         // Clear the screen of recipe data, and draw it anew
         werase(w_data);
-        if(filterstring != "")
-        {
+        if (filterstring != "") {
             mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
-        }
-        else
-        {
+        } else {
             mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind"));
         }
         mvwprintz(w_data, dataLines+2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
-        for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
-        {
-            mvwputch(w_data, dataHeight-1, i, c_ltgray, LINE_OXOX);
-            if (i < dataHeight-1)
-            {
-                mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
-                mvwputch(w_data, i, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXO);
-            }
-        }
 
+        // Draw borders
+        for (int i = 1; i < FULL_SCREEN_WIDTH-1; ++i) { // _
+            mvwputch(w_data, dataHeight-1, i, c_ltgray, LINE_OXOX);
+        }
+        for (int i = 1; i < dataHeight-1; ++i) { // |
+            mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
+            mvwputch(w_data, i, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXO);
+        }
         mvwputch(w_data, dataHeight-1,  0, c_ltgray, LINE_XXOO); // _|
         mvwputch(w_data, dataHeight-1, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOOX); // |_
 
         int recmin = 0, recmax = current.size();
-        if(recmax > dataLines)
-        {
-            if (line <= recmin + dataHalfLines)
-            {
-                for (int i = recmin; i < recmin + dataLines; i++)
-                {
+        if (recmax > dataLines) {
+            if (line <= recmin + dataHalfLines) {
+                for (int i = recmin; i < recmin + dataLines; ++i) {
                     mvwprintz(w_data, i - recmin, 2, c_dkgray, ""); // Clear the line
-                    if (i == line)
-                    {
+                    if (i == line) {
                         mvwprintz(w_data, i - recmin, 2, (available[i] ? h_white : h_dkgray),
                         item_controller->find_template(current[i]->result)->name.c_str());
-                    }
-                    else
-                    {
+                    } else {
                         mvwprintz(w_data, i - recmin, 2, (available[i] ? c_white : c_dkgray),
                         item_controller->find_template(current[i]->result)->name.c_str());
                     }
                 }
-            }
-            else if (line >= recmax - dataHalfLines)
-            {
-                for (int i = recmax - dataLines; i < recmax; i++)
-                {
+            } else if (line >= recmax - dataHalfLines) {
+                for (int i = recmax - dataLines; i < recmax; ++i) {
                     mvwprintz(w_data, dataLines + i - recmax, 2, c_ltgray, ""); // Clear the line
-                    if (i == line)
-                    {
+                    if (i == line) {
                         mvwprintz(w_data, dataLines + i - recmax, 2, (available[i] ? h_white : h_dkgray),
                         item_controller->find_template(current[i]->result)->name.c_str());
-                    }
-                    else
-                    {
+                    } else {
                         mvwprintz(w_data, dataLines + i - recmax, 2, (available[i] ? c_white : c_dkgray),
                         item_controller->find_template(current[i]->result)->name.c_str());
                     }
                 }
-            }
-            else
-            {
-                for (int i = line - dataHalfLines; i < line + dataHalfLines; i++)
-                {
+            } else {
+                for (int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i) {
                     mvwprintz(w_data, dataHalfLines + i - line, 2, c_ltgray, ""); // Clear the line
-                    if (i == line)
-                    {
+                    if (i == line) {
                         mvwprintz(w_data, dataHalfLines + i - line, 2, (available[i] ? h_white : h_dkgray),
                         item_controller->find_template(current[i]->result)->name.c_str());
-                    }
-                    else
-                    {
+                    } else {
                         mvwprintz(w_data, dataHalfLines + i - line, 2, (available[i] ? c_white : c_dkgray),
                         item_controller->find_template(current[i]->result)->name.c_str());
                     }
                 }
             }
-        }
-        else
-        {
-            for (int i = 0; i < current.size() && i < dataHeight+1; i++)
-            {
-                if (i == line)
-                {
+        } else {
+            for (int i = 0; i < current.size() && i < dataHeight+1; ++i) {
+                if (i == line) {
                     mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
                     item_controller->find_template(current[i]->result)->name.c_str());
-                }
-                else
-                {
+                } else {
                     mvwprintz(w_data, i, 2, (available[i] ? c_white : c_dkgray),
                     item_controller->find_template(current[i]->result)->name.c_str());
                 }

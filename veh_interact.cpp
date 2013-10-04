@@ -73,9 +73,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     list_h = winh2 - 1;
     list_w = winw3;
 
-    // changed FALSE value to 1, to keep w_border from starting at a negative x,y
-    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 1;
-    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 1;
+    const int iOffsetX = 1 + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    const int iOffsetY = 1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0);
 
     page_size = list_h;
 
