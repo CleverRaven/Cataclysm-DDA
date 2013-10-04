@@ -3857,16 +3857,16 @@
   ],
   "components": [
     [
-      [ "shot_hull", 25 ]
+      [ "shot_hull", 10 ]
     ],
     [
-      [ "shotgun_primer", 25 ]
+      [ "shotgun_primer", 10 ]
     ],
     [
-      [ "gunpowder", 300 ]
+      [ "gunpowder", 120 ]
     ],
     [
-      [ "nail", 200 ]
+      [ "nail", 160 ]
     ]
   ]
 },{
