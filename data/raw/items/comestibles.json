@@ -7300,7 +7300,7 @@
         "heal" : 0,
         "addiction_potential" : 3,
         "nutrition" : 1,
-        "description" : "A bag of roasted coffee beans coated with dark chocolate.",
+        "description" : "Roasted coffee beans coated with dark chocolate, natural source of concentrated caffeine.",
         "price" : 20,
         "material" : "veggy",
         "tool" : "null",
