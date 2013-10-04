@@ -116,6 +116,8 @@ public:
  int damage_bash();
  int damage_cut() const;
  bool has_flag(std::string f) const;
+ bool has_quality(std::string quality_name) const;
+ bool has_quality(std::string quality_name, int quality_value) const;
  bool has_technique(std::string t, player *p = NULL);
  int has_gunmod(itype_id type);
  item* active_gunmod();
