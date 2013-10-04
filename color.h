@@ -4,6 +4,7 @@
 #ifndef _COLOR_LIST_
 #define _COLOR_LIST_
 
+#include "json.h"
 #include "cursesdef.h"
 #include <string>
 
