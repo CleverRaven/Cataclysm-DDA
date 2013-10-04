@@ -666,9 +666,6 @@ void mattack::triffid_heartbeat(game *g, monster *z)
 
 void mattack::fungus(game *g, monster *z)
 {
-    if (g->num_zombies() > 500) {
-        return; // Prevent crowding the monster list.
-    }
     // TODO: Infect NPCs?
     z->moves = -200;   // It takes a while
     z->sp_timeout = z->type->sp_freq; // Reset timer
@@ -700,7 +697,7 @@ void mattack::fungus(game *g, monster *z)
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     g->u.infect("spores", bp_mouth, 4, 30, 1, 3); // Spores hit the player
-                } else if (one_in(4)) { // Spawn a spore
+                } else if (one_in(2) && g->num_zombies() <= 1000) { // Spawn a spore
                     spore.spawn(sporex, sporey);
                     g->add_zombie(spore);
                 }
@@ -858,13 +855,20 @@ void mattack::dermatik(game *g, monster *z)
 void mattack::plant(game *g, monster *z)
 {
     // Spores taking seed and growing into a fungaloid
-    if (g->m.has_flag("DIGGABLE", z->posx(), z->posy())) {
+    if (!g->spread_fungus(z->posx(), z->posy()) && one_in(20)) {
         if (g->u_see(z->posx(), z->posy())) {
             g->add_msg(_("The %s takes seed and becomes a young fungaloid!"),
                           z->name().c_str());
         }
         z->poly(g->mtypes[mon_fungaloid_young]);
         z->moves = -1000; // It takes a while
+    } else {
+        if (g->u_see(z->posx(), z->posy())) {
+        g->add_msg(_("The %s falls to the ground and bursts!"),
+                       z->name().c_str());
+        }
+        z->hp = 0;
+        //g->kill_mon(g->mon_at(z->posx(), z->posy()), false);
     }
 }
 

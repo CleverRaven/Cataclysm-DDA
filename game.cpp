@@ -10853,9 +10853,12 @@ void game::nuke(int x, int y)
 
 bool game::spread_fungus(int x, int y)
 {
-    int growth = 0;
+    int growth = 1;
     for (int i = x - 1; i <= x + 1; i++) {
         for (int j = y - 1; j <= y + 1; j++) {
+            if (i == x && j == y) {
+                continue;
+            }
             if (m.has_flag("FUNGUS", i, j)) {
                 growth += 1;
             }
@@ -10864,20 +10867,53 @@ bool game::spread_fungus(int x, int y)
 
     if (!m.has_flag("FUNGUS", x, y)) {
         if (m.has_flag("DIGGABLE", x, y)) {
-            if (x_in_y(growth, 100)) {
+            if (x_in_y(growth * 10, 100)) {
                 m.ter_set(x, y, t_fungus);
-                return true;
             }
         } else if (m.has_flag("SHRUB", x, y)) {
-            if (x_in_y(growth, 200)) {
+            if (x_in_y(growth * 10, 200)) {
                 m.ter_set(x, y, t_shrub_fungal);
             } else if (x_in_y(growth, 1000)) {
                 m.ter_set(x, y, t_marloss);
             }
-            return true;
+        } else if (m.has_flag("YOUNG", x, y)) {
+            if (x_in_y(growth * 10, 500)) {
+                m.ter_set(x, y, t_tree_fungal_young);
+            }
         }
+        return true;
+    } else {
+        // Everything is already fungus
+        if (growth == 9) {
+            return false;
+        }
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                // One spread on average
+                if (!m.has_flag("FUNGUS", i, j) && one_in(9 - growth)) {
+                    //growth chance is 100 in X simplified 
+                    if (m.has_flag("DIGGABLE", x, y)) {
+                        m.ter_set(x, y, t_fungus);
+                    } else if (m.has_flag("SHRUB", x, y)) {
+                        if (one_in(2)) {
+                            m.ter_set(x, y, t_shrub_fungal);
+                        } else if (one_in(25)) {
+                            m.ter_set(x, y, t_marloss);
+                        }
+                    } else if (m.has_flag("YOUNG", x, y)) {
+                        if (one_in(5)) {
+                            m.ter_set(x, y, t_tree_fungal_young);
+                        }
+                    } else if (m.has_flag("TREE", x, y)) {
+                        if (one_in(10)) {
+                            m.ter_set(x, y, t_tree_fungal);
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
-    return false;
 }
 
 std::vector<faction *> game::factions_at(int x, int y)

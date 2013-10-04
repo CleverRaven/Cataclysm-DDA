@@ -728,7 +728,7 @@ FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD);
 
 mon(_("spore"), species_fungus, 'o', c_ltgray, MS_TINY, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-   1,-50,100,100,  0,  0,  0,  0,  6,  0,  0,  0,  5, 1000,
+   1,-50,100,100,  0,  0,  0,  0,  6,  0,  0,  0,  5, 500,
  &mdeath::disintegrate, &mattack::plant, _("\
 A wispy spore, about the size of a fist,\n\
 wafting on the breeze.")
