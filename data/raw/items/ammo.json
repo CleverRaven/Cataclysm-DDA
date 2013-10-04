@@ -2286,7 +2286,7 @@
         "recoil" : 26,
         "count" : 10,
         "stack_size" : 50,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "INCENDIARY"]
     },
     {   "type" : "AMMO",
         "id" : "84x246mm_he",
