@@ -212,9 +212,9 @@
 	{
         "type" : "BOOK",
         "id" : "mag_bashing",
-        "name" : "Blunt Force Monthly",
+        "name" : "Batter Up!",
         "max_level" : 1,
-        "description" : "A martial arts magazine that focuses on the usage of blunt weaponry. There are lots of brutal, full-page photos of practitioners striking each other with staves and batons.",
+        "description" : "A baseball magazine that focuses on batting tips. There are lots of colorful, full-page photos of skilled athletes demonstrating proper form and technique.",
         "weight" : 80,
         "to_hit" : 1,
         "color" : "pink",
@@ -225,7 +225,7 @@
         "bashing" : -3,
         "cutting" : 0,
         "time" : 8,
-        "fun" : 0,
+        "fun" : 1,
         "skill" : "bashing",
         "price" : 45,
         "required_level" : 0
