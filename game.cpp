@@ -3260,11 +3260,11 @@ Current turn: %d; Next spawn %d.\n\
 
   case 14:
   {
-   point center = look_around();
-   artifact_natural_property prop =
-    artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
-   m.create_anomaly(center.x, center.y, prop);
-   m.spawn_artifact(center.x, center.y, new_natural_artifact(prop), 0);
+      point center = look_around();
+      artifact_natural_property prop =
+          artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
+      m.create_anomaly(center.x, center.y, prop);
+      m.spawn_artifact(center.x, center.y, new_natural_artifact(prop), 0);
   }
   break;
 
@@ -3329,9 +3329,7 @@ return;
       weather_menu.text = "Select new weather pattern:";
       weather_menu.return_invalid = true;
       for(int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
-
         weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
-
       }
 
       weather_menu.query();
@@ -3341,7 +3339,6 @@ return;
 
         int selected_weather = weather_menu.selected + 1;
         weather = (weather_type) selected_weather;
-
       }
   }
   break;
