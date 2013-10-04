@@ -462,7 +462,8 @@
     "bashing": 12,
     "cutting": 12,
     "flags" : ["CHOP"],
-    "to_hit": 1
+    "to_hit": 1,
+    "qualities": [["CUT", 1]]
   },
 
   {
